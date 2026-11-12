@@ -14,6 +14,148 @@
 import maplibregl from 'maplibre-gl';
 import { POINT_CLOUD_NODE, moveNode } from './point-cloud-node-state.mjs';
 
+/** @typedef {WebGLRenderingContext | WebGL2RenderingContext} GL */
+/** The MapLibre map the layer is added to. @typedef {InstanceType<typeof maplibregl.Map>} MapLibreMap */
+/** A column-major 4x4 matrix. @typedef {number[] | Float32Array} Matrix */
+/** @typedef {import('./point-cloud-node-state.mjs').PointCloudNodeState} PointCloudNodeState */
+/** What MapLibre passes a custom layer's render (see point-cloud-layer.js). @typedef {import('./point-cloud-layer.js').RenderInput} RenderInput */
+
+/**
+ * A tile of a 3D Tiles tileset (tileset.json), the fields read here.
+ * @typedef {{
+ *   transform?: number[],
+ *   boundingVolume: { box: number[] },
+ *   content?: { uri?: string, url?: string },
+ *   contents?: Array<{ uri?: string, url?: string }>,
+ *   geometricError?: number,
+ *   refine?: string,
+ *   children?: RawTile[]
+ * }} RawTile
+ */
+
+/**
+ * A node of the streamed octree (makeNode): its matrices and culling corners, its content
+ * (a .pnts tile or an external tileset), its children once resolved, and its GPU buffers once loaded.
+ * @typedef {{
+ *   world: number[],
+ *   box: number[],
+ *   ref: number[],
+ *   affine: number[],
+ *   corners: number[][],
+ *   geometricError: number,
+ *   refine: string,
+ *   baseUrl: string,
+ *   contentUri: string | null,
+ *   externalUri: string | null,
+ *   rawChildren: RawTile[] | null,
+ *   children: StreamNode[] | null,
+ *   resolving: boolean,
+ *   state: PointCloudNodeState,
+ *   buf: WebGLBuffer | null,
+ *   colBuf: WebGLBuffer | null,
+ *   count: number,
+ *   lastFrame: number,
+ *   _extBase?: string
+ * }} StreamNode
+ */
+
+/** A .pnts tile's feature table JSON, the fields read here. @typedef {{ POINTS_LENGTH: number, POSITION?: { byteOffset?: number }, RGB?: { byteOffset: number } }} PntsFeatureTable */
+
+/** An off-screen render target of the image-space pipeline. @typedef {{ fbo: WebGLFramebuffer, col: WebGLTexture, dep: WebGLTexture, rb: WebGLRenderbuffer | null }} EdlTarget */
+/** @typedef {WebGLUniformLocation | null} Uniform */
+
+/**
+ * The GL resources of the image-space pipeline (WebGL2 only).
+ * @typedef {{
+ *   gbufProg: WebGLProgram,
+ *   fillProg: WebGLProgram,
+ *   shadeProg: WebGLProgram,
+ *   gLoc: { a_pos: number, a_color: number, u_matrix: Uniform, u_size: Uniform, u_k: Uniform },
+ *   fLoc: Record<'u_color' | 'u_depth' | 'u_texel' | 'u_radius' | 'u_depthThresh', Uniform>,
+ *   sLoc: Record<'u_color' | 'u_depth' | 'u_texel' | 'u_opacity' | 'u_edlStrength' | 'u_edlRadius' | 'u_normalStr' | 'u_lightDir' | 'u_ambient' | 'u_diffuse', Uniform>,
+ *   gbuf: EdlTarget,
+ *   pp0: EdlTarget,
+ *   pp1: EdlTarget,
+ *   vao: WebGLVertexArrayObject,
+ *   w: number,
+ *   h: number
+ * }} EdlResources
+ */
+
+/**
+ * The streaming point cloud as a MapLibre custom layer. The underscored fields are its state and
+ * tuning: the map and GL objects are set in onAdd (render draws nothing until the tileset's root is in).
+ * @typedef {{
+ *   id: string,
+ *   type: 'custom',
+ *   renderingMode: '3d',
+ *   _pointSize: number,
+ *   _opacity: number,
+ *   _errK: number,
+ *   _maxPoints: number,
+ *   _maxConcurrent: number,
+ *   _evictGrace: number,
+ *   _mzMin: number,
+ *   _mzMax: number,
+ *   _root: StreamNode | null,
+ *   _frame: number,
+ *   _loadedPoints: number,
+ *   _inflight: number,
+ *   _queue: StreamNode[],
+ *   _loadedNodes: Set<StreamNode>,
+ *   _visitBudget: number,
+ *   _resolving: number,
+ *   _maxResolving: number,
+ *   _maxVisitsPerFrame: number,
+ *   _edlEnabled: boolean,
+ *   _edlStrength: number,
+ *   _edlRadius: number,
+ *   _edlK: number,
+ *   _fillIters: number,
+ *   _fillRadius: number,
+ *   _fillDepthThresh: number,
+ *   _fillMinZoom: number,
+ *   _normalStr: number,
+ *   _ambient: number,
+ *   _diffuse: number,
+ *   _lightDir: number[],
+ *   _superScale: number,
+ *   _edl: EdlResources | null,
+ *   _map: MapLibreMap,
+ *   _prog: WebGLProgram,
+ *   _loc: { a_pos: number, a_color: number, u_matrix: Uniform, u_size: Uniform, u_opacity: Uniform },
+ *   onAdd(map: MapLibreMap, gl: GL): void,
+ *   _resolveChildren(node: StreamNode): void,
+ *   _enqueue(node: StreamNode): void,
+ *   _pump(gl: GL): void,
+ *   _upload(gl: GL, node: StreamNode, buf: ArrayBuffer): void,
+ *   _evict(gl: GL): void,
+ *   _culled(node: StreamNode, m: Matrix): boolean,
+ *   _selectVisit(gl: GL, node: StreamNode, mainMatrix: Matrix, budget: number, out: StreamNode[]): void,
+ *   render(gl: GL, args: RenderInput): void,
+ *   _nodeMatrix(m: Matrix, node: StreamNode): Float32Array,
+ *   _renderDirect(gl: GL, m: Matrix, out: StreamNode[]): void,
+ *   _initEDL(gl: GL): void,
+ *   _sizeTarget(gl: WebGL2RenderingContext, t: EdlTarget, w: number, h: number, withDepth: boolean): void,
+ *   _ensureEdlSize(gl: WebGL2RenderingContext, w: number, h: number): void,
+ *   _renderEDL(gl: WebGL2RenderingContext, m: Matrix, out: StreamNode[]): void,
+ *   setOpacity(o: number): void,
+ *   setPointSize(s: number): void,
+ *   setEdlStrength(v: number): void,
+ *   onRemove(map: MapLibreMap, gl: GL): void
+ * }} StreamingPointCloudLayer
+ */
+
+/**
+ * The tuning a caller may set (map-controller.js passes some; the rest keep their defaults).
+ * @typedef {{
+ *   pointSize?: number, opacity?: number, errorFactor?: number, maxPoints?: number,
+ *   edl?: boolean, edlStrength?: number, edlRadius?: number, edlK?: number,
+ *   fillIters?: number, fillRadius?: number, fillDepthThresh?: number, fillMinZoom?: number,
+ *   normalStr?: number, ambient?: number, diffuse?: number, lightDir?: number[], superScale?: number
+ * }} StreamingPointCloudOptions
+ */
+
 // ---------- math ----------------------------------------------------------
 const A_WGS = 6378137.0;                 // WGS84 semi-major
 const F_WGS = 1 / 298.257223563;
@@ -23,7 +165,13 @@ const EP2 = (A_WGS * A_WGS - B_WGS * B_WGS) / (B_WGS * B_WGS);
 const D2R = Math.PI / 180;
 const EARTH_CIRC = 2 * Math.PI * 6371008.8;
 
-// ECEF (EPSG:4978, metres) -> geodetic lng/lat(deg) + altitude(m), Bowring.
+/**
+ * ECEF (EPSG:4978, metres) -> geodetic lng/lat(deg) + altitude(m), Bowring.
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @returns {number[]}
+ */
 function ecefToGeodetic(x, y, z) {
   const p = Math.hypot(x, y);
   const th = Math.atan2(A_WGS * z, B_WGS * p);
@@ -36,19 +184,38 @@ function ecefToGeodetic(x, y, z) {
   return [lng / D2R, lat / D2R, alt];
 }
 
-// geodetic -> web-mercator [0..1] x/y + mercator z; returns [mx,my,mz]
+/**
+ * geodetic -> web-mercator [0..1] x/y + mercator z; returns [mx,my,mz]
+ * @param {number} lngDeg
+ * @param {number} latDeg
+ * @param {number} alt
+ * @returns {number[]}
+ */
 function geodeticToMercator(lngDeg, latDeg, alt) {
   const mx = (lngDeg + 180) / 360;
   const my = (180 - (180 / Math.PI) * Math.log(Math.tan(Math.PI / 4 + latDeg * D2R / 2))) / 360;
   const mpm = 1 / (EARTH_CIRC * Math.cos(latDeg * D2R));
   return [mx, my, alt * mpm];
 }
+/**
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @returns {number[]}
+ */
 function ecefToMercator(x, y, z) {
   const g = ecefToGeodetic(x, y, z);
   return geodeticToMercator(g[0], g[1], g[2]);
 }
 
-// column-major 4x4 * point(affine, w=1) -> [x,y,z]
+/**
+ * column-major 4x4 * point(affine, w=1) -> [x,y,z]
+ * @param {ArrayLike<number>} m
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @returns {number[]}
+ */
 function xformPt(m, x, y, z) {
   return [
     m[0] * x + m[4] * y + m[8] * z + m[12],
@@ -56,8 +223,14 @@ function xformPt(m, x, y, z) {
     m[2] * x + m[6] * y + m[10] * z + m[14]
   ];
 }
-// column-major 4x4 * 4x4 (returns a*b)
+/**
+ * column-major 4x4 * 4x4 (returns a*b)
+ * @param {ArrayLike<number>} a
+ * @param {ArrayLike<number>} b
+ * @returns {number[]}
+ */
 function mul4(a, b) {
+  /** @type {number[]} */
   const o = new Array(16);
   for (let c = 0; c < 4; c++) {
     for (let r = 0; r < 4; r++) {
@@ -90,18 +263,34 @@ void main() {
   if (dot(c, c) > 1.0) discard;
   gl_FragColor = vec4(v_color, u_opacity);
 }`;
+/**
+ * @param {GL} gl
+ * @param {number} type
+ * @param {string} src
+ * @returns {WebGLShader}
+ */
 function compile(gl, type, src) {
-  const s = gl.createShader(type);
+  const s = /** @type {WebGLShader} */ (gl.createShader(type));
   gl.shaderSource(s, src);
   gl.compileShader(s);
   if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error('pc shader: ' + gl.getShaderInfoLog(s));
   return s;
 }
+/**
+ * @param {number} t
+ * @returns {number[]}
+ */
 function ramp(t) {
   t = Math.max(0, Math.min(1, t));
   if (t < 0.5) { const u = t * 2; return [0.15 + 0.1 * u, 0.35 + 0.55 * u, 0.9 - 0.5 * u]; }
   const u = (t - 0.5) * 2; return [0.25 + 0.7 * u, 0.9 - 0.55 * u, 0.4 - 0.3 * u];
 }
+/**
+ * @param {GL} gl
+ * @param {string} vsSrc
+ * @param {string} fsSrc
+ * @returns {WebGLProgram}
+ */
 function linkProgram(gl, vsSrc, fsSrc) {
   const p = gl.createProgram();
   gl.attachShader(p, compile(gl, gl.VERTEX_SHADER, vsSrc));
@@ -193,6 +382,11 @@ void main(){
 }`;
 
 // ---------- tileset helpers ----------------------------------------------
+/**
+ * @param {string} base
+ * @param {string} rel
+ * @returns {string}
+ */
 function joinUrl(base, rel) {
   if (/^https?:/i.test(rel)) return rel;
   const b = base.replace(/[^/]*$/, '');
@@ -201,6 +395,13 @@ function joinUrl(base, rel) {
 
 // Build a runtime node from a raw 3D-Tiles tile. Computes world matrix, the
 // local->mercator-offset affine (+ RTC ref), and 8 mercator corners for culling.
+/**
+ * @param {RawTile} raw
+ * @param {number[]} parentWorld
+ * @param {string} baseUrl
+ * @param {string} parentRefine
+ * @returns {StreamNode}
+ */
 function makeNode(raw, parentWorld, baseUrl, parentRefine) {
   const world = raw.transform ? mul4(parentWorld, raw.transform) : parentWorld;
   const box = raw.boundingVolume.box;
@@ -212,6 +413,7 @@ function makeNode(raw, parentWorld, baseUrl, parentRefine) {
   // ref + fitted affine local -> (mercator - ref)
   const e0 = xformPt(world, L0[0], L0[1], L0[2]);
   const ref = ecefToMercator(e0[0], e0[1], e0[2]);
+  /** @type {number[][]} */
   const cols = [];
   for (const e of [[1, 0, 0], [0, 1, 0], [0, 0, 1]]) {
     const p = xformPt(world, L0[0] + e[0], L0[1] + e[1], L0[2] + e[2]);
@@ -232,6 +434,7 @@ function makeNode(raw, parentWorld, baseUrl, parentRefine) {
   ];
 
   // 8 corners -> mercator (for frustum culling)
+  /** @type {number[][]} */
   const corners = [];
   for (let sx = -1; sx <= 1; sx += 2) for (let sy = -1; sy <= 1; sy += 2) for (let sz = -1; sz <= 1; sz += 2) {
     const lx = L0[0] + sx * hx[0] + sy * hy[0] + sz * hz[0];
@@ -263,8 +466,14 @@ function makeNode(raw, parentWorld, baseUrl, parentRefine) {
   };
 }
 
+/**
+ * @param {string} id
+ * @param {string} tilesetUrl the tileset's root (tileset.json)
+ * @param {StreamingPointCloudOptions} [opts]
+ * @returns {StreamingPointCloudLayer}
+ */
 export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
-  return {
+  return /** @type {StreamingPointCloudLayer} */ ({
     id,
     type: 'custom',
     renderingMode: '3d',
@@ -276,12 +485,12 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _evictGrace: 300,                        // frames a tile must be unseen before it can be evicted
     _mzMin: 0,                               // cloud vertical range (mercator z)
     _mzMax: 1,                               // for coherent elevation colouring
-    _root: null,
+    _root: /** @type {StreamNode | null} */ (null),
     _frame: 0,
     _loadedPoints: 0,
     _inflight: 0,
-    _queue: [],
-    _loadedNodes: new Set(),
+    _queue: /** @type {StreamNode[]} */ ([]),
+    _loadedNodes: /** @type {Set<StreamNode>} */ (new Set()),
     _visitBudget: 0,          // per-frame traversal cap (set in render)
     _resolving: 0,            // in-flight external-tileset fetches
     _maxResolving: 24,
@@ -301,7 +510,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _diffuse: opts.diffuse ?? 0.5,
     _lightDir: opts.lightDir ?? [-0.4, 0.6, 0.8],
     _superScale: opts.superScale ?? 1.0,      // supersample factor for the effect FBOs (1 = off)
-    _edl: null,               // holds gl resources for the image-space pipeline, or null
+    _edl: /** @type {EdlResources | null} */ (null),               // holds gl resources for the image-space pipeline, or null
 
     onAdd(map, gl) {
       this._map = map;
@@ -320,7 +529,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       };
       if (typeof map.setMaxPitch === 'function' && map.getMaxPitch() < 80) map.setMaxPitch(85);
       if (this._edlEnabled) { try { this._initEDL(gl); } catch (e) { this._edl = null; console.warn('[pc-stream] EDL unavailable, using direct render', e); } }
-      fetch(tilesetUrl).then((r) => r.json()).then((ts) => {
+      fetch(tilesetUrl).then((r) => r.json()).then((/** @type {{ root: RawTile }} */ ts) => {
         const baseUrl = tilesetUrl.split('?')[0];
         this._root = makeNode(ts.root, IDENT, baseUrl, 'REPLACE');
         // Global vertical range (mercator z) from the root box corners, so the
@@ -339,7 +548,8 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       if (node.externalUri && this._resolving >= this._maxResolving) return;
       node.resolving = true;
       if (node.externalUri) this._resolving++;
-      const build = (extRoot) => {
+      const build = (/** @type {RawTile | null} */ extRoot) => {
+        /** @type {StreamNode[]} */
         const kids = [];
         if (extRoot) kids.push(makeNode(extRoot, node.world, node._extBase || node.baseUrl, node.refine));
         if (node.rawChildren) for (const c of node.rawChildren) kids.push(makeNode(c, node.world, node.baseUrl, node.refine));
@@ -348,10 +558,11 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
         this._map?.triggerRepaint();
       };
       if (node.externalUri) {
-        fetch(node.externalUri).then((r) => r.json()).then((sub) => {
-          node._extBase = node.externalUri.split('?')[0];
+        fetch(node.externalUri).then((r) => r.json()).then((/** @type {{ root: RawTile }} */ sub) => {
+          // Still the external tileset's address: a node's content does not change.
+          node._extBase = /** @type {string} */ (node.externalUri).split('?')[0];
           build(sub.root);
-        }).catch((e) => { node.children = []; node.resolving = false; })
+        }).catch((_e) => { node.children = []; node.resolving = false; })
           .finally(() => { this._resolving--; });
       } else {
         build(null);
@@ -371,12 +582,14 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       this._queue.sort((a, b) => (b.lastFrame - a.lastFrame) || (b.geometricError - a.geometricError));
       const staleCut = this._frame - 120;   // queued for a view we've moved past
       while (this._inflight < this._maxConcurrent && this._queue.length) {
-        const node = this._queue.shift();
+        // The loop runs only while the queue has nodes.
+        const node = /** @type {StreamNode} */ (this._queue.shift());
         if (node.state !== 'queued') continue;
         if (node.lastFrame < staleCut) { moveNode(node, 'unloaded'); continue; }
         moveNode(node, 'loading');
         this._inflight++;
-        fetch(node.contentUri).then((r) => r.arrayBuffer()).then((buf) => {
+        // Only nodes with .pnts content are queued (_selectVisit).
+        fetch(/** @type {string} */ (node.contentUri)).then((r) => r.arrayBuffer()).then((buf) => {
           this._upload(gl, node, buf);
         }).catch(() => { moveNode(node, 'unloaded'); }).finally(() => {
           this._inflight--;
@@ -389,7 +602,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       // parse .pnts feature table: header(28) + ftJSON + ftBinary
       const dv = new DataView(buf);
       const ftjl = dv.getUint32(12, true);
-      const ft = JSON.parse(new TextDecoder().decode(new Uint8Array(buf, 28, ftjl)));
+      const ft = /** @type {PntsFeatureTable} */ (JSON.parse(new TextDecoder().decode(new Uint8Array(buf, 28, ftjl))));
       const n = ft.POINTS_LENGTH | 0;
       const ftbin = 28 + ftjl;
       const posOff = ftbin + (ft.POSITION?.byteOffset ?? 0);
@@ -501,7 +714,8 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
 
     render(gl, args) {
       if (!this._root || !this._prog) return;
-      const m = Array.isArray(args) ? args : (args?.defaultProjectionData?.mainMatrix || args?.mainMatrix || args);
+      // The main matrix, as an array or a Float32Array (render goes no further unless it has 16 entries).
+      const m = /** @type {Matrix | null | undefined} */ (Array.isArray(args) ? args : (args?.defaultProjectionData?.mainMatrix || args?.mainMatrix || args));
       if (!m || m.length !== 16) return;
       this._frame++;
 
@@ -511,6 +725,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       const mpp = (EARTH_CIRC * Math.cos(lat * D2R)) / (512 * Math.pow(2, zoom));
       const budget = mpp * this._errK;
 
+      /** @type {StreamNode[]} */
       const out = [];
       this._visitBudget = this._maxVisitsPerFrame;
       if (!this._culled(this._root, m)) this._selectVisit(gl, this._root, m, budget, out);
@@ -518,7 +733,8 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       this._evict(gl);
 
       if (this._edl && out.length) {
-        try { this._renderEDL(gl, m, out); }
+        // The image-space pipeline exists only on a WebGL2 context (_initEDL).
+        try { this._renderEDL(/** @type {WebGL2RenderingContext} */ (gl), m, out); }
         catch (e) { console.warn('[pc-stream] EDL render failed, falling back to direct', e); this._edl = null; this._renderDirect(gl, m, out); }
       } else {
         this._renderDirect(gl, m, out);
@@ -565,8 +781,15 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       const gbufProg = linkProgram(gl, GBUF_VERT, GBUF_FRAG);
       const fillProg = linkProgram(gl, FS_VERT, FILL_FRAG);
       const shadeProg = linkProgram(gl, FS_VERT, SHADE_FRAG);
-      const U = (p, ...names) => { const o = {}; for (const n of names) o[n] = gl.getUniformLocation(p, n); return o; };
-      const mkTarget = (depth) => ({ fbo: gl.createFramebuffer(), col: gl.createTexture(), dep: gl.createTexture(), rb: depth ? gl.createRenderbuffer() : null });
+      /**
+       * The named uniforms' locations in a program.
+       * @template {string} K
+       * @param {WebGLProgram} p
+       * @param {...K} names
+       * @returns {Record<K, Uniform>}
+       */
+      const U = (p, ...names) => { const o = /** @type {Record<K, Uniform>} */ ({}); for (const n of names) o[n] = gl.getUniformLocation(p, n); return o; };
+      const mkTarget = (/** @type {boolean} */ depth) => ({ fbo: gl.createFramebuffer(), col: gl.createTexture(), dep: gl.createTexture(), rb: depth ? gl.createRenderbuffer() : null });
       this._edl = {
         gbufProg, fillProg, shadeProg,
         gLoc: { a_pos: gl.getAttribLocation(gbufProg, 'a_pos'), a_color: gl.getAttribLocation(gbufProg, 'a_color'),
@@ -599,7 +822,8 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     },
 
     _ensureEdlSize(gl, w, h) {
-      const e = this._edl;
+      // Called only by _renderEDL, which runs only while the pipeline exists.
+      const e = /** @type {EdlResources} */ (this._edl);
       if (e.w === w && e.h === h) return;
       e.w = w; e.h = h;
       this._sizeTarget(gl, e.gbuf, w, h, true);
@@ -611,7 +835,8 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     },
 
     _renderEDL(gl, m, out) {
-      const e = this._edl;
+      // render calls this only while the pipeline exists.
+      const e = /** @type {EdlResources} */ (this._edl);
       const ss = Math.max(1, this._superScale);
       const w = Math.round(gl.drawingBufferWidth * ss), h = Math.round(gl.drawingBufferHeight * ss);
       this._ensureEdlSize(gl, w, h);
@@ -700,7 +925,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     setPointSize(s) { this._pointSize = s; this._map?.triggerRepaint(); },
     setEdlStrength(v) { this._edlStrength = v; this._map?.triggerRepaint(); },
 
-    onRemove(map, gl) {
+    onRemove(_map, gl) {
       try {
         for (const n of this._loadedNodes) { gl.deleteBuffer(n.buf); gl.deleteBuffer(n.colBuf); }
         gl.deleteProgram(this._prog);
@@ -711,10 +936,12 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
             gl.deleteFramebuffer(t.fbo); gl.deleteTexture(t.col); gl.deleteTexture(t.dep);
             if (t.rb) gl.deleteRenderbuffer(t.rb);
           }
-          gl.deleteVertexArray(e.vao);
+          // The pipeline exists only on a WebGL2 context (_initEDL).
+          /** @type {WebGL2RenderingContext} */ (gl).deleteVertexArray(e.vao);
         }
       } catch (e) { /* ignore */ }
       this._loadedNodes.clear();
     }
-  };
+  });
 }
+

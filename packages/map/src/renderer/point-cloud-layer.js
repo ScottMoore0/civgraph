@@ -30,8 +30,66 @@ void main() {
   gl_FragColor = vec4(v_color, u_opacity);
 }`;
 
+/** @typedef {WebGLRenderingContext | WebGL2RenderingContext} GL */
+
+/**
+ * What MapLibre passes a custom layer's render: an options object since v5 (the mercator matrix
+ * in defaultProjectionData), the matrix itself before.
+ * @typedef {number[] | {
+ *   defaultProjectionData?: { mainMatrix?: ArrayLike<number> },
+ *   mainMatrix?: ArrayLike<number>,
+ *   length?: number,
+ *   [index: number]: number
+ * } | null | undefined} RenderInput
+ */
+
+/**
+ * A pre-flattened point file's header (flatten_cloud.py): the point count, the byte stride, the
+ * centre (lng, lat, alt) the offsets are from, and the height range for the colour ramp.
+ * @typedef {{ count: number, stride?: number, hasColor?: boolean, center: number[], upRange?: number[] }} PointFileHeader
+ */
+
+/**
+ * A point cloud as a MapLibre custom layer. The underscored fields are its state: the GL
+ * objects and the map are set in onAdd, the reference point and count in _load, and render
+ * reads them only once _ready.
+ * @typedef {{
+ *   id: string,
+ *   type: 'custom',
+ *   renderingMode: '3d',
+ *   _pointSize: number,
+ *   _opacity: number,
+ *   _ready: boolean,
+ *   _n: number,
+ *   _map: import('maplibre-gl').Map,
+ *   _prog: WebGLProgram,
+ *   _loc: {
+ *     a_off: number,
+ *     a_color: number,
+ *     u_matrix: WebGLUniformLocation | null,
+ *     u_size: WebGLUniformLocation | null,
+ *     u_opacity: WebGLUniformLocation | null
+ *   },
+ *   _offBuf: WebGLBuffer,
+ *   _colBuf: WebGLBuffer,
+ *   _ref: number[],
+ *   onAdd(map: import('maplibre-gl').Map, gl: GL): void,
+ *   _load(gl: GL): Promise<void>,
+ *   render(gl: GL, args: RenderInput): void,
+ *   setOpacity(o: number): void,
+ *   setPointSize(s: number): void,
+ *   onRemove(map: import('maplibre-gl').Map, gl: GL): void
+ * }} PointCloudLayer
+ */
+
+/**
+ * @param {GL} gl
+ * @param {number} type
+ * @param {string} src
+ * @returns {WebGLShader}
+ */
 function compile(gl, type, src) {
-  const s = gl.createShader(type);
+  const s = /** @type {WebGLShader} */ (gl.createShader(type));
   gl.shaderSource(s, src);
   gl.compileShader(s);
   if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
@@ -40,16 +98,26 @@ function compile(gl, type, src) {
   return s;
 }
 
-// simple blue->green->red height ramp
+/**
+ * simple blue->green->red height ramp
+ * @param {number} t
+ * @returns {number[]}
+ */
 function ramp(t) {
   t = Math.max(0, Math.min(1, t));
   if (t < 0.5) { const u = t * 2; return [0.15 + 0.1 * u, 0.35 + 0.55 * u, 0.9 - 0.5 * u]; }
   const u = (t - 0.5) * 2; return [0.25 + 0.7 * u, 0.9 - 0.55 * u, 0.4 - 0.3 * u];
 }
 
+/**
+ * @param {string} id
+ * @param {string} headerUrl the point file's header (…pc.json); the binary is beside it (…pc.bin)
+ * @param {{ pointSize?: number, opacity?: number }} [opts]
+ * @returns {PointCloudLayer}
+ */
 export function createPointCloudLayer(id, headerUrl, opts = {}) {
   const binUrl = headerUrl.replace(/pc\.json(\?.*)?$/, 'pc.bin$1');
-  return {
+  return /** @type {PointCloudLayer} */ ({
     id,
     type: 'custom',
     renderingMode: '3d',
@@ -78,7 +146,7 @@ export function createPointCloudLayer(id, headerUrl, opts = {}) {
     },
 
     async _load(gl) {
-      const hdr = await fetch(headerUrl).then((r) => r.json());
+      const hdr = /** @type {PointFileHeader} */ (await fetch(headerUrl).then((r) => r.json()));
       const buf = await fetch(binUrl).then((r) => r.arrayBuffer());
       const stride = hdr.stride || (hdr.hasColor ? 16 : 12);
       // Clamp to the bytes actually present. A stale-cached binary (e.g. a header
@@ -155,12 +223,13 @@ export function createPointCloudLayer(id, headerUrl, opts = {}) {
     setOpacity(o) { this._opacity = o; this._map?.triggerRepaint(); },
     setPointSize(s) { this._pointSize = s; this._map?.triggerRepaint(); },
 
-    onRemove(map, gl) {
+    onRemove(_map, gl) {
       try {
         gl.deleteProgram(this._prog);
         gl.deleteBuffer(this._offBuf);
         gl.deleteBuffer(this._colBuf);
       } catch (e) { /* ignore */ }
     }
-  };
+  });
 }
+
