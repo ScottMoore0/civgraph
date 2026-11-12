@@ -72,3 +72,9 @@ You must track any and all tasks you have to do in `docs/tasks/todo.md`, includi
 - What each task consists of
 - Whether it is completed yet
 - If completed, what you did in order to complete it
+
+## Architecture rules (apply always)
+
+- Before writing or moving code, read `docs/ARCHITECTURE-RULES.md` (15 rules, each naming the check that holds it); `npm run check:architecture` runs the mechanical ones.
+- Don't work around a rule: amend the charter first, with the owner. An exception is `// arch-ok R<n>: reason`; `config/architecture-baseline.json` only shrinks.
+- Every LANDING.md has an "Architecture rules" section (the R15 checklist at the end of the charter).

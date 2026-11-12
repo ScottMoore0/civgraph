@@ -5,6 +5,12 @@
 Nothing is pushed, deployed or published without the owner's explicit approval in
 chat. Commit locally, then stop and ask.
 
+## Architecture rules (apply always)
+
+- Before writing or moving code, read `docs/ARCHITECTURE-RULES.md` (15 rules, each naming the check that holds it); `npm run check:architecture` runs the mechanical ones.
+- Don't work around a rule: amend the charter first, with the owner. An exception is `// arch-ok R<n>: reason`; `config/architecture-baseline.json` only shrinks.
+- Every LANDING.md has an "Architecture rules" section (the R15 checklist at the end of the charter).
+
 ## Token discipline (apply always)
 
 ### 1. Pipe noisy Bash output
