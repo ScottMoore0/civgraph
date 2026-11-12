@@ -14,6 +14,7 @@
  *
  *   node packages/config/src/node.mjs            the resolved configuration, as JSON
  *   node packages/config/src/node.mjs --env      the environment variables it knows, and which are set
+ *   node packages/config/src/node.mjs --check    the preflight (packages/config/src/check.mjs; npm run config:check)
  *
  * Neither prints a secret's value: a secret is reported as set or unset. The Python scripts can
  * read the same values with `node packages/config/src/node.mjs` until paths.py is retired.
@@ -165,7 +166,10 @@ export function describeEnv(env = process.env) {
 // Run directly, or through the one-month re-export at packages/config/src/node.mjs.
 const invokedDirectly = process.argv[1] && /[\\/](scripts[\\/]lib[\\/]config|packages[\\/]config[\\/]src[\\/]node)\.mjs$/.test(path.resolve(process.argv[1]));
 if (invokedDirectly) {
-  if (process.argv.includes('--env')) {
+  if (process.argv.includes('--check')) {
+    // not awaited: check.mjs imports this module, which must finish evaluating first
+    void import('./check.mjs').then(({ main }) => { process.exitCode = main(process.argv.slice(2).filter((a) => a !== '--check')); });
+  } else if (process.argv.includes('--env')) {
     for (const r of describeEnv()) console.log(`${r.set ? '*' : ' '} ${r.name.padEnd(32)} ${r.scope.padEnd(8)} ${r.value || (r.default ? `(default ${r.default})` : '')}`);
   } else {
     const { bindings: _b, ...rest } = loadConfig();
