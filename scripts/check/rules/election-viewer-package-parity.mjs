@@ -44,7 +44,7 @@ const MIRRORED = [
   'js/stages2.js'
 ];
 
-const digest = (file) => createHash('sha256').update(readFileSync(file)).digest('hex');
+const digest = (/** @type {string} */ file) => createHash('sha256').update(readFileSync(file)).digest('hex');
 
 const problems = [];
 let compared = 0;

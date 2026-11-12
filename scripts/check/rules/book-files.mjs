@@ -39,9 +39,10 @@ const books = Array.isArray(raw) ? raw : (raw.books || []);
 // Where a remote book file is allowed to live, and which keys may be served from there.
 // Read from the tracked allowlist rather than hard-coded, so the two cannot disagree.
 const R2_HOST = 'data.civgraph.net';
-const allowedPrefixes = (JSON.parse(readFileSync('data/database/r2-publication-allowlist.json', 'utf8')).prefixes || [])
-  .map((entry) => entry.prefix)
-  .filter(Boolean);
+// filter(Boolean) leaves the non-empty prefixes, so strings
+const allowedPrefixes = /** @type {string[]} */ ((JSON.parse(readFileSync('data/database/r2-publication-allowlist.json', 'utf8')).prefixes || [])
+  .map((/** @type {{ prefix?: string }} */ entry) => entry.prefix)
+  .filter(Boolean));
 
 const missing = [];
 const badRemote = [];

@@ -79,7 +79,7 @@ const EXEMPT = new Map([
  * styling-consistency problem, so it is reported separately rather than dressed
  * up as a broken nav.
  */
-function navLabels(html) {
+function navLabels(/** @type {string} */ html) {
   const header = html.match(/<header\b[\s\S]*?<\/header>/i);
   const scope = header ? header[0] : html;
   const nav = scope.match(/<nav\b[^>]*>([\s\S]*?)<\/nav>/i);
@@ -95,7 +95,7 @@ function navLabels(html) {
  * by scripts/build/build-site-partials.mjs), so a page without it is a failure, not a note.
  * Whether the stamped copy is current is build-site-partials.mjs --check's job.
  */
-function usesSharedHeader(html) {
+function usesSharedHeader(/** @type {string} */ html) {
   return /<!-- site:header\b/.test(html) && /<header class="app-header" data-site-chrome\b/.test(html);
 }
 

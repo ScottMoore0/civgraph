@@ -79,6 +79,7 @@ for (const HTML of HTML_FILES) {
   // and says PASS is worse than no check.
   const PATTERN = /((?:src|href)=")([A-Za-z0-9._\/-]+\.(?:js|css))\?v=([A-Za-z0-9._-]+)(")/g;
 
+  /** @type {{ file: string, problem: string }[]} */
   const findings = [];
   const dir = path.dirname(HTML);
   const updated = html.replace(PATTERN, (match, lead, file, token, tail) => {
