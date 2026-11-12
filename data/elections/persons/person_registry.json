@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 152629,
+ "idHighWater": 152755,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -46,7 +46,7 @@
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
   "crossSystemMerges": 1064,
-  "sameNameLeftSplit": 2864
+  "sameNameLeftSplit": 2867
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -9904,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152560
+    152684
    ]
   },
   {
@@ -12303,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152607
+    152738
    ]
   },
   {
@@ -13586,7 +13586,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    152561
+    152685
    ]
   },
   {
@@ -25203,7 +25203,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152609
+    152740
    ]
   },
   {
@@ -42146,7 +42146,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    152507
+    152630
    ]
   },
   {
@@ -43200,7 +43200,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152610
+    152741
    ]
   },
   {
@@ -60534,7 +60534,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152577
+    152702
    ]
   },
   {
@@ -62440,10 +62440,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152518,
-    152534,
-    152580,
-    152581
+    152641,
+    152657,
+    152706,
+    152707
    ]
   },
   {
@@ -62755,10 +62755,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152545,
-    152546,
-    152563,
-    152615
+    152668,
+    152669,
+    152687,
+    152747
    ]
   },
   {
@@ -63449,10 +63449,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152523,
-    152524,
-    152589,
-    152590
+    152646,
+    152647,
+    152718,
+    152719
    ]
   },
   {
@@ -63489,10 +63489,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152525,
-    152539,
-    152551,
-    152591
+    152648,
+    152662,
+    152674,
+    152720
    ]
   },
   {
@@ -63996,8 +63996,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152543,
-    152608
+    152666,
+    152739
    ]
   },
   {
@@ -64157,11 +64157,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152530,
-    152547,
-    152617,
-    152618,
-    152619
+    152653,
+    152670,
+    152749,
+    152750,
+    152751
    ]
   },
   {
@@ -64936,10 +64936,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152510,
-    152516,
-    152572,
-    152573
+    152633,
+    152639,
+    152697,
+    152698
    ]
   },
   {
@@ -65859,12 +65859,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152544,
-    152562,
-    152611,
-    152612,
-    152613,
-    152614
+    152667,
+    152686,
+    152743,
+    152744,
+    152745,
+    152746
    ]
   },
   {
@@ -70261,9 +70261,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152511,
-    152512,
-    152536
+    152634,
+    152635,
+    152659
    ]
   },
   {
@@ -70301,11 +70301,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152521,
-    152537,
-    152538,
-    152550,
-    152586
+    152644,
+    152660,
+    152661,
+    152673,
+    152714
    ]
   },
   {
@@ -70342,10 +70342,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152508,
-    152513,
-    152598,
-    152599
+    152631,
+    152636,
+    152728,
+    152729
    ]
   },
   {
@@ -72497,11 +72497,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152509,
-    152564,
-    152565,
-    152566,
-    152620
+    152632,
+    152688,
+    152689,
+    152690,
+    152752
    ]
   },
   {
@@ -75634,12 +75634,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152514,
-    152540,
-    152556,
-    152557,
-    152600,
-    152601
+    152637,
+    152663,
+    152680,
+    152681,
+    152730,
+    152731
    ]
   },
   {
@@ -75677,11 +75677,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152515,
-    152528,
-    152541,
-    152602,
-    152603
+    152638,
+    152651,
+    152664,
+    152733,
+    152734
    ]
   },
   {
@@ -75721,13 +75721,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152529,
-    152542,
-    152558,
-    152559,
-    152604,
-    152605,
-    152606
+    152652,
+    152665,
+    152682,
+    152683,
+    152735,
+    152736,
+    152737
    ]
   },
   {
@@ -83496,12 +83496,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152517,
-    152531,
-    152532,
-    152533,
-    152575,
-    152576
+    152640,
+    152654,
+    152655,
+    152656,
+    152700,
+    152701
    ]
   },
   {
@@ -83667,11 +83667,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152519,
-    152520,
-    152535,
-    152584,
-    152585
+    152642,
+    152643,
+    152658,
+    152711,
+    152712
    ]
   },
   {
@@ -83707,9 +83707,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152522,
-    152587,
-    152588
+    152645,
+    152715,
+    152716
    ]
   },
   {
@@ -83748,12 +83748,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152526,
-    152527,
-    152553,
-    152554,
-    152555,
-    152597
+    152649,
+    152650,
+    152677,
+    152678,
+    152679,
+    152726
    ]
   },
   {
@@ -121049,10 +121049,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152568,
-    152569,
-    152570,
-    152571
+    152693,
+    152694,
+    152695,
+    152696
    ]
   },
   {
@@ -121087,8 +121087,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152548,
-    152574
+    152671,
+    152699
    ]
   },
   {
@@ -126398,10 +126398,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152593,
-    152594,
-    152595,
-    152596
+    152722,
+    152723,
+    152724,
+    152725
    ]
   },
   {
@@ -166365,7 +166365,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152579
+    152704
    ]
   },
   {
@@ -169936,7 +169936,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152578
+    152703
    ]
   },
   {
@@ -207595,8 +207595,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152582,
-    152583
+    152709,
+    152710
    ]
   },
   {
@@ -207630,7 +207630,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152592
+    152721
    ]
   },
   {
@@ -224247,11 +224247,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
    "lastYear": 1973,
    "bodies": [
+    "ballymoney-urban-district-council",
     "local-government",
     "newcastle-urban-district-council"
    ],
@@ -270330,7 +270331,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152616
+    152748
    ]
   },
   {
@@ -362354,7 +362355,7 @@
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "mergedFrom": [
-    152567
+    152691
    ]
   },
   {
@@ -415167,7 +415168,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    152622
+    152755
    ]
   },
   {
@@ -514401,7 +514402,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    152549
+    152672
    ]
   },
   {
@@ -563354,7 +563355,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    152552
+    152675
    ]
   },
   {
@@ -578157,7 +578158,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    152621
+    152754
    ]
   },
   {
@@ -810180,10 +810181,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
-   "lastYear": 1958,
+   "lastYear": 1961,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -817516,10 +817517,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1955,
-   "lastYear": 1958,
+   "lastYear": 1961,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -833962,12 +833963,12 @@
   {
    "id": "p139837",
    "personId": 139837,
-   "displayName": "Herbert B. M'Nally",
+   "displayName": "Herbert C. B. M'Nally",
    "aliases": [
-    "Herbert B. M'Nally"
+    "Herbert C. B. M'Nally"
    ],
    "matchKeys": [
-    "herbert b m nally"
+    "herbert c b m nally"
    ],
    "sourceIds": [
     "Herbert B. M'Nally|"
@@ -833984,7 +833985,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139838",
@@ -834011,7 +834013,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139839",
@@ -837240,12 +837243,12 @@
   {
    "id": "p139957",
    "personId": 139957,
-   "displayName": "John M'Nelly",
+   "displayName": "John M'Neilly",
    "aliases": [
-    "John M'Nelly"
+    "John M'Neilly"
    ],
    "matchKeys": [
-    "john m nelly"
+    "john m neilly"
    ],
    "sourceIds": [
     "John M'Nelly|NI Labour"
@@ -848189,12 +848192,12 @@
   {
    "id": "p140364",
    "personId": 140364,
-   "displayName": "B. Harndll",
+   "displayName": "B. Hamill",
    "aliases": [
-    "B. Harndll"
+    "B. Hamill"
    ],
    "matchKeys": [
-    "b harndll"
+    "b hamill"
    ],
    "sourceIds": [
     "B. Harndll|NI Labour"
@@ -856310,10 +856313,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1955,
-   "lastYear": 1955,
+   "lastYear": 1958,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -926795,10 +926798,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1958,
-   "lastYear": 1958,
+   "lastYear": 1961,
    "bodies": [
     "newtownabbey-urban-district-council"
    ],
@@ -1023011,7 +1023014,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147191",
@@ -1065829,7 +1065833,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p149037",
@@ -1109718,6 +1109723,281 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:3599)",
+   "provisional": true
+  },
+  {
+   "id": "p152676",
+   "personId": 152676,
+   "displayName": "Joseph Donaghy",
+   "aliases": [
+    "Joseph Donaghy"
+   ],
+   "matchKeys": [
+    "joseph donaghy"
+   ],
+   "sourceIds": [
+    "Joseph Donaghy|ballymoney-urban-1958-1961"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1958,
+   "lastYear": 1961,
+   "bodies": [
+    "ballymoney-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p152692",
+   "personId": 152692,
+   "displayName": "Frederick M'Mahon",
+   "aliases": [
+    "Frederick M'Mahon"
+   ],
+   "matchKeys": [
+    "frederick m mahon"
+   ],
+   "sourceIds": [
+    "Frederick M'Mahon|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p152705",
+   "personId": 152705,
+   "displayName": "A. Ringland",
+   "aliases": [
+    "A. Ringland"
+   ],
+   "matchKeys": [
+    "a ringland"
+   ],
+   "sourceIds": [
+    "A. Ringland|NI Labour"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "larne-borough-council"
+   ],
+   "parties": [
+    "NI Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p152708",
+   "personId": 152708,
+   "displayName": "Cecil N. G. Bruce",
+   "aliases": [
+    "Cecil N. G. Bruce"
+   ],
+   "matchKeys": [
+    "cecil n g bruce"
+   ],
+   "sourceIds": [
+    "Cecil N. G. Bruce|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p152713",
+   "personId": 152713,
+   "displayName": "David L. Morrison",
+   "aliases": [
+    "David L. Morrison"
+   ],
+   "matchKeys": [
+    "david l morrison"
+   ],
+   "sourceIds": [
+    "David L. Morrison|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p152717",
+   "personId": 152717,
+   "displayName": "Frederick C. Foster",
+   "aliases": [
+    "Frederick C. Foster"
+   ],
+   "matchKeys": [
+    "frederick c foster"
+   ],
+   "sourceIds": [
+    "Frederick C. Foster|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p152727",
+   "personId": 152727,
+   "displayName": "Leslie P. Stewart",
+   "aliases": [
+    "Leslie P. Stewart"
+   ],
+   "matchKeys": [
+    "leslie p stewart"
+   ],
+   "sourceIds": [
+    "Leslie P. Stewart|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p152732",
+   "personId": 152732,
+   "displayName": "R. Boyd",
+   "aliases": [
+    "R. Boyd"
+   ],
+   "matchKeys": [
+    "r boyd"
+   ],
+   "sourceIds": [
+    "R. Boyd|ballymoney-urban-1961"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "ballymoney-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p152742",
+   "personId": 152742,
+   "displayName": "Thomas Thompson",
+   "aliases": [
+    "Thomas Thompson"
+   ],
+   "matchKeys": [
+    "thomas thompson"
+   ],
+   "sourceIds": [
+    "Thomas Thompson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p152753",
+   "personId": 152753,
+   "displayName": "William Flynn",
+   "aliases": [
+    "William Flynn"
+   ],
+   "matchKeys": [
+    "william flynn"
+   ],
+   "sourceIds": [
+    "William Flynn|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
