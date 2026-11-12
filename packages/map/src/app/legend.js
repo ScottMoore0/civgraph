@@ -11,6 +11,7 @@ import layerTypes from '../../../registries/src/browser/layer-types.mjs';
 // Layers with no vector features to colour, so no swatch: rasters, images, terrain and point
 // clouds (the layer-types registry's rasterSource and threeD types).
 const NO_SWATCH_SOURCE_TYPES = new Set([...layerTypes.behaviour.rasterSource, ...layerTypes.behaviour.threeD]);
+import { MAP_COLOURS } from '../colours.mjs';
 
 export class LegendMethods {
   /**
@@ -61,10 +62,10 @@ export class LegendMethods {
     const esc = (value) => escapeHtml(String(value ?? ''));
     const ink = (hex) => {
       const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || '').trim());
-      if (!m) return '#111827';
+      if (!m) return MAP_COLOURS.inkDark;
       const n = parseInt(m[1], 16);
       const lum = (0.2126 * ((n >> 16) & 255) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255)) / 255;
-      return lum > 0.55 ? '#111827' : '#ffffff';
+      return lum > 0.55 ? MAP_COLOURS.inkDark : MAP_COLOURS.inkLight;
     };
     const parts = [];
     if (election) {
@@ -101,7 +102,7 @@ export class LegendMethods {
       parts.push(`<div class="test2-map-legend__statistic" data-census-legend="${esc(stat.id)}">`
         + (titled ? `<p class="test2-map-legend__heading">${esc(entry.name)}</p>` : '')
         + `<ul class="test2-map-legend__list test2-map-legend__list--classes">${stat.classes.map((cls) => `<li><span class="test2-map-legend__swatch" style="background:${esc(cls.colour)}" aria-hidden="true"></span><span class="test2-map-legend__name">${esc(cls.label)}</span><span class="test2-map-legend__count" title="Areas in this class">${cls.count}</span></li>`).join('')}`
-        + (entry.noFigureNote ? '<li><span class="test2-map-legend__swatch test2-map-legend__swatch--line" style="border-color:#374151" aria-hidden="true"></span><span class="test2-map-legend__name">No figure</span></li>' : '')
+        + (entry.noFigureNote ? '<li><span class="test2-map-legend__swatch test2-map-legend__swatch--line" style="border-color:' + MAP_COLOURS.legendLine + '" aria-hidden="true"></span><span class="test2-map-legend__name">No figure</span></li>' : '')
         + '</ul>'
         + (entry.legendNote ? `<p class="test2-map-legend__note">${esc(entry.legendNote)}</p>` : '')
         + (entry.noFigureNote ? `<p class="test2-map-legend__note">${esc(entry.noFigureNote)}</p>` : '')
@@ -112,7 +113,7 @@ export class LegendMethods {
       // Two editions of one series: the older is drawn grey and dashed (updateEditionRoles).
       const edition = (layer) => (layer.role === 'older' ? ' <span class="test2-map-legend__abbr">(older edition, grey dashed)</span>'
         : layer.role === 'newer' ? ' <span class="test2-map-legend__abbr">(newer edition)</span>' : '');
-      parts.push(`${election || statistics.length ? '<p class="test2-map-legend__heading">Other maps</p>' : ''}<ul class="test2-map-legend__list">${layers.map((layer) => `<li><span class="test2-map-legend__swatch test2-map-legend__swatch--line${layer.role === 'older' ? ' test2-map-legend__swatch--older' : ''}" style="border-color:${esc(layer.role === 'older' ? '#6b7280' : layer.colour)}" aria-hidden="true"></span><span class="test2-map-legend__name">${esc(layer.name)}${edition(layer)}</span></li>`).join('')}</ul>`);
+      parts.push(`${election || statistics.length ? '<p class="test2-map-legend__heading">Other maps</p>' : ''}<ul class="test2-map-legend__list">${layers.map((layer) => `<li><span class="test2-map-legend__swatch test2-map-legend__swatch--line${layer.role === 'older' ? ' test2-map-legend__swatch--older' : ''}" style="border-color:${esc(layer.role === 'older' ? MAP_COLOURS.olderEdition : layer.colour)}" aria-hidden="true"></span><span class="test2-map-legend__name">${esc(layer.name)}${edition(layer)}</span></li>`).join('')}</ul>`);
     }
     if (approximate.length) {
       const titled = approximate.length > 1;
@@ -139,7 +140,7 @@ export class LegendMethods {
     const approx = record?.config?.approximateSegments;
     if (!approx || !this.mapController?.map?.getLayer?.(`${testId}-approx`)) return null;
     const older = this.editionRoles?.get(mapId) === 'older';
-    return { name: this.mapLabel(mapId), colour: older ? '#6b7280' : (record.color || '#5B21B6'), note: approx.note || '' };
+    return { name: this.mapLabel(mapId), colour: older ? MAP_COLOURS.olderEdition : (record.color || MAP_COLOURS.layerLine), note: approx.note || '' };
   }
 
   layerColour(mapId) {

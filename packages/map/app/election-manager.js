@@ -123,6 +123,7 @@ import { ELECTION_LOAD } from '../src/election/load-state.mjs';
 import { createFlag, createState, defineFlagFields } from '../src/state-helpers.mjs';
 import { installMethods } from '../src/app/install-methods.mjs';
 import { siteNumber } from '../../core/src/format.js';
+import { MAP_COLOURS, VIEWER_COLOURS } from '../src/colours.mjs';
 
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
 const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
@@ -144,11 +145,11 @@ const SEAT_CIRCLE_GROUP_LIMIT_MOBILE = 90;
 let electionAnimationRuntimePromise = null;
 
 const MAIN_ELECTION_GEOGRAPHY_STYLE = Object.freeze({
-  unmatchedFillColor: '#dfe4ec',
+  unmatchedFillColor: MAP_COLOURS.unmatchedFill,
   unmatchedFillOpacity: 0.42,
-  unmatchedStrokeColor: '#a1aab8',
+  unmatchedStrokeColor: MAP_COLOURS.unmatchedStroke,
   matchedFillOpacity: 0.6,
-  matchedStrokeColor: '#333',
+  matchedStrokeColor: MAP_COLOURS.matchedStroke,
   strokeOpacity: 0.8,
   strokeWidth: 1.5
 });
@@ -4309,7 +4310,7 @@ export class Test2ElectionManager {
         type: 'line',
         source: VOTE_BAR_SOURCE_ID,
         paint: {
-          'line-color': ['coalesce', ['get', 'colour'], '#6b7280'],
+          'line-color': ['coalesce', ['get', 'colour'], MAP_COLOURS.partyGrey],
           'line-width': ['interpolate', ['linear'], ['zoom'], 5, 4, 9, 8, 12, 13],
           'line-opacity': 0.92
         },
@@ -4664,8 +4665,8 @@ export class Test2ElectionManager {
           'text-allow-overlap': false
         },
         paint: {
-          'text-color': '#111827',
-          'text-halo-color': '#ffffff',
+          'text-color': MAP_COLOURS.labelText,
+          'text-halo-color': MAP_COLOURS.labelHalo,
           'text-halo-width': 2
         }
       });

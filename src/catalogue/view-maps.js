@@ -9,8 +9,9 @@ import { esc, plural, span, inkOn, longDate, mapDate, SCOPE_SHORT, shortProvider
 import { SECTIONS, unitWord } from './index.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
+import { MAP_COLOURS } from '../../packages/map/src/colours.mjs';
 
-const FALLBACK = '#7a8699';
+const FALLBACK = MAP_COLOURS.catalogueFallback;
 const colourOf = (c, s, id) => c.rec(id).color || s.color || FALLBACK;
 
 /** Where (one of all, NI, ROI, Ireland) and kind (boundaries or data, or neither for both) share a

@@ -23,6 +23,7 @@ import layerTypes from '../../registries/src/browser/layer-types.mjs';
 // A census overlay is drawn on a vector geography: never on a raster, an image, terrain or a point
 // cloud (the layer-types registry's rasterSource and threeD types).
 const NON_VECTOR_SOURCE_TYPES = new Set([...layerTypes.behaviour.rasterSource, ...layerTypes.behaviour.threeD]);
+import { MAP_COLOURS } from '../src/colours.mjs';
 
 // The base maps (packages/map/src/renderer/basemap.mjs): 'osm-standard' is the default street map,
 // not one tile server but the provider chain there (OpenFreeMap, then OpenStreetMap's own tiles as
@@ -31,9 +32,9 @@ const NON_VECTOR_SOURCE_TYPES = new Set([...layerTypes.behaviour.rasterSource, .
 
 // The timeline's change highlight (setTimelineChanges). Magenta reads against the blues,
 // greens and browns the boundary layers use and against the OSM base map.
-const TIMELINE_CHANGE_ACCENT = '#d6246e';
-const TIMELINE_CHANGE_GHOST = '#475569';
-const TIMELINE_OLDER_EDITION_COLOUR = '#6b7280';
+const TIMELINE_CHANGE_ACCENT = MAP_COLOURS.timelineAccent;
+const TIMELINE_CHANGE_GHOST = MAP_COLOURS.timelineGhost;
+const TIMELINE_OLDER_EDITION_COLOUR = MAP_COLOURS.olderEdition;
 const TIMELINE_CHANGE_MARKER_MIN_PX = 7;
 const TIMELINE_CHANGE_LAYERS = Object.freeze({
   sourceId: 'test2-timeline-changes',
@@ -822,7 +823,7 @@ export class Test2MapLibreMainAdapter {
         'circle-color': accent,
         'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, TIMELINE_CHANGE_MARKER_MIN_PX, 10, TIMELINE_CHANGE_MARKER_MIN_PX + 3],
         'circle-opacity': ['interpolate', ['linear'], ['zoom'], 9, 0.8, 11.5, 0],
-        'circle-stroke-color': '#ffffff',
+        'circle-stroke-color': MAP_COLOURS.circleStroke,
         'circle-stroke-width': 2,
         'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 9, 1, 11.5, 0]
       }
@@ -1270,7 +1271,7 @@ export class Test2MapLibreMainAdapter {
   addAddressMarker(lat, lon, name) {
     this.removeAddressMarker();
     if (!this.map) return;
-    this.addressMarker = new maplibregl.Marker({ color: '#065a6e' })
+    this.addressMarker = new maplibregl.Marker({ color: MAP_COLOURS.addressMarker })
       .setLngLat([Number(lon), Number(lat)])
       .setPopup(new maplibregl.Popup().setHTML(`<strong>${escapeHtml(name || 'Selected location')}</strong>`))
       .addTo(this.map);
@@ -1534,7 +1535,7 @@ export class Test2MapLibreMainAdapter {
       layerName: state?.config?.name || layerConfig.name || mainId,
       featureName,
       name: properties.name || featureName,
-      color: layerConfig.style?.color || layerConfig.style?.fillColor || '#3388ff',
+      color: layerConfig.style?.color || layerConfig.style?.fillColor || MAP_COLOURS.layer,
       properties,
       geometry: feature.geometry || null,
       // Geometry from queryRenderedFeatures is CLIPPED to the tile it was drawn in, so a

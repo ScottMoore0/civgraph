@@ -14,6 +14,7 @@ import {
 
 import { escapeHtml } from '../packages/core/src/html.js';
 import { partyLabelHtml } from '../packages/core/src/party-names.mjs';
+import { MAP_COLOURS, NUMERIC_SCALE } from '../packages/map/src/colours.mjs';
 
 /** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 /** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
@@ -112,13 +113,13 @@ export function renderElectionSummaryFromViewModel(model) {
  */
 export function numericColour(value, min, max) {
   const number = Number(value);
-  if (!Number.isFinite(number)) return '#9ca3af';
+  if (!Number.isFinite(number)) return MAP_COLOURS.noFigure;
   const t = Math.max(0, Math.min(1, (number - min) / (max - min || 1)));
-  if (t < 0.2) return '#fef3c7';
-  if (t < 0.4) return '#fde68a';
-  if (t < 0.6) return '#f59e0b';
-  if (t < 0.8) return '#d97706';
-  return '#92400e';
+  if (t < 0.2) return NUMERIC_SCALE[0];
+  if (t < 0.4) return NUMERIC_SCALE[1];
+  if (t < 0.6) return NUMERIC_SCALE[2];
+  if (t < 0.8) return NUMERIC_SCALE[3];
+  return NUMERIC_SCALE[4];
 }
 
 export class SharedElectionRenderer {
@@ -300,7 +301,7 @@ export class SharedElectionRenderer {
           <tbody>${candidates.map((candidate) => `
             <tr class="${candidate.elected ? 'test2-election-table__elected' : ''}">
               <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="candidate" data-election-entity-key="${escapeHtml(candidate.id || `${candidate.name}|${candidate.party}`)}">${escapeHtml(candidate.name || candidate.candidate || '')}</button></td>
-              <td class="election-party-cell" style="--party-colour:${escapeHtml(partyColour(candidate.party) || candidate.colour || '#6b7280')}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(candidate.party))}">${partyLabelHtml(candidate.party || '', escapeHtml)}</button></td>
+              <td class="election-party-cell" style="--party-colour:${escapeHtml(partyColour(candidate.party) || candidate.colour || MAP_COLOURS.partyGrey)}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(candidate.party))}">${partyLabelHtml(candidate.party || '', escapeHtml)}</button></td>
               <td>${formatNumber(candidate.firstPrefs ?? candidate.votes ?? '')}</td><td>${candidate.deltas ? formatSigned(candidate.deltas.firstPrefs) : ''}</td><td>${formatNumber(candidate.finalVotes ?? candidate.firstPrefs ?? candidate.votes ?? '')}</td><td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}</td>
             </tr>`).join('')}</tbody>
         </table>

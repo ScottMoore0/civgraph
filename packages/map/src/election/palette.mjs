@@ -18,6 +18,7 @@ import {
   partyColour as electionPartyColour
 } from '../../../core/src/election-domain.mjs';
 import partyPalettes from '../../../registries/src/browser/party-palettes.mjs';
+import { MAP_COLOURS, NUMERIC_SCALE } from '../colours.mjs';
 
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
@@ -50,7 +51,7 @@ export const ROI_MAIN_PARTY_COLOURS = new Map(/** @type {Array<[string, string]>
  * @param {unknown} value
  */
 export function partyColour(value) {
-  return PARTY_COLOURS.get(normalizeName(value)) || '#6b7280';
+  return PARTY_COLOURS.get(normalizeName(value)) || MAP_COLOURS.partyGrey;
 }
 
 /**
@@ -58,7 +59,7 @@ export function partyColour(value) {
  * @param {unknown} value
  * @param {string} [fallback]
  */
-export function safeCssColour(value, fallback = '#6b7280') {
+export function safeCssColour(value, fallback = MAP_COLOURS.partyGrey) {
   const text = String(value || '').trim();
   if (/^#[0-9a-f]{3,8}$/i.test(text)) return text;
   if (/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}(?:\s*,\s*(?:0|1|0?\.\d+))?\s*\)$/i.test(text)) return text;
@@ -74,13 +75,13 @@ export function safeCssColour(value, fallback = '#6b7280') {
  */
 export function numericColour(value, min, max) {
   const number = Number(value);
-  if (!Number.isFinite(number)) return '#9ca3af';
+  if (!Number.isFinite(number)) return MAP_COLOURS.noFigure;
   const t = Math.max(0, Math.min(1, (number - min) / (max - min || 1)));
-  if (t < 0.2) return '#fef3c7';
-  if (t < 0.4) return '#fde68a';
-  if (t < 0.6) return '#f59e0b';
-  if (t < 0.8) return '#d97706';
-  return '#92400e';
+  if (t < 0.2) return NUMERIC_SCALE[0];
+  if (t < 0.4) return NUMERIC_SCALE[1];
+  if (t < 0.6) return NUMERIC_SCALE[2];
+  if (t < 0.8) return NUMERIC_SCALE[3];
+  return NUMERIC_SCALE[4];
 }
 
 /**
@@ -141,16 +142,16 @@ export function mainPanePartyColour(party, explicit = '', roi = false) {
   // placeholder grey never hides a colour the party has.
   if (normalizedParty && isRegistryColourParty(party)) return electionPartyColour(party);
   if (explicitColour && !(isPlaceholderPartyColour(explicitColour) && knownPartyColour(party, roi))) return explicitColour;
-  if (!normalizedParty) return explicitColour || '#6b7280';
+  if (!normalizedParty) return explicitColour || MAP_COLOURS.partyGrey;
   const routePalette = roi ? ROI_MAIN_PARTY_COLOURS : PARTY_COLOURS;
   const routeColour = routePalette.get(normalizedParty);
   const sharedColour = electionPartyColour(party, '');
   const localColour = PARTY_COLOURS.get(normalizedParty);
   if (routeColour || sharedColour || localColour) return routeColour || sharedColour || localColour;
   if (roi) {
-    return ROI_MAIN_PARTY_COLOURS.get(normalizedParty) || electionPartyColour(party) || partyColour(party) || '#b0bec5';
+    return ROI_MAIN_PARTY_COLOURS.get(normalizedParty) || electionPartyColour(party) || partyColour(party) || MAP_COLOURS.noResult;
   }
-  return electionPartyColour(party) || partyColour(party) || '#6b7280';
+  return electionPartyColour(party) || partyColour(party) || MAP_COLOURS.partyGrey;
 }
 
 /**
@@ -183,12 +184,12 @@ export function partyColourForResult(result = {}, party = '', explicit = '', opt
  * @param {boolean} [roi]
  */
 export function colourForMode(mode, result, roi = false) {
-  if (mode === 'winner') return partyColourForResult(result, result.winnerParty, result.colour, { preferElected: true, roi }) || '#6b7280';
-  if (mode === 'leadingParty') return partyColourForResult(result, result.leadingParty, result.leadingColour, { roi }) || '#6b7280';
+  if (mode === 'winner') return partyColourForResult(result, result.winnerParty, result.colour, { preferElected: true, roi }) || MAP_COLOURS.partyGrey;
+  if (mode === 'leadingParty') return partyColourForResult(result, result.leadingParty, result.leadingColour, { roi }) || MAP_COLOURS.partyGrey;
   if (mode === 'turnout') return numericColour(result.turnoutPct, 35, 80);
   if (mode === 'voteShare') return numericColour(result.leadingPct, 10, 70);
   if (mode === 'majority') return numericColour(result.majorityPct, 0, 45);
   if (mode === 'seats') return numericColour(result.seatsWon ?? result.seatsTotal, 1, 6);
   if (mode === 'quota') return numericColour(result.quota, 1_000, 120_000);
-  return '#6b7280';
+  return MAP_COLOURS.partyGrey;
 }

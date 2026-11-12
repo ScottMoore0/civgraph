@@ -40,6 +40,7 @@ import { CATALOGUE_TAB } from './route-state.mjs';
 import { defineFlagFields, setHidden } from '../../packages/map/src/state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 import { siteNumber } from '../../packages/core/src/format.js';
+import { MAP_COLOURS } from '../../packages/map/src/colours.mjs';
 
 // From D1 since data design phase 3 (the /data/catalogue/*.json URLs still answer, from the same rows).
 const PLACES_URL = '/_api/catalogue?view=places';
@@ -1407,7 +1408,7 @@ export class CatalogueNext {
     if (this.here) return [];
     const out = [];
     for (const { sh, subjects, count } of this.visibleShelves()) {
-      const [look, col] = SHELF_LOOK[sh.id] || ['map', '#7a8699'];
+      const [look, col] = SHELF_LOOK[sh.id] || ['map', MAP_COLOURS.catalogueFallback];
       const ic = SHELF_ICON_IN[this.section]?.[sh.id] || look;
       out.push({ id: `cn-shelf-${sh.id}`, label: MapsView.shelfName(this.section, sh), count, level: 1, icon: ic, colour: col });
       if (!sh.flat && subjects.length > 1 && !FLAT_SECTIONS.has(this.section)) for (const { sub, series } of subjects) out.push({ id: `cn-subject-${sub.id}`, label: sub.name, count: series.length, level: 2 });

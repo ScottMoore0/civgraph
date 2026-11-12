@@ -1,6 +1,7 @@
 /** Small helpers shared by the rebuilt catalogue's views. */
 import { formatDisplayDate } from '../../packages/core/src/date-format.mjs';
 import { siteNumber } from '../../packages/core/src/format.js';
+import { MAP_COLOURS } from '../../packages/map/src/colours.mjs';
 
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -35,10 +36,10 @@ export const span = (years) => (!years ? '' : years[0] === years[1] ? String(yea
 /** Text colour that reads on a fill of the given colour. */
 export function inkOn(hex) {
   const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || ''));
-  if (!m) return '#fff';
+  if (!m) return MAP_COLOURS.catalogueInkLight;
   const n = parseInt(m[1], 16);
   const lum = (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
-  return lum > 0.6 ? '#1a202c' : '#fff';
+  return lum > 0.6 ? MAP_COLOURS.catalogueInkDark : MAP_COLOURS.catalogueInkLight;
 }
 
 /** Short names for providers, as a row's credit line shows them; the full name stays in the

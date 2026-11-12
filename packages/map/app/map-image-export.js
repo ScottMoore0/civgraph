@@ -32,18 +32,19 @@ import dataService, { resolveMapDownloadUrl } from '../../../src/data-service.js
 import { compositeChildIds } from '../../../src/map-relations.mjs';
 import { SITE } from '../../config/src/config.js';
 import { siteNumber } from '../../core/src/format.js';
+import { EXPORT_COLOURS } from '../src/colours.mjs';
 
 export const WIKI_STYLE = Object.freeze({
-  fill: '#ffc8c8',
-  stroke: '#232323',
+  fill: EXPORT_COLOURS.fill,
+  stroke: EXPORT_COLOURS.stroke,
   strokeWidth: 0.74,
-  selected: '#ff0000',
-  outline: '#f3a6b2',
-  land: '#dcdcdc',
-  coast: '#a6a6a6',
-  electionStroke: '#ffffff',
-  electionSelectedStroke: '#000000',
-  electionUnmatched: '#ffffff'
+  selected: EXPORT_COLOURS.selected,
+  outline: EXPORT_COLOURS.outline,
+  land: EXPORT_COLOURS.land,
+  coast: EXPORT_COLOURS.coast,
+  electionStroke: EXPORT_COLOURS.electionStroke,
+  electionSelectedStroke: EXPORT_COLOURS.electionSelectedStroke,
+  electionUnmatched: EXPORT_COLOURS.electionUnmatched
 });
 
 /** More features than this in view and the export stops and asks the reader to zoom in. */
@@ -724,7 +725,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
       fill = coloured.colour;
       styles.push(`fill:${fill}`);
       // An area with no result: white, with a grey edge so it does not read as sea.
-      if (!coloured.matched && !isSelected) styles.push('stroke:#9ca3af');
+      if (!coloured.matched && !isSelected) styles.push(`stroke:${EXPORT_COLOURS.unmatchedEdge}`);
       if (isSelected) styles.push(`stroke:${WIKI_STYLE.electionSelectedStroke}`, 'stroke-width:2.4px', 'stroke-linejoin:round');
     } else if (isSelected) {
       styles.push(`fill:${WIKI_STYLE.selected}`);
@@ -817,11 +818,11 @@ function renderLegend(election, frame) {
   const label = (text, max = 30) => (text.length > max ? `${text.slice(0, max - 1)}…` : text);
   const rows = shown.map((item, i) => {
     const ty = y + 22 + i * row;
-    return `<rect x="${x}" y="${ty}" width="13" height="13" style="fill:${item.colour};stroke:#666666;stroke-width:0.5px;"/>`
+    return `<rect x="${x}" y="${ty}" width="13" height="13" style="fill:${item.colour};stroke:${EXPORT_COLOURS.legendSwatchEdge};stroke-width:0.5px;"/>`
       + `<text x="${x + 19}" y="${ty + 11}"><title>${xmlEscape(item.party)}</title>${xmlEscape(label(item.party))} (${item.count})</text>`;
   }).join('');
   const tail = more > 0 ? `<text x="${x}" y="${y + 22 + shown.length * row + 11}">and ${more} more</text>` : '';
-  const svg = `<g id="Legend" style="font-family:'DejaVu Sans',Arial,sans-serif;font-size:11px;fill:#232323;stroke:none;">`
+  const svg = `<g id="Legend" style="font-family:'DejaVu Sans',Arial,sans-serif;font-size:11px;fill:${EXPORT_COLOURS.legendText};stroke:none;">`
     + `<text x="${x}" y="${y + 11}" style="font-weight:bold;">${xmlEscape(`Coloured by ${election.modeLabel}`)}</text>${rows}${tail}</g>`;
   return { svg, width: width + pad, height: height + pad };
 }

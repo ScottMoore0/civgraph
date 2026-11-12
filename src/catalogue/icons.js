@@ -4,6 +4,7 @@
  * section icons are the same paths as the current pane's section bar.
  */
 import { CUSTOM_ICONS } from './custom-icons.js';
+import { SHELF_COLOURS } from '../../packages/map/src/colours.mjs';
 
 const PATHS = {
   // Sections, as in the current pane
@@ -63,19 +64,19 @@ export function icon(name, cls = 'cn-icon') {
 
 /** Each shelf's icon and colour: the colour marks the shelf's icon and heading, nothing else. */
 export const SHELF_LOOK = {
-  'land-divisions': ['open-atlas', '#c08a3e'],
-  'government-and-administration': ['landmark', '#6875d6'],
-  'elections-and-representation': ['vote', '#c84b8f'],
-  'people-and-places': ['users', '#1f9e8f'],
-  'planning-and-property': ['cadastral-map', '#8a63d2'],
-  transport: ['route', '#e07b2a'],
-  'heritage-and-culture': ['castle-harp', '#c0504d'],
-  'local-services-and-amenities': ['building', '#2f8fce'],
-  water: ['droplets', '#3a6fd8'],
-  'environment-and-land-use': ['leaf', '#3e9b4f'],
-  'earth-and-terrain': ['mountain', '#8c7b6b'],
-  'regional-divides': ['split', '#7a8597'],
-  environment: ['leaf', '#3e9b4f'],
+  'land-divisions': ['open-atlas', SHELF_COLOURS['land-divisions']],
+  'government-and-administration': ['landmark', SHELF_COLOURS['government-and-administration']],
+  'elections-and-representation': ['vote', SHELF_COLOURS['elections-and-representation']],
+  'people-and-places': ['users', SHELF_COLOURS['people-and-places']],
+  'planning-and-property': ['cadastral-map', SHELF_COLOURS['planning-and-property']],
+  transport: ['route', SHELF_COLOURS.transport],
+  'heritage-and-culture': ['castle-harp', SHELF_COLOURS['heritage-and-culture']],
+  'local-services-and-amenities': ['building', SHELF_COLOURS['local-services-and-amenities']],
+  water: ['droplets', SHELF_COLOURS.water],
+  'environment-and-land-use': ['leaf', SHELF_COLOURS['environment-and-land-use']],
+  'earth-and-terrain': ['mountain', SHELF_COLOURS['earth-and-terrain']],
+  'regional-divides': ['split', SHELF_COLOURS['regional-divides']],
+  environment: ['leaf', SHELF_COLOURS.environment],
 };
 
 /** A shelf's icon in a section that renames it (view-maps.js shelfName): under Boundaries, the

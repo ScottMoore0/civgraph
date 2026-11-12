@@ -28,13 +28,14 @@ import { BasemapManager } from './basemap.mjs';
 import { DIRECT_GESTURE } from './gesture-state.mjs';
 import { createState, defineFlagFields, setHidden } from '../state-helpers.mjs';
 import layerTypes from '../../../registries/src/browser/layer-types.mjs';
+import { MAP_COLOURS } from '../colours.mjs';
 
 // The casing that breaks a boundary's solid line under its dotted approximate stretches. The app keeps a
 // light basemap in dark mode too (app.js, basemap notes), so the gap is the basemap's own paper colour.
-const APPROXIMATE_GAP_COLOR = '#ffffff';
+const APPROXIMATE_GAP_COLOR = MAP_COLOURS.approximateGap;
 
-const INTERACTION_FILL_COLOR = '#FDBA74';
-const INTERACTION_STROKE_COLOR = '#FF7A1A';
+const INTERACTION_FILL_COLOR = MAP_COLOURS.interactionFill;
+const INTERACTION_STROKE_COLOR = MAP_COLOURS.interactionStroke;
 const DEFAULT_VECTOR_FILL_OPACITY = 0;
 // Pitch (degrees) the camera tilts to when a 3D terrain layer is loaded from a
 // near-flat view. A top-down (pitch 0) view of draped terrain is visually
@@ -1070,8 +1071,8 @@ export class TestMapLibreController {
       labelsEnabled: true,
       textScale: DEFAULT_TEXT_SCALE,
       opacity: resolveLayerOpacity(layer),
-      color: layer.style?.color || '#5B21B6',
-      fillColor: layer.style?.fillColor || layer.style?.color || '#7C3AED'
+      color: layer.style?.color || MAP_COLOURS.layerLine,
+      fillColor: layer.style?.fillColor || layer.style?.color || MAP_COLOURS.layerFill
     });
     this.applySavedLayerPreferences(layer.id);
     // A 3D layer lets a deliberate two-finger twist rotate the map (touchRotationAllowed).
@@ -1214,7 +1215,7 @@ export class TestMapLibreController {
         paint: {
           // A data layer (deprivation deciles, ...) carries a MapLibre expression that colours each
           // feature by a property; fillColor stays a plain colour for swatches and pickers.
-          'fill-color': layer.style?.fillColorExpression || layer.style?.fillColor || layer.style?.color || '#7C3AED',
+          'fill-color': layer.style?.fillColorExpression || layer.style?.fillColor || layer.style?.color || MAP_COLOURS.layerFill,
           'fill-opacity': resolveFillOpacity(layer),
           'fill-antialias': false
         }
@@ -1227,11 +1228,11 @@ export class TestMapLibreController {
       source: sourceId,
       'source-layer': layer.sourceLayer,
       paint: layer.geometryType === 'point' ? {
-        'circle-color': layer.style?.color || '#5B21B6',
+        'circle-color': layer.style?.color || MAP_COLOURS.layerLine,
         'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 2.5, 12, 6],
         'circle-opacity': 0.88
       } : {
-        'line-color': layer.style?.color || '#5B21B6',
+        'line-color': layer.style?.color || MAP_COLOURS.layerLine,
         'line-width': ['interpolate', ['linear'], ['zoom'], 5, Math.max(0.4, Number(layer.style?.weight || 1) * 0.55), 12, Math.max(0.8, Number(layer.style?.weight || 1) * 1.4)],
         'line-opacity': 0.88
       }
@@ -1345,7 +1346,7 @@ export class TestMapLibreController {
       source: sourceId,
       layout: { 'line-cap': 'round', 'line-join': 'round' },
       paint: {
-        'line-color': layer.style?.color || '#5B21B6',
+        'line-color': layer.style?.color || MAP_COLOURS.layerLine,
         'line-width': lineWidth,
         'line-opacity': 0.95,
         // Round dots, not the [3, 2] dash that already means "older edition".
@@ -1356,7 +1357,7 @@ export class TestMapLibreController {
       id: hitId,
       type: 'line',
       source: sourceId,
-      paint: { 'line-color': '#000000', 'line-width': 14, 'line-opacity': 0 }
+      paint: { 'line-color': MAP_COLOURS.hitLine, 'line-width': 14, 'line-opacity': 0 }
     });
     return { layerIds: [gapId, lineId, hitId], sourceIds: [sourceId] };
   }
