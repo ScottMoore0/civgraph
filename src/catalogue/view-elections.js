@@ -9,6 +9,7 @@ import { sliderHtml } from './slider.js';
 import { extrasHtml, aboutHtml } from './view-maps.js';
 import { PeopleSearch } from './search.js';
 import electionBodies from '../../packages/registries/src/browser/election-bodies.mjs';
+import councilSearch from '../../packages/registries/src/browser/council-search.mjs';
 
 // Browse's slug for an election: its key lower-cased, runs of other characters as '-'
 // (dail-eireann__2024-11-29 -> dail-eireann-2024-11-29). Browse routes live in the hash.
@@ -20,6 +21,7 @@ export const BODY_SHORT = {
   'house-of-commons-of-the-united-kingdom': 'Westminster',
   'northern-ireland-assembly': 'NI Assembly',
   'parliament-of-northern-ireland': 'NI Parliament',
+  // Filed a council each under one slug, so not one body the election-bodies registry can name.
   'local-government': 'NI local',
   // The pre-1973 council rounds, one entry a year (src/ni-local-groups.mjs).
   'ni-local-elections': 'NI local',
@@ -27,13 +29,13 @@ export const BODY_SHORT = {
   'irish-local-elections': 'Irish local',
   'european-parliament': 'European (NI)',
   'ireland-referendum': 'Referendum',
-  'ireland-local': 'Irish local',
   'ireland-european': 'European (Ireland)',
   'ireland-president': 'Presidential',
   'northern-ireland-constitutional-convention': 'NI Convention',
   'northern-ireland-forum-for-political-dialogue': 'NI Forum',
   'northern-ireland-referendum': 'Referendum (NI)',
-  // The bodies the election-bodies registry describes (data/registries/election-bodies.json).
+  // The bodies the election-bodies registry describes (data/registries/election-bodies.json): the
+  // Mayor of Limerick and the Irish local elections (ireland-local).
   ...Object.fromEntries(Object.entries(/** @type {Record<string, { shortLabel?: string }>} */ (electionBodies)).filter(([, b]) => b.shortLabel).map(([id, b]) => [id, b.shortLabel])),
 };
 export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
@@ -44,7 +46,9 @@ export const BODY_GROUPS = [
   { id: 'dail', label: 'Dáil', bodies: ['dail-eireann'], icon: 'dail', colour: '#169b62' },
   { id: 'westminster', label: 'Westminster', bodies: ['house-of-commons-of-the-united-kingdom'], icon: 'westminster', colour: '#2f5da8' },
   { id: 'ni-devolved', label: 'NI Devolved', bodies: ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'], icon: 'ni-devolved', colour: '#c84b8f' },
-  { id: 'ni-local', label: 'NI local', bodies: ['local-government', 'ni-local-elections', 'belfast-county-borough-council', 'belfast-county-borough-council-aldermen', 'strabane-urban-district-council', 'londonderry-county-borough-council', 'armagh-county-council', 'armagh-urban-district-council', 'keady-urban-district-council', 'lurgan-borough-council', 'lurgan-rural-district-council', 'portadown-borough-council', 'armagh-rural-district-council', 'newry-no-2-rural-district-council', 'tandragee-rural-district-council', 'moira-rural-district-council', 'aghalee-rural-district-council', 'tandragee-urban-district-council', 'castleblayney-no-2-rural-district-council', 'londonderry-county-borough-council-aldermen', 'antrim-town-commissioners', 'aughnacloy-town-commissioners', 'ballycastle-urban-district-council', 'ballyclare-urban-district-council', 'ballymena-borough-council', 'ballymoney-urban-district-council', 'banbridge-urban-district-council', 'bangor-borough-council', 'carrickfergus-borough-council', 'coleraine-borough-council', 'cookstown-urban-district-council', 'donaghadee-urban-district-council', 'downpatrick-urban-district-council', 'dromore-urban-district-council', 'dungannon-urban-district-council', 'enniskillen-borough-council', 'enniskillen-borough-council-aldermen', 'gilford-town-commissioners', 'holywood-urban-district-council', 'kilkeel-urban-district-council', 'larne-borough-council', 'limavady-urban-district-council', 'lisburn-borough-council', 'newcastle-urban-district-council', 'newry-urban-district-council', 'newtownabbey-urban-district-council', 'newtownards-borough-council', 'omagh-urban-district-council', 'portrush-urban-district-council', 'portstewart-urban-district-council', 'warrenpoint-urban-district-council', 'whitehead-urban-district-council', 'antrim-county-council', 'down-county-council', 'fermanagh-county-council', 'londonderry-county-council', 'tyrone-county-council', 'antrim-rural-district-council', 'ballycastle-rural-district-council', 'ballymena-rural-district-council', 'ballymoney-rural-district-council', 'banbridge-rural-district-council', 'belfast-rural-district-council', 'castlederg-rural-district-council', 'castlereagh-rural-district-council', 'clogher-rural-district-council', 'coleraine-rural-district-council', 'cookstown-rural-district-council', 'dungannon-rural-district-council', 'east-down-rural-district-council', 'enniskillen-rural-district-council', 'hillsborough-rural-district-council', 'irvinestown-rural-district-council', 'larne-rural-district-council', 'limavady-rural-district-council', 'lisburn-rural-district-council', 'lisnaskea-rural-district-council', 'londonderry-rural-district-council', 'magherafelt-rural-district-council', 'newry-no-1-rural-district-council', 'north-down-rural-district-council', 'omagh-rural-district-council', 'south-down-rural-district-council', 'strabane-rural-district-council'], icon: 'ni-local', colour: '#e07b2a' },
+  // The NI local elections since 1973, the pre-1973 rounds by year, and every pre-1973 council
+  // (the councils registry's pre1973Council flag; registries/browser/council-search.json).
+  { id: 'ni-local', label: 'NI local', bodies: ['local-government', 'ni-local-elections', ...councilSearch.pre1973CouncilBodies], icon: 'ni-local', colour: '#e07b2a' },
   { id: 'irish-local', label: 'Irish local', bodies: ['ireland-local'], icon: 'irish-local', colour: '#0b8a6a' },
   // Before partition the councils were elected so differently, and so often, that their years
   // have a shelf of their own (Phelim Birch's review, 11 Nov 2026).
