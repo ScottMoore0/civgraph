@@ -112,7 +112,7 @@ export function ingestGraph(db, { graphDir }) {
     // Published ids the graph no longer has (indexes/entity-aliases.json, scripts/lib/
     // graph-id-ledger.mjs): "alias:<old id>" -> the entity it became, which /_api/graph?entity=
     // answers with; and the old readable slugs, after every live one.
-    const aliases = readJson(path.join(idx, 'entity-aliases.json'), null);
+    const aliases = /** @type {{ ids?: Record<string, string>, slugs?: Record<string, string> } | null} */ (readJson(path.join(idx, 'entity-aliases.json'), null));
     for (const [prefix, map] of /** @type {[string, Record<string, string> | undefined][]} */ ([['alias:', aliases?.ids], ['slug:', aliases?.slugs]])) {
       for (const [old, id] of Object.entries(map || {})) {
         const key = `${prefix}${old}`;
