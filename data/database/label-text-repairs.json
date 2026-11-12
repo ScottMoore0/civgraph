@@ -4293,7 +4293,7 @@
       "sources": [
         "render/source-cache/vector-intake/translink-bus-stops-2024.fgb"
       ],
-      "note": "The apostrophes were right single quotation marks (U+2019); the trailing damage on three Old Mill stops is dropped.",
+      "note": "The apostrophes were right single quotation marks (U+2019); the trailing damage on three Old Mill stops is dropped. Taobh an tStrúthain (Brookside), LocationID 16085, AtcoCode 700000016002 (Co. Donegal, 55.13900 N, 7.45050 W): Translink's own spelling, read from its Bus Stop List on OpenDataNI (dataset translink-bus-stop-list), whose January 2018 CSV and earlier CSV (Windows-1252) store byte 0xFA, ú, where the 2024 GeoJSON export (export10042024.geojson, this layer's source) has U+FFFD. Translink's current list (bus-stop-export-20260923.xlsx, fetched 12 Nov 2026) no longer includes the stop. Translink writes tStrúthain; the standard Irish for Brookside is Taobh an tSrutháin, but a stop keeps the operator's own name.",
       "values": {
         "Old Mill Dale����": "Old Mill Dale",
         "Old Mill Close���": "Old Mill Close",
@@ -4306,18 +4306,12 @@
         "O�Riada Court": "O’Riada Court",
         "St Columb�s Park Gate": "St Columb’s Park Gate",
         "Thompson�s Corner": "Thompson’s Corner",
-        "Carton�s Cross": "Carton’s Cross"
+        "Carton�s Cross": "Carton’s Cross",
+        "Taobh an tStr�thain (Brookside)": "Taobh an tStrúthain (Brookside)"
       }
     }
   },
-  "review": [
-    {
-      "layer": "translink-bus-stops-2024",
-      "field": "Stop_Name",
-      "value": "Taobh an tStr�thain (Brookside)",
-      "note": "Irish for Brookside is \"Taobh an tSrutháin\"; the source spells it with an extra t and the damaged letter is not settled. Needs the Translink name."
-    }
-  ],
+  "review": [],
   "nfc": {
     "note": "Every string attribute is normalised to NFC. These sources carried \"Dún Braoin\" as u + U+0301.",
     "layers": {
