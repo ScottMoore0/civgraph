@@ -21,7 +21,9 @@ test('boundaries: units and rules follow the plan table', () => {
   assert.equal(unitOf('functions/_api/elections/index.js'), 'functions');
   assert.equal(unitOf('data/registries/councils.json'), null);
   assert.equal(allowed('api', 'storage'), true);
-  assert.equal(allowed('api', 'ui'), false);
+  // A departure from the plan table (rf9-ui, 12 Nov 2026): the PRONI record page's server render
+  // (api handlers/proni/page.js) writes the record with ui's record-view.js. Never the other way.
+  assert.equal(allowed('api', 'ui'), true);
   assert.equal(allowed('ui', 'api'), false, 'templates never query');
   assert.equal(allowed('loader', 'api'), false);
   assert.equal(allowed('functions', 'loader'), false);
