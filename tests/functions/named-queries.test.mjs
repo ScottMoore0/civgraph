@@ -200,3 +200,22 @@ test('every PRONI query prepares on the PRONI schema', async () => {
     await prepareAll('proni', db);
   } finally { db.close(); }
 });
+
+test('no Function file outside the named queries holds a whole SQL statement', () => {
+  // A string that starts a statement. Clause fragments assembled at run time (the generic filters
+  // of _browse-index.js, PRONI's buildFilters/buildMatch, a WHERE joined from named filters) are
+  // not statements and stay where they are.
+  const statement = /['"`]\s*(SELECT|INSERT|UPDATE|DELETE|REPLACE|WITH|CREATE|DROP|ALTER)\s/;
+  const holding = [...walk(FUNCTIONS), ...walk(path.join(REPO_ROOT, 'packages', 'api', 'src'))]
+    .filter((f) => !f.startsWith(QUERIES + path.sep))
+    .filter((f) => statement.test(readFileSync(f, 'utf8').replace(/^\s*(\/\/|\*).*$/gm, '')))
+    .map((f) => path.relative(REPO_ROOT, f).split(path.sep).join('/'))
+    .sort();
+  assert.deepEqual(holding, [], 'move the statement into packages/api/src/queries/ as a named query');
+});
+
+test('the stats figures are named queries, one per figure /_api/stats answers', async () => {
+  const { STATS } = await import(pathToFileURL(path.join(QUERIES, 'stats.js')).href);
+  assert.deepEqual(Object.keys(STATS), ['elections', 'electionContests', 'candidacies', 'people', 'cataloguedSources', 'parties', 'registerEntries', 'divisions', 'graphEntities']);
+  for (const sql of Object.values(STATS)) assert.match(sql, /^SELECT COUNT\(\*\) AS n FROM \w+$/);
+});

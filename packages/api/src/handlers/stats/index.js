@@ -6,24 +6,13 @@
  *   GET /_api/stats -> { elections, electionContests, candidacies, people, cataloguedSources,
  *                        parties, registerEntries, divisions, graphEntities, version }
  */
-import { T, cachedJson, datasetState, jsonResponse } from '../_records.js';
+import { cachedJson, datasetState, jsonResponse } from '../_records.js';
 import { reportError } from '../_error.js';
 import { binding } from '../../../../config/src/config.js';
 import { fromD1 } from '../../../../storage/src/d1.js';
+import { STATS } from '../../queries/stats.js';
 
 const VERSION = 'stats-1';
-
-const COUNTS = {
-  elections: `SELECT COUNT(*) AS n FROM ${T.elections}`,
-  electionContests: 'SELECT COUNT(*) AS n FROM contests',
-  candidacies: 'SELECT COUNT(*) AS n FROM candidacies',
-  people: 'SELECT COUNT(*) AS n FROM person_cards',
-  cataloguedSources: 'SELECT COUNT(*) AS n FROM sources',
-  parties: 'SELECT COUNT(*) AS n FROM party_cards',
-  registerEntries: 'SELECT COUNT(*) AS n FROM register_entries',
-  divisions: 'SELECT COUNT(*) AS n FROM divisions',
-  graphEntities: 'SELECT COUNT(*) AS n FROM graph_entities',
-};
 
 /** @param {import('../../types.js').ApiContext} context */
 export async function onRequestGet(context) {
@@ -33,7 +22,7 @@ export async function onRequestGet(context) {
     try {
       // through the storage adapter (packages/storage/): the same SQL over D1 or SQLite
       const store = fromD1(db);
-      const entries = await Promise.all(Object.entries(COUNTS).map(async ([name, sql]) => [name, (await store.value(sql)) ?? 0]));
+      const entries = await Promise.all(Object.entries(STATS).map(async ([name, sql]) => [name, (await store.value(sql)) ?? 0]));
       const { version } = await datasetState(db);
       return jsonResponse({ ...Object.fromEntries(entries), version });
     } catch (error) {
