@@ -22,16 +22,27 @@ import { partyBody } from './party.js';
 import { personBody } from './person.js';
 import { registerInterestBody } from './register-interest.js';
 import { sourceBody } from './source.js';
+import { PAGE_TYPES } from '../../page-types.mjs';
 
-export const SSR_RECORD_TYPES = {
-  persons: { body: personBody, crumb: 'People', listHash: '#/persons' },
-  sources: { body: sourceBody, crumb: 'Sources', listHash: '#/sources' },
-  'register-interests': { body: registerInterestBody, crumb: 'Register of interests', listHash: '#/register-interests' },
-  // From the records tables (data design phase 2): an election page is assembled from several
-  // rows (packages/api/src/pages/election.js loadElectionPage), a party from party_cards.
-  elections: { body: electionBody, crumb: 'Elections', listHash: '#/elections' },
-  parties: { body: partyBody, crumb: 'Parties', listHash: '#/parties' },
+/** Each server-rendered page type's body template (the page-types registry's `ssr` types). */
+const SSR_BODIES = {
+  persons: personBody,
+  sources: sourceBody,
+  'register-interests': registerInterestBody,
+  elections: electionBody,
+  parties: partyBody,
 };
+
+/**
+ * The types rendered on the server, with their body template, breadcrumb and Browse list: the
+ * page-types registry's `ssr` types (packages/ui/src/page-types.mjs), in its order.
+ * @type {{ [type: string]: { body: (typeof SSR_BODIES)[keyof typeof SSR_BODIES], crumb: string, listHash: string } }}
+ */
+export const SSR_RECORD_TYPES = Object.fromEntries(PAGE_TYPES.filter((type) => type.ssr).map((type) => [type.id, {
+  body: SSR_BODIES[/** @type {keyof typeof SSR_BODIES} */ (type.id)],
+  crumb: /** @type {string} */ (type.crumb),
+  listHash: `#/${type.id}`,
+}]));
 
 /**
  * How a record page is served (refactor FN-L, a mode, not a machine: chosen per request from
@@ -58,7 +69,7 @@ const SSR_MODE_FLAGS = Object.freeze(/** @type {Record<SsrMode, { ssr: boolean, 
  * @returns {SsrMode}
  */
 export function ssrModeName(env, type, url) {
-  if (!SSR_RECORD_TYPES[/** @type {keyof typeof SSR_RECORD_TYPES} */ (type)]) return 'legacy';
+  if (!SSR_RECORD_TYPES[type]) return 'legacy';
   const listed = runtimeVar(env, 'CIVGRAPH_SSR_RECORDS').split(',').map((s) => s.trim()).filter(Boolean);
   if (listed.includes('all') || listed.includes(type)) return 'ssr';
   const previewAllowed = String(env?.CIVGRAPH_SSR_PREVIEW || '') === '1';
@@ -88,7 +99,7 @@ export function ssrMode(env, type, url) {
  * @param {boolean} [p.preview]
  */
 export function renderRecordPage({ type, record, meta, pageTitle, canonical, preview = false }) {
-  const config = SSR_RECORD_TYPES[/** @type {keyof typeof SSR_RECORD_TYPES} */ (type)];
+  const config = SSR_RECORD_TYPES[type];
   if (!config) throw new Error(`no server-rendered template for ${type}`);
   // Each type's body takes that type's record; the caller passes the record of `type`.
   const { body, jsonLd } = /** @type {(record: object, options: { canonical?: string }) => { body: import('../../../../core/src/html.js').SafeHtml, jsonLd: object }} */ (config.body)(record, { canonical });

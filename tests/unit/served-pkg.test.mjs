@@ -44,6 +44,7 @@ const SERVED = [
   'pkg/registries/src/browser/party-palettes.mjs',
   'pkg/registries/src/browser/statuses.data.mjs',
   'pkg/registries/src/browser/statuses.mjs',
+  'pkg/ui/src/page-types.mjs',
   'pkg/ui/src/templates/components/index.js',
 ];
 

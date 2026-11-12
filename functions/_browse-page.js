@@ -51,6 +51,7 @@ import { renderRecordPage, ssrMode } from '../packages/ui/src/templates/records/
 import { withShareTags } from '../packages/ui/src/templates/share.js';
 import { loadElectionPage, loadPersonContestSources } from '../packages/api/src/pages/election.js';
 import { groupedYearHero, groupedYearKey } from '../packages/ui/src/templates/records/grouped-year.js';
+import { PAGE_TYPES } from '../packages/ui/src/page-types.mjs';
 import { resolveElectionSlugAlias } from '../packages/core/src/election-slug-aliases.js';
 import { SITE, binding } from '../packages/config/src/config.js';
 import { asStore } from '../packages/storage/src/d1.js';
@@ -107,16 +108,16 @@ const NOT_A_PARTY = new Set(['No label', 'No party recorded']);
  * @property {GroupedYear} [groupedYear]   a grouped local-election year
  */
 
-/** @type {Record<string, { singular: string, table?: string, aliasTable?: string }>} */
-export const BROWSE_PAGE_TYPES = {
-  persons: { singular: 'Person', table: 'person_cards', aliasTable: 'person_aliases' },
-  sources: { singular: 'Source', table: 'sources', aliasTable: 'source_aliases' },
-  'register-interests': { singular: 'Register interest', table: 'register_entries', aliasTable: 'register_entries_aliases' },
-  elections: { singular: 'Election' },
-  maps: { singular: 'Map' },
-  parties: { singular: 'Party / label' },
-  offices: { singular: 'Office' },
-};
+/**
+ * The record types with a page of their own, /browse/<type>/<slug>: the page-types registry
+ * (packages/ui/src/page-types.mjs), in its order, with what a record page's head reads.
+ * @type {Record<string, { singular: string, table?: string, aliasTable?: string }>}
+ */
+export const BROWSE_PAGE_TYPES = Object.fromEntries(PAGE_TYPES.map(({ id, singular, table, aliasTable }) => [id, {
+  singular,
+  ...(table ? { table } : {}),
+  ...(aliasTable ? { aliasTable } : {}),
+}]));
 
 const htmlEscape = (/** @type {unknown} */ value) => String(value ?? '')
   .replace(/&/g, '&amp;')
