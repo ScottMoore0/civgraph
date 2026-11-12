@@ -213,6 +213,31 @@ def crosswalk_redirects(xwalk, merges, final, ents):
     return out
 
 
+def carried_rows(prior, merges, ents):
+    """The rows of the merge log on file that a pass writing a new log must keep.
+
+    The registry build starts each re-stamp with no merged ids, so the first merge pass logs every
+    id it retires. A later pass of the same loop rewrote the log with its own merges only: when the
+    crosswalk pairs of c10-merge-leads made a second pass join three people the first had put in
+    the same seat (John McGuinness, Harry Blaney, Thomas Brennan), the first pass's rows left the
+    log, and the ids they retired stayed in their survivors' mergedFrom with nothing to redirect
+    them. A row is kept where its drop is still in a live person's mergedFrom and this pass has not
+    logged it, with that person as its keep. Pure: returns the rows."""
+    absorbed = {}
+    for pid, e in ents.items():
+        for d in e.get('mergedFrom') or []:
+            absorbed[int(d)] = pid
+    logged = {int(m['drop']) for m in merges}
+    out = []
+    for r in prior:
+        drop = str(r.get('drop') or '').strip()
+        if not drop.isdigit() or int(drop) in ents or int(drop) in logged or int(drop) not in absorbed:
+            continue
+        logged.add(int(drop))
+        out.append({**r, 'keep': absorbed[int(drop)], 'drop': int(drop)})
+    return out
+
+
 def party_of(c):
     """A candidate's party, as a comparison key: "Workers' Party" and "Workers Party", or
     "Sinn Féin" and "Sinn Fein", are one party. "No party recorded" (before 1832) is none,
@@ -669,6 +694,9 @@ def main():
                                   'see scripts/ingest/persons/merge_person_ids.py for the tests applied.')
     write_json_retrying(REG, reg)
     merges += crosswalk_redirects(xwalk, merges, final, ents)
+    if os.path.exists(LOG):
+        with open(LOG, encoding='utf-8', newline='') as fh:
+            merges += carried_rows(list(csv.DictReader(fh)), merges, ents)
     with open(LOG, 'w', encoding='utf-8', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=list(merges[0].keys()))
         w.writeheader(); w.writerows(merges)
