@@ -11,7 +11,8 @@
  * 1. Cheap checks first: the dataset rows (version, the table counts and checksums the build
  *    recorded, the loading flag; LIMIT 100), the schema (sqlite_master, LIMIT 1000; compared as a
  *    hash and by name) and the bounds: per table, whether D1 has a row below the build's first key
- *    or above its last (two index seeks of one row each, all tables in one statement). A difference
+ *    or above its last (two index seeks of one row each, five tables per statement: D1 refuses a
+ *    compound SELECT of more terms). A difference
  *    here fails at once and nothing else is read: the ranges could not match. About 400 rows read.
  * 2. Bounded range checksums. Every table of the local build is cut into ranges of its primary key
  *    (at most --range-rows rows, default 10,000, and about --range-bytes of row data, default
@@ -39,6 +40,9 @@
  *    estimate (+1,000) stops the run. Any 7429 stops the run at
  *    once (--overload-retries N to wait and retry instead: 60 s, then doubling); a 7403 (Cloudflare's
  *    transient authorisation refusal of 8 Nov) is retried after 15..240 s as verify-load does.
+ *    wrangler aborting with no answer from D1 (on Windows it aborts after every error, libuv's
+ *    UV_HANDLE_CLOSING assertion) is retried twice, after 5 and 20 s, each lost try counted as its
+ *    estimate; D1's own error, read from wrangler's JSON, is reported as D1 said it.
  * 6. Resumable: the plan is cached per build (tmp/records/safe-verify/plan-*.json) and the run's
  *    state (selection, each range's result, rows read) is written after every statement to
  *    tmp/records/safe-verify/state-<target>.json; --resume carries on where a stopped run left off
@@ -69,7 +73,7 @@ import { datasetLoadState, LOADING_KEY, loadingValue } from './dataset-state.mjs
 import { q } from './diff-load.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import {
-  BOUNDS, D1_NAME, deltaKeys, isOverloaded, isTransientAuth, sampleKeys, sleepSync, wranglerQuery,
+  BOUNDS, D1_NAME, deltaKeys, isOverloaded, isTransientAuth, isWranglerCrash, sampleKeys, sleepSync, wranglerQuery,
 } from './verify-load.mjs';
 
 /** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
@@ -109,6 +113,9 @@ export const SAFE = {
   overloadWaitMs: 60_000,
   overloadRetries: 0,
   authBackoffMs: BOUNDS.backoffMs,
+  // wrangler aborting with no answer from D1 (verify-load.mjs's WranglerError): retried after these
+  // waits, each lost attempt counted as its estimate against the budget (D1 may have run it).
+  crashBackoffMs: [5_000, 20_000],
   scanFactor: 4,
   scanSlack: 1000,
   drill: 3,
@@ -186,14 +193,16 @@ export function rangeKeysSql(t, r, extra = SAFE.drillExtraRows) {
 
 /**
  * The bounds check: per table, whether D1 holds a row below the build's first key or above its
- * last (two index seeks of at most one row each), in as few statements as fit wrangler's command
- * line. With the ranges, which only cover the build's first to last key in their counts, this
- * accounts for every row: none outside, the right ones inside.
+ * last (two index seeks of at most one row each), at most `maxTerms` tables per statement (D1's
+ * compound SELECT limit) and as many as fit wrangler's command line. With the ranges, which only
+ * cover the build's first to last key in their counts, this accounts for every row: none outside,
+ * the right ones inside.
  * @param {TablePlan[]} tables
  * @param {number} [maxBytes]
+ * @param {number} [maxTerms]
  * @returns {{ sql: string, tables: string[] }[]}
  */
-export function boundsSql(tables, maxBytes = BOUNDS.statementBytes - 512) {
+export function boundsSql(tables, maxBytes = BOUNDS.statementBytes - 512, maxTerms = BOUNDS.compoundTerms) {
   /** @type {{ sql: string, tables: string[] }[]} */
   const out = [];
   /** @type {string[]} */
@@ -207,7 +216,7 @@ export function boundsSql(tables, maxBytes = BOUNDS.statementBytes - 512) {
     const below = t.pk.length === 1 ? `${t.pk[0]} < ${q(t.first[0])}` : `(${t.pk.join(', ')}) < (${t.first.map(q).join(', ')})`;
     const above = t.pk.length === 1 ? `${t.pk[0]} > ${q(t.last[0])}` : `(${t.pk.join(', ')}) > (${t.last.map(q).join(', ')})`;
     const part = `SELECT '${t.name}' AS t, ${one(below)} AS below, ${one(above)} AS above`;
-    if (parts.length && Buffer.byteLength([...parts, part].join(' UNION ALL ')) > maxBytes) flush();
+    if (parts.length >= maxTerms || (parts.length && Buffer.byteLength([...parts, part].join(' UNION ALL ')) > maxBytes)) flush();
     parts.push(part);
     names.push(t.name);
   }
@@ -227,6 +236,12 @@ export function scannedTables(db, sql) {
 }
 
 /**
+ * The terms of a statement's compound SELECTs (UNION [ALL], INTERSECT, EXCEPT), string literals aside.
+ * @param {string} sql
+ */
+export const compoundTerms = (sql) => 1 + (sql.replace(/'(?:[^']|'')*'/g, "''").match(/\b(?:UNION|INTERSECT|EXCEPT)\b/gi) || []).length;
+
+/**
  * Refuse a statement that would scan a records table (other than `wholeTable`, a small table read
  * whole under its LIMIT) or that has no LIMIT. Thrown before anything is sent.
  * @param {SqliteHandle} db the local build, whose schema equals D1's (the cheap checks)
@@ -236,6 +251,8 @@ export function scannedTables(db, sql) {
 export function assertBounded(db, sql, wholeTable = null) {
   if (!/ LIMIT \d+\b/.test(sql)) throw new StopRun('guard', `refused: no LIMIT on ${sql.slice(0, 160)}`);
   if (Buffer.byteLength(sql) > BOUNDS.statementBytes) throw new StopRun('guard', `refused: a statement of ${Buffer.byteLength(sql)} bytes (wrangler's command line)`);
+  const terms = compoundTerms(sql);
+  if (terms > BOUNDS.compoundTerms) throw new StopRun('guard', `refused: a compound SELECT of ${terms} terms (D1 allows ${BOUNDS.compoundTerms})`);
   const scans = scannedTables(db, sql).filter((name) => name !== wholeTable);
   if (scans.length) throw new StopRun('guard', `refused: the statement would scan ${scans.join(', ')}: ${sql.slice(0, 160)}`);
 }
@@ -755,7 +772,7 @@ export function schemaHash(rows, only) {
  * @param {{ file: string, query: Query, target: string, stateFile?: string, cacheDir?: string,
  *   full?: boolean, sample?: number, deltaRanges?: number, seed?: number, budget?: number, pauseMs?: number,
  *   rangeRows?: number, rangeBytes?: number, resume?: boolean, planOnly?: boolean, drill?: number,
- *   overloadRetries?: number, overloadWaitMs?: number, authBackoffMs?: number[],
+ *   overloadRetries?: number, overloadWaitMs?: number, authBackoffMs?: number[], crashBackoffMs?: number[],
  *   since?: string | null, deltaDir?: string | null, noDelta?: boolean, snapshot?: string | null,
  *   defaultDeltaDir?: string | null, sleep?: (ms: number) => void, log?: (line: string) => void }} o
  * @returns {Report}
@@ -878,6 +895,7 @@ export function safeVerify(o) {
     if (report.statements > 0) sleep(pauseMs);
     /** @type {QueryRows} */
     let rows;
+    let crashes = 0;
     for (let attempt = 0; ; attempt += 1) {
       try {
         report.statements += 1;
@@ -899,6 +917,18 @@ export function safeVerify(o) {
         if (isTransientAuth(error) && attempt < backoff.length) {
           log(`  D1 refused the request (7403): waiting ${backoff[attempt] / 1000} s before retry ${attempt + 1} of ${backoff.length}`);
           sleep(backoff[attempt]);
+          continue;
+        }
+        const crashWaits = o.crashBackoffMs ?? SAFE.crashBackoffMs;
+        if (isWranglerCrash(error) && crashes < crashWaits.length) {
+          // No answer, so no meta.rows_read: D1 may have run the statement, so its estimate is
+          // counted as read, and the retry must still fit the budget.
+          report.rowsRead += estimate;
+          run.rowsRead += estimate;
+          if (!cheap && report.rowsRead + estimate > budget) throw new StopRun('budget', `rows_read budget: wrangler aborted with no answer (counted as ${estimate} read) and a retry could pass the budget ${budget}; --resume to carry on`);
+          log(`  wrangler aborted with no answer from D1: waiting ${crashWaits[crashes] / 1000} s before retry ${crashes + 1} of ${crashWaits.length} (counted ${estimate} rows_read)`);
+          sleep(crashWaits[crashes]);
+          crashes += 1;
           continue;
         }
         throw new StopRun('error', `the statement failed: ${String(/** @type {Error} */ (error)?.message || error).slice(0, 400)}`);

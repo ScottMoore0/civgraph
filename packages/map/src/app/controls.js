@@ -198,8 +198,8 @@ export class MapControlMethods {
    * basemap is someone's choice, even if the person opening it is not the one who
    * made it.
    *
-   * An id that is not a base map any more (the Esri ones, removed 11 Nov 2026, in an address
-   * saved before) is the default instead (resolveBaseMapId), and is not counted as a choice.
+   * An id that is not a base map any more (the Esri, CARTO and Stamen ones, removed 11 Nov 2026,
+   * in an address saved before) is the default instead (resolveBaseMapId), and is not counted as a choice.
    */
   async applyBaseMap(baseMapId, { userChoice = false } = {}) {
     this.baseMapId = resolveBaseMapId(baseMapId);

@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 150212,
+ "idHighWater": 150469,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -45,8 +45,8 @@
    "fix-john-carson-ballymena"
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
-  "crossSystemMerges": 1063,
-  "sameNameLeftSplit": 2815
+  "crossSystemMerges": 1064,
+  "sameNameLeftSplit": 2823
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -9904,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150129
+    150407
    ]
   },
   {
@@ -12303,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150178
+    150454
    ]
   },
   {
@@ -13586,7 +13586,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    150130
+    150408
    ]
   },
   {
@@ -25203,7 +25203,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150180
+    150456
    ]
   },
   {
@@ -42116,7 +42116,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    150076
+    150354
    ]
   },
   {
@@ -43170,7 +43170,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150181
+    150457
    ]
   },
   {
@@ -60504,7 +60504,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150148
+    150424
    ]
   },
   {
@@ -62410,10 +62410,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150087,
-    150103,
-    150151,
-    150152
+    150365,
+    150381,
+    150427,
+    150428
    ]
   },
   {
@@ -62725,10 +62725,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150114,
-    150115,
-    150132,
-    150186
+    150392,
+    150393,
+    150410,
+    150462
    ]
   },
   {
@@ -63419,10 +63419,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150092,
-    150093,
-    150160,
-    150161
+    150370,
+    150371,
+    150436,
+    150437
    ]
   },
   {
@@ -63459,10 +63459,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150094,
-    150108,
-    150120,
-    150162
+    150372,
+    150386,
+    150398,
+    150438
    ]
   },
   {
@@ -63966,8 +63966,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150112,
-    150179
+    150390,
+    150455
    ]
   },
   {
@@ -64127,11 +64127,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150099,
-    150116,
-    150188,
-    150189,
-    150190
+    150377,
+    150394,
+    150464,
+    150465,
+    150466
    ]
   },
   {
@@ -64906,10 +64906,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150079,
-    150085,
-    150143,
-    150144
+    150357,
+    150363,
+    150419,
+    150420
    ]
   },
   {
@@ -65829,12 +65829,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150113,
-    150131,
-    150182,
-    150183,
-    150184,
-    150185
+    150391,
+    150409,
+    150458,
+    150459,
+    150460,
+    150461
    ]
   },
   {
@@ -70231,9 +70231,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150080,
-    150081,
-    150105
+    150358,
+    150359,
+    150383
    ]
   },
   {
@@ -70271,11 +70271,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150090,
-    150106,
-    150107,
-    150119,
-    150157
+    150368,
+    150384,
+    150385,
+    150397,
+    150433
    ]
   },
   {
@@ -70312,10 +70312,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150077,
-    150082,
-    150169,
-    150170
+    150355,
+    150360,
+    150445,
+    150446
    ]
   },
   {
@@ -72466,11 +72466,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150078,
-    150133,
-    150134,
-    150135,
-    150191
+    150356,
+    150411,
+    150412,
+    150413,
+    150467
    ]
   },
   {
@@ -75603,12 +75603,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150083,
-    150109,
-    150125,
-    150126,
-    150171,
-    150172
+    150361,
+    150387,
+    150403,
+    150404,
+    150447,
+    150448
    ]
   },
   {
@@ -75646,11 +75646,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150084,
-    150097,
-    150110,
-    150173,
-    150174
+    150362,
+    150375,
+    150388,
+    150449,
+    150450
    ]
   },
   {
@@ -75690,13 +75690,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150098,
-    150111,
-    150127,
-    150128,
-    150175,
-    150176,
-    150177
+    150376,
+    150389,
+    150405,
+    150406,
+    150451,
+    150452,
+    150453
    ]
   },
   {
@@ -83465,12 +83465,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150086,
-    150100,
-    150101,
-    150102,
-    150146,
-    150147
+    150364,
+    150378,
+    150379,
+    150380,
+    150422,
+    150423
    ]
   },
   {
@@ -83636,11 +83636,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150088,
-    150089,
-    150104,
-    150155,
-    150156
+    150366,
+    150367,
+    150382,
+    150431,
+    150432
    ]
   },
   {
@@ -83676,9 +83676,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150091,
-    150158,
-    150159
+    150369,
+    150434,
+    150435
    ]
   },
   {
@@ -83717,12 +83717,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150095,
-    150096,
-    150122,
-    150123,
-    150124,
-    150168
+    150373,
+    150374,
+    150400,
+    150401,
+    150402,
+    150444
    ]
   },
   {
@@ -107014,9 +107014,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1958,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1955,
    "lastYear": 1981,
    "bodies": [
     "banbridge-rural-district-council",
@@ -108382,16 +108382,18 @@
     "hamilton mckeag"
    ],
    "sourceIds": [
+    "Hamilton McKeag|UUP",
     "T4015964093"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1973,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1967,
    "lastYear": 1981,
    "bodies": [
-    "local-government"
+    "local-government",
+    "north-down-rural-district-council"
    ],
    "parties": [
     "UUP"
@@ -121013,10 +121015,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150139,
-    150140,
-    150141,
-    150142
+    150415,
+    150416,
+    150417,
+    150418
    ]
   },
   {
@@ -121051,8 +121053,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150117,
-    150145
+    150395,
+    150421
    ]
   },
   {
@@ -126362,10 +126364,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150164,
-    150165,
-    150166,
-    150167
+    150440,
+    150441,
+    150442,
+    150443
    ]
   },
   {
@@ -166321,7 +166323,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150150
+    150426
    ]
   },
   {
@@ -169892,7 +169894,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150149
+    150425
    ]
   },
   {
@@ -207550,8 +207552,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150153,
-    150154
+    150429,
+    150430
    ]
   },
   {
@@ -207585,7 +207587,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150163
+    150439
    ]
   },
   {
@@ -213410,8 +213412,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 10,
-   "contests": 10,
+   "candidacies": 11,
+   "contests": 11,
    "firstYear": 1936,
    "lastYear": 1977,
    "bodies": [
@@ -270281,7 +270283,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150187
+    150463
    ]
   },
   {
@@ -362275,7 +362277,7 @@
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "mergedFrom": [
-    150136
+    150414
    ]
   },
   {
@@ -415002,7 +415004,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    150193
+    150469
    ]
   },
   {
@@ -514143,7 +514145,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150118
+    150396
    ]
   },
   {
@@ -563095,7 +563097,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    150121
+    150399
    ]
   },
   {
@@ -577896,7 +577898,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    150192
+    150468
    ]
   },
   {
@@ -756815,12 +756817,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1914,
-   "lastYear": 1914,
+   "lastYear": 1955,
    "bodies": [
-    "lurgan-rural-district-council"
+    "lurgan-rural-district-council",
+    "moira-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -807345,9 +807348,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1936,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1934,
    "lastYear": 1955,
    "bodies": [
     "kilkeel-urban-district-council"
@@ -842882,12 +842885,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1955,
    "bodies": [
-    "gilford-town-commissioners"
+    "gilford-town-commissioners",
+    "north-down-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -875041,8 +875045,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1949,
    "lastYear": 1967,
    "bodies": [
@@ -882734,9 +882738,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1936,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1934,
    "lastYear": 1936,
    "bodies": [
     "kilkeel-urban-district-council"
@@ -894076,7 +894080,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142047",
@@ -907495,9 +907500,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1936,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1934,
    "lastYear": 1936,
    "bodies": [
     "kilkeel-urban-district-council"
@@ -927917,7 +927922,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p143468",
@@ -935054,8 +935060,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1927,
    "lastYear": 1964,
    "bodies": [
@@ -935252,8 +935258,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1924,
    "lastYear": 1967,
    "bodies": [
@@ -935337,12 +935343,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1927,
-   "lastYear": 1946,
+   "lastYear": 1958,
    "bodies": [
-    "down-county-council"
+    "down-county-council",
+    "north-down-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -935906,8 +935913,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1936,
    "lastYear": 1958,
    "bodies": [
@@ -936607,8 +936614,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1949,
    "lastYear": 1967,
    "bodies": [
@@ -939511,9 +939518,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1961,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1958,
    "lastYear": 1967,
    "bodies": [
     "moira-rural-district-council"
@@ -940269,8 +940276,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1927,
    "lastYear": 1964,
    "bodies": [
@@ -941531,8 +941538,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1952,
    "lastYear": 1964,
    "bodies": [
@@ -941585,8 +941592,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1936,
    "lastYear": 1958,
    "bodies": [
@@ -941612,8 +941619,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1946,
    "lastYear": 1961,
    "bodies": [
@@ -947951,8 +947958,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
    "lastYear": 1958,
    "bodies": [
@@ -950950,10 +950957,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1946,
-   "lastYear": 1949,
+   "lastYear": 1955,
    "bodies": [
     "banbridge-rural-district-council"
    ],
@@ -952952,8 +952959,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
    "lastYear": 1958,
    "bodies": [
@@ -955685,8 +955692,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1949,
    "lastYear": 1961,
    "bodies": [
@@ -957941,9 +957948,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1958,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1955,
    "lastYear": 1967,
    "bodies": [
     "banbridge-rural-district-council",
@@ -965019,10 +965026,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1955,
    "bodies": [
     "banbridge-rural-district-council"
    ],
@@ -965075,10 +965082,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1958,
    "bodies": [
     "north-down-rural-district-council"
    ],
@@ -967435,7 +967442,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145180",
@@ -967789,9 +967797,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1958,
    "lastYear": 1961,
    "bodies": [
     "north-down-rural-district-council"
@@ -967900,10 +967908,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1955,
    "bodies": [
     "north-down-rural-district-council"
    ],
@@ -983831,7 +983839,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145785",
@@ -987366,10 +987375,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1958,
    "bodies": [
     "moira-rural-district-council"
    ],
@@ -988274,7 +988283,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145949",
@@ -989199,10 +989209,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1958,
    "bodies": [
     "north-down-rural-district-council"
    ],
@@ -990636,10 +990646,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1958,
    "bodies": [
     "north-down-rural-district-council"
    ],
@@ -991312,10 +991322,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
-   "lastYear": 1952,
+   "lastYear": 1955,
    "bodies": [
     "banbridge-rural-district-council"
    ],
@@ -993637,9 +993647,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "banbridge-rural-district-council"
@@ -1005212,10 +1005222,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1958,
    "bodies": [
     "north-down-rural-district-council"
    ],
@@ -1010454,7 +1010464,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p146740",
@@ -1013420,9 +1013431,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "banbridge-rural-district-council"
@@ -1014102,9 +1014113,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "banbridge-rural-district-council"
@@ -1017696,7 +1017707,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147001",
@@ -1021581,9 +1021593,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "banbridge-rural-district-council"
@@ -1027681,9 +1027693,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "banbridge-rural-district-council"
@@ -1064016,9 +1064028,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1958,
    "bodies": [
     "banbridge-rural-district-council"
@@ -1078351,6 +1078363,693 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:9643)",
+   "provisional": true
+  },
+  {
+   "id": "p150274",
+   "personId": 150274,
+   "displayName": "A. M'C. Dickson",
+   "aliases": [
+    "A. M'C. Dickson"
+   ],
+   "matchKeys": [
+    "a m c dickson"
+   ],
+   "sourceIds": [
+    "A. M'C. Dickson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150275",
+   "personId": 150275,
+   "displayName": "David Cecil M'Elroy",
+   "aliases": [
+    "David Cecil M'Elroy"
+   ],
+   "matchKeys": [
+    "david cecil m elroy"
+   ],
+   "sourceIds": [
+    "David Cecil M'Elroy|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "banbridge-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150276",
+   "personId": 150276,
+   "displayName": "Edward M'Gonigal",
+   "aliases": [
+    "Edward M'Gonigal"
+   ],
+   "matchKeys": [
+    "edward m gonigal"
+   ],
+   "sourceIds": [
+    "Edward M'Gonigal|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1934,
+   "lastYear": 1934,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150281",
+   "personId": 150281,
+   "displayName": "James M'Kee",
+   "aliases": [
+    "James M'Kee"
+   ],
+   "matchKeys": [
+    "james m kee"
+   ],
+   "sourceIds": [
+    "James M'Kee|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1934,
+   "lastYear": 1934,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150284",
+   "personId": 150284,
+   "displayName": "T. N. M'Lay",
+   "aliases": [
+    "T. N. M'Lay"
+   ],
+   "matchKeys": [
+    "t n m lay"
+   ],
+   "sourceIds": [
+    "T. N. M'Lay|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150286",
+   "personId": 150286,
+   "displayName": "W. F. T. M'Mordie",
+   "aliases": [
+    "W. F. T. M'Mordie"
+   ],
+   "matchKeys": [
+    "w f t m mordie"
+   ],
+   "sourceIds": [
+    "W. F. T. M'Mordie|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150292",
+   "personId": 150292,
+   "displayName": "A. H. Porter",
+   "aliases": [
+    "A. H. Porter"
+   ],
+   "matchKeys": [
+    "a h porter"
+   ],
+   "sourceIds": [
+    "A. H. Porter|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150295",
+   "personId": 150295,
+   "displayName": "Chas. J. Phillips",
+   "aliases": [
+    "Chas. J. Phillips"
+   ],
+   "matchKeys": [
+    "chas j phillips"
+   ],
+   "sourceIds": [
+    "Chas. J. Phillips|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "moira-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150300",
+   "personId": 150300,
+   "displayName": "D. Hamilton",
+   "aliases": [
+    "D. Hamilton"
+   ],
+   "matchKeys": [
+    "d hamilton"
+   ],
+   "sourceIds": [
+    "D. Hamilton|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150304",
+   "personId": 150304,
+   "displayName": "Geo. E. McCartney",
+   "aliases": [
+    "Geo. E. McCartney"
+   ],
+   "matchKeys": [
+    "geo e mccartney"
+   ],
+   "sourceIds": [
+    "Geo. E. McCartney|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "moira-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150305",
+   "personId": 150305,
+   "displayName": "Geo. Phillips",
+   "aliases": [
+    "Geo. Phillips"
+   ],
+   "matchKeys": [
+    "geo phillips"
+   ],
+   "sourceIds": [
+    "Geo. Phillips|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150308",
+   "personId": 150308,
+   "displayName": "H. H. Stevenson",
+   "aliases": [
+    "H. H. Stevenson"
+   ],
+   "matchKeys": [
+    "h h stevenson"
+   ],
+   "sourceIds": [
+    "H. H. Stevenson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1934,
+   "lastYear": 1934,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150309",
+   "personId": 150309,
+   "displayName": "H. Moore",
+   "aliases": [
+    "H. Moore"
+   ],
+   "matchKeys": [
+    "h moore"
+   ],
+   "sourceIds": [
+    "H. Moore|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150316",
+   "personId": 150316,
+   "displayName": "J. Galbraith",
+   "aliases": [
+    "J. Galbraith"
+   ],
+   "matchKeys": [
+    "j galbraith"
+   ],
+   "sourceIds": [
+    "J. Galbraith|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150317",
+   "personId": 150317,
+   "displayName": "J. J. Fagan",
+   "aliases": [
+    "J. J. Fagan"
+   ],
+   "matchKeys": [
+    "j j fagan"
+   ],
+   "sourceIds": [
+    "J. J. Fagan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1934,
+   "lastYear": 1934,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150318",
+   "personId": 150318,
+   "displayName": "James B. Caughey",
+   "aliases": [
+    "James B. Caughey"
+   ],
+   "matchKeys": [
+    "james b caughey"
+   ],
+   "sourceIds": [
+    "James B. Caughey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150319",
+   "personId": 150319,
+   "displayName": "James B. Caughey",
+   "aliases": [
+    "James B. Caughey"
+   ],
+   "matchKeys": [
+    "james b caughey"
+   ],
+   "sourceIds": [
+    "James B. Caughey|Independent"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150320",
+   "personId": 150320,
+   "displayName": "John C. G. McQuoid",
+   "aliases": [
+    "John C. G. McQuoid"
+   ],
+   "matchKeys": [
+    "john c g mcquoid"
+   ],
+   "sourceIds": [
+    "John C. G. McQuoid|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "moira-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150326",
+   "personId": 150326,
+   "displayName": "R. Gibson",
+   "aliases": [
+    "R. Gibson"
+   ],
+   "matchKeys": [
+    "r gibson"
+   ],
+   "sourceIds": [
+    "R. Gibson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150327",
+   "personId": 150327,
+   "displayName": "R. J. Ferguson",
+   "aliases": [
+    "R. J. Ferguson"
+   ],
+   "matchKeys": [
+    "r j ferguson"
+   ],
+   "sourceIds": [
+    "R. J. Ferguson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1934,
+   "lastYear": 1934,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150328",
+   "personId": 150328,
+   "displayName": "R. J. Sloane",
+   "aliases": [
+    "R. J. Sloane"
+   ],
+   "matchKeys": [
+    "r j sloane"
+   ],
+   "sourceIds": [
+    "R. J. Sloane|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1934,
+   "lastYear": 1934,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150329",
+   "personId": 150329,
+   "displayName": "Robt. Malcomson",
+   "aliases": [
+    "Robt. Malcomson"
+   ],
+   "matchKeys": [
+    "robt malcomson"
+   ],
+   "sourceIds": [
+    "Robt. Malcomson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "moira-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150332",
+   "personId": 150332,
+   "displayName": "Samuel J. Watson",
+   "aliases": [
+    "Samuel J. Watson"
+   ],
+   "matchKeys": [
+    "samuel j watson"
+   ],
+   "sourceIds": [
+    "Samuel J. Watson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "moira-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p150340",
+   "personId": 150340,
+   "displayName": "Thos. C. Stevenson",
+   "aliases": [
+    "Thos. C. Stevenson"
+   ],
+   "matchKeys": [
+    "thos c stevenson"
+   ],
+   "sourceIds": [
+    "Thos. C. Stevenson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "moira-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p150351",
+   "personId": 150351,
+   "displayName": "W. Bennett",
+   "aliases": [
+    "W. Bennett"
+   ],
+   "matchKeys": [
+    "w bennett"
+   ],
+   "sourceIds": [
+    "W. Bennett|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "north-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {

@@ -21,6 +21,7 @@ import { partyFullName } from '../../../core/src/party-names.mjs';
 import { ENTITY_PAGE_LOAD } from '../../../../src/ui-state-machines.mjs';
 import { createState } from '../state-helpers.mjs';
 import { loadAllPages } from './paged-fetch.mjs';
+import { decodeMembers } from '../../../core/src/party-members.mjs';
 import {
   addPartyChanges,
   addStandings,
@@ -33,6 +34,18 @@ import {
   normaliseStatus,
   partyHeadlineCards
 } from '../../../../src/entity-detail-data.mjs';
+
+/**
+ * The names a party is known by, as its people are looked up: canonical name, title, short name,
+ * observed names and known aliases, each once.
+ */
+const partyAliases = (item = {}) => [...new Set([
+  item.canonicalName,
+  item.title,
+  item.shortName,
+  ...(item.observedNames || []),
+  ...(item.knownAliases || []),
+].filter(Boolean))];
 
 export class EntityBridgeMethods {
   /**
@@ -187,8 +200,16 @@ export class EntityBridgeMethods {
       if (!response.ok) { failure = new Error(`party ${candidateSlug}: ${response.status}`); continue; }
       const detail = await response.json();
       const item = detail.item || detail;
-      const persons = await this.loadPartyPersons(item);
-      return this.mapPartyBrowseItem(item, persons, index);
+      // The page shows as soon as the party is here; its candidate list follows (11 Nov 2026:
+      // Fianna Fáil's took seventeen requests, and the whole page waited for them).
+      const page = this.mapPartyBrowseItem(item, null, index);
+      const ready = this.loadPartyPersons(item).then((persons) => {
+        this.fillPartyCandidates(page, item, persons, index);
+        uiController.refreshElectionEntityPartyCandidates?.(page);
+        return page;
+      });
+      Object.defineProperty(page, 'candidatesReady', { value: ready, enumerable: false });
+      return page;
     }
     // Nothing found and something failed on the way: that is "could not load", not "no such party".
     if (failure) throw failure;
@@ -270,7 +291,17 @@ export class EntityBridgeMethods {
   }
 
   /**
-   * The persons who stood for one party, for its candidate summaries.
+   * The persons who stood for one party, for its candidate summaries: from the party's members
+   * view (loadPartyMembers()), or, where that cannot answer, from their cards (loadPartyCards()).
+   */
+  async loadPartyPersons(item = {}) {
+    if (!partyAliases(item).length) return { persons: [], capped: false };
+    const members = item.slug ? await this.loadPartyMembers(item.slug) : null;
+    return members || this.loadPartyCards(item);
+  }
+
+  /**
+   * The persons who stood for one party, as their whole Browse cards (/_api/persons?party=).
    *
    * buildPartyCandidateSummaries() matches on a party's aliases -- canonical name, title,
    * observed names, known aliases -- so all of them are sent.
@@ -279,16 +310,11 @@ export class EntityBridgeMethods {
    * have more: the page said "Candidates (200)" as if that were the party's total (UX review
    * 2026-10-31, H2). It is asked page by page; if it does not page (a second page identical to
    * the first, as the party query did before it took an offset) the result is marked capped and
-   * the page says the list is partial.
+   * the page says the list is partial. At 20 pages it held 4,000 people, so the UUP's 4,509 were
+   * cut short; the members view holds 10,000.
    */
-  async loadPartyPersons(item = {}) {
-    const aliases = [...new Set([
-      item.canonicalName,
-      item.title,
-      item.shortName,
-      ...(item.observedNames || []),
-      ...(item.knownAliases || []),
-    ].filter(Boolean))];
+  async loadPartyCards(item = {}, { maxPages = 20 } = {}) {
+    const aliases = partyAliases(item);
     if (!aliases.length) return { persons: [], capped: false };
     const PAGE = 200;
     // The pages after the first are asked a few at a time (paged-fetch.mjs): one after another,
@@ -305,8 +331,42 @@ export class EntityBridgeMethods {
       } catch {
         return null;
       }
-    }, { pageSize: PAGE, maxPages: 20, idOf: (person) => String(person.id || person.slug || '') });
+    }, { pageSize: PAGE, maxPages, idOf: (person) => String(person.id || person.slug || '') });
     return { persons, capped };
+  }
+
+  /**
+   * The same people from the party's members view (/_api/parties?slug=&view=members): the fields
+   * of each election row the candidate list reads, about a seventh of the cards' size, a page of
+   * 500 at a time (packages/core/src/party-members.mjs). The view finds them by the same names
+   * loadPartyPersons() sends, through an index rather than every card. Null when the view cannot
+   * answer (a deployment whose records load predates it answers 503): the caller then reads the
+   * cards as before.
+   */
+  async loadPartyMembers(slug) {
+    const PAGE = 500;
+    let unavailable = false;
+    const result = await loadAllPages(async (page) => {
+      const params = new URLSearchParams({ slug, view: 'members', limit: String(PAGE) });
+      if (page) params.set('offset', String(page * PAGE));
+      try {
+        const response = await fetch(`/_api/parties?${params}`, { cache: 'default' });
+        const payload = response.ok ? await response.json() : null;
+        if (!Array.isArray(payload?.members)) {
+          if (!page) unavailable = true;
+          return null;
+        }
+        return { rows: decodeMembers(payload), total: payload.total };
+      } catch {
+        if (!page) unavailable = true;
+        return null;
+      }
+    }, { pageSize: PAGE, maxPages: 20, idOf: (person) => person.slug });
+    if (unavailable) return null;
+    // In the people list's order, as the cards came: the candidate list keeps it where its own
+    // order ties (two Henry Wilsons, each elected once).
+    const persons = [...result.rows].sort((a, b) => (a.ord ?? Infinity) - (b.ord ?? Infinity));
+    return { persons, capped: result.capped };
   }
 
   async loadAreaBrowseDetail(kind, key) {
@@ -374,16 +434,18 @@ export class EntityBridgeMethods {
     };
   }
 
+  /**
+   * A party page. personsResult null: its candidate list is still loading (candidatesLoading),
+   * and fillPartyCandidates() completes it.
+   */
   mapPartyBrowseItem(item, personsResult = {}, partyIndex = null) {
     const related = Array.isArray(item.relatedElections) ? item.relatedElections : [];
     // Oldest first, as Browse lists a party's elections, so the two pages read the same way.
     const historyRows = addPartyChanges(related.map((row) => this.mapPartyHistoryRow(row)))
       .sort((a, b) => String(a.date || '9999').localeCompare(String(b.date || '9999')));
-    const persons = Array.isArray(personsResult) ? personsResult : (personsResult.persons || []);
-    const { summaries, listEntries } = this.buildPartyCandidateSummaries(item, persons, partyIndex);
     const slug = item.slug || slugifyEntityKey(item.canonicalName || item.title);
     const shortName = item.shortName || (item.canonicalName && item.canonicalName !== item.title ? item.canonicalName : '');
-    return {
+    const page = {
       kind: 'party',
       key: slug,
       slug,
@@ -395,11 +457,10 @@ export class EntityBridgeMethods {
       headlineCards: partyHeadlineCards(historyRows),
       historyRows,
       partySummaries: historyRows,
-      candidateSummaries: summaries,
-      // The persons endpoint returns at most 200 a page; when it cannot page further the list is
-      // said to be partial rather than presented as the party's total (H2).
-      candidatesCapped: Boolean(personsResult.capped),
-      listEntriesLeftOut: listEntries,
+      candidateSummaries: [],
+      candidatesCapped: false,
+      listEntriesLeftOut: 0,
+      candidatesLoading: true,
       totals: item.totals || {},
       observedNames: item.observedNames || [],
       knownAliases: item.knownAliases || [],
@@ -408,6 +469,20 @@ export class EntityBridgeMethods {
       relatedElectionCount: related.length,
       browseUrl: `/browse/parties/${encodeURIComponent(slug)}`
     };
+    return personsResult === null ? page : this.fillPartyCandidates(page, item, personsResult, partyIndex);
+  }
+
+  /** A party page's candidate list, from the people who stood for it (loadPartyPersons()). */
+  fillPartyCandidates(page, item, personsResult = {}, partyIndex = null) {
+    const persons = Array.isArray(personsResult) ? personsResult : (personsResult?.persons || []);
+    const { summaries, listEntries } = this.buildPartyCandidateSummaries(item, persons, partyIndex);
+    page.candidateSummaries = summaries;
+    // The people are read a page at a time; when a page cannot be had the list is said to be
+    // partial rather than presented as the party's total (H2).
+    page.candidatesCapped = Boolean(personsResult?.capped);
+    page.listEntriesLeftOut = listEntries;
+    page.candidatesLoading = false;
+    return page;
   }
 
   mapPersonBrowseItem(item, partyIndex = null) {
