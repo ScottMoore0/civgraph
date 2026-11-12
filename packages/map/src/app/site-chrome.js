@@ -11,7 +11,10 @@
 
 import { THEME_KEY, THEME_PREFERENCE, preferenceOf, themeFor, toggledFrom } from '../../../ui/assets/state/theme.js';
 
+/** @typedef {import('./map-app').MapApp & SiteChromeMethods} SiteChromeApp */
+
 export class SiteChromeMethods {
+  /** @this {SiteChromeApp} */
   setupThemeToggle() {
     // The shared site header (packages/ui/src/templates/shell.js) brings its own toggle, wired by
     // assets/site/site-chrome.js. The map only follows the theme, so binding a second click
@@ -21,7 +24,7 @@ export class SiteChromeMethods {
       document.addEventListener('civgraph:themechange', () => void this.syncBasemapToTheme(), { signal: this.lifecycle.signal });
       return;
     }
-    const toggles = [document.getElementById('themeToggle'), document.getElementById('themeToggleMobile')].filter(Boolean);
+    const toggles = [document.getElementById('themeToggle'), document.getElementById('themeToggleMobile')].filter((el) => el !== null);
     // The site's one theme table (assets/ui/state/theme.js, UI-05), as the shared header uses it:
     // a stored value other than light or dark, or storage that is blocked, means the system's.
     let stored = null;
@@ -48,11 +51,12 @@ export class SiteChromeMethods {
     });
   }
 
+  /** @this {SiteChromeApp} */
   setupSupportModal() {
     // Owned by assets/site/site-chrome.js when the shared site header is present.
     if (document.querySelector('.app-header[data-site-chrome]')) return;
     const modal = document.getElementById('supportModal');
-    const buttons = [document.getElementById('supportBtn'), document.getElementById('mobileSupportBtn')].filter(Boolean);
+    const buttons = [document.getElementById('supportBtn'), document.getElementById('mobileSupportBtn')].filter((el) => el !== null);
     if (!modal || buttons.length === 0) return;
 
     // T3-06. The markup already declared role="dialog" aria-modal="true", which PROMISES
@@ -62,10 +66,12 @@ export class SiteChromeMethods {
     // a screen reader the background is inert, so without this the announcement was
     // simply untrue.
     const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+    /** @type {(Element & { focus?: () => void }) | null} */
     let lastFocused = null;
 
-    const focusables = () => [...modal.querySelectorAll(FOCUSABLE)].filter((el) => el.offsetParent !== null);
+    const focusables = () => [.../** @type {NodeListOf<HTMLElement>} */ (modal.querySelectorAll(FOCUSABLE))].filter((el) => el.offsetParent !== null);
 
+    /** @param {KeyboardEvent} event */
     const trap = (event) => {
       if (event.key !== 'Tab') return;
       const items = focusables();

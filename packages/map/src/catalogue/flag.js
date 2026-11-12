@@ -44,6 +44,7 @@ export const initialCatalogueRoute = () => INITIAL;
  */
 // From D1 since data design phase 3 (the file URL /data/catalogue/catalogue.json still answers, from the same rows).
 export const CATALOGUE_DATA_URL = '/_api/catalogue?view=pane';
+/** @type {Promise<Response> | null} */
 let prefetched = null;
 export function prefetchCatalogueData() {
   if (!prefetched && catalogueNextRequested() && typeof fetch === 'function') {

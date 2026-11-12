@@ -3,6 +3,7 @@
  * 'civgraph.debug' = '1'. The map app wrote about 200 "[DataService] ..." lines to the console
  * for one layer selection, on every visitor's machine (QA 2026-11-11, M10).
  */
+/** @type {boolean | null} */
 let enabled = null;
 
 /** Whether developer logging is on for this page. */
@@ -16,7 +17,10 @@ export function debugEnabled() {
   return enabled;
 }
 
-/** console.log, when developer logging is on. */
+/**
+ * console.log, when developer logging is on.
+ * @param {...unknown} args
+ */
 export function debugLog(...args) {
   if (debugEnabled()) console.log(...args);
 }
