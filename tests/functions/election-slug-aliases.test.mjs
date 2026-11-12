@@ -92,6 +92,43 @@ test('browse.js maps the same retired slugs for #/ addresses', () => {
   assert.deepEqual(exactPairs, RETIRED_CONTEST_SLUGS, 'browse.js and packages/core/src/election-slug-aliases.js hold the same retired contests');
 });
 
+// Council divisions filed under a misprint or garbled reading in one round, renamed on 12 Nov 2026
+// to the name the cited page prints and the other rounds file (w8-redirects): body, date, the
+// old name, the new.
+const RENAMED_DIVISIONS = [
+  ['castlereagh-rural-district-council', '1964-06-04', 'Holywood', 'Holywood Rural'],
+  ['ballymena-rural-district-council', '1946-10-03', 'Ballykullion', 'Ballyscullion'],
+  ['south-down-rural-district-council', '1936-06-04', 'Lismore', 'Lisnacree'],
+  ['south-down-rural-district-council', '1936-06-04', 'Maghereagh', 'Maghera'],
+  ['coleraine-rural-district-council', '1967-06-01', 'Slaughtneil', 'Slaght'],
+  ['limavady-rural-district-council', '1964-06-04', 'Ballyrena', 'Bellarena'],
+  ['castlederg-rural-district-council', '1936-06-03', 'Clue', 'Clare'],
+  ['castlederg-rural-district-council', '1936-06-03', 'Lisnacicon', 'Lisnacloon'],
+  ['castlederg-rural-district-council', '1967-06-01', 'Lisnagloch', 'Lisnacloon'],
+  ['omagh-rural-district-council', '1933-05-31', 'Groenan', 'Greenan'],
+  ['omagh-rural-district-council', '1933-05-31', 'Moyroe', 'Moyle'],
+];
+/** @returns {[string, string][]} each renamed division's old contest slug and its new one */
+function renamedDivisionSlugs() {
+  return RENAMED_DIVISIONS.map(([body, date, old, now]) => [`${body}-${date}-${slugify(old)}`, `${body}-${date}-${slugify(now)}`]);
+}
+
+test('the renamed council divisions: the file, its name and the index all carry the new name', () => {
+  const index = read('data/elections-source/data/elections_index.json');
+  for (const [body, date, old, now] of RENAMED_DIVISIONS) {
+    const dir = `data/elections-source/data/elections/${body}/${date}`;
+    assert.ok(!existsSync(path.join(ROOT, dir, `${slugify(old)}.json`)), `${dir}/${slugify(old)}.json is gone`);
+    const file = `${dir}/${slugify(now)}.json`;
+    assert.ok(existsSync(path.join(ROOT, file)), file);
+    const contest = read(file);
+    assert.equal(contest.Constituency.countInfo.Constituency_Name, now, `${file} names the division`);
+    assert.match(contest.correctionNote, new RegExp(`Renamed from '${old}' to ${now}`), `${file} records the rename`);
+    const entry = index.bodies.find((b) => b.slug === body)?.dates?.find((d) => d.date === date);
+    assert.ok(entry, `${body} ${date} is in the index`);
+    assert.ok(entry.constituencies.includes(now) && !entry.constituencies.includes(old), `${body} ${date}: the index names ${now}, not ${old}`);
+  }
+});
+
 // The contest files the November 2026 council rounds deleted, renamed or refiled (12cd5ac496,
 // 22c749eecb): their published addresses answer 301 to where the content lives now.
 const RETIRED = new Map([
@@ -111,6 +148,8 @@ const RETIRED = new Map([
   ['belfast-county-borough-council-aldermen', ['clifton', 'dock', 'duncairn', 'falls', 'shankill', 'st-anne-s', 'woodvale']]]
     .flatMap(([body, wards]) => ['', '-overall-results', ...wards.map((w) => `-${w}`)]
       .map((rest) => /** @type {[string, string]} */ ([`${body}-1961${rest}`, `${body}-1961-05-17${rest}`]))),
+  // The council divisions renamed on 12 Nov 2026 (RENAMED_DIVISIONS below).
+  ...renamedDivisionSlugs(),
 ]);
 const sitemapSlugs = () => new Set([...readFileSync(path.join(ROOT, 'site', 'sitemaps', 'browse-elections.xml'), 'utf8')
   .matchAll(/<loc>https:\/\/civgraph\.net\/browse\/elections\/([^<]+)<\/loc>/g)].map((m) => m[1]));
@@ -218,6 +257,8 @@ transaction(sqlite, () => {
     ['bangor-borough-council__1952-05-21', 'Bangor Borough Council', ['Castle Ward (Alderman)', 'Castle Ward (Councillors)']],
     ['dungannon-rural-district-council__1936-06-03', 'Dungannon Rural District Council', ['Altmore']],
     ['local-government-local-government-districts__1985-05-15', 'Local Government Districts', ['Holywood', 'Abbey']],
+    ['castlederg-rural-district-council__1936-06-03', 'Castlederg Rural District Council', ['Clare', 'Clunahill', 'Lisnacloon']],
+    ['castlereagh-rural-district-council__1964-06-04', 'Castlereagh Rural District Council', ['Craigavad', 'Holywood Rural']],
   ].forEach(([key, body, names], i) => {
     const date = key.split('__')[1];
     elections.add({ key, slug: slugify(key), body_slug: key.split('__')[0], body, body_group: 'local-government', display_title: `${body} ${date.slice(0, 4)}`, date, year: Number(date.slice(0, 4)), ord: 10 + i, meta: '{}' });
@@ -318,4 +359,26 @@ test('the Browse page and the elections API send the ARK-coded Holywood addresse
   const record = retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?view=record&slug=${DISTRICTS}-1997-05-21-lg97-nod-holywood`));
   assert.equal(record.headers.get('Location'), `https://civgraph.net/_api/elections?view=record&slug=${DISTRICTS}-1997-05-21-holywood`);
   assert.equal(retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?key=${key}&contest=holywood`)), null);
+});
+
+test('the Browse page and the elections API send the old address of a renamed division to the new one', async () => {
+  for (const [old, now] of [
+    ['castlederg-rural-district-council-1936-06-03-clue', 'castlederg-rural-district-council-1936-06-03-clare'],
+    ['castlederg-rural-district-council-1936-06-03-lisnacicon', 'castlederg-rural-district-council-1936-06-03-lisnacloon'],
+    ['castlereagh-rural-district-council-1964-06-04-holywood', 'castlereagh-rural-district-council-1964-06-04-holywood-rural'],
+  ]) {
+    const res = await browse(old);
+    assert.equal(res.status, 301, old);
+    assert.equal(res.headers.get('Location'), `https://civgraph.net/browse/elections/${now}`);
+    assert.equal((await browse(now)).status, 200, now);
+  }
+  // The divisions beside them answer as they did.
+  assert.equal((await browse('castlederg-rural-district-council-1936-06-03-clunahill')).status, 200);
+  const key = 'castlederg-rural-district-council__1936-06-03';
+  const api = retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?key=${key}&contest=clue`));
+  assert.equal(api.status, 301);
+  assert.equal(api.headers.get('Location'), `https://civgraph.net/_api/elections?key=${key}&contest=clare`);
+  assert.equal(retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?key=${key}&contest=clare`)), null);
+  // Holywood Rural continues the old slug: only the old one itself moves.
+  assert.equal(resolveElectionSlugAlias('castlereagh-rural-district-council-1964-06-04-holywood-rural'), 'castlereagh-rural-district-council-1964-06-04-holywood-rural');
 });
