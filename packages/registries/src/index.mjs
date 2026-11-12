@@ -18,6 +18,7 @@
  * | election-bodies | data/registries/election-bodies.json     | packages/registries/src/election-bodies.mjs |
  * | election-types | data/registries/election-types.json       | packages/registries/src/election-types.mjs |
  * | colours  | data/registries/colours.json                    | packages/registries/src/colours.mjs    |
+ * | languages | data/registries/languages.json                 | packages/registries/src/languages.mjs  |
  *
  * Node only (reads files). The views modules are pure and take the loaded value, so a Worker or
  * the browser can use them over a generated copy. `node packages/registries/src/check.mjs` validates them all.
@@ -34,6 +35,7 @@ import { checkStatuses } from './statuses.mjs';
 import { checkElectionBodies } from './election-bodies.mjs';
 import { checkElectionTypes } from './election-types.mjs';
 import { checkColours } from './colours.mjs';
+import { checkLanguages } from './languages.mjs';
 
 /** The repository root (this file is packages/registries/src/index.mjs). */
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
@@ -46,6 +48,7 @@ export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url
 /** @typedef {import('../../types/index.js').ElectionBodiesRegistry} ElectionBodiesRegistry */
 /** @typedef {import('../../types/index.js').ElectionTypesRegistry} ElectionTypesRegistry */
 /** @typedef {import('../../types/index.js').ColoursRegistry} ColoursRegistry */
+/** @typedef {import('../../types/index.js').LanguagesRegistry} LanguagesRegistry */
 /** @typedef {import('./validate.mjs').Schema} Schema */
 
 /**
@@ -58,7 +61,8 @@ export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url
  *   statuses: StatusesRegistry,
  *   'election-bodies': ElectionBodiesRegistry,
  *   'election-types': ElectionTypesRegistry,
- *   colours: ColoursRegistry
+ *   colours: ColoursRegistry,
+ *   languages: LanguagesRegistry
  * }} Registries
  */
 /** @typedef {keyof Registries} RegistryName */
@@ -116,6 +120,11 @@ export const REGISTRIES = {
     schema: 'packages/registries/schemas/colours.schema.json',
     load: (root) => readJson(root, 'data/registries/colours.json'),
     check: (data) => checkColours(/** @type {ColoursRegistry} */ (data))
+  },
+  languages: {
+    schema: 'packages/registries/schemas/languages.schema.json',
+    load: (root) => readJson(root, 'data/registries/languages.json'),
+    check: (data) => checkLanguages(/** @type {LanguagesRegistry} */ (data))
   }
 };
 
