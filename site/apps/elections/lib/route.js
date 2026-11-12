@@ -14,9 +14,14 @@ export const BASES = ['/elections', '/apps/elections'];
 export const TOOLS = ['pivot', 'map', 'compare', 'swing', 'notional'];
 
 /**
+ * A parsed app URL: the view and its path parts, and the query (each tool's state).
+ * @typedef {{ view: string, election?: string, contest?: string, body?: string, query: URLSearchParams }} Route
+ */
+
+/**
  * @param {string} pathname
  * @param {string} [search]
- * @returns {{ view: string, election?: string, contest?: string, body?: string, query: URLSearchParams }}
+ * @returns {Route}
  */
 export function parseRoute(pathname, search = '') {
   const query = new URLSearchParams(search);

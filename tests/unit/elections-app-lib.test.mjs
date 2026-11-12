@@ -7,11 +7,11 @@ import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import test from 'node:test';
 import {
-  fmtDelta, fmtInt, fmtPct, isUnopposed, median, personUrl, slugify, summaryHasVotes, summaryUnopposed,
+  fmtDate, fmtDelta, fmtInt, fmtPct, median, personUrl, slugify, summaryPollStatus,
 } from '../../site/apps/elections/lib/format.js';
 import { isAppHref, parseRoute } from '../../site/apps/elections/lib/route.js';
 import { countSheet, fptpMajority, quotaProgress, transferStages } from '../../site/apps/elections/lib/count.js';
-import { arcLayout, hbars, parliamentArc, seatBar, transferFlow } from '../../site/apps/elections/lib/charts.js';
+import { hbars, parliamentArc, seatBar, transferFlow } from '../../site/apps/elections/lib/charts.js';
 import { contestSlugs, partyRows } from '../../site/apps/elections/views/election.js';
 
 const counts = (...totals) => totals.map((total, i) => ({ count: i + 1, total, transfers: i ? total - totals[i - 1] : 0, status: '' }));
@@ -30,17 +30,13 @@ test('formatting: numbers, shares, signed changes, slugs and person links', () =
   assert.equal(median([3, 1, 2, null]), 2);
 });
 
-test('unopposed: no votes and an unopposed status, candidates <= seats, or an uncontested election', () => {
-  assert.equal(isUnopposed({ candidates: [{ status: 'Elected unopposed', firstPrefs: null }] }), true);
-  assert.equal(isUnopposed({ candidates: [{ status: 'Elected', firstPrefs: null }], seats: 1 }), true);
-  assert.equal(isUnopposed({ candidates: [{ firstPrefs: null }, { firstPrefs: null }], seats: 1 }), false);
-  assert.equal(isUnopposed({ candidates: [{ firstPrefs: 10 }], seats: 1 }), false);
+test('unopposed: the app reads the one rule of core (tests/unit/elections-app-unopposed.test.mjs holds it)', () => {
   // The summaries write 0 for "no poll": that is not a poll with no votes (QA, 11 Nov 2026).
   const r = { validPoll: 0, leadingVotes: 0, candidateCount: 1, seatsTotal: 1 };
-  assert.equal(summaryHasVotes(r), false);
-  assert.equal(summaryUnopposed(r), true);
-  assert.equal(summaryUnopposed({ ...r, candidateCount: 3 }), false);
-  assert.equal(summaryHasVotes({ validPoll: 43248 }), true);
+  assert.equal(summaryPollStatus(r), 'unopposed');
+  assert.equal(summaryPollStatus({ ...r, candidateCount: 3 }), 'not-recorded');
+  assert.equal(summaryPollStatus({ validPoll: 43248 }), 'polled');
+  assert.equal(fmtDate('2022-05-05'), '05 May 2022', 'the one date format of the site (packages/core/src/date-format.mjs)');
 });
 
 test('routes: both prefixes, elections, contests, bodies and tools', () => {
@@ -99,11 +95,10 @@ test('count sheet: padded stages are count order only; unopposed and missing vot
   assert.equal(fptp.validPoll, 100);
 });
 
-test('charts: arc layout places every seat; charts are labelled SVG', () => {
+test('charts: the arc draws every seat on the core layout; charts are labelled SVG', () => {
   for (const n of [1, 3, 18, 90, 160, 650]) {
-    const { points } = arcLayout(n);
-    assert.equal(points.length, n, `arc of ${n}`);
-    for (let i = 1; i < points.length; i += 1) assert.ok(points[i - 1].a >= points[i].a - 1e-9, 'left to right');
+    const svg = parliamentArc([{ party: 'A', seats: n, colour: '#ff0000' }]);
+    assert.equal((svg.match(/<circle /g) || []).length, n, `arc of ${n}`);
   }
   const arc = parliamentArc([{ party: 'A', seats: 50, colour: '#ff0000' }, { party: 'B', seats: 40, colour: '#0000ff' }], { title: '90 seats' });
   assert.equal((arc.match(/<circle /g) || []).length, 90);
@@ -176,7 +171,8 @@ test('maps: scales, per-area rows and party shares', async () => {
     { results: [{ constituency: 'A', seatsTotal: 1, validPoll: 100, turnoutPct: 60, leadingParty: 'X', leadingVotes: 50 }, { constituency: 'B', seatsTotal: 1, validPoll: 0, turnoutPct: 0, leadingVotes: 0, winnerParty: 'Y' }] },
     { items: [{ entryKind: 'election-constituency-result', constituency: 'A', featureName: 'Area A', matched: true }, { entryKind: 'election-constituency-result', constituency: 'B', featureName: 'Area B', matched: true }] },
   );
-  assert.deepEqual(rows.map((r) => [r.feature, r.turnout, r.unopposed]), [['AREA A', 60, false], ['AREA B', null, true]]);
+  // B has no votes and no candidate count: its votes are not recorded, it is not "unopposed".
+  assert.deepEqual(rows.map((r) => [r.feature, r.turnout, r.poll]), [['AREA A', 60, 'polled'], ['AREA B', null, 'not-recorded']]);
   const shares = partyShares([{ area: 'A', party: 'X', votes: 30, valid: 100 }, { area: 'A', party: 'Y', votes: 70, valid: 100 }], 'X');
   assert.equal(shares.get('A'), 30);
   assert.equal(butlerSwing({ a1: 40, b1: 40 }, { a2: 45, b2: 35 }), 5);

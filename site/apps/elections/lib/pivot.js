@@ -23,8 +23,14 @@ export const DIMENSIONS = Object.freeze({
   unopposed: { label: 'Unopposed return', contest: true },
 });
 
+/**
+ * @typedef {keyof typeof DIMENSIONS} Dimension
+ * @typedef {'seats' | 'votes' | 'share' | 'seat_share' | 'candidates' | 'elected_rate' | 'avg_share' | 'transfers' | 'turnout'} MeasureId
+ * @typedef {{ label: string, sql: string, digits: number, share?: boolean, contest?: boolean }} Measure
+ */
+
 /** Measures: id -> label, SQL aggregate, number format, and whether it is a share of the column. */
-export const MEASURES = Object.freeze({
+export const MEASURES = /** @type {Readonly<Record<MeasureId, Measure>>} */ (Object.freeze({
   seats: { label: 'Seats won', sql: 'SUM(seats)', digits: 0 },
   votes: { label: 'Votes (first preferences)', sql: 'SUM(votes)', digits: 0 },
   share: { label: 'Share of the votes in the column (%)', sql: 'SUM(votes)', digits: 1, share: true },
@@ -34,18 +40,33 @@ export const MEASURES = Object.freeze({
   avg_share: { label: 'Average candidate share (%)', sql: 'AVG(share)', digits: 1 },
   transfers: { label: 'Transfers received', sql: 'SUM(transfers_received)', digits: 0 },
   turnout: { label: 'Average turnout of contests (%)', sql: 'AVG(turnout_pct)', digits: 1, contest: true },
-});
+}));
 
 /** Filters the URL can carry: query name -> column. */
 export const FILTERS = Object.freeze({ election: 'election_key', party: 'party', outcome: 'outcome', kind: 'kind', gender: 'gender', area: 'area' });
 
+/** The outcomes the Outcome filter offers (the extracts' `outcome` column, model.mjs outcomeOf). */
+export const OUTCOMES = Object.freeze(['elected', 'elected unopposed', 'excluded', 'not elected']);
+
 /**
- * @typedef {{ bodies: string[], rows: string, cols: string, measure: string, from: number | null, to: number | null,
+ * A pivot's settings (EL-06, a value): the fields are the allowlisted names, so a state can only
+ * name a dimension or measure that exists.
+ * @typedef {{ bodies: string[], rows: Dimension, cols: Dimension | 'none', measure: MeasureId, from: number | null, to: number | null,
  *   filters: Record<string, string[]> }} PivotState
+ * @typedef {Omit<PivotState, 'rows' | 'cols' | 'measure'> & { rows: string, cols: string, measure: string }} PivotInput
+ *   settings as a form gives them (any strings): queryFromState writes them, stateFromQuery checks them
  */
 
 /** The default state: the NI Assembly, party by election, seats. */
-export const DEFAULT_STATE = Object.freeze({ bodies: ['northern-ireland-assembly'], rows: 'party', cols: 'year', measure: 'seats', from: null, to: null, filters: {} });
+export const DEFAULT_STATE = /** @type {Readonly<PivotState>} */ (Object.freeze({ bodies: ['northern-ireland-assembly'], rows: 'party', cols: 'year', measure: 'seats', from: null, to: null, filters: {} }));
+
+/** A copy of a state that later changes to the form cannot reach (one run's settings). @param {PivotState} s @returns {PivotState} */
+export function settingsOf(s) {
+  return { ...s, bodies: [...s.bodies], filters: Object.fromEntries(Object.entries(s.filters).map(([k, v]) => [k, [...v]])) };
+}
+
+const isDimension = (/** @type {string} */ v) => Object.hasOwn(DIMENSIONS, v);
+const isMeasure = (/** @type {string} */ v) => Object.hasOwn(MEASURES, v);
 
 /**
  * The state of a URL's query string (unknown names fall back to the defaults).
@@ -54,10 +75,8 @@ export const DEFAULT_STATE = Object.freeze({ bodies: ['northern-ireland-assembly
  */
 export function stateFromQuery(q) {
   const list = (/** @type {string} */ name) => (q.get(name) || '').split(',').map((s) => s.trim()).filter(Boolean);
-  const dim = (/** @type {string} */ name, /** @type {string} */ dflt) => {
-    const v = q.get(name) || '';
-    return v === 'none' && name === 'cols' ? 'none' : Object.hasOwn(DIMENSIONS, v) ? v : dflt;
-  };
+  const rows = q.get('rows') || '';
+  const cols = q.get('cols') || '';
   const year = (/** @type {string} */ name) => { const n = Number(q.get(name)); return q.get(name) && Number.isInteger(n) ? n : null; };
   /** @type {Record<string, string[]>} */
   const filters = {};
@@ -66,9 +85,9 @@ export function stateFromQuery(q) {
   const measure = q.get('measure') || '';
   return {
     bodies: bodies.length ? bodies : [...DEFAULT_STATE.bodies],
-    rows: dim('rows', DEFAULT_STATE.rows),
-    cols: dim('cols', DEFAULT_STATE.cols),
-    measure: Object.hasOwn(MEASURES, measure) ? measure : DEFAULT_STATE.measure,
+    rows: isDimension(rows) ? /** @type {Dimension} */ (rows) : DEFAULT_STATE.rows,
+    cols: cols === 'none' ? 'none' : isDimension(cols) ? /** @type {Dimension} */ (cols) : DEFAULT_STATE.cols,
+    measure: isMeasure(measure) ? /** @type {MeasureId} */ (measure) : DEFAULT_STATE.measure,
     from: year('from'),
     to: year('to'),
     filters,
@@ -76,7 +95,7 @@ export function stateFromQuery(q) {
 }
 
 /** The query string of a state (stable order, defaults included so a saved view is complete). */
-export function queryFromState(/** @type {PivotState} */ s) {
+export function queryFromState(/** @type {PivotInput} */ s) {
   const q = new URLSearchParams();
   q.set('body', s.bodies.join(','));
   q.set('rows', s.rows);
@@ -119,11 +138,11 @@ export function whereSql(/** @type {PivotState} */ s) {
  * @param {PivotState} s
  */
 export function pivotSql(s) {
-  const m = MEASURES[/** @type {keyof typeof MEASURES} */ (s.measure)];
+  const m = MEASURES[s.measure];
   const r = dimSql(s.rows);
   const c = s.cols === 'none' ? "'all'" : dimSql(s.cols);
   const where = whereSql(s);
-  if (/** @type {any} */ (m).contest) {
+  if (m.contest) {
     return `SELECT r, c, AVG(turnout_pct) AS v FROM (SELECT DISTINCT election_key, contest_seq, ${r} AS r, ${c} AS c, turnout_pct FROM rows ${where}) GROUP BY r, c`;
   }
   return `SELECT ${r} AS r, ${c} AS c, ${m.sql} AS v FROM rows ${where} GROUP BY r, c`;
@@ -140,7 +159,7 @@ export function pivotSql(s) {
 export function pivotTable(data, s, opts = {}) {
   const maxCols = opts.maxCols ?? 40;
   const maxRows = opts.maxRows ?? 500;
-  const m = MEASURES[/** @type {keyof typeof MEASURES} */ (s.measure)];
+  const m = MEASURES[s.measure];
   const additive = !['elected_rate', 'avg_share', 'turnout'].includes(s.measure);
   /** @type {Map<string, number>} */
   const colTotals = new Map();
@@ -172,7 +191,7 @@ export function pivotTable(data, s, opts = {}) {
   const value = (/** @type {string} */ r, /** @type {string} */ c) => {
     const v = cells.get(r)?.get(c);
     if (v === null || v === undefined) return null;
-    if (/** @type {any} */ (m).share) {
+    if (m.share) {
       const t = c === 'other' ? [...colTotals].filter(([k]) => !keep.has(k)).reduce((s2, [, x]) => s2 + x, 0) : colTotals.get(c) || 0;
       return t ? (100 * v) / t : null;
     }
@@ -181,9 +200,9 @@ export function pivotTable(data, s, opts = {}) {
   const rowsOut = rowKeys.slice(0, maxRows).map((r) => ({
     key: r,
     values: cols.map((c) => value(r, c)),
-    total: /** @type {any} */ (m).share ? null : additive ? rowTotals.get(r) ?? null : null,
+    total: m.share ? null : additive ? rowTotals.get(r) ?? null : null,
   }));
-  const totals = cols.map((c) => (/** @type {any} */ (m).share ? 100 : additive ? (c === 'other' ? [...colTotals].filter(([k]) => !keep.has(k)).reduce((s2, [, x]) => s2 + x, 0) : colTotals.get(c) ?? null) : null));
+  const totals = cols.map((c) => (m.share ? 100 : additive ? (c === 'other' ? [...colTotals].filter(([k]) => !keep.has(k)).reduce((s2, [, x]) => s2 + x, 0) : colTotals.get(c) ?? null) : null));
   return { cols, rows: rowsOut, totals, digits: m.digits, additive, rowsCut, rowCount: rowKeys.length };
 }
 
@@ -193,11 +212,11 @@ export function pivotCsv(/** @type {ReturnType<typeof pivotTable>} */ t, /** @ty
     const x = v === null || v === undefined ? '' : String(v);
     return /[",\n]/.test(x) ? `"${x.replace(/"/g, '""')}"` : x;
   };
-  const head = [DIMENSIONS[/** @type {keyof typeof DIMENSIONS} */ (s.rows)].label, ...t.cols, ...(t.additive && !(/** @type {any} */ (MEASURES[/** @type {keyof typeof MEASURES} */ (s.measure)]).share) ? ['Total'] : [])];
+  const head = [DIMENSIONS[s.rows].label, ...t.cols, ...(t.additive && !MEASURES[s.measure].share ? ['Total'] : [])];
   const lines = [head.map(cell).join(',')];
   for (const r of t.rows) {
     const vals = r.values.map((v) => (v === null ? '' : Number(v.toFixed(t.digits))));
-    if (t.additive && !(/** @type {any} */ (MEASURES[/** @type {keyof typeof MEASURES} */ (s.measure)]).share)) vals.push(r.total === null ? '' : Number(r.total.toFixed(t.digits)));
+    if (t.additive && !MEASURES[s.measure].share) vals.push(r.total === null ? '' : Number(r.total.toFixed(t.digits)));
     lines.push([r.key, ...vals].map(cell).join(','));
   }
   return `${lines.join('\n')}\n`;

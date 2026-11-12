@@ -19,7 +19,7 @@ import {
   partyColour as electionPartyColour,
   seatPositions
 } from '../../core/src/election-domain.mjs';
-import { candidateReturnWithoutPoll, isUncontestedResult, partyHadNoPoll, UNOPPOSED_SEATS_NOTE } from '../../core/src/unopposed.mjs';
+import { candidateReturnWithoutPoll, contestPollStatus, partyHadNoPoll, UNOPPOSED_SEATS_NOTE } from '../../core/src/unopposed.mjs';
 
 /** What a votes cell says for a seat returned without a poll (QA H4: never "0"). */
 const NO_POLL_LABELS = { unopposed: 'Unopposed', 'auto-returned': 'Returned automatically' };
@@ -1484,7 +1484,11 @@ export class Test2ElectionManager {
     const isWestminster = this.isWestminsterElection();
     // No vote was polled: every candidate was returned unopposed. Showing 0 votes, and a
     // fall of thousands against the last contested election, misreads that as a collapse.
-    const unopposed = validPoll === 0 || isUncontestedResult({ ...result, candidates });
+    // A contest with no votes that was NOT returned unopposed has its votes missing from the
+    // sources: "Not recorded", never "Unopposed" (core's one rule, packages/core/src/unopposed.mjs).
+    const poll = contestPollStatus({ ...result, candidates, validPoll });
+    const unopposed = poll === 'unopposed';
+    const notRecorded = poll === 'not-recorded';
     const rows = candidates.map((candidate, index) => {
       const candidateDelta = this.candidateDeltaForResultCandidate(candidate, result);
       const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total);
@@ -1547,8 +1551,8 @@ export class Test2ElectionManager {
                     <td>${this.renderElectionEntityButton('candidate', this.candidateEntityKey({ ...candidate, name: row.name || candidate.name, party: row.party || candidate.party }), escapeHtml(row.name), 'election-cell-wrap')}</td>
                     <td${this.partyCellAttrs(row.colour)}>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
                     ${this.printedLabelCell(candidate)}
-                    <td class="election-num">${unopposed ? 'Unopposed' : this.valueWithPartyAndCandidateChange(formatNumber(votes), partyVoteDelta, candidateVoteDelta, 'count')}</td>
-                    <td class="election-num">${unopposed || votePct === null ? '' : this.valueWithPartyAndCandidateChange(formatFixedPercent(votePct), partyPctDelta, candidatePctDelta, 'percent')}</td>
+                    <td class="election-num">${unopposed ? 'Unopposed' : notRecorded ? '<span class="election-delta--none" title="No votes are recorded for this contest in the sources">Not recorded</span>' : this.valueWithPartyAndCandidateChange(formatNumber(votes), partyVoteDelta, candidateVoteDelta, 'count')}</td>
+                    <td class="election-num">${unopposed || notRecorded || votePct === null ? '' : this.valueWithPartyAndCandidateChange(formatFixedPercent(votePct), partyPctDelta, candidatePctDelta, 'percent')}</td>
                     ${isWestminster ? `<td class="election-col-elected">${this.electedMark(statusKind === 'elected')}</td>` : `<td>${escapeHtml(statusText)}</td>`}
                   </tr>
                 `;
@@ -1556,7 +1560,7 @@ export class Test2ElectionManager {
             </tbody>
           </table>
         </div>
-        ${unopposed ? '' : this.renderSingleSeatFptpVoteGraphic(rows, validPoll)}
+        ${unopposed || notRecorded ? '' : this.renderSingleSeatFptpVoteGraphic(rows, validPoll)}
       </div>
     `;
   }

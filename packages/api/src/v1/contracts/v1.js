@@ -66,6 +66,49 @@ const ENTITY = obj({ entityId: str, summary: either('object', 'null'), statement
 const MAP = obj({ id: str, name: str, slug: str, category: str });
 const LAYER = obj({ id: str, sourceMapId: str, name: str, category: str, renderer: str, geometryType: str });
 const CONTEST = obj({ constituency: object, feature: either('object', 'null'), candidates: arr(), counts: arr(), animationPayload: either('object', 'null') });
+
+// The Elections app's reads (11 Nov 2026 arch audit P5): the fields it relies on are promised.
+const strOrNull = either('string', 'null');
+const numOrNull = either('number', 'null');
+/** One row of the elections index (a body's, or all): the election columns of the records. */
+const ELECTION_ROW = obj({
+  key: str, body: str, bodySlug: str, displayTitle: str, date: str, year: num,
+  kind: strOrNull, contestType: strOrNull, votingSystem: strOrNull, contestStatus: strOrNull, layerId: strOrNull,
+}, ['key', 'body', 'bodySlug', 'displayTitle', 'date', 'year']);
+/** A party's seats and votes in an election (buildPartySummary): share is absent, or null, where no vote was cast. */
+const PARTY_SUMMARY_ROW = obj({ party: str, seats: num, stood: num, votes: num, colour: str, share: numOrNull, unopposedSeats: num }, ['party', 'seats', 'stood', 'votes', 'colour']);
+/** An election's Browse detail item, at the fields its pages read. */
+const ELECTION_DETAIL = obj({
+  key: str, slug: str, title: str, body: str, bodySlug: str, date: str, year: num, contestType: str,
+  kind: str, votingSystem: str, contestStatus: str, previousKey: str, layerId: str, interactiveUrl: str,
+  partySummary: arr(PARTY_SUMMARY_ROW),
+  totals: obj({ seats: num, validPoll: num, constituencies: num }),
+  resultEntries: arr(obj({ key: str, title: str, resultName: str, resultKind: str })),
+  references: arr(obj({ label: str, url: str, note: str }, ['label'])),
+}, ['key', 'slug', 'title', 'body', 'bodySlug', 'date', 'year', 'contestType']);
+/**
+ * One contest of an election as a Browse item (its map feature where matched). The fields are
+ * typed where present but only body and bodySlug are required: the records fixture
+ * (tests/records/fixtures/build-records-mini.mjs) keeps 5 keys of an item this large, and the
+ * contract holds over the fixture too.
+ */
+const ELECTION_CONTEST_ITEM = obj({
+  key: str, slug: str, title: str, entryKind: str, resultKind: str, resultName: str, body: str, bodySlug: str, date: str,
+  contestType: str, votingSystem: str, contestStatus: str, resultMetadata: object,
+  constituency: str, matched: bool, featureName: str, layerId: str,
+}, ['body', 'bodySlug']);
+/** One contest's row of an election summary (the summaries write 0, not null, for "no poll"). */
+const SUMMARY_ROW = obj({
+  constituency: str, seatsTotal: numOrNull, seatsWon: numOrNull, validPoll: numOrNull, quota: numOrNull,
+  winnerParty: strOrNull, winnerName: strOrNull, leadingParty: strOrNull, leadingName: strOrNull, leadingVotes: numOrNull,
+  turnoutPct: numOrNull, majority: numOrNull, candidateCount: num, featureName: strOrNull,
+}, ['constituency', 'candidateCount']);
+/** One original source of a contest's results (QA H5): what it is, and what it was checked for. */
+const CITATION = obj({
+  title: strOrNull, publisher: strOrNull, url: strOrNull, archiveUrl: strOrNull, host: strOrNull, kind: strOrNull,
+  basis: strOrNull, checked: numOrNull, scope: strOrNull, match: strOrNull, checkNote: strOrNull,
+});
+
 const PRONI_CHILD = obj({ ref: str, slug: str, title: str, level: str, dates: str, hasChildren: bool });
 const PRONI_ROW = obj({ ref: str, slug: str, title: str, level: str, dates: str, parent: str, hasChildren: bool, fond: str, description: str, descTruncated: bool, exact: bool, url: str });
 
@@ -93,14 +136,22 @@ export const CONTRACTS = Object.freeze({
       v('record', { view: 'record' }, 'One Browse election record: an election\'s detail item or a contest\'s', obj({ item: object })),
       v('manifest', { view: 'manifest' }, 'Every election the map app can show',
         obj({ schemaVersion: num, generatedAt: str, totals: obj({ elections: num, loadable: num }), elections: arr(obj({ key: str, body: str, date: str, displayTitle: str, loadable: bool })) })),
-      v('summary', { view: 'summary' }, 'One election\'s summary', obj({ key: str, body: str, date: str, displayTitle: str, results: arr() })),
+      v('summary', { view: 'summary' }, 'One election\'s summary', obj({ key: str, body: str, date: str, displayTitle: str, results: arr(SUMMARY_ROW) })),
       v('provenance', { view: 'provenance' }, 'Where each contest\'s figures came from', obj({ schemaVersion: num, key: str, contests: object })),
       v('list', { view: 'list' }, 'The Browse list of elections, or a page of it',
         obj({ schemaVersion: num, total: num, items: arr(obj({ slug: str, title: str, date: str, body: str, kind: str, interactiveUrl: str }, ['slug', 'title'])) })),
-      v('detail', { view: 'detail' }, 'One election\'s Browse detail', obj({ schemaVersion: num, item: object })),
-      v('contests', { view: 'contests' }, 'One election\'s contests as Browse items', obj({ schemaVersion: num, items: arr(object) })),
-      v('index', { key: '' }, 'Every election, by date then key',
-        obj({ elections: arr(obj({ key: str, body: str, bodySlug: str, displayTitle: str, date: str, year: num })), count: num })),
+      v('detail', { view: 'detail' }, 'One election\'s Browse detail', obj({ schemaVersion: num, item: ELECTION_DETAIL })),
+      v('contests', { view: 'contests' }, 'One election\'s contests as Browse items', obj({ schemaVersion: num, items: arr(ELECTION_CONTEST_ITEM) })),
+      v('citations-person', { view: 'citations', person: '*' }, 'The original sources of every contest a person stood in',
+        obj({ person: str, candidacies: arr(obj({ electionKey: str, seq: num, constituency: str, citations: arr(CITATION) })) })),
+      v('citations-contest', { view: 'citations', constituency: '*' }, 'One contest\'s original sources (key null: no such election)',
+        obj({ key: strOrNull, seq: num, citations: arr(CITATION) }, ['key', 'citations'])),
+      v('citations-contest-by-name', { view: 'citations', constituencyName: '*' }, 'One contest\'s original sources, the contest found by its name',
+        obj({ key: strOrNull, seq: num, constituency: str, citations: arr(CITATION) }, ['key', 'citations'])),
+      v('citations', { view: 'citations' }, 'An election\'s distinct original sources, with how many of its contests cite each (key null: no such election)',
+        obj({ key: strOrNull, contests: num, sources: arr(obj({ title: strOrNull, publisher: strOrNull, url: strOrNull, host: strOrNull, kind: strOrNull, contests: num })) }, ['key'])),
+      v('index-of-body', { key: '', body: '*' }, 'One body\'s elections, by date then key', obj({ elections: arr(ELECTION_ROW), count: num })),
+      v('index', { key: '' }, 'Every election, by date then key', obj({ elections: arr(ELECTION_ROW), count: num })),
       v('contest-by-slug', { key: '*', contest: '*' }, 'One contest found by its Browse slug: candidates and counts', CONTEST),
       v('contest-by-name', { key: '*', constituencyName: '*' }, 'One contest found by its name', CONTEST),
       v('contest', { key: '*', constituency: '*' }, 'One contest by its sequence number', CONTEST),

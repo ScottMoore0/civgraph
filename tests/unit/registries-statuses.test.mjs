@@ -134,7 +134,8 @@ test('RG-02 contest: the audit\'s values and default, the map\'s labels', () => 
   assert.equal(registry.machines.contest.missingMeans, 'contested');
   assert.ok(isContested(registry, undefined) && isContested(registry, 'contested') && !isContested(registry, 'uncontested'));
   const { labels } = registry.machines.contest;
-  assert.ok(read('packages/map/app/ni-local-view.js').includes('contest.contested ? CONTEST_LABELS.contested : CONTEST_LABELS.uncontested'));
+  // The NI councils view labels a contest by core's one poll rule (contestPoll): the registry's labels for polled and unopposed.
+  assert.ok(read('packages/map/app/ni-local-view.js').includes("poll === 'polled' ? CONTEST_LABELS.contested : poll === 'unopposed' ? CONTEST_LABELS.uncontested"));
   assert.deepEqual(browser.contestLabels, labels);
 });
 

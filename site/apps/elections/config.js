@@ -28,14 +28,17 @@
  * Embedding the widget on other sites is not a setting here: it is the frame-ancestors line of the
  * /apps/elections/embed/* block in site/_headers (off by default: 'self').
  *
- * No DOM at the top level: scripts/build/elections-app/vendor.mjs and the unit tests import it.
+ * No DOM at the top level: scripts/build/elections-app/vendor.mjs and the unit tests import it (the
+ * /pkg/ import resolves to site/pkg/, a re-export of the package, in Node).
  */
+import { SITE } from '../../pkg/config/src/config.js';
+
 export const DUCKDB_VERSION = '1.29.0';
 export const MAPLIBRE_VERSION = '5.24.0';
 export const PMTILES_VERSION = '4.5.0';
 
-/** The public R2 bucket behind the CDN (packages/config/src/config.js SITE.dataOrigin). */
-export const DATA_ORIGIN = 'https://data.civgraph.net';
+/** The public R2 bucket behind the CDN: the config's own (packages/config/src/config.js SITE.dataOrigin, served at /pkg/). */
+export const DATA_ORIGIN = SITE.dataOrigin;
 /** The app's key prefix in that bucket (data/database/r2-publication-allowlist.json must cover it before an upload). */
 export const R2_PREFIX = 'data/elections-app/v1/';
 

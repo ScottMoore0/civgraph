@@ -1,6 +1,7 @@
 /**
- * The state machines of Browse and the PRONI Search app (browse/state-machines.js,
- * apps/proni-search/state-machines.js; REFACTOR-PLAN.md section 11, catalogue stream 7):
+ * The state machines of Browse, the PRONI Search app, Words and the Elections app
+ * (browse/state-machines.js, apps/proni-search/state-machines.js, apps/words/state-machines.js,
+ * apps/elections/state-machines.js; REFACTOR-PLAN.md section 11, catalogue stream 7):
  * every table allows exactly the moves it lists, the moves the pages make are walks the tables
  * allow, and the moves they must never make are refused. The pages themselves are driven by
  * tests/browser/ui-state-machines.spec.cjs.
@@ -18,6 +19,7 @@ import { fileURLToPath } from 'node:url';
 import * as browse from '../../site/browse/state-machines.js';
 import * as proni from '../../site/apps/proni-search/state-machines.js';
 import * as words from '../../site/apps/words/state-machines.js';
+import * as elections from '../../site/apps/elections/state-machines.js';
 import { THEME_PREFERENCE } from '../../packages/ui/assets/state/theme.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -37,6 +39,17 @@ const MACHINES = {
   'proni MODAL': proni.MODAL,
   'proni COPY_FLASH': proni.COPY_FLASH,
   'words TOOLTIP': words.TOOLTIP,
+  'elections ROUTE': elections.ROUTE,
+  'elections ENGINE': elections.ENGINE,
+  'elections BOUND_BODIES': elections.BOUND_BODIES,
+  'elections EXTRACTS_INDEX': elections.EXTRACTS_INDEX,
+  'elections PIVOT_RUN': elections.PIVOT_RUN,
+  'elections MAP_MODE': elections.MAP_MODE,
+  'elections MULTIPLES': elections.MULTIPLES,
+  'elections MAP_STATUS': elections.MAP_STATUS,
+  'elections SWING_EDITS': elections.SWING_EDITS,
+  'elections NOTIONAL_METHOD': elections.NOTIONAL_METHOD,
+  'elections EMBED': elections.EMBED,
   'site THEME_PREFERENCE': THEME_PREFERENCE,
 };
 
@@ -132,6 +145,80 @@ test('Words chart tooltip: hidden and shown, no move to where it already is', ()
   assert.deepEqual(words.TOOLTIP.states, ['hidden', 'shown']);
   words.TOOLTIP.assertPath(['shown', 'hidden', 'shown']);
   assert.throws(() => words.TOOLTIP.assertTransition('shown', 'shown'), /is not a transition/);
+});
+
+test('Elections route (EL-01): a navigation from anywhere loads; only a loading route settles', () => {
+  const m = elections.ROUTE;
+  m.assertPath(['loading', 'rendered', 'loading', 'loading', 'not-found', 'loading', 'failed', 'loading', 'rendered']);
+  for (const settled of ['rendered', 'not-found', 'failed']) {
+    assert.equal(m.can('idle', settled), false, `idle -> ${settled}`);
+    for (const other of ['rendered', 'not-found', 'failed']) assert.equal(m.can(settled, other), false, `${settled} -> ${other}`);
+  }
+});
+
+test('Elections DuckDB engine (EL-02): starts once; a failed start may be retried; ready stays ready', () => {
+  const m = elections.ENGINE;
+  m.assertPath(['starting', 'failed', 'starting', 'ready']);
+  assert.equal(m.start('ready').done(), true);
+  for (const bad of [['not-started', 'ready'], ['starting', 'starting'], ['failed', 'ready'], ['ready', 'starting']]) {
+    assert.equal(m.can(bad[0], bad[1]), false, bad.join(' -> '));
+  }
+});
+
+test('Elections bound bodies (EL-03): rows is rebound only through binding, never left half-bound', () => {
+  const m = elections.BOUND_BODIES;
+  m.assertPath(['binding', 'bound', 'binding', 'failed', 'binding', 'bound']);
+  for (const bad of [['unbound', 'bound'], ['bound', 'bound'], ['failed', 'bound'], ['binding', 'binding']]) {
+    assert.equal(m.can(bad[0], bad[1]), false, bad.join(' -> '));
+  }
+});
+
+test('Elections pivot run (EL-05): a newer run supersedes a running one; a settled run needs a new run', () => {
+  const m = elections.PIVOT_RUN;
+  m.assertPath(['running', 'running', 'shown', 'running', 'failed', 'running', 'shown']);
+  for (const bad of [['idle', 'shown'], ['shown', 'failed'], ['failed', 'shown'], ['shown', 'shown']]) {
+    assert.equal(m.can(bad[0], bad[1]), false, bad.join(' -> '));
+  }
+});
+
+test('Elections map mode (EL-07): every mode reaches every other; the guard draws what the data allows', () => {
+  const m = elections.MAP_MODE;
+  assert.deepEqual([...m.states].sort(), elections.MAP_MODES.map((x) => x.mode).sort());
+  m.assertPath(['swing', 'share', 'turnout', 'winner', 'share']);
+  for (const s of m.states) assert.equal(m.can(s, s), false, `${s} -> ${s}`);
+  assert.deepEqual(elections.mapModeShown('swing', { party: true, vs: false }), { mode: 'share', reason: 'no-vs' });
+  assert.deepEqual(elections.mapModeShown('swing', { party: false, vs: true }), { mode: 'winner', reason: 'no-party' });
+  assert.deepEqual(elections.mapModeShown('share', { party: false, vs: false }), { mode: 'winner', reason: 'no-party' });
+  assert.deepEqual(elections.mapModeShown('swing', { party: true, vs: true }), { mode: 'swing', reason: null });
+  assert.deepEqual(elections.mapModeShown('turnout', { party: false, vs: false }), { mode: 'turnout', reason: null });
+  assert.equal(elections.mapModeOf('nonsense'), 'winner');
+  assert.equal(elections.mapModeOf('swing'), 'swing');
+});
+
+test('Elections small multiples (EL-08): no second drawing while one runs; leaving aborts for good', () => {
+  const m = elections.MULTIPLES;
+  m.assertPath(['drawing', 'done', 'drawing', 'failed', 'drawing', 'aborted']);
+  assert.equal(m.can('drawing', 'drawing'), false, 'a second click while drawing');
+  assert.equal(m.start('aborted').done(), true);
+  assert.equal(m.can('idle', 'done'), false);
+});
+
+test('Elections light machines (EL-04, 09, 10, 11, 14) and result sets (EL-12, 13)', () => {
+  elections.EXTRACTS_INDEX.assertPath(['loading', 'unavailable', 'loading', 'available']);
+  assert.equal(elections.EXTRACTS_INDEX.can('available', 'loading'), false, 'an available index is not fetched again');
+  elections.MAP_STATUS.assertPath(['drawn']);
+  assert.equal(elections.MAP_STATUS.can('drawn', 'failed'), false);
+  elections.SWING_EDITS.assertPath(['edited', 'edited', 'base', 'edited']);
+  assert.equal(elections.SWING_EDITS.can('base', 'base'), false);
+  assert.deepEqual(elections.NOTIONAL_METHOD.states, ['population', 'areal']);
+  elections.EMBED.assertPath(['failed']);
+  assert.equal(elections.EMBED.can('shown', 'loading'), false);
+  assert.deepEqual([...elections.SHEET_KINDS].sort(), ['none', 'order', 'single', 'stages', 'unopposed']);
+  assert.deepEqual([...elections.STAGE_KINDS].sort(), ['exclusion', 'surplus']);
+  const run = elections.NOTIONAL_METHOD.start();
+  assert.equal(elections.settle(run, 'population'), 'population');
+  assert.equal(elections.settle(run, 'areal'), 'areal');
+  assert.deepEqual(run.history(), ['population', 'areal']);
 });
 
 test('the served helper is the shared one, byte for byte', () => {

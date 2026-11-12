@@ -3,7 +3,8 @@
     "The UI files that type-check under `strict`: tsconfig.ui.json's options with strict on.",
     "`npm run check:types:ui` runs it after tsconfig.ui.json. A file joins `include` once it checks",
     "clean here. The PRONI app and words.js joined on 8 Nov 2026 (the noImplicitAny review, S5c);",
-    "browse.js is not yet (noImplicitAny findings; see tsconfig.ui.json for the flags it already meets)."
+    "browse.js is not yet (noImplicitAny findings; see tsconfig.ui.json for the flags it already meets).",
+    "The Elections app (site/apps/elections/, its /pkg/ re-exports under site/pkg/) joined on 11 Nov 2026 (arch audit P0/P5)."
   ],
   "extends": "./tsconfig.ui.json",
   "compilerOptions": {
@@ -18,6 +19,30 @@
     "../site/apps/words/state-machines.js",
     "../packages/ui/assets/gallery/gallery.js",
     "../site/apps/proni-search/app.js",
-    "../site/apps/words/words.js"
+    "../site/apps/words/words.js",
+    "../site/apps/elections/app.js",
+    "../site/apps/elections/config.js",
+    "../site/apps/elections/embed/embed.js",
+    "../site/apps/elections/lib/api.js",
+    "../site/apps/elections/lib/charts.js",
+    "../site/apps/elections/lib/count.js",
+    "../site/apps/elections/lib/duck.js",
+    "../site/apps/elections/lib/format.js",
+    "../site/apps/elections/lib/lifecycle.js",
+    "../site/apps/elections/lib/maplibre.js",
+    "../site/apps/elections/lib/party.js",
+    "../site/apps/elections/lib/pivot.js",
+    "../site/apps/elections/lib/project.js",
+    "../site/apps/elections/lib/route.js",
+    "../site/apps/elections/lib/scales.js",
+    "../site/apps/elections/state-machines.js",
+    "../site/apps/elections/views/compare.js",
+    "../site/apps/elections/views/contest.js",
+    "../site/apps/elections/views/election.js",
+    "../site/apps/elections/views/home.js",
+    "../site/apps/elections/views/map.js",
+    "../site/apps/elections/views/notional.js",
+    "../site/apps/elections/views/pivot.js",
+    "../site/apps/elections/views/swing.js"
   ]
 }
