@@ -6,6 +6,7 @@ import {
 import { escapeHtml } from '../pkg/core/src/html.js';
 import { slugify } from '../pkg/core/src/format.js';
 import { candidateReturnWithoutPoll, partyHadNoPoll } from '../pkg/core/src/unopposed.mjs';
+import { SITE } from '../pkg/config/src/config.js';
 
 /**
  * An element of the page reached by a delegated listener or a selector: any HTML element, with
@@ -357,7 +358,7 @@ const TECHNICAL_FIELD_KEYS = new Set([
 
 // Per-map feature attribute pages live on R2 (data.civgraph.net), sharded into
 // pages and fetched lazily by the map detail page only — never by the homepage.
-const MAP_FEATURES_BASE = 'https://data.civgraph.net/data/browse/map-features';
+const MAP_FEATURES_BASE = `${SITE.dataOrigin}/data/browse/map-features`;
 
 // T2-09: section listings were capped at a hard 500 with a "narrow the search"
 // notice and no way to page past it, so records 501+ of a section were reachable
@@ -1626,7 +1627,7 @@ function setHero(config, item) {
 // titled "Browse - Civgraph" with the same description, so a bookmark, a tab and a search
 // result could not tell Gerry Adams from the 2024 election. functions/_browse-page.js
 // writes the same title, description and canonical into the HTML of the path-style URLs.
-const SITE_ORIGIN = 'https://civgraph.net';
+const SITE_ORIGIN = SITE.origin;
 // The shell's own head, restored on the landing view. A path-style page arrives with the
 // record's head already written in, so it uses the /browse/ shell's values instead.
 const BASE_HEAD = pathRouteParts()

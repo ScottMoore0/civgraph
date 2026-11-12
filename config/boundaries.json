@@ -197,7 +197,7 @@
       "node": false
     },
     "site-pkg": {
-      "//": "site/pkg/: one re-export per package module a served page imports from /pkg/ (packages/served.json), so Node and tsc resolve the page's import to the package. Pure browser packages only.",
+      "//": "site/pkg/: one re-export per package module a served page imports from /pkg/ (packages/served.json), so Node and tsc resolve the page's import to the package. Pure browser packages only. Every served page may import them (site, site-apps, elections-app): Browse and Words in parliament read the origins from /pkg/config/src/config.js (architecture rule R6, check C5).",
       "paths": [
         "site/pkg/"
       ],
@@ -236,6 +236,7 @@
       ],
       "allow": [
         "site",
+        "site-pkg",
         "site-served"
       ],
       "node": false
