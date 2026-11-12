@@ -1087,6 +1087,18 @@ const RETIRED_CONTEST_SLUGS = [
   ['belfast-county-borough-council-aldermen-1961-st-anne-s', 'belfast-county-borough-council-aldermen-1961-05-17-st-anne-s'],
   ['belfast-county-borough-council-aldermen-1961-woodvale', 'belfast-county-borough-council-aldermen-1961-05-17-woodvale'],
   // The 1973-2011 district electoral areas named by ARK's import code ("lg85-NoD-Holywood").
+  // Council divisions renamed on 12 Nov 2026 to the name the cited page prints (w8-redirects).
+  ['castlereagh-rural-district-council-1964-06-04-holywood', 'castlereagh-rural-district-council-1964-06-04-holywood-rural'],
+  ['ballymena-rural-district-council-1946-10-03-ballykullion', 'ballymena-rural-district-council-1946-10-03-ballyscullion'],
+  ['south-down-rural-district-council-1936-06-04-lismore', 'south-down-rural-district-council-1936-06-04-lisnacree'],
+  ['south-down-rural-district-council-1936-06-04-maghereagh', 'south-down-rural-district-council-1936-06-04-maghera'],
+  ['coleraine-rural-district-council-1967-06-01-slaughtneil', 'coleraine-rural-district-council-1967-06-01-slaght'],
+  ['limavady-rural-district-council-1964-06-04-ballyrena', 'limavady-rural-district-council-1964-06-04-bellarena'],
+  ['castlederg-rural-district-council-1936-06-03-clue', 'castlederg-rural-district-council-1936-06-03-clare'],
+  ['castlederg-rural-district-council-1936-06-03-lisnacicon', 'castlederg-rural-district-council-1936-06-03-lisnacloon'],
+  ['castlederg-rural-district-council-1967-06-01-lisnagloch', 'castlederg-rural-district-council-1967-06-01-lisnacloon'],
+  ['omagh-rural-district-council-1933-05-31-groenan', 'omagh-rural-district-council-1933-05-31-greenan'],
+  ['omagh-rural-district-council-1933-05-31-moyroe', 'omagh-rural-district-council-1933-05-31-moyle'],
   ['local-government-local-government-districts-1973-05-30-lg73-nam-area-a', 'local-government-local-government-districts-1973-05-30-newry-and-mourne-area-a'],
   ['local-government-local-government-districts-1973-05-30-lg73-nam-area-b', 'local-government-local-government-districts-1973-05-30-newry-and-mourne-area-b'],
   ['local-government-local-government-districts-1973-05-30-lg73-nam-area-c', 'local-government-local-government-districts-1973-05-30-newry-and-mourne-area-c'],

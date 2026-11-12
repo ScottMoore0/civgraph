@@ -87,6 +87,23 @@ export const RETIRED_CONTEST_SLUGS = [
   ['belfast-county-borough-council-aldermen-1961-shankill', 'belfast-county-borough-council-aldermen-1961-05-17-shankill'],
   ['belfast-county-borough-council-aldermen-1961-st-anne-s', 'belfast-county-borough-council-aldermen-1961-05-17-st-anne-s'],
   ['belfast-county-borough-council-aldermen-1961-woodvale', 'belfast-county-borough-council-aldermen-1961-05-17-woodvale'],
+  // Council divisions filed under a misprint or a garbled reading in one round, renamed on
+  // 12 Nov 2026 (w8-redirects) to the name the cited page prints and the other rounds file:
+  // Castlereagh Rural 1964 Holywood Rural, Ballymena Rural 1946 Ballyscullion, South Down
+  // Rural 1936 Lisnacree and Maghera (the paper's 'Maghereagh'), Coleraine Rural 1967 Slaght,
+  // Limavady Rural 1964 Bellarena, Castlederg Rural 1936 Clare and Lisnacloon and 1967
+  // Lisnacloon, Omagh Rural 1933 Greenan and Moyle.
+  ['castlereagh-rural-district-council-1964-06-04-holywood', 'castlereagh-rural-district-council-1964-06-04-holywood-rural'],
+  ['ballymena-rural-district-council-1946-10-03-ballykullion', 'ballymena-rural-district-council-1946-10-03-ballyscullion'],
+  ['south-down-rural-district-council-1936-06-04-lismore', 'south-down-rural-district-council-1936-06-04-lisnacree'],
+  ['south-down-rural-district-council-1936-06-04-maghereagh', 'south-down-rural-district-council-1936-06-04-maghera'],
+  ['coleraine-rural-district-council-1967-06-01-slaughtneil', 'coleraine-rural-district-council-1967-06-01-slaght'],
+  ['limavady-rural-district-council-1964-06-04-ballyrena', 'limavady-rural-district-council-1964-06-04-bellarena'],
+  ['castlederg-rural-district-council-1936-06-03-clue', 'castlederg-rural-district-council-1936-06-03-clare'],
+  ['castlederg-rural-district-council-1936-06-03-lisnacicon', 'castlederg-rural-district-council-1936-06-03-lisnacloon'],
+  ['castlederg-rural-district-council-1967-06-01-lisnagloch', 'castlederg-rural-district-council-1967-06-01-lisnacloon'],
+  ['omagh-rural-district-council-1933-05-31-groenan', 'omagh-rural-district-council-1933-05-31-greenan'],
+  ['omagh-rural-district-council-1933-05-31-moyroe', 'omagh-rural-district-council-1933-05-31-moyle'],
   // The district electoral areas of the general local elections of 1973-2011 that ARK's
   // import code named ("lg85-NoD-Holywood", "lg73-NaM-Area-A"): Browse published them under
   // those names (data/browse/details/elections, June 2026) and they took the area's own name
