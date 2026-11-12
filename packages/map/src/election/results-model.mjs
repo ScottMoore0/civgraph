@@ -83,6 +83,7 @@ import { mainPanePartyColour, partyColour } from './palette.mjs';
 
 export { averageNumbers, sumNumbers };
 
+// arch-ok R6: the spellings a plurality system is matched by in an entry's text (ids and words alike), not the registry's list
 const PLURALITY_SYSTEMS = ['fptp', 'first past the post', 'first past post', 'block vote', 'block-vote'];
 
 // ---------------------------------------------------------------------------------------------
@@ -371,6 +372,7 @@ export function candidateDeltasEligible(result = {}, { bundle = null, entry = nu
     entry?.votingSystem
   ].filter(Boolean).join(' '));
   if (/referendum|recall petition/.test(haystack)) return false;
+  // arch-ok R6: words matched in an entry's title, body and system together, not the registry's list of systems
   if (/northern ireland forum|regional list|party list dhondt|party-list-dhondt|ordinal/.test(haystack)) return false;
   return true;
 }

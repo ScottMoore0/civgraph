@@ -8,6 +8,7 @@ import { escapeHtml } from '../../../pkg/core/src/html.js';
 import { formatDisplayDate } from '../../../pkg/core/src/date-format.mjs';
 import { slugify } from '../../../pkg/core/src/format.js';
 import { POLL_STATUS_TEXT, contestPollStatus, summaryPollStatus } from '../../../pkg/core/src/unopposed.mjs';
+import { votingSystemNames } from '../../../pkg/registries/src/browser/election-type-names.mjs';
 
 /** HTML-escape a value for text or an attribute (packages/core/src/html.js). */
 export const esc = escapeHtml;
@@ -67,14 +68,11 @@ export const appUrl = {
   contest: (/** @type {string} */ key, /** @type {string} */ contestSlug) => `/elections/${encodeURIComponent(electionSlug(key))}/${encodeURIComponent(contestSlug)}/`,
 };
 
-/** The voting system in words. */
+/** The voting system in words: its name in the election-types registry (REG-2), else its id. */
 /** @param {string | null | undefined} system */
 export function systemName(system) {
   /** @type {Record<string, string>} */
-  const names = {
-    fptp: 'first past the post', 'stv-hare': 'single transferable vote', 'stv-gregory': 'single transferable vote (Gregory method)',
-    'party-list-dhondt': "party list (D'Hondt)", ordinal: 'referendum',
-  };
+  const names = votingSystemNames;
   return names[String(system)] || system || 'unknown system';
 }
 

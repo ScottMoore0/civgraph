@@ -4,8 +4,8 @@
  * The vocabularies are read from the registries (data/registries/): party names and their
  * abbreviations, council ids, body slugs and names, body types, the states and spellings of the
  * status machines the config names (the domain ones: generic words such as held or partial are
- * left out), and layer types; config/architecture.json adds the election vocabulary (voting
- * systems, election kinds, outcomes) until REG-2 makes it a registry. A literal is an array of
+ * left out), layer types, and the election types registry's voting systems and kinds of election
+ * (REG-2); config/architecture.json adds the candidate outcomes until a registry holds them. A literal is an array of
  * strings, the key set of an object, the first column of a table (`new Map([[k, v], ...])` or an
  * array of rows), a `switch`'s case labels, or a regular expression's alternation. Two values
  * of the SAME vocabulary in one literal is a list that belongs in a registry; one value is a
@@ -22,7 +22,7 @@ const norm = (/** @type {unknown} */ v) => String(v).trim().toLowerCase().replac
 
 /**
  * The vocabularies: value -> its category. Values shorter than three characters are left out.
- * @param {{ parties?: { abbreviations?: Array<unknown[] | { abbreviation?: unknown, fullName?: unknown, spellings?: unknown }> }, councils?: { councils?: Array<Record<string, unknown>>, types?: Record<string, unknown> }, statuses?: { machines?: Record<string, Record<string, unknown>> }, statusMachines?: string[], layerTypes?: { types?: Record<string, unknown> }, extra?: Record<string, string[]> }} registries
+ * @param {{ parties?: { abbreviations?: Array<unknown[] | { abbreviation?: unknown, fullName?: unknown, spellings?: unknown }> }, councils?: { councils?: Array<Record<string, unknown>>, types?: Record<string, unknown> }, statuses?: { machines?: Record<string, Record<string, unknown>> }, statusMachines?: string[], layerTypes?: { types?: Record<string, unknown> }, electionTypes?: { votingSystems?: Record<string, unknown>, electionKinds?: Record<string, unknown> }, extra?: Record<string, string[]> }} registries
  * @returns {Map<string, string>}
  */
 export function buildVocabulary(registries) {
@@ -46,6 +46,8 @@ export function buildVocabulary(registries) {
     for (const [spelling, meaning] of Object.entries(/** @type {Record<string, unknown>} */ (machine.spellings || {}))) { add(spelling, 'status'); add(meaning, 'status'); }
   }
   for (const type of Object.keys(registries.layerTypes?.types || {})) add(type, 'layer type');
+  for (const system of Object.keys(registries.electionTypes?.votingSystems || {})) add(system, 'voting system');
+  for (const kind of Object.keys(registries.electionTypes?.electionKinds || {})) add(kind, 'election kind');
   for (const [category, values] of Object.entries(registries.extra || {})) for (const v of values) add(v, category);
   return vocab;
 }
@@ -62,6 +64,7 @@ function loadVocabulary(ctx) {
     statuses: read('data/registries/statuses.json'),
     statusMachines: cfg.statusMachines,
     layerTypes: read('data/registries/layer-types.json'),
+    electionTypes: read('data/registries/election-types.json'),
     extra: Object.fromEntries(Object.entries(cfg.extraVocabulary || {}).filter(([k]) => k !== '//')),
   });
 }
