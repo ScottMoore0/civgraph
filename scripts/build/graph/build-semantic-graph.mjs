@@ -5,6 +5,9 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { gunzip, gzip } from 'node:zlib';
 import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
+import { makeEntityId, shortHash, slugify } from '../../lib/graph-entity-id.mjs';
+import { graphEntityAliases, readGraphLedger } from '../../lib/graph-id-ledger.mjs';
+import { personKeepOf } from '../../lib/person-address-ledger.mjs';
 import { wikidataUrl } from '../../lib/wikidata-persons.mjs';
 import { buildTimestamp } from '../../lib/build-timestamp.mjs';
 import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, PROVENANCE_FILE, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
@@ -236,6 +239,7 @@ async function main() {
   await fs.mkdir(path.join(OUTPUT_DIR, 'indexes'), { recursive: true });
   const slugIndex = await writeEntitySlugIndex(sortedEntities, publicEntityIds);
   await writeBrowseRecordToEntity(browseRecordToEntity);
+  const entityAliases = await writeEntityAliases(sortedEntities);
   const subjectStatementIndex = await writeSubjectStatementShards(compactBySubject);
   const entitySearch = await writeEntitySearchIndex(entitySummaryById);
   const reverseEntityValueIndex = await writeReverseEntityValueIndex(sortedStatements, entitySummaryById);
@@ -305,7 +309,8 @@ async function main() {
       reverseEntityValueShards: reverseEntityValueIndex.shards,
       sourceStatementsMap: sourceStatementIndex.mapUrl,
       sourceStatementShards: sourceStatementIndex.shards,
-      propertySummary: '/data/graph/indexes/property-summary.json'
+      propertySummary: '/data/graph/indexes/property-summary.json',
+      entityAliases: '/data/graph/indexes/entity-aliases.json'
     },
     quality: {
       validationSummary: '/data/graph/quality/validation-summary.json'
@@ -318,7 +323,27 @@ async function main() {
 
   const removed = await removeUnwrittenOutputs();
   console.log(`Built Civgraph semantic graph: ${sortedEntities.length.toLocaleString('en-GB')} entities, ${sortedStatements.length.toLocaleString('en-GB')} statements, ${Object.keys(browseRecordToEntity).length.toLocaleString('en-GB')} Browse mappings.`);
+  console.log(`  ${Object.keys(entityAliases.ids).length.toLocaleString('en-GB')} published id(s) the graph no longer has answer through aliases (indexes/entity-aliases.json)${entityAliases.unresolved.length ? `; ${entityAliases.unresolved.length} cannot be answered (the records check fails): ${entityAliases.unresolved.slice(0, 5).join(', ')}` : ''}.`);
   console.log(`  ${writtenOutputs.size - keptUnchanged} file(s) written, ${keptUnchanged} unchanged but for the build stamp (kept as they were), ${removed} stale file(s) removed.`);
+}
+
+// Every contest, election and person id the graph has published keeps answering
+// (scripts/lib/graph-id-ledger.mjs): an id of the ledger this build no longer has answers with
+// the entity it became, through the retired election slugs and the person-id merges. The
+// records load puts these in graph_browse_keys as alias:<old id> and slug:<old readable slug>.
+async function writeEntityAliases(sortedEntities) {
+  const aliases = graphEntityAliases(readGraphLedger(), sortedEntities.map((entity) => ({
+    id: entity.id,
+    browseSlug: entity.browseSlug,
+    electionKey: entity.attributes?.electionKey
+  })), { keepOf: personKeepOf() });
+  await writeJson(path.join(OUTPUT_DIR, 'indexes', 'entity-aliases.json'), {
+    schemaVersion: 1,
+    generatedAt: GENERATED_AT,
+    generator: 'scripts/build/graph/build-semantic-graph.mjs',
+    ...aliases
+  }, { pretty: false });
+  return aliases;
 }
 
 function seedRegistryEntities() {
@@ -2823,12 +2848,6 @@ function siteUrlToPath(url) {
   return localPathForUrl(decodeURIComponent(String(url || '')));
 }
 
-function makeEntityId(prefix, key) {
-  const slug = slugify(key || prefix);
-  const stableSlug = slug.length > 96 ? `${slug.slice(0, 72)}-${shortHash(slug, 12)}` : slug;
-  return `cg:${prefix}:${stableSlug}`;
-}
-
 function canonicalBody(value) {
   const raw = cleanText(value);
   const lower = raw.toLowerCase();
@@ -3006,20 +3025,6 @@ function normalizePersonName(value) {
 
 function normalizePartyName(value) {
   return normalizePersonName(value);
-}
-
-function slugify(value) {
-  return String(value ?? '')
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/&/g, ' and ')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '') || 'entry';
-}
-
-function shortHash(value, length = 16) {
-  return crypto.createHash('sha256').update(String(value)).digest('hex').slice(0, length);
 }
 
 function sameText(a, b) {

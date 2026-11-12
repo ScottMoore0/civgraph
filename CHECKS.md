@@ -35,6 +35,15 @@ changed files need and then runs the checks.
   published for or the one that person was merged into. The ledger only grows: `npm run
   persons:addresses` adds what a records build publishes (run it after each records build and
   commit the file); `-- --check` also fails while the build publishes keys or ids it lacks.
+- `tests/records/published-graph-ids.test.mjs` (in `records:check`, 12 Nov 2026): every contest,
+  election and person id the semantic graph has published (the ledger
+  `data/elections/published-graph-ids.json`, `scripts/lib/graph-id-ledger.mjs`) is still in the
+  graph or answers through an `alias:<id>` key of `graph_browse_keys` (the graph build's
+  `indexes/entity-aliases.json`: a renamed contest through the retired election slugs, a merged
+  or renamed person through the person-id merges), and `/_api/graph?entity=<retired id>`
+  answers with the entity it became. `npm run graph:ids` adds what a records build publishes
+  (after each records build with the graph; commit the file); `-- --check` also fails while the
+  build publishes ids it lacks.
 - `test:browser:shell` (`tests/browser/site-shell.spec.cjs`) holds every page type to the
   shared shell (`packages/ui/src/templates/shell.js`) at 375 px and 1280 px, in light and dark:
   48 cases, each saving a screenshot to `test-results/site-shell/`. Run it after changing

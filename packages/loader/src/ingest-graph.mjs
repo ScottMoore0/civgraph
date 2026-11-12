@@ -3,8 +3,10 @@
  * of them hash-bucketed indexes rewritten on nearly every build:
  *   graph_entities           entity-shards records + the lookup entry + the search entry
  *   graph_browse_keys        lookup/browse buckets ("persons:<slug>" -> entity) and the
- *                            lookup/slug buckets ("slug:<slug>" -> entity)
- *   graph_statements         statements-by-subject shards, in their order
+ *                            lookup/slug buckets ("slug:<slug>" -> entity), and the published
+ *                            ids and slugs the graph no longer has (indexes/entity-aliases.json:
+ *                            "alias:<old id>" and "slug:<old slug>" -> the entity it became)
+ *   graph_statements        statements-by-subject shards, in their order
  *   graph_reverse            reverse-entity-value shards
  *   graph_source_statements  source-statements shards
  * plus the small registries and the index heads as documents. The bulk exports stay files
@@ -102,6 +104,18 @@ export function ingestGraph(db, { graphDir }) {
     for (const [, bucket] of jsonFiles(path.join(idx, 'lookup', 'slug'))) {
       for (const [slug, id] of Object.entries(bucket.items || {})) {
         const key = `slug:${slug}`;
+        if (seenKeys.has(key)) continue;
+        seenKeys.add(key);
+        keys.add({ browse_key: key, entity_id: String(id) });
+      }
+    }
+    // Published ids the graph no longer has (indexes/entity-aliases.json, scripts/lib/
+    // graph-id-ledger.mjs): "alias:<old id>" -> the entity it became, which /_api/graph?entity=
+    // answers with; and the old readable slugs, after every live one.
+    const aliases = readJson(path.join(idx, 'entity-aliases.json'), null);
+    for (const [prefix, map] of /** @type {[string, Record<string, string> | undefined][]} */ ([['alias:', aliases?.ids], ['slug:', aliases?.slugs]])) {
+      for (const [old, id] of Object.entries(map || {})) {
+        const key = `${prefix}${old}`;
         if (seenKeys.has(key)) continue;
         seenKeys.add(key);
         keys.add({ browse_key: key, entity_id: String(id) });
