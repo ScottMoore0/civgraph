@@ -149,13 +149,10 @@ const BLOB_BINDINGS = Object.entries(BINDINGS).filter(([, b]) => b.kind === 'r2'
 
 /** Function files that still read an R2 or KV binding themselves (ST-2 empties this list). */
 const NOT_YET_ON_THE_BLOB_STORE = [
-  'packages/api/src/handlers/_r2-listing.js',
   'packages/api/src/handlers/contributions/decide.js',
   'packages/api/src/handlers/contributions/intake.js',
   'packages/api/src/handlers/contributions/list.js',
-  'packages/api/src/handlers/contributions/r2-index.js',
   'packages/api/src/handlers/contributions/submit.js',
-  'packages/api/src/handlers/data-index/index.js',
   'packages/api/src/handlers/proni/search.js',
   'packages/api/src/handlers/search.js',
   'packages/api/src/handlers/spatial.js',
