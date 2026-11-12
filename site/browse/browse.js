@@ -4,7 +4,7 @@ import {
 // The packages' own escaping, slug and no-poll rules (packages/core, served at /pkg/ through
 // packages/served.json; the imports resolve to site/pkg/ in Node and tsc): Browse keeps no copy.
 import { escapeHtml } from '../pkg/core/src/html.js';
-import { siteNumber, slugify } from '../pkg/core/src/format.js';
+import { personRecordKey, siteNumber, slugify } from '../pkg/core/src/format.js';
 import { candidateReturnWithoutPoll, partyHadNoPoll } from '../pkg/core/src/unopposed.mjs';
 import { SITE } from '../pkg/config/src/config.js';
 import { electionKindLabels } from '../pkg/registries/src/browser/election-type-names.mjs';
@@ -4894,11 +4894,13 @@ function contestIsStv(constituency, item) {
  */
 function contestPersonLink(candidate) {
   const name = escapeHtml(candidate.name || '');
-  const personId = candidate.personId ?? candidate.person_id;
-  if (personId === null || personId === undefined || personId === '') return name;
-  // The persons endpoint finds a record by id as well as by slug, so the id is the link that
-  // cannot miss when a candidacy's spelling differs from the person's canonical name.
-  return `<a href="#/persons/${encodeURIComponent(String(personId))}" data-browse-link>${name}</a>`;
+  // The person's own slug (the API reads it from person_cards), so the link is the page itself,
+  // not the id's 301 to it. Without one (an older answer, a static bundle) the id: the persons
+  // endpoint finds a record by id as well as by slug, so it cannot miss when a candidacy's
+  // spelling differs from the person's canonical name, as a slug made from that spelling could.
+  const key = personRecordKey({ personSlug: candidate.personSlug, personId: candidate.personId ?? candidate.person_id });
+  if (!key) return name;
+  return `<a href="#/persons/${encodeURIComponent(key)}" data-browse-link>${name}</a>`;
 }
 
 /**
@@ -5096,7 +5098,8 @@ async function renderAreaResultsPanel(item) {
   const candidates = normalizeArray(data.candidates);
   const byId = new Map(candidates.map((/** @type {BrowseItem} */ c) => [String(c.id), c]));
   const swatch = (/** @type {BrowseItem} */ c) => (c?.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(c.colour)}">${escapeHtml(c.name || '')}</span>` : escapeHtml(c?.name || ''));
-  const personCell = (/** @type {BrowseItem} */ c) => (c?.personId ? `<a href="#/persons/${encodeURIComponent(String(c.personId))}" data-browse-link>${swatch(c)}</a>` : swatch(c));
+  // Linked by the person's own slug where the answer has it, as contestPersonLink.
+  const personCell = (/** @type {BrowseItem} */ c) => (c?.personId ? `<a href="#/persons/${encodeURIComponent(personRecordKey({ personSlug: c.personSlug, personId: c.personId }))}" data-browse-link>${swatch(c)}</a>` : swatch(c));
   const numCounts = Math.max(1, Number(data.numCounts) || 1);
   const pct = (/** @type {unknown} */ value) => (Number.isFinite(Number(value)) && value !== null ? `${Number(value).toFixed(2)}%` : '');
   const head = candidates.map((/** @type {BrowseItem} */ c) => `<th scope="col" class="browse-num">${personCell(c)}</th>`).join('');
@@ -5157,7 +5160,9 @@ function renderElectionRelated(item) {
   if (item.entryKind && item.entryKind !== 'election') {
     const parentRows = item.parentElectionKey ? [[
       item.date ? formatDate(item.date) : '',
-      item.parentBrowseUrl ? `<a href="#/elections/${encodeURIComponent((item.parentBrowseUrl || '').split('/').pop() || item.parentElectionKey)}" data-browse-link>${escapeHtml(item.parentTitle || item.parentElectionKey)}</a>` : escapeHtml(item.parentTitle || item.parentElectionKey),
+      // parentBrowseUrl ends in the election's key (dail-eireann__2024-11-29), which its page
+      // answers with a 301 to the slug; the link names the slug (electionSlug, the server's rule).
+      item.parentBrowseUrl ? `<a href="#/elections/${encodeURIComponent(electionSlug((item.parentBrowseUrl || '').split('/').pop() || item.parentElectionKey))}" data-browse-link>${escapeHtml(item.parentTitle || item.parentElectionKey)}</a>` : escapeHtml(item.parentTitle || item.parentElectionKey),
       item.interactiveUrl ? `<a href="${escapeAttr(item.interactiveUrl)}">Open election layer</a>` : ''
     ]] : [];
     return renderTablePanel('Parent Election', ['Date', 'Election', 'Interactive layer'], parentRows);

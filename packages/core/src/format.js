@@ -21,6 +21,51 @@ export function slugify(value) {
 }
 
 /**
+ * A person record's slug, which the Browse build gives each person (scripts/build/
+ * build-browse-indexes.mjs): a URL a reader can recognise that still resolves uniquely. The name
+ * alone is not enough, because the registry keeps distinct people who share a name apart, so the
+ * readable part carries the name and the registry id keeps it unique: "naomi-long-51102". A
+ * candidacy no registry id was found for has the id "name:<slug>", one per name by construction,
+ * so its name alone is unique and no suffix is added.
+ * @param {unknown} personId
+ * @param {unknown} name
+ * @returns {string}
+ */
+export function personSlug(personId, name) {
+  const id = String(personId || '');
+  const readable = slugify(name);
+  if (id.startsWith('name:')) return readable || slugify(id);
+  return readable ? `${readable}-${slugify(id)}` : slugify(id);
+}
+
+/**
+ * What a link to a person's page names: the person's own slug where the row carries it (a
+ * candidacy's personSlug, read from person_cards), which the page answers directly; else, given
+ * a name, the slug the name and id make (personSlug: right unless the candidacy spells the
+ * name differently from the record, when the page still finds the person by the id and answers
+ * a 301); else the id (always a 301 to the slug). The in-app Browse links give no name: its API
+ * finds a record by slug or id, not by a misspelt slug. '' for a row with no person.
+ * @param {{ personSlug?: unknown, personId?: unknown, name?: unknown }} person
+ * @returns {string}
+ */
+export function personRecordKey({ personSlug: slug, personId, name } = {}) {
+  if (slug) return String(slug);
+  if (personId === null || personId === undefined || personId === '') return '';
+  return name ? personSlug(personId, name) : String(personId);
+}
+
+/**
+ * The address of a person's page, /browse/persons/<slug> (personRecordKey), or null for a row
+ * with no person.
+ * @param {{ personSlug?: unknown, personId?: unknown, name?: unknown }} person
+ * @returns {string | null}
+ */
+export function personRecordPath(person) {
+  const key = personRecordKey(person);
+  return key ? `/browse/persons/${encodeURIComponent(key)}` : null;
+}
+
+/**
  * The locale every number and date on the site is written in. The interface languages (Irish,
  * Ulster-Scots: site/assets/i18n/i18n.js) translate the English the page renders, dates
  * included, so the formatter writes English and nothing else names a locale (R10, check C10).

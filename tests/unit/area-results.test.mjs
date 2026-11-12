@@ -104,10 +104,10 @@ const MODES = [
 test('the API answer of an election\'s results by area', async () => {
   const { areaResultsAnswer } = await import('../../packages/core/src/area-results.mjs');
   const answer = areaResultsAnswer({ key: 'ireland-president__2011-10-27', displayTitle: '2011 Irish presidential election' }, MODES,
-    [{ id: '1', name: 'Michael D Higgins', party: 'Irish Labour', personId: 100313 }, { id: '3', name: 'David Norris', party: 'Independent', personId: null }]);
+    [{ id: '1', name: 'Michael D Higgins', party: 'Irish Labour', personId: 100313, personSlug: 'michael-d-higgins-100313' }, { id: '3', name: 'David Norris', party: 'Independent', personId: null }]);
   assert.equal(answer.areaLabel, 'Constituency');
   assert.equal(answer.numCounts, 2);
-  assert.deepEqual(answer.candidates.map((c) => [c.id, c.personId, c.colour]), [['1', '100313', '#cc0000'], ['3', null, '#d62728']]);
+  assert.deepEqual(answer.candidates.map((c) => [c.id, c.personId, c.personSlug, c.colour]), [['1', '100313', 'michael-d-higgins-100313', '#cc0000'], ['3', null, null, '#d62728']]);
   const [clare] = answer.areas;
   assert.equal(clare.slug, 'clare');
   assert.deepEqual(clare.candidates.map((c) => [c.id, c.counts, c.share, c.excludedAt]), [['1', [300, 330], 50, null], ['3', [50, null], 8.33, 2]]);

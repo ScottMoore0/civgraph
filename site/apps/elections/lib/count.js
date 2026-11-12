@@ -17,7 +17,7 @@ import { num } from './format.js';
 
 /**
  * @typedef {{ count: number, total: number | null, transfers: number | null, status: string }} Cell
- * @typedef {{ id: string, name: string, party: string, colour: string, personId: string | null,
+ * @typedef {{ id: string, name: string, party: string, colour: string, personId: string | null, personSlug: string | null,
  *   firstPrefs: number | null, finalVotes: number | null, elected: boolean, unopposed: boolean, autoReturned: boolean,
  *   electedAt: number | null, excludedAt: number | null, status: string, cells: Cell[] }} SheetRow
  * @typedef {{ id: string, name: string, party: string, colour: string, amount: number }} Flow
@@ -50,6 +50,7 @@ export function countSheet(candidates, contest = {}) {
       party: String(c.party || 'No party recorded'),
       colour: String(c.colour || ''),
       personId: c.personId ? String(c.personId) : null,
+      personSlug: c.personSlug ? String(c.personSlug) : null,
       firstPrefs: noPoll && !num(c.firstPrefs) ? null : num(c.firstPrefs),
       finalVotes: num(c.finalVotes),
       elected: c.elected === 1 || c.elected === true || noPoll,

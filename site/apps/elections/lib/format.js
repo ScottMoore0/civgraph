@@ -6,7 +6,7 @@
  */
 import { escapeHtml } from '../../../pkg/core/src/html.js';
 import { formatDisplayDate } from '../../../pkg/core/src/date-format.mjs';
-import { siteNumber, slugify } from '../../../pkg/core/src/format.js';
+import { personRecordPath, siteNumber, slugify } from '../../../pkg/core/src/format.js';
 import { POLL_STATUS_TEXT, contestPollStatus, summaryPollStatus } from '../../../pkg/core/src/unopposed.mjs';
 import { votingSystemNames } from '../../../pkg/registries/src/browser/election-type-names.mjs';
 
@@ -50,11 +50,13 @@ export function fmtDelta(value, digits = 0) {
   return `${r > 0 ? '+' : '−'}${Math.abs(r).toFixed(digits)}`;
 }
 
-/** The Browse URL of a person record from a candidacy's name and person id. */
-/** @param {unknown} name @param {string | number | null | undefined} personId */
-export function personUrl(name, personId) {
-  if (!personId) return null;
-  return `/browse/persons/${slugify(name)}-${encodeURIComponent(personId)}`;
+/**
+ * The Browse URL of a person record from a candidacy: the person's own slug where the API gives it
+ * (personSlug), else the slug its name and id make (packages/core/src/format.js personRecordPath).
+ * @param {unknown} name @param {string | number | null | undefined} personId @param {string | null} [personSlug]
+ */
+export function personUrl(name, personId, personSlug) {
+  return personId ? personRecordPath({ personSlug, personId, name }) : null;
 }
 
 /** An election's URL slug from its key ("body__2022-05-05" -> "body-2022-05-05"). */

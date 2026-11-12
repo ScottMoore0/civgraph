@@ -41,8 +41,15 @@ const CONS_COL_LIST = [
 ];
 const CONS_COLS = CONS_COL_LIST.join(', ');
 
+/**
+ * A candidacy's person's own slug (person_cards, through its id index), so a person link names the
+ * page itself rather than the id, which answers a 301 to it (fast links, 12 Nov 2026). Null for a
+ * candidacy with no person. For a query over candidacies unaliased.
+ */
+export const PERSON_SLUG_COL = '(SELECT p.slug FROM person_cards p WHERE p.id = candidacies.person_id ORDER BY p.ord LIMIT 1) AS personSlug';
+
 const CAND_COLS =
-  'candidate_id AS id, name, party_label AS party, person_id AS personId, '
+  'candidate_id AS id, name, party_label AS party, person_id AS personId, ' + PERSON_SLUG_COL + ', '
   + 'first_prefs AS firstPrefs, final_votes AS finalVotes, elected, elected_at AS electedAt, '
   + 'excluded, excluded_at AS excludedAt, status, colour, gender, meta';
 
