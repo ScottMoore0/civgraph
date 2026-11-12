@@ -11,11 +11,15 @@ const APP_JS = 'site/app/build/app.bundle.js';
 const APP_CSS = 'site/app/build/app.bundle.css';
 const ARCHIVE_TAG = 'leaflet-main-before-maplibre-root-20260612';
 
+/**
+ * @param {unknown} condition
+ * @param {string} message
+ */
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-function read(path) {
+function read(/** @type {string} */ path) {
   assert(existsSync(path), `Missing required file: ${path}`);
   return readFileSync(path, 'utf8');
 }

@@ -26,7 +26,10 @@ export function expectedFiles() {
   return Object.fromEntries(Object.entries(docs).map(([rel, doc]) => [rel, fileText(doc)]));
 }
 
-/** Every file now under the folder, relative, with forward slashes. */
+/**
+ * Every file now under the folder, relative, with forward slashes.
+ * @returns {string[]}
+ */
 function presentFiles(dir = SCHEMA_DIR, base = '') {
   if (!existsSync(dir)) return [];
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory()
