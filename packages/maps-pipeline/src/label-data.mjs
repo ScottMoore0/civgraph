@@ -11,7 +11,8 @@
  *   replacement character a wrong-encoding decode leaves where a fada was).
  *
  * Used by packages/maps-pipeline/src/tiles/feature-indexes.mjs,
- * scripts/build/build-test2-election-manifest.mjs and scripts/check/rules/map-label-data.mjs.
+ * scripts/build/build-test2-election-manifest.mjs, scripts/check/rules/map-label-data.mjs and
+ * packages/maps-pipeline/src/tiles/repair-label-text.mjs (repairApplies).
  */
 
 /** The island of Ireland with its offshore islands (Tory, Inishtrahull, the Blaskets, Fastnet), in degrees. */
@@ -61,6 +62,22 @@ export function hasReplacementChar(value) {
  */
 export function notNfc(value) {
   return typeof value === 'string' && value !== value.normalize('NFC');
+}
+
+/**
+ * Whether a keyed repair from data/database/label-text-repairs.json is written into its source.
+ * The file's `apply.confidence` lists the confidence levels the owner has accepted (12 Nov 2026:
+ * "high" only); a reading at any other level (medium, open) is held back and the source keeps
+ * its damaged text. With no such list every reading applies, and a reading with no confidence
+ * is certain and always applies.
+ * @param {{ confidence?: string | null }} record
+ * @param {readonly string[] | null | undefined} accepted
+ * @returns {boolean}
+ */
+export function repairApplies(record, accepted) {
+  if (!Array.isArray(accepted)) return true;
+  if (!record.confidence) return true;
+  return accepted.includes(record.confidence);
 }
 
 /**

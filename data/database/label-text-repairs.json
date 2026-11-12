@@ -1,5 +1,5 @@
 {
-  "description": "Label and name text repaired in map source files. Each entry restores characters that were damaged to U+FFFD (a wrong-encoding decode where a fada was) or stored decomposed (a combining accent after its letter). packages/maps-pipeline/src/tiles/repair-label-text.mjs applies it to the local source FlatGeobufs before the tiles are rebuilt; scripts/check/rules/map-label-data.mjs --sources accepts a damaged source value only while a repair here covers it.",
+  "description": "Label and name text repaired in map source files. Each entry restores characters that were damaged to U+FFFD (a wrong-encoding decode where a fada was) or stored decomposed (a combining accent after its letter). packages/maps-pipeline/src/tiles/repair-label-text.mjs applies it to the local source FlatGeobufs before the tiles are rebuilt (keyed readings only at the confidence levels listed under apply); scripts/check/rules/map-label-data.mjs --sources accepts a damaged source value only while a repair here covers it.",
   "generatedAt": "2026-11-11",
   "methods": {
     "osm-townland": "the same townland in OpenStreetMap (name:ga, from Logainm)",
@@ -12,6 +12,12 @@
     "high": "the reading is certain",
     "medium": "one plausible reading; worth a Logainm check",
     "open": "not settled: the Irish name is left empty until checked"
+  },
+  "apply": {
+    "confidence": [
+      "high"
+    ],
+    "note": "Which keyed readings repair-label-text.mjs writes into the sources. The owner accepted the high-confidence readings in bulk on 12 Nov 2026; the medium and open ones stay in the sources as they are (still damaged) until the owner settles each. To accept one, raise its confidence to high and say who decided in its note. A record with no confidence is certain and always applies."
   },
   "keyed": {
     "cork-townlands": {
