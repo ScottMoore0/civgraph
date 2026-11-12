@@ -33,11 +33,12 @@
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
+import { SITE } from '../../../packages/config/src/node.mjs';
 
 const ROOT = process.cwd();
 const OUT = 'data/elections/parties/party-wikidata.json';
 const OVERRIDES = 'data/elections/parties/party-wikidata-overrides.json';
-const UA = 'civgraph-research (+https://civgraph.net)';
+const UA = SITE.userAgent;
 const API = 'https://www.wikidata.org/w/api.php';
 const SPARQL = 'https://query.wikidata.org/sparql';
 const PAUSE_MS = 400;

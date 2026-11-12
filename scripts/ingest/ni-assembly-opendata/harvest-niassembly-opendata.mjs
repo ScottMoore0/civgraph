@@ -31,10 +31,11 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { SITE } from '../../../packages/config/src/node.mjs';
 import { HARVEST } from '../../../packages/intake/src/item-status.mjs';
 
 const BASE = 'https://data.niassembly.gov.uk';
-const UA = 'civgraph-opendata-harvest/1.0 (+https://civgraph.net; contact via repo)';
+const UA = `civgraph-opendata-harvest/1.0 (+${SITE.origin}; contact via repo)`;
 
 const args = process.argv.slice(2);
 const argVal = (n, d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };

@@ -22,6 +22,7 @@ import { createServer } from 'node:http';
 import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SITE } from '../../packages/config/src/node.mjs';
 import { localPathForUrl, BROWSE_DIR } from '../../packages/loader/src/paths.mjs';
 import { createDatabase, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
 import { ingestMaps, MAP_SOURCES } from '../../packages/loader/src/ingest-maps.mjs';
@@ -119,8 +120,8 @@ createServer(async (req, res) => {
     }
     if (p.startsWith('/_r/') || p.startsWith('/_api/') || p.startsWith('/api/')) {
       const upstream = p.startsWith('/_r/')
-        ? `https://data.civgraph.net/${p.slice(4)}${url.search}`
-        : `https://civgraph.net${p}${url.search}`;
+        ? `${SITE.dataOrigin}/${p.slice(4)}${url.search}`
+        : `${SITE.origin}${p}${url.search}`;
       const headers = { 'User-Agent': 'civgraph-test-site' };
       for (const h of ['range', 'content-type', 'accept', 'if-none-match']) if (req.headers[h]) headers[h] = req.headers[h];
       const body = ['GET', 'HEAD'].includes(req.method) ? undefined : await readBody(req);
@@ -161,7 +162,7 @@ createServer(async (req, res) => {
     // civgraph.net fetch (CORS), so on localhost the book viewer could not load them. They are
     // sent through /_r/ here instead, as the site already does for its other CDN files.
     if (p === '/data/database/books.json') {
-      return send(res, 200, readFileSync(file, 'utf8').replaceAll('https://data.civgraph.net/', '/_r/'), TYPES['.json']);
+      return send(res, 200, readFileSync(file, 'utf8').replaceAll(`${SITE.dataOrigin}/`, '/_r/'), TYPES['.json']);
     }
     const size = statSync(file).size;
     const range = req.headers.range && /bytes=(\d*)-(\d*)/.exec(req.headers.range);

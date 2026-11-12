@@ -41,7 +41,7 @@ const API = opt('--api', 'static');
 const ROOT = process.cwd();
 const CDN = SITE_CONFIG.dataOrigin;
 const SITE = SITE_CONFIG.origin;
-const USER_AGENT = 'civgraph-dev-preview (+https://civgraph.net)';
+const USER_AGENT = `civgraph-dev-preview (+${SITE})`;
 
 /** @type {Record<string, string>} */
 const TYPES = {

@@ -31,9 +31,10 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { SITE } from '../../../packages/config/src/node.mjs';
 
 const BASE = 'https://api.oireachtas.ie/v1';
-const UA = 'civgraph-opendata-harvest/1.0 (+https://civgraph.net; contact via repo)';
+const UA = `civgraph-opendata-harvest/1.0 (+${SITE.origin}; contact via repo)`;
 const PAGE = 1000;   // measured maximum; limit=2000 returns zero results
 const CAP = 10000;   // measured hard skip ceiling
 

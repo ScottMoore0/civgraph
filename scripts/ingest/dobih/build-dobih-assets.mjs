@@ -19,6 +19,7 @@ import {
 } from 'node:fs';
 import { basename, dirname, extname, join, relative, resolve, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { SITE } from '../../../packages/config/src/node.mjs';
 
 const ROOT = resolve(process.cwd());
 const DOWNLOAD_ROOT = resolve(ROOT, 'tmp/hill-bagging/downloads');
@@ -53,8 +54,8 @@ const DOBIH_LICENSE_URL = 'https://creativecommons.org/licenses/by/4.0/';
 const IA_ITEM_ID = 'civgraph-dobih-v18-4-source-files';
 const IA_ITEM_URL = `https://archive.org/details/${IA_ITEM_ID}`;
 const IA_DOWNLOAD_BASE = `https://archive.org/download/${IA_ITEM_ID}`;
-const CDN_BASE = 'https://data.civgraph.net/data/maps/physical';
-const TEST_PM_BASE = 'https://data.civgraph.net/data/maps/test/pmtiles/generated';
+const CDN_BASE = `${SITE.dataOrigin}/data/maps/physical`;
+const TEST_PM_BASE = `${SITE.dataOrigin}/data/maps/test/pmtiles/generated`;
 const GENERATED_AT = new Date().toISOString();
 
 const CLASSIFICATIONS = [

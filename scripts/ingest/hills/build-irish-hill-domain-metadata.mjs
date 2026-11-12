@@ -7,6 +7,7 @@
 
 import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { SITE } from '../../../packages/config/src/node.mjs';
 import { LAYER } from '../../../packages/intake/src/item-status.mjs';
 
 const ROOT = resolve(process.cwd());
@@ -26,8 +27,8 @@ const GROUP_NAME = 'Physical Geography';
 const FLAT_SUBHEADING = 'Environment, Water and Geology';
 const PARENT_MAP_ID = 'dobih-v18-4';
 const IRELAND_CLASS_ID = 'dobih-ireland-hills-and-mountains';
-const TEST_PM_BASE = 'https://data.civgraph.net/data/maps/test/pmtiles/generated';
-const PHYSICAL_CDN_BASE = 'https://data.civgraph.net/data/maps/physical';
+const TEST_PM_BASE = `${SITE.dataOrigin}/data/maps/test/pmtiles/generated`;
+const PHYSICAL_CDN_BASE = `${SITE.dataOrigin}/data/maps/physical`;
 const DOBIH_DOWNLOADS_URL = 'https://www.hill-bagging.co.uk/DoBIH/downloads.php';
 const DOBIH_ONLINE_URL = 'https://www.hill-bagging.co.uk/';
 const DOBIH_LICENSE_URL = 'https://creativecommons.org/licenses/by/4.0/';
