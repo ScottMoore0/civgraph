@@ -31,3 +31,14 @@ test('boundaries: the repository passes with an empty baseline', () => {
   const bad = edges().filter((e) => !e.ok);
   assert.deepEqual(bad.map((e) => `${e.file} -> ${e.target}`), []);
 });
+
+test('boundaries: the Elections app is in a unit, and may import only its own files, the served /pkg/ modules and the site', () => {
+  for (const file of ['site/apps/elections/app.js', 'site/apps/elections/lib/format.js', 'site/apps/elections/views/map.js', 'site/apps/elections/embed/embed.js']) {
+    assert.equal(unitOf(file), 'elections-app', file);
+  }
+  assert.equal(allowed('elections-app', 'site-pkg'), true);
+  assert.equal(allowed('elections-app', 'frontend'), true);
+  for (const unit of ['core', 'ui', 'config', 'map', 'api', 'storage', 'registries-browser', 'scripts']) {
+    assert.equal(allowed('elections-app', unit), false, `elections-app -> ${unit}: a served page cannot reach packages/ (use /pkg/)`);
+  }
+});

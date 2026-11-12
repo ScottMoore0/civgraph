@@ -70,4 +70,43 @@ export default [
       'no-undef': 'warn',
     },
   },
+  // The Elections app (site/apps/elections/, 11 Nov 2026 arch audit P0) and the /pkg/ shims it
+  // imports through (site/pkg/). Clean when it joined, so it is held at zero: these are ERRORS.
+  // Its own rules: a served page cannot import packages/ by a relative path (it is not served;
+  // the allowlisted modules are at /pkg/, packages/served.json); navigation goes through the
+  // app's router (ctx.navigate), never a page load; and a view's listeners are removed when the
+  // view is left (addEventListener with { signal: ctx.signal }, site/apps/elections/lib/lifecycle.js).
+  {
+    files: ['site/apps/elections/**/*.js', 'site/pkg/**/*.js', 'site/pkg/**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: { ...globals.browser },
+    },
+    linterOptions: { reportUnusedDisableDirectives: 'error' },
+    rules: {
+      'no-unused-vars': ['error', { args: 'none', varsIgnorePattern: '^_' }],
+      'no-undef': 'error',
+    },
+  },
+  {
+    files: ['site/apps/elections/**/*.js'],
+    rules: {
+      'no-restricted-imports': ['error', { patterns: [{ group: ['**/packages/**'], message: 'A served page cannot reach packages/: import the served copy under /pkg/ (site/pkg/, packages/served.json).' }] }],
+      'no-restricted-properties': ['error',
+        { object: 'location', property: 'assign', message: 'Navigate through the app router (ctx.navigate), not a page load.' },
+        { object: 'location', property: 'replace', message: 'Navigate through the app router (ctx.navigate), not a page load.' },
+        { object: 'window', property: 'location', message: 'Read location directly; navigate through ctx.navigate.' },
+      ],
+    },
+  },
+  {
+    files: ['site/apps/elections/views/**/*.js'],
+    rules: {
+      'no-restricted-syntax': ['error', {
+        selector: "CallExpression[callee.property.name='addEventListener'][arguments.length<3]",
+        message: "A view's listener must end with the view: pass { signal: ctx.signal } (site/apps/elections/lib/lifecycle.js).",
+      }],
+    },
+  },
 ];

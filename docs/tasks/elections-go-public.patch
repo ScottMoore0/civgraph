@@ -124,25 +124,30 @@ index 5e854061eb..13f74e3b0d 100644
  /elections    /apps/elections/  200
  /elections/*  /apps/elections/  200
 diff --git a/site/apps/elections/app.js b/site/apps/elections/app.js
-index 519c5106dc..4dc7e61014 100644
+index 3653d463c0..059ca55fb8 100644
 --- a/site/apps/elections/app.js
 +++ b/site/apps/elections/app.js
-@@ -42,6 +42,7 @@ async function render() {
-     const title = await mod.render(root, route, { stale: () => mine !== generation, navigate });
-     if (mine !== generation) return;
+@@ -57,6 +57,7 @@ async function render() {
+     const title = await mod.render(root, route, { signal: mine.signal, stale: mine.stale, onDispose: mine.onDispose, navigate });
+     if (mine.stale()) return;
      document.title = title ? `${title} - Civgraph Elections` : 'Civgraph Elections';
 +    setCanonical();
+     root.dataset.route = routeRun.to('rendered');
    } catch (err) {
-     if (mine !== generation) return;
-     const status = /** @type {any} */ (err)?.status;
-@@ -55,6 +56,13 @@ async function render() {
+     if (mine.stale()) return;
+@@ -72,6 +73,18 @@ async function render() {
    }
  }
  
-+/** The canonical address and og:url of the view: https://civgraph.net and its path, without the query (tool state). */
++/**
++ * The canonical address and og:url of the view: the page's own canonical origin (index.html) and
++ * the view's path, without the query (tool state).
++ */
 +function setCanonical() {
-+  const href = `https://civgraph.net${location.pathname}`;
-+  document.querySelector('link[rel="canonical"]')?.setAttribute('href', href);
++  const link = document.querySelector('link[rel="canonical"]');
++  if (!link) return;
++  const href = new URL(location.pathname, link.getAttribute('href') || location.origin).href;
++  link.setAttribute('href', href);
 +  document.querySelector('meta[property="og:url"]')?.setAttribute('content', href);
 +}
 +

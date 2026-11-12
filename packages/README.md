@@ -44,8 +44,47 @@ names, once worktrees run their own `npm install` and a Pages preview deploy has
 Functions resolve them.
 
 Browser modules the site serves as files (assets/, browse/, apps/) import nothing from
-`packages/`: it is not in `dist/`. The map app and the catalogue reach the core and config
-packages only through the esbuild bundles.
+`packages/` by a relative path: it is not in `dist/`. The map app and the catalogue reach the
+core and config packages through the esbuild bundles; a served, unbundled page reaches an
+allowlisted module through `/pkg/` (next section).
+
+## Served package modules (`/pkg/`)
+
+Since 11 Nov 2026 (owner-approved; the Elections app's arch audit P3) a short allowlist of pure
+package modules is served at `/pkg/<its path under packages/>`, so an unbundled page imports the
+package's code instead of copying it. The layout is mirrored, so the modules' relative imports of
+each other keep working (`/pkg/ui/src/templates/components/index.js` imports
+`/pkg/core/src/html.js`).
+
+- **The allowlist** is the `pkg/...` keys of `packages/served.json`: one file per key, never a
+  directory. `scripts/build/site.mjs` copies exactly those into `dist/pkg/`, and the dev and test
+  servers answer exactly those paths. `tests/unit/served-pkg.test.mjs` lists them, and fails when
+  a served module imports one that is not served, uses a Node-only API, or comes from a package
+  that is never served (storage, loader, schema, intake, api, maps-pipeline, types,
+  `config/src/node.mjs`, any JSON).
+- **Headers** (`site/_headers`, `/pkg/*`): `Content-Type: text/javascript`, `no-cache,
+  must-revalidate` (the names are not content-hashed: a page's import map versions them), never
+  indexed. Static, never a Function.
+- **Node and tsc** resolve a page's import through `site/pkg/<path>`: one line,
+  `export * from '<up>/packages/<path>'`, for each module a page imports directly (the test holds
+  each to that one line; a module with a default export needs a different shim).
+- **check:boundaries**: `site/pkg/` is the `site-pkg` unit (core, ui, config, registries-browser
+  only). The Elections app's unit may import `site-pkg`, never a package unit, and its ESLint
+  rules forbid any `packages/` import.
+
+**To serve another module:** add `"pkg/<path>": "packages/<path>"` to `packages/served.json` (and
+the same for every module it imports), add it to the list in `tests/unit/served-pkg.test.mjs`,
+add a `site/pkg/<path>` re-export if a page imports it directly, and import it from the page by
+the relative path that lands on `/pkg/` (from `site/apps/x/lib/y.js`: `../../../pkg/core/src/html.js`).
+
+**How Browse and PRONI Search can adopt it (not done yet).** `site/browse/browse.js` keeps a
+copy of `candidateReturnWithoutPoll` (packages/core/src/unopposed.mjs, already served) and its own
+escaping and slug helpers (core html.js and format.js, already served): replace each with an
+import of `../pkg/core/src/<module>` and add the module to Browse's import map in
+`site/browse/index.html` (`tests/unit/ui-module-tokens.test.mjs` prints the map to paste).
+`site/apps/proni-search/` would import the same way (`../../pkg/...`). Neither needs a new served
+module for the helpers above; a registry slice (`registries/src/browser/*.mjs` with its
+`.data.mjs`) or another core module is one more allowlist entry each.
 
 ## Rules
 

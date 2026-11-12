@@ -18,6 +18,7 @@ import { formatDisplayDate } from '../../core/src/date-format.mjs';
 import { NI_LOCAL_VIEW, niLocalViewActive } from '../src/election/ni-local-state.mjs';
 import { createState } from '../src/state-helpers.mjs';
 import statuses from '../../registries/src/browser/statuses.mjs';
+import { summaryPollStatus } from '../../core/src/unopposed.mjs';
 
 // The words for a round's site status, a missing round and a contest: the statuses registry's
 // election-round siteLabels and missingReasons (RG-03) and contest labels (RG-02).
@@ -73,6 +74,19 @@ export function leadingParty(counts = {}) {
 export function voteShareOpacity(share) {
   const t = Math.max(0, Math.min(1, (Number(share) - 10) / 60));
   return Math.round((0.25 + 0.6 * t) * 100) / 100;
+}
+
+/**
+ * Whether a compact contest (build-ni-local-grouped.mjs: no statuses) went to a poll, by core's
+ * one rule (packages/core/src/unopposed.mjs summaryPollStatus): 'polled' (contested, with votes),
+ * 'unopposed' (no votes and no more candidates than seats), or 'not-recorded' (no votes printed
+ * for a contest that had a poll: not unopposed).
+ * @param {{ contested?: boolean, seats?: number, cands?: unknown[] }} contest
+ * @returns {'polled' | 'unopposed' | 'not-recorded'}
+ */
+export function contestPoll(contest) {
+  if (contest.contested) return 'polled';
+  return summaryPollStatus({ candidateCount: (contest.cands || []).length, seatsTotal: Number(contest.seats) || 1 });
 }
 
 export class NiLocalGroupedView {
@@ -482,13 +496,15 @@ export class NiLocalGroupedView {
         contests += 1;
         if (contest.contested) contested += 1;
         for (const [, party, , votes, elected] of contest.cands || []) {
-          if (!rows.has(party)) rows.set(party, { party, seats: 0, unopposed: 0, votes: 0, candidates: 0 });
+          if (!rows.has(party)) rows.set(party, { party, seats: 0, unopposed: 0, notRecorded: 0, votes: 0, candidates: 0 });
           const row = rows.get(party);
           row.candidates += 1;
           if (elected) {
             row.seats += 1;
             totalSeats += 1;
-            if (!contest.contested) row.unopposed += 1;
+            const poll = contestPoll(contest);
+            if (poll === 'unopposed') row.unopposed += 1;
+            else if (poll === 'not-recorded') row.notRecorded += 1;
           }
           if (contest.contested && Number.isFinite(Number(votes)) && votes !== null) {
             row.votes += Number(votes);
@@ -561,16 +577,17 @@ export class NiLocalGroupedView {
     const summary = this.partySummary();
     if (!summary.rows.length) return '<p class="election-no-data">No results at this level for this year.</p>';
     const unopposedSeats = summary.rows.reduce((sum, row) => sum + (row.unopposed || 0), 0);
+    const notRecordedSeats = summary.rows.reduce((sum, row) => sum + (row.notRecorded || 0), 0);
     const rows = summary.rows.map((row) => {
       const share = summary.totalVotes && row.votes ? `${((row.votes / summary.totalVotes) * 100).toFixed(1)}%` : '-';
       const colour = escapeHtml(this.partyColour(row.party));
       return `<tr><td class="election-party-cell" style="--party-colour:${colour}">${this.partyLabel(row.party)}</td>`
-        + `<td class="election-num"${row.unopposed ? ` title="${escapeHtml(`${row.unopposed} returned unopposed`)}"` : ''}>${formatNumber(row.seats)}</td>`
+        + `<td class="election-num"${row.unopposed || row.notRecorded ? ` title="${escapeHtml([row.unopposed ? `${row.unopposed} returned unopposed` : '', row.notRecorded ? `${row.notRecorded} from polls whose votes are not recorded` : ''].filter(Boolean).join('; '))}"` : ''}>${formatNumber(row.seats)}</td>`
         + `<td class="election-num">${row.votes ? formatNumber(row.votes) : '-'}</td>`
         + `<td class="election-num">${share}</td></tr>`;
     }).join('');
     return `<table class="ni-local-table">
-      <caption class="ni-local-caption">${formatNumber(summary.contests)} contests, ${formatNumber(summary.contested)} polled${unopposedSeats ? `; ${formatNumber(unopposedSeats)} ${unopposedSeats === 1 ? 'seat' : 'seats'} returned unopposed, counted as seats but not votes` : ''}. Votes are from the polled contests only.</caption>
+      <caption class="ni-local-caption">${formatNumber(summary.contests)} contests, ${formatNumber(summary.contested)} polled${unopposedSeats ? `; ${formatNumber(unopposedSeats)} ${unopposedSeats === 1 ? 'seat' : 'seats'} returned unopposed, counted as seats but not votes` : ''}${notRecordedSeats ? `; ${formatNumber(notRecordedSeats)} ${notRecordedSeats === 1 ? 'seat' : 'seats'} from polls whose votes are not recorded` : ''}. Votes are from the polled contests only.</caption>
       <thead><tr><th scope="col">Party</th><th scope="col" class="election-num">Seats</th><th scope="col" class="election-num">Votes</th><th scope="col" class="election-num">Share</th></tr></thead>
       <tbody>${rows}</tbody>
       <tfoot><tr><th scope="row">Total</th><td class="election-num">${formatNumber(summary.totalSeats)}</td><td class="election-num">${summary.totalVotes ? formatNumber(summary.totalVotes) : '-'}</td><td></td></tr></tfoot>
@@ -686,7 +703,10 @@ export class NiLocalGroupedView {
 
   contestHtml(contest) {
     const seats = Number(contest.seats) || 1;
-    const status = contest.contested ? CONTEST_LABELS.contested : CONTEST_LABELS.uncontested;
+    // A contest without printed votes is "Returned unopposed" only when nobody stood against the
+    // members (core's one rule); otherwise its votes are missing, not unopposed.
+    const poll = contestPoll(contest);
+    const status = poll === 'polled' ? CONTEST_LABELS.contested : poll === 'unopposed' ? CONTEST_LABELS.uncontested : 'Votes not recorded';
     const rows = (contest.cands || []).map(([name, party, printed, votes, elected]) => `<tr>
       <td>${escapeHtml(name)}</td>
       <td class="election-party-cell" style="--party-colour:${escapeHtml(this.partyColour(party))}">${this.partyLabel(party)}</td>

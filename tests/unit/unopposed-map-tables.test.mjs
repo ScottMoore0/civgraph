@@ -68,3 +68,29 @@ test('party table: an all-unopposed party shows dashes, and the table says unopp
   const uupRow = html.split('<tr>').find((part) => part.includes('UUP'));
   assert.match(uupRow, /6,148/);
 });
+
+// One rule for "unopposed" (Elections arch audit, owner-approved 11 Nov 2026): a contest without
+// votes that was not returned unopposed has its votes missing, and says so.
+test('plurality contest with missing votes: "Not recorded", never "Unopposed"', () => {
+  const missing = [
+    { name: 'A', party: 'UUP', firstPrefs: null, finalVotes: null, elected: true, status: 'Elected' },
+    { name: 'B', party: 'Nationalist Party', firstPrefs: null, finalVotes: null, elected: false, status: 'Not elected' },
+  ];
+  const html = manager.renderSingleSeatFptpResultsTable(missing, { constituency: 'X', seatsTotal: 1, votingSystem: 'fptp', candidates: missing });
+  const cells = textCells(html);
+  assert.equal(cells.filter((c) => c === 'Not recorded').length, 2, cells.join('|'));
+  assert.ok(!cells.includes('Unopposed') && !cells.includes('Elected unopposed'), cells.join('|'));
+  assert.doesNotMatch(html, /test2-fptp-vote-graphic/, 'no bar chart of zeros');
+});
+
+test('NI councils view: a contest without printed votes is unopposed only with no more candidates than seats', async () => {
+  const out = await esbuild.build({
+    entryPoints: [path.join(ROOT, 'packages/map/app/ni-local-view.js')],
+    bundle: true, write: false, format: 'esm', platform: 'neutral', absWorkingDir: ROOT, logLevel: 'error',
+  });
+  const { contestPoll } = await import(`data:text/javascript;base64,${Buffer.from(out.outputFiles[0].text).toString('base64')}`);
+  const cand = (votes, elected) => ['N', 'P', '', votes, elected];
+  assert.equal(contestPoll({ contested: true, seats: 1, cands: [cand(10, 1), cand(5, 0)] }), 'polled');
+  assert.equal(contestPoll({ contested: false, seats: 2, cands: [cand(null, 1), cand(null, 1)] }), 'unopposed');
+  assert.equal(contestPoll({ contested: false, seats: 2, cands: [cand(null, 1), cand(null, 1), cand(null, 0)] }), 'not-recorded');
+});
