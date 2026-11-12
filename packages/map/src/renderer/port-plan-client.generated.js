@@ -168,6 +168,7 @@ export default {
    "aliasTargetLayerId": null,
    "bounds": null,
    "style": {
+    // arch-ok R9: a layer's style colour in the port plan's data (render/metadata), not a colour the code chooses
     "color": "#43A047",
     "fillColor": null,
     "fillOpacity": null,
@@ -199,6 +200,7 @@ export default {
    "aliasTargetLayerId": null,
    "bounds": null,
    "style": {
+    // arch-ok R9: a layer's style colour in the port plan's data (render/metadata), not a colour the code chooses
     "color": "#43A047",
     "fillColor": null,
     "fillOpacity": null,
