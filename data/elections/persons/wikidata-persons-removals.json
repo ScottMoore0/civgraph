@@ -1,0 +1,6 @@
+{
+ "schemaVersion": 1,
+ "description": "Wikidata items the crosswalk (wikidata-persons.json) once linked or listed as a merge lead and no longer does, each with its reason. `conflicts` are for the owner: a merge joined a person holding one item to a person holding another (the kept person keeps its own), or a merge joined records the Wikidata review called different people. `removals` are the rest, each with its reason: a person id that left the registry without a redirect (`vanished`; the id rule says that should not happen, so look), or an item a person removed (`reviewed`). check:wikidata-persons fails when an item leaves the crosswalk without an entry here. Written by scripts/ingest/persons/rekey-wikidata-persons.mjs; a removal made by hand is added with kind \"reviewed\" and its reason.",
+ "conflicts": [],
+ "removals": []
+}
