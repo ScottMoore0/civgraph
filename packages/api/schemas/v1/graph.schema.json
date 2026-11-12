@@ -101,7 +101,10 @@
           ]
         },
         "exports": {
-          "type": "object"
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         },
         "api": {
           "type": "string"
