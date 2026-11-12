@@ -1,6 +1,6 @@
 {
  "description": "What ElectionsIreland candidate pages say about other candidates: relatives (with the relation) and the ids filed under the same name. merge_person_ids.py and build_person_registry_v2.py never put two ids the source names as relatives, or as a Snr and a Jnr, into one person. Namesakes are recorded for review, not used.",
- "generatedBy": "scripts/harvest_ei_candidate_ids.py --relatives",
+ "generatedBy": "scripts/ingest/electionsireland/harvest_ei_candidate_ids.py --relatives",
  "persons": {
   "ei:60": {
    "name": "Joseph (Joe) Cooney 2",
@@ -9,6 +9,14 @@
     "ei:8637"
    ],
    "url": "https://electionsireland.org/candidate.cfm?ID=60"
+  },
+  "ei:70": {
+   "name": "Vivian Callaghan 1 Snr",
+   "relatives": {},
+   "namesakes": [
+    "ei:6304"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=70"
   },
   "ei:338": {
    "name": "Michael Joseph Kennedy 1",
@@ -57,6 +65,15 @@
     "ei:6235"
    ],
    "url": "https://electionsireland.org/candidate.cfm?ID=432"
+  },
+  "ei:801": {
+   "name": "Eugene Murphy 1",
+   "relatives": {},
+   "namesakes": [
+    "ei:7148",
+    "ei:11122"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=801"
   },
   "ei:807": {
    "name": "Joseph (Joe) Shannon 1 Jnr",
@@ -219,6 +236,14 @@
    ],
    "url": "https://electionsireland.org/candidate.cfm?ID=3169"
   },
+  "ei:3289": {
+   "name": "Tomas Ryan 1",
+   "relatives": {},
+   "namesakes": [
+    "ei:7738"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=3289"
+  },
   "ei:3354": {
    "name": "Pol O Foighil",
    "relatives": {},
@@ -301,6 +326,17 @@
    ],
    "url": "https://electionsireland.org/candidate.cfm?ID=5479"
   },
+  "ei:5481": {
+   "name": "John McGuinness 3",
+   "relatives": {
+    "ei:9792": "Brother"
+   },
+   "namesakes": [
+    "ei:3",
+    "ei:8597"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=5481"
+  },
   "ei:5484": {
    "name": "Michael Kennedy 2",
    "relatives": {},
@@ -341,6 +377,30 @@
    "namesakes": [],
    "url": "https://electionsireland.org/candidate.cfm?ID=5725"
   },
+  "ei:5782": {
+   "name": "Thomas Brennan 2",
+   "relatives": {},
+   "namesakes": [
+    "ei:489",
+    "ei:5783",
+    "ei:5784",
+    "ei:5785",
+    "ei:5786"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=5782"
+  },
+  "ei:5784": {
+   "name": "Thomas Brennan 4",
+   "relatives": {},
+   "namesakes": [
+    "ei:489",
+    "ei:5782",
+    "ei:5783",
+    "ei:5785",
+    "ei:5786"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=5784"
+  },
   "ei:6235": {
    "name": "Martin Miley 2 Jnr",
    "relatives": {
@@ -350,6 +410,14 @@
     "ei:432"
    ],
    "url": "https://electionsireland.org/candidate.cfm?ID=6235"
+  },
+  "ei:6304": {
+   "name": "Vivian Callaghan 2 Jnr",
+   "relatives": {},
+   "namesakes": [
+    "ei:70"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=6304"
   },
   "ei:6470": {
    "name": "Brian Joseph Lenihan 2 Jnr",
@@ -418,6 +486,14 @@
    "namesakes": [],
    "url": "https://electionsireland.org/candidate.cfm?ID=6793"
   },
+  "ei:7738": {
+   "name": "Tomas Ryan 2",
+   "relatives": {},
+   "namesakes": [
+    "ei:3289"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=7738"
+  },
   "ei:7773": {
    "name": "John Kelly 6",
    "relatives": {},
@@ -451,6 +527,33 @@
     "ei:2525"
    ],
    "url": "https://electionsireland.org/candidate.cfm?ID=8522"
+  },
+  "ei:8597": {
+   "name": "John McGuinness 2",
+   "relatives": {},
+   "namesakes": [
+    "ei:3",
+    "ei:5481"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=8597"
+  },
+  "ei:8669": {
+   "name": "Seán Broderick 3",
+   "relatives": {},
+   "namesakes": [
+    "ei:1284",
+    "ei:8670"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=8669"
+  },
+  "ei:8670": {
+   "name": "Seán Broderick 2",
+   "relatives": {},
+   "namesakes": [
+    "ei:1284",
+    "ei:8669"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=8670"
   },
   "ei:8681": {
    "name": "Joseph Brennan 2",
@@ -549,6 +652,21 @@
    ],
    "url": "https://electionsireland.org/candidate.cfm?ID=10692"
   },
+  "ei:10780": {
+   "name": "Joe Hannigan",
+   "relatives": {},
+   "namesakes": [],
+   "url": "https://electionsireland.org/candidate.cfm?ID=10780"
+  },
+  "ei:11122": {
+   "name": "Eugene Murphy 3",
+   "relatives": {},
+   "namesakes": [
+    "ei:801",
+    "ei:7148"
+   ],
+   "url": "https://electionsireland.org/candidate.cfm?ID=11122"
+  },
   "ei:11276": {
    "name": "T P O'Reilly",
    "relatives": {},
@@ -603,6 +721,12 @@
     "ei:9445"
    ],
    "url": "https://electionsireland.org/candidate.cfm?ID=11862"
+  },
+  "ei:11927": {
+   "name": "Joe Hannigan",
+   "relatives": {},
+   "namesakes": [],
+   "url": "https://electionsireland.org/candidate.cfm?ID=11927"
   },
   "ei:12046": {
    "name": "T P O'Reilly",

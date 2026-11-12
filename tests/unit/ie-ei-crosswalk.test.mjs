@@ -35,7 +35,12 @@ function parseCsv(text) {
 }
 
 const crosswalk = parseCsv(readFileSync(at('ie-ei-crosswalk.csv'), 'utf8'));
-const LINKS = new Set(['same-lea', 'successor-lea', 'shared-place', 'county-constituency']);
+// The four links build_ie_ei_crosswalk.py finds, and the pairs added by hand after both source
+// pages were read (c10-merge-leads, owner-approved 12 Nov 2026): IrelandElection.com's person page
+// and ElectionsIreland's list one candidacy with the same first preferences. `source-pages-med`
+// rests on IrelandElection.com's page alone joining the two records.
+const LINKS = new Set(['same-lea', 'successor-lea', 'shared-place', 'county-constituency', 'source-pages', 'source-pages-med']);
+const REVIEWED = new Set(['source-pages', 'source-pages-med']);
 
 test('IEX-01 every crosswalk row maps one IrelandElection.com id to one ElectionsIreland id, with its evidence', () => {
   assert.ok(crosswalk.length > 1000, `only ${crosswalk.length} rows`);
@@ -51,10 +56,19 @@ test('IEX-01 every crosswalk row maps one IrelandElection.com id to one Election
   }
 });
 
-test('IEX-02 no crosswalk pair touches an ElectionsIreland id its pages give relatives', () => {
+// A pair found by rule never touches an id with relatives. A pair whose two source pages were read
+// may (Enda Kenny, ei:3199, whose father Henry is ei:2525), and the merge pass's relatives veto
+// still applies to it: no person ends up holding an id and one of its relatives.
+test('IEX-02 no crosswalk pair found by rule touches an ElectionsIreland id its pages give relatives', () => {
   const { persons = {} } = JSON.parse(readFileSync(at('ei-candidate-relatives.json'), 'utf8'));
   const related = new Set(Object.entries(persons).flatMap(([id, p]) => [id, ...Object.keys(p.relatives || {})]));
-  assert.deepEqual(crosswalk.filter((r) => related.has(r.ei)).map((r) => `${r.ie} -> ${r.ei}`), []);
+  assert.deepEqual(crosswalk.filter((r) => !REVIEWED.has(r.link) && related.has(r.ei)).map((r) => `${r.ie} -> ${r.ei}`), []);
+  const { entities } = JSON.parse(readFileSync(at('person_registry.json'), 'utf8'));
+  const fused = entities.flatMap((e) => {
+    const ids = new Set(e.sourcePersonIds || []);
+    return [...ids].flatMap((id) => Object.keys(persons[id]?.relatives || {}).filter((rel) => ids.has(rel)).map((rel) => `${e.personId}: ${id} + ${rel}`));
+  });
+  assert.deepEqual(fused, []);
 });
 
 test('IEX-03 every crosswalk pair is one person in the registry, and every id it retired still redirects', () => {
