@@ -662,6 +662,7 @@
 
   // The phrase typed again on a page where the control was hidden: bring it back.
   function show() {
+    if (!SOURCE) return; // languages.json never loaded: there is nothing to offer
     setHtmlLang();
     buildControl();
     observe();
