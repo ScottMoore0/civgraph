@@ -9,8 +9,9 @@
  *
  * What is held:
  *   - /design-system/ (packages/ui/src/gallery/route.js, the Function's own render, served at its
- *     path as in site-shell.spec.cjs): each specimen's example box, the type section and the token
- *     table, one snapshot each, so a failure names the component;
+ *     path as in site-shell.spec.cjs): each specimen's example box (the shared components and the
+ *     apps' own: Elections charts, PRONI record, Browse), the type section and the token table, one
+ *     snapshot each, so a failure names the component;
  *   - the first screen of pages whose content does not follow the data: home (its live counts and
  *     the constellation's moving signals masked), about, apps, PRONI Search before a search, 404.
  *     Pages drawn from records (Browse, the Elections app, status) would change with every data
@@ -30,8 +31,9 @@
  *   npx playwright test --config config/playwright.config.cjs tests/browser/visual-regression.spec.cjs
  *   ... --update-snapshots    (after an intended visual change: review the diffs first)
  *
- * Map-app components (legend, results tables, trend chart, timeline) join the gallery, and so this
- * spec, after rf9-mapapp's F2 move (REFACTOR-PLAN.md G-5): SPECIMEN_IDS below then lists them.
+ * Map-app components (legend, results tables, trend chart, timeline) and the STV count viewer join
+ * the gallery's APP_SPECIMENS, and so this spec, after rf9-mapapp's F2 move (REFACTOR-PLAN.md G-5);
+ * nothing here needs changing for them.
  */
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
@@ -45,6 +47,10 @@ const THEMES = ['light', 'dark'];
 // 0.05% of a shot's pixels may differ, for anti-aliasing noise. Same machine, same Chromium: a real
 // change moves hundreds of pixels; three runs in a row on win32 differed by none.
 const COMPARE = { animations: 'disabled', caret: 'hide', scale: 'css', threshold: 0, maxDiffPixelRatio: 0.0005 };
+
+// For a component's own shot: the shell header stays in its place in the flow instead of sticking
+// over whatever the shot scrolled under it (layout unchanged: sticky keeps its space).
+const UNSTICK = path.join(__dirname, 'fixtures', 'visual-unstick.css');
 
 const PAGES = [
   { name: 'home', url: '/', mask: ['.stat__n', '[data-stat]', '.constellation__signals'] },
@@ -84,7 +90,7 @@ let gallery;
 async function galleryHtml() {
   if (!gallery) {
     const route = await import(pathToFileURL(path.join(ROOT, 'packages', 'ui', 'src', 'gallery', 'route.js')).href);
-    gallery = { body: await (await route.onRequestGet()).text(), ids: route.SPECIMENS.map((s) => s.id) };
+    gallery = { body: await (await route.onRequestGet()).text(), ids: [...route.SPECIMENS, ...(route.APP_SPECIMENS || [])].map((s) => s.id) };
   }
   return gallery;
 }
@@ -97,6 +103,8 @@ for (const size of SIZES) {
       await page.route('**/design-system/', (route) => route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body }));
       await page.goto('/design-system/', { waitUntil: 'load' });
       await expect(page.locator('#cg-gallery-tokens table').first()).toBeVisible();
+      // The apps' components draw themselves into shadow roots (gallery.js drawIslands).
+      await expect(page.locator('[data-gallery-island]:not([data-ready="true"])')).toHaveCount(0);
       await settle(page);
       const shots = [
         ['tokens', '#cg-gallery-tokens'],
@@ -111,7 +119,7 @@ for (const size of SIZES) {
           test.info().annotations.push({ type: 'skipped', description: `no ${process.platform} baseline for ${name}` });
           continue;
         }
-        await expect.soft(page.locator(selector), name).toHaveScreenshot(`${name}.png`, COMPARE);
+        await expect.soft(page.locator(selector), name).toHaveScreenshot(`${name}.png`, { ...COMPARE, stylePath: UNSTICK });
         held += 1;
       }
       test.skip(held === 0, `no ${process.platform} baselines for the gallery`);
