@@ -103,7 +103,7 @@ async function loadBrowse() {
     matchMedia: () => ({ matches: false, addEventListener() {} }),
     navigator: {}, requestAnimationFrame: () => 0, performance: { now: () => 0 },
     IntersectionObserver: class { observe() {} }, ResizeObserver: class { observe() {} }, MutationObserver: class { observe() {} },
-    CustomEvent: class {}, Event: class {},
+    CustomEvent: class {}, Event: class {}, AbortController,
   };
   ctx.window = ctx;
   ctx.self = ctx;
