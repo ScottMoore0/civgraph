@@ -508,6 +508,7 @@ export function pageKeys(source) {
 }
 
 const GENERIC_AREA = /^(north|south|east|west|central|centre|middle|upper|lower|urban|rural|no\.? ?\d+)( (east|west|north|south))?( ward)?$/i;
+// arch-ok R6: OCR stop words for matching names on a page, the detector's own vocabulary, not registry values
 const STOP_TOKENS = new Set(['ward', 'wards', 'street', 'road', 'council', 'councillor', 'councillors', 'alderman', 'aldermen', 'division', 'majority',
   'total', 'poll', 'polled', 'electorate', 'electors', 'spoiled', 'spoilt', 'votes', 'vote', 'mr', 'mrs', 'miss', 'rev', 'dr', 'january', 'february',
   'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december', 'monday', 'tuesday', 'wednesday', 'thursday',
