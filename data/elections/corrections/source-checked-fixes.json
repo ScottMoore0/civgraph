@@ -47,7 +47,8 @@
     "eoni-review-2026-11-11": "Northern Ireland council contests of 2011 and 2019 checked by eye, figure by figure, against the Electoral Office for Northern Ireland's scanned result sheets and result workbooks recovered from the Internet Archive (the 2011 council sheets and the 2019 sheets of Belfast, Derry City and Strabane, Lisburn and Castlereagh and Newry, Mourne and Down that the eoni-ia sweep could not machine-read). A figure is corrected only where the sheet's own arithmetic confirms it: each stage's transfers reconcile with the surplus or exclusion and the non-transferable votes, and each stage sums to the valid poll. Where a count is rebuilt (replaceCountRows) its stage totals keep the fractions the sheet prints.",
     "w8-review-2026-11-12": "Northern Ireland council contests of 2014, 2019 and 2023 whose stage totals the import had cut to whole votes: the totals rebuilt from the transfers (restoreStageFractions) were each read by eye on the Electoral Office for Northern Ireland's scanned result sheet (w8-review, 12 Nov 2026), where OCR had not found them; contests where any rebuilt total differs from the sheet are not included.",
     "w8-arith2-2026-11-12": "Contests that still failed the contest arithmetic check (scripts/check/rules/contest-arithmetic.mjs) after arith-audit and w8-arith, checked against their sources: for the Northern Ireland councils of 1973-2005, the Electoral Office's declaration sheets (its Local Government Election Results booklets) and Nicholas Whyte's ARK spreadsheets transcribing them; for the Dail, ElectionsIreland.org's count sheets and the official results. A figure is changed only where the source shows it and the corrected stage then reconciles (each transfer brings the stage total to the next, and the votes handed out match the surplus or the votes of the candidates excluded). Where the source's own figures do not add up, the contest is listed in contest-arithmetic-allowlist.json instead.",
-    "gap-roi-2026-11-12": "Republic of Ireland local contests that Civgraph held with no candidates, filled from an official results book read by eye or from a newspaper's printed first count (Irish Newspaper Archives), with IrelandElection.com as the pointer and for full names: a record is added only where the source's first preferences add up to the valid poll and the elected equal the seats (gap-roi, 12 Nov 2026). Each reason says what was read where."
+    "gap-roi-2026-11-12": "Republic of Ireland local contests that Civgraph held with no candidates, filled from an official results book read by eye or from a newspaper's printed first count (Irish Newspaper Archives), with IrelandElection.com as the pointer and for full names: a record is added only where the source's first preferences add up to the valid poll and the elected equal the seats (gap-roi, 12 Nov 2026). Each reason says what was read where.",
+    "review-rest-2026-11-12": "Northern Ireland council counts of 2014, 2019 and 2023 whose transfers differed from the Electoral Office for Northern Ireland's scanned result sheet (w8-review's list, 12 Nov 2026), and contests that still failed the contest arithmetic check: each sheet was read by eye, cell by cell, and the count rows set to the sheet's transfers and stage totals (candidateCount, or replaceCountRows where a non-transferable row was missing), so that every stage's transfers add up to the surplus or the votes excluded and every stage sums to the valid poll. Where the sheet's own figures do not add up, the contest is allowlisted in contest-arithmetic-allowlist.json with the reason (review-rest, 12 Nov 2026)."
   },
   "records": [
     {
@@ -90625,8 +90626,16 @@
         "url": "https://www.ark.ac.uk/elections/nlgmea.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "1 candidate in Braid 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Paul Maguire (Sinn F\u00e9in, 722 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: Braid",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092840id_/http://www.eoni.org.uk/getmedia/caa06f7d-8523-4c80-af9f-860fa69ba931/Local-Council-Election-2014-Result-Sheets-Braid",
+          "original": "http://www.eoni.org.uk/getmedia/caa06f7d-8523-4c80-af9f-860fa69ba931/Local-Council-Election-2014-Result-Sheets-Braid",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "1 candidate in Braid 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Paul Maguire (Sinn F\u00e9in, 722 first preferences). Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Brian Thompson's stage-7 transfer is 103.32 (848.36), not 103.31, and his stage-8 transfer 41.16, not 41.17 (889.52 either way); the non-transferable papers are 3.54 at stage 7 (367.10) and 5.16 at stage 8. The other stage totals, cut to whole votes by the import, are rebuilt from the transfers (restoreStageFractions) and are as the sheet prints them. Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll.",
       "category": "names",
       "operations": [
         {
@@ -90644,9 +90653,51 @@
           "set": {
             "Candidate_Id": "1736564411-mid-and-east-antrim"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Brian Thompson",
+          "count": "7",
+          "set": {
+            "Transfers": "103.32",
+            "Total_Votes": "848.36"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Brian Thompson",
+          "count": "8",
+          "set": {
+            "Transfers": "41.16",
+            "Total_Votes": "889.52"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "7",
+          "set": {
+            "Transfers": "3.54",
+            "Total_Votes": "367.10"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "8",
+          "set": {
+            "Transfers": "5.16",
+            "Total_Votes": "372.26"
+          }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Catherine O'Hara: candidate id 1736564411 was shared with candidates of the same name in other councils (kept by Ballymena); given 1736564411-mid-and-east-antrim."
+      "internalNote": "Catherine O'Hara: candidate id 1736564411 was shared with candidates of the same name in other councils (kept by Ballymena); given 1736564411-mid-and-east-antrim.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -90687,9 +90738,16 @@
           "publisher": "Electoral Office for Northern Ireland, on Open Data NI",
           "url": "https://www.data.gov.uk/dataset/763512dd-d7ce-4d87-85cf-1180f9a9aa55/northern-ireland-local-councils-election-22-may-2014",
           "accessed": "2026-10-26"
+        },
+        {
+          "title": "Local Council Election 2014 result sheet: Castlereagh South",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092556id_/http://www.eoni.org.uk/getmedia/c757da41-8851-4c2b-b55d-a0a134479245/Local-Council-Election-2014-Result-Sheet-Castlereagh-South",
+          "original": "http://www.eoni.org.uk/getmedia/c757da41-8851-4c2b-b55d-a0a134479245/Local-Council-Election-2014-Result-Sheet-Castlereagh-South",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "2 candidates in Castlereagh South 2014 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Geraldine Rice (Alliance, 1,221 first preferences); Vasundhara Kamble (Alliance, 669 first preferences).",
+      "reason": "2 candidates in Castlereagh South 2014 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Geraldine Rice (Alliance, 1,221 first preferences); Vasundhara Kamble (Alliance, 669 first preferences). Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Nathan Anderson's stage-5 transfer is 70.00 (1,028.38 to the end), not 62; the non-transferable papers at stages 5-7 are 13.17, 63.34 and 75.37 (66.04, 129.38, 204.75), not 8 more each. The other stage totals are rebuilt from the transfers (restoreStageFractions). The sheet's own first preferences add up to 8,114 against its valid poll of 8,110 (its totals row prints ERROR under every stage) and it prints a quota of 1,015 (Droop on 8,110 is 1,014); those are allowlisted.",
       "category": "names",
       "operations": [
         {
@@ -90709,9 +90767,78 @@
             "Firstname": "Vasundhara",
             "Surname": "Kamble"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nathan Anderson",
+          "count": "5",
+          "set": {
+            "Transfers": "70.00",
+            "Total_Votes": "1028.38"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nathan Anderson",
+          "count": "6",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1028.38"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nathan Anderson",
+          "count": "7",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1028.38"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nathan Anderson",
+          "count": "8",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1028.38"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "5",
+          "set": {
+            "Transfers": "13.17",
+            "Total_Votes": "66.04"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "6",
+          "set": {
+            "Transfers": "63.34",
+            "Total_Votes": "129.38"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "7",
+          "set": {
+            "Transfers": "75.37",
+            "Total_Votes": "204.75"
+          }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "sourceNote": "The candidates' first preferences on the Electoral Office's result sheet add up to 8,114, 4 more than the valid poll of 8,110 the same sheet gives. Civgraph shows the sheet's figures as published."
+      "sourceNote": "The candidates' first preferences on the Electoral Office's result sheet add up to 8,114, 4 more than the valid poll of 8,110 the same sheet gives. Civgraph shows the sheet's figures as published.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -100649,9 +100776,16 @@
           "url": "https://candidates.democracyclub.org.uk/elections/local.mid-and-east-antrim.carrick-castle.2019-05-02/",
           "accessed": "2026-10-23",
           "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+        },
+        {
+          "title": "Local Council Election 2019 result sheet: Carrick Castle",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20190806051831id_/http://www.eoni.org.uk/getmedia/6dff7c1a-fa1d-4a0b-b3f6-d602a0e333f4/Carrick-Castle-DEA",
+          "original": "http://www.eoni.org.uk/getmedia/6dff7c1a-fa1d-4a0b-b3f6-d602a0e333f4/Carrick-Castle-DEA",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "1 candidate in Carrick Castle 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as John McDermott (UUP, 445 first preferences).",
+      "reason": "1 candidate in Carrick Castle 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as John McDermott (UUP, 445 first preferences). Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Noel Jordan's stage-5 transfer (Wady's exclusion) is 96.14 (641.17), not 96.44, and his stage-6 137.03 (778.20), not 136.73; the non-transferable papers are 94.93 at stage 5 (150.04) and 125.72 at stage 6, not 94.63 and 126.02. The sheet prints Jordan's stage-4 total as 543.03, a slip for 545.03 (490.72 + 54.31), which its stage-5 total and its stage-4 column sum of 5,653 both require. The other stage totals are rebuilt from the transfers (restoreStageFractions). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll.",
       "category": "names",
       "operations": [
         {
@@ -100676,9 +100810,51 @@
           "set": {
             "Candidate_Id": "917397462-mid-and-east-antrim"
           }
+        },
+        {
+          "op": "restoreStageFractions"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Noel Jordan",
+          "count": "5",
+          "set": {
+            "Transfers": "96.14",
+            "Total_Votes": "641.17"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Noel Jordan",
+          "count": "6",
+          "set": {
+            "Transfers": "137.03",
+            "Total_Votes": "778.20"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "5",
+          "set": {
+            "Transfers": "94.93",
+            "Total_Votes": "150.04"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "6",
+          "set": {
+            "Transfers": "125.72",
+            "Total_Votes": "275.76"
+          }
         }
       ],
-      "internalNote": "John Kennedy: candidate id 559091077 was shared with candidates of the same name in other councils (kept by Belfast); given 559091077-mid-and-east-antrim. Nicholas Wady: candidate id 917397462 was shared with candidates of the same name in other councils (kept by Carrickfergus); given 917397462-mid-and-east-antrim."
+      "internalNote": "John Kennedy: candidate id 559091077 was shared with candidates of the same name in other councils (kept by Belfast); given 559091077-mid-and-east-antrim. Nicholas Wady: candidate id 917397462 was shared with candidates of the same name in other councils (kept by Carrickfergus); given 917397462-mid-and-east-antrim.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -103101,9 +103277,16 @@
           "url": "https://candidates.democracyclub.org.uk/elections/local.causeway-coast-and-glens.coleraine.2019-05-02/",
           "accessed": "2026-10-23",
           "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+        },
+        {
+          "title": "Local Council Election 2019 result sheet: Coleraine",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20190806051540id_/http://www.eoni.org.uk/getmedia/4f42bd8e-9f73-489e-a6a3-3e0cf776fdbc/COLERAINE-DEA",
+          "original": "http://www.eoni.org.uk/getmedia/4f42bd8e-9f73-489e-a6a3-3e0cf776fdbc/COLERAINE-DEA",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "2 candidates in Coleraine 2019 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Stephanie Quigley (SDLP, 983 first preferences); William McCandless (UUP, 633 first preferences).",
+      "reason": "2 candidates in Coleraine 2019 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Stephanie Quigley (SDLP, 983 first preferences); William McCandless (UUP, 633 first preferences). Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): David Harding's stage-2 transfer is 3.22 (115.22), not 43.22, and William McCandless's 36.80 (669.80), not 66.80, with 46.53 at stage 3, not 16.53; George Duddy's stage-5 transfer is 0.23 (992.34), not 0.32; the non-transferable papers are 6.08, 19.38, 14.99 and 134.00 at stages 2-5 (6.08, 25.46, 40.45, 174.45; the file had none at stage 2). The count rows are rebuilt with the sheet's transfers and totals (replaceCountRows). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll.",
       "category": "names",
       "operations": [
         {
@@ -103130,9 +103313,1269 @@
           "set": {
             "Candidate_Id": "3766908782-causeway-coast-and-glens"
           }
+        },
+        {
+          "op": "replaceCountRows",
+          "rows": [
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2528179311",
+              "Count_Number": "1",
+              "Firstname": "Russell",
+              "Surname": "Watton",
+              "Candidate_First_Pref_Votes": "1325.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1325.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "PUP",
+              "Deduplicated Party Name": "PUP",
+              "Wikipedia Party Name": "PUP",
+              "Party_Colour": "#2B45A2",
+              "candidateName": "Russell Watton",
+              "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2528179311",
+              "Count_Number": "2",
+              "Firstname": "Russell",
+              "Surname": "Watton",
+              "Candidate_First_Pref_Votes": "1325.00",
+              "Transfers": "-306.00",
+              "Total_Votes": "1019.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "PUP",
+              "Deduplicated Party Name": "PUP",
+              "Wikipedia Party Name": "PUP",
+              "Party_Colour": "#2B45A2",
+              "candidateName": "Russell Watton",
+              "id": 1
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2528179311",
+              "Count_Number": "3",
+              "Firstname": "Russell",
+              "Surname": "Watton",
+              "Candidate_First_Pref_Votes": "1325.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1019.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "PUP",
+              "Deduplicated Party Name": "PUP",
+              "Wikipedia Party Name": "PUP",
+              "Party_Colour": "#2B45A2",
+              "candidateName": "Russell Watton",
+              "id": 2
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2528179311",
+              "Count_Number": "4",
+              "Firstname": "Russell",
+              "Surname": "Watton",
+              "Candidate_First_Pref_Votes": "1325.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1019.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "PUP",
+              "Deduplicated Party Name": "PUP",
+              "Wikipedia Party Name": "PUP",
+              "Party_Colour": "#2B45A2",
+              "candidateName": "Russell Watton",
+              "id": 3
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2528179311",
+              "Count_Number": "5",
+              "Firstname": "Russell",
+              "Surname": "Watton",
+              "Candidate_First_Pref_Votes": "1325.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1019.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "PUP",
+              "Deduplicated Party Name": "PUP",
+              "Wikipedia Party Name": "PUP",
+              "Party_Colour": "#2B45A2",
+              "candidateName": "Russell Watton",
+              "id": 4
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2528179311",
+              "Count_Number": "6",
+              "Firstname": "Russell",
+              "Surname": "Watton",
+              "Candidate_First_Pref_Votes": "1325.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1019.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "PUP",
+              "Deduplicated Party Name": "PUP",
+              "Wikipedia Party Name": "PUP",
+              "Party_Colour": "#2B45A2",
+              "candidateName": "Russell Watton",
+              "id": 5
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2191267571",
+              "Count_Number": "1",
+              "Firstname": "Philip",
+              "Surname": "Anderson",
+              "Candidate_First_Pref_Votes": "901.00",
+              "Transfers": "0.00",
+              "Total_Votes": "901.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Philip Anderson",
+              "id": 6
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2191267571",
+              "Count_Number": "2",
+              "Firstname": "Philip",
+              "Surname": "Anderson",
+              "Candidate_First_Pref_Votes": "901.00",
+              "Transfers": "86.48",
+              "Total_Votes": "987.48",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Philip Anderson",
+              "id": 7
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2191267571",
+              "Count_Number": "3",
+              "Firstname": "Philip",
+              "Surname": "Anderson",
+              "Candidate_First_Pref_Votes": "901.00",
+              "Transfers": "26.37",
+              "Total_Votes": "1013.85",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Philip Anderson",
+              "id": 8
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2191267571",
+              "Count_Number": "4",
+              "Firstname": "Philip",
+              "Surname": "Anderson",
+              "Candidate_First_Pref_Votes": "901.00",
+              "Transfers": "18.00",
+              "Total_Votes": "1031.85",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Philip Anderson",
+              "id": 9
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2191267571",
+              "Count_Number": "5",
+              "Firstname": "Philip",
+              "Surname": "Anderson",
+              "Candidate_First_Pref_Votes": "901.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1031.85",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Philip Anderson",
+              "id": 10
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2191267571",
+              "Count_Number": "6",
+              "Firstname": "Philip",
+              "Surname": "Anderson",
+              "Candidate_First_Pref_Votes": "901.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1031.85",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Philip Anderson",
+              "id": 11
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3152110691",
+              "Count_Number": "1",
+              "Firstname": "Stephanie",
+              "Surname": "Quigley",
+              "Candidate_First_Pref_Votes": "983.00",
+              "Transfers": "0.00",
+              "Total_Votes": "983.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "Stephanie Quigley",
+              "id": 12
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3152110691",
+              "Count_Number": "2",
+              "Firstname": "Stephanie",
+              "Surname": "Quigley",
+              "Candidate_First_Pref_Votes": "983.00",
+              "Transfers": "6.67",
+              "Total_Votes": "989.67",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "Stephanie Quigley",
+              "id": 13
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3152110691",
+              "Count_Number": "3",
+              "Firstname": "Stephanie",
+              "Surname": "Quigley",
+              "Candidate_First_Pref_Votes": "983.00",
+              "Transfers": "19.46",
+              "Total_Votes": "1009.13",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "Stephanie Quigley",
+              "id": 14
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3152110691",
+              "Count_Number": "4",
+              "Firstname": "Stephanie",
+              "Surname": "Quigley",
+              "Candidate_First_Pref_Votes": "983.00",
+              "Transfers": "22.00",
+              "Total_Votes": "1031.13",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "Stephanie Quigley",
+              "id": 15
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3152110691",
+              "Count_Number": "5",
+              "Firstname": "Stephanie",
+              "Surname": "Quigley",
+              "Candidate_First_Pref_Votes": "983.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1031.13",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "Stephanie Quigley",
+              "id": 16
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3152110691",
+              "Count_Number": "6",
+              "Firstname": "Stephanie",
+              "Surname": "Quigley",
+              "Candidate_First_Pref_Votes": "983.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1031.13",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "Stephanie Quigley",
+              "id": 17
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3754721323",
+              "Count_Number": "1",
+              "Firstname": "Yvonne",
+              "Surname": "Boyle",
+              "Candidate_First_Pref_Votes": "732.00",
+              "Transfers": "0.00",
+              "Total_Votes": "732.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "Yvonne Boyle",
+              "id": 18
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3754721323",
+              "Count_Number": "2",
+              "Firstname": "Yvonne",
+              "Surname": "Boyle",
+              "Candidate_First_Pref_Votes": "732.00",
+              "Transfers": "2.99",
+              "Total_Votes": "734.99",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "Yvonne Boyle",
+              "id": 19
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3754721323",
+              "Count_Number": "3",
+              "Firstname": "Yvonne",
+              "Surname": "Boyle",
+              "Candidate_First_Pref_Votes": "732.00",
+              "Transfers": "30.92",
+              "Total_Votes": "765.91",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "Yvonne Boyle",
+              "id": 20
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3754721323",
+              "Count_Number": "4",
+              "Firstname": "Yvonne",
+              "Surname": "Boyle",
+              "Candidate_First_Pref_Votes": "732.00",
+              "Transfers": "14.92",
+              "Total_Votes": "780.83",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "Yvonne Boyle",
+              "id": 21
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3754721323",
+              "Count_Number": "5",
+              "Firstname": "Yvonne",
+              "Surname": "Boyle",
+              "Candidate_First_Pref_Votes": "732.00",
+              "Transfers": "277.00",
+              "Total_Votes": "1057.83",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "Yvonne Boyle",
+              "id": 22
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3754721323",
+              "Count_Number": "6",
+              "Firstname": "Yvonne",
+              "Surname": "Boyle",
+              "Candidate_First_Pref_Votes": "732.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1057.83",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "Yvonne Boyle",
+              "id": 23
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1560822328",
+              "Count_Number": "1",
+              "Firstname": "George",
+              "Surname": "Duddy",
+              "Candidate_First_Pref_Votes": "866.00",
+              "Transfers": "0.00",
+              "Total_Votes": "866.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "George Duddy",
+              "id": 24
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1560822328",
+              "Count_Number": "2",
+              "Firstname": "George",
+              "Surname": "Duddy",
+              "Candidate_First_Pref_Votes": "866.00",
+              "Transfers": "76.36",
+              "Total_Votes": "942.36",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "George Duddy",
+              "id": 25
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1560822328",
+              "Count_Number": "3",
+              "Firstname": "George",
+              "Surname": "Duddy",
+              "Candidate_First_Pref_Votes": "866.00",
+              "Transfers": "29.99",
+              "Total_Votes": "972.35",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "George Duddy",
+              "id": 26
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1560822328",
+              "Count_Number": "4",
+              "Firstname": "George",
+              "Surname": "Duddy",
+              "Candidate_First_Pref_Votes": "866.00",
+              "Transfers": "19.76",
+              "Total_Votes": "992.11",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "George Duddy",
+              "id": 27
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1560822328",
+              "Count_Number": "5",
+              "Firstname": "George",
+              "Surname": "Duddy",
+              "Candidate_First_Pref_Votes": "866.00",
+              "Transfers": "0.23",
+              "Total_Votes": "992.34",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "George Duddy",
+              "id": 28
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1560822328",
+              "Count_Number": "6",
+              "Firstname": "George",
+              "Surname": "Duddy",
+              "Candidate_First_Pref_Votes": "866.00",
+              "Transfers": "0.00",
+              "Total_Votes": "992.34",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "George Duddy",
+              "id": 29
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "647289425",
+              "Count_Number": "1",
+              "Firstname": "William",
+              "Surname": "McCandless",
+              "Candidate_First_Pref_Votes": "633.00",
+              "Transfers": "0.00",
+              "Total_Votes": "633.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "William McCandless",
+              "id": 30
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "647289425",
+              "Count_Number": "2",
+              "Firstname": "William",
+              "Surname": "McCandless",
+              "Candidate_First_Pref_Votes": "633.00",
+              "Transfers": "36.80",
+              "Total_Votes": "669.80",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "William McCandless",
+              "id": 31
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "647289425",
+              "Count_Number": "3",
+              "Firstname": "William",
+              "Surname": "McCandless",
+              "Candidate_First_Pref_Votes": "633.00",
+              "Transfers": "46.53",
+              "Total_Votes": "716.33",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "William McCandless",
+              "id": 32
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "647289425",
+              "Count_Number": "4",
+              "Firstname": "William",
+              "Surname": "McCandless",
+              "Candidate_First_Pref_Votes": "633.00",
+              "Transfers": "241.72",
+              "Total_Votes": "958.05",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "William McCandless",
+              "id": 33
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "647289425",
+              "Count_Number": "5",
+              "Firstname": "William",
+              "Surname": "McCandless",
+              "Candidate_First_Pref_Votes": "633.00",
+              "Transfers": "5.00",
+              "Total_Votes": "963.05",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "William McCandless",
+              "id": 34
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "647289425",
+              "Count_Number": "6",
+              "Firstname": "William",
+              "Surname": "McCandless",
+              "Candidate_First_Pref_Votes": "633.00",
+              "Transfers": "0.00",
+              "Total_Votes": "963.05",
+              "Status": "Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "William McCandless",
+              "id": 35
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3766908782-causeway-coast-and-glens",
+              "Count_Number": "1",
+              "Firstname": "Trevor",
+              "Surname": "Clarke",
+              "Candidate_First_Pref_Votes": "769.00",
+              "Transfers": "0.00",
+              "Total_Votes": "769.00",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Trevor Clarke",
+              "id": 36
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3766908782-causeway-coast-and-glens",
+              "Count_Number": "2",
+              "Firstname": "Trevor",
+              "Surname": "Clarke",
+              "Candidate_First_Pref_Votes": "769.00",
+              "Transfers": "48.07",
+              "Total_Votes": "817.07",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Trevor Clarke",
+              "id": 37
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3766908782-causeway-coast-and-glens",
+              "Count_Number": "3",
+              "Firstname": "Trevor",
+              "Surname": "Clarke",
+              "Candidate_First_Pref_Votes": "769.00",
+              "Transfers": "18.53",
+              "Total_Votes": "835.60",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Trevor Clarke",
+              "id": 38
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3766908782-causeway-coast-and-glens",
+              "Count_Number": "4",
+              "Firstname": "Trevor",
+              "Surname": "Clarke",
+              "Candidate_First_Pref_Votes": "769.00",
+              "Transfers": "21.75",
+              "Total_Votes": "857.35",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Trevor Clarke",
+              "id": 39
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3766908782-causeway-coast-and-glens",
+              "Count_Number": "5",
+              "Firstname": "Trevor",
+              "Surname": "Clarke",
+              "Candidate_First_Pref_Votes": "769.00",
+              "Transfers": "4.00",
+              "Total_Votes": "861.35",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Trevor Clarke",
+              "id": 40
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3766908782-causeway-coast-and-glens",
+              "Count_Number": "6",
+              "Firstname": "Trevor",
+              "Surname": "Clarke",
+              "Candidate_First_Pref_Votes": "769.00",
+              "Transfers": "0.00",
+              "Total_Votes": "861.35",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "6",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Trevor Clarke",
+              "id": 41
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3881057808",
+              "Count_Number": "1",
+              "Firstname": "Ciar\u00e1n",
+              "Surname": "Archibald",
+              "Candidate_First_Pref_Votes": "417.00",
+              "Transfers": "0.00",
+              "Total_Votes": "417.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Ciar\u00e1n Archibald",
+              "id": 42
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3881057808",
+              "Count_Number": "2",
+              "Firstname": "Ciar\u00e1n",
+              "Surname": "Archibald",
+              "Candidate_First_Pref_Votes": "417.00",
+              "Transfers": "0.23",
+              "Total_Votes": "417.23",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Ciar\u00e1n Archibald",
+              "id": 43
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3881057808",
+              "Count_Number": "3",
+              "Firstname": "Ciar\u00e1n",
+              "Surname": "Archibald",
+              "Candidate_First_Pref_Votes": "417.00",
+              "Transfers": "2.00",
+              "Total_Votes": "419.23",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Ciar\u00e1n Archibald",
+              "id": 44
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3881057808",
+              "Count_Number": "4",
+              "Firstname": "Ciar\u00e1n",
+              "Surname": "Archibald",
+              "Candidate_First_Pref_Votes": "417.00",
+              "Transfers": "1.00",
+              "Total_Votes": "420.23",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Ciar\u00e1n Archibald",
+              "id": 45
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3881057808",
+              "Count_Number": "5",
+              "Firstname": "Ciar\u00e1n",
+              "Surname": "Archibald",
+              "Candidate_First_Pref_Votes": "417.00",
+              "Transfers": "-420.23",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Ciar\u00e1n Archibald",
+              "id": 46
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3881057808",
+              "Count_Number": "6",
+              "Firstname": "Ciar\u00e1n",
+              "Surname": "Archibald",
+              "Candidate_First_Pref_Votes": "417.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Ciar\u00e1n Archibald",
+              "id": 47
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3309709105",
+              "Count_Number": "1",
+              "Firstname": "John",
+              "Surname": "Wisener",
+              "Candidate_First_Pref_Votes": "292.00",
+              "Transfers": "0.00",
+              "Total_Votes": "292.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "John Wisener",
+              "id": 48
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3309709105",
+              "Count_Number": "2",
+              "Firstname": "John",
+              "Surname": "Wisener",
+              "Candidate_First_Pref_Votes": "292.00",
+              "Transfers": "23.92",
+              "Total_Votes": "315.92",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "John Wisener",
+              "id": 49
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3309709105",
+              "Count_Number": "3",
+              "Firstname": "John",
+              "Surname": "Wisener",
+              "Candidate_First_Pref_Votes": "292.00",
+              "Transfers": "38.22",
+              "Total_Votes": "354.14",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "John Wisener",
+              "id": 50
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3309709105",
+              "Count_Number": "4",
+              "Firstname": "John",
+              "Surname": "Wisener",
+              "Candidate_First_Pref_Votes": "292.00",
+              "Transfers": "-354.14",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "John Wisener",
+              "id": 51
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3309709105",
+              "Count_Number": "5",
+              "Firstname": "John",
+              "Surname": "Wisener",
+              "Candidate_First_Pref_Votes": "292.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "John Wisener",
+              "id": 52
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3309709105",
+              "Count_Number": "6",
+              "Firstname": "John",
+              "Surname": "Wisener",
+              "Candidate_First_Pref_Votes": "292.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "John Wisener",
+              "id": 53
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "20313",
+              "Count_Number": "1",
+              "Firstname": "David",
+              "Surname": "Harding",
+              "Candidate_First_Pref_Votes": "112.00",
+              "Transfers": "0.00",
+              "Total_Votes": "112.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Conservative",
+              "Deduplicated Party Name": "Conservative",
+              "Wikipedia Party Name": "Conservative",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "David Harding",
+              "id": 54
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "20313",
+              "Count_Number": "2",
+              "Firstname": "David",
+              "Surname": "Harding",
+              "Candidate_First_Pref_Votes": "112.00",
+              "Transfers": "3.22",
+              "Total_Votes": "115.22",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Conservative",
+              "Deduplicated Party Name": "Conservative",
+              "Wikipedia Party Name": "Conservative",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "David Harding",
+              "id": 55
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "20313",
+              "Count_Number": "3",
+              "Firstname": "David",
+              "Surname": "Harding",
+              "Candidate_First_Pref_Votes": "112.00",
+              "Transfers": "-115.22",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Conservative",
+              "Deduplicated Party Name": "Conservative",
+              "Wikipedia Party Name": "Conservative",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "David Harding",
+              "id": 56
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "20313",
+              "Count_Number": "4",
+              "Firstname": "David",
+              "Surname": "Harding",
+              "Candidate_First_Pref_Votes": "112.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Conservative",
+              "Deduplicated Party Name": "Conservative",
+              "Wikipedia Party Name": "Conservative",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "David Harding",
+              "id": 57
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "20313",
+              "Count_Number": "5",
+              "Firstname": "David",
+              "Surname": "Harding",
+              "Candidate_First_Pref_Votes": "112.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Conservative",
+              "Deduplicated Party Name": "Conservative",
+              "Wikipedia Party Name": "Conservative",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "David Harding",
+              "id": 58
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "20313",
+              "Count_Number": "6",
+              "Firstname": "David",
+              "Surname": "Harding",
+              "Candidate_First_Pref_Votes": "112.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "Conservative",
+              "Deduplicated Party Name": "Conservative",
+              "Wikipedia Party Name": "Conservative",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "David Harding",
+              "id": 59
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "917912472",
+              "Count_Number": "1",
+              "Firstname": "Amanda",
+              "Surname": "Ranaghan",
+              "Candidate_First_Pref_Votes": "101.00",
+              "Transfers": "0.00",
+              "Total_Votes": "101.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "Amanda Ranaghan",
+              "id": 60
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "917912472",
+              "Count_Number": "2",
+              "Firstname": "Amanda",
+              "Surname": "Ranaghan",
+              "Candidate_First_Pref_Votes": "101.00",
+              "Transfers": "15.18",
+              "Total_Votes": "116.18",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "Amanda Ranaghan",
+              "id": 61
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "917912472",
+              "Count_Number": "3",
+              "Firstname": "Amanda",
+              "Surname": "Ranaghan",
+              "Candidate_First_Pref_Votes": "101.00",
+              "Transfers": "-116.18",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "Amanda Ranaghan",
+              "id": 62
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "917912472",
+              "Count_Number": "4",
+              "Firstname": "Amanda",
+              "Surname": "Ranaghan",
+              "Candidate_First_Pref_Votes": "101.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "Amanda Ranaghan",
+              "id": 63
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "917912472",
+              "Count_Number": "5",
+              "Firstname": "Amanda",
+              "Surname": "Ranaghan",
+              "Candidate_First_Pref_Votes": "101.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "Amanda Ranaghan",
+              "id": 64
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "917912472",
+              "Count_Number": "6",
+              "Firstname": "Amanda",
+              "Surname": "Ranaghan",
+              "Candidate_First_Pref_Votes": "101.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "6",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#9E9E9E",
+              "candidateName": "Amanda Ranaghan",
+              "id": 65
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "2",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "6.08",
+              "Total_Votes": "6.08",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 69
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "3",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "19.38",
+              "Total_Votes": "25.46",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 66
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "4",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "14.99",
+              "Total_Votes": "40.45",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 67
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "5",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "134.00",
+              "Total_Votes": "174.45",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 68
+            }
+          ]
         }
       ],
-      "internalNote": "Trevor Clarke: candidate id 3766908782 was shared with candidates of the same name in other councils (kept by Antrim); given 3766908782-causeway-coast-and-glens."
+      "internalNote": "Trevor Clarke: candidate id 3766908782 was shared with candidates of the same name in other councils (kept by Antrim); given 3766908782-causeway-coast-and-glens.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -110578,9 +112021,16 @@
           "url": "https://candidates.democracyclub.org.uk/elections/local.armagh-city-banbridge-and-craigavon.portadown.2019-05-02/",
           "accessed": "2026-10-23",
           "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+        },
+        {
+          "title": "Local Council Election 2019 result sheet: Portadown",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20210320173941id_/http://www.eoni.org.uk/getmedia/10b2764b-b82d-4548-afc4-43e7ea9dee0e/Portadown-DEA-Results",
+          "original": "http://www.eoni.org.uk/getmedia/10b2764b-b82d-4548-afc4-43e7ea9dee0e/Portadown-DEA-Results",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "1 candidate in Portadown 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Darryn Causby (DUP, 2,077 first preferences).",
+      "reason": "1 candidate in Portadown 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Darryn Causby (DUP, 2,077 first preferences). Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Lavelle McIlwrath's stage-7 transfer is 1.30 (1,331.97), not 1.00, and his stage-8 11.94, not 12.24 (1,343.91 either way); the non-transferable papers are 140.90 at stage 7 (255.91) and 148.39 at stage 8, not 141.20 and 148.09. The other stage totals are rebuilt from the transfers (restoreStageFractions). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll.",
       "category": "names",
       "operations": [
         {
@@ -110591,7 +112041,49 @@
             "Firstname": "Darryn",
             "Surname": "Causby"
           }
+        },
+        {
+          "op": "restoreStageFractions"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Lavelle McIlwrath",
+          "count": "7",
+          "set": {
+            "Transfers": "1.30",
+            "Total_Votes": "1331.97"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Lavelle McIlwrath",
+          "count": "8",
+          "set": {
+            "Transfers": "11.94",
+            "Total_Votes": "1343.91"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "7",
+          "set": {
+            "Transfers": "140.90",
+            "Total_Votes": "255.91"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "8",
+          "set": {
+            "Transfers": "148.39",
+            "Total_Votes": "404.30"
+          }
         }
+      ],
+      "alsoBatches": [
+        "review-rest-2026-11-12"
       ]
     },
     {
@@ -113069,9 +114561,177 @@
             "Surname": "Haughian",
             "candidateName": "Keith Haughian"
           }
+        },
+        {
+          "op": "restoreStageFractions"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Liam Mackle",
+          "count": "6",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1595.32"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Liam Mackle",
+          "count": "7",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1595.32"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Noel McGeown",
+          "count": "2",
+          "set": {
+            "Transfers": "44.88",
+            "Total_Votes": "498.88"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Noel McGeown",
+          "count": "3",
+          "set": {
+            "Transfers": "-498.88",
+            "Total_Votes": "0.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "2",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "0.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "3",
+          "set": {
+            "Transfers": "2.44",
+            "Total_Votes": "2.44"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "4",
+          "set": {
+            "Transfers": "49.12",
+            "Total_Votes": "51.56"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "5",
+          "set": {
+            "Transfers": "1.09",
+            "Total_Votes": "52.65"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "6",
+          "set": {
+            "Transfers": "104.96",
+            "Total_Votes": "157.61"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Peter Lavery",
+          "count": "6",
+          "set": {
+            "Transfers": "-195.05",
+            "Total_Votes": "1506.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Peter Lavery",
+          "count": "7",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1506.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Sorcha McGeown",
+          "count": "5",
+          "set": {
+            "Transfers": "112.77",
+            "Total_Votes": "1368.61"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Sorcha McGeown",
+          "count": "6",
+          "set": {
+            "Transfers": "88.83",
+            "Total_Votes": "1457.44"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Terry McWilliams",
+          "count": "2",
+          "set": {
+            "Transfers": "0.24",
+            "Total_Votes": "1282.24"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Terry McWilliams",
+          "count": "3",
+          "set": {
+            "Transfers": "1.00",
+            "Total_Votes": "1283.24"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Terry McWilliams",
+          "count": "4",
+          "set": {
+            "Transfers": "1.00",
+            "Total_Votes": "1284.24"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Terry McWilliams",
+          "count": "5",
+          "set": {
+            "Transfers": "1.26",
+            "Total_Votes": "1285.50"
+          }
         }
       ],
-      "reason": "Ciar\u00e1n Toman (SDLP) had 926 first preferences, not 928 (948.08 after 22.08 transferred at stage 2, 957.72 at stage 3), and Keith Haughian's name is Haughian, as the Electoral Office's result sheet gives; the first preferences now add up to the valid poll of 12,044."
+      "reason": "Ciar\u00e1n Toman (SDLP) had 926 first preferences, not 928 (948.08 after 22.08 transferred at stage 2, 957.72 at stage 3), and Keith Haughian's name is Haughian, as the Electoral Office's result sheet gives; the first preferences now add up to the valid poll of 12,044. Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Stage 6 transfers Peter Lavery's surplus (195.05: Sorcha McGeown 88.83, Terry McWilliams 0.63, Stephen Moutray 0.63, non-transferable 104.96), not Liam Mackle's, who stays at 1,595.32; Noel McGeown's stage-2 transfer is 44.88 (498.88), not 42.88; Sorcha McGeown's stage-5 transfer is 112.77 (1,368.61), not 132.77; Terry McWilliams's stage-2 transfer is 0.24 (1,282.24), not 0.64, and his stage-5 1.26; the non-transferable papers are 0, 2.44, 49.12, 1.09 and 104.96 at stages 2-6 (157.61 in all). The other stage totals are rebuilt from the transfers (restoreStageFractions). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2019 result sheet: Lurgan",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20210320173938id_/http://www.eoni.org.uk/getmedia/834d5e05-aff7-4ac1-a52e-67a17a03539a/Lurgan-DEA-Results",
+          "original": "http://www.eoni.org.uk/getmedia/834d5e05-aff7-4ac1-a52e-67a17a03539a/Lurgan-DEA-Results",
+          "accessed": "2026-11-12"
+        }
+      ]
     },
     {
       "batch": "eoni-wayback-2026-10-26",
@@ -188212,9 +189872,70 @@
           "set": {
             "Candidate_Id": "326721223-fermanagh-and-omagh"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Howard Thornton",
+          "count": "7",
+          "set": {
+            "Transfers": "46.46",
+            "Total_Votes": "865.76"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Howard Thornton",
+          "count": "8",
+          "set": {
+            "Transfers": "6.90",
+            "Total_Votes": "872.66"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Howard Thornton",
+          "count": "9",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "872.66"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "7",
+          "set": {
+            "Transfers": "197.57",
+            "Total_Votes": "269.96"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "8",
+          "set": {
+            "Transfers": "0.22",
+            "Total_Votes": "270.18"
+          }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Pat Cox: candidate id 2142812622 was shared with candidates of the same name in other councils (kept by Fermanagh); given 2142812622-fermanagh-and-omagh. Laurence Speight: candidate id 326721223 was shared with candidates of the same name in other councils (kept by Fermanagh); given 326721223-fermanagh-and-omagh."
+      "internalNote": "Pat Cox: candidate id 2142812622 was shared with candidates of the same name in other councils (kept by Fermanagh); given 2142812622-fermanagh-and-omagh. Laurence Speight: candidate id 326721223 was shared with candidates of the same name in other councils (kept by Fermanagh); given 326721223-fermanagh-and-omagh.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: Enniskillen",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092313id_/http://www.eoni.org.uk/getmedia/5b61537e-910f-41d8-b16f-2e829e83b27a/Local-Council-Election-2014-Result-Sheet-Enniskillen",
+          "original": "http://www.eoni.org.uk/getmedia/5b61537e-910f-41d8-b16f-2e829e83b27a/Local-Council-Election-2014-Result-Sheet-Enniskillen",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Howard Thornton's stage-7 transfer is 46.46 (865.76), not 36.46, and his stage-8 transfer 6.90 (872.66), not 16.90; the non-transferable papers are 197.57 at stage 7 (269.96), not 207.57, and 0.22 at stage 8 (270.18). The other stage totals are rebuilt from the transfers (restoreStageFractions). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -188300,9 +190021,70 @@
           "set": {
             "Candidate_Id": "713888849-mid-and-east-antrim"
           }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gareth Cole",
+          "count": "6",
+          "set": {
+            "Transfers": "0.20",
+            "Total_Votes": "435.56"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gareth Cole",
+          "count": "7",
+          "set": {
+            "Transfers": "-435.56",
+            "Total_Votes": "0.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "7",
+          "set": {
+            "Transfers": "103.34",
+            "Total_Votes": "155.12"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "8",
+          "set": {
+            "Transfers": "20.00",
+            "Total_Votes": "175.12"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "9",
+          "set": {
+            "Transfers": "97.38",
+            "Total_Votes": "272.50"
+          }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Robert Stewart: candidate id 3997940922 was shared with candidates of the same name in other councils (kept by Coleraine); given 3997940922-mid-and-east-antrim. Ken McFaul: candidate id 713888849 was shared with candidates of the same name in other councils (kept by Carrickfergus); given 713888849-mid-and-east-antrim."
+      "internalNote": "Robert Stewart: candidate id 3997940922 was shared with candidates of the same name in other councils (kept by Coleraine); given 3997940922-mid-and-east-antrim. Ken McFaul: candidate id 713888849 was shared with candidates of the same name in other councils (kept by Carrickfergus); given 713888849-mid-and-east-antrim.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: Knockagh",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401092940id_/http://www.eoni.org.uk/getmedia/0d02af97-22d6-40b9-8630-d7f53091429c/Local-Council-Election-2014-Result-Sheets-Knockagh",
+          "original": "http://www.eoni.org.uk/getmedia/0d02af97-22d6-40b9-8630-d7f53091429c/Local-Council-Election-2014-Result-Sheets-Knockagh",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Gareth Cole's stage-6 transfer (Wilson's surplus of 2) is 0.20 (435.56), not 1.20, and 435.56 is excluded at stage 7; the non-transferable papers at stages 7-9 are 103.34, 20 and 97.38 (155.12, 175.12, 272.50), one fewer than the file had. The other stage totals are rebuilt from the transfers (restoreStageFractions). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -188612,9 +190394,196 @@
           "set": {
             "Candidate_Id": "2035506218-armagh-banbridge-and-craigavon"
           }
+        },
+        {
+          "op": "restoreStageFractions"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Ian Burns",
+          "count": "5",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1554.68"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Ian Burns",
+          "count": "6",
+          "set": {
+            "Transfers": "-36.68",
+            "Total_Votes": "1518.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jill Macauley",
+          "count": "7",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1533.11"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Jill Macauley",
+          "count": "8",
+          "set": {
+            "Transfers": "-15.11",
+            "Total_Votes": "1518.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Kevin Savage",
+          "count": "7",
+          "set": {
+            "Transfers": "-15.14",
+            "Total_Votes": "1518.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Kevin Savage",
+          "count": "8",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1518.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "2",
+          "set": {
+            "Transfers": "0.44",
+            "Total_Votes": "0.44"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "3",
+          "set": {
+            "Transfers": "42.14",
+            "Total_Votes": "42.58"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "4",
+          "set": {
+            "Transfers": "7.28",
+            "Total_Votes": "49.86"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "5",
+          "set": {
+            "Transfers": "14.58",
+            "Total_Votes": "64.44"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "6",
+          "set": {
+            "Transfers": "0.72",
+            "Total_Votes": "65.16"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "7",
+          "set": {
+            "Transfers": "2.18",
+            "Total_Votes": "67.34"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "8",
+          "set": {
+            "Transfers": "6.74",
+            "Total_Votes": "74.08"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Paul Greenfield",
+          "count": "5",
+          "set": {
+            "Transfers": "-45.00",
+            "Total_Votes": "1518.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Paul Greenfield",
+          "count": "6",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1518.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Seamus Doyle",
+          "count": "4",
+          "set": {
+            "Transfers": "137.00",
+            "Total_Votes": "1454.96"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Seamus Doyle",
+          "count": "5",
+          "set": {
+            "Transfers": "0.20",
+            "Total_Votes": "1455.16"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "William Martin",
+          "count": "2",
+          "set": {
+            "Transfers": "3.22",
+            "Total_Votes": "511.22"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "William Martin",
+          "count": "3",
+          "set": {
+            "Transfers": "-511.22",
+            "Total_Votes": "0.00"
+          }
         }
       ],
-      "internalNote": "William Martin: candidate id 2035506218 was shared with candidates of the same name in other councils (kept by Banbridge); given 2035506218-armagh-banbridge-and-craigavon."
+      "internalNote": "William Martin: candidate id 2035506218 was shared with candidates of the same name in other councils (kept by Banbridge); given 2035506218-armagh-banbridge-and-craigavon.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2019 result sheet: Banbridge",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20210320173926id_/http://www.eoni.org.uk/getmedia/03dbdbc9-cca4-4fdc-9aba-b83dddd2d0c4/Banbridge-DEA-Results_1",
+          "original": "http://www.eoni.org.uk/getmedia/03dbdbc9-cca4-4fdc-9aba-b83dddd2d0c4/Banbridge-DEA-Results_1",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Paul Greenfield's surplus (45) is transferred at stage 5 and Ian Burns's (36.68) at stage 6, Kevin Savage's (15.14) at stage 7 and Jill Macauley's (15.11) at stage 8, where the file had each pair the other way round; William Martin's stage-2 transfer is 3.22 (511.22, all excluded at stage 3), not 3.12; Seamus Doyle's stage-4 transfer is 137.00 (1,454.96), not 136.80, and his stage-5 0.20, not 0.40; the non-transferable papers are as the sheet gives them (0.44, 42.14, 7.28, 14.58, 0.72, 2.18, 6.74 at stages 2-8). The other stage totals are rebuilt from the transfers (restoreStageFractions). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -188633,9 +190602,115 @@
           "set": {
             "Candidate_Id": "3649837792-armagh-banbridge-and-craigavon"
           }
+        },
+        {
+          "op": "restoreStageFractions"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Br\u00f3na Haughey",
+          "count": "5",
+          "set": {
+            "Transfers": "-184.30",
+            "Total_Votes": "1910.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Br\u00f3na Haughey",
+          "count": "6",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1910.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "2",
+          "set": {
+            "Transfers": "3.50",
+            "Total_Votes": "3.50"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "3",
+          "set": {
+            "Transfers": "140.40",
+            "Total_Votes": "143.90"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "5",
+          "set": {
+            "Transfers": "118.30",
+            "Total_Votes": "637.80"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "6",
+          "set": {
+            "Transfers": "8.90",
+            "Total_Votes": "646.70"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Paul Berry",
+          "count": "5",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "2009.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Paul Berry",
+          "count": "6",
+          "set": {
+            "Transfers": "-99.00",
+            "Total_Votes": "1910.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Seamus Livingstone",
+          "count": "2",
+          "set": {
+            "Transfers": "1.05",
+            "Total_Votes": "902.05"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Seamus Livingstone",
+          "count": "3",
+          "set": {
+            "Transfers": "204.00",
+            "Total_Votes": "1106.05"
+          }
         }
       ],
-      "internalNote": "Paul Bowbanks: candidate id 3281698821 was shared with candidates of the same name in other councils (kept by Armagh); given 3281698821-armagh-banbridge-and-craigavon. Paul Berry: candidate id 3649837792 was shared with candidates of the same name in other councils (kept by Armagh); given 3649837792-armagh-banbridge-and-craigavon."
+      "internalNote": "Paul Bowbanks: candidate id 3281698821 was shared with candidates of the same name in other councils (kept by Armagh); given 3281698821-armagh-banbridge-and-craigavon. Paul Berry: candidate id 3649837792 was shared with candidates of the same name in other councils (kept by Armagh); given 3649837792-armagh-banbridge-and-craigavon.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2019 result sheet: Cusher",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20210320173932id_/http://www.eoni.org.uk/getmedia/dda791fa-6499-4319-acac-61240e203115/Cusher-DEA-Results",
+          "original": "http://www.eoni.org.uk/getmedia/dda791fa-6499-4319-acac-61240e203115/Cusher-DEA-Results",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Br\u00f3na Haughey's surplus (184.30) is transferred at stage 5 and Paul Berry's (99) at stage 6, where the file had them the other way round; Seamus Livingstone's stage-2 transfer is 1.05 (902.05), not 1.45, and his stage-3 204.00, not 203.60; the non-transferable papers are 3.50, 140.40, 375.60, 118.30, 8.90 and 0.22 at stages 2-7. The other stage totals are rebuilt from the transfers (restoreStageFractions). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -188677,9 +190752,61 @@
           "set": {
             "Candidate_Id": "2350565910-fermanagh-and-omagh"
           }
+        },
+        {
+          "op": "restoreStageFractions"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "2",
+          "set": {
+            "Transfers": "5.96",
+            "Total_Votes": "5.96"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "3",
+          "set": {
+            "Transfers": "3.56",
+            "Total_Votes": "9.52"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Tom O'Reilly",
+          "count": "2",
+          "set": {
+            "Transfers": "1.08",
+            "Total_Votes": "830.08"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Tom O'Reilly",
+          "count": "3",
+          "set": {
+            "Transfers": "0.56",
+            "Total_Votes": "830.64"
+          }
         }
       ],
-      "internalNote": "Gerry McHugh: candidate id 2350565910 was shared with candidates of the same name in other councils (kept by Fermanagh); given 2350565910-fermanagh-and-omagh."
+      "internalNote": "Gerry McHugh: candidate id 2350565910 was shared with candidates of the same name in other councils (kept by Fermanagh); given 2350565910-fermanagh-and-omagh.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2019 result sheet: Erne East",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20190806051637id_/http://www.eoni.org.uk/getmedia/68f11f44-1380-4323-8b7d-762aaeda344a/Erne-East-Result-Sheet",
+          "original": "http://www.eoni.org.uk/getmedia/68f11f44-1380-4323-8b7d-762aaeda344a/Erne-East-Result-Sheet",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Tom O'Reilly's stage-2 transfer is 1.08 (830.08), not 1.06, and his stage-3 0.56, not 0.58; the non-transferable papers are 5.96 and 3.56 at stages 2 and 3, not 5.98 and 3.54. The other stage totals are rebuilt from the transfers (restoreStageFractions). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -333367,6 +335494,2305 @@
           "op": "set",
           "path": "meta.total_poll",
           "value": 10246
+        }
+      ]
+    },
+    {
+      "batch": "review-rest-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/bannside.json",
+      "source": {
+        "title": "Local Council Election 2019 result sheet: Bannside",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806051825id_/http://www.eoni.org.uk/getmedia/ea7fb00a-ec61-4a72-a6f4-4a1f1cb41d70/Bannside-DEA",
+        "original": "http://www.eoni.org.uk/getmedia/ea7fb00a-ec61-4a72-a6f4-4a1f1cb41d70/Bannside-DEA",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Thomas Gordon's surplus (185.14) is transferred at stage 7 and Tommy Nicholl's (88.50) at stage 8, where the file had them the other way round; Andrew Wright's stage-5 transfer is 11.52 (854.96, excluded at stage 6), not 11.00; the non-transferable papers are 1.88 at stage 5 (59.82), 113.80 at stage 6, 141.14 at stage 7 (314.76) and 44.50 at stage 8 (359.26). The other stage totals are rebuilt from the transfers (restoreStageFractions). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Andrew Wright",
+          "count": "5",
+          "set": {
+            "Transfers": "11.52",
+            "Total_Votes": "854.96"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Andrew Wright",
+          "count": "6",
+          "set": {
+            "Transfers": "-854.96",
+            "Total_Votes": "0.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "5",
+          "set": {
+            "Transfers": "1.88",
+            "Total_Votes": "59.82"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "6",
+          "set": {
+            "Transfers": "113.80",
+            "Total_Votes": "173.62"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "7",
+          "set": {
+            "Transfers": "141.14",
+            "Total_Votes": "314.76"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "8",
+          "set": {
+            "Transfers": "44.50",
+            "Total_Votes": "359.26"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Thomas Gordon",
+          "count": "7",
+          "set": {
+            "Transfers": "-185.14",
+            "Total_Votes": "1154.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Thomas Gordon",
+          "count": "8",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1154.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Tommy Nicholl",
+          "count": "7",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1242.50"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Tommy Nicholl",
+          "count": "8",
+          "set": {
+            "Transfers": "-88.50",
+            "Total_Votes": "1154.00"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "review-rest-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/lagan-river.json",
+      "source": {
+        "title": "Local Council Election 2019 result sheet: Lagan River",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210320173934id_/http://www.eoni.org.uk/getmedia/e63484e2-de57-45f3-a6a6-56e96994f4cd/Lagan-River-DEA-Results",
+        "original": "http://www.eoni.org.uk/getmedia/e63484e2-de57-45f3-a6a6-56e96994f4cd/Lagan-River-DEA-Results",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): Kyle Savage's surplus (133) is transferred at stage 3 and Paul Rankin's (38.39) at stage 5, where the file had them the other way round; Olive Mercer's stage-2 transfer is 20.37 (891.37), not 110.37, and her stage-3 95.92, not 5.92; Tim McClelland's stage-7 transfer is 28.95 (1,049.74) and his stage-8 3.00; the non-transferable papers are 6.71, 6.76, 21.84, 0.99, 12.42, 34.22, 79.77 and 118.67 at stages 2-9 (281.38 in all; the file had none at stage 2). The count rows are rebuilt with the sheet's transfers and totals (replaceCountRows). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "replaceCountRows",
+          "rows": [
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4004084182",
+              "Count_Number": "1",
+              "Firstname": "Mark",
+              "Surname": "Baxter",
+              "Candidate_First_Pref_Votes": "1876.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1876.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Mark Baxter",
+              "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4004084182",
+              "Count_Number": "2",
+              "Firstname": "Mark",
+              "Surname": "Baxter",
+              "Candidate_First_Pref_Votes": "1876.00",
+              "Transfers": "-395.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Mark Baxter",
+              "id": 1
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4004084182",
+              "Count_Number": "3",
+              "Firstname": "Mark",
+              "Surname": "Baxter",
+              "Candidate_First_Pref_Votes": "1876.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Mark Baxter",
+              "id": 2
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4004084182",
+              "Count_Number": "4",
+              "Firstname": "Mark",
+              "Surname": "Baxter",
+              "Candidate_First_Pref_Votes": "1876.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Mark Baxter",
+              "id": 3
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4004084182",
+              "Count_Number": "5",
+              "Firstname": "Mark",
+              "Surname": "Baxter",
+              "Candidate_First_Pref_Votes": "1876.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Mark Baxter",
+              "id": 4
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4004084182",
+              "Count_Number": "6",
+              "Firstname": "Mark",
+              "Surname": "Baxter",
+              "Candidate_First_Pref_Votes": "1876.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Mark Baxter",
+              "id": 5
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4004084182",
+              "Count_Number": "7",
+              "Firstname": "Mark",
+              "Surname": "Baxter",
+              "Candidate_First_Pref_Votes": "1876.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Mark Baxter",
+              "id": 6
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4004084182",
+              "Count_Number": "8",
+              "Firstname": "Mark",
+              "Surname": "Baxter",
+              "Candidate_First_Pref_Votes": "1876.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Mark Baxter",
+              "id": 7
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4004084182",
+              "Count_Number": "9",
+              "Firstname": "Mark",
+              "Surname": "Baxter",
+              "Candidate_First_Pref_Votes": "1876.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Mark Baxter",
+              "id": 8
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4004084182",
+              "Count_Number": "10",
+              "Firstname": "Mark",
+              "Surname": "Baxter",
+              "Candidate_First_Pref_Votes": "1876.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Mark Baxter",
+              "id": 9
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "825095131",
+              "Count_Number": "1",
+              "Firstname": "Kyle",
+              "Surname": "Savage",
+              "Candidate_First_Pref_Votes": "1614.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1614.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Kyle Savage",
+              "id": 10
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "825095131",
+              "Count_Number": "2",
+              "Firstname": "Kyle",
+              "Surname": "Savage",
+              "Candidate_First_Pref_Votes": "1614.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1614.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Kyle Savage",
+              "id": 11
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "825095131",
+              "Count_Number": "3",
+              "Firstname": "Kyle",
+              "Surname": "Savage",
+              "Candidate_First_Pref_Votes": "1614.00",
+              "Transfers": "-133.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Kyle Savage",
+              "id": 12
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "825095131",
+              "Count_Number": "4",
+              "Firstname": "Kyle",
+              "Surname": "Savage",
+              "Candidate_First_Pref_Votes": "1614.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Kyle Savage",
+              "id": 13
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "825095131",
+              "Count_Number": "5",
+              "Firstname": "Kyle",
+              "Surname": "Savage",
+              "Candidate_First_Pref_Votes": "1614.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Kyle Savage",
+              "id": 14
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "825095131",
+              "Count_Number": "6",
+              "Firstname": "Kyle",
+              "Surname": "Savage",
+              "Candidate_First_Pref_Votes": "1614.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Kyle Savage",
+              "id": 15
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "825095131",
+              "Count_Number": "7",
+              "Firstname": "Kyle",
+              "Surname": "Savage",
+              "Candidate_First_Pref_Votes": "1614.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Kyle Savage",
+              "id": 16
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "825095131",
+              "Count_Number": "8",
+              "Firstname": "Kyle",
+              "Surname": "Savage",
+              "Candidate_First_Pref_Votes": "1614.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Kyle Savage",
+              "id": 17
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "825095131",
+              "Count_Number": "9",
+              "Firstname": "Kyle",
+              "Surname": "Savage",
+              "Candidate_First_Pref_Votes": "1614.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Kyle Savage",
+              "id": 18
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "825095131",
+              "Count_Number": "10",
+              "Firstname": "Kyle",
+              "Surname": "Savage",
+              "Candidate_First_Pref_Votes": "1614.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Kyle Savage",
+              "id": 19
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2437233079",
+              "Count_Number": "1",
+              "Firstname": "Paul",
+              "Surname": "Rankin",
+              "Candidate_First_Pref_Votes": "1444.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1444.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Paul Rankin",
+              "id": 20
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2437233079",
+              "Count_Number": "2",
+              "Firstname": "Paul",
+              "Surname": "Rankin",
+              "Candidate_First_Pref_Votes": "1444.00",
+              "Transfers": "75.39",
+              "Total_Votes": "1519.39",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Paul Rankin",
+              "id": 21
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2437233079",
+              "Count_Number": "3",
+              "Firstname": "Paul",
+              "Surname": "Rankin",
+              "Candidate_First_Pref_Votes": "1444.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1519.39",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Paul Rankin",
+              "id": 22
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2437233079",
+              "Count_Number": "4",
+              "Firstname": "Paul",
+              "Surname": "Rankin",
+              "Candidate_First_Pref_Votes": "1444.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1519.39",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Paul Rankin",
+              "id": 23
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2437233079",
+              "Count_Number": "5",
+              "Firstname": "Paul",
+              "Surname": "Rankin",
+              "Candidate_First_Pref_Votes": "1444.00",
+              "Transfers": "-38.39",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Paul Rankin",
+              "id": 24
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2437233079",
+              "Count_Number": "6",
+              "Firstname": "Paul",
+              "Surname": "Rankin",
+              "Candidate_First_Pref_Votes": "1444.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Paul Rankin",
+              "id": 25
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2437233079",
+              "Count_Number": "7",
+              "Firstname": "Paul",
+              "Surname": "Rankin",
+              "Candidate_First_Pref_Votes": "1444.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Paul Rankin",
+              "id": 26
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2437233079",
+              "Count_Number": "8",
+              "Firstname": "Paul",
+              "Surname": "Rankin",
+              "Candidate_First_Pref_Votes": "1444.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Paul Rankin",
+              "id": 27
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2437233079",
+              "Count_Number": "9",
+              "Firstname": "Paul",
+              "Surname": "Rankin",
+              "Candidate_First_Pref_Votes": "1444.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Paul Rankin",
+              "id": 28
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "2437233079",
+              "Count_Number": "10",
+              "Firstname": "Paul",
+              "Surname": "Rankin",
+              "Candidate_First_Pref_Votes": "1444.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1481.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Paul Rankin",
+              "id": 29
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3413846151",
+              "Count_Number": "1",
+              "Firstname": "E\u00f3in",
+              "Surname": "Tennyson",
+              "Candidate_First_Pref_Votes": "960.00",
+              "Transfers": "0.00",
+              "Total_Votes": "960.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "E\u00f3in Tennyson",
+              "id": 30
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3413846151",
+              "Count_Number": "2",
+              "Firstname": "E\u00f3in",
+              "Surname": "Tennyson",
+              "Candidate_First_Pref_Votes": "960.00",
+              "Transfers": "3.36",
+              "Total_Votes": "963.36",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "E\u00f3in Tennyson",
+              "id": 31
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3413846151",
+              "Count_Number": "3",
+              "Firstname": "E\u00f3in",
+              "Surname": "Tennyson",
+              "Candidate_First_Pref_Votes": "960.00",
+              "Transfers": "4.64",
+              "Total_Votes": "968.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "E\u00f3in Tennyson",
+              "id": 32
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3413846151",
+              "Count_Number": "4",
+              "Firstname": "E\u00f3in",
+              "Surname": "Tennyson",
+              "Candidate_First_Pref_Votes": "960.00",
+              "Transfers": "23.29",
+              "Total_Votes": "991.29",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "E\u00f3in Tennyson",
+              "id": 33
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3413846151",
+              "Count_Number": "5",
+              "Firstname": "E\u00f3in",
+              "Surname": "Tennyson",
+              "Candidate_First_Pref_Votes": "960.00",
+              "Transfers": "0.11",
+              "Total_Votes": "991.40",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "E\u00f3in Tennyson",
+              "id": 34
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3413846151",
+              "Count_Number": "6",
+              "Firstname": "E\u00f3in",
+              "Surname": "Tennyson",
+              "Candidate_First_Pref_Votes": "960.00",
+              "Transfers": "36.00",
+              "Total_Votes": "1027.40",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "E\u00f3in Tennyson",
+              "id": 35
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3413846151",
+              "Count_Number": "7",
+              "Firstname": "E\u00f3in",
+              "Surname": "Tennyson",
+              "Candidate_First_Pref_Votes": "960.00",
+              "Transfers": "37.58",
+              "Total_Votes": "1064.98",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "E\u00f3in Tennyson",
+              "id": 36
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3413846151",
+              "Count_Number": "8",
+              "Firstname": "E\u00f3in",
+              "Surname": "Tennyson",
+              "Candidate_First_Pref_Votes": "960.00",
+              "Transfers": "431.00",
+              "Total_Votes": "1495.98",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "E\u00f3in Tennyson",
+              "id": 37
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3413846151",
+              "Count_Number": "9",
+              "Firstname": "E\u00f3in",
+              "Surname": "Tennyson",
+              "Candidate_First_Pref_Votes": "960.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1495.98",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "E\u00f3in Tennyson",
+              "id": 38
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3413846151",
+              "Count_Number": "10",
+              "Firstname": "E\u00f3in",
+              "Surname": "Tennyson",
+              "Candidate_First_Pref_Votes": "960.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1495.98",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Alliance",
+              "Deduplicated Party Name": "Alliance",
+              "Wikipedia Party Name": "Alliance",
+              "Party_Colour": "#F6CB2F",
+              "candidateName": "E\u00f3in Tennyson",
+              "id": 39
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4281298320",
+              "Count_Number": "1",
+              "Firstname": "Tim",
+              "Surname": "McClelland",
+              "Candidate_First_Pref_Votes": "678.00",
+              "Transfers": "0.00",
+              "Total_Votes": "678.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Tim McClelland",
+              "id": 40
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4281298320",
+              "Count_Number": "2",
+              "Firstname": "Tim",
+              "Surname": "McClelland",
+              "Candidate_First_Pref_Votes": "678.00",
+              "Transfers": "267.96",
+              "Total_Votes": "945.96",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Tim McClelland",
+              "id": 41
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4281298320",
+              "Count_Number": "3",
+              "Firstname": "Tim",
+              "Surname": "McClelland",
+              "Candidate_First_Pref_Votes": "678.00",
+              "Transfers": "14.40",
+              "Total_Votes": "960.36",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Tim McClelland",
+              "id": 42
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4281298320",
+              "Count_Number": "4",
+              "Firstname": "Tim",
+              "Surname": "McClelland",
+              "Candidate_First_Pref_Votes": "678.00",
+              "Transfers": "27.76",
+              "Total_Votes": "988.12",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Tim McClelland",
+              "id": 43
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4281298320",
+              "Count_Number": "5",
+              "Firstname": "Tim",
+              "Surname": "McClelland",
+              "Candidate_First_Pref_Votes": "678.00",
+              "Transfers": "32.67",
+              "Total_Votes": "1020.79",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Tim McClelland",
+              "id": 44
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4281298320",
+              "Count_Number": "6",
+              "Firstname": "Tim",
+              "Surname": "McClelland",
+              "Candidate_First_Pref_Votes": "678.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1020.79",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Tim McClelland",
+              "id": 45
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4281298320",
+              "Count_Number": "7",
+              "Firstname": "Tim",
+              "Surname": "McClelland",
+              "Candidate_First_Pref_Votes": "678.00",
+              "Transfers": "28.95",
+              "Total_Votes": "1049.74",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Tim McClelland",
+              "id": 46
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4281298320",
+              "Count_Number": "8",
+              "Firstname": "Tim",
+              "Surname": "McClelland",
+              "Candidate_First_Pref_Votes": "678.00",
+              "Transfers": "3.00",
+              "Total_Votes": "1052.74",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Tim McClelland",
+              "id": 47
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4281298320",
+              "Count_Number": "9",
+              "Firstname": "Tim",
+              "Surname": "McClelland",
+              "Candidate_First_Pref_Votes": "678.00",
+              "Transfers": "299.28",
+              "Total_Votes": "1352.02",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Tim McClelland",
+              "id": 48
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4281298320",
+              "Count_Number": "10",
+              "Firstname": "Tim",
+              "Surname": "McClelland",
+              "Candidate_First_Pref_Votes": "678.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1352.02",
+              "Status": "Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "DUP",
+              "Deduplicated Party Name": "DUP",
+              "Wikipedia Party Name": "DUP",
+              "Party_Colour": "#D46A4C",
+              "candidateName": "Tim McClelland",
+              "id": 49
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "166709067",
+              "Count_Number": "1",
+              "Firstname": "Olive",
+              "Surname": "Mercer",
+              "Candidate_First_Pref_Votes": "871.00",
+              "Transfers": "0.00",
+              "Total_Votes": "871.00",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Olive Mercer",
+              "id": 50
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "166709067",
+              "Count_Number": "2",
+              "Firstname": "Olive",
+              "Surname": "Mercer",
+              "Candidate_First_Pref_Votes": "871.00",
+              "Transfers": "20.37",
+              "Total_Votes": "891.37",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Olive Mercer",
+              "id": 51
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "166709067",
+              "Count_Number": "3",
+              "Firstname": "Olive",
+              "Surname": "Mercer",
+              "Candidate_First_Pref_Votes": "871.00",
+              "Transfers": "95.92",
+              "Total_Votes": "987.29",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Olive Mercer",
+              "id": 52
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "166709067",
+              "Count_Number": "4",
+              "Firstname": "Olive",
+              "Surname": "Mercer",
+              "Candidate_First_Pref_Votes": "871.00",
+              "Transfers": "22.80",
+              "Total_Votes": "1010.09",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Olive Mercer",
+              "id": 53
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "166709067",
+              "Count_Number": "5",
+              "Firstname": "Olive",
+              "Surname": "Mercer",
+              "Candidate_First_Pref_Votes": "871.00",
+              "Transfers": "3.74",
+              "Total_Votes": "1013.83",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Olive Mercer",
+              "id": 54
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "166709067",
+              "Count_Number": "6",
+              "Firstname": "Olive",
+              "Surname": "Mercer",
+              "Candidate_First_Pref_Votes": "871.00",
+              "Transfers": "0.42",
+              "Total_Votes": "1014.25",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Olive Mercer",
+              "id": 55
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "166709067",
+              "Count_Number": "7",
+              "Firstname": "Olive",
+              "Surname": "Mercer",
+              "Candidate_First_Pref_Votes": "871.00",
+              "Transfers": "88.12",
+              "Total_Votes": "1102.37",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Olive Mercer",
+              "id": 56
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "166709067",
+              "Count_Number": "8",
+              "Firstname": "Olive",
+              "Surname": "Mercer",
+              "Candidate_First_Pref_Votes": "871.00",
+              "Transfers": "38.69",
+              "Total_Votes": "1141.06",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Olive Mercer",
+              "id": 57
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "166709067",
+              "Count_Number": "9",
+              "Firstname": "Olive",
+              "Surname": "Mercer",
+              "Candidate_First_Pref_Votes": "871.00",
+              "Transfers": "170.56",
+              "Total_Votes": "1311.62",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Olive Mercer",
+              "id": 58
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "166709067",
+              "Count_Number": "10",
+              "Firstname": "Olive",
+              "Surname": "Mercer",
+              "Candidate_First_Pref_Votes": "871.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1311.62",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UUP",
+              "Deduplicated Party Name": "UUP",
+              "Wikipedia Party Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Olive Mercer",
+              "id": 59
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3384478665",
+              "Count_Number": "1",
+              "Firstname": "Samuel",
+              "Surname": "Morrison",
+              "Candidate_First_Pref_Votes": "499.00",
+              "Transfers": "0.00",
+              "Total_Votes": "499.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "TUV",
+              "Deduplicated Party Name": "TUV",
+              "Wikipedia Party Name": "TUV",
+              "Party_Colour": "#0C3A6A",
+              "candidateName": "Samuel Morrison",
+              "id": 60
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3384478665",
+              "Count_Number": "2",
+              "Firstname": "Samuel",
+              "Surname": "Morrison",
+              "Candidate_First_Pref_Votes": "499.00",
+              "Transfers": "12.39",
+              "Total_Votes": "511.39",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "TUV",
+              "Deduplicated Party Name": "TUV",
+              "Wikipedia Party Name": "TUV",
+              "Party_Colour": "#0C3A6A",
+              "candidateName": "Samuel Morrison",
+              "id": 61
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3384478665",
+              "Count_Number": "3",
+              "Firstname": "Samuel",
+              "Surname": "Morrison",
+              "Candidate_First_Pref_Votes": "499.00",
+              "Transfers": "6.16",
+              "Total_Votes": "517.55",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "TUV",
+              "Deduplicated Party Name": "TUV",
+              "Wikipedia Party Name": "TUV",
+              "Party_Colour": "#0C3A6A",
+              "candidateName": "Samuel Morrison",
+              "id": 62
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3384478665",
+              "Count_Number": "4",
+              "Firstname": "Samuel",
+              "Surname": "Morrison",
+              "Candidate_First_Pref_Votes": "499.00",
+              "Transfers": "25.03",
+              "Total_Votes": "542.58",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "TUV",
+              "Deduplicated Party Name": "TUV",
+              "Wikipedia Party Name": "TUV",
+              "Party_Colour": "#0C3A6A",
+              "candidateName": "Samuel Morrison",
+              "id": 63
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3384478665",
+              "Count_Number": "5",
+              "Firstname": "Samuel",
+              "Surname": "Morrison",
+              "Candidate_First_Pref_Votes": "499.00",
+              "Transfers": "0.55",
+              "Total_Votes": "543.13",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "TUV",
+              "Deduplicated Party Name": "TUV",
+              "Wikipedia Party Name": "TUV",
+              "Party_Colour": "#0C3A6A",
+              "candidateName": "Samuel Morrison",
+              "id": 64
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3384478665",
+              "Count_Number": "6",
+              "Firstname": "Samuel",
+              "Surname": "Morrison",
+              "Candidate_First_Pref_Votes": "499.00",
+              "Transfers": "0.00",
+              "Total_Votes": "543.13",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "TUV",
+              "Deduplicated Party Name": "TUV",
+              "Wikipedia Party Name": "TUV",
+              "Party_Colour": "#0C3A6A",
+              "candidateName": "Samuel Morrison",
+              "id": 65
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3384478665",
+              "Count_Number": "7",
+              "Firstname": "Samuel",
+              "Surname": "Morrison",
+              "Candidate_First_Pref_Votes": "499.00",
+              "Transfers": "38.38",
+              "Total_Votes": "581.51",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "TUV",
+              "Deduplicated Party Name": "TUV",
+              "Wikipedia Party Name": "TUV",
+              "Party_Colour": "#0C3A6A",
+              "candidateName": "Samuel Morrison",
+              "id": 66
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3384478665",
+              "Count_Number": "8",
+              "Firstname": "Samuel",
+              "Surname": "Morrison",
+              "Candidate_First_Pref_Votes": "499.00",
+              "Transfers": "7.00",
+              "Total_Votes": "588.51",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "TUV",
+              "Deduplicated Party Name": "TUV",
+              "Wikipedia Party Name": "TUV",
+              "Party_Colour": "#0C3A6A",
+              "candidateName": "Samuel Morrison",
+              "id": 67
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3384478665",
+              "Count_Number": "9",
+              "Firstname": "Samuel",
+              "Surname": "Morrison",
+              "Candidate_First_Pref_Votes": "499.00",
+              "Transfers": "-588.51",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "TUV",
+              "Deduplicated Party Name": "TUV",
+              "Wikipedia Party Name": "TUV",
+              "Party_Colour": "#0C3A6A",
+              "candidateName": "Samuel Morrison",
+              "id": 68
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3384478665",
+              "Count_Number": "10",
+              "Firstname": "Samuel",
+              "Surname": "Morrison",
+              "Candidate_First_Pref_Votes": "499.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "TUV",
+              "Deduplicated Party Name": "TUV",
+              "Wikipedia Party Name": "TUV",
+              "Party_Colour": "#0C3A6A",
+              "candidateName": "Samuel Morrison",
+              "id": 69
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4283396706",
+              "Count_Number": "1",
+              "Firstname": "John",
+              "Surname": "O'Hare",
+              "Candidate_First_Pref_Votes": "369.00",
+              "Transfers": "0.00",
+              "Total_Votes": "369.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "John O'Hare",
+              "id": 70
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4283396706",
+              "Count_Number": "2",
+              "Firstname": "John",
+              "Surname": "O'Hare",
+              "Candidate_First_Pref_Votes": "369.00",
+              "Transfers": "0.42",
+              "Total_Votes": "369.42",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "John O'Hare",
+              "id": 71
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4283396706",
+              "Count_Number": "3",
+              "Firstname": "John",
+              "Surname": "O'Hare",
+              "Candidate_First_Pref_Votes": "369.00",
+              "Transfers": "0.88",
+              "Total_Votes": "370.30",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "John O'Hare",
+              "id": 72
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4283396706",
+              "Count_Number": "4",
+              "Firstname": "John",
+              "Surname": "O'Hare",
+              "Candidate_First_Pref_Votes": "369.00",
+              "Transfers": "2.08",
+              "Total_Votes": "372.38",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "John O'Hare",
+              "id": 73
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4283396706",
+              "Count_Number": "5",
+              "Firstname": "John",
+              "Surname": "O'Hare",
+              "Candidate_First_Pref_Votes": "369.00",
+              "Transfers": "0.00",
+              "Total_Votes": "372.38",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "John O'Hare",
+              "id": 74
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4283396706",
+              "Count_Number": "6",
+              "Firstname": "John",
+              "Surname": "O'Hare",
+              "Candidate_First_Pref_Votes": "369.00",
+              "Transfers": "176.00",
+              "Total_Votes": "548.38",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "John O'Hare",
+              "id": 75
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4283396706",
+              "Count_Number": "7",
+              "Firstname": "John",
+              "Surname": "O'Hare",
+              "Candidate_First_Pref_Votes": "369.00",
+              "Transfers": "11.08",
+              "Total_Votes": "559.46",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "John O'Hare",
+              "id": 76
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4283396706",
+              "Count_Number": "8",
+              "Firstname": "John",
+              "Surname": "O'Hare",
+              "Candidate_First_Pref_Votes": "369.00",
+              "Transfers": "-559.46",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "John O'Hare",
+              "id": 77
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4283396706",
+              "Count_Number": "9",
+              "Firstname": "John",
+              "Surname": "O'Hare",
+              "Candidate_First_Pref_Votes": "369.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "John O'Hare",
+              "id": 78
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "4283396706",
+              "Count_Number": "10",
+              "Firstname": "John",
+              "Surname": "O'Hare",
+              "Candidate_First_Pref_Votes": "369.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "SDLP",
+              "Deduplicated Party Name": "SDLP",
+              "Wikipedia Party Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "John O'Hare",
+              "id": 79
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1723110570",
+              "Count_Number": "1",
+              "Firstname": "Sammy",
+              "Surname": "Ogle",
+              "Candidate_First_Pref_Votes": "217.00",
+              "Transfers": "0.00",
+              "Total_Votes": "217.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Independent",
+              "Deduplicated Party Name": "Independent",
+              "Wikipedia Party Name": "Independent",
+              "Party_Colour": "#DCDCDC",
+              "candidateName": "Sammy Ogle",
+              "id": 80
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1723110570",
+              "Count_Number": "2",
+              "Firstname": "Sammy",
+              "Surname": "Ogle",
+              "Candidate_First_Pref_Votes": "217.00",
+              "Transfers": "3.36",
+              "Total_Votes": "220.36",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Independent",
+              "Deduplicated Party Name": "Independent",
+              "Wikipedia Party Name": "Independent",
+              "Party_Colour": "#DCDCDC",
+              "candidateName": "Sammy Ogle",
+              "id": 81
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1723110570",
+              "Count_Number": "3",
+              "Firstname": "Sammy",
+              "Surname": "Ogle",
+              "Candidate_First_Pref_Votes": "217.00",
+              "Transfers": "2.56",
+              "Total_Votes": "222.92",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Independent",
+              "Deduplicated Party Name": "Independent",
+              "Wikipedia Party Name": "Independent",
+              "Party_Colour": "#DCDCDC",
+              "candidateName": "Sammy Ogle",
+              "id": 82
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1723110570",
+              "Count_Number": "4",
+              "Firstname": "Sammy",
+              "Surname": "Ogle",
+              "Candidate_First_Pref_Votes": "217.00",
+              "Transfers": "11.08",
+              "Total_Votes": "234.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Independent",
+              "Deduplicated Party Name": "Independent",
+              "Wikipedia Party Name": "Independent",
+              "Party_Colour": "#DCDCDC",
+              "candidateName": "Sammy Ogle",
+              "id": 83
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1723110570",
+              "Count_Number": "5",
+              "Firstname": "Sammy",
+              "Surname": "Ogle",
+              "Candidate_First_Pref_Votes": "217.00",
+              "Transfers": "0.33",
+              "Total_Votes": "234.33",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Independent",
+              "Deduplicated Party Name": "Independent",
+              "Wikipedia Party Name": "Independent",
+              "Party_Colour": "#DCDCDC",
+              "candidateName": "Sammy Ogle",
+              "id": 84
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1723110570",
+              "Count_Number": "6",
+              "Firstname": "Sammy",
+              "Surname": "Ogle",
+              "Candidate_First_Pref_Votes": "217.00",
+              "Transfers": "4.00",
+              "Total_Votes": "238.33",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Independent",
+              "Deduplicated Party Name": "Independent",
+              "Wikipedia Party Name": "Independent",
+              "Party_Colour": "#DCDCDC",
+              "candidateName": "Sammy Ogle",
+              "id": 85
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1723110570",
+              "Count_Number": "7",
+              "Firstname": "Sammy",
+              "Surname": "Ogle",
+              "Candidate_First_Pref_Votes": "217.00",
+              "Transfers": "-238.33",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Independent",
+              "Deduplicated Party Name": "Independent",
+              "Wikipedia Party Name": "Independent",
+              "Party_Colour": "#DCDCDC",
+              "candidateName": "Sammy Ogle",
+              "id": 86
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1723110570",
+              "Count_Number": "8",
+              "Firstname": "Sammy",
+              "Surname": "Ogle",
+              "Candidate_First_Pref_Votes": "217.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Independent",
+              "Deduplicated Party Name": "Independent",
+              "Wikipedia Party Name": "Independent",
+              "Party_Colour": "#DCDCDC",
+              "candidateName": "Sammy Ogle",
+              "id": 87
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1723110570",
+              "Count_Number": "9",
+              "Firstname": "Sammy",
+              "Surname": "Ogle",
+              "Candidate_First_Pref_Votes": "217.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Independent",
+              "Deduplicated Party Name": "Independent",
+              "Wikipedia Party Name": "Independent",
+              "Party_Colour": "#DCDCDC",
+              "candidateName": "Sammy Ogle",
+              "id": 88
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "1723110570",
+              "Count_Number": "10",
+              "Firstname": "Sammy",
+              "Surname": "Ogle",
+              "Candidate_First_Pref_Votes": "217.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Independent",
+              "Deduplicated Party Name": "Independent",
+              "Wikipedia Party Name": "Independent",
+              "Party_Colour": "#DCDCDC",
+              "candidateName": "Sammy Ogle",
+              "id": 89
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3518601041",
+              "Count_Number": "1",
+              "Firstname": "Tony",
+              "Surname": "Gorrell",
+              "Candidate_First_Pref_Votes": "227.00",
+              "Transfers": "0.00",
+              "Total_Votes": "227.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Tony Gorrell",
+              "id": 90
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3518601041",
+              "Count_Number": "2",
+              "Firstname": "Tony",
+              "Surname": "Gorrell",
+              "Candidate_First_Pref_Votes": "227.00",
+              "Transfers": "0.84",
+              "Total_Votes": "227.84",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Tony Gorrell",
+              "id": 91
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3518601041",
+              "Count_Number": "3",
+              "Firstname": "Tony",
+              "Surname": "Gorrell",
+              "Candidate_First_Pref_Votes": "227.00",
+              "Transfers": "0.00",
+              "Total_Votes": "227.84",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Tony Gorrell",
+              "id": 92
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3518601041",
+              "Count_Number": "4",
+              "Firstname": "Tony",
+              "Surname": "Gorrell",
+              "Candidate_First_Pref_Votes": "227.00",
+              "Transfers": "1.00",
+              "Total_Votes": "228.84",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Tony Gorrell",
+              "id": 93
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3518601041",
+              "Count_Number": "5",
+              "Firstname": "Tony",
+              "Surname": "Gorrell",
+              "Candidate_First_Pref_Votes": "227.00",
+              "Transfers": "0.00",
+              "Total_Votes": "228.84",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Tony Gorrell",
+              "id": 94
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3518601041",
+              "Count_Number": "6",
+              "Firstname": "Tony",
+              "Surname": "Gorrell",
+              "Candidate_First_Pref_Votes": "227.00",
+              "Transfers": "-228.84",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Tony Gorrell",
+              "id": 95
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3518601041",
+              "Count_Number": "7",
+              "Firstname": "Tony",
+              "Surname": "Gorrell",
+              "Candidate_First_Pref_Votes": "227.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Tony Gorrell",
+              "id": 96
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3518601041",
+              "Count_Number": "8",
+              "Firstname": "Tony",
+              "Surname": "Gorrell",
+              "Candidate_First_Pref_Votes": "227.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Tony Gorrell",
+              "id": 97
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3518601041",
+              "Count_Number": "9",
+              "Firstname": "Tony",
+              "Surname": "Gorrell",
+              "Candidate_First_Pref_Votes": "227.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Tony Gorrell",
+              "id": 98
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "3518601041",
+              "Count_Number": "10",
+              "Firstname": "Tony",
+              "Surname": "Gorrell",
+              "Candidate_First_Pref_Votes": "227.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "Sinn F\u00e9in",
+              "Deduplicated Party Name": "Sinn F\u00e9in",
+              "Wikipedia Party Name": "Sinn F\u00e9in",
+              "Party_Colour": "#326760",
+              "candidateName": "Tony Gorrell",
+              "id": 99
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "896310215",
+              "Count_Number": "1",
+              "Firstname": "Jordan",
+              "Surname": "Stewart",
+              "Candidate_First_Pref_Votes": "129.00",
+              "Transfers": "0.00",
+              "Total_Votes": "129.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#6D3177",
+              "candidateName": "Jordan Stewart",
+              "id": 100
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "896310215",
+              "Count_Number": "2",
+              "Firstname": "Jordan",
+              "Surname": "Stewart",
+              "Candidate_First_Pref_Votes": "129.00",
+              "Transfers": "4.20",
+              "Total_Votes": "133.20",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#6D3177",
+              "candidateName": "Jordan Stewart",
+              "id": 101
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "896310215",
+              "Count_Number": "3",
+              "Firstname": "Jordan",
+              "Surname": "Stewart",
+              "Candidate_First_Pref_Votes": "129.00",
+              "Transfers": "1.68",
+              "Total_Votes": "134.88",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#6D3177",
+              "candidateName": "Jordan Stewart",
+              "id": 102
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "896310215",
+              "Count_Number": "4",
+              "Firstname": "Jordan",
+              "Surname": "Stewart",
+              "Candidate_First_Pref_Votes": "129.00",
+              "Transfers": "-134.88",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#6D3177",
+              "candidateName": "Jordan Stewart",
+              "id": 103
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "896310215",
+              "Count_Number": "5",
+              "Firstname": "Jordan",
+              "Surname": "Stewart",
+              "Candidate_First_Pref_Votes": "129.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#6D3177",
+              "candidateName": "Jordan Stewart",
+              "id": 104
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "896310215",
+              "Count_Number": "6",
+              "Firstname": "Jordan",
+              "Surname": "Stewart",
+              "Candidate_First_Pref_Votes": "129.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#6D3177",
+              "candidateName": "Jordan Stewart",
+              "id": 105
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "896310215",
+              "Count_Number": "7",
+              "Firstname": "Jordan",
+              "Surname": "Stewart",
+              "Candidate_First_Pref_Votes": "129.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#6D3177",
+              "candidateName": "Jordan Stewart",
+              "id": 106
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "896310215",
+              "Count_Number": "8",
+              "Firstname": "Jordan",
+              "Surname": "Stewart",
+              "Candidate_First_Pref_Votes": "129.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#6D3177",
+              "candidateName": "Jordan Stewart",
+              "id": 107
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "896310215",
+              "Count_Number": "9",
+              "Firstname": "Jordan",
+              "Surname": "Stewart",
+              "Candidate_First_Pref_Votes": "129.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#6D3177",
+              "candidateName": "Jordan Stewart",
+              "id": 108
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "896310215",
+              "Count_Number": "10",
+              "Firstname": "Jordan",
+              "Surname": "Stewart",
+              "Candidate_First_Pref_Votes": "129.00",
+              "Transfers": "0.00",
+              "Total_Votes": "0.00",
+              "Status": "Excluded",
+              "Occurred_On_Count": "10",
+              "Party_Name": "UKIP",
+              "Deduplicated Party Name": "UKIP",
+              "Wikipedia Party Name": "UKIP",
+              "Party_Colour": "#6D3177",
+              "candidateName": "Jordan Stewart",
+              "id": 109
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "2",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "6.71",
+              "Total_Votes": "6.71",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 117
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "3",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "6.76",
+              "Total_Votes": "13.47",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 110
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "4",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "21.84",
+              "Total_Votes": "35.31",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 111
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "5",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "0.99",
+              "Total_Votes": "36.30",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 112
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "6",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "12.42",
+              "Total_Votes": "48.72",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 113
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "7",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "34.22",
+              "Total_Votes": "82.94",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 114
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "8",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "79.77",
+              "Total_Votes": "162.71",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 115
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "nontransferable",
+              "Count_Number": "9",
+              "Firstname": "Non-transferable",
+              "Surname": "",
+              "Candidate_First_Pref_Votes": "0.00",
+              "Transfers": "118.67",
+              "Total_Votes": "281.38",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Non-transferable",
+              "Party_Colour": "#666666",
+              "candidateName": "Non-transferable",
+              "id": 116
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "batch": "review-rest-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2023-05-18/erne-north.json",
+      "source": {
+        "title": "Local Council Elections 2023 result sheet: Erne North",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20230708182334id_/https://www.eoni.org.uk/getmedia/da922c91-0ee6-4eeb-8f80-7b96acdabb11/Local-Council-Elections-2023-Result-Sheet-Erne-North",
+        "original": "https://www.eoni.org.uk/getmedia/da922c91-0ee6-4eeb-8f80-7b96acdabb11/Local-Council-Elections-2023-Result-Sheet-Erne-North",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Read by eye on the Electoral Office's scanned result sheet (review-rest, Nov 2026): John Feely's stage-5 transfer (Bullick's exclusion) is 39.00 (1,220.76 to the end), not 29; the non-transferable papers at stage 5 are 46.10 (70.40, and 146.52 at stage 6), not 56.10. The other stage totals are rebuilt from the transfers (restoreStageFractions). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        },
+        {
+          "op": "candidateCount",
+          "name": "John Feely",
+          "count": "5",
+          "set": {
+            "Transfers": "39.00",
+            "Total_Votes": "1220.76"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "John Feely",
+          "count": "6",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1220.76"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "John Feely",
+          "count": "7",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1220.76"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "5",
+          "set": {
+            "Transfers": "46.10",
+            "Total_Votes": "70.40"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "6",
+          "set": {
+            "Transfers": "76.12",
+            "Total_Votes": "146.52"
+          }
         }
       ]
     }
