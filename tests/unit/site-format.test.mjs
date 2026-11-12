@@ -5,10 +5,12 @@
  * `new Intl.NumberFormat('en-GB')`, `d.toLocaleDateString('en-GB', ...)` and month-name array in
  * the map app, Browse, the catalogue, the Elections app, Words in parliament, the homepage and
  * the PRONI page. The old expressions are spelled out here, in a test, as the reference.
+ * Since 12 Nov 2026 (rf9-i18n, acceptance test A5) the formatter follows the interface language's
+ * locale (siteLocale); with no language runtime, or the runtime in English, it is still en-GB.
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { MONTH_NAMES, numberText, siteDate, siteNumber } from '../../packages/core/src/format.js';
+import { MONTH_NAMES, numberText, siteDate, siteLocale, siteNumber } from '../../packages/core/src/format.js';
 import { SHORT_MONTHS } from '../../packages/core/src/date-format.mjs';
 import { formatElectionDate } from '../../src/election-utils.js';
 import { formatNumber as censusNumber } from '../../src/census-overlay.mjs';
@@ -85,20 +87,78 @@ test('the census overlay and the timeline write their numbers as before', () => 
   assert.equal(formatHectares(123456.7), `${Math.round(123456.7).toLocaleString(OLD)} ha`);
 });
 
-test('with the Irish or Ulster-Scots interface on, the formatter still writes English for the runtime to translate', () => {
-  // site/assets/i18n/i18n.js translates the English the page renders ("01 Apr 1969" takes the
-  // language's month names), so the output must not change under it: the replaced code named
-  // en-GB whatever the interface language was.
-  const saved = /** @type {any} */ (globalThis).civgraphI18n;
+/**
+ * Runs `fn` with globalThis.civgraphI18n set to `runtime` (as site/assets/i18n/i18n.js sets it),
+ * restoring what was there.
+ * @param {{ lang: string, locale: string | undefined } | undefined} runtime
+ * @param {() => void} fn
+ */
+function withRuntime(runtime, fn) {
+  const g = /** @type {{ civgraphI18n?: unknown }} */ (globalThis);
+  const saved = g.civgraphI18n;
   try {
-    for (const [lang, locale] of [['ga', 'ga-IE'], ['sco', 'en-GB']]) {
-      /** @type {any} */ (globalThis).civgraphI18n = { lang, locale };
-      assert.equal(siteNumber(21912), (21912).toLocaleString(OLD));
-      assert.equal(siteNumber(12.3456, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), '12.35');
-      const d = new Date('1969-04-01T00:00:00');
-      assert.equal(siteDate(d, { day: '2-digit', month: 'short', year: 'numeric' }), d.toLocaleDateString(OLD, { day: '2-digit', month: 'short', year: 'numeric' }));
-    }
+    if (runtime) g.civgraphI18n = runtime;
+    else delete g.civgraphI18n;
+    fn();
   } finally {
-    /** @type {any} */ (globalThis).civgraphI18n = saved;
+    if (saved === undefined) delete g.civgraphI18n;
+    else g.civgraphI18n = saved;
   }
+}
+
+const DATE_OPTIONS = /** @type {const} */ ({ day: '2-digit', month: 'short', year: 'numeric' });
+const DATES = ['1801-01-01', '1918-12-14', '1921-05-24', '1969-04-01', '1983-09-13', '2022-05-05', '2024-03-08', '2024-11-29'];
+
+test('English pages write exactly what en-GB wrote: no runtime, the runtime in English, the runtime still loading', () => {
+  // The runtime is absent on every page without the preview; in English it reports en-GB; before
+  // languages.json has loaded its locale is undefined. All three are byte-identical to en-GB.
+  for (const runtime of [undefined, { lang: 'en', locale: 'en-GB' }, { lang: '', locale: undefined }]) {
+    withRuntime(runtime, () => {
+      assert.equal(siteLocale(), OLD);
+      for (const options of OPTIONS) {
+        for (const n of NUMBERS) assert.equal(siteNumber(n, options), n.toLocaleString(OLD, options), `${n} ${JSON.stringify(options)}`);
+      }
+      for (const iso of DATES) {
+        const d = new Date(`${iso}T00:00:00`);
+        assert.equal(siteDate(d, DATE_OPTIONS), d.toLocaleDateString(OLD, DATE_OPTIONS), iso);
+        assert.equal(formatElectionDate(iso), d.toLocaleDateString(OLD, DATE_OPTIONS), iso);
+      }
+    });
+  }
+});
+
+test('the formatter follows the interface language: Ulster-Scots writes en-GB, Irish its own dates and the same numbers', () => {
+  withRuntime({ lang: 'sco', locale: 'en-GB' }, () => {
+    for (const options of OPTIONS) for (const n of NUMBERS) assert.equal(siteNumber(n, options), n.toLocaleString(OLD, options));
+    const d = new Date('1969-04-01T00:00:00');
+    assert.equal(siteDate(d, DATE_OPTIONS), d.toLocaleDateString(OLD, DATE_OPTIONS));
+  });
+  withRuntime({ lang: 'ga', locale: 'ga-IE' }, () => {
+    assert.equal(siteLocale(), 'ga-IE');
+    // Irish groups and points numbers as English does, for every option set the site uses: the
+    // runtime never rewrites a number, so it matters that they agree. Only "not a number" is
+    // written in Irish ("Nuimh"), as Intl ga-IE has it.
+    for (const options of OPTIONS) {
+      for (const n of NUMBERS) {
+        if (Number.isNaN(n)) assert.equal(siteNumber(n, options), new Intl.NumberFormat('ga-IE', options).format(n));
+        else assert.equal(siteNumber(n, options), n.toLocaleString(OLD, options), `${n} ${JSON.stringify(options)}`);
+      }
+    }
+    // Dates take the Irish month: what the runtime made of the English before ("01 Apr 1969" ->
+    // "01 Aib 1969", Intl ga-IE; site/assets/i18n/i18n.js months()).
+    const d = new Date('1969-04-01T00:00:00');
+    assert.equal(siteDate(d, DATE_OPTIONS), d.toLocaleDateString('ga-IE', DATE_OPTIONS));
+    const month = new Intl.DateTimeFormat('ga-IE', { month: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, 3, 15))).replace(/\.$/, '');
+    assert.equal(siteDate(d, DATE_OPTIONS), `01 ${month} 1969`);
+  });
+  // An engine without the language's locale data writes the source's, as before: the runtime
+  // then translates the months from the language file. (Node has every locale; a tag no engine
+  // knows stands in for Irish in a browser build without it.)
+  withRuntime({ lang: 'xx', locale: 'zz-ZZ' }, () => {
+    assert.equal(siteLocale(), OLD);
+    assert.equal(siteDate(new Date('1969-04-01T00:00:00'), DATE_OPTIONS), '01 Apr 1969');
+  });
+  withRuntime({ lang: 'xx', locale: 'not a tag' }, () => assert.equal(siteLocale(), OLD));
+  // A formatter is cached per locale: English after Irish is English again.
+  withRuntime({ lang: 'en', locale: 'en-GB' }, () => assert.equal(siteDate(new Date('1969-04-01T00:00:00'), DATE_OPTIONS), '01 Apr 1969'));
 });
