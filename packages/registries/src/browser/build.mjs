@@ -23,6 +23,8 @@
  *   statuses.json        packages/core/src/election-domain.mjs (statusKind, RG-01),
  *                        packages/map/app/ni-local-view.js (round badges, missing rounds, contests: RG-02, RG-03)
  *   layer-types.json     packages/map/src/renderer/map-controller.js (the behaviour flags' source types)
+ *   election-bodies.json src/catalogue/view-elections.js and search.js (row label, shelf, search words),
+ *                        packages/map/src/app/helpers.mjs (an election's kind): by body id
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -30,6 +32,7 @@ import { fileURLToPath } from 'node:url';
 import { loadRegistry, REPO_ROOT } from '../index.mjs';
 import { catalogueBodyAliases, catalogueCouncilNames, niLocalGroupSlugs } from '../councils.mjs';
 import { typesWithBehaviour } from '../layers.mjs';
+import { browserElectionBodies } from '../election-bodies.mjs';
 
 /** @typedef {import('../statuses.mjs').StatusMachineFields} StatusMachineFields */
 
@@ -41,6 +44,7 @@ export function browserSlices(root = REPO_ROOT) {
   const parties = loadRegistry('parties', { root });
   const statuses = loadRegistry('statuses', { root });
   const layers = loadRegistry('layers', { root });
+  const electionBodies = loadRegistry('election-bodies', { root });
   const round = /** @type {StatusMachineFields} */ (statuses.machines['election-round']);
   return {
     'councils.json': {
@@ -79,7 +83,8 @@ export function browserSlices(root = REPO_ROOT) {
     },
     'layer-types.json': {
       behaviour: Object.fromEntries(Object.keys(layers.behaviourFlags).map((flag) => [flag, typesWithBehaviour(layers, flag)]))
-    }
+    },
+    'election-bodies.json': browserElectionBodies(electionBodies)
   };
 }
 

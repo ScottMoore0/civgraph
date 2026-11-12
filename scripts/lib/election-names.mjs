@@ -2,6 +2,23 @@ import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import {
   councilNameOn, councilsById, eraTitles, plainTitleBodies, pre1973CouncilBodyNames
 } from '../../packages/registries/src/councils.mjs';
+import { electionBody, fillYear } from '../../packages/registries/src/election-bodies.mjs';
+
+/** @typedef {import('../../packages/registries/src/election-bodies.mjs').ElectionBody} ElectionBody */
+
+// The bodies data/registries/election-bodies.json describes: a body's title and whether its
+// elections can be by-elections come from there, by slug or by the body's name.
+const ELECTION_BODIES = loadRegistry('election-bodies');
+/**
+ * @param {string} bodySlug
+ * @param {string} body
+ * @returns {ElectionBody | null}
+ */
+function registeredBody(bodySlug, body) {
+  return electionBody(ELECTION_BODIES, bodySlug)
+    || ELECTION_BODIES.bodies.find((entry) => entry.name === String(body || '').trim())
+    || null;
+}
 
 /**
  * What a title is made from: an election's body, date, constituencies and key, as the election
@@ -349,6 +366,7 @@ function niCouncilEraName(normalizedBody, date) {
 /** @param {ElectionNameScope} [scope] */
 export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null, bodySlug = '' } = {}) {
   const normalizedBody = normalizeName(body);
+  if (registeredBody(bodySlug, body)?.wholeArea) return false;
   if (PRE1973_COUNCIL_BODIES.has(normalizedBody)) return false;
   // A party's own ballot (leader, nominee) is never a by-election, however few its contests.
   if (isPartyInternalBody({ body, bodySlug })) return false;
@@ -424,6 +442,8 @@ export function canonicalElectionTitle({
 } = {}) {
   if (specialDisplayName) return specialDisplayName;
   const { year, dayMonthYear } = dateParts(date);
+  const registeredTitle = fillYear(registeredBody(bodySlug, body)?.title, date);
+  if (registeredTitle) return registeredTitle;
   // The Republic's local elections are one body contested across every council on the same
   // day, never a by-election and not the Northern Ireland local-government group, so they
   // are named before either of those checks can claim them.

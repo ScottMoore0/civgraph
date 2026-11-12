@@ -78,6 +78,8 @@ export const ELECTIONS_API = Object.freeze({
   contestFeature: 'SELECT layer_id AS layerId, feature_id AS featureId, feature_name AS featureName, match_name AS matchName, matched FROM contest_features WHERE election_key = ?1 AND contest_seq = ?2',
   /** [key] -> the election columns and meta */
   election: `SELECT ${ELECTION_COLS}, meta FROM ${T.elections} WHERE key = ?1`,
+  /** [key] -> { key, displayTitle, body, date, modes }: the election and its geography modes (results by area) */
+  areaModes: `SELECT key, display_title AS displayTitle, body, date, json_extract(meta, '$.geographyModes') AS modes FROM ${T.elections} WHERE key = ?1`,
   /** [key] -> every contest with its feature match */
   electionContests: `SELECT ${CONS_COL_LIST.map((c) => `c.${c}`).join(', ')}, c.meta, `
     + 'f.feature_id AS featureId, f.feature_name AS featureName, f.matched '

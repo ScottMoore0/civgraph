@@ -18,7 +18,7 @@ const read = (rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');
 test('registries/browser: every slice matches a fresh build from data/registries', () => {
   assert.deepEqual(staleSlices(), [], 'run node packages/registries/src/browser/build.mjs');
   const slices = browserSlices();
-  assert.deepEqual(Object.keys(slices), ['councils.json', 'council-search.json', 'parties.json', 'statuses.json', 'layer-types.json']);
+  assert.deepEqual(Object.keys(slices), ['councils.json', 'council-search.json', 'parties.json', 'statuses.json', 'layer-types.json', 'election-bodies.json']);
   for (const [file, slice] of Object.entries(slices)) assert.equal(read(`packages/registries/src/browser/${file}`), sliceText(slice), file);
 });
 
@@ -29,7 +29,9 @@ test('registries/browser: each reader imports its slice statically, through its 
     'packages/core/src/party-names.mjs': '../../registries/src/browser/parties.mjs',
     'packages/core/src/election-domain.mjs': '../../registries/src/browser/statuses.mjs',
     'packages/map/app/ni-local-view.js': '../../registries/src/browser/statuses.mjs',
-    'packages/map/src/renderer/map-controller.js': '../../../registries/src/browser/layer-types.mjs'
+    'packages/map/src/renderer/map-controller.js': '../../../registries/src/browser/layer-types.mjs',
+    'src/catalogue/view-elections.js': '../../packages/registries/src/browser/election-bodies.mjs',
+    'packages/map/src/app/helpers.mjs': '../../../registries/src/browser/election-bodies.mjs'
   };
   for (const [file, spec] of Object.entries(readers)) {
     assert.ok(read(file).split('\n').some((line) => /^import \w+ from '/.test(line) && line.endsWith(` from '${spec}';`)), file);

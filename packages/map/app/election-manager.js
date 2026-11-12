@@ -152,6 +152,11 @@ const MAIN_ELECTION_GEOGRAPHY_STYLE = Object.freeze({
   strokeWidth: 1.5
 });
 
+/** A person's initials, for a legend swatch ("Michael D Higgins" -> "MDH"). */
+function initials(name) {
+  return String(name || '').split(/\s+/).filter(Boolean).map((part) => part[0]).join('').toUpperCase().slice(0, 4);
+}
+
 export class Test2ElectionManager {
   /** The count table's detailed view, on or off (a flag: a non-boolean write throws). */
   get countDetailedView() { return this.countDetail.on; }
@@ -644,6 +649,21 @@ export class Test2ElectionManager {
     }
     if (bundle.layerId) this.resultsByLayer.set(bundle.layerId, layerResults);
     if (bundle.sourceMapId) this.resultsByLayer.set(bundle.sourceMapId, layerResults);
+    // A national contest's results by area (the presidential elections by Dail constituency): a
+    // geography mode with results of its own, on a map of its own. The bundle leaves out their
+    // count rows, which are the animation payload's.
+    for (const mode of bundle.geographyModes || []) {
+      if (mode?.dataKind !== 'area-results' || !Array.isArray(mode.results)) continue;
+      const areaResults = new Map();
+      for (const result of mode.results) {
+        if (!Array.isArray(result.countGroup)) result.countGroup = result.animationPayload?.Constituency?.countGroup || [];
+        for (const key of resultKeys(result)) {
+          if (!areaResults.has(key)) areaResults.set(key, result);
+        }
+      }
+      if (mode.layerId) this.resultsByLayer.set(mode.layerId, areaResults);
+      if (mode.sourceMapId) this.resultsByLayer.set(mode.sourceMapId, areaResults);
+    }
   }
 
   enrichFeature(feature) {
@@ -731,6 +751,9 @@ export class Test2ElectionManager {
       styleLayer
     );
     const isPointGeometry = styleLayer?.geometryType === 'point';
+    // The areas of a results-by-area geography are matched against its own results, not the
+    // national one (which names no area of that map).
+    const matchRows = this.isAreaResultsGeographyMode() ? this.currentResults() : undefined;
     this.mapController.applyElectionStyle?.(styleSourceMapId, {
       mode: this.activeMode,
       fillColorExpression,
@@ -739,14 +762,16 @@ export class Test2ElectionManager {
         : this.buildElectionMatchExpression(
           () => MAIN_ELECTION_GEOGRAPHY_STYLE.matchedStrokeColor,
           MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedStrokeColor,
-          styleLayer
+          styleLayer,
+          matchRows
         ),
       fillOpacityExpression: isPointGeometry
         ? undefined
         : this.buildElectionMatchExpression(
           () => MAIN_ELECTION_GEOGRAPHY_STYLE.matchedFillOpacity,
           MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillOpacity,
-          styleLayer
+          styleLayer,
+          matchRows
         ),
       lineOpacity: isPointGeometry ? undefined : MAIN_ELECTION_GEOGRAPHY_STYLE.strokeOpacity,
       lineWidth: isPointGeometry ? undefined : MAIN_ELECTION_GEOGRAPHY_STYLE.strokeWidth,
@@ -2453,6 +2478,46 @@ export class Test2ElectionManager {
     `;
   }
 
+  renderAreaResultsGeographyPanel() {
+    const mode = this.activeGeographyMode();
+    const results = [...this.currentResults()]
+      .sort((a, b) => String(a.constituency || '').localeCompare(String(b.constituency || '')));
+    const areaLabel = mode?.label || 'Area';
+    const sources = (mode?.references || [])
+      .filter((ref) => ref?.url)
+      .map((ref) => `<a href="${escapeHtml(ref.url)}" target="_blank" rel="noopener">${escapeHtml(ref.label || ref.url)}</a>${ref.note ? ` (${escapeHtml(ref.note)})` : ''}`)
+      .join('; ');
+    const rows = results.map((result) => {
+      const key = normalizeName(result.matchName || result.constituency || '');
+      const leader = (result.candidates || []).find((candidate) => candidate.name === result.leadingName);
+      const colour = leader?.colour || result.leadingColour || '';
+      return `
+      <tr>
+        <td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(key)}">${escapeHtml(result.constituency || '')}</button>${result.matched ? '' : ' <span class="test2-election-turnout__note">(not on the map)</span>'}</td>
+        <td${this.partyCellAttrs(colour)}>${escapeHtml(result.leadingName || '')}</td>
+        <td class="election-num">${Number.isFinite(Number(result.leadingPct)) ? formatPercent(Number(result.leadingPct)) : '-'}</td>
+        <td class="election-num">${Number.isFinite(Number(result.turnoutPct)) ? formatPercent(Number(result.turnoutPct)) : '-'}</td>
+      </tr>`;
+    }).join('');
+    return `
+      <section class="test2-election-panel test2-election-turnout" aria-label="Results by ${escapeHtml(areaLabel.toLowerCase())}">
+        <p class="test2-election-turnout__note">${escapeHtml(mode?.note || '')}${sources ? ` Source: ${sources}.` : ''}</p>
+        <div class="test2-election-panel__summary">
+          <dl class="test2-election-panel__stats">
+            <div><dt>Areas</dt><dd>${formatNumber(results.length)}</dd></div>
+            ${mode?.numCounts ? `<div><dt>Counts</dt><dd>${formatNumber(mode.numCounts)}</dd></div>` : ''}
+          </dl>
+          <div id="test2ElectionLegend" class="test2-election-panel__legend"></div>
+        </div>
+        <table class="election-count-table election-results-table--fixed">
+          <thead><tr><th>${escapeHtml(areaLabel)}</th><th>Led on first preferences</th><th class="election-num">Share</th><th class="election-num">Turnout</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        ${this.renderMapDisplayControls()}
+      </section>
+    `;
+  }
+
   renderTurnoutConstituencyDetail(result) {
     const pct = Number(result?.turnoutPct);
     const mode = this.activeGeographyMode();
@@ -2494,6 +2559,11 @@ export class Test2ElectionManager {
 
   isTurnoutGeographyMode() {
     return this.activeGeographyMode()?.dataKind === 'turnout';
+  }
+
+  /** The active geography is a national contest's results by area (dataKind 'area-results'). */
+  isAreaResultsGeographyMode() {
+    return this.activeGeographyMode()?.dataKind === 'area-results';
   }
 
   async switchGeographyMode(id) {
@@ -2561,7 +2631,7 @@ export class Test2ElectionManager {
 
   currentResults() {
     const geographyMode = this.activeGeographyMode();
-    if (geographyMode && geographyMode.dataKind === 'turnout') {
+    if (geographyMode && (geographyMode.dataKind === 'turnout' || geographyMode.dataKind === 'area-results')) {
       return geographyMode.results || [];
     }
     const current = this.activeBundle?.results || [];
@@ -3834,12 +3904,17 @@ export class Test2ElectionManager {
     const model = { title, election: this.activeBundle.displayTitle || this.activeEntry.displayTitle || '', items: [], ramp: null, seats: false };
     if (['winner', 'leadingParty'].includes(mode)) {
       const byKey = new Map();
+      const byCandidate = this.isAreaResultsGeographyMode();
       for (const result of rows) {
         const party = mode === 'winner' ? (result.winnerParty || result.leadingParty) : result.leadingParty;
         if (!party) continue;
         const colour = this.colourForMode(mode, result);
-        const key = `${party}|${colour}`;
-        if (!byKey.has(key)) byKey.set(key, { party, abbreviation: partyAbbreviation(party), name: partyFullName(party), colour, count: 0 });
+        const key = `${byCandidate ? result.leadingName : party}|${colour}`;
+        if (!byKey.has(key)) {
+          byKey.set(key, byCandidate && result.leadingName
+            ? { party, abbreviation: initials(result.leadingName), name: result.leadingName, colour, count: 0 }
+            : { party, abbreviation: partyAbbreviation(party), name: partyFullName(party), colour, count: 0 });
+        }
         byKey.get(key).count += 1;
       }
       model.items = [...byKey.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
@@ -3862,6 +3937,16 @@ export class Test2ElectionManager {
     const target = document.getElementById('test2ElectionLegend');
     if (!target || !this.activeBundle) return;
     const mode = this.activeMode;
+    if (['winner', 'leadingParty'].includes(mode) && this.isAreaResultsGeographyMode()) {
+      const leaders = new Map();
+      for (const result of this.currentResults()) {
+        if (result.matched && result.leadingName) leaders.set(result.leadingName, this.colourForMode(mode, result));
+      }
+      target.innerHTML = [...leaders.entries()].map(([name, colour]) => `
+        <span class="test2-election-panel__legend-item"><i style="background:${escapeHtml(colour)}"></i>${escapeHtml(name)}</span>
+      `).join('');
+      return;
+    }
     if (['winner', 'leadingParty'].includes(mode)) {
       const parties = new Map();
       for (const result of this.activeBundle.results || []) {
@@ -4604,6 +4689,7 @@ export class Test2ElectionManager {
   }
 
   shouldRenderElectionOverlays() {
+    if (this.isAreaResultsGeographyMode()) return false;
     const body = normalizeName(this.activeBundle?.body || this.activeEntry?.body || '');
     const type = normalizeName(this.activeBundle?.type || this.activeEntry?.type || '');
     return !body.includes('referendum') && !body.includes('recall petition') && !type.includes('referendum') && !type.includes('recall');

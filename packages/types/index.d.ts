@@ -22,6 +22,7 @@ export * as LayerTypesRegistryTypes from './generated/registries/layer-types.js'
 export * as OfficesRegistryTypes from './generated/registries/offices-registry.js';
 export * as PartiesRegistryTypes from './generated/registries/parties.js';
 export * as StatusesRegistryTypes from './generated/registries/statuses.js';
+export * as ElectionBodiesRegistryTypes from './generated/registries/election-bodies.js';
 
 // The generated root documents and the records table map, flat.
 export type { Tables, TableName } from './generated/records-db.js';
@@ -30,6 +31,7 @@ export type { CouncilsRegistry } from './generated/registries/councils.js';
 export type { PartiesRegistry } from './generated/registries/parties.js';
 export type { StatusesRegistry } from './generated/registries/statuses.js';
 export type { LayerTypesRegistry } from './generated/registries/layer-types.js';
+export type { ElectionBodiesRegistry } from './generated/registries/election-bodies.js';
 export type { OfficesRegistryRegistry } from './generated/registries/offices-registry.js';
 export type { OfficesDocument } from './generated/facts/offices.js';
 export type { TenuresDocument } from './generated/facts/tenures.js';

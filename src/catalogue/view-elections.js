@@ -8,6 +8,7 @@ import { esc, plural, shortDate, ESCOPE_SHORT } from './util.js';
 import { sliderHtml } from './slider.js';
 import { extrasHtml, aboutHtml } from './view-maps.js';
 import { PeopleSearch } from './search.js';
+import electionBodies from '../../packages/registries/src/browser/election-bodies.mjs';
 
 // Browse's slug for an election: its key lower-cased, runs of other characters as '-'
 // (dail-eireann__2024-11-29 -> dail-eireann-2024-11-29). Browse routes live in the hash.
@@ -32,6 +33,8 @@ export const BODY_SHORT = {
   'northern-ireland-constitutional-convention': 'NI Convention',
   'northern-ireland-forum-for-political-dialogue': 'NI Forum',
   'northern-ireland-referendum': 'Referendum (NI)',
+  // The bodies the election-bodies registry describes (data/registries/election-bodies.json).
+  ...Object.fromEntries(Object.entries(/** @type {Record<string, { shortLabel?: string }>} */ (electionBodies)).filter(([, b]) => b.shortLabel).map(([id, b]) => [id, b.shortLabel])),
 };
 export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
 
@@ -49,7 +52,12 @@ export const BODY_GROUPS = [
   { id: 'european', label: 'European', bodies: ['european-parliament', 'ireland-european'], icon: 'european', colour: '#2f8fce' },
   { id: 'referendum', label: 'Referendum', bodies: ['ireland-referendum', 'northern-ireland-referendum'], icon: 'referendum', colour: '#8a63d2' },
   { id: 'presidential', label: 'Presidential', bodies: ['ireland-president'], icon: 'presidential', colour: '#c08a3e' },
-];
+].map((g) => ({
+  ...g,
+  // A body the election-bodies registry puts on this shelf (the Mayor of Limerick, beside the
+  // Irish local elections of the same day).
+  bodies: [...g.bodies, ...Object.entries(/** @type {Record<string, { shelf?: string }>} */ (electionBodies)).filter(([id, b]) => b.shelf === g.id && !g.bodies.includes(id)).map(([id]) => id)],
+}));
 export const groupOfBody = (slug) => BODY_GROUPS.find((g) => g.bodies.includes(slug))?.id || '';
 
 export function toolbarHtml(c) {
