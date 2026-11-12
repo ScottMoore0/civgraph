@@ -97,9 +97,16 @@ test('the map: opening maps and going back adds no listener, and dispose() takes
     await page.goForward();
     await page.waitForTimeout(300);
   };
-  // The first visit settles what start-up registers for a moment (the map's load listeners).
-  await visit();
-  const settled = await live(page);
+  // Start-up finishes on the first visits: the map's load listeners go, and the catalogue's code,
+  // loaded on demand, binds its own once. Visit until a visit changes nothing (a listener added
+  // per visit never gets there), then every further visit must leave the same count.
+  let settled = await live(page);
+  for (let i = 0; i < 4; i += 1) {
+    await visit();
+    const now = await live(page);
+    if (now.document === settled.document && now.window === settled.window) break;
+    settled = now;
+  }
   expect(settled.document).toBeGreaterThan(0);
   for (let round = 0; round < 2; round += 1) {
     await visit();

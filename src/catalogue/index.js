@@ -381,7 +381,7 @@ export class CatalogueNext {
       search.after(copy);
       if (!this._filtersButtonResize) {
         this._filtersButtonResize = () => this.placeFiltersButton();
-        window.addEventListener('resize', this._filtersButtonResize);
+        window.addEventListener('resize', this._filtersButtonResize, { signal: this.lifecycle.signal });
       }
     }
     const original = this.viewEl?.querySelector('[data-cn-toolbar] .cn-filters-toggle');
