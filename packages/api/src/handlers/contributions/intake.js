@@ -1,6 +1,6 @@
 import { jsonResponse, jsonNotAllowed, requireContributor } from '../_auth.js';
 import { methodGuard } from '../_method.js';
-import { binding } from '../../../../config/src/config.js';
+import { blobStore } from '../../../../storage/src/blob-bindings.js';
 
 /**
  * Accept a file into QUARANTINE so a contributor can supply data, not just a
@@ -43,8 +43,9 @@ export async function onRequestPost(context) {
   const { auth, response } = await requireContributor(context);
   if (response) return response;
 
-  const bucket = binding(context.env, 'CIVGRAPH_QUARANTINE');
-  if (!bucket?.put) {
+  // Through the blob store (packages/storage/src/blob.js).
+  const bucket = blobStore(context.env, 'CIVGRAPH_QUARANTINE');
+  if (!bucket?.supports('put')) {
     return jsonResponse({
       ok: false,
       error: 'File intake is not enabled. Bind a PRIVATE R2 bucket as CIVGRAPH_QUARANTINE. It must not be the public boundaries-data bucket and must not have a public custom domain.',
@@ -87,8 +88,8 @@ export async function onRequestPost(context) {
     // Stored as octet-stream regardless of the declared type. If this bucket is
     // ever exposed by mistake, nothing in it should be interpreted as HTML or a
     // script by a browser.
-    httpMetadata: { contentType: 'application/octet-stream' },
-    customMetadata: {
+    contentType: 'application/octet-stream',
+    metadata: {
       uploadedBy: auth.email || '',
       uploadedAt: new Date().toISOString(),
       originalFilename: filename,
