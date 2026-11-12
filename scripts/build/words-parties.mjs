@@ -24,7 +24,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
 const args = process.argv.slice(2);
-const opt = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
+const opt = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
 const META = opt('--meta') || process.env.WORDS_META;
 const CHECK = args.includes('--check');
 const OUT = 'site/apps/words/parties.json';
@@ -38,11 +38,12 @@ for (const f of ['data/browse/party-names.json', 'data/browse/parties.json']) {
 }
 
 // Folded exactly as browse.js partyLinkHtml and build-browse-indexes normalizeName fold.
-const fold = (s) => String(s || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const fold = (/** @type {unknown} */ s) => String(s || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
 const meta = JSON.parse(readFileSync(META, 'utf8'));
+/** @type {Record<string, string>} */
 const names = JSON.parse(readFileSync('data/browse/party-names.json', 'utf8')).items || {};
-const bySlug = new Map(JSON.parse(readFileSync('data/browse/parties.json', 'utf8')).items.map((p) => [p.slug, p]));
+const bySlug = new Map(JSON.parse(readFileSync('data/browse/parties.json', 'utf8')).items.map((/** @type {{ slug: string, title?: string }} */ p) => [p.slug, p]));
 
 // Labels that are not parties: shown as a neutral group, never linked.
 const NO_PARTY = new Set(['(none)', 'No party recorded']);
@@ -50,9 +51,12 @@ const NO_PARTY = new Set(['(none)', 'No party recorded']);
 // Oireachtas's label for the Irish Labour Party (Dáil and Seanad only), but folds to an
 // unlinked "labour-party" record; "Labour" occurs only for Lords members (the UK party),
 // but folds to Irish Labour. Measured against meta.json totals on 2026-11-01.
+/** @type {Record<string, string | null>} */
 const OVERRIDES = { 'Labour Party': 'irish-labour', Labour: null };
+/** @type {Record<string, string>} */
 const UNLINKED_NAMES = { Labour: 'Labour (UK)' };
 
+/** @type {Record<string, [string, string]>} */
 const out = {};
 let linked = 0;
 for (const label of meta.parties) {

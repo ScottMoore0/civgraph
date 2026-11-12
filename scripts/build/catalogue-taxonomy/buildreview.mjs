@@ -3,10 +3,12 @@ import fs from 'fs';
 const rows = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 const OUT = process.argv[3];
 
+/** @typedef {{ name: string, subject: string, kind: string, from: string }} Row */
+/** @type {Map<string, Row[]>} */
 const bySubject = new Map();
 for (const r of rows) {
   if (!bySubject.has(r.subject)) bySubject.set(r.subject, []);
-  bySubject.get(r.subject).push(r);
+  /** @type {Row[]} */ (bySubject.get(r.subject)).push(r);
 }
 const subjects = [...bySubject.entries()]
   .map(([name, items]) => ({ name, kind: items[0].kind, items: items.sort((a, b) => a.name.localeCompare(b.name)) }))
@@ -14,7 +16,7 @@ const subjects = [...bySubject.entries()]
 
 // rows carry where they came from as "<prefix>:<label>" -- a publisher-named card, a
 // per-category catch-all, or a hand-authored card
-const origin = (from) => {
+const origin = (/** @type {string} */ from) => {
   const at = from.indexOf(':');
   return from.slice(at + 1)
     .replace(/ - Open Data$/, '')
@@ -22,7 +24,7 @@ const origin = (from) => {
     .trim() || from.slice(at + 1);
 };
 
-const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const esc = (/** @type {unknown} */ s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const sections = subjects.map(s => `
   <section class="subject" data-kind="${s.kind}">

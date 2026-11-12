@@ -45,7 +45,7 @@ const APP = [
 // data/elections/ni-local/ is the grouped-years snapshot (calendar, boundary features): no person ids.
 const ELECTION_DATA = [/^data\/elections-source\//, /^data\/elections\/(?!ni-local\/)/];
 
-function git(...gitArgs) {
+function git(/** @type {string[]} */ ...gitArgs) {
   return execFileSync('git', gitArgs, { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] })
     .split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
 }
@@ -66,6 +66,7 @@ const BROWSER_TESTS = [
 ];
 const APP_CHECKS = 'check:root,check:asset-refs,check:app-shell-cache,check:pages-assets,check:site-partials,check:site-nav,check:test2,check:ci-workflow,check:doc-paths,check:doc-status,lint';
 
+/** @type {[string, string[]][]} */
 const plan = [];
 if (mode === 'app') {
   plan.push(['node', ['scripts/build/shell-assets.mjs']]);
