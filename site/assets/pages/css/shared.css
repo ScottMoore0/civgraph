@@ -33,7 +33,7 @@ body {
     radial-gradient(circle at 10% 10%, var(--chrome-green) 0%, transparent 45%),
     radial-gradient(circle at 95% 30%, var(--chrome-navy) 0%, transparent 55%),
     radial-gradient(circle at 50% 110%, var(--chrome-teal) 0%, transparent 60%);
-  color: #fff;
+  color: var(--raw-ffffff);
   padding: 5.5rem 0 7rem;
   margin-bottom: 0;
   min-height: calc(100svh - var(--header-height) + var(--hero-overlap));
@@ -46,11 +46,11 @@ body {
   line-height: 1.08;
   letter-spacing: -.03em;
   margin: 0 0 1rem;
-  color: #fff;
+  color: var(--raw-ffffff);
 }
 .hero .lede {
   font-size: clamp(1.05rem, 2.2vw, 1.3rem);
-  color: rgba(255, 255, 255, .92);
+  color: var(--raw-ffffff-a920);
   margin: 0 0 1.8rem;
   max-width: 52ch;
 }
@@ -67,11 +67,11 @@ body {
   border: 1px solid transparent;
   transition: all .15s ease;
 }
-.btn--primary { background: #15803d; color: #fff; box-shadow: var(--shadow-md); }
-.btn--primary:hover { background: #166534; transform: translateY(-1px); }
-.btn--ghost { border-color: rgba(255,255,255,.55); color: #fff; }
-.btn--ghost:hover { background: rgba(255,255,255,.14); }
-.btn--onlight { background: var(--color-primary); color: #fff; }
+.btn--primary { background: var(--raw-15803d); color: var(--raw-ffffff); box-shadow: var(--shadow-md); }
+.btn--primary:hover { background: var(--raw-166534); transform: translateY(-1px); }
+.btn--ghost { border-color: var(--raw-ffffff-a550); color: var(--raw-ffffff); }
+.btn--ghost:hover { background: var(--raw-ffffff-a140); }
+.btn--onlight { background: var(--color-primary); color: var(--raw-ffffff); }
 .btn--onlight:hover { background: var(--color-primary-light); }
 .btn--ghostlight { border-color: var(--color-border); color: var(--color-primary); }
 
@@ -139,13 +139,13 @@ td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600
    text have no token of their own; they lighten in dark mode here, as they always have. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-gray-600: #b3c2d1;
-    --color-gray-700: #cdd9e5;
+    --color-gray-600: var(--raw-b3c2d1);
+    --color-gray-700: var(--raw-cdd9e5);
   }
 }
 :root[data-theme="dark"] {
-  --color-gray-600: #b3c2d1;
-  --color-gray-700: #cdd9e5;
+  --color-gray-600: var(--raw-b3c2d1);
+  --color-gray-700: var(--raw-cdd9e5);
 }
 
 /* ------------------------------------------------------------------ figures
@@ -179,7 +179,7 @@ figcaption {
 
 /* Hero screenshot, overlapping the gradient band above it */
 .shot-hero { margin: calc(-1 * var(--hero-overlap)) 0 2.5rem; position: relative; z-index: 2; }
-.shot-hero .shot { box-shadow: 0 18px 45px -12px rgba(6, 40, 61, .45); }
+.shot-hero .shot { box-shadow: 0 18px 45px -12px var(--raw-06283d-a450); }
 
 /* Screenshot inside a card */
 .card__shot {
@@ -249,25 +249,25 @@ figcaption {
 
 .constellation__plate { transition: transform .45s cubic-bezier(.22,.61,.36,1); }
 
-.constellation__halo { fill: #22c55e; opacity: .28; }
+.constellation__halo { fill: var(--raw-22c55e); opacity: .28; }
 .constellation__land {
-  stroke: rgba(126, 226, 168, .85);
+  stroke: var(--raw-7ee2a8-a850);
   stroke-width: 1.6;
   stroke-linejoin: round;
 }
 
 .cg-edge {
-  stroke: rgba(214, 255, 232, .38);
+  stroke: var(--raw-d6ffe8-a380);
   stroke-width: 1.5;
   stroke-linecap: round;
   transition: stroke .2s ease, stroke-width .2s ease;
 }
-.cg-edge.is-lit { stroke: rgba(255, 255, 255, .95); stroke-width: 2.4; }
+.cg-edge.is-lit { stroke: var(--raw-ffffff-a950); stroke-width: 2.4; }
 
 .cg-node { cursor: pointer; outline: none; }
 .cg-node__hit { fill: transparent; }
 .cg-node__dot {
-  fill: #ffffff;
+  fill: var(--raw-ffffff);
   transition: r .2s ease, fill .2s ease;
 }
 .cg-node__glow { opacity: .5; transition: opacity .25s ease; }
@@ -277,15 +277,15 @@ figcaption {
 .cg-node.is-active .cg-node__glow { opacity: 1; }
 .cg-node:hover .cg-node__dot,
 .cg-node:focus-visible .cg-node__dot,
-.cg-node.is-active .cg-node__dot { fill: #eafff2; }
+.cg-node.is-active .cg-node__dot { fill: var(--raw-eafff2); }
 .cg-node:focus-visible .cg-node__hit {
   fill: none;
-  stroke: #ffffff;
+  stroke: var(--raw-ffffff);
   stroke-width: 2;
   stroke-dasharray: 3 3;
 }
 
-.cg-signal { fill: #ffffff; }
+.cg-signal { fill: var(--raw-ffffff); }
 
 /* Nodes breathe on a slow stagger; the whole animation layer is switched off
    for anyone who has asked for reduced motion, and the graphic stays legible

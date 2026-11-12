@@ -14,7 +14,7 @@
     text-decoration: none;
     margin-top: 2px;
     margin-bottom: 10px;
-    color: #444;
+    color: var(--raw-444444);
     width: 15px;
     /* background: #ddd; */
     padding: 7px 0px 7px 5px;
@@ -50,11 +50,11 @@
     margin: 1px 10px 0 0;
     font-size: 28px;
     font-weight: bold;
-    color: #fff;
-    text-shadow: 3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000,
-        -1px 1px 0 #000, 1px 1px 0 #000,
-        0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
-    -webkit-text-stroke: 3px #000;
+    color: var(--raw-ffffff);
+    text-shadow: 3px 3px 0 var(--raw-000000), -2px -2px 0 var(--raw-000000), 2px -2px 0 var(--raw-000000),
+        -1px 1px 0 var(--raw-000000), 1px 1px 0 var(--raw-000000),
+        0 -2px 0 var(--raw-000000), 0 2px 0 var(--raw-000000), -2px 0 0 var(--raw-000000), 2px 0 0 var(--raw-000000);
+    -webkit-text-stroke: 3px var(--raw-000000);
     paint-order: stroke fill;
 }
 
@@ -75,13 +75,13 @@
     margin-left: 15px;
     font-size: 28px;
     font-weight: bold;
-    color: #fff;
+    color: var(--raw-ffffff);
     font-family: 'Source Code Pro', monospace;
     font-feature-settings: 'zero';
-    text-shadow: 3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000,
-        -1px 1px 0 #000, 1px 1px 0 #000,
-        0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
-    -webkit-text-stroke: 3px #000;
+    text-shadow: 3px 3px 0 var(--raw-000000), -2px -2px 0 var(--raw-000000), 2px -2px 0 var(--raw-000000),
+        -1px 1px 0 var(--raw-000000), 1px 1px 0 var(--raw-000000),
+        0 -2px 0 var(--raw-000000), 0 2px 0 var(--raw-000000), -2px 0 0 var(--raw-000000), 2px 0 0 var(--raw-000000);
+    -webkit-text-stroke: 3px var(--raw-000000);
     paint-order: stroke fill;
     white-space: nowrap;
 }
@@ -93,24 +93,24 @@
     cursor: pointer;
     background: none !important;
     border: none !important;
-    color: #fff;
+    color: var(--raw-ffffff);
     font-weight: bold;
     font-size: 28px;
-    text-shadow: 3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000,
-        -1px 1px 0 #000, 1px 1px 0 #000,
-        0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
-    -webkit-text-stroke: 3px #000;
+    text-shadow: 3px 3px 0 var(--raw-000000), -2px -2px 0 var(--raw-000000), 2px -2px 0 var(--raw-000000),
+        -1px 1px 0 var(--raw-000000), 1px 1px 0 var(--raw-000000),
+        0 -2px 0 var(--raw-000000), 0 2px 0 var(--raw-000000), -2px 0 0 var(--raw-000000), 2px 0 0 var(--raw-000000);
+    -webkit-text-stroke: 3px var(--raw-000000);
     paint-order: stroke fill;
     padding: 0 3px;
 }
 
 .stageNumber.completed {
-    color: #ffd700;
+    color: var(--raw-ffd700);
     background: none !important;
 }
 
 .stageNumber.active {
-    color: #ffd700;
+    color: var(--raw-ffd700);
     background: none !important;
     -webkit-animation: pulsate 1s ease-out;
     -webkit-animation-iteration-count: infinite;
@@ -130,9 +130,9 @@
     height: 25px;
     width: 0px;
     position: absolute;
-    fill: #B0BEC5;
-    background: #B0BEC5;
-    color: #fff;
+    fill: var(--raw-b0bec5);
+    background: var(--raw-b0bec5);
+    color: var(--raw-ffffff);
     /* Default colours for independents, non-specified parties */
     overflow: visible;
     white-space: nowrap;
@@ -140,11 +140,11 @@
     padding-top: 3px;
     box-sizing: border-box;
     transition: none !important;
-    text-shadow: 3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000,
-        0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
+    text-shadow: 3px 3px 0 var(--raw-000000), -2px -2px 0 var(--raw-000000), 2px -2px 0 var(--raw-000000), -2px 2px 0 var(--raw-000000), 2px 2px 0 var(--raw-000000),
+        0 -2px 0 var(--raw-000000), 0 2px 0 var(--raw-000000), -2px 0 0 var(--raw-000000), 2px 0 0 var(--raw-000000);
     font-family: 'Source Code Pro', monospace;
     font-feature-settings: 'zero';
-    -webkit-text-stroke: 4px #000;
+    -webkit-text-stroke: 4px var(--raw-000000);
     paint-order: stroke fill;
 }
 
@@ -175,7 +175,7 @@
     font-variant-numeric: tabular-nums;
     font-weight: bold;
     font-size: 22px;
-    color: #000;
+    color: var(--raw-000000);
     white-space: nowrap;
     pointer-events: none;
     line-height: 25px;
@@ -185,29 +185,29 @@
 
 @-webkit-keyframes pulsate {
     0% {
-        color: #fff;
+        color: var(--raw-ffffff);
     }
 
     50% {
-        color: #ffd700;
+        color: var(--raw-ffd700);
     }
 
     100% {
-        color: #fff;
+        color: var(--raw-ffffff);
     }
 }
 
 @keyframes pulsate {
     0% {
-        color: #fff;
+        color: var(--raw-ffffff);
     }
 
     50% {
-        color: #ffd700;
+        color: var(--raw-ffd700);
     }
 
     100% {
-        color: #fff;
+        color: var(--raw-ffffff);
     }
 }
 
@@ -222,7 +222,7 @@
     font-size: 14px;
     border: 0px;
     margin-top: 7px;
-    background: #34495e;
+    background: var(--raw-34495e);
     color: white;
 }
 
