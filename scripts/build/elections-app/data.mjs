@@ -178,7 +178,8 @@ export const PRIVATE_VALUE_PATTERNS = Object.freeze(/** @type {Array<[string, Re
   ['Eircode', /\b(?:[AC-FHKNPRTV-Y][0-9]{2}|D6W) ?[0-9AC-FHKNPRTV-Y]{4}\b/],
   ['email address', /[^\s@]+@[^\s@]+\.[a-z]{2,}/i],
   ['phone number', /(?:\+44|\+353|\b0)[0-9 ()-]{9,}[0-9]\b/],
-  ['street address', /\b\d+[A-Z]?,? [A-Z][a-z]+ (?:Street|Road|Avenue|Lane|Terrace|Park|Drive|Gardens|Crescent|Place)\b/],
+  // A house number has at most three digits: "1987 Shore Road by-election" names a ward (Newtownabbey) after a year.
+  ['street address', /\b\d{1,3}[A-Z]?,? [A-Z][a-z]+ (?:Street|Road|Avenue|Lane|Terrace|Park|Drive|Gardens|Crescent|Place)\b/],
 ]));
 
 /** The string columns scanned for private values (names, labels, titles; not slugs or numbers). */
