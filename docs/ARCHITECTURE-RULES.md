@@ -78,8 +78,14 @@ timers. One pure, tested function per view parses and serialises its URL state.
 **R9. Tokens and components.** Colours, spacing, type, radii and motion come from
 `packages/ui/assets/tokens.css`. App stylesheets only lay out, with `cg-*` components. A reusable
 element (tabs, legend, chart, notice) is a component with a gallery specimen, not an app class.
-Data colours, such as party colours, are registry data, not tokens.
-- Checked by: C8 (no colour literal in stylesheets outside the token files, or in served JS), `test:unit` (`design-system.test`).
+Data colours, such as party colours, are registry data, not tokens. So is any colour code draws
+with on a canvas, in MapLibre paint, in an SVG it writes or exports, in a classic script's inline
+style or in colour arithmetic (a contrast pick, a sanitiser's fallback): these cannot use CSS
+`var()`, so the value itself is needed. Colour data held in a registry part
+(`data/registries/colours.json`, the parties registry's `palettes` part) is allowed, and with the
+token files it is the only place a colour literal may stand; code reads it through the registry's
+browser slice (owner-approved 12 Nov 2026).
+- Checked by: C8 (no colour literal in stylesheets outside the token files, or in served JS outside the registry palette parts: the generated slice modules `packages/registries/src/browser/build.mjs` lists as `PALETTE_SLICES`), `test:unit` (`design-system.test`, `registries-colours.test`).
 
 **R10. Text and formats can be translated.** Interface text is keyed or patterned in
 `site/assets/i18n/en.json`. Numbers, dates and percentages go through the shared formatter
