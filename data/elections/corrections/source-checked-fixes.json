@@ -46,7 +46,8 @@
     "arith-audit-2026-11-11": "Every contest's arithmetic audited (scripts/check/rules/contest-arithmetic.mjs): FPTP votes against the valid poll, STV quotas, first preferences, stage-by-stage transfers and exclusions, turnout and poll figures. Figures that did not add up were checked against the source each record names and corrected where Civgraph had mis-transcribed them; where the source itself does not add up, the contest is listed in contest-arithmetic-allowlist.json instead.",
     "eoni-review-2026-11-11": "Northern Ireland council contests of 2011 and 2019 checked by eye, figure by figure, against the Electoral Office for Northern Ireland's scanned result sheets and result workbooks recovered from the Internet Archive (the 2011 council sheets and the 2019 sheets of Belfast, Derry City and Strabane, Lisburn and Castlereagh and Newry, Mourne and Down that the eoni-ia sweep could not machine-read). A figure is corrected only where the sheet's own arithmetic confirms it: each stage's transfers reconcile with the surplus or exclusion and the non-transferable votes, and each stage sums to the valid poll. Where a count is rebuilt (replaceCountRows) its stage totals keep the fractions the sheet prints.",
     "w8-review-2026-11-12": "Northern Ireland council contests of 2014, 2019 and 2023 whose stage totals the import had cut to whole votes: the totals rebuilt from the transfers (restoreStageFractions) were each read by eye on the Electoral Office for Northern Ireland's scanned result sheet (w8-review, 12 Nov 2026), where OCR had not found them; contests where any rebuilt total differs from the sheet are not included.",
-    "w8-arith2-2026-11-12": "Contests that still failed the contest arithmetic check (scripts/check/rules/contest-arithmetic.mjs) after arith-audit and w8-arith, checked against their sources: for the Northern Ireland councils of 1973-2005, the Electoral Office's declaration sheets (its Local Government Election Results booklets) and Nicholas Whyte's ARK spreadsheets transcribing them; for the Dail, ElectionsIreland.org's count sheets and the official results. A figure is changed only where the source shows it and the corrected stage then reconciles (each transfer brings the stage total to the next, and the votes handed out match the surplus or the votes of the candidates excluded). Where the source's own figures do not add up, the contest is listed in contest-arithmetic-allowlist.json instead."
+    "w8-arith2-2026-11-12": "Contests that still failed the contest arithmetic check (scripts/check/rules/contest-arithmetic.mjs) after arith-audit and w8-arith, checked against their sources: for the Northern Ireland councils of 1973-2005, the Electoral Office's declaration sheets (its Local Government Election Results booklets) and Nicholas Whyte's ARK spreadsheets transcribing them; for the Dail, ElectionsIreland.org's count sheets and the official results. A figure is changed only where the source shows it and the corrected stage then reconciles (each transfer brings the stage total to the next, and the votes handed out match the surplus or the votes of the candidates excluded). Where the source's own figures do not add up, the contest is listed in contest-arithmetic-allowlist.json instead.",
+    "gap-roi-2026-11-12": "Republic of Ireland local contests that Civgraph held with no candidates, filled from an official results book read by eye or from a newspaper's printed first count (Irish Newspaper Archives), with IrelandElection.com as the pointer and for full names: a record is added only where the source's first preferences add up to the valid poll and the elected equal the seats (gap-roi, 12 Nov 2026). Each reason says what was read where."
   },
   "records": [
     {
@@ -331376,6 +331377,330 @@
           "set": {
             "Transfers": "80.84"
           }
+        }
+      ]
+    },
+    {
+      "batch": "gap-roi-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2019-05-24/westport.json",
+      "source": {
+        "publisher": "Department of Housing, Planning and Local Government",
+        "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 164",
+        "url": "https://assets.gov.ie/static/documents/local-elections-2019-results-transfer-of-votes-and-statistics.pdf#page=164",
+        "accessed": "2026-11-12"
+      },
+      "additionalSources": [
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2019 Local Election, Westport (candidate ids)",
+          "url": "https://irelandelection.com/election/2019_local_election-mayo_county_council_westport/5/237/411",
+          "accessed": "2026-10-29"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; the Department's 2019 results book (p. 164) was read by eye, as its text layer interleaves the rows: all 11 candidates with first preferences adding up to the valid poll of 8,466, 137 invalid papers, and 4 elected for 4 seats. IrelandElection.com's page gives the same figures; each row carries its IrelandElection.com person id, matched by name. Christy Hyland and Shane Fitzgerald are printed without a party description, as Independent here.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Christy Hyland",
+              "party": "Independent",
+              "first_pref": 1442,
+              "counts": [
+                1442
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5520"
+            },
+            {
+              "name": "Peter Flynn",
+              "party": "Fine Gael",
+              "first_pref": 1250,
+              "counts": [
+                1250
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:14242"
+            },
+            {
+              "name": "Brendan Mulroy",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 1191,
+              "counts": [
+                1191
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:5522"
+            },
+            {
+              "name": "John (Johno) O'Malley",
+              "party": "Independent",
+              "first_pref": 959,
+              "counts": [
+                959
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18476"
+            },
+            {
+              "name": "Chris Maxwell",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 899,
+              "counts": [
+                899
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18477"
+            },
+            {
+              "name": "Austin Francis O'Malley",
+              "party": "Fine Gael",
+              "first_pref": 830,
+              "counts": [
+                830
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18478"
+            },
+            {
+              "name": "Tereasa McGuire",
+              "party": "Fine Gael",
+              "first_pref": 803,
+              "counts": [
+                803
+              ],
+              "status": "",
+              "sourcePersonId": "ie:5517"
+            },
+            {
+              "name": "Darragh McGee",
+              "party": "Independent",
+              "first_pref": 530,
+              "counts": [
+                530
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18480"
+            },
+            {
+              "name": "Cissy Nayiga",
+              "party": "Green",
+              "first_pref": 365,
+              "counts": [
+                365
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18481"
+            },
+            {
+              "name": "Shane Fitzgerald",
+              "party": "Independent",
+              "first_pref": 115,
+              "counts": [
+                115
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18482"
+            },
+            {
+              "name": "Frank McAlonan",
+              "party": "Independent",
+              "first_pref": 82,
+              "counts": [
+                82
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18483"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 4
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 8466
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1694
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 13589
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 8603
+        },
+        {
+          "op": "set",
+          "path": "meta.spoiled",
+          "value": 137
+        }
+      ]
+    },
+    {
+      "batch": "gap-roi-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/ireland-local/2019-05-24/rosslare.json",
+      "source": {
+        "publisher": "Department of Housing, Planning and Local Government",
+        "title": "Local Elections 2019: Results, Transfer of Votes and Statistics, p. 217",
+        "url": "https://assets.gov.ie/static/documents/local-elections-2019-results-transfer-of-votes-and-statistics.pdf#page=217",
+        "accessed": "2026-11-12"
+      },
+      "additionalSources": [
+        {
+          "publisher": "IrelandElection.com",
+          "title": "2019 Local Election, Rosslare (candidate ids)",
+          "url": "https://irelandelection.com/election/2019_local_election-wexford_county_council_rosslare/5/237/546",
+          "accessed": "2026-10-29"
+        }
+      ],
+      "reason": "Imported with no candidates, because ElectionsIreland's page for this area shows no result rows; the Department's 2019 results book (p. 217) was read by eye, as its text layer interleaves the rows: all 10 candidates with first preferences adding up to the valid poll of 9,367, 153 invalid papers, and 5 elected for 5 seats. IrelandElection.com's page gives the same figures; each row carries its IrelandElection.com person id, matched by name.",
+      "category": "gap-fill",
+      "operations": [
+        {
+          "op": "replaceCandidates",
+          "candidates": [
+            {
+              "name": "Ger Carthy",
+              "party": "Independent",
+              "first_pref": 2317,
+              "counts": [
+                2317
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:6057"
+            },
+            {
+              "name": "Frank Staples",
+              "party": "Fine Gael",
+              "first_pref": 1552,
+              "counts": [
+                1552
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:6060"
+            },
+            {
+              "name": "Michael Wallace",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 919,
+              "counts": [
+                919
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18793"
+            },
+            {
+              "name": "Lisa McDonald",
+              "party": "Fianna F\u00e1il",
+              "first_pref": 910,
+              "counts": [
+                910
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:16405"
+            },
+            {
+              "name": "Jim Moore",
+              "party": "Fine Gael",
+              "first_pref": 885,
+              "counts": [
+                885
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:6062"
+            },
+            {
+              "name": "Mick Roche",
+              "party": "Sinn F\u00e9in",
+              "first_pref": 839,
+              "counts": [
+                839
+              ],
+              "status": "",
+              "sourcePersonId": "ie:6063"
+            },
+            {
+              "name": "Jim Codd",
+              "party": "Aont\u00fa",
+              "first_pref": 777,
+              "counts": [
+                777
+              ],
+              "status": "Elected",
+              "sourcePersonId": "ie:18794"
+            },
+            {
+              "name": "Paul Codd",
+              "party": "Fine Gael",
+              "first_pref": 494,
+              "counts": [
+                494
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18795"
+            },
+            {
+              "name": "Jane Johnstone",
+              "party": "Independents 4 Change",
+              "first_pref": 469,
+              "counts": [
+                469
+              ],
+              "status": "",
+              "sourcePersonId": "ie:6068"
+            },
+            {
+              "name": "Terry Lawton",
+              "party": "Independent",
+              "first_pref": 205,
+              "counts": [
+                205
+              ],
+              "status": "",
+              "sourcePersonId": "ie:18797"
+            }
+          ]
+        },
+        {
+          "op": "set",
+          "path": "seats",
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": "meta.valid_poll",
+          "value": 9367
+        },
+        {
+          "op": "set",
+          "path": "meta.quota",
+          "value": 1562
+        },
+        {
+          "op": "set",
+          "path": "meta.electorate",
+          "value": 17103
+        },
+        {
+          "op": "set",
+          "path": "meta.total_poll",
+          "value": 9520
+        },
+        {
+          "op": "set",
+          "path": "meta.spoiled",
+          "value": 153
         }
       ]
     }
