@@ -42,6 +42,7 @@ import {
 import { binding } from '../../../../config/src/config.js';
 import { fromD1 } from '../../../../storage/src/d1.js';
 import { areaResultsAnswer } from '../../../../core/src/area-results.mjs';
+import { foldSearchText } from '../../../../core/src/format.js';
 import { ELECTIONS, ELECTIONS_API, ELECTION_CARDS } from '../../queries/elections.js';
 
 // Bump whenever the RESPONSE SHAPE changes, not just when the data does: it is part of the
@@ -268,7 +269,7 @@ async function handle(context) {
   }
 }
 
-const listFold = (/** @type {unknown} */ value) => String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const listFold = (/** @type {unknown} */ value) => foldSearchText(value || '');
 
 /**
  * @param {RecordStore} db

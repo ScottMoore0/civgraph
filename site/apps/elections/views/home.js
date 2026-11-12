@@ -3,7 +3,7 @@
  */
 import { bodyElections, electionIndex } from '../lib/api.js';
 import { appUrl, esc, fmtDate } from '../lib/format.js';
-import { siteNumber } from '../../../pkg/core/src/format.js';
+import { foldSearchText, siteNumber } from '../../../pkg/core/src/format.js';
 
 /** The group a body belongs to on the home page. */
 /** @param {string} slug */
@@ -56,7 +56,7 @@ export async function render(root, route, ctx) {
       </section>`).join('')}`;
   const input = /** @type {HTMLInputElement} */ (root.querySelector('#el-q'));
   const out = /** @type {HTMLElement} */ (root.querySelector('#el-results'));
-  const fold = (/** @type {unknown} */ s) => String(s || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const fold = (/** @type {unknown} */ s) => foldSearchText(s || '');
   input.addEventListener('input', () => {
     const words = fold(input.value).split(/\s+/).filter(Boolean);
     if (!words.length) { out.innerHTML = ''; return; }

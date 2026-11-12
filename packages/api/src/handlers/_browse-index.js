@@ -25,6 +25,7 @@ import { cachedJson } from './_records.js';
 import { binding } from '../../../config/src/config.js';
 import { fromD1 } from '../../../storage/src/d1.js';
 import { CARDS } from '../queries/cards.js';
+import { foldSearchText } from '../../../core/src/format.js';
 
 /** @typedef {import('../types.js').ApiContext} ApiContext */
 /** @typedef {import('../../../storage/src/store.js').RecordStore} RecordStore */
@@ -205,7 +206,7 @@ export function browseIndexHandler({
         // fewer results than the client did and report nothing about the difference.
         // Folded like the column (as packages/loader/src/browse-columns.mjs folds it) and matched word by word, so
         // "Micheal Martin" finds "Micheál Martin" and word order does not matter.
-        const words = query.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8);
+        const words = foldSearchText(query).split(/\s+/).filter(Boolean).slice(0, 8);
         for (const word of words) where.push(`search_norm LIKE ${bind(`%${word}%`)}`);
 
         // ORDER BY. `ord` is the default and preserves the source index's order, which
