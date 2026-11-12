@@ -63,6 +63,11 @@ export { slugify, resolveElectionSlugAlias };
 export const SITE_ORIGIN = 'https://civgraph.net';
 const SITE_NAME = 'Civgraph';
 const DESCRIPTION_LIMIT = 300;
+/** An election's source record: this prefix and the election's slug. */
+const ELECTION_SOURCE_PREFIX = 'election-source-';
+// What a person's party list holds for candidacies with no label: election-domain.mjs's NO_LABEL and
+// NO_PARTY_RECORDED (not imported: that module does not type-check under the functions' tsconfig).
+const NOT_A_PARTY = new Set(['No label', 'No party recorded']);
 
 /**
  * @typedef {CivgraphEnv} Env
@@ -85,6 +90,10 @@ const DESCRIPTION_LIMIT = 300;
  * @property {string} [description]
  * @property {string} [subtitle]
  * @property {string | string[]} [provider]
+ * @property {string} [shortName]             a party: its initials
+ * @property {number} [occurrenceCount]       a party: the candidacies under its label
+ * @property {number} [relatedElectionCount]  a party card: the elections whose party table lists it
+ * @property {unknown[]} [relatedElections]   a party detail: those elections
  * @typedef {RecordHeadFields & PersonRecord & { nonCandidate?: boolean }} BrowseRecord
  *   a Browse record (a card or detail JSON from D1): the fields this file reads
  *
@@ -159,7 +168,9 @@ export function pageTitle(type, title) {
 /** @param {BrowseRecord} record */
 function personDescription(record) {
   const name = record.name || record.title;
-  const parties = listText((record.parties || []).map((party) => party.name), 3);
+  // "No label" is the absence of a party, not one: "Robert Shiels (No label) stood..." (site QA 12 Nov).
+  const parties = listText((record.parties || []).map((party) => party.name)
+    .filter((name) => name && !NOT_A_PARTY.has(name)), 3);
   const places = listText((record.constituencies || []).map((place) => place.name), 4);
   const stood = Number(record.totals?.stood) || (record.elections || []).length;
   const elected = Number(record.totals?.elected)
@@ -182,6 +193,42 @@ function personDescription(record) {
 }
 
 /**
+ * A party page's description. Its subtitle ("UUP / 1905-2024 / 1,234 linked elections") was the
+ * description before, which for the 315 ballot-paper labels in no election's party table read
+ * only "0 linked elections", however many candidacies carried the label (site QA 12 Nov).
+ * @param {BrowseRecord} record
+ * @param {string} title
+ * @returns {string}
+ */
+export function partyDescription(record, title) {
+  const short = record.shortName && record.shortName !== title ? ` (${record.shortName})` : '';
+  const years = record.firstYear && record.lastYear
+    ? (record.firstYear === record.lastYear ? `, ${record.firstYear}` : `, ${record.firstYear}–${record.lastYear}`)
+    : '';
+  const candidacies = Number(record.occurrenceCount) || 0;
+  const linked = Number(record.relatedElectionCount ?? record.relatedElections?.length) || 0;
+  const counts = [
+    candidacies ? `${numberText(candidacies)} ${candidacies === 1 ? 'candidacy' : 'candidacies'}` : '',
+    linked ? `${numberText(linked)} ${linked === 1 ? 'election' : 'elections'} with party results` : '',
+  ].filter(Boolean).join(' and ');
+  return `${title}${short}: a party or ballot-paper label in Civgraph's election results${years}`
+    + `${counts ? `, on ${counts}` : ''}.`;
+}
+
+/**
+ * A map page's description. Many maps share their category's tagline ("Electoral ward
+ * boundaries" on 19 maps), so a tagline is led by the map's own name; a full description stays.
+ * @param {string} title
+ * @param {string} description
+ * @returns {string}
+ */
+export function mapDescription(title, description) {
+  const text = String(description || '').trim();
+  if (!text || /[.!?]$/.test(text) || text.length > 80 || text.toLowerCase().includes(String(title).toLowerCase())) return text;
+  return `${title} map: ${text}.`;
+}
+
+/**
  * @param {string} type
  * @param {BrowseRecord} record
  * @returns {RecordHead}
@@ -198,8 +245,11 @@ function recordMeta(type, record) {
     ].filter(Boolean).join(', ');
     if (record.interestCount) description += `: ${numberText(record.interestCount)} declared ${record.interestCount === 1 ? 'interest' : 'interests'}`;
     description += '.';
+  } else if (type === 'parties' && !record.description) {
+    description = partyDescription(record, /** @type {string} */ (title));
   } else {
     description = record.description || record.subtitle || '';
+    if (type === 'maps') description = mapDescription(/** @type {string} */ (title), description);
     const provider = Array.isArray(record.provider) ? record.provider.join(', ') : record.provider;
     if (!description && provider) description = `${title}, published by ${provider}.`;
   }
@@ -232,6 +282,13 @@ async function lookupTableRecord(source, table, slug, aliasTable = `${table}_ali
     return null;   // no aliases table yet
   }
   if (aliased?.record) return /** @type {BrowseRecord | null} */ (parseJson(aliased.record));
+  // An election's source page follows its election's renamed slug (Bangor and Lisburn 1920).
+  // The _redirects lines for these never fired: Pages does not apply _redirects to a route a
+  // Function serves (site QA 12 Nov).
+  if (table === 'sources' && String(slug).startsWith(ELECTION_SOURCE_PREFIX)) {
+    const renamed = ELECTION_SOURCE_PREFIX + resolveElectionSlugAlias(String(slug).slice(ELECTION_SOURCE_PREFIX.length));
+    if (renamed !== slug) return lookupTableRecord(db, table, renamed, aliasTable);
+  }
   // A person's slug is their name and registry id. When a re-stamp retires the id (a merge) or
   // the name changes, the published slug is neither a record nor an alias; its id still is
   // (the person's own id, or a merged-away id in person_aliases), so the address is answered
@@ -293,20 +350,24 @@ export async function lookupElection(source, slug) {
   const electionSlug = election.slug || slugify(election.key);
   const remainder = wanted === election.key || wanted === electionSlug ? '' : wanted.slice(electionSlug.length + 1);
   const when = election.date ? ` (${dateText(election.date)})` : '';
+  // A referendum has options, not candidates, parties or seats (site QA 12 Nov: "1 seat ...
+  // Elected: No.").
+  const referendum = /referendum/i.test(`${electionTitle} ${election.body || ''} ${election.key}`);
 
   if (!remainder) {
     const count = Array.isArray(meta.constituencies) ? meta.constituencies.length : 0;
     return {
       title: electionTitle,
-      description: clip(meta.description || `${electionTitle}: ${election.body || 'election'}${when}${count ? `, ${numberText(count)} ${count === 1 ? 'constituency' : 'constituencies'}` : ''}. Results by constituency, candidates and parties on Civgraph.`),
+      description: clip(meta.description || `${electionTitle}: ${election.body || 'election'}${when}${count ? `, ${numberText(count)} ${count === 1 ? 'constituency' : 'constituencies'}` : ''}. ${referendum ? 'Results by constituency' : 'Results by constituency, candidates and parties'} on Civgraph.`),
       slug: electionSlug,
       electionKey: election.key,
     };
   }
   if (remainder === 'overall-results') {
     return {
-      title: `Overall results - ${electionTitle}`,
-      description: clip(`Overall results for the ${electionTitle}${when}: seats and votes by party.`),
+      // The same title the Browse build gives the card (electionResultEntryLabel), en dash and all.
+      title: `Overall results – ${electionTitle}`,
+      description: clip(`Overall results for the ${electionTitle}${when}: ${referendum ? 'votes for each option' : 'seats and votes by party'}.`),
       slug: `${electionSlug}-overall-results`,
       electionKey: election.key,
     };
@@ -323,15 +384,17 @@ export async function lookupElection(source, slug) {
     .filter((row) => row.elected === 1 || row.elected === true || row.elected === '1')
     .map((row) => row.name);
   const facts = [
-    contest.seatsTotal ? `${numberText(contest.seatsTotal)} ${Number(contest.seatsTotal) === 1 ? 'seat' : 'seats'}` : '',
+    contest.seatsTotal && !referendum ? `${numberText(contest.seatsTotal)} ${Number(contest.seatsTotal) === 1 ? 'seat' : 'seats'}` : '',
     contest.electorate ? `electorate ${numberText(contest.electorate)}` : '',
     contest.turnoutPct ? `turnout ${contest.turnoutPct}%` : '',
-    contest.quota ? `quota ${numberText(contest.quota)}` : '',
+    contest.quota && !referendum ? `quota ${numberText(contest.quota)}` : '',
   ].filter(Boolean).join(', ');
+  const outcome = !winners.length ? ''
+    : referendum ? ` Majority: ${listText(winners, 2)}.` : ` Elected: ${listText(winners, 6)}.`;
   const description = `${name} result in the ${electionTitle}${when}${facts ? `: ${facts}` : ''}.`
-    + `${winners.length ? ` Elected: ${listText(winners, 6)}.` : ''} Candidates and votes on Civgraph.`;
+    + `${outcome} ${referendum ? 'Votes for each option' : 'Candidates and votes'} on Civgraph.`;
   return {
-    title: `${name} - ${electionTitle}`,
+    title: `${name} – ${electionTitle}`,
     description: clip(description),
     slug: `${electionSlug}-${contest.slug}`,
     electionKey: election.key,

@@ -301,7 +301,7 @@ test('the Browse page answers an old contest address with a 301 to the new one',
     assert.equal(res.headers.get('Location'), `https://civgraph.net/browse/elections/${election}-${slugify(c.name)}`);
     const now = await browse(`${election}-${slugify(c.name)}`);
     assert.equal(now.status, 200);
-    assert.ok((await now.text()).includes(`<title>${c.name} - ${c.date.slice(0, 4)} ${c.name} by-election – Civgraph</title>`));
+    assert.ok((await now.text()).includes(`<title>${c.name} – ${c.date.slice(0, 4)} ${c.name} by-election – Civgraph</title>`));
   }
 });
 
