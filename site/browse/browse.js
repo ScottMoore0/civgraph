@@ -1099,6 +1099,7 @@ const RETIRED_CONTEST_SLUGS = [
   ['castlederg-rural-district-council-1967-06-01-lisnagloch', 'castlederg-rural-district-council-1967-06-01-lisnacloon'],
   ['omagh-rural-district-council-1933-05-31-groenan', 'omagh-rural-district-council-1933-05-31-greenan'],
   ['omagh-rural-district-council-1933-05-31-moyroe', 'omagh-rural-district-council-1933-05-31-moyle'],
+  ['north-down-rural-district-council-1964-06-04-ards-peninsula', 'north-down-rural-district-council-1964-06-04-quintin'],
   ['local-government-local-government-districts-1973-05-30-lg73-nam-area-a', 'local-government-local-government-districts-1973-05-30-newry-and-mourne-area-a'],
   ['local-government-local-government-districts-1973-05-30-lg73-nam-area-b', 'local-government-local-government-districts-1973-05-30-newry-and-mourne-area-b'],
   ['local-government-local-government-districts-1973-05-30-lg73-nam-area-c', 'local-government-local-government-districts-1973-05-30-newry-and-mourne-area-c'],
