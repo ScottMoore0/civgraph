@@ -86,6 +86,24 @@ async function settle(page) {
   await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 }
 
+/**
+ * Show one gallery element alone (everything else in the gallery display: none), so its place on
+ * the page, and with it the sub-pixel placement of its lines and text, does not depend on the
+ * specimens before it: adding a specimen moves no other shot.
+ */
+async function showAlone(page, id) {
+  await page.evaluate((target) => {
+    let style = document.getElementById('visual-alone');
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'visual-alone';
+      document.head.append(style);
+    }
+    style.textContent = `.cg-gallery > :not(#${target}):not(:has(#${target})), .cg-gallery > :has(#${target}) > :not(#${target}):not(:has(#${target})) { display: none !important; }`;
+  }, id);
+  await settle(page);
+}
+
 let gallery;
 async function galleryHtml() {
   if (!gallery) {
@@ -106,19 +124,21 @@ for (const size of SIZES) {
       // The apps' components draw themselves into shadow roots (gallery.js drawIslands).
       await expect(page.locator('[data-gallery-island]:not([data-ready="true"])')).toHaveCount(0);
       await settle(page);
+      // [snapshot, the element shown alone, the element shot]
       const shots = [
-        ['tokens', '#cg-gallery-tokens'],
-        ['type', '#type'],
-        ...ids.map((id) => [id, `#${id} .cg-gallery__example`]),
+        ['tokens', 'cg-gallery-tokens', '#cg-gallery-tokens'],
+        ['type', 'type', '#type'],
+        ...ids.map((id) => [id, id, `#${id} .cg-gallery__example`]),
       ];
       let held = 0;
-      for (const [id, selector] of shots) {
+      for (const [id, alone, selector] of shots) {
         const name = `gallery-${id}-${size.width}-${theme}`;
         const mode = test.info().config.updateSnapshots;
         if (!fs.existsSync(baselineOf(name)) && mode !== 'all' && mode !== 'changed' && process.env.VISUAL_UPDATE !== '1') {
           test.info().annotations.push({ type: 'skipped', description: `no ${process.platform} baseline for ${name}` });
           continue;
         }
+        await showAlone(page, alone);
         await expect.soft(page.locator(selector), name).toHaveScreenshot(`${name}.png`, { ...COMPARE, stylePath: UNSTICK });
         held += 1;
       }
