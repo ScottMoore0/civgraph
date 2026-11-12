@@ -15,7 +15,10 @@ export const LANGUAGE_PHRASE = 'language toggle';
 const FLAG_KEY = 'civgraph.langPreview';
 const SEARCH_INPUT_ID = 'searchInput';
 
-/** True when the whole query is the phrase: any case, surrounding spaces and punctuation ignored. */
+/**
+ * True when the whole query is the phrase: any case, surrounding spaces and punctuation ignored.
+ * @param {unknown} query
+ */
 export function isLanguagePhrase(query) {
   const s = String(query ?? '')
     .toLowerCase()
@@ -34,7 +37,7 @@ export function languageOptionsShown() {
 let lastTyped = '';
 if (typeof document !== 'undefined') {
   document.addEventListener('input', (e) => {
-    if (e.isTrusted && e.target && e.target.id === SEARCH_INPUT_ID) lastTyped = e.target.value;
+    if (e.isTrusted && e.target instanceof HTMLInputElement && e.target.id === SEARCH_INPUT_ID) lastTyped = e.target.value;
   }, true);
 }
 
