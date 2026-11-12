@@ -34,10 +34,18 @@ import { sourceOf } from '../../scripts/build/site.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..');
+/**
+ * The value after a command-line flag, or the fallback when the flag is absent.
+ * @template T
+ * @param {string} name
+ * @param {T} fallback
+ * @returns {string | T}
+ */
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
 const PORT = Number(arg('--port', process.env.PORT || 8790));
 const CATALOGUE = arg('--catalogue', 'next');
 
+/** @type {Record<string, string>} */
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml',
@@ -49,6 +57,7 @@ const TYPES = {
 const FLAG = `<script>window.CIVGRAPH_CATALOGUE=${JSON.stringify(CATALOGUE)};</script>`;
 
 // ---- the phase-3 map APIs, from the working tree
+/** @type {ReturnType<typeof d1> | null} */
 let mapsDb = null;
 let mapsStamp = '';
 function mapSourcesStamp() {
@@ -67,9 +76,30 @@ function mapsEnv() {
   return { ELECTIONS_DB: mapsDb };
 }
 installCaches();
+
+/**
+ * A request's Node headers as fetch Headers: a repeated header's values joined by commas, as
+ * Request itself did when it was handed the Node headers object.
+ * @param {import('node:http').IncomingHttpHeaders} incoming
+ */
+function fetchHeaders(incoming) {
+  const headers = new Headers();
+  for (const [name, value] of Object.entries(incoming)) {
+    if (value !== undefined) headers.append(name, Array.isArray(value) ? value.join(',') : value);
+  }
+  return headers;
+}
+
+/**
+ * @param {import('node:http').IncomingMessage} req
+ * @param {URL} url
+ * @returns {Promise<Response | null>}
+ */
 async function localMapApi(req, url) {
   const p = url.pathname;
+  /** @type {typeof catalogueApi | typeof layersApi | null} */
   let mod = null;
+  /** @type {Record<string, string[]>} */
   let params = {};
   if (p === '/_api/catalogue' || p === '/_api/catalogue/') mod = catalogueApi;
   else if (p === '/_api/layers' || p.startsWith('/_api/layers/')) {
@@ -77,41 +107,55 @@ async function localMapApi(req, url) {
     params = { path: p.slice('/_api/layers'.length).split('/').filter(Boolean) };
   }
   if (!mod) return null;
-  return mod.onRequestGet({ request: new Request(`http://localhost${p}${url.search}`, { headers: req.headers }), env: mapsEnv(), params, waitUntil: () => {}, next: async () => new Response('not found', { status: 404 }) });
+  return mod.onRequestGet({ request: new Request(`http://localhost${p}${url.search}`, { headers: fetchHeaders(req.headers) }), env: mapsEnv(), params, waitUntil: () => {}, next: async () => new Response('not found', { status: 404 }) });
 }
 
+/**
+ * @param {import('node:http').IncomingMessage} req
+ * @returns {Promise<Buffer>}
+ */
 function readBody(req) {
   return new Promise((resolve, reject) => {
+    /** @type {Buffer[]} */
     const chunks = [];
     req.on('data', (c) => chunks.push(c));
     req.on('end', () => resolve(Buffer.concat(chunks)));
     req.on('error', reject);
   });
 }
+/**
+ * @param {import('node:http').ServerResponse} res
+ * @param {number} status
+ * @param {string} body
+ * @param {string} [type]
+ */
 function send(res, status, body, type = 'text/plain; charset=utf-8') {
   res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-store' });
   res.end(body);
 }
 
 createServer(async (req, res) => {
-  const url = new URL(req.url, `http://localhost:${PORT}`);
+  // A server's request always has a url and a method.
+  const url = new URL(/** @type {string} */ (req.url), `http://localhost:${PORT}`);
+  const method = /** @type {string} */ (req.method);
   const p = decodeURIComponent(url.pathname);
   try {
     // The records API from the local build, as the record documents below are: the same
     // Functions production runs, against tmp/records. Without a build it goes upstream.
     const record = await answerRecordApi(`${url.pathname}${url.search}`, {
-      method: req.method, headers: req.headers['if-none-match'] ? { 'if-none-match': req.headers['if-none-match'] } : {},
+      method, headers: req.headers['if-none-match'] ? { 'if-none-match': req.headers['if-none-match'] } : {},
     });
     if (record) {
       const response = new Response(record.body, record);
       response.headers.set('Cache-Control', 'no-store');
-      return sendResponse(res, response, { head: req.method === 'HEAD' });
+      return sendResponse(res, response, { head: method === 'HEAD' });
     }
 
     // On localhost the site sends CDN requests through /_r/ (src/cdn-url.js) and its API
     // calls to /_api/: both are fetched upstream here.
-    const local = req.method === 'GET' ? await localMapApi(req, url) : null;
+    const local = method === 'GET' ? await localMapApi(req, url) : null;
     if (local) {
+      /** @type {Record<string, string>} */
       const headers = { 'Cache-Control': 'no-store' };
       for (const h of ['content-type', 'location', 'etag']) { const v = local.headers.get(h); if (v) headers[h] = v; }
       const buf = Buffer.from(await local.arrayBuffer());
@@ -122,10 +166,12 @@ createServer(async (req, res) => {
       const upstream = p.startsWith('/_r/')
         ? `${SITE.dataOrigin}/${p.slice(4)}${url.search}`
         : `${SITE.origin}${p}${url.search}`;
+      /** @type {Record<string, string>} */
       const headers = { 'User-Agent': 'civgraph-test-site' };
-      for (const h of ['range', 'content-type', 'accept', 'if-none-match']) if (req.headers[h]) headers[h] = req.headers[h];
-      const body = ['GET', 'HEAD'].includes(req.method) ? undefined : await readBody(req);
-      const r = await fetch(upstream, { method: req.method, headers, body, redirect: 'follow' });
+      for (const h of /** @type {const} */ (['range', 'content-type', 'accept', 'if-none-match'])) { const v = req.headers[h]; if (v) headers[h] = v; }
+      const body = ['GET', 'HEAD'].includes(method) ? undefined : await readBody(req);
+      const r = await fetch(upstream, { method, headers, body, redirect: 'follow' });
+      /** @type {Record<string, string | number>} */
       const out = { 'Cache-Control': 'no-store' };
       for (const h of ['content-type', 'content-range', 'accept-ranges', 'etag']) {
         const v = r.headers.get(h);
@@ -134,7 +180,7 @@ createServer(async (req, res) => {
       const buf = Buffer.from(await r.arrayBuffer());
       out['content-length'] = buf.length;
       res.writeHead(r.status, out);
-      return res.end(req.method === 'HEAD' ? undefined : buf);
+      return res.end(method === 'HEAD' ? undefined : buf);
     }
 
     // The record documents production answers from D1 through the compatibility Functions
@@ -144,6 +190,7 @@ createServer(async (req, res) => {
     // (tmp/records, packages/loader/src/paths.mjs), byte for byte what D1 serves, so they are read
     // from there; without a build the site answers 404 for them, as a fresh checkout would.
     const RECORD_URL = /^\/(render\/metadata\/(elections-test2(\.json|-report\.json|\/|-summaries\/)|election-provenance\/)|data\/(browse|graph)\/|data\/database\/election-provenance(\.json$|-parts\/))/;
+    /** @type {string | null} */
     let file = path.join(ROOT, sourceOf(p)); // /assets/ui/ is served from packages/ui (packages/served.json)
     if (RECORD_URL.test(p) && !existsSync(file)) file = localPathForUrl(p);
     if (!file || !path.resolve(file).startsWith(ROOT)) return send(res, 403, 'forbidden');
@@ -176,7 +223,7 @@ createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': TYPES[ext] || 'application/octet-stream', 'Content-Length': size, 'Cache-Control': 'no-store' });
     createReadStream(file).pipe(res);
   } catch (err) {
-    send(res, 500, String((err && err.stack) || err));
+    send(res, 500, String((err && /** @type {Error} */ (err).stack) || err));
   }
 }).listen(PORT, '127.0.0.1', () => {
   console.log(`Test site (catalogue: ${CATALOGUE}): http://localhost:${PORT}/maps/`);

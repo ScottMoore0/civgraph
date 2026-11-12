@@ -116,7 +116,7 @@ console.log(`  local  : ${local.size} files, ${(totalBytes / 1024 ** 3).toFixed(
 
 // Fail closed before any transfer. Sample the keys rather than all 50k -- the
 // gate matches on prefix, so one key per distinct top segment proves coverage.
-const sample = [...local.keys()].filter((k, i) => i === 0 || i === local.size - 1);
+const sample = [...local.keys()].filter((_k, i) => i === 0 || i === local.size - 1);
 assertPublishable(sample);
 
 /** What does the bucket already hold under this prefix? */

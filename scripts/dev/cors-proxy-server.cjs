@@ -14,6 +14,7 @@ const PORT = 3000;
 const ROOT = path.join(__dirname, '..', '..');
 const REMOTE_HOST = 'data.civgraph.net';
 
+/** @type {Record<string, string>} */
 const MIME = {
   '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript',
   '.css': 'text/css', '.json': 'application/json', '.png': 'image/png',
@@ -36,8 +37,9 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  const parsed = url.parse(req.url);
-  const pathname = decodeURIComponent(parsed.pathname);
+  // A server's request always has a url, and its parsed path is always set.
+  const parsed = url.parse(/** @type {string} */ (req.url));
+  const pathname = decodeURIComponent(/** @type {string} */ (parsed.pathname));
 
   // Proxy requests to /data/ that would normally go to data.civgraph.net
   // The app's data-service resolves remote URLs, but the FGB worker fetches them directly.
@@ -74,7 +76,13 @@ const server = http.createServer((req, res) => {
   }
 });
 
+/**
+ * @param {string} remoteUrl
+ * @param {http.IncomingMessage} req
+ * @param {http.ServerResponse} res
+ */
 function proxyRequest(remoteUrl, req, res) {
+  /** @type {{ headers: Record<string, string> }} */
   const options = {
     headers: {
       'User-Agent': 'CivGraph-DevServer/1.0',
@@ -86,10 +94,13 @@ function proxyRequest(remoteUrl, req, res) {
   }
 
   https.get(remoteUrl, options, (proxyRes) => {
-    if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
+    // A client response always carries its status code.
+    const status = /** @type {number} */ (proxyRes.statusCode);
+    if (status >= 300 && status < 400 && proxyRes.headers.location) {
       proxyRequest(proxyRes.headers.location, req, res);
       return;
     }
+    /** @type {Record<string, string>} */
     const headers = {
       'Content-Type': proxyRes.headers['content-type'] || 'application/octet-stream',
       'Access-Control-Allow-Origin': '*',
@@ -98,7 +109,7 @@ function proxyRequest(remoteUrl, req, res) {
     };
     if (proxyRes.headers['content-length']) headers['Content-Length'] = proxyRes.headers['content-length'];
     if (proxyRes.headers['content-range']) headers['Content-Range'] = proxyRes.headers['content-range'];
-    res.writeHead(proxyRes.statusCode, headers);
+    res.writeHead(status, headers);
     proxyRes.pipe(res);
   }).on('error', (err) => {
     console.error(`Proxy error: ${remoteUrl}: ${err.message}`);
