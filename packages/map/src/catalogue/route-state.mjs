@@ -11,7 +11,7 @@
  * The catalogue's medium risk is kept: an elections/person/<id> route whose people index is
  * still loading sets the person once it arrives, even if the reader has moved on.
  */
-import { defineChoice } from '../../packages/map/src/state-helpers.mjs';
+import { defineChoice } from '../state-helpers.mjs';
 
 export const CATALOGUE_TAB = defineChoice('catalogue tab', ['maps', 'elections', 'books']);
 

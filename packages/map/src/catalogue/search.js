@@ -12,9 +12,9 @@
  *   - constituencies: "Dungannon" finds the elections Dungannon was contested in;
  *   - places: a named ward, district or parish returns the maps that draw it.
  */
-import councilSearch from '../../packages/registries/src/browser/council-search.mjs';
-import electionBodies from '../../packages/registries/src/browser/election-bodies.mjs';
-import { personSlug } from '../../packages/core/src/format.js';
+import councilSearch from '../../../registries/src/browser/council-search.mjs';
+import electionBodies from '../../../registries/src/browser/election-bodies.mjs';
+import { personSlug } from '../../../core/src/format.js';
 
 /**
  * The rebuilt catalogue (data/catalogue/catalogue.json, scripts/build/catalogue/build-catalogue.mjs),

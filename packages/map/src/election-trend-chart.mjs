@@ -14,9 +14,9 @@
  * Gaps are real. A party with no comparable result at an election gets a break in its line,
  * not a segment drawn across the hole; the data model is the manager's and is not merged here.
  */
-import { normalizeName } from '../packages/core/src/election-domain.mjs';
-import { escapeHtml } from '../packages/core/src/html.js';
-import { defineFlagFields, present, setHidden } from '../packages/map/src/state-helpers.mjs';
+import { normalizeName } from '../../core/src/election-domain.mjs';
+import { escapeHtml } from '../../core/src/html.js';
+import { defineFlagFields, present, setHidden } from './state-helpers.mjs';
 
 const SERIES_LIMIT = 8;
 const LABEL_FONT_SIZE = 12;

@@ -21,7 +21,7 @@ import partyPalettes from '../../packages/registries/src/browser/party-palettes.
 import { CENSUS_RAMPS, EXPORT_COLOURS, MAP_COLOURS, NUMERIC_SCALE, VIEWER_COLOURS } from '../../packages/map/src/colours.mjs';
 import { inkOn as electionsInkOn } from '../../site/apps/elections/lib/format.js';
 import { diverging, sequential } from '../../site/apps/elections/lib/scales.js';
-import { inkOn as catalogueInkOn } from '../../src/catalogue/util.js';
+import { inkOn as catalogueInkOn } from '../../packages/map/src/catalogue/util.js';
 import { NEUTRAL_PARTY_COLOUR, isPlaceholderPartyColour } from '../../packages/core/src/election-domain.mjs';
 import { CANDIDATE_PALETTE } from '../../packages/core/src/area-results.mjs';
 import { partyColour, safeCssColour } from '../../packages/map/src/election/palette.mjs';

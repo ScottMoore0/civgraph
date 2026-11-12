@@ -12,7 +12,7 @@
  *   assets/thumbnails/manifest.json        which thumbnails exist
  *   data/database/spatial-index.json       named features with their bounding boxes
  *   render/metadata/elections-test2.json   every election
- *   src/ui-controller.js                   the current pane's card ids, for redirects only
+ *   packages/map/src/ui-controller.js                   the current pane's card ids, for redirects only
  * Outputs
  *   data/catalogue/catalogue.json          what the pane loads: arrangement + derived fields
  *   data/catalogue/places.json             place names -> maps, loaded when a search needs it
@@ -31,7 +31,7 @@ import { loadRecords } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '../../../packages/core/src/date-format.mjs';
 import { DatabaseSync } from 'node:sqlite';
 import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../../../packages/loader/src/paths.mjs';
-import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../src/ni-local-groups.mjs';
+import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../packages/map/src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
 const ELECTION_BODIES = loadRegistry('election-bodies');
@@ -85,7 +85,7 @@ function thumbOf(m) {
 }
 // The map engine (packages/map/app/maplibre-main-adapter.js) draws a map only through a converted layer in
 // render/metadata/maps-test.json. A census statistic (a data entry) is drawn on its geography's
-// layer, its CSV joined to the tiles (src/census-overlay.mjs), so it is on the map exactly when
+// layer, its CSV joined to the tiles (packages/map/src/census-overlay.mjs), so it is on the map exactly when
 // that geography is; one whose geography is not converted stays "to be added".
 const drawable = new Set();
 for (const l of read('render/metadata/maps-test.json').layers || []) {
@@ -352,7 +352,7 @@ for (const sub of source.subjects) for (const id of sub.toBeAdded || []) addMap(
 const ELECTION_BODY_ORDER = ['dail-eireann', 'house-of-commons-of-the-united-kingdom', 'northern-ireland-assembly', 'parliament-of-northern-ireland',
   'local-government', 'european-parliament', 'european-parliament-ireland', 'president-of-ireland', 'ireland-referendum', 'ireland-local'];
 // The pre-1973 Northern Ireland council rounds are listed one entry a year, "1946 Northern Ireland
-// local elections" (src/ni-local-groups.mjs); a round's own key still finds its year (people's
+// local elections" (packages/map/src/ni-local-groups.mjs); a round's own key still finds its year (people's
 // contests, constituency search).
 const niLocalGroups = groupNiLocalRounds(elections);
 const niLocalGroupOfRound = new Map();
@@ -450,7 +450,7 @@ for (const f of spatial.features || []) {
 // holds most of its maps. Cards are read from ui-controller.js only for this.
 const redirects = {};
 try {
-  const ui = readFileSync(rel('src/ui-controller.js'), 'utf8');
+  const ui = readFileSync(rel('packages/map/src/ui-controller.js'), 'utf8');
   const classes = new Map((read('data/database/maps.json').classes || []).map((c) => [c.id, c.maps || []]));
   const seriesOfMap = new Map();
   for (const s of seriesOut) for (const m of s.members) seriesOfMap.set(m.id, s.id);

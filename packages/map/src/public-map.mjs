@@ -117,7 +117,7 @@ export function statisticGeographyIds(publicMapList) {
 
 /**
  * A census statistic (data/database/data-entries.json) is drawn on its geography's layer
- * (src/census-overlay.mjs), so it is public exactly when it is not hidden, has its figures,
+ * (packages/map/src/census-overlay.mjs), so it is public exactly when it is not hidden, has its figures,
  * and the boundary map it is drawn on is public. Statistics are listed in Browse beside the
  * maps but are not maps: the public MAP total (the homepage figure) does not include them.
  *
@@ -142,7 +142,7 @@ export function isPublicStatistic(entry, isPublicMapId) {
  * About said 909 by the rule above while the catalogue's sections added up to 820, because 139
  * of those maps are listed there as still to be added and 42 are kept out by the catalogue's
  * review, while the sections also hold maps the rule does not count (the census statistics, the
- * 3D terrain and the point clouds). The sections' own counts (src/catalogue/index.js tabCounts)
+ * 3D terrain and the point clouds). The sections' own counts (packages/map/src/catalogue/index.js tabCounts)
  * add up to this same number.
  *
  * scripts/build/build-site-stats.mjs computes the figure with this, and check:site-figures holds

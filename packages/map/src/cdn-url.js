@@ -13,7 +13,7 @@
  * for every tile request and is not worth disturbing for tidiness.
  */
 
-import { SITE } from '../packages/config/src/config.js';
+import { SITE } from '../../config/src/config.js';
 
 /** The data origin, from the site's config (packages/config/src/config.js; bundled into the app). */
 export const CDN_BASE = SITE.dataOrigin;

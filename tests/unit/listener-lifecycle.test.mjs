@@ -96,7 +96,7 @@ test('CountingTarget counts as a browser does: remove, abort and a pre-aborted s
 test('the printed-labels toggle listens once however often it starts, and stops on dispose', async () => {
   const document = fakeDocument();
   await withGlobals({ document, localStorage: undefined }, async () => {
-    const { disposePrintedLabels, initPrintedLabels } = await import('../../src/printed-labels.mjs');
+    const { disposePrintedLabels, initPrintedLabels } = await import('../../packages/map/src/printed-labels.mjs');
     initPrintedLabels();
     initPrintedLabels(); // the map app and an election view both call it
     assert.equal(document.count, 1);
@@ -125,7 +125,7 @@ test("the catalogue split's document listeners and observer go with dispose()", 
   });
   document.querySelectorAll = () => [element()];
   await withGlobals({ document, window, MutationObserver, requestAnimationFrame: () => 0, localStorage: undefined }, async () => {
-    const { installSplit } = await import('../../src/catalogue/split.js');
+    const { installSplit } = await import('../../packages/map/src/catalogue/split.js');
     const split = installSplit({ isMobile: true }, { host: element(), splitDrag: element() });
     assert.equal(document.count, 3, 'mouseup and touchend for a drag, mouseup for the keyboard value');
     assert.equal(media.count, 1);

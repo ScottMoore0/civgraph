@@ -1,7 +1,7 @@
 import { compositeChildIds } from './map-relations.mjs';
 import { catalogueV2Requested } from './data-service.js';
 import { readStored, writeStored } from './storage-keys.mjs';
-import { formatDisplayDate } from '../packages/core/src/date-format.mjs';
+import { formatDisplayDate } from '../../core/src/date-format.mjs';
 /**
  * NI Boundaries - UI Controller
  * Handles split-pane layout, search, filtering, map catalogue, and UI interactions
@@ -14,11 +14,11 @@ import { cdnUrl } from './cdn-url.js';
 import { catalogueNextRequested, initialCatalogueRoute } from './catalogue/flag.js';
 import { installSplit } from './catalogue/split.js';
 import { CATALOGUE_HISTORY_ENTRY, CATALOGUE_VIEW, ENTITY_PLACEHOLDER, MOBILE_CATALOGUE, SPLIT_ALLOWED, SPLIT_LAYOUT } from './ui-state-machines.mjs';
-import { createFlag, createState, setHidden } from '../packages/map/src/state-helpers.mjs';
-import { partyFullName, partyLabelHtml } from '../packages/core/src/party-names.mjs';
+import { createFlag, createState, setHidden } from './state-helpers.mjs';
+import { partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
 import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
-import { siteNumber } from '../packages/core/src/format.js';
-import { BODY_COLOURS, MAP_COLOURS } from '../packages/map/src/colours.mjs';
+import { siteNumber } from '../../core/src/format.js';
+import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
 
 /**
  * Lucide icons used by the catalogue: the section bar, the headings inside the contents box,
@@ -58,7 +58,7 @@ function bookCategoryIcon(category) {
 
 class UIController {
     // The pane's state fields keep their names; each write goes through its machine or choice
-    // (src/ui-state-machines.mjs): MA-07 the split layout, MA-08 the catalogue view, MA-09 the
+    // (packages/map/src/ui-state-machines.mjs): MA-07 the split layout, MA-08 the catalogue view, MA-09 the
     // phone's catalogue flags. A value outside the set throws.
     get currentStateId() { return this._splitLayout; }
     set currentStateId(value) { this._splitLayout = SPLIT_LAYOUT.check(value); }
@@ -1942,7 +1942,7 @@ class UIController {
         });
 
         // With the rebuilt catalogue (test site only), the pane takes the width its content
-        // needs rather than half the screen: see src/catalogue/split.js.
+        // needs rather than half the screen: see packages/map/src/catalogue/split.js.
         if (catalogueNextRequested()) this._catalogueSplit = installSplit(this, { host: splitHost, splitDrag });
     }
 
@@ -1982,7 +1982,7 @@ class UIController {
     }
 
     getAllowedStates() {
-        // map-full first on a phone, so it is the default there (src/ui-state-machines.mjs).
+        // map-full first on a phone, so it is the default there (packages/map/src/ui-state-machines.mjs).
         if (this.isMobile) return SPLIT_ALLOWED.mobile.map(id => this.splitStates.find(s => s.id === id));
         return this.splitStates;
     }
@@ -3310,7 +3310,7 @@ class UIController {
     }
 
     /**
-     * The rebuilt catalogue (src/catalogue/), mounted in place of the flat view when
+     * The rebuilt catalogue (packages/map/src/catalogue/), mounted in place of the flat view when
      * catalogueNextRequested() -- on the test site only, until it is approved. Loaded on demand,
      * so the live pane carries none of its code.
      */

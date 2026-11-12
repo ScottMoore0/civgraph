@@ -24,13 +24,13 @@ test('registries/browser: every slice matches a fresh build from data/registries
 
 test('registries/browser: each reader imports its slice statically, through its module', () => {
   const readers = {
-    'src/ni-local-groups.mjs': '../packages/registries/src/browser/councils.mjs',
-    'src/catalogue/search.js': '../../packages/registries/src/browser/council-search.mjs',
+    'packages/map/src/ni-local-groups.mjs': '../../registries/src/browser/councils.mjs',
+    'packages/map/src/catalogue/search.js': '../../../registries/src/browser/council-search.mjs',
     'packages/core/src/party-names.mjs': '../../registries/src/browser/parties.mjs',
     'packages/core/src/election-domain.mjs': '../../registries/src/browser/statuses.mjs',
     'packages/map/app/ni-local-view.js': '../../registries/src/browser/statuses.mjs',
     'packages/map/src/renderer/map-controller.js': '../../../registries/src/browser/layer-types.mjs',
-    'src/catalogue/view-elections.js': '../../packages/registries/src/browser/election-bodies.mjs',
+    'packages/map/src/catalogue/view-elections.js': '../../../registries/src/browser/election-bodies.mjs',
     'packages/map/src/app/helpers.mjs': '../../../registries/src/browser/election-bodies.mjs'
   };
   for (const [file, spec] of Object.entries(readers)) {
@@ -73,7 +73,7 @@ test('registries/browser: the readers answer as the registries say', () => {
 });
 
 test('registries/browser: the catalogue shelves and labels the registries give (12 Nov 2026, rf8-registries)', async () => {
-  const { BODY_GROUPS, BODY_SHORT, groupOfBody } = await import('../../src/catalogue/view-elections.js');
+  const { BODY_GROUPS, BODY_SHORT, groupOfBody } = await import('../../packages/map/src/catalogue/view-elections.js');
   const councils = loadRegistry('councils');
   const pre1973 = councils.councils.filter((c) => c.flags?.pre1973Council).map((c) => c.bodySlug);
   // The 82 pre-1973 council bodies the NI local shelf listed by hand until it read the flag.

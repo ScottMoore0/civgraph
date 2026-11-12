@@ -3,7 +3,7 @@
  * Handles viewport-aware loading of pre-processed per-feature JSON files with LOD support.
  */
 import { debugLog } from './debug-log.js';
-import { defineFlagFields } from '../packages/map/src/state-helpers.mjs';
+import { defineFlagFields } from './state-helpers.mjs';
 
 const FEATURE_THRESHOLD = 50;  // Only use LOD loading for maps with >50 features
 // Most maps one /_api/spatial?mapIds= request names (packages/api/src/handlers/spatial.js MAX_BATCH_MAPS).

@@ -37,7 +37,7 @@ const GENERATED = [
   /^site\/app\/election-viewer-package\/(css|js)\//, /^site\/app\/js\//, /^site\/sitemap\.xml$/, /^site\/sitemaps\//
 ];
 const APP = [
-  /^packages\/map\/app\//, /^src\/[^/]+\.(js|css)$/, /^src\/map\//, /^render\/src\//, /^site\/sw\.js$/,
+  /^packages\/map\/app\//, /^packages\/map\/src\//, /^src\/[^/]+\.(js|css)$/, /^src\/map\//, /^render\/src\//, /^site\/sw\.js$/,
   /^site\/assets\/(css|site|js)\//, /^tests\//, /^scripts\/check\/run\.mjs$/, /^scripts\/build\/rebuild-changed\.mjs$/,
   // The check machinery itself (CHECKS.md): CI, the clean-export harness, the test server.
   /^\.github\/workflows\//, /^CHECKS\.md$/, /^scripts\/check\/(rules\/ci-workflow|clean)\.mjs$/, /^scripts\/dev\/test-server\.py$/
@@ -72,8 +72,9 @@ if (mode === 'app') {
   plan.push(['node', ['scripts/build/app-bundle.mjs']]);
   plan.push(['node', ['scripts/build/promote-test2-root.mjs']]);
   plan.push(['node', ['scripts/check/run.mjs', '--only', APP_CHECKS]]);
-  // src/ holds the catalogue renderer too (ui-controller, data-service), so its tests run as well.
-  if (meaningful.some((file) => file.startsWith('src/'))) plan.push(['npm', ['run', '-s', 'test:catalogue']]);
+  // packages/map/src/ holds the catalogue renderer too (ui-controller, data-service, catalogue/; src/ until
+  // rf9-mapapp, 12 Nov 2026), so its tests run as well.
+  if (meaningful.some((file) => file.startsWith('src/') || file.startsWith('packages/map/src/'))) plan.push(['npm', ['run', '-s', 'test:catalogue']]);
 } else if (mode === 'data') {
   if (electionData || forceFull) plan.push(['bash', ['scripts/ingest/persons/rebuild-person-ids.sh']]);
   // The records database and everything built with it (bundles, provenance, the Browse tree,

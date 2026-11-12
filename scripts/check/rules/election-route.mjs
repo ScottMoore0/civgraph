@@ -23,10 +23,10 @@ const electionManagerSource = readElectionManagerSource();
 const electionPaneContractSource = readFileSync('packages/map/app/election-pane-main-contract.js', 'utf8');
 const test2ServiceWorkerSource = readFileSync('site/test2/sw.js', 'utf8');
 const rootServiceWorkerSource = readFileSync('site/sw.js', 'utf8');
-const mainElectionPaneContractSource = readFileSync('src/election-main-pane-contract.mjs', 'utf8');
+const mainElectionPaneContractSource = readFileSync('packages/map/src/election-main-pane-contract.mjs', 'utf8');
 const electionDomainSource = readFileSync('packages/core/src/election-domain.mjs', 'utf8');
 const electionViewModelSource = readFileSync('packages/core/src/election-view-model.mjs', 'utf8');
-const electionRendererSource = readFileSync('src/election-renderer.mjs', 'utf8');
+const electionRendererSource = readFileSync('packages/map/src/election-renderer.mjs', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build/build-test2-election-manifest.mjs', 'utf8');
 // Boundary changes between consecutive timeline editions (scripts/build/timeline-changes.py,
 // data/timeline-changes/). They replace the Play-only transition overlays of
@@ -41,7 +41,7 @@ const readTimelineChangePair = (id) => {
 };
 const browseIndexBuilderSource = readFileSync('scripts/build/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/check/rules/election-data-audit.mjs', 'utf8');
-const uiControllerSource = readFileSync('src/ui-controller.js', 'utf8');
+const uiControllerSource = readFileSync('packages/map/src/ui-controller.js', 'utf8');
 const mapControllerSource = readFileSync('packages/map/src/renderer/map-controller.js', 'utf8');
 // The map's Republic of Ireland party palette is registry data since 12 Nov 2026 (rf8-registries,
 // data/registries/parties/palettes.json mapRoi), read by packages/map/src/election/palette.mjs.
@@ -483,7 +483,7 @@ assert(electionRendererSource.includes('class SharedElectionRenderer') && electi
 assert(electionRendererSource.includes('renderMainCompatibleOverallResults') && electionRendererSource.includes('renderMainCompatibleConstituencyResults'), 'shared election renderer must support main-compatible host adapters for visible pane parity');
 assert(electionManagerSource.includes('createElectionRenderer(this)') && electionManagerSource.includes('this.sharedRenderer'), '/test2 must keep shared election renderer available for secondary fallback views');
 assert(mainElectionPaneContractSource.includes('class MainElectionPaneContract') && mainElectionPaneContractSource.includes('renderHeaderRight') && mainElectionPaneContractSource.includes('renderPanelContent'), '/test2 must expose an explicit shared main election pane contract for visible pane parity');
-assert(electionPaneContractSource.includes('MainElectionPaneContract as Test2MainElectionPaneContract') && electionPaneContractSource.includes('../../src/election-main-pane-contract.mjs'), '/test2 local election pane contract must re-export the shared main election pane contract');
+assert(electionPaneContractSource.includes('MainElectionPaneContract as Test2MainElectionPaneContract') && electionPaneContractSource.includes('../src/election-main-pane-contract.mjs'), '/test2 local election pane contract must re-export the shared main election pane contract');
 assert(mainElectionPaneContractSource.includes("this.rendererId = host?.paneRendererId || 'test2-main-pane-contract'") && !mainElectionPaneContractSource.includes('test2-election-panel--main-parity'), '/test2 main election pane contract must not add a test2-only wrapper around visible main-pane output');
 assert(electionManagerSource.includes('this.mainPaneContract = new MainElectionPaneContract(this)') && electionManagerSource.includes('this.mainPaneContract.renderHeaderRight(selectedResult, nextView)') && electionManagerSource.includes('this.mainPaneContract.renderPanelContent(selectedResult, nextView)'), '/test2 visible election pane header/content must enter through the shared main-pane contract');
 assert(/renderOverallResults\(view = 'party'\)\s*{\s*return this\.mainPaneContract\.renderOverallResults\(view\);/.test(electionManagerSource) && /renderConstituencyResults\(result, view = 'party'\)\s*{\s*return this\.mainPaneContract\.renderConstituencyResults\(result, view\);/.test(electionManagerSource), '/test2 visible election pane helpers must delegate to the main-pane contract, not bypass it with route-specific branches');
@@ -698,10 +698,10 @@ for (const path of [
   'packages/map/app/maplibre-main-adapter.js',
   'packages/map/app/election-manager.js',
   'packages/map/app/election-pane-main-contract.js',
-  'src/election-main-pane-contract.mjs',
+  'packages/map/src/election-main-pane-contract.mjs',
   'packages/core/src/election-domain.mjs',
   'packages/core/src/election-view-model.mjs',
-  'src/election-renderer.mjs',
+  'packages/map/src/election-renderer.mjs',
   'packages/map/src/renderer/feature-property-repairs.js',
   ELECTION_MANIFEST,
   ELECTION_REPORT,

@@ -6,8 +6,8 @@ import maplibregl from 'maplibre-gl';
 import {
   createElectionRenderer,
   numericColour as sharedNumericColour
-} from '../../../src/election-renderer.mjs';
-import { MainElectionPaneContract } from '../../../src/election-main-pane-contract.mjs';
+} from '../src/election-renderer.mjs';
+import { MainElectionPaneContract } from '../src/election-main-pane-contract.mjs';
 import {
   buildCandidateSummary,
   buildEntityIndex,
@@ -32,8 +32,8 @@ function unopposedSeatsNoteHtml(rows = []) {
   return `<p class="election-table-note">${siteNumber(seats)} ${seats === 1 ? 'seat was' : 'seats were'} returned unopposed. ${UNOPPOSED_SEATS_NOTE}</p>`;
 }
 import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
-import { initPrintedLabels, printedLabelsToggleHtml, printedLabelText } from '../../../src/printed-labels.mjs';
-import { buildTrendChartModel, mountTrendChart } from '../../../src/election-trend-chart.mjs';
+import { initPrintedLabels, printedLabelsToggleHtml, printedLabelText } from '../src/printed-labels.mjs';
+import { buildTrendChartModel, mountTrendChart } from '../src/election-trend-chart.mjs';
 import { formatDisplayDate } from '../../core/src/date-format.mjs';
 import {
   colourForMode as paletteColourForMode,
@@ -227,7 +227,7 @@ export class Test2ElectionManager {
 
   /**
    * The pre-1973 Northern Ireland council rounds, one entry a year ("1946 Northern Ireland local
-   * elections", src/ni-local-groups.mjs). The rounds stay in the catalogue, so their own addresses
+   * elections", packages/map/src/ni-local-groups.mjs). The rounds stay in the catalogue, so their own addresses
    * and the links to them still open them; the lists show the year instead.
    */
   addNiLocalGroups() {
@@ -1087,7 +1087,7 @@ export class Test2ElectionManager {
   }
 
   // Result classification delegates to packages/map/src/election/results-model.mjs (seam E1);
-  // src/election-main-pane-contract.mjs calls these on the manager.
+  // packages/map/src/election-main-pane-contract.mjs calls these on the manager.
   isPluralityResult(result = {}) {
     return modelIsPluralityResult(result, this.electionContext());
   }
@@ -1900,7 +1900,7 @@ export class Test2ElectionManager {
    * Beneath a candidate's party: only the mark for a label inferred by research rather than
    * printed (shown in both views, the evidence on hover). The ballot paper description and the
    * label as printed are in the "As printed" column (printedLabelCell), which the reader turns on
-   * with "Show labels as printed" (src/printed-labels.mjs); by default a table shows the party or
+   * with "Show labels as printed" (packages/map/src/printed-labels.mjs); by default a table shows the party or
    * independent label each candidate is read as, and nothing else.
    */
   ballotDescriptionHtml(candidate) {
@@ -2747,7 +2747,7 @@ export class Test2ElectionManager {
 
   /**
    * Mount the trends chart into its container. The drawing itself lives in
-   * src/election-trend-chart.mjs; this method only decides the caption text and the notes
+   * packages/map/src/election-trend-chart.mjs; this method only decides the caption text and the notes
    * that explain the data, then hands over the points.
    */
   renderTrendChart(chart, points = [], selectedResult = null, includeAllTypes = false, comparableCount = 0) {

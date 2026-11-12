@@ -4,20 +4,20 @@ import {
   normalizeName,
   numberOrZero,
   partyColour
-} from '../packages/core/src/election-domain.mjs';
+} from '../../core/src/election-domain.mjs';
 import {
   buildCouncilSummary,
   buildElectionViewModelFromTest2Manager,
   buildLocalPartySummary,
   sumNumbers
-} from '../packages/core/src/election-view-model.mjs';
+} from '../../core/src/election-view-model.mjs';
 
-import { escapeHtml } from '../packages/core/src/html.js';
-import { partyLabelHtml } from '../packages/core/src/party-names.mjs';
-import { MAP_COLOURS, NUMERIC_SCALE } from '../packages/map/src/colours.mjs';
+import { escapeHtml } from '../../core/src/html.js';
+import { partyLabelHtml } from '../../core/src/party-names.mjs';
+import { MAP_COLOURS, NUMERIC_SCALE } from './colours.mjs';
 
-/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
-/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
+/** @typedef {import('../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
+/** @typedef {import('../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
 
 /**
  * A row the tables print: a contest, a candidate or a summary row. Every field is read by name

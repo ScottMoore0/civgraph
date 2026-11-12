@@ -2,7 +2,7 @@
 // whole phrase counts, in any case, with surrounding spaces and punctuation ignored.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { LANGUAGE_PHRASE, isLanguagePhrase, languageOptionsShown, revealLanguageOptions } from '../../src/catalogue/lang-reveal.js';
+import { LANGUAGE_PHRASE, isLanguagePhrase, languageOptionsShown, revealLanguageOptions } from '../../packages/map/src/catalogue/lang-reveal.js';
 
 test('the phrase, however it is typed, is the phrase', () => {
   for (const q of [LANGUAGE_PHRASE, 'Language Toggle', 'LANGUAGE TOGGLE', '  language toggle  ', 'language toggle.', '"language toggle"', '¿language toggle?', 'language   toggle', '\tlanguage toggle\n', '…language toggle!!']) {

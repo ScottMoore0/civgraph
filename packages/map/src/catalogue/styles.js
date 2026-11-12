@@ -1,5 +1,5 @@
 /**
- * Styles for the rebuilt catalogue, injected once by src/catalogue/index.js.
+ * Styles for the rebuilt catalogue, injected once by packages/map/src/catalogue/index.js.
  *
  * Built on the site's own tokens (assets/css/main.css) so both themes follow the site, and on two
  * of the current pane's classes, reused as they are: the section bar (.catalogue-flat__sections,

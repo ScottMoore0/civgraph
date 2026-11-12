@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { REPO_ROOT } from '../../packages/config/src/node.mjs';
-import { catalogueMapIds, catalogueToBeAddedIds } from '../../src/public-map.mjs';
+import { catalogueMapIds, catalogueToBeAddedIds } from '../../packages/map/src/public-map.mjs';
 
 const read = (rel) => JSON.parse(readFileSync(path.join(REPO_ROOT, rel), 'utf8'));
 

@@ -4,14 +4,14 @@
  * sections are laid out (Phelim Birch's review, 2026-10-11). Rendering only; `c` is the controller.
  */
 import { icon } from './icons.js';
-import { ELECTION_SHELF_COLOURS } from '../../packages/map/src/colours.mjs';
+import { ELECTION_SHELF_COLOURS } from '../colours.mjs';
 import { esc, plural, shortDate, ESCOPE_SHORT } from './util.js';
 import { sliderHtml } from './slider.js';
 import { extrasHtml, aboutHtml } from './view-maps.js';
 import { PeopleSearch } from './search.js';
-import electionBodies from '../../packages/registries/src/browser/election-bodies.mjs';
-import councilSearch from '../../packages/registries/src/browser/council-search.mjs';
-import { siteNumber } from '../../packages/core/src/format.js';
+import electionBodies from '../../../registries/src/browser/election-bodies.mjs';
+import councilSearch from '../../../registries/src/browser/council-search.mjs';
+import { siteNumber } from '../../../core/src/format.js';
 
 // Browse's slug for an election: its key lower-cased, runs of other characters as '-'
 // (dail-eireann__2024-11-29 -> dail-eireann-2024-11-29). Browse routes live in the hash.
@@ -25,7 +25,7 @@ export const BODY_SHORT = {
   'parliament-of-northern-ireland': 'NI Parliament',
   // Filed a council each under one slug, so not one body the election-bodies registry can name.
   'local-government': 'NI local',
-  // The pre-1973 council rounds, one entry a year (src/ni-local-groups.mjs).
+  // The pre-1973 council rounds, one entry a year (packages/map/src/ni-local-groups.mjs).
   'ni-local-elections': 'NI local',
   // Before 1921, the island's council elections of the year ("1911 Irish local elections").
   'irish-local-elections': 'Irish local',

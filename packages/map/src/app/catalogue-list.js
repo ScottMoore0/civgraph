@@ -5,10 +5,10 @@
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import uiController from '../../../../src/ui-controller.js';
-import dataService from '../../../../src/data-service.js';
-import featureLoader from '../../../../src/feature-loader.js';
-import { publicMaps } from '../../../../src/public-map.mjs';
+import uiController from '../ui-controller.js';
+import dataService from '../data-service.js';
+import featureLoader from '../feature-loader.js';
+import { publicMaps } from '../public-map.mjs';
 
 export class CatalogueListMethods {
   renderCategoryPills() {
@@ -62,7 +62,7 @@ export class CatalogueListMethods {
    * reported 1,0xx while /browse reported 993 and the file holds 1,031 entries. Three
    * numbers for one question.
    *
-   * The rule is in src/public-map.mjs and is shared with build-browse-indexes.mjs, so the
+   * The rule is in packages/map/src/public-map.mjs and is shared with build-browse-indexes.mjs, so the
    * two surfaces cannot drift again. Loadability is decided by the RENDER record, because
    * the DoBIH layers carry no catalogue `files` yet draw perfectly.
    */

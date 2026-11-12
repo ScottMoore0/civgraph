@@ -1,6 +1,6 @@
 /**
  * The grouped years in the map's election catalogue: the pre-1973 Northern Ireland (and, before
- * 1921, Irish) council rounds listed as one entry a year (src/ni-local-groups.mjs). This is how
+ * 1921, Irish) council rounds listed as one entry a year (packages/map/src/ni-local-groups.mjs). This is how
  * the election manager adds those entries, hides the rounds they stand for from the lists, finds a
  * year by an older name or layer id, runs the timeline through the years, and carries the year
  * view's settings from one year to the next and from an address. Opening a year is
@@ -14,7 +14,7 @@ import {
   buildNiLocalGroupEntry,
   groupNiLocalRounds,
   isNiLocalCouncilRound
-} from '../../../../src/ni-local-groups.mjs';
+} from '../ni-local-groups.mjs';
 
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
 

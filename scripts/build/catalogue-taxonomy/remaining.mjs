@@ -2,7 +2,7 @@
 // so dump card by card -- assigning ~120 cards is the tractable version of assigning 475 maps.
 import fs from 'fs';
 const Q = String.fromCharCode(39), BS = String.fromCharCode(92);
-const src = fs.readFileSync('src/ui-controller.js', 'utf8').split('\n');
+const src = fs.readFileSync('packages/map/src/ui-controller.js', 'utf8').split('\n');
 const j = JSON.parse(fs.readFileSync('data/database/maps.json', 'utf8'));
 
 const body = src.slice(3645, 4321).filter(l => !/^\s*\/\//.test(l)).join('\n');

@@ -17,9 +17,9 @@
  * Shared by the map app (packages/map/app), the catalogue and Browse builders and the tests, so the three
  * cannot disagree about which elections a year holds. No DOM, no Node APIs.
  */
-import councils from '../packages/registries/src/browser/councils.mjs';
+import councils from '../../registries/src/browser/councils.mjs';
 
-/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
+/** @typedef {import('../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
 /** @typedef {ReturnType<typeof buildNiLocalGroupEntry>} NiLocalGroupEntry */
 
 export const NI_LOCAL_GROUP_PREFIX = 'ni-local__';

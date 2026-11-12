@@ -18,7 +18,7 @@ import {
   usesMainRoiPartyPalette
 } from '../../packages/map/src/election/palette.mjs';
 import { partyColour as registryPartyColour } from '../../packages/core/src/election-domain.mjs';
-import { numericColour as rendererNumericColour } from '../../src/election-renderer.mjs';
+import { numericColour as rendererNumericColour } from '../../packages/map/src/election-renderer.mjs';
 
 test('tables and labels', () => {
   assert.equal(MODE_LABELS.leadingParty, 'Leading party');

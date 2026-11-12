@@ -15,7 +15,7 @@
  */
 import { esc } from './util.js';
 import { icon } from './icons.js';
-import { setHidden } from '../../packages/map/src/state-helpers.mjs';
+import { setHidden } from '../state-helpers.mjs';
 
 /** Who is signed in: the public status first (works signed out), then whoami (inside Access). */
 export async function loadAuth() {

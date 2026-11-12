@@ -1,11 +1,11 @@
 import {
   buildCandidateSummary,
   buildPartySummary
-} from '../packages/core/src/election-domain.mjs';
-import { escapeHtml } from '../packages/core/src/html.js';
+} from '../../core/src/election-domain.mjs';
+import { escapeHtml } from '../../core/src/html.js';
 
-/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
-/** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
+/** @typedef {import('../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
+/** @typedef {import('../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
 /** @typedef {NonNullable<ElectionResult['candidates']>[number]} ResultCandidate */
 
 /**

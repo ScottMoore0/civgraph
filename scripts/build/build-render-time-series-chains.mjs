@@ -52,7 +52,7 @@
  *   node scripts/build/build-render-time-series-chains.mjs --check
  */
 import { readFileSync, writeFileSync } from 'node:fs';
-import { isPublicMap } from '../../src/public-map.mjs';
+import { isPublicMap } from '../../packages/map/src/public-map.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
 const RENDER = 'render/metadata/maps-test.json';

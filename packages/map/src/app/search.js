@@ -4,8 +4,8 @@
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import uiController from '../../../../src/ui-controller.js';
-import dataService from '../../../../src/data-service.js';
+import uiController from '../ui-controller.js';
+import dataService from '../data-service.js';
 import { normalizeSearchText } from './helpers.mjs';
 
 export class SearchMethods {
@@ -56,7 +56,7 @@ export class SearchMethods {
     };
     uiController.setupSearch();
     // Enter searches addresses once (Nominatim) while suggestions-as-you-type are paused; see
-    // src/catalogue/geocoder.js. With suggestions running it does nothing extra.
+    // packages/map/src/catalogue/geocoder.js. With suggestions running it does nothing extra.
     document.getElementById('searchInput')?.addEventListener('keydown', (event) => {
       if (event.key !== 'Enter' || event.isComposing) return;
       uiController._catalogueNext?.searchAddressesNow?.(event.target.value);
