@@ -36,13 +36,14 @@
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 
 const args = process.argv.slice(2);
+/** @param {string} name @param {string} [fallback] */
 const argOf = (name, fallback) => {
   const i = args.indexOf(name);
   return i >= 0 ? args[i + 1] : fallback;
 };
 
 const CATALOGUE = argOf('--catalogue');
-const OUT = argOf('--out', 'cso-pxstat-gap-records.json');
+const OUT = /** @type {string} */ (argOf('--out', 'cso-pxstat-gap-records.json'));
 const SHARD_DIR = 'data/database/approved-publication-sources-shards';
 
 if (!CATALOGUE) {
@@ -75,7 +76,7 @@ if (!items.length) {
   process.exit(1);
 }
 
-const slugify = (value) => String(value)
+const slugify = (/** @type {unknown} */ value) => String(value)
   .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
   .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 90);
 
@@ -93,6 +94,7 @@ for (const item of items) {
   const year = (title.match(/\b(1[89]\d{2}|20\d{2})\b/) || [])[1];
   const slug = `cso-cube-${matrix}-${slugify(title)}`.toLowerCase();
 
+  /** @type {{ [field: string]: unknown, date?: string, dateSource?: string }} */
   const record = {
     id: `approved-publication:${slug}`,
     slug: `approved-publication-${slug}`,

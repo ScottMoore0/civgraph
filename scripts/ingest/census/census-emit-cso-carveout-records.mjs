@@ -21,6 +21,7 @@ const out = args.includes('--out') ? args[args.indexOf('--out') + 1] : 'census-c
 const CSV = 'data/review-inputs/census-publish-ready/SPLIT-nisra-ogl.csv';
 const ATTRIBUTION = 'Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.';
 
+/** @param {string} text @returns {string[][]} */
 function parseCsv(text) {
   const rows = []; let row = [], field = '', q = false;
   for (let i = 0; i < text.length; i++) {
@@ -40,15 +41,15 @@ const hdr = lines[0];
 const ix = Object.fromEntries(hdr.map((h, i) => [h.trim(), i]));
 const records = lines.slice(1).filter(r => r.length >= hdr.length && r[ix.id]);
 
-const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 72);
-const yearOf = (t) => (t.match(/\b(1[89]\d\d|20\d\d)\b/) || [])[1] || '';
+const slugify = (/** @type {string} */ s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 72);
+const yearOf = (/** @type {string} */ t) => (t.match(/\b(1[89]\d\d|20\d\d)\b/) || [])[1] || '';
 
 const sources = [];
 for (const r of records) {
   const id = r[ix.id], title = r[ix.title], licenceCol = (r[ix.attributionLicence] || '').trim();
   // ONLY the CSO-PXStat-but-NI carveout (the rows the NISRA emitter skips)
   if (!(licenceCol === 'review-CSO-or-defer' || (r[ix.provider] || '').trim() === 'CSO PXStat')) continue;
-  const codeLc = (id.match(/^census-\d+-(.+)$/) || [, id])[1];
+  const codeLc = /** @type {string} */ ((id.match(/^census-\d+-(.+)$/) || [, id])[1]);
   const CODE = codeLc.toUpperCase();
   sources.push({
     id: `approved-publication:census-cube-${codeLc}-${slugify(title)}`,

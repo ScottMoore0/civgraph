@@ -21,6 +21,9 @@ const LODS = [
   { suffix: '-lod1.fgb', tolerance: 0.0005 }
 ];
 
+/** @typedef {import('geojson').Feature<import('geojson').Geometry | null>} Feat */
+
+/** @param {Feat} feature @returns {Feat} */
 function cloneFeature(feature) {
   return {
     type: feature.type,
@@ -29,6 +32,7 @@ function cloneFeature(feature) {
   };
 }
 
+/** @param {import('geojson').Geometry | null | undefined} geom */
 function isValidGeometry(geom) {
   if (!geom || !geom.type) return false;
   if (geom.type === 'Point') return Array.isArray(geom.coordinates) && geom.coordinates.length >= 2;
@@ -40,6 +44,7 @@ function isValidGeometry(geom) {
   return true;
 }
 
+/** @param {string} path @returns {Promise<Feat[]>} */
 async function readFeatures(path) {
   const bytes = new Uint8Array(readFileSync(path));
   const features = [];
@@ -49,12 +54,13 @@ async function readFeatures(path) {
   return features;
 }
 
+/** @param {Feat[]} features @param {number} tolerance */
 function simplifyFeatures(features, tolerance) {
   return features.map((feature) => {
     const clone = cloneFeature(feature);
     if (clone.geometry?.type && clone.geometry.type !== 'Point') {
       try {
-        simplify(clone, { tolerance, highQuality: false, mutate: true });
+        simplify(/** @type {import('geojson').Feature} */ (clone), { tolerance, highQuality: false, mutate: true });
       } catch {
         return cloneFeature(feature);
       }
@@ -63,11 +69,13 @@ function simplifyFeatures(features, tolerance) {
   });
 }
 
+/** @param {string} path @param {Feat[]} features */
 function writeFgb(path, features) {
-  const bytes = serialize({ type: 'FeatureCollection', features });
+  const bytes = serialize({ type: 'FeatureCollection', features: /** @type {import('geojson').Feature[]} */ (features) });
   writeFileSync(path, Buffer.from(bytes));
 }
 
+/** @param {string} path */
 function compress(path) {
   const body = readFileSync(path);
   writeFileSync(`${path}.gz`, gzipSync(body, { level: 6 }));

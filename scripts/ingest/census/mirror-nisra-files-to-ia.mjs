@@ -20,11 +20,12 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { MIRROR } from '../../../packages/intake/src/item-status.mjs';
 
+/** @param {string} name @param {string} [def] */
 function arg(name, def) { const i = process.argv.indexOf(name); return i >= 0 ? process.argv[i + 1] : def; }
 const FILES = arg('--files');
 const ITEM = arg('--item');
 const LIMIT = Number(arg('--limit', '0')) || Infinity;
-const OUT = arg('--out', `data/census/candidates/nisra-ia-mirrored-${ITEM}.json`);
+const OUT = /** @type {string} */ (arg('--out', `data/census/candidates/nisra-ia-mirrored-${ITEM}.json`));
 if (!FILES || !ITEM) { console.error('usage: --files <list.json> --item <id> [--limit N] [--out <path>]'); process.exit(1); }
 
 const META = [
@@ -44,13 +45,13 @@ const files = Array.isArray(raw) ? raw : (raw.sources || raw.files || []);
 function existingNames() {
   try {
     const meta = JSON.parse(execFileSync('curl', ['-s', '--max-time', '40', `https://archive.org/metadata/${ITEM}`]).toString());
-    return new Set((meta.files || []).map((f) => f.name));
+    return new Set((meta.files || []).map((/** @type {{ name: string }} */ f) => f.name));
   } catch { return new Set(); }
 }
 const already = existingNames();
 const itemExists = already.size > 0;
 
-const remoteNameFor = (slug, url) => `${slug}/${decodeURIComponent(url.split('/').pop())}`;
+const remoteNameFor = (/** @type {string} */ slug, /** @type {string} */ url) => `${slug}/${decodeURIComponent(/** @type {string} */ (url.split('/').pop()))}`;
 const tmp = mkdtempSync(path.join(tmpdir(), 'nisra-ia-'));
 const mirrored = [];
 let done = 0, skipped = 0, failed = 0, firstUpload = !itemExists;
@@ -71,7 +72,7 @@ for (const f of files) {
     done += 1;
   } catch (e) {
     failed += 1;
-    mirrored.push({ sourceUrl: f.url, item: ITEM, remoteName: remote, iaUrl, status: MIRROR.failed, error: String(e.message || e).slice(0, 120) });
+    mirrored.push({ sourceUrl: f.url, item: ITEM, remoteName: remote, iaUrl, status: MIRROR.failed, error: String(/** @type {Error} */ (e).message || e).slice(0, 120) });
   } finally { if (existsSync(local)) unlinkSync(local); }
   if ((done + skipped) % 20 === 0) process.stderr.write(`\r${done} uploaded, ${skipped} skipped, ${failed} failed`);
 }

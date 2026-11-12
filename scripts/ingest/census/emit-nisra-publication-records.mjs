@@ -19,9 +19,9 @@ const inPath = process.argv[2];
 const OUT = process.argv[3] || 'data/census/candidates/nisra-publications.approved.json';
 if (!inPath) { console.error('usage: emit-nisra-publication-records.mjs <crawl.json> [out]'); process.exit(1); }
 
-const slugify = (v) => String(v).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 150);
-const isCensus = (slug) => /^census[-0-9]|-census-|census-20\d\d/.test(slug);
-const parseYear = (s) => { const ys = String(s).match(/(19\d\d|20[0-3]\d)/g); return ys ? String(Math.max(...ys.map(Number))) : undefined; };
+const slugify = (/** @type {unknown} */ v) => String(v).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 150);
+const isCensus = (/** @type {string} */ slug) => /^census[-0-9]|-census-|census-20\d\d/.test(slug);
+const parseYear = (/** @type {unknown} */ s) => { const ys = String(s).match(/(19\d\d|20[0-3]\d)/g); return ys ? String(Math.max(...ys.map(Number))) : undefined; };
 
 const ATTRIBUTION = 'Contains public sector information licensed under the Open Government Licence v3.0.';
 const { publications } = JSON.parse(readFileSync(inPath, 'utf8'));

@@ -18,6 +18,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { MIRROR } from '../../../packages/intake/src/item-status.mjs';
 
+/** @param {string} name @param {string} [def] */
 function arg(name, def) { const i = process.argv.indexOf(name); return i >= 0 ? process.argv[i + 1] : def; }
 const PLAN = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : 'data/census/candidates/opendatani-ia-mirror-plan.json';
 const START = Number(arg('--start', '0'));
@@ -29,7 +30,7 @@ const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 // polling) and already sit on Esri/ArcGIS durable infrastructure — out of scope
 // for this static-file durability mirror; logged as skipped so a droplet pass
 // could poll them later if desired.
-const isDynamic = (url) => /arcgis\.com|tiles-eu1|utility\.arcgis/i.test(url);
+const isDynamic = (/** @type {string} */ url) => /arcgis\.com|tiles-eu1|utility\.arcgis/i.test(url);
 
 const META = [
   'title:Open Data NI data files (mirror)',
@@ -44,10 +45,11 @@ const items = plan.items.slice(START, START + NITEMS);
 mkdirSync(OUTDIR, { recursive: true });
 const tmp = mkdtempSync(path.join(tmpdir(), 'odni-ia-'));
 
+/** @param {string} item */
 function existingNames(item) {
   try {
     const m = JSON.parse(execFileSync('curl', ['-s', '--max-time', '60', `https://archive.org/metadata/${item}`]).toString());
-    return new Set((m.files || []).map((f) => f.name));
+    return new Set((m.files || []).map((/** @type {{ name: string }} */ f) => f.name));
   } catch { return new Set(); }
 }
 
@@ -72,7 +74,7 @@ for (const it of items) {
       up += 1;
     } catch (e) {
       fail += 1;
-      mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: MIRROR.failed, error: String(e.message || e).slice(0, 100) });
+      mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: MIRROR.failed, error: String(/** @type {Error} */ (e).message || e).slice(0, 100) });
     } finally { if (existsSync(local)) unlinkSync(local); }
     if ((up + skip + fail) % 25 === 0) process.stderr.write(`\r  ${it.itemId}: ${up} up, ${skip} skip, ${fail} fail`);
   }
