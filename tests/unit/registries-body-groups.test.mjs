@@ -14,6 +14,7 @@ import { bodySlugsWithFlag } from '../../packages/registries/src/councils.mjs';
 import { groupLabel } from '../../packages/registries/src/browser/body-groups.mjs';
 import electionGroups from '../../packages/registries/src/browser/election-groups.mjs';
 import { electionTypeFromEntityKey } from '../../packages/map/src/app/helpers.mjs';
+import { BODY_GROUP_ORDER, bodyGroupOf as entityBodyGroupOf } from '../../packages/map/src/entity-detail-data.mjs';
 import { bodyGroup as homeBodyGroup } from '../../site/apps/elections/views/home.js';
 
 const registry = loadRegistry('election-bodies');
@@ -130,7 +131,11 @@ test('body groups: a person or party history groups every election type as befor
   };
   const types = new Set(['', 'Dáil', 'Dail', 'DÁIL', 'Seanad', 'Mayoral', 'local', 'Election', undefined, null]);
   for (const slug of SLUGS) for (const title of ['', '1998 election', 'Referendum on X']) types.add(electionTypeFromEntityKey(`${slug}__2020-01-01`, title));
-  for (const type of types) assert.equal(groupLabel(electionGroups.entityHistory, type), before(type), String(type));
+  for (const type of types) {
+    assert.equal(groupLabel(electionGroups.entityHistory, type), before(type), String(type));
+    assert.equal(entityBodyGroupOf(type), before(type), `entity-detail-data ${type}`);
+  }
+  assert.deepEqual(BODY_GROUP_ORDER, ['Dáil', 'Westminster', 'Devolved', 'Local', 'European', 'Presidential', 'Referendum', 'Other']);
   assert.deepEqual(electionGroups.entityHistory.order, ['Dáil', 'Westminster', 'Devolved', 'Local', 'European', 'Presidential', 'Referendum', 'Other']);
 });
 
