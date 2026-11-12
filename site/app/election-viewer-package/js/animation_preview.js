@@ -44,7 +44,10 @@
     if (numeric === null) {
       return '-';
     }
-    return Number(numeric).toLocaleString('en-GB');
+    // The host page's shared formatter (packages/core/src/format.js): the map app sets
+    // globalThis.civgraphFormat before it loads this file.
+    const format = globalThis.civgraphFormat;
+    return format ? format.siteNumber(Number(numeric)) : String(numeric);
   }
 
   function finalVoteValue(entry) {

@@ -10,6 +10,7 @@ import dataService from '../../../../../src/data-service.js';
 import { escapeHtml } from '../helpers.mjs';
 import { formatHectares, timelineChangeName } from './dates.mjs';
 import { setHidden } from '../../state-helpers.mjs';
+import { siteNumber } from '../../../../core/src/format.js';
 
 // Boundary changes between consecutive editions (scripts/build/timeline-changes.py). They
 // replace the Play-only transition overlays of data/timeline-transition-overlays/.
@@ -271,7 +272,7 @@ export class TimelineChangeMethods {
       return;
     }
     const label = view.kind === 'changes'
-      ? `${view.count.toLocaleString('en-GB')} change${view.count === 1 ? '' : 's'}`
+      ? `${siteNumber(view.count)} change${view.count === 1 ? '' : 's'}`
       : view.kind === 'redrawn' ? 'Redrawn' : 'No changes';
     button.textContent = label;
     button.dataset.kind = view.kind;

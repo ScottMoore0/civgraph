@@ -4,6 +4,7 @@
  * enabling future code-splitting of the election controller.
  */
 import { escapeHtml } from '../packages/core/src/html.js';
+import { siteDate } from '../packages/core/src/format.js';
 
 /**
  * @template {string | null | undefined} D
@@ -18,7 +19,7 @@ export function formatElectionDate(dateStr) {
         const iso = String(dateStr || '').match(/^(\d{4}-\d{2}-\d{2})/);
         if (!iso) return dateStr;
         const d = new Date(iso[1] + 'T00:00:00');
-        return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        return siteDate(d, { day: '2-digit', month: 'short', year: 'numeric' });
     } catch {
         return dateStr;
     }

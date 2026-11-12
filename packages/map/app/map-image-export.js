@@ -31,6 +31,7 @@
 import dataService, { resolveMapDownloadUrl } from '../../../src/data-service.js';
 import { compositeChildIds } from '../../../src/map-relations.mjs';
 import { SITE } from '../../config/src/config.js';
+import { siteNumber } from '../../core/src/format.js';
 
 export const WIKI_STYLE = Object.freeze({
   fill: '#ffc8c8',
@@ -283,11 +284,11 @@ async function readFeaturesInBounds(fgb, url, bounds, limit, onProgress) {
   const take = (feature) => {
     out.push(feature);
     if (out.length > limit) {
-      const error = new Error(`More than ${limit.toLocaleString('en-GB')} features are in view. Zoom in to export a smaller area.`);
+      const error = new Error(`More than ${siteNumber(limit)} features are in view. Zoom in to export a smaller area.`);
       error.code = 'too-many-features';
       throw error;
     }
-    if (out.length % 250 === 0) onProgress?.(`Reading features… ${out.length.toLocaleString('en-GB')}`);
+    if (out.length % 250 === 0) onProgress?.(`Reading features… ${siteNumber(out.length)}`);
   };
   try {
     for await (const feature of fgb.deserialize(rewriteForLocalDev(url), rect)) take(feature);
@@ -579,7 +580,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
   }
   if (!raw.length) throw new Error('No features of this map are in view. Pan to the map and try again.');
 
-  onProgress(`Drawing ${raw.length.toLocaleString('en-GB')} features…`);
+  onProgress(`Drawing ${siteNumber(raw.length)} features…`);
   const selection = options.selection || currentSelection(app, mapIds);
   const match = selectionMatcher(selection, mainConfig.labelProperty || sources[0]?.config?.labelProperty);
   let best = { score: 0, index: -1 };

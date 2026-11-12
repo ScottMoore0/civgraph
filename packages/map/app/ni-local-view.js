@@ -19,6 +19,7 @@ import { NI_LOCAL_VIEW, niLocalViewActive } from '../src/election/ni-local-state
 import { createState } from '../src/state-helpers.mjs';
 import statuses from '../../registries/src/browser/statuses.mjs';
 import { summaryPollStatus } from '../../core/src/unopposed.mjs';
+import { siteNumber } from '../../core/src/format.js';
 
 // The words for a round's site status, a missing round and a contest: the statuses registry's
 // election-round siteLabels and missingReasons (RG-03) and contest labels (RG-02).
@@ -50,7 +51,7 @@ function escapeHtml(value) {
 
 function formatNumber(value) {
   const n = Number(value);
-  return Number.isFinite(n) ? n.toLocaleString('en-GB') : '-';
+  return Number.isFinite(n) ? siteNumber(n) : '-';
 }
 
 /** "CLIFTON" -> "Clifton", "ADMINISTRATIVE COUNTY OF DOWN" -> "Administrative County of Down". */

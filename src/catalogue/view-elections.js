@@ -10,6 +10,7 @@ import { extrasHtml, aboutHtml } from './view-maps.js';
 import { PeopleSearch } from './search.js';
 import electionBodies from '../../packages/registries/src/browser/election-bodies.mjs';
 import councilSearch from '../../packages/registries/src/browser/council-search.mjs';
+import { siteNumber } from '../../packages/core/src/format.js';
 
 // Browse's slug for an election: its key lower-cased, runs of other characters as '-'
 // (dail-eireann__2024-11-29 -> dail-eireann-2024-11-29). Browse routes live in the hash.
@@ -66,7 +67,7 @@ export const groupOfBody = (slug) => BODY_GROUPS.find((g) => g.bodies.includes(s
 
 export function toolbarHtml(c) {
   const f = c.efilters;
-  const chip = (group, value, label, count) => `<button type="button" class="cn-fchip" data-cn-filter="${group}" data-value="${esc(value)}" aria-pressed="${String(f[group] === value)}">${esc(label)}${count !== undefined ? ` <span class="cn-count">${count.toLocaleString('en-GB')}</span>` : ''}</button>`;
+  const chip = (group, value, label, count) => `<button type="button" class="cn-fchip" data-cn-filter="${group}" data-value="${esc(value)}" aria-pressed="${String(f[group] === value)}">${esc(label)}${count !== undefined ? ` <span class="cn-count">${siteNumber(count)}</span>` : ''}</button>`;
   const { i, j } = c.yearRange('elections');
   const active = c.activeFilterCount('elections');
   return `<div class="cn-toolbar" data-cn-toolbar="elections"${c.filtersOpen ? ' data-open' : ''}>

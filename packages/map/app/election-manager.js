@@ -29,7 +29,7 @@ const NO_VOTES_CELL = '<span class="election-delta--none" title="No poll: return
 function unopposedSeatsNoteHtml(rows = []) {
   const seats = rows.reduce((sum, row) => sum + (Number(row?.unopposedSeats) || 0), 0);
   if (!seats) return '';
-  return `<p class="election-table-note">${seats.toLocaleString('en-GB')} ${seats === 1 ? 'seat was' : 'seats were'} returned unopposed. ${UNOPPOSED_SEATS_NOTE}</p>`;
+  return `<p class="election-table-note">${siteNumber(seats)} ${seats === 1 ? 'seat was' : 'seats were'} returned unopposed. ${UNOPPOSED_SEATS_NOTE}</p>`;
 }
 import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
 import { initPrintedLabels, printedLabelsToggleHtml, printedLabelText } from '../../../src/printed-labels.mjs';
@@ -122,6 +122,7 @@ import { GroupedYearMethods } from '../src/election/grouped-year-methods.js';
 import { ELECTION_LOAD } from '../src/election/load-state.mjs';
 import { createFlag, createState, defineFlagFields } from '../src/state-helpers.mjs';
 import { installMethods } from '../src/app/install-methods.mjs';
+import { siteNumber } from '../../core/src/format.js';
 
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
 const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
@@ -3923,7 +3924,7 @@ export class Test2ElectionManager {
       const ranges = { turnout: [35, 80, '%'], voteShare: [10, 70, '%'], majority: [0, 45, '%'], seats: [1, 6, ''], quota: [1000, 120000, ''] };
       const [low, high, suffix] = ranges[mode] || [0, 100, ''];
       const stops = [0, 0.25, 0.5, 0.75, 1].map((t) => sharedNumericColour(low + (high - low) * t, low, high));
-      const fmt = (n) => `${Number(n).toLocaleString('en-GB')}${suffix}`;
+      const fmt = (n) => `${siteNumber(Number(n))}${suffix}`;
       model.ramp = { low: fmt(low), high: fmt(high), gradient: `linear-gradient(90deg, ${stops.join(', ')})` };
     }
     model.seats = this.overlayMode !== 'bars' && this.shouldRenderElectionOverlays() && Boolean(this.seatCircleMarkers?.length);
@@ -5059,6 +5060,9 @@ function mergePixelBounds(a, b) {
 }
 
 function ensureElectionAnimationRuntime() {
+  // The classic viewer scripts write their numbers with the site's shared formatter
+  // (packages/core/src/format.js), which they cannot import.
+  globalThis.civgraphFormat ??= Object.freeze({ siteNumber });
   if (typeof window.$?.preloadElectionData === 'function' && typeof window.animateStages === 'function') {
     return Promise.resolve();
   }
@@ -5174,7 +5178,7 @@ function formatMainDelta(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
   const className = number > 0 ? 'election-delta election-delta--pos' : number < 0 ? 'election-delta election-delta--neg' : 'election-delta';
-  return `<span class="${className}">${number > 0 ? '+' : ''}${number.toLocaleString('en-GB')}</span>`;
+  return `<span class="${className}">${number > 0 ? '+' : ''}${siteNumber(number)}</span>`;
 }
 
 // Share changes carry `election-delta--share` so the pane can colour them alone: a table where
@@ -5196,7 +5200,7 @@ function formatChange(value, kind = 'count') {
   const share = kind !== 'count';
   const direction = number > 0 ? ' election-delta--pos' : number < 0 ? ' election-delta--neg' : '';
   const magnitude = Math.abs(number);
-  const digits = kind === 'count' ? magnitude.toLocaleString('en-GB') : magnitude.toFixed(2);
+  const digits = kind === 'count' ? siteNumber(magnitude) : magnitude.toFixed(2);
   const text = `${number > 0 ? '+' : number < 0 ? '−' : ''}${digits}${kind === 'percent' ? '%' : ''}`;
   return `<span class="election-delta${share ? ' election-delta--share' : ''}${direction}">${text}</span>`;
 }

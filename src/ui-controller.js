@@ -17,6 +17,7 @@ import { CATALOGUE_HISTORY_ENTRY, CATALOGUE_VIEW, ENTITY_PLACEHOLDER, MOBILE_CAT
 import { createFlag, createState, setHidden } from '../packages/map/src/state-helpers.mjs';
 import { partyFullName, partyLabelHtml } from '../packages/core/src/party-names.mjs';
 import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
+import { siteNumber } from '../packages/core/src/format.js';
 
 /**
  * Lucide icons used by the catalogue: the section bar, the headings inside the contents box,
@@ -3722,8 +3723,8 @@ class UIController {
 
     updateFilterStats(shown, total) {
         const text = shown === total
-            ? `${total.toLocaleString('en-GB')} maps`
-            : `${shown.toLocaleString('en-GB')} of ${total.toLocaleString('en-GB')} maps`;
+            ? `${siteNumber(total)} maps`
+            : `${siteNumber(shown)} of ${siteNumber(total)} maps`;
         // Cache so renderFlatView (which runs async after this call) can re-apply
         // the value once it has finished building the TOC and the
         // #catalogueTocStats element exists in the DOM.
@@ -7419,7 +7420,6 @@ class UIController {
     formatMapDate(dateStr, map = null) {
         if (!dateStr) return '';
         const str = String(dateStr);
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         if (/^\d{4}$/.test(str)) return str;
         // 1 January standing for a year ("1977-01-01" for the 1977 DEDs) reads as the year,
         // unless the map says the day ("1 Jan 1919" in its name, or in force from that day).
@@ -8054,7 +8054,7 @@ class UIController {
                     const displayValue = typeof value === 'number'
                         ? (Number.isInteger(value)
                             // Separators only from 10,000: a year or a code stays "1969", not "1,969".
-                            ? (Math.abs(value) >= 10000 ? value.toLocaleString('en-GB') : String(value))
+                            ? (Math.abs(value) >= 10000 ? siteNumber(value) : String(value))
                             : this.formatNumber(value))
                         : this.escapeHtml(String(value));
                     html += `<div class="feature-info__property">
@@ -8641,7 +8641,7 @@ class UIController {
                 button.type = 'button';
                 button.className = 'cn-link catalogue-detail__show-all';
                 button.dataset.entityTableMore = tableId;
-                button.textContent = `Show all ${state.filteredRows.length.toLocaleString('en-GB')}`;
+                button.textContent = `Show all ${siteNumber(state.filteredRows.length)}`;
                 button.addEventListener('click', () => {
                     persist.showAll = true;
                     renderRows();
@@ -8883,7 +8883,7 @@ class UIController {
                 .filter((column) => !column.optional || spec.rows.some((row) => filled(valueOf(column, row))));
             const chips = groups.length > 1
                 ? `<div class="catalogue-detail__table-chips" role="group" aria-label="Show only">
-                    ${['', ...groups].map((group) => `<button type="button" class="catalogue-detail__chip" data-table-group="${esc(group)}" aria-pressed="${String((persist.group || '') === group)}">${esc(group || 'All')} <span class="catalogue-detail__chip-count">${(group ? groupCounts.get(group) : spec.rows.length).toLocaleString('en-GB')}</span></button>`).join('')}
+                    ${['', ...groups].map((group) => `<button type="button" class="catalogue-detail__chip" data-table-group="${esc(group)}" aria-pressed="${String((persist.group || '') === group)}">${esc(group || 'All')} <span class="catalogue-detail__chip-count">${siteNumber(group ? groupCounts.get(group) : spec.rows.length)}</span></button>`).join('')}
                 </div>`
                 : '';
             const toggle = hasChanges
@@ -9642,7 +9642,7 @@ class UIController {
     formatDisplayValue(value) {
         if (typeof value === 'number' && Number.isFinite(value)) {
             if (Math.abs(value) >= 1000) {
-                return value.toLocaleString('en-GB');
+                return siteNumber(value);
             }
             return String(value);
         }

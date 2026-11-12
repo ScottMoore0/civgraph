@@ -11,6 +11,8 @@
  * is null on every row is left out.
  */
 
+import { siteNumber } from '../packages/core/src/format.js';
+
 /**
  * A row of a person's or party's election history as the Browse / D1 record gives it: the
  * fields read here by name; the others stay unknown, and the helpers below add their own.
@@ -235,7 +237,7 @@ export function partyHeadlineCards(rows = [], { max = 4 } = {}) {
       const year = String(row.date || '').slice(0, 4);
       return {
         label: `${type} ${year}`.trim(),
-        value: seats === null ? '—' : `${seats.toLocaleString('en-GB')} ${seats === 1 ? one : many}`,
+        value: seats === null ? '—' : `${siteNumber(seats)} ${seats === 1 ? one : many}`,
         subtext: hasNumber(row.validVotePct) ? `${Number(row.validVotePct).toFixed(1)}% of the vote` : '',
         row,
       };
