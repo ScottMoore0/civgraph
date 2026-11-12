@@ -52,6 +52,13 @@
       "summary": "Where each contest's figures came from"
     },
     {
+      "name": "areas",
+      "when": {
+        "view": "areas"
+      },
+      "summary": "A national contest's results by area (the presidential elections by Dáil constituency): per area, each candidate's figure at every count, the candidates named by their one national candidacy; areas is empty when the election has none"
+    },
+    {
       "name": "list",
       "when": {
         "view": "list"
@@ -170,6 +177,9 @@
     },
     {
       "$ref": "#/$defs/provenance"
+    },
+    {
+      "$ref": "#/$defs/areas"
     },
     {
       "$ref": "#/$defs/list"
@@ -423,6 +433,88 @@
         "schemaVersion",
         "key",
         "contests"
+      ]
+    },
+    "areas": {
+      "description": "A national contest's results by area (the presidential elections by Dáil constituency): per area, each candidate's figure at every count, the candidates named by their one national candidacy; areas is empty when the election has none",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "areaLabel": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "areas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "matched": {
+                "type": "boolean"
+              },
+              "validPoll": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "candidates": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "firstPrefs": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "counts": {
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "firstPrefs",
+                    "counts"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "name",
+              "slug",
+              "matched",
+              "validPoll",
+              "candidates"
+            ]
+          }
+        }
+      },
+      "required": [
+        "key",
+        "title",
+        "areaLabel",
+        "areas"
       ]
     },
     "list": {

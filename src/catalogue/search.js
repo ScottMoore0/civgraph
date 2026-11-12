@@ -13,6 +13,7 @@
  *   - places: a named ward, district or parish returns the maps that draw it.
  */
 import councilSearch from '../../packages/registries/src/browser/council-search.mjs';
+import electionBodies from '../../packages/registries/src/browser/election-bodies.mjs';
 
 /**
  * The rebuilt catalogue (data/catalogue/catalogue.json, scripts/build/catalogue/build-catalogue.mjs),
@@ -205,7 +206,9 @@ const BODY_ALIASES = {
   'ireland-president': 'presidential president Uachtaran Irish',
   'ireland-referendum': 'referendum referenda Irish',
   'northern-ireland-referendum': 'referendum referenda NI',
-  ...councilSearch.catalogueBodyAliases
+  ...councilSearch.catalogueBodyAliases,
+  // The bodies the election-bodies registry describes (data/registries/election-bodies.json).
+  ...Object.fromEntries(Object.entries(/** @type {Record<string, { searchTerms?: string }>} */ (electionBodies)).filter(([, b]) => b.searchTerms).map(([id, b]) => [id, b.searchTerms]))
 };
 
 // The councils a Northern Ireland local election chose: the eleven since 2014 (the 2014 vote

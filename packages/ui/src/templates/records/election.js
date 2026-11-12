@@ -63,6 +63,29 @@ function contestStatusOf(contest) {
 }
 
 /**
+ * A national contest's results by area (the presidential elections by Dáil constituency): the
+ * election's area-results geography mode, from its stored meta, as one row an area with who led on
+ * first preferences, the leader's share and the turnout. Empty when the election has none.
+ * @param {ElectionPage['election']} election
+ */
+function areaResultsTable(election) {
+  const modes = /** @type {unknown} */ (election.meta?.geographyModes);
+  const mode = /** @type {{ dataKind?: string, label?: string, results?: Array<{ constituency?: string, leadingName?: string | null, leadingPct?: number | null, turnoutPct?: number | null }> } | undefined} */ (
+    Array.isArray(modes) ? modes.find((m) => m?.dataKind === 'area-results') : undefined);
+  if (!mode?.results?.length) return '';
+  const label = String(mode.label || 'Area');
+  const title = `Results by ${label.toLowerCase()}`;
+  const rows = mode.results.map((r) => [
+    String(r.constituency || ''),
+    String(r.leadingName || ''),
+    r.leadingPct === null || r.leadingPct === undefined ? '' : percentText(r.leadingPct),
+    r.turnoutPct ? percentText(r.turnoutPct) : '',
+  ]);
+  return html`<h2 id="by-area">${title}</h2>
+${dataTable({ caption: title, label: title, columns: [{ label, rowHeader: true }, { label: 'Led on first preferences' }, { label: 'Share', num: true }, { label: 'Turnout', num: true }], rows })}`;
+}
+
+/**
  * @param {ElectionPage} page  loadElectionPage's answer
  * @param {{ canonical?: string }} [options]
  */
@@ -115,6 +138,7 @@ ${page.citations.length ? html`<h2 id="sources">Sources</h2>${citations(page.cit
     ])}
 ${election.meta.description ? html`<p>${election.meta.description}</p>` : ''}
 ${dataTable({ caption: 'Contests', label: 'Contests', columns: [{ label: 'Contest', rowHeader: true }, { label: 'Seats', num: true }, { label: 'Winner' }, { label: 'Winner\'s party' }], rows })}
+${areaResultsTable(election)}
 ${page.sources?.length ? html`<h2 id="sources">Sources</h2>${citations(page.sources.map((s) => citationItem(s, page.contests.length > 1 ? `${numberText(s.contests)} of ${numberText(page.contests.length)} contests` : '')))}<p class="cg-muted">${COMPILED_NOTE} Each contest's page lists its own.</p>` : ''}
 <p>${link(`/maps/#layers=election-${election.slug}`, 'Open the election on the map')}</p>`;
   }

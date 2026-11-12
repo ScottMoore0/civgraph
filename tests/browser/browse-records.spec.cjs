@@ -41,3 +41,18 @@ for (const [type, slug, expected] of RECORDS) {
     expect(errors).toEqual([]);
   });
 }
+
+// A presidential election's page shows its results by area (view=areas): one row a constituency,
+// a column a candidate, and every count of each area folded beneath.
+test('elections/ireland-president-2011-10-27 shows its results by constituency', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto(`${BASE}/browse/#/elections/ireland-president-2011-10-27`, { waitUntil: 'domcontentloaded' });
+  const panel = page.locator('.browse-area-results');
+  await expect(panel.locator('h2')).toHaveText('Results by constituency', { timeout: 30_000 });
+  await expect(panel.locator('table').first().locator('tbody tr')).toHaveCount(43);
+  await expect(panel.locator('table').first().locator('thead th')).toHaveCount(1 + 7 + 2);
+  await expect(panel.locator('details.browse-area-counts')).toHaveCount(43);
+  await expect(panel).toContainText('Michael D Higgins');
+  expect(errors).toEqual([]);
+});

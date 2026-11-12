@@ -11,6 +11,8 @@ import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } 
 import { CDN_BASE } from '../../src/cdn-url.js';
 import { RENAMED_ELECTION_DATES } from '../../packages/map/src/app/url-compat.mjs';
 import { BROWSE_DIR, ELECTION_MANIFEST, PROVENANCE_FILE, localPathForUrl } from '../../packages/loader/src/paths.mjs';
+import { loadRegistry } from '../../packages/registries/src/index.mjs';
+import { electionBody, fillYear } from '../../packages/registries/src/election-bodies.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
@@ -605,6 +607,32 @@ function electionAboutFor(key) {
   return electionAboutFor.all[key];
 }
 
+// What data/registries/election-bodies.json says of a body: its Wikipedia article. (A function,
+// read on first use, as electionAboutFor.)
+function registeredElectionBody(bodySlug) {
+  if (!registeredElectionBody.registry) registeredElectionBody.registry = loadRegistry('election-bodies');
+  return electionBody(registeredElectionBody.registry, bodySlug);
+}
+
+/**
+ * A national contest's results by area (the presidential elections by Dáil constituency), from the
+ * manifest entry's geography modes: the area geography's label, map and size, and the map link
+ * that opens the election on it. The table itself comes from /_api/elections?view=areas.
+ */
+function areaResultsOf(entry, layerId) {
+  const mode = (entry.geographyModes || []).find((m) => m?.dataKind === 'area-results');
+  if (!mode) return undefined;
+  return compactObject({
+    modeId: mode.id,
+    label: mode.label,
+    sourceMapId: mode.sourceMapId,
+    areas: mode.totalConstituencies,
+    matched: mode.matchedCount,
+    counts: mode.numCounts,
+    interactiveUrl: interactiveLayerUrl(layerId, { electionGeographyMode: mode.id })
+  });
+}
+
 function buildElections(manifest, thumbnailIds) {
   return (manifest.elections || []).map((entry) => {
     const about = electionAboutFor(entry.key);
@@ -641,6 +669,7 @@ function buildElections(manifest, thumbnailIds) {
       sourceMapId: entry.sourceMapId || null,
       layerId: entry.layerId || null,
       labelProperty: entry.labelProperty || null,
+      areaResults: areaResultsOf(entry, layerId),
       loadable: Boolean(entry.loadable),
       placeholder: Boolean(entry.placeholder),
       status: entry.placeholder ? 'not yet converted' : entry.loadable ? 'available' : 'metadata only',
@@ -1207,6 +1236,8 @@ function wikipediaElectionReferenceUrl(election, detail) {
   const title = cleanText(election?.title || detail?.displayTitle || canonicalElectionTitle(election || detail));
   if (!year && !title) return null;
 
+  const registeredArticle = fillYear(registeredElectionBody(bodySlug)?.wikipediaTitle, date || String(year));
+  if (registeredArticle) return wikiUrl(registeredArticle);
   if (bodySlug === 'dail-eireann') return wikiUrl(`${year} Irish general election`);
   if (bodySlug === 'ireland-president') return wikiUrl(`${year} Irish presidential election`);
   if (bodySlug === 'ireland-european') return wikiUrl(`${year} European Parliament election in Ireland`);
@@ -1343,6 +1374,14 @@ function buildFeatureGroups(spatialIndex, maps, elections) {
     const current = electionsBySourceMap.get(election.sourceMapId) || [];
     current.push({ key: election.key, title: election.title, date: election.date, interactiveUrl: election.interactiveUrl });
     electionsBySourceMap.set(election.sourceMapId, current);
+    // A national contest's results by area are drawn on a map of their own (a presidential
+    // election on that year's Dáil constituencies): the election is related to that map too.
+    const areas = election.areaResults;
+    if (areas?.sourceMapId && areas.sourceMapId !== election.sourceMapId) {
+      const onAreaMap = electionsBySourceMap.get(areas.sourceMapId) || [];
+      onAreaMap.push({ key: election.key, title: `${election.title} (by ${String(areas.label || 'area').toLowerCase()})`, date: election.date, interactiveUrl: areas.interactiveUrl || election.interactiveUrl });
+      electionsBySourceMap.set(areas.sourceMapId, onAreaMap);
+    }
   }
 
   const sampleByMap = new Map();
