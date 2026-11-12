@@ -51,9 +51,11 @@ const UPDATE = process.argv.includes('--update-baseline');
 // path-like strings. An early draft included them and produced 616 "CONFIG"
 // hits from two dail-candidate-match files, burying the 1 reference that
 // actually matters.
+// .cache holds downloaded third-party pages (gitignored; .cache/wikipedia-sources alone carried
+// 78 matches in Nov 2026), which no rename has to cover, and its junctions to E: made the walk slow.
 const SKIP_DIRS = new Set([
   'node_modules', '.git', 'test-results', 'playwright-report', 'archive',
-  '__pycache__', '.wrangler', 'tasks', 'tmp', 'analysis', 'coverage', 'dist',
+  '__pycache__', '.wrangler', 'tasks', 'tmp', 'analysis', 'coverage', 'dist', '.cache',
 ]);
 // Data trees. A rename moves their PATHS, not their bytes, and scanning 2,000+
 // metadata files for the substring "render/" is pure noise.
