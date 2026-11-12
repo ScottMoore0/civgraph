@@ -151,7 +151,6 @@ const BLOB_BINDINGS = Object.entries(BINDINGS).filter(([, b]) => b.kind === 'r2'
 const NOT_YET_ON_THE_BLOB_STORE = [
   'packages/api/src/handlers/contributions/decide.js',
   'packages/api/src/handlers/contributions/intake.js',
-  'packages/api/src/handlers/contributions/list.js',
 ];
 
 const walk = (dir, out = []) => {
