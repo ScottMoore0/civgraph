@@ -49,6 +49,7 @@ const ELECTIONS = [
   { key: 'dail-eireann__2024-11-29', title: '2024 Irish general election', body: 'Dáil Éireann', date: '2024-11-29', votingSystem: 'stv-hare', meta: JSON.stringify({ constituencies: ['Carlow Kilkenny', 'Cork North Central'] }) },
   { key: 'house-of-commons-of-the-united-kingdom__2024-07-04', title: '2024 UK general election in Northern Ireland', body: 'House of Commons', date: '2024-07-04', votingSystem: 'fptp', meta: '{}' },
   { key: 'northern-ireland-forum-for-political-dialogue__1996-05-30', title: '1996 Northern Ireland Forum election', body: 'Northern Ireland Forum', date: '1996-05-30', votingSystem: 'list', meta: '{}' },
+  { key: 'referendum__2001-06-07-nice-treaty', title: '2001 Nice Treaty referendum I', body: 'Referendum', date: '2001-06-07', votingSystem: 'referendum', meta: JSON.stringify({ constituencies: ['Tipperary North'] }) },
 ];
 const CONSTITUENCIES = {
   'dail-eireann__2024-11-29': [
@@ -61,6 +62,9 @@ const CONSTITUENCIES = {
   'northern-ireland-forum-for-political-dialogue__1996-05-30': [
     { seq: 18, name: 'Northern Ireland', electorate: null, turnoutPct: null, seatsTotal: 20, quota: null },
   ],
+  'referendum__2001-06-07-nice-treaty': [
+    { seq: 0, name: 'Tipperary North', electorate: 56278, turnoutPct: 33.9, seatsTotal: 1, quota: null },
+  ],
 };
 const CANDIDATES = {
   'dail-eireann__2024-11-29#4': [
@@ -69,6 +73,10 @@ const CANDIDATES = {
   ],
   'house-of-commons-of-the-united-kingdom__2024-07-04#5': [
     { name: 'Gregory Campbell', party: 'DUP', elected: 1 },
+  ],
+  'referendum__2001-06-07-nice-treaty#0': [
+    { name: 'No', party: null, elected: 1 },
+    { name: 'Yes', party: null, elected: 0 },
   ],
 };
 
@@ -101,6 +109,18 @@ transaction(sqlite, () => {
   // A map page record (map_cards, data design phase 3; it was an R2 detail file before).
   const WARDS = { slug: 'wards-1984', id: 'wards-1984', title: '1984 council wards', description: 'Northern Ireland council wards, 1984.' };
   new TableWriter(sqlite, 'map_cards').add({ slug: WARDS.slug, id: WARDS.id, title: WARDS.title, ord: 0, card: JSON.stringify(WARDS), detail: JSON.stringify(WARDS) });
+  // A map with only its category's tagline, which 19 maps share (site QA 12 Nov).
+  const CEDS = { slug: 'county-ed-1930-04-01', id: 'county-ed-1930-04-01', title: 'County Electoral Divisions - 1 Apr 1930', description: 'Electoral ward boundaries' };
+  new TableWriter(sqlite, 'map_cards').add({ slug: CEDS.slug, id: CEDS.id, title: CEDS.title, ord: 1, card: JSON.stringify(CEDS), detail: JSON.stringify(CEDS) });
+  // A ballot-paper label in no election's party table (subtitle "0 linked elections").
+  const UNIONIST = { id: 'party:unionist', slug: 'unionist', title: 'Unionist', subtitle: '0 linked elections', occurrenceCount: 216, relatedElections: [] };
+  new TableWriter(sqlite, 'party_cards').add({ slug: UNIONIST.slug, id: UNIONIST.id, title: UNIONIST.title, ord: 2, card: JSON.stringify(UNIONIST), detail: JSON.stringify(UNIONIST) });
+  // An election's source page, under the borough slug its 1920 round moved to.
+  const BANGOR_SOURCE = { slug: 'election-source-bangor-borough-council-1920-01-15', id: 'election-source:bangor-borough-council__1920-01-15', title: '1920 Bangor Urban District Council election sources' };
+  new TableWriter(sqlite, 'sources').add({ slug: BANGOR_SOURCE.slug, id: BANGOR_SOURCE.id, title: BANGOR_SOURCE.title, ord: 0, card: JSON.stringify(BANGOR_SOURCE) });
+  // A councillor elected with no label printed.
+  const SHIELS = { id: '146903', slug: 'robert-william-shiels-146903', title: 'Robert William Shiels', name: 'Robert William Shiels', parties: [{ name: 'No label', count: 2 }], constituencies: [{ name: 'Maghera', count: 2 }], totals: { stood: 2, elected: 2 }, firstYear: 1949, lastYear: 1952 };
+  new TableWriter(sqlite, 'person_cards').add({ slug: SHIELS.slug, id: SHIELS.id, title: SHIELS.title, title_norm: 'robert william shiels', key_norm: 'robert-william-shiels', search_norm: 'robert william shiels', ord: 1, card: JSON.stringify(SHIELS) });
   new TableWriter(sqlite, 'office_cards').add({ slug: OFFICE.slug, id: `office:${OFFICE.slug}`, title: OFFICE.title, ord: 0, card: JSON.stringify(OFFICE), detail: JSON.stringify(OFFICE) });
   const e = new TableWriter(sqlite, 'r_elections');
   ELECTIONS.forEach((row, ord) => e.add({ key: row.key, slug: slugOf(row.key), body_slug: row.key.split('__')[0], display_title: row.title, body: row.body, date: row.date, voting_system: row.votingSystem, ord, meta: row.meta }));
@@ -198,6 +218,16 @@ check('types: the sitemap and the pages route the same types',
   check('lookup: person by slug', person?.title === 'Gerry Adams' && person.slug === 'gerry-adams-27771');
   check('lookup: person description names parties and places', /Sinn Féin/.test(person?.description) && /Belfast West/.test(person?.description), person?.description);
   check('lookup: absent person is null (404)', (await lookupBrowseRecord(env, 'persons', 'nobody-1')) === null);
+  const unlabelled = await lookupBrowseRecord(env, 'persons', 'robert-william-shiels-146903');
+  check('lookup: "No label" is not named as a party', unlabelled?.description.startsWith('Robert William Shiels stood in 2 elections') && !/No label/.test(unlabelled.description), unlabelled?.description);
+  const movedSource = await lookupBrowseRecord(env, 'sources', 'election-source-bangor-urban-district-council-1920-01-15');
+  check("lookup: an election's source follows the election's renamed slug (301)", movedSource?.slug === 'election-source-bangor-borough-council-1920-01-15', JSON.stringify(movedSource));
+  check('lookup: an absent election source is null (404)', (await lookupBrowseRecord(env, 'sources', 'election-source-no-such-body-1900-01-01')) === null);
+  const label = await lookupBrowseRecord(env, 'parties', 'unionist');
+  check('lookup: a ballot-paper label says its candidacies, not "0 linked elections"',
+    label?.description === "Unionist: a party or ballot-paper label in Civgraph's election results, on 216 candidacies.", label?.description);
+  const sf = await lookupBrowseRecord(env, 'parties', 'sinn-fein');
+  check('lookup: a party description has its years', /^Sinn Féin: a party or ballot-paper label in Civgraph's election results, 1918–2024\.$/.test(sf?.description), sf?.description);
   const party = await lookupBrowseRecord(env, 'parties', 'sinn-fein');
   check('lookup: party from D1 party_cards', party?.title === 'Sinn Féin' && party?.slug === 'sinn-fein', JSON.stringify(party));
   const retired = await lookupBrowseRecord(env, 'parties', 'sinn-fein-sinn-fein');
@@ -216,25 +246,37 @@ check('types: the sitemap and the pages route the same types',
   check('lookup: election by key canonicalises to the slug', byKey?.slug === 'dail-eireann-2024-11-29');
 
   const contest = await lookupBrowseRecord(env, 'elections', 'dail-eireann-2024-11-29-cork-north-central');
-  check('lookup: Dáil contest', contest?.title === 'Cork North Central - 2024 Irish general election', JSON.stringify(contest));
+  check('lookup: Dáil contest', contest?.title === 'Cork North Central – 2024 Irish general election', JSON.stringify(contest));
   check('lookup: contest description has the count summary and who was elected',
     /electorate 103,250/.test(contest?.description) && /quota 9,846/.test(contest?.description) && /Elected: Pádraig O'Sullivan\./.test(contest?.description) && /29 November 2024/.test(contest?.description) && !/Mick Barry/.test(contest?.description),
     contest?.description);
 
   const seat = await lookupBrowseRecord(env, 'elections', 'house-of-commons-of-the-united-kingdom-2024-07-04-east-londonderry');
-  check('lookup: Westminster seat', seat?.title === 'East Londonderry - 2024 UK general election in Northern Ireland' && /Elected: Gregory Campbell\./.test(seat.description) && !/quota/.test(seat.description), JSON.stringify(seat));
+  check('lookup: Westminster seat', seat?.title === 'East Londonderry – 2024 UK general election in Northern Ireland' && /Elected: Gregory Campbell\./.test(seat.description) && !/quota/.test(seat.description), JSON.stringify(seat));
 
   const overall = await lookupBrowseRecord(env, 'elections', 'dail-eireann-2024-11-29-overall-results');
   check('lookup: overall results', overall?.slug === 'dail-eireann-2024-11-29-overall-results');
 
   const regional = await lookupBrowseRecord(env, 'elections', 'northern-ireland-forum-for-political-dialogue-1996-05-30-regional-list');
-  check('lookup: NI Forum regional list', regional?.title === 'Regional List - 1996 Northern Ireland Forum election', JSON.stringify(regional));
+  check('lookup: NI Forum regional list', regional?.title === 'Regional List – 1996 Northern Ireland Forum election', JSON.stringify(regional));
+
+  const ref = await lookupBrowseRecord(env, 'elections', 'referendum-2001-06-07-nice-treaty-tipperary-north');
+  check('lookup: a referendum contest has no seats or "Elected"',
+    ref?.description === 'Tipperary North result in the 2001 Nice Treaty referendum I (7 June 2001): electorate 56,278, turnout 33.9%. Majority: No. Votes for each option on Civgraph.', ref?.description);
+  const refAll = await lookupBrowseRecord(env, 'elections', 'referendum-2001-06-07-nice-treaty-overall-results');
+  check("lookup: a referendum's overall results are by option, not party", /votes for each option\.$/.test(refAll?.description), refAll?.description);
+  const refElection = await lookupBrowseRecord(env, 'elections', 'referendum-2001-06-07-nice-treaty');
+  check('lookup: a referendum names no candidates or parties', refElection && !/candidates|parties/.test(refElection.description), refElection?.description);
+  check('lookup: an election still names candidates and parties', /candidates and parties on Civgraph\.$/.test(election?.description), election?.description);
 
   check('lookup: absent contest is null (404)', (await lookupBrowseRecord(env, 'elections', 'dail-eireann-2024-11-29-atlantis')) === null);
   check('lookup: absent election is null (404)', (await lookupBrowseRecord(env, 'elections', 'no-such-body-1900-01-01')) === null);
 
   const map = await lookupBrowseRecord(env, 'maps', 'wards-1984');
   check('lookup: map from map_cards', map?.title === '1984 council wards');
+  check("lookup: a map's full description stays as written", map?.description === 'Northern Ireland council wards, 1984.', map?.description);
+  const ceds = await lookupBrowseRecord(env, 'maps', 'county-ed-1930-04-01');
+  check("lookup: a map's category tagline is led by its name", ceds?.description === 'County Electoral Divisions - 1 Apr 1930 map: Electoral ward boundaries.', ceds?.description);
   check('lookup: absent map is null (404)', (await lookupBrowseRecord(env, 'maps', 'some-map-id')) === null);
   check('lookup: no binding is unknown, not absent', (await lookupBrowseRecord({}, 'persons', 'gerry-adams-27771')) === undefined);
 }
@@ -252,7 +294,7 @@ check('types: the sitemap and the pages route the same types',
 
   const contest = await get('elections', '/browse/elections/dail-eireann-2024-11-29-cork-north-central');
   const contestHtml = await contest.text();
-  check('page: contest has its title', contest.status === 200 && titleOf(contestHtml) === 'Cork North Central - 2024 Irish general election – Civgraph', `${contest.status} ${titleOf(contestHtml)}`);
+  check('page: contest has its title', contest.status === 200 && titleOf(contestHtml) === 'Cork North Central – 2024 Irish general election – Civgraph', `${contest.status} ${titleOf(contestHtml)}`);
 
   const missing = await get('persons', '/browse/persons/nobody-1');
   const missingHtml = await missing.text();
