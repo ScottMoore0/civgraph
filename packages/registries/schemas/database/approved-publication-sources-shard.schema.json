@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/database/approved-publication-sources-shard.schema.json",
+  "title": "Approved-publication sources, one shard (data/database/approved-publication-sources-shards/sources-NNN.json): the source records the owner approved for publication, each with its approval, rights and links",
+  "type": "object",
+  "required": ["items"],
+  "additionalProperties": false,
+  "$defs": {
+    "url": { "type": "string", "pattern": "^https?://" },
+    "text": { "type": "string", "minLength": 1 },
+    "strings": { "type": "array", "items": { "type": "string" } }
+  },
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "slug", "type", "title", "subtitle", "category", "provider", "description", "keywords", "proposedBrowsePath", "publicationStatus", "approval"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^approved-(publication|variant):[^ ]+$" },
+          "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "type": { "enum": ["approved-book-or-report-source", "approved-source-reference-source", "approved-spatial-source-source", "approved-table-source", "approved-variant-source"] },
+          "title": { "$ref": "#/$defs/text" },
+          "subtitle": { "type": "string" },
+          "category": { "type": "string" },
+          "date": { "type": "string" },
+          "dateSource": { "type": "string" },
+          "provider": { "$ref": "#/$defs/strings" },
+          "description": { "type": "string" },
+          "keywords": { "$ref": "#/$defs/strings" },
+          "proposedBrowsePath": { "$ref": "#/$defs/text" },
+          "publicationStatus": { "enum": ["approved-staged", "approval-ready"] },
+          "approval": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "stagingId": { "type": "string" },
+              "recommendedAction": { "type": "string" },
+              "batchId": { "type": "string" },
+              "reviewState": { "type": "string" },
+              "sourceResolutionStatus": { "type": "string" },
+              "sourceResolutionConfidence": { "type": "string" },
+              "defaultAction": { "type": "string" },
+              "defaultConfidence": { "type": "string" },
+              "componentRowIds": { "type": "array" },
+              "rightsNote": { "type": "string" }
+            }
+          },
+          "url": { "$ref": "#/$defs/url" },
+          "references": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["url"],
+              "additionalProperties": false,
+              "properties": {
+                "label": { "type": "string" },
+                "url": { "$ref": "#/$defs/url" },
+                "source": { "type": "string" },
+                "role": { "type": "string" },
+                "status": { "type": "string" },
+                "note": { "type": "string" },
+                "sourcePage": { "type": "string" }
+              }
+            }
+          },
+          "downloads": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["url"],
+              "additionalProperties": false,
+              "properties": {
+                "label": { "type": "string" },
+                "url": { "type": "string", "minLength": 1 },
+                "type": { "type": "string" },
+                "bytes": { "type": "number", "minimum": 0 },
+                "size": { "type": "number", "minimum": 0 },
+                "status": { "type": "string" },
+                "source": { "type": "string" }
+              }
+            }
+          },
+          "sourceItems": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": { "type": "string" },
+                "label": { "type": "string" },
+                "url": { "type": "string" },
+                "source": { "type": "string" },
+                "type": { "type": "string" },
+                "bytes": { "type": "number", "minimum": 0 }
+              }
+            }
+          },
+          "variantOf": {
+            "anyOf": [
+              { "type": "string", "minLength": 1 },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": { "type": "string" },
+                  "title": { "type": "string" },
+                  "relationship": { "type": "string" },
+                  "confidence": { "type": ["number", "string"] },
+                  "rationale": { "type": "string" },
+                  "existingSiteMatches": { "type": ["array", "string"] }
+                }
+              }
+            ]
+          },
+          "parentId": { "type": "string" },
+          "parentTitle": { "type": "string" },
+          "relationship": { "type": "string" },
+          "duplicateCount": { "type": "number", "minimum": 0 },
+          "license": { "type": "string" },
+          "licence": { "type": "string" },
+          "attribution": { "type": "string" },
+          "licenseUrl": { "$ref": "#/$defs/url" }
+        }
+      }
+    }
+  }
+}

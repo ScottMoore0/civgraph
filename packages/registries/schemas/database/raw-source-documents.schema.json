@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/database/raw-source-documents.schema.json",
+  "title": "Raw source documents (data/database/raw-source-documents.json): the staged raw source tables, documents and files Browse lists as Source only, each with one source item, citations and its Internet Archive mirror (scripts/check/rules/raw-source-documents.mjs restated). Closed: a record never carries a local path field such as dPath.",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "sourceReview", "policy", "conventions", "summary", "sources"],
+  "additionalProperties": false,
+  "$defs": {
+    "url": { "type": "string", "pattern": "^https?://" },
+    "text": { "type": "string", "minLength": 1 },
+    "strings": { "type": "array", "items": { "type": "string" } }
+  },
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generatedAt": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}" },
+    "sourceReview": { "$ref": "#/$defs/text" },
+    "policy": { "type": "object", "additionalProperties": { "type": ["string", "array"] } },
+    "conventions": { "type": "object" },
+    "summary": { "type": "object", "required": ["total"], "properties": { "total": { "type": "number", "minimum": 0 } } },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "slug", "type", "title", "subtitle", "category", "provider", "description", "url", "references", "downloads", "status", "statusChips", "sourceHierarchy", "viewport", "shortCitation", "fullCitation", "sourceItems", "license", "approval", "publicationStatus", "proposedBrowsePath", "relatedRecords", "keywords", "browseUrl", "iaMirror"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^raw-source:[^ ]+$" },
+          "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+          "type": { "enum": ["raw-source-table", "raw-source-document", "raw-source-source"] },
+          "title": { "$ref": "#/$defs/text" },
+          "subtitle": { "type": "string" },
+          "category": { "$ref": "#/$defs/text" },
+          "date": { "type": "string" },
+          "provider": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/text" } },
+          "description": { "type": "string" },
+          "url": { "$ref": "#/$defs/url" },
+          "references": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["label", "url"],
+              "additionalProperties": false,
+              "properties": {
+                "label": { "$ref": "#/$defs/text" },
+                "url": { "$ref": "#/$defs/url" },
+                "source": { "type": "string" },
+                "role": { "type": "string" },
+                "status": { "type": "string" }
+              }
+            }
+          },
+          "downloads": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["label", "url"],
+              "additionalProperties": false,
+              "properties": {
+                "label": { "$ref": "#/$defs/text" },
+                "url": { "$ref": "#/$defs/url" },
+                "type": { "type": "string" },
+                "status": { "type": "string" },
+                "size": { "type": "number", "minimum": 0 },
+                "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+                "source": { "type": "string" },
+                "storageMode": { "type": "string" },
+                "note": { "type": "string" }
+              }
+            }
+          },
+          "status": { "const": "Source only" },
+          "statusChips": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+          "sourceHierarchy": { "$ref": "#/$defs/strings" },
+          "viewport": {
+            "type": "object",
+            "required": ["status"],
+            "additionalProperties": false,
+            "properties": {
+              "status": { "$ref": "#/$defs/text" },
+              "supportedViewportTypes": { "$ref": "#/$defs/strings" },
+              "canonicalDatasetUrl": { "$ref": "#/$defs/url" },
+              "note": { "type": "string" },
+              "internetArchiveUrl": { "$ref": "#/$defs/url" },
+              "fileUrl": { "$ref": "#/$defs/url" }
+            }
+          },
+          "shortCitation": { "$ref": "#/$defs/text" },
+          "fullCitation": { "$ref": "#/$defs/text" },
+          "sourceItems": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "auditRowNumber": { "type": "number" },
+                "title": { "type": "string" },
+                "provider": { "type": "string" },
+                "organisation": { "type": "string" },
+                "formats": { "$ref": "#/$defs/strings" },
+                "category": { "type": "string" },
+                "refinedStatus": { "type": "string" },
+                "recommendedAction": { "type": "string" },
+                "sourcePlacement": { "type": "string" },
+                "blockerCategories": { "$ref": "#/$defs/strings" },
+                "detectedFamilies": { "$ref": "#/$defs/strings" },
+                "siteFamiliesPresent": { "$ref": "#/$defs/strings" },
+                "mirrorPolicy": { "type": "string" },
+                "providerDatasetUrl": { "$ref": "#/$defs/url" },
+                "internetArchiveItem": { "type": "string" },
+                "internetArchiveUrl": { "$ref": "#/$defs/url" },
+                "internetArchiveFileCount": { "type": "number", "minimum": 0 }
+              }
+            }
+          },
+          "license": { "type": "object", "required": ["status"], "additionalProperties": false, "properties": { "status": { "$ref": "#/$defs/text" }, "note": { "type": "string" } } },
+          "approval": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "recommendedAction": { "type": "string" },
+              "stagingId": { "type": "string" },
+              "confidence": { "type": "string" },
+              "sourceType": { "type": "string" },
+              "provider": { "type": "string" }
+            }
+          },
+          "publicationStatus": { "$ref": "#/$defs/text" },
+          "proposedBrowsePath": { "$ref": "#/$defs/text" },
+          "relatedRecords": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["kind", "id"],
+              "additionalProperties": false,
+              "properties": { "kind": { "type": "string" }, "id": { "type": "string" }, "title": { "type": "string" }, "score": { "type": "number" } }
+            }
+          },
+          "keywords": { "$ref": "#/$defs/strings" },
+          "browseUrl": { "type": "string", "pattern": "^/browse/" },
+          "iaMirror": {
+            "type": "object",
+            "required": ["itemIdentifier", "itemUrl", "mirrorStatus"],
+            "additionalProperties": false,
+            "properties": {
+              "itemIdentifier": { "$ref": "#/$defs/text" },
+              "itemUrl": { "type": "string", "pattern": "^https://archive[.]org/details/" },
+              "mirrorStatus": { "$ref": "#/$defs/text" },
+              "verifiedAt": { "type": "string" },
+              "fileCount": { "type": "number", "minimum": 0 }
+            }
+          }
+        }
+      }
+    }
+  }
+}

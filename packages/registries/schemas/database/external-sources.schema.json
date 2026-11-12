@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/database/external-sources.schema.json",
+  "title": "External sources (data/database/external-sources.json): metadata-only records of third-party sources Browse lists (Wikipedia articles, Internet Archive maps, datasets). Closed: a record holds metadata and links, never a copy of the source's text (scripts/check/rules/external-sources.mjs).",
+  "type": "object",
+  "required": ["schemaVersion", "sources", "provenance"],
+  "additionalProperties": false,
+  "$defs": {
+    "url": { "type": "string", "pattern": "^https?://" },
+    "link": {
+      "type": "object",
+      "required": ["label", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string", "minLength": 1 },
+        "url": { "$ref": "#/$defs/url" },
+        "source": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 }
+      }
+    },
+    "download": {
+      "type": "object",
+      "required": ["label", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "minLength": 1 },
+        "bytes": { "type": "number", "minimum": 0 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "archiveStatus": { "type": "string", "minLength": 1 },
+        "archiveItem": { "type": "string", "minLength": 1 },
+        "archiveUrl": { "$ref": "#/$defs/url" }
+      }
+    },
+    "sourceItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "identifier": { "type": "string", "minLength": 1 },
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "minLength": 1 },
+        "file": { "type": "object" },
+        "localPath": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "format": { "type": "string", "minLength": 1 },
+        "bytes": { "type": "number", "minimum": 0 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "license": { "type": "string", "minLength": 1 },
+        "licenseUrl": { "$ref": "#/$defs/url" },
+        "archiveStatus": { "type": "string", "minLength": 1 },
+        "archiveItem": { "type": "string", "minLength": 1 },
+        "archiveUrl": { "$ref": "#/$defs/url" }
+      }
+    }
+  },
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "title", "subtitle", "category", "provider", "description", "url", "references", "keywords"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^external:[^ ]+$" },
+          "type": { "enum": ["wikipedia-article", "internet-archive-raster-map", "dataset-source", "table-source", "document-source", "image-source"] },
+          "title": { "type": "string", "minLength": 1 },
+          "subtitle": { "type": "string" },
+          "category": { "type": "string", "minLength": 1 },
+          "date": { "type": ["number", "string"] },
+          "provider": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "description": { "type": "string", "minLength": 1 },
+          "url": { "$ref": "#/$defs/url" },
+          "references": { "type": "array", "items": { "$ref": "#/$defs/link" } },
+          "keywords": { "type": "array", "items": { "type": ["string", "number"] } },
+          "thumbnail": {
+            "type": "object",
+            "required": ["kind", "url"],
+            "additionalProperties": false,
+            "properties": {
+              "kind": { "const": "external" },
+              "url": { "$ref": "#/$defs/url" },
+              "smallUrl": { "$ref": "#/$defs/url" },
+              "alt": { "type": "string" }
+            }
+          },
+          "downloads": { "type": "array", "items": { "$ref": "#/$defs/download" } },
+          "sourceItems": { "type": "array", "items": { "$ref": "#/$defs/sourceItem" } },
+          "duplicateCount": { "type": "number", "minimum": 0 },
+          "license": { "type": ["string", "null"] },
+          "publicationStatus": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "provenance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "url", "note"],
+        "additionalProperties": false,
+        "properties": {
+          "source": { "type": "string", "minLength": 1 },
+          "url": { "$ref": "#/$defs/url" },
+          "note": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

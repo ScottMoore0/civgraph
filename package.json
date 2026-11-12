@@ -57,6 +57,7 @@
     "check:corpus-index": "node scripts/build/corpus-index.mjs --check",
     "check:public-prefixes": "node scripts/build/public-prefixes.mjs --check",
     "check:provider-names": "node scripts/check/rules/provider-names.mjs",
+    "check:database-schemas": "node packages/registries/src/check-database.mjs",
     "check:candidate-name-party": "node scripts/check/rules/candidate-name-party.mjs",
     "check:ni-council-quality": "node scripts/check/rules/ni-council-quality.mjs",
     "check:status": "node scripts/build/build-status.mjs --check",
