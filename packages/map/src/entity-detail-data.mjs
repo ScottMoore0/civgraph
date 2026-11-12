@@ -12,6 +12,7 @@
  */
 
 import { siteNumber } from '../../core/src/format.js';
+import { ENTITY_HISTORY_ORDER, entityHistoryGroup } from '../../registries/src/browser/election-group-lists.mjs';
 
 /**
  * A row of a person's or party's election history as the Browse / D1 record gives it: the
@@ -53,20 +54,19 @@ export function knownCount(value, zeroIsUnknown = false) {
   return n === 0 && zeroIsUnknown ? null : n;
 }
 
-/** Body groups, for the filter chips above a long history and the party headline cards. */
-export const BODY_GROUP_ORDER = ['Dáil', 'Westminster', 'Devolved', 'Local', 'European', 'Presidential', 'Referendum', 'Other'];
+/**
+ * Body groups, for the filter chips above a long history and the party headline cards: the
+ * election-bodies registry's entityHistory groups (data/registries/election-bodies.json), in their
+ * display order, the fallback last.
+ */
+export const BODY_GROUP_ORDER = [...ENTITY_HISTORY_ORDER];
 
-/** @param {unknown} electionType */
+/**
+ * The body group of an election type (helpers.mjs electionTypeFromEntityKey).
+ * @param {unknown} electionType
+ */
 export function bodyGroupOf(electionType) {
-  const t = String(electionType || '');
-  if (/D[aá]il/i.test(t)) return 'Dáil';
-  if (/Westminster/i.test(t)) return 'Westminster';
-  if (/Assembly|Forum|Convention|Parliament of NI/i.test(t)) return 'Devolved';
-  if (/Local/i.test(t)) return 'Local';
-  if (/European/i.test(t)) return 'European';
-  if (/Presidential/i.test(t)) return 'Presidential';
-  if (/Referendum/i.test(t)) return 'Referendum';
-  return 'Other';
+  return entityHistoryGroup(electionType);
 }
 
 /**
