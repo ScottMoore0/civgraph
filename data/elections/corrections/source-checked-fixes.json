@@ -90708,8 +90708,16 @@
         "url": "https://www.ark.ac.uk/elections/nlgbcc.htm",
         "accessed": "2026-10-23"
       },
-      "additionalSources": [],
-      "reason": "1 candidate in Castle 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Patrick Convery (SDLP, 1,197 first preferences).",
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2014 result sheet: Castle",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20170401091558id_/http://www.eoni.org.uk/getmedia/fb2610cd-bc5c-413a-9f99-73b1aabc5e67/Local-Council-Election-2014-Result-Sheet-Castle",
+          "original": "http://www.eoni.org.uk/getmedia/fb2610cd-bc5c-413a-9f99-73b1aabc5e67/Local-Council-Election-2014-Result-Sheet-Castle",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "1 candidate in Castle 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Patrick Convery (SDLP, 1,197 first preferences). Read on the Electoral Office's result workbook (review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions), and every rebuilt total is in the workbook (its stage 5 and 5b, Mullaghan's exclusion in two parts, are one stage here).",
       "category": "names",
       "operations": [
         {
@@ -90720,7 +90728,13 @@
             "Firstname": "Patrick",
             "Surname": "Convery"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
+      ],
+      "alsoBatches": [
+        "review-rest-2026-11-12"
       ]
     },
     {
@@ -113422,9 +113436,16 @@
           "url": "https://candidates.democracyclub.org.uk/elections/local.belfast.titanic.2019-05-02/",
           "accessed": "2026-10-23",
           "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+        },
+        {
+          "title": "Local Council Election 2019 result sheet: Titanic",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20220120225322id_/https://www.eoni.org.uk/getmedia/9ae4b595-9d8a-43f9-9a24-88912aa59de4/BF-Titanic",
+          "original": "https://www.eoni.org.uk/getmedia/9ae4b595-9d8a-43f9-9a24-88912aa59de4/BF-Titanic",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "2 candidates in Titanic 2019 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as John Kyle (PUP, 1,027 first preferences); Carole Howard (Alliance, 1,055 first preferences).",
+      "reason": "2 candidates in Titanic 2019 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as John Kyle (PUP, 1,027 first preferences); Carole Howard (Alliance, 1,055 first preferences). Read on the Electoral Office's result workbook (review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions), and every rebuilt total is in the workbook.",
       "category": "names",
       "operations": [
         {
@@ -113451,9 +113472,15 @@
           "set": {
             "Candidate_Id": "4061365753-belfast"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Paul Girvan: candidate id 4061365753 was shared with candidates of the same name in other councils (kept by Newtownabbey); given 4061365753-belfast."
+      "internalNote": "Paul Girvan: candidate id 4061365753 was shared with candidates of the same name in other councils (kept by Newtownabbey); given 4061365753-belfast.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -113477,9 +113504,16 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/2019_Belfast_City_Council_election",
           "accessed": "2026-10-23"
+        },
+        {
+          "title": "Local Council Election 2019 result sheet: Botanic",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20220120225409id_/https://www.eoni.org.uk/getmedia/be2772f8-61b0-4f0d-963e-ba60e8fe2376/BF-Botanic",
+          "original": "https://www.eoni.org.uk/getmedia/be2772f8-61b0-4f0d-963e-ba60e8fe2376/BF-Botanic",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "Billy Dickson (South Belfast Unionists, 233 first preferences; 247, 256, 256 on counts 2-4, excluded and transferred on count 5) was missing, so the first count summed to 9,505 against a valid poll of 9,738 and his transfers on counts 2-3 had been booked as non-transferable.",
+      "reason": "Billy Dickson (South Belfast Unionists, 233 first preferences; 247, 256, 256 on counts 2-4, excluded and transferred on count 5) was missing, so the first count summed to 9,505 against a valid poll of 9,738 and his transfers on counts 2-3 had been booked as non-transferable. Read on the Electoral Office's result workbook (review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions), and every rebuilt total is in the workbook. The workbook's own transfer cells slip in places (Paul Loughran's exclusion printed as -442 for his 422; non-transferable transfers of 14, 17 and 59 where its totals rise by 0.29, 0.28 and 80.46); the file follows the workbook's totals.",
       "category": "missing-candidates",
       "operations": [
         {
@@ -113774,9 +113808,15 @@
           "op": "set",
           "path": "Constituency.countGroup.171.Transfers",
           "value": "23.00"
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "note": "addCandidate inserts the count-1 row at index 178; the count 2-12 rows are appended by set ops at indices 179-189 (addCandidate skips a second row of the same name). Non-transferable rows for counts 2-5 corrected (27/39/41/41 -> 13/16/18/41)."
+      "note": "addCandidate inserts the count-1 row at index 178; the count 2-12 rows are appended by set ops at indices 179-189 (addCandidate skips a second row of the same name). Non-transferable rows for counts 2-5 corrected (27/39/41/41 -> 13/16/18/41).",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ]
     },
     {
       "batch": "official-records-2026-10-23",
@@ -114929,9 +114969,24 @@
           "op": "set",
           "path": "Constituency.countInfo.Total_Electorate",
           "value": "21241"
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "reason": "Davina Pulis's name is Pulis, not Pulvis, as the Electoral Office's result sheet gives. The electorate was 21,241, as the Electoral Office's result sheet gives, not 21,240; the sheet's poll of 52.328% is its 11,115 votes polled over 21,241. (Local Council Elections 2023 result sheet: Waterside DEA, Electoral Office for Northern Ireland, https://www.eoni.org.uk/media/e5tnmyyl/local-council-elections-2023-result-sheet-waterside.xlsx, checked 2026-11-11.)"
+      "reason": "Davina Pulis's name is Pulis, not Pulvis, as the Electoral Office's result sheet gives. The electorate was 21,241, as the Electoral Office's result sheet gives, not 21,240; the sheet's poll of 52.328% is its 11,115 votes polled over 21,241. (Local Council Elections 2023 result sheet: Waterside DEA, Electoral Office for Northern Ireland, https://www.eoni.org.uk/media/e5tnmyyl/local-council-elections-2023-result-sheet-waterside.xlsx, checked 2026-11-11.) Read on the Electoral Office's result workbook (review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions); the totals of stages 2-6 are in the workbook, which stops at stage 6, so the stage-7 totals (Chelsea Cooke's surplus) rest on the file's transfers alone.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Elections 2023 result sheet: Waterside",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20230708193726id_/https://www.eoni.org.uk/getmedia/f4660b52-5e86-43f2-afd5-016cf36dc077/Local-Council-Elections-2023-Result-Sheet-Waterside",
+          "original": "https://www.eoni.org.uk/getmedia/f4660b52-5e86-43f2-afd5-016cf36dc077/Local-Council-Elections-2023-Result-Sheet-Waterside",
+          "accessed": "2026-11-12"
+        }
+      ]
     },
     {
       "batch": "eoni-wayback-2026-10-26",
@@ -191791,9 +191846,25 @@
           "set": {
             "Candidate_Id": "4225065310-mid-and-east-antrim"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Robert Robinson: candidate id 2380239338 was shared with candidates of the same name in other councils (kept by Larne); given 2380239338-antrim-and-newtownabbey-mid-and-east-antrim. James Strange: candidate id 4225065310 was shared with candidates of the same name in other councils (kept by Carrickfergus); given 4225065310-mid-and-east-antrim."
+      "internalNote": "Robert Robinson: candidate id 2380239338 was shared with candidates of the same name in other councils (kept by Larne); given 2380239338-antrim-and-newtownabbey-mid-and-east-antrim. James Strange: candidate id 4225065310 was shared with candidates of the same name in other councils (kept by Carrickfergus); given 4225065310-mid-and-east-antrim.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Election 2019 result sheet: Larne Lough",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20190806051851id_/http://www.eoni.org.uk/getmedia/2fac1eb7-415c-44a3-a62e-c99396766704/Larne-Lough-DEA",
+          "original": "http://www.eoni.org.uk/getmedia/2fac1eb7-415c-44a3-a62e-c99396766704/Larne-Lough-DEA",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "Read on the Electoral Office's scanned result sheet (w8-review and review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions); every rebuilt total of stages 2-5 is on the sheet, which shows stages 1-5 only (its page 2 repeats page 1), so the two stage-6 totals (Robert Logan 961.75, Andrew Wilson 916.20) rest on the file's transfers alone."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -194698,9 +194769,25 @@
           "set": {
             "Candidate_Id": "2380239338-antrim-and-newtownabbey-mid-and-east-antrim"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
-      "internalNote": "Robert Robinson: candidate id 2380239338 was shared with candidates of the same name in other councils (kept by Larne); given 2380239338-antrim-and-newtownabbey-mid-and-east-antrim."
+      "internalNote": "Robert Robinson: candidate id 2380239338 was shared with candidates of the same name in other councils (kept by Larne); given 2380239338-antrim-and-newtownabbey-mid-and-east-antrim.",
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Elections 2023 result sheet: Ballyclare",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20230708144705id_/https://www.eoni.org.uk/getmedia/152f9482-79fe-49da-9e30-4c395db656ec/Local-Council-Elections-2023-Result-Sheets-Antrim-and-Newtownabbey",
+          "original": "https://www.eoni.org.uk/getmedia/152f9482-79fe-49da-9e30-4c395db656ec/Local-Council-Elections-2023-Result-Sheets-Antrim-and-Newtownabbey",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "Read on the Electoral Office's result workbook (review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions), and every rebuilt total is in the workbook (its stage 6, Mel Lucas's exclusion, distributes nothing: the count ended there)."
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -200507,16 +200594,31 @@
           "set": {
             "Total_Votes": "420.11"
           }
+        },
+        {
+          "op": "restoreStageFractions"
         }
       ],
       "internalNote": "Anthony Flynn: candidate id 984448544 was shared with candidates of the same name in other councils (kept by Newry and Mourne); given 984448544-belfast.",
-      "reason": "James Lawlor (DUP) had 2,397 first preferences, not 2,394, as the Electoral Office's result sheet gives; the first preferences now add up to the valid poll of 14,295, his surplus at the third stage was 610, and the three extra papers went to the non-transferable count (12.25 at that stage, not 9.25, and three more at every later stage).",
+      "reason": "James Lawlor (DUP) had 2,397 first preferences, not 2,394, as the Electoral Office's result sheet gives; the first preferences now add up to the valid poll of 14,295, his surplus at the third stage was 610, and the three extra papers went to the non-transferable count (12.25 at that stage, not 9.25, and three more at every later stage). Read on the Electoral Office's result workbook (review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions), and every rebuilt total is in the workbook's Ormiston sheet.",
       "source": {
         "title": "Local Council Elections 2023 result sheets: Belfast, Ormiston DEA",
         "publisher": "Electoral Office for Northern Ireland",
         "url": "https://www.eoni.org.uk/media/yd0d3yo1/local-council-elections-2023-result-sheets-belfast.xlsx",
         "accessed": "2026-11-11"
-      }
+      },
+      "alsoBatches": [
+        "review-rest-2026-11-12"
+      ],
+      "additionalSources": [
+        {
+          "title": "Local Council Elections 2023 result sheet: Ormiston",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20230708144707id_/https://www.eoni.org.uk/getmedia/18a1a494-1c41-4e60-bafe-f2bc66a5d477/Local-Council-Elections-2023-Result-Sheets-Belfast",
+          "original": "https://www.eoni.org.uk/getmedia/18a1a494-1c41-4e60-bafe-f2bc66a5d477/Local-Council-Elections-2023-Result-Sheets-Belfast",
+          "accessed": "2026-11-12"
+        }
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -337793,6 +337895,573 @@
             "Transfers": "76.12",
             "Total_Votes": "146.52"
           }
+        }
+      ]
+    },
+    {
+      "batch": "review-rest-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/oldpark.json",
+      "source": {
+        "title": "Local Council Election 2014 result sheet: Oldpark",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401091719id_/http://www.eoni.org.uk/getmedia/09c5019b-f25d-4335-b568-4098a0b90520/Local-Council-Election-2014-Result-Sheet-Oldpark",
+        "original": "http://www.eoni.org.uk/getmedia/09c5019b-f25d-4335-b568-4098a0b90520/Local-Council-Election-2014-Result-Sheet-Oldpark",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Read on the Electoral Office's result workbook (review-rest, Nov 2026): the file's stage figures were rounded to one decimal and its twelfth stage transferred a surplus of 121.4 from Gerry McCabe, where the workbook's twelfth stage transfers Julie-Anne Corr's surplus of 152.15 (Dee Fennell 36, Nichola Mallon 28, non-transferable 88.15) and McCabe stays at 1,627.41; every count row is set to the workbook's figures (Lee Reynolds's exclusion cell at stage 10 is blank in the workbook, but its column hands out his 889). Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Dee Fennell",
+          "count": "6",
+          "set": {
+            "Transfers": "20.00",
+            "Total_Votes": "1004.55"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Dee Fennell",
+          "count": "7",
+          "set": {
+            "Transfers": "4.00",
+            "Total_Votes": "1008.55"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Dee Fennell",
+          "count": "8",
+          "set": {
+            "Transfers": "26.51",
+            "Total_Votes": "1035.06"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Dee Fennell",
+          "count": "9",
+          "set": {
+            "Transfers": "7.44",
+            "Total_Votes": "1042.50"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gareth McKee",
+          "count": "6",
+          "set": {
+            "Transfers": "21.00",
+            "Total_Votes": "1234.03"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gareth McKee",
+          "count": "7",
+          "set": {
+            "Transfers": "203.00",
+            "Total_Votes": "1437.03"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gareth McKee",
+          "count": "8",
+          "set": {
+            "Transfers": "1.06",
+            "Total_Votes": "1438.09"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gareth McKee",
+          "count": "9",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1438.09"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gareth McKee",
+          "count": "10",
+          "set": {
+            "Transfers": "678.00",
+            "Total_Votes": "2116.09"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gareth McKee",
+          "count": "11",
+          "set": {
+            "Transfers": "-610.09",
+            "Total_Votes": "1506.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gerry McCabe",
+          "count": "6",
+          "set": {
+            "Transfers": "10.03",
+            "Total_Votes": "1239.72"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gerry McCabe",
+          "count": "7",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1239.72"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gerry McCabe",
+          "count": "8",
+          "set": {
+            "Transfers": "101.25",
+            "Total_Votes": "1340.97"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gerry McCabe",
+          "count": "9",
+          "set": {
+            "Transfers": "286.44",
+            "Total_Votes": "1627.41"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gerry McCabe",
+          "count": "10",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1627.41"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gerry McCabe",
+          "count": "11",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1627.41"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gerry McCabe",
+          "count": "12",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1627.41"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Gerry McCabe",
+          "count": "13",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1627.41"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "J.J. Magee",
+          "count": "6",
+          "set": {
+            "Transfers": "12.06",
+            "Total_Votes": "1275.24"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "J.J. Magee",
+          "count": "7",
+          "set": {
+            "Transfers": "4.03",
+            "Total_Votes": "1279.27"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "J.J. Magee",
+          "count": "8",
+          "set": {
+            "Transfers": "552.00",
+            "Total_Votes": "1831.27"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "J.J. Magee",
+          "count": "9",
+          "set": {
+            "Transfers": "-325.27",
+            "Total_Votes": "1506.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Julie-Anne Corr",
+          "count": "7",
+          "set": {
+            "Transfers": "124.00",
+            "Total_Votes": "1031.15"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Julie-Anne Corr",
+          "count": "8",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1031.15"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Julie-Anne Corr",
+          "count": "9",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1031.15"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Julie-Anne Corr",
+          "count": "10",
+          "set": {
+            "Transfers": "132.00",
+            "Total_Votes": "1163.15"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Julie-Anne Corr",
+          "count": "11",
+          "set": {
+            "Transfers": "495.00",
+            "Total_Votes": "1658.15"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Julie-Anne Corr",
+          "count": "12",
+          "set": {
+            "Transfers": "-152.15",
+            "Total_Votes": "1506.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Julie-Anne Corr",
+          "count": "13",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1506.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nichola Mallon",
+          "count": "6",
+          "set": {
+            "Transfers": "138.03",
+            "Total_Votes": "1110.76"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nichola Mallon",
+          "count": "7",
+          "set": {
+            "Transfers": "9.00",
+            "Total_Votes": "1119.76"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nichola Mallon",
+          "count": "8",
+          "set": {
+            "Transfers": "56.98",
+            "Total_Votes": "1176.74"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nichola Mallon",
+          "count": "9",
+          "set": {
+            "Transfers": "27.90",
+            "Total_Votes": "1204.64"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nichola Mallon",
+          "count": "10",
+          "set": {
+            "Transfers": "7.00",
+            "Total_Votes": "1211.64"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nichola Mallon",
+          "count": "11",
+          "set": {
+            "Transfers": "8.00",
+            "Total_Votes": "1219.64"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nichola Mallon",
+          "count": "12",
+          "set": {
+            "Transfers": "28.00",
+            "Total_Votes": "1247.64"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Nichola Mallon",
+          "count": "13",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1247.64"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "7",
+          "set": {
+            "Transfers": "64.00",
+            "Total_Votes": "241.04"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "8",
+          "set": {
+            "Transfers": "45.68",
+            "Total_Votes": "286.72"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "9",
+          "set": {
+            "Transfers": "3.49",
+            "Total_Votes": "290.21"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "10",
+          "set": {
+            "Transfers": "68.00",
+            "Total_Votes": "358.21"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "11",
+          "set": {
+            "Transfers": "103.09",
+            "Total_Votes": "461.30"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "12",
+          "set": {
+            "Transfers": "88.15",
+            "Total_Votes": "549.45"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "review-rest-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/collin.json",
+      "source": {
+        "title": "Local Council Election 2019 result sheet: Collin",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20220120225420id_/https://www.eoni.org.uk/getmedia/da2de63d-c619-4f38-8d41-e1cfb3d34a18/BF-Collin",
+        "original": "https://www.eoni.org.uk/getmedia/da2de63d-c619-4f38-8d41-e1cfb3d34a18/BF-Collin",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Read on the Electoral Office's result workbook (review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions); the totals of stages 2-6 are in the workbook, whose later columns are garbled (stage 7, McClean's exclusion, is not legible there), so the stage-7 totals rest on the file's transfers alone.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "review-rest-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/lisnasharragh.json",
+      "source": {
+        "title": "Local Council Election 2019 result sheet: Lisnasharragh",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20221121151401id_/https://www.eoni.org.uk/getmedia/49104e0d-6b2c-4195-81d5-9b47c21a696f/BF-Lisnasharragh",
+        "original": "https://www.eoni.org.uk/getmedia/49104e0d-6b2c-4195-81d5-9b47c21a696f/BF-Lisnasharragh",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Read on the Electoral Office's result workbook (review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions), and every rebuilt total is in the workbook (which leaves the excluded candidates' own transfer cells blank).",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "review-rest-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2023-05-18/glengormley-urban.json",
+      "source": {
+        "title": "Local Council Elections 2023 result sheet: Glengormley Urban",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20230708144705id_/https://www.eoni.org.uk/getmedia/152f9482-79fe-49da-9e30-4c395db656ec/Local-Council-Elections-2023-Result-Sheets-Antrim-and-Newtownabbey",
+        "original": "https://www.eoni.org.uk/getmedia/152f9482-79fe-49da-9e30-4c395db656ec/Local-Council-Elections-2023-Result-Sheets-Antrim-and-Newtownabbey",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Read on the Electoral Office's result workbook (review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions), and every rebuilt total is in the workbook.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        }
+      ]
+    },
+    {
+      "batch": "review-rest-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2023-05-18/three-mile-water.json",
+      "source": {
+        "title": "Local Council Elections 2023 result sheet: Three Mile Water",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20230708144705id_/https://www.eoni.org.uk/getmedia/152f9482-79fe-49da-9e30-4c395db656ec/Local-Council-Elections-2023-Result-Sheets-Antrim-and-Newtownabbey",
+        "original": "https://www.eoni.org.uk/getmedia/152f9482-79fe-49da-9e30-4c395db656ec/Local-Council-Elections-2023-Result-Sheets-Antrim-and-Newtownabbey",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Read on the Electoral Office's result workbook (review-rest, Nov 2026): stage 6 transfers Julie Gilmour's surplus of 213.62 (Stephen Cosgrove 41, Sam Flanagan 3, Brian Kerr 21, Trevor Mawhinney 5, non-transferable 143.62), not Stephen Ross's 96, who stays at 1,211; the other stage totals, cut to whole votes, are rebuilt from the transfers (restoreStageFractions) and are in the workbook. Every stage now reconciles: its transfers add up to the surplus or the votes excluded, and its totals to the valid poll.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
+        },
+        {
+          "op": "candidateCount",
+          "name": "Julie Gilmour",
+          "count": "6",
+          "set": {
+            "Transfers": "-213.62",
+            "Total_Votes": "1115.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Julie Gilmour",
+          "count": "7",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1115.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Julie Gilmour",
+          "count": "8",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1115.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Stephen Ross",
+          "count": "6",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1211.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Stephen Ross",
+          "count": "7",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1211.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Stephen Ross",
+          "count": "8",
+          "set": {
+            "Transfers": "0.00",
+            "Total_Votes": "1211.00"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "6",
+          "set": {
+            "Transfers": "143.62",
+            "Total_Votes": "230.42"
+          }
+        },
+        {
+          "op": "candidateCount",
+          "name": "Non-transferable",
+          "count": "7",
+          "set": {
+            "Transfers": "65.93",
+            "Total_Votes": "296.35"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "review-rest-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/local-government/2023-05-18/mid-tyrone.json",
+      "source": {
+        "title": "Local Council Elections 2023 result sheet: Mid Tyrone",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20230709080332id_/https://www.eoni.org.uk/getmedia/18f63ccf-6268-43db-bdf6-d87c1b8f47d0/Local-Council-Elections-2023-Result-Sheet-Mid-Tyrone",
+        "original": "https://www.eoni.org.uk/getmedia/18f63ccf-6268-43db-bdf6-d87c1b8f47d0/Local-Council-Elections-2023-Result-Sheet-Mid-Tyrone",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Read on the Electoral Office's scanned result sheet (w8-review and review-rest, Nov 2026): The stage totals had been cut to whole votes while the transfers kept their fractions; they are rebuilt from the transfers (restoreStageFractions); every rebuilt total of stages 2-7 is on the sheet, whose printout ends at stage 7, so the two stage-8 totals (Bernard McGrath 1,087.24, Emmet McAleer 946.92) rest on the file's transfers alone.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "restoreStageFractions"
         }
       ]
     }
