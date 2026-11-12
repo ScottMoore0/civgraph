@@ -33,8 +33,9 @@ const light = declarations(block(tokens, ':root {'));
 const darkExplicit = declarations(block(tokens, ':root[data-theme="dark"]'));
 const darkSystem = declarations(block(tokens, '@media (prefers-color-scheme: dark)'));
 const raw = declarations(block(tokens, '/* Raw palette'));
+const roles = declarations(block(tokens, '/* Roles'));
 const legacy = declarations(read('tokens-legacy.css'));
-const defined = new Set([...light.keys(), ...raw.keys(), ...legacy.keys()]);
+const defined = new Set([...light.keys(), ...raw.keys(), ...roles.keys(), ...legacy.keys()]);
 
 test('the two dark-mode blocks declare the same values', () => {
   assert.deepEqual([...darkSystem], [...darkExplicit]);
@@ -55,6 +56,55 @@ test('the raw palette: one literal colour per token, named by its value, never o
     assert.ok(!seen.has(value), `${name} repeats ${seen.get(value)}`);
     seen.set(value, name);
   }
+});
+
+// The app stylesheets that read colours through the role block (rf9-ui, acceptance test A4), and
+// the part of the site each one's roles are named for.
+const ROLE_SHEETS = {
+  'site/assets/css/main.css': 'map',
+  'site/browse/browse.css': 'browse',
+  'site/apps/proni-search/app.css': 'proni',
+  'site/assets/site/site-chrome.css': 'chrome',
+  'site/assets/pages/css/shared.css': 'pages',
+  'site/assets/pages/css/status.css': 'pages',
+  'site/assets/pages/css/about.css': 'pages',
+  'packages/ui/assets/components/party-chip.css': 'chip',
+  'packages/ui/assets/components/dialog.css': 'dialog',
+};
+const ROOT = path.join(UI, '..', '..', '..');
+
+test('the role tokens: one raw colour each, by part, kind and theme, never overridden', () => {
+  assert.ok(roles.size > 100, `only ${roles.size} role tokens found`);
+  const seen = new Map();
+  for (const [name, value] of roles) {
+    const m = name.match(/^--(map|browse|proni|chrome|pages|chip|dialog)-(ink|bg|line|shade|fill|stroke)(-dark)?-(\d+)$/);
+    assert.ok(m, `${name}: --<part>-<kind>[-dark]-<n>`);
+    const ref = value.match(/^var\((--raw-[0-9a-f]{6}(?:-a\d+)?)\)$/);
+    assert.ok(ref && raw.has(ref[1]), `${name}: ${value} must read one raw palette colour`);
+    const role = name.replace(/-\d+$/, '');
+    assert.ok(!seen.has(`${role} ${value}`), `${name} repeats ${seen.get(`${role} ${value}`)}`);
+    seen.set(`${role} ${value}`, name);
+    assert.ok(!light.has(name) && !darkExplicit.has(name) && !darkSystem.has(name) && !raw.has(name) && !legacy.has(name), `${name} is defined twice`);
+  }
+});
+
+test('the app stylesheets paint with role tokens, not the raw palette', () => {
+  const used = new Set();
+  for (const [file, part] of Object.entries(ROLE_SHEETS)) {
+    const text = readFileSync(path.join(ROOT, file), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    for (const decl of text.matchAll(/(^|[;{\s])(-?-?[a-z][\w-]*)\s*:([^;{}]*)/g)) {
+      const [, , property, value] = decl;
+      for (const m of value.matchAll(/var\((--[a-z0-9-]+)\)/g)) {
+        const token = m[1];
+        if (token.startsWith('--raw-')) assert.ok(property.startsWith('--'), `${file}: ${property} reads ${token}; read a role token (tokens.css Roles) instead`);
+        if (roles.has(token)) {
+          assert.ok(token.startsWith(`--${part}-`), `${file} reads ${token}, another part's role`);
+          used.add(token);
+        }
+      }
+    }
+  }
+  assert.deepEqual([...roles.keys()].filter((t) => !used.has(t)), [], 'role tokens nothing reads');
 });
 
 test('every legacy alias points at a token and redefines none', () => {
