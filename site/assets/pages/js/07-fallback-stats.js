@@ -5,8 +5,11 @@
      slow scroll caught "0 people" (QA 2026-11-11, M2). It now only makes sure each one carries
      its final value. */
   if (window.gsap && window.ScrollTrigger) return;
-  var formatter = new Intl.NumberFormat('en-GB');
-  Array.prototype.slice.call(document.querySelectorAll('.stat__n[data-count]')).forEach(function (el) {
-    el.textContent = formatter.format(Number(el.dataset.count));
+  // The site's shared formatter (packages/core/src/format.js, served at /pkg/): a classic
+  // script reaches the module by import().
+  import('/pkg/core/src/format.js').then(function (format) {
+    Array.prototype.slice.call(document.querySelectorAll('.stat__n[data-count]')).forEach(function (el) {
+      el.textContent = format.siteNumber(Number(el.dataset.count));
+    });
   });
 })();

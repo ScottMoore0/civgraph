@@ -101,8 +101,9 @@ for (const HTML of HTML_FILES) {
 
   // The page's import map: each module the entry script imports by a plain site-root path is
   // mapped to the same path with ?v=<the same content hash> (tests/unit/ui-module-tokens.test.mjs).
-  // A deploy that changes the module changes its URL, as for the tokens above.
-  const IMPORT_MAP_ENTRY = /"(\/[A-Za-z0-9._\/-]+\.js)":"\1\?v=([A-Za-z0-9._-]+)"/g;
+  // A deploy that changes the module changes its URL, as for the tokens above. Served package
+  // modules (/pkg/core/src/date-format.mjs) end in .mjs.
+  const IMPORT_MAP_ENTRY = /"(\/[A-Za-z0-9._\/-]+\.m?js)":"\1\?v=([A-Za-z0-9._-]+)"/g;
   const stamped = updated.replace(/<script type="importmap">[^<]*<\/script>/g, (block) => block.replace(IMPORT_MAP_ENTRY, (match, file, token) => {
     const assetPath = sourceOf(file.replace(/^\/+/, ''));
     if (!existsSync(assetPath)) {

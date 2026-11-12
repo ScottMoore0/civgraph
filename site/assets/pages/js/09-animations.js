@@ -7,7 +7,6 @@
   gsap.config({ nullTargetWarn: false });
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var formatter = new Intl.NumberFormat('en-GB');
 
   function revealEverythingImmediately() {
     var shot = document.querySelector('.shot-hero');
@@ -21,8 +20,12 @@
       gsap.set(el, { clearProps: 'all' });
     });
 
-    document.querySelectorAll('.stat__n[data-count]').forEach(function (el) {
-      el.textContent = formatter.format(Number(el.dataset.count));
+    // The site's shared formatter (packages/core/src/format.js, served at /pkg/): a classic
+    // script reaches the module by import().
+    import('/pkg/core/src/format.js').then(function (format) {
+      document.querySelectorAll('.stat__n[data-count]').forEach(function (el) {
+        el.textContent = format.siteNumber(Number(el.dataset.count));
+      });
     });
     return;
   }

@@ -13,6 +13,7 @@
  */
 import { SITE } from '../../pkg/config/src/config.js';
 import { TOOLTIP } from './state-machines.js';
+import { siteNumber } from '../../pkg/core/src/format.js';
 
 (function () {
   'use strict';
@@ -128,12 +129,12 @@ import { TOOLTIP } from './state-machines.js';
   /** @template {Node} N @param {N} n @returns {N} */
   function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); return n; }
   /** @param {number} n */
-  function int(n) { return Math.round(n).toLocaleString('en-GB'); }
+  function int(n) { return siteNumber(Math.round(n)); }
   /** @param {number | null | undefined} v a rate per million */
   function rateFmt(v) {
     if (v == null || !isFinite(v)) return '–';
     if (v === 0) return '0';
-    if (v >= 100) return Math.round(v).toLocaleString('en-GB');
+    if (v >= 100) return siteNumber(Math.round(v));
     if (v >= 10) return v.toFixed(1);
     if (v >= 1) return v.toFixed(2);
     return v.toPrecision(2);
