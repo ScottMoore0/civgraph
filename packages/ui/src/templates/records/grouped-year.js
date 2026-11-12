@@ -77,9 +77,12 @@ export function groupedYearHero({ card, yearFile = null, coverage = null }) {
   const levels = coverage?.levels || {};
   const hatched = LEVELS
     .filter(([id]) => levels[id]?.available && Number(levels[id]?.hatched) > 0)
-    .map(([id, label]) => (Number(levels[id].areas) > 0
-      ? `${numberText(levels[id].hatched)} of ${numberText(levels[id].areas)} ${label}`
-      : `${numberText(levels[id].hatched)} ${label}`));
+    .map(([id, label]) => {
+      const level = levels[id] || {}; // the filter kept only levels that are there
+      return Number(level.areas) > 0
+        ? `${numberText(level.hatched)} of ${numberText(level.areas)} ${label}`
+        : `${numberText(level.hatched)} ${label}`;
+    });
 
   const mapUrl = card.interactiveUrl || '';
   const roundItems = rounds.map((r) => {

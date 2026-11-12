@@ -99,8 +99,8 @@ export function recordNotFound(ref) {
  */
 export function recordHtml(data, { fmt = (n) => n.toLocaleString() } = {}) {
   const it = data.item;
-  const nav = /** @type {ProniSiblingNav} */ (data.nav || {});
-  const digital = it.digitalRecord ? 'Digitised - held by PRONI' : '';
+  const nav = /** @type {ProniSiblingNav} */ (data['nav'] || {});
+  const digital = it['digitalRecord'] ? 'Digitised - held by PRONI' : '';
   const rows = [
     ['Repository', 'Public Record Office of Northern Ireland'],
     ['PRONI Reference', refWidget(it.ref, false)],
