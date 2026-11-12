@@ -15,9 +15,13 @@
 export const SOURCE_REQUIRED = Object.freeze(['url', 'origin', 'checked']);
 export const CONTEST_REQUIRED = Object.freeze(['file', 'body', 'date', 'constituency', 'status', 'sources']);
 
-// The size the published file must stay under: Pages' hard limit is 25 MiB (26,214,400 bytes);
-// the budget keeps a mebibyte of headroom so a batch of citations cannot tip it over unnoticed.
-export const PUBLISHED_BUDGET_BYTES = 24 * 1024 * 1024;
+// The size the published file must stay under: Pages' hard limit is 25 MiB (26,214,400 bytes).
+// The budget kept a mebibyte of headroom so a batch of citations could not tip it over unnoticed;
+// since 6 Nov 2026 the whole file is no longer deployed to Pages (scripts/build/site.mjs EXCLUDE:
+// D1's contest_provenance and citations rows and the per-election shards serve it), so the
+// headroom is 256 KiB (wave-6 landing, 12 Nov 2026, when the 1921-67 council gap-fills took it to
+// 25.3 MB). Sharding the file, or retiring this guard, is the lasting fix.
+export const PUBLISHED_BUDGET_BYTES = 25 * 1024 * 1024 - 256 * 1024;
 
 /**
  * The parts of election-provenance.json this module reads; every other field passes through.
