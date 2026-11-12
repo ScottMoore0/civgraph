@@ -17,6 +17,7 @@ import path from 'node:path';
 import { TableWriter, bool, int, num, transaction, txt, withPlaceholders } from './db.mjs';
 import { PART_CHARS } from '../../schema/src/schema.mjs';
 import { slugify } from '../../core/src/format.js';
+import { normalizeName } from '../../core/src/election-domain.mjs';
 
 export { slugify };
 
@@ -43,6 +44,55 @@ export const AGGREGATES = ['mainLikeCandidateSummary', 'entityIndex'];
 const same = (/** @type {unknown} */ a, /** @type {unknown} */ b) => JSON.stringify(a) === JSON.stringify(b);
 
 /**
+ * The name a count row carries: the bundle's candidateName, else the source's Firstname and Surname.
+ * @param {Count} row
+ */
+const countRowName = (row) => String(row.candidateName || [row.Firstname, row.Surname].filter(Boolean).join(' ') || '');
+
+/**
+ * Which candidacy (its `ord` in the contest's candidates) each count row belongs to.
+ *
+ * By Candidate_Id first, as always: a candidate id held by more than one candidate links none of
+ * its rows (`nonUniqueIds` counts those rows). A row with no Candidate_Id, which no id link found,
+ * falls back to its name: the candidate whose normalised name (core normalizeName) is exactly the
+ * row's. A name two candidates of the contest share is never guessed: those rows stay unlinked and
+ * are listed in `ambiguous`. Rows naming no candidate (the non-transferable papers) stay unlinked.
+ * The 1920 PR contest files carry no Candidate_Ids, so their rows link by name (review-rest item 9).
+ *
+ * @param {readonly Candidacy[]} candidates
+ * @param {readonly Count[]} countGroup
+ * @returns {{ ords: Array<number | null>, byName: number, nonUniqueIds: number, ambiguous: string[] }}
+ */
+export function countRowCandidacyOrds(candidates, countGroup) {
+  /** @type {Map<string, number | null>} */
+  const ordById = new Map();
+  /** @type {Map<string, number | null>} */
+  const ordByName = new Map();
+  candidates.forEach((cand, ord) => {
+    const id = cand.id == null ? '' : String(cand.id);
+    ordById.set(id, ordById.has(id) ? null : ord);
+    const name = normalizeName(cand.name);
+    if (name) ordByName.set(name, ordByName.has(name) ? null : ord);
+  });
+  let byName = 0; let nonUniqueIds = 0;
+  /** @type {Set<string>} */
+  const ambiguous = new Set();
+  const ords = countGroup.map((row) => {
+    const id = String(row.Candidate_Id ?? row.id ?? '');
+    const byId = ordById.has(id) ? /** @type {number | null} */ (ordById.get(id)) : null;
+    if (ordById.has(id) && byId === null) nonUniqueIds += 1;
+    if (byId !== null || String(row.Candidate_Id ?? '') !== '') return byId;
+    const name = normalizeName(countRowName(row));
+    if (!name || !ordByName.has(name)) return null;
+    const ord = /** @type {number | null} */ (ordByName.get(name));
+    if (ord === null) { ambiguous.add(countRowName(row)); return null; }
+    byName += 1;
+    return ord;
+  });
+  return { ords, byName, nonUniqueIds, ambiguous: [...ambiguous] };
+}
+
+/**
  * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
  * @param {{ bundleDir: string, manifestFile: string, summaryDir: string }} options
  */
@@ -52,8 +102,8 @@ export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
   const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
   const manifestEntries = manifest.elections || [];
   const ordByKey = new Map(manifestEntries.map((e, i) => [e.key, i]));
-  /** @type {{ unstampedCandidacies: number, countGroupVerbatim: number, nonUniqueCandidateIds: number, manifestHead?: Record<string, unknown> }} */
-  const stats = { unstampedCandidacies: 0, countGroupVerbatim: 0, nonUniqueCandidateIds: 0 };
+  /** @type {{ unstampedCandidacies: number, countGroupVerbatim: number, nonUniqueCandidateIds: number, countRowsLinkedByName: number, ambiguousCountNames: string[], manifestHead?: Record<string, unknown> }} */
+  const stats = { unstampedCandidacies: 0, countGroupVerbatim: 0, nonUniqueCandidateIds: 0, countRowsLinkedByName: 0, ambiguousCountNames: [] };
 
   const n = transaction(db, () => {
     const W = {
@@ -187,12 +237,13 @@ export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
             meta: JSON.stringify(cand),
           });
         });
+        const links = countRowCandidacyOrds(candidates, r.countGroup || []);
+        stats.nonUniqueCandidateIds += links.nonUniqueIds;
+        stats.countRowsLinkedByName += links.byName;
+        for (const name of links.ambiguous) stats.ambiguousCountNames.push(`${key} #${seq} ${r.constituency}: ${name}`);
         for (const [ord, row] of (r.countGroup || []).entries()) {
-          const id = String(row.Candidate_Id ?? row.id ?? '');
-          const candidacyOrd = ordById.has(id) ? ordById.get(id) : null;
-          if (ordById.has(id) && candidacyOrd === null) stats.nonUniqueCandidateIds += 1;
           W.counts.add({
-            election_key: key, contest_seq: seq, ord, row_id: int(row.id), candidacy_ord: candidacyOrd,
+            election_key: key, contest_seq: seq, ord, row_id: int(row.id), candidacy_ord: links.ords[ord],
             candidate_id: txt(row.Candidate_Id ?? row.id), count_number: int(row.Count_Number),
             total_votes: num(row.Total_Votes), transfers: num(row.Transfers), status: txt(row.Status) || null,
           });
