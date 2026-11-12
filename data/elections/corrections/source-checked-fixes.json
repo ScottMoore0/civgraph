@@ -323968,6 +323968,44 @@
           "value": "1083"
         }
       ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1987-10-22/lower-falls.json",
+      "source": {
+        "title": "Belfast: Lower Falls by-election, 22 October 1987, result sheet",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20120216052444id_/http://www.eoni.org.uk/lower_falls_by-election_22_october_1987.pdf",
+        "accessed": "2026-11-12"
+      },
+      "reason": "Pat Massey had 173 first preferences, not 172, as the Electoral Office's result sheet gives them: the five add up to its valid poll of 8,527. The sheet also gives 21,264 electors, 8,668 votes polled and 141 invalid.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "candidateCount",
+          "name": "Pat Massey",
+          "count": 1,
+          "set": {
+            "Candidate_First_Pref_Votes": "173.00",
+            "Total_Votes": "173.00"
+          }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "21264"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "8668"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "141"
+        }
+      ]
     }
   ]
 }
