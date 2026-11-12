@@ -52,7 +52,7 @@ import { withShareTags } from '../packages/ui/src/templates/share.js';
 import { loadElectionPage, loadPersonContestSources } from '../packages/api/src/pages/election.js';
 import { groupedYearHero, groupedYearKey } from '../packages/ui/src/templates/records/grouped-year.js';
 import { resolveElectionSlugAlias } from '../packages/core/src/election-slug-aliases.js';
-import { binding } from '../packages/config/src/config.js';
+import { SITE, binding } from '../packages/config/src/config.js';
 import { asStore } from '../packages/storage/src/d1.js';
 import { CARDS } from '../packages/api/src/queries/cards.js';
 import { ELECTION_PAGES, RECORD_PAGES } from '../packages/api/src/queries/pages.js';
@@ -60,7 +60,7 @@ import { ELECTION_PAGES, RECORD_PAGES } from '../packages/api/src/queries/pages.
 // Retired election and contest slugs (packages/core/src/election-slug-aliases.js): lookupElection
 // finds the record under its new slug and the handler's slug check answers 301.
 export { slugify, resolveElectionSlugAlias };
-export const SITE_ORIGIN = 'https://civgraph.net';
+export const SITE_ORIGIN = SITE.origin;
 const SITE_NAME = 'Civgraph';
 const DESCRIPTION_LIMIT = 300;
 /** An election's source record: this prefix and the election's slug. */
