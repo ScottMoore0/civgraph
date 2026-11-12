@@ -2,6 +2,7 @@ export const TEST_ASSET_VERSION = 'test-065';
 // The full render metadata from D1 (data design phase 3): render/metadata/maps-test.json answers 301 here.
 export const METADATA_URL = '/_api/layers';
 export const PORT_PLAN_URL = `/render/metadata/main-site-port-plan.json?v=${TEST_ASSET_VERSION}`;
+/** @type {[[number, number], [number, number]]} */
 export const IRELAND_BOUNDS = [[-10.75, 51.35], [-5.35, 55.55]];
 export const HOVER_MIN_ZOOM = 7;
 export const HOVER_THROTTLE_MS = 80;
