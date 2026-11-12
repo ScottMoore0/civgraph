@@ -195,6 +195,10 @@ def crosswalk_redirects(xwalk, merges, final, ents):
         for d in e.get('mergedFrom') or []:
             absorbed[int(d)] = pid
     logged = {int(m['drop']) for m in merges}
+    holders = {}
+    for pid, e in ents.items():
+        for s in e.get('sourcePersonIds') or []:
+            holders.setdefault(s, set()).add(pid)
     out = []
     for r in table:
         if not r.get('drop') or not r['drop'].isdigit():
@@ -204,6 +208,10 @@ def crosswalk_redirects(xwalk, merges, final, ents):
             continue
         while keep not in ents and keep in absorbed and absorbed[keep] != keep:
             keep = absorbed[keep]
+        if keep not in ents:
+            # The recorded keep was itself joined into another person by a merge the registry now
+            # holds by itself (so no mergedFrom names it): the pair's ids lead to the person instead.
+            keep = next(iter(holders.get(r['ei'], set()) & holders.get(r['ie'], set())), keep)
         if keep not in ents:
             continue
         logged.add(drop)
