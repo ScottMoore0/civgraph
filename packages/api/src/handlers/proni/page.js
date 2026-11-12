@@ -17,7 +17,7 @@ import { siteNumber } from '../../../../core/src/format.js';
 import { reportError } from '../_error.js';
 import { proniReader } from './_read.js';
 import { loadNode } from './node.js';
-import { CHILD_CAP, esc, recordHtml, recordNotFound } from '../../../../../site/apps/proni-search/record-view.js';
+import { CHILD_CAP, esc, recordHtml, recordNotFound } from '../../../../ui/src/templates/proni/record-view.js';
 
 /**
  * The reference a /proni/... address names, read as the app reads it (app.js currentRef), or null

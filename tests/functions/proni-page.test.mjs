@@ -10,7 +10,7 @@ import { d1, installCaches, context } from '../records/d1-shim.mjs';
 import { fillRecordView, refFromPath, serveRecordPage } from '../../packages/api/src/handlers/proni/page.js';
 import { loadNode } from '../../packages/api/src/handlers/proni/node.js';
 import { fromD1 } from '../../packages/storage/src/d1.js';
-import { recordHtml } from '../../site/apps/proni-search/record-view.js';
+import { recordHtml } from '../../packages/ui/src/templates/proni/record-view.js';
 import { onRequestGet as proniPath } from '../../functions/proni/[[path]].js';
 import { catalogue } from './proni-fixture.mjs';
 

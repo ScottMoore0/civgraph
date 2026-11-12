@@ -1,10 +1,12 @@
-// The Independent PRONI Search record page as HTML: one module for the browser app (app.js) and
-// the server, which renders /proni/<reference> before any script runs (packages/api/src/
+// The Independent PRONI Search record page as HTML: one module for the browser app
+// (site/apps/proni-search/app.js, which imports it at /pkg/ui/src/templates/proni/record-view.js,
+// packages/served.json) and the server, which renders /proni/<reference> before any script runs (packages/api/src/
 // handlers/proni/page.js). Both write the same markup, so the app keeps the server's page on load
 // rather than drawing it again. Pure string functions: no DOM, no fetch.
+import { escapeHtml } from '../../../../core/src/html.js';
 /**
  * The record answer of /_api/proni/node (node.js loadNode); the server's has `childCount`.
- * @typedef {import('../../../packages/types/index.js').ApiV1.ProniNodeNodeAnswer & { childCount?: number }} ProniNodeAnswer
+ * @typedef {import('../../../../types/index.js').ApiV1.ProniNodeNodeAnswer & { childCount?: number }} ProniNodeAnswer
  */
 /**
  * The sibling navigation node.js sends with a record (`nav`; the v1 contract leaves it open).
@@ -18,7 +20,8 @@
 /** How many children the record page lists. */
 export const CHILD_CAP = 200;
 
-export const esc = (/** @type {unknown} */ s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => /** @type {Record<string, string>} */ ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+/** HTML-escapes a value: core's escapeHtml (the same five characters, null and undefined as ''). */
+export const esc = escapeHtml;
 // Clean URL for a reference: /proni/AA/3 — slashes stay as path separators,
 // each segment is percent-encoded so spaces/odd chars survive.
 export const refToPath = (/** @type {string} */ ref) => '/proni/' + String(ref).split('/').map(encodeURIComponent).join('/');

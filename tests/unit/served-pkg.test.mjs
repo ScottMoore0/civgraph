@@ -50,6 +50,7 @@ const SERVED = [
   'pkg/registries/src/browser/statuses.mjs',
   'pkg/ui/src/page-types.mjs',
   'pkg/ui/src/templates/components/index.js',
+  'pkg/ui/src/templates/proni/record-view.js',
 ];
 
 // Packages that are never served: they run in Node or in Functions only, or hold private paths.
