@@ -182,7 +182,8 @@ class Handler(SimpleHTTPRequestHandler):
         if api:
             return api
         for served, source in SERVED_FROM.items():
-            if unquote(bare).startswith('/' + served):
+            # A key ending in / is a directory; any other key is one file (the /pkg/ allowlist).
+            if unquote(bare).startswith('/' + served) if served.endswith('/') else unquote(bare) == '/' + served:
                 return os.path.join(REPO, *(source + unquote(bare)[len(served) + 1:]).split('/'))
         built = local_path_for_url(unquote(bare))
         if built and os.path.exists(built):

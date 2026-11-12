@@ -51,7 +51,7 @@ export const ROOT_FILES = [
 export const SITE_DIRS = [
   // .well-known/security.txt (RFC 9116), the one file there.
   '.well-known',
-  'agent', 'app', 'apps', 'assets', 'browse', 'catalogue', 'data', 'maps', 'pages', 'records',
+  'agent', 'app', 'apps', 'assets', 'browse', 'catalogue', 'data', 'maps', 'pages', 'pkg', 'records',
   'render', 'sitemaps', 'src', 'test2',
 ];
 
@@ -92,11 +92,21 @@ export const INCLUDE_ANYWAY = ['data/census/explorer-bundle.json'];
 const toPosix = (p) => p.replace(/\\/g, '/');
 
 /**
- * Package files served at another path (packages/served.json, refactor PKG-9): served prefix ->
- * source prefix. A package file wins over any file at its served path.
+ * Package files served at another path (packages/served.json, refactor PKG-9): served path ->
+ * source path. A key ending in / is a directory (a prefix); any other key is one file, matched
+ * exactly (the /pkg/ allowlist). A package file wins over any file at its served path.
  */
 export const SERVED_FROM = Object.fromEntries(Object.entries(
   JSON.parse(readFileSync(path.join(REPO_ROOT, 'packages', 'served.json'), 'utf8'))).filter(([k]) => k !== '//'));
+
+/** The served path `p` under a served.json key: the rest of a directory key, '' for a file key itself, or null. */
+const underKey = (/** @type {string} */ p, /** @type {string} */ key) => {
+  if (key.endsWith('/')) return p.startsWith(key) ? p.slice(key.length) : null;
+  return p === key ? '' : null;
+};
+
+/** The served package modules of /pkg/ (packages/served.json): one file each, never a directory. */
+export const SERVED_PKG = Object.keys(SERVED_FROM).filter((k) => k.startsWith('pkg/')).sort();
 
 /** The folder of the site's own files: site/X is served at /X (root tidy, 8 Nov 2026). */
 export const SITE_SOURCE = 'site';
@@ -108,7 +118,8 @@ export function sourceOf(rel) {
   const p = toPosix(rel).replace(/^\/+/, '');
   if (!p) return SITE_SOURCE; // the served root is site/
   for (const [served, from] of Object.entries(SERVED_FROM)) {
-    if (p.startsWith(served)) return from + p.slice(served.length);
+    const rest = underKey(p, served);
+    if (rest !== null) return from + rest;
     if (`${p}/` === served) return from.slice(0, -1); // the served directory itself
   }
   const top = p.split('/')[0];
@@ -119,7 +130,10 @@ export function sourceOf(rel) {
 /** The served path of a repository file (itself unless a package or site/ serves it elsewhere). */
 export function servedOf(rel) {
   const p = toPosix(rel);
-  for (const [served, from] of Object.entries(SERVED_FROM)) if (p.startsWith(from)) return served + p.slice(from.length);
+  for (const [served, from] of Object.entries(SERVED_FROM)) {
+    const rest = underKey(p, from);
+    if (rest !== null) return served + rest;
+  }
   if (p.startsWith(`${SITE_SOURCE}/`)) return p.slice(SITE_SOURCE.length + 1);
   return p;
 }
@@ -130,6 +144,8 @@ export function isSiteFile(rel) {
   if (INCLUDE_ANYWAY.includes(p)) return true;
   if (!p.includes('/')) return ROOT_FILES.includes(p);
   const top = p.slice(0, p.indexOf('/'));
+  // /pkg/ serves exactly the allowlisted package modules, nothing else under it.
+  if (top === 'pkg') return SERVED_PKG.includes(p);
   if (BUILD_DIRS.some((d) => p.startsWith(`${d}/`))) return true;
   if (!SITE_DIRS.includes(top)) return false;
   return !EXCLUDE.some((e) => (e.endsWith('/') ? p.startsWith(e) : p === e));

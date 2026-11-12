@@ -30,6 +30,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { recordPaths } from '../../../packages/config/src/node.mjs';
 import { openSqliteHandle } from '../../../packages/storage/src/sqlite.mjs';
 import {
   EXTRACT_COLUMNS, contestFacts, decadeOf, electedPersons, emptyTally, extractRow, parseMeta, pct,
@@ -44,7 +45,7 @@ const opt = (/** @type {string} */ name, /** @type {string | null} */ dflt = nul
 };
 const many = (/** @type {string} */ name) => args.flatMap((a, i) => (a === name && args[i + 1] ? [args[i + 1]] : []));
 
-const DB_FILE = path.resolve(REPO, opt('--db', 'tmp/records/civgraph-records.sqlite') || '');
+const DB_FILE = path.resolve(REPO, opt('--db', recordPaths().RECORDS_DB) || '');
 
 /**
  * Walk every election in body, date order with its contests and candidacies.

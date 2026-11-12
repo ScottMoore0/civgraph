@@ -335,9 +335,12 @@ const REGISTRY_COLOUR_KEYS = new Set([
   'ulster popular unionist party'
 ]);
 
+/** The colour of a party with none of its own, or of no party (the build's fallback slate). */
+export const NEUTRAL_PARTY_COLOUR = '#6b7280';
+
 // Colours that mean "no colour": the build's fallback slate (#6b7280) and the neutral greys
 // importers wrote as placeholders. A party that has a colour of its own is never drawn in one.
-const PLACEHOLDER_PARTY_COLOURS = new Set(['#6b7280', '#888888', '#9ca3af', '#9e9e9e', '#a0a0a0', '#a9a9a9', '#808080']);
+const PLACEHOLDER_PARTY_COLOURS = new Set([NEUTRAL_PARTY_COLOUR, '#888888', '#9ca3af', '#9e9e9e', '#a0a0a0', '#a9a9a9', '#808080']);
 
 /**
  * @param {unknown} colour
@@ -379,7 +382,7 @@ export function isRegistryColourParty(party) {
  * @param {string} [fallback]
  * @returns {string}
  */
-export function resolvePartyColour(party, sourceColour = '', fallback = '#6b7280') {
+export function resolvePartyColour(party, sourceColour = '', fallback = NEUTRAL_PARTY_COLOUR) {
   const key = normalizeName(party);
   const registry = DEFAULT_PARTY_COLOURS.get(key);
   if (registry && REGISTRY_COLOUR_KEYS.has(key)) return registry;
@@ -500,7 +503,7 @@ export function normalizeParty(value) {
  * @param {string} [fallback]
  * @returns {string}
  */
-export function partyColour(value, fallback = '#6b7280') {
+export function partyColour(value, fallback = NEUTRAL_PARTY_COLOUR) {
   return DEFAULT_PARTY_COLOURS.get(normalizeName(value)) || fallback;
 }
 

@@ -5,63 +5,43 @@
  * party colours of the records; everything else uses currentColor and the chart tokens.
  * tests/unit/elections-app-lib.test.mjs.
  */
-import { esc, fmtInt, fmtPct, inkOn, partyColour } from './format.js';
+import { esc, fmtInt, fmtPct, inkOn } from './format.js';
+import { partyColour } from './party.js';
+import { seatPositions } from '../../../pkg/core/src/election-domain.mjs';
+
+/** Seat spacing of the parliament arc, in SVG units (packages/core seatPositions; the map app draws 13 too). */
+const SEAT_SPACING = 13;
 
 /**
- * Seat positions of a parliament arc for n seats: rows of a half-annulus, each row's seats
- * proportional to its radius, ordered left to right by angle.
- * @param {number} n
- * @returns {{ rows: number, points: Array<{ x: number, y: number, a: number, row: number }>, dot: number }}
- */
-export function arcLayout(n) {
-  if (n <= 0) return { rows: 0, points: [], dot: 0 };
-  const rows = n < 4 ? 1 : Math.max(1, Math.round(Math.sqrt(n) / 2));
-  const inner = rows === 1 ? 1 : 0.42;
-  const radii = Array.from({ length: rows }, (_, i) => (rows === 1 ? 1 : inner + (i * (1 - inner)) / (rows - 1)));
-  const sum = radii.reduce((s, r) => s + r, 0);
-  const counts = radii.map((r) => Math.max(1, Math.floor((n * r) / sum)));
-  let left = n - counts.reduce((s, c) => s + c, 0);
-  for (let i = rows - 1; left > 0; i = (i - 1 + rows) % rows) { counts[i] += 1; left -= 1; }
-  for (let i = rows - 1; left < 0; i = (i - 1 + rows) % rows) { if (counts[i] > 1) { counts[i] -= 1; left += 1; } }
-  /** @type {Array<{ x: number, y: number, a: number, row: number }>} */
-  const points = [];
-  let spacing = Infinity;
-  radii.forEach((r, row) => {
-    const s = counts[row];
-    if (s > 1) spacing = Math.min(spacing, (Math.PI * r) / (s - 1));
-    for (let j = 0; j < s; j += 1) {
-      const a = s === 1 ? Math.PI / 2 : Math.PI - (Math.PI * j) / (s - 1);
-      points.push({ x: r * Math.cos(a), y: r * Math.sin(a), a, row });
-    }
-  });
-  const gap = rows > 1 ? (1 - inner) / (rows - 1) : 0.5;
-  const dot = Math.min(gap, Number.isFinite(spacing) ? spacing : 0.5) * 0.42;
-  points.sort((p, q) => q.a - p.a || p.row - q.row);
-  return { rows, points, dot };
-}
-
-/**
- * A parliament arc of parties' seats ([{ party, seats, colour }], in the order to draw them).
+ * A parliament arc of parties' seats ([{ party, seats, colour }], in the order to draw them), on
+ * the map app's seat layout (packages/core/src/election-domain.mjs seatPositions: a hemicycle
+ * past 12 seats, two rows below that), filled left to right.
  * @param {Array<{ party: string, seats: number, colour?: string }>} parties
  * @param {{ title?: string, majority?: boolean }} [opts]
  */
 export function parliamentArc(parties, opts = {}) {
   const seats = parties.flatMap((p) => Array.from({ length: Math.max(0, p.seats | 0) }, () => p));
   const n = seats.length;
-  const { points, dot } = arcLayout(n);
-  const W = 400;
-  const H = 215;
-  const R = 190;
-  const cx = W / 2;
-  const cy = 200;
+  const points = seatPositions(n, SEAT_SPACING);
+  const r = SEAT_SPACING * 0.42;
+  const pad = r + 2;
+  const width = Math.max(0, ...points.map((pt) => pt.x));
+  const height = Math.max(0, ...points.map((pt) => pt.y));
+  const W = width + 2 * pad;
+  const H = height + 2 * pad;
+  const cx = pad + width / 2;
+  const base = pad + height;
   const title = opts.title || `${n} seats`;
   const circles = points.map((pt, i) => {
     const p = seats[i];
-    return `<circle cx="${(cx + pt.x * R).toFixed(1)}" cy="${(cy - pt.y * R).toFixed(1)}" r="${(dot * R).toFixed(2)}" fill="${esc(partyColour(p.colour))}"><title>${esc(p.party)}</title></circle>`;
+    return `<circle cx="${(pad + pt.x).toFixed(1)}" cy="${(pad + pt.y).toFixed(1)}" r="${r.toFixed(2)}" fill="${esc(partyColour(p.colour))}"><title>${esc(p.party)}</title></circle>`;
   }).join('');
   const half = Math.floor(n / 2) + 1;
-  const label = opts.majority === false || n < 3 ? '' : `<text x="${cx}" y="${cy - 6}" text-anchor="middle" font-size="22" font-weight="700" fill="currentColor">${n}</text><text x="${cx}" y="${cy + 12}" text-anchor="middle" font-size="11" fill="currentColor">majority ${half}</text>`;
-  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(title)}" class="el-arc"><title>${esc(title)}</title>${circles}${label}</svg>`;
+  // The count and the majority sit in the hemicycle's hollow (an arc has one past 12 seats).
+  const big = (W / 18).toFixed(1);
+  const small = (W / 36).toFixed(1);
+  const label = opts.majority === false || n <= 12 ? '' : `<text x="${cx.toFixed(1)}" y="${(base - W / 14).toFixed(1)}" text-anchor="middle" font-size="${big}" font-weight="700" fill="currentColor">${n}</text><text x="${cx.toFixed(1)}" y="${(base - W / 60).toFixed(1)}" text-anchor="middle" font-size="${small}" fill="currentColor">majority ${half}</text>`;
+  return `<svg viewBox="0 0 ${W.toFixed(1)} ${H.toFixed(1)}" role="img" aria-label="${esc(title)}" class="el-arc"><title>${esc(title)}</title>${circles}${label}</svg>`;
 }
 
 /**

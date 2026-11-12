@@ -1,5 +1,5 @@
 {
-  "//": "The import rules between the parts of the repository (REFACTOR-PLAN.md section 2.2, PKG-0). scripts/check/boundaries.mjs (npm run check:boundaries) reads every static import, re-export and literal dynamic import() in the tracked .js/.mjs/.cjs files and fails on an edge the importing unit does not allow. A file belongs to the first unit whose paths hold it, so the narrower units come first. `allow` lists the units a unit may import (itself always; '*' any, '!name' not that one); `node` says whether node:* built-ins are allowed; npm packages (bare names) and imports of files no unit holds (data, root files) are not checked. Departures from the plan's table, by decision: core and api may import the generated registry slices (registries-browser, pure data; api for the contribution machine decide.js reads); map may import frontend (src/ and the other browser directories) until F2/F4 move the rest of the map app out of src/. `baseline` lists known violating edges ('from -> to' file paths); it may only shrink, and is empty since PKG-1.",
+  "//": "The import rules between the parts of the repository (REFACTOR-PLAN.md section 2.2, PKG-0). scripts/check/boundaries.mjs (npm run check:boundaries) reads every static import, re-export and literal dynamic import() in the tracked .js/.mjs/.cjs files and fails on an edge the importing unit does not allow. A file belongs to the first unit whose paths hold it, so the narrower units come first. `allow` lists the units a unit may import (itself always; '*' any, '!name' not that one); `node` says whether node:* built-ins are allowed; npm packages (bare names) and imports of files no unit holds (data, root files) are not checked. Departures from the plan's table, by decision: core and api may import the generated registry slices (registries-browser, pure data; api for the contribution machine decide.js reads); map may import frontend (src/) until F2/F4 move the rest of the map app out of src/. The served pages (site/, site/apps/ as its own unit, and the retired apps' kill-switch worker render/sw.js) are not bundled, so a relative import of packages/ would 404: they import only site/ files, and package code reaches them through the served shims (site-served: site/assets/ui/, re-exports of what packages/served.json serves there); site/ may not import an app under site/apps/ (added 11 Nov 2026, architecture rule R1, after the site move had left site/ in no unit). `baseline` lists known violating edges ('from -> to' file paths); it may only shrink. Its one entry is the PRONI record page's server render, which imports the PRONI app's renderer (found when site/ joined the rules; the renderer belongs in packages/ui). `unowned` lists the scripts deliberately in no unit, with reasons.",
   "units": {
     "storage-node": {
       "paths": [
@@ -196,15 +196,63 @@
       ],
       "node": false
     },
+    "site-pkg": {
+      "//": "site/pkg/: one re-export per package module a served page imports from /pkg/ (packages/served.json), so Node and tsc resolve the page's import to the package. Pure browser packages only.",
+      "paths": [
+        "site/pkg/"
+      ],
+      "allow": [
+        "core",
+        "ui",
+        "config",
+        "registries-browser"
+      ],
+      "node": false
+    },
+    "elections-app": {
+      "//": "The Elections app (site/apps/elections/, served unbundled at /apps/elections/): its own modules, the served package modules under /pkg/ (site-pkg), and the served shims under /assets/ui/ (site-served: /assets/ui/state/machine.js). Never packages/ by a relative path: a served page cannot reach it.",
+      "paths": [
+        "site/apps/elections/"
+      ],
+      "allow": [
+        "site-pkg",
+        "site-served"
+      ],
+      "node": false
+    },
+    "site-served": {
+      "//": "The shims under site/ at a path packages/served.json serves from a package (site/assets/ui/ is packages/ui/assets/): each only re-exports the package file, so Node and tsc resolve a page's import to the module the browser is given. The only site/ files that may import packages/.",
+      "paths": [
+        "site/assets/ui/"
+      ],
+      "allow": [
+        "ui"
+      ],
+      "node": false
+    },
+    "site-apps": {
+      "paths": [
+        "site/apps/"
+      ],
+      "allow": [
+        "site",
+        "site-served"
+      ],
+      "node": false
+    },
+    "site": {
+      "paths": [
+        "site/",
+        "render/sw.js"
+      ],
+      "allow": [
+        "site-served"
+      ],
+      "node": false
+    },
     "frontend": {
       "paths": [
-        "src/",
-        "app/",
-        "browse/",
-        "apps/",
-        "assets/",
-        "catalogue/",
-        "records/"
+        "src/"
       ],
       "allow": [
         "map",
@@ -219,8 +267,7 @@
     "scripts": {
       "paths": [
         "scripts/",
-        "tools/",
-        "registries/"
+        "tools/"
       ],
       "allow": [
         "*",
@@ -238,5 +285,15 @@
       "node": true
     }
   },
-  "baseline": []
+  "baseline": [
+    "packages/api/src/handlers/proni/page.js -> site/apps/proni-search/record-view.js"
+  ],
+  "unowned": {
+    "//": "Tracked scripts that belong to no unit, each with its reason (architecture rule R1; check C2 in npm run check:architecture fails on a script in no unit and not listed here, and on an entry here that matches nothing). A key ending in / covers a folder.",
+    "eslint.config.mjs": "the linter's own configuration, read only by eslint",
+    "config/playwright.config.cjs": "the browser-test runner's configuration, read only by Playwright",
+    "data/elections-source/js/": "the election viewer's source copy (classic scripts, no imports); check:viewer-parity holds site/app/election-viewer-package/ to it",
+    "data/review-inputs/": "one-off review tools kept with the review inputs they read; never imported or served",
+    "docs/": "example and handoff scripts quoted by documents; never imported, served or run by the build"
+  }
 }
