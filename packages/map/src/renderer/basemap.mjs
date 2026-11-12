@@ -43,6 +43,21 @@ const OSM_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright" 
 /** @typedef {{ id: string, kind: 'style', label: string, styleUrl: string, attribution: string, glyphFonts: string[], terms: string }} StyleProvider */
 /** @typedef {{ id: string, kind: 'raster', label: string, tiles: string[], attribution: string, maxzoom?: number, terms?: string }} RasterProvider */
 /** @typedef {StyleProvider | RasterProvider} BasemapProvider */
+/** @typedef {import('maplibre-gl').SourceSpecification} SourceSpecification */
+/** @typedef {import('maplibre-gl').LayerSpecification} LayerSpecification */
+
+/**
+ * A provider's style made ready to sit under the app's layers (namespaceStyle).
+ * @typedef {{
+ *   sources: Record<string, SourceSpecification>,
+ *   layers: LayerSpecification[],
+ *   glyphs: string | null,
+ *   sprite: import('maplibre-gl').SpriteSpecification | null
+ * }} NamespacedStyle
+ */
+
+/** A map error or source-data event, the fields read here. @typedef {{ sourceId?: string, tile?: unknown } | null | undefined} MapSourceEventView */
+/** Where the failover keeps the providers given up this session (sessionStorage, or a test's stand-in). @typedef {{ getItem(key: string): string | null, setItem(key: string, value: string): void }} FailoverStorage */
 
 /** @type {StyleProvider} */
 export const OPENFREEMAP_LIBERTY = Object.freeze({
@@ -134,8 +149,9 @@ export const BASEMAP_PREFERENCE_KEY = 'civgraph.basemap';
  * is one of the chain's: the providers before it are skipped (for this page, not the session).
  * The browser suite names osm-tiles: drawn by software GL in a headless browser, the vector base
  * map costs seconds a test, and the suite tests the app, not the base map (basemap.spec.cjs does).
- * @param {BasemapProvider[]} chain
+ * @param {readonly BasemapProvider[]} chain
  * @param {{ search?: string, storage?: { getItem(key: string): string | null } | null }} [where]
+ * @returns {readonly BasemapProvider[]}
  */
 export function preferredChain(chain, { search = '', storage = null } = {}) {
   let wanted = null;
@@ -147,6 +163,11 @@ export function preferredChain(chain, { search = '', storage = null } = {}) {
   return index > 0 ? chain.slice(index) : chain;
 }
 
+/**
+ * Is this a base map layer's or source's id?
+ * @param {unknown} id
+ * @returns {id is string}
+ */
 export function isBasemapId(id) {
   return typeof id === 'string' && (id.startsWith(BASEMAP_PREFIX) || id === 'osm');
 }
@@ -157,18 +178,23 @@ export function isBasemapId(id) {
  * @param {import('maplibre-gl').StyleSpecification | null | undefined} style a MapLibre style document, as fetched
  * @param {string} prefix
  * @param {string} [attribution] credit set on every vector source (the provider's TileJSON may replace it)
+ * @returns {NamespacedStyle | null}
  */
 export function namespaceStyle(style, prefix, attribution = '') {
   if (!style || typeof style !== 'object' || !Array.isArray(style.layers) || !style.sources) return null;
+  /** @type {Record<string, SourceSpecification>} */
   const sources = {};
   for (const [id, source] of Object.entries(style.sources)) {
+    /** @type {SourceSpecification & { attribution?: string }} */
     const copy = { ...source };
     if (attribution && copy.type === 'vector' && !copy.attribution) copy.attribution = attribution;
     sources[prefix + id] = copy;
   }
   const layers = style.layers.map((layer) => {
+    /** @type {LayerSpecification & { source?: string }} */
     const copy = { ...layer, id: prefix + layer.id };
-    if (layer.source) copy.source = prefix + layer.source;
+    // Every layer but a background one draws from a source.
+    if (/** @type {{ source?: string }} */ (layer).source) copy.source = prefix + /** @type {{ source?: string }} */ (layer).source;
     return copy;
   });
   return { sources, layers, glyphs: style.glyphs || null, sprite: style.sprite || null };
@@ -199,12 +225,15 @@ export function glyphUrlForAvailableFont(url, fonts) {
 /**
  * Which provider of a chain to use, and when to move on: the decisions only, no map. One per
  * map; `failed` is shared with the session store.
+ * @param {readonly BasemapProvider[]} chain
+ * @param {{ storage?: FailoverStorage | null }} [options]
  */
 export function createBasemapFailover(chain, { storage = null } = {}) {
   const ids = chain.map((provider) => provider.id);
   const failed = new Set(readFailed(storage).filter((id) => ids.includes(id)));
   let errors = 0;
   let loaded = 0;
+  /** @type {string | null} */
   let currentId = null;
 
   function persist() {
@@ -212,7 +241,10 @@ export function createBasemapFailover(chain, { storage = null } = {}) {
   }
 
   return {
-    /** The provider to use now: the first in the chain not failed this session (the last always). */
+    /**
+     * The provider to use now: the first in the chain not failed this session (the last always).
+     * @returns {BasemapProvider}
+     */
     current() {
       const provider = chain.find((item) => !failed.has(item.id)) || chain[chain.length - 1];
       if (provider.id !== currentId) {
@@ -235,7 +267,10 @@ export function createBasemapFailover(chain, { storage = null } = {}) {
     hasLoaded() {
       return loaded > 0;
     },
-    /** Give up the current provider; returns the next one, or null when it was the last. */
+    /**
+     * Give up the current provider; returns the next one, or null when it was the last.
+     * @returns {BasemapProvider | null}
+     */
     fail() {
       const provider = this.current();
       if (provider === chain[chain.length - 1]) return null;
@@ -252,6 +287,10 @@ export function createBasemapFailover(chain, { storage = null } = {}) {
   };
 }
 
+/**
+ * @param {{ getItem(key: string): string | null } | null | undefined} storage
+ * @returns {string[]}
+ */
 function readFailed(storage) {
   try {
     const value = JSON.parse(storage?.getItem(BASEMAP_SESSION_KEY) || '[]');
@@ -274,6 +313,7 @@ export class BasemapManager {
    */
   constructor(map, options = {}) {
     this.map = map;
+    /** @type {readonly BasemapProvider[]} */
     this.chain = options.chain || preferredChain(DEFAULT_BASEMAP_CHAIN, {
       search: typeof location !== 'undefined' ? location.search : '',
       storage: safeLocalStorage()
@@ -284,19 +324,29 @@ export class BasemapManager {
     this.clearTimeoutImpl = options.clearTimeoutImpl || ((id) => clearTimeout(id));
     this.onChange = options.onChange || null;
     this.failover = createBasemapFailover(this.chain, { storage: options.storage === undefined ? safeSessionStorage() : options.storage });
+    /** @type {'chain' | 'fixed' | null} */
     this.mode = null; // 'chain' or 'fixed'
+    /** @type {BasemapProvider | null} */
     this.active = null; // the provider drawn now
+    /** @type {string[] | null} */
     this.glyphFonts = null;
+    /** @type {ReturnType<typeof setTimeout> | 0} */
     this.timer = 0;
     this.generation = 0;
+    /** @type {Map<string, Promise<import('maplibre-gl').StyleSpecification>>} */
     this.styleCache = new Map();
+    /** @param {MapSourceEventView} event */
     this.onError = (event) => this.handleError(event);
+    /** @param {MapSourceEventView} event */
     this.onData = (event) => this.handleData(event);
     map.on('error', this.onError);
     map.on('sourcedata', this.onData);
   }
 
-  /** The default base map: the chain, from the first provider not failed this session. */
+  /**
+   * The default base map: the chain, from the first provider not failed this session.
+   * @returns {Promise<BasemapProvider | null>}
+   */
   useDefault() {
     const provider = this.failover.current();
     if (this.mode === 'chain' && this.active === provider) return Promise.resolve(provider);
@@ -304,18 +354,33 @@ export class BasemapManager {
     return this.apply(provider, 'default');
   }
 
-  /** One raster base map the reader chose; no failover. */
+  /**
+   * One raster base map the reader chose; no failover.
+   * @param {Omit<RasterProvider, 'kind'>} provider
+   * @returns {Promise<BasemapProvider | null>}
+   */
   useRaster(provider) {
     this.mode = 'fixed';
     return this.apply({ kind: 'raster', ...provider }, 'chosen');
   }
 
-  /** Request rewriting for MapLibre (transformRequest): glyphs from the provider's server. */
+  /**
+   * Request rewriting for MapLibre (transformRequest): glyphs from the provider's server.
+   * @param {string} url
+   * @param {string | undefined} resourceType
+   * @returns {{ url: string } | undefined}
+   */
   transformRequest(url, resourceType) {
     if (resourceType === 'Glyphs' && this.glyphFonts) return { url: glyphUrlForAvailableFont(url, this.glyphFonts) };
     return undefined;
   }
 
+  /**
+   * Draws a provider; resolves to the provider drawn in the end (a failover's, or null if none is left).
+   * @param {BasemapProvider} provider
+   * @param {string} reason
+   * @returns {Promise<BasemapProvider | null>}
+   */
   async apply(provider, reason) {
     const generation = ++this.generation;
     this.clearTimer();
@@ -343,6 +408,10 @@ export class BasemapManager {
     return provider;
   }
 
+  /**
+   * @param {StyleProvider} provider
+   * @returns {Promise<import('maplibre-gl').StyleSpecification | undefined>}
+   */
   async loadStyle(provider) {
     if (!this.styleCache.has(provider.styleUrl)) {
       const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
@@ -365,11 +434,16 @@ export class BasemapManager {
     return layers.find((layer) => !isBasemapId(layer.id))?.id;
   }
 
+  /**
+   * @param {NamespacedStyle} namespaced
+   * @param {StyleProvider} provider
+   */
   addStyle(namespaced, provider) {
     const map = this.map;
     this.glyphFonts = provider.glyphFonts || null;
     if (namespaced.glyphs) map.setGlyphs(namespaced.glyphs);
-    if (namespaced.sprite) map.setSprite(namespaced.sprite);
+    // setSprite takes any sprite specification (a URL or a list of named ones) at run time; MapLibre declares a URL.
+    if (namespaced.sprite) map.setSprite(/** @type {string} */ (namespaced.sprite));
     for (const [id, source] of Object.entries(namespaced.sources)) {
       if (!map.getSource(id)) map.addSource(id, source);
     }
@@ -379,6 +453,7 @@ export class BasemapManager {
     }
   }
 
+  /** @param {RasterProvider} provider */
   addRaster(provider) {
     const map = this.map;
     const id = `${BASEMAP_PREFIX}raster`;
@@ -410,16 +485,19 @@ export class BasemapManager {
     }
   }
 
+  /** @param {MapSourceEventView} event */
   handleError(event) {
     if (this.mode !== 'chain' || !isBasemapId(event?.sourceId) || !this.map.getSource(event.sourceId)) return;
     if (this.failover.recordError()) this.giveUp(this.generation, 'tiles');
   }
 
+  /** @param {MapSourceEventView} event */
   handleData(event) {
     if (this.mode !== 'chain' || !isBasemapId(event?.sourceId) || !event.tile) return;
     this.failover.recordLoad();
   }
 
+  /** @param {number} generation */
   armTimer(generation) {
     this.clearTimer();
     this.timer = this.setTimeoutImpl(() => {
@@ -436,7 +514,13 @@ export class BasemapManager {
     this.timer = 0;
   }
 
+  /**
+   * @param {number} generation
+   * @param {string} reason
+   * @returns {BasemapProvider | null | Promise<BasemapProvider | null>}
+   */
   giveUp(generation, reason) {
+
     if (generation !== this.generation || this.mode !== 'chain') return this.active;
     const next = this.failover.fail();
     if (!next) {
