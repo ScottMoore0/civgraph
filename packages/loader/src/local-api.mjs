@@ -123,7 +123,7 @@ async function serve(port, exitWithStdin) {
       await sendResponse(res, response, { head: req.method === 'HEAD' });
     } catch (error) {
       res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end(String(error?.stack || error));
+      res.end(String(/** @type {Error | null | undefined} */ (error)?.stack || error));
     }
   });
   server.listen(port, '127.0.0.1', () => {

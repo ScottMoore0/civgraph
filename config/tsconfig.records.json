@@ -1,5 +1,5 @@
 {
-  "//": "noImplicitAny is on for every file this check owns since the noImplicitAny review (8 Nov 2026: S1a scripts/lib and the storage, config, schema and maps-pipeline files; S1b the loader and scripts/records). tests/unit/typecheck.test.mjs keeps it on.",
+  "//": "noImplicitAny is on for every file this check owns since the noImplicitAny review (8 Nov 2026: S1a scripts/lib and the storage, config, schema and maps-pipeline files; S1b the loader and scripts/records). Full `strict` since 12 Nov 2026 (stream rf8-types: the catch variables are unknown, so each catch says it holds an Error); the strict-family flags are also set one by one. tests/unit/typecheck.test.mjs keeps both on.",
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
@@ -19,7 +19,11 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "useUnknownInCatchVariables": true,
+    "strictPropertyInitialization": true,
+    "strictBuiltinIteratorReturn": true,
+    "strict": true
   },
   "include": ["../scripts/lib/**/*.mjs", "../scripts/records/**/*.mjs", "../packages/loader/src/**/*.mjs", "../packages/schema/src/*.mjs", "../packages/storage/src/sqlite.mjs", "../packages/config/src/node.mjs",
     "../packages/maps-pipeline/src/layer-bounds.mjs", "../packages/maps-pipeline/src/safe-artefact-write.mjs"]

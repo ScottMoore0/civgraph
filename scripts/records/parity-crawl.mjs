@@ -310,7 +310,7 @@ async function get(base, url, { follow = false } = {}) {
       if (res.status >= 500 && attempt < 3) { await sleep(2000 * attempt); continue; }
       return { status: res.status, location: res.headers.get('location'), type: res.headers.get('content-type') || '', body, ms: Date.now() - started };
     } catch (error) {
-      if (attempt === 3) return { status: 0, error: String(error.message || error), body: Buffer.alloc(0), ms: Date.now() - started };
+      if (attempt === 3) return { status: 0, error: String(/** @type {Error} */ (error).message || error), body: Buffer.alloc(0), ms: Date.now() - started };
       await sleep(2000 * attempt);
     }
   }

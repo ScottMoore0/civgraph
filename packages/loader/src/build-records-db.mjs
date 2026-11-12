@@ -305,7 +305,8 @@ function main() {
 
 try {
   main();
-} catch (error) {
+} catch (caught) {
+  const error = /** @type {Error & { status?: number }} */ (caught);
   console.error(`FAIL: ${error.message}`);
   if (error.status === 2) console.error('NEEDS RELATIVES HARVEST: stop and report; do not guess.');
   process.exit(1);
