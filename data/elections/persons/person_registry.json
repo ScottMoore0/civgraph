@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 151099,
+ "idHighWater": 151288,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -45,8 +45,8 @@
    "fix-john-carson-ballymena"
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
-  "crossSystemMerges": 1063,
-  "sameNameLeftSplit": 2857
+  "crossSystemMerges": 1064,
+  "sameNameLeftSplit": 2864
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -9904,7 +9904,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151037
+    151155
    ]
   },
   {
@@ -12303,7 +12303,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151084
+    151253
    ]
   },
   {
@@ -13586,7 +13586,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    151038
+    151156
    ]
   },
   {
@@ -25203,7 +25203,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151086
+    151255
    ]
   },
   {
@@ -42116,7 +42116,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    150984
+    151100
    ]
   },
   {
@@ -43170,7 +43170,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151087
+    151256
    ]
   },
   {
@@ -60504,7 +60504,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151054
+    151188
    ]
   },
   {
@@ -62410,10 +62410,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150995,
-    151011,
-    151057,
-    151058
+    151111,
+    151127,
+    151191,
+    151192
    ]
   },
   {
@@ -62725,10 +62725,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151022,
-    151023,
-    151040,
-    151092
+    151139,
+    151140,
+    151158,
+    151268
    ]
   },
   {
@@ -63419,10 +63419,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151000,
-    151001,
-    151066,
-    151067
+    151116,
+    151117,
+    151207,
+    151208
    ]
   },
   {
@@ -63459,10 +63459,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151002,
-    151016,
-    151028,
-    151068
+    151118,
+    151132,
+    151145,
+    151209
    ]
   },
   {
@@ -63966,8 +63966,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151020,
-    151085
+    151137,
+    151254
    ]
   },
   {
@@ -64127,11 +64127,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151007,
-    151024,
-    151094,
-    151095,
-    151096
+    151123,
+    151141,
+    151270,
+    151271,
+    151272
    ]
   },
   {
@@ -64906,10 +64906,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150987,
-    150993,
-    151049,
-    151050
+    151103,
+    151109,
+    151175,
+    151176
    ]
   },
   {
@@ -65829,12 +65829,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151021,
-    151039,
-    151088,
-    151089,
-    151090,
-    151091
+    151138,
+    151157,
+    151264,
+    151265,
+    151266,
+    151267
    ]
   },
   {
@@ -70231,9 +70231,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150988,
-    150989,
-    151013
+    151104,
+    151105,
+    151129
    ]
   },
   {
@@ -70271,11 +70271,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150998,
-    151014,
-    151015,
-    151027,
-    151063
+    151114,
+    151130,
+    151131,
+    151144,
+    151201
    ]
   },
   {
@@ -70312,10 +70312,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150985,
-    150990,
-    151075,
-    151076
+    151101,
+    151106,
+    151227,
+    151228
    ]
   },
   {
@@ -72467,11 +72467,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150986,
-    151041,
-    151042,
-    151043,
-    151097
+    151102,
+    151159,
+    151160,
+    151161,
+    151273
    ]
   },
   {
@@ -75604,12 +75604,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150991,
-    151017,
-    151033,
-    151034,
-    151077,
-    151078
+    151107,
+    151134,
+    151151,
+    151152,
+    151230,
+    151231
    ]
   },
   {
@@ -75647,11 +75647,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150992,
-    151005,
-    151018,
-    151079,
-    151080
+    151108,
+    151121,
+    151135,
+    151244,
+    151245
    ]
   },
   {
@@ -75691,13 +75691,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151006,
-    151019,
-    151035,
-    151036,
-    151081,
-    151082,
-    151083
+    151122,
+    151136,
+    151153,
+    151154,
+    151248,
+    151249,
+    151250
    ]
   },
   {
@@ -83466,12 +83466,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150994,
-    151008,
-    151009,
-    151010,
-    151052,
-    151053
+    151110,
+    151124,
+    151125,
+    151126,
+    151186,
+    151187
    ]
   },
   {
@@ -83637,11 +83637,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150996,
-    150997,
-    151012,
-    151061,
-    151062
+    151112,
+    151113,
+    151128,
+    151197,
+    151198
    ]
   },
   {
@@ -83677,9 +83677,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    150999,
-    151064,
-    151065
+    151115,
+    151202,
+    151203
    ]
   },
   {
@@ -83718,12 +83718,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151003,
-    151004,
-    151030,
-    151031,
-    151032,
-    151074
+    151119,
+    151120,
+    151148,
+    151149,
+    151150,
+    151225
    ]
   },
   {
@@ -121016,10 +121016,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151045,
-    151046,
-    151047,
-    151048
+    151168,
+    151169,
+    151170,
+    151171
    ]
   },
   {
@@ -121054,8 +121054,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151025,
-    151051
+    151142,
+    151182
    ]
   },
   {
@@ -126365,10 +126365,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151070,
-    151071,
-    151072,
-    151073
+    151211,
+    151212,
+    151213,
+    151214
    ]
   },
   {
@@ -127606,8 +127606,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1949,
    "lastYear": 1977,
    "bodies": [
@@ -166325,7 +166325,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151056
+    151190
    ]
   },
   {
@@ -169896,7 +169896,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151055
+    151189
    ]
   },
   {
@@ -203138,8 +203138,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1939,
    "lastYear": 1955,
    "bodies": [
@@ -207555,8 +207555,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151059,
-    151060
+    151195,
+    151196
    ]
   },
   {
@@ -207590,7 +207590,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151069
+    151210
    ]
   },
   {
@@ -208214,15 +208214,17 @@
     "morrow"
    ],
    "sourceIds": [
+    "Morrow|",
     "T1054474059"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1973,
    "bodies": [
+    "ballymena-borough-council",
     "local-government"
    ],
    "parties": [
@@ -211230,9 +211232,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1958,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1955,
    "lastYear": 1973,
    "bodies": [
     "antrim-rural-district-council",
@@ -237598,8 +237600,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1914,
    "lastYear": 1981,
    "bodies": [
@@ -270287,7 +270289,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151093
+    151269
    ]
   },
   {
@@ -358622,9 +358624,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1939,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1924,
    "lastYear": 1959,
    "bodies": [
     "dromore-urban-district-council",
@@ -362281,7 +362283,7 @@
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "mergedFrom": [
-    151044
+    151163
    ]
   },
   {
@@ -415008,7 +415010,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    151099
+    151288
    ]
   },
   {
@@ -431105,7 +431107,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:11281)",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p119979",
@@ -457558,7 +457561,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3865)",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p120908",
@@ -514149,7 +514153,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    151026
+    151143
    ]
   },
   {
@@ -563102,7 +563106,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    151029
+    151147
    ]
   },
   {
@@ -577903,7 +577907,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    151098
+    151287
    ]
   },
   {
@@ -730830,7 +730834,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135331",
@@ -749245,8 +749250,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1899,
    "lastYear": 1952,
    "bodies": [
@@ -773386,12 +773391,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1914,
    "lastYear": 1961,
    "bodies": [
     "armagh-urban-district-council",
+    "ballycastle-rural-district-council",
     "omagh-rural-district-council",
     "tyrone-county-council"
    ],
@@ -777256,8 +777262,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1905,
    "lastYear": 1964,
    "bodies": [
@@ -805173,8 +805179,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 16,
-   "contests": 16,
+   "candidacies": 17,
+   "contests": 17,
    "firstYear": 1927,
    "lastYear": 1961,
    "bodies": [
@@ -807064,9 +807070,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1926,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1923,
    "lastYear": 1946,
    "bodies": [
     "lisburn-borough-council"
@@ -807148,10 +807154,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 10,
+   "contests": 10,
    "firstYear": 1920,
-   "lastYear": 1949,
+   "lastYear": 1955,
    "bodies": [
     "ballymena-borough-council"
    ],
@@ -807345,8 +807351,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 11,
-   "contests": 11,
+   "candidacies": 12,
+   "contests": 12,
    "firstYear": 1920,
    "lastYear": 1961,
    "bodies": [
@@ -808236,8 +808242,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1933,
    "lastYear": 1967,
    "bodies": [
@@ -808465,9 +808471,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1926,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1923,
    "lastYear": 1936,
    "bodies": [
     "lisburn-borough-council"
@@ -808632,9 +808638,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1926,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1923,
    "lastYear": 1936,
    "bodies": [
     "lisburn-borough-council"
@@ -811227,8 +811233,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1923,
    "lastYear": 1936,
    "bodies": [
@@ -811378,10 +811384,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1923,
-   "lastYear": 1955,
+   "lastYear": 1958,
    "bodies": [
     "carrickfergus-borough-council",
     "magherafelt-rural-district-council",
@@ -811436,9 +811442,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1926,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1923,
    "lastYear": 1936,
    "bodies": [
     "lisburn-borough-council"
@@ -813979,10 +813985,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1929,
-   "lastYear": 1936,
+   "lastYear": 1939,
    "bodies": [
     "larne-borough-council"
    ],
@@ -816652,10 +816658,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1923,
-   "lastYear": 1928,
+   "lastYear": 1934,
    "bodies": [
     "larne-borough-council"
    ],
@@ -823644,10 +823650,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1938,
-   "lastYear": 1939,
+   "lastYear": 1946,
    "bodies": [
     "antrim-rural-district-council",
     "ballyclare-urban-district-council"
@@ -826025,10 +826031,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1923,
-   "lastYear": 1928,
+   "lastYear": 1938,
    "bodies": [
     "larne-borough-council"
    ],
@@ -826818,8 +826824,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1926,
    "lastYear": 1936,
    "bodies": [
@@ -828644,10 +828650,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1929,
-   "lastYear": 1955,
+   "lastYear": 1958,
    "bodies": [
     "ballymena-rural-district-council",
     "carrickfergus-borough-council"
@@ -828728,8 +828734,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1920,
    "lastYear": 1932,
    "bodies": [
@@ -833019,10 +833025,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1949,
-   "lastYear": 1949,
+   "lastYear": 1952,
    "bodies": [
     "ballymena-borough-council"
    ],
@@ -839575,9 +839581,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "ballymena-borough-council"
@@ -843224,9 +843230,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1949,
    "lastYear": 1952,
    "bodies": [
     "ballymena-borough-council"
@@ -847168,10 +847174,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1920,
-   "lastYear": 1939,
+   "lastYear": 1952,
    "bodies": [
     "ballymena-borough-council"
    ],
@@ -851730,10 +851736,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1934,
-   "lastYear": 1934,
+   "lastYear": 1939,
    "bodies": [
     "larne-borough-council"
    ],
@@ -854336,12 +854342,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1926,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1924,
    "lastYear": 1926,
    "bodies": [
-    "lisburn-borough-council"
+    "lisburn-borough-council",
+    "lisburn-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -857131,10 +857138,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1961,
-   "lastYear": 1961,
+   "lastYear": 1967,
    "bodies": [
     "carrickfergus-borough-council"
    ],
@@ -857300,9 +857307,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1926,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1923,
    "lastYear": 1926,
    "bodies": [
     "lisburn-borough-council"
@@ -858437,10 +858444,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1923,
-   "lastYear": 1927,
+   "lastYear": 1930,
    "bodies": [
     "antrim-rural-district-council",
     "antrim-town-commissioners"
@@ -860715,9 +860722,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
     "ballymena-borough-council"
@@ -865359,10 +865366,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1961,
-   "lastYear": 1961,
+   "lastYear": 1967,
    "bodies": [
     "carrickfergus-borough-council"
    ],
@@ -868736,10 +868743,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1955,
-   "lastYear": 1955,
+   "lastYear": 1958,
    "bodies": [
     "ballymena-borough-council"
    ],
@@ -874683,11 +874690,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1967,
    "bodies": [
+    "antrim-rural-district-council",
     "antrim-town-commissioners"
    ],
    "parties": [],
@@ -874820,8 +874828,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1933,
    "lastYear": 1961,
    "bodies": [
@@ -876797,7 +876805,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141415",
@@ -879548,8 +879557,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1939,
    "lastYear": 1964,
    "bodies": [
@@ -879897,10 +879906,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1937,
-   "lastYear": 1937,
+   "lastYear": 1939,
    "bodies": [
     "larne-borough-council"
    ],
@@ -891046,10 +891055,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1955,
-   "lastYear": 1955,
+   "lastYear": 1958,
    "bodies": [
     "ballymena-borough-council"
    ],
@@ -900749,10 +900758,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1955,
    "bodies": [
     "ballymena-borough-council"
    ],
@@ -911053,9 +911062,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1932,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1923,
    "lastYear": 1932,
    "bodies": [
     "lisburn-borough-council"
@@ -917393,11 +917402,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1936,
-   "lastYear": 1936,
+   "lastYear": 1955,
    "bodies": [
+    "ballymena-borough-council",
     "cookstown-urban-district-council"
    ],
    "parties": [],
@@ -918143,11 +918153,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1929,
-   "lastYear": 1929,
+   "lastYear": 1933,
    "bodies": [
+    "ballymoney-rural-district-council",
     "ballymoney-urban-district-council"
    ],
    "parties": [],
@@ -920056,11 +920067,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1923,
-   "lastYear": 1923,
+   "lastYear": 1949,
    "bodies": [
+    "ballymena-rural-district-council",
     "portstewart-urban-district-council"
    ],
    "parties": [],
@@ -934630,8 +934642,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 13,
-   "contests": 13,
+   "candidacies": 14,
+   "contests": 14,
    "firstYear": 1927,
    "lastYear": 1964,
    "bodies": [
@@ -934715,8 +934727,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 10,
-   "contests": 10,
+   "candidacies": 11,
+   "contests": 11,
    "firstYear": 1924,
    "lastYear": 1939,
    "bodies": [
@@ -934743,8 +934755,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 14,
-   "contests": 14,
+   "candidacies": 16,
+   "contests": 16,
    "firstYear": 1930,
    "lastYear": 1967,
    "bodies": [
@@ -934771,8 +934783,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 16,
-   "contests": 16,
+   "candidacies": 17,
+   "contests": 17,
    "firstYear": 1924,
    "lastYear": 1952,
    "bodies": [
@@ -934832,8 +934844,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1924,
    "lastYear": 1939,
    "bodies": [
@@ -934860,8 +934872,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 10,
-   "contests": 10,
+   "candidacies": 11,
+   "contests": 11,
    "firstYear": 1927,
    "lastYear": 1952,
    "bodies": [
@@ -934948,8 +934960,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 11,
+   "contests": 10,
    "firstYear": 1924,
    "lastYear": 1939,
    "bodies": [
@@ -935068,8 +935080,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 14,
-   "contests": 11,
+   "candidacies": 16,
+   "contests": 12,
    "firstYear": 1927,
    "lastYear": 1967,
    "bodies": [
@@ -936150,9 +936162,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1933,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1930,
    "lastYear": 1955,
    "bodies": [
     "antrim-county-council",
@@ -936511,8 +936523,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1924,
    "lastYear": 1939,
    "bodies": [
@@ -936931,8 +936943,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1924,
    "lastYear": 1939,
    "bodies": [
@@ -937016,10 +937028,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1927,
-   "lastYear": 1939,
+   "lastYear": 1946,
    "bodies": [
     "antrim-rural-district-council"
    ],
@@ -937217,11 +937229,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1924,
-   "lastYear": 1939,
+   "lastYear": 1967,
    "bodies": [
+    "antrim-rural-district-council",
     "north-down-rural-district-council"
    ],
    "parties": [],
@@ -937481,9 +937494,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1933,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1930,
    "lastYear": 1955,
    "bodies": [
     "larne-rural-district-council"
@@ -938783,8 +938796,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1955,
    "lastYear": 1967,
    "bodies": [
@@ -938892,10 +938905,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1924,
-   "lastYear": 1930,
+   "lastYear": 1933,
    "bodies": [
     "ballymoney-rural-district-council"
    ],
@@ -939972,8 +939985,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 11,
+   "contests": 11,
    "firstYear": 1930,
    "lastYear": 1967,
    "bodies": [
@@ -940142,8 +940155,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1927,
    "lastYear": 1955,
    "bodies": [
@@ -940199,10 +940212,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1924,
-   "lastYear": 1930,
+   "lastYear": 1933,
    "bodies": [
     "ballymoney-rural-district-council"
    ],
@@ -940486,8 +940499,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1952,
    "lastYear": 1967,
    "bodies": [
@@ -940682,8 +940695,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1933,
    "lastYear": 1964,
    "bodies": [
@@ -941007,8 +941020,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1924,
    "lastYear": 1955,
    "bodies": [
@@ -941100,9 +941113,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1927,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1924,
    "lastYear": 1936,
    "bodies": [
     "antrim-county-council",
@@ -941413,8 +941426,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1949,
    "lastYear": 1961,
    "bodies": [
@@ -941776,8 +941789,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1936,
    "lastYear": 1964,
    "bodies": [
@@ -943427,8 +943440,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1924,
    "lastYear": 1939,
    "bodies": [
@@ -944050,9 +944063,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1936,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1933,
    "lastYear": 1946,
    "bodies": [
     "ballycastle-rural-district-council"
@@ -944149,7 +944162,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144324",
@@ -944220,8 +944234,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1924,
    "lastYear": 1933,
    "bodies": [
@@ -945033,9 +945047,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1936,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1930,
    "lastYear": 1949,
    "bodies": [
     "larne-rural-district-council"
@@ -945590,8 +945604,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1936,
    "lastYear": 1967,
    "bodies": [
@@ -945647,10 +945661,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1927,
-   "lastYear": 1930,
+   "lastYear": 1933,
    "bodies": [
     "ballymoney-rural-district-council"
    ],
@@ -945953,9 +945967,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1936,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1933,
    "lastYear": 1946,
    "bodies": [
     "ballycastle-rural-district-council"
@@ -949756,12 +949770,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1949,
    "lastYear": 1955,
    "bodies": [
-    "antrim-county-council"
+    "antrim-county-council",
+    "ballymena-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -950316,8 +950331,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1924,
    "lastYear": 1936,
    "bodies": [
@@ -951653,9 +951668,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1930,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1924,
    "lastYear": 1933,
    "bodies": [
     "lisburn-rural-district-council"
@@ -955172,7 +955187,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144724",
@@ -955217,9 +955233,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1933,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1930,
    "lastYear": 1936,
    "bodies": [
     "lisburn-rural-district-council"
@@ -955299,8 +955315,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1933,
    "lastYear": 1958,
    "bodies": [
@@ -955414,9 +955430,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1958,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1955,
    "lastYear": 1964,
    "bodies": [
     "lisburn-rural-district-council"
@@ -955526,9 +955542,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1949,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1924,
    "lastYear": 1958,
    "bodies": [
     "ballymoney-rural-district-council"
@@ -956939,7 +956955,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144796",
@@ -957412,10 +957429,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1936,
-   "lastYear": 1952,
+   "lastYear": 1955,
    "bodies": [
     "lisburn-rural-district-council"
    ],
@@ -959103,10 +959120,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1933,
    "bodies": [
     "ballycastle-rural-district-council"
    ],
@@ -959308,9 +959325,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1936,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1933,
    "lastYear": 1936,
    "bodies": [
     "ballycastle-rural-district-council"
@@ -967036,10 +967053,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1930,
    "bodies": [
     "larne-rural-district-council"
    ],
@@ -969638,12 +969655,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1958,
    "lastYear": 1958,
    "bodies": [
-    "antrim-county-council"
+    "antrim-county-council",
+    "ballymena-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -969776,8 +969794,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1949,
    "lastYear": 1958,
    "bodies": [
@@ -970966,9 +970984,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1958,
    "lastYear": 1964,
    "bodies": [
     "ballymena-rural-district-council"
@@ -971670,8 +971688,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1955,
    "lastYear": 1964,
    "bodies": [
@@ -976145,9 +976163,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1933,
    "lastYear": 1949,
    "bodies": [
     "ballymoney-rural-district-council"
@@ -979806,10 +979824,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1933,
    "bodies": [
     "ballycastle-rural-district-council"
    ],
@@ -985331,10 +985349,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1927,
    "bodies": [
     "ballymena-rural-district-council"
    ],
@@ -986091,8 +986109,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1927,
    "lastYear": 1952,
    "bodies": [
@@ -986592,10 +986610,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1933,
    "bodies": [
     "ballycastle-rural-district-council"
    ],
@@ -992791,8 +992809,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1961,
    "lastYear": 1967,
    "bodies": [
@@ -992846,10 +992864,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1939,
-   "lastYear": 1939,
+   "lastYear": 1946,
    "bodies": [
     "antrim-rural-district-council"
    ],
@@ -994533,8 +994551,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1952,
    "lastYear": 1964,
    "bodies": [
@@ -994729,10 +994747,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1933,
    "bodies": [
     "ballycastle-rural-district-council"
    ],
@@ -995099,8 +995117,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1946,
    "lastYear": 1967,
    "bodies": [
@@ -996205,8 +996223,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1946,
    "lastYear": 1961,
    "bodies": [
@@ -996232,9 +996250,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1930,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1927,
    "lastYear": 1930,
    "bodies": [
     "larne-rural-district-council"
@@ -997941,8 +997959,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1955,
    "lastYear": 1964,
    "bodies": [
@@ -997968,13 +997986,14 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1908,
-   "lastYear": 1936,
+   "lastYear": 1967,
    "bodies": [
     "antrim-rural-district-council",
-    "bangor-borough-council"
+    "bangor-borough-council",
+    "carrickfergus-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -998167,9 +998186,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1936,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1927,
    "lastYear": 1936,
    "bodies": [
     "larne-rural-district-council"
@@ -999292,8 +999311,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1952,
    "lastYear": 1967,
    "bodies": [
@@ -999750,10 +999769,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1927,
    "bodies": [
     "larne-rural-district-council"
    ],
@@ -1000628,11 +1000647,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1958,
    "lastYear": 1967,
    "bodies": [
+    "carrickfergus-borough-council",
     "hillsborough-rural-district-council"
    ],
    "parties": [],
@@ -1001106,8 +1001126,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1955,
    "lastYear": 1964,
    "bodies": [
@@ -1014608,9 +1014628,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1961,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1958,
    "lastYear": 1964,
    "bodies": [
     "ballymena-rural-district-council"
@@ -1014620,7 +1014640,7 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "era": [
-    1961,
+    1958,
     1964
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
@@ -1014811,9 +1014831,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1946,
    "lastYear": 1952,
    "bodies": [
     "antrim-rural-district-council"
@@ -1016800,7 +1016820,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p146967",
@@ -1017180,9 +1017201,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1952,
    "lastYear": 1961,
    "bodies": [
     "antrim-rural-district-council"
@@ -1017405,10 +1017426,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1939,
-   "lastYear": 1952,
+   "lastYear": 1955,
    "bodies": [
     "lisburn-rural-district-council"
    ],
@@ -1020799,11 +1020820,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1952,
    "lastYear": 1967,
    "bodies": [
+    "belfast-rural-district-council",
     "lisburn-rural-district-council"
    ],
    "parties": [
@@ -1030660,8 +1030682,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1955,
    "lastYear": 1964,
    "bodies": [
@@ -1030967,10 +1030989,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1949,
-   "lastYear": 1961,
+   "lastYear": 1964,
    "bodies": [
     "larne-rural-district-council"
    ],
@@ -1031703,10 +1031725,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1930,
    "bodies": [
     "larne-rural-district-council"
    ],
@@ -1033888,9 +1033910,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1930,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1927,
    "lastYear": 1939,
    "bodies": [
     "ballymena-rural-district-council"
@@ -1041788,7 +1041810,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147952",
@@ -1046366,9 +1046389,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1960,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1958,
    "lastYear": 1961,
    "bodies": [
     "ballymena-rural-district-council",
@@ -1054214,8 +1054237,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1952,
    "lastYear": 1961,
    "bodies": [
@@ -1055415,8 +1055438,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1952,
    "lastYear": 1961,
    "bodies": [
@@ -1057739,8 +1057762,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1955,
    "lastYear": 1967,
    "bodies": [
@@ -1057766,8 +1057789,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1955,
    "lastYear": 1967,
    "bodies": [
@@ -1057793,8 +1057816,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1949,
    "lastYear": 1958,
    "bodies": [
@@ -1057820,8 +1057843,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1949,
    "lastYear": 1958,
    "bodies": [
@@ -1057929,8 +1057952,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1949,
    "lastYear": 1958,
    "bodies": [
@@ -1057956,8 +1057979,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1958,
    "lastYear": 1967,
    "bodies": [
@@ -1058010,8 +1058033,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1958,
    "lastYear": 1967,
    "bodies": [
@@ -1058147,10 +1058170,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1952,
-   "lastYear": 1955,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1949,
+   "lastYear": 1958,
    "bodies": [
     "ballymena-rural-district-council"
    ],
@@ -1058201,10 +1058224,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1949,
-   "lastYear": 1952,
+   "lastYear": 1955,
    "bodies": [
     "lisburn-rural-district-council"
    ],
@@ -1058552,8 +1058575,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1955,
    "lastYear": 1961,
    "bodies": [
@@ -1058769,10 +1058792,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1955,
-   "lastYear": 1961,
+   "lastYear": 1967,
    "bodies": [
     "carrickfergus-borough-council"
    ],
@@ -1058796,8 +1058819,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1961,
    "lastYear": 1967,
    "bodies": [
@@ -1058959,10 +1058982,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1958,
-   "lastYear": 1961,
+   "lastYear": 1964,
    "bodies": [
     "larne-rural-district-council"
    ],
@@ -1059121,8 +1059144,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1955,
    "lastYear": 1967,
    "bodies": [
@@ -1059400,9 +1059423,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1964,
    "lastYear": 1967,
    "bodies": [
     "larne-rural-district-council"
@@ -1059620,9 +1059643,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1952,
    "lastYear": 1958,
    "bodies": [
     "ballymena-borough-council"
@@ -1060370,10 +1060393,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1930,
-   "lastYear": 1930,
+   "lastYear": 1949,
    "bodies": [
     "ballymena-rural-district-council"
    ],
@@ -1060615,10 +1060638,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1964,
-   "lastYear": 1964,
+   "lastYear": 1967,
    "bodies": [
     "larne-borough-council"
    ],
@@ -1060671,9 +1060694,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1958,
    "bodies": [
     "lisburn-rural-district-council"
@@ -1061395,10 +1061418,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1955,
    "bodies": [
     "lisburn-rural-district-council"
    ],
@@ -1062230,10 +1062253,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1955,
-   "lastYear": 1955,
+   "lastYear": 1958,
    "bodies": [
     "ballymena-rural-district-council"
    ],
@@ -1063063,10 +1063086,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1949,
-   "lastYear": 1949,
+   "lastYear": 1958,
    "bodies": [
     "ballymena-borough-council"
    ],
@@ -1065170,9 +1065193,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1964,
    "lastYear": 1967,
    "bodies": [
     "larne-rural-district-council"
@@ -1066279,10 +1066302,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1955,
-   "lastYear": 1955,
+   "lastYear": 1958,
    "bodies": [
     "ballymena-rural-district-council"
    ],
@@ -1066633,9 +1066656,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1958,
    "bodies": [
     "lisburn-rural-district-council"
@@ -1067492,10 +1067515,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1967,
    "bodies": [
     "carrickfergus-borough-council"
    ],
@@ -1067878,9 +1067901,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1964,
    "lastYear": 1967,
    "bodies": [
     "larne-rural-district-council"
@@ -1068040,10 +1068063,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1949,
-   "lastYear": 1949,
+   "lastYear": 1952,
    "bodies": [
     "ballymena-borough-council"
    ],
@@ -1069548,10 +1069571,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1927,
-   "lastYear": 1927,
+   "lastYear": 1949,
    "bodies": [
     "ballymena-rural-district-council"
    ],
@@ -1077460,8 +1077483,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1927,
    "lastYear": 1967,
    "bodies": [
@@ -1077598,11 +1077621,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1924,
-   "lastYear": 1949,
+   "lastYear": 1952,
    "bodies": [
+    "belfast-rural-district-council",
     "clogher-rural-district-council",
     "londonderry-county-borough-council"
    ],
@@ -1077614,7 +1077638,7 @@
    "provisional": true,
    "era": [
     1924,
-    1949
+    1952
    ],
    "eraReason": "rows of a name or id joined to a person who, by the dates History of Parliament, Wikidata or a reference work gives, was under 18 or dead at the time",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
@@ -1083650,6 +1083674,1993 @@
    "lastYear": 1964,
    "bodies": [
     "south-down-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151133",
+   "personId": 151133,
+   "displayName": "John Girvan",
+   "aliases": [
+    "John Girvan"
+   ],
+   "matchKeys": [
+    "john girvan"
+   ],
+   "sourceIds": [
+    "John Girvan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1934,
+   "lastYear": 1939,
+   "bodies": [
+    "larne-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151146",
+   "personId": 151146,
+   "displayName": "James Hogsett",
+   "aliases": [
+    "James Hogsett"
+   ],
+   "matchKeys": [
+    "james hogsett"
+   ],
+   "sourceIds": [
+    "James Hogsett|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1927,
+   "lastYear": 1930,
+   "bodies": [
+    "larne-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151162",
+   "personId": 151162,
+   "displayName": "William Crawford",
+   "aliases": [
+    "William Crawford"
+   ],
+   "matchKeys": [
+    "william crawford"
+   ],
+   "sourceIds": [
+    "William Crawford|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1934,
+   "lastYear": 1938,
+   "bodies": [
+    "larne-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151164",
+   "personId": 151164,
+   "displayName": "A. O'N. Chichester",
+   "aliases": [
+    "A. O'N. Chichester"
+   ],
+   "matchKeys": [
+    "a o n chichester"
+   ],
+   "sourceIds": [
+    "A. O'N. Chichester|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151165",
+   "personId": 151165,
+   "displayName": "Archibald M'Farland",
+   "aliases": [
+    "Archibald M'Farland"
+   ],
+   "matchKeys": [
+    "archibald m farland"
+   ],
+   "sourceIds": [
+    "Archibald M'Farland|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151166",
+   "personId": 151166,
+   "displayName": "Archie M'Sparran",
+   "aliases": [
+    "Archie M'Sparran"
+   ],
+   "matchKeys": [
+    "archie m sparran"
+   ],
+   "sourceIds": [
+    "Archie M'Sparran|Nationalist Party"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "ballycastle-rural-district-council"
+   ],
+   "parties": [
+    "Nationalist Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151167",
+   "personId": 151167,
+   "displayName": "Francis M'Carry",
+   "aliases": [
+    "Francis M'Carry"
+   ],
+   "matchKeys": [
+    "francis m carry"
+   ],
+   "sourceIds": [
+    "Francis M'Carry|Nationalist Party"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "ballycastle-rural-district-council"
+   ],
+   "parties": [
+    "Nationalist Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151172",
+   "personId": 151172,
+   "displayName": "J. H. M'Millan",
+   "aliases": [
+    "J. H. M'Millan"
+   ],
+   "matchKeys": [
+    "j h m millan"
+   ],
+   "sourceIds": [
+    "J. H. M'Millan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "ballymena-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151173",
+   "personId": 151173,
+   "displayName": "James M'Dowell",
+   "aliases": [
+    "James M'Dowell"
+   ],
+   "matchKeys": [
+    "james m dowell"
+   ],
+   "sourceIds": [
+    "James M'Dowell|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151174",
+   "personId": 151174,
+   "displayName": "James M'Laughlin",
+   "aliases": [
+    "James M'Laughlin"
+   ],
+   "matchKeys": [
+    "james m laughlin"
+   ],
+   "sourceIds": [
+    "James M'Laughlin|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "larne-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p151177",
+   "personId": 151177,
+   "displayName": "R. E. M'Ilveen",
+   "aliases": [
+    "R. E. M'Ilveen"
+   ],
+   "matchKeys": [
+    "r e m ilveen"
+   ],
+   "sourceIds": [
+    "R. E. M'Ilveen|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "ballymena-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151178",
+   "personId": 151178,
+   "displayName": "Robert Frederick M'Neight",
+   "aliases": [
+    "Robert Frederick M'Neight"
+   ],
+   "matchKeys": [
+    "robert frederick m neight"
+   ],
+   "sourceIds": [
+    "Robert Frederick M'Neight|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151179",
+   "personId": 151179,
+   "displayName": "Robert M'Bride M'Kinstry",
+   "aliases": [
+    "Robert M'Bride M'Kinstry"
+   ],
+   "matchKeys": [
+    "robert m bride m kinstry"
+   ],
+   "sourceIds": [
+    "Robert M'Bride M'Kinstry|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1924,
+   "lastYear": 1924,
+   "bodies": [
+    "lisburn-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151180",
+   "personId": 151180,
+   "displayName": "Robert M'Ilwaine",
+   "aliases": [
+    "Robert M'Ilwaine"
+   ],
+   "matchKeys": [
+    "robert m ilwaine"
+   ],
+   "sourceIds": [
+    "Robert M'Ilwaine|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
+   "lastYear": 1939,
+   "bodies": [
+    "larne-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151181",
+   "personId": 151181,
+   "displayName": "Robt. M'Cosh",
+   "aliases": [
+    "Robt. M'Cosh"
+   ],
+   "matchKeys": [
+    "robt m cosh"
+   ],
+   "sourceIds": [
+    "Robt. M'Cosh|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1952,
+   "lastYear": 1952,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151183",
+   "personId": 151183,
+   "displayName": "W. J. M'Creary",
+   "aliases": [
+    "W. J. M'Creary"
+   ],
+   "matchKeys": [
+    "w j m creary"
+   ],
+   "sourceIds": [
+    "W. J. M'Creary|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "larne-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151184",
+   "personId": 151184,
+   "displayName": "Wm. Jas. M'Clenahan",
+   "aliases": [
+    "Wm. Jas. M'Clenahan"
+   ],
+   "matchKeys": [
+    "wm jas m clenahan"
+   ],
+   "sourceIds": [
+    "Wm. Jas. M'Clenahan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151185",
+   "personId": 151185,
+   "displayName": "Wm. M'Ninch",
+   "aliases": [
+    "Wm. M'Ninch"
+   ],
+   "matchKeys": [
+    "wm m ninch"
+   ],
+   "sourceIds": [
+    "Wm. M'Ninch|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151193",
+   "personId": 151193,
+   "displayName": "Charles Crawford",
+   "aliases": [
+    "Charles Crawford"
+   ],
+   "matchKeys": [
+    "charles crawford"
+   ],
+   "sourceIds": [
+    "Charles Crawford|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151194",
+   "personId": 151194,
+   "displayName": "Charles K. Lindsay",
+   "aliases": [
+    "Charles K. Lindsay"
+   ],
+   "matchKeys": [
+    "charles k lindsay"
+   ],
+   "sourceIds": [
+    "Charles K. Lindsay|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151199",
+   "personId": 151199,
+   "displayName": "David Moore",
+   "aliases": [
+    "David Moore"
+   ],
+   "matchKeys": [
+    "david moore"
+   ],
+   "sourceIds": [
+    "David Moore|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "ballymoney-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p151200",
+   "personId": 151200,
+   "displayName": "David Nevin",
+   "aliases": [
+    "David Nevin"
+   ],
+   "matchKeys": [
+    "david nevin"
+   ],
+   "sourceIds": [
+    "David Nevin|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "ballymoney-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151204",
+   "personId": 151204,
+   "displayName": "Edward Mockler",
+   "aliases": [
+    "Edward Mockler"
+   ],
+   "matchKeys": [
+    "edward mockler"
+   ],
+   "sourceIds": [
+    "Edward Mockler|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1924,
+   "lastYear": 1924,
+   "bodies": [
+    "lisburn-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151205",
+   "personId": 151205,
+   "displayName": "Ernest Totten",
+   "aliases": [
+    "Ernest Totten"
+   ],
+   "matchKeys": [
+    "ernest totten"
+   ],
+   "sourceIds": [
+    "Ernest Totten|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151206",
+   "personId": 151206,
+   "displayName": "Francis Wm. Leckey",
+   "aliases": [
+    "Francis Wm. Leckey"
+   ],
+   "matchKeys": [
+    "francis wm leckey"
+   ],
+   "sourceIds": [
+    "Francis Wm. Leckey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1924,
+   "lastYear": 1924,
+   "bodies": [
+    "lisburn-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151215",
+   "personId": 151215,
+   "displayName": "Isaac Sloan",
+   "aliases": [
+    "Isaac Sloan"
+   ],
+   "matchKeys": [
+    "isaac sloan"
+   ],
+   "sourceIds": [
+    "Isaac Sloan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1924,
+   "lastYear": 1924,
+   "bodies": [
+    "lisburn-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151216",
+   "personId": 151216,
+   "displayName": "James D. Henry",
+   "aliases": [
+    "James D. Henry"
+   ],
+   "matchKeys": [
+    "james d henry"
+   ],
+   "sourceIds": [
+    "James D. Henry|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1952,
+   "lastYear": 1952,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151217",
+   "personId": 151217,
+   "displayName": "James Duff",
+   "aliases": [
+    "James Duff"
+   ],
+   "matchKeys": [
+    "james duff"
+   ],
+   "sourceIds": [
+    "James Duff|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p151218",
+   "personId": 151218,
+   "displayName": "James Edward Downing",
+   "aliases": [
+    "James Edward Downing"
+   ],
+   "matchKeys": [
+    "james edward downing"
+   ],
+   "sourceIds": [
+    "James Edward Downing|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "lisburn-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151219",
+   "personId": 151219,
+   "displayName": "James G. Hanna",
+   "aliases": [
+    "James G. Hanna"
+   ],
+   "matchKeys": [
+    "james g hanna"
+   ],
+   "sourceIds": [
+    "James G. Hanna|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151220",
+   "personId": 151220,
+   "displayName": "John C. McQuitty",
+   "aliases": [
+    "John C. McQuitty"
+   ],
+   "matchKeys": [
+    "john c mcquitty"
+   ],
+   "sourceIds": [
+    "John C. McQuitty|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151221",
+   "personId": 151221,
+   "displayName": "John Cambridge",
+   "aliases": [
+    "John Cambridge"
+   ],
+   "matchKeys": [
+    "john cambridge"
+   ],
+   "sourceIds": [
+    "John Cambridge|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151222",
+   "personId": 151222,
+   "displayName": "John Edward Hull",
+   "aliases": [
+    "John Edward Hull"
+   ],
+   "matchKeys": [
+    "john edward hull"
+   ],
+   "sourceIds": [
+    "John Edward Hull|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1924,
+   "lastYear": 1924,
+   "bodies": [
+    "lisburn-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151223",
+   "personId": 151223,
+   "displayName": "John McQuitty",
+   "aliases": [
+    "John McQuitty"
+   ],
+   "matchKeys": [
+    "john mcquitty"
+   ],
+   "sourceIds": [
+    "John McQuitty|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151224",
+   "personId": 151224,
+   "displayName": "John Rosbotham",
+   "aliases": [
+    "John Rosbotham"
+   ],
+   "matchKeys": [
+    "john rosbotham"
+   ],
+   "sourceIds": [
+    "John Rosbotham|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1924,
+   "lastYear": 1924,
+   "bodies": [
+    "lisburn-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151226",
+   "personId": 151226,
+   "displayName": "Margaret V. McCaughan",
+   "aliases": [
+    "Margaret V. McCaughan"
+   ],
+   "matchKeys": [
+    "margaret v mccaughan"
+   ],
+   "sourceIds": [
+    "Margaret V. McCaughan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151229",
+   "personId": 151229,
+   "displayName": "P. C. Grant",
+   "aliases": [
+    "P. C. Grant"
+   ],
+   "matchKeys": [
+    "p c grant"
+   ],
+   "sourceIds": [
+    "P. C. Grant|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151232",
+   "personId": 151232,
+   "displayName": "Patrick J. Burke",
+   "aliases": [
+    "Patrick J. Burke"
+   ],
+   "matchKeys": [
+    "patrick j burke"
+   ],
+   "sourceIds": [
+    "Patrick J. Burke|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1952,
+   "lastYear": 1952,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151233",
+   "personId": 151233,
+   "displayName": "Patrick M. Armstrong",
+   "aliases": [
+    "Patrick M. Armstrong"
+   ],
+   "matchKeys": [
+    "patrick m armstrong"
+   ],
+   "sourceIds": [
+    "Patrick M. Armstrong|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151234",
+   "personId": 151234,
+   "displayName": "Renwick Q. Holmes",
+   "aliases": [
+    "Renwick Q. Holmes"
+   ],
+   "matchKeys": [
+    "renwick q holmes"
+   ],
+   "sourceIds": [
+    "Renwick Q. Holmes|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151235",
+   "personId": 151235,
+   "displayName": "Robert George Brolly",
+   "aliases": [
+    "Robert George Brolly"
+   ],
+   "matchKeys": [
+    "robert george brolly"
+   ],
+   "sourceIds": [
+    "Robert George Brolly|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1924,
+   "lastYear": 1924,
+   "bodies": [
+    "ballymoney-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151236",
+   "personId": 151236,
+   "displayName": "Robert Gray",
+   "aliases": [
+    "Robert Gray"
+   ],
+   "matchKeys": [
+    "robert gray"
+   ],
+   "sourceIds": [
+    "Robert Gray|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "larne-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151237",
+   "personId": 151237,
+   "displayName": "Robert H. Morrison",
+   "aliases": [
+    "Robert H. Morrison"
+   ],
+   "matchKeys": [
+    "robert h morrison"
+   ],
+   "sourceIds": [
+    "Robert H. Morrison|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "ballymoney-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151238",
+   "personId": 151238,
+   "displayName": "Robert J. Jenkins",
+   "aliases": [
+    "Robert J. Jenkins"
+   ],
+   "matchKeys": [
+    "robert j jenkins"
+   ],
+   "sourceIds": [
+    "Robert J. Jenkins|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
+   "lastYear": 1939,
+   "bodies": [
+    "larne-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151239",
+   "personId": 151239,
+   "displayName": "Robert Kane",
+   "aliases": [
+    "Robert Kane"
+   ],
+   "matchKeys": [
+    "robert kane"
+   ],
+   "sourceIds": [
+    "Robert Kane|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "larne-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151240",
+   "personId": 151240,
+   "displayName": "Robt. Humphries",
+   "aliases": [
+    "Robt. Humphries"
+   ],
+   "matchKeys": [
+    "robt humphries"
+   ],
+   "sourceIds": [
+    "Robt. Humphries|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1952,
+   "lastYear": 1952,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151241",
+   "personId": 151241,
+   "displayName": "Robt. Jas. Beggs",
+   "aliases": [
+    "Robt. Jas. Beggs"
+   ],
+   "matchKeys": [
+    "robt jas beggs"
+   ],
+   "sourceIds": [
+    "Robt. Jas. Beggs|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151242",
+   "personId": 151242,
+   "displayName": "S. W. Brennan",
+   "aliases": [
+    "S. W. Brennan"
+   ],
+   "matchKeys": [
+    "s w brennan"
+   ],
+   "sourceIds": [
+    "S. W. Brennan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1930,
+   "lastYear": 1930,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151243",
+   "personId": 151243,
+   "displayName": "S. Watson",
+   "aliases": [
+    "S. Watson"
+   ],
+   "matchKeys": [
+    "s watson"
+   ],
+   "sourceIds": [
+    "S. Watson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "ballymena-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p151246",
+   "personId": 151246,
+   "displayName": "Samuel A. Forgie",
+   "aliases": [
+    "Samuel A. Forgie"
+   ],
+   "matchKeys": [
+    "samuel a forgie"
+   ],
+   "sourceIds": [
+    "Samuel A. Forgie|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "ballycastle-rural-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p151247",
+   "personId": 151247,
+   "displayName": "Samuel Steele",
+   "aliases": [
+    "Samuel Steele"
+   ],
+   "matchKeys": [
+    "samuel steele"
+   ],
+   "sourceIds": [
+    "Samuel Steele|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p151251",
+   "personId": 151251,
+   "displayName": "T. H. Brown",
+   "aliases": [
+    "T. H. Brown"
+   ],
+   "matchKeys": [
+    "t h brown"
+   ],
+   "sourceIds": [
+    "T. H. Brown|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "larne-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151252",
+   "personId": 151252,
+   "displayName": "T. H. R. Dowzer",
+   "aliases": [
+    "T. H. R. Dowzer"
+   ],
+   "matchKeys": [
+    "t h r dowzer"
+   ],
+   "sourceIds": [
+    "T. H. R. Dowzer|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151257",
+   "personId": 151257,
+   "displayName": "Thomas D. McKeever",
+   "aliases": [
+    "Thomas D. McKeever"
+   ],
+   "matchKeys": [
+    "thomas d mckeever"
+   ],
+   "sourceIds": [
+    "Thomas D. McKeever|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "larne-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151258",
+   "personId": 151258,
+   "displayName": "Thomas Dixon",
+   "aliases": [
+    "Thomas Dixon"
+   ],
+   "matchKeys": [
+    "thomas dixon"
+   ],
+   "sourceIds": [
+    "Thomas Dixon|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
+   "lastYear": 1939,
+   "bodies": [
+    "larne-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151259",
+   "personId": 151259,
+   "displayName": "Thomas H. Browne",
+   "aliases": [
+    "Thomas H. Browne"
+   ],
+   "matchKeys": [
+    "thomas h browne"
+   ],
+   "sourceIds": [
+    "Thomas H. Browne|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1930,
+   "lastYear": 1930,
+   "bodies": [
+    "larne-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151260",
+   "personId": 151260,
+   "displayName": "Thomas Patterson",
+   "aliases": [
+    "Thomas Patterson"
+   ],
+   "matchKeys": [
+    "thomas patterson"
+   ],
+   "sourceIds": [
+    "Thomas Patterson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "carrickfergus-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151261",
+   "personId": 151261,
+   "displayName": "Thos. Gillespie",
+   "aliases": [
+    "Thos. Gillespie"
+   ],
+   "matchKeys": [
+    "thos gillespie"
+   ],
+   "sourceIds": [
+    "Thos. Gillespie|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151262",
+   "personId": 151262,
+   "displayName": "Thos. J. Dowzer",
+   "aliases": [
+    "Thos. J. Dowzer"
+   ],
+   "matchKeys": [
+    "thos j dowzer"
+   ],
+   "sourceIds": [
+    "Thos. J. Dowzer|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1952,
+   "lastYear": 1952,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151263",
+   "personId": 151263,
+   "displayName": "Thos. Johnston",
+   "aliases": [
+    "Thos. Johnston"
+   ],
+   "matchKeys": [
+    "thos johnston"
+   ],
+   "sourceIds": [
+    "Thos. Johnston|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151274",
+   "personId": 151274,
+   "displayName": "W. B. Evans",
+   "aliases": [
+    "W. B. Evans"
+   ],
+   "matchKeys": [
+    "w b evans"
+   ],
+   "sourceIds": [
+    "W. B. Evans|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "larne-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151275",
+   "personId": 151275,
+   "displayName": "W. G. B. Hayes",
+   "aliases": [
+    "W. G. B. Hayes"
+   ],
+   "matchKeys": [
+    "w g b hayes"
+   ],
+   "sourceIds": [
+    "W. G. B. Hayes|UUP"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "ballycastle-rural-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151276",
+   "personId": 151276,
+   "displayName": "W. J. Gregg",
+   "aliases": [
+    "W. J. Gregg"
+   ],
+   "matchKeys": [
+    "w j gregg"
+   ],
+   "sourceIds": [
+    "W. J. Gregg|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p151277",
+   "personId": 151277,
+   "displayName": "William Alexander Bell",
+   "aliases": [
+    "William Alexander Bell"
+   ],
+   "matchKeys": [
+    "william alexander bell"
+   ],
+   "sourceIds": [
+    "William Alexander Bell|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1924,
+   "lastYear": 1924,
+   "bodies": [
+    "lisburn-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151278",
+   "personId": 151278,
+   "displayName": "William C. Lawson",
+   "aliases": [
+    "William C. Lawson"
+   ],
+   "matchKeys": [
+    "william c lawson"
+   ],
+   "sourceIds": [
+    "William C. Lawson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
+   "lastYear": 1939,
+   "bodies": [
+    "larne-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151279",
+   "personId": 151279,
+   "displayName": "William Davis",
+   "aliases": [
+    "William Davis"
+   ],
+   "matchKeys": [
+    "william davis"
+   ],
+   "sourceIds": [
+    "William Davis|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1923,
+   "lastYear": 1923,
+   "bodies": [
+    "lisburn-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p151280",
+   "personId": 151280,
+   "displayName": "Wm. Clarke",
+   "aliases": [
+    "Wm. Clarke"
+   ],
+   "matchKeys": [
+    "wm clarke"
+   ],
+   "sourceIds": [
+    "Wm. Clarke|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1952,
+   "lastYear": 1952,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151281",
+   "personId": 151281,
+   "displayName": "Wm. Coleman",
+   "aliases": [
+    "Wm. Coleman"
+   ],
+   "matchKeys": [
+    "wm coleman"
+   ],
+   "sourceIds": [
+    "Wm. Coleman|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151282",
+   "personId": 151282,
+   "displayName": "Wm. Cumming",
+   "aliases": [
+    "Wm. Cumming"
+   ],
+   "matchKeys": [
+    "wm cumming"
+   ],
+   "sourceIds": [
+    "Wm. Cumming|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "ballymena-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151283",
+   "personId": 151283,
+   "displayName": "Wm. Houston",
+   "aliases": [
+    "Wm. Houston"
+   ],
+   "matchKeys": [
+    "wm houston"
+   ],
+   "sourceIds": [
+    "Wm. Houston|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "ballymena-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151284",
+   "personId": 151284,
+   "displayName": "Wm. Kerr",
+   "aliases": [
+    "Wm. Kerr"
+   ],
+   "matchKeys": [
+    "wm kerr"
+   ],
+   "sourceIds": [
+    "Wm. Kerr|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "ballymena-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151285",
+   "personId": 151285,
+   "displayName": "Wm. Simpson",
+   "aliases": [
+    "Wm. Simpson"
+   ],
+   "matchKeys": [
+    "wm simpson"
+   ],
+   "sourceIds": [
+    "Wm. Simpson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "ballymena-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p151286",
+   "personId": 151286,
+   "displayName": "Wm. Wallace",
+   "aliases": [
+    "Wm. Wallace"
+   ],
+   "matchKeys": [
+    "wm wallace"
+   ],
+   "sourceIds": [
+    "Wm. Wallace|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "larne-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
