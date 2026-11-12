@@ -1,0 +1,39 @@
+{
+ "schemaVersion": 1,
+ "description": "The election vocabulary (REG-2): the voting systems an election or contest is counted by (an election bundle's votingSystem, data/elections-source/data/elections/) and the kinds of election (general or by-election), with the words the site shows for them. A value is added here before any data or code uses it. Schema: packages/registries/schemas/election-types.schema.json; views: packages/registries/src/election-types.mjs. The browser slice (packages/registries/src/browser/election-types.json) carries the names and labels to the Elections app (systemName) and Browse (the Type filter).",
+ "votingSystems": {
+  "fptp": {
+   "about": "first past the post: the candidate with most votes wins each seat",
+   "name": "first past the post"
+  },
+  "block-vote": {
+   "about": "each elector has as many votes as there are seats; the candidates with most votes win"
+  },
+  "stv-gregory": {
+   "about": "single transferable vote, transferring surpluses by the Gregory method (Northern Ireland)",
+   "name": "single transferable vote (Gregory method)"
+  },
+  "stv-hare": {
+   "about": "single transferable vote, transferring surpluses by a random sample of the last parcel (the Republic of Ireland)",
+   "name": "single transferable vote"
+  },
+  "party-list-dhondt": {
+   "about": "a party list, seats allocated by the D'Hondt divisors",
+   "name": "party list (D'Hondt)"
+  },
+  "ordinal": {
+   "about": "a referendum: the options are counted, not candidates",
+   "name": "referendum"
+  }
+ },
+ "electionKinds": {
+  "general": {
+   "about": "an election of the whole body (every seat, or a council's whole membership)",
+   "listLabel": "General elections"
+  },
+  "by-election": {
+   "about": "an election to fill one or more seats that fell vacant",
+   "listLabel": "By-elections"
+  }
+ }
+}

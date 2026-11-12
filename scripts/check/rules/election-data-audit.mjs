@@ -4,6 +4,7 @@ import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
 import { recordPath } from '../../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../../packages/registries/src/index.mjs';
 import { enumValues } from '../../../packages/registries/src/statuses.mjs';
+import { electionKindIds, votingSystemIds } from '../../../packages/registries/src/election-types.mjs';
 
 /**
  * The party-colour comparison's outcome (state-machine catalogue PL-L, light). The audit rows spell
@@ -138,12 +139,14 @@ const normaliseNumber = (value) => {
 };
 
 const VALID_CONTEST_TYPES = new Set(['election', 'referendum', 'recall-petition']);
-const VALID_ELECTION_KINDS = new Set(['general', 'by-election']);
+// The kinds of election and the voting systems: the election-types registry (REG-2).
+const ELECTION_TYPES = loadRegistry('election-types');
+const VALID_ELECTION_KINDS = new Set(electionKindIds(ELECTION_TYPES));
 // Contest statuses and what a missing one means: the statuses registry's contest entry (RG-02).
 const STATUSES = loadRegistry('statuses');
 const VALID_CONTEST_STATUSES = new Set(enumValues(STATUSES, 'contest'));
 const CONTEST_STATUS_IF_MISSING = STATUSES.machines.contest.missingMeans;
-const VALID_VOTING_SYSTEMS = new Set(['fptp', 'block-vote', 'stv-gregory', 'stv-hare', 'party-list-dhondt', 'ordinal']);
+const VALID_VOTING_SYSTEMS = new Set(votingSystemIds(ELECTION_TYPES));
 
 const contestTypeFor = (entry, result = null) => result?.contestType || entry?.contestType || (/referendum/i.test(entry?.body || entry?.displayTitle || '') ? 'referendum' : 'election');
 

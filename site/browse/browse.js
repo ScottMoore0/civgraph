@@ -7,6 +7,7 @@ import { escapeHtml } from '../pkg/core/src/html.js';
 import { slugify } from '../pkg/core/src/format.js';
 import { candidateReturnWithoutPoll, partyHadNoPoll } from '../pkg/core/src/unopposed.mjs';
 import { SITE } from '../pkg/config/src/config.js';
+import { electionKindLabels } from '../pkg/registries/src/browser/election-type-names.mjs';
 
 /**
  * An element of the page reached by a delegated listener or a selector: any HTML element, with
@@ -131,7 +132,8 @@ const SOURCE_FILTERS = [
 // Filters for the lists read whole from a static index, so the options come from every record
 // rather than a page of them. `value` reads the facet from an item; `label` names an option.
 /** @type {Record<string, string>} */
-const ELECTION_KIND_LABELS = { general: 'General elections', 'by-election': 'By-elections', referendum: 'Referendums', other: 'Other' };
+// The kinds of election are named by the election-types registry (REG-2); referendums and the rest here.
+const ELECTION_KIND_LABELS = { ...electionKindLabels, referendum: 'Referendums', other: 'Other' };
 /** @type {Record<string, ListFilter[]>} */
 const LIST_FILTERS = {
   elections: [
