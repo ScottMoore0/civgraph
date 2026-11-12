@@ -33,7 +33,7 @@ node tools/test-site/server.mjs --port 4177
 ## Going live (owner's decision, later)
 
 1. Have every string in `review/strings-ga.tsv` (and `strings-sco.tsv`) reviewed. Record the
-   reviewer in `META.<lang>.reviewedBy` in `scripts/i18n/build-i18n.mjs`.
+   reviewer in the language's `reviewedBy` in `data/registries/languages.json`.
 2. Have `review/map-names.tsv` reviewed as well. Its names are machine-composed.
 3. In `packages/ui/src/templates/shell.js` (`head()`, the language bootstrap), replace the flag test in the bootstrap script with
    "always load", and drop the Hide action (`assets/i18n/i18n.js`) and the phrase check
@@ -43,7 +43,7 @@ node tools/test-site/server.mjs --port 4177
 ## How it works
 
 - **`assets/i18n/i18n.js`** is the runtime. It is a plain script that is loaded on demand.
-  - It reads `en.json` (every key's English, and the fallback) and `<lang>.json`.
+  - It reads `languages.json` (the languages, from the registry), `en.json` (every key's English, and the fallback) and `<lang>.json`.
   - It translates the page by key:
     - `data-i18n="key"`, `data-i18n-html="key"` and `data-i18n-attr="title:key"` mark keyed elements.
     - Every other text node and every `title`, `aria-label`, `placeholder` and `alt` is looked up
@@ -94,10 +94,12 @@ node tools/test-site/server.mjs --port 4177
 
 | Path | What |
 |---|---|
-| `data/i18n/strings/*.txt` | **The translations**, one per surface: chrome, catalogue, catalogue-names, app, browse, pages, general, units, patterns. Each line is `English ¦ Irish ¦ Ulster-Scots`; `@key` sets an explicit key. Edit these. |
+| `data/i18n/strings/*.txt` | **The translations**, one per surface: chrome, catalogue, catalogue-names, app, browse, pages, general, units, patterns. The `#!columns en ¦ ga ¦ sco` header names each column by language code, and every line has those columns; `@key` sets an explicit key. Edit these. |
+| `data/registries/languages.json` | **The languages**: code, own name, BCP-47 tag, locale, direction, reviewer. A new language is an entry here and a column in every string file (`node scripts/i18n/add-language-column.mjs <code>`); no code changes (acceptance test A5). |
 | `data/i18n/map-name-glossary.txt` | Phrase glossary for composing Irish map names. |
 | `data/i18n/map-names.overlay.json` | **Map-name overlay**, keyed by `maps.json` id (generated). `maps.json` itself is not touched. |
 | `assets/i18n/en.json`, `ga.json`, `sco.json` | Built language files (`_status: "draft"`). |
+| `assets/i18n/languages.json` | The runtime's table of the languages, built from the registry. |
 | `assets/i18n/names.ga.json` | English map / layer / Dáil constituency name to Irish, from the overlay. |
 | `assets/i18n/place-name-fields.json` | Layer id to the tile property holding its features' Irish names (generated). |
 | `data/i18n/review/` | **Review lists:** `strings-ga.tsv`, `strings-sco.tsv`, `map-names.tsv`, `place-name-fields.tsv`, `untranslated-ui.txt`, `coverage.json`. |
