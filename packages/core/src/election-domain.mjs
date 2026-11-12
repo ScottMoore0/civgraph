@@ -826,9 +826,10 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
   const electorate = parseNumber(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
   const turnoutPct = parseNumber(meta.turnout_pct ?? meta.turnoutPct);
   const explicitTotalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
-  const totalPoll = explicitTotalPoll ?? (electorate !== null && turnoutPct !== null
-    ? Math.round(electorate * turnoutPct / 100)
-    : null);
+  // A total poll inferred from a turnout must hold the valid poll (a turnout of the valid vote,
+  // rounded, can put it a vote or two short): otherwise there is no total poll.
+  const turnoutPoll = electorate !== null && turnoutPct !== null ? Math.round(electorate * turnoutPct / 100) : null;
+  const totalPoll = explicitTotalPoll ?? (turnoutPoll !== null && (!validPoll || turnoutPoll >= validPoll) ? turnoutPoll : null);
   const explicitSpoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
   const spoiled = explicitSpoiled ?? (totalPoll !== null && validPoll
     ? Math.max(0, totalPoll - validPoll)
@@ -1037,9 +1038,9 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
       const electorate = parseNumber(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
       const turnoutPct = parseNumber(meta.turnout_pct ?? meta.turnoutPct);
       const explicitTotalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
-      const constituencyTotalPoll = explicitTotalPoll ?? (electorate !== null && turnoutPct !== null
-        ? Math.round(electorate * turnoutPct / 100)
-        : null);
+      const turnoutPoll = electorate !== null && turnoutPct !== null ? Math.round(electorate * turnoutPct / 100) : null;
+      const constituencyTotalPoll = explicitTotalPoll
+        ?? (turnoutPoll !== null && (constituencyValid === null || turnoutPoll >= constituencyValid) ? turnoutPoll : null);
       const explicitSpoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
       const constituencySpoiled = explicitSpoiled ?? (constituencyTotalPoll !== null && constituencyValid !== null
         ? Math.max(0, constituencyTotalPoll - constituencyValid)
