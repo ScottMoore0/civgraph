@@ -1,15 +1,6 @@
 {
   "//": "The architecture checks' known findings, as a count per check per file (scripts/check/architecture.mjs). It may only shrink: tests/unit/architecture-baseline.test.mjs fails when a count grows or an entry appears compared with main. Shrink it with `node scripts/check/architecture.mjs --write-baseline` after fixing findings.",
-  "C3": {
-    "site/app/election-viewer-package/js/animation_preview.js": 1,
-    "site/app/election-viewer-package/js/election_viewer.js": 2,
-    "site/app/election-viewer-package/js/stages2.js": 1,
-    "site/browse/browse.js": 4,
-    "src/election-main-pane-contract.mjs": 1,
-    "src/election-renderer.mjs": 1,
-    "src/election-trend-chart.mjs": 2,
-    "src/election-utils.js": 1
-  },
+  "C3": {},
   "C4": {
     "packages/api/src/contribution-status.js": 2,
     "packages/core/src/election-domain.mjs": 7,

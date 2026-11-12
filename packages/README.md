@@ -77,12 +77,12 @@ the same for every module it imports), add it to the list in `tests/unit/served-
 add a `site/pkg/<path>` re-export if a page imports it directly, and import it from the page by
 the relative path that lands on `/pkg/` (from `site/apps/x/lib/y.js`: `../../../pkg/core/src/html.js`).
 
-**How Browse and PRONI Search can adopt it (not done yet).** `site/browse/browse.js` keeps a
-copy of `candidateReturnWithoutPoll` (packages/core/src/unopposed.mjs, already served) and its own
-escaping and slug helpers (core html.js and format.js, already served): replace each with an
-import of `../pkg/core/src/<module>` and add the module to Browse's import map in
-`site/browse/index.html` (`tests/unit/ui-module-tokens.test.mjs` prints the map to paste).
-`site/apps/proni-search/` would import the same way (`../../pkg/...`). Neither needs a new served
+**Browse adopted it on 12 Nov 2026** (stream rf8-types): `site/browse/browse.js` imports core's
+`escapeHtml` (html.js), `slugify` (format.js) and `candidateReturnWithoutPoll` and `partyHadNoPoll`
+(unopposed.mjs) from `../pkg/core/src/`, and the three pages that load it (Browse, the catalogue,
+the records page) list those modules in their import maps (`tests/unit/ui-module-tokens.test.mjs`
+prints the map to paste); `config/boundaries.json` lets the `site` unit import `site-pkg`.
+`site/apps/proni-search/` would import the same way (`../../pkg/...`), needing no new served
 module for the helpers above; a registry slice (`registries/src/browser/*.mjs` with its
 `.data.mjs`) or another core module is one more allowlist entry each.
 

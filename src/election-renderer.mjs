@@ -12,6 +12,7 @@ import {
   sumNumbers
 } from '../packages/core/src/election-view-model.mjs';
 
+import { escapeHtml } from '../packages/core/src/html.js';
 import { partyLabelHtml } from '../packages/core/src/party-names.mjs';
 
 /** @typedef {import('../packages/core/src/election-view-model.mjs').ElectionResult} ElectionResult */
@@ -622,15 +623,4 @@ function recallTriggered(result = {}) {
   const signed = Number(petition.signed ?? petition.signatures ?? result.leadingVotes);
   const threshold = Number(petition.threshold ?? petition.required);
   return Number.isFinite(signed) && Number.isFinite(threshold) ? signed >= threshold : false;
-}
-
-/** @param {unknown} value */
-function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => (/** @type {Record<string, string>} */ ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  })[char]));
 }

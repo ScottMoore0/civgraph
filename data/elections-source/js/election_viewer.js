@@ -29,17 +29,19 @@
 
     // ---- Helpers ----
 
-    function slugify(text) {
+    // The viewer's own slug: it names the data files (elections/<body>/<date>/<constituency>.json),
+    // so it is not packages/core/src/format.js slugify (which keeps accented letters and says "and").
+    function pathSlug(text) {
         return String(text).toLowerCase().trim()
             .replace(/[^\w\s-]/g, '')
             .replace(/[\s]+/g, '-')
             .replace(/-+/g, '-');
     }
 
-    function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.appendChild(document.createTextNode(String(str)));
-        return div.innerHTML;
+    // copy-of: packages/core/src/html.js (a classic script cannot import it; tests/unit/viewer-package-copies.test.mjs keeps it identical)
+    const ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+    function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>"']/g, (ch) => ESCAPES[ch]);
     }
 
     function formatNumber(val) {
@@ -66,8 +68,8 @@
     }
 
     function loadElection(body, date, constituency) {
-        const bodySlug = slugify(body);
-        const constSlug = slugify(constituency);
+        const bodySlug = pathSlug(body);
+        const constSlug = pathSlug(constituency);
         const url = _dataBasePath + '/elections/' + bodySlug + '/' + date + '/' + constSlug + '.json';
         return fetch(url).then(function (r) {
             if (!r.ok) throw new Error('Election not found: ' + r.status);
@@ -520,6 +522,6 @@
         buildResultsTable: buildResultsTable,
         buildPreviewCard: buildPreviewCard,
         loadElection: loadElection,
-        slugify: slugify,
+        slugify: pathSlug,
     };
 });
