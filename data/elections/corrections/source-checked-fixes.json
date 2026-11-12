@@ -179137,13 +179137,19 @@
           "set": {
             "Candidate_Id": "T2426291746-antrim"
           }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "538"
         }
       ],
       "internalNote": "James Brown: candidate id T2509660397 was shared with candidates of the same name in other councils (kept by Carrickfergus); given T2509660397-antrim. Peter Kelly: candidate id T3502243737 was shared with candidates of the same name in other councils (kept by Omagh); given T3502243737-antrim. James Millar: candidate id T801010737 was shared with candidates of the same name in other councils (kept by Ballymena); given T801010737-antrim.",
       "alsoBatches": [
-        "elliott-flackes-1999-2026-11-06"
+        "elliott-flackes-1999-2026-11-06",
+        "arith-audit-2026-11-11"
       ],
-      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes.",
+      "reason": "Jack Allen, UUP councillor in Antrim 1973-93, is not the Londonderry Jack Allen (John Alexander Allen) of the 1982 and 1998 Assembly elections: in 1973 and 1977 both were elected on the same day to different councils. Given the id T2426291746-antrim so the registry stops joining them. Nothing in the results changes. The quota was 538 (4,296 valid votes, 7 seats), as the Electoral Office's booklet prints it; the 583 shown transposed two digits.",
       "additionalSources": [
         {
           "title": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Belfast: Blackstaff Press, 1999), Dictionary, Jack Allen, p. 156",
@@ -179156,6 +179162,12 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/Jack_Allen_(Northern_Ireland_politician)",
           "accessed": "2026-11-06"
+        },
+        {
+          "title": "Local Government Election Results 1989, Antrim: Antrim Town (PDF p. 92)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20210709185437id_/https://www.eoni.org.uk/getmedia/c747b644-74fb-4401-a84f-1900f7818722/local_government_election_results_1989",
+          "accessed": "2026-11-12"
         }
       ]
     },
@@ -179478,9 +179490,26 @@
           "set": {
             "Candidate_Id": "T3269187932-ballymena"
           }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "5583"
         }
       ],
-      "internalNote": "David Alderdice: candidate id T3269187932 was shared with candidates of the same name in other councils (kept by Belfast/North Down); given T3269187932-ballymena."
+      "internalNote": "David Alderdice: candidate id T3269187932 was shared with candidates of the same name in other councils (kept by Belfast/North Down); given T3269187932-ballymena.",
+      "additionalSources": [
+        {
+          "title": "Local Government Election Results 1989, Ballymena: The Main (PDF p. 31)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20210709185437id_/https://www.eoni.org.uk/getmedia/c747b644-74fb-4401-a84f-1900f7818722/local_government_election_results_1989",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "The votes polled were 5,583, as the Electoral Office's booklet prints them (5,465 valid + 118 invalid); the 5,535 shown was a slip.",
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -179776,9 +179805,26 @@
           "set": {
             "Candidate_Id": "T3252451493-coleraine"
           }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "3736"
         }
       ],
-      "internalNote": "William Johnston: candidate id T3252451493 was shared with candidates of the same name in other councils (kept by Ballymoney); given T3252451493-coleraine."
+      "internalNote": "William Johnston: candidate id T3252451493 was shared with candidates of the same name in other councils (kept by Ballymoney); given T3252451493-coleraine.",
+      "additionalSources": [
+        {
+          "title": "Local Government Election Results 1993, Coleraine: Coleraine East (PDF p. 19)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20210709183748id_/https://www.eoni.org.uk/getmedia/b0d9bd01-b804-48bd-8641-9d763ec66466/local_government_election_results_1993",
+          "accessed": "2026-11-12"
+        }
+      ],
+      "reason": "The votes polled were 3,736, as the Electoral Office's booklet prints them (3,611 valid + 125 invalid); the 9,736 shown had a wrong first digit.",
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
+      ]
     },
     {
       "batch": "candidate-id-splits-2026-10-28",
@@ -281638,9 +281684,15 @@
           "publisher": "Wikipedia",
           "url": "https://en.wikipedia.org/wiki/William_Brown_(Northern_Ireland_politician)",
           "accessed": "2026-11-06"
+        },
+        {
+          "title": "Local Government Election Results 1993, Dungannon: Dungannon Town (PDF p. 66)",
+          "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+          "url": "https://web.archive.org/web/20210709183748id_/https://www.eoni.org.uk/getmedia/b0d9bd01-b804-48bd-8641-9d763ec66466/local_government_election_results_1993",
+          "accessed": "2026-11-12"
         }
       ],
-      "reason": "William Brown, UUP councillor in Dungannon 1973-93, is not the South Down Assembly member William Brown, a Down councillor 1977-93: in 1977 and 1981 both were elected on the same day to different councils. Given the id T2031631529-dungannon so the registry stops joining them. Nothing in the results changes.",
+      "reason": "William Brown, UUP councillor in Dungannon 1973-93, is not the South Down Assembly member William Brown, a Down councillor 1977-93: in 1977 and 1981 both were elected on the same day to different councils. Given the id T2031631529-dungannon so the registry stops joining them. Nothing in the results changes. The votes polled were 5,873, as the Electoral Office's booklet prints them (5,798 valid + 75 invalid); the 8,573 shown transposed two digits.",
       "category": "person-identity",
       "operations": [
         {
@@ -281649,7 +281701,15 @@
           "set": {
             "Candidate_Id": "T2031631529-dungannon"
           }
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "5873"
         }
+      ],
+      "alsoBatches": [
+        "arith-audit-2026-11-11"
       ]
     },
     {
@@ -323623,6 +323683,291 @@
       "reason": "The count is the official result after the recount (55,246 valid votes, quota 11,050, 15 counts), as the Oireachtas results book prints it; the count table shown before was the original count's (55,276 first preferences), which the recount superseded.",
       "category": "stages",
       "operations": []
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/lurgan.json",
+      "source": {
+        "title": "Local Government Election Results 1985, Craigavon: Lurgan (PDF p. 71)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806055505id_/http://www.eoni.org.uk/getmedia/2d57a980-809e-4f90-b658-0175b954d3a2/local_government_election_results_1985",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The votes polled were 8,579, as the Electoral Office's booklet prints them (8,432 valid + 147 invalid); the 5,879 shown transposed two digits.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "8579"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/orchard.json",
+      "source": {
+        "title": "Local Government Election Results 1985, Armagh: The Orchard (PDF p. 77)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806055505id_/http://www.eoni.org.uk/getmedia/2d57a980-809e-4f90-b658-0175b954d3a2/local_government_election_results_1985",
+        "accessed": "2026-11-12"
+      },
+      "reason": "There were 92 invalid votes, as the Electoral Office's booklet prints them (5,626 valid + 92 = 5,718 polled); the 912 shown had a stray digit.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "92"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/killultagh.json",
+      "source": {
+        "title": "Local Government Election Results 1985, Lisburn: Killultagh (PDF p. 97)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806055505id_/http://www.eoni.org.uk/getmedia/2d57a980-809e-4f90-b658-0175b954d3a2/local_government_election_results_1985",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The quota was 1,138 (9,100 valid votes, 7 seats), as the Electoral Office's booklet prints it; the 1,136 shown was a slip.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "1138"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/mid-tyrone.json",
+      "source": {
+        "title": "Local Government Election Results 1989, Omagh: Mid-Tyrone (PDF p. 42)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210709185437id_/https://www.eoni.org.uk/getmedia/c747b644-74fb-4401-a84f-1900f7818722/local_government_election_results_1989",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The quota was 962 (7,694 valid votes, 7 seats), as the Electoral Office's booklet prints it; the 961 shown was a slip.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "962"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/sperrin.json",
+      "source": {
+        "title": "Local Government Election Results 1989, Magherafelt: Sperrin (PDF p. 35)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210709185437id_/https://www.eoni.org.uk/getmedia/c747b644-74fb-4401-a84f-1900f7818722/local_government_election_results_1989",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The quota was 973 (5,835 valid votes, 5 seats), as the Electoral Office's booklet prints it; the 937 shown transposed two digits.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "973"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/sperrin.json",
+      "source": {
+        "title": "Local Government Election Results 1993, Magherafelt: Sperrin (PDF p. 43)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210709183748id_/https://www.eoni.org.uk/getmedia/b0d9bd01-b804-48bd-8641-9d763ec66466/local_government_election_results_1993",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The votes polled were 6,300, as the Electoral Office's booklet prints them (6,166 valid + 134 invalid); the 8,300 shown had a wrong first digit.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "6300"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/court.json",
+      "source": {
+        "title": "Local Government Election Results 1997, Belfast: Court (PDF p. 143)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806055120id_/http://www.eoni.org.uk/getmedia/28aa14fd-8434-4a56-b274-e155002d47b6/local_government_election_results_1997",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The electorate was 17,089, as the Electoral Office's booklet prints it; the 1,708 shown had lost its last digit.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "17089"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/waterside.json",
+      "source": {
+        "title": "Local Government Election Results 1997, Derry: Waterside (PDF p. 10)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806055120id_/http://www.eoni.org.uk/getmedia/28aa14fd-8434-4a56-b274-e155002d47b6/local_government_election_results_1997",
+        "accessed": "2026-11-12"
+      },
+      "reason": "There were 186 invalid votes, as the Electoral Office's booklet prints them (9,152 valid + 186 = 9,338 polled); the 185 shown was a slip.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "186"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/craigavon-central.json",
+      "source": {
+        "title": "Local Government Election Results 2001, Craigavon: Central (PDF p. 63)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20190806054937id_/http://www.eoni.org.uk/getmedia/46b84d90-302a-4615-8a4f-f16d5137e7fa/local_government_election_results_2001",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The votes polled were 10,887, as the Electoral Office's booklet prints them (10,633 valid + 254 invalid); the 1,087 shown had lost a digit.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "10887"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/crossmore.json",
+      "source": {
+        "title": "Local Government Election Results 2005, Armagh: Crossmore (PDF p. 79)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210709185456id_/https://www.eoni.org.uk/getmedia/9b9d7e45-e0c5-4495-a284-5900bfd8e88f/Local-Government-Election-Results-2005",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The votes polled were 6,245, as the Electoral Office's booklet prints them (6,130 valid + 115 invalid); the 6,254 shown transposed two digits.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "6245"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/glens.json",
+      "source": {
+        "title": "Local Government Election Results 2005, Moyle: The Glens (PDF p. 26)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210709185456id_/https://www.eoni.org.uk/getmedia/9b9d7e45-e0c5-4495-a284-5900bfd8e88f/Local-Government-Election-Results-2005",
+        "accessed": "2026-11-12"
+      },
+      "reason": "There were 43 invalid votes, as the Electoral Office's booklet prints them (2,580 valid + 43 = 2,623 polled); the 42 shown was a slip.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "43"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/newcastle.json",
+      "source": {
+        "title": "Local Government Election Results 2005, Down: Newcastle (PDF p. 96)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210709185456id_/https://www.eoni.org.uk/getmedia/9b9d7e45-e0c5-4495-a284-5900bfd8e88f/Local-Government-Election-Results-2005",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The electorate was 11,446, as the Electoral Office's booklet prints it; the 1,146 shown had lost a digit.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Electorate",
+          "value": "11446"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/rural.json",
+      "source": {
+        "title": "Local Government Election Results 2005, Derry: Rural (PDF p. 5)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210709185456id_/https://www.eoni.org.uk/getmedia/9b9d7e45-e0c5-4495-a284-5900bfd8e88f/Local-Government-Election-Results-2005",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The votes polled were 9,817, as the Electoral Office's booklet prints them (9,610 valid + 207 invalid); the 9,617 shown was a slip.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "9817"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/shantallow.json",
+      "source": {
+        "title": "Local Government Election Results 2005, Derry: Shantallow (PDF p. 6)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210709185456id_/https://www.eoni.org.uk/getmedia/9b9d7e45-e0c5-4495-a284-5900bfd8e88f/Local-Government-Election-Results-2005",
+        "accessed": "2026-11-12"
+      },
+      "reason": "There were 227 invalid votes, as the Electoral Office's booklet prints them (9,683 valid + 227 = 9,910 polled); the 887 shown was a wrong figure.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "227"
+        }
+      ]
+    },
+    {
+      "batch": "arith-audit-2026-11-11",
+      "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/rural.json",
+      "source": {
+        "title": "Local Government Election Results 1989, Derry: Rural (PDF p. 5)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20210709185437id_/https://www.eoni.org.uk/getmedia/c747b644-74fb-4401-a84f-1900f7818722/local_government_election_results_1989",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The quota was 1,083 (8,662 valid votes, 7 seats): the count runs on it (John McNickle, at 1,034.98 after the fourth stage, stays in the count and is elected later). The header of the Electoral Office's booklet prints 1,034, a slip the import copied.",
+      "category": "arithmetic",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "1083"
+        }
+      ]
     }
   ]
 }
