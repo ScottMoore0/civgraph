@@ -27,7 +27,7 @@
  *   node scripts/build/build-elections-sqlite.mjs [--out <path>] [--limit N]
  */
 import { readdirSync, readFileSync, existsSync, mkdirSync, rmSync, statSync, createWriteStream } from 'node:fs';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../../packages/storage/src/sqlite.mjs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 
@@ -201,7 +201,7 @@ function residual(source, promoted, dropped = []) {
   return Object.keys(rest).length ? JSON.stringify(rest) : null;
 }
 
-// node:sqlite binds only null, number, string, bigint and Uint8Array -- undefined throws,
+// SQLite (the storage adapter's handle) binds only null, number, string, bigint and Uint8Array -- undefined throws,
 // and these bundles omit fields freely rather than setting them null.
 const txt = (v) => {
   if (v === null || v === undefined) return null;
@@ -261,7 +261,7 @@ if (!existsSync(SRC_DIR)) {
 mkdirSync(path.dirname(OUT), { recursive: true });
 rmSync(OUT, { force: true });
 
-const db = new DatabaseSync(OUT);
+const db = openSqliteHandle(OUT);
 db.exec('PRAGMA journal_mode = OFF; PRAGMA synchronous = OFF;');
 db.exec(SCHEMA);
 
@@ -422,7 +422,7 @@ const KEY_COLS = {
 let sqlBytes = 0;
 if (!args.includes('--no-sql')) {
   const sqlPath = OUT.replace(/\.sqlite$/, '') + '.sql';
-  const dump = new DatabaseSync(OUT, { readOnly: true });
+  const dump = openSqliteHandle(OUT, { readOnly: true });
   const lit = (v) => {
     if (v === null || v === undefined) return 'NULL';
     if (typeof v === 'number') return Number.isFinite(v) ? String(v) : 'NULL';

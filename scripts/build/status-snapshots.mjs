@@ -68,11 +68,12 @@ const previous = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : { sou
 const sources = { ...(previous.sources || {}) };
 const log = (msg) => console.log(msg);
 
-// node:sqlite prints an ExperimentalWarning on some Node versions; it is harmless here.
-let DatabaseSync = null;
+// The crawl databases open through the storage adapter, loaded only when one is read (the engine
+// prints an ExperimentalWarning on some Node versions; it is harmless here).
+let openHandle = null;
 async function sqlite() {
-  if (!DatabaseSync) ({ DatabaseSync } = await import('node:sqlite'));
-  return DatabaseSync;
+  if (!openHandle) ({ openSqliteHandle: openHandle } = await import('../../packages/storage/src/sqlite.mjs'));
+  return openHandle;
 }
 
 async function getJson(url) {
@@ -93,9 +94,9 @@ async function gazette() {
   const dir = dirs.gazette;
   const db = dir && path.join(dir, 'gazette.sqlite');
   if (!db || !existsSync(db)) return log('gazette: no --gazette folder given (or no gazette.sqlite); kept the previous snapshot');
-  const Database = await sqlite();
+  const open = await sqlite();
   // Read-only: the crawler may be writing at the same time.
-  const conn = new Database(db, { readOnly: true });
+  const conn = open(db, { readOnly: true });
   const rows = conn.prepare('SELECT status, COUNT(*) AS n, MAX(issue) AS last, MAX(date) AS lastDate FROM issues GROUP BY status').all();
   const pagesIndexed = conn.prepare('SELECT COUNT(*) AS n FROM pages').get().n;
   conn.close();
@@ -312,14 +313,14 @@ async function proni() {
   const dir = dirs.proni;
   const db = dir && path.join(dir, 'proni.sqlite');
   if (!db || !existsSync(db)) return log('proni: no --proni folder given (or no proni.sqlite); kept the previous snapshot');
-  const Database = await sqlite();
-  const conn = new Database(db, { readOnly: true });
+  const open = await sqlite();
+  const conn = open(db, { readOnly: true });
   const collected = conn.prepare('SELECT COUNT(*) AS n FROM proni').get().n;
   conn.close();
   let dated = null;
   const dates = path.join(dir, 'extracted-dates.sqlite');
   if (existsSync(dates)) {
-    const d = new Database(dates, { readOnly: true });
+    const d = open(dates, { readOnly: true });
     dated = d.prepare('SELECT COUNT(*) AS n FROM ext WHERE ext_start_year IS NOT NULL').get().n;
     d.close();
   }

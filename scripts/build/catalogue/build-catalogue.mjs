@@ -29,7 +29,7 @@ import { electionBody, jurisdictionLabel } from '../../../packages/registries/sr
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '../../../packages/core/src/date-format.mjs';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../../../packages/storage/src/sqlite.mjs';
 import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../../../packages/loader/src/paths.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../packages/map/src/ni-local-groups.mjs';
 
@@ -476,7 +476,7 @@ try {
 // order) when it has been built, else from the Browse person shards as before.
 function personCards() {
   if (existsSync(RECORDS_DB)) {
-    const db = new DatabaseSync(RECORDS_DB, { readOnly: true });
+    const db = openSqliteHandle(RECORDS_DB, { readOnly: true });
     try {
       return db.prepare('SELECT card FROM person_cards ORDER BY ord').all().map((r) => JSON.parse(r.card));
     } finally {

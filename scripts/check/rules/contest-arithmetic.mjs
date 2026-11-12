@@ -481,7 +481,7 @@ const round2 = (/** @type {number} */ n) => Math.round(n * 100) / 100;
 
 /**
  * Every contest in a records database, with its candidates and their count stages.
- * @param {import('node:sqlite').DatabaseSync} db
+ * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db
  * @returns {Contest[]}
  */
 export function loadContests(db) {
@@ -566,7 +566,7 @@ export function loadAllowlist(file = ALLOWLIST) {
 
 /**
  * The audit over a database: every finding, tagged allowlisted or not.
- * @param {import('node:sqlite').DatabaseSync} db
+ * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db
  */
 export function auditContests(db, { allowlist = loadAllowlist(), body = /** @type {string|null} */ (null) } = {}) {
   const rows = [];
@@ -617,8 +617,8 @@ async function main() {
       console.log(`SKIP contest-arithmetic: no records database at ${path.relative(ROOT, dbPath)} (run npm run records:build, or pass --db)`);
       return 0;
     }
-    const { DatabaseSync } = await import('node:sqlite');
-    db = new DatabaseSync(dbPath, { readOnly: true });
+    const { openSqliteHandle } = await import('../../../packages/storage/src/sqlite.mjs');
+    db = openSqliteHandle(dbPath, { readOnly: true });
   }
   const { contestsChecked, contestsByGroup, rows } = auditContests(db, { body: opt('--body') });
   db.close();
