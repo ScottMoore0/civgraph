@@ -3,6 +3,8 @@
  * - the two dark-mode blocks in tokens.css (explicit choice, system preference) are equal;
  * - every dark override names a token the light block defines;
  * - every legacy alias and every var() in base.css and the components resolves to a token;
+ * - the raw palette (colours moved unchanged out of app stylesheets and served JS, rf8-styling)
+ *   holds one literal colour per token, named by its value, and no theme block overrides it;
  * - components.css imports every file under components/ and nothing else.
  */
 import { test } from 'node:test';
@@ -30,8 +32,9 @@ const tokens = read('tokens.css');
 const light = declarations(block(tokens, ':root {'));
 const darkExplicit = declarations(block(tokens, ':root[data-theme="dark"]'));
 const darkSystem = declarations(block(tokens, '@media (prefers-color-scheme: dark)'));
+const raw = declarations(block(tokens, '/* Raw palette'));
 const legacy = declarations(read('tokens-legacy.css'));
-const defined = new Set([...light.keys(), ...legacy.keys()]);
+const defined = new Set([...light.keys(), ...raw.keys(), ...legacy.keys()]);
 
 test('the two dark-mode blocks declare the same values', () => {
   assert.deepEqual([...darkSystem], [...darkExplicit]);
@@ -39,6 +42,19 @@ test('the two dark-mode blocks declare the same values', () => {
 
 test('every dark override is a token the light block defines', () => {
   for (const name of darkExplicit.keys()) assert.ok(light.has(name), name);
+});
+
+test('the raw palette: one literal colour per token, named by its value, never overridden', () => {
+  assert.ok(raw.size > 100, `only ${raw.size} raw tokens found`);
+  const seen = new Map();
+  for (const [name, value] of raw) {
+    assert.match(name, /^--raw-[0-9a-f]{6}(-a\d+)?(-\d+)?$/, name);
+    assert.match(value, /^(#[0-9a-f]{3,8}|(rgba?|hsla?)\([^()]*\))$/, `${name}: ${value} is not one literal colour`);
+    assert.ok(!light.has(name) && !darkExplicit.has(name) && !darkSystem.has(name) && !legacy.has(name), `${name} is defined twice`);
+    if (value.startsWith('#') && value.length === 7) assert.equal(name.slice(6, 12), value.slice(1), `${name} is named by its value`);
+    assert.ok(!seen.has(value), `${name} repeats ${seen.get(value)}`);
+    seen.set(value, name);
+  }
 });
 
 test('every legacy alias points at a token and redefines none', () => {
