@@ -5,22 +5,37 @@
  *   const store = openSqlite(':memory:');
  *
  * The records build, the tests and the local tools use it; it never runs in Pages Functions
- * (node:sqlite is not in the Workers runtime), which is why it lives under scripts/. It answers
- * exactly as fromD1() does: plain row objects, booleans bound as 1/0, batch() in one
- * transaction that rolls back on any failure.
+ * (node:sqlite is not in the Workers runtime). It answers exactly as fromD1() does: plain row
+ * objects, booleans bound as 1/0, batch() in one transaction that rolls back on any failure.
+ *
+ * This is the only module that imports the engine (architecture rule R1, held by
+ * check:boundaries' `engines` rule in config/boundaries.json): the loader, the build scripts, the
+ * check rules and the maps pipeline open a database here, through openSqliteHandle() or
+ * openSqlite(), and name its types through the typedefs below, never through 'node:sqlite'.
  */
 import { DatabaseSync } from 'node:sqlite';
 import { assertRecordStore, bindParams } from './store.js';
 
-/** @typedef {import('node:sqlite').DatabaseSync} SqliteHandle */
+/**
+ * The synchronous handle the bulk paths use (prepared inserts by the million, iterate() over whole
+ * tables, ATTACH of a snapshot; REFACTOR-PLAN.md ST-7). It is the engine's own object narrowed to
+ * the calls Civgraph makes, so tsc refuses any other: an engine swap supplies these four.
+ * @typedef {Pick<DatabaseSync, 'prepare' | 'exec' | 'close' | 'isOpen'>} SqliteHandle
+ */
+/**
+ * A prepared statement, narrowed the same way: run, get, all and iterate.
+ * @typedef {Pick<import('node:sqlite').StatementSync, 'run' | 'get' | 'all' | 'iterate'>} SqliteStatement
+ */
+/** A value a statement binds. @typedef {import('node:sqlite').SQLInputValue} SqliteInput */
+/** A value a row holds. @typedef {import('node:sqlite').SQLOutputValue} SqliteValue */
+/** A row as a statement returns it. @typedef {Record<string, SqliteValue>} SqliteRow */
 /** @typedef {import('./store.js').RecordStore} RecordStore */
 /** @typedef {import('./store.js').Row} Row */
 
 /**
- * A raw node:sqlite handle, for the records loader's bulk paths (prepared inserts by the million,
- * iterate() over whole tables, ATTACH of a snapshot), which stay synchronous and on the engine's
- * own API (REFACTOR-PLAN.md ST-7). Everything under scripts/records opens a database here or
- * through openSqlite(), so the engine is named in this file only (tests/unit/storage-adoption.test.mjs).
+ * A raw handle on a database file (or ':memory:'): read-only when asked, read-write and created
+ * when missing by default. Everything outside packages/storage opens a database here or through
+ * openSqlite(), so the engine is named in this file only.
  * @param {string} file
  * @param {{ readOnly?: boolean }} [options]
  * @returns {SqliteHandle}
@@ -29,8 +44,8 @@ export function openSqliteHandle(file, { readOnly = false } = {}) {
   return new DatabaseSync(file, { readOnly });
 }
 
-/** A node:sqlite row copied to a plain object, or null when there is none. */
-const plain = (/** @type {Record<string, import('node:sqlite').SQLOutputValue>|undefined} */ row) => (row ? /** @type {Row} */ ({ ...row }) : null);
+/** A row copied to a plain object, or null when there is none. */
+const plain = (/** @type {SqliteRow|undefined} */ row) => (row ? /** @type {Row} */ ({ ...row }) : null);
 
 /**
  * @param {string|SqliteHandle} file   a path, ':memory:', or a handle to wrap
@@ -38,8 +53,8 @@ const plain = (/** @type {Record<string, import('node:sqlite').SQLOutputValue>|u
  * @returns {import('./store.js').RecordStore & { _db: SqliteHandle }}
  */
 export function openSqlite(file, { readOnly = false } = {}) {
-  const db = file instanceof DatabaseSync ? file : openSqliteHandle(file, { readOnly: file === ':memory:' ? false : readOnly });
-  /** @type {Map<string, import('node:sqlite').StatementSync>} */
+  const db = typeof file === 'string' ? openSqliteHandle(file, { readOnly: file === ':memory:' ? false : readOnly }) : file;
+  /** @type {Map<string, SqliteStatement>} */
   const cache = new Map();
   const statement = (/** @type {string} */ sql) => {
     let stmt = cache.get(sql);
