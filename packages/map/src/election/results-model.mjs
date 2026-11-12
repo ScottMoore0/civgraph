@@ -108,9 +108,12 @@ export function finiteNumber(value) {
   return Number.isFinite(number) ? number : null;
 }
 
+/** @typedef {'elected' | 'not_elected' | 'excluded' | 'unknown'} SelectedPaneStatusKind */
+
 /**
  * A candidate status read as 'elected', 'not_elected', 'excluded' or 'unknown'.
  * @param {unknown} status
+ * @returns {SelectedPaneStatusKind}
  */
 export function selectedPaneStatusKind(status) {
   const text = String(status || '').toLowerCase();

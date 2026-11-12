@@ -24,8 +24,13 @@ const KEY = 'civgraph.catalogueNext.split.v1';
 const readSaved = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
 const writeSaved = (v) => { try { if (v) localStorage.setItem(KEY, JSON.stringify(v)); else localStorage.removeItem(KEY); } catch { /* private mode */ } };
 
-/** What the pane is showing, as far as its width is concerned. */
+/**
+ * What the pane is showing, as far as its width is concerned: read from the page each time, not
+ * kept (a derived kind, not state).
+ * @returns {'wide' | 'medium' | 'election' | 'catalogue'}
+ */
 export function paneContent(doc = document) {
+  /** @type {'catalogue' | 'tables' | 'elections' | string} the info pane's open tab (data-tab-content) */
   const tab = doc.querySelector('.pane--info .pane-tab-content:not(.pane-tab-content--hidden)')?.dataset.tabContent || 'catalogue';
   if (tab === 'tables') return 'wide';
   if (doc.getElementById('catalogueFlatView')?.classList.contains('catalogue-flat-view--book-viewer')) return 'wide';

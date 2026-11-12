@@ -156,6 +156,7 @@ export class TimelineChangeMethods {
     });
     const count = parts.reduce((sum, part) => sum + part.count, 0);
     const kinds = new Set(parts.map((part) => part.kind));
+    /** @type {'changes' | 'none' | 'redrawn' | 'unknown'} what the pair's change files say, all parts together (derived, not state) */
     const kind = kinds.has('changes') ? 'changes'
       : kinds.size === 1 && kinds.has('none') ? 'none'
         : kinds.has('redrawn') ? 'redrawn'
