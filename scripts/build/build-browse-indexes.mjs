@@ -7,6 +7,7 @@ import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../src
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from '../lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from '../lib/person-name-artefacts.mjs';
 import { referenceOffices, referenceRelatives } from '../lib/reference-person-facts.mjs';
+import { loadWikidataPersons, personWikidata } from '../lib/wikidata-persons.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { CDN_BASE } from '../../src/cdn-url.js';
 import { RENAMED_ELECTION_DATES } from '../../packages/map/src/app/url-compat.mjs';
@@ -2086,6 +2087,10 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
   // Wikidata gives. Shown as links out; the dates fill in where History of Parliament has none.
   const officialDoc = readJson('data/elections/persons/official-person-ids.json', { sources: {} });
   const crosswalkDoc = readJson('data/elections/persons/official-person-crosswalk.json', { ids: {}, people: {} });
+  // The Wikidata crosswalk of persons (scripts/lib/wikidata-persons.mjs): the person's item where
+  // the official ids give none. It links the item only; dates still come from the ids' items.
+  const wikidataPersonsDoc = loadWikidataPersons();
+  let withCrosswalkQid = 0;
   // Dates from published reference works (Boylan's Dictionary of Irish Biography), cited by
   // page, for people neither History of Parliament nor Wikidata dates.
   const referenceDates = readJson('data/elections/persons/reference-dates.json', { sources: {}, people: {} });
@@ -2104,7 +2109,7 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
       : [book, ...checked].join('; ');
     return { value: r[field], preferred: Boolean(r.preferOver?.[field]), source };
   };
-  const officialProfiles = (ids) => {
+  const officialProfiles = (ids, personId) => {
     const out = [];
     const seen = new Set();
     const qids = new Set();
@@ -2123,9 +2128,11 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
       if (crosswalkDoc.ids?.[id]) qids.add(crosswalkDoc.ids[id]);
     }
     // One Wikidata item, or none: two would mean the record holds two people's ids.
-    const qid = qids.size === 1 ? [...qids][0] : null;
+    // (or, when the ids give none, the Wikidata crosswalk's item, without its dates).
+    const { qid, fromCrosswalk } = personWikidata(qids, wikidataPersonsDoc, personId);
+    if (fromCrosswalk) withCrosswalkQid += 1;
     if (qid) out.push({ source: 'Wikidata', label: 'Wikidata', url: `https://www.wikidata.org/wiki/${qid}`, licence: 'CC0 1.0' });
-    return { profiles: out, qid, life: qid ? crosswalkDoc.people?.[qid] || null : null };
+    return { profiles: out, qid, life: qid && !fromCrosswalk ? crosswalkDoc.people?.[qid] || null : null };
   };
   // Offices held and family relations from the same reference work, cited by page
   // (scripts/lib/reference-person-facts.mjs). Seats Civgraph's election results show are
@@ -2207,7 +2214,7 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
     });
   });
   const details = Object.fromEntries([...byId.values()].map(({ sourceKeys, officialIds, registeredLife, ...person }) => {
-    const official = officialProfiles(officialIds);
+    const official = officialProfiles(officialIds, person.id);
     if (official.profiles.length) withOfficial += 1;
     const reached = [];
     for (const key of sourceKeys) {
@@ -2320,7 +2327,8 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
     };
     return [detail.slug, detail];
   }));
-  console.log(`- persons: ${withOfficial} record(s) link to an official or Wikidata record of the person`);
+  console.log(`- persons: ${withOfficial} record(s) link to an official or Wikidata record of the person`
+    + ` (${withCrosswalkQid} through the Wikidata crosswalk)`);
   console.log(`- persons: ${withOffices} record(s) list offices and ${withRelatives} list relatives from a reference work`);
   const staleReferenceIds = [...new Set([...Object.keys(referenceOfficeDoc.people || {}), ...Object.keys(referenceRelationDoc.people || {}), ...missingRelatives])]
     .filter((id) => !byId.has(id));
