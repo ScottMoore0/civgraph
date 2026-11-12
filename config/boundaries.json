@@ -289,6 +289,36 @@
   "baseline": [
     "packages/api/src/handlers/proni/page.js -> site/apps/proni-search/record-view.js"
   ],
+  "engines": {
+    "//": "The engine rule (architecture rule R1, REFACTOR-PLAN.md ST-7, stream rf9-loader-storage, 12 Nov 2026): only the units in `units` may use an engine API, a module in `modules` (an entry ending in / covers the modules under it), by an import, an import() or a JSDoc type import(). Everything else opens a database or a bucket through packages/storage (openSqliteHandle and openSqlite for SQLite files, fsBlobStore for folders; the Functions reach D1, R2 and KV through fromD1 and blobStore, held by tests/functions/blob-store.test.mjs and named-queries.test.mjs), so a database swap touches only the adapter (acceptance test A3). `tests` may use the engine too: a fixture builds a database with it, and a test that reads a file without the adapter is an independent check of the adapter. `baseline` lists the known uses ('file -> module') and only shrinks: the publish scripts reach R2 through the S3 client directly, as packages/storage has no S3 blob store yet (plan ST-2's s3.mjs).",
+    "modules": [
+      "node:sqlite",
+      "better-sqlite3",
+      "sqlite3",
+      "sql.js",
+      "@libsql/",
+      "pg",
+      "postgres",
+      "duckdb",
+      "@duckdb/",
+      "@aws-sdk/client-s3",
+      "miniflare"
+    ],
+    "units": [
+      "storage-node",
+      "tests"
+    ],
+    "baseline": [
+      "scripts/publish/elections-app-r2-upload.mjs -> @aws-sdk/client-s3",
+      "scripts/publish/r2-cache-control.mjs -> @aws-sdk/client-s3",
+      "scripts/publish/r2-copy-keys.mjs -> @aws-sdk/client-s3",
+      "scripts/publish/r2-orphans.mjs -> @aws-sdk/client-s3",
+      "scripts/publish/r2-upload-files.mjs -> @aws-sdk/client-s3",
+      "scripts/publish/r2-upload-manifest.mjs -> @aws-sdk/client-s3",
+      "scripts/publish/r2-upload-tree.mjs -> @aws-sdk/client-s3",
+      "scripts/publish/verify-r2-parity.mjs -> @aws-sdk/client-s3"
+    ]
+  },
   "unowned": {
     "//": "Tracked scripts that belong to no unit, each with its reason (architecture rule R1; check C2 in npm run check:architecture fails on a script in no unit and not listed here, and on an entry here that matches nothing). A key ending in / covers a folder.",
     "eslint.config.mjs": "the linter's own configuration, read only by eslint",

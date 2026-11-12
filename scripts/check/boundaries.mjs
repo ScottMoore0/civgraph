@@ -14,6 +14,12 @@
  * whose shims under site/ (site/assets/ui/, the site-served unit) re-export the package so Node and
  * tsc resolve the same module; only those shims may import the package.
  *
+ * The engine rule (architecture rule R1, REFACTOR-PLAN.md ST-7): only the units boundaries.json
+ * `engines.units` names may use an engine API, a module `engines.modules` lists (the SQLite
+ * engine, the S3 client R2 is reached by, other database drivers), whether by an import, an
+ * import() or a JSDoc type import. Everything else opens a database or a bucket through
+ * packages/storage. Known uses go in `engines.baseline` ("file -> module"), which only shrinks.
+ *
  * Which files belong to no unit (architecture rule R1, check C2) and which unit paths hold no
  * file (C1) are reported by scripts/check/architecture.mjs (npm run check:architecture), from
  * trackedScripts(), unownedFiles() and emptyUnitPaths() here.
@@ -87,6 +93,51 @@ export function specifiers(source) {
   return out;
 }
 
+/** @type {{ modules: string[], units: string[], baseline: string[] }} */
+const ENGINES = config.engines || { modules: [], units: [], baseline: [] };
+
+/**
+ * The engine module a specifier names, or null: an entry ending in / covers every module under it,
+ * any other entry itself and its subpaths.
+ * @param {string} spec
+ * @returns {string | null}
+ */
+export function engineOf(spec) {
+  return ENGINES.modules.find((m) => (m.endsWith('/') ? spec.startsWith(m) : spec === m || spec.startsWith(`${m}/`))) || null;
+}
+
+/** A type import() anywhere in the source, comments included (JSDoc names types this way). */
+const TYPE_IMPORT = /\bimport\(\s*(['"])([^'"]+)\1\s*\)/g;
+
+/**
+ * The engine modules a module's source uses: its imports, plus the type import()s in its JSDoc.
+ * @param {string} source
+ * @returns {string[]}
+ */
+export function engineUses(source) {
+  const found = new Set();
+  for (const spec of [...specifiers(source), ...[...source.matchAll(TYPE_IMPORT)].map((m) => m[2] || '')]) {
+    const engine = engineOf(spec);
+    if (engine) found.add(engine);
+  }
+  return [...found].sort();
+}
+
+/** Whether a unit may use an engine API. @param {string | null} unit */
+export const mayUseEngine = (unit) => unit !== null && ENGINES.units.includes(unit);
+
+/** Every engine use in the tracked scripts, with its verdict. */
+export function engineEdges() {
+  const out = [];
+  for (const file of trackedScripts()) {
+    let source;
+    try { source = readFileSync(path.join(ROOT, file), 'utf8'); } catch { continue; }
+    const unit = unitOf(file);
+    for (const engine of engineUses(source)) out.push({ file, engine, unit, ok: mayUseEngine(unit) });
+  }
+  return out;
+}
+
 export function edges() {
   const files = trackedScripts();
   const out = [];
@@ -121,11 +172,19 @@ if (isMain) {
   const gone = [...baseline].filter((b) => !bad.some((e) => `${e.file} -> ${e.target}` === b));
   for (const e of fresh) console.error(`FAIL: ${e.file} (${e.from}) imports ${e.target} (${e.to}), which ${e.from} may not import`);
   for (const b of gone) console.error(`FAIL: boundaries.json baseline lists ${b}, which no longer occurs: remove it`);
-  if (fresh.length || gone.length) {
+  const engines = engineEdges();
+  const engineBaseline = new Set(ENGINES.baseline);
+  const engineBad = engines.filter((e) => !e.ok);
+  const engineFresh = engineBad.filter((e) => !engineBaseline.has(`${e.file} -> ${e.engine}`));
+  const engineGone = [...engineBaseline].filter((b) => !engineBad.some((e) => `${e.file} -> ${e.engine}` === b));
+  for (const e of engineFresh) console.error(`FAIL: ${e.file} (${e.unit ?? 'no unit'}) uses ${e.engine}, an engine API only ${ENGINES.units.join(', ')} may use: open it through packages/storage`);
+  for (const b of engineGone) console.error(`FAIL: boundaries.json engines.baseline lists ${b}, which no longer occurs: remove it`);
+  if (fresh.length || gone.length || engineFresh.length || engineGone.length) {
     console.error('\nThe rules are in boundaries.json (REFACTOR-PLAN.md section 2.2). Import through the package that owns the code,');
     console.error('or move the code to a package the importer may use; widen a rule only with a reason in its "//" note.');
     process.exit(1);
   }
   const cross = all.filter((e) => e.to !== e.from && e.to !== null).length;
   console.log(`PASS: ${all.length} imports in ${UNITS.length} units; ${cross} cross unit lines, all allowed${baseline.size ? ` (${baseline.size} in the baseline)` : ''}.`);
+  console.log(`PASS: ${engines.length} engine API uses, all in ${ENGINES.units.join(', ')}${engineBaseline.size ? ` (${engineBaseline.size} in the baseline)` : ''}.`);
 }
