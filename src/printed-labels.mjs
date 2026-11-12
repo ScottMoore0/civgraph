@@ -66,21 +66,28 @@ export function setPrintedLabelsShown(shown) {
   applyPrintedLabels(shown);
 }
 
-let initialised = false;
+/** @type {AbortController | null} the toggles' listener on document, while there is one (R8) */
+let listening = null;
 
 /**
- * Apply the remembered choice and listen for the toggles. Safe to call more than once. Tables
- * render the column always; CSS hides it unless the root carries the attribute, so a toggle
- * never re-renders a table.
+ * Apply the remembered choice and listen for the toggles. Safe to call more than once: one
+ * listener however many calls. Tables render the column always; CSS hides it unless the root
+ * carries the attribute, so a toggle never re-renders a table.
  */
 export function initPrintedLabels() {
-  if (initialised || !globalThis.document) return;
-  initialised = true;
+  if (listening || !globalThis.document) return;
+  listening = new AbortController();
   applyPrintedLabels(printedLabelsShown());
   globalThis.document.addEventListener('change', (event) => {
     const input = /** @type {HTMLInputElement | null} */ (event.target);
     if (input?.matches?.('input[data-printed-labels-toggle]')) setPrintedLabelsShown(Boolean(input.checked));
-  });
+  }, { signal: listening.signal });
+}
+
+/** Stop listening for the toggles (R8); initPrintedLabels starts again. */
+export function disposePrintedLabels() {
+  listening?.abort();
+  listening = null;
 }
 
 /**

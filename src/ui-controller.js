@@ -69,6 +69,9 @@ class UIController {
     set _flatRenderScheduled(value) { this.flatRenderScheduledFlag.set(value); }
 
     constructor() {
+        // The page's lifetime (R8): the listeners the controller puts on document and on its
+        // view containers pass this signal, and dispose() takes them away.
+        this.lifecycle = new AbortController();
         this.splitStates = [
             { id: 'info-full', label: 'Info only', mobileLabel: 'Info' },
             { id: 'info-75', label: 'Info focus' },
@@ -1825,6 +1828,13 @@ class UIController {
         });
     }
 
+    /** Removes the listeners the controller put on document and its containers, and the catalogue's (R8). */
+    dispose() {
+        this.lifecycle.abort();
+        this._catalogueSplit?.dispose();
+        this._catalogueNext?.dispose();
+    }
+
     setupSplitDrag() {
         const splitDrag = document.getElementById('splitDrag');
         const appMain = document.querySelector('.app-main');
@@ -1916,13 +1926,13 @@ class UIController {
 
         // Mouse events
         splitDrag.addEventListener('mousedown', startDrag);
-        document.addEventListener('mousemove', doDrag);
-        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('mousemove', doDrag, { signal: this.lifecycle.signal });
+        document.addEventListener('mouseup', endDrag, { signal: this.lifecycle.signal });
 
         // Touch events for mobile
         splitDrag.addEventListener('touchstart', startDrag, { passive: false });
-        document.addEventListener('touchmove', doDrag, { passive: true });
-        document.addEventListener('touchend', endDrag);
+        document.addEventListener('touchmove', doDrag, { passive: true, signal: this.lifecycle.signal });
+        document.addEventListener('touchend', endDrag, { signal: this.lifecycle.signal });
 
         // Double-click to reset to balanced
         splitDrag.addEventListener('dblclick', () => {
@@ -2425,9 +2435,9 @@ class UIController {
     bindFlatViewDelegates(container) {
         if (!container || container.dataset.flatDelegatesBound === 'true') return;
         container.dataset.flatDelegatesBound = 'true';
-        container.addEventListener('click', (event) => this.handleFlatViewDelegatedClick(event));
-        container.addEventListener('mouseenter', (event) => this.handleFlatThumbnailMouseEnter(event), true);
-        container.addEventListener('mouseleave', (event) => this.handleFlatThumbnailMouseLeave(event), true);
+        container.addEventListener('click', (event) => this.handleFlatViewDelegatedClick(event), { signal: this.lifecycle.signal });
+        container.addEventListener('mouseenter', (event) => this.handleFlatThumbnailMouseEnter(event), { capture: true, signal: this.lifecycle.signal });
+        container.addEventListener('mouseleave', (event) => this.handleFlatThumbnailMouseLeave(event), { capture: true, signal: this.lifecycle.signal });
     }
 
     normalizeCatalogueSearchText(value) {
@@ -5732,9 +5742,9 @@ class UIController {
             const preview = document.querySelector('.thumbnail-preview');
             if (preview) preview.style.display = 'none';
         };
-        document.addEventListener('pointerdown', hide, true);
-        document.addEventListener('touchstart', hide, true);
-        document.addEventListener('scroll', hide, true);
+        document.addEventListener('pointerdown', hide, { capture: true, signal: this.lifecycle.signal });
+        document.addEventListener('touchstart', hide, { capture: true, signal: this.lifecycle.signal });
+        document.addEventListener('scroll', hide, { capture: true, signal: this.lifecycle.signal });
     }
 
     // ============================================
@@ -12527,7 +12537,7 @@ if (typeof window !== 'undefined') {
         if (!img || img.style.display === 'none') return;
         previewImg.src = img.src;
         preview.style.display = 'block';
-    }, true);
+    }, { capture: true, signal: uiController.lifecycle.signal });
 
     document.addEventListener('mouseleave', (e) => {
         if (!e.target || !e.target.closest) return;
@@ -12537,7 +12547,7 @@ if (typeof window !== 'undefined') {
         if (!zone.contains(e.relatedTarget)) {
             preview.style.display = 'none';
         }
-    }, true);
+    }, { capture: true, signal: uiController.lifecycle.signal });
 
     document.addEventListener('mousemove', (e) => {
         if (preview.style.display !== 'block') return;
@@ -12549,7 +12559,7 @@ if (typeof window !== 'undefined') {
         if (y + ph > window.innerHeight) y = e.clientY - OFFSET_Y - ph;
         preview.style.left = x + 'px';
         preview.style.top = y + 'px';
-    });
+    }, { signal: uiController.lifecycle.signal });
     uiController.ensureMobileThumbnailDismissal?.();
 })();
 

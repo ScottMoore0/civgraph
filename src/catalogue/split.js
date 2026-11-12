@@ -37,6 +37,9 @@ export function paneContent(doc = document) {
 }
 
 export function installSplit(ui, { host, splitDrag }) {
+  // The split's lifetime (R8): dispose() removes what it put on document and stops its observer.
+  const lifetime = new AbortController();
+  const listen = { signal: lifetime.signal };
   let manual = Number(readSaved().manual) || null;
   let applied = '';
 
@@ -64,8 +67,8 @@ export function installSplit(ui, { host, splitDrag }) {
   };
   splitDrag.addEventListener('mousedown', start);
   splitDrag.addEventListener('touchstart', start, { passive: true });
-  document.addEventListener('mouseup', end);
-  document.addEventListener('touchend', end);
+  document.addEventListener('mouseup', end, listen);
+  document.addEventListener('touchend', end, listen);
   // Double-click (after the handle's own reset to half): back to the automatic widths.
   splitDrag.addEventListener('dblclick', () => {
     manual = null;
@@ -120,7 +123,7 @@ export function installSplit(ui, { host, splitDrag }) {
     requestAnimationFrame(report);
   });
   splitDrag.addEventListener('focus', report);
-  document.addEventListener('mouseup', () => requestAnimationFrame(report));
+  document.addEventListener('mouseup', () => requestAnimationFrame(report), listen);
 
   // Follow what the pane shows: which tab is open, a details page, the book viewer.
   // Not mid-drag: the page's classes change while the handle is held, and following them then
@@ -134,8 +137,12 @@ export function installSplit(ui, { host, splitDrag }) {
     });
   };
   watch();
-  window.matchMedia?.('(max-width: 768px)')?.addEventListener?.('change', () => { applied = ''; apply(); });
+  window.matchMedia?.('(max-width: 768px)')?.addEventListener?.('change', () => { applied = ''; apply(); }, listen);
   apply();
   requestAnimationFrame(report);
-  return { apply, watch };
+  const dispose = () => {
+    lifetime.abort();
+    observer.disconnect();
+  };
+  return { apply, watch, dispose };
 }
