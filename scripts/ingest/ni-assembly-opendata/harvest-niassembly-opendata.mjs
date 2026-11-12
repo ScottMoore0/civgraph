@@ -38,8 +38,9 @@ const BASE = 'https://data.niassembly.gov.uk';
 const UA = `civgraph-opendata-harvest/1.0 (+${SITE.origin}; contact via repo)`;
 
 const args = process.argv.slice(2);
-const argVal = (n, d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };
-const OUT = argVal('out', null);
+const argVal = (/** @type {string} */ n, /** @type {string | number | null} */ d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };
+// The usage check below exits when --out is missing, so every later use has a folder.
+const OUT = /** @type {string} */ (argVal('out', null));
 const PHASE = argVal('phase', HARVEST.seed);
 const DELAY = Number(argVal('delay', 0));
 const CONCURRENCY = Math.max(1, Number(argVal('concurrency', 5)));
@@ -48,8 +49,15 @@ const DRY = args.includes('--dry');
 // Run jobs through a fixed-size worker pool. Each worker calls fetchOp, which
 // already caches, retries and backs off, so a pool member that hits a 429 slows
 // only itself rather than the whole run.
+/**
+ * @template T, R
+ * @param {T[]} items
+ * @param {(item: T, index: number) => Promise<R>} worker
+ * @returns {Promise<R[]>}
+ */
 async function pool(items, worker) {
   let i = 0;
+  /** @type {R[]} */
   const out = [];
   await Promise.all(Array.from({ length: Math.min(CONCURRENCY, items.length || 1) }, async () => {
     while (i < items.length) {
@@ -65,7 +73,7 @@ if (!OUT) {
   process.exit(2);
 }
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const sleep = (/** @type {number} */ ms) => new Promise((r) => setTimeout(r, ms));
 const stats = { fetched: 0, cached: 0, empty: 0, failed: 0, bytes: 0 };
 
 // The 15 operations that take no parameters.
@@ -87,6 +95,7 @@ const SEED_OPS = [
   ['hansard', 'GetAllHansardReports_JSON']
 ];
 
+/** @param {string} service @param {string} op @param {unknown} key */
 function outPath(service, op, key) {
   const dir = path.join(OUT, service, op);
   mkdirSync(dir, { recursive: true });
@@ -94,12 +103,17 @@ function outPath(service, op, key) {
   return path.join(dir, name);
 }
 
+/**
+ * @param {string} service @param {string} op
+ * @param {Record<string, unknown>} [params] query values (URLSearchParams turns each into a string)
+ * @param {unknown} [key]
+ */
 async function fetchOp(service, op, params = {}, key = null) {
   const file = outPath(service, op, key);
   if (existsSync(file)) { stats.cached += 1; try { return JSON.parse(readFileSync(file, 'utf8')); } catch { return null; } }
   if (DRY) { console.log(`  [dry] ${service}.${op} ${key ?? ''}`); return null; }
 
-  const qs = new URLSearchParams(params).toString();
+  const qs = new URLSearchParams(/** @type {Record<string, string>} */ (params)).toString();
   const url = `${BASE}/${service}.asmx/${op}${qs ? `?${qs}` : ''}`;
 
   for (let attempt = 0; attempt < 4; attempt += 1) {
@@ -122,6 +136,7 @@ async function fetchOp(service, op, params = {}, key = null) {
 }
 
 // The services wrap payloads inconsistently; unwrap to an array of records.
+/** @param {unknown} json @returns {Record<string, unknown>[]} */
 function records(json) {
   if (!json || typeof json !== 'object') return [];
   const top = Object.values(json)[0];
@@ -139,6 +154,7 @@ console.log(`  output : ${OUT}`);
 console.log(`  phase  : ${PHASE}${DRY ? ' (dry run)' : ''}`);
 console.log(`  delay  : ${DELAY}ms\n`);
 
+/** @type {Record<string, Record<string, unknown>[]>} */
 const seeds = {};
 for (const [svc, op] of SEED_OPS) {
   const json = await fetchOp(svc, op);
@@ -161,6 +177,7 @@ if (PHASE !== HARVEST.seed) {
 
   console.log(`\n  ids: ${personIds.length} persons, ${constituencyIds.length} constituencies, ${partyIds.length} parties, ${departmentIds.length} departments, ${reportIds.length} hansard reports`);
 
+  /** @type {[string, string, string, unknown[]][]} */
   const idJobs = [
     ['members', 'GetMemberContactDetailsByPersonId_JSON', 'personId', personIds],
     ['members', 'GetMemberRolesByPersonId_JSON', 'personId', personIds],
@@ -188,7 +205,8 @@ if (PHASE !== HARVEST.seed) {
   // Date-keyed operations. Questions exist from 2007; plenary business from 1998.
   // Yearly windows keep each response a sane size and make the cache granular.
   const thisYear = new Date().getFullYear();
-  const years = (from) => Array.from({ length: thisYear - from + 1 }, (_, i) => from + i);
+  const years = (/** @type {number} */ from) => Array.from({ length: thisYear - from + 1 }, (_, i) => from + i);
+  /** @type {[string, string, number][]} */
   const dateJobs = [
     ['questions', 'GetQuestionsForOralAnswer_TabledInRange_JSON', 2007],
     ['questions', 'GetQuestionsForOralAnswer_AnsweredInRange_JSON', 2007],
@@ -213,9 +231,10 @@ if (PHASE !== HARVEST.seed) {
 // site, how each member voted in each division is the highest-value data here,
 // and it is a few thousand calls rather than a few hundred thousand.
 if (PHASE === HARVEST.detail || PHASE === HARVEST.all) {
-  const idsFrom = (svc, op, field) => {
+  const idsFrom = (/** @type {string} */ svc, /** @type {string} */ op, /** @type {string} */ field) => {
     const dir = path.join(OUT, svc, op);
     if (!existsSync(dir)) return [];
+    /** @type {Set<string>} */
     const out = new Set();
     for (const f of readdirSync(dir)) {
       try {
@@ -256,8 +275,10 @@ if (PHASE === HARVEST.detail || PHASE === HARVEST.all) {
   // printed, and a source yielding nothing while its siblings yield data is a
   // hard failure. A dead source is nearly always a field-name mismatch, not an
   // empty dataset -- and that distinction is exactly what was missed before.
+  /** @param {[string, string][]} sources @param {string} field */
   function unionIds(sources, field) {
     const union = new Set();
+    /** @type {[string, number][]} */
     const contributions = [];
     for (const [svc, op] of sources) {
       const got = idsFrom(svc, op, field);
