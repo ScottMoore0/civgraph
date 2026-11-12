@@ -8,7 +8,6 @@
 
 import { createHash } from 'node:crypto';
 import {
-  copyFileSync,
   existsSync,
   mkdirSync,
   readdirSync,
@@ -17,7 +16,7 @@ import {
   statSync,
   writeFileSync
 } from 'node:fs';
-import { basename, dirname, extname, join, relative, resolve, sep } from 'node:path';
+import { basename, dirname, extname, relative, resolve, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { SITE } from '../../../packages/config/src/node.mjs';
 
@@ -57,6 +56,16 @@ const IA_DOWNLOAD_BASE = `https://archive.org/download/${IA_ITEM_ID}`;
 const CDN_BASE = `${SITE.dataOrigin}/data/maps/physical`;
 const TEST_PM_BASE = `${SITE.dataOrigin}/data/maps/test/pmtiles/generated`;
 const GENERATED_AT = new Date().toISOString();
+
+/**
+ * @typedef {NonNullable<ReturnType<typeof normalizeDobihRecord>>} DobihRecord
+ * @typedef {typeof CLASSIFICATIONS[number]} Classification
+ * @typedef {{ id: string, name: string, color: string, description: string, classification?: Classification, records: DobihRecord[] }} Dataset
+ * @typedef {Dataset & { layerName: string, featureCount: number, bounds: ReturnType<typeof computeBounds>, geojsonPath: string, fgbPath: string, fgbBytes: number }} DatasetSummary
+ * @typedef {ReturnType<typeof buildSourceInventory>[number]} SourceFile
+ * @typedef {{ id?: string, sourceMapId?: unknown, mapId?: unknown, name?: unknown, layerId?: string, ok?: boolean, [field: string]: unknown }} JsonRecord
+ *   a record of maps.json, maps-test.json, the port plan, the spatial index or external-sources.json, as far as this script reads it
+ */
 
 const CLASSIFICATIONS = [
   { id: 'munros', name: 'Munros', field: 'M', color: '#2563eb', description: 'Scottish Munros in DoBIH v18.4.' },
@@ -138,11 +147,13 @@ const CATALOGUE_CLASS_GROUPS = [
   }
 ];
 
+/** @type {Set<string | undefined>} */
 const LEGACY_CATALOGUE_CLASS_IDS = new Set([
   'dobih-hill-classifications',
   'dobih-hills-and-mountains',
   ...CATALOGUE_CLASS_GROUPS.map((group) => group.id)
 ]);
+/** @type {Set<string | undefined>} */
 const LEGACY_CATALOGUE_C1_IDS = new Set([
   'hill-classifications-c1',
   CATALOGUE_C1_ID
@@ -181,8 +192,9 @@ function main() {
   const rawRecords = rows
     .filter((row) => row.some((value) => String(value || '').trim()))
     .map((row) => Object.fromEntries(header.map((key, index) => [key, row[index] ?? ''])));
-  const records = rawRecords.map(normalizeDobihRecord).filter(Boolean);
+  const records = /** @type {DobihRecord[]} */ (rawRecords.map(normalizeDobihRecord).filter(Boolean));
 
+  /** @type {Dataset[]} */
   const datasets = [
     {
       id: DATASET_ID,
@@ -201,6 +213,7 @@ function main() {
     })).filter((dataset) => dataset.records.length)
   ];
 
+  /** @type {DatasetSummary[]} */
   const datasetSummaries = [];
   for (const dataset of datasets) {
     const geojsonPath = resolve(GENERATED_DIR, `${dataset.id}.geojson`);
@@ -309,6 +322,7 @@ function buildSourceInventory() {
   return files.sort((a, b) => a.path.localeCompare(b.path));
 }
 
+/** @param {SourceFile[]} items */
 function buildSourceManifest(items) {
   const totalBytes = items.reduce((sum, item) => sum + item.bytes, 0);
   return {
@@ -335,6 +349,7 @@ function buildSourceManifest(items) {
   };
 }
 
+/** @param {Record<string, string>} record */
 function normalizeDobihRecord(record) {
   const latitude = Number(record.Latitude);
   const longitude = Number(record.Longitude);
@@ -396,6 +411,7 @@ function normalizeDobihRecord(record) {
   };
 }
 
+/** @param {Record<string, string>} record */
 function classificationCodes(record) {
   const explicit = clean(record.Classification).split(',').map((item) => item.trim()).filter(Boolean);
   const fromFlags = CLASSIFICATION_NAME_ORDER
@@ -411,6 +427,7 @@ const CLASSIFICATION_NAME_ORDER = [
   'CT', 'GT', 'BL', 'Bg', 'Y', 'Cm', 'T100', 'Dil', 'VL', 'A', 'Ca', 'Bin', 'O', 'Un'
 ].map((code) => ({ code }));
 
+/** @type {Record<string, string>} */
 const CLASSIFICATION_LABELS = {
   Ma: 'Marilyn',
   Hu: 'HuMP',
@@ -457,15 +474,18 @@ const CLASSIFICATION_LABELS = {
   Un: 'Unclassified'
 };
 
+/** @param {Record<string, string>} record @param {Classification} classification */
 function hasClassification(record, classification) {
   if (classification.fields) return hasAnyField(record, classification.fields);
   return clean(record[classification.field]) === '1';
 }
 
+/** @param {Record<string, string>} record @param {string[]} fields */
 function hasAnyField(record, fields) {
   return fields.some((field) => clean(record[field]) === '1');
 }
 
+/** @param {string} geojsonPath @param {string} fgbPath @param {string} layerName */
 function convertGeoJsonToFgb(geojsonPath, fgbPath, layerName) {
   rmSync(fgbPath, { force: true });
   const result = spawnSync('ogr2ogr', [
@@ -480,6 +500,7 @@ function convertGeoJsonToFgb(geojsonPath, fgbPath, layerName) {
   }
 }
 
+/** @param {DatasetSummary[]} datasets @param {SourceFile[]} sourceInventory */
 function updateMapsJson(datasets, sourceInventory) {
   const mapsData = readJson(MAPS_PATH);
   mapsData.categories = mapsData.categories || [];
@@ -496,8 +517,8 @@ function updateMapsJson(datasets, sourceInventory) {
   });
 
   const datasetIds = new Set(datasets.map((dataset) => dataset.id));
-  mapsData.classes = mapsData.classes.filter((item) => !LEGACY_CATALOGUE_CLASS_IDS.has(item.id));
-  mapsData.c1s = mapsData.c1s.filter((item) => !LEGACY_CATALOGUE_C1_IDS.has(item.id));
+  mapsData.classes = mapsData.classes.filter((/** @type {JsonRecord} */ item) => !LEGACY_CATALOGUE_CLASS_IDS.has(item.id));
+  mapsData.c1s = mapsData.c1s.filter((/** @type {JsonRecord} */ item) => !LEGACY_CATALOGUE_C1_IDS.has(item.id));
 
   for (const group of CATALOGUE_CLASS_GROUPS) {
     upsert(mapsData.classes, {
@@ -534,7 +555,7 @@ function updateMapsJson(datasets, sourceInventory) {
     { label: 'Creative Commons Attribution 4.0 International', url: DOBIH_LICENSE_URL, note: 'Licence recorded for DoBIH data exports.' }
   ];
 
-  mapsData.maps = mapsData.maps.filter((map) => !String(map.id || '').startsWith(DATASET_ID));
+  mapsData.maps = mapsData.maps.filter((/** @type {JsonRecord} */ map) => !String(map.id || '').startsWith(DATASET_ID));
   for (const dataset of datasets) {
     const isParent = dataset.id === DATASET_ID;
     mapsData.maps.push(compactObject({
@@ -589,6 +610,7 @@ function updateMapsJson(datasets, sourceInventory) {
   writeJson(MAPS_PATH, mapsData);
 }
 
+/** @param {DatasetSummary[]} datasets @param {SourceFile[]} sourceInventory */
 function updateMapLibreMetadata(datasets, sourceInventory) {
   const metadata = readJson(MAPLIBRE_PATH);
   metadata.layers = metadata.layers || [];
@@ -599,7 +621,7 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
     group: CATALOGUE_GROUP_NAME,
     description: 'Hill and mountain summit datasets, lists, and classifications.'
   });
-  metadata.layers = metadata.layers.filter((layer) => !String(layer.sourceMapId || layer.id || '').startsWith(DATASET_ID));
+  metadata.layers = metadata.layers.filter((/** @type {JsonRecord} */ layer) => !String(layer.sourceMapId || layer.id || '').startsWith(DATASET_ID));
   const references = [
     { label: 'Hill Bagging - DoBIH downloads', url: DOBIH_DOWNLOADS_URL, note: 'Source download page for DoBIH v18.4 and companion files.' },
     { label: 'Creative Commons Attribution 4.0 International', url: DOBIH_LICENSE_URL, note: 'Licence recorded for DoBIH data exports.' }
@@ -609,8 +631,8 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
     .map((item) => ({ label: item.name, url: item.url, bytes: item.bytes, sha256: item.sha256 }));
   const rangeReport = existsSync(CDN_RANGE_REPORT_PATH) ? readJson(CDN_RANGE_REPORT_PATH) : null;
   const rangeVerifiedByLayer = new Map((rangeReport?.results || [])
-    .filter((item) => item?.ok && item.layerId)
-    .map((item) => [item.layerId, item]));
+    .filter((/** @type {JsonRecord | null} */ item) => item?.ok && item.layerId)
+    .map((/** @type {JsonRecord} */ item) => [item.layerId, item]));
 
   for (const dataset of datasets) {
     const layerId = `${dataset.id}-vector`;
@@ -735,10 +757,11 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
   writeJson(MAPLIBRE_PATH, metadata);
 }
 
+/** @param {DatasetSummary[]} datasets @param {SourceFile[]} sourceInventory */
 function updateMainSitePortPlan(datasets, sourceInventory) {
   const plan = readJson(PORT_PLAN_PATH);
   plan.rows = plan.rows || [];
-  plan.rows = plan.rows.filter((row) => {
+  plan.rows = plan.rows.filter((/** @type {JsonRecord} */ row) => {
     const sourceMapId = String(row.sourceMapId || '');
     const testLayerId = String(row.testLayerId || '');
     return !sourceMapId.startsWith(DATASET_ID) && !testLayerId.startsWith(DATASET_ID);
@@ -798,7 +821,7 @@ function updateMainSitePortPlan(datasets, sourceInventory) {
     }));
   }
 
-  plan.rows.sort((a, b) => {
+  plan.rows.sort((/** @type {JsonRecord} */ a, /** @type {JsonRecord} */ b) => {
     const aDobih = String(a.sourceMapId || '').startsWith(DATASET_ID) ? 1 : 0;
     const bDobih = String(b.sourceMapId || '').startsWith(DATASET_ID) ? 1 : 0;
     if (aDobih !== bDobih) return aDobih - bDobih;
@@ -808,10 +831,11 @@ function updateMainSitePortPlan(datasets, sourceInventory) {
   writeJson(PORT_PLAN_PATH, plan);
 }
 
+/** @param {DatasetSummary[]} datasets */
 function updateSpatialIndex(datasets) {
   const spatial = readJson(SPATIAL_INDEX_PATH);
-  spatial.maps = (spatial.maps || []).filter((map) => !String(map.id || '').startsWith(DATASET_ID));
-  spatial.features = (spatial.features || []).filter((feature) => !String(feature.mapId || '').startsWith(DATASET_ID));
+  spatial.maps = (spatial.maps || []).filter((/** @type {JsonRecord} */ map) => !String(map.id || '').startsWith(DATASET_ID));
+  spatial.features = (spatial.features || []).filter((/** @type {JsonRecord} */ feature) => !String(feature.mapId || '').startsWith(DATASET_ID));
   for (const dataset of datasets) {
     spatial.maps.push({
       id: dataset.id,
@@ -825,12 +849,13 @@ function updateSpatialIndex(datasets) {
   // DoBIH has 21k+ summits and classification children repeat many of them.
   // Keep global search lean for Pages; detailed summit search uses the
   // generated per-layer feature indexes in render/metadata/feature-indexes/.
-  spatial.maps.sort((a, b) => String(a.name || a.id).localeCompare(String(b.name || b.id)));
-  spatial.features.sort((a, b) => `${a.mapId}:${a.name}`.localeCompare(`${b.mapId}:${b.name}`));
+  spatial.maps.sort((/** @type {JsonRecord} */ a, /** @type {JsonRecord} */ b) => String(a.name || a.id).localeCompare(String(b.name || b.id)));
+  spatial.features.sort((/** @type {JsonRecord} */ a, /** @type {JsonRecord} */ b) => `${a.mapId}:${a.name}`.localeCompare(`${b.mapId}:${b.name}`));
   spatial.generated = GENERATED_AT;
   writeJson(SPATIAL_INDEX_PATH, spatial);
 }
 
+/** @param {DatasetSummary[]} datasets */
 function updateFeatureIndexes(datasets) {
   for (const dataset of datasets) {
     const layerId = `${dataset.id}-vector`;
@@ -857,10 +882,11 @@ function updateFeatureIndexes(datasets) {
   }
 }
 
+/** @param {SourceFile[]} sourceInventory @param {DatasetSummary[]} datasets */
 function updateExternalSources(sourceInventory, datasets) {
   const external = readJson(EXTERNAL_SOURCES_PATH);
   external.schemaVersion = external.schemaVersion || 1;
-  external.sources = (external.sources || []).filter((item) => !String(item.id || '').startsWith('external:dobih-v18-4'));
+  external.sources = (external.sources || []).filter((/** @type {JsonRecord} */ item) => !String(item.id || '').startsWith('external:dobih-v18-4'));
 
   const coreFiles = sourceInventory.filter((item) => isCoreDobihData(item.name));
   const companionTables = sourceInventory.filter((item) => COMPANION_TABLES.has(item.name));
@@ -938,6 +964,7 @@ function updateExternalSources(sourceInventory, datasets) {
   writeJson(EXTERNAL_SOURCES_PATH, external);
 }
 
+/** @param {SourceFile} item */
 function sourceItemToDownload(item) {
   return compactObject({
     label: `${item.format} - ${item.name}`,
@@ -951,6 +978,7 @@ function sourceItemToDownload(item) {
   });
 }
 
+/** @param {SourceFile} item */
 function sourceItemToSourceItem(item) {
   return compactObject({
     id: item.id,
@@ -969,6 +997,7 @@ function sourceItemToSourceItem(item) {
   });
 }
 
+/** @param {DobihRecord[]} records */
 function computeBounds(records) {
   if (!records.length) return null;
   let minLng = Infinity;
@@ -987,6 +1016,7 @@ function computeBounds(records) {
   ];
 }
 
+/** @param {string} text @returns {string[][]} */
 function parseCsv(text) {
   const rows = [];
   let row = [];
@@ -1027,6 +1057,7 @@ function parseCsv(text) {
   return rows;
 }
 
+/** @param {string} root @returns {string[]} */
 function walkFiles(root) {
   if (!existsSync(root)) return [];
   const out = [];
@@ -1038,6 +1069,7 @@ function walkFiles(root) {
   return out;
 }
 
+/** @param {string} rel */
 function sourceUrlFromRelative(rel) {
   const normalized = rel.replace(/\\/g, '/');
   if (normalized.startsWith('www.hill-bagging.co.uk/')) {
@@ -1049,10 +1081,12 @@ function sourceUrlFromRelative(rel) {
   return normalized;
 }
 
+/** @param {string} rel */
 function archiveUrlFromRelative(rel) {
   return `${IA_DOWNLOAD_BASE}/${rel.split('/').map(encodeUrlSegment).join('/')}`;
 }
 
+/** @param {string} rel */
 function providerFromRelative(rel) {
   if (rel.includes('historiccountiestrust.co.uk')) return 'Historic Counties Trust';
   if (rel.includes('ordnancesurvey.co.uk')) return 'Ordnance Survey';
@@ -1060,6 +1094,7 @@ function providerFromRelative(rel) {
   return 'External source';
 }
 
+/** @param {string} name @param {string} rel */
 function classifySourceFile(name, rel) {
   const extension = extname(name).toLowerCase();
   if (CORE_SOURCE_FILES.has(name)) {
@@ -1080,10 +1115,12 @@ function classifySourceFile(name, rel) {
   return { category: 'supporting-file', role: 'supporting-file', license: null, licenseUrl: null };
 }
 
+/** @param {string} name */
 function isCoreDobihData(name) {
   return CORE_SOURCE_FILES.has(name) || COMPANION_TABLES.has(name);
 }
 
+/** @param {string} file */
 function formatFromExtension(file) {
   const extension = extname(file).replace(/^\./, '').toUpperCase();
   if (extension === 'ZIP') return 'ZIP';
@@ -1098,16 +1135,19 @@ function formatFromExtension(file) {
   return extension || 'File';
 }
 
+/** @param {string} file */
 function sha256(file) {
   const hash = createHash('sha256');
   hash.update(readFileSync(file));
   return hash.digest('hex');
 }
 
+/** @param {string} id */
 function sourceLayerName(id) {
   return id.replace(/[^A-Za-z0-9_]+/g, '_').replace(/^_+|_+$/g, '');
 }
 
+/** @param {unknown} code */
 function countryLabel(code) {
   const key = clean(code);
   return {
@@ -1120,25 +1160,30 @@ function countryLabel(code) {
   }[key] || key;
 }
 
+/** @param {JsonRecord[]} records @param {JsonRecord} record */
 function updateFileById(records, record, key = 'id') {
   const index = records.findIndex((item) => String(item?.[key]) === String(record[key]));
   if (index >= 0) records[index] = record;
   else records.push(record);
 }
 
+/** @param {JsonRecord[]} records @param {JsonRecord} record */
 function upsert(records, record) {
   updateFileById(records, record, 'id');
 }
 
+/** @param {string} file */
 function readJson(file) {
   return JSON.parse(readFileSync(file, 'utf8'));
 }
 
+/** @param {string} file @param {unknown} value */
 function writeJson(file, value) {
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+/** @param {object} input */
 function compactObject(input) {
   return Object.fromEntries(Object.entries(input).filter(([, value]) => {
     if (value === undefined || value === null) return false;
@@ -1148,19 +1193,23 @@ function compactObject(input) {
   }));
 }
 
+/** @param {unknown[]} values */
 function unique(values) {
   return [...new Set(values.map((value) => String(value)).filter(Boolean))];
 }
 
+/** @param {unknown} value */
 function clean(value) {
   return String(value ?? '').trim();
 }
 
+/** @param {unknown} value */
 function numberOrNull(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
 }
 
+/** @param {unknown} value */
 function slugify(value) {
   return String(value ?? '')
     .normalize('NFKD')
@@ -1171,6 +1220,7 @@ function slugify(value) {
     .replace(/^-+|-+$/g, '') || 'entry';
 }
 
+/** @param {string} name */
 function titleFromFile(name) {
   return name
     .replace(/\.[^.]+$/, '')
@@ -1183,14 +1233,17 @@ function titleFromFile(name) {
     .replace(/\bLidar\b/g, 'LIDAR');
 }
 
+/** @param {string} segment */
 function encodeUrlSegment(segment) {
   return encodeURIComponent(segment).replace(/%2F/g, '/').replace(/%20/g, '%20');
 }
 
+/** @param {string} value */
 function quotePwsh(value) {
   return `'${String(value).replace(/'/g, "''")}'`;
 }
 
+/** @param {string} file */
 function relativePath(file) {
   return relative(ROOT, file).replace(/\\/g, '/');
 }
