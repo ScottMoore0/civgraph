@@ -5,6 +5,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { gunzip, gzip } from 'node:zlib';
 import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
+import { wikidataUrl } from '../../lib/wikidata-persons.mjs';
 import { buildTimestamp } from '../../lib/build-timestamp.mjs';
 import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, PROVENANCE_FILE, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
 
@@ -108,7 +109,8 @@ const PROP = {
   historyOfParliament: 'cg:property:history-of-parliament-biography',
   dateOfBirth: 'cg:property:date-of-birth',
   dateOfDeath: 'cg:property:date-of-death',
-  seatHeld: 'cg:property:seat-held'
+  seatHeld: 'cg:property:seat-held',
+  sameAs: 'cg:property:same-as'
 };
 
 // Parent-card values that correspond to an elected body, mapped (by slug key)
@@ -780,6 +782,20 @@ function addHistoryOfParliament(id, item) {
   }
 }
 
+// The person's own Wikidata item (the record's `wikidata`: from its official ids, or the Wikidata
+// crosswalk data/elections/persons/wikidata-persons.json), as an exact-match link, cited to Wikidata.
+function addWikidataSameAs(id, item) {
+  const url = wikidataUrl(item.wikidata);
+  if (!url) return;
+  const sourceId = getGenericSourceEntity({ label: 'Wikidata', url: 'https://www.wikidata.org/' }, { sourceKind: 'wikidata' });
+  addStatement({
+    subjectId: id,
+    propertyId: PROP.sameAs,
+    value: urlValue(url),
+    references: [compactObject({ sourceId, sourceTitle: entities.get(sourceId)?.label, sourceUrl: url })]
+  });
+}
+
 function buildPersonEntities(items, browsePersonSource) {
   for (const item of items) {
     const id = makeEntityId('person', item.slug || item.id || item.name || item.title);
@@ -806,6 +822,7 @@ function buildPersonEntities(items, browsePersonSource) {
     });
     addBrowseMappings('persons', item, id);
     addHistoryOfParliament(id, item);
+    addWikidataSameAs(id, item);
     const nameKey = normalizePersonName(item.name || item.title || item.id);
     if (nameKey && !personByNormalizedName.has(nameKey)) personByNormalizedName.set(nameKey, id);
 
