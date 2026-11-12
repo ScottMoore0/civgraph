@@ -13,8 +13,12 @@ import { spawnSync } from 'node:child_process';
 import { writeArtefactJson, allowDeletionsFlag } from '../safe-artefact-write.mjs';
 import { isValidBounds } from '../layer-bounds.mjs';
 import { SITE } from '../../../config/src/node.mjs';
+import { loadRegistry } from '../../../registries/src/index.mjs';
+import { typesWithBehaviour } from '../../../registries/src/layers.mjs';
 
 const ROOT = resolve(process.cwd());
+// Layers drawn from raster tiles or an image (the layer-types registry's rasterSource types).
+const RASTER_SOURCE_TYPES = typesWithBehaviour(loadRegistry('layers'), 'rasterSource');
 const MAIN_PATH = resolve(ROOT, 'data/database/maps.json');
 const PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
 const REPORT_PATH = resolve(ROOT, 'render/metadata/vector-conversion-report.json');
@@ -499,7 +503,7 @@ function buildAliasLayer(row, map, target, aliasTargetId = row.cloneOf) {
 
 function refreshLayerIdentity(layer) {
   layer = refreshLayerCatalogueMetadata(layer);
-  if (!layer || ['raster', 'image'].includes(layer.sourceType)) return layer;
+  if (!layer || RASTER_SOURCE_TYPES.includes(layer.sourceType)) return layer;
   if (layer.promoteId && layer.idProperty) return layer;
   const metadataPath = localMetadataPath(layer.metadataUrl);
   if (!metadataPath || !existsSync(metadataPath)) return layer;

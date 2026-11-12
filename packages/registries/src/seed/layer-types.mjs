@@ -35,6 +35,20 @@ export const BEHAVIOUR_FLAGS = {
   noLabels: ['NO_LABEL_TYPES', 'never gets a label layer']
 };
 
+/**
+ * Flags read in more places than one map-controller.js Set: flag -> [what the flag means, who reads it].
+ * vectorTiles (12 Nov 2026, architecture rule R6): the map app, the tile pipeline and the map-tile
+ * checks each wrote its types out as ['mvt', 'pmtiles'].
+ */
+/** @type {{ [flag: string]: [string, string] }} */
+export const SHARED_BEHAVIOUR_FLAGS = {
+  vectorTiles: [
+    'drawn from vector tiles (MVT, at z/x/y or in a PMTiles archive), which clip each feature at the tile edges: a picked polygon is put back together from its pieces, and the tile pipeline and its checks treat the layer as tiled vector data',
+    `${CONTROLLER}: TILED_VECTOR_SOURCE_TYPES; packages/maps-pipeline/src/tiles/pmtiles.mjs; scripts/check/rules/test-app.mjs and tile-budgets.mjs`
+  ]
+};
+const ALL_FLAGS = [...Object.keys(BEHAVIOUR_FLAGS), ...Object.keys(SHARED_BEHAVIOUR_FLAGS)];
+
 /** The line of map-controller.js that builds a flag's Set of source types from the registry. */
 export const behaviourLine = (/** @type {string} */ flag) => `const ${BEHAVIOUR_FLAGS[flag][0]} = new Set(layerTypes.behaviour.${flag});`;
 
@@ -71,7 +85,7 @@ export function seedLayerTypes(root = REPO_ROOT) {
     if (!byType.has(layer.sourceType)) byType.set(layer.sourceType, []);
     /** @type {LayerEntry[]} */ (byType.get(layer.sourceType)).push(layer); // set above
   }
-  const flagTypes = Object.fromEntries(Object.keys(BEHAVIOUR_FLAGS).map((flag) => [flag, new Set(
+  const flagTypes = Object.fromEntries(ALL_FLAGS.map((flag) => [flag, new Set(
     Object.entries(current.types).filter(([, entry]) => entry.behaviour?.includes(flag)).map(([type]) => type)
   )]));
   /** @type {LayerTypesRegistry['types']} */
@@ -92,7 +106,7 @@ export function seedLayerTypes(root = REPO_ROOT) {
       entry.note = RUNTIME_ONLY[type].note;
       entry.sources = RUNTIME_ONLY[type].sources;
     }
-    const flags = Object.keys(BEHAVIOUR_FLAGS).filter((f) => flagTypes[f].has(type));
+    const flags = ALL_FLAGS.filter((f) => flagTypes[f].has(type));
     if (flags.length) entry.behaviour = flags;
     types[type] = entry;
   }
@@ -103,7 +117,10 @@ export function seedLayerTypes(root = REPO_ROOT) {
   return {
     schemaVersion: 1,
     description: 'Map layer types: the sourceType of a layer record, the fields every published layer of the type carries (render/metadata/maps-test.json), its tile format, and how the map app treats it (behaviour: packages/map/src/renderer/map-controller.js). Schema: packages/registries/schemas/layer-types.schema.json; views: packages/registries/src/layers.mjs.',
-    behaviourFlags: Object.fromEntries(Object.entries(BEHAVIOUR_FLAGS).map(([flag, [name, meaning]]) => [flag, { meaning, source: `${CONTROLLER}: ${name}` }])),
+    behaviourFlags: {
+      ...Object.fromEntries(Object.entries(BEHAVIOUR_FLAGS).map(([flag, [name, meaning]]) => [flag, { meaning, source: `${CONTROLLER}: ${name}` }])),
+      ...Object.fromEntries(Object.entries(SHARED_BEHAVIOUR_FLAGS).map(([flag, [meaning, source]]) => [flag, { meaning, source }])),
+    },
     types,
     variants: {
       alias: {

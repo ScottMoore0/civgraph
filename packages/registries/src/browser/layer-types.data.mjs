@@ -15,6 +15,10 @@ export default {
   "noLabels": [
    "image",
    "raster"
+  ],
+  "vectorTiles": [
+   "mvt",
+   "pmtiles"
   ]
  }
 };

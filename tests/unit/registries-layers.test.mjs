@@ -37,6 +37,11 @@ test('layers: the map app builds each behaviour flag set of types from the regis
   assert.deepEqual(typesWithBehaviour(registry, 'rasterSource'), ['image', 'raster']);
   assert.deepEqual(typesWithBehaviour(registry, 'noFeatureState'), ['raster']);
   assert.deepEqual(typesWithBehaviour(registry, 'noLabels'), ['image', 'raster']);
+  // vectorTiles (12 Nov 2026, rf8-registries): the lists the map app, the tile pipeline and the
+  // map-tile checks wrote out as ['mvt', 'pmtiles'], and whose complement they wrote as
+  // ['raster', 'image', 'raster-dem', 'point-cloud'] (rasterSource and threeD together).
+  assert.deepEqual(typesWithBehaviour(registry, 'vectorTiles'), ['mvt', 'pmtiles']);
+  assert.deepEqual([...typesWithBehaviour(registry, 'rasterSource'), ...typesWithBehaviour(registry, 'threeD')].sort(), ['image', 'point-cloud', 'raster', 'raster-dem']);
   assert.ok(hasBehaviour(registry, 'raster-dem', 'threeD'));
   assert.ok(!hasBehaviour(registry, 'pmtiles', 'noLabels'));
 });

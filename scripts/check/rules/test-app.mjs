@@ -12,6 +12,8 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { isValidBounds } from '../../../packages/maps-pipeline/src/layer-bounds.mjs';
+import { loadRegistry } from '../../../packages/registries/src/index.mjs';
+import { typesWithBehaviour } from '../../../packages/registries/src/layers.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
@@ -32,9 +34,11 @@ function localPathFromUrlTemplate(value) {
 // were added to the site after this validator was written, so they were rejected as
 // "unsupported" and then failed two further checks each -- sourceLayer and geometryType --
 // that only mean anything for vector data. That is ~300 of the failures that pushed
-// check:test out of the default gate and left the tile metadata unguarded.
-const NON_VECTOR_SOURCE_TYPES = new Set(['raster', 'image', 'raster-dem', 'point-cloud']);
-const SUPPORTED_SOURCE_TYPES = new Set(['mvt', 'pmtiles', ...NON_VECTOR_SOURCE_TYPES]);
+// check:test out of the default gate and left the tile metadata unguarded. They are the
+// layer-types registry's rasterSource and threeD types; the vector ones are its vectorTiles types.
+const LAYER_TYPES = loadRegistry('layers');
+const NON_VECTOR_SOURCE_TYPES = new Set([...typesWithBehaviour(LAYER_TYPES, 'rasterSource'), ...typesWithBehaviour(LAYER_TYPES, 'threeD')]);
+const SUPPORTED_SOURCE_TYPES = new Set([...typesWithBehaviour(LAYER_TYPES, 'vectorTiles'), ...NON_VECTOR_SOURCE_TYPES]);
 
 function validateLayer(layer) {
   const errors = [];
