@@ -27,7 +27,15 @@
     "strict": true
   },
   "include": ["../scripts/publish/**/*.mjs", "../scripts/i18n/**/*.mjs", "../scripts/maps/**/*.mjs", "../scripts/dev/**/*.mjs", "../scripts/check/boundaries.mjs", "../scripts/check/architecture.mjs", "../scripts/check/architecture/*.mjs",
-    "../scripts/build/site.mjs"
+    "../scripts/build/elections-app/model.mjs",
+    "../scripts/build/public-prefixes.mjs",
+    "../scripts/build/site.mjs",
+    "../scripts/check/rules/catalogue-file-urls.mjs",
+    "../scripts/check/rules/map-label-data.mjs",
+    "../scripts/check/rules/polygon-label-properties.mjs",
+    "../scripts/check/rules/r2-allowlist.mjs",
+    "../scripts/check/rules/tile-content-hash.mjs",
+    "../scripts/check/rules/wikidata-persons.mjs"
   ],
   "exclude": ["../scripts/i18n/harvest-untranslated.mjs"]
 }
