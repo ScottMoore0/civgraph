@@ -338464,6 +338464,31 @@
           "op": "restoreStageFractions"
         }
       ]
+    },
+    {
+      "batch": "review-rest-2026-11-12",
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/2017-06-08/belfast-north.json",
+      "source": {
+        "title": "UK Parliamentary Election Result 2017 - Belfast North",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170617000053id_/http://www.eoni.org.uk/Elections/Election-results-and-statistics/Election-results-and-statistics-2003-onwards/Elections-2017/UK-Parliamentary-Election-2017-Results/UK-Parliamentary-Election-Result-Belfast-East-(1)",
+        "original": "http://www.eoni.org.uk/Elections/Election-results-and-statistics/Election-results-and-statistics-2003-onwards/Elections-2017/UK-Parliamentary-Election-2017-Results/UK-Parliamentary-Election-Result-Belfast-East-(1)",
+        "accessed": "2026-11-12"
+      },
+      "reason": "The Electoral Office's result page gives 46,107 votes polled and 171 invalid (45,936 valid; 67.56% of the 68,249 electorate, which 46,107 gives and the file's 46,094 does not); the file had 46,094 and 158. The page sits at an address the Office named Belfast East (1).",
+      "category": "figures",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Total_Poll",
+          "value": "46107"
+        },
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Spoiled",
+          "value": "171"
+        }
+      ]
     }
   ]
 }
