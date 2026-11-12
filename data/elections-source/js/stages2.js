@@ -1013,8 +1013,8 @@ function applyVoteColour(element, colour) {
     element.css({
         background: resolved,
         fill: resolved,
-        color: '#FFFFFF',
-        textShadow: '2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+        color: VIEWER_COLOURS.voteInk,
+        textShadow: VIEWER_COLOURS.voteInkShadow,
     });
 }
 
@@ -1085,177 +1085,21 @@ function escapeHtml(value) {
     });
 }
 
-// arch-ok R6: the vendored STV animation (CC BY; source data/elections-source/js/stages2.js) is a classic script and cannot import the parties registry
-var PARTY_COLOUR_BASE = {
-    'Alliance': '#F6CB2F',
-    'Alliance Party': '#F6CB2F',
-    'Alliance Party of Northern Ireland': '#F6CB2F',
-    'British Movement': '#7F7F7F',
-    'Conservative': '#0087DC',
-    'DUP': '#D46A4C',
-    'Democratic Unionist Party': '#D46A4C',
-    'Green / Ecology': '#8DC63F',
-    'Green Party': '#22AC6F',
-    'Green Party Northern Ireland': '#64DD17',
-    'Independent': '#DCDCDC',
-    'Independent Nationalist': '#CDFFAB',
-    'Independent Other': '#DCDCDC',
-    'Labour': '#DC241F',
-    'NI Conservatives': '#0047AB',
-    'NI Labour': '#DC241F',
-    'National Front': '#191970',
-    'Nationalist Party': '#32CD32',
-    'Natural Law': '#FFE4E1',
-    'People Before Profit': '#FF0090',
-    'People Before Profit Alliance': '#FF0090',
-    'People Before Profit Alliance (PBPA)': '#FF0090',
-    'People\'s Democracy': '#FF0000',
-    'PUP': '#2B45A2',
-    'Progressive Unionist Party': '#2B45A2',
-    'Procapitalism': '#000000',
-    'Republican Labour Party': '#85DE59',
-    'Republican Sinn Féin': '#008800',
-    'SDLP': '#2AA82C',
-    'Social Democratic and Labour Party': '#2AA82C',
-    'Socialist Environmental Alliance': '#BB0000',
-    'Socialist Party': '#FF3300',
-    'Sinn Féin': '#326760',
-    'Sinn Fein': '#326760',
-    'TUV': '#0C3A6A',
-    'Traditional Unionist Voice': '#0C3A6A',
-    'Traditional Unionist Voice (Northern Ireland)': '#0C3A6A',
-    'UUP': '#48A5EE',
-    'Ulster Democratic Party': '#000000',
-    'Ulster Independence Movement': '#A9A9A9',
-    'Ulster Liberal Party': '#DAA520',
-    'Ulster Popular Unionist Party': '#FFDEAD',
-    'Ulster Third Way': '#A9A9A9',
-    'Ulster Unionist Party': '#48A5EE',
-    'Ulster Unionist Party (UUP)': '#48A5EE',
-    'Ulster\'s Independent Voice': '#FF8C00',
-    'UK Independence Party': '#6D3177',
-    'UKIP': '#6D3177',
-    'UKUP': '#660066',
-    'Unionist Party of Northern Ireland': '#FFA07A',
-    'United Labour Party': '#FF0000',
-    'United Ulster Unionist Party': '#FF8C00',
-    'Vanguard Unionist Progressive Party': '#FF8C00',
-    'Workers Party': '#930C1A',
-    'Workers Party / Republican Clubs': '#930C1A',
-};
-
-// arch-ok R6: the vendored STV animation (CC BY; source data/elections-source/js/stages2.js) is a classic script and cannot import the parties registry
-var PARTY_COLOUR_OVERRIDES = {
-    'Aontú': '#44532A',
-    'Anti-Austerity Alliance': '#E3170D',
-    'Centre Party of Ireland': '#00005C',
-    'Christian Solidarity Party': '#FFFF99',
-    'Comhaontas Glas': '#22AC6F',
-    'Comhar Criostai/Christian Solidarity': '#FFFF99',
-    'Communist Party of Ireland': '#FF3300',
-    'Democratic Left': '#C700C7',
-    'Democratic Left (Ireland)': '#C700C7',
-    'Direct Democracy Ireland': '#FFFF00',
-    'Fianna Fáil': '#66BB66',
-    'Fianna Fail': '#66BB66',
-    'Fine Gael': '#6699FF',
-    'Green/Comhaontas Glas': '#22AC6F',
-    'Green Party (Ireland)': '#22AC6F',
-    'Independent Alliance (Non party)': '#B0BEC5',
-    'Independent Fianna Fail': '#7FFF00',
-    'Independent Ireland': '#3BEE56',
-    'Independents 4 Change': '#FFC0CB',
-    'Ireland First': '#00A185',
-    'Irish Freedom Party': '#006633',
-    'Labour Party (Ireland)': '#CC0000',
-    'National Party': '#264A3C',
-    'Non party/Independent': '#DCDCDC',
-    'People Before Profit': '#FF0090',
-    'People Before Profit Alliance': '#FF0090',
-    'People Before Profit Alliance (PBPA)': '#FF0090',
-    'People Before Profit (PBPA)': '#FF0090',
-    'Progressive Democrats': '#1251A2',
-    'Rabharta': '#488A89',
-    'Renua': '#FFA500',
-    'Renua Ireland': '#FFA500',
-    'Right to Change': '#BF2D2E',
-    'Social Democrats': '#752F8B',
-    'Social Democrats (Ireland)': '#752F8B',
-    'Socialist Workers': '#FF3300',
-    'Solidarity People Before Profit': '#8E2420',
-    "Workers'": '#930C1A',
-    'British Democratic Party': '#00008B',
-    'British Ulster Dominion Party': '#003366',
-    'Carlow/Kilkenny Labour Party': '#DC241F',
-    'Catholic Democrats': '#006400',
-    'Catholic Unionist': '#006400',
-    'Causeway Unionist Party': '#1E90FF',
-    'Conservative (incl. Ulster Unionist)': '#0087DC',
-    'Constitutional Convention': '#5D4037',
-    'Democracy First': '#000000',
-    'Democratic Left': '#DC241F',
-    'Democratic Left (Ireland)': '#DC241F',
-    'Democratic Partnership': '#FF9800',
-    'Democratic Progressive Party': '#8B0000',
-    'Democratic Reform Party': '#8B4513',
-    'Democratic Socialist Party': '#8B0000',
-    'Derry Labour Party': '#DC241F',
-    'Donegal Progressive Party': '#008000',
-    'Down Democrat': '#FF8C00',
-    'Fermanagh Labour Party': '#DC241F',
-    'Independent (No description)': '#DCDCDC',
-    'Independent (Unionist)': '#ADD8E6',
-    'Independent Alliance': '#B0BEC5',
-    'Independent Conservative': '#0087DC',
-    'Independent Labour': '#DC241F',
-    'Independent Loyalist': '#1E90FF',
-    'Independent Nationalist (Anti H-Block)': '#2E8B57',
-    'Independent Nationalist (Unity)': '#2E8B57',
-    'Independent Republican': '#006400',
-    'Independent Ulster': '#1E90FF',
-    'Independent Unionist Association': '#1E90FF',
-    'Irish Independence Party': '#32CD32',
-    'Labour Party of Northern Ireland': '#DC241F',
-    'Liberal Party': '#DAA520',
-    'Loyalist Coalition': '#1E90FF',
-    'Loyalist Unionist': '#1E90FF',
-    'Nationalist (Unity)': '#32CD32',
-    'Nationalist Labour Party': '#DC241F',
-    'Nationalist Labour Party (NLP)': '#DC241F',
-    'Newtownabbey Labour Party': '#DC241F',
-    'Newtownabbey Labour Party (NLP)': '#DC241F',
-    'Northern Ireland First': '#DCDCDC',
-    'Northern Ireland Labour Representation Committee': '#DC241F',
-    'Northern Ireland Unionist Party': '#FF8C00',
-    'NI Women\'s Coalition': '#00FFFF',
-    'Northern Ireland Women\'s Coalition': '#00FFFF',
-    'Peace Coalition': '#009688',
-    'People\'s Coalition': '#E91E63',
-    'People Before Profit (PBPA)': '#E91E63',
-    'Progressive Democrats': '#FF8C00',
-    'Rainbow Dream Ticket': '#FFC0CB',
-    'Socialist Labour': '#DC241F',
-    'Socialist Labour Group': '#DC241F',
-    'Ulster Constitution Party': '#000000',
-    'Ulster Loyalist Democratic Party': '#1E90FF',
-    'Ulster Protestant Unionist Party': '#1E90FF',
-    'Ulster Vanguard': '#FF8C00',
-    'United Unionist Action Council': '#1E90FF',
-    'Workers\' Party of Ireland': '#930C1A',
-    'World Socialist Party': '#FF0000',
-};
+// The colours this script draws with come from the host page, as a classic script cannot import the
+// registries: the map app (packages/map/app/election-manager.js) sets globalThis.civgraphViewerColours
+// before it loads this file, from the colours registry's `viewer` palette and the parties registry's
+// `viewer` table (data/registries/colours.json, data/registries/parties/palettes.json), as [label, colour]
+// rows in order; where two labels fold alike the later row wins.
+var VIEWER_COLOURS = globalThis.civgraphViewerColours || { parties: [] };
 
 var PARTY_COLOUR_MAP = {};
-Object.keys(PARTY_COLOUR_BASE).forEach(function (label) {
-    PARTY_COLOUR_MAP[normalisePartyKey(label)] = PARTY_COLOUR_BASE[label];
-});
-Object.keys(PARTY_COLOUR_OVERRIDES).forEach(function (label) {
-    PARTY_COLOUR_MAP[normalisePartyKey(label)] = PARTY_COLOUR_OVERRIDES[label];
+VIEWER_COLOURS.parties.forEach(function (row) {
+    PARTY_COLOUR_MAP[normalisePartyKey(row[0])] = row[1];
 });
 
 function getPartyColour(label) {
     var key = normalisePartyKey(label || '');
-    return PARTY_COLOUR_MAP[key] || '#c0c0c0';
+    return PARTY_COLOUR_MAP[key] || VIEWER_COLOURS.unknownParty;
 }
 
 function getCountEntry(container, countNumber, candidateId) {
@@ -2154,7 +1998,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         }
 
         if (!candidatesDict.hasOwnProperty(nonTransferableCandidateId)) {
-            var nonTransferableColour = '#707070';
+            var nonTransferableColour = VIEWER_COLOURS.nonTransferable;
             candidates.push({
                 name: 'Non-transferable',
                 id: nonTransferableCandidateId,
@@ -2678,7 +2522,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
                 'top:' + spoiledTop + 'px;left:' + leftPadding + 'px;width:' + nameSpace + 'px;' +
                 '">Spoiled</div>');
             spoiledLabel.appendTo('#animation');
-            decorateLabel(spoiledLabel, '#000');
+            decorateLabel(spoiledLabel, VIEWER_COLOURS.spoiledLabel);
             // Percentage in pct column
             var spoiledPctDiv = $('<div class="pctLabel static-pct-label" style="' +
                 'top:' + spoiledTop + 'px;left:' + (leftPadding + nameSpace) + 'px;' +
@@ -2733,7 +2577,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
                 'line-height:' + dnvHeight + 'px;height:' + dnvHeight + 'px;' +
                 '">No vote</div>');
             dnvLabel.appendTo('#animation');
-            decorateLabel(dnvLabel, '#888');
+            decorateLabel(dnvLabel, VIEWER_COLOURS.noVoteLabel);
             var dnvPct = formatPct(didNotVote, totalElectorate);
             var dnvPctDiv = $('<div class="pctLabel static-pct-label" style="' +
                 'top:' + dnvTop + 'px;left:' + (leftPadding + nameSpace) + 'px;' +
@@ -2743,7 +2587,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
             var dnvBar = $('<div class="votes static-info-bar" style="' +
                 'top:' + dnvTop + 'px;left:' + startLeft + 'px;' +
                 'width:' + dnvWidth + 'px;height:' + dnvHeight + 'px;' +
-                'background:#e8a0bf;' +
+                'background:' + VIEWER_COLOURS.noVoteBar + ';' +
                 'box-sizing:border-box;' +
                 'line-height:' + dnvHeight + 'px;' +
                 'overflow:visible;' +

@@ -12,6 +12,13 @@
   const BAR_WIDTH = 220;
   const VALUE_GUTTER = 16;
 
+  // The preview's colours come from the host page, as a classic script cannot import the registries:
+  // the map app sets globalThis.civgraphViewerColours (the colours registry's `viewer` palette,
+  // data/registries/colours.json) before it loads this file.
+  function viewerColour(role) {
+    return (globalThis.civgraphViewerColours || {})[role];
+  }
+
   function getResultsCollection(results) {
     if (Array.isArray(results)) {
       return results;
@@ -97,7 +104,7 @@
     line.setAttribute('x2', x.toFixed(2));
     line.setAttribute('y1', config.barY);
     line.setAttribute('y2', config.barY + config.totalHeight);
-    line.setAttribute('stroke', '#084a96');
+    line.setAttribute('stroke', viewerColour('previewQuota'));
     line.setAttribute('stroke-width', '2');
     line.setAttribute('stroke-dasharray', '6 4');
     line.setAttribute('opacity', '0.8');
@@ -131,8 +138,8 @@
     background.setAttribute('height', viewHeight);
     background.setAttribute('rx', '8');
     background.setAttribute('ry', '8');
-    background.setAttribute('fill', '#f5f7fb');
-    background.setAttribute('stroke', '#dfe6f3');
+    background.setAttribute('fill', viewerColour('previewPaper'));
+    background.setAttribute('stroke', viewerColour('previewEdge'));
     svg.appendChild(background);
 
     const barX = PADDING_X + LABEL_WIDTH;
@@ -149,7 +156,7 @@
       track.setAttribute('height', barHeight);
       track.setAttribute('rx', '5');
       track.setAttribute('ry', '5');
-      track.setAttribute('fill', '#e8eef9');
+      track.setAttribute('fill', viewerColour('previewTrack'));
       svg.appendChild(track);
 
       const voteValue = finalVoteValue(entry);
@@ -164,7 +171,7 @@
       bar.setAttribute('height', barHeight);
       bar.setAttribute('rx', '5');
       bar.setAttribute('ry', '5');
-      bar.setAttribute('fill', entry?.colour || '#9bb7ff');
+      bar.setAttribute('fill', entry?.colour || viewerColour('previewBar'));
       bar.setAttribute('opacity', '0.92');
       svg.appendChild(bar);
 
