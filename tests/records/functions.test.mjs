@@ -186,8 +186,11 @@ test('data/browse: details, profiles and the votes index for a sample of each', 
       assert.deepEqual(await browseUrl(`${kind}/${file}`), dropGeneratedAt(readJsonFile(path.join(P.BROWSE_DIR, kind, file))), `${kind}/${file}`);
     }
   }
+  // The votes index only when the build holds the votes (CI and check:clean build without the
+  // dataset): a clean checkout beside the main one would otherwise find the main checkout's
+  // gitignored votes tree through the fallback and ask a build without votes for it (404).
   const votesDir = existsSync(path.join(P.BROWSE_DIR, 'votes')) ? path.join(P.BROWSE_DIR, 'votes') : path.join(REPO_ROOT, '..', 'boundaries-website', 'data', 'browse', 'votes');
-  if (existsSync(votesDir)) {
+  if (buildHasVotes(DB) && existsSync(votesDir)) {
     assert.deepEqual(await browseUrl('votes/index.json'), readJsonFile(path.join(votesDir, 'index.json')));
   }
 });
