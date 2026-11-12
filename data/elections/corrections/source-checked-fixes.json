@@ -323680,9 +323680,28 @@
         "url": "https://data.oireachtas.ie/ie/oireachtas/electoralProcess/electionResults/dail/2016/2016-04-28_32nd-dail-general-election-results_en.pdf",
         "accessed": "2026-11-12"
       },
-      "reason": "The count is the official result after the recount (55,246 valid votes, quota 11,050, 15 counts), as the Oireachtas results book prints it; the count table shown before was the original count's (55,276 first preferences), which the recount superseded.",
+      "reason": "The count is the official result after the recount (55,246 valid votes, quota 11,050, 15 counts), as the Oireachtas results book prints it; the count table shown before was the original count's (55,276 first preferences), which the recount superseded. The rows of Kevin \"Boxer\" Moran and Connie Gerety-Quinn keep the names they were shown with before, the results book's spelling (it prints Kevin 'Boxer' Moran and Connie Gerety-Quinn), not the ElectionsIreland import's \"Kevin Moran\" and \"Connie Gerrety Quinn\" that the recount's first preferences now match them to.",
       "category": "stages",
-      "operations": []
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Kevin Moran",
+          "set": {
+            "candidateName": "Kevin \"Boxer\" Moran",
+            "Firstname": "Kevin",
+            "Surname": "\"Boxer\" Moran"
+          }
+        },
+        {
+          "op": "candidate",
+          "name": "Connie Gerrety Quinn",
+          "set": {
+            "candidateName": "Connie Gerety-Quinn",
+            "Firstname": "Connie",
+            "Surname": "Gerety-Quinn"
+          }
+        }
+      ]
     },
     {
       "batch": "arith-audit-2026-11-11",
