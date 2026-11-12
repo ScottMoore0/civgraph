@@ -11,7 +11,7 @@ Branch `council-audit-12b`, worktree `C:\Users\scomo\civgraph-council-audit-12b`
 - 0d5bc2ffc6 Antrim TC 1923: the second link is the BNA copy of the News-Letter, not the Northern Whig.
 
 ## The five items in the brief
-1. Not-reached name-not-on-page contests (81 from fix-1, 45 from fix-2): all 126 dealt with. 22 fixed and 104 confirmed-ok. Every flag that led to a fix and most of the confirmations were read on the page image. About 60 confirmations rest on clear OCR context, and the ledger says which.
+1. Not-reached name-not-on-page contests (81 from fix-1, 45 from fix-2): all 126 dealt with: 16 fixed and 110 confirmed-ok. Every fix was read on the page image; 38 confirmations were image-read and 72 rest on clear OCR context of the cited page (the ledger evidence column says which).
 2. Ballymena RD 1967 Galgorm: Davison 262. The Ballymena Observer, 8 Jun 1967, p. 8 (image) prints Dickey 484, Davison 262, majority 222, and 746 votes cast of an electorate of 1,117 (484 + 262 = 746). The notice cited before is in the Ballymena Weekly Telegraph (masthead "Ballymena Times"), not the Observer.
 3. Ballymena RD 1946: the list is in the BNL, 20 Sep 1946, p. 3 (INA BNL19460920.2.69). All 21 names were confirmed on the image and the 21 files re-cited.
 4. Taggart (Newtownabbey 1961 Cavehill): 408, printed clearly in the Belfast Telegraph, 18 May 1961, p. 4. It had been read as "about 468" from the News-Letter's cut figure.
