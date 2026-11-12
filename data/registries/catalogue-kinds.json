@@ -1,0 +1,10 @@
+{
+ "schemaVersion": 1,
+ "description": "The kinds of map series the catalogue arranges (a series' kind in data/catalogue/catalogue.source.json, and a subject's seriesKind), in display order: each kind's section of the catalogue (its tab id, label and icon) and, for the kinds the filters offer, the filter's label. Read by the catalogue (packages/map/src/catalogue/index.js SECTIONS, util.js KINDS) and its check (scripts/check/rules/catalogue.mjs). Schema: packages/registries/schemas/catalogue-kinds.schema.json; views: packages/registries/src/catalogue-kinds.mjs.",
+ "kinds": [
+  { "id": "Boundary", "meaning": "areas with edges", "section": "boundaries", "sectionLabel": "Boundaries", "icon": "land-divisions", "filterLabel": "Boundaries" },
+  { "id": "Places", "meaning": "places and routes (points and lines)", "section": "places", "sectionLabel": "Places & routes", "icon": "route", "filterLabel": "Places & routes" },
+  { "id": "Statistics", "meaning": "figures mapped onto areas", "section": "statistics", "sectionLabel": "Statistics", "icon": "chart-column", "filterLabel": "Statistics" },
+  { "id": "Historic", "meaning": "historic map editions, shown as a section of their own", "section": "historic", "sectionLabel": "Historic Maps", "icon": "landmark" }
+ ]
+}
