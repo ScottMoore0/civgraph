@@ -34,14 +34,20 @@ function isMainModule() {
   return process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 }
 
+/** @param {unknown} value */
 function asFiniteNumber(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {value is unknown[]}
+ */
 function isValidBbox(value) {
   if (!Array.isArray(value) || value.length !== 4) return false;
-  const [west, south, east, north] = value.map(asFiniteNumber);
+  // a null (not a finite number) returns false on the next line
+  const [west, south, east, north] = /** @type {number[]} */ (value.map(asFiniteNumber));
   if ([west, south, east, north].some((number) => number === null)) return false;
   if (!(west < east && south < north)) return false;
   if (west < IRELAND_BBOX_LIMITS.west || east > IRELAND_BBOX_LIMITS.east) return false;
@@ -49,6 +55,7 @@ function isValidBbox(value) {
   return true;
 }
 
+/** @param {unknown} value */
 function isValidBounds(value) {
   if (!Array.isArray(value) || value.length !== 2) return false;
   const [southWest, northEast] = value;
@@ -60,6 +67,7 @@ function isValidBounds(value) {
   return isValidBbox([west, south, east, north]);
 }
 
+/** @param {number[]} bbox */
 function bboxToBounds(bbox) {
   return [
     [roundCoord(bbox[1]), roundCoord(bbox[0])],
@@ -67,10 +75,12 @@ function bboxToBounds(bbox) {
   ];
 }
 
+/** @param {unknown} value */
 function roundCoord(value) {
   return Number(Number(value).toFixed(8));
 }
 
+/** @param {unknown} pathOrUrl */
 function localizeMapPath(pathOrUrl) {
   if (typeof pathOrUrl !== 'string' || pathOrUrl.length === 0) return null;
   let path = pathOrUrl.replaceAll('\\', '/');
@@ -84,15 +94,20 @@ function localizeMapPath(pathOrUrl) {
   return path || null;
 }
 
+/** @param {{ id: string, files?: { fgb?: unknown } } | null | undefined} entry */
 function chunkIndexPathFor(entry) {
   const fgbPath = localizeMapPath(entry?.files?.fgb);
   if (!fgbPath) return null;
   const directory = dirname(fgbPath).replaceAll('\\', '/');
-  return `${directory}/${entry.id}-chunks.json`;
+  return `${directory}/${/** @type {{ id: string }} */ (entry).id}-chunks.json`; // there is an fgb path, so an entry
 }
 
+/**
+ * @param {number[][]} bboxes
+ * @returns {number[] | null}
+ */
 function unionBboxes(bboxes) {
-  return bboxes.reduce((bbox, values) => {
+  return bboxes.reduce((/** @type {number[] | null} */ bbox, values) => {
     if (!bbox) return [...values];
     return [
       Math.min(bbox[0], values[0]),
@@ -103,16 +118,18 @@ function unionBboxes(bboxes) {
   }, null);
 }
 
+/** @param {{ bbox?: unknown, chunks?: unknown } | null | undefined} chunkIndex */
 function chunkIndexBbox(chunkIndex) {
   if (isValidBbox(chunkIndex?.bbox)) {
     return chunkIndex.bbox.map(roundCoord);
   }
 
-  const chunkBboxes = Array.isArray(chunkIndex?.chunks)
+  // the filter keeps only arrays of four finite numbers
+  const chunkBboxes = /** @type {number[][]} */ (Array.isArray(chunkIndex?.chunks)
     ? chunkIndex.chunks
-        .map((chunk) => Array.isArray(chunk?.bbox) ? chunk.bbox.map(asFiniteNumber) : null)
-        .filter((bbox) => bbox && bbox.every((number) => number !== null) && isValidBbox(bbox))
-    : [];
+        .map((/** @type {{ bbox?: unknown } | null} */ chunk) => Array.isArray(chunk?.bbox) ? chunk.bbox.map(asFiniteNumber) : null)
+        .filter((/** @type {(number | null)[] | null} */ bbox) => bbox && bbox.every((number) => number !== null) && isValidBbox(bbox))
+    : []);
 
   const union = unionBboxes(chunkBboxes);
   return union && isValidBbox(union) ? union.map(roundCoord) : null;
@@ -124,6 +141,7 @@ function chunkIndexBbox(chunkIndex) {
  */
 export const CHUNK_INDEX_STATUSES = Object.freeze(['ok', 'missing-path', 'missing-file', 'invalid-bbox', 'parse-error']);
 
+/** @param {{ id: string, files?: { fgb?: unknown } }} entry */
 function loadChunkIndex(entry) {
   const relativePath = chunkIndexPathFor(entry);
   if (!relativePath) {
@@ -145,10 +163,11 @@ function loadChunkIndex(entry) {
       chunks: Array.isArray(json?.chunks) ? json.chunks.length : 0
     };
   } catch (err) {
-    return { status: 'parse-error', relativePath, bbox: null, error: err.message };
+    return { status: 'parse-error', relativePath, bbox: null, error: /** @type {Error} */ (err).message };
   }
 }
 
+/** @param {{ maps?: unknown } | null} db */
 function collectLoadableMaps(db) {
   const maps = Array.isArray(db?.maps) ? db.maps : [];
   const entries = [];
@@ -185,6 +204,7 @@ function collectLoadableMaps(db) {
   return entries;
 }
 
+/** @param {{ fix?: boolean }} [options] */
 export function validateChunkedMapBounds(options = {}) {
   const fix = !!options.fix;
   const db = JSON.parse(readFileSync(MAPS_PATH, 'utf8'));

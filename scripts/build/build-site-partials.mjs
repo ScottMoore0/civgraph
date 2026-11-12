@@ -98,6 +98,7 @@ const NOT_PUBLIC = /^(archive|analysis|docs|tests|tools|scripts|data|node_module
 // The site chrome (head, header, support dialog, footer) comes from packages/ui/src/templates/shell.js,
 // the one source the server-rendered pages use too (frontend-plan.md F1): a header change is one
 // edit for both. The page-specific regions below are still partial files.
+/** @type {Record<string, (attrs: Record<string, string>) => string>} */
 const SHELL_REGIONS = {
   'site:head': () => toHtmlString(head({ version: versionOf })),
   // skip-also="#id:Label" adds a second skip link (Browse: to the results; PRONI: to the search).
@@ -111,6 +112,7 @@ const SHELL_REGIONS = {
   'site:footer': () => toHtmlString(footer()),
 };
 
+/** @type {Record<string, string>} */
 const PARTIAL_FILES = {
   'site:browse-shell': 'site/partials/browse-shell.html',
   'proni:header': 'site/partials/proni-header.html',
@@ -118,24 +120,35 @@ const PARTIAL_FILES = {
 };
 
 const NAV_KEYS = new Set(['home', 'maps', 'browse', 'apps', 'about', 'none']);
+/** @type {Record<string, Set<string>>} */
 const ALLOWED_ATTRS = { 'site:header': new Set(['active', 'layout', 'skip-link', 'skip-also']) };
 const MARKER = /<!-- ((?:site|proni):[a-z-]+)((?:\s+[a-z-]+="[^"]*")*) -->[\s\S]*?<!-- \/\1 -->/g;
 const OPENING = /<!-- ((?:site|proni):[a-z-]+)(?:\s+[a-z-]+="[^"]*")* -->/g;
 
+/** @type {Map<string, string>} */
 const hashes = new Map();
+/**
+ * @param {string} path
+ * @returns {string}
+ */
 function versionOf(path) {
   if (!hashes.has(path)) {
     const file = sourceOf(path); // /assets/ui/ is packages/ui (packages/served.json)
     if (!existsSync(file)) throw new Error(`{{version:${path}}}: ${file} does not exist`);
     hashes.set(path, createHash('sha256').update(readFileSync(file)).digest('hex').slice(0, 12));
   }
-  return hashes.get(path);
+  return /** @type {string} */ (hashes.get(path)); // set just above when it was missing
 }
 
-function parseAttrs(text) {
+function parseAttrs(/** @type {string} */ text) {
   return Object.fromEntries([...text.matchAll(/([a-z-]+)="([^"]*)"/g)].map((m) => [m[1], m[2]]));
 }
 
+/**
+ * @param {string} name
+ * @param {Record<string, string>} attrs
+ * @param {string} page
+ */
 function render(name, attrs, page) {
   const allowed = ALLOWED_ATTRS[name] || new Set();
   for (const key of Object.keys(attrs)) {
@@ -182,7 +195,7 @@ for (const [page, expected] of PAGES) {
       return `<!-- ${name}${attrText} -->\n${body}\n<!-- /${name} -->`.replace(/\n/g, eol);
     });
   } catch (error) {
-    problems.push(error.message);
+    problems.push(/** @type {Error} */ (error).message);
     continue;
   }
   if (next === source) continue;
@@ -195,6 +208,7 @@ for (const [page, expected] of PAGES) {
 
 // Every public HTML page is a shell page or a named exemption.
 if (CHECK) {
+  /** @type {string[]} */
   let tracked = [];
   try {
     tracked = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '*.html'], { encoding: 'utf8' })
