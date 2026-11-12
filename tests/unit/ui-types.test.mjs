@@ -85,6 +85,8 @@ const STRICT_SINCE_R2_UI = ['packages/ui/assets/state/machine.js', 'packages/ui/
   'site/apps/proni-search/state-machines.js', 'site/apps/words/state-machines.js', 'packages/ui/assets/gallery/gallery.js'];
 // The apps that met noImplicitAny in the 8 Nov 2026 review (S5c) and so check under full strict.
 const STRICT_SINCE_NIA_S5C = ['site/apps/proni-search/app.js', 'site/apps/words/words.js'];
+// Browse joined on 12 Nov 2026 (stream rf8-types).
+const STRICT_SINCE_RF8 = ['site/browse/browse.js'];
 
 // Full strict on tsconfig.ui.json itself since 12 Nov 2026 (stream rf8-types).
 const FLAGS_SINCE_RF8 = ['strict', 'strictPropertyInitialization', 'strictBuiltinIteratorReturn'];
@@ -94,7 +96,7 @@ test('the strictness the UI has reached stays', () => {
   const strict = JSON.parse(readFileSync(path.join(ROOT, 'config', 'tsconfig.ui-strict.json'), 'utf8').replaceAll('"../', '"'));
   assert.equal(strict.extends, './tsconfig.ui.json');
   assert.equal(strict.compilerOptions.strict, true);
-  for (const rel of [...STRICT_SINCE_R2_UI, ...STRICT_SINCE_NIA_S5C]) assert.ok(strict.include.includes(rel), `${rel} left tsconfig.ui-strict.json include`);
+  for (const rel of [...STRICT_SINCE_R2_UI, ...STRICT_SINCE_NIA_S5C, ...STRICT_SINCE_RF8]) assert.ok(strict.include.includes(rel), `${rel} left tsconfig.ui-strict.json include`);
   for (const rel of strict.include) assert.ok(included(rel), `${rel} is strict-checked but not in tsconfig.ui.json include`);
   for (const rel of strict.include) {
     assert.ok(!/@ts-nocheck|@ts-ignore|@ts-expect-error/.test(readFileSync(path.join(ROOT, rel), 'utf8')), `${rel} silences the checker`);
