@@ -31,6 +31,166 @@ import layerTypes from '../../../registries/src/browser/layer-types.mjs';
 import { layerRenderer } from './layer-kinds/index.mjs';
 import { MAP_COLOURS } from '../colours.mjs';
 
+/** @typedef {import('maplibre-gl').Map} MapLibreMap */
+/** @typedef {import('maplibre-gl').LngLat} LngLat */
+/** @typedef {import('maplibre-gl').MapMouseEvent} MapMouseEvent */
+/** @typedef {import('maplibre-gl').MapGeoJSONFeature} MapFeature */
+/** @typedef {import('maplibre-gl').FilterSpecification} FilterSpecification */
+/** @typedef {import('maplibre-gl').PointLike} PointLike */
+/** @typedef {import('./point-cloud-layer.js').PointCloudLayer | import('./point-cloud-stream-layer.js').StreamingPointCloudLayer} PointCloudCustomLayer */
+
+/**
+ * MapLibre's default export as this module uses it: a plain object whose runtime settings
+ * (workerCount, maxParallelImageRequests) and version are properties. MapLibre 5's declarations
+ * name only the setter functions (setWorkerCount and the rest).
+ * @typedef {typeof maplibregl & { version?: string, workerCount?: number, maxParallelImageRequests?: number }} MapLibreGlobal
+ */
+
+/** A feature id as MapLibre and the layers' promoted ids give it. @typedef {string | number} FeatureId */
+
+/**
+ * A feature as the controller reads it: one MapLibre answered (queryRenderedFeatures), one the
+ * caller passed (selectFeatureById), or one normalised for the selection.
+ * @typedef {{
+ *   id?: FeatureId | null,
+ *   properties?: Record<string, unknown> | null,
+ *   geometry?: { type: string, coordinates?: unknown } | null
+ * }} FeatureLike
+ */
+
+/**
+ * A layer as the controller reads it (a LayerEntry of render/metadata/maps-test.json, as the
+ * labels read it, plus the fields read here).
+ * @typedef {import('./labels.js').RendererLayer & {
+ *   id: string,
+ *   name?: string,
+ *   sourceType?: string,
+ *   geometryType?: string,
+ *   loadable?: boolean,
+ *   style?: {
+ *     color?: string,
+ *     fillColor?: string,
+ *     fillColorExpression?: import('maplibre-gl').ExpressionSpecification,
+ *     weight?: number | string,
+ *     opacity?: number,
+ *     fillOpacity?: number
+ *   },
+ *   rasterOpacity?: number,
+ *   maxDomLabels?: number | string,
+ *   minzoom?: number,
+ *   maxzoom?: number,
+ *   bounds?: unknown,
+ *   tileSize?: number,
+ *   exaggeration?: number,
+ *   hillshadeTiles?: string,
+ *   hillshadeMinzoom?: number,
+ *   hillshadeMaxzoom?: number,
+ *   hillshadeOpacity?: number,
+ *   tilesetUrl?: string,
+ *   pcFlat?: boolean,
+ *   pcVersion?: string,
+ *   pointSize?: number,
+ *   labelAllowOverlap?: boolean,
+ *   labelIgnorePlacement?: boolean,
+ *   tileUrl?: string,
+ *   tiles?: string,
+ *   tilesFallback?: string | null,
+ *   promoteId?: string,
+ *   demEncoding?: 'terrarium' | 'mapbox' | 'custom',
+ *   imageUrl?: string,
+ *   url?: string,
+ *   featureIdMode?: string,
+ *   duplicateFeatureIdCount?: number,
+ *   duplicateFeatureIds?: unknown[],
+ *   duplicateFeatureIdsUrl?: string,
+ *   featureIndexUrl?: string,
+ *   popupProperties?: string[],
+ *   test2LabelMinZoomOverride?: unknown,
+ *   fallbackFromPmtiles?: boolean,
+ *   approximateSegments?: { url?: unknown, note?: string } | null
+ * }} ControllerLayer
+ */
+
+/**
+ * The controller's record of a layer on the map (this.layers).
+ * @typedef {{
+ *   config: ControllerLayer,
+ *   sourceId: string,
+ *   sourceIds: string[],
+ *   layerIds: string[],
+ *   labelLayerIds: string[],
+ *   domLabelMarkers: Map<string, import('maplibre-gl').Marker>,
+ *   domLabelsScheduled: number,
+ *   duplicateFeatureIds: Set<string>,
+ *   labelsEnabled: boolean,
+ *   textScale: number,
+ *   opacity: number,
+ *   color: string,
+ *   fillColor: string,
+ *   strokeWidth?: number,
+ *   attributeFilter?: { attribute: string, value: string } | null
+ * }} LayerRecord
+ */
+
+/** The hovered or selected feature (this.hovered, this.selected). @typedef {{ layerId: string, sourceId?: string, sourceLayer?: string, id: FeatureId, generated?: boolean, properties?: Record<string, unknown> }} FeatureSelection */
+
+/** One timing or event the controller records (getMetrics). @typedef {{ event?: string, [key: string]: unknown }} ControllerMetric */
+
+/**
+ * What the controller tells its owner (packages/map/app/maplibre-main-adapter.js).
+ * @typedef {{
+ *   onSelection?: (selection: { layer: ControllerLayer, feature: FeatureLike } | null) => void,
+ *   onChange?: (controller: TestMapLibreController) => void,
+ *   onMetric?: (metric: ControllerMetric) => void,
+ *   onFallback?: (metric: ControllerMetric) => void,
+ *   onError?: (error: unknown) => void,
+ *   shouldSuppressLayerInteraction?: (event: MapMouseEvent) => boolean
+ * }} ControllerOptions
+ */
+
+/** The camera at a moment (readCameraState). @typedef {{ lng: number, lat: number, zoom: number, pitch: number, bearing: number }} CameraState */
+/** A point on the screen. @typedef {{ x: number, y: number }} ScreenPoint */
+
+/**
+ * A one-finger or mouse pan the direct fallback is watching (installDirectPanGestureFallback).
+ * @typedef {{
+ *   pointerId: number, pointerType: string,
+ *   startX: number, startY: number, lastX: number, lastY: number, latestX: number, latestY: number,
+ *   center: LngLat, camera: CameraState | null, startedAt: number,
+ *   latestDx: number, latestDy: number, noCameraSamples: number,
+ *   moved: boolean, fallbackActive: boolean, nativeMoved: boolean, nativeCheckFrame: number,
+ *   cancelled: boolean, captured: boolean, target: Element
+ * }} PanGestureState
+ */
+
+/**
+ * A two-finger gesture the direct fallback is watching (installDirectTwoFingerGestureFallback).
+ * @typedef {{
+ *   distance: number, midpoint: ScreenPoint, angle: number, center: LngLat,
+ *   zoom: number, pitch: number, bearing: number, camera: CameraState | null,
+ *   latestPoints: ScreenPoint[], nativeCheckFrame: number, fallbackActive: boolean,
+ *   nativeMoved: boolean, stillFrames?: number
+ * }} TwoFingerGestureState
+ */
+
+/** The camera a two-finger gesture moves to. @typedef {{ center: LngLat, zoom: number, bearing: number, pitch: number }} TwoFingerCamera */
+
+/** A DOM label's element, which keeps the feature it labels and where it was placed. @typedef {HTMLElement & { __civgraphFeature?: FeatureLike, __civgraphLngLatKey?: string }} DomLabelElement */
+
+/** A map error or source-data event, the fields read here. @typedef {{ sourceId?: string, error?: { message?: string } | null, tile?: { state?: string } | null }} MapSourceEventView */
+
+/** A source's tile loads and failures (installSourceHealthWatch). @typedef {{ errors: number, loaded: number, sourceError: string, message: string }} SourceHealth */
+
+/** A layer's load under way (loadLayer). @typedef {{ run: ReturnType<typeof LAYER_LOAD.start>, promise: Promise<void> | null }} LayerLoad */
+
+/** The ids of what a layer adds beside its main source and layers. @typedef {{ layerIds: string[], sourceIds: string[] }} OverlayIds */
+
+/** A layer's settings saved by the map controls (localStorage). @typedef {{ opacity?: unknown, strokeWidth?: unknown, color?: string, fillColor?: string, labelsEnabled?: unknown, textScale?: unknown }} SavedLayerPreferences */
+
+/** A label's box on the screen. @typedef {{ left: number, right: number, top: number, bottom: number }} LabelBox */
+
+/** The inline style properties of WebKit's touch handling, which CSSStyleDeclaration does not declare. @typedef {CSSStyleDeclaration & { webkitTouchCallout: string, webkitOverflowScrolling: string }} WebkitTouchStyle */
+
 // The casing that breaks a boundary's solid line under its dotted approximate stretches. The app keeps a
 // light basemap in dark mode too (app.js, basemap notes), so the gap is the basemap's own paper colour.
 const APPROXIMATE_GAP_COLOR = MAP_COLOURS.approximateGap;
@@ -47,21 +207,22 @@ const TERRAIN_AUTOTILT_THRESHOLD = 10;
 // queried feature only carries the fragment inside one tile. Used to decide
 // when a selected polygon must be reassembled from all of its fragments: the layer-types
 // registry's vectorTiles types, and 'vector' (MapLibre's own name for a vector tile source).
+/** @type {Set<string | undefined>} */
 const TILED_VECTOR_SOURCE_TYPES = new Set([...layerTypes.behaviour.vectorTiles, 'vector']);
 // How each layer type is treated: the behaviour flags of the layer-types registry
 // (data/registries/layer-types.json; registries/browser/layer-types.json), as source-type sets.
 // threeD: terrain or a point cloud (3D gesture handlers, terrain); rasterSource: drawn from raster
 // tiles or an image, so no features to pick; noFeatureState: feature-state is never set on it;
 // noLabels: never gets a label layer.
+/** @type {Set<string | undefined>} */
 const THREE_D_TYPES = new Set(layerTypes.behaviour.threeD);
+/** @type {Set<string | undefined>} */
 const RASTER_SOURCE_TYPES = new Set(layerTypes.behaviour.rasterSource);
+/** @type {Set<string | undefined>} */
 const NO_FEATURE_STATE_TYPES = new Set(layerTypes.behaviour.noFeatureState);
+/** @type {Set<string | undefined>} */
 const NO_LABEL_TYPES = new Set(layerTypes.behaviour.noLabels);
 
-function parseHexRgb(hex) {
-  const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(String(hex || '').trim());
-  return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [138, 180, 216];
-}
 const MOBILE_GESTURE_CHROME_SELECTOR = [
   'button',
   'a',
@@ -80,15 +241,25 @@ const MOBILE_GESTURE_CHROME_SELECTOR = [
   '.test2-election-pane-resizer',
   '#timelineSlider'
 ].join(',');
+/** @type {Readonly<import('geojson').FeatureCollection>} */
 const EMPTY_FEATURE_COLLECTION = Object.freeze({
   type: 'FeatureCollection',
   features: []
 });
 
+/**
+ * Is this event target in the map's own controls or the page's chrome (not the map surface)?
+ * @param {EventTarget | null | undefined} target
+ * @returns {boolean}
+ */
 function isMobileGestureChromeTarget(target) {
-  return Boolean(target?.closest?.(MOBILE_GESTURE_CHROME_SELECTOR));
+  return Boolean(/** @type {Element | null | undefined} */ (target)?.closest?.(MOBILE_GESTURE_CHROME_SELECTOR));
 }
 
+/**
+ * @param {TouchEvent} event
+ * @returns {ScreenPoint[] | null}
+ */
 function firstTwoTouchPoints(event) {
   if (!event?.touches || event.touches.length < 2) return null;
   const first = event.touches[0];
@@ -100,6 +271,10 @@ function firstTwoTouchPoints(event) {
   ];
 }
 
+/**
+ * @param {ScreenPoint[]} points
+ * @returns {ScreenPoint}
+ */
 function midpoint(points) {
   return {
     x: (points[0].x + points[1].x) / 2,
@@ -107,18 +282,22 @@ function midpoint(points) {
   };
 }
 
+/** @param {ScreenPoint[]} points */
 function distance(points) {
   return Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
 }
 
+/** @param {ScreenPoint[]} points */
 function angle(points) {
   return Math.atan2(points[1].y - points[0].y, points[1].x - points[0].x);
 }
 
+/** @param {number} value */
 function radiansToDegrees(value) {
   return value * 180 / Math.PI;
 }
 
+/** @param {number} value */
 function normalizeDeltaDegrees(value) {
   let next = value;
   while (next > 180) next -= 360;
@@ -126,16 +305,19 @@ function normalizeDeltaDegrees(value) {
   return next;
 }
 
+/** @param {unknown} value */
 function isLocalTestTileTemplate(value) {
   return typeof value === 'string' && value.startsWith('/render/tiles/');
 }
 
 function localTestTilesAvailable() {
   const hostname = globalThis.location?.hostname || '';
-  return globalThis.__civgraphUseLocalTileFallback === true
+  // Set by the browser suite (tests/browser) when it serves the local tile fallback.
+  return /** @type {{ __civgraphUseLocalTileFallback?: boolean }} */ (globalThis).__civgraphUseLocalTileFallback === true
     && (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1');
 }
 
+/** @param {ControllerLayer} layer */
 function getDomLabelLimit(layer) {
   const explicit = Number(layer?.maxDomLabels);
   if (Number.isFinite(explicit) && explicit > 0) return explicit;
@@ -166,10 +348,12 @@ function resolveRuntimeProfile() {
   };
 }
 
+/** @param {ControllerLayer} layer */
 function resolveFillOpacity(layer) {
   return clamp(layer?.style?.fillOpacity ?? DEFAULT_VECTOR_FILL_OPACITY, 0, 1);
 }
 
+/** @param {ControllerLayer} layer */
 function resolveLayerOpacity(layer) {
   if (RASTER_SOURCE_TYPES.has(layer?.sourceType)) {
     return clamp(layer.rasterOpacity ?? layer.style?.opacity ?? 0.85, 0, 1);
@@ -178,23 +362,38 @@ function resolveLayerOpacity(layer) {
 }
 
 export class TestMapLibreController {
+  /**
+   * @param {string | HTMLElement} container the map's element, or its id
+   * @param {ControllerOptions} [options]
+   */
   constructor(container, options = {}) {
     // The controller's lifetime (R8): what it puts on document passes this signal, and
     // dispose() takes it away.
     this.lifecycle = new AbortController();
     this.container = container;
     this.options = options;
-    this.map = null;
-    this.maplibreVersion = maplibregl.version;
+    // Made by init(); the methods that may run before it test for it.
+    /** @type {MapLibreMap} */
+    this.map = /** @type {MapLibreMap} */ (/** @type {unknown} */ (null));
+    this.maplibreVersion = /** @type {MapLibreGlobal} */ (maplibregl).version;
     this.protocol = new Protocol({ metadata: true });
+    /** @type {Map<string, LayerRecord>} */
     this.layers = new Map();
+    /** @type {FeatureSelection | null} */
     this.selected = null;
+    /** @type {FeatureSelection | null} */
     this.hovered = null;
+    /** @type {ControllerMetric[]} */
     this.metrics = [];
+    /** @type {Map<string, ControllerMetric>} */
     this.fallbackLayers = new Map();
+    /** @type {Map<string, () => void>} */
     this.interactionCleanups = new Map();
+    /** @type {Map<string, () => void>} */
     this.fallbackCleanups = new Map();
+    /** @type {Map<string, Promise<Set<string>>>} */
     this.duplicateFeatureIdCache = new Map();
+    /** @type {Map<string, PMTiles>} */
     this.pmtilesArchiveCache = new Map();
     this.runtimeProfile = resolveRuntimeProfile();
     // Install-once guards (latches) and two-state toggles (flags), as accessors over the shared
@@ -209,24 +408,34 @@ export class TestMapLibreController {
       document.addEventListener('civgraph:langchange', () => this.applyLabelLanguage(), { signal: this.lifecycle.signal });
     }
     this.mobileGestureGuardTargetCount = 0;
+    /** @type {ResizeObserver | null} */
     this.mobileGestureResizeObserver = null;
     this.mobileGestureResizeFrame = 0;
+    /** @type {{ width: number, height: number } | null} */
     this.mobileGestureResizeSize = null;
+    /** @type {PanGestureState | null} */
     this.directPanGestureState = null;
     this.directPanFrame = 0;
+    /** @type {import('maplibre-gl').LngLatLike | null} */
     this.directPanPendingCenter = null;
+    /** @type {{ dx: number, dy: number } | null} */
     this.directPanPendingDelta = null;
     this.directPanFallbackActivations = 0;
     this.directWheelFrame = 0;
+    /** @type {number | null} */
     this.directWheelPendingZoom = null;
+    /** @type {ReturnType<typeof setTimeout> | 0} */
     this.directWheelEndTimer = 0;
     this.directWheelFallbackActivations = 0;
+    /** @type {TwoFingerGestureState | null} */
     this.directTwoFingerGestureState = null;
     this.directTwoFingerGestureFrame = 0;
+    /** @type {TwoFingerCamera | null} */
     this.directTwoFingerGesturePending = null;
     this.directTwoFingerFallbackActivations = 0;
     this.mapCursor = '';
     this.cursorMutationCount = 0;
+    /** @type {((event: Event) => void) | null} */
     this.documentHoverClearHandler = null;
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
   }
@@ -238,10 +447,10 @@ export class TestMapLibreController {
 
   init() {
     if (Number.isFinite(this.runtimeProfile.workerCount)) {
-      maplibregl.workerCount = this.runtimeProfile.workerCount;
+      /** @type {MapLibreGlobal} */ (maplibregl).workerCount = this.runtimeProfile.workerCount;
     }
     if (Number.isFinite(this.runtimeProfile.maxParallelImageRequests)) {
-      maplibregl.maxParallelImageRequests = this.runtimeProfile.maxParallelImageRequests;
+      /** @type {MapLibreGlobal} */ (maplibregl).maxParallelImageRequests = this.runtimeProfile.maxParallelImageRequests;
     }
     this.map = new maplibregl.Map({
       container: this.container,
@@ -272,8 +481,9 @@ export class TestMapLibreController {
     // an (i) button, which the OpenStreetMap tile policy forbids ("beneath UI, behind toggles")
     // and OpenFreeMap's terms do not allow either: both require the credit to be visible.
     this.map.addControl(new maplibregl.AttributionControl({ compact: false }));
+    /** @type {BasemapManager} */
     this.basemap = new BasemapManager(this.map);
-    this.whenStyleReady(() => this.basemap.useDefault());
+    this.whenStyleReady(() => /** @type {BasemapManager} */ (this.basemap).useDefault());
 
     this.recordMetric({
       event: 'runtime-profile',
@@ -308,7 +518,10 @@ export class TestMapLibreController {
     this.map.fitBounds(IRELAND_BOUNDS, { padding: 28, duration: 0 });
   }
 
-  /** Runs `fn` once the map's style has loaded (at once if it has). */
+  /**
+   * Runs `fn` once the map's style has loaded (at once if it has).
+   * @param {() => void} fn
+   */
   whenStyleReady(fn) {
     if (this.map?.isStyleLoaded?.()) { fn(); return; }
     this.map?.once('style.load', () => fn());
@@ -324,7 +537,7 @@ export class TestMapLibreController {
     this.documentHoverClearInstalled = true;
     this.documentHoverClearHandler = (event) => {
       if (!this.hovered || !this.map) return;
-      const target = event.target;
+      const target = /** @type {Element | null} */ (event.target);
       const mapContainer = this.map.getContainer?.();
       if (!mapContainer) return;
       const isInsideMap = mapContainer.contains(target);
@@ -352,6 +565,11 @@ export class TestMapLibreController {
     };
   }
 
+  /**
+   * @param {CameraState | null | undefined} camera
+   * @param {{ lng?: number, lat?: number, zoom?: number, pitch?: number, bearing?: number }} [thresholds]
+   * @returns {boolean}
+   */
   cameraMovedSince(camera, thresholds = {}) {
     if (!camera || !this.map) return false;
     const current = this.readCameraState();
@@ -368,6 +586,10 @@ export class TestMapLibreController {
       || Math.abs(normalizeDeltaDegrees(current.bearing - camera.bearing)) > bearingEpsilon;
   }
 
+  /**
+   * @param {Element | null} [target]
+   * @param {number | null} [pointerId]
+   */
   resetDirectPanGestureState(target = null, pointerId = null) {
     if (this.directPanFrame) {
       cancelAnimationFrame(this.directPanFrame);
@@ -384,8 +606,9 @@ export class TestMapLibreController {
       const releaseTarget = target || state.target || this.map?.getContainer?.();
       const releasePointerId = pointerId ?? state.pointerId;
       try {
-        if (releaseTarget?.hasPointerCapture?.(releasePointerId)) {
-          releaseTarget.releasePointerCapture(releasePointerId);
+        // A pointer id is always set by then: the state's own when none is given.
+        if (releaseTarget?.hasPointerCapture?.(/** @type {number} */ (releasePointerId))) {
+          releaseTarget.releasePointerCapture(/** @type {number} */ (releasePointerId));
         }
       } catch {
         // Ignore browsers that throw after implicit release.
@@ -448,11 +671,11 @@ export class TestMapLibreController {
     const root = this.map.getContainer?.();
     if (!root?.addEventListener) return;
     this.mobileGestureGuardInstalled = true;
-    const preventBrowserMapGesture = (event) => {
+    const preventBrowserMapGesture = (/** @type {Event} */ event) => {
       if (isMobileGestureChromeTarget(event.target)) return;
       if (event.cancelable) event.preventDefault();
     };
-    const refreshTouchContract = (event) => {
+    const refreshTouchContract = (/** @type {Event} */ event) => {
       if (isMobileGestureChromeTarget(event.target)) return;
       this.applyMobileTouchContract();
     };
@@ -478,6 +701,7 @@ export class TestMapLibreController {
     if (!root?.addEventListener) return;
     this.directPanGestureInstalled = true;
 
+    /** @type {Record<string, { distance: number, elapsedMs: number, samples: number }>} */
     const fallbackThresholds = {
       touch: { distance: 24, elapsedMs: 120, samples: 3 },
       mouse: { distance: 14, elapsedMs: 48, samples: 2 },
@@ -503,7 +727,7 @@ export class TestMapLibreController {
       }
       if (nextCenter) this.map.jumpTo({ center: nextCenter });
     };
-    const schedulePanDelta = (dx, dy) => {
+    const schedulePanDelta = (/** @type {number} */ dx, /** @type {number} */ dy) => {
       if (!Number.isFinite(dx) || !Number.isFinite(dy) || (dx === 0 && dy === 0)) return;
       const pending = this.directPanPendingDelta || { dx: 0, dy: 0 };
       pending.dx += dx;
@@ -520,14 +744,14 @@ export class TestMapLibreController {
       }
       applyPendingPan();
     };
-    const canActivateFallback = (state) => {
+    const canActivateFallback = (/** @type {PanGestureState} */ state) => {
       const thresholds = fallbackThresholds[state.pointerType] || fallbackThresholds.default;
       const elapsed = performance.now() - state.startedAt;
       return Math.hypot(state.latestDx, state.latestDy) >= thresholds.distance
         && state.noCameraSamples >= thresholds.samples
         && elapsed >= thresholds.elapsedMs;
     };
-    const scheduleNativeFailureCheck = (state) => {
+    const scheduleNativeFailureCheck = (/** @type {PanGestureState} */ state) => {
       if (state.nativeCheckFrame || state.fallbackActive || state.nativeMoved) return;
       state.nativeCheckFrame = requestAnimationFrame(() => {
         state.nativeCheckFrame = 0;
@@ -546,7 +770,7 @@ export class TestMapLibreController {
         state.lastY = state.latestY;
       });
     };
-    const begin = (event) => {
+    const begin = (/** @type {PointerEvent} */ event) => {
       if (isMobileGestureChromeTarget(event.target)) return;
       if (event.button !== undefined && event.button !== 0) return;
       if (this.directPanGestureState && event.pointerType === 'touch') {
@@ -576,10 +800,11 @@ export class TestMapLibreController {
         nativeCheckFrame: 0,
         cancelled: false,
         captured: false,
-        target: event.currentTarget || root
+        // The listeners are on the map's container.
+        target: /** @type {Element} */ (event.currentTarget || root)
       };
     };
-    const move = (event) => {
+    const move = (/** @type {PointerEvent} */ event) => {
       const state = this.directPanGestureState;
       if (!state || state.cancelled || event.pointerId !== state.pointerId) return;
       const dx = event.clientX - state.startX;
@@ -602,7 +827,7 @@ export class TestMapLibreController {
       state.moved = true;
       if (!state.captured) {
         try {
-          event.currentTarget?.setPointerCapture?.(event.pointerId);
+          /** @type {Element | null} */ (event.currentTarget)?.setPointerCapture?.(event.pointerId);
           state.captured = true;
         } catch {
           // Pointer capture is best-effort; document-level pointerup still clears state.
@@ -617,7 +842,7 @@ export class TestMapLibreController {
       if (event.cancelable) event.preventDefault();
       event.stopPropagation();
     };
-    const end = (event) => {
+    const end = (/** @type {PointerEvent} */ event) => {
       const state = this.directPanGestureState;
       if (!state || (event?.pointerId !== undefined && event.pointerId !== state.pointerId)) return;
       if (state.nativeCheckFrame) {
@@ -633,7 +858,7 @@ export class TestMapLibreController {
         this.directGesture.to('idle');
         this.notifyChange();
       }
-      this.resetDirectPanGestureState(event?.currentTarget || root, state.pointerId);
+      this.resetDirectPanGestureState(/** @type {Element} */ (event?.currentTarget || root), state.pointerId);
     };
 
     root.addEventListener('pointerdown', begin, observerOptions);
@@ -656,7 +881,7 @@ export class TestMapLibreController {
       const zoom = this.directWheelPendingZoom;
       this.directWheelPendingZoom = null;
       if (!Number.isFinite(zoom) || !this.map) return;
-      this.map.jumpTo({ zoom });
+      this.map.jumpTo({ zoom: /** @type {number} */ (zoom) });
     };
     const scheduleWheelEnd = () => {
       if (this.directWheelEndTimer) clearTimeout(this.directWheelEndTimer);
@@ -667,7 +892,7 @@ export class TestMapLibreController {
         this.notifyChange();
       }, 140);
     };
-    const scheduleWheelFallback = (zoom, camera) => {
+    const scheduleWheelFallback = (/** @type {number} */ zoom, /** @type {CameraState | null} */ camera) => {
       requestAnimationFrame(() => {
         if (!this.map || this.cameraMovedSince(camera, { zoom: 0.001 })) return;
         if (!this.directWheelFallbackActive) {
@@ -680,7 +905,7 @@ export class TestMapLibreController {
         scheduleWheelEnd();
       });
     };
-    const onWheel = (event) => {
+    const onWheel = (/** @type {WheelEvent} */ event) => {
       if (isMobileGestureChromeTarget(event.target)) return;
       const scale = event.deltaMode === 1
         ? 40
@@ -689,7 +914,7 @@ export class TestMapLibreController {
       if (!Number.isFinite(deltaY) || deltaY === 0) return;
       const minZoom = typeof this.map.getMinZoom === 'function' ? this.map.getMinZoom() : 0;
       const maxZoom = typeof this.map.getMaxZoom === 'function' ? this.map.getMaxZoom() : 22;
-      const baseZoom = Number.isFinite(this.directWheelPendingZoom) ? this.directWheelPendingZoom : this.map.getZoom();
+      const baseZoom = /** @type {number} */ (Number.isFinite(this.directWheelPendingZoom) ? this.directWheelPendingZoom : this.map.getZoom());
       const nextZoom = clamp(baseZoom - (deltaY / 450), minZoom, maxZoom);
       if (!this.directWheelFallbackActive) {
         scheduleWheelFallback(nextZoom, this.readCameraState());
@@ -713,7 +938,7 @@ export class TestMapLibreController {
     this.directTwoFingerGestureInstalled = true;
 
     const observerOptions = { passive: false };
-    const blockBrowserGesture = (event) => {
+    const blockBrowserGesture = (/** @type {Event} */ event) => {
       if (event.cancelable) event.preventDefault();
       event.stopPropagation();
     };
@@ -724,7 +949,7 @@ export class TestMapLibreController {
       if (!next || !this.map) return;
       this.map.jumpTo(next);
     };
-    const scheduleTwoFingerGesture = (next) => {
+    const scheduleTwoFingerGesture = (/** @type {TwoFingerCamera} */ next) => {
       this.directTwoFingerGesturePending = next;
       if (this.directTwoFingerGestureFrame) return;
       this.directTwoFingerGestureFrame = requestAnimationFrame(applyPendingTwoFingerGesture);
@@ -736,6 +961,11 @@ export class TestMapLibreController {
       }
       applyPendingTwoFingerGesture();
     };
+    /**
+     * @param {TwoFingerGestureState | null} state
+     * @param {ScreenPoint[]} points
+     * @returns {TwoFingerCamera | null}
+     */
     const computeTwoFingerCamera = (state, points) => {
       const nextDistance = distance(points);
       if (!state || !Number.isFinite(nextDistance) || nextDistance <= 0) return null;
@@ -762,13 +992,14 @@ export class TestMapLibreController {
     // pinch and fight the native handler. It now waits several frames and for a clear change in
     // the fingers' spread or position before deciding the native handler is not running.
     const NATIVE_GRACE_FRAMES = 8;
-    const clearlyMoving = (state) => {
+    const clearlyMoving = (/** @type {TwoFingerGestureState} */ state) => {
       const points = state.latestPoints;
       if (!points) return false;
       const spread = Math.abs(Math.log2(Math.max(distance(points) / state.distance, 0.01)));
       const mid = midpoint(points);
       return spread > 0.2 || Math.hypot(mid.x - state.midpoint.x, mid.y - state.midpoint.y) > 24;
     };
+    /** @param {TwoFingerGestureState} state */
     const scheduleNativeFailureCheck = (state) => {
       if (state.nativeCheckFrame || state.fallbackActive || state.nativeMoved) return;
       state.nativeCheckFrame = requestAnimationFrame(() => {
@@ -791,7 +1022,7 @@ export class TestMapLibreController {
         scheduleTwoFingerGesture(next);
       });
     };
-    const begin = (event) => {
+    const begin = (/** @type {TouchEvent} */ event) => {
       if (isMobileGestureChromeTarget(event.target)) return false;
       const points = firstTwoTouchPoints(event);
       if (!points) return false;
@@ -815,7 +1046,7 @@ export class TestMapLibreController {
       };
       return true;
     };
-    const move = (event) => {
+    const move = (/** @type {TouchEvent} */ event) => {
       if (isMobileGestureChromeTarget(event.target)) return;
       const points = firstTwoTouchPoints(event);
       if (!points) return;
@@ -837,7 +1068,7 @@ export class TestMapLibreController {
       scheduleTwoFingerGesture(next);
       blockBrowserGesture(event);
     };
-    const end = (event) => {
+    const end = (/** @type {TouchEvent} */ event) => {
       if (!this.directTwoFingerGestureState) return;
       if (event.touches && event.touches.length >= 2) return;
       const state = this.directTwoFingerGestureState;
@@ -862,6 +1093,7 @@ export class TestMapLibreController {
     root.addEventListener('touchcancel', end, observerOptions);
   }
 
+  /** @param {HTMLElement} root */
   installMobileGestureResizeObserver(root) {
     if (!this.map || this.mobileGestureResizeObserver || typeof ResizeObserver === 'undefined') return;
     if (!this.shouldInstallMobileGestureResizeObserver()) {
@@ -869,7 +1101,7 @@ export class TestMapLibreController {
       return;
     }
     this.mobileGestureResizeObserverEligible = true;
-    const readSize = (entry) => {
+    const readSize = (/** @type {ResizeObserverEntry | undefined} */ entry) => {
       const box = Array.isArray(entry?.borderBoxSize) ? entry.borderBoxSize[0] : entry?.borderBoxSize;
       const width = Number(box?.inlineSize);
       const height = Number(box?.blockSize);
@@ -878,13 +1110,13 @@ export class TestMapLibreController {
       if (!rect) return null;
       return { width: rect.width, height: rect.height };
     };
-    const sizeChanged = (next) => {
+    const sizeChanged = (/** @type {{ width: number, height: number }} */ next) => {
       const previous = this.mobileGestureResizeSize;
       this.mobileGestureResizeSize = next;
       if (!previous) return false;
       return Math.abs(next.width - previous.width) > 0.5 || Math.abs(next.height - previous.height) > 0.5;
     };
-    const scheduleRefresh = (entries = []) => {
+    const scheduleRefresh = (/** @type {ResizeObserverEntry[]} */ entries = []) => {
       const nextSize = readSize(entries[0]);
       this.applyMobileTouchContract();
       if (!nextSize || !sizeChanged(nextSize)) return;
@@ -900,7 +1132,7 @@ export class TestMapLibreController {
   }
 
   shouldInstallMobileGestureResizeObserver() {
-    const matches = (query) => {
+    const matches = (/** @type {string} */ query) => {
       try {
         return Boolean(globalThis.matchMedia?.(query)?.matches);
       } catch {
@@ -912,19 +1144,19 @@ export class TestMapLibreController {
 
   applyMobileTouchContract() {
     if (!this.map) return;
-    const elements = [
+    const elements = /** @type {HTMLElement[]} */ ([
       document.getElementById(typeof this.container === 'string' ? this.container : ''),
       this.map.getContainer?.(),
       this.map.getCanvasContainer?.(),
       this.map.getCanvas?.()
-    ].filter(Boolean);
+    ].filter(Boolean));
     for (const element of new Set(elements)) {
       element.style.touchAction = 'none';
       element.style.overscrollBehavior = 'contain';
       element.style.userSelect = 'none';
       element.style.webkitUserSelect = 'none';
-      element.style.webkitTouchCallout = 'none';
-      element.style.webkitOverflowScrolling = 'auto';
+      /** @type {WebkitTouchStyle} */ (element.style).webkitTouchCallout = 'none';
+      /** @type {WebkitTouchStyle} */ (element.style).webkitOverflowScrolling = 'auto';
     }
     const canvas = this.map.getCanvas?.();
     if (canvas) canvas.style.pointerEvents = 'auto';
@@ -975,6 +1207,11 @@ export class TestMapLibreController {
 
   // fit: false keeps the camera where it is (the timeline stepping between editions or
   // elections); the caller fits instead when it wants to.
+  /**
+   * @param {ControllerLayer} layer
+   * @param {{ fit?: boolean }} [options]
+   * @returns {Promise<void>}
+   */
   async loadLayer(layer, { fit = true } = {}) {
     if (layer.loadable === false || layer.sourceType === 'unconverted') {
       throw new Error(`${layer.name} is not yet converted for the /test MapLibre renderer`);
@@ -985,13 +1222,14 @@ export class TestMapLibreController {
     }
     // The layer's load machine (layer-load.mjs): a layer already loading is waited for, not
     // added a second time.
-    const loads = this.layerLoads || (this.layerLoads = new Map());
+    const loads = this.layerLoads || (this.layerLoads = /** @type {Map<string, LayerLoad>} */ (new Map()));
     const pending = loads.get(layer.id);
     if (pending) {
       await pending.promise;
       if (fit && this.layers.has(layer.id)) this.fitToLayer(layer.id);
       return;
     }
+    /** @type {LayerLoad} */
     const load = { run: LAYER_LOAD.start(), promise: null };
     load.run.to('loading');
     loads.set(layer.id, load);
@@ -1001,7 +1239,13 @@ export class TestMapLibreController {
     return load.promise;
   }
 
-  /** loadLayer's work once the layer is known not to be on the map or on its way. */
+  /**
+   * loadLayer's work once the layer is known not to be on the map or on its way.
+   * @param {ControllerLayer} layer
+   * @param {{ fit: boolean }} options
+   * @param {LayerLoad} load
+   * @returns {Promise<void>}
+   */
   async addLayerToMap(layer, { fit }, load) {
     const started = performance.now();
     const sourceId = `${layer.id}-source`;
@@ -1021,6 +1265,7 @@ export class TestMapLibreController {
 
     // The layer's renderer (layer-kinds/: the layer-type code registry) says how it is drawn.
     const renderer = layerRenderer(layer.sourceType);
+    /** @type {OverlayIds} */
     let interactionOverlayIds = { layerIds: [], sourceIds: [] };
     if (renderer?.customLayer) {
       // Point clouds render as a MapLibre CustomLayerInterface owning their own
@@ -1092,6 +1337,10 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @param {{ sourceId: string, rasterId: string }} ids
+   */
   addRasterLayer(layer, ids) {
     this.map.addLayer({
       id: ids.rasterId,
@@ -1107,8 +1356,14 @@ export class TestMapLibreController {
   // already added; enable it as the map's terrain and, if present, drape a baked
   // hillshade raster over it. MapLibre supports a single global terrain, so the
   // most recently loaded raster-dem layer owns the terrain until it is unloaded.
+  /**
+   * @param {ControllerLayer} layer
+   * @param {{ sourceId: string, rasterId: string }} ids
+   * @returns {OverlayIds}
+   */
   addTerrainLayer(layer, ids) {
     const { sourceId, rasterId } = ids;
+    /** @type {OverlayIds} */
     const overlay = { layerIds: [], sourceIds: [] };
     const exaggeration = clamp(layer.exaggeration ?? 1.5, 0, 12);
     this.map.setTerrain({ source: sourceId, exaggeration });
@@ -1145,6 +1400,7 @@ export class TestMapLibreController {
     return overlay;
   }
 
+  /** @param {unknown} value */
   setTerrainExaggeration(value) {
     if (!this.terrainSourceId) return;
     const exaggeration = clamp(value, 0, 12);
@@ -1156,8 +1412,12 @@ export class TestMapLibreController {
   // Each point cloud is a MapLibre CustomLayerInterface (see point-cloud-layer.js)
   // rendering a pre-flattened point file with MapLibre's own projection. deck.gl
   // 9.3.6 does not paint point geometry over maplibre-gl 5.24, so we render natively.
+  /**
+   * @param {ControllerLayer} layer
+   * @returns {OverlayIds}
+   */
   addPointCloudLayer(layer) {
-    if (!this.pointCloudLayers) this.pointCloudLayers = new Map();
+    if (!this.pointCloudLayers) this.pointCloudLayers = /** @type {Map<string, PointCloudCustomLayer>} */ (new Map());
     if (this.pointCloudLayers.has(layer.id)) return { layerIds: [`pointcloud-${layer.id}`], sourceIds: [] };
     if (typeof this.map.setMaxPitch === 'function' && this.map.getMaxPitch() < 80) {
       this.map.setMaxPitch(85);
@@ -1166,6 +1426,7 @@ export class TestMapLibreController {
     const tilesetUrl = String(layer.tilesetUrl || '');
     const record = this.layers.get(layer.id);
     const opacity = clamp(record?.opacity ?? resolveLayerOpacity(layer), 0, 1);
+    /** @type {PointCloudCustomLayer} */
     let custom;
     if (layer.pcFlat) {
       // Legacy flat single-file path: a pre-flattened point file (pc.json header +
@@ -1185,17 +1446,27 @@ export class TestMapLibreController {
     return { layerIds: [`pointcloud-${layer.id}`], sourceIds: [] };
   }
 
+  /** @param {string} layerId */
   removePointCloudLayer(layerId) {
     const custom = this.pointCloudLayers?.get(layerId);
     if (!custom) return;
     try { if (this.map.getLayer(custom.id)) this.map.removeLayer(custom.id); } catch (e) { /* ignore */ }
-    this.pointCloudLayers.delete(layerId);
+    // A layer was found in it, so the map of point clouds exists.
+    /** @type {Map<string, PointCloudCustomLayer>} */ (this.pointCloudLayers).delete(layerId);
   }
 
+  /**
+   * @param {string} layerId
+   * @param {unknown} size
+   */
   setPointSize(layerId, size) {
     this.pointCloudLayers?.get(layerId)?.setPointSize(clamp(Number(size) || 2.5, 0.5, 10));
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @param {{ sourceId: string, fillId: string, lineId: string, hoverId: string, selectedFillId: string, selectedId: string }} ids
+   */
   addGeometryLayers(layer, ids) {
     const { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId } = ids;
     if (layer.geometryType !== 'line' && layer.geometryType !== 'point') {
@@ -1214,7 +1485,8 @@ export class TestMapLibreController {
       });
     }
 
-    this.map.addLayer({
+    // A circle layer for points, a line layer otherwise, each with its own paint.
+    this.map.addLayer(/** @type {import('maplibre-gl').LayerSpecification} */ ({
       id: lineId,
       type: layer.geometryType === 'point' ? 'circle' : 'line',
       source: sourceId,
@@ -1228,7 +1500,7 @@ export class TestMapLibreController {
         'line-width': ['interpolate', ['linear'], ['zoom'], 5, Math.max(0.4, Number(layer.style?.weight || 1) * 0.55), 12, Math.max(0.8, Number(layer.style?.weight || 1) * 1.4)],
         'line-opacity': 0.88
       }
-    });
+    }));
 
     if (layer.geometryType === 'point') {
       this.map.addLayer({
@@ -1317,12 +1589,18 @@ export class TestMapLibreController {
   // Approximate stretches of a reconstructed edition (approximate-segments.js): a casing that breaks the
   // solid line underneath, dots in the layer's own colour, and a wide invisible line that takes the
   // pointer for the tooltip. Loaded from the edition's small GeoJSON and drawn above the layer's line.
+  /**
+   * @param {ControllerLayer} layer
+   * @returns {OverlayIds}
+   */
   addApproximateSegmentLayers(layer) {
     const url = layer.geometryType === 'point' ? '' : resolveApproximateSegmentsUrl(layer);
     if (!url) return { layerIds: [], sourceIds: [] };
     const { sourceId, gapId, lineId, hitId } = approximateSegmentIds(layer.id);
     const weight = Number(layer.style?.weight || 1);
+    /** @type {import('maplibre-gl').ExpressionSpecification} */
     const lineWidth = ['interpolate', ['linear'], ['zoom'], 5, Math.max(0.6, weight * 0.7), 12, Math.max(1.6, weight * 1.6)];
+    /** @type {import('maplibre-gl').ExpressionSpecification} */
     const gapWidth = ['interpolate', ['linear'], ['zoom'], 5, Math.max(1.4, weight * 0.55 + 1), 12, Math.max(2.6, weight * 1.4 + 1.4)];
     this.map.addSource(sourceId, { type: 'geojson', data: url });
     this.map.addLayer({
@@ -1354,10 +1632,16 @@ export class TestMapLibreController {
     return { layerIds: [gapId, lineId, hitId], sourceIds: [sourceId] };
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @returns {(() => void) | null} the cleanup
+   */
   bindApproximateSegmentInteractions(layer) {
     const { hitId } = approximateSegmentIds(layer.id);
     if (!this.map.getLayer(hitId)) return null;
+    /** @type {import('maplibre-gl').Popup | null} */
     let popup = null;
+    /** @param {MapMouseEvent & { features?: MapFeature[] }} event */
     const show = (event) => {
       const feature = event.features?.[0];
       if (!feature) return;
@@ -1374,7 +1658,7 @@ export class TestMapLibreController {
     };
     const hide = () => popup?.remove();
     // A tap has no hover: show the same note, and let the area underneath be selected as usual.
-    const onTap = (event) => {
+    const onTap = (/** @type {MapMouseEvent & { features?: MapFeature[] }} */ event) => {
       if (typeof window.matchMedia === 'function' && !window.matchMedia('(hover: none)').matches) return;
       show(event);
     };
@@ -1391,14 +1675,19 @@ export class TestMapLibreController {
     };
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @returns {OverlayIds}
+   */
   addInteractionOverlayLayers(layer) {
     const hoverSourceId = `${layer.id}-fallback-hover-source`;
     const selectedSourceId = `${layer.id}-fallback-selected-source`;
     this.map.addSource(hoverSourceId, { type: 'geojson', data: EMPTY_FEATURE_COLLECTION });
     this.map.addSource(selectedSourceId, { type: 'geojson', data: EMPTY_FEATURE_COLLECTION });
+    /** @type {string[]} */
     const layerIds = [];
     const sourceIds = [hoverSourceId, selectedSourceId];
-    const addPointLayer = (id, source, radius) => {
+    const addPointLayer = (/** @type {string} */ id, /** @type {string} */ source, /** @type {number} */ radius) => {
       this.map.addLayer({
         id,
         type: 'circle',
@@ -1413,7 +1702,7 @@ export class TestMapLibreController {
       });
       layerIds.push(id);
     };
-    const addLineLayer = (id, source, width = 3) => {
+    const addLineLayer = (/** @type {string} */ id, /** @type {string} */ source, width = 3) => {
       this.map.addLayer({
         id,
         type: 'line',
@@ -1426,7 +1715,7 @@ export class TestMapLibreController {
       });
       layerIds.push(id);
     };
-    const addFillLayer = (id, source) => {
+    const addFillLayer = (/** @type {string} */ id, /** @type {string} */ source) => {
       this.map.addLayer({
         id,
         type: 'fill',
@@ -1470,7 +1759,7 @@ export class TestMapLibreController {
         if (!this.map.getLayer(labelId)) continue;
         try {
           this.map.setLayoutProperty(labelId, 'text-field', buildLabelTextExpression(layer));
-          this.map.setFilter(labelId, buildLabelFilter(layer));
+          this.map.setFilter(labelId, /** @type {FilterSpecification} */ (buildLabelFilter(layer)));
         } catch (error) {
           console.warn('[i18n] could not relabel', labelId, error);
         }
@@ -1479,6 +1768,11 @@ export class TestMapLibreController {
     this.scheduleAllDomLabelRefresh();
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @param {{ sourceId: string, labelId: string }} ids
+   * @returns {string[]}
+   */
   addLabelLayers(layer, ids) {
     if (!layer.labelProperty) return [];
     const { sourceId, labelId } = ids;
@@ -1492,9 +1786,9 @@ export class TestMapLibreController {
       'source-layer': layer.sourceLayer,
       minzoom: labelMinZoom,
       maxzoom: labelMaxZoom,
-      filter: buildLabelFilter(layer),
+      filter: /** @type {FilterSpecification} */ (buildLabelFilter(layer)),
       layout: {
-        'text-field': buildLabelTextExpression(layer),
+        'text-field': /** @type {string | import('maplibre-gl').ExpressionSpecification} */ (buildLabelTextExpression(layer)),
         'text-size': buildLabelTextSizeExpression(layer, DEFAULT_TEXT_SCALE),
         'text-font': buildLabelFontStack(labelStyle),
         'text-max-width': labelStyle.maxWidth,
@@ -1503,10 +1797,10 @@ export class TestMapLibreController {
         'text-padding': 2,
         'text-allow-overlap': Boolean(layer.labelAllowOverlap),
         'text-ignore-placement': Boolean(layer.labelIgnorePlacement),
-        'symbol-sort-key': buildLabelSortExpression(layer)
+        'symbol-sort-key': /** @type {import('maplibre-gl').ExpressionSpecification} */ (buildLabelSortExpression(layer))
       },
       paint: {
-        'text-color': buildLabelColorExpression(layer),
+        'text-color': /** @type {import('maplibre-gl').ExpressionSpecification} */ (buildLabelColorExpression(layer)),
         'text-halo-color': labelStyle.haloColor,
         'text-halo-width': labelStyle.haloWidth,
         'text-halo-blur': labelStyle.haloBlur,
@@ -1516,6 +1810,7 @@ export class TestMapLibreController {
     return [labelId];
   }
 
+  /** @param {string} layerId */
   unloadLayer(layerId) {
     const record = this.layers.get(layerId);
     if (!record) {
@@ -1523,7 +1818,8 @@ export class TestMapLibreController {
       const load = this.layerLoads?.get(layerId);
       if (load) {
         load.run.to('absent');
-        this.layerLoads.delete(layerId);
+        // A load was found in it, so the map of loads exists.
+        /** @type {Map<string, LayerLoad>} */ (this.layerLoads).delete(layerId);
       }
       return;
     }
@@ -1569,6 +1865,10 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  /**
+   * @param {string} layerId
+   * @param {unknown} opacity
+   */
   setOpacity(layerId, opacity) {
     const record = this.layers.get(layerId);
     if (!record) return;
@@ -1593,6 +1893,10 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  /**
+   * @param {string} layerId
+   * @param {unknown} color
+   */
   setLayerColor(layerId, color) {
     const record = this.layers.get(layerId);
     if (!record || !isColor(color)) return;
@@ -1607,6 +1911,10 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  /**
+   * @param {string} layerId
+   * @param {unknown} color
+   */
   setLayerFillColor(layerId, color) {
     const record = this.layers.get(layerId);
     if (!record || !isColor(color)) return;
@@ -1616,6 +1924,10 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  /**
+   * @param {string} layerId
+   * @param {unknown} width
+   */
   setLayerStrokeWidth(layerId, width) {
     const record = this.layers.get(layerId);
     if (!record) return;
@@ -1631,12 +1943,18 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  /**
+   * @param {string} layerId
+   * @param {string} attribute
+   * @param {unknown} value
+   * @returns {boolean}
+   */
   setLayerAttributeFilter(layerId, attribute, value) {
     const record = this.layers.get(layerId);
     if (!record || !attribute) return false;
     const filter = value === undefined || value === null || value === ''
       ? null
-      : ['==', ['to-string', ['get', attribute]], String(value)];
+      : /** @type {FilterSpecification} */ (['==', ['to-string', ['get', attribute]], String(value)]);
     for (const layerIdToFilter of record.layerIds || []) {
       if (!this.map.getLayer(layerIdToFilter) || /label|hover|selected/i.test(layerIdToFilter)) continue;
       this.map.setFilter(layerIdToFilter, filter);
@@ -1646,6 +1964,10 @@ export class TestMapLibreController {
     return true;
   }
 
+  /**
+   * @param {string} layerId
+   * @returns {boolean}
+   */
   clearLayerFilter(layerId) {
     const record = this.layers.get(layerId);
     if (!record) return false;
@@ -1658,6 +1980,10 @@ export class TestMapLibreController {
     return true;
   }
 
+  /**
+   * @param {string} layerId
+   * @param {unknown} enabled
+   */
   setLayerLabelsEnabled(layerId, enabled) {
     const record = this.layers.get(layerId);
     if (!record) return;
@@ -1672,6 +1998,10 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  /**
+   * @param {string} layerId
+   * @param {unknown} scale
+   */
   setLayerTextScale(layerId, scale) {
     const record = this.layers.get(layerId);
     if (!record) return;
@@ -1685,6 +2015,11 @@ export class TestMapLibreController {
     this.notifyChange();
   }
 
+  /**
+   * @param {string} layerId
+   * @param {number} delta
+   * @returns {boolean}
+   */
   moveLayerOrder(layerId, delta) {
     if (!this.layers.has(layerId) || !delta) return false;
     const entries = [...this.layers.entries()];
@@ -1700,6 +2035,11 @@ export class TestMapLibreController {
     return true;
   }
 
+  /**
+   * @param {string} layerId
+   * @param {string} beforeLayerId
+   * @returns {boolean}
+   */
   moveLayerBefore(layerId, beforeLayerId) {
     if (!this.layers.has(layerId) || !this.layers.has(beforeLayerId) || layerId === beforeLayerId) return false;
     const entries = [...this.layers.entries()];
@@ -1721,8 +2061,8 @@ export class TestMapLibreController {
     if (!order.length || this.layers.size < 2) return;
     const ranked = new Map(order.map((id, index) => [id, index]));
     const entries = [...this.layers.entries()].sort((a, b) => {
-      const rankA = ranked.has(a[0]) ? ranked.get(a[0]) : Number.MAX_SAFE_INTEGER;
-      const rankB = ranked.has(b[0]) ? ranked.get(b[0]) : Number.MAX_SAFE_INTEGER;
+      const rankA = /** @type {number} */ (ranked.has(a[0]) ? ranked.get(a[0]) : Number.MAX_SAFE_INTEGER);
+      const rankB = /** @type {number} */ (ranked.has(b[0]) ? ranked.get(b[0]) : Number.MAX_SAFE_INTEGER);
       return rankA - rankB;
     });
     this.layers = new Map(entries);
@@ -1738,6 +2078,7 @@ export class TestMapLibreController {
     this.scheduleAllDomLabelRefresh();
   }
 
+  /** @param {string} layerId */
   applySavedLayerPreferences(layerId) {
     const saved = readLayerPreferences(layerId);
     if (!saved) return;
@@ -1749,6 +2090,12 @@ export class TestMapLibreController {
     if (saved.textScale !== undefined) this.setLayerTextScale(layerId, Number(saved.textScale));
   }
 
+  /**
+   * @param {string} layerId
+   * @param {FeatureId | null | undefined} featureId
+   * @param {Record<string, unknown>} [properties]
+   * @returns {boolean}
+   */
   selectFeatureById(layerId, featureId, properties = {}) {
     const record = this.layers.get(layerId);
     if (!record || featureId === undefined || featureId === null || NO_FEATURE_STATE_TYPES.has(record.config.sourceType)) return false;
@@ -1772,6 +2119,7 @@ export class TestMapLibreController {
     return true;
   }
 
+  /** @param {string} layerId */
   fitToLayer(layerId) {
     const record = this.layers.get(layerId);
     if (!record) return;
@@ -1780,6 +2128,10 @@ export class TestMapLibreController {
     });
   }
 
+  /**
+   * @param {unknown} boundsValue south-west and north-east as [lat, lng] pairs
+   * @param {{ terrain?: boolean }} [options]
+   */
   fitToBounds(boundsValue, options = {}) {
     const bounds = boundsToMapLibre(boundsValue);
     if (!bounds) return;
@@ -1822,11 +2174,17 @@ export class TestMapLibreController {
    * when it eased the camera to these bounds (south-west/north-east as [lat, lng] pairs, or in
    * MapLibre's own [lng, lat] order with `mapLibre`).
    */
+  /**
+   * @param {unknown} boundsValue
+   * @param {{ mapLibre?: boolean }} [options]
+   * @returns {boolean}
+   */
   flattenAfter3d(boundsValue, { mapLibre = false } = {}) {
-    const is3d = (r) => THREE_D_TYPES.has(r.config?.sourceType);
+    const is3d = (/** @type {LayerRecord} */ r) => THREE_D_TYPES.has(r.config?.sourceType);
     if (!this.autoTilted || [...this.layers.values()].some(is3d)) return false;
     this.autoTilted = false;
-    const bounds = mapLibre ? boundsValue : boundsToMapLibre(boundsValue);
+    // In MapLibre's own order already when `mapLibre` says so.
+    const bounds = /** @type {import('maplibre-gl').LngLatBoundsLike | null} */ (mapLibre ? boundsValue : boundsToMapLibre(boundsValue));
     if (!bounds || !(this.map.getPitch() > 0) || typeof this.map.cameraForBounds !== 'function') return false;
     const camera = this.map.cameraForBounds(bounds, { padding: 36, bearing: 0 });
     if (!camera) return false;
@@ -1834,7 +2192,11 @@ export class TestMapLibreController {
     return true;
   }
 
-  /** The layer's MapLibre source, from its renderer (layer-kinds/); a type with none throws. */
+  /**
+   * The layer's MapLibre source, from its renderer (layer-kinds/); a type with none throws.
+   * @param {ControllerLayer} layer
+   * @returns {import('maplibre-gl').SourceSpecification}
+   */
   buildSource(layer) {
     const renderer = layerRenderer(layer.sourceType);
     if (!renderer?.source) throw new Error(`unsupported sourceType ${layer.sourceType}`);
@@ -1856,12 +2218,14 @@ export class TestMapLibreController {
    * its tiles that did load lets the caller tell "drawn" from "every request failed".
    */
   installSourceHealthWatch() {
+    /** @type {Map<string, SourceHealth>} */
     this.sourceHealth = new Map();
-    const entry = (sourceId) => {
-      if (!this.sourceHealth.has(sourceId)) this.sourceHealth.set(sourceId, { errors: 0, loaded: 0, sourceError: '', message: '' });
-      return this.sourceHealth.get(sourceId);
+    const entry = (/** @type {string} */ sourceId) => {
+      // this.sourceHealth is set just above, before any event can arrive.
+      if (!/** @type {Map<string, SourceHealth>} */ (this.sourceHealth).has(sourceId)) /** @type {Map<string, SourceHealth>} */ (this.sourceHealth).set(sourceId, { errors: 0, loaded: 0, sourceError: '', message: '' });
+      return /** @type {SourceHealth} */ (/** @type {Map<string, SourceHealth>} */ (this.sourceHealth).get(sourceId));
     };
-    this.map.on('error', (event) => {
+    this.map.on('error', (/** @type {MapSourceEventView} */ event) => {
       // A request still in flight when its layer was removed must not count against the
       // source of the same id that a Retry adds.
       if (!event?.sourceId || !this.map.getSource(event.sourceId)) return;
@@ -1872,7 +2236,7 @@ export class TestMapLibreController {
       // No tile: the source itself could not load (a PMTiles header, a TileJSON).
       if (!event.tile) health.sourceError = message;
     });
-    this.map.on('sourcedata', (event) => {
+    this.map.on('sourcedata', (/** @type {MapSourceEventView} */ event) => {
       if (!event?.sourceId || !event.tile || event.tile.state !== 'loaded') return;
       entry(event.sourceId).loaded += 1;
     });
@@ -1882,6 +2246,10 @@ export class TestMapLibreController {
    * Why a loaded layer has nothing to show, or null. 'source': the source could not load at all;
    * 'tiles': tiles were asked for and every one failed. A layer with a single good tile is fine:
    * a missing tile at the edge of an archive is not a failed load.
+   */
+  /**
+   * @param {string} layerId
+   * @returns {{ kind: 'source' | 'tiles', message: string } | null}
    */
   getLayerLoadFailure(layerId) {
     const layer = this.layers.get(layerId);
@@ -1895,12 +2263,18 @@ export class TestMapLibreController {
     return null;
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @param {string} sourceId
+   * @returns {() => void} the cleanup
+   */
   monitorPmtilesFallback(layer, sourceId) {
     let settled = false;
     const timer = setTimeout(() => {
       settled = true;
       this.map.off('error', onError);
     }, 9000);
+    /** @param {MapSourceEventView} event */
     const onError = (event) => {
       if (settled || !this.layers.has(layer.id)) return;
       const message = String(event?.error?.message || event?.error || '');
@@ -1934,12 +2308,12 @@ export class TestMapLibreController {
       const fallback = {
         ...layer,
         sourceType: 'mvt',
-        tiles: layer.tilesFallback,
+        tiles: /** @type {string} */ (layer.tilesFallback),
         tileUrl: undefined,
         fallbackFromPmtiles: true
       };
       this.unloadLayer(layer.id);
-      this.loadLayer(fallback).catch((err) => {
+      this.loadLayer(fallback).catch((/** @type {Error} */ err) => {
         this.recordMetric({
           layerId: layer.id,
           layerName: layer.name,
@@ -1960,15 +2334,28 @@ export class TestMapLibreController {
     };
   }
 
-  bindLayerInteractions(layer, fillId, labelId, sourceId) {
+  /**
+   * @param {ControllerLayer} layer
+   * @param {string} fillId
+   * @param {string} _labelId
+   * @param {string} sourceId
+   * @returns {() => void} the cleanup
+   */
+  bindLayerInteractions(layer, fillId, _labelId, sourceId) {
     let lastHoverAt = 0;
+    /** @type {MapMouseEvent | null} */
     let pendingHoverEvent = null;
     let hoverFrame = 0;
     const clearHover = () => this.clearHover();
+    /**
+     * @param {import('maplibre-gl').Point} point
+     * @param {number} [radius]
+     * @returns {MapFeature[]}
+     */
     const queryAtPoint = (point, radius = 0) => {
       const queryLayers = [fillId, `${layer.id}-line`].filter((id) => id && this.map.getLayer(id));
       if (queryLayers.length === 0) return [];
-      const geometry = radius > 0 ? [[point.x - radius, point.y - radius], [point.x + radius, point.y + radius]] : point;
+      const geometry = /** @type {PointLike | [PointLike, PointLike]} */ (radius > 0 ? [[point.x - radius, point.y - radius], [point.x + radius, point.y + radius]] : point);
       return this.map.queryRenderedFeatures(geometry, { layers: queryLayers });
     };
     const runHoverQuery = () => {
@@ -1987,7 +2374,7 @@ export class TestMapLibreController {
       }
       this.setHover(layer, queryAtPoint(event.point)[0]);
     };
-    const onMouseMove = (event) => {
+    const onMouseMove = (/** @type {MapMouseEvent} */ event) => {
       const original = event.originalEvent;
       if (original && document.elementFromPoint(original.clientX, original.clientY)?.closest?.('.maplibre-dom-label')) {
         return;
@@ -2001,20 +2388,20 @@ export class TestMapLibreController {
       lastHoverAt = now;
       if (!hoverFrame) hoverFrame = requestAnimationFrame(runHoverQuery);
     };
-    const onContainerPointerMove = (event) => {
-      const labelElement = event.target?.closest?.('.maplibre-dom-label')
-        || document.elementFromPoint(event.clientX, event.clientY)?.closest?.('.maplibre-dom-label');
+    const onContainerPointerMove = (/** @type {PointerEvent} */ event) => {
+      const labelElement = /** @type {DomLabelElement | null | undefined} */ (/** @type {Element | null} */ (event.target)?.closest?.('.maplibre-dom-label')
+        || document.elementFromPoint(event.clientX, event.clientY)?.closest?.('.maplibre-dom-label'));
       if (labelElement?.dataset?.layerId !== layer.id) return;
       const feature = labelElement.__civgraphFeature;
       if (feature) this.setHover(layer, feature);
     };
-    const onDoubleClick = (event) => {
+    const onDoubleClick = (/** @type {MapMouseEvent} */ event) => {
       if (this.options.shouldSuppressLayerInteraction?.(event)) return;
       event.preventDefault?.();
       const feature = queryAtPoint(event.point, CLICK_TOLERANCE_PX)[0];
       if (feature) this.selectFeature(layer, feature);
     };
-    const onClick = (event) => {
+    const onClick = (/** @type {MapMouseEvent} */ event) => {
       const original = event.originalEvent;
       if (this.options.shouldSuppressLayerInteraction?.(event)) return;
       if (original && document.elementFromPoint(original.clientX, original.clientY)?.closest?.('.maplibre-dom-label, .maplibregl-ctrl, .map-controls, .active-layers-toggle')) {
@@ -2057,13 +2444,23 @@ export class TestMapLibreController {
     };
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @param {FeatureLike | null | undefined} feature
+   */
   readFeatureId(layer, feature) {
     return this.readFeatureIdentity(layer, feature).id;
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @param {FeatureLike | null | undefined} feature
+   * @returns {{ id: FeatureId | null, generated: boolean, sourceFeatureId?: FeatureId, duplicatePromoteId?: boolean }}
+   */
   readFeatureIdentity(layer, feature) {
     const idProperty = layer?.promoteId || 'id';
-    const id = feature?.id ?? feature?.properties?.[idProperty] ?? feature?.properties?.id;
+    // A promoted id property holds a string or a number, as MapLibre's own feature ids do.
+    const id = /** @type {FeatureId | null | undefined} */ (feature?.id ?? feature?.properties?.[idProperty] ?? feature?.properties?.id);
     if (id !== undefined && id !== null && id !== '') {
       const duplicateIds = this.layers.get(layer.id)?.duplicateFeatureIds;
       if (duplicateIds?.has(String(id))) {
@@ -2076,6 +2473,10 @@ export class TestMapLibreController {
     return generated ? { id: generated, generated: true } : { id: null, generated: true };
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @returns {Promise<Set<string>>}
+   */
   async loadDuplicateFeatureIds(layer) {
     if (layer?.featureIdMode === 'unique' || layer?.duplicateFeatureIdCount === 0) return new Set();
     if (Array.isArray(layer?.duplicateFeatureIds)) return new Set(layer.duplicateFeatureIds.map(String));
@@ -2085,10 +2486,10 @@ export class TestMapLibreController {
       if (!this.duplicateFeatureIdCache.has(cacheKey)) {
         this.duplicateFeatureIdCache.set(cacheKey, fetch(sidecarUrl, { cache: 'default' })
           .then((response) => response.ok ? response.json() : null)
-          .then((sidecar) => new Set((sidecar?.duplicateFeatureIds || []).map(String)))
-          .catch(() => new Set()));
+          .then((/** @type {{ duplicateFeatureIds?: unknown[] } | null} */ sidecar) => new Set((sidecar?.duplicateFeatureIds || []).map(String)))
+          .catch(() => /** @type {Set<string>} */ (new Set())));
       }
-      return this.duplicateFeatureIdCache.get(cacheKey);
+      return /** @type {Promise<Set<string>>} */ (this.duplicateFeatureIdCache.get(cacheKey));
     }
     const url = layer?.featureIndexUrl;
     if (!url) return new Set();
@@ -2096,10 +2497,11 @@ export class TestMapLibreController {
     if (!this.duplicateFeatureIdCache.has(cacheKey)) {
       this.duplicateFeatureIdCache.set(cacheKey, fetch(url, { cache: 'default' })
         .then((response) => response.ok ? response.json() : null)
-        .then((index) => {
-          const items = Array.isArray(index)
+        .then((/** @type {unknown[] | { items?: unknown, features?: unknown } | null} */ index) => {
+          const items = /** @type {Array<{ id?: unknown } | null | undefined>} */ (Array.isArray(index)
             ? index
-            : (Array.isArray(index?.items) ? index.items : (Array.isArray(index?.features) ? index.features : []));
+            : (Array.isArray(index?.items) ? index.items : (Array.isArray(index?.features) ? index.features : [])));
+          /** @type {Map<string, number>} */
           const counts = new Map();
           for (const item of items) {
             if (item?.id === undefined || item?.id === null || item.id === '') continue;
@@ -2108,9 +2510,9 @@ export class TestMapLibreController {
           }
           return new Set([...counts].filter(([, count]) => count > 1).map(([key]) => key));
         })
-        .catch(() => new Set()));
+        .catch(() => /** @type {Set<string>} */ (new Set())));
     }
-    return this.duplicateFeatureIdCache.get(cacheKey);
+    return /** @type {Promise<Set<string>>} */ (this.duplicateFeatureIdCache.get(cacheKey));
   }
 
   clearHover({ resetCursor = true } = {}) {
@@ -2121,6 +2523,10 @@ export class TestMapLibreController {
     if (resetCursor) this.setMapCursor('');
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @param {FeatureLike | null | undefined} feature
+   */
   setHover(layer, feature) {
     const { id, generated } = this.readFeatureIdentity(layer, feature);
     if (id === null) {
@@ -2143,7 +2549,7 @@ export class TestMapLibreController {
     const highlightViaOverlay = generated || layer.geometryType === 'point' || layer.geometryType === 'line';
     if (!generated && !highlightViaOverlay) {
       try {
-        this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { hover: true });
+        this.map.setFeatureState({ source: /** @type {LayerRecord} */ (record).sourceId, sourceLayer: layer.sourceLayer, id }, { hover: true });
       } catch {}
     }
     if (highlightViaOverlay) {
@@ -2154,6 +2560,11 @@ export class TestMapLibreController {
     this.setMapCursor('pointer');
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @param {FeatureLike} feature
+   * @returns {boolean}
+   */
   selectFeature(layer, feature) {
     const { id, generated } = this.readFeatureIdentity(layer, feature);
     if (id === null) return false;
@@ -2212,12 +2623,18 @@ export class TestMapLibreController {
   // feature's area is computed instead of a single tile-clipped slice. Returns
   // null when the feature isn't split (nothing to merge) so callers keep the
   // original geometry. Bounded to fragments in loaded tiles.
+  /**
+   * @param {ControllerLayer} layer
+   * @param {FeatureId} id
+   * @returns {{ type: 'MultiPolygon', coordinates: unknown[] } | null}
+   */
   mergePolygonFragments(layer, id) {
     const record = this.layers.get(layer.id);
     const sourceId = record?.sourceId;
     const target = String(id);
+    /** @type {unknown[]} */
     const coordinates = [];
-    const collect = (features) => {
+    const collect = (/** @type {FeatureLike[]} */ features) => {
       for (const fragment of features || []) {
         if (String(this.readFeatureIdentity(layer, fragment).id) !== target) continue;
         const geometry = fragment.geometry;
@@ -2225,7 +2642,7 @@ export class TestMapLibreController {
         if (geometry.type === 'Polygon') {
           coordinates.push(geometry.coordinates);
         } else if (geometry.type === 'MultiPolygon') {
-          for (const polygon of geometry.coordinates) coordinates.push(polygon);
+          for (const polygon of /** @type {unknown[]} */ (geometry.coordinates)) coordinates.push(polygon);
         }
       }
     };
@@ -2236,7 +2653,7 @@ export class TestMapLibreController {
       try {
         collect(this.map.querySourceFeatures(sourceId, {
           sourceLayer: layer.sourceLayer,
-          filter: ['==', ['get', layer.promoteId || 'id'], id]
+          filter: /** @type {FilterSpecification} */ (['==', ['get', layer.promoteId || 'id'], id])
         }));
       } catch { /* fall through to rendered-feature query */ }
     }
@@ -2254,10 +2671,16 @@ export class TestMapLibreController {
     return { type: 'MultiPolygon', coordinates };
   }
 
+  /**
+   * @param {string} layerId
+   * @param {'hover' | 'selected'} state
+   * @param {FeatureLike | null | undefined} feature
+   */
   setInteractionOverlay(layerId, state, feature) {
     const record = this.layers.get(layerId);
     const sourceId = `${layerId}-fallback-${state}-source`;
-    const source = record && this.map.getSource(sourceId);
+    // The overlay sources are GeoJSON (addInteractionOverlayLayers).
+    const source = /** @type {import('maplibre-gl').GeoJSONSource | undefined} */ (record && this.map.getSource(sourceId));
     if (!source?.setData) return;
     const geometry = cloneGeometry(feature?.geometry);
     if (!geometry) {
@@ -2269,16 +2692,21 @@ export class TestMapLibreController {
       features: [{
         type: 'Feature',
         geometry,
-        properties: { ...(feature.properties || {}) }
+        properties: { ...(/** @type {FeatureLike} */ (feature).properties || {}) }
       }]
     });
   }
 
+  /**
+   * @param {string | null | undefined} layerId
+   * @param {string} state
+   */
   clearInteractionOverlay(layerId, state) {
-    const source = layerId ? this.map.getSource(`${layerId}-fallback-${state}-source`) : null;
+    const source = /** @type {import('maplibre-gl').GeoJSONSource | null | undefined} */ (layerId ? this.map.getSource(`${layerId}-fallback-${state}-source`) : null);
     if (source?.setData) source.setData(EMPTY_FEATURE_COLLECTION);
   }
 
+  /** @param {string} layerId */
   scheduleDomLabelRefresh(layerId) {
     const record = this.layers.get(layerId);
     if (!record || !record.config?.labelProperty || NO_LABEL_TYPES.has(record.config.sourceType)) return;
@@ -2295,6 +2723,7 @@ export class TestMapLibreController {
     for (const layerId of this.layers.keys()) this.scheduleDomLabelRefresh(layerId);
   }
 
+  /** @param {string} layerId */
   refreshDomLabels(layerId) {
     const record = this.layers.get(layerId);
     if (!record || !record.config?.labelProperty) return;
@@ -2309,7 +2738,9 @@ export class TestMapLibreController {
     }
     const features = this.map.queryRenderedFeatures({ layers: queryLayers });
     const labelLimit = getDomLabelLimit(layer);
+    /** @type {Set<string>} */
     const nextKeys = new Set();
+    /** @type {LabelBox[]} */
     const labelBoxes = [];
     // Seed with the collision boxes of the layers ABOVE this one, so higher layers'
     // labels take priority: a lower layer skips any position already occupied by a
@@ -2350,11 +2781,11 @@ export class TestMapLibreController {
         marker = this.createDomLabelMarker(layer, feature, id, label);
         record.domLabelMarkers.set(key, marker);
       }
-      const element = marker.getElement();
+      const element = /** @type {DomLabelElement} */ (marker.getElement());
       element.__civgraphFeature = feature;
       const textElement = element.querySelector('div');
       if (textElement && textElement.textContent !== label) textElement.textContent = label;
-      const isSelected = this.selected?.layerId === layerId && String(this.selected.id) === key;
+      const isSelected = this.selected?.layerId === layerId && String(/** @type {FeatureSelection} */ (this.selected).id) === key;
       if (element.classList.contains('map-label--selected') !== isSelected) {
         element.classList.toggle('map-label--selected', isSelected);
       }
@@ -2367,7 +2798,7 @@ export class TestMapLibreController {
       }
       if (!element.isConnected) marker.addTo(this.map);
     }
-    const hoveredKey = this.hovered?.layerId === layerId ? String(this.hovered.id) : null;
+    const hoveredKey = this.hovered?.layerId === layerId ? String(/** @type {FeatureSelection} */ (this.hovered).id) : null;
     if (hoveredKey && record.domLabelMarkers.has(hoveredKey)) nextKeys.add(hoveredKey);
     for (const [key, marker] of record.domLabelMarkers) {
       if (!nextKeys.has(key)) {
@@ -2377,9 +2808,16 @@ export class TestMapLibreController {
     }
   }
 
+  /**
+   * @param {ControllerLayer} layer
+   * @param {FeatureLike} feature
+   * @param {FeatureId} id
+   * @param {string} label
+   * @returns {import('maplibre-gl').Marker}
+   */
   createDomLabelMarker(layer, feature, id, label) {
     const labelStyle = getLabelStyle(layer);
-    const element = document.createElement('span');
+    const element = /** @type {DomLabelElement} */ (document.createElement('span'));
     element.className = 'map-label map-label--clickable maplibre-dom-label';
     element.dataset.layerId = layer.id;
     element.dataset.featureId = String(id);
@@ -2392,7 +2830,7 @@ export class TestMapLibreController {
     text.style.color = labelStyle.color;
     text.style.fontSize = `${buildLabelTextSizeExpression(layer, this.layers.get(layer.id)?.textScale || DEFAULT_TEXT_SCALE)}px`;
     element.appendChild(text);
-    const select = (event) => {
+    const select = (/** @type {Event} */ event) => {
       event.preventDefault();
       event.stopPropagation();
       this.selectFeature(layer, element.__civgraphFeature || feature);
@@ -2410,6 +2848,7 @@ export class TestMapLibreController {
     return new maplibregl.Marker({ element, anchor: 'center' });
   }
 
+  /** @param {string} layerId */
   clearDomLabels(layerId) {
     const record = this.layers.get(layerId);
     if (!record?.domLabelMarkers) return;
@@ -2421,16 +2860,30 @@ export class TestMapLibreController {
     record.domLabelMarkers.clear();
   }
 
+  /**
+   * @param {string | null | undefined} layerId
+   * @param {FeatureId | null | undefined} featureId
+   * @param {boolean} isHover
+   */
   setDomLabelHover(layerId, featureId, isHover) {
-    const marker = this.layers.get(layerId)?.domLabelMarkers?.get(String(featureId));
+    const marker = this.layers.get(/** @type {string} */ (layerId))?.domLabelMarkers?.get(String(featureId));
     marker?.getElement().classList.toggle('map-label--hover', Boolean(isHover));
   }
 
+  /**
+   * @param {string | null | undefined} layerId
+   * @param {FeatureId | null | undefined} featureId
+   * @param {boolean} isSelected
+   */
   setDomLabelSelected(layerId, featureId, isSelected) {
-    const marker = this.layers.get(layerId)?.domLabelMarkers?.get(String(featureId));
+    const marker = this.layers.get(/** @type {string} */ (layerId))?.domLabelMarkers?.get(String(featureId));
     marker?.getElement().classList.toggle('map-label--selected', Boolean(isSelected));
   }
 
+  /**
+   * @param {FeatureSelection | null} selection
+   * @param {'hover' | 'selected'} key
+   */
   clearFeatureState(selection, key) {
     if (selection?.layerId) this.clearInteractionOverlay(selection.layerId, key);
     if (!selection?.sourceId || selection.id === undefined || selection.id === null) return;
@@ -2441,9 +2894,10 @@ export class TestMapLibreController {
     } catch {}
   }
 
+  /** @returns {Promise<void>} */
   waitForMap() {
     if (this.map.isStyleLoaded?.() || this.map.loaded()) return Promise.resolve();
-    return new Promise((resolve) => {
+    return new Promise((/** @type {(value?: void) => void} */ resolve) => {
       let timer = 0;
       const done = () => {
         clearTimeout(timer);
@@ -2464,6 +2918,7 @@ export class TestMapLibreController {
     this.options.onChange?.(this);
   }
 
+  /** @param {ControllerMetric} metric */
   recordMetric(metric) {
     this.metrics.push(metric);
     this.options.onMetric?.(metric);
@@ -2474,15 +2929,24 @@ export class TestMapLibreController {
   }
 }
 
+/**
+ * @param {unknown} value
+ * @returns {value is string}
+ */
 function isColor(value) {
   return typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value);
 }
 
+/**
+ * @param {FeatureLike | null | undefined} feature
+ * @returns {[number, number] | null}
+ */
 function featureLabelLngLat(feature) {
   const props = feature?.properties || {};
   const explicitLon = Number(props.label_lon ?? props.label_lng ?? props.lon ?? props.lng ?? props.longitude);
   const explicitLat = Number(props.label_lat ?? props.lat ?? props.latitude);
   if (Number.isFinite(explicitLon) && Number.isFinite(explicitLat)) return [explicitLon, explicitLat];
+  /** @type {number[][]} */
   const points = [];
   collectCoordinatePairs(feature?.geometry?.coordinates, points);
   if (!points.length) return null;
@@ -2501,6 +2965,11 @@ function featureLabelLngLat(feature) {
   return [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
 }
 
+/**
+ * @param {ScreenPoint} point
+ * @param {unknown} label
+ * @returns {LabelBox}
+ */
 function labelCollisionBox(point, label) {
   const width = Math.min(Math.max(String(label).length * 7.5, 34), 150);
   const height = Math.max(16, Math.ceil(String(label).length / 18) * 15);
@@ -2513,10 +2982,18 @@ function labelCollisionBox(point, label) {
   };
 }
 
+/**
+ * @param {LabelBox} a
+ * @param {LabelBox} b
+ */
 function boxesOverlap(a, b) {
   return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
 }
 
+/**
+ * @param {unknown} value
+ * @param {number[][]} out
+ */
 function collectCoordinatePairs(value, out) {
   if (!Array.isArray(value)) return;
   if (value.length >= 2 && typeof value[0] === 'number' && typeof value[1] === 'number') {
@@ -2526,6 +3003,11 @@ function collectCoordinatePairs(value, out) {
   for (const item of value) collectCoordinatePairs(item, out);
 }
 
+/**
+ * @param {ControllerLayer} layer
+ * @param {FeatureLike | null | undefined} feature
+ * @returns {string | null}
+ */
 function generatedFeatureId(layer, feature) {
   const properties = feature?.properties || {};
   const label = getFeatureLabel(layer, properties) || '';
@@ -2535,6 +3017,12 @@ function generatedFeatureId(layer, feature) {
   return key ? `generated:${hashString(key)}` : null;
 }
 
+/**
+ * @param {ControllerLayer} layer
+ * @param {FeatureLike | null | undefined} feature
+ * @param {unknown} rawId
+ * @returns {string | null}
+ */
 function fallbackGeneratedFeatureId(layer, feature, rawId) {
   const properties = feature?.properties || {};
   const label = getFeatureLabel(layer, properties) || '';
@@ -2549,7 +3037,12 @@ function fallbackGeneratedFeatureId(layer, feature, rawId) {
   return key ? `generated:${hashString(key)}` : null;
 }
 
+/**
+ * @param {FeatureLike['geometry']} geometry
+ * @returns {string}
+ */
 function geometrySignature(geometry) {
+  /** @type {number[][]} */
   const points = [];
   collectCoordinatePairs(geometry?.coordinates, points);
   if (!points.length) return '';
@@ -2584,15 +3077,20 @@ function geometrySignature(geometry) {
   ].join(':');
 }
 
+/**
+ * @param {Record<string, unknown>} properties
+ * @param {ControllerLayer} layer
+ * @returns {string}
+ */
 function stablePropertySignature(properties, layer) {
-  const keys = [
+  const keys = /** @type {string[]} */ ([
     layer?.labelProperty,
     ...(layer?.labelPropertyFallbacks || []),
     ...(layer?.popupProperties || []),
     'name',
     'Name',
     'NAME'
-  ].filter(Boolean);
+  ].filter(Boolean));
   return [...new Set(keys)]
     .slice(0, 8)
     .map((key) => {
@@ -2603,11 +3101,13 @@ function stablePropertySignature(properties, layer) {
     .join(';');
 }
 
+/** @param {unknown} value */
 function roundCoord(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number.toFixed(6) : '';
 }
 
+/** @param {unknown} value */
 function hashString(value) {
   let hash = 2166136261;
   const text = String(value);
@@ -2618,31 +3118,42 @@ function hashString(value) {
   return (hash >>> 0).toString(36);
 }
 
+/**
+ * @param {FeatureLike['geometry']} geometry
+ * @returns {import('geojson').Geometry | null}
+ */
 function cloneGeometry(geometry) {
   if (!geometry?.type || !geometry.coordinates) return null;
-  return JSON.parse(JSON.stringify({
+  return /** @type {import('geojson').Geometry} */ (JSON.parse(JSON.stringify({
     type: geometry.type,
     coordinates: geometry.coordinates
-  }));
+  })));
 }
 
+/**
+ * @param {string} layerId
+ * @returns {SavedLayerPreferences | null}
+ */
 function readLayerPreferences(layerId) {
   try {
-    return JSON.parse(localStorage.getItem(`civgraph:test:controls:${layerId}`) || 'null');
+    return /** @type {SavedLayerPreferences | null} */ (JSON.parse(localStorage.getItem(`civgraph:test:controls:${layerId}`) || 'null'));
   } catch {
     return null;
   }
 }
 
+/** @returns {string[]} */
 function readLayerOrder() {
   try {
-    return JSON.parse(localStorage.getItem('civgraph:test:layer-order') || '[]');
+    return /** @type {string[]} */ (JSON.parse(localStorage.getItem('civgraph:test:layer-order') || '[]'));
   } catch {
     return [];
   }
 }
 
+/** @param {string[]} order */
 function writeLayerOrder(order) {
+
   try {
     localStorage.setItem('civgraph:test:layer-order', JSON.stringify(order));
   } catch {}

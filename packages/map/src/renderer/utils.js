@@ -44,7 +44,11 @@ export function boundsToMapLibre(bounds) {
   return [[west, south], [east, north]];
 }
 
-/** @param {unknown} bounds */
+/**
+ * The bounds as MapLibre's flat [west, south, east, north]; undefined when they are not a pair.
+ * @param {unknown} bounds
+ * @returns {[number, number, number, number] | undefined}
+ */
 export function boundsToFlatBbox(bounds) {
   const converted = boundsToMapLibre(bounds);
   if (!converted) return undefined;
@@ -53,7 +57,7 @@ export function boundsToFlatBbox(bounds) {
 
 /**
  * @param {unknown} bounds
- * @returns {[number, number][] | null}
+ * @returns {[[number, number], [number, number], [number, number], [number, number]] | null}
  */
 export function boundsToImageCoordinates(bounds) {
   if (!Array.isArray(bounds) || bounds.length !== 2) return null;
