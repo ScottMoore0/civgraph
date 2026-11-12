@@ -47,7 +47,8 @@ try {
     geography: e.geography,
     valueColumn: e.valueColumn,
     joinKey: e.joinKey,
-    csv: e.csv ? `${SITE.origin}/${e.csv}` : undefined,
+    // The tables are on the data host, as the map app reads them (cdnUrl); civgraph.net answers 404 (site QA 12 Nov).
+    csv: e.csv ? `${SITE.dataOrigin}/${e.csv}` : undefined,
     source: e.source || undefined,
   }));
 } catch { /* none */ }

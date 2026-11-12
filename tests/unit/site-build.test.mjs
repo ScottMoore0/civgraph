@@ -55,3 +55,14 @@ test('every local file the pages, the service worker and llms.txt name is publis
   const missing = [...refs].filter((url) => !byFunction(url) && !isSiteFile(decodeURIComponent(url.slice(1))));
   assert.deepEqual(missing, []);
 });
+
+// Site QA 12 Nov 2026: the agent index named its census tables on civgraph.net, which answers
+// 404 for them; they are on the data host, as the map app reads them.
+test('the agent index links its tables and geometries on the data host', () => {
+  const index = JSON.parse(readFileSync(path.join(ROOT, 'site', 'agent', 'maps-index.json'), 'utf8'));
+  const offHost = [
+    ...index.dataOverlays.map((o) => o.csv),
+    ...index.maps.map((m) => m.geometry?.url),
+  ].filter((url) => url && !url.startsWith('https://data.civgraph.net/'));
+  assert.deepEqual(offHost, []);
+});
