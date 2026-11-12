@@ -56,7 +56,7 @@ export function parsePluginArgs(argv) {
 
 /**
  * @param {string[]} argv
- * @param {{ log?: (s: string) => void, err?: (s: string) => void, stdio?: any }} [io]
+ * @param {{ log?: (s: string) => void, err?: (s: string) => void, stdio?: import('node:child_process').StdioOptions }} [io]
  * @returns {Promise<number>}
  */
 export async function pluginMain(argv, { log = console.log, err = console.error, stdio = 'inherit' } = {}) {
@@ -106,7 +106,7 @@ async function listPlugins(repo, check, log) {
 /**
  * @param {string} repo
  * @param {ReturnType<typeof parsePluginArgs>} o
- * @param {{ log: (s: string) => void, err: (s: string) => void, stdio: any }} io
+ * @param {{ log: (s: string) => void, err: (s: string) => void, stdio: import('node:child_process').StdioOptions }} io
  */
 async function runCommand(repo, o, { log, err, stdio }) {
   if (o.positional.length !== 2) { err('intake: run <plugin> <batch-dir>'); return 2; }
@@ -144,7 +144,7 @@ async function runCommand(repo, o, { log, err, stdio }) {
 /**
  * @param {string} repo
  * @param {ReturnType<typeof parsePluginArgs>} o
- * @param {{ log: (s: string) => void, err: (s: string) => void, stdio: any }} io
+ * @param {{ log: (s: string) => void, err: (s: string) => void, stdio: import('node:child_process').StdioOptions }} io
  */
 async function parityCommand(repo, o, { log, err, stdio }) {
   if (o.positional.length !== 1) { err('intake: parity <plugin>'); return 2; }

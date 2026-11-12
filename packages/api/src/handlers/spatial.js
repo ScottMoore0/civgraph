@@ -27,7 +27,7 @@ async function readMapFeatures(context, url, mapId) {
     // Try KV first (faster, no origin fetch)
     if (kv) {
         const data = await kv.get(`map:${mapId}`, 'json');
-        return /** @type {any} */ (data) || [];
+        return /** @type {Array<{ bbox?: number[], [key: string]: unknown }> | null} */ (data) || [];
     }
     // Fallback: fetch the static chunk file from the origin
     try {

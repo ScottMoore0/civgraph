@@ -72,7 +72,7 @@ const CONTEST_TABLE_FIELDS = ['candidates', 'countGroup', 'animationPayload', 'f
 function withMeta(row) {
   if (!row) return row;
   const { meta, ...rest } = row;
-  const parsed = parseJson(meta);
+  const parsed = /** @type {Record<string, unknown> | null} */ (parseJson(meta));
   return parsed ? { ...rest, ...withoutMarkers(parsed) } : rest;
 }
 
@@ -310,8 +310,8 @@ async function handleView(db, view, url) {
       const k = await electionKeyFor(db, key);
       const row = /** @type {{ key: string, displayTitle: string | null, body: string | null, date: string | null, modes: string | null } | null} */ (k ? await db.first(ELECTIONS_API.areaModes, [k]) : null);
       if (!row) return json({ error: 'election not found' }, 404);
-      const modes = parseJson(row.modes, []);
-      const national = Array.isArray(modes) && modes.some((/** @type {{ dataKind?: string }} */ m) => m?.dataKind === 'area-results')
+      const modes = /** @type {Parameters<typeof areaResultsAnswer>[1]} */ (parseJson(row.modes, []));
+      const national = Array.isArray(modes) && modes.some((m) => m?.dataKind === 'area-results')
         ? /** @type {Array<{ id: unknown, name: unknown, party: unknown, personId: unknown, colour?: unknown }>} */ (await db.all(ELECTIONS_API.contestCandidates, [row.key, 0]))
         : [];
       return json(areaResultsAnswer(row, modes, national));
@@ -387,7 +387,7 @@ async function electionRecord(db, slugIn) {
   }
   const parent = await electionSlugFor(db, card.electionKey);
   const row = parent ? await db.first(ELECTION_CARDS.contests, [parent]) : null;
-  const item = (parseJson(row?.contests, []) || []).find((/** @type {{ slug?: unknown }} */ entry) => entry.slug === slug);
+  const item = (/** @type {Array<{ slug?: unknown }> | null} */ (parseJson(row?.contests, [])) || []).find((/** @type {{ slug?: unknown }} */ entry) => entry.slug === slug);
   return item ? json({ item, parent }) : json({ error: 'not found', slug }, 404);
 }
 
@@ -399,7 +399,7 @@ async function electionRecord(db, slugIn) {
  * @returns {Promise<ElectionsListAnswer>}
  */
 async function electionList(db, url) {
-  const head = (await documentBody(db, 'browse/elections-list.json')) || {};
+  const head = /** @type {ElectionsListAnswer} */ ((await documentBody(db, 'browse/elections-list.json')) || {});
   /** @type {string[]} */
   const where = [];
   /** @type {string[]} */
@@ -421,7 +421,7 @@ async function electionList(db, url) {
     db.all(ELECTION_CARDS.list(clause, page), binds),
     db.first(ELECTION_CARDS.listCount(clause), binds),
   ]));
-  const items = rows.map((r) => parseJson(r.list_card));
+  const items = rows.map((r) => /** @type {ElectionsListAnswer['items'][number]} */ (parseJson(r.list_card)));
   // The whole list keeps `of` (a contest's place of its election in the list) valid; a page or a
   // filtered list cannot, so its entries carry their election's fields instead.
   if (!limit && !filtered) return { ...head, items };

@@ -59,8 +59,8 @@ async function entityPayload(db, requestedId, { related, limit, offset }) {
   /** @type {GraphEntityAnswer} */
   const out = {
     entityId,
-    summary: parseJson(ent?.summary),
-    statements: statements.map((r) => parseJson(r.statement)),
+    summary: /** @type {GraphEntityAnswer['summary']} */ (parseJson(ent?.summary)),
+    statements: statements.map((r) => /** @type {GraphEntityAnswer['statements'][number]} */ (parseJson(r.statement))),
     total: total?.n ?? 0,
   };
   if (entityId !== requestedId) out.retiredId = requestedId;

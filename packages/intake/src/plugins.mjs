@@ -118,10 +118,29 @@ export function definePlugin(def) {
   return Object.freeze({ ...def });
 }
 
-/** @param {any} def */
-export function pluginProblems(def) {
+/**
+ * A plugin definition before pluginProblems has checked it: the fields it reads, each possibly
+ * missing or of the wrong type.
+ * @typedef {object} UncheckedPlugin
+ * @property {string} [id]
+ * @property {unknown} [title]
+ * @property {unknown} [kinds]
+ * @property {{ contains?: unknown, handling?: string } | null} [personalData]
+ * @property {unknown} [sources]
+ * @property {Record<string, { title?: unknown, argv?: string[], outputs?: string[] } | null> | null} [steps]
+ * @property {unknown} [produce]
+ * @property {unknown} [command]
+ * @property {Record<string, unknown>} [inputs]
+ * @property {unknown} [helpers]
+ * @property {unknown} [research]
+ * @property {unknown} [data]
+ */
+
+/** @param {unknown} input */
+export function pluginProblems(input) {
   const p = [];
-  if (!def || typeof def !== 'object') return ['not an object'];
+  if (!input || typeof input !== 'object') return ['not an object'];
+  const def = /** @type {UncheckedPlugin} */ (input);
   if (!ID.test(def.id || '')) p.push('id must be lower case letters, digits and hyphens');
   if (typeof def.title !== 'string' || def.title.length < 5) p.push('title is required');
   if (!Array.isArray(def.kinds) || !def.kinds.length) p.push('kinds is required');
@@ -140,7 +159,7 @@ export function pluginProblems(def) {
       if (s?.rights && !RIGHTS.has(s.rights)) p.push(`source ${s.id}: unknown rights ${s.rights}`);
     }
   }
-  const ways = ['steps', 'produce', 'command'].filter((k) => def[k] !== undefined);
+  const ways = /** @type {const} */ (['steps', 'produce', 'command']).filter((k) => def[k] !== undefined);
   if (ways.length > 1) p.push(`give exactly one of steps, produce, command (got ${ways.join(', ')})`);
   if (!ways.length && !(Array.isArray(def.kinds) && def.kinds.length === 1 && def.kinds[0] === 'research-only')) p.push('give exactly one of steps, produce, command (a plugin with none is kinds: ["research-only"])');
   if (def.produce !== undefined && typeof def.produce !== 'function') p.push('produce must be a function');
@@ -162,7 +181,7 @@ export function pluginProblems(def) {
       }
     }
   }
-  for (const k of ['helpers', 'research', 'data']) if (def[k] !== undefined && !Array.isArray(def[k])) p.push(`${k} must be a list of file names`);
+  for (const k of /** @type {const} */ (['helpers', 'research', 'data'])) if (def[k] !== undefined && !Array.isArray(def[k])) p.push(`${k} must be a list of file names`);
   return p;
 }
 
@@ -280,7 +299,7 @@ export function redirectedOutputs(step) {
 
 /**
  * @param {string[]} argv
- * @param {{ cwd: string, env?: Record<string, string>, stdio?: any, input?: string }} options
+ * @param {{ cwd: string, env?: Record<string, string>, stdio?: import('node:child_process').StdioOptions, input?: string }} options
  */
 export function spawnArgv(argv, { cwd, env = {}, stdio = 'inherit', input }) {
   const [prog, ...given] = argv;
@@ -296,7 +315,7 @@ export function spawnArgv(argv, { cwd, env = {}, stdio = 'inherit', input }) {
  * Run the old command lines directly in the repository, as the scripts have always run.
  * @param {Plugin} plugin
  * @param {string[]} stepIds
- * @param {{ repo: string, inputs: Record<string, string>, args?: string[], stdio?: any, env?: Record<string, string> }} options
+ * @param {{ repo: string, inputs: Record<string, string>, args?: string[], stdio?: import('node:child_process').StdioOptions, env?: Record<string, string> }} options
  */
 export function runStepsDirect(plugin, stepIds, { repo, inputs, args = [], stdio = 'inherit', env = {} }) {
   for (const id of stepIds) {
@@ -330,7 +349,7 @@ export function selectSteps(plugin, named, { all = false, allowNetwork = false }
  * Run a plugin and return what it produced, without writing batch.json.
  * Steps-plugins leave the repository as they found it.
  * @param {Plugin} plugin
- * @param {{ repo: string, batchDir: string, steps?: string[], all?: boolean, allowNetwork?: boolean, args?: string[], inputs?: Record<string, string>, stdio?: any, env?: Record<string, string> }} options
+ * @param {{ repo: string, batchDir: string, steps?: string[], all?: boolean, allowNetwork?: boolean, args?: string[], inputs?: Record<string, string>, stdio?: import('node:child_process').StdioOptions, env?: Record<string, string> }} options
  * @returns {Promise<{ staged: string[], operations: object[], notes: string[], deleted: string[], steps: string[] }>}
  */
 export async function producePlugin(plugin, { repo, batchDir, steps = [], all = false, allowNetwork = false, args = [], inputs = {}, stdio = 'inherit', env = {} }) {
@@ -455,7 +474,7 @@ export function pluginManifest(plugin, { id, baseCommit, produced, stagedDir, to
  * @param {Plugin} plugin
  * With `offline`, network steps may be named too: both runs have the network closed to them
  * (offlineEnv), so they replay from what the step has cached or fail.
- * @param {{ repo: string, steps: string[], args?: string[], inputs?: Record<string, string>, scratch: string, stdio?: any, stageWrite: (batchDir: string) => void, frozenClock?: boolean, offline?: boolean }} options
+ * @param {{ repo: string, steps: string[], args?: string[], inputs?: Record<string, string>, scratch: string, stdio?: import('node:child_process').StdioOptions, stageWrite: (batchDir: string) => void, frozenClock?: boolean, offline?: boolean }} options
  * @returns {Promise<{ same: string[], differ: { path: string, old: string, new: string }[], oldDeleted: string[], newDeleted: string[], sameIgnoringVolatile: string[] }>}
  */
 export async function parity(plugin, { repo, steps, args = [], inputs = {}, scratch, stdio = 'inherit', stageWrite, frozenClock = true, offline = false }) {
@@ -545,7 +564,7 @@ function keepCopy(repo, rel, dir) {
 export function sameIgnoring(a, b, keys) {
   if (!existsSync(a) || !existsSync(b)) return false;
   const drop = new Set(keys);
-  /** @param {any} v @returns {any} */
+  /** @param {unknown} v @returns {unknown} */
   const strip = (v) => (Array.isArray(v) ? v.map(strip) : v && typeof v === 'object'
     ? Object.fromEntries(Object.entries(v).filter(([k]) => !drop.has(k)).map(([k, x]) => [k, strip(x)])) : v);
   try {

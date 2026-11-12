@@ -40,6 +40,12 @@ export const TIMELINE_PLAYBACK = defineMachine({
 });
 
 /**
+ * One step of the timeline the animation plays, as the timeline controls build it: a map
+ * (`mapId`) or a moment (`timestamp`), with the fields the slider reads.
+ * @typedef {{ mapId?: string | null, timestamp?: unknown, [field: string]: unknown }} TimelineItem
+ */
+
+/**
  * @typedef {object} TimelineAnimationState
  * @property {TimelinePlaybackState} phase
  * @property {boolean} playing  phase === 'playing' (read-only)
@@ -51,7 +57,7 @@ export const TIMELINE_PLAYBACK = defineMachine({
  * @property {string | null} originalLayerId
  * @property {number} currentIndex
  * @property {string | null} singleLayerReferenceId
- * @property {any[]} sequenceItems
+ * @property {TimelineItem[]} sequenceItems  the items this run plays (the timeline's, or a paused run's)
  * @property {(() => void) | null} [delayResolve]
  */
 

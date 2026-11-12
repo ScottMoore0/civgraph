@@ -9,7 +9,14 @@ import { MAPLIBRE_VERSION, PMTILES_VERSION, VENDOR } from '../config.js';
 
 export { MAPLIBRE_VERSION, PMTILES_VERSION };
 
-/** @type {Promise<{ maplibregl: any, pmtiles: any }> | null} */
+/**
+ * The two libraries as their scripts define them on `window` (UMD globals), typed from the
+ * packages the map package pins.
+ * @typedef {typeof import('maplibre-gl')} MapLibreGlobal
+ * @typedef {typeof import('pmtiles')} PmtilesGlobal
+ */
+
+/** @type {Promise<{ maplibregl: MapLibreGlobal, pmtiles: PmtilesGlobal }> | null} */
 let loading = null;
 
 /** @param {string} src */
@@ -32,7 +39,7 @@ export function loadMapLibre() {
       css.href = `${VENDOR.maplibre}maplibre-gl.css`;
       document.head.append(css);
       await Promise.all([script(`${VENDOR.maplibre}maplibre-gl.js`), script(`${VENDOR.pmtiles}pmtiles.js`)]);
-      const w = /** @type {any} */ (window);
+      const w = /** @type {Window & { maplibregl: MapLibreGlobal, pmtiles: PmtilesGlobal }} */ (/** @type {unknown} */ (window));
       const protocol = new w.pmtiles.Protocol();
       w.maplibregl.addProtocol('pmtiles', protocol.tile);
       return { maplibregl: w.maplibregl, pmtiles: w.pmtiles };
@@ -72,8 +79,12 @@ export function tileUrlOf(/** @type {LayerRecord} */ rec) {
   return url;
 }
 
-/** MapLibre bounds from a layer record's [[lat, lng], [lat, lng]]. */
-export function boundsOf(/** @type {LayerRecord} */ rec) {
+/**
+ * MapLibre bounds from a layer record's [[lat, lng], [lat, lng]].
+ * @param {LayerRecord} rec
+ * @returns {[[number, number], [number, number]]} [[west, south], [east, north]]
+ */
+export function boundsOf(rec) {
   const b = rec.bounds;
   if (!Array.isArray(b) || b.length !== 2) return [[-10.7, 51.3], [-5.3, 55.5]];
   return [[b[0][1], b[0][0]], [b[1][1], b[1][0]]];
@@ -92,7 +103,7 @@ const ink = () => getComputedStyle(document.documentElement).getPropertyValue('-
  * @param {LayerRecord} rec the layer record
  * @param {{ colours: Map<string, string>, labels?: Map<string, string>, interactive?: boolean, preserve?: boolean, signal?: AbortSignal }} opts
  *   colours: feature label (upper case) -> colour; labels: feature label -> hover text
- * @returns {Promise<any>} the map, or null when the signal aborted first
+ * @returns {Promise<import('maplibre-gl').Map | null>} the map, or null when the signal aborted first
  */
 export async function areaMap(container, rec, opts) {
   const { maplibregl } = await loadMapLibre();
@@ -107,7 +118,7 @@ export async function areaMap(container, rec, opts) {
       version: 8,
       sources: { areas: { type: 'vector', url: `pmtiles://${tileUrlOf(rec)}`, ...(rec.promoteId ? { promoteId: rec.promoteId } : {}) } },
       layers: [
-        { id: 'fill', type: 'fill', source: 'areas', 'source-layer': rec.sourceLayer, paint: { 'fill-color': opts.colours.size ? fill : 'rgba(0,0,0,0)', 'fill-opacity': 0.85 } },
+        { id: 'fill', type: 'fill', source: 'areas', 'source-layer': rec.sourceLayer, paint: { 'fill-color': opts.colours.size ? /** @type {import('maplibre-gl').ExpressionSpecification} */ (/** @type {unknown} */ (fill)) : 'rgba(0,0,0,0)', 'fill-opacity': 0.85 } },
         { id: 'line', type: 'line', source: 'areas', 'source-layer': rec.sourceLayer, paint: { 'line-color': ink(), 'line-width': 0.6, 'line-opacity': 0.6 } },
       ],
     },
@@ -116,11 +127,10 @@ export async function areaMap(container, rec, opts) {
     interactive: opts.interactive !== false,
     attributionControl: { compact: true, customAttribution: 'Boundaries: Civgraph map layers (sources on each layer)' },
     canvasContextAttributes: { preserveDrawingBuffer: !!opts.preserve },
-    preserveDrawingBuffer: !!opts.preserve,
   });
   if (opts.labels && opts.interactive !== false) {
     const popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false });
-    map.on('mousemove', 'fill', (/** @type {any} */ e) => {
+    map.on('mousemove', 'fill', (e) => {
       const f = e.features?.[0];
       if (!f) return;
       const key = String(f.properties?.[prop] ?? '').toUpperCase();
@@ -136,7 +146,7 @@ export async function areaMap(container, rec, opts) {
 /**
  * Resolve when a map has drawn everything it is going to (true), or false after `ms`, when the
  * signal aborts or when there is no map.
- * @param {any} map
+ * @param {import('maplibre-gl').Map | null | undefined} map
  * @param {number} [ms]
  * @param {AbortSignal} [signal]
  * @returns {Promise<boolean>}

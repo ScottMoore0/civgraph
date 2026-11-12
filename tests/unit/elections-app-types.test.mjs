@@ -1,8 +1,8 @@
 /**
  * The Elections app's types (11 Nov 2026 arch audit P0/P5): it checks under full `strict`
  * (config/tsconfig.ui-strict.json), its API answer types are generated from the v1 contracts,
- * not written by hand, and its explicit `any` may only fall. What is left is the handles of the
- * two untyped libraries (DuckDB-WASM in lib/duck.js, MapLibre GL in lib/maplibre.js).
+ * not written by hand, and it has no explicit `any` (the last, the handles of DuckDB-WASM in
+ * lib/duck.js and MapLibre GL in lib/maplibre.js, were typed on 12 Nov 2026, stream rf8-types).
  *
  *   node --test tests/unit/elections-app-types.test.mjs
  */
@@ -16,7 +16,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const APP = 'site/apps/elections';
 
 // Explicit `any` per file; a file not listed has none. Lower a count when you remove one.
-const ANY_BUDGET = { 'site/apps/elections/lib/duck.js': 8, 'site/apps/elections/lib/maplibre.js': 6 };
+/** @type {Record<string, number>} */
+const ANY_BUDGET = {};
 const ANY = /\{any\}|\{any\[\]\}|<any>|any\[\]|: any\b|, any\b|Record<string, any>/g;
 
 function scripts(dir, out = []) {

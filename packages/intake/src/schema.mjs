@@ -13,8 +13,24 @@
  */
 
 /**
- * A schema node: JSON read from batch.schema.json, using only the keywords listed above.
- * @typedef {Record<string, any>} Schema
+ * A schema node: JSON read from batch.schema.json, using only the keywords listed above (the
+ * root also holds `$defs`, which `$ref` reaches).
+ * @typedef {object} Schema
+ * @property {string} [$ref]
+ * @property {string} [type]
+ * @property {unknown} [const]
+ * @property {unknown[]} [enum]
+ * @property {string[]} [required]
+ * @property {Record<string, Schema>} [properties]
+ * @property {boolean} [additionalProperties]
+ * @property {Schema} [items]
+ * @property {number} [minItems]
+ * @property {number} [minLength]
+ * @property {number} [minimum]
+ * @property {string} [pattern]
+ * @property {Schema[]} [oneOf]
+ * @property {string} [discriminator]
+ * @property {Record<string, Schema>} [$defs]
  */
 
 /** @param {unknown} value */
@@ -37,12 +53,12 @@ function resolveRef(root, ref) {
   if (!ref.startsWith('#/')) throw new Error(`Only local $ref is supported: ${ref}`);
   return ref.slice(2).split('/').reduce((/** @type {Schema} */ node, key) => {
     if (!node || !(key in node)) throw new Error(`Unresolvable $ref ${ref}`);
-    return node[key];
+    return /** @type {Schema} */ (/** @type {Record<string, unknown>} */ (node)[key]);
   }, root);
 }
 
 /**
- * @param {any} value   the JSON being checked
+ * @param {unknown} value   the JSON being checked
  * @param {Schema} schema
  * @param {Schema} [root]
  * @param {string} [at]
@@ -70,14 +86,17 @@ export function validateAgainstSchema(value, schema, root = schema, at = '$') {
   }
   if (Array.isArray(value)) {
     if (schema.minItems != null && value.length < schema.minItems) errors.push(`${at}: needs at least ${schema.minItems} item(s)`);
-    if (schema.items) value.forEach((item, i) => check(item, schema.items, `${at}[${i}]`));
+    const items = schema.items;
+    if (items) value.forEach((item, i) => check(item, items, `${at}[${i}]`));
   }
-  if (typeOf(value) === 'object') {
+  /** The value when it is a JSON object. */
+  const object = typeOf(value) === 'object' ? /** @type {Record<string, unknown>} */ (value) : null;
+  if (object) {
     for (const key of schema.required || []) {
-      if (!(key in value)) errors.push(`${at}: missing required property ${key}`);
+      if (!(key in object)) errors.push(`${at}: missing required property ${key}`);
     }
     if (schema.properties) {
-      for (const [key, sub] of Object.entries(value)) {
+      for (const [key, sub] of Object.entries(object)) {
         if (schema.properties[key]) check(sub, schema.properties[key], `${at}.${key}`);
         else if (schema.additionalProperties === false) errors.push(`${at}: unknown property ${key}`);
       }
@@ -86,11 +105,11 @@ export function validateAgainstSchema(value, schema, root = schema, at = '$') {
   if (schema.oneOf) {
     const branches = schema.oneOf.map((/** @type {Schema} */ b) => (b.$ref ? resolveRef(root, b.$ref) : b));
     const disc = schema.discriminator;
-    if (disc && typeOf(value) === 'object' && disc in value) {
-      const branch = branches.find((/** @type {Schema} */ b) => b.properties?.[disc]?.const === value[disc]);
+    if (disc && object && disc in object) {
+      const branch = branches.find((/** @type {Schema} */ b) => b.properties?.[disc]?.const === object[disc]);
       if (!branch) {
         const allowed = branches.map((/** @type {Schema} */ b) => b.properties?.[disc]?.const).filter(Boolean);
-        errors.push(`${at}.${disc}: ${JSON.stringify(value[disc])} is not one of ${allowed.join(', ')}`);
+        errors.push(`${at}.${disc}: ${JSON.stringify(object[disc])} is not one of ${allowed.join(', ')}`);
       } else {
         check(value, branch, at);
       }

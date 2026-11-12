@@ -124,8 +124,7 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
 
   transaction(db, () => {
     // ---- maps.json
-    /** @type {{ maps?: MapEntry[], [key: string]: unknown }} */
-    const catalogue = readJson(at(MAP_SOURCES.maps));
+    const catalogue = /** @type {{ maps?: MapEntry[], [key: string]: unknown }} */ (readJson(at(MAP_SOURCES.maps)));
     const maps = new TableWriter(db, 'maps');
     (catalogue.maps || []).forEach((m, ord) => {
       maps.add({
@@ -142,8 +141,7 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
     counts.catalogue_parts = parts.finish();
 
     // ---- maps-test.json
-    /** @type {{ layers?: LayerEntry[], [key: string]: unknown }} */
-    const render = readJson(at(MAP_SOURCES.layers));
+    const render = /** @type {{ layers?: LayerEntry[], [key: string]: unknown }} */ (readJson(at(MAP_SOURCES.layers)));
     const layers = new TableWriter(db, 'layers');
     /** @type {string[]} */
     const ids = [];
@@ -178,13 +176,12 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
 
     // ---- the Browse build's map list, map pages and feature groups
     if (browseDir && existsSync(path.join(browseDir, 'maps.json'))) {
-      /** @type {{ items?: BrowseCard[], [key: string]: unknown }} */
-      const list = readJson(path.join(browseDir, 'maps.json'));
+      const list = /** @type {{ items?: BrowseCard[], [key: string]: unknown }} */ (readJson(path.join(browseDir, 'maps.json')));
       const detailDir = path.join(browseDir, 'details', 'maps');
       const cards = new TableWriter(db, 'map_cards');
       (list.items || []).forEach((item, ord) => {
         const file = path.join(detailDir, `${item.slug}.json`);
-        const detail = existsSync(file) ? readJson(file).item ?? null : null;
+        const detail = existsSync(file) ? /** @type {{ item?: unknown }} */ (readJson(file)).item ?? null : null;
         cards.add({ slug: String(item.slug), id: txt(item.id), title: txt(item.title), ord, card: JSON.stringify(item), detail: detail ? JSON.stringify(detail) : null });
       });
       counts.map_cards = cards.finish();
@@ -198,8 +195,7 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
       }
     }
     if (browseDir && existsSync(path.join(browseDir, 'features.json'))) {
-      /** @type {{ items?: BrowseCard[], [key: string]: unknown }} */
-      const features = readJson(path.join(browseDir, 'features.json'));
+      const features = /** @type {{ items?: BrowseCard[], [key: string]: unknown }} */ (readJson(path.join(browseDir, 'features.json')));
       const fg = new TableWriter(db, 'feature_groups');
       (features.items || []).forEach((item, ord) => fg.add({ ord, id: txt(item.id), card: JSON.stringify(item) }));
       counts.feature_groups = fg.finish();

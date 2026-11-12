@@ -190,7 +190,7 @@ export async function layerIndexDocument(source, urls = API_URLS) {
   /** @type {Record<string, unknown>} */
   const headObject = {};
   for (const p of parts) headObject[p.key] = p.value === null ? [] : parseJson(p.value);
-  const entries = rows.map((r) => indexEntry(parseJson(r.record, {}), parseJson(r.duplicates), urls));
+  const entries = rows.map((r) => indexEntry(/** @type {Parameters<typeof indexEntry>[0]} */ (parseJson(r.record, {})), /** @type {Parameters<typeof indexEntry>[1]} */ (parseJson(r.duplicates)), urls));
   return indexDocument(headObject, entries);
 }
 
@@ -244,7 +244,7 @@ export async function browseMapsText(source) {
     /** @type {Promise<Pick<MapCardsRow, 'card'>[]>} */ (db.all(MAP_CARDS.cards)),
   ]);
   if (!headRow) return null;
-  const head = parseJson(headRow.body, {});
+  const head = /** @type {Record<string, unknown>} */ (parseJson(headRow.body, {}));
   return compactDocument(/** @type {Array<{ key: string, ord: number, value: string | null }>} */ (Object.entries(head).map(([key, v], i) => ({ key, ord: i, value: JSON.stringify(v) })))
     .concat([{ key: 'items', ord: 1e9, value: null }]), cards.map((r) => r.card));
 }
@@ -261,7 +261,7 @@ export async function browseFeaturesText(source) {
     /** @type {Promise<Pick<FeatureGroupsRow, 'card'>[]>} */ (db.all(MAP_CARDS.featureGroups)),
   ]);
   if (!headRow) return null;
-  const head = parseJson(headRow.body, {});
+  const head = /** @type {Record<string, unknown>} */ (parseJson(headRow.body, {}));
   return compactDocument(/** @type {Array<{ key: string, ord: number, value: string | null }>} */ (Object.entries(head).map(([key, v], i) => ({ key, ord: i, value: JSON.stringify(v) })))
     .concat([{ key: 'items', ord: 1e9, value: null }]), groups.map((r) => r.card));
 }

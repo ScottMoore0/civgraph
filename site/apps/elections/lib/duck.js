@@ -16,9 +16,34 @@ export const EXTRACTS = SOURCES.extracts;
 
 const abs = (/** @type {string} */ url) => new URL(url, location.origin).href;
 
+/**
+ * The parts of DuckDB-WASM this file uses. The module is loaded from this site at run time, not
+ * installed, so there are no package types to import: these are typed by what the calls need.
+ * @typedef {{ toJSON(): Record<string, unknown> }} DuckRow
+ * @typedef {{ toArray(): DuckRow[] }} DuckTable
+ * @typedef {{ query(sql: string): Promise<DuckTable> }} DuckConnection
+ * @typedef {{ mainModule: string, mainWorker: string }} DuckBundleFiles
+ * @typedef {DuckBundleFiles & { pthreadWorker?: string | null }} DuckBundle
+ * @typedef {object} DuckDatabase
+ * @property {(mainModule: string, pthreadWorker?: string | null) => Promise<unknown>} instantiate
+ * @property {() => Promise<DuckConnection>} connect
+ * @property {(name: string, url: string, protocol: number, directIO: boolean) => Promise<void>} registerFileURL
+ * @typedef {object} DuckModule
+ * @property {(bundles: { mvp: DuckBundleFiles, eh: DuckBundleFiles }) => Promise<DuckBundle>} selectBundle
+ * @property {new (logger: unknown, worker: Worker) => DuckDatabase} AsyncDuckDB
+ * @property {new (level: number) => unknown} ConsoleLogger
+ * @property {{ WARNING: number }} LogLevel
+ * @property {{ HTTP: number }} DuckDBDataProtocol
+ */
+/**
+ * The extracts' index.json: one entry per body, with its row and election counts and the
+ * content-named Parquet file.
+ * @typedef {{ bodies: Array<{ body: string, slug: string, file: string, rows: number, elections: number }>, [key: string]: unknown }} ExtractsIndex
+ */
+
 /** EL-02 (state-machines.js ENGINE): not-started, starting, ready or failed (then tried again). */
 const engine = ENGINE.start();
-/** @type {Promise<{ duckdb: any, db: any, conn: any }> | null} */
+/** @type {Promise<{ duckdb: DuckModule, db: DuckDatabase, conn: DuckConnection }> | null} */
 let ready = null;
 
 /** The engine's state, for a view that wants to say why nothing is drawn yet. */
@@ -29,7 +54,7 @@ export function openDuckDb() {
   if (!ready) {
     engine.to('starting');
     ready = (async () => {
-      const duckdb = await import(/* @vite-ignore */ abs(`${VENDOR.duckdb}duckdb-browser.mjs`));
+      const duckdb = /** @type {DuckModule} */ (await import(/* @vite-ignore */ abs(`${VENDOR.duckdb}duckdb-browser.mjs`)));
       // The bundles getJsDelivrBundles() named, at this site's addresses.
       const bundle = await duckdb.selectBundle({
         mvp: { mainModule: abs(`${SOURCES.duckdbWasm}duckdb-mvp.wasm`), mainWorker: abs(`${VENDOR.duckdb}duckdb-browser-mvp.worker.js`) },
@@ -88,15 +113,15 @@ async function bind(/** @type {string[]} */ bodies) {
  * Rows come as plain objects (BigInt sums made Numbers).
  * @param {string[]} bodies
  * @param {string} sql
- * @returns {Promise<Array<Record<string, any>>>}
+ * @returns {Promise<Array<Record<string, unknown>>>}
  */
 export function queryBodies(bodies, sql) {
   return exclusive(async () => {
     await bind(bodies);
     const { conn } = await openDuckDb();
     const table = await conn.query(sql);
-    return table.toArray().map((/** @type {any} */ row) => {
-      /** @type {Record<string, any>} */
+    return table.toArray().map((row) => {
+      /** @type {Record<string, unknown>} */
       const out = {};
       for (const [k, v] of Object.entries(row.toJSON())) out[k] = typeof v === 'bigint' ? Number(v) : v;
       return out;
@@ -106,7 +131,7 @@ export function queryBodies(bodies, sql) {
 
 /** EL-04 (state-machines.js EXTRACTS_INDEX). */
 const indexRun = EXTRACTS_INDEX.start();
-/** @type {Promise<any> | null} */
+/** @type {Promise<ExtractsIndex | null> | null} */
 let index = null;
 
 /** The extracts index (bodies, row counts, file names), or null when the extracts are not there. */
@@ -128,7 +153,7 @@ export function extractsIndex() {
 /** The extract file of a body, from the index. @param {string} body */
 async function fileOf(body) {
   const idx = await extractsIndex();
-  const entry = idx?.bodies?.find((/** @type {any} */ x) => x.slug === body);
+  const entry = idx?.bodies?.find((x) => x.slug === body);
   if (!entry) throw new Error(idx ? `no extract for ${body}` : 'the pivot extracts are not available');
   return String(entry.file);
 }

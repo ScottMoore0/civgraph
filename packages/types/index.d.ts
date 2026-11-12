@@ -7,6 +7,9 @@
 // Office, MapEntry, LayerEntry, CatalogueSeries, envelopes): flat, the names most code wants.
 export * from './hand/core.js';
 
+// The intake batch (batch.json, scripts/intake/batch.schema.json), hand-written.
+export * from './hand/intake.js';
+
 // Generated: one namespace per source.
 export * as RecordsDb from './generated/records-db.js';
 export * as ApiV1 from './generated/api-v1.js';

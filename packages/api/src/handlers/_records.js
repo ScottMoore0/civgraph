@@ -345,8 +345,8 @@ function releaseGate(/** @type {GateSlot} */ slot) {
 
 /**
  * @param {unknown} text
- * @param {any} [fallback]
- * @returns {any}
+ * @param {unknown} [fallback]
+ * @returns {unknown} the parsed JSON, or the fallback: the caller says which stored shape it is
  */
 export function parseJson(text, fallback = null) {
   if (text === null || text === undefined) return fallback;
@@ -456,7 +456,7 @@ export async function electionRow(db, key) {
  * An election's aggregates (its `$aggregate` keys), by name, parsed.
  * @param {StoreOrBinding} db
  * @param {string} key
- * @returns {Promise<Map<string, any>>} the values are stored JSON of any shape (parseJson)
+ * @returns {Promise<Map<string, unknown>>} the values are stored JSON of any shape (parseJson)
  */
 export async function electionAggregates(db, key) {
   const results = /** @type {Pick<ElectionAggregatesRow, 'name' | 'payload'>[]} */ (await asStore(db).all(ELECTIONS.aggregates, [key]));
@@ -474,11 +474,11 @@ export async function electionAggregates(db, key) {
  * @returns {Record<string, unknown>}
  */
 export function contestObject(contestMeta, candidacyMetas, animationPayloadText) {
-  const meta = parseJson(contestMeta, {});
+  const meta = /** @type {Record<string, unknown>} */ (parseJson(contestMeta, {}));
   /** @type {{ Constituency?: { countGroup?: unknown } } | null | undefined} */
   let anim;
   const animation = () => {
-    if (anim === undefined) anim = parseJson(animationPayloadText, null);
+    if (anim === undefined) anim = /** @type {typeof anim} */ (parseJson(animationPayloadText, null));
     return anim;
   };
   return fillMarkers(meta, (_k, marker) => {
@@ -534,7 +534,7 @@ export async function* contestsOf(db, key, { perContest = true } = {}) {
 export async function bundleChunks(db, key) {
   const row = await electionRow(db, key);
   if (!row) return null;
-  const meta = parseJson(row.meta, {});
+  const meta = /** @type {Record<string, unknown>} */ (parseJson(row.meta, {}));
   const aggregates = Object.values(meta).some((v) => v === '$aggregate') ? await electionAggregates(db, key) : new Map();
   const compact = row.compact === 1;
   /** @type {(v: unknown, level?: number) => string} */
@@ -577,7 +577,7 @@ export async function bundleChunks(db, key) {
 export async function bundleObject(db, key) {
   const row = await electionRow(db, key);
   if (!row) return null;
-  const meta = parseJson(row.meta, {});
+  const meta = /** @type {Record<string, unknown>} */ (parseJson(row.meta, {}));
   const aggregates = await electionAggregates(db, key);
   /** @type {Record<string, unknown>[]} */
   const contests = [];

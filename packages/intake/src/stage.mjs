@@ -13,11 +13,18 @@ import { batchPath, phaseOf, readJson, repoPath, sha256File, toPosix } from './b
 
 /** @typedef {import('./batch.mjs').Batch} Batch */
 /** @typedef {import('./batch.mjs').Operation} Operation */
+/** @template {Operation['type']} T @typedef {import('./batch.mjs').OperationOf<T>} OperationOf */
 /** @typedef {{ op: string, action: 'add' | 'replace' | 'edit', path: string, bytes?: number, detail?: string }} Change */
 /** @typedef {{ op: string, path: string, reason: string }} Conflict */
 /** @typedef {{ changes: Change[], conflicts: Conflict[], errors: string[], warnings: string[], notes: string[], unchanged: number, written: boolean }} StageResult */
 /** @typedef {ReturnType<typeof createView>} View */
-/** @typedef {(batch: Batch, op: Operation, view: View, out: StageResult) => void} Handler */
+/** A map entry or catalogue class of data/database/maps.json, read by id. @typedef {{ id: string, [field: string]: unknown }} MapsRecord */
+/** @typedef {import('../../types/index.js').IntakeMapEdit} MapEdit */
+/**
+ * A stage operation's handler.
+ * @template {Operation} [O=Operation]
+ * @typedef {(batch: Batch, op: O, view: View, out: StageResult) => void} Handler
+ */
 
 /**
  * JSON written back with the file's own line endings and final newline.
@@ -67,7 +74,7 @@ function createView(batch) {
   };
 }
 
-/** @type {Handler} */
+/** @type {Handler<OperationOf<'copy-files'>>} */
 function copyFilesOp(batch, op, view, out) {
   for (const f of op.files) {
     const src = batchPath(batch, f.from);
@@ -95,7 +102,7 @@ function copyFilesOp(batch, op, view, out) {
  *   edits:   replace-text (skipped once `new` is present), add-reference (keyed on label),
  *            set-field.
  */
-/** @type {Handler} */
+/** @type {Handler<OperationOf<'maps-json-patch'>>} */
 function mapsJsonPatchOp(batch, op, view, out) {
   const target = op.target || 'data/database/maps.json';
   if (!view.exists(target)) { out.errors.push(`${op.id}: ${target} not found in the repository`); return; }
@@ -103,7 +110,7 @@ function mapsJsonPatchOp(batch, op, view, out) {
   const doc = JSON.parse(raw);
   /** @type {string[]} */
   const changes = [];
-  /** @type {Record<string, any>[]} */
+  /** @type {MapsRecord[]} */
   const maps = doc.maps;
   const ids = maps.map((m) => m.id);
   /** @param {unknown} a @param {unknown} b */
@@ -111,7 +118,7 @@ function mapsJsonPatchOp(batch, op, view, out) {
 
   if (op.entries) {
     let anchor = op.insertAfter;
-    for (const entry of readJson(batchPath(batch, op.entries))) {
+    for (const entry of /** @type {MapsRecord[]} */ (readJson(batchPath(batch, op.entries)))) {
       const i = ids.indexOf(entry.id);
       if (i !== -1) {
         if (!same(maps[i], entry)) { maps[i] = entry; changes.push(`replace maps entry ${entry.id}`); }
@@ -127,9 +134,9 @@ function mapsJsonPatchOp(batch, op, view, out) {
   }
 
   if (op.classes) {
-    /** @type {Record<string, any>[]} */
+    /** @type {MapsRecord[]} */
     const classes = doc.classes;
-    for (const proposed of readJson(batchPath(batch, op.classes))) {
+    for (const proposed of /** @type {Array<MapsRecord & { _insert_after?: string }>} */ (readJson(batchPath(batch, op.classes)))) {
       const { _insert_after: after, ...cls } = proposed;
       const cids = classes.map((c) => c.id);
       const i = cids.indexOf(cls.id);
@@ -144,19 +151,19 @@ function mapsJsonPatchOp(batch, op, view, out) {
   }
 
   if (op.edits) {
-    for (const ed of readJson(batchPath(batch, op.edits))) {
+    for (const ed of /** @type {MapEdit[]} */ (readJson(batchPath(batch, op.edits)))) {
       const i = ids.indexOf(ed.id);
       if (i === -1) { out.warnings.push(`${op.id}: ${ed.id} not in ${target}; edit skipped`); continue; }
       const m = maps[i];
       if (ed.op === 'replace-text') {
-        const text = m[ed.field] || '';
+        const text = /** @type {string} */ (m[ed.field] || '');
         if (text.includes(ed.new)) continue;
         if (!text.includes(ed.old)) { out.warnings.push(`${op.id}: text to replace not found in ${ed.id}.${ed.field}; skipped: ${ed.old.slice(0, 60)}...`); continue; }
         m[ed.field] = text.replace(ed.old, ed.new);
         changes.push(`edit ${ed.id}.${ed.field}`);
       } else if (ed.op === 'add-reference') {
-        const refs = m.references || (m.references = []);
-        if (!refs.some((/** @type {{ label: string }} */ r) => r.label === ed.ref.label)) {
+        const refs = /** @type {Array<{ label: string }>} */ (m.references || (m.references = []));
+        if (!refs.some((r) => r.label === ed.ref.label)) {
           refs.push(ed.ref);
           changes.push(`add reference to ${ed.id}: ${ed.ref.label.slice(0, 70)}`);
         }
@@ -186,15 +193,14 @@ function listJson(dir) {
   return out;
 }
 
-/** @type {Handler} */
+/** @type {Handler<OperationOf<'election-sources'>>} */
 function electionSourcesOp(batch, op, view, out) {
   const from = batchPath(batch, op.fromDir);
   const toDir = op.toDir || 'data/elections-source/data/elections';
   /** @type {Set<string>} */
   const exclude = new Set();
   if (op.excludeRounds) {
-    /** @type {{ slug: string, folder: string }[]} */
-    const rounds = readJson(batchPath(batch, op.excludeRounds)).rounds || [];
+    const rounds = /** @type {{ rounds?: { slug: string, folder: string }[] }} */ (readJson(batchPath(batch, op.excludeRounds))).rounds || [];
     for (const r of rounds) exclude.add(`${r.slug}/${r.folder}`);
   }
   let excluded = 0;
@@ -219,12 +225,12 @@ function electionSourcesOp(batch, op, view, out) {
   if (excluded) out.notes.push(`${op.id}: ${excluded} file(s) held back by ${op.excludeRounds}`);
 }
 
-/** @type {Handler} */
+/** @type {Handler<OperationOf<'corrections'>>} */
 function correctionsOp(batch, op, view, out) {
   const doc = view.exists(op.target) ? JSON.parse(view.readText(op.target)) : null;
   if (!doc) { out.errors.push(`${op.id}: ${op.target} does not exist; create it (with a description and provenance) before merging records`); return; }
   const raw = view.readText(op.target);
-  const incoming = readJson(batchPath(batch, op.records));
+  const incoming = /** @type {Record<string, unknown>[] | { records?: Record<string, unknown>[] }} */ (readJson(batchPath(batch, op.records)));
   const records = Array.isArray(incoming) ? incoming : incoming.records;
   /** @type {Record<string, unknown>[]} */
   const current = doc.records || (doc.records = []);
@@ -252,7 +258,7 @@ function correctionsOp(batch, op, view, out) {
   if (changed) view.setText(op.target, serialiseLike(raw, doc));
 }
 
-/** @type {Record<string, Handler>} */
+/** @type {{ [T in 'copy-files' | 'maps-json-patch' | 'election-sources' | 'corrections']: Handler<OperationOf<T>> }} */
 const HANDLERS = {
   'copy-files': copyFilesOp,
   'maps-json-patch': mapsJsonPatchOp,
@@ -271,7 +277,9 @@ export function stageBatch(batch, { write = false } = {}) {
   const view = createView(batch);
   for (const op of batch.manifest.operations) {
     if (phaseOf(op) !== 'stage') continue;
-    HANDLERS[op.type](batch, op, view, out);
+    // a stage op's type is one of HANDLERS' keys (STAGE_TYPES), and its handler takes that op
+    const handler = /** @type {Handler} */ (HANDLERS[/** @type {keyof typeof HANDLERS} */ (op.type)]);
+    handler(batch, op, view, out);
   }
   if (write && !out.errors.length && !out.conflicts.length && out.changes.length) {
     view.flush();
