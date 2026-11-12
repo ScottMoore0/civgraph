@@ -9,6 +9,7 @@
  * Pure: scripts/build/build-test2-election-manifest.mjs reads the files and summarises the count
  * sheets these functions make with election-domain's summarizeResult, as it does every contest.
  */
+import colours from '../../registries/src/browser/colours.mjs';
 
 /**
  * One staged area file (data/elections/<dir>/<date>/<area>.json).
@@ -76,9 +77,8 @@
  */
 
 /** Colours for candidates whose party gives none of their own, in the order they are handed out. */
-export const CANDIDATE_PALETTE = Object.freeze([
-  '#1f77b4', '#d62728', '#2ca02c', '#9467bd', '#ff7f0e', '#17becf', '#8c564b', '#e377c2', '#bcbd22', '#393b79', '#637939', '#843c39'
-]);
+// The colours registry's areaResults palette (data/registries/colours.json).
+export const CANDIDATE_PALETTE = Object.freeze([...colours.areaResults.candidates]);
 
 /** Party labels that say nothing about who a candidate is (several stand under each). */
 const SHARED_LABELS = /^(independent|non[- ]?party|no label|)$/i;
