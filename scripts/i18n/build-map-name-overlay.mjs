@@ -26,10 +26,15 @@
  *   node scripts/i18n/build-map-name-overlay.mjs --check  fail if it is out of date
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { parseStringFile } from './string-files.mjs';
+import { loadRegistry } from '../../packages/registries/src/index.mjs';
+import { languageCodes } from '../../packages/registries/src/languages.mjs';
 
 const CHECK = process.argv.includes('--check');
 const OUT = 'data/i18n/map-names.overlay.json';
-const SEP = '¦';
+const LANGUAGES = loadRegistry('languages');
+/** The language this overlay composes names in: Irish, the glossary's second column. */
+const TARGET = 'ga';
 
 /**
  * One overlay entry: a map's (or an extra name's) English name and its draft translation.
@@ -52,28 +57,36 @@ const SEP = '¦';
  */
 
 /**
+ * [English, Irish] of each line of a string file, read by its #!columns header (the strings
+ * files, scripts/i18n/string-files.mjs) or, for the glossary, by its fixed English ¦ Irish
+ * format. A line without both is skipped (build-i18n.mjs reports malformed string lines); a
+ * header the registry does not match fails.
  * @param {string} file
+ * @param {{ skipPatterns?: boolean, columns?: string[] }} [options]
  * @returns {Array<[string, string]>}
  */
-function readPairs(file, { skipPatterns = true } = {}) {
+function readPairs(file, { skipPatterns = true, columns } = {}) {
   if (!existsSync(file)) return [];
+  const { rows, problems } = parseStringFile(readFileSync(file, 'utf8'), {
+    where: file, languages: columns || languageCodes(LANGUAGES), source: LANGUAGES.source, ...(columns ? { columns } : {})
+  });
+  const fatal = problems.filter((p) => !/: expected \d+ columns/.test(p));
+  if (fatal.length) throw new Error(fatal.join('\n'));
   /** @type {Array<[string, string]>} */
   const pairs = [];
-  for (const raw of readFileSync(file, 'utf8').replace(/\r\n/g, '\n').split('\n')) {
-    const line = raw.trim();
-    if (!line || line.startsWith('#')) continue;
-    const body = line.replace(/^@[A-Za-z0-9_.-]+\s+/, '');
-    const cols = body.split(SEP).map((c) => c.trim());
-    if (cols.length < 2 || !cols[0] || !cols[1]) continue;
-    if (skipPatterns && /\{[a-z]/i.test(cols[0])) continue;
-    pairs.push([cols[0], cols[1]]);
+  for (const row of rows) {
+    const en = row.text[LANGUAGES.source] || '';
+    const target = row.text[TARGET] || '';
+    if (!en || !target) continue;
+    if (skipPatterns && /\{[a-z]/i.test(en)) continue;
+    pairs.push([en, target]);
   }
   return pairs;
 }
 
 const glossary = new Map();
 const add = (/** @type {string} */ en, /** @type {string} */ ga, overwrite = false) => { if (overwrite || !glossary.has(en)) glossary.set(en, ga); };
-for (const [en, ga] of readPairs('data/i18n/map-name-glossary.txt')) add(en, ga, true);
+for (const [en, ga] of readPairs('data/i18n/map-name-glossary.txt', { columns: [LANGUAGES.source, TARGET] })) add(en, ga, true);
 for (const [en, ga] of readPairs('data/i18n/strings/catalogue-names.txt')) add(en, ga);
 for (const [en, ga] of readPairs('data/i18n/strings/general.txt')) add(en, ga);
 // Provinces inside a name read as the province ("Leinster District Electoral Divisions").
