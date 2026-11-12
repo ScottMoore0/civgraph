@@ -5,7 +5,7 @@
  *
  * Falls back to reading the static names index from the origin when KV is not configured.
  */
-import { binding } from '../../../config/src/config.js';
+import { blobStore } from '../../../storage/src/blob-bindings.js';
 
 // In-memory cache for the names index, per Worker isolate.
 //
@@ -32,10 +32,10 @@ let cachedAt = 0;
 async function getNames(context, origin) {
     if (cachedNames && Date.now() - cachedAt < NAMES_TTL_MS) return cachedNames;
 
-    // Try KV first
-    if (binding(context.env, 'SPATIAL_INDEX')) {
-        /** @type {PlaceName[] | null} */
-        const data = await /** @type {KVNamespace} */ (binding(context.env, 'SPATIAL_INDEX')).get('names', 'json');
+    // Try KV first, through the blob store (packages/storage/src/blob.js)
+    const kv = blobStore(context.env, 'SPATIAL_INDEX');
+    if (kv) {
+        const data = /** @type {PlaceName[] | null} */ (await kv.json('names'));
         if (data) {
             cachedNames = data;
             cachedAt = Date.now();
