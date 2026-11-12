@@ -32,6 +32,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildVar } from '../../../packages/config/src/node.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 const EXCEPTIONS = path.join(ROOT, 'data', 'elections', 'persons', 'lifespan-exceptions.json');
@@ -165,7 +166,7 @@ const csvCell = (value) => (/[",\n]/.test(value) ? `"${value.replace(/"/g, '""')
 async function main() {
   const args = process.argv.slice(2);
   const opt = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
-  const dbPath = path.resolve(ROOT, opt('--db') || process.env.CIVGRAPH_RECORDS_DB || 'tmp/records/civgraph-records.sqlite');
+  const dbPath = path.resolve(ROOT, opt('--db') || buildVar('CIVGRAPH_RECORDS_DB'));
   if (!existsSync(dbPath)) {
     console.log(`SKIP person-activity-after-death: no records database at ${path.relative(ROOT, dbPath)} (run npm run records:build, or pass --db)`);
     return 0;

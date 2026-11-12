@@ -17,6 +17,7 @@ import { createServer } from 'node:http';
 import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync, createReadStream } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SITE } from '../../packages/config/src/node.mjs';
 import { sourceOf } from '../../scripts/build/site.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -81,8 +82,8 @@ createServer(async (req, res) => {
     // allow localhost; see src/cdn-url.js), and its API calls to /_api/: both are fetched here.
     if (p.startsWith('/_r/') || p.startsWith('/_api/') || p.startsWith('/api/')) {
       const upstream = p.startsWith('/_r/')
-        ? `https://data.civgraph.net/${p.slice(4)}${url.search}`
-        : `https://civgraph.net${p}${url.search}`;
+        ? `${SITE.dataOrigin}/${p.slice(4)}${url.search}`
+        : `${SITE.origin}${p}${url.search}`;
       const headers = { 'User-Agent': 'civgraph-catalogue-editor' };
       for (const h of ['range', 'content-type', 'accept', 'if-none-match']) if (req.headers[h]) headers[h] = req.headers[h];
       const body = ['GET', 'HEAD'].includes(req.method) ? undefined : await readBody(req);

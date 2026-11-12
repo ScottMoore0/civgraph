@@ -37,14 +37,15 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, statSync, readdirSy
 import path from 'node:path';
 import os from 'node:os';
 import zlib from 'node:zlib';
+import { SITE } from '../../../packages/config/src/node.mjs';
 
 const ROOT = process.cwd();
 const args = process.argv.slice(2);
 const argVal = (name, dflt) => { const i = args.indexOf(name); return i >= 0 && args[i + 1] ? args[i + 1] : dflt; };
 const CACHE = argVal('--cache', existsSync('E:/') ? 'E:/civgraph-census-explorer/r2cache' : path.join(os.tmpdir(), 'civgraph-census-explorer'));
 const PXSTAT = argVal('--pxstat', 'D:/cso-pxstat');
-const R2 = 'https://data.civgraph.net/';
-const UA = 'civgraph-research (+https://civgraph.net)';
+const R2 = `${SITE.dataOrigin}/`;
+const UA = SITE.userAgent;
 
 const CENSUS = 'data/census';
 const CLEANED = `${CENSUS}/cleaned`;

@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
+import { SITE } from "../../../packages/config/src/node.mjs";
 
-const UA = "Civgraph NISRA throttle probe/1.0 (+https://civgraph.net; bounded archival-rate test)";
+const UA = `Civgraph NISRA throttle probe/1.0 (+${SITE.origin}; bounded archival-rate test)`;
 
 function readArg(name, fallback = null) {
   const eq = process.argv.find((arg) => arg.startsWith(`${name}=`));

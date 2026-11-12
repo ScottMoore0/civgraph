@@ -1,6 +1,7 @@
 // The Belfast Gazette (every issue, crawled into a local data folder outside the repository) and
 // the statements of persons nominated: notices extracted, checked against Civgraph, and the
 // committed records they feed (election extras, reference names, checked sources).
+import { DEFAULT_BUILD_DIR } from '../../../packages/config/src/node.mjs';
 import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
@@ -40,7 +41,7 @@ export default definePlugin({
     'election-extras': {
       title: 'Turn the polling and expenses notices into the committed Browse election extras',
       argv: ['python', 'scripts/ingest/gazette-spn/build_gazette_election_extras.py', '--gazette', '{input:gazetteDir}'],
-      needs: ['tmp/records/elections-test2.json'],
+      needs: [`${DEFAULT_BUILD_DIR}/elections-test2.json`],
     },
     'reference-names': {
       title: 'Record the formal names the Gazette prints (data/elections/persons/reference-names.json)',
