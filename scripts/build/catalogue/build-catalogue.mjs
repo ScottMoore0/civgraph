@@ -349,8 +349,9 @@ for (const s of source.series) {
 for (const sub of source.subjects) for (const id of sub.toBeAdded || []) addMap(id);
 
 // ------------------------------------------------------------------ elections
-const ELECTION_BODY_ORDER = ['dail-eireann', 'house-of-commons-of-the-united-kingdom', 'northern-ireland-assembly', 'parliament-of-northern-ireland',
-  'local-government', 'european-parliament', 'european-parliament-ireland', 'president-of-ireland', 'ireland-referendum', 'ireland-local'];
+// The order of the body list: the election-bodies registry's catalogueOrder; a body it does not
+// list follows, alphabetically.
+const ELECTION_BODY_ORDER = ELECTION_BODIES.groups.catalogueOrder;
 // The pre-1973 Northern Ireland council rounds are listed one entry a year, "1946 Northern Ireland
 // local elections" (packages/map/src/ni-local-groups.mjs); a round's own key still finds its year (people's
 // contests, constituency search).
