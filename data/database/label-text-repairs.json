@@ -1,0 +1,4341 @@
+{
+  "description": "Label and name text repaired in map source files. Each entry restores characters that were damaged to U+FFFD (a wrong-encoding decode where a fada was) or stored decomposed (a combining accent after its letter). packages/maps-pipeline/src/tiles/repair-label-text.mjs applies it to the local source FlatGeobufs before the tiles are rebuilt; scripts/check/rules/map-label-data.mjs --sources accepts a damaged source value only while a repair here covers it.",
+  "generatedAt": "2026-11-11",
+  "methods": {
+    "osm-townland": "the same townland in OpenStreetMap (name:ga, from Logainm)",
+    "osm-cork-object": "the same place in OpenStreetMap, Co. Cork (name:ga, from Logainm)",
+    "osi-townland": "the same townland name in the OSi townland file (Townlands_AllIreland, Cork)",
+    "irish-word-pattern": "each damaged word matches one word in the clean Irish townland names (OSi, Logainm via OpenStreetMap)",
+    "manual": "read by hand: one fada vowel restored in a common word"
+  },
+  "confidence": {
+    "high": "the reading is certain",
+    "medium": "one plausible reading; worth a Logainm check",
+    "open": "not settled: the Irish name is left empty until checked"
+  },
+  "keyed": {
+    "cork-townlands": {
+      "key": "OBJECTID",
+      "field": "GLE_NAME_VALUE",
+      "sources": [
+        "render/source-cache/vector-intake/cork-townlands.fgb",
+        "data/maps/townlands/Townlands_Cork.fgb"
+      ],
+      "records": [
+        {
+          "id": 50761,
+          "english": "Carrignascreaghoge",
+          "damaged": "Carraig na Scr�ach�g",
+          "value": "Carraig na Scréachóg",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50760,
+          "english": "Bird Island",
+          "damaged": "Oile�n na n�an",
+          "value": "Oileán na nÉan",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50592,
+          "english": "Coolroe",
+          "damaged": "An Ch�il Rua",
+          "value": "An Chúil Rua",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9204"
+        },
+        {
+          "id": 50597,
+          "english": "Greenfield",
+          "damaged": "An Garra� Glas",
+          "value": "An Garraí Glas",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "8914"
+        },
+        {
+          "id": 50612,
+          "english": "Ballygarvan",
+          "damaged": "Baile Garbh�in",
+          "value": "Baile Garbháin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9231"
+        },
+        {
+          "id": 50610,
+          "english": "Ballyduhig North",
+          "damaged": "Baile U� Dh�thaigh Thuaidh",
+          "value": "Baile Uí Dhúthaigh Thuaidh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9551"
+        },
+        {
+          "id": 50611,
+          "english": "Rathmacullig West",
+          "damaged": "R�th Mhic Coiligh Thiar",
+          "value": "Ráth Mhic Coiligh Thiar",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9433"
+        },
+        {
+          "id": 50616,
+          "english": "Rathmacullig East",
+          "damaged": "R�th Mhic Coiligh Thoir",
+          "value": "Ráth Mhic Coiligh Thoir",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9432"
+        },
+        {
+          "id": 50609,
+          "english": "Gortagoulane",
+          "damaged": "Gort an Ghabhl�in",
+          "value": "Gort an Ghabhláin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9555"
+        },
+        {
+          "id": 50600,
+          "english": "Ballinveiltig",
+          "damaged": "Baile an Bh�ltigh",
+          "value": "Baile an Bhíltigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9498"
+        },
+        {
+          "id": 50590,
+          "english": "Ballincollig [Cp: Carrigrohane]",
+          "damaged": "Baile an Chollaigh [P: Carraig Ruach�in]",
+          "value": "Baile an Chollaigh [P: Carraig Ruacháin]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50602,
+          "english": "Curraheen",
+          "damaged": "An Curraich�n",
+          "value": "An Curraichín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9201"
+        },
+        {
+          "id": 50601,
+          "english": "Curraheen",
+          "damaged": "An Curraich�n",
+          "value": "An Curraichín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9201"
+        },
+        {
+          "id": 50682,
+          "english": "Farrandahadore Beg",
+          "damaged": "Fearann an Dathad�ra Beag",
+          "value": "Fearann an Dathadóra Beag",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13724"
+        },
+        {
+          "id": 50681,
+          "english": "Farrandahadore More",
+          "damaged": "Fearann an Dathad�ra M�r",
+          "value": "Fearann an Dathadóra Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13725"
+        },
+        {
+          "id": 50604,
+          "english": "Ballinaspig More",
+          "damaged": "Baile an Easpaig M�r",
+          "value": "Baile an Easpaig Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9237"
+        },
+        {
+          "id": 50605,
+          "english": "Garranedarragh",
+          "damaged": "Garr�n Darach",
+          "value": "Garrán Darach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9510"
+        },
+        {
+          "id": 50603,
+          "english": "Ardarostig",
+          "damaged": "Ard an R�istigh",
+          "value": "Ard an Róistigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9497"
+        },
+        {
+          "id": 50608,
+          "english": "Chetwynd",
+          "damaged": "Baile an Ghioll�in",
+          "value": "Baile an Ghiolláin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9508"
+        },
+        {
+          "id": 50607,
+          "english": "Doughcloyne",
+          "damaged": "D�chluain",
+          "value": "Dúchluain",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9509"
+        },
+        {
+          "id": 50617,
+          "english": "Lehenagh More",
+          "damaged": "Leitheanach M�r",
+          "value": "Leitheanach Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9559"
+        },
+        {
+          "id": 50619,
+          "english": "Ballycurreen",
+          "damaged": "Baile U� Chuirr�n",
+          "value": "Baile Uí Chuirrín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9552"
+        },
+        {
+          "id": 50618,
+          "english": "Curraghconway",
+          "damaged": "Corr Cheannmha�",
+          "value": "Corr Cheannmhaí",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9554"
+        },
+        {
+          "id": 50621,
+          "english": "Eve Island",
+          "damaged": "Oile�n �abha",
+          "value": "Oileán Éabha",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50606,
+          "english": "Deanrock",
+          "damaged": "Carraig an Deag�naigh",
+          "value": "Carraig an Deagánaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13723"
+        },
+        {
+          "id": 50677,
+          "english": "Killeenreendowney",
+          "damaged": "Cill�n R� an Domhnaigh",
+          "value": "Cillín Rí an Domhnaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13731"
+        },
+        {
+          "id": 50622,
+          "english": "BALLYPHEHANE [CP: St. FINBAR'S]",
+          "damaged": "Baile F�ithe�n [P: Par�iste Fhionnbharra]",
+          "value": "Baile Féitheán [P: Paróiste Fhionnbharra]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50679,
+          "english": "Ardmanning More",
+          "damaged": "Ard Mhanainn M�r",
+          "value": "Ard Mhanainn Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13717"
+        },
+        {
+          "id": 50676,
+          "english": "Croghta-More",
+          "damaged": "An Crochta M�r",
+          "value": "An Crochta Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13722"
+        },
+        {
+          "id": 50670,
+          "english": "Spital-Lands",
+          "damaged": "Fearann an Spid�il",
+          "value": "Fearann an Spidéil",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13749"
+        },
+        {
+          "id": 50671,
+          "english": "Spital-Lands",
+          "damaged": "Fearann an Spid�il",
+          "value": "Fearann an Spidéil",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13749"
+        },
+        {
+          "id": 50675,
+          "english": "BALLYPHEHANE [CP: St. NICHOLAS']",
+          "damaged": "Baile F�ithe�n [P: Par�iste San Niocl�is]",
+          "value": "Baile Féitheán [P: Paróiste San Niocláis]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50672,
+          "english": "RAHEEN and COOLEEN",
+          "damaged": "An R�ith�n agus An C�il�n",
+          "value": "An Ráithín agus An Cúilín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13744"
+        },
+        {
+          "id": 50632,
+          "english": "Coppingers Stang",
+          "damaged": "Stanga an Choipin�araigh",
+          "value": "Stanga an Choipinéaraigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13739"
+        },
+        {
+          "id": 50633,
+          "english": "Browningstown",
+          "damaged": "Cnoc�n an Mhadra Rua",
+          "value": "Cnocán an Mhadra Rua",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13738"
+        },
+        {
+          "id": 50623,
+          "english": "Inchisarsfield",
+          "damaged": "Inse an tS�irs�alaigh",
+          "value": "Inse an tSáirséalaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9557"
+        },
+        {
+          "id": 50628,
+          "english": "Douglas",
+          "damaged": "D�glas",
+          "value": "Dúglas",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9420"
+        },
+        {
+          "id": 50629,
+          "english": "Goat Island",
+          "damaged": "Oile�n na nGabhar",
+          "value": "Oileán na nGabhar",
+          "method": "osm-cork-object",
+          "confidence": "high",
+          "logainm": "9421"
+        },
+        {
+          "id": 50751,
+          "english": "Hop Island",
+          "damaged": "An tOile�n Rua",
+          "value": "An tOileán Rua",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9423"
+        },
+        {
+          "id": 50753,
+          "english": "Monfieldstown",
+          "damaged": "Baile an Mh�ins�alaigh",
+          "value": "Baile an Mhóinséalaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9427"
+        },
+        {
+          "id": 50755,
+          "english": "Mounthovel",
+          "damaged": "Cnoc an Bhoth�in",
+          "value": "Cnoc an Bhotháin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50752,
+          "english": "Oldcourt",
+          "damaged": "An tSeanch�irt",
+          "value": "An tSeanchúirt",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9429"
+        },
+        {
+          "id": 50625,
+          "english": "Grange",
+          "damaged": "An Ghr�inseach",
+          "value": "An Ghráinseach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9556"
+        },
+        {
+          "id": 50624,
+          "english": "Grange",
+          "damaged": "An Ghr�inseach",
+          "value": "An Ghráinseach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9556"
+        },
+        {
+          "id": 50614,
+          "english": "Castletreasure",
+          "damaged": "Caisle�n Treistrigh",
+          "value": "Caisleán Treistrigh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50748,
+          "english": "Ballyorban",
+          "damaged": "Baile Orb�in",
+          "value": "Baile Orbáin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9416"
+        },
+        {
+          "id": 50750,
+          "english": "Rochestown",
+          "damaged": "Baile an R�istigh",
+          "value": "Baile an Róistigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9430"
+        },
+        {
+          "id": 50746,
+          "english": "Rocky Island",
+          "damaged": "Oile�n Cathail",
+          "value": "Oileán Cathail",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50757,
+          "english": "Sovereign Islands",
+          "damaged": "Oile�n an tSabhrain",
+          "value": "Oileán an tSabhrain",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50557,
+          "english": "Ballycotton Island",
+          "damaged": "Oile�n Bhaile Choit�n",
+          "value": "Oileán Bhaile Choitín",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50558,
+          "english": "BALLYCOTTON ISLAND (Small)",
+          "damaged": "Oile�n Bhaile Choit�n Beag",
+          "value": "Oileán Bhaile Choitín Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50560,
+          "english": "Capel Island",
+          "damaged": "Oile�n an Ch�plaigh",
+          "value": "Oileán an Cháplaigh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50559,
+          "english": "Glebe Island",
+          "damaged": "An Ghl�ib",
+          "value": "An Ghléib",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50743,
+          "english": "CASTLEREDMOND INTAKE (Imokilly)",
+          "damaged": "Ionghabh�il Chaisle�n R�amainn [B: U� Mhic Coille]",
+          "value": "Ionghabháil Chaisleán Réamainn [B: Uí Mhic Coille]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50745,
+          "english": "Garryduff Intake",
+          "damaged": "Ionghabh�il an Gharra� Dhuibh",
+          "value": "Ionghabháil an Gharraí Dhuibh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50744,
+          "english": "CASTLEREDMOND INTAKE (Barrymore)",
+          "damaged": "Ionghabh�il Chaisle�n R�amainn [B: Barraigh Mh�ra]",
+          "value": "Ionghabháil Chaisleán Réamainn [B: Barraigh Mhóra]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50742,
+          "english": "Brown Island",
+          "damaged": "An tOile�n Donn",
+          "value": "An tOileán Donn",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "12184"
+        },
+        {
+          "id": 50740,
+          "english": "Ballinure",
+          "damaged": "Baile an I�ir",
+          "value": "Baile an Iúir",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13736"
+        },
+        {
+          "id": 50738,
+          "english": "Dundanion",
+          "damaged": "D�n Daingean",
+          "value": "Dún Daingean",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13740"
+        },
+        {
+          "id": 50642,
+          "english": "St. NICHOLAS'",
+          "damaged": "Par�iste San Niocl�s",
+          "value": "Paróiste San Nioclás",
+          "method": "osm-cork-object",
+          "confidence": "high",
+          "logainm": "752"
+        },
+        {
+          "id": 50636,
+          "english": "St. FINBAR'S",
+          "damaged": "Par�iste Fhionnbharra",
+          "value": "Paróiste Fhionnbharra",
+          "method": "osm-cork-object",
+          "confidence": "high",
+          "logainm": "769"
+        },
+        {
+          "id": 50737,
+          "english": "Lota More",
+          "damaged": "Luaiteach M�r",
+          "value": "Luaiteach Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9619"
+        },
+        {
+          "id": 50741,
+          "english": "Dunkettle",
+          "damaged": "D�n Citil",
+          "value": "Dún Citil",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9291"
+        },
+        {
+          "id": 50725,
+          "english": "Ballyharoon",
+          "damaged": "Baile Sheathr�in",
+          "value": "Baile Sheathrúin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9608"
+        },
+        {
+          "id": 50724,
+          "english": "Banduff",
+          "damaged": "An B�n Dubh",
+          "value": "An Bán Dubh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9611"
+        },
+        {
+          "id": 50721,
+          "english": "Lahardane",
+          "damaged": "An Leathard�n",
+          "value": "An Leathardán",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9617"
+        },
+        {
+          "id": 50727,
+          "english": "Garraneboy",
+          "damaged": "An Garr�n Bu�",
+          "value": "An Garrán Buí",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9614"
+        },
+        {
+          "id": 50726,
+          "english": "Rathcooney",
+          "damaged": "R�th Chuanna",
+          "value": "Ráth Chuanna",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9622"
+        },
+        {
+          "id": 50731,
+          "english": "Knocknahorgan",
+          "damaged": "Cnoc U� Charrag�in",
+          "value": "Cnoc Uí Charragáin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9616"
+        },
+        {
+          "id": 50732,
+          "english": "Riverstown",
+          "damaged": "Baile Rois�n",
+          "value": "Baile Roisín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9643"
+        },
+        {
+          "id": 50562,
+          "english": "Killydonoghoe",
+          "damaged": "Cill U� Dhonnch�",
+          "value": "Cill Uí Dhonnchú",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9641"
+        },
+        {
+          "id": 50561,
+          "english": "Sarsfieldscourt",
+          "damaged": "C�irt an tS�irs�alaigh",
+          "value": "Cúirt an tSáirséalaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9645"
+        },
+        {
+          "id": 50578,
+          "english": "Bawnnafinny [Cp: Carrigrohanebeg]",
+          "damaged": "B�n na Finne [P: Carraig Ruach�in Bheag]",
+          "value": "Bán na Finne [P: Carraig Ruacháin Bheag]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50571,
+          "english": "Bawnnafinny [Cp: Garrycloyne]",
+          "damaged": "B�n na Finne [P: Garbhchluain]",
+          "value": "Bán na Finne [P: Garbhchluain]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50570,
+          "english": "Boolypatrick",
+          "damaged": "Buaile Ph�draig",
+          "value": "Buaile Phádraig",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9263"
+        },
+        {
+          "id": 50568,
+          "english": "Monacnapa",
+          "damaged": "M�in an Chnaipe",
+          "value": "Móin an Chnaipe",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9270"
+        },
+        {
+          "id": 50573,
+          "english": "Shean Lower",
+          "damaged": "An Si�n �ochtarach",
+          "value": "An Sián Íochtarach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9271"
+        },
+        {
+          "id": 50574,
+          "english": "Ballygrohan",
+          "damaged": "Baile na nGearr�nach",
+          "value": "Baile na nGearránach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9649"
+        },
+        {
+          "id": 50710,
+          "english": "Clogheenmilcon",
+          "damaged": "Cloich�n M�olchon",
+          "value": "Cloichín Míolchon",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9264"
+        },
+        {
+          "id": 50711,
+          "english": "Shean Upper",
+          "damaged": "An Si�n Uachtarach",
+          "value": "An Sián Uachtarach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9272"
+        },
+        {
+          "id": 50567,
+          "english": "Ardamadane",
+          "damaged": "Ard Amad�in",
+          "value": "Ard Amadáin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9258"
+        },
+        {
+          "id": 50712,
+          "english": "Ballincrokig",
+          "damaged": "Baile an Chr�caigh",
+          "value": "Baile an Chrócaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9606"
+        },
+        {
+          "id": 50714,
+          "english": "Kilcully",
+          "damaged": "Cill Ch�ile",
+          "value": "Cill Chúile",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9602"
+        },
+        {
+          "id": 50715,
+          "english": "Carhoo",
+          "damaged": "An Cheathr�",
+          "value": "An Cheathrú",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9670"
+        },
+        {
+          "id": 50713,
+          "english": "Ballincrokig",
+          "damaged": "Baile an Chr�caigh",
+          "value": "Baile an Chrócaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9606"
+        },
+        {
+          "id": 50707,
+          "english": "Rathpeacon",
+          "damaged": "R�th Ph�ac�in",
+          "value": "Ráth Phéacáin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9677"
+        },
+        {
+          "id": 50708,
+          "english": "Killeens",
+          "damaged": "Na Cill�n�",
+          "value": "Na Cillíní",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9664"
+        },
+        {
+          "id": 50705,
+          "english": "Garranabraher",
+          "damaged": "Garr�n na mBr�thar",
+          "value": "Garrán na mBráthar",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9663"
+        },
+        {
+          "id": 50706,
+          "english": "Commons",
+          "damaged": "An Coim�n",
+          "value": "An Coimín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9660"
+        },
+        {
+          "id": 50717,
+          "english": "Commons",
+          "damaged": "An Coim�n",
+          "value": "An Coimín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9660"
+        },
+        {
+          "id": 50653,
+          "english": "Closes",
+          "damaged": "Na Cl�is",
+          "value": "Na Clóis",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13769"
+        },
+        {
+          "id": 50718,
+          "english": "Commons",
+          "damaged": "An Coim�n",
+          "value": "An Coimín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9660"
+        },
+        {
+          "id": 50719,
+          "english": "Ballyvolane",
+          "damaged": "Baile U� Mhaol�in",
+          "value": "Baile Uí Mhaoláin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9659"
+        },
+        {
+          "id": 50647,
+          "english": "Farrancleary",
+          "damaged": "Fearann an Chl�irigh",
+          "value": "Fearann an Chléirigh",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50648,
+          "english": "Ballyvolane",
+          "damaged": "Baile U� Mhaol�in",
+          "value": "Baile Uí Mhaoláin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9659"
+        },
+        {
+          "id": 50645,
+          "english": "Rathmore",
+          "damaged": "An R�th Mh�r",
+          "value": "An Ráth Mhór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "11063"
+        },
+        {
+          "id": 50650,
+          "english": "St. ANNE'S-SHANDON",
+          "damaged": "Par�iste Anna an tSeand�in",
+          "value": "Paróiste Anna an tSeandúin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50644,
+          "english": "Glankittane",
+          "damaged": "Gleann Ceat�in",
+          "value": "Gleann Ceatáin",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50658,
+          "english": "Parknaglantane",
+          "damaged": "P�irc an Ghleannt�in",
+          "value": "Páirc an Ghleanntáin",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50659,
+          "english": "Coppingers-Acre",
+          "damaged": "Acra an Choipin�araigh",
+          "value": "Acra an Choipinéaraigh",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50657,
+          "english": "Kerryhall",
+          "damaged": "Halla an Chiarra�gh",
+          "value": "Halla an Chiarraígh",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50654,
+          "english": "Knockpoge",
+          "damaged": "Cnap�g Aindri�",
+          "value": "Cnapóg Aindriú",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50656,
+          "english": "Kerryhall",
+          "damaged": "Halla an Chiarra�gh",
+          "value": "Halla an Chiarraígh",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50660,
+          "english": "Coppingers-Acre",
+          "damaged": "Acra an Choipin�araigh",
+          "value": "Acra an Choipinéaraigh",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50662,
+          "english": "Parknaglantane",
+          "damaged": "P�irc an Ghleannt�in",
+          "value": "Páirc an Ghleanntáin",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50704,
+          "english": "Knocknabohilly",
+          "damaged": "Cnoc�n na mBuachaill�",
+          "value": "Cnocán na mBuachaillí",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "11083"
+        },
+        {
+          "id": 50663,
+          "english": "Knocknabohilly",
+          "damaged": "Cnoc�n na mBuachaill�",
+          "value": "Cnocán na mBuachaillí",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "11083"
+        },
+        {
+          "id": 50666,
+          "english": "St. MARY'S-SHANDON",
+          "damaged": "Par�iste Mhuire an tSeand�in",
+          "value": "Paróiste Mhuire an tSeandúin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50703,
+          "english": "Parknock",
+          "damaged": "P�irc an Chnoic",
+          "value": "Páirc an Chnoic",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50665,
+          "english": "St. PETER'S",
+          "damaged": "Par�iste Pheadair",
+          "value": "Paróiste Pheadair",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50643,
+          "english": "Holy Trinity",
+          "damaged": "Par�iste na Tr�on�ide",
+          "value": "Paróiste na Tríonóide",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50664,
+          "english": "St. PAUL'S",
+          "damaged": "Par�iste Ph�il",
+          "value": "Paróiste Phóil",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50668,
+          "english": "St. NICHOLAS'",
+          "damaged": "Par�iste San Niocl�s",
+          "value": "Paróiste San Nioclás",
+          "method": "osm-cork-object",
+          "confidence": "high",
+          "logainm": "752"
+        },
+        {
+          "id": 50667,
+          "english": "Gurteenaspig",
+          "damaged": "Goirt�n an Easpaig",
+          "value": "Goirtín an Easpaig",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50686,
+          "english": "St. FINBAR'S",
+          "damaged": "Par�iste Fhionnbharra",
+          "value": "Paróiste Fhionnbharra",
+          "method": "osm-cork-object",
+          "confidence": "high",
+          "logainm": "769"
+        },
+        {
+          "id": 50684,
+          "english": "Gurteenaspig",
+          "damaged": "Goirt�n an Easpaig",
+          "value": "Goirtín an Easpaig",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50694,
+          "english": "Mount Desert",
+          "damaged": "Cnoc�n an D�sirt",
+          "value": "Cnocán an Dísirt",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9656"
+        },
+        {
+          "id": 50693,
+          "english": "Inchigaggin",
+          "damaged": "Inse Gaig�n",
+          "value": "Inse Gaigín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9238"
+        },
+        {
+          "id": 50692,
+          "english": "Ballygaggin",
+          "damaged": "Baile Ghaig�n",
+          "value": "Baile Ghaigín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13719"
+        },
+        {
+          "id": 50589,
+          "english": "Carrigrohane",
+          "damaged": "Carraig Ruach�in",
+          "value": "Carraig Ruacháin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9200"
+        },
+        {
+          "id": 50695,
+          "english": "Ballysheehy",
+          "damaged": "Baile U� Sh�thigh",
+          "value": "Baile Uí Shíthigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9650"
+        },
+        {
+          "id": 50696,
+          "english": "Clogheen",
+          "damaged": "Na Cloich�n�",
+          "value": "Na Cloichíní",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9651"
+        },
+        {
+          "id": 50585,
+          "english": "Ballycannon",
+          "damaged": "Baile U� Chan�in",
+          "value": "Baile Uí Chanáin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9648"
+        },
+        {
+          "id": 50586,
+          "english": "Coolymurraghue",
+          "damaged": "C�il U� Mhurch�",
+          "value": "Cúil Uí Mhurchú",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9652"
+        },
+        {
+          "id": 50576,
+          "english": "Woodside",
+          "damaged": "Coill �tha Grianaigh",
+          "value": "Coill Átha Grianaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9359"
+        },
+        {
+          "id": 50577,
+          "english": "Dromasmole",
+          "damaged": "Drom an Sm�il",
+          "value": "Drom an Smóil",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9356"
+        },
+        {
+          "id": 50582,
+          "english": "Coolatubbrid",
+          "damaged": "C�il na Tiobraide",
+          "value": "Cúil na Tiobraide",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9354"
+        },
+        {
+          "id": 50584,
+          "english": "Coolatanavally",
+          "damaged": "C�il an tSeanbhaile",
+          "value": "Cúil an tSeanbhaile",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9353"
+        },
+        {
+          "id": 50583,
+          "english": "Coolyduff",
+          "damaged": "C�il U� Dhuibh",
+          "value": "Cúil Uí Dhuibh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9355"
+        },
+        {
+          "id": 50588,
+          "english": "Lackenshoneen",
+          "damaged": "Leacain tSeoin�n",
+          "value": "Leacain tSeoinín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9357"
+        },
+        {
+          "id": 50587,
+          "english": "Carrigrohanebeg",
+          "damaged": "Carraig Ruach�in Bheag",
+          "value": "Carraig Ruacháin Bheag",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9352"
+        },
+        {
+          "id": 50591,
+          "english": "Great Island",
+          "damaged": "An tOile�n M�r",
+          "value": "An tOileán Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9205"
+        },
+        {
+          "id": 50596,
+          "english": "Bridgestown",
+          "damaged": "C�il Bhr�deoige",
+          "value": "Cúil Bhrídeoige",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9362"
+        },
+        {
+          "id": 50580,
+          "english": "Coolflugh",
+          "damaged": "An Ch�il Fhliuch",
+          "value": "An Chúil Fhliuch",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9562"
+        },
+        {
+          "id": 50873,
+          "english": "Bridaun",
+          "damaged": "Braighde�n",
+          "value": "Braighdeán",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50874,
+          "english": "Bridaun Beg",
+          "damaged": "Braighde�n Beag",
+          "value": "Braighdeán Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50875,
+          "english": "Carrigarowan",
+          "damaged": "Carraig an Ru�in",
+          "value": "Carraig an Ruáin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50880,
+          "english": "Illaundonagha",
+          "damaged": "Oile�n Dhonnch�",
+          "value": "Oileán Dhonnchú",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50878,
+          "english": "Illaunbweeheen",
+          "damaged": "Oile�n Baoith�n",
+          "value": "Oileán Baoithín",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50877,
+          "english": "Illaunnacuiree",
+          "damaged": "Oile�n na gCoir�",
+          "value": "Oileán na gCoirí",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50881,
+          "english": "Illauncreagh",
+          "damaged": "Oile�n Creach",
+          "value": "Oileán Creach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50876,
+          "english": "Illaunnameanla",
+          "damaged": "Oile�n na M�anlach",
+          "value": "",
+          "method": "open",
+          "confidence": "open",
+          "note": "Illaunnameanla: probably \"Oileán na Méanlach\"; the second letter is not settled (é, í, ó or ú)"
+        },
+        {
+          "id": 50892,
+          "english": "Dinish Island",
+          "damaged": "Du�nis",
+          "value": "Duínis",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50891,
+          "english": "Sheep Islands",
+          "damaged": "Oile�in na gCaorach",
+          "value": "Oileáin na gCaorach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50895,
+          "english": "Minanekeal",
+          "damaged": "Mionn�n Caol",
+          "value": "Mionnán Caol",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50893,
+          "english": "Minane Island",
+          "damaged": "Mionn�n",
+          "value": "Mionnán",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50843,
+          "english": "Loughure Island",
+          "damaged": "Oile�n Loch I�ir",
+          "value": "Oileán Loch Iúir",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50842,
+          "english": "Roancarrigbeg",
+          "damaged": "R�ncharraig Bheag",
+          "value": "Róncharraig Bheag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50841,
+          "english": "Roancarrigmore",
+          "damaged": "R�ncharraig Mh�r",
+          "value": "Róncharraig Mhór",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50870,
+          "english": "Carrigboy",
+          "damaged": "An Charraig Bhu�",
+          "value": "An Charraig Bhuí",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "8439"
+        },
+        {
+          "id": 50852,
+          "english": "Rabbit Island",
+          "damaged": "Oile�n na gCoin�n�",
+          "value": "Oileán na gCoiníní",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50866,
+          "english": "Lousy Castle Island",
+          "damaged": "Oile�n Chaisle�n na M�ol",
+          "value": "Oileán Chaisleán na Míol",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50854,
+          "english": "Hog Island",
+          "damaged": "Oile�n na Muc",
+          "value": "Oileán na Muc",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50853,
+          "english": "Chapel Island",
+          "damaged": "Oile�n an tS�ip�il",
+          "value": "Oileán an tSéipéil",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50855,
+          "english": "Horse Island",
+          "damaged": "Oile�n na gCapall",
+          "value": "Oileán na gCapall",
+          "method": "osi-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50860,
+          "english": "Garranboy Island",
+          "damaged": "An Gearr�n Bu�",
+          "value": "An Gearrán Buí",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50865,
+          "english": "Illauncreeveen",
+          "damaged": "Oile�n Craoibh�n",
+          "value": "Oileán Craoibhín",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50867,
+          "english": "Illaunageeragh",
+          "damaged": "Olie�n na gCaorach",
+          "value": "Olieán na gCaorach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50864,
+          "english": "Ship Island",
+          "damaged": "Oile�n na Long",
+          "value": "Oileán na Long",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50863,
+          "english": "Garvillaun",
+          "damaged": "Garbhoile�n",
+          "value": "Garbhoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50861,
+          "english": "Illaungarriff",
+          "damaged": "An tOile�n Garbh",
+          "value": "An tOileán Garbh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50858,
+          "english": "Bark Island",
+          "damaged": "Oile�n na Coirte",
+          "value": "Oileán na Coirte",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50857,
+          "english": "Friars Island",
+          "damaged": "Oile�n na mBr�thar",
+          "value": "Oileán na mBráthar",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50859,
+          "english": "Calf Island",
+          "damaged": "Oile�n an Lao",
+          "value": "Oileán an Lao",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50869,
+          "english": "Sheelane Island",
+          "damaged": "S�ol�n",
+          "value": "Síolán",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50844,
+          "english": "Mannion'S Island",
+          "damaged": "Manainn Mh�r",
+          "value": "Manainn Mhór",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50831,
+          "english": "Owen'S Island",
+          "damaged": "Oile�n Eoghain",
+          "value": "Oileán Eoghain",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50836,
+          "english": "Carrigwee",
+          "damaged": "An Charraig Bhu�",
+          "value": "An Charraig Bhuí",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50839,
+          "english": "Cold Island",
+          "damaged": "An tOile�n Fuar",
+          "value": "An tOileán Fuar",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50840,
+          "english": "Lusk Island",
+          "damaged": "An tOile�n Loiscthe",
+          "value": "An tOileán Loiscthe",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50833,
+          "english": "Horse Island",
+          "damaged": "Oile�n na gCapall",
+          "value": "Oileán na gCapall",
+          "method": "osi-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50834,
+          "english": "Furze Island",
+          "damaged": "Oile�n an Aitinn",
+          "value": "Oileán an Aitinn",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50832,
+          "english": "Rinneen Island",
+          "damaged": "An Rinn�n",
+          "value": "An Rinnín",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50849,
+          "english": "Illaunrahnee",
+          "damaged": "Oile�n Raithn�",
+          "value": "Oileán Raithní",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50850,
+          "english": "Ardillaun",
+          "damaged": "Ardoile�n",
+          "value": "Ardoileán",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50792,
+          "english": "Illaunranhee",
+          "damaged": "Oile�n Raithn�",
+          "value": "Oileán Raithní",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50847,
+          "english": "Illaunroebeg",
+          "damaged": "An tOile�n Rua Beag",
+          "value": "An tOileán Rua Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50846,
+          "english": "Illaunroemore",
+          "damaged": "An tOile�n Rua M�r",
+          "value": "An tOileán Rua Mór",
+          "method": "irish-word-pattern",
+          "confidence": "medium",
+          "note": "commonest reading: Mór (2319) over Múr (16)"
+        },
+        {
+          "id": 50845,
+          "english": "Illaunroe",
+          "damaged": "An tOile�n Rua",
+          "value": "An tOileán Rua",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50763,
+          "english": "Eve Island",
+          "damaged": "Oile�n �abha",
+          "value": "Oileán Éabha",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50766,
+          "english": "Rabbit Island",
+          "damaged": "Oile�n Bhr�de",
+          "value": "Oileán Bhríde",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50765,
+          "english": "Rabbit Island East",
+          "damaged": "Oile�n Bhr�de Thoir",
+          "value": "Oileán Bhríde Thoir",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50764,
+          "english": "Adam'S Island",
+          "damaged": "Oile�n Adaim",
+          "value": "Oileán Adaim",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50775,
+          "english": "High Island",
+          "damaged": "An tOile�n Ard",
+          "value": "An tOileán Ard",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50774,
+          "english": "Lamb Islands",
+          "damaged": "Oile�in na nUan",
+          "value": "Oileáin na nUan",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50772,
+          "english": "Low Island",
+          "damaged": "An tOile�n �seal",
+          "value": "An tOileán Íseal",
+          "method": "irish-word-pattern",
+          "confidence": "medium",
+          "note": "commonest reading: Íseal (99) over íseal (4)"
+        },
+        {
+          "id": 50773,
+          "english": "Illaunnacleahy",
+          "damaged": "Oile�n na Cl�ithe",
+          "value": "Oileán na Cléithe",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50780,
+          "english": "Illaunnaseer",
+          "damaged": "Oile�n na Saor",
+          "value": "Oileán na Saor",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50782,
+          "english": "Reenmore Island",
+          "damaged": "An Rinn Mh�r",
+          "value": "An Rinn Mhór",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50781,
+          "english": "Illaunacullin",
+          "damaged": "Oile�n an Chuilinn",
+          "value": "Oileán an Chuilinn",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50783,
+          "english": "Kedge Island",
+          "damaged": "Oile�n Dh�laing",
+          "value": "Oileán Dhúlaing",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50777,
+          "english": "Lamb Island",
+          "damaged": "Oile�n na nUan",
+          "value": "Oileán na nUan",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50776,
+          "english": "Bullock Island",
+          "damaged": "Oile�n an Daimh",
+          "value": "Oileán an Daimh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50778,
+          "english": "Illaunguane",
+          "damaged": "Oile�n an Dh�ain",
+          "value": "",
+          "method": "open",
+          "confidence": "open",
+          "note": "Illaunguane: \"Oileán an Dh?ain\"; no reading of the damaged letter makes a known word"
+        },
+        {
+          "id": 50779,
+          "english": "Castle Island",
+          "damaged": "Oile�n an Chaisle�in",
+          "value": "Oileán an Chaisleáin",
+          "method": "osi-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50770,
+          "english": "Horse Island",
+          "damaged": "Oile�n na gCapall",
+          "value": "Oileán na gCapall",
+          "method": "osi-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50768,
+          "english": "Flea Island",
+          "damaged": "Oile�n na M�ol",
+          "value": "Oileán na Míol",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50771,
+          "english": "The Stags",
+          "damaged": "Na Staca�",
+          "value": "Na Stacaí",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50806,
+          "english": "Carrigcleamore",
+          "damaged": "Carraig Chliath M�r",
+          "value": "Carraig Chliath Mór",
+          "method": "irish-word-pattern",
+          "confidence": "medium",
+          "note": "commonest reading: Mór (2319) over Múr (16)"
+        },
+        {
+          "id": 50807,
+          "english": "Carrigacuskeam",
+          "damaged": "Carraig an Choisc�ime",
+          "value": "Carraig an Choiscéime",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50805,
+          "english": "Illaunbrock",
+          "damaged": "Oile�n Broc",
+          "value": "Oileán Broc",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50804,
+          "english": "Carrigmore",
+          "damaged": "An Charraig Mh�r",
+          "value": "An Charraig Mhór",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50784,
+          "english": "Hake Island",
+          "damaged": "Oile�n na gColm�ir�",
+          "value": "Oileán na gColmóirí",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50790,
+          "english": "Illaunmore",
+          "damaged": "An tOile�n M�r",
+          "value": "An tOileán Mór",
+          "method": "irish-word-pattern",
+          "confidence": "medium",
+          "note": "commonest reading: Mór (2319) over Múr (16)"
+        },
+        {
+          "id": 50789,
+          "english": "Illaunbeg",
+          "damaged": "An tOile�n Beag",
+          "value": "An tOileán Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50787,
+          "english": "Sandy Island",
+          "damaged": "Oile�n an Ghainimh",
+          "value": "Oileán an Ghainimh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50788,
+          "english": "Illaunattin",
+          "damaged": "Oile�n an Aitinn",
+          "value": "Oileán an Aitinn",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50785,
+          "english": "The Catalogues",
+          "damaged": "Na Catal�ga",
+          "value": "Na Catalóga",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50795,
+          "english": "Quarantine Island",
+          "damaged": "Oile�n an Choraint�n",
+          "value": "Oileán an Choraintín",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50794,
+          "english": "Jeremiah'S Island",
+          "damaged": "Oile�n Dhiarmada",
+          "value": "Oileán Dhiarmada",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50791,
+          "english": "Aghillaun",
+          "damaged": "Eachoile�n",
+          "value": "Eachoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50801,
+          "english": "Coolim",
+          "damaged": "C�il Loim",
+          "value": "Cúil Loim",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50800,
+          "english": "Goose Island",
+          "damaged": "Oile�n na nG�",
+          "value": "Oileán na nGé",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50799,
+          "english": "Skeam East",
+          "damaged": "Inis C�ime Thoir",
+          "value": "Inis Céime Thoir",
+          "method": "manual",
+          "confidence": "medium"
+        },
+        {
+          "id": 50796,
+          "english": "Illaungawna",
+          "damaged": "Oile�n Gamhna",
+          "value": "Oileán Gamhna",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50797,
+          "english": "Illaunkeeragh",
+          "damaged": "Oile�n Caorach",
+          "value": "Oileán Caorach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50802,
+          "english": "Dooneen Island",
+          "damaged": "An D�in�n",
+          "value": "An Dúinín",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50798,
+          "english": "Skeam West",
+          "damaged": "Inis C�ime Thiar",
+          "value": "Inis Céime Thiar",
+          "method": "manual",
+          "confidence": "medium"
+        },
+        {
+          "id": 50830,
+          "english": "Carthy'S Island",
+          "damaged": "Oile�n Ch�rthaigh",
+          "value": "Oileán Chárthaigh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50828,
+          "english": "CARTHY'S ISLAND (North)",
+          "damaged": "Oile�n Ch�rthaigh Thuaidh",
+          "value": "Oileán Chárthaigh Thuaidh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50829,
+          "english": "CARTHY'S ISLAND (South)",
+          "damaged": "Oile�n Ch�rthaigh Theas",
+          "value": "Oileán Chárthaigh Theas",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50803,
+          "english": "Illauneana",
+          "damaged": "Oile�n �inne",
+          "value": "Oileán Éinne",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50820,
+          "english": "Coney Island",
+          "damaged": "Oile�n an Choinic�ir",
+          "value": "Oileán an Choinicéir",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50821,
+          "english": "Leighillaun",
+          "damaged": "Liathoile�n",
+          "value": "Liathoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50826,
+          "english": "Garillaun",
+          "damaged": "Garoile�n",
+          "value": "Garoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50823,
+          "english": "Goat Island",
+          "damaged": "Oile�n Clutharach",
+          "value": "Oileán Clutharach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50824,
+          "english": "Goat Island Little",
+          "damaged": "Oile�n Clutharach Beag",
+          "value": "Oileán Clutharach Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50825,
+          "english": "Illaunricmonia",
+          "damaged": "Oile�n Ric Muine",
+          "value": "Oileán Ric Muine",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50809,
+          "english": "Duharrig",
+          "damaged": "An D�charraig",
+          "value": "An Dúcharraig",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50822,
+          "english": "Green Island",
+          "damaged": "An tOile�n Glas",
+          "value": "An tOileán Glas",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50817,
+          "english": "Dick'S Island",
+          "damaged": "Oile�n an Bhior�in",
+          "value": "Oileán an Bhioráin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50818,
+          "english": "Leighillaun",
+          "damaged": "Liathoile�n",
+          "value": "Liathoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50819,
+          "english": "Carrigmore",
+          "damaged": "An Charraig Mh�r",
+          "value": "An Charraig Mhór",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": 50816,
+          "english": "Illaunlusk",
+          "damaged": "An tOile�n Loiscthe",
+          "value": "An tOileán Loiscthe",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50815,
+          "english": "Doonlea",
+          "damaged": "An D�n Liath",
+          "value": "An Dún Liath",
+          "method": "irish-word-pattern",
+          "confidence": "medium",
+          "note": "commonest reading: Dún (851) over Dín (2)"
+        },
+        {
+          "id": 50901,
+          "english": "Carrigfoilaphreesoon",
+          "damaged": "Carraig Fhaill an Phr�os�in",
+          "value": "Carraig Fhaill an Phríosúin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50900,
+          "english": "Illaunnacaheragh",
+          "damaged": "Oile�n na Cathrach",
+          "value": "Oileán na Cathrach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50813,
+          "english": "Granny Island",
+          "damaged": "An tOile�n Greanach",
+          "value": "An tOileán Greanach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50811,
+          "english": "Carrigaclevaun",
+          "damaged": "Carraig an Chliabh�in",
+          "value": "Carraig an Chliabháin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50810,
+          "english": "Gokanevegga",
+          "damaged": "Geoc�n an Bheigigh",
+          "value": "Geocán an Bheigigh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50814,
+          "english": "Leighillaunowen",
+          "damaged": "Liathoile�n Eoghain",
+          "value": "Liathoileán Eoghain",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50837,
+          "english": "Leighillaun",
+          "damaged": "Liathoile�n",
+          "value": "Liathoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": 50897,
+          "english": "Bird Island",
+          "damaged": "Oile�n na n�an",
+          "value": "Oileán na nÉan",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50896,
+          "english": "Greenane Rock",
+          "damaged": "Carraig an Ghrian�in",
+          "value": "Carraig an Ghrianáin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50887,
+          "english": "Little Island",
+          "damaged": "An tOile�n Beag",
+          "value": "An tOileán Beag",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "8895"
+        },
+        {
+          "id": 50888,
+          "english": "Garinish Island",
+          "damaged": "Oile�n an Chuilinn",
+          "value": "Oileán an Chuilinn",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50885,
+          "english": "Crow Island",
+          "damaged": "Oile�n Ealbhach",
+          "value": "Oileán Ealbhach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50886,
+          "english": "Illanebeg",
+          "damaged": "An tOile�n Beag",
+          "value": "An tOileán Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": 50883,
+          "english": "The Cow",
+          "damaged": "An Bh�",
+          "value": "An Bhó",
+          "method": "manual",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "townlands-cities-and-islands": {
+      "key": "TD_ID",
+      "field": "IrishName",
+      "sources": [
+        "render/source-cache/vector-intake/townlands-cities-and-islands.fgb",
+        "data/maps/townlands/Townlands_Cities_Paddy_Matthews.fgb"
+      ],
+      "records": [
+        {
+          "id": "45386",
+          "english": "Ballycotton Island",
+          "damaged": "Oile�n Bhaile Choit�n",
+          "value": "Oileán Bhaile Choitín",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45387",
+          "english": "BALLYCOTTON ISLAND (Small)",
+          "damaged": "Oile�n Bhaile Choit�n Beag",
+          "value": "Oileán Bhaile Choitín Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45475",
+          "english": "Glebe Island",
+          "damaged": "An Ghl�ib",
+          "value": "An Ghléib",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45407",
+          "english": "Capel Island",
+          "damaged": "Oile�n an Ch�plaigh",
+          "value": "Oileán an Cháplaigh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "44940",
+          "english": "Sarsfieldscourt",
+          "damaged": "C�irt an tS�irs�alaigh",
+          "value": "Cúirt an tSáirséalaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9645"
+        },
+        {
+          "id": "43502",
+          "english": "Killydonoghoe",
+          "damaged": "Cill U� Dhonnch�",
+          "value": "Cill Uí Dhonnchú",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9641"
+        },
+        {
+          "id": "40104",
+          "english": "Ardamadane",
+          "damaged": "Ard Amad�in",
+          "value": "Ard Amadáin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9258"
+        },
+        {
+          "id": "44438",
+          "english": "Monacnapa",
+          "damaged": "M�in an Chnaipe",
+          "value": "Móin an Chnaipe",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9270"
+        },
+        {
+          "id": "41063",
+          "english": "Boolypatrick",
+          "damaged": "Buaile Ph�draig",
+          "value": "Buaile Phádraig",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9263"
+        },
+        {
+          "id": "409792",
+          "english": "Bawnnafinny [Cp: Garrycloyne]",
+          "damaged": "B�n na Finne [P: Garbhchluain]",
+          "value": "Bán na Finne [P: Garbhchluain]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45045",
+          "english": "Shean Lower",
+          "damaged": "An Si�n �ochtarach",
+          "value": "An Sián Íochtarach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9271"
+        },
+        {
+          "id": "40506",
+          "english": "Ballygrohan",
+          "damaged": "Baile na nGearr�nach",
+          "value": "Baile na nGearránach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9649"
+        },
+        {
+          "id": "45360",
+          "english": "Woodside",
+          "damaged": "Coill �tha Grianaigh",
+          "value": "Coill Átha Grianaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9359"
+        },
+        {
+          "id": "42365",
+          "english": "Dromasmole",
+          "damaged": "Drom an Sm�il",
+          "value": "Drom an Smóil",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9356"
+        },
+        {
+          "id": "409791",
+          "english": "Bawnnafinny [Cp: Carrigrohanebeg]",
+          "damaged": "B�n na Finne [P: Carraig Ruach�in Bheag]",
+          "value": "Bán na Finne [P: Carraig Ruacháin Bheag]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "41766",
+          "english": "Coolflugh",
+          "damaged": "An Ch�il Fhliuch",
+          "value": "An Chúil Fhliuch",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9562"
+        },
+        {
+          "id": "41718",
+          "english": "Coolatubbrid",
+          "damaged": "C�il na Tiobraide",
+          "value": "Cúil na Tiobraide",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9354"
+        },
+        {
+          "id": "41828",
+          "english": "Coolyduff",
+          "damaged": "C�il U� Dhuibh",
+          "value": "Cúil Uí Dhuibh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9355"
+        },
+        {
+          "id": "41716",
+          "english": "Coolatanavally",
+          "damaged": "C�il an tSeanbhaile",
+          "value": "Cúil an tSeanbhaile",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9353"
+        },
+        {
+          "id": "40390",
+          "english": "Ballycannon",
+          "damaged": "Baile U� Chan�in",
+          "value": "Baile Uí Chanáin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9648"
+        },
+        {
+          "id": "41832",
+          "english": "Coolymurraghue",
+          "damaged": "C�il U� Mhurch�",
+          "value": "Cúil Uí Mhurchú",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9652"
+        },
+        {
+          "id": "41384",
+          "english": "Carrigrohanebeg",
+          "damaged": "Carraig Ruach�in Bheag",
+          "value": "Carraig Ruacháin Bheag",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9352"
+        },
+        {
+          "id": "43983",
+          "english": "Lackenshoneen",
+          "damaged": "Leacain tSeoin�n",
+          "value": "Leacain tSeoinín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9357"
+        },
+        {
+          "id": "41383",
+          "english": "Carrigrohane",
+          "damaged": "Carraig Ruach�in",
+          "value": "Carraig Ruacháin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9200"
+        },
+        {
+          "id": "402251",
+          "english": "Ballincollig [Cp: Carrigrohane]",
+          "damaged": "Baile an Chollaigh [P: Carraig Ruach�in]",
+          "value": "Baile an Chollaigh [P: Carraig Ruacháin]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "43099",
+          "english": "Great Island",
+          "damaged": "An tOile�n M�r",
+          "value": "An tOileán Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9205"
+        },
+        {
+          "id": "41817",
+          "english": "Coolroe",
+          "damaged": "An Ch�il Rua",
+          "value": "An Chúil Rua",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9204"
+        },
+        {
+          "id": "41082",
+          "english": "Bridgestown",
+          "damaged": "C�il Bhr�deoige",
+          "value": "Cúil Bhrídeoige",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9362"
+        },
+        {
+          "id": "43107",
+          "english": "Greenfield",
+          "damaged": "An Garra� Glas",
+          "value": "An Garraí Glas",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "8914"
+        },
+        {
+          "id": "40318",
+          "english": "Ballinveiltig",
+          "damaged": "Baile an Bh�ltigh",
+          "value": "Baile an Bhíltigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9498"
+        },
+        {
+          "id": "42107",
+          "english": "Curraheen",
+          "damaged": "An Curraich�n",
+          "value": "An Curraichín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9201"
+        },
+        {
+          "id": "42105",
+          "english": "Curraheen",
+          "damaged": "An Curraich�n",
+          "value": "An Curraichín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9201"
+        },
+        {
+          "id": "40110",
+          "english": "Ardarostig",
+          "damaged": "Ard an R�istigh",
+          "value": "Ard an Róistigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9497"
+        },
+        {
+          "id": "40219",
+          "english": "Ballinaspig More",
+          "damaged": "Baile an Easpaig M�r",
+          "value": "Baile an Easpaig Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9237"
+        },
+        {
+          "id": "42687",
+          "english": "Garranedarragh",
+          "damaged": "Garr�n Darach",
+          "value": "Garrán Darach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9510"
+        },
+        {
+          "id": "45443",
+          "english": "Deanrock",
+          "damaged": "Carraig an Deag�naigh",
+          "value": "Carraig an Deagánaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13723"
+        },
+        {
+          "id": "42320",
+          "english": "Doughcloyne",
+          "damaged": "D�chluain",
+          "value": "Dúchluain",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9509"
+        },
+        {
+          "id": "41459",
+          "english": "Chetwynd",
+          "damaged": "Baile an Ghioll�in",
+          "value": "Baile an Ghiolláin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9508"
+        },
+        {
+          "id": "42945",
+          "english": "Gortagoulane",
+          "damaged": "Gort an Ghabhl�in",
+          "value": "Gort an Ghabhláin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9555"
+        },
+        {
+          "id": "40457",
+          "english": "Ballyduhig North",
+          "damaged": "Baile U� Dh�thaigh Thuaidh",
+          "value": "Baile Uí Dhúthaigh Thuaidh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9551"
+        },
+        {
+          "id": "44769",
+          "english": "Rathmacullig West",
+          "damaged": "R�th Mhic Coiligh Thiar",
+          "value": "Ráth Mhic Coiligh Thiar",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9433"
+        },
+        {
+          "id": "40485",
+          "english": "Ballygarvan",
+          "damaged": "Baile Garbh�in",
+          "value": "Baile Garbháin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9231"
+        },
+        {
+          "id": "41447",
+          "english": "Castletreasure",
+          "damaged": "Caisle�n Treistrigh",
+          "value": "Caisleán Treistrigh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "44768",
+          "english": "Rathmacullig East",
+          "damaged": "R�th Mhic Coiligh Thoir",
+          "value": "Ráth Mhic Coiligh Thoir",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9432"
+        },
+        {
+          "id": "44040",
+          "english": "Lehenagh More",
+          "damaged": "Leitheanach M�r",
+          "value": "Leitheanach Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9559"
+        },
+        {
+          "id": "42071",
+          "english": "Curraghconway",
+          "damaged": "Corr Cheannmha�",
+          "value": "Corr Cheannmhaí",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9554"
+        },
+        {
+          "id": "40421",
+          "english": "Ballycurreen",
+          "damaged": "Baile U� Chuirr�n",
+          "value": "Baile Uí Chuirrín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9552"
+        },
+        {
+          "id": "45452",
+          "english": "Eve Island",
+          "damaged": "Oile�n �abha",
+          "value": "Oileán Éabha",
+          "method": "manual",
+          "confidence": "high",
+          "features": 2
+        },
+        {
+          "id": "45389",
+          "english": "BALLYPHEHANE [CP: St. FINBAR'S]",
+          "damaged": "Baile F�ithe�n [P: Par�iste Fhionnbharra]",
+          "value": "Baile Féitheán [P: Paróiste Fhionnbharra]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "43232",
+          "english": "Inchisarsfield",
+          "damaged": "Inse an tS�irs�alaigh",
+          "value": "Inse an tSáirséalaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9557"
+        },
+        {
+          "id": "43091",
+          "english": "Grange",
+          "damaged": "An Ghr�inseach",
+          "value": "An Ghráinseach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9556"
+        },
+        {
+          "id": "43090",
+          "english": "Grange",
+          "damaged": "An Ghr�inseach",
+          "value": "An Ghráinseach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9556"
+        },
+        {
+          "id": "42321",
+          "english": "Douglas",
+          "damaged": "D�glas",
+          "value": "Dúglas",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9420"
+        },
+        {
+          "id": "45477",
+          "english": "Goat Island",
+          "damaged": "Oile�n na nGabhar",
+          "value": "Oileán na nGabhar",
+          "method": "osm-cork-object",
+          "confidence": "high",
+          "logainm": "9421"
+        },
+        {
+          "id": "45438",
+          "english": "Coppingers Stang",
+          "damaged": "Stanga an Choipin�araigh",
+          "value": "Stanga an Choipinéaraigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13739"
+        },
+        {
+          "id": "45402",
+          "english": "Browningstown",
+          "damaged": "Cnoc�n an Mhadra Rua",
+          "value": "Cnocán an Mhadra Rua",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13738"
+        },
+        {
+          "id": "45595",
+          "english": "St. FINBAR'S",
+          "damaged": "Par�iste Fhionnbharra",
+          "value": "Paróiste Fhionnbharra",
+          "method": "osm-cork-object",
+          "confidence": "high",
+          "logainm": "769"
+        },
+        {
+          "id": "45598",
+          "english": "St. NICHOLAS'",
+          "damaged": "Par�iste San Niocl�s",
+          "value": "Paróiste San Nioclás",
+          "method": "osm-cork-object",
+          "confidence": "high",
+          "logainm": "752"
+        },
+        {
+          "id": "45490",
+          "english": "Holy Trinity",
+          "damaged": "Par�iste na Tr�on�ide",
+          "value": "Paróiste na Tríonóide",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45474",
+          "english": "Glankittane",
+          "damaged": "Gleann Ceat�in",
+          "value": "Gleann Ceatáin",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45571",
+          "english": "Rathmore",
+          "damaged": "An R�th Mh�r",
+          "value": "An Ráth Mhór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "11063"
+        },
+        {
+          "id": "45454",
+          "english": "Farrancleary",
+          "damaged": "Fearann an Chl�irigh",
+          "value": "Fearann an Chléirigh",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45391",
+          "english": "Ballyvolane",
+          "damaged": "Baile U� Mhaol�in",
+          "value": "Baile Uí Mhaoláin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9659"
+        },
+        {
+          "id": "45593",
+          "english": "St. ANNE'S-SHANDON",
+          "damaged": "Par�iste Anna an tSeand�in",
+          "value": "Paróiste Anna an tSeandúin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45432",
+          "english": "Closes",
+          "damaged": "Na Cl�is",
+          "value": "Na Clóis",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13769"
+        },
+        {
+          "id": "45536",
+          "english": "Knockpoge",
+          "damaged": "Cnap�g Aindri�",
+          "value": "Cnapóg Aindriú",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45525",
+          "english": "Kerryhall",
+          "damaged": "Halla an Chiarra�gh",
+          "value": "Halla an Chiarraígh",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45526",
+          "english": "Kerryhall",
+          "damaged": "Halla an Chiarra�gh",
+          "value": "Halla an Chiarraígh",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45563",
+          "english": "Parknaglantane",
+          "damaged": "P�irc an Ghleannt�in",
+          "value": "Páirc an Ghleanntáin",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45440",
+          "english": "Coppingers-Acre",
+          "damaged": "Acra an Choipin�araigh",
+          "value": "Acra an Choipinéaraigh",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45439",
+          "english": "Coppingers-Acre",
+          "damaged": "Acra an Choipin�araigh",
+          "value": "Acra an Choipinéaraigh",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45562",
+          "english": "Parknaglantane",
+          "damaged": "P�irc an Ghleannt�in",
+          "value": "Páirc an Ghleanntáin",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45533",
+          "english": "Knocknabohilly",
+          "damaged": "Cnoc�n na mBuachaill�",
+          "value": "Cnocán na mBuachaillí",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "11083"
+        },
+        {
+          "id": "45599",
+          "english": "St. PAUL'S",
+          "damaged": "Par�iste Ph�il",
+          "value": "Paróiste Phóil",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45600",
+          "english": "St. PETER'S",
+          "damaged": "Par�iste Pheadair",
+          "value": "Paróiste Pheadair",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45596",
+          "english": "St. MARY'S-SHANDON",
+          "damaged": "Par�iste Mhuire an tSeand�in",
+          "value": "Paróiste Mhuire an tSeandúin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45485",
+          "english": "Gurteenaspig",
+          "damaged": "Goirt�n an Easpaig",
+          "value": "Goirtín an Easpaig",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45597",
+          "english": "St. NICHOLAS'",
+          "damaged": "Par�iste San Niocl�s",
+          "value": "Paróiste San Nioclás",
+          "method": "osm-cork-object",
+          "confidence": "high",
+          "logainm": "752"
+        },
+        {
+          "id": "45591",
+          "english": "Spital-Lands",
+          "damaged": "Fearann an Spid�il",
+          "value": "Fearann an Spidéil",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13749"
+        },
+        {
+          "id": "45592",
+          "english": "Spital-Lands",
+          "damaged": "Fearann an Spid�il",
+          "value": "Fearann an Spidéil",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13749"
+        },
+        {
+          "id": "45570",
+          "english": "RAHEEN and COOLEEN",
+          "damaged": "An R�ith�n agus An C�il�n",
+          "value": "An Ráithín agus An Cúilín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13744"
+        },
+        {
+          "id": "45390",
+          "english": "BALLYPHEHANE [CP: St. NICHOLAS']",
+          "damaged": "Baile F�ithe�n [P: Par�iste San Niocl�is]",
+          "value": "Baile Féitheán [P: Paróiste San Niocláis]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45441",
+          "english": "Croghta-More",
+          "damaged": "An Crochta M�r",
+          "value": "An Crochta Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13722"
+        },
+        {
+          "id": "45528",
+          "english": "Killeenreendowney",
+          "damaged": "Cill�n R� an Domhnaigh",
+          "value": "Cillín Rí an Domhnaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13731"
+        },
+        {
+          "id": "45376",
+          "english": "Ardmanning More",
+          "damaged": "Ard Mhanainn M�r",
+          "value": "Ard Mhanainn Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13717"
+        },
+        {
+          "id": "45456",
+          "english": "Farrandahadore More",
+          "damaged": "Fearann an Dathad�ra M�r",
+          "value": "Fearann an Dathadóra Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13725"
+        },
+        {
+          "id": "45455",
+          "english": "Farrandahadore Beg",
+          "damaged": "Fearann an Dathad�ra Beag",
+          "value": "Fearann an Dathadóra Beag",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13724"
+        },
+        {
+          "id": "45484",
+          "english": "Gurteenaspig",
+          "damaged": "Goirt�n an Easpaig",
+          "value": "Goirtín an Easpaig",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45594",
+          "english": "St. FINBAR'S",
+          "damaged": "Par�iste Fhionnbharra",
+          "value": "Paróiste Fhionnbharra",
+          "method": "osm-cork-object",
+          "confidence": "high",
+          "logainm": "769"
+        },
+        {
+          "id": "45388",
+          "english": "Ballygaggin",
+          "damaged": "Baile Ghaig�n",
+          "value": "Baile Ghaigín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13719"
+        },
+        {
+          "id": "43206",
+          "english": "Inchigaggin",
+          "damaged": "Inse Gaig�n",
+          "value": "Inse Gaigín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9238"
+        },
+        {
+          "id": "44491",
+          "english": "Mount Desert",
+          "damaged": "Cnoc�n an D�sirt",
+          "value": "Cnocán an Dísirt",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9656"
+        },
+        {
+          "id": "40812",
+          "english": "Ballysheehy",
+          "damaged": "Baile U� Sh�thigh",
+          "value": "Baile Uí Shíthigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9650"
+        },
+        {
+          "id": "41543",
+          "english": "Clogheen",
+          "damaged": "Na Cloich�n�",
+          "value": "Na Cloichíní",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9651"
+        },
+        {
+          "id": "45564",
+          "english": "Parknock",
+          "damaged": "P�irc an Chnoic",
+          "value": "Páirc an Chnoic",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45532",
+          "english": "Knocknabohilly",
+          "damaged": "Cnoc�n na mBuachaill�",
+          "value": "Cnocán na mBuachaillí",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "11083"
+        },
+        {
+          "id": "42665",
+          "english": "Garranabraher",
+          "damaged": "Garr�n na mBr�thar",
+          "value": "Garrán na mBráthar",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9663"
+        },
+        {
+          "id": "41671",
+          "english": "Commons",
+          "damaged": "An Coim�n",
+          "value": "An Coimín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9660"
+        },
+        {
+          "id": "44781",
+          "english": "Rathpeacon",
+          "damaged": "R�th Ph�ac�in",
+          "value": "Ráth Phéacáin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9677"
+        },
+        {
+          "id": "43471",
+          "english": "Killeens",
+          "damaged": "Na Cill�n�",
+          "value": "Na Cillíní",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9664"
+        },
+        {
+          "id": "41549",
+          "english": "Clogheenmilcon",
+          "damaged": "Cloich�n M�olchon",
+          "value": "Cloichín Míolchon",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9264"
+        },
+        {
+          "id": "45046",
+          "english": "Shean Upper",
+          "damaged": "An Si�n Uachtarach",
+          "value": "An Sián Uachtarach",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9272"
+        },
+        {
+          "id": "40232",
+          "english": "Ballincrokig",
+          "damaged": "Baile an Chr�caigh",
+          "value": "Baile an Chrócaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9606"
+        },
+        {
+          "id": "40233",
+          "english": "Ballincrokig",
+          "damaged": "Baile an Chr�caigh",
+          "value": "Baile an Chrócaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9606"
+        },
+        {
+          "id": "43369",
+          "english": "Kilcully",
+          "damaged": "Cill Ch�ile",
+          "value": "Cill Chúile",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9602"
+        },
+        {
+          "id": "41255",
+          "english": "Carhoo",
+          "damaged": "An Cheathr�",
+          "value": "An Cheathrú",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9670"
+        },
+        {
+          "id": "45434",
+          "english": "Commons",
+          "damaged": "An Coim�n",
+          "value": "An Coimín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9660"
+        },
+        {
+          "id": "45435",
+          "english": "Commons",
+          "damaged": "An Coim�n",
+          "value": "An Coimín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9660"
+        },
+        {
+          "id": "40864",
+          "english": "Ballyvolane",
+          "damaged": "Baile U� Mhaol�in",
+          "value": "Baile Uí Mhaoláin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9659"
+        },
+        {
+          "id": "44012",
+          "english": "Lahardane",
+          "damaged": "An Leathard�n",
+          "value": "An Leathardán",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9617"
+        },
+        {
+          "id": "40897",
+          "english": "Banduff",
+          "damaged": "An B�n Dubh",
+          "value": "An Bán Dubh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9611"
+        },
+        {
+          "id": "40520",
+          "english": "Ballyharoon",
+          "damaged": "Baile Sheathr�in",
+          "value": "Baile Sheathrúin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9608"
+        },
+        {
+          "id": "44745",
+          "english": "Rathcooney",
+          "damaged": "R�th Chuanna",
+          "value": "Ráth Chuanna",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9622"
+        },
+        {
+          "id": "42684",
+          "english": "Garraneboy",
+          "damaged": "An Garr�n Bu�",
+          "value": "An Garrán Buí",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9614"
+        },
+        {
+          "id": "43850",
+          "english": "Knocknahorgan",
+          "damaged": "Cnoc U� Charrag�in",
+          "value": "Cnoc Uí Charragáin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9616"
+        },
+        {
+          "id": "44853",
+          "english": "Riverstown",
+          "damaged": "Baile Rois�n",
+          "value": "Baile Roisín",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9643"
+        },
+        {
+          "id": "44211",
+          "english": "Lota More",
+          "damaged": "Luaiteach M�r",
+          "value": "Luaiteach Mór",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9619"
+        },
+        {
+          "id": "45449",
+          "english": "Dundanion",
+          "damaged": "D�n Daingean",
+          "value": "Dún Daingean",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13740"
+        },
+        {
+          "id": "45385",
+          "english": "Ballinure",
+          "damaged": "Baile an I�ir",
+          "value": "Baile an Iúir",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "13736"
+        },
+        {
+          "id": "42502",
+          "english": "Dunkettle",
+          "damaged": "D�n Citil",
+          "value": "Dún Citil",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9291"
+        },
+        {
+          "id": "45401",
+          "english": "Brown Island",
+          "damaged": "An tOile�n Donn",
+          "value": "An tOileán Donn",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "12184"
+        },
+        {
+          "id": "414383",
+          "english": "CASTLEREDMOND INTAKE (Imokilly)",
+          "damaged": "Ionghabh�il Chaisle�n R�amainn [B: U� Mhic Coille]",
+          "value": "Ionghabháil Chaisleán Réamainn [B: Uí Mhic Coille]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "414382",
+          "english": "CASTLEREDMOND INTAKE (Barrymore)",
+          "damaged": "Ionghabh�il Chaisle�n R�amainn [B: Barraigh Mh�ra]",
+          "value": "Ionghabháil Chaisleán Réamainn [B: Barraigh Mhóra]",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "427342",
+          "english": "Garryduff Intake",
+          "damaged": "Ionghabh�il an Gharra� Dhuibh",
+          "value": "Ionghabháil an Gharraí Dhuibh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45576",
+          "english": "Rocky Island",
+          "damaged": "Oile�n Cathail",
+          "value": "Oileán Cathail",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "40774",
+          "english": "Ballyorban",
+          "damaged": "Baile Orb�in",
+          "value": "Baile Orbáin",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9416"
+        },
+        {
+          "id": "44855",
+          "english": "Rochestown",
+          "damaged": "Baile an R�istigh",
+          "value": "Baile an Róistigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9430"
+        },
+        {
+          "id": "43165",
+          "english": "Hop Island",
+          "damaged": "An tOile�n Rua",
+          "value": "An tOileán Rua",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9423"
+        },
+        {
+          "id": "44588",
+          "english": "Oldcourt",
+          "damaged": "An tSeanch�irt",
+          "value": "An tSeanchúirt",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9429"
+        },
+        {
+          "id": "44480",
+          "english": "Monfieldstown",
+          "damaged": "Baile an Mh�ins�alaigh",
+          "value": "Baile an Mhóinséalaigh",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "9427"
+        },
+        {
+          "id": "44500",
+          "english": "Mounthovel",
+          "damaged": "Cnoc an Bhoth�in",
+          "value": "Cnoc an Bhotháin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45590",
+          "english": "Sovereign Islands",
+          "damaged": "Oile�n an tSabhrain",
+          "value": "Oileán an tSabhrain",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45394",
+          "english": "Bird Island",
+          "damaged": "Oile�n na n�an",
+          "value": "Oileán na nÉan",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45421",
+          "english": "Carrignascreaghoge",
+          "damaged": "Carraig na Scr�ach�g",
+          "value": "Carraig na Scréachóg",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45372",
+          "english": "Adam'S Island",
+          "damaged": "Oile�n Adaim",
+          "value": "Oileán Adaim",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45569",
+          "english": "Rabbit Island East",
+          "damaged": "Oile�n Bhr�de Thoir",
+          "value": "Oileán Bhríde Thoir",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45567",
+          "english": "Rabbit Island",
+          "damaged": "Oile�n Bhr�de",
+          "value": "Oileán Bhríde",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45461",
+          "english": "Flea Island",
+          "damaged": "Oile�n na M�ol",
+          "value": "Oileán na Míol",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45492",
+          "english": "Horse Island",
+          "damaged": "Oile�n na gCapall",
+          "value": "Oileán na gCapall",
+          "method": "osi-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45606",
+          "english": "The Stags",
+          "damaged": "Na Staca�",
+          "value": "Na Stacaí",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45551",
+          "english": "Low Island",
+          "damaged": "An tOile�n �seal",
+          "value": "An tOileán Íseal",
+          "method": "irish-word-pattern",
+          "confidence": "medium",
+          "note": "commonest reading: Íseal (99) over íseal (4)"
+        },
+        {
+          "id": "45512",
+          "english": "Illaunnacleahy",
+          "damaged": "Oile�n na Cl�ithe",
+          "value": "Oileán na Cléithe",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45540",
+          "english": "Lamb Islands",
+          "damaged": "Oile�in na nUan",
+          "value": "Oileáin na nUan",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45488",
+          "english": "High Island",
+          "damaged": "An tOile�n Ard",
+          "value": "An tOileán Ard",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45403",
+          "english": "Bullock Island",
+          "damaged": "Oile�n an Daimh",
+          "value": "Oileán an Daimh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45539",
+          "english": "Lamb Island",
+          "damaged": "Oile�n na nUan",
+          "value": "Oileán na nUan",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45507",
+          "english": "Illaunguane",
+          "damaged": "Oile�n an Dh�ain",
+          "value": "",
+          "method": "open",
+          "confidence": "open",
+          "note": "Illaunguane: \"Oileán an Dh?ain\"; no reading of the damaged letter makes a known word"
+        },
+        {
+          "id": "45428",
+          "english": "Castle Island",
+          "damaged": "Oile�n an Chaisle�in",
+          "value": "Oileán an Chaisleáin",
+          "method": "osi-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45515",
+          "english": "Illaunnaseer",
+          "damaged": "Oile�n na Saor",
+          "value": "Oileán na Saor",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45495",
+          "english": "Illaunacullin",
+          "damaged": "Oile�n an Chuilinn",
+          "value": "Oileán an Chuilinn",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45572",
+          "english": "Reenmore Island",
+          "damaged": "An Rinn Mh�r",
+          "value": "An Rinn Mhór",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45524",
+          "english": "Kedge Island",
+          "damaged": "Oile�n Dh�laing",
+          "value": "Oileán Dhúlaing",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45486",
+          "english": "Hake Island",
+          "damaged": "Oile�n na gColm�ir�",
+          "value": "Oileán na gColmóirí",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45604",
+          "english": "The Catalogues",
+          "damaged": "Na Catal�ga",
+          "value": "Na Catalóga",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45578",
+          "english": "Sandy Island",
+          "damaged": "Oile�n an Ghainimh",
+          "value": "Oileán an Ghainimh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45497",
+          "english": "Illaunattin",
+          "damaged": "Oile�n an Aitinn",
+          "value": "Oileán an Aitinn",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45498",
+          "english": "Illaunbeg",
+          "damaged": "An tOile�n Beag",
+          "value": "An tOileán Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45510",
+          "english": "Illaunmore",
+          "damaged": "An tOile�n M�r",
+          "value": "An tOileán Mór",
+          "method": "irish-word-pattern",
+          "confidence": "medium",
+          "note": "commonest reading: Mór (2319) over Múr (16)"
+        },
+        {
+          "id": "45373",
+          "english": "Aghillaun",
+          "damaged": "Eachoile�n",
+          "value": "Eachoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45517",
+          "english": "Illaunranhee",
+          "damaged": "Oile�n Raithn�",
+          "value": "Oileán Raithní",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45523",
+          "english": "Jeremiah'S Island",
+          "damaged": "Oile�n Dhiarmada",
+          "value": "Oileán Dhiarmada",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45566",
+          "english": "Quarantine Island",
+          "damaged": "Oile�n an Choraint�n",
+          "value": "Oileán an Choraintín",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45506",
+          "english": "Illaungawna",
+          "damaged": "Oile�n Gamhna",
+          "value": "Oileán Gamhna",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45508",
+          "english": "Illaunkeeragh",
+          "damaged": "Oile�n Caorach",
+          "value": "Oileán Caorach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45587",
+          "english": "Skeam West",
+          "damaged": "Inis C�ime Thiar",
+          "value": "Inis Céime Thiar",
+          "method": "manual",
+          "confidence": "medium"
+        },
+        {
+          "id": "45586",
+          "english": "Skeam East",
+          "damaged": "Inis C�ime Thoir",
+          "value": "Inis Céime Thoir",
+          "method": "manual",
+          "confidence": "medium"
+        },
+        {
+          "id": "45480",
+          "english": "Goose Island",
+          "damaged": "Oile�n na nG�",
+          "value": "Oileán na nGé",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45437",
+          "english": "Coolim",
+          "damaged": "C�il Loim",
+          "value": "Cúil Loim",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45446",
+          "english": "Dooneen Island",
+          "damaged": "An D�in�n",
+          "value": "An Dúinín",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45504",
+          "english": "Illauneana",
+          "damaged": "Oile�n �inne",
+          "value": "Oileán Éinne",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45419",
+          "english": "Carrigmore",
+          "damaged": "An Charraig Mh�r",
+          "value": "An Charraig Mhór",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45499",
+          "english": "Illaunbrock",
+          "damaged": "Oile�n Broc",
+          "value": "Oileán Broc",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45413",
+          "english": "Carrigcleamore",
+          "damaged": "Carraig Chliath M�r",
+          "value": "Carraig Chliath Mór",
+          "method": "irish-word-pattern",
+          "confidence": "medium",
+          "note": "commonest reading: Mór (2319) over Múr (16)"
+        },
+        {
+          "id": "45410",
+          "english": "Carrigacuskeam",
+          "damaged": "Carraig an Choisc�ime",
+          "value": "Carraig an Choiscéime",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45448",
+          "english": "Duharrig",
+          "damaged": "An D�charraig",
+          "value": "An Dúcharraig",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45479",
+          "english": "Gokanevegga",
+          "damaged": "Geoc�n an Bheigigh",
+          "value": "Geocán an Bheigigh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45409",
+          "english": "Carrigaclevaun",
+          "damaged": "Carraig an Chliabh�in",
+          "value": "Carraig an Chliabháin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45481",
+          "english": "Granny Island",
+          "damaged": "An tOile�n Greanach",
+          "value": "An tOileán Greanach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45544",
+          "english": "Leighillaunowen",
+          "damaged": "Liathoile�n Eoghain",
+          "value": "Liathoileán Eoghain",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45447",
+          "english": "Doonlea",
+          "damaged": "An D�n Liath",
+          "value": "An Dún Liath",
+          "method": "irish-word-pattern",
+          "confidence": "medium",
+          "note": "commonest reading: Dún (851) over Dín (2)"
+        },
+        {
+          "id": "45509",
+          "english": "Illaunlusk",
+          "damaged": "An tOile�n Loiscthe",
+          "value": "An tOileán Loiscthe",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45444",
+          "english": "Dick'S Island",
+          "damaged": "Oile�n an Bhior�in",
+          "value": "Oileán an Bhioráin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45542",
+          "english": "Leighillaun",
+          "damaged": "Liathoile�n",
+          "value": "Liathoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45418",
+          "english": "Carrigmore",
+          "damaged": "An Charraig Mh�r",
+          "value": "An Charraig Mhór",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45436",
+          "english": "Coney Island",
+          "damaged": "Oile�n an Choinic�ir",
+          "value": "Oileán an Choinicéir",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45543",
+          "english": "Leighillaun",
+          "damaged": "Liathoile�n",
+          "value": "Liathoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45482",
+          "english": "Green Island",
+          "damaged": "An tOile�n Glas",
+          "value": "An tOileán Glas",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45476",
+          "english": "Goat Island",
+          "damaged": "Oile�n Clutharach",
+          "value": "Oileán Clutharach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45478",
+          "english": "Goat Island Little",
+          "damaged": "Oile�n Clutharach Beag",
+          "value": "Oileán Clutharach Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45518",
+          "english": "Illaunricmonia",
+          "damaged": "Oile�n Ric Muine",
+          "value": "Oileán Ric Muine",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45466",
+          "english": "Garillaun",
+          "damaged": "Garoile�n",
+          "value": "Garoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45426",
+          "english": "CARTHY'S ISLAND (North)",
+          "damaged": "Oile�n Ch�rthaigh Thuaidh",
+          "value": "Oileán Chárthaigh Thuaidh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45427",
+          "english": "CARTHY'S ISLAND (South)",
+          "damaged": "Oile�n Ch�rthaigh Theas",
+          "value": "Oileán Chárthaigh Theas",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45425",
+          "english": "Carthy'S Island",
+          "damaged": "Oile�n Ch�rthaigh",
+          "value": "Oileán Chárthaigh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45561",
+          "english": "Owen'S Island",
+          "damaged": "Oile�n Eoghain",
+          "value": "Oileán Eoghain",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45573",
+          "english": "Rinneen Island",
+          "damaged": "An Rinn�n",
+          "value": "An Rinnín",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45491",
+          "english": "Horse Island",
+          "damaged": "Oile�n na gCapall",
+          "value": "Oileán na gCapall",
+          "method": "osi-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45464",
+          "english": "Furze Island",
+          "damaged": "Oile�n an Aitinn",
+          "value": "Oileán an Aitinn",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45424",
+          "english": "Carrigwee",
+          "damaged": "An Charraig Bhu�",
+          "value": "An Charraig Bhuí",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45541",
+          "english": "Leighillaun",
+          "damaged": "Liathoile�n",
+          "value": "Liathoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45433",
+          "english": "Cold Island",
+          "damaged": "An tOile�n Fuar",
+          "value": "An tOileán Fuar",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45552",
+          "english": "Lusk Island",
+          "damaged": "An tOile�n Loiscthe",
+          "value": "An tOileán Loiscthe",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45575",
+          "english": "Roancarrigmore",
+          "damaged": "R�ncharraig Mh�r",
+          "value": "Róncharraig Mhór",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45574",
+          "english": "Roancarrigbeg",
+          "damaged": "R�ncharraig Bheag",
+          "value": "Róncharraig Bheag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45549",
+          "english": "Loughure Island",
+          "damaged": "Oile�n Loch I�ir",
+          "value": "Oileán Loch Iúir",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45557",
+          "english": "Mannion'S Island",
+          "damaged": "Manainn Mh�r",
+          "value": "Manainn Mhór",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45519",
+          "english": "Illaunroe",
+          "damaged": "An tOile�n Rua",
+          "value": "An tOileán Rua",
+          "method": "osm-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45521",
+          "english": "Illaunroemore",
+          "damaged": "An tOile�n Rua M�r",
+          "value": "An tOileán Rua Mór",
+          "method": "irish-word-pattern",
+          "confidence": "medium",
+          "note": "commonest reading: Mór (2319) over Múr (16)"
+        },
+        {
+          "id": "45520",
+          "english": "Illaunroebeg",
+          "damaged": "An tOile�n Rua Beag",
+          "value": "An tOileán Rua Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45516",
+          "english": "Illaunrahnee",
+          "damaged": "Oile�n Raithn�",
+          "value": "Oileán Raithní",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45374",
+          "english": "Ardillaun",
+          "damaged": "Ardoile�n",
+          "value": "Ardoileán",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45568",
+          "english": "Rabbit Island",
+          "damaged": "Oile�n na gCoin�n�",
+          "value": "Oileán na gCoiníní",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45429",
+          "english": "Chapel Island",
+          "damaged": "Oile�n an tS�ip�il",
+          "value": "Oileán an tSéipéil",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45489",
+          "english": "Hog Island",
+          "damaged": "Oile�n na Muc",
+          "value": "Oileán na Muc",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45607",
+          "english": "Horse Island",
+          "damaged": "Oile�n na gCapall",
+          "value": "Oileán na gCapall",
+          "method": "osi-townland",
+          "confidence": "high"
+        },
+        {
+          "id": "45463",
+          "english": "Friars Island",
+          "damaged": "Oile�n na mBr�thar",
+          "value": "Oileán na mBráthar",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45392",
+          "english": "Bark Island",
+          "damaged": "Oile�n na Coirte",
+          "value": "Oileán na Coirte",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45406",
+          "english": "Calf Island",
+          "damaged": "Oile�n an Lao",
+          "value": "Oileán an Lao",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45470",
+          "english": "Garranboy Island",
+          "damaged": "An Gearr�n Bu�",
+          "value": "An Gearrán Buí",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45505",
+          "english": "Illaungarriff",
+          "damaged": "An tOile�n Garbh",
+          "value": "An tOileán Garbh",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45471",
+          "english": "Garvillaun",
+          "damaged": "Garbhoile�n",
+          "value": "Garbhoileán",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45583",
+          "english": "Ship Island",
+          "damaged": "Oile�n na Long",
+          "value": "Oileán na Long",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45502",
+          "english": "Illauncreeveen",
+          "damaged": "Oile�n Craoibh�n",
+          "value": "Oileán Craoibhín",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45550",
+          "english": "Lousy Castle Island",
+          "damaged": "Oile�n Chaisle�n na M�ol",
+          "value": "Oileán Chaisleán na Míol",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45496",
+          "english": "Illaunageeragh",
+          "damaged": "Olie�n na gCaorach",
+          "value": "Olieán na gCaorach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45581",
+          "english": "Sheelane Island",
+          "damaged": "S�ol�n",
+          "value": "Síolán",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45412",
+          "english": "Carrigboy",
+          "damaged": "An Charraig Bhu�",
+          "value": "An Charraig Bhuí",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "8439"
+        },
+        {
+          "id": "45399",
+          "english": "Bridaun",
+          "damaged": "Braighde�n",
+          "value": "Braighdeán",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45400",
+          "english": "Bridaun Beg",
+          "damaged": "Braighde�n Beag",
+          "value": "Braighdeán Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45411",
+          "english": "Carrigarowan",
+          "damaged": "Carraig an Ru�in",
+          "value": "Carraig an Ruáin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45514",
+          "english": "Illaunnameanla",
+          "damaged": "Oile�n na M�anlach",
+          "value": "",
+          "method": "open",
+          "confidence": "open",
+          "note": "Illaunnameanla: probably \"Oileán na Méanlach\"; the second letter is not settled (é, í, ó or ú)"
+        },
+        {
+          "id": "45513",
+          "english": "Illaunnacuiree",
+          "damaged": "Oile�n na gCoir�",
+          "value": "Oileán na gCoirí",
+          "method": "manual",
+          "confidence": "high"
+        },
+        {
+          "id": "45500",
+          "english": "Illaunbweeheen",
+          "damaged": "Oile�n Baoith�n",
+          "value": "Oileán Baoithín",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45503",
+          "english": "Illaundonagha",
+          "damaged": "Oile�n Dhonnch�",
+          "value": "Oileán Dhonnchú",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45501",
+          "english": "Illauncreagh",
+          "damaged": "Oile�n Creach",
+          "value": "Oileán Creach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45605",
+          "english": "The Cow",
+          "damaged": "An Bh�",
+          "value": "An Bhó",
+          "method": "manual",
+          "confidence": "medium"
+        },
+        {
+          "id": "45442",
+          "english": "Crow Island",
+          "damaged": "Oile�n Ealbhach",
+          "value": "Oileán Ealbhach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45494",
+          "english": "Illanebeg",
+          "damaged": "An tOile�n Beag",
+          "value": "An tOileán Beag",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45545",
+          "english": "Little Island",
+          "damaged": "An tOile�n Beag",
+          "value": "An tOileán Beag",
+          "method": "osm-townland",
+          "confidence": "high",
+          "logainm": "8895"
+        },
+        {
+          "id": "45468",
+          "english": "Garinish Island",
+          "damaged": "Oile�n an Chuilinn",
+          "value": "Oileán an Chuilinn",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45582",
+          "english": "Sheep Islands",
+          "damaged": "Oile�in na gCaorach",
+          "value": "Oileáin na gCaorach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45445",
+          "english": "Dinish Island",
+          "damaged": "Du�nis",
+          "value": "Duínis",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45558",
+          "english": "Minane Island",
+          "damaged": "Mionn�n",
+          "value": "Mionnán",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45559",
+          "english": "Minanekeal",
+          "damaged": "Mionn�n Caol",
+          "value": "Mionnán Caol",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45483",
+          "english": "Greenane Rock",
+          "damaged": "Carraig an Ghrian�in",
+          "value": "Carraig an Ghrianáin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45393",
+          "english": "Bird Island",
+          "damaged": "Oile�n na n�an",
+          "value": "Oileán na nÉan",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45511",
+          "english": "Illaunnacaheragh",
+          "damaged": "Oile�n na Cathrach",
+          "value": "Oileán na Cathrach",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        },
+        {
+          "id": "45416",
+          "english": "Carrigfoilaphreesoon",
+          "damaged": "Carraig Fhaill an Phr�os�in",
+          "value": "Carraig Fhaill an Phríosúin",
+          "method": "irish-word-pattern",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "byValue": {
+    "local-authorities-1994": {
+      "field": "COUNTYNAME",
+      "sources": [
+        "render/source-cache/vector-intake/local-authorities-1994.fgb"
+      ],
+      "values": {
+        "D�n Laoghaire-Rathdown": "Dún Laoghaire-Rathdown"
+      }
+    },
+    "local-authorities-2002": {
+      "field": "COUNTYNAME",
+      "sources": [
+        "render/source-cache/vector-intake/local-authorities-2002.fgb"
+      ],
+      "values": {
+        "D�n Laoghaire-Rathdown": "Dún Laoghaire-Rathdown"
+      }
+    },
+    "local-authorities-2008": {
+      "field": "COUNTYNAME",
+      "sources": [
+        "render/source-cache/vector-intake/local-authorities-2008.fgb"
+      ],
+      "values": {
+        "D�n Laoghaire-Rathdown": "Dún Laoghaire-Rathdown"
+      }
+    },
+    "dcc-public-toilets": {
+      "field": "Location",
+      "sources": [
+        "render/source-cache/vector-intake/dcc-public-toilets.fgb"
+      ],
+      "values": {
+        "St. Catherine�s Sports Centre, Marrowbone Lane, Dublin 8": "St. Catherine’s Sports Centre, Marrowbone Lane, Dublin 8"
+      }
+    },
+    "dcc-dublin-canvas-public-art": {
+      "field": "Artwork title:",
+      "sources": [
+        "render/source-cache/vector-intake/dcc-dublin-canvas-public-art.fgb"
+      ],
+      "values": {
+        "Manann�n Mac Lir": "Manannán Mac Lir"
+      }
+    },
+    "dcc-parking-meters-location-tariffs-and-zones-in-dublin-city": {
+      "field": "Location",
+      "sources": [
+        "render/source-cache/vector-intake/dcc-parking-meters-location-tariffs-and-zones-in-dublin-city.fgb"
+      ],
+      "values": {
+        "Se�n McDermott Street": "Seán McDermott Street",
+        "Ard R� Road": "Ard Rí Road"
+      }
+    },
+    "translink-bus-stops-2024": {
+      "field": "Stop_Name",
+      "sources": [
+        "render/source-cache/vector-intake/translink-bus-stops-2024.fgb"
+      ],
+      "note": "The apostrophes were right single quotation marks (U+2019); the trailing damage on three Old Mill stops is dropped.",
+      "values": {
+        "Old Mill Dale����": "Old Mill Dale",
+        "Old Mill Close���": "Old Mill Close",
+        "Old Mill Park��": "Old Mill Park",
+        "Brolly�s Bridge": "Brolly’s Bridge",
+        "King�s Lane": "King’s Lane",
+        "Madam�s Bank Road": "Madam’s Bank Road",
+        "St Anne�s Primary School": "St Anne’s Primary School",
+        "St. Eithne�s Primary School": "St. Eithne’s Primary School",
+        "O�Riada Court": "O’Riada Court",
+        "St Columb�s Park Gate": "St Columb’s Park Gate",
+        "Thompson�s Corner": "Thompson’s Corner",
+        "Carton�s Cross": "Carton’s Cross"
+      }
+    }
+  },
+  "review": [
+    {
+      "layer": "translink-bus-stops-2024",
+      "field": "Stop_Name",
+      "value": "Taobh an tStr�thain (Brookside)",
+      "note": "Irish for Brookside is \"Taobh an tSrutháin\"; the source spells it with an extra t and the damaged letter is not settled. Needs the Translink name."
+    }
+  ],
+  "nfc": {
+    "note": "Every string attribute is normalised to NFC. These sources carried \"Dún Braoin\" as u + U+0301.",
+    "layers": {
+      "eds-ulster-1912": [
+        "render/source-cache/vector-intake/eds-ulster-1912.fgb"
+      ],
+      "eds-ulster-1913": [
+        "render/source-cache/vector-intake/eds-ulster-1913.fgb"
+      ],
+      "eds-ulster-1914": [
+        "render/source-cache/vector-intake/eds-ulster-1914.fgb"
+      ],
+      "eds-ulster-1915": [
+        "render/source-cache/vector-intake/eds-ulster-1915.fgb"
+      ],
+      "eds-ulster-1916": [
+        "render/source-cache/vector-intake/eds-ulster-1916.fgb"
+      ],
+      "eds-ulster-1921-nine-county": [
+        "render/source-cache/vector-intake/eds-ulster-1921-nine-county.fgb"
+      ],
+      "ded-1921-05-03": [
+        "render/source-cache/vector-intake/ded-1921-05-03.fgb"
+      ]
+    }
+  }
+}
