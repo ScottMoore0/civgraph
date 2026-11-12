@@ -158,6 +158,13 @@
           "lite",
           "visible",
           "cursor"
+        ],
+        "//": "Per route, parameters that shape an answer a variant already selects (rf9-ui, 12 Nov 2026). graph related=1: the entity variant's own modifier (its summary: related=1 adds reverse and source statements). elections slug: the record a view=record answer is about (the handler reads slug, else key); v1.js's record variant names only view, so the request to rf9-api-storage is to add slug to its when, after which this entry goes.",
+        "graph": [
+          "related"
+        ],
+        "elections": [
+          "slug"
         ]
       }
     },
