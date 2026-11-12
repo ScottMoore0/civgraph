@@ -8,6 +8,7 @@ import { personRecordKey, siteNumber, slugify } from '../pkg/core/src/format.js'
 import { candidateReturnWithoutPoll, partyHadNoPoll } from '../pkg/core/src/unopposed.mjs';
 import { SITE } from '../pkg/config/src/config.js';
 import { electionKindLabels } from '../pkg/registries/src/browser/election-type-names.mjs';
+import { browseColours } from '../pkg/registries/src/browser/colour-palettes.mjs';
 import { SHORT_MONTHS } from '../pkg/core/src/date-format.mjs';
 
 /**
@@ -5394,23 +5395,25 @@ function fallbackThumbnail(item) {
  */
 function renderMapFallbackSvg(item, thumbnail) {
   const color = mapFallbackColor(item);
+  // The preview's colours: the colours registry's browse.mapPreview (data/registries/colours.json).
+  const ink = browseColours.mapPreview;
   const label = thumbnail.label || item.category || item.parentCard || 'Map';
   const title = item.title || item.name || item.id || 'Map';
   return `
     <svg class="browse-map-fallback-svg" viewBox="0 0 120 120" role="img" aria-labelledby="map-fallback-${escapeAttr(slugify(title))}">
       <title id="map-fallback-${escapeAttr(slugify(title))}">${escapeHtml(title)} map preview</title>
-      <rect width="120" height="120" rx="8" fill="#f8fafc"/>
-      <path d="M0 75 C18 68 31 73 46 66 C59 60 67 44 82 40 C98 35 108 44 120 38 L120 120 L0 120 Z" fill="#d7dce2"/>
-      <path d="M76 13 C87 18 94 27 96 40 C99 57 88 70 76 80 C65 89 50 87 41 76 C31 64 31 49 38 36 C46 21 60 8 76 13 Z" fill="#c9d0d8" stroke="#aeb8c2" stroke-width="1"/>
-      <path d="M42 26 C50 34 48 46 41 55 C33 65 21 63 16 52 C10 39 18 24 31 21 C35 20 39 22 42 26 Z" fill="#c9d0d8" stroke="#aeb8c2" stroke-width="1"/>
-      <path d="M55 52 C58 56 57 62 52 65 C47 67 42 64 41 59 C40 53 45 49 50 49 C52 49 54 50 55 52 Z" fill="#c9d0d8" stroke="#aeb8c2" stroke-width="1"/>
-      <path d="M14 77 C24 72 34 76 46 70 C58 64 67 55 81 52 C94 49 104 54 114 50" fill="none" stroke="#aeb8c2" stroke-width="1" opacity=".7"/>
-      <path d="M20 82 C31 79 38 84 50 78 C63 72 71 63 86 61 C99 59 107 63 117 60" fill="none" stroke="#aeb8c2" stroke-width="1" opacity=".45"/>
+      <rect width="120" height="120" rx="8" fill="${ink.paper}"/>
+      <path d="M0 75 C18 68 31 73 46 66 C59 60 67 44 82 40 C98 35 108 44 120 38 L120 120 L0 120 Z" fill="${ink.land}"/>
+      <path d="M76 13 C87 18 94 27 96 40 C99 57 88 70 76 80 C65 89 50 87 41 76 C31 64 31 49 38 36 C46 21 60 8 76 13 Z" fill="${ink.area}" stroke="${ink.edge}" stroke-width="1"/>
+      <path d="M42 26 C50 34 48 46 41 55 C33 65 21 63 16 52 C10 39 18 24 31 21 C35 20 39 22 42 26 Z" fill="${ink.area}" stroke="${ink.edge}" stroke-width="1"/>
+      <path d="M55 52 C58 56 57 62 52 65 C47 67 42 64 41 59 C40 53 45 49 50 49 C52 49 54 50 55 52 Z" fill="${ink.area}" stroke="${ink.edge}" stroke-width="1"/>
+      <path d="M14 77 C24 72 34 76 46 70 C58 64 67 55 81 52 C94 49 104 54 114 50" fill="none" stroke="${ink.edge}" stroke-width="1" opacity=".7"/>
+      <path d="M20 82 C31 79 38 84 50 78 C63 72 71 63 86 61 C99 59 107 63 117 60" fill="none" stroke="${ink.edge}" stroke-width="1" opacity=".45"/>
       <circle cx="60" cy="60" r="25" fill="${escapeAttr(color)}" opacity=".12"/>
       <path d="M35 74 C47 58 54 49 71 43 C82 40 91 41 101 45" fill="none" stroke="${escapeAttr(color)}" stroke-width="3" stroke-linecap="round" opacity=".9"/>
       <path d="M31 84 C42 78 52 79 63 72 C74 65 80 58 92 57" fill="none" stroke="${escapeAttr(color)}" stroke-width="2" stroke-linecap="round" opacity=".75"/>
-      <rect x="8" y="91" width="104" height="21" rx="5" fill="rgba(255,255,255,.86)"/>
-      <text x="60" y="104" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="8" font-weight="700" fill="#334155">${escapeHtml(truncate(label, 24))}</text>
+      <rect x="8" y="91" width="104" height="21" rx="5" fill="${ink.labelPlate}"/>
+      <text x="60" y="104" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="8" font-weight="700" fill="${ink.labelText}">${escapeHtml(truncate(label, 24))}</text>
     </svg>
   `;
 }
@@ -5421,7 +5424,7 @@ function renderMapFallbackSvg(item, thumbnail) {
 function mapFallbackColor(item) {
   const source = item.rawMetadata?.style?.color || item.color || '';
   if (/^#[0-9a-f]{6}$/i.test(source)) return source;
-  const palette = ['#2563eb', '#059669', '#7c3aed', '#dc2626', '#0891b2', '#ca8a04'];
+  const palette = browseColours.mapPreviewAccents;
   const seed = String(item.categoryId || item.category || item.parentCard || item.id || '').split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
   return palette[seed % palette.length];
 }

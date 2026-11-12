@@ -17,6 +17,10 @@
 import { html, raw, toHtmlString } from '../../../core/src/html.js';
 import { page, sectionNav } from '../templates/shell.js';
 import { badges, citations, dataTable, facts, link, notice, partyChip } from '../templates/components/index.js';
+import colours from '../../../registries/src/browser/colours.mjs';
+
+// The specimens' sample party colours: the colours registry's gallery.specimens (data/registries/colours.json).
+const SAMPLE = colours.gallery.specimens;
 
 export const GALLERY_PATH = '/design-system/';
 export const ROBOTS = 'noindex, nofollow';
@@ -42,13 +46,13 @@ export const SPECIMENS = [
   },
   {
     id: 'party-chip', title: 'Party chip', stylesheet: 'party-chip.css', templates: ['partyChip'],
-    render: () => html`<p class="cg-gallery__row">${partyChip('Alliance Party', '#f6cb2f')} ${partyChip('Social Democratic and Labour Party', '#2aa82c')} ${partyChip('Independent', null)}</p>`,
+    render: () => html`<p class="cg-gallery__row">${partyChip('Alliance Party', SAMPLE.alliance)} ${partyChip('Social Democratic and Labour Party', SAMPLE.sdlp)} ${partyChip('Independent', null)}</p>`,
   },
   {
     id: 'facts', title: 'Record facts', stylesheet: 'facts.css', templates: ['facts', 'link'],
     render: () => facts([
       { label: 'Born', value: '1921' },
-      { label: 'Party', value: partyChip('Ulster Unionist Party', '#48a5ee') },
+      { label: 'Party', value: partyChip('Ulster Unionist Party', SAMPLE.uup) },
       { label: 'Source', value: link('https://example.org/source', 'Sample source') },
       { label: 'Left out because empty', value: '' },
     ]),
@@ -60,8 +64,8 @@ export const SPECIMENS = [
       label: 'Sample results',
       columns: [{ label: 'Candidate', rowHeader: true }, { label: 'Party' }, { label: 'Votes', num: true }, { label: 'Change', num: true }],
       rows: [
-        { cells: [html`Candidate A <span class="cg-elected-mark" title="Elected">✓</span>`, partyChip('Party one', '#1f77b4'), '4,120', html`<span class="cg-delta--positive">+3.2</span>`], className: 'cg-elected' },
-        ['Candidate B', partyChip('Party two', '#d62728'), '3,987', html`<span class="cg-delta--negative">−1.4</span>`],
+        { cells: [html`Candidate A <span class="cg-elected-mark" title="Elected">✓</span>`, partyChip('Party one', SAMPLE.partyOne), '4,120', html`<span class="cg-delta--positive">+3.2</span>`], className: 'cg-elected' },
+        ['Candidate B', partyChip('Party two', SAMPLE.partyTwo), '3,987', html`<span class="cg-delta--negative">−1.4</span>`],
         ['Candidate C', partyChip('Independent', null), '402', '–'],
       ],
     })}${dataTable({
@@ -120,7 +124,7 @@ export const SPECIMENS = [
   },
   {
     id: 'legend', title: 'Legend', stylesheet: 'legend.css', templates: [],
-    render: () => raw('<ul class="cg-legend"><li class="cg-legend__item"><span class="cg-legend__swatch" style="background:#1f77b4"></span>Party one</li><li class="cg-legend__item"><span class="cg-legend__swatch" style="background:#d62728"></span>Party two</li><li class="cg-legend__item"><span class="cg-legend__swatch" style="background:#7f7f7f"></span>Other</li></ul>'),
+    render: () => raw(`<ul class="cg-legend"><li class="cg-legend__item"><span class="cg-legend__swatch" style="background:${SAMPLE.partyOne}"></span>Party one</li><li class="cg-legend__item"><span class="cg-legend__swatch" style="background:${SAMPLE.partyTwo}"></span>Party two</li><li class="cg-legend__item"><span class="cg-legend__swatch" style="background:${SAMPLE.other}"></span>Other</li></ul>`),
   },
   {
     id: 'chart', title: 'Chart frame', stylesheet: 'chart.css', templates: [],

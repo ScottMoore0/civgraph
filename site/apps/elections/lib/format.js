@@ -9,6 +9,7 @@ import { formatDisplayDate } from '../../../pkg/core/src/date-format.mjs';
 import { personRecordPath, siteNumber, slugify } from '../../../pkg/core/src/format.js';
 import { POLL_STATUS_TEXT, contestPollStatus, summaryPollStatus } from '../../../pkg/core/src/unopposed.mjs';
 import { votingSystemNames } from '../../../pkg/registries/src/browser/election-type-names.mjs';
+import { electionsAppColours } from '../../../pkg/registries/src/browser/colour-palettes.mjs';
 
 /** HTML-escape a value for text or an attribute (packages/core/src/html.js). */
 export const esc = escapeHtml;
@@ -84,13 +85,13 @@ export const isStv = (/** @type {unknown} */ system) => /^stv/.test(String(syste
 /** @param {unknown} hex */
 export function inkOn(hex) {
   const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || ''));
-  if (!m) return '#000';
+  if (!m) return electionsAppColours.inkDark;
   const v = parseInt(m[1], 16);
   const [r, g, b] = [(v >> 16) & 255, (v >> 8) & 255, v & 255].map((c) => {
     const s = c / 255;
     return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
   });
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.179 ? '#000' : '#fff';
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.179 ? electionsAppColours.inkDark : electionsAppColours.inkLight;
 }
 
 /** Median of numbers (null for none). */

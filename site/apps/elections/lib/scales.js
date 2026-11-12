@@ -6,11 +6,14 @@
  */
 
 import { summaryPollStatus } from '../../../pkg/core/src/unopposed.mjs';
+import { rampColours } from '../../../pkg/registries/src/browser/colour-palettes.mjs';
 
-const SEQ = ['#eef4fb', '#c9dcf0', '#9cc0e3', '#6a9fd2', '#3e7cbd', '#1f5a9c', '#0d3b6e'];
-const DIV_NEG = ['#7a1f1f', '#b3412f', '#de7a5b', '#f3bfa8'];
-const DIV_POS = ['#b6d7ee', '#6fa8d6', '#2f73b3', '#163f73'];
-const MID = '#efefef';
+// The colours registry's ramps (data/registries/colours.json `ramps`: sequential, divergingLow,
+// divergingHigh, divergingMid).
+const SEQ = rampColours.sequential;
+const DIV_NEG = rampColours.divergingLow;
+const DIV_POS = rampColours.divergingHigh;
+const MID = rampColours.divergingMid;
 
 /**
  * A sequential colour for v in [min, max], in SEQ.length steps.
