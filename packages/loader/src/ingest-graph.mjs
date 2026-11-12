@@ -15,11 +15,12 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { TableWriter, readJson, transaction } from './db.mjs';
+import { foldSearchText } from '../../core/src/format.js';
 
 /** @typedef {import('./db.mjs').DocumentRow} DocumentRow */
 /** An entity-search item: the entity's id and its search fields. @typedef {{ entityId?: string, [key: string]: unknown }} SearchItem */
 
-const fold = (/** @type {unknown} */ value) => String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const fold = (/** @type {unknown} */ value) => foldSearchText(value || '');
 
 /**
  * Each JSON file of `dir`, by name, parsed (the graph build's shards: open JSON).

@@ -7,6 +7,8 @@
  *
  * `index` and `out` name the legacy files; the records loader ignores them.
  */
+import { foldSearchText } from '../../core/src/format.js';
+
 /**
  * A source's licence: a string, or `{status, note}` while it is still to be confirmed
  * (licenseLabel).
@@ -54,15 +56,12 @@ export const flattenValue = (value) => {
   return [String(value)];
 };
 
-// Accents are folded, as packages/api/src/handlers/_browse-index.js folds the query: "Micheal Martin" and
-// "fianna fail" must find the records spelt with fadas.
-export const searchText = (/** @type {BrowseItem} */ item) => SEARCH_FIELDS
+// Folded (foldSearchText) as packages/api/src/handlers/_browse-index.js folds the query: "Micheal Martin" and
+// "fianna fail" must find the records spelt with fadas, and "O'Neill" the ones spelt O’Neill.
+export const searchText = (/** @type {BrowseItem} */ item) => foldSearchText(SEARCH_FIELDS
   .flatMap((field) => flattenValue(item[field]))
   .filter(Boolean)
-  .join(' ')
-  .normalize('NFKD')
-  .replace(/[̀-ͯ]/g, '')
-  .toLowerCase()
+  .join(' '))
   .slice(0, 4000);   // enough to match on; keeps the row from ballooning
 
 /**

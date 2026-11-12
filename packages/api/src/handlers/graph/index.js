@@ -21,6 +21,7 @@ import { reportError } from '../_error.js';
 import { binding } from '../../../../config/src/config.js';
 import { asStore } from '../../../../storage/src/d1.js';
 import { GRAPH } from '../../queries/graph.js';
+import { foldSearchText } from '../../../../core/src/format.js';
 
 /** @typedef {import('../../../../storage/src/store.js').RecordStore} RecordStore */
 /** @typedef {import('../../../../types/index.js').ApiV1.GraphEntityAnswer} GraphEntityAnswer */
@@ -34,7 +35,7 @@ export async function onRequestGet(context) {
   return cachedJson(context, VERSION, () => handle(context));
 }
 
-const fold = (/** @type {unknown} */ value) => String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const fold = (/** @type {unknown} */ value) => foldSearchText(value || '');
 
 /**
  * One entity's summary and statements, and with `related` the statements about it and from it.

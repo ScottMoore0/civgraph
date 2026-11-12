@@ -21,6 +21,22 @@ export function slugify(value) {
 }
 
 /**
+ * Text folded for search, on both sides (the stored search columns and the query): accents
+ * dropped ("Micheal" finds "Micheál"), lower case, and the curly apostrophes and the backtick read
+ * as the straight one, so "O'Neill" finds "O’Neill" and the other way round (phone keyboards type
+ * ’). Words, spaces and other punctuation are kept as they are.
+ * @param {unknown} value
+ * @returns {string}
+ */
+export function foldSearchText(value) {
+  return String(value ?? '')
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[‘’`]/g, "'")
+    .toLowerCase();
+}
+
+/**
  * A person record's slug, which the Browse build gives each person (scripts/build/
  * build-browse-indexes.mjs): a URL a reader can recognise that still resolves uniquely. The name
  * alone is not enough, because the registry keeps distinct people who share a name apart, so the

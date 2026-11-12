@@ -4,7 +4,7 @@ import {
 // The packages' own escaping, slug and no-poll rules (packages/core, served at /pkg/ through
 // packages/served.json; the imports resolve to site/pkg/ in Node and tsc): Browse keeps no copy.
 import { escapeHtml } from '../pkg/core/src/html.js';
-import { personRecordKey, siteNumber, slugify } from '../pkg/core/src/format.js';
+import { foldSearchText, personRecordKey, siteNumber, slugify } from '../pkg/core/src/format.js';
 import { candidateReturnWithoutPoll, partyHadNoPoll } from '../pkg/core/src/unopposed.mjs';
 import { SITE } from '../pkg/config/src/config.js';
 import { electionKindLabels } from '../pkg/registries/src/browser/election-type-names.mjs';
@@ -7099,7 +7099,7 @@ function filterItems(items, query) {
  * @param {BrowseItem} item
  */
 function searchableText(item) {
-  return [
+  return foldSearchText([
     item.id,
     item.key,
     item.title,
@@ -7132,7 +7132,7 @@ function searchableText(item) {
     item.interestSummary,
     item.interestText,
     item.keywords
-  ].flat().filter(Boolean).join(' ').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  ].flat().filter(Boolean).join(' '));
 }
 
 /**
@@ -7310,11 +7310,7 @@ function cleanStatus(value) {
  * @param {unknown} value
  */
 function normalizeSearchQuery(value) {
-  return String(value || '')
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .trim();
+  return foldSearchText(value || '').trim();
 }
 
 /**
