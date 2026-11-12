@@ -174,7 +174,7 @@ function planChanges(features, plans) {
  * @returns {Promise<{ features: Array<{ properties: Record<string, unknown>, bbox: number[] | null }>, layerName: string | null, indexed: boolean }>}
  */
 async function readFeatures(path) {
-  /** @type {any} */
+  /** @type {{ name?: string | null, indexNodeSize?: number } | null} */
   let header = null;
   const features = [];
   for await (const feature of deserialize(new Uint8Array(readFileSync(path)), undefined, (h) => { header = h; })) {
@@ -183,13 +183,18 @@ async function readFeatures(path) {
   return { features, layerName: header?.name || null, indexed: Number(header?.indexNodeSize || 0) > 0 };
 }
 
-/** @param {any} geometry */
+/** @param {{ coordinates?: unknown[] } | null | undefined} geometry */
 function bboxOf(geometry) {
   if (!geometry) return null;
   let minX = Infinity; let minY = Infinity; let maxX = -Infinity; let maxY = -Infinity;
+  /** @param {unknown[]} c  a position, or an array of nested positions */
   const walk = (c) => {
-    if (typeof c[0] === 'number') { minX = Math.min(minX, c[0]); minY = Math.min(minY, c[1]); maxX = Math.max(maxX, c[0]); maxY = Math.max(maxY, c[1]); return; }
-    for (const x of c) walk(x);
+    if (typeof c[0] === 'number') {
+      const x = c[0]; const y = Number(c[1]);
+      minX = Math.min(minX, x); minY = Math.min(minY, y); maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
+      return;
+    }
+    for (const part of c) walk(/** @type {unknown[]} */ (part));
   };
   walk(geometry.coordinates || []);
   return [minX, minY, maxX, maxY].map((n) => Math.round(n * 1e7) / 1e7);
