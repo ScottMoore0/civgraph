@@ -44,7 +44,7 @@
 import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '../_auth.js';
 import { listLevel, normalisePrefix, parseLimit, publicUrl } from '../_r2-listing.js';
 import { isPublicPrefix } from '../_public-prefixes.js';
-import { binding } from '../../../../config/src/config.js';
+import { blobStore } from '../../../../storage/src/blob-bindings.js';
 
 /** @param {import('../../types.js').ApiContext} context */
 export async function onRequest(context) {
@@ -53,7 +53,7 @@ export async function onRequest(context) {
   const { auth, response } = await requireContributor(context);
   if (response) return response;
 
-  const bucket = binding(context.env, 'MAPS_BUCKET');
+  const bucket = blobStore(context.env, 'MAPS_BUCKET');
   if (!bucket) {
     return jsonResponse({ ok: false, error: 'R2 binding MAPS_BUCKET is not configured.' }, { status: 500 });
   }
