@@ -182,6 +182,12 @@ export interface PartiesRegistry {
     elections: Palette;
     mapLocal: Palette;
     mapRoi: Palette;
+    /** The STV count viewer's table (site/app/election-viewer-package/js/stages2.js getPartyColour): each party as the table wrote it, which the viewer folds with its own normalisePartyKey; where two rows fold alike the later row's colour wins. */
+    viewer: Palette;
+    /** The colour of a party with none of its own, or of no party (the build's fallback slate; NEUTRAL_PARTY_COLOUR). */
+    neutral: string;
+    /** The neutral greys importers wrote as placeholders: like `neutral`, a colour that means no colour (isPlaceholderPartyColour). */
+    placeholders: string[];
   };
   colourReviewOverrides: {
     schemaVersion: 1;

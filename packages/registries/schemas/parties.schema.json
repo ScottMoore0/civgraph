@@ -171,13 +171,16 @@
     "palettes": {
       "type": "object",
       "description": "The party colour palettes the code draws with (data/registries/parties/palettes.json): each an ordered list keyed by the party name as its reader folds it.",
-      "required": ["description", "elections", "mapLocal", "mapRoi"],
+      "required": ["description", "elections", "mapLocal", "mapRoi", "viewer", "neutral", "placeholders"],
       "additionalProperties": false,
       "properties": {
         "description": { "type": "string", "minLength": 1 },
         "elections": { "$ref": "#/$defs/palette" },
         "mapLocal": { "$ref": "#/$defs/palette" },
-        "mapRoi": { "$ref": "#/$defs/palette" }
+        "mapRoi": { "$ref": "#/$defs/palette" },
+        "viewer": { "$ref": "#/$defs/palette", "description": "The STV count viewer's table (site/app/election-viewer-package/js/stages2.js getPartyColour): each party as the table wrote it, which the viewer folds with its own normalisePartyKey; where two rows fold alike the later row's colour wins." },
+        "neutral": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$", "description": "The colour of a party with none of its own, or of no party (the build's fallback slate; NEUTRAL_PARTY_COLOUR)." },
+        "placeholders": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }, "description": "The neutral greys importers wrote as placeholders: like `neutral`, a colour that means no colour (isPlaceholderPartyColour)." }
       }
     },
     "colourReviewOverrides": {

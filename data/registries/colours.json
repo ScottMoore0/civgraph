@@ -1,0 +1,535 @@
+{
+ "schemaVersion": 1,
+ "description": "The site's fixed colours that code draws with outside the stylesheets. MapLibre paint, canvas and SVG drawing, exported SVG files, the inline styles classic scripts write and colour arithmetic (contrast picks, sanitisers) need a colour value, which a CSS var() is not. Each palette names its readers; party colours are in the parties registry (data/registries/parties/palettes.json). Moved out of the code unchanged, case included (wave10-colours, 12 Nov 2026; docs/ARCHITECTURE-RULES.md R9: colour data held in a registry part is the only place outside the token files where a colour literal may stand). An entry holds a `value`, a list of `values` (a ramp, low to high), a `table` (key -> colour) or `ramps` (name -> list). The browser slice (packages/registries/src/browser/colours.json) carries the values alone. Schema: packages/registries/schemas/colours.schema.json.",
+ "palettes": {
+  "map": {
+   "about": "The map app (packages/map/src/colours.mjs MAP_COLOURS): MapLibre paint, the legend, labels, the election and census overlays, the classic catalogue.",
+   "colours": {
+    "layer": {
+     "value": "#3388ff",
+     "note": "A layer drawn without a style colour of its own (MapLibre paint, legend and catalogue swatches)."
+    },
+    "layerLine": {
+     "value": "#5B21B6",
+     "note": "A layer's default line colour."
+    },
+    "layerFill": {
+     "value": "#7C3AED",
+     "note": "A layer's default fill colour."
+    },
+    "swatch": {
+     "value": "#888",
+     "note": "A catalogue or legend swatch for a map without a style colour."
+    },
+    "swatchEdge": {
+     "value": "rgba(128,128,128,0.3)",
+     "note": "That swatch's edge."
+    },
+    "featureSwatch": {
+     "value": "#64748b",
+     "note": "The feature-info swatch of a feature without a colour."
+    },
+    "body": {
+     "value": "#4b5563",
+     "note": "A body without a colour of its own (the elections list)."
+    },
+    "partyGrey": {
+     "value": "#6b7280",
+     "note": "The party grey: an independent or unknown party, a result without a party colour."
+    },
+    "noResult": {
+     "value": "#b0bec5",
+     "note": "A contest without a result yet (the lead's or winner's colour unknown)."
+    },
+    "noFigure": {
+     "value": "#9ca3af",
+     "note": "A value with no figure (sequential scales) and an area with no party."
+    },
+    "latestResult": {
+     "value": "#64748b",
+     "note": "The latest-result swatch of an entity without a winner colour."
+    },
+    "unmatchedFill": {
+     "value": "#dfe4ec",
+     "note": "Election geography on the main map: an area with no result."
+    },
+    "unmatchedStroke": {
+     "value": "#a1aab8",
+     "note": "An unmatched area's outline."
+    },
+    "matchedStroke": {
+     "value": "#333",
+     "note": "A matched area's outline."
+    },
+    "neutralFill": {
+     "value": "#cfd5dd",
+     "note": "An area drawn neutral (NI local view)."
+    },
+    "splitFill": {
+     "value": "#8b95a3",
+     "note": "An area split between results (NI local view)."
+    },
+    "labelText": {
+     "value": "#111827",
+     "note": "Area labels on the election map."
+    },
+    "labelHalo": {
+     "value": "#ffffff",
+     "note": "Those labels' halo."
+    },
+    "inkDark": {
+     "value": "#111827",
+     "note": "Dark text on a legend swatch (the contrast pick)."
+    },
+    "inkLight": {
+     "value": "#ffffff",
+     "note": "Light text on a legend swatch (the contrast pick)."
+    },
+    "legendLine": {
+     "value": "#374151",
+     "note": "The no-figure line swatch of the legend."
+    },
+    "timelineAccent": {
+     "value": "#d6246e",
+     "note": "The timeline's change highlight."
+    },
+    "timelineGhost": {
+     "value": "#475569",
+     "note": "The ghost of the old line on the timeline."
+    },
+    "olderEdition": {
+     "value": "#6b7280",
+     "note": "An older edition on the timeline."
+    },
+    "circleStroke": {
+     "value": "#ffffff",
+     "note": "Point layers' circle stroke."
+    },
+    "addressMarker": {
+     "value": "#065a6e",
+     "note": "The address search marker (the chrome teal)."
+    },
+    "labelHover": {
+     "value": "#ff7a1a",
+     "note": "A hovered label."
+    },
+    "labelSelected": {
+     "value": "#ff7a1a",
+     "note": "A selected label."
+    },
+    "labelHaloDefault": {
+     "value": "#ffffff",
+     "note": "A label's default halo."
+    },
+    "approximateGap": {
+     "value": "#ffffff",
+     "note": "The gap under approximate stretches (the basemap's paper)."
+    },
+    "interactionFill": {
+     "value": "#FDBA74",
+     "note": "The hover and selection fill."
+    },
+    "interactionStroke": {
+     "value": "#FF7A1A",
+     "note": "The hover and selection stroke."
+    },
+    "hitLine": {
+     "value": "#000000",
+     "note": "The invisible hit line."
+    },
+    "censusOutline": {
+     "value": "#374151",
+     "note": "Census overlay geography outline while a figure loads."
+    },
+    "censusFill": {
+     "value": "#9CA3AF",
+     "note": "Census overlay fill while a figure loads."
+    },
+    "catalogueFallback": {
+     "value": "#7a8699",
+     "note": "The catalogue: a shelf or series without a colour."
+    },
+    "catalogueInkDark": {
+     "value": "#1a202c",
+     "note": "The catalogue: dark ink on a coloured fill."
+    },
+    "catalogueInkLight": {
+     "value": "#fff",
+     "note": "The catalogue: light ink on a coloured fill."
+    }
+   }
+  },
+  "mapExport": {
+   "about": "The Wikipedia-style SVG export (packages/map/app/map-image-export.js WIKI_STYLE and its legend; EXPORT_COLOURS).",
+   "colours": {
+    "fill": {
+     "value": "#ffc8c8",
+     "note": "A boundary fill."
+    },
+    "stroke": {
+     "value": "#232323",
+     "note": "A boundary line."
+    },
+    "selected": {
+     "value": "#ff0000",
+     "note": "The selected area."
+    },
+    "outline": {
+     "value": "#f3a6b2",
+     "note": "The outline of the selected area."
+    },
+    "land": {
+     "value": "#dcdcdc",
+     "note": "Land around the map."
+    },
+    "coast": {
+     "value": "#a6a6a6",
+     "note": "The coast."
+    },
+    "electionStroke": {
+     "value": "#ffffff",
+     "note": "An election area's outline."
+    },
+    "electionSelectedStroke": {
+     "value": "#000000",
+     "note": "The selected election area's outline."
+    },
+    "electionUnmatched": {
+     "value": "#ffffff",
+     "note": "An election area with no result."
+    },
+    "unmatchedEdge": {
+     "value": "#9ca3af",
+     "note": "That area's edge in the legend."
+    },
+    "legendSwatchEdge": {
+     "value": "#666666",
+     "note": "A legend swatch's edge."
+    },
+    "legendText": {
+     "value": "#232323",
+     "note": "Legend text."
+    }
+   }
+  },
+  "ramps": {
+   "about": "Ordered colour ramps, low to high, and the colour of a value a ramp has no step for.",
+   "colours": {
+    "electionNumeric": {
+     "values": [
+      "#fef3c7",
+      "#fde68a",
+      "#f59e0b",
+      "#d97706",
+      "#92400e"
+     ],
+     "note": "The election pane's and map's five-step amber ramp for numeric modes (turnout, share, majority, seats, quota): src/election-renderer.mjs and packages/map/src/election/palette.mjs numericColour."
+    },
+    "census": {
+     "ramps": {
+      "viridis": [
+       "#440154",
+       "#482878",
+       "#3E4989",
+       "#31688E",
+       "#26828E",
+       "#1F9E89",
+       "#35B779",
+       "#6CCE59",
+       "#B4DD2C",
+       "#FDE725"
+      ],
+      "inferno": [
+       "#000004",
+       "#1B0C41",
+       "#4A0C6B",
+       "#781C6D",
+       "#A52C60",
+       "#CF4446",
+       "#ED6925",
+       "#FB9A06",
+       "#F7D03C",
+       "#FCFFA4"
+      ],
+      "magma": [
+       "#000004",
+       "#180F3D",
+       "#440F76",
+       "#721F81",
+       "#9E2F7F",
+       "#CD4071",
+       "#F1605D",
+       "#FE9F6D",
+       "#FEC589",
+       "#FCFDBF"
+      ],
+      "plasma": [
+       "#0D0887",
+       "#41049D",
+       "#6A00A8",
+       "#8F0DA4",
+       "#B12A90",
+       "#CC4778",
+       "#E16462",
+       "#F2844B",
+       "#FCA636",
+       "#FCCE25",
+       "#F0F921"
+      ],
+      "protestant-catholic": [
+       "#08306B",
+       "#2171B5",
+       "#4292C6",
+       "#6BAED6",
+       "#C6DBEF",
+       "#F7F7F7",
+       "#C7E9C0",
+       "#74C476",
+       "#41AB5D",
+       "#238B45",
+       "#00441B"
+      ]
+     },
+     "note": "The census overlay's ramps (src/census-overlay.mjs): Matplotlib samples, as the Leaflet loader had them (archive/leaflet/js/colour-palettes.js), less the repeated last stop three of them carried, which made the top two classes one colour. 'protestant-catholic' diverges: blue at 0 %, grey at 50 %, green at 100 %."
+    },
+    "censusNoData": {
+     "value": "rgba(0,0,0,0)",
+     "note": "What a census area with no figure is filled with: nothing, so the outline alone shows it."
+    },
+    "sequential": {
+     "values": [
+      "#eef4fb",
+      "#c9dcf0",
+      "#9cc0e3",
+      "#6a9fd2",
+      "#3e7cbd",
+      "#1f5a9c",
+      "#0d3b6e"
+     ],
+     "note": "The Elections app's sequential scale, one hue light to dark (turnout, a party's share): site/apps/elections/lib/scales.js SEQ."
+    },
+    "divergingLow": {
+     "values": [
+      "#7a1f1f",
+      "#b3412f",
+      "#de7a5b",
+      "#f3bfa8"
+     ],
+     "note": "The Elections app's diverging scale, its negative hue (swing), strongest first (DIV_NEG)."
+    },
+    "divergingHigh": {
+     "values": [
+      "#b6d7ee",
+      "#6fa8d6",
+      "#2f73b3",
+      "#163f73"
+     ],
+     "note": "The Elections app's diverging scale, its positive hue, weakest first (DIV_POS)."
+    },
+    "divergingMid": {
+     "value": "#efefef",
+     "note": "The diverging scale's neutral midpoint (MID)."
+    }
+   }
+  },
+  "catalogue": {
+   "about": "The catalogues: shelf and body colours that mark icons, headings and rows.",
+   "colours": {
+    "shelves": {
+     "table": {
+      "land-divisions": "#c08a3e",
+      "government-and-administration": "#6875d6",
+      "elections-and-representation": "#c84b8f",
+      "people-and-places": "#1f9e8f",
+      "planning-and-property": "#8a63d2",
+      "transport": "#e07b2a",
+      "heritage-and-culture": "#c0504d",
+      "local-services-and-amenities": "#2f8fce",
+      "water": "#3a6fd8",
+      "environment-and-land-use": "#3e9b4f",
+      "earth-and-terrain": "#8c7b6b",
+      "regional-divides": "#7a8597",
+      "environment": "#3e9b4f"
+     },
+     "note": "The catalogue's map shelves, by shelf id (src/catalogue/icons.js)."
+    },
+    "electionShelves": {
+     "table": {
+      "dail": "#169b62",
+      "westminster": "#2f5da8",
+      "ni-devolved": "#c84b8f",
+      "ni-local": "#e07b2a",
+      "irish-local": "#0b8a6a",
+      "pre-partition-local": "#7a8597",
+      "european": "#2f8fce",
+      "referendum": "#8a63d2",
+      "presidential": "#c08a3e"
+     },
+     "note": "The catalogue's election shelves, by group id (src/catalogue/view-elections.js BODY_GROUPS)."
+    },
+    "bodies": {
+     "table": {
+      "House of Commons of the United Kingdom": "#1e3a8a",
+      "Northern Ireland Assembly": "#2563eb",
+      "Northern Ireland Constitutional Convention": "#7c3aed",
+      "Northern Ireland Forum for Political Dialogue": "#0f766e",
+      "European Parliament": "#0ea5e9",
+      "local-government": "#b45309"
+     },
+     "note": "Body colours of the classic catalogue's elections list (src/ui-controller.js)."
+    }
+   }
+  },
+  "electionsApp": {
+   "about": "The Elections app (site/apps/elections/lib/).",
+   "colours": {
+    "inkDark": {
+     "value": "#000",
+     "note": "inkOn (format.js): dark text on a light fill, and its answer for a value that is not a hex colour."
+    },
+    "inkLight": {
+     "value": "#fff",
+     "note": "inkOn: light text on a dark fill."
+    },
+    "mapInk": {
+     "value": "#222",
+     "note": "The area map's outlines when the theme's --text is not set (maplibre.js)."
+    },
+    "noFill": {
+     "value": "rgba(0,0,0,0)",
+     "note": "An area map feature with no colour: transparent (maplibre.js)."
+    },
+    "nonTransferable": {
+     "value": "#9aa0a6",
+     "note": "The transfer flow's non-transferable band (charts.js)."
+    },
+    "pooledTransfer": {
+     "value": "#6b7280",
+     "note": "The transfer flow's source band when several candidates are distributed at once (charts.js)."
+    }
+   }
+  },
+  "browse": {
+   "about": "Browse (site/browse/browse.js): the drawn preview a map without a thumbnail shows.",
+   "colours": {
+    "mapPreview": {
+     "table": {
+      "paper": "#f8fafc",
+      "land": "#d7dce2",
+      "area": "#c9d0d8",
+      "edge": "#aeb8c2",
+      "labelPlate": "rgba(255,255,255,.86)",
+      "labelText": "#334155"
+     },
+     "note": "The preview's paper, land, areas, their edges, the label's plate and its text (renderMapFallbackSvg)."
+    },
+    "mapPreviewAccents": {
+     "values": [
+      "#2563eb",
+      "#059669",
+      "#7c3aed",
+      "#dc2626",
+      "#0891b2",
+      "#ca8a04"
+     ],
+     "note": "The preview's accent for a map without a style colour, picked by a hash of its category (mapFallbackColor)."
+    }
+   }
+  },
+  "gallery": {
+   "about": "The component gallery (packages/ui/src/gallery/route.js): sample data colours of the specimens.",
+   "colours": {
+    "specimens": {
+     "table": {
+      "alliance": "#f6cb2f",
+      "sdlp": "#2aa82c",
+      "uup": "#48a5ee",
+      "partyOne": "#1f77b4",
+      "partyTwo": "#d62728",
+      "other": "#7f7f7f"
+     },
+     "note": "The party chip, record facts, data table and legend specimens."
+    }
+   }
+  },
+  "viewer": {
+   "about": "The STV count viewer (site/app/election-viewer-package/js/, classic scripts mirrored in data/elections-source/js/), which cannot import: the map app hands it these as globalThis.civgraphViewerColours, with the parties palette `viewer`.",
+   "colours": {
+    "voteInk": {
+     "value": "#FFFFFF",
+     "note": "Text on a vote bar (stages2.js applyVoteColour)."
+    },
+    "voteInkShadow": {
+     "value": "2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000",
+     "note": "That text's outline (a text-shadow)."
+    },
+    "unknownParty": {
+     "value": "#c0c0c0",
+     "note": "A party the table does not list (stages2.js getPartyColour)."
+    },
+    "nonTransferable": {
+     "value": "#707070",
+     "note": "The non-transferable pile when the count names none of its own (stages2.js)."
+    },
+    "spoiledLabel": {
+     "value": "#000",
+     "note": "The Spoiled label (stages2.js)."
+    },
+    "noVoteLabel": {
+     "value": "#888",
+     "note": "The No vote label (stages2.js)."
+    },
+    "noVoteBar": {
+     "value": "#e8a0bf",
+     "note": "The No vote bar (stages2.js)."
+    },
+    "previewQuota": {
+     "value": "#084a96",
+     "note": "The animation preview's quota line (animation_preview.js)."
+    },
+    "previewPaper": {
+     "value": "#f5f7fb",
+     "note": "The preview's background."
+    },
+    "previewEdge": {
+     "value": "#dfe6f3",
+     "note": "The preview's border."
+    },
+    "previewTrack": {
+     "value": "#e8eef9",
+     "note": "A preview bar's track."
+    },
+    "previewBar": {
+     "value": "#9bb7ff",
+     "note": "A preview bar without a party colour."
+    },
+    "partyFallback": {
+     "value": "#b0bec5",
+     "note": "A party without a colour in the results tables (election_viewer.js)."
+    }
+   }
+  },
+  "areaResults": {
+   "about": "The area-results geography mode (packages/core/src/area-results.mjs).",
+   "colours": {
+    "candidates": {
+     "values": [
+      "#1f77b4",
+      "#d62728",
+      "#2ca02c",
+      "#9467bd",
+      "#ff7f0e",
+      "#17becf",
+      "#8c564b",
+      "#e377c2",
+      "#bcbd22",
+      "#393b79",
+      "#637939",
+      "#843c39"
+     ],
+     "note": "Colours for candidates whose party gives none of their own, in the order they are handed out (CANDIDATE_PALETTE)."
+    }
+   }
+  }
+ }
+}
