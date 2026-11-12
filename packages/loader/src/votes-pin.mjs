@@ -84,6 +84,6 @@ if (process.argv[1] && path.basename(process.argv[1]) === 'votes-pin.mjs') {
     writeFileSync(PIN_FILE, `${JSON.stringify({ schemaVersion: 1, description: 'SHA-256 of the parliamentary division dataset (kept outside the repository, CIVGRAPH_VOTES_DIR) that records:build reads. Update with node packages/loader/src/votes-pin.mjs --write when the dataset is refreshed.', files }, null, 2)}\n`);
     console.log(`pinned ${files.length} file(s) in ${path.relative(REPO_ROOT, PIN_FILE)}`);
   } else {
-    try { console.log(`PASS: votes dataset matches its pin (${verifyVotesPin(dir)})`); } catch (e) { console.error(`FAIL: ${e.message}`); process.exit(1); }
+    try { console.log(`PASS: votes dataset matches its pin (${verifyVotesPin(dir)})`); } catch (e) { console.error(`FAIL: ${/** @type {Error} */ (e).message}`); process.exit(1); }
   }
 }

@@ -146,7 +146,7 @@ function writeWithLockRetry(file, text) {
       writeFileSync(file, text, 'utf8');
       return;
     } catch (error) {
-      if (!['UNKNOWN', 'EBUSY', 'EPERM', 'EACCES'].includes(error.code) || attempt >= 7) throw error;
+      if (!['UNKNOWN', 'EBUSY', 'EPERM', 'EACCES'].includes(/** @type {string} */ (/** @type {NodeJS.ErrnoException} */ (error).code)) || attempt >= 7) throw error;
       Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1000 * (attempt + 1));
     }
   }

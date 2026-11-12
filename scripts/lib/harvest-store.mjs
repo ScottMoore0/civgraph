@@ -71,7 +71,8 @@ function tarIndex(archive) {
     // held" -- that would silently re-fetch everything. Signal it instead, and
     // carry tar's own stderr up: swallowing it turned the --force-local bug
     // above into an opaque "cannot read archive" that looked like corruption.
-    tarState.lastError = String((e && (e.stderr || e.message)) || e).trim().slice(0, 300);
+    const failure = /** @type {(Error & { stderr?: string | Buffer }) | null | undefined} */ (e);
+    tarState.lastError = String((failure && (failure.stderr || failure.message)) || e).trim().slice(0, 300);
     return null;
   }
 }

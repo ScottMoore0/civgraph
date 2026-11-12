@@ -27,6 +27,9 @@ test('tsconfig.records.json checks scripts/lib, scripts/records and the loader, 
 
 test('tsconfig.records.json keeps noImplicitAny on for scripts/lib, scripts/records, the loader and the storage, config, schema and maps-pipeline files, and check:types:records runs it', () => {
   assert.equal(config.compilerOptions.noImplicitAny, true);
+  // full strict since 12 Nov 2026 (stream rf8-types)
+  assert.equal(config.compilerOptions.strict, true, 'tsconfig.records.json turned strict off');
+  for (const flag of ['useUnknownInCatchVariables', 'strictPropertyInitialization', 'strictBuiltinIteratorReturn']) assert.equal(config.compilerOptions[flag], true, flag);
   for (const entry of ['scripts/lib/**/*.mjs', 'scripts/records/**/*.mjs', 'packages/loader/src/**/*.mjs', 'packages/storage/src/sqlite.mjs', 'packages/config/src/node.mjs', 'packages/schema/src/*.mjs', 'packages/maps-pipeline/src/layer-bounds.mjs', 'packages/maps-pipeline/src/safe-artefact-write.mjs']) assert.ok(config.include.includes(entry), entry);
   const scripts = JSON.parse(readFileSync(path.join(REPO_ROOT, 'package.json'), 'utf8')).scripts;
   assert.match(scripts['check:types:records'], /typecheck\.mjs config\/tsconfig\.records\.json/);
