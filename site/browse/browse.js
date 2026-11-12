@@ -4,10 +4,11 @@ import {
 // The packages' own escaping, slug and no-poll rules (packages/core, served at /pkg/ through
 // packages/served.json; the imports resolve to site/pkg/ in Node and tsc): Browse keeps no copy.
 import { escapeHtml } from '../pkg/core/src/html.js';
-import { slugify } from '../pkg/core/src/format.js';
+import { siteNumber, slugify } from '../pkg/core/src/format.js';
 import { candidateReturnWithoutPoll, partyHadNoPoll } from '../pkg/core/src/unopposed.mjs';
 import { SITE } from '../pkg/config/src/config.js';
 import { electionKindLabels } from '../pkg/registries/src/browser/election-type-names.mjs';
+import { SHORT_MONTHS } from '../pkg/core/src/date-format.mjs';
 
 /**
  * An element of the page reached by a delegated listener or a selector: any HTML element, with
@@ -7329,12 +7330,12 @@ function formatDate(value) {
   if (/^\d{4}$/.test(String(value).trim())) return String(value).trim();
   // A date known only to the month ("1884-10", from a reference work) reads "Oct 1884".
   const month = /^(\d{4})-(\d{2})$/.exec(String(value));
-  if (month) return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][Number(month[2]) - 1]} ${month[1]}`;
+  if (month) return `${SHORT_MONTHS[Number(month[2]) - 1]} ${month[1]}`;
   const date = new Date(`${value}T00:00:00Z`);
   if (Number.isNaN(date.getTime())) return String(value);
-  // "1 Jan 1950", as everywhere on the site (packages/core/src/date-format.mjs): no zero-padded day, and a
-  // fixed month list because en-GB's short month for September is "Sept".
-  return `${date.getUTCDate()} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+  // "1 Jan 1950": no zero-padded day, and the shared formatter's month list
+  // (packages/core/src/date-format.mjs), because Intl's short month for September is "Sept".
+  return `${date.getUTCDate()} ${SHORT_MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
 /**
@@ -7354,7 +7355,7 @@ function knownCount(value, zeroIsUnknown) {
 function formatNumber(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return value === null || value === undefined ? '' : String(value);
-  return new Intl.NumberFormat('en-GB').format(number);
+  return siteNumber(number);
 }
 
 /**

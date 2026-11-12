@@ -6,7 +6,7 @@
  */
 import { escapeHtml } from '../../../pkg/core/src/html.js';
 import { formatDisplayDate } from '../../../pkg/core/src/date-format.mjs';
-import { slugify } from '../../../pkg/core/src/format.js';
+import { siteNumber, slugify } from '../../../pkg/core/src/format.js';
 import { POLL_STATUS_TEXT, contestPollStatus, summaryPollStatus } from '../../../pkg/core/src/unopposed.mjs';
 import { votingSystemNames } from '../../../pkg/registries/src/browser/election-type-names.mjs';
 
@@ -30,7 +30,7 @@ export function fmtInt(value) {
   const n = num(value);
   if (n === null) return '—';
   const whole = Math.abs(n - Math.round(n)) < 1e-9;
-  return n.toLocaleString('en-GB', whole ? { maximumFractionDigits: 0 } : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return siteNumber(n, whole ? { maximumFractionDigits: 0 } : { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 /** A percentage to one decimal place; "—" when missing. */

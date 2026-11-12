@@ -3,6 +3,7 @@
  */
 import { bodyElections, electionIndex } from '../lib/api.js';
 import { appUrl, esc, fmtDate } from '../lib/format.js';
+import { siteNumber } from '../../../pkg/core/src/format.js';
 
 /** The group a body belongs to on the home page. */
 /** @param {string} slug */
@@ -37,7 +38,7 @@ export async function render(root, route, ctx) {
   root.innerHTML = `
     <header class="el-head">
       <h1>Civgraph Elections</h1>
-      <p class="el-lead">${all.length.toLocaleString('en-GB')} elections and referendums in Ireland and Northern Ireland, 1801 to today: seats and votes, full count sheets with transfers where the sources give them, and the source behind every figure.</p>
+      <p class="el-lead">${siteNumber(all.length)} elections and referendums in Ireland and Northern Ireland, 1801 to today: seats and votes, full count sheets with transfers where the sources give them, and the source behind every figure.</p>
       <p class="cg-notice cg-notice--warning el-preview">Preview: this app is not yet public. Figures come from the same records as Browse.</p>
     </header>
     <form class="el-search" role="search" onsubmit="return false">
@@ -60,7 +61,7 @@ export async function render(root, route, ctx) {
     const words = fold(input.value).split(/\s+/).filter(Boolean);
     if (!words.length) { out.innerHTML = ''; return; }
     const hits = all.filter((e) => { const t = fold(`${e.displayTitle} ${e.body} ${e.date}`); return words.every((w) => t.includes(w)); });
-    out.innerHTML = `<p>${hits.length.toLocaleString('en-GB')} found${hits.length > 50 ? ', the first 50 shown' : ''}.</p><ul class="el-list">${hits.slice(0, 50).map((e) => `<li><a href="${appUrl.election(e.key)}">${esc(e.displayTitle)}</a> <span class="el-muted">${esc(fmtDate(e.date))}</span></li>`).join('')}</ul>`;
+    out.innerHTML = `<p>${siteNumber(hits.length)} found${hits.length > 50 ? ', the first 50 shown' : ''}.</p><ul class="el-list">${hits.slice(0, 50).map((e) => `<li><a href="${appUrl.election(e.key)}">${esc(e.displayTitle)}</a> <span class="el-muted">${esc(fmtDate(e.date))}</span></li>`).join('')}</ul>`;
   }, { signal: ctx.signal });
   return '';
 }
@@ -80,7 +81,7 @@ function renderBody(root, all, slug) {
   root.innerHTML = `
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › ${esc(name)}</nav>
     <h1>${esc(name)}</h1>
-    <p class="el-lead">${list.length.toLocaleString('en-GB')} elections, ${String(list.at(-1)?.date).slice(0, 4)}–${list[0].date.slice(0, 4)}.</p>
+    <p class="el-lead">${siteNumber(list.length)} elections, ${String(list.at(-1)?.date).slice(0, 4)}–${list[0].date.slice(0, 4)}.</p>
     ${[...decades].map(([d, es]) => `<section><h2>${esc(d)}</h2><ul class="el-list">${es.map((e) => `<li><a href="${appUrl.election(e.key)}">${esc(e.displayTitle)}</a> <span class="el-muted">${esc(fmtDate(e.date))}${e.contestStatus === 'uncontested' ? ' · unopposed' : ''}</span></li>`).join('')}</ul></section>`).join('')}`;
   return name;
 }

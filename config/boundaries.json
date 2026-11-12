@@ -231,6 +231,7 @@
       "node": false
     },
     "site-apps": {
+      "//": "site-pkg since 12 Nov 2026 (rf8-frontend, R10): Words in parliament formats its numbers with the shared formatter, /pkg/core/src/format.js, as the Elections app does.",
       "paths": [
         "site/apps/"
       ],
@@ -242,7 +243,7 @@
       "node": false
     },
     "site": {
-      "//": "Served pages (Browse and the other unbundled pages): their own site/ modules, the served shims under /assets/ui/ (site-served) and the served package modules under /pkg/ (site-pkg, packages/served.json; Browse imports core's escaping, slug and no-poll rules there since 12 Nov 2026, stream rf8-types).",
+      "//": "Served pages (Browse and the other unbundled pages): their own site/ modules, the served shims under /assets/ui/ (site-served) and the served package modules under /pkg/ (site-pkg, packages/served.json; Browse imports core's escaping, slug and no-poll rules there since 12 Nov 2026, stream rf8-types, and writes its numbers and month names with the shared formatter, /pkg/core/src/format.js and date-format.mjs, stream rf8-frontend, R10).",
       "paths": [
         "site/",
         "render/sw.js"

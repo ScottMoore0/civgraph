@@ -13,12 +13,11 @@
  * failed query) gets the shell as it is, so an outage never turns real records into 404s.
  */
 import { binding } from '../../../../config/src/config.js';
+import { siteNumber } from '../../../../core/src/format.js';
 import { reportError } from '../_error.js';
 import { proniReader } from './_read.js';
 import { loadNode } from './node.js';
 import { CHILD_CAP, esc, recordHtml, recordNotFound } from '../../../../../site/apps/proni-search/record-view.js';
-
-const EN_GB = new Intl.NumberFormat('en-GB');
 
 /**
  * The reference a /proni/... address names, read as the app reads it (app.js currentRef), or null
@@ -87,6 +86,6 @@ export async function serveRecordPage(context, serveShell) {
     headers.set('Cache-Control', 'public, max-age=60');
     return new Response(fillRecordView(html, recordNotFound(ref), ref), { status: 404, headers });
   }
-  const body = recordHtml(/** @type {Parameters<typeof recordHtml>[0]} */ (/** @type {unknown} */ (node)), { fmt: (n) => EN_GB.format(n) });
+  const body = recordHtml(/** @type {Parameters<typeof recordHtml>[0]} */ (/** @type {unknown} */ (node)), { fmt: (n) => siteNumber(n) });
   return new Response(fillRecordView(html, body, ref), { status: 200, headers });
 }

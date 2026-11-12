@@ -10,6 +10,7 @@ import {
   DIMENSIONS, FILTERS, MEASURES, OUTCOMES, pivotCsv, pivotSql, pivotTable, queryFromState, settingsOf, stateFromQuery, whereSql,
 } from '../lib/pivot.js';
 import { PIVOT_RUN } from '../state-machines.js';
+import { siteNumber } from '../../../pkg/core/src/format.js';
 
 const SAVED = 'civgraph.elections.pivotViews';
 
@@ -132,7 +133,7 @@ export async function render(root, route, ctx) {
       const table = pivotTable(data, settings);
       shown = { table, settings };
       const m = MEASURES[settings.measure];
-      const fmt = (/** @type {number | null} */ v) => (v === null ? '' : v.toLocaleString('en-GB', { maximumFractionDigits: table.digits, minimumFractionDigits: table.digits }));
+      const fmt = (/** @type {number | null} */ v) => (v === null ? '' : siteNumber(v, { maximumFractionDigits: table.digits, minimumFractionDigits: table.digits }));
       const showTotal = table.additive && !m.share;
       const rowLabel = DIMENSIONS[settings.rows].label;
       out.innerHTML = `<table class="cg-table cg-table--compact cg-table--sticky-first el-pivot">
