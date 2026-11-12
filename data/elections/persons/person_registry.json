@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 157231,
+ "idHighWater": 157381,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -45,8 +45,8 @@
    "fix-john-carson-ballymena"
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
-  "crossSystemMerges": 1062,
-  "sameNameLeftSplit": 2900
+  "crossSystemMerges": 1060,
+  "sameNameLeftSplit": 2903
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -6102,7 +6102,8 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p10307",
@@ -9904,7 +9905,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156412
+    157289
    ]
   },
   {
@@ -12303,7 +12304,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156555
+    157359
    ]
   },
   {
@@ -13587,7 +13588,7 @@
    "eraReason": "split by its official person id (democracyclub:7132): the source id it shares is held by another person with another official id",
    "nameVariants": true,
    "mergedFrom": [
-    156413
+    157290
    ]
   },
   {
@@ -25204,7 +25205,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156557
+    157361
    ]
   },
   {
@@ -35255,10 +35256,7 @@
    ],
    "keyedBy": "src",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false,
-   "mergedFrom": [
-    156919
-   ]
+   "provisional": false
   },
   {
    "id": "p57185",
@@ -42156,7 +42154,7 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
    "mergedFrom": [
-    156313
+    157232
    ]
   },
   {
@@ -43210,7 +43208,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156558
+    157362
    ]
   },
   {
@@ -60579,7 +60577,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156525
+    157312
    ]
   },
   {
@@ -62504,10 +62502,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156325,
-    156344,
-    156528,
-    156529
+    157244,
+    157262,
+    157316,
+    157317
    ]
   },
   {
@@ -62819,10 +62817,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156354,
-    156355,
-    156415,
-    156563
+    157272,
+    157273,
+    157292,
+    157368
    ]
   },
   {
@@ -63513,10 +63511,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156331,
-    156332,
-    156537,
-    156538
+    157250,
+    157251,
+    157328,
+    157329
    ]
   },
   {
@@ -63553,10 +63551,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156333,
-    156349,
-    156403,
-    156539
+    157252,
+    157267,
+    157280,
+    157330
    ]
   },
   {
@@ -64060,8 +64058,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156338,
-    156556
+    157257,
+    157360
    ]
   },
   {
@@ -64222,11 +64220,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156339,
-    156356,
-    156565,
-    156566,
-    156567
+    157258,
+    157274,
+    157370,
+    157371,
+    157372
    ]
   },
   {
@@ -65006,10 +65004,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156316,
-    156323,
-    156520,
-    156521
+    157235,
+    157242,
+    157304,
+    157305
    ]
   },
   {
@@ -65929,12 +65927,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156353,
-    156414,
-    156559,
-    156560,
-    156561,
-    156562
+    157271,
+    157291,
+    157364,
+    157365,
+    157366,
+    157367
    ]
   },
   {
@@ -70340,9 +70338,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156317,
-    156318,
-    156346
+    157236,
+    157237,
+    157264
    ]
   },
   {
@@ -70380,11 +70378,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156328,
-    156347,
-    156348,
-    156402,
-    156534
+    157247,
+    157265,
+    157266,
+    157279,
+    157322
    ]
   },
   {
@@ -70421,10 +70419,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156314,
-    156319,
-    156546,
-    156547
+    157233,
+    157238,
+    157344,
+    157345
    ]
   },
   {
@@ -72578,11 +72576,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156315,
-    156416,
-    156417,
-    156418,
-    156568
+    157234,
+    157293,
+    157294,
+    157295,
+    157373
    ]
   },
   {
@@ -75733,12 +75731,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156320,
-    156350,
-    156408,
-    156409,
-    156548,
-    156549
+    157239,
+    157268,
+    157285,
+    157286,
+    157346,
+    157347
    ]
   },
   {
@@ -75776,11 +75774,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156321,
-    156336,
-    156351,
-    156550,
-    156551
+    157240,
+    157255,
+    157269,
+    157351,
+    157352
    ]
   },
   {
@@ -75820,13 +75818,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156337,
-    156352,
-    156410,
-    156411,
-    156552,
-    156553,
-    156554
+    157256,
+    157270,
+    157287,
+    157288,
+    157354,
+    157355,
+    157356
    ]
   },
   {
@@ -83664,12 +83662,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156324,
-    156341,
-    156342,
-    156343,
-    156523,
-    156524
+    157243,
+    157259,
+    157260,
+    157261,
+    157310,
+    157311
    ]
   },
   {
@@ -83835,11 +83833,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156326,
-    156327,
-    156345,
-    156532,
-    156533
+    157245,
+    157246,
+    157263,
+    157320,
+    157321
    ]
   },
   {
@@ -83875,9 +83873,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156329,
-    156535,
-    156536
+    157248,
+    157323,
+    157324
    ]
   },
   {
@@ -83916,12 +83914,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156334,
-    156335,
-    156405,
-    156406,
-    156407,
-    156545
+    157253,
+    157254,
+    157282,
+    157283,
+    157284,
+    157342
    ]
   },
   {
@@ -121353,10 +121351,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156515,
-    156516,
-    156517,
-    156518
+    157300,
+    157301,
+    157302,
+    157303
    ]
   },
   {
@@ -121391,8 +121389,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156400,
-    156522
+    157277,
+    157306
    ]
   },
   {
@@ -126685,10 +126683,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156541,
-    156542,
-    156543,
-    156544
+    157332,
+    157333,
+    157334,
+    157335
    ]
   },
   {
@@ -147039,7 +147037,7 @@
    "provenance": "keyed on the source's own candidate id (ei:3485)",
    "provisional": true,
    "mergedFrom": [
-    156376
+    157276
    ]
   },
   {
@@ -166889,7 +166887,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156527
+    157314
    ]
   },
   {
@@ -170513,7 +170511,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156526
+    157313
    ]
   },
   {
@@ -207476,8 +207474,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156530,
-    156531
+    157318,
+    157319
    ]
   },
   {
@@ -207511,7 +207509,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156540
+    157331
    ]
   },
   {
@@ -270218,7 +270216,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156564
+    157369
    ]
   },
   {
@@ -328107,7 +328105,7 @@
    "provenance": "keyed on the source's own candidate id (ie:6276)",
    "provisional": true,
    "mergedFrom": [
-    156357
+    157275
    ]
   },
   {
@@ -362844,7 +362842,7 @@
    "provisional": true,
    "nameVariants": true,
    "mergedFrom": [
-    156322
+    157241
    ]
   },
   {
@@ -379417,10 +379415,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:811)",
-   "provisional": true,
-   "mergedFrom": [
-    157016
-   ]
+   "provisional": true
   },
   {
    "id": "p118074",
@@ -397839,10 +397834,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1652)",
-   "provisional": true,
-   "mergedFrom": [
-    156837
-   ]
+   "provisional": true
   },
   {
    "id": "p118740",
@@ -415611,7 +415603,7 @@
     "paddy burke"
    ],
    "mergedFrom": [
-    156573
+    157381
    ]
   },
   {
@@ -456993,10 +456985,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3561)",
-   "provisional": true,
-   "mergedFrom": [
-    156857
-   ]
+   "provisional": true
   },
   {
    "id": "p120863",
@@ -492759,8 +492748,8 @@
     "martin connolly"
    ],
    "mergedFrom": [
-    156419,
-    156571
+    157296,
+    157380
    ]
   },
   {
@@ -511311,7 +511300,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    156330
+    157249
    ]
   },
   {
@@ -512704,7 +512693,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156514
+    157297
    ]
   },
   {
@@ -514867,7 +514856,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    156401
+    157278
    ]
   },
   {
@@ -563011,7 +563000,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    156404
+    157281
    ]
   },
   {
@@ -577612,7 +577601,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    156569
+    157379
    ]
   },
   {
@@ -625158,10 +625147,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5516)",
-   "provisional": true,
-   "mergedFrom": [
-    156859
-   ]
+   "provisional": true
   },
   {
    "id": "p130789",
@@ -632834,10 +632820,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:5514)",
-   "provisional": true,
-   "mergedFrom": [
-    156856
-   ]
+   "provisional": true
   },
   {
    "id": "p131253",
@@ -633070,10 +633053,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6590)",
-   "provisional": true,
-   "mergedFrom": [
-    156858
-   ]
+   "provisional": true
   },
   {
    "id": "p131261",
@@ -633161,10 +633141,7 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:6600)",
-   "provisional": true,
-   "mergedFrom": [
-    156860
-   ]
+   "provisional": true
   },
   {
    "id": "p131264",
@@ -785450,10 +785427,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1946,
-   "lastYear": 1958,
+   "lastYear": 1961,
    "bodies": [
     "holywood-urban-district-council"
    ],
@@ -787228,10 +787205,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1949,
-   "lastYear": 1955,
+   "lastYear": 1961,
    "bodies": [
     "kilkeel-urban-district-council"
    ],
@@ -787419,8 +787396,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
    "lastYear": 1958,
    "bodies": [
@@ -787789,10 +787766,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1929,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -788893,8 +788870,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1946,
    "lastYear": 1961,
    "bodies": [
@@ -789175,8 +789152,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
    "lastYear": 1961,
    "bodies": [
@@ -789869,8 +789846,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1946,
    "lastYear": 1961,
    "bodies": [
@@ -792137,11 +792114,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1929,
-   "lastYear": 1936,
+   "lastYear": 1949,
    "bodies": [
+    "aughnacloy-town-commissioners",
     "londonderry-county-borough-council"
    ],
    "parties": [],
@@ -793723,7 +793701,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139148",
@@ -797926,8 +797905,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1936,
    "lastYear": 1967,
    "bodies": [
@@ -803451,10 +803430,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1955,
-   "lastYear": 1958,
+   "lastYear": 1961,
    "bodies": [
     "holywood-urban-district-council"
    ],
@@ -806102,8 +806081,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1946,
    "lastYear": 1952,
    "bodies": [
@@ -807439,10 +807418,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1949,
-   "lastYear": 1955,
+   "lastYear": 1961,
    "bodies": [
     "kilkeel-urban-district-council"
    ],
@@ -807749,8 +807728,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1946,
    "lastYear": 1967,
    "bodies": [
@@ -811391,10 +811370,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1933,
-   "lastYear": 1933,
+   "lastYear": 1961,
    "bodies": [
     "holywood-urban-district-council"
    ],
@@ -813464,10 +813443,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -818157,10 +818136,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -821380,10 +821359,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "gilford-town-commissioners"
    ],
@@ -822624,10 +822603,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -828972,10 +828951,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1936,
-   "lastYear": 1936,
+   "lastYear": 1949,
    "bodies": [
     "gilford-town-commissioners"
    ],
@@ -829232,8 +829211,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1936,
    "lastYear": 1955,
    "bodies": [
@@ -833853,10 +833832,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "aughnacloy-town-commissioners"
    ],
@@ -834586,9 +834565,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1949,
    "lastYear": 1952,
    "bodies": [
     "holywood-urban-district-council"
@@ -852575,10 +852554,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "holywood-urban-district-council"
    ],
@@ -853052,10 +853031,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1929,
-   "lastYear": 1929,
+   "lastYear": 1949,
    "bodies": [
     "holywood-urban-district-council"
    ],
@@ -855160,12 +855139,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1923,
-   "lastYear": 1923,
+   "lastYear": 1949,
    "bodies": [
-    "belfast-county-borough-council"
+    "belfast-county-borough-council",
+    "belfast-rural-district-council"
    ],
    "parties": [
     "Independent Unionist"
@@ -873740,8 +873720,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1949,
    "lastYear": 1964,
    "bodies": [
@@ -885509,10 +885489,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -897196,33 +897176,6 @@
    "parties": [
     "UUP"
    ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p143150",
-   "personId": 143150,
-   "displayName": "J. S. M'llhagga",
-   "aliases": [
-    "J. S. M'llhagga"
-   ],
-   "matchKeys": [
-    "j s m llhagga"
-   ],
-   "sourceIds": [
-    "J. S. M'llhagga|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
-   "lastYear": 1939,
-   "bodies": [
-    "ballymena-borough-council"
-   ],
-   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -912723,8 +912676,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1939,
    "lastYear": 1961,
    "bodies": [
@@ -917745,8 +917698,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1914,
    "lastYear": 1952,
    "bodies": [
@@ -919034,10 +918987,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1927,
-   "lastYear": 1933,
+   "lastYear": 1949,
    "bodies": [
     "belfast-rural-district-council"
    ],
@@ -929409,11 +929362,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1961,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1949,
    "lastYear": 1964,
    "bodies": [
+    "aughnacloy-town-commissioners",
     "clogher-rural-district-council"
    ],
    "parties": [],
@@ -931355,11 +931309,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1946,
    "lastYear": 1964,
    "bodies": [
+    "aughnacloy-town-commissioners",
     "clogher-rural-district-council"
    ],
    "parties": [],
@@ -990191,12 +990146,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1927,
-   "lastYear": 1927,
+   "lastYear": 1949,
    "bodies": [
-    "banbridge-rural-district-council"
+    "banbridge-rural-district-council",
+    "gilford-town-commissioners"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1006138,10 +1006094,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1939,
-   "lastYear": 1939,
+   "lastYear": 1949,
    "bodies": [
     "belfast-rural-district-council"
    ],
@@ -1032099,7 +1032055,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p148513",
@@ -1035109,9 +1035066,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1946,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1939,
    "lastYear": 1958,
    "bodies": [
     "ballymena-borough-council"
@@ -1053064,8 +1053021,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1924,
    "lastYear": 1952,
    "bodies": [
@@ -1079338,10 +1079295,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -1080685,10 +1080642,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "donaghadee-urban-district-council"
    ],
@@ -1136989,6 +1136946,768 @@
    "provisional": true
   },
   {
+   "id": "p157298",
+   "personId": 157298,
+   "displayName": "D. C. M'Cormack",
+   "aliases": [
+    "D. C. M'Cormack"
+   ],
+   "matchKeys": [
+    "d c m cormack"
+   ],
+   "sourceIds": [
+    "D. C. M'Cormack|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "holywood-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157299",
+   "personId": 157299,
+   "displayName": "G. M'Veigh",
+   "aliases": [
+    "G. M'Veigh"
+   ],
+   "matchKeys": [
+    "g m veigh"
+   ],
+   "sourceIds": [
+    "G. M'Veigh|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p157307",
+   "personId": 157307,
+   "displayName": "W. T. M'Coubrey",
+   "aliases": [
+    "W. T. M'Coubrey"
+   ],
+   "matchKeys": [
+    "w t m coubrey"
+   ],
+   "sourceIds": [
+    "W. T. M'Coubrey|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "ballymoney-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157308",
+   "personId": 157308,
+   "displayName": "William M'Cready",
+   "aliases": [
+    "William M'Cready"
+   ],
+   "matchKeys": [
+    "william m cready"
+   ],
+   "sourceIds": [
+    "William M'Cready|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "aughnacloy-town-commissioners"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157309",
+   "personId": 157309,
+   "displayName": "Wm. M'Dowell",
+   "aliases": [
+    "Wm. M'Dowell"
+   ],
+   "matchKeys": [
+    "wm m dowell"
+   ],
+   "sourceIds": [
+    "Wm. M'Dowell|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "gilford-town-commissioners"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157315",
+   "personId": 157315,
+   "displayName": "A. Stuart",
+   "aliases": [
+    "A. Stuart"
+   ],
+   "matchKeys": [
+    "a stuart"
+   ],
+   "sourceIds": [
+    "A. Stuart|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "ballymoney-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157325",
+   "personId": 157325,
+   "displayName": "F. C. Collins",
+   "aliases": [
+    "F. C. Collins"
+   ],
+   "matchKeys": [
+    "f c collins"
+   ],
+   "sourceIds": [
+    "F. C. Collins|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "holywood-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157326",
+   "personId": 157326,
+   "displayName": "F. S. Annett",
+   "aliases": [
+    "F. S. Annett"
+   ],
+   "matchKeys": [
+    "f s annett"
+   ],
+   "sourceIds": [
+    "F. S. Annett|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157327",
+   "personId": 157327,
+   "displayName": "Fred. F. Graham",
+   "aliases": [
+    "Fred. F. Graham"
+   ],
+   "matchKeys": [
+    "fred f graham"
+   ],
+   "sourceIds": [
+    "Fred. F. Graham|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "holywood-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157336",
+   "personId": 157336,
+   "displayName": "J. Mullan",
+   "aliases": [
+    "J. Mullan"
+   ],
+   "matchKeys": [
+    "j mullan"
+   ],
+   "sourceIds": [
+    "J. Mullan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "holywood-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p157337",
+   "personId": 157337,
+   "displayName": "James Parkinson",
+   "aliases": [
+    "James Parkinson"
+   ],
+   "matchKeys": [
+    "james parkinson"
+   ],
+   "sourceIds": [
+    "James Parkinson|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "gilford-town-commissioners"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157338",
+   "personId": 157338,
+   "displayName": "James Smyth",
+   "aliases": [
+    "James Smyth"
+   ],
+   "matchKeys": [
+    "james smyth"
+   ],
+   "sourceIds": [
+    "James Smyth|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "belfast-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p157339",
+   "personId": 157339,
+   "displayName": "John Brady",
+   "aliases": [
+    "John Brady"
+   ],
+   "matchKeys": [
+    "john brady"
+   ],
+   "sourceIds": [
+    "John Brady|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "aughnacloy-town-commissioners"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p157340",
+   "personId": 157340,
+   "displayName": "John Higgins",
+   "aliases": [
+    "John Higgins"
+   ],
+   "matchKeys": [
+    "john higgins"
+   ],
+   "sourceIds": [
+    "John Higgins|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "gilford-town-commissioners"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157341",
+   "personId": 157341,
+   "displayName": "Joseph Keys",
+   "aliases": [
+    "Joseph Keys"
+   ],
+   "matchKeys": [
+    "joseph keys"
+   ],
+   "sourceIds": [
+    "Joseph Keys|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "aughnacloy-town-commissioners"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157343",
+   "personId": 157343,
+   "displayName": "M. A. Smyth",
+   "aliases": [
+    "M. A. Smyth"
+   ],
+   "matchKeys": [
+    "m a smyth"
+   ],
+   "sourceIds": [
+    "M. A. Smyth|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "holywood-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157348",
+   "personId": 157348,
+   "displayName": "Patrick Kennedy",
+   "aliases": [
+    "Patrick Kennedy"
+   ],
+   "matchKeys": [
+    "patrick kennedy"
+   ],
+   "sourceIds": [
+    "Patrick Kennedy|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "gilford-town-commissioners"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157349",
+   "personId": 157349,
+   "displayName": "Robert G. Hanna",
+   "aliases": [
+    "Robert G. Hanna"
+   ],
+   "matchKeys": [
+    "robert g hanna"
+   ],
+   "sourceIds": [
+    "Robert G. Hanna|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157350",
+   "personId": 157350,
+   "displayName": "Robt. J. Boyd",
+   "aliases": [
+    "Robt. J. Boyd"
+   ],
+   "matchKeys": [
+    "robt j boyd"
+   ],
+   "sourceIds": [
+    "Robt. J. Boyd|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "aughnacloy-town-commissioners"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157353",
+   "personId": 157353,
+   "displayName": "Samuel Smyth",
+   "aliases": [
+    "Samuel Smyth"
+   ],
+   "matchKeys": [
+    "samuel smyth"
+   ],
+   "sourceIds": [
+    "Samuel Smyth|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p157357",
+   "personId": 157357,
+   "displayName": "T. Cromie",
+   "aliases": [
+    "T. Cromie"
+   ],
+   "matchKeys": [
+    "t cromie"
+   ],
+   "sourceIds": [
+    "T. Cromie|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "gilford-town-commissioners"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157358",
+   "personId": 157358,
+   "displayName": "T. M. Erskine",
+   "aliases": [
+    "T. M. Erskine"
+   ],
+   "matchKeys": [
+    "t m erskine"
+   ],
+   "sourceIds": [
+    "T. M. Erskine|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "belfast-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157363",
+   "personId": 157363,
+   "displayName": "Thomas Howe",
+   "aliases": [
+    "Thomas Howe"
+   ],
+   "matchKeys": [
+    "thomas howe"
+   ],
+   "sourceIds": [
+    "Thomas Howe|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "donaghadee-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157374",
+   "personId": 157374,
+   "displayName": "V. Unsworth",
+   "aliases": [
+    "V. Unsworth"
+   ],
+   "matchKeys": [
+    "v unsworth"
+   ],
+   "sourceIds": [
+    "V. Unsworth|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "holywood-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157375",
+   "personId": 157375,
+   "displayName": "W. G. Kearney",
+   "aliases": [
+    "W. G. Kearney"
+   ],
+   "matchKeys": [
+    "w g kearney"
+   ],
+   "sourceIds": [
+    "W. G. Kearney|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "holywood-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157376",
+   "personId": 157376,
+   "displayName": "William M. Dunn",
+   "aliases": [
+    "William M. Dunn"
+   ],
+   "matchKeys": [
+    "william m dunn"
+   ],
+   "sourceIds": [
+    "William M. Dunn|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "holywood-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157377",
+   "personId": 157377,
+   "displayName": "William Newell",
+   "aliases": [
+    "William Newell"
+   ],
+   "matchKeys": [
+    "william newell"
+   ],
+   "sourceIds": [
+    "William Newell|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p157378",
+   "personId": 157378,
+   "displayName": "Wm. Hamilton",
+   "aliases": [
+    "Wm. Hamilton"
+   ],
+   "matchKeys": [
+    "wm hamilton"
+   ],
+   "sourceIds": [
+    "Wm. Hamilton|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1961,
+   "lastYear": 1961,
+   "bodies": [
+    "kilkeel-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
    "id": "p900001",
    "personId": 900001,
    "displayName": "Peter Brooke",
@@ -1138917,14 +1139636,14 @@
   }
  ],
  "corrections": {
-  "mergedIds": 130,
+  "mergedIds": 122,
   "classes": {
    "WIKIPEDIA-BIOGRAPHY": 10,
    "IE-EI-CROSSWALK": 3,
    "FORUM-DUPLICATE": 113,
    "LGR-2014": 3,
-   "SAME-SEAT-SEQUENCE": 9,
-   "STRAY-INTO-CURATED": 5
+   "SAME-SEAT-SEQUENCE": 2,
+   "STRAY-INTO-CURATED": 4
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/ingest/persons/merge_person_ids.py for the tests applied."
  }
