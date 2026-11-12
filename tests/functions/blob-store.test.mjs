@@ -152,7 +152,6 @@ const NOT_YET_ON_THE_BLOB_STORE = [
   'packages/api/src/handlers/contributions/decide.js',
   'packages/api/src/handlers/contributions/intake.js',
   'packages/api/src/handlers/contributions/list.js',
-  'packages/api/src/handlers/contributions/submit.js',
 ];
 
 const walk = (dir, out = []) => {

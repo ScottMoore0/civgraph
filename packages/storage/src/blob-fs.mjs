@@ -51,7 +51,7 @@ export function fsBlobStore(dir) {
   const root = path.resolve(dir);
   const file = (/** @type {string} */ key) => path.join(root, ...segments(key));
   const metaFile = (/** @type {string} */ key) => path.join(root, META, ...segments(key)) + '.json';
-  /** @param {string} key @returns {Promise<{ contentType?: string, metadata?: Record<string, string> }>} */
+  /** @param {string} key @returns {Promise<{ contentType?: string, metadata?: Record<string, unknown> }>} */
   const readMeta = async (key) => {
     try { return JSON.parse(await readFile(metaFile(key), 'utf8')); } catch { return {}; }
   };

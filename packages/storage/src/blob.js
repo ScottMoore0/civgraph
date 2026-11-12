@@ -52,7 +52,7 @@
  *
  * @typedef {object} BlobPutOptions
  * @property {string} [contentType]          R2, memory and file stores; KV ignores it
- * @property {Record<string, string>} [metadata]  R2 custom metadata, KV metadata
+ * @property {Record<string, unknown>} [metadata]  KV metadata (any JSON); R2 custom metadata (string values)
  * @property {number} [expirationTtl]        seconds; KV only, the others ignore it
  *
  * @typedef {'get' | 'put' | 'list'} BlobOperation
@@ -127,7 +127,7 @@ export function listPage(keys, { prefix = '', delimiter, cursor, limit = 1000 },
  * @returns {BlobStore & { keys: () => string[] }}
  */
 export function memoryBlobStore(entries = {}) {
-  /** @type {Map<string, { bytes: Uint8Array, contentType: string | null, metadata: Record<string, string> | null, uploaded: string }>} */
+  /** @type {Map<string, { bytes: Uint8Array, contentType: string | null, metadata: Record<string, unknown> | null, uploaded: string }>} */
   const map = new Map();
   const now = () => new Date().toISOString();
   for (const [key, value] of Object.entries(entries)) map.set(key, { bytes: toBytes(value), contentType: null, metadata: null, uploaded: now() });
@@ -162,7 +162,7 @@ export function memoryBlobStore(entries = {}) {
     /** @param {BlobListOptions} [options] */
     async list(options = {}) {
       return listPage([...map.keys()], options, (key) => {
-        const item = /** @type {{ bytes: Uint8Array, metadata: Record<string, string> | null, uploaded: string }} */ (map.get(key));
+        const item = /** @type {{ bytes: Uint8Array, metadata: Record<string, unknown> | null, uploaded: string }} */ (map.get(key));
         return { key, size: item.bytes.byteLength, uploaded: item.uploaded, etag: null, metadata: item.metadata };
       });
     },
