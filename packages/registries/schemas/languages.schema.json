@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/registries/languages.schema.json",
+  "title": "Languages registry (data/registries/languages.json)",
+  "description": "The interface languages, in the order the language control lists them: each one's own name, locale, BCP-47 tag, direction and what its built language file says about it. The source language is the fallback for every key.",
+  "type": "object",
+  "required": ["schemaVersion", "description", "source", "languages"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "source": { "type": "string", "pattern": "^[a-z]{2,8}$", "description": "The code of the source language: every key's text, and the fallback for a key a language lacks." },
+    "languages": {
+      "type": "object",
+      "description": "Language code (a string file's column name, the ?lang= value, the language file's name) -> the language, in the order the language control lists them.",
+      "propertyNames": { "pattern": "^[a-z]{2,8}$" },
+      "additionalProperties": { "$ref": "#/$defs/language" }
+    }
+  },
+  "$defs": {
+    "tag": { "type": "string", "pattern": "^[a-z]{2,8}(-[A-Za-z0-9]{1,8})*$" },
+    "language": {
+      "type": "object",
+      "required": ["name", "englishName", "bcp47", "locale", "dir"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "description": "The language in its own words, as the language control shows it (never translated)." },
+        "englishName": { "type": "string", "minLength": 1, "description": "The language in English: the built file's _meta.language." },
+        "bcp47": { "$ref": "#/$defs/tag", "description": "Its BCP-47 tag: the built file's _meta.bcp47, and the page's <html lang> while it is on (the source language keeps the page's own lang)." },
+        "locale": { "$ref": "#/$defs/tag", "description": "The Intl locale its numbers and dates are written in (packages/core/src/format.js and the runtime's formatNumber / formatDate). A language whose locale differs from the source language's also has the source's short-month dates (\"01 Apr 1969\") translated by the runtime." },
+        "localeNote": { "type": "string", "minLength": 1, "description": "Why the tag and locale are what they are." },
+        "dir": { "enum": ["ltr", "rtl"], "description": "Writing direction: the page's <html dir> while it is on (ltr leaves the page's own)." },
+        "placeNameFields": { "type": "boolean", "description": "The map tiles carry this language's place names, in the properties site/assets/i18n/place-name-fields.json lists (map labels and feature details use them)." },
+        "role": { "type": "string", "minLength": 1, "description": "The built file's _meta.role (the source language's)." },
+        "standard": { "type": "string", "minLength": 1, "description": "The written standard followed: the built file's _meta.standard." },
+        "terminology": { "type": "string", "minLength": 1, "description": "The terminology source: the built file's _meta.terminology." },
+        "reviewedBy": { "type": ["string", "null"], "description": "Who reviewed the translations, once a fluent speaker has (data/i18n/README.md); null while they are drafts. Naming a reviewer marks the built file reviewed (scripts/i18n/translation-status.mjs)." }
+      }
+    }
+  }
+}
