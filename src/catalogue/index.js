@@ -71,6 +71,9 @@ export class CatalogueNext {
   set tab(value) { this._tab = CATALOGUE_TAB.check(value); }
 
   constructor(ui) {
+    // The catalogue's lifetime (R8): its listeners on document and window pass this signal, and
+    // dispose() takes them away.
+    this.lifecycle = new AbortController();
     // Two-state fields as flags, and placesReady as a latch (MA-L): reads and writes unchanged.
     defineFlagFields(this, ['drawn', 'picking', 'electionsFirst', 'langNotice']);
     defineFlagFields(this, ['placesReady'], { latch: true });
@@ -127,8 +130,8 @@ export class CatalogueNext {
     if (typeof window !== 'undefined') {
       // Capture phase: the site's own popstate handlers, registered earlier, rewrite the address
       // from the current view, so this one has to take the new view first.
-      window.addEventListener('popstate', () => this.onLocationChange({ rewrite: true }), true);
-      window.addEventListener('hashchange', () => this.onLocationChange(), true);
+      window.addEventListener('popstate', () => this.onLocationChange({ rewrite: true }), { capture: true, signal: this.lifecycle.signal });
+      window.addEventListener('hashchange', () => this.onLocationChange(), { capture: true, signal: this.lifecycle.signal });
       // The control's Hide action: the phrase leaves the search box with it.
       document.addEventListener('civgraph:langhide', () => {
         forgetTypedPhrase();
@@ -136,11 +139,16 @@ export class CatalogueNext {
         if (!this.langNotice || !input) return;
         input.value = '';
         input.dispatchEvent(new Event('input', { bubbles: true }));
-      });
+      }, { signal: this.lifecycle.signal });
     }
   }
 
   /* ================================================================ lifecycle */
+
+  /** Removes the listeners the catalogue put on document and window (R8). */
+  dispose() {
+    this.lifecycle.abort();
+  }
 
   async load() {
     // this.data is set mid-load, before the year spans and the route; a second render that
