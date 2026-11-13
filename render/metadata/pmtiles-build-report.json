@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-13T12:12:03.166Z",
+  "generatedAt": "2026-11-13T15:53:29.228Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,18 +12,18 @@
   "outputDirectory": "render/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 4,
-    "converted": 4,
+    "candidates": 16,
+    "converted": 16,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 4,
+    "metadataPreferred": 16,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "nuts-2-2016-2021-vector",
-      "sourceMapId": "nuts-2-2016-2021",
-      "name": "NUTS 2 Regions 2016–2021",
+      "layerId": "cork-townlands-vector",
+      "sourceMapId": "cork-townlands",
+      "name": "Townlands 1844",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -33,14 +33,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/nuts-2-2016-2021-vector.pmtiles",
-      "bytes": 3857466,
+      "output": "render/pmtiles/generated/cork-townlands-vector.pmtiles",
+      "bytes": 12034355,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "nuts-2-2003-2013-vector",
-      "sourceMapId": "nuts-2-2003-2013",
-      "name": "NUTS 2 Regions 2003–2013",
+      "layerId": "dcc-dublin-canvas-public-art-vector",
+      "sourceMapId": "dcc-dublin-canvas-public-art",
+      "name": "Dublin Canvas Public Art (DCC)",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -50,14 +50,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles",
-      "bytes": 1639593,
+      "output": "render/pmtiles/generated/dcc-dublin-canvas-public-art-vector.pmtiles",
+      "bytes": 801272,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "nuts-3-2016-2021-vector",
-      "sourceMapId": "nuts-3-2016-2021",
-      "name": "NUTS 3 Regions 2016–2021",
+      "layerId": "dcc-parking-meters-location-tariffs-and-zones-in-dublin-city-vector",
+      "sourceMapId": "dcc-parking-meters-location-tariffs-and-zones-in-dublin-city",
+      "name": "Parking Meters Location Tariffs And Zones In Dublin City (DCC)",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -67,14 +67,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles",
-      "bytes": 4853849,
+      "output": "render/pmtiles/generated/dcc-parking-meters-location-tariffs-and-zones-in-dublin-city-vector.pmtiles",
+      "bytes": 789967,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "nuts-3-2003-2013-vector",
-      "sourceMapId": "nuts-3-2003-2013",
-      "name": "NUTS 3 Regions 2003–2013",
+      "layerId": "dcc-public-toilets-vector",
+      "sourceMapId": "dcc-public-toilets",
+      "name": "Public Toilets (DCC)",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -84,8 +84,213 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles",
-      "bytes": 2345287,
+      "output": "render/pmtiles/generated/dcc-public-toilets-vector.pmtiles",
+      "bytes": 21789,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1994-vector",
+      "sourceMapId": "local-authorities-1994",
+      "name": "Local Authorities 1994",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1994-vector.pmtiles",
+      "bytes": 1766989,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-2002-vector",
+      "sourceMapId": "local-authorities-2002",
+      "name": "Local Authorities 2002",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-2002-vector.pmtiles",
+      "bytes": 1760046,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-2008-vector",
+      "sourceMapId": "local-authorities-2008",
+      "name": "Local Authorities 2008",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-2008-vector.pmtiles",
+      "bytes": 2501663,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "translink-bus-stops-2024-vector",
+      "sourceMapId": "translink-bus-stops-2024",
+      "name": "Translink Bus Stops 2024",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "lowZoomAttributeCutoff": 7,
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/translink-bus-stops-2024-vector.pmtiles",
+      "bytes": 7333115,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "ded-1921-05-03-vector",
+      "sourceMapId": "ded-1921-05-03",
+      "name": "District Electoral Divisions 3 May 1921",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/ded-1921-05-03-vector.pmtiles",
+      "bytes": 5454801,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "townlands-cities-and-islands-vector",
+      "sourceMapId": "townlands-cities-and-islands",
+      "name": "Townlands — Cork, Dublin and Galway cities and islands",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/townlands-cities-and-islands-vector.pmtiles",
+      "bytes": 1048574,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-ulster-1912-vector",
+      "sourceMapId": "eds-ulster-1912",
+      "name": "Ulster District Electoral Divisions/Wards 1912",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-ulster-1912-vector.pmtiles",
+      "bytes": 7238622,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-ulster-1913-vector",
+      "sourceMapId": "eds-ulster-1913",
+      "name": "Ulster District Electoral Divisions/Wards 1913",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-ulster-1913-vector.pmtiles",
+      "bytes": 7242198,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-ulster-1914-vector",
+      "sourceMapId": "eds-ulster-1914",
+      "name": "Ulster District Electoral Divisions/Wards 1914",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-ulster-1914-vector.pmtiles",
+      "bytes": 7247294,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-ulster-1915-vector",
+      "sourceMapId": "eds-ulster-1915",
+      "name": "Ulster District Electoral Divisions/Wards 1915",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-ulster-1915-vector.pmtiles",
+      "bytes": 7248119,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-ulster-1916-vector",
+      "sourceMapId": "eds-ulster-1916",
+      "name": "Ulster District Electoral Divisions/Wards 1916",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-ulster-1916-vector.pmtiles",
+      "bytes": 7251578,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-ulster-1921-nine-county-vector",
+      "sourceMapId": "eds-ulster-1921-nine-county",
+      "name": "Ulster (nine counties) District Electoral Divisions/Wards 1921",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-ulster-1921-nine-county-vector.pmtiles",
+      "bytes": 7271892,
       "exceedsGithubBudget": false
     }
   ],
