@@ -33,7 +33,12 @@ import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
 /** @typedef {import('./ui-controller-types.d.ts').DetailFeature} DetailFeature */
 /** @typedef {import('./ui-controller-types.d.ts').FeatureDetailEntry} FeatureDetailEntry */
 /** @typedef {import('./ui-controller-types.d.ts').HtmlRoot} HtmlRoot */
+/** @typedef {import('./ui-controller-types.d.ts').ViewElement} ViewElement */
 /** @typedef {import('./ui-controller-types.d.ts').HtmlElementRoot} HtmlElementRoot */
+/** @typedef {import('./ui-controller-types.d.ts').MapListOptions} MapListOptions */
+/** @typedef {import('./ui-controller-types.d.ts').DetailViewState} DetailViewState */
+/** @typedef {import('./ui-controller-types.d.ts').FeatureThumbnailManifest} FeatureThumbnailManifest */
+/** @typedef {import('./ui-controller-types.d.ts').BrowseItem} BrowseItem */
 
 // Derived kinds, not state (architecture rule R7): each is worked out from data where it is read.
 /** @typedef {'numeric' | 'ordinal' | 'text' | 'date'} ColumnKind how a table column sorts: inferColumnKind's answer, an entity table column's `kind` */
@@ -181,39 +186,63 @@ class UIController {
         this.catalogueHistory = [];
         this.catalogueHistoryIndex = -1;
         this.catalogueView = 'list'; // 'list' or 'detail'
+        /** @type {MapListOptions} */
         this._lastMapListOptions = {};
+        /** @type {Set<string>} */
         this._showPlaceholdersCards = new Set(); // card keys with "Show to be added" toggle active
+        /** @type {Set<string>} */
         this._showByElectionCards = new Set(); // election decade cards with by-elections expanded
+        /** @type {HTMLElement | null} */
         this._cataloguePane = null;
+        /** @type {Map<string, { kind: string, key: string, [key: string]: unknown }>} */
         this._electionEntityDetailCache = new Map();
         // Per page: scroll and table state, so Back returns to the same place (M10).
+        /** @type {Map<string, DetailViewState>} */
         this._detailViewStates = new Map();
+        /** @type {string | null} */
         this._currentDetailViewKey = null;
+        /** @type {{ bookId: string, format: string } | null} */
         this._catalogueBookView = null;
+        /** @type {Map<string, string>} */
         this._bookMarkdownCache = new Map();
+        /** @type {symbol | null} */
         this._flatRenderToken = null;
         this.flatRenderScheduledFlag = createFlag('flat catalogue render scheduled');
+        /** @type {MapListOptions | null} */
         this._pendingFlatRenderOptions = null;
         /** @type {Array<(value: unknown) => void>} */
         this._flatRenderResolvers = [];
+        /** @type {Set<string>} */
         this._flatTocTargetIds = new Set();
         this.singleSectionFlatCatalogue = false;
         /** @type {string | null} */
         this._flatActiveSectionKey = null;
+        /** @type {Map<string, string>} */
         this._flatTargetToSection = new Map();
         this._flatSectionTargets = new Map();
+        /** @type {Set<string> | null} */
         this._thumbnailIds = null;
+        /** @type {Promise<unknown> | null} */
         this._thumbnailManifestPromise = null;
+        /** @type {{ counts: Record<string, number>, [key: string]: unknown } | null} */
         this._featureCountManifest = null;
+        /** @type {Promise<unknown> | null} */
         this._featureCountManifestPromise = null;
+        /** @type {FeatureThumbnailManifest | null} */
         this._featureThumbnailManifest = null;
+        /** @type {Promise<FeatureThumbnailManifest> | null} */
         this._featureThumbnailManifestPromise = null;
+        /** @type {Map<string, Set<string>>} */
         this._featureThumbnailRenderedIdsByMap = new Map();
+        /** @type {CatalogueSearchRecord[] | null} */
         this._catalogueSearchIndex = null;
+        /** @type {Promise<CatalogueSearchRecord[]> | null} */
         this._catalogueSearchIndexPromise = null;
+        /** @type {Map<string, Promise<BrowseItem[]>>} */
         this._catalogueSearchBrowseCache = new Map();
         this._catalogueSearchQuery = '';
         this._catalogueSearchToken = 0;
+        /** @type {IntersectionObserver | null} */
         this._thumbnailObserver = null;
         this.mobileCatalogueExpandedFlag = createFlag('mobile catalogue expanded');
         // eager, deferred or released (MA-09).
@@ -349,7 +378,7 @@ class UIController {
             listView.addEventListener('click', (e) => {
                 // Handle class member name links
                 // A click in the list lands on an element of it.
-                const classMemberLink = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('.class-member__name-link'));
+                const classMemberLink = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('.class-member__name-link'));
                 if (classMemberLink) {
                     e.preventDefault();
                     const mapId = classMemberLink.dataset.detailMapId;
@@ -357,7 +386,7 @@ class UIController {
                     return;
                 }
                 // Handle standalone map card name links
-                const mapCardLink = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('.map-card__name-link'));
+                const mapCardLink = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('.map-card__name-link'));
                 if (mapCardLink) {
                     e.preventDefault();
                     const mapId = mapCardLink.dataset.detailMapId;
@@ -592,7 +621,7 @@ class UIController {
         this.bindMapActionStrip(detailView, map, { activeClassTarget: detailView, variantsHost: detailView });
 
         // Variant click handlers
-        /** @type {NodeListOf<HTMLElement>} */ (detailView.querySelectorAll('.catalogue-detail__variant')).forEach(el => {
+        /** @type {NodeListOf<ViewElement>} */ (detailView.querySelectorAll('.catalogue-detail__variant')).forEach(el => {
             el.addEventListener('click', () => {
                 const variantId = /** @type {HTMLElement} */ (el).dataset.mapId;
                 if (variantId) this.showCatalogueDetailView(variantId);
@@ -625,8 +654,8 @@ class UIController {
     }
 
     _getActivePaneTabId() {
-        const activeTab = document.querySelector('.pane-tab.pane-tab--active');
-        return /** @type {HTMLElement | null} */ (activeTab)?.dataset?.tab || 'catalogue';
+        const activeTab = /** @type {HtmlRoot} */ (document).querySelector('.pane-tab.pane-tab--active');
+        return /** @type {ViewElement | null} */ (activeTab)?.dataset?.tab || 'catalogue';
     }
 
     /** @param {string} tabId */
@@ -1252,7 +1281,7 @@ class UIController {
                 renderVisibleRows();
 
                 headers.forEach((th, idx) => {
-                    const btn = /** @type {HTMLElement | null} */ (th.querySelector('[data-table-filter-sort-btn]'));
+                    const btn = /** @type {ViewElement | null} */ (th.querySelector('[data-table-filter-sort-btn]'));
                     if (!btn) return;
                     const key = attrKeys[idx];
                     const filtered = state.filters.has(key) && (state.filters.get(key)?.size ?? 0) > 0;
@@ -1343,7 +1372,7 @@ class UIController {
                 const search = /** @type {HTMLInputElement | null} */ (menu.querySelector('.election-filter-menu__search'));
                 search?.addEventListener('input', () => renderValues(search.value || ''));
                 menu.addEventListener('click', (event) => {
-                    const btn = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('button[data-action]'));
+                    const btn = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('button[data-action]'));
                     if (!btn) return;
                     const action = btn.dataset.action;
                     if (action === 'sort-asc') {
@@ -1428,7 +1457,7 @@ class UIController {
             }, { passive: true });
 
             tbody.addEventListener('click', (event) => {
-                const link = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-detail__attr-link'));
+                const link = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-detail__attr-link'));
                 if (link) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -1437,7 +1466,7 @@ class UIController {
                     return;
                 }
 
-                const row = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-detail__attr-tr--interactive'));
+                const row = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-detail__attr-tr--interactive'));
                 if (!row) return;
                 const featureIndex = Number(row.dataset.featureIndex);
                 const featureName = row.dataset.featureName || '';
@@ -1491,7 +1520,7 @@ class UIController {
     catalogueGoBack() {
         // Special case: when viewing the Tables tab, "back" returns to the
         // Catalogue tab regardless of the catalogue history stack.
-        const tablesContent = document.querySelector('.pane__content[data-tab-content="tables"]');
+        const tablesContent = /** @type {HtmlRoot} */ (document).querySelector('.pane__content[data-tab-content="tables"]');
         if (tablesContent && !tablesContent.classList.contains('pane-tab-content--hidden')) {
             this.showTab('catalogue');
             this.updateCatalogueNavButtons();
@@ -1627,7 +1656,7 @@ class UIController {
         document.addEventListener('pointerdown', onOutside, true);
 
         popup.addEventListener('click', (event) => {
-            const item = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest?.('[data-history-index]'));
+            const item = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest?.('[data-history-index]'));
             if (!item) return;
             const index = Number(item.dataset.historyIndex);
             if (!Number.isInteger(index) || index < 0 || index >= entries.length) return;
@@ -1643,7 +1672,7 @@ class UIController {
             close();
         });
 
-        /** @type {HTMLElement | null} */ (popup.querySelector('.catalogue-history-popup__item'))?.focus();
+        /** @type {ViewElement | null} */ (popup.querySelector('.catalogue-history-popup__item'))?.focus();
     }
 
     updateCatalogueNavButtons() {
@@ -1652,7 +1681,7 @@ class UIController {
 
         // When the Tables tab is active, the back button always returns to the
         // Catalogue tab — force-enable it regardless of catalogue history depth.
-        const tablesContent = document.querySelector('.pane__content[data-tab-content="tables"]');
+        const tablesContent = /** @type {HtmlRoot} */ (document).querySelector('.pane__content[data-tab-content="tables"]');
         const onTables = tablesContent && !tablesContent.classList.contains('pane-tab-content--hidden');
 
         if (backBtn) {
@@ -1665,7 +1694,7 @@ class UIController {
     }
 
     setupTabSwitching() {
-        const tabs = document.querySelectorAll('.pane-tab');
+        const tabs = /** @type {HtmlRoot} */ (document).querySelectorAll('.pane-tab');
 
 
         tabs.forEach(tab => {
@@ -1678,7 +1707,7 @@ class UIController {
         // Delegated handler for in-content tab links (e.g. the Tables top-link
         // in the catalogue TOC, which is re-rendered dynamically).
         document.addEventListener('click', (e) => {
-            const trigger = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('[data-tab-target]'));
+            const trigger = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('[data-tab-target]'));
             if (!trigger) return;
             e.preventDefault();
             this.showTab(/** @type {string} */ (trigger.dataset.tabTarget));
@@ -1687,8 +1716,8 @@ class UIController {
 
     /** @param {string} tabId */
     showTab(tabId) {
-        const tabs = document.querySelectorAll('.pane-tab');
-        const tabContents = document.querySelectorAll('.pane-tab-content');
+        const tabs = /** @type {HtmlRoot} */ (document).querySelectorAll('.pane-tab');
+        const tabContents = /** @type {HtmlRoot} */ (document).querySelectorAll('.pane-tab-content');
 
         // Update active tab
         tabs.forEach(t => {
@@ -1730,15 +1759,15 @@ class UIController {
 
     /** @param {string} tabId */
     moveCatalogueShellForTab(tabId) {
-        const shell = document.querySelector('.catalogue-sticky-shell');
+        const shell = /** @type {HtmlRoot} */ (document).querySelector('.catalogue-sticky-shell');
         if (!shell) return;
         if (tabId === 'tables') {
-            const tablesContent = document.querySelector('.pane__content[data-tab-content="tables"]');
+            const tablesContent = /** @type {HtmlRoot} */ (document).querySelector('.pane__content[data-tab-content="tables"]');
             if (tablesContent && shell.parentElement !== tablesContent) {
                 tablesContent.insertBefore(shell, tablesContent.firstChild);
             }
         } else {
-            const catalogueContent = document.querySelector('.pane__content[data-tab-content="catalogue"]');
+            const catalogueContent = /** @type {HtmlRoot} */ (document).querySelector('.pane__content[data-tab-content="catalogue"]');
             if (catalogueContent && shell.parentElement !== catalogueContent) {
                 // Restore to its original position at the top of the catalogue tab.
                 catalogueContent.insertBefore(shell, catalogueContent.firstChild);
@@ -1747,7 +1776,7 @@ class UIController {
     }
 
     setupCatalogueReturnTop() {
-        const pane = /** @type {HTMLElement | null} */ (document.querySelector('.pane__content[data-tab-content="catalogue"]'));
+        const pane = /** @type {ViewElement | null} */ (/** @type {HtmlRoot} */ (document).querySelector('.pane__content[data-tab-content="catalogue"]'));
         if (!pane) return;
         this._cataloguePane = pane;
         pane.addEventListener('scroll', () => this.updateCatalogueHomeButton(), { passive: true });
@@ -1768,8 +1797,8 @@ class UIController {
     /** @param {boolean} isActive */
     _applyCatalogueBookViewerChrome(isActive) {
         const statsEl = document.getElementById('filterStats');
-        const categoryPillsContainer = document.querySelector('.category-pills-container');
-        const providerPillsContainer = document.querySelector('.provider-pills-container');
+        const categoryPillsContainer = /** @type {HtmlRoot} */ (document).querySelector('.category-pills-container');
+        const providerPillsContainer = /** @type {HtmlRoot} */ (document).querySelector('.provider-pills-container');
         if (statsEl) statsEl.classList.toggle('hidden', !!isActive);
         if (categoryPillsContainer) categoryPillsContainer.classList.toggle('hidden', true);
         if (providerPillsContainer) providerPillsContainer.classList.toggle('hidden', true);
@@ -1914,7 +1943,7 @@ class UIController {
     }
 
     scrollCatalogueToTop() {
-        const pane = this._cataloguePane || document.querySelector('.pane__content[data-tab-content="catalogue"]');
+        const pane = this._cataloguePane || /** @type {HtmlRoot} */ (document).querySelector('.pane__content[data-tab-content="catalogue"]');
         if (!pane) return;
         pane.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1932,7 +1961,7 @@ class UIController {
     }
 
     setupSplitToggle() {
-        const buttons = document.querySelectorAll('.split-toggle__btn');
+        const buttons = /** @type {HtmlRoot} */ (document).querySelectorAll('.split-toggle__btn');
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const action = /** @type {HTMLElement} */ (btn).dataset.action;
@@ -1977,7 +2006,7 @@ class UIController {
 
     setupSplitDrag() {
         const splitDrag = document.getElementById('splitDrag');
-        const appMain = document.querySelector('.app-main');
+        const appMain = /** @type {HtmlRoot} */ (document).querySelector('.app-main');
 
         if (!splitDrag || !appMain) return;
 
@@ -2007,7 +2036,7 @@ class UIController {
         /** @type {HTMLElement} */
         const splitHost = document.body.classList.contains('app-shell')
             ? document.body
-            : (/** @type {HTMLElement | null} */ (appMain.closest('.app-shell')) || document.body);
+            : (/** @type {ViewElement | null} */ (appMain.closest('.app-shell')) || document.body);
 
         /** @param {MouseEvent | TouchEvent} e */
         const startDrag = (e) => {
@@ -2127,14 +2156,14 @@ class UIController {
     }
 
     updateSplitState() {
-        const shell = document.querySelector('.app-shell');
+        const shell = /** @type {HtmlRoot} */ (document).querySelector('.app-shell');
         if (!shell) return;
         const allowedStates = this.getAllowedStates();
         if (!allowedStates.find(s => s.id === this.currentStateId)) {
             this.currentStateId = allowedStates[0]?.id || 'balanced';
         }
         /** @type {HTMLElement} */ (shell).dataset.splitState = this.currentStateId;
-        const buttons = /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('.split-toggle__btn'));
+        const buttons = /** @type {NodeListOf<ViewElement>} */ (/** @type {HtmlRoot} */ (document).querySelectorAll('.split-toggle__btn'));
         buttons.forEach(btn => {
             const isActive = btn.dataset.action === this.currentStateId;
             btn.classList.toggle('split-toggle__btn--active', isActive);
@@ -2853,7 +2882,7 @@ class UIController {
      * without this sweep the catalogue renders hundreds of controls that
      * silently do nothing when clicked. Runs after each render; idempotent.
      */
-    /** @param {HtmlElementRoot} [container] */
+    /** @param {HtmlRoot} [container] */
     syncDownloadButtons(container = document) {
         container.querySelectorAll?.('.download-fgb-btn[data-map-id]').forEach(btn => {
             const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(btn.dataset.mapId));
@@ -2872,19 +2901,19 @@ class UIController {
         });
     }
 
-    /** @param {HtmlElementRoot} [container] */
+    /** @param {HtmlRoot} [container] */
     syncCatalogueSearchActionButtons(container = document) {
         container.querySelectorAll?.('.catalogue-search__action-strip[data-search-kind="map"]').forEach(strip => {
             const mapId = strip.dataset.mapId;
             const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(mapId) : false;
             const isVisible = this.onCheckMapVisible ? !!this.onCheckMapVisible(mapId) : isLoaded;
-            const loadBtn = /** @type {HTMLElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-map-load"]'));
+            const loadBtn = /** @type {ViewElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-map-load"]'));
             if (loadBtn) {
                 loadBtn.innerHTML = this.getLoadButtonIcon(isLoaded);
                 loadBtn.title = isLoaded ? 'Unload map' : 'Load map';
                 loadBtn.setAttribute('aria-label', loadBtn.title);
             }
-            const visibilityBtn = /** @type {HTMLElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-map-visibility"]'));
+            const visibilityBtn = /** @type {ViewElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-map-visibility"]'));
             if (visibilityBtn) {
                 visibilityBtn.innerHTML = this.getVisibilityButtonIcon(isVisible);
                 visibilityBtn.title = isVisible ? 'Hide map' : 'Show map';
@@ -2896,13 +2925,13 @@ class UIController {
             const featureId = strip.dataset.featureId;
             const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureId) : false;
             const isVisible = this.onCheckFeatureVisible ? !!this.onCheckFeatureVisible(mapId, featureId) : isLoaded;
-            const loadBtn = /** @type {HTMLElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-feature-load"]'));
+            const loadBtn = /** @type {ViewElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-feature-load"]'));
             if (loadBtn) {
                 loadBtn.innerHTML = this.getLoadButtonIcon(isLoaded);
                 loadBtn.title = isLoaded ? 'Unload feature' : 'Load feature';
                 loadBtn.setAttribute('aria-label', loadBtn.title);
             }
-            const visibilityBtn = /** @type {HTMLElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-feature-visibility"]'));
+            const visibilityBtn = /** @type {HTMLButtonElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-feature-visibility"]'));
             if (visibilityBtn) {
                 visibilityBtn.innerHTML = this.getVisibilityButtonIcon(isVisible);
                 visibilityBtn.title = isVisible ? 'Hide feature' : 'Show feature';
@@ -3214,9 +3243,9 @@ class UIController {
     }
 
     getCataloguePaneScroller() {
-        return document.querySelector('.pane__content[data-tab-content="catalogue"]')
+        return /** @type {HtmlRoot} */ (document).querySelector('.pane__content[data-tab-content="catalogue"]')
             || document.getElementById('catalogueListView')
-            || document.querySelector('.pane--info');
+            || /** @type {HtmlRoot} */ (document).querySelector('.pane--info');
     }
 
     /** @param {number | null} [count] */
@@ -3337,7 +3366,7 @@ class UIController {
     /** @param {HTMLElement} activeEl */
     _markActiveToplink(activeEl) {
         this._activeSectionTab = activeEl?.dataset?.catalogueTarget || activeEl?.dataset?.tabTarget || this._activeSectionTab;
-        const links = document.querySelectorAll('.catalogue-flat__toc-toplink');
+        const links = /** @type {HtmlRoot} */ (document).querySelectorAll('.catalogue-flat__toc-toplink');
         links.forEach((el) => {
             if (el === activeEl) el.setAttribute('aria-current', 'true');
             else el.removeAttribute('aria-current');
@@ -3461,7 +3490,7 @@ class UIController {
 
     handleFlatThumbnailMouseEnter(event) {
         if (this.isMobile) return;
-        const wrap = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-flat__toc-thumbwrap'));
+        const wrap = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-flat__toc-thumbwrap'));
         if (!wrap || wrap.classList.contains('catalogue-flat__toc-thumbwrap--missing')) return;
         const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
         if (!zoom) return;
@@ -3478,7 +3507,7 @@ class UIController {
     }
 
     handleFlatThumbnailMouseLeave(event) {
-        const wrap = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-flat__toc-thumbwrap'));
+        const wrap = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-flat__toc-thumbwrap'));
         if (!wrap) return;
         const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
         if (zoom) zoom.classList.remove('catalogue-flat__toc-thumbzoom--visible');
@@ -3524,7 +3553,7 @@ class UIController {
             return loaded && visibleIds.has(mapId);
         };
 
-        /** @type {NodeListOf<HTMLElement>} */ (root.querySelectorAll('[data-map-id]')).forEach((el) => {
+        /** @type {NodeListOf<ViewElement>} */ (root.querySelectorAll('[data-map-id]')).forEach((el) => {
             const mapId = el.dataset.mapId;
             if (!mapId) return;
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
@@ -3538,7 +3567,7 @@ class UIController {
             }
         });
 
-        /** @type {NodeListOf<HTMLElement>} */ (root.querySelectorAll('.load-btn[data-map-id], .c1-load-btn[data-map-id]')).forEach((btn) => {
+        /** @type {NodeListOf<ViewElement>} */ (root.querySelectorAll('.load-btn[data-map-id], .c1-load-btn[data-map-id]')).forEach((btn) => {
             const mapId = btn.dataset.mapId;
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
             // This runs part way through a load -- onMapLoad calls syncCatalogueMapState()
@@ -3553,7 +3582,7 @@ class UIController {
             btn.title = busy ? (loaded ? 'Unloading...' : 'Loading...') : (loaded ? 'Unload' : 'Load');
         });
 
-        /** @type {NodeListOf<HTMLElement>} */ (root.querySelectorAll('.visibility-btn[data-map-id]')).forEach((btn) => {
+        /** @type {NodeListOf<ViewElement>} */ (root.querySelectorAll('.visibility-btn[data-map-id]')).forEach((btn) => {
             const mapId = btn.dataset.mapId;
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
             const visible = isVisible(mapId, loaded);
@@ -3584,25 +3613,25 @@ class UIController {
 
         // Preserve slider positions before clearing
         const savedSliderValues = new Map();
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.map-card--class')).forEach(card => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.map-card--class')).forEach(card => {
             const classId = card.dataset.classId;
-            const slider = /** @type {HTMLElement | null} */ (card.querySelector('.timeline-slider'));
+            const slider = /** @type {HTMLInputElement | null} */ (card.querySelector('.timeline-slider'));
             if (classId && slider) savedSliderValues.set(classId, slider.value);
         });
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.c1-card')).forEach(card => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.c1-card')).forEach(card => {
             const c1Id = card.dataset.c1Id;
-            const slider = /** @type {HTMLElement | null} */ (card.querySelector('.timeline-slider'));
+            const slider = /** @type {HTMLInputElement | null} */ (card.querySelector('.timeline-slider'));
             if (c1Id && slider) savedSliderValues.set(`c1:${c1Id}`, slider.value);
         });
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.conjoined-class-group')).forEach(card => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.conjoined-class-group')).forEach(card => {
             const groupId = card.dataset.groupId;
-            const slider = /** @type {HTMLElement | null} */ (card.querySelector('.timeline-slider'));
+            const slider = /** @type {HTMLInputElement | null} */ (card.querySelector('.timeline-slider'));
             if (groupId && slider) savedSliderValues.set(`group:${groupId}`, slider.value);
         });
 
         // Preserve expanded category toggle states
         const savedExpandedCategories = new Set();
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.category-more-maps--expanded')).forEach(el => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.category-more-maps--expanded')).forEach(el => {
             if (el.dataset.categoryId) savedExpandedCategories.add(el.dataset.categoryId);
         });
 
@@ -3708,7 +3737,7 @@ class UIController {
                     // Restore slider
                     const savedKey = `c1:${c1.id}`;
                     if (this._savedSliderValues.has(savedKey)) {
-                        const slider = /** @type {HTMLElement | null} */ (c1Card.querySelector('.timeline-slider'));
+                        const slider = /** @type {HTMLInputElement | null} */ (c1Card.querySelector('.timeline-slider'));
                         const labels = c1Card.querySelectorAll('.timeline-labels span');
                         if (slider) {
                             slider.value = this._savedSliderValues.get(savedKey);
@@ -3741,7 +3770,7 @@ class UIController {
                         const groupId = groupCard.dataset.groupId;
                         const savedKey = `group:${groupId}`;
                         if (this._savedSliderValues.has(savedKey)) {
-                            const slider = /** @type {HTMLElement | null} */ (groupCard.querySelector('.timeline-slider'));
+                            const slider = /** @type {HTMLInputElement | null} */ (groupCard.querySelector('.timeline-slider'));
                             const labels = groupCard.querySelectorAll('.timeline-labels span');
                             if (slider) {
                                 slider.value = this._savedSliderValues.get(savedKey);
@@ -3754,7 +3783,7 @@ class UIController {
                         const classCard = this.createClassCard(cls, options);
                         categorySection.appendChild(classCard);
                         if (this._savedSliderValues.has(cls.id)) {
-                            const slider = /** @type {HTMLElement | null} */ (classCard.querySelector('.timeline-slider'));
+                            const slider = /** @type {HTMLInputElement | null} */ (classCard.querySelector('.timeline-slider'));
                             const labels = classCard.querySelectorAll('.timeline-labels span');
                             if (slider) {
                                 slider.value = this._savedSliderValues.get(cls.id);
@@ -3896,7 +3925,7 @@ class UIController {
             }
         }
 
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('[data-book-view]')).forEach((btn) => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('[data-book-view]')).forEach((btn) => {
             btn.addEventListener('click', () => {
                 this.openCatalogueBookViewer(btn.dataset.bookView, btn.dataset.bookFormat || 'pdf');
             });
@@ -3931,7 +3960,7 @@ class UIController {
         const toggleContainer = document.getElementById('catalogueViewToggle');
         if (!toggleContainer) return;
 
-        /** @type {NodeListOf<HTMLElement>} */ (toggleContainer.querySelectorAll('.catalogue-view-toggle__btn')).forEach(btn => {
+        /** @type {NodeListOf<ViewElement>} */ (toggleContainer.querySelectorAll('.catalogue-view-toggle__btn')).forEach(btn => {
             btn.addEventListener('click', () => {
                 const view = btn.dataset.view;
                 this.setCatalogueViewMode(view);
@@ -3947,15 +3976,15 @@ class UIController {
     setCatalogueViewMode(mode) {
         const flatView = document.getElementById('catalogueFlatView');
         const toggleContainer = document.getElementById('catalogueViewToggle');
-        const categoryPillsContainer = document.querySelector('.category-pills-container');
-        const providerPillsContainer = document.querySelector('.provider-pills-container');
+        const categoryPillsContainer = /** @type {HtmlRoot} */ (document).querySelector('.category-pills-container');
+        const providerPillsContainer = /** @type {HtmlRoot} */ (document).querySelector('.provider-pills-container');
         if (!flatView || !toggleContainer) return;
 
         const forcedMode = 'flat';
         const isFlat = true;
 
         // Update toggle buttons
-        /** @type {NodeListOf<HTMLElement>} */ (toggleContainer.querySelectorAll('.catalogue-view-toggle__btn')).forEach(btn => {
+        /** @type {NodeListOf<ViewElement>} */ (toggleContainer.querySelectorAll('.catalogue-view-toggle__btn')).forEach(btn => {
             btn.classList.toggle('catalogue-view-toggle__btn--active', btn.dataset.view === forcedMode);
         });
 
@@ -4054,7 +4083,7 @@ class UIController {
                 container.querySelector('[data-book-view-close]')?.addEventListener('click', () => {
                     this.showCatalogueListView(true);
                 });
-                /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('[data-book-view-format]')).forEach((btn) => {
+                /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('[data-book-view-format]')).forEach((btn) => {
                     btn.addEventListener('click', () => {
                         if (btn.disabled) return;
                         this.openCatalogueBookViewer(book.id, btn.dataset.bookViewFormat || 'pdf');
@@ -5881,7 +5910,7 @@ class UIController {
     /** @param {HtmlElementRoot} rootEl */
     _restorePlaceholderToggles(rootEl) {
         if (!rootEl || !this._showPlaceholdersCards?.size) return;
-        /** @type {NodeListOf<HTMLElement>} */ (rootEl.querySelectorAll('.c1-card, .map-card--class, .conjoined-class-group')).forEach((card) => {
+        /** @type {NodeListOf<ViewElement>} */ (rootEl.querySelectorAll('.c1-card, .map-card--class, .conjoined-class-group')).forEach((card) => {
             const key = this._getCardPlaceholderKey(card);
             if (key && this._showPlaceholdersCards.has(key)) {
                 this._applyPlaceholderToggle(card, true);
@@ -5908,10 +5937,10 @@ class UIController {
         const hide = (event = null) => {
             const target = event?.target;
             if (target?.closest?.('.catalogue-flat__toc-thumbwrap, .thumb-zone, .thumbnail-preview')) return;
-            document.querySelectorAll('.catalogue-flat__toc-thumbzoom--visible').forEach((zoom) => {
+            /** @type {HtmlRoot} */ (document).querySelectorAll('.catalogue-flat__toc-thumbzoom--visible').forEach((zoom) => {
                 zoom.classList.remove('catalogue-flat__toc-thumbzoom--visible');
             });
-            const preview = /** @type {HTMLElement | null} */ (document.querySelector('.thumbnail-preview'));
+            const preview = /** @type {ViewElement | null} */ (/** @type {HtmlRoot} */ (document).querySelector('.thumbnail-preview'));
             if (preview) preview.style.display = 'none';
         };
         document.addEventListener('pointerdown', hide, { capture: true, signal: this.lifecycle.signal });
@@ -6005,7 +6034,7 @@ class UIController {
     addClassCardEventListeners(card, nonPlaceholderMaps) {
         // Button clicks
         card.addEventListener('click', (e) => {
-            const btn = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('button'));
+            const btn = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('button'));
             if (!btn) return;
 
             // Handle overflow menu trigger
@@ -6014,7 +6043,7 @@ class UIController {
                 const menu = btn.closest('.overflow-menu');
                 const dropdown = menu.querySelector('.overflow-menu__dropdown');
                 // Close all other open menus first
-                document.querySelectorAll('.overflow-menu--open').forEach(m => {
+                /** @type {HtmlRoot} */ (document).querySelectorAll('.overflow-menu--open').forEach(m => {
                     if (m !== menu) m.classList.remove('overflow-menu--open');
                 });
                 // Toggle this menu
@@ -6069,7 +6098,7 @@ class UIController {
         });
 
         // Timeline slider
-        const slider = /** @type {HTMLElement | null} */ (card.querySelector('.timeline-slider'));
+        const slider = /** @type {HTMLInputElement | null} */ (card.querySelector('.timeline-slider'));
         const timelineContainer = card.querySelector('.class-card__timeline');
         if (slider && timelineContainer) {
             const labels = card.querySelectorAll('.timeline-labels span');
@@ -6125,7 +6154,7 @@ class UIController {
             if (labels.length && labels[0].parentNode) {
                 const labelsContainer = labels[0].parentNode;
                 labelsContainer.addEventListener('click', (e) => {
-                    const label = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
+                    const label = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
                     if (!label || !labelsContainer.contains(label)) return;
                     const pct = parseFloat(label.dataset.pct);
                     if (!Number.isFinite(pct)) return;
@@ -6232,7 +6261,7 @@ class UIController {
 
     addConjoinedEventListeners(group, nonPlaceholderMaps) {
         group.addEventListener('click', (e) => {
-            const btn = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('button'));
+            const btn = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('button'));
             if (!btn) return;
             const mapId = btn.dataset.mapId;
             if (!mapId) return;
@@ -6244,7 +6273,7 @@ class UIController {
             }
         });
 
-        const slider = /** @type {HTMLElement | null} */ (group.querySelector('.timeline-slider'));
+        const slider = /** @type {HTMLInputElement | null} */ (group.querySelector('.timeline-slider'));
         const timelineContainer = group.querySelector('.class-card__timeline');
         if (slider && timelineContainer) {
             const labels = group.querySelectorAll('.timeline-labels span');
@@ -6298,7 +6327,7 @@ class UIController {
             if (labels.length && labels[0].parentNode) {
                 const labelsContainer = labels[0].parentNode;
                 labelsContainer.addEventListener('click', (e) => {
-                    const label = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
+                    const label = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
                     if (!label || !labelsContainer.contains(label)) return;
                     const pct = parseFloat(label.dataset.pct);
                     if (!Number.isFinite(pct)) return;
@@ -6844,7 +6873,7 @@ class UIController {
     /** @param {HtmlElementRoot} card @param {MapRecord[]} nonPlaceholderMaps */
     addC1CardEventListeners(card, nonPlaceholderMaps) {
         card.addEventListener('click', (e) => {
-            const btn = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('button'));
+            const btn = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('button'));
             if (!btn) return;
 
             // Handle overflow menu trigger
@@ -6853,7 +6882,7 @@ class UIController {
                 const menu = btn.closest('.overflow-menu');
                 const dropdown = menu.querySelector('.overflow-menu__dropdown');
                 // Close all other open menus first
-                document.querySelectorAll('.overflow-menu--open').forEach(m => {
+                /** @type {HtmlRoot} */ (document).querySelectorAll('.overflow-menu--open').forEach(m => {
                     if (m !== menu) m.classList.remove('overflow-menu--open');
                 });
                 // Toggle this menu
@@ -6908,7 +6937,7 @@ class UIController {
         // one listener per .c1-grid-entry. Card-level delegation also catches
         // entries added later (e.g. when a chunked grid expands).
         card.addEventListener('click', (e) => {
-            const entryEl = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('.c1-grid-entry'));
+            const entryEl = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('.c1-grid-entry'));
             if (!entryEl || !card.contains(entryEl)) return;
             if (e.target.closest('button')) return;
             const mapId = entryEl.dataset.mapId;
@@ -6918,7 +6947,7 @@ class UIController {
             else this.handleLoadToggle(mapId, false);
         });
 
-        const slider = /** @type {HTMLElement | null} */ (card.querySelector('.timeline-slider'));
+        const slider = /** @type {HTMLInputElement | null} */ (card.querySelector('.timeline-slider'));
         const timelineContainer = card.querySelector('.class-card__timeline');
         if (slider && timelineContainer) {
             const labels = card.querySelectorAll('.timeline-labels span');
@@ -6979,7 +7008,7 @@ class UIController {
             if (labels.length && labels[0].parentNode) {
                 const labelsContainer = labels[0].parentNode;
                 labelsContainer.addEventListener('click', (e) => {
-                    const label = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
+                    const label = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
                     if (!label || !labelsContainer.contains(label)) return;
                     const pct = parseFloat(label.dataset.pct);
                     if (!Number.isFinite(pct)) return;
@@ -7008,8 +7037,8 @@ class UIController {
             // Priority: .pane-tab-content > .pane__content > .sidebar__content
             const scrollContainer = grid.closest('.pane-tab-content') ||
                 grid.closest('.pane__content') ||
-                document.querySelector('.pane-tab-content') ||
-                document.querySelector('.pane__content') ||
+                /** @type {HtmlRoot} */ (document).querySelector('.pane-tab-content') ||
+                /** @type {HtmlRoot} */ (document).querySelector('.pane__content') ||
                 grid.closest('.sidebar__content');
             if (!scrollContainer) return;
 
@@ -7521,12 +7550,12 @@ class UIController {
             if (activeClassTarget) {
                 activeClassTarget.classList.toggle('map-card--active', loadedNow);
             }
-            const loadBtn = /** @type {HTMLElement | null} */ (container.querySelector('.load-btn'));
+            const loadBtn = /** @type {ViewElement | null} */ (container.querySelector('.load-btn'));
             if (loadBtn) {
                 loadBtn.innerHTML = this.getLoadButtonIcon(loadedNow);
                 loadBtn.title = loadedNow ? 'Unload' : 'Load';
             }
-            const visibilityBtn = /** @type {HTMLElement | null} */ (container.querySelector('.visibility-btn'));
+            const visibilityBtn = /** @type {ViewElement | null} */ (container.querySelector('.visibility-btn'));
             if (visibilityBtn) {
                 visibilityBtn.innerHTML = this.getVisibilityButtonIcon(visibleNow);
                 visibilityBtn.title = visibleNow ? 'Hide' : 'Show';
@@ -7743,7 +7772,7 @@ class UIController {
             }
         `;
 
-        /** @type {NodeListOf<HTMLElement>} */ (panel.querySelectorAll('.btn--variant-load')).forEach(btn => {
+        /** @type {NodeListOf<ViewElement>} */ (panel.querySelectorAll('.btn--variant-load')).forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const variantId = btn.dataset.variantId;
@@ -7849,7 +7878,7 @@ class UIController {
         this.selectedAuthors = new Set();
         const list = document.getElementById('authorsList');
         if (list) {
-            /** @type {NodeListOf<HTMLElement>} */ (list.querySelectorAll('.author-checkbox')).forEach(cb => {
+            /** @type {NodeListOf<ViewElement>} */ (list.querySelectorAll('.author-checkbox')).forEach(cb => {
                 cb.checked = false;
             });
         }
@@ -7858,10 +7887,10 @@ class UIController {
 
     /** @param {string} mapId @param {boolean} isVisible */
     updateMapCardState(mapId, isVisible) {
-        const card = /** @type {HTMLElement | null} */ (document.querySelector(`.map-card[data-map-id="${mapId}"]`));
+        const card = /** @type {ViewElement | null} */ (/** @type {HtmlRoot} */ (document).querySelector(`.map-card[data-map-id="${mapId}"]`));
         if (!card) return;
         card.classList.toggle('map-card--active', isVisible);
-        const btn = /** @type {HTMLElement | null} */ (card.querySelector('.toggle-layer-btn'));
+        const btn = /** @type {ViewElement | null} */ (card.querySelector('.toggle-layer-btn'));
         if (btn) {
             btn.title = isVisible ? 'Hide layer' : 'Show layer';
             const svg = btn.querySelector('svg');
@@ -7946,7 +7975,7 @@ class UIController {
 
         pill.addEventListener('click', () => {
             if (this.onCategoryChange) this.onCategoryChange(category.id);
-            /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('.category-pill')).forEach(p => {
+            /** @type {NodeListOf<ViewElement>} */ (/** @type {HtmlRoot} */ (document).querySelectorAll('.category-pill')).forEach(p => {
                 p.classList.toggle('category-pill--active', p.dataset.categoryId === category.id);
             });
         });
@@ -8044,7 +8073,7 @@ class UIController {
 
         pill.addEventListener('click', () => {
             if (this.onProviderCategoryChange) this.onProviderCategoryChange(category.id, category.providers);
-            /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('#providerPills .category-pill')).forEach(p => {
+            /** @type {NodeListOf<ViewElement>} */ (/** @type {HtmlRoot} */ (document).querySelectorAll('#providerPills .category-pill')).forEach(p => {
                 p.classList.toggle('category-pill--active', p.dataset.providerId === category.id);
             });
         });
@@ -8280,7 +8309,7 @@ class UIController {
         // Setup metric precision toggle
         this._bindFeatureMetricToggles(content);
 
-        /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('.feature-info__export-btn')).forEach((btn) => {
+        /** @type {NodeListOf<ViewElement>} */ (content.querySelectorAll('.feature-info__export-btn')).forEach((btn) => {
             btn.addEventListener('click', () => {
                 const feature = features[Number(btn.dataset.featureIndex)] || {};
                 this.onExportMapImage?.(btn.dataset.mapId, 'svg', {
@@ -8290,7 +8319,7 @@ class UIController {
             });
         });
 
-        /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('.feature-info__primary-name-link')).forEach((btn) => {
+        /** @type {NodeListOf<ViewElement>} */ (content.querySelectorAll('.feature-info__primary-name-link')).forEach((btn) => {
             btn.addEventListener('click', () => {
                 const detailId = btn.dataset.featureDetailId;
                 if (detailId) this.showFeatureDetailInCatalogue(detailId);
@@ -8682,7 +8711,7 @@ class UIController {
             if (dropdown) this.toggleDownloadDropdown(dropdown, event.currentTarget);
         });
 
-        /** @type {NodeListOf<HTMLElement>} */ (detailView.querySelectorAll('.feature-download-alt-btn')).forEach((btn) => {
+        /** @type {NodeListOf<ViewElement>} */ (detailView.querySelectorAll('.feature-download-alt-btn')).forEach((btn) => {
             btn.addEventListener('click', (event) => {
                 event.stopPropagation();
                 this.downloadFeature(detailId, btn.dataset.format);
@@ -8853,7 +8882,7 @@ class UIController {
                 table.closest('.catalogue-detail__table-wrap')?.after(button);
             }
             headers.forEach((th, idx) => {
-                const btn = /** @type {HTMLElement | null} */ (th.querySelector('[data-table-filter-sort-btn]'));
+                const btn = /** @type {ViewElement | null} */ (th.querySelector('[data-table-filter-sort-btn]'));
                 if (!btn) return;
                 const column = columns[idx];
                 const filtered = state.filters.has(column.key) && (state.filters.get(column.key)?.size ?? 0) > 0;
@@ -8966,10 +8995,10 @@ class UIController {
             };
             renderValues();
 
-            const search = /** @type {HTMLElement | null} */ (menu.querySelector('.election-filter-menu__search'));
+            const search = /** @type {HTMLInputElement | null} */ (menu.querySelector('.election-filter-menu__search'));
             search?.addEventListener('input', () => renderValues(search.value || ''));
             menu.addEventListener('click', (event) => {
-                const btn = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('button[data-action]'));
+                const btn = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('button[data-action]'));
                 if (!btn) return;
                 const action = btn.dataset.action;
                 if (action === 'sort-asc') {
@@ -9099,7 +9128,7 @@ class UIController {
                 pageSize: spec.pageSize,
                 persist
             });
-            /** @type {NodeListOf<HTMLElement>} */ (host.querySelectorAll('[data-table-group]')).forEach((button) => {
+            /** @type {NodeListOf<ViewElement>} */ (host.querySelectorAll('[data-table-group]')).forEach((button) => {
                 button.addEventListener('click', () => {
                     persist.group = button.dataset.tableGroup || '';
                     persist.showAll = false;
@@ -9203,7 +9232,7 @@ class UIController {
     }
 
     _catalogueScroller() {
-        return this._cataloguePane || document.querySelector('.pane__content[data-tab-content="catalogue"]');
+        return this._cataloguePane || /** @type {HtmlRoot} */ (document).querySelector('.pane__content[data-tab-content="catalogue"]');
     }
 
     /**
@@ -9327,7 +9356,7 @@ class UIController {
             detailView.removeEventListener('click', detailView._entityDetailClickHandler);
         }
         detailView._entityDetailClickHandler = async (event) => {
-            const electionLink = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('[data-election-body][data-election-date]'));
+            const electionLink = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('[data-election-body][data-election-date]'));
             if (electionLink) {
                 event.preventDefault();
                 this.onElectionEntityElectionOpen?.({
@@ -9338,7 +9367,7 @@ class UIController {
                 });
                 return;
             }
-            const constituencyLink = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('[data-election-constituency-feature="1"]'));
+            const constituencyLink = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('[data-election-constituency-feature="1"]'));
             if (constituencyLink) {
                 event.preventDefault();
                 await this.onOpenElectionConstituencyFeature?.({
@@ -9349,7 +9378,7 @@ class UIController {
                 });
                 return;
             }
-            const entityLink = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('[data-election-entity-detail-kind][data-election-entity-detail-key]'));
+            const entityLink = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('[data-election-entity-detail-kind][data-election-entity-detail-key]'));
             if (!entityLink) return;
             event.preventDefault();
             if (typeof this.onOpenElectionEntityDetail === 'function') {
@@ -9942,7 +9971,7 @@ class UIController {
         if (isBusy) this._pendingLoadToggles.set(mapId, Boolean(isLoaded));
         else this._pendingLoadToggles.delete(mapId);
 
-        document.querySelectorAll(this.loadButtonSelector(mapId)).forEach((btn) => {
+        /** @type {HtmlRoot} */ (document).querySelectorAll(this.loadButtonSelector(mapId)).forEach((btn) => {
             this.applyLoadButtonVisual(btn, isLoaded, isBusy);
         });
         this.syncPendingLoadObserver();
@@ -9973,7 +10002,7 @@ class UIController {
         this._pendingLoadObserver = new MutationObserver(() => {
             for (const mapId of this._pendingLoadToggles.keys()) {
                 const isLoaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
-                document.querySelectorAll(this.loadButtonSelector(mapId)).forEach((btn) => {
+                /** @type {HtmlRoot} */ (document).querySelectorAll(this.loadButtonSelector(mapId)).forEach((btn) => {
                     this.applyLoadButtonVisual(btn, isLoaded, true);
                 });
                 // T1-01: the replacement node is what needs focus, so restore here too --
@@ -10080,7 +10109,7 @@ class UIController {
     /** @param {string} mapId */
     restoreLoadButtonFocus(mapId) {
         if (!mapId || this._loadFocusMapId !== mapId) return;
-        const btn = document.querySelector(this.loadButtonSelector(mapId));
+        const btn = /** @type {HtmlRoot} */ (document).querySelector(this.loadButtonSelector(mapId));
         if (btn && btn.isConnected) btn.focus({ preventScroll: true });
     }
 
@@ -10098,7 +10127,7 @@ class UIController {
     /** @param {string} mapId @param {boolean} isStalled */
     applyStalledStateToRows(mapId, isStalled) {
         if (!mapId) return;
-        document.querySelectorAll(`[data-map-id="${CSS.escape(mapId)}"]`).forEach((el) => {
+        /** @type {HtmlRoot} */ (document).querySelectorAll(`[data-map-id="${CSS.escape(mapId)}"]`).forEach((el) => {
             el.classList.toggle('map-row--stalled', Boolean(isStalled));
             if (isStalled) el.setAttribute('data-load-stalled', 'true');
             else el.removeAttribute('data-load-stalled');
@@ -10109,7 +10138,7 @@ class UIController {
     applyLoadedStateToRows(mapId, isLoaded) {
         if (!mapId) return;
         const selector = `[data-map-id="${CSS.escape(mapId)}"]`;
-        /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll(selector)).forEach((el) => {
+        /** @type {NodeListOf<ViewElement>} */ (/** @type {HtmlRoot} */ (document).querySelectorAll(selector)).forEach((el) => {
             if (el.classList.contains('class-member')) el.classList.toggle('class-member--loaded', isLoaded);
             if (el.classList.contains('c1-grid-entry')) el.classList.toggle('c1-grid-entry--loaded', isLoaded);
             if (el.classList.contains('variant-item')) el.classList.toggle('variant-item--loaded', isLoaded);
@@ -10223,28 +10252,28 @@ class UIController {
         container.innerHTML = html;
 
         // Add event listeners
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.visibility-btn')).forEach(btn => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.visibility-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
                 const mapId = btn.dataset.mapId;
                 if (this.onMapToggle) this.onMapToggle(mapId);
             });
         });
 
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.expand-btn')).forEach(btn => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.expand-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
                 const mapId = btn.dataset.mapId;
                 if (this.onExpandToFullMap) this.onExpandToFullMap(mapId);
             });
         });
 
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.remove-btn')).forEach(btn => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.remove-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
                 const mapId = btn.dataset.mapId;
                 if (this.onMapUnload) this.onMapUnload(mapId);
             });
         });
 
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.partial-visibility-btn')).forEach(btn => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.partial-visibility-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
                 const mapId = btn.dataset.mapId;
                 const rawFeatureIndex = btn.dataset.featureIndex;
@@ -10256,7 +10285,7 @@ class UIController {
             });
         });
 
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.partial-unload-btn')).forEach(btn => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.partial-unload-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
                 const mapId = btn.dataset.mapId;
                 const rawFeatureIndex = btn.dataset.featureIndex;
@@ -10269,10 +10298,10 @@ class UIController {
         });
 
         // Opacity panel toggle
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.opacity-toggle-btn')).forEach(btn => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.opacity-toggle-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
                 const mapId = btn.dataset.mapId;
-                const panel = /** @type {HTMLElement | null} */ (container.querySelector(`.active-layer-item__opacity-panel[data-map-id="${mapId}"]`));
+                const panel = /** @type {ViewElement | null} */ (container.querySelector(`.active-layer-item__opacity-panel[data-map-id="${mapId}"]`));
                 if (panel) {
                     const showing = panel.style.display !== 'none';
                     panel.style.display = showing ? 'none' : 'block';
@@ -10283,8 +10312,8 @@ class UIController {
 
         // Re-open any opacity panels that were expanded before this re-render.
         openOpacityPanels.forEach((mapId) => {
-            const panel = /** @type {HTMLElement | null} */ (container.querySelector(`.active-layer-item__opacity-panel[data-map-id="${mapId}"]`));
-            const btn = /** @type {HTMLElement | null} */ (container.querySelector(`.opacity-toggle-btn[data-map-id="${mapId}"]`));
+            const panel = /** @type {ViewElement | null} */ (container.querySelector(`.active-layer-item__opacity-panel[data-map-id="${mapId}"]`));
+            const btn = /** @type {ViewElement | null} */ (container.querySelector(`.opacity-toggle-btn[data-map-id="${mapId}"]`));
             if (panel) panel.style.display = 'block';
             if (btn) btn.classList.add('active');
         });
@@ -10310,20 +10339,20 @@ class UIController {
             }
 
             // Sync slider <-> input
-            const item = /** @type {HTMLElement | null} */ (container.querySelector(`.active-layer-item[data-map-id="${mapId}"]`));
+            const item = /** @type {ViewElement | null} */ (container.querySelector(`.active-layer-item[data-map-id="${mapId}"]`));
             if (item) {
-                const slider = /** @type {HTMLElement | null} */ (item.querySelector(`.${type}-opacity-slider`));
-                const input = /** @type {HTMLElement | null} */ (item.querySelector(`.${type}-opacity-input`));
+                const slider = /** @type {HTMLInputElement | null} */ (item.querySelector(`.${type}-opacity-slider`));
+                const input = /** @type {HTMLInputElement | null} */ (item.querySelector(`.${type}-opacity-input`));
                 if (slider) slider.value = value;
                 if (input) input.value = value;
             }
         };
 
         ['raster', 'stroke', 'fill'].forEach(type => {
-            /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll(`.${type}-opacity-slider`)).forEach(slider => {
+            /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll(`.${type}-opacity-slider`)).forEach(slider => {
                 slider.addEventListener('input', () => syncOpacity(slider.dataset.mapId, type, slider.value));
             });
-            /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll(`.${type}-opacity-input`)).forEach(input => {
+            /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll(`.${type}-opacity-input`)).forEach(input => {
                 input.addEventListener('change', () => syncOpacity(input.dataset.mapId, type, input.value));
             });
         });
@@ -10980,7 +11009,7 @@ class UIController {
         }
 
         // Pagination listeners
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.tables-pagination__btn')).forEach(btn => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.tables-pagination__btn')).forEach(btn => {
             btn.addEventListener('click', () => {
                 const action = btn.dataset.page;
                 if (action === 'prev' && this.tablesState.currentPage > 1) {
@@ -10998,7 +11027,7 @@ class UIController {
     // ============================================
 
     setupSearch() {
-        const searchInput = document.getElementById('searchInput');
+        const searchInput = /** @type {HTMLInputElement | null} */ (document.getElementById('searchInput'));
         const searchClear = document.getElementById('searchClear');
         const autocomplete = document.getElementById('searchAutocomplete');
 
@@ -11052,7 +11081,7 @@ class UIController {
         // Handle autocomplete selection
         if (autocomplete) {
             autocomplete.addEventListener('click', (e) => {
-                const item = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('.search-autocomplete__item'));
+                const item = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('.search-autocomplete__item'));
                 if (!item) return;
                 const type = item.dataset.type;
                 if (type === 'feature') {
@@ -11373,7 +11402,7 @@ class UIController {
             if (this.onMapLoad) this.onMapLoad(id);
         } else if (type === 'class') {
             // Scroll to class card
-            const classCard = document.querySelector(`.map-card--class[data-class-id="${id}"]`);
+            const classCard = /** @type {HtmlRoot} */ (document).querySelector(`.map-card--class[data-class-id="${id}"]`);
             if (classCard) {
                 classCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 classCard.classList.add('highlight');
@@ -11454,7 +11483,7 @@ class UIController {
         autocomplete.classList.remove('hidden');
 
         // Add click handlers for address results
-        /** @type {NodeListOf<HTMLElement>} */ (autocomplete.querySelectorAll('.search-autocomplete__item--address')).forEach(item => {
+        /** @type {NodeListOf<ViewElement>} */ (autocomplete.querySelectorAll('.search-autocomplete__item--address')).forEach(item => {
             item.addEventListener('click', () => {
                 const lat = parseFloat(item.dataset.lat);
                 const lon = parseFloat(item.dataset.lon);
@@ -11574,7 +11603,7 @@ class UIController {
         const forwardBtn = document.getElementById('exploreForward');
         const historyBtn = document.getElementById('exploreHistory');
         const homeBtn = document.getElementById('exploreHome');
-        const searchInput = document.getElementById('exploreSearch');
+        const searchInput = /** @type {HTMLInputElement | null} */ (document.getElementById('exploreSearch'));
 
         if (backBtn) backBtn.addEventListener('click', () => this.exploreGoBack());
         if (forwardBtn) forwardBtn.addEventListener('click', () => this.exploreGoForward());
@@ -11603,7 +11632,7 @@ class UIController {
     }
 
     toggleExploreHistoryDropdown() {
-        const existing = document.querySelector('.explore-history-dropdown');
+        const existing = /** @type {HtmlRoot} */ (document).querySelector('.explore-history-dropdown');
         if (existing) {
             existing.remove();
             return;
@@ -11634,7 +11663,7 @@ class UIController {
         document.body.appendChild(dropdown);
 
         // Add click listeners
-        /** @type {NodeListOf<HTMLElement>} */ (dropdown.querySelectorAll('.explore-history-item')).forEach(item => {
+        /** @type {NodeListOf<ViewElement>} */ (dropdown.querySelectorAll('.explore-history-item')).forEach(item => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const idx = parseInt(item.dataset.idx, 10);
@@ -11648,7 +11677,7 @@ class UIController {
     }
 
     closeExploreHistoryDropdown() {
-        const existing = document.querySelector('.explore-history-dropdown');
+        const existing = /** @type {HtmlRoot} */ (document).querySelector('.explore-history-dropdown');
         if (existing) existing.remove();
     }
 
@@ -11738,7 +11767,7 @@ class UIController {
         container.innerHTML = html;
 
         // Add click listeners
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.explore-item[data-type]')).forEach(item => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.explore-item[data-type]')).forEach(item => {
             item.addEventListener('click', () => {
                 const type = item.dataset.type;
                 const id = item.dataset.id;
@@ -11931,7 +11960,7 @@ class UIController {
         container.innerHTML = html;
 
         // Add link listeners for all clickable items
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.explore-detail__item[data-type], .explore-detail__link[data-type]')).forEach(link => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.explore-detail__item[data-type], .explore-detail__link[data-type]')).forEach(link => {
             link.addEventListener('click', () => {
                 this.showEntityInfo(link.dataset.type, link.dataset.id);
             });
@@ -11993,8 +12022,8 @@ class UIController {
     }
 
     updateExploreNavButtons() {
-        const backBtn = document.getElementById('exploreBack');
-        const forwardBtn = document.getElementById('exploreForward');
+        const backBtn = /** @type {HTMLButtonElement | null} */ (document.getElementById('exploreBack'));
+        const forwardBtn = /** @type {HTMLButtonElement | null} */ (document.getElementById('exploreForward'));
         if (backBtn) backBtn.disabled = this.exploreHistoryIndex <= 0;
         if (forwardBtn) forwardBtn.disabled = this.exploreHistoryIndex >= this.exploreHistory.length - 1;
     }
@@ -12061,7 +12090,7 @@ class UIController {
         html += '</div>';
         container.innerHTML = html;
 
-        /** @type {NodeListOf<HTMLElement>} */ (container.querySelectorAll('.explore-item[data-type]')).forEach(item => {
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.explore-item[data-type]')).forEach(item => {
             item.addEventListener('click', () => {
                 this.showEntityInfo(item.dataset.type, item.dataset.id);
             });
@@ -12106,7 +12135,7 @@ class UIController {
         if (variantContainer) {
             const expanding = !variantContainer.classList.contains('variants-container--expanded');
             variantContainer.classList.toggle('variants-container--expanded', expanding);
-            const btn = /** @type {HTMLElement | null} */ (parentElement.querySelector(`.variants-toggle[data-map-id="${mapId}"]`));
+            const btn = /** @type {ViewElement | null} */ (parentElement.querySelector(`.variants-toggle[data-map-id="${mapId}"]`));
             if (btn) btn.classList.toggle('active', expanding);
             if (expanding) this._expandedVariants.add(mapId);
             else this._expandedVariants.delete(mapId);
@@ -12115,10 +12144,10 @@ class UIController {
 
     restoreExpandedVariants() {
         for (const mapId of this._expandedVariants) {
-            const container = document.querySelector(`.variants-container[data-parent-id="${mapId}"]`);
+            const container = /** @type {HtmlRoot} */ (document).querySelector(`.variants-container[data-parent-id="${mapId}"]`);
             if (container) {
                 container.classList.add('variants-container--expanded');
-                const btn = /** @type {HTMLElement | null} */ (document.querySelector(`.variants-toggle[data-map-id="${mapId}"]`));
+                const btn = /** @type {ViewElement | null} */ (/** @type {HtmlRoot} */ (document).querySelector(`.variants-toggle[data-map-id="${mapId}"]`));
                 if (btn) btn.classList.add('active');
             }
         }
@@ -12658,7 +12687,7 @@ class UIController {
         autocomplete.classList.remove('hidden');
 
         // Add click handlers
-        /** @type {NodeListOf<HTMLElement>} */ (autocomplete.querySelectorAll('.search-autocomplete__item--feature')).forEach(item => {
+        /** @type {NodeListOf<ViewElement>} */ (autocomplete.querySelectorAll('.search-autocomplete__item--feature')).forEach(item => {
             item.addEventListener('click', () => {
                 const bboxStr = item.dataset.bbox;
                 const mapId = item.dataset.mapId;
@@ -12767,7 +12796,7 @@ if (typeof window !== 'undefined') {
 
     document.addEventListener('mouseenter', (e) => {
         if (!e.target || !e.target.closest) return;
-        const zone = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest(ZONE_SELECTOR));
+        const zone = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest(ZONE_SELECTOR));
         if (!zone) return;
         const img = zone.querySelector('img');
         if (!img || img.style.display === 'none') return;
@@ -12777,7 +12806,7 @@ if (typeof window !== 'undefined') {
 
     document.addEventListener('mouseleave', (e) => {
         if (!e.target || !e.target.closest) return;
-        const zone = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest(ZONE_SELECTOR));
+        const zone = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest(ZONE_SELECTOR));
         if (!zone) return;
         // Only hide if we're actually leaving the zone (not entering a child)
         if (!zone.contains(e.relatedTarget)) {
