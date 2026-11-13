@@ -2,7 +2,7 @@
  * The parties registry: data/registries/parties.json (the abbreviations, and the names of the
  * party files) joined with those files by loadRegistry('parties'). The joined value:
  *
- *   { schemaVersion, description, parts, abbreviations, notParties,
+ *   { schemaVersion, description, parts, abbreviations, notParties, noPartyLabels,
  *     entities, lifespans, lineage, events, wikidata, wikidataOverrides,
  *     labelIds, labelFolds, labelInterpretations, colourReviewOverrides, palettes }
  *
@@ -198,6 +198,9 @@ export function checkParties(registry) {
   }
   const index = abbreviationIndex(registry);
   for (const label of registry.notParties) if (index.has(partyLabelKey(label))) errors.push(`notParties: ${label} also has an abbreviation`);
+  const noParty = registry.noPartyLabels.map((row) => row.label);
+  for (const label of new Set(noParty)) if (noParty.filter((l) => l === label).length > 1) errors.push(`noPartyLabels: ${label} is listed twice`);
+  for (const label of noParty) if (index.has(partyLabelKey(label))) errors.push(`noPartyLabels: ${label} also has an abbreviation`);
   for (const id of Object.keys(registry.wikidataOverrides).filter((k) => !k.startsWith('_'))) {
     if (registry.wikidataOverrides[id] !== null && !/^Q\d+$/.test(/** @type {string} */ (registry.wikidataOverrides[id]))) errors.push(`wikidataOverrides: ${id} is not a Q id or null`);
   }

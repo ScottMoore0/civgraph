@@ -52,6 +52,7 @@ import { withShareTags } from '../packages/ui/src/templates/share.js';
 import { loadElectionPage, loadPersonContestSources } from '../packages/api/src/pages/election.js';
 import { groupedYearHero, groupedYearKey } from '../packages/ui/src/templates/records/grouped-year.js';
 import { PAGE_TYPES } from '../packages/ui/src/page-types.mjs';
+import { notAPartyLabels } from '../packages/core/src/party-names.mjs';
 import { resolveElectionSlugAlias } from '../packages/core/src/election-slug-aliases.js';
 import { SITE, binding } from '../packages/config/src/config.js';
 import { asStore } from '../packages/storage/src/d1.js';
@@ -66,9 +67,9 @@ const SITE_NAME = 'Civgraph';
 const DESCRIPTION_LIMIT = 300;
 /** An election's source record: this prefix and the election's slug. */
 const ELECTION_SOURCE_PREFIX = 'election-source-';
-// What a person's party list holds for candidacies with no label: election-domain.mjs's NO_LABEL and
-// NO_PARTY_RECORDED (not imported: that module does not type-check under the functions' tsconfig).
-const NOT_A_PARTY = new Set(['No label', 'No party recorded']);
+// What a person's party list holds for candidacies with no label: the labels the parties registry
+// says stand for no party in candidacies (noPartyLabels: No label, No party recorded).
+const NOT_A_PARTY = notAPartyLabels('candidacies');
 
 /**
  * @typedef {CivgraphEnv} Env

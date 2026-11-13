@@ -4,7 +4,7 @@
   "title": "Parties registry (data/registries/parties.json joined with the party files it names)",
   "description": "The shape of each party file as its readers use it today. packages/registries/src/parties.mjs checkParties holds the cross-file rules. party-events.json keeps its own schema (data/schemas/party-events.schema.json, check:facts); here only its envelope is held.",
   "type": "object",
-  "required": ["schemaVersion", "description", "parts", "abbreviations", "notParties", "entities", "lifespans", "lineage", "events", "wikidata", "wikidataOverrides", "labelIds", "labelFolds", "labelInterpretations", "colourReviewOverrides", "palettes"],
+  "required": ["schemaVersion", "description", "parts", "abbreviations", "notParties", "noPartyLabels", "entities", "lifespans", "lineage", "events", "wikidata", "wikidataOverrides", "labelIds", "labelFolds", "labelInterpretations", "colourReviewOverrides", "palettes"],
   "additionalProperties": false,
   "properties": {
     "schemaVersion": { "const": 1 },
@@ -35,6 +35,20 @@
       }
     },
     "notParties": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "noPartyLabels": {
+      "type": "array",
+      "description": "Labels that stand for no party, each with the records it occurs in.",
+      "items": {
+        "type": "object",
+        "required": ["label", "in", "meaning"],
+        "additionalProperties": false,
+        "properties": {
+          "label": { "type": "string", "minLength": 1 },
+          "in": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["candidacies", "persons", "words"] } },
+          "meaning": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "entities": {
       "type": "object",
       "required": ["schemaVersion", "description", "idPolicy", "types", "aliasResolution", "provisional", "entities"],

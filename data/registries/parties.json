@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "description": "The parties registry: one validated view over the party files named in `parts` (loadRegistry('parties') reads and joins them; packages/registries/src/parties.mjs holds the views), plus the abbreviations that results tables show, with every spelling of each party found in the election data (from packages/core/src/party-names.mjs). A party with no abbreviation is shown as spelled. `notParties` are labels found in the party column that are not parties. Schema: packages/registries/schemas/parties.schema.json.",
+ "description": "The parties registry: one validated view over the party files named in `parts` (loadRegistry('parties') reads and joins them; packages/registries/src/parties.mjs holds the views), plus the abbreviations that results tables show, with every spelling of each party found in the election data (from packages/core/src/party-names.mjs). A party with no abbreviation is shown as spelled. `notParties` are labels found in the party column that are not parties. `noPartyLabels` are the labels that stand for no party at all, each with the records it occurs in (`in`: candidacies, a candidacy's or an election's party column; persons, a person record's party; words, Words in parliament's party labels), so that no party page, link or membership is made for one. Schema: packages/registries/schemas/parties.schema.json.",
  "parts": {
   "entities": "data/elections/parties/party_registry.json",
   "lifespans": "data/elections/parties/party_lifespans.json",
@@ -731,5 +731,11 @@
  ],
  "notParties": [
   "Non-transferable"
+ ],
+ "noPartyLabels": [
+  { "label": "No party recorded", "in": ["candidacies", "words"], "meaning": "the source records no party: candidacies before 1832, and Words in parliament's members with none" },
+  { "label": "No label", "in": ["candidacies"], "meaning": "nothing printed on the ballot or inferred" },
+  { "label": "Unknown", "in": ["persons"], "meaning": "a person record's party when none is known" },
+  { "label": "(none)", "in": ["words"], "meaning": "Words in parliament's label for a member with no party" }
  ]
 }
