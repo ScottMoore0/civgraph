@@ -6,7 +6,7 @@ The one approval is the owner's decision of 13 Nov 2026: "identify as Civgraph w
 with Wikimedia projects." So a request to a Wikimedia host (Wikipedia, Wikidata and its query
 service, Wikimedia Commons and upload) carries the site's User-Agent, which names the site only,
 never an email address or a person. Every other host gets no User-Agent of ours: the library's
-own default applies. tests/unit/crawl-headers.test.mjs holds this file equal to node.mjs.
+own default applies. The crawl-headers unit test holds this file equal to node.mjs.
 
 Load it without touching sys.path:
 
