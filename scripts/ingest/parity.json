@@ -45,7 +45,7 @@
     "ni-local/layer-features": { "blocked": "needs the 7.6 GB render/source-cache/vector-intake cache; not copied, and never pointed at the main checkout's copy, which the script may write to" },
     "opendatani/planning-chunks": { "blocked": "reads and writes fixed folders outside the repository (named at the top of the script), so a run captures nothing" },
     "osni/river-basin-hillshade": { "blocked": "a bash step over a LiDAR block (an input) that is not on this machine" },
-    "persons/rebuild": { "blocked": "the full person-id loop over the records build (several passes); the landing runs it" },
+    "persons/rebuild": { "proved": "rf9-ingest, the full loop (manifest, summaries, registry, apply, merge passes, name registry, audit) twice over a copy of the records build, about 10 minutes a run; the election bundle (2,584 files), the manifest, the summaries, the registries and the two lifespan reports compared: 7 files changed by the runs, identical, the rest unchanged by both" },
     "persons/registry": { "proved": "r2-ingest" },
     "persons/apply": { "blocked": "rewrites the records bundle (tmp/records/elections*) in place, which no declared output covers, so parity cannot see its changes" },
     "persons/merge": { "blocked": "rewrites the records bundle (tmp/records/elections*) in place, which no declared output covers, so parity cannot see its changes" },
