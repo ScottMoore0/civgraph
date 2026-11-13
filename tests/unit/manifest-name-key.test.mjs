@@ -3,7 +3,7 @@
  * and the backtick fold as the straight one does (the w11-code follow-up of 12 Nov 2026), and
  * nothing else about the key changes.
  *
- *   node --test tests/unit/manifest-name-key.test.mjs
+ *   Run with node --test on this file.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
