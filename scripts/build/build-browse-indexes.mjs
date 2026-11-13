@@ -185,7 +185,8 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  *   thumbnail?: string | ExternalThumbnail | null, keywords?: unknown, sourceItems?: SourceItem[], status?: string, statusChips?: string[],
  *   sourceHierarchy?: unknown, viewport?: Viewport | null, shortCitation?: string, fullCitation?: string, relatedRecords?: unknown,
  *   duplicateCount?: number, license?: unknown, approval?: Approval | null, publicationStatus?: string, proposedBrowsePath?: string,
- *   variantOf?: { id?: string } | null, parentId?: string, parentTitle?: string, relationship?: string
+ *   variantOf?: { id?: string } | null, parentId?: string, parentTitle?: string, relationship?: string,
+ *   availability?: unknown
  * }} RawExternalSource
  * @typedef {{
  *   id?: string, slug?: string, key?: string, type?: string, title?: string, subtitle?: string, category?: string, date?: unknown,
