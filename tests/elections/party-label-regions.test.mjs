@@ -108,7 +108,8 @@ test('no Dail, Republic or House of Commons contest changes its reading: a bare 
       for (const row of [...(raw?.Constituency?.countGroup || []), ...(Array.isArray(raw?.candidates) ? raw.candidates : [])]) {
         rows += 1;
         if (/^labour$/i.test(String(row?.Party_Name ?? row?.party ?? '').trim())) labour += 1;
-        if (INDEPENDENT_ALLIANCE.has(String(row?.Party_Name ?? row?.party ?? '').trim())) alliance += 1;
+        // The rule is the 2016 Dail election's; the Seanad's two Independent Alliance candidates of 2016 keep the label.
+        if (body === 'dail-eireann' && INDEPENDENT_ALLIANCE.has(String(row?.Party_Name ?? row?.party ?? '').trim())) alliance += 1;
       }
       interpreter.apply({ body, date }, raw);
       assert.equal(JSON.stringify(raw), before, `the party-label rules changed ${path.relative(ELECTIONS, file)}`);
