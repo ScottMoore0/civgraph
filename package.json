@@ -135,7 +135,7 @@
     "check:architecture": "node scripts/check/architecture.mjs",
     "api:v1-documents": "node scripts/build/api-v1-documents.mjs",
     "check:types:pipeline": "node scripts/lib/typecheck.mjs config/tsconfig.pipeline.json && node scripts/lib/typecheck.mjs config/tsconfig.pipeline-strict.json && node scripts/lib/typecheck.mjs config/tsconfig.tools-browser.json",
-    "check:types:mapapp": "node node_modules/typescript/bin/tsc -p src/tsconfig.check.json",
+    "check:types:mapapp": "node node_modules/typescript/bin/tsc -p packages/map/tsconfig.check.json",
     "check:types:shared": "node node_modules/typescript/bin/tsc -p config/tsconfig.shared.json",
     "check:full": "node scripts/check/run.mjs && npm run records:check && npm run test:browser:maps && npm run test:catalogue && npm run test:i18n",
     "rebuild": "node scripts/build/rebuild-changed.mjs",

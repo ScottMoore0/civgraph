@@ -151,7 +151,7 @@ function updateHtmlVersions(jsVersion, cssVersion, viewerAssetVersions) {
   }
 }
 
-// The rebuilt catalogue (src/catalogue/) became civgraph.net/maps on 2026-10-12. One more page is
+// The rebuilt catalogue (packages/map/src/catalogue/) became civgraph.net/maps on 2026-10-12. One more page is
 // written from maps/index.html on every build, so it never drifts from it, and kept out of search
 // engines (maps/test, where the catalogue was reviewed, was written here too until 7 Nov 2026; its
 // address answers 301 to /maps/ in _redirects):
@@ -188,7 +188,7 @@ function updateServiceWorkerVersion(jsVersion) {
 
 function copyAnimationRuntimeAssets() {
   const assets = [
-    ['src/jquery-shim.js', 'site/app/js/jquery-shim.js'],
+    ['packages/map/src/jquery-shim.js', 'site/app/js/jquery-shim.js'],
     // packages/map/app/app.js loads this at runtime via
     // loadClassicScript('/app/js/libs/flatgeobuf-geojson.min.js', 'flatgeobuf'),
     // but it was never copied here, so that path did not exist in the deploy.

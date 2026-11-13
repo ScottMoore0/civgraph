@@ -12,7 +12,7 @@ import { toHtmlString } from '../../packages/core/src/html.js';
 import { electionBody } from '../../packages/ui/src/templates/records/election.js';
 import { personUrl } from '../../site/apps/elections/lib/format.js';
 import { countSheet } from '../../site/apps/elections/lib/count.js';
-import { PeopleSearch } from '../../src/catalogue/search.js';
+import { PeopleSearch } from '../../packages/map/src/catalogue/search.js';
 import { footer, header } from '../../packages/ui/src/templates/shell.js';
 
 test('personSlug: the Browse build\'s rule, name and registry id', () => {

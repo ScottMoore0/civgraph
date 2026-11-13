@@ -68,7 +68,7 @@ export function safeCssColour(value, fallback = MAP_COLOURS.partyGrey) {
 
 /**
  * The five-step amber ramp for numeric modes (turnout, share, majority, seats, quota); grey for
- * a value that is not a number. Same ramp as numericColour in src/election-renderer.mjs.
+ * a value that is not a number. Same ramp as numericColour in packages/map/src/election-renderer.mjs.
  * @param {unknown} value
  * @param {number} min
  * @param {number} max

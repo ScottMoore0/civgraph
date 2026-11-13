@@ -3,8 +3,8 @@ import { TestMapLibreController } from '../src/renderer/map-controller.js';
 import { repairFeatureProperties } from '../src/renderer/feature-property-repairs.js';
 import { boundsToMapLibre } from '../src/renderer/utils.js';
 import { waitForMapSettle } from './settle.js';
-import { compositeChildIds } from '../../../src/map-relations.mjs';
-import { cdnUrl } from '../../../src/cdn-url.js';
+import { compositeChildIds } from '../src/map-relations.mjs';
+import { cdnUrl } from '../src/cdn-url.js';
 import { CHOOSABLE_BASE_MAPS, resolveBaseMapId } from '../src/renderer/basemap.mjs';
 import { overlayConfig } from '../src/renderer/overlays.mjs';
 import {
@@ -17,7 +17,7 @@ import {
   overlayRuntimeLayer,
   parseCsv,
   statisticFor
-} from '../../../src/census-overlay.mjs';
+} from '../src/census-overlay.mjs';
 import layerTypes from '../../registries/src/browser/layer-types.mjs';
 
 // A census overlay is drawn on a vector geography: never on a raster, an image, terrain or a point
@@ -207,7 +207,7 @@ export class Test2MapLibreMainAdapter {
 
     // compositeChildIds, not config.members: this branch and app.js's used DIFFERENT
     // fields for the same relation, so which one expanded a composite depended on which
-    // field the map happened to carry. See src/map-relations.mjs.
+    // field the map happened to carry. See packages/map/src/map-relations.mjs.
     const groupChildIds = compositeChildIds(config);
     if (config?.isGroup && groupChildIds.length) {
       const results = await Promise.all(groupChildIds.map((memberId) => this.loadLayer(memberId, {

@@ -118,7 +118,7 @@ test('MA-05 NI grouped view: the table, active as a view of it, and the view mov
 });
 
 test('MA-07 to MA-10: the catalogue pane machines and choices', async () => {
-  const m = await import('../../src/ui-state-machines.mjs');
+  const m = await import('../../packages/map/src/ui-state-machines.mjs');
   assert.deepEqual([...m.SPLIT_LAYOUT.values].sort(), ['balanced', 'info-75', 'info-full', 'map-75', 'map-full']);
   assert.equal(m.SPLIT_LAYOUT.initial, 'balanced');
   assert.deepEqual(m.SPLIT_ALLOWED.mobile, ['map-full', 'info-full']);
@@ -133,8 +133,8 @@ test('MA-07 to MA-10: the catalogue pane machines and choices', async () => {
 });
 
 test('MA-07 to MA-10: the sources write the pane state only through them', async () => {
-  const { CATALOGUE_HISTORY_ENTRY, SPLIT_ALLOWED } = await import('../../src/ui-state-machines.mjs');
-  const ui = read('src/ui-controller.js');
+  const { CATALOGUE_HISTORY_ENTRY, SPLIT_ALLOWED } = await import('../../packages/map/src/ui-state-machines.mjs');
+  const ui = read('packages/map/src/ui-controller.js');
   // The desktop order is the order splitStates lists the layouts in.
   const listed = [...ui.matchAll(/\{ id: '([a-z0-9-]+)', label: '[^']+'(?:, mobileLabel: '[^']+')? \}/g)].map((x) => x[1]);
   assert.deepEqual(listed, SPLIT_ALLOWED.desktop);
@@ -179,7 +179,7 @@ test('MA-12 point-cloud tile: the table, and every write through moveNode', asyn
 });
 
 test('MA-13 /maps tab and route kinds', async () => {
-  const { CATALOGUE_TAB, ROUTE_KINDS, routeKind } = await import('../../src/catalogue/route-state.mjs');
+  const { CATALOGUE_TAB, ROUTE_KINDS, routeKind } = await import('../../packages/map/src/catalogue/route-state.mjs');
   assert.deepEqual([...CATALOGUE_TAB.values], ['maps', 'elections', 'books']);
   for (const tab of Object.values(ROUTE_KINDS)) assert.ok(CATALOGUE_TAB.has(tab));
   assert.equal(routeKind('series/os-6inch/os-1'), 'series');
@@ -187,7 +187,7 @@ test('MA-13 /maps tab and route kinds', async () => {
   assert.equal(routeKind('elections/dail'), 'elections');
   assert.equal(routeKind('here/-6.1/54.6'), 'here');
   assert.equal(routeKind('boundaries'), 'section');
-  const index = read('src/catalogue/index.js');
+  const index = read('packages/map/src/catalogue/index.js');
   assert.match(index, /set tab\(value\) \{ this\._tab = CATALOGUE_TAB\.check\(value\); \}/);
   for (const [, tab] of index.matchAll(/this\.tab = '([a-z]+)'/g)) assert.ok(CATALOGUE_TAB.has(tab), tab);
 });
@@ -232,9 +232,9 @@ test('MA-L: latches, flags and hold counts', async () => {
     'packages/map/src/renderer/map-controller.js': ['directPanGestureInstalled', 'directWheelFallbackActive', 'autoTilted', 'documentHoverClearInstalled'],
     'packages/map/app/election-manager.js': ['overlayRefreshPending', 'seatCirclePositionUpdatePending', 'voteBarClickBound', 'recallLabelClickBound'],
     'packages/map/app/app.js': ['electionCatalogueWarmScheduled', 'featuresHereKeepOpen'],
-    'src/catalogue/index.js': ['drawn', 'picking', 'electionsFirst', 'langNotice', 'placesReady'],
-    'src/feature-loader.js': ['initialized'],
-    'src/election-trend-chart.mjs': ['pinned']
+    'packages/map/src/catalogue/index.js': ['drawn', 'picking', 'electionsFirst', 'langNotice', 'placesReady'],
+    'packages/map/src/feature-loader.js': ['initialized'],
+    'packages/map/src/election-trend-chart.mjs': ['pinned']
   };
   for (const [file, names] of Object.entries(expect)) {
     const source = read(file);

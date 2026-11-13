@@ -5,7 +5,7 @@
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import dataService from '../../../../../src/data-service.js';
+import dataService from '../../data-service.js';
 
 // Play: the pause before each step, and how long a step is held -- long enough to see what
 // changed, short when there is nothing to see.

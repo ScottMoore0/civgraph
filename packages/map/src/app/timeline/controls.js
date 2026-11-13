@@ -5,10 +5,11 @@
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import dataService from '../../../../../src/data-service.js';
-import { compositeChildIds } from '../../../../../src/map-relations.mjs';
+import dataService from '../../data-service.js';
+import { compositeChildIds } from '../../map-relations.mjs';
 import { formatDisplayDate } from '../../../../core/src/date-format.mjs';
 import { parseTimelineDate, yearOnlyMapDate } from './dates.mjs';
+import { timelineTicksHtml } from './timeline-view.mjs';
 import { setHidden } from '../../state-helpers.mjs';
 
 export class TimelineControlMethods {
@@ -312,38 +313,11 @@ export class TimelineControlMethods {
     const ticks = document.getElementById('timelineTicks');
     if (!ticks) return;
     const items = this.getTimelineAnimationItems();
-    const count = items.length;
-    if (count < 2) {
+    if (items.length < 2) {
       ticks.innerHTML = '';
       return;
     }
-    const drawMinor = count <= 600;
-    const parts = [];
-    // decade -> the stop to label: its first major stop, else its first stop.
-    const byDecade = new Map();
-    items.forEach((item, index) => {
-      const p = (index / (count - 1)).toFixed(5);
-      const minor = Boolean(item?.minor);
-      if (!minor || drawMinor) {
-        parts.push(`<span class="timeline-tick${minor ? '' : ' timeline-tick--major'}" style="--p:${p}"></span>`);
-      }
-      const year = this.timelineItemYear(item);
-      if (!Number.isFinite(year)) return;
-      const decade = Math.floor(year / 10);
-      const held = byDecade.get(decade);
-      if (!held || (held.minor && !minor)) byDecade.set(decade, { index, year, minor });
-    });
-    const label = (index, year, priority) => `<span class="timeline-year" data-priority="${priority}" style="--p:${(index / (count - 1)).toFixed(5)}">${year}</span>`;
-    const firstYear = this.timelineItemYear(items[0]);
-    const lastYear = this.timelineItemYear(items[count - 1]);
-    const labelled = new Set();
-    if (Number.isFinite(firstYear)) { parts.push(label(0, firstYear, 3)); labelled.add(0); }
-    if (Number.isFinite(lastYear)) { parts.push(label(count - 1, lastYear, 3)); labelled.add(count - 1); }
-    for (const { index, year, minor } of byDecade.values()) {
-      if (labelled.has(index)) continue;
-      parts.push(label(index, year, minor ? 1 : 2));
-    }
-    ticks.innerHTML = parts.join('');
+    ticks.innerHTML = timelineTicksHtml(items, (item) => this.timelineItemYear(item));
     this.fitTimelineYearLabels();
     requestAnimationFrame(() => this.fitTimelineYearLabels());
   }

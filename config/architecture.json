@@ -15,7 +15,27 @@
     "C3": {
       "include": [
         "site/",
-        "src/"
+        "src/",
+        "packages/map/src/catalogue/",
+        "packages/map/src/cdn-url.js",
+        "packages/map/src/census-overlay.mjs",
+        "packages/map/src/data-service.js",
+        "packages/map/src/debug-log.js",
+        "packages/map/src/election-main-pane-contract.mjs",
+        "packages/map/src/election-renderer.mjs",
+        "packages/map/src/election-trend-chart.mjs",
+        "packages/map/src/election-utils.js",
+        "packages/map/src/entity-detail-data.mjs",
+        "packages/map/src/feature-loader.js",
+        "packages/map/src/fgb-worker.js",
+        "packages/map/src/jquery-shim.js",
+        "packages/map/src/map-relations.mjs",
+        "packages/map/src/ni-local-groups.mjs",
+        "packages/map/src/printed-labels.mjs",
+        "packages/map/src/public-map.mjs",
+        "packages/map/src/storage-keys.mjs",
+        "packages/map/src/ui-controller.js",
+        "packages/map/src/ui-state-machines.mjs"
       ],
       "packages": [
         "packages/core/src/",
@@ -23,7 +43,8 @@
       ],
       "tests": [
         "tests/"
-      ]
+      ],
+      "//": "src/ was in scope; its modules moved into packages/map/src/ (rf9-mapapp, 12 Nov 2026) and are listed one by one so the scope stays what it was. The rest of packages/map is not in scope yet: it has 12 findings (escapeHtml, slugify and the like in app/, src/app/, src/election/, src/renderer/), listed in the rf9-mapapp landing note as follow-up."
     },
     "C4": {
       "include": [

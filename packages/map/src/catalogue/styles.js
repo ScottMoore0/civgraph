@@ -1,0 +1,509 @@
+/**
+ * Styles for the rebuilt catalogue, injected once by packages/map/src/catalogue/index.js.
+ *
+ * Built on the site's own tokens (assets/css/main.css) so both themes follow the site, and on two
+ * of the current pane's classes, reused as they are: the section bar (.catalogue-flat__sections,
+ * with its green gradient) and the thumbnails with their hover preview (.catalogue-flat__toc-thumb*).
+ *
+ * Colour carries meaning only: a map's chip and stripe are the colour that map is drawn in, and fill
+ * with it while the map is on; each shelf has its own icon colour; amber marks maps still to be
+ * added. Jurisdictions are deliberately colourless.
+ */
+/** The folded filters, shared by two width rules below. */
+const FOLD = `
+  .cn-filters-toggle { display: inline-flex; position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .cn-toolbar:not([data-open]) .cn-filters { display: none; }
+  .cn-frow > .cn-label { min-width: 0; width: 100%; }
+  .cn-toolbar { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 10px; }
+  .cn-toolbar > :not(.cn-filters-toggle, .cn-tally) { grid-column: 1 / -1; }
+  .cn-toolbar:not([data-open]) { margin: 2px 0 6px; padding: 0 2px; border: 0; background: none; }
+  .cn-toolbar:not([data-open]) .cn-key { display: none; }
+  .cn-tally { display: block; }
+  .cn-view:has([data-cn-tally]) .cn-summary--count { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .cn-keyfoot.cn-keyfoot { display: flex; }
+  .cn-view:has(.cn-toolbar[data-open]) .cn-keyfoot.cn-keyfoot { display: none; }`;
+
+export const CATALOGUE_CSS = `
+/* The Filters button beside the search bar (outside .cn, so on the site's own tokens). */
+.cn-filters-button { display: inline-flex; align-items: center; gap: 5px; flex: none; align-self: center; min-height: 36px; padding: 4px 10px;
+  border: 1px solid var(--color-border, rgba(127,127,127,.4)); border-radius: 10px; background: var(--color-surface, #fff); color: var(--color-text, inherit);
+  font: 600 13px/1 var(--font-sans, system-ui, sans-serif); cursor: pointer; }
+.cn-filters-button[hidden] { display: none; }
+.cn-filters-button[aria-expanded="true"] { border-color: var(--color-primary, #0f766e); }
+.cn-filters-button svg { width: 16px; height: 16px; }
+/* On a phone the button is its icon (and badge) only; the label stays for screen readers. */
+@media (max-width: 520px) { .cn-filters-button { padding: 4px 8px; } .cn-filters-button .cn-filters-button__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
+.cn-filters-button .cn-badge { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--color-primary, #0f766e); color: #fff; font-size: 11px; }
+
+.cn { --cn-surface: var(--color-surface, #fff); --cn-raised: var(--color-surface-elevated, #f7fafc);
+  --cn-text: var(--color-text, #1a202c); --cn-muted: var(--color-text-muted, #5f6b7a); --cn-line: var(--color-border, #e2e8f0);
+  --cn-hover: color-mix(in srgb, var(--cn-text) 7%, transparent); --cn-press: color-mix(in srgb, var(--cn-text) 12%, transparent);
+  --cn-link: #0b7a55; --cn-focus: var(--color-accent, #2563eb); --cn-grad: linear-gradient(135deg, #12a35f 0%, #0b8a6a 55%, #0a6f79 100%);
+  --cn-amber-bg: #fdf1dc; --cn-amber-ink: #8a5a12; --cn-hit: #f5c84c;
+  --cn-sticky: calc(var(--catalogue-sticky-shell-height, 110px) - var(--space-5, 20px));
+  container-type: inline-size; font-family: var(--font-sans, system-ui, sans-serif); color: var(--cn-text);
+  font-size: 14px; line-height: 1.45; padding: 0 2px 84px; }
+[data-theme="dark"] .cn { --cn-link: #6ee7b7; --cn-amber-bg: rgba(234, 170, 60, .16); --cn-amber-ink: #f0c36c; --cn-hit: #c9a227; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cn { --cn-link: #6ee7b7; --cn-amber-bg: rgba(234, 170, 60, .16); --cn-amber-ink: #f0c36c; --cn-hit: #c9a227; } }
+.cn *, .cn *::before, .cn *::after { box-sizing: border-box; }
+/* Zero specificity, so the current pane's own buttons reused here (book cards, search actions) keep their styles. */
+:where(.cn) button { font: inherit; color: inherit; }
+.cn [hidden] { display: none !important; }
+.cn :focus-visible { outline: 2px solid var(--cn-focus); outline-offset: 2px; }
+.cn-icon { width: 16px; height: 16px; flex: none; }
+.cn-muted { color: var(--cn-muted); }
+.cn-count { color: var(--cn-muted); font-weight: 500; font-variant-numeric: tabular-nums; }
+.cn-label { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--cn-muted); }
+.cn-link { background: none; border: 0; padding: 0; color: var(--cn-link); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.cn-badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 0 7px; font-size: 11px; font-weight: 700; line-height: 18px;
+  background: var(--cn-hover); color: var(--cn-muted); white-space: nowrap; }
+.cn-badge--todo { background: var(--cn-amber-bg); color: var(--cn-amber-ink); }
+.cn-badge--warn { background: var(--cn-amber-bg); color: var(--cn-amber-ink); }
+.cn-empty { padding: 18px 8px; color: var(--cn-muted); }
+
+/* Section bar: the current pane's, reused (.catalogue-flat__sections); counts and Tables added. */
+.cn-tabs.catalogue-flat__sections { margin: 8px 0 6px; display: flex; flex-wrap: wrap; gap: 6px; overflow: visible; }
+/* Four sections with counts: on a narrow pane they wrap to two rows rather than squeeze a label. */
+.cn-tabs .cn-tab { flex: 1 1 auto; white-space: nowrap; justify-content: center; }
+.cn-tab .cn-tab__count { font-weight: 500; opacity: .75; font-variant-numeric: tabular-nums; }
+.cn-tab .cn-tab__short { display: none; }
+@container (max-width: 430px) { .cn-tab .cn-tab__count { display: none; } }
+/* A phone: all five sections on one row, icon over a short label. A pane too narrow even for that
+   scrolls the row sideways rather than squeeze a label. */
+@container (max-width: 520px) {
+  .cn-tabs.catalogue-flat__sections { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 3px; margin: 4px 0; padding: 3px; }
+  .cn-tabs.catalogue-flat__sections::-webkit-scrollbar { display: none; }
+  .cn-tabs .cn-tab.catalogue-flat__section-tab { flex: 1 0 auto; flex-direction: column; gap: 3px; min-height: 42px; padding: 4px 3px; font-size: 11px; }
+  .cn-tab .cn-tab__long { display: none; }
+  .cn-tab .cn-tab__short { display: inline; }
+}
+
+/* Filters */
+.cn-toolbar { display: grid; gap: 8px; margin: 4px 0 10px; padding: 10px 12px; border: 1px solid var(--cn-line); border-radius: 12px; background: var(--cn-raised); }
+.cn-filters { display: grid; gap: 9px; }
+.cn-frow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; }
+.cn-fgroup { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.cn-frow > .cn-label { min-width: 52px; }
+.cn-fgroup > .cn-label { margin-right: 2px; }
+.cn-fchip { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 3px 11px; border-radius: 999px; border: 1px solid var(--cn-line);
+  background: var(--cn-surface); cursor: pointer; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.cn-fchip:hover { background: var(--cn-hover); }
+.cn-fchip[aria-pressed="true"] { background: var(--cn-grad); border-color: transparent; color: #fff; }
+.cn-fchip[aria-pressed="true"] .cn-count { color: rgba(255,255,255,.85); }
+.cn-filters-toggle { display: none; align-items: center; gap: 6px; justify-self: start; min-height: 30px; padding: 3px 12px; border-radius: 999px;
+  border: 1px solid var(--cn-line); background: var(--cn-surface); cursor: pointer; font-weight: 600; }
+.cn-filters-toggle .cn-badge { background: var(--cn-grad); color: #fff; }
+/* Folded, the filters are a button with the count beside it; the key to the chip dots moves to the
+   foot of the list. Only a really narrow pane, or any pane on a touch screen up to 560px wide,
+   folds: on a desktop the filters stay in view at 400-560px. */
+.cn-tally { display: none; color: var(--cn-muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.cn-keyfoot.cn-keyfoot { display: none; margin: 4px 6px 0; }
+@container (max-width: 380px) { ${FOLD} }
+@media (pointer: coarse) { @container (max-width: 560px) { ${FOLD} } }
+
+/* Years: two handles on one track */
+.cn-years { display: grid; gap: 2px; }
+.cn-years__head { display: flex; align-items: baseline; gap: 10px; }
+.cn-years__out { font-weight: 600; font-variant-numeric: tabular-nums; }
+.cn-years__head .cn-link { margin-left: auto; font-size: 12px; }
+.cn-years__row { display: flex; align-items: center; gap: 10px; }
+.cn-years__row .cn-range { flex: 1 1 auto; min-width: 90px; }
+.cn-range { position: relative; height: 22px; }
+.cn-years__boxes { display: flex; align-items: center; gap: 6px; color: var(--cn-muted); }
+.cn-years__box { box-sizing: content-box; width: 5ch; min-height: 24px; padding: 2px 10px; border: 1px solid var(--cn-line); border-radius: 8px;
+  background: var(--cn-surface); color: var(--cn-text); font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; text-overflow: clip;
+  -moz-appearance: textfield; appearance: textfield; }
+/* No spin arrows: in a box this narrow they read as a scroll bar and cover the year. */
+.cn-years__box::-webkit-inner-spin-button, .cn-years__box::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.cn-years__box::placeholder { color: var(--cn-muted); }
+.cn-range::before { content: ""; position: absolute; left: 9px; right: 9px; top: 10px; height: 3px; border-radius: 2px; background: var(--cn-line); }
+.cn-range input { position: absolute; inset: 0; width: 100%; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; height: 22px; }
+.cn-range input::-webkit-slider-thumb { pointer-events: auto; -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--cn-surface); border: 2px solid #0b8a6a; box-shadow: 0 1px 3px rgba(0,0,0,.25); cursor: grab; }
+.cn-range input::-moz-range-thumb { pointer-events: auto; width: 14px; height: 14px; border-radius: 50%; background: var(--cn-surface); border: 2px solid #0b8a6a; cursor: grab; }
+.cn-range input::-webkit-slider-runnable-track { background: none; height: 22px; }
+.cn-range input::-moz-range-track { background: none; }
+.cn-range input:focus-visible { outline: none; }
+.cn-range input:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px color-mix(in srgb, var(--cn-focus) 45%, transparent); }
+.cn-range input:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px color-mix(in srgb, var(--cn-focus) 45%, transparent); }
+
+.cn-summary { margin: 0 4px 6px; color: var(--cn-muted); font-size: 13px; }
+
+/* Shelves and subjects */
+.cn-shelf { margin: 0 0 8px; scroll-margin-top: calc(var(--cn-sticky) + 52px); }
+/* An open shelf's heading stays in view below the section tabs until its section scrolls past: a
+   sticky element is held inside its parent, so it lets go at the end of its own shelf. Its shadow
+   only closes the hairline above it: a taller one painted over the count line above the first shelf. */
+.cn-shelf__head { margin: 0; position: sticky; top: calc(var(--cn-sticky) + var(--cn-tabs-h, 52px)); z-index: 4; background: var(--cn-surface);
+  box-shadow: 0 -3px 0 var(--cn-surface); }
+.cn-shelf__toggle { display: flex; align-items: center; gap: 10px; width: 100%; padding: 6px 6px; border: 0; border-bottom: 2px solid var(--shelf, var(--cn-line));
+  background: none; cursor: pointer; text-align: left; font-family: var(--font-display, inherit); font-size: 16px; font-weight: 800; }
+.cn-shelf__icon { display: inline-flex; width: 32px; height: 32px; border-radius: 8px; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--shelf, #888) 16%, transparent); color: var(--shelf, currentColor); }
+.cn-shelf__icon .cn-icon { width: 22px; height: 22px; }
+.cn-shelf__name { flex: 1; }
+.cn-shelf__toggle .cn-count { font-size: 13px; }
+.cn-shelf__chev { transition: transform .15s ease; color: var(--cn-muted); }
+.cn-shelf__toggle[aria-expanded="false"] .cn-shelf__chev { transform: rotate(-90deg); }
+.cn-shelf__blurb { margin: 6px 6px 2px; color: var(--cn-muted); font-size: 13px; }
+.cn-subject { scroll-margin-top: calc(var(--cn-sticky) + 62px); }
+.cn-subject__head { display: flex; align-items: baseline; gap: 8px; margin: 12px 6px 4px; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--cn-muted); }
+.cn-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--cn-line); border-radius: 10px; overflow: hidden; background: var(--cn-surface); }
+
+/* A series: stripe, thumbnail, name and facts, one-click editions, actions */
+.cn-row { display: grid; grid-template-columns: 4px 40px minmax(0, 1fr) auto; column-gap: 10px; align-items: start; padding: 8px 8px 8px 0;
+  border-top: 1px solid var(--cn-line); scroll-margin-top: calc(var(--cn-sticky) + 66px); }
+.cn-row:first-child { border-top: 0; }
+.cn-row__stripe { grid-row: 1 / span 3; align-self: stretch; background: var(--c, #7a8699); opacity: .85; margin: -8px 0; }
+.cn-row--on .cn-row__stripe { opacity: 1; box-shadow: 2px 0 0 var(--c, #7a8699); }
+.cn-row__thumb { grid-column: 2; grid-row: 1 / span 2; }
+.cn .cn-row__thumb .catalogue-flat__toc-thumbwrap, .cn .cn-erow__thumb .catalogue-flat__toc-thumbwrap { width: 40px; height: 40px; border-radius: 7px; }
+.cn .cn-row__thumb .catalogue-flat__toc-thumb, .cn .cn-erow__thumb .catalogue-flat__toc-thumb { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; }
+.cn .cn-row__thumb .catalogue-flat__toc-thumb--fallback, .cn .cn-erow__thumb .catalogue-flat__toc-thumb--fallback { display: block; width: 40px; height: 40px; border-radius: 7px; }
+.cn-thumb-none { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 7px;
+  color: var(--c, var(--cn-muted)); background: color-mix(in srgb, var(--c, #888) 14%, var(--cn-surface)); border: 1px solid var(--cn-line); }
+.cn-thumb-none .cn-icon { width: 20px; height: 20px; }
+.cn-row__title { grid-column: 3; display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 6px; align-items: center; text-align: left;
+  border: 0; background: none; padding: 2px 4px; margin: -2px -4px; border-radius: 6px; cursor: pointer; min-height: 40px; }
+.cn-row__title:hover { background: var(--cn-hover); }
+.cn-row__text { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-width: 0; }
+.cn-row__name { font-weight: 700; font-size: 14px; line-height: 1.3; }
+.cn-row__credit { flex-basis: 100%; color: var(--cn-muted); font-size: 12px; line-height: 1.3; }
+.cn-row__meta { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; color: var(--cn-muted); font-size: 12.5px; line-height: 1.3; }
+.cn-row__dot { color: var(--cn-muted); }
+/* Each fact ("100 Municipal Districts", "5 Health and Social Care Trusts") moves to the next line whole
+   rather than breaking inside; one too long for a line still wraps within itself. */
+.cn-row__item { display: inline-block; }
+.cn-row__chev { color: var(--cn-muted); transition: transform .15s ease; }
+.cn-row__title--static { cursor: default; }
+.cn-row__title--static:hover { background: none; }
+.cn-row__title[aria-expanded="true"] .cn-row__chev { transform: rotate(180deg); }
+.cn-row__end { grid-column: 4; display: flex; align-items: center; gap: 6px; }
+.cn-row > .cn-chips { grid-column: 3 / span 2; margin-top: 6px; }
+.cn-iconbtn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--cn-line);
+  background: var(--cn-surface); cursor: pointer; color: var(--cn-muted); }
+.cn-iconbtn:hover, .cn-iconbtn[aria-expanded="true"] { background: var(--cn-hover); color: var(--cn-text); }
+
+/* Edition chips: each adds its map; filled with the map's own colour while it is on */
+.cn-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+/* Chips past the first line wait behind "+N more" (fitChips); .cn-chip sets display, so [hidden] needs saying. */
+.cn-chips > [hidden] { display: none !important; }
+.cn-chip { display: inline-flex; align-items: center; gap: 5px; min-height: 22px; padding: 1px 8px 1px 7px; line-height: 1.2; border-radius: 999px; border: 1px solid var(--cn-line);
+  background: var(--cn-surface); cursor: pointer; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; max-width: 100%; }
+.cn-chip:hover { border-color: var(--c, var(--cn-muted)); background: color-mix(in srgb, var(--c, #888) 10%, var(--cn-surface)); }
+.cn-chip__label { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.cn-chip__dot { width: 10px; height: 10px; border-radius: 50%; flex: none; background: var(--c, #7a8699); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+.cn-chip .cn-chip__check { display: none; width: 14px; height: 14px; }
+.cn-chip[aria-pressed="true"] { background: var(--c, #2d3748); border-color: var(--c, #2d3748); color: var(--on, #fff); }
+.cn-chip[aria-pressed="true"] .cn-chip__dot { display: none; }
+.cn-chip[aria-pressed="true"] .cn-chip__check { display: block; }
+.cn-chip__more { font-size: 11px; font-weight: 700; opacity: .75; }
+.cn-chip--hit { box-shadow: 0 0 0 2px var(--cn-hit); }
+.cn-chip--out:not([aria-pressed="true"]) { opacity: .45; }
+.cn-chip--more { padding: 1px 8px; color: var(--cn-muted); border-style: dashed; }
+.cn-chip--todo { cursor: default; border-style: dashed; color: var(--cn-amber-ink); background: var(--cn-amber-bg); border-color: transparent; }
+.cn-chip--todo .cn-chip__dot, .cn-chip__dot--todo { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+.cn-chip--part .cn-chip__dot, .cn-chip__dot--part { background: linear-gradient(90deg, var(--c, #7a8699) 50%, transparent 50%); box-shadow: inset 0 0 0 1.5px var(--c, #7a8699); }
+.cn-edit { width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 48px); border: 1px solid var(--cn-line); border-radius: 14px; padding: 0; background: var(--cn-surface); color: var(--cn-text); box-shadow: 0 18px 48px rgba(0,0,0,.25); }
+.cn-edit::backdrop { background: rgba(10, 20, 30, .45); }
+.cn-edit__form { display: grid; gap: 10px; padding: 18px 20px; font-family: var(--font-sans, system-ui, sans-serif); font-size: 14px; }
+.cn-edit h2 { margin: 0; font-size: 17px; }
+.cn-edit label { display: grid; gap: 4px; font-weight: 600; font-size: 13px; }
+.cn-edit input, .cn-edit textarea { font: inherit; font-weight: 400; padding: 7px 9px; border: 1px solid var(--cn-line); border-radius: 8px; background: var(--cn-raised); color: var(--cn-text); }
+.cn-edit__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cn-edit__refs { display: grid; gap: 6px; border: 1px solid var(--cn-line); border-radius: 10px; padding: 8px 10px; }
+.cn-edit__refs legend { font-weight: 600; font-size: 13px; padding: 0 4px; }
+.cn-edit__ref { display: grid; grid-template-columns: 1fr 1.4fr 1fr auto; gap: 6px; align-items: center; }
+.cn-edit__status { margin: 0; min-height: 1.2em; color: var(--cn-muted); }
+.cn-edit__buttons { display: flex; justify-content: flex-end; gap: 8px; }
+@media (max-width: 560px) { .cn-edit__pair, .cn-edit__ref { grid-template-columns: 1fr; } }
+.cn-about { margin: 0 0 10px; font-size: 13.5px; line-height: 1.5; color: var(--cn-text); max-width: 68ch; }
+.cn-about p { margin: 0 0 6px; }
+.cn-about .cn-label { display: block; margin-bottom: 4px; }
+.cn-about__links { font-size: 12.5px; color: var(--cn-muted); }
+.cn-about__links a { color: var(--cn-link); }
+.cn-erow__about { grid-column: 1 / -1; margin: 2px 0 2px; font-size: 13px; }
+.cn-erow__about > summary { cursor: pointer; color: var(--cn-link); font-size: 12.5px; width: max-content; }
+.cn-erow__about[open] > summary { margin-bottom: 6px; }
+.cn-key, .cn-keyfoot { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 2px 0 0; font-size: 12px; color: var(--cn-muted); }
+.cn-key__item { display: inline-flex; align-items: center; gap: 6px; }
+.cn-key .cn-chip__dot--todo, .cn-keyfoot .cn-chip__dot--todo { color: var(--cn-amber-ink); }
+.cn-chip--todo:hover { background: var(--cn-amber-bg); border-color: transparent; }
+.cn-chip--todo-toggle { color: var(--cn-amber-ink); border-style: dashed; border-color: color-mix(in srgb, var(--cn-amber-ink) 55%, transparent); background: none; }
+.cn-chip--todo-toggle:hover { background: var(--cn-amber-bg); border-color: var(--cn-amber-ink); }
+.cn-chip--todo-toggle .cn-icon { width: 14px; height: 14px; }
+/* A part, county map or council map with its own small buttons. */
+.cn-item { display: inline-flex; align-items: center; gap: 2px; }
+.cn-iconbtn.cn-iconbtn--sm { width: 26px; height: 26px; min-width: 26px; }
+.cn-iconbtn--sm .cn-icon, .cn-iconbtn--sm svg { width: 14px; height: 14px; }
+.cn-shelf--bare { border: 0; }
+/* A map's versions, each with its own buttons. */
+.cn-vlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.cn-vlist__item { display: flex; align-items: center; gap: 8px; padding: 3px 0 3px 10px; border-left: 3px solid var(--c); }
+.cn-vlist__name { flex: 1; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+.cn-vlist__acts { display: inline-flex; align-items: center; gap: 4px; }
+/* Include undated maps (shown while years are chosen). */
+.cn-check { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--cn-muted); cursor: pointer; }
+.cn-check input { margin: 0; accent-color: #0b8a6a; }
+/* Show/hide a series' local maps: one council's copy of a national map. */
+.cn-chip.cn-chip--local-toggle { color: var(--cn-muted); border: 1px dashed var(--cn-line); background: none; }
+.cn-chip.cn-chip--local-toggle:hover { color: var(--cn-text); border-color: var(--cn-muted); }
+.cn-chip--local-toggle .cn-icon { width: 14px; height: 14px; }
+.cn-chip.cn-chip--local-toggle[aria-pressed="true"] { color: var(--cn-text); background: none; border-style: solid; border-color: var(--cn-line); }
+.cn-chip--todo-toggle[aria-pressed="true"] { background: var(--cn-amber-bg); color: var(--cn-amber-ink); border-color: transparent; }
+.cn-chips[role="group"] .cn-chip[aria-busy="true"] { opacity: .6; }
+
+/* One-click add for a single map */
+.cn-add { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 3px 12px 3px 9px; border-radius: 999px; border: 1px solid var(--cn-line);
+  background: var(--cn-surface); cursor: pointer; font-weight: 700; font-size: 13px; white-space: nowrap; }
+.cn-add:hover { border-color: var(--c, var(--cn-muted)); background: color-mix(in srgb, var(--c, #888) 10%, var(--cn-surface)); }
+.cn-add .cn-when-on, .cn-btn .cn-when-on { display: none; }
+.cn-add[aria-pressed="true"], .cn-btn--primary[aria-pressed="true"] { background: var(--c, #2d3748); border-color: var(--c, #2d3748); color: var(--on, #fff); }
+.cn-add[aria-pressed="true"] .cn-when-off, .cn-btn[aria-pressed="true"] .cn-when-off { display: none; }
+.cn-add[aria-pressed="true"] .cn-when-on, .cn-btn[aria-pressed="true"] .cn-when-on { display: inline-flex; }
+
+/* The opened row */
+.cn-panel { grid-column: 2 / span 3; margin-top: 10px; padding: 12px; border: 1px solid var(--cn-line); border-radius: 10px; background: var(--cn-raised); display: grid; gap: 12px;
+  /* One column no wider than the panel (here and in .cn-ed, .cn-sub, .cn-vlist): an auto column grows to
+     its widest unwrappable child (a long part chip such as "Cork, Dublin and Galway cities and islands")
+     and ran past a phone's edge. */
+  grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.cn-ed { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.cn-ed__title { margin: 0; font-size: 15px; font-weight: 800; }
+.cn-facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 12px; margin: 0; font-size: 13px; }
+.cn-facts dt { color: var(--cn-muted); }
+.cn-facts dd { margin: 0; overflow-wrap: anywhere; }
+.cn-orders, .cn-orders ul { margin: 0; padding-left: 16px; }
+.cn-orders { padding-left: 0; list-style: none; display: grid; gap: 6px; }
+.cn-orders ul { color: var(--cn-muted); }
+.cn-orders__src { display: block; margin-top: 4px; font-size: 12px; color: var(--cn-muted); }
+.cn-desc { margin: 0; font-size: 13px; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.cn-desc[data-open] { display: block; }
+.cn-sub { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.cn-ed > .cn-link { justify-self: start; }
+.cn-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.cn-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 4px 11px; border-radius: 8px; border: 1px solid var(--cn-line);
+  background: var(--cn-surface); cursor: pointer; font-weight: 600; font-size: 13px; white-space: nowrap; }
+.cn-btn:hover, .cn-btn[aria-expanded="true"] { background: var(--cn-hover); }
+.cn-btn--primary { background: var(--cn-grad); border-color: transparent; color: #fff; }
+.cn-btn--primary:hover { filter: brightness(1.06); background: var(--cn-grad); }
+.cn-mlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.cn-mlist__item { display: flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 4px; border-radius: 6px; }
+.cn-mlist__item--version { padding-left: 22px; }
+.cn-mlist__name { flex: 1; min-width: 0; text-align: left; border: 0; background: none; cursor: pointer; padding: 4px 6px; border-radius: 6px; overflow-wrap: anywhere; }
+.cn-mlist__name:hover { background: var(--cn-hover); }
+.cn-mlist__name[aria-current="true"] { font-weight: 800; box-shadow: inset 3px 0 0 var(--c, var(--cn-text)); }
+
+/* Timeline of editions, spaced by date */
+.cn-tl { overflow-x: auto; padding: 4px 2px 0; }
+.cn-tl__track { position: relative; height: 46px; margin: 0 14px; }
+.cn-tl__axis { position: absolute; left: -8px; right: -8px; top: 13px; height: 2px; background: var(--cn-line); }
+.cn .cn-tick { position: absolute; top: 4px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; border: 0; background: none; padding: 0 2px; cursor: pointer; }
+.cn-tick__dot { width: 16px; height: 16px; border-radius: 50%; background: var(--cn-surface); border: 3px solid var(--c, #7a8699); }
+.cn-tick--on .cn-tick__dot { background: var(--c, #7a8699); }
+.cn-tick[aria-pressed="true"] .cn-tick__dot { box-shadow: 0 0 0 3px var(--cn-surface), 0 0 0 5px var(--cn-text); }
+.cn-tick__label { font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--cn-muted); white-space: nowrap; }
+.cn-tick[aria-pressed="true"] .cn-tick__label { color: var(--cn-text); font-weight: 800; }
+.cn-tl__ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--cn-muted); margin: 0 6px; }
+
+/* Things still to be added under a subject */
+.cn-todo { margin: 6px 6px 0; font-size: 13px; }
+.cn-todo summary { cursor: pointer; color: var(--cn-amber-ink); font-weight: 600; width: fit-content; }
+.cn-todo ul { margin: 6px 0 0; padding: 0 0 0 4px; list-style: none; display: grid; gap: 4px; }
+
+/* Search: places and people above the maps */
+.cn-block { margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--cn-line); border-radius: 12px; background: var(--cn-surface); }
+.cn-block__head { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font-size: 14px; font-weight: 800; }
+.cn-block__head .cn-icon { color: #0b8a6a; }
+.cn-block__head--sticky { position: sticky; top: calc(var(--cn-sticky) + var(--cn-tabs-h, 52px)); z-index: 4; background: var(--cn-surface); box-shadow: 0 -12px 0 var(--cn-surface);
+  margin: -10px -12px 6px; padding: 10px 12px 6px; border-radius: 12px 12px 0 0; }
+.cn-block__toggle { margin-left: auto; font-size: 12.5px; font-weight: 600; }
+.cn-place__kind { flex: 0 1 auto; min-width: 0; font-size: 12px; font-weight: 500; color: var(--cn-muted); overflow-wrap: anywhere; }
+.cn-places, .cn-people, .cn-place__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; grid-template-columns: minmax(0, 1fr); }
+/* A grid item, a details and a flex row all default to their content's width; with the place's
+   kind kept on one line ("2006 Connacht Electoral Division, 2026") that pushed the list past a
+   phone's edge and cut the kind off. They shrink to the pane, and the kind wraps under itself. */
+.cn-place, .cn-place > details, .cn-place summary, .cn-place__item { min-width: 0; }
+.cn-place__name { min-width: 0; overflow-wrap: break-word; }
+.cn-place summary { display: flex; align-items: center; gap: 10px; min-height: 40px; cursor: pointer; list-style: none; padding: 2px 4px; border-radius: 8px; }
+.cn-place summary::-webkit-details-marker { display: none; }
+.cn-place summary:hover { background: var(--cn-hover); }
+.cn-place__name { font-weight: 700; }
+.cn-place__chev { margin-left: auto; color: var(--cn-muted); transition: transform .15s ease; }
+.cn-place details[open] .cn-place__chev { transform: rotate(180deg); }
+.cn-place__thumb { display: inline-flex; width: 34px; height: 34px; flex: none; border-radius: 6px; overflow: hidden; background: #eef2f6; align-items: center; justify-content: center; }
+.cn-place__thumb img, .cn-place__thumb svg { width: 100%; height: 100%; object-fit: contain; }
+.cn-place__list { padding: 4px 0 6px 12px; }
+.cn-place__item { display: flex; align-items: center; gap: 10px; min-height: 40px; }
+.cn-place__map { flex: 1; min-width: 0; text-align: left; overflow-wrap: anywhere; }
+.cn-place__item .catalogue-search__action-strip { display: flex; gap: 4px; flex: none; }
+/* A phone-width pane: a place's kind runs under its name, and each of its maps reads as name,
+   kind, then its buttons, so nothing is squeezed to a sliver or pushed past the edge. */
+@container (max-width: 470px) {
+  .cn-place summary { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; column-gap: 10px; row-gap: 0; align-content: center; padding-block: 4px; }
+  .cn-place summary > .cn-place__thumb { grid-row: 1 / span 2; }
+  .cn-place summary > .cn-place__name { grid-column: 2; grid-row: 1; }
+  .cn-place summary > .cn-place__kind { grid-column: 2; grid-row: 2; }
+  .cn-place summary > .cn-place__chev { grid-column: 3; grid-row: 1 / span 2; margin-left: 0; }
+  .cn-place__item { display: grid; grid-template-columns: 34px minmax(0, 1fr); column-gap: 10px; row-gap: 2px; padding: 4px 0; }
+  .cn-place__item > .cn-place__thumb { grid-row: 1 / span 3; align-self: start; }
+  .cn-place__item > .cn-place__map, .cn-place__item > .cn-place__kind, .cn-place__item > .catalogue-search__action-strip { grid-column: 2; }
+}
+.cn-addresses { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.cn-address { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 4px 6px; border: 0; border-radius: 8px;
+  background: none; color: var(--cn-text); font: inherit; text-align: left; cursor: pointer; }
+.cn-address:hover, .cn-address:focus-visible { background: var(--cn-hover); }
+.cn-address .cn-icon { color: #0b8a6a; flex: 0 0 auto; }
+.cn-address__main { display: grid; min-width: 0; }
+.cn-address__name { font-weight: 600; }
+.cn-address-credit { margin: 4px 6px 0; color: var(--cn-muted); font-size: 11.5px; }
+.cn-address-credit a { color: var(--cn-link); }
+.cn-address-note { margin: 0 4px 8px; padding: 6px 10px; border-radius: 8px; background: var(--cn-raised); color: var(--cn-muted); font-size: 12.5px; }
+.cn-person { display: flex; align-items: center; gap: 8px; min-height: 32px; flex-wrap: wrap; }
+.cn-person .cn-icon { color: var(--cn-muted); }
+.cn-person__name { font-weight: 700; }
+.cn-person--row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 10px; align-items: center; padding: 4px 0; flex-wrap: nowrap; }
+.cn-person__main { display: flex; flex-direction: column; min-width: 0; }
+.cn-person__main .cn-muted { font-size: 12.5px; }
+.cn-btn--small { min-height: 28px; padding: 2px 9px; font-size: 12.5px; gap: 5px; }
+.cn-btn--small .cn-icon { width: 14px; height: 14px; }
+.cn-person-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 10px; padding: 10px 12px; border-radius: 12px;
+  border: 1px solid var(--cn-line); background: color-mix(in srgb, #0b8a6a 10%, var(--cn-surface)); }
+.cn-person-banner > .cn-icon { color: #0b8a6a; }
+.cn-person-banner > span { flex: 1; min-width: 12em; }
+.cn-person-banner a { color: var(--cn-link); }
+.cn-person-note { color: var(--cn-text); }
+
+/* Elections */
+.cn-erow { display: grid; grid-template-columns: 40px 92px minmax(0, 1fr) auto; column-gap: 10px; align-items: center; padding: 7px 8px; border-top: 1px solid var(--cn-line); }
+.cn-erow:first-child { border-top: 0; }
+.cn-erow--on { box-shadow: inset 4px 0 0 #0b8a6a; }
+.cn-erow__date { font-size: 12.5px; color: var(--cn-muted); font-variant-numeric: tabular-nums; }
+.cn-erow__title { font-weight: 700; line-height: 1.3; }
+.cn-erow__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin-top: 2px; color: var(--cn-muted); font-size: 12.5px; }
+.cn-erow .cn-add[aria-pressed="true"] { background: var(--cn-grad); border-color: transparent; color: #fff; }
+.cn-erow__end { display: flex; align-items: center; gap: 6px; }
+a.cn-iconbtn { text-decoration: none; }
+@container (max-width: 470px) {
+  .cn-erow { grid-template-columns: 40px minmax(0, 1fr) auto; }
+  .cn-erow__date { grid-column: 2; grid-row: 1; }
+  .cn-erow__main { grid-column: 2; grid-row: 2; }
+  .cn-erow__thumb { grid-row: 1 / span 2; }
+  .cn-erow > .cn-erow__end { grid-column: 3; grid-row: 1 / span 2; }
+}
+
+/* Books: the current pane's book cards, under icon headings */
+.cn-bookcat { margin: 0 0 16px; scroll-margin-top: calc(var(--cn-sticky) + 62px); }
+.cn-bookcat .category-section__header { padding: 4px 6px; }
+.cn-bookcat .category-section__header .cn-count { margin-left: auto; }
+.cn .book-card .btn { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 3px 11px; border-radius: 8px; border: 1px solid var(--cn-line);
+  background: var(--cn-surface); color: var(--cn-text); font: 600 13px/1.2 var(--font-sans, system-ui, sans-serif); text-decoration: none; cursor: pointer; }
+.cn .book-card .btn:hover { background: var(--cn-hover); }
+.cn .book-card .btn--primary { background: var(--cn-grad); border-color: transparent; color: #fff; }
+.cn .book-card .btn--primary:hover { filter: brightness(1.06); background: var(--cn-grad); }
+.cn .book-card .btn svg { width: 14px; height: 14px; }
+.cn .book-card__meta, .cn .book-card__author, .cn .book-card__date { color: var(--cn-muted); }
+.cn .book-card__actions { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* What's here, picking, compare */
+.cn-pick { position: sticky; top: calc(var(--cn-sticky) + 52px); z-index: 7; display: flex; align-items: center; gap: 10px; margin: 0 0 8px;
+  padding: 8px 12px; border-radius: 10px; background: var(--cn-grad); color: #fff; font-weight: 600; }
+.cn-pick .cn-btn { margin-left: auto; color: var(--cn-text); }
+.cn-here__head { display: flex; align-items: center; gap: 8px; margin: 4px 4px 8px; }
+.cn-here__head h3 { margin: 0; font-size: 16px; font-weight: 800; flex: 1; }
+/* The bar's wrapper is what sticks: the bar alone is its wrapper's only content, so it had nowhere to move. */
+.cn > [data-cn-compare] { position: sticky; bottom: 8px; z-index: 7; }
+.cn-compare { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 10px; align-items: center;
+  margin-top: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--cn-line); background: var(--cn-surface); box-shadow: 0 6px 22px rgba(0,0,0,.18); }
+.cn-compare__labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--cn-muted); gap: 8px; }
+.cn-compare input[type="range"] { width: 100%; accent-color: #0b8a6a; }
+
+/* Narrow panes */
+@container (max-width: 520px) {
+  .cn-row { grid-template-columns: 4px 36px minmax(0, 1fr) auto; column-gap: 8px; }
+  .cn .cn-row__thumb .catalogue-flat__toc-thumbwrap { width: 36px; height: 36px; }
+  .cn-row > .cn-chips { grid-column: 2 / span 3; }
+  .cn-panel { grid-column: 1 / span 4; margin-left: 4px; }
+  /* Add is a square "+" (a tick when on; its label stays for screen readers) and "More" is narrow but
+     full height, so the name and facts get the width the buttons gave up. */
+  .cn-row .cn-add { width: var(--cn-add-w, 32px); padding: 0; gap: 0; justify-content: center; }
+  .cn-row .cn-add span.cn-when-off, .cn-row .cn-add[aria-pressed] span.cn-when-on { display: none; }
+  .cn-row__end { gap: 4px; }
+  .cn-row .cn-iconbtn[data-cn-menu] { width: 28px; }
+}
+/* A phone, where the details could not sit beside the name anyway: they run on under it as one
+   paragraph, and the chevron moves up beside the name to give them its column. */
+@container (max-width: 400px) {
+  .cn-row__title { display: block; position: relative; }
+  .cn-row__title > .cn-row__chev { position: absolute; top: 3px; right: 0; }
+  .cn-row__text { display: block; }
+  .cn-row__name { display: block; padding-right: 20px; }
+  .cn-row__meta, .cn-row__credit { display: inline; }
+  .cn-row__meta > .cn-row__dot { margin: 0 4px; }
+  .cn-row__credit::before { content: " · "; }
+  .cn-row__meta:empty + .cn-row__credit::before { content: none; }
+}
+/* Larger targets for fingers, whatever the width. */
+@media (pointer: coarse) {
+  .cn { --cn-add-w: 36px; }
+  .cn-add, .cn-btn, .cn-fchip { min-height: 36px; }
+  /* Year and part chips stay compact (owner, 1 Nov 2026): 28px is above the 24px target minimum. */
+  .cn-chip { min-height: 28px; }
+  .cn-iconbtn { width: 38px; height: 38px; }
+}
+
+/* On a phone the pinned search bar and section tabs step aside while the list scrolls down and come
+   back on any scroll up (index.js sets data-chrome-away); the open shelf's heading moves up to the top. */
+.pane__content .catalogue-sticky-shell, .cn-tabs.catalogue-flat__sections, .cn-shelf__head { transition: top .2s ease; }
+.pane__content[data-chrome-away] .catalogue-sticky-shell { top: calc(-1 * var(--space-5, 20px) - var(--catalogue-sticky-shell-height, 110px) - 8px); }
+.pane__content[data-chrome-away] .cn-tabs.catalogue-flat__sections { top: calc(var(--cn-sticky) - var(--catalogue-sticky-shell-height, 110px) - var(--cn-tabs-h, 52px) - 16px); }
+.pane__content[data-chrome-away] .cn-shelf__head { top: calc(var(--cn-sticky) - var(--catalogue-sticky-shell-height, 110px)); }
+@media (prefers-reduced-motion: reduce) {
+  .pane__content .catalogue-sticky-shell, .cn-tabs.catalogue-flat__sections, .cn-shelf__head { transition: none; }
+}
+.pane__content[data-chrome-instant] .catalogue-sticky-shell, .pane__content[data-chrome-instant] .cn-tabs.catalogue-flat__sections,
+.pane__content[data-chrome-instant] .cn-shelf__head { transition: none; }
+
+/* The menu lives on <body>, outside .cn, so it names the site's tokens directly. */
+.cn-menu { min-width: 220px; max-width: min(360px, calc(100vw - 16px)); padding: 6px; border-radius: 10px; border: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-surface, #fff); color: var(--color-text, #1a202c); box-shadow: 0 12px 32px rgba(0,0,0,.22); z-index: 10000;
+  font-family: var(--font-sans, system-ui, sans-serif); font-size: 13.5px; }
+.cn-menu__item { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 34px; padding: 6px 10px; border: 0; border-radius: 7px; background: none;
+  color: inherit; text-align: left; text-decoration: none; cursor: pointer; font: inherit; }
+.cn-menu__item:hover, .cn-menu__item:focus-visible { background: color-mix(in srgb, var(--color-text, #1a202c) 8%, transparent); outline: none; }
+.cn-menu__icon { width: 16px; height: 16px; flex: none; color: var(--color-text-muted, #5f6b7a); }
+.cn-menu__heading { padding: 8px 10px 4px; font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--color-text-muted, #5f6b7a); }
+.cn-menu__sep { height: 1px; margin: 5px 4px; background: var(--color-border, #e2e8f0); }
+
+/* Contents: a button left of the search box (the row gains a column for it) and a panel from the
+   right of the pane, over a dimmed pane. Outside .cn, so it names the site's tokens directly. */
+.catalogue-sticky-shell.cn-shell--contents { grid-template-columns: auto minmax(0, 1fr) auto; }
+.catalogue-sticky-shell.cn-shell--contents:has(> .cn-filters-button:not([hidden])) { grid-template-columns: auto minmax(0, 1fr) auto auto; }
+.catalogue-sticky-shell .cn-contents-nav { justify-self: start; }
+.cn-drawer { position: fixed; z-index: 9000; overflow: hidden; font-family: var(--font-sans, system-ui, sans-serif); color: var(--color-text, #1a202c); }
+.cn-drawer__scrim { position: absolute; inset: 0; background: rgba(10, 14, 20, .5); opacity: 0; transition: opacity .2s ease; }
+.cn-drawer__panel { position: absolute; top: 0; right: 0; bottom: 0; width: min(340px, 86%); display: flex; flex-direction: column;
+  background: var(--color-surface, #fff); border-left: 1px solid var(--color-border, #e2e8f0); box-shadow: -12px 0 32px rgba(0, 0, 0, .25);
+  transform: translateX(100%); transition: transform .2s ease; }
+.cn-drawer--open .cn-drawer__scrim { opacity: 1; }
+.cn-drawer--open .cn-drawer__panel { transform: none; }
+@media (prefers-reduced-motion: reduce) { .cn-drawer__scrim, .cn-drawer__panel { transition: none; } }
+.cn-drawer__head { display: flex; align-items: center; gap: 8px; padding: 12px 12px 10px 16px; border-bottom: 1px solid var(--color-border, #e2e8f0); }
+.cn-drawer__title { flex: 1; margin: 0; font-family: var(--font-display, inherit); font-size: 16px; font-weight: 800; }
+.cn-drawer .cn-iconbtn { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px;
+  border: 1px solid var(--color-border, #e2e8f0); background: var(--color-surface, #fff); color: inherit; cursor: pointer; }
+.cn-drawer .cn-iconbtn .cn-icon { width: 16px; height: 16px; }
+.cn-toc { list-style: none; margin: 0; padding: 8px; overflow-y: auto; flex: 1; }
+.cn-toc__item--l1:not(:first-child) { margin-top: 6px; }
+.cn-toc__link { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 5px 10px; border: 0; border-radius: 8px;
+  background: none; color: inherit; text-align: left; cursor: pointer; font: inherit; font-size: 13.5px; }
+.cn-toc__item--l1 > .cn-toc__link { font-weight: 800; font-size: 14px; }
+.cn-toc__item--l2 > .cn-toc__link { padding-left: 58px; }
+.cn-toc__link:hover, .cn-toc__link:focus-visible { background: color-mix(in srgb, var(--color-text, #1a202c) 8%, transparent); outline: none; }
+.cn-toc__link[aria-current="true"] { box-shadow: inset 3px 0 0 #0b8a6a; background: color-mix(in srgb, #0b8a6a 12%, transparent); }
+.cn-toc__icon { display: inline-flex; width: 40px; height: 40px; border-radius: 10px; align-items: center; justify-content: center; flex: none;
+  color: var(--shelf, currentColor); background: color-mix(in srgb, var(--shelf, #888) 16%, transparent); }
+.cn-toc__icon .cn-icon { width: 28px; height: 28px; }
+.cn-toc__label { flex: 1; min-width: 0; }
+.cn-toc .cn-count { color: var(--color-text-muted, #5f6b7a); font-weight: 500; font-variant-numeric: tabular-nums; }
+`;

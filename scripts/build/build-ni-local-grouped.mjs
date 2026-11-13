@@ -39,8 +39,8 @@ import {
   isAldermanicContest,
   niLocalGroupTitle,
   niLocalNameKey
-} from '../../src/ni-local-groups.mjs';
-import { printedLabelText } from '../../src/printed-labels.mjs';
+} from '../../packages/map/src/ni-local-groups.mjs';
+import { printedLabelText } from '../../packages/map/src/printed-labels.mjs';
 import { ELECTION_MANIFEST, localPathForUrl } from '../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import { councilType } from '../../packages/registries/src/councils.mjs';

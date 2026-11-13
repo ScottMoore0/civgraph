@@ -12,8 +12,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { MONTH_NAMES, numberText, siteDate, siteLocale, siteNumber } from '../../packages/core/src/format.js';
 import { SHORT_MONTHS } from '../../packages/core/src/date-format.mjs';
-import { formatElectionDate } from '../../src/election-utils.js';
-import { formatNumber as censusNumber } from '../../src/census-overlay.mjs';
+import { formatElectionDate } from '../../packages/map/src/election-utils.js';
+import { formatNumber as censusNumber } from '../../packages/map/src/census-overlay.mjs';
 import { formatHectares } from '../../packages/map/src/app/timeline/dates.mjs';
 
 const OLD = 'en-GB';

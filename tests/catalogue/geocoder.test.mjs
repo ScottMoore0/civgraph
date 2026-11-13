@@ -2,7 +2,7 @@
 // replaced: no request leaves the machine. node --test tests/catalogue/
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { AddressGeocoder, parsePostcode } from '../../src/catalogue/geocoder.js';
+import { AddressGeocoder, parsePostcode } from '../../packages/map/src/catalogue/geocoder.js';
 
 const memoryStorage = () => {
   const m = new Map();

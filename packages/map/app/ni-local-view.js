@@ -10,10 +10,10 @@
  * view owns the election pane while a year is open; Test2ElectionManager hands it the calls that
  * would otherwise go to a single election (style, panel, legend, feature clicks, the address).
  */
-import { NI_LOCAL_LEVELS, NI_LOCAL_TIERS } from '../../../src/ni-local-groups.mjs';
+import { NI_LOCAL_LEVELS, NI_LOCAL_TIERS } from '../src/ni-local-groups.mjs';
 import { NO_LABEL } from '../../core/src/election-domain.mjs';
 import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
-import { printedLabelsToggleHtml } from '../../../src/printed-labels.mjs';
+import { printedLabelsToggleHtml } from '../src/printed-labels.mjs';
 import { formatDisplayDate } from '../../core/src/date-format.mjs';
 import { NI_LOCAL_VIEW, niLocalViewActive } from '../src/election/ni-local-state.mjs';
 import { createState } from '../src/state-helpers.mjs';

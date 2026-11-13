@@ -22,7 +22,7 @@
  */
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
-import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../../src/public-map.mjs';
+import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../../packages/map/src/public-map.mjs';
 import { BROWSE_DIR } from '../../../packages/loader/src/paths.mjs';
 
 const CATALOGUE = 'data/database/maps.json';

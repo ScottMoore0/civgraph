@@ -6,11 +6,11 @@
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import uiController from '../../../../src/ui-controller.js';
-import dataService from '../../../../src/data-service.js';
+import uiController from '../ui-controller.js';
+import dataService from '../data-service.js';
 import { renameElectionDatesInParams, resolveLegacyLayerId } from './url-compat.mjs';
 import { pageParamOf, parsePageParam } from './helpers.mjs';
-import featureLoader from '../../../../src/feature-loader.js';
+import featureLoader from '../feature-loader.js';
 import { featureBoundsFromIndex, featureBoundsFromSpatial } from './feature-bounds.mjs';
 import { resolveBaseMapId } from '../renderer/basemap.mjs';
 import { layerOrderForAddress } from './layer-order.mjs';

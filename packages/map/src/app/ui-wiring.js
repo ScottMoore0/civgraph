@@ -1,13 +1,13 @@
 /**
- * The callbacks that connect the catalogue pane (src/ui-controller.js) to the map, and the bridge that
+ * The callbacks that connect the catalogue pane (packages/map/src/ui-controller.js) to the map, and the bridge that
  * records catalogue navigation in the address.
  *
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import uiController from '../../../../src/ui-controller.js';
+import uiController from '../ui-controller.js';
 import { normalizeEntityName } from './helpers.mjs';
-import dataService, { resolveMapDownloadUrl } from '../../../../src/data-service.js';
+import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 
 export class UiWiringMethods {
   wireUiCallbacks() {
@@ -71,6 +71,7 @@ export class UiWiringMethods {
       }
     };
     uiController.onOpenElectionConstituencyFeature = async ({ constituency, level }) => {
+      /** @type {'lgd' | 'dea' | 'constituency'} the area's entity kind, derived from the feature's level */
       const kind = level === 'council' ? 'lgd' : level === 'dea' ? 'dea' : 'constituency';
       return this.openElectionEntityDetailInCatalogue(kind, constituency);
     };

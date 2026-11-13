@@ -1,4 +1,4 @@
-// The jQuery shim's animation-queue flag (state-machine catalogue MA-L). src/jquery-shim.js is a
+// The jQuery shim's animation-queue flag (state-machine catalogue MA-L). packages/map/src/jquery-shim.js is a
 // classic script (copied to app/js/ by the app build and loaded beside stages2.js), so it cannot
 // import packages/map/src/state-helpers.mjs: its table, QUEUE_RUNNING_TRANSITIONS, is inline. This test
 // checks the table against the helper's createFlag for every pair, that both copies agree, and
@@ -9,13 +9,13 @@ import test from 'node:test';
 import vm from 'node:vm';
 import { createFlag } from '../../packages/map/src/state-helpers.mjs';
 
-const SOURCE = readFileSync('src/jquery-shim.js', 'utf8');
+const SOURCE = readFileSync('packages/map/src/jquery-shim.js', 'utf8');
 const COPY = readFileSync('site/app/js/jquery-shim.js', 'utf8');
 const TABLE = /const QUEUE_RUNNING_TRANSITIONS = (\{[^\n]*\});/;
 
 test('the inline table is the shared flag table, in both copies', () => {
   const literal = SOURCE.match(TABLE)?.[1];
-  assert.ok(literal, 'QUEUE_RUNNING_TRANSITIONS not found in src/jquery-shim.js');
+  assert.ok(literal, 'QUEUE_RUNNING_TRANSITIONS not found in packages/map/src/jquery-shim.js');
   assert.equal(COPY.match(TABLE)?.[1], literal, 'site/app/js/jquery-shim.js has a different table');
   const table = vm.runInNewContext(`(${literal})`);
   const flag = createFlag('queue running');
