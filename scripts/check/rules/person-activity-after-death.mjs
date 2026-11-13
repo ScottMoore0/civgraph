@@ -74,7 +74,7 @@ export function isBefore18(date, born) {
 
 /**
  * Every finding over a records database.
- * @param {import('node:sqlite').DatabaseSync} db
+ * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db
  * @param {{ exceptions?: Array<{ personId: string | number, kind: string, date?: string }> }} [options]
  * @returns {Array<{ kind: string, personId: string, name: string, born: string, died: string, date: string, what: string, detail: string }>}
  */
@@ -171,8 +171,8 @@ async function main() {
     console.log(`SKIP person-activity-after-death: no records database at ${path.relative(ROOT, dbPath)} (run npm run records:build, or pass --db)`);
     return 0;
   }
-  const { DatabaseSync } = await import('node:sqlite');
-  const db = new DatabaseSync(dbPath, { readOnly: true });
+  const { openSqliteHandle } = await import('../../../packages/storage/src/sqlite.mjs');
+  const db = openSqliteHandle(dbPath, { readOnly: true });
   const exceptions = existsSync(EXCEPTIONS) ? JSON.parse(readFileSync(EXCEPTIONS, 'utf8')).exceptions || [] : [];
   const problems = findLifespanProblems(db, { exceptions });
   db.close();

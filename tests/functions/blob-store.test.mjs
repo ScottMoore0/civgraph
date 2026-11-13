@@ -173,3 +173,29 @@ test('only packages/storage/ reads an R2 or KV binding (the files not yet moved 
   assert.deepEqual(reading, [...NOT_YET_ON_THE_BLOB_STORE].sort(),
     'a file left the list (remove it from NOT_YET_ON_THE_BLOB_STORE) or a new one reads R2/KV directly (use blobStore() from packages/storage)');
 });
+
+// The same boundary over the Node side (stream rf9-loader-storage, ST-7): the loader, the other
+// Node packages, the scripts and the tools never read a binding of any kind (D1, R2 or KV)
+// themselves, nor name the Workers engine types. They hand a binding-shaped object to a Function
+// at most (packages/loader/src/local-api.mjs builds { ELECTIONS_DB: toD1(openSqlite(file)) }), and
+// open a database or a folder through packages/storage. Which modules they may import is the
+// engine rule of check:boundaries (config/boundaries.json `engines`).
+const ALL_BINDINGS = Object.entries(BINDINGS).filter(([, b]) => b.kind === 'r2' || b.kind === 'kv' || b.kind === 'd1').map(([name]) => name);
+const NODE_SIDE = ['packages/loader', 'packages/maps-pipeline', 'packages/intake', 'packages/schema', 'packages/registries', 'scripts', 'tools'];
+
+test('the loader, the Node packages, the scripts and the tools read no D1, R2 or KV binding themselves', () => {
+  assert.ok(ALL_BINDINGS.includes('ELECTIONS_DB') && ALL_BINDINGS.includes('MAPS_BUCKET') && ALL_BINDINGS.includes('PRONI_KV'));
+  const names = ALL_BINDINGS.join('|');
+  const direct = new RegExp(`binding\\([^)]*['"](${names})['"]|\\.(${names})\\b|\\[['"](${names})['"]\\]|\\b(R2Bucket|KVNamespace|D1Database)\\b`);
+  for (const sample of ['env.ELECTIONS_DB.prepare(sql)', "binding(env, 'MAPS_BUCKET')", "env['PRONI_KV']", '/** @param {D1Database} db */']) {
+    assert.ok(direct.test(sample), sample);
+  }
+  for (const sample of ['{ ELECTIONS_DB: toD1(openSqlite(file)) }', "'-lco', 'SPATIAL_INDEX=NO'"]) assert.ok(!direct.test(sample), sample);
+  const files = NODE_SIDE.flatMap((dir) => walk(path.join(REPO_ROOT, dir))).filter((f) => !f.split(path.sep).includes('node_modules'));
+  assert.ok(files.length > 300, `walked ${files.length} files`);
+  const reading = files
+    .filter((f) => direct.test(readFileSync(f, 'utf8').replace(/^\s*\/\/.*$/gm, '')))
+    .map((f) => path.relative(REPO_ROOT, f).split(path.sep).join('/'))
+    .sort();
+  assert.deepEqual(reading, [], 'a Node-side file reads a binding itself: open the database or the folder through packages/storage');
+});

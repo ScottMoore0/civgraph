@@ -110,7 +110,7 @@ export function splitParts(text, size = PART_CHARS) {
 }
 
 /**
- * @param {import('node:sqlite').DatabaseSync} db
+ * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
  * @param {{ root?: string, browseDir?: string|null }} options  root: where the source files are
  *   (the repository); browseDir: the Browse build's directory (absent: the Browse map tables
  *   stay empty and the Function answers 404 for those files).
