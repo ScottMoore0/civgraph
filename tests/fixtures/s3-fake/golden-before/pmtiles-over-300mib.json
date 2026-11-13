@@ -1,0 +1,51 @@
+{
+ "id": "pmtiles-over-300mib",
+ "exit": 1,
+ "stdout": "[1/1] data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles (300.0 MB)\nWrote render/metadata/cdn-upload-report.json\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "wrangler",
+   "args": [
+    "r2",
+    "object",
+    "put",
+    "boundaries-data/data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "--file",
+    "render/pmtiles/generated/huge-vector-test.pmtiles",
+    "--remote",
+    "--content-type",
+    "application/octet-stream"
+   ],
+   "refused": "over 300 MiB"
+  }
+ ],
+ "files": {
+  "render/metadata/cdn-upload-report.json": {
+   "schemaVersion": 1,
+   "generatedAt": "<volatile>",
+   "bucket": "boundaries-data",
+   "dryRun": false,
+   "selectedIds": [
+    "huge-vector-test"
+   ],
+   "totals": {
+    "assets": 1,
+    "processed": 1,
+    "ok": 0,
+    "failed": 1,
+    "bytes": 314572801
+   },
+   "results": [
+    {
+     "layerId": "huge-vector-test",
+     "targetKey": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+     "ok": false,
+     "status": "upload-failed",
+     "bytes": 314572801,
+     "error": "wrangler exited 1: [ERROR] Error: Wrangler only supports uploading files up to 300 MiB in size/ndata/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles is 300.0 MiB in size/n"
+    }
+   ]
+  }
+ }
+}

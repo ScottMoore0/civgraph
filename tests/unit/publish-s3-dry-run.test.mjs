@@ -57,6 +57,7 @@ test('the scripts cover the operations the comparison promises', () => {
   assert.deepEqual([...bodies].sort(), ['buffer', 'stream']);
   const scripts = new Set(CASES.map((c) => c.script));
   assert.deepEqual([...scripts].sort(), ['elections-app-r2-upload', 'r2-cache-control', 'r2-copy-keys', 'r2-orphans', 'r2-upload-files', 'r2-upload-manifest', 'r2-upload-pmtiles', 'r2-upload-tree', 'verify-r2-parity']);
+  for (const op of ['CreateMultipartUpload', 'UploadPart', 'CompleteMultipartUpload', 'AbortMultipartUpload']) assert.ok(ops.has(op), op);
 });
 
 for (const c of CASES) {
