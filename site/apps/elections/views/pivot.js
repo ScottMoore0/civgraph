@@ -6,6 +6,7 @@
 import { EXTRACTS, extractsIndex, queryBodies, DUCKDB_VERSION } from '../lib/duck.js';
 import { esc, fmtInt } from '../lib/format.js';
 import { latestRun } from '../lib/lifecycle.js';
+import { limitHtml, pivotLimits, pivotLimitsSql } from '../lib/limits.js';
 import {
   DIMENSIONS, FILTERS, MEASURES, OUTCOMES, pivotCsv, pivotSql, pivotTable, queryFromState, settingsOf, stateFromQuery, whereSql,
 } from '../lib/pivot.js';
@@ -80,11 +81,13 @@ export async function render(root, route, ctx) {
     <div id="pv-saved"></div>
     <p id="pv-status" class="el-muted" role="status" data-state="idle">Loading DuckDB…</p>
     <div id="pv-out" class="cg-table-wrap el-pivot-wrap"></div>
-    <p class="el-muted">Notes: party is the label on the ballot paper as recorded ("No party recorded" where none is known). Gender is recorded for about 2% of candidacies. Incumbency is derived: the person was elected to the same body at its previous general election or a by-election since. Unopposed returns have no votes, so they count in seats and candidates but not in votes or shares.</p>`;
+    <div id="pv-notes"></div>`;
 
   const $ = (/** @type {string} */ id) => /** @type {HTMLInputElement & HTMLSelectElement} */ (root.querySelector(`#${id}`));
   const status = $('pv-status');
   const out = /** @type {HTMLElement} */ (root.querySelector('#pv-out'));
+  /** EL2: the notes of the table on screen, each for a dimension, filter or measure it uses (lib/limits.js). */
+  const notes = /** @type {HTMLElement} */ (root.querySelector('#pv-notes'));
   /** The table on screen and the settings it was made with (the CSV of the table uses both). */
   /** @type {{ table: ReturnType<typeof pivotTable>, settings: import('../lib/pivot.js').PivotState } | null} */
   let shown = null;
@@ -128,7 +131,10 @@ export async function render(root, route, ctx) {
     const started = performance.now();
     try {
       if (listsFor !== settings.bodies.join(',')) await fillFilterLists(settings, token);
-      const data = /** @type {Array<{ r: string, c: string, v: number | null }>} */ (await queryBodies(settings.bodies, pivotSql(settings)));
+      const [data, limitRows] = await Promise.all([
+        /** @type {Promise<Array<{ r: string, c: string, v: number | null }>>} */ (queryBodies(settings.bodies, pivotSql(settings))),
+        /** @type {Promise<Array<{ total: number, gender: number, incumbent_unknown: number, no_party: number, unopposed: number }>>} */ (queryBodies(settings.bodies, pivotLimitsSql(whereSql(settings)))),
+      ]);
       if (ctx.stale() || !runs.isLatest(token)) return;
       const table = pivotTable(data, settings);
       shown = { table, settings };
@@ -142,6 +148,7 @@ export async function render(root, route, ctx) {
       <tbody>${table.rows.map((r) => `<tr><th scope="row">${esc(r.key || '(blank)')}</th>${r.values.map((v) => `<td class="num">${fmt(v)}</td>`).join('')}${showTotal && table.cols.length > 1 ? `<td class="num">${fmt(r.total)}</td>` : ''}</tr>`).join('')}</tbody>
       ${showTotal ? `<tfoot><tr><th scope="row">Total</th>${table.totals.map((v) => `<td class="num">${fmt(v)}</td>`).join('')}${table.cols.length > 1 ? `<td class="num">${fmt(table.totals.reduce((/** @type {number} */ s, v) => s + (v || 0), 0))}</td>` : ''}</tr></tfoot>` : ''}
     </table>`;
+      notes.innerHTML = limitRows[0] ? pivotLimits(settings, limitRows[0], fmtInt).map((l) => limitHtml(l, esc, 'el-muted')).join('') : '';
       status.textContent = `${fmtInt(table.rowCount)} rows × ${table.cols.length} columns${table.rowsCut ? ' (first 500 rows shown; the CSV has them all)' : ''} · ${Math.round(performance.now() - started)} ms`;
       setRun('shown');
     } catch (err) {
@@ -154,6 +161,7 @@ export async function render(root, route, ctx) {
   /** @param {unknown} err */
   const failed = (err) => {
     status.textContent = '';
+    notes.innerHTML = '';
     out.innerHTML = `<p class="cg-notice cg-notice--danger">The pivot could not run: ${esc(/** @type {Error} */ (err)?.message || err)}. DuckDB's WebAssembly and the extracts load from ${esc(new URL(EXTRACTS, location.href).host)}; a blocked network stops it.</p>`;
     console.error(err);
   };
