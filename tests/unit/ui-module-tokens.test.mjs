@@ -94,3 +94,8 @@ test('no UI import specifier carries its own ?v= token', () => {
     }
   }
 });
+
+test('npm run build:browse-cache stamps every page this test holds', () => {
+  const stamper = readFileSync(path.join(ROOT, 'scripts', 'check', 'rules', 'browse-cache-tokens.mjs'), 'utf8');
+  for (const rel of PAGES) assert.ok(stamper.includes(`'site/${rel}'`), `browse-cache-tokens.mjs HTML_FILES lacks site/${rel}`);
+});

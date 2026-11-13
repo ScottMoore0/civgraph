@@ -56,6 +56,9 @@ const HTML_FILES = [
   // Words in parliament loads words.js as a module (r2-ui, 7 Nov 2026); its import map versions
   // the modules words.js imports.
   'site/apps/words/index.html',
+  // The Elections app's import map (stamped by hand until 13 Nov 2026, when a changed format.js
+  // left its entry stale while the other pages were re-stamped).
+  'site/apps/elections/index.html',
 ];
 const CHECK = process.argv.includes('--check');
 
