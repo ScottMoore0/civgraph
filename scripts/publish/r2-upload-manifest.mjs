@@ -30,7 +30,7 @@
  */
 import { statSync, existsSync, readdirSync, createReadStream, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { S3Client, PutObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
@@ -65,9 +65,9 @@ if (MANIFEST && !existsSync(MANIFEST)) { console.error(`Missing manifest: ${MANI
 
 // .env.local is loaded here (r2-env.mjs); --env-file and a sourced shell still win.
 const R2 = r2CredentialsOrExit({ exitCode: 2 });
-const BUCKET = R2.bucket;
 
-const s3 = new S3Client(s3ClientOptions(R2));
+// The listings and PUTs go through the S3 blob store (packages/storage/src/s3.mjs).
+const store = await openS3BlobStore({ bucket: R2.bucket, clientOptions: s3ClientOptions(R2) });
 
 // Files at or below this go up as a rewindable Buffer; larger ones stream.
 const STREAM_THRESHOLD = 128 * 1024 * 1024;
@@ -123,13 +123,7 @@ assertPublishable(sample);
 async function remoteIndex() {
   /** @type {Map<string, number>} key -> size */
   const held = new Map();
-  /** @type {string | undefined} */
-  let token;
-  do {
-    const r = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: PREFIX, ContinuationToken: token }));
-    for (const o of r.Contents || []) held.set(/** @type {string} */ (o.Key), Number(o.Size)); // a listed object always has its Key
-    token = r.IsTruncated ? r.NextContinuationToken : undefined;
-  } while (token);
+  for await (const o of store.listAll({ prefix: PREFIX })) held.set(o.key, Number(o.size));
   return held;
 }
 
@@ -159,11 +153,10 @@ if (!VERIFY_ONLY && !DRY && todo.length) {
           // A Buffer is rewindable, so both the SDK's internal retry and the
           // loop below can actually retry.
           const body = size <= STREAM_THRESHOLD ? readFileSync(abs) : createReadStream(abs);
-          await s3.send(new PutObjectCommand({
-            Bucket: BUCKET, Key: key, Body: body,
-            ContentLength: size,
-            ContentType: CONTENT_TYPES[path.extname(abs).toLowerCase()] || 'application/octet-stream'
-          }));
+          await store.put(key, body, {
+            contentLength: size,
+            contentType: CONTENT_TYPES[path.extname(abs).toLowerCase()] || 'application/octet-stream'
+          });
           ok = true;
         } catch (e) {
           if (attempt === 5) { failed += 1; console.error(`    FAILED ${key}: ${String(/** @type {Error} */ (e).name || /** @type {Error} */ (e).message).slice(0, 70)}`); }
