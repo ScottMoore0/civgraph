@@ -76,11 +76,12 @@ export { candidateReturnWithoutPoll, isUncontestedResult, isUnopposedCandidate, 
  * Contest's fields, every one optional, plus the summary's own. Loaders and the map app attach
  * more; those stay readable, as unknown.
  * @typedef {Pick<Contest, 'seatsTotal' | 'seatsWon' | 'electorate' | 'quota' | 'turnoutPct'
- *     | 'winnerParty' | 'winnerName' | 'leadingParty' | 'leadingName' | 'leadingVotes' | 'leadingPct'
+ *     | 'winnerParty' | 'leadingParty' | 'leadingName' | 'leadingVotes' | 'leadingPct'
  *     | 'majority' | 'majorityPct' | 'matched' | 'matchName' | 'featureId' | 'featureName'>
  *   & {
  *   [field: string]: unknown,
  *   constituency?: string,
+ *   winnerName?: string | null | undefined,
  *   candidates?: ResultCandidate[],
  *   elected?: ResultCandidate[],
  *   validPoll?: number | null,
