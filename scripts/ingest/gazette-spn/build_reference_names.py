@@ -49,6 +49,22 @@ EXTRA = [
      'https://www.thegazette.co.uk/Belfast/issue/2475/page/105'),
 ]
 
+SOURCES = {
+    'belfast-gazette': {'title': 'The Belfast Gazette', 'publisher': 'The Stationery Office',
+                        'licence': 'Open Government Licence v3.0 (Crown copyright)'},
+    'ie-local-results-2024': {'title': 'Local Elections 2024: Results, Transfer of Votes and Statistics',
+                              'publisher': 'Department of Housing, Local Government and Heritage'},
+}
+# Names other official results print for a person Civgraph shows by another form (owner-approved
+# shortlist row E5, 13 Nov 2026): the results book prints Séimi Ó Dubhthaigh as "Duffy, Jimmy".
+OTHER = [
+    ('128790', 'Jimmy Duffy', 'Séimi Ó Dubhthaigh', 'ie-local-results-2024',
+     'Department of Housing, Local Government and Heritage, Local Elections 2024: Results, Transfer of Votes and '
+     'Statistics, pp. 110-111 (Glenties LEA)',
+     'https://opendata.housing.gov.ie/dataset/70055dc1-1f18-43ac-8501-f9e8ceb1eabf/resource/'
+     '2100b4ff-b957-4b3b-9ff8-58cbf9c6e7a3/download/2024-local-election-results.pdf#page=110'),
+]
+
 TITLES = re.compile(r"^(?:(?:Mr|Mrs|Airs|Miss|Dr|Rev|Sir|Major|Captain|Capt|Colonel|Col|Lieutenant|Lieut|Lt|Professor|Prof|"
                     r"The|Right|Rt|Honourable|Hon|Lady|Lord)\.?\s+)+")
 
@@ -101,8 +117,8 @@ def constituency_of(source_file):
         return None
 
 
-def add(found, pid, formal, shown, citation, url):
-    entry = found[str(pid)].setdefault(formal, {'name': formal, 'shownAs': shown, 'source': 'belfast-gazette', 'citations': []})
+def add(found, pid, formal, shown, citation, url, source='belfast-gazette'):
+    entry = found[str(pid)].setdefault(formal, {'name': formal, 'shownAs': shown, 'source': source, 'citations': []})
     cite = {'citation': citation, 'url': url}
     if cite not in entry['citations']:
         entry['citations'].append(cite)
@@ -158,13 +174,14 @@ def main():
             add(found, merged_into(pid), NAME_FIXES.get(formal, formal), shown, r['source']['title'], r['source']['url'])
     for pid, formal, shown, citation, url in EXTRA:
         add(found, merged_into(pid), formal, shown, citation, url)
+    for pid, name, shown, source, citation, url in OTHER:
+        add(found, merged_into(pid), name, shown, citation, url, source)
     doc = {
         'schemaVersion': 1,
         'description': ('Formal names printed for people in official notices, where Civgraph shows a familiar or '
                         'shorter name. The display name is unchanged; these are listed on the person record and '
                         'found by search. Built by scripts/ingest/gazette-spn/build_reference_names.py.'),
-        'sources': {'belfast-gazette': {'title': 'The Belfast Gazette', 'publisher': 'The Stationery Office',
-                                        'licence': 'Open Government Licence v3.0 (Crown copyright)'}},
+        'sources': {key: SOURCES[key] for key in sorted({e['source'] for names in found.values() for e in names.values()})},
         'people': {pid: sorted(names.values(), key=lambda e: e['name']) for pid, names in sorted(found.items(), key=lambda kv: int(kv[0]))},
     }
     with open(args.out, 'w', encoding='utf-8', newline='\n') as fh:
