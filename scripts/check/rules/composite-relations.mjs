@@ -41,7 +41,7 @@ const RENDER = 'render/metadata/maps-test.json';
 
 const CATALOGUE = 'data/database/maps.json';
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
-/** @typedef {import('../../../src/map-relations.mjs').MapRelations} MapRelations */
+/** @typedef {import('../../../packages/map/src/map-relations.mjs').MapRelations} MapRelations */
 const maps = catalogue.maps || [];
 const byId = new Set(maps.map((/** @type {{ id: string }} */ map) => map.id));
 // A composite child may exist only in the render metadata -- the renderer is what
