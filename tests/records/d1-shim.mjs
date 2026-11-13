@@ -13,7 +13,7 @@ import { toD1 } from '../../packages/storage/src/store.js';
 import { openSqlite } from '../../packages/storage/src/sqlite.mjs';
 
 /**
- * @param {string} file
+ * @param {string | import('../../packages/storage/src/sqlite.mjs').SqliteHandle} file   a path, ':memory:', or an open handle to wrap (as openSqlite takes)
  * @param {{ readOnly?: boolean }} [options]
  */
 export function d1(file, { readOnly = true } = {}) {

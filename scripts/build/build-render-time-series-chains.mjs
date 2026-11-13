@@ -62,7 +62,7 @@ const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
 const render = JSON.parse(readFileSync(RENDER, 'utf8'));
 
 /**
- * @typedef {import('../../src/public-map.mjs').CatalogueMap & { id: string, name?: string, date?: unknown }} CatalogueMap
+ * @typedef {import('../../packages/map/src/public-map.mjs').CatalogueMap & { id: string, name?: string, date?: unknown }} CatalogueMap
  * @typedef {{ id: string, maps?: string[] }} CatalogueClass
  * @typedef {{ classIds?: string[], mapIds?: string[], from?: string, to?: string, column?: string }} Segment
  * @typedef {{ id: string, mapId: string, date: string, name: string }} ChainEntry

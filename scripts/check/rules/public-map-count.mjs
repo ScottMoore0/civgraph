@@ -30,7 +30,7 @@ const RENDER = 'render/metadata/maps-test.json';
 const BROWSE = path.join(BROWSE_DIR, 'maps.json');
 const STATISTICS = 'data/database/data-entries.json';
 
-/** @typedef {import('../../../src/public-map.mjs').CatalogueMap & { id: string }} CatalogueMap */
+/** @typedef {import('../../../packages/map/src/public-map.mjs').CatalogueMap & { id: string }} CatalogueMap */
 /** @type {{ maps?: CatalogueMap[] }} */
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
 /** @type {{ layers?: { sourceMapId?: string }[] }} */
