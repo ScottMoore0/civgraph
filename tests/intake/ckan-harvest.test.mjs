@@ -273,15 +273,17 @@ test('each package becomes the dataset shape the emitters read', () => {
     modified: '2026-05-01T10:00:00.000000',
   });
   assert.deepEqual(toDataset({ name: 'bare', organization: null, resources: null }, FIELDS), { slug: 'bare', resources: [] });
-  // As the committed records have them: an organisation's trailing space kept, a resource's name
-  // and format trimmed, the description's whitespace collapsed and cut at notesMax characters.
+  // As the committed records have them: an organisation's trailing space kept, the title and a
+  // resource's name and format trimmed, the description's whitespace collapsed and cut at notesMax.
   assert.deepEqual(toDataset({
     name: 'spaced',
+    title: 'Taxation of rental income ',
     organization: { title: 'Invest Northern Ireland ' },
     notes: `  ${'word '.repeat(200)}`,
     resources: [{ name: ' Quarter 2 ', url: 'https://files.example/q2.csv', format: ' CSV ' }],
   }, FIELDS), {
     slug: 'spaced',
+    title: 'Taxation of rental income',
     org: 'Invest Northern Ireland ',
     notes: 'word '.repeat(100),
     resources: [{ url: 'https://files.example/q2.csv', name: 'Quarter 2', format: 'CSV' }],
