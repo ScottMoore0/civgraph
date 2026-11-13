@@ -56,6 +56,7 @@ const PAGES = [
   'site/pages/licence.html',
   'site/pages/cite.html',
   'site/pages/downloads.html',
+  'site/pages/accessibility.html',
   // PRONI Search and the 404 joined the shared shell on 7 Nov 2026 (site-shell stream).
   'site/apps/proni-search/index.html',
   'site/404.html',

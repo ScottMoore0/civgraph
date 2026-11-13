@@ -84,6 +84,8 @@ const PAGES = new Map([
   // Information pages drafted 11 Nov 2026 (launch stream `pages`): Privacy, Licence, How to cite
   // and Downloads. Unlinked and noindex until INFO_PAGES_LIVE (info-pages.js) is set.
   ...INFO_PAGES.map((p) => /** @type {[string, string[]]} */ ([p.file, INFO_PAGE])),
+  // The accessibility statement (13 Nov 2026): a draft for the owner, noindex and unlinked until he publishes it.
+  ['site/pages/accessibility.html', SITE_PAGE],
   // The 404 is served at any missing path, so it needs the real header (nav and theme toggle)
   // and the saved theme; its bespoke banner had neither and stayed light in dark mode.
   ['site/404.html', SITE_PAGE],
