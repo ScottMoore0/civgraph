@@ -23,14 +23,29 @@ test('no availability, or one it does not know, shows nothing', () => {
   }
 });
 
-test('the gate marks exactly the 10 NISRA publications missing on 13 Nov 2026, and keeps their links', () => {
+test('the gate marks exactly the 10 NISRA publications, 15 Open Data NI and 93 data.gov.ie datasets missing on 13 Nov 2026, and keeps their links', () => {
   const { sources } = readApprovedPublicationGate();
   const marked = sources.filter((source) => sourceAvailabilityDisplay(source.availability));
-  assert.equal(marked.length, 10);
+  assert.equal(marked.length, 118);
+  /** @type {Record<string, number>} */
+  const byPortal = {};
+  const portals = [
+    ['nisra', /^approved-publication:nisra-pub-/, /^https:\/\/www\.nisra\.gov\.uk\/publications\//],
+    ['opendata-ni', /^approved-publication:opendata-ni-/, /^https:\/\/www\.opendatani\.gov\.uk\/dataset\//],
+    ['opendata-ie', /^approved-publication:opendata-ie-/, /^https:\/\/data\.gov\.ie\/dataset\//],
+  ];
   for (const source of marked) {
-    assert.match(String(source.id), /^approved-publication:nisra-pub-/);
     assert.deepEqual(source.availability, { status: 'removed-from-source', seenMissing: '2026-11-13' });
-    assert.match(String(source.url), /^https:\/\/www\.nisra\.gov\.uk\/publications\//);
+    const portal = portals.find(([, idRe]) => idRe.test(String(source.id)));
+    assert.ok(portal, String(source.id));
+    assert.match(String(source.url), portal[2]);
+    byPortal[portal[0]] = (byPortal[portal[0]] || 0) + 1;
+  }
+  assert.deepEqual(byPortal, { nisra: 10, 'opendata-ni': 15, 'opendata-ie': 93 });
+  // The two data.gov.ie datasets still listed, now under the CSO, are not marked.
+  for (const id of ['approved-publication:opendata-ie-eiieea30-municipal-waste-generated-per-capita', 'approved-publication:opendata-ie-sca39-children-relationship-with-parents']) {
+    const source = sources.find((s) => s.id === id);
+    assert.ok(source && !source.availability, id);
   }
 });
 
