@@ -595,7 +595,7 @@ test('N08 elections: grouped bodies, and where they were held', async ({ page })
   await open(page, 'cat=elections');
   const devolved = ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'];
   // One shelf per body group, in order; no body filter any more.
-  await expect(pane(page).locator('.cn-shelf__name')).toHaveText(['Dáil', 'Westminster', 'NI Devolved', 'NI local', 'Irish local', 'Pre-partition local', 'European', 'Referendum', 'Presidential']);
+  await expect(pane(page).locator('.cn-shelf__name')).toHaveText(['Dáil', 'Seanad', 'Westminster', 'NI Devolved', 'NI local', 'Irish local', 'Pre-partition local', 'European', 'Referendum', 'Presidential']);
   await expect(pane(page).locator('[data-cn-filter="body"]')).toHaveCount(0);
   await expect(pane(page).locator('#cn-shelf-e-ni-devolved .cn-erow')).toHaveCount(generals.filter((e) => devolved.includes(e.bodySlug)).length);
   const ni = pane(page).locator('[data-cn-filter="escope"][data-value="Northern Ireland"]');
