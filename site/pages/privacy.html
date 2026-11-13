@@ -84,9 +84,9 @@
 <main id="main-content">
 <div class="wrap wrap--wide">
 <!-- site:draft-banner -->
-<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it. Notes marked <span class="owner-note owner-note--label">OWNER TODO</span> are points that could not be verified from the code, or decisions only the owner can make; each is settled and removed before the page goes live.</p>
+<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it.</p>
 <!-- /site:draft-banner -->
-<nav class="info-toc" aria-label="On this page"><a href="#summary">Summary</a><a href="#who">Who is responsible</a><a href="#hosting">Hosting</a><a href="#measurements">Speed measurements</a><a href="#storage">What your browser stores</a><a href="#third-parties">Other services</a><a href="#email">Emailing us</a><a href="#contributors">Contributors</a><a href="#named-people">People in the records</a><a href="#rights">Corrections and removal</a></nav>
+<nav class="info-toc" aria-label="On this page"><a href="#summary">Summary</a><a href="#who">Contact</a><a href="#hosting">Hosting</a><a href="#measurements">Speed measurements</a><a href="#storage">What your browser stores</a><a href="#third-parties">Other services</a><a href="#email">Emailing us</a><a href="#contributors">Contributors</a><a href="#named-people">People in the records</a><a href="#rights">Corrections and removal</a></nav>
 
 <section id="summary">
 <h2>Summary</h2>
@@ -101,16 +101,20 @@
 </section>
 
 <section id="who">
-<h2>Who is responsible</h2>
-<p>Civgraph is run by Scott Moore, who decides what the site collects and publishes. You can reach him at <a href="mailto:Scott@civgraph.net">Scott@civgraph.net</a>.</p>
-<p><span class="owner-note">OWNER TODO: confirm that the data controller is you personally rather than an organisation; whether to give a postal address; whether Civgraph is registered with, or exempt from, the ICO data protection fee; and whether you need an EU representative under Article 27 GDPR, since the site publishes data about people in Ireland. Take advice.</span></p>
+<h2>Contact</h2>
+<p>Questions about this notice, or about personal data on Civgraph, go to <a href="mailto:Scott@civgraph.net">Scott@civgraph.net</a>.</p>
 </section>
 
 <section id="hosting">
 <h2>Hosting</h2>
 <p>Civgraph runs on Cloudflare. Cloudflare serves the pages, runs the code that answers record pages and the API, holds the records database, and serves the map files and downloads at <code>data.civgraph.net</code>. As with any website, Cloudflare receives your IP address, your browser's description of itself, the address you asked for and the time, so that it can deliver the page and protect the site from abuse. It handles this under its own <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer" target="_blank">privacy policy</a>.</p>
-<p>The site's own code does not record IP addresses and includes no analytics script, such as Cloudflare Web Analytics.</p>
-<p><span class="owner-note">OWNER TODO: Cloudflare can add its Web Analytics script, bot protection (which may set a <code>__cf_bm</code> cookie) and request logging from the dashboard, without any change to the code. Confirm in the dashboard for the civgraph project and the civgraph.net zone that Web Analytics is off (or say here that it is on), whether Bot Fight Mode or other bot management is on, whether Workers Logs or Logpush keeps Functions logs, and how long logs are kept.</span></p>
+<p>The site's own code does not record IP addresses and includes no analytics script. Cloudflare can add some features to a site from its own settings, without any change to the code. For civgraph.net:</p>
+<ul>
+<li>Cloudflare Web Analytics is switched off, so no analytics script is added to the pages.</li>
+<li>Cloudflare's email address obfuscation is switched off, so no script is added to hide email addresses.</li>
+<li>Cloudflare's Bot Fight Mode is switched off. The site sets no cookies when you visit it, including none from Cloudflare.</li>
+<li>Civgraph is on Cloudflare's free plan, with no log export, and keeps no request logs of its own. Cloudflare's own handling of request data is covered by its privacy policy.</li>
+</ul>
 </section>
 
 <section id="measurements">
@@ -137,7 +141,7 @@
 <tr><td>Map preferences</td><td>That you chose a background map yourself, layer order, panel sizes and open or closed panels, timeline options and the view of the Northern Ireland local elections (keys beginning <code>civgraph:</code> or <code>civgraph.</code>, and <code>basemapUserChoice</code>)</td><td>Until you clear it</td></tr>
 <tr><td>Map catalogue and Browse preferences</td><td>Whether you closed the catalogue's introduction, how you split the screen, text size, and whether Browse shows printed labels (keys beginning <code>civgraph.</code>, and <code>split-preference.v2</code>)</td><td>Until you clear it</td></tr>
 <tr><td>Elections app</td><td>Pivot table views you saved (<code>civgraph.elections.pivotViews</code>)</td><td>Until you clear it</td></tr>
-<tr><td>Contributor sign-in link</td><td>Set only if you open a page with <code>?contribute</code> in its address. Browse then shows the contributor sign-in link in that browser from then on (<code>civgraph.contributor</code>). Readers who never use that address never see the link and never get this setting.</td><td>Until you clear it</td></tr>
+<tr><td>Contributor sign-in link</td><td>Set only if you open a page with <code>?contribute</code> in its address. Browse and the map catalogue then show the contributor sign-in in that browser from then on (<code>civgraph.contributor</code>). Readers who never use that address never see the link and never get this setting.</td><td>Until you clear it</td></tr>
 <tr><td>This tab only</td><td>How far down a Browse page you had scrolled, the map catalogue's filters, and which background map provider failed to load, so the map does not keep retrying it (session storage)</td><td>Until you close the tab</td></tr>
 </table>
 </div>
@@ -156,25 +160,22 @@
 <tr><td>CARTO, Esri, OpenTopoMap, OpenStreetMap France, the US Geological Survey or Stamen</td><td>Only if you choose that background map in the map settings (CARTO also serves the optional place-label overlay)</td><td>As above</td></tr>
 <tr><td>Esri (<code>tiles.arcgis.com</code>)</td><td>Only if you turn on the MERIT river or river basin overlay</td><td>As above</td></tr>
 <tr><td>Photon (<code>photon.komoot.io</code>), Nominatim (<code>nominatim.openstreetmap.org</code>) and postcodes.io (<code>api.postcodes.io</code>)</td><td>When you search for a place in the map catalogue</td><td>The place name or postcode you type</td></tr>
-<tr><td>jsDelivr (<code>cdn.jsdelivr.net</code>)</td><td>Only in the Elections app at /apps/elections/, which is in preview and not linked from the site: it loads its map and table libraries (MapLibre, PMTiles and DuckDB) from jsDelivr when you open a map or pivot view</td><td>That the library was requested</td></tr>
 </table>
 </div>
 <p>The site's fonts are served from civgraph.net, not from Google Fonts or any other font service. Links to Ko-fi, Substack, Wikidata, Wikipedia, the Internet Archive and the original sources contact those sites only when you follow them.</p>
-<p><span class="owner-note">OWNER TODO: confirm whether DuckDB in the Elections app also fetches extensions from <code>extensions.duckdb.org</code> when it reads Parquet; if it does, add it to the jsDelivr row before the app is linked.</span></p>
+<p>The Elections app at /apps/elections/, which is in preview and not linked from the site, loads its map and table libraries (MapLibre, PMTiles and DuckDB, with DuckDB's Parquet extension) from Civgraph's own servers. It contacts no other service.</p>
 </section>
 
 <section id="email">
 <h2>When you email us</h2>
 <p>Corrections, map submissions and requests to become a contributor come to <a href="mailto:Scott@civgraph.net">Scott@civgraph.net</a>. We receive your email address, any name you give and what you write. We use them to reply, to check what you tell us and, if you ask us to, to credit you by name for a correction or a map. We do not use them for anything else, and we do not add you to a mailing list.</p>
-<p><span class="owner-note">OWNER TODO: say which provider hosts the civgraph.net mailbox, and how long you keep correspondence.</span></p>
 </section>
 
 <section id="contributors">
 <h2>If you are a contributor</h2>
-<p>A small number of approved contributors can propose changes on the site. The contributor sign-in link appears in Browse only when you open a page with <code>?contribute</code> in its address, and is then remembered in that browser (see <a href="#storage">What your browser stores</a>). In the map catalogue, the "Suggest an edit" item in a map's menu also leads to the sign-in.</p>
+<p>A small number of approved contributors can propose changes on the site. The contributor sign-in link appears in Browse only when you open a page with <code>?contribute</code> in its address, and is then remembered in that browser (see <a href="#storage">What your browser stores</a>). In the map catalogue, the "Suggest an edit" item in a map's menu, shown on the same terms, also leads to the sign-in.</p>
 <p>Signing in uses Cloudflare Access, with GitHub as the login provider. GitHub tells Cloudflare your primary verified email address. Cloudflare then sets its own sign-in cookie (<code>CF_Authorization</code>) for the contributor tools, and the site checks your address against the list of approved contributors.</p>
 <p>When you submit a proposed change, the site stores it in a review queue on Cloudflare together with your email address and your browser's description of itself, so that we know who proposed what and can follow up. Nothing you submit appears on the site until an administrator approves it. If you ask, approved contributions are credited to you by name.</p>
-<p><span class="owner-note">OWNER TODO: queue entries have no expiry in the code, so they are kept indefinitely. Decide a retention period (for example, remove the email address and browser string a set time after a submission is decided) and state it here.</span></p>
 </section>
 
 <section id="named-people">
@@ -189,11 +190,9 @@
 </ul>
 <p>All of it comes from records already made public by the people concerned or by public bodies: official election results, gazettes, parliamentary records and registers, and historical archives. Each record shows where it came from.</p>
 <p>Civgraph does not publish home addresses. The records have no address field. Where a source, such as a nomination paper, gives an address, Civgraph records at most the small statistical area it lies in (a census small area or output area), never the address itself.</p>
-<p><span class="owner-note">OWNER TODO: confirm that register-of-interests entries naming the location of a member's property, as the parliaments publish them, are acceptable under this rule.</span></p>
-<h3>Why we may publish it</h3>
-<p>Elections and public office are public acts. The record of who stood, who won and how they voted is how citizens, researchers and journalists hold power to account and understand history, and much of Civgraph's material is historical, kept as an archive in the public interest. A person's party is a political opinion, which data protection law treats with extra care. Civgraph publishes it only where the person made it public by standing under that label, or where it is in an archival or historical record.</p>
-<p>We do not write to everyone named in the records, because there are tens of thousands of them, many from long ago. This page is how we tell them instead.</p>
-<p><span class="owner-note">OWNER TODO: confirm the legal bases before approval: UK GDPR and GDPR Article 6(1)(f) (legitimate interests), Article 9(2)(e) (made manifestly public by the person), the archiving and historical research provisions (Article 89; in the UK, the Data Protection Act 2018, Schedules 1 and 2), and Article 14(5)(b) for not notifying each person. Take advice, and decide whether to write a short legitimate interests assessment.</span></p>
+<h3>Why Civgraph publishes it</h3>
+<p>Elections and public office are public acts. The record of who stood, who won and how they voted is how citizens, researchers and journalists hold power to account and understand history, and much of Civgraph's material is historical. A person's party is shown as the label they stood under, or as an archival or historical record gives it.</p>
+<p>We do not write to everyone named in the records, because there are tens of thousands of them, many from long ago. This page describes what Civgraph publishes about them.</p>
 </section>
 
 <section id="rights">
@@ -205,12 +204,12 @@
 <li><strong>Contributors and correspondents</strong> can ask us to delete their email address and submissions.</li>
 </ul>
 <p>If you are unhappy with our answer, you can complain to the <a href="https://ico.org.uk/make-a-complaint/" rel="noopener noreferrer" target="_blank">Information Commissioner's Office</a> in the UK or the <a href="https://www.dataprotection.ie/" rel="noopener noreferrer" target="_blank">Data Protection Commission</a> in Ireland.</p>
-<p><span class="owner-note">OWNER TODO: decide whether to promise a reply time (the law allows one month), and whether a removal may keep the core result (that a person stood, where, when and with how many votes) while removing anything else.</span></p>
 </section>
 
 <section id="changes">
 <h2>Changes to this notice</h2>
-<p>We will update this page when what Civgraph collects changes, and give the date of the change here. <span class="owner-note">OWNER TODO: set the "last updated" date when you approve.</span></p>
+<p>We will update this page when what Civgraph collects changes, and give the date of the change here.</p>
+<p>Last updated: <time data-placeholder="last-updated-at-go-live">the day this page goes live</time>.</p>
 </section>
 </div>
 </main>
@@ -277,7 +276,7 @@
 <p>Support the work of myself and other contributors with a one-off tip, or a subscription of £5 a month, or £45 a year.</p>
 <p>I've gone out of pocket to put together Civgraph, through subscriptions to newspaper archives, buying a better computer to enable me to produce maps like the 1984 and 1972 council wards maps in digitised formats, and spending on tools to help me develop the website.</p>
 <p>With your support, I can cover the costs I incur month to month, work with volunteers to make a greater range of maps available, expand the features on the website, and extend the website beyond maps and boundaries, to include data like election results, Hansard and biographies, all in one place.</p>
-<p>All support is appreciated, but if you can't help, don't worry - I release all my maps under an open source license (Creative Commons BY-SA 4.0), and the content of the site will be free forever.</p>
+<p>All support is appreciated, but if you can't help, don't worry - the content of the site will be free forever. Civgraph's own maps and data are CC BY 4.0; some contributed maps are CC BY-SA 4.0, as each map says.</p>
 </div>
 </div>
 </div>

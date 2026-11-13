@@ -50,7 +50,7 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { toHtmlString } from '../../packages/core/src/html.js';
 import { footer, head, header, supportModal } from '../../packages/ui/src/templates/shell.js';
-import { INFO_PAGES, INFO_PAGES_LIVE, draftBanner, draftHead } from '../../packages/ui/src/templates/info-pages.js';
+import { INFO_PAGES, INFO_PAGES_LIVE, draftBanner, draftHead, fillLastUpdated, hasLastUpdatedPlaceholder } from '../../packages/ui/src/templates/info-pages.js';
 import { sourceOf } from './site.mjs';
 
 const CHECK = process.argv.includes('--check');
@@ -210,6 +210,8 @@ for (const [page, expected] of PAGES) {
     problems.push(/** @type {Error} */ (error).message);
     continue;
   }
+  // Going live dates the pages: the go-live placeholder becomes today's date, once (PG9).
+  if (INFO_PAGES_LIVE && !CHECK && hasLastUpdatedPlaceholder(next)) next = fillLastUpdated(next, new Date().toISOString().slice(0, 10));
   if (next === source) continue;
   if (CHECK) stale.push(page);
   else {
@@ -252,6 +254,9 @@ if (INFO_PAGES_LIVE) {
   for (const { file } of INFO_PAGES) {
     if (existsSync(file) && readFileSync(file, 'utf8').includes('class="owner-note"')) {
       problems.push(`${file}: INFO_PAGES_LIVE is set but the page still has OWNER TODO notes (class="owner-note"); settle and remove them first`);
+    }
+    if (existsSync(file) && hasLastUpdatedPlaceholder(readFileSync(file, 'utf8'))) {
+      problems.push(`${file}: INFO_PAGES_LIVE is set but the "last updated" date is still the go-live placeholder; run node scripts/build/build-site-partials.mjs`);
     }
   }
 }

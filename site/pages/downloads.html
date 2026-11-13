@@ -84,7 +84,7 @@
 <main id="main-content">
 <div class="wrap wrap--wide">
 <!-- site:draft-banner -->
-<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it. Notes marked <span class="owner-note owner-note--label">OWNER TODO</span> are points that could not be verified from the code, or decisions only the owner can make; each is settled and removed before the page goes live.</p>
+<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it.</p>
 <!-- /site:draft-banner -->
 <nav class="info-toc" aria-label="On this page"><a href="#files">The files</a><a href="#database">The records database</a><a href="#graph">The graph</a><a href="#versions">Snapshots and checksums</a><a href="#published">Other published files</a><a href="#api">API</a><a href="#licence">Licence</a></nav>
 
@@ -112,20 +112,19 @@
 <h2>The records database</h2>
 <p>The database is the one the site itself answers from: one SQLite file holding every election, contest, candidacy and count, the people and parties linked to them, offices, parliamentary divisions and votes, registers of members' interests, the map catalogue, the source catalogue with its citations, and the linked-data graph. The 9 November 2026 snapshot holds 21,010 contests, 76,994 candidacies, 44,690 citations, 1,339 map layers and 307,826 graph entities.</p>
 <p>Unzip it and open it with any SQLite tool, for example <code>sqlite3 civgraph-records-latest.sqlite</code> or DB Browser for SQLite. The <code>dataset</code> table holds its version. Each record cites its source in the <code>citations</code> and provenance tables.</p>
-<p><span class="owner-note">OWNER TODO: decide whether to publish a short schema guide (table by table) with the downloads. The schema is in packages/schema/migrations/ in the repository.</span></p>
+<p>The <a href="/pages/api">API page</a> and its machine-readable description, <a href="/api/v1/openapi.json"><code>/api/v1/openapi.json</code></a>, describe the records the API answers with, the same records the database holds. The database's tables are defined in <a href="https://github.com/ScottMoore0/civgraph/tree/main/packages/schema/migrations" rel="noopener noreferrer" target="_blank"><code>packages/schema/migrations/</code></a> in the code repository.</p>
 </section>
 
 <section id="graph">
 <h2>The graph</h2>
 <p>Civgraph links people, places, elections, offices and sources into a graph of entities and statements. The graph archive holds it in JSON-LD and RDF, with provenance for each statement. The three small <code>.gz</code> files list what the archive holds.</p>
-<p><span class="owner-note">OWNER TODO: the JSON-LD uses identifiers under <code>https://civgraph.org/id/</code>, which do not resolve (launch QA, item M11). Either redirect them to civgraph.net or move the identifiers to civgraph.net before this page invites linked-data use.</span></p>
 </section>
 
 <section id="versions">
 <h2>Snapshots and checksums</h2>
 <p>The downloads are published as versioned snapshots. Each snapshot of the records database has a version, a short code that is also in its file name, and the <a href="https://data.civgraph.net/data/downloads/manifest.json">manifest</a> gives the size and SHA-256 checksum of every file. <code>-latest</code> always names the newest snapshot. To check a download, compare its SHA-256 with the manifest's, for example with <code>sha256sum</code> on Linux, <code>shasum -a 256</code> on macOS or <code>certutil -hashfile &lt;file&gt; SHA256</code> on Windows.</p>
 <p>To cite a snapshot, see <a href="/pages/cite#dataset">How to cite</a>.</p>
-<p><span class="owner-note">OWNER TODO: only the newest snapshot is online today. Decide how long older versioned snapshots stay downloadable, and make the upload refuse to overwrite a versioned file that already exists (the version comes from the database's <code>dataset</code> table, and nothing in the upload stops a rebuild reusing it).</span></p>
+<p>Every versioned snapshot stays online, and a published version never changes: the upload refuses to replace one with different content. Each snapshot published from now on also keeps its own manifest beside it, as <code>manifest-&lt;version&gt;.json</code>.</p>
 </section>
 
 <section id="published">
@@ -139,13 +138,11 @@
 <p>Endpoints cover elections, contests and counts; people; parties; sources and their citations; registers of members' interests; parliamentary votes; the graph; headline counts; the map catalogue and layers; map features by name or within a bounding box; the published-file index; and the PRONI eCatalogue (records, full-text search, counts and CSV export).</p>
 <p>Version 1 changes only by adding things: routes, parameters and fields may be added, but none is removed or changes meaning. An incompatible change would be a new version, and v1 would keep answering.</p>
 <p>The API answers from the newest records. For bulk use, or for work others should be able to repeat, please use a dataset snapshot above instead.</p>
-<p><span class="owner-note">OWNER TODO: the code sets no rate limit. Say whether a Cloudflare rate-limiting rule applies, and state it here if so.</span></p>
 </section>
 
 <section id="licence">
 <h2>Licence</h2>
 <p>Civgraph's own compiled data is released under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>. The downloads and the API also carry material from many sources, each under its own licence, and every record names its source. See <a href="/pages/licence">Licence</a> for what you may do and how to credit it. The records include the names and public records of candidates and office-holders; see <a href="/pages/privacy">Privacy</a>.</p>
-<p><span class="owner-note">OWNER TODO: the manifest's licence note points to the About page. <code>packages/loader/src/downloads.mjs</code> should point it at this site's Licence page; that takes effect at the next approved upload of the downloads.</span></p>
 </section>
 </div>
 </main>
@@ -212,7 +209,7 @@
 <p>Support the work of myself and other contributors with a one-off tip, or a subscription of £5 a month, or £45 a year.</p>
 <p>I've gone out of pocket to put together Civgraph, through subscriptions to newspaper archives, buying a better computer to enable me to produce maps like the 1984 and 1972 council wards maps in digitised formats, and spending on tools to help me develop the website.</p>
 <p>With your support, I can cover the costs I incur month to month, work with volunteers to make a greater range of maps available, expand the features on the website, and extend the website beyond maps and boundaries, to include data like election results, Hansard and biographies, all in one place.</p>
-<p>All support is appreciated, but if you can't help, don't worry - I release all my maps under an open source license (Creative Commons BY-SA 4.0), and the content of the site will be free forever.</p>
+<p>All support is appreciated, but if you can't help, don't worry - the content of the site will be free forever. Civgraph's own maps and data are CC BY 4.0; some contributed maps are CC BY-SA 4.0, as each map says.</p>
 </div>
 </div>
 </div>
