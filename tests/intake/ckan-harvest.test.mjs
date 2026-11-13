@@ -80,7 +80,7 @@ function deps() {
 function runCliChild(origin, args) {
   const mod = pathToFileURL(path.resolve('packages/intake/src/ckan-harvest.mjs')).href;
   const code = `import { runCli } from ${JSON.stringify(mod)};
-await runCli({ origin: ${JSON.stringify(origin)}, generatedFrom: 'stub', fields: { notes: true, resources: true, licenseUrl: false } }, process.argv.slice(1));`;
+await runCli({ origin: ${JSON.stringify(origin)}, generatedFrom: 'stub', fields: { notesMax: 500, resources: true, licenseUrl: false } }, process.argv.slice(1));`;
   return new Promise((resolve) => {
     let stderr = '';
     const child = spawn(process.execPath, ['--input-type=module', '-e', code, ...args], { stdio: ['ignore', 'ignore', 'pipe'] });
@@ -89,7 +89,7 @@ await runCli({ origin: ${JSON.stringify(origin)}, generatedFrom: 'stub', fields:
   });
 }
 
-const FIELDS = { notes: true, resources: true, licenseUrl: false };
+const FIELDS = { notesMax: 500, resources: true, licenseUrl: false };
 
 test('pages package_search at 1,000 rows, sorted by name, until the count is reached', async () => {
   const portal = await stubPortal(catalogue(2500));
@@ -228,12 +228,20 @@ test('a failing page is retried with the wait, and a page that never answers sto
   }
 });
 
-test('an answer that is not CKAN JSON, or a run past its request cap, stops', async () => {
+test('an answer that is not CKAN JSON, a 404, or a run past its request cap, stops', async () => {
   const html = await stubPortal(catalogue(10), () => ({ status: 200, body: '<html>portal home</html>' }));
   try {
     await assert.rejects(harvestPages({ origin: html.origin }, deps().deps), /not JSON/);
+    assert.equal(html.seen.length, 1, 'not retried');
   } finally {
     await html.close();
+  }
+  const missing = await stubPortal(catalogue(10), () => ({ status: 404, body: 'Not Found' }));
+  try {
+    await assert.rejects(harvestPages({ origin: missing.origin }, deps().deps), /answered HTTP 404/);
+    assert.equal(missing.seen.length, 1, 'a 404 is not retried');
+  } finally {
+    await missing.close();
   }
   const big = await stubPortal(catalogue(5000));
   try {
@@ -256,7 +264,7 @@ test('each package becomes the dataset shape the emitters read', () => {
     notes: 'Line one. Line two.',
     resources: [{ url: 'https://files.example/0.csv', name: 'File', format: 'CSV' }],
   });
-  assert.deepEqual(toDataset(/** @type {CkanPackage} */ (pkg), { notes: false, resources: false, licenseUrl: true }), {
+  assert.deepEqual(toDataset(/** @type {CkanPackage} */ (pkg), { notesMax: 0, resources: false, licenseUrl: true }), {
     slug: 'ds-00000',
     title: 'Dataset 0',
     org: 'Department X',
@@ -265,6 +273,19 @@ test('each package becomes the dataset shape the emitters read', () => {
     modified: '2026-05-01T10:00:00.000000',
   });
   assert.deepEqual(toDataset({ name: 'bare', organization: null, resources: null }, FIELDS), { slug: 'bare', resources: [] });
+  // As the committed records have them: an organisation's trailing space kept, a resource's name
+  // and format trimmed, the description's whitespace collapsed and cut at notesMax characters.
+  assert.deepEqual(toDataset({
+    name: 'spaced',
+    organization: { title: 'Invest Northern Ireland ' },
+    notes: `  ${'word '.repeat(200)}`,
+    resources: [{ name: ' Quarter 2 ', url: 'https://files.example/q2.csv', format: ' CSV ' }],
+  }, FIELDS), {
+    slug: 'spaced',
+    org: 'Invest Northern Ireland ',
+    notes: 'word '.repeat(100),
+    resources: [{ url: 'https://files.example/q2.csv', name: 'Quarter 2', format: 'CSV' }],
+  });
   // A package seen twice (it moved between pages during the run) is kept once, where first seen.
   const twice = fromPages([{ count: 2, results: [{ name: 'a' }, { name: 'b' }] }, { count: 2, results: [{ name: 'b' }] }], FIELDS);
   assert.deepEqual(twice.map((d) => d.slug), ['a', 'b']);

@@ -54,10 +54,13 @@ const TIMEOUT_MS = 120_000;
  * @property {HarvestResource[]} [resources]
  */
 /**
- * What a portal keeps of each package: Open Data NI's records carry the description and the
- * download links, and their licence URL comes from the emitter's OGL rule; data.gov.ie's carry
- * CKAN's licence URL and neither of the others.
- * @typedef {{ notes: boolean, resources: boolean, licenseUrl: boolean }} DatasetFields
+ * What a portal keeps of each package: Open Data NI's records carry the description (its
+ * whitespace collapsed, cut at `notesMax` characters; 0 keeps none) and the download links, and
+ * their licence URL comes from the emitter's OGL rule; data.gov.ie's carry CKAN's licence URL and
+ * neither of the others. A resource's name and format are trimmed; every other value is CKAN's
+ * string as it stands (a trailing space in an organisation's title included), as the committed
+ * records have them.
+ * @typedef {{ notesMax: number, resources: boolean, licenseUrl: boolean }} DatasetFields
  */
 /**
  * @typedef {object} HarvestDeps
@@ -74,14 +77,17 @@ const TIMEOUT_MS = 120_000;
  */
 /** @typedef {{ count: number, results: CkanPackage[] }} CkanPage */
 
+/** An answer a retry will not change (a 4xx other than 403 and 429, or not CKAN's JSON): the run stops. */
+class NotRetried extends Error {}
+
 /** The package_search URL of one page. @param {string} origin @param {number} start @param {number} [rows] */
 export function searchUrl(origin, start, rows = ROWS) {
   const q = new URLSearchParams({ q: '*:*', sort: 'name asc', rows: String(rows), start: String(start) });
   return `${origin}/api/3/action/package_search?${q}`;
 }
 
-/** A trimmed, non-empty string, or undefined. @param {unknown} v */
-const text = (v) => (typeof v === 'string' && v.trim() ? v.trim() : undefined);
+/** A non-empty string as it stands, or undefined. @param {unknown} v */
+const text = (v) => (typeof v === 'string' && v !== '' ? v : undefined);
 
 /**
  * One CKAN package as a harvest dataset. Keys are written only when they hold a value.
@@ -101,7 +107,7 @@ export function toDataset(pkg, fields) {
   if (licenseUrl) d.licenseUrl = licenseUrl;
   const modified = text(pkg.metadata_modified);
   if (modified) d.modified = modified;
-  const notes = fields.notes ? text(pkg.notes)?.replace(/\s+/g, ' ') : undefined;
+  const notes = fields.notesMax > 0 ? text(pkg.notes)?.replace(/\s+/g, ' ').trim().slice(0, fields.notesMax) : undefined;
   if (notes) d.notes = notes;
   if (fields.resources) {
     /** @type {HarvestResource[]} */
@@ -111,9 +117,9 @@ export function toDataset(pkg, fields) {
       if (!url) continue;
       /** @type {HarvestResource} */
       const out = { url };
-      const name = text(r.name);
+      const name = text(r.name?.trim());
       if (name) out.name = name;
-      const format = text(r.format);
+      const format = text(r.format?.trim());
       if (format) out.format = format;
       resources.push(out);
     }
@@ -168,13 +174,17 @@ export async function harvestPages(opts, deps) {
         const body = await res.text();
         if (looksLikeChallenge(body)) throw new CrawlRefused('bot challenge or CAPTCHA in the answer', res.status, url);
         if (res.ok) {
-          const page = parsePage(body, url);
+          /** @type {CkanPage} */
+          let page;
+          try { page = parsePage(body, url); } catch (e) { throw new NotRetried(e instanceof Error ? e.message : String(e)); }
           log(`GET ${url}: HTTP ${res.status}, ${page.results.length} of ${page.count} (request ${requests})`);
           return page;
         }
         last = `HTTP ${res.status}`;
+        // Another 4xx (a wrong address, a removed API) will not change on a retry.
+        if (res.status >= 400 && res.status < 500) throw new NotRetried(`${url} answered ${last}`);
       } catch (e) {
-        if (e instanceof CrawlRefused) throw e;
+        if (e instanceof CrawlRefused || e instanceof NotRetried) throw e;
         last = e instanceof Error ? e.message : String(e);
       }
       log(`GET ${url}: ${last} (attempt ${attempt}, request ${requests})`);

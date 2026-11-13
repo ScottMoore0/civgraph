@@ -14,5 +14,5 @@ await runCli({
   origin: 'https://data.gov.ie',
   generatedFrom: 'data.gov.ie CKAN catalogue (package_search)',
   // The records carry CKAN's licence URL, and neither the description nor the download links.
-  fields: { notes: false, resources: false, licenseUrl: true },
+  fields: { notesMax: 0, resources: false, licenseUrl: true },
 }, process.argv.slice(2));
