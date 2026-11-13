@@ -1,0 +1,48 @@
+{
+ "id": "parity-missing",
+ "exit": 1,
+ "stdout": "R2 serving parity\n  served prefixes : data/maps/\n  references found: 8\n  objects in bucket: 7\n  referenced but ABSENT from R2: 2\n\n  MISSING  data/maps/b b.fgb\n      referenced by : maps.json\n      in repo       : no\n\n  MISSING  data/maps/x/part-2.fgb\n      referenced by : data/maps/x/x-chunks.json\n      in repo       : yes — present locally but NOT served\n\n  on R2 but unreferenced: 1 (informational, not a failure)\n",
+ "stderr": "\n  FAIL: 2 referenced object(s) do not exist in R2.\n  Production reads the bucket, not the repo, so these requests 404 (or worse,\n  return a fallback with HTTP 200) no matter what the working tree contains.\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-2"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-4"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-6"
+   }
+  }
+ ],
+ "files": {}
+}

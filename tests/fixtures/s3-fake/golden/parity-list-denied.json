@@ -1,0 +1,25 @@
+{
+ "id": "parity-list-denied",
+ "exit": 1,
+ "stdout": "R2 serving parity\n  served prefixes : data/maps/\n  references found: 8\n",
+ "stderr": "AccessDenied: AccessDenied\n  '$fault': 'client',\n  '$metadata': { httpStatusCode: 403 }\n}\n[uncaught]\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/"
+   },
+   "failed": 403
+  }
+ ],
+ "files": {}
+}

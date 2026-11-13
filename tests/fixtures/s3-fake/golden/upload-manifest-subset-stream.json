@@ -1,0 +1,59 @@
+{
+ "id": "upload-manifest-subset-stream",
+ "exit": 0,
+ "stdout": "R2 tree upload\n  source : manifest subset.json\n  prefix : data/oireachtas/big/\n  local  : 2 files, 0.13 GB\n\n  listing what the bucket already holds...\n  remote : 0 objects already under the prefix\n  to send: 2 files\n\n\n  sent 2, failed 0\n\n  verifying against the bucket...\n  local files      : 2\n  present on R2    : 2\n  missing          : 0\n  size mismatches  : 0\n\n  COMPLETE: all 2 files present on R2 with matching sizes.\n",
+ "stderr": "  missing locally, skipped: <root>/tree/absent.pdf\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/big/"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/oireachtas/big/small.json",
+    "Body": {
+     "kind": "buffer",
+     "size": 2,
+     "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    "ContentLength": 2,
+    "ContentType": "application/json"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/oireachtas/big/scans/huge.pdf",
+    "Body": {
+     "kind": "stream",
+     "size": 134217729,
+     "sha256": "7ea6ce492b9f2e83db0190808df466a16da53a11f25ba786f46c26821243c687"
+    },
+    "ContentLength": 134217729,
+    "ContentType": "application/pdf"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/big/"
+   }
+  }
+ ],
+ "files": {}
+}

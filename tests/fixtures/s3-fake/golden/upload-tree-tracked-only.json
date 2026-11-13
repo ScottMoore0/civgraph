@@ -1,0 +1,61 @@
+{
+ "id": "upload-tree-tracked-only",
+ "exit": 0,
+ "stdout": "Walking thumbs...\n  --tracked-only: skipping 5 untracked file(s) that git does not track\n  3 files, 0.0 MB\n  → s3://boundaries-data/assets/thumbnails/  (concurrency=2)\n\nDone in <secs>s — uploaded=3 skipped=0 errors=0\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "forcePathStyle": false,
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "assets/thumbnails/a.png",
+    "Body": {
+     "kind": "buffer",
+     "size": 12,
+     "sha256": "04b8c7eecb594a853e21c8d6dd1a3914584dfbb5e0a73951fdd9964570281b39"
+    },
+    "ContentType": "image/png",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "assets/thumbnails/e.pdf",
+    "Body": {
+     "kind": "buffer",
+     "size": 12,
+     "sha256": "314b815eedd548cc89ed68569c08b6b3f276bba80f562d27f36a080158bdc8e8"
+    },
+    "ContentType": "application/pdf",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "assets/thumbnails/sub/h.png",
+    "Body": {
+     "kind": "buffer",
+     "size": 16,
+     "sha256": "03e8b85e659d339b24d46e4f3b96713c138a4abfc7854f8372bfa6bf2fe30059"
+    },
+    "ContentType": "image/png",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400"
+   }
+  }
+ ],
+ "files": {}
+}

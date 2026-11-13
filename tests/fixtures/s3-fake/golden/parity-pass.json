@@ -1,0 +1,56 @@
+{
+ "id": "parity-pass",
+ "exit": 0,
+ "stdout": "R2 serving parity\n  served prefixes : data/maps/\n  references found: 8\n  objects in bucket: 9\n  referenced but ABSENT from R2: 0\n\n  on R2 but unreferenced: 1 (informational, not a failure)\n{\n  \"prefixes\": [\n    \"data/maps/\"\n  ],\n  \"referenced\": 8,\n  \"held\": 9,\n  \"missing\": []\n}\n\n  PASS: every referenced object exists in the bucket.\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-2"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-4"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-6"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-8"
+   }
+  }
+ ],
+ "files": {}
+}

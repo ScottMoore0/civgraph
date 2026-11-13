@@ -1,0 +1,44 @@
+{
+ "id": "upload-files-send",
+ "exit": 0,
+ "stdout": "data/maps/a.fgb 0.00 MB\ndata/maps/b.fgb 0.00 MB\nUploaded 2 file(s).\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/a.fgb",
+    "Body": {
+     "kind": "buffer",
+     "size": 19,
+     "sha256": "656642665a3333bade7406767a570bf7390e89a1608008b42157025be788d0ef"
+    },
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/b.fgb",
+    "Body": {
+     "kind": "buffer",
+     "size": 20,
+     "sha256": "fbd776826756d7ad213c8710bebcbb2bdbff6b498a1d8e8b4b65b76667bc4e7d"
+    },
+    "ContentType": "application/octet-stream"
+   }
+  }
+ ],
+ "files": {}
+}

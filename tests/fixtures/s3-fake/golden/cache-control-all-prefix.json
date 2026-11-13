@@ -1,0 +1,47 @@
+{
+ "id": "cache-control-all-prefix",
+ "exit": 0,
+ "stdout": "Checking (dry run) Cache-Control on s3://boundaries-data/data/maps/tiles/\n  value      : public, max-age=3600, stale-while-revalidate=86400\n  extensions : ALL\n\n  would set: data/maps/tiles/1/0/0.png  (currently ABSENT)\n  would set: data/maps/tiles/1/0/1.png  (currently ABSENT)\n  would set: data/maps/tiles/1/1/0.png  (currently ABSENT)\n\nDone.\n  objects listed    : 3\n  in scope          : 3\n  already correct   : 0\n  would update      : 3\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/tiles/",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles/1/0/0.png"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles/1/0/1.png"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles/1/1/0.png"
+   }
+  }
+ ],
+ "files": {}
+}

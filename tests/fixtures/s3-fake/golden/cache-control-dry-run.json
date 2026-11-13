@@ -1,0 +1,340 @@
+{
+ "id": "cache-control-dry-run",
+ "exit": 1,
+ "stdout": "Checking (dry run) Cache-Control on s3://boundaries-data/data/maps/\n  value      : public, max-age=3600, stale-while-revalidate=86400\n  extensions : fgb, gz, br\n\n  would set: data/maps/b.fgb  (currently ABSENT)\n  would set: data/maps/b.fgb.br  (currently ABSENT)\n  would set: data/maps/c.fgb.gz  (currently ABSENT)\n  would set: data/maps/d.fgb  (currently public, max-age=86400)\n  would set: data/maps/n/n-00.fgb  (currently ABSENT)\n  would set: data/maps/n/n-01.fgb  (currently ABSENT)\n  would set: data/maps/n/n-02.fgb  (currently ABSENT)\n  would set: data/maps/n/n-03.fgb  (currently ABSENT)\n\nDone.\n  objects listed    : 43\n  in scope          : 37\n  already correct   : 1\n  would update      : 34\n  too large to copy : 1\n  failed            : 1\n\n  OUT OF SCOPE for this run (not checked, may or may not already be set):\n    .png      3\n    .(none)   1\n    .json     1\n    .geojson  1\n    6 objects in total.\n    Sweep everything except raster tiles with:  --exclude-ext png\n\nProblems:\n  - data/maps/denied.fgb: HEAD failed (Forbidden)\n  - data/maps/huge.fgb: 6.0 GB, too large for a simple copy\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/a.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/b.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/b.fgb.br"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/c.fgb.gz"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/d.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/denied.fgb"
+   },
+   "failed": 403
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-7",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/huge.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-00.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-01.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-02.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-03.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-04.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-05.fgb"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-14",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-06.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-07.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-08.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-09.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-10.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-11.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-12.fgb"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-21",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-13.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-14.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-15.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-16.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-17.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-18.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-19.fgb"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-28",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-20.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-21.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-22.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-23.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-24.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-25.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-26.fgb"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-35",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-27.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-28.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-29.fgb"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-42",
+    "MaxKeys": 1000
+   }
+  }
+ ],
+ "files": {}
+}

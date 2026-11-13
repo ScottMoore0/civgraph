@@ -1,0 +1,129 @@
+{
+ "id": "elections-head-denied",
+ "exit": 1,
+ "stdout": "fixture: the extracts are current and publishable\n9 objects, 0.0 MiB, to https://data.civgraph.net/data/elections-app/v1/\n  data/elections-app/v1/duckdb-wasm-1.29.0/duckdb-eh.wasm  (application/wasm; public, max-age=31536000, immutable)\n  data/elections-app/v1/duckdb-wasm-1.29.0/duckdb-mvp.wasm  (application/wasm; public, max-age=31536000, immutable)\n  data/elections-app/v1/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_eh/parquet.duckdb_extension.wasm  (application/wasm; public, max-age=31536000, immutable)\n  data/elections-app/v1/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_mvp/parquet.duckdb_extension.wasm  (application/wasm; public, max-age=31536000, immutable)\n  data/elections-app/v1/extracts/dail-0123456789ab.parquet  (application/vnd.apache.parquet; public, max-age=31536000, immutable)\n  data/elections-app/v1/extracts/seanad-ba9876543210.parquet  (application/vnd.apache.parquet; public, max-age=31536000, immutable)\n  data/elections-app/v1/extracts/turnout-000000000000.csv  (text/csv; charset=utf-8; public, max-age=31536000, immutable)\n  data/elections-app/v1/extracts/manifest.json  (application/json; charset=utf-8; public, max-age=300, must-revalidate)\n  data/elections-app/v1/extracts/index.json  (application/json; charset=utf-8; public, max-age=300, must-revalidate)\n  sent data/elections-app/v1/duckdb-wasm-1.29.0/duckdb-mvp.wasm 0.00 MiB\n  sent data/elections-app/v1/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_eh/parquet.duckdb_extension.wasm 0.00 MiB\n  sent data/elections-app/v1/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_mvp/parquet.duckdb_extension.wasm 0.00 MiB\n  sent data/elections-app/v1/extracts/dail-0123456789ab.parquet 0.00 MiB\n",
+ "stderr": "AccessDenied: AccessDenied\n  '$fault': 'client',\n  '$metadata': { httpStatusCode: 403 }\n}\n[uncaught]\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/elections-app/v1/duckdb-wasm-1.29.0/duckdb-eh.wasm"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/elections-app/v1/duckdb-wasm-1.29.0/duckdb-mvp.wasm"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/elections-app/v1/duckdb-wasm-1.29.0/duckdb-mvp.wasm",
+    "Body": {
+     "kind": "buffer",
+     "size": 52,
+     "sha256": "00b932907875b7bb34c718ff4969e6d62732a5ed8358eed9735aaa66cf5b656f"
+    },
+    "ContentType": "application/wasm",
+    "CacheControl": "public, max-age=31536000, immutable",
+    "Metadata": {
+     "sha256": "00b932907875b7bb34c718ff4969e6d62732a5ed8358eed9735aaa66cf5b656f"
+    }
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/elections-app/v1/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_eh/parquet.duckdb_extension.wasm"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/elections-app/v1/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_eh/parquet.duckdb_extension.wasm",
+    "Body": {
+     "kind": "buffer",
+     "size": 92,
+     "sha256": "875fe2a5a111fa9b321bd081d0a6445e771613d42cfba078647eb58cc823ad07"
+    },
+    "ContentType": "application/wasm",
+    "CacheControl": "public, max-age=31536000, immutable",
+    "Metadata": {
+     "sha256": "875fe2a5a111fa9b321bd081d0a6445e771613d42cfba078647eb58cc823ad07"
+    }
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/elections-app/v1/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_mvp/parquet.duckdb_extension.wasm"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/elections-app/v1/duckdb-wasm-1.29.0/extensions/v1.1.1/wasm_mvp/parquet.duckdb_extension.wasm",
+    "Body": {
+     "kind": "buffer",
+     "size": 93,
+     "sha256": "2dd0101771d40a461f48cf10b69f587984254424b4ebd05145c2481e9da9270d"
+    },
+    "ContentType": "application/wasm",
+    "CacheControl": "public, max-age=31536000, immutable",
+    "Metadata": {
+     "sha256": "2dd0101771d40a461f48cf10b69f587984254424b4ebd05145c2481e9da9270d"
+    }
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/elections-app/v1/extracts/dail-0123456789ab.parquet"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/elections-app/v1/extracts/dail-0123456789ab.parquet",
+    "Body": {
+     "kind": "buffer",
+     "size": 42,
+     "sha256": "25fec172da1bebd19160835029ce096fa12628f754053c8080d7c4cd084f76b2"
+    },
+    "ContentType": "application/vnd.apache.parquet",
+    "CacheControl": "public, max-age=31536000, immutable",
+    "Metadata": {
+     "sha256": "25fec172da1bebd19160835029ce096fa12628f754053c8080d7c4cd084f76b2"
+    }
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/elections-app/v1/extracts/seanad-ba9876543210.parquet"
+   },
+   "failed": 403
+  }
+ ],
+ "files": {}
+}

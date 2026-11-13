@@ -1,0 +1,101 @@
+{
+ "id": "copy-keys-verify",
+ "exit": 1,
+ "stdout": "new-missing: data/maps/test/pmtiles/generated/a-vector-test.pmtiles -> data/maps/pmtiles/a-vector.pmtiles\ndiffer: data/maps/test/pmtiles/generated/c-vector-test.pmtiles -> data/maps/pmtiles/c-vector.pmtiles\nold-missing: data/maps/test/pmtiles/generated/d-vector-test.pmtiles -> data/maps/pmtiles/d-vector.pmtiles\nnew-missing: data/maps/test/pmtiles/generated/e-vector-test.pmtiles -> data/maps/pmtiles/e-vector.pmtiles\nnew-missing: data/maps/test/pmtiles/generated/f-vector-test.pmtiles -> data/maps/pmtiles/f-vector.pmtiles\nverify: 3 new-missing, 1 ok, 1 differ, 1 old-missing\nmigration: 3 old-key, 1 copied, 1 error, 1 old-retired\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/a-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/a-vector.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/b-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/b-vector.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/c-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/c-vector.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/d-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/d-vector.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/e-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/e-vector.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/f-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/f-vector.pmtiles"
+   }
+  }
+ ],
+ "files": {}
+}
