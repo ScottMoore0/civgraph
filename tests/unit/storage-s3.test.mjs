@@ -1,0 +1,113 @@
+// The S3 blob store (packages/storage/src/s3.mjs, storage slice ST-2's s3.mjs): the commands each
+// method sends, over the recording SDK stand-in (tests/fixtures/s3-fake/client-s3.mjs). No
+// network: the stand-in keeps the bucket in memory. The conformance suite every BlobStore passes
+// is in tests/functions/blob-store.test.mjs; the scripts that use this store are compared with
+// their earlier selves in tests/unit/publish-s3-dry-run.test.mjs.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { Readable } from 'node:stream';
+import { copySource, isNotFound, s3BlobStore, S3_DELETE_BATCH } from '../../packages/storage/src/s3.mjs';
+import { createFakeS3 } from '../fixtures/s3-fake/client-s3.mjs';
+
+/** A store over a fresh stand-in bucket; `sdk.calls` lists what it sent. */
+function make(state = {}) {
+  const sdk = createFakeS3({ state });
+  const store = s3BlobStore({ bucket: 'boundaries-data', client: /** @type {any} */ (new sdk.S3Client({})), commands: /** @type {any} */ (sdk) });
+  sdk.calls.length = 0;
+  return { sdk, store };
+}
+const sent = (sdk) => sdk.calls.map((c) => ({ op: c.op, ...c.input }));
+
+test('put sends one PutObject with only the fields given, in the scripts\' order', async () => {
+  const { sdk, store } = make();
+  await store.put('data/maps/a.fgb', Buffer.from('abc'), { contentType: 'application/octet-stream' });
+  await store.put('data/x/b.json', Buffer.from('{}'), { contentLength: 2, contentType: 'application/json', cacheControl: 'public, max-age=300', metadata: { sha256: 'h' } });
+  const [first, second] = sent(sdk);
+  assert.deepEqual(Object.keys(first), ['op', 'Bucket', 'Key', 'Body', 'ContentType']);
+  assert.deepEqual(Object.keys(second), ['op', 'Bucket', 'Key', 'Body', 'ContentLength', 'ContentType', 'CacheControl', 'Metadata']);
+  assert.equal(first.Body.kind, 'buffer', 'a Buffer goes as it is');
+  assert.deepEqual(second.Metadata, { sha256: 'h' });
+});
+
+test('put streams a stream body with its length', async () => {
+  const { sdk, store } = make();
+  await store.put('big/file.pdf', Readable.from([Buffer.from('part one, '), Buffer.from('part two')]), { contentLength: 18, contentType: 'application/pdf' });
+  const [put] = sent(sdk);
+  assert.equal(put.Body.kind, 'stream');
+  assert.equal(put.Body.size, 18);
+  assert.equal(put.ContentLength, 18);
+  assert.equal((await store.head('big/file.pdf')).size, 18);
+});
+
+test('head returns the headers, null for a missing key, and throws anything else (or a 404 when asked)', async () => {
+  const { sdk, store } = make({
+    objects: { 'k/a.br': { body: 'x', contentType: 'application/octet-stream', cacheControl: 'public', contentEncoding: 'br', metadata: { sha256: 's' } }, 'k/denied': { body: 'y' } },
+    fail: [{ op: 'HeadObject', key: 'k/denied', status: 403, name: 'Forbidden' }],
+  });
+  assert.deepEqual(await store.head('k/a.br'), { size: 1, etag: '"9dd4e461268c8034f5c8564e155c67a6"', contentType: 'application/octet-stream', cacheControl: 'public', contentEncoding: 'br', metadata: { sha256: 's' } });
+  assert.equal(await store.head('k/none'), null);
+  await assert.rejects(store.head('k/none', { missing: 'throw' }), { name: 'NotFound' });
+  await assert.rejects(store.head('k/denied'), { name: 'Forbidden' });
+  assert.deepEqual(sent(sdk).map((c) => [c.op, c.Key]), [['HeadObject', 'k/a.br'], ['HeadObject', 'k/none'], ['HeadObject', 'k/none'], ['HeadObject', 'k/denied']]);
+});
+
+test('list sends the prefix and continuation token, MaxKeys and Delimiter only when given; listAll pages', async () => {
+  /** @type {Record<string, { body: string }>} */
+  const objects = {};
+  for (const k of ['p/a', 'p/b', 'p/c', 'p/d', 'p/e', 'q/z']) objects[k] = { body: k };
+  const { sdk, store } = make({ pageSize: 2, objects });
+  const keys = [];
+  for await (const e of store.listAll({ prefix: 'p/' })) keys.push(e.key);
+  assert.deepEqual(keys, ['p/a', 'p/b', 'p/c', 'p/d', 'p/e']);
+  assert.deepEqual(sent(sdk), [
+    { op: 'ListObjectsV2', Bucket: 'boundaries-data', Prefix: 'p/' },
+    { op: 'ListObjectsV2', Bucket: 'boundaries-data', Prefix: 'p/', ContinuationToken: 'page-2' },
+    { op: 'ListObjectsV2', Bucket: 'boundaries-data', Prefix: 'p/', ContinuationToken: 'page-4' },
+  ]);
+  sdk.calls.length = 0;
+  const page = await store.list({ prefix: 'p/', limit: 1000 });
+  assert.deepEqual(sent(sdk), [{ op: 'ListObjectsV2', Bucket: 'boundaries-data', Prefix: 'p/', MaxKeys: 1000 }]);
+  assert.deepEqual(page.entries[0], { key: 'p/a', size: 3, uploaded: '2026-11-01T00:00:00.000Z', etag: page.entries[0]?.etag, metadata: null });
+  assert.match(String(page.entries[0]?.etag), /^"[0-9a-f]{32}"$/);
+  assert.equal(page.truncated, true);
+  assert.equal(page.cursor, 'page-2');
+});
+
+test('copy is server side, with the CopySource encoded per segment and only the headers given', async () => {
+  const { sdk, store } = make({ objects: { 'a/b c+d.pmtiles': { body: 'x', contentType: 'application/vnd.pmtiles' } } });
+  await store.copy('a/b c+d.pmtiles', 'n/e.pmtiles', { metadataDirective: 'COPY' });
+  await store.copy('a/b c+d.pmtiles', 'a/b c+d.pmtiles', { metadataDirective: 'REPLACE', cacheControl: 'public, max-age=3600', contentType: 'application/octet-stream', contentEncoding: 'br', metadata: { m: '1' } });
+  assert.deepEqual(sent(sdk), [
+    { op: 'CopyObject', Bucket: 'boundaries-data', Key: 'n/e.pmtiles', CopySource: 'boundaries-data/a/b%20c%2Bd.pmtiles', MetadataDirective: 'COPY' },
+    { op: 'CopyObject', Bucket: 'boundaries-data', Key: 'a/b c+d.pmtiles', CopySource: 'boundaries-data/a/b%20c%2Bd.pmtiles', MetadataDirective: 'REPLACE', CacheControl: 'public, max-age=3600', ContentType: 'application/octet-stream', ContentEncoding: 'br', Metadata: { m: '1' } },
+  ]);
+  assert.equal((await store.head('n/e.pmtiles'))?.contentType, 'application/vnd.pmtiles');
+  assert.equal((await store.head('a/b c+d.pmtiles'))?.cacheControl, 'public, max-age=3600');
+});
+
+test('copySource matches both ways the scripts encoded it', () => {
+  for (const key of ['data/maps/a b+c.pmtiles', 'x/é/ü?.fgb', 'plain/key.fgb', 'a/%2F/b']) {
+    assert.equal(copySource('b', key), `b/${encodeURIComponent(key).replace(/%2F/g, '/')}`, key);
+  }
+});
+
+test('deleteMany sends quiet DeleteObjects of at most 1,000 keys each', async () => {
+  const keys = Array.from({ length: S3_DELETE_BATCH * 2 + 1 }, (_, i) => `d/${i}`);
+  const { sdk, store } = make({ objects: Object.fromEntries(keys.map((k) => [k, { body: k }])) });
+  assert.deepEqual(await store.deleteMany(keys), { errors: [] });
+  const calls = sent(sdk);
+  assert.deepEqual(calls.map((c) => [c.op, c.Delete.Quiet, c.Delete.Objects.count ?? c.Delete.Objects.length]), [['DeleteObjects', true, 1000], ['DeleteObjects', true, 1000], ['DeleteObjects', true, 1]]);
+  assert.equal(sdk.objects.size, 0);
+});
+
+test('isNotFound: a 404, NotFound or NoSuchKey; nothing else', () => {
+  assert.equal(isNotFound({ $metadata: { httpStatusCode: 404 } }), true);
+  assert.equal(isNotFound({ name: 'NotFound' }), true);
+  assert.equal(isNotFound({ name: 'NoSuchKey' }), true);
+  assert.equal(isNotFound({ name: 'Forbidden', $metadata: { httpStatusCode: 403 } }), false);
+  assert.equal(isNotFound(null), false);
+});
+
+test('s3BlobStore refuses something that is not a client', () => {
+  assert.throws(() => s3BlobStore({ bucket: 'b', client: /** @type {any} */ ({}), commands: /** @type {any} */ ({}) }), /not an S3 client/);
+});

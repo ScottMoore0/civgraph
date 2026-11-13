@@ -9,6 +9,8 @@
  *                             which picks one by the binding's kind in packages/config/src/config.js BINDINGS)
  *   memoryBlobStore(entries)  a Map in memory (tests, tools; below)
  *   fsBlobStore(dir)          a folder on disk (packages/storage/src/blob-fs.mjs; Node only)
+ *   s3BlobStore / openS3BlobStore  a bucket over an S3-compatible endpoint, R2's S3 API for the
+ *                             publish scripts (packages/storage/src/s3.mjs; Node only)
  *
  * The interface is the part of R2 and KV the Functions use: read a key (as a body, text or
  * JSON), write a key (with a content type, metadata or an expiry), and list keys under a prefix,
@@ -58,7 +60,7 @@
  * @typedef {'get' | 'put' | 'list'} BlobOperation
  *
  * @typedef {object} BlobStore
- * @property {string} kind                                  'r2' | 'kv' | 'memory' | 'fs'
+ * @property {string} kind                                  'r2' | 'kv' | 'memory' | 'fs' | 's3'
  * @property {(op: BlobOperation) => boolean} supports      whether the binding offers the operation
  * @property {(key: string) => Promise<BlobObject | null>} get
  * @property {(key: string) => Promise<string | null>} text
