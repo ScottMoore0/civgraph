@@ -38,6 +38,11 @@ declare global {
   var Fuse: new <T>(items: T[], options: Record<string, unknown>) => FuseIndex<T>;
 
   interface Window {
+    /**
+     * The browser suite's handle on the map app (packages/map/app/app.js sets it; the timeline adds
+     * its test surface and a trace of every write to the slider).
+     */
+    __civgraphTest2?: { timeline?: unknown; timelineWrites?: Array<{ index: number; from: string }>; [key: string]: unknown };
     /** 'classic' on the archived classic page (civgraph.net/maps/classic/): packages/map/src/catalogue/flag.js. */
     CIVGRAPH_CATALOGUE?: string;
     /** The site-head bootstrap's language-control loader (packages/map/src/catalogue/lang-reveal.js). */
