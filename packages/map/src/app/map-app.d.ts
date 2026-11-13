@@ -12,10 +12,11 @@
  */
 import type { CensusLegend, LegendModel } from './legend-view.mjs';
 import type { TimelineChangeView } from './timeline/timeline-view.mjs';
+import type { TimelineAnimationState, TimelineItem as PlaybackItem } from './timeline/playback.mjs';
 
 /** A stop on the timeline: an edition (its map) or an election (packages/map/src/app/timeline/controls.js). */
-export interface TimelineItem {
-  mapId?: string;
+export interface TimelineItem extends PlaybackItem {
+  mapId?: string | null;
   date?: unknown;
   timestamp?: unknown;
   label?: unknown;
@@ -94,6 +95,7 @@ export interface MapControllerView {
   clearTimelineChanges(): boolean;
   fitToBounds(bounds: unknown, options?: { smooth?: boolean } | null): void;
   setEditionRole(mainId: string, role: string | null | undefined): void;
+  showLayer(mainId: string): void;
 }
 
 /** What the method modules use of the election manager (packages/map/app/election-manager.js). */
@@ -120,6 +122,12 @@ export interface MapApp {
   timelineChangeCache: Map<string, Promise<TimelineChangeFile | null>>;
   /** The changes the timeline's button describes (timeline/changes.js). */
   timelineChangeView: TimelineChangeState | null;
+  /** The Play button's machine and the run's bookkeeping (timeline/playback.mjs). */
+  timelineAnimation: TimelineAnimationState;
+  /** The slider's stops (timeline/controls.js setupTimeline). */
+  timelineItems: TimelineItem[];
+  /** What a stop chosen on the slider does; null while no timeline is shown. */
+  timelineOnSelect: ((...args: never[]) => unknown) | null;
 
   // Methods of other method modules.
   /** layers.js */
@@ -128,6 +136,42 @@ export interface MapApp {
   isMapVisible(mapId: string): boolean;
   /** layers.js */
   isMapLoaded(mapId: string): boolean;
+  /** layers.js */
+  loadMap(mapId: string, options?: { fit?: boolean }): Promise<unknown>;
+  /** layers.js */
+  unloadMap(mapId: string, options?: { preserveTimelineAnimation?: boolean }): Promise<unknown>;
+  /** layers.js */
+  syncCatalogueMapState(): void;
+  /** layers.js */
+  updateActiveLayers(): void;
+  /** url-state.js */
+  updateURLState(): void;
+  /** messages.js */
+  showMapError(error: unknown, options?: { kind?: string }): void;
+  /** timeline/controls.js */
+  isTimelineMapPlayable(mapId: string): boolean;
+  /** timeline/controls.js */
+  beginTimelineApply(): void;
+  /** timeline/controls.js */
+  endTimelineApply(): boolean;
+  /** timeline/controls.js */
+  clampTimelineIndex(index: number, items?: TimelineItem[]): number;
+  /** timeline/controls.js */
+  getTimelineRangeIndex(): number;
+  /** timeline/controls.js */
+  setTimelineRangeIndex(index: number): void;
+  /** timeline/controls.js */
+  updateTimeline(): void;
+  /** timeline/controls.js */
+  applyTimelineTimestamp(timestamp: unknown, options?: { fit?: boolean }): Promise<unknown>;
+  /** timeline/changes.js */
+  getShownTimelineIndex(items?: TimelineItem[]): number;
+  /** timeline/changes.js */
+  getTimelineHighlightEnabled(): boolean;
+  /** timeline/changes.js */
+  setTimelineChangeView(view: TimelineChangeState | null): void;
+  /** timeline/changes.js */
+  showTimelineStepChanges(fromIndex: number, toIndex: number, items?: TimelineItem[], options?: { draw?: boolean }): Promise<TimelineChangeState | null>;
   /** timeline/animation.js */
   getTimelineAnimationItems(): TimelineItem[];
   /** timeline/controls.js */

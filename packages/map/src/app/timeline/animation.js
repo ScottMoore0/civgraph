@@ -15,28 +15,50 @@ const TIMELINE_ANIMATION_DELAYS = Object.freeze({
   holdQuiet: 600
 });
 
+/** @typedef {import('../map-app').MapApp & TimelineAnimationMethods} TimelineAnimationApp */
+/** @typedef {import('../map-app').TimelineItem} TimelineItem */
+
 export class TimelineAnimationMethods {
+  /**
+   * The stops Play steps through: a run's own, else the slider's.
+   * @this {TimelineAnimationApp}
+   * @returns {TimelineItem[]}
+   */
   getTimelineAnimationItems() {
     const sequenceItems = this.timelineAnimation?.sequenceItems;
     return Array.isArray(sequenceItems) && sequenceItems.length ? sequenceItems : this.timelineItems;
   }
 
+  /**
+   * @this {TimelineAnimationApp}
+   * @param {number} runId
+   */
   isTimelineRunCurrent(runId) {
     return this.timelineAnimation.runId === runId && this.timelineAnimation.playing;
   }
 
+  /**
+   * @this {TimelineAnimationApp}
+   * @returns {Set<string>}
+   */
   getTimelineItemMapIds() {
-    return new Set(this.getTimelineAnimationItems().map((item) => item?.mapId).filter(Boolean));
+    return new Set(/** @type {string[]} */ (this.getTimelineAnimationItems().map((item) => item?.mapId).filter(Boolean)));
   }
 
+  /**
+   * @this {TimelineAnimationApp}
+   * @param {string | null | undefined} mapId
+   */
   isTimelineAnimationLayer(mapId) {
     if (!mapId) return false;
+    /** @type {Partial<import('./playback.mjs').TimelineAnimationState>} */
     const animation = this.timelineAnimation || {};
     return Boolean(
       animation.playing || animation.paused || animation.originalLayerId
     ) && (animation.originalLayerId === mapId || this.getTimelineItemMapIds().has(mapId));
   }
 
+  /** @this {TimelineAnimationApp} */
   getVisibleTimelineLayerIds() {
     const ids = this.getTimelineItemMapIds();
     return this.getLoadedLayerIds()
@@ -44,6 +66,7 @@ export class TimelineAnimationMethods {
       .filter((id) => this.isMapVisible(id));
   }
 
+  /** @this {TimelineAnimationApp} */
   canAnimateTimeline() {
     if (this.elections?.activeEntry) return false;
     if (!this.timelineItems.length || this.timelineItems.length < 2 || !this.timelineOnSelect) return false;
@@ -53,9 +76,10 @@ export class TimelineAnimationMethods {
     return this.getVisibleTimelineLayerIds().length === 1;
   }
 
+  /** @this {TimelineAnimationApp} */
   updateTimelineAnimationButtons() {
-    const play = document.getElementById('timelinePlay');
-    const stop = document.getElementById('timelineStop');
+    const play = /** @type {HTMLButtonElement | null} */ (document.getElementById('timelinePlay'));
+    const stop = /** @type {HTMLButtonElement | null} */ (document.getElementById('timelineStop'));
     if (!play || !stop) return;
     // The playback buttons animate boundary layers through time. An election has nothing to
     // animate, so canAnimateTimeline() always refuses while one is open; rather than sit
@@ -85,6 +109,7 @@ export class TimelineAnimationMethods {
     stop.setAttribute('aria-label', 'Stop territorial animation');
   }
 
+  /** @this {TimelineAnimationApp} */
   clearTimelineAnimationTimer() {
     if (this.timelineAnimation.timer) {
       window.clearTimeout(this.timelineAnimation.timer);
@@ -97,6 +122,11 @@ export class TimelineAnimationMethods {
     }
   }
 
+  /**
+   * @this {TimelineAnimationApp}
+   * @param {unknown} delay
+   * @param {() => void} callback
+   */
   scheduleTimelineAnimation(delay, callback) {
     this.clearTimelineAnimationTimer();
     this.timelineAnimation.timer = window.setTimeout(() => {
@@ -105,9 +135,14 @@ export class TimelineAnimationMethods {
     }, Math.max(0, Number(delay) || 0));
   }
 
+  /**
+   * @this {TimelineAnimationApp}
+   * @param {unknown} delay
+   * @returns {Promise<void>}
+   */
   waitTimelineDelay(delay) {
     this.clearTimelineAnimationTimer();
-    return new Promise((resolve) => {
+    return new Promise((/** @type {(value?: void) => void} */ resolve) => {
       this.timelineAnimation.delayResolve = resolve;
       this.timelineAnimation.timer = window.setTimeout(() => {
         this.timelineAnimation.timer = 0;
@@ -117,6 +152,10 @@ export class TimelineAnimationMethods {
     });
   }
 
+  /**
+   * @this {TimelineAnimationApp}
+   * @param {{ preserveOverlay?: boolean }} [options]
+   */
   pauseTimelineAnimation(options = {}) {
     const wasActive = this.timelineAnimation.playing || this.timelineAnimation.paused;
     if (wasActive) this.timelineAnimation.runId += 1;
@@ -129,6 +168,10 @@ export class TimelineAnimationMethods {
     this.updateTimelineAnimationButtons();
   }
 
+  /**
+   * @this {TimelineAnimationApp}
+   * @param {{ restoreOriginal?: boolean }} [options]
+   */
   async stopTimelineAnimation(options = {}) {
     const { restoreOriginal = true } = options;
     const originalLayerId = this.timelineAnimation.originalLayerId;
@@ -151,7 +194,8 @@ export class TimelineAnimationMethods {
           }
         }
         if (!this.isMapLoaded(originalLayerId)) await this.loadMap(originalLayerId, { fit: false });
-        this.mapController.showLayer?.(originalLayerId);
+        // A map was loaded just above, so the map controller exists.
+        /** @type {import('../map-app').MapControllerView} */ (this.mapController).showLayer?.(originalLayerId);
         const originalTimestamp = dataService.parseMapDate?.(dataService.getMapById(originalLayerId)?.date);
         const timelineItems = this.getTimelineAnimationItems();
         const originalIndex = timelineItems.findIndex((item) => item.mapId === originalLayerId || item.timestamp === originalTimestamp);
@@ -169,6 +213,7 @@ export class TimelineAnimationMethods {
     this.updateTimelineAnimationButtons();
   }
 
+  /** @this {TimelineAnimationApp} */
   async startTimelineAnimation() {
     if (!this.canAnimateTimeline()) {
       this.updateTimelineAnimationButtons();
@@ -205,7 +250,11 @@ export class TimelineAnimationMethods {
     });
   }
 
-  async advanceTimelineAnimation(runId = this.timelineAnimation.runId) {
+  /**
+   * @this {TimelineAnimationApp}
+   * @param {number} [runId]
+   */
+  async advanceTimelineAnimation(runId = /** @type {TimelineAnimationApp} */ (/** @type {unknown} */ (this)).timelineAnimation.runId) {
     if (!this.isTimelineRunCurrent(runId)) return;
     const timelineItems = this.getTimelineAnimationItems();
     const fromIndex = this.clampTimelineIndex(this.timelineAnimation.currentIndex, timelineItems);
@@ -232,8 +281,15 @@ export class TimelineAnimationMethods {
    * One Play step: swap to the next edition, highlight what changed, and hold it long enough to
    * see. It used to load both editions, lay a precomputed overlay over them for 1.5 s and fade
    * it; the overlay existed for 14 series only, and for Counties covered the whole island.
+   * (A default parameter is checked against the class, not the typed this, so it reaches the
+   * app through a cast; installMethods makes the app `this`.)
+   * @this {TimelineAnimationApp}
+   * @param {number} fromIndex
+   * @param {number} toIndex
+   * @param {number} [runId]
+   * @param {TimelineItem[]} [items]
    */
-  async applyTimelineAnimationTransition(fromIndex, toIndex, runId = this.timelineAnimation.runId, items = this.getTimelineAnimationItems()) {
+  async applyTimelineAnimationTransition(fromIndex, toIndex, runId = /** @type {TimelineAnimationApp} */ (/** @type {unknown} */ (this)).timelineAnimation.runId, items = /** @type {TimelineAnimationApp} */ (/** @type {unknown} */ (this)).getTimelineAnimationItems()) {
     const timelineItems = Array.isArray(items) && items.length ? items : this.getTimelineAnimationItems();
     const safeTo = this.clampTimelineIndex(toIndex, timelineItems);
     const toItem = timelineItems[safeTo];
@@ -249,10 +305,16 @@ export class TimelineAnimationMethods {
     await this.waitTimelineDelay(visible ? TIMELINE_ANIMATION_DELAYS.hold : TIMELINE_ANIMATION_DELAYS.holdQuiet);
   }
 
+  /**
+   * @this {TimelineAnimationApp}
+   * @param {string} mapId
+   */
   async ensureTimelineLayerLoaded(mapId) {
     if (!this.isTimelineMapPlayable(mapId)) return false;
     if (!this.isMapLoaded(mapId)) await this.loadMap(mapId, { fit: false });
-    this.mapController.showLayer?.(mapId);
+    // A map is loaded by now, so the map controller exists.
+    /** @type {import('../map-app').MapControllerView} */ (this.mapController).showLayer?.(mapId);
+
     return true;
   }
 }
