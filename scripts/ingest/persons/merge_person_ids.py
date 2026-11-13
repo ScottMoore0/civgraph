@@ -615,14 +615,17 @@ def main():
         if ka != kb:
             # A confirmed pair declared one man over these vetoes (override_vetoes; John Beirne)
             # is joined over them, and only that pair (ei_relatives.load_overrides).
-            official = None if ei_relatives.overridden(overrides, 'official-ids', held[ka], held[kb])                 else official_conflict(held[ka], held[kb])
+            overruled = ei_relatives.overridden(overrides, 'official-ids', held[ka], held[kb])
+            official = None if overruled else official_conflict(held[ka], held[kb])
             why = ei_relatives.distinct(people, held[ka], held[kb], overrides) or official or life_conflict(ka, kb)
             if why:
                 vetoed.append((mg, why))
                 continue
             ours = {s for s in held[ka] if s.startswith('ei:')}
             theirs = {s for s in held[kb] if s.startswith('ei:')}
-            if ours and theirs and ours.isdisjoint(theirs):
+            # A pair confirmed one man over the relatives veto needs no relatives pages.
+            if ours and theirs and ours.isdisjoint(theirs) and not ei_relatives.overridden(
+                    overrides, 'ei-relatives', held[ka], held[kb]):
                 unchecked |= {s for s in ours | theirs if s not in people}
             lo, hi = min(ka, kb), max(ka, kb)
             parent[hi] = lo
