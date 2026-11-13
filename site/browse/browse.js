@@ -8,6 +8,7 @@ import { foldSearchText, personRecordKey, siteNumber, slugify } from '../pkg/cor
 import { candidateReturnWithoutPoll, partyHadNoPoll } from '../pkg/core/src/unopposed.mjs';
 import { SITE } from '../pkg/config/src/config.js';
 import { electionKindLabels } from '../pkg/registries/src/browser/election-type-names.mjs';
+import { sourceKindLabels } from '../pkg/registries/src/browser/source-kind-labels.mjs';
 import { browseColours } from '../pkg/registries/src/browser/colour-palettes.mjs';
 import { SHORT_MONTHS } from '../pkg/core/src/date-format.mjs';
 import { PAGE_TYPE_IDS } from '../pkg/ui/src/page-types.mjs';
@@ -4625,11 +4626,8 @@ function safeExternalUrl(value) {
   return /^https?:\/\//i.test(text) ? text : '';
 }
 
-/** What a citation's `kind` is called on the page. */
-const CITATION_KIND_LABELS = {
-  news: 'newspaper', newspaper: 'newspaper', official: 'official return or notice', academic: 'academic compilation',
-  book: 'book', 'book-or-print': 'book', 'results-compilation': 'results compilation', web: 'website', other: '',
-};
+/** What a citation's `kind` is called on the page: the source-kinds registry (data/registries/source-kinds.json). */
+const CITATION_KIND_LABELS = sourceKindLabels;
 
 /**
  * One original source of a result: its title (or its site, when the provenance names only a URL),
@@ -4642,7 +4640,7 @@ function citationHtml(citation) {
   const title = String(citation.title || '').trim() || host || 'Source';
   const label = url ? `<a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a>` : escapeHtml(title);
   const publisher = citation.publisher && !title.includes(String(citation.publisher)) ? ` &ndash; ${escapeHtml(citation.publisher)}` : '';
-  const kind = CITATION_KIND_LABELS[/** @type {keyof typeof CITATION_KIND_LABELS} */ (citation.kind)] || '';
+  const kind = Object.hasOwn(CITATION_KIND_LABELS, String(citation.kind)) ? CITATION_KIND_LABELS[String(citation.kind)] : '';
   return `${label}${publisher}${kind ? ` <small class="browse-muted">(${escapeHtml(kind)})</small>` : ''}`;
 }
 

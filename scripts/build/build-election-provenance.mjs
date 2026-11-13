@@ -43,6 +43,8 @@ import { PROVENANCE_FILE, PROVENANCE_PART_DIR, PROVENANCE_SHARD_DIR, rel } from 
 import {
   budgetProblems, provenanceFiles, readProvenance, slimProvenance, writeProvenance,
 } from '../../packages/loader/src/election-provenance.mjs';
+import { loadRegistry } from '../../packages/registries/src/index.mjs';
+import { unregisteredSourceKinds } from '../../packages/registries/src/source-kinds.mjs';
 
 const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
 const REVIEW = path.join('data', 'review-inputs', 'wikipedia-cited-sources', 'contest-sources.json');
@@ -643,6 +645,14 @@ const shardText = (shard) => `${JSON.stringify({
   ...shard,
   contests: Object.fromEntries(Object.keys(shard.contests).sort().map((k) => [k, shard.contests[k]])),
 }, null, 1)}\n`;
+
+// Every citation's kind is one the source-kinds registry holds (data/registries/source-kinds.json),
+// so each shows with its label: a contest file's source.kind spelt some new way fails here first.
+const unregistered = unregisteredSourceKinds(loadRegistry('source-kinds'), doc.contests.flatMap((c) => c.sources));
+if (unregistered.length) {
+  console.error(`election provenance: source kind(s) not in data/registries/source-kinds.json: ${unregistered.map(([kind, n]) => `${kind} (${n})`).join(', ')}`);
+  process.exit(1);
+}
 
 const shards = buildShards(doc);
 const shardFiles = () => (existsSync(SHARD_DIR) ? readdirSync(SHARD_DIR).filter((f) => f.endsWith('.json')) : []);

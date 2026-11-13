@@ -38,6 +38,8 @@
  *                        filter's labels); both served pages reach it at /pkg/ (packages/served.json)
  *   catalogue-kinds.json packages/map/src/catalogue/index.js (SECTIONS) and util.js (KINDS): the kinds of
  *                        map series, their sections and filter labels
+ *   source-kinds.json    site/browse/browse.js (citationHtml: the label after a contest source's title), at
+ *                        /pkg/ through source-kind-labels.mjs (packages/served.json)
  *   election-groups.json packages/map/src/catalogue/view-elections.js (the shelves), packages/map/src/
  *                        entity-detail-data.mjs (election-history groups), site/apps/elections/views/home.js
  *                        (the home page's groups, at /pkg/); placed by body-groups.mjs
@@ -52,6 +54,7 @@ import { browserElectionBodies, catalogueShelves } from '../election-bodies.mjs'
 import { browserElectionTypes } from '../election-types.mjs';
 import { browserColours } from '../colours.mjs';
 import { browserCatalogueKinds } from '../catalogue-kinds.mjs';
+import { browserSourceKinds } from '../source-kinds.mjs';
 
 /** @typedef {import('../statuses.mjs').StatusMachineFields} StatusMachineFields */
 
@@ -141,7 +144,8 @@ export function browserSlices(root = REPO_ROOT) {
       entityHistory: structuredClone(electionBodies.groups.entityHistory)
     },
     'election-types.json': browserElectionTypes(electionTypes),
-    'catalogue-kinds.json': browserCatalogueKinds(loadRegistry('catalogue-kinds', { root }))
+    'catalogue-kinds.json': browserCatalogueKinds(loadRegistry('catalogue-kinds', { root })),
+    'source-kinds.json': browserSourceKinds(loadRegistry('source-kinds', { root }))
   };
 }
 

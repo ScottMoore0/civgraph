@@ -1,0 +1,17 @@
+{
+ "schemaVersion": 1,
+ "description": "The kinds of source an election result is cited from: a contest file's source.kind (data/elections-source/data/elections/**), and the kind of every citation the provenance build gives a contest (scripts/build/build-election-provenance.mjs, the records' citations table). Each kind's label is what a contest's Sources panel calls it after the title (site/browse/browse.js citationHtml); an empty label shows no kind. Schema: packages/registries/schemas/source-kinds.schema.json; views: packages/registries/src/source-kinds.mjs. Not the register-of-interests source kinds (Browse's 'Source kind' filter), which are a separate vocabulary.",
+ "kinds": [
+  { "id": "news", "meaning": "a newspaper report of the result", "label": "newspaper" },
+  { "id": "newspaper", "meaning": "a newspaper report of the result (the older spelling of news)", "label": "newspaper" },
+  { "id": "official", "meaning": "an official return, declaration or notice", "label": "official return or notice" },
+  { "id": "official-count-sheets", "meaning": "an official count sheet (one contest; shown without a kind, as before)", "label": "" },
+  { "id": "academic", "meaning": "an academic compilation of results", "label": "academic compilation" },
+  { "id": "book", "meaning": "a printed book", "label": "book" },
+  { "id": "book-or-print", "meaning": "a book or other print, as a Wikipedia citation classes it", "label": "book" },
+  { "id": "results-compilation", "meaning": "a compilation of results, printed or online", "label": "results compilation" },
+  { "id": "directory", "meaning": "a street or trade directory's list of a council's members (the Belfast and Ulster Directory): who sat after an election, not the poll", "label": "directory" },
+  { "id": "web", "meaning": "a website", "label": "website" },
+  { "id": "other", "meaning": "any other source (shown without a kind)", "label": "" }
+ ]
+}
