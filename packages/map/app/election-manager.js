@@ -25,7 +25,10 @@ import { candidateReturnWithoutPoll, contestPollStatus, partyHadNoPoll, UNOPPOSE
 const NO_POLL_LABELS = { unopposed: 'Unopposed', 'auto-returned': 'Returned automatically' };
 const NO_VOTES_CELL = '<span class="election-delta--none" title="No poll: returned unopposed">\u2013</span>';
 
-/** The note under a seats-and-votes table, when some seat in it was returned unopposed. */
+/**
+ * The note under a seats-and-votes table, when some seat in it was returned unopposed.
+ * @param {Array<{ unopposedSeats?: unknown } | null | undefined>} [rows]
+ */
 function unopposedSeatsNoteHtml(rows = []) {
   const seats = rows.reduce((sum, row) => sum + (Number(row?.unopposedSeats) || 0), 0);
   if (!seats) return '';
@@ -125,6 +128,99 @@ import { installMethods } from '../src/app/install-methods.mjs';
 import { siteNumber } from '../../core/src/format.js';
 import { MAP_COLOURS, VIEWER_COLOURS } from '../src/colours.mjs';
 
+/** @typedef {import('../src/election/election-manager').ElectionManager} ElectionManager */
+/** @typedef {import('../src/election/election-manager').ElectionHost} ElectionHost */
+/** @typedef {import('../src/election/election-manager').ElectionMapController} ElectionMapController */
+/** @typedef {import('../src/election/election-manager').ElectionEntry} ElectionEntry */
+/** @typedef {import('../src/election/election-manager').ElectionCatalogue} ElectionCatalogue */
+/** @typedef {import('../src/election/election-manager').ElectionGeographyMode} ElectionGeographyMode */
+/** @typedef {import('../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
+/** @typedef {import('./ni-local-view.js').NiLocalGroupedView} NiLocalGroupedView */
+/** @typedef {import('../src/election/election-manager').ElectionStyleLayer} ElectionStyleLayer */
+/** @typedef {import('../src/election/election-manager').BundleResult} BundleResult */
+/** @typedef {import('../src/election/election-manager').EntityPageEntity} EntityPageEntity */
+/** @typedef {import('../src/election/results-model.mjs').ResultRow} ResultRow */
+/** @typedef {import('../src/election/results-model.mjs').StvCandidate} StvCandidate */
+/** @typedef {import('maplibre-gl').Map} MapLibreMap */
+/** @typedef {import('../src/election/election-manager').MainLikeTotals} MainLikeTotals */
+/**
+ * What a party table is drawn from besides its rows: the totals, and the previous election's
+ * results or rows its changes are taken against.
+ * @typedef {{
+ *   referendum?: boolean,
+ *   ignoreMainLikeTotals?: boolean,
+ *   totals?: MainLikeTotals | null,
+ *   previousResults?: ElectionResult[] | null,
+ *   previousRows?: ResultRow[] | null,
+ *   constituencyCount?: unknown,
+ *   totalLabel?: string
+ * }} PartyTableOptions
+ */
+/** @typedef {import('../src/election/election-manager').GeoBounds} GeoBounds */
+/** @typedef {import('../../core/src/election-domain.mjs').ResultCandidate} ResultCandidate */
+/** @typedef {import('../src/election/results-model.mjs').LocalPartyRow} LocalPartyRow */
+/** @typedef {import('../src/election/results-model.mjs').CandidateRow} CandidateRow */
+/** @typedef {import('../src/election/results-model.mjs').PartyRow} PartyRow */
+/** @typedef {ReturnType<typeof buildCouncilSummary>[number]} CouncilSummaryRow */
+/** A council's row with the previous election's and the changes (withCouncilDeltas). @typedef {ReturnType<typeof modelWithCouncilDeltas>[number]} CouncilRow */
+/** @typedef {ReturnType<typeof modelReferendumOutcomeRows>[number]} ReferendumOutcomeRow */
+/**
+ * A row with the previous election's row it was matched to and the changes since
+ * (withPartyDeltas, withCandidateDeltas).
+ * @typedef {ResultRow & {
+ *   party?: unknown, stood?: unknown, seats?: unknown, votes?: unknown, share?: unknown, unopposedSeats?: unknown,
+ *   countNumbers?: unknown[], counts?: unknown[],
+ *   previous?: ResultRow | null,
+ *   deltas?: { [field: string]: number | null | undefined } | null
+ * }} DeltaRow
+ */
+/** @typedef {import('../src/election-trend-chart.mjs').TrendPoint} TrendPoint */
+/**
+ * A contest's seats as the overlay draws them: the result, where (centre, bounds, area), the
+ * seats' candidates and their dots' offsets, and the group's size in pixels.
+ * @typedef {{
+ *   result: BundleResult,
+ *   center: [number, number],
+ *   bounds: GeoBounds | null | undefined,
+ *   seats: ResultCandidate[],
+ *   positions: Array<{ x: number, y: number }>,
+ *   groupWidth: number,
+ *   groupHeight: number,
+ *   area: number
+ * }} SeatCircleGroup
+ */
+/**
+ * The seat circles drawn, for the app's tests and dashboard (getSeatCircleOverlayState): each group
+ * where it stands, in degrees and on screen.
+ * @typedef {{
+ *   groups: Array<{ key: string, aggregateType: string, constituency: string, seats: number, lng: number, lat: number, width: number, height: number, x: number, y: number }>,
+ *   dotCount: number
+ * }} SeatCircleOverlayState
+ */
+/**
+ * A council's or district's seats gathered from its contests (buildLocalAggregateSeatCircleGroups).
+ * @typedef {{
+ *   result: BundleResult, results: BundleResult[], seats: ResultCandidate[], bounds: GeoBounds | null | undefined,
+ *   centerAccumulator: { lng: number, lat: number, weight: number }, area: number
+ * }} LocalSeatGroup
+ */
+/**
+ * A seat group placed on the screen (filterOverlayGroupsByCollision): its centre's point, and its
+ * area's bounds in pixels.
+ * @typedef {Omit<SeatCircleGroup, 'bounds'> & {
+ *   point: import('maplibre-gl').Point, bounds: PixelBounds | null, width: number, height: number, pixelArea: number
+ * }} ProjectedSeatGroup
+ */
+/** Bounds in screen pixels. @typedef {{ minX: number, maxX: number, minY: number, maxY: number }} PixelBounds */
+/** @typedef {import('../src/election/election-manager').ElectionFeature} ElectionFeature */
+/** @typedef {import('../src/election-renderer.mjs').RendererHost} RendererHost */
+/** @typedef {import('../src/election-main-pane-contract.mjs').PaneHost} PaneHost */
+/** A party's row of a trend summary (buildTrendSummary). @typedef {{ party: string, share: number, votes: number, seats: number, colour: string, entry: ElectionEntry }} TrendRow */
+/**
+ * An election's party rows for the trend chart: overall, by result key and by local body.
+ * @typedef {{ entry: ElectionEntry, overallRows: TrendRow[], resultRowsByKey: Map<string, TrendRow[]>, localRowsByKey: Map<string, TrendRow[]> }} TrendSummary
+ */
+
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
 const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
 const SEAT_LAYER_ID = 'test2-election-seat-layer';
@@ -142,6 +238,7 @@ const SEAT_CIRCLE_GROUP_LIMIT_DESKTOP = 260;
 const SEAT_CIRCLE_GROUP_LIMIT_TABLET = 160;
 const SEAT_CIRCLE_GROUP_LIMIT_MOBILE = 90;
 
+/** @type {Promise<void> | null} */
 let electionAnimationRuntimePromise = null;
 
 const MAIN_ELECTION_GEOGRAPHY_STYLE = Object.freeze({
@@ -154,7 +251,10 @@ const MAIN_ELECTION_GEOGRAPHY_STYLE = Object.freeze({
   strokeWidth: 1.5
 });
 
-/** A person's initials, for a legend swatch ("Michael D Higgins" -> "MDH"). */
+/**
+ * A person's initials, for a legend swatch ("Michael D Higgins" -> "MDH").
+ * @param {unknown} name
+ */
 function initials(name) {
   return String(name || '').split(/\s+/).filter(Boolean).map((part) => part[0]).join('').toUpperCase().slice(0, 4);
 }
@@ -162,60 +262,114 @@ function initials(name) {
 export class Test2ElectionManager {
   /** The count table's detailed view, on or off (a flag: a non-boolean write throws). */
   get countDetailedView() { return this.countDetail.on; }
+  /** @param {boolean} value */
   set countDetailedView(value) { this.countDetail.set(value); }
 
   /**
    * Open the party or candidate page (`{ kind, key }`) or close it (null), through the
    * ENTITY_PAGE machine; `returnView` is the view Back returns to (unchanged when omitted).
+   * @param {{ kind: string, key: string } | null} entity
+   * @param {string | null} [returnView]
    */
   setEntityPage(entity, returnView) {
     Object.assign(this, entityPageFields(this.entityPage, entity, returnView));
   }
 
+  /**
+   * @param {{ app?: ElectionHost, mapController?: ElectionMapController, onError?: (error: unknown) => void }} [options]
+   *   app and mapController are always given (packages/map/src/app/election-pane.js ensureElections).
+   */
   constructor({ app, mapController, onError } = {}) {
     // "Show labels as printed": the remembered choice, and the listener for the table toggles.
     initPrintedLabels();
-    this.app = app;
-    this.mapController = mapController;
+    this.app = /** @type {ElectionHost} */ (app);
+    this.mapController = /** @type {ElectionMapController} */ (mapController);
     this.onError = onError;
+    /** @type {ElectionCatalogue | null} */
     this.catalogue = null;
+    /** @type {ElectionEntry | null} */
     this.activeEntry = null;
+    /** @type {ElectionEntry | null} */
     this.activeBundle = null;
+    /** @type {ElectionEntry | null} */
     this.previousBundle = null;
+    /** @type {string} */
     this.activeMode = 'winner';
     this.overlayMode = OVERLAY_MODE.check('circles');
+    /** @type {string} */
     this.activePanelView = 'party';
+    /** @type {string | null} */
     this.activeSelectedResultKey = null;
+    // Set by setEntityPage, freshPanelState and clearedSelection (panel-model.mjs).
+    /** @type {string | null} */
+    this.activeEntityKind;
+    /** @type {string | null} */
+    this.activeEntityKey;
+    /** @type {string | null | undefined} */
+    this.activeEntityReturnView;
     // The party or candidate page, closed or open (MA-04, panel-model.mjs ENTITY_PAGE).
     this.entityPage = createState(ENTITY_PAGE);
     this.setEntityPage(null, 'party');
     this.activeLocalMode = LOCAL_MODE.check('dea');
+    /** @type {string | null} */
     this.activeGeographyModeId = null;
     // The count table's detailed view (a flag: countDetailedView reads and sets it).
     this.countDetail = createFlag('election count detail');
+    // The year of pre-1973 Northern Ireland council elections open, if any (grouped-year-methods.js makes it).
+    /** @type {NiLocalGroupedView | undefined} */
+    this.niLocal;
+    // The results whose count detail has been asked for (hydrateSelectedResult makes the set).
+    /** @type {WeakSet<BundleResult> | undefined} */
+    this.countDetailRequested;
     // bundleCache, trendSummaryCache, trendSummaryPromiseCache, trendRenderCache and featureIndexCache
     // (packages/map/src/election/cache.mjs).
+    /** @type {Map<string, ElectionEntry>} */
+    this.bundleCache;
+    /** @type {Map<string, TrendSummary | null>} */
+    this.trendSummaryCache;
+    /** @type {Map<string, Promise<TrendSummary | null>>} */
+    this.trendSummaryPromiseCache;
+    /** @type {Map<string, { points: TrendRow[], comparableCount: number }>} */
+    this.trendRenderCache;
+    /** @type {Map<string, unknown>} */
+    this.featureIndexCache;
     Object.assign(this, createElectionCaches());
     this.trendChart = null;
+    // Keyed by layer id; a bundle without a layer id finds nothing.
+    /** @type {Map<string | undefined, Map<string, ElectionResult>>} */
     this.resultsByLayer = new Map();
     this.seatCircleOverlay = null;
+    /** @type {SeatCircleOverlayState} */
     this.seatCircleOverlayState = { groups: [], dotCount: 0 };
+    /** @type {import('maplibre-gl').Marker[]} */
     this.seatCircleMarkers = [];
     this.lastSeatCircleRenderMs = 0;
     // The overlay's two frame-coalescing requests are flags; the click handlers' install-once
     // guards are latches (MA-L).
+    /** @type {boolean} */
+    this.overlayRefreshPending;
+    /** @type {boolean} */
+    this.seatCirclePositionUpdatePending;
+    /** @type {boolean} */
+    this.seatCircleClickBound;
+    /** @type {boolean} */
+    this.voteBarClickBound;
+    /** @type {boolean} */
+    this.recallLabelClickBound;
     defineFlagFields(this, ['overlayRefreshPending', 'seatCirclePositionUpdatePending']);
     defineFlagFields(this, ['seatCircleClickBound', 'voteBarClickBound', 'recallLabelClickBound'], { latch: true });
     this.overlayWorker = null;
     this.overlayWorkerSeq = 0;
+    /** @type {Map<number, { resolve: (indexes: number[]) => void, reject: (error: unknown) => void, timer: ReturnType<typeof setTimeout> }>} */
     this.overlayWorkerCallbacks = new Map();
     this.overlayRefreshBound = false;
     this.loadSerial = 0;
     // closed, loading or open (packages/map/src/election/load-state.mjs); pendingLoad is the load on its way.
     this.loadRun = createState(ELECTION_LOAD);
     this.pendingLoad = null;
-    this.sharedRenderer = createElectionRenderer(this);
-    this.mainPaneContract = new MainElectionPaneContract(this);
+    // The renderer and the pane read the active bundle only while an election is open.
+    this.sharedRenderer = createElectionRenderer(/** @type {RendererHost} */ (this));
+    this.mainPaneContract = new MainElectionPaneContract(/** @type {PaneHost} */ (this));
   }
 
   /** The election catalogue (ELECTION_MANIFEST_URL, packages/map/src/election/transport.mjs), with its grouped years. */
@@ -247,6 +401,7 @@ export class Test2ElectionManager {
     }));
   }
 
+  /** @param {ElectionEntry | null | undefined} entry */
   getMainCatalogueProvider(entry) {
     if (!entry) return '';
     if (entry.displayProvider && entry.displayProvider !== entry.body) return entry.displayProvider;
@@ -254,9 +409,11 @@ export class Test2ElectionManager {
     return shortElectionBody(entry.body);
   }
 
+  /** @param {ElectionEntry | null | undefined} entry */
   getMainCatalogueSubtitle(entry) {
     if (!entry) return '';
     if (entry.displaySubtitle) return entry.displaySubtitle;
+    /** @type {string[]} */
     const constituencies = Array.isArray(entry.constituencies) ? entry.constituencies : [];
     if (entry.isByElection && constituencies.length) return constituencies.join(', ');
     if (entry.body === 'European Parliament' && constituencies.filter((value) => value !== 'Northern Ireland').length === 0) {
@@ -271,14 +428,19 @@ export class Test2ElectionManager {
   }
 
   /** keepView: leave the camera where the reader has it (stepping along the timeline);
-   * otherwise the map is fitted to the election, as when it is first opened. */
+   * otherwise the map is fitted to the election, as when it is first opened.
+   * @param {string} body
+   * @param {string} date
+   * @param {{ keepView?: boolean }} [options]
+   */
   async loadElection(body, date, { keepView = false } = {}) {
     const groupEntry = this.findEntry(body, date);
     if (groupEntry?.niLocalGroup) {
       // The grouped year supersedes an ordinary load still on its way.
       this.cancelPendingLoad({ unloadBackingLayer: false });
       // Stepping from one year to the next keeps the level, votes or seats, and members.
-      return this.loadNiLocalGroup(groupEntry, { keepView, ...keptGroupedYearView(this.niLocal) });
+      // loadNiLocalGroup is GroupedYearMethods' (installMethods put it on the prototype).
+      return /** @type {ElectionManager} */ (/** @type {unknown} */ (this)).loadNiLocalGroup(groupEntry, { keepView, ...keptGroupedYearView(this.niLocal) });
     }
     const requestId = ++this.loadSerial;
     const entry = groupEntry;
@@ -301,7 +463,8 @@ export class Test2ElectionManager {
     this.loadRun.to('loading');
     this.pendingLoad = { requestId, body, date, sourceMapId: entry.resultsOnly ? null : entry.sourceMapId, hadMap };
     // Results-only: there is no boundary layer for this year, so nothing is added to the map.
-    const mapPromise = entry.resultsOnly ? Promise.resolve(null) : this.app.loadMap(entry.sourceMapId, { fit: !keepView });
+    // An election with a map (not results-only) names it.
+    const mapPromise = entry.resultsOnly ? Promise.resolve(null) : this.app.loadMap(/** @type {string} */ (entry.sourceMapId), { fit: !keepView });
     const bundlePromise = this.loadBundle(entry);
     let bundleFailed = false;
     bundlePromise.catch(() => { bundleFailed = true; });
@@ -377,7 +540,9 @@ export class Test2ElectionManager {
   /** options.updateURL false: leave the address alone (another election is about to replace
    * this one and write it). options.label: closing it is a step of its own, for Back. */
   /** Cancel a load still on its way (MA-03): its result is dropped when it arrives, and the
-   * boundary layer it added is taken off unless it was on the map before or should stay. */
+   * boundary layer it added is taken off unless it was on the map before or should stay.
+   * @param {{ unloadBackingLayer?: boolean }} [options]
+   */
   cancelPendingLoad({ unloadBackingLayer = true } = {}) {
     if (this.loadRun.state() !== 'loading') return;
     this.loadSerial += 1;
@@ -387,6 +552,9 @@ export class Test2ElectionManager {
     if (unloadBackingLayer && pending?.sourceMapId && !pending.hadMap) this.mapController.unloadLayer(pending.sourceMapId);
   }
 
+  /**
+   * @param {{ unloadBackingLayer?: boolean, updateURL?: boolean, keepLoad?: boolean, label?: string | null }} [options]
+   */
   unloadElection(options = {}) {
     const { unloadBackingLayer = true, updateURL = true } = options || {};
     // Closing (or Back) while an election loads cancels that load; loadElection's own unload of
@@ -433,23 +601,30 @@ export class Test2ElectionManager {
     else this.app.updateURLState();
   }
 
+  /**
+   * @param {ElectionEntry | null} [entry]
+   * @param {ElectionEntry | null} [bundle]
+   * @returns {string[]}
+   */
   getActiveElectionBackingLayerIds(entry = this.activeEntry, bundle = this.activeBundle) {
     if (this.niLocal?.active && entry?.niLocalGroup) {
-      return [...new Set([...this.niLocal.backingLayerIds(), entry.sourceMapId].filter(Boolean))];
+      // filter(Boolean) leaves only ids, here and below.
+      return /** @type {string[]} */ ([...new Set([...this.niLocal.backingLayerIds(), entry.sourceMapId].filter(Boolean))]);
     }
     const geographyLayerIds = Array.isArray(bundle?.geographyModes)
       ? bundle.geographyModes.flatMap((mode) => [mode.sourceMapId, mode.layerId])
       : [];
-    return [...new Set([
+    return /** @type {string[]} */ ([...new Set([
       entry?.sourceMapId,
       bundle?.sourceMapId,
       bundle?.layerId,
       bundle?.councilSourceMapId,
       bundle?.councilLayerId,
       ...geographyLayerIds
-    ].filter(Boolean))];
+    ].filter(Boolean))]);
   }
 
+  /** @param {string[]} [layerIds] */
   unloadElectionBackingLayers(layerIds = []) {
     for (const layerId of layerIds) {
       if (
@@ -486,6 +661,10 @@ export class Test2ElectionManager {
     }
   }
 
+  /**
+   * @param {unknown} body
+   * @param {unknown} date
+   */
   isElectionLoaded(body, date) {
     return this.activeEntry?.body === body && this.activeEntry?.date === date;
   }
@@ -500,9 +679,11 @@ export class Test2ElectionManager {
         niLocal: this.niLocal.urlState()
       };
     }
-    return electionURLState(this, this.getCanonicalLayerId(this.activeEntry));
+    // activeEntry is set (tested above).
+    return electionURLState(/** @type {Parameters<typeof electionURLState>[0]} */ (this), this.getCanonicalLayerId(this.activeEntry));
   }
 
+  /** @param {URLSearchParams} params */
   async restoreURLState(params) {
     let body = params.get('electionBody');
     let date = params.get('electionDate');
@@ -514,6 +695,7 @@ export class Test2ElectionManager {
         const bodySlug = parts[0];
         date = parts[1];
         mainElectionSelected = parts.length > 2 ? parts[2] : null;
+        /** @param {unknown} value */
         const slugify = (value) => String(value || '').toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
         const mainEntry = (this.catalogue?.elections || []).find((entry) => slugify(entry.body) === bodySlug && entry.date === date);
         if (mainEntry) body = mainEntry.body;
@@ -530,7 +712,8 @@ export class Test2ElectionManager {
     if (!body || !date) return;
     const group = this.findEntry(body, date);
     if (group?.niLocalGroup) {
-      await this.loadNiLocalGroup(group, groupedYearOptionsFromParams(params));
+      // loadNiLocalGroup is GroupedYearMethods' (installMethods put it on the prototype).
+      await /** @type {ElectionManager} */ (/** @type {unknown} */ (this)).loadNiLocalGroup(group, groupedYearOptionsFromParams(params));
       return;
     }
     await this.loadElection(body, date);
@@ -570,11 +753,18 @@ export class Test2ElectionManager {
     this.app.focusActiveElectionCatalogueEntry?.(this.activeEntry, { scroll: false });
   }
 
-  /** An election's results bundle (packages/map/src/election/transport.mjs), kept for the last few opened. */
+  /**
+   * An election's results bundle (packages/map/src/election/transport.mjs), kept for the last few opened.
+   * @param {ElectionEntry} entry
+   */
   async loadBundle(entry) {
     return cachedLoad(this.bundleCache, entry.key, ELECTION_CACHE_LIMITS.bundles, () => fetchResultsBundle(entry));
   }
 
+  /**
+   * @param {ElectionEntry | null | undefined} entry
+   * @returns {Promise<TrendSummary | null | undefined>}
+   */
   async loadTrendSummary(entry) {
     if (!entry?.key || !entry.resultUrl) return null;
     if (this.trendSummaryCache.has(entry.key)) return this.trendSummaryCache.get(entry.key);
@@ -593,8 +783,14 @@ export class Test2ElectionManager {
     });
   }
 
+  /**
+   * @param {ElectionEntry} entry
+   * @param {ElectionEntry | null | undefined} bundle
+   * @returns {TrendSummary}
+   */
   buildTrendSummary(entry, bundle) {
     const results = Array.isArray(bundle?.results) ? bundle.results : [];
+    /** @param {ElectionResult[] | null | undefined} resultSet */
     const rowsForResults = (resultSet) => buildPartySummary(resultSet || [])
       .filter((row) => numberOrZero(row.votes) > 0 || numberOrZero(row.seats) > 0)
       .map((row) => ({
@@ -605,7 +801,9 @@ export class Test2ElectionManager {
         colour: this.mainPanePartyColour(row.party, row.colour),
         entry
       }));
+    /** @type {Map<string, TrendRow[]>} */
     const resultRowsByKey = new Map();
+    /** @type {Map<string, Array<BundleResult | TrendRow>>} */
     const localRowsByKey = new Map();
     for (const result of results) {
       const rows = rowsForResults([result]);
@@ -620,16 +818,19 @@ export class Test2ElectionManager {
       }
     }
     for (const [key, resultSet] of localRowsByKey.entries()) {
-      localRowsByKey.set(key, rowsForResults(resultSet));
+      // Still results here: the loop above put only results in.
+      localRowsByKey.set(key, rowsForResults(/** @type {BundleResult[]} */ (resultSet)));
     }
     return {
       entry,
       overallRows: rowsForResults(results),
       resultRowsByKey,
-      localRowsByKey
+      // Every value is a row list now (the loop above replaced each body's results).
+      localRowsByKey: /** @type {Map<string, TrendRow[]>} */ (localRowsByKey)
     };
   }
 
+  /** @param {ElectionEntry} entry */
   async loadPreviousBundle(entry) {
     if (!entry?.previousKey) return null;
     const previousEntry = (this.catalogue?.elections || []).find((item) => item.key === entry.previousKey);
@@ -642,6 +843,7 @@ export class Test2ElectionManager {
     }
   }
 
+  /** @param {ElectionEntry} bundle */
   indexBundle(bundle) {
     const layerResults = new Map();
     for (const result of bundle.results || []) {
@@ -668,6 +870,7 @@ export class Test2ElectionManager {
     }
   }
 
+  /** @param {ElectionFeature} feature */
   enrichFeature(feature) {
     if (this.niLocal?.active) return this.niLocal.enrichFeature(feature);
     if (!this.activeBundle || !feature) return feature;
@@ -704,6 +907,10 @@ export class Test2ElectionManager {
     };
   }
 
+  /**
+   * @param {Map<string, ElectionResult> | null | undefined} layerResults
+   * @param {ElectionFeature | null | undefined} feature
+   */
   findResultForFeature(layerResults, feature) {
     if (!this.activeBundle || !feature) return null;
     const styleLayer = this.getActiveElectionStyleLayer?.() || this.activeBundle;
@@ -716,9 +923,10 @@ export class Test2ElectionManager {
     const candidates = [
       feature.featureName,
       feature.name,
-      repairedProperties?.[styleLabelProperty],
-      repairedProperties?.[this.activeBundle.councilLabelProperty],
-      repairedProperties?.[this.activeBundle.labelProperty],
+      // An absent property name reads nothing (as properties["undefined"]).
+      repairedProperties?.[/** @type {string} */ (styleLabelProperty)],
+      repairedProperties?.[/** @type {string} */ (this.activeBundle.councilLabelProperty)],
+      repairedProperties?.[/** @type {string} */ (this.activeBundle.labelProperty)],
       repairedProperties?.name,
       repairedProperties?.Name,
       repairedProperties?.NAME,
@@ -821,6 +1029,7 @@ export class Test2ElectionManager {
     };
   }
 
+  /** @param {ElectionStyleLayer | null} [layer] */
   buildElectionMatchInput(layer = this.activeBundle) {
     const labelProperty = layer?.labelProperty || 'name';
     return buildRepairedLabelValueExpression({
@@ -830,6 +1039,14 @@ export class Test2ElectionManager {
     }, ['to-string', ['get', labelProperty]]);
   }
 
+  /**
+   * @template F
+   * @param {(result: ElectionResult) => unknown} valueForResult
+   * @param {F} fallback
+   * @param {ElectionStyleLayer | null} [layer]
+   * @param {ElectionResult[]} [results]
+   * @returns {F | unknown[]}
+   */
   buildElectionMatchExpression(valueForResult, fallback, layer = this.activeBundle, results = this.activeBundle?.results || []) {
     const labels = [];
     const seen = new Set();
@@ -847,6 +1064,11 @@ export class Test2ElectionManager {
     return ['match', ['to-string', this.buildElectionMatchInput(layer)], ...labels, fallback];
   }
 
+  /**
+   * @param {string} mode
+   * @param {string} [fallback]
+   * @param {ElectionStyleLayer | null} [layer]
+   */
   buildColourExpression(mode, fallback = MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillColor, layer = this.activeBundle) {
     if (this.isLocalGovernmentElection() && this.activeLocalMode === 'district') {
       return this.buildCouncilColourExpression(mode, fallback, layer);
@@ -859,6 +1081,11 @@ export class Test2ElectionManager {
     );
   }
 
+  /**
+   * @param {string} mode
+   * @param {string} fallback
+   * @param {ElectionStyleLayer | null} [layer]
+   */
   buildCouncilColourExpression(mode, fallback, layer = this.activeBundle) {
     const rows = buildCouncilSummary(this.currentResults());
     const resultRows = rows.map((row) => ({
@@ -879,12 +1106,17 @@ export class Test2ElectionManager {
       (result) => this.colourForMode(mode, result),
       fallback,
       layer,
-      resultRows
+      // Council rows read as results: their names are the results' local bodies.
+      /** @type {BundleResult[]} */ (resultRows)
     );
   }
 
   // Palette methods delegate to packages/map/src/election/palette.mjs (seam E2); packages/map/app/map-image-export.js
   // still calls colourForMode on the manager.
+  /**
+   * @param {string} mode
+   * @param {ElectionResult} result
+   */
   colourForMode(mode, result) {
     return paletteColourForMode(mode, result, this.usesMainRoiPartyPalette());
   }
@@ -897,18 +1129,33 @@ export class Test2ElectionManager {
     return `% of ${this.usesMainRoiPartyPalette() ? 'ROI' : 'NI'}`;
   }
 
+  /**
+   * @param {unknown} party
+   * @param {unknown} [explicit]
+   */
   mainPanePartyColour(party, explicit = '') {
     return paletteMainPanePartyColour(party, explicit, this.usesMainRoiPartyPalette());
   }
 
+  /** @param {unknown} party */
   knownPartyColour(party) {
     return paletteKnownPartyColour(party, this.usesMainRoiPartyPalette());
   }
 
+  /**
+   * @param {ElectionResult} [result]
+   * @param {unknown} [party]
+   * @param {unknown} [explicit]
+   * @param {{ preferElected?: boolean }} [options]
+   */
   partyColourForResult(result = {}, party = '', explicit = '', options = {}) {
     return palettePartyColourForResult(result, party, explicit, { ...options, roi: this.usesMainRoiPartyPalette() });
   }
 
+  /**
+   * @param {BundleResult | null} [selectedResult]
+   * @param {string | null} [view]
+   */
   renderPanel(selectedResult = null, view = null) {
     if (this.niLocal?.active) {
       this.niLocal.renderPanel({ push: false });
@@ -943,18 +1190,18 @@ export class Test2ElectionManager {
     back?.addEventListener('click', () => this.renderPanel(null, 'party'));
     pane.querySelector('#electionCloseBtn, #test2ElectionClose')?.addEventListener('click', () => this.unloadElection({ label: 'Closed the election' }));
     pane.querySelector('#test2ElectionMode')?.addEventListener('change', (event) => {
-      this.activeMode = event.target.value;
+      this.activeMode = /** @type {HTMLSelectElement} */ (event.target).value;
       this.applyActiveStyle();
     });
     pane.querySelector('#test2ElectionGeography')?.addEventListener('change', (event) => {
-      this.switchGeographyMode(event.target.value);
+      this.switchGeographyMode(/** @type {HTMLSelectElement} */ (event.target).value);
     });
     pane.querySelector('#test2ElectionOverlay')?.addEventListener('change', async (event) => {
-      this.overlayMode = OVERLAY_MODE.check(event.target.value === 'bars' ? 'bars' : 'circles');
+      this.overlayMode = OVERLAY_MODE.check(/** @type {HTMLSelectElement} */ (event.target).value === 'bars' ? 'bars' : 'circles');
       await this.renderElectionOverlay();
       this.app.updateURLState();
     });
-    pane.querySelectorAll('[data-election-local-mode]').forEach((button) => {
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-election-local-mode]')).forEach((button) => {
       button.addEventListener('click', async () => {
         this.activeLocalMode = LOCAL_MODE.check(button.dataset.electionLocalMode === 'district' ? 'district' : 'dea');
         await this.syncLocalGovernmentBackingLayers();
@@ -969,13 +1216,13 @@ export class Test2ElectionManager {
       this.renderPanel(selectedResult, 'counts');
       this.app.updateURLState();
     });
-    pane.querySelectorAll('[data-election-view]').forEach((button) => {
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-election-view]')).forEach((button) => {
       button.addEventListener('click', () => {
         this.renderPanel(selectedResult, button.dataset.electionView || 'party');
         this.app.updateURLState();
       });
     });
-    pane.querySelectorAll('[data-election-result-key]').forEach((button) => {
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-election-result-key]')).forEach((button) => {
       button.addEventListener('click', () => {
         const result = this.findResultByKey(button.dataset.electionResultKey);
         if (result) {
@@ -984,7 +1231,7 @@ export class Test2ElectionManager {
         }
       });
     });
-    pane.querySelectorAll('[data-election-entity]').forEach((button) => {
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-election-entity]')).forEach((button) => {
       button.addEventListener('click', async () => {
         const entityKind = String(button.dataset.electionEntity || '').toLowerCase();
         const entityKey = button.dataset.electionEntityKey;
@@ -1001,13 +1248,13 @@ export class Test2ElectionManager {
       });
     });
     pane.querySelector('[data-election-selected-area]')?.addEventListener('click', async (event) => {
-      const button = event.currentTarget;
+      const button = /** @type {HTMLElement} */ (event.currentTarget);
       await this.app.openElectionEntityDetailInCatalogue?.(
         button.dataset.electionSelectedAreaKind,
         button.dataset.electionSelectedAreaKey
       );
     });
-    pane.querySelectorAll('[data-election-animation]').forEach((button) => {
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-election-animation]')).forEach((button) => {
       button.addEventListener('click', () => {
         const result = this.findResultByKey(button.dataset.electionAnimation);
         if (result) this.runAnimation(result);
@@ -1021,7 +1268,7 @@ export class Test2ElectionManager {
       this.trendChart = null;
     }
     if (nextView === 'trends') {
-      const scopeToggle = pane.querySelector('#test2ElectionTrendsScope');
+      const scopeToggle = /** @type {HTMLInputElement | null} */ (pane.querySelector('#test2ElectionTrendsScope'));
       const renderTrends = () => {
         this.hydrateTrendsPanel(selectedResult, Boolean(scopeToggle?.checked))
           .catch((error) => {
@@ -1042,23 +1289,32 @@ export class Test2ElectionManager {
     }
   }
 
-  /** The view the pane can show for this selection (packages/map/src/election/panel-model.mjs). */
+  /**
+   * The view the pane can show for this selection (packages/map/src/election/panel-model.mjs).
+   * @param {string} view
+   * @param {BundleResult | null} [selectedResult]
+   */
   normalizePanelView(view, selectedResult = null) {
     return modelNormalizePanelView(view, {
       selected: Boolean(selectedResult),
-      singleSeatFptp: Boolean(selectedResult) && this.isSingleSeatFptpResult(selectedResult),
+      // Tested for only when there is a selection.
+      singleSeatFptp: Boolean(selectedResult) && this.isSingleSeatFptpResult(/** @type {BundleResult} */ (selectedResult)),
       councilAggregate: this.isCouncilAggregateResult(selectedResult),
       districtMode: !selectedResult && this.isLocalGovernmentElection() && this.activeLocalMode === 'district'
     });
   }
 
+  /**
+   * @param {HTMLElement | null} title
+   * @param {BundleResult | null} [selectedResult]
+   */
   renderPanelTitle(title, selectedResult = null) {
     if (!title) return;
     if (!selectedResult?.constituency) {
       title.textContent = this.mainPaneContract.renderTitle(selectedResult);
       return;
     }
-    const kind = this.selectedResultEntityKind(selectedResult);
+    const kind = this.selectedResultEntityKind();
     title.innerHTML = `
       <button type="button"
         class="election-pane__title-link"
@@ -1088,59 +1344,79 @@ export class Test2ElectionManager {
 
   // Result classification delegates to packages/map/src/election/results-model.mjs (seam E1);
   // packages/map/src/election-main-pane-contract.mjs calls these on the manager.
+  /** @param {ElectionResult} [result] */
   isPluralityResult(result = {}) {
     return modelIsPluralityResult(result, this.electionContext());
   }
 
+  /** @param {ElectionResult[]} [results] */
   isPluralityElection(results = this.activeBundle?.results || []) {
     return modelIsPluralityElection(results, this.electionContext());
   }
 
+  /** @param {ElectionResult} [result] */
   isSingleSeatFptpResult(result = {}) {
     return modelIsSingleSeatFptpResult(result, this.electionContext());
   }
 
+  /** @param {ElectionResult | null} [result] */
   isReferendumElection(result = null) {
     return modelIsReferendumElection(result, this.electionContext());
   }
 
+  /** @param {string} [view] */
   renderOverallResults(view = 'party') {
     return this.mainPaneContract.renderOverallResults(view);
   }
 
+  /** @param {string} [view] */
   renderMainCompatibleOverallResults(view = 'party') {
     return this.mainPaneContract.renderOverallResults(view);
   }
 
+  /**
+   * @param {BundleResult} result
+   * @param {string} [view]
+   */
   renderConstituencyResults(result, view = 'party') {
     return this.mainPaneContract.renderConstituencyResults(result, view);
   }
 
+  /**
+   * @param {BundleResult} result
+   * @param {string} [view]
+   */
   renderMainCompatibleConstituencyResults(result, view = 'party') {
     return this.mainPaneContract.renderConstituencyResults(result, view);
   }
 
+  /**
+   * @param {DeltaRow[]} [rowsWithDeltas]
+   * @param {ElectionResult[]} [results]
+   * @param {PartyTableOptions} [options]
+   */
   renderMainParityPartyTable(rowsWithDeltas = [], results = [], options = {}) {
     if (!rowsWithDeltas.length) return '<div class="election-no-data">No results data available.</div>';
     if (options.referendum || this.isReferendumElection()) {
-      return this.renderReferendumFullResultsTable(rowsWithDeltas, results);
+      return this.renderReferendumFullResultsTable(rowsWithDeltas);
     }
     const orderedRows = this.orderPartyRowsLikeMain(rowsWithDeltas);
+    // Each total below is read from the totals only when they hold it (a finite number).
     const mainLikeTotals = options.ignoreMainLikeTotals ? null : (options.totals || this.activeBundle?.mainLikeTotals || null);
     const totalSeats = Number.isFinite(Number(mainLikeTotals?.totalSeats))
-      ? Number(mainLikeTotals.totalSeats)
+      ? Number(/** @type {MainLikeTotals} */ (mainLikeTotals).totalSeats)
       : rowsWithDeltas.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
     const totalValid = Number.isFinite(Number(mainLikeTotals?.validPoll))
-      ? Number(mainLikeTotals.validPoll)
+      ? Number(/** @type {MainLikeTotals} */ (mainLikeTotals).validPoll)
       : (sumNumbers(results, 'validPoll') || rowsWithDeltas.reduce((sum, row) => sum + numberOrZero(row.votes), 0));
     const totalPoll = Number.isFinite(Number(mainLikeTotals?.totalPoll))
-      ? Number(mainLikeTotals.totalPoll)
+      ? Number(/** @type {MainLikeTotals} */ (mainLikeTotals).totalPoll)
       : (sumNumbers(results, 'totalPoll') || totalValid + sumNumbers(results, 'spoiled'));
     const totalElectorate = Number.isFinite(Number(mainLikeTotals?.totalElectorate))
-      ? Number(mainLikeTotals.totalElectorate)
+      ? Number(/** @type {MainLikeTotals} */ (mainLikeTotals).totalElectorate)
       : sumNumbers(results, 'electorate');
     const totalSpoiled = Number.isFinite(Number(mainLikeTotals?.totalSpoiled))
-      ? Number(mainLikeTotals.totalSpoiled)
+      ? Number(/** @type {MainLikeTotals} */ (mainLikeTotals).totalSpoiled)
       : sumNumbers(results, 'spoiled');
     const didNotVote = totalElectorate ? Math.max(0, totalElectorate - totalPoll) : 0;
     const previousResults = Array.isArray(options.previousResults) ? options.previousResults : null;
@@ -1155,32 +1431,36 @@ export class Test2ElectionManager {
       : (this.previousBundle?.results?.length ? buildPartySummary(this.previousBundle.results) : []);
     const prevMainLikeTotals = previousResults ? null : (this.previousBundle?.mainLikeTotals || null);
     const prevRowSeatTotal = prevRows.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
-    const prevTotalSeats = Number.isFinite(Number(prevMainLikeTotals?.totalSeats)) && Number(prevMainLikeTotals.totalSeats) > 0
-      ? Number(prevMainLikeTotals.totalSeats)
+    const prevTotalSeats = Number.isFinite(Number(prevMainLikeTotals?.totalSeats)) && Number(/** @type {MainLikeTotals} */ (prevMainLikeTotals).totalSeats) > 0
+      ? Number(/** @type {MainLikeTotals} */ (prevMainLikeTotals).totalSeats)
       : prevRowSeatTotal;
     const prevTotalValid = Number.isFinite(Number(prevMainLikeTotals?.validPoll))
-      ? Number(prevMainLikeTotals.validPoll)
+      ? Number(/** @type {MainLikeTotals} */ (prevMainLikeTotals).validPoll)
       : previousResults
       ? (sumNumbers(previousResults, 'validPoll') || prevRows.reduce((sum, row) => sum + numberOrZero(row.votes), 0))
       : this.previousBundle?.results?.length
       ? (sumNumbers(this.previousBundle.results, 'validPoll') || prevRows.reduce((sum, row) => sum + numberOrZero(row.votes), 0))
       : 0;
     const prevTotalPoll = Number.isFinite(Number(prevMainLikeTotals?.totalPoll))
-      ? Number(prevMainLikeTotals.totalPoll)
+      ? Number(/** @type {MainLikeTotals} */ (prevMainLikeTotals).totalPoll)
       : previousResults
       ? (sumNumbers(previousResults, 'totalPoll') || prevTotalValid + sumNumbers(previousResults, 'spoiled'))
       : (this.previousBundle?.results?.length ? (sumNumbers(this.previousBundle.results, 'totalPoll') || prevTotalValid + sumNumbers(this.previousBundle.results, 'spoiled')) : 0);
     const prevTotalElectorate = Number.isFinite(Number(prevMainLikeTotals?.totalElectorate))
-      ? Number(prevMainLikeTotals.totalElectorate)
+      ? Number(/** @type {MainLikeTotals} */ (prevMainLikeTotals).totalElectorate)
       : previousResults
       ? sumNumbers(previousResults, 'electorate')
       : (this.previousBundle?.results?.length ? sumNumbers(this.previousBundle.results, 'electorate') : 0);
     const prevTotalSpoiled = Number.isFinite(Number(prevMainLikeTotals?.totalSpoiled))
-      ? Number(prevMainLikeTotals.totalSpoiled)
+      ? Number(/** @type {MainLikeTotals} */ (prevMainLikeTotals).totalSpoiled)
       : previousResults
       ? sumNumbers(previousResults, 'spoiled')
       : (this.previousBundle?.results?.length ? sumNumbers(this.previousBundle.results, 'spoiled') : 0);
     const prevDidNotVote = prevTotalElectorate ? Math.max(0, prevTotalElectorate - prevTotalPoll) : 0;
+    /**
+     * @param {number} value
+     * @param {number} denominator
+     */
     const pct = (value, denominator) => denominator ? (value / denominator * 100) : 0;
     const turnoutPct = pct(totalPoll, totalElectorate);
     const validPct = pct(totalValid, totalElectorate);
@@ -1194,6 +1474,10 @@ export class Test2ElectionManager {
     // Totals change only against an election that has them: with none (a series' first
     // election) the change is "no previous result", not the whole figure.
     const hasPreviousTotals = prevRows.length > 0 || prevTotalValid > 0 || prevTotalElectorate > 0;
+    /**
+     * @param {number} current
+     * @param {number} previous
+     */
     const change = (current, previous) => (hasPreviousTotals ? current - previous : null);
     return `
       <div class="election-summary election-summary--niwide">
@@ -1253,6 +1537,7 @@ export class Test2ElectionManager {
    * The abbreviations a table uses, spelled out beneath it (UX review 2026-10-31, L7). The full
    * name is on hover in an <abbr>, which a touch screen cannot do, so "AO" or "Ind O" meant
    * nothing on a phone.
+   * @param {unknown[]} [parties]
    */
   partyKeyHtml(parties = []) {
     const seen = new Map();
@@ -1266,18 +1551,31 @@ export class Test2ElectionManager {
       .map(([abbreviation, fullName]) => `<div><dt>${escapeHtml(abbreviation)}</dt><dd>${escapeHtml(fullName)}</dd></div>`).join('')}</dl></details>`;
   }
 
+  /**
+   * @param {ElectionResult} [result]
+   * @param {ResultRow[]} [rows]
+   */
   referendumStats(result = {}, rows = []) {
     return modelReferendumStats(result, rows);
   }
 
+  /**
+   * @param {ResultRow[]} [sourceRows]
+   * @param {number | null} [validPoll]
+   */
   referendumOutcomeRows(sourceRows = [], validPoll = null) {
     return modelReferendumOutcomeRows(sourceRows, validPoll, this.usesMainRoiPartyPalette());
   }
 
+  /** @param {{ outcome?: unknown } | null} [winner] */
   referendumProposalResultText(winner = null) {
     return normalizeName(winner?.outcome) === 'yes' ? 'Proposal passed' : 'Proposal did not pass';
   }
 
+  /**
+   * @param {ReferendumOutcomeRow | null} [winner]
+   * @param {number} [colspan]
+   */
   renderReferendumProposalRow(winner = null, colspan = 4) {
     if (!winner) return '';
     return `
@@ -1289,6 +1587,12 @@ export class Test2ElectionManager {
     `;
   }
 
+  /**
+   * @param {string} label
+   * @param {unknown} value
+   * @param {unknown} [pct]
+   * @param {{ strong?: boolean, labelColspan?: number, trailingCell?: boolean }} [options]
+   */
   renderReferendumSummaryRow(label, value, pct = null, options = {}) {
     if (value === null || value === undefined || value === '') return '';
     const valueClass = options.strong ? ' election-cell-strong' : '';
@@ -1306,7 +1610,10 @@ export class Test2ElectionManager {
     `;
   }
 
-  renderReferendumFullResultsTable(rowsWithDeltas = [], results = []) {
+  /**
+   * @param {DeltaRow[]} [rowsWithDeltas]
+   */
+  renderReferendumFullResultsTable(rowsWithDeltas = []) {
     const stats = this.referendumStats({ mainLikeTotals: this.activeBundle?.mainLikeTotals || {} }, rowsWithDeltas);
     const rows = this.referendumOutcomeRows(rowsWithDeltas, stats.validPoll);
     if (!rows.length) return '<div class="election-no-data">No referendum result data available.</div>';
@@ -1350,6 +1657,10 @@ export class Test2ElectionManager {
     `;
   }
 
+  /**
+   * @param {ResultRow[]} [candidates]
+   * @param {BundleResult} [result]
+   */
   renderReferendumResultTable(candidates = [], result = {}) {
     const stats = this.referendumStats(result, candidates);
     const rows = this.referendumOutcomeRows(candidates, stats.validPoll);
@@ -1392,6 +1703,7 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {BundleResult[]} [results] */
   renderReferendumConstituencySummaryTable(results = []) {
     if (!results.length) return '<p class="election-no-data">No constituency referendum results are available.</p>';
     const rows = results
@@ -1449,6 +1761,10 @@ export class Test2ElectionManager {
     `;
   }
 
+  /**
+   * @param {ResultCandidate[]} [candidates]
+   * @param {BundleResult} [result]
+   */
   renderConstituencyCandidateTable(candidates = [], result = {}) {
     if (!candidates.length) return '<p class="election-no-data">No candidate-level result table is available for this entry.</p>';
     const validPoll = numberOrZero(result.validPoll) || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes), 0);
@@ -1499,6 +1815,10 @@ export class Test2ElectionManager {
     `;
   }
 
+  /**
+   * @param {ResultCandidate[]} [candidates]
+   * @param {BundleResult} [result]
+   */
   renderSingleSeatFptpResultsTable(candidates = [], result = {}) {
     if (!candidates.length) return '<p class="election-no-data">No result table is available for this entry.</p>';
     const validPoll = numberOrZero(result.validPoll) || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total), 0);
@@ -1596,8 +1916,16 @@ export class Test2ElectionManager {
    * A single-seat FPTP vote cell: the value, then the party's change and the candidate's own
    * change beneath it, each labelled, since both are small signed figures. A missing change is
    * "no previous result" (an en dash), as in valueWithChange.
+   * @param {string | number} valueHtml
+   * @param {unknown} partyChange
+   * @param {unknown} candidateChange
+   * @param {string} [kind]
    */
   valueWithPartyAndCandidateChange(valueHtml, partyChange, candidateChange, kind = 'count') {
+    /**
+     * @param {string} label
+     * @param {unknown} change
+     */
     const line = (label, change) => {
       const known = change !== null && change !== undefined && Number.isFinite(Number(change));
       return `<span class="election-cell-change election-cell-change--labelled">`
@@ -1611,6 +1939,10 @@ export class Test2ElectionManager {
       + `${line('Party', partyChange)}${line('Cand.', candidateChange)}</span>`;
   }
 
+  /**
+   * @param {Array<ResultRow & { votes: number, index: number }>} [rows]  the result table's rows
+   * @param {number} [validPoll]
+   */
   renderSingleSeatFptpVoteGraphic(rows = [], validPoll = 0) {
     const visibleRows = rows.filter((row) => row.name || row.party || row.votes > 0);
     if (!visibleRows.length) return '';
@@ -1647,6 +1979,10 @@ export class Test2ElectionManager {
     `;
   }
 
+  /**
+   * @param {ResultCandidate[]} [candidates]
+   * @param {BundleResult} [result]
+   */
   renderConstituencyPartyTable(candidates = [], result = {}) {
     if (!candidates.length) return '<p class="election-no-data">No party-level result table is available for this entry.</p>';
     const current = this.buildMainStyleConstituencyPartyRows(result, candidates);
@@ -1672,12 +2008,20 @@ export class Test2ElectionManager {
     });
     const maxSeats = Math.max(0, ...rows.map((row) => numberOrZero(row.seats)));
     const maxFirstPrefs = Math.max(0, ...rows.map((row) => numberOrZero(row.firstPrefs)));
+    /**
+     * @param {number | null} currentValue
+     * @param {number | null} previousValue
+     */
     const knownDelta = (currentValue, previousValue) => previousResult && currentValue !== null && previousValue !== null ? currentValue - previousValue : null;
     const validDelta = knownDelta(current.validPoll, previous.validPoll);
     const turnoutDelta = knownDelta(current.totalPoll, previous.totalPoll);
     const spoiledDelta = knownDelta(current.spoiled, previous.spoiled);
     const didNotVoteDelta = knownDelta(current.didNotVote, previous.didNotVote);
     const electorateDelta = knownDelta(current.electorate, previous.electorate);
+    /**
+     * @param {unknown} currentValue
+     * @param {unknown} previousValue
+     */
     const shouldRenderSummary = (currentValue, previousValue) => currentValue !== null || previousValue !== null;
     return `
       <div class="election-party-wrapper election-party-wrapper--pane-sticky">
@@ -1731,6 +2075,10 @@ export class Test2ElectionManager {
     `;
   }
 
+  /**
+   * @param {BundleResult | null} [result]
+   * @param {ResultCandidate[]} [fallbackCandidates]
+   */
   buildMainStyleConstituencyPartyRows(result = {}, fallbackCandidates = []) {
     // The API's lite bundle omits countGroup, because it is byte-identical to the count
     // rows inside animationPayload and shipping both doubled a third of the payload.
@@ -1767,7 +2115,8 @@ export class Test2ElectionManager {
       const party = normalizeParty(row.Party_Name) || NO_LABEL;
       const candidateId = String(row.Candidate_Id || '');
       const totalVotes = numberOrZero(row.Total_Votes);
-      const countNumber = parseInt(row.Count_Number, 10) || 1;
+      // parseInt reads its argument as a string.
+      const countNumber = parseInt(/** @type {string} */ (row.Count_Number), 10) || 1;
       if (!partyMap.has(party)) {
         partyMap.set(party, {
           party,
@@ -1821,7 +2170,8 @@ export class Test2ElectionManager {
       spoiled,
       didNotVote,
       turnoutPct: electorate !== null && totalPoll !== null && electorate > 0 ? (totalPoll / electorate * 100) : null,
-      validPct: electorate > 0 ? (validPoll / electorate * 100) : 0,
+      // No electorate (null) is not above 0.
+      validPct: /** @type {number} */ (electorate) > 0 ? (validPoll / /** @type {number} */ (electorate) * 100) : 0,
       spoiledPct: electorate !== null && spoiled !== null && electorate > 0 ? (spoiled / electorate * 100) : null,
       didNotVotePct: electorate !== null && didNotVote !== null && electorate > 0 ? (didNotVote / electorate * 100) : null,
       totalStood,
@@ -1829,6 +2179,10 @@ export class Test2ElectionManager {
     };
   }
 
+  /**
+   * @param {BundleResult} [result]
+   * @returns {BundleResult | null}
+   */
   findPreviousSelectedResult(result = {}) {
     const keys = new Set(resultKeys(result));
     if (!keys.size) return null;
@@ -1837,8 +2191,17 @@ export class Test2ElectionManager {
 
   // A summary line of renderConstituencyPartyTable. voteDelta and pctDelta follow
   // valueWithChange: a number, null for "no previous result", or false for nothing to compare.
+  /**
+   * @param {string} label
+   * @param {unknown} stoodValue
+   * @param {unknown} electedValue
+   * @param {unknown} voteValue
+   * @param {unknown} voteDelta
+   * @param {unknown} pctValue
+   * @param {unknown} pctDelta
+   */
   renderSelectedPartySummaryRow(label, stoodValue, electedValue, voteValue, voteDelta, pctValue, pctDelta) {
-    const present = (value) => value !== null && value !== undefined;
+    const present = (/** @type {unknown} */ value) => value !== null && value !== undefined;
     return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>${escapeHtml(label)}</strong></td>`
       + `<td class="election-num">${present(stoodValue) ? formatNumber(stoodValue) : '-'}</td>`
       + `<td class="election-num">${present(electedValue) ? formatNumber(electedValue) : '-'}</td>`
@@ -1860,6 +2223,11 @@ export class Test2ElectionManager {
   // leaves would still have collided. And the same leaf INDEX means different things in
   // different tables here, so it cannot be derived from the index either. Both were
   // tried; both produced wrong names.
+  /**
+   * @param {string} label
+   * @param {number} index
+   * @param {string} [accessibleName]
+   */
   renderMainParityLeafTh(label, index, accessibleName = '') {
     const qualified = accessibleName || label;
     return `<th class="election-num" scope="col" data-leaf-col-idx="${index}"`
@@ -1867,6 +2235,10 @@ export class Test2ElectionManager {
       + `${escapeHtml(label)}</th>`;
   }
 
+  /**
+   * @param {string} top
+   * @param {string} bottom
+   */
   renderTwoLineHeader(top, bottom) {
     return `<span class="election-th-two-line"><span>${escapeHtml(top)}</span><span>${escapeHtml(bottom)}</span></span>`;
   }
@@ -1876,6 +2248,7 @@ export class Test2ElectionManager {
    * theirs and not a namesake's (UX review 2026-10-31, H5 -- by name alone the Alliance Ian
    * Paisley of Holywood opened the DUP leader's page). Without an id, the name with the party
    * and the election's date, which the page uses to tell people of one name apart.
+   * @param {ResultRow} [candidate]
    */
   candidateEntityKey(candidate = {}) {
     const rawId = candidate.personId ?? candidate.sourcePersonId ?? (/^\d+$/.test(String(candidate.id ?? '')) ? candidate.id : null);
@@ -1883,6 +2256,12 @@ export class Test2ElectionManager {
     return [candidate.name || candidate.candidate || '', candidate.party || '', this.activeEntry?.date || ''].join('|');
   }
 
+  /**
+   * @param {string} kind
+   * @param {unknown} key
+   * @param {unknown} labelHtml
+   * @param {string} [extraClass]
+   */
   renderElectionEntityButton(kind, key, labelHtml, extraClass = '') {
     // A candidate with no label has no party to open: the label is plain text.
     if (kind === 'party' && (!String(key || '').trim() || key === NO_LABEL)) return `<span class="${extraClass}">${labelHtml}</span>`;
@@ -1890,7 +2269,10 @@ export class Test2ElectionManager {
     return `<button type="button" class="election-entity-link ${extraClass}" data-election-entity="${safeKind}" data-election-entity-kind="${safeKind}" data-election-entity-key="${escapeHtml(key || '')}">${labelHtml}</button>`;
   }
 
-  /** A party name in a results table: its abbreviation, with the full name on hover. */
+  /**
+   * A party name in a results table: its abbreviation, with the full name on hover.
+   * @param {unknown} party
+   */
   partyLabel(party) {
     // Nothing printed and nothing inferred: "No label", in grey, never "Independent".
     if (!String(party || '').trim() || party === NO_LABEL) return `<span class="election-no-label">${escapeHtml(NO_LABEL)}</span>`;
@@ -1903,6 +2285,7 @@ export class Test2ElectionManager {
    * label as printed are in the "As printed" column (printedLabelCell), which the reader turns on
    * with "Show labels as printed" (packages/map/src/printed-labels.mjs); by default a table shows the party or
    * independent label each candidate is read as, and nothing else.
+   * @param {ResultRow | null | undefined} candidate
    */
   ballotDescriptionHtml(candidate) {
     return candidate?.partyInferred
@@ -1910,12 +2293,18 @@ export class Test2ElectionManager {
       : '';
   }
 
-  /** The "As printed" cell: the ballot description, else the label as printed, else blank. */
+  /**
+   * The "As printed" cell: the ballot description, else the label as printed, else blank.
+   * @param {ResultRow | null | undefined} candidate
+   */
   printedLabelCell(candidate) {
     return `<td class="election-col-printed"><span class="election-cell-wrap">${escapeHtml(printedLabelText(candidate))}</span></td>`;
   }
 
-  /** The "As printed" header cell (rowspan for the tables with a two-row header). */
+  /**
+   * The "As printed" header cell (rowspan for the tables with a two-row header).
+   * @param {number} [rowspan]
+   */
   printedLabelHeader(rowspan = 1) {
     return `<th${rowspan > 1 ? ` rowspan="${rowspan}"` : ''} class="election-col-printed" title="The ballot paper description, or the label as printed in the cited newspaper or report">As printed</th>`;
   }
@@ -1925,12 +2314,19 @@ export class Test2ElectionManager {
     return printedLabelsToggleHtml(escapeHtml, 'printed-labels-toggle election-printed-toggle');
   }
 
-  /** Attributes for a cell showing a party: the party colour as a narrow tab down its left edge. */
+  /**
+   * Attributes for a cell showing a party: the party colour as a narrow tab down its left edge.
+   * @param {unknown} colour
+   * @param {string} [extraClass]
+   */
   partyCellAttrs(colour, extraClass = '') {
     return ` class="election-party-cell${extraClass ? ` ${extraClass}` : ''}" style="--party-colour:${escapeHtml(colour || 'transparent')}"`;
   }
 
-  /** Style for a table's own colour column, which is drawn as the tab. */
+  /**
+   * Style for a table's own colour column, which is drawn as the tab.
+   * @param {unknown} colour
+   */
   colourTabStyle(colour) {
     return ` style="--party-colour:${escapeHtml(colour || 'transparent')}"`;
   }
@@ -1939,13 +2335,21 @@ export class Test2ElectionManager {
     return normalizeName(this.activeBundle?.body || this.activeEntry?.body || '') === 'house of commons of the united kingdom';
   }
 
-  /** Westminster results show a tick or a cross rather than "Elected" / "Not elected" and a count of 1/1. */
+  /**
+   * Westminster results show a tick or a cross rather than "Elected" / "Not elected" and a count of 1/1.
+   * @param {unknown} elected
+   */
   electedMark(elected) {
     return elected
       ? '<span class="election-elected-mark election-elected-mark--yes" role="img" aria-label="Elected" title="Elected">✓</span>'
       : '<span class="election-elected-mark election-elected-mark--no" role="img" aria-label="Not elected" title="Not elected">✕</span>';
   }
 
+  /**
+   * @template {ResultRow} R
+   * @param {R[]} [rows]
+   * @returns {R[]}
+   */
   orderPartyRowsLikeMain(rows = []) {
     return [...rows].sort((a, b) => {
       const seatDelta = numberOrZero(b.seats) - numberOrZero(a.seats);
@@ -1956,8 +2360,9 @@ export class Test2ElectionManager {
     });
   }
 
+  /** @param {ParentNode | null | undefined} container */
   setupResultsTableControls(container) {
-    const tables = [...(container?.querySelectorAll?.('.election-party-table, .election-count-table') || [])];
+    const tables = [...(/** @type {NodeListOf<HTMLTableElement> | undefined} */ (container?.querySelectorAll?.('.election-party-table, .election-count-table')) || [])];
     tables.forEach((table) => this.setupSingleResultsTableControls(table));
     this.syncResultsTableStickyWidths(container);
     requestAnimationFrame(() => this.syncResultsTableStickyWidths(container));
@@ -1972,11 +2377,12 @@ export class Test2ElectionManager {
    * positioning is switched off while they are measured, so a pane scrolled sideways
    * does not shift the measurement, and offsets rather than client rects are used, so a
    * scaled pane does not either.
+   * @param {ParentNode | null | undefined} container
    */
   syncResultsTableStickyWidths(container) {
-    const tables = [...(container?.querySelectorAll?.('.election-party-table, .election-count-table') || [])];
+    const tables = [...(/** @type {NodeListOf<HTMLTableElement> | undefined} */ (container?.querySelectorAll?.('.election-party-table, .election-count-table')) || [])];
     for (const table of tables) {
-      const sticky = [...table.querySelectorAll('thead th, tbody td:nth-child(-n+4)')].filter((cell) => {
+      const sticky = [.../** @type {NodeListOf<HTMLElement>} */ (table.querySelectorAll('thead th, tbody td:nth-child(-n+4)'))].filter((cell) => {
         const style = getComputedStyle(cell);
         return style.position === 'sticky' && style.left !== 'auto';
       });
@@ -1984,7 +2390,7 @@ export class Test2ElectionManager {
       sticky.forEach((cell) => { cell.style.position = 'static'; });
       const offsets = sticky.map((cell) => {
         let left = 0;
-        for (let node = cell; node && node !== table; node = node.offsetParent) left += node.offsetLeft;
+        for (let node = /** @type {HTMLElement | null} */ (cell); node && node !== table; node = /** @type {HTMLElement | null} */ (node.offsetParent)) left += node.offsetLeft;
         return Math.max(0, Math.round(left));
       });
       sticky.forEach((cell, index) => {
@@ -1994,25 +2400,32 @@ export class Test2ElectionManager {
     }
   }
 
+  /** @param {HTMLTableElement} table */
   setupSingleResultsTableControls(table) {
     if (!table || table.dataset.tableControlsReady === '1') return;
     const tbody = table.querySelector('tbody');
-    const leafHeaders = [...table.querySelectorAll('thead th[data-leaf-col-idx]')];
-    const headers = leafHeaders.length ? leafHeaders : [...table.querySelectorAll('thead th')];
+    const leafHeaders = [.../** @type {NodeListOf<HTMLElement>} */ (table.querySelectorAll('thead th[data-leaf-col-idx]'))];
+    const headers = leafHeaders.length ? leafHeaders : [.../** @type {NodeListOf<HTMLElement>} */ (table.querySelectorAll('thead th'))];
     if (!tbody || headers.length === 0) return;
     table.dataset.tableControlsReady = '1';
 
+    /** @type {{ col: number | null, dir: string }} */
     const sortState = { col: null, dir: 'default' };
+    /** @type {Map<number, Set<string>>} */
     const filterState = new Map();
     const originalRows = [...tbody.querySelectorAll('tr')].map((row, idx) => ({ row, idx }));
     const sortableRows = originalRows.filter(({ row }) => (
       !row.classList.contains('election-table-summary-row') && !row.classList.contains('election-table-note-row')
     ));
     const fixedRows = originalRows.filter(({ row }) => !sortableRows.some((item) => item.row === row));
+    /** @type {HTMLElement | null} */
     let activeMenu = null;
+    /** @type {HTMLElement | null} */
     let activeMenuBtn = null;
+    /** @type {(() => void) | null} */
     let activeMenuPositioner = null;
 
+    /** @param {unknown} text */
     const parseMaybeNumber = (text) => {
       const cleaned = String(text || '')
         .replace(/,/g, '')
@@ -2023,6 +2436,7 @@ export class Test2ElectionManager {
       const value = Number(cleaned);
       return Number.isFinite(value) ? value : null;
     };
+    /** @param {unknown} text */
     const parseMaybeOrdinal = (text) => {
       const cleaned = String(text || '').trim().toLowerCase();
       if (!cleaned) return null;
@@ -2034,15 +2448,27 @@ export class Test2ElectionManager {
     };
     // A cell may carry its change beneath its value (valueWithChange); sorting and filtering
     // read the value alone.
+    /**
+     * @param {HTMLTableRowElement} row
+     * @param {number} colIdx
+     */
     const getCellText = (row, colIdx) => {
       const cell = row.children[colIdx];
       if (!cell) return '';
       return (cell.querySelector('.election-cell-value') || cell).textContent.trim();
     };
+    /**
+     * @param {HTMLElement | null | undefined} th
+     * @param {number} fallbackIdx
+     */
     const headerColumnIndex = (th, fallbackIdx) => {
       const mapped = Number(th?.dataset?.leafColIdx);
       return Number.isFinite(mapped) ? mapped : fallbackIdx;
     };
+    /**
+     * @param {number} colIdx
+     * @param {HTMLElement | null | undefined} th
+     */
     const inferColumnKind = (colIdx, th) => {
       const sample = sortableRows.slice(0, 40).map(({ row }) => getCellText(row, colIdx)).filter(Boolean);
       const numHits = sample.filter((value) => parseMaybeNumber(value) !== null).length;
@@ -2054,6 +2480,13 @@ export class Test2ElectionManager {
       return 'text';
     };
 
+    /**
+     * @param {{ row: HTMLTableRowElement, idx: number }} a
+     * @param {{ row: HTMLTableRowElement, idx: number }} b
+     * @param {number} colIdx
+     * @param {string} direction
+     * @param {string} kind
+     */
     const compareRows = (a, b, colIdx, direction, kind) => {
       if (direction === 'default') return a.idx - b.idx;
       const av = getCellText(a.row, colIdx);
@@ -2089,11 +2522,20 @@ export class Test2ElectionManager {
       activeMenuPositioner = null;
     };
 
+    /**
+     * @param {number} value
+     * @param {number} min
+     * @param {number} max
+     */
     const clampToViewport = (value, min, max) => {
       if (max < min) return min;
       return Math.min(Math.max(value, min), max);
     };
 
+    /**
+     * @param {HTMLElement | null} menu
+     * @param {HTMLElement | null} anchorBtn
+     */
     const positionElectionFilterMenu = (menu, anchorBtn) => {
       if (!menu || !anchorBtn) return;
       const margin = 8;
@@ -2103,7 +2545,8 @@ export class Test2ElectionManager {
       const headerRect = document.querySelector('.app-header')?.getBoundingClientRect?.();
       const topBoundary = Math.max(
         margin,
-        Number.isFinite(headerRect?.bottom) ? Math.ceil(headerRect.bottom) + margin : margin
+        // A finite bottom means there is a header.
+        Number.isFinite(headerRect?.bottom) ? Math.ceil(/** @type {DOMRect} */ (headerRect).bottom) + margin : margin
       );
       const viewportMaxWidth = Math.max(160, viewportWidth - (margin * 2));
       const viewportMaxHeight = Math.max(96, viewportHeight - topBoundary - margin);
@@ -2115,7 +2558,7 @@ export class Test2ElectionManager {
       menu.style.maxHeight = `${viewportMaxHeight}px`;
       menu.style.overflow = 'hidden';
 
-      const valuesHost = menu.querySelector('[data-role="values"]');
+      const valuesHost = /** @type {HTMLElement | null} */ (menu.querySelector('[data-role="values"]'));
       if (valuesHost) valuesHost.style.maxHeight = '';
 
       const measuredRect = menu.getBoundingClientRect();
@@ -2154,6 +2597,7 @@ export class Test2ElectionManager {
       menu.style.top = `${top}px`;
     };
 
+    /** @param {number} colIdx */
     const getUniqueValues = (colIdx) => {
       const values = new Map();
       sortableRows.forEach(({ row }) => {
@@ -2212,6 +2656,10 @@ export class Test2ElectionManager {
       });
     };
 
+    /**
+     * @param {number} idx
+     * @param {HTMLElement} anchorBtn
+     */
     const openMenuForColumn = (idx, anchorBtn) => {
       closeMenu();
       const th = headers[idx];
@@ -2250,7 +2698,8 @@ export class Test2ElectionManager {
       activeMenuBtn = anchorBtn;
       anchorBtn.classList.add('election-th-btn--open');
 
-      const valuesHost = menu.querySelector('[data-role="values"]');
+      // The menu's markup above holds each of these.
+      const valuesHost = /** @type {HTMLElement} */ (menu.querySelector('[data-role="values"]'));
       const renderValues = (needle = '') => {
         const query = needle.trim().toLowerCase();
         valuesHost.innerHTML = '';
@@ -2260,7 +2709,7 @@ export class Test2ElectionManager {
             const item = document.createElement('label');
             item.className = 'election-filter-menu__value';
             item.innerHTML = `<input type="checkbox" value="${escapeHtml(raw)}" ${selected.has(raw) ? 'checked' : ''}><span>${escapeHtml(raw || '(Blank)')}</span>`;
-            const checkbox = item.querySelector('input');
+            const checkbox = /** @type {HTMLInputElement} */ (item.querySelector('input'));
             checkbox.addEventListener('change', () => {
               if (checkbox.checked) selected.add(raw);
               else selected.delete(raw);
@@ -2274,14 +2723,14 @@ export class Test2ElectionManager {
       window.addEventListener('resize', activeMenuPositioner);
       window.addEventListener('scroll', activeMenuPositioner, true);
 
-      const search = menu.querySelector('.election-filter-menu__search');
+      const search = /** @type {HTMLInputElement | null} */ (menu.querySelector('.election-filter-menu__search'));
       search?.addEventListener('input', () => {
         renderValues(search.value || '');
         positionElectionFilterMenu(menu, anchorBtn);
       });
 
       menu.addEventListener('click', (event) => {
-        const button = event.target.closest('button[data-action]');
+        const button = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('button[data-action]'));
         if (!button) return;
         const action = button.dataset.action;
         if (action === 'sort-asc') {
@@ -2320,12 +2769,14 @@ export class Test2ElectionManager {
       });
     };
 
+    /** @param {MouseEvent} event */
     const handleDocumentClick = (event) => {
       if (!activeMenu) return;
-      if (activeMenu.contains(event.target)) return;
-      if (activeMenuBtn && activeMenuBtn.contains(event.target)) return;
+      if (activeMenu.contains(/** @type {Node | null} */ (event.target))) return;
+      if (activeMenuBtn && activeMenuBtn.contains(/** @type {Node | null} */ (event.target))) return;
       closeMenu();
     };
+    /** @param {KeyboardEvent} event */
     const handleDocumentKeydown = (event) => {
       if (event.key === 'Escape') closeMenu();
     };
@@ -2379,7 +2830,7 @@ export class Test2ElectionManager {
         };
         header.addEventListener('click', (event) => {
           // A link or control inside a heading keeps its own behaviour.
-          if (event.target.closest('a, button, input, select, label')) return;
+          if (/** @type {Element} */ (event.target).closest('a, button, input, select, label')) return;
           event.preventDefault();
           event.stopPropagation();
           toggleMenu();
@@ -2405,8 +2856,19 @@ export class Test2ElectionManager {
 
   // Summary lines for renderMainParityPartyTable. Each change follows valueWithChange: a number,
   // null for "no previous result", or false for a line with nothing to compare.
+  /**
+   * @param {string} label
+   * @param {unknown} candidateValue
+   * @param {unknown} seatValue
+   * @param {string | number | null} seatPct
+   * @param {unknown} seatPctDelta
+   * @param {unknown} voteValue
+   * @param {unknown} voteDelta
+   * @param {string | number | null} pctValue
+   * @param {unknown} pctDelta
+   */
   renderMainParitySummaryRow(label, candidateValue, seatValue, seatPct, seatPctDelta, voteValue, voteDelta, pctValue, pctDelta) {
-    const present = (value) => value !== null && value !== undefined;
+    const present = (/** @type {unknown} */ value) => value !== null && value !== undefined;
     return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td><strong>${escapeHtml(label)}</strong></td>`
       + `<td class="election-num">${present(candidateValue) ? formatNumber(candidateValue) : '-'}</td>`
       + `<td class="election-num">${present(seatValue) ? formatNumber(seatValue) : '-'}</td>`
@@ -2521,6 +2983,7 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {BundleResult | null | undefined} result */
   renderTurnoutConstituencyDetail(result) {
     const pct = Number(result?.turnoutPct);
     const mode = this.activeGeographyMode();
@@ -2569,6 +3032,7 @@ export class Test2ElectionManager {
     return this.activeGeographyMode()?.dataKind === 'area-results';
   }
 
+  /** @param {string} id */
   async switchGeographyMode(id) {
     const modes = this.geographyModes();
     const mode = modes.find((item) => item.id === id) || modes[0];
@@ -2612,10 +3076,12 @@ export class Test2ElectionManager {
     return Number(this.activeBundle?.localBodies?.length || this.activeEntry?.localBodies?.length || 0);
   }
 
+  /** @param {ElectionResult | null} [result] */
   isForumResult(result = null) {
     return modelIsForumResult(result);
   }
 
+  /** @param {BundleResult | null} [result] */
   resultHasAnimation(result = null) {
     if (!result) return false;
     if (this.isForumResult(result)) return true;
@@ -2642,6 +3108,7 @@ export class Test2ElectionManager {
     return previous.length ? compareResults(current, previous) : current;
   }
 
+  /** @param {BundleResult | null} [selectedResult] */
   renderTrendsPanel(selectedResult = null) {
     const area = selectedResult?.constituency || selectedResult?.localBody || '';
     const title = area ? `Party vote share in ${area}` : 'Party vote share';
@@ -2670,6 +3137,10 @@ export class Test2ElectionManager {
     `;
   }
 
+  /**
+   * @param {BundleResult | null} [selectedResult]
+   * @param {boolean} [includeAllTypes]
+   */
   async hydrateTrendsPanel(selectedResult = null, includeAllTypes = false) {
     const chart = document.getElementById('test2ElectionTrendsChart');
     if (!chart || !this.activeEntry) return;
@@ -2685,7 +3156,7 @@ export class Test2ElectionManager {
       selectedKeyLabel
     ].join('::');
     if (this.trendRenderCache.has(renderCacheKey)) {
-      const cached = this.trendRenderCache.get(renderCacheKey);
+      const cached = /** @type {{ points: TrendRow[], comparableCount: number }} */ (this.trendRenderCache.get(renderCacheKey));
       this.renderTrendChart(chart, cached.points, selectedResult, includeAllTypes, cached.comparableCount);
       return;
     }
@@ -2713,6 +3184,7 @@ export class Test2ElectionManager {
         return includeAllTypes || electionTrendFamily(entry) === activeFamily;
       })
       .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));
+    /** @type {TrendRow[]} */
     const points = [];
     const summaries = await mapWithConcurrency(entries.slice(-80), 6, async (entry) => {
       try {
@@ -2727,16 +3199,17 @@ export class Test2ElectionManager {
       if (selectedKeys.size) {
         rows = [];
         for (const key of selectedKeys) {
+          // has() said so, here and below.
           if (summary.resultRowsByKey.has(key)) {
-            rows = summary.resultRowsByKey.get(key);
+            rows = /** @type {TrendRow[]} */ (summary.resultRowsByKey.get(key));
             break;
           }
         }
         if (!rows.length && selectedLocalBody && summary.localRowsByKey.has(selectedLocalBody)) {
-          rows = summary.localRowsByKey.get(selectedLocalBody);
+          rows = /** @type {TrendRow[]} */ (summary.localRowsByKey.get(selectedLocalBody));
         }
       } else if (selectedLocalBody && summary.localRowsByKey.has(selectedLocalBody)) {
-        rows = summary.localRowsByKey.get(selectedLocalBody);
+        rows = /** @type {TrendRow[]} */ (summary.localRowsByKey.get(selectedLocalBody));
       }
       for (const row of rows) points.push(row);
     }
@@ -2750,6 +3223,11 @@ export class Test2ElectionManager {
    * Mount the trends chart into its container. The drawing itself lives in
    * packages/map/src/election-trend-chart.mjs; this method only decides the caption text and the notes
    * that explain the data, then hands over the points.
+   * @param {HTMLElement} chart
+   * @param {TrendPoint[]} [points]
+   * @param {BundleResult | null} [selectedResult]
+   * @param {boolean} [includeAllTypes]
+   * @param {number} [comparableCount]
    */
   renderTrendChart(chart, points = [], selectedResult = null, includeAllTypes = false, comparableCount = 0) {
     this.trendChart?.destroy();
@@ -2792,6 +3270,7 @@ export class Test2ElectionManager {
     // it taller; the chart follows, between a floor that keeps the grid legible and a ceiling
     // that stops it sprawling.
     const paneContent = chart.closest('.election-pane__content');
+    /** @param {number} width */
     const chartHeight = (width) => {
       const chrome = 150; // Title, caption, key and footnotes above and below the drawing.
       const available = paneContent ? paneContent.clientHeight - chrome : 0;
@@ -2803,81 +3282,127 @@ export class Test2ElectionManager {
       formatDate: formatElectionDate,
       footnotes,
       height: chartHeight,
-      fitTo: paneContent
+      // Outside the pane (null) the chart fits nothing, as for no element at all.
+      fitTo: /** @type {Element | undefined} */ (paneContent)
     });
   }
 
+  /** @param {unknown} value */
   formatNumberForPane(value) {
     return formatNumber(value);
   }
 
+  /** @param {unknown} value */
   formatPercentForPane(value) {
     return formatPercent(value);
   }
 
+  /** @param {unknown} value */
   formatSignedPercentForPane(value) {
     return formatSignedPercent(value);
   }
 
   // Change-since-last-election helpers delegate to packages/map/src/election/results-model.mjs (seam E1).
+  /**
+   * @template {PartyRow} R
+   * @param {R[]} [rows]
+   * @param {{ previousRows?: PartyRow[], previousResults?: ElectionResult[], mainLike?: boolean }} [options]
+   */
   withPartyDeltas(rows = [], options = {}) {
     return modelWithPartyDeltas(rows, options, this.electionContext());
   }
 
+  /** @param {ElectionResult} [result] */
   candidateDeltasEligible(result = {}) {
     return modelCandidateDeltasEligible(result, this.electionContext());
   }
 
+  /**
+   * @param {ResultRow} [row]
+   * @param {ElectionResult} [result]
+   */
   candidateDeltaAreaKey(row = {}, result = {}) {
     return modelCandidateDeltaAreaKey(row, result);
   }
 
+  /**
+   * @param {ResultRow} [row]
+   * @param {ElectionResult} [result]
+   */
   candidateDeltaLookupKey(row = {}, result = {}) {
     return modelCandidateDeltaLookupKey(row, result);
   }
 
+  /** @param {ResultRow} [row] */
   candidateFirstPrefValue(row = {}) {
     return modelCandidateFirstPrefValue(row);
   }
 
+  /**
+   * @param {ResultRow} [row]
+   * @param {ElectionResult} [result]
+   */
   candidateFirstPrefPct(row = {}, result = {}) {
     return modelCandidateFirstPrefPct(row, result);
   }
 
+  /**
+   * @param {ResultRow} [row]
+   * @param {ResultRow | null} [previous]
+   * @param {ElectionResult} [result]
+   * @param {ElectionResult} [previousResult]
+   */
   buildCandidateDelta(row = {}, previous = null, result = {}, previousResult = {}) {
     return modelBuildCandidateDelta(row, previous, result, previousResult);
   }
 
+  /**
+   * @param {ResultRow} [candidate]
+   * @param {BundleResult} [result]
+   */
   candidateDeltaForResultCandidate(candidate = {}, result = {}) {
     if (!this.candidateDeltasEligible(result)) return { previous: null, deltas: null };
     const previousResult = this.findPreviousSelectedResult(result);
     if (!previousResult) return { previous: null, deltas: null };
+    /** @type {ResultRow} */
     const rowWithArea = {
       ...candidate,
       constituency: candidate.constituency || candidate.area || result?.constituency || result?.matchName || result?.name || ''
     };
     const key = this.candidateDeltaLookupKey(rowWithArea, result);
     if (!key) return { previous: null, deltas: null };
-    const explicitPrevious = candidate.previous && this.candidateDeltaLookupKey(candidate.previous, previousResult) === key
-      ? candidate.previous
+    /** @type {ResultRow | null} */
+    const explicitPrevious = candidate.previous && this.candidateDeltaLookupKey(/** @type {ResultRow} */ (candidate.previous), previousResult) === key
+      ? /** @type {ResultRow} */ (candidate.previous)
       : null;
     const previousRows = Array.isArray(previousResult.candidates) ? previousResult.candidates : [];
     const previous = explicitPrevious || previousRows.find((row) => this.candidateDeltaLookupKey(row, previousResult) === key) || null;
     return this.buildCandidateDelta(rowWithArea, previous, result, previousResult);
   }
 
+  /**
+   * @template {CandidateRow} R
+   * @param {R[]} [rows]
+   * @param {{ result?: ElectionResult, previousResults?: ElectionResult[], previousRows?: CandidateRow[], mainLike?: boolean }} [options]
+   */
   withCandidateDeltas(rows = [], options = {}) {
     return modelWithCandidateDeltas(rows, options, this.electionContext());
   }
 
+  /** @param {CouncilSummaryRow[]} [rows] */
   withCouncilDeltas(rows = []) {
     return modelWithCouncilDeltas(rows, this.electionContext());
   }
 
+  /**
+   * @param {LocalPartyRow[]} [rows]
+   * @param {{ previousResults?: ElectionResult[] }} [options]
+   */
   withLocalPartyDeltas(rows = [], options = {}) {
     return modelWithLocalPartyDeltas(rows, options, this.electionContext());
   }
 
+  /** @param {string} [view] */
   renderDistrictResults(view = 'party') {
     const results = this.currentResults();
     const partyRows = this.withPartyDeltas(buildPartySummary(results));
@@ -2889,7 +3414,7 @@ export class Test2ElectionManager {
     const electorate = sumNumbers(results, 'electorate');
     const spoiled = sumNumbers(results, 'spoiled');
     return `
-      <section class="test2-election-panel" aria-label="${escapeHtml(this.activeBundle.body)} district results">
+      <section class="test2-election-panel" aria-label="${escapeHtml(/** @type {ElectionEntry} */ (this.activeBundle).body)} district results">
         ${this.renderViewTabs([
           ['party', 'By Party'],
           ['candidate', 'By Candidate'],
@@ -2898,7 +3423,7 @@ export class Test2ElectionManager {
         ], view)}
         <div class="test2-election-panel__summary">
           <dl class="test2-election-panel__stats">
-            <div><dt>District</dt><dd>${escapeHtml(this.activeBundle.displayTitle || this.activeBundle.body)}</dd></div>
+            <div><dt>District</dt><dd>${escapeHtml(/** @type {ElectionEntry} */ (this.activeBundle).displayTitle || /** @type {ElectionEntry} */ (this.activeBundle).body)}</dd></div>
             ${this.localBodyCount() > 1 ? `<div><dt>Councils</dt><dd>${formatNumber(councilRows.length)}</dd></div>` : ''}
             <div><dt>DEAs</dt><dd>${formatNumber(results.length)}</dd></div>
             ${totalSeats ? `<div><dt>Seats</dt><dd>${formatNumber(totalSeats)}</dd></div>` : ''}
@@ -2918,10 +3443,16 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {ElectionResult | null} [result] */
   isCouncilAggregateResult(result = null) {
     return modelIsCouncilAggregateResult(result, this.electionContext());
   }
 
+  /**
+   * @param {unknown} councilName
+   * @param {CouncilRow | null} [summaryRow]
+   * @returns {BundleResult | null}
+   */
   buildCouncilAggregateResult(councilName, summaryRow = null) {
     const normalized = normalizeName(councilName);
     if (!normalized) return null;
@@ -2932,7 +3463,8 @@ export class Test2ElectionManager {
     const partyRows = buildPartySummary(memberResults);
     const leadingParty = row?.leadingParty || partyRows[0]?.party || '';
     const colour = this.mainPanePartyColour(leadingParty, row?.colour || partyRows[0]?.colour || '');
-    return {
+    // A council's results drawn as one contest.
+    return /** @type {BundleResult} */ (/** @type {unknown} */ ({
       aggregateType: this.localBodyCount() > 1 ? 'council' : 'district',
       constituency: councilName,
       matchName: councilName,
@@ -2958,25 +3490,33 @@ export class Test2ElectionManager {
       deas: row?.deas ?? memberResults.length,
       previous: row?.previous || null,
       deltas: row?.deltas || null
-    };
+    }));
   }
 
+  /** @returns {BundleResult[]} */
   buildCouncilAggregateResults() {
-    return this.withCouncilDeltas(buildCouncilSummary(this.currentResults()))
+    // filter(Boolean) leaves only results.
+    return /** @type {BundleResult[]} */ (this.withCouncilDeltas(buildCouncilSummary(this.currentResults()))
       .map((row) => this.buildCouncilAggregateResult(row.council, row))
-      .filter(Boolean);
+      .filter(Boolean));
   }
 
+  /** @param {unknown} name */
   findCouncilAggregateResultByName(name) {
     const normalized = normalizeName(name);
     if (!normalized) return null;
     return this.buildCouncilAggregateResults().find((result) => resultKeys(result).includes(normalized)) || null;
   }
 
+  /** @param {unknown} councilName */
   previousResultsForCouncil(councilName) {
     return modelPreviousResultsForCouncil(councilName, this.electionContext());
   }
 
+  /**
+   * @param {BundleResult} result
+   * @param {string} [view]
+   */
   renderCouncilAggregateResults(result, view = 'party') {
     const memberResults = Array.isArray(result?.memberResults) ? result.memberResults : [];
     if (!memberResults.length) return '<p class="election-no-data">No council-level result data is available for this entry.</p>';
@@ -2984,7 +3524,7 @@ export class Test2ElectionManager {
     const partyRows = this.withPartyDeltas(buildPartySummary(memberResults), { previousResults });
     const candidateRows = this.withCandidateDeltas(buildCandidateSummary(memberResults), { previousResults });
     /** @type {'party' | 'candidate' | 'local-party'} the table drawn: any other view is the party table */
-    const effectiveView = ['party', 'candidate', 'local-party'].includes(view) ? view : 'party';
+    const effectiveView = ['party', 'candidate', 'local-party'].includes(view) ? /** @type {'party' | 'candidate' | 'local-party'} */ (view) : 'party';
     return `
       ${effectiveView === 'candidate' ? this.renderCandidateSummaryTable(candidateRows, { results: memberResults, previousResults, widePercentLabel: '% of District' })
         : effectiveView === 'local-party' ? this.renderLocalPartySummaryTable(memberResults, { previousResults, areaLabel: 'DEA', districtPercentLabel: '% of District' })
@@ -2997,17 +3537,17 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {string} [view] */
   renderCouncilResults(view = 'party') {
     const results = this.currentResults();
     const councilRows = this.withCouncilDeltas(buildCouncilSummary(results));
     const rows = this.withPartyDeltas(buildPartySummary(results));
     const candidates = buildCandidateSummary(results);
-    const localRows = buildLocalPartySummary(results);
     const totalSeats = rows.reduce((sum, row) => sum + numberOrZero(row.seats), 0);
     const validPoll = sumNumbers(results, 'validPoll');
     const electorate = sumNumbers(results, 'electorate');
     return `
-      <section class="test2-election-panel" aria-label="${escapeHtml(this.activeBundle.displayTitle || this.activeBundle.body)} council results">
+      <section class="test2-election-panel" aria-label="${escapeHtml(/** @type {ElectionEntry} */ (this.activeBundle).displayTitle || /** @type {ElectionEntry} */ (this.activeBundle).body)} council results">
         ${this.renderViewTabs([
           ['party', 'By Party'],
           ['council', 'By Council'],
@@ -3035,6 +3575,7 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {CouncilRow[]} [rows] */
   renderCouncilSummaryTable(rows = []) {
     return `
       <div class="election-party-wrapper election-party-wrapper--pane-sticky">
@@ -3073,6 +3614,7 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {DeltaRow[]} [rows] */
   renderDistrictPartyTable(rows = []) {
     return `
       <div class="test2-election-table-wrap">
@@ -3096,54 +3638,23 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {ElectionResult[]} [results] */
   renderRecallPetitionOverview(results = []) {
     return this.sharedRenderer.renderRecallPetitionOverview(results);
-    return `
-      <section class="test2-election-panel" aria-label="Recall petition overview">
-        <div class="test2-election-panel__summary">
-          <dl class="test2-election-panel__stats">
-            <div><dt>Petitions</dt><dd>${formatNumber(results.length)}</dd></div>
-            <div><dt>Triggered</dt><dd>${formatNumber(results.filter((result) => recallTriggered(result)).length)}</dd></div>
-            <div><dt>Not triggered</dt><dd>${formatNumber(results.filter((result) => result.recallPetition && !recallTriggered(result)).length)}</dd></div>
-          </dl>
-        </div>
-        <div class="test2-election-table-wrap">
-          <table class="test2-election-table catalogue-detail__entity-table">
-            <thead><tr><th>Constituency</th><th>Signed</th><th>Threshold</th><th>Shortfall/Surplus</th><th>Outcome</th></tr></thead>
-            <tbody>
-              ${results.map((result) => {
-                const petition = result.recallPetition || {};
-                const signed = petition.signed ?? petition.signatures ?? result.leadingVotes ?? null;
-                const threshold = petition.threshold ?? petition.required ?? null;
-                const shortfall = Number.isFinite(Number(signed)) && Number.isFinite(Number(threshold)) ? Number(signed) - Number(threshold) : null;
-                return `
-                  <tr>
-                    <td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(result.matchName || result.constituency || ''))}">${escapeHtml(result.constituency || '')}</button></td>
-                    <td>${formatNumber(signed)}</td>
-                    <td>${formatNumber(threshold)}</td>
-                    <td>${shortfall === null ? '' : formatSigned(shortfall)}</td>
-                    <td>${escapeHtml(petition.outcome || (recallTriggered(result) ? 'By-election triggered' : 'Petition not successful'))}</td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>
-      </section>
-    `;
   }
 
+  /**
+   * @param {Array<[string, string]>} tabs
+   * @param {string} active
+   */
   renderViewTabs(tabs, active) {
     return this.sharedRenderer.renderViewTabs(tabs, active);
-    return `
-      <div class="election-view-tabs test2-election-tabs" role="tablist">
-        ${tabs.map(([id, label]) => `
-          <button type="button" role="tab" aria-selected="${id === active ? 'true' : 'false'}" class="election-view-tab${id === active ? ' election-view-tab--active' : ''}" data-election-view="${escapeHtml(id)}">${escapeHtml(label)}</button>
-        `).join('')}
-      </div>
-    `;
   }
 
+  /**
+   * @param {DeltaRow[]} candidates
+   * @param {{ widePercentLabel?: string, results?: ElectionResult[], previousResults?: ElectionResult[] }} [options]
+   */
   renderCandidateSummaryTable(candidates, options = {}) {
     if (!candidates.length) return '<p class="election-no-data">No candidate summary is available for this election.</p>';
     const isLocal = this.isLocalGovernmentElection();
@@ -3194,7 +3705,7 @@ export class Test2ElectionManager {
               const firstPrefs = numberOrZero(candidate.firstPrefs ?? candidate.votes);
               const niPct = totalValid > 0 ? firstPrefs / totalValid * 100 : 0;
               const previousFirstPrefs = candidate.previous ? numberOrZero(candidate.previous.firstPrefs ?? candidate.previous.votes) : null;
-              const previousNiPct = candidate.previous && previousCandidateTotalValid > 0 ? previousFirstPrefs / previousCandidateTotalValid * 100 : null;
+              const previousNiPct = candidate.previous && previousCandidateTotalValid > 0 ? /** @type {number} */ (previousFirstPrefs) / previousCandidateTotalValid * 100 : null;
               const niPctDelta = candidate.deltas && previousNiPct !== null ? niPct - previousNiPct : null;
               const status = candidate.elected ? 'Elected' : (candidate.excluded ? 'Excluded' : (candidate.status || 'Not Elected'));
               const countValue = candidate.countDisplay
@@ -3225,30 +3736,15 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {ElectionResult[]} results */
   renderConstituencySummaryTable(results) {
     return this.sharedRenderer.renderConstituencySummaryTable(results);
-    return `
-      <div class="test2-election-table-wrap test2-election-table-wrap--constituencies">
-        <table class="test2-election-table catalogue-detail__entity-table">
-          <thead><tr><th>Constituency/DEA</th><th>Winner/lead</th><th>Party</th><th>Seats</th><th>Change</th><th>Turnout</th><th>Majority</th></tr></thead>
-          <tbody>
-            ${results.map((result) => `
-              <tr>
-                <td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(result.matchName || result.constituency || ''))}">${escapeHtml(result.constituency || result.matchName || '')}</button></td>
-                <td>${escapeHtml(result.winnerName || result.leadingName || '')}</td>
-                <td${this.partyCellAttrs(electionPartyColour(result.winnerParty || result.leadingParty))}>${this.partyLabel(result.winnerParty || result.leadingParty || '')}</td>
-                <td>${formatNumber(result.seatsWon ?? result.seatsTotal ?? '')}</td>
-                <td>${result.deltas ? formatSigned(result.deltas.seatsWon) : ''}</td>
-                <td>${formatPercent(result.turnoutPct)}</td>
-                <td>${formatNumber(result.majority)}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    `;
   }
 
+  /**
+   * @param {ElectionResult[]} results
+   * @param {{ previousResults?: ElectionResult[], areaLabel?: string, districtPercentLabel?: string }} [options]
+   */
   renderLocalPartySummaryTable(results, options = {}) {
     const rows = this.withLocalPartyDeltas(buildLocalPartySummary(results), options);
     if (!rows.length) return '<p class="election-no-data">No local-party summary is available for this election.</p>';
@@ -3300,19 +3796,17 @@ export class Test2ElectionManager {
 
   renderDataCoverageNotice() {
     return this.sharedRenderer.renderDataCoverageNotice();
-    const unmatched = Number(this.activeBundle?.unmatchedCount || 0);
-    if (!unmatched) return '';
-    return `
-      <div class="test2-election-coverage-notice" role="note">
-        ${formatNumber(unmatched)} result ${unmatched === 1 ? 'row is' : 'rows are'} not styled on the map because no exact converted geography match is available yet.
-      </div>
-    `;
   }
 
+  /**
+   * @param {BundleResult} result
+   * @param {StvCandidate[]} candidates
+   */
   renderCountTable(result, candidates) {
     const sourceCountNumbers = result.countNumbers?.length
       ? result.countNumbers
-      : [...new Set(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count)))].sort((a, b) => a - b);
+      // The count numbers the candidates' rows carry.
+      : /** @type {number[]} */ ([...new Set(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count)))]).sort((a, b) => a - b);
     const rawCountNumbers = sourceCountNumbers;
     if (!rawCountNumbers.length) return '<p class="election-no-data">No count-by-count data is available for this entry.</p>';
     const stvResult = isStvResult(result);
@@ -3339,6 +3833,7 @@ export class Test2ElectionManager {
       return Math.abs(Number(nonTransferable.get(n)?.transfers) || 0) > 0.0001;
     });
     const totalCountCount = visibleCounts.length + 1;
+    /** @param {unknown} rawCount */
     const displayCountForRaw = (rawCount) => {
       const raw = Number(rawCount) || 1;
       if (raw <= 1) return 1;
@@ -3363,11 +3858,14 @@ export class Test2ElectionManager {
     // The previous contest for this area, as the party table finds it (it carries the poll,
     // spoiled and electorate figures); else the bundle's own, slimmer link to it.
     const previousContest = this.findPreviousSelectedResult(result) || result.previous || null;
-    const prev = previousContest || {};
+    const prev = /** @type {ResultRow} */ (previousContest || {});
+    /** @param {number} value */
     const pctOfTurnout = (value) => totalPoll > 0 ? value / totalPoll * 100 : 0;
+    /** @param {number} value */
     const pctOfElectorate = (value) => electorate > 0 ? value / electorate * 100 : 0;
     // A previous figure exists only where the area was contested before: with no previous
     // contest (a series' first election) every change is "no previous result", not the value.
+    /** @param {unknown} value */
     const previousFigure = (value) => (previousContest && value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value))
       ? Number(value)
       : null);
@@ -3376,6 +3874,13 @@ export class Test2ElectionManager {
     const prevTotalPoll = previousFigure(prev.totalPoll);
     const prevElectorate = previousFigure(prev.electorate);
     const prevDidNotVote = prevElectorate !== null && prevTotalPoll !== null ? Math.max(0, prevElectorate - prevTotalPoll) : null;
+    /**
+     * @param {string} label
+     * @param {number} value
+     * @param {number | null} previousValue
+     * @param {number} pctValue
+     * @param {number | null} previousPctValue
+     */
     const appendSummaryRow = (label, value, previousValue, pctValue, previousPctValue) => `
       <tr class="election-table-summary-row">
         <td class="election-rank-col">-</td>
@@ -3495,44 +4000,12 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {ElectionResult} result */
   renderRecallPetitionResult(result) {
     return this.sharedRenderer.renderRecallPetitionResult(result);
-    const petition = result.recallPetition || {};
-    const signed = petition.signed ?? petition.signatures ?? result.leadingVotes ?? null;
-    const threshold = petition.threshold ?? petition.required ?? null;
-    const electorate = petition.electorate ?? result.electorate ?? null;
-    const triggered = petition.triggered ?? (Number.isFinite(Number(signed)) && Number.isFinite(Number(threshold)) ? Number(signed) >= Number(threshold) : null);
-    const shortfall = Number.isFinite(Number(signed)) && Number.isFinite(Number(threshold)) ? Number(threshold) - Number(signed) : null;
-    return `
-      <section class="test2-election-panel" aria-label="${escapeHtml(result.constituency)} recall petition result">
-        <dl class="test2-election-panel__stats">
-          <div><dt>Constituency</dt><dd>${escapeHtml(result.constituency || '')}</dd></div>
-          ${electorate ? `<div><dt>Electorate</dt><dd>${formatNumber(electorate)}</dd></div>` : ''}
-          ${threshold ? `<div><dt>Threshold</dt><dd>${formatNumber(threshold)}</dd></div>` : ''}
-          ${signed ? `<div><dt>Signed</dt><dd>${formatNumber(signed)}</dd></div>` : ''}
-          ${shortfall !== null ? `<div><dt>${shortfall <= 0 ? 'Above threshold' : 'Shortfall'}</dt><dd>${formatNumber(Math.abs(shortfall))}</dd></div>` : ''}
-          ${triggered !== null ? `<div><dt>By-election triggered</dt><dd>${triggered ? 'Yes' : 'No'}</dd></div>` : ''}
-          ${petition.incumbent ? `<div><dt>Incumbent</dt><dd>${escapeHtml(petition.incumbent)}</dd></div>` : ''}
-          ${petition.incumbentParty ? `<div><dt>Incumbent party</dt><dd>${escapeHtml(petition.incumbentParty)}</dd></div>` : ''}
-        </dl>
-        ${petition.outcome || petition.notes ? `
-          <div class="test2-election-coverage-notice">
-            ${petition.outcome ? `<strong>${escapeHtml(petition.outcome)}</strong>` : ''}
-            ${petition.notes ? `<p>${escapeHtml(petition.notes)}</p>` : ''}
-          </div>
-        ` : ''}
-        ${petition.incumbent || petition.incumbentParty ? `
-          <div class="test2-election-table-wrap">
-            <table class="test2-election-table catalogue-detail__entity-table">
-              <thead><tr><th>Incumbent</th><th>Party</th><th>Outcome</th></tr></thead>
-              <tbody><tr><td>${escapeHtml(petition.incumbent || '')}</td><td>${this.partyLabel(petition.incumbentParty || '')}</td><td>${triggered ? 'Seat vacated' : 'Seat retained'}</td></tr></tbody>
-            </table>
-          </div>
-        ` : ''}
-      </section>
-    `;
   }
 
+  /** @param {BundleResult} result */
   renderAnimationNotice(result) {
     if (this.resultHasAnimation(result) && (result.animationPayload || result.animationRowCount)) {
       return `
@@ -3563,6 +4036,8 @@ export class Test2ElectionManager {
    * is opened, so lite omits it. This mutates the result in place, so opening the
    * same constituency twice costs one request. On the static path the payload is
    * already present and this returns immediately.
+   * @param {BundleResult | null | undefined} result
+   * @param {ElectionEntry | null} [bundle]
    */
   async ensureAnimationPayload(result, bundle = this.activeBundle) {
     if (!result || result.animationPayload) return result?.animationPayload || null;
@@ -3607,14 +4082,21 @@ export class Test2ElectionManager {
    * matching result is fetched too, because every +/- column is computed against it.
    *
    * Each result is requested at most once, so a failed fetch cannot become a redraw loop.
+   * @param {BundleResult | null | undefined} selectedResult
    */
   async hydrateSelectedResult(selectedResult) {
     if (!selectedResult || !useElectionsApi()) return;
     this.countDetailRequested ||= new WeakSet();
+    /** @type {Promise<unknown>[]} */
     const pending = [];
+    /**
+     * @param {BundleResult | null | undefined} result
+     * @param {ElectionEntry | null | undefined} bundle
+     */
     const request = (result, bundle) => {
-      if (!result || Array.isArray(result.countGroup) || this.countDetailRequested.has(result)) return;
-      this.countDetailRequested.add(result);
+      // The set was made above.
+      if (!result || Array.isArray(result.countGroup) || /** @type {WeakSet<BundleResult>} */ (this.countDetailRequested).has(result)) return;
+      /** @type {WeakSet<BundleResult>} */ (this.countDetailRequested).add(result);
       pending.push(this.ensureAnimationPayload(result, bundle));
     };
     request(selectedResult, this.activeBundle);
@@ -3664,7 +4146,7 @@ export class Test2ElectionManager {
       stage.style.transform = '';
       stage.style.marginRight = '';
       stage.style.marginBottom = '';
-      const box = window.$?.(stage)?.data?.('boundingBox');
+      const box = /** @type {{ width?: unknown } | null | undefined} */ (window.$?.(stage)?.data?.('boundingBox'));
       const cs = getComputedStyle(container);
       const padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
       const borderX = (parseFloat(cs.borderLeftWidth) || 0) + (parseFloat(cs.borderRightWidth) || 0);
@@ -3697,6 +4179,7 @@ export class Test2ElectionManager {
     }
   }
 
+  /** @param {BundleResult} result */
   async runAnimation(result) {
     const container = document.getElementById('electionAnimationContainer');
     const status = document.getElementById('test2ElectionAnimationStatus');
@@ -3711,7 +4194,7 @@ export class Test2ElectionManager {
     try {
       await ensureElectionAnimationRuntime();
     } catch (error) {
-      if (status) status.textContent = `The election animation engine could not load: ${error.message}`;
+      if (status) status.textContent = `The election animation engine could not load: ${/** @type {Error} */ (error).message}`;
       return;
     }
     if (typeof window.$?.preloadElectionData !== 'function' || typeof window.animateStages !== 'function') {
@@ -3731,13 +4214,19 @@ export class Test2ElectionManager {
       this.fitAnimationToPane();
     } catch (error) {
       console.error('[test2 elections] Animation failed', error);
-      if (status) status.textContent = `Animation failed: ${error.message}`;
+      if (status) status.textContent = `Animation failed: ${/** @type {Error} */ (error).message}`;
     } finally {
       window.$?.clearPreloadedData?.();
     }
   }
 
+  /**
+   * @param {string} kind
+   * @param {string | null | undefined} key
+   * @param {{ updateURL?: boolean }} [options]
+   */
   renderEntityPanel(kind, key, options = {}) {
+    /** @type {{ candidates?: Array<{ id?: unknown, key?: unknown, personId?: unknown, name?: unknown }>, parties?: Array<{ id?: unknown, name?: unknown }> }} */
     const index = this.activeBundle?.entityIndex || buildEntityIndex(this.currentResults());
     const entity = kind === 'candidate'
       // Matched on any of the entry's keys: `id` (the source person id, or name|party),
@@ -3752,9 +4241,11 @@ export class Test2ElectionManager {
     const title = document.getElementById('electionPaneTitle');
     const back = document.getElementById('electionPaneBack');
     if (!pane || !content || !title) return;
-    this.setEntityPage({ kind, key }, this.activePanelView || 'party');
+    // An entity was found for the key.
+    this.setEntityPage({ kind, key: /** @type {string} */ (key) }, this.activePanelView || 'party');
     this.activeSelectedResultKey = null;
-    title.textContent = entity.name || entity.id || 'Election entity';
+    // Names and ids are strings.
+    title.textContent = /** @type {string} */ (entity.name || entity.id || 'Election entity');
     back?.classList.remove('hidden');
     content.innerHTML = this.mainPaneContract.renderEntityPanel(kind, entity);
     back?.addEventListener('click', () => {
@@ -3763,7 +4254,7 @@ export class Test2ElectionManager {
       this.renderPanel(null, returnView);
       this.app.updateURLState();
     });
-    content.querySelectorAll('[data-election-result-key]').forEach((button) => {
+    /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('[data-election-result-key]')).forEach((button) => {
       button.addEventListener('click', () => {
         const result = this.findResultByKey(button.dataset.electionResultKey);
         if (result) {
@@ -3775,6 +4266,7 @@ export class Test2ElectionManager {
     if (options.updateURL !== false) this.app.updateURLState();
   }
 
+  /** @param {EntityPageEntity} entity */
   renderPartyEntity(entity) {
     const widePercentLabel = this.getElectionWidePercentLabel();
     return `
@@ -3784,7 +4276,7 @@ export class Test2ElectionManager {
           <div>
             <div class="election-entity-page__eyebrow">Party Information</div>
             <h3 class="election-entity-page__title">${escapeHtml(entity.name || '')}</h3>
-            <p class="election-entity-page__subtitle">${escapeHtml(shortElectionBody(this.activeBundle.body || this.activeBundle.displayTitle || ''))} - ${escapeHtml(formatElectionDate(this.activeBundle.date || ''))}</p>
+            <p class="election-entity-page__subtitle">${escapeHtml(shortElectionBody(/** @type {ElectionEntry} */ (this.activeBundle).body || /** @type {ElectionEntry} */ (this.activeBundle).displayTitle || ''))} - ${escapeHtml(formatElectionDate(/** @type {ElectionEntry} */ (this.activeBundle).date || ''))}</p>
           </div>
         </div>
         <div class="election-entity-metrics">
@@ -3805,6 +4297,7 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {EntityPageEntity} entity */
   renderCandidateEntity(entity) {
     const widePercentLabel = this.getElectionWidePercentLabel();
     return `
@@ -3851,6 +4344,7 @@ export class Test2ElectionManager {
     `;
   }
 
+  /** @param {ElectionFeature | null | undefined} feature */
   showFeatureResults(feature) {
     if (this.niLocal?.active) return this.niLocal.showFeature(feature);
     if (!this.activeBundle || !feature) return false;
@@ -3865,6 +4359,7 @@ export class Test2ElectionManager {
     return false;
   }
 
+  /** @param {ElectionFeature | null | undefined} feature */
   isFeatureFromActiveElection(feature) {
     if (!this.activeBundle || !feature) return false;
     const featureMapId = normalizeName(feature.mapId || feature.sourceMapId || feature.layerId || '');
@@ -3881,6 +4376,10 @@ export class Test2ElectionManager {
     ].some((value) => normalizeName(value || '') === featureMapId);
   }
 
+  /**
+   * @param {unknown} key
+   * @returns {BundleResult | null}
+   */
   findResultByKey(key) {
     const normalized = normalizeName(key);
     if (!normalized) return null;
@@ -3901,12 +4400,16 @@ export class Test2ElectionManager {
     if (!this.activeEntry || !this.activeBundle) return null;
     const mode = this.activeMode;
     const district = this.isLocalGovernmentElection() && this.activeLocalMode === 'district';
+    // A district map's rows are its councils, read as results.
+    /** @type {BundleResult[]} */
     const rows = district
-      ? buildCouncilSummary(this.currentResults()).map((row) => ({ winnerParty: row.leadingParty, leadingParty: row.leadingParty, colour: this.mainPanePartyColour(row.leadingParty, row.colour), leadingColour: this.mainPanePartyColour(row.leadingParty, row.colour) }))
+      ? /** @type {BundleResult[]} */ (/** @type {unknown} */ (buildCouncilSummary(this.currentResults()).map((row) => ({ winnerParty: row.leadingParty, leadingParty: row.leadingParty, colour: this.mainPanePartyColour(row.leadingParty, row.colour), leadingColour: this.mainPanePartyColour(row.leadingParty, row.colour) }))))
       : this.currentResults();
     const title = `${MODE_LABELS[mode] || mode}${district ? ' by council' : ''}`;
+    /** @type {import('../src/app/legend-view.mjs').LegendModel} */
     const model = { title, election: this.activeBundle.displayTitle || this.activeEntry.displayTitle || '', items: [], ramp: null, seats: false };
     if (['winner', 'leadingParty'].includes(mode)) {
+      /** @type {Map<string, import('../src/app/legend-view.mjs').LegendItem>} */
       const byKey = new Map();
       const byCandidate = this.isAreaResultsGeographyMode();
       for (const result of rows) {
@@ -3919,14 +4422,16 @@ export class Test2ElectionManager {
             ? { party, abbreviation: initials(result.leadingName), name: result.leadingName, colour, count: 0 }
             : { party, abbreviation: partyAbbreviation(party), name: partyFullName(party), colour, count: 0 });
         }
-        byKey.get(key).count += 1;
+        /** @type {import('../src/app/legend-view.mjs').LegendItem} */ (byKey.get(key)).count += 1;
       }
       model.items = [...byKey.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
       model.unit = district ? 'council' : (this.isLocalGovernmentElection() ? 'area' : 'constituency');
     } else {
+      /** @type {Record<string, [number, number, string]>} */
       const ranges = { turnout: [35, 80, '%'], voteShare: [10, 70, '%'], majority: [0, 45, '%'], seats: [1, 6, ''], quota: [1000, 120000, ''] };
       const [low, high, suffix] = ranges[mode] || [0, 100, ''];
       const stops = [0, 0.25, 0.5, 0.75, 1].map((t) => sharedNumericColour(low + (high - low) * t, low, high));
+      /** @param {number} n */
       const fmt = (n) => `${siteNumber(Number(n))}${suffix}`;
       model.ramp = { low: fmt(low), high: fmt(high), gradient: `linear-gradient(90deg, ${stops.join(', ')})` };
     }
@@ -3984,9 +4489,10 @@ export class Test2ElectionManager {
         </div>
         <div id="electionPaneContent" class="election-pane__content"></div>
       `;
-      pane.querySelector('#electionPaneCollapse').addEventListener('click', () => this.setPaneCollapsed(!document.body.classList.contains('test2-election-collapsed')));
+      // The markup above holds both.
+      /** @type {Element} */ (pane.querySelector('#electionPaneCollapse')).addEventListener('click', () => this.setPaneCollapsed(!document.body.classList.contains('test2-election-collapsed')));
       // Not a button, so a drag that starts on it still moves the pane (setupElectionPaneResize).
-      pane.querySelector('#electionPanePeek').addEventListener('click', () => {
+      /** @type {Element} */ (pane.querySelector('#electionPanePeek')).addEventListener('click', () => {
         if (document.body.classList.contains('test2-election-collapsed')) this.setPaneCollapsed(false);
       });
       this.setPaneCollapsed(this.readPaneCollapsed(), { refit: false });
@@ -3995,7 +4501,10 @@ export class Test2ElectionManager {
   }
 
   /** Fold the results down to their header so the election map takes the column, or open them
-   * again. Remembered for the next election and the next visit. */
+   * again. Remembered for the next election and the next visit.
+   * @param {boolean} collapsed
+   * @param {{ refit?: boolean }} [options]
+   */
   setPaneCollapsed(collapsed, { refit = true } = {}) {
     document.body.classList.toggle('test2-election-collapsed', Boolean(collapsed));
     if (collapsed) this.renderPanePeek();
@@ -4041,6 +4550,7 @@ export class Test2ElectionManager {
     try { return localStorage.getItem('civgraph:test2:electionPaneCollapsed') === '1'; } catch { return false; }
   }
 
+  /** @param {ElectionEntry} entry */
   renderLoadingPanel(entry) {
     const pane = this.ensurePanel();
     const title = document.getElementById('electionPaneTitle');
@@ -4217,6 +4727,10 @@ export class Test2ElectionManager {
     return overlay;
   }
 
+  /**
+   * @param {string} key
+   * @param {string} [aggregateType]
+   */
   handleSeatCircleActivation(key, aggregateType = '') {
     if (aggregateType === 'council' || aggregateType === 'district') {
       this.activeLocalMode = LOCAL_MODE.check('district');
@@ -4269,6 +4783,7 @@ export class Test2ElectionManager {
     if (!this.activeBundle || !this.shouldRenderElectionOverlays()) return;
     const index = await this.loadFeatureIndex();
     const centres = this.buildFeatureCentreLookup(index?.items || []);
+    /** @type {import('geojson').Feature[]} */
     const features = [];
     for (const result of this.activeBundle.results || []) {
       const center = result.anchor?.center || this.findCentreForResult(centres, result);
@@ -4299,13 +4814,15 @@ export class Test2ElectionManager {
     }
     if (!features.length) return;
     const map = this.mapController.map;
+    /** @type {import('geojson').FeatureCollection} */
     const data = { type: 'FeatureCollection', features };
     if (map.getSource(VOTE_BAR_SOURCE_ID)) {
-      map.getSource(VOTE_BAR_SOURCE_ID).setData(data);
+      /** @type {import('maplibre-gl').GeoJSONSource} */ (map.getSource(VOTE_BAR_SOURCE_ID)).setData(data);
     } else {
       map.addSource(VOTE_BAR_SOURCE_ID, { type: 'geojson', data });
     }
-    map.getSource(VOTE_BAR_SOURCE_ID)._data = data;
+    // The tests read the data back from the source.
+    /** @type {{ _data?: unknown }} */ (/** @type {unknown} */ (map.getSource(VOTE_BAR_SOURCE_ID)))._data = data;
     if (!map.getLayer(VOTE_BAR_LAYER_ID)) {
       map.addLayer({
         id: VOTE_BAR_LAYER_ID,
@@ -4333,19 +4850,29 @@ export class Test2ElectionManager {
     }
   }
 
+  /**
+   * @param {Map<string, [number, number]>} centres
+   * @returns {SeatCircleGroup[]}
+   */
   buildSeatCircleGroups(centres) {
     if (this.activeBundle?.bodyGroup === 'local-government' && this.activeLocalMode === 'district') {
       return this.buildLocalAggregateSeatCircleGroups(centres);
     }
-    return (this.activeBundle?.results || [])
+    // filter(Boolean) leaves only groups, here and in the councils' below.
+    return /** @type {SeatCircleGroup[]} */ ((this.activeBundle?.results || [])
       .map((result) => this.createSeatCircleGroup(result, this.seatCandidatesForResult(result), result.anchor?.center || this.findCentreForResult(centres, result), result.anchor?.bounds || null, Number(result.anchor?.area || 0)))
-      .filter(Boolean);
+      .filter(Boolean));
   }
 
+  /**
+   * @param {Map<string, [number, number]>} centres
+   * @returns {SeatCircleGroup[]}
+   */
   buildLocalAggregateSeatCircleGroups(centres) {
+    /** @type {Map<string, LocalSeatGroup>} */
     const byBody = new Map();
     for (const result of this.activeBundle?.results || []) {
-      const key = this.localBodyCount() > 1 ? (result.localBody || 'Unknown council') : (this.activeBundle.displayTitle || this.activeBundle.body || 'District');
+      const key = this.localBodyCount() > 1 ? (result.localBody || 'Unknown council') : (/** @type {ElectionEntry} */ (this.activeBundle).displayTitle || /** @type {ElectionEntry} */ (this.activeBundle).body || 'District');
       if (!byBody.has(key)) {
         byBody.set(key, {
           result: {
@@ -4363,7 +4890,7 @@ export class Test2ElectionManager {
           area: 0
         });
       }
-      const group = byBody.get(key);
+      const group = /** @type {LocalSeatGroup} */ (byBody.get(key));
       group.results.push(result);
       group.seats.push(...this.seatCandidatesForResult(result));
       group.bounds = mergeGeoBounds(group.bounds, result.anchor?.bounds || null);
@@ -4376,7 +4903,7 @@ export class Test2ElectionManager {
       }
       group.area += Number(result.anchor?.area || 0);
     }
-    return [...byBody.values()].map((group) => {
+    return /** @type {SeatCircleGroup[]} */ ([...byBody.values()].map((group) => {
       const summary = buildPartySummary(group.results)[0] || null;
       const aggregateResult = this.buildCouncilAggregateResult(group.result.constituency || group.result.matchName);
       if (aggregateResult) {
@@ -4392,10 +4919,19 @@ export class Test2ElectionManager {
       const center = aggregateCenter || geoBoundsCenter(group.bounds) || (group.centerAccumulator.weight
         ? [group.centerAccumulator.lng / group.centerAccumulator.weight, group.centerAccumulator.lat / group.centerAccumulator.weight]
         : null);
-      return this.createSeatCircleGroup(group.result, group.seats, center, group.bounds, group.area);
-    }).filter(Boolean);
+      // A centre is [lng, lat].
+      return this.createSeatCircleGroup(group.result, group.seats, /** @type {[number, number] | null} */ (center), group.bounds, group.area);
+    }).filter(Boolean));
   }
 
+  /**
+   * @param {BundleResult} result
+   * @param {ResultCandidate[]} seats
+   * @param {[number, number] | null | undefined} center
+   * @param {GeoBounds | null | undefined} bounds
+   * @param {unknown} area
+   * @returns {SeatCircleGroup | null}
+   */
   createSeatCircleGroup(result, seats, center, bounds, area) {
     if (!center || !seats?.length) return null;
     const positions = seatPositions(seats.length, SEAT_CIRCLE_SPACING);
@@ -4429,6 +4965,11 @@ export class Test2ElectionManager {
     map.on('moveend', refresh);
   }
 
+  /**
+   * @template {{ result?: BundleResult | null, seats?: unknown[], area?: number }} G
+   * @param {G[]} [groups]
+   * @returns {G[]}
+   */
   limitSeatCircleGroups(groups = []) {
     const limit = this.getSeatCircleGroupLimit();
     if (groups.length <= limit) return groups;
@@ -4493,6 +5034,7 @@ export class Test2ElectionManager {
     });
   }
 
+  /** @param {SeatCircleGroup[]} [groups] */
   async filterOverlayGroupsByCollisionAsync(groups = []) {
     const fallback = () => this.limitSeatCircleGroups(this.filterOverlayGroupsByCollision(groups));
     const map = this.mapController?.map;
@@ -4524,7 +5066,7 @@ export class Test2ElectionManager {
       minTotalExtent: SEAT_CIRCLE_MIN_TOTAL_EXTENT
     }).catch(() => null);
     if (!Array.isArray(selectedIndexes)) return fallback();
-    return selectedIndexes.map((index) => groups[index]).filter(Boolean);
+    return /** @type {SeatCircleGroup[]} */ (selectedIndexes.map((index) => groups[index]).filter(Boolean));
   }
 
   getOverlayWorker() {
@@ -4557,6 +5099,11 @@ export class Test2ElectionManager {
     }
   }
 
+  /**
+   * @param {Array<Record<string, unknown>>} groups
+   * @param {{ limit: number, margin: number, minTotalExtent: number }} options
+   * @returns {Promise<number[]>}  the indexes of the groups to draw
+   */
   runOverlayWorker(groups, options) {
     const worker = this.getOverlayWorker();
     if (!worker) return Promise.reject(new Error('Election overlay worker unavailable'));
@@ -4576,6 +5123,10 @@ export class Test2ElectionManager {
     });
   }
 
+  /**
+   * @param {SeatCircleGroup[]} [groups]
+   * @returns {Array<SeatCircleGroup | ProjectedSeatGroup>}
+   */
   filterOverlayGroupsByCollision(groups = []) {
     const map = this.mapController?.map;
     if (!map || groups.length <= 1) return groups;
@@ -4594,13 +5145,15 @@ export class Test2ElectionManager {
       })
       .filter((group) => Number.isFinite(group.point?.x) && Number.isFinite(group.point?.y));
     if (!projected.length) return [];
-    const totalBounds = projected.reduce((acc, group) => mergePixelBounds(acc, group.bounds || pointPixelBounds(group.point)), null);
+    const totalBounds = projected.reduce((acc, group) => mergePixelBounds(acc, group.bounds || pointPixelBounds(group.point)), /** @type {PixelBounds | null | undefined} */ (null));
     if (!totalBounds
       || Math.abs(totalBounds.maxX - totalBounds.minX) < SEAT_CIRCLE_MIN_TOTAL_EXTENT
       || Math.abs(totalBounds.maxY - totalBounds.minY) < SEAT_CIRCLE_MIN_TOTAL_EXTENT) {
       return [];
     }
+    /** @type {typeof projected} */
     const placed = [];
+    /** @type {typeof projected} */
     const visible = [];
     for (const group of projected.sort((a, b) => {
       const syntheticDelta = Number(Boolean(b.result?.syntheticNonGeographic)) - Number(Boolean(a.result?.syntheticNonGeographic));
@@ -4632,6 +5185,7 @@ export class Test2ElectionManager {
     if (!this.activeBundle || !this.shouldRenderRecallLabels()) return;
     const index = await this.loadFeatureIndex();
     const centres = this.buildFeatureCentreLookup(index?.items || []);
+    /** @type {import('geojson').Feature[]} */
     const features = [];
     for (const result of this.activeBundle.results || []) {
       const center = result.anchor?.center || this.findCentreForResult(centres, result);
@@ -4648,13 +5202,15 @@ export class Test2ElectionManager {
     }
     if (!features.length) return;
     const map = this.mapController.map;
+    /** @type {import('geojson').FeatureCollection} */
     const data = { type: 'FeatureCollection', features };
     if (map.getSource(RECALL_LABEL_SOURCE_ID)) {
-      map.getSource(RECALL_LABEL_SOURCE_ID).setData(data);
+      /** @type {import('maplibre-gl').GeoJSONSource} */ (map.getSource(RECALL_LABEL_SOURCE_ID)).setData(data);
     } else {
       map.addSource(RECALL_LABEL_SOURCE_ID, { type: 'geojson', data });
     }
-    map.getSource(RECALL_LABEL_SOURCE_ID)._data = data;
+    // The tests read the data back from the source.
+    /** @type {{ _data?: unknown }} */ (/** @type {unknown} */ (map.getSource(RECALL_LABEL_SOURCE_ID)))._data = data;
     if (!map.getLayer(RECALL_LABEL_LAYER_ID)) {
       map.addLayer({
         id: RECALL_LABEL_LAYER_ID,
@@ -4715,6 +5271,7 @@ export class Test2ElectionManager {
     return this.loadFeatureIndexForBundle(this.activeBundle);
   }
 
+  /** @param {ElectionEntry | null | undefined} bundle */
   async loadFeatureIndexForBundle(bundle) {
     if (!bundle) return null;
     const layer = this.app.metadataService.getLayer(bundle.layerId)
@@ -4722,6 +5279,7 @@ export class Test2ElectionManager {
     return this.loadFeatureIndexForLayer(layer);
   }
 
+  /** @param {(ElectionStyleLayer & { featureIndexUrl?: string }) | null | undefined} layer */
   async loadFeatureIndexForLayer(layer) {
     const resolvedLayer = layer?.featureIndexUrl
       ? layer
@@ -4734,6 +5292,9 @@ export class Test2ElectionManager {
     return cachedLoad(this.featureIndexCache, url, ELECTION_CACHE_LIMITS.featureIndexes, () => fetchFeatureIndex(url));
   }
 
+  /**
+   * @param {Array<{ center?: unknown, name?: unknown, label?: unknown, title?: unknown, aliases?: unknown[] }>} items
+   */
   buildFeatureCentreLookup(items) {
     const centres = new Map();
     for (const item of items) {
@@ -4746,6 +5307,10 @@ export class Test2ElectionManager {
     return centres;
   }
 
+  /**
+   * @param {Map<string, [number, number]>} centres
+   * @param {BundleResult} result
+   */
   findCentreForResult(centres, result) {
     for (const key of resultKeys(result)) {
       const center = centres.get(key);
@@ -4754,6 +5319,10 @@ export class Test2ElectionManager {
     return null;
   }
 
+  /**
+   * @param {BundleResult} result
+   * @returns {ResultCandidate[]}
+   */
   seatCandidatesForResult(result) {
     if (!this.shouldRenderElectionOverlays()) return [];
     const elected = extractElected(result);
@@ -4792,6 +5361,7 @@ export class Test2ElectionManager {
    *
    * Announced rather than rendered as a banner: it is a caveat about the data, not an
    * error, and a screen-reader user currently gets nothing at all from the grey.
+   * @param {ElectionEntry} entry
    */
   announceUnmatchedGeography(entry) {
     if (entry?.resultsOnly) {
@@ -4820,7 +5390,8 @@ export class Test2ElectionManager {
     if (!this.activeEntry || !this.catalogue?.elections) return;
     const all = this.catalogue.elections
       // The council years run as one series, the island's (before 1921) into Northern Ireland's.
-      .filter((entry) => (entry.loadable || entry.resultsOnly) && inTimelineSeries(entry, this.activeEntry))
+      // The active entry is set (tested above), here and below.
+      .filter((entry) => (entry.loadable || entry.resultsOnly) && inTimelineSeries(entry, /** @type {ElectionEntry} */ (this.activeEntry)))
       .sort((a, b) => String(a.date).localeCompare(String(b.date)));
     // By-elections far outnumber general elections (879 to 206 across the catalogue), so a
     // body's slider is mostly by-election stops. The filter steps through the rest; the open
@@ -4833,9 +5404,9 @@ export class Test2ElectionManager {
     const crowded = byElections > 2 * (all.length - byElections);
     const generalsOnly = available && Boolean(this.app.getTimelineGeneralsOnly?.(crowded));
     const entries = generalsOnly
-      ? all.filter((entry) => entry.kind !== 'by-election' || entry.date === this.activeEntry.date)
+      ? all.filter((entry) => entry.kind !== 'by-election' || entry.date === /** @type {ElectionEntry} */ (this.activeEntry).date)
       : all;
-    const activeIndex = entries.findIndex((entry) => entry.body === this.activeEntry.body && entry.date === this.activeEntry.date);
+    const activeIndex = entries.findIndex((entry) => entry.body === /** @type {ElectionEntry} */ (this.activeEntry).body && entry.date === /** @type {ElectionEntry} */ (this.activeEntry).date);
     this.app.setTimelineItems(entries.map((entry) => ({
       label: entry.date,
       // A year of council elections is a year, not 1 January of it.
@@ -4849,6 +5420,10 @@ export class Test2ElectionManager {
     }, { generalsFilter: { available, active: generalsOnly } });
   }
 
+  /**
+   * @param {string} body
+   * @param {unknown} date
+   */
   findEntry(body, date) {
     const elections = this.catalogue?.elections || [];
     const found = elections.find((entry) => entry.body === body && entry.date === date);
@@ -4858,11 +5433,13 @@ export class Test2ElectionManager {
     return findGroupedYear(elections, body, date);
   }
 
+  /** @param {{ body?: unknown, date?: unknown } | null} [entry] */
   getCanonicalLayerId(entry = this.activeEntry) {
     if (!entry?.body || !entry?.date) return '';
     return `election-${mainElectionSlug(entry.body)}-${entry.date}`;
   }
 
+  /** @param {unknown} layerId */
   findEntryByCanonicalLayerId(layerId) {
     if (!layerId) return null;
     const found = (this.catalogue?.elections || []).find((entry) => this.getCanonicalLayerId(entry) === layerId);
@@ -4872,6 +5449,7 @@ export class Test2ElectionManager {
     return year ? this.findEntry(year.body, year.date) : null;
   }
 
+  /** @param {unknown} layerId */
   isCanonicalElectionLayerId(layerId) {
     return Boolean(this.findEntryByCanonicalLayerId(layerId));
   }
@@ -4880,6 +5458,7 @@ export class Test2ElectionManager {
 // Opening a grouped year (packages/map/src/election/grouped-year-methods.js).
 installMethods(Test2ElectionManager, [GroupedYearMethods]);
 
+/** @param {unknown} value */
 function mainElectionSlug(value) {
   return String(value || '')
     .toLowerCase()
@@ -4895,6 +5474,9 @@ function mainElectionSlug(value) {
  * and its election-wide summaries are dropped so every table is rebuilt from those contests.
  * Null when the area had no contest last time (renamed or new), so no change is shown at all
  * rather than a change against the whole country.
+ * @param {ElectionEntry | null | undefined} previous
+ * @param {ElectionEntry | null | undefined} current
+ * @returns {ElectionEntry | null | undefined}
  */
 function sameAreaPreviousBundle(previous, current) {
   if (!previous || !current) return previous;
@@ -4902,16 +5484,21 @@ function sameAreaPreviousBundle(previous, current) {
   const results = (previous.results || []).filter((result) => resultKeys(result).some((key) => keys.has(key)));
   if (!results.length) return null;
   if (results.length === (previous.results || []).length) return previous;
-  return {
+  // The summaries are dropped as null, which every reader tests (?.length) before use.
+  return /** @type {ElectionEntry} */ (/** @type {unknown} */ ({
     ...previous,
     results,
     partySummary: null,
     mainLikePartySummary: null,
     mainLikeCandidateSummary: null,
     mainLikeTotals: null
-  };
+  }));
 }
 
+/**
+ * @param {BundleResult} result
+ * @returns {string[]}
+ */
 function resultKeys(result) {
   return [
     result.matchName,
@@ -4926,6 +5513,7 @@ function resultKeys(result) {
   ].map(normalizeName).filter(Boolean);
 }
 
+/** @param {unknown} [name] */
 function councilFeatureAliases(name = '') {
   const aliases = new Set([name]);
   const normalized = normalizeName(name);
@@ -4949,12 +5537,14 @@ function councilFeatureAliases(name = '') {
 // quo, it can never break the whole expression the way a malformed input
 // transform could. The real data lives in the FGB/PMTiles and should be trimmed
 // at intake; this keeps the map correct until that regeneration happens.
+/** @param {unknown} label */
 function matchLabelWhitespaceVariants(label) {
   const base = String(label ?? '');
   if (!base) return [base];
   return [base, `${base}\n`, `${base}\r\n`, `${base}\r`, `${base} `];
 }
 
+/** @param {BundleResult} result */
 function resultFeatureLabels(result) {
   const labels = [];
   for (const match of result.featureMatches || []) {
@@ -4972,6 +5562,7 @@ function resultFeatureLabels(result) {
     });
 }
 
+/** @param {ResultRow} [row] */
 function isMainStyleCandidateRow(row = {}) {
   const candidateId = String(row.Candidate_Id || '').trim();
   if (!candidateId || candidateId.toLowerCase() === 'nontransferable') return false;
@@ -4983,6 +5574,7 @@ function isMainStyleCandidateRow(row = {}) {
   return true;
 }
 
+/** @param {ResultRow} [row] */
 function mainStyleCandidateDisplayName(row = {}) {
   return String(
     row.candidateName
@@ -4994,18 +5586,11 @@ function mainStyleCandidateDisplayName(row = {}) {
     .trim();
 }
 
-function offsetSeatByPixels(map, center, pixelOffset) {
-  const lng = Number(center?.[0]);
-  const lat = Number(center?.[1]);
-  if (!map || !Number.isFinite(lng) || !Number.isFinite(lat)) return [lng, lat];
-  const projected = map.project([lng, lat]);
-  const unprojected = map.unproject([
-    projected.x + Number(pixelOffset?.x || 0),
-    projected.y + Number(pixelOffset?.y || 0)
-  ]);
-  return [unprojected.lng, unprojected.lat];
-}
-
+/**
+ * @param {MapLibreMap | null | undefined} map
+ * @param {GeoBounds | null | undefined} bounds
+ * @returns {PixelBounds | null}
+ */
 function projectAnchorBounds(map, bounds) {
   const west = Number(bounds?.west);
   const south = Number(bounds?.south);
@@ -5022,6 +5607,11 @@ function projectAnchorBounds(map, bounds) {
   };
 }
 
+/**
+ * @param {GeoBounds | null | undefined} a
+ * @param {GeoBounds | null | undefined} b
+ * @returns {GeoBounds | null | undefined}
+ */
 function mergeGeoBounds(a, b) {
   if (!b) return a;
   if (!a) return { ...b };
@@ -5033,6 +5623,10 @@ function mergeGeoBounds(a, b) {
   return { west, south, east, north };
 }
 
+/**
+ * @param {GeoBounds | null | undefined} bounds
+ * @returns {[number, number] | null}
+ */
 function geoBoundsCenter(bounds) {
   const west = Number(bounds?.west);
   const south = Number(bounds?.south);
@@ -5042,6 +5636,10 @@ function geoBoundsCenter(bounds) {
   return [(west + east) / 2, (south + north) / 2];
 }
 
+/**
+ * @param {{ x: number, y: number }} point
+ * @returns {PixelBounds}
+ */
 function pointPixelBounds(point) {
   return {
     minX: point.x,
@@ -5051,6 +5649,11 @@ function pointPixelBounds(point) {
   };
 }
 
+/**
+ * @param {PixelBounds | null | undefined} a
+ * @param {PixelBounds | null | undefined} b
+ * @returns {PixelBounds | null | undefined}
+ */
 function mergePixelBounds(a, b) {
   if (!b) return a;
   if (!a) return { ...b };
@@ -5077,6 +5680,7 @@ function ensureElectionAnimationRuntime() {
     // __VIEWER_ASSET_VERSIONS__ (build-test2-app.mjs). These paths are served immutable for a
     // year, so a fixed token pinned the edge to old copies: stages2.js?v=2 was still served
     // hours after a deploy changed it, and the unversioned files for weeks.
+    /** @param {string} assetPath */
     const versioned = (assetPath) => `${assetPath}?v=${__VIEWER_ASSET_VERSIONS__[assetPath]}`;
     const scripts = [
       versioned('/app/js/jquery-shim.js'),
@@ -5093,8 +5697,12 @@ function ensureElectionAnimationRuntime() {
   return electionAnimationRuntimePromise;
 }
 
+/**
+ * @param {string} src
+ * @returns {Promise<void>}
+ */
 function loadScriptOnce(src) {
-  const existing = [...document.querySelectorAll('script[data-test2-runtime-src]')]
+  const existing = [.../** @type {NodeListOf<HTMLScriptElement>} */ (document.querySelectorAll('script[data-test2-runtime-src]'))]
     .find((script) => script.dataset.test2RuntimeSrc === src);
   if (existing) return Promise.resolve();
   return new Promise((resolve, reject) => {
@@ -5107,10 +5715,12 @@ function loadScriptOnce(src) {
   });
 }
 
+/** @returns {Promise<void>} */
 function nextFrame() {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
+/** @param {unknown} value */
 function normalizeName(value) {
   return String(value ?? '')
     .normalize('NFKD')
@@ -5125,13 +5735,19 @@ function normalizeName(value) {
 }
 
 /** The timeline's second line: "General election", or the contest's title without its
- * leading year ("1968 South Antrim by-election" reads "South Antrim by-election"). */
+ * leading year ("1968 South Antrim by-election" reads "South Antrim by-election").
+ * @param {Partial<ElectionEntry>} [entry]
+ */
 function timelineStopName(entry = {}) {
   if (entry.niLocalGroup) return `${entry.councilCount || ''} councils`.trim();
   if (entry.kind === 'general') return 'General election';
   return String(entry.displayTitle || '').replace(/^\d{4}\s+/, '').trim();
 }
 
+/**
+ * @param {unknown} transfer
+ * @param {{ negativeAbs?: unknown, positive?: unknown } | number | string | null | undefined} denominator
+ */
 function formatTransferShare(transfer, denominator) {
   const transferValue = finiteNumber(transfer);
   if (transferValue === null || Math.abs(transferValue) <= 0.0001) return '-';
@@ -5142,44 +5758,41 @@ function formatTransferShare(transfer, denominator) {
   return formatMainPercentDelta((transferValue / denominatorValue) * 100);
 }
 
+/** @param {unknown} value */
 function formatNumber(value) {
   if (value === null || value === undefined || value === '') return '';
   const number = Number(value);
   return Number.isFinite(number) ? number.toLocaleString() : String(value);
 }
 
+/** @param {unknown} value */
 function formatPercent(value) {
   if (value === null || value === undefined || value === '') return '';
   const number = Number(value);
   return Number.isFinite(number) ? `${number.toFixed(2).replace(/\.00$/, '')}%` : String(value);
 }
 
+/** @param {unknown} value */
 function formatSigned(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
   return `${number > 0 ? '+' : ''}${number.toLocaleString()}`;
 }
 
+/** @param {unknown} value */
 function formatSignedPercent(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
   return `${number > 0 ? '+' : ''}${number.toFixed(2).replace(/\.00$/, '')}%`;
 }
 
-function formatDeltaPair(primary, secondary) {
-  const parts = [];
-  const primaryText = formatSigned(primary);
-  const secondaryText = formatSigned(secondary);
-  if (primaryText) parts.push(primaryText);
-  if (secondaryText) parts.push(secondaryText);
-  return parts.join(' / ');
-}
-
+/** @param {unknown} value */
 function formatFixedPercent(value) {
   const number = Number(value);
   return Number.isFinite(number) ? `${number.toFixed(2)}%` : '';
 }
 
+/** @param {unknown} value */
 function formatMainDelta(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
@@ -5189,6 +5802,7 @@ function formatMainDelta(value) {
 
 // Share changes carry `election-delta--share` so the pane can colour them alone: a table where
 // every count change is also green or red says nothing about which change matters.
+/** @param {unknown} value */
 function formatMainPercentDelta(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
@@ -5200,6 +5814,10 @@ function formatMainPercentDelta(value) {
 // `kind` keeps each table's existing form: 'count' (+1,234), 'percent' (+2.10%) or 'points'
 // (+2.10). The sign is a real minus, and the classes are the ones the separate +/- columns
 // carried, so share changes keep their green and red and count changes stay muted.
+/**
+ * @param {unknown} value
+ * @param {string} [kind]
+ */
 function formatChange(value, kind = 'count') {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
@@ -5224,6 +5842,9 @@ function formatChange(value, kind = 'count') {
  *
  * The change is announced as "change +2" (or "no previous result"), so a screen reader does
  * not run the two figures together; sorting reads the value alone (.election-cell-value).
+ * @param {string | number} valueHtml
+ * @param {unknown} change
+ * @param {string} [kind]
  */
 function valueWithChange(valueHtml, change, kind = 'count') {
   if (change === false) return valueHtml;
@@ -5237,10 +5858,12 @@ function valueWithChange(valueHtml, change, kind = 'count') {
 
 // Plain numbers in the # column. The ordinal suffix (1st, 2nd, 3rd) cost width in the
 // narrowest column of every table and told the reader nothing the column heading does not.
+/** @param {unknown} index */
 function rankLabel(index) {
   return String(Number(index) + 1);
 }
 
+/** @param {unknown} name */
 function shortElectionBody(name) {
   const value = String(name || '');
   const map = new Map([
@@ -5258,12 +5881,14 @@ function shortElectionBody(name) {
   return map.get(value) || value;
 }
 
+/** @param {unknown} value */
 function formatElectionDate(value) {
   const match = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (!match) return String(value || '');
   return formatDisplayDate(match[0]);
 }
 
+/** @param {Partial<ElectionEntry>} [entry] */
 function electionTrendFamily(entry = {}) {
   const body = normalizeName(entry.body || entry.displayTitle || '');
   const group = normalizeName(entry.bodyGroup || '');
@@ -5278,6 +5903,7 @@ function electionTrendFamily(entry = {}) {
   return group || body || 'elections';
 }
 
+/** @param {Partial<ElectionEntry>} [entry] */
 function electionTrendJurisdiction(entry = {}) {
   const body = normalizeName(entry.body || entry.displayTitle || '');
   const group = normalizeName(entry.bodyGroup || '');
@@ -5309,6 +5935,10 @@ function electionTrendJurisdiction(entry = {}) {
   return null;
 }
 
+/**
+ * @param {StvCandidate[]} [candidates]
+ * @param {unknown[]} [countNumbers]
+ */
 function inferCountEvents(candidates = [], countNumbers = []) {
   const events = [];
   for (const count of countNumbers) {
@@ -5329,6 +5959,11 @@ function inferCountEvents(candidates = [], countNumbers = []) {
   return events;
 }
 
+/**
+ * @param {ElectionResult} [result]
+ * @param {StvCandidate[]} [candidates]
+ * @param {unknown[]} [countNumbers]
+ */
 function inferCountTransferOutEvents(result = {}, candidates = [], countNumbers = []) {
   const events = [];
   const normalizedCounts = normalizedCountSequence(countNumbers);
@@ -5356,6 +5991,13 @@ function inferCountTransferOutEvents(result = {}, candidates = [], countNumbers 
   return events;
 }
 
+/**
+ * @param {StvCandidate} [candidate]
+ * @param {ResultRow | null} [row]
+ * @param {ElectionResult} [result]
+ * @param {unknown} [count]
+ * @param {unknown[]} [countNumbers]
+ */
 function classifyTransferOutEvent(candidate = {}, row = {}, result = {}, count, countNumbers = []) {
   const status = normalizeName(row?.status || candidate.status || '');
   if (status.includes('excluded') || status.includes('eliminated')) return 'excluded';
@@ -5370,6 +6012,7 @@ function classifyTransferOutEvent(candidate = {}, row = {}, result = {}, count, 
   return 'excluded';
 }
 
+/** @param {unknown} [name] */
 function candidateEventSurname(name = '') {
   const tokens = String(name || '')
     .replace(/\([^)]*\)/g, ' ')
@@ -5383,6 +6026,7 @@ function candidateEventSurname(name = '') {
   return last;
 }
 
+/** @param {unknown[]} [names] */
 function uniqueNameList(names = []) {
   const seen = new Set();
   return names
@@ -5395,6 +6039,7 @@ function uniqueNameList(names = []) {
     .join(', ');
 }
 
+/** @param {BundleResult} [result] */
 function recallTriggered(result = {}) {
   const petition = result.recallPetition || {};
   if (typeof petition.triggered === 'boolean') return petition.triggered;
@@ -5403,12 +6048,13 @@ function recallTriggered(result = {}) {
   return Number.isFinite(signed) && Number.isFinite(threshold) ? signed >= threshold : false;
 }
 
+/** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+  return String(value ?? '').replace(/[&<>"']/g, (char) => /** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  }[char]));
+  })[char]);
 }

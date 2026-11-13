@@ -24,6 +24,7 @@ import { MAP_COLOURS, NUMERIC_SCALE } from '../colours.mjs';
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 
 /** Labels for the map style selector, keyed by mode. */
+/** @type {Record<string, string>} */
 export const MODE_LABELS = {
   winner: 'Winner',
   leadingParty: 'Leading party',
@@ -147,7 +148,8 @@ export function mainPanePartyColour(party, explicit = '', roi = false) {
   const routeColour = routePalette.get(normalizedParty);
   const sharedColour = electionPartyColour(party, '');
   const localColour = PARTY_COLOURS.get(normalizedParty);
-  if (routeColour || sharedColour || localColour) return routeColour || sharedColour || localColour;
+  // One of the three is set (tested): the first that is, a string.
+  if (routeColour || sharedColour || localColour) return /** @type {string} */ (routeColour || sharedColour || localColour);
   if (roi) {
     return ROI_MAIN_PARTY_COLOURS.get(normalizedParty) || electionPartyColour(party) || partyColour(party) || MAP_COLOURS.noResult;
   }
