@@ -3,39 +3,20 @@
 
 from __future__ import annotations
 
+import os
 import re
 from typing import Any
 
 
 YEARS = [2014, 2019, 2023]
 
-MODERN_COUNCILS = [
-    {"key": "antrim_and_newtownabbey", "variants": ["Antrim and Newtownabbey District Council", "Antrim and Newtownabbey Borough Council"]},
-    {"key": "ards_and_north_down", "variants": ["Ards and North Down District Council", "Ards and North Down Borough Council", "North Down and Ards District Council"]},
-    {"key": "armagh_banbridge_and_craigavon", "variants": ["Armagh, Banbridge and Craigavon District Council", "Armagh City, Banbridge and Craigavon Borough Council"]},
-    {"key": "belfast", "variants": ["Belfast City Council"]},
-    {"key": "causeway_coast_and_glens", "variants": ["Causeway Coast and Glens District Council", "Causeway Coast and Glens Borough Council"]},
-    {"key": "derry_city_and_strabane", "variants": ["Derry and Strabane District Council", "Derry City and Strabane District Council"]},
-    {"key": "fermanagh_and_omagh", "variants": ["Fermanagh and Omagh District Council"]},
-    {"key": "lisburn_and_castlereagh", "variants": ["Lisburn and Castlereagh District Council", "Lisburn and Castlereagh City Council"]},
-    {"key": "mid_and_east_antrim", "variants": ["Mid and East Antrim District Council"]},
-    {"key": "mid_ulster", "variants": ["Mid-Ulster District Council", "Mid Ulster District Council"]},
-    {"key": "newry_mourne_and_down", "variants": ["Newry, Mourne and Down District Council"]},
-]
+# The 11 councils of 2014, from the councils registry (data/registries/councils.json, read by
+# scripts/ingest/councils_registry.py): each council's Wikipedia key, the council names its
+# election articles use, and its name for display.
+_CR = __import__('runpy').run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'councils_registry.py'))
+MODERN_COUNCILS = _CR['wikipedia_councils']('2014')
 
-COUNCIL_DISPLAY_BY_KEY = {
-    "antrim_and_newtownabbey": "Antrim and Newtownabbey",
-    "ards_and_north_down": "Ards and North Down",
-    "armagh_banbridge_and_craigavon": "Armagh, Banbridge and Craigavon",
-    "belfast": "Belfast",
-    "causeway_coast_and_glens": "Causeway Coast and Glens",
-    "derry_city_and_strabane": "Derry City and Strabane",
-    "fermanagh_and_omagh": "Fermanagh and Omagh",
-    "lisburn_and_castlereagh": "Lisburn and Castlereagh",
-    "mid_and_east_antrim": "Mid and East Antrim",
-    "mid_ulster": "Mid Ulster",
-    "newry_mourne_and_down": "Newry, Mourne and Down",
-}
+COUNCIL_DISPLAY_BY_KEY = _CR['wikipedia_display']('2014')
 
 
 def normalize_title(title: str) -> str:

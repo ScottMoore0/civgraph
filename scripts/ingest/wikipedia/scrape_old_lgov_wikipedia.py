@@ -63,34 +63,12 @@ RETRY_DELAYS = [5, 10, 20, 40]
 # Existing cached wikitext directory from earlier scraping runs
 CACHED_RAW_DIR = Path("_tmp_xls2rar_extract/out/wiki_lgov/raw")
 
-COUNCILS = [
-    {"key": "antrim",                     "display": "Antrim",                      "variants": ["Antrim Borough Council", "Antrim District Council"]},
-    {"key": "ards",                       "display": "Ards",                        "variants": ["Ards Borough Council", "Ards District Council"]},
-    {"key": "armagh",                     "display": "Armagh",                      "variants": ["Armagh City and District Council", "Armagh District Council", "Armagh City Council"]},
-    {"key": "ballymena",                  "display": "Ballymena",                   "variants": ["Ballymena Borough Council", "Ballymena District Council"]},
-    {"key": "ballymoney",                 "display": "Ballymoney",                  "variants": ["Ballymoney Borough Council", "Ballymoney District Council"]},
-    {"key": "banbridge",                  "display": "Banbridge",                   "variants": ["Banbridge District Council"]},
-    {"key": "belfast",                    "display": "Belfast",                     "variants": ["Belfast City Council"]},
-    {"key": "carrickfergus",              "display": "Carrickfergus",               "variants": ["Carrickfergus Borough Council", "Carrickfergus District Council"]},
-    {"key": "castlereagh",               "display": "Castlereagh",                "variants": ["Castlereagh Borough Council", "Castlereagh District Council"]},
-    {"key": "coleraine",                  "display": "Coleraine",                   "variants": ["Coleraine Borough Council", "Coleraine District Council"]},
-    {"key": "cookstown",                  "display": "Cookstown",                   "variants": ["Cookstown District Council"]},
-    {"key": "craigavon",                  "display": "Craigavon",                   "variants": ["Craigavon Borough Council", "Craigavon District Council"]},
-    {"key": "derry",                      "display": "Derry",                       "variants": ["Derry City Council", "Londonderry City Council"]},
-    {"key": "down",                       "display": "Down",                        "variants": ["Down District Council"]},
-    {"key": "dungannon_and_south_tyrone", "display": "Dungannon and South Tyrone",  "variants": ["Dungannon and South Tyrone Borough Council", "Dungannon and South Tyrone District Council", "Dungannon District Council"]},
-    {"key": "fermanagh",                  "display": "Fermanagh",                   "variants": ["Fermanagh District Council"]},
-    {"key": "larne",                      "display": "Larne",                       "variants": ["Larne Borough Council", "Larne District Council"]},
-    {"key": "limavady",                   "display": "Limavady",                    "variants": ["Limavady Borough Council", "Limavady District Council"]},
-    {"key": "lisburn",                    "display": "Lisburn",                     "variants": ["Lisburn City Council", "Lisburn Borough Council", "Lisburn District Council"]},
-    {"key": "magherafelt",                "display": "Magherafelt",                 "variants": ["Magherafelt District Council"]},
-    {"key": "moyle",                      "display": "Moyle",                       "variants": ["Moyle District Council"]},
-    {"key": "newry_and_mourne",           "display": "Newry and Mourne",            "variants": ["Newry and Mourne District Council"]},
-    {"key": "newtownabbey",               "display": "Newtownabbey",                "variants": ["Newtownabbey Borough Council", "Newtownabbey District Council"]},
-    {"key": "north_down",                 "display": "North Down",                  "variants": ["North Down Borough Council", "North Down District Council"]},
-    {"key": "omagh",                      "display": "Omagh",                       "variants": ["Omagh District Council"]},
-    {"key": "strabane",                   "display": "Strabane",                    "variants": ["Strabane District Council"]},
-]
+# The 26 councils of 1973, from the councils registry (data/registries/councils.json, read by
+# scripts/ingest/councils_registry.py): each council's Wikipedia key, the place its usual
+# article title names (display) and the council names its election articles use.
+_CR = __import__('runpy').run_path(str(Path(__file__).resolve().parents[1] / 'councils_registry.py'))
+COUNCILS = [{'key': c['key'], 'display': _CR['wikipedia_title_name'](c['variants'][0]), 'variants': c['variants']}
+            for c in _CR['wikipedia_councils']('1973')]
 
 # ── Party colours ──────────────────────────────────────────────────────────
 # Comprehensive palette covering all parties from 1973–2005,
