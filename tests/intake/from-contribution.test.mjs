@@ -1,14 +1,14 @@
 // `intake from-contribution` (refactor plan IP-4): an approved contribution becomes an intake
 // batch through the contribution plugin (scripts/ingest/contribution/plugin.mjs), and staging
 // that batch makes exactly the catalogue change scripts/intake/contributions.mjs --apply makes.
-// Fixtures only: the submissions are files under tests/intake/fixtures/contributions/ (made up),
+// Fixtures only: the submissions are files in fixtures/contributions/ beside this test (made up),
 // the repository a throwaway git repository; nothing reads KV, R2 or D1.
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { loadBatch, validateBatch } from '../../packages/intake/src/batch.mjs';
 import { contributionRefusal, planContribution, readQueuedSubmission, submissionRecord } from '../../packages/intake/src/contribution.mjs';
 import { pluginMain } from '../../packages/intake/src/plugin-cli.mjs';
@@ -16,7 +16,7 @@ import { stageBatch } from '../../packages/intake/src/stage.mjs';
 import { applyPlan, planPatch, planRetire } from '../../scripts/intake/contributions.mjs';
 import { tempDir, writeFile } from './helpers.mjs';
 
-const FIXTURES = path.resolve('tests/intake/fixtures/contributions');
+const FIXTURES = fileURLToPath(new URL('./fixtures/contributions', import.meta.url));
 const fixture = (name) => JSON.parse(readFileSync(path.join(FIXTURES, name), 'utf8'));
 const INTAKE_SRC = pathToFileURL(path.resolve('packages/intake/src')).href;
 

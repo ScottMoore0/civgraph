@@ -1,7 +1,7 @@
 // The Python ingest scripts read their council lists from the councils registry
 // (data/registries/councils.json, through scripts/ingest/councils_registry.py) instead of
 // carrying them. What they build must be exactly the lists they carried, order included
-// (frozen in tests/intake/fixtures/python-council-lists.json), so their requests and outputs are
+// (frozen in fixtures/python-council-lists.json beside this test), so their requests and outputs are
 // unchanged. The comparison scraper's list stays a literal (its variant forms and their order
 // are not registry data yet); packages/registries' own test keeps checking it against the registry.
 import assert from 'node:assert/strict';
@@ -13,7 +13,7 @@ import { tempDir } from './helpers.mjs';
 
 const REPO = path.resolve('.');
 const hasPython = spawnSync('python', ['--version']).status === 0;
-const frozen = JSON.parse(readFileSync(path.join(REPO, 'tests/intake/fixtures/python-council-lists.json'), 'utf8'));
+const frozen = JSON.parse(readFileSync(new URL('./fixtures/python-council-lists.json', import.meta.url), 'utf8'));
 
 // Load each script as a module (not as __main__, so nothing runs) and print its lists.
 const DUMP = `
