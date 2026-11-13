@@ -22,6 +22,7 @@ test('no-party labels: each reader gets the set it held', () => {
   assert.ok(read('functions/_browse-page.js').includes("const NOT_A_PARTY = notAPartyLabels('candidacies');"));
   // scripts/build/graph/build-semantic-graph.mjs: summary labels and a person record's "Unknown".
   assert.deepEqual(sorted(notAPartyLabels('candidacies', 'persons')), sorted(new Set(['No party recorded', 'No label', 'Unknown'])));
+  assert.ok(read('scripts/build/graph/build-semantic-graph.mjs').includes("const NOT_A_PARTY = notAPartyLabels('candidacies', 'persons');"));
   // scripts/build/words-parties.mjs: Words in parliament's labels.
   assert.deepEqual(sorted(notAPartyLabels('words')), sorted(new Set(['(none)', 'No party recorded'])));
 });

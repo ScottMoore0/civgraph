@@ -12,10 +12,12 @@ import { wikidataUrl } from '../../lib/wikidata-persons.mjs';
 import { buildTimestamp } from '../../lib/build-timestamp.mjs';
 import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, PROVENANCE_FILE, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
 import { readProvenance } from '../../../packages/loader/src/election-provenance.mjs';
+import { notAPartyLabels } from '../../../packages/core/src/party-names.mjs';
 
 // Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
-// "No label" (nothing printed or inferred) and a person record's "Unknown".
-const NOT_A_PARTY = new Set(['No party recorded', 'No label', 'Unknown']);
+// "No label" (nothing printed or inferred) and a person record's "Unknown" (the parties
+// registry's noPartyLabels in candidacies and persons).
+const NOT_A_PARTY = notAPartyLabels('candidacies', 'persons');
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, '..', '..', '..');
