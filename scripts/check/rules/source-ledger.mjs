@@ -38,6 +38,26 @@ export const LEDGER = path.join(ROOT, 'data', 'database', 'source-ledger.json');
 export const LEDGER_MD = path.join(ROOT, 'docs', 'source-ledger.md');
 const WARN_MIN = 100;
 
+/**
+ * An entry of the ledger: the shape validateLedger checks for (it reads the parsed JSON as this).
+ * @typedef {{
+ *   id: string, name: string, publisher: string, remaining: string, nextStep: string, lastChecked: string,
+ *   url: string | null, category: string, rights: string, access: string,
+ *   mirrored: { status: string, where: string[], approxSize: string | null, asOf: string | null },
+ *   extracted: { status: string, what: string, counts: Record<string, number>, targets: string[] },
+ *   match?: { hosts?: string[], titles?: string[] }
+ * }} LedgerSource
+ */
+/**
+ * data/database/source-ledger.json.
+ * @typedef {{
+ *   schemaVersion: number, asOf?: string, description?: string, policy?: string,
+ *   sources: LedgerSource[], liveStores?: { measuredAt?: string, [store: string]: unknown }
+ * }} Ledger
+ */
+/** @typedef {import('../../../packages/loader/src/election-provenance.mjs').ProvenanceSource} ProvenanceSource */
+/** @typedef {import('../../../packages/loader/src/election-provenance.mjs').ProvenanceDocument} ProvenanceDocument */
+
 export const CATEGORIES = ['elections', 'parliaments', 'gazettes', 'newspapers', 'census-statistics',
   'boundaries-maps', 'archives', 'open-data', 'geodata', 'books-catalogues', 'place-names', 'reference'];
 /** The only rights a public entry may carry. */
@@ -60,7 +80,10 @@ export const PRIVATE_ID_PHRASES = ['how-ireland-voted', 'history-of-parliament',
   'ireland-subset', 'libraries-ni', 'proni-viewer', 'minute-books', 'electoral-calculus',
   'british-newspaper', 'irish-newspaper', 'dictionary-of-irish-biography'];
 
-/** Text that must never appear anywhere in the public ledger or its docs table. */
+/**
+ * Text that must never appear anywhere in the public ledger or its docs table.
+ * @type {[RegExp, string][]}
+ */
 export const FORBIDDEN_TEXT = [
   [/(^|[^A-Za-z])[A-Za-z]:[\\/]/, 'a drive-letter path'],
   [/\\Users\\|\/Users\/|\/c\/Users|\/home\//i, 'a user-folder path'],
@@ -88,11 +111,23 @@ export const PRIVATE_CITATION_HOSTS = ['electionsireland.org', 'irelandelection.
   'theguardian.com', 'telegraph.co.uk', 'belfastlive.co.uk', 'irishexaminer.com', 'u.tv',
   'books.google.com', 'jstor.org', 'dib.ie', 'citizensinformation.ie', 'dublincity.ie', 'corkcoco.ie', 'archive.org'];
 
+/**
+ * @param {unknown} v
+ * @returns {v is Record<string, unknown>}
+ */
 const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
+/** @param {unknown} h */
 const normHost = (h) => String(h || '').toLowerCase().replace(/^www\./, '');
+/**
+ * @param {string} host
+ * @param {string[]} list
+ */
 const hostIn = (host, list) => list.some((h) => host === h || host.endsWith(`.${h}`));
 
-/** @returns {string|null} the private id token/phrase an id matches, or null */
+/**
+ * @param {string} id
+ * @returns {string|null} the private id token/phrase an id matches, or null
+ */
 export function privateIdMatch(id) {
   const tokens = String(id).toLowerCase().split('-');
   const tok = PRIVATE_ID_TOKENS.find((t) => tokens.includes(t));
@@ -100,17 +135,26 @@ export function privateIdMatch(id) {
   return PRIVATE_ID_PHRASES.find((p) => `-${id.toLowerCase()}-`.includes(`-${p}-`)) ?? null;
 }
 
-/** @returns {string[]} problems in text (forbidden paths/words) */
+/**
+ * @param {string} text
+ * @returns {string[]} problems in text (forbidden paths/words)
+ */
 export function forbiddenIn(text) {
   return FORBIDDEN_TEXT.filter(([re]) => re.test(text)).map(([, what]) => what);
 }
 
-/** Validate a parsed ledger. @returns {string[]} errors */
+/**
+ * Validate a parsed ledger.
+ * @param {Ledger} ledger the parsed JSON, read as the shape this checks for
+ * @returns {string[]} errors
+ */
 export function validateLedger(ledger) {
+  /** @type {string[]} */
   const errors = [];
   if (!isObj(ledger)) return ['ledger is not an object'];
   if (ledger.schemaVersion !== 1) errors.push('schemaVersion must be 1');
   if (!Array.isArray(ledger.sources) || ledger.sources.length === 0) return [...errors, 'sources must be a non-empty array'];
+  /** @type {Set<string>} */
   const seen = new Set();
   for (const [i, s] of ledger.sources.entries()) {
     const at = `sources[${i}]${s?.id ? ` (${s.id})` : ''}`;
@@ -122,7 +166,7 @@ export function validateLedger(ledger) {
       const hit = privateIdMatch(s.id);
       if (hit) errors.push(`${at}: id matches a privately tracked source (${hit}); keep it in the private register only`);
     }
-    for (const k of ['name', 'publisher', 'remaining', 'nextStep', 'lastChecked']) {
+    for (const k of /** @type {const} */ (['name', 'publisher', 'remaining', 'nextStep', 'lastChecked'])) {
       if (typeof s[k] !== 'string' || !s[k].trim()) errors.push(`${at}: ${k} must be a non-empty string`);
     }
     if (s.url !== null && (typeof s.url !== 'string' || !/^https:\/\//.test(s.url))) errors.push(`${at}: url must be https:// or null`);
@@ -151,27 +195,38 @@ export function validateLedger(ledger) {
     if (s.match !== undefined) {
       if (!isObj(s.match)) errors.push(`${at}: match must be an object`);
       else {
-        for (const k of ['hosts', 'titles']) if (s.match[k] !== undefined && (!Array.isArray(s.match[k]) || s.match[k].some((v) => typeof v !== 'string'))) errors.push(`${at}: match.${k} must be an array of strings`);
+        // the tests before .some saw an array
+        for (const k of /** @type {const} */ (['hosts', 'titles'])) if (s.match[k] !== undefined && (!Array.isArray(s.match[k]) || /** @type {string[]} */ (s.match[k]).some((v) => typeof v !== 'string'))) errors.push(`${at}: match.${k} must be an array of strings`);
         for (const t of s.match.titles ?? []) { try { new RegExp(t, 'i'); } catch { errors.push(`${at}: match.titles has a bad pattern ${t}`); } }
       }
     }
     for (const what of forbiddenIn(JSON.stringify(s))) errors.push(`${at}: contains ${what}`);
   }
-  for (const k of ['description', 'policy']) {
-    if (typeof ledger[k] === 'string') for (const what of forbiddenIn(ledger[k])) errors.push(`${k}: contains ${what}`);
+  for (const k of /** @type {const} */ (['description', 'policy'])) {
+    // the typeof test has just seen a string
+    if (typeof ledger[k] === 'string') for (const what of forbiddenIn(/** @type {string} */ (ledger[k]))) errors.push(`${k}: contains ${what}`);
   }
   for (const what of forbiddenIn(JSON.stringify(ledger.liveStores ?? {}))) errors.push(`liveStores: contains ${what}`);
   return errors;
 }
 
-/** The key a citation is counted under: its host, or the printed title. */
+/**
+ * The key a citation is counted under: its host, or the printed title.
+ * @param {ProvenanceSource} src
+ * @returns {{ host?: string, title?: string }}
+ */
 function citationKey(src) {
   const host = normHost(src.host || (src.url ? safeHost(src.url) : ''));
   return host ? { host } : { title: `${src.publisher ?? ''} | ${src.title ?? ''}` };
 }
-function safeHost(url) { try { return new URL(url).hostname; } catch { return ''; } }
+/** @param {unknown} url  new URL stringifies it, and throws (giving '') when that is not an address */
+function safeHost(url) { try { return new URL(/** @type {string} */ (url)).hostname; } catch { return ''; } }
 
-/** Ledger entry id covering a citation, or null. */
+/**
+ * Ledger entry id covering a citation, or null.
+ * @param {Ledger} ledger
+ * @param {ProvenanceSource} src
+ */
 export function coveringEntry(ledger, src) {
   const key = citationKey(src);
   for (const s of ledger.sources) {
@@ -183,9 +238,15 @@ export function coveringEntry(ledger, src) {
   return null;
 }
 
-/** Count provenance citations per ledger entry and the uncovered public-host tail. */
+/**
+ * Count provenance citations per ledger entry and the uncovered public-host tail.
+ * @param {Ledger} ledger
+ * @param {ProvenanceDocument} provenance
+ */
 export function tallyProvenance(ledger, provenance) {
+  /** @type {Map<string, number>} */
   const perEntry = new Map();
+  /** @type {Map<string, number>} */
   const uncovered = new Map();
   for (const contest of provenance.contests ?? []) {
     for (const src of contest.sources ?? []) {
@@ -200,9 +261,13 @@ export function tallyProvenance(ledger, provenance) {
   return { perEntry, uncovered };
 }
 
+/** @param {unknown} v */
 const esc = (v) => String(v ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ');
 
-/** The docs table, generated from the ledger. */
+/**
+ * The docs table, generated from the ledger.
+ * @param {Ledger} ledger
+ */
 export function renderMarkdown(ledger) {
   const lines = [
     '# Civgraph source ledger',
@@ -212,7 +277,9 @@ export function renderMarkdown(ledger) {
     ledger.policy,
     '',
   ];
-  const count = (f) => ledger.sources.reduce((acc, s) => { const v = f(s); acc[v] = (acc[v] ?? 0) + 1; return acc; }, {});
+  /** @param {(s: LedgerSource) => string} f */
+  const count = (f) => ledger.sources.reduce((acc, s) => { const v = f(s); acc[v] = (acc[v] ?? 0) + 1; return acc; }, /** @type {Record<string, number>} */ ({}));
+  /** @param {Record<string, number>} o */
   const fmt = (o) => Object.entries(o).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(', ');
   lines.push(`${ledger.sources.length} sources. Mirrored: ${fmt(count((s) => s.mirrored.status))}. Extracted: ${fmt(count((s) => s.extracted.status))}.`, '');
   for (const cat of CATEGORIES) {
@@ -238,10 +305,12 @@ export function renderMarkdown(ledger) {
   return `${lines.join('\n')}`;
 }
 
+/** @param {string} t */
 const norm = (t) => t.replace(/\r\n/g, '\n').trimEnd();
 
 function main() {
   const write = process.argv.includes('--write');
+  /** @type {Ledger} */
   const ledger = JSON.parse(readFileSync(LEDGER, 'utf8'));
   const errors = validateLedger(ledger);
   const provenance = readProvenance();
