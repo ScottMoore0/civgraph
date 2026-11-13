@@ -56,12 +56,63 @@ const CONTEXT_LAND_URL = '/assets/map/context-land.json';
 const CONTEXT_LOUGHS_URL = '/assets/map/context-loughs.json';
 const LICENCE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';
 
+/** A point: [x, y] on the page, or [lon, lat]. @typedef {number[]} Pt */
+/** A frame of the export: the bounds drawn, the page size, and lon/lat to page. @typedef {{ bounds: number[], width: number, height: number, project: (lon: number, lat: number) => Pt }} Frame */
+/** A GeoJSON feature read from a map's FlatGeobuf. @typedef {import('geojson').Feature} GeoFeature */
+/** A GeoJSON geometry. @typedef {import('geojson').Geometry} Geometry */
+/** The FlatGeobuf reader (lazy-runtime.js ensureFlatgeobufRuntime). @typedef {{ deserialize(input: string | ReadableStream<Uint8Array> | null, rect?: { minX: number, minY: number, maxX: number, maxY: number }): AsyncIterable<GeoFeature> }} FgbRuntime */
+/** A geometry split by kind, in lon/lat: polygons (rings), lines and points. @typedef {{ polygons: Pt[][][], lines: Pt[][], points: Pt[] }} Exploded */
+/** The lough outlines, decoded. @typedef {{ credits: unknown[], loughs: Array<{ name?: string, kind?: string, polygons: Pt[][][], shore: Pt[][] | null }> }} LoughOutlines */
+/** The neighbouring land and borders, decoded. @typedef {{ credits: unknown[], land: Array<{ name?: string, polygons: Pt[][][] }>, borders: Array<{ name?: string, lines: Pt[][] }> }} LandOutlines */
+/**
+ * A quantised outline file (assets/map/context-*.json): each feature's rings, lines or shore as
+ * [x0, y0, dx1, dy1, ...] integers.
+ * @typedef {{ quantisation?: number, credits?: unknown[], features?: Array<{ name?: string, kind?: string, rings?: number[][][], lines?: number[][], shore?: number[][] }> }} OutlineDoc
+ */
+/** The feature to mark as selected: its properties and name. @typedef {{ properties?: Record<string, unknown> | null, name?: string, id?: unknown }} Selection */
+/** A party's colour on the map and how many features it holds. @typedef {{ party: string, colour: string, count: number }} LegendItem */
+/**
+ * What the export reads of the election manager (app/election-manager.js).
+ * @typedef {{
+ *   activeBundle?: { sourceMapId?: string, layerId?: string, displayTitle?: string, body?: string, date?: string } | null,
+ *   activeEntry?: { displayTitle?: string } | null,
+ *   activeMode?: string,
+ *   resultsByLayer?: Map<string, unknown>,
+ *   getActiveElectionBackingLayerIds?(): string[],
+ *   getActiveElectionStyleSourceMapId?(): string | null,
+ *   findResultForFeature(results: unknown, target: { mapId: string, properties: Record<string, unknown>, featureName: string, name: string }): { winnerParty?: string, leadingParty?: string } | null,
+ *   colourForMode(mode: string, result: unknown): string | null | undefined
+ * }} ExportElections
+ */
+/**
+ * A layer as the export reads it from the map controller or the metadata service.
+ * @typedef {{ id?: string, name?: string, provider?: unknown, license?: string, licence?: string, labelProperty?: string, references?: Array<{ url?: string, file?: string, label?: string }> }} ExportLayer
+ */
+/**
+ * What the export reads of the map app (app/app.js): its map, its election and its metadata.
+ * @typedef {{
+ *   elections?: ExportElections | null,
+ *   mapController?: {
+ *     map?: import('maplibre-gl').Map | null,
+ *     renderer?: { selected?: { layerId: string, properties?: Record<string, unknown> | null, id?: unknown } | null, layers?: Map<string, { config?: { sourceMapId?: string } | null }> } | null,
+ *     testToMain?: Map<string, string>,
+ *     resolveLayer?(mapId: string): ExportLayer | null,
+ *     isLayerLoaded?(mapId: string): boolean
+ *   } | null,
+ *   metadataService?: { loadLayerDetails?(id: string): Promise<unknown>, getLayer?(id: string): ExportLayer | null } | null,
+ *   ensureFlatgeobufRuntime(): Promise<FgbRuntime | null | undefined>,
+ *   _lastClearedSelection?: { layerId: string, properties?: Record<string, unknown> | null, id?: unknown } | null
+ * }} ExportApp
+ */
+/** A map record as the export reads it. @typedef {import('../src/ui-controller-types.d.ts').MapRecord} MapRecord */
 const NAME_KEYS = ['Name', 'name', 'NAME', 'PC_NAME', 'CONSTITUENCY', 'Constituency', 'CON_NAME', 'ENGLISH', 'English_Name',
   'FinalR_DEA', 'DEA', 'DEANAME', 'WARDNAME', 'LGDNAME', 'COUNTY', 'PARISH', 'BARONY', 'TOWNLAND', 'Const_Nm'];
 
 // Each outline's fetch, kept once it succeeds and forgotten when it fails, and the state of that
 // load (idle, loading, ready, failed: export-context-state.mjs), moved in step with the promise.
+/** @type {Promise<LandOutlines> | null} */
 let contextLandPromise = null;
+/** @type {Promise<LoughOutlines> | null} */
 let contextLoughsPromise = null;
 const contextLandLoad = createState(CONTEXT_OUTLINE_LOAD);
 const contextLoughsLoad = createState(CONTEXT_OUTLINE_LOAD);
@@ -69,9 +120,12 @@ const contextLoughsLoad = createState(CONTEXT_OUTLINE_LOAD);
 /* ------------------------------------------------------------------ projection */
 
 const RAD = Math.PI / 180;
+/** @param {number} lon */
 const mercX = (lon) => lon * RAD;
+/** @param {number} lat */
 const mercY = (lat) => Math.log(Math.tan(Math.PI / 4 + Math.max(-85, Math.min(85, lat)) * RAD / 2));
 
+/** @param {number[]} bounds [west, south, east, north] @param {number} [width] @returns {Frame} */
 export function createFrame(bounds, width = TARGET_WIDTH) {
   const [west, south, east, north] = bounds;
   const x0 = mercX(west);
@@ -84,13 +138,18 @@ export function createFrame(bounds, width = TARGET_WIDTH) {
     bounds,
     width,
     height,
-    project: (lon, lat) => [(mercX(lon) - x0) * scale, (y1 - mercY(lat)) * scale]
+    project: (/** @type {number} */ lon, /** @type {number} */ lat) => [(mercX(lon) - x0) * scale, (y1 - mercY(lat)) * scale]
   };
 }
 
 /* ------------------------------------------------------------------ geometry helpers */
 
-/** Douglas-Peucker on a projected ring or line (iterative; keeps first and last points). */
+/**
+ * Douglas-Peucker on a projected ring or line (iterative; keeps first and last points).
+ * @param {Pt[]} points
+ * @param {number} tolerance
+ * @returns {Pt[]}
+ */
 export function simplifyPoints(points, tolerance) {
   if (points.length <= 2 || tolerance <= 0) return points.slice();
   // A cheap radial pass first: dense source data can carry dozens of points per pixel.
@@ -111,7 +170,8 @@ export function simplifyPoints(points, tolerance) {
   const stack = [[0, n - 1]];
   const tol2 = tolerance * tolerance;
   while (stack.length) {
-    const [first, last] = stack.pop();
+    // The loop runs while the stack has a pair.
+    const [first, last] = /** @type {number[]} */ (stack.pop());
     const [ax, ay] = radial[first];
     const [bx, by] = radial[last];
     const dx = bx - ax;
@@ -138,6 +198,7 @@ export function simplifyPoints(points, tolerance) {
   return radial.filter((_, i) => keep[i]);
 }
 
+/** @param {Pt[]} points */
 function ringArea(points) {
   let area = 0;
   for (let i = 0, j = points.length - 1; i < points.length; j = i, i += 1) {
@@ -146,6 +207,7 @@ function ringArea(points) {
   return area / 2;
 }
 
+/** @param {Pt[]} points @returns {number[]} */
 function bboxOf(points) {
   let minX = Infinity; let minY = Infinity; let maxX = -Infinity; let maxY = -Infinity;
   for (const [x, y] of points) {
@@ -157,11 +219,18 @@ function bboxOf(points) {
   return [minX, minY, maxX, maxY];
 }
 
-/** Sutherland-Hodgman clip of a closed ring to a rectangle (used for the context land only). */
+/**
+ * Sutherland-Hodgman clip of a closed ring to a rectangle (used for the context land only).
+ * @param {Pt[]} points
+ * @param {number[]} box [minX, minY, maxX, maxY]
+ * @returns {Pt[]}
+ */
 function clipRing(points, [minX, minY, maxX, maxY]) {
+  /** @type {Array<(p: Pt) => boolean>} */
   const edges = [
     (p) => p[0] >= minX, (p) => p[0] <= maxX, (p) => p[1] >= minY, (p) => p[1] <= maxY
   ];
+  /** @type {Array<(a: Pt, b: Pt) => Pt>} */
   const cut = [
     (a, b) => [minX, a[1] + (b[1] - a[1]) * (minX - a[0]) / (b[0] - a[0])],
     (a, b) => [maxX, a[1] + (b[1] - a[1]) * (maxX - a[0]) / (b[0] - a[0])],
@@ -188,12 +257,17 @@ function clipRing(points, [minX, minY, maxX, maxY]) {
   return output;
 }
 
+/** @param {number} value */
 const fmt = (value) => {
   const rounded = Math.round(value * 100) / 100;
   return Object.is(rounded, -0) ? '0' : String(rounded);
 };
 
-/** "M x,y l dx,dy ... z" with relative steps computed from rounded positions (no drift). */
+/**
+ * "M x,y l dx,dy ... z" with relative steps computed from rounded positions (no drift).
+ * @param {Pt[][]} rings
+ * @param {{ close?: boolean }} [options]
+ */
 export function pathData(rings, { close = true } = {}) {
   const parts = [];
   for (const ring of rings) {
@@ -222,13 +296,18 @@ export function pathData(rings, { close = true } = {}) {
 
 /* ------------------------------------------------------------------ text helpers */
 
+/** @param {unknown} value */
 const xmlEscape = (value) => String(value ?? '')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
   // Characters XML 1.0 forbids.
   // eslint-disable-next-line no-control-regex
   .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '');
 
-/** "Fermanagh and South Tyrone" -> "FermanaghAndSouthTyrone", as Wikipedia's ids read. */
+/**
+ * "Fermanagh and South Tyrone" -> "FermanaghAndSouthTyrone", as Wikipedia's ids read.
+ * @param {unknown} name
+ * @param {Set<string>} used the ids given so far
+ */
 export function svgId(name, used) {
   const ascii = String(name || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
   let id = ascii.split(/[^A-Za-z0-9]+/).filter(Boolean).map((w) => (w === w.toUpperCase() && w.length > 1 ? w[0] + w.slice(1).toLowerCase() : w[0].toUpperCase() + w.slice(1))).join('') || 'Feature';
@@ -239,18 +318,22 @@ export function svgId(name, used) {
   return unique;
 }
 
+/** @param {unknown} value */
 const slugify = (value) => String(value || 'map').normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
   .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'map';
 
+/** @param {Record<string, unknown> | null | undefined} properties @param {string | null | undefined} labelProperty @returns {string} */
 function featureName(properties, labelProperty) {
-  const keys = [labelProperty, ...NAME_KEYS].filter(Boolean);
+  // filter(Boolean) drops a missing label property.
+  const keys = /** @type {string[]} */ ([labelProperty, ...NAME_KEYS].filter(Boolean));
   for (const key of keys) {
     const value = properties?.[key];
     if ((typeof value === 'string' && value.trim()) || typeof value === 'number') return String(value).trim();
   }
   const fallback = Object.entries(properties || {}).find(([key, value]) => typeof value === 'string' && value.trim()
     && /(name|title|label|dea|ward|district|constituency|county)/i.test(key));
-  return fallback ? fallback[1].trim() : '';
+  // find() kept a string value.
+  return fallback ? /** @type {string} */ (fallback[1]).trim() : '';
 }
 
 /* ------------------------------------------------------------------ data */
@@ -262,19 +345,24 @@ const MAX_WHOLE_FILE_BYTES = 40 * 1024 * 1024;
  * The FlatGeobuf to read geometry from. The catalogue's download link can point at
  * archive.org, which sends no CORS headers, so a copy on Civgraph's own bucket (or this site)
  * is preferred; the download link is the fallback.
+ * @param {{ files?: unknown, downloads?: unknown, sourceFile?: unknown, [key: string]: unknown } | null | undefined} mapConfig
+ * @returns {string | null}
  */
 export function resolveVectorSourceUrl(mapConfig) {
   if (!mapConfig) return null;
-  const candidates = [
-    typeof mapConfig.files === 'object' && mapConfig.files ? mapConfig.files.fgb : null,
-    mapConfig.downloads?.fgb,
+  // The filter keeps strings only.
+  const candidates = /** @type {string[]} */ ([
+    typeof mapConfig.files === 'object' && mapConfig.files ? /** @type {{ fgb?: unknown }} */ (mapConfig.files).fgb : null,
+    /** @type {{ fgb?: unknown } | undefined} */ (mapConfig.downloads)?.fgb,
     mapConfig.sourceFile,
     resolveMapDownloadUrl(mapConfig)
-  ].filter((value) => typeof value === 'string' && /\.fgb(\?|$)/i.test(value));
+  ].filter((value) => typeof value === 'string' && /\.fgb(\?|$)/i.test(value)));
+  /** @param {string} value */
   const ownHost = (value) => /^https:\/\/data\.civgraph\.net\//i.test(value) || value.startsWith('/') || !/^[a-z]+:/i.test(value);
   return candidates.find(ownHost) || candidates.find((value) => /^https?:\/\//i.test(value)) || null;
 }
 
+/** @param {string} url */
 function rewriteForLocalDev(url) {
   // The same rule as packages/map/src/fgb-worker.js: the dev server proxies R2 at /_r/ on localhost.
   const dataOrigin = `${SITE.dataOrigin}/`;
@@ -284,13 +372,24 @@ function rewriteForLocalDev(url) {
   return url;
 }
 
+/**
+ * @param {FgbRuntime} fgb
+ * @param {string} url
+ * @param {number[]} bounds
+ * @param {number} limit
+ * @param {(text: string) => void} [onProgress]
+ * @returns {Promise<GeoFeature[]>}
+ */
 async function readFeaturesInBounds(fgb, url, bounds, limit, onProgress) {
   const [minX, minY, maxX, maxY] = bounds;
   const rect = { minX, minY, maxX, maxY };
+  /** @type {GeoFeature[]} */
   const out = [];
+  /** @param {GeoFeature} feature */
   const take = (feature) => {
     out.push(feature);
     if (out.length > limit) {
+      /** @type {Error & { code?: string }} */
       const error = new Error(`More than ${siteNumber(limit)} features are in view. Zoom in to export a smaller area.`);
       error.code = 'too-many-features';
       throw error;
@@ -301,7 +400,7 @@ async function readFeaturesInBounds(fgb, url, bounds, limit, onProgress) {
     for await (const feature of fgb.deserialize(rewriteForLocalDev(url), rect)) take(feature);
     return out;
   } catch (error) {
-    if (error.code === 'too-many-features') throw error;
+    if (/** @type {{ code?: string }} */ (error).code === 'too-many-features') throw error;
     // A file with no spatial index cannot be read by bounding box: read it whole, then filter.
     console.warn('[map-image-export] bbox read failed, reading the whole file', error);
   }
@@ -320,18 +419,20 @@ async function readFeaturesInBounds(fgb, url, bounds, limit, onProgress) {
   return out;
 }
 
+/** @param {Geometry | null | undefined} geometry @returns {number[] | null} */
 function geometryBbox(geometry) {
   if (!geometry) return null;
   let minX = Infinity; let minY = Infinity; let maxX = -Infinity; let maxY = -Infinity;
+  /** @param {unknown[]} c a position (numbers), or nested arrays of them */
   const walk = (c) => {
     if (typeof c[0] === 'number') {
-      if (c[0] < minX) minX = c[0];
-      if (c[0] > maxX) maxX = c[0];
-      if (c[1] < minY) minY = c[1];
-      if (c[1] > maxY) maxY = c[1];
+      if (/** @type {number[]} */ (c)[0] < minX) minX = /** @type {number[]} */ (c)[0];
+      if (/** @type {number[]} */ (c)[0] > maxX) maxX = /** @type {number[]} */ (c)[0];
+      if (/** @type {number[]} */ (c)[1] < minY) minY = /** @type {number[]} */ (c)[1];
+      if (/** @type {number[]} */ (c)[1] > maxY) maxY = /** @type {number[]} */ (c)[1];
       return;
     }
-    for (const part of c) walk(part);
+    for (const part of c) walk(/** @type {unknown[]} */ (part));
   };
   if (geometry.type === 'GeometryCollection') {
     for (const g of geometry.geometries || []) { const b = geometryBbox(g); if (b) { walk([[b[0], b[1]], [b[2], b[3]]]); } }
@@ -339,26 +440,36 @@ function geometryBbox(geometry) {
   return Number.isFinite(minX) ? [minX, minY, maxX, maxY] : null;
 }
 
-/** Split a GeoJSON geometry into polygons (arrays of rings), lines and points, in lon/lat. */
+/**
+ * Split a GeoJSON geometry into polygons (arrays of rings), lines and points, in lon/lat.
+ * @param {Geometry | null | undefined} geometry
+ * @param {Exploded} [out]
+ * @returns {Exploded}
+ */
 function explode(geometry, out = { polygons: [], lines: [], points: [] }) {
   if (!geometry) return out;
-  const c = geometry.coordinates;
+  // Each case reads the coordinates its type has (a collection has none: its geometries are read).
+  const c = /** @type {{ coordinates?: unknown }} */ (geometry).coordinates;
   switch (geometry.type) {
-    case 'Polygon': out.polygons.push(c); break;
-    case 'MultiPolygon': for (const p of c) out.polygons.push(p); break;
-    case 'LineString': out.lines.push(c); break;
-    case 'MultiLineString': for (const l of c) out.lines.push(l); break;
-    case 'Point': out.points.push(c); break;
-    case 'MultiPoint': for (const p of c) out.points.push(p); break;
+    case 'Polygon': out.polygons.push(/** @type {Pt[][]} */ (c)); break;
+    case 'MultiPolygon': for (const p of /** @type {Pt[][][]} */ (c)) out.polygons.push(p); break;
+    case 'LineString': out.lines.push(/** @type {Pt[]} */ (c)); break;
+    case 'MultiLineString': for (const l of /** @type {Pt[][]} */ (c)) out.lines.push(l); break;
+    case 'Point': out.points.push(/** @type {Pt} */ (c)); break;
+    case 'MultiPoint': for (const p of /** @type {Pt[]} */ (c)) out.points.push(p); break;
     case 'GeometryCollection': for (const g of geometry.geometries || []) explode(g, out); break;
     default: break;
   }
   return out;
 }
 
-/** [x0, y0, dx1, dy1, ...] integers (degrees x q) to [[lon, lat], ...]. */
+/**
+ * [x0, y0, dx1, dy1, ...] integers (degrees x q) to [[lon, lat], ...].
+ * @param {number} q
+ */
 function decoder(q) {
-  return (flat) => {
+  return (/** @type {number[]} */ flat) => {
+    /** @type {Pt[]} */
     const points = [];
     let x = 0; let y = 0;
     for (let i = 0; i < flat.length; i += 2) {
@@ -370,13 +481,14 @@ function decoder(q) {
   };
 }
 
+/** @param {string} [url] @returns {Promise<LoughOutlines>} */
 export async function loadContextLoughs(url = CONTEXT_LOUGHS_URL) {
   if (!contextLoughsPromise) {
     contextLoughsLoad.to('loading');
     contextLoughsPromise = fetch(url).then((response) => {
       if (!response.ok) throw new Error(`Could not load the lough outlines (${response.status}).`);
       return response.json();
-    }).then((doc) => {
+    }).then((/** @type {OutlineDoc} */ doc) => {
       const decode = decoder(doc.quantisation || 10000);
       const outlines = {
         credits: doc.credits || [],
@@ -398,18 +510,20 @@ export async function loadContextLoughs(url = CONTEXT_LOUGHS_URL) {
   return contextLoughsPromise;
 }
 
+/** @param {string} [url] @returns {Promise<LandOutlines>} */
 export async function loadContextLand(url = CONTEXT_LAND_URL) {
   if (!contextLandPromise) {
     contextLandLoad.to('loading');
     contextLandPromise = fetch(url).then((response) => {
       if (!response.ok) throw new Error(`Could not load the neighbouring-land outline (${response.status}).`);
       return response.json();
-    }).then((doc) => {
+    }).then((/** @type {OutlineDoc} */ doc) => {
       const decode = decoder(doc.quantisation || 10000);
       const outlines = {
         credits: doc.credits || [],
-        land: doc.features.filter((f) => f.kind === 'land').map((f) => ({ name: f.name, polygons: f.rings.map((poly) => poly.map(decode)) })),
-        borders: doc.features.filter((f) => f.kind === 'border').map((f) => ({ name: f.name, lines: f.lines.map(decode) }))
+        // The land file has its features, each land one with its rings and each border with its lines.
+        land: /** @type {NonNullable<OutlineDoc['features']>} */ (doc.features).filter((f) => f.kind === 'land').map((f) => ({ name: f.name, polygons: /** @type {number[][][]} */ (f.rings).map((poly) => poly.map(decode)) })),
+        borders: /** @type {NonNullable<OutlineDoc['features']>} */ (doc.features).filter((f) => f.kind === 'border').map((f) => ({ name: f.name, lines: /** @type {number[][]} */ (f.lines).map(decode) }))
       };
       contextLandLoad.to('ready');
       return outlines;
@@ -424,6 +538,11 @@ export async function loadContextLand(url = CONTEXT_LAND_URL) {
 
 /* ------------------------------------------------------------------ selection and elections */
 
+/**
+ * @param {Selection | null | undefined} selection
+ * @param {string | null | undefined} labelProperty
+ * @returns {(properties: Record<string, unknown>, nameOfFeature: string) => number}
+ */
 function selectionMatcher(selection, labelProperty) {
   if (!selection) return () => 0;
   const props = { ...(selection.properties || {}) };
@@ -441,7 +560,7 @@ function selectionMatcher(selection, labelProperty) {
     && !(typeof value === 'number' && !Number.isInteger(value)));
   // Score each source feature: shared properties that agree count for it, ones that disagree
   // count against it, and the name agreeing counts most.
-  return (properties, nameOfFeature) => {
+  return (/** @type {Record<string, unknown>} */ properties, /** @type {string} */ nameOfFeature) => {
     let matches = 0;
     let mismatches = 0;
     for (const [key, value] of entries) {
@@ -459,7 +578,11 @@ function selectionMatcher(selection, labelProperty) {
   };
 }
 
-/** The election that colours this map, if there is one: { colourFor(properties), legend, title }. */
+/**
+ * The election that colours this map, if there is one: { colourFor(properties), legend, title }.
+ * @param {ExportApp | null | undefined} app
+ * @param {string[]} mapIds
+ */
 function electionColouring(app, mapIds) {
   const em = app?.elections;
   if (!em?.activeBundle || !em.activeEntry) return null;
@@ -470,14 +593,17 @@ function electionColouring(app, mapIds) {
   const mode = em.activeMode || 'winner';
   const partyMode = mode === 'winner' || mode === 'leadingParty';
   const results = em.resultsByLayer?.get(styleMapId)
-    || em.resultsByLayer?.get(bundle.layerId)
-    || em.resultsByLayer?.get(bundle.sourceMapId);
+    // A bundle without one of these ids finds nothing by it.
+    || em.resultsByLayer?.get(/** @type {string} */ (bundle.layerId))
+    || em.resultsByLayer?.get(/** @type {string} */ (bundle.sourceMapId));
+  /** @type {Map<string, LegendItem>} */
   const tally = new Map();
   return {
     styleMapId,
     title: bundle.displayTitle || em.activeEntry.displayTitle || `${bundle.body || 'Election'} ${bundle.date || ''}`.trim(),
     date: bundle.date || '',
     modeLabel: partyMode ? (mode === 'winner' ? 'winning party' : 'leading party') : mode,
+    /** @param {Record<string, unknown>} properties @param {string} name */
     colourFor(properties, name) {
       let result = null;
       try {
@@ -491,7 +617,7 @@ function electionColouring(app, mapIds) {
       if (party) {
         const key = `${party}|${colour}`;
         if (!tally.has(key)) tally.set(key, { party, colour, count: 0 });
-        tally.get(key).count += 1;
+        /** @type {LegendItem} */ (tally.get(key)).count += 1;
       }
       return { colour, party, matched: true };
     },
@@ -499,6 +625,7 @@ function electionColouring(app, mapIds) {
   };
 }
 
+/** @param {ExportApp} app @param {string[]} mapIds @returns {Selection | null} */
 function currentSelection(app, mapIds) {
   const controller = app?.mapController;
   let selected = controller?.renderer?.selected;
@@ -509,29 +636,34 @@ function currentSelection(app, mapIds) {
     if (info && !info.classList.contains('hidden') && app._lastClearedSelection) selected = app._lastClearedSelection;
   }
   if (!selected) return null;
-  const mainId = controller.testToMain?.get(selected.layerId) || selected.layerId;
-  const record = controller.renderer?.layers?.get(selected.layerId);
+  // A selection is the map controller's (or kept from it).
+  const mainId = /** @type {NonNullable<ExportApp['mapController']>} */ (controller).testToMain?.get(selected.layerId) || selected.layerId;
+  const record = /** @type {NonNullable<ExportApp['mapController']>} */ (controller).renderer?.layers?.get(selected.layerId);
   const sourceMapId = record?.config?.sourceMapId;
-  if (!mapIds.includes(mainId) && !mapIds.includes(sourceMapId)) return null;
+  if (!mapIds.includes(mainId) && !mapIds.includes(/** @type {string} */ (sourceMapId))) return null;
   return { properties: selected.properties || {}, id: selected.id };
 }
 
 /* ------------------------------------------------------------------ metadata */
 
+/** @param {ExportApp} app @param {string[]} mapIds */
 async function describeSources(app, mapIds) {
   const credits = [];
+  /** @type {Array<{ label: string, url: string }>} */
   const references = [];
   for (const id of mapIds) {
-    const config = dataService.getMapById(id) || {};
+    /** @type {Partial<MapRecord>} */
+    const config = /** @type {MapRecord | undefined} */ (dataService.getMapById(id)) || {};
     const layer = app?.mapController?.resolveLayer?.(id) || null;
     if (layer?.id) await app.metadataService?.loadLayerDetails?.(layer.id).catch(() => null);
+    /** @type {ExportLayer} */
     const detailed = (layer?.id && app.metadataService?.getLayer?.(layer.id)) || layer || {};
     const provider = [config.provider, detailed.provider].flat(2).filter(Boolean);
     const licence = detailed.license || detailed.licence || config.license || config.licence || '';
     const name = config.name || detailed.name || id;
     credits.push(`${name}: ${[...new Set(provider)].join(', ') || 'source as recorded on Civgraph'}${licence ? ` (${licence})` : ''}`);
     for (const ref of [...(config.references || []), ...(detailed.references || [])]) {
-      const url = ref?.url || ref?.file;
+      const url = /** @type {string | undefined} */ (ref?.url || ref?.file);
       if (url && /^https?:/i.test(url) && !references.some((r) => r.url === url)) references.push({ label: ref.label || url, url });
     }
   }
@@ -544,6 +676,9 @@ async function describeSources(app, mapIds) {
  * Build the SVG for one map in the current view.
  * options: { selection?: { properties, name }, width?, onProgress?(text), contextLandUrl? }
  * Returns { svg, filename, width, height, featureCount, selectedName, election }.
+ * @param {ExportApp} app
+ * @param {string} mapId
+ * @param {{ selection?: Selection | null, width?: number, onProgress?: (text: string) => void, contextLandUrl?: string, contextLoughsUrl?: string }} [options]
  */
 export async function buildMapSvg(app, mapId, options = {}) {
   const onProgress = options.onProgress || (() => {});
@@ -554,14 +689,15 @@ export async function buildMapSvg(app, mapId, options = {}) {
   // Which maps to draw: an election's map when this map is behind the active election.
   let election = electionColouring(app, [mapId]);
   const drawId = election?.styleMapId || mapId;
-  const mainConfig = dataService.getMapById(drawId) || dataService.getMapById(mapId);
+  const mainConfig = /** @type {MapRecord | undefined} */ (dataService.getMapById(drawId) || dataService.getMapById(mapId));
   if (!mainConfig) throw new Error('That map is not in the catalogue.');
+  /** @type {Array<{ id: string, url: string, config: MapRecord | undefined }>} */
   let sources = [];
   const own = resolveVectorSourceUrl(mainConfig);
   if (own) sources.push({ id: mainConfig.id, url: own, config: mainConfig });
   else {
     for (const childId of compositeChildIds(mainConfig)) {
-      const child = dataService.getMapById(childId);
+      const child = /** @type {MapRecord | undefined} */ (dataService.getMapById(childId));
       const url = resolveVectorSourceUrl(child);
       if (url) sources.push({ id: childId, url, config: child });
     }
@@ -606,6 +742,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
     const properties = feature.properties || {};
     const name = featureName(properties, labelProperty);
     const parts = explode(feature.geometry);
+    /** @type {Pt[][]} */
     const rings = [];
     for (const polygon of parts.polygons) {
       polygon.forEach((ring, ringIndex) => {
@@ -669,7 +806,9 @@ export async function buildMapSvg(app, mapId, options = {}) {
   const cutRings = [];
   const shoreRings = [];
   const shoreLines = [];
+  /** @param {number[]} box */
   const outsideClip = (box) => box[2] < clipBox[0] || box[0] > clipBox[2] || box[3] < clipBox[1] || box[1] > clipBox[3];
+  /** @param {Pt[]} line */
   const projectLine = (line) => simplifyPoints(line.map(([lon, lat]) => frame.project(lon, lat)), tolerance);
   for (const lough of loughs?.loughs || []) {
     const key = String(lough.name || '').toLowerCase();
@@ -717,7 +856,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
     `Sources: ${meta.credits.join('; ')}.`,
     meta.references.length ? `Source data: ${meta.references.map((r) => `${r.label} <${r.url}>`).join('; ')}.` : '',
     `Neighbouring land: ${land.credits.join('; ')}.`,
-    cutD ? `Loughs, cut out and left unfilled: ${loughs.credits.join('; ')}.` : '',
+    cutD ? `Loughs, cut out and left unfilled: ${/** @type {LoughOutlines} */ (loughs).credits.join('; ')}.` : '',
     'Map: Civgraph (civgraph.net), CC BY-SA 4.0.',
     `Generated ${today} from ${pageUrl}; Web Mercator, view bounds ${bounds.map((v) => v.toFixed(4)).join(', ')} (W, S, E, N).`
   ].filter(Boolean);
@@ -818,6 +957,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
   };
 }
 
+/** @param {{ legend: () => LegendItem[], modeLabel: string }} election @param {Frame} frame */
 function renderLegend(election, frame) {
   const items = election.legend();
   if (!items.length) return null;
@@ -829,6 +969,7 @@ function renderLegend(election, frame) {
   const height = pad * 2 + 20 + shown.length * row + (more > 0 ? row : 0);
   const x = frame.width + pad;
   const y = pad;
+  /** @param {string} text @param {number} [max] */
   const label = (text, max = 30) => (text.length > max ? `${text.slice(0, max - 1)}…` : text);
   const rows = shown.map((item, i) => {
     const ty = y + 22 + i * row;
@@ -841,7 +982,14 @@ function renderLegend(election, frame) {
   return { svg, width: width + pad, height: height + pad };
 }
 
-/** Rasterise the SVG (no external references, so the canvas stays clean) to a PNG blob. */
+/**
+ * Rasterise the SVG (no external references, so the canvas stays clean) to a PNG blob.
+ * @param {string} svg
+ * @param {number} width
+ * @param {number} height
+ * @param {number} [scale]
+ * @returns {Promise<Blob>}
+ */
 export async function svgToPng(svg, width, height, scale = 2) {
   const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
   try {
@@ -856,7 +1004,8 @@ export async function svgToPng(svg, width, height, scale = 2) {
     canvas.width = Math.round(width * scale);
     canvas.height = Math.round(height * scale);
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    // A canvas made here always has a 2D context.
+    /** @type {CanvasRenderingContext2D} */ (ctx).drawImage(image, 0, 0, canvas.width, canvas.height);
     return await new Promise((resolve, reject) => canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('PNG encoding failed.'))), 'image/png'));
   } finally {
     URL.revokeObjectURL(url);
