@@ -21,7 +21,50 @@ import { SNAPSHOT } from '../../../packages/intake/src/item-status.mjs';
 
 const BASE = "https://apps.proni.gov.uk/eCatNI_IE/";
 
+/**
+ * @typedef {{ index: string, outDir: string, maxRecords: number, maxGroups: number, initialWorkers: number, maxWorkers: number,
+ *   rampWorkers: number, rampEveryMs: number, maxPagesPerBranch: number, maxRetries: number, maxGroupRetries: number,
+ *   retryMismatches: number, groupMode: string, snapshotMode: string, httpClient: string, httpConnections: number,
+ *   httpPipelining: number, keepAliveMsecs: number, retryDelayMs: number, retryDelayMultiplier: number, maxRetryDelayMs: number,
+ *   errorWindowMs: number, errorBurstThreshold: number, timeoutMs: number, backoffMs: number, stopOnBlocked: boolean,
+ *   adaptive: boolean, resume: boolean, enrichMode: boolean, foldContainers: boolean, traversal: string, maxSubtreeRecords: number,
+ *   maxSubtreeWalkErrors: number, progressEveryMs: number, writerFlushRows: number, writerFlushMs: number, maxCooldownMs: number,
+ *   help?: boolean, httpAgent?: HttpsAgent }} ScanOptions
+ * @typedef {{ name: string, value: string, disabled: boolean }} GridButton
+ * @typedef {{ ctl: string, ResultsSelect?: GridButton, ResultsView?: GridButton, text?: string, [kind: string]: GridButton | string | undefined }} GridRow
+ * @typedef {{ get(name: string): string | null, getSetCookie(): string[] }} HeadersLike
+ * @typedef {{ status: number, text: string, headers: HeadersLike }} HttpResponse
+ * @typedef {{ write(value: unknown): Promise<void> }} JsonlSink
+ * @typedef {{ details: JsonlSink, failures: JsonlSink, mismatches: JsonlSink, progress: JsonlSink, retryQueue: JsonlSink }} Writers
+ * @typedef {{ name?: string, message?: string, stack?: string, code?: string, cause?: { code?: string, name?: string } } | null | undefined} Thrown
+ * @typedef {{ startedAt: string, startedMs: number, enrichRefs: Set<string>, enrichPath: Map<string, string[]>, groupsLoaded: number,
+ *   groupsCompleted: number, recordsPlanned: number, detailsFetched: number, mismatches: number, failures: number, retries: number,
+ *   blocked: number, requestErrors: number, requests: number, requestMs: number[], errorEvents: number[], errorBursts: number,
+ *   snapshotPagesUsed: number, activeWorkers: number, desiredWorkers: number, spawnedWorkers: number, cooldownUntilMs: number,
+ *   completedRefs: Set<string>, stopped: boolean, stopReason: string }} Stats
+ * A row of the fast indexer's records-index.jsonl.
+ * @typedef {{ branchKey: string, letter: string, path?: string[], page?: number | string, ctl: string, expectedRef?: string, proniReference: string,
+ *   resultsViewName?: string, resultsViewValue?: string, pageSnapshotPath?: string, pageSnapshotMetadataPath?: string }} RawIndexRow
+ * @typedef {ReturnType<typeof makeIndexRow>} IndexRow
+ * A record to detail from a listing page.
+ * @typedef {{ expectedRef: string, branchKey: string, letter: string, path: string[], page: number, ctl: string }} ListingRow
+ * @typedef {Awaited<ReturnType<typeof clickMore>>} Detail
+ * @typedef {{ type: "page", branchKey: string, letter: string, path: string[], firstPage: number, lastPage: number, pageCount: number,
+ *   rowCount: number, rows: IndexRow[], pages: { page: number, rows: IndexRow[] }[], refs?: undefined }} PageUnit
+ * @typedef {{ type: "branch", branchKey: string, letter: string, path: string[], firstPage: number, lastPage: number, pageCount: number,
+ *   rowCount: number, rows: IndexRow[], pages: { page: number, rows: IndexRow[] }[], refs?: undefined }} BranchUnit
+ * @typedef {{ type: "subtree", letter: string, rootPath: string[], rootBranchRef: string, rootBranchKey: string,
+ *   recordsByBranch: Map<string, ListingRow[]>, wantedBranchRefs: Set<string>, refs: Set<string>, rowCount: number, rows?: undefined }} SubtreeUnit
+ * @typedef {{ type: "letter-root", letter: string, records: ListingRow[], refs: Set<string>, rowCount: number, rows?: undefined }} LetterRootUnit
+ * @typedef {PageUnit | BranchUnit | SubtreeUnit | LetterRootUnit} WorkUnit
+ * @typedef {{ key: string, letter: string, ref: string, pathArr: string[], parentKey: string | null, childKeys: Set<string>,
+ *   directRecords: ListingRow[], subtreeCount: number }} TreeNode
+ * @typedef {ReturnType<typeof makeWorkQueue>} WorkQueue
+ */
+
+/** @param {string[]} argv @returns {ScanOptions} */
 function parseArgs(argv) {
+  /** @type {ScanOptions} */
   const out = {
     index: "D:\\PRONI\\eCatalogue\\full-index\\proni-full-index-stable-20260627-220029\\records-index.jsonl",
     outDir: "",
@@ -152,6 +195,7 @@ function nowIso() {
   return new Date().toISOString();
 }
 
+/** @param {number} ms @returns {Promise<void>} */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -194,11 +238,13 @@ function stripHtmlKeepBreaks(html = "") {
     .trim();
 }
 
+/** @param {string} tag @param {string} name */
 function getTagAttribute(tag, name) {
   const m = String(tag).match(new RegExp(`${name}\\s*=\\s*(['"])([\\s\\S]*?)\\1`, "i"));
   return m ? decodeHtml(m[2]) : "";
 }
 
+/** @param {string} html */
 function parseInputs(html) {
   const params = new URLSearchParams();
   for (const m of String(html).matchAll(/<input\b[^>]*>/gi)) {
@@ -215,20 +261,24 @@ function parseInputs(html) {
   return params;
 }
 
+/** @param {string} html @param {Record<string, string | null | undefined>} [extra] */
 function buildPostBody(html, extra = {}) {
   const body = parseInputs(html);
   for (const [key, value] of Object.entries(extra)) body.set(key, value ?? "");
   return body;
 }
 
+/** @param {string} html */
 function parseGridRows(html) {
+  /** @type {Map<string, GridRow>} */
   const map = new Map();
   for (const m of String(html).matchAll(/<input\b[^>]*GridView1\$ctl(\d+)\$(ResultsSelect|ResultsView)[^>]*>/gi)) {
     const tag = m[0];
     const ctl = `ctl${m[1]}`;
     const kind = m[2];
     if (!map.has(ctl)) map.set(ctl, { ctl });
-    map.get(ctl)[kind] = {
+    // the key was set on the line before
+    /** @type {GridRow} */ (map.get(ctl))[kind] = {
       name: getTagAttribute(tag, "name"),
       value: getTagAttribute(tag, "value"),
       disabled: /\bdisabled\b/i.test(tag),
@@ -246,6 +296,7 @@ function parseGridRows(html) {
   return [...map.values()].sort((a, b) => a.ctl.localeCompare(b.ctl, undefined, { numeric: true }));
 }
 
+/** @param {string} html */
 function findNextButton(html) {
   for (const m of String(html).matchAll(/<input\b[^>]*>/gi)) {
     const tag = m[0];
@@ -261,7 +312,9 @@ function findNextButton(html) {
   return null;
 }
 
+/** @param {string} html */
 function extractDetailFields(html) {
+  /** @type {Record<string, string | string[]>} */
   const rawAttributes = {};
   for (const rowMatch of String(html).matchAll(/<tr\b[\s\S]*?<\/tr>/gi)) {
     const rowHtml = rowMatch[0];
@@ -287,13 +340,15 @@ function extractDetailFields(html) {
     title: rawAttributes.Title || "",
     dates: rawAttributes.Dates || "",
     description: rawAttributes.Description || "",
-    digitalRecord: /^\[?\d+\s*-/.test(rawAttributes["Digital Record"] || "") ? "" : (rawAttributes["Digital Record"] || ""),
+    // test() reads a repeated field (an array) as its comma-joined text
+    digitalRecord: /^\[?\d+\s*-/.test(/** @type {string} */ (rawAttributes["Digital Record"] || "")) ? "" : (rawAttributes["Digital Record"] || ""),
     rawAttributeCount: Object.keys(rawAttributes).length,
     attributeKeys: Object.keys(rawAttributes).sort(),
     rawAttributes,
   };
 }
 
+/** @param {number} status @param {string} text */
 function isBlocked(status, text) {
   if (status !== 200) return true;
   const t = String(text);
@@ -305,6 +360,7 @@ function isBlocked(status, text) {
   return /Request Rejected|support ID|Access Denied|Too Many Requests|rate limit|throttl/i.test(t);
 }
 
+/** @param {number} status @param {string} text */
 function blockedReason(status, text) {
   if (status !== 200) return `http ${status}`;
   if (/Request Rejected|support ID/i.test(text)) return "waf request rejected";
@@ -313,13 +369,16 @@ function blockedReason(status, text) {
   return "blocked response text";
 }
 
+/** @param {string | null} header */
 function splitSetCookie(header) {
   if (!header) return [];
   return String(header).split(/,(?=\s*[^;,]+=[^;,]+)/g);
 }
 
+/** @param {import('node:http').IncomingHttpHeaders} headers @returns {HeadersLike} */
 function makeHeadersAdapter(headers) {
   return {
+    /** @param {string} name */
     get(name) {
       const value = headers[String(name).toLowerCase()];
       if (Array.isArray(value)) return value.join(", ");
@@ -333,6 +392,10 @@ function makeHeadersAdapter(headers) {
   };
 }
 
+/**
+ * @param {ScanOptions} options @param {string} method @param {string} urlString @param {Record<string, string>} headers
+ * @param {URLSearchParams | null} body @param {number} [redirects] @returns {Promise<HttpResponse>}
+ */
 async function requestTextWithHttpsAgent(options, method, urlString, headers, body, redirects = 0) {
   return new Promise((resolve, reject) => {
     const url = new URL(urlString);
@@ -346,6 +409,7 @@ async function requestTextWithHttpsAgent(options, method, urlString, headers, bo
       agent: options.httpAgent,
       timeout: options.timeoutMs,
     }, (response) => {
+      /** @type {string[]} */
       const chunks = [];
       response.setEncoding("utf8");
       response.on("data", (chunk) => chunks.push(chunk));
@@ -382,6 +446,7 @@ async function requestTextWithHttpsAgent(options, method, urlString, headers, bo
   });
 }
 
+/** @param {Stats} stats @param {ScanOptions} options @param {number} attempt */
 function recordRequestError(stats, options, attempt) {
   const now = performance.now();
   stats.errorEvents.push(now);
@@ -397,11 +462,13 @@ function recordRequestError(stats, options, attempt) {
 
 class CookieJar {
   constructor() {
+    /** @type {Map<string, string>} */
     this.cookies = new Map();
   }
   header() {
     return [...this.cookies.entries()].map(([k, v]) => `${k}=${v}`).join("; ");
   }
+  /** @param {HeadersLike} headers */
   update(headers) {
     const setCookies = typeof headers.getSetCookie === "function"
       ? headers.getSetCookie()
@@ -416,15 +483,18 @@ class CookieJar {
 }
 
 class BufferedJsonlWriter {
+  /** @param {string} filePath @param {{ writerFlushRows: number, writerFlushMs: number }} options @param {boolean} [append] */
   constructor(filePath, options, append = false) {
     this.filePath = filePath;
     this.flushRows = options.writerFlushRows;
+    /** @type {string[]} */
     this.buffer = [];
     this.stream = createWriteStream(filePath, { flags: append ? "a" : "w", encoding: "utf8" });
     this.timer = setInterval(() => {
       this.flush().catch(() => {});
     }, Math.max(250, options.writerFlushMs));
   }
+  /** @param {unknown} value */
   write(value) {
     this.buffer.push(`${JSON.stringify(value)}\n`);
     if (this.buffer.length >= this.flushRows) return this.flush();
@@ -435,19 +505,20 @@ class BufferedJsonlWriter {
     const text = this.buffer.join("");
     this.buffer = [];
     if (!this.stream.write(text)) {
-      await new Promise((resolve) => this.stream.once("drain", resolve));
+      await /** @type {Promise<void>} */ (new Promise((resolve) => this.stream.once("drain", resolve)));
     }
   }
   async close() {
     clearInterval(this.timer);
     await this.flush();
-    await new Promise((resolve, reject) => {
-      this.stream.end((err) => (err ? reject(err) : resolve()));
-    });
+    await /** @type {Promise<void>} */ (new Promise((resolve, reject) => {
+      this.stream.end(/** @param {Error | null} [err] */ (err) => (err ? reject(err) : resolve()));
+    }));
   }
 }
 
 class Session {
+  /** @param {number | string} workerId @param {ScanOptions} options @param {{ failures: JsonlSink }} writers @param {Stats} stats */
   constructor(workerId, options, writers, stats) {
     this.workerId = workerId;
     this.options = options;
@@ -455,6 +526,10 @@ class Session {
     this.stats = stats;
     this.jar = new CookieJar();
   }
+  /**
+   * @param {string} method @param {string} url @param {URLSearchParams | null} [body] @param {string} [context]
+   * @returns {Promise<{ ok: boolean, status: number, text: string, ms: number, reason?: string }>}
+   */
   async request(method, url, body = null, context = "") {
     let attempt = 0;
     while (true) {
@@ -463,6 +538,7 @@ class Session {
       let timeout = null;
       const started = performance.now();
       try {
+        /** @type {Record<string, string>} */
         const headers = {
           accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         };
@@ -475,13 +551,14 @@ class Session {
         } else {
           const controller = new AbortController();
           timeout = setTimeout(() => controller.abort(), this.options.timeoutMs);
-          const res = await fetch(url, {
+          // fetch reads an undefined body as no body
+          const res = await fetch(url, /** @type {RequestInit} */ ({
             method,
             headers,
             body: body ? body.toString() : undefined,
             signal: controller.signal,
             redirect: "follow",
-          });
+          }));
           response = {
             status: res.status,
             text: await res.text(),
@@ -514,8 +591,9 @@ class Session {
       } catch (error) {
         if (timeout) clearTimeout(timeout);
         attempt += 1;
-        const cause = error?.cause?.code || error?.cause?.name || "";
-        const message = error?.name === "AbortError" ? "timeout" : [String(error?.message || error), cause].filter(Boolean).join(" / ");
+        // whatever was thrown, read as an Error when it is one
+        const cause = /** @type {Thrown} */ (error)?.cause?.code || /** @type {Thrown} */ (error)?.cause?.name || "";
+        const message = /** @type {Thrown} */ (error)?.name === "AbortError" ? "timeout" : [String(/** @type {Thrown} */ (error)?.message || error), cause].filter(Boolean).join(" / ");
         this.stats.requestErrors += 1;
         const cooldown = recordRequestError(this.stats, this.options, attempt);
         await this.writers.failures.write({
@@ -534,18 +612,22 @@ class Session {
       }
     }
   }
+  /** @param {string} url @param {string} context */
   get(url, context) {
     return this.request("GET", url, null, context);
   }
+  /** @param {string} url @param {string} html @param {Record<string, string>} extra @param {string} context */
   post(url, html, extra, context) {
     return this.request("POST", url, buildPostBody(html, extra), context);
   }
 }
 
+/** @param {number} value */
 function round(value, decimals = 3) {
   return Math.round(value * (10 ** decimals)) / (10 ** decimals);
 }
 
+/** @param {number[]} values @param {number} p */
 function percentile(values, p) {
   const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
   if (!sorted.length) return null;
@@ -553,6 +635,7 @@ function percentile(values, p) {
   return round(sorted[index], 1);
 }
 
+/** @param {Session} session @param {string} letter */
 async function startBrowseLetter(session, letter) {
   const search = await session.get(`${BASE}SearchPage.aspx`, "SearchPage");
   const browse = await session.post(`${BASE}SearchPage.aspx`, search.text, {
@@ -565,6 +648,7 @@ async function startBrowseLetter(session, letter) {
   return letterHtml.text;
 }
 
+/** @param {Session} session @param {string} html @param {GridRow} row */
 async function clickSelect(session, html, row) {
   if (!row.ResultsSelect || row.ResultsSelect.disabled) throw new Error(`Row is not selectable: ${row.text || ""}`);
   const res = await session.post(`${BASE}BrowseSearchResults.aspx`, html, {
@@ -573,6 +657,7 @@ async function clickSelect(session, html, row) {
   return res.text;
 }
 
+/** @param {Session} session @param {string} html @param {{ name: string, value: string }} next */
 async function clickNext(session, html, next) {
   const res = await session.post(`${BASE}BrowseSearchResults.aspx`, html, {
     [next.name]: next.value,
@@ -580,6 +665,7 @@ async function clickNext(session, html, next) {
   return res.text;
 }
 
+/** @param {Session} session @param {string} html @param {string} ref @param {number} maxPagesPerBranch */
 async function clickSelectByRef(session, html, ref, maxPagesPerBranch) {
   let pageHtml = html;
   for (let page = 1; page <= maxPagesPerBranch; page += 1) {
@@ -592,6 +678,7 @@ async function clickSelectByRef(session, html, ref, maxPagesPerBranch) {
   throw new Error(`Could not find selectable branch ${ref}`);
 }
 
+/** @param {Session} session @param {{ letter: string, path?: string[], page?: number | string, branchKey?: string }} firstRow */
 async function openBranchPage(session, firstRow) {
   let html = await startBrowseLetter(session, firstRow.letter);
   for (const ref of firstRow.path || []) {
@@ -605,6 +692,7 @@ async function openBranchPage(session, firstRow) {
   return html;
 }
 
+/** @param {Session} session @param {string} listingHtml @param {GridRow} gridRow @param {string} expectedRef */
 async function clickMore(session, listingHtml, gridRow, expectedRef) {
   if (!gridRow.ResultsView) throw new Error(`Row has no More button: ${expectedRef}`);
   const response = await session.post(`${BASE}BrowseSearchResults.aspx`, listingHtml, {
@@ -620,6 +708,7 @@ async function clickMore(session, listingHtml, gridRow, expectedRef) {
   };
 }
 
+/** @param {{ pageSnapshotPath?: string }} row @param {ScanOptions} options */
 async function readSnapshotHtml(row, options) {
   if (options.snapshotMode === SNAPSHOT.off) return null;
   if (!row.pageSnapshotPath) return null;
@@ -631,6 +720,7 @@ async function readSnapshotHtml(row, options) {
   }
 }
 
+/** @param {RawIndexRow} row */
 function makeIndexRow(row) {
   return {
     branchKey: row.branchKey,
@@ -647,6 +737,7 @@ function makeIndexRow(row) {
   };
 }
 
+/** @param {IndexRow[]} rows @returns {PageUnit} */
 function makePageUnit(rows) {
   const sortedRows = rows.sort((a, b) => String(a.ctl).localeCompare(String(b.ctl), undefined, { numeric: true }));
   const first = sortedRows[0] || {};
@@ -664,11 +755,14 @@ function makePageUnit(rows) {
   };
 }
 
+/** @param {IndexRow[]} rows @returns {BranchUnit} */
 function makeBranchUnit(rows) {
+  /** @type {Map<number, IndexRow[]>} */
   const byPage = new Map();
   for (const row of rows) {
     if (!byPage.has(row.page)) byPage.set(row.page, []);
-    byPage.get(row.page).push(row);
+    // the key was set on the line before
+    /** @type {IndexRow[]} */ (byPage.get(row.page)).push(row);
   }
   const pages = [...byPage.entries()]
     .sort((a, b) => Number(a[0]) - Number(b[0]))
@@ -691,7 +785,9 @@ function makeBranchUnit(rows) {
   };
 }
 
+/** @param {string} indexPath @param {ScanOptions} options */
 async function readIndexWorkUnits(indexPath, options) {
+  /** @type {Map<string, IndexRow[]>} */
   const groups = new Map();
   let readRows = 0;
   const rl = readline.createInterface({
@@ -701,10 +797,12 @@ async function readIndexWorkUnits(indexPath, options) {
 
   for await (const line of rl) {
     if (!line.trim()) continue;
+    /** @type {RawIndexRow} */
     const row = JSON.parse(line);
     const key = options.groupMode === "branch" ? row.branchKey : `${row.branchKey}::${row.page}`;
     if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(makeIndexRow(row));
+    // the key was set on the line before
+    /** @type {IndexRow[]} */ (groups.get(key)).push(makeIndexRow(row));
     readRows += 1;
     if (options.maxRecords > 0 && readRows >= options.maxRecords) break;
   }
@@ -721,6 +819,7 @@ async function readIndexWorkUnits(indexPath, options) {
   return options.maxGroups > 0 ? units.slice(0, options.maxGroups) : units;
 }
 
+/** @returns {Stats} */
 function makeStats() {
   return {
     startedAt: nowIso(),
@@ -751,6 +850,7 @@ function makeStats() {
   };
 }
 
+/** @param {ListingRow} row @param {Writers} writers @param {ScanOptions} options @param {Stats} stats @param {number | string} workerId */
 async function processRowWithRetries(row, writers, options, stats, workerId) {
   let attempt = 0;
   while (attempt <= options.retryMismatches) {
@@ -777,6 +877,7 @@ async function processRowWithRetries(row, writers, options, stats, workerId) {
   return null;
 }
 
+/** @param {ListingRow} indexRow @param {Detail} detail @param {Writers} writers @param {Stats} stats @param {number | string} workerId @param {string} sourceRuntime */
 async function writeMatchedDetail(indexRow, detail, writers, stats, workerId, sourceRuntime) {
   if (stats.completedRefs.has(indexRow.expectedRef)) return;
   stats.completedRefs.add(indexRow.expectedRef);
@@ -807,6 +908,10 @@ async function writeMatchedDetail(indexRow, detail, writers, stats, workerId, so
   stats.detailsFetched += 1;
 }
 
+/**
+ * @param {Session} session @param {string} listingHtml @param {ListingRow[]} rows @param {Writers} writers @param {ScanOptions} options
+ * @param {Stats} stats @param {number | string} workerId @param {string} sourceRuntime
+ */
 async function processRowsFromListing(session, listingHtml, rows, writers, options, stats, workerId, sourceRuntime) {
   const gridRows = parseGridRows(listingHtml);
   const byRef = new Map(gridRows.map((row) => [row.ResultsSelect?.value, row]));
@@ -851,6 +956,7 @@ async function processRowsFromListing(session, listingHtml, rows, writers, optio
   }
 }
 
+/** @param {PageUnit} unit @param {Writers} writers @param {ScanOptions} options @param {Stats} stats @param {number} workerId */
 async function processPageUnit(unit, writers, options, stats, workerId) {
   const session = new Session(workerId, options, writers, stats);
   let listingHtml = await readSnapshotHtml(unit.rows[0], options);
@@ -866,6 +972,7 @@ async function processPageUnit(unit, writers, options, stats, workerId) {
   stats.groupsCompleted += 1;
 }
 
+/** @param {BranchUnit} unit @param {Writers} writers @param {ScanOptions} options @param {Stats} stats @param {number} workerId */
 async function processBranchUnit(unit, writers, options, stats, workerId) {
   const session = new Session(workerId, options, writers, stats);
   let listingHtml = await openBranchPage(session, { ...unit.rows[0], page: unit.firstPage });
@@ -896,11 +1003,15 @@ async function processBranchUnit(unit, writers, options, stats, workerId) {
 // subtree and walks it depth-first, reaching siblings/children by re-POSTing a
 // cached ancestor listing page (validated by scripts/ingest/proni/proni-dfs-benchmark.mjs).
 
+/** @param {string} indexPath @param {ScanOptions} options */
 async function readIndexRecords(indexPath, options) {
+  /** @type {ListingRow[]} */
   const records = [];
   const rl = readline.createInterface({ input: createReadStream(indexPath, { encoding: "utf8" }), crlfDelay: Infinity });
   for await (const line of rl) {
     if (!line.trim()) continue;
+    // an index row; the DFS input always carries expectedRef
+    /** @type {{ expectedRef: string, branchKey: string, letter: string, path?: string[], page?: number | string, ctl: string }} */
     const r = JSON.parse(line);
     records.push({ expectedRef: r.expectedRef, branchKey: r.branchKey, letter: r.letter, path: r.path || [], page: Number(r.page || 1), ctl: r.ctl });
     if (options.maxRecords > 0 && records.length >= options.maxRecords) break;
@@ -908,10 +1019,14 @@ async function readIndexRecords(indexPath, options) {
   return records;
 }
 
+/** @param {ListingRow[]} records @param {ScanOptions} options @returns {WorkUnit[]} */
 function buildSubtreeUnits(records, options) {
   const cap = options.maxSubtreeRecords > 0 ? options.maxSubtreeRecords : 1500;
+  /** @type {Map<string, TreeNode>} */
   const nodes = new Map();
+  /** @param {string} letter @param {string[]} pathArr */
   const keyOf = (letter, pathArr) => `${letter}|${pathArr.join(">")}`;
+  /** @param {string} letter @param {string[]} pathArr @returns {TreeNode} */
   const ensureNode = (letter, pathArr) => {
     const key = keyOf(letter, pathArr);
     if (!nodes.has(key)) {
@@ -921,25 +1036,31 @@ function buildSubtreeUnits(records, options) {
         childKeys: new Set(), directRecords: [], subtreeCount: 0,
       });
     }
-    return nodes.get(key);
+    // set just above when it was missing
+    return /** @type {TreeNode} */ (nodes.get(key));
   };
+  /** @type {Map<string, ListingRow[]>} */
   const letterRoot = new Map();
   for (const r of records) {
     const p = r.path;
     if (!p.length) {
       // Top-level (fond) record whose detail row sits on the letter listing itself.
       if (!letterRoot.has(r.letter)) letterRoot.set(r.letter, []);
-      letterRoot.get(r.letter).push(r);
+      // the key was set on the line before
+      /** @type {ListingRow[]} */ (letterRoot.get(r.letter)).push(r);
       continue;
     }
     for (let i = 1; i <= p.length; i += 1) {
       ensureNode(r.letter, p.slice(0, i));
-      if (i > 1) nodes.get(keyOf(r.letter, p.slice(0, i - 1))).childKeys.add(keyOf(r.letter, p.slice(0, i)));
+      // the parent node was ensured on the previous pass
+      if (i > 1) /** @type {TreeNode} */ (nodes.get(keyOf(r.letter, p.slice(0, i - 1)))).childKeys.add(keyOf(r.letter, p.slice(0, i)));
     }
     ensureNode(r.letter, p).directRecords.push(r);
   }
+  /** @param {string} key @returns {number} */
   const computeCount = (key) => {
-    const n = nodes.get(key);
+    // every key passed is a node's
+    const n = /** @type {TreeNode} */ (nodes.get(key));
     let c = n.directRecords.length;
     for (const ck of n.childKeys) c += computeCount(ck);
     n.subtreeCount = c;
@@ -948,19 +1069,27 @@ function buildSubtreeUnits(records, options) {
   const roots = [...nodes.values()].filter((n) => n.parentKey === null);
   for (const root of roots) computeCount(root.key);
 
+  /** @type {WorkUnit[]} */
   const units = [];
+  /** @param {TreeNode} rootNode @param {boolean} includeDescendants @returns {SubtreeUnit} */
   const makeUnit = (rootNode, includeDescendants) => {
+    /** @type {Map<string, ListingRow[]>} */
     const recordsByBranch = new Map();
+    /** @type {Set<string>} */
     const wantedBranchRefs = new Set();
+    /** @type {Set<string>} */
     const refs = new Set();
     const rootIdx = rootNode.pathArr.length - 1;
+    /** @param {string} key @param {boolean} descend @returns {void} */
     const collect = (key, descend) => {
-      const n = nodes.get(key);
+      // every key passed is a node's
+      const n = /** @type {TreeNode} */ (nodes.get(key));
       for (const r of n.directRecords) {
         refs.add(r.expectedRef);
         const bref = r.path[r.path.length - 1];
         if (!recordsByBranch.has(bref)) recordsByBranch.set(bref, []);
-        recordsByBranch.get(bref).push(r);
+        // the key was set on the line before
+        /** @type {ListingRow[]} */ (recordsByBranch.get(bref)).push(r);
         for (let i = rootIdx + 1; i < r.path.length; i += 1) wantedBranchRefs.add(r.path[i]);
       }
       if (descend) for (const ck of n.childKeys) collect(ck, true);
@@ -972,8 +1101,10 @@ function buildSubtreeUnits(records, options) {
       recordsByBranch, wantedBranchRefs, refs, rowCount: refs.size,
     };
   };
+  /** @param {string} key @returns {void} */
   const partition = (key) => {
-    const n = nodes.get(key);
+    // every key passed is a node's
+    const n = /** @type {TreeNode} */ (nodes.get(key));
     if (n.subtreeCount <= cap) {
       if (n.subtreeCount > 0) units.push(makeUnit(n, true));
       return;
@@ -1001,6 +1132,7 @@ function buildSubtreeUnits(records, options) {
   return units;
 }
 
+/** @param {Writers} writers @param {Stats} stats @param {number | string} workerId @param {string} branchRef @param {string} phase @param {unknown} error @param {{ walkErrors: number }} ctx */
 async function recordWalkError(writers, stats, workerId, branchRef, phase, error, ctx) {
   ctx.walkErrors += 1;
   stats.failures += 1;
@@ -1010,7 +1142,8 @@ async function recordWalkError(writers, stats, workerId, branchRef, phase, error
     phase,
     workerId,
     branchRef,
-    error: String(error?.message || error),
+    // whatever was thrown, read as an Error when it is one
+    error: String(/** @type {Thrown} */ (error)?.message || error),
   });
 }
 
@@ -1021,6 +1154,7 @@ async function recordWalkError(writers, stats, workerId, branchRef, phase, error
 // wanted (missing) container. Page-independent by design: we detail from whatever
 // page the row actually appears on, so no page numbers are needed in the input.
 // Ancestor ref chain derived from a reference: D552/B/1 -> [D552, D552/B].
+/** @param {string} ref */
 function ancestorChain(ref) {
   const parts = String(ref).split("/");
   const out = [];
@@ -1037,13 +1171,18 @@ function ancestorChain(ref) {
 //                      needed. Ancestors are derived from the ref itself.
 // Deduped via completedRefs by writeMatchedDetail, so a row seen on several pages
 // (or reached by several paths) is only written once.
+/**
+ * @param {Session} session @param {string} html @param {Writers} writers @param {ScanOptions} options @param {Stats} stats
+ * @param {number | string} workerId @param {number} page @param {string} branchKey
+ */
 async function enrichRowsOnPage(session, html, writers, options, stats, workerId, page, branchKey) {
   const fold = options.foldContainers;
   if (!options.enrichMode && !fold) return;
   for (const row of parseGridRows(html)) {
     const cref = row.ResultsSelect?.value;
     if (!cref || stats.completedRefs.has(cref)) continue;
-    if (fold) { if (row.ResultsSelect.disabled) continue; }
+    // cref was read from ResultsSelect
+    if (fold) { if (/** @type {GridButton} */ (row.ResultsSelect).disabled) continue; }
     else if (!stats.enrichRefs.has(cref)) continue;
     if (!row.ResultsView || row.ResultsView.disabled) continue;
     try {
@@ -1059,7 +1198,8 @@ async function enrichRowsOnPage(session, html, writers, options, stats, workerId
       }
     } catch (error) {
       stats.failures += 1;
-      await writers.failures.write({ at: nowIso(), type: fold ? "fold-more-error" : "enrich-more-error", workerId, expectedRef: cref, error: String(error?.message || error) });
+      // whatever was thrown, read as an Error when it is one
+      await writers.failures.write({ at: nowIso(), type: fold ? "fold-more-error" : "enrich-more-error", workerId, expectedRef: cref, error: String(/** @type {Thrown} */ (error)?.message || error) });
     }
   }
 }
@@ -1068,15 +1208,22 @@ async function enrichRowsOnPage(session, html, writers, options, stats, workerId
 // the whole subtree. Missed records stay absent from completedRefs, so a later
 // --resume pass picks them up. The per-unit error budget stops a unit churning
 // through a full reset storm.
+/**
+ * @param {Session} session @param {string} listingHtml @param {string} branchRef @param {SubtreeUnit} unit @param {Writers} writers
+ * @param {ScanOptions} options @param {Stats} stats @param {number | string} workerId @param {Set<string>} visited @param {{ walkErrors: number }} ctx
+ * @returns {Promise<void>}
+ */
 async function walkSubtreeNode(session, listingHtml, branchRef, unit, writers, options, stats, workerId, visited, ctx) {
   if (visited.has(branchRef)) return;
   if (ctx.walkErrors > options.maxSubtreeWalkErrors) return;
   visited.add(branchRef);
+  /** @type {Map<number, ListingRow[]>} */
   const byPage = new Map();
   for (const r of unit.recordsByBranch.get(branchRef) || []) {
     const pg = Number(r.page || 1);
     if (!byPage.has(pg)) byPage.set(pg, []);
-    byPage.get(pg).push(r);
+    // the key was set on the line before
+    /** @type {ListingRow[]} */ (byPage.get(pg)).push(r);
   }
   const childrenToDescend = [];
   let html = listingHtml;
@@ -1114,7 +1261,8 @@ async function walkSubtreeNode(session, listingHtml, branchRef, unit, writers, o
     }
   }
   for (const { row, pageHtml } of childrenToDescend) {
-    const cref = row.ResultsSelect.value;
+    // only selectable rows were queued
+    const cref = /** @type {GridButton} */ (row.ResultsSelect).value;
     if (visited.has(cref) || ctx.walkErrors > options.maxSubtreeWalkErrors) continue;
     try {
       const childHtml = await clickSelect(session, pageHtml, row); // re-POST against cached parent listing
@@ -1125,6 +1273,7 @@ async function walkSubtreeNode(session, listingHtml, branchRef, unit, writers, o
   }
 }
 
+/** @param {SubtreeUnit} unit @param {Writers} writers @param {ScanOptions} options @param {Stats} stats @param {number} workerId */
 async function processSubtreeUnit(unit, writers, options, stats, workerId) {
   const session = new Session(workerId, options, writers, stats);
   const rootHtml = await openBranchPage(session, { letter: unit.letter, path: unit.rootPath, page: 1, branchKey: unit.rootBranchKey });
@@ -1134,14 +1283,17 @@ async function processSubtreeUnit(unit, writers, options, stats, workerId) {
 
 // Top-level (fond) records with an empty path: their detail row is on the letter
 // listing, so fetch them there rather than descending a (nonexistent) subtree.
+/** @param {LetterRootUnit} unit @param {Writers} writers @param {ScanOptions} options @param {Stats} stats @param {number} workerId */
 async function processLetterRootUnit(unit, writers, options, stats, workerId) {
   const session = new Session(workerId, options, writers, stats);
   let html = await startBrowseLetter(session, unit.letter);
+  /** @type {Map<number, ListingRow[]>} */
   const byPage = new Map();
   for (const r of unit.records) {
     const pg = Number(r.page || 1);
     if (!byPage.has(pg)) byPage.set(pg, []);
-    byPage.get(pg).push(r);
+    // the key was set on the line before
+    /** @type {ListingRow[]} */ (byPage.get(pg)).push(r);
   }
   // Enrich mode must sweep the whole letter listing (fond rows can be on any
   // page); normal mode only needs the pages its records name.
@@ -1155,14 +1307,16 @@ async function processLetterRootUnit(unit, writers, options, stats, workerId) {
       try {
         await processRowsFromListing(session, html, recs, writers, options, stats, workerId, "raw-http-letter-root");
       } catch (error) {
-        await writers.failures.write({ at: nowIso(), type: "letter-root-error", workerId, letter: unit.letter, page, error: String(error?.message || error) });
+        // whatever was thrown, read as an Error when it is one
+        await writers.failures.write({ at: nowIso(), type: "letter-root-error", workerId, letter: unit.letter, page, error: String(/** @type {Thrown} */ (error)?.message || error) });
       }
     }
     if (options.enrichMode || options.foldContainers) {
       try {
         await enrichRowsOnPage(session, html, writers, options, stats, workerId, page, `${unit.letter}|`);
       } catch (error) {
-        await writers.failures.write({ at: nowIso(), type: "enrich-letter-root-error", workerId, letter: unit.letter, page, error: String(error?.message || error) });
+        // whatever was thrown, read as an Error when it is one
+        await writers.failures.write({ at: nowIso(), type: "enrich-letter-root-error", workerId, letter: unit.letter, page, error: String(/** @type {Thrown} */ (error)?.message || error) });
       }
     }
     if (page >= maxPage) break;
@@ -1174,6 +1328,7 @@ async function processLetterRootUnit(unit, writers, options, stats, workerId) {
   stats.groupsCompleted += 1;
 }
 
+/** @param {WorkUnit} unit @param {Writers} writers @param {ScanOptions} options @param {Stats} stats @param {number} workerId */
 async function processUnit(unit, writers, options, stats, workerId) {
   if (unit.type === "letter-root") return processLetterRootUnit(unit, writers, options, stats, workerId);
   if (unit.type === "subtree") return processSubtreeUnit(unit, writers, options, stats, workerId);
@@ -1181,6 +1336,7 @@ async function processUnit(unit, writers, options, stats, workerId) {
   return processPageUnit(unit, writers, options, stats, workerId);
 }
 
+/** @param {ScanOptions} options @param {Stats} stats */
 function currentSummary(options, stats) {
   const elapsedSeconds = (performance.now() - stats.startedMs) / 1000;
   return {
@@ -1212,6 +1368,7 @@ function currentSummary(options, stats) {
   };
 }
 
+/** @param {ScanOptions} options */
 function summaryOptions(options) {
   return {
     maxRecords: options.maxRecords,
@@ -1235,6 +1392,7 @@ function summaryOptions(options) {
   };
 }
 
+/** @param {{ type?: string, branchKey?: string, firstPage?: number, lastPage?: number, pageCount?: number, rowCount?: number } | undefined} unit */
 function describeUnit(unit) {
   return {
     type: unit?.type || "",
@@ -1246,6 +1404,7 @@ function describeUnit(unit) {
   };
 }
 
+/** @param {number} workerId @param {WorkUnit[]} units @param {WorkQueue} workQueue @param {Writers} writers @param {ScanOptions} options @param {Stats} stats */
 async function runWorker(workerId, units, workQueue, writers, options, stats) {
   stats.activeWorkers += 1;
   try {
@@ -1268,7 +1427,8 @@ async function runWorker(workerId, units, workQueue, writers, options, stats) {
       try {
         await processUnit(unit, writers, options, stats, workerId);
       } catch (error) {
-        const message = String(error?.message || error);
+        // whatever was thrown, read as an Error when it is one
+        const message = String(/** @type {Thrown} */ (error)?.message || error);
         const blocking = /waf request rejected|access denied|too many requests|rate-limit|request-blocked/i.test(message);
         if (blocking && options.stopOnBlocked) {
           stats.failures += 1;
@@ -1276,10 +1436,11 @@ async function runWorker(workerId, units, workQueue, writers, options, stats) {
             at: nowIso(),
             type: "group-failed",
             workerId,
-            ...describeUnit(unit),
+            // the unit's own type overwrites the row's type here, as it always has
+            .../** @type {Partial<ReturnType<typeof describeUnit>>} */ (describeUnit(unit)),
             attempt,
             blocking,
-            error: String(error?.stack || error),
+            error: String(/** @type {Thrown} */ (error)?.stack || error),
           });
           stats.stopped = true;
           stats.stopReason = stats.stopReason || message;
@@ -1292,24 +1453,26 @@ async function runWorker(workerId, units, workQueue, writers, options, stats) {
             at: nowIso(),
             type: "delayed-unit-retry",
             workerId,
-            ...describeUnit(unit),
+            // the unit's own type overwrites the row's type here, as it always has
+            .../** @type {Partial<ReturnType<typeof describeUnit>>} */ (describeUnit(unit)),
             attempt,
             nextAttempt: retryItem.attempt,
             dueAt: new Date(Date.now() + retryItem.delayMs).toISOString(),
             delayMs: retryItem.delayMs,
             blocking,
-            error: String(error?.message || error),
+            error: String(/** @type {Thrown} */ (error)?.message || error),
           });
           await writers.failures.write({
             at: nowIso(),
             type: "group-retry",
             workerId,
-            ...describeUnit(unit),
+            // the unit's own type overwrites the row's type here, as it always has
+            .../** @type {Partial<ReturnType<typeof describeUnit>>} */ (describeUnit(unit)),
             attempt,
             nextAttempt: retryItem.attempt,
             delayMs: retryItem.delayMs,
             blocking,
-            error: String(error?.message || error),
+            error: String(/** @type {Thrown} */ (error)?.message || error),
           });
         } else {
           stats.failures += 1;
@@ -1317,10 +1480,11 @@ async function runWorker(workerId, units, workQueue, writers, options, stats) {
             at: nowIso(),
             type: "group-failed",
             workerId,
-            ...describeUnit(unit),
+            // the unit's own type overwrites the row's type here, as it always has
+            .../** @type {Partial<ReturnType<typeof describeUnit>>} */ (describeUnit(unit)),
             attempt,
             blocking,
-            error: String(error?.stack || error),
+            error: String(/** @type {Thrown} */ (error)?.stack || error),
           });
         }
       }
@@ -1328,12 +1492,13 @@ async function runWorker(workerId, units, workQueue, writers, options, stats) {
   } catch (error) {
     stats.failures += 1;
     stats.stopped = options.stopOnBlocked;
-    stats.stopReason = stats.stopReason || String(error?.message || error);
+    // whatever was thrown, read as an Error when it is one
+    stats.stopReason = stats.stopReason || String(/** @type {Thrown} */ (error)?.message || error);
     await writers.failures.write({
       at: nowIso(),
       type: "worker-failed",
       workerId,
-      error: String(error?.stack || error),
+      error: String(/** @type {Thrown} */ (error)?.stack || error),
     });
     if (options.stopOnBlocked) throw error;
   } finally {
@@ -1341,8 +1506,10 @@ async function runWorker(workerId, units, workQueue, writers, options, stats) {
   }
 }
 
+/** @param {WorkUnit[]} units @param {ScanOptions} options */
 function makeWorkQueue(units, options) {
   const hot = units.map((_, index) => ({ index, attempt: 1 }));
+  /** @type {{ index: number, attempt: number, dueMs: number, delayMs: number }[]} */
   const retry = [];
   const attempts = new Map(hot.map((item) => [item.index, item.attempt]));
   return {
@@ -1362,7 +1529,8 @@ function makeWorkQueue(units, options) {
       retry.sort((a, b) => a.dueMs - b.dueMs);
       return Math.max(0, retry[0].dueMs - performance.now());
     },
-    retry(index, attempt = 1) {
+    /** @param {number} index @param {number} [_attempt] */
+    retry(index, _attempt = 1) {
       const nextAttempt = (attempts.get(index) || 1) + 1;
       attempts.set(index, nextAttempt);
       if (nextAttempt > options.maxGroupRetries) return null;
@@ -1378,6 +1546,7 @@ function makeWorkQueue(units, options) {
   };
 }
 
+/** @param {string} outDir @param {Stats} stats */
 async function seedCompletedRefsFromOutput(outDir, stats) {
   const detailsPath = path.join(outDir, "records-details.jsonl");
   let count = 0;
@@ -1390,7 +1559,8 @@ async function seedCompletedRefsFromOutput(outDir, stats) {
       const trimmed = line.trim();
       if (!trimmed) continue;
       try {
-        const ref = JSON.parse(trimmed).expectedRef;
+        // a records-details.jsonl row
+        const ref = /** @type {{ expectedRef?: string }} */ (JSON.parse(trimmed)).expectedRef;
         if (ref && !stats.completedRefs.has(ref)) {
           stats.completedRefs.add(ref);
           count += 1;
@@ -1400,11 +1570,13 @@ async function seedCompletedRefsFromOutput(outDir, stats) {
       }
     }
   } catch (error) {
-    if (error?.code !== "ENOENT") throw error;
+    // whatever was thrown, read as an Error when it is one
+    if (/** @type {Thrown} */ (error)?.code !== "ENOENT") throw error;
   }
   return count;
 }
 
+/** @param {ScanOptions} options */
 async function runScan(options) {
   if (!["branch", "page"].includes(options.groupMode)) {
     throw new Error(`--group-mode must be branch or page, got ${options.groupMode}`);
@@ -1462,7 +1634,9 @@ async function runScan(options) {
   stats.desiredWorkers = Math.min(options.initialWorkers, options.maxWorkers, units.length || 1);
 
   const workQueue = makeWorkQueue(units, options);
+  /** @type {Promise<void>[]} */
   const workerPromises = [];
+  /** @type {unknown[]} */
   const workerErrors = [];
   const spawnWorker = () => {
     const workerId = stats.spawnedWorkers + 1;
@@ -1512,7 +1686,8 @@ async function runScan(options) {
       finishedAt: nowIso(),
       index: path.resolve(options.index),
       outDir: path.resolve(options.outDir),
-      fatalError: String(workerErrors[0]?.message || workerErrors[0]),
+      // whatever a worker threw, read as an Error when it is one
+      fatalError: String(/** @type {Thrown} */ (workerErrors[0])?.message || workerErrors[0]),
       options: summaryOptions(options),
     };
     await writers.progress.write(partialSummary);
