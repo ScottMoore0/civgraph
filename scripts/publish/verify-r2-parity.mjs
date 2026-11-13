@@ -40,7 +40,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
 import { r2Credentials, s3ClientOptions } from './r2-env.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -160,18 +160,13 @@ if (!R2.ok) {
   process.exit(0);
 }
 
-const s3 = new S3Client(s3ClientOptions(R2));
+// The listing goes through the S3 blob store (packages/storage/src/s3.mjs).
+const store = await openS3BlobStore({ bucket: BUCKET, clientOptions: s3ClientOptions(R2) });
 
 /** @type {Set<string>} */
 const held = new Set();
 for (const pre of PREFIXES) {
-  /** @type {string | undefined} */
-  let token;
-  do {
-    const r = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: pre, ContinuationToken: token }));
-    for (const o of r.Contents || []) held.add(/** @type {string} */ (o.Key)); // a listed object always has its Key
-    token = r.IsTruncated ? r.NextContinuationToken : undefined;
-  } while (token);
+  for await (const o of store.listAll({ prefix: pre })) held.add(o.key);
 }
 console.log(`  objects in bucket: ${held.size}`);
 
