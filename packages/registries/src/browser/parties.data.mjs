@@ -623,5 +623,24 @@ export default {
  ],
  "notParties": [
   "Non-transferable"
+ ],
+ "noPartyLabels": [
+  [
+   "No party recorded",
+   "candidacies",
+   "words"
+  ],
+  [
+   "No label",
+   "candidacies"
+  ],
+  [
+   "Unknown",
+   "persons"
+  ],
+  [
+   "(none)",
+   "words"
+  ]
  ]
 };

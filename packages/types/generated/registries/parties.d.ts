@@ -29,6 +29,12 @@ export interface PartiesRegistry {
     spellings?: string[];
   }[];
   notParties: string[];
+  /** Labels that stand for no party, each with the records it occurs in. */
+  noPartyLabels: Array<{
+    label: string;
+    in: Array<"candidacies" | "persons" | "words">;
+    meaning: string;
+  }>;
   entities: {
     schemaVersion: 1;
     description: string;

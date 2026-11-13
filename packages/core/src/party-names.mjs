@@ -27,6 +27,17 @@ const PARTIES = parties.abbreviations;
 const NOT_PARTIES = parties.notParties;
 
 /**
+ * The labels that stand for no party at all in the given records (the parties registry's
+ * noPartyLabels): "No party recorded" and "No label" in candidacies, a person record's "Unknown",
+ * Words in parliament's "(none)". No party page, link or membership is made for one.
+ * @param {...('candidacies' | 'persons' | 'words')} corpora
+ * @returns {Set<string>}
+ */
+export function notAPartyLabels(...corpora) {
+  return new Set(parties.noPartyLabels.filter(([, ...within]) => within.some((c) => corpora.includes(/** @type {'candidacies' | 'persons' | 'words'} */ (c)))).map(([label]) => label));
+}
+
+/**
  * The matching key of a spelling: accents, "Lozenge", punctuation and case folded away.
  * @param {unknown} value
  * @returns {string}

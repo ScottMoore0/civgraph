@@ -20,7 +20,7 @@
  *   councils.json        src/ni-local-groups.mjs (NI_COUNCIL_SLUGS, NI_LOCAL_TIERS)
  *   council-search.json  src/catalogue/search.js (council names by generation, council aliases),
  *                        src/catalogue/view-elections.js (the pre-1973 councils on the NI local shelf)
- *   parties.json         packages/core/src/party-names.mjs (PARTIES, NOT_PARTIES)
+ *   parties.json         packages/core/src/party-names.mjs (PARTIES, NOT_PARTIES, notAPartyLabels)
  *   party-palettes.json  packages/core/src/election-domain.mjs (the election palette, the parties
  *                        whose colour wins, the neutral and placeholder greys), packages/map/src/election/palette.mjs
  *                        (the map's two), packages/map/app/election-manager.js (the STV viewer's table, handed
@@ -97,7 +97,9 @@ export function browserSlices(root = REPO_ROOT) {
     'parties.json': {
       // [abbreviation, full name, ...other spellings], as the table was written.
       abbreviations: parties.abbreviations.map(({ abbreviation, fullName, spellings = [] }) => [abbreviation, fullName, ...spellings]),
-      notParties: [...parties.notParties]
+      notParties: [...parties.notParties],
+      // [label, ...the records it occurs in]: the labels that stand for no party (packages/core/src/party-names.mjs notAPartyLabels).
+      noPartyLabels: parties.noPartyLabels.map(({ label, in: corpora }) => [label, ...corpora])
     },
     // Apart from parties.json: the colours, [party, colour] in the registry's order (a later row wins).
     'party-palettes.json': {
