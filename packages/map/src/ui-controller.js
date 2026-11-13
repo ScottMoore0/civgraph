@@ -34,6 +34,8 @@ import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
 /** @typedef {import('./ui-controller-types.d.ts').FeatureDetailEntry} FeatureDetailEntry */
 /** @typedef {import('./ui-controller-types.d.ts').HtmlRoot} HtmlRoot */
 /** @typedef {import('./ui-controller-types.d.ts').ViewElement} ViewElement */
+/** @typedef {import('./ui-controller-types.d.ts').ViewButton} ViewButton */
+/** @typedef {import('./ui-controller-types.d.ts').ViewTarget} ViewTarget */
 /** @typedef {import('./ui-controller-types.d.ts').FeatureSearchResult} FeatureSearchResult */
 /** @typedef {import('./ui-controller-types.d.ts').HtmlElementRoot} HtmlElementRoot */
 /** @typedef {import('./ui-controller-types.d.ts').MapListOptions} MapListOptions */
@@ -3097,7 +3099,7 @@ class UIController {
         if (render) this.requestFlatViewRender({ ...(this._lastMapListOptions || {}) }, { defer: this.isMobile });
     }
 
-    /** @param {HTMLElement} button */
+    /** @param {ViewButton} button */
     async handleCatalogueSearchAction(button) {
         const action = button.dataset.catalogueSearchAction;
         const searchRoot = button.closest('.catalogue-search') || document;
@@ -3191,7 +3193,8 @@ class UIController {
     }
 
     async handleFlatViewDelegatedClick(event) {
-        const target = event.target;
+        // A click in the pane lands on an element of its markup.
+        const target = /** @type {ViewTarget} */ (event.target);
         const searchAction = target.closest?.('[data-catalogue-search-action]');
         if (searchAction) {
             event.preventDefault();

@@ -31,7 +31,7 @@ export interface UiCallbacks {
   onCheckMapLoaded: (mapId: string) => boolean;
   onCheckMapSettled: (mapId: string) => string;
   onCheckMapVisible: (mapId: string) => boolean;
-  onLoadSingleFeature: (mapId: string, featureId: string | number, featureName: string | null, bbox: number[] | null, options?: Record<string, unknown>) => Promise<unknown>;
+  onLoadSingleFeature: (mapId: string, featureId: string | number, featureName: string | null, bbox: number[] | null, options?: Record<string, unknown>) => Promise<{ feature?: DetailFeature & { featureName?: string } } | null>;
   onHideMap: (mapId: string) => void;
   onCategoryChange: (categoryId: string) => void;
   onProviderCategoryChange: (providerId: string, providers: string[]) => void;
@@ -240,4 +240,12 @@ export interface FeatureSearchResult {
   name?: string;
   bbox?: number[] | null;
   [key: string]: unknown;
+}
+
+/** A button of the controller's own markup (ViewElement's data attributes). */
+export type ViewButton = HTMLButtonElement & { dataset: Record<string, string> };
+
+/** An event's target in the controller's own markup: what it is inside is found by closest(). */
+export interface ViewTarget {
+  closest(selectors: string): ViewElement | null;
 }
