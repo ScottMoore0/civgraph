@@ -10,7 +10,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   GRAPH_LEDGER_FILE, LEDGER_TYPES, emptyGraphLedger, graphEntityAliases, graphLedgerFailures, graphLedgerText, growGraphLedger,
-  ledgerEntries, ledgerType, personNumber, publishedGraphFromRows, readGraphLedger, retiredSlugPairs,
+  ledgerEntries, ledgerType, personNumber, publishedGraphFromRows, readGraphLedger, readPersonNameRedirects, retiredSlugPairs,
 } from '../../scripts/lib/graph-id-ledger.mjs';
 import { makeEntityId } from '../../scripts/lib/graph-entity-id.mjs';
 import { RETIRED_CONTEST_SLUGS, resolveElectionSlugAlias } from '../../packages/core/src/election-slug-aliases.js';
@@ -86,6 +86,24 @@ test('a renamed contest, a merged person and a renamed person answer with the en
   ]);
   const broken = new Map([[contestId(CLUE), 'cg:contest:nowhere']]);
   assert.ok(graphLedgerFailures(ledger, { liveIds, aliasOf: broken }).includes(`${contestId(CLUE)}: its alias cg:contest:nowhere is not in the graph`));
+});
+
+test('a person of name-only rows answers with the person its rows went to (person-name-redirects.csv)', () => {
+  const ledger = growGraphLedger(emptyGraphLedger(), [
+    ...LIVE,
+    { id: 'cg:person:dawson-bates', browseSlug: 'dawson-bates' },
+    { id: 'cg:person:nobody-known', browseSlug: 'nobody-known' },
+  ]).ledger;
+  const aliases = graphEntityAliases(ledger, LIVE, { keepOf: KEEP_OF, nameKeepOf: new Map([['dawson-bates', '104451']]) });
+  assert.equal(aliases.ids['cg:person:dawson-bates'], 'cg:person:dawson-bates-104451');
+  assert.deepEqual(aliases.unresolved, ['cg:person:nobody-known']);
+  assert.equal(graphEntityAliases(ledger, LIVE, { keepOf: KEEP_OF }).ids['cg:person:dawson-bates'], undefined, 'no redirect, no alias');
+  const committed = readPersonNameRedirects();
+  assert.equal(committed.get('paddy-burke'), '119411', 'the Mayo senator Paddy Burke (seanad-2, owner decision of 13 Nov 2026)');
+  for (const [slug, keep] of committed) {
+    assert.equal(personNumber(slug), null, `${slug}: a name-only slug`);
+    assert.match(keep, /^\d+$/, `${slug}: a person id`);
+  }
 });
 
 test('a retired contest that is now its round\'s page answers with the round', () => {

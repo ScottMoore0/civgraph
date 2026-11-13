@@ -112,6 +112,25 @@ export function growGraphLedger(ledger, entities) {
   return { ledger: next, added };
 }
 
+export const PERSON_NAME_REDIRECTS_FILE = path.join(ROOT, 'data', 'elections', 'persons', 'person-name-redirects.csv');
+
+/**
+ * A PERSON OF NAME-ONLY ROWS WHOSE ROWS FIND THEIR PERSON. Rows the registry cannot give an id
+ * made a person of their own, named by the name alone (cg:person:paddy-burke: the 1999 Castlebar
+ * row of the senator Paddy Burke); once the rows are given to their person, that id has no
+ * number to follow through the merges. data/elections/persons/person-name-redirects.csv names the
+ * person id each such slug's rows went to. Returns slug -> person id.
+ * @param {string} [file]
+ * @returns {Map<string, string>}
+ */
+export function readPersonNameRedirects(file = PERSON_NAME_REDIRECTS_FILE) {
+  if (!existsSync(file)) return new Map();
+  const [head, ...lines] = readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean);
+  const cols = head.split(',');
+  const [slugAt, keepAt] = [cols.indexOf('name_slug'), cols.indexOf('keep')];
+  return new Map(lines.map((line) => line.split(',')).map((row) => [row[slugAt], row[keepAt]]));
+}
+
 /** The person id a person entity's slug ends with ("dawson-bates-104451" -> "104451"), or null. */
 export function personNumber(/** @type {string} */ slug) {
   return /-(\d+)$/.exec(String(slug))?.[1] ?? null;
@@ -179,11 +198,13 @@ export function retiredSlugPairs(liveSlugs, { retiredContestSlugs = RETIRED_CONT
  * ledger began. Each old id's readable slug answers with the same entity.
  * @param {GraphLedger} ledger
  * @param {GraphEntityRow[]} entities  the built graph's entities (at least its contests, elections and persons)
- * @param {{ keepOf: Map<string, string>, resolveSlug?: (slug: string) => string, retiredContestSlugs?: readonly (readonly string[])[], electionSlugAliases?: readonly (readonly string[])[] }} options
+ * @param {{ keepOf: Map<string, string>, nameKeepOf?: Map<string, string>, resolveSlug?: (slug: string) => string, retiredContestSlugs?: readonly (readonly string[])[], electionSlugAliases?: readonly (readonly string[])[] }} options
  *   keepOf: dropped person id -> kept person id (personKeepOf)
+ *   nameKeepOf: a person slug without a number (a person of name-only rows) -> the person id its
+ *     rows went to (readPersonNameRedirects)
  * @returns {GraphAliases}
  */
-export function graphEntityAliases(ledger, entities, { keepOf, resolveSlug = resolveElectionSlugAlias, ...tables }) {
+export function graphEntityAliases(ledger, entities, { keepOf, nameKeepOf = new Map(), resolveSlug = resolveElectionSlugAlias, ...tables }) {
   const liveIds = new Set(entities.map((e) => e.id));
   const live = liveIndex(entities);
   const livePersons = new Set(live.personById.keys());
@@ -203,7 +224,7 @@ export function graphEntityAliases(ledger, entities, { keepOf, resolveSlug = res
     const type = /** @type {LedgerType} */ (ledgerType(id));
     let target = null;
     if (type === 'person') {
-      const number = personNumber(slug || id);
+      const number = personNumber(slug || id) ?? nameKeepOf.get(slug || id.slice('cg:person:'.length)) ?? null;
       const kept = number ? resolvePersonId(number, livePersons, keepOf) : null;
       target = kept ? live.personById.get(kept) || null : null;
     } else if (slug) {

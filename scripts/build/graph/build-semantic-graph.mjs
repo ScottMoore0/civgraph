@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { gunzip, gzip } from 'node:zlib';
 import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
 import { makeEntityId, shortHash, slugify } from '../../lib/graph-entity-id.mjs';
-import { graphEntityAliases, readGraphLedger } from '../../lib/graph-id-ledger.mjs';
+import { graphEntityAliases, readGraphLedger, readPersonNameRedirects } from '../../lib/graph-id-ledger.mjs';
 import { personKeepOf } from '../../lib/person-address-ledger.mjs';
 import { wikidataUrl } from '../../lib/wikidata-persons.mjs';
 import { buildTimestamp } from '../../lib/build-timestamp.mjs';
@@ -660,7 +660,7 @@ async function writeEntityAliases(sortedEntities) {
     browseSlug: entity.browseSlug,
     // a string: the election key getContestEntity and buildPersonEntities put there
     electionKey: /** @type {string | undefined} */ (entity.attributes?.electionKey)
-  })), { keepOf: personKeepOf() });
+  })), { keepOf: personKeepOf(), nameKeepOf: readPersonNameRedirects() });
   await writeJson(path.join(OUTPUT_DIR, 'indexes', 'entity-aliases.json'), {
     schemaVersion: 1,
     generatedAt: GENERATED_AT,
