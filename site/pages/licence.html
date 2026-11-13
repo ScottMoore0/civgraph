@@ -84,7 +84,7 @@
 <main id="main-content">
 <div class="wrap wrap--wide">
 <!-- site:draft-banner -->
-<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it. Notes marked <span class="owner-note owner-note--label">OWNER TODO</span> are points that could not be verified from the code, or decisions only the owner can make; each is settled and removed before the page goes live.</p>
+<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it.</p>
 <!-- /site:draft-banner -->
 <nav class="info-toc" aria-label="On this page"><a href="#short">In short</a><a href="#own">Civgraph's own work</a><a href="#exceptions">Where a record says otherwise</a><a href="#sources">Other sources</a><a href="#basemaps">Background maps</a><a href="#software">The software</a><a href="#credit">How to credit</a><a href="#personal">Personal data</a><a href="#concerns">Rights concerns</a></nav>
 
@@ -115,7 +115,6 @@
 <li><strong>Contributed digitisations.</strong> Maps digitised by volunteers are credited to them by name on each map. Some, such as Poor Law Unions, 1911, record that they are released under <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA 4.0</a>, and that licence applies to them.</li>
 <li><strong>Maps and records from another body.</strong> A boundary drawn by Ordnance Survey of Northern Ireland, Tailte Éireann or a statistics office, or a record taken from a parliament or an archive, stays under that body's licence. The record names the body.</li>
 </ul>
-<p><span class="owner-note">OWNER TODO: decide whether the contributed digitisations now recorded as CC BY-SA 4.0 move to CC BY 4.0 (each contributor must agree) or stay CC BY-SA 4.0. Then reword the support box on every page, which says "I release all my maps under an open source license (Creative Commons BY-SA 4.0)" (<code>supportModal()</code> in <code>packages/ui/src/templates/shell.js</code>), and give the three own-work entries in the source ledger their licence.</span></p>
 </section>
 
 <section id="sources">
@@ -231,8 +230,8 @@
 
 <section id="software">
 <h2>The software</h2>
-<p>The code that runs Civgraph is released under the <a href="https://opensource.org/license/mit" rel="noopener noreferrer" target="_blank">MIT licence</a>. The MIT licence covers the software only. It does not relicense any of the data. The browser code includes third-party open-source packages under their own licences, whose notices ship with it.</p>
-<p><span class="owner-note">OWNER TODO: decide whether to link the public repository here.</span></p>
+<p>The code that runs Civgraph is released under the <a href="https://opensource.org/license/mit" rel="noopener noreferrer" target="_blank">MIT licence</a>. It is public, in the <a href="https://github.com/ScottMoore0/civgraph" rel="noopener noreferrer" target="_blank">Civgraph code repository</a> on GitHub: the licence is its <a href="https://github.com/ScottMoore0/civgraph/blob/main/LICENSE" rel="noopener noreferrer" target="_blank">LICENSE</a> file, and its <a href="https://github.com/ScottMoore0/civgraph/blob/main/NOTICE" rel="noopener noreferrer" target="_blank">NOTICE</a> file explains the scope.</p>
+<p>The MIT licence covers the software only. It does not relicense any of the data: Civgraph's own compiled data and text are under CC BY 4.0, as above, and material from other sources keeps its own licence, including the data files kept in the repository. The browser code includes third-party open-source packages under their own licences, whose notices ship with it.</p>
 </section>
 
 <section id="credit">
@@ -240,7 +239,7 @@
 <p>Give both Civgraph and the original source. For example:</p>
 <p class="cite-block">Source: Civgraph (https://civgraph.net), CC BY 4.0, compiled from the Electoral Office for Northern Ireland's result sheets (Open Government Licence v3.0).</p>
 <p>For a map:</p>
-<p class="cite-block">Boundaries: Poor Law Unions, 1911, digitised by Scott Moore, Phelim Birch and Paddy Matthews for Civgraph (CC BY-SA 4.0). Background map: OpenFreeMap, © OpenMapTiles, data © OpenStreetMap contributors.</p>
+<p class="cite-block">Boundaries: [map title], digitised by [the contributors the map names] for Civgraph ([the licence the map names]). Background map: OpenFreeMap, © OpenMapTiles, data © OpenStreetMap contributors.</p>
 <p>For academic citations, see <a href="/pages/cite">How to cite</a>.</p>
 </section>
 
@@ -318,7 +317,7 @@
 <p>Support the work of myself and other contributors with a one-off tip, or a subscription of £5 a month, or £45 a year.</p>
 <p>I've gone out of pocket to put together Civgraph, through subscriptions to newspaper archives, buying a better computer to enable me to produce maps like the 1984 and 1972 council wards maps in digitised formats, and spending on tools to help me develop the website.</p>
 <p>With your support, I can cover the costs I incur month to month, work with volunteers to make a greater range of maps available, expand the features on the website, and extend the website beyond maps and boundaries, to include data like election results, Hansard and biographies, all in one place.</p>
-<p>All support is appreciated, but if you can't help, don't worry - I release all my maps under an open source license (Creative Commons BY-SA 4.0), and the content of the site will be free forever.</p>
+<p>All support is appreciated, but if you can't help, don't worry - the content of the site will be free forever. Civgraph's own maps and data are CC BY 4.0; some contributed maps are CC BY-SA 4.0, as each map says.</p>
 </div>
 </div>
 </div>

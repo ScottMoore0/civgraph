@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import { INFO_PAGES, INFO_PAGES_LIVE, draftBanner, draftHead, footerLinks, footerMeta } from '../../packages/ui/src/templates/info-pages.js';
+import { INFO_PAGES, INFO_PAGES_LIVE, draftBanner, draftHead, fillLastUpdated, footerLinks, footerMeta, hasLastUpdatedPlaceholder } from '../../packages/ui/src/templates/info-pages.js';
 import { footer } from '../../packages/ui/src/templates/shell.js';
 import { toHtmlString } from '../../packages/core/src/html.js';
 import { TOP_LEVEL_PAGES } from '../../scripts/build/build-sitemap.mjs';
@@ -64,4 +64,17 @@ test('while they are drafts, no other page on the site links them', () => {
   };
   walk('site');
   assert.deepEqual(offenders, []);
+});
+
+test('the Privacy page is dated the day the pages go live (PG9)', () => {
+  const privacy = readFileSync('site/pages/privacy.html', 'utf8');
+  // A draft holds the named placeholder; the first live build of build-site-partials fills it.
+  assert.equal(hasLastUpdatedPlaceholder(privacy), !INFO_PAGES_LIVE);
+  if (!INFO_PAGES_LIVE) {
+    const dated = fillLastUpdated(privacy, '2026-11-20');
+    assert.ok(!hasLastUpdatedPlaceholder(dated));
+    assert.match(dated, /Last updated: <time datetime="2026-11-20">20 November 2026<\/time>\./);
+    assert.equal(fillLastUpdated(dated, '2027-01-01'), dated, 'a dated page keeps its date');
+  }
+  assert.throws(() => fillLastUpdated(privacy, 'today'), /not a date/);
 });

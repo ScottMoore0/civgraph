@@ -15,7 +15,13 @@
  *   node scripts/build/build-sitemap.mjs         (sitemap)
  * build-site-partials --check refuses the flip while any page still has an OWNER TODO note
  * (class="owner-note"). LANDING.md of the `pages` stream lists the rest (short URLs, About).
+ *
+ * The Privacy page's "last updated" date is the day the pages go live (owner decision PG9). Until
+ * then it is a placeholder, <time data-placeholder="last-updated-at-go-live">; the first
+ * build-site-partials run with the flag set writes that day's date in its place, and --check
+ * fails while a live page still holds the placeholder.
  */
+import { dateText } from '../../../core/src/format.js';
 
 /** Whether the information pages are public. Owner's decision; see the comment above. */
 export const INFO_PAGES_LIVE = false;
@@ -35,7 +41,7 @@ export function draftHead(live = INFO_PAGES_LIVE) {
 
 /** The draft banner at the top of each page's main content, nothing once they are live. */
 export function draftBanner(live = INFO_PAGES_LIVE) {
-  return live ? '' : '<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it. Notes marked <span class="owner-note owner-note--label">OWNER TODO</span> are points that could not be verified from the code, or decisions only the owner can make; each is settled and removed before the page goes live.</p>';
+  return live ? '' : '<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it.</p>';
 }
 
 /** The footer's links to the pages: none while they are drafts. */
@@ -46,4 +52,24 @@ export function footerLinks(live = INFO_PAGES_LIVE) {
 /** The footer's meta line. */
 export function footerMeta(live = INFO_PAGES_LIVE) {
   return live ? '© Civgraph contributors · <a href="/pages/licence">Licence</a>' : '© Civgraph';
+}
+
+/** The marker of the "last updated" date a page gets on the day it goes live (owner decision PG9). */
+export const LAST_UPDATED_PLACEHOLDER = 'last-updated-at-go-live';
+
+const PLACEHOLDER = new RegExp(`<time data-placeholder="${LAST_UPDATED_PLACEHOLDER}">[^<]*</time>`, 'g');
+
+/** Whether a page still holds the go-live date placeholder. @param {string} html */
+export function hasLastUpdatedPlaceholder(html) {
+  return new RegExp(PLACEHOLDER.source).test(html);
+}
+
+/**
+ * The page with the placeholder replaced by a date.
+ * @param {string} html
+ * @param {string} isoDate  YYYY-MM-DD, the day the pages go live
+ */
+export function fillLastUpdated(html, isoDate) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) throw new Error(`fillLastUpdated(): not a date: ${isoDate}`);
+  return html.replace(PLACEHOLDER, `<time datetime="${isoDate}">${dateText(isoDate)}</time>`);
 }
