@@ -6,6 +6,7 @@
  * - the raw palette (colours moved unchanged out of app stylesheets and served JS, rf8-styling)
  *   holds one literal colour per token, named by its value, and no theme block overrides it;
  * - components.css imports every file under components/ and nothing else.
+ * - a form control's edge (--border-input) is at least 3:1 on the page surfaces in both themes.
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -129,4 +130,26 @@ test('every var() in base.css and the components is defined', () => {
 test('components.css imports exactly the files in components/', () => {
   const imported = [...read('components.css').matchAll(/@import url\('components\/([^']+)'\)/g)].map((m) => m[1]).sort();
   assert.deepEqual(imported, readdirSync(path.join(UI, 'components')).filter((f) => f.endsWith('.css')).sort());
+});
+
+// WCAG 2.x relative luminance and contrast of two #rrggbb colours.
+const luminance = (hex) => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const contrast = (a, b) => {
+  const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p);
+  return (x + 0.05) / (y + 0.05);
+};
+
+test("a form control's edge (--border-input) is at least 3:1 on the page surfaces, in both themes (WCAG 1.4.11)", () => {
+  for (const [theme, set] of [['light', light], ['dark', darkExplicit]]) {
+    const edge = set.get('--border-input');
+    assert.match(edge ?? '', /^#[0-9a-f]{6}$/, `${theme}: --border-input is one literal colour`);
+    for (const surface of ['--surface', '--surface-sunken']) {
+      const ratio = contrast(edge, set.get(surface));
+      assert.ok(ratio >= 3, `${theme}: --border-input ${edge} on ${surface} ${set.get(surface)} is ${ratio.toFixed(2)}:1`);
+    }
+  }
 });
