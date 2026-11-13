@@ -24,7 +24,8 @@
  * records rebuild sends only the bodies that changed and the two JSON files. Old extract files are
  * left in place (each is about 25 KB); nothing is deleted.
  *
- * Credentials: the R2 S3 keys from .env.local (scripts/publish/r2-env.mjs); never printed.
+ * Credentials: the R2 S3 keys from .env.local (scripts/publish/r2-env.mjs); never printed. The HEADs
+ * and PUTs go through the S3 blob store (packages/storage/src/s3.mjs).
  */
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
@@ -101,20 +102,17 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   // 3. Send, skipping objects already there with the same content.
   const { r2CredentialsOrExit, s3ClientOptions } = await import('./r2-env.mjs');
   const R2 = r2CredentialsOrExit();
-  const { S3Client, PutObjectCommand, HeadObjectCommand } = await import('@aws-sdk/client-s3');
-  const s3 = new S3Client(s3ClientOptions(R2, { maxAttempts: 5 }));
+  const { openS3BlobStore } = await import('../../packages/storage/src/s3.mjs');
+  const store = await openS3BlobStore({ bucket: R2.bucket, clientOptions: s3ClientOptions(R2, { maxAttempts: 5 }) });
   let sent = 0;
   let skipped = 0;
   for (const o of objects) {
     const body = readFileSync(path.join(REPO, o.file));
     const sha = sha256(body);
-    try {
-      const head = await s3.send(new HeadObjectCommand({ Bucket: R2.bucket, Key: o.key }));
-      if (head.ContentLength === body.length && head.Metadata?.sha256 === sha && head.CacheControl === o.cacheControl) { skipped += 1; continue; }
-    } catch (err) {
-      if (/** @type {any} */ (err)?.$metadata?.httpStatusCode !== 404) throw err;
-    }
-    await s3.send(new PutObjectCommand({ Bucket: R2.bucket, Key: o.key, Body: body, ContentType: o.contentType, CacheControl: o.cacheControl, Metadata: { sha256: sha } }));
+    // null when the bucket has no such object (a 404); any other failure stops the run.
+    const head = await store.head(o.key);
+    if (head && head.size === body.length && head.metadata?.sha256 === sha && head.cacheControl === o.cacheControl) { skipped += 1; continue; }
+    await store.put(o.key, body, { contentType: o.contentType, cacheControl: o.cacheControl, metadata: { sha256: sha } });
     sent += 1;
     console.log(`  sent ${o.key} ${(body.length / 1048576).toFixed(2)} MiB`);
   }
