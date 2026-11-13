@@ -18,9 +18,14 @@ test('the two planning maps carry their snapshot dates in maps.json', () => {
   const national = byId.get('roi-national-planning-applications');
   const roscommon = byId.get('oda-map-00115-planning-application-boundaries-roscommon');
   assert.deepEqual([national.date, national.dateKind], ['2026-04-20', 'as-at']);
-  assert.deepEqual([roscommon.date, roscommon.dateKind], ['2026-04-26', 'as-at']);
+  assert.deepEqual([roscommon.date, roscommon.dateKind], ['2026-07-08', 'as-at']);
   assert.match(national.dateNote, /ETL\) of 20 Apr 2026/);
-  assert.match(roscommon.dateNote, /up to 23 Apr 2026/);
+  assert.match(roscommon.dateNote, /downloaded 8 Jul 2026/);
+  // The live layer is the 8 Jul 2026 fetch, not the April download (owner, 13 Nov 2026).
+  for (const path of ['render/metadata/maps-test.json', 'render/metadata/maps-test-index.json']) {
+    const layer = JSON.parse(readFileSync(path, 'utf8')).layers.find((l) => l.id === 'oda-map-00115-planning-application-boundaries-roscommon-vector');
+    assert.equal(layer.date, '2026-07-08', path);
+  }
 });
 
 test('eleven more live layers are dated as at their snapshot (owner, 13 Nov 2026, OT17)', () => {
