@@ -39,8 +39,24 @@ import os from 'node:os';
 import zlib from 'node:zlib';
 import { SITE } from '../../../packages/config/src/node.mjs';
 
-const ROOT = process.cwd();
+/**
+ * @typedef {Record<string, string>} CsvRow
+ * @typedef {{ code: string, label: string, cats: string, value: number | null }} CleanRow
+ * @typedef {{ label: string, url: string }} Link
+ * @typedef {{ year: number, value: number | null, src: Link, flag?: string, n?: number | undefined, d?: number | null | undefined }} Point
+ * @typedef {{ id: string, label: string, unit: string, note: string | null, points: Point[] }} Series
+ * @typedef {{ id: string, label: string, unit: string, note?: string, y2001?: [string, RegExp, RegExp?], y2011?: [string, RegExp, RegExp?], y2021?: [string, string, string?] }} Indicator
+ * @typedef {Record<string, { name: string, v: Record<string, Record<number, number | null | (number | null)[]>> }>} AreaValues
+ * @typedef {{ pop: number, cb: number, cbw: number }} Accumulator
+ * @typedef {{ count: number, multiYear: number, years: number[], droppedNonCensus: number, catalogueCubes: number, large: number }} RoiSummary
+ * @typedef {{ label: string, category?: { index?: string[] } }} PxDimension
+ * @typedef {{ extension?: { matrix?: string }, id: string[], label?: string, dimension: Record<string, PxDimension> }} PxItem
+ * @typedef {{ id: string[], dimension: Record<string, { label: string, category: { index: string[] | Record<string, number>, label?: Record<string, string> } }> }} PxCube
+ * @typedef {{ table: string, title: string, unit?: string, file: string, geography: string, bytes: number, dimensions?: string[] }} CleanedManifestTable
+ * @typedef {{ dataset: string, geography: string, variables: string[], file: string, bytes: number }} FtbManifestTable
+ */
 const args = process.argv.slice(2);
+/** @param {string} name @param {string} dflt */
 const argVal = (name, dflt) => { const i = args.indexOf(name); return i >= 0 && args[i + 1] ? args[i + 1] : dflt; };
 const CACHE = argVal('--cache', existsSync('E:/') ? 'E:/civgraph-census-explorer/r2cache' : path.join(os.tmpdir(), 'civgraph-census-explorer'));
 const PXSTAT = argVal('--pxstat', 'D:/cso-pxstat');
@@ -56,12 +72,15 @@ const OUT_ROI = `${CENSUS}/explorer-roi.json`;
 const OUT_DZ = `${CENSUS}/explorer-dz-series.json`;
 const OUT_FTB = `${CENSUS}/explorer/ftb`;
 
+/** @param {string} p @returns {unknown} */
 const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'));
+/** @param {number | null | undefined} n */
 const round = (n, dp = 1) => (n == null || !Number.isFinite(n) ? null : Math.round(n * 10 ** dp) / 10 ** dp);
 
 // ---------------------------------------------------------------------------------------
 // Small CSV reader (RFC 4180 quoting). The inputs here are all a few MB at most.
 // ---------------------------------------------------------------------------------------
+/** @param {string} text @returns {string[][]} */
 function parseCsv(text) {
   const rows = []; let row = []; let field = ''; let q = false;
   for (let i = 0; i < text.length; i += 1) {
@@ -76,16 +95,20 @@ function parseCsv(text) {
   if (field || row.length) { row.push(field.replace(/\r$/, '')); rows.push(row); }
   return rows;
 }
+/** @param {string} text */
 function csvObjects(text) {
   const [head, ...rest] = parseCsv(text);
   return rest.filter((r) => r.length > 1).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])));
 }
+/** @param {string} p */
 const readCsv = (p) => csvObjects(readFileSync(p, 'utf8'));
+/** @param {unknown} v */
 const num = (v) => { const n = Number(String(v ?? '').replace(/,/g, '')); return v === '' || v == null || !Number.isFinite(n) ? null : n; };
 
 // ---------------------------------------------------------------------------------------
 // R2 cache: Civgraph's own published files, fetched once.
 // ---------------------------------------------------------------------------------------
+/** @param {string} key @returns {Promise<string>} */
 async function r2(key) {
   const local = path.join(CACHE, key.replace(/^data\/census\//, ''));
   if (!existsSync(local)) {
@@ -98,7 +121,10 @@ async function r2(key) {
   const buf = readFileSync(local);
   return key.endsWith('.gz') ? zlib.gunzipSync(buf).toString('utf8') : buf.toString('utf8');
 }
-/** A cleaned 2001/2011 table as rows of { code, label, cats: 'a | b', value }. */
+/**
+ * A cleaned 2001/2011 table as rows of { code, label, cats: 'a | b', value }.
+ * @param {number} year @param {string} table @param {string} geo @returns {Promise<CleanRow[]>}
+ */
 async function cleanedRows(year, table, geo) {
   const text = await r2(`data/census/${year}-cleaned/${table}__${geo}.csv.gz`);
   const [head, ...rows] = parseCsv(text);
@@ -112,6 +138,7 @@ async function cleanedRows(year, table, geo) {
 // ---------------------------------------------------------------------------------------
 // Public sources, licences and reports.
 // ---------------------------------------------------------------------------------------
+/** @type {Record<number, { provider: string, url: string, label: string }>} */
 const NISRA = {
   2001: { provider: 'NISRA', url: 'https://www.nisra.gov.uk/statistics/2011-and-earlier-censuses/2001-census', label: 'NISRA, Census 2001' },
   2011: { provider: 'NISRA', url: 'https://www.nisra.gov.uk/statistics/2011-and-earlier-censuses/2011-census', label: 'NISRA, Census 2011' },
@@ -124,6 +151,7 @@ const LICENCES = {
 const CSO_HISTORICAL = { label: 'CSO historical census reports, 1821-1911 (Internet Archive copy)', url: 'https://archive.org/details/civgraph-cso-historical-reports' };
 
 // The Northern Ireland census reports converted to text and published on R2.
+/** @type {Record<number, string[][]>} */
 const NI_REPORTS = {
   1926: [['General report, part 1', 'data/census/census-1926-part-1.md'], ['Part 2', 'data/census/census-1926-part-2.md']],
   1937: [['General report, part 1', 'data/census/census-1937-part-1.md'], ['Part 2', 'data/census/census-1937-part-2.md']],
@@ -136,6 +164,7 @@ const NI_REPORTS = {
 };
 // The 1991 topic reports: Civgraph's text on R2 (the original PDFs are NISRA's; they are
 // not on R2, so the PDF link goes to NISRA).
+/** @type {Record<string, string[]>} */
 const NI_TOPIC_REPORTS_1991 = {
   religion: ['Religion report', '1991-census-religion-report'],
   irish_language: ['Irish language report', '1991-census-irish-language-report'],
@@ -144,6 +173,7 @@ const NI_TOPIC_REPORTS_1991 = {
   household_composition: ['Household composition report', '1991-census-household-composition-report'],
   travel_to_work: ['Workplace and transport report', '1991-census-workplace-transport-report'],
 };
+/** @param {number} year @param {string} conceptId */
 const reportLinks = (year, conceptId) => {
   const out = (NI_REPORTS[year] || []).map(([label, key]) => ({ label: `${year} census: ${label}`, url: /^https?:/.test(key) ? key : R2 + key }));
   if (year === 1991 && NI_TOPIC_REPORTS_1991[conceptId]) {
@@ -158,6 +188,7 @@ const reportLinks = (year, conceptId) => {
 // Geography registry: every geography a table or cube is published at, with the Civgraph
 // boundary layer that draws it. Map ids are checked against data/database/maps.json below.
 // ---------------------------------------------------------------------------------------
+/** @type {Record<string, { label: string, map: string | null }>} */
 const GEO = {
   // Northern Ireland
   NI: { label: 'Northern Ireland', map: null },
@@ -211,12 +242,14 @@ const GEO = {
     if (g.map && !ids.has(g.map)) { console.warn(`  map layer ${g.map} (for ${k}) is not in maps.json; link dropped`); g.map = null; }
   }
 }
+/** @param {string | null} id */
 const mapHref = (id) => (id ? `/maps/#layers=${encodeURIComponent(id)}` : null);
 
 // ---------------------------------------------------------------------------------------
 // Topics: one classifier for NI tables, the 2021 flexible-table variables and ROI cubes.
 // Order matters: the first rule that matches wins.
 // ---------------------------------------------------------------------------------------
+/** @type {[string, string, RegExp][]} */
 const TOPICS = [
   ['religion', 'Religion and community background', /relig|catholic|protestant|church|denomination|community background/i],
   ['language', 'Language', /irish|gaeilge|gaeltacht|ulster.scots|language|speak|english proficiency|teanga/i],
@@ -232,6 +265,7 @@ const TOPICS = [
 ];
 const TOPIC_LABEL = Object.fromEntries(TOPICS.map(([id, label]) => [id, label]));
 TOPIC_LABEL.other = 'Other';
+/** @param {...unknown} texts */
 function topicOf(...texts) {
   const hay = texts.filter(Boolean).join(' ');
   for (const [id, , re] of TOPICS) if (re.test(hay)) return id;
@@ -240,6 +274,7 @@ function topicOf(...texts) {
 
 // Sentence case for NISRA's upper-case titles, keeping acronyms.
 const KEEP = new Set(['NI', 'HRP', 'FRP', 'NS-SEC', 'NS-SEC.', 'GRP', 'HSCT', 'ELB', 'HSSB', 'NUTS3', 'UK', 'EU', 'TV', 'SOA', 'SA', 'DEA', 'LGD', 'II', 'III', 'IV', 'A', 'B']);
+/** @param {unknown} s */
 function sentence(s) {
   const t = String(s || '').trim();
   if (!t || t !== t.toUpperCase()) return t;
@@ -258,9 +293,10 @@ function sentence(s) {
 // ---------------------------------------------------------------------------------------
 // 1. Concepts. The ontology is gitignored, so its corrections live here, in git.
 // ---------------------------------------------------------------------------------------
-const ontology = readJson(`${CLEANED}/concept-ontology.json`);
-const comparability = readJson(`${CLEANED}/comparability-groups.json`);
-const availability = readJson(`${CLEANED}/availability-graph.json`);
+// the cleaned census metadata files
+const ontology = /** @type {{ concepts?: { id: string, label: string, priority?: unknown, difficulty?: unknown, comparabilityNotes?: string, yearsAvailableHistorical?: number[] }[] }} */ (readJson(`${CLEANED}/concept-ontology.json`));
+const comparability = /** @type {{ conceptGroups?: { topic: string, notes?: string }[] }} */ (readJson(`${CLEANED}/comparability-groups.json`));
+const availability = /** @type {{ concepts?: Record<string, { geographyLevels?: Record<string, unknown> }> }} */ (readJson(`${CLEANED}/availability-graph.json`));
 
 /**
  * Per concept and year, the tables that carry it: [code, role]. Overrides the ontology,
@@ -271,6 +307,7 @@ const availability = readJson(`${CLEANED}/availability-graph.json`);
  * the usual-resident table, where 2001 KS16 and 2011 KS401NI count dwellings and household
  * spaces. Every 2001 and 2011 code was checked against the bulk-file titles on 2026-11-01.
  */
+/** @type {Record<string, Record<number, string[][]>>} */
 const CONCEPT_TABLES = {
   population_by_area: { 2001: [['KS01']], 2011: [['KS101NI']], 2021: [['MS-A01']] },
   religion: {
@@ -294,11 +331,13 @@ const CONCEPT_TABLES = {
 };
 // Historical years per concept: the ontology's, plus 1991 where Civgraph holds the 1991
 // district table, and 1981/1991 religion (religion-1981-lgd.csv, religion-1991-lgd.csv).
+/** @type {Record<string, number[]>} */
 const HISTORICAL_EXTRA = {
   population_by_area: [1991], religion: [1981, 1991], irish_language: [1991], housing_tenure: [1991],
   car_availability: [1991], economic_activity: [1991], qualifications: [1991], health_disability: [1991],
 };
 // The NI-total indicator series (built in section 6) that illustrate each concept.
+/** @type {Record<string, string[]>} */
 const CONCEPT_SERIES = {
   population_by_area: ['population'], religion: ['catholic', 'catholic_bg'], irish_language: ['irish'],
   housing_tenure: ['owner_occupied', 'social_rented'], car_availability: ['no_car'], qualifications: ['level4', 'no_quals'],
@@ -308,21 +347,30 @@ const CONCEPT_SERIES = {
 // ---------------------------------------------------------------------------------------
 // 2. NI table list: 2001, 2011 and 2021, with real titles.
 // ---------------------------------------------------------------------------------------
+/** @type {Record<string, string>} */
 const GEO_2001 = { NI: 'NI', LGD2001: 'LGD2001', WARD2001: 'WARD2001', OA2001: 'OA2001', PARLCON2001: 'PARLCON2001', ELB: 'ELB', HSSB: 'HSSB', NUTS3: 'NUTS3' };
+/** @type {Record<string, string>} */
 const GEO_2011 = { SA2011: 'SA2011', SOA2011: 'SOA2011', WARD2014: 'WARD2014', AA2014: 'AA2014', HIGHER: 'HIGHER' };
+/** @type {Record<string, string>} */
 const GEO_2021 = { NI: 'NI', LGD: 'LGD2014', DEA: 'DEA2014', SDZ: 'SDZ2021', DZ: 'DZ2021', Ward: 'WARD2014', Settlement: 'SETTLEMENT2015', HSCT: 'HSCT' };
 const GEO_ORDER = Object.keys(GEO);
+/** @param {string[]} list */
 const sortGeos = (list) => [...new Set(list)].sort((a, b) => GEO_ORDER.indexOf(a) - GEO_ORDER.indexOf(b));
 
-const bulk2001 = readJson(`${INPUTS}/ni-2001-bulk-tables.json`).tables;
-const tables2021 = readJson(`${INPUTS}/ni-2021-tables.json`).tables;
+// the tracked reference lists
+const bulk2001 = /** @type {{ tables: Record<string, { title?: string, family?: string }> }} */ (readJson(`${INPUTS}/ni-2001-bulk-tables.json`)).tables;
+const tables2021 = /** @type {{ tables: { code: string, title: string, releases: string[], geos: string[] }[] }} */ (readJson(`${INPUTS}/ni-2021-tables.json`)).tables;
+/** @type {Record<string, string>} */
 const FAMILY_2011 = { KS: 'Key Statistics', QS: 'Quick Statistics', DC: 'Detailed Characteristics', LC: 'Local Characteristics' };
+/** @type {Record<string, string>} */
 const FAMILY_2001_PREFIX = { KS: 'Key Statistics', CAS: 'Census Area Statistics', UV: 'Univariate Tables', S: 'Standard Tables', T: 'Theme Tables' };
 
 async function niTables() {
   const out = [];
   // 2001
-  const m01 = JSON.parse(await r2('data/census/2001-cleaned/manifest.json'));
+  // the cleaned-table manifests
+  const m01 = /** @type {{ tables: CleanedManifestTable[] }} */ (JSON.parse(await r2('data/census/2001-cleaned/manifest.json')));
+  /** @type {Map<string, { code: string, title: string, unit?: string | undefined, sfx: string, files: Record<string, number> }>} */
   const by01 = new Map();
   for (const t of m01.tables) {
     const code = t.table.replace(/\(NI\)$/i, '');
@@ -336,7 +384,8 @@ async function niTables() {
     const e = by01.get(code);
     const b = bulk2001[code];
     const title = sentence(b?.title || e?.title || code);
-    const family = b?.family || FAMILY_2001_PREFIX[code.match(/^[A-Z]+/)[0]] || 'Other';
+    // every table code starts with capital letters
+    const family = b?.family || FAMILY_2001_PREFIX[/** @type {RegExpMatchArray} */ (code.match(/^[A-Z]+/))[0]] || 'Other';
     const geos = e ? sortGeos(Object.keys(e.files)) : ['NI', 'LGD2001', 'WARD2001', 'PARLCON2001', 'ELB', 'HSSB', 'NUTS3'];
     out.push({
       code, year: 2001, family, title, topic: topicOf(title), unit: e?.unit || null, geos,
@@ -345,7 +394,8 @@ async function niTables() {
     });
   }
   // 2011
-  const m11 = JSON.parse(await r2('data/census/2011-cleaned/manifest.json'));
+  const m11 = /** @type {{ tables: CleanedManifestTable[] }} */ (JSON.parse(await r2('data/census/2011-cleaned/manifest.json')));
+  /** @type {Map<string, { code: string, title: string, dims: string[], unit?: string | undefined, files: Record<string, number> }>} */
   const by11 = new Map();
   for (const t of m11.tables) {
     const e = by11.get(t.table) || { code: t.table, title: t.title, dims: t.dimensions || [], unit: t.unit, files: {} };
@@ -363,9 +413,11 @@ async function niTables() {
   }
   // 2021 ready-made tables, plus the derived extracts Civgraph holds for some of them.
   const derived = readdirSync(DERIVED).filter((f) => /^ms-[a-z]\d{2}.*\.csv$/.test(f));
+  /** @type {Record<string, string>} */
   const DERIVED_GEO = { lgd: 'LGD2014', dea: 'DEA2014', ward: 'WARD2014', settlement: 'SETTLEMENT2015', sdz: 'SDZ2021', dz: 'DZ2021' };
   for (const t of tables2021) {
     const code = t.code;
+    /** @type {Record<string, [string, number, string | null][]>} */
     const files = {};
     for (const f of derived) {
       const m = f.match(/^ms-([a-z]\d{2})(?:-(.+))?-(lgd|dea|ward|settlement|sdz|dz)\.csv$/);
@@ -390,13 +442,16 @@ async function niTables() {
 //    dataset x geography that includes one variable, so the browser loads only the shard
 //    for the variable a reader picks.
 // ---------------------------------------------------------------------------------------
-const FTB_LABELS = readJson(`${INPUTS}/ftb-variable-labels.json`);
+const FTB_LABELS = /** @type {Record<string, { label?: string, dataset?: string }>} */ (readJson(`${INPUTS}/ftb-variable-labels.json`));
 async function buildFtb() {
-  const man = JSON.parse(await r2('data/census/nisra-ftb/manifest.json'));
+  const man = /** @type {{ tables: FtbManifestTable[] }} */ (JSON.parse(await r2('data/census/nisra-ftb/manifest.json')));
   const vars = [...new Set(man.tables.flatMap((t) => t.variables))].sort();
   const vi = new Map(vars.map((v, i) => [v, i]));
+  /** @type {Map<string, string[]>} */
   const shards = new Map(); // `${ds}~${geo}~${var}~${k}` -> entries
+  /** @type {Record<string, number>} */
   const counts = {};
+  /** @param {number} i */
   const b36 = (i) => i.toString(36).padStart(2, '0');
   for (const t of man.tables) {
     const geo = t.geography === 'OTHER' ? 'NI' : t.geography;
@@ -411,7 +466,8 @@ async function buildFtb() {
       if (!shards.has(sk)) shards.set(sk, []);
       // The other variables (2 base-36 characters each, in the file's order with this one
       // marked by its position) and the size in KB.
-      shards.get(sk).push(`${t.variables.map((x) => (x === v ? '' : b36(vi.get(x)))).join('.')},${Math.max(1, Math.round(t.bytes / 1024))}`);
+      // the key was set on the line before; vi indexes every variable
+      /** @type {string[]} */ (shards.get(sk)).push(`${t.variables.map((x) => (x === v ? '' : b36(/** @type {number} */ (vi.get(x))))).join('.')},${Math.max(1, Math.round(t.bytes / 1024))}`);
     }
   }
   if (existsSync(OUT_FTB)) rmSync(OUT_FTB, { recursive: true });
@@ -420,7 +476,8 @@ async function buildFtb() {
   // loads is much over 150 KB; the index then records the per-variable counts instead of a
   // single count, and the page asks for that second variable first.
   const SPLIT = 9000;
-  let maxBytes = 0; let total = 0; let files = 0; const shardIndex = {};
+  let maxBytes = 0; let total = 0; let files = 0; const shardIndex = /** @type {Record<string, Record<string, Record<string, number | { total: number, by: Record<string, number> }>>>} */ ({});
+  /** @param {string} name @param {string[]} list */
   const write = (name, list) => {
     list.sort();
     const body = JSON.stringify(list);
@@ -431,14 +488,17 @@ async function buildFtb() {
     const [ds, geo, v, n] = k.split('~');
     const slot = ((shardIndex[`${ds}~${geo}`] ||= {})[v] ||= {});
     if (entries.length <= SPLIT) { write(k, entries); slot[n] = entries.length; continue; }
+    /** @type {Map<string, string[]>} */
     const byW = new Map();
     for (const e of entries) {
       for (const code of e.split(',')[0].split('.')) {
         if (!code) continue;
         if (!byW.has(code)) byW.set(code, []);
-        byW.get(code).push(e);
+        // the key was set on the line before
+        /** @type {string[]} */ (byW.get(code)).push(e);
       }
     }
+    /** @type {Record<string, number>} */
     const split = {};
     for (const [w, list] of byW) { write(`${k}~${vars[parseInt(w, 36)]}`, list); split[vars[parseInt(w, 36)]] = list.length; }
     slot[n] = { total: entries.length, by: split };
@@ -466,6 +526,7 @@ const CENSUS_YEARS = new Set([...ROI_YEARS, ...NI_YEARS].map(String));
 const CENSUS_FAMILY = /^(A\d|B\d|C\d|CD\d|CDD|CDR|CDS|CSR|E\d|EY\d|F\d|FY\d|SAP|CNA\d|CPNI|HC[A-Z]?\d)/;
 const NOT_CENSUS = /^(AVA|PEC|C19|CNAPA)/; // agricultural census, projections, COVID, national accounts
 
+/** @param {string} dimLabel @param {number[]} years @returns {string | null} */
 function roiGeoKey(dimLabel, years) {
   const l = dimLabel; const last = Math.max(...years);
   if (/small area/i.test(l)) return last >= 2022 ? 'ROI_SA2022' : 'ROI_SA2011';
@@ -488,14 +549,17 @@ function roiGeoKey(dimLabel, years) {
 }
 const ROI_GEO_RANK = ['ROI_SA2022', 'ROI_SA2011', 'ROI_ED2022', 'ROI_ED2006', 'ROI_ED1986', 'ROI_LEA2019', 'ROI_LEA2014', 'ROI_LEA2008', 'ROI_DAIL2023', 'ROI_DAIL2017', 'ROI_DAIL2013', 'ROI_DAIL2005', 'ROI_LPA', 'ROI_GAELTACHT', 'ROI_LA2019', 'ROI_LA2014', 'ROI_COUNTY', 'ROI_PROVINCE', 'ROI_TOWN'];
 
+/** @returns {RoiSummary | null} */
 function buildRoi() {
   const catFile = path.join(PXSTAT, '_catalogue.json');
   if (!existsSync(catFile)) {
     console.warn(`  ROI: ${catFile} not found; keeping the existing ${OUT_ROI}`);
-    return existsSync(OUT_ROI) ? readJson(OUT_ROI).summary : null;
+    // the ROI file this script wrote before
+    return existsSync(OUT_ROI) ? /** @type {{ summary: RoiSummary }} */ (readJson(OUT_ROI)).summary : null;
   }
-  const cat = readJson(catFile);
-  const cubes = []; const large = {};
+  // the PxStat catalogue (JSON-stat collection)
+  const cat = /** @type {{ link: { item: PxItem[] } }} */ (readJson(catFile));
+  const cubes = /** @type {[string, string, string, string, string | null, number | null, string][]} */ ([]); const large = /** @type {Record<string, { id: string, label: string, n: number, cats: string[][] | null }[]>} */ ({});
   let dropped = 0;
   for (const it of cat.link.item) {
     const code = it.extension?.matrix;
@@ -524,7 +588,8 @@ function buildRoi() {
     if (bytes && bytes > 5 * 1024 * 1024) {
       // Large cubes: ship their dimension categories so a reader can pick a slice before
       // committing to the download. Very long lists (thousands of small areas) are named only.
-      const full = readJson(path.join(PXSTAT, code.slice(0, 3), `${code}.json`));
+      // a JSON-stat 2.0 dataset
+      const full = /** @type {PxCube} */ (readJson(path.join(PXSTAT, code.slice(0, 3), `${code}.json`)));
       large[code] = full.id.map((d) => {
         const c = full.dimension[d].category; const idx = Array.isArray(c.index) ? c.index : Object.keys(c.index);
         return { id: d, label: full.dimension[d].label, n: idx.length, cats: idx.length <= 400 ? idx.map((k) => [k, c.label?.[k] ?? k]) : null };
@@ -550,6 +615,7 @@ function buildRoi() {
 // 5. NI indicators for comparisons across years. Each indicator is a share (num/den) or a
 //    count, defined per census year from the table that carries it.
 // ---------------------------------------------------------------------------------------
+/** @type {Indicator[]} */
 const IND = [
   { id: 'population', label: 'Usual residents', unit: 'count', y2001: ['KS01', /^All persons$/], y2011: ['KS101NI', /^All usual residents$/], y2021: ['ms-a01', 'AllUsualResidents'] },
   { id: 'catholic', label: 'Catholic, by religion', unit: 'pct', note: '2001 combines "no religion" with "not stated". 1981 is depressed by an 18.5% non-response during the hunger strikes; read it as a floor.', y2001: ['KS07a', /Catholic/, /^All persons$/], y2011: ['KS211NI', /^Religion: Catholic$/, /^All usual residents$/], y2021: ['ms-b19-catholic', 'Catholic', 'Total'] },
@@ -564,24 +630,32 @@ const IND = [
   { id: 'llti', label: 'Long-term illness or condition that limits daily activities', unit: 'pct', note: 'The question changed: 1991 and 2001 asked about a limiting long-term illness; 2011 about a long-term health problem or disability; 2021 about a long-term condition limiting day-to-day activities.', y2001: ['KS08', /^Persons with limiting long-term illness/, /^All persons$/], y2011: ['KS301NI', /^Long-term health problem or disability: Day-to-day activities limited a (lot|little)$/, /^All usual residents$/], y2021: ['ms-d02-limiting-condition', 'LimitingCondition', 'Total'] },
   { id: 'unemployed', label: 'Unemployed (share of the economically active)', unit: 'pct', note: 'Shown for 1991 only, from the district table; later tables in Civgraph\'s extracts use different bases.' },
 ];
+/** @type {Record<string, string>} */
 const IND_1991 = { catholic: 'rc_pct', owner_occupied: 'owner_occ_pct', social_rented: 'social_rent_pct', no_car: 'no_car_pct', llti: 'llti_pct', unemployed: 'unemployment_pct' };
 
+/** @type {[number, number, string][]} */
 const HIST_POP = [ // NI totals printed in the converted reports; each is checked against its file.
   [1926, 1256561, 'data/census/census-1926-part-1.md'], [1937, 1279745, 'data/census/census-1937-part-1.md'],
   [1951, 1370921, 'data/census/census-1951-part-2.md'], [1961, 1425042, 'data/census/census-1961-part-2.md'],
   [1966, 1484775, 'data/census/census-1966.md'], [1971, 1536065, 'data/census/census-1981.md'],
   [1981, 1481959, 'data/census/census-1981.md'],
 ];
+/** @param {CleanRow[]} rows @param {RegExp} numRe @param {RegExp | undefined} denRe */
 function share(rows, numRe, denRe) {
+  /** @param {RegExp} re */
   const sum = (re) => rows.filter((r) => re.test(r.cats)).reduce((s, r) => s + (r.value || 0), 0);
   const n = sum(numRe); const d = denRe ? sum(denRe) : null;
   return { n, d };
 }
 
 async function buildComparisons() {
+  /** @type {Record<string, Series>} */
   const ni = Object.fromEntries(IND.map((i) => [i.id, { id: i.id, label: i.label, unit: i.unit, note: i.note || null, points: [] }]));
+  /** @type {AreaValues} */
   const lgd26 = {}; // code -> { name, values: { ind: { year: v } } }
+  /** @type {Record<string, string>} */
   const lgdName = {};
+  /** @param {string} code @param {string} name @param {string} ind @param {number} year @param {number | null} value @param {boolean} est */
   const put26 = (code, name, ind, year, value, est) => {
     if (value == null) return;
     const e = lgd26[code] ||= { name, v: {} };
@@ -609,16 +683,19 @@ async function buildComparisons() {
   const src91 = { label: '1991 census district table (census-1991-lgd-full.csv)', url: `${R2}${DERIVED}/census-1991-lgd-full.csv` };
 
   // 2001 and 2011 from Civgraph's cleaned tables (NI and the 26 districts natively).
-  const ks = (y, t) => (y === 2001 ? [t, ['NI', 'LGD2001']] : [t, ['HIGHER']]);
   for (const ind of IND) {
     for (const year of [2001, 2011]) {
-      const spec = ind[`y${year}`]; if (!spec) continue;
+      // year is 2001 or 2011
+      const spec = ind[/** @type {'y2001' | 'y2011'} */ (`y${year}`)]; if (!spec) continue;
       const [table, numRe, denRe] = spec;
       const files = year === 2001 ? ['NI', 'LGD2001'] : ['HIGHER'];
+      /** @type {CleanRow[]} */
       const rows = [];
       for (const g of files) rows.push(...await cleanedRows(year, table, g));
+      /** @type {Map<string, { name: string, rows: CleanRow[] }>} */
       const byArea = new Map();
-      for (const r of rows) { if (!byArea.has(r.code)) byArea.set(r.code, { name: r.label, rows: [] }); byArea.get(r.code).rows.push(r); }
+      // the key was set just before
+      for (const r of rows) { if (!byArea.has(r.code)) byArea.set(r.code, { name: r.label, rows: [] }); /** @type {{ name: string, rows: CleanRow[] }} */ (byArea.get(r.code)).rows.push(r); }
       const srcT = { label: `${NISRA[year].label}, table ${table}`, url: `${R2}data/census/${year}-cleaned/${table}__${files[files.length - 1]}.csv.gz` };
       for (const [code, { name, rows: rr }] of byArea) {
         const isNi = code === '95' || code === 'N92000002';
@@ -632,6 +709,7 @@ async function buildComparisons() {
     }
   }
   const nameTo26 = new Map(Object.entries(lgdName).map(([c, n]) => [n.toLowerCase().replace(/[^a-z]/g, ''), c]));
+  /** @param {unknown} name */
   const code26 = (name) => nameTo26.get(String(name).toLowerCase().replace(/[^a-z]/g, '').replace(/^londonderry$/, 'derry'));
   for (const r of r91) {
     const c = code26(r.lgd); if (!c) { console.warn(`  1991 district not matched: ${r.lgd}`); continue; }
@@ -654,6 +732,7 @@ async function buildComparisons() {
   }
 
   // 2021: NI totals from the district extracts (sums), and 11-council values natively.
+  /** @type {AreaValues} */
   const lgd11 = {};
   for (const ind of IND) {
     const spec = ind.y2021; if (!spec) continue;
@@ -663,7 +742,8 @@ async function buildComparisons() {
     for (const r of rows) {
       const code = r.LGDCode || r.GeographyCode; const n = num(r[numCol]); const d = denCol ? num(r[denCol]) : null;
       N += n || 0; D += d || 0;
-      const v = ind.unit === 'count' ? n : (d ? (100 * n) / d : null);
+      // a blank count is null, which multiplies as 0
+      const v = ind.unit === 'count' ? n : (d ? (100 * /** @type {number} */ (n)) / d : null);
       ((lgd11[code] ||= { name: r.Geography, v: {} }).v[ind.id] ||= {})[2021] = round(v, ind.unit === 'count' ? 0 : 1);
     }
     const value = ind.unit === 'count' ? N : (100 * N) / D;
@@ -673,9 +753,11 @@ async function buildComparisons() {
   // 2011 on the 11 councils: ESTIMATED from Small Areas, each assigned whole to the council
   // its 2014 District Electoral Area lies in (best fit; SAs were built on the old wards).
   const deaRows = readCsv(`${DERIVED}/ms-a01-dea.csv`);
+  /** @type {Map<string | undefined, string>} */
   const deaToLgd = new Map(deaRows.map((r) => [r.Geography, `N090000${r.GeographyCode.slice(5, 7)}`]));
   const saDea = new Map(readCsv(`${DERIVED}/sa2011_to_deas.csv`).map((r) => [r.SA2011, r.dea_2012]));
   const sa11 = readCsv(`${DERIVED}/census-2011-sa.csv`);
+  /** @type {Record<string, Accumulator>} */
   const acc11 = {};
   for (const r of sa11) {
     const lgd = deaToLgd.get(saDea.get(r.SA2011)); if (!lgd) continue;
@@ -693,6 +775,7 @@ async function buildComparisons() {
   // district it lies mostly in.
   const dzLgd93 = new Map(readCsv(`${DERIVED}/dz2021_to_lgd1993.csv`).map((r) => [r.DZ2021_cd, r.lgd1993]));
   const dzCommunity = new Map(readCsv(`${DERIVED}/dz21-community-2021.csv`).map((r) => [r.DZ21, r]));
+  /** @type {Record<string, Accumulator>} */
   const acc26 = {};
   for (const r of readCsv(`${DERIVED}/ms-a01-dz.csv`)) {
     const c = code26(dzLgd93.get(r.GeographyCode)); if (!c) continue;
@@ -734,6 +817,7 @@ async function buildDzSeries() {
   const comm = new Map(readCsv(`${DERIVED}/dz21-community-2021.csv`).map((r) => [r.DZ21, r]));
   const dzDea = new Map(readCsv(`${DERIVED}/dz2021_to_deas.csv`).map((r) => [r.DZ2021_cd, r.DEA2014_nm]));
   // 1971/1981 population apportioned from the 1972 wards by area.
+  /** @type {Map<string, number[]>} */
   const p7181 = new Map();
   for (const r of readCsv(`${DERIVED}/ward1972_to_dz2021_weights.csv`)) {
     const a = p7181.get(r.DZ2021_cd) || [0, 0];
@@ -742,6 +826,7 @@ async function buildDzSeries() {
   }
   // 2011 apportioned from Small Areas by the SA->DZ weights.
   const sa11 = new Map(readCsv(`${DERIVED}/census-2011-sa.csv`).map((r) => [r.SA2011, r]));
+  /** @type {Map<string, Accumulator>} */
   const e11 = new Map();
   for (const r of readCsv(`${DERIVED}/sa2011_to_dz2021_weights.csv`)) {
     const sa = sa11.get(r.SA2011); if (!sa) continue;
@@ -751,16 +836,20 @@ async function buildDzSeries() {
     e11.set(r.DZ2021_cd, a);
   }
   // 2021 shares from the flexible-table builder at Data Zone level.
+  /** @param {string} file @param {(c: number) => boolean} isNum @param {(c: number) => boolean} isDen */
   const ftbShare = async (file, isNum, isDen) => {
     const rows = parseCsv(await r2(`data/census/nisra-ftb/${file}`)).slice(1).filter((r) => r.length > 3);
+    /** @type {Map<string, number[]>} */
     const acc = new Map();
-    for (const r of rows) { const a = acc.get(r[0]) || [0, 0]; const c = num(r[2]); const v = num(r[4]) || 0; if (isNum(c)) a[0] += v; if (isDen(c)) a[1] += v; acc.set(r[0], a); }
+    // a blank code is null, which the tests compare as 0
+    for (const r of rows) { const a = acc.get(r[0]) || [0, 0]; const c = num(r[2]); const v = num(r[4]) || 0; if (isNum(/** @type {number} */ (c))) a[0] += v; if (isDen(/** @type {number} */ (c))) a[1] += v; acc.set(r[0], a); }
     return new Map([...acc].map(([k, [n, d]]) => [k, d ? (100 * n) / d : null]));
   };
   const car21 = await ftbShare('HOUSEHOLD__DZ21~HH_CAR_VAN_TC5.csv.gz', (c) => c === 0, (c) => c >= 0);
   const own21 = await ftbShare('HOUSEHOLD__DZ21~HH_TENURE_AGG7.csv.gz', (c) => c === 1 || c === 2, (c) => c >= 1);
   const soc21 = await ftbShare('HOUSEHOLD__DZ21~HH_TENURE_AGG7.csv.gz', (c) => c === 3 || c === 4, (c) => c >= 1);
   const iri21 = await ftbShare('PEOPLE__DZ21~IRISH_SKILLS_INTERMEDIATE.csv.gz', (c) => c >= 2 && c <= 4, (c) => c >= 1);
+  /** @type {Map<string | undefined, string>} */
   const deaToLgd = new Map(readCsv(`${DERIVED}/ms-a01-dea.csv`).map((r) => [r.Geography, `N090000${r.GeographyCode.slice(5, 7)}`]));
 
   const series = [
@@ -771,6 +860,7 @@ async function buildDzSeries() {
     { id: 'social_rented', label: 'Households socially rented', unit: 'pct', years: [1991, 2001, 2021], method: { 1991: 'ward', 2001: 'est-pop', 2021: 'actual' } },
     { id: 'irish', label: 'Speaks Irish (aged 3+)', unit: 'pct', years: [1991, 2001, 2021], method: { 1991: 'ward', 2001: 'est-pop', 2021: 'actual' } },
   ];
+  /** @type {Record<string, unknown[]>} */
   const rows = {};
   for (const [dz, [name, p21]] of pop21) {
     const t = ts.get(dz) || {}; const a = c01.get(dz) || {}; const b = c91.get(dz) || {}; const e = e11.get(dz); const p = p7181.get(dz);
@@ -811,6 +901,7 @@ const seriesById = Object.fromEntries(compare.niTotals.map((s) => [s.id, s]));
 
 const comparabilityByTopic = new Map((comparability.conceptGroups || []).map((g) => [g.topic, g]));
 const concepts = (ontology.concepts || []).map((c) => {
+  /** @type {Record<number, string[][]>} */
   const spec = CONCEPT_TABLES[c.id] || {};
   const digitalYearCells = [2001, 2011, 2021].map((year) => {
     const codes = (spec[year] || []).map(([code, role]) => ({ code, role: role || null, resolved: tableKey.has(`${code}@${year}`) }));
@@ -854,7 +945,7 @@ const bundle = {
   counts: {
     concepts: concepts.length,
     tables: tables.length,
-    tablesByYear: [2001, 2011, 2021].reduce((a, y) => { a[y] = tables.filter((t) => t.year === y).length; return a; }, {}),
+    tablesByYear: [2001, 2011, 2021].reduce((a, y) => { a[y] = tables.filter((t) => t.year === y).length; return a; }, /** @type {Record<number, number>} */ ({})),
     tablesWithData: tables.filter((t) => t.data).length,
     ftbTables: ftb.count,
     roiCubes: roi?.count ?? null,
