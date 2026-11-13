@@ -19,7 +19,7 @@
     "census/merge-pilot": { "proved": "rf9-ingest, with 25 records of the committed census-nisra-records.json given new ids (the committed file is merged already, so a run changes nothing) and `-- censusNisraOgl cat1-census-nisra-ogl`; the gate manifest and the shard it writes identical" },
     "census/nisra-publication-records": { "proved": "rf9-followups, from the NISRA publications harvest of 13 Nov 2026 (crawl-nisra-publications.mjs, 167 GETs, 3,293 publications; kept outside the repository); 1 file identical (3,003 records)" },
     "census/opendatani-records": { "proved": "odni-harvest, from the Open Data NI catalogue harvest of 13 Nov 2026 (harvest-opendatani-catalogue.mjs, 2 package_search GETs, 1,124 datasets; kept outside the repository); 1 file identical (50 records)" },
-    "census/nisra-files-enrich": { "blocked": "needs a NISRA publication-files manifest, the nisra-publication-files network step's output" },
+    "census/nisra-files-enrich": { "proved": "pubs-followups, from the NISRA publication-files crawl of 13 Nov 2026 (crawl-nisra-publication-files.mjs, 73 GETs for the 73 publications added on nisra-pubs; kept outside the repository); 1 file identical (sources-012.json)" },
     "census/opendatani-ia-enrich": { "blocked": "needs the Internet Archive mirror's mirrored.json, the network mirror step's output" },
     "datagovie/catalogue-records": { "proved": "odni-harvest, from the data.gov.ie catalogue harvest of 13 Nov 2026 (harvest-datagovie-catalogue.mjs, 23 package_search GETs, 22,963 datasets; kept outside the repository); 1 file identical (341 records)" },
     "dobih/assets": { "proved": "rf-ingest (79 files)" },
