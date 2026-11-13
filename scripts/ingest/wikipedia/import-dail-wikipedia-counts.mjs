@@ -5,6 +5,15 @@ import { fixText, normalizeName, parseNumber } from '../../../packages/core/src/
 import { RESULT } from '../../../packages/intake/src/item-status.mjs';
 import { crawlHeaders } from '../../../packages/config/src/node.mjs';
 
+/**
+ * A Dail contest file to find counts for: its date folder, file name and constituency.
+ * @typedef {{ date: string, file: string, constituency: string }} Target
+ * @typedef {{ title: string, pageid: number | null, url: string, wikitext: string | undefined }} WikiPage
+ * @typedef {{ error?: { info?: string, code?: string }, parse?: { title?: string, pageid?: number, wikitext?: { '*'?: string } } }} ParseResponse
+ * @typedef {ReturnType<typeof parseCandidateTemplate>} SectionCandidate
+ * @typedef {{ title: string, beginTitle: string, year: number | null, month: string | null, numCounts: number, candidates: SectionCandidate[] }} ElectionSection
+ */
+
 const ROOT = process.cwd();
 const DAIL_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections', 'dail-eireann');
 const OUT_ROOT = path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts');
@@ -120,11 +129,13 @@ async function main() {
   const pendingTargets = args.has('--force')
     ? limitedTargets
     : limitedTargets.filter((target) => !targetIsRepresented(target, noTransferRecords));
+  /** @type {Map<string, Target[]>} */
   const pages = new Map();
   for (const target of pendingTargets) {
     const title = wikipediaPageTitle(target.constituency, target.date);
     if (!pages.has(title)) pages.set(title, []);
-    pages.get(title).push(target);
+    // the key was set on the line before
+    /** @type {Target[]} */ (pages.get(title)).push(target);
   }
 
   const report = {
@@ -136,8 +147,8 @@ async function main() {
     pendingTargets: pendingTargets.length,
     pages: pages.size,
     written: 0,
-    unmatched: [],
-    errors: []
+    unmatched: /** @type {{ date: string, constituency: string, pageTitle: string, sectionTitle?: string, reason: string }[]} */ ([]),
+    errors: /** @type {{ title: string, error: string }[]} */ ([])
   };
 
   for (const [title, pageTargets] of pages) {
@@ -146,7 +157,8 @@ async function main() {
       page = await fetchWikipediaWikitext(wikipediaPageTitleCandidates(pageTargets[0]?.constituency || title, pageTargets[0]?.date));
       if (REQUEST_DELAY_MS > 0) await sleep(REQUEST_DELAY_MS);
     } catch (error) {
-      report.errors.push({ title, error: error.message });
+      // the fetch path throws Error objects
+      report.errors.push({ title, error: /** @type {Error} */ (error).message });
       continue;
     }
     if (!page?.wikitext) {
@@ -191,22 +203,27 @@ async function main() {
   }
 }
 
+/** @param {Target} target */
 function sidecarPathForTarget(target) {
   return path.join(OUT_ROOT, target.date, target.file);
 }
 
+/** @param {Target} target */
 function targetKey(target) {
   return `${target.date}/${target.file}`;
 }
 
+/** @param {Target} target @param {Map<string, unknown>} [noTransferRecords] */
 function targetIsRepresented(target, noTransferRecords = new Map()) {
   return existsSync(sidecarPathForTarget(target)) || noTransferRecords.has(targetKey(target));
 }
 
 function loadNoTransferRecords() {
   if (!existsSync(NO_TRANSFER_PATH)) return new Map();
+  /** @type {{ records?: { date?: string, file?: string }[] } | null} */
   const data = readJson(NO_TRANSFER_PATH);
   const records = Array.isArray(data?.records) ? data.records : [];
+  /** @type {Map<string, unknown>} */
   const map = new Map();
   for (const record of records) {
     if (record?.date && record?.file) map.set(`${record.date}/${record.file}`, record);
@@ -214,12 +231,14 @@ function loadNoTransferRecords() {
   return map;
 }
 
+/** @param {string} name */
 function valueAfter(name) {
   const index = process.argv.indexOf(name);
   return index >= 0 ? process.argv[index + 1] : null;
 }
 
 function loadTargets() {
+  /** @type {Target[]} */
   const targets = [];
   const dateDirs = readdirSync(DAIL_ROOT, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
@@ -229,6 +248,7 @@ function loadTargets() {
     if (onlyDate && date !== onlyDate) continue;
     const dir = path.join(DAIL_ROOT, date);
     for (const file of readdirSync(dir).filter((name) => name.endsWith('.json') && name !== '_index.json').sort()) {
+      /** @type {{ constituency?: string } | null} */
       const raw = readJson(path.join(dir, file));
       const constituency = fixText(raw?.constituency || file.replace(/\.json$/, '').replace(/-/g, ' '));
       if (onlyConstituency && normalizeName(constituency) !== normalizeName(onlyConstituency)) continue;
@@ -238,22 +258,26 @@ function loadTargets() {
   return targets;
 }
 
+/** @param {string} constituency @param {string} [date] */
 function wikipediaPageTitle(constituency, date = '') {
   return wikipediaPageTitleCandidates(constituency, date)[0];
 }
 
+/** @param {string} constituency @param {string} [date] */
 function wikipediaPageTitleCandidates(constituency, date = '') {
   const base = normalizeConstituencySourceName(constituency);
   const year = Number(String(date || '').slice(0, 4));
   const dateAwareAlias = normalizeName(base) === 'limerick' && year >= 2016 ? 'Limerick County' : '';
   const nonDailAlias = NON_DAIL_CONSTITUENCY_TITLE_ALIASES.get(normalizeName(base));
-  const aliases = [
+  // filter(Boolean) dropped the empty and missing aliases
+  const aliases = /** @type {string[]} */ ([
     dateAwareAlias,
     PAGE_TITLE_ALIASES.get(normalizeName(base)),
     hyphenateCompassTitle(base),
     hyphenateCountyPairTitle(base),
     base
-  ].filter(Boolean);
+  ].filter(Boolean));
+  /** @type {string[]} */
   const titleCandidates = [];
   if (nonDailAlias) {
     titleCandidates.push(`${nonDailAlias} (constituency)`);
@@ -266,6 +290,7 @@ function wikipediaPageTitleCandidates(constituency, date = '') {
   return unique(titleCandidates);
 }
 
+/** @param {string} value */
 function hyphenateCompassTitle(value) {
   return String(value || '')
     .replace(/\b(North|South|East|West|Mid) (Central|East|West|North|South)\b/gi, '$1-$2')
@@ -273,6 +298,7 @@ function hyphenateCompassTitle(value) {
     .trim();
 }
 
+/** @param {string} value */
 function normalizeConstituencySourceName(value) {
   return fixText(String(value || '')
     .replace(/^[^A-Za-z0-9]+/, '')
@@ -282,6 +308,7 @@ function normalizeConstituencySourceName(value) {
     .trim());
 }
 
+/** @param {string} value */
 function hyphenateCountyPairTitle(value) {
   const words = String(value || '').trim().split(/\s+/);
   if (words.length !== 2) return '';
@@ -289,20 +316,24 @@ function hyphenateCountyPairTitle(value) {
   return `${words[0]}-${words[1]}`;
 }
 
+/** @param {string | string[]} titleOrTitles @returns {Promise<WikiPage>} */
 async function fetchWikipediaWikitext(titleOrTitles) {
   const titles = Array.isArray(titleOrTitles) ? titleOrTitles : [titleOrTitles];
+  /** @type {unknown} */
   let lastError = null;
   for (const title of titles) {
     try {
       return await fetchSingleWikipediaWikitext(title);
     } catch (error) {
       lastError = error;
-      if (!/doesn't exist/i.test(error.message)) throw error;
+      // the fetch path throws Error objects
+      if (!/doesn't exist/i.test(/** @type {Error} */ (error).message)) throw error;
     }
   }
   throw lastError || new Error('No Wikipedia title candidates were supplied');
 }
 
+/** @param {string} title @returns {Promise<WikiPage>} */
 async function fetchSingleWikipediaWikitext(title) {
   const url = new URL(API_ENDPOINT);
   url.searchParams.set('action', 'parse');
@@ -320,8 +351,10 @@ async function fetchSingleWikipediaWikitext(title) {
     const delay = retryAfter > 0 ? retryAfter * 1000 : RETRY_DELAYS_MS[attempt] || RETRY_DELAYS_MS[RETRY_DELAYS_MS.length - 1];
     await sleep(delay);
   }
-  if (!response.ok) throw new Error(`Wikipedia API ${response.status}`);
-  const json = await response.json();
+  // the loop runs at least once (attempt 0), so a response is set
+  if (!/** @type {Response} */ (response).ok) throw new Error(`Wikipedia API ${/** @type {Response} */ (response).status}`);
+  // the parse API's JSON
+  const json = /** @type {ParseResponse} */ (await /** @type {Response} */ (response).json());
   if (json.error) throw new Error(json.error.info || json.error.code || 'Wikipedia API error');
   const wikitext = json.parse?.wikitext?.['*'];
   return {
@@ -332,16 +365,20 @@ async function fetchSingleWikipediaWikitext(title) {
   };
 }
 
+/** @template T @param {Iterable<T>} values @returns {T[]} */
 function unique(values) {
   return [...new Set(values)];
 }
 
+/** @param {number} ms @returns {Promise<void>} */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/** @param {string} wikitext @returns {ElectionSection[]} */
 function parseElectionSections(wikitext) {
   const headings = [...wikitext.matchAll(/^={3,}\s*([^=\n]+?)\s*=+\s*$/gm)];
+  /** @type {ElectionSection[]} */
   const sections = [];
   for (let index = 0; index < headings.length; index += 1) {
     const heading = headings[index];
@@ -369,11 +406,13 @@ function parseElectionSections(wikitext) {
   return sections;
 }
 
+/** @param {string} block */
 function inferNumCounts(block) {
   const matches = [...block.matchAll(/\|\s*count(\d+)\s*=/gi)].map((match) => Number(match[1])).filter(Number.isFinite);
   return Math.max(1, ...matches);
 }
 
+/** @param {ElectionSection[]} sections @param {string} date */
 function matchSection(sections, date) {
   const year = Number(String(date).slice(0, 4));
   const month = MONTHS[Number(String(date).slice(5, 7)) - 1] || '';
@@ -387,9 +426,12 @@ function matchSection(sections, date) {
   return monthMatch || candidates.find((section) => !section.month) || null;
 }
 
+/** @param {string} source @param {number} index @param {number} numCounts */
 function parseCandidateTemplate(source, index, numCounts) {
   const fields = parseTemplateFields(source);
+  /** @type {(number | null)[]} */
   const counts = [];
+  /** @type {string[]} */
   const countRaw = [];
   for (let count = 1; count <= numCounts; count += 1) {
     const raw = fields.get(`count${count}`) || '';
@@ -410,6 +452,7 @@ function parseCandidateTemplate(source, index, numCounts) {
   };
 }
 
+/** @param {Target} target @param {WikiPage} page @param {ElectionSection} section */
 function buildSidecar(target, page, section) {
   return {
     schemaVersion: 1,
@@ -426,7 +469,9 @@ function buildSidecar(target, page, section) {
   };
 }
 
+/** @param {string} text @param {string} prefix */
 function extractTemplates(text, prefix) {
+  /** @type {{ name: string, source: string }[]} */
   const templates = [];
   let index = 0;
   while (index < text.length) {
@@ -460,14 +505,17 @@ function extractTemplates(text, prefix) {
   return templates;
 }
 
+/** @param {string} source */
 function templateName(source) {
   const inner = source.replace(/^\{\{/, '').replace(/\}\}$/, '');
   return inner.split('|')[0].trim();
 }
 
+/** @param {string} source */
 function parseTemplateFields(source) {
   const inner = source.replace(/^\{\{/, '').replace(/\}\}$/, '');
   const parts = splitWikitextTemplate(inner);
+  /** @type {Map<string, string>} */
   const fields = new Map();
   for (const part of parts.slice(1)) {
     const equals = topLevelEqualsIndex(part);
@@ -479,7 +527,9 @@ function parseTemplateFields(source) {
   return fields;
 }
 
+/** @param {string} text */
 function splitWikitextTemplate(text) {
+  /** @type {string[]} */
   const parts = [];
   let current = '';
   let braceDepth = 0;
@@ -522,6 +572,7 @@ function splitWikitextTemplate(text) {
   return parts;
 }
 
+/** @param {string} text */
 function topLevelEqualsIndex(text) {
   let braceDepth = 0;
   let linkDepth = 0;
@@ -553,6 +604,7 @@ function topLevelEqualsIndex(text) {
   return -1;
 }
 
+/** @param {unknown} value */
 function cleanWikitext(value) {
   return fixText(String(value ?? '')
     .replace(/<ref\b[^/>]*\/>/gi, ' ')
@@ -574,22 +626,26 @@ function cleanWikitext(value) {
     .trim());
 }
 
+/** @param {string} value */
 function parseCountValue(value) {
   const text = cleanWikitext(value);
   if (!text || /^[-\u2013\u2014]$/.test(text)) return null;
   return parseNumber(text);
 }
 
+/** @param {string} value */
 function extractYear(value) {
   const match = String(value || '').match(/\b(18|19|20)\d{2}\b/);
   return match ? Number(match[0]) : null;
 }
 
+/** @param {string} value */
 function extractMonth(value) {
   const text = normalizeName(value);
   return MONTHS.find((month) => text.includes(month)) || null;
 }
 
+/** @param {unknown[]} values */
 function lastNonNullIndex(values) {
   for (let index = values.length - 1; index >= 0; index -= 1) {
     if (values[index] !== null && values[index] !== undefined) return index;
@@ -597,10 +653,12 @@ function lastNonNullIndex(values) {
   return -1;
 }
 
+/** @param {string} file */
 function readJson(file) {
   return JSON.parse(readFileSync(file, 'utf8'));
 }
 
+/** @param {string} file @param {unknown} data */
 function writeJson(file, data) {
   writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`);
 }
