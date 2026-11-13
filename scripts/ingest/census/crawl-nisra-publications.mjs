@@ -16,30 +16,15 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { crawlHeaders } from '../../../packages/config/src/node.mjs';
+import { CrawlRefused, isRefusal, looksLikeChallenge } from '../../../packages/intake/src/crawl-guard.mjs';
+
+export { CrawlRefused, looksLikeChallenge };
 
 export const BASE = 'https://www.nisra.gov.uk/publications';
 export const MIN_DELAY_MS = 1500;
 export const DEFAULT_DELAY_MS = 2000;
 const ATTEMPTS = 4;
 const TIMEOUT_MS = 40_000;
-
-/** A response the crawl must stop on: refused, rate-limited or challenged. */
-export class CrawlRefused extends Error {
-  /** @param {string} message @param {number} status @param {string} url */
-  constructor(message, status, url) {
-    super(message);
-    this.name = 'CrawlRefused';
-    this.status = status;
-    this.url = url;
-  }
-}
-
-const CHALLENGE_RE = /cf-chl|challenge-platform|g-recaptcha|h-captcha|hcaptcha|<title>\s*(?:just a moment|attention required)/i;
-
-/** @param {string} html */
-export function looksLikeChallenge(html) {
-  return CHALLENGE_RE.test(html);
-}
 
 /** @param {string} s */
 const decode = (s) => s.replace(/&amp;/g, '&').replace(/&#039;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
@@ -88,7 +73,7 @@ export async function crawl({ maxPage = 200, delayMs = DEFAULT_DELAY_MS, base = 
           redirect: 'follow',
           signal: AbortSignal.timeout(TIMEOUT_MS),
         });
-        if (res.status === 403 || res.status === 429) throw new CrawlRefused(`HTTP ${res.status}`, res.status, url);
+        if (isRefusal(res.status)) throw new CrawlRefused(`HTTP ${res.status}`, res.status, url);
         const html = await res.text();
         if (looksLikeChallenge(html)) throw new CrawlRefused('bot challenge or CAPTCHA in the answer', res.status, url);
         if (res.ok) return html;
