@@ -91,9 +91,7 @@
  *   node scripts/publish/r2-cache-control.mjs --ext png --apply      # widen if wanted
  *   node scripts/publish/r2-cache-control.mjs --ext '*' --apply      # everything
  */
-import {
-  S3Client, ListObjectsV2Command, HeadObjectCommand, CopyObjectCommand,
-} from '@aws-sdk/client-s3';
+import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
@@ -146,25 +144,8 @@ const R2_BUCKET = R2.bucket;
 // publish" is a property of today's code and the check costs nothing.
 assertPublishable([PREFIX]);
 
-const s3 = new S3Client(s3ClientOptions(R2, { maxAttempts: 5 }));
-
-/** @typedef {import('@aws-sdk/client-s3')._Object & { Key: string, Size: number }} ListedObject  a listed object always has its Key and Size */
-
-/**
- * @param {string} prefix
- * @returns {AsyncGenerator<ListedObject>}
- */
-async function* listAll(prefix) {
-  /** @type {string | undefined} */
-  let token;
-  do {
-    const page = await s3.send(new ListObjectsV2Command({
-      Bucket: R2_BUCKET, Prefix: prefix, ContinuationToken: token, MaxKeys: 1000,
-    }));
-    for (const obj of page.Contents || []) yield /** @type {ListedObject} */ (obj);
-    token = page.IsTruncated ? page.NextContinuationToken : undefined;
-  } while (token);
-}
+// The listing, HEADs and copies go through the S3 blob store (packages/storage/src/s3.mjs).
+const store = await openS3BlobStore({ bucket: R2_BUCKET, clientOptions: s3ClientOptions(R2, { maxAttempts: 5 }) });
 
 const stats = { listed: 0, considered: 0, alreadySet: 0, updated: 0, tooLarge: 0, failed: 0 };
 /** @type {Map<string, number>} out-of-scope extension -> objects */
@@ -177,28 +158,30 @@ console.log(`  value      : ${CACHE_CONTROL}`);
 console.log(`  extensions : ${EXTENSIONS ? [...EXTENSIONS].join(', ') : 'ALL'}\n`);
 
 /**
- * @param {ListedObject} obj
+ * @param {import('../../packages/storage/src/blob.js').BlobEntry} obj
  */
 async function handle(obj) {
   let head;
   try {
-    head = await s3.send(new HeadObjectCommand({ Bucket: R2_BUCKET, Key: obj.Key }));
+    // Any failure, a 404 included, is this object's problem (missing: 'throw'), so head is never null.
+    head = /** @type {import('../../packages/storage/src/s3.mjs').S3Head} */ (await store.head(obj.key, { missing: 'throw' }));
   } catch (error) {
     stats.failed += 1;
-    problems.push(`${obj.Key}: HEAD failed (${/** @type {Error} */ (error).name})`);
+    problems.push(`${obj.key}: HEAD failed (${/** @type {Error} */ (error).name})`);
     return;
   }
 
-  if (head.CacheControl === CACHE_CONTROL) { stats.alreadySet += 1; return; }
-  if ((obj.Size || 0) > MAX_COPY_BYTES) {
+  if (head.cacheControl === CACHE_CONTROL) { stats.alreadySet += 1; return; }
+  const size = obj.size || 0;
+  if (size > MAX_COPY_BYTES) {
     stats.tooLarge += 1;
-    problems.push(`${obj.Key}: ${(obj.Size / 1e9).toFixed(1)} GB, too large for a simple copy`);
+    problems.push(`${obj.key}: ${(size / 1e9).toFixed(1)} GB, too large for a simple copy`);
     return;
   }
 
   if (!APPLY) {
     stats.updated += 1;
-    if (stats.updated <= 8) console.log(`  would set: ${obj.Key}  (currently ${head.CacheControl || 'ABSENT'})`);
+    if (stats.updated <= 8) console.log(`  would set: ${obj.key}  (currently ${head.cacheControl || 'ABSENT'})`);
     return;
   }
 
@@ -207,29 +190,26 @@ async function handle(obj) {
     // Content-Encoding and any custom metadata are carried across explicitly.
     // Losing the Content-Encoding on a .br sibling would be a worse bug than
     // the one being fixed -- the browser would be handed brotli as plain bytes.
-    await s3.send(new CopyObjectCommand({
-      Bucket: R2_BUCKET,
-      Key: obj.Key,
-      CopySource: `${R2_BUCKET}/${encodeURIComponent(obj.Key).replace(/%2F/g, '/')}`,
-      MetadataDirective: 'REPLACE',
-      CacheControl: CACHE_CONTROL,
-      ContentType: head.ContentType || 'application/octet-stream',
-      ...(head.ContentEncoding ? { ContentEncoding: head.ContentEncoding } : {}),
-      ...(head.Metadata && Object.keys(head.Metadata).length ? { Metadata: head.Metadata } : {}),
-    }));
+    await store.copy(obj.key, obj.key, {
+      metadataDirective: 'REPLACE',
+      cacheControl: CACHE_CONTROL,
+      contentType: head.contentType || 'application/octet-stream',
+      ...(head.contentEncoding ? { contentEncoding: head.contentEncoding } : {}),
+      ...(head.metadata && Object.keys(head.metadata).length ? { metadata: head.metadata } : {}),
+    });
     stats.updated += 1;
     if (stats.updated % 500 === 0) console.log(`  ${stats.updated} updated...`);
   } catch (error) {
     stats.failed += 1;
-    problems.push(`${obj.Key}: copy failed (${/** @type {Error} */ (error).name}: ${/** @type {Error} */ (error).message})`);
+    problems.push(`${obj.key}: copy failed (${/** @type {Error} */ (error).name}: ${/** @type {Error} */ (error).message})`);
   }
 }
 
 /** @type {Promise<void>[]} */
 let inFlight = [];
-for await (const obj of listAll(PREFIX)) {
+for await (const obj of store.listAll({ prefix: PREFIX, limit: 1000 })) {
   stats.listed += 1;
-  const ext = extensionOf(obj.Key);
+  const ext = extensionOf(obj.key);
   const outOfScope = (EXTENSIONS && !EXTENSIONS.has(ext)) || EXCLUDED.has(ext);
   if (outOfScope) {
     skippedByExt.set(ext || '(none)', (skippedByExt.get(ext || '(none)') || 0) + 1);
