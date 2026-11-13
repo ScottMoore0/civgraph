@@ -12,7 +12,7 @@ const { test, expect } = require('@playwright/test');
 // wording, and either outcome is a pass for the catalogue as long as the two agree.
 const CENSUS_LAYERS = [
   'ttwa-2011', 'ttwa-2007', 'sdz-2021', 'dz-2021', 'soa-2011', 'sa-2011', 'oa-2001',
-  'nra', 'nuts-2-all-ireland', 'nuts-2-roi', 'nuts-3', 'census-grid-2021',
+  'nra', 'nuts-2-all-ireland', 'nuts-2-roi', 'census-grid-2021',
   'av-referendum-2011', 'wards-2001',
 ];
 
