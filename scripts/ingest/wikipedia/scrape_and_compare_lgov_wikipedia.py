@@ -85,13 +85,12 @@ LGOV_CODE_TO_COUNCIL = {
     "STR": "Strabane District Council",
 }
 
-USER_AGENT = "civgraph/1.0 (Wikipedia LGOV comparison)"
 REQUEST_DELAY_SECONDS = 0.6
 RETRY_DELAYS = [5, 10, 20, 40]
 
 
 def fetch_json(url: str) -> dict:
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    req = urllib.request.Request(url)
     last_error: Exception | None = None
     for attempt, delay in enumerate([0, *RETRY_DELAYS]):
         if delay:
@@ -112,7 +111,7 @@ def fetch_json(url: str) -> dict:
 
 
 def fetch_text(url: str) -> str:
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    req = urllib.request.Request(url)
     last_error: Exception | None = None
     for attempt, delay in enumerate([0, *RETRY_DELAYS]):
         if delay:

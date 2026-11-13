@@ -19,7 +19,6 @@ from pathlib import Path
 
 import pymupdf
 
-UA = 'civgraph-research (+https://civgraph.net)'
 URL = 'https://www.thegazette.co.uk/Belfast/issue/{n}/data.pdf'
 MONTHS = 'JANUARY FEBRUARY MARCH APRIL MAY JUNE JULY AUGUST SEPTEMBER OCTOBER NOVEMBER DECEMBER'.split()
 DATE_WORDS = re.compile(r'(\d{1,2})\s*(?:st|nd|rd|th|ra|ST|ND|RD|TH)?[\s.,]*(' + '|'.join(MONTHS) + r')[\s.,]*(1[89]\d\d|20\d\d)', re.I)
@@ -66,7 +65,7 @@ def issue_date(first_page):
 
 def fetch(n):
     """(http status, bytes) for one issue; raises on a network failure after retries."""
-    req = urllib.request.Request(URL.format(n=n), headers={'User-Agent': UA})
+    req = urllib.request.Request(URL.format(n=n))
     for attempt in range(4):
         try:
             with urllib.request.urlopen(req, timeout=120) as resp:

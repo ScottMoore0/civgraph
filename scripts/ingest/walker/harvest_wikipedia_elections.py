@@ -33,7 +33,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from wiki_tables import parse_article  # noqa: E402
 
 API = 'https://en.wikipedia.org/w/api.php'
-UA = {'User-Agent': 'civgraph-election-research/1.0 (https://civgraph.net)'}
 CATEGORIES = [
     'Category:General elections in Ireland to the Parliament of the United Kingdom',
     'Category:General elections in Northern Ireland to the Parliament of the United Kingdom',
@@ -45,7 +44,7 @@ def api(**params):
     params.setdefault('format', 'json')
     params.setdefault('formatversion', 2)
     url = f'{API}?{urllib.parse.urlencode(params)}'
-    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60) as fh:
+    with urllib.request.urlopen(urllib.request.Request(url), timeout=60) as fh:
         return json.load(fh)
 
 

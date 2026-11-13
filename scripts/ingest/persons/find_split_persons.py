@@ -50,7 +50,6 @@ CACHE = os.path.join(REPO, '.cache', 'wikipedia-persons')
 
 # ---- Wikipedia ------------------------------------------------------------------------------
 
-UA = 'civgraph-person-dedupe/1.0 (https://civgraph.net; research)'
 API = 'https://en.wikipedia.org/w/api.php'
 _last = [0.0]
 
@@ -67,7 +66,7 @@ def api(params):
             time.sleep(wait)
         _last[0] = time.time()
         try:
-            req = urllib.request.Request(API + '?' + urllib.parse.urlencode(params), headers={'User-Agent': UA})
+            req = urllib.request.Request(API + '?' + urllib.parse.urlencode(params))
             data = json.load(urllib.request.urlopen(req, timeout=60))
         except Exception:
             time.sleep(2 + attempt * 3)

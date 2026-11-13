@@ -10,10 +10,9 @@ from bs4 import BeautifulSoup
 
 BASE = 'https://electionsireland.org'
 WAYBACK = 'https://web.archive.org/web/2024/'
-HEADERS = {'User-Agent': 'civgraph.net (NI/ROI civic-data project)'}
 OUT = Path(r'data/elections-source/data/elections/dail-eireann')
 OUT.mkdir(parents=True, exist_ok=True)
-c = httpx.Client(headers=HEADERS, timeout=60.0, follow_redirects=True)
+c = httpx.Client(timeout=60.0, follow_redirects=True)
 
 # Dáil number → year mapping for recent ones
 DAIL_NUMS = [(28, 1997), (29, 2002), (30, 2007), (31, 2011), (32, 2016), (33, 2020), (34, 2024)]

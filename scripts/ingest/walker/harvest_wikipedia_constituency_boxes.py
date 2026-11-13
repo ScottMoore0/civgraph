@@ -24,7 +24,6 @@ import requests
 from bs4 import BeautifulSoup
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
-UA = {'User-Agent': 'civgraph-election-research/1.0 (https://civgraph.net)'}
 MONTHS = {m: i + 1 for i, m in enumerate(['january', 'february', 'march', 'april', 'may', 'june', 'july',
                                           'august', 'september', 'october', 'november', 'december'])}
 NUM = re.compile(r'^[\d,]+$')
@@ -36,7 +35,7 @@ def fetch(title, cache):
         return open(path, encoding='utf-8').read()
     url = 'https://en.wikipedia.org/api/rest_v1/page/html/' + requests.utils.quote(title.replace(' ', '_'), safe='')
     for attempt in range(3):
-        r = requests.get(url, headers=UA, timeout=60)
+        r = requests.get(url, timeout=60)
         if r.status_code == 200:
             os.makedirs(cache, exist_ok=True)
             open(path, 'w', encoding='utf-8').write(r.text)
@@ -54,7 +53,7 @@ def resolve_redirects(titles, cache):
     todo = sorted({t for t in titles if t and t not in known})
     for i in range(0, len(todo), 50):
         batch = todo[i:i + 50]
-        r = requests.get('https://en.wikipedia.org/w/api.php', headers=UA, timeout=60, params={
+        r = requests.get('https://en.wikipedia.org/w/api.php', timeout=60, params={
             'action': 'query', 'titles': '|'.join(batch), 'redirects': 1, 'format': 'json', 'formatversion': 2})
         r.raise_for_status()
         q = r.json()['query']

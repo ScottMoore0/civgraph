@@ -11,9 +11,9 @@ $ErrorActionPreference = 'Stop'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 $Base = 'https://apps.proni.gov.uk/eCatNI_IE/'
-$Ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/148 Safari/537.36'
+# No User-Agent of ours and no browser's (owner rule, 13 Nov 2026): Invoke-WebRequest sends
+# its own default.
 $Headers = @{
-  'User-Agent' = $Ua
   'Accept' = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
   'Accept-Language' = 'en-US,en;q=0.9,en-GB;q=0.8'
 }
@@ -248,7 +248,7 @@ foreach ($row in ($leafRows | Select-Object -First ([Math]::Min(5, $leafRows.Cou
 
 $nodeProbe = $null
 try {
-  $nodeProbe = node -e "fetch('https://apps.proni.gov.uk/eCatNI_IE/SearchPage.aspx',{headers:{'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/148 Safari/537.36','Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8','Accept-Language':'en-US,en;q=0.9,en-GB;q=0.8'}}).then(async r=>{const t=await r.text(); console.log(JSON.stringify({ok:r.ok,status:r.status,blocked:/Request Rejected|support ID|Access Denied/.test(t),bytes:t.length,title:(t.match(/<title[^>]*>([^<]*)/i)||[])[1]||''}))}).catch(e=>{console.log(JSON.stringify({ok:false,error:String(e)}))})" 2>$null
+  $nodeProbe = node -e "fetch('https://apps.proni.gov.uk/eCatNI_IE/SearchPage.aspx',{headers:{'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8','Accept-Language':'en-US,en;q=0.9,en-GB;q=0.8'}}).then(async r=>{const t=await r.text(); console.log(JSON.stringify({ok:r.ok,status:r.status,blocked:/Request Rejected|support ID|Access Denied/.test(t),bytes:t.length,title:(t.match(/<title[^>]*>([^<]*)/i)||[])[1]||''}))}).catch(e=>{console.log(JSON.stringify({ok:false,error:String(e)}))})" 2>$null
 } catch {
   $nodeProbe = (@{ ok=$false; error=$_.Exception.Message } | ConvertTo-Json -Compress)
 }

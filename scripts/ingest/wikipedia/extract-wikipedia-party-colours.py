@@ -18,7 +18,6 @@ EXPECTED_COLUMNS = [
     "Contrast unvisited link",
     "Contrast visited link",
 ]
-USER_AGENT = "Mozilla/5.0 (compatible; CivgraphDataExtraction/1.0)"
 OUT_DIR = Path("tasks")
 CSV_PATH = OUT_DIR / "wikipedia_political_party_colours.csv"
 REQUESTED_COLUMNS_CSV_PATH = OUT_DIR / "wikipedia_political_party_colours_requested_columns.csv"
@@ -27,7 +26,7 @@ META_PATH = OUT_DIR / "wikipedia_political_party_colours_metadata.json"
 
 
 def fetch_html(url: str) -> bytes:
-    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    request = urllib.request.Request(url)
     with urllib.request.urlopen(request, timeout=30) as response:
         return response.read()
 

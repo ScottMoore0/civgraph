@@ -67,7 +67,7 @@ def download(url, out_path):
     time.sleep(DELAY)
     try:
         data = urllib.request.urlopen(
-            urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"}),
+            urllib.request.Request(url),
             timeout=15,
         ).read()
         if len(data) > 2000 and (data[:5] == b"%PDF-" or data[:2] == b"PK"):
@@ -81,7 +81,7 @@ def download(url, out_path):
     try:
         archive_url = f"https://web.archive.org/web/2023id_/{url}"
         data = urllib.request.urlopen(
-            urllib.request.Request(archive_url, headers={"User-Agent": "Mozilla/5.0"}),
+            urllib.request.Request(archive_url),
             timeout=30,
         ).read()
         if len(data) > 2000 and (data[:5] == b"%PDF-" or data[:2] == b"PK"):

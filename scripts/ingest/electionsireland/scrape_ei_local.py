@@ -6,10 +6,9 @@ from bs4 import BeautifulSoup
 
 BASE = 'https://electionsireland.org'
 WAYBACK = 'https://web.archive.org/web/2024/'
-HEADERS = {'User-Agent': 'civgraph.net (NI/ROI civic-data project)'}
 OUT = Path(r'data/elections-source/data/elections/ireland-local')
 OUT.mkdir(parents=True, exist_ok=True)
-c = httpx.Client(headers=HEADERS, timeout=60.0, follow_redirects=True)
+c = httpx.Client(timeout=60.0, follow_redirects=True)
 
 LOCAL_YEARS = [2024, 2019, 2014, 2009, 2004, 1999, 1991, 1985, 1979, 1974]
 

@@ -27,7 +27,6 @@ CACHE = REPO / "_tmp_stormont" / "pages"
 CACHE.mkdir(parents=True, exist_ok=True)
 OUT_BASE = REPO / "data/elections-source" / "data" / "elections" / "parliament-of-northern-ireland"
 
-UA = "Mozilla/5.0 civgraph-scraper (scomoni@gmail.com) - historical NI election archive"
 
 # Wikipedia's comprehensive list — gives us (year, constituency) -> exact date
 # for every Stormont by-election. Used to resolve year-only by-election titles
@@ -95,7 +94,7 @@ def fetch(url: str, cache_key: str) -> str:
     p = CACHE / f"{cache_key}.html"
     if p.exists() and p.stat().st_size > 5000:
         return p.read_text(encoding="utf-8")
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    req = urllib.request.Request(url)
     try:
         with urllib.request.urlopen(req, timeout=20) as r:
             data = r.read().decode("utf-8")
