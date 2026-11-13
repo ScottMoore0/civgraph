@@ -97,11 +97,11 @@ class UIController {
     // The constructor sets both through these setters before anything reads them.
     get currentStateId() { return /** @type {string} */ (this._splitLayout); }
     /** @param {string} value */
-    set currentStateId(value) { /** @type {string} */ this._splitLayout = SPLIT_LAYOUT.check(value); }
+    set currentStateId(value) { this._splitLayout = SPLIT_LAYOUT.check(value); }
     /** @returns {string} */
     get catalogueView() { return /** @type {string} */ (this._catalogueViewValue); }
     /** @param {string} value */
-    set catalogueView(value) { /** @type {string} */ this._catalogueViewValue = CATALOGUE_VIEW.check(value); }
+    set catalogueView(value) { this._catalogueViewValue = CATALOGUE_VIEW.check(value); }
     get _mobileCatalogueExpanded() { return this.mobileCatalogueExpandedFlag.on; }
     set _mobileCatalogueExpanded(value) { this.mobileCatalogueExpandedFlag.set(value); }
     get _flatRenderScheduled() { return this.flatRenderScheduledFlag.on; }
