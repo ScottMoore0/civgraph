@@ -17,7 +17,7 @@
  *
  * The words are English and keyed for translation in data/i18n/strings/elections.txt (R10: the
  * language runtime translates each note by its wording, so a note is one text node, a sentence a
- * node). Pure (no DOM): tests/unit/elections-app-limits.test.mjs.
+ * node). Pure (no DOM), with a unit test of its own (elections-app-limits).
  */
 import { NO_PARTY_RECORDED } from '../../../pkg/core/src/election-domain.mjs';
 import { votingSystemsWithTransfers } from '../../../pkg/registries/src/browser/election-type-names.mjs';
