@@ -33,21 +33,106 @@ import { openSqliteHandle } from '../../../packages/storage/src/sqlite.mjs';
 import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../../../packages/loader/src/paths.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../packages/map/src/ni-local-groups.mjs';
 
+/** @typedef {import('./records.mjs').PartLink} PartLink */
+/**
+ * A record as records.mjs loads it, with the fields this build reads given their maps.json shapes.
+ * @typedef {import('./records.mjs').CatalogueRecord & {
+ *   date?: unknown, dateEffective?: unknown, dateKind?: string, dateNote?: unknown, geography?: string, bounds?: unknown,
+ *   cloneOf?: string, parentId?: string, aliasOf?: string, variants?: { id: string }[], placeholder?: unknown, csv?: unknown,
+ *   incomplete?: unknown, provider?: unknown, licence?: string, license?: string, featureUnit?: string, featureCount?: number,
+ *   description?: unknown, changeNote?: unknown, boundaryOrders?: { divisions?: unknown, made?: unknown, purposes?: unknown }[],
+ *   boundaryOrdersSource?: unknown, files?: { fgb?: unknown }, sourceDownloads?: unknown[], keywords?: string[],
+ *   style?: { color?: string, fillColor?: string }
+ * }} MapRecord
+ */
+/** @typedef {{ id: string, name: string, blurb?: string, subjects: string[] }} SourceShelf */
+/** @typedef {{ id: string, name: string, kind?: string, seriesKind?: string, series?: string[], toBeAdded?: string[] }} SourceSubject */
+/**
+ * A series as the curator writes it in catalogue.source.json.
+ * @typedef {{
+ *   id: string, name: string, subject: string, scope?: string, arrangement: string, kind?: string, members: string[],
+ *   toBeAdded?: string[], local?: string[], undated?: boolean, variantOf?: Record<string, string>,
+ *   moreYears?: Record<string, number[]>, localOf?: Record<string, string>, countiesFrom?: Record<string, string>,
+ *   versionLabels?: Record<string, string>, labels?: Record<string, string>, notes?: Record<string, string>,
+ *   units?: Record<string, string>, unit?: string, unitFromLabel?: boolean, aliases?: string[], description?: string
+ * }} SourceSeries
+ */
+/**
+ * @typedef {{
+ *   shelves: SourceShelf[], subjects: SourceSubject[], series: SourceSeries[],
+ *   hidden?: { id: string, why?: string, to?: string, route?: string }[], electionsHidden?: string[]
+ * }} CatalogueSource
+ */
+/** @typedef {{ id: string, label: string }} Labelled */
+/**
+ * A map as catalogue.json carries it.
+ * @typedef {{
+ *   name?: string, date: string, status: string, dateAsAt?: boolean, dateNote?: string, provider?: string[], thumb?: string,
+ *   bounds?: number[], features?: number, geometry?: string, description?: string, note?: string,
+ *   orders?: { divisions?: unknown, made?: unknown, purposes?: unknown }[], ordersSource?: unknown, licence?: string,
+ *   download?: boolean, kind?: string, keywords?: string[], color?: string, parts?: Labelled[], years?: number[],
+ *   counties?: Labelled[], unit?: string
+ * }} MapOut
+ */
+/** @typedef {{ id: string, label: string, of?: string, version?: string }} Member */
+/**
+ * A series as catalogue.json carries it.
+ * @typedef {{
+ *   id: string, slug: string, name: string, subject: string, shelf: string | undefined, scope: string, arrangement: string,
+ *   kind: string, members: Member[], todo?: Labelled[], local?: (Labelled & { of?: string })[], years?: number[],
+ *   thumb?: string, color?: string, provider?: string[], status?: Record<string, number>, aliases?: string[],
+ *   description?: string, about?: unknown
+ * }} SeriesOut
+ */
+/**
+ * An election in the manifest (every one has a string key and bodySlug).
+ * @typedef {import('../../../packages/core/src/election-view-model.mjs').ElectionRecord & {
+ *   key: string, bodySlug: string, bodyType?: string, date?: string, isByElection?: boolean, kind?: string,
+ *   totalConstituencies?: number, constituencies?: string[], layerId?: string, sourceMapId?: string,
+ *   placeholder?: boolean, loadable?: boolean, displaySubtitle?: string
+ * }} ManifestElection
+ */
+/**
+ * An election as catalogue.json carries it.
+ * @typedef {{
+ *   key: string, title: string, body?: string, bodySlug: string, date?: string, kind: string, seats: number,
+ *   subtitle?: string, scope?: string, thumb?: string, thumbBorrowed?: boolean, contestType?: string, layerId?: string,
+ *   sourceMapId?: string, bodyGroup?: string | null, mapless?: boolean, about?: unknown
+ * }} ElectionOut
+ */
+/**
+ * A person card (records database or Browse person shards), the fields people.json takes from it.
+ * @typedef {{
+ *   id: string | number, name: string, slug?: string, firstYear?: number, lastYear?: number,
+ *   parties?: { name?: string }[], constituencies?: { name?: string }[], names?: { name?: string }[],
+ *   totals?: { stood?: number, elected?: number },
+ *   elections?: { key: string, constituency?: string, elected?: boolean, party?: string }[]
+ * }} PersonCard
+ */
+/** @typedef {(string | number | undefined | (string | undefined)[] | (number | undefined)[][])[]} PersonRow */
+/** @typedef {{ series?: string, map?: string, todo?: boolean, route?: string }} MapLink */
+
 const ROOT = process.cwd();
 const ELECTION_BODIES = loadRegistry('election-bodies');
-const rel = (p) => path.resolve(ROOT, p);
-const read = (p) => JSON.parse(readFileSync(rel(p), 'utf8'));
+const rel = (/** @type {string} */ p) => path.resolve(ROOT, p);
+const read = (/** @type {string} */ p) => JSON.parse(readFileSync(rel(p), 'utf8'));
 const CHECK = process.argv.includes('--check');
 
+/** @type {CatalogueSource} */
 const source = read('data/catalogue/catalogue.source.json');
 // What a row or an election is, in a few sentences with their links (Phelim Birch's
 // descriptions document): shown when it is opened, on a map's Details page and on Browse.
+/** @type {{ rows?: Record<string, unknown>, elections?: Record<string, unknown> }} */
 const descriptions = read('data/catalogue/descriptions.json');
 // Maps kept out of the pane on purpose, each with its reason; their parts may be placed instead.
 const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
+/** @type {{ records: Map<string, MapRecord>, parts: Map<string, PartLink[]> }} */
 const { records: mapById, parts: partsOf } = loadRecords(ROOT);
+/** @type {{ id: string, sourceMapId?: string, bounds?: unknown, geometryType?: string }[]} */
 const layerIndex = read('render/metadata/maps-test-index.json').layers || [];
+/** @type {Set<string>} */
 const thumbs = new Set(read('site/assets/thumbnails/manifest.json'));
+/** @type {{ features?: { name?: unknown, mapId?: string, bbox?: unknown }[] }} */
 const spatial = read('data/database/spatial-index.json');
 // A party's own ballots (bodyType "party-internal": leadership and nomination contests) have no
 // map and no shelf here; Browse shows them on the election and party pages (docs/facts-model.md).
@@ -55,23 +140,30 @@ const spatial = read('data/database/spatial-index.json');
 // presidential years with no popular vote, Phelim Birch's review of 11 Nov 2026). Their maps stay
 // listed as boundaries, and Browse still has their pages.
 const electionsHidden = new Set(source.electionsHidden || []);
-const elections = (read(ELECTION_MANIFEST).elections || []).filter((e) => e.bodyType !== 'party-internal' && !electionsHidden.has(e.key));
+/** @type {ManifestElection[]} */
+const elections = (read(ELECTION_MANIFEST).elections || []).filter((/** @type {ManifestElection} */ e) => e.bodyType !== 'party-internal' && !electionsHidden.has(e.key));
 
 // ------------------------------------------------------------------ per map
+/** @type {Map<string, (typeof layerIndex)[number]>} */
 const layerBySource = new Map();
 for (const l of layerIndex) if (l.sourceMapId && !layerBySource.has(l.sourceMapId)) layerBySource.set(l.sourceMapId, l);
 
 const YEAR = /(1[5-9]\d\d|20\d\d)/;
+/** @param {MapRecord} m */
 function dateOf(m) {
   const d = String(m.dateEffective || m.date || '').trim();
   if (/^\d{4}(-\d{2}(-\d{2})?)?$/.test(d)) return d;
   const y = YEAR.exec(d) || YEAR.exec(`${m.id} ${m.name}`);
   return y ? y[1] : '';
 }
-const round = (n) => Math.round(n * 1e4) / 1e4;
+const round = (/** @type {number} */ n) => Math.round(n * 1e4) / 1e4;
+/**
+ * @param {MapRecord} m
+ * @returns {number[] | null}
+ */
 function boundsOf(m) {
   // A census statistic is drawn on its geography, so it covers what that map covers.
-  if (m.origin === 'data' && m.geography && mapById.has(m.geography)) return boundsOf(mapById.get(m.geography));
+  if (m.origin === 'data' && m.geography && mapById.has(m.geography)) return boundsOf(/** @type {MapRecord} */ (mapById.get(m.geography))); // has() was checked in the same condition
   const b = layerBySource.get(m.id)?.bounds || m.bounds;
   if (Array.isArray(b) && b.length === 4 && b.every(Number.isFinite)) return b.map(round);
   if (!Array.isArray(b) || b.length !== 2) return null;
@@ -79,6 +171,7 @@ function boundsOf(m) {
   if (![s, w, n, e].every(Number.isFinite)) return null;
   return [round(Math.min(w, e)), round(Math.min(s, n)), round(Math.max(w, e)), round(Math.max(s, n))];
 }
+/** @param {MapRecord} m */
 function thumbOf(m) {
   for (const id of [m.id, m.cloneOf, m.parentId, m.variants?.[0]?.id, partsOf.get(m.id)?.[0]?.id, m.geography]) if (id && thumbs.has(id)) return id;
   return null;
@@ -87,18 +180,23 @@ function thumbOf(m) {
 // render/metadata/maps-test.json. A census statistic (a data entry) is drawn on its geography's
 // layer, its CSV joined to the tiles (packages/map/src/census-overlay.mjs), so it is on the map exactly when
 // that geography is; one whose geography is not converted stays "to be added".
+/** @type {Set<string | undefined>} looked up with a map's optional geography */
 const drawable = new Set();
 for (const l of read('render/metadata/maps-test.json').layers || []) {
   if (l.loadable === false) continue;
   for (const k of [l.id, l.sourceMapId, l.migration?.sourceMapId, l.parentId]) if (k) drawable.add(k);
 }
-const statusOf = (m) => (m.placeholder ? 'placeholder'
+const statusOf = (/** @type {MapRecord} */ m) => (m.placeholder ? 'placeholder'
   : m.origin === 'data' && !(m.csv && drawable.has(m.geography)) ? 'placeholder'
     : m.incomplete ? 'incomplete' : 'ready');
-const providers = (m) => (Array.isArray(m.provider) ? m.provider : m.provider ? [m.provider] : []).map(String);
-const licenceOf = (m) => m.licence || m.license || '';
+const providers = (/** @type {MapRecord} */ m) => (Array.isArray(m.provider) ? m.provider : m.provider ? [m.provider] : []).map(String);
+const licenceOf = (/** @type {MapRecord} */ m) => m.licence || m.license || '';
 
 // A part is named by what sets it apart from its parent: "NI LiDAR 1 m — Ballycastle (2010)" -> "Ballycastle (2010)".
+/**
+ * @param {unknown} label
+ * @param {string | undefined} parentName
+ */
 function shortPart(label, parentName) {
   const l = String(label || '');
   const head = l.split(/\s+[—–]\s+/);
@@ -106,6 +204,10 @@ function shortPart(label, parentName) {
   return l;
 }
 // Labels that all open the same way lose it: "NI LiDAR 1 m — Ballycastle (2010)" -> "Ballycastle (2010)".
+/**
+ * @param {Labelled[]} items
+ * @returns {Labelled[]}
+ */
 function dropSharedPrefix(items) {
   if (items.length < 2) return items;
   const parts = items.map((x) => x.label.split(/\s+[—–]\s+/));
@@ -113,16 +215,24 @@ function dropSharedPrefix(items) {
   while (parts.every((p) => p.length > k + 1 && p[k] === parts[0][k])) k += 1;
   return k ? items.map((x, i) => ({ ...x, label: parts[i].slice(k).join(' — ') })) : items;
 }
+/** @type {{ maps: Record<string, MapOut> }} */
 const out = { maps: {} };
 // Feature counts (data/database/map-feature-counts.json, from each map's FlatGeobuf header or its
 // tiles' statistics), built into the catalogue so every hover shows one whenever one is known.
+/** @type {Record<string, number>} */
 const featureCounts = (() => { try { return read('data/database/map-feature-counts.json').counts || {}; } catch { return {}; } })();
 
 // What a map counts, as a plural noun ("32 Counties"): the map's own unit, else its row's
 // (`unit`, or `units` per map), else the row's name without its qualifiers; in a row that gathers
 // different things (`unitFromLabel`), the map's own label.
 const DATE_WORDS = /\b\d{1,2}\s+[A-Z][a-z]+\s+\d{4}\b|\b(1[5-9]\d\d|20\d\d)\b/g;
-const cleanUnit = (text) => String(text || '').replace(/\([^)]*\)/g, '').replace(DATE_WORDS, '').replace(/[—–-]\s*$/, '').replace(/\s{2,}/g, ' ').trim();
+const cleanUnit = (/** @type {unknown} */ text) => String(text || '').replace(/\([^)]*\)/g, '').replace(DATE_WORDS, '').replace(/[—–-]\s*$/, '').replace(/\s{2,}/g, ' ').trim();
+/**
+ * @param {SourceSeries} s
+ * @param {string} id
+ * @param {string} label
+ * @returns {string}
+ */
 function unitFor(s, id, label) {
   const own = mapById.get(id)?.featureUnit;
   if (own) return own;
@@ -135,10 +245,16 @@ function unitFor(s, id, label) {
   return cleanUnit(s.name) || s.name;
 }
 
+/**
+ * @param {string} id
+ * @returns {MapOut}
+ */
 function addMap(id) {
   if (out.maps[id]) return out.maps[id];
-  const m = mapById.get(id);
+  // every map a series places is a record (check:catalogue asserts it); a missing one throws below, as before
+  const m = /** @type {MapRecord} */ (mapById.get(id));
   const layer = layerBySource.get(id);
+  /** @type {MapOut} */
   const rec = {
     name: m.name,
     date: dateOf(m),
@@ -155,7 +271,8 @@ function addMap(id) {
   const b = boundsOf(m);
   if (b) rec.bounds = b;
   const n = m.featureCount || featureCounts[id] || (m.cloneOf && featureCounts[m.cloneOf]) || (m.aliasOf && featureCounts[m.aliasOf]);
-  if (Number.isFinite(n) && n > 0) rec.features = n;
+  // n is read as a number only once Number.isFinite(n) has held
+  if (Number.isFinite(n) && /** @type {number} */ (n) > 0) rec.features = /** @type {number} */ (n);
   if (layer?.geometryType) rec.geometry = layer.geometryType;
   if (m.description) rec.description = formatDatesInText(String(m.description)).slice(0, 600);
   if (m.changeNote) rec.note = String(m.changeNote).slice(0, 300);
@@ -182,11 +299,19 @@ function addMap(id) {
 
 // ------------------------------------------------------------------ series
 const subjectById = new Map(source.subjects.map((s) => [s.id, s]));
+/** @type {Map<string, string>} */
 const shelfOfSubject = new Map();
 for (const sh of source.shelves) for (const sid of sh.subjects) shelfOfSubject.set(sid, sh.id);
-const slugify = (s) => String(s).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const yearOfDate = (d) => (YEAR.exec(d || '') ? Number(YEAR.exec(d)[1]) : null);
+const slugify = (/** @type {unknown} */ s) => String(s).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+// the second exec() repeats the first, which matched
+const yearOfDate = (/** @type {string | undefined} */ d) => (YEAR.exec(d || '') ? Number(/** @type {RegExpExecArray} */ (YEAR.exec(/** @type {string} */ (d)))[1]) : null);
 
+/**
+ * @param {SourceSeries} series
+ * @param {{ name?: string, date: string }} rec
+ * @param {{ date: string }[]} all
+ * @returns {string}
+ */
 function editionLabel(series, rec, all) {
   if (series.arrangement === 'editions') {
     // A date the map's name gives as approximate ("~20 Jan 1919") keeps its tilde on the chip.
@@ -201,14 +326,19 @@ function editionLabel(series, rec, all) {
   const stem = series.name.toLowerCase();
   // A spaced dash ("Electoral Areas - Roscommon") separates parts of a name and becomes an em
   // dash; a hyphen inside a word ("Sub-Districts", "Dún Laoghaire-Rathdown") is left alone.
-  let label = rec.name.replace(/\s+[—–-]\s+|\s*[—–]\s*/g, ' — ');
-  if (label.toLowerCase().startsWith(stem)) label = label.slice(stem.length).replace(/^[\s—:–-]+/, '').replace(/^(of|in|for|the)\s+/i, '') || rec.name;
+  // every map record has a name (records.mjs); a nameless one throws here, as before
+  let label = /** @type {string} */ (rec.name).replace(/\s+[—–-]\s+|\s*[—–]\s*/g, ' — ');
+  if (label.toLowerCase().startsWith(stem)) label = label.slice(stem.length).replace(/^[\s—:–-]+/, '').replace(/^(of|in|for|the)\s+/i, '') || /** @type {string} */ (rec.name);
   return label.replace(/^\((.*)\)$/, '$1');
 }
 
 // What a series draws, for the Kind filter: areas with edges, places and routes (points and
 // lines), or figures mapped onto areas. The curator can say (`kind`); otherwise a Boundary
 // subject's series are boundaries, census figures are statistics, and the rest places & routes.
+/**
+ * @param {SourceSeries} s
+ * @param {{ kind?: string }[]} recs
+ */
 function kindOf(s, recs) {
   if (s.kind) return s.kind;
   const sub = subjectById.get(s.subject);
@@ -218,7 +348,9 @@ function kindOf(s, recs) {
   return 'Places';
 }
 
+/** @type {SeriesOut[]} */
 const seriesOut = [];
+/** @type {Set<string>} */
 const slugsSeen = new Set();
 for (const s of source.series) {
   const recs = s.members.map((id) => ({ id, ...addMap(id) }));
@@ -228,10 +360,12 @@ for (const s of source.series) {
   if (s.arrangement === 'editions') recs.sort((a, b) => String(b.date).localeCompare(String(a.date)));
   // A series spans the years of its editions, not of their versions (the NI part of the 1885
   // Westminster map is no edition of its own).
-  const years = recs.filter((r) => !s.variantOf?.[r.id]).map((r) => yearOfDate(r.date)).filter(Boolean);
+  // filter(Boolean) dropped the nulls
+  const years = /** @type {number[]} */ (recs.filter((r) => !s.variantOf?.[r.id]).map((r) => yearOfDate(r.date)).filter(Boolean));
   // A map drawn for more than one year (Fingal's polling stations, 2011 and 2016) is in each.
   for (const [id, more] of Object.entries(s.moreYears || {})) {
-    out.maps[id].years = [...new Set([yearOfDate(out.maps[id].date), ...more].filter(Boolean))].sort();
+    // filter(Boolean) dropped the nulls
+    out.maps[id].years = /** @type {number[]} */ ([...new Set([yearOfDate(out.maps[id].date), ...more].filter(Boolean))].sort());
     years.push(...more);
   }
   // Unique across the catalogue: names no longer carry their scope ("Administrative Counties" is
@@ -241,11 +375,12 @@ for (const s of source.series) {
   if (slugsSeen.has(slug)) slug = `${slug}-${slugify(s.id)}`;
   slugsSeen.add(slug);
   const provs = [...new Set(recs.flatMap((r) => r.provider || []))];
-  const statusCounts = recs.reduce((a, r) => ((a[r.status] = (a[r.status] || 0) + 1), a), {});
+  const statusCounts = recs.reduce((a, r) => ((a[r.status] = (a[r.status] || 0) + 1), a), /** @type {Record<string, number>} */ ({}));
   // Variants (another scale, a council's excerpt) are labelled as a set member is, by what sets
   // them apart, and listed straight after the edition they are a version of.
   const variantOf = s.variantOf || {};
   const editions = recs.filter((r) => !variantOf[r.id]);
+  /** @type {Member[]} */
   const members = [];
   for (const r of editions) {
     members.push({ id: r.id, label: editionLabel(s, r, editions) });
@@ -273,6 +408,7 @@ for (const s of source.series) {
   }
   // Two editions with one date (a national map and a council's copy) are told apart by who
   // published them, or failing that by name.
+  /** @type {Map<string, Member[]>} */
   const byLabel = new Map();
   for (const m of members) if (!m.of) byLabel.set(m.label, [...(byLabel.get(m.label) || []), m]);
   for (const group of byLabel.values()) {
@@ -281,14 +417,15 @@ for (const s of source.series) {
     const useProvider = provs.every(Boolean) && new Set(provs).size === group.length;
     group.forEach((m, i) => {
       const rec = out.maps[m.id];
-      const name = editionLabel({ ...s, arrangement: 'set' }, { ...rec, name: rec.name.replace(YEAR, '').replace(/\(\s*\)/g, '').replace(/\s{2,}/g, ' ').trim() }, recs);
+      const name = editionLabel({ ...s, arrangement: 'set' }, { ...rec, name: /** @type {string} */ (rec.name).replace(YEAR, '').replace(/\(\s*\)/g, '').replace(/\s{2,}/g, ' ').trim() }, recs);
       m.label = `${m.label} · ${useProvider ? provs[i] : (name || m.id)}`;
     });
   }
   // A map that also comes split by county elsewhere (`countiesFrom`: {map: map whose parts are
   // its counties}) lists those county maps as buttons of its own when the row is opened.
   for (const [mapId, from] of Object.entries(s.countiesFrom || {})) {
-    const counties = (partsOf.get(from) || []).map((p) => ({ id: p.id, label: p.label.replace(/^County\s+/i, '') }));
+    // countiesFrom names a map whose parts are its labelled counties
+    const counties = (partsOf.get(from) || []).map((p) => ({ id: p.id, label: /** @type {string} */ (p.label).replace(/^County\s+/i, '') }));
     if (counties.length && out.maps[mapId]) out.maps[mapId].counties = counties.sort((a, b) => a.label.localeCompare(b.label));
   }
   // What sets a main map apart from its versions (`versionLabels`: "Ungeneralised" beside
@@ -302,6 +439,7 @@ for (const s of source.series) {
   // A row's own note on one of its maps (why 2001 Wards sit with the census areas).
   for (const [id, note] of Object.entries(s.notes || {})) if (out.maps[id]) out.maps[id].note = note;
   for (const m of members) if (!out.maps[m.id].unit) out.maps[m.id].unit = unitFor(s, m.id, m.label);
+  /** @type {SeriesOut} */
   const entry = {
     id: s.id,
     slug,
@@ -329,7 +467,8 @@ for (const s of source.series) {
     entry.local = localRecs.map((r) => ({ id: r.id, label: formatDatesInText(s.labels?.[r.id] || editionLabel({ ...s, arrangement: 'set' }, r, localRecs)), ...(s.localOf?.[r.id] ? { of: s.localOf[r.id] } : {}) }));
     for (const m of entry.local) if (!out.maps[m.id].unit) out.maps[m.id].unit = unitFor({ ...s, unitFromLabel: false }, m.id, m.label);
   }
-  const todoYears = todoRecs.map((r) => yearOfDate(r.date)).filter(Boolean);
+  // filter(Boolean) dropped the nulls
+  const todoYears = /** @type {number[]} */ (todoRecs.map((r) => yearOfDate(r.date)).filter(Boolean));
   // The span takes in the maps still to be added: Northern Ireland's constituencies run from
   // the 1920 Parliament to the 2023 Assembly, though only two are drawn yet.
   const allYears = [...years, ...todoYears];
@@ -356,11 +495,13 @@ const ELECTION_BODY_ORDER = ELECTION_BODIES.groups.catalogueOrder;
 // local elections" (packages/map/src/ni-local-groups.mjs); a round's own key still finds its year (people's
 // contests, constituency search).
 const niLocalGroups = groupNiLocalRounds(elections);
+/** @type {Map<string, string>} */
 const niLocalGroupOfRound = new Map();
 for (const [year, rounds] of niLocalGroups) for (const round of rounds) niLocalGroupOfRound.set(round.key, niLocalGroupKey(year));
 const niLocalThumb = ['admin-areas-1930-04-01', 'ded-1930-04-01', 'county-ed-1924-06-20', 'counties-ni-1915'].find((id) => thumbs.has(id));
 const niLocalGroupRecords = [...niLocalGroups].map(([year, rounds]) => {
   const group = buildNiLocalGroupEntry(year, rounds);
+  /** @type {ElectionOut} */
   const rec = {
     key: group.key,
     title: group.displayTitle,
@@ -378,6 +519,7 @@ const niLocalGroupRecords = [...niLocalGroups].map(([year, rounds]) => {
   return rec;
 });
 const electionsOut = [...elections.filter((e) => !isNiLocalCouncilRound(e)).map((e) => {
+  /** @type {ElectionOut} */
   const rec = {
     key: e.key,
     title: e.displayTitle || `${e.date} ${e.body}`,
@@ -404,23 +546,26 @@ const electionsOut = [...elections.filter((e) => !isNiLocalCouncilRound(e)).map(
     // all for Northern Ireland seats.
     : e.bodySlug === 'house-of-commons-of-the-united-kingdom' && String(e.date) < '1921-05-03' ? 'Ireland' : 'Northern Ireland');
   // The map the election is drawn on, for its thumbnail.
-  const own = [e.sourceMapId, e.layerId, mapById.get(e.sourceMapId)?.cloneOf].find((id) => id && thumbs.has(id));
+  // get(undefined) is just a miss
+  const own = [e.sourceMapId, e.layerId, mapById.get(/** @type {string} */ (e.sourceMapId))?.cloneOf].find((id) => id && thumbs.has(id));
   if (own) rec.thumb = own;
   return rec;
 }), ...niLocalGroupRecords].sort(compareElectionsNewestFirst);
 // An election with no map of its own (results only) borrows the thumbnail of the nearest election
 // of the same body that has one, as today's pane does from a hand-kept table.
 {
+  /** @type {Map<string, ElectionOut[]>} */
   const byBody = new Map();
   for (const e of electionsOut) if (e.thumb) byBody.set(e.bodySlug, [...(byBody.get(e.bodySlug) || []), e]);
-  const t = (d) => Date.parse(String(d).slice(0, 10)) || 0;
+  const t = (/** @type {unknown} */ d) => Date.parse(String(d).slice(0, 10)) || 0;
   for (const e of electionsOut) {
     if (e.thumb) continue;
-    const near = (byBody.get(e.bodySlug) || []).reduce((best, x) => (!best || Math.abs(t(x.date) - t(e.date)) < Math.abs(t(best.date) - t(e.date)) ? x : best), null);
+    const near = (byBody.get(e.bodySlug) || []).reduce((best, x) => (!best || Math.abs(t(x.date) - t(e.date)) < Math.abs(t(best.date) - t(e.date)) ? x : best), /** @type {ElectionOut | null} */ (null));
     if (near) { e.thumb = near.thumb; e.thumbBorrowed = true; }
   }
 }
 // Constituency names -> elections, so a search for "Dungannon" finds the elections it was fought in.
+/** @type {Record<string, string[]>} */
 const contestIndex = {};
 for (const e of elections) {
   for (const c of new Set(e.constituencies || [])) {
@@ -433,12 +578,16 @@ for (const e of elections) {
 const bodies = [...new Set(electionsOut.map((e) => e.bodySlug))].sort((a, b) => {
   const ia = ELECTION_BODY_ORDER.indexOf(a); const ib = ELECTION_BODY_ORDER.indexOf(b);
   return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.localeCompare(b);
-}).map((slug) => ({ slug, name: electionsOut.find((e) => e.bodySlug === slug).body, count: electionsOut.filter((e) => e.bodySlug === slug).length }));
+// slug was taken from electionsOut, so find() hits
+}).map((slug) => ({ slug, name: /** @type {ElectionOut} */ (electionsOut.find((e) => e.bodySlug === slug)).body, count: electionsOut.filter((e) => e.bodySlug === slug).length }));
 
 // ------------------------------------------------------------------ places
 // Named features (wards, districts, townlands...) with their maps and boxes, for place search.
+/** @type {string[]} */
 const placeMaps = [];
+/** @type {Map<string, number>} */
 const placeMapIndex = new Map();
+/** @type {(string | number | undefined)[][]} */
 const places = [];
 for (const f of spatial.features || []) {
   if (!f.name || !f.mapId || !Array.isArray(f.bbox) || !out.maps[f.mapId]) continue;
@@ -449,16 +598,20 @@ for (const f of spatial.features || []) {
 // ------------------------------------------------------------------ redirects from today's cards
 // The current pane's anchors (#flat-card-<id>) keep working: each card points to the series that
 // holds most of its maps. Cards are read from ui-controller.js only for this.
+/** @type {Record<string, string>} */
 const redirects = {};
 try {
   const ui = readFileSync(rel('packages/map/src/ui-controller.js'), 'utf8');
-  const classes = new Map((read('data/database/maps.json').classes || []).map((c) => [c.id, c.maps || []]));
+  /** @type {Map<string, string[]>} */
+  const classes = new Map((read('data/database/maps.json').classes || []).map((/** @type {{ id: string, maps?: string[] }} */ c) => [c.id, c.maps || []]));
+  /** @type {Map<string, string>} */
   const seriesOfMap = new Map();
   for (const s of seriesOut) for (const m of s.members) seriesOfMap.set(m.id, s.id);
   for (const m of ui.matchAll(/\{\s*id:\s*'(flat-[a-z0-9-]+)'[^{}]*?\}/g)) {
     const body = m[0];
     const ids = [...(body.match(/mapIds:\s*\[([^\]]*)\]/)?.[1] || '').matchAll(/'([a-z0-9-]+)'/g)].map((x) => x[1]);
     for (const c of (body.match(/classIds:\s*\[([^\]]*)\]/)?.[1] || '').matchAll(/'([a-z0-9-]+)'/g)) ids.push(...(classes.get(c[1]) || []));
+    /** @type {Map<string, number>} */
     const tally = new Map();
     for (const id of ids) { const s = seriesOfMap.get(id); if (s) tally.set(s, (tally.get(s) || 0) + 1); }
     const best = [...tally.entries()].sort((a, b) => b[1] - a[1])[0];
@@ -475,11 +628,12 @@ try {
 // otherNames?, slug?]; the slug (their Browse page) is given only when it is not name-id.
 // The person cards come from the records database (tmp/records/civgraph-records.sqlite, in source
 // order) when it has been built, else from the Browse person shards as before.
+/** @returns {PersonCard[] | null} */
 function personCards() {
   if (existsSync(RECORDS_DB)) {
     const db = openSqliteHandle(RECORDS_DB, { readOnly: true });
     try {
-      return db.prepare('SELECT card FROM person_cards ORDER BY ord').all().map((r) => JSON.parse(r.card));
+      return db.prepare('SELECT card FROM person_cards ORDER BY ord').all().map((r) => JSON.parse(/** @type {string} */ (r.card))); // the card column holds JSON text
     } finally {
       db.close();
     }
@@ -487,17 +641,21 @@ function personCards() {
   const dir = rel(path.join(BROWSE_DIR, 'person-shards'));
   if (!existsSync(dir)) return null;
   return readdirSync(dir).filter((x) => /^persons-\d+\.json$/.test(x)).sort()
-    .flatMap((f) => JSON.parse(readFileSync(path.join(dir, f), 'utf8')).items || []);
+    .flatMap((f) => /** @type {{ items?: PersonCard[] }} */ (JSON.parse(readFileSync(path.join(dir, f), 'utf8'))).items || []);
 }
 
 const peopleDoc = (() => {
   const cards = personCards();
   if (!cards) return null;
+  /** @type {string[]} */
   const parties = [];
+  /** @type {string[]} */
   const constituencies = [];
+  /** @type {Map<string, number>} */
   const partyIndex = new Map();
+  /** @type {Map<string, number>} */
   const placeIndex = new Map();
-  const at = (table, index, v) => {
+  const at = (/** @type {string[]} */ table, /** @type {Map<string, number>} */ index, /** @type {string} */ v) => {
     if (!v) return -1;
     if (!index.has(v)) { index.set(v, table.length); table.push(v); }
     return index.get(v);
@@ -505,8 +663,10 @@ const peopleDoc = (() => {
   const electionIndex = new Map(electionsOut.map((e, i) => [e.key, i]));
   // A council round's contest counts under its year's entry.
   for (const [roundKey, groupKey] of niLocalGroupOfRound) {
-    if (electionIndex.has(groupKey)) electionIndex.set(roundKey, electionIndex.get(groupKey));
+    // has() is checked in the same statement
+    if (electionIndex.has(groupKey)) electionIndex.set(roundKey, /** @type {number} */ (electionIndex.get(groupKey)));
   }
+  /** @type {PersonRow[]} */
   const people = [];
   {
     for (const p of cards) {
@@ -516,6 +676,7 @@ const peopleDoc = (() => {
         if (e.party && e.party !== party) c.push(at(parties, partyIndex, e.party));
         return c;
       });
+      /** @type {PersonRow} */
       const row = [String(p.id), p.name, at(parties, partyIndex, party), at(constituencies, placeIndex, p.constituencies?.[0]?.name || ''),
         p.firstYear || 0, p.lastYear || 0, p.totals?.stood ?? contests.length, p.totals?.elected ?? contests.filter((c) => c[2]).length, contests];
       const others = [...new Set((p.names || []).map((n) => n.name).filter((n) => n && slugify(n) !== slugify(p.name)))];
@@ -533,14 +694,16 @@ const peopleDoc = (() => {
 // to be added opens its row with the maps to come showing; a hidden map opens the row of the map
 // it is part of, a version of or the source of (or the row its `hidden` entry names in `to`, or
 // the catalogue view in `route`: Roscommon's local results go to the Irish local elections).
+/** @type {Record<string, MapLink>} */
 const mapLinks = {};
+/** @type {Map<string, MapLink>} */
 const rowOfMap = new Map();
 for (const s of seriesOut) for (const m of [...s.members, ...(s.local || [])]) rowOfMap.set(m.id, { series: s.id, map: m.id });
 for (const s of seriesOut) for (const m of s.members) {
   for (const p of [...(out.maps[m.id]?.parts || []), ...(out.maps[m.id]?.counties || [])]) if (!rowOfMap.has(p.id)) rowOfMap.set(p.id, { series: s.id, map: m.id });
 }
 for (const s of seriesOut) for (const t of s.todo || []) mapLinks[t.id] = { series: s.id, todo: true };
-const holderOf = (id) => {
+const holderOf = (/** @type {string} */ id) => {
   for (const [pid, m] of mapById) {
     if (pid !== id && ((m.variants || []).some((v) => v.id === id) || (partsOf.get(pid) || []).some((p) => p.id === id)) && rowOfMap.has(pid)) return rowOfMap.get(pid);
   }
@@ -570,6 +733,7 @@ const catalogue = {
   mapLinks,
 };
 const placesDoc = { schemaVersion: 1, maps: placeMaps, places };
+/** @type {[string, unknown][]} */
 const files = [['data/catalogue/catalogue.json', catalogue], ['data/catalogue/places.json', placesDoc]];
 if (peopleDoc) files.push(['data/catalogue/people.json', peopleDoc]);
 let stale = false;
