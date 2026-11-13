@@ -96,6 +96,9 @@ export interface MapControllerView {
   fitToBounds(bounds: unknown, options?: { smooth?: boolean } | null): void;
   setEditionRole(mainId: string, role: string | null | undefined): void;
   showLayer(mainId: string): void;
+  resolveLayer(mainId: string): { loadable?: boolean } | null;
+  getTimelineChangesState(): unknown;
+  invalidateSize(): void;
 }
 
 /** What the method modules use of the election manager (packages/map/app/election-manager.js). */
@@ -106,6 +109,7 @@ export interface ElectionsView {
   getActiveElectionBackingLayerIds(): string[];
   getActiveElectionStyleSourceMapId(): string | null;
   getSeatCircleOverlayState(): unknown;
+  updateElectionTimeline(): void;
 }
 
 export interface MapApp {
@@ -124,6 +128,10 @@ export interface MapApp {
   timelineChangeView: TimelineChangeState | null;
   /** The Play button's machine and the run's bookkeeping (timeline/playback.mjs). */
   timelineAnimation: TimelineAnimationState;
+  /** A layer swap is under way (timeline/controls.js beginTimelineApply): updateTimeline waits. */
+  timelineApplying: boolean;
+  /** The count of layer swaps under way (timeline/controls.js). */
+  timelineApply: ReturnType<typeof import('../state-helpers.mjs').createHoldCount>;
   /** The slider's stops (timeline/controls.js setupTimeline). */
   timelineItems: TimelineItem[];
   /** What a stop chosen on the slider does; null while no timeline is shown. */
@@ -164,6 +172,28 @@ export interface MapApp {
   updateTimeline(): void;
   /** timeline/controls.js */
   applyTimelineTimestamp(timestamp: unknown, options?: { fit?: boolean }): Promise<unknown>;
+  /** layers.js */
+  getConvertedCompositeChildIds(mapConfig: unknown): string[];
+  /** timeline/animation.js */
+  pauseTimelineAnimation(options?: { preserveOverlay?: boolean }): void;
+  /** timeline/animation.js */
+  startTimelineAnimation(): Promise<void>;
+  /** timeline/animation.js */
+  stopTimelineAnimation(options?: { restoreOriginal?: boolean }): Promise<void>;
+  /** timeline/animation.js */
+  clearTimelineAnimationTimer(): void;
+  /** timeline/animation.js */
+  updateTimelineAnimationButtons(): void;
+  /** timeline/changes.js */
+  toggleTimelineChangesPanel(): void;
+  /** timeline/changes.js */
+  closeTimelineChangesPanel(options?: { focusButton?: boolean }): void;
+  /** timeline/changes.js */
+  renderTimelineChangesControl(): void;
+  /** timeline/changes.js */
+  syncTimelineChangesToShownEdition(): void;
+  /** timeline/changes.js */
+  setTimelineHighlightEnabled(value: unknown): void;
   /** timeline/changes.js */
   getShownTimelineIndex(items?: TimelineItem[]): number;
   /** timeline/changes.js */

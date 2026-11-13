@@ -12,12 +12,32 @@ import { parseTimelineDate, yearOnlyMapDate } from './dates.mjs';
 import { timelineTicksHtml } from './timeline-view.mjs';
 import { setHidden } from '../../state-helpers.mjs';
 
+/** @typedef {import('../map-app').MapApp & TimelineControlMethods} TimelineControlApp */
+/** @typedef {import('../map-app').TimelineItem} TimelineItem */
+/** @typedef {import('../map-app').MapControllerView} MapControllerView */
+
+/**
+ * A catalogue map, the fields the timeline reads to tell a placeholder.
+ * @typedef {{
+ *   keywords?: unknown,
+ *   status?: unknown,
+ *   placeholder?: unknown,
+ *   rawMetadata?: { keywords?: unknown, status?: unknown, placeholder?: unknown },
+ *   thumbnail?: { kind?: string },
+ *   [key: string]: unknown
+ * }} TimelineMapConfig
+ */
+
 export class TimelineControlMethods {
+  /**
+   * @this {TimelineControlApp}
+   * @param {TimelineMapConfig | null | undefined} mapConfig
+   */
   isPlaceholderTimelineMap(mapConfig) {
     if (!mapConfig) return true;
     const keywords = [
       ...(Array.isArray(mapConfig.keywords) ? mapConfig.keywords : []),
-      ...(Array.isArray(mapConfig.rawMetadata?.keywords) ? mapConfig.rawMetadata.keywords : [])
+      ...(Array.isArray(mapConfig.rawMetadata?.keywords) ? /** @type {unknown[]} */ (mapConfig.rawMetadata.keywords) : [])
     ].map((keyword) => String(keyword).trim().toLowerCase());
     const status = String(mapConfig.status || mapConfig.rawMetadata?.status || '').toLowerCase();
     return Boolean(
@@ -31,24 +51,31 @@ export class TimelineControlMethods {
     );
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {string | null | undefined} mapId
+   * @returns {boolean}
+   */
   isTimelineMapPlayable(mapId) {
     if (!mapId) return false;
     const mapConfig = dataService.getMapById(mapId);
     if (!mapConfig || this.isPlaceholderTimelineMap(mapConfig)) return false;
-    const directLayer = this.mapController.resolveLayer(mapConfig.id || mapId);
+    // The timeline is built only once the map controller is up.
+    const directLayer = /** @type {MapControllerView} */ (this.mapController).resolveLayer(mapConfig.id || mapId);
     if (directLayer?.loadable) return true;
-    if (mapConfig.isGroup && compositeChildIds(mapConfig).length) {
-      return compositeChildIds(mapConfig).some((memberId) => this.isTimelineMapPlayable(memberId));
+    if (mapConfig.isGroup && compositeChildIds(/** @type {import('../../map-relations.mjs').MapRelations} */ (mapConfig)).length) {
+      return compositeChildIds(/** @type {import('../../map-relations.mjs').MapRelations} */ (mapConfig)).some((memberId) => this.isTimelineMapPlayable(memberId));
     }
     if (mapConfig.isGroup && Array.isArray(mapConfig.variants) && mapConfig.variants.length) {
-      return mapConfig.variants.some((variant) => this.mapController.resolveLayer(variant?.id)?.loadable);
+      return /** @type {Array<{ id?: string } | null>} */ (mapConfig.variants).some((variant) => /** @type {MapControllerView} */ (this.mapController).resolveLayer(/** @type {string} */ (variant?.id))?.loadable);
     }
     return this.getConvertedCompositeChildIds(mapConfig).length > 0;
   }
 
+  /** @this {TimelineControlApp} */
   setupTimelineControls() {
     this.ensureTimelineChrome();
-    const range = document.getElementById('timelineRange');
+    const range = /** @type {HTMLInputElement | null} */ (document.getElementById('timelineRange'));
     const prev = document.getElementById('timelinePrev');
     const next = document.getElementById('timelineNext');
     const reset = document.getElementById('timelineReset');
@@ -75,6 +102,10 @@ export class TimelineControlMethods {
     // await rather than only before it.
     let timelineRequestToken = 0;
     let timelineChain = Promise.resolve();
+    /**
+     * @param {unknown} index
+     * @param {{ manual?: boolean }} [options]
+     */
     const applyIndex = async (index, options = {}) => {
       const timelineItems = this.getTimelineAnimationItems();
       if (!timelineItems.length || !this.timelineOnSelect) return;
@@ -120,7 +151,8 @@ export class TimelineControlMethods {
         const shownIndex = this.getShownTimelineIndex(timelineItems);
         this.beginTimelineApply();
         try {
-          await this.timelineOnSelect(timelineItems[safeIndex], safeIndex);
+          // Checked above, before the request was queued; hideTimeline clears it only with the items.
+          await /** @type {(item: TimelineItem, index: number) => unknown} */ (this.timelineOnSelect)(timelineItems[safeIndex], safeIndex);
         } finally {
           this.endTimelineApply();
         }
@@ -148,7 +180,7 @@ export class TimelineControlMethods {
         element: range,
         getItems: () => this.getTimelineAnimationItems(),
         getIndex: () => this.getTimelineRangeIndex(),
-        setIndex: (index) => applyIndex(index),
+        setIndex: (/** @type {unknown} */ index) => applyIndex(index),
         isApplying: () => this.timelineApplying,
         currentIndex: () => this.timelineAnimation.currentIndex,
         // What the change highlight shows: the list (view) and what is drawn on the map.
@@ -163,11 +195,11 @@ export class TimelineControlMethods {
       };
     }
 
-    range?.addEventListener('change', (event) => applyIndex(event.target.value).catch((error) => this.showMapError(error)));
+    range?.addEventListener('change', (event) => applyIndex(/** @type {HTMLInputElement} */ (event.target).value).catch((error) => this.showMapError(error)));
     range?.addEventListener('input', (event) => {
       this.pauseTimelineAnimation({ preserveOverlay: true });
       const timelineItems = this.getTimelineAnimationItems();
-      const safeIndex = this.clampTimelineIndex(event.target.value, timelineItems);
+      const safeIndex = this.clampTimelineIndex(/** @type {HTMLInputElement} */ (event.target).value, timelineItems);
       this.timelineAnimation.currentIndex = safeIndex;
       this.updateTimelineLabel(safeIndex);
       this.updateTimelineAnimationButtons();
@@ -208,11 +240,14 @@ export class TimelineControlMethods {
    * endTimelineApply() returns true only for the last one out, so the rebuild it guards
    * runs once, at the end, from settled state.
    */
+  /** @this {TimelineControlApp} */
   beginTimelineApply() {
     this.timelineApply.hold();
+    /** @type {boolean} */
     this.timelineApplying = true;
   }
 
+  /** @this {TimelineControlApp} */
   endTimelineApply() {
     this.timelineApplying = !this.timelineApply.release();
     return !this.timelineApplying;
@@ -223,6 +258,7 @@ export class TimelineControlMethods {
    * #timelineSlider gets them: the range goes into a track with a mark per stop under it, the
    * date label gains a second line naming the stop, and a "general elections only" filter
    * appears for election timelines. The native range input itself is unchanged.
+   * @this {TimelineControlApp}
    */
   ensureTimelineChrome() {
     const slider = document.getElementById('timelineSlider');
@@ -278,17 +314,22 @@ export class TimelineControlMethods {
       </button>
       <button type="button" id="timelineChanges" class="timeline-chip timeline-changes__button" aria-expanded="false" aria-controls="timelineChangesPanel" hidden></button>`;
     info.insertAdjacentElement('afterend', changes);
-    changes.querySelector('#timelineHighlight').addEventListener('click', () => {
+    // Both buttons are in the markup just written.
+    /** @type {Element} */ (changes.querySelector('#timelineHighlight')).addEventListener('click', () => {
       this.setTimelineHighlightEnabled(!this.getTimelineHighlightEnabled());
     });
-    changes.querySelector('#timelineChanges').addEventListener('click', () => this.toggleTimelineChangesPanel());
+    /** @type {Element} */ (changes.querySelector('#timelineChanges')).addEventListener('click', () => this.toggleTimelineChangesPanel());
 
     if (typeof ResizeObserver !== 'undefined') {
       new ResizeObserver(() => this.fitTimelineYearLabels()).observe(track);
     }
   }
 
-  /** The reader's choice, else `fallback` (the slider's own default) when they have made none. */
+  /**
+   * The reader's choice, else `fallback` (the slider's own default) when they have made none.
+   * @this {TimelineControlApp}
+   * @param {unknown} [fallback]
+   */
   getTimelineGeneralsOnly(fallback = false) {
     try {
       const stored = localStorage.getItem('civgraph:timelineGeneralsOnly');
@@ -296,6 +337,10 @@ export class TimelineControlMethods {
     } catch { return Boolean(fallback); }
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {unknown} value
+   */
   setTimelineGeneralsOnly(value) {
     try { localStorage.setItem('civgraph:timelineGeneralsOnly', value ? '1' : '0'); } catch { /* private mode */ }
   }
@@ -308,7 +353,9 @@ export class TimelineControlMethods {
    * the decade's first stop, so on an index-spaced axis "1950" marked the 1955 edition and
    * "1970" the 1977 one (UX review 2026-10-30). Candidates are the first stop of each decade
    * (a general election or edition in preference to a by-election) and the two ends;
-   * fitTimelineYearLabels keeps as many as fit, the most important first. */
+   * fitTimelineYearLabels keeps as many as fit, the most important first.
+   * @this {TimelineControlApp}
+   */
   renderTimelineTicks() {
     const ticks = document.getElementById('timelineTicks');
     if (!ticks) return;
@@ -322,6 +369,11 @@ export class TimelineControlMethods {
     requestAnimationFrame(() => this.fitTimelineYearLabels());
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {TimelineItem | null | undefined} item
+   * @returns {number}
+   */
   timelineItemYear(item) {
     const date = this.parseTimelineDate(item?.date ?? item?.timestamp ?? item?.label);
     return date ? date.getUTCFullYear() : NaN;
@@ -329,12 +381,15 @@ export class TimelineControlMethods {
 
   /** Year labels that would collide are hidden: the ends first, then general elections and
    * editions, then the rest, each kept only where it has room. On the Westminster axis, whose
-   * by-elections crowd the later decades, that thins the right end instead of packing it. */
+   * by-elections crowd the later decades, that thins the right end instead of packing it.
+   * @this {TimelineControlApp}
+   */
   fitTimelineYearLabels() {
     const ticks = document.getElementById('timelineTicks');
     if (!ticks) return;
-    const labels = [...ticks.querySelectorAll('.timeline-year')];
+    const labels = [.../** @type {NodeListOf<HTMLElement>} */ (ticks.querySelectorAll('.timeline-year'))];
     const width = ticks.clientWidth;
+    /** @type {Array<{ left: number, right: number }>} */
     const placed = [];
     const ordered = labels
       .map((label) => {
@@ -354,9 +409,17 @@ export class TimelineControlMethods {
     }
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {TimelineItem[] | null | undefined} items
+   * @param {number} activeIndex
+   * @param {unknown} onSelect what a chosen stop does: (item, index) => Promise
+   * @param {{ generalsFilter?: { available?: boolean, active?: boolean } | null }} [options]
+   */
   setTimelineItems(items, activeIndex, onSelect, options = {}) {
     const slider = document.getElementById('timelineSlider');
-    const range = document.getElementById('timelineRange');
+    const range = /** @type {HTMLInputElement | null} */ (document.getElementById('timelineRange'));
+    /** @type {TimelineItem[]} */
     const playableItems = Array.isArray(items)
       ? items.filter((item) => !item?.mapId || this.isTimelineMapPlayable(item.mapId))
       : [];
@@ -366,8 +429,9 @@ export class TimelineControlMethods {
     // end, even with the 2012 map loaded). Play-mode morphing still works:
     // applyTimelineAnimationTransition looks up an overlay per adjacent pair and falls
     // back to a plain switch when none exists.
+    /** @type {TimelineItem[]} */
     this.timelineItems = playableItems;
-    this.timelineOnSelect = typeof onSelect === 'function' ? onSelect : null;
+    this.timelineOnSelect = typeof onSelect === 'function' ? /** @type {(item: TimelineItem, index: number) => unknown} */ (onSelect) : null;
     if (!slider || !range || this.timelineItems.length < 2 || !this.timelineOnSelect) {
       this.hideTimeline();
       return;
@@ -390,7 +454,7 @@ export class TimelineControlMethods {
      * Each clause now requires the field to be present on the requested item before it
      * can match, and elections match on body+date, which is their actual identity.
      */
-    const sameTimelineItem = (item, requested) => {
+    const sameTimelineItem = (/** @type {TimelineItem | null | undefined} */ item, /** @type {TimelineItem | null | undefined} */ requested) => {
       if (!item || !requested) return false;
       if (requested.mapId != null) return item.mapId === requested.mapId;
       if (requested.timestamp != null) return item.timestamp === requested.timestamp;
@@ -417,19 +481,32 @@ export class TimelineControlMethods {
     this.notifyTimelineLayoutChanged();
   }
 
-  clampTimelineIndex(index, items = this.timelineItems) {
+  /**
+   * (A default parameter is checked against the class, not the typed this, so it reaches the
+   * app through a cast; installMethods makes the app `this`.)
+   * @this {TimelineControlApp}
+   * @param {unknown} index
+   * @param {TimelineItem[]} [items]
+   * @returns {number}
+   */
+  clampTimelineIndex(index, items = /** @type {TimelineControlApp} */ (/** @type {unknown} */ (this)).timelineItems) {
     const sequence = Array.isArray(items) ? items : [];
     if (!sequence.length) return 0;
     return Math.max(0, Math.min(sequence.length - 1, Number(index) || 0));
   }
 
+  /** @this {TimelineControlApp} */
   getTimelineRangeIndex() {
-    return this.clampTimelineIndex(document.getElementById('timelineRange')?.value || 0);
+    return this.clampTimelineIndex(/** @type {HTMLInputElement | null} */ (document.getElementById('timelineRange'))?.value || 0);
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {unknown} index
+   */
   setTimelineRangeIndex(index) {
     const safeIndex = this.clampTimelineIndex(index);
-    const range = document.getElementById('timelineRange');
+    const range = /** @type {HTMLInputElement | null} */ (document.getElementById('timelineRange'));
     if (range) range.value = String(safeIndex);
     this.updateTimelineLabel(safeIndex);
     // T17 attempt 5: every write to the slider records where it came from. Four
@@ -446,6 +523,10 @@ export class TimelineControlMethods {
     return safeIndex;
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {unknown} index
+   */
   updateTimelineLabel(index) {
     const timelineItems = this.getTimelineAnimationItems();
     const item = timelineItems[this.clampTimelineIndex(index, timelineItems)];
@@ -453,12 +534,14 @@ export class TimelineControlMethods {
     const text = this.formatTimelineItemLabel(item);
     if (label) label.textContent = text;
     const sublabel = document.getElementById('timelineSublabel');
-    if (sublabel) sublabel.textContent = item?.sublabel || '';
+    if (sublabel) sublabel.textContent = /** @type {string | undefined} */ (item?.sublabel) || '';
     document.getElementById('timelineRange')?.setAttribute('aria-valuetext', [text, item?.sublabel].filter(Boolean).join(', '));
   }
 
+  /** @this {TimelineControlApp} */
   hideTimeline() {
     this.clearTimelineAnimationTimer();
+    /** @type {TimelineItem[]} */
     this.timelineItems = [];
     this.timelineOnSelect = null;
     this.timelineAnimation.runId += 1;
@@ -472,10 +555,12 @@ export class TimelineControlMethods {
     this.notifyTimelineLayoutChanged();
   }
 
+  /** @this {TimelineControlApp} */
   notifyTimelineLayoutChanged() {
     requestAnimationFrame(() => this.mapController?.invalidateSize?.());
   }
 
+  /** @this {TimelineControlApp} */
   updateTimeline() {
     if (this.timelineApplying) return;
     if (this.timelineAnimation?.playing) return;
@@ -486,7 +571,9 @@ export class TimelineControlMethods {
     const activeIds = this.getLoadedLayerIds()
       .filter((id) => dataService.getMapById(id))
       .filter((id) => this.isMapVisible(id));
+    /** @type {import('../../data-service.js').CatalogueSeries[]} */
     const chains = [];
+    /** @type {Set<string>} */
     const chainIds = new Set();
     for (const id of activeIds) {
       const chain = dataService.getChainForMap?.(id);
@@ -510,7 +597,7 @@ export class TimelineControlMethods {
     const currentTimestamp = this.getCurrentTimelineTimestamp(activeIds);
     const items = timestamps.map((timestamp) => {
       const mapId = referenceMapId ? this.getTimelineMapIdForTimestamp(referenceMapId, timestamp) : null;
-      const yearOnly = mapId ? this.yearOnlyMapDate(dataService.getMapById(mapId)) : null;
+      const yearOnly = mapId ? this.yearOnlyMapDate(/** @type {Parameters<typeof yearOnlyMapDate>[0]} */ (dataService.getMapById(mapId))) : null;
       return {
         timestamp,
         label: yearOnly || this.formatTimelineTimestamp(timestamp),
@@ -522,7 +609,7 @@ export class TimelineControlMethods {
       };
     }).filter((item) => this.isTimelineMapPlayable(item.mapId));
     const activeIndex = items.findIndex((item) => item.timestamp === currentTimestamp);
-    this.setTimelineItems(items, activeIndex >= 0 ? activeIndex : items.length - 1, async (item, index) => {
+    this.setTimelineItems(items, activeIndex >= 0 ? activeIndex : items.length - 1, async (/** @type {TimelineItem} */ item, /** @type {number} */ index) => {
       this.timelineAnimation.currentIndex = this.clampTimelineIndex(index);
       // Stepping through time keeps the reader's zoom and position; only opening a map fits it.
       await this.applyTimelineTimestamp(item.timestamp, { fit: false });
@@ -530,6 +617,12 @@ export class TimelineControlMethods {
     this.syncTimelineChangesToShownEdition();
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {string | null} referenceMapId
+   * @param {number} timestamp
+   * @returns {string | null}
+   */
   getTimelineMapIdForTimestamp(referenceMapId, timestamp) {
     if (!referenceMapId || !Number.isFinite(Number(timestamp))) return null;
     const equivalents = dataService.getEquivalentMapsForDate?.([referenceMapId], timestamp) || {};
@@ -541,13 +634,23 @@ export class TimelineControlMethods {
     return null;
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {string[]} activeIds
+   * @returns {number | null}
+   */
   getCurrentTimelineTimestamp(activeIds) {
     const activeTimestamps = activeIds
       .map((id) => dataService.parseMapDate?.(dataService.getMapById(id)?.date))
       .filter((timestamp) => Number.isFinite(Number(timestamp)));
-    return activeTimestamps.length ? Math.max(...activeTimestamps) : null;
+    // The filter keeps finite numbers only.
+    return activeTimestamps.length ? Math.max(.../** @type {number[]} */ (activeTimestamps)) : null;
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {unknown} timestamp
+   */
   formatTimelineTimestamp(timestamp) {
     const date = new Date(Number(timestamp));
     if (!Number.isFinite(date.getTime())) return '';
@@ -558,11 +661,18 @@ export class TimelineControlMethods {
    * A map's year when its date is known only to the year: a bare year (2023), or 1 January of
    * it with nothing saying the day is meant (the 1977 DEDs are "1977-01-01"). A map named
    * "1 Jan 1919", or in force from that day, keeps its day. Null otherwise.
+   * @this {TimelineControlApp}
+   * @param {Parameters<typeof yearOnlyMapDate>[0]} map
    */
   yearOnlyMapDate(map) {
     return yearOnlyMapDate(map);
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {TimelineItem | null | undefined} item
+   * @returns {string}
+   */
   formatTimelineItemLabel(item) {
     if (!item) return '';
     if (item.displayLabel) return item.displayLabel;
@@ -571,18 +681,33 @@ export class TimelineControlMethods {
       const date = this.parseTimelineDate(candidate);
       if (date) return this.formatTimelineDate(date);
     }
-    return item.label || '';
+    return /** @type {string} */ (item.label) || '';
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {unknown} value
+   */
   parseTimelineDate(value) {
-    return parseTimelineDate(value);
+    // A stop's date, timestamp or label: a string or a number as the timeline builds them.
+    return parseTimelineDate(/** @type {string | number | Date | null | undefined} */ (value));
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {Date} date
+   */
   formatTimelineDate(date) {
     return formatDisplayDate(date);
   }
 
+  /**
+   * @this {TimelineControlApp}
+   * @param {number} timestamp
+   * @param {{ fit?: boolean }} [options]
+   */
   async applyTimelineTimestamp(timestamp, options = {}) {
+
     const activeIds = this.getLoadedLayerIds()
       .filter((id) => dataService.getMapById(id))
       .filter((id) => this.isMapVisible(id));
