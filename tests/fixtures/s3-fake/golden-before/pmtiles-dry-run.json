@@ -1,0 +1,68 @@
+{
+ "id": "pmtiles-dry-run",
+ "exit": 1,
+ "stdout": "[1/6] data/maps/tiles-fixture/pmtiles/small-vector-test.pmtiles (0.0 MB)\n[2/6] data/maps/tiles-fixture/roads (4 MVT files)\n  1/4 0/0/0.pbf\n  4/4 1/1/1.pbf\n[3/6] data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles (8.0 MB)\n[5/6] data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles (128.0 MB)\nWrote render/metadata/cdn-upload-report.json\n",
+ "stderr": "",
+ "calls": [],
+ "files": {
+  "render/metadata/cdn-upload-report.json": {
+   "schemaVersion": 1,
+   "generatedAt": "<volatile>",
+   "bucket": "boundaries-data",
+   "dryRun": true,
+   "selectedIds": [],
+   "totals": {
+    "assets": 6,
+    "processed": 6,
+    "ok": 4,
+    "failed": 2,
+    "bytes": 142608455
+   },
+   "results": [
+    {
+     "layerId": "small-vector-test",
+     "targetKey": "data/maps/tiles-fixture/pmtiles/small-vector-test.pmtiles",
+     "ok": true,
+     "status": "dry-run",
+     "bytes": 2048
+    },
+    {
+     "layerId": "roads-vector-test",
+     "targetPrefix": "data/maps/tiles-fixture/roads",
+     "ok": true,
+     "status": "dry-run",
+     "files": 4,
+     "uploaded": 4,
+     "failed": 0,
+     "bytes": 70
+    },
+    {
+     "layerId": "exact-vector-test",
+     "targetKey": "data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles",
+     "ok": true,
+     "status": "dry-run",
+     "bytes": 8388608
+    },
+    {
+     "layerId": "gone-vector-test",
+     "targetKey": "data/maps/tiles-fixture/pmtiles/gone-vector-test.pmtiles",
+     "ok": false,
+     "status": "missing-local-file"
+    },
+    {
+     "layerId": "big-vector-test",
+     "targetKey": "data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles",
+     "ok": true,
+     "status": "dry-run",
+     "bytes": 134217729
+    },
+    {
+     "layerId": "absent-vector-test",
+     "targetPrefix": "data/maps/tiles-fixture/absent",
+     "ok": false,
+     "status": "missing-local-directory"
+    }
+   ]
+  }
+ }
+}

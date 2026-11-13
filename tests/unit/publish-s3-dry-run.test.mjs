@@ -11,6 +11,14 @@
 // working tree: orphans-delete-fails and orphans-delete-batches-fails, where r2-orphans prints
 // each key the bucket refused to delete, counts them and exits 1 (it used to say "Deleted N."
 // and exit 0); their S3 calls are the same as before.
+//
+// r2-upload-pmtiles (stream rf9-s3b) uploaded with wrangler, not the S3 client, before it moved
+// onto the store, so its cases (compare: 'objects') are held twice: to golden/ call by call, like
+// every other case (recorded from the moved script), and to golden-before/ (recorded from main's
+// wrangler version at a36887c3fb) at the level of the objects written: key, size, SHA-256,
+// Content-Type, Content-Encoding, Cache-Control and metadata, with the exit code, output and
+// upload report. Two of them differ on purpose, and assert how (`intended`).
+//
 // To see the comparison against any revision directly:
 //
 //   node ../fixtures/s3-fake/harness.mjs --compare <rev>     (from this folder)
@@ -20,14 +28,26 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
-import { CASES, GOLDEN, TEST_ENV, goldenFile, runCase } from '../fixtures/s3-fake/harness.mjs';
+import { CASES, GOLDEN, GOLDEN_BEFORE, TEST_ENV, goldenBeforeFile, goldenFile, objectsView, objectsWritten, runCase } from '../fixtures/s3-fake/harness.mjs';
 
 const golden = (/** @type {string} */ id) => JSON.parse(readFileSync(goldenFile(id), 'utf8'));
+const goldenBefore = (/** @type {string} */ id) => JSON.parse(readFileSync(goldenBeforeFile(id), 'utf8'));
 
 test('every case has a golden file, and every golden file a case', () => {
   const files = readdirSync(GOLDEN).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5)).sort();
   assert.deepEqual(files, CASES.map((c) => c.id).sort());
   assert.equal(new Set(CASES.map((c) => c.id)).size, CASES.length, 'case ids are unique');
+  const before = readdirSync(GOLDEN_BEFORE).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5)).sort();
+  assert.deepEqual(before, CASES.filter((c) => c.compare === 'objects').map((c) => c.id).sort(), 'golden-before/ holds exactly the objects-level cases');
+});
+
+test('the wrangler recordings are what the objects-level cases claim', () => {
+  const objectCases = CASES.filter((c) => c.compare === 'objects');
+  assert.deepEqual([...new Set(objectCases.map((c) => c.script))], ['r2-upload-pmtiles']);
+  const before = objectCases.flatMap((c) => goldenBefore(c.id).calls);
+  assert.ok(before.length && before.every((/** @type {{ op: string }} */ call) => call.op === 'wrangler'), 'the earlier version only ever ran wrangler');
+  const sizes = objectCases.flatMap((c) => objectsWritten(golden(c.id).calls).map((o) => o.size));
+  assert.ok(sizes.some((n) => n > 128 * 1024 * 1024), 'a file over 128 MiB is among the objects written');
 });
 
 test('the scripts cover the operations the comparison promises', () => {
@@ -36,7 +56,7 @@ test('the scripts cover the operations the comparison promises', () => {
   const bodies = new Set(CASES.flatMap((c) => golden(c.id).calls.filter((/** @type {{ op: string }} */ call) => call.op === 'PutObject').map((/** @type {{ input: { Body: { kind: string } } }} */ call) => call.input.Body.kind)));
   assert.deepEqual([...bodies].sort(), ['buffer', 'stream']);
   const scripts = new Set(CASES.map((c) => c.script));
-  assert.deepEqual([...scripts].sort(), ['elections-app-r2-upload', 'r2-cache-control', 'r2-copy-keys', 'r2-orphans', 'r2-upload-files', 'r2-upload-manifest', 'r2-upload-tree', 'verify-r2-parity']);
+  assert.deepEqual([...scripts].sort(), ['elections-app-r2-upload', 'r2-cache-control', 'r2-copy-keys', 'r2-orphans', 'r2-upload-files', 'r2-upload-manifest', 'r2-upload-pmtiles', 'r2-upload-tree', 'verify-r2-parity']);
 });
 
 for (const c of CASES) {
@@ -52,5 +72,10 @@ for (const c of CASES) {
     assert.equal(got.stderr, want.stderr, 'stderr');
     assert.deepEqual(got.files, want.files, 'files written');
     assert.deepEqual(got.calls, want.calls, 'S3 calls, in order');
+    if (c.compare !== 'objects') return;
+    const before = objectsView(goldenBefore(c.id));
+    const after = objectsView(got);
+    if (c.intended) c.intended(before, after);
+    else assert.deepEqual(after, before, 'the same objects written, exit code, output and report as the wrangler version');
   });
 }

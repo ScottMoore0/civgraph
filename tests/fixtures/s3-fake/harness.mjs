@@ -11,12 +11,20 @@
 //   harness.mjs --record <rev> [case ...]   write golden/ from <rev>'s scripts (<rev> 'worktree':
 //                                           the working tree's, for a case whose change is intended)
 //   harness.mjs --compare <rev> [case ...]  run <rev>'s and the working tree's, report differences
+//   harness.mjs --record-before <rev> [case ...]  write golden-before/ from <rev>'s scripts, for
+//                                           the cases compared at the level of objects written
+//
+// A case with `compare: 'objects'` (r2-upload-pmtiles, whose earlier version uploaded with
+// wrangler) is compared with its golden-before/ recording by objectsView: the objects written
+// (key, size, SHA-256, headers, metadata), exit code, output and written files. Its golden/
+// recording, from the working tree, holds its S3 calls as every other case's does.
 //
 // Credentials: each run gets made-up R2_* values and none of the caller's R2_*, AWS_* or
 // CLOUDFLARE_* variables; there is no .env.local in the copy, so none is ever read.
 import { execFileSync, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { closeSync, existsSync, mkdirSync, mkdtempSync, openSync, readFileSync, realpathSync, rmSync, writeFileSync, ftruncateSync } from 'node:fs';
+import { closeSync, existsSync, mkdirSync, mkdtempSync, openSync, readFileSync, realpathSync, rmSync, writeFileSync, writeSync, ftruncateSync } from 'node:fs';
+import assert from 'node:assert/strict';
 import { isDeepStrictEqual } from 'node:util';
 import os from 'node:os';
 import path from 'node:path';
@@ -90,11 +98,18 @@ function fixtureRoot() {
       mkdirSync(path.dirname(abs(rel)), { recursive: true });
       writeFileSync(abs(rel), content);
     },
-    /** A file of `bytes` zero bytes, made without writing them. @param {string} rel @param {number} bytes */
-    big(rel, bytes) {
+    /**
+     * A file of `bytes` zero bytes, made without writing them, with `marks` (text at offsets)
+     * written over them, so that parts sent out of order or twice would change its hash.
+     * @param {string} rel @param {number} bytes @param {Record<number, string>} [marks]
+     */
+    big(rel, bytes, marks = {}) {
       mkdirSync(path.dirname(abs(rel)), { recursive: true });
       const fd = openSync(abs(rel), 'w');
-      try { ftruncateSync(fd, bytes); } finally { closeSync(fd); }
+      try {
+        ftruncateSync(fd, bytes);
+        for (const [at, text] of Object.entries(marks)) writeSync(fd, Buffer.from(text), 0, Buffer.byteLength(text), Number(at));
+      } finally { closeSync(fd); }
     },
     /** @param {string[]} args */
     git(args) { execFileSync('git', ['-c', 'init.defaultBranch=main', '-c', 'core.autocrlf=false', ...args], { cwd: root, stdio: 'ignore' }); },
@@ -150,7 +165,7 @@ const stripVolatile = (value) => JSON.parse(JSON.stringify(value, (k, v) => (VOL
  * @property {string} root
  * @property {(rel: string) => string} abs
  * @property {(rel: string, content: string | Buffer) => void} write
- * @property {(rel: string, bytes: number) => void} big
+ * @property {(rel: string, bytes: number, marks?: Record<number, string>) => void} big
  * @property {(args: string[]) => void} git
  *
  * @typedef {object} Case
@@ -161,6 +176,11 @@ const stripVolatile = (value) => JSON.parse(JSON.stringify(value, (k, v) => (VOL
  * @property {string[]} [extras]        repository files the script reads besides its imports
  * @property {(fx: Fixture) => (object | void)} [setup]  writes the fixture files; returns the bucket's state
  * @property {string[]} [files]         files the script writes, compared too
+ * @property {'objects'} [compare]       compare with golden-before/ at the level of the objects
+ *                                      written (objectsView), not call by call: the script's
+ *                                      earlier version used another client
+ * @property {(before: ObjectsView, after: ObjectsView) => void} [intended]  for a case whose
+ *                                      objects-level view differs on purpose: asserts the difference
  *
  * @typedef {object} Run
  * @property {string} id
@@ -565,11 +585,161 @@ CASES.push(
   },
 );
 
+// r2-upload-pmtiles: the CDN upload manifest's PMTiles archives and MVT tile directories, one
+// object at a time, in manifest order. Before stream rf9-s3b it uploaded each with
+// `npx wrangler r2 object put` (the Cloudflare REST API; register.mjs has a stand-in for it); now
+// it goes through the S3 store, with multipart for a file over 8 MiB. The two make different
+// calls, so these cases are compared with main's wrangler version (golden-before/) at the level
+// of the objects written: key, size, SHA-256, headers and metadata, plus the exit code, the
+// output and the upload report.
+const MIB = 1024 * 1024;
+const PM = 'data/maps/tiles-fixture';
+const PMTILES_MANIFEST = 'render/metadata/cdn-upload-manifest.json';
+const PMTILES_REPORT = 'render/metadata/cdn-upload-report.json';
+const PMTILES_RANGE_REPORT = 'render/metadata/cdn-range-report.json';
+/**
+ * @param {Fixture} fx
+ * @param {{ huge?: boolean }} [options]  huge: add a 300 MiB + 1 byte archive (over wrangler's limit)
+ */
+function pmtilesFixture(fx, { huge = false } = {}) {
+  /** @param {string} id @param {number} [bytes] */
+  const archive = (id, bytes) => ({
+    layerId: `${id}-vector-test`, kind: 'pmtiles', localPath: `render/pmtiles/generated/${id}-vector-test.pmtiles`, exists: bytes !== undefined,
+    targetKey: `${PM}/pmtiles/${id}-vector-test.pmtiles`, cdnUrl: `${SITE.dataOrigin}/${PM}/pmtiles/${id}-vector-test.pmtiles`, bytes: bytes ?? null,
+  });
+  /** @param {string} id @param {boolean} exists */
+  const tiles = (id, exists) => ({
+    layerId: `${id}-vector-test`, kind: 'mvt-directory', localPath: `render/tiles/${id}`, exists,
+    targetPrefix: `${PM}/${id}`, cdnUrlTemplate: `${SITE.dataOrigin}/${PM}/${id}/{z}/{x}/{y}.pbf`,
+  });
+  const small = archive('small', 2048);
+  fx.write(small.localPath, Buffer.alloc(2048, 'pmtiles small '));
+  // Exactly one part's size: still one PUT.
+  const exact = archive('exact', 8 * MIB);
+  fx.big(exact.localPath, 8 * MIB, { 0: 'PMTiles exact', [8 * MIB - 4]: 'end.' });
+  // Over 128 MiB: 17 parts of 8 MiB, the last 1 byte.
+  const big = archive('big', 128 * MIB + 1);
+  fx.big(big.localPath, 128 * MIB + 1, { 0: 'PMTiles big', [8 * MIB - 1]: 'across a part boundary', [100 * MIB]: 'part 13', [128 * MIB]: '!' });
+  const gone = archive('gone');
+  const roads = tiles('roads', true);
+  for (const [rel, text] of [['0/0/0.pbf', 'z0'], ['1/0/0.pbf', 'z1 a'], ['1/1/0.pbf', 'z1 b'], ['1/1/1.pbf', 'z1 c'], ['metadata.json', '{}']]) fx.write(`${roads.localPath}/${rel}`, `gzipped tile ${text}\n`);
+  /** @type {object[]} */
+  const assets = [small, roads, exact, gone, big, tiles('absent', false), { layerId: 'other-fgb', kind: 'fgb', localPath: 'x.fgb', targetKey: `${PM}/x.fgb` }];
+  if (huge) {
+    const h = archive('huge', 300 * MIB + 1);
+    fx.big(h.localPath, 300 * MIB + 1, { 0: 'PMTiles huge', [300 * MIB]: '!' });
+    assets.push(h);
+  }
+  fx.write(PMTILES_MANIFEST, JSON.stringify({ schemaVersion: 1, generatedAt: '2026-11-13T00:00:00.000Z', cdnBase: `${SITE.dataOrigin}/${PM}`, r2Prefix: PM, assets }, null, 2));
+  return {};
+}
+/** Each client's failure for the same objects: the S3 store's, and the wrangler stand-in's. */
+const PMTILES_FAILURES = [
+  { op: 'PutObject', key: `${PM}/pmtiles/small-vector-test.pmtiles` }, { op: 'wrangler-put', key: `${PM}/pmtiles/small-vector-test.pmtiles` },
+  { op: 'PutObject', key: `${PM}/roads/1/1/0.pbf` }, { op: 'wrangler-put', key: `${PM}/roads/1/1/0.pbf` },
+  // The S3 store fails the big archive's first part, and aborts the upload.
+  { op: 'UploadPart', key: `${PM}/pmtiles/big-vector-test.pmtiles` }, { op: 'wrangler-put', key: `${PM}/pmtiles/big-vector-test.pmtiles` },
+];
+/** @param {Partial<Case> & { id: string }} c @returns {Case} */
+const pm = (c) => ({ script: 'r2-upload-pmtiles', compare: 'objects', files: [PMTILES_REPORT], setup: (fx) => pmtilesFixture(fx), ...c });
+CASES.push(
+  pm({ id: 'pmtiles-dry-run', args: ['--dry-run'] }),
+  pm({ id: 'pmtiles-dry-run-no-credentials', args: ['--dry-run'], credentials: false }),
+  pm({ id: 'pmtiles-send', args: [] }),
+  pm({ id: 'pmtiles-ids', args: ['--ids', 'small-vector-test', '--ids=roads-vector-test,absent-vector-test'] }),
+  pm({ id: 'pmtiles-ids-empty', args: ['--ids', ''] }),
+  pm({ id: 'pmtiles-no-match', args: ['--ids', 'nope-vector-test'] }),
+  pm({
+    id: 'pmtiles-failed-range-report', args: ['--failed-range-report'],
+    setup: (fx) => {
+      fx.write(PMTILES_RANGE_REPORT, JSON.stringify({ results: [{ layerId: 'small-vector-test', ok: false }, { layerId: 'big-vector-test', ok: true }, { layerId: 'roads-vector-test', ok: false }] }));
+      return pmtilesFixture(fx);
+    },
+  }),
+  pm({ id: 'pmtiles-no-range-report', args: ['--failed-range-report'] }),
+  pm({ id: 'pmtiles-put-fails', args: [], setup: (fx) => ({ ...pmtilesFixture(fx), fail: PMTILES_FAILURES }) }),
+);
+
+// ---------------------------------------------------------------------------------------------
+// The objects-level comparison (cases with `compare: 'objects'`).
+
+/**
+ * @typedef {object} WrittenObject
+ * @property {string} Bucket
+ * @property {string} Key
+ * @property {number} size
+ * @property {string} sha256
+ * @property {string} [ContentType]
+ * @property {string} [ContentEncoding]
+ * @property {string} [CacheControl]
+ * @property {Record<string, string>} Metadata
+ *
+ * @typedef {object} ObjectsView
+ * @property {number | null} exit
+ * @property {string} stdout
+ * @property {string} stderr
+ * @property {WrittenObject[]} written
+ * @property {Record<string, unknown>} files
+ */
+
+/**
+ * The objects a run wrote, in order: each PutObject that succeeded, each completed multipart
+ * upload (client-s3.mjs logs what it made as `written`), and each wrangler put that succeeded
+ * (register.mjs's stand-in logs the same).
+ * @param {object[]} calls
+ * @returns {WrittenObject[]}
+ */
+export function objectsWritten(calls) {
+  /** @type {WrittenObject[]} */
+  const out = [];
+  for (const call of /** @type {Array<{ op: string, failed?: number, written?: WrittenObject, input?: Record<string, any> }>} */ (calls)) {
+    if (call.written) out.push(call.written);
+    else if (call.op === 'PutObject' && !call.failed && call.input) {
+      const i = call.input;
+      out.push(JSON.parse(JSON.stringify({ Bucket: i.Bucket, Key: i.Key, size: i.Body.size, sha256: i.Body.sha256, ContentType: i.ContentType, ContentEncoding: i.ContentEncoding, CacheControl: i.CacheControl, Metadata: i.Metadata || {} })));
+    }
+  }
+  return out;
+}
+
+/**
+ * A run as the objects-level comparison sees it: what was written, the exit code, the output and
+ * the written files. In an upload report the `output` field (wrangler's own output, which the S3
+ * path has no counterpart for) is dropped, and `error` texts (each client words its own) read
+ * '<error>'.
+ * @param {Run} run
+ * @returns {ObjectsView}
+ */
+export function objectsView(run) {
+  const files = JSON.parse(JSON.stringify(run.files), (k, v) => (k === 'output' ? undefined : k === 'error' && typeof v === 'string' ? '<error>' : v));
+  return { exit: run.exit, stdout: run.stdout, stderr: run.stderr, written: objectsWritten(run.calls), files };
+}
+
+/**
+ * Where two runs' objects-level views differ (empty when they are the same).
+ * @param {Run} a
+ * @param {Run} b
+ */
+export function objectsDifferences(a, b) {
+  const [x, y] = [objectsView(a), objectsView(b)];
+  const out = [];
+  if (x.exit !== y.exit) out.push(`exit ${x.exit} vs ${y.exit}`);
+  if (x.stdout !== y.stdout) out.push('stdout differs');
+  if (x.stderr !== y.stderr) out.push('stderr differs');
+  if (!isDeepStrictEqual(x.files, y.files)) out.push('written files differ');
+  if (!isDeepStrictEqual(x.written, y.written)) out.push(`objects written differ: ${JSON.stringify(x.written.map((o) => o.Key))} vs ${JSON.stringify(y.written.map((o) => o.Key))}`);
+  return out;
+}
+
 // ---------------------------------------------------------------------------------------------
 // Golden files and the command line.
 
 /** @param {string} id */
 export const goldenFile = (id) => path.join(GOLDEN, `${id}.json`);
+/** Recordings of an objects-level case from the script's earlier version (see `compare`). */
+export const GOLDEN_BEFORE = path.join(HERE, 'golden-before');
+/** @param {string} id */
+export const goldenBeforeFile = (id) => path.join(GOLDEN_BEFORE, `${id}.json`);
 
 /** @param {Run} run */
 export const goldenText = (run) => `${JSON.stringify(run, null, 1)}\n`;
@@ -595,25 +765,34 @@ export function differences(a, b) {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const [mode, rev, ...ids] = process.argv.slice(2);
-  if ((mode !== '--record' && mode !== '--compare') || !rev) {
-    console.error(`Usage: node ${path.relative(process.cwd(), fileURLToPath(import.meta.url))} (--record | --compare) <rev> [case ...]`);
+  if ((mode !== '--record' && mode !== '--compare' && mode !== '--record-before') || !rev) {
+    console.error(`Usage: node ${path.relative(process.cwd(), fileURLToPath(import.meta.url))} (--record | --compare | --record-before) <rev> [case ...]`);
     process.exit(2);
   }
-  const chosen = ids.length ? CASES.filter((c) => ids.includes(c.id)) : CASES;
-  mkdirSync(GOLDEN, { recursive: true });
+  let chosen = ids.length ? CASES.filter((c) => ids.includes(c.id)) : CASES;
+  if (mode === '--record-before') chosen = chosen.filter((c) => c.compare === 'objects');
+  mkdirSync(mode === '--record-before' ? GOLDEN_BEFORE : GOLDEN, { recursive: true });
   let differing = 0;
   for (const c of chosen) {
     const before = runCase(c, { rev: rev === 'worktree' ? null : rev });
-    if (mode === '--record') {
-      writeFileSync(goldenFile(c.id), goldenText(before));
-      console.log(`recorded ${c.id}: exit ${before.exit}, ${before.calls.length} calls`);
+    if (mode !== '--compare') {
+      writeFileSync(mode === '--record' ? goldenFile(c.id) : goldenBeforeFile(c.id), goldenText(before));
+      console.log(`recorded ${c.id}${mode === '--record' ? '' : ' (before)'}: exit ${before.exit}, ${before.calls.length} calls`);
       continue;
     }
     const after = runCase(c);
-    const diff = differences(before, after);
+    if (c.compare === 'objects' && c.intended) {
+      let failure = '';
+      try { c.intended(objectsView(before), objectsView(after)); } catch (error) { failure = /** @type {Error} */ (error).message; }
+      if (failure) differing += 1;
+      console.log(`${failure ? 'DIFFERENT' : 'intended difference holds'} ${c.id}: exit ${before.exit} -> ${after.exit}${failure ? `\n    ${failure}` : ''}`);
+      continue;
+    }
+    const diff = c.compare === 'objects' ? objectsDifferences(before, after) : differences(before, after);
     if (diff.length) differing += 1;
-    console.log(`${diff.length ? 'DIFFERENT' : 'identical'} ${c.id}: exit ${after.exit}, ${after.calls.length} calls${diff.length ? `\n    ${diff.join('\n    ')}` : ''}`);
+    const what = c.compare === 'objects' ? `${objectsWritten(after.calls).length} objects written` : `${after.calls.length} calls`;
+    console.log(`${diff.length ? 'DIFFERENT' : 'identical'} ${c.id}: exit ${after.exit}, ${what}${diff.length ? `\n    ${diff.join('\n    ')}` : ''}`);
   }
-  if (mode === '--compare') console.log(`\n${chosen.length - differing} of ${chosen.length} cases identical.`);
+  if (mode === '--compare') console.log(`\n${chosen.length - differing} of ${chosen.length} cases identical (or differing only as intended).`);
   process.exit(differing ? 1 : 0);
 }

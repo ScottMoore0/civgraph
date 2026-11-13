@@ -1,0 +1,224 @@
+{
+ "id": "pmtiles-put-fails",
+ "exit": 1,
+ "stdout": "[1/6] data/maps/tiles-fixture/pmtiles/small-vector-test.pmtiles (0.0 MB)\n[2/6] data/maps/tiles-fixture/roads (4 MVT files)\n  1/4 0/0/0.pbf\n  4/4 1/1/1.pbf\n[3/6] data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles (8.0 MB)\n[5/6] data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles (128.0 MB)\nWrote render/metadata/cdn-upload-report.json\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "wrangler",
+   "args": [
+    "r2",
+    "object",
+    "put",
+    "boundaries-data/data/maps/tiles-fixture/pmtiles/small-vector-test.pmtiles",
+    "--file",
+    "render/pmtiles/generated/small-vector-test.pmtiles",
+    "--remote",
+    "--content-type",
+    "application/octet-stream"
+   ],
+   "failed": 500
+  },
+  {
+   "op": "wrangler",
+   "args": [
+    "r2",
+    "object",
+    "put",
+    "boundaries-data/data/maps/tiles-fixture/roads/0/0/0.pbf",
+    "--file",
+    "render/tiles/roads/0/0/0.pbf",
+    "--remote",
+    "--content-type",
+    "application/x-protobuf",
+    "--content-encoding",
+    "gzip"
+   ],
+   "written": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/roads/0/0/0.pbf",
+    "size": 16,
+    "sha256": "a3c7bb1756ab672d1729e18e3b0b387f3e3c0b9f77def7bae5ad17c927e0bd7e",
+    "ContentType": "application/x-protobuf",
+    "ContentEncoding": "gzip",
+    "Metadata": {}
+   }
+  },
+  {
+   "op": "wrangler",
+   "args": [
+    "r2",
+    "object",
+    "put",
+    "boundaries-data/data/maps/tiles-fixture/roads/1/0/0.pbf",
+    "--file",
+    "render/tiles/roads/1/0/0.pbf",
+    "--remote",
+    "--content-type",
+    "application/x-protobuf",
+    "--content-encoding",
+    "gzip"
+   ],
+   "written": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/roads/1/0/0.pbf",
+    "size": 18,
+    "sha256": "daede2fef285ee168657b9bb38e39f8e6a3eb2f49761f435a54f589d0efe7576",
+    "ContentType": "application/x-protobuf",
+    "ContentEncoding": "gzip",
+    "Metadata": {}
+   }
+  },
+  {
+   "op": "wrangler",
+   "args": [
+    "r2",
+    "object",
+    "put",
+    "boundaries-data/data/maps/tiles-fixture/roads/1/1/0.pbf",
+    "--file",
+    "render/tiles/roads/1/1/0.pbf",
+    "--remote",
+    "--content-type",
+    "application/x-protobuf",
+    "--content-encoding",
+    "gzip"
+   ],
+   "failed": 500
+  },
+  {
+   "op": "wrangler",
+   "args": [
+    "r2",
+    "object",
+    "put",
+    "boundaries-data/data/maps/tiles-fixture/roads/1/1/1.pbf",
+    "--file",
+    "render/tiles/roads/1/1/1.pbf",
+    "--remote",
+    "--content-type",
+    "application/x-protobuf",
+    "--content-encoding",
+    "gzip"
+   ],
+   "written": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/roads/1/1/1.pbf",
+    "size": 18,
+    "sha256": "863efee00ac56ad87e24c76e62ff8a02ecf90fc1b16b19aef758ef209310edbd",
+    "ContentType": "application/x-protobuf",
+    "ContentEncoding": "gzip",
+    "Metadata": {}
+   }
+  },
+  {
+   "op": "wrangler",
+   "args": [
+    "r2",
+    "object",
+    "put",
+    "boundaries-data/data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles",
+    "--file",
+    "render/pmtiles/generated/exact-vector-test.pmtiles",
+    "--remote",
+    "--content-type",
+    "application/octet-stream"
+   ],
+   "written": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles",
+    "size": 8388608,
+    "sha256": "9f504e919bcd06bee8a6a87a9f5e021e9c099727ce1f140058016f31619c1b2d",
+    "ContentType": "application/octet-stream",
+    "Metadata": {}
+   }
+  },
+  {
+   "op": "wrangler",
+   "args": [
+    "r2",
+    "object",
+    "put",
+    "boundaries-data/data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles",
+    "--file",
+    "render/pmtiles/generated/big-vector-test.pmtiles",
+    "--remote",
+    "--content-type",
+    "application/octet-stream"
+   ],
+   "failed": 500
+  }
+ ],
+ "files": {
+  "render/metadata/cdn-upload-report.json": {
+   "schemaVersion": 1,
+   "generatedAt": "<volatile>",
+   "bucket": "boundaries-data",
+   "dryRun": false,
+   "selectedIds": [],
+   "totals": {
+    "assets": 6,
+    "processed": 7,
+    "ok": 1,
+    "failed": 6,
+    "bytes": 142608473
+   },
+   "results": [
+    {
+     "layerId": "small-vector-test",
+     "targetKey": "data/maps/tiles-fixture/pmtiles/small-vector-test.pmtiles",
+     "ok": false,
+     "status": "upload-failed",
+     "bytes": 2048,
+     "error": "wrangler exited 1: [ERROR] Failed to fetch /accounts/<account>/r2/buckets/boundaries-data/objects/data/maps/tiles-fixture/pmtiles/small-vector-test.pmtiles - 500: Internal Server Error;/n"
+    },
+    {
+     "layerId": "roads-vector-test",
+     "targetKey": "data/maps/tiles-fixture/roads/1/1/0.pbf",
+     "ok": false,
+     "status": "upload-failed",
+     "bytes": 18,
+     "error": "wrangler exited 1: [ERROR] Failed to fetch /accounts/<account>/r2/buckets/boundaries-data/objects/data/maps/tiles-fixture/roads/1/1/0.pbf - 500: Internal Server Error;/n"
+    },
+    {
+     "layerId": "roads-vector-test",
+     "targetPrefix": "data/maps/tiles-fixture/roads",
+     "ok": false,
+     "status": "partial-directory-upload",
+     "files": 4,
+     "uploaded": 3,
+     "failed": 1,
+     "bytes": 70
+    },
+    {
+     "layerId": "exact-vector-test",
+     "targetKey": "data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles",
+     "ok": true,
+     "status": "uploaded",
+     "bytes": 8388608,
+     "output": "Resource location: remote/nCreating object data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles in bucket boundaries-data./nUpload complete./n"
+    },
+    {
+     "layerId": "gone-vector-test",
+     "targetKey": "data/maps/tiles-fixture/pmtiles/gone-vector-test.pmtiles",
+     "ok": false,
+     "status": "missing-local-file"
+    },
+    {
+     "layerId": "big-vector-test",
+     "targetKey": "data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles",
+     "ok": false,
+     "status": "upload-failed",
+     "bytes": 134217729,
+     "error": "wrangler exited 1: [ERROR] Failed to fetch /accounts/<account>/r2/buckets/boundaries-data/objects/data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles - 500: Internal Server Error;/n"
+    },
+    {
+     "layerId": "absent-vector-test",
+     "targetPrefix": "data/maps/tiles-fixture/absent",
+     "ok": false,
+     "status": "missing-local-directory"
+    }
+   ]
+  }
+ }
+}
