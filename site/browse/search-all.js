@@ -6,7 +6,7 @@
  * Each section is searched as its own page searches it (browse.js searchSection), and this module
  * turns those answers into the page's groups: the sections in their order, the first few matches
  * of each, its count, and the address of the section's own search, which lists them all. Pure,
- * so tests/unit/browse-search-all.test.mjs holds it.
+ * so the browse-search-all unit test holds it.
  */
 
 /** How many matches a section shows here; the rest are on its own search. */
