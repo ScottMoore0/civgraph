@@ -16,6 +16,25 @@ main().catch((error) => {
   process.exitCode = 1;
 });
 
+/** A page from the MediaWiki API (a category member or a page's info). @typedef {{ pageid?: number, title?: string, fullurl?: string, thumbnail?: { source?: string }, original?: { source?: string } }} WikiPage */
+/** The MediaWiki query API's JSON, the fields read. @typedef {{ query?: { categorymembers?: WikiPage[], pages?: Record<string, WikiPage> }, continue?: { cmcontinue?: string } }} WikiQueryJson */
+/** An Internet Archive advanced-search result. @typedef {{ identifier: string, title?: string, description?: string, mediatype?: string, date?: string, publicdate?: string, item_size?: number | string }} IaDoc */
+/** @typedef {{ response?: { docs?: IaDoc[] } }} IaSearchJson */
+/** A file of an Internet Archive item. @typedef {{ name?: string, size?: number | string, format?: string, md5?: string, sha1?: string, source?: string }} IaFile */
+/** The Internet Archive metadata API's JSON, the fields read. @typedef {{ files?: IaFile[], metadata?: { title?: string, description?: string, date?: string }, item_size?: number | string }} IaMetadataJson */
+/** @typedef {{ name?: string, size?: number, format?: string, md5?: string, sha1?: string, url?: string }} CandidateFile */
+/**
+ * An Internet Archive item whose primary file is a raster map image.
+ * @typedef {{ key: string, identifier: string, title: string, description: string, date: number | null, itemSize: number | null,
+ *   itemUrl: string, file: CandidateFile, thumbnail: string }} Candidate
+ */
+/**
+ * An external source as the two builders make it; stableRecord writes these fields in this order.
+ * @typedef {{ id: string, type: string, title: string, subtitle?: string | null, category?: string, date?: number | null,
+ *   provider?: string[], description?: string | null, url?: string, thumbnail?: unknown, references?: unknown[], downloads?: unknown[],
+ *   keywords?: unknown[], duplicateCount?: number | null, sourceItems?: unknown[], license?: string }} SourceRecord
+ */
+
 async function main() {
   const wikipediaSources = await buildWikipediaCouncilElectionSources();
   const iaSources = await buildInternetArchiveRasterMapSources();
@@ -44,7 +63,9 @@ async function main() {
 }
 
 async function buildWikipediaCouncilElectionSources() {
+  /** @type {WikiPage[]} */
   const members = [];
+  /** @type {string | null} */
   let cmcontinue = null;
   do {
     const params = new URLSearchParams({
@@ -57,11 +78,13 @@ async function buildWikipediaCouncilElectionSources() {
       origin: '*'
     });
     if (cmcontinue) params.set('cmcontinue', cmcontinue);
-    const json = await fetchJson(`https://en.wikipedia.org/w/api.php?${params.toString()}`);
+    // the query API's JSON
+    const json = /** @type {WikiQueryJson} */ (await fetchJson(`https://en.wikipedia.org/w/api.php?${params.toString()}`));
     members.push(...normalizeArray(json?.query?.categorymembers));
     cmcontinue = json?.continue?.cmcontinue || null;
   } while (cmcontinue);
 
+  /** @type {WikiPage[]} */
   const pages = [];
   for (const chunk of chunks(members.map((member) => member.pageid).filter(Boolean), 50)) {
     const params = new URLSearchParams({
@@ -74,7 +97,8 @@ async function buildWikipediaCouncilElectionSources() {
       format: 'json',
       origin: '*'
     });
-    const json = await fetchJson(`https://en.wikipedia.org/w/api.php?${params.toString()}`);
+    // the query API's JSON
+    const json = /** @type {WikiQueryJson} */ (await fetchJson(`https://en.wikipedia.org/w/api.php?${params.toString()}`));
     pages.push(...Object.values(json?.query?.pages || {}));
   }
 
@@ -83,7 +107,8 @@ async function buildWikipediaCouncilElectionSources() {
     .sort((a, b) => String(a.title).localeCompare(String(b.title)))
     .map((page) => {
       const year = extractYear(page.title);
-      const title = page.title;
+      // the filter kept only pages with a title
+      const title = /** @type {string} */ (page.title);
       const url = page.fullurl || `https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/\s+/g, '_'))}`;
       return {
         id: `external:wikipedia:council-elections-roi:${slugify(title)}`,
@@ -122,14 +147,18 @@ async function buildWikipediaCouncilElectionSources() {
 
 async function buildInternetArchiveRasterMapSources() {
   const docs = await fetchInternetArchiveDocs();
+  /** @type {Candidate[]} */
   const candidates = [];
   for (const doc of docs) {
     if (!isLikelyRasterMapDoc(doc)) continue;
+    /** @type {IaMetadataJson | undefined} */
     let metadata;
     try {
-      metadata = await fetchJson(`${IA_METADATA}${encodeURIComponent(doc.identifier)}`);
+      // the metadata API's JSON
+      metadata = /** @type {IaMetadataJson} */ (await fetchJson(`${IA_METADATA}${encodeURIComponent(doc.identifier)}`));
     } catch (error) {
-      console.warn(`Skipping ${doc.identifier}: ${error.message}`);
+      // fetch and fetchJson throw Errors
+      console.warn(`Skipping ${doc.identifier}: ${/** @type {Error} */ (error).message}`);
       continue;
     }
     const primaryFile = choosePrimaryRasterFile(metadata?.files || []);
@@ -157,10 +186,12 @@ async function buildInternetArchiveRasterMapSources() {
     });
   }
 
+  /** @type {Map<string, Candidate[]>} */
   const grouped = new Map();
   for (const candidate of candidates) {
     if (!grouped.has(candidate.key)) grouped.set(candidate.key, []);
-    grouped.get(candidate.key).push(candidate);
+    // the key was set on the line before if it was missing
+    /** @type {Candidate[]} */ (grouped.get(candidate.key)).push(candidate);
   }
 
   const records = [];
@@ -212,7 +243,9 @@ async function buildInternetArchiveRasterMapSources() {
   return records.sort((a, b) => String(a.title).localeCompare(String(b.title)));
 }
 
+/** @returns {Promise<IaDoc[]>} */
 async function fetchInternetArchiveDocs() {
+  /** @type {IaDoc[]} */
   const docs = [];
   let page = 1;
   const rows = 100;
@@ -228,7 +261,8 @@ async function fetchInternetArchiveDocs() {
     for (const field of ['title', 'description', 'mediatype', 'date', 'publicdate', 'item_size']) {
       params.append('fl[]', field);
     }
-    const json = await fetchJson(`${IA_ADVANCED_SEARCH}?${params.toString()}`);
+    // the advanced-search API's JSON
+    const json = /** @type {IaSearchJson} */ (await fetchJson(`${IA_ADVANCED_SEARCH}?${params.toString()}`));
     const batch = normalizeArray(json?.response?.docs);
     docs.push(...batch);
     if (batch.length < rows) break;
@@ -237,6 +271,7 @@ async function fetchInternetArchiveDocs() {
   return docs;
 }
 
+/** @param {IaDoc} doc */
 function isLikelyRasterMapDoc(doc) {
   if (doc?.mediatype && doc.mediatype !== 'image') return false;
   const text = `${doc.identifier || ''} ${doc.title || ''} ${doc.description || ''}`.toLowerCase();
@@ -244,6 +279,10 @@ function isLikelyRasterMapDoc(doc) {
   return /\b(map|maps|boundary|boundaries|ward|wards|district|districts|dea|deas|local government|lgd|electoral|constituenc|county|council|borough)\b/.test(text);
 }
 
+/**
+ * @param {IaFile[]} files
+ * @returns {IaFile | null}
+ */
 function choosePrimaryRasterFile(files) {
   const candidates = normalizeArray(files)
     .filter((file) => isRasterImageFile(file?.name))
@@ -252,10 +291,12 @@ function choosePrimaryRasterFile(files) {
   return candidates[0] || null;
 }
 
+/** @param {unknown} name */
 function isRasterImageFile(name) {
   return /\.(jpe?g|png|tiff?|jp2)$/i.test(String(name || ''));
 }
 
+/** @param {IaFile} file */
 function isDerivativeOrMetadataFile(file) {
   const name = String(file?.name || '').toLowerCase();
   if (/(_files|_meta|_reviews|_archive|_scandata|_thumb|__ia_thumb|thumb|thumbnail)\./i.test(name)) return true;
@@ -263,6 +304,7 @@ function isDerivativeOrMetadataFile(file) {
   return false;
 }
 
+/** @param {IaFile} file */
 function fileScore(file) {
   const name = String(file?.name || '').toLowerCase();
   const size = Number(file?.size || 0) || 0;
@@ -273,6 +315,10 @@ function fileScore(file) {
   return score;
 }
 
+/**
+ * @param {IaFile} file
+ * @param {IaDoc} doc
+ */
 function fileDedupeKey(file, doc) {
   if (file.md5) return `md5:${file.md5}`;
   if (file.sha1) return `sha1:${file.sha1}`;
@@ -280,6 +326,10 @@ function fileDedupeKey(file, doc) {
   return `size-title:${size}:${normalizeName(doc.title || doc.identifier)}`;
 }
 
+/**
+ * @param {string} url
+ * @returns {Promise<unknown>}
+ */
 async function fetchJson(url) {
   const response = await fetch(url, {
     // The site's User-Agent to Wikipedia only; none to archive.org.
@@ -289,6 +339,7 @@ async function fetchJson(url) {
   return response.json();
 }
 
+/** @param {SourceRecord} record */
 function stableRecord(record) {
   return compactObject({
     id: record.id,
@@ -310,18 +361,31 @@ function stableRecord(record) {
   });
 }
 
+/**
+ * @template T
+ * @param {T[]} values
+ * @param {number} size
+ */
 function chunks(values, size) {
+  /** @type {T[][]} */
   const output = [];
   for (let index = 0; index < values.length; index += size) output.push(values.slice(index, index + size));
   return output;
 }
 
+/**
+ * @template T
+ * @param {T | T[] | null | undefined} value
+ * @returns {NonNullable<T>[]}
+ */
 function normalizeArray(value) {
-  if (Array.isArray(value)) return value.filter((item) => item !== null && item !== undefined && item !== '');
+  // the filter drops null and undefined (and '')
+  if (Array.isArray(value)) return /** @type {NonNullable<T>[]} */ (value.filter((item) => item !== null && item !== undefined && item !== ''));
   if (value === null || value === undefined || value === '') return [];
   return [value];
 }
 
+/** @param {unknown[]} parts */
 function compactJoin(parts) {
   return normalizeArray(parts)
     .flatMap((part) => Array.isArray(part) ? part : [part])
@@ -330,7 +394,13 @@ function compactJoin(parts) {
     .join(' / ') || null;
 }
 
+/**
+ * @template {object} T
+ * @param {T} object
+ * @returns {{ [K in keyof T]?: NonNullable<T[K]> }}
+ */
 function compactObject(object) {
+  /** @type {Record<string, unknown>} */
   const output = {};
   for (const [key, value] of Object.entries(object)) {
     if (value === null || value === undefined || value === '') continue;
@@ -338,32 +408,42 @@ function compactObject(object) {
     if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0) continue;
     output[key] = value;
   }
-  return output;
+  // object's own fields, less the empty ones
+  return /** @type {{ [K in keyof T]?: NonNullable<T[K]> }} */ (output);
 }
 
+/** @param {unknown[]} values */
 function unique(values) {
   return [...new Set(normalizeArray(values).map((value) => cleanText(value)).filter(Boolean))];
 }
 
+/** @param {unknown} value */
 function cleanText(value) {
   return String(value ?? '').replace(/\s+/g, ' ').trim();
 }
 
+/** @param {unknown} value */
 function stripHtml(value) {
   return cleanText(String(value || '').replace(/<[^>]*>/g, ' '));
 }
 
+/**
+ * @param {unknown} value
+ * @param {number} length
+ */
 function truncate(value, length) {
   const text = cleanText(value);
   if (text.length <= length) return text;
   return `${text.slice(0, length - 1).trim()}...`;
 }
 
+/** @param {unknown} value */
 function extractYear(value) {
   const match = String(value || '').match(/\b(18\d{2}|19\d{2}|20\d{2})\b/);
   return match ? Number(match[1]) : null;
 }
 
+/** @param {unknown} value */
 function extractKeywords(value) {
   const text = normalizeName(value);
   const keywords = [];
@@ -375,15 +455,18 @@ function extractKeywords(value) {
   return keywords;
 }
 
+/** @param {unknown} value */
 function fileExtension(value) {
   const match = String(value || '').match(/\.([a-z0-9]+)(?:[?#].*)?$/i);
   return match ? match[1].toLowerCase() : null;
 }
 
+/** @param {unknown} value */
 function encodePathComponent(value) {
   return String(value || '').split('/').map((part) => encodeURIComponent(part)).join('/');
 }
 
+/** @param {unknown} value */
 function normalizeName(value) {
   return cleanText(value)
     .normalize('NFKD')
@@ -393,6 +476,7 @@ function normalizeName(value) {
     .trim();
 }
 
+/** @param {unknown} value */
 function slugify(value) {
   return cleanText(value)
     .normalize('NFKD')
