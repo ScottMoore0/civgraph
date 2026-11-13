@@ -1,0 +1,17 @@
+{
+ "id": "upload-manifest-gate",
+ "exit": 1,
+ "stdout": "R2 tree upload\n  source : tree\n  prefix : private/t/\n  local  : 8 files, 0.00 GB\n",
+ "stderr": "Error: R2 publication gate: 2 key(s) are NOT covered by data/database/r2-publication-allowlist.json:\n    private/t/a.json\n    private/t/sub/same-size.txt\n\n  Writing these would publish them at https://data.civgraph.net with no auth.\n  If that is intended, add a reviewed prefix entry to the allowlist in the\n  same commit as the upload. Do not bypass this to \"test\" an upload —\n  there is no unpublish.\n[uncaught]\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials"
+   }
+  }
+ ],
+ "files": {}
+}

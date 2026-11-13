@@ -1,0 +1,34 @@
+{
+ "id": "copy-keys-plan",
+ "exit": 0,
+ "stdout": "2 object(s) to copy, 1 tileUrl(s) not covered by the rename; wrote tmp/r2-key-renames/pmtiles.json\n",
+ "stderr": "",
+ "calls": [],
+ "files": {
+  "tmp/r2-key-renames/pmtiles.json": {
+   "schemaVersion": 1,
+   "kind": "r2-key-renames",
+   "description": "Server-side copies of PMTiles archives to their renamed keys; the old keys stay until retainOldUntil.",
+   "source": "render/metadata/maps-test.json",
+   "generatedAt": "<volatile>",
+   "retainOldUntil": "<volatile>",
+   "approval": null,
+   "pairs": [
+    {
+     "from": "data/maps/test/pmtiles/generated/a-vector-test.pmtiles",
+     "to": "data/maps/pmtiles/a-vector.pmtiles"
+    },
+    {
+     "from": "data/maps/test/pmtiles/generated/b-vector-test.pmtiles",
+     "to": "data/maps/pmtiles/b-vector.pmtiles"
+    }
+   ],
+   "notCovered": [
+    {
+     "url": "/render/pmtiles/generated/c-vector-test.pmtiles",
+     "count": 1
+    }
+   ]
+  }
+ }
+}

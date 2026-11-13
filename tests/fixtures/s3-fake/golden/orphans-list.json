@@ -1,0 +1,49 @@
+{
+ "id": "orphans-list",
+ "exit": 0,
+ "stdout": "14 objects under data/graph/indexes/; 9 match and are gone locally.\n  data/graph/indexes/shards/s-002.json\n  data/graph/indexes/shards/s-002.json.br\n  data/graph/indexes/shards/s-010.json\n  data/graph/indexes/shards/s-011.json\n  data/graph/indexes/shards/s-012.json\n  ... and 4 more\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/indexes/"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/indexes/",
+    "ContinuationToken": "page-4"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/indexes/",
+    "ContinuationToken": "page-8"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/indexes/",
+    "ContinuationToken": "page-12"
+   }
+  }
+ ],
+ "files": {}
+}

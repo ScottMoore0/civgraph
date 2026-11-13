@@ -1,0 +1,47 @@
+{
+ "id": "upload-manifest-verify-only",
+ "exit": 1,
+ "stdout": "R2 tree upload\n  source : tree\n  prefix : data/oireachtas/t/\n  local  : 8 files, 0.00 GB\n\n  listing what the bucket already holds...\n  remote : 4 objects already under the prefix\n  to send: 6 files\n\n\n  verifying against the bucket...\n  local files      : 8\n  present on R2    : 3\n  missing          : 5\n  size mismatches  : 1\n      MISSING data/oireachtas/t/b.pdf\n      MISSING data/oireachtas/t/c.txt\n      MISSING data/oireachtas/t/sub/d.xml\n      MISSING data/oireachtas/t/sub/f.html\n      MISSING data/oireachtas/t/sub/g.bin\n      SIZE    data/oireachtas/t/sub/e.csv local=8 remote=5\n",
+ "stderr": "\n  FAIL: tree is not fully mirrored. Re-run to retry only the gaps.\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/t/"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/t/",
+    "ContinuationToken": "page-3"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/t/"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/t/",
+    "ContinuationToken": "page-3"
+   }
+  }
+ ],
+ "files": {}
+}

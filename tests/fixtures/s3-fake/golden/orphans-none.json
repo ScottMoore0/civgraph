@@ -1,0 +1,25 @@
+{
+ "id": "orphans-none",
+ "exit": 0,
+ "stdout": "1 objects under data/graph/indexes/; 0 match and are gone locally.\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/indexes/"
+   }
+  }
+ ],
+ "files": {}
+}

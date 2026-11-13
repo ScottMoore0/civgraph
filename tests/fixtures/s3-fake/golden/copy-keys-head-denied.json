@@ -1,0 +1,39 @@
+{
+ "id": "copy-keys-head-denied",
+ "exit": 1,
+ "stdout": "",
+ "stderr": "r2-copy-keys: Forbidden\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/a-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/a-vector.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/b-vector-test.pmtiles"
+   },
+   "failed": 403
+  }
+ ],
+ "files": {}
+}

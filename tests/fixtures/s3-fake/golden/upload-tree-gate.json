@@ -1,0 +1,19 @@
+{
+ "id": "upload-tree-gate",
+ "exit": 1,
+ "stdout": "Walking thumbs...\n  8 files, 0.0 MB\n  → s3://boundaries-data/private/thumbs/  (concurrency=1)\n",
+ "stderr": "Error: R2 publication gate: 1 key(s) are NOT covered by data/database/r2-publication-allowlist.json:\n    private/thumbs/\n\n  Writing these would publish them at https://data.civgraph.net with no auth.\n  If that is intended, add a reviewed prefix entry to the allowlist in the\n  same commit as the upload. Do not bypass this to \"test\" an upload —\n  there is no unpublish.\n[uncaught]\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "forcePathStyle": false,
+    "maxAttempts": 5
+   }
+  }
+ ],
+ "files": {}
+}

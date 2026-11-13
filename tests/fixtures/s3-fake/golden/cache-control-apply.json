@@ -1,0 +1,719 @@
+{
+ "id": "cache-control-apply",
+ "exit": 1,
+ "stdout": "Setting Cache-Control on s3://boundaries-data/data/maps/\n  value      : public, max-age=3600, stale-while-revalidate=86400\n  extensions : fgb, gz, br\n\n\nDone.\n  objects listed    : 43\n  in scope          : 37\n  already correct   : 1\n  updated           : 34\n  too large to copy : 1\n  failed            : 1\n\n  OUT OF SCOPE for this run (not checked, may or may not already be set):\n    .png      3\n    .(none)   1\n    .json     1\n    .geojson  1\n    6 objects in total.\n    Sweep everything except raster tiles with:  --exclude-ext png\n\nProblems:\n  - data/maps/denied.fgb: HEAD failed (Forbidden)\n  - data/maps/huge.fgb: 6.0 GB, too large for a simple copy\n\nNEXT, and not optional:\n  node scripts/build/stamp-map-cache-tokens.mjs --write   # ETags may have changed\n  # the next publish loads maps.json into D1 (records:deploy)\n  npm run verify:map-tokens                         # proves the tokens still match\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/a.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/b.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/b.fgb.br"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/b.fgb",
+    "CopySource": "boundaries-data/data/maps/b.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/c.fgb.gz"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/b.fgb.br",
+    "CopySource": "boundaries-data/data/maps/b.fgb.br",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream",
+    "ContentEncoding": "br",
+    "Metadata": {
+     "source": "b.fgb"
+    }
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/d.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/c.fgb.gz",
+    "CopySource": "boundaries-data/data/maps/c.fgb.gz",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream",
+    "ContentEncoding": "gzip"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/denied.fgb"
+   },
+   "failed": 403
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-7",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/d.fgb",
+    "CopySource": "boundaries-data/data/maps/d.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/huge.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-00.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-01.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-00.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-00.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-02.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-01.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-01.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-03.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-02.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-02.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-04.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-03.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-03.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-05.fgb"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-14",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-04.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-04.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-05.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-05.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-06.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-07.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-06.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-06.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-08.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-07.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-07.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-09.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-08.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-08.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-10.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-09.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-09.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-11.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-10.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-10.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-12.fgb"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-21",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-11.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-11.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-12.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-12.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-13.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-14.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-13.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-13.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-15.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-14.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-14.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-16.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-15.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-15.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-16.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-16.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-17.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-18.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-17.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-17.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-19.fgb"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-28",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-18.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-18.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-19.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-19.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-20.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-21.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-20.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-20.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-22.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-21.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-21.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-23.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-22.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-22.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-24.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-23.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-23.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-25.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-24.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-24.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-26.fgb"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-35",
+    "MaxKeys": 1000
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-25.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-25.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-26.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-26.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-27.fgb"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-28.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-27.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-27.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-29.fgb"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-28.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-28.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/n/n-29.fgb",
+    "CopySource": "boundaries-data/data/maps/n/n-29.fgb",
+    "MetadataDirective": "REPLACE",
+    "CacheControl": "public, max-age=3600, stale-while-revalidate=86400",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/maps/",
+    "ContinuationToken": "page-42",
+    "MaxKeys": 1000
+   }
+  }
+ ],
+ "files": {}
+}

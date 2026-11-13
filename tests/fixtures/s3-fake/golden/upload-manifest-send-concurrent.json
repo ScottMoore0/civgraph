@@ -1,0 +1,139 @@
+{
+ "id": "upload-manifest-send-concurrent",
+ "exit": 0,
+ "stdout": "R2 tree upload\n  source : tree\n  prefix : data/oireachtas/t/\n  local  : 8 files, 0.00 GB\n\n  listing what the bucket already holds...\n  remote : 4 objects already under the prefix\n  to send: 6 files\n\n\n  sent 6, failed 0\n\n  verifying against the bucket...\n  local files      : 8\n  present on R2    : 8\n  missing          : 0\n  size mismatches  : 0\n\n  COMPLETE: all 8 files present on R2 with matching sizes.\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/t/"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/t/",
+    "ContinuationToken": "page-3"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/oireachtas/t/b.pdf",
+    "Body": {
+     "kind": "buffer",
+     "size": 12,
+     "sha256": "9fabd57eb6ff1bc32d6a31eb86c7f493e6ba94b62fa5277f24e8bb4bd7429f0a"
+    },
+    "ContentLength": 12,
+    "ContentType": "application/pdf"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/oireachtas/t/c.txt",
+    "Body": {
+     "kind": "buffer",
+     "size": 4,
+     "sha256": "982d9e3eb996f559e633f4d194def3761d909f5a3b647d1a851fead67c32c9d1"
+    },
+    "ContentLength": 4,
+    "ContentType": "text/plain; charset=utf-8"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/oireachtas/t/sub/d.xml",
+    "Body": {
+     "kind": "buffer",
+     "size": 4,
+     "sha256": "77b4d40b8538055eab755cee363c1ecc391be1663f6ef1cb14f2da7f6150d738"
+    },
+    "ContentLength": 4,
+    "ContentType": "application/xml"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/oireachtas/t/sub/e.csv",
+    "Body": {
+     "kind": "buffer",
+     "size": 8,
+     "sha256": "81bf9fa83c6f7f151bd491a98cd7d933de3965289e3ebd77c6c425f7eaa16392"
+    },
+    "ContentLength": 8,
+    "ContentType": "text/csv; charset=utf-8"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/oireachtas/t/sub/f.html",
+    "Body": {
+     "kind": "buffer",
+     "size": 8,
+     "sha256": "2090844f838405151c81b9e2a8ed85ef66361efdb90629d405d6629ea7bf7e2b"
+    },
+    "ContentLength": 8,
+    "ContentType": "text/html; charset=utf-8"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/oireachtas/t/sub/g.bin",
+    "Body": {
+     "kind": "buffer",
+     "size": 4,
+     "sha256": "054edec1d0211f624fed0cbca9d4f9400b0e491c43742af2c5b0abebf0c990d8"
+    },
+    "ContentLength": 4,
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/t/"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/t/",
+    "ContinuationToken": "page-3"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/oireachtas/t/",
+    "ContinuationToken": "page-6"
+   }
+  }
+ ],
+ "files": {}
+}

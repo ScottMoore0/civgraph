@@ -1,0 +1,168 @@
+{
+ "id": "copy-keys-apply",
+ "exit": 1,
+ "stdout": "copied data/maps/test/pmtiles/generated/a-vector-test.pmtiles -> data/maps/pmtiles/a-vector.pmtiles\ncopied data/maps/test/pmtiles/generated/f-vector-test.pmtiles -> data/maps/pmtiles/f-vector.pmtiles\ncopy: 2 copied, 1 already-copied, 3 error; receipt tmp/r2-key-renames/pmtiles.receipt.json\n",
+ "stderr": "ERROR data/maps/test/pmtiles/generated/c-vector-test.pmtiles: destination exists with different content; not overwritten\nERROR data/maps/test/pmtiles/generated/d-vector-test.pmtiles: source missing\nERROR data/maps/test/pmtiles/generated/e-vector-test.pmtiles: source is 6442450944 bytes; needs a multipart copy\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/a-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/a-vector.pmtiles"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/a-vector.pmtiles",
+    "CopySource": "boundaries-data/data/maps/test/pmtiles/generated/a-vector-test.pmtiles",
+    "MetadataDirective": "COPY"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/a-vector.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/b-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/b-vector.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/c-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/c-vector.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/d-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/e-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/test/pmtiles/generated/f-vector-test.pmtiles"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/f-vector.pmtiles"
+   }
+  },
+  {
+   "op": "CopyObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/f-vector.pmtiles",
+    "CopySource": "boundaries-data/data/maps/test/pmtiles/generated/f-vector-test.pmtiles",
+    "MetadataDirective": "COPY"
+   }
+  },
+  {
+   "op": "HeadObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/pmtiles/f-vector.pmtiles"
+   }
+  }
+ ],
+ "files": {
+  "tmp/r2-key-renames/pmtiles.receipt.json": {
+   "manifest": "pmtiles.json",
+   "finishedAt": "<volatile>",
+   "results": [
+    {
+     "from": "data/maps/test/pmtiles/generated/a-vector-test.pmtiles",
+     "to": "data/maps/pmtiles/a-vector.pmtiles",
+     "status": "copied",
+     "size": 9,
+     "state": "copied"
+    },
+    {
+     "from": "data/maps/test/pmtiles/generated/b-vector-test.pmtiles",
+     "to": "data/maps/pmtiles/b-vector.pmtiles",
+     "status": "already-copied",
+     "size": 9,
+     "state": "copied"
+    },
+    {
+     "from": "data/maps/test/pmtiles/generated/c-vector-test.pmtiles",
+     "to": "data/maps/pmtiles/c-vector.pmtiles",
+     "status": "error",
+     "detail": "destination exists with different content; not overwritten",
+     "state": "error"
+    },
+    {
+     "from": "data/maps/test/pmtiles/generated/d-vector-test.pmtiles",
+     "to": "data/maps/pmtiles/d-vector.pmtiles",
+     "status": "error",
+     "detail": "source missing",
+     "state": "error"
+    },
+    {
+     "from": "data/maps/test/pmtiles/generated/e-vector-test.pmtiles",
+     "to": "data/maps/pmtiles/e-vector.pmtiles",
+     "status": "error",
+     "detail": "source is 6442450944 bytes; needs a multipart copy",
+     "state": "error"
+    },
+    {
+     "from": "data/maps/test/pmtiles/generated/f-vector-test.pmtiles",
+     "to": "data/maps/pmtiles/f-vector.pmtiles",
+     "status": "copied",
+     "size": 9,
+     "state": "copied"
+    }
+   ]
+  }
+ }
+}
