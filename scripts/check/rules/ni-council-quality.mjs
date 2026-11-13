@@ -63,27 +63,57 @@ const STATUS = 'data/elections/ni-local/round-status.json';
 const COMPLETENESS = 'data/elections/round-completeness.json';
 const LAYERS = 'data/elections/ni-local/layer-features.json';
 
+/**
+ * A candidate row of an election bundle, as far as this reads it.
+ * @typedef {{ Firstname?: string, Surname?: string, Status?: string, Total_Votes?: unknown, candidateName?: string, [field: string]: unknown }} BundleCandidate
+ */
+/** @typedef {BundleCandidate & { votes: number | null, elected: boolean, surnameKey: string, initial: string }} Candidate a row with the values loadContests adds */
+/** @typedef {Candidate & { votes: number }} VotedCandidate a candidate whose vote is printed */
+/**
+ * @typedef {{
+ *   Constituency_Name?: string, Number_Of_Seats?: unknown, Quota?: unknown, Majority_Printed?: unknown,
+ *   Valid_Poll?: unknown, Total_Poll?: unknown, Spoiled?: unknown, Total_Electorate?: unknown, Seat_Type?: string
+ * }} CountInfo a bundle's countInfo
+ */
+/** @typedef {{ title?: string, url?: string, urls?: string[], kind?: string }} BundleSource a bundle's citation */
+/** @typedef {{ Constituency?: { countInfo?: CountInfo, countGroup?: BundleCandidate[] }, correctionNote?: string, source?: BundleSource }} Bundle an election bundle */
+/** @typedef {{ body: string, round: string, year: string, file: string, data: Bundle, info: CountInfo, cands: Candidate[], area: string, seats: number }} Contest */
+/** @typedef {{ contest: Contest, type: string, severity: string, detail: string, candidate: string }} Finding */
+/** @typedef {{ district?: string, label?: string }} LayerFeature a boundary feature of layer-features.json */
+/** @typedef {{ flat: string, lower: string, counts: Map<string, number>, skeleton: Map<string, Set<string>> }} PageData */
+
 const args = process.argv.slice(2);
+/** @param {string} name */
 const flag = (name) => args.includes(name);
+/**
+ * @param {string} name
+ * @param {string | null} [fallback]
+ */
 const option = (name, fallback = null) => {
   const i = args.indexOf(name);
   return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
 };
-const FROM = option('--from', '1921');
-const TO = option('--to', '1967');
+// a fallback is given, so these are strings
+const FROM = /** @type {string} */ (option('--from', '1921'));
+const TO = /** @type {string} */ (option('--to', '1967'));
 
 // ---------------------------------------------------------------------------------------------
 // Names
 
+/** @param {unknown} value */
 const fold = (value) => String(value || '').normalize('NFD').replace(/[̀-ͯ]/g, '');
 
-/** Surname key: ascii, lower case, M'/Mac/Mc as "mc", letters only. */
+/**
+ * Surname key: ascii, lower case, M'/Mac/Mc as "mc", letters only.
+ * @param {unknown} value
+ */
 export function surnameKey(value) {
   let s = fold(value).toLowerCase().replace(/[‘’`]/g, "'").trim();
   s = s.replace(/^m'\s*/, 'mc').replace(/^mac(?=[a-z]{3})/, 'mc');
   return s.replace(/[^a-z]/g, '');
 }
 
+/** @param {BundleCandidate} candidate */
 function forenameInitial(candidate) {
   const first = fold(candidate.Firstname || '').replace(/^(rev|dr|sir|mrs?|miss|capt|major|col|lt|lieut)\.?\s+/i, '').trim();
   return (first.match(/[A-Za-z]/) || [''])[0].toLowerCase();
@@ -92,6 +122,7 @@ function forenameInitial(candidate) {
 const NAME_CHARS = /[^A-Za-zÀ-ɏ'‘’. \-()]/;
 // Shapes OCR leaves in names: a doubled "ll" after a consonant at the end ("Harndll"),
 // three of one vowel, "ii" anywhere but a known Gaelic stem, and capitals inside a word.
+/** @type {[RegExp, string][]} */
 const OCR_SHAPES = [
   [/[bcdfghjkmnpqrstvwxz]ll$/i, 'consonant + "ll" at the end'],
   [/([aeiou])\1\1/i, 'tripled vowel'],
@@ -103,8 +134,10 @@ const OCR_SHAPES = [
 ];
 const SURNAME_PREFIX_OK = /^(mc|mac|o'|d'|de |van |le |la |st\.? )/i;
 
+/** @param {string} key */
 function trigrams(key) {
   const s = `^${key}$`;
+  /** @type {string[]} */
   const out = [];
   for (let i = 0; i + 3 <= s.length; i += 1) out.push(s.slice(i, i + 3));
   return out;
@@ -113,10 +146,12 @@ function trigrams(key) {
 // ---------------------------------------------------------------------------------------------
 // Load
 
+/** @param {string} file */
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
 
+/** @param {unknown} value */
 const num = (value) => {
   if (value === null || value === undefined || value === '') return null;
   const n = Number(String(value).replace(/,/g, ''));
@@ -134,7 +169,12 @@ function niBodies() {
     .sort();
 }
 
+/**
+ * @param {string[]} bodies
+ * @returns {Contest[]}
+ */
 function loadContests(bodies) {
+  /** @type {Contest[]} */
   const contests = [];
   for (const body of bodies) {
     const dir = path.join(BUNDLES, body);
@@ -146,6 +186,7 @@ function loadContests(bodies) {
       for (const file of fs.readdirSync(roundDir).sort()) {
         if (!file.endsWith('.json') || file.startsWith('_')) continue;
         const rel = `${body}/${round}/${file}`;
+        /** @type {Bundle} */
         let data;
         try { data = readJson(path.join(roundDir, file)); } catch { continue; }
         if (!data.Constituency) continue;
@@ -166,13 +207,15 @@ function loadContests(bodies) {
 
 /** Surnames across every election bundle on Civgraph, for rarity and the letter model. */
 function corpusSurnames() {
+  /** @type {Map<string, number>} */
   const counts = new Map();
   for (const body of fs.readdirSync(BUNDLES)) {
     const dir = path.join(BUNDLES, body);
     if (!fs.statSync(dir).isDirectory()) continue;
     const stack = [dir];
     while (stack.length) {
-      const d = stack.pop();
+      // the loop runs only while the stack is non-empty
+      const d = /** @type {string} */ (stack.pop());
       for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
         const p = path.join(d, entry.name);
         if (entry.isDirectory()) { stack.push(p); continue; }
@@ -193,17 +236,28 @@ function corpusSurnames() {
 // ---------------------------------------------------------------------------------------------
 // Findings
 
+/** @type {Finding[]} */
 const findings = [];
+/**
+ * @param {Contest} contest
+ * @param {string} type
+ * @param {string} severity
+ * @param {string} detail
+ * @param {string} [candidate]
+ */
 function add(contest, type, severity, detail, candidate = '') {
   findings.push({ contest, type, severity, detail, candidate });
 }
 
-const isContested = (c) => c.cands.some((x) => x.votes > 0) || c.cands.some((x) => x.Status === 'Not Elected');
+// (A missing vote is null, and null > 0 is false: "has a vote" below.)
+/** @param {Contest} c */
+const isContested = (c) => c.cands.some((x) => /** @type {number} */ (x.votes) > 0) || c.cands.some((x) => x.Status === 'Not Elected');
 
+/** @param {Contest} contest */
 function detectStructure(contest) {
   const { cands, seats, info } = contest;
   const elected = cands.filter((c) => c.elected);
-  const voted = cands.filter((c) => c.votes > 0);
+  const voted = cands.filter((c) => /** @type {number} */ (c.votes) > 0);
   for (const c of cands) if (!c.Status) add(contest, 'status-blank', 'high', 'candidate row has no Status', c.candidateName);
   if (seats && elected.length !== seats) {
     add(contest, 'elected-vs-seats', 'high', `${elected.length} elected for ${seats} seat(s)`);
@@ -211,16 +265,17 @@ function detectStructure(contest) {
   if (voted.length && voted.length < cands.length && cands.length > seats) {
     // Defeated candidates a paper names without their votes are entered without them: a lead
     // only when an ELECTED row lacks its vote.
-    const electedBlank = cands.some((c) => c.elected && !(c.votes > 0));
+    const electedBlank = cands.some((c) => c.elected && !(/** @type {number} */ (c.votes) > 0));
     add(contest, 'partial-votes', electedBlank ? 'medium' : 'low', `${voted.length} of ${cands.length} candidates have votes${electedBlank ? '' : ' (the rest are defeated candidates printed without votes)'}`);
   }
   if (voted.length && cands.length <= seats) {
     add(contest, 'omitted-loser', 'high', `votes printed for ${voted.length} but only ${cands.length} candidate(s) for ${seats} seat(s): the defeated are probably missing`);
   }
   if (voted.length === cands.length && cands.length > seats && elected.length === seats) {
-    const sorted = [...cands].sort((a, b) => b.votes - a.votes);
+    // every candidate has a vote here (voted.length === cands.length)
+    const sorted = /** @type {VotedCandidate[]} */ ([...cands]).sort((a, b) => b.votes - a.votes);
     const cut = sorted[seats - 1].votes;
-    const wrong = cands.filter((c) => (c.elected && c.votes < cut) || (!c.elected && c.votes > cut));
+    const wrong = /** @type {VotedCandidate[]} */ (cands).filter((c) => (c.elected && c.votes < cut) || (!c.elected && c.votes > cut));
     // A single-seat STV or an alderman/councillor split can legitimately break this; still a lead.
     if (wrong.length && !num(info.Quota)) {
       add(contest, 'elected-vs-seats', 'high', `elected are not the top ${seats} by votes: ${wrong.map((c) => `${c.candidateName} ${c.votes}${c.elected ? ' (elected)' : ''}`).join('; ')}`);
@@ -228,13 +283,19 @@ function detectStructure(contest) {
   }
 }
 
+/**
+ * @param {Contest} contest
+ * @returns {[string, boolean, string][] | null}
+ */
 function detectArithmetic(contest) {
   const { cands, seats, info } = contest;
   if (!isContested(contest) || num(info.Quota)) return null;
   const voted = cands.filter((c) => c.votes !== null && c.votes > 0);
   if (voted.length !== cands.length || cands.length <= seats) return null;
-  const sorted = [...cands].sort((a, b) => b.votes - a.votes);
-  const sum = cands.reduce((t, c) => t + c.votes, 0);
+  // every candidate has a vote from here on (the return above)
+  const sorted = /** @type {VotedCandidate[]} */ ([...cands]).sort((a, b) => b.votes - a.votes);
+  const sum = /** @type {VotedCandidate[]} */ (cands).reduce((t, c) => t + c.votes, 0);
+  /** @type {[string, boolean, string][]} */
   const results = [];
   const majority = num(info.Majority_Printed);
   if (majority !== null && seats >= 1) {
@@ -263,6 +324,7 @@ function detectArithmetic(contest) {
   return results;
 }
 
+/** @param {Contest} contest */
 function detectRegisterVote(contest) {
   const note = contest.data.correctionNote || '';
   const re = /([^:;]+?)'s vote is ([\d,]+) as the register records it \(previously ([\d,]+)/g;
@@ -277,7 +339,8 @@ function detectRegisterVote(contest) {
     }
     const failed = results.filter(([, ok]) => !ok);
     if (failed.length) {
-      const reverted = contest.cands.map((c) => (c.votes === now && (c.candidateName || '').includes(who.split(' ').pop()) ? { ...c, votes: before } : c));
+      // split always returns at least one part
+      const reverted = contest.cands.map((c) => (c.votes === now && (c.candidateName || '').includes(/** @type {string} */ (who.split(' ').pop())) ? { ...c, votes: before } : c));
       const swapped = detectArithmeticQuiet({ ...contest, cands: reverted });
       const oldFits = swapped.length && swapped.every(([, ok]) => ok);
       add(contest, 'register-vote', 'high', `register vote ${now} (was ${before}) fails ${failed.map(([w, , d]) => `${w} (${d})`).join('; ')}${oldFits ? `; the previous ${before} fits every printed figure` : ''}`, who);
@@ -285,6 +348,7 @@ function detectRegisterVote(contest) {
   }
 }
 
+/** @param {Contest} contest */
 function detectArithmeticQuiet(contest) {
   const before = findings.length;
   const r = detectArithmetic(contest) || [];
@@ -292,6 +356,11 @@ function detectArithmeticQuiet(contest) {
   return r;
 }
 
+/**
+ * @param {Contest} contest
+ * @param {Map<string, number>} corpus
+ * @param {Map<string, number>} trigramCounts
+ */
 function detectNameChars(contest, corpus, trigramCounts) {
   for (const c of contest.cands) {
     const name = `${c.Firstname || ''} ${c.Surname || ''}`.trim();
@@ -311,18 +380,27 @@ function detectNameChars(contest, corpus, trigramCounts) {
   }
 }
 
+/**
+ * @param {Contest[]} contests
+ * @param {Map<string, number>} corpus
+ */
 function detectVariants(contests, corpus) {
+  /** @type {Map<string, Contest[]>} */
   const byBody = new Map();
   for (const c of contests) {
     const body = c.body.replace(/-aldermen$/, '');
     if (!byBody.has(body)) byBody.set(body, []);
-    byBody.get(body).push(c);
+    // set on the line before when absent
+    /** @type {Contest[]} */ (byBody.get(body)).push(c);
   }
   for (const list of byBody.values()) {
     const rounds = [...new Set(list.map((c) => c.round))].sort();
     const roundIndex = new Map(rounds.map((r, i) => [r, i]));
+    /** @type {{ contest: Contest, cand: Candidate, ri: number }[]} */
     const people = [];
-    for (const contest of list) for (const cand of contest.cands) if (cand.surnameKey.length >= 4) people.push({ contest, cand, ri: roundIndex.get(contest.round) });
+    // every round of the list is in the index
+    for (const contest of list) for (const cand of contest.cands) if (cand.surnameKey.length >= 4) people.push({ contest, cand, ri: /** @type {number} */ (roundIndex.get(contest.round)) });
+    /** @type {Set<string>} */
     const seen = new Set();
     for (const a of people) {
       for (const b of people) {
@@ -350,10 +428,16 @@ function detectVariants(contests, corpus) {
   }
 }
 
+/**
+ * @param {Contest} contest
+ * @param {Map<string, number>} corpus
+ * @param {Map<string, string[]>} bySkeleton
+ */
 function detectRare(contest, corpus, bySkeleton) {
   for (const c of contest.cands) {
     const key = c.surnameKey;
     if (key.length < 5 || (corpus.get(key) || 0) > 1) continue;
+    /** @type {string[]} */
     const near = [];
     for (let i = 0; i < key.length; i += 1) {
       for (const cand of bySkeleton.get(key.slice(0, i) + key.slice(i + 1)) || []) if (cand !== key && (corpus.get(cand) || 0) >= 5 && editDistance(cand, key) === 1) near.push(cand);
@@ -364,8 +448,10 @@ function detectRare(contest, corpus, bySkeleton) {
   }
 }
 
+/** @type {Record<string, number>} */
 const MONTHS = { january: 1, february: 2, march: 3, april: 4, may: 5, june: 6, july: 7, august: 8, september: 9, october: 10, november: 11, december: 12 };
 
+/** @param {BundleSource | undefined} source */
 export function citationParts(source) {
   const title = String(source?.title || '');
   const first = title.split(/;\s/)[0];
@@ -382,9 +468,12 @@ export function citationParts(source) {
   };
 }
 
+/** @param {Contest} contest */
 function detectCitation(contest) {
+  /** @type {BundleSource} */
   const source = contest.data.source || {};
   const parts = citationParts(source);
+  /** @type {string[]} */
   const missing = [];
   if (!parts.proni) {
     if (!parts.paper || /^\d/.test(parts.paper)) missing.push('paper');
@@ -405,18 +494,24 @@ function detectCitation(contest) {
   }
 }
 
+/** @param {Contest[]} contests */
 function detectAreas(contests) {
+  /** @type {Record<string, { expected?: number }>} */
   const completeness = readJson(COMPLETENESS).rounds || {};
+  /** @type {Record<string, { features?: LayerFeature[] }>} */
   const layers = readJson(LAYERS).layers || {};
+  /** @type {Map<string, number>} */
   const statusExpected = new Map();
   for (const r of readJson(STATUS).rounds || []) {
     if (r.expectedAreas) statusExpected.set(`${r.slug}__${r.workRound || r.round}`, r.expectedAreas);
   }
+  /** @type {Map<string, Contest[]>} */
   const byRound = new Map();
   for (const c of contests) {
     const key = `${c.body}__${c.round}`;
     if (!byRound.has(key)) byRound.set(key, []);
-    byRound.get(key).push(c);
+    // set on the line before when absent
+    /** @type {Contest[]} */ (byRound.get(key)).push(c);
   }
   for (const [key, list] of byRound) {
     const [body, round] = key.split('__');
@@ -427,6 +522,7 @@ function detectAreas(contests) {
     if (body.endsWith('-rural-district-council') && /^\d{4}-\d{2}-\d{2}$/.test(round)) {
       const edition = round < '1930-04-01' ? 'ded-1921-05-03' : 'ded-1930-04-01';
       const stems = authorityStems(body);
+      /** @param {string} id */
       const ofDistrict = (id) => (layers[id]?.features || []).filter((f) => {
         if (!f.district) return false;
         const { stem, rural } = districtFeatureStem(f.district);
@@ -440,8 +536,10 @@ function detectAreas(contests) {
         add(list[0], 'areas-over', 'medium', `${list.length} divisions in the round; the DED boundary editions have at most ${most} for this district`);
       }
       if (deds.length) {
+        /** @param {string} k */
         const bare = (k) => k.replace(/^sorted:/, '').replace(/\b(the|rural|urban)\b/g, '').replace(/[^a-z0-9]/g, '');
         const known = [...new Set(deds.flatMap((f) => nameKeys(f.label)).map(bare))].filter(Boolean);
+        /** @param {string} k */
         const matches = (k) => known.some((d) => d === k || (k.length >= 5 && editDistance(d, k) <= (k.length >= 8 ? 2 : 1)) || (k.length >= 6 && (d.startsWith(k) || k.startsWith(d))));
         for (const c of list) {
           const keys = nameKeys(c.area).map(bare).filter(Boolean);
@@ -451,12 +549,14 @@ function detectAreas(contests) {
         }
       }
     }
+    /** @type {Map<string, string>} */
     const areaSeen = new Map();
     for (const c of list) {
       const k = `${nameKeys(c.area)[0]}|${c.info.Seat_Type || ''}`;
       if (areaSeen.has(k)) add(c, 'areas-over', 'high', `division filed twice in the round (also ${areaSeen.get(k)})`);
       else areaSeen.set(k, c.file);
     }
+    /** @type {Map<string, string>} */
     const personSeen = new Map();
     for (const c of list) {
       for (const cand of c.cands.filter((x) => x.elected)) {
@@ -471,12 +571,19 @@ function detectAreas(contests) {
 // ---------------------------------------------------------------------------------------------
 // OCR-cache detectors (local only)
 
+/** @param {string} rootsFile */
 function ocrIndex(rootsFile) {
   const roots = fs.readFileSync(rootsFile, 'utf8').split(/\r?\n/).map((s) => s.trim()).filter((s) => s && !s.startsWith('#'));
+  /** @type {Map<string, string[]>} */
   const index = new Map();
+  /**
+   * @param {string} key
+   * @param {string} file
+   */
   const put = (key, file) => {
     if (!index.has(key)) index.set(key, []);
-    index.get(key).push(file);
+    // set on the line before when absent
+    /** @type {string[]} */ (index.get(key)).push(file);
   };
   for (const root of roots) {
     if (!fs.existsSync(root)) continue;
@@ -493,8 +600,10 @@ function ocrIndex(rootsFile) {
   return index;
 }
 
+/** @param {BundleSource | undefined} source */
 export function pageKeys(source) {
   const urls = source?.urls || (source?.url ? [source.url] : []);
+  /** @type {string[]} */
   const keys = [];
   for (const url of urls) {
     let m = String(url).match(/d=([A-Z]{3})(\d{8})\.1\.(\d+)/);
@@ -514,13 +623,20 @@ const STOP_TOKENS = new Set(['ward', 'wards', 'street', 'road', 'council', 'coun
   'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december', 'monday', 'tuesday', 'wednesday', 'thursday',
   'friday', 'saturday', 'sunday', 'north', 'south', 'east', 'west', 'unionist', 'nationalist', 'labour', 'independent', 'the', 'and', 'for',
   'page', 'col', 'no', 'nos', 'number', 'district', 'rural', 'urban', 'county', 'borough', 'town', 'township', 'result', 'results', 'elected']);
+/** @type {Set<string>} */
 let placeTokens = new Set();
 
+/** @type {Map<string, PageData>} */
 const pageCache = new Map();
-/** The cited pages' text with its token index (cached: one page serves a whole round). */
+/**
+ * The cited pages' text with its token index (cached: one page serves a whole round).
+ * @param {string[]} files
+ * @returns {PageData}
+ */
 function pageData(files) {
   const key = files.join('|');
-  if (pageCache.has(key)) return pageCache.get(key);
+  // has() has just seen it
+  if (pageCache.has(key)) return /** @type {PageData} */ (pageCache.get(key));
   let text = '';
   for (const f of files) {
     try {
@@ -529,23 +645,33 @@ function pageData(files) {
   }
   const flat = fold(text);
   const toks = flat.replace(/[‘’`]/g, "'").split(/[^A-Za-z']+/).filter((t) => t.length >= 2).map((t) => surnameKey(t));
+  /** @type {Map<string, number>} */
   const counts = new Map();
   for (const t of toks) counts.set(t, (counts.get(t) || 0) + 1);
   // Deletion neighbourhood: every token under itself and each one-letter deletion of it.
+  /** @type {Map<string, Set<string>>} */
   const skeleton = new Map();
   for (const t of counts.keys()) {
     if (t.length < 4) continue;
-    const put = (k) => { if (!skeleton.has(k)) skeleton.set(k, new Set()); skeleton.get(k).add(t); };
+    // the set is made just before it is read when absent
+    /** @param {string} k */
+    const put = (k) => { if (!skeleton.has(k)) skeleton.set(k, new Set()); /** @type {Set<string>} */ (skeleton.get(k)).add(t); };
     put(t);
     for (let i = 0; i < t.length; i += 1) put(t.slice(0, i) + t.slice(i + 1));
   }
   const data = { flat, lower: flat.toLowerCase(), counts, skeleton };
   pageCache.set(key, data);
-  if (pageCache.size > 200) pageCache.delete(pageCache.keys().next().value);
+  // the cache holds over 200 pages here, so it has a first key
+  if (pageCache.size > 200) pageCache.delete(/** @type {string} */ (pageCache.keys().next().value));
   return data;
 }
 
+/**
+ * @param {string} key
+ * @param {PageData} page
+ */
 function nearTokens(key, page) {
+  /** @type {Set<string>} */
   const out = new Set();
   const probe = [key];
   for (let i = 0; i < key.length; i += 1) probe.push(key.slice(0, i) + key.slice(i + 1));
@@ -553,7 +679,14 @@ function nearTokens(key, page) {
   return [...out];
 }
 
+/**
+ * @param {Contest} contest
+ * @param {Map<string, string[]>} index
+ * @param {Map<string, number>} corpus
+ * @param {string[]} roundAreas
+ */
 function detectOcr(contest, index, corpus, roundAreas) {
+  /** @type {BundleSource} */
   const source = contest.data.source || {};
   const keys = pageKeys(source);
   const files = keys.flatMap((k) => index.get(k) || []);
@@ -576,6 +709,7 @@ function detectOcr(contest, index, corpus, roundAreas) {
   // Omitted defeated candidates: the division's block, from its name to the next division's,
   // when it names a person with a vote figure who is not among the contest's candidates.
   if (contest.cands.length <= contest.seats || !contest.cands.some((x) => x.Status === 'Not Elected')) {
+    /** @param {string} a */
     const phrase = (a) => fold(a).replace(/\(.*?\)/g, ' ').replace(/\b(d\.?e\.?d\.?|division|electoral|councillors?|aldermen|aldermanship|alderman|seats?)\b/gi, ' ').replace(/\s+/g, ' ').trim();
     const areaPhrase = phrase(contest.area);
     if (areaPhrase.length >= 4 && !GENERIC_AREA.test(areaPhrase)) {
@@ -592,6 +726,7 @@ function detectOcr(contest, index, corpus, roundAreas) {
         const blockKeys = new Set(block.split(/[^A-Za-z']+/).map(surnameKey));
         if (have.size && ![...have].some((h) => blockKeys.has(h))) continue;
         if (!/\b(majority|polled|votes|poll|elected|defeated|unsuccessful)\b/i.test(block)) continue;
+        /** @type {string[]} */
         const extra = [];
         for (const v of block.matchAll(/\b([A-Z][a-zA-Z']{2,})[,.]?\s*(?:\([^)]{1,30}\))?[\s.,:-]{0,6}(\d{1,2},?\d{3}|\d{2,4})\b/g)) {
           const s = surnameKey(v[1]);
@@ -612,6 +747,7 @@ function detectOcr(contest, index, corpus, roundAreas) {
 
 // ---------------------------------------------------------------------------------------------
 
+/** @param {unknown} value */
 function csvCell(value) {
   const s = String(value ?? '');
   return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
@@ -621,11 +757,15 @@ function main() {
   const bodies = niBodies();
   const contests = loadContests(bodies);
   const corpus = corpusSurnames();
+  /** @type {Map<string, number>} */
   const trigramCounts = new Map();
   for (const [key, n] of corpus) for (const t of new Set(trigrams(key))) trigramCounts.set(t, (trigramCounts.get(t) || 0) + n);
+  /** @type {Map<string, string[]>} */
   const bySkeleton = new Map();
   for (const key of corpus.keys()) {
-    const put = (k) => { if (!bySkeleton.has(k)) bySkeleton.set(k, []); bySkeleton.get(k).push(key); };
+    // the list is made just before it is read when absent
+    /** @param {string} k */
+    const put = (k) => { if (!bySkeleton.has(k)) bySkeleton.set(k, []); /** @type {string[]} */ (bySkeleton.get(k)).push(key); };
     put(key);
     for (let i = 0; i < key.length; i += 1) put(key.slice(0, i) + key.slice(i + 1));
   }
@@ -645,16 +785,20 @@ function main() {
   let ocrChecked = 0;
   if (ocrRoots) {
     const index = ocrIndex(ocrRoots);
-    placeTokens = new Set(Object.values(readJson(LAYERS).layers || {}).flatMap((l) => (l.features || []).flatMap((f) => String(f.label || '').split(/[^A-Za-z']+/))).map(surnameKey).filter((k) => k.length >= 4));
+    placeTokens = new Set(Object.values(readJson(LAYERS).layers || {}).flatMap((l) => (l.features || []).flatMap((/** @type {LayerFeature} */ f) => String(f.label || '').split(/[^A-Za-z']+/))).map(surnameKey).filter((k) => k.length >= 4));
+    /** @type {Map<string, string[]>} */
     const areasByRound = new Map();
     for (const c of contests) {
       const k = `${c.body}__${c.round}`;
       if (!areasByRound.has(k)) areasByRound.set(k, []);
-      areasByRound.get(k).push(c.area);
+      // set on the line before when absent
+      /** @type {string[]} */ (areasByRound.get(k)).push(c.area);
     }
-    for (const contest of contests) if (detectOcr(contest, index, corpus, areasByRound.get(`${contest.body}__${contest.round}`))) ocrChecked += 1;
+    // every contest's round was listed just above
+    for (const contest of contests) if (detectOcr(contest, index, corpus, /** @type {string[]} */ (areasByRound.get(`${contest.body}__${contest.round}`)))) ocrChecked += 1;
   }
 
+  /** @type {Set<string>} */
   const origin = new Set();
   const originCsv = option('--origin-csv');
   if (originCsv) {
@@ -668,16 +812,20 @@ function main() {
   }
 
   const flaggedContests = new Set(findings.map((f) => f.contest.file));
+  /** @type {Map<string, number>} */
   const byType = new Map();
   for (const f of findings) byType.set(f.type, (byType.get(f.type) || 0) + 1);
+  /** @type {Map<string, Set<string>>} */
   const contestsByType = new Map();
   for (const f of findings) {
     if (!contestsByType.has(f.type)) contestsByType.set(f.type, new Set());
-    contestsByType.get(f.type).add(f.contest.file);
+    // set on the line before when absent
+    /** @type {Set<string>} */ (contestsByType.get(f.type)).add(f.contest.file);
   }
 
   console.log(`ni-council-quality: ${contests.length} contests ${FROM}-${TO} in ${bodies.length} council bodies; ${findings.length} findings in ${flaggedContests.size} contests${ocrRoots ? `; ${ocrChecked} contests checked against a cached page` : ''} (report only)`);
-  for (const [type, n] of [...byType].sort((a, b) => b[1] - a[1])) console.log(`  ${type.padEnd(18)} ${String(n).padStart(5)} findings in ${contestsByType.get(type).size} contests`);
+  // every type counted in byType has its contests in contestsByType
+  for (const [type, n] of [...byType].sort((a, b) => b[1] - a[1])) console.log(`  ${type.padEnd(18)} ${String(n).padStart(5)} findings in ${/** @type {Set<string>} */ (contestsByType.get(type)).size} contests`);
 
   if (flag('--list')) for (const f of findings) console.log(`${f.contest.file}\t${f.type}\t${f.severity}\t${f.candidate}\t${f.detail}`);
 
@@ -685,16 +833,19 @@ function main() {
   if (csvDir) {
     fs.mkdirSync(csvDir, { recursive: true });
     const header = ['council', 'round', 'area', 'file', 'deepseek', 'type', 'severity', 'candidate', 'detail', 'source_title', 'source_url'];
+    /** @type {Map<string, Finding[]>} */
     const byBody = new Map();
     for (const f of findings) {
       const b = f.contest.body.replace(/-aldermen$/, '');
       if (!byBody.has(b)) byBody.set(b, []);
-      byBody.get(b).push(f);
+      // set on the line before when absent
+      /** @type {Finding[]} */ (byBody.get(b)).push(f);
     }
     for (const [body, list] of byBody) {
       const rows = [header.join(',')];
       for (const f of list) {
         const c = f.contest;
+        /** @type {BundleSource} */
         const src = c.data.source || {};
         rows.push([c.body, c.round, c.area, c.file, originCsv ? (origin.has(c.file) ? 'yes' : 'no') : '', f.type, f.severity, f.candidate, f.detail, src.title, src.url || (src.urls || [])[0] || ''].map(csvCell).join(','));
       }
