@@ -175,7 +175,7 @@ function validateApprovedSources(validationReport, approvedSources) {
   const csoPxstatBacklog = approvedSources.counts?.csoPxstatBacklog?.publish || 0;
   // openDataIePortal = net-new non-CSO data.gov.ie (Open Data Portal Ireland)
   // datasets as CC/OGL catalogue-reference records (CSO org excluded — covered by
-  // the PxStat tranches).
+  // the PxStat tranches); 299 added from the harvest of 13 Nov 2026.
   const openDataIePortal = approvedSources.counts?.openDataIePortal?.publish || 0;
   // nisraPublications = NISRA non-census statistical publications (OGL v3.0) as
   // catalogue-reference records linking to nisra.gov.uk (2,940 from the July 2026
@@ -183,7 +183,8 @@ function validateApprovedSources(validationReport, approvedSources) {
   const nisraPublications = approvedSources.counts?.nisraPublications?.publish || 0;
   // openDataNiPortal = net-new Open Data NI (opendatani.gov.uk) datasets as
   // OGL catalogue-reference records with direct resource download links; datasets
-  // already referenced in the gate are deduped out at emit time.
+  // already referenced in the gate are deduped out at emit time; 49 added from
+  // the harvest of 13 Nov 2026.
   const openDataNiPortal = approvedSources.counts?.openDataNiPortal?.publish || 0;
   // csoPxstatCompletion = the last 214 PxStat matrices, which no earlier tranche reached
   // because none of them are census cubes. Measured against the live catalogue on
@@ -202,9 +203,9 @@ function validateApprovedSources(validationReport, approvedSources) {
   assert(variantSourceRecords === 65, `Expected 65 approved boundary-variant source records, found ${variantSourceRecords}.`);
   assert(censusHistoricalReports === 2172, `Expected 2,172 approved CSO historical-reports records, found ${censusHistoricalReports}.`);
   assert(csoPxstatBacklog === 6968, `Expected 6,968 approved CSO PxStat backfill records, found ${csoPxstatBacklog}.`);
-  assert(openDataIePortal === 7290, `Expected 7,290 approved data.gov.ie portal records, found ${openDataIePortal}.`);
+  assert(openDataIePortal === 7589, `Expected 7,589 approved data.gov.ie portal records, found ${openDataIePortal}.`);
   assert(nisraPublications === 3013, `Expected 3,013 approved NISRA publication records, found ${nisraPublications}.`);
-  assert(openDataNiPortal === 902, `Expected 902 approved Open Data NI portal records, found ${openDataNiPortal}.`);
+  assert(openDataNiPortal === 951, `Expected 951 approved Open Data NI portal records, found ${openDataNiPortal}.`);
   assert(csoPxstatCompletion === 214, `Expected 214 approved CSO PxStat completion records, found ${csoPxstatCompletion}.`);
   const expectedTotal = 6679 + censusCso + censusNisra + censusCsoNiCarveout + localAuthoritySources
     + localAuthoritySourcesHeld + transportPublicAssets + sourceDownloadRecords + openDataSourceRecords + variantSourceRecords
