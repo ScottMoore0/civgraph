@@ -7,3 +7,5 @@ import electionTypes from './election-types.mjs';
 export const votingSystemNames = electionTypes.votingSystemNames;
 /** Kind of election -> its list label (Browse's Type filter). @type {Readonly<Record<string, string>>} */
 export const electionKindLabels = electionTypes.electionKindLabels;
+/** The voting systems whose count transfers votes (the registry's `transfers`): a seat estimate from first preferences leaves the transfers out. @type {readonly string[]} */
+export const votingSystemsWithTransfers = electionTypes.votingSystemsWithTransfers;

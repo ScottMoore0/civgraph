@@ -17,6 +17,8 @@ export interface ElectionTypesRegistry {
       about: string;
       /** The system in words, as the Elections app says it (systemName); absent, the app shows the id. */
       name?: string;
+      /** The count transfers votes between candidates (surpluses and exclusions), so seats worked out from first preferences alone leave the transfers out: the Elections app says so beside such an estimate (the swingometer). Absent for a system that does not transfer. */
+      transfers?: true;
     };
   };
   /** Kind of election (general, by-election) -> what it is. */
