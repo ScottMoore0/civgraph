@@ -30,6 +30,7 @@ import {
 } from '../../packages/map/src/ni-local-groups.mjs';
 import { leadingParty, niLocalAreaName, voteShareOpacity } from '../../packages/map/app/ni-local-view.js';
 import { ELECTION_MANIFEST } from '../../packages/loader/src/paths.mjs';
+import { nameKeys } from '../../scripts/build/build-ni-local-grouped.mjs';
 
 const ROOT = process.cwd();
 const read = (rel) => JSON.parse(fs.readFileSync(path.resolve(ROOT, rel), 'utf8'));
@@ -290,4 +291,22 @@ test('map colouring helpers', () => {
   assert.equal(niLocalAreaName("ST. ANNE'S"), "St. Anne's");
   assert.equal(niLocalAreaName('ADMINISTRATIVE COUNTY OF DOWN'), 'Administrative County of Down');
   assert.equal(niLocalAreaName('Bangor Municipal Borough'), 'Bangor Municipal Borough');
+});
+
+test('Clogher Rural District\'s Aughentaine is placed on the DED map (the boundary files spell it AGHINTAIN)', () => {
+  assert.ok(nameKeys('Aughentaine').includes('aghintain'));
+  let rounds = 0;
+  for (const { year } of coverage.years) {
+    const file = yearFile(year);
+    const unplaced = file.levels.ded?.unplaced || [];
+    file.rounds.forEach((round, ri) => {
+      if (round.bodySlug !== 'clogher-rural-district-council') return;
+      round.contests.forEach((contest, ci) => {
+        if (!/^aughentaine?$/i.test(contest.area)) return;
+        rounds += 1;
+        assert.ok(!unplaced.some(([r, c]) => r === ri && c === ci), `${year} ${contest.area}`);
+      });
+    });
+  }
+  assert.ok(rounds >= 19, `${rounds} Aughentaine contests`);
 });
