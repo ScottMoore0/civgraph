@@ -65,7 +65,7 @@ export { candidateReturnWithoutPoll, isUncontestedResult, isUnopposedCandidate, 
  *   officialStatus?: string,
  *   partyInferred?: boolean,
  *   partyBasis?: string,
- *   counts?: CandidateCount[],
+ *   counts?: CandidateCount[] | undefined,
  *   decidedAt?: number,
  *   droppedAt?: number
  * }} ResultCandidate
