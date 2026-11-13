@@ -1,3 +1,6 @@
+/** A map as the worker searches it: its id, name, and the words of its fields. @typedef {{ id: string, name: string, text: string }} SearchItem */
+
+/** @type {{ maps: SearchItem[] }} */
 const state = {
   maps: []
 };
@@ -17,6 +20,10 @@ self.addEventListener('message', (event) => {
   }
 });
 
+/**
+ * @param {{ id: string, name?: unknown, category?: unknown, group?: unknown, provider?: unknown, description?: unknown, date?: unknown, dateRange?: unknown, keywords?: unknown }} map
+ * @returns {SearchItem}
+ */
 function normalizeMapRecord(map) {
   const fields = [
     map.id,
@@ -36,9 +43,11 @@ function normalizeMapRecord(map) {
   };
 }
 
+/** @param {string} query @param {number} limit @returns {string[]} */
 function search(query, limit) {
   if (!query) return [];
   const terms = query.split(/\s+/).filter(Boolean);
+  /** @type {Array<{ id: string, score: number, name: string }>} */
   const scored = [];
   for (const item of state.maps) {
     let score = 0;
@@ -60,6 +69,7 @@ function search(query, limit) {
   return scored.slice(0, limit).map((item) => item.id);
 }
 
+/** @param {unknown} value */
 function normalizeText(value) {
   return String(value || '')
     .toLowerCase()

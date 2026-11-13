@@ -37,13 +37,19 @@ declare global {
    */
   var flatgeobuf: {
     serialize(geojson: unknown): Uint8Array;
-    deserialize(input: ReadableStream<Uint8Array> | string | null): AsyncIterable<import('geojson').Feature>;
+    deserialize(input: ReadableStream<Uint8Array> | Uint8Array | string | null): AsyncIterable<import('geojson').Feature>;
   };
 
   /**
    * Fuse.js, when a page has loaded it as a classic script (packages/map/src/data-service.js and
    * ui-controller.js test `typeof Fuse` first; the map page does not load it today).
    */
+  /** A classic worker's script loader: packages/map/src/fgb-worker.js runs as one. */
+  function importScripts(...urls: string[]): void;
+
+  /** pako, which fgb-worker.js loads with importScripts to ungzip a map file. */
+  var pako: { ungzip(data: Uint8Array): Uint8Array };
+
   var Fuse: new <T>(items: T[], options: Record<string, unknown>) => FuseIndex<T>;
 
   interface Window {

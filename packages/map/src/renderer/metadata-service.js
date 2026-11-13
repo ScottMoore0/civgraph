@@ -1,22 +1,79 @@
 import { METADATA_URL, PORT_PLAN_URL } from './config.js';
 import { normalizeSearchText, unique } from './utils.js';
+/**
+ * A layer of the map index as the service keeps it: the index's record (or a map of the port plan
+ * not yet converted), normalised. The fields the service itself reads are named; the rest are the
+ * record's own (packages/types LayerEntry), which the renderer and the adapter type as they read them.
+ * @typedef {Record<string, unknown> & {
+ *   id: string,
+ *   sourceMapId?: string,
+ *   name?: string,
+ *   category: string,
+ *   categoryId: string,
+ *   group: string,
+ *   order: number,
+ *   searchText: string,
+ *   isConverted: boolean,
+ *   loadable: boolean,
+ *   detailUrl?: string,
+ *   detailLoaded?: boolean,
+ *   conversionStatus?: string
+ * }} MetadataLayer
+ */
+/** A layer as the index or a layer's detail file gives it, before normalising. @typedef {Record<string, unknown> & { id?: string, sourceMapId?: string, name?: string, category?: string, group?: string, order?: unknown, conversionStatus?: string }} RawLayer */
+/** A category of the index. @typedef {{ id: string, name: string, group: string, description?: string }} MetadataCategory */
+/**
+ * A row of the port plan (render/metadata/main-site-port-plan.json): a map of the main site and how far its conversion has got.
+ * @typedef {Record<string, unknown> & {
+ *   sourceMapId?: string,
+ *   parentId?: string,
+ *   name?: string,
+ *   category?: string,
+ *   categoryId?: string,
+ *   group?: string,
+ *   provider?: unknown,
+ *   description?: string,
+ *   conversionStatus?: string,
+ *   recommendedTarget?: unknown,
+ *   unsupportedReason?: string,
+ *   sourceCredits?: unknown,
+ *   sourceDownloads?: Array<{ url?: string, label?: string }>,
+ *   references?: Array<{ url?: string, label?: string }>,
+ *   sourceFiles?: Array<{ file?: string }>,
+ *   style?: unknown,
+ *   variants?: number
+ * }} PortPlanRow
+ */
+/** The port plan, or its client part (clientPortPlan). @typedef {{ schemaVersion?: unknown, totals?: unknown, rows?: PortPlanRow[] }} PortPlan */
+/** The map index (/_api/layers?view=index) before normalising. @typedef {Record<string, unknown> & { layers?: RawLayer[], categories?: Array<{ id?: string, name?: string, group?: string, description?: string }> }} RawMetadata */
 
 export class TestMetadataService {
+  /**
+   * @param {string} [url] the map index
+   * @param {string} [portPlanUrl]
+   * @param {{ cache?: RequestCache, portPlanCache?: RequestCache }} [options]
+   */
   constructor(url = METADATA_URL, portPlanUrl = PORT_PLAN_URL, options = {}) {
     this.url = url;
     this.portPlanUrl = portPlanUrl;
     this.cacheMode = options.cache || 'no-cache';
     this.portPlanCacheMode = options.portPlanCache || 'no-cache';
+    /** @type {ReturnType<typeof normalizeMetadata> | null} */
     this.metadata = null;
+    /** @type {PortPlan | null} */
     this.portPlan = null;
+    /** @type {MetadataLayer[]} */
     this.layers = [];
+    /** @type {Map<string, MetadataLayer>} by id, source map id and port id */
     this.layerById = new Map();
+    /** @type {Map<string, Promise<MetadataLayer>>} a layer's detail file, fetched once */
     this.layerDetailCache = new Map();
   }
 
   async load() {
     const response = await fetch(this.url, { cache: this.cacheMode });
     if (!response.ok) throw new Error(`failed to load ${this.url}: ${response.status}`);
+    /** @type {RawMetadata} */
     const rawMetadata = await response.json();
     this.portPlan = await this.loadPortPlan();
     this.metadata = normalizeMetadata(rawMetadata, this.portPlan);
@@ -25,6 +82,7 @@ export class TestMetadataService {
     return this.metadata;
   }
 
+  /** @returns {Promise<PortPlan | null>} */
   async loadPortPlan() {
     try {
       const response = await fetch(this.portPlanUrl, { cache: this.portPlanCacheMode });
@@ -35,10 +93,12 @@ export class TestMetadataService {
     }
   }
 
+  /** @param {string} id */
   getLayer(id) {
     return this.layerById.get(id) || null;
   }
 
+  /** @param {string} id @returns {Promise<MetadataLayer | null | undefined>} */
   async loadLayerDetails(id) {
     const layer = this.getLayer(id);
     if (!layer?.detailUrl) return layer;
@@ -48,7 +108,7 @@ export class TestMetadataService {
           if (!response.ok) throw new Error(`failed to load ${layer.detailUrl}: ${response.status}`);
           return response.json();
         })
-        .then((detail) => {
+        .then((/** @type {RawLayer} */ detail) => {
           const merged = normalizeLayer({
             ...layer,
             ...detail,
@@ -67,6 +127,7 @@ export class TestMetadataService {
     return this.layerDetailCache.get(layer.id);
   }
 
+  /** @param {unknown} query */
   searchLayers(query) {
     const terms = normalizeSearchText(query).split(/\s+/).filter(Boolean);
     if (!terms.length) return this.layers;
@@ -74,7 +135,9 @@ export class TestMetadataService {
   }
 }
 
+/** @param {MetadataLayer[]} layers */
 function buildLayerLookup(layers) {
+  /** @type {Map<string, MetadataLayer>} */
   const lookup = new Map();
   for (const layer of layers || []) {
     for (const key of [layer.id, layer.sourceMapId, layer.sourceMapId ? `port-${layer.sourceMapId}` : null]) {
@@ -84,6 +147,7 @@ function buildLayerLookup(layers) {
   return lookup;
 }
 
+/** @param {RawMetadata} raw @param {PortPlan | null} [portPlan] */
 export function normalizeMetadata(raw, portPlan = null) {
   const portRows = Array.isArray(portPlan?.rows) ? portPlan.rows : [];
   const explicitLayers = raw.layers || [];
@@ -112,12 +176,15 @@ export function normalizeMetadata(raw, portPlan = null) {
   };
 }
 
+/** @param {Array<{ id?: string, name?: string, group?: string, description?: string }>} categories @param {Array<{ category?: string, group?: string }>} layers @returns {MetadataCategory[]} */
 function normalizeCategories(categories, layers) {
+  /** @type {Map<string, MetadataCategory>} */
   const explicit = new Map();
   for (const category of categories) {
+    // A category has an id or a name (the index's own, or a layer's).
     const normalized = {
       id: category.id || slugify(category.name),
-      name: category.name || category.id,
+      name: /** @type {string} */ (category.name || category.id),
       group: category.group || 'Maps',
       description: category.description || ''
     };
@@ -140,6 +207,7 @@ function normalizeCategories(categories, layers) {
   return [...new Map([...explicit.values()].map((category) => [category.id, category])).values()];
 }
 
+/** @param {RawLayer} layer @param {MetadataCategory[]} categories @param {number} index @returns {MetadataLayer} */
 function normalizeLayer(layer, categories, index) {
   const categoryName = layer.category || 'Maps';
   const category = categories.find((item) => item.name === categoryName || item.id === categoryName) || {
@@ -161,7 +229,7 @@ function normalizeLayer(layer, categories, index) {
     layer.description,
     ...(Array.isArray(layer.sourceCredits) ? layer.sourceCredits : [])
   ]);
-  return {
+  return /** @type {MetadataLayer} */ ({
     ...layer,
     isConverted: isConvertedPortStatus(layer.conversionStatus) || layer.loadable === true,
     loadable: layer.loadable !== false && layer.sourceType !== 'unconverted',
@@ -185,9 +253,10 @@ function normalizeLayer(layer, categories, index) {
       portedFromMainSite: Boolean(layer.sourceMapId),
       unsupportedReason: layer.unsupportedReason || null
     }
-  };
+  });
 }
 
+/** @param {PortPlanRow} row @param {MetadataCategory[]} categories @param {number} index @returns {MetadataLayer} */
 function normalizePortPlanRow(row, categories, index) {
   const categoryName = row.category || 'Uncategorised';
   const category = categories.find((item) => item.name === categoryName || item.id === row.categoryId) || {
@@ -255,6 +324,7 @@ function normalizePortPlanRow(row, categories, index) {
   };
 }
 
+/** @param {unknown} value @returns {string[]} */
 function formatCredits(value) {
   if (Array.isArray(value)) return value.map((item) => String(item)).filter(Boolean);
   return value ? [String(value)] : [];
@@ -268,7 +338,9 @@ function formatCredits(value) {
  * converted rows add nothing but their category, in order of first appearance, and the plan was
  * fetched on every visit before any map could draw (QA 2026-11-11, M8).
  */
+/** @param {PortPlan | null | undefined} plan @returns {PortPlan} */
 export function clientPortPlan(plan) {
+  /** @type {PortPlanRow[]} */
   const rows = [];
   const seen = new Set();
   for (const row of plan?.rows || []) {
@@ -280,6 +352,7 @@ export function clientPortPlan(plan) {
     }
     if (seen.has(key)) continue;
     seen.add(key);
+    /** @type {PortPlanRow} */
     const slim = { conversionStatus: row.conversionStatus };
     for (const field of ['category', 'categoryId', 'group']) {
       if (row[field] !== undefined) slim[field] = row[field];
@@ -289,10 +362,12 @@ export function clientPortPlan(plan) {
   return { schemaVersion: plan?.schemaVersion, totals: plan?.totals || null, rows };
 }
 
+/** @param {unknown} status */
 function isConvertedPortStatus(status) {
   return status === 'converted' || status === 'convertedComposite' || status === 'convertedAlias';
 }
 
+/** @param {{ category?: string, categoryId?: string, group?: string }} row */
 function portRowToCategoryLayer(row) {
   return {
     category: row.category || row.categoryId || 'Uncategorised',
@@ -300,6 +375,7 @@ function portRowToCategoryLayer(row) {
   };
 }
 
+/** @param {unknown} value */
 function slugify(value) {
   return normalizeSearchText(value)
     .replace(/[^a-z0-9]+/g, '-')
