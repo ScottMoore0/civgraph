@@ -13,7 +13,7 @@
  * datasets removed from the portal.
  *
  * The network is injected (`deps.fetch`, `deps.sleep`), so the paging and the stops are tested
- * without one (tests/intake/ckan-harvest.test.mjs).
+ * without one (the intake suite's ckan-harvest test).
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
