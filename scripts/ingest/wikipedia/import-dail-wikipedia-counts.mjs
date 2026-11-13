@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import path from 'node:path';
 import { fixText, normalizeName, parseNumber } from '../../../packages/core/src/election-domain.mjs';
 import { RESULT } from '../../../packages/intake/src/item-status.mjs';
+import { crawlHeaders } from '../../../packages/config/src/node.mjs';
 
 const ROOT = process.cwd();
 const DAIL_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections', 'dail-eireann');
@@ -312,7 +313,8 @@ async function fetchSingleWikipediaWikitext(title) {
   url.searchParams.set('origin', '*');
   let response;
   for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt += 1) {
-    response = await fetch(url);
+    // Wikipedia: the site's User-Agent (owner's decision of 13 Nov 2026 for Wikimedia projects).
+    response = await fetch(url, { headers: crawlHeaders({}, { url }) });
     if (response.status !== 429) break;
     const retryAfter = Number(response.headers.get('retry-after') || 0);
     const delay = retryAfter > 0 ? retryAfter * 1000 : RETRY_DELAYS_MS[attempt] || RETRY_DELAYS_MS[RETRY_DELAYS_MS.length - 1];

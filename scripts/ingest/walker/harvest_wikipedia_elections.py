@@ -31,6 +31,10 @@ import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from wiki_tables import parse_article  # noqa: E402
+# Wikimedia requests carry the site's User-Agent (the owner's decision of 13 Nov 2026), through
+# scripts/ingest/wikimedia_headers.py; no other host gets one.
+_WM = __import__('runpy').run_path(str(__import__('pathlib').Path(__file__).resolve().parents[1] / 'wikimedia_headers.py'))
+wikimedia_headers = _WM['wikimedia_headers']
 
 API = 'https://en.wikipedia.org/w/api.php'
 CATEGORIES = [
@@ -44,7 +48,7 @@ def api(**params):
     params.setdefault('format', 'json')
     params.setdefault('formatversion', 2)
     url = f'{API}?{urllib.parse.urlencode(params)}'
-    with urllib.request.urlopen(urllib.request.Request(url), timeout=60) as fh:
+    with urllib.request.urlopen(urllib.request.Request(url, headers=wikimedia_headers(url)), timeout=60) as fh:
         return json.load(fh)
 
 

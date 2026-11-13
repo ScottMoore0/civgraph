@@ -15,6 +15,10 @@ import json, re, sys, time
 from pathlib import Path
 import httpx
 from bs4 import BeautifulSoup
+# Wikimedia requests carry the site's User-Agent (the owner's decision of 13 Nov 2026), through
+# scripts/ingest/wikimedia_headers.py; no other host gets one.
+_WM = __import__('runpy').run_path(str(__import__('pathlib').Path(__file__).resolve().parents[1] / 'wikimedia_headers.py'))
+wikimedia_headers = _WM['wikimedia_headers']
 
 OUT_BASE = Path('data/elections-source/data/elections/ireland-referendum')
 
@@ -173,7 +177,7 @@ def detect_basis(soup):
 
 def scrape_amendment(url, topic_override=None, date_override=None, caption_match=None):
     with httpx.Client(timeout=60.0, follow_redirects=True) as c:
-        r = c.get(url)
+        r = c.get(url, headers=wikimedia_headers(url))
     if r.status_code != 200:
         raise RuntimeError(f'HTTP {r.status_code} for {url}')
     soup = BeautifulSoup(r.text, 'html.parser')
