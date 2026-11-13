@@ -61,3 +61,32 @@ test('the views modules are pure: no DOM, no window, no document at all', () => 
     assert.doesNotMatch(code, /\b(document|window|globalThis|localStorage|getComputedStyle|querySelector|addEventListener)\b/, file);
   }
 });
+
+test('the gallery draws the map components with the views renderers, from views/ only', async () => {
+  const route = await import('../../packages/ui/src/gallery/route.js');
+  const source = readFileSync(path.join(ROOT, 'packages/ui/src/gallery/route.js'), 'utf8');
+  const mapImports = [...source.matchAll(/from '([^']*\/map\/[^']*)'/g)].map((m) => m[1]);
+  assert.ok(mapImports.length > 0);
+  for (const spec of mapImports) assert.match(spec, /^\.\.\/\.\.\/\.\.\/map\/src\/views\//, `the gallery imports ${spec}: only views/ is open to ui`);
+  const map = route.APP_SPECIMENS.filter((s) => s.app === 'map');
+  assert.deepEqual(map.map((s) => s.id), ['map-legend', 'map-results', 'map-trends', 'map-timeline', 'map-timeline-changes']);
+  const expect = {
+    'map-legend': /<section class="test2-map-legend"[^>]*><details open><summary class="test2-map-legend__summary"><span>Legend: Winner<\/span>/,
+    'map-results': /data-election-renderer="shared"[\s\S]*data-election-view="party"/,
+    'map-trends': /<svg class="test2-election-trends__svg"[\s\S]*class="test2-election-trends__legend-item"|class="test2-election-trends__legend-item"[\s\S]*<svg class="test2-election-trends__svg"/,
+    'map-timeline': /<div class="timeline-track"><input type="range" class="timeline-range"[^>]*><div class="timeline-ticks" aria-hidden="true"><span class="timeline-tick/,
+    'map-timeline-changes': /<section class="timeline-changes-panel" aria-label="Boundary changes">[\s\S]*Changes, 1973 to 1985/,
+  };
+  for (const s of map) {
+    assert.ok(s.render, s.id);
+    assert.match(String(s.render()), expect[s.id], s.id);
+    assert.ok(s.source.startsWith('packages/map/src/views/'), s.id);
+    assert.deepEqual(s.stylesheets, ['assets/css/main.css', 'app/src/test2.css'], s.id);
+  }
+  // Every frame style is rules for the frame's own #specimen, nothing global.
+  for (const s of map.filter((x) => x.frameStyle)) {
+    for (const rule of String(s.frameStyle).replace(/@media[^{]*\{/g, '').split('}').map((r) => r.trim()).filter(Boolean)) {
+      assert.match(rule, /^#specimen\b/, `${s.id}: ${rule}`);
+    }
+  }
+});

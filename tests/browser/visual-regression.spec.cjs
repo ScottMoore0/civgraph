@@ -31,9 +31,9 @@
  *   npm run test:browser:visual
  *   npm run test:browser:visual -- --update-snapshots    (after an intended visual change: review the diffs first)
  *
- * Map-app components (legend, results tables, trend chart, timeline) and the STV count viewer join
- * the gallery's APP_SPECIMENS, and so this spec, after rf9-mapapp's F2 move (REFACTOR-PLAN.md G-5);
- * nothing here needs changing for them.
+ * The map app's components (legend, results by party, trend chart, timeline ticks and changes list)
+ * joined the gallery's APP_SPECIMENS, and so this spec, on 13 Nov 2026 (rf10-gallery, REFACTOR-PLAN.md
+ * G-5), with baselines of their own and no change here; the STV count viewer is still to come.
  */
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
