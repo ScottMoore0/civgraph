@@ -87,7 +87,7 @@ export function inTimelineSeries(entry, activeEntry) {
 
 /**
  * Stepping from one year to the next keeps the level, votes or seats, and members of an open year view.
- * @param {{ active?: boolean, level?: unknown, show?: unknown, members?: unknown } | null | undefined} view
+ * @param {{ active?: boolean, level?: string | null, show?: string | null, members?: string | null } | null | undefined} view
  */
 export function keptGroupedYearView(view) {
   return view?.active ? { level: view.level, show: view.show, members: view.members } : {};

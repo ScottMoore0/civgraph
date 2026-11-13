@@ -22,6 +22,45 @@ import { summaryPollStatus } from '../../core/src/unopposed.mjs';
 import { siteNumber } from '../../core/src/format.js';
 import { MAP_COLOURS } from '../src/colours.mjs';
 
+/** @typedef {import('../src/election/election-manager').ElectionManager} ElectionManager */
+/** @typedef {import('../src/election/election-manager').ElectionEntry} ElectionEntry */
+/** @typedef {import('../src/election/election-manager').ElectionFeature} ElectionFeature */
+/** @typedef {import('../src/app/legend-view.mjs').LegendModel} LegendModel */
+/**
+ * One area of a level (a feature of its map): its key and label (the file's, or a clicked feature's property), the [round, contest] pairs held
+ * there, the seats and votes by party, and the hatching when its results are missing or partial.
+ * @typedef {{
+ *   k: string, l?: unknown, n?: number, r?: Array<[number, number]>,
+ *   seats?: Record<string, number>, votes?: Record<string, number>, hatch?: boolean, why?: string
+ * }} NiLocalItem
+ */
+/**
+ * A level of the year: whether it can be drawn (else why not), the boundary map and the property
+ * its features are keyed by, the edition, results with no area here, and its areas.
+ * @typedef {{
+ *   available?: boolean, reason?: string, sourceMapId?: string, layerId?: string, labelProperty?: string,
+ *   keyProps?: string[], editionName?: string, unplaced?: Array<[number, number]>,
+ *   features?: { councillors?: NiLocalItem[], aldermen?: NiLocalItem[], [members: string]: NiLocalItem[] | undefined }
+ * }} NiLocalLevel
+ */
+/**
+ * A contest: its area, seats, whether it went to a poll, whether it elected aldermen, and its
+ * candidates as [name, party, label as printed, votes, elected].
+ * @typedef {{
+ *   area?: string, seats?: number, contested?: boolean, aldermen?: boolean,
+ *   cands?: Array<[string, string, (string | null)?, (number | null)?, boolean?]>
+ * }} NiLocalContest
+ */
+/** A council's round of the year. @typedef {{ key: string, body: string, date: string, tier: string, status?: string, note?: string, aldermen?: boolean, contests: NiLocalContest[] }} NiLocalRound */
+/**
+ * The year file (render/metadata/ni-local/<year>.json, scripts/build/build-ni-local-grouped.mjs).
+ * @typedef {{
+ *   year: number, title: string, dates?: string[], hasAldermen?: boolean,
+ *   levels?: Record<string, NiLocalLevel>, rounds: NiLocalRound[],
+ *   missing?: Array<{ tier: string, bodySlug?: string, reason?: string }>
+ * }} NiLocalYear
+ */
+
 // The words for a round's site status, a missing round and a contest: the statuses registry's
 // election-round siteLabels and missingReasons (RG-03) and contest labels (RG-02).
 const ROUND_LABELS = statuses.roundSiteLabels;
@@ -46,25 +85,33 @@ const STYLE = Object.freeze({
   strokeWidth: 1.2
 });
 
+/** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => /** @type {Record<string, string>} */ ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
 }
 
+/** @param {unknown} value */
 function formatNumber(value) {
   const n = Number(value);
   return Number.isFinite(n) ? siteNumber(n) : '-';
 }
 
-/** "CLIFTON" -> "Clifton", "ADMINISTRATIVE COUNTY OF DOWN" -> "Administrative County of Down". */
+/**
+ * "CLIFTON" -> "Clifton", "ADMINISTRATIVE COUNTY OF DOWN" -> "Administrative County of Down".
+ * @param {unknown} label
+ */
 export function niLocalAreaName(label) {
   const text = String(label || '').trim();
   if (!text || text !== text.toUpperCase()) return text;
-  return text.toLowerCase().replace(/(^|[\s(.'-])([a-z])/g, (m, p, c) => `${p}${c.toUpperCase()}`)
+  return text.toLowerCase().replace(/(^|[\s(.'-])([a-z])/g, (_m, p, c) => `${p}${c.toUpperCase()}`)
     .replace(/\b(Of|And|The|No)\b/g, (w, _x, i) => (i === 0 ? w : w.toLowerCase()))
     .replace(/'S\b/g, "'s");
 }
 
-/** The party with most of `counts`, its share of the total, and whether it ties. */
+/**
+ * The party with most of `counts`, its share of the total, and whether it ties.
+ * @param {Record<string, number> | null | undefined} [counts]
+ */
 export function leadingParty(counts = {}) {
   const rows = Object.entries(counts || {}).filter(([, n]) => Number(n) > 0).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   const total = rows.reduce((sum, [, n]) => sum + Number(n), 0);
@@ -72,7 +119,10 @@ export function leadingParty(counts = {}) {
   return { party: rows[0][0], value: rows[0][1], total, share: (rows[0][1] / total) * 100, tie: rows.length > 1 && rows[1][1] === rows[0][1] };
 }
 
-/** Fill opacity for a leading party's share of the votes: the site's vote-share range, 10% to 70%. */
+/**
+ * Fill opacity for a leading party's share of the votes: the site's vote-share range, 10% to 70%.
+ * @param {unknown} share
+ */
 export function voteShareOpacity(share) {
   const t = Math.max(0, Math.min(1, (Number(share) - 10) / 60));
   return Math.round((0.25 + 0.6 * t) * 100) / 100;
@@ -95,26 +145,38 @@ export class NiLocalGroupedView {
   /** The view is open (active or switching level): a read-only view of viewState. */
   get active() { return niLocalViewActive(this.viewState.state()); }
 
+  /** @param {ElectionManager} manager */
   constructor(manager) {
     this.manager = manager;
     this.app = manager.app;
     this.mapController = manager.mapController;
     // inactive, opening, active or switching (packages/map/src/election/ni-local-state.mjs).
     this.viewState = createState(NI_LOCAL_VIEW);
+    /** @type {ElectionEntry | null} */
     this.entry = null;
+    /** @type {NiLocalYear | null} */
     this.data = null;
+    /** @type {Map<number, NiLocalYear>} */
     this.cache = new Map();
+    /** @type {string | null} */
     this.level = null;
+    /** @type {string} */
     this.show = 'seats';
+    /** @type {string} */
     this.members = 'councillors';
+    /** @type {string | null} */
     this.selectedKey = null;
+    /** @type {Set<string>} */
     this.loadedLayerIds = new Set();
+    /** @type {MutationObserver | null} */
     this.themeObserver = null;
+    /** @type {MediaQueryList | null} */
     this.themeMedia = null;
   }
 
   // ------------------------------------------------------------------ state
 
+  /** @returns {{ level?: string, show?: string, members?: string }} */
   readPrefs() {
     try {
       const value = JSON.parse(globalThis.localStorage?.getItem(PREF_KEY) || '{}');
@@ -132,9 +194,13 @@ export class NiLocalGroupedView {
     }
   }
 
+  /**
+   * @param {ElectionEntry} entry
+   * @returns {Promise<NiLocalYear>}
+   */
   async fetchYear(entry) {
     const year = Number(entry?.year || String(entry?.date || '').slice(0, 4));
-    if (this.cache.has(year)) return this.cache.get(year);
+    if (this.cache.has(year)) return /** @type {NiLocalYear} */ (this.cache.get(year));
     const response = await fetch(`/render/metadata/ni-local/${year}.json?v=${YEAR_FILE_VERSION}`, { cache: 'default' });
     if (!response.ok) throw new Error(`The ${year} Northern Ireland local elections could not be loaded: ${response.status}`);
     const data = await response.json();
@@ -142,15 +208,27 @@ export class NiLocalGroupedView {
     return data;
   }
 
+  /**
+   * @param {string | null} [id]
+   * @returns {NiLocalLevel | null}
+   */
   levelInfo(id = this.level) {
-    return this.data?.levels?.[id] || null;
+    // No level yet reads levels["null"]: nothing.
+    return this.data?.levels?.[/** @type {string} */ (id)] || null;
   }
 
+  /**
+   * @param {string | null | undefined} id
+   * @returns {boolean}
+   */
   levelAvailable(id) {
     return Boolean(this.levelInfo(id)?.available);
   }
 
-  /** Why a level is greyed out, in a few words, for its tooltip. */
+  /**
+   * Why a level is greyed out, in a few words, for its tooltip.
+   * @param {string} id
+   */
   levelReason(id) {
     const info = this.levelInfo(id);
     const level = NI_LOCAL_LEVELS.find((item) => item.id === id);
@@ -166,11 +244,16 @@ export class NiLocalGroupedView {
     return NI_LOCAL_LEVELS.map((level) => level.id).filter((id) => this.levelAvailable(id));
   }
 
+  /**
+   * @param {string | null | undefined} requested
+   * @returns {string}
+   */
   pickLevel(requested) {
     if (requested && this.levelAvailable(requested)) return requested;
     return DEFAULT_LEVEL_ORDER.find((id) => this.levelAvailable(id)) || 'districts';
   }
 
+  /** @param {string | null} [level] */
   aldermenAvailable(level = this.level) {
     return Boolean(this.levelInfo(level)?.features?.aldermen?.some((item) => item.n));
   }
@@ -180,11 +263,16 @@ export class NiLocalGroupedView {
     return Boolean(this.data?.hasAldermen);
   }
 
+  /** @returns {NiLocalItem[]} */
   items() {
     const info = this.levelInfo();
     return info?.features?.[this.members] || [];
   }
 
+  /**
+   * @param {unknown} key
+   * @returns {NiLocalItem | null}
+   */
   itemByKey(key) {
     const wanted = String(key || '');
     return this.items().find((item) => item.k === wanted || item.l === wanted) || null;
@@ -200,6 +288,10 @@ export class NiLocalGroupedView {
 
   // ------------------------------------------------------------------ open / close
 
+  /**
+   * @param {ElectionEntry} entry
+   * @param {{ keepView?: boolean, level?: string | null, show?: string | null, members?: string | null, area?: string | null }} [options]
+   */
   async open(entry, { keepView = false, level = null, show = null, members = null, area = null } = {}) {
     this.viewState.to('opening');
     let data;
@@ -213,7 +305,8 @@ export class NiLocalGroupedView {
     this.entry = entry;
     const prefs = this.readPrefs();
     const wantShow = show || prefs.show;
-    this.show = SHOW_OPTIONS.some(([id]) => id === wantShow) ? wantShow : 'seats';
+    // One of the options (some() found it), so a string.
+    this.show = SHOW_OPTIONS.some(([id]) => id === wantShow) ? /** @type {string} */ (wantShow) : 'seats';
     this.level = this.pickLevel(level || prefs.level);
     const wantMembers = members || prefs.members;
     this.members = wantMembers === 'aldermen' && this.aldermenAvailable() ? 'aldermen' : 'councillors';
@@ -231,15 +324,17 @@ export class NiLocalGroupedView {
   /** The manager's view of the open election: the year's entry, drawn on this level's map. */
   syncManagerEntry() {
     const info = this.levelInfo();
+    // open() set the entry. A level with no map leaves its ids null, which the manager reads only
+    // for truthiness.
     const entry = {
-      ...this.entry,
+      .../** @type {ElectionEntry} */ (this.entry),
       sourceMapId: info?.sourceMapId || null,
       layerId: info?.layerId || null,
       labelProperty: info?.labelProperty || null,
       stylingModes: []
     };
-    this.manager.activeEntry = entry;
-    this.manager.activeBundle = {
+    this.manager.activeEntry = /** @type {ElectionEntry} */ (entry);
+    this.manager.activeBundle = /** @type {ElectionEntry} */ ({
       key: entry.key,
       body: entry.body,
       bodySlug: entry.bodySlug,
@@ -250,9 +345,10 @@ export class NiLocalGroupedView {
       layerId: entry.layerId,
       labelProperty: entry.labelProperty,
       results: []
-    };
+    });
   }
 
+  /** @param {{ fit?: boolean }} [options] */
   async loadLevelLayer({ fit = false } = {}) {
     const id = this.sourceMapId();
     if (!id) return;
@@ -267,7 +363,8 @@ export class NiLocalGroupedView {
 
   teardown() {
     for (const id of new Set([this.sourceMapId(), ...this.loadedLayerIds].filter(Boolean))) {
-      this.mapController.clearElectionStyle?.(id);
+      // filter(Boolean) left only ids.
+      this.mapController.clearElectionStyle?.(/** @type {string} */ (id));
     }
     this.viewState.to('inactive');
     this.selectedKey = null;
@@ -298,12 +395,14 @@ export class NiLocalGroupedView {
   unwatchTheme() {
     this.themeObserver?.disconnect();
     this.themeObserver = null;
-    try { this.themeMedia?.removeEventListener?.('change', this.themeMediaListener); } catch { /* ignore */ }
+    // Before watchTheme set a listener there is none to remove, and removing undefined does nothing.
+    try { this.themeMedia?.removeEventListener?.('change', /** @type {() => void} */ (this.themeMediaListener)); } catch { /* ignore */ }
     this.themeMedia = null;
   }
 
   // ------------------------------------------------------------------ choices
 
+  /** @param {string} id */
   async setLevel(id) {
     if (!this.active || id === this.level || !this.levelAvailable(id)) return;
     this.viewState.to('switching');
@@ -331,6 +430,7 @@ export class NiLocalGroupedView {
     this.app.updateURLState?.();
   }
 
+  /** @param {string} id */
   setShow(id) {
     if (!SHOW_OPTIONS.some(([value]) => value === id) || id === this.show) return;
     this.show = id;
@@ -340,6 +440,7 @@ export class NiLocalGroupedView {
     this.app.updateURLState?.();
   }
 
+  /** @param {string} id */
   setMembers(id) {
     if (!MEMBER_OPTIONS.some(([value]) => value === id) || id === this.members) return;
     if (id === 'aldermen' && !this.aldermenAvailable()) return;
@@ -362,13 +463,16 @@ export class NiLocalGroupedView {
 
   // ------------------------------------------------------------------ map style
 
+  /** @param {string} party */
   partyColour(party) {
     if (!party || party === NO_LABEL) return this.manager.mainPanePartyColour(NO_LABEL) || MAP_COLOURS.noFigure;
     return this.manager.mainPanePartyColour(party);
   }
 
+  /** @param {NiLocalLevel | null} [info] */
   matchInput(info = this.levelInfo()) {
     if (Array.isArray(info?.keyProps) && info.keyProps.length > 1) {
+      /** @type {unknown[]} */
       const parts = [];
       info.keyProps.forEach((prop, index) => {
         if (index) parts.push('|');
@@ -379,7 +483,11 @@ export class NiLocalGroupedView {
     return ['to-string', ['get', info?.labelProperty || 'name']];
   }
 
-  /** How one feature is drawn: { colour, opacity, party, share, tie, kind }. */
+  /**
+   * How one feature is drawn: { colour, opacity, party, share, tie, kind }.
+   * @param {NiLocalItem} item
+   * @returns {{ colour: string, opacity: number, party?: string, share?: number, tie?: boolean, kind: 'none' | 'uncontested' | 'split' | 'party' }}
+   */
   styleFor(item) {
     if (!item?.n) return { colour: STYLE.neutralFill, opacity: item?.hatch ? 0.18 : STYLE.unmatchedFillOpacity, kind: 'none' };
     if (this.show === 'votes') {
@@ -424,6 +532,10 @@ export class NiLocalGroupedView {
       strokes.push(item.k, STYLE.matchedStroke);
       if (item.hatch) hatched.push(item.k);
     }
+    /**
+     * @param {unknown[]} pairs
+     * @param {unknown} fallback
+     */
     const match = (pairs, fallback) => (pairs.length ? ['match', input, ...pairs, fallback] : fallback);
     this.mapController.applyElectionStyle?.(id, {
       mode: `ni-local-${this.show}`,
@@ -440,6 +552,7 @@ export class NiLocalGroupedView {
 
   // ------------------------------------------------------------------ legend
 
+  /** @returns {LegendModel | null} */
   legendModel() {
     if (!this.active) return null;
     const byParty = new Map();
@@ -484,7 +597,7 @@ export class NiLocalGroupedView {
 
   /** The year's results at this level, by party, from every contest of the councils drawn here. */
   partySummary() {
-    const tiers = Object.entries(NI_LOCAL_TIERS).filter(([, tier]) => tier.levels.includes(this.level)).map(([id]) => id);
+    const tiers = Object.entries(NI_LOCAL_TIERS).filter(([, tier]) => tier.levels.includes(/** @type {string} */ (this.level))).map(([id]) => id);
     const wantAldermen = this.members === 'aldermen';
     const rows = new Map();
     let totalSeats = 0;
@@ -520,13 +633,20 @@ export class NiLocalGroupedView {
   }
 
   roundsAtLevel() {
-    const tiers = Object.entries(NI_LOCAL_TIERS).filter(([, tier]) => tier.levels.includes(this.level)).map(([id]) => id);
+    const tiers = Object.entries(NI_LOCAL_TIERS).filter(([, tier]) => tier.levels.includes(/** @type {string} */ (this.level))).map(([id]) => id);
     return {
       rounds: (this.data?.rounds || []).map((round, index) => ({ round, index })).filter(({ round }) => tiers.includes(round.tier)),
       missing: (this.data?.missing || []).filter((item) => tiers.includes(item.tier))
     };
   }
 
+  /**
+   * @param {string} name
+   * @param {string} label
+   * @param {string[][]} options  [id, text, full text]
+   * @param {string | null} active
+   * @param {{ disabled?: (id: string) => string, describedBy?: string }} [extra]
+   */
   segmentedHtml(name, label, options, active, { disabled = () => '', describedBy = '' } = {}) {
     return `<div class="ni-seg" role="group" aria-label="${escapeHtml(label)}"${describedBy ? ` aria-describedby="${describedBy}"` : ''}>
       <span class="ni-seg__label" aria-hidden="true">${escapeHtml(label)}</span>
@@ -563,7 +683,8 @@ export class NiLocalGroupedView {
     const withResults = items.filter((item) => item.n).length;
     const hatched = items.filter((item) => item.hatch).length;
     const unplaced = (info.unplaced || []).filter(([ri, ci]) => {
-      const round = this.data.rounds[ri];
+      // The year is loaded while its levels are drawn.
+      const round = /** @type {NiLocalYear} */ (this.data).rounds[ri];
       return Boolean(round.aldermen || round.contests[ci]?.aldermen) === (this.members === 'aldermen');
     }).length;
     const edition = info.editionName ? `Boundaries: ${info.editionName}` : '';
@@ -598,6 +719,7 @@ export class NiLocalGroupedView {
 
   councilsHtml() {
     const { rounds, missing } = this.roundsAtLevel();
+    /** @param {NiLocalRound} round */
     const status = (round) => (round.status === 'complete' ? '' : `<span class="ni-local-badge"${round.note ? ` title="${escapeHtml(round.note)}"` : ''}>${round.status === 'held' ? ROUND_LABELS.held : ROUND_LABELS.partial}</span>`);
     const items = rounds.map(({ round }) => `<li><button type="button" class="ni-local-council" data-ni-round="${escapeHtml(round.key)}">${escapeHtml(round.body)}</button> <span class="ni-local-council__meta">${escapeHtml(formatDisplayDate(round.date))} · ${formatNumber(round.contests.length)} contest${round.contests.length === 1 ? '' : 's'}</span>${status(round)}</li>`);
     const gaps = missing.map((item) => `<li class="ni-local-council--missing"><i class="ni-hatch-swatch" aria-hidden="true"></i>${escapeHtml(this.councilName(item.bodySlug))} <span class="ni-local-council__meta">${escapeHtml(item.reason === MISSING_REASONS.excluded.reason ? MISSING_REASONS.excluded.label : MISSING_REASONS.otherwise.label)}</span></li>`);
@@ -608,12 +730,15 @@ export class NiLocalGroupedView {
     </details>`;
   }
 
+  /** @param {unknown} bodySlug */
   councilName(bodySlug) {
     const base = String(bodySlug || '').replace(/-aldermen$/, '');
     const words = base.split('-').map((word) => (word === 'no' ? 'No.' : word.charAt(0).toUpperCase() + word.slice(1)));
-    return `${words.join(' ')}${/-aldermen$/.test(bodySlug) ? ' (aldermen)' : ''}`;
+    // test() reads a missing slug as "undefined", which does not match.
+    return `${words.join(' ')}${/-aldermen$/.test(/** @type {string} */ (bodySlug)) ? ' (aldermen)' : ''}`;
   }
 
+  /** @param {string} party */
   partyLabel(party) {
     if (!String(party || '').trim() || party === NO_LABEL) return `<span class="election-no-label">${escapeHtml(NO_LABEL)}</span>`;
     return partyLabelHtml(party, escapeHtml);
@@ -631,6 +756,7 @@ export class NiLocalGroupedView {
     return '<button type="button" id="electionCloseBtn" class="election-pane__close" aria-label="Unload election">&#10005;</button>';
   }
 
+  /** @param {{ push?: boolean, busy?: boolean }} [options] */
   renderPanel({ push = true, busy = false } = {}) {
     const { pane, content, title, back } = this.paneParts();
     if (!pane || !content || !title || !this.data) return;
@@ -660,6 +786,10 @@ export class NiLocalGroupedView {
     if (push && wasSelected) this.app.pushURLState?.(this.data.title);
   }
 
+  /**
+   * @param {NiLocalItem} item
+   * @param {{ push?: boolean }} [options]
+   */
   renderArea(item, { push = true } = {}) {
     const { pane, content, title, back } = this.paneParts();
     if (!pane || !content || !title || !this.data || !item) return;
@@ -670,13 +800,15 @@ export class NiLocalGroupedView {
     back?.classList.remove('hidden');
     const headerRight = pane.querySelector('.election-pane__header-right');
     if (headerRight) headerRight.innerHTML = this.headerRightHtml();
+    /** @type {Map<number, number[]>} */
     const byRound = new Map();
     for (const [ri, ci] of item.r || []) {
       if (!byRound.has(ri)) byRound.set(ri, []);
-      byRound.get(ri).push(ci);
+      /** @type {number[]} */ (byRound.get(ri)).push(ci);
     }
     const blocks = [...byRound.entries()].map(([ri, contestIndexes]) => {
-      const round = this.data.rounds[ri];
+      // The year is loaded while its levels are drawn.
+      const round = /** @type {NiLocalYear} */ (this.data).rounds[ri];
       const contests = contestIndexes.map((ci) => this.contestHtml(round.contests[ci])).join('');
       return `<section class="ni-local-round">
         <h4 class="ni-local-round__title">${escapeHtml(round.body)} <span class="ni-local-council__meta">${escapeHtml(formatDisplayDate(round.date))}</span></h4>
@@ -703,6 +835,7 @@ export class NiLocalGroupedView {
     }
   }
 
+  /** @param {NiLocalContest} contest */
   contestHtml(contest) {
     const seats = Number(contest.seats) || 1;
     // A contest without printed votes is "Returned unopposed" only when nobody stood against the
@@ -733,6 +866,7 @@ export class NiLocalGroupedView {
       || `<span>${escapeHtml(this.data?.title || '')}</span>`;
   }
 
+  /** @param {Element} pane */
   bindPane(pane) {
     pane.querySelector('#electionCloseBtn')?.addEventListener('click', () => this.manager.unloadElection({ label: 'Closed the election' }));
     const back = document.getElementById('electionPaneBack');
@@ -742,21 +876,24 @@ export class NiLocalGroupedView {
         if (this.active && this.selectedKey) this.renderPanel();
       });
     }
-    const details = pane.querySelector('.ni-local-view');
+    const details = /** @type {HTMLDetailsElement | null} */ (pane.querySelector('.ni-local-view'));
     details?.addEventListener('toggle', () => { this.viewMenuOpen = details.open; });
-    pane.querySelectorAll('[data-ni-level]').forEach((button) => button.addEventListener('click', () => {
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-ni-level]')).forEach((button) => button.addEventListener('click', () => {
       if (button.getAttribute('aria-disabled') === 'true') return;
-      this.setLevel(button.dataset.niLevel).catch((error) => this.manager.onError?.(error));
+      this.setLevel(/** @type {string} */ (button.dataset.niLevel)).catch((error) => this.manager.onError?.(error));
     }));
-    pane.querySelectorAll('[data-ni-show]').forEach((button) => button.addEventListener('click', () => this.setShow(button.dataset.niShow)));
-    pane.querySelectorAll('[data-ni-members]').forEach((button) => button.addEventListener('click', () => {
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-ni-show]')).forEach((button) => button.addEventListener('click', () => this.setShow(/** @type {string} */ (button.dataset.niShow))));
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-ni-members]')).forEach((button) => button.addEventListener('click', () => {
       if (button.getAttribute('aria-disabled') === 'true') return;
-      this.setMembers(button.dataset.niMembers);
+      this.setMembers(/** @type {string} */ (button.dataset.niMembers));
     }));
-    pane.querySelectorAll('[data-ni-round]').forEach((button) => button.addEventListener('click', () => this.openRound(button.dataset.niRound)));
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-ni-round]')).forEach((button) => button.addEventListener('click', () => this.openRound(button.dataset.niRound)));
   }
 
-  /** One council's own results, as before grouping (its timeline, its tables). */
+  /**
+   * One council's own results, as before grouping (its timeline, its tables).
+   * @param {string | undefined} key
+   */
   async openRound(key) {
     const round = (this.data?.rounds || []).find((item) => item.key === key);
     if (!round) return;
@@ -766,38 +903,45 @@ export class NiLocalGroupedView {
 
   // ------------------------------------------------------------------ map clicks
 
+  /** @param {ElectionFeature | null | undefined} feature */
   featureKey(feature) {
     const info = this.levelInfo();
     const props = feature?.properties || {};
     if (Array.isArray(info?.keyProps) && info.keyProps.length > 1) {
       return info.keyProps.map((prop) => String(props[prop] ?? '')).join('|');
     }
-    return String(props[info?.labelProperty] ?? feature?.featureName ?? feature?.name ?? '');
+    // No label property reads props["undefined"]: nothing.
+    return String(props[/** @type {string} */ (info?.labelProperty)] ?? feature?.featureName ?? feature?.name ?? '');
   }
 
+  /** @param {ElectionFeature | null | undefined} feature */
   isOwnFeature(feature) {
     const info = this.levelInfo();
     const id = String(feature?.mapId || feature?.sourceMapId || feature?.layerId || '');
     return Boolean(info && id && (id === info.sourceMapId || id === info.layerId));
   }
 
+  /** @param {ElectionFeature | null | undefined} feature */
   showFeature(feature) {
     if (!this.active || !this.isOwnFeature(feature)) return false;
     const key = this.featureKey(feature);
-    const item = this.itemByKey(key) || { k: key, l: feature?.properties?.[this.levelInfo()?.labelProperty] || key, n: 0 };
+    const item = this.itemByKey(key) || { k: key, l: feature?.properties?.[/** @type {string} */ (this.levelInfo()?.labelProperty)] || key, n: 0 };
     this.renderArea(item);
     return true;
   }
 
+  /** @param {ElectionFeature} feature */
   enrichFeature(feature) {
     if (!this.active || !this.isOwnFeature(feature)) return feature;
     const item = this.itemByKey(this.featureKey(feature));
     if (!item) return feature;
     const seats = Object.entries(item.seats || {}).sort((a, b) => b[1] - a[1]).map(([party, n]) => `${party} ${n}`).join(', ');
     const lead = leadingParty(item.votes);
+    /** @type {Record<string, unknown>} */
     const properties = {
       ...(feature.properties || {}),
-      Election: this.data.title,
+      // An own feature's level is the open year's.
+      Election: /** @type {NiLocalYear} */ (this.data).title,
       Seats: seats || '-',
       'Leading party (votes)': lead ? `${lead.party} (${lead.share.toFixed(1)}%)` : 'No contested poll'
     };

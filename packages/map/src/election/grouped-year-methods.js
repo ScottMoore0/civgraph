@@ -8,11 +8,17 @@
  */
 import { NiLocalGroupedView } from '../../app/ni-local-view.js';
 
+/** @typedef {import('./election-manager').ElectionManager} ElectionManager */
+/** @typedef {import('./election-manager').ElectionEntry} ElectionEntry */
+
 export class GroupedYearMethods {
   /**
    * A year of pre-1973 Northern Ireland council elections (packages/map/app/ni-local-view.js): the year's
    * rounds at the reader's level (or `level`), coloured by votes or seats. Opening it is a step
    * Back can undo, as for any election; the timeline steps through the years.
+   * @this {ElectionManager}
+   * @param {ElectionEntry} entry
+   * @param {{ keepView?: boolean, level?: string | null, show?: string | null, members?: string | null, area?: string | null }} [options]
    */
   async loadNiLocalGroup(entry, { keepView = false, level = null, show = null, members = null, area = null } = {}) {
     const requestId = ++this.loadSerial;
@@ -26,8 +32,9 @@ export class GroupedYearMethods {
     } catch (error) {
       if (requestId === this.loadSerial) {
         this.closeGroupedYearLayers();
-        this.activeEntry = null;
-        this.activeBundle = null;
+        // Written through the manager's type: a plain `this.x =` here would declare x on this class.
+        /** @type {ElectionManager} */ (this).activeEntry = null;
+        /** @type {ElectionManager} */ (this).activeBundle = null;
         this.removePanel();
         this.app.syncCatalogueMapState();
         this.app.updateActiveLayers();
@@ -50,10 +57,14 @@ export class GroupedYearMethods {
     else this.app.updateURLState();
   }
 
-  /** Take the open year's drawing off the map, with the boundary layers it loaded. */
+  /**
+   * Take the open year's drawing off the map, with the boundary layers it loaded.
+   * @this {ElectionManager}
+   */
   closeGroupedYearLayers() {
-    this.niLocal.teardown();
-    this.unloadElectionBackingLayers(this.niLocal.backingLayerIds());
-    this.niLocal.forgetLoadedLayers();
+    // Called only while a year is open, so the view is there.
+    /** @type {NiLocalGroupedView} */ (this.niLocal).teardown();
+    this.unloadElectionBackingLayers(/** @type {NiLocalGroupedView} */ (this.niLocal).backingLayerIds());
+    /** @type {NiLocalGroupedView} */ (this.niLocal).forgetLoadedLayers();
   }
 }
