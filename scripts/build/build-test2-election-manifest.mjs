@@ -6,6 +6,7 @@ import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 import { centreInIreland } from '../../packages/maps-pipeline/src/label-data.mjs';
 import * as ElectionDomain from '../../packages/core/src/election-domain.mjs';
 import { namesCompatible } from '../lib/name-compatibility.mjs';
+import { fixText, manifestNameKey } from '../lib/manifest-name-key.mjs';
 
 // Decorations on the Republic's local electoral area names; see buildFeatureLookup.
 const LEA_SEAT_SUFFIX = /\s*\(\d+\)\s*$/;
@@ -3661,32 +3662,14 @@ function normalizeName(value) {
   return result;
 }
 
+// The key itself (scripts/lib/manifest-name-key.mjs): it reads ’ ‘ and ` as the straight
+// apostrophe, as core's normalizeName does.
 function normalizeNameUncached(value) {
-  return fixText(value)
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\([^)]*\)/g, ' ')
-    .replace(/&/g, ' and ')
-    .replace(/[''`]/g, '')
-    .replace(/[\u2010-\u2015-_/.,()]/g, ' ')
-    .replace(/\bconstituency\b/gi, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase();
+  return manifestNameKey(value);
 }
 
 function slugify(value) {
   return normalizeName(value).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-}
-
-function fixText(value) {
-  const text = String(value ?? '');
-  if (!/[ÃÂ]/.test(text)) return text;
-  try {
-    return Buffer.from(text, 'latin1').toString('utf8');
-  } catch {
-    return text;
-  }
 }
 
 function parseNumber(value) {
