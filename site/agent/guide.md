@@ -26,6 +26,17 @@ are static, unauthenticated HTTPS, and machine-readable.
   name (e.g. `LGDNAME`, `FinalR_DEA`, `ENGLISH`). Field names vary by layer —
   inspect the file's schema if unsure.
 
+## Records API
+
+Elections, people, parties, sources, registers of interests, parliamentary
+votes, the semantic graph and the map catalogue are also served as JSON by a
+versioned, read-only API with no key: the
+[index](https://civgraph.net/api/v1/) lists every route and its parameters, and
+the [OpenAPI description](https://civgraph.net/api/v1/openapi.json) gives each
+answer's shape. Version 1 changes only by addition. See
+[Civgraph API](https://civgraph.net/pages/api) for what it holds and fair use;
+for whole datasets, use the files on `data.civgraph.net` instead.
+
 ## Finding the two maps
 
 Fetch `maps-index.json`, then match on `name` / `category` / `provider`. Example
