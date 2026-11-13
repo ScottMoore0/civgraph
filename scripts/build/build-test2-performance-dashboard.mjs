@@ -5,6 +5,10 @@ import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
 // Paths here are served paths; sourceOf() gives the repository file (site/, packages, data dirs).
 import { sourceOf } from './site.mjs';
 
+/** A built file as the inventory lists it. @typedef {{ name: string | undefined, path: string, bytes: number, label: string }} AssetInfo */
+/** Tests a file name. @typedef {(name: string) => boolean} NamePredicate */
+/** A startup-index layer, as far as the PMTiles check reads it. @typedef {{ sourceType?: string, tileUrl?: string }} IndexLayer */
+
 const ROOT = resolve(process.cwd());
 const OUT_PATH = resolve(ROOT, sourceOf('app/build/performance-dashboard.json'));
 const VALIDATE = process.argv.includes('--validate');
@@ -75,6 +79,12 @@ for (const check of checks) {
 }
 if (VALIDATE && failed) process.exit(1);
 
+/**
+ * @param {string} name
+ * @param {string} relativePath
+ * @param {number} maxBytes
+ * @param {{ normalizeTextEol?: boolean }} [options]
+ */
 function fileBudget(name, relativePath, maxBytes, options = {}) {
   const fullPath = resolve(ROOT, sourceOf(relativePath));
   if (!existsSync(fullPath)) {
@@ -93,6 +103,12 @@ function fileBudget(name, relativePath, maxBytes, options = {}) {
   };
 }
 
+/**
+ * @param {string} name
+ * @param {string} relativeDir
+ * @param {NamePredicate} predicate
+ * @param {number} maxBytes
+ */
 function sumBudget(name, relativeDir, predicate, maxBytes) {
   const fullDir = resolve(ROOT, sourceOf(relativeDir));
   if (!existsSync(fullDir)) return { name, status: 'pass', value: 0, maxBytes, valueLabel: `0 B / ${formatBytes(maxBytes)}`, path: relativeDir };
@@ -110,6 +126,11 @@ function sumBudget(name, relativeDir, predicate, maxBytes) {
   };
 }
 
+/**
+ * @param {string} name
+ * @param {string} relativeDir
+ * @param {number} maxBytes
+ */
 function largestChunkBudget(name, relativeDir, maxBytes) {
   const chunks = listFiles(relativeDir, (entryName) => entryName.endsWith('.js'));
   const largest = chunks[0] || null;
@@ -143,12 +164,13 @@ function buildAssetInventory() {
   const entryCss = fileInfo('app/build/app.bundle.css');
   const jsChunks = listFiles('app/build/chunks', (name) => name.endsWith('.js'));
   const cssChunks = listFiles('app/build/chunks', (name) => name.endsWith('.css'));
-  const allOutputs = [
+  // filter(Boolean) dropped the missing entry files (null).
+  const allOutputs = /** @type {AssetInfo[]} */ ([
     entryJs,
     entryCss,
     ...jsChunks,
     ...cssChunks
-  ].filter(Boolean).sort((a, b) => b.bytes - a.bytes);
+  ].filter(Boolean)).sort((a, b) => b.bytes - a.bytes);
   return {
     entry: { js: entryJs, css: entryCss },
     lazy: {
@@ -161,6 +183,10 @@ function buildAssetInventory() {
   };
 }
 
+/**
+ * @param {string} relativePath
+ * @returns {AssetInfo | null}
+ */
 function fileInfo(relativePath) {
   const fullPath = resolve(ROOT, sourceOf(relativePath));
   if (!existsSync(fullPath)) return null;
@@ -173,6 +199,10 @@ function fileInfo(relativePath) {
   };
 }
 
+/**
+ * @param {string} relativeDir
+ * @param {NamePredicate} predicate
+ */
 function listFiles(relativeDir, predicate) {
   const fullDir = resolve(ROOT, sourceOf(relativeDir));
   if (!existsSync(fullDir)) return [];
@@ -191,6 +221,10 @@ function listFiles(relativeDir, predicate) {
     .sort((a, b) => b.bytes - a.bytes);
 }
 
+/**
+ * @param {string} name
+ * @param {string} relativePath
+ */
 function existsCheck(name, relativePath) {
   const ok = existsSync(resolve(ROOT, sourceOf(relativePath)));
   return {
@@ -218,6 +252,7 @@ function pmtilesCoverageCheck() {
   const metadataPath = resolve(ROOT, sourceOf('render/metadata/maps-test-index.json'));
   if (!existsSync(metadataPath)) return { name: 'PMTiles metadata coverage', status: 'fail', value: 0, valueLabel: 'metadata missing' };
   const metadata = JSON.parse(readFileSync(metadataPath, 'utf8'));
+  /** @type {IndexLayer[]} */
   const layers = Array.isArray(metadata.layers) ? metadata.layers : [];
   const pmtiles = layers.filter((layer) => layer.sourceType === 'pmtiles');
   const remote = pmtiles.filter((layer) => /^https:\/\/data\.civgraph\.net\/.+\.pmtiles(?:[?#].*)?$/i.test(layer.tileUrl || ''));
@@ -230,6 +265,11 @@ function pmtilesCoverageCheck() {
   };
 }
 
+/**
+ * @param {string} relativeDir
+ * @param {NamePredicate} predicate
+ * @returns {number}
+ */
 function countFiles(relativeDir, predicate) {
   const fullDir = resolve(ROOT, sourceOf(relativeDir));
   if (!existsSync(fullDir)) return 0;
@@ -242,6 +282,7 @@ function countFiles(relativeDir, predicate) {
   return count;
 }
 
+/** @param {number} bytes */
 function formatBytes(bytes) {
   const units = ['B', 'KB', 'MB', 'GB'];
   let value = Number(bytes || 0);
