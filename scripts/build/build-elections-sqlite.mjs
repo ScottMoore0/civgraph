@@ -34,12 +34,24 @@ import { createHash } from 'node:crypto';
 const ROOT = process.cwd();
 const SRC_DIR = path.join(ROOT, 'render/metadata/elections-test2');
 const args = process.argv.slice(2);
+/** @type {<F>(name: string, fallback: F) => string | F} */
 const argVal = (name, fallback) => {
   const i = args.indexOf(name);
   return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
 };
 const OUT = path.resolve(argVal('--out', 'tmp/elections.sqlite'));
 const LIMIT = Number(argVal('--limit', Infinity));
+
+/** @typedef {import('../../packages/storage/src/sqlite.mjs').SqliteRow} SqliteRow */
+/** @typedef {import('../../packages/storage/src/sqlite.mjs').SqliteValue} SqliteValue */
+/** A candidate or count row of a bundle: its fields are bound as they come. @typedef {Record<string, unknown>} BundleRow */
+/**
+ * A contest of an election bundle: the fields read by name, the rest bound as they come.
+ * @typedef {Record<string, unknown> & { candidates?: BundleRow[], countGroup?: BundleRow[], animationPayload?: unknown,
+ *   featureId?: unknown, matched?: unknown }} BundleResult
+ */
+/** An election bundle (render/metadata/elections-test2/*.json). @typedef {Record<string, unknown> & { results?: BundleResult[] }} Bundle */
+/** A part of an oversized meta field. @typedef {{ field: string, part: number, chunk: string }} MetaPart */
 
 export const SCHEMA = `
 -- dataset.version is a hash of every source file this database was built from. The
@@ -191,7 +203,13 @@ CREATE INDEX confeat_layer       ON constituency_features(layer_id, feature_id);
  * officialCandidateId and officialStatus from every candidate. Storing verbatim and
  * querying via columns avoids the whole class.
  */
+/**
+ * @param {Record<string, unknown>} source
+ * @param {string[]} promoted
+ * @param {string[]} [dropped]
+ */
 function residual(source, promoted, dropped = []) {
+  /** @type {Record<string, unknown>} */
   const rest = {};
   for (const [k, v] of Object.entries(source)) {
     if (dropped.includes(k)) continue;
@@ -203,17 +221,20 @@ function residual(source, promoted, dropped = []) {
 
 // SQLite (the storage adapter's handle) binds only null, number, string, bigint and Uint8Array -- undefined throws,
 // and these bundles omit fields freely rather than setting them null.
+/** @param {unknown} v */
 const txt = (v) => {
   if (v === null || v === undefined) return null;
   if (typeof v === 'string') return v;
   if (typeof v === 'object') return JSON.stringify(v);
   return String(v);
 };
+/** @param {unknown} v */
 const num = (v) => {
   if (v === null || v === undefined || v === '') return null;
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
 };
+/** @param {unknown} v */
 const bool = (v) => (v === null || v === undefined ? null : v ? 1 : 0);
 
 // D1's hard limit on one row (and on one string or BLOB). The splits below keep well under
@@ -228,14 +249,19 @@ const META_PART_CODE_UNITS = 250_000; // at most 3 bytes per UTF-16 unit -> unde
  * Returns the meta string to store and the part rows. The parts are cut on UTF-16 code
  * units without splitting a surrogate pair, so joining them in part order reproduces the
  * field's JSON text exactly.
+ * @param {string | null} metaText
+ * @returns {{ meta: string | null, parts: MetaPart[] }}
  */
 export function splitElectionMeta(metaText) {
   if (metaText == null || Buffer.byteLength(metaText, 'utf8') <= ELECTION_META_MAX) return { meta: metaText, parts: [] };
+  /** @type {Record<string, unknown>} */
   const meta = JSON.parse(metaText);
   const sized = Object.keys(meta)
     .map((k) => ({ k, text: JSON.stringify(meta[k]) }))
     .sort((a, b) => b.text.length - a.text.length);
+  /** @type {string[]} */
   const moved = [];
+  /** @type {MetaPart[]} */
   const parts = [];
   for (const { k, text } of sized) {
     moved.push(k);
@@ -293,6 +319,7 @@ for (const file of files) {
   srcBytes += statSync(full).size;
   const rawText = readFileSync(full, 'utf8');
   datasetHash.update(`${file}:${rawText.length}:`).update(rawText);
+  /** @type {Bundle} */
   const d = JSON.parse(rawText);
   const results = Array.isArray(d.results) ? d.results : [];
 
@@ -393,11 +420,14 @@ db.exec('VACUUM');
 // the dump have already replaced the live tables.
 const TABLES = ['elections', 'constituencies', 'candidates', 'counts', 'constituency_features',
   'constituency_animation', 'election_meta_parts', 'dataset'];
+/** @type {{ table?: string, id?: number, bytes: number }} */
 let maxRow = { bytes: 0 };
 for (const table of TABLES) {
-  const cols = db.prepare(`SELECT name FROM pragma_table_info('${table}')`).all().map((r) => r.name);
+  // pragma_table_info's name is the column's name
+  const cols = /** @type {{ name: string }[]} */ (db.prepare(`SELECT name FROM pragma_table_info('${table}')`).all()).map((r) => r.name);
   const sum = cols.map((c) => `COALESCE(LENGTH(CAST(${c} AS BLOB)), 0)`).join(' + ');
-  const top = db.prepare(`SELECT rowid AS id, ${sum} AS bytes FROM ${table} ORDER BY bytes DESC LIMIT 1`).get();
+  // the query selects a rowid and a sum of lengths, both integers
+  const top = /** @type {{ id: number, bytes: number } | undefined} */ (db.prepare(`SELECT rowid AS id, ${sum} AS bytes FROM ${table} ORDER BY bytes DESC LIMIT 1`).get());
   if (top && top.bytes > maxRow.bytes) maxRow = { table, id: top.id, bytes: top.bytes };
 }
 db.close();
@@ -407,6 +437,7 @@ if (maxRow.bytes > D1_ROW_LIMIT) {
 }
 
 // Primary keys, used to target the chunked UPDATEs that carry oversized meta values.
+/** @type {Partial<Record<string, string[]>>} */
 const KEY_COLS = {
   elections: ['key'],
   constituencies: ['election_key', 'seq'],
@@ -423,12 +454,17 @@ let sqlBytes = 0;
 if (!args.includes('--no-sql')) {
   const sqlPath = OUT.replace(/\.sqlite$/, '') + '.sql';
   const dump = openSqliteHandle(OUT, { readOnly: true });
+  /** @param {unknown} v */
   const lit = (v) => {
     if (v === null || v === undefined) return 'NULL';
     if (typeof v === 'number') return Number.isFinite(v) ? String(v) : 'NULL';
     return `'${String(v).replace(/'/g, "''")}'`;
   };
   const out = createWriteStream(sqlPath);
+  /**
+   * @param {string} s
+   * @returns {Promise<void>}
+   */
   const write = (s) => new Promise((res) => { out.write(s) ? res() : out.once('drain', res); });
   await write('PRAGMA defer_foreign_keys = true;\n');
   // Idempotent: reloading D1 after a schema change would otherwise collide with the
@@ -438,7 +474,8 @@ if (!args.includes('--no-sql')) {
   }
   await write(SCHEMA.replace(/^\s*--.*$/gm, '').replace(/\n{2,}/g, '\n'));
   for (const table of TABLES) {
-    const cols = dump.prepare(`SELECT name FROM pragma_table_info('${table}')`).all().map((r) => r.name);
+    // pragma_table_info's name is the column's name
+    const cols = /** @type {{ name: string }[]} */ (dump.prepare(`SELECT name FROM pragma_table_info('${table}')`).all()).map((r) => r.name);
     const rows = dump.prepare(`SELECT * FROM ${table}`).all();
     // Batched multi-row INSERTs, capped by BYTES rather than row count. D1 rejects an
     // oversized statement with SQLITE_TOOBIG, and row count is a poor proxy for size
@@ -447,6 +484,7 @@ if (!args.includes('--no-sql')) {
     // some tables and not others.
     const MAX_STATEMENT_BYTES = 40_000;
     const prefix = `INSERT INTO ${table} (${cols.join(',')}) VALUES `;
+    /** @type {string[]} */
     let batch = [];
     let batchBytes = 0;
     const flush = async () => {
@@ -460,6 +498,7 @@ if (!args.includes('--no-sql')) {
     // statement is one tuple. Such rows are written with meta NULL and the value is
     // then appended in chunks. Splitting the raw string before escaping is safe:
     // concatenating the pieces reproduces the original exactly.
+    /** @type {{ row: SqliteRow, col: string }[]} */
     const oversized = [];
     for (const r of rows) {
       let tuple = `(${cols.map((c) => lit(r[c])).join(',')})`;
@@ -469,7 +508,8 @@ if (!args.includes('--no-sql')) {
         // column does not silently reintroduce SQLITE_TOOBIG.
         const wide = cols
           .filter((c) => typeof r[c] === 'string')
-          .sort((a, b) => r[b].length - r[a].length)[0];
+          // the filter kept the string columns
+          .sort((a, b) => /** @type {string} */ (r[b]).length - /** @type {string} */ (r[a]).length)[0];
         if (wide) {
           oversized.push({ row: r, col: wide });
           tuple = `(${cols.map((c) => (c === wide ? 'NULL' : lit(r[c]))).join(',')})`;
@@ -484,9 +524,10 @@ if (!args.includes('--no-sql')) {
     const CHUNK = 20_000;
     let chunkedRows = 0;
     for (const { row: r, col } of oversized) {
-      const where = KEY_COLS[table].map((c) => `${c} = ${lit(r[c])}`).join(' AND ');
-      for (let i = 0; i < r[col].length; i += CHUNK) {
-        const piece = lit(r[col].slice(i, i + CHUNK));
+      // a row is oversized only for a table with key columns, and its col holds a string
+      const where = /** @type {string[]} */ (KEY_COLS[table]).map((c) => `${c} = ${lit(r[c])}`).join(' AND ');
+      for (let i = 0; i < /** @type {string} */ (r[col]).length; i += CHUNK) {
+        const piece = lit(/** @type {string} */ (r[col]).slice(i, i + CHUNK));
         await write(`UPDATE ${table} SET ${col} = COALESCE(${col},'') || ${piece} WHERE ${where};\n`);
       }
       chunkedRows += 1;
@@ -499,7 +540,7 @@ if (!args.includes('--no-sql')) {
 }
 
 const outBytes = statSync(OUT).size;
-const mb = (b) => (b / 1048576).toFixed(1);
+const mb = (/** @type {number} */ b) => (b / 1048576).toFixed(1);
 console.log(`Elections -> SQLite`);
 console.log(`  elections            ${nElections}`);
 console.log(`  constituencies       ${nCons}`);
