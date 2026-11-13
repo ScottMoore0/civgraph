@@ -1,7 +1,9 @@
 // A recording stand-in for @aws-sdk/client-s3: no network, ever. It keeps a bucket in memory,
 // answers as R2's S3 endpoint does (sorted, paged listings; 404 NotFound on a HEAD of a missing
 // key; server-side copies), and logs every command with its bucket, key, body hash and size,
-// headers, metadata, copy source and list parameters.
+// headers, metadata, copy source and list parameters. A multipart upload is logged command by
+// command (each part with its size and hash), and its CompleteMultipartUpload also carries the
+// object it made as `written` (key, size, SHA-256 of the whole, headers, metadata).
 //
 // Two ways in:
 //   - in a test: createFakeS3({ state }) gives the S3Client and command classes, with `calls`;
@@ -108,6 +110,15 @@ export function createFakeS3({ state = {}, log } = {}) {
   class ListObjectsV2Command extends Command {}
   class CopyObjectCommand extends Command {}
   class DeleteObjectsCommand extends Command {}
+  class CreateMultipartUploadCommand extends Command {}
+  class UploadPartCommand extends Command {}
+  class CompleteMultipartUploadCommand extends Command {}
+  class AbortMultipartUploadCommand extends Command {}
+
+  // Open multipart uploads. Parts must come in order (the store sends them one at a time), so
+  // the whole object's hash is kept running and no part is held.
+  const uploads = new Map();
+  let uploadCount = 0;
 
   const handlers = {
     async GetObject({ Key }) {
@@ -184,6 +195,39 @@ export function createFakeS3({ state = {}, log } = {}) {
       });
       return { CopyObjectResult: { ETag: source.etag, LastModified: LAST_MODIFIED } };
     },
+    async CreateMultipartUpload(input) {
+      uploadCount += 1;
+      const UploadId = `upload-${uploadCount}`;
+      uploads.set(UploadId, { key: input.Key, input, next: 1, size: 0, hash: createHash('sha256'), sum: createHash('md5') });
+      return { Bucket: input.Bucket, Key: input.Key, UploadId };
+    },
+    async UploadPart(input, body) {
+      const upload = uploads.get(input.UploadId);
+      if (!upload || upload.key !== input.Key) throw fault('NoSuchUpload', 404, 'The specified multipart upload does not exist.');
+      if (input.PartNumber !== upload.next) throw new Error(`s3-fake: part ${input.PartNumber} of ${input.Key} out of order (expected ${upload.next})`);
+      upload.next += 1;
+      upload.size += body.bytes.length;
+      upload.hash.update(body.bytes);
+      upload.sum.update(body.bytes);
+      return { ETag: `"${md5(body.bytes)}"` };
+    },
+    async CompleteMultipartUpload(input) {
+      const upload = uploads.get(input.UploadId);
+      if (!upload) throw fault('NoSuchUpload', 404, 'The specified multipart upload does not exist.');
+      const numbers = (input.MultipartUpload?.Parts || []).map((p) => p.PartNumber);
+      if (numbers.length !== upload.next - 1 || numbers.some((n, i) => n !== i + 1)) throw new Error(`s3-fake: completing ${input.Key} with parts ${numbers.join(',')} of ${upload.next - 1}`);
+      uploads.delete(input.UploadId);
+      const c = upload.input;
+      objects.set(input.Key, {
+        bytes: null, size: upload.size, etag: `"${upload.sum.digest('hex')}-${numbers.length}"`,
+        contentType: c.ContentType, cacheControl: c.CacheControl, contentEncoding: c.ContentEncoding, metadata: { ...(c.Metadata || {}) },
+      });
+      return { ETag: objects.get(input.Key).etag, written: { size: upload.size, sha256: upload.hash.digest('hex') } };
+    },
+    async AbortMultipartUpload(input) {
+      uploads.delete(input.UploadId);
+      return {};
+    },
     async DeleteObjects({ Delete }) {
       const errors = [];
       for (const { Key } of Delete.Objects) {
@@ -206,13 +250,23 @@ export function createFakeS3({ state = {}, log } = {}) {
       const handler = handlers[op];
       if (!handler) throw new TypeError(`s3-fake: no ${op}`);
       const input = command.input || {};
-      const body = op === 'PutObject' ? await readBody(input.Body) : null;
+      const body = op === 'PutObject' || op === 'UploadPart' ? await readBody(input.Body) : null;
       let digest = null;
       if (body) digest = body.digest ? { kind: body.kind, size: body.digest.size, sha256: body.digest.sha256 } : { kind: body.kind, size: body.bytes.length, sha256: sha256(body.bytes) };
       const error = failing(op, input.Key);
-      record({ op, input: loggable(input, digest), ...(error ? { failed: error.$metadata.httpStatusCode } : {}) });
-      if (error) throw error;
-      return handler(input, body);
+      if (error || op !== 'CompleteMultipartUpload') {
+        record({ op, input: loggable(input, digest), ...(error ? { failed: error.$metadata.httpStatusCode } : {}) });
+        if (error) throw error;
+        return handler(input, body);
+      }
+      // A completed upload is logged after it ran, with the object it made.
+      const res = await handler(input, body);
+      const { size, sha256: whole } = res.written;
+      delete res.written;
+      const made = objects.get(input.Key);
+      const written = { Bucket: input.Bucket, Key: input.Key, size, sha256: whole, ContentType: made.contentType, ContentEncoding: made.contentEncoding, CacheControl: made.cacheControl, Metadata: made.metadata };
+      record({ op, input: loggable(input, digest), written: JSON.parse(JSON.stringify(written)) });
+      return res;
     }
 
     destroy() {}
@@ -221,6 +275,7 @@ export function createFakeS3({ state = {}, log } = {}) {
   return {
     calls, objects,
     S3Client, GetObjectCommand, PutObjectCommand, HeadObjectCommand, ListObjectsV2Command, CopyObjectCommand, DeleteObjectsCommand,
+    CreateMultipartUploadCommand, UploadPartCommand, CompleteMultipartUploadCommand, AbortMultipartUploadCommand,
   };
 }
 
@@ -231,4 +286,7 @@ const sdk = createFakeS3({
   state: STATE_FILE ? JSON.parse(readFileSync(STATE_FILE, 'utf8')) : {},
   log: LOG_FILE ? (entry) => appendFileSync(LOG_FILE, `${JSON.stringify(entry)}\n`) : undefined,
 });
-export const { S3Client, GetObjectCommand, PutObjectCommand, HeadObjectCommand, ListObjectsV2Command, CopyObjectCommand, DeleteObjectsCommand } = sdk;
+export const {
+  S3Client, GetObjectCommand, PutObjectCommand, HeadObjectCommand, ListObjectsV2Command, CopyObjectCommand, DeleteObjectsCommand,
+  CreateMultipartUploadCommand, UploadPartCommand, CompleteMultipartUploadCommand, AbortMultipartUploadCommand,
+} = sdk;

@@ -19,9 +19,11 @@
  *
  * Besides the BlobStore methods it offers what the publish chain needs and R2's bindings do not:
  * `head` (an object's size, ETag, headers and metadata), `listAll` (every entry under a prefix,
- * paging for the caller), `copy` (server side, no download) and `deleteMany` (1,000 keys a
- * request). The SDK is imported only when a store is opened, so a dry run that never opens one
- * never loads it.
+ * paging for the caller), `copy` (server side, no download), `deleteMany` (1,000 keys a
+ * request) and `putMultipart` (one object in equal parts, read one at a time: large single PUTs
+ * from Node fail on the owner's network with a TLS bad_record_mac error, and 8 MiB parts work).
+ * The SDK is imported only when a store is opened, so a dry run that never opens one never loads
+ * it.
  *
  * Node only (the SDK), so it is not part of the runtime entry (index.js).
  */
@@ -31,7 +33,8 @@ import { assertBlobStore } from './blob.js';
 /** @typedef {import('@aws-sdk/client-s3').S3ClientConfig} S3ClientConfig */
 /**
  * The command classes a store sends (the SDK's, or a test's stand-ins).
- * @typedef {Pick<typeof import('@aws-sdk/client-s3'), 'GetObjectCommand' | 'PutObjectCommand' | 'HeadObjectCommand' | 'ListObjectsV2Command' | 'CopyObjectCommand' | 'DeleteObjectsCommand'>} S3Commands
+ * @typedef {Pick<typeof import('@aws-sdk/client-s3'), 'GetObjectCommand' | 'PutObjectCommand' | 'HeadObjectCommand' | 'ListObjectsV2Command' | 'CopyObjectCommand' | 'DeleteObjectsCommand'
+ *   | 'CreateMultipartUploadCommand' | 'UploadPartCommand' | 'CompleteMultipartUploadCommand' | 'AbortMultipartUploadCommand'>} S3Commands
  */
 /**
  * A body S3 accepts: bytes (a Buffer is sent as it is), text, or a stream for a file too big to
@@ -41,8 +44,20 @@ import { assertBlobStore } from './blob.js';
 /**
  * @typedef {import('./blob.js').BlobPutOptions & {
  *   cacheControl?: string,
+ *   contentEncoding?: string,
  *   contentLength?: number,
  * }} S3PutOptions  `metadata` is the object's x-amz-meta-* (string values); `contentLength` is sent when given (a stream body needs it)
+ */
+/**
+ * What putMultipart reads an object from: its size, and its bytes a part at a time (a file
+ * handle's read, say), so a large file is never held whole.
+ * @typedef {object} S3PartSource
+ * @property {number} size
+ * @property {(offset: number, length: number) => Promise<Uint8Array>} read
+ */
+/**
+ * @typedef {Omit<S3PutOptions, 'contentLength'> & { partSize: number }} S3MultipartOptions
+ *   every part but the last is `partSize` bytes (R2 wants equal parts; S3 wants 5 MiB or more)
  */
 /**
  * One object's headers, from a HEAD request.
@@ -68,6 +83,7 @@ import { assertBlobStore } from './blob.js';
  * @typedef {import('./blob.js').BlobStore & {
  *   bucket: string,
  *   put: (key: string, body: S3Body, options?: S3PutOptions) => Promise<void>,
+ *   putMultipart: (key: string, source: S3PartSource, options: S3MultipartOptions) => Promise<{ parts: number }>,
  *   head: (key: string, options?: { missing?: 'null' | 'throw' }) => Promise<S3Head | null>,
  *   listAll: (options?: Omit<import('./blob.js').BlobListOptions, 'cursor'>) => AsyncGenerator<import('./blob.js').BlobEntry>,
  *   copy: (fromKey: string, toKey: string, options?: S3CopyOptions) => Promise<void>,
@@ -172,14 +188,57 @@ export function s3BlobStore({ bucket, client, commands }) {
      * @param {S3Body} body
      * @param {S3PutOptions} [options]
      */
-    async put(key, body, { contentType, cacheControl, metadata, contentLength } = {}) {
+    async put(key, body, { contentType, contentEncoding, cacheControl, metadata, contentLength } = {}) {
       /** @type {import('@aws-sdk/client-s3').PutObjectCommandInput} */
       const input = { Bucket: bucket, Key: key, Body: body instanceof ArrayBuffer ? new Uint8Array(body) : body };
       if (contentLength !== undefined) input.ContentLength = contentLength;
       if (contentType !== undefined) input.ContentType = contentType;
+      if (contentEncoding !== undefined) input.ContentEncoding = contentEncoding;
       if (cacheControl !== undefined) input.CacheControl = cacheControl;
       if (metadata !== undefined) input.Metadata = /** @type {Record<string, string>} */ (metadata);
       await client.send(new commands.PutObjectCommand(input));
+    },
+    /**
+     * One object in parts: CreateMultipartUpload (with the headers given), an UploadPart per
+     * part in order, each read from `source` when it is sent, then CompleteMultipartUpload. If
+     * anything fails the upload is aborted (an abort that fails too is left for the bucket's
+     * own expiry) and the error is thrown; the object is then as it was before. The client's
+     * own retries (its maxAttempts) cover each part, whose body is bytes and so can be resent.
+     * @param {string} key
+     * @param {S3PartSource} source
+     * @param {S3MultipartOptions} options
+     */
+    async putMultipart(key, { size, read }, { partSize, contentType, contentEncoding, cacheControl, metadata }) {
+      if (!(Number.isInteger(partSize) && partSize > 0)) throw new RangeError(`putMultipart(): partSize must be a positive whole number of bytes, not ${partSize}`);
+      if (!(Number.isInteger(size) && size > 0)) throw new RangeError(`putMultipart(): ${key} has no bytes to send (size ${size})`);
+      /** @type {import('@aws-sdk/client-s3').CreateMultipartUploadCommandInput} */
+      const create = { Bucket: bucket, Key: key };
+      if (contentType !== undefined) create.ContentType = contentType;
+      if (contentEncoding !== undefined) create.ContentEncoding = contentEncoding;
+      if (cacheControl !== undefined) create.CacheControl = cacheControl;
+      if (metadata !== undefined) create.Metadata = /** @type {Record<string, string>} */ (metadata);
+      const { UploadId } = await client.send(new commands.CreateMultipartUploadCommand(create));
+      if (!UploadId) throw new Error(`putMultipart(): no UploadId for ${key}`);
+      /** @type {Array<{ ETag: string | undefined, PartNumber: number }>} */
+      const parts = [];
+      try {
+        for (let offset = 0, partNumber = 1; offset < size; offset += partSize, partNumber += 1) {
+          const length = Math.min(partSize, size - offset);
+          const body = await read(offset, length);
+          if (body.byteLength !== length) throw new Error(`putMultipart(): read ${body.byteLength} of ${length} bytes at ${offset} of ${key}`);
+          const res = await client.send(new commands.UploadPartCommand({ Bucket: bucket, Key: key, UploadId, PartNumber: partNumber, Body: body, ContentLength: length }));
+          parts.push({ ETag: res.ETag, PartNumber: partNumber });
+        }
+        await client.send(new commands.CompleteMultipartUploadCommand({ Bucket: bucket, Key: key, UploadId, MultipartUpload: { Parts: parts } }));
+      } catch (error) {
+        try {
+          await client.send(new commands.AbortMultipartUploadCommand({ Bucket: bucket, Key: key, UploadId }));
+        } catch {
+          // Left for the bucket to expire; the first error is the one to report.
+        }
+        throw error;
+      }
+      return { parts: parts.length };
     },
     list,
     async *listAll(options = {}) {
