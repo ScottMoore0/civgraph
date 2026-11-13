@@ -12,20 +12,25 @@ importScripts(
 /**
  * Compute bounding-box diagonal for a geometry (degrees).
  * Used for screen-space filtering of tiny features.
+ * @param {{ type?: string, coordinates?: unknown } | null | undefined} geometry
  */
 function bboxDiag(geometry) {
     if (!geometry || !geometry.coordinates) return Infinity;
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
 
+    /**
+     * @param {unknown} coords  nested arrays of positions, `depth` levels deep
+     * @param {number} depth
+     */
     function walk(coords, depth) {
         if (depth === 0) {
             // coords is [lng, lat]
-            if (coords[0] < minX) minX = coords[0];
-            if (coords[0] > maxX) maxX = coords[0];
-            if (coords[1] < minY) minY = coords[1];
-            if (coords[1] > maxY) maxY = coords[1];
+            if (/** @type {number[]} */ (coords)[0] < minX) minX = /** @type {number[]} */ (coords)[0];
+            if (/** @type {number[]} */ (coords)[0] > maxX) maxX = /** @type {number[]} */ (coords)[0];
+            if (/** @type {number[]} */ (coords)[1] < minY) minY = /** @type {number[]} */ (coords)[1];
+            if (/** @type {number[]} */ (coords)[1] > maxY) maxY = /** @type {number[]} */ (coords)[1];
         } else {
-            for (let i = 0; i < coords.length; i++) walk(coords[i], depth - 1);
+            for (let i = 0; i < /** @type {unknown[]} */ (coords).length; i++) walk(/** @type {unknown[]} */ (coords)[i], depth - 1);
         }
     }
 
@@ -43,7 +48,8 @@ function bboxDiag(geometry) {
 }
 
 self.onmessage = async (event) => {
-    let { id, url, zoom, minDiag, useCompressed } = event.data;
+    /** @type {{ id: unknown, url: string, minDiag: number, useCompressed: boolean }} the map loader's request (zoom, also sent, is not read) */
+    let { id, url, minDiag, useCompressed } = event.data;
     const start = performance.now();
 
     // Dev proxy: rewrite remote URLs on localhost
@@ -105,6 +111,7 @@ self.onmessage = async (event) => {
             durationMs: Math.round(performance.now() - start)
         });
     } catch (err) {
-        self.postMessage({ id, error: err.message });
+        // fetch, the reads and the throw above each reject with an Error.
+        self.postMessage({ id, error: /** @type {Error} */ (err).message });
     }
 };
