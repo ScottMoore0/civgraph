@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
 import { fileLabel, normalizeFiles, normalizeLinks } from '../lib/browse-links.mjs';
+import { sourceAvailabilityDisplay } from '../lib/source-availability.mjs';
 import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '../../packages/core/src/election-domain.mjs';
 // A person's slug ("naomi-long-51102"): the one rule the pages' person links use too.
 import { personSlug } from '../../packages/core/src/format.js';
@@ -2643,6 +2644,8 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
     const slug = entry.slug || slugify(id);
     const references = normalizeReferences(entry.references || entry.sourceReferences || entry.source || entry.url);
     const downloads = normalizeLinks([entry.downloads, entry.links, entry.downloadUrl].filter(Boolean));
+    const availability = sourceAvailabilityDisplay(entry.availability);
+    const statusChips = [...normalizeArray(entry.statusChips), ...(availability ? [availability.chip] : [])];
     sources.push(compactObject({
       id,
       slug,
@@ -2659,8 +2662,8 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
       downloads,
       keywords: normalizeArray(entry.keywords),
       sourceItems: normalizeArray(entry.sourceItems),
-      status: entry.status || normalizeArray(entry.statusChips)[0] || null,
-      statusChips: normalizeArray(entry.statusChips),
+      status: entry.status || availability?.status || statusChips[0] || null,
+      statusChips,
       sourceHierarchy: normalizeArray(entry.sourceHierarchy),
       viewport: entry.viewport || null,
       shortCitation: entry.shortCitation || null,
