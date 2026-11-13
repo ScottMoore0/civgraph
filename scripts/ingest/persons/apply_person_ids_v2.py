@@ -39,7 +39,7 @@ import os, re, sys, json, glob, argparse, collections, unicodedata
 
 from generated_json import dump_generated_json
 import person_lifespans
-from build_person_registry_v2 import council_area, label_blanked_identity_keys, check_label_blanked_used
+from build_person_registry_v2 import council_area, declared_identity, label_blanked_identity_keys, check_label_blanked_used
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
@@ -179,12 +179,15 @@ def main():
     # label_blanked_identity_keys in build_person_registry_v2.py).
     blanked, blanked_used = label_blanked_identity_keys(), set()
 
-    def identity_id(c, constituency):
+    def identity(c, constituency):
+        """(candidacy id, source person id) as the registry groups the row: a listed row's declared
+        key outranks its ElectionsIreland or IrelandElection id (declared_identity)."""
+        cid, spid = str(c.get('id') or '').strip(), str(c.get('sourcePersonId') or '').strip()
         k = (doc2.get('key'), str(constituency or ''), c.get('name') or '')
         if k in blanked:
             blanked_used.add(k)
-            return blanked[k]
-        return str(c.get('id') or '').strip()
+            return declared_identity(blanked[k], cid, spid)
+        return cid, spid
 
     life_book = person_lifespans.load()
     by_pid = {e['personId']: e for e in entities}
@@ -226,7 +229,7 @@ def main():
 
         def stamp(c, constituency):
             nonlocal dirty
-            spid = str(c.get('sourcePersonId') or '').strip()
+            cid, spid = identity(c, constituency)
             owners = {p for o in c.get('officialPersonIds') or [] for p in by_official.get(o, ())}
             pid = next(iter(owners)) if len(owners) == 1 else None
             how = 'by-official-id' if pid else None
@@ -234,7 +237,6 @@ def main():
                 pid = pick(alive(by_person.get(spid, [])), year) if spid else None
                 how = 'by-source-person' if pid else None
             if not pid:
-                cid = identity_id(c, constituency)
                 pid = pick(alive(by_srcid.get(cid, [])), year)
                 how = ('by-name-id' if name_keyed_id(cid) else 'by-id') if pid else None
             if not pid and local_contest:
@@ -302,8 +304,7 @@ def main():
                     dirty = True
                 continue
             if (c.get('name') or '').strip():
-                cid = identity_id(c, c.get('constituency'))
-                spid = str(c.get('sourcePersonId') or '').strip()
+                cid, spid = identity(c, c.get('constituency'))
                 mk = matchkey(c.get('name') or '')
                 own = stamped.get((str(c.get('constituency') or '').strip(), (c.get('name') or '').strip()), set())
                 pid = (next(iter(own)) if len(own) == 1 and None not in own else None) or (

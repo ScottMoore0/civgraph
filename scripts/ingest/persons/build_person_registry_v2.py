@@ -218,6 +218,24 @@ def label_blanked_identity_keys():
     return out
 
 
+SOURCE_PERSON = re.compile(r'^(ei|ie):\d+$')
+
+
+def declared_identity(key, cid, src):
+    """A DECLARED KEY OUTRANKS AN ELECTIONSIRELAND OR IRELANDELECTION ID. Both sources fuse some
+    namesakes under one id: ElectionsIreland 1338 holds three Daniel Kennedys (Leix-Offaly's
+    Farmers candidate, the Labour man of Ballagh and the Clann na Poblachta man of Rearcross), and
+    IrelandElection.com 1845 gives the Mayo TD Micheál Ó Móráin's Castlebar council seat to the
+    Galway councillor of that name. For a row label-blanked-identity-keys.csv lists, the key it
+    declares decides: a key that is itself an ElectionsIreland or IrelandElection id ("ei:1927")
+    becomes the row's source person id; any other key becomes its candidacy id, and the row's
+    ElectionsIreland or IrelandElection id is set aside. Rows the file does not list, and source
+    ids of other kinds (a Wikipedia title), are untouched. Returns (candidacy id, source id)."""
+    if SOURCE_PERSON.match(key):
+        return cid, key
+    return key, ('' if SOURCE_PERSON.match(src or '') else src)
+
+
 def check_label_blanked_used(keys, used):
     """A listed row the election data no longer has (renamed, moved) would silently fall back to
     its new key and change person: fail instead, so the file is corrected with the data."""
@@ -286,13 +304,14 @@ def scan():
                 if not nm:
                     continue
                 cid = str(c.get('id') or '').strip()
+                src = str(c.get('sourcePersonId') or '').strip()
                 bk = (d.get('key'), str(r.get('constituency') or ''), c.get('name') or '')
                 if bk in blanked:
-                    cid = blanked[bk]
+                    cid, src = declared_identity(blanked[bk], cid, src)
                     blanked_used.add(bk)
                 rows.append({'id': cid, 'name': nm, 'area': area,
                              'cons': str(r.get('constituency') or ''),
-                             'src': str(c.get('sourcePersonId') or '').strip(),
+                             'src': src,
                              'key': d.get('key'), 'body': d.get('bodySlug'),
                              'year': int(yr) if yr.isdigit() else 0,
                              'date': date,
@@ -828,6 +847,9 @@ def main():
     renamed = named_after_import()
     name_joined = collections.defaultdict(set)
     ei_people = ei_relatives.load()
+    # A confirmed pair declared one man over the relatives and official-id vetoes (John Beirne,
+    # ei_relatives.load_overrides) keeps its prior join; no other pair is affected.
+    overrides = ei_relatives.load_overrides()
     for pid, keys in by_prior.items():
         if len(keys) < 2:
             continue
@@ -854,7 +876,7 @@ def main():
             # Nor one the source's own pages contradict, however it was made: the ids of a
             # father and son (ei_relatives.py) are two people even where a prior registry
             # recorded them as one.
-            if ei_relatives.distinct(ei_people, ours_src, their_src):
+            if ei_relatives.distinct(ei_people, ours_src, their_src, overrides):
                 continue
             # Nor one made while a row still had a placeholder for a name (named_after_import):
             # the rows' real names now differ, so the join rested on the placeholder alone.
@@ -862,7 +884,9 @@ def main():
                     and {matchkey(r['name']) for r in merged[lead]}.isdisjoint({matchkey(r['name']) for r in merged[k]}):
                 renamed_dropped += 1
                 continue
-            if conflicts({o for r in merged[lead] for o in r['off']}, {o for r in merged[k] for o in r['off']}):
+            lead_offs, their_offs = {o for r in merged[lead] for o in r['off']}, {o for r in merged[k] for o in r['off']}
+            if conflicts(lead_offs, their_offs) and not ei_relatives.overridden(
+                    overrides, 'official-ids', ours_src | lead_offs, their_src | their_offs):
                 continue
             contests |= theirs
             merged[lead].extend(merged.pop(k))

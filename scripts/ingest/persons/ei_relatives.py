@@ -21,7 +21,15 @@ for Tramore-Waterford City West in 2014, 2019 and 2024. It is recorded for revie
 
 The pages are read by scripts/ingest/electionsireland/harvest_ei_candidate_ids.py --relatives into
 data/elections/persons/ei-candidate-relatives.json.
+
+A PERSON SHOWN TO BE ONE MAN OUTRANKS THE SNR AND JNR. ElectionsIreland files John Beirne of
+Roscommon as "John Beirne 1 Snr" (1943-44) and "John Beirne 2 Jnr" (1948-61), and the Houses of
+the Oireachtas give him two member pages, but the February 1948 lists star him as an outgoing TD:
+one man. A row of person_id_confirmed_merges.csv whose override_vetoes column names a veto
+("ei-relatives", "official-ids") joins its pair over that veto, and only its pair: the override
+holds where one side carries one of the row's keep_keys and the other one of its drop_keys.
 """
+import csv
 import json
 import os
 import re
@@ -29,6 +37,7 @@ import re
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 RELATIVES = os.path.join(REPO, 'data', 'elections', 'persons', 'ei-candidate-relatives.json')
+CONFIRMED = os.path.join(REPO, 'data', 'elections', 'persons', 'person_id_confirmed_merges.csv')
 
 GENERATION = re.compile(r'\b(snr|sr|senior|jnr|jr|junior)\b', re.I)
 
@@ -48,9 +57,34 @@ def generation(name):
     return 'senior' if found.group(1).lower() in ('snr', 'sr', 'senior') else 'junior'
 
 
-def distinct(people, ours, theirs):
+def load_overrides(path=CONFIRMED):
+    """[(veto names, keep keys, drop keys)] for each confirmed pair declared to outrank a veto."""
+    if not os.path.exists(path):
+        return []
+    out = []
+    with open(path, encoding='utf-8', newline='') as fh:
+        for row in csv.DictReader(fh):
+            vetoes = {v.strip() for v in str(row.get('override_vetoes') or '').split(';') if v.strip()}
+            if not vetoes:
+                continue
+            keys = [{k.strip() for k in str(row.get(f) or '').split(' ; ') if k.strip()} for f in ('keep_keys', 'drop_keys')]
+            out.append((frozenset(vetoes), frozenset(keys[0]), frozenset(keys[1])))
+    return out
+
+
+def overridden(overrides, veto, ours, theirs):
+    """True where a confirmed pair (load_overrides) declares this veto overridden for these two sides."""
+    ours, theirs = set(ours), set(theirs)
+    return any(veto in vetoes and ((keep & ours and drop & theirs) or (keep & theirs and drop & ours))
+               for vetoes, keep, drop in overrides)
+
+
+def distinct(people, ours, theirs, overrides=()):
     """Why ElectionsIreland's pages say no id in `ours` is the person of any id in
-    `theirs`, or None. Ids are 'ei:<n>'; anything else is ignored."""
+    `theirs`, or None. Ids are 'ei:<n>'; anything else is ignored. A pair a confirmed row
+    declares one man over this veto (load_overrides) is never distinct."""
+    if overrides and overridden(overrides, 'ei-relatives', ours, theirs):
+        return None
     for x in sorted(i for i in ours if i.startswith('ei:')):
         for y in sorted(i for i in theirs if i.startswith('ei:')):
             if x == y:
