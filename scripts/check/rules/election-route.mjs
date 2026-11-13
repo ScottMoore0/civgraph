@@ -6,6 +6,69 @@ import { BROWSE_DIR, ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } f
 // The map's fixed colours are the colours registry's (data/registries/colours.json), read through this view.
 import { MAP_COLOURS } from '../../../packages/map/src/colours.mjs';
 
+/**
+ * A map record of data/database/maps.json (or a variant, merged over its parent by findMap).
+ * @typedef {{
+ *   id?: string, parentId?: string, variants?: MapRecord[], files?: { fgb?: string }, style?: { color?: string },
+ *   provider?: unknown, cloneOf?: string, isGroup?: boolean, labelProperty?: string, date?: unknown, placeholder?: boolean
+ * }} MapRecord
+ */
+/** @typedef {{ id?: string, maps?: string[] }} MapClass */
+/** @typedef {{ segments?: { classIds?: string[] }[], columns?: { classIds?: string[] }[] }} TimeSeriesChain */
+/** @typedef {{ maps?: MapRecord[], classes?: MapClass[], timeSeriesChains?: TimeSeriesChain[] }} MapsDatabase */
+/**
+ * A layer of render/metadata/maps-test.json, as far as this reads it.
+ * @typedef {{
+ *   id?: string, sourceMapId?: string, provider?: unknown, aliasOf?: string, aliasTargetLayerId?: string,
+ *   labelProperty?: string, sourceType?: string, tileUrl?: string
+ * }} RenderLayer
+ */
+/** @typedef {{ conversionStatus?: string, sourceMapId?: string, testLayerId?: string }} PortPlanRow */
+/** @typedef {{ id?: string, loadable?: boolean }} BrowseMapItem */
+/** @typedef {{ path?: string, kind: string, count?: unknown }} TimelineChangePair an entry of data/timeline-changes/index.json (every pair has a kind) */
+/** @typedef {{ changes?: { bbox?: unknown, point?: unknown, type?: string, from?: string, to?: string }[] }} TimelineChangeFile */
+/** @typedef {Record<string, unknown>} CountRow a count-sheet row of a result (Count_Number, Status, Party_Name, Transfers, ...) */
+/** @typedef {{ count?: unknown, total?: unknown, firstPrefs?: unknown, transfers?: unknown }} CandidateCount */
+/**
+ * @typedef {{
+ *   name?: string, party?: string, elected?: boolean, gender?: unknown, dailAbbreviation?: unknown,
+ *   counts?: CandidateCount[], excludedAt?: unknown, electedAt?: unknown
+ * }} ResultCandidate
+ */
+/**
+ * A result (one contest) of an election bundle, as far as this reads it.
+ * @typedef {{
+ *   constituency?: string, featureName?: string, matchName?: string, countInfo?: Record<string, unknown>,
+ *   turnoutPct?: unknown, seatsTotal?: unknown, seatsWon?: unknown, spoiled?: unknown, validPoll?: unknown,
+ *   candidates?: ResultCandidate[], countGroup?: CountRow[], countNumbers?: unknown[],
+ *   animationPayload?: { Constituency?: { countGroup?: CountRow[] } }, syntheticCountGroup?: boolean,
+ *   hasCountDetail?: boolean, syntheticNonGeographic?: boolean, matched?: boolean,
+ *   anchor?: { center?: unknown, method?: string }, sourceFile?: string, officialDail?: { constituencyId?: unknown },
+ *   votingSystem?: string, quota?: unknown, Quota?: unknown
+ * }} BundleResult
+ */
+/** @typedef {{ party?: string, stood?: number, seats?: number, votes?: number }} PartySummaryRow */
+/**
+ * An election bundle (render/metadata/elections-test2/<key>.json), as far as this reads it.
+ * @typedef {{
+ *   results?: BundleResult[], partySummary?: PartySummaryRow[], mainLikePartySummary?: PartySummaryRow[],
+ *   mainLikeTotals?: Record<string, unknown>, year?: unknown, date?: string, body?: string, isByElection?: boolean,
+ *   votingSystem?: string
+ * }} ElectionBundle
+ */
+/**
+ * An entry of the election manifest.
+ * @typedef {{
+ *   key?: string, body?: string, date?: string, bodyGroup?: string, resultUrl?: string, stylingModes?: string[],
+ *   anchorUrl?: string, previousKey?: string, sourceMapId?: string, matchedCount?: number, unmatchedCount?: number,
+ *   totalConstituencies?: number, localBodies?: unknown[], isByElection?: boolean, displayProvider?: string,
+ *   displayTitle?: string, contestType?: string
+ * }} ManifestEntry
+ */
+/** @typedef {{ elections?: ManifestEntry[], totals?: { loadable?: number } }} ElectionManifest */
+/** @typedef {{ name?: unknown, label?: unknown, title?: unknown }} FeatureIndexItem */
+
+/** @type {string[]} */
 const failures = [];
 // The MapLibre app. It was index.html until the landing page took the root; this kept
 // reading index.html, so every shell assertion below was checking the Home page.
@@ -34,7 +97,12 @@ const electionManifestBuilderSource = readFileSync('scripts/build/build-test2-el
 // skipped this whole validator for want of them. The change files are tracked.
 const timelineChangesBuilderSource = readFileSync('scripts/build/timeline-changes.py', 'utf8');
 const MAX_PAGES_FILE_BYTES = 25 * 1024 * 1024;
+/** @type {Record<string, TimelineChangePair>} */
 const timelineChangePairs = JSON.parse(readFileSync('data/timeline-changes/index.json', 'utf8'))?.pairs || {};
+/**
+ * @param {string} id
+ * @returns {{ entry: TimelineChangePair | null, data: TimelineChangeFile | null }}
+ */
 const readTimelineChangePair = (id) => {
   const entry = timelineChangePairs[id] || null;
   return { entry, data: entry?.path ? JSON.parse(readFileSync(entry.path, 'utf8')) : null };
@@ -45,15 +113,23 @@ const uiControllerSource = readFileSync('packages/map/src/ui-controller.js', 'ut
 const mapControllerSource = readFileSync('packages/map/src/renderer/map-controller.js', 'utf8');
 // The map's Republic of Ireland party palette is registry data since 12 Nov 2026 (rf8-registries,
 // data/registries/parties/palettes.json mapRoi), read by packages/map/src/election/palette.mjs.
+/** @type {{ party?: string, colour?: string }[]} */
 const roiPalette = JSON.parse(readFileSync('data/registries/parties/palettes.json', 'utf8')).mapRoi || [];
+/**
+ * @param {string} party
+ * @param {string} colour
+ */
 const roiPaletteHas = (party, colour) => roiPalette.some((row) => row.party === party && row.colour === colour);
 const labelsSource = readFileSync('packages/map/src/renderer/labels.js', 'utf8');
 const featureRepairsSource = readFileSync('packages/map/src/renderer/feature-property-repairs.js', 'utf8');
 const test2Css = readFileSync('packages/map/app/test2.css', 'utf8');
 const mainCss = readFileSync('site/assets/css/main.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
+/** @type {{ rows?: PortPlanRow[] }} */
 const portPlan = JSON.parse(readFileSync('render/metadata/main-site-port-plan.json', 'utf8'));
+/** @type {{ layers?: RenderLayer[] }} */
 const testMetadata = JSON.parse(readFileSync('render/metadata/maps-test.json', 'utf8'));
+/** @type {MapsDatabase} */
 const mapsDb = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
 // data/browse/ is built by `npm run build` and published to R2, never tracked, so a clean
 // checkout has none of it. (This validator used to skip on a clean checkout for want of the
@@ -63,13 +139,22 @@ if (!existsSync(path.join(BROWSE_DIR, 'maps.json'))) {
   console.log('SKIP: data/browse/maps.json is absent (built by npm run build and published to R2; untracked).');
   process.exit(0);
 }
+/** @type {{ items?: BrowseMapItem[] }} */
 const browseMapsIndex = JSON.parse(readFileSync(path.join(BROWSE_DIR, 'maps.json'), 'utf8'));
 const test2BundleVersion = index.match(/\/app\/build\/app\.bundle\.js\?v=([0-9a-f]{12})/)?.[1] || '';
 
+/**
+ * @param {unknown} condition
+ * @param {string} message
+ */
 function assert(condition, message) {
   if (!condition) failures.push(message);
 }
 
+/**
+ * @param {string | undefined} id
+ * @returns {MapRecord | null}
+ */
 function findMap(id) {
   const direct = mapsDb.maps?.find((map) => map.id === id);
   if (direct) return direct;
@@ -112,7 +197,8 @@ function assertCatalogueMetadata() {
   // 49d23489fd ("Provinces.fgb returns 200"); it now belongs to the Provinces class. What
   // still matters is that it serves a file.
   assert(Boolean(provinces?.files?.fgb), 'Provinces 2019 must serve its own FlatGeobuf');
-  const publicBrowseMapIds = new Set((browseMapsIndex.items || browseMapsIndex || []).map((item) => item.id));
+  // the index is { items }, or (the older layout) the list itself
+  const publicBrowseMapIds = new Set(/** @type {BrowseMapItem[]} */ (browseMapsIndex.items || browseMapsIndex || []).map((item) => item.id));
   for (const hiddenId of ['eds-roi-1921-06-28']) {
     assert(!publicBrowseMapIds.has(hiddenId), `Public Browse maps index must not expose hidden map ${hiddenId}`);
   }
@@ -125,6 +211,7 @@ function assertCatalogueMetadata() {
   const localAuthorities2008Layer = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'local-authorities-2008');
   assert(Array.isArray(localAuthorities2008Layer?.provider) && localAuthorities2008Layer.provider.includes('CSO') && !localAuthorities2008Layer.provider.includes('Phelim Birch'), 'Local Authorities 2008 generated MapLibre layer must be credited to CSO, not the collaborator');
 
+  /** @param {MapRecord} variant */
   function variantIsLoadable(variant) {
     return Boolean(variant?.files?.fgb) || layerSourceIds.has(variant?.id);
   }
@@ -179,7 +266,8 @@ function assertCatalogueMetadata() {
   for (const id of edProvinceCloneIds) {
     const variant = findMap(id);
     const layer = (testMetadata.layers || []).find((item) => item.sourceMapId === id);
-    assert(Boolean(variant?.cloneOf) && Boolean(findMap(variant.cloneOf)), `${id} must declare a cloneOf naming an existing base record so its visible catalogue row resolves to converted province geometry`);
+    // Boolean(variant?.cloneOf) has just seen the variant
+    assert(Boolean(variant?.cloneOf) && Boolean(findMap(/** @type {MapRecord} */ (variant).cloneOf)), `${id} must declare a cloneOf naming an existing base record so its visible catalogue row resolves to converted province geometry`);
     assert(layer?.aliasOf === variant?.cloneOf && renderLayerIds.has(layer?.aliasTargetLayerId), `${id} must have a generated MapLibre alias to its cloneOf record's tiles`);
   }
 
@@ -231,6 +319,7 @@ function assertCatalogueMetadata() {
   assert(findMap('roi-national-planning-applications')?.labelProperty === 'Development Address', 'ROI National Planning Applications must label features by Development Address');
 }
 
+/** @param {unknown} status */
 function mainSelectedPaneStatusKind(status) {
   const text = String(status || '').toLowerCase();
   if (!text) return 'unknown';
@@ -400,6 +489,7 @@ assert(appSource.includes('TIMELINE_HIGHLIGHT_STORAGE_KEY') && appSource.include
 assert(appSource.includes('sequenceItems: []') && appSource.includes('getTimelineAnimationItems') && appSource.includes('if (this.timelineAnimation?.playing) return;') && appSource.includes('applyTimelineAnimationTransition(fromIndex, toIndex, runId, timelineItems)'), '/test2 territorial animation must lock its sequence during playback instead of rebuilding the slider mid-run');
 assert(appSource.includes('updateEditionRoles') && appSource.includes('older edition, grey dashed'), '/test2 two editions of one series must be told apart: the older grey and dashed, and the legend saying which is which');
 const niWardsClass = (mapsDb.classes || []).find((item) => item.id === 'ni-wards');
+/** @param {MapRecord | null} map */
 const parseValidationMapDate = (map) => {
   const raw = map?.date;
   if (raw === null || raw === undefined || raw === '') return Number.POSITIVE_INFINITY;
@@ -413,12 +503,14 @@ const niWardsTimelineMapIds = (niWardsClass?.maps || [])
   .map((id) => findMap(id))
   .filter(Boolean)
   .sort((a, b) => parseValidationMapDate(a) - parseValidationMapDate(b))
-  .map((map) => map.id);
+  // filter(Boolean) dropped the nulls
+  .map((map) => /** @type {MapRecord} */ (map).id);
 const niWardsTransitionKeys = niWardsTimelineMapIds
   .slice(1)
   .map((id, index) => niWardsTimelineMapIds[index] + '__' + id);
 assert(niWardsTransitionKeys.length >= 4 && niWardsTransitionKeys.every((id) => timelineChangePairs[id]?.kind && timelineChangePairs[id].kind !== 'unavailable'), '/test2 NI Wards timeline must have change data for every adjacent edition');
-assert(niWardsTransitionKeys.map(readTimelineChangePair).every(({ entry, data }) => entry.kind !== 'changes' || (Array.isArray(data?.changes) && data.changes.length > 0 && data.changes.every((change) => Array.isArray(change.bbox) && Array.isArray(change.point)))), '/test2 Wards change files must list each change with a bbox and a label point');
+// the assertion above requires an entry for every key (a missing one throws here, as it always has)
+assert(niWardsTransitionKeys.map(readTimelineChangePair).every(({ entry, data }) => /** @type {TimelineChangePair} */ (entry).kind !== 'changes' || (Array.isArray(data?.changes) && data.changes.length > 0 && data.changes.every((change) => Array.isArray(change.bbox) && Array.isArray(change.point)))), '/test2 Wards change files must list each change with a bbox and a label point');
 assert(Object.values(timelineChangePairs).every((entry) => !entry.path || statSync(entry.path).size < MAX_PAGES_FILE_BYTES), '/test2 timeline change files must stay below the Cloudflare Pages per-file limit');
 const counties1927To1955 = timelineChangePairs['counties-ireland-1927__counties-ireland-1955'];
 assert(counties1927To1955 && ['changes', 'redrawn', 'none'].includes(counties1927To1955.kind) && Number(counties1927To1955.count) < 20, '/test2 Counties 1927 to 1955 must list its few real changes (or say it was redrawn), not paint the whole island');
@@ -473,7 +565,7 @@ assert(mainElectionPaneContractSource.includes('test2ElectionCountDetail') && ma
 assert(electionManagerSource.includes('nonTransferable') && electionManagerSource.includes('inferCountEvents') && electionDomainSource.includes('isNonTransferableRow'), '/test2 count parity must preserve non-transferable rows and count event hints');
 // statusKind tries the statuses registry's candidate-count kindPatterns in order (RG-01), so "not
 // elected" must be tried before "elected".
-const statusKindOrder = JSON.parse(readFileSync('packages/registries/src/browser/statuses.json', 'utf8')).candidateKindPatterns.map(([kind]) => kind);
+const statusKindOrder = JSON.parse(readFileSync('packages/registries/src/browser/statuses.json', 'utf8')).candidateKindPatterns.map((/** @type {[string, unknown]} */ [kind]) => kind);
 assert(electionDomainSource.includes('statuses.candidateKindPatterns') && statusKindOrder.includes('not-elected') && statusKindOrder.indexOf('not-elected') < statusKindOrder.indexOf('elected'), '/test2 election domain must not classify "Not Elected" as elected');
 assert(electionManagerSource.includes('electionResultsPane') && electionManagerSource.includes('election-results-pane--open'), '/test2 election results must render in the production below-map election pane');
 assert(electionDomainSource.includes('summarizeResult') && electionDomainSource.includes('extractElected') && electionDomainSource.includes('buildEntityIndex'), '/test2 must use shared election-domain logic for result summaries, elected extraction, and entity indexes');
@@ -711,14 +803,20 @@ for (const path of [
 }
 
 if (existsSync(ELECTION_MANIFEST)) {
+  /** @type {ElectionManifest} */
   const electionManifest = JSON.parse(readFileSync(ELECTION_MANIFEST, 'utf8'));
   assert((electionManifest.elections || []).length > 100, '/test2 election manifest is unexpectedly small');
   assert((electionManifest.totals?.loadable || 0) > 100, '/test2 election manifest has too few loadable entries');
   assert((electionManifest.elections || []).some((entry) => entry.resultUrl && entry.stylingModes?.includes('winner')), '/test2 election manifest must include lazy result URLs and winner styling');
   assert((electionManifest.elections || []).some((entry) => entry.anchorUrl && entry.previousKey), '/test2 election manifest must include anchor sidecars and previous-election links where available');
+  /** @type {ElectionBundle} */
   const dail2024Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'dail-eireann__2024-11-29.json'), 'utf8'));
   const dail2024Rows = dail2024Bundle.mainLikePartySummary || [];
   const dail2024ByParty = new Map(dail2024Rows.map((row) => [row.party, row]));
+  /**
+   * @param {string} party
+   * @param {{ stood: number, seats: number, votes: number }} expected
+   */
   const assertDail2024Party = (party, expected) => {
     const row = dail2024ByParty.get(party);
     assert(row?.stood === expected.stood && row?.seats === expected.seats && row?.votes === expected.votes, `/test2 Dail 2024 ${party} summary must use ElectionsIreland first preferences and explicit elected statuses`);
@@ -735,6 +833,7 @@ if (existsSync(ELECTION_MANIFEST)) {
   assert(family2024ReferendumEntry?.sourceMapId === 'dail-2017' && family2024ReferendumEntry?.matchedCount === 39 && family2024ReferendumEntry?.unmatchedCount === 0, '/test2 2024 family referendum must use the pre-2024 Dail geography, not the post-election Wicklow-Wexford geometry');
   assert(care2024ReferendumEntry?.sourceMapId === 'dail-2017' && care2024ReferendumEntry?.matchedCount === 39 && care2024ReferendumEntry?.unmatchedCount === 0, '/test2 2024 care referendum must use the pre-2024 Dail geography, not the post-election Wicklow-Wexford geometry');
   for (const referendumKey of ['ireland-referendum__2024-03-08-the-family', 'ireland-referendum__2024-03-08-care']) {
+    /** @type {ElectionBundle} */
     const referendumBundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${referendumKey}.json`), 'utf8'));
     assert(Number(referendumBundle.mainLikeTotals?.totalPoll || 0) > 0, `/test2 ${referendumKey} must derive overall referendum total poll from electorate and turnout where the source lacks total poll`);
     assert(Number(referendumBundle.mainLikeTotals?.totalElectorate || 0) > 0, `/test2 ${referendumKey} must carry overall referendum electorate totals`);
@@ -749,6 +848,7 @@ if (existsSync(ELECTION_MANIFEST)) {
     assert(Number(donegalResult?.countInfo?.Spoiled || 0) > 0, `/test2 ${referendumKey} Donegal must derive constituency spoiled votes`);
     assert(Number(donegalResult?.turnoutPct || 0) > 0, `/test2 ${referendumKey} Donegal must carry constituency turnout`);
   }
+  /** @type {ElectionBundle} */
   const european2024Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'ireland-european__2024-06-07.json'), 'utf8'));
   const midlandsNorthWest = (european2024Bundle.results || []).find((result) => result.constituency === 'Midlands North West');
   const electedMidlands = (midlandsNorthWest?.candidates || []).filter((candidate) => candidate.elected);
@@ -756,6 +856,7 @@ if (existsSync(ELECTION_MANIFEST)) {
   for (const name of ['Luke Flanagan', 'Nina Carberry', 'Maria Walsh', 'Barry Cowen', 'Ciar\u00e1n Mullooly']) {
     assert(electedMidlandsNames.has(name), `/test2 2024 European Midlands North West must mark ${name} elected`);
   }
+  /** @type {Map<string | undefined, number>} */
   const electedMidlandsByParty = new Map();
   for (const candidate of electedMidlands) {
     electedMidlandsByParty.set(candidate.party, (electedMidlandsByParty.get(candidate.party) || 0) + 1);
@@ -763,6 +864,7 @@ if (existsSync(ELECTION_MANIFEST)) {
   assert(Number(midlandsNorthWest?.seatsTotal || midlandsNorthWest?.countInfo?.Number_Of_Seats || 0) === 5, '/test2 2024 European Midlands North West must expose five seats');
   assert(electedMidlandsByParty.get('Fine Gael') === 2 && electedMidlandsByParty.get('Fianna F\u00e1il') === 1 && electedMidlandsByParty.get('Independent') === 1 && electedMidlandsByParty.get('Independent Ireland') === 1, '/test2 2024 European Midlands North West elected-party counts must be Fine Gael 2, Fianna Fail 1, Independent 1, Independent Ireland 1');
   for (const filename of readdirSync(ELECTION_BUNDLE_DIR).filter((name) => /^ireland-referendum__.*\.json$/.test(name))) {
+    /** @type {ElectionBundle} */
     const referendumBundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
     for (const result of referendumBundle.results || []) {
       const constituency = String(result.constituency || '').toLowerCase();
@@ -777,6 +879,7 @@ if (existsSync(ELECTION_MANIFEST)) {
     assert(!independent || (row.stood === independent.stood && row.seats === independent.seats && row.votes === independent.votes), `/test2 Dail 2024 ${party} main-like summary must match the independent source-shaped summary`);
   }
   for (const filename of readdirSync(ELECTION_BUNDLE_DIR).filter((name) => /^dail-eireann__20\d\d-\d\d-\d\d\.json$/.test(name))) {
+    /** @type {ElectionBundle} */
     const bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
     const partyRows = new Map((bundle.partySummary || []).map((row) => [row.party, row]));
     for (const row of bundle.mainLikePartySummary || []) {
@@ -801,6 +904,13 @@ if (existsSync(ELECTION_MANIFEST)) {
   const corkNorthCentralRows = dail2024CorkNorthCentral?.countGroup || [];
   assert(dail2024CorkNorthCentral?.hasCountDetail === true, '/test2 Dail 2024 Cork North-Central result must expose count stages and the Transfers tab scaffold');
   assert(corkNorthCentralRows.length > 0 && corkNorthCentralRows.some((row) => row.Wikipedia_Count_Row === '1' && Number(row.Count_Number) > 1 && Number(row.Transfers || 0) !== 0), '/test2 Dail 2024 Cork North-Central must use Wikipedia-derived later-stage transfer rows');
+  /**
+   * @param {string} name
+   * @param {string} party
+   * @param {number} votes
+   * @param {string} status
+   * @param {string} colour
+   */
   const assertCorkCandidate = (name, party, votes, status, colour) => {
     const rows = corkNorthCentralRows.filter((row) => String(row.candidateName || '') === name);
     const firstCountRow = rows.find((row) => Number(row.Count_Number) === 1);
@@ -855,20 +965,24 @@ if (existsSync(ELECTION_MANIFEST)) {
   assert(dail2024FakeTransferRows.length === 0, `/test2 Dail 2024 synthetic scraper rows must not fabricate non-zero transfer amounts: ${dail2024FakeTransferRows.slice(0, 5).join(', ')}`);
   assert(dail2024MissingStageResults.length === 0, `/test2 Dail 2024 synthetic scraper constituencies must expose encoded count-stage detail: ${dail2024MissingStageResults.slice(0, 5).join(', ')}`);
   if (existsSync('data/elections/dail-wikipedia-counts/_report.json')) {
+    /** @type {{ unmatched?: { date?: string, constituency?: string }[] }} */
     const dailCountReport = JSON.parse(readFileSync('data/elections/dail-wikipedia-counts/_report.json', 'utf8'));
     const post1921Missing = (dailCountReport.unmatched || []).filter((row) => Number(String(row.date || '').slice(0, 4)) > 1921);
     assert(post1921Missing.length === 0, `/test2 Dail count sidecar audit must not leave post-1921 rows unresolved: ${post1921Missing.slice(0, 5).map((row) => `${row.date} ${row.constituency}`).join(', ')}`);
   }
   const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');
   assert(forumEntry?.matchedCount === forumEntry?.totalConstituencies, '/test2 1996 Forum election must include the NI-wide regional-list result via a synthetic anchor');
+  /** @type {ElectionBundle} */
   const forum1996Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'northern-ireland-forum-for-political-dialogue__1996-05-30.json'), 'utf8'));
   const forumRegionalList = (forum1996Bundle.results || []).find((result) => result.syntheticNonGeographic && result.featureName === 'Regional List');
   assert(forumRegionalList?.matched === true && Array.isArray(forumRegionalList.anchor?.center), '/test2 1996 Forum Regional List must be a clickable synthetic non-geographical result with a map anchor');
   assert(forumRegionalList?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 1996 Forum Regional List synthetic anchor must stay on the northeast side of the election geography');
+  /** @type {ElectionBundle} */
   const stormont1921Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'parliament-of-northern-ireland__1921-05-24.json'), 'utf8'));
   const queensUniversity = (stormont1921Bundle.results || []).find((result) => result.syntheticNonGeographic && /Queen's University/.test(result.constituency || ''));
   assert(queensUniversity?.matched === true && Array.isArray(queensUniversity.anchor?.center), '/test2 Queen\'s University Stormont rows must be clickable synthetic non-geographical results with map anchors');
   assert(queensUniversity?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 Queen\'s University synthetic anchor must stay on the northeast side of the election geography');
+  /** @type {ElectionBundle} */
   const local1977Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'local-government-local-government-districts__1977-05-18.json'), 'utf8'));
   const strayBelfastAreaA = (local1977Bundle.results || []).find((result) => result.constituency === 'Area-A-corrected');
   const canonicalBelfastAreaA = (local1977Bundle.results || []).find((result) => result.constituency === 'Belfast Area A');
@@ -908,7 +1022,8 @@ if (existsSync(ELECTION_REPORT)) {
 if (existsSync('render/metadata/feature-indexes')) {
   for (const filename of readdirSync('render/metadata/feature-indexes').filter((name) => name.endsWith('.json'))) {
     const featureIndex = JSON.parse(readFileSync(`render/metadata/feature-indexes/${filename}`, 'utf8'));
-    const items = featureIndex.items || featureIndex.features || (Array.isArray(featureIndex) ? featureIndex : []);
+    // a feature index is { items }, { features } or the list itself
+    const items = /** @type {FeatureIndexItem[]} */ (featureIndex.items || featureIndex.features || (Array.isArray(featureIndex) ? featureIndex : []));
     const badItem = items.find((item) => !String(item.name || item.label || item.title || '').trim()
       || /unnamed feature/i.test(String(item.name || item.label || item.title || '')));
     assert(!badItem, `/test2 feature index ${filename} contains a blank or unnamed feature label`);
@@ -938,6 +1053,8 @@ function buildPlanSourceIncludesCompositeCoverage() {
 }
 
 function assertPoint2Coverage() {
+  // looked up with an optional field, which is simply absent from it
+  /** @type {Set<string | undefined>} */
   const actionableStatuses = new Set(['needsVectorTileConversion', 'needsRasterStrategy', 'needsMapLibreSourceMapping']);
   const actionableRows = (portPlan.rows || []).filter((row) => actionableStatuses.has(row.conversionStatus));
   assert(actionableRows.length === 0, `/test2 point-2 data coverage has ${actionableRows.length} actionable unconverted row(s): ${actionableRows.slice(0, 5).map((row) => row.sourceMapId).join(', ')}`);
@@ -953,6 +1070,7 @@ function assertPoint2Coverage() {
 
 function assertDailOfficialMetadataCoverage() {
   if (!existsSync(path.join(ELECTION_BUNDLE_DIR, 'dail-eireann__2024-11-29.json'))) return;
+  /** @type {ElectionBundle} */
   const dail2024Bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'dail-eireann__2024-11-29.json'), 'utf8'));
   const carlowKilkenny = (dail2024Bundle.results || []).find((result) => /carlow/i.test(result.constituency || '') && /kilkenny/i.test(result.constituency || ''));
   assert(carlowKilkenny?.officialDail?.constituencyId, '/test2 Dail 2024 Carlow-Kilkenny must carry the official constituency ID sidecar field');
@@ -961,11 +1079,17 @@ function assertDailOfficialMetadataCoverage() {
   const officialCandidate = (carlowKilkenny?.candidates || []).find((candidate) => candidate.gender && candidate.dailAbbreviation);
   assert(Boolean(officialCandidate), '/test2 Dail 2024 candidate summaries must carry official candidate gender and Dail party abbreviation fields');
   if (existsSync(path.join(ELECTION_BUNDLE_DIR, 'dail-eireann__2021-07-08.json'))) {
+    /** @type {ElectionBundle} */
     const byElection = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, 'dail-eireann__2021-07-08.json'), 'utf8'));
     assert((byElection.results || []).some((result) => /dublin bay south/i.test(result.constituency || '') && Number(result.spoiled) === 162), '/test2 must include official Dublin Bay South 2021 by-election spoiled/turnout metadata from the Dail ZIP');
   }
 }
 
+/**
+ * @param {string} relativeDir
+ * @param {(name: string) => boolean} predicate
+ * @returns {number}
+ */
 function sumFiles(relativeDir, predicate) {
   if (!existsSync(relativeDir)) return 0;
   let total = 0;
@@ -976,6 +1100,11 @@ function sumFiles(relativeDir, predicate) {
   return total;
 }
 
+/**
+ * @param {string} relativeDir
+ * @param {(name: string) => boolean} predicate
+ * @returns {number}
+ */
 function countFiles(relativeDir, predicate) {
   if (!existsSync(relativeDir)) return 0;
   let total = 0;
@@ -991,6 +1120,7 @@ function assertNiElectionSeatCoverage() {
     .filter((name) => /^(northern-ireland-assembly|northern-ireland-constitutional-convention|local-government-)/.test(name) && name.endsWith('.json'));
   const mismatches = [];
   for (const filename of filenames) {
+    /** @type {ElectionBundle} */
     const bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
     for (const result of bundle.results || []) {
       const year = Number(bundle.year || String(bundle.date || '').slice(0, 4));
@@ -1031,8 +1161,13 @@ function assertWestminsterGeneralElectionBaselines() {
   assert(westminster2019?.previousDate === '2017-06-08', '/test2 Westminster 2019 must compare against the 2017 UK general election, not the 2018 North Antrim recall petition');
 }
 
+/** @param {ElectionManifest} electionManifest */
 function assertComparableElectionBaselines(electionManifest) {
   const entries = new Map((electionManifest.elections || []).map((entry) => [entry.key, entry]));
+  /**
+   * @param {string} key
+   * @param {string} expectedPreviousKey
+   */
   const expectPrevious = (key, expectedPreviousKey) => {
     const entry = entries.get(key);
     assert(Boolean(entry), `/test2 comparable-baseline check could not find ${key}`);
@@ -1055,6 +1190,7 @@ function assertStvTerminalTransferCoverage() {
   const surplusTerminalRows = [];
   const excludedTerminalRows = [];
   for (const filename of filenames) {
+    /** @type {ElectionBundle} */
     const bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
     for (const result of bundle.results || []) {
       const votingSystem = String(result.votingSystem || bundle.votingSystem || '').toLowerCase();
@@ -1094,6 +1230,7 @@ function assertStvSyntheticTerminalTransferCoverage() {
   const syntheticExcludedRows = [];
   const syntheticSurplusRows = [];
   for (const filename of filenames) {
+    /** @type {ElectionBundle} */
     const bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
     for (const result of bundle.results || []) {
       const votingSystem = String(result.votingSystem || bundle.votingSystem || '').toLowerCase();
@@ -1125,6 +1262,7 @@ function assertStvSyntheticTerminalTransferCoverage() {
   assert(syntheticSurplusRows.length > 0, '/test2 STV By Count validation must cover elected candidates that need display-only surplus transfer rows in the following real count');
 }
 
+/** @param {unknown} value */
 function finiteValidationNumber(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : null;
