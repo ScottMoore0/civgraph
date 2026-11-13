@@ -1,0 +1,26 @@
+#!columns en ¦ ga ¦ sco
+# The Elections app (site/apps/elections/): its notes on the data's known limits, each shown where
+# the limit applies (EL2, site/apps/elections/lib/limits.js). {n} and {total} are numbers.
+# Format: English ¦ Irish ¦ Ulster-Scots. Not translated yet: the runtime shows the English.
+
+@elections.limits.losers_not_printed The source printed only the members elected, so the losing candidates are not known. ¦ ¦
+@elections.limits.losers_missing The losing candidates are not on file: the sources read so far name only the members elected. ¦ ¦
+@elections.limits.elected_votes_only The valid poll and the shares here count the elected members' votes alone, and no majority can be given. ¦ ¦
+@elections.limits.no_majority No majority can be given without the runner-up's votes. ¦ ¦
+@elections.limits.votes_not_recorded not recorded ¦ ¦
+@elections.limits.losers_marker losing candidates not on file ¦ ¦
+@elections.limits.transfers Seats are shared out by quotas of first preferences: the transfers that decide many seats under this system are left out. ¦ ¦
+@elections.limits.leaders Party leaders are not recorded in Civgraph yet. ¦ ¦
+@elections.limits.gender_never_inferred The rest are shown as not recorded: gender is never inferred from a name. ¦ ¦
+@elections.limits.incumbency_derived Incumbency is worked out, not taken from a source: a candidate counts as an incumbent when the same person was elected to the same body at its previous general election or at a by-election since. ¦ ¦
+@elections.limits.party_as_printed Party is the label on the ballot paper as recorded. ¦ ¦
+@elections.limits.votes_missing_one {n} candidate has no vote figure in the sources Civgraph holds. ¦ ¦
+@elections.limits.votes_missing {n} candidates have no vote figure in the sources Civgraph holds. ¦ ¦
+@elections.limits.election_losers_one Party votes and shares leave out the losing candidates' votes in {n} contest, whose losers are not on file. ¦ ¦
+@elections.limits.election_losers Party votes and shares leave out the losing candidates' votes in {n} contests, whose losers are not on file. ¦ ¦
+@elections.limits.gender_recorded Gender is recorded for {n} of the {total} candidacies in this table. ¦ ¦
+@elections.limits.incumbency_unknown Incumbency is unknown for {n} of the {total} candidacies in this table (no person link, or no earlier election of the body on file). ¦ ¦
+@elections.limits.no_party_one {n} of the {total} candidacies in this table has no party recorded. ¦ ¦
+@elections.limits.no_party {n} of the {total} candidacies in this table have no party recorded. ¦ ¦
+@elections.limits.unopposed_one {n} of the {total} candidacies in this table was returned unopposed: it counts in seats and candidates, but has no votes. ¦ ¦
+@elections.limits.unopposed {n} of the {total} candidacies in this table were returned unopposed: they count in seats and candidates, but have no votes. ¦ ¦

@@ -9,6 +9,7 @@ import { cellAt, countSheet, fptpMajority, quotaProgress, transferStages } from 
 import {
   appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, num, personUrl, systemName,
 } from '../lib/format.js';
+import { NOTE, contestLimits, limitHtml, votesMissingNote } from '../lib/limits.js';
 import { partyChip } from '../lib/party.js';
 
 /** @type {Record<string, string>} */
@@ -35,7 +36,11 @@ export async function render(root, route) {
   });
   const valid = sheet.validPoll;
   const share = (/** @type {number | null} */ v) => (v !== null && valid ? (100 * v) / valid : null);
-  const majority = !stv ? (num(c.majority) ?? fptpMajority(sheet)) : null;
+  // EL2: each limit of this contest's data, noted on it (lib/limits.js). Without its losers a
+  // contest has no runner-up, so no majority.
+  const limits = contestLimits(sheet, c);
+  const votesNote = votesMissingNote(limits.votesMissing, fmtInt);
+  const majority = !stv && !limits.losersMissing ? (num(c.majority) ?? fptpMajority(sheet)) : null;
   const turnout = num(c.turnoutPct) ?? (num(c.totalPoll) !== null && num(c.electorate) ? (100 * Number(c.totalPoll)) / Number(c.electorate) : null);
   const title = `${c.name || c.constituency} – ${detail.title}`;
 
@@ -76,7 +81,7 @@ export async function render(root, route) {
       </tbody></table></div>`;
   } else {
     table = `<div class="cg-table-wrap"><table class="cg-table el-sheet"><thead><tr><th scope="col">Candidate</th><th scope="col">Party</th><th scope="col" class="num">${stv ? 'First preferences' : 'Votes'}</th><th scope="col" class="num">Share</th><th scope="col">Outcome</th></tr></thead><tbody>${
-      [...sheet.rows].sort((a, b) => (b.firstPrefs ?? -1) - (a.firstPrefs ?? -1)).map((r) => `<tr${r.elected ? ' class="cg-elected"' : ''}><th scope="row">${personLink(r)}</th><td>${partyChip(r.party, r.colour)}</td><td class="num">${fmtInt(r.firstPrefs)}</td><td class="num">${fmtPct(share(r.firstPrefs))}</td><td>${outcome(r, sheet.kind === 'order')}</td></tr>`).join('')
+      [...sheet.rows].sort((a, b) => (b.firstPrefs ?? -1) - (a.firstPrefs ?? -1)).map((r) => `<tr${r.elected ? ' class="cg-elected"' : ''}><th scope="row">${personLink(r)}</th><td>${partyChip(r.party, r.colour)}</td><td class="num">${limits.votesMissing && r.firstPrefs === null && !r.unopposed && !r.autoReturned ? `<span class="el-muted">${esc(NOTE.votesNotRecorded)}</span>` : fmtInt(r.firstPrefs)}</td><td class="num">${fmtPct(share(r.firstPrefs))}</td><td>${outcome(r, sheet.kind === 'order')}</td></tr>`).join('')
     }</tbody></table></div>`;
   }
 
@@ -92,6 +97,7 @@ export async function render(root, route) {
     </header>
     <dl class="cg-facts">${/** @type {string[][]} */ (facts).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>
     ${KIND_NOTE[sheet.kind] ? `<p class="cg-notice${sheet.kind === 'none' ? ' cg-notice--warning' : ''}">${esc(KIND_NOTE[sheet.kind])}</p>` : ''}
+    ${limits.notes.map((l) => limitHtml(l, esc)).join('')}${votesNote ? limitHtml(votesNote, esc) : ''}
     <section aria-labelledby="el-result"><h2 id="el-result">${sheet.kind === 'stages' ? 'Count sheet' : 'Result'}</h2>${table}</section>
     ${quota.length ? `<section aria-labelledby="el-quota"><h2 id="el-quota">Progress to the quota</h2><figure class="cg-chart">${quotaBars(quota, /** @type {number} */ (sheet.quota))}<figcaption>Each candidate's votes at ${sheet.kind === 'stages' ? 'their last count' : 'the first count'}, against the quota of ${fmtInt(sheet.quota)}.</figcaption></figure></section>` : ''}
     ${flows.length ? `<section aria-labelledby="el-flows"><h2 id="el-flows">Transfers, count by count</h2>

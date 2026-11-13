@@ -10,7 +10,7 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
 import { browserElectionTypes, electionKindIds, votingSystemIds } from '../../packages/registries/src/election-types.mjs';
-import { electionKindLabels, votingSystemNames } from '../../packages/registries/src/browser/election-type-names.mjs';
+import { electionKindLabels, votingSystemNames, votingSystemsWithTransfers } from '../../packages/registries/src/browser/election-type-names.mjs';
 import { systemName } from '../../site/apps/elections/lib/format.js';
 
 const registry = loadRegistry('election-types');
@@ -34,7 +34,9 @@ test('election-types: the voting systems are the ones an election body may name'
 });
 
 test('election-types: the readers show the words they showed before', () => {
-  assert.deepEqual(browserElectionTypes(registry), { votingSystemNames, electionKindLabels });
+  assert.deepEqual(browserElectionTypes(registry), { votingSystemNames, electionKindLabels, votingSystemsWithTransfers });
+  // The systems whose count transfers votes (the swingometer's caveat, EL2 13 Nov 2026): the STV pair.
+  assert.deepEqual(votingSystemsWithTransfers, ['stv-gregory', 'stv-hare']);
   const before = {
     fptp: 'first past the post', 'stv-hare': 'single transferable vote', 'stv-gregory': 'single transferable vote (Gregory method)',
     'party-list-dhondt': "party list (D'Hondt)", ordinal: 'referendum',

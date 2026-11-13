@@ -9,6 +9,7 @@ import { hbars, parliamentArc, seatBar } from '../lib/charts.js';
 import {
   appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, median, num, positive, summaryPollStatus, systemName,
 } from '../lib/format.js';
+import { NOTE, counted, limitHtml, summaryLosersMissing } from '../lib/limits.js';
 import { partyChip } from '../lib/party.js';
 
 /**
@@ -71,6 +72,10 @@ export async function render(root, route) {
   const shareChart = votes && !referendum ? hbars(parties.filter((p) => p.votes > 0).sort((a, b) => (b.share ?? 0) - (a.share ?? 0)).slice(0, 12).map((p) => ({ label: p.party, value: Math.round((p.share ?? 0) * 10) / 10, colour: p.colour })),
     { title: 'Share of the vote by party', format: (v) => fmtPct(v) }) : '';
 
+  // EL2: contests whose losing candidates are not on file, marked in the list and counted where
+  // the party votes are given (lib/limits.js).
+  const losersMissing = new Set(results.filter(summaryLosersMissing));
+  const losersNote = votes && losersMissing.size ? limitHtml({ id: 'election-losers', sentences: [counted('electionLosers', losersMissing.size, fmtInt)] }, esc, 'el-muted') : '';
   const voteNote = !votes ? '<p class="el-muted">No votes are recorded for this election: every seat was returned unopposed or only the members returned are known.</p>'
     : withVotes < results.length ? `<p class="el-muted">Votes are recorded in ${withVotes} of ${results.length} contests${unopposed ? ` (${unopposed} returned unopposed)` : ''}; shares are of the votes cast where there was a poll.</p>` : '';
 
@@ -87,7 +92,8 @@ export async function render(root, route) {
       : !polled ? `${esc(r.winnerName || '—')} <span class="el-muted">votes not recorded</span>`
       : (r.seatsTotal || 1) > 1 ? `${partyChip(r.winnerParty, colourOf.get(String(r.winnerParty)))} <span class="el-muted">most seats; top: ${esc(r.leadingName || '—')}</span>`
         : `${esc(r.leadingName || r.winnerName || '—')} <span class="el-muted">${esc(r.leadingParty || r.winnerParty || '')}</span>`;
-    return `<tr><th scope="row">${name}</th><td class="num">${fmtInt(r.seatsTotal)}</td><td>${result}</td>`
+    const limit = losersMissing.has(r) ? ` <span class="el-muted" data-limit="losers">${esc(NOTE.losersMarker)}</span>` : '';
+    return `<tr><th scope="row">${name}</th><td class="num">${fmtInt(r.seatsTotal)}</td><td>${result}${limit}</td>`
       + `<td class="num">${polled ? fmtInt(r.validPoll) : '—'}</td><td class="num">${fmtPct(positive(r.turnoutPct))}</td>`
       + `<td class="num">${!polled ? '—' : isStv(detail.votingSystem) ? fmtInt(positive(r.quota)) : fmtInt(positive(r.majority))}</td></tr>`;
   }).join('');
@@ -109,7 +115,7 @@ export async function render(root, route) {
       ${prevAny ? `<dt>Previous</dt><dd><a href="${appUrl.election(String(prevKey))}">${esc(prevAny.title)}</a></dd>` : ''}
       <dt>Elsewhere</dt><dd><a href="/browse/elections/${esc(electionSlug(key))}">Browse record</a>${detail.interactiveUrl && detail.layerId ? ` · <a href="${esc(detail.interactiveUrl)}">on the map</a>` : ''} · <a href="/elections/map/?e=${encodeURIComponent(electionSlug(key))}">results map</a> · <a href="/elections/pivot/?body=${encodeURIComponent(detail.bodySlug)}&amp;election=${encodeURIComponent(key)}">pivot</a></dd>
     </dl>
-    ${voteNote}
+    ${voteNote}${losersNote}
     <div class="el-grid">
       ${seatChart ? `<figure class="cg-chart el-seatchart">${seatChart}<figcaption>Seats won${prevDetail ? ' (the table gives the change since the previous election)' : ''}.</figcaption></figure>` : ''}
       ${shareChart ? `<figure class="cg-chart">${shareChart}<figcaption>Share of the vote${withVotes < results.length ? ' in contests with a poll' : ''}.</figcaption></figure>` : ''}
@@ -121,6 +127,7 @@ export async function render(root, route) {
           + `<td class="num">${fmtInt(p.seats)}</td>${prevDetail ? `<td class="num ${deltaClass(p.seatChange)}">${fmtDelta(p.seatChange)}</td>` : ''}<td class="num">${p.gone ? '' : fmtInt(p.stood)}</td>`
           + `${votes ? `<td class="num">${p.gone ? '' : fmtInt(p.votes)}</td><td class="num">${p.gone ? '' : fmtPct(p.share)}</td>` : ''}${votes && prevVotes ? `<td class="num ${deltaClass(p.shareChange)}">${fmtDelta(p.shareChange, 1)}</td>` : ''}</tr>`).join('')}</tbody>
       </table></div>
+      ${referendum ? '' : limitHtml({ id: 'leaders', sentences: [NOTE.leaders] }, esc, 'el-muted')}
       ${prevDetail && votes && !prevVotes ? '<p class="el-muted">No vote change is given: the previous election has no recorded votes.</p>' : ''}
     </section>
     <section aria-labelledby="el-contests"><h2 id="el-contests">Contests</h2>

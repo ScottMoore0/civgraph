@@ -6,6 +6,7 @@
 import { electionDetail, electionIndex, must } from '../lib/api.js';
 import { parliamentArc, seatBar } from '../lib/charts.js';
 import { appUrl, electionSlug, esc, fmtDelta, fmtPct, isStv } from '../lib/format.js';
+import { swingLimit } from '../lib/limits.js';
 import { partyChip, partyColour } from '../lib/party.js';
 import { baseContests, nationalShares, project } from '../lib/project.js';
 import { SWING_EDITS, SWING_LIMIT, clampSwing } from '../state-machines.js';
@@ -39,12 +40,15 @@ export async function render(root, route, ctx) {
   const edits = SWING_EDITS.start(deltas.size ? 'edited' : 'base');
   const baseSeats = project(contests, new Map()).seats;
   const stv = isStv(el.votingSystem);
+  // EL2: the seat estimate's own caveat, beside it, for a system whose count transfers votes
+  // (the election-types registry's `transfers`; lib/limits.js).
+  const transfers = swingLimit(el.votingSystem);
   const bodies = [...new Map(index.map((e) => [e.bodySlug, e.body])).entries()].sort((x, y) => String(x[1]).localeCompare(String(y[1])));
 
   root.innerHTML = `
     <header class="el-head"><h1>Swingometer</h1>
       <p class="el-lead">Move each party's share from the <a href="${appUrl.election(el.key)}">${esc(el.displayTitle)}</a> and see the seats under uniform swing.</p></header>
-    <p class="cg-notice el-estimate">These are estimates, not forecasts: every contest moves by the same points.${stv ? ' Seats in multi-member contests are allocated by quotas of first preferences, without transfers.' : ''} No polling data is used.</p>
+    <p class="cg-notice el-estimate">These are estimates, not forecasts: every contest moves by the same points. No polling data is used.</p>
     <form class="el-controls" id="sw-form" onsubmit="return false">
       <label>Body <select id="sw-body">${bodies.map(([s, n]) => `<option value="${esc(s)}"${s === el.bodySlug ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
       <label>Base election <select id="sw-e">${index.filter((e) => e.bodySlug === el.bodySlug).map((e) => `<option value="${esc(electionSlug(e.key))}"${e.key === el.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>
@@ -65,7 +69,7 @@ export async function render(root, route, ctx) {
     const total = [...res.seats.values()].reduce((s, n) => s + n, 0);
     const order = [...new Set([...parties, ...res.seats.keys()])].filter((p) => (res.seats.get(p) || 0) + (baseSeats.get(p) || 0) > 0);
     const chartParties = order.map((p) => ({ party: p, seats: res.seats.get(p) || 0, colour: colours.get(p) })).filter((p) => p.seats > 0).sort((a, b) => b.seats - a.seats);
-    /** @type {HTMLElement} */ (root.querySelector('#sw-chart')).innerHTML = `${total >= 30 ? parliamentArc(chartParties, { title: `Projected seats (estimate): ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` }) : seatBar(chartParties, { title: 'Projected seats (estimate)' })}<figcaption>Projected seats (estimate).</figcaption>`;
+    /** @type {HTMLElement} */ (root.querySelector('#sw-chart')).innerHTML = `${total >= 30 ? parliamentArc(chartParties, { title: `Projected seats (estimate): ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` }) : seatBar(chartParties, { title: 'Projected seats (estimate)' })}<figcaption>Projected seats (estimate).${transfers ? ` <span data-limit="${transfers.id}">${esc(transfers.sentences.join(' '))}</span>` : ''}</figcaption>`;
     /** @type {HTMLElement} */ (root.querySelector('#sw-seats')).innerHTML = `<table class="cg-table cg-table--compact"><thead><tr><th scope="col">Party</th><th scope="col" class="num">Base</th><th scope="col" class="num">Projected</th><th scope="col" class="num">±</th></tr></thead><tbody>${order.sort((a, b) => (res.seats.get(b) || 0) - (res.seats.get(a) || 0)).map((p) => `<tr><th scope="row">${partyChip(p, colours.get(p))}</th><td class="num">${baseSeats.get(p) || 0}</td><td class="num">${res.seats.get(p) || 0}</td><td class="num">${fmtDelta((res.seats.get(p) || 0) - (baseSeats.get(p) || 0))}</td></tr>`).join('')}</tbody></table>
       <p class="el-muted">Base seats here are this model run with no change${stv ? ' (quota allocation of first preferences), which can differ from the seats actually won after transfers' : ''}; the actual result is on the <a href="${appUrl.election(el.key)}">election page</a>.</p>`;
     /** @type {HTMLElement} */ (root.querySelector('#sw-contests')).innerHTML = `<table class="cg-table cg-table--compact"><thead><tr><th scope="col">Contest</th><th scope="col">Projected seats</th></tr></thead><tbody>${res.contests.map((c) => `<tr><th scope="row">${esc(c.area)}</th><td>${[...c.seats].map(([p, n]) => `${esc(p)}${n > 1 ? ` ×${n}` : ''}`).join(', ')}</td></tr>`).join('')}</tbody></table>`;

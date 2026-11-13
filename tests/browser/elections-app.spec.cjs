@@ -42,9 +42,11 @@ function trackBytes(page) {
  */
 function thirdParty(page) {
   const hosts = new Set();
+  // The test server's own host, from the config's baseURL (a run on another port is still local).
+  const own = new URL(test.info().project.use.baseURL || 'http://127.0.0.1:5050').host;
   page.on('request', (req) => {
     const { protocol, host } = new URL(req.url());
-    if (/^https?:$/.test(protocol) && host !== '127.0.0.1:5050' && host !== 'data.civgraph.net') hosts.add(host);
+    if (/^https?:$/.test(protocol) && host !== own && host !== 'data.civgraph.net') hosts.add(host);
   });
   return () => [...hosts];
 }
@@ -117,6 +119,33 @@ test.describe('Civgraph Elections', () => {
     await shot(page, '04-contest-unopposed');
   });
 
+  // EL2 (owner, 13 Nov 2026): each limit of the data is noted where it applies, never as a
+  // blanket disclaimer. Newcastle UDC 1967: polled, nine candidates for nine seats (the paper
+  // named only the elected); Warrenpoint West Ward 1967: four candidates without a vote figure.
+  test('data limits: a contest without its losers says so on the contest and in the election list', async ({ page }) => {
+    await page.goto('/elections/newcastle-urban-district-council-1967-05-17/newcastle/');
+    await expect(page.locator('#el-view [data-limit="losers"]')).toContainText('losing candidates');
+    await expect(page.locator('dl.cg-facts')).not.toContainText('Majority');
+    await shot(page, '11-contest-losers-missing');
+    await page.goto('/elections/newcastle-urban-district-council-1967-05-17/');
+    await expect(page.locator('table.el-contests [data-limit="losers"]')).toHaveCount(1);
+    await expect(page.locator('[data-limit="election-losers"]')).toContainText('in 1 contest,');
+    await page.goto('/elections/warrenpoint-urban-district-council-1967-05-17/west-ward/');
+    await expect(page.locator('[data-limit="votes"]')).toHaveText('4 candidates have no vote figure in the sources Civgraph holds.');
+    await expect(page.locator('table.el-sheet')).toContainText('not recorded');
+    await expect(page.locator('[data-limit="losers"]')).toHaveCount(0);
+  });
+
+  test('data limits: a complete contest and its election carry no data note but the leaders one', async ({ page }) => {
+    await page.goto('/elections/northern-ireland-assembly-2022-05-05/belfast-east/');
+    await expect(page.locator('h2#el-result')).toHaveText('Count sheet');
+    await expect(page.locator('#el-view [data-limit]')).toHaveCount(0);
+    await page.goto('/elections/northern-ireland-assembly-2022-05-05/');
+    await expect(page.locator('table.el-contests')).toBeVisible();
+    await expect(page.locator('#el-view [data-limit]')).toHaveCount(1);
+    await expect(page.locator('[data-limit="leaders"]')).toHaveText('Party leaders are not recorded in Civgraph yet.');
+  });
+
   test('an unknown election is a "Not found" page', async ({ page }) => {
     await page.goto('/elections/no-such-election-1900-01-01/');
     await expect(page.locator('h1')).toHaveText('Not found');
@@ -143,11 +172,26 @@ test.describe('Civgraph Elections', () => {
       await page.selectOption('#pv-measure', 'share');
       await expect(page).toHaveURL(/measure=share/);
       await expect(page.locator('table.el-pivot caption')).toContainText('Share of the votes');
+      // EL2: the notes follow the table: party by year has the party note, and no gender note.
+      await expect(page.locator('#pv-notes [data-limit="party"]')).toBeVisible();
+      await expect(page.locator('#pv-notes [data-limit="gender"]')).toHaveCount(0);
       const download = page.waitForEvent('download');
       await page.click('#pv-csv');
       expect((await download).suggestedFilename()).toMatch(/\.csv$/);
       expect(others()).toEqual([]);
       await shot(page, '05-pivot');
+    });
+
+    test('pivot: gender and derived incumbency carry their own notes, with the counts of the table', async ({ page }) => {
+      test.setTimeout(90000);
+      await page.goto('/elections/pivot/?body=dail-eireann&rows=gender&cols=none&measure=candidates');
+      await expect(page.locator('#pv-status')).toHaveAttribute('data-state', 'shown', { timeout: 60000 });
+      await expect(page.locator('#pv-notes [data-limit="gender"]')).toContainText(/Gender is recorded for [\d,]+ of the [\d,]+ candidacies in this table\./);
+      await expect(page.locator('#pv-notes [data-limit="gender"]')).toContainText('never inferred');
+      await page.selectOption('#pv-rows', 'incumbent');
+      await expect(page.locator('#pv-notes [data-limit="incumbency"]')).toContainText('worked out, not taken from a source', { timeout: 60000 });
+      await expect(page.locator('#pv-notes [data-limit="gender"]')).toHaveCount(0);
+      await shot(page, '12-pivot-notes');
     });
 
     test('swingometer: moving a party changes the projected seats', async ({ page }) => {
@@ -156,6 +200,9 @@ test.describe('Civgraph Elections', () => {
       await page.goto('/elections/swing/?e=northern-ireland-assembly-2022-05-05&d.Alliance=8');
       await expect(page.locator('#sw-seats table')).toBeVisible({ timeout: 60000 });
       await expect(page.locator('.el-estimate')).toContainText('estimates');
+      // EL2: the transfers caveat sits with the seat estimate, not in the notice above.
+      await expect(page.locator('#sw-chart figcaption [data-limit="transfers"]')).toContainText('transfers');
+      await expect(page.locator('.el-estimate')).not.toContainText('transfers');
       const alliance = page.locator('#sw-seats tbody tr', { hasText: 'Alliance' });
       await expect(alliance.locator('td').nth(2)).toHaveText(/^\+\d+$/);
       expect(others()).toEqual([]);
