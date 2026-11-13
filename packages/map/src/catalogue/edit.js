@@ -19,6 +19,7 @@ import { setHidden } from '../state-helpers.mjs';
 
 /** Who is signed in: the public status first (works signed out), then whoami (inside Access). */
 export async function loadAuth() {
+  /** @type {{ authenticated?: boolean, allowed?: boolean, loginUrl?: string | null, email?: string }} */
   let auth = { authenticated: false, allowed: false, loginUrl: null };
   try {
     const res = await fetch('/_api/auth/status', { credentials: 'same-origin' });

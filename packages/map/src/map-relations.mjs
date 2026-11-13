@@ -31,7 +31,8 @@
  * @typedef {{
  *   variants?: Array<string | { id?: string } | null>,
  *   members?: string[],
- *   compositeSources?: string[]
+ *   compositeSources?: string[],
+ *   [key: string]: unknown
  * }} MapRelations
  */
 

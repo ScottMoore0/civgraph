@@ -5,13 +5,15 @@
 import { icon, BOOK_CATEGORY_ICONS } from './icons.js';
 import { esc, plural } from './util.js';
 
+/** @param {import('./index.js').CatalogueNext} c */
 export function booksHtml(c) {
   const all = c.books?.books || [];
   if (!all.length) return '<p class="cn-empty">The book shelf could not be loaded.</p>';
   const shown = c.query ? all.filter((b) => c.bookHits?.has(b.id)) : all;
   if (!shown.length) return `<p class="cn-empty" role="status">No books match “${esc(c.query)}”.${c.otherTabHint()}</p>`;
-  const cats = (c.books.categories || []).map((cat) => ({ cat, list: shown.filter((b) => b.category === cat.id) })).filter((g) => g.list.length);
-  const uncategorised = shown.filter((b) => !(c.books.categories || []).some((cat) => cat.id === b.category));
+  // Books were listed above, so the list is loaded.
+  const cats = (/** @type {import('../data-service.js').BooksDocument} */ (c.books).categories || []).map((cat) => ({ cat, list: shown.filter((b) => b.category === cat.id) })).filter((g) => g.list.length);
+  const uncategorised = shown.filter((b) => !(/** @type {import('../data-service.js').BooksDocument} */ (c.books).categories || []).some((cat) => cat.id === b.category));
   if (uncategorised.length) cats.push({ cat: { id: 'other', name: 'Other' }, list: uncategorised });
   return `<p class="cn-summary" role="status">${plural(shown.length, 'book')}${c.query ? ` match “${esc(c.query)}”` : ''}: the printed sources the maps and results draw on.</p>
     ${cats.map(({ cat, list }) => `<section class="category-section cn-bookcat" id="cn-books-${esc(cat.id)}" data-cn-section="cn-books-${esc(cat.id)}">

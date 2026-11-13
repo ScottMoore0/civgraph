@@ -977,7 +977,7 @@ class DataService {
  * Only absolute http(s) URLs are treated as downloadable. Shared by the
  * download handler and by the catalogue renderer, which hides the download
  * control when this returns null.
- * @param {{ downloads?: unknown, files?: unknown, sourceFile?: unknown } | null | undefined} mapConfig
+ * @param {{ downloads?: unknown, files?: unknown, sourceFile?: unknown, [key: string]: unknown } | null | undefined} mapConfig  any catalogue record (a statistic has none of the three, so none)
  * @returns {string | null}
  */
 export function resolveMapDownloadUrl(mapConfig) {

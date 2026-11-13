@@ -12,12 +12,17 @@ import { PeopleSearch } from './search.js';
 import electionBodies from '../../../registries/src/browser/election-bodies.mjs';
 import electionGroups from '../../../registries/src/browser/election-groups.mjs';
 import { siteNumber } from '../../../core/src/format.js';
+/** @typedef {import('./index.js').CatalogueNext} CatalogueNext */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueRowElection} CatalogueRowElection */
+/** A shelf of elections (BODY_GROUPS). @typedef {{ id: string, label: string, bodies: string[], icon: string, colour: string }} BodyGroup */
 
 // Browse's slug for an election: its key lower-cased, runs of other characters as '-'
 // (dail-eireann__2024-11-29 -> dail-eireann-2024-11-29). Browse routes live in the hash.
+/** @param {string} key */
 const browseSlug = (key) => String(key).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 /** What a row calls each body: short, and the same everywhere. */
+/** @type {Record<string, string>} */
 export const BODY_SHORT = {
   'dail-eireann': 'Dáil',
   'house-of-commons-of-the-united-kingdom': 'Westminster',
@@ -40,6 +45,7 @@ export const BODY_SHORT = {
   // Mayor of Limerick and the Irish local elections (ireland-local).
   ...Object.fromEntries(Object.entries(/** @type {Record<string, { shortLabel?: string }>} */ (electionBodies)).filter(([, b]) => b.shortLabel).map(([id, b]) => [id, b.shortLabel])),
 };
+/** @param {CatalogueRowElection} e */
 export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
 
 /** The shelves: the four Northern Ireland devolved bodies share one, as do the two European
@@ -51,10 +57,13 @@ export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
 export const BODY_GROUPS = electionGroups.shelves.map(({ id, label, bodies, icon }) => ({
   id, label, bodies: [...bodies], icon, colour: ELECTION_SHELF_COLOURS[/** @type {keyof typeof ELECTION_SHELF_COLOURS} */ (id)],
 }));
+/** @param {string} slug */
 export const groupOfBody = (slug) => BODY_GROUPS.find((g) => g.bodies.includes(slug))?.id || '';
 
+/** @param {CatalogueNext} c */
 export function toolbarHtml(c) {
   const f = c.efilters;
+  /** @param {'ekind' | 'escope'} group @param {string} value @param {string} label @param {number} [count] */
   const chip = (group, value, label, count) => `<button type="button" class="cn-fchip" data-cn-filter="${group}" data-value="${esc(value)}" aria-pressed="${String(f[group] === value)}">${esc(label)}${count !== undefined ? ` <span class="cn-count">${siteNumber(count)}</span>` : ''}</button>`;
   const { i, j } = c.yearRange('elections');
   const active = c.activeFilterCount('elections');
@@ -70,6 +79,7 @@ export function toolbarHtml(c) {
   </div>`;
 }
 
+/** @param {CatalogueNext} c */
 export function resultsHtml(c) {
   const list = c.visibleElections();
   const extras = `<div data-cn-extras>${c.query ? extrasHtml(c, { places: false }) : ''}</div>`;
@@ -91,10 +101,12 @@ export function resultsHtml(c) {
 
 /** Elections on their body's shelf, in BODY_GROUPS' order, newest first, as the list and the
  * contents menu both show them. */
+/** @param {CatalogueRowElection[]} list */
 export function shelvesOf(list) {
   return BODY_GROUPS.map((g) => ({ g, es: list.filter((e) => g.bodies.includes(e.bodySlug)) })).filter((x) => x.es.length);
 }
 
+/** @param {CatalogueNext} c @param {BodyGroup} g @param {CatalogueRowElection[]} es @param {boolean} alone */
 function shelfHtml(c, g, es, alone) {
   const id = `e-${g.id}`;
   const open = c.opened.has(id) || Boolean(c.query) || Boolean(c.person) || alone;
@@ -110,8 +122,10 @@ function shelfHtml(c, g, es, alone) {
 /** Above a person's elections: who, how many, how many won, their page, and the way back. The
  * counts are of the elections listed, and say how many the filters hide (UX review 2026-10-31, M6:
  * the banner said 25 where search said 26, with nothing to say the by-election was filtered out). */
+/** @param {CatalogueNext} c */
 function personBannerHtml(c) {
-  const p = c.person;
+  // The banner is drawn only for a person.
+  const p = /** @type {import('./index.js').CataloguePerson} */ (c.person);
   const shown = c.visibleElections().filter((e) => p.contests.has(e.key));
   const won = shown.filter((e) => p.contests.get(e.key)?.won).length;
   const hidden = p.contests.size - shown.length;
@@ -126,6 +140,7 @@ function personBannerHtml(c) {
   </div>`;
 }
 
+/** @param {CatalogueRowElection} e */
 function seatsText(e) {
   if (e.subtitle) return e.subtitle;
   if (!e.seats) return '';
@@ -134,6 +149,7 @@ function seatsText(e) {
 
 // What the description is about, in the title's own terms: "About these elections" for the
 // Republic's local elections (one title for every council), "About this referendum", and so on.
+/** @param {CatalogueRowElection} e */
 function aboutLabel(e) {
   const title = String(e.title || '');
   if (/\bplebiscite\b/i.test(title)) return 'About this plebiscite';
@@ -143,6 +159,7 @@ function aboutLabel(e) {
   return 'About this election';
 }
 
+/** @param {CatalogueNext} c @param {CatalogueRowElection} e */
 export function rowHtml(c, e) {
   const note = c.electionHits?.get(e.key);
   const stood = c.person?.contests.get(e.key);
