@@ -25,6 +25,7 @@ const REQUIRED_ENTITY_IDS = [
   'cg:office:mla'
 ];
 
+/** @type {Set<string | undefined>} asked about a statement's propertyId, which may be missing */
 const REGISTER_REFERENCE_PROPERTIES = new Set([
   'cg:property:register-record',
   'cg:property:declared-interest',
@@ -33,6 +34,33 @@ const REGISTER_REFERENCE_PROPERTIES = new Set([
   'cg:property:nil-return',
   'cg:property:source'
 ]);
+
+/**
+ * The graph as this check reads it (build-semantic-graph.mjs writes it): JSON whose fields are
+ * tested before they are trusted, so most are optional here.
+ * @typedef {{ url: string, name?: string, count?: number }} ShardRef  one shard file of a sharded list
+ * @typedef {{ type?: string, id?: string, value?: unknown }} GraphValueJson  a statement's or qualifier's value
+ * @typedef {{ propertyId?: string, value?: GraphValueJson }} QualifierJson
+ * @typedef {{ sourceId?: string }} ReferenceJson
+ * @typedef {{ id?: string, subjectId?: string, propertyId?: string, value?: GraphValueJson, qualifiers?: QualifierJson | QualifierJson[], references?: ReferenceJson | ReferenceJson[] }} StatementJson
+ * @typedef {{ id?: string, label?: string, typeIds?: string | string[], sourceUrl?: string, attributes?: { url?: string } }} EntityJson
+ * @typedef {{ slug?: string, id?: string, key?: string, title?: string, name?: string }} BrowseKeys  the fields a Browse record's graph mapping keys come from
+ * @typedef {{ slug?: string, id?: string, interests?: { sourceRefs?: unknown }[] }} DetailRow  a row of a Browse detail shard
+ * @typedef {{ label?: string, url?: string, type?: string, format?: string }} DownloadRow
+ * @typedef {{ path: string, data: unknown }} DigestEntry
+ * @typedef {{ id?: string, label?: string, valueType?: string }} RegistryEntry  an entity type or property of the registries
+ * @typedef {{ entityCount: number, statementCount: number, referenceCount: number }} GraphCounts
+ */
+
+/**
+ * @typedef {object} GraphManifest  data/graph/manifest.json
+ * @property {Record<string, string>} [inputs]  each Browse index the graph was built from -> its generatedAt then
+ * @property {{ entityTypes?: string, properties?: string }} [registries]
+ * @property {{ total?: number, shards?: ShardRef[] }} [entities]
+ * @property {{ total?: number, shards?: ShardRef[] }} [statements]
+ * @property {{ lookup?: string, browseRecordToEntity?: string, statementsBySubjectMap?: string }} [indexes]
+ * @property {{ manifest?: string, jsonld?: string, rdfNdjson?: string, provenance?: string }} [exports]
+ */
 
 async function main() {
   const runDeterminism = process.argv.includes('--determinism');
@@ -81,11 +109,15 @@ async function main() {
 
   const entityTypesPayload = await readJson(siteUrlToPath(manifest.registries?.entityTypes));
   const propertiesPayload = await readJson(siteUrlToPath(manifest.registries?.properties));
+  /** @type {RegistryEntry[]} */
   const entityTypes = requireArray(entityTypesPayload.types, 'entity type registry');
+  /** @type {RegistryEntry[]} */
   const properties = requireArray(propertiesPayload.properties, 'property registry');
   const propertyIds = new Set(properties.map((property) => property.id));
 
+  /** @type {EntityJson[]} */
   const entities = await loadShardedItems(manifest.entities?.shards, 'entities');
+  /** @type {StatementJson[]} */
   const statements = await loadShardedItems(manifest.statements?.shards, 'statements');
   const entityIds = new Set();
   const entityById = new Map();
@@ -223,7 +255,8 @@ async function main() {
     referenceCount: statementReferenceCount
   }, errors);
 
-  const carlaStatements = carla ? await loadStatementsForSubject(manifest, carla.id) : [];
+  // The id as the JSON has it: an entity without one was reported above, and finds no statements.
+  const carlaStatements = carla ? await loadStatementsForSubject(manifest, /** @type {string} */ (carla.id)) : [];
   if (carla && !carlaStatements.some((statement) => statement.propertyId === 'cg:property:register-record')) {
     errors.push('Carla Lockhart entity exists but has no graph-backed register-record statement.');
   }
@@ -260,6 +293,14 @@ async function main() {
   console.log(`Civgraph semantic graph validation passed: ${entities.length.toLocaleString('en-GB')} entities, ${statements.length.toLocaleString('en-GB')} statements, ${registerRecordCount.toLocaleString('en-GB')} register records, ${declaredInterestCount.toLocaleString('en-GB')} declared-interest statements${runDeterminism ? ', deterministic rebuild verified' : ''}.`);
 }
 
+/**
+ * @param {StatementJson} statement
+ * @param {GraphValueJson | undefined} value
+ * @param {Set<unknown>} entityIds
+ * @param {Set<unknown>} propertyIds
+ * @param {string[]} errors
+ * @param {string} label
+ */
 function validateValue(statement, value, entityIds, propertyIds, errors, label) {
   if (!value?.type) {
     errors.push(`Statement ${statement.id} has missing ${label} type`);
@@ -269,6 +310,10 @@ function validateValue(statement, value, entityIds, propertyIds, errors, label) 
   if (value.type !== 'entity' && (value.value === undefined || value.value === null)) errors.push(`Statement ${statement.id} has empty ${label}`);
 }
 
+/**
+ * @param {ShardRef[] | undefined} shards
+ * @param {string} label
+ */
 async function loadShardedItems(shards, label) {
   const items = [];
   for (const shard of requireArray(shards, `${label} shards`)) {
@@ -298,6 +343,9 @@ async function loadRegisterInterestIndexItems() {
  * page reads, so they must say exactly what the whole maps say: every Browse key to the same
  * entity, and every subject's statements in the shard its entity entry names. A bucket count or
  * hash that drifted between the build and browse.js would show here as keys not found.
+ * @param {GraphManifest} manifest
+ * @param {Record<string, unknown>} mappingItems  Browse key -> entity id
+ * @param {string[]} errors
  */
 async function validateLookupIndex(manifest, mappingItems, errors) {
   if (!manifest.indexes?.lookup) {
@@ -305,6 +353,7 @@ async function validateLookupIndex(manifest, mappingItems, errors) {
     return;
   }
   const head = await readJson(siteUrlToPath(manifest.indexes.lookup));
+  /** @param {string} key @param {number} count */
   const bucketOf = (key, count) => {
     let hash = 0x811c9dc5;
     for (let i = 0; i < key.length; i += 1) {
@@ -314,6 +363,7 @@ async function validateLookupIndex(manifest, mappingItems, errors) {
     return (hash >>> 0) % count;
   };
   const cache = new Map();
+  /** @param {'browse' | 'entity'} kind @param {string} key */
   const bucketItems = async (kind, key) => {
     const name = String(bucketOf(key, head.buckets[kind])).padStart(head.bucketPad || 4, '0');
     const url = head.urls[kind].replace('{bucket}', name);
@@ -345,6 +395,10 @@ async function validateLookupIndex(manifest, mappingItems, errors) {
   if (wrongShard > 5) errors.push(`Lookup: ${wrongShard} subjects in all point at the wrong statement shard.`);
 }
 
+/**
+ * @param {Record<string, unknown>} mappingItems  Browse key -> entity id
+ * @param {string[]} errors
+ */
 async function validateBrowseMappings(mappingItems, errors) {
   const checks = [
     ['maps', await loadBrowseItems('maps.json')],
@@ -369,6 +423,7 @@ async function validateBrowseMappings(mappingItems, errors) {
   }
 }
 
+/** @param {string} fileName */
 async function loadBrowseItems(fileName) {
   const payload = await readJson(path.join(BROWSE_DIR, fileName));
   if (payload.indexLayout === 'sharded' && Array.isArray(payload.shards)) {
@@ -385,6 +440,10 @@ async function loadSourceIndexItems() {
   return requireArray(index.items || [], 'sources index items');
 }
 
+/**
+ * @param {string} type
+ * @param {BrowseKeys} item
+ */
 function browseMappingKeys(type, item) {
   const values = [item.slug, item.id, item.key, item.title, item.name].filter(Boolean);
   return [...new Set(values.flatMap((value) => [`${type}:${value}`, `${type}:${slugify(value)}`]))];
@@ -403,6 +462,7 @@ async function loadRegisterInterestDetailCoverage() {
       shard = await readJson(siteUrlToPath(item.detailUrl));
       detailCache.set(item.detailUrl, shard);
     }
+    /** @type {DetailRow[]} */
     const detailItems = Array.isArray(shard.items)
       ? shard.items
       : Array.isArray(shard.interests)
@@ -441,6 +501,13 @@ async function countPersonElectionAppearances() {
   return { total, uniqueAppearances: unique.size };
 }
 
+/**
+ * @param {Map<string, number>} entityTypeCounts
+ * @param {Map<string, EntityJson>} entityById
+ * @param {Map<string, number>} statementPropertyCounts
+ * @param {Record<string, unknown>} mappingItems
+ * @param {string[]} errors
+ */
 async function validateMapAndSourceFileCoverage(entityTypeCounts, entityById, statementPropertyCounts, mappingItems, errors) {
   const maps = await loadBrowseItems('maps.json');
   const sources = await loadSourceRecordsWithDetails();
@@ -499,7 +566,13 @@ async function validateMapAndSourceFileCoverage(entityTypeCounts, entityById, st
   await validateFeatureCoverage(entityTypeCounts, statementPropertyCounts, errors);
 }
 
+/**
+ * @param {Map<string, number>} entityTypeCounts
+ * @param {Map<string, number>} statementPropertyCounts
+ * @param {string[]} errors
+ */
 async function validateFeatureCoverage(entityTypeCounts, statementPropertyCounts, errors) {
+  /** @type {{ sampleFeatures?: unknown }[]} */
   const features = await loadBrowseItems('features.json');
   const featureGroupCount = entityTypeCounts.get('cg:entity-type:feature-group') || 0;
   const geographicFeatureCount = entityTypeCounts.get('cg:entity-type:geographic-feature') || 0;
@@ -530,6 +603,7 @@ async function loadSourceRecordsWithDetails() {
       shard = await readJson(siteUrlToPath(item.detailUrl));
       detailCache.set(item.detailUrl, shard);
     }
+    /** @type {DetailRow[]} */
     const detailItems = Array.isArray(shard.items) ? shard.items : [];
     const match = detailItems.find((candidate) => (
       normalizeKey(candidate.slug) === normalizeKey(item.slug) ||
@@ -540,6 +614,7 @@ async function loadSourceRecordsWithDetails() {
   return enriched;
 }
 
+/** @param {DownloadRow | DownloadRow[] | null | undefined} downloads */
 function normalizeDownloadLinks(downloads) {
   const rows = normalizeArray(downloads);
   const links = [];
@@ -561,10 +636,12 @@ function normalizeDownloadLinks(downloads) {
   return [...byUrl.values()];
 }
 
+/** @param {unknown} value */
 function isLikelyUrl(value) {
   return /^https?:\/\//i.test(String(value || '').trim()) || /^\//.test(String(value || '').trim());
 }
 
+/** @param {unknown} value */
 function normalizeUrl(value) {
   return String(value || '').trim();
 }
@@ -590,6 +667,7 @@ async function validateDeterministicBuild() {
 }
 
 async function normalizedGraphDigest() {
+  /** @type {DigestEntry[]} */
   const entries = [];
   await collectNormalizedJsonEntries(GRAPH_DIR, GRAPH_DIR, entries);
   entries.sort((a, b) => a.path.localeCompare(b.path));
@@ -603,6 +681,11 @@ async function normalizedGraphDigest() {
   return hash.digest('hex');
 }
 
+/**
+ * @param {string} rootDir
+ * @param {string} currentDir
+ * @param {DigestEntry[]} entries
+ */
 async function collectNormalizedJsonEntries(rootDir, currentDir, entries) {
   const dirEntries = await fs.readdir(currentDir, { withFileTypes: true });
   dirEntries.sort((a, b) => a.name.localeCompare(b.name));
@@ -621,9 +704,14 @@ async function collectNormalizedJsonEntries(rootDir, currentDir, entries) {
   }
 }
 
+/**
+ * @param {unknown} value
+ * @returns {unknown} the value without its generatedAt fields, at any depth
+ */
 function stripVolatileFields(value) {
   if (Array.isArray(value)) return value.map(stripVolatileFields);
   if (value && typeof value === 'object') {
+    /** @type {Record<string, unknown>} */
     const output = {};
     for (const [key, child] of Object.entries(value)) {
       if (key === 'generatedAt') continue;
@@ -634,6 +722,10 @@ function stripVolatileFields(value) {
   return value;
 }
 
+/**
+ * @param {GraphManifest} manifest
+ * @param {string} subjectId
+ */
 async function loadStatementsForSubject(manifest, subjectId) {
   const subjectMapPayload = await readJson(siteUrlToPath(manifest.indexes?.statementsBySubjectMap));
   const shardUrl = subjectMapPayload.items?.[subjectId];
@@ -642,6 +734,11 @@ async function loadStatementsForSubject(manifest, subjectId) {
   return normalizeArray(shard.items?.[subjectId]);
 }
 
+/**
+ * @param {GraphManifest} manifest
+ * @param {GraphCounts} counts
+ * @param {string[]} errors
+ */
 async function validateGraphExports(manifest, counts, errors) {
   if (!manifest.exports?.manifest || !manifest.exports?.jsonld || !manifest.exports?.rdfNdjson || !manifest.exports?.provenance) {
     errors.push('Graph manifest is missing JSON-LD, RDF NDJSON, or provenance export links.');
@@ -699,6 +796,12 @@ async function validateGraphExports(manifest, counts, errors) {
   await validateCompressedJsonSample(provenance.shards, 'items', errors, 'provenance export');
 }
 
+/**
+ * @param {ShardRef[] | undefined} shards
+ * @param {string} arrayKey
+ * @param {string[]} errors
+ * @param {string} label
+ */
 async function validateCompressedJsonSample(shards, arrayKey, errors, label) {
   const samples = sampleShards(shards);
   for (const shard of samples) {
@@ -714,6 +817,11 @@ async function validateCompressedJsonSample(shards, arrayKey, errors, label) {
   }
 }
 
+/**
+ * @param {ShardRef[] | undefined} shards
+ * @param {string[]} errors
+ * @param {string} label
+ */
 async function validateCompressedNdjsonSample(shards, errors, label) {
   const samples = sampleShards(shards);
   for (const shard of samples) {
@@ -729,29 +837,38 @@ async function validateCompressedNdjsonSample(shards, errors, label) {
   }
 }
 
+/** @param {ShardRef[] | undefined} shards */
 function sampleShards(shards) {
   const items = requireArray(shards || [], 'export shards');
   if (items.length <= 2) return items;
   return [items[0], items[items.length - 1]];
 }
 
+/** @param {ShardRef[] | undefined} shards */
 function sumShardCounts(shards) {
   return normalizeArray(shards).reduce((total, shard) => total + Number(shard.count || 0), 0);
 }
 
+/** @param {string} filePath */
 async function readGzipJson(filePath) {
   return JSON.parse(await readGzipText(filePath));
 }
 
+/** @param {string} filePath */
 async function readGzipText(filePath) {
   return String(await gunzipAsync(await fs.readFile(filePath)));
 }
 
+/** @param {string} filePath */
 async function readNdjson(filePath) {
   const text = await fs.readFile(filePath, 'utf8');
   return text.trim().split(/\r?\n/).filter(Boolean).map((line) => JSON.parse(line));
 }
 
+/**
+ * @param {string} dir
+ * @returns {Promise<{ path: string, bytes: number }[]>}
+ */
 async function findOversizedGraphFiles(dir) {
   const oversized = [];
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -768,10 +885,12 @@ async function findOversizedGraphFiles(dir) {
   return oversized;
 }
 
+/** @param {string} filePath */
 async function readJson(filePath) {
   return JSON.parse(await fs.readFile(filePath, 'utf8'));
 }
 
+/** @param {string} filePath */
 async function exists(filePath) {
   try {
     await fs.access(filePath);
@@ -781,26 +900,40 @@ async function exists(filePath) {
   }
 }
 
+/** @param {unknown} url  a site path (/data/graph/..., /data/browse/...) */
 function siteUrlToPath(url) {
   if (!url) throw new Error('Missing graph URL in manifest.');
   const clean = decodeURIComponent(String(url).split('?')[0].replace(/^\/+/, ''));
   return path.join(ROOT_DIR, ...clean.split('/'));
 }
 
+/**
+ * @template T
+ * @param {T | T[] | null | undefined} value
+ * @returns {T[]}
+ */
 function normalizeArray(value) {
   if (value === null || value === undefined) return [];
   return Array.isArray(value) ? value : [value];
 }
 
+/**
+ * @template T
+ * @param {T} value
+ * @param {string} label
+ * @returns {T & unknown[]} the value itself, which is an array (or this throws)
+ */
 function requireArray(value, label) {
   if (!Array.isArray(value)) throw new Error(`${label} must be an array.`);
   return value;
 }
 
+/** @param {unknown} value */
 function normalizeKey(value) {
   return String(value ?? '').replace(/\s+/g, ' ').trim().toLowerCase();
 }
 
+/** @param {unknown} value */
 function slugify(value) {
   return String(value ?? '')
     .normalize('NFKD')
