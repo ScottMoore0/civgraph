@@ -18,6 +18,8 @@ const TYPED = [
   '../ingest/census/build-cso-failed-link-report.mjs',
   '../ingest/census/build-cso-historical-reports-ia-manifest.mjs',
   '../ingest/census/census-emit-cso-carveout-records.mjs',
+  '../ingest/census/harvest-opendatani-catalogue.mjs',
+  '../ingest/datagovie/harvest-datagovie-catalogue.mjs',
   '../ingest/census/census-emit-gate-records.mjs',
   '../ingest/census/crawl-nisra-publication-files.mjs',
   '../ingest/census/crawl-nisra-publications.mjs',

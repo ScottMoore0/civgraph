@@ -19,6 +19,11 @@ export default definePlugin({
       argv: ['node', 'scripts/ingest/datagovie/harvest-datagovie-licences.mjs'],
       network: true,
     },
+    harvest: {
+      title: 'Harvest the data.gov.ie catalogue (CKAN package_search) into the harvest JSON catalogue-records reads',
+      argv: ['node', 'scripts/ingest/datagovie/harvest-datagovie-catalogue.mjs'],
+      network: true,
+    },
     'catalogue-records': {
       title: 'Emit the approved catalogue records for data.gov.ie datasets not yet on Civgraph',
       argv: ['node', 'scripts/ingest/datagovie/emit-datagovie-catalogue-records.mjs', '{input:harvest}'],

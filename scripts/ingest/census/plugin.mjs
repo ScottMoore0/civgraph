@@ -53,6 +53,7 @@ export default definePlugin({
     'nisra-publications': { title: 'Enumerate the NISRA publications catalogue', argv: ['node', 'scripts/ingest/census/crawl-nisra-publications.mjs'], network: true },
     'nisra-publication-files': { title: 'Find each NISRA publication\'s data-file URLs', argv: ['node', 'scripts/ingest/census/crawl-nisra-publication-files.mjs'], network: true },
     'nisra-ia-mirror': { title: 'Mirror NISRA data files to the Internet Archive (uploads)', argv: ['node', 'scripts/ingest/census/mirror-nisra-files-to-ia.mjs'], network: true },
+    'opendatani-harvest': { title: 'Harvest the Open Data NI catalogue (CKAN package_search) into the harvest JSON opendatani-records reads', argv: ['node', 'scripts/ingest/census/harvest-opendatani-catalogue.mjs'], network: true },
     'opendatani-ia-mirror': { title: 'Mirror Open Data NI files to the Internet Archive (uploads)', argv: ['node', 'scripts/ingest/census/mirror-opendatani-to-ia.mjs'], network: true },
     'wayback-nisra': { title: 'Recover lost NISRA files from the Wayback Machine', argv: ['node', 'scripts/ingest/census/wayback-nisra-recover.mjs'], network: true },
   },
