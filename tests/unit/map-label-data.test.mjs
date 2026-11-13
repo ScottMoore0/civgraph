@@ -6,7 +6,8 @@
 //   and NFC repairs land, and nothing else in the file moves;
 // - data/database/label-text-repairs.json is well formed and repairs only damaged text;
 // - only the accepted readings apply (12 Nov 2026, stream w8-small: the owner accepted the
-//   high-confidence Irish names; medium and open readings are held back);
+//   high-confidence Irish names; on 13 Nov 2026, IN1 and IN2, eight more places; the two open
+//   readings are held back);
 // - scripts/check/rules/map-label-data.mjs passes on the committed data.
 //
 //   node --test tests/unit/map-label-data.test.mjs
@@ -182,13 +183,15 @@ test('label-text-repairs.json: every repair turns damaged text into clean text',
     }
   }
   assert.ok(count > 500);
-  // The owner accepted the high-confidence readings (12 Nov 2026); the rest wait for the owner.
+  // The owner accepted the high-confidence readings (12 Nov 2026) and eight more places (13 Nov 2026,
+  // IN1 and IN2); the two open places (four records) wait for Logainm (IN3, IN4).
   assert.deepEqual(repairs.apply.confidence, ['high']);
   const all = Object.values(repairs.keyed).flatMap((spec) => spec.records);
-  assert.equal(all.filter((r) => repairApplies(r, repairs.apply.confidence)).length, 477);
+  assert.equal(all.filter((r) => repairApplies(r, repairs.apply.confidence)).length, 493);
   assert.deepEqual([...new Set(all.filter((r) => !repairApplies(r, repairs.apply.confidence)).map((r) => r.english))].sort(), [
-    'Carrigcleamore', 'Doonlea', 'Illaunguane', 'Illaunmore', 'Illaunnameanla', 'Illaunroemore', 'Low Island', 'Skeam East', 'Skeam West', 'The Cow',
+    'Illaunguane', 'Illaunnameanla',
   ]);
+  assert.equal(all.filter((r) => !repairApplies(r, repairs.apply.confidence)).length, 4);
   // Every damaged source value is repaired or listed for review.
   assert.ok(Array.isArray(repairs.review));
 });
