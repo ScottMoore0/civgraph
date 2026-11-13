@@ -12,7 +12,7 @@ export default definePlugin({
     { id: 'irelandelection', title: 'IrelandElection.com Seanad election results', publisher: 'IrelandElection.com', url: 'https://irelandelection.com/', rights: 'facts-with-citation', note: 'Read from the parsed copy of an earlier crawl, kept outside the repository (input ieDir).' },
     { id: 'wikipedia', title: 'Wikipedia articles on each Seanad and its election', publisher: 'Wikimedia Foundation', url: 'https://en.wikipedia.org/', rights: 'CC-BY-SA', licence: 'CC BY-SA 4.0' },
   ],
-  inputs: { ieDir: { description: "IrelandElection.com's parsed contests (the folder holding index.jsonl and contests/)", default: 'D:/civgraph-intake/irelandelection/structured' } },
+  inputs: { ieDir: { env: 'CIVGRAPH_IRELANDELECTION_DIR', description: "IrelandElection.com's parsed contests (the folder holding index.jsonl and contests/), kept outside the repository" } },
   steps: {
     harvest: {
       title: 'Fetch the Seanad terms and members (Oireachtas API) and the Seanad articles (Wikipedia) into .cache/seanad/',
