@@ -1,7 +1,8 @@
 // The blob store (packages/storage/src/blob.js, blob-bindings.js, blob-fs.mjs; storage slice ST-2).
 //
-//   1. one conformance suite over every BlobStore: memory, a folder on disk, and the R2 and KV
-//      adapters over stand-ins that answer as the Cloudflare bindings do;
+//   1. one conformance suite over every BlobStore: memory, a folder on disk, the R2 and KV
+//      adapters over stand-ins that answer as the Cloudflare bindings do, and the S3 store
+//      (s3.mjs) over the recording SDK stand-in (tests/fixtures/s3-fake/client-s3.mjs);
 //   2. the adapters call their binding exactly as the handlers called it before they moved
 //      (the same method, arguments and option objects), so the answers are unchanged;
 //   3. the boundary: no Function file outside packages/storage/ reads an R2 or KV binding itself
@@ -16,6 +17,8 @@ import path from 'node:path';
 import { assertBlobStore, listPage, memoryBlobStore } from '../../packages/storage/src/blob.js';
 import { blobStore, fromKV, fromR2 } from '../../packages/storage/src/blob-bindings.js';
 import { fsBlobStore } from '../../packages/storage/src/blob-fs.mjs';
+import { s3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { createFakeS3 } from '../fixtures/s3-fake/client-s3.mjs';
 import { fakeKV, fakeR2 } from './blob-fakes.mjs';
 import * as storage from '../../packages/storage/src/index.js';
 import { BINDINGS } from '../../packages/config/src/config.js';
@@ -31,6 +34,7 @@ const STORES = {
   fs: () => fsBlobStore(mkdtempSync(path.join(tmp, 'fs-'))),
   r2: () => fromR2(/** @type {any} */ (fakeR2())),
   kv: () => fromKV(/** @type {any} */ (fakeKV())),
+  s3: () => { const sdk = createFakeS3(); return s3BlobStore({ bucket: 'b', client: /** @type {any} */ (new sdk.S3Client({})), commands: /** @type {any} */ (sdk) }); },
 };
 
 for (const [name, make] of Object.entries(STORES)) {
