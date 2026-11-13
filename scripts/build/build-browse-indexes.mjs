@@ -6,20 +6,20 @@ import { fileLabel, normalizeFiles, normalizeLinks } from '../lib/browse-links.m
 import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '../../packages/core/src/election-domain.mjs';
 // A person's slug ("naomi-long-51102"): the one rule the pages' person links use too.
 import { personSlug } from '../../packages/core/src/format.js';
-import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../src/public-map.mjs';
+import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../packages/map/src/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from '../lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from '../lib/person-name-artefacts.mjs';
 import { referenceOffices, referenceRelatives } from '../lib/reference-person-facts.mjs';
 import { loadWikidataPersons, personWikidata } from '../lib/wikidata-persons.mjs';
 import { applyLedger, personKeepOf, readLedger } from '../lib/person-address-ledger.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
-import { CDN_BASE } from '../../src/cdn-url.js';
+import { CDN_BASE } from '../../packages/map/src/cdn-url.js';
 import { RENAMED_ELECTION_DATES } from '../../packages/map/src/app/url-compat.mjs';
 import { BROWSE_DIR, ELECTION_MANIFEST, localPathForUrl } from '../../packages/loader/src/paths.mjs';
 import { readProvenance } from '../../packages/loader/src/election-provenance.mjs';
 import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import { electionBody, fillYear } from '../../packages/registries/src/election-bodies.mjs';
-import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../src/ni-local-groups.mjs';
+import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../packages/map/src/ni-local-groups.mjs';
 
 const ROOT = process.cwd();
 

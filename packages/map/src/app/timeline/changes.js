@@ -6,9 +6,9 @@
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import dataService from '../../../../../src/data-service.js';
-import { escapeHtml } from '../helpers.mjs';
+import dataService from '../../data-service.js';
 import { formatHectares, timelineChangeName } from './dates.mjs';
+import { timelineChangesPanelHtml } from './timeline-view.mjs';
 import { setHidden } from '../../state-helpers.mjs';
 import { siteNumber } from '../../../../core/src/format.js';
 
@@ -156,6 +156,7 @@ export class TimelineChangeMethods {
     });
     const count = parts.reduce((sum, part) => sum + part.count, 0);
     const kinds = new Set(parts.map((part) => part.kind));
+    /** @type {'changes' | 'none' | 'redrawn' | 'unknown'} what the pair's change files say, all parts together (derived, not state) */
     const kind = kinds.has('changes') ? 'changes'
       : kinds.size === 1 && kinds.has('none') ? 'none'
         : kinds.has('redrawn') ? 'redrawn'
@@ -337,33 +338,7 @@ export class TimelineChangeMethods {
     const panel = this.ensureTimelineChangesPanel();
     const view = this.timelineChangeView;
     if (!panel || !view) return;
-    const esc = (value) => escapeHtml(String(value ?? ''));
-    const typeLabel = { created: 'New', abolished: 'Abolished', renamed: 'Renamed', transfer: 'Transfer', reorganised: 'Transfer', appeared: 'Added', disappeared: 'Gone' };
-    const reversedType = { created: 'abolished', abolished: 'created', appeared: 'disappeared', disappeared: 'appeared' };
-    const summaries = view.parts.map((part) => `<p class="timeline-changes-panel__summary">${view.parts.length > 1 ? `<strong>${esc(part.label)}:</strong> ` : ''}${esc(part.text)}</p>`).join('');
-    const list = view.changes.length
-      ? `<ol class="timeline-changes-panel__list">${view.changes.map((change) => {
-        const type = view.reversed ? (reversedType[change.type] || change.type) : change.type;
-        return `<li class="timeline-changes-panel__item">
-          <span class="timeline-changes-panel__type timeline-changes-panel__type--${esc(type)}">${esc(typeLabel[type] || 'Change')}</span>
-          <span class="timeline-changes-panel__text">${esc(change.text)}${change.step ? ` <span class="timeline-changes-panel__step">(${esc(change.step)})</span>` : ''}</span>
-          <button type="button" class="timeline-changes-panel__zoom" data-change-key="${esc(change.key)}" aria-label="Zoom to: ${esc(change.text)}" title="Zoom to this change">
-            <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 15l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </button>
-        </li>`;
-      }).join('')}</ol>`
-      : '';
-    const more = view.skipped > 0 ? `<p class="timeline-changes-panel__summary">and ${view.skipped} more step${view.skipped === 1 ? '' : 's'}: step one edition at a time to see them.</p>` : '';
-    const key = view.changes.length
-      ? `<p class="timeline-changes-panel__key" aria-hidden="true"><span class="timeline-changes-panel__swatch timeline-changes-panel__swatch--area"></span>changed area <span class="timeline-changes-panel__swatch timeline-changes-panel__swatch--new"></span>new line <span class="timeline-changes-panel__swatch timeline-changes-panel__swatch--gone"></span>line gone</p>`
-      : '';
-    const note = view.note ? `<p class="timeline-changes-panel__note"><strong>Catalogue note:</strong> ${esc(view.note)}</p>` : '';
-    panel.innerHTML = `
-      <header class="timeline-changes-panel__header">
-        <h2 class="timeline-changes-panel__title">Changes, ${esc(view.fromLabel)} to ${esc(view.toLabel)}</h2>
-        <button type="button" class="timeline-changes-panel__close" aria-label="Close the list of changes">&times;</button>
-      </header>
-      ${summaries}${more}${key}${list}${note}`;
+    panel.innerHTML = timelineChangesPanelHtml(view);
   }
 
   zoomToTimelineChange(changeKey) {

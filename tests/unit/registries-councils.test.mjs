@@ -17,8 +17,8 @@ import {
   catalogueBodyAliases, catalogueCouncilNames, councilNameOn, councilsById, manifestCouncilSets,
   niCouncils1923to67BodySlugs, niLocalGroupSlugs, normalizeCouncilName
 } from '../../packages/registries/src/councils.mjs';
-import { NI_COUNCIL_SLUGS, NI_LOCAL_TIERS, councilTier } from '../../src/ni-local-groups.mjs';
-import { electionAliases } from '../../src/catalogue/search.js';
+import { NI_COUNCIL_SLUGS, NI_LOCAL_TIERS, councilTier } from '../../packages/map/src/ni-local-groups.mjs';
+import { electionAliases } from '../../packages/map/src/catalogue/search.js';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
 import { authorityStems, councilTypeOf } from '../../scripts/build/build-ni-local-grouped.mjs';
 

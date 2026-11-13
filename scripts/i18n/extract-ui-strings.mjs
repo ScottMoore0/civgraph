@@ -5,7 +5,7 @@
  * WHY
  *
  * The interface strings are written inline across ~40,000 lines of hand-written JavaScript and
- * HTML (src/ui-controller.js alone is 12,000 lines). Rewriting every call site to t('key') would
+ * HTML (packages/map/src/ui-controller.js alone is 12,000 lines). Rewriting every call site to t('key') would
  * touch code other agents are editing on main and is the riskiest possible way to add a
  * language. Instead the runtime (assets/i18n/i18n.js) translates the rendered page: it looks each
  * piece of visible text up by its English wording, through the keys in assets/i18n/en.json. This
@@ -29,8 +29,8 @@ import { electionManagerSourceFiles, mapAppSourceFiles } from '../lib/map-app-so
 export const SURFACES = {
   chrome: ['packages/ui/src/templates/shell.js', 'site/partials/browse-shell.html', 'site/assets/site/site-chrome.js'],
   pages: ['site/index.html', 'site/pages/about.html', 'site/pages/census-explorer.html', 'site/pages/status.html', 'site/apps/index.html', 'site/maps/index.html', 'site/404.html', 'site/offline.html', 'site/assets/pages/js/06-fallback-shell.js', 'site/assets/pages/js/07-fallback-stats.js'],
-  catalogue: ['src/catalogue/index.js', 'src/catalogue/view-maps.js', 'src/catalogue/view-elections.js', 'src/catalogue/view-books.js', 'src/catalogue/search.js', 'src/catalogue/menu.js', 'src/catalogue/split.js', 'src/catalogue/slider.js', 'src/catalogue/edit.js', 'src/catalogue/geocoder.js', 'src/catalogue/util.js'],
-  app: [...mapAppSourceFiles(), 'packages/map/app/boot.js', ...electionManagerSourceFiles(), 'packages/map/app/maplibre-main-adapter.js', 'src/ui-controller.js', 'src/entity-detail-data.mjs', 'src/election-renderer.mjs', 'packages/core/src/election-view-model.mjs', 'src/election-trend-chart.mjs', 'src/feature-loader.js'],
+  catalogue: ['packages/map/src/catalogue/index.js', 'packages/map/src/catalogue/view-maps.js', 'packages/map/src/catalogue/view-elections.js', 'packages/map/src/catalogue/view-books.js', 'packages/map/src/catalogue/search.js', 'packages/map/src/catalogue/menu.js', 'packages/map/src/catalogue/split.js', 'packages/map/src/catalogue/slider.js', 'packages/map/src/catalogue/edit.js', 'packages/map/src/catalogue/geocoder.js', 'packages/map/src/catalogue/util.js'],
+  app: [...mapAppSourceFiles(), 'packages/map/app/boot.js', ...electionManagerSourceFiles(), 'packages/map/app/maplibre-main-adapter.js', 'packages/map/src/ui-controller.js', 'packages/map/src/entity-detail-data.mjs', 'packages/map/src/election-renderer.mjs', 'packages/core/src/election-view-model.mjs', 'packages/map/src/election-trend-chart.mjs', 'packages/map/src/feature-loader.js'],
   browse: ['site/browse/browse.js']
 };
 

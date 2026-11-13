@@ -1,18 +1,18 @@
 // The modules app.js imported before the split into packages/map/src/app/, in the same order, so they are
 // evaluated in the same order as before; those whose names moved to the method modules are
 // imported for that order alone.
-import dataService from '../../../src/data-service.js';
-import { prefetchCatalogueData } from '../../../src/catalogue/flag.js';
+import dataService from '../src/data-service.js';
+import { prefetchCatalogueData } from '../src/catalogue/flag.js';
 import '../../core/src/date-format.mjs';
-import '../../../src/feature-loader.js';
-import uiController from '../../../src/ui-controller.js';
-import '../../../src/public-map.mjs';
-import '../../../src/map-relations.mjs';
-import '../../../src/storage-keys.mjs';
+import '../src/feature-loader.js';
+import uiController from '../src/ui-controller.js';
+import '../src/public-map.mjs';
+import '../src/map-relations.mjs';
+import '../src/storage-keys.mjs';
 import { TestMetadataService } from '../src/renderer/metadata-service.js';
 import CLIENT_PORT_PLAN from '../src/renderer/port-plan-client.generated.json' with { type: 'json' };
 import '../../core/src/party-names.mjs';
-import '../../../src/entity-detail-data.mjs';
+import '../src/entity-detail-data.mjs';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 import '../src/app/layer-order.mjs';
 import '../src/app/url-compat.mjs';
@@ -132,8 +132,8 @@ class Test2App {
     this.installRouteGuard();
     this.registerServiceWorker();
     // The catalogue pane's data and code, started now so they arrive alongside the map index
-    // rather than after it (src/catalogue/flag.js).
-    if (prefetchCatalogueData()) import('../../../src/catalogue/index.js').catch(() => {});
+    // rather than after it (packages/map/src/catalogue/flag.js).
+    if (prefetchCatalogueData()) import('../src/catalogue/index.js').catch(() => {});
 
     // The startup index from D1 (data design phase 3; it was the static
     // render/metadata/maps-test-index.json, which now answers 301 here). The answer

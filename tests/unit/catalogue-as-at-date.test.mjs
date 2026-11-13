@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { mapDate } from '../../src/catalogue/util.js';
+import { mapDate } from '../../packages/map/src/catalogue/util.js';
 
 // Live planning layers are dated by the snapshot Civgraph holds, shown "as at <date>" (owner, 11 Nov 2026).
 

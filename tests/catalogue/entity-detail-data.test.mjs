@@ -13,7 +13,7 @@ import {
   normaliseStatus,
   partyHeadlineCards,
   yearRange
-} from '../../src/entity-detail-data.mjs';
+} from '../../packages/map/src/entity-detail-data.mjs';
 
 test('a missing figure stays missing, and a 0 beside seats is unknown', () => {
   assert.equal(knownCount(null), null);

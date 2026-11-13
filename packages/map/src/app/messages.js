@@ -5,8 +5,8 @@
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
-import uiController from '../../../../src/ui-controller.js';
-import dataService from '../../../../src/data-service.js';
+import uiController from '../ui-controller.js';
+import dataService from '../data-service.js';
 import { setHidden } from '../state-helpers.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 

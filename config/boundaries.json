@@ -1,5 +1,5 @@
 {
-  "//": "The import rules between the parts of the repository (REFACTOR-PLAN.md section 2.2, PKG-0). scripts/check/boundaries.mjs (npm run check:boundaries) reads every static import, re-export and literal dynamic import() in the tracked .js/.mjs/.cjs files and fails on an edge the importing unit does not allow. A file belongs to the first unit whose paths hold it, so the narrower units come first. `allow` lists the units a unit may import (itself always; '*' any, '!name' not that one); `node` says whether node:* built-ins are allowed; npm packages (bare names) and imports of files no unit holds (data, root files) are not checked. Departures from the plan's table, by decision: core and api may import the generated registry slices (registries-browser, pure data; api for the contribution machine decide.js reads); map may import frontend (src/) until F2/F4 move the rest of the map app out of src/. The served pages (site/, site/apps/ as its own unit, and the retired apps' kill-switch worker render/sw.js) are not bundled, so a relative import of packages/ would 404: they import only site/ files, and package code reaches them through the served shims (site-served: site/assets/ui/, re-exports of what packages/served.json serves there); site/ may not import an app under site/apps/ (added 11 Nov 2026, architecture rule R1, after the site move had left site/ in no unit). `baseline` lists known violating edges ('from -> to' file paths); it may only shrink. Its one entry is the PRONI record page's server render, which imports the PRONI app's renderer (found when site/ joined the rules; the renderer belongs in packages/ui). `unowned` lists the scripts deliberately in no unit, with reasons.",
+  "//": "The import rules between the parts of the repository (REFACTOR-PLAN.md section 2.2, PKG-0). scripts/check/boundaries.mjs (npm run check:boundaries) reads every static import, re-export and literal dynamic import() in the tracked .js/.mjs/.cjs files and fails on an edge the importing unit does not allow. A file belongs to the first unit whose paths hold it, so the narrower units come first. `allow` lists the units a unit may import (itself always; '*' any, '!name' not that one); `node` says whether node:* built-ins are allowed; npm packages (bare names) and imports of files no unit holds (data, root files) are not checked. Departures from the plan's table, by decision: core and api may import the generated registry slices (registries-browser, pure data; api for the contribution machine decide.js reads); the exception that let map import frontend (src/) ended when rf9-mapapp (F2/F4, 12 Nov 2026) moved the rest of the map app into packages/map/src/. The served pages (site/, site/apps/ as its own unit, and the retired apps' kill-switch worker render/sw.js) are not bundled, so a relative import of packages/ would 404: they import only site/ files, and package code reaches them through the served shims (site-served: site/assets/ui/, re-exports of what packages/served.json serves there); site/ may not import an app under site/apps/ (added 11 Nov 2026, architecture rule R1, after the site move had left site/ in no unit). `baseline` lists known violating edges ('from -> to' file paths); it may only shrink. Its one entry is the PRONI record page's server render, which imports the PRONI app's renderer (found when site/ joined the rules; the renderer belongs in packages/ui). `unowned` lists the scripts deliberately in no unit, with reasons.",
   "units": {
     "storage-node": {
       "paths": [
@@ -114,8 +114,7 @@
         "core",
         "ui",
         "config",
-        "registries-browser",
-        "frontend"
+        "registries-browser"
       ],
       "node": false
     },
@@ -257,15 +256,11 @@
       "node": false
     },
     "frontend": {
+      "//": "src/ holds only vendored third-party browser files since rf9-mapapp (12 Nov 2026) moved the map app's modules into packages/map/src/ (still served at their /src/ paths, packages/served.json): src/libs/ (the Elections app's self-hosted libraries, scripts/build/elections-app/vendor.mjs) and src/sql.js-httpvfs/. They import nothing outside src/.",
       "paths": [
         "src/"
       ],
       "allow": [
-        "map",
-        "ui",
-        "core",
-        "config",
-        "registries-browser",
         "frontend"
       ],
       "node": false

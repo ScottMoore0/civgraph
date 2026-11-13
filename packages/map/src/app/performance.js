@@ -9,7 +9,10 @@ import { retireLegacyServiceWorkers } from './retire-legacy-workers.mjs';
 import { SW_REGISTRATION } from './service-worker-state.mjs';
 import { createState, setHidden } from '../state-helpers.mjs';
 
+/** @typedef {import('./map-app').MapApp & PerformanceMethods} PerformanceApp */
+
 export class PerformanceMethods {
+  /** @this {PerformanceApp} */
   registerServiceWorker() {
     // idle, unavailable, registering, ready or failed (service-worker-state.mjs).
     const registrationState = (this.serviceWorkerRegistration = createState(SW_REGISTRATION));
@@ -39,10 +42,15 @@ export class PerformanceMethods {
       });
   }
 
+  /** @this {PerformanceApp} */
   getServiceWorkerConfig() {
   return { url: '/sw.js', scope: '/', route: 'root' };
 }
 
+  /**
+   * @this {PerformanceApp}
+   * @param {ServiceWorkerRegistration | null} [registration]
+   */
   async getServiceWorkerStatus(registration = null) {
     if (!('serviceWorker' in navigator)) return { available: false, reason: 'service-worker API unavailable' };
     const config = this.serviceWorkerConfig || this.getServiceWorkerConfig();
@@ -68,6 +76,7 @@ export class PerformanceMethods {
     });
   }
 
+  /** @this {PerformanceApp} */
   async collectPerformanceStatus() {
     const budget = await this.loadPerformanceBudget();
     const serviceWorker = await this.getServiceWorkerStatus().catch((error) => ({
@@ -100,6 +109,7 @@ export class PerformanceMethods {
     };
   }
 
+  /** @this {PerformanceApp} */
   async loadPerformanceBudget() {
     if (this.performanceBudget) return this.performanceBudget;
     this.performanceBudget = fetch('/app/build/performance-dashboard.json', { cache: 'no-cache' })
@@ -108,6 +118,7 @@ export class PerformanceMethods {
     return this.performanceBudget;
   }
 
+  /** @this {PerformanceApp} */
   setupPerformanceDashboard() {
     const dashboard = document.getElementById('performanceDashboard');
     if (dashboard) setHidden(dashboard, true);
@@ -119,6 +130,7 @@ export class PerformanceMethods {
     button?.addEventListener('click', render);
   }
 
+  /** @this {PerformanceApp} */
   async renderPerformanceDashboard() {
     const target = document.getElementById('performanceDashboardStatus');
     if (!target) return;

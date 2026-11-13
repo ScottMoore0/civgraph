@@ -34,7 +34,8 @@ test('boundaries: the served pages are in units and reach packages only through 
   assert.equal(unitOf('site/browse/browse.js'), 'site');
   assert.equal(unitOf('site/apps/words/words.js'), 'site-apps');
   assert.equal(unitOf('site/assets/ui/state/machine.js'), 'site-served');
-  assert.equal(unitOf('src/ui-controller.js'), 'frontend');
+  assert.equal(unitOf('src/libs/pako.min.js'), 'frontend');
+  assert.equal(unitOf('packages/map/src/ui-controller.js'), 'map');
   assert.equal(allowed('site', 'site-served'), true, 'pages import the shim at the served path');
   assert.equal(allowed('site-served', 'ui'), true, 'the shim re-exports packages/ui/assets/');
   for (const unit of ['ui', 'core', 'map', 'api', 'config']) {

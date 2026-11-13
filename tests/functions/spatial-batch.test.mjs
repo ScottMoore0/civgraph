@@ -86,7 +86,7 @@ test('the batch has a v1 contract, and its answer fits it', async () => {
 });
 
 test('the map search loads its candidate maps in one request and caches each as before', async () => {
-  const { default: featureLoader } = await import('../../src/feature-loader.js');
+  const { default: featureLoader } = await import('../../packages/map/src/feature-loader.js');
   const real = globalThis.fetch;
   const asked = [];
   globalThis.fetch = async (url) => {
@@ -120,7 +120,7 @@ test('the map search loads its candidate maps in one request and caches each as 
 });
 
 test('when the batch is not answered, each map is loaded on its own exactly as before', async () => {
-  const { default: featureLoader } = await import('../../src/feature-loader.js');
+  const { default: featureLoader } = await import('../../packages/map/src/feature-loader.js');
   const real = globalThis.fetch;
   const asked = [];
   globalThis.fetch = async (url) => {
