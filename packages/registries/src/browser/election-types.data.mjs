@@ -10,5 +10,9 @@ export default {
  "electionKindLabels": {
   "general": "General elections",
   "by-election": "By-elections"
- }
+ },
+ "votingSystemsWithTransfers": [
+  "stv-gregory",
+  "stv-hare"
+ ]
 };

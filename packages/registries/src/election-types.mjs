@@ -36,13 +36,15 @@ export function checkElectionTypes(_registry) {
 }
 
 /**
- * The browser's slice: each voting system's name (where it has one) and each kind's list label.
+ * The browser's slice: each voting system's name (where it has one), each kind's list label, and the
+ * voting systems whose count transfers votes (the swingometer's caveat beside its seat estimate).
  * @param {ElectionTypesRegistry} registry
- * @returns {{ votingSystemNames: Record<string, string>, electionKindLabels: Record<string, string> }}
+ * @returns {{ votingSystemNames: Record<string, string>, electionKindLabels: Record<string, string>, votingSystemsWithTransfers: string[] }}
  */
 export function browserElectionTypes(registry) {
   return {
     votingSystemNames: Object.fromEntries(Object.entries(registry.votingSystems).filter(([, system]) => system.name).map(([id, system]) => [id, /** @type {string} */ (system.name)])),
     electionKindLabels: Object.fromEntries(Object.entries(registry.electionKinds).map(([id, kind]) => [id, kind.listLabel])),
+    votingSystemsWithTransfers: Object.entries(registry.votingSystems).filter(([, system]) => system.transfers === true).map(([id]) => id),
   };
 }
