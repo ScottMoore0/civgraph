@@ -42,18 +42,32 @@ import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from '
 import path from 'node:path';
 import { crawlHeaders } from '../../packages/config/src/node.mjs';
 
+/**
+ * One source's snapshot as the ledger holds it: the date it was taken and its counts.
+ * @typedef {{ takenAt: string, datasetsMirrored?: number | null, [field: string]: unknown }} SourceSnapshot
+ */
+/** A row of the gazette crawl's per-status tally. @typedef {{ status: string, n: number, last: number | null, lastDate: string | null }} GazetteStatusRow */
+/** A count query's row. @typedef {{ n: number }} CountRow */
+/**
+ * Open Data NI's CKAN package_search answer, as far as it is read.
+ * @typedef {{ result: { count: number, results: { id: string, name: string }[] } }} CkanSearch
+ */
+/** A pre-1921 census year's tally. @typedef {{ files: number, read: number, tables?: number, explorer?: boolean }} Pre1921Year */
+
 const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'data/status/source-snapshots.json');
 
 try { process.loadEnvFile?.(path.join(ROOT, '.env.local')); } catch { /* optional */ }
 
 const args = process.argv.slice(2);
+/** @param {string} name */
 const argVal = (name) => {
   const i = args.indexOf(name);
   return i >= 0 ? args[i + 1] : undefined;
 };
 const NO_NETWORK = args.includes('--no-network');
 const ONLY = (argVal('--only') || '').split(',').map((s) => s.trim()).filter(Boolean);
+/** @param {string} part */
 const wanted = (part) => !ONLY.length || ONLY.includes(part);
 
 const dirs = {
@@ -63,28 +77,39 @@ const dirs = {
 };
 
 const today = new Date().toISOString().slice(0, 10);
+/** @type {{ sources?: Record<string, SourceSnapshot> }} */
 const previous = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : { sources: {} };
+/** @type {Record<string, SourceSnapshot>} */
 const sources = { ...(previous.sources || {}) };
+/** @param {string} msg */
 const log = (msg) => console.log(msg);
 
 // The crawl databases open through the storage adapter, loaded only when one is read (the engine
 // prints an ExperimentalWarning on some Node versions; it is harmless here).
+/** @type {typeof import('../../packages/storage/src/sqlite.mjs').openSqliteHandle | null} */
 let openHandle = null;
+/** @returns {Promise<typeof import('../../packages/storage/src/sqlite.mjs').openSqliteHandle>} */
 async function sqlite() {
   if (!openHandle) ({ openSqliteHandle: openHandle } = await import('../../packages/storage/src/sqlite.mjs'));
   return openHandle;
 }
 
+/**
+ * @param {string} url
+ * @returns {Promise<unknown>}
+ */
 async function getJson(url) {
   const res = await fetch(url, { headers: crawlHeaders({ Accept: 'application/json' }) });
   if (!res.ok) throw new Error(`${res.status} ${url}`);
   return res.json();
 }
+/** @param {string} url */
 async function getText(url) {
   const res = await fetch(url, { headers: crawlHeaders() });
   if (!res.ok) throw new Error(`${res.status} ${url}`);
   return res.text();
 }
+/** @param {number} ms */
 const pause = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // --- Belfast Gazette ----------------------------------------------------------
@@ -96,8 +121,10 @@ async function gazette() {
   const open = await sqlite();
   // Read-only: the crawler may be writing at the same time.
   const conn = open(db, { readOnly: true });
-  const rows = conn.prepare('SELECT status, COUNT(*) AS n, MAX(issue) AS last, MAX(date) AS lastDate FROM issues GROUP BY status').all();
-  const pagesIndexed = conn.prepare('SELECT COUNT(*) AS n FROM pages').get().n;
+  // The query selects exactly these columns.
+  const rows = /** @type {GazetteStatusRow[]} */ (conn.prepare('SELECT status, COUNT(*) AS n, MAX(issue) AS last, MAX(date) AS lastDate FROM issues GROUP BY status').all());
+  // COUNT(*) always returns a row.
+  const pagesIndexed = /** @type {CountRow} */ (conn.prepare('SELECT COUNT(*) AS n FROM pages').get()).n;
   conn.close();
   const by = Object.fromEntries(rows.map((r) => [r.status, r]));
   const fetched = by.ok?.n || 0;
@@ -138,6 +165,7 @@ function census() {
   if (!existsSync(base)) return log('census: data/census/ is not in this checkout; kept the previous snapshot');
   const files = readdirSync(base);
   const tableMeta = path.join(base, 'cleaned/table-metadata.json');
+  /** @type {Record<string, number>} */
   const tablesByYear = {};
   if (existsSync(tableMeta)) {
     const t = JSON.parse(readFileSync(tableMeta, 'utf8'));
@@ -159,6 +187,7 @@ function census() {
     }
   }
   // Northern Ireland reports: converted to Markdown as census-<year>[-part-N].md.
+  /** @type {Record<number, { held: boolean, convertedParts: number, tables: number, explorer: boolean }>} */
   const ni = {};
   for (const year of [1926, 1937, 1951, 1961, 1966, 1971, 1981]) {
     const converted = files.filter((f) => new RegExp(`^census-${year}(-part-\\d+)?\\.md$`).test(f)).length;
@@ -170,8 +199,10 @@ function census() {
     };
   }
   // Pre-1921: the CSO historical-reports files, by the census year in their file name.
+  /** @type {Record<number, Pre1921Year>} */
   const pre = {};
   for (const year of [1821, 1831, 1841, 1851, 1861, 1871, 1881, 1891, 1901, 1911]) pre[year] = { files: 0, read: 0 };
+  /** @param {unknown} s */
   const yearOf = (s) => {
     const m = String(s || '').match(/(?<!\d)(18[2-8]1|1891|1901|1911)(?!\d)/);
     return m ? Number(m[1]) : null;
@@ -190,7 +221,8 @@ function census() {
     }
   }
   for (const url of heldUrls) {
-    const y = yearOf(decodeURIComponent(String(url).split('/').pop()));
+    // split() always gives at least one part.
+    const y = yearOf(decodeURIComponent(/** @type {string} */ (String(url).split('/').pop())));
     if (y && pre[y]) pre[y].files += 1;
   }
   const manifest = path.join(base, 'statistical-staging/extraction-manifest.jsonl');
@@ -219,11 +251,13 @@ function census() {
 async function opendatani() {
   if (NO_NETWORK) return log('opendatani: --no-network; kept the previous snapshot');
   const api = 'https://admin.opendatani.gov.uk/api/3/action/package_search';
-  const first = await getJson(`${api}?rows=0`);
+  // The CKAN package_search API answers in this shape.
+  const first = /** @type {CkanSearch} */ (await getJson(`${api}?rows=0`));
   const listed = first.result.count;
+  /** @type {Map<string, string>} */
   const byId = new Map();
   for (let start = 0; start < listed; start += 500) {
-    const page = await getJson(`${api}?rows=500&start=${start}`);
+    const page = /** @type {CkanSearch} */ (await getJson(`${api}?rows=500&start=${start}`));
     for (const p of page.result.results) {
       byId.set(p.id, p.name);
       byId.set(p.name, p.name);
@@ -233,10 +267,12 @@ async function opendatani() {
   // Datasets a map on the site draws on: any Open Data NI dataset link in the catalogue.
   const maps = readFileSync(path.join(ROOT, 'data/database/maps.json'), 'utf8');
   const refs = new Set([...maps.matchAll(/opendatani\.gov\.uk\/dataset\/([A-Za-z0-9_-]+)/g)].map((m) => m[1]));
+  /** @type {Set<string>} */
   const used = new Set();
   let unlisted = 0;
   for (const ref of refs) {
-    if (byId.has(ref)) used.add(byId.get(ref));
+    // has() was checked in the same statement.
+    if (byId.has(ref)) used.add(/** @type {string} */ (byId.get(ref)));
     else unlisted += 1;
   }
   let mirrored = null;
@@ -282,7 +318,7 @@ async function legislation() {
     for (let page = 1; page <= 10; page += 1) {
       const url = `https://www.legislation.gov.uk/${type}/data.feed?title=${encodeURIComponent(term)}&page=${page}`;
       let xml;
-      try { xml = await getText(url); } catch (error) { log(`legislation: ${error.message}`); break; }
+      try { xml = await getText(url); } catch (error) { log(`legislation: ${/** @type {Error} */ (error).message}`); break; }
       const entries = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((m) => m[1]);
       for (const e of entries) {
         const id = (e.match(/<id>https?:\/\/www\.legislation\.gov\.uk\/id\/([^<]+)<\/id>/) || [])[1];
@@ -314,13 +350,14 @@ async function proni() {
   if (!db || !existsSync(db)) return log('proni: no --proni folder given (or no proni.sqlite); kept the previous snapshot');
   const open = await sqlite();
   const conn = open(db, { readOnly: true });
-  const collected = conn.prepare('SELECT COUNT(*) AS n FROM proni').get().n;
+  // COUNT(*) always returns a row.
+  const collected = /** @type {CountRow} */ (conn.prepare('SELECT COUNT(*) AS n FROM proni').get()).n;
   conn.close();
   let dated = null;
   const dates = path.join(dir, 'extracted-dates.sqlite');
   if (existsSync(dates)) {
     const d = open(dates, { readOnly: true });
-    dated = d.prepare('SELECT COUNT(*) AS n FROM ext WHERE ext_start_year IS NOT NULL').get().n;
+    dated = /** @type {CountRow} */ (d.prepare('SELECT COUNT(*) AS n FROM ext WHERE ext_start_year IS NOT NULL').get()).n;
     d.close();
   }
   sources.proni = { takenAt: today, recordsCollected: collected, recordsWithDate: dated };
@@ -335,7 +372,8 @@ for (const [name, fn] of Object.entries(parts)) {
   try {
     await fn();
   } catch (error) {
-    log(`${name}: FAILED (${error?.message || error}); kept the previous snapshot`);
+    // What a part throws is an Error (or nothing that has a message).
+    log(`${name}: FAILED (${/** @type {Error | undefined} */ (error)?.message || error}); kept the previous snapshot`);
   }
 }
 
