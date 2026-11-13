@@ -155,6 +155,10 @@ function validateApprovedSources(validationReport, approvedSources) {
     + csoPxstatCompletion;
   assert(approvedSources.counts?.total === expectedTotal, `Expected ${expectedTotal} approved source records, found ${approvedSources.counts?.total}.`);
   assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === expectedTotal, `Expected ${expectedTotal} approved source records in sources array, found ${approvedSources.sources?.length}.`);
+  // Records whose source has gone from its publisher are kept and marked, not deleted: the
+  // 10 NISRA publications missing from nisra.gov.uk/publications on 13 Nov 2026.
+  const removedFromSource = (approvedSources.sources || []).filter((source) => source.availability?.status === 'removed-from-source');
+  assert(removedFromSource.length === 10, `Expected 10 approved records marked removed-from-source, found ${removedFromSource.length}.`);
   assert(approvedSources.counts?.remainingApproved?.publish === 26, `Expected 26 approved remaining publish records, found ${approvedSources.counts?.remainingApproved?.publish}.`);
   assert(approvedSources.counts?.remainingApproved?.variants === 3, `Expected 3 approved remaining variant records, found ${approvedSources.counts?.remainingApproved?.variants}.`);
   assert(!approvedSources.counts?.excluded?.['probable variant - user approval required'], 'Category 3 probable variants should be resolved by user approval in this pass.');
