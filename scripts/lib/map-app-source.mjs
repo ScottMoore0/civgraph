@@ -34,9 +34,16 @@ function moduleFiles(root, dir) {
   return files;
 }
 
-/** Repository-relative paths, forward slashes: app.js first, then packages/map/src/app/** in name order. */
+/**
+ * The app's markup modules that moved from packages/map/src/app/ into the map's pure drawing code,
+ * packages/map/src/views/ (rf10-gallery, 13 Nov 2026), so the gallery can draw them; their old paths
+ * re-export them. Still the app's source for the checks that read it.
+ */
+export const MAP_APP_VIEW_FILES = ['packages/map/src/views/legend-view.mjs', 'packages/map/src/views/timeline-view.mjs'];
+
+/** Repository-relative paths, forward slashes: app.js first, then packages/map/src/app/** in name order, then MAP_APP_VIEW_FILES. */
 export function mapAppSourceFiles(root = ROOT) {
-  return [MAP_APP_ENTRY, ...moduleFiles(root, MAP_APP_MODULE_DIR)];
+  return [MAP_APP_ENTRY, ...moduleFiles(root, MAP_APP_MODULE_DIR), ...MAP_APP_VIEW_FILES];
 }
 
 /** All of the map app's source, joined by newlines. */
