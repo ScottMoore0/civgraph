@@ -62,7 +62,7 @@ const PRECACHE_PATTERNS = [
   /["'](\/[A-Za-z0-9_\-./]+\.(?:js|mjs|css|json|wasm|woff2?|png|svg|webp))["']/g
 ];
 
-const skip = (u) =>
+const skip = (/** @type {string | undefined} */ u) =>
   !u ||
   /^(https?:)?\/\//.test(u) ||   // external
   u.startsWith('data:') ||
@@ -72,6 +72,10 @@ const skip = (u) =>
   u.startsWith('blob:');
 
 /** Resolve a reference to a repo path. Site-absolute paths are rooted at ROOT. */
+/**
+ * @param {string} ref
+ * @param {string} fromFile
+ */
 function resolveRef(ref, fromFile) {
   const clean = ref.split('#')[0].split('?')[0];
   if (!clean) return null;
@@ -82,7 +86,12 @@ function resolveRef(ref, fromFile) {
   return path.join(ROOT, sourceOf(path.relative(ROOT, abs)));
 }
 
+/** @type {{ from: string, ref: string, target: string }[]} */
 const refs = [];
+/**
+ * @param {string} file
+ * @param {RegExp[]} patterns
+ */
 function collect(file, patterns) {
   const abs = path.join(ROOT, file);
   if (!existsSync(abs)) return;

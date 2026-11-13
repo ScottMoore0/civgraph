@@ -41,13 +41,14 @@ const RENDER = 'render/metadata/maps-test.json';
 
 const CATALOGUE = 'data/database/maps.json';
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
+/** @typedef {import('../../../src/map-relations.mjs').MapRelations} MapRelations */
 const maps = catalogue.maps || [];
-const byId = new Set(maps.map((map) => map.id));
+const byId = new Set(maps.map((/** @type {{ id: string }} */ map) => map.id));
 // A composite child may exist only in the render metadata -- the renderer is what
 // actually draws it, so that is a real way to resolve, not a loophole.
 const renderLayerIds = new Set(
   (JSON.parse(readFileSync(RENDER, 'utf8')).layers || [])
-    .flatMap((layer) => [layer.sourceMapId, layer.id])
+    .flatMap((/** @type {{ id?: string, sourceMapId?: string }} */ layer) => [layer.sourceMapId, layer.id])
     .filter(Boolean));
 
 const revived = [];
@@ -63,8 +64,8 @@ for (const map of maps) {
   // An inline variant defines itself; only a child that is neither a catalogue entry
   // nor self-defining is dangling.
   const inlineWithData = new Set((map.variants || [])
-    .filter((variant) => variant && typeof variant === 'object' && (variant.files || variant.cloneOf))
-    .map((variant) => variant.id));
+    .filter((/** @type {{ id?: string, files?: unknown, cloneOf?: unknown } | null} */ variant) => variant && typeof variant === 'object' && (variant.files || variant.cloneOf))
+    .map((/** @type {{ id?: string }} */ variant) => variant.id));
   for (const childId of children) {
     if (byId.has(childId) || inlineWithData.has(childId) || renderLayerIds.has(childId)) continue;
     danglingChildren.push(`${map.id} -> ${childId}`);
@@ -94,6 +95,6 @@ if (problems.length) {
   process.exit(1);
 }
 
-const composites = maps.filter((map) => compositeChildIds(map).length);
+const composites = maps.filter((/** @type {MapRelations} */ map) => compositeChildIds(map).length);
 console.log(`PASS: ${composites.length} composite(s) resolve through one field; `
-  + `${maps.filter((m) => m.isGroup).length} group(s), none empty, no dangling children.`);
+  + `${maps.filter((/** @type {{ isGroup?: boolean }} */ m) => m.isGroup).length} group(s), none empty, no dangling children.`);

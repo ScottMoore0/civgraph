@@ -12,7 +12,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { SITE } from '../../packages/config/src/node.mjs';
 
 const doc = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
-const catGroup = new Map((doc.categories || []).map((c) => [c.id, c.group || '']));
+const catGroup = new Map((doc.categories || []).map((/** @type {{ id: string, group?: string }} */ c) => [c.id, c.group || '']));
 
 const maps = [];
 for (const m of doc.maps || []) {
@@ -41,7 +41,7 @@ for (const m of doc.maps || []) {
 let dataOverlays = [];
 try {
   const de = JSON.parse(readFileSync('data/database/data-entries.json', 'utf8')).dataEntries || [];
-  dataOverlays = de.map((e) => ({
+  dataOverlays = de.map((/** @type {Record<string, unknown>} */ e) => ({
     id: e.id,
     name: e.name,
     geography: e.geography,

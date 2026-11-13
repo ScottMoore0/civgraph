@@ -33,6 +33,7 @@ const HTML_TARGETS = ['site/index.html', 'site/maps/index.html'];
 // (the owner approved 240,000 in chat on 12 Nov 2026, wave10-colours).
 const CSS_BUDGET_BYTES = 240_000;
 
+/** @param {string} filePath */
 export function hashFile(filePath, length = 12, salt = '') {
   const hash = createHash('sha256').update(readFileSync(filePath));
   if (salt) hash.update(salt);
@@ -63,14 +64,14 @@ export function hashFile(filePath, length = 12, salt = '') {
  * derived echo of the bundle hash rather than a policy decision. The bundle hash
  * already busts the bundle's own token; it has no business busting the CSS.
  */
-export function stripDerivedServiceWorkerVersion(source) {
+export function stripDerivedServiceWorkerVersion(/** @type {string} */ source) {
   return String(source).replace(
     /const VERSION = 'root-maplibre-sw-[^']*';/,
     "const VERSION = '<derived>';"
   );
 }
 
-function serviceWorkerPolicyHash(filePath) {
+function serviceWorkerPolicyHash(/** @type {string} */ filePath) {
   const source = stripDerivedServiceWorkerVersion(readFileSync(filePath, 'utf8'));
   return createHash('sha256').update(source).digest('hex').slice(0, 12);
 }
@@ -133,12 +134,21 @@ export function sharedCssVersion() {
   return hashFile('build/main.css', 12, entryPolicyVersion);
 }
 
+/**
+ * @param {string} filePath
+ * @param {string} content
+ */
 function writeTextIfChanged(filePath, content) {
   if (existsSync(filePath) && readFileSync(filePath, 'utf8') === content) return false;
   writeFileSync(filePath, content);
   return true;
 }
 
+/**
+ * @param {string} html
+ * @param {string} assetPath
+ * @param {string} version
+ */
 function updateAssetVersion(html, assetPath, version) {
   const normalized = assetPath.replace(/^\/+/, '');
   const escaped = normalized.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -170,7 +180,7 @@ function buildThumbnailManifest() {
       const rawExcluded = JSON.parse(readFileSync(excludedTransparentPath, 'utf8'));
       excludedTransparent = new Set(Array.isArray(rawExcluded) ? rawExcluded.map(String) : []);
     } catch (error) {
-      console.warn(`Could not read ${excludedTransparentPath}: ${error.message}`);
+      console.warn(`Could not read ${excludedTransparentPath}: ${/** @type {Error} */ (error).message}`);
     }
   }
 
@@ -227,7 +237,7 @@ async function buildMainCss() {
   console.log(`CSS split: critical ${(criticalBytes / 1024).toFixed(1)} KB, deferred ${(cssBytes / 1024).toFixed(1)} KB`);
 }
 
-function inlineCriticalCss(htmlPath) {
+function inlineCriticalCss(/** @type {string} */ htmlPath) {
   if (!existsSync(htmlPath)) return;
 
   const html = readFileSync(htmlPath, 'utf8');

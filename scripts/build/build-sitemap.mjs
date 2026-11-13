@@ -48,7 +48,7 @@ const dataRootIndex = process.argv.indexOf('--data-root');
 const DATA_ROOT = dataRootIndex >= 0 && process.argv[dataRootIndex + 1] ? process.argv[dataRootIndex + 1] : null;
 const BROWSE = DATA_ROOT ? path.join(DATA_ROOT, 'data/browse') : BROWSE_DIR;
 // A shard URL (/data/browse/person-shards/...) is read from the same tree as its index.
-const shardPath = (url) => (DATA_ROOT ? path.join(DATA_ROOT, String(url).replace(/^\/+/, '')) : localPathForUrl(url));
+const shardPath = (/** @type {string} */ url) => (DATA_ROOT ? path.join(DATA_ROOT, String(url).replace(/^\/+/, '')) : localPathForUrl(url));
 const MAX_URLS = 45000;
 const MAX_BYTES = 50 * 1024 * 1024;
 const CHECK = process.argv.includes('--check');
@@ -73,6 +73,7 @@ export const TOP_LEVEL_PAGES = [
 // Browse types with a path-style page, and the index each is read from. Must match
 // functions/_browse-page.js BROWSE_PAGE_TYPES.
 export const BROWSE_SITEMAP_TYPES = ['elections', 'maps', 'offices', 'parties', 'persons', 'register-interests', 'sources'];
+/** @type {Record<string, string>} */
 const BROWSE_INDEX_FILES = {
   elections: 'elections.json',
   maps: 'maps.json',
@@ -83,7 +84,7 @@ const BROWSE_INDEX_FILES = {
   sources: 'sources.json',
 };
 
-const xmlEscape = (value) => String(value)
+const xmlEscape = (/** @type {unknown} */ value) => String(value)
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;')
@@ -91,7 +92,7 @@ const xmlEscape = (value) => String(value)
   .replace(/'/g, '&apos;');
 
 /** The same slug rule as browse.js and build-browse-indexes.mjs. */
-function slugify(value) {
+function slugify(/** @type {unknown} */ value) {
   return String(value ?? '')
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -101,35 +102,44 @@ function slugify(value) {
     .replace(/^-+|-+$/g, '') || 'entry';
 }
 
-export function urlsetXml(urls) {
+export function urlsetXml(/** @type {string[]} */ urls) {
   const body = urls.map((loc) => `  <url><loc>${xmlEscape(loc)}</loc></url>`).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 }
 
-export function sitemapIndexXml(files) {
+export function sitemapIndexXml(/** @type {string[]} */ files) {
   const body = files.map((file) => `  <sitemap><loc>${xmlEscape(`${SITE}/${file}`)}</loc></sitemap>`).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</sitemapindex>\n`;
 }
 
+/**
+ * @param {string} type
+ * @param {string} slug
+ */
 export function browseRecordUrl(type, slug) {
   return `${SITE}/browse/${type}/${encodeURIComponent(slug)}`;
 }
 
 /** /proni/AA/3: each part of the reference is a path segment. */
-export function proniRecordUrl(ref) {
+export function proniRecordUrl(/** @type {unknown} */ ref) {
   return `${SITE}/proni/${String(ref).split('/').map(encodeURIComponent).join('/')}`;
 }
 
-function readJson(file) {
+function readJson(/** @type {string} */ file) {
   return JSON.parse(readFileSync(file, 'utf8'));
 }
 
 /** A Browse index's items, following a sharded layout as browse.js does; null if absent. */
+/**
+ * @param {string} type
+ * @returns {BrowseItem[] | null}
+ */
 function readBrowseItems(type) {
   const file = path.join(BROWSE, BROWSE_INDEX_FILES[type]);
   if (!existsSync(file)) return null;
   const index = readJson(file);
   if (index.indexLayout !== 'sharded') return Array.isArray(index.items) ? index.items : null;
+  /** @type {BrowseItem[]} */
   const items = [];
   for (const shard of index.shards || []) {
     const shardFile = shard.url ? shardPath(shard.url) : '';
@@ -139,23 +149,35 @@ function readBrowseItems(type) {
   return items;
 }
 
-function recordSlug(item) {
+/** @typedef {{ slug?: string, id?: string, key?: string, title?: string }} BrowseItem */
+
+function recordSlug(/** @type {BrowseItem} */ item) {
   return item.slug || slugify(item.id || item.key || item.title);
 }
 
+/**
+ * @template T
+ * @param {T[]} list
+ * @param {number} size
+ */
 function chunk(list, size) {
+  /** @type {T[][]} */
   const out = [];
   for (let i = 0; i < list.length; i += size) out.push(list.slice(i, i + size));
   return out;
 }
 
 /** The files a type is written to: browse-persons.xml, or browse-sources-1.xml, -2... */
+/**
+ * @param {string} prefix
+ * @param {number} count
+ */
 function typeFiles(prefix, count) {
   if (count <= 1) return [`${OUT_DIR}/${prefix}.xml`];
   return Array.from({ length: count }, (_, i) => `${OUT_DIR}/${prefix}-${i + 1}.xml`);
 }
 
-function existingFiles(prefix) {
+function existingFiles(/** @type {string} */ prefix) {
   if (!existsSync(onDisk(OUT_DIR))) return [];
   const pattern = new RegExp(`^${prefix}(?:-\\d+)?\\.xml$`);
   return readdirSync(onDisk(OUT_DIR)).filter((name) => pattern.test(name)).map((name) => `${OUT_DIR}/${name}`);
@@ -166,6 +188,10 @@ function existingFiles(prefix) {
  * group's source is absent, or when it has lost more than a tenth of the committed URLs.
  * The second is a build missing an input, not a tenth of the site deleted; --allow-shrink
  * accepts a real removal.
+ */
+/**
+ * @param {string} prefix
+ * @param {string[] | null} urls
  */
 function planGroup(prefix, urls) {
   if (!urls) return null;
@@ -194,12 +220,17 @@ function buildPlan() {
   const roots = existsSync(path.join(BROWSE, 'proni-roots.json')) ? readJson(path.join(BROWSE, 'proni-roots.json')).roots : null;
   groups.push({
     prefix: 'proni',
-    files: planGroup('proni', roots ? roots.map((root) => proniRecordUrl(root.ref)).sort() : null),
+    files: planGroup('proni', roots ? roots.map((/** @type {{ ref: string }} */ root) => proniRecordUrl(root.ref)).sort() : null),
   });
   return groups;
 }
 
+/**
+ * @param {string} file
+ * @param {string} xml
+ */
 function validateUrlset(file, xml) {
+  /** @type {string[]} */
   const problems = [];
   if (!xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')) problems.push('missing XML declaration');
   if (!/<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/.test(xml)) problems.push('missing urlset namespace');

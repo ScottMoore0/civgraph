@@ -13,11 +13,15 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { readMapAppSource } from '../../lib/map-app-source.mjs';
 
+/**
+ * @param {unknown} condition
+ * @param {string} message
+ */
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-function read(path) {
+function read(/** @type {string} */ path) {
   assert(existsSync(path), `Missing required file: ${path}`);
   return readFileSync(path, 'utf8');
 }

@@ -27,6 +27,7 @@ const ACCEPTED_FEATURE_INDEX_OMISSIONS = new Set([
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const errors = [];
 const warnings = [];
+/** @typedef {{ id?: string, sourceMapId?: string, sourceType?: string, tileUrl?: string, sourceFile?: string, bounds?: unknown, loadable?: boolean, [field: string]: unknown }} RenderLayer */
 const layers = metadata.layers || [];
 const suppressedDevFallbackWarnings = [];
 
@@ -63,7 +64,7 @@ for (const layer of layers) {
   }
 }
 
-const resolvedCountiesLayer = layers.find((layer) => isResolvedRoiCountiesLayer(layer));
+const resolvedCountiesLayer = layers.find((/** @type {RenderLayer} */ layer) => isResolvedRoiCountiesLayer(layer));
 const invalidCountiesDir = resolve(ROOT, 'render/tiles/generated/roi-counties-2011');
 if (existsSync(invalidCountiesDir) && !resolvedCountiesLayer) {
   errors.push('render/tiles/generated/roi-counties-2011 must be removed or quarantined outside the active generated tile path');
@@ -91,8 +92,8 @@ const report = {
   },
   totals: {
     layers: layers.length,
-    loadableLayers: layers.filter((layer) => layer.loadable !== false).length,
-    pmtilesLayers: layers.filter((layer) => layer.sourceType === 'pmtiles').length,
+    loadableLayers: layers.filter((/** @type {RenderLayer} */ layer) => layer.loadable !== false).length,
+    pmtilesLayers: layers.filter((/** @type {RenderLayer} */ layer) => layer.sourceType === 'pmtiles').length,
     suppressedDevFallbackWarnings: suppressedDevFallbackWarnings.length,
     warnings: warnings.length,
     errors: errors.length
@@ -123,12 +124,12 @@ console.log('\nPASS: /test generated tile outputs are within hard budgets.');
 
 
 
-function localPath(value) {
+function localPath(/** @type {unknown} */ value) {
   if (typeof value !== 'string' || /^https?:\/\//i.test(value)) return null;
   return value.replace(/^\//, '').replaceAll('\\', '/');
 }
 
-function isResolvedRoiCountiesLayer(layer) {
+function isResolvedRoiCountiesLayer(/** @type {RenderLayer} */ layer) {
   return (layer.id === 'roi-counties-2011-vector' || layer.sourceMapId === 'roi-counties-2011')
     && layer.sourceType === 'pmtiles'
     && /^https:\/\/data\.civgraph\.net\/data\/maps\/test\/pmtiles\/generated\/roi-counties-2011-vector-test\.pmtiles$/i.test(layer.tileUrl || '')
@@ -136,6 +137,6 @@ function isResolvedRoiCountiesLayer(layer) {
     && isValidBounds(layer.bounds, layer);
 }
 
-function formatBytes(bytes) {
+function formatBytes(/** @type {unknown} */ bytes) {
   return `${(Number(bytes || 0) / 1024 / 1024).toFixed(1)} MB`;
 }

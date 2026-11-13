@@ -63,6 +63,11 @@ const EXTENSIONS = new Set(['.mjs', '.js', '.py', '.md', '.json', '.ps1', '.sh',
 // Generated caches and data dumps, not authored source.
 const SKIP_DIRS = new Set(['node_modules', '.git', '__pycache__', '_geo', 'lps', '.venv', 'dist']);
 
+/**
+ * @param {string} dir
+ * @param {string[]} [out]
+ * @returns {string[]}
+ */
 function walk(dir, out = []) {
   let entries;
   try {
@@ -79,6 +84,7 @@ function walk(dir, out = []) {
   return out;
 }
 
+/** @type {string[]} */
 const offenders = [];
 let scanned = 0;
 

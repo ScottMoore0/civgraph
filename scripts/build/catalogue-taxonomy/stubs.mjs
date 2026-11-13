@@ -14,11 +14,15 @@ import fs from 'fs';
 const ROOT = new URL('../../../', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
 const j = JSON.parse(fs.readFileSync(ROOT + 'data/database/maps.json', 'utf8'));
 
-const renderable = m => Object.keys(m.files || {}).length || (m.variants || []).length
+// every maps.json entry has a category (1,118 of 1,118 on 12 Nov 2026)
+/** @typedef {{ id: string, name?: string, category: string, hidden?: boolean, files?: object, variants?: unknown[], members?: unknown[], chunked?: unknown }} CatalogueMap */
+const renderable = (/** @type {CatalogueMap} */ m) => Object.keys(m.files || {}).length || (m.variants || []).length
   || (m.members || []).length || m.chunked;
-const rows = j.maps.filter(m => m.hidden || !renderable(m));
+/** @type {CatalogueMap[]} */
+const rows = j.maps.filter((/** @type {CatalogueMap} */ m) => m.hidden || !renderable(m));
 
 // category -> subject, using the same 54-subject vocabulary as the renderable set
+/** @type {Record<string, string>} */
 const BY_CATEGORY = {
   'wards': 'Electoral Boundaries',
   'electoral-divisions': 'Electoral Boundaries',
@@ -34,6 +38,7 @@ const BY_CATEGORY = {
 };
 
 // where the name says something the category does not
+/** @type {[string, RegExp][]} */
 const BY_NAME = [
   ['Constituencies', /parliament|assembly|convention|forum|constituenc/i],
   ['Geophysics & Geochemical Survey', /tellus|magnetic|radiometric|electromagnetic/i],

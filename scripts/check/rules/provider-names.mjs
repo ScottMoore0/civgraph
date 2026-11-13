@@ -53,6 +53,7 @@ if (!existsSync(REGISTRY)) {
 
 const registry = JSON.parse(readFileSync(REGISTRY, 'utf8'));
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
+/** @type {{ name: string, aliases?: string[], jurisdiction?: string, pendingReview?: boolean }[]} */
 const providers = registry.providers || [];
 
 const canonical = new Set(providers.map((p) => p.name));

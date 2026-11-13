@@ -46,7 +46,8 @@ const CHECK = process.argv.includes('--check');
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
 const render = JSON.parse(readFileSync(RENDER, 'utf8'));
 
-const catalogueById = new Map((catalogue.maps || []).map((m) => [m.id, m]));
+/** @typedef {{ id: string, keywords?: unknown[], provider?: unknown, approximateSegments?: unknown, style?: Record<string, unknown>, [field: string]: unknown }} CatalogueMap */
+const catalogueById = new Map((catalogue.maps || []).map((/** @type {CatalogueMap} */ m) => [m.id, m]));
 
 let keywordLayers = 0;
 let keywordsAdded = 0;
@@ -65,7 +66,7 @@ for (const layer of render.layers || []) {
   const wanted = (map.keywords || []).filter(Boolean);
   if (wanted.length) {
     const have = new Set(layer.keywords || []);
-    const missing = wanted.filter((k) => !have.has(k));
+    const missing = wanted.filter((/** @type {unknown} */ k) => !have.has(k));
     if (missing.length) {
       keywordLayers += 1;
       keywordsAdded += missing.length;

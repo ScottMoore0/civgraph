@@ -166,12 +166,21 @@ if (!existsSync(ALLOWLIST)) {
   process.exit(1);
 }
 const allowlist = JSON.parse(readFileSync(ALLOWLIST, 'utf8'));
-const rightsByPrefix = new Map((allowlist.prefixes || []).map((p) => [p.prefix, p.rights]));
+/** @type {Map<string, string>} */
+const rightsByPrefix = new Map((allowlist.prefixes || []).map((/** @type {{ prefix: string, rights: string }} */ p) => [p.prefix, p.rights]));
 const iaMirrors = existsSync(IA_MIRRORS) ? JSON.parse(readFileSync(IA_MIRRORS, 'utf8')) : null;
 
 const privateCorpora = existsSync(PRIVATE_CORPORA) ? JSON.parse(readFileSync(PRIVATE_CORPORA, 'utf8')) : [];
-const privateIds = new Set(privateCorpora.map((c) => c.id));
+const privateIds = new Set(privateCorpora.map((/** @type {{ id: string }} */ c) => c.id));
+/**
+ * @typedef {{ id: string, title: string, provider: string, jurisdiction: string, store: string, access: string,
+ *   coverage?: unknown, r2?: { prefix: string, baseUrl: string, allowlisted: boolean, listVia: string },
+ *   internetArchive?: { identifier: string, details: string, download: string, bulk: string }[],
+ *   rights?: string, measured?: { measuredAt: string, localGigabytes?: number }, note?: string }} CorpusEntry
+ */
+/** @type {CorpusEntry[]} */
 const allEntries = [...CORPORA, ...privateCorpora].map((corpus) => {
+  /** @type {CorpusEntry} */
   const entry = {
     id: corpus.id,
     title: corpus.title,
@@ -193,7 +202,7 @@ const allEntries = [...CORPORA, ...privateCorpora].map((corpus) => {
     };
   }
   if (corpus.iaIdentifiers?.length) {
-    entry.internetArchive = corpus.iaIdentifiers.map((identifier) => ({
+    entry.internetArchive = corpus.iaIdentifiers.map((/** @type {string} */ identifier) => ({
       identifier,
       details: IA_DETAILS + identifier,
       download: IA_DOWNLOAD + identifier,
@@ -217,7 +226,7 @@ const entries = allEntries.filter((e) => !privateIds.has(e.id));
 const counts = entries.reduce((acc, entry) => {
   acc[entry.store] = (acc[entry.store] || 0) + 1;
   return acc;
-}, {});
+}, /** @type {Record<string, number>} */ ({}));
 
 const index = {
   schemaVersion: 1,
@@ -251,9 +260,15 @@ const index = {
  * the gate called the file stale, rebuilding it destroyed the richer half, and the only
  * safe move was to leave a failing check in place and tell people to ignore it.
  */
+/**
+ * @param {unknown} generated
+ * @param {unknown} existing
+ * @returns {unknown}
+ */
 function preserveUnknown(generated, existing) {
   if (!existing || typeof existing !== 'object' || Array.isArray(existing)) return generated;
   if (!generated || typeof generated !== 'object' || Array.isArray(generated)) return generated;
+  /** @type {Record<string, unknown>} */
   const merged = { ...generated };
   for (const [key, value] of Object.entries(existing)) {
     merged[key] = (key in merged) ? preserveUnknown(merged[key], value) : value;
@@ -261,18 +276,19 @@ function preserveUnknown(generated, existing) {
   return merged;
 }
 
+/** @param {{ corpora?: { id: string }[], perFileIndexes?: { file: string }[] }} generated */
 function mergeWithExisting(generated) {
   if (!existsSync(OUT)) return generated;
   let previous;
   try { previous = JSON.parse(readFileSync(OUT, 'utf8')); } catch { return generated; }
-  const byId = new Map((previous.corpora || []).map((c) => [c.id, c]));
+  const byId = new Map((previous.corpora || []).map((/** @type {{ id: string }} */ c) => [c.id, c]));
   const corpora = (generated.corpora || []).map((c) => preserveUnknown(c, byId.get(c.id)));
   // perFileIndexes is a list of hand-recorded pointers and the generator knows only one of
   // them, so union by file rather than replace.
   const known = new Set((generated.perFileIndexes || []).map((p) => p.file));
   const perFileIndexes = [
     ...(generated.perFileIndexes || []),
-    ...(previous.perFileIndexes || []).filter((p) => !known.has(p.file)),
+    ...(previous.perFileIndexes || []).filter((/** @type {{ file: string }} */ p) => !known.has(p.file)),
   ];
   return preserveUnknown({ ...generated, corpora, perFileIndexes }, previous);
 }

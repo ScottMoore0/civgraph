@@ -33,9 +33,9 @@ import { readFileSync } from 'node:fs';
 const CATALOGUE = 'data/database/maps.json';
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
 
-const providersOf = (map) => {
+const providersOf = (/** @type {{ provider?: unknown }} */ map) => {
   const raw = Array.isArray(map.provider) ? map.provider : [map.provider];
-  return new Set(raw.filter(Boolean).map((value) => String(value).trim().toLowerCase()));
+  return new Set(raw.filter(Boolean).map((/** @type {unknown} */ value) => String(value).trim().toLowerCase()));
 };
 
 const byFile = new Map();

@@ -15,8 +15,9 @@ const BOUNDARY_SUBJECTS = new Set([
   'Regional Divides',
   'Language & Gaeltacht', 'Administrative Boundaries',
 ]);
-const kindOf = s => (BOUNDARY_SUBJECTS.has(s) ? 'Boundary' : 'Dataset');
+const kindOf = (/** @type {string} */ s) => (BOUNDARY_SUBJECTS.has(s) ? 'Boundary' : 'Dataset');
 
+/** @type {[string, RegExp][]} */
 const RULES = [
   // ---- named survey programmes, before their subject words scatter them
   ['Geophysics & Geochemical Survey', /tellus (airborne|magnetic|electromagnetic|radiometric)|flight lines|apparent conductivity|stream sediment|regional xrf|platinum group/i],
@@ -77,6 +78,7 @@ const RULES = [
 ];
 
 // Rows the rules cannot decide, or decide wrongly. Keyed on "card :: map".
+/** @type {Record<string, string>} */
 const CORRECTIONS = {
   'Secondary maps :: West of the Bann and Sperrins': 'Regional Divides',
   'Secondary maps :: East and West of the Bann': 'Regional Divides',
@@ -86,7 +88,7 @@ const CORRECTIONS = {
 };
 
 const applied = new Set();
-const assign = (cardName, mapName) => {
+const assign = (/** @type {string} */ cardName, /** @type {string} */ mapName) => {
   const key = `${cardName} :: ${mapName}`;
   if (CORRECTIONS[key]) { applied.add(key); return CORRECTIONS[key]; }
   const hay = `${mapName} ${cardName}`;

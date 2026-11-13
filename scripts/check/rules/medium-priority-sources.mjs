@@ -74,7 +74,7 @@ function main() {
   const browse = readJson(BROWSE_SOURCES);
   browse.items = resolveBrowseSourceItems(browse, ROOT);
   assert(Array.isArray(browse.items), 'data/browse/sources.json must contain items');
-  const browseById = new Map(browse.items.map((item) => [item.id, item]));
+  const browseById = new Map(browse.items.map((/** @type {{ id: string }} */ item) => [item.id, item]));
   const shardCache = new Map();
   let verifiedDetails = 0;
   for (const source of sources) {
@@ -101,29 +101,40 @@ function main() {
   console.log(`Medium-priority publication validation passed: ${sources.length} records, ${verifiedDetails} Browse details verified, no local paths exposed.`);
 }
 
+/**
+ * @param {string} detailUrl
+ * @param {Map<string, { items?: unknown }>} cache
+ * @param {string} id
+ */
 function readDetail(detailUrl, cache, id) {
   const shardName = detailUrl.split('/').pop();
   assert(shardName, `invalid detail URL for ${id}: ${detailUrl}`);
   if (!cache.has(shardName)) {
     cache.set(shardName, readJson(path.join(SOURCE_SHARD_DIR, shardName)));
   }
-  return normalizeArray(cache.get(shardName).items).find((item) => item.id === id);
+  // set just above when it was missing
+  return normalizeArray(/** @type {{ items?: unknown }} */ (cache.get(shardName)).items).find((item) => item.id === id);
 }
 
-function readJson(filePath) {
+function readJson(/** @type {string} */ filePath) {
   assert(existsSync(filePath), `missing required file: ${path.relative(ROOT, filePath)}`);
   return JSON.parse(readFileSync(filePath, 'utf8'));
 }
 
-function containsLocalPath(value) {
+function containsLocalPath(/** @type {unknown} */ value) {
   return /[A-Z]:\\|\\\\|\/Users\/scomo|C:\/Users\/scomo|D:\//i.test(JSON.stringify(value));
 }
 
-function normalizeArray(value) {
+function normalizeArray(/** @type {unknown} */ value) {
   if (!value) return [];
   return Array.isArray(value) ? value : [value];
 }
 
+/**
+ * @param {unknown} condition
+ * @param {string} message
+ * @returns {asserts condition}
+ */
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }

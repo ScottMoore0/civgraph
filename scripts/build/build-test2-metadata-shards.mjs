@@ -41,10 +41,16 @@ export function clientPortPlanJson(plan) {
   return `${JSON.stringify(clientPortPlan(plan), null, 1)}\n`;
 }
 
-function readJson(file) {
+/** @typedef {import('../../packages/core/src/layer-index.js').LayerRecord} LayerRecord */
+
+function readJson(/** @type {string} */ file) {
   return JSON.parse(readFileSync(file, 'utf8'));
 }
 
+/**
+ * @param {string} file
+ * @param {unknown} value
+ */
 function writeJsonIfChanged(file, value) {
   const before = existsSync(file) ? readFileSync(file, 'utf8') : null;
   mkdirSync(path.dirname(file), { recursive: true });
@@ -53,18 +59,22 @@ function writeJsonIfChanged(file, value) {
   return before !== after;
 }
 
-function localPathForUrl(url) {
+function localPathForUrl(/** @type {string | null | undefined} */ url) {
   if (!url || /^https?:\/\//i.test(url)) return null;
   const clean = String(url).split('?')[0].replace(/^\/+/, '');
   return path.join(ROOT, clean);
 }
 
-function duplicateIdsForFeatureIndex(layer) {
+function duplicateIdsForFeatureIndex(/** @type {LayerRecord} */ layer) {
   const file = localPathForUrl(layer.featureIndexUrl);
   if (!file || !existsSync(file)) return null;
   return duplicateSidecar(layer, readJson(file));
 }
 
+/**
+ * @param {string} dir
+ * @param {Set<string>} expectedNames
+ */
 function removeStaleJsonFiles(dir, expectedNames) {
   if (!existsSync(dir)) return 0;
   let removed = 0;
@@ -84,9 +94,11 @@ function build() {
 
   let detailsWritten = 0;
   let duplicateSidecarsWritten = 0;
+  /** @type {Set<string>} */
   const expectedDetailFiles = new Set();
+  /** @type {Set<string>} */
   const expectedDuplicateFiles = new Set();
-  const layers = (raw.layers || []).map((layer) => {
+  const layers = (raw.layers || []).map((/** @type {LayerRecord} */ layer) => {
     const fileName = layerFileName(layer.id);
     expectedDetailFiles.add(fileName);
     if (writeJsonIfChanged(path.join(DETAIL_DIR, fileName), layer)) {

@@ -35,6 +35,10 @@ import { resolve, join } from 'node:path';
 
 const ROOT = resolve(process.cwd());
 
+/**
+ * @param {string} flag
+ * @param {string} fallback
+ */
 function readPathArg(flag, fallback) {
   const i = process.argv.indexOf(flag);
   return i >= 0 && process.argv[i + 1] ? resolve(process.argv[i + 1]) : resolve(ROOT, fallback);
@@ -58,10 +62,11 @@ if (existsSync(MAPS)) {
   for (const group of entries) {
     if (!group || !group.isGroup) continue;
     if (!Array.isArray(group.members) || !group.members.length) continue;
-    const variantIds = (group.variants || []).map((v) => v && v.id).filter(Boolean);
+    /** @type {string[]} */
+    const variantIds = (group.variants || []).map((/** @type {{ id?: string } | null} */ v) => v && v.id).filter(Boolean);
     if (!variantIds.length) continue;
     groupsChecked += 1;
-    const stray = group.members.filter((m) => !variantIds.includes(m));
+    const stray = group.members.filter((/** @type {string} */ m) => !variantIds.includes(m));
     if (stray.length) {
       memberProblems.push(
         `${group.id}: members[] names ${stray.join(', ')}, which are not among its own `
@@ -88,7 +93,7 @@ if (!specFiles.length) {
 }
 
 const index = JSON.parse(readFileSync(INDEX, 'utf8'));
-const byId = new Map((index.layers || []).map((l) => [l.id, l]));
+const byId = new Map((index.layers || []).map((/** @type {{ id: string }} */ l) => [l.id, l]));
 
 let checked = 0;
 const problems = [];

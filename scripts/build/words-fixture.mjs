@@ -19,7 +19,7 @@ import path from 'node:path';
 import { gunzipSync, gzipSync } from 'node:zlib';
 
 const args = process.argv.slice(2);
-const opt = (name, d) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : d; };
+const opt = (/** @type {string} */ name, /** @type {string | undefined} */ d) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : d; };
 const SRC = opt('--static', process.env.WORDS_STATIC_DIR);
 const FROM = Number(opt('--from', '1960'));
 const OUT = path.join('tests', 'browser', 'fixtures', 'words');
@@ -30,13 +30,13 @@ if (!SRC || !existsSync(path.join(SRC, 'meta.json'))) {
   process.exit(2);
 }
 
-const readGz = (rel) => JSON.parse(gunzipSync(readFileSync(path.join(SRC, rel))).toString('utf8'));
-const writeGz = (rel, obj) => {
+const readGz = (/** @type {string} */ rel) => JSON.parse(gunzipSync(readFileSync(path.join(SRC, rel))).toString('utf8'));
+const writeGz = (/** @type {string} */ rel, /** @type {unknown} */ obj) => {
   const file = path.join(OUT, rel);
   mkdirSync(path.dirname(file), { recursive: true });
   writeFileSync(file, gzipSync(Buffer.from(JSON.stringify(obj), 'utf8'), { level: 9 }));
 };
-const bucket = (term, n) => parseInt(createHash('md5').update(term, 'utf8').digest('hex').slice(0, 8), 16) % n;
+const bucket = (/** @type {string} */ term, /** @type {number} */ n) => parseInt(createHash('md5').update(term, 'utf8').digest('hex').slice(0, 8), 16) % n;
 
 const meta = JSON.parse(readFileSync(path.join(SRC, 'meta.json'), 'utf8'));
 rmSync(OUT, { recursive: true, force: true });
@@ -72,6 +72,7 @@ for (const [old, idx] of keepSpk) newSpeakers[idx] = speakers[old];
 writeGz('speakers.json.gz', newSpeakers);
 
 // Distinctive words for the first three speakers kept (all re-indexed into bucket 0).
+/** @type {Record<string, unknown>} */
 const st = {};
 for (const [old, idx] of [...keepSpk].slice(0, 3)) {
   const rows = readGz(`speaker_terms/${Math.floor(old / 200)}.json.gz`)[String(old)];
@@ -79,11 +80,12 @@ for (const [old, idx] of [...keepSpk].slice(0, 3)) {
 }
 writeGz('speaker_terms/0.json.gz', st);
 
-for (const [rel, prefixes] of [['suggest/en-1.json.gz', ['hous', 'part', 'bord']], ['suggest/en-2.json.gz', ['home r', 'housing ']], ['suggest/ga-1.json.gz', ['gae']], ['suggest/ga-2.json.gz', ['an ']]]) {
+for (const [rel, prefixes] of /** @type {[string, string[]][]} */ ([['suggest/en-1.json.gz', ['hous', 'part', 'bord']], ['suggest/en-2.json.gz', ['home r', 'housing ']], ['suggest/ga-1.json.gz', ['gae']], ['suggest/ga-2.json.gz', ['an ']]])) {
+  /** @type {[string, ...unknown[]][]} */
   const rows = readGz(rel);
   writeGz(rel, prefixes.flatMap((p) => rows.filter(([t]) => t.startsWith(p)).slice(0, 6)));
 }
 
-const out = { ...meta, totals: meta.totals.filter((r) => r[1] >= FROM), fixtureNote: `Cut by scripts/build/words-fixture.mjs: years >= ${FROM}, ${Object.values(TERMS).flat().length} terms.` };
+const out = { ...meta, totals: meta.totals.filter((/** @type {[unknown, number]} */ r) => r[1] >= FROM), fixtureNote: `Cut by scripts/build/words-fixture.mjs: years >= ${FROM}, ${Object.values(TERMS).flat().length} terms.` };
 writeFileSync(path.join(OUT, 'meta.json'), JSON.stringify(out));
 console.log(`${OUT}: ${files.size} term files, ${newSpeakers.length} speakers, ${out.totals.length} totals rows.`);
