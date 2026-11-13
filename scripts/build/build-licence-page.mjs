@@ -103,6 +103,7 @@ export const RIGHTS = {
   },
 };
 
+/** @param {unknown} s */
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /**
@@ -132,11 +133,15 @@ export function renderSources(ledger) {
   return lines.join('\n');
 }
 
-/** The page with its region replaced. */
+/**
+ * The page with its region replaced.
+ * @param {string} page
+ * @param {Parameters<typeof renderSources>[0]} ledger
+ */
 export function stamp(page, ledger) {
   if (!REGION.test(page)) throw new Error('site/pages/licence.html has no <!-- licence:sources --> ... <!-- /licence:sources --> region');
   const eol = page.includes('\r\n') ? '\r\n' : '\n';
-  return page.replace(REGION, (_, open, close) => `${open}\n${renderSources(ledger)}\n${close}`.replace(/\n/g, eol));
+  return page.replace(REGION, (/** @type {string} */ _, /** @type {string} */ open, /** @type {string} */ close) => `${open}\n${renderSources(ledger)}\n${close}`.replace(/\n/g, eol));
 }
 
 function main() {
@@ -145,7 +150,7 @@ function main() {
   const ledger = JSON.parse(readFileSync(LEDGER, 'utf8'));
   const before = readFileSync(PAGE, 'utf8');
   let after;
-  try { after = stamp(before, ledger); } catch (error) { console.error(`FAIL: ${error.message}`); process.exit(1); }
+  try { after = stamp(before, ledger); } catch (error) { console.error(`FAIL: ${/** @type {Error} */ (error).message}`); process.exit(1); }
   if (check) {
     if (after !== before) {
       console.error('FAIL: site/pages/licence.html does not match the source ledger; run npm run build:licence-page');
