@@ -22,6 +22,7 @@
  *   node scripts/build/words-parties.mjs --meta <...> --check
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { notAPartyLabels } from '../../packages/core/src/party-names.mjs';
 
 const args = process.argv.slice(2);
 const opt = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
@@ -45,8 +46,9 @@ const meta = JSON.parse(readFileSync(META, 'utf8'));
 const names = JSON.parse(readFileSync('data/browse/party-names.json', 'utf8')).items || {};
 const bySlug = new Map(JSON.parse(readFileSync('data/browse/parties.json', 'utf8')).items.map((/** @type {{ slug: string, title?: string }} */ p) => [p.slug, p]));
 
-// Labels that are not parties: shown as a neutral group, never linked.
-const NO_PARTY = new Set(['(none)', 'No party recorded']);
+// Labels that are not parties: shown as a neutral group, never linked (the parties registry's
+// noPartyLabels in Words in parliament: (none), No party recorded).
+const NO_PARTY = notAPartyLabels('words');
 // Where the Browse fold picks the wrong record for this corpus. "Labour Party" is the
 // Oireachtas's label for the Irish Labour Party (Dáil and Seanad only), but folds to an
 // unlinked "labour-party" record; "Labour" occurs only for Lords members (the UK party),
