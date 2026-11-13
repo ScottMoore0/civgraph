@@ -1,5 +1,5 @@
-// The dry-run comparison for the publish chain's S3 scripts (stream rf9-s3): every case in
-// tests/fixtures/s3-fake/harness.mjs runs a script from scripts/publish/ in a throwaway copy of
+// The dry-run comparison for the publish chain's S3 scripts (stream rf9-s3): every case in the
+// s3-fake fixture's harness.mjs runs a script from scripts/publish/ in a throwaway copy of
 // the repository, with '@aws-sdk/client-s3' replaced by a recording stand-in and the network
 // shut off, and must give exactly what golden/<case>.json holds: the S3 calls in order (bucket,
 // key, body size and SHA-256, Content-Type, Cache-Control, metadata, copy source, list
@@ -9,7 +9,7 @@
 // blob store (packages/storage/src/s3.mjs), so this holds the moved scripts to the old behaviour.
 // To see the comparison against any revision directly:
 //
-//   node tests/fixtures/s3-fake/harness.mjs --compare <rev>
+//   node ../fixtures/s3-fake/harness.mjs --compare <rev>     (from this folder)
 //
 // Nothing here can reach R2: the stand-in answers from memory, register.mjs refuses the real SDK,
 // fetch and sockets, and each run gets made-up credentials and none of the caller's.

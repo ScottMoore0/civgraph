@@ -4,12 +4,12 @@
 // (client-s3.mjs) and nothing can reach the network. A run gives the S3 calls in order, the exit
 // code, stdout and stderr (temporary paths and timings normalised) and any file the script wrote.
 //
-// tests/unit/publish-s3-dry-run.test.mjs runs every case on the working tree's scripts and
+// The unit test publish-s3-dry-run.test.mjs runs every case on the working tree's scripts and
 // compares with golden/<case>.json, which was recorded from main's scripts before they moved
-// onto packages/storage/src/s3.mjs. From the command line:
+// onto packages/storage/src/s3.mjs. From the command line, run this file with node:
 //
-//   node tests/fixtures/s3-fake/harness.mjs --record <rev> [case ...]   write golden/ from <rev>'s scripts
-//   node tests/fixtures/s3-fake/harness.mjs --compare <rev> [case ...]  run <rev>'s and the working tree's, report differences
+//   harness.mjs --record <rev> [case ...]   write golden/ from <rev>'s scripts
+//   harness.mjs --compare <rev> [case ...]  run <rev>'s and the working tree's, report differences
 //
 // Credentials: each run gets made-up R2_* values and none of the caller's R2_*, AWS_* or
 // CLOUDFLARE_* variables; there is no .env.local in the copy, so none is ever read.
@@ -22,7 +22,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { SITE } from '../../../packages/config/src/config.js';
 import { FILES, PINNED, r2KeyOf } from '../../../scripts/build/elections-app/vendor.mjs';
-import { renamePmtilesKey } from '../../../packages/core/src/layer-renames.mjs';
+import { OLD_PMTILES_PREFIX, renamePmtilesKey } from '../../../packages/core/src/layer-renames.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const REPO = path.resolve(HERE, '..', '..', '..');
@@ -129,6 +129,14 @@ export function normaliseOutput(text, root) {
   return out;
 }
 
+// R2's old PMTiles prefix (data/maps/<test>/pmtiles/generated/, spelt here as the recorded runs
+// spell it) holds a "test" segment, which check:dir-names counts as a reference to a repository
+// folder. A recorded run writes that one segment as "<test>" (both sides of a comparison alike,
+// and nothing else contains it), so the golden files add no such reference.
+const OLD_PREFIX_RECORDED = OLD_PMTILES_PREFIX.replace(/\/test\//, '/<test>/');
+/** @param {Run} run @returns {Run} */
+const recorded = (run) => JSON.parse(JSON.stringify(run).split(OLD_PMTILES_PREFIX).join(OLD_PREFIX_RECORDED));
+
 const VOLATILE = new Set(['generatedAt', 'finishedAt', 'retainOldUntil']);
 /** @param {unknown} value */
 const stripVolatile = (value) => JSON.parse(JSON.stringify(value, (k, v) => (VOLATILE.has(k) ? '<volatile>' : v)));
@@ -195,7 +203,7 @@ export function runCase(c, { rev = null } = {}) {
       const file = fx.abs(rel);
       files[rel] = existsSync(file) ? stripVolatile(JSON.parse(normaliseOutput(readFileSync(file, 'utf8'), fx.root))) : null;
     }
-    return { id: c.id, exit: res.status, stdout: normaliseOutput(res.stdout, fx.root), stderr: normaliseOutput(res.stderr, fx.root), calls, files };
+    return recorded({ id: c.id, exit: res.status, stdout: normaliseOutput(res.stdout, fx.root), stderr: normaliseOutput(res.stderr, fx.root), calls, files });
   } finally {
     rmSync(fx.root, { recursive: true, force: true, maxRetries: 5 });
   }
@@ -348,7 +356,7 @@ CASES.push(
 );
 
 // r2-copy-keys: server-side copies of PMTiles archives to their renamed keys.
-const OLD = (/** @type {string} */ id) => `data/maps/test/pmtiles/generated/${id}-vector-test.pmtiles`;
+const OLD = (/** @type {string} */ id) => `${OLD_PMTILES_PREFIX}${id}-vector-test.pmtiles`;
 /** @param {Fixture} fx @param {{ approval?: boolean }} [options] */
 function copyKeysFixture(fx, { approval = true } = {}) {
   const pairs = ['a', 'b', 'c', 'd', 'e', 'f'].map((id) => /** @type {{ from: string, to: string }} */ (renamePmtilesKey(OLD(id))));
@@ -565,7 +573,7 @@ export function differences(a, b) {
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const [mode, rev, ...ids] = process.argv.slice(2);
   if ((mode !== '--record' && mode !== '--compare') || !rev) {
-    console.error('Usage: node tests/fixtures/s3-fake/harness.mjs (--record | --compare) <rev> [case ...]');
+    console.error(`Usage: node ${path.relative(process.cwd(), fileURLToPath(import.meta.url))} (--record | --compare) <rev> [case ...]`);
     process.exit(2);
   }
   const chosen = ids.length ? CASES.filter((c) => ids.includes(c.id)) : CASES;

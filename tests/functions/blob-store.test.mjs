@@ -2,7 +2,7 @@
 //
 //   1. one conformance suite over every BlobStore: memory, a folder on disk, the R2 and KV
 //      adapters over stand-ins that answer as the Cloudflare bindings do, and the S3 store
-//      (s3.mjs) over the recording SDK stand-in (tests/fixtures/s3-fake/client-s3.mjs);
+//      (s3.mjs) over the recording SDK stand-in (the s3-fake fixture's client-s3.mjs);
 //   2. the adapters call their binding exactly as the handlers called it before they moved
 //      (the same method, arguments and option objects), so the answers are unchanged;
 //   3. the boundary: no Function file outside packages/storage/ reads an R2 or KV binding itself

@@ -1,8 +1,8 @@
 // The S3 blob store (packages/storage/src/s3.mjs, storage slice ST-2's s3.mjs): the commands each
-// method sends, over the recording SDK stand-in (tests/fixtures/s3-fake/client-s3.mjs). No
+// method sends, over the recording SDK stand-in (the s3-fake fixture's client-s3.mjs). No
 // network: the stand-in keeps the bucket in memory. The conformance suite every BlobStore passes
-// is in tests/functions/blob-store.test.mjs; the scripts that use this store are compared with
-// their earlier selves in tests/unit/publish-s3-dry-run.test.mjs.
+// is the Functions' blob-store.test.mjs; the scripts that use this store are compared with their
+// earlier selves in publish-s3-dry-run.test.mjs, beside this file.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';

@@ -13,7 +13,7 @@
  * Each method sends exactly one S3 command shape, the one the scripts sent before they moved here
  * (the same fields in the same order; a field the caller does not give is left out, so the
  * request is what it was). Retries, concurrency and skip-if-unchanged stay in the scripts: the
- * client's own retries are its `maxAttempts` option. tests/unit/publish-s3-dry-run.test.mjs
+ * client's own retries are its `maxAttempts` option. The publish-s3-dry-run unit test
  * runs every moved script against a recording stand-in for the SDK and compares the calls with
  * the ones main's scripts made.
  *

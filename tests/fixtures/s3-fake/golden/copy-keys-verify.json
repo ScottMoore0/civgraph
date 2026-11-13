@@ -1,7 +1,7 @@
 {
  "id": "copy-keys-verify",
  "exit": 1,
- "stdout": "new-missing: data/maps/test/pmtiles/generated/a-vector-test.pmtiles -> data/maps/pmtiles/a-vector.pmtiles\ndiffer: data/maps/test/pmtiles/generated/c-vector-test.pmtiles -> data/maps/pmtiles/c-vector.pmtiles\nold-missing: data/maps/test/pmtiles/generated/d-vector-test.pmtiles -> data/maps/pmtiles/d-vector.pmtiles\nnew-missing: data/maps/test/pmtiles/generated/e-vector-test.pmtiles -> data/maps/pmtiles/e-vector.pmtiles\nnew-missing: data/maps/test/pmtiles/generated/f-vector-test.pmtiles -> data/maps/pmtiles/f-vector.pmtiles\nverify: 3 new-missing, 1 ok, 1 differ, 1 old-missing\nmigration: 3 old-key, 1 copied, 1 error, 1 old-retired\n",
+ "stdout": "new-missing: data/maps/<test>/pmtiles/generated/a-vector-test.pmtiles -> data/maps/pmtiles/a-vector.pmtiles\ndiffer: data/maps/<test>/pmtiles/generated/c-vector-test.pmtiles -> data/maps/pmtiles/c-vector.pmtiles\nold-missing: data/maps/<test>/pmtiles/generated/d-vector-test.pmtiles -> data/maps/pmtiles/d-vector.pmtiles\nnew-missing: data/maps/<test>/pmtiles/generated/e-vector-test.pmtiles -> data/maps/pmtiles/e-vector.pmtiles\nnew-missing: data/maps/<test>/pmtiles/generated/f-vector-test.pmtiles -> data/maps/pmtiles/f-vector.pmtiles\nverify: 3 new-missing, 1 ok, 1 differ, 1 old-missing\nmigration: 3 old-key, 1 copied, 1 error, 1 old-retired\n",
  "stderr": "",
  "calls": [
   {
@@ -16,7 +16,7 @@
    "op": "HeadObject",
    "input": {
     "Bucket": "boundaries-data",
-    "Key": "data/maps/test/pmtiles/generated/a-vector-test.pmtiles"
+    "Key": "data/maps/<test>/pmtiles/generated/a-vector-test.pmtiles"
    }
   },
   {
@@ -30,7 +30,7 @@
    "op": "HeadObject",
    "input": {
     "Bucket": "boundaries-data",
-    "Key": "data/maps/test/pmtiles/generated/b-vector-test.pmtiles"
+    "Key": "data/maps/<test>/pmtiles/generated/b-vector-test.pmtiles"
    }
   },
   {
@@ -44,7 +44,7 @@
    "op": "HeadObject",
    "input": {
     "Bucket": "boundaries-data",
-    "Key": "data/maps/test/pmtiles/generated/c-vector-test.pmtiles"
+    "Key": "data/maps/<test>/pmtiles/generated/c-vector-test.pmtiles"
    }
   },
   {
@@ -58,7 +58,7 @@
    "op": "HeadObject",
    "input": {
     "Bucket": "boundaries-data",
-    "Key": "data/maps/test/pmtiles/generated/d-vector-test.pmtiles"
+    "Key": "data/maps/<test>/pmtiles/generated/d-vector-test.pmtiles"
    }
   },
   {
@@ -72,7 +72,7 @@
    "op": "HeadObject",
    "input": {
     "Bucket": "boundaries-data",
-    "Key": "data/maps/test/pmtiles/generated/e-vector-test.pmtiles"
+    "Key": "data/maps/<test>/pmtiles/generated/e-vector-test.pmtiles"
    }
   },
   {
@@ -86,7 +86,7 @@
    "op": "HeadObject",
    "input": {
     "Bucket": "boundaries-data",
-    "Key": "data/maps/test/pmtiles/generated/f-vector-test.pmtiles"
+    "Key": "data/maps/<test>/pmtiles/generated/f-vector-test.pmtiles"
    }
   },
   {
