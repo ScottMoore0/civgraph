@@ -118,6 +118,16 @@
           "parentTitle": { "type": "string" },
           "relationship": { "type": "string" },
           "duplicateCount": { "type": "number", "minimum": 0 },
+          "availability": {
+            "description": "Set when the source is no longer at its publisher: status removed-from-source, and the date (YYYY-MM-DD) a crawl of the publisher's listing first found it missing. The record, its id and its links are kept.",
+            "type": "object",
+            "required": ["status", "seenMissing"],
+            "additionalProperties": false,
+            "properties": {
+              "status": { "enum": ["removed-from-source"] },
+              "seenMissing": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+            }
+          },
           "license": { "type": "string" },
           "licence": { "type": "string" },
           "attribution": { "type": "string" },
