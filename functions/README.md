@@ -20,6 +20,7 @@ handler there. The `_` helpers there are re-exports kept until 8 Dec 2026.
 | `data/browse/[[path]].js` | D1 `civgraph-records` | The Browse files browse.js still reads (index, persons, sources, register-interests and their shards, parties, offices, maps, features, elections.json, details), each rebuilt in its shape from the records tables; older layouts answer 301 (map-features/ to data.civgraph.net). Every other path answers 410 Gone since 8 Nov 2026 (owner ended the 90-day window early). |
 | `data/graph/[[path]].js` | R2 | The old graph file URLs answer 410 Gone since 8 Nov 2026, except the bulk dumps (statement-shards/, exports/): the R2 copy while it is there, then 301 to https://data.civgraph.net/downloads/. |
 | `browse/<type>/[[path]].js` | D1 `civgraph-records`, R2 | Path-style Browse record pages (`/browse/persons/<slug>`): the Browse shell with the record's title, description and canonical link, for search engines. Shared code in `_browse-page.js`; listed in `sitemap.xml`. |
+| `id/[[path]].js` | D1 `civgraph-records` | The graph's linked-data identifiers, `https://civgraph.net/id/<kind>:<slug>` (the JSON-LD export's `cg:` prefix): a 303 See Other to the record's page, or to Browse's entity page for an entity with none; a retired id to the entity it became; 404 for an id the graph does not hold. Handler in `packages/api/src/pages/id.js`. |
 | `404.js` | static `404.html` | Serves `/404` with a 404 status rather than 200. |
 
 ## The versioned API: `/api/v1/*`

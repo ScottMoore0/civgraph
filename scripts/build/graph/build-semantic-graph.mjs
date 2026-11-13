@@ -13,6 +13,8 @@ import { buildTimestamp } from '../../lib/build-timestamp.mjs';
 import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, PROVENANCE_FILE, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
 import { readProvenance } from '../../../packages/loader/src/election-provenance.mjs';
 import { notAPartyLabels } from '../../../packages/core/src/party-names.mjs';
+import { idBase } from '../../../packages/core/src/graph-iri.js';
+import { SITE } from '../../../packages/config/src/node.mjs';
 
 // Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
 // "No label" (nothing printed or inferred) and a person record's "Unknown" (the parties
@@ -139,8 +141,11 @@ const PARENT_CARD_BODY = {
 
 const MONTH_NAMES = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+// cg: the entities' identifiers, https://civgraph.net/id/<kind>:<slug>, each answered by a 303 to
+// the record's page (packages/core/src/graph-iri.js; owner decision PG14, 13 Nov 2026: they were
+// under civgraph.org, which serves nothing). The ontology and export names below still are.
 const JSONLD_CONTEXT = {
-  cg: 'https://civgraph.org/id/',
+  cg: idBase(SITE.origin),
   civgraph: 'https://civgraph.org/ontology/',
   schema: 'https://schema.org/',
   prov: 'http://www.w3.org/ns/prov#',
