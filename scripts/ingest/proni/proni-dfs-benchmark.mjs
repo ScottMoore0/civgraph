@@ -55,17 +55,21 @@ function buildOptions() {
 const writers = { failures: { write: async () => {} }, mismatches: { write: async () => {} } };
 
 // Load the records and group into branches (the index's view of the work).
+/** @type {{ expectedRef: string, branchKey: string, letter: string, path: string[], page?: number | string }[]} */
 const rows = readFileSync(RECORDS_FILE, "utf8").trim().split(/\n/).map((l) => JSON.parse(l));
 const wantRefs = new Set(rows.map((r) => r.expectedRef));
+/** @type {Map<string, { letter: string, path: string[], page: number, branchKey: string, refs: string[] }>} */
 const branchMap = new Map();
 for (const r of rows) {
   if (!branchMap.has(r.branchKey)) {
     branchMap.set(r.branchKey, { letter: r.letter, path: r.path, page: Number(r.page || 1), branchKey: r.branchKey, refs: [] });
   }
-  branchMap.get(r.branchKey).refs.push(r.expectedRef);
+  // the key was set just above
+  /** @type {{ refs: string[] }} */ (branchMap.get(r.branchKey)).refs.push(r.expectedRef);
 }
 const branches = [...branchMap.values()];
 
+/** @param {{ requests: number }} stats */
 function capCheck(stats) {
   if (stats.requests > REQUEST_CAP) throw new Error(`request cap ${REQUEST_CAP} exceeded`);
 }
@@ -105,6 +109,7 @@ async function runDfs() {
   const rootHtml = await openBranchPage(session, { letter: LETTER, path: rootPath, page: 1, branchKey: `${LETTER}|${rootPath.join(">")}` });
   capCheck(stats);
 
+  /** @param {string} listingHtml @param {string} prefix @returns {Promise<void>} */
   async function walk(listingHtml, prefix) {
     const gridRows = parseGridRows(listingHtml);
     // (1) fetch any leaf records on this listing
@@ -136,6 +141,7 @@ async function runDfs() {
   console.log(`subtree root=${ROOT_BRANCH} letter=${LETTER} | expected records=${wantRefs.size} | branches=${branches.length}`);
   const base = await runBaseline();
   const dfs = await runDfs();
+  /** @param {{ mode: string, requests: number, records: number, mismatched: number, errors: number }} r */
   const fmt = (r) => `${r.mode.padEnd(9)} requests=${String(r.requests).padStart(4)}  records=${r.records}/${wantRefs.size}  req/rec=${(r.requests / Math.max(1, r.records)).toFixed(2)}  mismatched=${r.mismatched}  errors=${r.errors}`;
   console.log(fmt(base));
   console.log(fmt(dfs));
