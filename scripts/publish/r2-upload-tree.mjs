@@ -16,7 +16,7 @@ import { readFileSync, statSync, readdirSync } from 'fs';
 import { createHash } from 'crypto';
 import { join, relative, sep, resolve as resolvePath } from 'path';
 import { execFileSync } from 'child_process';
-import { S3Client, PutObjectCommand, HeadObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
@@ -46,7 +46,8 @@ const BUCKET = R2.bucket;
 // backfilled before it, and nothing downstream would notice.
 const CACHE_CONTROL = 'public, max-age=3600, stale-while-revalidate=86400';
 
-const s3 = new S3Client(s3ClientOptions(R2, { forcePathStyle: false, maxAttempts: 5 }));
+// The HEADs, listing and PUTs go through the S3 blob store (packages/storage/src/s3.mjs).
+const store = await openS3BlobStore({ bucket: BUCKET, clientOptions: s3ClientOptions(R2, { forcePathStyle: false, maxAttempts: 5 }) });
 
 /**
  * @param {string} dir
@@ -102,15 +103,17 @@ async function uploadOne(localPath, stats) {
     }
 
     if (CHECK_FIRST) {
+        // There already: skip it. Absent (null), or the HEAD failed: upload anyway.
+        let present = false;
         try {
-            await s3.send(new HeadObjectCommand({ Bucket: BUCKET, Key: key }));
+            present = (await store.head(key)) !== null;
+        } catch {
+            // proceed to upload anyway
+        }
+        if (present) {
             stats.skipped++;
             stats.done++;
             return;
-        } catch (e) {
-            if (/** @type {Error} */ (e).name !== 'NotFound' && /** @type {{ $metadata?: { httpStatusCode?: number } }} */ (e).$metadata?.httpStatusCode !== 404) {
-                // proceed to upload anyway
-            }
         }
     }
 
@@ -120,11 +123,8 @@ async function uploadOne(localPath, stats) {
         stats.done++;
         return;
     }
-    await s3.send(new PutObjectCommand({
-        Bucket: BUCKET,
-        Key: key,
-        Body: body,
-        ContentType: ct,
+    await store.put(key, body, {
+        contentType: ct,
         // Set at upload so new objects arrive correct rather than needing a
         // sweep. Nothing set this until 2026-08-16, and the consequence was that
         // data.civgraph.net served objects with NO Cache-Control at all --
@@ -141,8 +141,8 @@ async function uploadOne(localPath, stats) {
         // treat as cacheable. A .png tile gets a zone-level 4-hour Browser Cache
         // TTL and an edge HIT regardless; a .fgb or .pmtiles gets nothing unless
         // it carries its own header.
-        CacheControl: CACHE_CONTROL,
-    }));
+        cacheControl: CACHE_CONTROL,
+    });
     stats.uploaded++;
     stats.done++;
     if (stats.done % 500 === 0) {
@@ -160,13 +160,7 @@ const remoteEtags = new Map();
  * @param {string} prefix
  */
 async function loadRemoteEtags(prefix) {
-    /** @type {string | undefined} */
-    let token;
-    do {
-        const page = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: `${prefix}/`, ContinuationToken: token }));
-        for (const o of page.Contents || []) remoteEtags.set(/** @type {string} */ (o.Key), String(o.ETag || '').replace(/"/g, ''));
-        token = page.IsTruncated ? page.NextContinuationToken : undefined;
-    } while (token);
+    for await (const o of store.listAll({ prefix: `${prefix}/` })) remoteEtags.set(o.key, String(o.etag || '').replace(/"/g, ''));
 }
 
 /**
