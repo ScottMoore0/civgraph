@@ -8,6 +8,15 @@ import { WAYBACK } from '../../../packages/intake/src/item-status.mjs';
 
 const CDX = "https://web.archive.org/cdx";
 
+/**
+ * A CDX row (the fields asked for with fl=), keyed by the CDX header row.
+ * @typedef {{ original: string, urlkey?: string, timestamp?: string, statuscode?: string, mimetype?: string, digest?: string, length?: string }} CdxRow
+ * A recovery row, as the progress and inventory files keep it.
+ * @typedef {{ original: string, status: string, reason: string, localPath?: string, digest?: string, [field: string]: unknown }} RecoveryRow
+ * @typedef {{ name?: string, message?: string } | null | undefined} Thrown
+ * @typedef {{ headers?: Record<string, string> }} FetchOptions
+ */
+
 const BINARY_EXTS = new Set([
   ".7z",
   ".csv",
@@ -62,6 +71,23 @@ function defaultPatterns() {
   ];
 }
 
+/**
+ * @overload
+ * @param {string} name
+ * @param {string} fallback
+ * @returns {string}
+ */
+/**
+ * @overload
+ * @param {string} name
+ * @param {number} fallback
+ * @returns {string | number}
+ */
+/**
+ * @param {string} name
+ * @param {string | number | null} [fallback]
+ * @returns {string | number | null}
+ */
 function readArg(name, fallback = null) {
   const eq = process.argv.find((arg) => arg.startsWith(`${name}=`));
   if (eq) return eq.slice(name.length + 1);
@@ -100,6 +126,7 @@ const args = {
   minFreeGb: Number(readArg("--min-free-gb", 10)),
 };
 
+/** @param {number} ms @returns {Promise<void>} */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -108,11 +135,13 @@ function nowStamp() {
   return new Date().toISOString().replace(/[-:]/g, "").replace(/\..+/, "Z");
 }
 
+/** @param {unknown} value */
 function csvEscape(value) {
   const s = value == null ? "" : String(value);
   return /[",\r\n]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s;
 }
 
+/** @param {string} file @param {Record<string, unknown>[]} rows @param {string[]} columns */
 function writeCsv(file, rows, columns) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(
@@ -122,6 +151,7 @@ function writeCsv(file, rows, columns) {
   );
 }
 
+/** @param {string} file @param {unknown} fallback @returns {unknown} */
 function readJson(file, fallback) {
   if (!fs.existsSync(file)) return fallback;
   try {
@@ -131,11 +161,13 @@ function readJson(file, fallback) {
   }
 }
 
+/** @param {string} file @param {unknown} value */
 function writeJson(file, value) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
+/** @param {unknown} raw */
 function normalizeOriginal(raw) {
   try {
     const url = new URL(String(raw || "").trim());
@@ -148,6 +180,7 @@ function normalizeOriginal(raw) {
   }
 }
 
+/** @param {unknown} raw */
 function inventoryKey(raw) {
   const normalized = normalizeOriginal(raw);
   if (!normalized) return String(raw || "").toLowerCase();
@@ -157,6 +190,7 @@ function inventoryKey(raw) {
   return url.toString().toLowerCase();
 }
 
+/** @param {string} original */
 function isLikelyNoiseOriginal(original) {
   try {
     const url = new URL(original);
@@ -181,6 +215,7 @@ function isLikelyNoiseOriginal(original) {
   }
 }
 
+/** @param {string} original */
 function localPathForCurrentMirror(original) {
   const url = new URL(original);
   if (url.hostname.toLowerCase() !== "www.nisra.gov.uk") return "";
@@ -188,6 +223,7 @@ function localPathForCurrentMirror(original) {
   return safeResolve(args.currentRoot, path.join("mirror", rel));
 }
 
+/** @param {string} root @param {string} relOrAbs */
 function safeResolve(root, relOrAbs) {
   const target = path.isAbsolute(relOrAbs) ? path.resolve(relOrAbs) : path.resolve(root, relOrAbs);
   const resolvedRoot = path.resolve(root);
@@ -198,6 +234,7 @@ function safeResolve(root, relOrAbs) {
   return target;
 }
 
+/** @param {string} original */
 function filenameForOriginal(original) {
   const url = new URL(original);
   const pathname = decodeURIComponent(url.pathname);
@@ -213,18 +250,22 @@ function filenameForOriginal(original) {
   return rel.split(/[\\/]+/).map((part) => part.replace(/[<>:"|?*\x00-\x1f]/g, "_")).join(path.sep);
 }
 
+/** @param {string} original */
 function localPathForWayback(original) {
   const url = new URL(original);
   return safeResolve(args.root, path.join("mirror", url.hostname.toLowerCase(), filenameForOriginal(original)));
 }
 
+/** @param {CdxRow} capture */
 function rawCaptureUrl(capture) {
   return `https://web.archive.org/web/${capture.timestamp}id_/${capture.original}`;
 }
 
+/** @param {string} original */
 function isExistingCurrentFile(original) {
   try {
-    const currentInventory = readJson(path.join(args.currentRoot, "_inventory.json"), {});
+    // the current mirror's inventory: URL -> local path
+    const currentInventory = /** @type {Record<string, string>} */ (readJson(path.join(args.currentRoot, "_inventory.json"), {}));
     if (currentInventory[inventoryKey(original)] || currentInventory[original]) {
       const target = path.resolve(args.currentRoot, currentInventory[inventoryKey(original)] || currentInventory[original]);
       return fs.existsSync(target) && fs.statSync(target).size > 0;
@@ -236,6 +277,7 @@ function isExistingCurrentFile(original) {
   }
 }
 
+/** @param {string} url @param {FetchOptions} [options] */
 async function fetchWithTimeout(url, options = {}) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(new Error(`timeout ${args.timeoutMs}ms`)), args.timeoutMs);
@@ -250,6 +292,7 @@ async function fetchWithTimeout(url, options = {}) {
   }
 }
 
+/** @param {string} url @param {FetchOptions} [options] @param {number} [attempts] @returns {Promise<Response>} */
 async function fetchWithRetries(url, options = {}, attempts = 4) {
   let lastError = null;
   let lastResponse = null;
@@ -268,11 +311,13 @@ async function fetchWithRetries(url, options = {}, attempts = 4) {
   throw lastError || new Error("fetch failed");
 }
 
+/** @param {Response} res @param {number} maxBytes */
 async function readLimitedBody(res, maxBytes) {
   if (!res.body) {
     return Buffer.from(await res.arrayBuffer()).subarray(0, maxBytes);
   }
   const reader = res.body.getReader();
+  /** @type {Buffer[]} */
   const chunks = [];
   let total = 0;
   try {
@@ -290,6 +335,7 @@ async function readLimitedBody(res, maxBytes) {
   return Buffer.concat(chunks).subarray(0, maxBytes);
 }
 
+/** @param {Buffer} buffer @param {string} contentType @param {string} original */
 function looksLikeHtml(buffer, contentType, original) {
   const ext = path.extname(new URL(original).pathname).toLowerCase();
   if (contentType.includes("text/html")) return true;
@@ -298,6 +344,7 @@ function looksLikeHtml(buffer, contentType, original) {
   return /^<!doctype html\b/i.test(text) || /^<html[\s>]/i.test(text);
 }
 
+/** @param {Buffer} buffer @param {string} contentType @param {string} original */
 function validateSample(buffer, contentType, original) {
   const ext = path.extname(new URL(original).pathname).toLowerCase();
   if (!buffer.length) return { ok: false, reason: "empty-capture" };
@@ -322,6 +369,7 @@ function validateSample(buffer, contentType, original) {
   return { ok: true, reason: "valid" };
 }
 
+/** @param {CdxRow} capture */
 async function validateCapture(capture) {
   const url = rawCaptureUrl(capture);
   const res = await fetchWithTimeout(url, {
@@ -350,6 +398,7 @@ async function validateCapture(capture) {
   };
 }
 
+/** @param {Record<string, string | number | string[] | null | undefined>} params @returns {Promise<CdxRow[]>} */
 async function cdxRows(params) {
   const url = new URL(CDX);
   for (const [key, value] of Object.entries(params)) {
@@ -362,19 +411,25 @@ async function cdxRows(params) {
   if (!res.ok) throw new Error(`CDX failed: ${res.status} ${res.statusText} ${url}`);
   const data = await res.json();
   if (!Array.isArray(data) || data.length === 0) return [];
+  /** @type {string[]} */
   const headers = data[0];
-  return data.slice(1).filter(Array.isArray).map((row) => Object.fromEntries(headers.map((header, idx) => [header, row[idx] || ""])));
+  // each row carries the fl= fields, original among them
+  return /** @type {CdxRow[]} */ (data.slice(1).filter(Array.isArray).map((row) => Object.fromEntries(headers.map((header, idx) => [header, row[idx] || ""]))));
 }
 
+/** @param {string} latestFile @returns {Promise<CdxRow[]>} */
 async function loadLatestInventory(latestFile) {
+  /** @type {Map<string, CdxRow>} */
   const rowsByUrl = new Map();
-  for (const row of readJson(latestFile, [])) {
+  // the saved latest-capture inventory
+  for (const row of /** @type {CdxRow[]} */ (readJson(latestFile, []))) {
     if (row?.original) rowsByUrl.set(inventoryKey(row.original), row);
   }
   const cdxProgressFile = path.join(args.root, "_wayback_cdx_windows_done.json");
   const cdxErrorsFile = path.join(args.root, "_wayback_cdx_windows_errors.json");
-  const cdxDone = new Set(readJson(cdxProgressFile, []));
-  const cdxErrors = readJson(cdxErrorsFile, []);
+  // the CDX windows done (their keys), and the errors so far
+  const cdxDone = new Set(/** @type {string[]} */ (readJson(cdxProgressFile, [])));
+  const cdxErrors = /** @type {Record<string, unknown>[]} */ (readJson(cdxErrorsFile, []));
   for (const pattern of args.patterns) {
     const matchType = pattern.includes("/") || pattern.includes("*") ? "prefix" : "domain";
     for (let startYear = args.fromYear; startYear <= args.toYear; startYear += args.windowYears) {
@@ -400,7 +455,8 @@ async function loadLatestInventory(latestFile) {
           matchType,
           startYear,
           endYear,
-          message: error.message || String(error),
+          // the CDX and replay paths throw Error objects
+          message: /** @type {Error} */ (error).message || String(error),
           generatedAt: new Date().toISOString(),
         };
         cdxErrors.push(errorRow);
@@ -428,6 +484,7 @@ async function loadLatestInventory(latestFile) {
   return [...rowsByUrl.values()].sort((a, b) => a.original.localeCompare(b.original));
 }
 
+/** @param {string} original */
 async function loadCapturesForOriginal(original) {
   await sleep(args.cdxDelayMs);
   const rows = await cdxRows({
@@ -440,6 +497,7 @@ async function loadCapturesForOriginal(original) {
   return rows.map((row) => ({ ...row, original: normalizeOriginal(row.original) || original }));
 }
 
+/** @param {string} root */
 function freeBytesForRoot(root) {
   // Avoid a dependency on Win32 APIs in Node: this is checked by the caller before
   // large runs via PowerShell. The script still creates roots safely.
@@ -447,6 +505,7 @@ function freeBytesForRoot(root) {
   return null;
 }
 
+/** @param {CdxRow} capture @param {string} target */
 async function downloadCapture(capture, target) {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   const partial = `${target}.partial`;
@@ -454,11 +513,12 @@ async function downloadCapture(capture, target) {
   if (!res.ok) throw new Error(`download replay HTTP ${res.status}`);
   const hash = crypto.createHash("sha256");
   let bytes = 0;
-  await new Promise((resolve, reject) => {
+  await /** @type {Promise<void>} */ (new Promise((resolve, reject) => {
     const out = fs.createWriteStream(partial);
     out.on("error", reject);
     out.on("finish", resolve);
-    const nodeStream = Readable.fromWeb(res.body);
+    // an ok replay response has a body
+    const nodeStream = Readable.fromWeb(/** @type {NonNullable<Response['body']>} */ (res.body));
     nodeStream.on("data", (chunk) => {
       const buffer = Buffer.from(chunk);
       bytes += buffer.length;
@@ -466,7 +526,7 @@ async function downloadCapture(capture, target) {
     });
     nodeStream.on("error", reject);
     nodeStream.pipe(out);
-  });
+  }));
   fs.renameSync(partial, target);
   return { bytes, sha256: hash.digest("hex") };
 }
@@ -481,7 +541,8 @@ async function main() {
   const inventoryFile = path.join(args.root, "_wayback_recovery_inventory.json");
   const progressFile = path.join(args.root, "_wayback_recovery_progress.json");
 
-  let latestRows = readJson(latestFile, null);
+  // the saved inventory, an array of CDX rows when it is usable (checked below)
+  let latestRows = /** @type {CdxRow[] | null} */ (readJson(latestFile, null));
   if (!Array.isArray(latestRows) || args.retryUnavailable) {
     latestRows = await loadLatestInventory(latestFile);
     writeJson(latestFile, latestRows);
@@ -503,11 +564,11 @@ async function main() {
       statusCodeCounts: latestRows.reduce((acc, row) => {
         acc[row.statuscode || ""] = (acc[row.statuscode || ""] || 0) + 1;
         return acc;
-      }, {}),
+      }, /** @type {Record<string, number>} */ ({})),
       mimeTypeCounts: latestRows.reduce((acc, row) => {
         acc[row.mimetype || ""] = (acc[row.mimetype || ""] || 0) + 1;
         return acc;
-      }, {}),
+      }, /** @type {Record<string, number>} */ ({})),
       inventoryFile: latestFile,
     };
     const summaryFile = path.join(args.reportDir, `nisra-wayback-list-${stampForList}-summary.json`);
@@ -516,10 +577,12 @@ async function main() {
     return;
   }
 
-  const progress = readJson(progressFile, {});
-  const recoveryInventory = readJson(inventoryFile, {});
+  // the recovery progress and inventory, by inventory key
+  const progress = /** @type {Record<string, RecoveryRow>} */ (readJson(progressFile, {}));
+  const recoveryInventory = /** @type {Record<string, RecoveryRow>} */ (readJson(inventoryFile, {}));
+  /** @type {Map<string, string>} */
   const digestTargets = new Map();
-  for (const [key, row] of Object.entries(recoveryInventory)) {
+  for (const [_key, row] of Object.entries(recoveryInventory)) {
     if (row.digest && row.localPath && row.status === WAYBACK.downloaded) digestTargets.set(row.digest, row.localPath);
   }
 
@@ -719,7 +782,8 @@ async function main() {
       const row = {
         ...baseRow,
         status: WAYBACK.failed,
-        reason: error.message || String(error),
+        // the CDX and replay paths throw Error objects
+        reason: /** @type {Error} */ (error).message || String(error),
       };
       progress[key] = row;
       reportRows.push(row);
@@ -773,7 +837,7 @@ async function main() {
     counts: rows.reduce((acc, row) => {
       acc[row.status] = (acc[row.status] || 0) + 1;
       return acc;
-    }, {}),
+    }, /** @type {Record<string, number>} */ ({})),
     selectedLengthBytes: rows.reduce((sum, row) => {
       const value = Number(row.selectedLength || row.latestLength || 0);
       return Number.isFinite(value) ? sum + value : sum;
