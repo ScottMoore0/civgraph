@@ -23,6 +23,15 @@ const TIMELINE_CHANGES_MAX_STEPS = 12;
 
 const TIMELINE_CHANGES_MAX_MARKERS = 200;
 
+/** @typedef {import('../map-app').MapApp & TimelineChangeMethods} TimelineChangeApp */
+/** @typedef {import('../map-app').TimelineItem} TimelineItem */
+/** @typedef {import('../map-app').TimelineChange} TimelineChange */
+/** @typedef {import('../map-app').TimelineChangeFile} TimelineChangeFile */
+/** @typedef {import('../map-app').TimelineChangeState} TimelineChangeState */
+/** @typedef {import('../map-app').TimelineChangeIndexEntry} TimelineChangeIndexEntry */
+
+/** One step between consecutive stops (getTimelineChangeSteps). @typedef {{ id: string, fromMapId: string, toMapId: string, fromItem: TimelineItem, toItem: TimelineItem, entry: TimelineChangeIndexEntry | null }} TimelineChangeStep */
+
 export class TimelineChangeMethods {
   /* ------------------------------------------------------------------------------------------
    * Boundary changes on the timeline (reviewer report, Phelim, 2026-11-01).
@@ -35,18 +44,21 @@ export class TimelineChangeMethods {
    * beside the date lists them with a zoom-to for each.
    * ------------------------------------------------------------------------------------------ */
 
+  /** @this {TimelineChangeApp} */
   async loadTimelineChangeIndex() {
     try {
       const response = await fetch(`${TIMELINE_CHANGES_BASE_PATH}/index.json`, { cache: 'default' });
       const contentType = String(response.headers?.get?.('content-type') || '').toLowerCase();
       if (!response.ok || contentType.includes('text/html')) return;
-      const index = await response.json();
+      const index = /** @type {{ pairs?: Record<string, TimelineChangeIndexEntry> } | null} */ (await response.json());
+      /** @type {Record<string, TimelineChangeIndexEntry>} */
       this.timelineChangeIndex = index?.pairs && typeof index.pairs === 'object' ? index.pairs : {};
     } catch {
       this.timelineChangeIndex = {};
     }
   }
 
+  /** @this {TimelineChangeApp} */
   getTimelineHighlightEnabled() {
     try {
       return localStorage.getItem(TIMELINE_HIGHLIGHT_STORAGE_KEY) !== '0';
@@ -55,6 +67,10 @@ export class TimelineChangeMethods {
     }
   }
 
+  /**
+   * @this {TimelineChangeApp}
+   * @param {unknown} value
+   */
   setTimelineHighlightEnabled(value) {
     try { localStorage.setItem(TIMELINE_HIGHLIGHT_STORAGE_KEY, value ? '1' : '0'); } catch { /* private mode */ }
     const toggle = document.getElementById('timelineHighlight');
@@ -62,8 +78,15 @@ export class TimelineChangeMethods {
     this.drawTimelineChanges();
   }
 
-  /** The index of the timeline stop whose edition is on the map now, or -1. */
-  getShownTimelineIndex(items = this.getTimelineAnimationItems()) {
+  /**
+   * The index of the timeline stop whose edition is on the map now, or -1.
+   * (A default parameter is checked against the class, not the typed this: there it reaches the app's
+   * other methods through a cast, as the app is what installMethods makes `this`.)
+   * @this {TimelineChangeApp}
+   * @param {TimelineItem[]} [items]
+   * @returns {number}
+   */
+  getShownTimelineIndex(items = /** @type {TimelineChangeApp} */ (/** @type {unknown} */ (this)).getTimelineAnimationItems()) {
     return (Array.isArray(items) ? items : [])
       .findIndex((item) => item?.mapId && this.isMapLoaded(item.mapId) && this.isMapVisible(item.mapId));
   }
@@ -71,8 +94,14 @@ export class TimelineChangeMethods {
   /**
    * The consecutive pairs between two stops, in the order they are stepped through: forward
    * from 1927 to 1957 is 1927-1955 then 1955-1957; backward is the same pairs, latest first.
+   * @this {TimelineChangeApp}
+   * @param {number} fromIndex
+   * @param {number} toIndex
+   * @param {TimelineItem[]} [items]
+   * @returns {TimelineChangeStep[]}
    */
-  getTimelineChangeSteps(fromIndex, toIndex, items = this.getTimelineAnimationItems()) {
+  getTimelineChangeSteps(fromIndex, toIndex, items = /** @type {TimelineChangeApp} */ (/** @type {unknown} */ (this)).getTimelineAnimationItems()) {
+    /** @type {TimelineChangeStep[]} */
     const steps = [];
     if (!Number.isInteger(fromIndex) || !Number.isInteger(toIndex) || fromIndex === toIndex) return steps;
     for (let i = Math.min(fromIndex, toIndex); i < Math.max(fromIndex, toIndex); i += 1) {
@@ -85,6 +114,11 @@ export class TimelineChangeMethods {
     return toIndex < fromIndex ? steps.reverse() : steps;
   }
 
+  /**
+   * @this {TimelineChangeApp}
+   * @param {string | null | undefined} path
+   * @returns {Promise<TimelineChangeFile | null>}
+   */
   fetchTimelineChangePair(path) {
     if (!path) return Promise.resolve(null);
     const url = path.startsWith('/') ? path : `/${path}`;
@@ -92,11 +126,11 @@ export class TimelineChangeMethods {
       this.timelineChangeCache.set(url, fetch(url, { cache: 'default' })
         .then((response) => {
           const contentType = String(response.headers?.get?.('content-type') || '').toLowerCase();
-          return response.ok && !contentType.includes('text/html') ? response.json() : null;
+          return response.ok && !contentType.includes('text/html') ? /** @type {Promise<TimelineChangeFile | null>} */ (response.json()) : null;
         })
         .catch(() => null));
     }
-    return this.timelineChangeCache.get(url);
+    return /** @type {Promise<TimelineChangeFile | null>} */ (this.timelineChangeCache.get(url));
   }
 
   /**
@@ -104,8 +138,14 @@ export class TimelineChangeMethods {
    * edition that was shown (fromIndex) and the one now shown (toIndex). Stepping backwards
    * shows the same pairs reversed. It is drawn unless the reader has switched highlighting
    * off, and stays until the next step. `draw: false` only describes it, for the button.
+   * @this {TimelineChangeApp}
+   * @param {number} fromIndex
+   * @param {number} toIndex
+   * @param {TimelineItem[]} [items]
+   * @param {{ draw?: boolean }} [options]
+   * @returns {Promise<TimelineChangeState | null>}
    */
-  async showTimelineStepChanges(fromIndex, toIndex, items = this.getTimelineAnimationItems(), options = {}) {
+  async showTimelineStepChanges(fromIndex, toIndex, items = /** @type {TimelineChangeApp} */ (/** @type {unknown} */ (this)).getTimelineAnimationItems(), options = {}) {
     const token = (this.timelineChangeToken = (this.timelineChangeToken || 0) + 1);
     const steps = this.getTimelineChangeSteps(fromIndex, toIndex, items);
     if (!steps.length) {
@@ -116,6 +156,7 @@ export class TimelineChangeMethods {
     // While a step's own changes load, a layer change elsewhere must not replace them with the
     // undrawn description syncTimelineChangesToShownEdition gives a newly opened map.
     if (options.draw !== false) this.timelineChangeStepPending = token;
+    /** @type {Array<TimelineChangeFile | null>} */
     let files;
     try {
       files = await Promise.all(used.map((step) => this.fetchTimelineChangePair(step.entry?.path)));
@@ -134,10 +175,20 @@ export class TimelineChangeMethods {
     return view;
   }
 
+  /**
+   * @this {TimelineChangeApp}
+   * @param {TimelineChangeStep[]} steps
+   * @param {Array<TimelineChangeFile | null>} files
+   * @param {{ reversed: boolean, fromItem: TimelineItem | undefined, toItem: TimelineItem | undefined, skipped?: number }} options
+   * @returns {TimelineChangeState}
+   */
   buildTimelineChangeView(steps, files, { reversed, fromItem, toItem, skipped = 0 }) {
     const multi = steps.length > 1;
+    /** @type {TimelineChangeState['changes']} */
     const changes = [];
+    /** @type {TimelineChangeState['features']} */
     const features = [];
+    /** @type {TimelineChangeState['parts']} */
     const parts = [];
     steps.forEach((step, k) => {
       const file = files[k];
@@ -180,15 +231,29 @@ export class TimelineChangeMethods {
     };
   }
 
-  /** A name in capitals ("KILKENNY", "KING'S COUNTY") in ordinary case for a sentence. */
+  /**
+   * A name in capitals ("KILKENNY", "KING'S COUNTY") in ordinary case for a sentence.
+   * @this {TimelineChangeApp}
+   * @param {unknown} name
+   */
   timelineChangeName(name) {
     return timelineChangeName(name);
   }
 
+  /**
+   * @this {TimelineChangeApp}
+   * @param {unknown} value
+   */
   formatHectares(value) {
     return formatHectares(value);
   }
 
+  /**
+   * @this {TimelineChangeApp}
+   * @param {TimelineChange | null | undefined} change
+   * @param {boolean} [reversed]
+   * @returns {string}
+   */
   describeTimelineChange(change, reversed = false) {
     const from = this.timelineChangeName(change?.from);
     const to = this.timelineChangeName(change?.to);
@@ -210,6 +275,10 @@ export class TimelineChangeMethods {
     }
   }
 
+  /**
+   * @this {TimelineChangeApp}
+   * @param {TimelineChangeState | null} view
+   */
   setTimelineChangeView(view) {
     if (!view) this.timelineChangeToken = (this.timelineChangeToken || 0) + 1;
     this.timelineChangeView = view || null;
@@ -217,6 +286,7 @@ export class TimelineChangeMethods {
     this.drawTimelineChanges();
   }
 
+  /** @this {TimelineChangeApp} */
   drawTimelineChanges() {
     const view = this.timelineChangeView;
     if (!view || !view.drawn || !this.getTimelineHighlightEnabled() || (!view.features.length && !view.changes.length)) {
@@ -230,7 +300,8 @@ export class TimelineChangeMethods {
       // they would only blanket the map, and the new lines say it better.
       points: view.changes.length > TIMELINE_CHANGES_MAX_MARKERS ? [] : view.changes
         .filter((change) => Array.isArray(change.point))
-        .map((change) => ({ id: change.key, lng: Number(change.point[0]), lat: Number(change.point[1]) }))
+        // A change's point is [lng, lat] (kept by the filter above).
+        .map((change) => ({ id: change.key, lng: Number(/** @type {unknown[]} */ (change.point)[0]), lat: Number(/** @type {unknown[]} */ (change.point)[1]) }))
     });
   }
 
@@ -238,6 +309,7 @@ export class TimelineChangeMethods {
    * Keep the changes button about the edition on the map. A map opened from the catalogue,
    * or an edition changed some other way, is described against the edition before it, but
    * not drawn until the reader steps or opens the list.
+   * @this {TimelineChangeApp}
    */
   syncTimelineChangesToShownEdition() {
     const items = this.getTimelineAnimationItems();
@@ -256,6 +328,7 @@ export class TimelineChangeMethods {
     else this.setTimelineChangeView(null);
   }
 
+  /** @this {TimelineChangeApp} */
   renderTimelineChangesControl() {
     const group = document.getElementById('timelineChangesGroup');
     const button = document.getElementById('timelineChanges');
@@ -281,6 +354,10 @@ export class TimelineChangeMethods {
     if (!document.getElementById('timelineChangesPanel')?.hidden) this.renderTimelineChangesPanel();
   }
 
+  /**
+   * @this {TimelineChangeApp}
+   * @returns {HTMLElement | null}
+   */
   ensureTimelineChangesPanel() {
     let panel = document.getElementById('timelineChangesPanel');
     if (panel) return panel;
@@ -292,12 +369,12 @@ export class TimelineChangeMethods {
     panel.setAttribute('aria-label', 'Boundary changes');
     setHidden(panel, true);
     panel.addEventListener('click', (event) => {
-      const zoom = event.target.closest?.('[data-change-key]');
+      const zoom = /** @type {HTMLElement | null | undefined} */ (/** @type {Element} */ (event.target).closest?.('[data-change-key]'));
       if (zoom) {
         this.zoomToTimelineChange(zoom.dataset.changeKey);
         return;
       }
-      if (event.target.closest?.('.timeline-changes-panel__close')) this.closeTimelineChangesPanel({ focusButton: true });
+      if (/** @type {Element} */ (event.target).closest?.('.timeline-changes-panel__close')) this.closeTimelineChangesPanel({ focusButton: true });
     });
     panel.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') this.closeTimelineChangesPanel({ focusButton: true });
@@ -306,6 +383,7 @@ export class TimelineChangeMethods {
     return panel;
   }
 
+  /** @this {TimelineChangeApp} */
   toggleTimelineChangesPanel() {
     const panel = this.ensureTimelineChangesPanel();
     if (!panel) return;
@@ -321,9 +399,13 @@ export class TimelineChangeMethods {
     this.renderTimelineChangesPanel();
     setHidden(panel, false);
     document.getElementById('timelineChanges')?.setAttribute('aria-expanded', 'true');
-    panel.querySelector('.timeline-changes-panel__close')?.focus({ preventScroll: true });
+    /** @type {HTMLElement | null} */ (panel.querySelector('.timeline-changes-panel__close'))?.focus({ preventScroll: true });
   }
 
+  /**
+   * @this {TimelineChangeApp}
+   * @param {{ focusButton?: boolean }} [options]
+   */
   closeTimelineChangesPanel(options = {}) {
     const panel = document.getElementById('timelineChangesPanel');
     const button = document.getElementById('timelineChanges');
@@ -334,6 +416,7 @@ export class TimelineChangeMethods {
     button?.setAttribute('aria-expanded', 'false');
   }
 
+  /** @this {TimelineChangeApp} */
   renderTimelineChangesPanel() {
     const panel = this.ensureTimelineChangesPanel();
     const view = this.timelineChangeView;
@@ -341,10 +424,14 @@ export class TimelineChangeMethods {
     panel.innerHTML = timelineChangesPanelHtml(view);
   }
 
+  /**
+   * @this {TimelineChangeApp}
+   * @param {string | undefined} changeKey
+   */
   zoomToTimelineChange(changeKey) {
     const change = this.timelineChangeView?.changes?.find((item) => item.key === changeKey);
     if (!change || !Array.isArray(change.bbox)) return;
-    const [w, s, e, n] = change.bbox.map(Number);
+    const [w, s, e, n] = /** @type {unknown[]} */ (change.bbox).map(Number);
     // A small change is shown with some country round it, not filling the screen.
     const padLng = Math.max((e - w) * 0.6, 0.01);
     const padLat = Math.max((n - s) * 0.6, 0.006);
@@ -355,19 +442,23 @@ export class TimelineChangeMethods {
   /**
    * Two editions of one series switched on together were drawn identically, with two identical
    * legend entries. The older is now grey and dashed, and the legend says which is which.
+   * @this {TimelineChangeApp}
    */
   updateEditionRoles() {
     const ids = this.getLoadedLayerIds()
       .filter((id) => dataService.getMapById(id) && this.isMapVisible(id));
+    /** @type {Map<string, string[]>} */
     const groups = new Map();
     for (const id of ids) {
       const chain = dataService.getChainForMap?.(id);
       if (!chain) continue;
       const key = `${chain.id}|${(dataService.getColumnClassIds?.(chain, id) || []).join(',')}`;
       if (!groups.has(key)) groups.set(key, []);
-      groups.get(key).push(id);
+      /** @type {string[]} */ (groups.get(key)).push(id);
     }
+    /** @type {Map<string, string>} */
     const roles = new Map();
+
     for (const members of groups.values()) {
       if (members.length < 2) continue;
       const dated = members
