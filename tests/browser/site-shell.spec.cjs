@@ -22,6 +22,7 @@ const PAGES = [
   { name: 'home', url: '/' },
   { name: 'about', url: '/pages/about.html' },
   { name: 'status', url: '/pages/status.html' },
+  { name: 'api', url: '/pages/api.html' },
   { name: 'apps', url: '/apps/' },
   { name: 'words', url: '/apps/words/' },
   { name: 'census-explorer', url: '/pages/census-explorer.html' },

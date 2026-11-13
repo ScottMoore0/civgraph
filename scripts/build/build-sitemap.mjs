@@ -69,6 +69,7 @@ export const TOP_LEVEL_PAGES = [
   '/pages/about',
   '/pages/census-explorer',
   '/pages/status',
+  '/pages/api',
 ];
 
 // Browse types with a path-style page (the page-types registry, packages/ui/src/page-types.mjs),

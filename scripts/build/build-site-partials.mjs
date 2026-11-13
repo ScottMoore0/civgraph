@@ -75,6 +75,7 @@ const PAGES = new Map([
   ['site/apps/elections/index.html', SITE_PAGE],
   ['site/pages/census-explorer.html', SITE_PAGE],
   ['site/pages/status.html', SITE_PAGE],
+  ['site/pages/api.html', SITE_PAGE],
   // The 404 is served at any missing path, so it needs the real header (nav and theme toggle)
   // and the saved theme; its bespoke banner had neither and stayed light in dark mode.
   ['site/404.html', SITE_PAGE],

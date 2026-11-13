@@ -179,6 +179,7 @@ export function footer() {
     '<a href="/maps/">Maps</a>',
     '<a href="/browse/">Browse</a>',
     '<a href="/pages/about">About</a>',
+    '<a href="/pages/api">API</a>',
     `<a href="${SUBMIT_MAP_HREF}">Submit a map</a>`,
     '</nav>',
     '</div>',
