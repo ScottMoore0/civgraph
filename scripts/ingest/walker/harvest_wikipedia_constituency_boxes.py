@@ -22,6 +22,10 @@ from urllib.parse import unquote
 
 import requests
 from bs4 import BeautifulSoup
+# Wikimedia requests carry the site's User-Agent (the owner's decision of 13 Nov 2026), through
+# scripts/ingest/wikimedia_headers.py; no other host gets one.
+_WM = __import__('runpy').run_path(str(__import__('pathlib').Path(__file__).resolve().parents[1] / 'wikimedia_headers.py'))
+wikimedia_headers = _WM['wikimedia_headers']
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
 MONTHS = {m: i + 1 for i, m in enumerate(['january', 'february', 'march', 'april', 'may', 'june', 'july',
@@ -35,7 +39,7 @@ def fetch(title, cache):
         return open(path, encoding='utf-8').read()
     url = 'https://en.wikipedia.org/api/rest_v1/page/html/' + requests.utils.quote(title.replace(' ', '_'), safe='')
     for attempt in range(3):
-        r = requests.get(url, timeout=60)
+        r = requests.get(url, headers=wikimedia_headers(url), timeout=60)
         if r.status_code == 200:
             os.makedirs(cache, exist_ok=True)
             open(path, 'w', encoding='utf-8').write(r.text)
@@ -53,7 +57,7 @@ def resolve_redirects(titles, cache):
     todo = sorted({t for t in titles if t and t not in known})
     for i in range(0, len(todo), 50):
         batch = todo[i:i + 50]
-        r = requests.get('https://en.wikipedia.org/w/api.php', timeout=60, params={
+        r = requests.get('https://en.wikipedia.org/w/api.php', headers=wikimedia_headers('https://en.wikipedia.org/w/api.php'), timeout=60, params={
             'action': 'query', 'titles': '|'.join(batch), 'redirects': 1, 'format': 'json', 'formatversion': 2})
         r.raise_for_status()
         q = r.json()['query']

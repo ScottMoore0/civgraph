@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { crawlHeaders } from '../../packages/config/src/node.mjs';
 
 const ROOT = process.cwd();
 const OUT_PATH = path.join(ROOT, 'data', 'database', 'external-sources.json');
@@ -281,9 +282,8 @@ function fileDedupeKey(file, doc) {
 
 async function fetchJson(url) {
   const response = await fetch(url, {
-    headers: {
-      Accept: 'application/json'
-    }
+    // The site's User-Agent to Wikipedia only (owner's decision of 13 Nov 2026); none to archive.org.
+    headers: crawlHeaders({ Accept: 'application/json' }, { url })
   });
   if (!response.ok) throw new Error(`${response.status} ${response.statusText} for ${url}`);
   return response.json();

@@ -19,6 +19,10 @@ from bs4 import BeautifulSoup
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from wiki_tables import grid  # noqa: E402
+# Wikimedia requests carry the site's User-Agent (the owner's decision of 13 Nov 2026), through
+# scripts/ingest/wikimedia_headers.py; no other host gets one.
+_WM = __import__('runpy').run_path(str(__import__('pathlib').Path(__file__).resolve().parents[1] / 'wikimedia_headers.py'))
+wikimedia_headers = _WM['wikimedia_headers']
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
 PAGES = ['List of United Kingdom by-elections (1832–1847)', 'List of United Kingdom by-elections (1847–1857)',
@@ -54,7 +58,8 @@ def main():
     irish = irish_names()
     out = []
     for title in PAGES:
-        r = requests.get('https://en.wikipedia.org/api/rest_v1/page/html/' + requests.utils.quote(title.replace(' ', '_'), safe=''), timeout=60)
+        api_url = 'https://en.wikipedia.org/api/rest_v1/page/html/' + requests.utils.quote(title.replace(' ', '_'), safe='')
+        r = requests.get(api_url, headers=wikimedia_headers(api_url), timeout=60)
         url = 'https://en.wikipedia.org/wiki/' + title.replace(' ', '_')
         for tb in BeautifulSoup(r.text, 'html.parser').find_all('table', class_=re.compile('wikitable')):
             for row in grid(tb):

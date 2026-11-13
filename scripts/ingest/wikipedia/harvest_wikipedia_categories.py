@@ -16,7 +16,7 @@ presidential and local election data, which currently comes from ElectionsIrelan
 Output goes to .cache/wikipedia/categories/ (gitignored): Wikipedia text is CC BY-SA 4.0,
 and copying it into the repository is a separate decision from reading it.
 
-Polite by construction: no User-Agent of ours (urllib's default; owner rule, 13 Nov 2026), maxlag=5, a delay between requests, and
+Polite by construction: the site's User-Agent (the owner's decision of 13 Nov 2026 for Wikimedia projects), maxlag=5, a delay between requests, and
 retries that honour Retry-After. Resumable: a page already cached at the same revision is
 not re-fetched.
 
@@ -24,6 +24,10 @@ not re-fetched.
   python scripts/ingest/wikipedia/harvest_wikipedia_categories.py --category "Category:Presidential_elections_in_Ireland"
 """
 import os, re, sys, json, time, argparse, urllib.parse, urllib.request, urllib.error
+# Wikimedia requests carry the site's User-Agent (the owner's decision of 13 Nov 2026), through
+# scripts/ingest/wikimedia_headers.py; no other host gets one.
+_WM = __import__('runpy').run_path(str(__import__('pathlib').Path(__file__).resolve().parents[1] / 'wikimedia_headers.py'))
+wikimedia_headers = _WM['wikimedia_headers']
 
 API = 'https://en.wikipedia.org/w/api.php'
 DELAY_SECONDS = 0.6
@@ -40,7 +44,7 @@ DEFAULT_ROOTS = [
 def api(params, attempt=0):
     params = dict(params, format='json', formatversion='2', maxlag='5')
     url = API + '?' + urllib.parse.urlencode(params)
-    request = urllib.request.Request(url)
+    request = urllib.request.Request(url, headers=wikimedia_headers(url))
     try:
         with urllib.request.urlopen(request, timeout=60) as response:
             data = json.loads(response.read().decode('utf-8'))

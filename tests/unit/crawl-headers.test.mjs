@@ -1,14 +1,18 @@
 // Owner rule, 13 Nov 2026: "By default, do not identify our crawlers or scrapers as Civgraph, or as
-// anything, unless I approve you doing so." This holds it:
+// anything, unless I approve you doing so." The one approval, the same day: "identify as Civgraph
+// when interacting with Wikimedia projects." This holds both:
 //
-// - crawlHeaders() (packages/config/src/node.mjs) sets no User-Agent and drops one passed in;
+// - crawlHeaders() (packages/config/src/node.mjs) sets no User-Agent and drops one passed in,
+//   except SITE.userAgent for a URL on a Wikimedia domain (WIKIMEDIA_DOMAINS), and nowhere else;
+// - its Python twin, scripts/ingest/wikimedia_headers.py, answers the same for the same URLs;
 // - a request made with it, and a Python urllib request made with no headers, reach a local
 //   server (127.0.0.1, nothing leaves the machine) carrying only the client's generic default;
 // - a ratchet over every tracked script in scripts/, packages/ and tools/: a line that sets a
 //   User-Agent (a header, a Playwright or GDAL option, curl -A) may stand only in a file listed
 //   below, each a request to Civgraph's own services, or code that only reads a User-Agent (a
 //   visitor's, or a library default). The counts may only fall;
-// - SITE.userAgent is read only by those own-service files and the C5 literal check.
+// - SITE.userAgent is read only by those own-service files and the C5 literal check, and the
+//   site's User-Agent is spelled out only in config.js and the Python twin.
 import assert from 'node:assert/strict';
 import { execFileSync, spawn, spawnSync } from 'node:child_process';
 import { createServer } from 'node:http';
@@ -16,19 +20,23 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
-import { SITE, crawlHeaders } from '../../packages/config/src/node.mjs';
+import { SITE, WIKIMEDIA_DOMAINS, crawlHeaders, isWikimediaHost } from '../../packages/config/src/node.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CONFIG = 'packages/config/src/config.js'; // defines SITE.userAgent
+const PY_TWIN = 'scripts/ingest/wikimedia_headers.py'; // the Python twin of the Wikimedia allowlist
 
 /**
  * Files that may name a User-Agent, with the number of lines doing so, and why. Each is a request
  * to Civgraph's own services (civgraph.net, data.civgraph.net, our dev proxies to them), or code
- * that only reads a User-Agent and sends none of its own. Never add a crawler here: an
- * identifying User-Agent to a third party needs the owner's approval for that service.
+ * that only reads a User-Agent and sends none of its own, or the Wikimedia allowlist itself.
+ * Never add a crawler here: an identifying User-Agent to a third party needs the owner's approval
+ * for that service, and then goes into the allowlist, not into the crawler.
  * @type {Record<string, number>}
  */
 const ALLOWED = {
+  'packages/config/src/node.mjs': 1, // crawlHeaders(): SITE.userAgent for Wikimedia hosts only
+  [PY_TWIN]: 1, // its Python twin
   'packages/api/src/handlers/contributions/submit.js': 1, // keeps the visitor's own header with a submission
   'packages/intake/src/contribution.mjs': 1, // strips that header from the batch
   'packages/maps-pipeline/src/tiles/feature-index-from-tiles.mjs': 1, // GDAL reads our PMTiles on data.civgraph.net
@@ -38,7 +46,7 @@ const ALLOWED = {
   'scripts/ingest/bna/render-catalogue-thumbnails.py': 1, // our tiles on data.civgraph.net
   'scripts/ingest/census/build-census-explorer-bundle.mjs': 1, // our R2 bucket (data.civgraph.net)
   'scripts/ingest/osni/rebuild_island_terrain.py': 1, // our terrain tiles on data.civgraph.net
-  'scripts/ingest/wikipedia/harvest_wikipedia_cited_sources.py': 1, // reads urllib's default, to check robots.txt for it; sets none
+  'scripts/ingest/wikipedia/harvest_wikipedia_cited_sources.py': 2, // reads the agent it sends (urllib's default, or the twin's for Wikimedia) to check robots.txt
   'scripts/publish/elections-app-refresh.mjs': 1, // the manifest on our R2 bucket
   'scripts/records/parity-crawl.mjs': 1, // compares civgraph.net with a local rehearsal
   'tools/catalogue-editor/server.mjs': 1, // dev proxy to civgraph.net and data.civgraph.net
@@ -75,6 +83,28 @@ test('crawlHeaders() sets no User-Agent, drops one passed in, and keeps the rest
   assert.equal(extra['User-Agent'], 'x', 'the argument is not changed');
 });
 
+const WIKIMEDIA_URLS = [
+  'https://en.wikipedia.org/w/api.php?action=query', 'https://en.wikipedia.org/api/rest_v1/page/html/X',
+  'https://www.wikidata.org/w/api.php', 'https://query.wikidata.org/sparql?query=x', 'https://wikidata.org/',
+  'https://commons.wikimedia.org/wiki/File:X.png', 'https://upload.wikimedia.org/x.png', 'https://EN.WIKIPEDIA.ORG./wiki/X',
+];
+const OTHER_URLS = [
+  'https://www.nisra.gov.uk/publications', 'https://api.oireachtas.ie/v1/members', 'https://archive.org/metadata/x',
+  'https://notwikipedia.org/', 'https://wikipedia.org.example.com/', 'https://en.wikipedia.org.evil.example/',
+  'https://wikimedia.org@example.com/', 'not a url', '',
+];
+
+test('crawlHeaders() adds SITE.userAgent for Wikimedia hosts only (owner decision, 13 Nov 2026)', () => {
+  assert.deepEqual([...WIKIMEDIA_DOMAINS], ['wikipedia.org', 'wikidata.org', 'wikimedia.org']);
+  for (const url of WIKIMEDIA_URLS) {
+    assert.deepEqual(crawlHeaders({ Accept: 'application/json', 'user-agent': 'other' }, { url }), { Accept: 'application/json', 'User-Agent': SITE.userAgent }, url);
+    assert.ok(isWikimediaHost(new URL(url).hostname), url);
+  }
+  assert.deepEqual(crawlHeaders({}, { url: new URL(WIKIMEDIA_URLS[0]) }), { 'User-Agent': SITE.userAgent });
+  for (const url of OTHER_URLS) assert.deepEqual(crawlHeaders({ Accept: 'x', 'User-Agent': 'y' }, { url }), { Accept: 'x' }, url);
+  assert.doesNotMatch(SITE.userAgent, /@|mailto/i, 'the site only: never an email address or a person');
+});
+
 /**
  * A local server that records the headers of each request it gets.
  * @returns {Promise<{ url: string, seen: import('node:http').IncomingHttpHeaders[], close: () => Promise<void> }>}
@@ -107,6 +137,18 @@ test('Node fetch with crawlHeaders() sends only the generic default User-Agent',
   }
 });
 
+test('a fetch with Wikimedia headers carries exactly the site User-Agent', async () => {
+  const r = await recorder();
+  try {
+    // The headers are worked out for a Wikimedia URL; the request itself goes to the local server.
+    await (await fetch(r.url, { headers: crawlHeaders({ Accept: 'application/json' }, { url: 'https://query.wikidata.org/sparql' }) })).text();
+    assert.equal(r.seen[0]['user-agent'], SITE.userAgent);
+    assert.doesNotMatch(JSON.stringify(r.seen[0]), /@|mailto|mozilla/i);
+  } finally {
+    await r.close();
+  }
+});
+
 const python = ['python3', 'python'].find((cmd) => spawnSync(cmd, ['-I', '-c', 'pass']).status === 0);
 
 test('Python urllib with no headers sends only its generic default User-Agent', { skip: !python && 'no Python here' }, async () => {
@@ -124,6 +166,22 @@ test('Python urllib with no headers sends only its generic default User-Agent', 
   } finally {
     await r.close();
   }
+});
+
+test('the Python twin answers like crawlHeaders() for every URL', { skip: !python && 'no Python here' }, () => {
+  const urls = [...WIKIMEDIA_URLS, ...OTHER_URLS];
+  const code = [
+    'import json, runpy, sys',
+    'wm = runpy.run_path(sys.argv[1])',
+    'urls = json.loads(sys.argv[2])',
+    "print(json.dumps({'ua': wm['WIKIMEDIA_UA'], 'domains': list(wm['WIKIMEDIA_DOMAINS']),",
+    "  'headers': [wm['wikimedia_headers'](u, {'Accept': 'x', 'User-Agent': 'y'}) for u in urls]}))",
+  ].join('\n');
+  const out = execFileSync(/** @type {string} */ (python), ['-I', '-c', code, path.join(ROOT, PY_TWIN), JSON.stringify(urls)], { encoding: 'utf8' });
+  const twin = JSON.parse(out);
+  assert.equal(twin.ua, SITE.userAgent);
+  assert.deepEqual(twin.domains, [...WIKIMEDIA_DOMAINS]);
+  assert.deepEqual(twin.headers, urls.map((url) => crawlHeaders({ Accept: 'x', 'User-Agent': 'y' }, { url })));
 });
 
 test('no script sets a User-Agent outside the own-service list, whose counts only fall', () => {
@@ -144,13 +202,23 @@ test('no script names Civgraph, a contact or an email address in a User-Agent va
   /** @type {string[]} */
   const found = [];
   for (const rel of trackedScripts()) {
-    if (rel === CONFIG || rel in ALLOWED) continue;
+    if (rel === CONFIG || rel in ALLOWED) continue; // the twin is listed there and checked below
     readFileSync(path.join(ROOT, rel), 'utf8').split('\n').forEach((line, i) => {
       if (isComment(line)) return;
       if (/civgraph-research \(|civgraph[\w.-]*\/\d|\(\+https?:\/\/|contact:? (via )?civgraph|Mozilla\/5\.0/i.test(line)) found.push(`${rel}:${i + 1}`);
     });
   }
   assert.deepEqual(found, []);
+});
+
+test('the site User-Agent is spelled out only in config.js and the Python twin', () => {
+  const literal = SITE.userAgent;
+  /** @type {string[]} */
+  const holders = [];
+  for (const rel of trackedScripts()) {
+    if (readFileSync(path.join(ROOT, rel), 'utf8').split('\n').some((l) => !isComment(l) && l.includes(literal))) holders.push(rel);
+  }
+  assert.deepEqual(holders.sort(), [CONFIG, PY_TWIN].sort());
 });
 
 test('SITE.userAgent is read only by requests to our own services', () => {

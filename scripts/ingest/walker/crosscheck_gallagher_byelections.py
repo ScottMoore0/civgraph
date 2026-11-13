@@ -33,6 +33,10 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(HERE, '..', '..'))
 import harvest_ei_candidate_ids as ei  # noqa: E402
 from wiki_tables import grid  # noqa: E402
+# Wikimedia requests carry the site's User-Agent (the owner's decision of 13 Nov 2026), through
+# scripts/ingest/wikimedia_headers.py; no other host gets one.
+_WM = __import__('runpy').run_path(str(__import__('pathlib').Path(__file__).resolve().parents[1] / 'wikimedia_headers.py'))
+wikimedia_headers = _WM['wikimedia_headers']
 
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 FILE = os.path.join(ROOT, 'data', 'elections', 'gallagher-byelections-1923-44.json')
@@ -111,7 +115,8 @@ def ei_result(client, url):
 def wikipedia_list():
     """Rows of the list's main table, keyed by constituency; each carries its date. The table
     has a two-row header ("Vacancy" / "By-election" over the column names)."""
-    html = requests.get('https://en.wikipedia.org/api/rest_v1/page/html/List_of_D%C3%A1il_by-elections', timeout=60).text
+    url = 'https://en.wikipedia.org/api/rest_v1/page/html/List_of_D%C3%A1il_by-elections'
+    html = requests.get(url, headers=wikimedia_headers(url), timeout=60).text
     soup = BeautifulSoup(html, 'html.parser')
     out = {}
     for tb in soup.find_all('table', class_=re.compile('wikitable')):
