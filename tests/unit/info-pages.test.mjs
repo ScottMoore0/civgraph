@@ -11,7 +11,8 @@ import { TOP_LEVEL_PAGES } from '../../scripts/build/build-sitemap.mjs';
 // sets INFO_PAGES_LIVE: one flag decides noindex, the banner, the footer links and the sitemap.
 
 const NOINDEX = '<meta name="robots" content="noindex">';
-const LINK = /href="\/pages\/(privacy|licence|cite|downloads)\.html"/;
+// Linked by the extensionless address (/pages/privacy), as /pages/about is; .html counts too.
+const LINK = /href="\/pages\/(privacy|licence|cite|downloads)(\.html)?"/;
 
 test('the four pages, each with both draft regions', () => {
   assert.deepEqual(INFO_PAGES.map((p) => p.file).sort(),
@@ -20,7 +21,7 @@ test('the four pages, each with both draft regions', () => {
     const html = readFileSync(p.file, 'utf8');
     assert.match(html, /<!-- site:draft-head -->[\s\S]*?<!-- \/site:draft-head -->/, `${p.file}: no site:draft-head region`);
     assert.match(html, /<!-- site:draft-banner -->[\s\S]*?<!-- \/site:draft-banner -->/, `${p.file}: no site:draft-banner region`);
-    assert.equal(p.path, `/${p.file.replace(/^site\//, '')}`);
+    assert.equal(p.path, `/${p.file.replace(/^site\//, '').replace(/\.html$/, '')}`);
   }
 });
 
@@ -28,7 +29,7 @@ test('live: no noindex, no banner, four footer links, the licence in the footer 
   assert.equal(draftHead(true), '');
   assert.equal(draftBanner(true), '');
   assert.deepEqual(footerLinks(true), INFO_PAGES.map((p) => `<a href="${p.path}">${p.label}</a>`));
-  assert.match(footerMeta(true), /href="\/pages\/licence\.html"/);
+  assert.match(footerMeta(true), /href="\/pages\/licence"/);
 });
 
 test('draft: noindex and banner, and nothing links the pages', () => {

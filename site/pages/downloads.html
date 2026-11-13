@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Downloads - Civgraph</title>
-<link rel="canonical" href="https://civgraph.net/pages/downloads.html">
+<link rel="canonical" href="https://civgraph.net/pages/downloads">
 <meta name="description" content="Civgraph's bulk downloads (the records database as SQLite and the linked-data graph, with versions and checksums), its other published files, and its public read-only API.">
 <!-- site:draft-head -->
 <meta name="robots" content="noindex">
@@ -15,12 +15,12 @@
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=e12c28fbed1b',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
-<link rel="stylesheet" href="/assets/ui/tokens.css?v=9a3dca6e608e">
+<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=3d2adfdebd01',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
+<link rel="stylesheet" href="/assets/ui/tokens.css?v=b25ce028f75b">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
 <link rel="stylesheet" href="/assets/ui/base.css?v=3afe8b0c1381">
-<link rel="stylesheet" href="/assets/site/site-chrome.css?v=ac7ea448e3cb">
-<script defer src="/assets/site/site-chrome.js?v=e7ca07ca6dee"></script>
+<link rel="stylesheet" href="/assets/site/site-chrome.css?v=d305c1a0d14b">
+<script defer src="/assets/site/site-chrome.js?v=aa6cbb81bd4d"></script>
 <!-- /site:head -->
 <link rel="stylesheet" href="/assets/pages/css/shared.css">
 <link rel="stylesheet" href="/assets/pages/css/about.css?v=47fd44933677">
@@ -57,7 +57,7 @@
 <rect height="7" rx="1" width="7" x="14" y="3"></rect>
 <rect height="7" rx="1" width="7" x="14" y="14"></rect>
 <rect height="7" rx="1" width="7" x="3" y="14"></rect></svg><span>Apps</span></a>
-<a class="app-header__link app-header__link--active" href="/pages/about.html" aria-current="page"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="info" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<a class="app-header__link app-header__link--active" href="/pages/about" aria-current="page"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="info" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
 <circle cx="12" cy="12" r="10"></circle>
 <path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span>About</span></a>
 <button aria-controls="supportModal" aria-haspopup="dialog" class="support-btn" data-support-open id="supportBtn" title="Support Civgraph" type="button">
@@ -124,7 +124,7 @@
 <section id="versions">
 <h2>Snapshots and checksums</h2>
 <p>The downloads are published as versioned snapshots. Each snapshot of the records database has a version, a short code that is also in its file name, and the <a href="https://data.civgraph.net/data/downloads/manifest.json">manifest</a> gives the size and SHA-256 checksum of every file. <code>-latest</code> always names the newest snapshot. To check a download, compare its SHA-256 with the manifest's, for example with <code>sha256sum</code> on Linux, <code>shasum -a 256</code> on macOS or <code>certutil -hashfile &lt;file&gt; SHA256</code> on Windows.</p>
-<p>To cite a snapshot, see <a href="/pages/cite.html#dataset">How to cite</a>.</p>
+<p>To cite a snapshot, see <a href="/pages/cite#dataset">How to cite</a>.</p>
 <p><span class="owner-note">OWNER TODO: only the newest snapshot is online today. Decide how long older versioned snapshots stay downloadable, and make the upload refuse to overwrite a versioned file that already exists (the version comes from the database's <code>dataset</code> table, and nothing in the upload stops a rebuild reusing it).</span></p>
 </section>
 
@@ -144,7 +144,7 @@
 
 <section id="licence">
 <h2>Licence</h2>
-<p>Civgraph's own compiled data is released under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>. The downloads and the API also carry material from many sources, each under its own licence, and every record names its source. See <a href="/pages/licence.html">Licence</a> for what you may do and how to credit it. The records include the names and public records of candidates and office-holders; see <a href="/pages/privacy.html">Privacy</a>.</p>
+<p>Civgraph's own compiled data is released under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener noreferrer" target="_blank">CC BY 4.0</a>. The downloads and the API also carry material from many sources, each under its own licence, and every record names its source. See <a href="/pages/licence">Licence</a> for what you may do and how to credit it. The records include the names and public records of candidates and office-holders; see <a href="/pages/privacy">Privacy</a>.</p>
 <p><span class="owner-note">OWNER TODO: the manifest's licence note points to the About page. <code>packages/loader/src/downloads.mjs</code> should point it at this site's Licence page; that takes effect at the next approved upload of the downloads.</span></p>
 </section>
 </div>
@@ -160,7 +160,8 @@
 <nav aria-label="Footer navigation" class="ftr__nav">
 <a href="/maps/">Maps</a>
 <a href="/browse/">Browse</a>
-<a href="/pages/about.html">About</a>
+<a href="/pages/about">About</a>
+<a href="/pages/api">API</a>
 <a href="mailto:scott@civgraph.net?subject=Civgraph%20map%20submission&body=What%20the%20map%20shows%20%28the%20area%2C%20the%20subject%2C%20and%20the%20year%20or%20period%20it%20covers%29%3A%0A%0A%0AWhere%20it%20came%20from%20%28who%20made%20it%2C%20and%20where%20you%20got%20it%29%3A%0A%0A%0AWhat%20form%20it%20is%20in%20%28a%20scan%2C%20a%20PDF%2C%20a%20shapefile%2C%20GeoJSON%2C%20or%20something%20else%29%3A%0A%0A%0AWhether%20it%20can%20be%20republished%2C%20and%20under%20what%20licence%2C%20if%20you%20know%3A%0A%0A%0AYour%20name%2C%20if%20you%20would%20like%20the%20contribution%20credited%3A%0A%0A">Submit a map</a>
 </nav>
 </div>
