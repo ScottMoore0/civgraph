@@ -1,5 +1,7 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './test2.css';
+// The design system's button (cg-button): the count toolbar's button uses it.
+import '../../ui/assets/components/button.css';
 
 const start = () => {
   if (window.__civgraphTest2BootStarted) return;
