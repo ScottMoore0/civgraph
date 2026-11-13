@@ -7,6 +7,7 @@ Pages that are not the map application and not `/browse/`.
 | File | Tracked | Serves |
 |---|---|---|
 | `about.html` | yes | `/about` |
+| `api.html` | yes | `/pages/api`: the Civgraph API (version 1), linked from About, the footer, `llms.txt` and the agent guide |
 | `census-explorer.html` | yes | The Census Explorer, which fetches `data/census/explorer-bundle.json` at runtime |
 | `*-mock.html` | **no** — `.gitignore` excludes `pages/*-mock.html` | Nothing. Local design mocks. |
 

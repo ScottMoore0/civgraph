@@ -58,6 +58,7 @@ const STATIC_PAGES = [
   ['site/index.html', 'https://civgraph.net/'],
   ['site/pages/about.html', 'https://civgraph.net/pages/about'],
   ['site/pages/status.html', 'https://civgraph.net/pages/status'],
+  ['site/pages/api.html', 'https://civgraph.net/pages/api'],
   ['site/pages/census-explorer.html', 'https://civgraph.net/pages/census-explorer'],
   ['site/apps/index.html', 'https://civgraph.net/apps/'],
   ['site/apps/words/index.html', 'https://civgraph.net/apps/words/'],
