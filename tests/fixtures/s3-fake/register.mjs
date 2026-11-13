@@ -1,4 +1,4 @@
-// Loaded with `node --import` by tests/fixtures/s3-fake/harness.mjs before a publish script runs:
+// Loaded with `node --import` by harness.mjs (beside this file) before a publish script runs:
 //
 //   - every import of '@aws-sdk/client-s3' gets the recording stand-in (client-s3.mjs), and any
 //     other '@aws-sdk/*' module fails to load, so the real SDK can never be reached;

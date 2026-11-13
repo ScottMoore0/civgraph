@@ -5,7 +5,7 @@
 //
 // Two ways in:
 //   - in a test: createFakeS3({ state }) gives the S3Client and command classes, with `calls`;
-//   - in a script run by tests/fixtures/s3-fake/harness.mjs: register.mjs points every import
+//   - in a script run by harness.mjs (beside this file): register.mjs points every import
 //     of '@aws-sdk/client-s3' here, and this module's own exports read the bucket from the JSON
 //     file in S3_FAKE_STATE and append each call, one JSON line, to the file in S3_FAKE_LOG.
 //
