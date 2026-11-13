@@ -129,6 +129,63 @@ test('the renamed council divisions: the file, its name and the index all carry 
   }
 });
 
+// Divisions spelt two or three ways across rounds, given one name each on 13 Nov 2026 by the
+// owner's rule (the official or DED-map name where there is one, otherwise the spelling most
+// rounds use): body, the name now, and each round filed under another spelling.
+const SPELLING_FAMILIES = [
+  ['north-down-rural-district-council', 'Quintin', [['1946-10-03', 'Quinton']]],
+  ['dungannon-rural-district-council', 'Bernagh', [['1930-06-04', 'Beragh']]],
+  ['dungannon-rural-district-council', 'Crossdernot', [['1924-05-28', 'Crossdernott'], ['1927-06-01', 'Crossdernott'], ['1930-06-04', 'Crowdernott'], ['1933-05-31', 'Crossdernott'], ['1936-06-03', 'Crossdernott'], ['1939-05-31', 'Crossdernott'], ['1949-06-02', 'Crossdernott'], ['1952-06-05', 'Crossdernott'], ['1964-06-04', 'Crossdernott'], ['1967-06-01', 'Crossdernott']]],
+  ['dungannon-rural-district-council', 'Aghnahoe', [['1924-05-28', 'Anahoe'], ['1930-06-04', 'Anahoe'], ['1933-05-31', 'Anahoe'], ['1936-06-03', 'Anahoe'], ['1946-10-03', 'Anahoe'], ['1949-06-02', 'Anahoe'], ['1961-06-01', 'Anahoe'], ['1964-06-04', 'Anahoe'], ['1967-06-01', 'Anahoe']]],
+  ['coleraine-rural-district-council', 'Lislea', [['1949-06-02', 'Lislen']]],
+  ['coleraine-rural-district-council', 'Ballylagan', [['1924-05-30', 'Ballylaggan'], ['1927-05-27', 'Ballylaggan'], ['1930-06-05', 'Ballylaggan'], ['1933-06-02', 'Ballylaggan'], ['1939-06-02', 'Ballylaggan'], ['1946-10-31', 'Ballylaggan'], ['1949-06-02', 'Ballylaggan'], ['1952-06-05', 'Ballylaggan'], ['1955-06-02', 'Ballylaggan'], ['1958-06-05', 'Ballylaggan']]],
+  ['coleraine-rural-district-council', 'Bovagh', [['1946-10-31', 'Boveagh']]],
+  ['coleraine-rural-district-council', 'Drumcroon', [['1946-10-31', 'Drumacroon'], ['1961-06-01', 'Drumcrow']]],
+  ['coleraine-rural-district-council', 'Slaght', [['1958-06-05', 'Slaught'], ['1961-06-01', 'Slight']]],
+  ['coleraine-rural-district-council', 'The Grove', [['1924-05-30', 'Grove'], ['1933-06-02', 'Grove'], ['1939-06-02', 'Grove'], ['1949-06-02', 'Grove']]],
+  ['coleraine-rural-district-council', 'Portstewart Rural', [['1924-05-30', 'Portstewart'], ['1949-06-02', 'Portstewart']]],
+  ['limavady-rural-district-council', 'Ballyharigan', [['1924-05-30', 'Ballyhargan'], ['1927-05-27', 'Ballyhargan'], ['1933-06-02', 'Ballyhargan'], ['1939-06-02', 'Ballyharrigan'], ['1946-10-31', 'Ballyharrigan'], ['1949-06-02', 'Ballyharrigan'], ['1952-06-05', 'Ballyharrigan'], ['1955-06-02', 'Ballyharrigan']]],
+  ['limavady-rural-district-council', 'Drumraighland', [['1924-05-30', 'Drumreighland'], ['1927-05-27', 'Drumreighland'], ['1930-06-05', 'Drumreighland'], ['1933-06-02', 'Drumreighland'], ['1936-06-02', 'Drumreighland'], ['1939-06-02', 'Drumreighland'], ['1946-10-31', 'Drumreighland'], ['1952-06-05', 'Drumreighland'], ['1961-06-01', 'Drumreighland']]],
+  ['limavady-rural-district-council', 'Gelvin', [['1924-05-30', 'Galvin']]],
+  ['limavady-rural-district-council', 'The Highlands', [['1939-06-02', 'Highlands']]],
+  ['londonderry-rural-district-council', 'Liberties Lower', [['1927-05-27', 'Lower Liberties'], ['1930-06-05', 'Lower Liberties'], ['1933-06-02', 'Lower Liberties'], ['1936-06-02', 'Lower Liberties'], ['1946-10-31', 'Lower Liberties'], ['1949-06-02', 'Lower Liberties'], ['1952-06-05', 'Lower Liberties'], ['1958-06-05', 'Lower Liberties'], ['1961-06-01', 'Lower Liberties'], ['1964-06-04', 'Lower Liberties']]],
+  ['londonderry-rural-district-council', 'Liberties Middle', [['1927-05-27', 'Middle Liberties'], ['1930-06-05', 'Middle Liberties'], ['1933-06-02', 'Middle Liberties'], ['1936-06-02', 'Middle Liberties'], ['1946-10-31', 'Middle Liberties'], ['1949-06-02', 'Middle Liberties'], ['1952-06-05', 'Middle Liberties'], ['1958-06-05', 'Middle Liberties'], ['1961-06-01', 'Middle Liberties'], ['1964-06-04', 'Middle Liberties'], ['1967-06-01', 'Middle Liberties']]],
+  ['londonderry-rural-district-council', 'Liberties Upper', [['1927-05-27', 'Upper Liberties'], ['1930-06-05', 'Upper Liberties'], ['1933-06-02', 'Upper Liberties'], ['1936-06-02', 'Upper Liberties'], ['1946-10-31', 'Upper Liberties'], ['1949-06-02', 'Upper Liberties'], ['1952-06-05', 'Upper Liberties'], ['1958-06-05', 'Upper Liberties'], ['1961-06-01', 'Upper Liberties'], ['1964-06-04', 'Upper Liberties']]],
+  ['londonderry-rural-district-council', 'Ballymullins', [['1927-05-27', 'Ballymullan'], ['1930-06-05', 'Ballymullan'], ['1933-06-02', 'Ballymullan'], ['1939-06-02', 'Ballymullan'], ['1952-06-05', 'Ballymullan'], ['1961-06-01', 'Ballymullan'], ['1964-06-04', 'Ballymullan']]],
+  ['londonderry-rural-district-council', 'Waterside', [['1961-06-01', 'Waterside Rural']]],
+];
+/** @returns {[string, string][]} each respelt division's old contest slug and its new one */
+function spellingFamilySlugs() {
+  return SPELLING_FAMILIES.flatMap(([body, now, rounds]) => rounds.map(([date, old]) => /** @type {[string, string]} */ ([`${body}-${date}-${slugify(old)}`, `${body}-${date}-${slugify(now)}`])));
+}
+// Two 1979 Dublin Corporation contests filed under ElectionsIreland's later area names, renamed to
+// the areas of the time (S.I. No. 41/1979) on 13 Nov 2026.
+const DUBLIN_1979 = [
+  ['ireland-local-1979-06-07-north-inner-city', 'ireland-local-1979-06-07-area-no-6-ballybough-drumcondra-south-north-dock'],
+  ['ireland-local-1979-06-07-pembroke', 'ireland-local-1979-06-07-area-no-10-mansion-house-pembroke'],
+];
+
+test('the respelt council divisions: one name per division, every round renamed, the index and note agree', () => {
+  const index = read('data/elections-source/data/elections_index.json');
+  let rounds = 0;
+  for (const [body, now, renamed] of SPELLING_FAMILIES) {
+    const olds = new Set(renamed.map(([, old]) => old));
+    for (const entry of index.bodies.find((b) => b.slug === body)?.dates || []) {
+      for (const name of entry.constituencies || []) assert.ok(!olds.has(name), `${body} ${entry.date} still names ${name}`);
+    }
+    for (const [date, old] of renamed) {
+      rounds += 1;
+      const dir = `data/elections-source/data/elections/${body}/${date}`;
+      assert.ok(!existsSync(path.join(ROOT, dir, `${slugify(old)}.json`)), `${dir}/${slugify(old)}.json is gone`);
+      const file = `${dir}/${slugify(now)}.json`;
+      const contest = read(file);
+      assert.equal(contest.Constituency.countInfo.Constituency_Name, now, `${file} names the division`);
+      assert.ok(String(contest.correctionNote).includes(`Renamed from '${old}' to ${now}`), `${file} records the spelling it was filed under`);
+    }
+  }
+  assert.equal(rounds, 101);
+});
+
 // The contest files the November 2026 council rounds deleted, renamed or refiled (12cd5ac496,
 // 22c749eecb): their published addresses answer 301 to where the content lives now.
 const RETIRED = new Map([
@@ -153,6 +210,9 @@ const RETIRED = new Map([
   // North Down Rural 1964's Ards Peninsula, recorded as Quintin by dc67fd1eb3 (its file keeps the
   // old name; the contest's slug follows Constituency_Name).
   ['north-down-rural-district-council-1964-06-04-ards-peninsula', 'north-down-rural-district-council-1964-06-04-quintin'],
+  // The spelling families and the two Dublin areas of 13 Nov 2026.
+  ...spellingFamilySlugs(),
+  ...DUBLIN_1979,
 ]);
 const sitemapSlugs = () => new Set([...readFileSync(path.join(ROOT, 'site', 'sitemaps', 'browse-elections.xml'), 'utf8')
   .matchAll(/<loc>https:\/\/civgraph\.net\/browse\/elections\/([^<]+)<\/loc>/g)].map((m) => m[1]));
