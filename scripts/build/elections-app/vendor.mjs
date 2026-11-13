@@ -100,6 +100,9 @@ async function download(url, want) {
 
 const LICENCE = /^(licen[cs]e|copying|notice)(\.(txt|md))?$/i;
 
+/** @typedef {{ packages: Record<string, { version: string, integrity?: string, license?: string }> }} Lockfile */
+
+/** @returns {Lockfile} */
 function install() {
   rmSync(WORK, { recursive: true, force: true });
   mkdirSync(WORK, { recursive: true });
@@ -124,14 +127,14 @@ async function bundle(entry, out) {
     entryPoints: [entry], bundle: true, format: 'esm', minify: true, platform: 'browser', target: ['es2020'],
     legalComments: 'eof', outfile: out, metafile: true, logLevel: 'warning', absWorkingDir: WORK,
   });
-  // The packages that landed in the bundle, for the notices.
-  return [...new Set(Object.keys(r.metafile.inputs).map((p) => {
+  // The packages that landed in the bundle, for the notices (filter(Boolean) drops the nulls).
+  return /** @type {string[]} */ ([...new Set(Object.keys(r.metafile.inputs).map((p) => {
     const m = /node_modules[/\\](@[^/\\]+[/\\][^/\\]+|[^/\\]+)/.exec(p);
     return m ? m[1].replace(/\\/g, '/') : null;
-  }).filter(Boolean))].sort();
+  }).filter(Boolean))].sort());
 }
 
-/** @param {string[]} pkgs @param {any} lock */
+/** @param {string[]} pkgs @param {Lockfile} lock */
 function notices(pkgs, lock) {
   const out = [
     'Third-party notices: the browser libraries the Civgraph Elections app self-hosts (src/libs/).',
@@ -197,7 +200,9 @@ async function build() {
  * @returns {{ problems: string[], missingLocal: string[] }}
  */
 export function checkVendor(root = REPO) {
+  /** @type {string[]} */
   const problems = [];
+  /** @type {string[]} */
   const missingLocal = [];
   const file = path.join(root, MANIFEST);
   if (!existsSync(file)) return { problems: [`${MANIFEST} is missing: run node scripts/build/elections-app/vendor.mjs`], missingLocal };

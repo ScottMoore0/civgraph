@@ -24,5 +24,5 @@ export const GRAPH_EXCLUDED_SOURCE_ID_PREFIXES = [
   'approved-publication:opendata-ni-'
 ];
 
-export const isGraphExcludedSource = (item) =>
+export const isGraphExcludedSource = (/** @type {{ id?: unknown } | null | undefined} */ item) =>
   GRAPH_EXCLUDED_SOURCE_ID_PREFIXES.some((prefix) => String(item?.id || '').startsWith(prefix));

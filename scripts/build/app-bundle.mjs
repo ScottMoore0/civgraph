@@ -118,6 +118,10 @@ console.log(`MapLibre CSS: ${(cssBytes / 1024).toFixed(1)} KB`);
 console.log(`MapLibre entry versions: js=${jsVersion} css=${cssVersion}`);
 console.log(`MapLibre source maps: ${emitSourceMaps ? 'enabled' : 'disabled'}`);
 
+/**
+ * @param {string} dir
+ * @returns {string[]}
+ */
 function outputFiles(dir) {
   if (!existsSync(dir)) return [];
   const files = [];
@@ -129,10 +133,15 @@ function outputFiles(dir) {
   return files;
 }
 
-function contentHash(file) {
+function contentHash(/** @type {string} */ file) {
   return createHash('sha256').update(readFileSync(file)).digest('hex').slice(0, 12);
 }
 
+/**
+ * @param {string} jsVersion
+ * @param {string} cssVersion
+ * @param {Record<string, string>} viewerAssetVersions
+ */
 function updateHtmlVersions(jsVersion, cssVersion, viewerAssetVersions) {
   // maps/index.html is the MapLibre app since the landing page took the root. Only
   // index.html was stamped, and it loads none of these, so the app's tokens had frozen.
@@ -162,7 +171,7 @@ function writeCatalogueTestPage() {
   const source = 'site/maps/index.html';
   if (!existsSync(source)) return;
   const base = readFileSync(source, 'utf8');
-  const page = (dir, flag) => {
+  const page = (/** @type {string} */ dir, /** @type {string} */ flag) => {
     const html = base
       .replace(/<head>/i, `<head>\n  <meta name="robots" content="noindex, nofollow">\n  <script>window.CIVGRAPH_CATALOGUE = '${flag}';</script>`)
       .replace('<meta property="og:url" content="https://civgraph.net/maps/">', `<meta property="og:url" content="https://civgraph.net/maps/${dir}/">`)
@@ -174,7 +183,7 @@ function writeCatalogueTestPage() {
   page('classic', 'classic');
 }
 
-function updateServiceWorkerVersion(jsVersion) {
+function updateServiceWorkerVersion(/** @type {string} */ jsVersion) {
   const swPath = 'site/sw.js';
   if (!existsSync(swPath)) return;
   const nextVersion = `root-maplibre-sw-${jsVersion}`;

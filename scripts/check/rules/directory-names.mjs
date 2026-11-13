@@ -84,7 +84,7 @@ const TARGETS = [
   { dir: 'tests/', re: /(^|["'`(\s=,:/])tests\/[A-Za-z0-9._-]/ },
 ];
 
-function classify(file) {
+function classify(/** @type {string} */ file) {
   const f = file.replace(/\\/g, '/');
   if (f.startsWith('functions/')) return 'RUNTIME';
   if (TEXT_NAMES.has(f) || f === 'wrangler.toml' || f.startsWith('.github/')) return 'CONFIG';
@@ -97,6 +97,10 @@ function classify(file) {
   return 'BUILD';
 }
 
+/**
+ * @param {string} dir
+ * @returns {Generator<string>}
+ */
 function* walk(dir, depth = 0) {
   let entries;
   try { entries = readdirSync(dir); } catch { return; }
@@ -136,8 +140,11 @@ for (const file of walk(ROOT)) {
   }
 }
 
+/** @type {Record<string, number>} */
 const byKind = {};
+/** @type {Record<string, number>} */
 const byDir = {};
+/** @type {Record<string, Set<string>>} */
 const filesByKind = {};
 for (const f of findings) {
   byKind[f.kind] = (byKind[f.kind] || 0) + 1;

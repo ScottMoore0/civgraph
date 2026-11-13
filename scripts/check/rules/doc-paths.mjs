@@ -83,6 +83,10 @@ const ROOTS = new Set([
  */
 const NEGATED = /\b(missing|does not exist|doesn't exist|absent|not found|404|deleted|removed|no such file)\b/i;
 
+/**
+ * @param {string} text
+ * @param {number} index
+ */
 function lineContaining(text, index) {
   const start = text.lastIndexOf('\n', index) + 1;
   const end = text.indexOf('\n', index);

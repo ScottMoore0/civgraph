@@ -63,7 +63,7 @@ for (const p of [UI, CATALOGUE, INDEX]) {
 // silently start reading the wrong block the next time something is inserted above it. The
 // array is pure data -- object literals of strings and string arrays -- so evaluating it is
 // how we read it without duplicating the definitions here and letting the copy drift.
-function readC1Cards(source) {
+function readC1Cards(/** @type {string} */ source) {
   const marker = /const\s+c1Cards\s*=\s*\[/.exec(source);
   if (!marker) throw new Error('Could not find `const c1Cards = [` in packages/map/src/ui-controller.js');
   const open = source.indexOf('[', marker.index);
@@ -100,7 +100,8 @@ for (const layer of indexLayers) {
   if (layer?.sourceMapId) indexed.add(layer.sourceMapId);
 }
 
-const classById = new Map((catalogue.classes || []).map((c) => [c.id, c]));
+/** @typedef {{ id: string, hidden?: boolean, placeholder?: boolean, chunked?: unknown, members?: string[], variants?: { id?: string }[], files?: object }} CatalogueMap */
+const classById = new Map((catalogue.classes || []).map((/** @type {{ id: string, maps?: string[] }} */ c) => [c.id, c]));
 
 const covered = new Set();
 for (const card of cards) {
@@ -118,18 +119,19 @@ for (const m of catalogue.maps || []) {
   for (const v of m.variants || []) if (v.id) variantIds.add(v.id);
 }
 
-const isRenderable = (m) => {
+const isRenderable = (/** @type {CatalogueMap} */ m) => {
   const members = m.members || [];
   if (members.length) return members.every((id) => indexed.has(id));
   return indexed.has(m.id) || Boolean(m.chunked);
 };
 
-const visible = (catalogue.maps || []).filter((m) => !m.hidden);
+/** @type {CatalogueMap[]} */
+const visible = (catalogue.maps || []).filter((/** @type {CatalogueMap} */ m) => !m.hidden);
 
 // Mirrors the generated-card rule in ui-controller.js exactly: a visible, non-variant
 // layer that owns data gets a category card. Renderable implies it owns data, so with the
 // fallback in place nothing renderable can be unreachable -- which is the point.
-const claimedByFallback = (m) => hasGeneratedFallback
+const claimedByFallback = (/** @type {CatalogueMap} */ m) => hasGeneratedFallback
   && !variantIds.has(m.id)
   && Boolean(Object.keys(m.files || {}).length
     || (m.variants || []).length

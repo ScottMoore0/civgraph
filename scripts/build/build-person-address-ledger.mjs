@@ -29,8 +29,10 @@ if (!existsSync(DB_FILE)) {
   process.exit(1);
 }
 const store = openSqlite(DB_FILE, { readOnly: true });
-const cards = await store.all('SELECT id, slug FROM person_cards ORDER BY id');
-const aliasRows = await store.all('SELECT alias, slug FROM person_aliases ORDER BY alias');
+/** @typedef {import('../../packages/storage/src/store.js').SqlValue} SqlValue */
+// each query's rows have exactly the columns it selects
+const cards = /** @type {{ id: SqlValue, slug: SqlValue }[]} */ (await store.all('SELECT id, slug FROM person_cards ORDER BY id'));
+const aliasRows = /** @type {{ alias: SqlValue, slug: SqlValue }[]} */ (await store.all('SELECT alias, slug FROM person_aliases ORDER BY alias'));
 const published = publishedFromRows(cards, aliasRows);
 const ledger = readLedger();
 const grown = growLedger(ledger, published.items);

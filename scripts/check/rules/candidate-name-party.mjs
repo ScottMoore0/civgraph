@@ -54,7 +54,7 @@ const BASELINE = 'data/database/candidate-name-party-baseline.json';
 const LIST = process.argv.includes('--list');
 const UPDATE = process.argv.includes('--update-baseline');
 
-const norm = (value) => String(value || '')
+const norm = (/** @type {unknown} */ value) => String(value || '')
   .normalize('NFD').replace(/[̀-ͯ]/g, '')
   .toLowerCase().replace(/[^a-z ]+/g, ' ').replace(/\s+/g, ' ').trim();
 
@@ -78,9 +78,9 @@ const EXPANSIONS = {
 };
 
 /** Words of a party's full name that are long enough to be a plausible surname. */
-function forbiddenWords(party) {
+function forbiddenWords(/** @type {unknown} */ party) {
   const key = norm(party);
-  const expanded = EXPANSIONS[key] || key;
+  const expanded = /** @type {Record<string, string>} */ (EXPANSIONS)[key] || key;
   const words = new Set();
   for (const word of expanded.split(' ')) if (word.length > 3) words.add(word);
   // A spelled-out party contributes its own words too, so "Sinn Féin" catches "Féin"
@@ -89,10 +89,12 @@ function forbiddenWords(party) {
   return words;
 }
 
+/** @typedef {{ name: string, party: string, file: string }} Finding */
+/** @type {Finding[]} */
 const findings = [];
 let scanned = 0;
 
-function walk(dir) {
+function walk(/** @type {string} */ dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) { walk(full); continue; }
@@ -151,11 +153,12 @@ if (LIST) {
 // rows collapsed to 60 keys, and a genuinely new third occurrence in an already-pinned file
 // would have passed silently. That is the same false-green shape as a check that verifies
 // something other than what it just did, so it is counted instead.
-const identity = (finding) => `${finding.file}|${finding.name}|${finding.party}`;
+const identity = (/** @type {Finding} */ finding) => `${finding.file}|${finding.name}|${finding.party}`;
 const baseline = existsSync(BASELINE) ? JSON.parse(readFileSync(BASELINE, 'utf8')) : { known: {} };
 const known = baseline.known || {};
 
-const tally = (list) => {
+const tally = (/** @type {Finding[]} */ list) => {
+  /** @type {Record<string, number>} */
   const counts = {};
   for (const finding of list) counts[identity(finding)] = (counts[identity(finding)] || 0) + 1;
   return counts;

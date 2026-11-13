@@ -63,6 +63,10 @@ const EXEMPT = new Set([
   'ARCHIVE.md',                        // where archived material went (moved from the root 8 Nov 2026)
 ]);
 
+/**
+ * @param {string} dir
+ * @param {string[]} out
+ */
 function walkDocs(dir, out) {
   for (const name of readdirSync(dir)) {
     const full = path.join(dir, name);
@@ -75,6 +79,7 @@ function walkDocs(dir, out) {
 }
 
 function candidates() {
+  /** @type {string[]} */
   const out = [];
   if (existsSync('docs')) walkDocs('docs', out);
   for (const name of readdirSync('.')) {

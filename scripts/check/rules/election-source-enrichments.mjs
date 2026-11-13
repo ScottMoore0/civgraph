@@ -22,7 +22,7 @@ function main() {
   const doc = readJson(SIDE);
   assert(doc.schemaVersion === 1, 'election-source-enrichments must be schemaVersion 1');
   const enrichments = Array.isArray(doc.enrichments) ? doc.enrichments : [];
-  const datasetCount = enrichments.reduce((s, e) => s + (Array.isArray(e.datasets) ? e.datasets.length : 0), 0);
+  const datasetCount = enrichments.reduce((/** @type {number} */ s, /** @type {{ datasets?: unknown }} */ e) => s + (Array.isArray(e.datasets) ? e.datasets.length : 0), 0);
   // Count pins — bump deliberately when the tranche grows.
   // 2026-07-08: 11 Dail general elections / 27 datasets + 6 presidential elections /
   // 10 datasets (correctly matched to ireland-president entities) = 17 / 37.
@@ -32,7 +32,7 @@ function main() {
   assert(!LOCAL.test(JSON.stringify(doc)), 'sidecar must not expose local filesystem paths');
 
   const elections = readJson(BROWSE_ELECTIONS).items || [];
-  const byKey = new Map(elections.map((e) => [e.key || e.id, e]));
+  const byKey = new Map(elections.map((/** @type {{ key?: string, id?: string, references?: unknown }} */ e) => [e.key || e.id, e]));
 
   let materialised = 0;
   for (const e of enrichments) {
@@ -43,7 +43,7 @@ function main() {
       assert(/^https:\/\//i.test(d.providerUrl || ''), `dataset providerUrl not https under ${e.electionKey}: ${d.providerUrl}`);
       assert(OPEN_LICENCES.has(d.license), `dataset licence not open (${d.license}) under ${e.electionKey}`);
       const refs = Array.isArray(election.references) ? election.references : [];
-      const hit = refs.some((r) => (r.url || '').replace(/\/+$/, '') === d.providerUrl.replace(/\/+$/, ''));
+      const hit = refs.some((/** @type {{ url?: string }} */ r) => (r.url || '').replace(/\/+$/, '') === d.providerUrl.replace(/\/+$/, ''));
       assert(hit, `dataset not materialised as a reference on ${e.electionKey}: ${d.providerUrl}`);
       materialised += 1;
     }
@@ -51,5 +51,10 @@ function main() {
   console.log(`Election source-enrichment validation passed: ${enrichments.length} elections, ${datasetCount} datasets, ${materialised} references materialised.`);
 }
 
-function readJson(p) { assert(existsSync(p), `missing required file: ${path.relative(ROOT, p)}`); return JSON.parse(readFileSync(p, 'utf8')); }
+function readJson(/** @type {string} */ p) { assert(existsSync(p), `missing required file: ${path.relative(ROOT, p)}`); return JSON.parse(readFileSync(p, 'utf8')); }
+/**
+ * @param {unknown} c
+ * @param {string} m
+ * @returns {asserts c}
+ */
 function assert(c, m) { if (!c) { console.error(`FAIL: ${m}`); process.exit(1); } }

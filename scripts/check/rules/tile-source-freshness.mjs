@@ -61,7 +61,7 @@ const METADATA = 'render/metadata/maps-test.json';
 const TILE_DIR = 'render/pmtiles/generated';
 
 const doc = JSON.parse(readFileSync(METADATA, 'utf8'));
-const layers = (doc.layers || []).filter((l) => l.sourceType === 'pmtiles' && l.sourceFile);
+const layers = (doc.layers || []).filter((/** @type {{ sourceType?: string, sourceFile?: string }} */ l) => l.sourceType === 'pmtiles' && l.sourceFile);
 
 const stale = [];
 let checked = 0;

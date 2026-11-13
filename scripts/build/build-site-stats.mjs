@@ -65,17 +65,18 @@ const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'data/database/site-stats.json');
 
 const args = process.argv.slice(2);
-const argVal = (name) => {
+const argVal = (/** @type {string} */ name) => {
   const i = args.indexOf(name);
   return i >= 0 ? args[i + 1] : undefined;
 };
 
+/** @type {(message: string) => never} */
 const fail = (message) => {
   console.error(`FAIL: ${message}`);
   process.exit(1);
 };
 
-const readJson = (rel) => {
+const readJson = (/** @type {string} */ rel) => {
   const full = path.resolve(ROOT, rel);
   if (!existsSync(full)) {
     fail(`${rel} does not exist, so its figure cannot be computed.\n`
@@ -84,11 +85,11 @@ const readJson = (rel) => {
   try {
     return JSON.parse(readFileSync(full, 'utf8'));
   } catch (error) {
-    fail(`${rel} could not be parsed: ${error?.message || error}`);
+    fail(`${rel} could not be parsed: ${/** @type {Error | undefined} */ (error)?.message || error}`);
   }
 };
 
-const optionalJson = (rel) => {
+const optionalJson = (/** @type {string} */ rel) => {
   const full = path.resolve(ROOT, rel);
   if (!existsSync(full)) return null;
   try {
@@ -143,6 +144,8 @@ const persons = readJson(path.join(BROWSE_DIR, 'persons.json'));
 const sources = readJson(path.join(BROWSE_DIR, 'sources.json'));
 const books = readJson('data/database/books.json');
 
+// numbers once the loop below has deleted the optional figures whose source is absent
+/** @type {Record<string, number>} */
 const stats = {
   publicMaps,
   electionContests: contests,
@@ -178,6 +181,7 @@ for (const [key, value] of Object.entries(stats)) {
 }
 
 // The label is part of the claim, so it lives with the number rather than in the page.
+/** @type {Record<string, string>} */
 const LABELS = {
   publicMaps: 'public maps',
   electionContests: 'election contests',
@@ -194,6 +198,7 @@ const LABELS = {
   graphStatements: 'graph statements',
 };
 
+/** @type {Record<string, string>} */
 const PROVENANCE = {
   publicMaps: 'data/catalogue/catalogue.json :: series[].members[] + series[].local[], distinct ids (src/public-map.mjs catalogueMapIds)',
   mapsToBeAdded: 'data/catalogue/catalogue.json :: series[].todo[] not shown as a map (src/public-map.mjs catalogueToBeAddedIds)',
@@ -210,7 +215,7 @@ const PROVENANCE = {
   graphStatements: 'data/graph/manifest.json :: statements.total',
 };
 
-const fmt = (n) => n.toLocaleString('en-GB');
+const fmt = (/** @type {number} */ n) => n.toLocaleString('en-GB');
 
 // --- --apply / --check ------------------------------------------------------
 
@@ -219,8 +224,10 @@ const fmt = (n) => n.toLocaleString('en-GB');
  * so a page stops carrying hand-typed numbers. Keying on the label rather than on
  * position means reordering the stats row cannot silently swap two figures.
  */
-function stampInto(html) {
+function stampInto(/** @type {string} */ html) {
+  /** @type {string[]} */
   const changes = [];
+  /** @type {Set<string>} */
   const satisfied = new Set();
 
   // Two forms are accepted, because two pages state the same numbers in different markup.
@@ -231,7 +238,7 @@ function stampInto(html) {
   // A figure is guarded if EITHER form carries it.
   for (const [key, value] of Object.entries(stats)) {
     const byAttribute = new RegExp(`(<[^>]*\\bdata-stat="${key}"[^>]*>)([\\d,]+)(<)`, 'g');
-    html = html.replace(byAttribute, (_m, open, old, close) => {
+    html = html.replace(byAttribute, (/** @type {string} */ _m, /** @type {string} */ open, /** @type {string} */ old, /** @type {string} */ close) => {
       satisfied.add(key);
       if (old !== fmt(value)) changes.push(`${LABELS[key]}: ${old} -> ${fmt(value)}`);
       return `${open}${fmt(value)}${close}`;
@@ -241,7 +248,7 @@ function stampInto(html) {
       `(data-count=")(\\d+)(">)([\\d,]+)(</div><div class="stat__l">${LABELS[key]}</div>)`,
       'g',
     );
-    html = html.replace(byLabel, (_m, a, oldCount, b, oldText, c) => {
+    html = html.replace(byLabel, (/** @type {string} */ _m, /** @type {string} */ a, /** @type {string} */ oldCount, /** @type {string} */ b, /** @type {string} */ oldText, /** @type {string} */ c) => {
       satisfied.add(key);
       if (String(value) !== oldCount || fmt(value) !== oldText) {
         changes.push(`${LABELS[key]}: ${oldText} -> ${fmt(value)}`);
@@ -269,7 +276,7 @@ const applyTarget = argVal('--apply');
 const checkTarget = argVal('--check');
 
 if (applyTarget || checkTarget) {
-  const target = applyTarget || checkTarget;
+  const target = /** @type {string} */ (applyTarget || checkTarget); // one of them is set
   if (!existsSync(target)) fail(`${target} does not exist.`);
   const before = readFileSync(target, 'utf8');
   const { html, changes } = stampInto(before);

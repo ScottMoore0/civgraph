@@ -22,13 +22,19 @@ const ROOT = process.cwd();
 const BROWSE = BROWSE_DIR;
 const OUT_DIR = path.join(BROWSE, 'details', 'offices');
 const CHECK = process.argv.includes('--check');
+/** @typedef {import('../../packages/types/index.js').Institution} Institution */
+/**
+ * @param {string} rel
+ * @param {unknown} fallback
+ */
 const readJson = (rel, fallback) => {
   const full = path.isAbsolute(rel) ? rel : path.join(ROOT, rel);
   return existsSync(full) ? JSON.parse(readFileSync(full, 'utf8')) : fallback;
 };
-const compact = (object) => Object.fromEntries(Object.entries(object).filter(([, v]) => v !== undefined && v !== null && v !== ''
+const compact = (/** @type {Record<string, unknown>} */ object) => Object.fromEntries(Object.entries(object).filter(([, v]) => v !== undefined && v !== null && v !== ''
   && !(Array.isArray(v) && !v.length)));
 
+/** @type {Record<string, string>} */
 const KIND_LABELS = {
   'head-of-government': 'Head of government', 'deputy-head-of-government': 'Deputy head of government', 'head-of-state': 'Head of state',
   minister: 'Minister', 'minister-of-state': 'Minister of state', 'junior-minister': 'Junior minister', 'secretary-of-state': 'Secretary of state',
@@ -40,8 +46,11 @@ const KIND_LABELS = {
   'party-general-secretary': 'Party general secretary', 'party-chief-whip': 'Party chief whip', 'party-secretary': 'Party secretary',
   'party-group-leader': 'Leader of a party group',
 };
+/** @type {Record<string, string>} */
 const JURISDICTIONS = { 'northern-ireland': 'Northern Ireland', ireland: 'Ireland', 'united-kingdom': 'United Kingdom', europe: 'Europe' };
+/** @type {Record<string, string>} */
 const BEGAN = { elected: 'elected', appointed: 'appointed', 'co-opted': 'co-opted', acting: 'acting', 'by-succession': 'by succession' };
+/** @type {Record<string, string>} */
 const ENDED = { resigned: 'resigned', dismissed: 'dismissed', died: 'died in office', 'term-ended': 'term ended', defeated: 'defeated', 'office-abolished': 'office abolished' };
 
 function main() {
@@ -55,8 +64,8 @@ function main() {
   const parties = readJson(path.join(BROWSE, 'parties.json'), { items: [] }).items || [];
   const partyNames = readJson(path.join(BROWSE, 'party-names.json'), { items: {} }).items || {};
   const registry = readJson('data/elections/parties/party_registry.json', { entities: [] }).entities || [];
-  const slugOfParty = browsePartySlugResolver(registry, partyNames, new Set(parties.map((p) => p.slug)));
-  const partyTitle = (slug) => parties.find((p) => p.slug === slug)?.title;
+  const slugOfParty = browsePartySlugResolver(registry, partyNames, new Set(parties.map((/** @type {{ slug: string }} */ p) => p.slug)));
+  const partyTitle = (/** @type {string} */ slug) => parties.find((/** @type {{ slug: string, title?: string }} */ p) => p.slug === slug)?.title;
 
   const items = [];
   const details = [];
@@ -64,7 +73,7 @@ function main() {
   for (const office of model.offices) {
     const tenures = index.tenuresByOffice.get(office.id) || [];
     if (!tenures.length) continue;
-    const institution = index.institutionById.get(office.institution) || {};
+    const institution = index.institutionById.get(office.institution) || /** @type {Partial<Institution>} */ ({});
     const partyId = office.partyId || institution.partyId;
     const partySlug = partyId ? slugOfParty(partyId) : null;
     const holders = tenures.map((t) => {
@@ -73,7 +82,8 @@ function main() {
       return compact({
         personSlug: p?.slug, name: p?.title || p?.name || `person ${t.personId}`,
         start: t.start, end: t.end, held: formatSpan(t.start, t.end),
-        began: BEGAN[t.began], ended: ENDED[t.ended], contestKey: t.contest, note: t.note,
+        // a null began or ended reads BEGAN['null'] or ENDED['null'], which is undefined, and compact() drops it
+        began: BEGAN[/** @type {string} */ (t.began)], ended: ENDED[/** @type {string} */ (t.ended)], contestKey: t.contest, note: t.note,
         citations: (t.citations || []).map((c) => compact({ title: c.title, url: c.url })),
       });
     });
@@ -105,7 +115,8 @@ function main() {
       sources: [...new Map(tenures.flatMap((t) => t.citations || []).map((c) => [c.title.replace(/, p\. \d+.*$/, ''), { title: c.title.replace(/, p\. \d+.*$/, ''), url: c.url || undefined }])).values()].map(compact),
     }));
   }
-  items.sort((a, b) => a.title.localeCompare(b.title));
+  // every item's title is its office's name, a string
+  items.sort((a, b) => /** @type {string} */ (a.title).localeCompare(/** @type {string} */ (b.title)));
   if (!CHECK) {
     if (existsSync(OUT_DIR)) rmSync(OUT_DIR, { recursive: true, force: true });
     mkdirSync(OUT_DIR, { recursive: true });

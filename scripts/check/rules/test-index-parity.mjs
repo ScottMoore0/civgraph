@@ -25,6 +25,11 @@ for (const path of [FULL, INDEX]) {
   }
 }
 
+/** @typedef {{ layers?: { id?: string }[], entries?: { id?: string }[] }} LayerDoc */
+/**
+ * @param {string} path
+ * @param {(doc: LayerDoc) => { id?: string }[] | undefined} pick
+ */
 const ids = (path, pick) => new Set((pick(JSON.parse(readFileSync(path, 'utf8'))) || []).map((l) => l.id).filter(Boolean));
 const full = ids(FULL, (d) => d.layers);
 const index = ids(INDEX, (d) => d.layers || d.entries);

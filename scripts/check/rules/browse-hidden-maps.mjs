@@ -25,7 +25,7 @@ const CATALOGUE = 'data/database/maps.json';
 const BROWSE_INDEX = path.join(BROWSE_DIR, 'maps.json');
 const DETAIL_DIR = path.join(BROWSE_DIR, 'details');
 
-const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
+const catalogue = /** @type {{ maps: { id: string, hidden?: boolean }[] }} */ (JSON.parse(readFileSync(CATALOGUE, 'utf8')));
 const hidden = new Set(catalogue.maps.filter((m) => m.hidden).map((m) => m.id));
 
 if (!existsSync(BROWSE_INDEX)) {
@@ -34,6 +34,7 @@ if (!existsSync(BROWSE_INDEX)) {
 }
 
 const index = JSON.parse(readFileSync(BROWSE_INDEX, 'utf8'));
+/** @type {{ id: string }[]} */
 const items = index.items || index.maps || [];
 
 const listed = items.filter((item) => hidden.has(item.id)).map((item) => item.id);

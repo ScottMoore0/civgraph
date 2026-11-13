@@ -4,7 +4,9 @@ const a = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));   // the 283 unf
 const b = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));   // the 475 already carded
 // The two passes were written independently and landed on two names for one subject, and split
 // water access two ways. Reconcile here rather than in either pass, so both stay readable.
+/** @type {Record<string, string>} */
 const RENAME = { 'Public Transport': 'Rail & Public Transport' };
+/** @type {Record<string, string>} */
 const REHOME = {
   'Angling Stands - Roscommon': 'Sport & Recreation',
   'Beaches (DCC)': 'Coasts, Seas & Islands',
@@ -13,7 +15,7 @@ const REHOME = {
 };
 // Pass 1 ran before "Constituencies" existed as a subject and swept constituency maps into
 // Electoral Boundaries. Pull them back, or the same entry appears under two subjects.
-const isConstituency = (name) => /constituenc|\bdáil\b|dail /i.test(name);
+const isConstituency = (/** @type {string} */ name) => /constituenc|\bdáil\b|dail /i.test(name);
 
 // Kind is a property of the SUBJECT, not of the row. The two passes each carried their own
 // idea of it, which broke the moment a map moved subject: river basin districts arrived as a
