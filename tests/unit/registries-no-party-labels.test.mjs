@@ -25,6 +25,7 @@ test('no-party labels: each reader gets the set it held', () => {
   assert.ok(read('scripts/build/graph/build-semantic-graph.mjs').includes("const NOT_A_PARTY = notAPartyLabels('candidacies', 'persons');"));
   // scripts/build/words-parties.mjs: Words in parliament's labels.
   assert.deepEqual(sorted(notAPartyLabels('words')), sorted(new Set(['(none)', 'No party recorded'])));
+  assert.ok(read('scripts/build/words-parties.mjs').includes("const NO_PARTY = notAPartyLabels('words');"));
 });
 
 test('no-party labels: the registry refuses a label listed twice or one with an abbreviation', () => {
