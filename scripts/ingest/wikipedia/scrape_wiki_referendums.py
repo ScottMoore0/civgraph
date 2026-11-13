@@ -16,7 +16,6 @@ from pathlib import Path
 import httpx
 from bs4 import BeautifulSoup
 
-UA = {'User-Agent': 'civgraph.net (NI/ROI civic-data project)'}
 OUT_BASE = Path('data/elections-source/data/elections/ireland-referendum')
 
 
@@ -173,7 +172,7 @@ def detect_basis(soup):
 
 
 def scrape_amendment(url, topic_override=None, date_override=None, caption_match=None):
-    with httpx.Client(headers=UA, timeout=60.0, follow_redirects=True) as c:
+    with httpx.Client(timeout=60.0, follow_redirects=True) as c:
         r = c.get(url)
     if r.status_code != 200:
         raise RuntimeError(f'HTTP {r.status_code} for {url}')

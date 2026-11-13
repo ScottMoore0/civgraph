@@ -16,7 +16,7 @@ presidential and local election data, which currently comes from ElectionsIrelan
 Output goes to .cache/wikipedia/categories/ (gitignored): Wikipedia text is CC BY-SA 4.0,
 and copying it into the repository is a separate decision from reading it.
 
-Polite by construction: an identifying User-Agent, maxlag=5, a delay between requests, and
+Polite by construction: no User-Agent of ours (urllib's default; owner rule, 13 Nov 2026), maxlag=5, a delay between requests, and
 retries that honour Retry-After. Resumable: a page already cached at the same revision is
 not re-fetched.
 
@@ -26,7 +26,6 @@ not re-fetched.
 import os, re, sys, json, time, argparse, urllib.parse, urllib.request, urllib.error
 
 API = 'https://en.wikipedia.org/w/api.php'
-USER_AGENT = 'civgraph.net election source research (https://civgraph.net; harvest_wikipedia_categories.py)'
 DELAY_SECONDS = 0.6
 OUT = os.path.join('.cache', 'wikipedia', 'categories')
 PAGES = os.path.join(OUT, 'pages')
@@ -41,7 +40,7 @@ DEFAULT_ROOTS = [
 def api(params, attempt=0):
     params = dict(params, format='json', formatversion='2', maxlag='5')
     url = API + '?' + urllib.parse.urlencode(params)
-    request = urllib.request.Request(url, headers={'User-Agent': USER_AGENT})
+    request = urllib.request.Request(url)
     try:
         with urllib.request.urlopen(request, timeout=60) as response:
             data = json.loads(response.read().decode('utf-8'))

@@ -19,9 +19,9 @@ if ($StepList.Trim()) {
 }
 
 $Base = 'https://apps.proni.gov.uk/eCatNI_IE/'
-$Ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/148 Safari/537.36'
+# No User-Agent of ours and no browser's (owner rule, 13 Nov 2026): Invoke-WebRequest sends
+# its own default.
 $Headers = @{
-  'User-Agent' = $Ua
   'Accept' = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
   'Accept-Language' = 'en-US,en;q=0.9,en-GB;q=0.8'
 }

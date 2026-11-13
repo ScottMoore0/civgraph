@@ -25,7 +25,6 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 PATH = os.path.join(REPO, 'data', 'elections', 'persons', 'non-candidate-persons.json')
-UA = {'User-Agent': 'civgraph.net (NI/ROI civic-data archive; ~1 req/s)'}
 
 # What a position label must mention for each office the person is registered for.
 EXPECT = [
@@ -41,7 +40,7 @@ EXPECT = [
 def get(url):
     for attempt in range(3):
         try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60) as r:
+            with urllib.request.urlopen(urllib.request.Request(url), timeout=60) as r:
                 return json.loads(r.read())
         except Exception:
             time.sleep(3 * (attempt + 1))

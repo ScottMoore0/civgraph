@@ -36,7 +36,6 @@ from wiki_tables import grid  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 FILE = os.path.join(ROOT, 'data', 'elections', 'gallagher-byelections-1923-44.json')
-UA = {'User-Agent': 'civgraph-election-research/1.0 (https://civgraph.net)'}
 MONTHS = {m: i + 1 for i, m in enumerate(['january', 'february', 'march', 'april', 'may', 'june', 'july',
                                           'august', 'september', 'october', 'november', 'december'])}
 
@@ -112,8 +111,7 @@ def ei_result(client, url):
 def wikipedia_list():
     """Rows of the list's main table, keyed by constituency; each carries its date. The table
     has a two-row header ("Vacancy" / "By-election" over the column names)."""
-    html = requests.get('https://en.wikipedia.org/api/rest_v1/page/html/List_of_D%C3%A1il_by-elections',
-                        headers=UA, timeout=60).text
+    html = requests.get('https://en.wikipedia.org/api/rest_v1/page/html/List_of_D%C3%A1il_by-elections', timeout=60).text
     soup = BeautifulSoup(html, 'html.parser')
     out = {}
     for tb in soup.find_all('table', class_=re.compile('wikitable')):
@@ -155,7 +153,7 @@ NAMES = {
 
 def main():
     doc = json.load(open(FILE, encoding='utf-8'))
-    client = httpx.Client(headers=ei.HEADERS, timeout=60.0, follow_redirects=True)
+    client = httpx.Client(timeout=60.0, follow_redirects=True)
     pages = ei_pages(client)
     wiki = wikipedia_list()
     tally = {'ei found': 0, 'ei winner agrees': 0, 'ei first preferences agree': 0, 'ei electorate agrees': 0,

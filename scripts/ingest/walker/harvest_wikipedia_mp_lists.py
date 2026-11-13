@@ -29,7 +29,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from wiki_tables import grid  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
-UA = {'User-Agent': 'civgraph-election-research/1.0 (https://civgraph.net)'}
 PAUSE = 1.0
 ELECTIONS = ['1802', '1806', '1807', '1812', '1818', '1820', '1826', '1830', '1831', '1832', '1835',
              '1837', '1841', '1847', '1852', '1857', '1859', '1865', '1868', '1874', '1880', '1885',
@@ -71,7 +70,7 @@ def known_irish():
 def fetch(title):
     url = 'https://en.wikipedia.org/api/rest_v1/page/html/' + requests.utils.quote(title.replace(' ', '_'), safe='')
     for attempt in range(3):
-        r = requests.get(url, headers=UA, timeout=60)
+        r = requests.get(url, timeout=60)
         if r.status_code == 200:
             return r.text, url.replace('/api/rest_v1/page/html/', '/wiki/')
         if r.status_code == 404:

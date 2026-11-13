@@ -38,7 +38,6 @@ REPO = Path(__file__).resolve().parent.parent.parent.parent
 RESOLVED_PATH = REPO / "data" / "external" / "datagovie-resources-resolved.json"
 ODNI_MANIFEST = Path(r"D:\opendatani\_manifest.csv")
 
-UA = "Mozilla/5.0 civgraph/mirror-datagovie"
 INVALID_FS_RE = re.compile(r'[<>:"/\\|?*\x00-\x1f]')
 
 # Per-package canonical preferences (lower index = more preferred)
@@ -171,7 +170,7 @@ def download(url: str, dest: Path, expected_size: int) -> tuple[str, int, str]:
     last_err = ""
     for attempt in range(3):
         try:
-            headers = {"User-Agent": UA}
+            headers = {}  # no User-Agent: urllib's default (owner rule, 13 Nov 2026)
             mode = "wb"
             if have > 0:
                 headers["Range"] = f"bytes={have}-"

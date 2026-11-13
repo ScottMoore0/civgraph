@@ -21,7 +21,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from wiki_tables import grid  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
-UA = {'User-Agent': 'civgraph-election-research/1.0 (https://civgraph.net)'}
 PAGES = ['List of United Kingdom by-elections (1832–1847)', 'List of United Kingdom by-elections (1847–1857)',
          'List of United Kingdom by-elections (1857–1868)', 'List of United Kingdom by-elections (1868–1885)',
          'List of United Kingdom by-elections (1885–1900)', 'List of United Kingdom by-elections (1900–1918)',
@@ -55,8 +54,7 @@ def main():
     irish = irish_names()
     out = []
     for title in PAGES:
-        r = requests.get('https://en.wikipedia.org/api/rest_v1/page/html/' + requests.utils.quote(title.replace(' ', '_'), safe=''),
-                         headers=UA, timeout=60)
+        r = requests.get('https://en.wikipedia.org/api/rest_v1/page/html/' + requests.utils.quote(title.replace(' ', '_'), safe=''), timeout=60)
         url = 'https://en.wikipedia.org/wiki/' + title.replace(' ', '_')
         for tb in BeautifulSoup(r.text, 'html.parser').find_all('table', class_=re.compile('wikitable')):
             for row in grid(tb):

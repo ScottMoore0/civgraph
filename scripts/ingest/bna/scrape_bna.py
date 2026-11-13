@@ -91,9 +91,10 @@ def launch_bna_context(playwright):
     # Skip persistent profile (known to crash in this environment).
     # Go straight to storage-state approach.
     browser = playwright.chromium.launch(headless=False)
+    # No user_agent: the browser keeps Playwright's own default, nothing of ours and no other
+    # browser imitated (owner rule, 13 Nov 2026).
     context_kwargs = {
         "viewport": {"width": 1200, "height": 900},
-        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0",
     }
     if STORAGE_STATE_PATH.exists():
         context_kwargs["storage_state"] = str(STORAGE_STATE_PATH)

@@ -22,7 +22,6 @@ from pathlib import Path
 
 DELAY = 3.0
 CDX_DELAY = 5.0
-USER_AGENT = "civgraph/1.0 (old-26-council scraper)"
 
 # The former 26 councils and their old website hosts: the councils registry's `websites`
 # (data/registries/councils.json, read by scripts/ingest/councils_registry.py).
@@ -40,8 +39,7 @@ def fetch(url: str, timeout: int = 60) -> bytes | None:
     for attempt in range(5):
         try:
             result = subprocess.run(
-                ["curl", "-sS", "-f", "-L", "--max-time", str(timeout),
-                 "-A", USER_AGENT, url],
+                ["curl", "-sS", "-f", "-L", "--max-time", str(timeout), url],
                 capture_output=True, timeout=timeout + 15,
             )
             if result.returncode == 0 and result.stdout:

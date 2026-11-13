@@ -42,8 +42,7 @@ param(
   [string]$DiscoveryPath = '',
   [string]$DiscoveryPagesPath = '',
   [string]$SnapshotDir = '',
-  [string]$OutDir = 'tmp/proni-corpus-crawl',
-  [string]$UserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/148 Safari/537.36'
+  [string]$OutDir = 'tmp/proni-corpus-crawl'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -155,8 +154,9 @@ if ($WorkerMode) {
   }
 }
 
+# No User-Agent of ours and no browser's (owner rule, 13 Nov 2026): Invoke-WebRequest and
+# HttpClient send their own defaults.
 $Headers = @{
-  'User-Agent' = $UserAgent
   'Accept' = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
   'Accept-Language' = 'en-US,en;q=0.9,en-GB;q=0.8'
 }
@@ -549,7 +549,6 @@ function Initialize-ProniClient {
     $script:HttpHandler.AllowAutoRedirect = $true
     $script:HttpClient = New-Object System.Net.Http.HttpClient($script:HttpHandler)
     $script:HttpClient.Timeout = [TimeSpan]::FromSeconds($TimeoutSec)
-    $script:HttpClient.DefaultRequestHeaders.UserAgent.ParseAdd($UserAgent)
     $script:HttpClient.DefaultRequestHeaders.Accept.ParseAdd('text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
     $script:HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd('en-US')
     $script:HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd('en;q=0.9')

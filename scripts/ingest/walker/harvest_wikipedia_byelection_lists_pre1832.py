@@ -18,7 +18,7 @@ import requests
 from bs4 import BeautifulSoup
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from harvest_wikipedia_byelection_lists import UA, exact, iso, irish_names  # noqa: E402
+from harvest_wikipedia_byelection_lists import exact, iso, irish_names  # noqa: E402
 from wiki_tables import grid  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
@@ -30,8 +30,7 @@ def main():
     irish = irish_names()
     out = []
     for title in PAGES:
-        r = requests.get('https://en.wikipedia.org/api/rest_v1/page/html/' + requests.utils.quote(title.replace(' ', '_'), safe=''),
-                         headers=UA, timeout=60)
+        r = requests.get('https://en.wikipedia.org/api/rest_v1/page/html/' + requests.utils.quote(title.replace(' ', '_'), safe=''), timeout=60)
         r.raise_for_status()
         url = 'https://en.wikipedia.org/wiki/' + title.replace(' ', '_')
         for tb in BeautifulSoup(r.text, 'html.parser').find_all('table', class_=re.compile('wikitable')):

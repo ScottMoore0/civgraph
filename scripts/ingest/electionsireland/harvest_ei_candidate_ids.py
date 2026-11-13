@@ -68,7 +68,6 @@ REPORT = os.path.join(REPO, 'data', 'elections', 'persons', 'ei-candidate-id-har
 # all, so those files are skipped rather than fetched and found empty.
 RESULT_URL = re.compile(r'electionsireland\.org/result\.cfm\?election=([^&]+)&(?:amp;)?cons=(\d+)', re.I)
 CANDIDATE_ID = re.compile(r'ID=\s*(\d+)', re.I)
-HEADERS = {'User-Agent': 'civgraph.net (NI/ROI civic-data project; contact via civgraph.net)'}
 
 
 def matchkey(value):
@@ -243,7 +242,7 @@ def prefetch(urls, workers=4, delay=1.0, refresh=False):
     done = {'ok': 0, 'fail': 0}
 
     def worker(chunk):
-        client = httpx.Client(headers=HEADERS, timeout=60.0, follow_redirects=True)
+        client = httpx.Client(timeout=60.0, follow_redirects=True)
         for url in chunk:
             html, _ = fetch(client, url, refresh=refresh, delay=delay)
             if html:
@@ -507,7 +506,7 @@ def main():
 
     bodies = set(args.body) if args.body and not args.all else None
     files = source_files(bodies)
-    client = httpx.Client(headers=HEADERS, timeout=60.0, follow_redirects=True)
+    client = httpx.Client(timeout=60.0, follow_redirects=True)
     if args.lifespans:
         harvest_lifespans(client, refresh=args.refresh, delay=args.delay)
         return

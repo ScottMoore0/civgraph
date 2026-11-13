@@ -37,7 +37,6 @@ from wiki_tables import grid, parse_article, _num, _columns  # noqa: E402
 from bs4 import BeautifulSoup                                 # noqa: E402
 
 API = 'https://en.wikipedia.org/w/api.php'
-UA = {'User-Agent': 'civgraph-election-research/1.0 (https://civgraph.net)'}
 CATEGORIES = [
     'Category:General elections in Ireland to the Parliament of the United Kingdom',
     'Category:General elections in Northern Ireland to the Parliament of the United Kingdom',
@@ -52,7 +51,7 @@ def api(**params):
     url = f'{API}?{urllib.parse.urlencode(params)}'
     for attempt in range(4):
         try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60) as fh:
+            with urllib.request.urlopen(urllib.request.Request(url), timeout=60) as fh:
                 return json.load(fh)
         except urllib.error.HTTPError as exc:
             if exc.code != 429 or attempt == 3:

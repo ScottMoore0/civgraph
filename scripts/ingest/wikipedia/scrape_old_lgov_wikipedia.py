@@ -56,7 +56,6 @@ ELECTION_DATES: dict[int, str] = {
     2005: "2005-05-05",
 }
 
-USER_AGENT = "civgraph/1.0 (old lgov Wikipedia scraper)"
 REQUEST_DELAY_SECONDS = 0.6
 RETRY_DELAYS = [5, 10, 20, 40]
 
@@ -368,7 +367,7 @@ def parse_count_tables_extended(title: str, wikitext: str) -> dict:
 # ── Fetching ───────────────────────────────────────────────────────────────
 
 def fetch_text(url: str) -> str:
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    req = urllib.request.Request(url)
     last_error: Exception | None = None
     for attempt, delay in enumerate([0, *RETRY_DELAYS]):
         if delay:
