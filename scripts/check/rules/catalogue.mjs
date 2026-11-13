@@ -30,19 +30,53 @@ import { ELECTION_MANIFEST } from '../../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../../packages/registries/src/index.mjs';
 import { catalogueKindIds } from '../../../packages/registries/src/catalogue-kinds.mjs';
 
+/** @typedef {import('../../build/catalogue/records.mjs').CatalogueRecord} CatalogueRecord */
+/**
+ * catalogue.source.json as this check reads it: everything it guards is optional.
+ * @typedef {{
+ *   id: string, name: string, subject?: string, scope?: string, kind?: string, arrangement: string, members: string[],
+ *   toBeAdded?: string[], local?: string[], variantOf?: Record<string, string>, moreYears?: Record<string, unknown>,
+ *   localOf?: Record<string, string>, countiesFrom?: Record<string, string>, labels?: Record<string, string>,
+ *   versionLabels?: Record<string, string>, notes?: Record<string, string>
+ * }} SourceSeries
+ */
+/** @typedef {{ id: string, kind?: string, seriesKind?: string, series?: string[], toBeAdded?: string[] }} SourceSubject */
+/**
+ * @typedef {{
+ *   shelves: { id: string, subjects?: string[] }[], subjects: SourceSubject[], series: SourceSeries[],
+ *   hidden?: { id: string, why?: string, route?: string, to?: string }[], signedOff?: { id: string }[], electionsHidden?: string[]
+ * }} CatalogueSource
+ */
+/**
+ * catalogue.json, as build-catalogue.mjs writes it.
+ * @typedef {{
+ *   series: import('../../build/catalogue/build-catalogue.mjs').SeriesOut[],
+ *   maps: Record<string, import('../../build/catalogue/build-catalogue.mjs').MapOut>,
+ *   elections: import('../../build/catalogue/build-catalogue.mjs').ElectionOut[], redirects?: Record<string, string>
+ * }} BuiltCatalogue
+ */
+/** @typedef {{ text?: unknown, links?: ({ label?: unknown, url?: string } | null)[] } | null} Description */
+/** The record fields the quality rule reads. @typedef {{ references?: unknown[], sourceDownloads?: unknown[], source?: unknown, downloads?: object, isGroup?: unknown, variants?: { id: string }[], files?: unknown, tileUrl?: unknown, origin?: string, placeholder?: unknown }} QualityFields */
+
 const ROOT = process.cwd();
-const read = (p) => JSON.parse(readFileSync(path.join(ROOT, p), 'utf8'));
+const read = (/** @type {string} */ p) => JSON.parse(readFileSync(path.join(ROOT, p), 'utf8'));
+/** @type {CatalogueSource} */
 const source = read('data/catalogue/catalogue.source.json');
+/** @type {BuiltCatalogue} */
 const built = read('data/catalogue/catalogue.json');
 const { records: mapById } = loadRecords(ROOT);
+/** @type {Set<string>} */
 const thumbs = new Set(read('site/assets/thumbnails/manifest.json'));
-const layerIds = new Set((read('render/metadata/maps-test-index.json').layers || []).flatMap((l) => [l.id, l.sourceMapId].filter(Boolean)));
+const layerIds = new Set((read('render/metadata/maps-test-index.json').layers || []).flatMap((/** @type {{ id: string, sourceMapId?: string }} */ l) => [l.id, l.sourceMapId].filter(Boolean)));
 
+/** @type {string[]} */
 const errors = [];
-const fail = (msg) => errors.push(msg);
+const fail = (/** @type {string} */ msg) => errors.push(msg);
 
 // ---- the arrangement
+/** @type {Set<string>} */
 const shelfIds = new Set();
+/** @type {Map<string, string>} */
 const subjectOnShelf = new Map();
 for (const sh of source.shelves) {
   if (shelfIds.has(sh.id)) fail(`shelf ${sh.id} is defined twice`);
@@ -53,6 +87,7 @@ for (const sh of source.shelves) {
     subjectOnShelf.set(sid, sh.id);
   }
 }
+/** @type {Map<string | undefined, SourceSubject>} looked up with a series' optional subject */
 const subjectById = new Map();
 for (const sub of source.subjects) {
   if (subjectById.has(sub.id)) fail(`subject ${sub.id} is defined twice`);
@@ -62,7 +97,9 @@ for (const sub of source.subjects) {
 }
 for (const sid of subjectOnShelf.keys()) if (!subjectById.has(sid)) fail(`a shelf names subject ${sid}, which does not exist`);
 
+/** @type {Map<string, SourceSeries>} */
 const seriesById = new Map();
+/** @type {Map<string, string>} */
 const seriesInSubject = new Map();
 for (const sub of source.subjects) {
   for (const id of sub.series || []) {
@@ -72,6 +109,7 @@ for (const sub of source.subjects) {
 }
 // Maps kept out of the pane on purpose (source.hidden, each with its reason). A hidden map's
 // parts may then be placed as maps of their own.
+/** @type {Set<string | undefined>} looked up with a record's optional partOf */
 const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
 for (const h of source.hidden || []) {
   if (!mapById.has(h.id)) fail(`hidden names map ${h.id}, which the site does not define`);
@@ -79,10 +117,12 @@ for (const h of source.hidden || []) {
   if (h.route && !/^elections(\/[a-z-]+)?$/.test(h.route)) fail(`hidden map ${h.id} sends its links to "${h.route}", which is not an elections view`);
   if (h.to && !mapById.has(h.to) && !source.series.some((s) => s.id === h.to)) fail(`hidden map ${h.id} sends its links to ${h.to}, which is neither a map nor a series`);
 }
+/** @type {Map<string, string>} */
 const placed = new Map();
-const place = (mapId, where) => {
+const place = (/** @type {string} */ mapId, /** @type {string} */ where) => {
   if (!mapById.has(mapId)) { fail(`${where} names map ${mapId}, which the site does not define (scripts/build/catalogue/records.mjs)`); return; }
-  if (mapById.get(mapId).partOf && !hiddenIds.has(mapById.get(mapId).partOf)) fail(`${where} names ${mapId}, which is a part of ${mapById.get(mapId).partOf}: parts are reached through their parent`);
+  // has() was checked on the line before
+  if (/** @type {CatalogueRecord} */ (mapById.get(mapId)).partOf && !hiddenIds.has(/** @type {CatalogueRecord} */ (mapById.get(mapId)).partOf)) fail(`${where} names ${mapId}, which is a part of ${/** @type {CatalogueRecord} */ (mapById.get(mapId)).partOf}: parts are reached through their parent`);
   if (placed.has(mapId)) fail(`map ${mapId} is in two places (${placed.get(mapId)}, ${where})`);
   placed.set(mapId, where);
 };
@@ -95,7 +135,8 @@ for (const s of source.series) {
   if (!['editions', 'set'].includes(s.arrangement)) fail(`series ${s.id} has arrangement "${s.arrangement}"; use editions or set`);
   for (const [v, of] of Object.entries(s.variantOf || {})) {
     if (!s.members.includes(v) || !s.members.includes(of)) fail(`series ${s.id} says ${v} is a version of ${of}, but both must be its members`);
-    if (s.variantOf[of]) fail(`series ${s.id}: ${of} is itself a variant, so ${v} cannot be a version of it`);
+    // the loop runs only over a variantOf that is set
+    if (/** @type {Record<string, string>} */ (s.variantOf)[of]) fail(`series ${s.id}: ${of} is itself a variant, so ${v} cannot be a version of it`);
   }
   for (const m of s.members || []) place(m, `series ${s.id}`);
   for (const m of s.toBeAdded || []) place(m, `series ${s.id} (to be added)`);
@@ -120,7 +161,8 @@ for (const id of seriesInSubject.keys()) if (!seriesById.has(id)) fail(`a subjec
 // A section shows one kind, so a plan's boundaries (Boundaries) and its points and routes (Places
 // & routes) may share the plan's name (Phelim Birch's review, 11 Nov 2026); the built addresses
 // still differ.
-const kindOfSeries = (s) => s.kind || subjectById.get(s.subject)?.seriesKind || (subjectById.get(s.subject)?.kind === 'Boundary' ? 'Boundary' : 'other');
+const kindOfSeries = (/** @type {SourceSeries} */ s) => s.kind || subjectById.get(s.subject)?.seriesKind || (subjectById.get(s.subject)?.kind === 'Boundary' ? 'Boundary' : 'other');
+/** @type {Map<string, string[]>} */
 const byName = new Map();
 for (const s of source.series) {
   const key = `${s.name.toLowerCase()}|${s.scope || ''}|${kindOfSeries(s)}`;
@@ -141,6 +183,7 @@ const placedHidden = [...placed.keys()].filter((id) => mapById.get(id)?.hidden);
 if (placedHidden.length) fail(`${placedHidden.length} hidden maps are placed in the catalogue: ${placedHidden.slice(0, 8).join(', ')}`);
 
 // ---- the built output
+/** @type {Map<string, string>} */
 const slugs = new Map();
 for (const s of built.series) {
   if (slugs.has(s.slug)) fail(`series ${s.id} and ${slugs.get(s.slug)} share the address ${s.slug}`);
@@ -159,24 +202,28 @@ for (const e of built.elections) {
 // The person index points into the elections and its own tables by position: every pointer must land.
 const peoplePath = path.join(ROOT, 'data/catalogue/people.json');
 if (existsSync(peoplePath)) {
+  /** @type {{ people: [string, string, number, number, ...unknown[]][], parties: unknown[], constituencies: unknown[] }} the row's ninth field is its contests */
   const doc = JSON.parse(readFileSync(peoplePath, 'utf8'));
   let bad = 0;
   for (const row of doc.people) {
-    const okParty = (i) => i === -1 || (Number.isInteger(i) && i >= 0 && i < doc.parties.length);
-    const okPlace = (i) => i === -1 || (Number.isInteger(i) && i >= 0 && i < doc.constituencies.length);
+    // indexes are numbers in a well-formed file; anything else fails Number.isInteger
+    const okParty = (/** @type {number} */ i) => i === -1 || (Number.isInteger(i) && i >= 0 && i < doc.parties.length);
+    const okPlace = (/** @type {number} */ i) => i === -1 || (Number.isInteger(i) && i >= 0 && i < doc.constituencies.length);
     if (!row[1] || !okParty(row[2]) || !okPlace(row[3])) bad += 1;
-    for (const c of row[8]) if (!(c[0] >= 0 && c[0] < built.elections.length) || !okPlace(c[1]) || (c.length > 3 && !okParty(c[3]))) bad += 1;
+    // a row's ninth field is its contests, each [election, constituency, elected, party?]
+    for (const c of /** @type {number[][]} */ (row[8])) if (!(c[0] >= 0 && c[0] < built.elections.length) || !okPlace(c[1]) || (c.length > 3 && !okParty(c[3]))) bad += 1;
   }
   if (bad) fail(`${bad} people or contests in people.json point at elections, parties or constituencies that do not exist: rebuild it`);
 }
 // ---- descriptions (data/catalogue/descriptions.json): each names a row or an election that exists,
 // and is text with links the page can show.
 {
+  /** @type {{ rows?: Record<string, Description>, elections?: Record<string, Description> }} */
   const desc = read('data/catalogue/descriptions.json');
   const seriesIds = new Set(source.series.map((s) => s.id));
   // The election manifest is built into tmp/records by the records build (packages/loader/src/paths.mjs).
-  const electionKeys = new Set((JSON.parse(readFileSync(path.resolve(ROOT, ELECTION_MANIFEST), 'utf8')).elections || []).map((e) => e.key));
-  const checkOne = (where, d) => {
+  const electionKeys = new Set((JSON.parse(readFileSync(path.resolve(ROOT, ELECTION_MANIFEST), 'utf8')).elections || []).map((/** @type {{ key: string }} */ e) => e.key));
+  const checkOne = (/** @type {string} */ where, /** @type {Description | undefined} */ d) => {
     if (!Array.isArray(d?.text) || !d.text.length || !d.text.every((p) => typeof p === 'string' && p.trim())) fail(`descriptions: ${where} has no text`);
     for (const l of d?.links || []) if (!l?.label || !/^https?:\/\//.test(l.url || '')) fail(`descriptions: ${where} has a link without a label or an http(s) address`);
   };
@@ -187,6 +234,7 @@ if (existsSync(peoplePath)) {
 
 // ---- curator fields: kinds, labels, versions in sets, flat sections
 // The kinds of series: the catalogue-kinds registry (data/registries/catalogue-kinds.json).
+/** @typedef {{ stderr?: Buffer, stdout?: Buffer, message: string }} ExecError */
 const KIND_IDS = catalogueKindIds(loadRegistry('catalogue-kinds'));
 const KINDS = new Set(KIND_IDS);
 const KIND_CHOICE = `${KIND_IDS.slice(0, -1).join(', ')} or ${KIND_IDS.at(-1)}`;
@@ -216,9 +264,12 @@ for (const sub of source.subjects) if (sub.seriesKind && !KINDS.has(sub.seriesKi
 // already present when the rule came in are pinned in data/catalogue/quality-baseline.json and
 // may only shrink. A map not in that baseline also needs a reviewer's sign-off
 // (catalogue.source.json `signedOff`: {id, by, date}) before it may be placed.
-const qualityIssues = (id) => {
+const qualityIssues = (/** @type {string} */ id) => {
+  /** @type {QualityFields} */
   const r = mapById.get(id) || {};
+  /** @type {Partial<import('../../build/catalogue/build-catalogue.mjs').MapOut>} */
   const rec = built.maps[id] || {};
+  /** @type {string[]} */
   const issues = [];
   if (!(rec.provider || []).length) issues.push('no provider');
   if (!((r.references || []).length || (r.sourceDownloads || []).length || r.source || (r.downloads && Object.keys(r.downloads).length))) issues.push('no source link');
@@ -228,6 +279,7 @@ const qualityIssues = (id) => {
   return issues;
 };
 const BASELINE = 'data/catalogue/quality-baseline.json';
+/** @type {Record<string, string[]>} */
 const live = {};
 for (const s of source.series) for (const id of s.members) { const q = qualityIssues(id); if (q.length) live[id] = q; }
 if (process.argv.includes('--update-baseline')) {
@@ -240,6 +292,7 @@ if (process.argv.includes('--update-baseline')) {
   console.log(`quality baseline: ${known.length} maps, ${Object.keys(live).length} with known problems`);
 }
 if (existsSync(path.join(ROOT, BASELINE))) {
+  /** @type {{ known?: string[], issues?: Record<string, string[]> }} */
   const base = read(BASELINE);
   const known = new Set(base.known || []);
   const signed = new Set((source.signedOff || []).map((x) => x.id));
@@ -258,7 +311,8 @@ for (const [card, sid] of Object.entries(built.redirects || {})) if (!builtSerie
 try {
   execFileSync(process.execPath, ['scripts/build/catalogue/build-catalogue.mjs', '--check'], { stdio: 'pipe' });
 } catch (err) {
-  fail(`the built catalogue is stale: run node scripts/build/catalogue/build-catalogue.mjs (${String(err.stderr || err.stdout || err.message).trim().split('\n').pop()})`);
+  // execFileSync throws an Error carrying the child's stderr and stdout
+  fail(`the built catalogue is stale: run node scripts/build/catalogue/build-catalogue.mjs (${String(/** @type {ExecError} */ (err).stderr || /** @type {ExecError} */ (err).stdout || /** @type {ExecError} */ (err).message).trim().split('\n').pop()})`);
 }
 
 const placeholdersInSeries = source.series.flatMap((s) => s.members.filter((m) => mapById.get(m)?.placeholder));
