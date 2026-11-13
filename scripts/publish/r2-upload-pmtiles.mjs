@@ -1,12 +1,26 @@
 #!/usr/bin/env node
 /**
- * Upload /test PMTiles archives from the CDN manifest to Cloudflare R2.
+ * Upload /test PMTiles archives (and MVT tile directories) from the CDN manifest to Cloudflare R2,
+ * one object at a time in manifest order, through the S3 blob store (packages/storage/src/s3.mjs)
+ * and R2's S3 endpoint. A file over 8 MiB goes up as a multipart upload in 8 MiB parts: large
+ * single PUTs from Node fail on the owner's network with a TLS bad_record_mac error.
+ *
+ * Until 13 Nov 2026 (stream rf9-s3b) each object went up with `npx wrangler r2 object put`, the
+ * Cloudflare REST API, which is rate-limited to about 1.4 requests a second and takes no file
+ * over 300 MiB. The objects written are the same (key, bytes, Content-Type, Content-Encoding; no
+ * Cache-Control or metadata, as before); the publish-s3-dry-run unit test holds that against
+ * recordings of the wrangler version.
+ *
+ * Credentials: the R2 S3 keys (R2_S3_ENDPOINT, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY), from the
+ * environment or the repository's .env.local (scripts/publish/r2-env.mjs), read at the first
+ * upload; a dry run, or a run with nothing to send, needs none.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { open } from 'node:fs/promises';
 import { join, relative, resolve } from 'node:path';
-import { platform } from 'node:os';
-import { spawn } from 'node:child_process';
+import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 /**
  * Each object's upload result (state-machine catalogue PL-L, light: a closed result set). The
@@ -27,7 +41,7 @@ export const UPLOAD_STATUSES = Object.freeze(['uploaded', 'dry-run', 'missing-lo
  * @property {boolean} ok
  * @property {UploadStatus} status
  * @property {number} [bytes]
- * @property {string} [output]     the tail of wrangler's output
+ * @property {string} [output]     the tail of wrangler's output (reports written before the move to the S3 store only)
  * @property {string} [error]
  * @property {number} [files]
  * @property {number} [uploaded]
@@ -45,7 +59,12 @@ const ONLY_IDS = new Set([
   ...(process.env.TEST_UPLOAD_LAYER_IDS || '').split(','),
   ...readArgList('--ids')
 ].map((value) => value.trim()).filter(Boolean));
-const IS_WINDOWS = platform() === 'win32';
+/** Bytes in each part of a multipart upload; a file no bigger goes up in one PUT. */
+const PART_SIZE = 8 * 1024 * 1024;
+const PMTILES_HEADERS = Object.freeze({ contentType: 'application/octet-stream' });
+const MVT_HEADERS = Object.freeze({ contentType: 'application/x-protobuf', contentEncoding: 'gzip' });
+/** The S3 store, once the first upload has opened it (s3Store()). @type {Promise<import('../../packages/storage/src/s3.mjs').S3BlobStore> | null} */
+let storeOpening = null;
 
 // `--ids ""` MUST NOT MEAN "everything".
 //
@@ -114,16 +133,10 @@ for (const [index, asset] of assets.entries()) {
     continue;
   }
   try {
-    const output = await runWrangler([
-      'r2', 'object', 'put',
-      `${BUCKET}/${asset.targetKey}`,
-      '--file', filePath,
-      '--remote',
-      '--content-type', 'application/octet-stream'
-    ]);
-    results.push({ layerId: asset.layerId, targetKey: asset.targetKey, ok: true, status: 'uploaded', bytes, output: output.slice(-1000) });
+    await putFile(asset.targetKey, filePath, bytes, PMTILES_HEADERS);
+    results.push({ layerId: asset.layerId, targetKey: asset.targetKey, ok: true, status: 'uploaded', bytes });
   } catch (err) {
-    results.push({ layerId: asset.layerId, targetKey: asset.targetKey, ok: false, status: 'upload-failed', bytes, error: String(/** @type {Error} */ (err).message).slice(0, 2000) });
+    results.push({ layerId: asset.layerId, targetKey: asset.targetKey, ok: false, status: 'upload-failed', bytes, error: errorText(err) });
   }
   writeReport();
 }
@@ -162,14 +175,7 @@ async function uploadMvtDirectory(asset, assetIndex, assetCount) {
       continue;
     }
     try {
-      await runWrangler([
-        'r2', 'object', 'put',
-        `${BUCKET}/${targetKey}`,
-        '--file', file,
-        '--remote',
-        '--content-type', 'application/x-protobuf',
-        '--content-encoding', 'gzip'
-      ]);
+      await putFile(targetKey, file, fileBytes, MVT_HEADERS);
       uploaded += 1;
     } catch (err) {
       failed += 1;
@@ -179,7 +185,7 @@ async function uploadMvtDirectory(asset, assetIndex, assetCount) {
         ok: false,
         status: 'upload-failed',
         bytes: fileBytes,
-        error: String(/** @type {Error} */ (err).message).slice(0, 2000)
+        error: errorText(err)
       });
     }
     if ((fileIndex + 1) % 50 === 0) writeReport();
@@ -243,26 +249,54 @@ function writeReport() {
 }
 
 /**
- * @param {string[]} args
- * @returns {Promise<string>}  wrangler's stdout
+ * The S3 store over BUCKET, opened at the first upload (so a dry run, or a run with nothing to
+ * send, needs no credentials). Without the R2 S3 keys this prints which are missing and exits 1.
  */
-function runWrangler(args) {
-  return new Promise((resolvePromise, rejectPromise) => {
-    const child = spawn('npx', ['wrangler', ...args], {
-      cwd: ROOT,
-      stdio: ['ignore', 'pipe', 'pipe'],
-      shell: IS_WINDOWS
-    });
-    let stdout = '';
-    let stderr = '';
-    child.stdout.on('data', (chunk) => { stdout += chunk; });
-    child.stderr.on('data', (chunk) => { stderr += chunk; });
-    child.on('close', (code) => {
-      if (code === 0) resolvePromise(stdout);
-      else rejectPromise(new Error(`wrangler exited ${code}: ${stderr || stdout}`));
-    });
-    child.on('error', rejectPromise);
-  });
+function s3Store() {
+  if (!storeOpening) {
+    const R2 = r2CredentialsOrExit();
+    storeOpening = openS3BlobStore({ bucket: BUCKET, clientOptions: s3ClientOptions(R2, { maxAttempts: 5 }) });
+  }
+  return storeOpening;
+}
+
+/**
+ * Write one local file to `key`: one PUT for a file of PART_SIZE bytes or fewer, else a multipart
+ * upload that reads one part at a time (aborted if any part fails; the client resends a failed
+ * request up to its maxAttempts).
+ * @param {string} key
+ * @param {string} filePath
+ * @param {number} bytes  the file's size
+ * @param {{ contentType: string, contentEncoding?: string }} headers
+ */
+async function putFile(key, filePath, bytes, headers) {
+  const store = await s3Store();
+  if (bytes <= PART_SIZE) {
+    await store.put(key, readFileSync(filePath), headers);
+    return;
+  }
+  const handle = await open(filePath, 'r');
+  try {
+    const read = async (/** @type {number} */ offset, /** @type {number} */ length) => {
+      const buffer = Buffer.alloc(length);
+      const { bytesRead } = await handle.read(buffer, 0, length, offset);
+      return buffer.subarray(0, bytesRead);
+    };
+    await store.putMultipart(key, { size: bytes, read }, { ...headers, partSize: PART_SIZE });
+  } finally {
+    await handle.close();
+  }
+}
+
+/**
+ * A failed upload's error for the report: the S3 error's name and HTTP status with its message.
+ * @param {unknown} err
+ */
+function errorText(err) {
+  const error = /** @type {{ name?: string, message?: string, $metadata?: { httpStatusCode?: number } }} */ (err);
+  const status = error?.$metadata?.httpStatusCode;
+  const label = [error?.name, status ? `(HTTP ${status})` : ''].filter(Boolean).join(' ');
+  return `${label ? `${label}: ` : ''}${error?.message ?? String(err)}`.slice(0, 2000);
 }
 
 /**

@@ -5,148 +5,129 @@
  "stderr": "",
  "calls": [
   {
-   "op": "wrangler",
-   "args": [
-    "r2",
-    "object",
-    "put",
-    "boundaries-data/data/maps/tiles-fixture/pmtiles/small-vector-test.pmtiles",
-    "--file",
-    "render/pmtiles/generated/small-vector-test.pmtiles",
-    "--remote",
-    "--content-type",
-    "application/octet-stream"
-   ],
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/small-vector-test.pmtiles",
+    "Body": {
+     "kind": "buffer",
+     "size": 2048,
+     "sha256": "5fb4c8dfd8f9f42631cfef9ab196cbd03e06dee2d843700a966ed73c44cf053e"
+    },
+    "ContentType": "application/octet-stream"
+   },
    "failed": 500
   },
   {
-   "op": "wrangler",
-   "args": [
-    "r2",
-    "object",
-    "put",
-    "boundaries-data/data/maps/tiles-fixture/roads/0/0/0.pbf",
-    "--file",
-    "render/tiles/roads/0/0/0.pbf",
-    "--remote",
-    "--content-type",
-    "application/x-protobuf",
-    "--content-encoding",
-    "gzip"
-   ],
-   "written": {
+   "op": "PutObject",
+   "input": {
     "Bucket": "boundaries-data",
     "Key": "data/maps/tiles-fixture/roads/0/0/0.pbf",
-    "size": 16,
-    "sha256": "a3c7bb1756ab672d1729e18e3b0b387f3e3c0b9f77def7bae5ad17c927e0bd7e",
+    "Body": {
+     "kind": "buffer",
+     "size": 16,
+     "sha256": "a3c7bb1756ab672d1729e18e3b0b387f3e3c0b9f77def7bae5ad17c927e0bd7e"
+    },
     "ContentType": "application/x-protobuf",
-    "ContentEncoding": "gzip",
-    "Metadata": {}
+    "ContentEncoding": "gzip"
    }
   },
   {
-   "op": "wrangler",
-   "args": [
-    "r2",
-    "object",
-    "put",
-    "boundaries-data/data/maps/tiles-fixture/roads/1/0/0.pbf",
-    "--file",
-    "render/tiles/roads/1/0/0.pbf",
-    "--remote",
-    "--content-type",
-    "application/x-protobuf",
-    "--content-encoding",
-    "gzip"
-   ],
-   "written": {
+   "op": "PutObject",
+   "input": {
     "Bucket": "boundaries-data",
     "Key": "data/maps/tiles-fixture/roads/1/0/0.pbf",
-    "size": 18,
-    "sha256": "daede2fef285ee168657b9bb38e39f8e6a3eb2f49761f435a54f589d0efe7576",
+    "Body": {
+     "kind": "buffer",
+     "size": 18,
+     "sha256": "daede2fef285ee168657b9bb38e39f8e6a3eb2f49761f435a54f589d0efe7576"
+    },
     "ContentType": "application/x-protobuf",
-    "ContentEncoding": "gzip",
-    "Metadata": {}
+    "ContentEncoding": "gzip"
    }
   },
   {
-   "op": "wrangler",
-   "args": [
-    "r2",
-    "object",
-    "put",
-    "boundaries-data/data/maps/tiles-fixture/roads/1/1/0.pbf",
-    "--file",
-    "render/tiles/roads/1/1/0.pbf",
-    "--remote",
-    "--content-type",
-    "application/x-protobuf",
-    "--content-encoding",
-    "gzip"
-   ],
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/roads/1/1/0.pbf",
+    "Body": {
+     "kind": "buffer",
+     "size": 18,
+     "sha256": "e407d091bfe3781f5d92cfddc96ba436cc62d1c1558aeb3d0918f305a887b2a4"
+    },
+    "ContentType": "application/x-protobuf",
+    "ContentEncoding": "gzip"
+   },
    "failed": 500
   },
   {
-   "op": "wrangler",
-   "args": [
-    "r2",
-    "object",
-    "put",
-    "boundaries-data/data/maps/tiles-fixture/roads/1/1/1.pbf",
-    "--file",
-    "render/tiles/roads/1/1/1.pbf",
-    "--remote",
-    "--content-type",
-    "application/x-protobuf",
-    "--content-encoding",
-    "gzip"
-   ],
-   "written": {
+   "op": "PutObject",
+   "input": {
     "Bucket": "boundaries-data",
     "Key": "data/maps/tiles-fixture/roads/1/1/1.pbf",
-    "size": 18,
-    "sha256": "863efee00ac56ad87e24c76e62ff8a02ecf90fc1b16b19aef758ef209310edbd",
+    "Body": {
+     "kind": "buffer",
+     "size": 18,
+     "sha256": "863efee00ac56ad87e24c76e62ff8a02ecf90fc1b16b19aef758ef209310edbd"
+    },
     "ContentType": "application/x-protobuf",
-    "ContentEncoding": "gzip",
-    "Metadata": {}
+    "ContentEncoding": "gzip"
    }
   },
   {
-   "op": "wrangler",
-   "args": [
-    "r2",
-    "object",
-    "put",
-    "boundaries-data/data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles",
-    "--file",
-    "render/pmtiles/generated/exact-vector-test.pmtiles",
-    "--remote",
-    "--content-type",
-    "application/octet-stream"
-   ],
-   "written": {
+   "op": "PutObject",
+   "input": {
     "Bucket": "boundaries-data",
     "Key": "data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles",
-    "size": 8388608,
-    "sha256": "9f504e919bcd06bee8a6a87a9f5e021e9c099727ce1f140058016f31619c1b2d",
-    "ContentType": "application/octet-stream",
-    "Metadata": {}
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "9f504e919bcd06bee8a6a87a9f5e021e9c099727ce1f140058016f31619c1b2d"
+    },
+    "ContentType": "application/octet-stream"
    }
   },
   {
-   "op": "wrangler",
-   "args": [
-    "r2",
-    "object",
-    "put",
-    "boundaries-data/data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles",
-    "--file",
-    "render/pmtiles/generated/big-vector-test.pmtiles",
-    "--remote",
-    "--content-type",
-    "application/octet-stream"
-   ],
+   "op": "CreateMultipartUpload",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 1,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "afbd86bb6db0cf6b2599d11b9c159b81ebe88f584f54ac2537e0ea68df5ed975"
+    },
+    "ContentLength": 8388608
+   },
    "failed": 500
+  },
+  {
+   "op": "AbortMultipartUpload",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles",
+    "UploadId": "upload-1"
+   }
   }
  ],
  "files": {
@@ -170,7 +151,7 @@
      "ok": false,
      "status": "upload-failed",
      "bytes": 2048,
-     "error": "wrangler exited 1: [ERROR] Failed to fetch /accounts/<account>/r2/buckets/boundaries-data/objects/data/maps/tiles-fixture/pmtiles/small-vector-test.pmtiles - 500: Internal Server Error;/n"
+     "error": "InternalError (HTTP 500): InternalError"
     },
     {
      "layerId": "roads-vector-test",
@@ -178,7 +159,7 @@
      "ok": false,
      "status": "upload-failed",
      "bytes": 18,
-     "error": "wrangler exited 1: [ERROR] Failed to fetch /accounts/<account>/r2/buckets/boundaries-data/objects/data/maps/tiles-fixture/roads/1/1/0.pbf - 500: Internal Server Error;/n"
+     "error": "InternalError (HTTP 500): InternalError"
     },
     {
      "layerId": "roads-vector-test",
@@ -195,8 +176,7 @@
      "targetKey": "data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles",
      "ok": true,
      "status": "uploaded",
-     "bytes": 8388608,
-     "output": "Resource location: remote/nCreating object data/maps/tiles-fixture/pmtiles/exact-vector-test.pmtiles in bucket boundaries-data./nUpload complete./n"
+     "bytes": 8388608
     },
     {
      "layerId": "gone-vector-test",
@@ -210,7 +190,7 @@
      "ok": false,
      "status": "upload-failed",
      "bytes": 134217729,
-     "error": "wrangler exited 1: [ERROR] Failed to fetch /accounts/<account>/r2/buckets/boundaries-data/objects/data/maps/tiles-fixture/pmtiles/big-vector-test.pmtiles - 500: Internal Server Error;/n"
+     "error": "InternalError (HTTP 500): InternalError"
     },
     {
      "layerId": "absent-vector-test",

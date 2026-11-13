@@ -1,0 +1,794 @@
+{
+ "id": "pmtiles-over-300mib",
+ "exit": 0,
+ "stdout": "[1/1] data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles (300.0 MB)\nWrote render/metadata/cdn-upload-report.json\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "CreateMultipartUpload",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 1,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "7fb4b15fb8d29339a2588f98680c41232889158c3297c144889d4d846fec9fb2"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 2,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 3,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 4,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 5,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 6,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 7,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 8,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 9,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 10,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 11,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 12,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 13,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 14,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 15,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 16,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 17,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 18,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 19,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 20,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 21,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 22,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 23,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 24,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 25,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 26,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 27,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 28,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 29,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 30,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 31,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 32,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 33,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 34,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 35,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 36,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 37,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "PartNumber": 38,
+    "Body": {
+     "kind": "buffer",
+     "size": 4194305,
+     "sha256": "702198748295ea6c5f64b46be0abad927645765ae9a5f1f86579e854f962502a"
+    },
+    "ContentLength": 4194305
+   }
+  },
+  {
+   "op": "CompleteMultipartUpload",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "UploadId": "upload-1",
+    "MultipartUpload": {
+     "Parts": [
+      {
+       "ETag": "\"621d4eb455ddb36c90950cda4273b1df\"",
+       "PartNumber": 1
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 2
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 3
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 4
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 5
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 6
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 7
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 8
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 9
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 10
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 11
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 12
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 13
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 14
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 15
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 16
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 17
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 18
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 19
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 20
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 21
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 22
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 23
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 24
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 25
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 26
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 27
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 28
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 29
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 30
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 31
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 32
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 33
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 34
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 35
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 36
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 37
+      },
+      {
+       "ETag": "\"efdd290913cd81e1a1284ec610e4009c\"",
+       "PartNumber": 38
+      }
+     ]
+    }
+   },
+   "written": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+    "size": 314572801,
+    "sha256": "4b6fde7ff468fc2626cb71c488c002e27ec5c15336b2b7a95997eb9369009a3e",
+    "ContentType": "application/octet-stream",
+    "Metadata": {}
+   }
+  }
+ ],
+ "files": {
+  "render/metadata/cdn-upload-report.json": {
+   "schemaVersion": 1,
+   "generatedAt": "<volatile>",
+   "bucket": "boundaries-data",
+   "dryRun": false,
+   "selectedIds": [
+    "huge-vector-test"
+   ],
+   "totals": {
+    "assets": 1,
+    "processed": 1,
+    "ok": 1,
+    "failed": 0,
+    "bytes": 314572801
+   },
+   "results": [
+    {
+     "layerId": "huge-vector-test",
+     "targetKey": "data/maps/tiles-fixture/pmtiles/huge-vector-test.pmtiles",
+     "ok": true,
+     "status": "uploaded",
+     "bytes": 314572801
+    }
+   ]
+  }
+ }
+}

@@ -658,6 +658,33 @@ CASES.push(
   }),
   pm({ id: 'pmtiles-no-range-report', args: ['--failed-range-report'] }),
   pm({ id: 'pmtiles-put-fails', args: [], setup: (fx) => ({ ...pmtilesFixture(fx), fail: PMTILES_FAILURES }) }),
+  pm({
+    // Wrangler signed in with its own Cloudflare login; the S3 store needs the R2 S3 keys, and
+    // without them stops at the first upload with the names of the missing variables.
+    id: 'pmtiles-no-credentials', args: ['--ids', 'gone-vector-test,small-vector-test,exact-vector-test'], credentials: false,
+    intended: (before, after) => {
+      assert.equal(before.exit, 1, 'before: the missing archive fails the run');
+      assert.deepEqual(before.written.map((o) => o.Key), [`${PM}/pmtiles/small-vector-test.pmtiles`, `${PM}/pmtiles/exact-vector-test.pmtiles`]);
+      assert.equal(after.exit, 1);
+      assert.deepEqual(after.written, [], 'after: nothing is sent without the R2 S3 keys');
+      assert.match(after.stderr, /^FAIL: Missing R2 credentials: R2_S3_ENDPOINT, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY /);
+      assert.equal(after.stdout, before.stdout.split('\n').slice(0, 1).join('\n') + '\n', 'the same lines up to the first upload');
+    },
+  }),
+  pm({
+    // Wrangler 4 refuses a file over 300 MiB; the S3 store sends it in 38 parts.
+    id: 'pmtiles-over-300mib', args: ['--ids', 'huge-vector-test'], setup: (fx) => pmtilesFixture(fx, { huge: true }),
+    intended: (before, after) => {
+      assert.equal(before.exit, 1);
+      assert.deepEqual(before.written, []);
+      assert.equal(after.exit, 0);
+      assert.deepEqual(after.written.map((o) => [o.Key, o.size, o.ContentType]), [[`${PM}/pmtiles/huge-vector-test.pmtiles`, 300 * MIB + 1, 'application/octet-stream']]);
+      assert.equal(after.stdout, before.stdout);
+      const status = (/** @type {ObjectsView} */ v) => /** @type {{ results: Array<{ status: string }> }} */ (v.files[PMTILES_REPORT]).results[0].status;
+      assert.equal(status(before), 'upload-failed');
+      assert.equal(status(after), 'uploaded');
+    },
+  }),
 );
 
 // ---------------------------------------------------------------------------------------------
