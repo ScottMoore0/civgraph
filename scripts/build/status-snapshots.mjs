@@ -35,8 +35,8 @@
  *   STATUS_ODNI_MIRROR_DIR), for instance from .env.local, which is loaded if present.
  *   Census counts are read from data/census/ in this checkout (gitignored working files).
  *
- * Requests send no User-Agent of ours (crawlHeaders(), owner rule 13 Nov 2026: the fetch
- * default applies) and carry no personal details.
+ * Requests take their headers from crawlHeaders() (no User-Agent: the fetch default applies)
+ * and carry no personal details.
  */
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';

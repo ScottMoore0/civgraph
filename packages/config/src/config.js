@@ -20,11 +20,10 @@ export const SITE = /* @__PURE__ */ Object.freeze({
   /** R2 public bucket boundaries-data, behind the CDN: tiles, FGBs, thumbnails, downloads. */
   dataOrigin: 'https://data.civgraph.net',
   /**
-   * The User-Agent of requests to Civgraph's own services (civgraph.net, data.civgraph.net, our
-   * dev proxies to them) and, by the owner's decision of 13 Nov 2026, to the Wikimedia projects.
-   * Send it to no other service: a crawler, scraper or fetch to a third party uses crawlHeaders()
-   * from packages/config/src/node.mjs, which sets no User-Agent except for Wikimedia (owner rule,
-   * 13 Nov 2026). The crawl-headers unit test lists the files allowed to read it.
+   * The User-Agent of requests to Civgraph's own services (civgraph.net, data.civgraph.net, the
+   * dev proxies to them), and of requests to the hosts in WIKIMEDIA_DOMAINS. Requests to other
+   * services take their headers from crawlHeaders() in packages/config/src/node.mjs. The
+   * crawl-headers unit test lists the files that read it.
    */
   userAgent: 'civgraph-research (+https://civgraph.net)',
 });

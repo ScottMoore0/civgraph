@@ -41,8 +41,8 @@ from modern_lgov_wikipedia_common import (
     parse_numeric,
     parse_template_params,
 )
-# Wikimedia requests carry the site's User-Agent (the owner's decision of 13 Nov 2026), through
-# scripts/ingest/wikimedia_headers.py; no other host gets one.
+# Request headers from scripts/ingest/wikimedia_headers.py: the site's User-Agent for Wikimedia
+# hosts, none for any other host.
 _WM = __import__('runpy').run_path(str(__import__('pathlib').Path(__file__).resolve().parents[1] / 'wikimedia_headers.py'))
 wikimedia_headers = _WM['wikimedia_headers']
 

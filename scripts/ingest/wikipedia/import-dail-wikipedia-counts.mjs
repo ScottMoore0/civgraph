@@ -313,7 +313,7 @@ async function fetchSingleWikipediaWikitext(title) {
   url.searchParams.set('origin', '*');
   let response;
   for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt += 1) {
-    // Wikipedia: the site's User-Agent (owner's decision of 13 Nov 2026 for Wikimedia projects).
+    // Wikipedia: the site's User-Agent, from crawlHeaders().
     response = await fetch(url, { headers: crawlHeaders({}, { url }) });
     if (response.status !== 429) break;
     const retryAfter = Number(response.headers.get('retry-after') || 0);

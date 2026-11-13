@@ -28,8 +28,8 @@
  *   LOGAINM_API_KEY=... node scripts/i18n/fetch-logainm.mjs [--cache <dir>] [--limit 50]
  *   node scripts/i18n/fetch-logainm.mjs --dry-run      list what would be requested
  *
- * No User-Agent of ours is sent (crawlHeaders(), owner rule 13 Nov 2026: the fetch default
- * applies). No personal email or other identifier is ever sent; the API key is the only
+ * Requests take their headers from crawlHeaders() (no User-Agent: the fetch default applies).
+ * No personal email or other identifier is ever sent; the API key is the only
  * credential, as Logainm requires.
  */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
