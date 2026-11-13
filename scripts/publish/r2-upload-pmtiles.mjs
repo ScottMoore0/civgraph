@@ -17,10 +17,10 @@
  */
 
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { open } from 'node:fs/promises';
 import { join, relative, resolve } from 'node:path';
 import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
+import { putLocalFile } from './r2-put-file.mjs';
 
 /**
  * Each object's upload result (state-machine catalogue PL-L, light: a closed result set). The
@@ -59,8 +59,6 @@ const ONLY_IDS = new Set([
   ...(process.env.TEST_UPLOAD_LAYER_IDS || '').split(','),
   ...readArgList('--ids')
 ].map((value) => value.trim()).filter(Boolean));
-/** Bytes in each part of a multipart upload; a file no bigger goes up in one PUT. */
-const PART_SIZE = 8 * 1024 * 1024;
 const PMTILES_HEADERS = Object.freeze({ contentType: 'application/octet-stream' });
 const MVT_HEADERS = Object.freeze({ contentType: 'application/x-protobuf', contentEncoding: 'gzip' });
 /** The S3 store, once the first upload has opened it (s3Store()). @type {Promise<import('../../packages/storage/src/s3.mjs').S3BlobStore> | null} */
@@ -261,31 +259,14 @@ function s3Store() {
 }
 
 /**
- * Write one local file to `key`: one PUT for a file of PART_SIZE bytes or fewer, else a multipart
- * upload that reads one part at a time (aborted if any part fails; the client resends a failed
- * request up to its maxAttempts).
+ * Write one local file to `key` (r2-put-file.mjs: one PUT up to 8 MiB, else a multipart upload).
  * @param {string} key
  * @param {string} filePath
  * @param {number} bytes  the file's size
  * @param {{ contentType: string, contentEncoding?: string }} headers
  */
 async function putFile(key, filePath, bytes, headers) {
-  const store = await s3Store();
-  if (bytes <= PART_SIZE) {
-    await store.put(key, readFileSync(filePath), headers);
-    return;
-  }
-  const handle = await open(filePath, 'r');
-  try {
-    const read = async (/** @type {number} */ offset, /** @type {number} */ length) => {
-      const buffer = Buffer.alloc(length);
-      const { bytesRead } = await handle.read(buffer, 0, length, offset);
-      return buffer.subarray(0, bytesRead);
-    };
-    await store.putMultipart(key, { size: bytes, read }, { ...headers, partSize: PART_SIZE });
-  } finally {
-    await handle.close();
-  }
+  await putLocalFile(await s3Store(), key, filePath, bytes, headers);
 }
 
 /**

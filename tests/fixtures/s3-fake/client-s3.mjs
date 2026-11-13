@@ -15,7 +15,8 @@
 //   Seed     { body?: string, size?: number, etag?: string, contentType?, cacheControl?,
 //              contentEncoding?, metadata?: {} }   (size alone: an object whose bytes are not held)
 //   Failure  { op: 'PutObject' | 'HeadObject' | ..., key: string, times?: number (default 1),
-//              status?: number (500), name?: string ('InternalError') }
+//              status?: number (500), name?: string ('InternalError'),
+//              part?: number (an UploadPart failure for that part number only) }
 //   DeleteError { key: string, code?: string ('AccessDenied'), message?: string ('Access Denied') }
 //              a DeleteObjects request answers 200 and lists this key in its Errors, as R2
 //              does for a key it could not delete; the object stays
@@ -94,8 +95,8 @@ export function createFakeS3({ state = {}, log } = {}) {
     });
   }
   const failures = (state.fail || []).map((f) => ({ ...f, left: f.times ?? 1 }));
-  const failing = (op, key) => {
-    const f = failures.find((x) => x.op === op && x.key === key && x.left > 0);
+  const failing = (op, key, partNumber) => {
+    const f = failures.find((x) => x.op === op && x.key === key && x.left > 0 && (x.part === undefined || x.part === partNumber));
     if (!f) return null;
     f.left -= 1;
     return fault(f.name || 'InternalError', f.status || 500);
@@ -253,7 +254,7 @@ export function createFakeS3({ state = {}, log } = {}) {
       const body = op === 'PutObject' || op === 'UploadPart' ? await readBody(input.Body) : null;
       let digest = null;
       if (body) digest = body.digest ? { kind: body.kind, size: body.digest.size, sha256: body.digest.sha256 } : { kind: body.kind, size: body.bytes.length, sha256: sha256(body.bytes) };
-      const error = failing(op, input.Key);
+      const error = failing(op, input.Key, input.PartNumber);
       if (error || op !== 'CompleteMultipartUpload') {
         record({ op, input: loggable(input, digest), ...(error ? { failed: error.$metadata.httpStatusCode } : {}) });
         if (error) throw error;
