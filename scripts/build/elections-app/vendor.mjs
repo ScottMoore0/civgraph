@@ -41,7 +41,7 @@ import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SITE } from '../../../packages/config/src/node.mjs';
+import { crawlHeaders } from '../../../packages/config/src/node.mjs';
 import { DUCKDB_VERSION, MAPLIBRE_VERSION, PMTILES_VERSION, R2_PREFIX, VENDOR } from '../../../site/apps/elections/config.js';
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
@@ -91,7 +91,7 @@ export const r2KeyOf = (/** @type {string} */ to) => `${R2_PREFIX}${to.replace(/
 
 /** Download a pinned file; refuse it unless its SHA-256 is the pinned one. @param {string} url @param {string} want */
 async function download(url, want) {
-  const res = await fetch(url, { headers: { 'User-Agent': SITE.userAgent } });
+  const res = await fetch(url, { headers: crawlHeaders() });
   if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
   const buf = Buffer.from(await res.arrayBuffer());
   if (sha256(buf) !== want) throw new Error(`${url}: SHA-256 ${sha256(buf)}, pinned ${want} (vendor-deps/duckdb-extensions.json); not used`);

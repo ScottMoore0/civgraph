@@ -80,8 +80,7 @@ function fileUrlsFor(map) {
 /** @param {string} url @param {string} dest */
 function download(url, dest) {
   const enc = encodeURI(url).replace(/%25/g, '%'); // encode spaces etc., don't double-encode
-  const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36';
-  const r = run('curl', ['-sSL', '--fail', '-A', UA, '-o', dest, enc], { stdio: 'pipe' });
+  const r = run('curl', ['-sSL', '--fail', '-o', dest, enc], { stdio: 'pipe' });
   return r.status === 0 && existsSync(dest) && statSync(dest).size > 0;
 }
 

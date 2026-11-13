@@ -20,7 +20,6 @@ import readline from "node:readline";
 import { SNAPSHOT } from '../../../packages/intake/src/item-status.mjs';
 
 const BASE = "https://apps.proni.gov.uk/eCatNI_IE/";
-const USER_AGENT = "Mozilla/5.0 CivgraphPRONIDetailQuickScan/1.0";
 
 function parseArgs(argv) {
   const out = {
@@ -466,7 +465,6 @@ class Session {
       try {
         const headers = {
           accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-          "user-agent": USER_AGENT,
         };
         const cookie = this.jar.header();
         if (cookie) headers.cookie = cookie;

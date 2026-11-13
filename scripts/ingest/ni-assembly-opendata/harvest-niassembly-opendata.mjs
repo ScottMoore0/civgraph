@@ -31,11 +31,10 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { SITE } from '../../../packages/config/src/node.mjs';
+import { crawlHeaders } from '../../../packages/config/src/node.mjs';
 import { HARVEST } from '../../../packages/intake/src/item-status.mjs';
 
 const BASE = 'https://data.niassembly.gov.uk';
-const UA = `civgraph-opendata-harvest/1.0 (+${SITE.origin}; contact via repo)`;
 
 const args = process.argv.slice(2);
 const argVal = (/** @type {string} */ n, /** @type {string | number | null} */ d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };
@@ -118,7 +117,7 @@ async function fetchOp(service, op, params = {}, key = null) {
 
   for (let attempt = 0; attempt < 4; attempt += 1) {
     try {
-      const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' } });
+      const res = await fetch(url, { headers: crawlHeaders({ Accept: 'application/json' }) });
       if (res.status === 429 || res.status >= 500) { await sleep(2000 * (attempt + 1)); continue; }
       if (!res.ok) { stats.failed += 1; return null; }
       const text = await res.text();

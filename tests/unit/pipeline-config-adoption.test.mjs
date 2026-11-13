@@ -16,9 +16,7 @@ const LITERAL = /https:\/\/(data\.)?civgraph\.net|civgraph-research/;
 const ALLOWED = {
   'scripts/build/agent-index.mjs': 1, // prose in the index's `about` text
   'scripts/build/app-bundle.mjs': 2, // matches the literal canonical/og:url tags in the built HTML
-  'scripts/build/build-external-source-indexes.mjs': 1, // its own descriptive User-Agent
-  'scripts/build/render_cited_sources.mjs': 1, // its own verification User-Agent
-  'scripts/dev/dev-server.mjs': 1, // the dev preview's own User-Agent
+  'scripts/dev/dev-server.mjs': 1, // the dev preview's User-Agent to our own origins (it proxies only those)
 };
 
 function* mjsFiles(dir) {

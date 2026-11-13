@@ -35,16 +35,15 @@
  *   STATUS_ODNI_MIRROR_DIR), for instance from .env.local, which is loaded if present.
  *   Census counts are read from data/census/ in this checkout (gitignored working files).
  *
- * Requests identify themselves as "civgraph-research (+https://civgraph.net)" and carry
- * no personal details.
+ * Requests send no User-Agent of ours (crawlHeaders(), owner rule 13 Nov 2026: the fetch
+ * default applies) and carry no personal details.
  */
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { SITE } from '../../packages/config/src/node.mjs';
+import { crawlHeaders } from '../../packages/config/src/node.mjs';
 
 const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'data/status/source-snapshots.json');
-const UA = SITE.userAgent;
 
 try { process.loadEnvFile?.(path.join(ROOT, '.env.local')); } catch { /* optional */ }
 
@@ -77,12 +76,12 @@ async function sqlite() {
 }
 
 async function getJson(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' } });
+  const res = await fetch(url, { headers: crawlHeaders({ Accept: 'application/json' }) });
   if (!res.ok) throw new Error(`${res.status} ${url}`);
   return res.json();
 }
 async function getText(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': UA } });
+  const res = await fetch(url, { headers: crawlHeaders() });
   if (!res.ok) throw new Error(`${res.status} ${url}`);
   return res.text();
 }

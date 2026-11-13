@@ -5,8 +5,8 @@
  * inventory of { slug, title } for every publication, which feeds
  * emit-nisra-publication-records.mjs. Non-census filtering happens at emit time.
  *
- * Politeness: one GET at a time, with the project's User-Agent (SITE.userAgent, which names the
- * site only) and at least MIN_DELAY_MS between requests, retries included. It stops after two
+ * Politeness: one GET at a time, with no User-Agent of ours (crawlHeaders(): the fetch default
+ * applies, owner rule 13 Nov 2026) and at least MIN_DELAY_MS between requests, retries included. It stops after two
  * empty pages in a row, and stops the whole run (writing nothing) on a 403 or 429 or a bot
  * challenge: those are never retried or worked around.
  *
@@ -15,7 +15,7 @@
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SITE } from '../../../packages/config/src/node.mjs';
+import { crawlHeaders } from '../../../packages/config/src/node.mjs';
 
 export const BASE = 'https://www.nisra.gov.uk/publications';
 export const MIN_DELAY_MS = 1500;
@@ -84,7 +84,7 @@ export async function crawl({ maxPage = 200, delayMs = DEFAULT_DELAY_MS, base = 
       requests += 1;
       try {
         const res = await deps.fetch(url, {
-          headers: { 'User-Agent': SITE.userAgent, Accept: 'text/html' },
+          headers: crawlHeaders({ Accept: 'text/html' }),
           redirect: 'follow',
           signal: AbortSignal.timeout(TIMEOUT_MS),
         });

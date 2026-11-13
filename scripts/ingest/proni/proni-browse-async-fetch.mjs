@@ -13,7 +13,6 @@ import path from 'node:path';
 import { performance } from 'node:perf_hooks';
 
 const BASE = 'https://apps.proni.gov.uk/eCatNI_IE/';
-const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/148 Safari/537.36';
 
 /**
  * One row of the records index (proni-fast-indexer.mjs), as far as this fetch reads it.
@@ -211,7 +210,6 @@ async function postDetailFromSnapshot(row, html, limiter, metadata = null) {
   for (const [key, value] of form.entries()) params.append(key, value);
   /** @type {Record<string, string>} */
   const headers = {
-    'user-agent': USER_AGENT,
     accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'accept-language': 'en-US,en;q=0.9,en-GB;q=0.8',
     referer: `${BASE}BrowseSearchResults.aspx`,

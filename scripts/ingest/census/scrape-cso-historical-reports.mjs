@@ -66,7 +66,6 @@ function safeFileName(url, fallback = "download") {
 async function fetchText(url) {
   const res = await fetch(url, {
     headers: {
-      "user-agent": "Civgraph census source inventory (contact: civgraph.net)",
       "accept": "text/html,application/xhtml+xml",
     },
   });
@@ -120,9 +119,7 @@ async function maybeDownload(asset) {
     if (existing && existing.size > 0) {
       return { status: CSO_REPORT.cached, path: outputPath, bytes: existing.size };
     }
-    const res = await fetch(asset.url, {
-      headers: { "user-agent": "Civgraph census source inventory (contact: civgraph.net)" },
-    });
+    const res = await fetch(asset.url);
     if (!res.ok) return { status: CSO_REPORT.failed, error: `${res.status} ${res.statusText}` };
     const bytes = Buffer.from(await res.arrayBuffer());
     await fs.writeFile(outputPath, bytes);

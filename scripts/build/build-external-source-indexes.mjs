@@ -9,7 +9,6 @@ const WIKI_CATEGORY_URL = 'https://en.wikipedia.org/wiki/Category:Council_electi
 const IA_UPLOADER = 'ScottMoore0';
 const IA_ADVANCED_SEARCH = 'https://archive.org/advancedsearch.php';
 const IA_METADATA = 'https://archive.org/metadata/';
-const USER_AGENT = 'Civgraph external-source indexer (metadata-only; https://civgraph.net/)';
 
 main().catch((error) => {
   console.error(error);
@@ -283,7 +282,6 @@ function fileDedupeKey(file, doc) {
 async function fetchJson(url) {
   const response = await fetch(url, {
     headers: {
-      'User-Agent': USER_AGENT,
       Accept: 'application/json'
     }
   });

@@ -325,7 +325,6 @@ class Session {
       try {
         const headers = {
           "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-          "user-agent": "Mozilla/5.0 CivgraphPRONIIndexer/1.0",
         };
         const cookie = this.jar.header();
         if (cookie) headers.cookie = cookie;

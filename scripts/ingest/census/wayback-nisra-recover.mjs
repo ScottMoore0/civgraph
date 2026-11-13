@@ -3,11 +3,10 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { Readable } from "node:stream";
-import { SITE } from "../../../packages/config/src/node.mjs";
+import { crawlHeaders } from "../../../packages/config/src/node.mjs";
 import { WAYBACK } from '../../../packages/intake/src/item-status.mjs';
 
 const CDX = "https://web.archive.org/cdx";
-const UA = `Civgraph NISRA Wayback recovery/1.0 (+${SITE.origin}; polite archival recovery)`;
 
 const BINARY_EXTS = new Set([
   ".7z",
@@ -243,10 +242,7 @@ async function fetchWithTimeout(url, options = {}) {
   try {
     return await fetch(url, {
       ...options,
-      headers: {
-        "user-agent": UA,
-        ...(options.headers || {}),
-      },
+      headers: crawlHeaders({ ...(options.headers || {}) }),
       signal: controller.signal,
     });
   } finally {

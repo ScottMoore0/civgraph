@@ -31,10 +31,9 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { SITE } from '../../../packages/config/src/node.mjs';
+import { crawlHeaders } from '../../../packages/config/src/node.mjs';
 
 const BASE = 'https://api.oireachtas.ie/v1';
-const UA = `civgraph-opendata-harvest/1.0 (+${SITE.origin}; contact via repo)`;
 const PAGE = 1000;   // measured maximum; limit=2000 returns zero results
 const CAP = 10000;   // measured hard skip ceiling
 
@@ -58,7 +57,7 @@ const sleep = (/** @type {number} */ ms) => new Promise((r) => setTimeout(r, ms)
 async function getJson(url, tries = 4) {
   for (let i = 0; i < tries; i += 1) {
     try {
-      const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' } });
+      const res = await fetch(url, { headers: crawlHeaders({ Accept: 'application/json' }) });
       if (res.status === 429 || res.status >= 500) { await sleep(1500 * (i + 1)); continue; }
       if (!res.ok) return null;
       const text = await res.text();

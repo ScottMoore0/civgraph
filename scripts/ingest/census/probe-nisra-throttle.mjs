@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { SITE } from "../../../packages/config/src/node.mjs";
-
-const UA = `Civgraph NISRA throttle probe/1.0 (+${SITE.origin}; bounded archival-rate test)`;
+import { crawlHeaders } from "../../../packages/config/src/node.mjs";
 
 /**
  * @template {string | number | null} F
@@ -159,11 +157,10 @@ async function probeUrl(url, delayMs) {
   const timer = setTimeout(() => controller.abort(new Error(`timeout ${args.timeoutMs}ms`)), args.timeoutMs);
   try {
     const res = await fetch(url, {
-      headers: {
-        "user-agent": UA,
+      headers: crawlHeaders({
         "range": "bytes=0-0",
         "accept": "application/octet-stream,*/*",
-      },
+      }),
       signal: controller.signal,
     });
     const elapsedMs = Date.now() - started;

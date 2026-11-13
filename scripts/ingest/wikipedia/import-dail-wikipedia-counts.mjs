@@ -312,11 +312,7 @@ async function fetchSingleWikipediaWikitext(title) {
   url.searchParams.set('origin', '*');
   let response;
   for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt += 1) {
-    response = await fetch(url, {
-      headers: {
-        'User-Agent': 'Civgraph test2 Dail count importer (local build script)'
-      }
-    });
+    response = await fetch(url);
     if (response.status !== 429) break;
     const retryAfter = Number(response.headers.get('retry-after') || 0);
     const delay = retryAfter > 0 ? retryAfter * 1000 : RETRY_DELAYS_MS[attempt] || RETRY_DELAYS_MS[RETRY_DELAYS_MS.length - 1];
