@@ -25,6 +25,17 @@ The website is a MapLibre GL (WebGL) single-page app: map features are rendered 
 - **MRP / small-area estimation:** [`agent/mrp-frame-README.md`](https://civgraph.net/agent/mrp-frame-README.md) documents the 2011 Small-Area poststratification inputs — published joint margins (age×religion, sex×religion) plus the marginals — and how to rake them into a full age×sex×religion×NS-SeC frame. The 2021 3-way joints in the flexible-table-builder mirror above are additional raking margins.
 - Some very large layers are served as **chunked** FlatGeobuf rather than a single file; those appear in the catalogue without a single `geometry.url`. Most layers (686 of ~1,014) have a single fetchable `.fgb`.
 
+## Records API (versioned, read-only)
+
+Election, people, party, source, register-of-interests, parliamentary-vote, graph and catalogue records are also served as JSON by a versioned API, with no authentication:
+
+- [API index](https://civgraph.net/api/v1/): every route, with its parameters and the `/_api` path it aliases.
+- [OpenAPI 3.1 description](https://civgraph.net/api/v1/openapi.json): each route's answer variants, the contract each answer is validated against.
+- [About the API](https://civgraph.net/pages/api): what it holds, its stability promise and fair use.
+- Routes: `/api/v1/elections`, `/persons`, `/parties`, `/sources`, `/register-interests`, `/votes`, `/graph`, `/stats`, `/catalogue`, `/layers`, `/search`, `/spatial`, `/data-index`, and the PRONI eCatalogue under `/api/v1/proni/` (`node`, `search`, `count`, and `export`, which answers CSV).
+- v1 changes only by addition: fields and routes may be added, never removed or changed in meaning; an incompatible change would be a new version, with v1 kept. The older `/_api/*` paths are aliases of the same answers.
+- Answers are cached for a few minutes. Please keep request rates modest, and use the bulk downloads on data.civgraph.net for whole datasets rather than paging through the API.
+
 ## Task: feature correspondence between two maps
 
 To answer "which features on map A correspond to features on map B" (e.g. which District Electoral Area each townland falls in, or how 1993 and 2012 boundaries relate):
