@@ -169,13 +169,57 @@ export interface FeatureDetailEntry {
 }
 
 /**
+ * An element of the controller's own markup: an HTML element whose data attributes are those its
+ * templates write with it (a lookup by class or attribute finds the element they were written on;
+ * the handlers test the few that may be absent).
+ */
+export type ViewElement = HTMLElement & { dataset: Record<string, string> };
+
+/**
  * A part of the page the controller draws into (a pane, a card, a menu): the elements it holds are
- * HTML elements, so a lookup in it gives one. HTMLElement and Document are both assignable to it.
+ * its own markup's, so a lookup in it gives a ViewElement. HTMLElement and Document are both
+ * assignable to it.
  */
 export interface HtmlRoot {
-  querySelector(selectors: string): HTMLElement | null;
-  querySelectorAll(selectors: string): NodeListOf<HTMLElement>;
+  querySelector(selectors: string): ViewElement | null;
+  querySelectorAll(selectors: string): NodeListOf<ViewElement>;
 }
 
 /** An HTML element that holds HTML elements (HtmlRoot's lookups first). */
-export type HtmlElementRoot = HtmlRoot & HTMLElement;
+export type HtmlElementRoot = HtmlRoot & ViewElement;
+
+/** What the map list is drawn with (catalogue-list.js renderMapList), kept for later redraws. */
+export interface MapListOptions {
+  visibleIds?: string[];
+  loadedIds?: string[];
+  featureCounts?: Map<string, number>;
+  totalMaps?: number;
+  shownMaps?: number;
+  fullCatalogue?: boolean;
+  flatSectionKey?: string | null;
+}
+
+/** A detail page's remembered place: its scroll and each table's state, by table id. */
+export interface DetailViewState {
+  tables: Record<string, unknown>;
+  scrollTop?: number;
+}
+
+/** data/database/feature-thumbnails/_manifest.json: each map's feature thumbnails. */
+export interface FeatureThumbnailManifest {
+  maps: Record<string, { colour?: string; renderedAssetIds?: unknown[]; renderedAssetBasePath?: string; [key: string]: unknown }>;
+  [key: string]: unknown;
+}
+
+/** An item of a Browse list (data/browse/<kind>.json) as the catalogue search reads it. */
+export interface BrowseItem {
+  id?: string;
+  key?: string;
+  slug?: string;
+  browseUrl?: string;
+  title?: string;
+  name?: string;
+  subtitle?: string;
+  category?: string;
+  [key: string]: unknown;
+}
