@@ -1,0 +1,937 @@
+{
+ "//": "The five council lists the Python ingest scripts carried before they read the councils registry (12 Nov 2026), frozen: tests/intake/python-council-lists.test.mjs holds what the scripts now build equal to them, order included. Dicts are written as [key, value] pairs to keep their order.",
+ "councilWebsites": [
+  [
+   "antrim",
+   [
+    "www.antrim.gov.uk"
+   ]
+  ],
+  [
+   "ards",
+   [
+    "www.ards-council.gov.uk"
+   ]
+  ],
+  [
+   "armagh",
+   [
+    "www.armagh.gov.uk"
+   ]
+  ],
+  [
+   "ballymena",
+   [
+    "www.ballymena.gov.uk"
+   ]
+  ],
+  [
+   "ballymoney",
+   [
+    "www.ballymoney.gov.uk"
+   ]
+  ],
+  [
+   "banbridge",
+   [
+    "www.banbridge.com"
+   ]
+  ],
+  [
+   "belfast",
+   [
+    "www.belfastcity.gov.uk"
+   ]
+  ],
+  [
+   "carrickfergus",
+   [
+    "www.carrickfergus.org"
+   ]
+  ],
+  [
+   "castlereagh",
+   [
+    "www.castlereagh.gov.uk"
+   ]
+  ],
+  [
+   "coleraine",
+   [
+    "www.colerainebc.gov.uk"
+   ]
+  ],
+  [
+   "cookstown",
+   [
+    "www.cookstown.gov.uk"
+   ]
+  ],
+  [
+   "craigavon",
+   [
+    "www.craigavon.gov.uk"
+   ]
+  ],
+  [
+   "derry",
+   [
+    "www.derrycity.gov.uk"
+   ]
+  ],
+  [
+   "down",
+   [
+    "www.downdc.gov.uk"
+   ]
+  ],
+  [
+   "dungannon",
+   [
+    "www.dungannon.gov.uk"
+   ]
+  ],
+  [
+   "fermanagh",
+   [
+    "www.fermanagh.gov.uk"
+   ]
+  ],
+  [
+   "larne",
+   [
+    "www.larne.gov.uk"
+   ]
+  ],
+  [
+   "limavady",
+   [
+    "www.limavady.gov.uk"
+   ]
+  ],
+  [
+   "lisburn",
+   [
+    "www.lisburn.gov.uk"
+   ]
+  ],
+  [
+   "magherafelt",
+   [
+    "www.magherafelt.gov.uk"
+   ]
+  ],
+  [
+   "moyle",
+   [
+    "www.moyle-council.org"
+   ]
+  ],
+  [
+   "newry-mourne",
+   [
+    "www.newryandmourne.gov.uk"
+   ]
+  ],
+  [
+   "newtownabbey",
+   [
+    "www.newtownabbey.gov.uk"
+   ]
+  ],
+  [
+   "north-down",
+   [
+    "www.northdown.gov.uk"
+   ]
+  ],
+  [
+   "omagh",
+   [
+    "www.omagh.gov.uk"
+   ]
+  ],
+  [
+   "strabane",
+   [
+    "www.strabanedc.com",
+    "www.strabanedc.org.uk"
+   ]
+  ]
+ ],
+ "wikipedia1973": [
+  {
+   "key": "antrim",
+   "display": "Antrim",
+   "variants": [
+    "Antrim Borough Council",
+    "Antrim District Council"
+   ]
+  },
+  {
+   "key": "ards",
+   "display": "Ards",
+   "variants": [
+    "Ards Borough Council",
+    "Ards District Council"
+   ]
+  },
+  {
+   "key": "armagh",
+   "display": "Armagh",
+   "variants": [
+    "Armagh City and District Council",
+    "Armagh District Council",
+    "Armagh City Council"
+   ]
+  },
+  {
+   "key": "ballymena",
+   "display": "Ballymena",
+   "variants": [
+    "Ballymena Borough Council",
+    "Ballymena District Council"
+   ]
+  },
+  {
+   "key": "ballymoney",
+   "display": "Ballymoney",
+   "variants": [
+    "Ballymoney Borough Council",
+    "Ballymoney District Council"
+   ]
+  },
+  {
+   "key": "banbridge",
+   "display": "Banbridge",
+   "variants": [
+    "Banbridge District Council"
+   ]
+  },
+  {
+   "key": "belfast",
+   "display": "Belfast",
+   "variants": [
+    "Belfast City Council"
+   ]
+  },
+  {
+   "key": "carrickfergus",
+   "display": "Carrickfergus",
+   "variants": [
+    "Carrickfergus Borough Council",
+    "Carrickfergus District Council"
+   ]
+  },
+  {
+   "key": "castlereagh",
+   "display": "Castlereagh",
+   "variants": [
+    "Castlereagh Borough Council",
+    "Castlereagh District Council"
+   ]
+  },
+  {
+   "key": "coleraine",
+   "display": "Coleraine",
+   "variants": [
+    "Coleraine Borough Council",
+    "Coleraine District Council"
+   ]
+  },
+  {
+   "key": "cookstown",
+   "display": "Cookstown",
+   "variants": [
+    "Cookstown District Council"
+   ]
+  },
+  {
+   "key": "craigavon",
+   "display": "Craigavon",
+   "variants": [
+    "Craigavon Borough Council",
+    "Craigavon District Council"
+   ]
+  },
+  {
+   "key": "derry",
+   "display": "Derry",
+   "variants": [
+    "Derry City Council",
+    "Londonderry City Council"
+   ]
+  },
+  {
+   "key": "down",
+   "display": "Down",
+   "variants": [
+    "Down District Council"
+   ]
+  },
+  {
+   "key": "dungannon_and_south_tyrone",
+   "display": "Dungannon and South Tyrone",
+   "variants": [
+    "Dungannon and South Tyrone Borough Council",
+    "Dungannon and South Tyrone District Council",
+    "Dungannon District Council"
+   ]
+  },
+  {
+   "key": "fermanagh",
+   "display": "Fermanagh",
+   "variants": [
+    "Fermanagh District Council"
+   ]
+  },
+  {
+   "key": "larne",
+   "display": "Larne",
+   "variants": [
+    "Larne Borough Council",
+    "Larne District Council"
+   ]
+  },
+  {
+   "key": "limavady",
+   "display": "Limavady",
+   "variants": [
+    "Limavady Borough Council",
+    "Limavady District Council"
+   ]
+  },
+  {
+   "key": "lisburn",
+   "display": "Lisburn",
+   "variants": [
+    "Lisburn City Council",
+    "Lisburn Borough Council",
+    "Lisburn District Council"
+   ]
+  },
+  {
+   "key": "magherafelt",
+   "display": "Magherafelt",
+   "variants": [
+    "Magherafelt District Council"
+   ]
+  },
+  {
+   "key": "moyle",
+   "display": "Moyle",
+   "variants": [
+    "Moyle District Council"
+   ]
+  },
+  {
+   "key": "newry_and_mourne",
+   "display": "Newry and Mourne",
+   "variants": [
+    "Newry and Mourne District Council"
+   ]
+  },
+  {
+   "key": "newtownabbey",
+   "display": "Newtownabbey",
+   "variants": [
+    "Newtownabbey Borough Council",
+    "Newtownabbey District Council"
+   ]
+  },
+  {
+   "key": "north_down",
+   "display": "North Down",
+   "variants": [
+    "North Down Borough Council",
+    "North Down District Council"
+   ]
+  },
+  {
+   "key": "omagh",
+   "display": "Omagh",
+   "variants": [
+    "Omagh District Council"
+   ]
+  },
+  {
+   "key": "strabane",
+   "display": "Strabane",
+   "variants": [
+    "Strabane District Council"
+   ]
+  }
+ ],
+ "wikipedia1973Compare": [
+  {
+   "key": "antrim",
+   "variants": [
+    "Antrim District Council",
+    "Antrim Borough Council"
+   ]
+  },
+  {
+   "key": "ards",
+   "variants": [
+    "Ards District Council",
+    "Ards Borough Council"
+   ]
+  },
+  {
+   "key": "armagh",
+   "variants": [
+    "Armagh City and District Council",
+    "Armagh District Council",
+    "Armagh City Council"
+   ]
+  },
+  {
+   "key": "ballymena",
+   "variants": [
+    "Ballymena Borough Council"
+   ]
+  },
+  {
+   "key": "ballymoney",
+   "variants": [
+    "Ballymoney Borough Council"
+   ]
+  },
+  {
+   "key": "banbridge",
+   "variants": [
+    "Banbridge District Council"
+   ]
+  },
+  {
+   "key": "belfast",
+   "variants": [
+    "Belfast City Council"
+   ]
+  },
+  {
+   "key": "carrickfergus",
+   "variants": [
+    "Carrickfergus Borough Council"
+   ]
+  },
+  {
+   "key": "castlereagh",
+   "variants": [
+    "Castlereagh Borough Council"
+   ]
+  },
+  {
+   "key": "coleraine",
+   "variants": [
+    "Coleraine Borough Council"
+   ]
+  },
+  {
+   "key": "cookstown",
+   "variants": [
+    "Cookstown District Council"
+   ]
+  },
+  {
+   "key": "craigavon",
+   "variants": [
+    "Craigavon Borough Council"
+   ]
+  },
+  {
+   "key": "derry",
+   "variants": [
+    "Derry City Council",
+    "Londonderry City Council"
+   ]
+  },
+  {
+   "key": "down",
+   "variants": [
+    "Down District Council"
+   ]
+  },
+  {
+   "key": "dungannon_and_south_tyrone",
+   "variants": [
+    "Dungannon and South Tyrone Borough Council",
+    "Dungannon and South Tyrone District Council",
+    "Dungannon District Council"
+   ]
+  },
+  {
+   "key": "fermanagh",
+   "variants": [
+    "Fermanagh District Council"
+   ]
+  },
+  {
+   "key": "larne",
+   "variants": [
+    "Larne Borough Council"
+   ]
+  },
+  {
+   "key": "limavady",
+   "variants": [
+    "Limavady Borough Council"
+   ]
+  },
+  {
+   "key": "lisburn",
+   "variants": [
+    "Lisburn City Council",
+    "Lisburn Borough Council"
+   ]
+  },
+  {
+   "key": "magherafelt",
+   "variants": [
+    "Magherafelt District Council"
+   ]
+  },
+  {
+   "key": "moyle",
+   "variants": [
+    "Moyle District Council"
+   ]
+  },
+  {
+   "key": "newry_and_mourne",
+   "variants": [
+    "Newry and Mourne District Council"
+   ]
+  },
+  {
+   "key": "newtownabbey",
+   "variants": [
+    "Newtownabbey Borough Council"
+   ]
+  },
+  {
+   "key": "north_down",
+   "variants": [
+    "North Down Borough Council"
+   ]
+  },
+  {
+   "key": "omagh",
+   "variants": [
+    "Omagh District Council"
+   ]
+  },
+  {
+   "key": "strabane",
+   "variants": [
+    "Strabane District Council"
+   ]
+  }
+ ],
+ "wikipedia2014": [
+  {
+   "key": "antrim_and_newtownabbey",
+   "variants": [
+    "Antrim and Newtownabbey District Council",
+    "Antrim and Newtownabbey Borough Council"
+   ]
+  },
+  {
+   "key": "ards_and_north_down",
+   "variants": [
+    "Ards and North Down District Council",
+    "Ards and North Down Borough Council",
+    "North Down and Ards District Council"
+   ]
+  },
+  {
+   "key": "armagh_banbridge_and_craigavon",
+   "variants": [
+    "Armagh, Banbridge and Craigavon District Council",
+    "Armagh City, Banbridge and Craigavon Borough Council"
+   ]
+  },
+  {
+   "key": "belfast",
+   "variants": [
+    "Belfast City Council"
+   ]
+  },
+  {
+   "key": "causeway_coast_and_glens",
+   "variants": [
+    "Causeway Coast and Glens District Council",
+    "Causeway Coast and Glens Borough Council"
+   ]
+  },
+  {
+   "key": "derry_city_and_strabane",
+   "variants": [
+    "Derry and Strabane District Council",
+    "Derry City and Strabane District Council"
+   ]
+  },
+  {
+   "key": "fermanagh_and_omagh",
+   "variants": [
+    "Fermanagh and Omagh District Council"
+   ]
+  },
+  {
+   "key": "lisburn_and_castlereagh",
+   "variants": [
+    "Lisburn and Castlereagh District Council",
+    "Lisburn and Castlereagh City Council"
+   ]
+  },
+  {
+   "key": "mid_and_east_antrim",
+   "variants": [
+    "Mid and East Antrim District Council"
+   ]
+  },
+  {
+   "key": "mid_ulster",
+   "variants": [
+    "Mid-Ulster District Council",
+    "Mid Ulster District Council"
+   ]
+  },
+  {
+   "key": "newry_mourne_and_down",
+   "variants": [
+    "Newry, Mourne and Down District Council"
+   ]
+  }
+ ],
+ "wikipedia2014Display": [
+  [
+   "antrim_and_newtownabbey",
+   "Antrim and Newtownabbey"
+  ],
+  [
+   "ards_and_north_down",
+   "Ards and North Down"
+  ],
+  [
+   "armagh_banbridge_and_craigavon",
+   "Armagh, Banbridge and Craigavon"
+  ],
+  [
+   "belfast",
+   "Belfast"
+  ],
+  [
+   "causeway_coast_and_glens",
+   "Causeway Coast and Glens"
+  ],
+  [
+   "derry_city_and_strabane",
+   "Derry City and Strabane"
+  ],
+  [
+   "fermanagh_and_omagh",
+   "Fermanagh and Omagh"
+  ],
+  [
+   "lisburn_and_castlereagh",
+   "Lisburn and Castlereagh"
+  ],
+  [
+   "mid_and_east_antrim",
+   "Mid and East Antrim"
+  ],
+  [
+   "mid_ulster",
+   "Mid Ulster"
+  ],
+  [
+   "newry_mourne_and_down",
+   "Newry, Mourne and Down"
+  ]
+ ],
+ "officesCouncils": [
+  [
+   "antrim",
+   [
+    "Antrim Borough Council",
+    [
+     "antrim"
+    ]
+   ]
+  ],
+  [
+   "ards",
+   [
+    "Ards Borough Council",
+    [
+     "ards"
+    ]
+   ]
+  ],
+  [
+   "armagh",
+   [
+    "Armagh District Council",
+    [
+     "armagh"
+    ]
+   ]
+  ],
+  [
+   "ballymena",
+   [
+    "Ballymena Borough Council",
+    [
+     "ballymena"
+    ]
+   ]
+  ],
+  [
+   "ballymoney",
+   [
+    "Ballymoney Borough Council",
+    [
+     "ballymoney"
+    ]
+   ]
+  ],
+  [
+   "banbridge",
+   [
+    "Banbridge District Council",
+    [
+     "banbridge"
+    ]
+   ]
+  ],
+  [
+   "bangor",
+   [
+    "Bangor Borough Council",
+    [
+     "bangor"
+    ]
+   ]
+  ],
+  [
+   "belfast",
+   [
+    "Belfast City Council",
+    [
+     "belfast",
+     "belfast corporation"
+    ]
+   ]
+  ],
+  [
+   "carrickfergus",
+   [
+    "Carrickfergus Borough Council",
+    [
+     "carrickfergus"
+    ]
+   ]
+  ],
+  [
+   "castlereagh",
+   [
+    "Castlereagh Borough Council",
+    [
+     "castlereagh"
+    ]
+   ]
+  ],
+  [
+   "coleraine",
+   [
+    "Coleraine Borough Council",
+    [
+     "coleraine"
+    ]
+   ]
+  ],
+  [
+   "cookstown",
+   [
+    "Cookstown District Council",
+    [
+     "cookstown"
+    ]
+   ]
+  ],
+  [
+   "craigavon",
+   [
+    "Craigavon Borough Council",
+    [
+     "craigavon"
+    ]
+   ]
+  ],
+  [
+   "derry",
+   [
+    "Derry City Council",
+    [
+     "derry",
+     "londonderry"
+    ]
+   ]
+  ],
+  [
+   "down",
+   [
+    "Down District Council",
+    [
+     "down"
+    ]
+   ]
+  ],
+  [
+   "downpatrick",
+   [
+    "Downpatrick Urban District Council",
+    [
+     "downpatrick"
+    ]
+   ]
+  ],
+  [
+   "dungannon",
+   [
+    "Dungannon District Council",
+    [
+     "dungannon"
+    ]
+   ]
+  ],
+  [
+   "fermanagh",
+   [
+    "Fermanagh District Council",
+    [
+     "fermanagh"
+    ]
+   ]
+  ],
+  [
+   "larne",
+   [
+    "Larne Borough Council",
+    [
+     "larne"
+    ]
+   ]
+  ],
+  [
+   "limavady",
+   [
+    "Limavady Borough Council",
+    [
+     "limavady"
+    ]
+   ]
+  ],
+  [
+   "lisburn",
+   [
+    "Lisburn Borough Council",
+    [
+     "lisburn"
+    ]
+   ]
+  ],
+  [
+   "lurgan",
+   [
+    "Lurgan Borough Council",
+    [
+     "lurgan"
+    ]
+   ]
+  ],
+  [
+   "magherafelt",
+   [
+    "Magherafelt District Council",
+    [
+     "magherafelt"
+    ]
+   ]
+  ],
+  [
+   "newry-and-mourne",
+   [
+    "Newry and Mourne District Council",
+    [
+     "newry and mourne",
+     "newry mourne"
+    ]
+   ]
+  ],
+  [
+   "newtownabbey",
+   [
+    "Newtownabbey Borough Council",
+    [
+     "newtownabbey"
+    ]
+   ]
+  ],
+  [
+   "north-down",
+   [
+    "North Down Borough Council",
+    [
+     "north down"
+    ]
+   ]
+  ],
+  [
+   "omagh",
+   [
+    "Omagh District Council",
+    [
+     "omagh"
+    ]
+   ]
+  ],
+  [
+   "portadown",
+   [
+    "Portadown Borough Council",
+    [
+     "portadown"
+    ]
+   ]
+  ],
+  [
+   "strabane",
+   [
+    "Strabane District Council",
+    [
+     "strabane"
+    ]
+   ]
+  ],
+  [
+   "dublin",
+   [
+    "Dublin City Council",
+    [
+     "dublin"
+    ]
+   ]
+  ],
+  [
+   "cork",
+   [
+    "Cork City Council",
+    [
+     "cork"
+    ]
+   ]
+  ]
+ ]
+}

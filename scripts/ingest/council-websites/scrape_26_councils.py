@@ -24,34 +24,10 @@ DELAY = 3.0
 CDX_DELAY = 5.0
 USER_AGENT = "civgraph/1.0 (old-26-council scraper)"
 
-COUNCILS = [
-    ("antrim", ["www.antrim.gov.uk"]),
-    ("ards", ["www.ards-council.gov.uk"]),
-    ("armagh", ["www.armagh.gov.uk"]),
-    ("ballymena", ["www.ballymena.gov.uk"]),
-    ("ballymoney", ["www.ballymoney.gov.uk"]),
-    ("banbridge", ["www.banbridge.com"]),
-    ("belfast", ["www.belfastcity.gov.uk"]),
-    ("carrickfergus", ["www.carrickfergus.org"]),
-    ("castlereagh", ["www.castlereagh.gov.uk"]),
-    ("coleraine", ["www.colerainebc.gov.uk"]),
-    ("cookstown", ["www.cookstown.gov.uk"]),
-    ("craigavon", ["www.craigavon.gov.uk"]),
-    ("derry", ["www.derrycity.gov.uk"]),
-    ("down", ["www.downdc.gov.uk"]),
-    ("dungannon", ["www.dungannon.gov.uk"]),
-    ("fermanagh", ["www.fermanagh.gov.uk"]),
-    ("larne", ["www.larne.gov.uk"]),
-    ("limavady", ["www.limavady.gov.uk"]),
-    ("lisburn", ["www.lisburn.gov.uk"]),
-    ("magherafelt", ["www.magherafelt.gov.uk"]),
-    ("moyle", ["www.moyle-council.org"]),
-    ("newry-mourne", ["www.newryandmourne.gov.uk"]),
-    ("newtownabbey", ["www.newtownabbey.gov.uk"]),
-    ("north-down", ["www.northdown.gov.uk"]),
-    ("omagh", ["www.omagh.gov.uk"]),
-    ("strabane", ["www.strabanedc.com", "www.strabanedc.org.uk"]),
-]
+# The former 26 councils and their old website hosts: the councils registry's `websites`
+# (data/registries/councils.json, read by scripts/ingest/councils_registry.py).
+_CR = __import__('runpy').run_path(str(Path(__file__).resolve().parents[1] / 'councils_registry.py'))
+COUNCILS = _CR['council_websites']()
 
 OUT_SPN = Path("_tmp_eoni_spn")
 OUT_AGENT = Path("_tmp_eoni_agents")

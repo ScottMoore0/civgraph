@@ -8,6 +8,7 @@ seat filled by co-option. Honours (peerages, knighthoods, Privy Counsellor), mem
 body (senator, MEP) and posts in non-party organisations (the Orange Order) are not offices
 here; `match` reports them as not modelled so the import lists them as unmapped.
 """
+import os
 import re
 import unicodedata
 
@@ -31,38 +32,14 @@ INSTITUTIONS = {
     'european-commission': {'name': 'Commission of the European Communities', 'kind': 'government', 'jurisdiction': EU},
 }
 
-# Councils whose offices the book names. The key is the office-id stem; `aliases` are the
-# forms the book uses; `bodies` the election bodies a holder's candidacies are expected in.
+# Councils whose offices the book names: office-id stem (institution council-<stem>) ->
+# (official name, the forms the book uses). The Northern Ireland councils come from the
+# councils registry (data/registries/councils.json: officialName and officialNameAliases, read
+# by scripts/ingest/councils_registry.py). The registry does not give the Republic's two city
+# councils those fields yet, so they are named here until it does.
+_CR = __import__('runpy').run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'councils_registry.py'))
 COUNCILS = {
-    'antrim': ('Antrim Borough Council', ['antrim']),
-    'ards': ('Ards Borough Council', ['ards']),
-    'armagh': ('Armagh District Council', ['armagh']),
-    'ballymena': ('Ballymena Borough Council', ['ballymena']),
-    'ballymoney': ('Ballymoney Borough Council', ['ballymoney']),
-    'banbridge': ('Banbridge District Council', ['banbridge']),
-    'bangor': ('Bangor Borough Council', ['bangor']),
-    'belfast': ('Belfast City Council', ['belfast', 'belfast corporation']),
-    'carrickfergus': ('Carrickfergus Borough Council', ['carrickfergus']),
-    'castlereagh': ('Castlereagh Borough Council', ['castlereagh']),
-    'coleraine': ('Coleraine Borough Council', ['coleraine']),
-    'cookstown': ('Cookstown District Council', ['cookstown']),
-    'craigavon': ('Craigavon Borough Council', ['craigavon']),
-    'derry': ('Derry City Council', ['derry', 'londonderry']),
-    'down': ('Down District Council', ['down']),
-    'downpatrick': ('Downpatrick Urban District Council', ['downpatrick']),
-    'dungannon': ('Dungannon District Council', ['dungannon']),
-    'fermanagh': ('Fermanagh District Council', ['fermanagh']),
-    'larne': ('Larne Borough Council', ['larne']),
-    'limavady': ('Limavady Borough Council', ['limavady']),
-    'lisburn': ('Lisburn Borough Council', ['lisburn']),
-    'lurgan': ('Lurgan Borough Council', ['lurgan']),
-    'magherafelt': ('Magherafelt District Council', ['magherafelt']),
-    'newry-and-mourne': ('Newry and Mourne District Council', ['newry and mourne', 'newry mourne']),
-    'newtownabbey': ('Newtownabbey Borough Council', ['newtownabbey']),
-    'north-down': ('North Down Borough Council', ['north down']),
-    'omagh': ('Omagh District Council', ['omagh']),
-    'portadown': ('Portadown Borough Council', ['portadown']),
-    'strabane': ('Strabane District Council', ['strabane']),
+    **_CR['office_councils'](),
     'dublin': ('Dublin City Council', ['dublin']),
     'cork': ('Cork City Council', ['cork']),
 }
