@@ -85,18 +85,24 @@ for (const p of [CATALOGUE, RENDER]) {
   }
 }
 
+/** @typedef {{ id: string } & Record<string, unknown>} LayerRecord a catalogue map or a render layer; fields are compared by name */
+/** @typedef {{ id: string, name: string }} CategoryDef */
+/** @typedef {{ key: string, id: string, field: string, severity: string, kind: string, catalogue: unknown, render: unknown, why: string }} Finding */
+
+/** @type {{ maps?: LayerRecord[], categories?: CategoryDef[] }} */
 const catalogueDoc = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
+/** @type {{ layers?: LayerRecord[], categories?: CategoryDef[] }} */
 const renderDoc = JSON.parse(readFileSync(RENDER, 'utf8'));
 const catalogue = catalogueDoc.maps || [];
 const render = renderDoc.layers || [];
 
 /** The render store suffixes converted layers; the join is otherwise the bare id. */
-const joinKey = (id) => String(id || '').replace(/-vector$/, '');
+const joinKey = (/** @type {unknown} */ id) => String(id || '').replace(/-vector$/, '');
 const renderById = new Map(render.map((l) => [joinKey(l.id), l]));
 
 // --- the four systematic transforms, normalised away -----------------------
 
-const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const slug = (/** @type {unknown} */ s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 /**
  * The catalogue stores a category id ("local-government"); the render record
@@ -107,13 +113,18 @@ const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
 const categoryDefs = [...(renderDoc.categories || []), ...(catalogueDoc.categories || [])];
 const idByName = new Map(categoryDefs.map((c) => [slug(c.name), c.id]));
 const knownIds = new Set(categoryDefs.map((c) => c.id));
-const toCategoryId = (v) => {
+const toCategoryId = (/** @type {unknown} */ v) => {
   const s = String(v ?? '');
   if (knownIds.has(s)) return s;
   return idByName.get(slug(s)) || slug(s);
 };
 
-/** bounds are rounded to 7dp downstream; 1e-6 is looser than that and tighter than any real edit. */
+/**
+ * bounds are rounded to 7dp downstream; 1e-6 is looser than that and tighter than any real edit.
+ * @param {unknown} a
+ * @param {unknown} b
+ * @returns {boolean}
+ */
 function numericallyEqual(a, b, tol = 1e-6) {
   if (typeof a === 'number' && typeof b === 'number') return Math.abs(a - b) <= tol;
   if (Array.isArray(a) && Array.isArray(b)) {
@@ -122,7 +133,11 @@ function numericallyEqual(a, b, tol = 1e-6) {
   return JSON.stringify(a) === JSON.stringify(b);
 }
 
-/** the render record adds derived terms/keys, so containment is the correct test, not equality. */
+/**
+ * the render record adds derived terms/keys, so containment is the correct test, not equality.
+ * @param {unknown} catVal
+ * @param {unknown} renVal
+ */
 function contains(catVal, renVal) {
   if (Array.isArray(catVal)) {
     if (!Array.isArray(renVal)) return false;
@@ -131,12 +146,13 @@ function contains(catVal, renVal) {
   }
   if (catVal && typeof catVal === 'object') {
     if (!renVal || typeof renVal !== 'object') return false;
-    return Object.entries(catVal).every(([k, v]) => JSON.stringify(renVal[k]) === JSON.stringify(v));
+    // renVal is a non-null object (checked on the line before), so indexing it by name is sound
+    return Object.entries(catVal).every(([k, v]) => JSON.stringify(/** @type {Record<string, unknown>} */ (renVal)[k]) === JSON.stringify(v));
   }
   return JSON.stringify(catVal) === JSON.stringify(renVal);
 }
 
-const setEqual = (a, b) => {
+const setEqual = (/** @type {unknown} */ a, /** @type {unknown} */ b) => {
   const A = [...new Set((Array.isArray(a) ? a : [a]).map(String))].sort();
   const B = [...new Set((Array.isArray(b) ? b : [b]).map(String))].sort();
   return JSON.stringify(A) === JSON.stringify(B);
@@ -145,6 +161,7 @@ const setEqual = (a, b) => {
 // --- field rules -----------------------------------------------------------
 // severity: 'attribution' > 'content' > 'identity' > 'advisory'
 
+/** @type {{ field: string, severity: string, compare: (a: unknown, b: unknown) => boolean, why?: string }[]} */
 const RULES = [
   { field: 'provider', severity: 'attribution', compare: setEqual,
     why: 'credits a different organisation than the catalogue records' },
@@ -175,6 +192,7 @@ const RULES = [
 
 // --- compare ---------------------------------------------------------------
 
+/** @type {Finding[]} */
 const findings = [];
 let joined = 0;
 
@@ -209,7 +227,7 @@ for (const entry of catalogue) {
   // by its own year and surfaced under someone else's. eds-connacht-1919 is
   // tagged 1970, which is what cloning a template layer and not revising the
   // keywords looks like.
-  const years = (v) => (Array.isArray(v) ? v : []).map(String).filter((k) => /^(1[89]|20)\d{2}$/.test(k));
+  const years = (/** @type {unknown} */ v) => (Array.isArray(v) ? v : []).map(String).filter((k) => /^(1[89]|20)\d{2}$/.test(k));
   const catYears = years(entry.keywords);
   const renYears = years(layer.keywords);
   const wrongYears = renYears.filter((y) => !catYears.includes(y));
@@ -229,8 +247,9 @@ for (const entry of catalogue) {
 
 // --- baseline ratchet ------------------------------------------------------
 
+// a pin is { key, ... } or a bare key string; a string has no .key, so `|| f` keeps the string
 const baseline = existsSync(BASELINE)
-  ? new Set(JSON.parse(readFileSync(BASELINE, 'utf8')).findings?.map((f) => f.key || f) || [])
+  ? new Set(JSON.parse(readFileSync(BASELINE, 'utf8')).findings?.map((/** @type {{ key?: string }} */ f) => f.key || f) || [])
   : new Set();
 
 const blocking = findings.filter((f) => f.severity !== 'advisory');
@@ -260,8 +279,8 @@ if (AS_JSON) {
 
 // --- report ----------------------------------------------------------------
 
-const bySeverity = (list, s) => list.filter((f) => f.severity === s);
-const short = (v) => {
+const bySeverity = (/** @type {Finding[]} */ list, /** @type {string} */ s) => list.filter((f) => f.severity === s);
+const short = (/** @type {unknown} */ v) => {
   const s = typeof v === 'string' ? v : JSON.stringify(v);
   return s === null || s === undefined ? '(none)' : (s.length > 72 ? `${s.slice(0, 72)}…` : s);
 };
