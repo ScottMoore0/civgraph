@@ -19,7 +19,11 @@ import { batchPath, phaseOf, readJson, repoPath, sha256File, toPosix } from './b
 /** @typedef {{ changes: Change[], conflicts: Conflict[], errors: string[], warnings: string[], notes: string[], unchanged: number, written: boolean }} StageResult */
 /** @typedef {ReturnType<typeof createView>} View */
 /** A map entry or catalogue class of data/database/maps.json, read by id. @typedef {{ id: string, [field: string]: unknown }} MapsRecord */
-/** @typedef {import('../../types/index.js').IntakeMapEdit} MapEdit */
+/**
+ * One edit of a maps-json-patch `edits` file: the shared type, and unset-field (a contribution's
+ * patch deletes a field with null; packages/intake/src/contribution.mjs).
+ * @typedef {import('../../types/index.js').IntakeMapEdit | { op: 'unset-field', id: string, field: string }} MapEdit
+ */
 /**
  * A stage operation's handler.
  * @template {Operation} [O=Operation]
@@ -100,7 +104,7 @@ function copyFilesOp(batch, op, view, out) {
  *            insertAfter, and each later new entry after the one before it;
  *   classes: the same, each placed after its own `_insert_after` (end of list if absent);
  *   edits:   replace-text (skipped once `new` is present), add-reference (keyed on label),
- *            set-field.
+ *            set-field, unset-field (deletes the field; nothing to do once it is absent).
  */
 /** @type {Handler<OperationOf<'maps-json-patch'>>} */
 function mapsJsonPatchOp(batch, op, view, out) {
@@ -169,6 +173,8 @@ function mapsJsonPatchOp(batch, op, view, out) {
         }
       } else if (ed.op === 'set-field') {
         if (!same(m[ed.field], ed.value)) { m[ed.field] = ed.value; changes.push(`set ${ed.id}.${ed.field}`); }
+      } else if (ed.op === 'unset-field') {
+        if (Object.hasOwn(m, ed.field)) { delete m[ed.field]; changes.push(`unset ${ed.id}.${ed.field}`); }
       }
     }
   }

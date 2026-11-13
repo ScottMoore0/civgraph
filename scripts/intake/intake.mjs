@@ -15,6 +15,7 @@
  *   node scripts/intake/intake.mjs plugins     [--check]
  *   node scripts/intake/intake.mjs run         <plugin> <batch-dir> [--step <s>]... [--input k=v]... [-- <args>]
  *   node scripts/intake/intake.mjs parity      <plugin> [--step <s>]... [-- <args>]
+ *   node scripts/intake/intake.mjs from-contribution <submission-id> <batch-dir> [--submission <file>]
  *
  * stage and post-upload are dry runs unless --write. upload refuses to run without either
  * --dry-run (each script's own dry form, read-only on R2) or --yes (a real upload, allowed only

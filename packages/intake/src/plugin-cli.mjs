@@ -13,6 +13,10 @@
  *                                                     --offline closes the network to both runs, so a
  *                                                     network step replays from its cache or fails
  *   intake mark <batch-dir> <status>                  move the batch's status one guarded step
+ *   intake from-contribution <submission-id> <batch-dir> [--submission <file>] [--replace]
+ *                                                     an approved site contribution as a batch,
+ *                                                     through the contribution plugin; without
+ *                                                     --submission it reads the live queue (wrangler)
  *
  * `--repo <root>` works with each. Nothing here pushes, uploads or publishes.
  */
@@ -23,11 +27,12 @@ import { DEFAULT_REPO, loadBatch, validateBatch } from './batch.mjs';
 import { discoverPlugins, loadPlugin, missingNeeds, parity, parityLedgerProblems, pluginManifest, producePlugin, readParityLedger, selectSteps, unaccountedFiles } from './plugins.mjs';
 import { checkLock, git, writeLock, writeState } from './review.mjs';
 import { stageBatch } from './stage.mjs';
+import { contributionRefusal, readQueuedSubmission, submissionRecord } from './contribution.mjs';
 import { checkBatchTransition } from './statuses.mjs';
 
-export const PLUGIN_COMMANDS = new Set(['plugins', 'run', 'parity', 'mark']);
+export const PLUGIN_COMMANDS = new Set(['plugins', 'run', 'parity', 'mark', 'from-contribution']);
 const BOOL = new Set(['--check', '--all', '--allow-network', '--replace', '--quiet', '--live-clock', '--offline']);
-const VALUE = new Set(['--step', '--input', '--repo', '--scratch']);
+const VALUE = new Set(['--step', '--input', '--repo', '--scratch', '--submission']);
 
 /** @param {string[]} argv */
 export function parsePluginArgs(argv) {
@@ -69,6 +74,7 @@ export async function pluginMain(argv, { log = console.log, err = console.error,
       case 'run': return await runCommand(repo, o, { log, err, stdio });
       case 'parity': return await parityCommand(repo, o, { log, err, stdio });
       case 'mark': return markCommand(repo, o, { log, err });
+      case 'from-contribution': return await fromContributionCommand(repo, o, { log, err, stdio });
       default: err(`intake: unknown command ${o.command}`); return 2;
     }
   } catch (e) {
@@ -110,35 +116,101 @@ async function listPlugins(repo, check, log) {
  */
 async function runCommand(repo, o, { log, err, stdio }) {
   if (o.positional.length !== 2) { err('intake: run <plugin> <batch-dir>'); return 2; }
-  const [pluginId, dirArg] = o.positional;
+  const [pluginId, dirArg] = /** @type {[string, string]} */ (o.positional);
   const plugin = await loadPlugin(repo, pluginId);
+  const dir = batchFolder(dirArg, o, err);
+  if (!dir) return 1;
+  return writePluginBatch(repo, plugin, dir, dirArg, {
+    steps: o.steps, all: o.flags.has('--all'), allowNetwork: o.flags.has('--allow-network'), args: o.extra, inputs: o.inputs,
+  }, { log, stdio });
+}
+
+/**
+ * The batch folder a run writes, made ready: its name must be a batch id, and a folder that
+ * already holds a batch is started again only with --replace. Null (after saying why) when not.
+ * @param {string} dirArg
+ * @param {ReturnType<typeof parsePluginArgs>} o
+ * @param {(s: string) => void} err
+ * @returns {string | null}
+ */
+function batchFolder(dirArg, o, err) {
   const dir = path.resolve(dirArg);
   const id = path.basename(dir).toLowerCase();
-  if (!/^[a-z0-9][a-z0-9.-]*$/.test(id)) { err(`intake: the folder name ${id} is not a batch id (lower case, digits, dots, hyphens)`); return 1; }
-  const manifestPath = path.join(dir, 'batch.json');
+  if (!/^[a-z0-9][a-z0-9.-]*$/.test(id)) { err(`intake: the folder name ${id} is not a batch id (lower case, digits, dots, hyphens)`); return null; }
   const stagedDir = path.join(dir, 'staged');
-  const occupied = existsSync(manifestPath) || (existsSync(stagedDir) && readdirSync(stagedDir).length > 0);
-  if (occupied && !o.flags.has('--replace')) { err(`intake: ${dir} already holds a batch; --replace starts it again`); return 1; }
+  const occupied = existsSync(path.join(dir, 'batch.json')) || (existsSync(stagedDir) && readdirSync(stagedDir).length > 0);
+  if (occupied && !o.flags.has('--replace')) { err(`intake: ${dir} already holds a batch; --replace starts it again`); return null; }
   if (o.flags.has('--replace')) rmSync(stagedDir, { recursive: true, force: true });
   mkdirSync(dir, { recursive: true });
-  const produced = await producePlugin(plugin, {
-    repo, batchDir: dir, steps: o.steps, all: o.flags.has('--all'), allowNetwork: o.flags.has('--allow-network'), args: o.extra, inputs: o.inputs, stdio,
-  });
+  return dir;
+}
+
+/**
+ * Run a plugin into a batch folder and write its batch.json (status draft), then validate it.
+ * @param {string} repo
+ * @param {import('./plugins.mjs').Plugin} plugin
+ * @param {string} dir
+ * @param {string} dirArg   the folder as given, for the next-step hint
+ * @param {{ steps?: string[], all?: boolean, allowNetwork?: boolean, args?: string[], inputs?: Record<string, string> }} run
+ * @param {{ log: (s: string) => void, stdio: import('node:child_process').StdioOptions, title?: string, preparedBy?: string }} how
+ */
+async function writePluginBatch(repo, plugin, dir, dirArg, run, { log, stdio, title, preparedBy }) {
+  const manifestPath = path.join(dir, 'batch.json');
+  const stagedDir = path.join(dir, 'staged');
+  const produced = await producePlugin(plugin, { repo, batchDir: dir, ...run, stdio });
   for (const d of produced.deleted) log(`warning: the run deleted ${d}; a batch cannot carry a deletion, so it was put back`);
   if (!produced.staged.length && !produced.operations.length) {
     log(`${plugin.id}: the run changed nothing; no batch written`);
     return 0;
   }
+  const id = path.basename(dir).toLowerCase();
   const manifest = pluginManifest(plugin, { id, baseCommit: git(repo, ['rev-parse', '--short=10', 'HEAD']), produced, stagedDir });
+  if (title) manifest.title = title;
+  if (preparedBy) manifest.preparedBy = preparedBy;
   writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
   const batch = loadBatch(dir, { repo });
-  writeState(batch, 'run', { exitCode: 0, plugin: plugin.id, steps: produced.steps, args: o.extra, staged: produced.staged });
+  writeState(batch, 'run', { exitCode: 0, plugin: plugin.id, steps: produced.steps, args: run.args || [], staged: produced.staged });
   const v = validateBatch(batch);
   for (const w of v.warnings) log(`warning: ${w}`);
   for (const e of v.errors) log(`ERROR: ${e}`);
   log(`Wrote ${manifestPath}: ${produced.staged.length} staged file(s), ${manifest.operations.length} operation(s), status draft.`);
   log(v.errors.length ? 'It does not validate yet; fix the plugin or the batch.' : `Next: intake validate ${dirArg} --lock, intake plan, intake stage --write.`);
   return v.errors.length ? 1 : 0;
+}
+
+/**
+ * intake from-contribution <submission-id> <batch-dir> [--submission <file>] [--replace]
+ * (refactor plan IP-4): an approved contribution as a batch, through the contribution plugin
+ * (scripts/ingest/contribution/plugin.mjs). The submission comes from --submission, or else from
+ * the live queue through wrangler (the owner's terminal); the batch keeps it without the
+ * contributor's identity, in contribution/submission.json.
+ * @param {string} repo
+ * @param {ReturnType<typeof parsePluginArgs>} o
+ * @param {{ log: (s: string) => void, err: (s: string) => void, stdio: import('node:child_process').StdioOptions }} io
+ */
+async function fromContributionCommand(repo, o, { log, err, stdio }) {
+  if (o.positional.length !== 2) { err('intake: from-contribution <submission-id> <batch-dir> [--submission <file>]'); return 2; }
+  const [subId, dirArg] = /** @type {[string, string]} */ (o.positional);
+  const file = o.values.submission;
+  /** @type {import('./contribution.mjs').Submission} */
+  const submission = file ? JSON.parse(readFileSync(path.resolve(file), 'utf8')) : readQueuedSubmission(subId);
+  if (submission?.id !== subId) { err(`intake: ${file || 'the queue entry'} is ${submission?.id ? `submission ${submission.id}` : 'not a submission'}, which is not submission ${subId}`); return 1; }
+  const refusal = contributionRefusal(submission);
+  if (refusal) { err(`intake: REFUSED ${subId}: ${refusal}`); return 1; }
+  const plugin = await loadPlugin(repo, 'contribution');
+  const dir = batchFolder(dirArg, o, err);
+  if (!dir) return 1;
+  const kept = path.join(dir, 'contribution', 'submission.json');
+  mkdirSync(path.dirname(kept), { recursive: true });
+  writeFileSync(kept, `${JSON.stringify(submissionRecord(submission), null, 2)}\n`);
+  try {
+    return await writePluginBatch(repo, plugin, dir, dirArg, { inputs: { submission: kept } }, {
+      log, stdio, title: `Contribution ${subId}: ${submission.title || submission.kind}`, preparedBy: `intake from-contribution ${subId}`,
+    });
+  } catch (e) {
+    rmSync(path.dirname(kept), { recursive: true, force: true });
+    throw e;
+  }
 }
 
 /**
