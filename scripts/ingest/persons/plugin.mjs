@@ -1,6 +1,7 @@
 // Person ids: the registry, the stamp on every candidacy, the merge loop, the name layer and the
 // audit. `rebuild` is the whole loop in its documented order (rebuild-person-ids.mjs, an explicit
 // state machine); the other steps are its parts, for a single re-run.
+import { DEFAULT_BUILD_DIR } from '../../../packages/config/src/node.mjs';
 import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
@@ -16,13 +17,15 @@ export default definePlugin({
     rebuild: {
       title: 'The whole loop: manifest, summaries, registry, apply, merge passes, name registry, audit (exit 2: relatives harvest needed)',
       argv: ['node', 'scripts/ingest/persons/rebuild-person-ids.mjs'],
-      outputs: ['render/metadata/elections-test2.json', 'render/metadata/elections-test2/'],
+      // The records build (tmp/records, the default build folder) and the legacy folders it once used.
+      outputs: ['render/metadata/elections-test2.json', 'render/metadata/elections-test2/', `${DEFAULT_BUILD_DIR}/elections-test2.json`, `${DEFAULT_BUILD_DIR}/elections/`, `${DEFAULT_BUILD_DIR}/elections-summaries/`, 'tmp/person-lifespan-apply.csv', 'tmp/person-lifespan-veto.csv'],
       note: 'Heavy: the full election manifest. The main session runs it when landing.',
     },
     registry: { title: 'Build data/elections/persons/person_registry.json', argv: ['python', 'scripts/ingest/persons/build_person_registry_v2.py', '--force'] },
-    apply: { title: 'Stamp personId on every candidacy from the registry', argv: ['python', 'scripts/ingest/persons/apply_person_ids_v2.py'] },
-    merge: { title: 'Merge the safe classes of split person ids', argv: ['python', 'scripts/ingest/persons/merge_person_ids.py'] },
-    'name-registry': { title: 'Build the name layer and stamp name_id', argv: ['python', 'scripts/ingest/persons/build_name_registry.py'] },
+    // apply, merge and name-registry rewrite the election bundle of the records build in place.
+    apply: { title: 'Stamp personId on every candidacy from the registry', argv: ['python', 'scripts/ingest/persons/apply_person_ids_v2.py'], outputs: [`${DEFAULT_BUILD_DIR}/elections/`, 'tmp/person-lifespan-apply.csv'] },
+    merge: { title: 'Merge the safe classes of split person ids', argv: ['python', 'scripts/ingest/persons/merge_person_ids.py'], outputs: [`${DEFAULT_BUILD_DIR}/elections/`] },
+    'name-registry': { title: 'Build the name layer and stamp name_id', argv: ['python', 'scripts/ingest/persons/build_name_registry.py'], outputs: [`${DEFAULT_BUILD_DIR}/elections/`] },
     audit: { title: 'List person ids that are probably wrong', argv: ['python', 'scripts/ingest/persons/audit_person_ids.py'] },
     'find-split': { title: 'Find people split across two ids, from Wikipedia biographies', argv: ['python', 'scripts/ingest/persons/find_split_persons.py'], network: true },
   },
