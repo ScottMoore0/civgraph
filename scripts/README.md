@@ -67,6 +67,7 @@ Ask which half of a check is genuinely remote. Usually most of it is not.
 | change catalogue data | edit `data/database/maps.json`; `records:build` loads it (`packages/loader/src/ingest-maps.mjs`) |
 | change render metadata | `build/build-test2-metadata-shards.mjs` — the client reads the generated shards |
 | publish to R2 | `publish/r2-upload-tree.mjs` (S3 endpoint; the REST path is rate-limited) |
+| publish the bulk downloads | `publish/r2-upload-downloads.mjs` (keeps every snapshot version; refuses to overwrite one with different content) |
 | set cache headers on R2 | `publish/r2-cache-control.mjs` |
 | rebuild the app | `build/shell-assets.mjs`, then `build/app-bundle.mjs` |
 | rebuild Browse | `build/build-browse-indexes.mjs` |
