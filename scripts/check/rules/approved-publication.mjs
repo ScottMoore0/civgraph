@@ -7,7 +7,53 @@ import { BROWSE_DIR, localPathForUrl } from '../../../packages/loader/src/paths.
 
 const ROOT = process.cwd();
 const APPROVAL_ROOT = path.join(ROOT, 'docs', 'tasks', 'absence-integration-ready-2026-06-15', 'publication-approval-pack', 'approval-refinement');
+/** @type {string[]} */
 const failures = [];
+
+/**
+ * The approval pack's refinement-validation-report.json, as far as this reads it.
+ * @typedef {{ counts?: { dailCandidateRowsInput?: number, category3PublishRows?: number, category3VariantRows?: number } }} ValidationReport
+ */
+/** @typedef {{ aliasId?: string, classification?: string, electionId?: string, sourceCandidateName?: string, canonicalCandidateName?: string }} DailAlias */
+/**
+ * data/elections/dail-approved-candidate-aliases.json.
+ * @typedef {{
+ *   schemaVersion?: number, counts?: { sourceRows?: number, quarantinedRows?: number },
+ *   aliases: DailAlias[], sourceRows: { sourceRowId?: string, classification?: string }[],
+ *   remainingDecisions?: {
+ *     approvedGroups?: number, approvedSourceRows?: number, heldProbableAliasGroups?: number,
+ *     heldProbableSourceRows?: number, rejectedRematchGroups?: number, rejectedRematchSourceRows?: number,
+ *     rejectedRematches?: { reviewId?: string }[]
+ *   }
+ * }} DailAliases
+ */
+/** @typedef {{ publish?: number, variants?: number }} BucketCount the records approved in one tranche */
+/**
+ * The counts of data/database/approved-publication-sources.json.
+ * @typedef {{
+ *   publish?: number, variants?: number, total?: number, excluded?: Record<string, number>,
+ *   remainingApproved?: BucketCount, censusCategory1?: BucketCount, censusNisraOgl?: BucketCount,
+ *   censusCsoNiCarveout?: BucketCount, localAuthoritySources?: BucketCount,
+ *   localAuthoritySourcesHeld?: BucketCount, transportPublicAssets?: BucketCount,
+ *   sourceDownloadRecords?: BucketCount, openDataSourceRecords?: BucketCount,
+ *   variantSourceRecords?: BucketCount, censusHistoricalReports?: BucketCount,
+ *   csoPxstatBacklog?: BucketCount, openDataIePortal?: BucketCount, nisraPublications?: BucketCount,
+ *   openDataNiPortal?: BucketCount, csoPxstatCompletion?: BucketCount
+ * }} ApprovedCounts
+ */
+/** @typedef {{ url?: string }} SourceLink */
+/**
+ * An approved source record, as far as this reads it.
+ * @typedef {{
+ *   id?: string, title?: string, type?: string, relationship?: string,
+ *   approval?: { recommendedAction?: string, stagingId?: string, componentRowIds?: string[] },
+ *   references?: SourceLink[], downloads?: SourceLink[], variantOf?: { id?: string, title?: string }
+ * }} ApprovedSource
+ */
+/** @typedef {{ schemaVersion?: number, counts?: ApprovedCounts, sources: ApprovedSource[] }} ApprovedSources */
+/** @typedef {{ id?: string, approval?: { recommendedAction?: string }, variantOf?: { id?: string } }} MergedListing a listing merged into a Browse source record */
+/** @typedef {MergedListing & { slug?: string, detailUrl?: string, mergedFrom?: MergedListing[] }} BrowseSourceItem an item of the Browse sources index */
+/** @typedef {{ (shardPath: string): Set<string> | null | undefined, cache?: Map<string, Set<string> | null> }} ShardKeysFunction */
 
 const SAFE_DAIL_CLASSIFICATIONS = new Set([
   'safe auto-match',
@@ -16,6 +62,8 @@ const SAFE_DAIL_CLASSIFICATIONS = new Set([
   'user-approved encoding alias',
   'user-approved probable alias'
 ]);
+// looked up with an optional field, which is simply absent from it
+/** @type {Set<string | undefined>} */
 const APPROVED_ACTIONS = new Set(['publish', 'merge as variant']);
 const LOCAL_PATH_RE = /(?:[A-Z]:\\|\\\\|C:\/Users\/|D:\/)/i;
 
@@ -41,6 +89,10 @@ function main() {
   console.log(`PASS: ${dailAliases.aliases.length} Dail aliases and ${approvedSources.sources.length} approved Category 3 source records are materialised and validated.`);
 }
 
+/**
+ * @param {ValidationReport} validationReport
+ * @param {DailAliases} dailAliases
+ */
 function validateDailAliases(validationReport, dailAliases) {
   const expectedSourceRows = 431;
   const expectedAliases = 50;
@@ -74,6 +126,10 @@ function validateDailAliases(validationReport, dailAliases) {
   assert(!dailAliases.aliases.some((alias) => alias.sourceCandidateName === 'Glenn Brady' && alias.canonicalCandidateName === 'John Brady'), 'Glenn Brady must not be published as John Brady.');
 }
 
+/**
+ * @param {ValidationReport} validationReport
+ * @param {ApprovedSources} approvedSources
+ */
 function validateApprovedSources(validationReport, approvedSources) {
   assert(approvedSources.schemaVersion === 1, 'Approved publication sources must have schemaVersion 1.');
   assert(validationReport.counts?.category3PublishRows === 5892, 'Approval validation report should have 5,892 Category 3 publish rows.');
@@ -164,6 +220,7 @@ function validateApprovedSources(validationReport, approvedSources) {
   assert(!approvedSources.counts?.excluded?.['probable variant - user approval required'], 'Category 3 probable variants should be resolved by user approval in this pass.');
   assert(!approvedSources.counts?.excluded?.['citation-only source page'], 'Category 3 citation-only source pages should be resolved by user approval in this pass.');
 
+  /** @type {Set<string | undefined>} */
   const ids = new Set();
   for (const source of approvedSources.sources) {
     assert(source.id && source.title && source.type, `Approved source is missing id/title/type: ${JSON.stringify(source).slice(0, 180)}`);
@@ -198,7 +255,8 @@ function validateApprovedSources(validationReport, approvedSources) {
     const nonNbcoUrls = [...(nbcoSource.references || []), ...(nbcoSource.downloads || [])]
       .map((link) => link.url)
       .filter(Boolean)
-      .filter((url) => !/\/\/data\.nbco\.gov\.ie\//i.test(url));
+      // filter(Boolean) dropped the absent urls
+      .filter((url) => !/\/\/data\.nbco\.gov\.ie\//i.test(/** @type {string} */ (url)));
     assert(nonNbcoUrls.length === 0, `NBCO applications source must not inherit unrelated application/planning references: ${nonNbcoUrls.join(', ')}`);
   }
   assertApprovedDistinctSourceLinks(approvedSources, 'source-doc-03514-community-centres', /(?:belfastcity\.gov\.uk|community-centres-csv-3\.csv)/i);
@@ -221,20 +279,32 @@ function validateApprovedSources(validationReport, approvedSources) {
   }
 }
 
+/**
+ * @param {ApprovedSources} approvedSources
+ * @param {string} stagingId
+ * @param {RegExp} expectedPattern
+ */
 function assertApprovedDistinctSourceLinks(approvedSources, stagingId, expectedPattern) {
   const source = approvedSources.sources.find((item) => item.approval?.stagingId === stagingId);
   if (!source) return;
   const links = [...(source.references || []), ...(source.downloads || [])].map((link) => link.url).filter(Boolean);
-  const badUrls = links.filter((url) => !expectedPattern.test(url));
+  // filter(Boolean) dropped the absent urls
+  const badUrls = links.filter((url) => !expectedPattern.test(/** @type {string} */ (url)));
   assert(badUrls.length === 0, `User-approved distinct source ${stagingId} inherited unrelated references/downloads: ${badUrls.join(', ')}`);
 }
 
+/**
+ * @param {ApprovedSources} approvedSources
+ * @param {{ items: BrowseSourceItem[] }} browseSources
+ */
 function validateBrowseMaterialisation(approvedSources, browseSources) {
   assert(Array.isArray(browseSources.items), 'Browse sources index must contain items.');
+  /** @type {Map<string | undefined, BrowseSourceItem>} */
   const browseById = new Map(browseSources.items.map((item) => [item.id, item]));
   // A source listed more than once is merged into one record (build-browse-indexes.mjs
   // mergeDuplicateSources); the merged listing keeps its id, approval and variant parent in
   // that record's mergedFrom, and the record's detail is the one it now opens.
+  /** @type {Map<string | undefined, { item: BrowseSourceItem, merged: MergedListing }>} */
   const mergedById = new Map();
   for (const item of browseSources.items) {
     for (const merged of item.mergedFrom || []) mergedById.set(merged.id, { item, merged });
@@ -242,7 +312,8 @@ function validateBrowseMaterialisation(approvedSources, browseSources) {
   for (const source of approvedSources.sources) {
     const merge = browseById.has(source.id) ? null : mergedById.get(source.id);
     const browseItem = browseById.get(source.id) || merge?.item;
-    const facts = merge ? merge.merged : browseItem;
+    // browseItem itself when nothing was merged; the loop goes past the check below only when it is set
+    const facts = /** @type {MergedListing} */ (merge ? merge.merged : browseItem);
     assert(Boolean(browseItem), `Browse sources index is missing approved source ${source.id}.`);
     if (!browseItem) continue;
     assert(facts.approval?.recommendedAction === source.approval?.recommendedAction, `Browse source lost approval metadata: ${source.id}`);
@@ -251,6 +322,7 @@ function validateBrowseMaterialisation(approvedSources, browseSources) {
   }
 }
 
+/** @param {BrowseSourceItem} browseItem */
 function hasBrowseSourceDetail(browseItem) {
   const slug = browseItem.slug || slugify(browseItem.id);
   if (!browseItem.detailUrl) {
@@ -259,7 +331,8 @@ function hasBrowseSourceDetail(browseItem) {
   }
   try {
     const parsed = new URL(browseItem.detailUrl, 'https://civgraph.local');
-    const shardPath = localPathForUrl(parsed.pathname);
+    // a URL's pathname is a non-empty site path, never an http(s) URL, so this is never null
+    const shardPath = /** @type {string} */ (localPathForUrl(parsed.pathname));
     const keys = shardKeys(shardPath);
     if (!keys) return false;
     return keys.has(String(slug || '').toLowerCase()) || keys.has(String(browseItem.id || '').toLowerCase());
@@ -273,11 +346,18 @@ function hasBrowseSourceDetail(browseItem) {
 // the chain (80 s, 49 s of it in this lookup).
 // (A property of the function, not a module const: main() runs at the top of the file,
 // before any const below it is initialised.)
+/**
+ * @param {string} shardPath
+ * @returns {Set<string> | null | undefined}
+ */
 function shardKeys(shardPath) {
-  const shardKeyCache = shardKeys.cache || (shardKeys.cache = new Map());
+  // the function carries its cache as a property
+  const shardKeyCache = /** @type {ShardKeysFunction} */ (shardKeys).cache || (/** @type {ShardKeysFunction} */ (shardKeys).cache = new Map());
   if (!shardKeyCache.has(shardPath)) {
+    /** @type {Set<string> | null} */
     let keys = null;
     if (existsSync(shardPath)) {
+      /** @type {{ items?: { slug?: unknown, id?: unknown }[] }} */
       const shard = JSON.parse(readFileSync(shardPath, 'utf8'));
       keys = new Set();
       for (const item of Array.isArray(shard.items) ? shard.items : []) {
@@ -290,10 +370,12 @@ function shardKeys(shardPath) {
   return shardKeyCache.get(shardPath);
 }
 
+/** @param {unknown} value */
 function normalizeKey(value) {
   return String(value ?? '').trim().toLowerCase();
 }
 
+/** @param {unknown} value */
 function slugify(value) {
   return String(value ?? '')
     .normalize('NFKD')
@@ -304,10 +386,15 @@ function slugify(value) {
     .replace(/^-+|-+$/g, '') || 'entry';
 }
 
+/**
+ * @param {unknown} condition
+ * @param {string} message
+ */
 function assert(condition, message) {
   if (!condition) failures.push(message);
 }
 
+/** @param {string} file */
 function readJson(file) {
   assert(existsSync(file), `Missing required file: ${path.relative(ROOT, file)}`);
   if (!existsSync(file)) return {};
