@@ -12,6 +12,9 @@
 //    belongs there, and the script fails if a subject is missing, named twice, or unknown.
 import fs from 'fs';
 
+/** @typedef {{ subject: string, kind: string, n: number }} EntryRow */
+
+/** @type {[string, string, string[]][]} */
 const SHELVES = [
   ['Land Divisions',
    'The territorial fabric: the units Ireland has been divided into, from the townland up.',
@@ -72,10 +75,12 @@ const SHELVES = [
    ['Regional Divides']],
 ];
 
+/** @type {EntryRow[]} */
 const entries = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 
 // ---- every subject placed exactly once
 const known = new Set(entries.map(e => e.subject));
+/** @type {Map<string, string>} */
 const placed = new Map();
 for (const [shelf, , subs] of SHELVES) {
   for (const s of subs) {

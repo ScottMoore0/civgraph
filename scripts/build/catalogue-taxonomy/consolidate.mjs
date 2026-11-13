@@ -16,8 +16,14 @@
  */
 import fs from 'fs';
 
+/** @typedef {{ id: string, name?: unknown, keywords?: unknown[], provider?: string | string[], date?: string, dateEffective?: string }} CatalogueMap */
+/** @typedef {{ id: string, name: string, variantOf?: string }} EntryMap */
+/** @typedef {{ name: string, subject: string, kind: string, n: number, axis: string | null, maps: EntryMap[], scope?: string | null, year?: number | null }} Entry */
+
+/** @type {{ maps: CatalogueMap[], classes?: { maps?: string[], scope?: string }[] }} */
 const CATALOGUE = JSON.parse(fs.readFileSync('data/database/maps.json', 'utf8'));
 const MAP_BY_ID = new Map(CATALOGUE.maps.map((m) => [m.id, m]));
+/** @type {Map<string, string>} */
 const CLASS_SCOPE = new Map();
 for (const c of CATALOGUE.classes || []) for (const id of c.maps || []) if (!CLASS_SCOPE.has(id)) CLASS_SCOPE.set(id, c.scope || '');
 
@@ -38,7 +44,7 @@ const SCOPE_BY_ID = new Map(Object.entries({
   'historic-ringfort-unclassified': 'NI',
   'river-and-lake-monitoring-points-2024': 'ROI',
 }));
-const scopeOfMap = (m) => {
+const scopeOfMap = (/** @type {CatalogueMap | undefined} */ m) => {
   if (!m) return null;
   if (SCOPE_BY_ID.has(m.id)) return SCOPE_BY_ID.get(m.id);
   const cs = CLASS_SCOPE.get(m.id) || '';
@@ -54,7 +60,7 @@ const scopeOfMap = (m) => {
   const kw = (m.keywords || []).map((x) => String(x).toUpperCase());
   if (kw.includes('NI')) return 'NI';
   if (kw.includes('ROI')) return 'ROI';
-  const prov = [].concat(m.provider || []).join(' ');
+  const prov = /** @type {string[]} */ ([]).concat(m.provider || []).join(' ');
   if (NI_PROVIDERS.test(prov)) return 'NI';
   if (ROI_PROVIDERS.test(prov)) return 'ROI';
   if (/^(ni|osni|translink|niea|gsni|deas|lgd|wards|elb|hsct)[-\d]/i.test(m.id)) return 'NI';
@@ -62,7 +68,7 @@ const scopeOfMap = (m) => {
   return null;
 };
 /** An entry covering more than one jurisdiction is all-Ireland for display purposes. */
-const scopeOfEntry = (maps) => {
+const scopeOfEntry = (/** @type {EntryMap[]} */ maps) => {
   const seen = new Set(maps.map((m) => scopeOfMap(MAP_BY_ID.get(m.id))).filter(Boolean));
   if (!seen.size) return null;
   if (seen.size === 1) return [...seen][0];
@@ -70,9 +76,10 @@ const scopeOfEntry = (maps) => {
 };
 
 /** The most recent four-digit year any of an entry's maps refers to, for chronological order. */
-const yearOfEntry = (maps) => {
+const yearOfEntry = (/** @type {EntryMap[]} */ maps) => {
   let best = null;
   for (const m of maps) {
+    /** @type {Partial<CatalogueMap>} */
     const rec = MAP_BY_ID.get(m.id) || {};
     const text = `${rec.date || ''} ${rec.dateEffective || ''} ${m.name || ''}`;
     for (const y of text.match(/\b(1[6-9]\d{2}|20\d{2})\b/g) || []) {
@@ -84,6 +91,7 @@ const yearOfEntry = (maps) => {
 };
 
 const IN = 'build/catalogue-prototype/entries.json';
+/** @type {Entry[]} */
 const entries = JSON.parse(fs.readFileSync(IN, 'utf8'));
 const out = process.argv[2] || null;
 
@@ -151,8 +159,9 @@ const RENAME_BY_MAP_ID = new Map(Object.entries({
   'tailte-heritage': 'Heritage Features',
   'tailte-hvd-sites': 'Topographic Sites',
 }));
-const displayName = (entry) => (entry.maps.length === 1 && RENAME_BY_MAP_ID.has(entry.maps[0].id)
-  ? RENAME_BY_MAP_ID.get(entry.maps[0].id)
+const displayName = (/** @type {Entry} */ entry) => (entry.maps.length === 1 && RENAME_BY_MAP_ID.has(entry.maps[0].id)
+  // has() was checked on the line before
+  ? /** @type {string} */ (RENAME_BY_MAP_ID.get(entry.maps[0].id))
   : entry.name);
 
 /**
@@ -327,7 +336,7 @@ const SUBJECT_RENAME = new Map(Object.entries({
 const BRACKET = /\s*\([^)]*\)/g;
 const YEAR = /\b(1[6-9]\d{2}|20\d{2})\b/g;
 
-const tokens = (name) => name
+const tokens = (/** @type {string} */ name) => name
   .replace(BRACKET, ' ')
   .replace(YEAR, ' ')
   .replace(/\s+[–—-]\s+[^–—-]+$/, '')          // trailing qualifier
@@ -336,28 +345,30 @@ const tokens = (name) => name
   .replace(/\s+/g, ' ')
   .trim();
 
-const stripList = (s, list) => {
+const stripList = (/** @type {string} */ s, /** @type {string[]} */ list) => {
   let v = ` ${s} `;
   for (const item of list) v = v.split(` ${item} `).join(' ');
   return v.replace(/\s+/g, ' ').trim();
 };
 
-const singular = (s) => s.split(' ')
+const singular = (/** @type {string} */ s) => s.split(' ')
   .map((w) => w.replace(/ies$/, 'y').replace(/([^s])s$/, '$1'))
   .map((w) => (ALIASES.has(w) ? ALIASES.get(w) : w))
   .filter(Boolean)
   .join(' ');
 
-const key = (name) => (KEEP_DISTINCT.has(name)
+const key = (/** @type {string} */ name) => (KEEP_DISTINCT.has(name)
   ? `keep:${name}`
   : singular(stripList(stripList(tokens(name), PLACES), FORMS)) || tokens(name));
 
 // ---- group within each subject ------------------------------------------------------------
 const E_SUBJECTS = entries.map((e) => e.subject);
+/** @type {Map<string, Entry[]>} */
 const bySubject = new Map();
 for (const e of entries) {
   if (!bySubject.has(e.subject)) bySubject.set(e.subject, []);
-  bySubject.get(e.subject).push(e);
+  // the key was set on the line before
+  /** @type {Entry[]} */ (bySubject.get(e.subject)).push(e);
 }
 
 /**
@@ -368,10 +379,11 @@ for (const e of entries) {
  * reads as though the others were dropped. When the members share a leading run of words,
  * that shared stem IS the name of the thing; the rest is what varies.
  */
-const pickName = (group) => {
+const pickName = (/** @type {Entry[]} */ group) => {
   const names = group.map(displayName).sort((a, b) => a.length - b.length || a.localeCompare(b));
   if (names.length === 1) return names[0];
   const words = names.map((n) => n.split(/\s+/));
+  /** @type {string[]} */
   const shared = [];
   for (let i = 0; i < words[0].length; i++) {
     const w = words[0][i];
@@ -389,8 +401,8 @@ const pickName = (group) => {
   // Otherwise score each member by how much of it is qualifier rather than name, and take
   // the cleanest. Tested on the WHOLE name: tokens() drops a trailing qualifier, which made
   // "Polling Districts - Roscommon" look place-free and win.
-  const whole = (n) => n.replace(BRACKET, ' ').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
-  const countIn = (n, list) => list.filter((item) => ` ${whole(n)} `.includes(` ${item} `)).length;
+  const whole = (/** @type {string} */ n) => n.replace(BRACKET, ' ').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  const countIn = (/** @type {string} */ n, /** @type {string[]} */ list) => list.filter((item) => ` ${whole(n)} `.includes(` ${item} `)).length;
   const scored = names.map((n) => ({
     n,
     places: countIn(n, PLACES),
@@ -406,14 +418,18 @@ const pickName = (group) => {
   return cleaned.length >= 4 ? cleaned : longest;
 };
 
+/** @type {Entry[]} */
 const consolidated = [];
+/** @type {{ subject: string, key: string, names: string[] }[]} */
 const merges = [];
 for (const [subject, list] of bySubject) {
+  /** @type {Map<string, Entry[]>} */
   const groups = new Map();
   for (const e of list) {
     const k = key(displayName(e));
     if (!groups.has(k)) groups.set(k, []);
-    groups.get(k).push(e);
+    // the key was set on the line before
+    /** @type {Entry[]} */ (groups.get(k)).push(e);
   }
   for (const [k, group] of groups) {
     if (group.length > 1) merges.push({ subject, key: k, names: group.map((e) => e.name) });
@@ -429,7 +445,7 @@ for (const [subject, list] of bySubject) {
   }
 }
 // ---- editorial placements -----------------------------------------------------------------
-const findCard = (subject, name) => consolidated.find((e) => e.subject === subject && e.name === name);
+const findCard = (/** @type {string} */ subject, /** @type {string} */ name) => consolidated.find((e) => e.subject === subject && e.name === name);
 for (const [mapId, target] of ASSIGN_TO_CARD) {
   const [subject, name] = target.split(' :: ');
   const src = consolidated.find((e) => e.maps.some((m) => m.id === mapId));
@@ -442,7 +458,8 @@ for (const [mapId, target] of ASSIGN_TO_CARD) {
   }
   if (dst === src) continue;
   src.maps = src.maps.filter((m) => m.id !== mapId);
-  dst.maps.push(map);
+  // src was found as the entry holding mapId, so find() above returned that map
+  dst.maps.push(/** @type {EntryMap} */ (map));
 }
 // Nest a map under the map it is a rendering of, moving it into that card if needed.
 for (const [childId, parentId] of VARIANT_OF) {
@@ -450,7 +467,8 @@ for (const [childId, parentId] of VARIANT_OF) {
   const childEntry = consolidated.find((e) => e.maps.some((m) => m.id === childId));
   if (!parentEntry) throw new Error(`VARIANT_OF parent is in no entry: ${parentId}`);
   if (!childEntry) throw new Error(`VARIANT_OF child is in no entry: ${childId}`);
-  const child = childEntry.maps.find((m) => m.id === childId);
+  // childEntry was found as the entry holding childId, so find() returns that map
+  const child = /** @type {EntryMap} */ (childEntry.maps.find((m) => m.id === childId));
   if (childEntry !== parentEntry) {
     childEntry.maps = childEntry.maps.filter((m) => m.id !== childId);
     parentEntry.maps.push(child);
@@ -482,7 +500,8 @@ for (const [mapId, name] of CARD_RENAME) {
 }
 
 // Rename last, so the ASSIGN targets above can keep naming subjects by their old names.
-for (const e of consolidated) if (SUBJECT_RENAME.has(e.subject)) e.subject = SUBJECT_RENAME.get(e.subject);
+// has() is checked in the same statement
+for (const e of consolidated) if (SUBJECT_RENAME.has(e.subject)) e.subject = /** @type {string} */ (SUBJECT_RENAME.get(e.subject));
 
 // A subject the placements have emptied should not survive as a heading with nothing in it.
 {
@@ -492,7 +511,8 @@ for (const e of consolidated) if (SUBJECT_RENAME.has(e.subject)) e.subject = SUB
 }
 
 for (const e of consolidated) {
-  for (const m of e.maps) if (MAP_RENAME.has(m.id)) m.name = MAP_RENAME.get(m.id);
+  // has() is checked in the same statement
+  for (const m of e.maps) if (MAP_RENAME.has(m.id)) m.name = /** @type {string} */ (MAP_RENAME.get(m.id));
   e.scope = scopeOfEntry(e.maps);
   e.year = yearOfEntry(e.maps);
 }
@@ -511,6 +531,7 @@ for (const m of merges.sort((a, b) => b.names.length - a.names.length)) {
   console.log(`      ${m.names.join('  |  ')}`);
 }
 
+/** @type {Map<string, number>} */
 const perSubject = new Map();
 for (const e of consolidated) perSubject.set(e.subject, (perSubject.get(e.subject) || 0) + 1);
 console.log('\nsubjects with the most entries after consolidation:');

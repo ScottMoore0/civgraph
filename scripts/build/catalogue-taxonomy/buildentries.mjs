@@ -1,12 +1,17 @@
 // Build a self-contained review page for the derived entries.
 import fs from 'fs';
+/** @typedef {{ id: string, name: string }} EntryMap */
+/** @typedef {{ name: string, subject: string, kind: string, n: number, axis: string | null, maps: EntryMap[] }} Entry */
+/** @type {Entry[]} */
 const entries = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 const OUT = process.argv[3];
 
+/** @type {Map<string, Entry[]>} */
 const bySubject = new Map();
 for (const e of entries) {
   if (!bySubject.has(e.subject)) bySubject.set(e.subject, []);
-  bySubject.get(e.subject).push(e);
+  // the key was set on the line before
+  /** @type {Entry[]} */ (bySubject.get(e.subject)).push(e);
 }
 const subjects = [...bySubject.entries()]
   .map(([name, items]) => ({
@@ -16,9 +21,9 @@ const subjects = [...bySubject.entries()]
   }))
   .sort((a, b) => (a.kind === b.kind ? b.items.length - a.items.length : a.kind === 'Boundary' ? -1 : 1));
 
-const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const esc = (/** @type {string} */ s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 // what varies between the maps of an entry, with the shared stem taken out
-const variantLabel = (e, m) => {
+const variantLabel = (/** @type {Entry} */ e, /** @type {EntryMap} */ m) => {
   const v = m.name.replace(e.name, '').replace(/^[\s—–,-]+/, '').replace(/[\s—–,-]+$/, '').trim();
   return v || 'base';
 };

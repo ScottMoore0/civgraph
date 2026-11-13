@@ -20,16 +20,27 @@
  */
 import fs from 'fs';
 
-const ROOT = process.cwd();
-const P = (p) => `${ROOT}/${p}`;
-const read = (p) => JSON.parse(fs.readFileSync(P(p), 'utf8'));
+/** @typedef {{ id: string, subject?: string }} CatalogueMap */
+/** @typedef {{ maps: CatalogueMap[], c1s?: { id: string }[], classes?: { id: string, maps?: string[] }[], categories: { id: string }[], schemaVersion?: number }} Catalogue */
+/** @typedef {{ id: string, name: string, variantOf?: string }} EntryMap */
+/** @typedef {{ name: string, subject: string, kind: string, axis: string | null, scope?: string | null, year?: number | null, maps: EntryMap[] }} Entry */
+/** @typedef {{ name: string, blurb: string, subjects: { name: string, kind: string }[] }} Shelf */
+/** @typedef {{ id: string, name: string, kind: string, shelf: string, c1Ids?: string[] }} Subject */
 
+const ROOT = process.cwd();
+const P = (/** @type {string} */ p) => `${ROOT}/${p}`;
+const read = (/** @type {string} */ p) => JSON.parse(fs.readFileSync(P(p), 'utf8'));
+
+/** @type {Catalogue} */
 const catalogue = read('data/database/maps.json');
+/** @type {Shelf[]} */
 const shelves = read('build/catalogue-prototype/shelves.json');
+/** @type {Entry[]} */
 const entries = read('build/catalogue-prototype/entries.json');
+/** @type {{ id: string, subject: string }[]} */
 const unrenderable = read('build/catalogue-prototype/subjects-unrenderable.json');
 
-const slug = (s) => String(s)
+const slug = (/** @type {string} */ s) => String(s)
   .toLowerCase()
   .replace(/&/g, ' and ')
   .replace(/[^a-z0-9]+/g, '-')
@@ -40,6 +51,7 @@ const slug = (s) => String(s)
  * clearer name, so the two taxonomies line up where they can. Everything else is slugged.
  * Because `category` is untouched, a wrong choice here costs nothing downstream.
  */
+/** @type {Record<string, string>} */
 const SUBJECT_ID = {
   'Townlands': 'townlands',
   'Civil Parishes & Baronies': 'civil-parishes',
@@ -53,10 +65,12 @@ const SUBJECT_ID = {
   'Water Quality & Monitoring': 'water-quality',
   'Hills & Uplands': 'hills-and-mountains',
 };
-const subjectId = (name) => SUBJECT_ID[name] || slug(name);
+const subjectId = (/** @type {string} */ name) => SUBJECT_ID[name] || slug(name);
 
 // ---- subjects, each on exactly one shelf -------------------------------------------------
+/** @type {Subject[]} */
 const subjects = [];
+/** @type {Map<string, string>} */
 const shelfOfSubject = new Map();
 for (const shelf of shelves) {
   for (const s of shelf.subjects) {
@@ -91,10 +105,12 @@ const mapById = new Map(catalogue.maps.map((m) => [m.id, m]));
 
 // Subject per map, renderable or not. Built before the entries so the layout owner below
 // can be resolved from it.
+/** @type {Map<string, string | undefined>} */
 const subjectByMapId = new Map();
 for (const e of entries) for (const m of e.maps) subjectByMapId.set(m.id, subjectIdByName.get(e.subject));
 for (const r of unrenderable) subjectByMapId.set(r.id, subjectIdByName.get(r.subject));
 
+/** @type {Set<string>} */
 const usedEntryIds = new Set();
 const entryDocs = entries.map((e) => {
   let id = `e-${subjectIdByName.get(e.subject)}-${slug(e.name)}`.slice(0, 80);
@@ -130,10 +146,13 @@ for (const c1 of catalogue.c1s || []) {
   // Three dialects in seven layouts: `{mapId}`, `{classId}`, and `{left, right}` holding bare
   // class ids. Keying on the field name missed the third and left that layout ownerless, so
   // any string that IS a known map or class id counts as a reference.
+  /** @type {string[]} */
   const inLayout = [];
+  /** @type {(n: unknown) => void} */
   const walk = (n) => {
     if (typeof n === 'string') {
-      if (classMaps.has(n)) inLayout.push(...classMaps.get(n));
+      // has() is checked in the same statement
+      if (classMaps.has(n)) inLayout.push(.../** @type {string[]} */ (classMaps.get(n)));
       else if (mapById.has(n)) inLayout.push(n);
       return;
     }
@@ -141,6 +160,7 @@ for (const c1 of catalogue.c1s || []) {
     if (n && typeof n === 'object') Object.values(n).forEach(walk);
   };
   walk(c1);
+  /** @type {Map<string, number>} */
   const tally = new Map();
   for (const mid of inLayout) {
     const s = subjectByMapId.get(mid);
