@@ -21,7 +21,7 @@ import {
   getLabelStyle
 } from './labels.js';
 import { repairFeatureProperties } from './feature-property-repairs.js';
-import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, boundsToMapLibre, clamp } from './utils.js';
+import { absoluteTileTemplate, boundsToFlatBbox, boundsToMapLibre, clamp } from './utils.js';
 import { approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegmentsUrl } from './approximate-segments.js';
 import { LAYER_LOAD } from './layer-load.mjs';
 import { BasemapManager } from './basemap.mjs';
@@ -1270,7 +1270,9 @@ export class TestMapLibreController {
     if (load.run.state() !== 'loading') return;
 
     // The layer's renderer (layer-kinds/: the layer-type code registry) says how it is drawn.
-    const renderer = layerRenderer(layer.sourceType);
+    // Null only for a type nothing draws, and buildSource throws for those before the renderer is
+    // read again (unsupported sourceType), so past the branch below it is always there.
+    const renderer = /** @type {import('./layer-kinds/types.mjs').LayerRenderer} */ (layerRenderer(layer.sourceType));
     /** @type {OverlayIds} */
     let interactionOverlayIds = { layerIds: [], sourceIds: [] };
     if (renderer?.customLayer) {
@@ -1287,7 +1289,10 @@ export class TestMapLibreController {
       // A type no renderer draws throws here (buildSource: unsupported sourceType).
       const source = this.buildSource(layer);
       this.map.addSource(sourceId, source);
-      interactionOverlayIds = renderer.draw(this, layer, { sourceId, fillId, lineId, rasterId, hoverId, selectedFillId, selectedId });
+      // Every renderer with a source has a draw (layer-kinds/, tests/unit/map-layer-kinds.test.mjs). It
+      // calls back the controller's methods with this same layer, the ControllerLayer they declare.
+      interactionOverlayIds = /** @type {NonNullable<import('./layer-kinds/types.mjs').LayerRenderer['draw']>} */ (renderer.draw)(
+        /** @type {import('./layer-kinds/types.mjs').LayerHost} */ (/** @type {unknown} */ (this)), layer, { sourceId, fillId, lineId, rasterId, hoverId, selectedFillId, selectedId });
     }
     const labelLayerIds = this.addLabelLayers(layer, { sourceId, labelId });
 
@@ -2206,14 +2211,16 @@ export class TestMapLibreController {
   buildSource(layer) {
     const renderer = layerRenderer(layer.sourceType);
     if (!renderer?.source) throw new Error(`unsupported sourceType ${layer.sourceType}`);
-    return renderer.source(layer, {
+    // The renderers build MapLibre source objects; types.mjs's SourceSpec is their loose form.
+    return /** @type {import('maplibre-gl').SourceSpecification} */ (/** @type {unknown} */ (renderer.source(layer, {
       openPmtilesArchive: (tileUrl) => {
         if (!this.pmtilesArchiveCache.has(tileUrl)) {
           this.pmtilesArchiveCache.set(tileUrl, new PMTiles(tileUrl));
         }
-        this.protocol.add(this.pmtilesArchiveCache.get(tileUrl));
+        // Set just above when absent.
+        this.protocol.add(/** @type {PMTiles} */ (this.pmtilesArchiveCache.get(tileUrl)));
       }
-    });
+    })));
   }
 
   /*
