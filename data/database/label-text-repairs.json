@@ -6,7 +6,8 @@
     "osm-cork-object": "the same place in OpenStreetMap, Co. Cork (name:ga, from Logainm)",
     "osi-townland": "the same townland name in the OSi townland file (Townlands_AllIreland, Cork)",
     "irish-word-pattern": "each damaged word matches one word in the clean Irish townland names (OSi, Logainm via OpenStreetMap)",
-    "manual": "read by hand: one fada vowel restored in a common word"
+    "manual": "read by hand: one fada vowel restored in a common word",
+    "logainm": "checked on Logainm (logainm.ie) by the owner"
   },
   "confidence": {
     "high": "the reading is certain",
@@ -17,7 +18,7 @@
     "confidence": [
       "high"
     ],
-    "note": "Which keyed readings repair-label-text.mjs writes into the sources. The owner accepted the high-confidence readings in bulk on 12 Nov 2026; the medium and open ones stay in the sources as they are (still damaged) until the owner settles each. To accept one, raise its confidence to high and say who decided in its note. A record with no confidence is certain and always applies."
+    "note": "Which keyed readings repair-label-text.mjs writes into the sources. The owner accepted the high-confidence readings in bulk on 12 Nov 2026, and nine more places (18 records, IN1 to IN3) on 13 Nov 2026; the open one stays in the sources as they are (still damaged) until the owner settles each. To accept one, raise its confidence to high and say who decided in its note. A record with no confidence is certain and always applies."
   },
   "keyed": {
     "cork-townlands": {
@@ -1258,10 +1259,10 @@
           "id": 50876,
           "english": "Illaunnameanla",
           "damaged": "Oile�n na M�anlach",
-          "value": "",
-          "method": "open",
-          "confidence": "open",
-          "note": "Illaunnameanla: probably \"Oileán na Méanlach\"; the second letter is not settled (é, í, ó or ú)"
+          "value": "Oileán na Méanlach",
+          "method": "logainm",
+          "confidence": "high",
+          "note": "Illaunnameanla: the owner checked Logainm on 13 Nov 2026 (IN3): \"Oileán na Méanlach\""
         },
         {
           "id": 50892,
@@ -1550,8 +1551,8 @@
           "damaged": "An tOile�n Rua M�r",
           "value": "An tOileán Rua Mór",
           "method": "irish-word-pattern",
-          "confidence": "medium",
-          "note": "commonest reading: Mór (2319) over Múr (16)"
+          "confidence": "high",
+          "note": "commonest reading: Mór (2319) over Múr (16); the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": 50845,
@@ -1615,8 +1616,8 @@
           "damaged": "An tOile�n �seal",
           "value": "An tOileán Íseal",
           "method": "irish-word-pattern",
-          "confidence": "medium",
-          "note": "commonest reading: Íseal (99) over íseal (4)"
+          "confidence": "high",
+          "note": "commonest reading: Íseal (99) over íseal (4); the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": 50773,
@@ -1721,8 +1722,8 @@
           "damaged": "Carraig Chliath M�r",
           "value": "Carraig Chliath Mór",
           "method": "irish-word-pattern",
-          "confidence": "medium",
-          "note": "commonest reading: Mór (2319) over Múr (16)"
+          "confidence": "high",
+          "note": "commonest reading: Mór (2319) over Múr (16); the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": 50807,
@@ -1762,8 +1763,8 @@
           "damaged": "An tOile�n M�r",
           "value": "An tOileán Mór",
           "method": "irish-word-pattern",
-          "confidence": "medium",
-          "note": "commonest reading: Mór (2319) over Múr (16)"
+          "confidence": "high",
+          "note": "commonest reading: Mór (2319) over Múr (16); the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": 50789,
@@ -1843,7 +1844,8 @@
           "damaged": "Inis C�ime Thoir",
           "value": "Inis Céime Thoir",
           "method": "manual",
-          "confidence": "medium"
+          "confidence": "high",
+          "note": "the owner accepted this reading on 13 Nov 2026 (IN2)"
         },
         {
           "id": 50796,
@@ -1875,7 +1877,8 @@
           "damaged": "Inis C�ime Thiar",
           "value": "Inis Céime Thiar",
           "method": "manual",
-          "confidence": "medium"
+          "confidence": "high",
+          "note": "the owner accepted this reading on 13 Nov 2026 (IN2)"
         },
         {
           "id": 50830,
@@ -2011,8 +2014,8 @@
           "damaged": "An D�n Liath",
           "value": "An Dún Liath",
           "method": "irish-word-pattern",
-          "confidence": "medium",
-          "note": "commonest reading: Dún (851) over Dín (2)"
+          "confidence": "high",
+          "note": "commonest reading: Dún (851) over Dín (2); the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": 50901,
@@ -2125,7 +2128,8 @@
           "damaged": "An Bh�",
           "value": "An Bhó",
           "method": "manual",
-          "confidence": "medium"
+          "confidence": "high",
+          "note": "the owner accepted this reading on 13 Nov 2026 (IN1)"
         }
       ]
     },
@@ -3362,8 +3366,8 @@
           "damaged": "An tOile�n �seal",
           "value": "An tOileán Íseal",
           "method": "irish-word-pattern",
-          "confidence": "medium",
-          "note": "commonest reading: Íseal (99) over íseal (4)"
+          "confidence": "high",
+          "note": "commonest reading: Íseal (99) over íseal (4); the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": "45512",
@@ -3500,8 +3504,8 @@
           "damaged": "An tOile�n M�r",
           "value": "An tOileán Mór",
           "method": "irish-word-pattern",
-          "confidence": "medium",
-          "note": "commonest reading: Mór (2319) over Múr (16)"
+          "confidence": "high",
+          "note": "commonest reading: Mór (2319) over Múr (16); the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": "45373",
@@ -3557,7 +3561,8 @@
           "damaged": "Inis C�ime Thiar",
           "value": "Inis Céime Thiar",
           "method": "manual",
-          "confidence": "medium"
+          "confidence": "high",
+          "note": "the owner accepted this reading on 13 Nov 2026 (IN2)"
         },
         {
           "id": "45586",
@@ -3565,7 +3570,8 @@
           "damaged": "Inis C�ime Thoir",
           "value": "Inis Céime Thoir",
           "method": "manual",
-          "confidence": "medium"
+          "confidence": "high",
+          "note": "the owner accepted this reading on 13 Nov 2026 (IN2)"
         },
         {
           "id": "45480",
@@ -3621,8 +3627,8 @@
           "damaged": "Carraig Chliath M�r",
           "value": "Carraig Chliath Mór",
           "method": "irish-word-pattern",
-          "confidence": "medium",
-          "note": "commonest reading: Mór (2319) over Múr (16)"
+          "confidence": "high",
+          "note": "commonest reading: Mór (2319) over Múr (16); the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": "45410",
@@ -3678,8 +3684,8 @@
           "damaged": "An D�n Liath",
           "value": "An Dún Liath",
           "method": "irish-word-pattern",
-          "confidence": "medium",
-          "note": "commonest reading: Dún (851) over Dín (2)"
+          "confidence": "high",
+          "note": "commonest reading: Dún (851) over Dín (2); the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": "45509",
@@ -3903,8 +3909,8 @@
           "damaged": "An tOile�n Rua M�r",
           "value": "An tOileán Rua Mór",
           "method": "irish-word-pattern",
-          "confidence": "medium",
-          "note": "commonest reading: Mór (2319) over Múr (16)"
+          "confidence": "high",
+          "note": "commonest reading: Mór (2319) over Múr (16); the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": "45520",
@@ -4087,10 +4093,10 @@
           "id": "45514",
           "english": "Illaunnameanla",
           "damaged": "Oile�n na M�anlach",
-          "value": "",
-          "method": "open",
-          "confidence": "open",
-          "note": "Illaunnameanla: probably \"Oileán na Méanlach\"; the second letter is not settled (é, í, ó or ú)"
+          "value": "Oileán na Méanlach",
+          "method": "logainm",
+          "confidence": "high",
+          "note": "Illaunnameanla: the owner checked Logainm on 13 Nov 2026 (IN3): \"Oileán na Méanlach\""
         },
         {
           "id": "45513",
@@ -4130,7 +4136,8 @@
           "damaged": "An Bh�",
           "value": "An Bhó",
           "method": "manual",
-          "confidence": "medium"
+          "confidence": "high",
+          "note": "the owner accepted this reading on 13 Nov 2026 (IN1)"
         },
         {
           "id": "45442",
