@@ -26,7 +26,7 @@ const rootServiceWorkerSource = readFileSync('site/sw.js', 'utf8');
 const mainElectionPaneContractSource = readFileSync('packages/map/src/election-main-pane-contract.mjs', 'utf8');
 const electionDomainSource = readFileSync('packages/core/src/election-domain.mjs', 'utf8');
 const electionViewModelSource = readFileSync('packages/core/src/election-view-model.mjs', 'utf8');
-const electionRendererSource = readFileSync('packages/map/src/election-renderer.mjs', 'utf8');
+const electionRendererSource = readFileSync('packages/map/src/views/election-renderer.mjs', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build/build-test2-election-manifest.mjs', 'utf8');
 // Boundary changes between consecutive timeline editions (scripts/build/timeline-changes.py,
 // data/timeline-changes/). They replace the Play-only transition overlays of
@@ -701,7 +701,7 @@ for (const path of [
   'packages/map/src/election-main-pane-contract.mjs',
   'packages/core/src/election-domain.mjs',
   'packages/core/src/election-view-model.mjs',
-  'packages/map/src/election-renderer.mjs',
+  'packages/map/src/views/election-renderer.mjs',
   'packages/map/src/renderer/feature-property-repairs.js',
   ELECTION_MANIFEST,
   ELECTION_REPORT,
