@@ -14,12 +14,21 @@
  * tests/functions/design-system.test.mjs requires a specimen for every component stylesheet and
  * every template function, and every cg-* class used here to exist in a stylesheet.
  */
-import { html, raw, toHtmlString } from '../../../core/src/html.js';
+import { escapeHtml, html, raw, toHtmlString } from '../../../core/src/html.js';
 import { page, sectionNav } from '../templates/shell.js';
 import { badges, citations, dataTable, facts, link, notice, partyChip } from '../templates/components/index.js';
 import colours from '../../../registries/src/browser/colours.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 import { recordHtml, refWidget } from '../templates/proni/record-view.js';
+// The map app's own renderers and their sample data: its pure drawing code (unit map-views), which ui
+// may import (config/boundaries.json); never the map app itself.
+import { legendBodyHtml, legendShellHtml, legendSummaryText } from '../../../map/src/views/legend-view.mjs';
+import { renderElectionSummaryFromViewModel } from '../../../map/src/views/election-renderer.mjs';
+import { buildTrendChartModel, layoutTrendChart, renderTrendChartSvg, trendLegendHtml } from '../../../map/src/views/election-trend-chart.mjs';
+import { timelineChangesPanelHtml, timelineTicksHtml } from '../../../map/src/views/timeline-view.mjs';
+import {
+  LEGEND_SAMPLE, RESULTS_SAMPLE, TIMELINE_CHANGES_SAMPLE, TIMELINE_ITEMS_SAMPLE, TREND_POINTS_SAMPLE, timelineSampleYear,
+} from '../../../map/src/views/specimens.mjs';
 
 // The specimens' sample party colours: the colours registry's gallery.specimens (data/registries/colours.json).
 const SAMPLE = colours.gallery.specimens;
@@ -162,6 +171,58 @@ const SAMPLE_PRONI_RECORD = {
 };
 
 /**
+ * The map app's stylesheets: the site's shared main.css (the map page inlines its first part and
+ * loads the rest as /build/main.css: the same rules) and the app's own test2.css (bundled into
+ * app.bundle.css on the page, served as itself at /app/src/test2.css).
+ */
+const MAP_SHEETS = ['assets/css/main.css', 'app/src/test2.css'];
+
+/**
+ * The frame's stand-ins for what surrounds a map component on its page (`frameStyle`, rules for the
+ * frame's #specimen, the element the component sits in): the map, which the legend and the changes
+ * list float over by its corners; a phone's screen height, which the election pane is clamped to a
+ * share of on a phone (test2.css .test2-election-panel max-height: 42vh, which in a frame would read
+ * the frame's own height); and the rules the timeline's track gets inside the map's timeline bar
+ * (.pane--map > #timelineSlider .timeline-track and .timeline-range).
+ */
+const MAP_FRAME = {
+  /** @param {number} height px */
+  overMap: (height) => `#specimen { position: relative; height: ${height}px; }`,
+  phoneScreen: '@media (max-width: 640px) { #specimen { min-height: 812px; } }',
+  timelineBar: '#specimen .timeline-track { position: relative; display: flex; flex-direction: column; justify-content: center; max-width: 440px; padding-bottom: 17px; } #specimen .timeline-range { width: 100%; max-width: none; }',
+};
+
+/** The map legend as app.updateMapLegend (packages/map/src/app/legend.js) writes it: the shell, then its body and summary. */
+function mapLegendMarkup() {
+  const { election, statistics } = LEGEND_SAMPLE;
+  const shell = legendShellHtml(true)
+    .replace('<div class="test2-map-legend__body"></div>', `<div class="test2-map-legend__body">${legendBodyHtml(LEGEND_SAMPLE)}</div>`)
+    .replace('<span>Legend</span>', `<span>${escapeHtml(legendSummaryText(election, statistics))}</span>`);
+  return `<section class="test2-map-legend" aria-label="Map legend">${shell}</section>`;
+}
+
+/** The trend chart as mountTrendChart (packages/map/src/election-trend-chart.mjs) lays it out, before any interaction. */
+function mapTrendMarkup() {
+  const model = buildTrendChartModel(TREND_POINTS_SAMPLE);
+  const svg = renderTrendChartSvg(model, layoutTrendChart(model, { width: 560 }));
+  return `<section class="test2-election-trends" aria-label="Sample party shares over time"><div class="test2-election-trends__chart"><div class="trend-chart">`
+    + `<div class="test2-election-trends__legend" role="group" aria-label="Parties shown">${trendLegendHtml(model)}</div>`
+    + `<div class="trend-chart__stage">${svg}</div></div></div></section>`;
+}
+
+/** The timeline's track: the slider and the ticks under it, as controls.js ensureTimelineChrome and renderTimelineTicks build it. */
+function mapTimelineTicksMarkup() {
+  const last = TIMELINE_ITEMS_SAMPLE.length - 1;
+  return `<div class="timeline-track"><input type="range" class="timeline-range" min="0" max="${last}" value="${last}" aria-label="Timeline">`
+    + `<div class="timeline-ticks" aria-hidden="true">${timelineTicksHtml(TIMELINE_ITEMS_SAMPLE, timelineSampleYear)}</div></div>`;
+}
+
+/** The list of boundary changes between two editions, as changes.js writes it into its panel over the map. */
+function mapTimelineChangesMarkup() {
+  return `<section class="timeline-changes-panel" aria-label="Boundary changes">${timelineChangesPanelHtml(TIMELINE_CHANGES_SAMPLE)}</section>`;
+}
+
+/**
  * The apps' own components (REFACTOR-PLAN.md G-4), each drawn in a frame of its own that loads the
  * shell's token, base and component sheets and its app's stylesheet, so the app's rules apply as on
  * its pages (dark rules on :root included), while its element rules (the Elections app styles every
@@ -171,14 +232,24 @@ const SAMPLE_PRONI_RECORD = {
  * far: browse.js exports none of them); `module` is a served module whose
  * drawSpecimen(id, root, sample) draws the specimen in the browser with the app's own functions (the
  * Elections charts). `frameClass` is the class of the element the specimen sits in, as on its page
- * (the Elections app's main column), `bodyAttributes` those of the app's own <body>; the frame loads
+ * (the Elections app's main column), `bodyAttributes` those of the app's own <body>, `frameStyle` rules
+ * the frame adds for what stands around the component on its page (the map under the map legend); the frame loads
  * the sheets every page loads (tokens, base, site chrome, components) before the app's. gallery.js
  * draws both.
  *
- * Still to come, as entries here: the map app's components (legend, results tables, trend chart,
- * timeline: REFACTOR-PLAN.md G-5, after rf9-mapapp's F2 move puts them in packages/map) and the
- * STV count viewer (the map app's classic scripts under site/app/election-viewer-package/, which draw
- * only inside the map app's election panel, from its globals; a specimen needs them as a module).
+ * The map app's components (legend, results tables, trend chart, timeline: REFACTOR-PLAN.md G-5) are
+ * drawn here by its own pure renderers, packages/map/src/views/ (rf10-gallery, 13 Nov 2026), from the
+ * sample data beside them (views/specimens.mjs), in the element the app puts them in.
+ *
+ * Held back: a constituency's count table (renderElectionSummaryFromViewModel with view 'counts').
+ * In the gallery's phone-width frame it is wider than its .test2-election-table-wrap, which then
+ * scrolls but cannot take focus (axe scrollable-region-focusable; the same holds in the app for a
+ * count too wide for the pane, and the fix, a tab stop on the wrap, changes the app: requested in
+ * LANDING rf10-gallery).
+ *
+ * Still to come: the STV count viewer (the map app's classic scripts under
+ * site/app/election-viewer-package/, which build their SVG with DOM calls from page globals, the
+ * map app's colours and its election data; a specimen needs its drawing as a module that takes them).
  */
 export const APP_SPECIMENS = [
   {
@@ -216,6 +287,31 @@ export const APP_SPECIMENS = [
       + '<thead><tr><th scope="col">Date</th><th scope="col">Category</th><th scope="col">Source</th><th scope="col">Method</th><th scope="col">Confidence</th></tr></thead>'
       + '<tbody><tr><td>12 May 1920</td><td>Election</td><td><a href="#browse-table">A sample newspaper, p. 4</a></td><td>transcribed</td><td>high</td></tr><tr><td>1921</td><td>Register</td><td>A sample directory</td><td>transcribed</td><td>medium</td></tr></tbody></table></div>',
   },
+  {
+    id: 'map-legend', title: 'Map: the legend', app: 'map', source: 'packages/map/src/views/legend-view.mjs', functions: ['legendShellHtml', 'legendBodyHtml', 'legendSummaryText'],
+    stylesheets: MAP_SHEETS, frameStyle: MAP_FRAME.overMap(600),
+    render: mapLegendMarkup,
+  },
+  {
+    id: 'map-results', title: 'Map: election results by party', app: 'map', source: 'packages/map/src/views/election-renderer.mjs', functions: ['renderElectionSummaryFromViewModel'],
+    stylesheets: MAP_SHEETS, frameClass: 'election-pane__content', frameStyle: MAP_FRAME.phoneScreen,
+    render: () => renderElectionSummaryFromViewModel(RESULTS_SAMPLE),
+  },
+  {
+    id: 'map-trends', title: 'Map: party shares over time', app: 'map', source: 'packages/map/src/views/election-trend-chart.mjs', functions: ['buildTrendChartModel', 'layoutTrendChart', 'renderTrendChartSvg', 'trendLegendHtml'],
+    stylesheets: MAP_SHEETS, frameClass: 'election-pane__content',
+    render: mapTrendMarkup,
+  },
+  {
+    id: 'map-timeline', title: 'Map: the timeline\'s ticks and years', app: 'map', source: 'packages/map/src/views/timeline-view.mjs', functions: ['timelineTicksHtml'],
+    stylesheets: MAP_SHEETS, frameStyle: MAP_FRAME.timelineBar,
+    render: mapTimelineTicksMarkup,
+  },
+  {
+    id: 'map-timeline-changes', title: 'Map: boundary changes between editions', app: 'map', source: 'packages/map/src/views/timeline-view.mjs', functions: ['timelineChangesPanelHtml'],
+    stylesheets: MAP_SHEETS, frameStyle: MAP_FRAME.overMap(460),
+    render: mapTimelineChangesMarkup,
+  },
 ];
 
 /** @param {(typeof APP_SPECIMENS)[number]} s */
@@ -225,7 +321,7 @@ function appSpecimenSection(s) {
   return html`<section class="cg-gallery__specimen" id="${s.id}" aria-labelledby="${s.id}-h">
 <h3 id="${s.id}-h">${s.title}</h3>
 <p class="cg-gallery__source"><code>${s.source}</code> · ${s.functions.map((f, i) => html`${i ? ', ' : ''}<code>${f}()</code>`)}${s.app === 'browse' ? ' · markup only so far' : ''}</p>
-<div class="cg-gallery__example" data-gallery-island="${s.id}" data-stylesheets="${sheets}"${s.frameClass ? html` data-frame-class="${s.frameClass}"` : ''}${s.bodyAttributes ? html` data-body-attributes="${JSON.stringify(s.bodyAttributes)}"` : ''}${s.module ? html` data-module="/${s.module}" data-sample="${JSON.stringify(SAMPLE)}"` : ''}>${markup ? html`<template>${raw(markup)}</template>` : ''}</div>
+<div class="cg-gallery__example" data-gallery-island="${s.id}" data-stylesheets="${sheets}"${s.frameClass ? html` data-frame-class="${s.frameClass}"` : ''}${s.bodyAttributes ? html` data-body-attributes="${JSON.stringify(s.bodyAttributes)}"` : ''}${s.frameStyle ? html` data-frame-style="${s.frameStyle}"` : ''}${s.module ? html` data-module="/${s.module}" data-sample="${JSON.stringify(SAMPLE)}"` : ''}>${markup ? html`<template>${raw(markup)}</template>` : ''}</div>
 ${markup ? code(markup) : ''}
 </section>`;
 }

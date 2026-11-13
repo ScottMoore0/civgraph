@@ -155,7 +155,7 @@ async function drawIslands() {
       frame.className = 'cg-gallery__frame';
       frame.title = `${host.closest('section')?.querySelector('h3')?.textContent || 'App component'} (specimen)`;
       const head = sheets.map((href) => `<link rel="stylesheet" href="${href}">`).join('');
-      frame.srcdoc = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>body { margin: 0; padding: var(--space-3); background: var(--surface); }</style>${head}</head><body><div id="specimen" class="${host.dataset.frameClass || ''}">${template ? template.innerHTML : ''}</div></body></html>`;
+      frame.srcdoc = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>body { margin: 0; padding: var(--space-3); background: var(--surface); }${host.dataset.frameStyle || ''}</style>${head}</head><body><div id="specimen" class="${host.dataset.frameClass || ''}">${template ? template.innerHTML : ''}</div></body></html>`;
       const loaded = new Promise((resolve) => frame.addEventListener('load', resolve, { once: true }));
       host.append(frame);
       await loaded;
