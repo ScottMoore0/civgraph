@@ -15,7 +15,7 @@
  * the whole upload is refused before anything is written.
  */
 
-/** Where the downloads are published on R2 (served at https://data.civgraph.net/data/downloads/). */
+/** Where the downloads are published on R2 (served from the data origin, SITE.dataOrigin, at /data/downloads/). */
 export const DOWNLOADS_PREFIX = 'data/downloads';
 
 /**
