@@ -24,9 +24,21 @@ import { deserialize, serialize } from 'flatgeobuf/lib/mjs/geojson.js';
 import simplifyModule from '@turf/simplify';
 import turfAreaModule from '@turf/area';
 import turfLengthModule from '@turf/length';
-const simplify = simplifyModule.default || simplifyModule;
-const turfArea = turfAreaModule.default || turfAreaModule;
-const turfLength = turfLengthModule.default || turfLengthModule;
+// a CommonJS build of a turf module may come wrapped in a default export
+const simplify = /** @type {typeof simplifyModule & { default?: typeof simplifyModule }} */ (simplifyModule).default || simplifyModule;
+const turfArea = /** @type {typeof turfAreaModule & { default?: typeof turfAreaModule }} */ (turfAreaModule).default || turfAreaModule;
+const turfLength = /** @type {typeof turfLengthModule & { default?: typeof turfLengthModule }} */ (turfLengthModule).default || turfLengthModule;
+
+/** @typedef {import('geojson').Feature} Feature */
+/** A geometry with coordinates (all but a GeometryCollection). @typedef {Exclude<import('geojson').Geometry, import('geojson').GeometryCollection>} SimpleGeometry */
+/** A coordinate array (a position, ring, polygon or multipolygon). @typedef {number[] | number[][] | number[][][] | number[][][][]} NestedCoords */
+/** A townland's elevation from elevation-lookup.json. @typedef {{ minElev_m?: number | null, maxElev_m?: number | null, minElev_ft?: number | null, maxElev_ft?: number | null }} ElevRecord */
+/** A feature as read from a map's FGB, with the elevation injected for a while. @typedef {import('geojson').Feature<SimpleGeometry> & { _elev?: ElevRecord }} ChunkFeature */
+/** @typedef {{ fgb?: string }} MapFiles */
+/** A maps.json record, with the fields this build reads. @typedef {{ id: string, files?: MapFiles, variants?: { id: string, files?: MapFiles }[] }} MapEntry */
+/** @typedef {{ maps: MapEntry[] }} MapsFile */
+/** @typedef {Record<string, { file: string, count: number, maxZoom: number }>} ZoomFiles */
+/** @typedef {{ id: string, bbox: number[], file: string, count: number, zoomFiles: ZoomFiles }} ChunkEntry */
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..', '..');
@@ -59,23 +71,31 @@ const TOWNLAND_CELL_SIZE = 0.25;
 
 // ─── Geometry utilities ──────────────────────────────────────────────
 
+/**
+ * @param {SimpleGeometry | null | undefined} geometry
+ * @returns {number[] | null}
+ */
 function computeBbox(geometry) {
     if (!geometry || !geometry.coordinates) return null;
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    /** @param {NestedCoords} coords */
     const walk = (coords) => {
         if (typeof coords[0] === 'number') {
             if (coords[0] < minX) minX = coords[0];
             if (coords[0] > maxX) maxX = coords[0];
-            if (coords[1] < minY) minY = coords[1];
-            if (coords[1] > maxY) maxY = coords[1];
+            // a position (its first element a number) is all numbers
+            if (/** @type {number} */ (coords[1]) < minY) minY = /** @type {number} */ (coords[1]);
+            if (/** @type {number} */ (coords[1]) > maxY) maxY = /** @type {number} */ (coords[1]);
         } else {
-            for (const c of coords) walk(c);
+            // not a position, so an array of coordinate arrays
+            for (const c of coords) walk(/** @type {NestedCoords} */ (c));
         }
     };
     walk(geometry.coordinates);
     return [minX, minY, maxX, maxY];
 }
 
+/** @param {SimpleGeometry | null | undefined} geometry */
 function computeDiag(geometry) {
     if (!geometry || !geometry.coordinates) return Infinity;
     if (geometry.type === 'Point') return Infinity;
@@ -85,12 +105,17 @@ function computeDiag(geometry) {
     return Math.sqrt(dx * dx + dy * dy);
 }
 
+/** @param {SimpleGeometry | null | undefined} geometry */
 function computeCentroid(geometry) {
     const bbox = computeBbox(geometry);
     if (!bbox) return null;
     return [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
 }
 
+/**
+ * @param {ChunkFeature} feature
+ * @param {number} tolerance
+ */
 function simplifyFeature(feature, tolerance) {
     try {
         return simplify(feature, { tolerance, highQuality: false, mutate: false });
@@ -105,6 +130,7 @@ function simplifyFeature(feature, tolerance) {
  * Compute/normalise universal attributes for a feature.
  * Area and perimeter are computed from geometry; elevation is carried
  * forward from existing properties (NI data) or set to null (ROI data).
+ * @param {ChunkFeature} feature
  */
 function computeUniversalAttributes(feature) {
     const p = feature.properties || {};
@@ -130,6 +156,7 @@ function computeUniversalAttributes(feature) {
         if (rings && rings.length > 0) {
             let totalLen = 0;
             for (const ring of rings) {
+                /** @type {import('geojson').Feature<import('geojson').LineString>} */
                 const line = { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: ring } };
                 totalLen += turfLength(line, { units: 'kilometers' });
             }
@@ -155,11 +182,16 @@ function computeUniversalAttributes(feature) {
     feature.properties = p;
 }
 
+/**
+ * @param {ChunkFeature[]} features
+ * @param {string} filePath
+ */
 function writeFGB(features, filePath) {
     if (features.length === 0) return null;
     // Filter and normalize — flatgeobuf requires:
     //   1. Homogeneous geometry types (promote Polygon → MultiPolygon)
     //   2. Consistent property schemas (all features must have the same keys)
+    /** @type {ChunkFeature[]} */
     const valid = [];
     for (const f of features) {
         if (!f || !f.geometry || !f.geometry.coordinates) continue;
@@ -173,6 +205,7 @@ function writeFGB(features, filePath) {
     if (valid.length === 0) return null;
 
     // Harmonize property schemas: collect all keys, fill missing with null
+    /** @type {Set<string>} */
     const allKeys = new Set();
     for (const f of valid) {
         if (f.properties) for (const k of Object.keys(f.properties)) allKeys.add(k);
@@ -186,12 +219,17 @@ function writeFGB(features, filePath) {
         f.properties = props;
     }
 
+    /** @type {import('geojson').FeatureCollection} */
     const fc = { type: 'FeatureCollection', features: valid };
     const fgbBytes = serialize(fc);
     writeFileSync(filePath, Buffer.from(fgbBytes));
     return filePath;
 }
 
+/**
+ * @param {string} filePath
+ * @returns {Promise<ChunkFeature[]>}
+ */
 async function readFGB(filePath) {
     // Node.js Buffers share V8's internal buffer pool, meaning byteOffset
     // is often non-zero. FlatGeobuf's flatbuffers parser requires aligned
@@ -200,16 +238,24 @@ async function readFGB(filePath) {
     const buf = new Uint8Array(nodeBuf.length);
     nodeBuf.copy(buf);
 
+    /** @type {Feature[]} */
     const features = [];
     for await (const feature of deserialize(buf)) {
         features.push(feature);
     }
-    return features;
+    // the chunked maps hold polygons, lines or points, never a GeometryCollection
+    return /** @type {ChunkFeature[]} */ (features);
 }
 
 // ─── Zoom variant builder ────────────────────────────────────────────
 
+/**
+ * @param {ChunkFeature[]} features
+ * @param {string} chunksDir
+ * @param {string} chunkBaseName
+ */
 function buildZoomVariants(features, chunksDir, chunkBaseName) {
+    /** @type {ZoomFiles} */
     const zoomFiles = {};
     for (const level of ZOOM_LEVELS) {
         // Filter by size
@@ -218,6 +264,7 @@ function buildZoomVariants(features, chunksDir, chunkBaseName) {
         if (filtered.length === features.length) continue; // Same as full — skip
 
         // Simplify geometry
+        /** @type {ChunkFeature[]} */
         const simplified = [];
         for (const f of filtered) {
             try {
@@ -231,7 +278,8 @@ function buildZoomVariants(features, chunksDir, chunkBaseName) {
         try {
             writeFGB(simplified, variantPath);
         } catch (err) {
-            console.warn(`    ⚠ Failed writing ${chunkBaseName}_${level.name}: ${err.message}`);
+            // what is thrown here is an Error
+            console.warn(`    ⚠ Failed writing ${chunkBaseName}_${level.name}: ${/** @type {Error} */ (err).message}`);
             continue;
         }
 
@@ -246,6 +294,12 @@ function buildZoomVariants(features, chunksDir, chunkBaseName) {
 
 // ─── Grid-based map chunking (census maps etc.) ──────────────────────
 
+/**
+ * @param {string} mapId
+ * @param {string} fgbPath
+ * @param {number} gridCols
+ * @param {number} gridRows
+ */
 async function chunkMap(mapId, fgbPath, gridCols, gridRows) {
     const fullPath = join(ROOT, fgbPath);
     const dir = dirname(fullPath);
@@ -280,6 +334,7 @@ async function chunkMap(mapId, fgbPath, gridCols, gridRows) {
     const cellW = (oMaxX - oMinX) / gridCols, cellH = (oMaxY - oMinY) / gridRows;
 
     // Assign to grid cells
+    /** @type {Map<string, ChunkFeature[]>} */
     const cells = new Map();
     for (const feature of features) {
         const centroid = computeCentroid(feature.geometry);
@@ -290,10 +345,12 @@ async function chunkMap(mapId, fgbPath, gridCols, gridRows) {
         row = Math.max(0, Math.min(gridRows - 1, row));
         const key = `${col}_${row}`;
         if (!cells.has(key)) cells.set(key, []);
-        cells.get(key).push(feature);
+        // the key was set on the line before if it was missing
+        /** @type {ChunkFeature[]} */ (cells.get(key)).push(feature);
     }
 
     mkdirSync(chunksDir, { recursive: true });
+    /** @type {ChunkEntry[]} */
     const chunks = [];
     let totalZoomFiles = 0;
 
@@ -341,8 +398,10 @@ async function chunkMap(mapId, fgbPath, gridCols, gridRows) {
 
 // ─── Townland fine-grid chunking ─────────────────────────────────────
 
+/** @param {string | null} [overrideMapId] */
 async function buildTownlandFineGrid(overrideMapId = null) {
     const mapId = overrideMapId || 'ni-townlands-1844';
+    /** @type {MapsFile} */
     const mapsDb = JSON.parse(readFileSync(MAPS_JSON, 'utf8'));
     const townlandMap = mapsDb.maps.find(m => m.id === mapId);
     if (!townlandMap) {
@@ -365,6 +424,7 @@ async function buildTownlandFineGrid(overrideMapId = null) {
 
     // 1. Load elevation lookup if available
     const elevLookupPath = join(dir, 'elevation-lookup.json');
+    /** @type {Record<string, ElevRecord[]> | null} */
     let elevLookup = null;
     if (existsSync(elevLookupPath)) {
         elevLookup = JSON.parse(readFileSync(elevLookupPath, 'utf8'));
@@ -374,20 +434,23 @@ async function buildTownlandFineGrid(overrideMapId = null) {
     }
 
     // 2. Read ALL townland features — from single FGB or county variants
+    /** @type {ChunkFeature[]} */
     const allFeatures = [];
     const hasSingleFGB = townlandMap.files?.fgb && !townlandMap.variants?.length;
     const hasLocalFGB = townlandMap.files?.fgb && existsSync(join(ROOT, townlandMap.files.fgb));
 
-    if (hasLocalFGB || (hasSingleFGB && existsSync(join(ROOT, townlandMap.files.fgb)))) {
+    // hasLocalFGB and hasSingleFGB each hold only once files.fgb is set
+    if (hasLocalFGB || (hasSingleFGB && existsSync(join(ROOT, /** @type {Required<MapFiles>} */ (townlandMap.files).fgb)))) {
         // Load directly from single FGB file
-        const fgbPath = join(ROOT, townlandMap.files.fgb);
-        console.log(`    Loading from ${townlandMap.files.fgb}...`);
+        const fgbPath = join(ROOT, /** @type {Required<MapFiles>} */ (townlandMap.files).fgb);
+        console.log(`    Loading from ${/** @type {Required<MapFiles>} */ (townlandMap.files).fgb}...`);
         try {
             const features = await readFGB(fgbPath);
             allFeatures.push(...features);
             console.log(`    ${features.length} features loaded`);
         } catch (err) {
-            console.error(`    ✗ Failed to load ${fgbPath}: ${err.message}`);
+            // what is thrown here is an Error
+            console.error(`    ✗ Failed to load ${fgbPath}: ${/** @type {Error} */ (err).message}`);
             return false;
         }
     } else if (townlandMap.variants?.length) {
@@ -399,7 +462,8 @@ async function buildTownlandFineGrid(overrideMapId = null) {
             if (!existsSync(fullPath) || statSync(fullPath).size < 200) continue;
 
             const fgbFilename = fgbPath.split('/').pop();
-            const countyElevs = elevLookup?.[fgbFilename] || null;
+            // split() always gives a last part
+            const countyElevs = elevLookup?.[/** @type {string} */ (fgbFilename)] || null;
 
             try {
                 const features = await readFGB(fullPath);
@@ -411,7 +475,8 @@ async function buildTownlandFineGrid(overrideMapId = null) {
                 allFeatures.push(...features);
                 process.stdout.write(`    ${variant.id}: ${features.length} features\r\n`);
             } catch (err) {
-                console.warn(`    ⚠ Skipping ${variant.id}: ${err.message}`);
+                // what is thrown here is an Error
+                console.warn(`    ⚠ Skipping ${variant.id}: ${/** @type {Error} */ (err).message}`);
             }
         }
     } else {
@@ -446,7 +511,9 @@ async function buildTownlandFineGrid(overrideMapId = null) {
     console.log(`    Bbox: [${oMinX.toFixed(2)}, ${oMinY.toFixed(2)}, ${oMaxX.toFixed(2)}, ${oMaxY.toFixed(2)}]`);
 
     // 3. Assign features to grid cells + build feature index
+    /** @type {Map<string, { feature: ChunkFeature, globalIdx: number }[]>} */
     const cells = new Map();
+    /** @type {[number, number, number, number, number, string][]} */
     const featureIndex = []; // [minX, minY, maxX, maxY, diag, chunkId] per feature
 
     for (let i = 0; i < allFeatures.length; i++) {
@@ -461,7 +528,8 @@ async function buildTownlandFineGrid(overrideMapId = null) {
 
         const key = `${col}_${row}`;
         if (!cells.has(key)) cells.set(key, []);
-        cells.get(key).push({ feature, globalIdx: i });
+        // the key was set on the line before if it was missing
+        /** @type {{ feature: ChunkFeature, globalIdx: number }[]} */ (cells.get(key)).push({ feature, globalIdx: i });
 
         const bbox = computeBbox(feature.geometry);
         const diag = computeDiag(feature.geometry);
@@ -478,6 +546,7 @@ async function buildTownlandFineGrid(overrideMapId = null) {
     }
 
     // 4. Write chunk FGBs with zoom variants
+    /** @type {ChunkEntry[]} */
     const chunks = [];
     let totalZoomFiles = 0;
     let nonEmptyCells = 0;
@@ -518,8 +587,9 @@ async function buildTownlandFineGrid(overrideMapId = null) {
                 process.stdout.write(`    ${nonEmptyCells} cells written...\r\n`);
             }
         } catch (err) {
-            console.warn(`    ⚠ Cell ${key} (${cellFeatures.length} features) FAILED: ${err.message}`);
-            console.warn(`      Stack: ${err.stack?.split('\n')[1]?.trim()}`);
+            // what is thrown here is an Error
+            console.warn(`    ⚠ Cell ${key} (${cellFeatures.length} features) FAILED: ${/** @type {Error} */ (err).message}`);
+            console.warn(`      Stack: ${/** @type {Error} */ (err).stack?.split('\n')[1]?.trim()}`);
         }
     }
 
@@ -557,6 +627,7 @@ async function buildTownlandFineGrid(overrideMapId = null) {
 // ─── Main ────────────────────────────────────────────────────────────
 
 async function main() {
+    /** @type {Partial<MapsFile>} */
     const mapsDb = JSON.parse(readFileSync(MAPS_JSON, 'utf8'));
     const maps = mapsDb.maps || [];
     let processed = 0, errors = 0;
@@ -572,7 +643,8 @@ async function main() {
             if (await chunkMap(mapId, fgbPath, config.grid[0], config.grid[1])) processed++;
             else errors++;
         } catch (err) {
-            console.error(`  ✗ ${mapId}: ${err.message}`);
+            // what is thrown here is an Error
+            console.error(`  ✗ ${mapId}: ${/** @type {Error} */ (err).message}`);
             errors++;
         }
     }
@@ -587,7 +659,8 @@ async function main() {
             if (await buildTownlandFineGrid(tlMapId)) processed++;
             else errors++;
         } catch (err) {
-            console.error(`  ✗ ${tlMapId}: ${err.message}`);
+            // what is thrown here is an Error
+            console.error(`  ✗ ${tlMapId}: ${/** @type {Error} */ (err).message}`);
             errors++;
         }
     }

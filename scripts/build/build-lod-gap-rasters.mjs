@@ -21,6 +21,12 @@ import { createCanvas } from 'canvas';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..', '..');
 
+/** @typedef {import('geojson').Geometry} Geometry */
+/** A geometry with coordinates (all but a GeometryCollection). @typedef {Exclude<Geometry, import('geojson').GeometryCollection>} SimpleGeometry */
+/** @typedef {import('geojson').Feature<SimpleGeometry>} GapFeature */
+/** A coordinate array (a position, ring, polygon or multipolygon). @typedef {number[] | number[][] | number[][][] | number[][][][]} NestedCoords */
+/** A chunk-index file as this build reads it. @typedef {{ chunks: { file: string, zoomFiles?: Record<string, { file: string }> }[], bbox: number[] }} ChunksIndex */
+
 const CONFIGS = [
     {
         mapId: 'ni-townlands',
@@ -49,19 +55,25 @@ const CONFIGS = [
     }
 ];
 
-/** Load every feature from an FGB file on disk. */
+/** Load every feature from an FGB file on disk.
+ * @param {string} path
+ * @returns {Promise<GapFeature[] | null>} */
 async function loadFgb(path) {
     if (!existsSync(path)) return null;
     const buf = new Uint8Array(readFileSync(path));
+    /** @type {import('geojson').Feature[]} */
     const features = [];
     for await (const feature of deserialize(buf)) {
         features.push(feature);
     }
-    return features;
+    // townland chunks hold polygons: no feature is a GeometryCollection
+    return /** @type {GapFeature[]} */ (features);
 }
 
 /** Stable feature key across variants. Townland chunks carry TOWNLAND_I
- *  (OSNI) or OBJECTID (OSi); fall back to TownlandNa / ENG_NAME_VALUE. */
+ *  (OSNI) or OBJECTID (OSi); fall back to TownlandNa / ENG_NAME_VALUE.
+ * @param {GapFeature | null | undefined} feature
+ * @returns {unknown} */
 function featureKey(feature) {
     const p = feature?.properties || {};
     return (
@@ -74,12 +86,18 @@ function featureKey(feature) {
 }
 
 /** Resolve a chunk-index file-path entry to a local filesystem path
- *  (chunks are gitignored but live at data/maps/townlands/chunks/). */
+ *  (chunks are gitignored but live at data/maps/townlands/chunks/).
+ * @param {string} repoPath */
 function localChunkPath(repoPath) {
     return join(ROOT, repoPath);
 }
 
+/**
+ * @param {ChunksIndex} chunksIndex
+ * @param {string} level
+ */
 async function diffGapFeatures(chunksIndex, level) {
+    /** @type {GapFeature[]} */
     const gap = [];
     let fullTotal = 0;
     let levelTotal = 0;
@@ -120,16 +138,24 @@ async function diffGapFeatures(chunksIndex, level) {
     return { gap, fullTotal, levelTotal };
 }
 
+/**
+ * @param {GapFeature[]} features
+ * @param {number[]} fallbackBbox
+ * @returns {number[]}
+ */
 function computeBboxFromFeatures(features, fallbackBbox) {
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    /** @param {NestedCoords} coords */
     const visit = (coords) => {
         if (typeof coords[0] === 'number') {
             if (coords[0] < minX) minX = coords[0];
             if (coords[0] > maxX) maxX = coords[0];
-            if (coords[1] < minY) minY = coords[1];
-            if (coords[1] > maxY) maxY = coords[1];
+            // a position (its first element a number) is all numbers
+            if (/** @type {number} */ (coords[1]) < minY) minY = /** @type {number} */ (coords[1]);
+            if (/** @type {number} */ (coords[1]) > maxY) maxY = /** @type {number} */ (coords[1]);
         } else {
-            for (const c of coords) visit(c);
+            // not a position, so an array of coordinate arrays
+            for (const c of coords) visit(/** @type {NestedCoords} */ (c));
         }
     };
     for (const f of features) {
@@ -141,6 +167,12 @@ function computeBboxFromFeatures(features, fallbackBbox) {
     return [minX, minY, maxX, maxY];
 }
 
+/**
+ * @param {GapFeature[]} features
+ * @param {number[]} bbox
+ * @param {string} color
+ * @param {number} targetWidth
+ */
 function rasterizeGapFeatures(features, bbox, color, targetWidth) {
     const [minX, minY, maxX, maxY] = bbox;
     const geoW = maxX - minX;
@@ -156,7 +188,7 @@ function rasterizeGapFeatures(features, bbox, color, targetWidth) {
     ctx.lineWidth = 0.8;
     ctx.fillStyle = color + '25'; // ~15% alpha fill, same as thumbnails
 
-    const project = (lon, lat) => [
+    const project = (/** @type {number} */ lon, /** @type {number} */ lat) => [
         ((lon - minX) / geoW) * width,
         ((maxY - lat) / geoH) * height
     ];
@@ -191,6 +223,7 @@ async function main() {
     for (const cfg of CONFIGS) {
         console.log(`\n=== ${cfg.mapId} ===`);
         const indexPath = join(ROOT, cfg.chunksIndexPath);
+        /** @type {ChunksIndex} */
         const chunksIndex = JSON.parse(readFileSync(indexPath, 'utf8'));
         console.log(`Chunks: ${chunksIndex.chunks.length}, bbox: ${chunksIndex.bbox.map(n => n.toFixed(3)).join(', ')}`);
 

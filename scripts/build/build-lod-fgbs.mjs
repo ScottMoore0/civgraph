@@ -24,6 +24,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..', '..');
 const MAPS_JSON = join(ROOT, 'data', 'database', 'maps.json');
 
+/** @typedef {import('geojson').Feature} Feature */
+/** @typedef {import('geojson').Geometry} Geometry */
+/** A maps.json record, with the fields this build reads. @typedef {{ id: string, files?: { fgb?: string }, cloneOf?: string }} MapEntry */
+/** @typedef {typeof LOD_LEVELS[number]} LodConfig */
+
 const LOD_LEVELS = [
     { level: 0, suffix: '-lod0.fgb', tolerance: 0.005 },   // ~500m
     { level: 1, suffix: '-lod1.fgb', tolerance: 0.0005 },   // ~50m
@@ -38,6 +43,9 @@ const mapFilter = args.includes('--map') ? args[args.indexOf('--map') + 1] : nul
 
 /**
  * Simplify a GeoJSON feature's geometry in-place using Douglas-Peucker
+ * @param {Feature} feature
+ * @param {number} tolerance
+ * @returns {Feature}
  */
 function simplifyFeature(feature, tolerance) {
     if (!feature.geometry || feature.geometry.type === 'Point') {
@@ -60,6 +68,7 @@ function simplifyFeature(feature, tolerance) {
 
 /**
  * Check if a geometry is valid (has coordinates)
+ * @param {Geometry | null | undefined} geom
  */
 function isValidGeometry(geom) {
     if (!geom || !geom.type) return false;
@@ -74,6 +83,8 @@ function isValidGeometry(geom) {
 
 /**
  * Deep clone a feature (for when we need separate copies for different LODs)
+ * @param {Feature} feature
+ * @returns {Feature}
  */
 function cloneFeature(feature) {
     return {
@@ -83,6 +94,12 @@ function cloneFeature(feature) {
     };
 }
 
+/**
+ * @param {string} fgbPath
+ * @param {string} fullPath
+ * @param {string[]} mapIds
+ * @param {LodConfig} lodConfig
+ */
 async function generateLODForFile(fgbPath, fullPath, mapIds, lodConfig) {
     const name = basename(fgbPath, '.fgb');
     const dir = dirname(fullPath);
@@ -90,6 +107,7 @@ async function generateLODForFile(fgbPath, fullPath, mapIds, lodConfig) {
 
     // Read features from FGB
     const buf = new Uint8Array(readFileSync(fullPath));
+    /** @type {Feature[]} */
     const simplifiedFeatures = [];
 
     let count = 0;
@@ -119,6 +137,7 @@ async function generateLODForFile(fgbPath, fullPath, mapIds, lodConfig) {
     if (count === 0) return null;
 
     // Serialize to FGB
+    /** @type {import('geojson').FeatureCollection} */
     const fc = { type: 'FeatureCollection', features: simplifiedFeatures };
     const fgbBytes = serialize(fc);
     writeFileSync(outputPath, Buffer.from(fgbBytes));
@@ -132,10 +151,12 @@ async function generateLODForFile(fgbPath, fullPath, mapIds, lodConfig) {
 }
 
 async function buildLOD() {
+    /** @type {{ maps?: MapEntry[] }} */
     const mapsDb = JSON.parse(readFileSync(MAPS_JSON, 'utf8'));
     const maps = mapsDb.maps || [];
 
     // Collect all unique FGB paths
+    /** @type {Map<string, { mapIds: string[], fgbPath: string, fullPath: string }>} */
     const fgbEntries = new Map();
 
     for (const map of maps) {
@@ -156,7 +177,8 @@ async function buildLOD() {
         if (!fgbEntries.has(fgbPath)) {
             fgbEntries.set(fgbPath, { mapIds: [], fgbPath, fullPath });
         }
-        fgbEntries.get(fgbPath).mapIds.push(map.id);
+        // the key was set just above if it was missing
+        /** @type {{ mapIds: string[] }} */ (fgbEntries.get(fgbPath)).mapIds.push(map.id);
     }
 
     console.log(`Found ${fgbEntries.size} unique FGB files to process\n`);
@@ -190,8 +212,9 @@ async function buildLOD() {
             }
             processed++;
         } catch (err) {
-            console.error(`  ✗ ${fgbPath}: ${err.message}`);
-            if (err.stack) console.error(`    ${err.stack.split('\n')[1]?.trim()}`);
+            // what the build throws is an Error
+            console.error(`  ✗ ${fgbPath}: ${/** @type {Error} */ (err).message}`);
+            if (/** @type {Error} */ (err).stack) console.error(`    ${/** @type {string} */ (/** @type {Error} */ (err).stack).split('\n')[1]?.trim()}`);
             errors++;
         }
     }
