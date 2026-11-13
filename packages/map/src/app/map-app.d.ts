@@ -11,6 +11,58 @@
  * constructor, a method defined by app.js or a method module. Members join as modules do.
  */
 import type { CensusLegend, LegendModel } from './legend-view.mjs';
+import type { TimelineChangeView } from './timeline/timeline-view.mjs';
+
+/** A stop on the timeline: an edition (its map) or an election (packages/map/src/app/timeline/controls.js). */
+export interface TimelineItem {
+  mapId?: string;
+  date?: unknown;
+  timestamp?: unknown;
+  label?: unknown;
+  displayLabel?: string;
+  minor?: boolean;
+  [key: string]: unknown;
+}
+
+/** One pair of the boundary-change index (data/timeline-changes/index.json `pairs`). */
+export interface TimelineChangeIndexEntry {
+  path?: string;
+  kind?: string;
+  count?: number;
+  text?: string;
+}
+
+/** One change of a pair file (data/timeline-changes/<pair>.json `changes`). */
+export interface TimelineChange {
+  id?: string;
+  type?: string;
+  from?: string;
+  to?: string;
+  ha?: number;
+  point?: unknown;
+  bbox?: unknown;
+  [key: string]: unknown;
+}
+
+/** A pair file of data/timeline-changes/: its changes and their GeoJSON features. */
+export interface TimelineChangeFile {
+  changes?: TimelineChange[];
+  features?: Array<{ properties?: Record<string, unknown> | null; [key: string]: unknown }>;
+}
+
+/** The changes between the edition shown before and the one shown now (changes.js buildTimelineChangeView). */
+export interface TimelineChangeState extends TimelineChangeView {
+  key: string;
+  kind: 'changes' | 'none' | 'redrawn' | 'unknown';
+  count: number;
+  parts: Array<{ label: string; kind: string; count: number; text: string }>;
+  changes: Array<TimelineChange & { key: string; step: string; text: string }>;
+  features: Array<{ properties?: Record<string, unknown> | null; [key: string]: unknown }>;
+  fromMapId: string | null;
+  toMapId: string | null;
+  note: string;
+  drawn: boolean;
+}
 
 /** The renderer's record of a loaded layer (packages/map/src/renderer/map-controller.js). */
 export interface RendererLayerRecord {
@@ -38,6 +90,10 @@ export interface MapControllerView {
   runtimeProfile?: { deviceClass?: string } | null;
   getMetrics?(): MapMetric[];
   getCensusOverlayLegend(mainId: string): CensusLegend | null;
+  setTimelineChanges(geojson: { features?: unknown } | null | undefined, options?: { reversed?: boolean; points?: unknown; key?: string }): boolean;
+  clearTimelineChanges(): boolean;
+  fitToBounds(bounds: unknown, options?: { smooth?: boolean } | null): void;
+  setEditionRole(mainId: string, role: string | null | undefined): void;
 }
 
 /** What the method modules use of the election manager (packages/map/app/election-manager.js). */
@@ -58,12 +114,24 @@ export interface MapApp {
   elections: ElectionsView | null;
   /** map id -> 'older' or 'newer', for two editions of one series on the map (updateEditionRoles). */
   editionRoles: Map<string, string>;
+  /** The boundary-change index's pairs, by "<from map>__<to map>" (timeline/changes.js); null until loaded. */
+  timelineChangeIndex: Record<string, TimelineChangeIndexEntry> | null;
+  /** Pair files fetched, by URL (timeline/changes.js). */
+  timelineChangeCache: Map<string, Promise<TimelineChangeFile | null>>;
+  /** The changes the timeline's button describes (timeline/changes.js). */
+  timelineChangeView: TimelineChangeState | null;
 
   // Methods of other method modules.
   /** layers.js */
   getLoadedLayerIds(): string[];
   /** layers.js */
   isMapVisible(mapId: string): boolean;
+  /** layers.js */
+  isMapLoaded(mapId: string): boolean;
+  /** timeline/animation.js */
+  getTimelineAnimationItems(): TimelineItem[];
+  /** timeline/controls.js */
+  formatTimelineItemLabel(item: TimelineItem | null | undefined): string;
   /** messages.js */
   mapLabel(mapId: string): string;
   /** messages.js */
