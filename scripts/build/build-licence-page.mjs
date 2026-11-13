@@ -15,7 +15,7 @@
  * sources whose content Civgraph may make public, so everything it names may be listed here.
  *
  * Every rights value the ledger may use must have wording in RIGHTS: a new value fails the build
- * rather than appearing on the page unexplained (tests/unit/licence-page.test.mjs).
+ * rather than appearing on the page unexplained (the licence-page unit test holds this).
  *
  *   node scripts/build/build-licence-page.mjs           rewrite the region
  *   node scripts/build/build-licence-page.mjs --check   fail if the page is out of date

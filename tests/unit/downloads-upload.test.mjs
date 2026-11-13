@@ -2,7 +2,7 @@
 // never overwrites a published version with different content, and nothing deletes one.
 // The planner (packages/loader/src/downloads-guard.mjs) is tested directly; the upload script
 // (scripts/publish/r2-upload-downloads.mjs), r2-upload-tree's refusal and r2-orphans' exemption
-// run under the recording S3 fake (tests/fixtures/s3-fake/harness.mjs): each in a throwaway copy
+// run under the recording S3 fake (the s3-fake fixture's harness): each in a throwaway copy
 // of the repository, with made-up credentials, a bucket in memory and the network shut off.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
