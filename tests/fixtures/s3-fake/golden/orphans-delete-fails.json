@@ -1,0 +1,87 @@
+{
+ "id": "orphans-delete-fails",
+ "exit": 1,
+ "stdout": "14 objects under data/graph/indexes/; 9 match and are gone locally.\n  data/graph/indexes/shards/s-002.json\n  data/graph/indexes/shards/s-002.json.br\n  data/graph/indexes/shards/s-010.json\n  data/graph/indexes/shards/s-011.json\n  data/graph/indexes/shards/s-012.json\n  ... and 4 more\nDeleted 7 of 9; 2 failed.\n",
+ "stderr": "  FAILED data/graph/indexes/shards/s-002.json.br: AccessDenied Access Denied\n  FAILED data/graph/indexes/shards/s-014.json: InternalError\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/indexes/"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/indexes/",
+    "ContinuationToken": "page-4"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/indexes/",
+    "ContinuationToken": "page-8"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/indexes/",
+    "ContinuationToken": "page-12"
+   }
+  },
+  {
+   "op": "DeleteObjects",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Delete": {
+     "Objects": [
+      {
+       "Key": "data/graph/indexes/shards/s-002.json"
+      },
+      {
+       "Key": "data/graph/indexes/shards/s-002.json.br"
+      },
+      {
+       "Key": "data/graph/indexes/shards/s-010.json"
+      },
+      {
+       "Key": "data/graph/indexes/shards/s-011.json"
+      },
+      {
+       "Key": "data/graph/indexes/shards/s-012.json"
+      },
+      {
+       "Key": "data/graph/indexes/shards/s-013.json"
+      },
+      {
+       "Key": "data/graph/indexes/shards/s-014.json"
+      },
+      {
+       "Key": "data/graph/indexes/shards/s-015.json"
+      },
+      {
+       "Key": "data/graph/indexes/shards/s-016.json"
+      }
+     ],
+     "Quiet": true
+    }
+   }
+  }
+ ],
+ "files": {}
+}

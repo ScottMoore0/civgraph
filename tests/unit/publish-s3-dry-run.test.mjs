@@ -7,6 +7,10 @@
 //
 // The golden files were recorded from main's scripts (8a5065b547) before they moved onto the S3
 // blob store (packages/storage/src/s3.mjs), so this holds the moved scripts to the old behaviour.
+// Two cases record an owner-approved change instead (13 Nov 2026, stream rf9-s3b), from the
+// working tree: orphans-delete-fails and orphans-delete-batches-fails, where r2-orphans prints
+// each key the bucket refused to delete, counts them and exits 1 (it used to say "Deleted N."
+// and exit 0); their S3 calls are the same as before.
 // To see the comparison against any revision directly:
 //
 //   node ../fixtures/s3-fake/harness.mjs --compare <rev>     (from this folder)

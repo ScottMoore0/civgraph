@@ -1,0 +1,99 @@
+{
+ "id": "orphans-delete-batches-fails",
+ "exit": 1,
+ "stdout": "2003 objects under data/graph/many/; 2003 match and are gone locally.\n  data/graph/many/k-00000.json\n  data/graph/many/k-00001.json\n  data/graph/many/k-00002.json\n  data/graph/many/k-00003.json\n  data/graph/many/k-00004.json\n  ... and 1998 more\nDeleted 2002 of 2003; 1 failed.\n",
+ "stderr": "  FAILED data/graph/many/k-01500.json: SlowDown Reduce your request rate.\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/many/"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/many/",
+    "ContinuationToken": "page-1000"
+   }
+  },
+  {
+   "op": "ListObjectsV2",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Prefix": "data/graph/many/",
+    "ContinuationToken": "page-2000"
+   }
+  },
+  {
+   "op": "DeleteObjects",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Delete": {
+     "Objects": {
+      "count": 1000,
+      "sha256": "c5740de3b38490b9656b4b3461beee5955ec39e9cf30c736d19091c6b0b97b21",
+      "first": {
+       "Key": "data/graph/many/k-00000.json"
+      },
+      "last": {
+       "Key": "data/graph/many/k-00999.json"
+      }
+     },
+     "Quiet": true
+    }
+   }
+  },
+  {
+   "op": "DeleteObjects",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Delete": {
+     "Objects": {
+      "count": 1000,
+      "sha256": "d0522032c469f84300d4a90005af8e8f2205c616596580c7c8ebcbeec014624b",
+      "first": {
+       "Key": "data/graph/many/k-01000.json"
+      },
+      "last": {
+       "Key": "data/graph/many/k-01999.json"
+      }
+     },
+     "Quiet": true
+    }
+   }
+  },
+  {
+   "op": "DeleteObjects",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Delete": {
+     "Objects": [
+      {
+       "Key": "data/graph/many/k-02000.json"
+      },
+      {
+       "Key": "data/graph/many/k-02001.json"
+      },
+      {
+       "Key": "data/graph/many/k-02002.json"
+      }
+     ],
+     "Quiet": true
+    }
+   }
+  }
+ ],
+ "files": {}
+}
