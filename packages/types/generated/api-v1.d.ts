@@ -64,7 +64,9 @@ export interface ElectionsProvenanceAnswer {
   schemaVersion: number;
   key: string;
   contests: {
-    [key: string]: unknown;
+    [key: string]: {
+      [key: string]: unknown;
+    };
   };
   [key: string]: unknown;
 }
@@ -710,7 +712,9 @@ export interface VotesShardAnswer {
   schemaVersion: number;
   shard: number;
   divisions: {
-    [key: string]: unknown;
+    [key: string]: {
+      [key: string]: unknown;
+    };
   };
   [key: string]: unknown;
 }
@@ -751,7 +755,7 @@ export interface GraphManifestAnswer {
     [key: string]: unknown;
   };
   exports: {
-    [key: string]: unknown;
+    [key: string]: string;
   };
   api: string;
   downloads: string;
@@ -856,7 +860,9 @@ export interface CataloguePaneAnswer {
   schemaVersion: number;
   shelves: unknown[];
   maps: {
-    [key: string]: unknown;
+    [key: string]: {
+      [key: string]: unknown;
+    };
   };
   [key: string]: unknown;
 }
@@ -1024,7 +1030,7 @@ export interface SpatialFeaturesAnswer {
 /** GET /api/v1/spatial (mapIds=<given>): Several maps' features at once (mapIds=a,b,c, up to 40), keyed by map id, each as the features variant answers */
 export interface SpatialBatchAnswer {
   maps: {
-    [key: string]: unknown;
+    [key: string]: unknown[];
   };
   [key: string]: unknown;
 }

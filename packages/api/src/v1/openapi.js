@@ -32,6 +32,7 @@ export function openApiDocument({ version, prefix, routes, contracts }, site) {
   const paths = {};
   for (const [key, route] of Object.entries(routes)) {
     const contract = contracts[key];
+    if (!contract) throw new Error(`openApiDocument(): route ${key} has no contract`);
     /** @type {Array<Record<string, unknown>>} */
     const parameters = route.parameters.map((name) => ({ name, in: 'query', required: false, schema: { type: 'string' } }));
     if (route.catchAll) parameters.unshift({ name: 'path', in: 'path', required: true, schema: { type: 'string' }, description: 'segments after the route (may be empty)' });

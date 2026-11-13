@@ -93,7 +93,7 @@ async function handle(context) {
 
     const statement = countStatement(match, filters, yearRange);
     const results = /** @type {Array<{ n: number | null }>} */ (await db.all(statement.sql, statement.params));
-    const n = (results && results[0] && results[0].n) != null ? results[0].n : null;
+    const n = results?.[0]?.n ?? null;
     return json({ count: n, exact: n != null });
   } catch (error) {
     // broad query hit a limit — let the app fall back to its loaded-so-far count

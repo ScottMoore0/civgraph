@@ -63,11 +63,11 @@ export async function onRequestGet(context) {
       }
       for (const r of rows) {
         controller.enqueue(enc.encode(csvRow([
-          r.ref, r.title, r.level, r.dates, r.access,
-          r.digital_record ? 'Yes' : '', r.parent,
-          r.ext_display, r.ext_start_year, r.ext_end_year,
-          r.ext_circa ? 'Yes' : '', r.ext_estimated ? 'Yes' : '', r.ext_bound || '', r.ext_undated ? 'Yes' : '',
-          r.description,
+          r['ref'], r['title'], r['level'], r['dates'], r['access'],
+          r['digital_record'] ? 'Yes' : '', r['parent'],
+          r['ext_display'], r['ext_start_year'], r['ext_end_year'],
+          r['ext_circa'] ? 'Yes' : '', r['ext_estimated'] ? 'Yes' : '', r['ext_bound'] || '', r['ext_undated'] ? 'Yes' : '',
+          r['description'],
         ])));
       }
       sent += rows.length;

@@ -12,7 +12,7 @@
  * uncompressed from the base key — Cloudflare's edge compresses it on the
  * wire to the client.
  */
-import { binding } from '../../../packages/config/src/config.js';
+import { blobStore } from '../../../packages/storage/src/blob-bindings.js';
 /** @param {CatchAllContext} context */
 export async function onRequestGet(context) {
     // decodeURIComponent, matching functions/data/browse/[[path]].js.
@@ -39,7 +39,8 @@ export async function onRequestGet(context) {
     const lowerKey = key.toLowerCase();
     const isJson = lowerKey.endsWith('.json');
 
-    const bucket = binding(context.env, 'MAPS_BUCKET');
+    // through the storage adapter (packages/storage/src/blob.js): the same reads over R2 or a test store
+    const bucket = blobStore(context.env, 'MAPS_BUCKET');
     if (!bucket) {
         // R2 not bound — pass through to origin (static files)
         return context.next();

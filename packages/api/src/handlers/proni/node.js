@@ -28,8 +28,8 @@ function ancestorRefs(ref) {
 /** @param {Row} r a child row (queries/proni.js CHILD_COLS) */
 function mapChild(r) {
   return {
-    ref: r.ref, slug: r.slug, title: r.title || r.ref,
-    level: r.level || '', dates: r.dates || '', hasChildren: !!r.hasChildren,
+    ref: r['ref'], slug: r['slug'], title: r['title'] || r['ref'],
+    level: r['level'] || '', dates: r['dates'] || '', hasChildren: !!r['hasChildren'],
   };
 }
 
@@ -38,7 +38,7 @@ function mapChild(r) {
 /** @param {string} ref */
 function parentRef(ref) {
   const anc = ancestorRefs(ref);
-  return anc.length ? anc[anc.length - 1] : '';
+  return anc[anc.length - 1] ?? '';
 }
 
 // First / Previous / Next / Last navigation across siblings (same parent),
@@ -63,15 +63,15 @@ function siblingStatements(ref) {
 
 /** @param {string} ref @param {Row[][]} rows the six siblingStatements answers */
 function siblingNav(ref, rows) {
-  const one = (/** @type {Row[]} */ r) => /** @type {Row} */ (r[0] || {});
+  const one = (/** @type {Row[] | undefined} */ r) => /** @type {Row} */ (r?.[0] || {});
   return {
     parent: parentRef(ref),
-    first: one(rows[0]).ref || null,
-    last: one(rows[1]).ref || null,
-    prev: one(rows[2]).ref || null,
-    next: one(rows[3]).ref || null,
-    total: one(rows[4]).n || 0,
-    position: one(rows[5]).n || 0,
+    first: one(rows[0])['ref'] || null,
+    last: one(rows[1])['ref'] || null,
+    prev: one(rows[2])['ref'] || null,
+    next: one(rows[3])['ref'] || null,
+    total: one(rows[4])['n'] || 0,
+    position: one(rows[5])['n'] || 0,
   };
 }
 
@@ -95,42 +95,42 @@ export async function loadNode(db, ref, { childLimit } = {}) {
     ...(limited ? [{ sql: PRONI.childCount, params: [ref] }] : []),
   ];
   const rows = await db.batch(statements);
-  const item = rows[0][0];
+  const item = rows[0]?.[0];
   if (!item) return null;
-  const kids = rows[1];
+  const kids = rows[1] ?? [];
   const nav = siblingNav(ref, rows.slice(2, 8));
 
   /** @type {Array<{ ref: unknown, slug: unknown, title: unknown }>} */
   let ancestors = [];
   if (ancRefs.length) {
     // order-free: keyed into a Map by ref and read back in ancestor order
-    const byRef = new Map(rows[8].map((a) => [a.ref, a]));
+    const byRef = new Map((rows[8] ?? []).map((a) => [a['ref'], a]));
     ancestors = /** @type {Row[]} */ (ancRefs
       .map((r) => byRef.get(r))
       .filter(Boolean))
-      .map((a) => ({ ref: a.ref, slug: a.slug, title: a.title || a.ref }));
+      .map((a) => ({ ref: a['ref'], slug: a['slug'], title: a['title'] || a['ref'] }));
   }
 
   return {
     item: {
-      ref: item.ref, slug: item.slug, title: item.title || item.ref,
-      level: item.level || '', dates: item.dates || '',
-      description: item.description || '', access: item.access || '',
-      digitalRecord: item.digitalRecord || '',
-      hasChildren: !!item.hasChildren, fond: item.fond || '',
+      ref: item['ref'], slug: item['slug'], title: item['title'] || item['ref'],
+      level: item['level'] || '', dates: item['dates'] || '',
+      description: item['description'] || '', access: item['access'] || '',
+      digitalRecord: item['digitalRecord'] || '',
+      hasChildren: !!item['hasChildren'], fond: item['fond'] || '',
       // Civgraph "Additional Data" — Extracted Dates (null if the ext row is not
       // yet loaded / no match). ext_undated is 0/1 on a matched row, null if none.
-      extractedDates: item.ext_undated != null ? {
-        display: item.ext_display || '',
-        startYear: item.ext_start_year, endYear: item.ext_end_year,
-        circa: !!item.ext_circa, estimated: !!item.ext_estimated,
-        bound: item.ext_bound || '', undated: !!item.ext_undated,
+      extractedDates: item['ext_undated'] != null ? {
+        display: item['ext_display'] || '',
+        startYear: item['ext_start_year'], endYear: item['ext_end_year'],
+        circa: !!item['ext_circa'], estimated: !!item['ext_estimated'],
+        bound: item['ext_bound'] || '', undated: !!item['ext_undated'],
       } : null,
     },
     ancestors,
     nav,
     children: kids.map(mapChild),
-    ...(limited ? { childCount: Number(/** @type {Row} */ (rows[rows.length - 1][0] || {}).n || 0) } : {}),
+    ...(limited ? { childCount: Number(/** @type {Row} */ (rows[rows.length - 1]?.[0] || {})['n'] || 0) } : {}),
   };
 }
 

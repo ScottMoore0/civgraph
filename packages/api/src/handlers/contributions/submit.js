@@ -2,7 +2,7 @@ import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '
 import { methodGuard } from '../_method.js';
 import { VALID_KINDS, VALID_ENTITY_TYPES, dryRunPatch } from './_schema.js';
 import { INITIAL_STATUS } from '../../contribution-status.js';
-import { binding } from '../../../../config/src/config.js';
+import { blobStore } from '../../../../storage/src/blob-bindings.js';
 
 /**
  * Accept a contribution as a TYPED PATCH, dry-run it, and queue it for review.
@@ -241,7 +241,7 @@ async function fetchCurrentRecord(context, entityType, entityId) {
     if (!res.ok) return null;
     /** @type {{ maps?: unknown, id?: unknown } | null} */
     const doc = await res.json();
-    if (Array.isArray(doc?.maps)) return doc.maps.find((/** @type {Record<string, unknown> | null} */ m) => m?.id === entityId) || null;
+    if (Array.isArray(doc?.maps)) return doc.maps.find((/** @type {Record<string, unknown> | null} */ m) => m?.['id'] === entityId) || null;
     return doc?.id === entityId ? doc : null;
   } catch {
     return null;
@@ -256,12 +256,15 @@ async function persistSubmission(env, submission) {
   const key = `submissions/${submission.submittedAt.slice(0, 10)}/${submission.id}.json`;
   const body = JSON.stringify(submission, null, 2);
 
-  if (binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE')?.put) {
-    await /** @type {KVNamespace} */ (binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE')).put(key, body, { metadata: queueMetadata(submission) });
+  // Through the blob store (packages/storage/src/blob.js): the KV queue, else the R2 bucket.
+  const queue = blobStore(env, 'CIVGRAPH_CONTRIBUTION_QUEUE');
+  if (queue?.supports('put')) {
+    await queue.put(key, body, { metadata: queueMetadata(submission) });
     return { ok: true, storage: 'KV:CIVGRAPH_CONTRIBUTION_QUEUE', key };
   }
-  if (binding(env, 'CIVGRAPH_SUBMISSIONS')?.put) {
-    await /** @type {R2Bucket} */ (binding(env, 'CIVGRAPH_SUBMISSIONS')).put(key, body, { httpMetadata: { contentType: 'application/json' } });
+  const bucket = blobStore(env, 'CIVGRAPH_SUBMISSIONS');
+  if (bucket?.supports('put')) {
+    await bucket.put(key, body, { contentType: 'application/json' });
     return { ok: true, storage: 'R2:CIVGRAPH_SUBMISSIONS', key };
   }
 
@@ -287,14 +290,14 @@ function queueMetadata(submission) {
 function sanitizeMapRequest(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   return {
-    title: safeString(value.title, 180),
-    geography: safeString(value.geography, 180),
-    dateRange: safeString(value.dateRange, 120),
-    provider: safeString(value.provider, 180),
-    proposedCategory: safeString(value.proposedCategory, 180),
-    sourceDescription: safeString(value.sourceDescription, 1200),
-    licenceClaim: safeString(value.licenceClaim || value.licenseClaim, 400),
-    notes: safeString(value.notes, 2000),
+    title: safeString(value['title'], 180),
+    geography: safeString(value['geography'], 180),
+    dateRange: safeString(value['dateRange'], 120),
+    provider: safeString(value['provider'], 180),
+    proposedCategory: safeString(value['proposedCategory'], 180),
+    sourceDescription: safeString(value['sourceDescription'], 1200),
+    licenceClaim: safeString(value['licenceClaim'] || value['licenseClaim'], 400),
+    notes: safeString(value['notes'], 2000),
   };
 }
 

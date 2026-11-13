@@ -342,7 +342,10 @@
                           "type": "string"
                         },
                         "contests": {
-                          "type": "object"
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "object"
+                          }
                         }
                       },
                       "required": [
@@ -3025,7 +3028,10 @@
                           "type": "number"
                         },
                         "divisions": {
-                          "type": "object"
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "object"
+                          }
                         }
                       },
                       "required": [
@@ -3246,7 +3252,10 @@
                           ]
                         },
                         "exports": {
-                          "type": "object"
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
                         },
                         "api": {
                           "type": "string"
@@ -3689,7 +3698,10 @@
                           "type": "array"
                         },
                         "maps": {
-                          "type": "object"
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "object"
+                          }
                         }
                       },
                       "required": [
@@ -4369,7 +4381,10 @@
                       "type": "object",
                       "properties": {
                         "maps": {
-                          "type": "object"
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "array"
+                          }
                         }
                       },
                       "required": [

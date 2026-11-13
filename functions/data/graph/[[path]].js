@@ -60,7 +60,7 @@ export function onRequestGet(context) {
   const parts = (context.params.path || []).map(decodeURIComponent);
   const p = parts.join('/');
   if (parts.includes('..') || !isBulkPath(p)) return gone();
-  return new Response(null, { status: 301, headers: { Location: downloadsUrl(parts[parts.length - 1], p), 'Cache-Control': 'public, max-age=86400' } });
+  return new Response(null, { status: 301, headers: { Location: downloadsUrl(parts[parts.length - 1] ?? '', p), 'Cache-Control': 'public, max-age=86400' } });
 }
 
 

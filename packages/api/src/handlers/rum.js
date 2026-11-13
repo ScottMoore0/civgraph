@@ -21,6 +21,12 @@ import { methodGuard } from './_method.js';
  * the client snippet.
  */
 
+/**
+ * A URL without its fragment and query (they could carry session-specific data).
+ * @param {string} url
+ */
+const stripQuery = (url) => (url.split('#')[0] ?? '').split('?')[0] ?? '';
+
 /** @param {import('../types.js').ApiContext} context */
 export async function onRequestPost(context) {
     let body;
@@ -35,7 +41,7 @@ export async function onRequestPost(context) {
 
     const url = String(body.url || '');
     // Drop URL fragments/query that could carry session-specific data.
-    const cleanUrl = url.split('#')[0].split('?')[0];
+    const cleanUrl = stripQuery(url);
 
     const log = {
         evt: 'rum',
@@ -45,7 +51,7 @@ export async function onRequestPost(context) {
         rating: String(body.rating || ''),
         id: String(body.id || ''),
         navType: String(body.navigationType || ''),
-        url: cleanUrl || String(body.path || '').split('#')[0].split('?')[0],
+        url: cleanUrl || stripQuery(String(body.path || '')),
         ua: typeof body.ua === 'string' ? body.ua.slice(0, 32) : '',
         layerId: String(body.event?.layerId || '').slice(0, 120),
         sourceType: String(body.event?.sourceType || '').slice(0, 32),

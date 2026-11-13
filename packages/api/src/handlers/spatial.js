@@ -6,7 +6,7 @@
  *
  * Falls back to reading static chunk files from the origin when KV is not configured.
  */
-import { binding } from '../../../config/src/config.js';
+import { blobStore } from '../../../storage/src/blob-bindings.js';
 
 /** Most maps one batch request may name (the map search asks for up to 30). */
 export const MAX_BATCH_MAPS = 40;
@@ -23,10 +23,10 @@ const JSON_HEADERS = { 'Content-Type': 'application/json' };
  * @returns {Promise<Array<{ bbox?: number[], [key: string]: unknown }> | null>}
  */
 async function readMapFeatures(context, url, mapId) {
-    const kv = /** @type {KVNamespace | undefined} */ (binding(context.env, 'SPATIAL_INDEX'));
-    // Try KV first (faster, no origin fetch)
+    const kv = blobStore(context.env, 'SPATIAL_INDEX');
+    // Try KV first (faster, no origin fetch), through the blob store (packages/storage/src/blob.js)
     if (kv) {
-        const data = await kv.get(`map:${mapId}`, 'json');
+        const data = await kv.json(`map:${mapId}`);
         return /** @type {Array<{ bbox?: number[], [key: string]: unknown }> | null} */ (data) || [];
     }
     // Fallback: fetch the static chunk file from the origin
@@ -50,7 +50,8 @@ export function filterByBbox(features, bboxParam) {
     if (!bboxParam || features.length === 0) return features;
     const parts = bboxParam.split(',').map(Number);
     if (parts.length !== 4 || !parts.every(Number.isFinite)) return features;
-    const [minLng, minLat, maxLng, maxLat] = parts;
+    // four finite numbers (checked above), so the defaults never apply
+    const [minLng = 0, minLat = 0, maxLng = 0, maxLat = 0] = parts;
     // 20% buffer
     const latBuf = (maxLat - minLat) * 0.2;
     const lngBuf = (maxLng - minLng) * 0.2;
@@ -60,7 +61,7 @@ export function filterByBbox(features, bboxParam) {
     const bMaxLat = maxLat + latBuf;
     return features.filter(f => {
         if (!f.bbox || f.bbox.length < 4) return false;
-        const [fMinLng, fMinLat, fMaxLng, fMaxLat] = f.bbox;
+        const [fMinLng = 0, fMinLat = 0, fMaxLng = 0, fMaxLat = 0] = f.bbox; // four or more (checked above)
         return !(fMaxLng < bMinLng || fMinLng > bMaxLng || fMaxLat < bMinLat || fMinLat > bMaxLat);
     });
 }

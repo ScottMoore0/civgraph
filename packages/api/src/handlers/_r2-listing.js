@@ -50,43 +50,38 @@ export function parseLimit(raw) {
 }
 
 /**
- * List one directory level of the bucket.
+ * List one directory level of the bucket, through the blob store (packages/storage/src/blob.js),
+ * which asks R2 for no metadata (`include: []`): custom and http metadata are not needed for an
+ * index and cost payload size.
  *
- * @param {R2Bucket} bucket
+ * @param {import('../../../storage/src/blob.js').BlobStore} bucket
  * @param {{prefix?: string | undefined, cursor?: string | undefined, limit?: number | undefined}} options
  */
 export async function listLevel(bucket, { prefix = '', cursor, limit = DEFAULT_LIMIT } = {}) {
-  const listing = await bucket.list({
-    prefix,
-    delimiter: '/',
-    cursor: cursor || undefined,
-    limit,
-    // Custom metadata and http metadata are not needed for an index and cost payload size.
-    include: [],
-  });
+  const listing = await bucket.list({ prefix, delimiter: '/', cursor: cursor || undefined, limit });
 
-  const folders = (listing.delimitedPrefixes || []).map((value) => ({
+  const folders = listing.prefixes.map((value) => ({
     prefix: value,
     name: value.slice(prefix.length).replace(/\/$/, ''),
   }));
 
-  const files = (listing.objects || [])
+  const files = listing.entries
     // An object whose key IS the prefix is the folder placeholder, not a file in it.
     .filter((object) => object.key !== prefix)
     .map((object) => ({
       key: object.key,
       name: object.key.slice(prefix.length),
       size: object.size,
-      uploaded: object.uploaded instanceof Date ? object.uploaded.toISOString() : object.uploaded,
-      etag: object.httpEtag || object.etag || null,
+      uploaded: object.uploaded,
+      etag: object.etag,
     }));
 
   return {
     prefix,
     folders,
     files,
-    truncated: Boolean(listing.truncated),
-    cursor: listing.truncated ? listing.cursor : null,
+    truncated: listing.truncated,
+    cursor: listing.cursor,
   };
 }
 

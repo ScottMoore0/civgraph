@@ -544,8 +544,7 @@ export async function bundleChunks(db, key) {
     const NL = '\n';
     const nl = compact ? '' : NL;
     yield `{${nl}`;
-    for (let i = 0; i < entries.length; i += 1) {
-      const [k, v] = entries[i];
+    for (const [i, [k, v]] of entries.entries()) {
       const sep = i < entries.length - 1 ? `,${nl}` : nl;
       const head = compact ? `${JSON.stringify(k)}:` : `  ${JSON.stringify(k)}: `;
       if (v === '$contests') {
@@ -608,5 +607,5 @@ export function streamFrom(iterator) {
  */
 export async function documentBody(db, name) {
   const row = await asStore(db).first(DOCUMENTS.body, [name]);
-  return row ? parseJson(row.body) : null;
+  return row ? parseJson(row['body']) : null;
 }

@@ -35,7 +35,7 @@ export function routeSchema(route, info, contract, prefix) {
     if (v.name === 'error') throw new Error(`${route}: a variant may not be named "error"`);
     if (v.schema) defs[v.name] = { description: v.summary, ...v.schema };
   }
-  if (contract.errors) defs.error = { description: 'The JSON error answer (4xx, 5xx)', ...contract.errors };
+  if (contract.errors) defs['error'] = { description: 'The JSON error answer (4xx, 5xx)', ...contract.errors };
   const json = contract.variants.filter((v) => v.schema);
   return {
     $schema: SCHEMA_DIALECT,

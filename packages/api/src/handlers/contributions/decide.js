@@ -1,7 +1,7 @@
 import { jsonResponse, jsonNotAllowed, requireAdmin } from '../_auth.js';
 import { methodGuard } from '../_method.js';
 import { canDecide, isDecision } from '../../contribution-status.js';
-import { binding } from '../../../../config/src/config.js';
+import { blobStore } from '../../../../storage/src/blob-bindings.js';
 
 /**
  * Record an approve/reject decision on a queued contribution. Administrators only.
@@ -57,14 +57,15 @@ export async function onRequestPost(context) {
   }
 
   const env = context.env || {};
-  const queue = binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE');
-  const bucket = binding(env, 'CIVGRAPH_SUBMISSIONS');
-  if (!queue?.get && !bucket?.get) {
+  // Through the blob store (packages/storage/src/blob.js): the KV queue, else the R2 bucket.
+  const queue = blobStore(env, 'CIVGRAPH_CONTRIBUTION_QUEUE');
+  const bucket = blobStore(env, 'CIVGRAPH_SUBMISSIONS');
+  if (!queue?.supports('get') && !bucket?.supports('get')) {
     return jsonResponse({ ok: false, error: 'Contribution queue is not configured.' }, { status: 503 });
   }
 
   // No queue: the bucket, which the check above says is there.
-  const rawValue = queue?.get ? await queue.get(key) : await (await /** @type {R2Bucket} */ (bucket).get(key))?.text();
+  const rawValue = queue?.supports('get') ? await queue.text(key) : await /** @type {NonNullable<typeof bucket>} */ (bucket).text(key);
   if (!rawValue) return jsonResponse({ ok: false, error: 'Submission not found' }, { status: 404 });
 
   let submission;
@@ -101,8 +102,8 @@ export async function onRequestPost(context) {
     status: submission.status,
   };
 
-  if (queue?.put) await queue.put(key, body, { metadata });
-  else await /** @type {R2Bucket} */ (bucket).put(key, body, { httpMetadata: { contentType: 'application/json' } });
+  if (queue?.supports('put')) await queue.put(key, body, { metadata });
+  else await /** @type {NonNullable<typeof bucket>} */ (bucket).put(key, body, { contentType: 'application/json' });
 
   return jsonResponse({
     ok: true,
