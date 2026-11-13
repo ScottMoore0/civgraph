@@ -392,7 +392,7 @@ export class TouchedKeys {
   constructor() {
     this.db = openSqliteHandle(':memory:');
     this.db.exec('BEGIN');
-    /** @type {Map<string, import('node:sqlite').StatementSync>} */
+    /** @type {Map<string, import('../../storage/src/sqlite.mjs').SqliteStatement>} */
     this.inserts = new Map();
     /** @type {Set<string>} */
     this.wholeTables = new Set();

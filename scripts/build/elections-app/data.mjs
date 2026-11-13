@@ -49,7 +49,7 @@ const DB_FILE = path.resolve(REPO, opt('--db', recordPaths().RECORDS_DB) || '');
 
 /**
  * Walk every election in body, date order with its contests and candidacies.
- * @param {import('node:sqlite').DatabaseSync} db
+ * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db
  * @param {(el: any, contests: Array<{ row: any, meta: any, cands: any[], provenance: string | null }>) => void} visit
  * @param {{ bodies?: string[] }} [filter]
  */
@@ -78,7 +78,7 @@ function walk(db, visit, filter = {}) {
   }
 }
 
-/** @param {import('node:sqlite').DatabaseSync} db */
+/** @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db */
 function labelMap(db) {
   return new Map(/** @type {any[]} */ (db.prepare('SELECT label, party_slug FROM party_label_map').all()).map((r) => [r.label, r.party_slug]));
 }
@@ -87,7 +87,7 @@ function labelMap(db) {
 
 export const DECISIONS_MARKER = '<!-- decisions: hand-written below this line, kept when the audit is regenerated -->';
 
-/** @param {import('node:sqlite').DatabaseSync} db */
+/** @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db */
 function audit(db) {
   const lm = labelMap(db);
   const total = emptyTally();
@@ -192,7 +192,7 @@ const posix = (p) => p.replace(/\\/g, '/');
 
 /**
  * Every body's extract rows, in memory, from the records build (bodies in slug order).
- * @param {import('node:sqlite').DatabaseSync} db @param {string[]} [bodies]
+ * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db @param {string[]} [bodies]
  * @returns {Map<string, { name: string, rows: any[], elections: number }>}
  */
 function extractRows(db, bodies = []) {
@@ -254,7 +254,7 @@ export function publicationProblems(byBody, columns = EXTRACT_COLUMNS) {
   return problems;
 }
 
-/** @param {import('node:sqlite').DatabaseSync} db @param {string} outDir @param {{ parquet: boolean, bodies: string[] }} o */
+/** @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db @param {string} outDir @param {{ parquet: boolean, bodies: string[] }} o */
 function extracts(db, outDir, o) {
   const byBody = extractRows(db, o.bodies);
   const problems = publicationProblems(byBody);
@@ -316,7 +316,7 @@ function extracts(db, outDir, o) {
 
 /**
  * Whether the extracts in `outDir` are current against the records build and fit to publish.
- * @param {import('node:sqlite').DatabaseSync} db @param {string} outDir
+ * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db @param {string} outDir
  * @returns {{ problems: string[], checked: number }}
  */
 function checkExtracts(db, outDir) {

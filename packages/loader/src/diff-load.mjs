@@ -117,7 +117,7 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
       batch = [];
       bytes = 0;
     };
-    for (const row of /** @type {Iterable<Record<string, import('node:sqlite').SQLOutputValue>>} */ (db.prepare(sql).iterate())) {
+    for (const row of /** @type {Iterable<Record<string, import('../../storage/src/sqlite.mjs').SqliteValue>>} */ (db.prepare(sql).iterate())) {
       s.upserted += 1;
       let tuple = `(${cols.map((c) => q(row[c])).join(', ')})`;
       if (tuple.length + prefix.length > MAX_STATEMENT_BYTES) {

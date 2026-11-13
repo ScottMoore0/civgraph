@@ -18,7 +18,7 @@ import { TABLE } from '../../schema/src/schema.mjs';
 /** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
 /** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
 /** A row as an ingest builds it: column name to value (bindable() normalises the value). @typedef {Record<string, unknown>} RowObject */
-/** A value node:sqlite binds. @typedef {string | number | bigint | null} BoundValue */
+/** A value the SQLite handle binds. @typedef {string | number | bigint | null} BoundValue */
 /** A documents row: a whole small document, stored as its JSON text. @typedef {{ name: string, body: string }} DocumentRow */
 
 export const MIGRATIONS_DIR = path.join(REPO_ROOT, 'packages', 'schema', 'migrations');
@@ -88,7 +88,7 @@ export function hashValues(spec, row, values, valueColumns = spec.columns.map((c
 }
 
 /**
- * node:sqlite binds null, numbers, strings, bigints and bytes; everything else is normalised.
+ * The SQLite handle binds null, numbers, strings, bigints and bytes; everything else is normalised.
  * @param {unknown} value
  * @returns {BoundValue}
  */

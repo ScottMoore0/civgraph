@@ -14,7 +14,7 @@
  * back, and their sources keep the damaged text until the owner settles them.
  *
  * HOW. Each source is copied to a GeoPackage (lossless), the repairs are applied there with
- * SQL UPDATEs (node:sqlite), and it is written back to FlatGeobuf. Nothing else may change: the
+ * SQL UPDATEs (SQLite, through the storage adapter), and it is written back to FlatGeobuf. Nothing else may change: the
  * script compares the result with the original feature by feature (count, order, geometry
  * bounds, every attribute except the repaired ones) and refuses to replace a file that differs.
  * Feature order matters: build-test-pmtiles injects civ_fid as the row number, and
@@ -33,7 +33,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { DatabaseSync } from 'node:sqlite';
+import { openSqliteHandle } from '../../../storage/src/sqlite.mjs';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 import { repairApplies } from '../label-data.mjs';
 
@@ -105,7 +105,7 @@ async function repairFile(path, plans) {
   // No R-tree: its triggers call SpatiaLite functions plain SQLite does not have.
   run('ogr2ogr', ['-f', 'GPKG', gpkg, path, '-nln', 'features', '-lco', 'SPATIAL_INDEX=NO']);
 
-  const db = new DatabaseSync(gpkg);
+  const db = openSqliteHandle(gpkg);
   const pk = db.prepare("SELECT name FROM pragma_table_info('features') WHERE pk = 1").get()?.name || 'fid';
   db.exec('BEGIN');
   let updated = 0;
