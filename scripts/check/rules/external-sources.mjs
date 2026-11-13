@@ -4,18 +4,36 @@ import path from 'node:path';
 import { resolveBrowseSourceItems } from '../../lib/browse-source-index.mjs';
 import { BROWSE_DIR, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
 
+/**
+ * A record of data/database/external-sources.json, as far as this check reads it.
+ * @typedef {{
+ *   id?: string, title?: string, type?: string, slug?: string,
+ *   fullText?: unknown, articleText?: unknown, rawHtml?: unknown,
+ *   references?: { url?: unknown }[], downloads?: { url?: unknown }[],
+ *   thumbnail?: { kind?: string, url?: unknown }
+ * }} ExternalSource
+ */
+/** @typedef {{ id?: string, slug?: string, detailUrl?: string }} BrowseSourceItem an item of the Browse sources index */
+
+/** @type {string[]} */
 const failures = [];
 
+/**
+ * @param {unknown} condition
+ * @param {string} message
+ */
 function assert(condition, message) {
   if (!condition) failures.push(message);
 }
 
+/** @param {string} filePath */
 function readJson(filePath) {
   assert(existsSync(filePath), `Missing required file: ${filePath}`);
   if (!existsSync(filePath)) return null;
   return JSON.parse(readFileSync(filePath, 'utf8'));
 }
 
+/** @type {{ schemaVersion?: number, sources?: ExternalSource[] }} */
 const external = readJson('data/database/external-sources.json') || {};
 
 // data/browse is build output and untracked as of 2026-08-12 (served from R2 via
@@ -31,7 +49,9 @@ if (!existsSync(path.join(BROWSE_DIR, 'sources.json'))) {
 }
 const browseSources = readJson(path.join(BROWSE_DIR, 'sources.json'));
 const sourceItems = Array.isArray(external.sources) ? external.sources : [];
-const browseItems = resolveBrowseSourceItems(browseSources);
+// the Browse sources index's items are source records
+const browseItems = /** @type {BrowseSourceItem[]} */ (resolveBrowseSourceItems(browseSources));
+/** @type {Map<string | undefined, BrowseSourceItem>} */
 const sourceById = new Map(browseItems.map((item) => [item.id, item]));
 
 const wikipedia = sourceItems.filter((item) => item.type === 'wikipedia-article');
@@ -74,6 +94,7 @@ if (failures.length) {
 
 console.log(`PASS: ${wikipedia.length} Wikipedia council-election articles and ${archiveMaps.length} Internet Archive raster map records are indexed as external Browse sources.`);
 
+/** @param {BrowseSourceItem | undefined} browseItem */
 function hasBrowseSourceDetail(browseItem) {
   if (!browseItem) return false;
   const slug = browseItem.slug || slugify(browseItem.id);
@@ -83,8 +104,10 @@ function hasBrowseSourceDetail(browseItem) {
   }
   try {
     const parsed = new URL(browseItem.detailUrl, 'https://civgraph.local');
-    const shardPath = localPathForUrl(parsed.pathname);
+    // a URL's pathname is a non-empty site path, never an http(s) URL, so this is never null
+    const shardPath = /** @type {string} */ (localPathForUrl(parsed.pathname));
     if (!existsSync(shardPath)) return false;
+    /** @type {{ items?: { slug?: unknown, id?: unknown }[] }} */
     const shard = JSON.parse(readFileSync(shardPath, 'utf8'));
     const items = Array.isArray(shard.items) ? shard.items : [];
     return items.some((candidate) => (
@@ -96,6 +119,7 @@ function hasBrowseSourceDetail(browseItem) {
   }
 }
 
+/** @param {unknown} value */
 function slugify(value) {
   return String(value ?? '')
     .normalize('NFKD')
