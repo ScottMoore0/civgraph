@@ -45,7 +45,11 @@ import { BUILD_STEPS } from '../clean.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 const WORKFLOWS = path.join(ROOT, '.github', 'workflows');
 
-/** The lines of a workflow with comments stripped (a # after whitespace or at the start). */
+/**
+ * The lines of a workflow with comments stripped (a # after whitespace or at the start).
+ * @param {string} text
+ * @returns {string[]}
+ */
 export function codeLines(text) {
   return text.split(/\r?\n/).map((line) => {
     const match = line.match(/(^|\s)#/);
@@ -53,7 +57,12 @@ export function codeLines(text) {
   });
 }
 
-/** The steps of one job: the text of each `- ...` item under `steps:`, in order. */
+/**
+ * The steps of one job: the text of each `- ...` item under `steps:`, in order.
+ * @param {string[]} lines
+ * @param {string} jobName
+ * @returns {string[] | null}
+ */
 export function jobSteps(lines, jobName) {
   const start = lines.findIndex((line) => new RegExp(`^  ${jobName}:\\s*$`).test(line));
   if (start < 0) return null;
@@ -63,6 +72,7 @@ export function jobSteps(lines, jobName) {
   const stepsAt = body.findIndex((line) => /^\s+steps:\s*$/.test(line));
   if (stepsAt < 0) return [];
   const indent = body[stepsAt + 1]?.match(/^(\s*)-/)?.[1] ?? '';
+  /** @type {string[]} */
   const steps = [];
   for (const line of body.slice(stepsAt + 1)) {
     if (line.startsWith(`${indent}- `)) steps.push(line);
@@ -71,7 +81,13 @@ export function jobSteps(lines, jobName) {
   return steps;
 }
 
+/**
+ * @param {string} name
+ * @param {string} text
+ * @returns {string[]}
+ */
 export function validateWorkflow(name, text) {
+  /** @type {string[]} */
   const errors = [];
   const lines = codeLines(text);
   const code = lines.join('\n');
@@ -81,6 +97,7 @@ export function validateWorkflow(name, text) {
   if (/^\s+schedule:/m.test(code)) {
     errors.push(`${name}: a schedule trigger. Scheduled jobs here tested production; that is the opt-in remote tier (npm run verify).`);
   }
+  /** @type {[RegExp, string][]} */
   const forbidden = [
     [/\bsecrets\./, 'a secret: CI needs no credentials (no remote D1, no R2, no deploy)'],
     [/civgraph\.net|\.pages\.dev/i, 'a production host: CI queries nothing in production'],
@@ -96,11 +113,18 @@ export function validateWorkflow(name, text) {
   return errors;
 }
 
+/**
+ * @param {string} text
+ * @param {Record<string, string>} scripts package.json's scripts
+ * @returns {string[]}
+ */
 export function validateCi(text, scripts) {
+  /** @type {string[]} */
   const errors = [];
   const lines = codeLines(text);
   const steps = jobSteps(lines, 'check');
   if (!steps) return ['ci.yml: no `check` job.'];
+  /** @param {RegExp} re */
   const at = (re) => steps.findIndex((step) => re.test(step));
   const freeDisk = at(/rm -rf[^\n]*\/usr\/share\/dotnet/);
   const checkCi = at(/npm run check:ci\s*$/m);
@@ -118,7 +142,8 @@ export function validateCi(text, scripts) {
   if (scripts['check:ci'] !== 'node scripts/check/clean.mjs --in-place') {
     errors.push('package.json: check:ci is no longer `node scripts/check/clean.mjs --in-place`, so CI and check:clean can drift.');
   }
-  for (const [cmd, args] of BUILD_STEPS) {
+  // each build step is a [command, arguments] pair
+  for (const [cmd, args] of /** @type {[string, string[]][]} */ (BUILD_STEPS)) {
     const shown = `${cmd} ${args.join(' ')}`;
     if (args.includes('--remote') || /verify|deploy|wrangler/.test(shown)) errors.push(`check-clean.mjs BUILD_STEPS: ${shown} is remote; CI must stay offline.`);
   }
@@ -128,15 +153,23 @@ export function validateCi(text, scripts) {
 /** The check-like npm scripts: the ones CHECKS.md must place in a tier. */
 export const CHECK_SCRIPT = /^(check|test|verify|lint|smoke|audit|monitor)(:|$)|^records:(check|verify)$|^catalogue:check$/;
 
+/**
+ * @param {string} markdown
+ * @param {Record<string, string>} scripts package.json's scripts
+ * @returns {string[]}
+ */
 export function validateChecksDoc(markdown, scripts) {
+  /** @param {string} name */
   const named = (name) => markdown.includes(`\`${name}\``) || markdown.includes(`npm run ${name}\``);
   return Object.keys(scripts).filter((name) => CHECK_SCRIPT.test(name) && !named(name))
     .map((name) => `CHECKS.md does not name the npm script ${name}: put it in a tier (or under "Outside the tiers").`);
 }
 
 function main() {
+  /** @type {string[]} */
   const errors = [];
   if (!existsSync(path.join(WORKFLOWS, 'ci.yml'))) errors.push('.github/workflows/ci.yml is missing.');
+  /** @type {Record<string, string>} */
   const scripts = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8')).scripts;
   const files = existsSync(WORKFLOWS) ? readdirSync(WORKFLOWS).filter((f) => /\.ya?ml$/.test(f)).sort() : [];
   for (const file of files) {
