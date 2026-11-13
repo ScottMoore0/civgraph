@@ -3167,7 +3167,7 @@ export class Test2ElectionManager {
     const leafStart = isLocal ? 7 : (isWestminster ? 5 : 6);
     return `
       ${this.printedLabelsToggle()}
-      <div class="election-count-wrapper election-count-wrapper--pane-sticky">
+      <div class="election-count-wrapper election-count-wrapper--pane-sticky" tabindex="0" role="region" aria-label="Candidates by count">
         <table class="election-count-table election-count-table--grouped election-count-table--candidate-sticky3 election-results-table--fixed${isLocal ? ' election-results-table--local' : ' election-results-table--nonlocal'}">
           <thead>
             <tr>
@@ -3391,7 +3391,7 @@ export class Test2ElectionManager {
     `;
     return `
       ${this.printedLabelsToggle()}
-      <div class="election-count-wrapper election-count-wrapper--pane-sticky">
+      <div class="election-count-wrapper election-count-wrapper--pane-sticky" tabindex="0" role="region" aria-label="Count by count">
         <table class="election-count-table election-results-table--fixed${this.isLocalGovernmentElection() ? ' election-results-table--local' : ' election-results-table--nonlocal'}">
           <thead>
             <tr>
