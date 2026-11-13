@@ -143,7 +143,7 @@ function districtMatchesAuthority(districtLabel, bodySlug) {
 }
 
 // Words spelt differently in the papers and the boundary files.
-const WORD_ALIASES = new Map([['tanderagee', 'tandragee'], ['lisnakea', 'lisnaskea']]);
+const WORD_ALIASES = new Map([['tanderagee', 'tandragee'], ['lisnakea', 'lisnaskea'], ['aughentaine', 'aghintain']]);
 const SEAT_WORDS = /\b(alderm[ae]n(ship)?|councillors?|commissioners?)\b/g;
 
 function aliasWords(key) {
