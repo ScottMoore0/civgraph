@@ -19,6 +19,7 @@ import { SITE } from '../../../packages/config/src/node.mjs';
 // Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
 // "No label" (nothing printed or inferred) and a person record's "Unknown" (the parties
 // registry's noPartyLabels in candidacies and persons).
+/** @type {Set<unknown>} asked about raw labels, which may be missing or a record */
 const NOT_A_PARTY = notAPartyLabels('candidacies', 'persons');
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -124,6 +125,7 @@ const PROP = {
 // Parent-card values that correspond to an elected body, mapped (by slug key)
 // to the canonical body label so a map used as an election layer gets an
 // elected-body statement. Geographic/administrative parent cards are omitted.
+/** @type {Record<string, string>} */
 const PARENT_CARD_BODY = {
   'uk-parliament': 'House of Commons',
   'parliamentary-constituencies-before-1921': 'House of Commons',
@@ -158,29 +160,341 @@ const JSONLD_CONTEXT = {
   description: 'schema:description'
 };
 
+/**
+ * The graph this builds (scripts/check/rules/semantic-graph.mjs validates it): entities, and
+ * statements about them (subject, property, value, qualifiers, references).
+ * @typedef {{ type: 'entity', id: string, label?: string }} EntityValue  a link to an entity; its own label (a full date) is shown in place of the entity's (the date's month or year)
+ * @typedef {{ type: 'string' | 'date' | 'url', value: string, id?: undefined, label?: undefined }} TextValue
+ * @typedef {{ type: 'boolean', value: boolean, id?: undefined, label?: undefined }} BooleanValue
+ * @typedef {{ type: 'number', value: number, id?: undefined, label?: undefined }} NumberValue
+ * @typedef {EntityValue | TextValue | BooleanValue | NumberValue} GraphValue
+ * @typedef {{ propertyId: string, value: GraphValue }} Qualifier
+ * @typedef {{ id: string, label: string, description?: string, valueType?: string }} RegistryEntry  an entity type or property of data/database/graph-*.json
+ */
+
+/**
+ * @typedef {object} GraphReference  a statement's citation; compactObject has dropped its empty fields
+ * @property {string} [sourceId]  the source entity (an original-source citation has none: it carries its title, kind and URL)
+ * @property {string} [sourceTitle]
+ * @property {string} [sourceKind]
+ * @property {string} [sourceUrl]
+ * @property {string} [sourceRecordId]
+ * @property {string} [sourceRowId]
+ * @property {string} [date]
+ * @property {string} [earliestDeclaration]
+ * @property {string} [latestDeclaration]
+ * @property {string} [extractionMethod]
+ * @property {string} [extractionConfidence]
+ * @property {string[]} [sourceExtractIds]
+ * @property {string | number} [sourcePageStart]
+ * @property {string | number} [sourcePageEnd]
+ */
+
+/**
+ * @typedef {object} GraphEntity  compactObject has dropped its empty fields
+ * @property {string} id
+ * @property {string} label
+ * @property {string} [description]
+ * @property {string} kind  'entity', or 'entity-type' for the registry's types
+ * @property {string} [browseType]
+ * @property {string} [browseSlug]
+ * @property {string} [browseUrl]
+ * @property {string} [sourceUrl]
+ * @property {Record<string, unknown>} [attributes]
+ * @property {string[]} typeIds
+ */
+
+/**
+ * @typedef {object} EntityInput  what addEntity is given: a new entity's fields, or more for an existing one
+ * @property {string[]} [typeIds]
+ * @property {string} [label]
+ * @property {string} [description]
+ * @property {string} [kind]
+ * @property {string} [browseType]
+ * @property {string} [browseSlug]
+ * @property {string} [browseUrl]
+ * @property {string} [sourceUrl]
+ * @property {Record<string, unknown>} [attributes]
+ */
+
+/**
+ * @typedef {object} GraphStatement  compactObject has dropped its empty fields
+ * @property {string} id  cg:statement:<a hash of subject, property, value and qualifiers>
+ * @property {string} subjectId
+ * @property {string} propertyId
+ * @property {GraphValue} value
+ * @property {Qualifier[]} [qualifiers]
+ * @property {GraphReference[]} [references]
+ * @property {string} rank
+ */
+
+/**
+ * @typedef {object} StatementInput  what addStatement is given; one without a subject, property or value is not added
+ * @property {string | null | undefined} subjectId
+ * @property {string} propertyId
+ * @property {GraphValue | null} value
+ * @property {(Qualifier | null)[]} [qualifiers]
+ * @property {(GraphReference | null)[]} [references]
+ * @property {string} [rank]
+ */
+
+/**
+ * The Browse records this reads (data/browse, from build-browse-indexes.mjs), as far as it reads them.
+ * @typedef {{ slug?: string, id?: string, key?: string, title?: string, name?: string }} BrowseKeys  the fields a record's Browse mapping keys come from
+ * @typedef {{ label?: string, url?: string, href?: string, path?: string, name?: string, title?: string, type?: string, format?: string }} FileLink  a source file or download
+ * @typedef {{ label?: string, title?: string, source?: string, role?: string, url?: string }} BrowseReference  an external reference
+ * @typedef {string | { name?: string, title?: string }} NameOrRef
+ * @typedef {{ key?: string, id?: string, title?: string, date?: string, body?: string, constituency?: string, party?: string, status?: string, elected?: boolean, firstPrefs?: number }} ElectionRef  an election as a person or feature group names it
+ * @typedef {{ key?: string, name?: string, title?: string, resultName?: string, resultKind?: string, browseUrl?: string, createdFrom?: string }} ContestInput  a contest of an election (contestInputsForElection)
+ * @typedef {{ party?: string, name?: string, label?: string, stood?: number, seats?: number, votes?: number, share?: number }} PartySummaryRow
+ * @typedef {{ title?: string, edition?: string, volume?: string, url?: string }} HopPage  a History of Parliament biography page
+ * @typedef {{ title?: string, host?: string, url?: string | null, kind?: string }} Citation  an original source of a contest's result (election-provenance.json)
+ */
+
+/**
+ * @typedef {object} SourceRecord  a Browse source, its detail row merged in
+ * @property {string} [id]
+ * @property {string} [slug]
+ * @property {string} [title]
+ * @property {string} [subtitle]
+ * @property {string} [description]
+ * @property {string} [browseUrl]
+ * @property {string} [detailUrl]
+ * @property {string} [url]
+ * @property {string} [category]
+ * @property {string | string[]} [provider]
+ * @property {string} [publicationStatus]
+ * @property {string | number} [date]
+ * @property {number} [referenceCount]
+ * @property {number} [downloadCount]
+ * @property {FileLink[]} [downloads]
+ * @property {BrowseReference[]} [references]
+ */
+
+/**
+ * @typedef {object} MapRecord  a Browse map
+ * @property {string} [id]
+ * @property {string} [slug]
+ * @property {string} [title]
+ * @property {string} [subtitle]
+ * @property {string} [description]
+ * @property {string} [browseUrl]
+ * @property {string} [category]
+ * @property {string} [categoryId]
+ * @property {string} [group]
+ * @property {string | number} [date]
+ * @property {number[]} [years]
+ * @property {string | string[]} [provider]
+ * @property {string} [status]
+ * @property {boolean} [loadable]
+ * @property {string} [labelProperty]
+ * @property {string} [sourceMapId]
+ * @property {string} [layerId]
+ * @property {string} [parentCard]
+ * @property {string} [interactiveUrl]
+ * @property {FileLink[]} [sourceFiles]
+ * @property {FileLink[]} [downloads]
+ * @property {BrowseReference[]} [references]
+ */
+
+/**
+ * @typedef {object} FeatureGroupRecord  a Browse feature group (features.json)
+ * @property {string} [id]
+ * @property {string} [slug]
+ * @property {string} [title]
+ * @property {string} [description]
+ * @property {string} [browseUrl]
+ * @property {string} [category]
+ * @property {string} [group]
+ * @property {number} [featureCount]
+ * @property {string} [sourceMapId]
+ * @property {string} [mapId]
+ * @property {string} [sourceFile]
+ * @property {string} [spatialIndexUrl]
+ * @property {number} [relatedElectionCount]
+ * @property {ElectionRef[]} [relatedElections]
+ * @property {{ name?: string, label?: string, bbox?: number[] }[]} [sampleFeatures]
+ */
+
+/**
+ * @typedef {object} PartyRecord  a Browse party
+ * @property {string} [id]
+ * @property {string} [slug]
+ * @property {string} [title]
+ * @property {string} [canonicalName]
+ * @property {string} [subtitle]
+ * @property {string} [browseUrl]
+ * @property {number} [firstYear]
+ * @property {number} [lastYear]
+ * @property {number} [occurrenceCount]
+ * @property {number} [fileCount]
+ * @property {number} [relatedElectionCount]
+ * @property {string} [colour]
+ * @property {string[]} [observedNames]
+ */
+
+/**
+ * @typedef {object} ElectionRecord  a Browse election, or one of its contests (entryKind)
+ * @property {string} [id]
+ * @property {string} [key]
+ * @property {string} [slug]
+ * @property {string} [title]
+ * @property {string} [subtitle]
+ * @property {string} [description]
+ * @property {string} [browseUrl]
+ * @property {string} [entryKind]
+ * @property {string} [body]
+ * @property {string} [date]
+ * @property {number} [year]
+ * @property {string} [category]
+ * @property {string} [contestType]
+ * @property {string} [kind]
+ * @property {string} [votingSystem]
+ * @property {string} [contestStatus]
+ * @property {number} [totalConstituencies]
+ * @property {number} [unmatchedCount]
+ * @property {string[]} [constituencies]
+ * @property {ContestInput[]} [resultEntries]
+ * @property {PartySummaryRow[]} [partySummary]
+ * @property {string} [parentElectionKey]  a contest's election
+ * @property {string} [constituency]
+ * @property {string} [resultName]
+ * @property {string} [sourceResultName]
+ * @property {{ sourceFile?: string }} [resultMetadata]
+ * @property {string} [sourceFile]
+ */
+
+/**
+ * @typedef {object} PersonRecord  a Browse person
+ * @property {string} [id]
+ * @property {string} [slug]
+ * @property {string} [name]
+ * @property {string} [title]
+ * @property {string} [subtitle]
+ * @property {string} [browseUrl]
+ * @property {number} [firstYear]
+ * @property {number} [lastYear]
+ * @property {number} [relatedElectionCount]
+ * @property {{ stood?: number, elected?: number, firstPrefs?: number }} [totals]
+ * @property {{ name?: string, title?: string }[]} [parties]
+ * @property {{ name?: string }[]} [constituencies]
+ * @property {ElectionRef[]} [elections]
+ * @property {HopPage[]} [historyOfParliament]
+ * @property {{ constituency?: string, dates?: string, source?: string }[]} [seatsHeld]
+ * @property {string} [born]
+ * @property {string} [died]
+ * @property {string} [wikidata]
+ */
+
+/**
+ * @typedef {object} RegisterSourceRef  a register-of-interests row's source
+ * @property {string} [sourceTitle]
+ * @property {string} [sourceKind]
+ * @property {string} [sourceRecordId]
+ * @property {string} [sourceRowId]
+ * @property {string} [sourceUrl]
+ * @property {string} [date]
+ * @property {string} [editionDate]
+ * @property {string} [earliestDeclaration]
+ * @property {string} [latestDeclaration]
+ * @property {string} [extractionMethod]
+ * @property {string} [extractionConfidence]
+ * @property {string[]} [sourceExtractIds]
+ */
+
+/**
+ * @typedef {object} RegisterInterest  one declared interest of a register record
+ * @property {string} [id]
+ * @property {string} [category]
+ * @property {string} [interestText]
+ * @property {string} [interestSummary]
+ * @property {boolean} [isNone]
+ * @property {number} [sourceCount]
+ * @property {number} [duplicateSourceRowCount]
+ * @property {string} [extractionConfidence]
+ * @property {RegisterSourceRef[]} [sourceRefs]
+ */
+
+/**
+ * @typedef {object} RegisterRecord  a Browse register-of-interests record, its detail row merged in
+ * @property {string} [id]
+ * @property {string} [slug]
+ * @property {string} [title]
+ * @property {string} [description]
+ * @property {string} [browseUrl]
+ * @property {string} [detailUrl]
+ * @property {string} [recordKind]
+ * @property {string} [memberName]
+ * @property {string} [memberType]
+ * @property {string} [electedBody]
+ * @property {string} [chamber]
+ * @property {string} [jurisdiction]
+ * @property {string} [constituency]
+ * @property {NameOrRef[]} [constituencies]
+ * @property {string[]} [parties]
+ * @property {string} [date]
+ * @property {string} [dateStart]
+ * @property {string} [dateEnd]
+ * @property {number} [interestCount]
+ * @property {number} [nonNilInterestCount]
+ * @property {number} [sourceCount]
+ * @property {string[]} [sourceKinds]
+ * @property {string} [interestSummary]
+ * @property {RegisterSourceRef[]} [sourceRefs]
+ * @property {RegisterInterest[]} [interests]
+ */
+
+/**
+ * The indexes this writes.
+ * @typedef {{ name: string, url: string, count: number, bytes: number, uncompressedBytes?: number }} ShardRef  one shard file of a sharded list
+ * @typedef {{ slug: string, label?: string, typeIds?: string[], typeLabels?: string[], browseType?: string, browseSlug?: string, browseUrl?: string }} SlugSummary  an entity's entry in the slug index
+ * @typedef {SlugSummary & { entityId: string, description?: string, searchHints?: string[] }} EntitySummary
+ * @typedef {{ entityId: string, slug?: string, label?: string, types?: string[], browseType?: string, browseSlug?: string, searchHints?: string[] }} SearchEntry
+ * @typedef {{ statementId?: string, subjectId?: string, subjectSlug?: string, subjectLabel?: string, subjectTypeLabels?: string[], propertyId?: string, propertyLabel?: string, sourceKind?: string, sourceRowId?: string, date?: string }} Relation  a statement pointing at an entity (as its value, or citing it)
+ * @typedef {Awaited<ReturnType<typeof writeRelatedIndex>>} RelatedIndex
+ */
+
+/** @type {Map<string | undefined, GraphEntity>} id -> entity; also asked about a reference's sourceId, which an original-source reference lacks */
 const entities = new Map();
+/** @type {Map<string, GraphStatement>} */
 const statements = new Map();
+/** @type {Record<string, string>} "<Browse type>:<key>" -> entity id */
 const browseRecordToEntity = {};
+/** @type {Map<string, string>} */
 const personByNormalizedName = new Map();
+/** @type {Map<string, string>} */
 const partyByNormalizedName = new Map();
+/** @type {Map<string, string>} */
 const electionByKey = new Map();
+/** @type {Map<string, string>} */
 const contestByKey = new Map();
+/** @type {Map<string, string>} */
 const sourceByRecordKey = new Map();
+/** @type {Map<string, string>} */
 const providerByName = new Map();
+/** @type {Map<string, string>} */
 const sourceFileByUrl = new Map();
+/** @type {Map<string, string>} */
 const mapLayerByKey = new Map();
 // The original sources of each contest's result (data/database/election-provenance.json, by the
 // contest file's path) and of each election (its contests' sources, most cited first); a contest
 // as a person's candidacy names it (electionKey|constituency) -> its file. QA H5, 11 Nov 2026:
 // facts about elections, contests and candidacies cite these first and Civgraph's own Browse
 // index only after them, as the place they were compiled.
+/** @type {Map<string, Citation[]>} */
 const contestSourcesByFile = new Map();
+/** @type {Map<string, string>} */
 const contestFileByElectionContest = new Map();
 const ORIGINAL_SOURCE_LIMIT = 2;
+/** @type {Map<string, string>} */
 const mapCategoryByName = new Map();
+/** @type {Map<string, string>} */
 const dateYearByYear = new Map();
+/** @type {Map<string, string>} */
 const dateMonthByKey = new Map();
+/** @type {RegistryEntry[]} */
 let entityTypes = [];
+/** @type {RegistryEntry[]} */
 let properties = [];
 
 async function main() {
@@ -204,6 +518,7 @@ async function main() {
   );
 
   await loadContestProvenance();
+  /** @type {[MapRecord[], FeatureGroupRecord[], PartyRecord[], ElectionRecord[], PersonRecord[], SourceRecord[], RegisterRecord[]]} */
   const [maps, features, parties, elections, persons, sources, registerRecords] = await Promise.all([
     loadBrowseItems('maps.json'),
     loadBrowseItems('features.json'),
@@ -338,11 +653,13 @@ async function main() {
 // (scripts/lib/graph-id-ledger.mjs): an id of the ledger this build no longer has answers with
 // the entity it became, through the retired election slugs and the person-id merges. The
 // records load puts these in graph_browse_keys as alias:<old id> and slug:<old readable slug>.
+/** @param {GraphEntity[]} sortedEntities */
 async function writeEntityAliases(sortedEntities) {
   const aliases = graphEntityAliases(readGraphLedger(), sortedEntities.map((entity) => ({
     id: entity.id,
     browseSlug: entity.browseSlug,
-    electionKey: entity.attributes?.electionKey
+    // a string: the election key getContestEntity and buildPersonEntities put there
+    electionKey: /** @type {string | undefined} */ (entity.attributes?.electionKey)
   })), { keepOf: personKeepOf() });
   await writeJson(path.join(OUTPUT_DIR, 'indexes', 'entity-aliases.json'), {
     schemaVersion: 1,
@@ -366,6 +683,7 @@ function seedRegistryEntities() {
   }
 }
 
+/** @param {SourceRecord[]} items */
 function buildSourceEntities(items) {
   for (const item of items) {
     if (isGraphExcludedSource(item)) continue;
@@ -438,6 +756,7 @@ function buildSourceEntities(items) {
   }
 }
 
+/** @param {MapRecord[]} items */
 function buildMapEntities(items) {
   for (const item of items) {
     const id = makeEntityId('map-layer', item.slug || item.id || item.title);
@@ -540,6 +859,7 @@ function buildMapEntities(items) {
   }
 }
 
+/** @param {FeatureGroupRecord[]} items */
 function buildFeatureEntities(items) {
   for (const item of items) {
     const id = makeEntityId('feature-group', item.slug || item.id || item.sourceMapId || item.title);
@@ -643,6 +963,7 @@ function buildFeatureEntities(items) {
   }
 }
 
+/** @param {PartyRecord[]} items */
 function buildPartyEntities(items) {
   for (const item of items) {
     const id = makeEntityId('party', item.slug || item.id || item.title);
@@ -667,9 +988,14 @@ function buildPartyEntities(items) {
   }
 }
 
+/**
+ * @param {ElectionRecord[]} items
+ * @param {string} browseElectionSource  the Browse election index's source entity
+ */
 function buildElectionEntities(items, browseElectionSource) {
   // Each contest's file, so an election can cite its contests' sources and a person's
   // candidacy (electionKey + constituency) the sources of the contest.
+  /** @type {Map<string | undefined, string[]>} election key -> its contests' files (asked about an election's key, which a record may lack) */
   const filesByElection = new Map();
   for (const item of items) {
     const file = contestSourceFile(item);
@@ -678,7 +1004,7 @@ function buildElectionEntities(items, browseElectionSource) {
       if (name) contestFileByElectionContest.set(normalizeKey(`${item.parentElectionKey}|${name}`), file);
     }
     if (!filesByElection.has(item.parentElectionKey)) filesByElection.set(item.parentElectionKey, []);
-    filesByElection.get(item.parentElectionKey).push(file);
+    /** @type {string[]} */ (filesByElection.get(item.parentElectionKey)).push(file); // set on the line before
   }
   for (const item of items) {
     const key = item.key || item.id || `${item.title || 'election'}:${item.date || ''}`;
@@ -782,6 +1108,8 @@ function buildElectionEntities(items, browseElectionSource) {
 /**
  * A member's History of Parliament biography, and the birth and death dates it gives, each
  * referenced to that page. The volume is the source entity; the page is the reference's URL.
+ * @param {string} id
+ * @param {PersonRecord} item
  */
 function addHistoryOfParliament(id, item) {
   const pages = normalizeArray(item.historyOfParliament);
@@ -810,13 +1138,17 @@ function addHistoryOfParliament(id, item) {
     });
   }
   // Every page that gives the date is cited for it, not only the most precise.
-  for (const [prop, key] of [[PROP.dateOfBirth, 'born'], [PROP.dateOfDeath, 'died']]) {
+  for (const [prop, key] of /** @type {const} */ ([[PROP.dateOfBirth, 'born'], [PROP.dateOfDeath, 'died']])) {
     if (item[key]) addStatement({ subjectId: id, propertyId: prop, value: dateValue(item[key]), references: refs });
   }
 }
 
 // The person's own Wikidata item (the record's `wikidata`: from its official ids, or the Wikidata
 // crosswalk data/elections/persons/wikidata-persons.json), as an exact-match link, cited to Wikidata.
+/**
+ * @param {string} id
+ * @param {PersonRecord} item
+ */
 function addWikidataSameAs(id, item) {
   const url = wikidataUrl(item.wikidata);
   if (!url) return;
@@ -829,6 +1161,10 @@ function addWikidataSameAs(id, item) {
   });
 }
 
+/**
+ * @param {PersonRecord[]} items
+ * @param {string} browsePersonSource  the Browse person index's source entity
+ */
 function buildPersonEntities(items, browsePersonSource) {
   for (const item of items) {
     const id = makeEntityId('person', item.slug || item.id || item.name || item.title);
@@ -976,6 +1312,7 @@ function buildPersonEntities(items, browsePersonSource) {
   }
 }
 
+/** @param {RegisterRecord[]} records */
 function buildRegisterInterestEntities(records) {
   for (const record of records) {
     const recordId = makeEntityId('register-record', record.id || `${record.memberName}|${record.electedBody}|${record.date}`);
@@ -1159,18 +1496,24 @@ function addNameStatementsForEntities() {
   }
 }
 
+/**
+ * @param {string} id
+ * @param {EntityInput} [input]
+ */
 function addEntity(id, input = {}) {
   if (!id) throw new Error('Entity id is required.');
   const existing = entities.get(id);
   const typeIds = normalizeArray(input.typeIds).filter(Boolean);
   if (existing) {
     existing.typeIds = unique([...(existing.typeIds || []), ...typeIds]);
-    for (const key of ['label', 'description', 'browseType', 'browseSlug', 'browseUrl', 'sourceUrl', 'kind']) {
-      if (!existing[key] && input[key]) existing[key] = input[key];
+    for (const key of /** @type {const} */ (['label', 'description', 'browseType', 'browseSlug', 'browseUrl', 'sourceUrl', 'kind'])) {
+      // set: the condition has just tested it
+      if (!existing[key] && input[key]) existing[key] = /** @type {string} */ (input[key]);
     }
     existing.attributes = compactObject({ ...(existing.attributes || {}), ...(input.attributes || {}) });
   } else {
-    const entity = compactObject({
+    // id, label and kind are never empty, so compactObject keeps them; typeIds is set on the next line
+    const entity = /** @type {GraphEntity} */ (compactObject({
       id,
       label: input.label || id,
       description: input.description || '',
@@ -1180,7 +1523,7 @@ function addEntity(id, input = {}) {
       browseUrl: input.browseUrl,
       sourceUrl: input.sourceUrl,
       attributes: compactObject(input.attributes || {})
-    });
+    }));
     entity.typeIds = unique(typeIds);
     entities.set(id, entity);
   }
@@ -1195,10 +1538,15 @@ function addEntity(id, input = {}) {
   return entity;
 }
 
+/**
+ * @param {StatementInput} input
+ * @returns {GraphStatement | null}
+ */
 function addStatement(input) {
   if (!input.subjectId || !input.propertyId || !input.value) return null;
-  const qualifiers = normalizeArray(input.qualifiers).filter((item) => item?.propertyId && item?.value);
-  const references = normalizeArray(input.references).filter(Boolean);
+  // the filters dropped the nulls
+  const qualifiers = /** @type {Qualifier[]} */ (normalizeArray(input.qualifiers).filter((item) => item?.propertyId && item?.value));
+  const references = /** @type {GraphReference[]} */ (normalizeArray(input.references).filter(Boolean));
   const key = statementSemanticKey(input.subjectId, input.propertyId, input.value, qualifiers);
   const id = `cg:statement:${shortHash(key, 20)}`;
   const existing = statements.get(id);
@@ -1206,7 +1554,8 @@ function addStatement(input) {
     existing.references = mergeReferences(existing.references, references);
     return existing;
   }
-  const statement = compactObject({
+  // id, subject, property and value were tested above and rank defaults, so compactObject keeps them
+  const statement = /** @type {GraphStatement} */ (compactObject({
     id,
     subjectId: input.subjectId,
     propertyId: input.propertyId,
@@ -1214,11 +1563,15 @@ function addStatement(input) {
     qualifiers,
     references,
     rank: input.rank || 'normal'
-  });
+  }));
   statements.set(id, statement);
   return statement;
 }
 
+/**
+ * @param {unknown} name
+ * @param {{ constituency?: string, partyLabels?: string[], body?: string }} [context]
+ */
 function getPersonEntity(name, context = {}) {
   const label = cleanText(name) || 'Unnamed person';
   const normalized = normalizePersonName(label);
@@ -1239,6 +1592,7 @@ function getPersonEntity(name, context = {}) {
   return id;
 }
 
+/** @param {unknown} label */
 function getPartyEntity(label) {
   const partyLabel = cleanText(label) || 'Unknown party / label';
   const normalized = normalizePartyName(partyLabel);
@@ -1256,6 +1610,7 @@ function getPartyEntity(label) {
   return id;
 }
 
+/** @param {unknown} label */
 function getBodyEntity(label) {
   const body = canonicalBody(label);
   const id = makeEntityId('body', body.slug);
@@ -1275,6 +1630,7 @@ function getBodyEntity(label) {
   return id;
 }
 
+/** @param {unknown} label */
 function getOfficeEntity(label) {
   const raw = cleanText(label);
   const office = canonicalOffice(raw);
@@ -1290,6 +1646,7 @@ function getOfficeEntity(label) {
   return id;
 }
 
+/** @param {ElectionRef} election */
 function getElectionEntity(election) {
   const candidates = [
     election?.key,
@@ -1317,6 +1674,7 @@ function getElectionEntity(election) {
   return id;
 }
 
+/** @param {{ election: ElectionRef, contest: ContestInput }} input */
 function getContestEntity({ election, contest }) {
   const electionKey = election?.key || election?.id || election?.title || 'election';
   const contestName = cleanText(contest?.resultName || contest?.name || contest?.title || contest?.key || 'contest');
@@ -1346,6 +1704,7 @@ function getContestEntity({ election, contest }) {
   return id;
 }
 
+/** @param {ElectionRecord} item */
 function contestInputsForElection(item) {
   const rows = [];
   for (const entry of item.resultEntries || []) {
@@ -1378,7 +1737,7 @@ function contestInputsForElection(item) {
 /**
  * The contest file a Browse contest item was built from, relative to data/elections-source/data/
  * elections/ as the provenance file names it; '' for anything else.
- * @param {Record<string, any>} item
+ * @param {ElectionRecord} item
  */
 function contestSourceFile(item) {
   const file = String(item?.resultMetadata?.sourceFile || item?.sourceFile || '');
@@ -1394,7 +1753,8 @@ async function loadContestProvenance() {
     return;
   }
   for (const contest of normalizeArray(doc?.contests)) {
-    if (contest?.file && normalizeArray(contest.sources).length) contestSourcesByFile.set(contest.file, normalizeArray(contest.sources));
+    // A contest's file is its path and its sources' fields are strings (election-provenance.json).
+    if (contest?.file && normalizeArray(contest.sources).length) contestSourcesByFile.set(/** @type {string} */ (contest.file), /** @type {Citation[]} */ (normalizeArray(contest.sources)));
   }
 }
 
@@ -1406,6 +1766,7 @@ async function loadContestProvenance() {
  * @param {string[]} files
  */
 function originalSourceReferences(files) {
+  /** @type {Map<string, { citation: Citation, title: string, n: number }>} */
   const counts = new Map();
   for (const file of files) {
     for (const citation of contestSourcesByFile.get(file) || []) {
@@ -1427,6 +1788,11 @@ function originalSourceReferences(files) {
     }));
 }
 
+/**
+ * @param {string} key
+ * @param {string} title
+ * @param {string} sourceKind
+ */
 function addSyntheticSource(key, title, sourceKind) {
   const id = makeEntityId('source', key);
   addEntity(id, {
@@ -1446,6 +1812,10 @@ function addSyntheticSource(key, title, sourceKind) {
   return id;
 }
 
+/**
+ * @param {RegisterSourceRef | null | undefined} sourceRef
+ * @param {{ rowLevel?: boolean }} [options]  rowLevel: false leaves out the row's own ids
+ */
 function registerReference(sourceRef, options = {}) {
   if (!sourceRef) return null;
   const rowLevel = options.rowLevel !== false;
@@ -1466,6 +1836,7 @@ function registerReference(sourceRef, options = {}) {
   });
 }
 
+/** @param {RegisterSourceRef} ref */
 function getSourceEntityFromReference(ref) {
   const sourceKey = ref.sourceTitle || ref.sourceKind || ref.sourceUrl || ref.sourceRecordId || 'unknown-register-source';
   const keys = [
@@ -1498,6 +1869,10 @@ function getSourceEntityFromReference(ref) {
   return id;
 }
 
+/**
+ * @param {BrowseReference} reference
+ * @param {{ sourceKind?: string }} [options]
+ */
 function getGenericSourceEntity(reference, options = {}) {
   const label = cleanText(reference.label || reference.title || reference.source || reference.url || 'External source');
   const sourceKey = reference.url || label;
@@ -1529,6 +1904,7 @@ function getGenericSourceEntity(reference, options = {}) {
   return id;
 }
 
+/** @param {unknown} value */
 function getProviderEntity(value) {
   const label = cleanText(value);
   if (!label) return makeEntityId('provider', 'unknown-provider');
@@ -1547,6 +1923,7 @@ function getProviderEntity(value) {
   return id;
 }
 
+/** @param {unknown} value */
 function getMapCategoryEntity(value) {
   const label = cleanText(value);
   if (!label) return null;
@@ -1564,6 +1941,7 @@ function getMapCategoryEntity(value) {
   return id;
 }
 
+/** @param {unknown} value */
 function extractYear(value) {
   const text = cleanText(value);
   if (!text) return null;
@@ -1573,6 +1951,7 @@ function extractYear(value) {
 
 // Pull {year, month} from a date. Handles ISO (YYYY-MM-DD / YYYY-MM, including
 // ISO-prefixed referendum ids like 2015-05-22-equal-marriage) and bare years.
+/** @param {unknown} value */
 function parseDateParts(value) {
   const text = cleanText(value);
   if (!text) return {};
@@ -1582,6 +1961,7 @@ function parseDateParts(value) {
   return year ? { year } : {};
 }
 
+/** @param {string} year */
 function getDateYearEntity(year) {
   if (!year) return null;
   const existingId = dateYearByYear.get(year);
@@ -1597,6 +1977,10 @@ function getDateYearEntity(year) {
   return id;
 }
 
+/**
+ * @param {string} year
+ * @param {string} month
+ */
 function getDateMonthEntity(year, month) {
   if (!year || !month) return null;
   const key = `${year}-${month}`;
@@ -1619,6 +2003,11 @@ function getDateMonthEntity(year, month) {
 // (clicking lists everything in that month), otherwise the year bucket. When a
 // month is present, also add a `year` statement so the year bucket still
 // gathers every entity dated within that year.
+/**
+ * @param {string} subjectId
+ * @param {unknown} dateText
+ * @param {(GraphReference | null)[]} [references]
+ */
 function addDateStatements(subjectId, dateText, references) {
   const { year, month } = parseDateParts(dateText);
   if (!year) {
@@ -1626,14 +2015,16 @@ function addDateStatements(subjectId, dateText, references) {
     return;
   }
   const label = cleanText(dateText) || year;
+  // Both ids are set: year (and month) are, so neither getter returns null.
   if (month) {
-    addStatement({ subjectId, propertyId: PROP.date, value: { type: 'entity', id: getDateMonthEntity(year, month), label }, references });
+    addStatement({ subjectId, propertyId: PROP.date, value: { type: 'entity', id: /** @type {string} */ (getDateMonthEntity(year, month)), label }, references });
     addStatement({ subjectId, propertyId: PROP.year, value: entityValue(getDateYearEntity(year)), references });
   } else {
-    addStatement({ subjectId, propertyId: PROP.date, value: { type: 'entity', id: getDateYearEntity(year), label }, references });
+    addStatement({ subjectId, propertyId: PROP.date, value: { type: 'entity', id: /** @type {string} */ (getDateYearEntity(year)), label }, references });
   }
 }
 
+/** @param {unknown} value */
 function getMapLayerEntityId(value) {
   const key = normalizeKey(value);
   if (!key) return null;
@@ -1651,6 +2042,10 @@ function getMapLayerEntityId(value) {
   return id;
 }
 
+/**
+ * @param {FileLink} file
+ * @param {{ parentLabel?: string, relationship?: string }} [context]
+ */
 function getSourceFileEntity(file, context = {}) {
   const url = cleanText(file.url || file.href || file.path || '');
   const label = cleanText(file.label || file.name || file.title || inferFileName(url) || context.parentLabel || 'Source file');
@@ -1687,6 +2082,7 @@ function getSourceFileEntity(file, context = {}) {
   return id;
 }
 
+/** @param {FileLink | FileLink[] | null | undefined} downloads */
 function normalizeDownloadLinks(downloads) {
   const rows = normalizeArray(downloads);
   const links = [];
@@ -1718,21 +2114,28 @@ function normalizeDownloadLinks(downloads) {
   return [...byUrl.values()];
 }
 
+/**
+ * @param {unknown} value
+ * @returns {TextValue | null}
+ */
 function urlValue(value) {
   const text = cleanText(value);
   if (!text) return null;
   return { type: 'url', value: text };
 }
 
+/** @param {unknown} value */
 function isLikelyUrl(value) {
   return /^https?:\/\//i.test(cleanText(value)) || /^\//.test(cleanText(value));
 }
 
+/** @param {unknown} value */
 function inferFileName(value) {
   const text = cleanText(value).split('?')[0];
   return text.split(/[\\/]/).filter(Boolean).pop() || '';
 }
 
+/** @param {unknown} value */
 function inferFormat(value) {
   const text = cleanText(value).split('?')[0].toLowerCase();
   const extension = text.match(/\.([a-z0-9]{2,8})$/)?.[1];
@@ -1742,6 +2145,7 @@ function inferFormat(value) {
   return match || '';
 }
 
+/** @param {RegisterSourceRef[]} sourceRefs */
 function summarizeRegisterReferences(sourceRefs) {
   const byKey = new Map();
   for (const sourceRef of normalizeArray(sourceRefs)) {
@@ -1760,15 +2164,21 @@ function summarizeRegisterReferences(sourceRefs) {
   return [...byKey.values()].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b), 'en')).slice(0, 25);
 }
 
+/** @param {string} sourceId */
 function browseReference(sourceId) {
   const entity = entities.get(sourceId);
   return compactObject({
     sourceId,
     sourceTitle: entity?.label,
-    sourceKind: entity?.attributes?.sourceKind
+    // a string: the sources this is given are addSyntheticSource's, whose attributes carry it
+    sourceKind: /** @type {string | undefined} */ (entity?.attributes?.sourceKind)
   });
 }
 
+/**
+ * @param {string} id
+ * @param {unknown[]} aliases
+ */
 function addPartyAliases(id, aliases) {
   for (const alias of normalizeArray(aliases)) {
     const normalized = normalizePartyName(alias);
@@ -1776,6 +2186,11 @@ function addPartyAliases(id, aliases) {
   }
 }
 
+/**
+ * @param {string} type
+ * @param {BrowseKeys} item
+ * @param {string} entityId
+ */
 function addBrowseMappings(type, item, entityId) {
   const keys = type === 'register-interests'
     ? [item.slug, item.id].filter(Boolean)
@@ -1803,8 +2218,10 @@ function addBrowseMappings(type, item, entityId) {
  * Recording each input's generatedAt lets the validator answer the question the internal
  * checks cannot: was this built from what is on disk now?
  */
+/** @type {Record<string, string>} */
 const inputStamps = {};
 
+/** @param {string} fileName */
 async function loadBrowseItems(fileName) {
   const data = await readJson(path.join(BROWSE_DIR, fileName));
   if (data && !Array.isArray(data) && data.generatedAt) inputStamps[fileName] = data.generatedAt;
@@ -1832,6 +2249,7 @@ async function loadSourceIndexItems() {
   return requireArray(index.items || [], 'sources index items');
 }
 
+/** @returns {Promise<SourceRecord[]>} */
 async function loadSourceRecordsWithDetails() {
   const items = await loadSourceIndexItems();
   const detailCache = new Map();
@@ -1846,6 +2264,7 @@ async function loadSourceRecordsWithDetails() {
       shard = await readJson(siteUrlToPath(item.detailUrl));
       detailCache.set(item.detailUrl, shard);
     }
+    /** @type {SourceRecord[]} */
     const detailItems = Array.isArray(shard.items) ? shard.items : [];
     const match = detailItems.find((candidate) => (
       sameText(candidate.slug, item.slug) ||
@@ -1856,6 +2275,7 @@ async function loadSourceRecordsWithDetails() {
   return enriched;
 }
 
+/** @returns {Promise<RegisterRecord[]>} */
 async function loadRegisterInterestRecords() {
   const index = await readJson(path.join(BROWSE_DIR, 'register-interests.json'));
   const items = [];
@@ -1880,6 +2300,7 @@ async function loadRegisterInterestRecords() {
       detailShard = await readJson(siteUrlToPath(item.detailUrl));
       detailCache.set(item.detailUrl, detailShard);
     }
+    /** @type {RegisterRecord[]} */
     const detailItems = Array.isArray(detailShard.items)
       ? detailShard.items
       : Array.isArray(detailShard.interests)
@@ -1895,8 +2316,14 @@ async function loadRegisterInterestRecords() {
   return records;
 }
 
+/**
+ * @param {GraphEntity[]} items
+ * @param {Set<string>} allowedEntityIds
+ */
 function buildEntitySlugIndex(items, allowedEntityIds) {
+  /** @type {Record<string, Partial<SlugSummary>>} */
   const byId = {};
+  /** @type {Record<string, string>} */
   const bySlug = {};
   const typeLabelsById = new Map(entityTypes.map((type) => [type.id, type.label]));
   for (const entity of items) {
@@ -1922,13 +2349,19 @@ function buildEntitySlugIndex(items, allowedEntityIds) {
   };
 }
 
+/**
+ * @param {GraphEntity[]} items
+ * @param {Set<string>} allowedEntityIds
+ */
 async function writeEntitySlugIndex(items, allowedEntityIds) {
+  /** @type {[string, SlugSummary][]} */
   const entries = [];
   const typeLabelsById = new Map(entityTypes.map((type) => [type.id, type.label]));
   for (const entity of items) {
     if (allowedEntityIds && !allowedEntityIds.has(entity.id)) continue;
     const slug = slugify(entity.browseSlug || entity.label || entity.id);
-    entries.push([entity.id, compactObject({
+    // slug is never empty (slugify falls back to 'entry'), so compactObject keeps it
+    entries.push([entity.id, /** @type {SlugSummary} */ (compactObject({
       slug,
       label: entity.label,
       typeIds: entity.typeIds,
@@ -1936,10 +2369,12 @@ async function writeEntitySlugIndex(items, allowedEntityIds) {
       browseType: entity.browseType,
       browseSlug: entity.browseSlug,
       browseUrl: entity.browseUrl
-    })]);
+    }))]);
   }
   entries.sort(([a], [b]) => a.localeCompare(b, 'en'));
+  /** @type {Record<string, string>} */
   const bySlug = {};
+  /** @type {Record<string, string>} */
   const byIdShard = {};
   const shards = [];
   const shardDir = path.join(OUTPUT_DIR, 'indexes', 'entity-summary-shards');
@@ -1985,6 +2420,8 @@ const LOOKUP_BUCKETS = { browse: 1024, entity: 1024, slug: 512 };
  * Which of `count` files a key lives in: FNV-1a over the key's UTF-16 code units. browse.js
  * (lookupBucket) and scripts/build/build-browse-indexes.mjs have the same function; all three must
  * agree, or a record page looks in the wrong file and finds nothing.
+ * @param {unknown} key
+ * @param {number} count
  */
 function lookupBucket(key, count) {
   let hash = 0x811c9dc5;
@@ -2015,11 +2452,20 @@ function lookupBucket(key, count) {
  * index files, which browse.js appends to each URL so a rebuilt graph is never mixed with a
  * cached copy of the old one. The whole-file maps are still written, for the validator and for
  * a browse.js that predates this.
+ * @param {object} indexes
+ * @param {Record<string, string>} indexes.browseMapping  Browse key -> entity id
+ * @param {[string, SlugSummary][]} indexes.entitySummaries  entity id -> its summary
+ * @param {Record<string, string>} indexes.bySlug  entity page slug -> entity id
+ * @param {Record<string, number>} indexes.subjectShardIndex  entity id -> the shard of its statements
+ * @param {RelatedIndex} indexes.reverseIndex  the statements whose value it is
+ * @param {RelatedIndex} indexes.sourceIndex  the statements that cite it
  */
 async function writeLookupIndex({ browseMapping, entitySummaries, bySlug, subjectShardIndex, reverseIndex, sourceIndex }) {
   const dir = path.join(OUTPUT_DIR, 'indexes', 'lookup');
+  /** @param {keyof typeof LOOKUP_BUCKETS} kind @param {[string, unknown][]} entries */
   const write = async (kind, entries) => {
     const count = LOOKUP_BUCKETS[kind];
+    /** @type {Record<string, unknown>[]} */
     const buckets = Array.from({ length: count }, () => ({}));
     for (const [key, value] of entries) buckets[lookupBucket(key, count)][key] = value;
     for (let index = 0; index < count; index += 1) {
@@ -2063,6 +2509,11 @@ async function writeLookupIndex({ browseMapping, entitySummaries, bySlug, subjec
 
 // Split each map (or array) into pieces by position and write one file per piece. (A constant,
 // not a module-level const: the build runs on import, before a later const is initialised.)
+/**
+ * @param {string} name
+ * @param {(Record<string, unknown> | unknown[])[]} collections  maps or arrays
+ * @param {(pieces: (Record<string, unknown> | unknown[])[]) => Record<string, unknown>} shape  a part's content, from its piece of each collection
+ */
 async function writeIndexParts(name, collections, shape) {
   const INDEX_PARTS = 4;
   const urls = [];
@@ -2072,7 +2523,8 @@ async function writeIndexParts(name, collections, shape) {
     return Array.from({ length: INDEX_PARTS }, (_, i) => list.slice(i * size, (i + 1) * size));
   });
   for (let i = 0; i < INDEX_PARTS; i += 1) {
-    const pieces = split.map((pieceList, k) => (Array.isArray(collections[k]) ? pieceList[i] : Object.fromEntries(pieceList[i])));
+    // a map's piece is a list of its entries
+    const pieces = split.map((pieceList, k) => (Array.isArray(collections[k]) ? pieceList[i] : Object.fromEntries(/** @type {[string, unknown][]} */ (pieceList[i]))));
     const file = `${name}-part-${i}.json`;
     await writeJson(path.join(OUTPUT_DIR, 'indexes', file), { schemaVersion: 1, generatedAt: GENERATED_AT, part: i, ...shape(pieces) }, { pretty: false });
     urls.push(`/data/graph/indexes/${file}`);
@@ -2083,12 +2535,15 @@ async function writeIndexParts(name, collections, shape) {
 // The Browse-record-to-entity map, one file per Browse type. A record page needs only its own
 // type's keys ("persons:...", "sources:..."), and as one file the map passed the Pages 25 MiB
 // limit when the 1801-1831 results were added, so browse.js loads just the type it is showing.
+/** @param {Record<string, string>} mapping */
 async function writeBrowseRecordToEntity(mapping) {
+  /** @type {Record<string, Record<string, string>>} */
   const byTypeItems = {};
   for (const [key, entityId] of Object.entries(sortObjectByKey(mapping))) {
     const type = key.slice(0, key.indexOf(':'));
     (byTypeItems[type] ??= {})[key] = entityId;
   }
+  /** @type {Record<string, string>} */
   const byType = {};
   for (const [type, items] of Object.entries(byTypeItems)) {
     const file = `browse-record-to-entity-${slugify(type)}.json`;
@@ -2105,13 +2560,19 @@ async function writeBrowseRecordToEntity(mapping) {
   });
 }
 
+/**
+ * @param {GraphEntity[]} items
+ * @param {Set<string>} allowedEntityIds
+ */
 function buildEntitySummaryById(items, allowedEntityIds) {
   const typeLabelsById = new Map(entityTypes.map((type) => [type.id, type.label]));
+  /** @type {Record<string, EntitySummary>} */
   const summaries = {};
   for (const entity of items) {
     if (allowedEntityIds && !allowedEntityIds.has(entity.id)) continue;
     const slug = slugify(entity.browseSlug || entity.label || entity.id);
-    summaries[entity.id] = compactObject({
+    // entityId and slug are never empty (slugify falls back to 'entry'), so compactObject keeps them
+    summaries[entity.id] = /** @type {EntitySummary} */ (compactObject({
       entityId: entity.id,
       slug,
       label: entity.label,
@@ -2122,14 +2583,16 @@ function buildEntitySummaryById(items, allowedEntityIds) {
       browseSlug: entity.browseSlug,
       browseUrl: entity.browseUrl,
       searchHints: searchHintList(entity.attributes?.searchHints, 20)
-    });
+    }));
   }
   return summaries;
 }
 
+/** @param {Record<string, EntitySummary>} entitySummaryById */
 async function writeEntitySearchIndex(entitySummaryById) {
   const items = Object.values(entitySummaryById)
-    .map((summary) => compactObject({
+    // entityId is never empty, so compactObject keeps it
+    .map((summary) => /** @type {SearchEntry} */ (compactObject({
       entityId: summary.entityId,
       // Omit slug when it is identical to browseSlug (the common case): consumers
       // fall back to browseSlug, and dropping the redundant field keeps this index
@@ -2140,7 +2603,7 @@ async function writeEntitySearchIndex(entitySummaryById) {
       browseType: summary.browseType,
       browseSlug: summary.browseSlug,
       searchHints: summary.searchHints
-    }))
+    })))
     .sort((a, b) => String(a.label || '').localeCompare(String(b.label || ''), 'en') || a.entityId.localeCompare(b.entityId, 'en'));
   const url = '/data/graph/indexes/entity-search.json';
   // In parts, like entity-slugs.json: the single file passed the 25 MiB per-file limit.
@@ -2154,8 +2617,13 @@ async function writeEntitySearchIndex(entitySummaryById) {
   return { url, count: items.length };
 }
 
+/**
+ * @param {GraphStatement[]} statements
+ * @param {Record<string, EntitySummary>} entitySummaryById
+ */
 async function writeReverseEntityValueIndex(statements, entitySummaryById) {
   const propertyLabels = new Map(properties.map((property) => [property.id, property.label]));
+  /** @type {Record<string, Relation[]>} */
   const byValue = {};
   for (const statement of statements) {
     if (statement.value?.type !== 'entity') continue;
@@ -2176,8 +2644,13 @@ async function writeReverseEntityValueIndex(statements, entitySummaryById) {
   return writeRelatedIndex('reverse-entity-value', byValue);
 }
 
+/**
+ * @param {GraphStatement[]} statements
+ * @param {Record<string, EntitySummary>} entitySummaryById
+ */
 async function writeSourceStatementIndex(statements, entitySummaryById) {
   const propertyLabels = new Map(properties.map((property) => [property.id, property.label]));
+  /** @type {Record<string, Relation[]>} */
   const bySource = {};
   for (const statement of statements) {
     const subjectSummary = entitySummaryById[statement.subjectId];
@@ -2202,13 +2675,19 @@ async function writeSourceStatementIndex(statements, entitySummaryById) {
   return writeRelatedIndex('source-statements', bySource);
 }
 
+/**
+ * @param {string} prefix
+ * @param {Record<string, Relation[]>} relationMap  entity id -> the statements related to it
+ */
 async function writeRelatedIndex(prefix, relationMap) {
   const entries = Object.entries(relationMap)
-    .map(([entityId, relations]) => [entityId, dedupeRelations(relations).slice(0, 1000)])
+    .map(([entityId, relations]) => /** @type {const} */ ([entityId, dedupeRelations(relations).slice(0, 1000)]))
     .sort(([a], [b]) => a.localeCompare(b, 'en'));
   const shardDir = path.join(OUTPUT_DIR, 'indexes', `${prefix}-shards`);
   await fs.mkdir(shardDir, { recursive: true });
+  /** @type {Record<string, string>} */
   const entityToShard = {};
+  /** @type {Record<string, number>} */
   const entityToShardIndex = {};
   const shards = [];
   const entitiesPerShard = 20;
@@ -2242,8 +2721,10 @@ async function writeRelatedIndex(prefix, relationMap) {
   return { mapUrl, shards, entityToShardIndex, prefix };
 }
 
+/** @param {GraphStatement[]} statements */
 async function writePropertySummary(statements) {
   const propertyLabels = new Map(properties.map((property) => [property.id, property.label]));
+  /** @type {Record<string, number>} */
   const counts = {};
   for (const statement of statements) counts[statement.propertyId] = (counts[statement.propertyId] || 0) + 1;
   const items = Object.entries(counts)
@@ -2257,6 +2738,10 @@ async function writePropertySummary(statements) {
   });
 }
 
+/**
+ * @param {GraphEntity[]} sortedEntities
+ * @param {GraphStatement[]} sortedStatements
+ */
 async function writeGraphExports(sortedEntities, sortedStatements) {
   const jsonLdEntityShards = await writeCompressedJsonLdShards({
     items: sortedEntities,
@@ -2349,6 +2834,7 @@ async function writeGraphExports(sortedEntities, sortedStatements) {
   };
 }
 
+/** @param {GraphEntity} entity */
 function jsonLdEntity(entity) {
   return compactObject({
     '@id': entity.id,
@@ -2364,6 +2850,7 @@ function jsonLdEntity(entity) {
   });
 }
 
+/** @param {GraphStatement} statement */
 function jsonLdStatement(statement) {
   return compactObject({
     '@id': statement.id,
@@ -2380,6 +2867,7 @@ function jsonLdStatement(statement) {
   });
 }
 
+/** @param {GraphValue | undefined} value */
 function jsonLdValue(value) {
   if (!value) return null;
   if (value.type === 'entity') {
@@ -2395,6 +2883,7 @@ function jsonLdValue(value) {
   });
 }
 
+/** @param {string} type */
 function jsonLdDatatype(type) {
   if (type === 'date') return 'xsd:date';
   if (type === 'number') return 'xsd:decimal';
@@ -2403,6 +2892,7 @@ function jsonLdDatatype(type) {
   return 'xsd:string';
 }
 
+/** @param {GraphReference} reference */
 function jsonLdReference(reference) {
   return compactObject({
     '@id': reference.sourceId,
@@ -2418,6 +2908,7 @@ function jsonLdReference(reference) {
   });
 }
 
+/** @param {GraphStatement} statement */
 function rdfStatement(statement) {
   return compactObject({
     recordType: 'statement',
@@ -2434,6 +2925,7 @@ function rdfStatement(statement) {
   });
 }
 
+/** @param {GraphValue | undefined} value */
 function rdfValue(value) {
   if (!value) return null;
   if (value.type === 'entity') {
@@ -2451,7 +2943,9 @@ function rdfValue(value) {
   });
 }
 
+/** @param {GraphStatement[]} sortedStatements */
 function buildProvenanceRows(sortedStatements) {
+  /** @type {Record<string, unknown>[]} */
   const rows = [];
   for (const statement of sortedStatements) {
     normalizeArray(statement.references).forEach((reference, index) => {
@@ -2475,6 +2969,10 @@ function buildProvenanceRows(sortedStatements) {
   return rows;
 }
 
+/**
+ * @template T
+ * @param {{ items: T[], dirName: string, baseName: string, shardSize: number, mapItem: (item: T) => unknown }} options
+ */
 async function writeCompressedJsonLdShards({ items, dirName, baseName, shardSize, mapItem }) {
   const dir = path.join(OUTPUT_DIR, 'exports', dirName);
   await fs.mkdir(dir, { recursive: true });
@@ -2503,6 +3001,7 @@ async function writeCompressedJsonLdShards({ items, dirName, baseName, shardSize
   return shards;
 }
 
+/** @param {{ items: unknown[], dirName: string, baseName: string, shardSize: number }} options */
 async function writeCompressedJsonShards({ items, dirName, baseName, shardSize }) {
   const dir = path.join(OUTPUT_DIR, 'exports', dirName);
   await fs.mkdir(dir, { recursive: true });
@@ -2530,6 +3029,10 @@ async function writeCompressedJsonShards({ items, dirName, baseName, shardSize }
   return shards;
 }
 
+/**
+ * @template T
+ * @param {{ items: T[], dirName: string, baseName: string, shardSize: number, mapItem: (item: T) => unknown }} options
+ */
 async function writeCompressedNdjsonShards({ items, dirName, baseName, shardSize, mapItem }) {
   const dir = path.join(OUTPUT_DIR, 'exports', dirName);
   await fs.mkdir(dir, { recursive: true });
@@ -2552,6 +3055,11 @@ async function writeCompressedNdjsonShards({ items, dirName, baseName, shardSize
   return shards;
 }
 
+/**
+ * @param {string} filePath
+ * @param {Record<string, unknown>} manifest
+ * @param {ShardRef[]} shards
+ */
 async function writeNdjsonManifest(filePath, manifest, shards) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   const rows = [
@@ -2561,16 +3069,26 @@ async function writeNdjsonManifest(filePath, manifest, shards) {
   await writeIfChanged(filePath, `${rows.map((row) => JSON.stringify(row)).join('\n')}\n`);
 }
 
+/**
+ * @param {string} filePath
+ * @param {unknown} payload
+ * @returns {Promise<number>} the uncompressed size in bytes
+ */
 async function writeGzipJson(filePath, payload) {
   const text = `${JSON.stringify(payload, null, 2)}\n`;
   await writeGzipText(filePath, text);
   return Buffer.byteLength(text);
 }
 
+/**
+ * @param {string} filePath
+ * @param {string} text
+ */
 async function writeGzipText(filePath, text) {
   await writeIfChanged(filePath, text, { gzipped: true });
 }
 
+/** @param {Relation[]} relations */
 function dedupeRelations(relations) {
   const byKey = new Map();
   for (const relation of relations) {
@@ -2589,6 +3107,7 @@ function dedupeRelations(relations) {
   ));
 }
 
+/** @param {unknown} value */
 function normalizeSearchText(value) {
   return cleanText(value)
     .normalize('NFKD')
@@ -2596,6 +3115,10 @@ function normalizeSearchText(value) {
     .toLowerCase();
 }
 
+/**
+ * @param {GraphEntity[]} items
+ * @param {Set<string>} mappedEntityIds
+ */
 function buildPublicEntityIdSet(items, mappedEntityIds) {
   const publicTypeIds = new Set([
     TYPE.person,
@@ -2621,7 +3144,12 @@ function buildPublicEntityIdSet(items, mappedEntityIds) {
   return ids;
 }
 
+/**
+ * @param {GraphStatement[]} sortedStatements
+ * @param {Set<string>} allowedSubjectIds
+ */
 function buildCompactStatementsBySubject(sortedStatements, allowedSubjectIds) {
+  /** @type {Record<string, Record<string, unknown>[]>} */
   const bySubject = {};
   const propertiesById = new Map(properties.map((property) => [property.id, property]));
   for (const statement of sortedStatements) {
@@ -2661,13 +3189,17 @@ function buildCompactStatementsBySubject(sortedStatements, allowedSubjectIds) {
 // subject into a different one.
 const SUBJECT_STATEMENT_BUCKETS = 2048;
 
+/** @param {Record<string, Record<string, unknown>[]>} compactBySubject  subject id -> its statements, compacted */
 async function writeSubjectStatementShards(compactBySubject) {
   const entries = Object.entries(compactBySubject).sort(([a], [b]) => a.localeCompare(b, 'en'));
   const shardDir = path.join(OUTPUT_DIR, 'indexes', 'statements-by-subject-shards');
   await fs.mkdir(shardDir, { recursive: true });
+  /** @type {Record<string, string>} */
   const subjectToShard = {};
+  /** @type {Record<string, number>} */
   const subjectToShardIndex = {};
   const shards = [];
+  /** @type {[string, Record<string, unknown>[]][][]} */
   const buckets = Array.from({ length: SUBJECT_STATEMENT_BUCKETS }, () => []);
   for (const entry of entries) buckets[lookupBucket(entry[0], SUBJECT_STATEMENT_BUCKETS)].push(entry);
   for (let shardIndex = 0; shardIndex < buckets.length; shardIndex += 1) {
@@ -2705,6 +3237,7 @@ async function writeSubjectStatementShards(compactBySubject) {
   return { shards, subjectToShard, subjectToShardIndex };
 }
 
+/** @param {GraphValue | undefined} value */
 function compactValue(value) {
   if (!value) return {};
   if (value.type === 'entity') {
@@ -2729,6 +3262,7 @@ function compactValue(value) {
   };
 }
 
+/** @param {GraphReference} ref */
 function compactReference(ref) {
   return compactObject({
     sourceId: ref.sourceId,
@@ -2744,6 +3278,13 @@ function compactReference(ref) {
   });
 }
 
+/**
+ * @param {unknown[]} items
+ * @param {string} dirName
+ * @param {string} baseName
+ * @param {number} shardSize
+ * @returns {Promise<ShardRef[]>}
+ */
 async function writeShards(items, dirName, baseName, shardSize) {
   const dir = path.join(OUTPUT_DIR, dirName);
   await fs.mkdir(dir, { recursive: true });
@@ -2773,10 +3314,17 @@ async function writeShards(items, dirName, baseName, shardSize) {
 // The output is no longer wiped before a build: files are rewritten only when their content
 // changes (writeIfChanged), and removeUnwrittenOutputs() deletes, after the build, whatever this
 // build did not write, so nothing stale survives.
+/** @type {Set<string>} */
 const previousOutputs = new Set();
+/** @type {Set<string>} */
 const writtenOutputs = new Set();
 let keptUnchanged = 0;
 
+/**
+ * @param {string} dir
+ * @param {Set<string>} out
+ * @returns {Promise<Set<string>>} out, with every file under dir added
+ */
 async function listFiles(dir, out) {
   let entries = [];
   try { entries = await fs.readdir(dir, { withFileTypes: true }); } catch { return out; }
@@ -2805,6 +3353,7 @@ async function removeUnwrittenOutputs() {
   return removed;
 }
 
+/** @param {string} text */
 const withoutStamp = (text) => text.replace(/"generatedAt":\s*"[^"]*"/g, '"generatedAt":""');
 
 // A digest of everything written under indexes/, apart from build stamps: the lookup head's
@@ -2812,7 +3361,12 @@ const withoutStamp = (text) => text.replace(/"generatedAt":\s*"[^"]*"/g, '"gener
 // that changes a shard is a new URL rather than a day-old copy from the browser's cache (the
 // graph is served with max-age=86400); a rebuild that changes nothing keeps every URL.
 const indexDigest = crypto.createHash('sha1');
+/** @type {string | null} */
 let indexDigestValue = null;
+/**
+ * @param {string} resolved
+ * @param {string} text
+ */
 function noteIndexContent(resolved, text) {
   if (indexDigestValue !== null) return;
   const relative = path.relative(path.join(OUTPUT_DIR, 'indexes'), resolved);
@@ -2822,7 +3376,11 @@ function noteIndexContent(resolved, text) {
 }
 
 /** Write `text` (gzipped when `gzipped`), unless the file already holds the same content apart
- * from its generatedAt stamp, in which case it is kept, stamp and all. */
+ * from its generatedAt stamp, in which case it is kept, stamp and all.
+ * @param {string} filePath
+ * @param {string} text
+ * @param {{ gzipped?: boolean }} [options]
+ */
 async function writeIfChanged(filePath, text, { gzipped = false } = {}) {
   const resolved = path.resolve(filePath);
   writtenOutputs.add(resolved);
@@ -2840,21 +3398,33 @@ async function writeIfChanged(filePath, text, { gzipped = false } = {}) {
   await fs.writeFile(resolved, gzipped ? await gzipAsync(Buffer.from(text)) : text);
 }
 
+/** @param {string} filePath */
 async function readJson(filePath) {
   return JSON.parse(await fs.readFile(filePath, 'utf8'));
 }
 
+/**
+ * @param {string} filePath
+ * @param {unknown} data
+ * @param {{ pretty?: boolean }} [options]
+ */
 async function writeJson(filePath, data, options = {}) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   const pretty = options.pretty !== false;
   await writeIfChanged(filePath, `${JSON.stringify(data, null, pretty ? 2 : 0)}\n`);
 }
 
+/**
+ * @param {unknown} url  a site path (/data/browse/..., /data/graph/...)
+ * @returns {string}
+ */
 function siteUrlToPath(url) {
   // /data/browse/... and /data/graph/... are wherever this build writes them (records/paths.mjs).
-  return localPathForUrl(decodeURIComponent(String(url || '')));
+  // null only for an empty or http(s) URL; the indexes' URLs are site paths
+  return /** @type {string} */ (localPathForUrl(decodeURIComponent(String(url || ''))));
 }
 
+/** @param {unknown} value */
 function canonicalBody(value) {
   const raw = cleanText(value);
   const lower = raw.toLowerCase();
@@ -2882,6 +3452,7 @@ function canonicalBody(value) {
   };
 }
 
+/** @param {unknown} value */
 function canonicalOffice(value) {
   const raw = cleanText(value);
   const lower = raw.toLowerCase();
@@ -2909,6 +3480,12 @@ function canonicalOffice(value) {
   };
 }
 
+/**
+ * @param {string} subjectId
+ * @param {string} propertyId
+ * @param {GraphValue} value
+ * @param {Qualifier[]} qualifiers
+ */
 function statementSemanticKey(subjectId, propertyId, value, qualifiers) {
   return JSON.stringify({
     subjectId,
@@ -2920,45 +3497,75 @@ function statementSemanticKey(subjectId, propertyId, value, qualifiers) {
   });
 }
 
+/** @param {GraphValue | null | undefined} value */
 function normalizeValueForKey(value) {
   if (!value) return null;
   if (value.type === 'entity') return { type: value.type, id: value.id };
   return { type: value.type, value: value.value };
 }
 
+/**
+ * @param {string | null | undefined} id
+ * @returns {EntityValue | null}
+ */
 function entityValue(id) {
   if (!id) return null;
   return { type: 'entity', id };
 }
 
+/**
+ * @param {unknown} value
+ * @returns {TextValue | null}
+ */
 function stringValue(value) {
   const text = cleanText(value);
   if (!text) return null;
   return { type: 'string', value: text };
 }
 
+/**
+ * @param {unknown} value
+ * @returns {TextValue | null}
+ */
 function dateValue(value) {
   const text = cleanText(value);
   if (!text) return null;
   return { type: 'date', value: text };
 }
 
+/**
+ * @param {unknown} value
+ * @returns {BooleanValue | null}
+ */
 function booleanValue(value) {
   if (value === null || value === undefined || value === '') return null;
   return { type: 'boolean', value: Boolean(value) };
 }
 
+/**
+ * @param {unknown} value
+ * @returns {NumberValue | null}
+ */
 function numberValue(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return null;
   return { type: 'number', value: number };
 }
 
+/**
+ * @param {string} propertyId
+ * @param {GraphValue | null} value
+ * @returns {Qualifier | null}
+ */
 function qualifier(propertyId, value) {
   if (!propertyId || !value) return null;
   return { propertyId, value };
 }
 
+/**
+ * @param {GraphReference[] | undefined} existing
+ * @param {GraphReference[]} next
+ */
 function mergeReferences(existing, next) {
   const byKey = new Map();
   for (const ref of [...normalizeArray(existing), ...normalizeArray(next)]) {
@@ -2967,7 +3574,13 @@ function mergeReferences(existing, next) {
   return [...byKey.values()].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b), 'en'));
 }
 
+/**
+ * @template {object} T
+ * @param {T | null | undefined} input
+ * @returns {Partial<T>} its fields less the empty ones (null, undefined, '', [] and {})
+ */
 function compactObject(input) {
+  /** @type {Record<string, unknown>} */
   const output = {};
   for (const [key, value] of Object.entries(input || {})) {
     if (value === null || value === undefined || value === '') continue;
@@ -2975,17 +3588,31 @@ function compactObject(input) {
     if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0) continue;
     output[key] = value;
   }
-  return output;
+  // the input's own fields, less the empty ones
+  return /** @type {Partial<T>} */ (output);
 }
 
+/**
+ * @template T
+ * @param {Record<string, T>} input
+ * @returns {Record<string, T>}
+ */
 function sortObjectByKey(input) {
   return Object.fromEntries(Object.entries(input || {}).sort(([a], [b]) => a.localeCompare(b, 'en')));
 }
 
+/**
+ * @param {{ id: string }} a
+ * @param {{ id: string }} b
+ */
 function compareById(a, b) {
   return String(a.id).localeCompare(String(b.id), 'en');
 }
 
+/**
+ * @param {GraphStatement} a
+ * @param {GraphStatement} b
+ */
 function compareStatements(a, b) {
   return (
     String(a.subjectId).localeCompare(String(b.subjectId), 'en') ||
@@ -2994,34 +3621,56 @@ function compareStatements(a, b) {
   );
 }
 
+/**
+ * @template T
+ * @param {T | T[] | null | undefined} value
+ * @returns {T[]}
+ */
 function normalizeArray(value) {
   if (value === null || value === undefined) return [];
   return Array.isArray(value) ? value : [value];
 }
 
+/**
+ * @template T
+ * @param {T} value
+ * @param {string} label
+ * @returns {T & unknown[]} the value itself, which is an array (or this throws)
+ */
 function requireArray(value, label) {
   if (!Array.isArray(value)) throw new Error(`${label} must be an array.`);
   return value;
 }
 
+/**
+ * @template T
+ * @param {T[]} values
+ */
 function unique(values) {
   return [...new Set(values.filter(Boolean))];
 }
 
+/** @param {unknown} value */
 function cleanText(value) {
   return String(value ?? '').replace(/\s+/g, ' ').trim();
 }
 
+/**
+ * @param {unknown} value
+ * @param {number} maxLength
+ */
 function truncateText(value, maxLength) {
   const text = cleanText(value);
   if (!maxLength || text.length <= maxLength) return text;
   return `${text.slice(0, Math.max(0, maxLength - 1)).trim()}...`;
 }
 
+/** @param {unknown} value */
 function normalizeKey(value) {
   return cleanText(value).toLowerCase();
 }
 
+/** @param {unknown} value */
 function normalizePersonName(value) {
   return cleanText(value)
     .toLowerCase()
@@ -3030,25 +3679,40 @@ function normalizePersonName(value) {
     .trim();
 }
 
+/** @param {unknown} value */
 function normalizePartyName(value) {
   return normalizePersonName(value);
 }
 
+/**
+ * @param {unknown} a
+ * @param {unknown} b
+ */
 function sameText(a, b) {
   return normalizeKey(a) === normalizeKey(b);
 }
 
+/** @param {unknown} value */
 function joinDistinct(value) {
   const items = normalizeArray(value).map(cleanText).filter(Boolean);
   return unique(items).join(', ');
 }
 
+/**
+ * @param {unknown} value
+ * @param {number} [maxItems]
+ */
 function searchHintList(value, maxItems = 25) {
+  /** @type {unknown[]} */
   const hints = [];
   collectSearchHints(value, hints);
   return unique(hints.map(cleanText).filter(Boolean)).slice(0, maxItems);
 }
 
+/**
+ * @param {unknown} value
+ * @param {unknown[]} hints
+ */
 function collectSearchHints(value, hints) {
   if (value === null || value === undefined || value === '') return;
   if (Array.isArray(value)) {
@@ -3057,19 +3721,21 @@ function collectSearchHints(value, hints) {
   }
   if (typeof value === 'object') {
     for (const key of ['name', 'title', 'label', 'resultName', 'constituency', 'party', 'body', 'category', 'group', 'sourceMapId', 'layerId', 'key']) {
-      collectSearchHints(value[key], hints);
+      collectSearchHints(/** @type {Record<string, unknown>} */ (value)[key], hints); // an object, by the test above
     }
     return;
   }
   hints.push(value);
 }
 
+/** @param {unknown} value */
 function formatNumberLike(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
   return number.toLocaleString('en-GB');
 }
 
+/** @param {NameOrRef | NameOrRef[] | undefined} value */
 function firstArrayName(value) {
   const first = normalizeArray(value)[0];
   if (typeof first === 'object') return first?.name || first?.title || '';
