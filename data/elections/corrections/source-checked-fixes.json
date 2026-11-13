@@ -48,7 +48,8 @@
     "w8-review-2026-11-12": "Northern Ireland council contests of 2014, 2019 and 2023 whose stage totals the import had cut to whole votes: the totals rebuilt from the transfers (restoreStageFractions) were each read by eye on the Electoral Office for Northern Ireland's scanned result sheet (w8-review, 12 Nov 2026), where OCR had not found them; contests where any rebuilt total differs from the sheet are not included.",
     "w8-arith2-2026-11-12": "Contests that still failed the contest arithmetic check (scripts/check/rules/contest-arithmetic.mjs) after arith-audit and w8-arith, checked against their sources: for the Northern Ireland councils of 1973-2005, the Electoral Office's declaration sheets (its Local Government Election Results booklets) and Nicholas Whyte's ARK spreadsheets transcribing them; for the Dail, ElectionsIreland.org's count sheets and the official results. A figure is changed only where the source shows it and the corrected stage then reconciles (each transfer brings the stage total to the next, and the votes handed out match the surplus or the votes of the candidates excluded). Where the source's own figures do not add up, the contest is listed in contest-arithmetic-allowlist.json instead.",
     "gap-roi-2026-11-12": "Republic of Ireland local contests that Civgraph held with no candidates, filled from an official results book read by eye or from a newspaper's printed first count (Irish Newspaper Archives), with IrelandElection.com as the pointer and for full names: a record is added only where the source's first preferences add up to the valid poll and the elected equal the seats (gap-roi, 12 Nov 2026). Each reason says what was read where.",
-    "review-rest-2026-11-12": "Northern Ireland council counts of 2014, 2019 and 2023 whose transfers differed from the Electoral Office for Northern Ireland's scanned result sheet (w8-review's list, 12 Nov 2026), and contests that still failed the contest arithmetic check: each sheet was read by eye, cell by cell, and the count rows set to the sheet's transfers and stage totals (candidateCount, or replaceCountRows where a non-transferable row was missing), so that every stage's transfers add up to the surplus or the votes excluded and every stage sums to the valid poll. Where the sheet's own figures do not add up, the contest is allowlisted in contest-arithmetic-allowlist.json with the reason (review-rest, 12 Nov 2026)."
+    "review-rest-2026-11-12": "Northern Ireland council counts of 2014, 2019 and 2023 whose transfers differed from the Electoral Office for Northern Ireland's scanned result sheet (w8-review's list, 12 Nov 2026), and contests that still failed the contest arithmetic check: each sheet was read by eye, cell by cell, and the count rows set to the sheet's transfers and stage totals (candidateCount, or replaceCountRows where a non-transferable row was missing), so that every stage's transfers add up to the surplus or the votes excluded and every stage sums to the valid poll. Where the sheet's own figures do not add up, the contest is allowlisted in contest-arithmetic-allowlist.json with the reason (review-rest, 12 Nov 2026).",
+    "owner-quotas-2026-11-13": "Two 1981 council contests whose declaration sheets give a handwritten quota that does not match the Droop quota of the valid votes, and where no surplus was transferred, so the count cannot show which figure was used: Civgraph gives the calculated quota and records the sheet's reading (owner's decision, 13 November 2026)."
   },
   "records": [
     {
@@ -338605,6 +338606,44 @@
           "op": "set",
           "path": "Constituency.countInfo.Spoiled",
           "value": "171"
+        }
+      ]
+    },
+    {
+      "batch": "owner-quotas-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/fermanagh-area-c.json",
+      "source": {
+        "title": "Local Government Election Results 1981, Fermanagh: Area C (PDF p. 61)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+        "accessed": "2026-11-13"
+      },
+      "reason": "Fermanagh Area C (20 May 1981): the quota is given as 1,185, the Droop quota of 5,920 valid votes for 4 seats. The handwritten quota on the Electoral Office's declaration sheet reads 1,195; no surplus was transferred, so the count does not show which figure was used.",
+      "category": "quota",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "1185"
+        }
+      ]
+    },
+    {
+      "batch": "owner-quotas-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/magherafelt-area-b-corrected.json",
+      "source": {
+        "title": "Local Government Election Results 1981, Magherafelt: Area B (PDF p. 42)",
+        "publisher": "Electoral Office for Northern Ireland (via the Internet Archive)",
+        "url": "https://web.archive.org/web/20170401112530id_/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981",
+        "accessed": "2026-11-13"
+      },
+      "reason": "Magherafelt Area B (20 May 1981): the quota is given as 968, the Droop quota of 5,807 valid votes for 5 seats. The handwritten quota on the Electoral Office's declaration sheet reads 963; no surplus was transferred, so the count does not show which figure was used.",
+      "category": "quota",
+      "operations": [
+        {
+          "op": "set",
+          "path": "Constituency.countInfo.Quota",
+          "value": "968"
         }
       ]
     }
