@@ -25,6 +25,7 @@ export default definePlugin({
     'extract-elections': {
       title: 'Parse the election notices and check them against Civgraph (writes <gazette>/extracted)',
       argv: ['python', 'scripts/ingest/gazette-spn/extract_election_notices.py', '--dir', '{input:gazetteDir}'],
+      volatile: ['generated'], // the summary is stamped with datetime.now()
     },
     'extract-boundaries': {
       title: 'Find the administrative boundary notices and propose maps.json references (writes <gazette>/extracted)',
@@ -33,10 +34,12 @@ export default definePlugin({
     'extract-polling': {
       title: 'Extract polling districts, places and stations (writes <gazette>/extracted)',
       argv: ['python', 'scripts/ingest/gazette-spn/extract_polling_notices.py', '--dir', '{input:gazetteDir}'],
+      volatile: ['generated'], // the summary is stamped with datetime.now()
     },
     'extract-expenses': {
       title: 'Extract the election expenses notices (writes <gazette>/extracted)',
       argv: ['python', 'scripts/ingest/gazette-spn/extract_expenses_notices.py', '--dir', '{input:gazetteDir}'],
+      volatile: ['generated'], // the summary is stamped with datetime.now()
     },
     'election-extras': {
       title: 'Turn the polling and expenses notices into the committed Browse election extras',
