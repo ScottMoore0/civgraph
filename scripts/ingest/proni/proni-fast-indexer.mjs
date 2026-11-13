@@ -17,7 +17,26 @@ import { INDEX_MODE, PRONI_INDEX_MODE, SCAN_LEVEL } from '../../../packages/inta
 const BASE = "https://apps.proni.gov.uk/eCatNI_IE/";
 const DEFAULT_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
+/**
+ * @typedef {{ mode: string, outDir: string, letters: string, allLetters: boolean, branchPath: string, manifest: string,
+ *   snapshots: boolean, stopOnBlocked: boolean, allowUnbounded: boolean, workers: number, globalRps: number, workerRps: number,
+ *   maxGlobalRps: number, maxRecords: number, maxBranches: number, maxPagesPerBranch: number, maxRetries: number,
+ *   timeoutMs: number, backoffMs: number, queueHighWater: number, detailSample: number, partition: string, adaptive: boolean,
+ *   localParseGlob: string, help?: boolean }} IndexerOptions
+ * @typedef {{ name: string, value: string, disabled: boolean }} GridButton
+ * @typedef {{ ctl: string, ResultsSelect?: GridButton, ResultsView?: GridButton, text?: string, [kind: string]: GridButton | string | undefined }} GridRow
+ * @typedef {{ letter: string, path: string[] }} BranchRef
+ * @typedef {{ letter: string, path: string[], depth: number, ref: string, text: string, parentKey?: string }} Branch
+ * @typedef {{ startedAt: string, startedMs: number, recordsIndexed: number, branchesDiscovered: number, detailSamples: number, stopRequested: boolean }} Stats
+ * @typedef {{ seen: Set<string>, queueLength: number, stats: Stats }} State
+ * @typedef {ReturnType<typeof makeWriters>} Writers
+ * @typedef {{ name?: string, message?: string } | null | undefined} Thrown
+ * @typedef {{ pageSnapshotPath?: string, htmlPath?: string, letter: string, path?: string[], page?: number | string, pageSnapshotMetadataPath?: string, pageHash?: string }} ManifestPage
+ */
+
+/** @param {string[]} argv */
 function parseArgs(argv) {
+  /** @type {IndexerOptions} */
   const out = {
     mode: INDEX_MODE.index,
     outDir: "",
@@ -133,16 +152,19 @@ function stripHtml(html = "") {
     .trim();
 }
 
+/** @param {string} tag @param {string} name */
 function getTagAttribute(tag, name) {
   const rx = new RegExp(`${name}\\s*=\\s*(['"])([\\s\\S]*?)\\1`, "i");
   const m = String(tag).match(rx);
   return m ? decodeHtml(m[2]) : "";
 }
 
+/** @param {string} value */
 function sha256(value) {
   return crypto.createHash("sha256").update(value).digest("hex");
 }
 
+/** @param {string} value */
 function makeSafeName(value) {
   return String(value || "root")
     .replace(/[<>:"/\\|?*\x00-\x1f]/g, "_")
@@ -150,16 +172,12 @@ function makeSafeName(value) {
     .slice(0, 180);
 }
 
+/** @param {BranchRef} branch */
 function branchKey(branch) {
   return `${branch.letter}|${branch.path.join(">")}`;
 }
 
-function parseBranchKey(key) {
-  const [letter, rest = ""] = String(key).split("|", 2);
-  const refs = rest ? rest.split(">").filter(Boolean) : [];
-  return { letter, path: refs, depth: refs.length, ref: refs.at(-1) || `letter:${letter}` };
-}
-
+/** @param {string} html */
 function parseInputs(html) {
   const params = new URLSearchParams();
   for (const m of String(html).matchAll(/<input\b[^>]*>/gi)) {
@@ -176,6 +194,7 @@ function parseInputs(html) {
   return params;
 }
 
+/** @param {string} html @param {Record<string, string | null | undefined>} [extra] */
 function buildPostBody(html, extra = {}) {
   const body = parseInputs(html);
   for (const [key, value] of Object.entries(extra)) {
@@ -184,14 +203,17 @@ function buildPostBody(html, extra = {}) {
   return body;
 }
 
+/** @param {string} html */
 function parseGridRows(html) {
+  /** @type {Map<string, GridRow>} */
   const map = new Map();
   for (const m of String(html).matchAll(/<input\b[^>]*GridView1\$ctl(\d+)\$(ResultsSelect|ResultsView)[^>]*>/gi)) {
     const tag = m[0];
     const ctl = `ctl${m[1]}`;
     const kind = m[2];
     if (!map.has(ctl)) map.set(ctl, { ctl });
-    map.get(ctl)[kind] = {
+    // the key was set on the line before
+    /** @type {GridRow} */ (map.get(ctl))[kind] = {
       name: getTagAttribute(tag, "name"),
       value: getTagAttribute(tag, "value"),
       disabled: /\bdisabled\b/i.test(tag),
@@ -211,6 +233,7 @@ function parseGridRows(html) {
   return [...map.values()].sort((a, b) => a.ctl.localeCompare(b.ctl, undefined, { numeric: true }));
 }
 
+/** @param {string} html */
 function findNextButton(html) {
   for (const m of String(html).matchAll(/<input\b[^>]*>/gi)) {
     const tag = m[0];
@@ -226,11 +249,13 @@ function findNextButton(html) {
   return null;
 }
 
+/** @param {number} status @param {string} text */
 function isBlocked(status, text) {
   if (status !== 200) return true;
   return /Request Rejected|support ID|Access Denied|Too Many Requests|rate limit|throttl/i.test(String(text));
 }
 
+/** @param {number} status @param {string} text */
 function blockedReason(status, text) {
   if (status !== 200) return `http ${status}`;
   if (/Request Rejected|support ID/i.test(text)) return "waf request rejected";
@@ -239,28 +264,32 @@ function blockedReason(status, text) {
   return "blocked response text";
 }
 
+/** @param {number} ms @returns {Promise<void>} */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 class JsonlWriter {
+  /** @param {string} filePath */
   constructor(filePath) {
     this.filePath = filePath;
     this.stream = fs.createWriteStream(filePath, { flags: "a", encoding: "utf8" });
   }
 
+  /** @param {unknown} value */
   write(value) {
     this.stream.write(`${JSON.stringify(value)}\n`);
   }
 
   async close() {
-    await new Promise((resolve, reject) => {
-      this.stream.end((err) => (err ? reject(err) : resolve()));
-    });
+    await /** @type {Promise<void>} */ (new Promise((resolve, reject) => {
+      this.stream.end(/** @param {Error | null} [err] */ (err) => (err ? reject(err) : resolve()));
+    }));
   }
 }
 
 class TokenBucket {
+  /** @param {number} ratePerSecond */
   constructor(ratePerSecond) {
     this.interval = ratePerSecond > 0 ? 1000 / ratePerSecond : 0;
     this.nextAt = 0;
@@ -277,6 +306,7 @@ class TokenBucket {
 
 class CookieJar {
   constructor() {
+    /** @type {Map<string, string>} */
     this.cookies = new Map();
   }
 
@@ -284,6 +314,7 @@ class CookieJar {
     return [...this.cookies.entries()].map(([k, v]) => `${k}=${v}`).join("; ");
   }
 
+  /** @param {Headers} headers */
   update(headers) {
     const setCookies = typeof headers.getSetCookie === "function"
       ? headers.getSetCookie()
@@ -297,12 +328,14 @@ class CookieJar {
   }
 }
 
+/** @param {string | null} header */
 function splitSetCookie(header) {
   if (!header) return [];
   return String(header).split(/,(?=\s*[^;,]+=[^;,]+)/g);
 }
 
 class Session {
+  /** @param {number} workerId @param {IndexerOptions} options @param {Writers} writers @param {TokenBucket | null} globalBucket */
   constructor(workerId, options, writers, globalBucket) {
     this.workerId = workerId;
     this.options = options;
@@ -313,6 +346,7 @@ class Session {
     this.requestCount = 0;
   }
 
+  /** @param {string} method @param {string} url @param {URLSearchParams | null} [body] @param {string} [context] */
   async request(method, url, body = null, context = "") {
     await this.workerBucket.wait();
     if (this.globalBucket) await this.globalBucket.wait();
@@ -323,19 +357,21 @@ class Session {
       const timeout = setTimeout(() => controller.abort(), this.options.timeoutMs);
       const start = performance.now();
       try {
+        /** @type {Record<string, string>} */
         const headers = {
           "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         };
         const cookie = this.jar.header();
         if (cookie) headers.cookie = cookie;
         if (body) headers["content-type"] = "application/x-www-form-urlencoded";
-        const res = await fetch(url, {
+        // fetch reads an undefined body as no body
+        const res = await fetch(url, /** @type {RequestInit} */ ({
           method,
           headers,
           body: body ? body.toString() : undefined,
           signal: controller.signal,
           redirect: "follow",
-        });
+        }));
         const text = await res.text();
         this.jar.update(res.headers);
         this.requestCount += 1;
@@ -351,7 +387,8 @@ class Session {
       } catch (error) {
         clearTimeout(timeout);
         attempt += 1;
-        const message = error?.name === "AbortError" ? "timeout" : String(error?.message || error);
+        // whatever was thrown, read as an Error when it is one
+        const message = /** @type {Thrown} */ (error)?.name === "AbortError" ? "timeout" : String(/** @type {Thrown} */ (error)?.message || error);
         this.writers.failures.write({ at: nowIso(), type: "request-error", workerId: this.workerId, context, attempt, error: message });
         if (attempt > this.options.maxRetries) throw error;
         await sleep(this.options.backoffMs * attempt);
@@ -359,19 +396,23 @@ class Session {
     }
   }
 
+  /** @param {string} url @param {string} context */
   get(url, context) {
     return this.request("GET", url, null, context);
   }
 
+  /** @param {string} url @param {string} html @param {Record<string, string>} extra @param {string} context */
   post(url, html, extra, context) {
     return this.request("POST", url, buildPostBody(html, extra), context);
   }
 }
 
+/** @param {number} value */
 function round(value, decimals = 3) {
   return Math.round(value * (10 ** decimals)) / (10 ** decimals);
 }
 
+/** @param {Session} session @param {string} letter */
 async function startBrowseLetter(session, letter) {
   const search = await session.get(`${BASE}SearchPage.aspx`, "SearchPage");
   const browse = await session.post(`${BASE}SearchPage.aspx`, search.text, {
@@ -384,6 +425,7 @@ async function startBrowseLetter(session, letter) {
   return letterHtml.text;
 }
 
+/** @param {Session} session @param {string} html @param {GridRow} row */
 async function clickSelect(session, html, row) {
   if (!row.ResultsSelect || row.ResultsSelect.disabled) throw new Error(`Row is not selectable: ${row.text || ""}`);
   const res = await session.post(`${BASE}BrowseSearchResults.aspx`, html, {
@@ -392,6 +434,7 @@ async function clickSelect(session, html, row) {
   return res.text;
 }
 
+/** @param {Session} session @param {string} html @param {GridRow} row */
 async function clickMore(session, html, row) {
   if (!row.ResultsView) throw new Error(`Row has no More/View button: ${row.text || ""}`);
   const res = await session.post(`${BASE}BrowseSearchResults.aspx`, html, {
@@ -400,6 +443,7 @@ async function clickMore(session, html, row) {
   return res.text;
 }
 
+/** @param {Session} session @param {string} html @param {{ name: string, value: string }} next */
 async function clickNext(session, html, next) {
   const res = await session.post(`${BASE}BrowseSearchResults.aspx`, html, {
     [next.name]: next.value,
@@ -407,6 +451,7 @@ async function clickNext(session, html, next) {
   return res.text;
 }
 
+/** @param {Session} session @param {string} html @param {string} ref @param {number} maxPagesPerBranch */
 async function clickSelectByRef(session, html, ref, maxPagesPerBranch) {
   let pageHtml = html;
   for (let page = 1; page <= maxPagesPerBranch; page += 1) {
@@ -420,6 +465,7 @@ async function clickSelectByRef(session, html, ref, maxPagesPerBranch) {
   throw new Error(`Could not find selectable branch ${ref}`);
 }
 
+/** @param {Session} session @param {BranchRef} branch */
 async function openBranch(session, branch) {
   let html = await startBrowseLetter(session, branch.letter);
   for (const ref of branch.path) {
@@ -428,6 +474,7 @@ async function openBranch(session, branch) {
   return html;
 }
 
+/** @param {IndexerOptions} options */
 async function ensureOutDir(options) {
   if (!options.outDir) {
     const stamp = nowIso().replace(/[:.]/g, "-");
@@ -438,6 +485,7 @@ async function ensureOutDir(options) {
   return options.outDir;
 }
 
+/** @param {IndexerOptions} options */
 function makeWriters(options) {
   return {
     events: new JsonlWriter(path.join(options.outDir, "events.jsonl")),
@@ -449,10 +497,12 @@ function makeWriters(options) {
   };
 }
 
+/** @param {Writers} writers */
 async function closeWriters(writers) {
   await Promise.all(Object.values(writers).map((writer) => writer.close()));
 }
 
+/** @param {IndexerOptions} options @returns {Branch[]} */
 function seedBranches(options) {
   if (options.branchPath) {
     const parts = options.branchPath.split(",").map((p) => p.trim()).filter(Boolean);
@@ -466,12 +516,15 @@ function seedBranches(options) {
 }
 
 class SharedQueue {
+  /** @param {Branch[]} [initial] */
   constructor(initial = []) {
     this.items = [...initial];
+    /** @type {((item: Branch | null) => void)[]} */
     this.waiters = [];
     this.closed = false;
   }
 
+  /** @param {Branch} item */
   push(item) {
     if (this.closed) return;
     const waiter = this.waiters.shift();
@@ -481,9 +534,11 @@ class SharedQueue {
 
   close() {
     this.closed = true;
-    while (this.waiters.length) this.waiters.shift()(null);
+    // the loop checked that a waiter is left
+    while (this.waiters.length) /** @type {(item: Branch | null) => void} */ (this.waiters.shift())(null);
   }
 
+  /** @returns {Promise<Branch | null | undefined>} */
   async shift() {
     if (this.items.length) return this.items.shift();
     if (this.closed) return null;
@@ -500,6 +555,7 @@ class SharedQueue {
   }
 }
 
+/** @param {IndexerOptions} options @param {BranchRef} branch @param {number} pageNumber @param {string} html */
 async function saveSnapshot(options, branch, pageNumber, html) {
   if (!options.snapshots) return null;
   const key = makeSafeName(`${branchKey(branch)}__p${pageNumber}`);
@@ -519,7 +575,11 @@ async function saveSnapshot(options, branch, pageNumber, html) {
   return { htmlPath, metadataPath: metaPath, pageHash };
 }
 
-function makeIndexRecord(options, branch, pageNumber, row, pageHash, snapshot, scanLevel) {
+/**
+ * @param {IndexerOptions} _options @param {BranchRef} branch @param {number} pageNumber @param {GridRow} row @param {string} pageHash
+ * @param {{ htmlPath: string, metadataPath: string } | null} snapshot @param {string} scanLevel
+ */
+function makeIndexRecord(_options, branch, pageNumber, row, pageHash, snapshot, scanLevel) {
   const expected = row.ResultsSelect?.value || "";
   return {
     at: nowIso(),
@@ -544,6 +604,7 @@ function makeIndexRecord(options, branch, pageNumber, row, pageHash, snapshot, s
   };
 }
 
+/** @param {Stats} stats @param {IndexerOptions} options */
 function shouldStop(stats, options) {
   if (stats.stopRequested) return true;
   if (options.maxRecords > 0 && stats.recordsIndexed >= options.maxRecords) return true;
@@ -551,6 +612,7 @@ function shouldStop(stats, options) {
   return false;
 }
 
+/** @param {Session} session @param {Branch} branch @param {SharedQueue} queue @param {State} state @param {string} scanLevel @returns {Promise<void>} */
 async function discoverBranch(session, branch, queue, state, scanLevel) {
   const options = session.options;
   const key = branchKey(branch);
@@ -563,6 +625,7 @@ async function discoverBranch(session, branch, queue, state, scanLevel) {
   let html = await openBranch(session, branch);
   let pageNumber = 1;
   let leafRowCount = 0;
+  /** @type {Branch[]} */
   const childBranches = [];
 
   while (pageNumber <= options.maxPagesPerBranch && !shouldStop(state.stats, options)) {
@@ -660,6 +723,7 @@ async function discoverBranch(session, branch, queue, state, scanLevel) {
   }
 }
 
+/** @param {Session} session @param {Branch} branch @param {string} html @param {State} state @param {string} scanLevel @returns {Promise<void>} */
 async function discoverBranchInSession(session, branch, html, state, scanLevel) {
   const options = session.options;
   const key = branchKey(branch);
@@ -770,7 +834,8 @@ async function discoverBranchInSession(session, branch, html, state, scanLevel) 
       const childHtml = await clickSelect(session, task.parentHtml, task.row);
       await discoverBranchInSession(session, task.branch, childHtml, state, scanLevel);
     } catch (error) {
-      session.writers.failures.write({ at: nowIso(), type: "in-session-child-error", workerId: session.workerId, branchKey: childKey, error: String(error?.message || error) });
+      // whatever was thrown, read as an Error when it is one
+      session.writers.failures.write({ at: nowIso(), type: "in-session-child-error", workerId: session.workerId, branchKey: childKey, error: String(/** @type {Thrown} */ (error)?.message || error) });
       if (options.stopOnBlocked) {
         state.stats.stopRequested = true;
         break;
@@ -781,6 +846,7 @@ async function discoverBranchInSession(session, branch, html, state, scanLevel) 
   }
 }
 
+/** @param {Session} session @param {string} html @param {BranchRef} branch @param {number} pageNumber @param {GridRow} row @param {State} state */
 async function sampleDetail(session, html, branch, pageNumber, row, state) {
   try {
     const detailHtml = await clickMore(session, html, row);
@@ -796,10 +862,12 @@ async function sampleDetail(session, html, branch, pageNumber, row, state) {
       detailAttributeKeys: extractDetailKeys(detailHtml),
     });
   } catch (error) {
-    session.writers.failures.write({ at: nowIso(), type: "detail-sample-error", workerId: session.workerId, branchKey: branchKey(branch), page: pageNumber, error: String(error?.message || error) });
+    // whatever was thrown, read as an Error when it is one
+    session.writers.failures.write({ at: nowIso(), type: "detail-sample-error", workerId: session.workerId, branchKey: branchKey(branch), page: pageNumber, error: String(/** @type {Thrown} */ (error)?.message || error) });
   }
 }
 
+/** @param {string} html @param {string} label */
 function extractDetailValue(html, label) {
   for (const tr of String(html).matchAll(/<tr\b[\s\S]*?<\/tr>/gi)) {
     const rowHtml = tr[0];
@@ -813,7 +881,9 @@ function extractDetailValue(html, label) {
   return "";
 }
 
+/** @param {string} html */
 function extractDetailKeys(html) {
+  /** @type {string[]} */
   const keys = [];
   for (const tr of String(html).matchAll(/<tr\b[\s\S]*?<\/tr>/gi)) {
     const labelMatch = tr[0].match(/<label\b[^>]*>([\s\S]*?)<\/label>/i);
@@ -822,10 +892,12 @@ function extractDetailKeys(html) {
   return keys;
 }
 
+/** @param {IndexerOptions} options @param {Writers} writers @param {string} scanLevel */
 async function runLive(options, writers, scanLevel) {
   const roots = seedBranches(options);
   const queue = new SharedQueue(roots);
   const globalBucket = options.globalRps > 0 ? new TokenBucket(options.globalRps) : null;
+  /** @type {State} */
   const state = {
     seen: new Set(),
     queueLength: roots.length,
@@ -851,6 +923,7 @@ async function runLive(options, writers, scanLevel) {
     });
   }, 10000);
 
+  /** @param {number} workerId */
   async function worker(workerId) {
     const session = new Session(workerId, options, writers, globalBucket);
     while (!shouldStop(state.stats, options)) {
@@ -865,7 +938,8 @@ async function runLive(options, writers, scanLevel) {
           await discoverBranch(session, branch, queue, state, scanLevel);
         }
       } catch (error) {
-        writers.failures.write({ at: nowIso(), type: "branch-error", workerId, branchKey: branchKey(branch), error: String(error?.message || error) });
+        // whatever was thrown, read as an Error when it is one
+        writers.failures.write({ at: nowIso(), type: "branch-error", workerId, branchKey: branchKey(branch), error: String(/** @type {Thrown} */ (error)?.message || error) });
         if (options.stopOnBlocked) {
           state.stats.stopRequested = true;
           queue.close();
@@ -875,6 +949,7 @@ async function runLive(options, writers, scanLevel) {
     }
   }
 
+  /** @type {Promise<void>[]} */
   const workers = [];
   for (let i = 0; i < Math.max(1, options.workers); i += 1) workers.push(worker(i + 1));
   await Promise.all(workers);
@@ -900,6 +975,7 @@ async function runLive(options, writers, scanLevel) {
   };
 }
 
+/** @param {IndexerOptions} options @param {Writers} writers */
 async function runLocalIndex(options, writers) {
   if (!options.manifest) throw new Error("--manifest is required for --mode local-index");
   const started = performance.now();
@@ -907,6 +983,7 @@ async function runLocalIndex(options, writers) {
   let records = 0;
   const lines = (await fsp.readFile(options.manifest, "utf8")).split(/\r?\n/).filter(Boolean);
   for (const line of lines) {
+    /** @type {ManifestPage} */
     const page = JSON.parse(line);
     const htmlPath = page.pageSnapshotPath || page.htmlPath;
     if (!htmlPath) continue;
@@ -914,7 +991,8 @@ async function runLocalIndex(options, writers) {
     try {
       html = await fsp.readFile(htmlPath, "utf8");
     } catch (error) {
-      writers.failures.write({ at: nowIso(), type: "local-snapshot-missing", htmlPath, error: String(error?.message || error) });
+      // whatever was thrown, read as an Error when it is one
+      writers.failures.write({ at: nowIso(), type: "local-snapshot-missing", htmlPath, error: String(/** @type {Thrown} */ (error)?.message || error) });
       continue;
     }
     const rows = parseGridRows(html);
@@ -940,6 +1018,7 @@ async function runLocalIndex(options, writers) {
   };
 }
 
+/** @param {IndexerOptions} options @param {Writers} writers */
 async function runProbe(options, writers) {
   const session = new Session(1, options, writers, options.globalRps > 0 ? new TokenBucket(options.globalRps) : null);
   const letter = seedBranches(options)[0]?.letter || "A";
@@ -972,7 +1051,7 @@ async function main() {
     console.log(usage());
     return;
   }
-  if (!PRONI_INDEX_MODE.includes(options.mode)) throw new Error(`Unsupported mode: ${options.mode}`);
+  if (!/** @type {readonly string[]} */ (PRONI_INDEX_MODE).includes(options.mode)) throw new Error(`Unsupported mode: ${options.mode}`);
   if (options.mode !== INDEX_MODE['local-index'] && options.maxRecords <= 0 && options.maxBranches <= 0 && !options.allowUnbounded) {
     throw new Error("Live modes require --max-records or --max-branches so probes stay bounded. Use --allow-unbounded only for an intentional full Browse-tree run.");
   }
