@@ -3,11 +3,13 @@
  * Upload one or more FlatGeobuf files to R2 (boundaries-data) via the S3 endpoint, as
  * application/octet-stream, the type data.civgraph.net already serves .fgb files with.
  * Each pair is a local file and the key it replaces. Run only at publish time; --dry-run
- * lists what would be sent.
+ * lists what would be sent. The S3 calls go through the storage adapter's S3 blob store
+ * (packages/storage/src/s3.mjs).
  *
  *   node scripts/publish/r2-upload-files.mjs <file>=<r2/key> [<file>=<r2/key> ...] [--dry-run]
  */
 import { existsSync, readFileSync, statSync } from 'fs';
+import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 const DRY = process.argv.includes('--dry-run');
@@ -30,12 +32,10 @@ if (DRY) {
     process.exit(0);
 }
 const R2 = r2CredentialsOrExit();
-const BUCKET = R2.bucket;
-const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');
-const s3 = new S3Client(s3ClientOptions(R2, { maxAttempts: 5 }));
+const store = await openS3BlobStore({ bucket: R2.bucket, clientOptions: s3ClientOptions(R2, { maxAttempts: 5 }) });
 for (const p of pairs) {
     const body = readFileSync(p.file);
-    await s3.send(new PutObjectCommand({ Bucket: BUCKET, Key: p.key, Body: body, ContentType: 'application/octet-stream' }));
+    await store.put(p.key, body, { contentType: 'application/octet-stream' });
     console.log(`${p.key} ${(body.length / 1e6).toFixed(2)} MB`);
 }
 console.log(`Uploaded ${pairs.length} file(s).`);
