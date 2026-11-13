@@ -4,7 +4,7 @@
 // so importers that were not touched (the election manager, the legend and timeline methods, other
 // streams' branches) get exactly what they got before.
 //
-//   node --test tests/unit/map-views.test.mjs
+//   Run with node --test on this file.
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
