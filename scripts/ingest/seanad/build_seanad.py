@@ -48,6 +48,7 @@ UNIVERSITY_ELECTORATE = {
     'National University of Ireland': "the university's graduates who are Irish citizens and registered (Seanad Electoral (University Members) Act 1937)",
     'University of Dublin': "the university's graduates and scholars who are Irish citizens and registered (Seanad Electoral (University Members) Act 1937)",
 }
+IE_OFFICIAL: dict[str, set[str]] = {}
 OIREACHTAS_MEMBER_URL = 'https://www.oireachtas.ie/en/members/member/{id}/'
 
 
@@ -112,6 +113,19 @@ def match_winner(name: str, contest: str, members: list[dict], term_start: str) 
 def day_number(iso: str) -> int:
     from datetime import date
     return date.fromisoformat(iso[:10]).toordinal()
+
+
+def ie_official_ids() -> dict[str, set[str]]:
+    """The Oireachtas member codes the person registry already holds with each IrelandElection.com
+    person id (data/elections/persons/person_registry.json, as committed)."""
+    registry = json.loads((REPO / 'data' / 'elections' / 'persons' / 'person_registry.json').read_text(encoding='utf-8'))
+    out: dict[str, set[str]] = {}
+    for entity in registry['entities']:
+        codes = {i for i in entity.get('officialPersonIds') or [] if i.startswith('oireachtas:')}
+        for source_id in entity.get('sourcePersonIds') or []:
+            if source_id.startswith('ie:') and codes:
+                out.setdefault(source_id, set()).update(codes)
+    return out
 
 
 def check_contest(contest: str, ie: dict) -> list[str]:
@@ -180,6 +194,15 @@ def contest_file(contest: str, date: str, house: dict, ie: dict, links: list, do
             })
         if cand['elected']:
             member, how = match_winner(name, contest, members, house['dateRange']['start'])
+            known = IE_OFFICIAL.get(cand.get('source_person_id') or '', set())
+            if member and known and f"oireachtas:{member['code']}" not in known:
+                # IrelandElection.com gives this senator the person id of another member of the
+                # Oireachtas: its id joins two people, so it is not carried.
+                doubtful.append({'election': date, 'contest': contest, 'name': name, 'oireachtas': member['name'], 'code': member['code'],
+                                 'note': f"IrelandElection.com id {cand['source_person_id']} is held with {', '.join(sorted(known))}: not carried"})
+                for row in rows:
+                    if row['Candidate_Id'] == str(index + 1):
+                        row['source_person_id'] = ''
             if member:
                 links.append({'system': 'oireachtas', 'id': member['code'], 'election': f'{SLUG}__{date}', 'constituency': contest,
                               'name': name, 'candidateId': str(index + 1), 'confidence': 'high' if how == 'name' else 'medium'})
@@ -243,6 +266,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument('--report', help='write the doubtful matches and the contests left out to this CSV')
     args = parser.parse_args(argv)
     ie_dir = Path(args.ie)
+    IE_OFFICIAL.update(ie_official_ids())
     terms = houses()
     contests = [json.loads(line) for line in (ie_dir / 'index.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
     contests = [c for c in contests if c['election_type'] == 'seanad' and c['constituency'] in CONTESTS and c['num_counts']]
