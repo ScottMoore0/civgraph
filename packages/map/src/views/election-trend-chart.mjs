@@ -487,6 +487,20 @@ export function renderTrendChartSvg(model, layout, options = {}) {
     + `<g class="trend-axis-layer">${xLabels}</g>`
     + '</svg>';
 }
+
+/**
+ * The chart's key: a button per party, which mountTrendChart wires as the party focus control.
+ * @param {TrendModel} model
+ */
+export function trendLegendHtml(model) {
+  return model.series.map((item) => (
+    `<button type="button" class="test2-election-trends__legend-item" data-party="${escapeHtml(item.key)}" aria-pressed="false" title="${escapeHtml(`Focus ${item.party}`)}">`
+    + `<span class="test2-election-trends__legend-swatch" style="background:${escapeHtml(item.colour)}"></span>`
+    + `<span class="test2-election-trends__legend-name">${escapeHtml(item.party)}</span>`
+    + '</button>'
+  )).join('');
+}
+
 /* ------------------------------------------------------------------------------------------ */
 /* Helpers                                                                                    */
 /* ------------------------------------------------------------------------------------------ */
