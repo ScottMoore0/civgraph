@@ -12,6 +12,7 @@ import { sourceKindLabels } from '../pkg/registries/src/browser/source-kind-labe
 import { browseColours } from '../pkg/registries/src/browser/colour-palettes.mjs';
 import { SHORT_MONTHS } from '../pkg/core/src/date-format.mjs';
 import { PAGE_TYPE_IDS } from '../pkg/ui/src/page-types.mjs';
+import { SEARCH_ALL_SHOWN, searchAllAnnouncement, summariseSearchAll } from './search-all.js';
 
 /**
  * An element of the page reached by a delegated listener or a selector: any HTML element, with
@@ -1551,13 +1552,7 @@ function renderSectionSwitch() {
 function renderPortalLanding() {
   const query = state.query.trim();
   if (query) {
-    els.results.innerHTML = `
-      <section class="browse-portal-search-note">
-        <h2>Choose a section to search</h2>
-        <p>The Browse search is scoped to the active section so large indexes stay responsive. Select Maps, Elections, Features, Parties / Labels, Persons, Register Interests, or Sources, then search within that section.</p>
-      </section>
-      ${renderPortalSections()}
-    `;
+    renderPortalSearch(query);
     return;
   }
   els.results.innerHTML = `
@@ -1566,6 +1561,76 @@ function renderPortalLanding() {
     </nav>
     ${renderPortalSections()}
   `;
+}
+
+/**
+ * The index page's search covers every record type (owner, 13 Nov 2026): each section of this
+ * page is searched as its own page searches it, and the first few matches of each are shown
+ * with a link to that section's search, which lists them all (site/browse/search-all.js).
+ * @param {string} query
+ */
+async function renderPortalSearch(query) {
+  const token = renderSeq;
+  els.results.innerHTML = '<div class="browse-loading">Searching every section...</div>';
+  const answers = await Promise.all(sectionTypes().map((type) => searchSection(type, query)));
+  if (token !== renderSeq) return;
+  const summary = summariseSearchAll(query, answers, { format: formatNumber });
+  const note = summary.groups.length
+    ? `${summary.atLeast ? 'At least ' : ''}${formatNumber(summary.total)} ${summary.total === 1 ? 'match' : 'matches'} for “${escapeHtml(query)}”. Each section shows its first ${formatNumber(SEARCH_ALL_SHOWN)}; open a section to see them all and filter them.`
+    : `Nothing matches “${escapeHtml(query)}” in any section.`;
+  els.results.innerHTML = `
+    <section class="browse-portal-search-note">
+      <h2>Results in every section</h2>
+      <p>${note}</p>
+      ${summary.empty.length ? `<p>No matches in ${escapeHtml(joinList(summary.empty))}.</p>` : ''}
+      ${summary.failed.length ? `<p>${escapeHtml(joinList(summary.failed))} could not be searched just now. Please try again in a moment.</p>` : ''}
+    </section>
+    <div class="browse-portal">
+      ${summary.groups.map((group) => `
+        <section class="browse-portal-section" aria-labelledby="search-all-${escapeAttr(group.type)}">
+          <div class="browse-portal-section__header">
+            <div>
+              <h2 id="search-all-${escapeAttr(group.type)}"><a href="${escapeAttr(group.href)}" data-browse-link>${escapeHtml(group.label)}</a></h2>
+              <p>${escapeHtml(group.count)}</p>
+            </div>
+          </div>
+          ${group.type === 'proni'
+            ? `<ul class="proni-child-list">${group.items.map((item) => proniResultRow(/** @type {BrowseItem} */ (item))).join('')}</ul>`
+            : `<div class="browse-grid">${group.items.map((item) => renderCard(group.type, /** @type {BrowseItem} */ (item), ENTITY_CONFIG[group.type], 3)).join('')}</div>`}
+          ${group.seeAll ? `<p class="browse-section-switch"><a href="${escapeAttr(group.href)}" data-browse-link>${escapeHtml(group.seeAll)}</a></p>` : ''}
+        </section>
+      `).join('')}
+    </div>
+  `;
+  announce(searchAllAnnouncement(query, summary, formatNumber));
+}
+
+/**
+ * One section searched for the index page, as its own page searches it: the people, sources
+ * and register entries in D1 (one page of matches, and their count), PRONI through its search,
+ * the rest in their index. A section whose search fails is reported, not retried through its
+ * whole static index (the people alone are tens of megabytes).
+ * @param {string} type
+ * @param {string} query
+ * @returns {Promise<import('./search-all.js').SectionAnswer>}
+ */
+async function searchSection(type, query) {
+  const label = ENTITY_CONFIG[type].label;
+  try {
+    if (type === 'proni') {
+      if (query.length < 2) return { type, label, items: [], total: 0 };
+      const data = await fetchProniSearch(query, SEARCH_ALL_SHOWN);
+      return { type, label, items: normalizeArray(data.results).map((r) => /** @type {BrowseItem} */ (r)), total: null };
+    }
+    if (D1_INDEXES.has(type)) {
+      const page = await fetchIndexPage(type, { query, sort: '', dir: '', filters: {}, offset: 0, limit: SEARCH_ALL_SHOWN });
+      return page ? { type, label, items: page.items, total: page.total } : { type, label, items: [], total: 0, failed: true };
+    }
+    const found = filterItems((await loadIndex(type, { list: true })).items || [], query);
+    return { type, label, items: found, total: found.length };
+  } catch {
+    return { type, label, items: [], total: 0, failed: true };
+  }
 }
 
 function renderPortalSections() {
@@ -2152,7 +2217,7 @@ function compareRegisterInterestValues(left, right, key) {
 }
 
 /** @param {string} type @param {BrowseItem} item @param {EntityConfig} config */
-function renderCard(type, item, config) {
+function renderCard(type, item, config, level = 2) {
   const slug = item.slug || slugify(item.id || item.key || item.title);
   const status = cleanStatus(item.status);
   const summary = item.description || summaryForItem(type, item);
@@ -2161,7 +2226,7 @@ function renderCard(type, item, config) {
     <article class="browse-card${type === 'persons' || type === 'parties' ? ' browse-card--compact' : ''}">
       ${renderThumbnail(item, 'card')}
       <div class="browse-card__main">
-        <h2 class="browse-card__title"><a href="#/${type}/${encodeURIComponent(slug)}" data-browse-link>${escapeHtml(title)}</a></h2>
+        <h${level} class="browse-card__title"><a href="#/${type}/${encodeURIComponent(slug)}" data-browse-link>${escapeHtml(title)}</a></h${level}>
         <div class="browse-card__meta">${renderMeta(metaForItem(type, item))}</div>
       </div>
       ${status ? `<span class="browse-card__status browse-card__status--${escapeAttr(status)}">${escapeHtml(statusLabel(item.status) || status.replace(/-/g, ' '))}</span>` : ''}
@@ -2248,6 +2313,8 @@ async function renderProniRoute(id) {
 
 /** @param {EntityConfig} _config @param {BrowseItem[]} items */
 function renderProniLanding(_config, items) {
+  // Reached from the index page's search (#/proni?q=...): its words are the PRONI search's.
+  if (!state.proniQuery && state.query) state.proniQuery = state.query;
   els.results.innerHTML = `
     <section class="proni-search">
       <input type="search" id="proni-search-input" class="proni-search-input" autocomplete="off"
@@ -2297,9 +2364,7 @@ async function runProniSearch(query) {
   if (q.length < 2) { box.innerHTML = ''; return; }
   box.innerHTML = '<div class="browse-loading">Searching…</div>';
   try {
-    const resp = await fetch(`/_api/proni/search?q=${encodeURIComponent(q)}&limit=${PRONI_SEARCH_LIMIT}`);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const data = await resp.json();
+    const data = await fetchProniSearch(q, PRONI_SEARCH_LIMIT);
     if ((state.proniQuery || '').trim() !== q) return; // stale response
     renderProniSearchResults(box, data);
   } catch (error) {
@@ -2310,6 +2375,32 @@ async function runProniSearch(query) {
 }
 
 const PRONI_SEARCH_LIMIT = 30;
+
+/**
+ * The PRONI search's answer for `query`: at most `limit` matches, and one more when there are more.
+ * @param {string} query
+ * @param {number} limit
+ * @returns {Promise<BrowseItem>}
+ */
+async function fetchProniSearch(query, limit) {
+  const resp = await fetch(`/_api/proni/search?q=${encodeURIComponent(query)}&limit=${limit}`);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  return resp.json();
+}
+
+/** One PRONI search match, as the PRONI page lists it. @param {BrowseItem} r */
+function proniResultRow(r) {
+  return `
+        <li class="proni-child proni-child--${r.hasChildren ? 'container' : 'item'}">
+          <a href="#/proni/${encodeURIComponent(String(r.slug))}" data-browse-link>
+            <span class="proni-child-icon" aria-hidden="true">${r.hasChildren ? '&#128193;' : '&#128196;'}</span>
+            <span class="proni-child-main">
+              <span class="proni-child-title">${escapeHtml(r.title)}</span>
+              <span class="proni-child-meta">${escapeHtml(r.ref)}${r.level ? `<span class="proni-child-level">${escapeHtml(r.level)}</span>` : ''}${r.dates ? `<span class="proni-child-dates">${escapeHtml(r.dates)}</span>` : ''}</span>
+            </span>
+          </a>
+        </li>`;
+}
 
 /** @param {HTMLElement} box @param {BrowseItem} data */
 function renderProniSearchResults(box, data) {
@@ -2325,16 +2416,7 @@ function renderProniSearchResults(box, data) {
   box.innerHTML = `
     <p class="proni-search-count">${count}</p>
     <ul class="proni-child-list">
-      ${results.map((/** @type {BrowseItem} */ r) => `
-        <li class="proni-child proni-child--${r.hasChildren ? 'container' : 'item'}">
-          <a href="#/proni/${encodeURIComponent(r.slug)}" data-browse-link>
-            <span class="proni-child-icon" aria-hidden="true">${r.hasChildren ? '&#128193;' : '&#128196;'}</span>
-            <span class="proni-child-main">
-              <span class="proni-child-title">${escapeHtml(r.title)}</span>
-              <span class="proni-child-meta">${escapeHtml(r.ref)}${r.level ? `<span class="proni-child-level">${escapeHtml(r.level)}</span>` : ''}${r.dates ? `<span class="proni-child-dates">${escapeHtml(r.dates)}</span>` : ''}</span>
-            </span>
-          </a>
-        </li>`).join('')}
+      ${results.map(proniResultRow).join('')}
     </ul>`;
 }
 
