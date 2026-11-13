@@ -338,12 +338,15 @@ function formatCredits(value) {
  * converted rows add nothing but their category, in order of first appearance, and the plan was
  * fetched on every visit before any map could draw (QA 2026-11-11, M8).
  */
-/** @param {PortPlan | null | undefined} plan @returns {PortPlan} */
+/**
+ * @param {unknown} plan the plan file as read (JSON): its rows and totals are read where present
+ * @returns {PortPlan}
+ */
 export function clientPortPlan(plan) {
   /** @type {PortPlanRow[]} */
   const rows = [];
   const seen = new Set();
-  for (const row of plan?.rows || []) {
+  for (const row of /** @type {PortPlan | null | undefined} */ (plan)?.rows || []) {
     const key = portRowToCategoryLayer(row).category;
     if (!isConvertedPortStatus(row.conversionStatus)) {
       rows.push(row);
@@ -359,7 +362,7 @@ export function clientPortPlan(plan) {
     }
     rows.push(slim);
   }
-  return { schemaVersion: plan?.schemaVersion, totals: plan?.totals || null, rows };
+  return { schemaVersion: /** @type {PortPlan | null | undefined} */ (plan)?.schemaVersion, totals: /** @type {PortPlan | null | undefined} */ (plan)?.totals || null, rows };
 }
 
 /** @param {unknown} status */
