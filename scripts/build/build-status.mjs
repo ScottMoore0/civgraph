@@ -57,15 +57,88 @@ export function isUnopposedContest(result) {
     || (cands.length > 0 && cands.every((c) => /unopposed/i.test(c.status || '')));
 }
 
+/**
+ * A source as data/status/sources.config.json describes it.
+ * @typedef {{
+ *   id: string, name: string, publisher: string, url: string, licence: string, unit: string,
+ *   known: { value?: number, years?: number[], approximate?: boolean, basis: string },
+ *   stages: { key: string, label: string }[], note?: string
+ * }} SourceConfig
+ */
+/** A Census of Northern Ireland year in the census snapshot. @typedef {{ held?: boolean, convertedParts?: number, tables?: number, explorer?: boolean }} CensusNiYear */
+/** A pre-1921 census year in the census snapshot. @typedef {{ files?: number, read?: number, tables?: number, explorer?: boolean }} CensusPreYear */
+/**
+ * A source's snapshot in data/status/source-snapshots.json (written by status-snapshots.mjs); each kind
+ * of source has its own fields, so all are optional here.
+ * @typedef {{
+ *   takenAt?: string, issuesFetched?: number, issuesParsed?: number | null, issuesNotOnline?: number,
+ *   lastIssueFetched?: number | null, lastIssueParsed?: number | null,
+ *   noticesExtracted?: { boundary?: number, election?: number | null } | null,
+ *   ni?: Record<string, CensusNiYear>, pre1921?: Record<string, CensusPreYear>,
+ *   datasetsListed?: number, datasetsMirrored?: number | null, datasetsUsed?: number, linksToUnlistedDatasets?: number,
+ *   items?: { id: string, title: string }[], recordsCollected?: number, recordsWithDate?: number | null
+ * }} SourceSnapshot
+ */
+/** A table under a source. @typedef {{ columns: string[], rows: string[][] }} StatusTable */
+/**
+ * What a source's figures come to: the total, each stage's count, the facts beside them (a falsy
+ * one is dropped), a table and the date the figures were read.
+ * @typedef {{
+ *   known: number | null | undefined, stages: Record<string, number | null | undefined>,
+ *   facts?: (string | number | null | undefined)[], detail?: StatusTable | null, asOf?: string
+ * }} SourceFigures
+ */
+/** @typedef {(cfg: SourceConfig, snap: SourceSnapshot | undefined) => SourceFigures} SourceCompute */
+/**
+ * A period of contests in data/status/elections.config.json.
+ * @typedef {{ label: string, bodies: string[], from?: string, to?: string, kind?: string, calendar?: string, byDecade?: boolean }} SegmentConfig
+ */
+/**
+ * A group of elections: one counted by rounds (its own bodies, or the 'rest'), or one of contest periods.
+ * @typedef {{ id: string, name: string, unit?: string, about?: string } & (
+ *   { rounds: true, bodies: string[] | 'rest', notHeld?: Record<string, unknown[]>, segments?: undefined }
+ *   | { rounds?: undefined, bodies?: undefined, segments: SegmentConfig[] }
+ * )} GroupConfig
+ */
+/** An election bundle's candidate, as far as the figures read it. @typedef {{ status?: string, firstPrefs?: unknown, finalVotes?: unknown, votes?: unknown }} BundleCandidate */
+/** An election bundle's result. @typedef {{ contestStatus?: string, candidates?: BundleCandidate[], sourceFile?: string, constituency?: string }} BundleResult */
+/** An election bundle (render/metadata/elections-test2/*.json). @typedef {{ body: string, bodySlug: string, date: string, isByElection?: boolean, results?: BundleResult[] }} ElectionBundle */
+/** A contest the site holds. @typedef {{ body: string, date: string, byElection: boolean, full: boolean, verified: boolean }} Contest */
+/** A record of an independent list of contests (Walker, Gallagher). @typedef {{ kind: string, year: number }} CalendarRecord */
+/**
+ * One row of an election group: a period's contests or a body's rounds.
+ * @typedef {{
+ *   label: string, body?: string, span?: number[] | null, known: number, onSite: number, full: number,
+ *   verified: number, notHeld?: number, basis: string | null
+ * }} ElectionRow
+ */
+/** A bar's or figure list's stage. @typedef {{ label: string, value: number | null }} Stage */
+/** A map series' or shelf's totals. @typedef {{ known: number, complete: number, partial: number, notDrawn: number }} MapTotals */
+/**
+ * data/catalogue/catalogue.json, as far as the Status page reads it.
+ * @typedef {{
+ *   maps: Record<string, import('./catalogue/build-catalogue.mjs').MapOut>,
+ *   series: import('./catalogue/build-catalogue.mjs').SeriesOut[], shelves?: { id: string, name: string }[]
+ * }} Catalogue
+ */
+
 const ROOT = process.cwd();
 const CHECK = process.argv.includes('--check');
 const OUT = path.join(ROOT, 'data/database/status.json');
 const PAGE = path.join(ROOT, 'site/pages/status.html');
 
+/**
+ * @param {string} message
+ * @returns {never}
+ */
 const fail = (message) => {
   console.error(`FAIL: ${message}`);
   process.exit(1);
 };
+/**
+ * @param {string} rel
+ * @param {{ optional?: boolean }} [options]
+ */
 const readJson = (rel, { optional = false } = {}) => {
   const full = path.resolve(ROOT, rel);
   if (!existsSync(full)) {
@@ -74,11 +147,14 @@ const readJson = (rel, { optional = false } = {}) => {
   }
   return JSON.parse(readFileSync(full, 'utf8'));
 };
+/** @param {string} rel */
 const readText = (rel) => (existsSync(path.resolve(ROOT, rel)) ? readFileSync(path.resolve(ROOT, rel), 'utf8') : '');
 
 // --- sources ------------------------------------------------------------------------
 
+/** @type {{ sources: SourceConfig[] }} */
 const sourcesConfig = readJson('data/status/sources.config.json');
+/** @type {Record<string, SourceSnapshot>} */
 const snapshots = readJson('data/status/source-snapshots.json').sources || {};
 
 /** Committed text the site publishes, searched for what it cites. */
@@ -103,6 +179,7 @@ function legislationCited() {
   return ids;
 }
 
+/** @type {Record<string, SourceCompute>} */
 const SOURCE_FIGURES = {
   'belfast-gazette'(cfg, snap) {
     const cited = gazetteCitedIssues();
@@ -117,13 +194,15 @@ const SOURCE_FIGURES = {
     };
   },
   'census-ni-reports'(cfg, snap) {
-    const rows = cfg.known.years.map((year) => ({ year, ...(snap?.ni?.[year] || {}) }));
+    // The census sources list their years.
+    const rows = /** @type {number[]} */ (cfg.known.years).map((year) => ({ year, ...(snap?.ni?.[year] || {}) }));
     return {
       known: rows.length,
       stages: {
         held: snap ? rows.filter((r) => r.held).length : null,
-        converted: snap ? rows.filter((r) => r.convertedParts > 0).length : null,
-        tables: snap ? rows.filter((r) => r.tables > 0).length : null,
+        // A count a year's snapshot lacks (undefined) compares as none.
+        converted: snap ? rows.filter((r) => /** @type {number} */ (r.convertedParts) > 0).length : null,
+        tables: snap ? rows.filter((r) => /** @type {number} */ (r.tables) > 0).length : null,
         explorer: snap ? rows.filter((r) => r.explorer).length : null,
       },
       detail: snap && {
@@ -135,13 +214,15 @@ const SOURCE_FIGURES = {
     };
   },
   'census-ireland-pre1921'(cfg, snap) {
-    const rows = cfg.known.years.map((year) => ({ year, ...(snap?.pre1921?.[year] || {}) }));
+    // The census sources list their years.
+    const rows = /** @type {number[]} */ (cfg.known.years).map((year) => ({ year, ...(snap?.pre1921?.[year] || {}) }));
     return {
       known: rows.length,
       stages: {
-        held: snap ? rows.filter((r) => r.files > 0).length : null,
-        converted: snap ? rows.filter((r) => r.read > 0).length : null,
-        tables: snap ? rows.filter((r) => r.tables > 0).length : null,
+        // A count a year's snapshot lacks (undefined) compares as none.
+        held: snap ? rows.filter((r) => /** @type {number} */ (r.files) > 0).length : null,
+        converted: snap ? rows.filter((r) => /** @type {number} */ (r.read) > 0).length : null,
+        tables: snap ? rows.filter((r) => /** @type {number} */ (r.tables) > 0).length : null,
         explorer: snap ? rows.filter((r) => r.explorer).length : null,
       },
       detail: snap && {
@@ -188,7 +269,9 @@ const SOURCE_FIGURES = {
     };
   },
   'niassembly-register'() {
+    /** @type {{ summary?: { assemblySourceRecords?: number, totalInterests?: number, totalCanonicalInterests?: number }, generatedAt?: string }} */
     const reg = readJson('data/database/ni-register-interests.json');
+    /** @type {{ sources?: { id: string, subtitle?: string }[] }} */
     const src = readJson('data/database/ni-register-sources.json');
     // The Assembly's register documents, less the two landing pages that only list them.
     const docs = (src.sources || []).filter((s) => String(s.id).startsWith('ni-register:assembly:')
@@ -229,6 +312,7 @@ const sources = sourcesConfig.sources.map((cfg) => {
 
 // --- elections ------------------------------------------------------------------------
 
+/** @type {{ groups: GroupConfig[] }} */
 const electionsConfig = readJson('data/status/elections.config.json');
 const provenance = readProvenance() ?? fail(`${path.relative(ROOT, PROVENANCE_FILE)} does not exist, so the Status page cannot be built.`);
 const provByFile = new Map(provenance.contests.map((c) => [c.file, c]));
@@ -236,9 +320,12 @@ const provByKey = new Map(provenance.contests.map((c) => [`${c.body}|${c.date}|$
 
 const ELECTION_DIR = ELECTION_BUNDLE_DIR;
 const SOURCE_PREFIX = 'data/elections-source/data/elections/';
+/** @type {Contest[]} */
 const contests = [];
+/** @type {Map<string, string>} */
 const bodyNames = new Map();
 for (const file of readdirSync(path.resolve(ROOT, ELECTION_DIR)).filter((f) => f.endsWith('.json')).sort()) {
+  /** @type {ElectionBundle} */
   const e = readJson(path.join(ELECTION_DIR, file));
   bodyNames.set(e.bodySlug, e.body);
   for (const r of e.results || []) {
@@ -260,15 +347,20 @@ if (!contests.length) fail(`${ELECTION_DIR} holds no results.`);
 
 const WALKER = 'B. M. Walker, Parliamentary Election Results in Ireland, 1801–1922 (Royal Irish Academy, 1978)';
 const GALLAGHER = 'M. Gallagher, Irish Elections 1922–44: Results and Analysis (PSAI Press, 1993)';
+/**
+ * @param {SegmentConfig} seg
+ * @param {string} kind
+ */
 const kindMatches = (seg, kind) => !seg.kind || (seg.kind === 'general' ? /general/.test(kind) : /by/.test(kind));
+/** @type {Record<string, (seg: SegmentConfig) => { count: number, source: string }>} */
 const CALENDARS = {
   'walker-1801-1831': (seg) => ({
-    count: readJson('data/elections/walker-1801-1831-results.json').records.filter((r) => kindMatches(seg, r.kind)).length,
+    count: readJson('data/elections/walker-1801-1831-results.json').records.filter((/** @type {CalendarRecord} */ r) => kindMatches(seg, r.kind)).length,
     source: WALKER,
   }),
   'walker-1832-1884': (seg) => ({
     count: readJson('data/elections/walker-pre1885-results.json').records
-      .filter((r) => r.year >= 1832 && r.year <= 1884 && kindMatches(seg, r.kind)).length,
+      .filter((/** @type {CalendarRecord} */ r) => r.year >= 1832 && r.year <= 1884 && kindMatches(seg, r.kind)).length,
     source: WALKER,
   }),
   'walker-byelections-1885-1922': () => ({
@@ -282,9 +374,20 @@ const CALENDARS = {
   }),
 };
 
+/** @param {number} n */
 const fmt = (n) => Number(n).toLocaleString('en-GB');
+/**
+ * @param {number} n
+ * @param {string} one
+ * @param {string} many
+ */
 const plural = (n, one, many) => `${fmt(n)} ${n === 1 ? one : many}`;
 
+/**
+ * @param {SegmentConfig} seg
+ * @param {string} unit
+ * @returns {ElectionRow}
+ */
 function contestSegment(seg, unit) {
   const rows = contests.filter((c) => seg.bodies.includes(c.body)
     && (!seg.from || c.date >= seg.from) && (!seg.to || c.date <= seg.to)
@@ -308,6 +411,10 @@ function contestSegment(seg, unit) {
   return { label: seg.label, known, onSite, full, verified, basis };
 }
 
+/**
+ * @param {SegmentConfig} seg
+ * @param {string} unit
+ */
 function decadeSegments(seg, unit) {
   const years = contests.filter((c) => seg.bodies.includes(c.body)).map((c) => Number(c.date.slice(0, 4)));
   if (!years.length) return [];
@@ -326,15 +433,21 @@ const namedBodies = new Set([
   ...electionsConfig.groups.flatMap((g) => (Array.isArray(g.bodies) ? g.bodies : [])),
 ]);
 
+/**
+ * @param {GroupConfig & { rounds: true }} group
+ * @returns {ElectionRow[]}
+ */
 function roundSegments(group) {
   const bodies = group.bodies === 'rest'
     ? [...new Set(contests.map((c) => c.body))].filter((b) => !namedBodies.has(b)).sort()
     : group.bodies;
   return bodies.map((body) => {
+    /** @type {Map<string, Contest[]>} */
     const byDate = new Map();
     for (const c of contests.filter((x) => x.body === body)) {
       if (!byDate.has(c.date)) byDate.set(c.date, []);
-      byDate.get(c.date).push(c);
+      // The key was set on the line before if it was missing.
+      /** @type {Contest[]} */ (byDate.get(c.date)).push(c);
     }
     const rounds = [...byDate.values()];
     const notHeld = (group.notHeld || {})[body] || [];
@@ -355,9 +468,11 @@ function roundSegments(group) {
 
 const electionGroups = electionsConfig.groups.map((g) => {
   const unit = g.rounds ? 'rounds' : (g.unit || 'contests');
+  /** @type {ElectionRow[]} */
   const segments = g.rounds
     ? roundSegments(g)
     : g.segments.flatMap((seg) => (seg.byDecade ? decadeSegments(seg, unit) : [contestSegment(seg, unit)]));
+  /** @param {'known' | 'onSite' | 'full' | 'verified'} k */
   const total = (k) => segments.reduce((sum, s) => sum + s[k], 0);
   return {
     id: g.id,
@@ -379,11 +494,14 @@ if (electionsCovered !== contests.length) {
 
 // --- maps -------------------------------------------------------------------------------
 
+/** @type {Catalogue} */
 const catalogue = readJson('data/catalogue/catalogue.json');
+/** @param {string} id */
 const statusOf = (id) => catalogue.maps[id]?.status || 'placeholder';
 const shelfName = new Map((catalogue.shelves || []).map((s) => [s.id, s.name]));
 const seriesRows = catalogue.series.map((s) => {
   const editions = [...s.members.filter((m) => !m.of), ...(s.todo || [])].map((m) => m.id);
+  /** @param {string} st */
   const count = (st) => editions.filter((id) => statusOf(id) === st).length;
   return {
     id: s.id,
@@ -401,6 +519,7 @@ const seriesRows = catalogue.series.map((s) => {
 const shelfOrder = (catalogue.shelves || []).map((s) => s.id);
 const mapShelves = shelfOrder.map((id) => {
   const rows = seriesRows.filter((r) => r.shelf === id);
+  /** @param {'known' | 'complete' | 'partial' | 'notDrawn' | 'versions'} k */
   const total = (k) => rows.reduce((sum, r) => sum + r[k], 0);
   return {
     id,
@@ -426,8 +545,17 @@ const stamp = {
 
 // --- render -------------------------------------------------------------------------------
 
+/** @param {unknown} s */
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+/**
+ * @param {number} n
+ * @param {number} d
+ */
 const pctOf = (n, d) => (d > 0 ? (100 * n) / d : 0);
+/**
+ * @param {number} n
+ * @param {number} d
+ */
 function pctText(n, d) {
   if (!d) return '';
   const p = pctOf(n, d);
@@ -435,6 +563,10 @@ function pctText(n, d) {
   if (p >= 99.95 && n < d) return 'over 99.9%';
   return `${p >= 10 || Number.isInteger(p) ? Math.round(p) : p.toFixed(1)}%`;
 }
+/**
+ * @param {number} n
+ * @param {number} d
+ */
 const widthOf = (n, d) => `${Math.max(0, Math.min(100, pctOf(n, d))).toFixed(2)}%`;
 
 /**
@@ -442,6 +574,9 @@ const widthOf = (n, d) => `${Math.max(0, Math.min(100, pctOf(n, d))).toFixed(2)}
  * covered by the next, so the bar reads left to right from the furthest-along stage. The
  * figures are always written out beside it; the bar's own label repeats them for screen
  * readers, so nothing is carried by colour alone.
+ * @param {Stage[]} parts
+ * @param {number} known
+ * @param {{ label: string, unit: string, approximate?: boolean }} options
  */
 function bar(parts, known, { label, unit, approximate = false }) {
   const n = parts.length;
@@ -454,11 +589,17 @@ function bar(parts, known, { label, unit, approximate = false }) {
     const own = Math.max(0, Math.min(v, known) - covered);
     if (own > 0) segs.push(`<span class="sbar__seg sbar__seg--l${4 - (n - 1 - i)}" style="width:${widthOf(own, known)}"></span>`);
   }
-  const spoken = parts.filter((p) => p.value != null).map((p) => `${p.label} ${fmt(p.value)}`).join(', ');
+  // The filter before dropped the stages with no value.
+  const spoken = parts.filter((p) => p.value != null).map((p) => `${p.label} ${fmt(/** @type {number} */ (p.value))}`).join(', ');
   const of = `of ${approximate ? 'about ' : ''}${fmt(known)} ${unit}`;
   return `<div class="sbar" role="img" aria-label="${esc(`${label}: ${spoken}, ${of}`)}">${segs.join('')}</div>`;
 }
 
+/**
+ * @param {Stage[]} parts
+ * @param {number} known
+ * @param {{ approximate?: boolean }} [options]
+ */
 function figureList(parts, known, { approximate = false } = {}) {
   const n = parts.length;
   return `<ul class="sfigs">${parts.map((p, i) => {
@@ -470,6 +611,7 @@ function figureList(parts, known, { approximate = false } = {}) {
   }).join('')}</ul>`;
 }
 
+/** @param {(typeof sources)[number]} s */
 function renderSource(s) {
   const known = s.known.value;
   const head = `<h3 id="source-${esc(s.id)}">${esc(s.name)}</h3>
@@ -494,12 +636,21 @@ ${facts}${note}${detail}${when}
 </article>`;
 }
 
+/**
+ * @param {ElectionRow} s
+ * @param {string} unit
+ * @returns {Stage[]}
+ */
 const electionParts = (s, unit) => [
   { label: `${unit === 'rounds' ? 'Rounds' : 'Contests'} on the site`, value: s.onSite },
   { label: 'with full figures', value: s.full },
   { label: 'verified against a source', value: s.verified },
 ];
 
+/**
+ * @param {ElectionRow} s
+ * @param {string} unit
+ */
 function renderElectionRow(s, unit) {
   const parts = electionParts(s, unit);
   const span = s.span ? ` <span class="srow__span">${s.span[0] === s.span[1] ? s.span[0] : `${s.span[0]}–${s.span[1]}`}</span>` : '';
@@ -511,6 +662,7 @@ ${s.basis ? `<p class="srow__basis">${esc(s.basis)}</p>` : ''}
 </li>`;
 }
 
+/** @param {(typeof electionGroups)[number]} g */
 function renderElectionGroup(g) {
   return `<article class="status-item">
 <h3 id="elections-${esc(g.id)}">${esc(g.name)}</h3>
@@ -522,6 +674,7 @@ ${g.segments.map((s) => renderElectionRow(s, g.unit)).join('\n')}
 </article>`;
 }
 
+/** @param {MapTotals} t */
 function mapFigures(t) {
   const parts = [
     { label: 'Complete on the site', value: t.complete, level: 4 },
@@ -530,6 +683,10 @@ function mapFigures(t) {
   ];
   return `<ul class="sfigs">${parts.map((p) => `<li><span class="swatch swatch--l${p.level}" aria-hidden="true"></span>${esc(p.label)}: <span class="sfigs__n">${fmt(p.value)}</span> <span class="sfigs__p">(${pctText(p.value, t.known) || '0%'})</span></li>`).join('')}</ul>`;
 }
+/**
+ * @param {MapTotals} t
+ * @param {string} label
+ */
 function mapBar(t, label) {
   const segs = [];
   if (t.complete) segs.push(`<span class="sbar__seg sbar__seg--l4" style="width:${widthOf(t.complete, t.known)}"></span>`);
@@ -537,6 +694,7 @@ function mapBar(t, label) {
   return `<div class="sbar" role="img" aria-label="${esc(`${label}: ${fmt(t.complete)} complete and ${fmt(t.partial)} partial on the site, ${fmt(t.notDrawn)} not yet drawn, of ${fmt(t.known)} known editions`)}">${segs.join('')}</div>`;
 }
 
+/** @param {(typeof mapShelves)[number]} shelf */
 function renderShelf(shelf) {
   const t = shelf.totals;
   const rows = shelf.series.map((r) => {
@@ -562,6 +720,10 @@ ${rows}
 </article>`;
 }
 
+/**
+ * @param {{ totals: Record<string, number> }[]} arr
+ * @param {string} k
+ */
 const sum = (arr, k) => arr.reduce((s, x) => s + x.totals[k], 0);
 const mapTotals = { known: sum(mapShelves, 'known'), complete: sum(mapShelves, 'complete'), partial: sum(mapShelves, 'partial'), notDrawn: sum(mapShelves, 'notDrawn') };
 const electionContestGroups = electionGroups.filter((g) => g.unit !== 'rounds');
