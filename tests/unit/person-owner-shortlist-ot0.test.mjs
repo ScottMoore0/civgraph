@@ -68,7 +68,9 @@ test('OT0-02 the ids split only by an abbreviated name are one person, the lowes
 });
 
 test('OT0-03 A. McConnell (Cookstown) and F. McConnell (Plumbridge), Tyrone CC 1967, are two people (B8)', () => {
-  assert.notEqual(holder('A. McConnell|'), holder('F. McConnell|'));
+  // persons-13 (MG-D) gave the Cookstown man's rows, this one among them, the declared key
+  // "Alex. M'Connell|UUP" (label-blanked-identity-keys.csv), so he is found by that key.
+  assert.notEqual(holder("Alex. M'Connell|UUP"), holder('F. McConnell|'));
 });
 
 test('OT0-04 Séimi Ó Dubhthaigh is also found as Jimmy Duffy, the results book\'s form (E5)', () => {
