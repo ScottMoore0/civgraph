@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T22:21:48.324Z",
+  "generatedAt": "2026-11-13T14:18:50.505Z",
   "description": "Progress of Civgraph's sources, elections and maps, as shown on /pages/status.html. Each total states its basis. Built by scripts/build/build-status.mjs; generatedAt is when a figure last changed.",
   "figures": {
     "sources": [
@@ -2648,11 +2648,11 @@
         "id": "people-and-places",
         "name": "People & Places",
         "totals": {
-          "known": 114,
-          "complete": 114,
+          "known": 116,
+          "complete": 116,
           "partial": 0,
           "notDrawn": 0,
-          "versions": 2
+          "versions": 3
         },
         "series": [
           {
@@ -2701,6 +2701,21 @@
             "versions": 0
           },
           {
+            "id": "census-nuts-2-regions",
+            "name": "NUTS Regions",
+            "scope": "Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2003,
+              2021
+            ],
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 1
+          },
+          {
             "id": "census-statistics-total-households",
             "name": "Total households",
             "scope": "Northern Ireland",
@@ -2738,21 +2753,6 @@
             "years": [
               2011,
               2021
-            ],
-            "known": 4,
-            "complete": 4,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "census-nuts-2-regions",
-            "name": "NUTS Regions",
-            "scope": "Ireland",
-            "shelf": "people-and-places",
-            "years": [
-              2003,
-              2011
             ],
             "known": 4,
             "complete": 4,

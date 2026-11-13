@@ -1,20 +1,21 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T19:47:20.025Z",
+  "generatedAt": "2026-11-13T13:55:28.704Z",
   "rangeRequest": "bytes=0-15",
   "origin": "https://civgraph.net",
   "totals": {
-    "assets": 934,
-    "ok": 934,
+    "assets": 938,
+    "ok": 938,
     "failed": 0
   },
   "scopedRun": {
     "ids": [
-      "admin-areas-1921-05-03-vector",
-      "admin-areas-1924-06-01-vector",
-      "admin-areas-1928-01-23-vector"
+      "nuts-2-2003-2013-vector",
+      "nuts-2-2016-2021-vector",
+      "nuts-3-2003-2013-vector",
+      "nuts-3-2016-2021-vector"
     ],
-    "checked": 3
+    "checked": 4
   },
   "results": [
     {
@@ -12158,6 +12159,62 @@
       "accessControlAllowOrigin": "https://civgraph.net",
       "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
       "cacheStatus": "DYNAMIC"
+    },
+    {
+      "layerId": "nuts-2-2016-2021-vector",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-2-2016-2021-vector.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/3857466",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC",
+      "checkedAt": "2026-11-13T13:55:27.784Z"
+    },
+    {
+      "layerId": "nuts-2-2003-2013-vector",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/1639593",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC",
+      "checkedAt": "2026-11-13T13:55:28.042Z"
+    },
+    {
+      "layerId": "nuts-3-2016-2021-vector",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/4853849",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC",
+      "checkedAt": "2026-11-13T13:55:28.250Z"
+    },
+    {
+      "layerId": "nuts-3-2003-2013-vector",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/2345287",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC",
+      "checkedAt": "2026-11-13T13:55:28.383Z"
     }
   ]
 }
