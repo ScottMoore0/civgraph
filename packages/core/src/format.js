@@ -1,8 +1,8 @@
 /**
  * Text formatting shared by the record pages and every app: numbers, dates, lists, slugs.
- * Pure functions; used by functions/_browse-page.js, packages/ui/src/templates/records/, the map
- * app and the served pages (through /pkg/core/src/format.js). The one place a locale is named
- * (docs/ARCHITECTURE-RULES.md R10).
+ * Pure functions (numbers and dates read the interface language's locale, siteLocale); used by
+ * functions/_browse-page.js, packages/ui/src/templates/records/, the map app and the served pages
+ * (through /pkg/core/src/format.js). The one place a locale is named (docs/ARCHITECTURE-RULES.md R10).
  */
 
 /**
@@ -82,35 +82,74 @@ export function personRecordPath(person) {
 }
 
 /**
- * The locale every number and date on the site is written in. The interface languages (Irish,
- * Ulster-Scots: site/assets/i18n/i18n.js) translate the English the page renders, dates
- * included, so the formatter writes English and nothing else names a locale (R10, check C10).
+ * The source language's locale: what the site is written in, and what the formatter writes unless
+ * another interface language is on. It is the source locale of the languages registry
+ * (data/registries/languages.json; tests/unit/i18n-languages.test.mjs keeps the two equal), and
+ * the one locale named in code (R10, check C10).
  */
-const LOCALE = 'en-GB';
+const SOURCE_LOCALE = 'en-GB';
 
-/** @type {Map<string, Intl.NumberFormat>} one formatter per set of options, made once */
+/**
+ * The locale numbers and dates are written in: the interface language's, when the language
+ * runtime (site/assets/i18n/i18n.js, preview only) is on and has loaded (`civgraphI18n.locale`,
+ * from the languages registry), else the source's. English pages, the server and every page
+ * without the runtime write en-GB. A language whose locale differs (Irish, ga-IE) gets its own
+ * dates; the runtime remembers their English, so switching back restores it. A browser without
+ * the language's locale data (many builds have no Irish) writes the source's, as before, and the
+ * runtime translates the months from the language file.
+ * @returns {string}
+ */
+export function siteLocale() {
+  const i18n = /** @type {{ civgraphI18n?: { locale?: unknown } }} */ (globalThis).civgraphI18n;
+  const locale = i18n ? i18n.locale : undefined;
+  return typeof locale === 'string' && locale && hasLocaleData(locale) ? locale : SOURCE_LOCALE;
+}
+
+/** @type {Map<string, boolean>} whether this engine has Intl data for a locale, asked once */
+const localeData = new Map();
+
+/**
+ * Whether Intl formats numbers and dates in `locale` itself rather than falling back to another.
+ * @param {string} locale
+ * @returns {boolean}
+ */
+function hasLocaleData(locale) {
+  let known = localeData.get(locale);
+  if (known === undefined) {
+    try {
+      known = Intl.NumberFormat.supportedLocalesOf([locale]).length > 0 && Intl.DateTimeFormat.supportedLocalesOf([locale]).length > 0;
+    } catch {
+      known = false; // not a well-formed tag
+    }
+    localeData.set(locale, known);
+  }
+  return known;
+}
+
+/** @type {Map<string, Intl.NumberFormat>} one formatter per locale and set of options, made once */
 const numberFormats = new Map();
 
 /**
  * A number as the site writes it: siteNumber(1234) "1,234", siteNumber(0.5, { style:
- * 'percent' }) "50%". The same as `value.toLocaleString(<the site locale>, options)` for a number.
+ * 'percent' }) "50%". The same as `value.toLocaleString(siteLocale(), options)` for a number.
  * @param {number | bigint} value
  * @param {Intl.NumberFormatOptions} [options]
  * @returns {string}
  */
 export function siteNumber(value, options) {
-  const key = options ? JSON.stringify(options) : '';
+  const locale = siteLocale();
+  const key = `${locale} ${options ? JSON.stringify(options) : ''}`;
   let format = numberFormats.get(key);
   if (!format) {
-    format = new Intl.NumberFormat(LOCALE, options);
+    format = new Intl.NumberFormat(locale, options);
     numberFormats.set(key, format);
   }
   return format.format(value);
 }
 
 /**
- * A date as the site writes it with Intl: the same as `date.toLocaleDateString(<the site
- * locale>, options)` when options name the parts to show. For "01 Apr 1969" from a date string,
+ * A date as the site writes it with Intl: the same as `date.toLocaleDateString(siteLocale(),
+ * options)` when options name the parts to show. For "01 Apr 1969" from a date string,
  * use formatDisplayDate (./date-format.mjs).
  * @param {Date | number} date
  * @param {Intl.DateTimeFormatOptions} [options]
@@ -119,7 +158,7 @@ export function siteNumber(value, options) {
 export function siteDate(date, options) {
   // As toLocaleDateString: an invalid date reads "Invalid Date" (Intl would throw).
   if (Number.isNaN(Number(date))) return 'Invalid Date';
-  return new Intl.DateTimeFormat(LOCALE, options).format(date);
+  return new Intl.DateTimeFormat(siteLocale(), options).format(date);
 }
 
 /** "1,234" (the site's grouping), or '' for null, '' and anything not a finite number. */

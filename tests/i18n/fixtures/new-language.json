@@ -1,0 +1,21 @@
+{
+ "//": "Acceptance test A5 (a new language needs only translation files): a dummy fourth interface language, in test fixtures only. tests/i18n/new-language-fixture.mjs adds it to a copy of the real registry and the real string files, as a new registry entry and a new column, and nothing else; tests/unit/i18n-new-language.test.mjs builds that copy and tests/i18n/new-language.spec.cjs renders it. French locale data, so its numbers and dates visibly differ from English; written right to left, so the direction is exercised too (no real French is right to left).",
+ "code": "xx",
+ "entry": {
+  "name": "Xx-test",
+  "englishName": "Test language (fixture)",
+  "bcp47": "fr",
+  "locale": "fr-FR",
+  "dir": "rtl",
+  "standard": "none: a test fixture",
+  "reviewedBy": null
+ },
+ "translations": {
+  "Home": "Accueil",
+  "Maps": "Cartes",
+  "Browse": "Parcourir",
+  "Language": "Langue",
+  "About Civgraph": "À propos de Civgraph",
+  "{name}: editions": "{name} : éditions"
+ }
+}

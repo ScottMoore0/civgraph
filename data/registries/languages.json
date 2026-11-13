@@ -1,0 +1,36 @@
+{
+ "schemaVersion": 1,
+ "description": "The interface languages (acceptance test A5: a new language needs only translation files): each language's own name, the locale its numbers and dates are written in, its BCP-47 tag, its writing direction and what its built file says about it. The source language is the English every key falls back to. A language is added here and as a column of every data/i18n/strings/*.txt file (named in the file's #!columns header); scripts/i18n/build-i18n.mjs then writes its files and the runtime (site/assets/i18n/i18n.js) and the shared formatter (packages/core/src/format.js) follow it with no code change. Schema: packages/registries/schemas/languages.schema.json; views: packages/registries/src/languages.mjs.",
+ "source": "en",
+ "languages": {
+  "en": {
+   "name": "English",
+   "englishName": "English",
+   "bcp47": "en-GB",
+   "locale": "en-GB",
+   "dir": "ltr",
+   "role": "source and fallback for every key"
+  },
+  "ga": {
+   "name": "Gaeilge",
+   "englishName": "Irish (Gaeilge)",
+   "bcp47": "ga",
+   "locale": "ga-IE",
+   "dir": "ltr",
+   "placeNameFields": true,
+   "standard": "An Caighdeán Oifigiúil",
+   "terminology": "téarma.ie (National Terminology Database for Irish, © Foras na Gaeilge) for administrative, electoral and computing terms; individual terms used, the database is not reproduced",
+   "reviewedBy": null
+  },
+  "sco": {
+   "name": "Ulstèr-Scotch",
+   "englishName": "Ulster-Scots (Ulstèr-Scotch)",
+   "bcp47": "sco-ulster",
+   "locale": "en-GB",
+   "localeNote": "BCP-47 'sco' (ISO 639-3 Scots) with the IANA variant subtag 'ulster' (registered 2010). Intl has no Scots locale data, so Ulster-Scots writes numbers and dates as en-GB.",
+   "dir": "ltr",
+   "standard": "none settled; conservative forms only, from published official usage where found (NI Assembly Ulster-Scots leaflet, NISRA census leaflet, Ulster-Scots Agency / Tha Boord o Ulstèr-Scotch); otherwise English is kept",
+   "reviewedBy": null
+  }
+ }
+}
