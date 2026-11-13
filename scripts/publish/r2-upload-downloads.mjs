@@ -79,8 +79,7 @@ for (const name of [...files.map((f) => f.name), version ? versionedManifestName
   const head = await store.head(keyOf(name));
   remote.set(name, head ? { bytes: typeof head.size === 'number' ? head.size : null, sha256: head.metadata?.['sha256'] || null } : null);
 }
-/** @type {DownloadManifest | null} */
-const published = await store.json(keyOf('manifest.json'));
+const published = /** @type {DownloadManifest | null} */ (await store.json(keyOf('manifest.json')));
 
 const plan = planDownloadsUpload(manifest, remote, published, { bytes: manifestBytes.length, sha256: sha256(manifestBytes) });
 if (plan.refuse.length) {
