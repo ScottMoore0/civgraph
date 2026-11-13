@@ -48,9 +48,9 @@ changed files need and then runs the checks.
   shared shell (`packages/ui/src/templates/shell.js`) at 375 px and 1280 px, in light and dark:
   48 cases, each saving a screenshot to `test-results/site-shell/`. Run it after changing
   the shell, the token set (`packages/ui/assets/`, served at `/assets/ui/`) or a page's head, header or footer.
-- `test:browser:visual` (`tests/browser/visual-regression.spec.cjs`, also in `test:browser`) compares
+- `test:browser:visual` (the browser spec `visual-regression.spec.cjs`, also in `test:browser`) compares
   every `/design-system/` specimen, the token table and the first screen of home, about, apps,
-  PRONI Search and 404 with committed baselines (`tests/browser/visual-regression.spec.cjs-snapshots/`,
+  PRONI Search and 404 with committed baselines (in the `-snapshots/` folder beside the spec,
   per platform; made on win32), at 375 px and 1280 px, in light and dark, with animations off and
   the web fonts loaded. Any colour change over 0.05% of a shot fails it. A platform with no baseline
   skips. After an intended visual change, review the diffs and re-run with `--update-snapshots`.

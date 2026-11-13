@@ -23,13 +23,13 @@
  * request leaves the test server (external hosts answer 404: nothing on these screens needs one).
  *
  * Baselines are per platform, because font rasterising differs between operating systems:
- * tests/browser/visual-regression.spec.cjs-snapshots/<name>-<platform>.png. They were made on
+ * visual-regression.spec.cjs-snapshots/<name>-<platform>.png beside this spec. They were made on
  * win32, where the site is built and landed. A platform with no baseline for a snapshot SKIPS it
  * (with a note) rather than failing, so a Linux CI run is never red for want of one; make that
  * platform's set with --update-snapshots and commit it to start holding it there.
  *
- *   npx playwright test --config config/playwright.config.cjs tests/browser/visual-regression.spec.cjs
- *   ... --update-snapshots    (after an intended visual change: review the diffs first)
+ *   npm run test:browser:visual
+ *   npm run test:browser:visual -- --update-snapshots    (after an intended visual change: review the diffs first)
  *
  * Map-app components (legend, results tables, trend chart, timeline) and the STV count viewer join
  * the gallery's APP_SPECIMENS, and so this spec, after rf9-mapapp's F2 move (REFACTOR-PLAN.md G-5);
