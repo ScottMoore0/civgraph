@@ -19,6 +19,22 @@ const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
 const PORT_PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
 
+/**
+ * A layer of render/metadata/maps-test.json, as far as these checks read it (every layer has an
+ * id and a sourceType; the rest is checked here).
+ * @typedef {{
+ *   id: string, sourceType: string, sourceMapId?: string, sourceLayer?: string, tiles?: string,
+ *   minzoom: number, maxzoom: number, bounds?: unknown, geometryType?: string, aliasTargetLayerId?: string,
+ *   labelStyle?: { fontWeight?: string, [key: string]: unknown },
+ *   [field: string]: unknown
+ * }} MetadataLayer
+ */
+/** @typedef {{ layers?: MetadataLayer[], [field: string]: unknown }} LayerMetadata */
+/** @typedef {{ conversionStatus: string, testLayerId?: string, sourceMapId?: string }} PortPlanRow */
+/** @typedef {{ errors: string[], warnings: string[] }} CheckResult */
+
+/** @param {unknown} value */
+
 function localPathFromUrlTemplate(value) {
   if (typeof value !== 'string') return null;
   if (/^https?:\/\//.test(value)) return null;
@@ -42,8 +58,14 @@ const NON_VECTOR_SOURCE_TYPES = new Set([...typesWithBehaviour(LAYER_TYPES, 'ras
 // layer-type code registry packages/map/src/renderer/layer-kinds/).
 const SUPPORTED_SOURCE_TYPES = new Set(drawnLayerTypes(LAYER_TYPES));
 
+/**
+ * @param {MetadataLayer} layer
+ * @returns {CheckResult}
+ */
 function validateLayer(layer) {
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const warnings = [];
   if (!layer.id) errors.push('missing id');
   if (!layer.name) errors.push(`${layer.id || '(unknown)'}: missing name`);
@@ -146,11 +168,13 @@ function validateLayer(layer) {
   return { errors, warnings };
 }
 
+/** @param {string} path */
 function directorySize(path) {
   let total = 0;
   const stack = [path];
   while (stack.length) {
-    const current = stack.pop();
+    // the loop runs only while the stack is non-empty
+    const current = /** @type {string} */ (stack.pop());
     const entries = safeReadDir(current);
     for (const entry of entries) {
       const child = resolve(current, entry.name);
@@ -161,6 +185,7 @@ function directorySize(path) {
   return total;
 }
 
+/** @param {string} path */
 function safeReadDir(path) {
   try {
     return readdirSync(path, { withFileTypes: true });
@@ -169,12 +194,19 @@ function safeReadDir(path) {
   }
 }
 
+/** @param {number} bytes */
 function formatBytes(bytes) {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
+/**
+ * @param {LayerMetadata} metadata
+ * @returns {CheckResult}
+ */
 function validateMetadataContract(metadata) {
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const warnings = [];
   if (Number(metadata.schemaVersion || 0) < 2) errors.push('metadata schemaVersion must be at least 2');
   if (!Array.isArray(metadata.categories)) warnings.push('metadata has no categories array; catalogue grouping will be inferred');
@@ -185,13 +217,20 @@ function validateMetadataContract(metadata) {
   return { errors, warnings };
 }
 
+/**
+ * @param {LayerMetadata} metadata
+ * @returns {CheckResult}
+ */
 function validatePortPlan(metadata) {
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const warnings = [];
   if (!existsSync(PORT_PLAN_PATH)) {
     warnings.push('render/metadata/main-site-port-plan.json is missing; run npm run build:test:metadata to refresh migration inventory');
     return { errors, warnings };
   }
+  /** @type {{ rows?: PortPlanRow[] }} */
   const plan = JSON.parse(readFileSync(PORT_PLAN_PATH, 'utf8'));
   if (!Array.isArray(plan.rows) || plan.rows.length === 0) {
     errors.push('main-site port plan must contain rows');
@@ -218,9 +257,15 @@ function validatePortPlan(metadata) {
   return { errors, warnings };
 }
 
+/**
+ * @param {LayerMetadata} metadata
+ * @returns {string[]}
+ */
 function validateAliasLayers(metadata) {
+  /** @type {string[]} */
   const errors = [];
   const layers = metadata.layers || [];
+  /** @type {Map<string | undefined, MetadataLayer>} */
   const byId = new Map(layers.map((layer) => [layer.id, layer]));
   const aliases = layers.filter((layer) => layer.aliasOf || layer.cloneOf || layer.conversionStatus === 'convertedAlias');
   for (const layer of aliases) {
@@ -243,9 +288,12 @@ function validateAliasLayers(metadata) {
 }
 
 function main() {
+  /** @type {LayerMetadata} */
   const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
   const layers = metadata.layers || [];
+  /** @type {string[]} */
   const errors = [];
+  /** @type {string[]} */
   const warnings = [];
   const metadataResult = validateMetadataContract(metadata);
   errors.push(...metadataResult.errors);
