@@ -20,6 +20,18 @@ import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs
 import { siteNumber } from '../../core/src/format.js';
 import { pageType, recordPagePath } from '../../ui/src/page-types.mjs';
 import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
+/** @typedef {import('./ui-controller-types.d.ts').UiCallbacks} UiCallbacks */
+/** @typedef {import('./ui-controller-types.d.ts').MapFeature} MapFeature */
+/** @typedef {import('./ui-controller-types.d.ts').CatalogueHistoryEntry} CatalogueHistoryEntry */
+/** @typedef {import('./data-service.js').CatalogueMap} CatalogueMap */
+/** @typedef {import('./data-service.js').Book} Book */
+/** @typedef {import('./data-service.js').BooksDocument} BooksDocument */
+/** @typedef {import('./catalogue/catalogue-types.d.ts').CatalogueSearchRecord} CatalogueSearchRecord */
+/** @typedef {import('./catalogue/catalogue-types.d.ts').SourceDownload} SourceDownload */
+/** @typedef {import('geojson').Geometry} Geometry */
+/** @typedef {import('./ui-controller-types.d.ts').MapRecord} MapRecord */
+/** @typedef {import('./ui-controller-types.d.ts').DetailFeature} DetailFeature */
+/** @typedef {import('./ui-controller-types.d.ts').FeatureDetailEntry} FeatureDetailEntry */
 
 // Derived kinds, not state (architecture rule R7): each is worked out from data where it is read.
 /** @typedef {'numeric' | 'ordinal' | 'text' | 'date'} ColumnKind how a table column sorts: inferColumnKind's answer, an entity table column's `kind` */
@@ -31,6 +43,7 @@ import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
  * and the Books categories, which previously relied on emoji from data/database/books.json.
  * Inline paths keep this a zero-dependency module; each string is the icon's Lucide markup.
  */
+/** @type {Record<string, string>} */
 const LUCIDE_ICON_PATHS = {
     vote: '<path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/>',
     map: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
@@ -44,6 +57,7 @@ const LUCIDE_ICON_PATHS = {
 };
 
 /** Book category id -> Lucide icon name. Anything unlisted gets an open book. */
+/** @type {Record<string, string>} */
 const BOOK_CATEGORY_ICONS = {
     'boundary-reports': 'clipboard-list',
     'parliamentary-debates': 'landmark',
@@ -53,23 +67,31 @@ const BOOK_CATEGORY_ICONS = {
     other: 'library'
 };
 
+/** @param {string} name @param {string} [className] */
 function lucideIcon(name, className = 'catalogue-flat__section-icon') {
     const paths = LUCIDE_ICON_PATHS[name] || LUCIDE_ICON_PATHS['book-open'];
     return `<svg aria-hidden="true" class="${className}" data-icon="lucide" data-icon-name="${name}" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">${paths}</svg>`;
 }
 
+/** @param {{ id?: string } | null | undefined} category */
 function bookCategoryIcon(category) {
-    return lucideIcon(BOOK_CATEGORY_ICONS[category?.id] || 'book-open');
+    // No category (or none with an id) finds no icon: the open book.
+    return lucideIcon(BOOK_CATEGORY_ICONS[/** @type {string} */ (category?.id)] || 'book-open');
 }
 
 class UIController {
     // The pane's state fields keep their names; each write goes through its machine or choice
     // (packages/map/src/ui-state-machines.mjs): MA-07 the split layout, MA-08 the catalogue view, MA-09 the
     // phone's catalogue flags. A value outside the set throws.
-    get currentStateId() { return this._splitLayout; }
-    set currentStateId(value) { this._splitLayout = SPLIT_LAYOUT.check(value); }
-    get catalogueView() { return this._catalogueViewValue; }
-    set catalogueView(value) { this._catalogueViewValue = CATALOGUE_VIEW.check(value); }
+    /** @returns {string} */
+    // The constructor sets both through these setters before anything reads them.
+    get currentStateId() { return /** @type {string} */ (this._splitLayout); }
+    /** @param {string} value */
+    set currentStateId(value) { /** @type {string} */ this._splitLayout = SPLIT_LAYOUT.check(value); }
+    /** @returns {string} */
+    get catalogueView() { return /** @type {string} */ (this._catalogueViewValue); }
+    /** @param {string} value */
+    set catalogueView(value) { /** @type {string} */ this._catalogueViewValue = CATALOGUE_VIEW.check(value); }
     get _mobileCatalogueExpanded() { return this.mobileCatalogueExpandedFlag.on; }
     set _mobileCatalogueExpanded(value) { this.mobileCatalogueExpandedFlag.set(value); }
     get _flatRenderScheduled() { return this.flatRenderScheduledFlag.on; }
@@ -97,37 +119,63 @@ class UIController {
         // When true, all maps show directly without 'Show X more maps' button
         this.showAllMaps = false;
 
-        // Callbacks (set by App.js)
-        this.onSplitChange = null;
-        this.onMapLoad = null;
-        this.onMapUnload = null;
-        this.onMapToggle = null;
-        this.onCheckMapLoaded = null;
-        this.onCheckMapVisible = null;
-        this.onLoadSingleFeature = null;
-        this.onHideMap = null;
+        // Callbacks (set by App.js): packages/map/src/app/ui-wiring.js sets each before init(), so each is
+        // declared as set (null until then); the two nothing sets stay nullable.
+        /** @type {UiCallbacks['onSplitChange']} */ this.onSplitChange = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onMapLoad']} */ this.onMapLoad = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onMapUnload']} */ this.onMapUnload = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onMapToggle']} */ this.onMapToggle = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onCheckMapLoaded']} */ this.onCheckMapLoaded = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onCheckMapVisible']} */ this.onCheckMapVisible = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onLoadSingleFeature']} */ this.onLoadSingleFeature = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onHideMap']} */ this.onHideMap = /** @type {never} */ (null);
+        /** @type {((...args: never[]) => unknown) | null} nothing sets it today */
         this.onVisibilityToggle = null;
-        this.onCategoryChange = null;
-        this.onProviderCategoryChange = null;
-        this.onExpandToFullMap = null;
-        this.onPartialFeatureToggle = null;
-        this.onPartialFeatureUnload = null;
-        this.onCheckFeatureLoaded = null;
-        this.onCheckFeatureVisible = null;
-        this.onFeatureLoad = null;
-        this.onSearch = null;
+        /** @type {UiCallbacks['onCategoryChange']} */ this.onCategoryChange = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onProviderCategoryChange']} */ this.onProviderCategoryChange = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onExpandToFullMap']} */ this.onExpandToFullMap = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onPartialFeatureToggle']} */ this.onPartialFeatureToggle = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onPartialFeatureUnload']} */ this.onPartialFeatureUnload = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onCheckFeatureLoaded']} */ this.onCheckFeatureLoaded = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onCheckFeatureVisible']} */ this.onCheckFeatureVisible = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onFeatureLoad']} */ this.onFeatureLoad = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onSearch']} */ this.onSearch = /** @type {never} */ (null);
+        /** @type {((...args: never[]) => unknown) | null} nothing sets it today */
         this.onMapDetailClick = null;
-        this.onOpenElectionEntityDetail = null;
-        this.onElectionEntityElectionOpen = null;
-        this.onOpenElectionConstituencyFeature = null;
-        this.onBuildElectionCatalogueCards = null;   // async () => cards[]
-        this.onLoadElection = null;                   // (body, date) => void
-        this.onUnloadElection = null;                 // () => void
-        this.onCheckElectionLoaded = null;            // (body, date) => boolean
-        this.onSetupElectionTableControls = null;     // (dataTable) => void
+        /** @type {UiCallbacks['onOpenElectionEntityDetail']} */ this.onOpenElectionEntityDetail = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onElectionEntityElectionOpen']} */ this.onElectionEntityElectionOpen = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onOpenElectionConstituencyFeature']} */ this.onOpenElectionConstituencyFeature = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onBuildElectionCatalogueCards']} */ this.onBuildElectionCatalogueCards = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onLoadElection']} */ this.onLoadElection = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onUnloadElection']} */ this.onUnloadElection = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onCheckElectionLoaded']} */ this.onCheckElectionLoaded = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onSetupElectionTableControls']} */ this.onSetupElectionTableControls = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onCheckMapSettled']} */ this.onCheckMapSettled = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onAuthorFilter']} */ this.onAuthorFilter = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onShowOnMap']} */ this.onShowOnMap = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onReorderLayers']} */ this.onReorderLayers = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onDownloadFgb']} */ this.onDownloadFgb = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onExportMapImage']} */ this.onExportMapImage = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onAddressSelect']} */ this.onAddressSelect = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onRemoveAddressMarker']} */ this.onRemoveAddressMarker = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onCheckIntersection']} */ this.onCheckIntersection = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onGetLoadedFeatures']} */ this.onGetLoadedFeatures = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onZoomToBbox']} */ this.onZoomToBbox = /** @type {never} */ (null);
+        /** @type {UiCallbacks['onHighlightFeature']} */ this.onHighlightFeature = /** @type {never} */ (null);
+        // Set by the app too (ui-wiring.js, layers.js): the books list, whether a phone's catalogue lists
+        // elections, and the steps the map app's history offers (null until then).
+        /** @type {BooksDocument | null} */
+        this.booksData = null;
+        /** @type {boolean | undefined} */
+        this.includeMobileElectionCatalogue = undefined;
+        /** @type {(() => { entries: Array<{ label: string }>, index: number } | null) | null} */
+        this.getNavigationHistory = null;
+        /** @type {((index: number) => void) | null} */
+        this.goToNavigationEntry = null;
         this._searchAddressAbortController = null;
 
         // Catalogue navigation state
+        /** @type {CatalogueHistoryEntry[]} */
         this.catalogueHistory = [];
         this.catalogueHistoryIndex = -1;
         this.catalogueView = 'list'; // 'list' or 'detail'
@@ -144,9 +192,11 @@ class UIController {
         this._flatRenderToken = null;
         this.flatRenderScheduledFlag = createFlag('flat catalogue render scheduled');
         this._pendingFlatRenderOptions = null;
+        /** @type {Array<(value: unknown) => void>} */
         this._flatRenderResolvers = [];
         this._flatTocTargetIds = new Set();
         this.singleSectionFlatCatalogue = false;
+        /** @type {string | null} */
         this._flatActiveSectionKey = null;
         this._flatTargetToSection = new Map();
         this._flatSectionTargets = new Map();
@@ -246,7 +296,7 @@ class UIController {
 
         // Close when clicking outside
         document.addEventListener('click', (e) => {
-            if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+            if (!menu.classList.contains('hidden') && !menu.contains(/** @type {Node | null} */ (e.target)) && !btn.contains(/** @type {Node | null} */ (e.target))) {
                 menu.classList.add('hidden');
                 btn.setAttribute('aria-expanded', 'false');
             }
@@ -296,7 +346,8 @@ class UIController {
         if (listView) {
             listView.addEventListener('click', (e) => {
                 // Handle class member name links
-                const classMemberLink = e.target.closest('.class-member__name-link');
+                // A click in the list lands on an element of it.
+                const classMemberLink = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('.class-member__name-link'));
                 if (classMemberLink) {
                     e.preventDefault();
                     const mapId = classMemberLink.dataset.detailMapId;
@@ -304,7 +355,7 @@ class UIController {
                     return;
                 }
                 // Handle standalone map card name links
-                const mapCardLink = e.target.closest('.map-card__name-link');
+                const mapCardLink = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('.map-card__name-link'));
                 if (mapCardLink) {
                     e.preventDefault();
                     const mapId = mapCardLink.dataset.detailMapId;
@@ -315,8 +366,9 @@ class UIController {
         }
     }
 
+    /** @param {string} mapId @param {boolean} [addToHistory] */
     showCatalogueDetailView(mapId, addToHistory = true) {
-        const map = dataService.getMapById(mapId);
+        const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(mapId));
         if (!map) {
             console.warn('[UIController] Map not found:', mapId);
             return;
@@ -410,7 +462,7 @@ class UIController {
                     <div class="catalogue-detail__section-title">Variants (${map.variants.length})</div>
                     <div class="catalogue-detail__variants">
                         ${map.variants.map(v => {
-                const variant = dataService.getMapById(v.id);
+                const variant = /** @type {MapRecord | undefined} */ (dataService.getMapById(v.id));
                 return variant ? `
                                 <div class="catalogue-detail__variant" data-map-id="${variant.id}">
                                     ${this.escapeHtml(variant.name)}
@@ -435,7 +487,7 @@ class UIController {
                     <div class="catalogue-detail__section-title">Members (${legacyMembers.length})</div>
                     <div class="catalogue-detail__variants">
                         ${legacyMembers.map(memberId => {
-                const member = dataService.getMapById(memberId);
+                const member = /** @type {MapRecord | undefined} */ (dataService.getMapById(memberId));
                 return member ? `
                                 <div class="catalogue-detail__variant" data-map-id="${member.id}">
                                     ${this.escapeHtml(member.name)}
@@ -540,7 +592,7 @@ class UIController {
         // Variant click handlers
         detailView.querySelectorAll('.catalogue-detail__variant').forEach(el => {
             el.addEventListener('click', () => {
-                const variantId = el.dataset.mapId;
+                const variantId = /** @type {HTMLElement} */ (el).dataset.mapId;
                 if (variantId) this.showCatalogueDetailView(variantId);
             });
         });
@@ -562,6 +614,7 @@ class UIController {
         this.loadAttributeSchema(map, filePath);
     }
 
+    /** @param {CatalogueHistoryEntry} entry */
     _pushCatalogueHistoryEntry(entry) {
         CATALOGUE_HISTORY_ENTRY.check(entry.type);
         this.catalogueHistory = this.catalogueHistory.slice(0, this.catalogueHistoryIndex + 1);
@@ -571,9 +624,10 @@ class UIController {
 
     _getActivePaneTabId() {
         const activeTab = document.querySelector('.pane-tab.pane-tab--active');
-        return activeTab?.dataset?.tab || 'catalogue';
+        return /** @type {HTMLElement | null} */ (activeTab)?.dataset?.tab || 'catalogue';
     }
 
+    /** @param {string} tabId */
     _pushCatalogueTabHistoryIfNeeded(tabId) {
         if (!tabId || tabId === 'catalogue') return;
         const current = this.catalogueHistory[this.catalogueHistoryIndex];
@@ -583,6 +637,11 @@ class UIController {
 
     /**
      * Resolve the primary feature name for table/detail interactions.
+     */
+    /**
+     * @param {{ properties?: Record<string, unknown> | null } | null | undefined} feature
+     * @param {MapRecord | null | undefined} mapConfig
+     * @returns {{ key: string | null, value: string }}
      */
     resolveFeaturePrimaryName(feature, mapConfig) {
         const props = feature?.properties || {};
@@ -610,18 +669,22 @@ class UIController {
             v.trim() &&
             /(name|title|label|dea|ward|district|constituency|county)/i.test(k)
         );
-        if (fallback) return { key: fallback[0], value: fallback[1].trim() };
+        // find() kept a string value.
+        if (fallback) return { key: fallback[0], value: /** @type {string} */ (fallback[1]).trim() };
         return { key: null, value: 'Unnamed Feature' };
     }
 
+    /** @param {string | undefined} mapId @param {string | number | undefined} featureId @param {string} primaryName */
     createFeatureDetailId(mapId, featureId, primaryName) {
         return `${mapId || 'feature'}:${featureId ?? primaryName}`;
     }
 
+    /** @param {string} kind @param {string} key */
     createElectionEntityDetailId(kind, key) {
         return `election:${kind}:${key}`;
     }
 
+    /** @param {{ kind?: string, key?: string, [key: string]: unknown } | null | undefined} entity */
     cacheElectionEntityDetailEntry(entity) {
         if (!entity?.kind || !entity?.key) return null;
         const detailId = this.createElectionEntityDetailId(entity.kind, entity.key);
@@ -629,6 +692,13 @@ class UIController {
         return detailId;
     }
 
+    /**
+     * @param {MapRecord | null | undefined} mapConfig
+     * @param {DetailFeature | null | undefined} feature
+     * @param {string | null} [primaryNameOverride]
+     * @param {string | number | null} [featureIdOverride]
+     * @param {{ electoralHistory?: unknown } | null} [extra]
+     */
     cacheFeatureDetailEntry(mapConfig, feature, primaryNameOverride = null, featureIdOverride = null, extra = null) {
         const primary = primaryNameOverride
             ? { value: primaryNameOverride }
@@ -654,6 +724,7 @@ class UIController {
         return detailId;
     }
 
+    /** @param {unknown} value */
     slugifyForFilename(value) {
         return String(value || 'feature')
             .normalize('NFKD')
@@ -664,6 +735,7 @@ class UIController {
             .toLowerCase() || 'feature';
     }
 
+    /** @param {string} detailId */
     buildFeatureFileBase(detailId) {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry) return 'feature';
@@ -672,6 +744,7 @@ class UIController {
         return `${mapSlug}--${featureSlug}`;
     }
 
+    /** @param {string} detailId */
     buildFeatureGeoJSON(detailId) {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry) return null;
@@ -686,6 +759,7 @@ class UIController {
         };
     }
 
+    /** @param {string} detailId */
     buildFeatureShareUrl(detailId) {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry?.mapConfig?.id) return null;
@@ -705,6 +779,7 @@ class UIController {
         return url.toString();
     }
 
+    /** @param {string} detailId @param {HTMLElement | null | undefined} buttonEl */
     copyFeatureUrl(detailId, buttonEl) {
         const shareUrl = this.buildFeatureShareUrl(detailId);
         if (!shareUrl) return;
@@ -723,6 +798,7 @@ class UIController {
         });
     }
 
+    /** @param {Blob} blob @param {string} filename */
     triggerBlobDownload(blob, filename) {
         const objectUrl = URL.createObjectURL(blob);
         const anchor = document.createElement('a');
@@ -734,6 +810,7 @@ class UIController {
         setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
     }
 
+    /** @param {string} detailId */
     featureToCsv(detailId) {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry) return null;
@@ -746,6 +823,7 @@ class UIController {
             if (typeof value === 'object') return JSON.stringify(value);
             return String(value);
         });
+        /** @param {unknown} value */
         const escapeCsv = (value) => {
             const text = String(value ?? '');
             if (/[",\n]/.test(text)) {
@@ -756,6 +834,7 @@ class UIController {
         return `${headers.map(escapeCsv).join(',')}\n${values.map(escapeCsv).join(',')}\n`;
     }
 
+    /** @param {string} detailId @param {string} format */
     downloadFeature(detailId, format) {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry) return;
@@ -795,7 +874,8 @@ class UIController {
         if (format === 'fgb') {
             try {
                 const bytes = flatgeobuf.serialize(featureGeoJSON);
-                this.triggerBlobDownload(new Blob([bytes], { type: 'application/octet-stream' }), `${base}.fgb`);
+                // flatgeobuf's bytes are an ArrayBuffer's (it allocates them), so a Blob takes them.
+        this.triggerBlobDownload(new Blob([/** @type {Uint8Array<ArrayBuffer>} */ (bytes)], { type: 'application/octet-stream' }), `${base}.fgb`);
                 return;
             } catch (err) {
                 console.error('[UIController] Failed to serialize feature FGB:', err);
@@ -804,6 +884,7 @@ class UIController {
         }
     }
 
+    /** @param {ParentNode | null | undefined} container @param {string} detailId */
     syncFeatureDetailActionButtons(container, detailId) {
         const entry = this._featureDetailCache?.get(detailId);
         if (!container || !entry?.mapConfig?.id) return;
@@ -814,8 +895,10 @@ class UIController {
 
         // The page's buttons say what they do in words (UX review 2026-10-31, M8): an X in a
         // page header reads as "close this page", and it removed the feature from the map.
+        /** @param {Element | null} button */
+        /** @param {Element | null} button */
         const labelled = (button) => button?.classList.contains('catalogue-detail__action');
-        const loadBtn = container.querySelector('.feature-load-btn');
+        const loadBtn = /** @type {HTMLButtonElement | null} */ (container.querySelector('.feature-load-btn'));
         if (loadBtn) {
             const text = isLoaded ? 'Remove from map' : 'Add to map';
             loadBtn.innerHTML = this.getLoadButtonIcon(isLoaded) + (labelled(loadBtn) ? `<span class="catalogue-detail__action-label">${text}</span>` : '');
@@ -824,7 +907,7 @@ class UIController {
             else loadBtn.setAttribute('aria-label', isLoaded ? 'Unload feature' : 'Load feature');
         }
 
-        const visibilityBtn = container.querySelector('.feature-visibility-btn');
+        const visibilityBtn = /** @type {HTMLButtonElement | null} */ (container.querySelector('.feature-visibility-btn'));
         if (visibilityBtn) {
             const text = isVisible ? 'Hide' : 'Show';
             visibilityBtn.innerHTML = this.getVisibilityButtonIcon(isVisible) + (labelled(visibilityBtn) ? `<span class="catalogue-detail__action-label">${text}</span>` : '');
@@ -835,8 +918,10 @@ class UIController {
         }
     }
 
+    /** @param {Geometry | null | undefined} geometry @returns {number[] | null} */
     getFeatureBBox(geometry) {
         const bounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+        /** @param {unknown} coords */
         const visit = (coords) => {
             if (!Array.isArray(coords)) return;
             if (coords.length >= 2 && typeof coords[0] === 'number' && typeof coords[1] === 'number') {
@@ -851,11 +936,19 @@ class UIController {
             }
             coords.forEach(visit);
         };
-        visit(geometry?.coordinates);
+        // A geometry collection has no coordinates of its own: nothing to visit.
+        visit(/** @type {{ coordinates?: unknown } | null | undefined} */ (geometry)?.coordinates);
         if (![bounds.minX, bounds.minY, bounds.maxX, bounds.maxY].every(Number.isFinite)) return null;
         return [bounds.minX, bounds.minY, bounds.maxX, bounds.maxY];
     }
 
+    /**
+     * @param {MapRecord | null | undefined} mapConfig
+     * @param {{ id?: string | number } | null | undefined} feature
+     * @param {string | number} featureIndex
+     * @param {string | null | undefined} featureName
+     * @param {number[] | null | undefined} bbox
+     */
     focusFeatureFromTable(mapConfig, feature, featureIndex, featureName, bbox) {
         if (!mapConfig) return;
         if (mapConfig.id && this.onLoadSingleFeature) {
@@ -887,6 +980,7 @@ class UIController {
     /**
      * Load attribute schema from features with lazy loading
      */
+    /** @param {MapRecord} map @param {string | null | undefined} filePath */
     async loadAttributeSchema(map, filePath) {
         const attrTableBody = document.getElementById('catalogueAttrTableBody');
         if (!attrTableBody) return;
@@ -895,10 +989,10 @@ class UIController {
         let effectiveFilePath = filePath;
         if (!effectiveFilePath && map.isGroup) {
             if (map.variants && map.variants.length > 0) {
-                const firstVariant = dataService.getMapById(map.variants[0].id);
+                const firstVariant = /** @type {MapRecord | undefined} */ (dataService.getMapById(map.variants[0].id));
                 effectiveFilePath = firstVariant?.files?.fgb || firstVariant?.files?.geojson;
             } else if (compositeChildIds(map).length > 0) {
-                const firstMember = dataService.getMapById(compositeChildIds(map)[0]);
+                const firstMember = /** @type {MapRecord | undefined} */ (dataService.getMapById(compositeChildIds(map)[0]));
                 effectiveFilePath = firstMember?.files?.fgb || firstMember?.files?.geojson;
             }
         }
@@ -910,7 +1004,9 @@ class UIController {
 
         try {
             const ext = effectiveFilePath.split('.').pop()?.toLowerCase();
+            /** @type {MapFeature[]} */
             let allFeatures = [];
+            /** @type {string[] | null} */
             let attrKeys = null;
 
             if (ext === 'fgb') {
@@ -965,6 +1061,7 @@ class UIController {
             const headers = attrTable ? [...attrTable.querySelectorAll('thead th')] : [];
             if (!scrollContainer || !tbody || !footer || !attrTable || headers.length === 0) return;
 
+            /** @param {unknown} value */
             const formatRawValue = (value) => {
                 if (value === null || value === undefined) return '';
                 if (typeof value === 'object') {
@@ -976,6 +1073,7 @@ class UIController {
                 }
                 return String(value);
             };
+            /** @param {unknown} value */
             const renderCellValue = (value) => {
                 if (value === null) {
                     return { html: '<em>null</em>', title: 'null' };
@@ -989,6 +1087,7 @@ class UIController {
                     title: this.escapeHtml(display)
                 };
             };
+            /** @param {{ feature: MapFeature, index: number }} row */
             const renderRow = ({ feature, index }) => {
                 const primary = this.resolveFeaturePrimaryName(feature, map);
                 const detailId = this.cacheFeatureDetailEntry(map, feature, primary.value, feature?.id ?? index);
@@ -1008,6 +1107,7 @@ class UIController {
                     data-feature-bbox="${bbox ? this.escapeHtml(bbox.join(',')) : ''}"
                     data-feature-detail-id="${this.escapeHtml(detailId)}">${cells}</tr>`;
             };
+            /** @param {string} text @returns {number | null} */
             const parseMaybeNumber = (text) => {
                 const cleaned = String(text || '')
                     .replace(/,/g, '')
@@ -1018,6 +1118,7 @@ class UIController {
                 const n = Number(cleaned);
                 return Number.isFinite(n) ? n : null;
             };
+            /** @param {string} text @returns {number | null} */
             const parseMaybeOrdinal = (text) => {
                 const cleaned = String(text || '').trim().toLowerCase();
                 if (!cleaned) return null;
@@ -1027,8 +1128,11 @@ class UIController {
                 if (count) return Number(count[1]);
                 return null;
             };
+            /** @param {MapFeature} feature @param {string} key */
+            /** @param {MapFeature} feature @param {string} key */
             const getFeatureValue = (feature, key) => formatRawValue(feature?.properties?.[key]);
             /** @returns {ColumnKind} */
+            /** @param {string} key @returns {ColumnKind} */
             const inferColumnKind = (key) => {
                 const sample = allFeatures.slice(0, 100).map((feature) => getFeatureValue(feature, key)).filter(Boolean);
                 const numHits = sample.filter((v) => parseMaybeNumber(v) !== null).length;
@@ -1040,6 +1144,7 @@ class UIController {
                 return 'text';
             };
             /** @param {ColumnKind} kind */
+            /** @param {MapFeature} a @param {MapFeature} b @param {string} key @param {string} dir @param {ColumnKind} kind */
             const compareFeatures = (a, b, key, dir, kind) => {
                 if (dir === 'default') return 0;
                 const av = getFeatureValue(a, key);
@@ -1063,6 +1168,10 @@ class UIController {
                 return dir === 'asc' ? cmp : -cmp;
             };
 
+            /**
+             * The table's rows, filters and sort, and the column menu open now.
+             * @type {{ allFeatures: Array<{ feature: MapFeature, index: number }>, filteredFeatures: Array<{ feature: MapFeature, index: number }>, renderedCount: number, sort: { key: string | null, dir: string }, filters: Map<string, Set<string>>, activeMenu: HTMLElement | null, activeMenuBtn: HTMLElement | null, documentClickHandler: ((event: MouseEvent) => void) | null }}
+             */
             const state = {
                 allFeatures: allFeatures.map((feature, index) => ({ feature, index })),
                 filteredFeatures: [],
@@ -1108,6 +1217,7 @@ class UIController {
                 }
                 updateFooter();
             };
+            /** @param {string} key @returns {string[]} */
             const getUniqueValues = (key) => {
                 const values = new Map();
                 state.allFeatures.forEach(({ feature }) => {
@@ -1128,7 +1238,7 @@ class UIController {
                 if (state.sort.key && state.sort.dir !== 'default') {
                     const kind = inferColumnKind(state.sort.key);
                     visible = [...visible].sort((a, b) => {
-                        const cmp = compareFeatures(a.feature, b.feature, state.sort.key, state.sort.dir, kind);
+                        const cmp = compareFeatures(a.feature, b.feature, /** @type {string} */ (state.sort.key), state.sort.dir, kind);
                         return cmp !== 0 ? cmp : (a.index - b.index);
                     });
                 } else {
@@ -1151,6 +1261,7 @@ class UIController {
                     else btn.innerHTML = '&#8645;';
                 });
             };
+            /** @param {number} idx @param {HTMLElement} anchorBtn */
             const openMenuForColumn = (idx, anchorBtn) => {
                 closeMenu();
                 const key = attrKeys[idx];
@@ -1206,7 +1317,8 @@ class UIController {
                 const fitsAbove = aboveTop >= viewportTop;
                 menu.style.top = `${(fitsBelow || !fitsAbove) ? belowTop : aboveTop}px`;
 
-                const valuesHost = menu.querySelector('[data-role="values"]');
+                // Each is in the menu's markup.
+                const valuesHost = /** @type {HTMLElement} */ (menu.querySelector('[data-role="values"]'));
                 const renderValues = (needle = '') => {
                     const q = needle.trim().toLowerCase();
                     valuesHost.innerHTML = '';
@@ -1216,7 +1328,7 @@ class UIController {
                             const item = document.createElement('label');
                             item.className = 'election-filter-menu__value';
                             item.innerHTML = `<input type="checkbox" ${selected.has(raw) ? 'checked' : ''}><span>${this.escapeHtml(raw || '(Blank)')}</span>`;
-                            const cb = item.querySelector('input');
+                            const cb = /** @type {HTMLInputElement} */ (item.querySelector('input'));
                             cb.addEventListener('change', () => {
                                 if (cb.checked) selected.add(raw);
                                 else selected.delete(raw);
@@ -1226,10 +1338,10 @@ class UIController {
                 };
                 renderValues();
 
-                const search = menu.querySelector('.election-filter-menu__search');
+                const search = /** @type {HTMLInputElement | null} */ (menu.querySelector('.election-filter-menu__search'));
                 search?.addEventListener('input', () => renderValues(search.value || ''));
                 menu.addEventListener('click', (event) => {
-                    const btn = event.target.closest('button[data-action]');
+                    const btn = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('button[data-action]'));
                     if (!btn) return;
                     const action = btn.dataset.action;
                     if (action === 'sort-asc') {
@@ -1267,8 +1379,8 @@ class UIController {
 
                 state.documentClickHandler = (event) => {
                     if (!state.activeMenu) return;
-                    if (state.activeMenu.contains(event.target)) return;
-                    if (state.activeMenuBtn && state.activeMenuBtn.contains(event.target)) return;
+                    if (state.activeMenu.contains(/** @type {Node | null} */ (event.target))) return;
+                    if (state.activeMenuBtn && state.activeMenuBtn.contains(/** @type {Node | null} */ (event.target))) return;
                     closeMenu();
                 };
                 document.addEventListener('click', state.documentClickHandler);
@@ -1314,7 +1426,7 @@ class UIController {
             }, { passive: true });
 
             tbody.addEventListener('click', (event) => {
-                const link = event.target.closest('.catalogue-detail__attr-link');
+                const link = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-detail__attr-link'));
                 if (link) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -1323,7 +1435,7 @@ class UIController {
                     return;
                 }
 
-                const row = event.target.closest('.catalogue-detail__attr-tr--interactive');
+                const row = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-detail__attr-tr--interactive'));
                 if (!row) return;
                 const featureIndex = Number(row.dataset.featureIndex);
                 const featureName = row.dataset.featureName || '';
@@ -1404,6 +1516,7 @@ class UIController {
      * byte-identical copies of this dispatch -- so a new entry type had to be added in
      * both, and the History list below would have made it a third.
      */
+    /** @param {CatalogueHistoryEntry} entry */
     _applyCatalogueHistoryEntry(entry) {
         if (!entry) return;
         if (entry.type === 'tab') {
@@ -1411,9 +1524,10 @@ class UIController {
         } else if (entry.type === 'list') {
             this.showCatalogueListView(false);
         } else if (entry.type === 'book-viewer') {
-            this.openCatalogueBookViewer(entry.bookId, entry.format || 'pdf', false);
+            // An entry of each type carries its own id.
+            this.openCatalogueBookViewer(/** @type {string} */ (entry.bookId), entry.format || 'pdf', false);
         } else if (entry.type === 'detail') {
-            this.showCatalogueDetailView(entry.mapId, false);
+            this.showCatalogueDetailView(/** @type {string} */ (entry.mapId), false);
         } else if (entry.type === 'feature-detail') {
             this.showFeatureDetailInCatalogue(entry.detailId, false);
         } else if (entry.type === 'election-entity-detail') {
@@ -1422,6 +1536,7 @@ class UIController {
     }
 
     /** A human label for a history entry. Falls back to the id rather than to nothing. */
+    /** @param {CatalogueHistoryEntry} entry */
     _catalogueHistoryLabel(entry) {
         if (!entry) return '';
         switch (entry.type) {
@@ -1463,9 +1578,12 @@ class UIController {
         // catalogue's own list held one "Catalogue" entry in the rebuilt catalogue, so the
         // popup said nothing useful (UX review 2026-10-30, #17).
         const nav = this.getNavigationHistory?.();
+        // The app's steps (each with its label) or the catalogue's own entries.
+        /** @type {Array<Partial<CatalogueHistoryEntry> & { label?: string }>} */
         const entries = nav ? nav.entries : (this.catalogueHistory || []);
         const currentIndex = nav ? nav.index : this.catalogueHistoryIndex;
-        const labelOf = (entry) => (nav ? entry.label : this._catalogueHistoryLabel(entry));
+        /** @param {Partial<CatalogueHistoryEntry> & { label?: string }} entry */
+        const labelOf = (entry) => (nav ? entry.label : this._catalogueHistoryLabel(/** @type {CatalogueHistoryEntry} */ (entry)));
         const popup = document.createElement('div');
         popup.id = 'catalogueHistoryPopup';
         popup.className = 'catalogue-history-popup';
@@ -1496,15 +1614,17 @@ class UIController {
             document.removeEventListener('pointerdown', onOutside, true);
             button.focus();
         };
+        /** @param {KeyboardEvent} event */
         const onKey = (event) => { if (event.key === 'Escape') { event.preventDefault(); close(); } };
+        /** @param {Event} event */
         const onOutside = (event) => {
-            if (!popup.contains(event.target) && event.target !== button) close();
+            if (!popup.contains(/** @type {Node | null} */ (event.target)) && event.target !== button) close();
         };
         document.addEventListener('keydown', onKey, true);
         document.addEventListener('pointerdown', onOutside, true);
 
         popup.addEventListener('click', (event) => {
-            const item = event.target.closest?.('[data-history-index]');
+            const item = /** @type {HTMLElement | null} */ (/** @type {Element} */ (event.target).closest?.('[data-history-index]'));
             if (!item) return;
             const index = Number(item.dataset.historyIndex);
             if (!Number.isInteger(index) || index < 0 || index >= entries.length) return;
@@ -1514,12 +1634,13 @@ class UIController {
                 return;
             }
             this.catalogueHistoryIndex = index;
-            this._applyCatalogueHistoryEntry(entries[index]);
+            // Without the app's steps, the entries are the catalogue's own.
+            this._applyCatalogueHistoryEntry(/** @type {CatalogueHistoryEntry} */ (entries[index]));
             this.updateCatalogueNavButtons();
             close();
         });
 
-        popup.querySelector('.catalogue-history-popup__item')?.focus();
+        /** @type {HTMLElement | null} */ (popup.querySelector('.catalogue-history-popup__item'))?.focus();
     }
 
     updateCatalogueNavButtons() {
@@ -1532,51 +1653,50 @@ class UIController {
         const onTables = tablesContent && !tablesContent.classList.contains('pane-tab-content--hidden');
 
         if (backBtn) {
-            backBtn.disabled = onTables ? false : this.catalogueHistoryIndex <= 0;
+            /** @type {HTMLButtonElement} */ (backBtn).disabled = onTables ? false : this.catalogueHistoryIndex <= 0;
         }
         if (forwardBtn) {
-            forwardBtn.disabled = this.catalogueHistoryIndex >= this.catalogueHistory.length - 1;
+            /** @type {HTMLButtonElement} */ (forwardBtn).disabled = this.catalogueHistoryIndex >= this.catalogueHistory.length - 1;
         }
         this.updateCatalogueHomeButton();
     }
 
     setupTabSwitching() {
         const tabs = document.querySelectorAll('.pane-tab');
-        const mapList = document.getElementById('mapList');
-        const exploreContent = document.getElementById('exploreContent');
-        const tablesContent = document.getElementById('tablesContent');
+
 
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                const tabId = tab.dataset.tab;
-                this.showTab(tabId);
+                const tabId = /** @type {HTMLElement} */ (tab).dataset.tab;
+                this.showTab(/** @type {string} */ (tabId));
             });
         });
 
         // Delegated handler for in-content tab links (e.g. the Tables top-link
         // in the catalogue TOC, which is re-rendered dynamically).
         document.addEventListener('click', (e) => {
-            const trigger = e.target.closest('[data-tab-target]');
+            const trigger = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('[data-tab-target]'));
             if (!trigger) return;
             e.preventDefault();
-            this.showTab(trigger.dataset.tabTarget);
+            this.showTab(/** @type {string} */ (trigger.dataset.tabTarget));
         });
     }
 
+    /** @param {string} tabId */
     showTab(tabId) {
         const tabs = document.querySelectorAll('.pane-tab');
         const tabContents = document.querySelectorAll('.pane-tab-content');
 
         // Update active tab
         tabs.forEach(t => {
-            const isActive = t.dataset.tab === tabId;
+            const isActive = /** @type {HTMLElement} */ (t).dataset.tab === tabId;
             t.classList.toggle('pane-tab--active', isActive);
             t.setAttribute('aria-selected', isActive ? 'true' : 'false');
         });
 
         // Show/hide content areas using the correct CSS class
         tabContents.forEach(content => {
-            const contentTab = content.dataset.tabContent;
+            const contentTab = /** @type {HTMLElement} */ (content).dataset.tabContent;
             const isActive = contentTab === tabId;
             content.classList.toggle('pane-tab-content--hidden', !isActive);
         });
@@ -1605,6 +1725,7 @@ class UIController {
         }
     }
 
+    /** @param {string} tabId */
     moveCatalogueShellForTab(tabId) {
         const shell = document.querySelector('.catalogue-sticky-shell');
         if (!shell) return;
@@ -1641,6 +1762,7 @@ class UIController {
             && !this._catalogueBookView;
     }
 
+    /** @param {boolean} isActive */
     _applyCatalogueBookViewerChrome(isActive) {
         const statsEl = document.getElementById('filterStats');
         const categoryPillsContainer = document.querySelector('.category-pills-container');
@@ -1650,6 +1772,7 @@ class UIController {
         if (providerPillsContainer) providerPillsContainer.classList.toggle('hidden', true);
     }
 
+    /** @param {Book} book */
     _buildBookCardHtml(book) {
         const category = (this.booksData?.categories || []).find(cat => cat.id === book.category) || null;
         const fallbackLabel = this._getBookThumbnailFallbackLabel(book);
@@ -1678,6 +1801,7 @@ class UIController {
         `;
     }
 
+    /** @param {Book} book @param {{ name?: string, description?: string } | null | undefined} category @param {string} query */
     _bookMatchesSearch(book, category, query) {
         const q = String(query || '').trim().toLowerCase();
         if (!q) return true;
@@ -1695,6 +1819,7 @@ class UIController {
         return haystacks.some(value => String(value || '').toLowerCase().includes(q));
     }
 
+    /** @param {Book} book */
     _getBookThumbnailFallbackLabel(book) {
         const id = String(book?.id || '');
         if (id.startsWith('ni-acts-')) return 'Acts';
@@ -1702,18 +1827,20 @@ class UIController {
         return 'Book';
     }
 
+    /** @param {Book} book */
     async _getBookMarkdownText(book) {
         if (!book?.markdownFile) return '';
         if (this._bookMarkdownCache.has(book.markdownFile)) {
             return this._bookMarkdownCache.get(book.markdownFile);
         }
-        const response = await fetch(book.markdownFile);
+        const response = await fetch(/** @type {string} */ (book.markdownFile));
         if (!response.ok) throw new Error(`Failed to load Markdown (${response.status})`);
         const text = await response.text();
         this._bookMarkdownCache.set(book.markdownFile, text);
         return text;
     }
 
+    /** @param {Book} book @param {string} format @param {string} [markdownText] */
     _renderCatalogueBookViewer(book, format, markdownText = '') {
         const title = this.escapeHtml(book.title || '');
         const authorLine = this.escapeHtml((book.authors || []).join(', '));
@@ -1759,6 +1886,7 @@ class UIController {
         `;
     }
 
+    /** @param {string} bookId @param {string} [format] @param {boolean} [addToHistory] */
     async openCatalogueBookViewer(bookId, format = 'pdf', addToHistory = true) {
         const book = dataService.getBookById(bookId);
         if (!book) return;
@@ -1804,7 +1932,7 @@ class UIController {
         const buttons = document.querySelectorAll('.split-toggle__btn');
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
-                const action = btn.dataset.action;
+                const action = /** @type {HTMLElement} */ (btn).dataset.action;
                 if (action) this.setSplitState(action);
             });
         });
@@ -1851,11 +1979,11 @@ class UIController {
         if (!splitDrag || !appMain) return;
 
         let isDragging = false;
-        let startX = 0;
-        let startPosition = 50;
 
+
+        /** @param {MouseEvent | TouchEvent} e */
         const getPosition = (e) => {
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientX = /** @type {TouchEvent} */ (e).touches ? /** @type {TouchEvent} */ (e).touches[0].clientX : /** @type {MouseEvent} */ (e).clientX;
             const rect = appMain.getBoundingClientRect();
             let percent = ((clientX - rect.left) / rect.width) * 100;
 
@@ -1873,24 +2001,20 @@ class UIController {
         // inside it, and a custom property does not reach a sibling -- so the pane could
         // never align to the map column and spanned the full width instead. Writing to the
         // shell lets both resolve it; .app-main inherits the value unchanged.
+        /** @type {HTMLElement} */
         const splitHost = document.body.classList.contains('app-shell')
             ? document.body
-            : (appMain.closest('.app-shell') || document.body);
+            : (/** @type {HTMLElement | null} */ (appMain.closest('.app-shell')) || document.body);
 
+        /** @param {MouseEvent | TouchEvent} e */
         const startDrag = (e) => {
             isDragging = true;
-            startX = e.touches ? e.touches[0].clientX : e.clientX;
-
-            // Read from the shell, which is where the variable is now SET. See the write
-            // below: the election pane is a sibling of .app-main, so a value set on
-            // .app-main never reaches it and the pane cannot follow the drag.
-            const currentPos = getComputedStyle(splitHost).getPropertyValue('--split-position');
-            startPosition = parseFloat(currentPos) || 50;
 
             document.body.classList.add('split-dragging');
             e.preventDefault();
         };
 
+        /** @param {MouseEvent | TouchEvent} e */
         const doDrag = (e) => {
             if (!isDragging) return;
 
@@ -1954,6 +2078,7 @@ class UIController {
         if (catalogueNextRequested()) this._catalogueSplit = installSplit(this, { host: splitHost, splitDrag });
     }
 
+    /** @param {string} stateId */
     setSplitState(stateId) {
         const allowedStates = this.getAllowedStates();
         if (!allowedStates.find(s => s.id === stateId)) {
@@ -1982,6 +2107,7 @@ class UIController {
         }
     }
 
+    /** @param {number} [direction] */
     cycleSplitState(direction = 1) {
         const allowedStates = this.getAllowedStates();
         const currentIndex = allowedStates.findIndex(s => s.id === this.currentStateId);
@@ -1989,9 +2115,11 @@ class UIController {
         this.setSplitState(allowedStates[nextIndex].id);
     }
 
+    /** @returns {Array<{ id: string, label: string, mobileLabel?: string }>} */
     getAllowedStates() {
         // map-full first on a phone, so it is the default there (packages/map/src/ui-state-machines.mjs).
-        if (this.isMobile) return SPLIT_ALLOWED.mobile.map(id => this.splitStates.find(s => s.id === id));
+        // Each allowed id is one of the split states.
+        if (this.isMobile) return /** @type {Array<{ id: string, label: string, mobileLabel?: string }>} */ (SPLIT_ALLOWED.mobile.map(id => this.splitStates.find(s => s.id === id)));
         return this.splitStates;
     }
 
@@ -2002,8 +2130,8 @@ class UIController {
         if (!allowedStates.find(s => s.id === this.currentStateId)) {
             this.currentStateId = allowedStates[0]?.id || 'balanced';
         }
-        shell.dataset.splitState = this.currentStateId;
-        const buttons = document.querySelectorAll('.split-toggle__btn');
+        /** @type {HTMLElement} */ (shell).dataset.splitState = this.currentStateId;
+        const buttons = /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('.split-toggle__btn'));
         buttons.forEach(btn => {
             const isActive = btn.dataset.action === this.currentStateId;
             btn.classList.toggle('split-toggle__btn--active', isActive);
@@ -2039,6 +2167,7 @@ class UIController {
         } catch (err) { /* use default */ }
     }
 
+    /** @param {string} message */
     announce(message) {
         const announcer = document.getElementById('announcer');
         if (announcer) {
@@ -2118,11 +2247,13 @@ class UIController {
         return this._featureThumbnailManifestPromise;
     }
 
+    /** @param {number[] | null | undefined} bbox */
     featureThumbnailBboxKey(bbox) {
         if (!Array.isArray(bbox) || bbox.length !== 4) return '';
         return bbox.map((value) => Number.isFinite(Number(value)) ? Number(value).toFixed(8) : '').join(',');
     }
 
+    /** @param {unknown} value */
     featureThumbnailHash(value) {
         let hash = 0x811c9dc5;
         const input = String(value || '');
@@ -2133,6 +2264,7 @@ class UIController {
         return (hash >>> 0).toString(16).padStart(8, '0');
     }
 
+    /** @param {string} mapId @param {string | number} featureName @param {number[] | null | undefined} bbox */
     featureThumbnailIdFor(mapId, featureName, bbox) {
         const safeMapId = String(mapId || 'feature')
             .normalize('NFKD')
@@ -2144,6 +2276,7 @@ class UIController {
         return 'feature-' + safeMapId + '-' + hash;
     }
 
+    /** @param {{ mapId?: string, bbox?: number[] | null, name?: string, id?: string | number }} result @param {MapRecord | null | undefined} map @param {string} featureName */
     getFeatureThumbnailForResult(result, map, featureName) {
         const mapId = String(result?.mapId || map?.id || '');
         const bbox = Array.isArray(result?.bbox) && result.bbox.length === 4 ? result.bbox : null;
@@ -2174,11 +2307,13 @@ class UIController {
         };
     }
 
+    /** @param {string} id */
     hasThumbnailAsset(id) {
         if (!id || !this._thumbnailIds) return false;
         return this._thumbnailIds.has(String(id));
     }
 
+    /** @param {string | MapRecord | null | undefined} mapOrId */
     getThumbnailId(mapOrId) {
         if (!mapOrId) return '';
         if (typeof mapOrId === 'string') return mapOrId;
@@ -2191,22 +2326,29 @@ class UIController {
     // County Electoral Divisions of each year 1921-69 -- showed an empty box. It shows the
     // nearest-dated map of its own series instead (county-ed-1969-04-01 -> the 1957 one),
     // else a map of its category; the row's "To Be Added" badge still says what it is.
+    /** @param {MapRecord | null | undefined} map */
     getStandInThumbnailId(map) {
-        const id = String(map.id || '');
+        // Asked for only for a map in the catalogue.
+        const id = String(/** @type {MapRecord} */ (map).id || '');
+        /** @param {unknown} value */
         const stemOf = (value) => String(value).replace(/[-_]?\d{4}(?:-\d{2}(?:-\d{2})?)?$/, '');
+        /** @param {unknown} value */
         const yearOf = (value) => Number((String(value).match(/(\d{4})(?:-\d{2}(?:-\d{2})?)?$/) || [])[1]) || null;
         if (!this._thumbnailStandIns) {
+            /** @type {Map<string, string[]>} map ids by series stem */
             const byStem = new Map();
+            /** @type {Map<string, string>} a map id by category */
             const byCategory = new Map();
             (dataService.maps?.maps || []).forEach((candidate) => {
                 const cid = candidate.cloneOf || candidate.id;
                 if (!cid || candidate.hidden || !this.hasThumbnailAsset(cid)) return;
                 const stem = stemOf(candidate.id);
                 if (!byStem.has(stem)) byStem.set(stem, []);
-                byStem.get(stem).push(cid);
+                /** @type {string[]} */ (byStem.get(stem)).push(cid);
                 const category = candidate.category || '';
                 if (category && !byCategory.has(category)) byCategory.set(category, cid);
             });
+            /** @type {{ byStem: Map<string, string[]>, byCategory: Map<string, string> } | undefined} */
             this._thumbnailStandIns = { byStem, byCategory };
         }
         const { byStem, byCategory } = this._thumbnailStandIns;
@@ -2216,9 +2358,10 @@ class UIController {
             if (!year) return series[0];
             return series.reduce((best, cid) => (Math.abs((yearOf(cid) || 0) - year) < Math.abs((yearOf(best) || 0) - year) ? cid : best));
         }
-        return byCategory.get(map.category || '') || '';
+        return byCategory.get(/** @type {MapRecord} */ (map).category || '') || '';
     }
 
+    /** @param {string | null | undefined} id @param {string} [sizeSuffix] */
     thumbnailPath(id, sizeSuffix = '') {
         const thumbId = String(id || '');
         if (!thumbId) return '';
@@ -2229,6 +2372,7 @@ class UIController {
         return '';
     }
 
+    /** @param {string | null | undefined} id @param {string} className @param {string} sizes @param {{ defer?: string, alt?: string, loading?: string }} [options] */
     renderThumbnailImage(id, className, sizes, options = {}) {
         const thumbId = String(id || '');
         const fullPath = this.thumbnailPath(thumbId);
@@ -2242,12 +2386,14 @@ class UIController {
         return `<img class="${this.escapeHtml(className)}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-thumbnail-src="${fullPath}"${srcset} sizes="${this.escapeHtml(sizes)}" alt="" loading="lazy"${deferAttr}>`;
     }
 
+    /** @param {string | null | undefined} id @param {string} className @param {string} sizes */
     renderThumbnailZone(id, className, sizes) {
         const imageHtml = this.renderThumbnailImage(id, className, sizes);
         const missingClass = imageHtml ? '' : ' thumb-zone--missing';
         return `<div class="thumb-zone${missingClass}">${imageHtml}</div>`;
     }
 
+    /** @param {MapRecord | null | undefined} map @returns {number | null} */
     getMapFeatureCount(map) {
         if (!map || !this._featureCountManifest?.counts) return null;
         const counts = this._featureCountManifest.counts;
@@ -2259,10 +2405,12 @@ class UIController {
         return null;
     }
 
+    /** @param {MapRecord | null | undefined} map @param {number | null} [count] */
     getMapFeatureUnitLabel(map, count = null) {
         const unit = String(map?.featureUnit || map?.featureType || map?.unitName || '').trim();
         if (unit) return count === 1 ? unit.replace(/s$/i, '') : unit;
         const haystack = (String(map?.id || '') + ' ' + String(map?.name || '') + ' ' + String(map?.category || '')).toLowerCase();
+        /** @type {Array<[RegExp, [string, string]]>} */
         const rules = [
             [/\bwards?\b/, ['Ward', 'Wards']],
             [/\bdea|district electoral area/, ['DEA', 'DEAs']],
@@ -2282,14 +2430,17 @@ class UIController {
         return count === 1 ? 'feature' : 'features';
     }
 
+    /** @param {MapRecord} map */
     renderMapProviderSummary(map) {
         const providers = Array.isArray(map?.provider) ? map.provider.filter(Boolean).join(', ') : String(map?.provider || '').trim();
         const count = this.getMapFeatureCount(map);
         if (!Number.isFinite(count)) return providers;
-        const countText = count.toLocaleString() + ' ' + this.getMapFeatureUnitLabel(map, count);
+        // Number.isFinite has passed the count.
+        const countText = /** @type {number} */ (count).toLocaleString() + ' ' + this.getMapFeatureUnitLabel(map, count);
         return providers ? providers + ' - ' + countText : countText;
     }
 
+    /** @param {Book} book @param {{ id?: string } | null | undefined} category @param {string} fallbackLabel */
     renderBookThumbnail(book, category, fallbackLabel) {
         const thumbId = `book-${book.id}`;
         const imageHtml = this.renderThumbnailImage(thumbId, 'book-card__thumbnail', '60px');
@@ -2306,6 +2457,7 @@ class UIController {
             </div>`;
     }
 
+    /** @param {string} id */
     renderTocThumbnail(id) {
         const thumbId = String(id || '');
         const smallPath = this.thumbnailPath(thumbId, '-60') || this.thumbnailPath(thumbId);
@@ -2319,11 +2471,13 @@ class UIController {
         return `<span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-thumbnail-src="${smallPath}" alt="" loading="lazy">${zoomHtml}</span>`;
     }
 
+    /** @param {ParentNode} [root] */
     hydrateLazyThumbnails(root = document) {
-        const images = Array.from(root.querySelectorAll('img[data-thumbnail-src]:not([data-thumbnail-hydrated])'))
+        const images = Array.from(/** @type {NodeListOf<HTMLImageElement>} */ (root.querySelectorAll('img[data-thumbnail-src]:not([data-thumbnail-hydrated])')))
             .filter((img) => img.dataset.thumbnailDefer !== 'hover');
         if (images.length === 0) return;
 
+        /** @param {HTMLImageElement} img */
         const loadImage = (img) => this.loadLazyThumbnailImage(img);
         if (!('IntersectionObserver' in window)) {
             images.forEach(loadImage);
@@ -2331,17 +2485,19 @@ class UIController {
         }
 
         if (!this._thumbnailObserver) {
+            /** @type {IntersectionObserver | null} */
             this._thumbnailObserver = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (!entry.isIntersecting) return;
-                    this._thumbnailObserver.unobserve(entry.target);
-                    this.loadLazyThumbnailImage(entry.target);
+                    /** @type {IntersectionObserver} */ (this._thumbnailObserver).unobserve(entry.target);
+                    this.loadLazyThumbnailImage(/** @type {HTMLImageElement} */ (entry.target));
                 });
             }, { rootMargin: '320px 0px' });
         }
-        images.forEach((img) => this._thumbnailObserver.observe(img));
+        images.forEach((img) => /** @type {IntersectionObserver} */ (this._thumbnailObserver).observe(img));
     }
 
+    /** @param {HTMLImageElement | null | undefined} img */
     loadLazyThumbnailImage(img) {
         if (!img || img.dataset.thumbnailHydrated === '1') return;
         const src = img.dataset.thumbnailSrc;
@@ -2352,13 +2508,16 @@ class UIController {
         img.dataset.thumbnailHydrated = '1';
     }
 
+    /** @param {() => void} callback @param {number} [timeout] @returns {number} */
     scheduleIdleWork(callback, timeout = 120) {
         if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
             return window.requestIdleCallback(callback, { timeout });
         }
-        return window.setTimeout(callback, 0);
+        // A browser without requestIdleCallback (Safari before 2024): the lib types every window as having it.
+        return /** @type {Window} */ (window).setTimeout(callback, 0);
     }
 
+    /** @param {number} index @param {number} [batchSize] */
     async yieldForCatalogueRender(index, batchSize = 8) {
         if (!this.isMobile && index % (batchSize * 2) !== batchSize * 2 - 1) return;
         if (index % batchSize !== batchSize - 1) return;
@@ -2508,7 +2667,7 @@ class UIController {
         if (!this._catalogueSearchIndexPromise) {
             this._catalogueSearchIndexPromise = (async () => {
                 const records = [];
-                const allMaps = dataService.getAllMaps().filter(map => !map.hidden);
+                const allMaps = /** @type {MapRecord[]} */ (dataService.getAllMaps()).filter(map => !map.hidden);
                 allMaps.forEach(map => {
                     records.push(this.makeCatalogueSearchRecord({
                         type: 'map',
@@ -2571,7 +2730,7 @@ class UIController {
     }
 
     featureSearchResultToCatalogueRecord(result) {
-        const map = dataService.getMapById(result.mapId);
+        const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(result.mapId));
         const name = String(result.name || result.id || 'Unnamed feature');
         const rawFeatureId = result.id !== undefined && result.id !== null && String(result.id).trim() !== '' ? result.id : name;
         const featureId = String(rawFeatureId);
@@ -2609,7 +2768,7 @@ class UIController {
         const downloadIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
 
         if (record.type === 'map' && record.mapId && record.actionLabel !== 'Open details') {
-            const map = dataService.getMapById(record.mapId);
+            const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(record.mapId));
             const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(record.mapId) : false;
             const isVisible = this.onCheckMapVisible ? !!this.onCheckMapVisible(record.mapId) : isLoaded;
             const hasDownload = !!(map?.downloads?.fgb || map?.files?.fgb || map?.files?.geojson || this.getSourceDownloads(map || {}).length);
@@ -2689,7 +2848,7 @@ class UIController {
      */
     syncDownloadButtons(container = document) {
         container.querySelectorAll?.('.download-fgb-btn[data-map-id]').forEach(btn => {
-            const map = dataService.getMapById(btn.dataset.mapId);
+            const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(btn.dataset.mapId));
             const url = resolveMapDownloadUrl(map);
             if (url) {
                 setHidden(btn, false);
@@ -2949,7 +3108,7 @@ class UIController {
         if (action === 'download-feature' && button.dataset.mapId) {
             const result = await this.loadFeatureFromSearchButton(button, { showInfo: false });
             if (result?.feature) {
-                const detailId = this.cacheFeatureDetailEntry(dataService.getMapById(button.dataset.mapId), result.feature, result.feature.featureName || button.dataset.featureName, button.dataset.featureId);
+                const detailId = this.cacheFeatureDetailEntry(/** @type {MapRecord | undefined} */ (dataService.getMapById(button.dataset.mapId)), result.feature, result.feature.featureName || button.dataset.featureName, button.dataset.featureId);
                 this.downloadFeature(detailId, 'fgb');
             }
             this.syncCatalogueSearchActionButtons(searchRoot);
@@ -2958,7 +3117,7 @@ class UIController {
         if (action === 'open-feature-detail' && button.dataset.mapId) {
             const result = await this.loadFeatureFromSearchButton(button, { showInfo: false });
             if (result?.feature) {
-                const detailId = this.cacheFeatureDetailEntry(dataService.getMapById(button.dataset.mapId), result.feature, result.feature.featureName || button.dataset.featureName, button.dataset.featureId);
+                const detailId = this.cacheFeatureDetailEntry(/** @type {MapRecord | undefined} */ (dataService.getMapById(button.dataset.mapId)), result.feature, result.feature.featureName || button.dataset.featureName, button.dataset.featureId);
                 this.showFeatureDetailInCatalogue(detailId, true);
             }
             this.syncCatalogueSearchActionButtons(searchRoot);
@@ -4817,7 +4976,7 @@ class UIController {
                 (cls.maps || []).forEach(mapId => {
                     if (seenMapIds.has(mapId)) return;
                     if (excludeIds.has(mapId)) return;
-                    const map = mapById.get(mapId) || dataService.getMapById(mapId);
+                    const map = mapById.get(mapId) || /** @type {MapRecord | undefined} */ (dataService.getMapById(mapId));
                     if (!map || map.hidden) return;
                     seenMapIds.add(mapId);
                     mapEntries.push({ map, classId: def.id });
@@ -4827,7 +4986,7 @@ class UIController {
             (def.mapIds || []).forEach(mapId => {
                 if (seenMapIds.has(mapId)) return;
                 if (excludeIds.has(mapId)) return;
-                const map = mapById.get(mapId) || dataService.getMapById(mapId);
+                const map = mapById.get(mapId) || /** @type {MapRecord | undefined} */ (dataService.getMapById(mapId));
                 if (!map || map.hidden) return;
                 seenMapIds.add(mapId);
                 mapEntries.push({ map, classId: def.id });
@@ -5253,7 +5412,7 @@ class UIController {
             flatMapCardSectionKeyById.set(card.id, resolvedSectionKey);
             const targetId = addFlatTocTarget(`flat-card-${card.id}`, resolvedSectionKey);
             const maps = collectCardMaps(card);
-            const override = card.thumbMapId ? (mapById.get(card.thumbMapId) || dataService.getMapById(card.thumbMapId)) : null;
+            const override = card.thumbMapId ? (mapById.get(card.thumbMapId) || /** @type {MapRecord | undefined} */ (dataService.getMapById(card.thumbMapId))) : null;
             const preview = pickPreview(override, maps);
             const previewThumb = preview ? this.getThumbnailId(preview) : '';
             const previewColor = preview?.style?.color || MAP_COLOURS.swatch;
@@ -5283,7 +5442,7 @@ class UIController {
             const firstCard = c1Cards.find(c => c.id === merge.mergedIds[0]);
             const maps = firstCard ? collectCardMaps(firstCard) : [];
             const overrideId = firstCard?.thumbMapId || merge.thumbMapId;
-            const override = overrideId ? (mapById.get(overrideId) || dataService.getMapById(overrideId)) : null;
+            const override = overrideId ? (mapById.get(overrideId) || /** @type {MapRecord | undefined} */ (dataService.getMapById(overrideId))) : null;
             const preview = pickPreview(override, maps);
             const previewThumb = preview ? this.getThumbnailId(preview) : '';
             const previewColor = preview?.style?.color || MAP_COLOURS.swatch;
@@ -5751,7 +5910,7 @@ class UIController {
         card.className = 'map-card map-card--class';
         card.dataset.classId = cls.id;
 
-        const memberMaps = (cls.maps || []).map(id => dataService.getMapById(id)).filter(Boolean);
+        const memberMaps = (cls.maps || []).map(id => /** @type {MapRecord | undefined} */ (dataService.getMapById(id))).filter(Boolean);
         memberMaps.sort((a, b) => (this.parseDateToTimestamp(b.date) || 0) - (this.parseDateToTimestamp(a.date) || 0));
 
         const nonPlaceholderMaps = memberMaps.filter(m => !m.placeholder);
@@ -5970,12 +6129,12 @@ class UIController {
         const allMaps = [];
         sourceClasses.forEach(cls => {
             (cls.maps || []).forEach(mapId => {
-                const map = dataService.getMapById(mapId);
+                const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(mapId));
                 if (map) allMaps.push({ map, classId: cls.id, className: cls.name });
             });
         });
         (targetClass.maps || []).forEach(mapId => {
-            const map = dataService.getMapById(mapId);
+            const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(mapId));
             if (map) allMaps.push({ map, classId: targetClass.id, className: targetClass.name });
         });
 
@@ -6147,7 +6306,7 @@ class UIController {
         const allMaps = [];
         c2Classes.forEach(cls => {
             (cls.maps || []).forEach(mapId => {
-                const map = dataService.getMapById(mapId);
+                const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(mapId));
                 if (map) allMaps.push({ map, classId: cls.id, className: cls.name });
             });
         });
@@ -6561,7 +6720,7 @@ class UIController {
                     html += '</div>';
                 } else if (item.mapId) {
                     // Map entry
-                    const map = dataService.getMapById(item.mapId);
+                    const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(item.mapId));
                     if (!map) {
                         // Map not found - render placeholder
                         html += `<div class="c1-grid-cell c1-grid-cell--empty" style="grid-column: ${gridCol}; grid-row: ${gridRowStart} / ${gridRowEnd};"></div>`;
@@ -7406,6 +7565,7 @@ class UIController {
         syncState();
     }
 
+    /** @param {unknown} dateStr @returns {number | null} */
     parseDateToTimestamp(dateStr) {
         if (!dateStr) return null;
         if (typeof dateStr === 'number') return new Date(dateStr, 0, 1).getTime();
@@ -7422,6 +7582,7 @@ class UIController {
         return null;
     }
 
+    /** @param {unknown} dateStr @param {{ id?: string, name?: string, dateEffective?: string } | null} [map] */
     formatMapDate(dateStr, map = null) {
         if (!dateStr) return '';
         const str = String(dateStr);
@@ -7436,6 +7597,7 @@ class UIController {
         return str;
     }
 
+    /** @param {unknown} dateStr */
     getYear(dateStr) {
         if (!dateStr) return null;
         const str = String(dateStr);
@@ -7945,7 +8107,7 @@ class UIController {
 
         features.forEach((feature, featureIndex) => {
             const mapConfig = mapConfigs.find(m => m.id === feature.mapId)
-                || dataService.getMapById(feature.mapId)
+                || /** @type {MapRecord | undefined} */ (dataService.getMapById(feature.mapId))
                 || window.mapController?.layerStates?.get(feature.mapId)?.config;
             const props = feature.properties || {};
             const geometry = feature.geometry;
@@ -10993,7 +11155,7 @@ class UIController {
             const featureHtml = featureResults.slice(0, 50).map(result => {
                 // Resolve display name via getMapById so hidden maps and
                 // variant-only maps still get a human-readable layer label.
-                const mapConfig = dataService.getMapById(result.mapId);
+                const mapConfig = /** @type {MapRecord | undefined} */ (dataService.getMapById(result.mapId));
                 const mapName = mapConfig?.name || result.mapId;
                 const colour = mapConfig?.style?.color || MAP_COLOURS.layer;
                 const thumb = this._buildFeatureLocatorSvg(result.bbox, colour);
@@ -11574,7 +11736,7 @@ class UIController {
             const classes = dataService.getClasses();
             const cls = classes.find(c => c.id === id);
             if (cls) {
-                const clsMaps = (cls.maps || []).map(mid => dataService.getMapById(mid)).filter(Boolean);
+                const clsMaps = (cls.maps || []).map(mid => /** @type {MapRecord | undefined} */ (dataService.getMapById(mid))).filter(Boolean);
                 html += `<div class="explore-detail__hero explore-detail__hero--class">
                     <span class="explore-detail__icon">[class]</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(cls.name)}</h2>
@@ -11603,7 +11765,7 @@ class UIController {
                 html += '</div></div>';
             }
         } else if (type === 'map') {
-            const map = dataService.getMapById(id);
+            const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(id));
             if (map) {
                 html += `<div class="explore-detail__hero explore-detail__hero--map">
                     <span class="explore-detail__color-large" style="background: ${map.style?.color || MAP_COLOURS.swatch}"></span>

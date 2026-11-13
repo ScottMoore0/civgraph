@@ -32,6 +32,15 @@ declare global {
   var L: { latLngBounds(southWest: [number, number], northEast: [number, number]): LatLngBoundsView };
 
   /**
+   * flatgeobuf, when a page has loaded it as a classic script (ui-controller.js serialises a feature with
+   * it for download, and reads a map's file with it for its attribute table).
+   */
+  var flatgeobuf: {
+    serialize(geojson: unknown): Uint8Array;
+    deserialize(input: ReadableStream<Uint8Array> | string | null): AsyncIterable<import('geojson').Feature>;
+  };
+
+  /**
    * Fuse.js, when a page has loaded it as a classic script (packages/map/src/data-service.js and
    * ui-controller.js test `typeof Fuse` first; the map page does not load it today).
    */
@@ -45,6 +54,8 @@ declare global {
     __civgraphTest2?: { timeline?: unknown; timelineWrites?: Array<{ index: number; from: string }>; [key: string]: unknown };
     /** 'classic' on the archived classic page (civgraph.net/maps/classic/): packages/map/src/catalogue/flag.js. */
     CIVGRAPH_CATALOGUE?: string;
+    /** The retired Leaflet map's controller, which ui-controller.js still resizes when the layout changes, if a page has it. */
+    mapController?: { map?: { invalidateSize(): void } | null };
     /** The site-head bootstrap's language-control loader (packages/map/src/catalogue/lang-reveal.js). */
     civgraphLangReveal?: () => void;
   }
