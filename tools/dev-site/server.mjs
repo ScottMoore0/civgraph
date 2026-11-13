@@ -124,6 +124,29 @@ function readBody(req) {
   });
 }
 /**
+ * The 200 rewrites of site/_redirects (from -> to), as Pages applies them and as the browser
+ * tests' server does (scripts/dev/test-server.py): an exact path, or a prefix ending in /*
+ * whose target names no :splat. /elections/... serves the Elections app's shell.
+ * @type {Array<[string, string]>}
+ */
+const REWRITES = (() => {
+  try {
+    return readFileSync(path.join(ROOT, 'site', '_redirects'), 'utf8').split('\n')
+      .map((line) => line.split('#', 1)[0].trim().split(/\s+/))
+      .filter((f) => f.length === 3 && f[2] === '200' && !f[1].includes(':splat') && f[0] !== '/test/sw.js')
+      .map((f) => /** @type {[string, string]} */ ([f[0], f[1]]));
+  } catch {
+    return [];
+  }
+})();
+
+/** The path a 200 rewrite serves for a request path, or the path itself. @param {string} p */
+function rewritten(p) {
+  for (const [from, to] of REWRITES) if (p === from || (from.endsWith('/*') && p.startsWith(from.slice(0, -1)))) return to;
+  return p;
+}
+
+/**
  * @param {import('node:http').ServerResponse} res
  * @param {number} status
  * @param {string} body
@@ -191,7 +214,7 @@ createServer(async (req, res) => {
     // from there; without a build the site answers 404 for them, as a fresh checkout would.
     const RECORD_URL = /^\/(render\/metadata\/(elections-test2(\.json|-report\.json|\/|-summaries\/)|election-provenance\/)|data\/(browse|graph)\/|data\/database\/election-provenance(\.json$|-parts\/))/;
     /** @type {string | null} */
-    let file = path.join(ROOT, sourceOf(p)); // /assets/ui/ is served from packages/ui (packages/served.json)
+    let file = path.join(ROOT, sourceOf(rewritten(p))); // /assets/ui/ is served from packages/ui (packages/served.json)
     if (RECORD_URL.test(p) && !existsSync(file)) file = localPathForUrl(p);
     if (!file || !path.resolve(file).startsWith(ROOT)) return send(res, 403, 'forbidden');
     if (existsSync(file) && statSync(file).isDirectory()) file = path.join(file, 'index.html');
