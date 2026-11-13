@@ -361,18 +361,18 @@
 # Bangor and Lisburn are one body each (2026-11): their 15 January 1920 rounds moved from the
 # urban district slugs to the borough slugs that hold the later rounds, titled for the era.
 # Splats only match at the end of a path, so each published address is listed.
+# Their election-source pages are not listed: /browse/sources/* is a Function route, which Pages
+# serves before _redirects, so the page Function answers their 301 itself (resolveElectionSlugAlias).
 /browse/elections/bangor-urban-district-council-1920-01-15  /browse/elections/bangor-borough-council-1920-01-15  301
 /browse/elections/bangor-urban-district-council-1920-01-15-castle  /browse/elections/bangor-borough-council-1920-01-15-castle  301
 /browse/elections/bangor-urban-district-council-1920-01-15-clifton  /browse/elections/bangor-borough-council-1920-01-15-clifton  301
 /browse/elections/bangor-urban-district-council-1920-01-15-dufferin  /browse/elections/bangor-borough-council-1920-01-15-dufferin  301
 /browse/elections/bangor-urban-district-council-1920-01-15-overall-results  /browse/elections/bangor-borough-council-1920-01-15-overall-results  301
-/browse/sources/election-source-bangor-urban-district-council-1920-01-15  /browse/sources/election-source-bangor-borough-council-1920-01-15  301
 /browse/elections/lisburn-urban-district-council-1920-01-15  /browse/elections/lisburn-borough-council-1920-01-15  301
 /browse/elections/lisburn-urban-district-council-1920-01-15-central  /browse/elections/lisburn-borough-council-1920-01-15-central  301
 /browse/elections/lisburn-urban-district-council-1920-01-15-north  /browse/elections/lisburn-borough-council-1920-01-15-north  301
 /browse/elections/lisburn-urban-district-council-1920-01-15-south-east  /browse/elections/lisburn-borough-council-1920-01-15-south-east  301
 /browse/elections/lisburn-urban-district-council-1920-01-15-overall-results  /browse/elections/lisburn-borough-council-1920-01-15-overall-results  301
-/browse/sources/election-source-lisburn-urban-district-council-1920-01-15  /browse/sources/election-source-lisburn-borough-council-1920-01-15  301
 /render/metadata/elections-test2/bangor-urban-district-council__1920-01-15.json  /render/metadata/elections-test2/bangor-borough-council__1920-01-15.json  301
 /render/metadata/elections-test2-summaries/bangor-urban-district-council__1920-01-15.json  /render/metadata/elections-test2-summaries/bangor-borough-council__1920-01-15.json  301
 /render/metadata/election-provenance/bangor-urban-district-council__1920-01-15.json  /render/metadata/election-provenance/bangor-borough-council__1920-01-15.json  301
