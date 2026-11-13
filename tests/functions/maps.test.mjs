@@ -107,7 +107,21 @@ test('/data/database/maps.json, /agent/maps-index.json and /data/catalogue/*.jso
   }
   const r = await get(databaseRoute, '/data/database/maps.json');
   assert.equal(r.headers.get('Cache-Control'), 'public, max-age=0, must-revalidate');
-  assert.equal(r.headers.get('ETag'), '"compat-documents-1-test-1"');
+  assert.equal(r.headers.get('ETag'), '"compat-documents-2-test-1"');
+});
+
+test('a HEAD of those documents is answered by the same handler, not the asset layer', async () => {
+  for (const [mod, url] of [[databaseRoute, '/data/database/maps.json'], [agentRoute, '/agent/maps-index.json'], [catalogueRoute, '/data/catalogue/catalogue.json']]) {
+    assert.equal(mod.onRequestHead, mod.onRequestGet, url);
+    resetDatasetMemo();
+    const res = await mod.onRequestHead({
+      request: new Request(new URL(url, 'https://civgraph.net'), { method: 'HEAD' }),
+      env, params: {}, waitUntil: () => {}, next: async () => new Response('static', { status: 200, headers: { 'X-Static': '1' } }),
+    });
+    assert.equal(res.status, 200, url);
+    assert.equal(res.headers.get('X-Static'), null, `${url}: not the asset layer`);
+    assert.equal(res.headers.get('ETag'), '"compat-documents-2-test-1"', url);
+  }
 });
 
 test('/_api/catalogue keeps its contract and adds the pane views', async () => {
