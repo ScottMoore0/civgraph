@@ -1,10 +1,9 @@
-// The NISRA publications crawler (scripts/ingest/census/crawl-nisra-publications.mjs): it sends the
-// project's User-Agent and nothing else that identifies anyone, waits at least 1.5 s before every
+// The NISRA publications crawler (scripts/ingest/census/crawl-nisra-publications.mjs): it sends no
+// User-Agent of ours (owner rule, 13 Nov 2026) and nothing else that identifies anyone, waits at least 1.5 s before every
 // request after the first (retries included), stops after two empty pages, and stops the whole run
 // on a 403, a 429 or a bot challenge. No network: fetch and sleep are injected.
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { SITE } from '../../packages/config/src/node.mjs';
 import {
   crawl, parseCards, harvestJson, looksLikeChallenge, CrawlRefused, MIN_DELAY_MS, DEFAULT_DELAY_MS,
 } from '../../scripts/ingest/census/crawl-nisra-publications.mjs';
@@ -48,14 +47,13 @@ test('parseCards reads slug and decoded title in page order', () => {
   assert.deepEqual(parseCards(''), []);
 });
 
-test('every request carries exactly the project User-Agent and no other identifying header', async () => {
+test('no request carries a User-Agent or any other identifying header', async () => {
   const f = fakeDeps({ 0: page([['a', 'A']]) });
   await crawl({ maxPage: 3 }, f.deps);
-  assert.equal(SITE.userAgent, 'civgraph-research (+https://civgraph.net)');
+  assert.ok(f.calls.length > 0);
   for (const { headers, url } of f.calls) {
-    assert.deepEqual(Object.keys(headers).sort(), ['Accept', 'User-Agent']);
-    assert.equal(headers['User-Agent'], 'civgraph-research (+https://civgraph.net)');
-    assert.doesNotMatch(JSON.stringify(headers) + url, /@|mailto|from:/i);
+    assert.deepEqual(Object.keys(headers), ['Accept']);
+    assert.doesNotMatch(JSON.stringify(headers) + url, /@|mailto|from:|civgraph|user-agent/i);
     assert.match(url, /^https:\/\/www\.nisra\.gov\.uk\/publications\?page=\d+$/);
   }
 });

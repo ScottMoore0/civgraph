@@ -28,12 +28,13 @@
  *   LOGAINM_API_KEY=... node scripts/i18n/fetch-logainm.mjs [--cache <dir>] [--limit 50]
  *   node scripts/i18n/fetch-logainm.mjs --dry-run      list what would be requested
  *
- * The User-Agent is "civgraph-research (+https://civgraph.net)". No personal email or other
- * identifier is ever sent.
+ * No User-Agent of ours is sent (crawlHeaders(), owner rule 13 Nov 2026: the fetch default
+ * applies). No personal email or other identifier is ever sent; the API key is the only
+ * credential, as Logainm requires.
  */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { SITE } from '../../packages/config/src/node.mjs';
+import { crawlHeaders } from '../../packages/config/src/node.mjs';
 
 /**
  * @template T
@@ -49,7 +50,6 @@ const DRY = process.argv.includes('--dry-run');
 const REFRESH = process.argv.includes('--refresh');
 const KEY = process.env.LOGAINM_API_KEY || '';
 const API = 'https://www.logainm.ie/api/v1.0/';
-const UA = SITE.userAgent;
 const DELAY_MS = 1100;
 
 const crosswalk = path.join(CACHE, 'place-name-crosswalk.tsv');
@@ -95,7 +95,7 @@ for (const [id] of ids) {
   let data;
   if (existsSync(cached) && !REFRESH) data = JSON.parse(readFileSync(cached, 'utf8'));
   else {
-    const res = await fetch(`${API}${id}`, { headers: { 'X-Api-Key': KEY, 'User-Agent': UA, Accept: 'application/json' } });
+    const res = await fetch(`${API}${id}`, { headers: crawlHeaders({ 'X-Api-Key': KEY, Accept: 'application/json' }) });
     if (res.status === 429) { console.error('Rate limited (429): stopping. Re-run later; cached ids are kept.'); break; }
     if (!res.ok) { console.error(`${id}: HTTP ${res.status}`); await sleep(DELAY_MS); continue; }
     data = /** @type {LogainmPlace} */ (await res.json());

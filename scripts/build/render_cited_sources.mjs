@@ -8,8 +8,9 @@
  * to settle, and saves the rendered HTML beside the fetched files.
  *
  * Polite: robots.txt checked for every host before starting (these hosts allow it), one
- * page at a time, at least 3 s between requests to the same host, and an identifying
- * suffix on the browser's user agent.
+ * page at a time and at least 3 s between requests to the same host. The browser keeps
+ * Playwright's own default User-Agent: nothing of ours is added and no other browser is
+ * imitated (owner rule, 13 Nov 2026).
  *
  * Input:  .cache/wikipedia-sources/render-targets.json  [{key, url, host}]
  * Output: .cache/wikipedia-sources/files/<sha1(url)>.rendered.html
@@ -25,7 +26,6 @@ const OUT = '.cache/wikipedia-sources';
 const FILES = path.join(OUT, 'files');
 const LOG = path.join(OUT, 'rendered.jsonl');
 const HOST_GAP_MS = 3000;
-const IDENT = ' civgraph.net-source-verification (+https://civgraph.net)';
 
 const targets = JSON.parse(readFileSync(path.join(OUT, 'render-targets.json'), 'utf8'));
 const done = new Set(existsSync(LOG) ? readFileSync(LOG, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l).key) : []);
@@ -52,8 +52,7 @@ async function robotsAllows(origin, pathname) {
 }
 
 const browser = await chromium.launch();
-const baseUa = (await browser.newPage()).evaluate(() => navigator.userAgent);
-const context = await browser.newContext({ userAgent: (await baseUa).replace('HeadlessChrome', 'Chrome') + IDENT, serviceWorkers: 'block' });
+const context = await browser.newContext({ serviceWorkers: 'block' });
 const page = await context.newPage();
 const lastByHost = new Map();
 const robotsCache = new Map();

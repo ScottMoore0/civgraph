@@ -26,19 +26,19 @@
  * A term wholly inside another holder's term on the same office is dropped and reported:
  * Wikidata lists some deputy leaders under the leader's office (Fianna Fáil, 1995-2002).
  *
- * Politeness: one request at a time, a pause between requests, maxlag=5, and the
- * User-Agent "civgraph-research (+https://civgraph.net)". No personal identifiers are sent.
+ * Politeness: one request at a time, a pause between requests and maxlag=5. No User-Agent of
+ * ours is sent (crawlHeaders(), owner rule 13 Nov 2026: the fetch default applies), and no
+ * personal identifiers.
  *
  * Usage: node scripts/ingest/wikipedia/fetch-party-wikidata.mjs [--limit N]
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
-import { SITE } from '../../../packages/config/src/node.mjs';
+import { crawlHeaders } from '../../../packages/config/src/node.mjs';
 
 const ROOT = process.cwd();
 const OUT = 'data/elections/parties/party-wikidata.json';
 const OVERRIDES = 'data/elections/parties/party-wikidata-overrides.json';
-const UA = SITE.userAgent;
 const API = 'https://www.wikidata.org/w/api.php';
 const SPARQL = 'https://query.wikidata.org/sparql';
 const PAUSE_MS = 400;
@@ -66,7 +66,7 @@ async function getJson(url, init = {}) {
     requestCount += 1;
     let response;
     try {
-      response = await fetch(url, { ...init, headers: { 'User-Agent': UA, Accept: 'application/json', ...(init.headers || {}) } });
+      response = await fetch(url, { ...init, headers: crawlHeaders({ Accept: 'application/json', ...(init.headers || {}) }) });
     } catch (error) {
       // A dropped connection is retried after a pause, like a 5xx.
       await sleep(5000);

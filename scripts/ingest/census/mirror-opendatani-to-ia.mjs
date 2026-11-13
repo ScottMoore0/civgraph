@@ -25,7 +25,6 @@ const START = Number(arg('--start', '0'));
 const NITEMS = Number(arg('--items', '999'));
 const OUTDIR = 'data/census/candidates/opendatani-ia';
 
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36';
 // ArcGIS-hosted resources are dynamically-generated async exports (need per-file
 // polling) and already sit on Esri/ArcGIS durable infrastructure — out of scope
 // for this static-file durability mirror; logged as skipped so a droplet pass
@@ -66,7 +65,7 @@ for (const it of items) {
     if (isDynamic(f.url)) { skip += 1; mirrored.push({ sourceUrl: f.url, item: it.itemId, remoteName: remote, iaUrl, status: MIRROR['skipped-dynamic'] }); continue; }
     const local = path.join(tmp, 'f.bin');
     try {
-      execFileSync('curl', ['-sL', '--fail', '-A', UA, '--max-time', '240', f.url, '-o', local], { stdio: 'ignore' });
+      execFileSync('curl', ['-sL', '--fail', '--max-time', '240', f.url, '-o', local], { stdio: 'ignore' });
       const a = ['upload', it.itemId, local, `--remote-name=${remote}`, '--no-derive', '--retries', '4'];
       if (firstUpload) { for (const m of META) a.push(`--metadata=${m}`); firstUpload = false; }
       execFileSync('ia', a, { stdio: 'ignore' });
