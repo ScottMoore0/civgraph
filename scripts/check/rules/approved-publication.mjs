@@ -47,7 +47,8 @@ const failures = [];
  * @typedef {{
  *   id?: string, title?: string, type?: string, relationship?: string,
  *   approval?: { recommendedAction?: string, stagingId?: string, componentRowIds?: string[] },
- *   references?: SourceLink[], downloads?: SourceLink[], variantOf?: { id?: string, title?: string }
+ *   references?: SourceLink[], downloads?: SourceLink[], variantOf?: { id?: string, title?: string },
+ *   availability?: { status?: string, seenMissing?: string }
  * }} ApprovedSource
  */
 /** @typedef {{ schemaVersion?: number, counts?: ApprovedCounts, sources: ApprovedSource[] }} ApprovedSources */
