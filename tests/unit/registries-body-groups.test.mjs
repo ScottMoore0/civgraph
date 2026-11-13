@@ -49,8 +49,12 @@ test('body groups: the catalogue shelves are the BODY_GROUPS literal they replac
     ...g,
     bodies: [...g.bodies, ...registry.bodies.filter((b) => b.shelf === g.id && !g.bodies.includes(b.id)).map((b) => b.id)],
   }));
-  assert.equal(JSON.stringify(catalogueShelves(registry, (flag) => bodySlugsWithFlag(councils, flag))), JSON.stringify(before));
-  assert.equal(JSON.stringify(electionGroups.shelves), JSON.stringify(before));
+  // The Seanad shelf (wave 13, 13 Nov 2026) is the one added since, for the new body alone: every
+  // shelf the literal had is unchanged.
+  const SEANAD = { id: 'seanad', label: 'Seanad', bodies: ['seanad-eireann'], icon: 'dail' };
+  const now = [before[0], SEANAD, ...before.slice(1)];
+  assert.equal(JSON.stringify(catalogueShelves(registry, (flag) => bodySlugsWithFlag(councils, flag))), JSON.stringify(now));
+  assert.equal(JSON.stringify(electionGroups.shelves), JSON.stringify(now));
   // A shelf's councilFlag is a flag the councils registry gives some council.
   for (const shelf of registry.groups.catalogueShelves) {
     if (shelf.councilFlag) assert.ok(bodySlugsWithFlag(councils, /** @type {Parameters<typeof bodySlugsWithFlag>[1]} */ (shelf.councilFlag)).length > 0, shelf.id);
@@ -116,11 +120,14 @@ test('body groups: the Elections home page groups every body as before', () => {
 });
 
 test('body groups: a person or party history groups every election type as before', () => {
-  // packages/map/src/entity-detail-data.mjs bodyGroupOf and BODY_GROUP_ORDER before 12 Nov 2026.
+  // packages/map/src/entity-detail-data.mjs bodyGroupOf and BODY_GROUP_ORDER before 12 Nov 2026,
+  // with the one group added since: the Seanad's own elections (wave 13, 13 Nov 2026), a type no
+  // body had before, so no existing election moves.
   /** @param {unknown} electionType */
   const before = (electionType) => {
     const t = String(electionType || '');
     if (/D[aá]il/i.test(t)) return 'Dáil';
+    if (/Seanad/i.test(t)) return 'Seanad';
     if (/Westminster/i.test(t)) return 'Westminster';
     if (/Assembly|Forum|Convention|Parliament of NI/i.test(t)) return 'Devolved';
     if (/Local/i.test(t)) return 'Local';
@@ -135,8 +142,8 @@ test('body groups: a person or party history groups every election type as befor
     assert.equal(groupLabel(electionGroups.entityHistory, type), before(type), String(type));
     assert.equal(entityBodyGroupOf(type), before(type), `entity-detail-data ${type}`);
   }
-  assert.deepEqual(BODY_GROUP_ORDER, ['Dáil', 'Westminster', 'Devolved', 'Local', 'European', 'Presidential', 'Referendum', 'Other']);
-  assert.deepEqual(electionGroups.entityHistory.order, ['Dáil', 'Westminster', 'Devolved', 'Local', 'European', 'Presidential', 'Referendum', 'Other']);
+  assert.deepEqual(BODY_GROUP_ORDER, ['Dáil', 'Seanad', 'Westminster', 'Devolved', 'Local', 'European', 'Presidential', 'Referendum', 'Other']);
+  assert.deepEqual(electionGroups.entityHistory.order, ['Dáil', 'Seanad', 'Westminster', 'Devolved', 'Local', 'European', 'Presidential', 'Referendum', 'Other']);
 });
 
 test('body groups: the registry refuses a shelf that does not exist and an order that drops a group', async () => {
