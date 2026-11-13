@@ -17,7 +17,10 @@ import { cachedJson, jsonResponse } from './_records.js';
 import { binding } from '../../../config/src/config.js';
 import { fromD1 } from '../../../storage/src/d1.js';
 
-const VERSION = 'compat-documents-1';
+// The cache token: part of every edge-cache key and ETag these documents get. Raised to 2 on
+// 13 Nov 2026, with the HEAD handlers, so the next publish stores and serves fresh copies and no
+// object kept under the old token is used again.
+const VERSION = 'compat-documents-2';
 
 /** @type {Readonly<Record<string, { maps: true, name?: undefined } | { maps?: undefined, name: string }>>} */
 export const COMPAT_DOCUMENTS = {
