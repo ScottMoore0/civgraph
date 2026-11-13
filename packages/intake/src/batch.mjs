@@ -312,7 +312,7 @@ export function validateBatch(batch, { checkPublicationGate = true } = {}) {
         }
         if (op.edits && existsSync(batchPath(batch, op.edits))) {
           for (const [i, ed] of /** @type {Array<{ op: string }>} */ (readJson(batchPath(batch, op.edits))).entries()) {
-            if (!['replace-text', 'add-reference', 'set-field'].includes(ed.op)) errors.push(`${op.id}: edit ${i} has unknown op ${ed.op}`);
+            if (!['replace-text', 'add-reference', 'set-field', 'unset-field'].includes(ed.op)) errors.push(`${op.id}: edit ${i} has unknown op ${ed.op}`);
           }
         }
         break;

@@ -212,6 +212,28 @@ lock when only the status changed. The status also gates commands: `stage --writ
 published or abandoned batch, `upload --yes` needs committed or uploaded, and `post-upload --write`
 needs committed or uploaded **and** a recorded real upload (`state/upload.json`).
 
+Python steps run isolated: `python -I` through `packages/intake/src/frozen-clock/run_isolated.py`,
+which gives the script back its own folder, the user's site-packages, `PYTHONDONTWRITEBYTECODE`,
+the frozen clock and the offline guard, so neither the working folder nor `PYTHONPATH` can shadow
+a module while a script reads downloaded files.
+
+### Contributions
+
+```
+npm run intake -- from-contribution <submission-id> <batch-dir> [--submission <file>] [--replace]
+```
+
+turns an approved site contribution into a batch through the `contribution` plugin
+(`scripts/ingest/contribution/plugin.mjs`, planning in `packages/intake/src/contribution.mjs`). A
+metadata edit becomes `maps-json-patch` edits (`set-field`, and `unset-field` where the patch
+gives null); a retire sets `hidden`. Staging the batch makes exactly the change
+`scripts/intake/contributions.mjs --apply` makes, with the same refusals: a submission that is not
+approved, a record not in the catalogue, a patch that changes nothing, a record already hidden,
+and a map submission (work by hand). The batch keeps the submission in
+`contribution/submission.json` without `submittedBy` or `userAgent`. With `--submission` the
+submission is read from a file; without it, from the live queue through wrangler (the owner's
+terminal). After the batch is merged, `contributions.mjs --mark-applied <id>` closes the entry.
+
 ## Tests
 
 `npm run test:intake` (`node --test "tests/intake/*.test.mjs"`) covers validation (with the review guards in `tests/intake/review.test.mjs`), plan,

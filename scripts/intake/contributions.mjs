@@ -126,7 +126,7 @@ function readSubmission(key) {
  * approved last week against a record edited since is exactly the case that must
  * not be applied silently.
  */
-function planPatch(catalogue, submission) {
+export function planPatch(catalogue, submission) {
   const record = (catalogue.maps || []).find((m) => m.id === submission.entityId);
   if (!record) return { error: `No catalogue record with id "${submission.entityId}"` };
 
@@ -144,14 +144,14 @@ function planPatch(catalogue, submission) {
   return { record, changes };
 }
 
-function applyPlan(plan) {
+export function applyPlan(plan) {
   for (const { field, after } of plan.changes) {
     if (after === null) delete plan.record[field];
     else plan.record[field] = after;
   }
 }
 
-function planRetire(catalogue, submission) {
+export function planRetire(catalogue, submission) {
   const record = (catalogue.maps || []).find((m) => m.id === submission.entityId);
   if (!record) return { error: `No catalogue record with id "${submission.entityId}"` };
   if (record.hidden === true) return { error: 'Record is already hidden' };
