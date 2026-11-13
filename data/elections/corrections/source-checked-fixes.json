@@ -49,7 +49,8 @@
     "w8-arith2-2026-11-12": "Contests that still failed the contest arithmetic check (scripts/check/rules/contest-arithmetic.mjs) after arith-audit and w8-arith, checked against their sources: for the Northern Ireland councils of 1973-2005, the Electoral Office's declaration sheets (its Local Government Election Results booklets) and Nicholas Whyte's ARK spreadsheets transcribing them; for the Dail, ElectionsIreland.org's count sheets and the official results. A figure is changed only where the source shows it and the corrected stage then reconciles (each transfer brings the stage total to the next, and the votes handed out match the surplus or the votes of the candidates excluded). Where the source's own figures do not add up, the contest is listed in contest-arithmetic-allowlist.json instead.",
     "gap-roi-2026-11-12": "Republic of Ireland local contests that Civgraph held with no candidates, filled from an official results book read by eye or from a newspaper's printed first count (Irish Newspaper Archives), with IrelandElection.com as the pointer and for full names: a record is added only where the source's first preferences add up to the valid poll and the elected equal the seats (gap-roi, 12 Nov 2026). Each reason says what was read where.",
     "review-rest-2026-11-12": "Northern Ireland council counts of 2014, 2019 and 2023 whose transfers differed from the Electoral Office for Northern Ireland's scanned result sheet (w8-review's list, 12 Nov 2026), and contests that still failed the contest arithmetic check: each sheet was read by eye, cell by cell, and the count rows set to the sheet's transfers and stage totals (candidateCount, or replaceCountRows where a non-transferable row was missing), so that every stage's transfers add up to the surplus or the votes excluded and every stage sums to the valid poll. Where the sheet's own figures do not add up, the contest is allowlisted in contest-arithmetic-allowlist.json with the reason (review-rest, 12 Nov 2026).",
-    "owner-quotas-2026-11-13": "Two 1981 council contests whose declaration sheets give a handwritten quota that does not match the Droop quota of the valid votes, and where no surplus was transferred, so the count cannot show which figure was used: Civgraph gives the calculated quota and records the sheet's reading (owner's decision, 13 November 2026)."
+    "owner-quotas-2026-11-13": "Two 1981 council contests whose declaration sheets give a handwritten quota that does not match the Droop quota of the valid votes, and where no surplus was transferred, so the count cannot show which figure was used: Civgraph gives the calculated quota and records the sheet's reading (owner's decision, 13 November 2026).",
+    "independent-alliance-2016-2026-11-13": "D\u00e1il general election of 26 February 2016: the candidates of the Independent Alliance, a grouping of independents that was not a registered party, are shown as Independent, as on the ballot paper and the official returns (non-party), each contest's note naming the members of the grouping (the label itself is set by a rule in data/elections/party-label-interpretations.json; owner's decision, 13 November 2026)."
   },
   "records": [
     {
@@ -89887,6 +89888,12 @@
           "publisher": "Wikipedia",
           "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
           "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+        },
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
         }
       ],
       "reason": "Se\u00e1n Barrett, the outgoing Ceann Comhairle, was returned automatically for D\u00fan Laoghaire in 2016, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/2016-02-26/dun-laoghaire.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 32nd D\u00e1il for D\u00fan Laoghaire and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
@@ -89926,6 +89933,10 @@
           "path": "Constituency.countInfo.Number_Of_Seats",
           "value": "4"
         }
+      ],
+      "sourceNote": "Carol Hunt was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper.",
+      "alsoBatches": [
+        "independent-alliance-2016-2026-11-13"
       ]
     },
     {
@@ -330318,6 +330329,24 @@
             "Surname": "Gerety-Quinn"
           }
         }
+      ],
+      "sourceNote": "Kevin \"Boxer\" Moran, James Morgan and Brian Fagan were members of the Independent Alliance, a grouping of independents that was not a registered party, and are shown as Independents, as on the ballot paper.",
+      "alsoBatches": [
+        "independent-alliance-2016-2026-11-13"
+      ],
+      "additionalSources": [
+        {
+          "title": "ElectionsIreland.org: 32nd D\u00e1il - Longford Westmeath (2016)",
+          "publisher": "ElectionsIreland.org",
+          "url": "https://electionsireland.org/result.cfm?election=2016&cons=166",
+          "accessed": "2026-11-13"
+        },
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
       ]
     },
     {
@@ -338646,6 +338675,342 @@
           "value": "968"
         }
       ]
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/cork-north-west.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Cork North West (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=59",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Diarmuid O'Flynn was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/cork-south-central.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Cork South Central (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=61",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Mick Finn was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/donegal.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Donegal (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=68",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Niamh Kennedy was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/dublin-bay-north.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Dublin Bay North (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=156",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Finian McGrath was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/dublin-fingal.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Dublin Fingal (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=280",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Tony Murphy was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/dublin-mid-west.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Dublin Mid West (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=95",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Paul Gogarty was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/dublin-rathdown.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Dublin Rathdown (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=282",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Shane Ross was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/dublin-south-west.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Dublin South West (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=105",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Deirdre O'Donovan was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/dublin-west.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Dublin West (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=112",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "David McGuinness was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/galway-east.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Galway East (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=122",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Se\u00e1n Canney was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/louth.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Louth (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=167",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Kevin Richard Callan and Maeve Yore were members of the Independent Alliance, a grouping of independents that was not a registered party, and are shown as Independents, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/meath-east.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Meath East (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=731",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Joe Bonner was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/offaly.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Offaly (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=306",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "John Foley was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/roscommon-galway.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Roscommon Galway (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=293",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Michael Fitzmaurice was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/sligo-leitrim.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Sligo Leitrim (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=204",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Marie Casserly was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
+    },
+    {
+      "batch": "independent-alliance-2016-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/waterford.json",
+      "source": {
+        "title": "ElectionsIreland.org: 32nd D\u00e1il - Waterford (2016)",
+        "publisher": "ElectionsIreland.org",
+        "url": "https://electionsireland.org/result.cfm?election=2016&cons=226",
+        "accessed": "2026-11-13"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-13"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "John Halligan was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as on the ballot paper."
     }
   ]
 }
