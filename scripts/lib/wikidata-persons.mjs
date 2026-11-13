@@ -89,7 +89,7 @@ export function wikidataUrl(qid) {
  * or the item is linked to someone else: the owner chooses), `merged-different` (the Wikidata
  * review called the records different people, yet they were merged), `vanished` (an id neither
  * live nor redirected), or `reviewed` (removed by a person, with the reason).
- * @typedef {{ qid: string, personId: string, name?: string, kind: string, reason: string, keptPersonId?: string, keptQid?: string, date?: string }} WikidataRemoval
+ * @typedef {{ qid: string, personId: string, name?: string | undefined, kind: string, reason: string, keptPersonId?: string, keptQid?: string, date?: string }} WikidataRemoval
  */
 /**
  * What a re-key changed. `linkedFromLeads`: settled merge leads that became links.
@@ -162,7 +162,7 @@ export function linkFromLead(lead, to, from, note) {
  * longer links, for wikidata-persons-removals.json.
  * @param {{ persons?: Record<string, WikidataLink>, mergeLeads?: MergeLead[], [key: string]: unknown }} doc
  * @param {{ personId: number|string, mergedFrom?: (number|string)[] }[]} entities  person_registry.json entities
- * @param {{ redirects?: { keep?: string, drop?: string }[], registryQids?: Map<string, string>, note?: string, date?: string }} [options]
+ * @param {{ redirects?: { keep?: string, drop?: string }[], registryQids?: Map<string, string>, note?: string | undefined, date?: string | undefined }} [options]
  *        redirects: keep/drop rows beyond `mergedFrom`; registryQids: person id -> the registry's
  *        `wikidata:` id; note: an evidence line for links made from leads; date: stamped on removals.
  * @returns {{ doc: { persons: Record<string, WikidataLink>, mergeLeads: MergeLead[], [key: string]: unknown }, changes: RekeyChanges }}
