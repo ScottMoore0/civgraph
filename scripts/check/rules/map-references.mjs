@@ -32,20 +32,43 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 export const KEYS = ['label', 'url', 'note'];
 export const SOURCE_NOTES_LABEL = 'Source notes';
 
+/**
+ * A reference as it may be written before normalising: the one format's keys, or the older
+ * url/file, title/name and description spellings, with values as the JSON has them.
+ * @typedef {{ label?: unknown, url?: unknown, note?: unknown, file?: unknown, title?: unknown, name?: unknown, description?: unknown }} RawReference
+ */
+/** @typedef {{ label: string, url?: string, note?: string }} CleanReference a reference in the one format */
+/**
+ * A record of one of the three files (a map, a layer or a data entry), as far as this reads it.
+ * @typedef {{ id?: string, sourceMapId?: string, references?: unknown, sourceNotes?: unknown, [field: string]: unknown }} ReferencingRecord
+ */
+
+/** @param {unknown} s */
 const squash = (s) => String(s).replace(/\s+/g, ' ').trim();
-/** A web address's host without "www.", lower-cased; '' when it is not one. */
+/**
+ * A web address's host without "www.", lower-cased; '' when it is not one.
+ * @param {unknown} url
+ */
 export function hostOf(url) {
-  try { return new URL(url).hostname.toLowerCase().replace(/^www\./, ''); } catch { return ''; }
+  // new URL stringifies what it is given, and throws (giving '') when that is not an address
+  try { return new URL(/** @type {string} */ (url)).hostname.toLowerCase().replace(/^www\./, ''); } catch { return ''; }
 }
+/**
+ * @param {string} text
+ * @param {string} host
+ */
 const sameHost = (text, host) => Boolean(host) && squash(text).toLowerCase().replace(/^www\./, '') === host;
-/** An address with its spaces encoded (a few R2 file names have them). */
+/**
+ * An address with its spaces encoded (a few R2 file names have them).
+ * @param {string} url
+ */
 export const encodeUrl = (url) => squash(url).replace(/ /g, '%20');
 
 /**
  * The label's canonical form: its own host first ("data.gov.ie — Planning Register"), never
  * trailing in brackets or after a dash; a download's format after an em dash.
  * @param {string} label
- * @param {string} [url]
+ * @param {unknown} [url]  a reference's url as written (anything that is not an address has no host)
  */
 export function canonicalLabel(label, url = '') {
   let l = squash(label);
@@ -63,13 +86,20 @@ export function canonicalLabel(label, url = '') {
   return l;
 }
 
-/** The problems with one list of references, as sentences; [] when it is in the one format. */
+/**
+ * The problems with one list of references, as sentences; [] when it is in the one format.
+ * @param {unknown} refs
+ * @returns {string[]}
+ */
 export function referenceProblems(refs) {
   if (refs === undefined) return [];
   if (!Array.isArray(refs)) return ['references is not a list'];
+  /** @type {string[]} */
   const out = [];
+  /** @type {Set<string>} */
   const seen = new Set();
-  refs.forEach((r, i) => {
+  // an entry of the parsed list: an object (keyed by strings) or something else, reported below
+  refs.forEach(/** @param {Record<string, unknown> | null} r @param {number} i */ (r, i) => {
     const at = `reference ${i + 1}`;
     if (!r || typeof r !== 'object' || Array.isArray(r)) { out.push(`${at} is not an object`); return; }
     for (const k of Object.keys(r)) if (!KEYS.includes(k)) out.push(`${at} has the key "${k}" (only label, url, note)`);
@@ -90,20 +120,26 @@ export function referenceProblems(refs) {
  * One list in the one format: trimmed, empty notes dropped, spaces in addresses encoded, labels
  * canonical, exact duplicates merged (a duplicate's note fills an empty one). Order is kept.
  * @param {unknown} refs
- * @param {{ sourceNotes?: string }} [extra]  a map's retired sourceNotes address, cited too
+ * @param {{ sourceNotes?: unknown }} [extra]  a map's retired sourceNotes address, cited too
+ * @returns {CleanReference[]}
  */
 export function normaliseReferences(refs, { sourceNotes } = {}) {
+  /** @type {CleanReference[]} */
   const list = [];
+  /** @type {Map<string, CleanReference>} */
   const byKey = new Map();
+  /** @param {RawReference} r */
   const push = (r) => {
-    const out = {};
+    // its label is set below before anything reads it (and it is dropped when there is none)
+    const out = /** @type {CleanReference} */ ({});
     const url = r.url ?? r.file;
     const label = squash(r.label ?? r.title ?? r.name ?? (url ? hostOf(url) : ''));
     if (!label) return;
     const cleanUrl = typeof url === 'string' && url.trim() ? encodeUrl(url) : '';
     out.label = canonicalLabel(label, cleanUrl);
     if (cleanUrl) out.url = cleanUrl;
-    const note = typeof (r.note ?? r.description) === 'string' ? (r.note ?? r.description).trim() : '';
+    // the typeof test has just seen a string
+    const note = typeof (r.note ?? r.description) === 'string' ? /** @type {string} */ (r.note ?? r.description).trim() : '';
     if (note) out.note = note;
     const key = `${out.label.toLowerCase()}|${out.url || ''}`;
     const prev = byKey.get(key);
@@ -126,13 +162,17 @@ export function normaliseReferences(refs, { sourceNotes } = {}) {
 }
 
 // ---- the three files
+/** @type {{ rel: string, list: (d: Record<string, ReferencingRecord[] | undefined>) => ReferencingRecord[] | undefined, write: (d: unknown, raw: string) => string }[]} */
 const FILES = [
   { rel: 'data/database/maps.json', list: (d) => d.maps, write: (d) => `${JSON.stringify(d, null, 2)}\n` },
   { rel: 'render/metadata/maps-test.json', list: (d) => d.layers, write: (d) => `${JSON.stringify(d, null, 2)}\n` },
   { rel: 'data/database/data-entries.json', list: (d) => d.dataEntries, write: (d, raw) => JSON.stringify(d) + (raw.endsWith('\n') ? '\n' : '') },
 ];
 
-/** Normalise one record in place; true when it changed. */
+/**
+ * Normalise one record in place; true when it changed.
+ * @param {ReferencingRecord} rec
+ */
 export function normaliseRecord(rec) {
   const before = JSON.stringify([rec.references, rec.sourceNotes]);
   const hadRefs = rec.references !== undefined;
@@ -144,6 +184,7 @@ export function normaliseRecord(rec) {
 
 function main() {
   const write = process.argv.includes('--write');
+  /** @type {string[]} */
   const problems = [];
   let changed = 0;
   for (const f of FILES) {
