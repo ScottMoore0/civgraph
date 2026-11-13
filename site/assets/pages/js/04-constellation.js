@@ -23,14 +23,14 @@
     }
   }
 
+  // The nodes lead nowhere, so they are decorative: hidden from assistive technology and out of
+  // the tab order (site/index.html), lit by the pointer only. A node made a link (<a>) would
+  // take focus and light on it as well.
   nodes.forEach(function (node) {
     node.addEventListener('mouseenter', function () { light(node, true); });
     node.addEventListener('mouseleave', function () { light(node, false); });
     node.addEventListener('focus', function () { light(node, true); });
     node.addEventListener('blur', function () { light(node, false); });
-    node.addEventListener('keydown', function (ev) {
-      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); node.click(); }
-    });
   });
 
   /* Whole-island parallax intentionally disabled: the Ireland silhouette stays fixed on hover. */
