@@ -35,6 +35,8 @@
   --text-inverse: #ffffff;
   --border: #e2e8f0;
   --border-subtle: #edf2f7;
+  /* a form control's edge: at least 3:1 on --surface and --surface-sunken (WCAG 1.4.11; owner, 13 Nov 2026) */
+  --border-input: #7a8597;
   --link: var(--color-primary);
   --focus-ring: #2c5282;
   /* status and deltas */
@@ -1061,6 +1063,7 @@
   --text-inverse: #0f1720;
   --border: #23303d;
   --border-subtle: #18222d;
+  --border-input: #64748b;
   --link: #8fb4ff;
   --focus-ring: #a8c6ea;
   --positive: #4ade80;
@@ -1098,6 +1101,7 @@
     --text-inverse: #0f1720;
     --border: #23303d;
     --border-subtle: #18222d;
+    --border-input: #64748b;
     --link: #8fb4ff;
     --focus-ring: #a8c6ea;
     --positive: #4ade80;

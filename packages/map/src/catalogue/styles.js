@@ -110,7 +110,7 @@ export const CATALOGUE_CSS = `
 .cn-years__row .cn-range { flex: 1 1 auto; min-width: 90px; }
 .cn-range { position: relative; height: 22px; }
 .cn-years__boxes { display: flex; align-items: center; gap: 6px; color: var(--cn-muted); }
-.cn-years__box { box-sizing: content-box; width: 5ch; min-height: 24px; padding: 2px 10px; border: 1px solid var(--cn-line); border-radius: 8px;
+.cn-years__box { box-sizing: content-box; width: 5ch; min-height: 24px; padding: 2px 10px; border: 1px solid var(--border-input, var(--cn-line)); border-radius: 8px;
   background: var(--cn-surface); color: var(--cn-text); font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; text-overflow: clip;
   -moz-appearance: textfield; appearance: textfield; }
 /* No spin arrows: in a box this narrow they read as a scroll bar and cover the year. */
@@ -209,7 +209,7 @@ export const CATALOGUE_CSS = `
 .cn-edit__form { display: grid; gap: 10px; padding: 18px 20px; font-family: var(--font-sans, system-ui, sans-serif); font-size: 14px; }
 .cn-edit h2 { margin: 0; font-size: 17px; }
 .cn-edit label { display: grid; gap: 4px; font-weight: 600; font-size: 13px; }
-.cn-edit input, .cn-edit textarea { font: inherit; font-weight: 400; padding: 7px 9px; border: 1px solid var(--cn-line); border-radius: 8px; background: var(--cn-raised); color: var(--cn-text); }
+.cn-edit input, .cn-edit textarea { font: inherit; font-weight: 400; padding: 7px 9px; border: 1px solid var(--border-input, var(--cn-line)); border-radius: 8px; background: var(--cn-raised); color: var(--cn-text); }
 .cn-edit__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .cn-edit__refs { display: grid; gap: 6px; border: 1px solid var(--cn-line); border-radius: 10px; padding: 8px 10px; }
 .cn-edit__refs legend { font-weight: 600; font-size: 13px; padding: 0 4px; }
