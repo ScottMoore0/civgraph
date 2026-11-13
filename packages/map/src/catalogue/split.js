@@ -21,7 +21,10 @@ export const SPLIT_WIDTHS = {
 };
 const KEY = 'civgraph.catalogueNext.split.v1';
 
-const readSaved = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
+// JSON.parse(null), nothing saved, is null, so the empty record.
+/** @returns {{ manual?: unknown }} */
+const readSaved = () => { try { return JSON.parse(/** @type {string} */ (localStorage.getItem(KEY))) || {}; } catch { return {}; } };
+/** @param {{ manual: number } | null} v */
 const writeSaved = (v) => { try { if (v) localStorage.setItem(KEY, JSON.stringify(v)); else localStorage.removeItem(KEY); } catch { /* private mode */ } };
 
 /**
@@ -31,7 +34,7 @@ const writeSaved = (v) => { try { if (v) localStorage.setItem(KEY, JSON.stringif
  */
 export function paneContent(doc = document) {
   /** @type {'catalogue' | 'tables' | 'elections' | string} the info pane's open tab (data-tab-content) */
-  const tab = doc.querySelector('.pane--info .pane-tab-content:not(.pane-tab-content--hidden)')?.dataset.tabContent || 'catalogue';
+  const tab = /** @type {HTMLElement | null} */ (doc.querySelector('.pane--info .pane-tab-content:not(.pane-tab-content--hidden)'))?.dataset.tabContent || 'catalogue';
   if (tab === 'tables') return 'wide';
   if (doc.getElementById('catalogueFlatView')?.classList.contains('catalogue-flat-view--book-viewer')) return 'wide';
   const detail = doc.getElementById('catalogueDetailView');
@@ -41,6 +44,15 @@ export function paneContent(doc = document) {
   return 'catalogue';
 }
 
+/**
+ * What the split reads of the UI controller: whether the page is a phone's, and the map's redraw hook.
+ * @typedef {{ isMobile: boolean, currentStateId: string, onSplitChange?: ((stateId: string) => void) | null }} SplitUi
+ */
+
+/**
+ * @param {SplitUi} ui
+ * @param {{ host: HTMLElement, splitDrag: HTMLElement }} parts the element whose --split-position sets the width, and the handle
+ */
 export function installSplit(ui, { host, splitDrag }) {
   // The split's lifetime (R8): dispose() removes what it put on document and stops its observer.
   const lifetime = new AbortController();
@@ -135,7 +147,7 @@ export function installSplit(ui, { host, splitDrag }) {
   // put the pane back at its automatic width under the reader's pointer.
   const observer = new MutationObserver(() => { if (!manual && !dragging) apply(); });
   const watch = () => {
-    document.querySelectorAll('body, .pane--info .pane-tab-content, #catalogueDetailView, #catalogueFlatView').forEach((el) => {
+    /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('body, .pane--info .pane-tab-content, #catalogueDetailView, #catalogueFlatView')).forEach((el) => {
       if (el.dataset.cnSplitWatched) return;
       el.dataset.cnSplitWatched = '1';
       observer.observe(el, { attributes: true, attributeFilter: ['class'] });

@@ -68,12 +68,29 @@ export function suggestEditOffered(auth, where) {
   return Boolean(auth?.allowed || auth?.authenticated) || contributorLinkWanted(where);
 }
 
+/** @param {unknown} v */
 const asText = (v) => (v === undefined || v === null ? '' : String(v));
 
-/** Open the edit dialog for map `id` (its current record is `record`). */
+/**
+ * A reference as a map record may hold one: an address alone, or a link with its label and note.
+ * @typedef {{ label?: string, title?: string, url?: string, href?: string, note?: string }} EditRef
+ */
+/**
+ * The fields of a map record the dialog offers for editing.
+ * @typedef {{ id: string, name?: unknown, description?: unknown, date?: unknown, licence?: unknown, license?: unknown, keywords?: string[], references?: unknown }} EditableMap
+ */
+/** What the review queue answers (/_api/contributions/submit). @typedef {{ ok?: boolean, dryRun?: { errors?: string[] }, hint?: string, error?: string, submission?: { id?: string } }} SubmitAnswer */
+
+/**
+ * Open the edit dialog for map `id` (its current record is `record`).
+ * @param {EditableMap} record
+ * @param {{ onDone?: (data: SubmitAnswer) => void, host?: HTMLElement }} [options]
+ * @returns {HTMLDialogElement}
+ */
 export function openEditDialog(record, { onDone, host = document.body } = {}) {
   document.querySelector('.cn-edit')?.remove();
-  const refs = Array.isArray(record.references) ? record.references.map((r) => (typeof r === 'string' ? { label: r, url: /^https?:/.test(r) ? r : '' } : { label: r.label || r.title || r.url || '', url: r.url || r.href || '', note: r.note || '' })) : [];
+  const refs = Array.isArray(record.references) ? /** @type {Array<string | EditRef>} */ (record.references).map((r) => (typeof r === 'string' ? { label: r, url: /^https?:/.test(r) ? r : '' } : { label: r.label || r.title || r.url || '', url: r.url || r.href || '', note: r.note || '' })) : [];
+  /** @type {Record<string, string>} each field's text as the dialog opens */
   const baseline = {
     name: asText(record.name),
     description: asText(record.description),
@@ -82,6 +99,7 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
     keywords: (record.keywords || []).join(', '),
     references: JSON.stringify(refs),
   };
+  /** @param {EditRef} [r] */
   const refRow = (r = {}) => `<div class="cn-edit__ref">
       <input type="text" data-ref="label" placeholder="Label" value="${esc(r.label || '')}" aria-label="Reference label">
       <input type="url" data-ref="url" placeholder="https://" value="${esc(r.url || '')}" aria-label="Reference address">
@@ -115,19 +133,22 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
   </form>`;
   // Inside the catalogue, so its colour tokens (set on .cn) apply; a modal dialog still sits on top.
   host.appendChild(dialog);
-  const form = dialog.querySelector('form');
-  const status = dialog.querySelector('.cn-edit__status');
-  const refsEl = dialog.querySelector('[data-refs]');
+  // Each is in the markup set just above.
+  const form = /** @type {HTMLFormElement} */ (dialog.querySelector('form'));
+  const status = /** @type {HTMLElement} */ (dialog.querySelector('.cn-edit__status'));
+  const refsEl = /** @type {HTMLElement} */ (dialog.querySelector('[data-refs]'));
   dialog.addEventListener('click', (e) => {
-    if (e.target.closest('[data-ref-add]')) { refsEl.insertAdjacentHTML('beforeend', refRow()); refsEl.lastElementChild.querySelector('input')?.focus(); }
-    const rm = e.target.closest('[data-ref-remove]');
+    // A click in the dialog lands on an element of it.
+    if (/** @type {Element} */ (e.target).closest('[data-ref-add]')) { refsEl.insertAdjacentHTML('beforeend', refRow()); /** @type {Element} */ (refsEl.lastElementChild).querySelector('input')?.focus(); }
+    const rm = /** @type {Element} */ (e.target).closest('[data-ref-remove]');
     if (rm) rm.closest('.cn-edit__ref')?.remove();
-    if (e.target.closest('[data-edit-cancel]')) dialog.close();
+    if (/** @type {Element} */ (e.target).closest('[data-edit-cancel]')) dialog.close();
   });
   dialog.addEventListener('close', () => dialog.remove());
 
   const collect = () => {
     const fd = new FormData(form);
+    /** @type {Record<string, unknown>} */
     const patch = {};
     for (const f of ['name', 'description', 'date', 'licence']) {
       const v = String(fd.get(f) || '').trim();
@@ -136,7 +157,9 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
     const kw = String(fd.get('keywords') || '').split(',').map((s) => s.trim()).filter(Boolean);
     if (kw.join(', ') !== baseline.keywords) patch.keywords = kw.length ? kw : null;
     const nextRefs = [...refsEl.querySelectorAll('.cn-edit__ref')].map((row) => {
-      const get = (k) => row.querySelector(`[data-ref="${k}"]`).value.trim();
+      /** @param {string} k each row has its three inputs */
+      const get = (k) => /** @type {HTMLInputElement} */ (row.querySelector(`[data-ref="${k}"]`)).value.trim();
+      /** @type {EditRef} */
       const r = { label: get('label') };
       if (get('url')) r.url = get('url');
       if (get('note')) r.note = get('note');
@@ -153,7 +176,7 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
     const { patch, summary, sourceUrls } = collect();
     if (!Object.keys(patch).length) { status.textContent = 'Nothing has changed yet.'; return; }
     if (!summary) { status.textContent = 'Say what you changed and why.'; return; }
-    const button = dialog.querySelector('[data-edit-submit]');
+    const button = /** @type {HTMLButtonElement} */ (dialog.querySelector('[data-edit-submit]'));
     button.disabled = true;
     status.textContent = 'Sending…';
     try {
@@ -163,18 +186,20 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ kind: 'metadata-edit', entityType: 'map', entityId: record.id, summary, patch, sourceUrls, pageUrl: location.href }),
       });
+      /** @type {SubmitAnswer} */
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error((data.dryRun?.errors || []).join(' ') || data.hint || data.error || `${res.status} ${res.statusText}`);
       status.textContent = `Sent for review (${data.submission?.id || 'pending'}). Nothing changes on the site until an administrator approves it.`;
       setHidden(button, true);
-      dialog.querySelector('[data-edit-cancel]').textContent = 'Close';
+      /** @type {Element} */ (dialog.querySelector('[data-edit-cancel]')).textContent = 'Close';
       onDone?.(data);
     } catch (err) {
-      status.textContent = `Not sent: ${err.message}`;
+      // fetch, res.json and the throw above each reject with an Error.
+      status.textContent = `Not sent: ${/** @type {Error} */ (err).message}`;
       button.disabled = false;
     }
   });
   dialog.showModal();
-  dialog.querySelector('input[name="name"]')?.focus();
+  /** @type {HTMLInputElement | null} */ (dialog.querySelector('input[name="name"]'))?.focus();
   return dialog;
 }
