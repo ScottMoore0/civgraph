@@ -11,7 +11,8 @@
  *   apart; the controller passes itself, which the check holds to this interface.
  * - CatalogueApp: what it reads of the map app (window.__civgraphTest2.app, packages/map/app/app.js).
  */
-import type { Book, CatalogueMap } from '../data-service.js';
+import type { Book } from '../data-service.js';
+import type { MapRecord } from '../ui-controller-types.d.ts';
 import type { Catalogue, CatalogueElection, CatalogueMapRecord, CatalogueMember, CatalogueSeries, PersonRow } from './search.js';
 
 /** One part or county of a map: a button each. */
@@ -169,10 +170,10 @@ export interface CatalogueUi {
   syncCatalogueSearchActionButtons?(container: ParentNode): void;
   syncDownloadButtons?(container: ParentNode): void;
   thumbnailPath?(id: string, sizeSuffix?: string): string | null | undefined;
-  renderMapProviderSummary?(map: CatalogueMap): string;
-  getMapFeatureCount?(map: CatalogueMap): number | null;
-  getMapFeatureUnitLabel?(map: CatalogueMap, count: number): string;
-  getSourceDownloads?(map: CatalogueMap): SourceDownload[];
+  renderMapProviderSummary?(map: MapRecord): string;
+  getMapFeatureCount?(map: MapRecord): number | null;
+  getMapFeatureUnitLabel?(map: MapRecord, count: number): string;
+  getSourceDownloads?(map: MapRecord): SourceDownload[];
   searchFeatures?(query: string): Promise<unknown[]>;
   ensureCatalogueSearchIndex?(): Promise<CatalogueSearchRecord[]>;
   featureSearchResultToCatalogueRecord?(result: unknown): CatalogueSearchRecord | null;

@@ -62,7 +62,7 @@ import { MAP_COLOURS } from '../colours.mjs';
 /** @typedef {import('./slider.js').YearBin} YearBin */
 /** @typedef {import('./slider.js').SliderState} SliderState */
 /** @typedef {import('../data-service.js').BooksDocument} BooksDocument */
-/** @typedef {import('../data-service.js').CatalogueMap} CatalogueMap */
+/** @typedef {import('../ui-controller-types.d.ts').MapRecord} MapRecord */
 /**
  * The Maps tab's filters (toAdd: an older store's, dropped on load).
  * @typedef {{ scope: string, kind: string, from: number | null, to: number | null, onMap: boolean, undated: boolean, toAdd?: unknown }} MapFilters
@@ -608,8 +608,8 @@ export class CatalogueNext {
 
   /** @param {string} id @returns {CatalogueMapRec} */
   rec(id) { return this.data.maps[id] || {}; }
-  /** @param {string} id @returns {CatalogueMap | null} */
-  full(id) { try { return dataService.getMapById(id) || null; } catch { return null; } }
+  /** @param {string} id @returns {MapRecord | null} the record as the UI reads it (ui-controller-types.d.ts) */
+  full(id) { try { return /** @type {MapRecord | undefined} */ (dataService.getMapById(id)) || null; } catch { return null; } }
   /**
    * A thumbnail, as the current pane draws it (same classes, so the same hover preview), but loaded
    * by observeThumbs: the current pane's loader watches the window, and the pane scrolls inside
