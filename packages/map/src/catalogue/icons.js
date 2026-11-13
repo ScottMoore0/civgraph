@@ -6,6 +6,7 @@
 import { CUSTOM_ICONS } from './custom-icons.js';
 import { SHELF_COLOURS } from '../colours.mjs';
 
+/** Lucide icon name -> its SVG markup. @type {Record<string, string>} */
 const PATHS = {
   // Sections, as in the current pane
   vote: '<path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/>',
@@ -56,6 +57,12 @@ const PATHS = {
   'arrow-left-right': '<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>',
 };
 
+/**
+ * An icon's SVG markup: a CivGraph icon when one has the name, else Lucide's (the map icon when neither does).
+ * @param {string} name
+ * @param {string} [cls]
+ * @returns {string}
+ */
 export function icon(name, cls = 'cn-icon') {
   // Alessio Coci's hand-drawn icons (custom-icons.js) are drawn on a 512px grid and filled.
   if (CUSTOM_ICONS[name]) return `<svg aria-hidden="true" class="${cls}" fill="currentColor" viewBox="0 0 512 512">${CUSTOM_ICONS[name]}</svg>`;
@@ -63,6 +70,7 @@ export function icon(name, cls = 'cn-icon') {
 }
 
 /** Each shelf's icon and colour: the colour marks the shelf's icon and heading, nothing else. */
+/** @type {Record<string, [string, string]>} [icon name, colour] by shelf id */
 export const SHELF_LOOK = {
   'land-divisions': ['open-atlas', SHELF_COLOURS['land-divisions']],
   'government-and-administration': ['landmark', SHELF_COLOURS['government-and-administration']],
@@ -81,10 +89,12 @@ export const SHELF_LOOK = {
 
 /** A shelf's icon in a section that renames it (view-maps.js shelfName): under Boundaries, the
  * census and statistical areas. */
+/** @type {Record<string, Record<string, string>>} */
 export const SHELF_ICON_IN = { boundaries: { 'people-and-places': 'census-statistics' } };
 
 /** Shelves a section shows as one (Phelim Birch's review, 2026-10-11): Boundaries has a few rows
  * on each of these, so they share an Environment shelf there. */
+/** @type {Record<string, Record<string, { name: string, shelves: string[] }>>} */
 export const MERGED_SHELVES = {
   boundaries: { environment: { name: 'Environment', shelves: ['local-services-and-amenities', 'water', 'environment-and-land-use', 'earth-and-terrain'] } },
 };
@@ -93,6 +103,7 @@ export const MERGED_SHELVES = {
 export const FLAT_SECTIONS = new Set(['statistics', 'historic']);
 
 /** Book category id -> icon, as in the current pane. */
+/** @type {Record<string, string>} */
 export const BOOK_CATEGORY_ICONS = {
   'boundary-reports': 'clipboard-list',
   'parliamentary-debates': 'landmark',
