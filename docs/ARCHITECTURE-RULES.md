@@ -24,7 +24,7 @@ Only `packages/storage` touches D1, R2 or `node:sqlite`; runtime code never impo
 Served pages (`site/`) are not bundled: they import only `site/` files, and package code reaches
 them through `packages/served.json` and its re-exporting shims.
 A new folder gets a unit in the same commit.
-- Checked by: `check:boundaries` (the import rules); C1 (no unit path left empty by a move), C2 (no script in no unit).
+- Checked by: `check:boundaries` (the import rules, and the engine rule `engines`: database-engine APIs only in `packages/storage`, tests apart, with a baseline that only shrinks); C1 (no unit path left empty by a move), C2 (no script in no unit).
 
 **R2. Use the package; never copy it.** Shared logic lives in the package that owns it (pure
 domain code in `packages/core`). A served page that cannot reach a package imports it through
