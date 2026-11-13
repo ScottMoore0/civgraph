@@ -26,36 +26,82 @@ const FAIL_ON_BLOCKING = process.argv.includes('--fail-on-blocking');
 const JSON_OUT = path.join(ROOT, 'docs', 'tasks', 'test2-election-data-audit.json');
 const MD_OUT = path.join(ROOT, 'docs', 'tasks', 'test2-election-data-audit.md');
 
+/**
+ * An entry of the election manifest (render/metadata/elections-test2.json), as far as this reads it.
+ * @typedef {{
+ *   key?: string, body?: string, date?: string, bodySlug?: string, displayTitle?: string, contestType?: string,
+ *   kind?: string, contestStatus?: string, votingSystem?: string, candidateRowsExpected?: boolean,
+ *   transferDataExpected?: boolean, matchedCount?: number, unmatchedCount?: number, totalConstituencies?: number,
+ *   unmatchedConstituencySample?: unknown[], unmatchedConstituencies?: unknown[], unmatchedConstituencySampleLimit?: number,
+ *   loadable?: boolean, resultUrl?: string, votesPerElector?: unknown,
+ *   [field: string]: unknown
+ * }} ManifestEntry
+ */
+/** @typedef {{ name?: string, party?: string, elected?: boolean, firstPrefs?: unknown, counts?: unknown }} ResultCandidate */
+/**
+ * A result (one contest) of an election bundle, as far as this reads it.
+ * @typedef {{
+ *   constituency?: string, matched?: boolean, contestType?: string, contestStatus?: string, votingSystem?: string,
+ *   candidateRowsExpected?: boolean, transferDataExpected?: boolean, hasCountDetail?: boolean, animationPayload?: unknown,
+ *   candidates?: ResultCandidate[], seatsTotal?: unknown, seatsWon?: unknown, validPoll?: unknown, votesPerElector?: unknown
+ * }} BundleResult
+ */
+/** @typedef {{ entryKind?: string, key?: string, id?: string, parentElectionKey?: string, references?: unknown }} BrowseElectionItem an item of data/browse/elections.json */
+/** @typedef {{ electionKey?: string, constituency?: string, party?: string, label?: string, status?: string }} ReviewRecord a record of a review sidecar */
+/** @typedef {{ severity: string, category: string, key: string | undefined, message: string, [detail: string]: unknown }} Issue */
+/**
+ * @typedef {{
+ *   party: string, electionColour: string, wikipediaName: string, wikipediaColour: string,
+ *   observations: number, review: ReviewRecord | null
+ * }} ColourExample a sampled party-colour mismatch
+ */
+
+/** @param {string} relativePath */
 const readJson = (relativePath) => {
-  const absolute = recordPath(relativePath);
+  // recordPath of a relative path is never null (only an http(s) URL resolves to null)
+  const absolute = /** @type {string} */ (recordPath(relativePath));
   return JSON.parse(fs.readFileSync(absolute, 'utf8'));
 };
 
+/**
+ * @param {string} relativePath
+ * @param {unknown} [fallback]
+ */
 const readJsonIfExists = (relativePath, fallback = null) => {
-  const absolute = recordPath(relativePath);
+  // recordPath of a relative path is never null (only an http(s) URL resolves to null)
+  const absolute = /** @type {string} */ (recordPath(relativePath));
   if (!fs.existsSync(absolute)) return fallback;
   return JSON.parse(fs.readFileSync(absolute, 'utf8'));
 };
 
-const exists = (relativePath) => fs.existsSync(recordPath(relativePath));
+/** @param {string} relativePath */
+// recordPath of a relative path is never null (only an http(s) URL resolves to null)
+const exists = (relativePath) => fs.existsSync(/** @type {string} */ (recordPath(relativePath)));
 
+/**
+ * @param {string} file
+ * @param {string} text
+ */
 const writeTextIfChanged = (file, text) => {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   if (fs.existsSync(file) && fs.readFileSync(file, 'utf8') === text) return;
   fs.writeFileSync(file, text, 'utf8');
 };
 
+/** @param {unknown} url */
 const urlToRelativePath = (url) => {
   if (!url || typeof url !== 'string') return null;
   const clean = url.split('#')[0].split('?')[0].replace(/^\/+/, '');
   return clean || null;
 };
 
+/** @param {unknown} url */
 const urlExists = (url) => {
   const relativePath = urlToRelativePath(url);
   return Boolean(relativePath && exists(relativePath));
 };
 
+/** @param {unknown} value */
 const slugify = (value) => String(value ?? '')
   .normalize('NFKD')
   .replace(/[\u0300-\u036f]/g, '')
@@ -64,6 +110,7 @@ const slugify = (value) => String(value ?? '')
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/^-+|-+$/g, '') || 'entry';
 
+/** @param {unknown} value */
 const normalizeKeyText = (value) => String(value ?? '')
   .normalize('NFKD')
   .replace(/[\u0300-\u036f]/g, '')
@@ -71,7 +118,9 @@ const normalizeKeyText = (value) => String(value ?? '')
   .replace(/[^a-z0-9]+/g, ' ')
   .trim();
 
+/** @param {ManifestEntry} entry */
 const keyToSourceDetailPaths = (entry) => {
+  /** @type {string[]} */
   const candidates = [];
   if (entry?.key) {
     candidates.push(`data/browse/details/elections/${slugify(String(entry.key).replace(/__/g, '-'))}.json`);
@@ -84,12 +133,23 @@ const keyToSourceDetailPaths = (entry) => {
   return [...new Set(candidates)];
 };
 
+/**
+ * @param {Issue[]} issues
+ * @param {string} severity
+ * @param {string} category
+ * @param {string | undefined} key
+ * @param {string} message
+ * @param {Record<string, unknown>} [details]
+ */
 const addIssue = (issues, severity, category, key, message, details = {}) => {
   issues.push({ severity, category, key, message, ...details });
 };
 
+/** @param {string} text */
 const parseCsv = (text) => {
+  /** @type {string[][]} */
   const rows = [];
+  /** @type {string[]} */
   let row = [];
   let cell = '';
   let quoted = false;
@@ -126,32 +186,51 @@ const parseCsv = (text) => {
     rows.push(row);
   }
   if (!rows.length) return [];
-  const headers = rows.shift().map((header) => String(header || '').replace(/^\uFEFF/, ''));
+  // rows is non-empty (the line before)
+  const headers = /** @type {string[]} */ (rows.shift()).map((header) => String(header || '').replace(/^\uFEFF/, ''));
   return rows
     .filter((values) => values.some((value) => value !== ''))
     .map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index] ?? ''])));
 };
 
+/** @param {unknown} value */
 const normaliseNumber = (value) => {
   if (value === null || value === undefined || value === '') return null;
   const numeric = Number(String(value).replace(/,/g, ''));
   return Number.isFinite(numeric) ? numeric : null;
 };
 
+// (These sets are looked up with optional fields, which are simply absent from them.)
+/** @type {Set<string | undefined>} */
 const VALID_CONTEST_TYPES = new Set(['election', 'referendum', 'recall-petition']);
 // The kinds of election and the voting systems: the election-types registry (REG-2).
 const ELECTION_TYPES = loadRegistry('election-types');
+/** @type {Set<string | undefined>} */
 const VALID_ELECTION_KINDS = new Set(electionKindIds(ELECTION_TYPES));
 // Contest statuses and what a missing one means: the statuses registry's contest entry (RG-02).
 const STATUSES = loadRegistry('statuses');
+/** @type {Set<string | undefined>} */
 const VALID_CONTEST_STATUSES = new Set(enumValues(STATUSES, 'contest'));
 const CONTEST_STATUS_IF_MISSING = STATUSES.machines.contest.missingMeans;
+/** @type {Set<string | undefined>} */
 const VALID_VOTING_SYSTEMS = new Set(votingSystemIds(ELECTION_TYPES));
 
+/**
+ * @param {ManifestEntry} entry
+ * @param {BundleResult | null} [result]
+ */
 const contestTypeFor = (entry, result = null) => result?.contestType || entry?.contestType || (/referendum/i.test(entry?.body || entry?.displayTitle || '') ? 'referendum' : 'election');
 
+/**
+ * @param {ManifestEntry} entry
+ * @param {BundleResult | null} [result]
+ */
 const isReferendumLike = (entry, result = null) => contestTypeFor(entry, result) === 'referendum';
 
+/**
+ * @param {ManifestEntry} entry
+ * @param {BundleResult} result
+ */
 const isCandidateListExpected = (entry, result) => {
   const contestType = contestTypeFor(entry, result);
   if (contestType !== 'election') return false;
@@ -161,6 +240,7 @@ const isCandidateListExpected = (entry, result) => {
   return true;
 };
 
+/** @param {BundleResult} result */
 const hasAnimationData = (result) => {
   if (!result?.animationPayload || typeof result.animationPayload !== 'object') return false;
   return Object.values(result.animationPayload).some((payload) => {
@@ -169,11 +249,16 @@ const hasAnimationData = (result) => {
   });
 };
 
+/** @param {BundleResult} result */
 const hasCandidateCountDetail = (result) => {
   if (result?.hasCountDetail || hasAnimationData(result)) return true;
   return (result?.candidates || []).some((candidate) => Array.isArray(candidate.counts) && candidate.counts.length > 1);
 };
 
+/**
+ * @param {ManifestEntry} entry
+ * @param {BundleResult} result
+ */
 const shouldExpectTransferData = (entry, result) => {
   if (result?.transferDataExpected === false || entry?.transferDataExpected === false) return false;
   if (result?.transferDataExpected === true || entry?.transferDataExpected === true) {
@@ -189,8 +274,11 @@ const shouldExpectTransferData = (entry, result) => {
   return votingSystem === 'stv-hare' || votingSystem === 'stv-gregory';
 };
 
+/** @param {Issue[]} issues */
 const summariseIssues = (issues) => {
+  /** @type {Record<string, number>} */
   const bySeverity = {};
+  /** @type {Record<string, number>} */
   const byCategory = {};
   for (const issue of issues) {
     bySeverity[issue.severity] = (bySeverity[issue.severity] || 0) + 1;
@@ -199,8 +287,13 @@ const summariseIssues = (issues) => {
   return { bySeverity, byCategory };
 };
 
+/** @param {unknown} value */
 const escapeMd = (value) => String(value ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ');
 
+/**
+ * @param {Issue[]} issues
+ * @param {number} [limit]
+ */
 const renderIssueTable = (issues, limit = 40) => {
   if (!issues.length) return '_None._';
   const rows = issues.slice(0, limit).map((issue) =>
@@ -210,8 +303,11 @@ const renderIssueTable = (issues, limit = 40) => {
   return ['|severity|category|key|message|', '|---|---|---|---|', ...rows].join('\n') + more;
 };
 
+/** @type {{ elections?: ManifestEntry[], totals?: { elections?: number, loadable?: number, placeholders?: number }, schemaVersion?: unknown, generatedAt?: unknown }} */
 const manifest = readJson('render/metadata/elections-test2.json');
+/** @type {{ items?: BrowseElectionItem[], total?: number }} */
 const browse = readJson('data/browse/elections.json');
+/** @type {Issue[]} */
 const issues = [];
 
 const manifestEntries = manifest.elections || [];
@@ -219,35 +315,45 @@ const browseItems = browse.items || [];
 const browseParents = browseItems.filter((item) => item.entryKind === 'election');
 const browseSubEntries = browseItems.filter((item) => item.entryKind !== 'election');
 const browseById = new Map(browseParents.map((item) => [item.key || item.id, item]));
+/** @type {Map<string | undefined, BrowseElectionItem[]>} */
 const subEntriesByParent = new Map();
 for (const item of browseSubEntries) {
   const key = item.parentElectionKey;
   if (!key) continue;
   if (!subEntriesByParent.has(key)) subEntriesByParent.set(key, []);
-  subEntriesByParent.get(key).push(item);
+  // set on the line before when absent
+  /** @type {BrowseElectionItem[]} */ (subEntriesByParent.get(key)).push(item);
 }
 
+/** @type {{ records?: ReviewRecord[] }} */
 const validPollReview = readJsonIfExists('data/elections/corrections/valid-poll-review.json', { records: [] });
+/** @type {{ records?: ReviewRecord[] }} */
 const candidateRowReview = readJsonIfExists('data/elections/corrections/candidate-row-review.json', { records: [] });
+/** @type {{ records?: ReviewRecord[] }} */
 const partyColourReview = readJsonIfExists('data/elections/party-colour-review-overrides.json', { records: [] });
 
+/**
+ * @param {unknown} electionKey
+ * @param {unknown} constituency
+ */
 const reviewRecordKey = (electionKey, constituency) => `${electionKey}::${normalizeKeyText(constituency)}`;
 const validPollReviewByResult = new Map((validPollReview.records || []).map((record) => [reviewRecordKey(record.electionKey, record.constituency), record]));
 const candidateRowReviewByResult = new Map((candidateRowReview.records || []).map((record) => [reviewRecordKey(record.electionKey, record.constituency), record]));
 const partyColourReviewByParty = new Map((partyColourReview.records || []).map((record) => [normalizeKeyText(record.party || record.label), record]));
 
-const currentElectionDetailFiles = fs.existsSync(recordPath('data/browse/details/elections'))
-  ? fs.readdirSync(recordPath('data/browse/details/elections')).filter((name) => name.endsWith('.json'))
+// recordPath of a relative path is never null (only an http(s) URL resolves to null)
+const currentElectionDetailFiles = fs.existsSync(/** @type {string} */ (recordPath('data/browse/details/elections')))
+  ? fs.readdirSync(/** @type {string} */ (recordPath('data/browse/details/elections'))).filter((name) => name.endsWith('.json'))
   : [];
-const legacyElectionSourceFiles = fs.existsSync(recordPath('data/browse/details/sources'))
-  ? fs.readdirSync(recordPath('data/browse/details/sources')).filter((name) => /^election-source-.*\.json$/.test(name))
+const legacyElectionSourceFiles = fs.existsSync(/** @type {string} */ (recordPath('data/browse/details/sources')))
+  ? fs.readdirSync(/** @type {string} */ (recordPath('data/browse/details/sources'))).filter((name) => /^election-source-.*\.json$/.test(name))
   : [];
 const sourceFiles = currentElectionDetailFiles.length ? currentElectionDetailFiles : legacyElectionSourceFiles;
-const resultFiles = fs.existsSync(recordPath('render/metadata/elections-test2'))
-  ? fs.readdirSync(recordPath('render/metadata/elections-test2')).filter((name) => name.endsWith('.json'))
+const resultFiles = fs.existsSync(/** @type {string} */ (recordPath('render/metadata/elections-test2')))
+  ? fs.readdirSync(/** @type {string} */ (recordPath('render/metadata/elections-test2'))).filter((name) => name.endsWith('.json'))
   : [];
-const summaryFiles = fs.existsSync(recordPath('render/metadata/elections-test2-summaries'))
-  ? fs.readdirSync(recordPath('render/metadata/elections-test2-summaries')).filter((name) => name.endsWith('.json'))
+const summaryFiles = fs.existsSync(/** @type {string} */ (recordPath('render/metadata/elections-test2-summaries')))
+  ? fs.readdirSync(/** @type {string} */ (recordPath('render/metadata/elections-test2-summaries'))).filter((name) => name.endsWith('.json'))
   : [];
 
 if (manifest.totals?.elections !== manifestEntries.length) {
@@ -312,7 +418,7 @@ const stats = {
     noElectionColour: 0,
     noWikipediaMatch: 0,
     ambiguousWikipediaMatch: 0,
-    examples: []
+    examples: /** @type {ColourExample[]} */ ([])
   },
   reviewSidecars: {
     validPollRecords: (validPollReview.records || []).length,
@@ -342,12 +448,14 @@ for (const entry of manifestEntries) {
     addIssue(issues, 'warning', 'browse-parent-missing', key, 'Manifest election has no matching Browse parent entry.');
   }
   if (Number.isFinite(entry.matchedCount) && Number.isFinite(entry.unmatchedCount) && Number.isFinite(entry.totalConstituencies)) {
-    if (entry.matchedCount + entry.unmatchedCount !== entry.totalConstituencies) {
+    // Number.isFinite has just seen both counts
+    if (/** @type {number} */ (entry.matchedCount) + /** @type {number} */ (entry.unmatchedCount) !== entry.totalConstituencies) {
       addIssue(issues, 'blocking', 'geography-counts', key, `matchedCount + unmatchedCount does not equal totalConstituencies (${entry.matchedCount} + ${entry.unmatchedCount} != ${entry.totalConstituencies}).`);
     }
   }
   const unmatchedSample = Array.isArray(entry.unmatchedConstituencySample) ? entry.unmatchedConstituencySample : entry.unmatchedConstituencies;
-  if (Array.isArray(unmatchedSample) && Number.isFinite(entry.unmatchedConstituencySampleLimit) && unmatchedSample.length > entry.unmatchedConstituencySampleLimit) {
+  // Number.isFinite has just seen the limit
+  if (Array.isArray(unmatchedSample) && Number.isFinite(entry.unmatchedConstituencySampleLimit) && unmatchedSample.length > /** @type {number} */ (entry.unmatchedConstituencySampleLimit)) {
     addIssue(issues, 'warning', 'unmatched-list-count', key, `unmatchedConstituencySample length is ${unmatchedSample.length}, above sample limit ${entry.unmatchedConstituencySampleLimit}.`);
   } else if (!Array.isArray(entry.unmatchedConstituencySample) && Array.isArray(entry.unmatchedConstituencies) && Number.isFinite(entry.unmatchedCount) && entry.unmatchedConstituencies.length !== entry.unmatchedCount) {
     addIssue(issues, 'warning', 'unmatched-list-count', key, `unmatchedConstituencies length is ${entry.unmatchedConstituencies.length}, unmatchedCount is ${entry.unmatchedCount}.`);
@@ -398,7 +506,9 @@ for (const entry of manifestEntries) {
     continue;
   }
   stats.resultBundles.loaded += 1;
-  const bundle = readJson(urlToRelativePath(entry.resultUrl));
+  // urlExists has just resolved the URL to a path
+  /** @type {{ results?: BundleResult[] }} */
+  const bundle = readJson(/** @type {string} */ (urlToRelativePath(entry.resultUrl)));
   if (!Array.isArray(bundle.results)) {
     addIssue(issues, 'blocking', 'result-bundle-shape', key, 'Result bundle has no results array.');
     continue;
