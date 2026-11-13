@@ -20,6 +20,37 @@ const BROWSE_REGISTER_SHARD_TARGET_BYTES = 24 * 1024 * 1024; // budget ceiling e
 const BROWSE_REGISTER_SHARD_PACK_TARGET_BYTES = 16 * 1024 * 1024; // smaller pack target: re-shards to ~16 MB with headroom under the ceiling
 const PDF_EMPTY_INTEREST_TEXT = 'No registrable interests included under this category in the PDF text.';
 
+/**
+ * One scraped source in register-document-inventory.json.
+ * @typedef {{ url: string, finalUrl?: string, sourcePageId: string, sourcePageUrl?: string, kind?: string, title?: string, linkText?: string,
+ *   localPath?: string, contentType?: string, httpStatus?: number, bytes?: number, sha256?: string, lastModified?: string, ok?: boolean }} InventoryRecord
+ * @typedef {{ records?: InventoryRecord[], byKind?: Record<string, number>, downloadedBytes?: number }} Inventory
+ * A supplied MP CSV extract's summary.
+ * @typedef {{ filteredRows?: number, matchedNiMembersInCsv?: number, totalCsvRows?: number, members?: { earliest_declaration?: string, latest_declaration?: string }[] }} MpSummary
+ */
+/**
+ * An object with its null, undefined and empty fields dropped (compactObject).
+ * @template T
+ * @typedef {{ [K in keyof T]?: NonNullable<T[K]> }} Compact
+ */
+/**
+ * A source row: one interest as one source states it (the API, an HTML or PDF edition, an MP CSV).
+ * @typedef {{ id?: string, type?: string, memberName?: string, memberType?: string, chamber?: string, jurisdiction?: string, memberId?: string,
+ *   publicWhipId?: string, constituency?: string, constituencies?: string[], parties?: string[], provider?: string[], keywords?: unknown[],
+ *   category?: string, categoryId?: string, categoryNumber?: number, interestText?: string, isNone?: boolean, date?: string, editionDate?: string,
+ *   startDate?: string, earliestDeclaration?: string, latestDeclaration?: string, sourceKind?: string, sourceRecordId?: string, sourceTitle?: string,
+ *   sourceUrl?: string, sourcePageStart?: number, sourcePageEnd?: number, extractionMethod?: string, extractionConfidence?: string,
+ *   sourceExtractIds?: string[], sourceExtracts?: { id?: string, sourceFile?: string, title?: string }[], [field: string]: unknown }} InterestRow
+ * @typedef {ReturnType<typeof canonicalSourceRef>} SourceRef
+ * @typedef {{ memberName?: string, heading?: string, constituency?: string }} MemberHeading
+ * @typedef {{ page?: number | string, text?: string }} PdfPage
+ * @typedef {{ page: number, text: string }} PdfLine
+ * One row of the current register's JSON API.
+ * @typedef {{ RegisterEntry?: string, registerEntry?: string, RegisterCategory?: string, registerCategory?: string, MemberName?: string, memberName?: string,
+ *   RegisterEntryStartDate?: string, registerEntryStartDate?: string, PersonId?: number | string, RegisterCategoryId?: number | string }} ApiRow
+ */
+
+/** @type {Record<string, string>} */
 const START_PAGES = {
   current: 'https://www.niassembly.gov.uk/your-mlas/register-of-interests/',
   archive: 'https://archive.niassembly.gov.uk/members/expenses/register_home.htm'
@@ -56,8 +87,9 @@ function main() {
     throw new Error(`Missing ${path.relative(ROOT, INVENTORY_PATH)}. Run the NI Assembly register scraper before building this sidecar.`);
   }
 
-  const inventory = readJson(INVENTORY_PATH);
+  const inventory = /** @type {Inventory} */ (readJson(INVENTORY_PATH));
   const inventoryRecords = normalizeArray(inventory.records);
+  /** @type {Map<string | undefined, string>} */
   const sourceIdByInventoryUrl = new Map();
   const sources = buildSourceRecords(inventory, inventoryRecords, sourceIdByInventoryUrl);
   const currentAssemblyInterests = buildCurrentAssemblyInterests(inventoryRecords, sourceIdByInventoryUrl);
@@ -138,7 +170,9 @@ function main() {
   console.log(`- NI MP rows: ${mpInterests.length}`);
 }
 
+/** @param {Inventory} inventory @param {InventoryRecord[]} inventoryRecords @param {Map<string | undefined, string>} sourceIdByInventoryUrl */
 function buildSourceRecords(inventory, inventoryRecords, sourceIdByInventoryUrl) {
+  /** @type {Record<string, unknown>[]} */
   const records = [];
   records.push(compactObject({
     id: 'ni-register:assembly:collection',
@@ -178,8 +212,9 @@ function buildSourceRecords(inventory, inventoryRecords, sourceIdByInventoryUrl)
   for (const record of inventoryRecords) {
     const source = assemblyInventorySourceRecord(record);
     records.push(source);
-    sourceIdByInventoryUrl.set(record.url, source.id);
-    sourceIdByInventoryUrl.set(record.finalUrl || record.url, source.id);
+    // a source record always has its id
+    sourceIdByInventoryUrl.set(record.url, /** @type {string} */ (source.id));
+    sourceIdByInventoryUrl.set(record.finalUrl || record.url, /** @type {string} */ (source.id));
   }
 
   records.push(compactObject({
@@ -202,7 +237,7 @@ function buildSourceRecords(inventory, inventoryRecords, sourceIdByInventoryUrl)
     status: 'Structured',
     statusChips: ['CSV filtered', 'NI MPs only'],
     sourceItems: MP_EXTRACTS.map((extract) => {
-      const summary = existsSync(extract.summaryPath) ? readJson(extract.summaryPath) : {};
+      const summary = existsSync(extract.summaryPath) ? /** @type {MpSummary} */ (readJson(extract.summaryPath)) : {};
       return compactObject({
         id: extract.id,
         sourceFile: extract.sourceFile,
@@ -214,7 +249,7 @@ function buildSourceRecords(inventory, inventoryRecords, sourceIdByInventoryUrl)
   }));
 
   for (const extract of MP_EXTRACTS) {
-    const summary = existsSync(extract.summaryPath) ? readJson(extract.summaryPath) : {};
+    const summary = existsSync(extract.summaryPath) ? /** @type {MpSummary} */ (readJson(extract.summaryPath)) : {};
     records.push(compactObject({
       id: `ni-register:mp:${extract.id}`,
       slug: `ni-register-mp-${slugify(extract.id)}`,
@@ -252,6 +287,7 @@ function buildSourceRecords(inventory, inventoryRecords, sourceIdByInventoryUrl)
   return records.sort(sortByTitle);
 }
 
+/** @param {unknown[]} interests */
 function writeInterestShards(interests) {
   rmSync(OUTPUT_INTEREST_SHARD_DIR, { recursive: true, force: true });
   mkdirSync(OUTPUT_INTEREST_SHARD_DIR, { recursive: true });
@@ -277,6 +313,7 @@ function writeInterestShards(interests) {
   return shards;
 }
 
+/** @param {unknown[]} interests */
 function writeCanonicalInterestShards(interests) {
   rmSync(OUTPUT_CANONICAL_INTEREST_SHARD_DIR, { recursive: true, force: true });
   mkdirSync(OUTPUT_CANONICAL_INTEREST_SHARD_DIR, { recursive: true });
@@ -302,6 +339,7 @@ function writeCanonicalInterestShards(interests) {
   return shards;
 }
 
+/** @param {unknown[]} records */
 function writeBrowseRegisterShards(records) {
   rmSync(OUTPUT_BROWSE_REGISTER_SHARD_DIR, { recursive: true, force: true });
   mkdirSync(OUTPUT_BROWSE_REGISTER_SHARD_DIR, { recursive: true });
@@ -329,6 +367,7 @@ function writeBrowseRegisterShards(records) {
   return shards;
 }
 
+/** @param {unknown[]} records @param {number} startIndex @param {string} shardName */
 function findByteBudgetedBrowseShard(records, startIndex, shardName) {
   let low = startIndex + 1;
   let high = Math.min(records.length, startIndex + INTEREST_SHARD_SIZE);
@@ -349,10 +388,12 @@ function findByteBudgetedBrowseShard(records, startIndex, shardName) {
   return records.slice(startIndex, best);
 }
 
+/** @param {string} shardName @param {unknown[]} shardItems */
 function browseRegisterShardPayloadBytes(shardName, shardItems) {
   return Buffer.byteLength(`${JSON.stringify(browseRegisterShardPayload(shardName, shardItems), null, 2)}\n`, 'utf8');
 }
 
+/** @param {string} shardName @param {unknown[]} shardItems */
 function browseRegisterShardPayload(shardName, shardItems) {
   return {
       schemaVersion: 1,
@@ -364,7 +405,9 @@ function browseRegisterShardPayload(shardName, shardItems) {
     };
 }
 
+/** @param {InterestRow[]} sourceRows */
 function buildBrowseRegisterRecords(sourceRows) {
+  /** @type {Map<string, InterestRow[]>} */
   const groups = new Map();
   for (const row of sourceRows) {
     const electedBody = electedBodyForInterest(row);
@@ -375,7 +418,8 @@ function buildBrowseRegisterRecords(sourceRows) {
       date || 'undated'
     ].join('|');
     if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(row);
+    // the key was set on the line before
+    /** @type {InterestRow[]} */ (groups.get(key)).push(row);
   }
 
   return [...groups.entries()].map(([key, rows]) => {
@@ -384,7 +428,8 @@ function buildBrowseRegisterRecords(sourceRows) {
     const electedBody = electedBodyForInterest(representative);
     const date = registerRecordDate(representative) || 'undated';
     const interests = buildBrowseRecordInterestGroups(key, sortedRows);
-    const sourceRefs = interests.flatMap((interest) => interest.sourceRefs);
+    // every interest group has at least one row, so its sourceRefs list is kept
+    const sourceRefs = interests.flatMap((interest) => /** @type {SourceRef[]} */ (interest.sourceRefs));
     const categories = uniqueCleanStrings(interests.map((interest) => interest.category));
     const sourceKinds = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceKind));
     const sourceRecordIds = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceRecordId));
@@ -455,7 +500,9 @@ function buildBrowseRegisterRecords(sourceRows) {
   });
 }
 
+/** @param {string} recordKey @param {InterestRow[]} rows */
 function buildBrowseRecordInterestGroups(recordKey, rows) {
+  /** @type {Map<string, InterestRow[]>} */
   const groups = new Map();
   for (const row of rows) {
     const key = [
@@ -463,7 +510,8 @@ function buildBrowseRecordInterestGroups(recordKey, rows) {
       canonicalInterestText(row.interestText)
     ].join('|');
     if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(row);
+    // the key was set on the line before
+    /** @type {InterestRow[]} */ (groups.get(key)).push(row);
   }
 
   return [...groups.entries()].map(([key, groupRows]) => {
@@ -496,15 +544,18 @@ function buildBrowseRecordInterestGroups(recordKey, rows) {
   }).sort(sortBrowseRecordInterests);
 }
 
+/** @param {InterestRow} row */
 function electedBodyForInterest(row) {
   if (row.memberType === 'MP' || /House of Commons/i.test(row.chamber || '')) return 'House of Commons';
   return 'Assembly';
 }
 
+/** @param {InterestRow} row */
 function registerRecordDate(row) {
   return row.editionDate || row.latestDeclaration || row.date || row.startDate || row.earliestDeclaration || null;
 }
 
+/** @param {{ categoryNumber?: unknown, category?: unknown, interestText?: unknown, id?: unknown }} a @param {{ categoryNumber?: unknown, category?: unknown, interestText?: unknown, id?: unknown }} b */
 function sortBrowseRecordInterests(a, b) {
   return Number(a.categoryNumber || 999) - Number(b.categoryNumber || 999)
     || String(a.category || '').localeCompare(String(b.category || ''))
@@ -512,6 +563,7 @@ function sortBrowseRecordInterests(a, b) {
     || String(a.id || '').localeCompare(String(b.id || ''));
 }
 
+/** @param {{ date?: unknown, memberName?: unknown, electedBody?: unknown, id?: unknown }} a @param {{ date?: unknown, memberName?: unknown, electedBody?: unknown, id?: unknown }} b */
 function sortBrowseRegisterRecords(a, b) {
   return sortableRegisterDate(b.date).localeCompare(sortableRegisterDate(a.date))
     || String(a.memberName || '').localeCompare(String(b.memberName || ''))
@@ -519,10 +571,12 @@ function sortBrowseRegisterRecords(a, b) {
     || String(a.id || '').localeCompare(String(b.id || ''));
 }
 
+/** @param {unknown} value */
 function sortableRegisterDate(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(String(value || '')) ? String(value) : '';
 }
 
+/** @param {{ isNone?: boolean, interestText?: string, category?: string }[]} interests */
 function summarizeBrowseRegisterInterests(interests) {
   const nonNil = normalizeArray(interests).filter((interest) => !interest.isNone);
   const rows = nonNil.length ? nonNil : normalizeArray(interests);
@@ -532,6 +586,7 @@ function summarizeBrowseRegisterInterests(interests) {
   }).filter(Boolean).join(' / ');
 }
 
+/** @param {unknown} memberName @param {string} electedBody @param {string} date @param {{ isNone?: boolean }[]} interests @param {unknown[]} sourceRefs */
 function summarizeBrowseRegisterRecord(memberName, electedBody, date, interests, sourceRefs) {
   const count = normalizeArray(interests).length;
   const nonNil = normalizeArray(interests).filter((interest) => !interest.isNone).length;
@@ -540,12 +595,15 @@ function summarizeBrowseRegisterRecord(memberName, electedBody, date, interests,
   return `${memberName} ${electedBody} register record for ${date || 'an undated register'} with ${count} grouped ${count === 1 ? 'interest' : 'interests'} (${nilText}) and ${sourceCount} source ${sourceCount === 1 ? 'row' : 'rows'}.`;
 }
 
+/** @param {InterestRow[]} sourceRows */
 function buildCanonicalInterests(sourceRows) {
+  /** @type {Map<string, InterestRow[]>} */
   const groups = new Map();
   for (const row of sourceRows) {
     const key = canonicalInterestKey(row);
     if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(row);
+    // the key was set on the line before
+    /** @type {InterestRow[]} */ (groups.get(key)).push(row);
   }
 
   return [...groups.entries()].map(([key, rows]) => {
@@ -597,6 +655,7 @@ function buildCanonicalInterests(sourceRows) {
   });
 }
 
+/** @param {InterestRow} row */
 function canonicalInterestKey(row) {
   return [
     row.memberType || '',
@@ -607,6 +666,7 @@ function canonicalInterestKey(row) {
   ].join('|');
 }
 
+/** @param {unknown} value */
 function canonicalMemberName(value) {
   return normalizeKey(value)
     .replace(/^(dr|mr|mrs|ms|miss|sir|dame)\s+/, '')
@@ -614,6 +674,7 @@ function canonicalMemberName(value) {
     .trim();
 }
 
+/** @param {unknown} value */
 function canonicalCategory(value) {
   return normalizeKey(value)
     .replace(/\binterests\b/g, 'interest')
@@ -621,6 +682,7 @@ function canonicalCategory(value) {
     .trim();
 }
 
+/** @param {unknown} value */
 function canonicalInterestText(value) {
   return normalizeKey(value)
     .replace(/\bnone registered \d{1,2} [a-z]+ \d{4}\b/g, 'none')
@@ -629,6 +691,7 @@ function canonicalInterestText(value) {
     .trim();
 }
 
+/** @param {InterestRow} a @param {InterestRow} b */
 function sortSourceRowsForCanonical(a, b) {
   return sourceKindPriority(a.sourceKind) - sourceKindPriority(b.sourceKind)
     || String(b.date || '').localeCompare(String(a.date || ''))
@@ -636,6 +699,7 @@ function sortSourceRowsForCanonical(a, b) {
     || String(a.id || '').localeCompare(String(b.id || ''));
 }
 
+/** @param {unknown} kind */
 function sourceKindPriority(kind) {
   if (kind === 'current-provider-json-api') return 0;
   if (kind === 'historical-pdf-register') return 1;
@@ -644,6 +708,7 @@ function sourceKindPriority(kind) {
   return 9;
 }
 
+/** @param {InterestRow} row */
 function canonicalSourceRef(row) {
   return compactObject({
     sourceRowId: row.id,
@@ -667,6 +732,7 @@ function canonicalSourceRef(row) {
   });
 }
 
+/** @param {InventoryRecord} record */
 function assemblyInventorySourceRecord(record) {
   const date = inferAssemblyRecordDate(record);
   const dateLabel = date ? humanDate(date) : null;
@@ -719,6 +785,7 @@ function assemblyInventorySourceRecord(record) {
   });
 }
 
+/** @param {InventoryRecord} record @param {string | null} dateLabel */
 function assemblySourceTitle(record, dateLabel) {
   const url = record.finalUrl || record.url || '';
   if (/GetAllRegisteredInterests_JSON/i.test(url)) return 'NI Assembly current registered interests JSON API';
@@ -735,13 +802,15 @@ function assemblySourceTitle(record, dateLabel) {
   return `NI Assembly register source ${shortHash(url)}`;
 }
 
+/** @param {InventoryRecord[]} inventoryRecords @param {Map<string | undefined, string>} sourceIdByInventoryUrl */
 function buildCurrentAssemblyInterests(inventoryRecords, sourceIdByInventoryUrl) {
   const apiRecord = inventoryRecords.find((record) => /GetAllRegisteredInterests_JSON$/i.test(record.url || record.finalUrl || ''));
   if (!apiRecord) return [];
   const fullPath = path.join(ROOT, apiRecord.localPath || '');
   if (!existsSync(fullPath)) return [];
   const sourceRecordId = sourceIdByInventoryUrl.get(apiRecord.url) || sourceIdByInventoryUrl.get(apiRecord.finalUrl) || `ni-register:assembly:json:${shortHash(apiRecord.url)}`;
-  const payload = readJson(fullPath);
+  // the GetAllRegisteredInterests_JSON payload, in whichever wrapping the API used
+  const payload = /** @type {ApiRow[] | { AllRegisteredInterests?: { RegisteredInterest?: ApiRow[] | ApiRow }, RegisteredInterest?: ApiRow[] | ApiRow, items?: ApiRow[] } | null} */ (readJson(fullPath));
   const rows = Array.isArray(payload)
     ? payload
     : normalizeArray(payload?.AllRegisteredInterests?.RegisteredInterest || payload?.RegisteredInterest || payload?.items);
@@ -776,6 +845,7 @@ function buildCurrentAssemblyInterests(inventoryRecords, sourceIdByInventoryUrl)
   });
 }
 
+/** @param {InventoryRecord[]} inventoryRecords @param {Map<string | undefined, string>} sourceIdByInventoryUrl */
 function buildHistoricalAssemblyHtmlInterests(inventoryRecords, sourceIdByInventoryUrl) {
   const interests = [];
   const seen = new Set();
@@ -808,6 +878,7 @@ function buildHistoricalAssemblyHtmlInterests(inventoryRecords, sourceIdByInvent
   return interests;
 }
 
+/** @param {InventoryRecord[]} inventoryRecords @param {Map<string | undefined, string>} sourceIdByInventoryUrl */
 function buildHistoricalAssemblyPdfInterests(inventoryRecords, sourceIdByInventoryUrl) {
   const interests = [];
   const seen = new Set();
@@ -834,18 +905,26 @@ function buildHistoricalAssemblyPdfInterests(inventoryRecords, sourceIdByInvento
   return interests;
 }
 
+/** @param {PdfPage[]} pages @param {InventoryRecord} record @param {string} sourceRecordId */
 function extractAssemblyPdfRows(pages, record, sourceRecordId) {
   const editionDate = inferAssemblyRecordDate(record) || isoDateFromPdfPages(pages);
   const dateLabel = editionDate ? humanDate(editionDate) : null;
   const sourceTitle = assemblySourceTitle(record, dateLabel);
   const lines = pdfLines(pages, editionDate);
+  /** @type {InterestRow[]} */
   const rows = [];
   const seenLocal = new Set();
+  /** @type {MemberHeading | null} */
   let currentMember = null;
+  /** @type {string | null} */
   let currentCategory = null;
+  /** @type {number | null} */
   let currentCategoryNumber = null;
+  /** @type {string[]} */
   let currentTexts = [];
+  /** @type {number | null} */
   let currentPageStart = null;
+  /** @type {number | null} */
   let currentPageEnd = null;
   let sequence = 0;
 
@@ -928,6 +1007,7 @@ function extractAssemblyPdfRows(pages, record, sourceRecordId) {
   return rows;
 }
 
+/** @param {PdfPage[]} pages @param {string | null} editionDate */
 function pdfLines(pages, editionDate) {
   const lines = [];
   for (const page of normalizeArray(pages)) {
@@ -942,6 +1022,7 @@ function pdfLines(pages, editionDate) {
   return lines;
 }
 
+/** @param {unknown} value */
 function cleanPdfLine(value) {
   return cleanText(String(value || '')
     .replace(/\u00a0/g, ' ')
@@ -955,6 +1036,7 @@ function cleanPdfLine(value) {
     .replace(/\bregist er\b/gi, 'register'));
 }
 
+/** @param {string} text @param {string | null} editionDate */
 function isPdfBoilerplateLine(text, editionDate) {
   const normalized = cleanText(text);
   if (!normalized) return true;
@@ -978,6 +1060,7 @@ function isPdfBoilerplateLine(text, editionDate) {
   return false;
 }
 
+/** @param {PdfLine[]} lines @param {number} index */
 function parsePdfCategoryHeading(lines, index) {
   const text = lines[index]?.text || '';
   const match = text.match(/^(\d{1,2})\.\s*(.*)$/);
@@ -1002,6 +1085,7 @@ function parsePdfCategoryHeading(lines, index) {
   };
 }
 
+/** @param {string} category @param {number} number */
 function normalizePdfKnownCategory(category, number) {
   const value = normalizeCategory(category)
     .replace(/\bDonat ions\b/gi, 'Donations')
@@ -1009,6 +1093,7 @@ function normalizePdfKnownCategory(category, number) {
     .replace(/\s+/g, ' ')
     .replace(/[.]+$/g, '')
     .trim();
+  /** @type {[number, RegExp, string][]} */
   const tests = [
     [1, /^Directorships$/i, 'Directorships'],
     [1, /^Employment and Earnings$/i, 'Employment and Earnings'],
@@ -1036,6 +1121,7 @@ function normalizePdfKnownCategory(category, number) {
   return match ? match[2] : null;
 }
 
+/** @param {string} category */
 function shouldJoinPdfCategoryContinuation(category) {
   if (!category) return true;
   if (isLikelyCategory(category) && !/\b(from|of|and|with|who|Donat|Expenditure)$/i.test(category)) return false;
@@ -1045,6 +1131,7 @@ function shouldJoinPdfCategoryContinuation(category) {
   return false;
 }
 
+/** @param {string} fullPath @returns {PdfPage[]} */
 function extractPdfPages(fullPath) {
   const python = findPythonWithPypdf();
   const result = spawnSync(python, [PDF_TEXT_SCRIPT, fullPath], {
@@ -1056,10 +1143,12 @@ function extractPdfPages(fullPath) {
   if (result.status !== 0) {
     throw new Error(`PDF text extraction failed for ${path.relative(ROOT, fullPath)}: ${result.stderr || result.stdout}`);
   }
-  const parsed = JSON.parse(result.stdout);
+  // tools/extract-pdf-text.py prints { pages: [{ page, text }] }
+  const parsed = /** @type {{ pages?: PdfPage[] }} */ (JSON.parse(result.stdout));
   return normalizeArray(parsed.pages);
 }
 
+/** @type {string | null} */
 var cachedPythonWithPypdf = null;
 function findPythonWithPypdf() {
   if (cachedPythonWithPypdf) return cachedPythonWithPypdf;
@@ -1083,19 +1172,25 @@ function findPythonWithPypdf() {
   throw new Error('Python with the pypdf package is required to extract NI Assembly register PDF text. Set CIVGRAPH_PYTHON to a suitable Python executable.');
 }
 
+/** @param {PdfPage[]} pages */
 function isoDateFromPdfPages(pages) {
   const text = normalizeArray(pages).slice(0, 4).map((page) => page.text).join(' ');
   return isoDateFromText(text);
 }
 
+/** @param {string} html @param {InventoryRecord} record @param {string} sourceRecordId */
 function extractAssemblyHtmlRows(html, record, sourceRecordId) {
   const tokens = tokenizeHtml(html);
   const titleToken = tokens.find((token) => token.tag === 'h1')?.text || record.title || '';
   const editionDate = inferAssemblyRecordDate(record) || isoDateFromText(titleToken);
+  /** @type {InterestRow[]} */
   const rows = [];
   const seenLocal = new Set();
+  /** @type {MemberHeading | null} */
   let currentMember = null;
+  /** @type {string | null} */
   let currentCategory = null;
+  /** @type {string[]} */
   let currentTexts = [];
   let categorySequence = 0;
 
@@ -1159,6 +1254,7 @@ function extractAssemblyHtmlRows(html, record, sourceRecordId) {
   return rows;
 }
 
+/** @param {string} html */
 function tokenizeHtml(html) {
   const cleanedHtml = String(html || '')
     .replace(/<script\b[\s\S]*?<\/script>/gi, ' ')
@@ -1175,6 +1271,7 @@ function tokenizeHtml(html) {
   return tokens;
 }
 
+/** @param {unknown} value */
 function cleanHtmlText(value) {
   return cleanText(decodeEntities(String(value || '')
     .replace(/<br\s*\/?>/gi, ' ')
@@ -1182,6 +1279,7 @@ function cleanHtmlText(value) {
     .replace(/<[^>]+>/g, ' ')));
 }
 
+/** @param {{ tag?: string }} token @param {string} text */
 function parseMemberHeading(token, text) {
   let value = cleanText(text)
     .replace(/\bMLA\b\.?/gi, '')
@@ -1209,18 +1307,21 @@ function parseMemberHeading(token, text) {
   });
 }
 
-function isCategoryToken(token, text) {
+/** @param {{ tag?: string }} _token @param {string} text */
+function isCategoryToken(_token, text) {
   if (!text || /^\d+\.?$/.test(text)) return false;
   if (/^(back to top|register of|members|member|contents|category|categories|purpose|form|advocacy|complaints|general|find mlas|accessibility|contact us|copyright|news|events|committees|assembly business)$/i.test(text)) return false;
   if (/^appendix\b/i.test(text)) return false;
   return Boolean(normalizeKnownAssemblyCategory(text));
 }
 
+/** @param {string} text */
 function isLikelyCategory(text) {
   const normalized = cleanText(text).replace(/^\d+[.)]?\s*/, '');
   return /(directorship|employment|earnings|office|profession|trade|vocation|land|property|shareholding|shareholdings|miscellaneous|unremunerated|gift|benefit|hospitality|visit|overseas|client|services|sponsorship|donation|support|family|lobby|all-party|nil return|assembly allowance|travel|financial|remunerated|public funds|contracts|interests)/i.test(normalized);
 }
 
+/** @param {string} text */
 function normalizeCategory(text) {
   return normalizeKnownAssemblyCategory(text) || cleanText(text)
     .replace(/^\d+[.)]?\s*/, '')
@@ -1228,6 +1329,7 @@ function normalizeCategory(text) {
     .replace(/\s+for\s+which\s+remuneration\s+is\s+received/ig, ' for which remuneration is received');
 }
 
+/** @param {string} text */
 function normalizeKnownAssemblyCategory(text) {
   const value = cleanText(text)
     .replace(/^\d+[.)]?\s*/, '')
@@ -1237,6 +1339,7 @@ function normalizeKnownAssemblyCategory(text) {
     .replace(/[.]+$/g, '')
     .replace(/\s+/g, ' ')
     .trim();
+  /** @type {[RegExp, string][]} */
   const patterns = [
     [/^Directorships$/i, 'Directorships'],
     [/^Employment and Earnings$/i, 'Employment and Earnings'],
@@ -1259,6 +1362,7 @@ function normalizeKnownAssemblyCategory(text) {
   return match ? match[1] : null;
 }
 
+/** @param {{ tag?: string }} token @param {string} text */
 function isBodyToken(token, text) {
   if (!text || isNavigationText(text)) return false;
   if (token.tag && /^h[1-6]$/.test(token.tag)) return false;
@@ -1266,11 +1370,13 @@ function isBodyToken(token, text) {
   return true;
 }
 
+/** @param {string} text */
 function isNavigationText(text) {
   return /^(back to top|top|home|email|print this page|register of interests|members' register of interests)$/i.test(cleanText(text));
 }
 
 function buildMpInterests() {
+  /** @type {Map<string, InterestRow>} */
   const byKey = new Map();
   for (const extract of MP_EXTRACTS) {
     if (!existsSync(extract.path)) {
@@ -1297,8 +1403,9 @@ function buildMpInterests() {
         title: extract.title
       });
       if (existing) {
-        existing.sourceExtracts.push(sourceExtract);
-        existing.sourceExtractIds = uniqueCleanStrings(existing.sourceExtracts.map((item) => item.id));
+        // every MP row is built with a non-empty sourceExtracts list
+        /** @type {NonNullable<InterestRow['sourceExtracts']>} */ (existing.sourceExtracts).push(sourceExtract);
+        existing.sourceExtractIds = uniqueCleanStrings(/** @type {NonNullable<InterestRow['sourceExtracts']>} */ (existing.sourceExtracts).map((item) => item.id));
         continue;
       }
       byKey.set(key, compactObject({
@@ -1338,6 +1445,7 @@ function buildMpInterests() {
   return [...byKey.values()];
 }
 
+/** @param {string} text */
 function parseCsv(text) {
   const rows = [];
   let row = [];
@@ -1381,11 +1489,13 @@ function parseCsv(text) {
     .map((current) => Object.fromEntries(headers.map((header, index) => [header, current[index] || ''])));
 }
 
+/** @param {InventoryRecord} record */
 function inferAssemblyRecordDate(record) {
   const text = [record.title, record.linkText, record.url, record.finalUrl].filter(Boolean).join(' ');
   return isoDateFromText(text);
 }
 
+/** @param {unknown} value */
 function isoDateFromText(value) {
   const text = cleanText(value);
   const namedMonth = text.match(/\b(\d{1,2})(?:st|nd|rd|th)?[-\s]+(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)[-\s]+(\d{2,4})\b/i);
@@ -1397,20 +1507,23 @@ function isoDateFromText(value) {
   return null;
 }
 
+/** @param {number} day @param {number | null} month @param {number} year */
 function buildIsoDate(day, month, year) {
   if (!day || !month || !year) return null;
   return `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 }
 
+/** @param {string} value */
 function normalizeYear(value) {
   const year = Number(value);
   if (String(value).length === 2) return year >= 70 ? 1900 + year : 2000 + year;
   return year;
 }
 
+/** @param {unknown} value */
 function monthNumber(value) {
   const key = String(value || '').slice(0, 3).toLowerCase();
-  return {
+  return /** @type {Record<string, number>} */ ({
     jan: 1,
     feb: 2,
     mar: 3,
@@ -1423,9 +1536,10 @@ function monthNumber(value) {
     oct: 10,
     nov: 11,
     dec: 12
-  }[key] || null;
+  })[key] || null;
 }
 
+/** @param {string | null} isoDate */
 function humanDate(isoDate) {
   if (!isoDate) return null;
   const [year, month, day] = isoDate.split('-').map(Number);
@@ -1433,12 +1547,15 @@ function humanDate(isoDate) {
   return `${day} ${monthName} ${year}`;
 }
 
+/** @param {unknown} value */
 function isoDateOnly(value) {
   const match = String(value || '').match(/\d{4}-\d{2}-\d{2}/);
   return match ? match[0] : null;
 }
 
+/** @param {unknown} value */
 function decodeEntities(value) {
+  /** @type {Record<string, string>} */
   const named = {
     amp: '&',
     apos: "'",
@@ -1462,6 +1579,7 @@ function decodeEntities(value) {
     .replace(/&([a-z]+);/gi, (match, name) => Object.hasOwn(named, name.toLowerCase()) ? named[name.toLowerCase()] : match);
 }
 
+/** @param {unknown} value */
 function titleCaseName(value) {
   return cleanText(value)
     .toLowerCase()
@@ -1471,6 +1589,7 @@ function titleCaseName(value) {
     .replace(/\b(Mla|Mp|Obe|Mbe|Qpm|Kc|Pc)\b/g, (match) => match.toUpperCase());
 }
 
+/** @param {unknown} value */
 function uppercaseRatio(value) {
   const letters = String(value || '').replace(/[^A-Za-z]/g, '');
   if (!letters) return 0;
@@ -1478,14 +1597,17 @@ function uppercaseRatio(value) {
   return uppercase / letters.length;
 }
 
+/** @param {unknown} value */
 function splitList(value) {
   return uniqueCleanStrings(String(value || '').split(';'));
 }
 
+/** @param {unknown} values */
 function uniqueCleanStrings(values) {
   return [...new Set(normalizeArray(values).map(cleanText).filter(Boolean))];
 }
 
+/** @param {unknown} value */
 function parseBoolean(value) {
   if (value === true || value === false) return value;
   if (/^true$/i.test(String(value || ''))) return true;
@@ -1493,10 +1615,12 @@ function parseBoolean(value) {
   return null;
 }
 
+/** @param {unknown} value */
 function isNoneEntry(value) {
   return /^(none\.?|nil\.?|no registrable interests?\.?|no interests?\.?)$/i.test(cleanText(value).replace(/[;:]+$/, ''));
 }
 
+/** @param {{ memberName?: unknown, date?: unknown, category?: unknown, id?: unknown }} a @param {{ memberName?: unknown, date?: unknown, category?: unknown, id?: unknown }} b */
 function sortInterests(a, b) {
   return String(a.memberName || '').localeCompare(String(b.memberName || ''))
     || String(a.date || '').localeCompare(String(b.date || ''))
@@ -1504,35 +1628,42 @@ function sortInterests(a, b) {
     || String(a.id || '').localeCompare(String(b.id || ''));
 }
 
+/** @param {{ title?: unknown, id?: unknown }} a @param {{ title?: unknown, id?: unknown }} b */
 function sortByTitle(a, b) {
   return String(a.title || '').localeCompare(String(b.title || ''))
     || String(a.id || '').localeCompare(String(b.id || ''));
 }
 
+/** @param {unknown} values */
 function maxString(values) {
   const clean = uniqueCleanStrings(values);
   return clean.length ? clean.sort().at(-1) : null;
 }
 
+/** @param {unknown} values */
 function minString(values) {
   const clean = uniqueCleanStrings(values);
   return clean.length ? clean.sort()[0] : null;
 }
 
+/** @param {unknown[]} parts @param {string} [separator] */
 function compactJoin(parts, separator = ' / ') {
   return parts.filter((part) => part !== null && part !== undefined && String(part).trim()).map(cleanText).join(separator) || null;
 }
 
+/** @param {unknown} value */
 function truncateText(value, maxLength = 360) {
   const text = cleanText(value);
   if (text.length <= maxLength) return text;
   return `${text.slice(0, Math.max(0, maxLength - 3)).trim()}...`;
 }
 
+/** @param {unknown} value */
 function normalizeKey(value) {
   return cleanText(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
+/** @param {unknown} value */
 function slugify(value) {
   return String(value || '')
     .toLowerCase()
@@ -1542,21 +1673,26 @@ function slugify(value) {
     .slice(0, 120) || 'item';
 }
 
+/** @param {unknown} value */
 function shortHash(value) {
   return crypto.createHash('sha256').update(String(value || '')).digest('hex').slice(0, 16);
 }
 
+/** @param {unknown} value */
 function cleanText(value) {
   return String(value ?? '').replace(/\s+/g, ' ').trim();
 }
 
+/** @template T @param {T[] | T | null | undefined} value @returns {T[]} */
 function normalizeArray(value) {
   if (Array.isArray(value)) return value.filter((item) => item !== null && item !== undefined && item !== '');
   if (value === null || value === undefined || value === '') return [];
   return [value];
 }
 
+/** @template {Record<string, unknown>} T @param {T} object @returns {Compact<T>} */
 function compactObject(object) {
+  /** @type {Record<string, unknown>} */
   const output = {};
   for (const [key, value] of Object.entries(object)) {
     if (value === null || value === undefined || value === '') continue;
@@ -1564,13 +1700,16 @@ function compactObject(object) {
     if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0) continue;
     output[key] = value;
   }
-  return output;
+  // only the null, undefined and empty fields were dropped
+  return /** @type {Compact<T>} */ (output);
 }
 
+/** @param {string} filePath @returns {unknown} */
 function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, 'utf8'));
 }
 
+/** @param {string} filePath @param {unknown} value */
 function writeJson(filePath, value) {
   mkdirSync(path.dirname(filePath), { recursive: true });
   const nextText = `${JSON.stringify(value, null, 2)}\n`;
