@@ -21,6 +21,7 @@ export default definePlugin({
   inputs: {
     candidates: { description: 'a census candidate file for merge-pilot' },
     harvest: { description: 'a harvest JSON for the catalogue emitters' },
+    files: { description: 'a NISRA publication-files manifest (the nisra-publication-files output)' },
   },
   steps: {
     // Parsed historic tables (local OCR markdown into data/census/derived/).
@@ -48,6 +49,7 @@ export default definePlugin({
     'merge-pilot': { title: 'Merge a census candidate file into the gate under a named counts bucket', argv: ['node', 'scripts/ingest/census/merge-census-pilot.mjs', '{input:candidates}'] },
     'nisra-publication-records': { title: 'Catalogue records for NISRA non-census publications', argv: ['node', 'scripts/ingest/census/emit-nisra-publication-records.mjs', '{input:harvest}'], outputs: [CANDIDATES] },
     'opendatani-records': { title: 'Catalogue records for Open Data NI datasets not yet on Civgraph', argv: ['node', 'scripts/ingest/census/emit-opendatani-catalogue-records.mjs', '{input:harvest}'], outputs: [CANDIDATES] },
+    'nisra-files-enrich': { title: 'Give the NISRA publication records that have none their download links', argv: ['node', 'scripts/ingest/census/enrich-nisra-records-with-files.mjs', '{input:files}'] },
     'opendatani-ia-enrich': { title: 'Add each Open Data NI file\'s Internet Archive copy to its record', argv: ['node', 'scripts/ingest/census/reenrich-opendatani-with-ia.mjs'] },
     // Crawls and mirrors (outside writes: the Internet Archive uploads need the owner's approval).
     'nisra-publications': { title: 'Enumerate the NISRA publications catalogue', argv: ['node', 'scripts/ingest/census/crawl-nisra-publications.mjs'], network: true },

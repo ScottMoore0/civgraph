@@ -25,6 +25,7 @@ const TYPED = [
   '../ingest/census/crawl-nisra-publications.mjs',
   '../ingest/census/cso-emit-pxstat-gap-records.mjs',
   '../ingest/census/emit-nisra-publication-records.mjs',
+  '../ingest/census/enrich-nisra-records-with-files.mjs',
   '../ingest/census/emit-opendatani-catalogue-records.mjs',
   '../ingest/census/merge-census-pilot.mjs',
   '../ingest/census/mirror-nisra-files-to-ia.mjs',
