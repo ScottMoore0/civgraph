@@ -1,9 +1,7 @@
-// Owner rule, 13 Nov 2026: "By default, do not identify our crawlers or scrapers as Civgraph, or as
-// anything, unless I approve you doing so." The one approval, the same day: "identify as Civgraph
-// when interacting with Wikimedia projects." This holds both:
+// The request headers for other services:
 //
 // - crawlHeaders() (packages/config/src/node.mjs) sets no User-Agent and drops one passed in,
-//   except SITE.userAgent for a URL on a Wikimedia domain (WIKIMEDIA_DOMAINS), and nowhere else;
+//   except SITE.userAgent for a URL on a host in WIKIMEDIA_DOMAINS;
 // - its Python twin, scripts/ingest/wikimedia_headers.py, answers the same for the same URLs;
 // - a request made with it, and a Python urllib request made with no headers, reach a local
 //   server (127.0.0.1, nothing leaves the machine) carrying only the client's generic default;
@@ -29,9 +27,7 @@ const PY_TWIN = 'scripts/ingest/wikimedia_headers.py'; // the Python twin of the
 /**
  * Files that may name a User-Agent, with the number of lines doing so, and why. Each is a request
  * to Civgraph's own services (civgraph.net, data.civgraph.net, our dev proxies to them), or code
- * that only reads a User-Agent and sends none of its own, or the Wikimedia allowlist itself.
- * Never add a crawler here: an identifying User-Agent to a third party needs the owner's approval
- * for that service, and then goes into the allowlist, not into the crawler.
+ * that only reads a User-Agent and sends none of its own, or the WIKIMEDIA_DOMAINS helpers.
  * @type {Record<string, number>}
  */
 const ALLOWED = {
@@ -94,7 +90,7 @@ const OTHER_URLS = [
   'https://wikimedia.org@example.com/', 'not a url', '',
 ];
 
-test('crawlHeaders() adds SITE.userAgent for Wikimedia hosts only (owner decision, 13 Nov 2026)', () => {
+test('crawlHeaders() adds SITE.userAgent for Wikimedia hosts only', () => {
   assert.deepEqual([...WIKIMEDIA_DOMAINS], ['wikipedia.org', 'wikidata.org', 'wikimedia.org']);
   for (const url of WIKIMEDIA_URLS) {
     assert.deepEqual(crawlHeaders({ Accept: 'application/json', 'user-agent': 'other' }, { url }), { Accept: 'application/json', 'User-Agent': SITE.userAgent }, url);
@@ -129,7 +125,7 @@ test('Node fetch with crawlHeaders() sends only the generic default User-Agent',
     assert.equal(r.seen.length, 1);
     const [h] = r.seen;
     assert.equal(h.accept, 'text/html');
-    // undici's own default ("node"), when it sends one at all: never ours, never a browser's.
+    // undici's own default ("node"), when it sends one at all.
     assert.doesNotMatch(String(h['user-agent'] ?? ''), /civgraph|https?:|@|mozilla/i);
     assert.doesNotMatch(JSON.stringify(h), /civgraph|@/i);
   } finally {
@@ -193,7 +189,7 @@ test('no script sets a User-Agent outside the own-service list, whose counts onl
     if (n) found[rel] = n;
   }
   const over = Object.entries(found).filter(([rel, n]) => n > (ALLOWED[rel] ?? 0));
-  assert.deepEqual(over, [], `a crawler, scraper or third-party fetch sends no User-Agent (owner rule, 13 Nov 2026): use crawlHeaders() or the library default. ${over.map(([rel, n]) => `${rel} (${n})`).join(', ')}`);
+  assert.deepEqual(over, [], `User-Agent lines outside the list (use crawlHeaders() or the library default): ${over.map(([rel, n]) => `${rel} (${n})`).join(', ')}`);
   const stale = Object.entries(ALLOWED).filter(([rel, n]) => (found[rel] ?? 0) < n);
   assert.deepEqual(stale, [], 'lower these allowances: the baseline only shrinks');
 });

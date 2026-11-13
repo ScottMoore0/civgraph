@@ -282,7 +282,7 @@ function fileDedupeKey(file, doc) {
 
 async function fetchJson(url) {
   const response = await fetch(url, {
-    // The site's User-Agent to Wikipedia only (owner's decision of 13 Nov 2026); none to archive.org.
+    // The site's User-Agent to Wikipedia only; none to archive.org.
     headers: crawlHeaders({ Accept: 'application/json' }, { url })
   });
   if (!response.ok) throw new Error(`${response.status} ${response.statusText} for ${url}`);

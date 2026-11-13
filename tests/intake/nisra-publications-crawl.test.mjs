@@ -1,5 +1,5 @@
 // The NISRA publications crawler (scripts/ingest/census/crawl-nisra-publications.mjs): it sends no
-// User-Agent of ours (owner rule, 13 Nov 2026) and nothing else that identifies anyone, waits at least 1.5 s before every
+// User-Agent and no other identifying header, waits at least 1.5 s before every
 // request after the first (retries included), stops after two empty pages, and stops the whole run
 // on a 403, a 429 or a bot challenge. No network: fetch and sleep are injected.
 import assert from 'node:assert/strict';

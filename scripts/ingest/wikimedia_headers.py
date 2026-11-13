@@ -1,12 +1,9 @@
 """Request headers for the Wikimedia projects: the Python twin of crawlHeaders(extra, { url })
 in packages/config/src/node.mjs.
 
-Owner rule, 13 Nov 2026: our crawlers and scrapers identify as nothing unless the owner approves.
-The one approval is the owner's decision of 13 Nov 2026: "identify as Civgraph when interacting
-with Wikimedia projects." So a request to a Wikimedia host (Wikipedia, Wikidata and its query
-service, Wikimedia Commons and upload) carries the site's User-Agent, which names the site only,
-never an email address or a person. Every other host gets no User-Agent of ours: the library's
-own default applies. The crawl-headers unit test holds this file equal to node.mjs.
+A request to a Wikimedia host (Wikipedia, Wikidata and its query service, Wikimedia Commons and
+upload) carries the site's User-Agent; every other host gets no User-Agent from here, so the
+library's own default applies. The crawl-headers unit test holds this file equal to node.mjs.
 
 Load it without touching sys.path:
 
@@ -15,8 +12,7 @@ Load it without touching sys.path:
 """
 from urllib.parse import urlsplit
 
-# SITE.userAgent in packages/config/src/config.js (Python cannot import it), sent only to the
-# Wikimedia projects by the owner's decision of 13 Nov 2026.
+# SITE.userAgent in packages/config/src/config.js (Python cannot import it).
 WIKIMEDIA_UA = 'civgraph-research (+https://civgraph.net)'
 WIKIMEDIA_DOMAINS = ('wikipedia.org', 'wikidata.org', 'wikimedia.org')
 

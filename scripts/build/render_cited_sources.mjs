@@ -9,8 +9,7 @@
  *
  * Polite: robots.txt checked for every host before starting (these hosts allow it), one
  * page at a time and at least 3 s between requests to the same host. The browser keeps
- * Playwright's own default User-Agent: nothing of ours is added and no other browser is
- * imitated (owner rule, 13 Nov 2026).
+ * Playwright's own default User-Agent.
  *
  * Input:  .cache/wikipedia-sources/render-targets.json  [{key, url, host}]
  * Output: .cache/wikipedia-sources/files/<sha1(url)>.rendered.html

@@ -170,7 +170,7 @@ def download(url: str, dest: Path, expected_size: int) -> tuple[str, int, str]:
     last_err = ""
     for attempt in range(3):
         try:
-            headers = {}  # no User-Agent: urllib's default (owner rule, 13 Nov 2026)
+            headers = {}  # no User-Agent: urllib's default
             mode = "wb"
             if have > 0:
                 headers["Range"] = f"bytes={have}-"

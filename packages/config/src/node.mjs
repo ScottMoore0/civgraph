@@ -10,9 +10,8 @@
  * CIVGRAPH_* defaults). Switched over so far: packages/loader/src/paths.mjs re-exports recordPaths()
  * from here (CFG-2; paths.py stays the Python twin, held equal by tests/records/paths.test.mjs),
  * and scripts/records and scripts/lib take the origins, the User-Agent and their CIVGRAPH_*
- * variables from here (CFG-4 for those folders). SITE.userAgent is for requests to our own
- * services and the Wikimedia projects; a crawler or any fetch to a third party takes crawlHeaders()
- * below, which sets no User-Agent except for Wikimedia (owner, 13 Nov 2026).
+ * variables from here (CFG-4 for those folders). Requests to other services take crawlHeaders()
+ * below.
  *
  *   node packages/config/src/node.mjs            the resolved configuration, as JSON
  *   node packages/config/src/node.mjs --env      the environment variables it knows, and which are set
@@ -30,8 +29,7 @@ export { API, BINDINGS, CACHE, RUNTIME_VARS, SECRETS, SITE, binding, environment
 /**
  * The Wikimedia projects, by registrable domain: a host is one of them when it is the domain or a
  * subdomain of it (en.wikipedia.org, www.wikidata.org, query.wikidata.org, commons.wikimedia.org,
- * upload.wikimedia.org). The owner decided on 13 Nov 2026: "identify as Civgraph when interacting
- * with Wikimedia projects." scripts/ingest/wikimedia_headers.py is the Python twin, held equal by
+ * upload.wikimedia.org). scripts/ingest/wikimedia_headers.py is the Python twin, held equal by
  * the crawl-headers unit test.
  */
 export const WIKIMEDIA_DOMAINS = Object.freeze(['wikipedia.org', 'wikidata.org', 'wikimedia.org']);
@@ -43,16 +41,9 @@ export function isWikimediaHost(host) {
 }
 
 /**
- * The headers of a request to someone else's service: a crawler, a scraper or any fetch to a
- * third party. Owner rule, 13 Nov 2026: "By default, do not identify our crawlers or scrapers as
- * Civgraph, or as anything, unless I approve you doing so." So these headers carry NO
- * User-Agent and the client library's own generic default applies (undici's for Node fetch).
- * Never put a browser's User-Agent here instead: that would be bot-detection evasion.
- *
- * The one approved exception is the Wikimedia projects (WIKIMEDIA_DOMAINS, owner decision of
- * 13 Nov 2026): when `url` is on one of them, the headers carry SITE.userAgent, which names the
- * site only, never an email address or a person. Pass the request's URL to get it. Any other
- * service needs the owner's approval first, added here.
+ * The headers of a request to another service. They set a User-Agent only when `url` is on a host
+ * in WIKIMEDIA_DOMAINS, and then it is SITE.userAgent; otherwise the client library's default
+ * applies (undici's for Node fetch).
  *
  * `extra` is copied as given (Accept, Range, an API key header), less any User-Agent key in any
  * letter case, which is dropped.
@@ -69,7 +60,7 @@ export function crawlHeaders(extra = {}, { url } = {}) {
   }
   if (url !== undefined) {
     let host = '';
-    try { host = new URL(String(url)).hostname; } catch { /* not a URL: no exception applies */ }
+    try { host = new URL(String(url)).hostname; } catch { /* not a URL: no User-Agent */ }
     if (isWikimediaHost(host)) out['User-Agent'] = SITE.userAgent;
   }
   return out;

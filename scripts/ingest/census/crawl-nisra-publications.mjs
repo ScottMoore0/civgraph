@@ -5,8 +5,8 @@
  * inventory of { slug, title } for every publication, which feeds
  * emit-nisra-publication-records.mjs. Non-census filtering happens at emit time.
  *
- * Politeness: one GET at a time, with no User-Agent of ours (crawlHeaders(): the fetch default
- * applies, owner rule 13 Nov 2026) and at least MIN_DELAY_MS between requests, retries included. It stops after two
+ * Politeness: one GET at a time, with headers from crawlHeaders() (no User-Agent: the fetch
+ * default applies) and at least MIN_DELAY_MS between requests, retries included. It stops after two
  * empty pages in a row, and stops the whole run (writing nothing) on a 403 or 429 or a bot
  * challenge: those are never retried or worked around.
  *

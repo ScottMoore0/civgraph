@@ -26,9 +26,8 @@
  * A term wholly inside another holder's term on the same office is dropped and reported:
  * Wikidata lists some deputy leaders under the leader's office (Fianna Fáil, 1995-2002).
  *
- * Politeness: one request at a time, a pause between requests and maxlag=5. Wikimedia requests
- * carry the site's User-Agent through crawlHeaders() (the owner's decision of 13 Nov 2026 for
- * Wikimedia projects), and no personal identifiers.
+ * Politeness: one request at a time, a pause between requests and maxlag=5. Requests take their
+ * headers from crawlHeaders() and carry no personal identifiers.
  *
  * Usage: node scripts/ingest/wikipedia/fetch-party-wikidata.mjs [--limit N]
  */

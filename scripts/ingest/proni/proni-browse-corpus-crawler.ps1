@@ -154,8 +154,7 @@ if ($WorkerMode) {
   }
 }
 
-# No User-Agent of ours and no browser's (owner rule, 13 Nov 2026): Invoke-WebRequest and
-# HttpClient send their own defaults.
+# No User-Agent header: Invoke-WebRequest and HttpClient send their own defaults.
 $Headers = @{
   'Accept' = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
   'Accept-Language' = 'en-US,en;q=0.9,en-GB;q=0.8'
