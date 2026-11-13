@@ -10,7 +10,7 @@
  */
 import { escapeHtml } from '../../core/src/html.js';
 import { defineFlagFields, present, setHidden } from './state-helpers.mjs';
-import { LABEL_FONT_SIZE, estimateTextWidth, formatShare, layoutTrendChart, renderTrendChartSvg } from './views/election-trend-chart.mjs';
+import { LABEL_FONT_SIZE, estimateTextWidth, formatShare, layoutTrendChart, renderTrendChartSvg, trendLegendHtml } from './views/election-trend-chart.mjs';
 
 export { buildTrendChartModel, formatShare, layoutTrendChart, renderTrendChartSvg } from './views/election-trend-chart.mjs';
 
@@ -47,7 +47,7 @@ export function mountTrendChart(container, model, options = {}) {
   const root = doc.createElement('div');
   root.className = 'trend-chart';
   root.innerHTML = `
-    <div class="test2-election-trends__legend" role="group" aria-label="Parties shown">${legendMarkup(model)}</div>
+    <div class="test2-election-trends__legend" role="group" aria-label="Parties shown">${trendLegendHtml(model)}</div>
     <div class="trend-chart__stage"></div>
     <div class="trend-tooltip" role="tooltip" hidden></div>
     ${options.footnotes || ''}
@@ -345,16 +345,6 @@ export function mountTrendChart(container, model, options = {}) {
   };
   container.__trendChart = controller;
   return controller;
-}
-
-/** @param {TrendModel} model */
-function legendMarkup(model) {
-  return model.series.map((item) => (
-    `<button type="button" class="test2-election-trends__legend-item" data-party="${escapeHtml(item.key)}" aria-pressed="false" title="${escapeHtml(`Focus ${item.party}`)}">`
-    + `<span class="test2-election-trends__legend-swatch" style="background:${escapeHtml(item.colour)}"></span>`
-    + `<span class="test2-election-trends__legend-name">${escapeHtml(item.party)}</span>`
-    + '</button>'
-  )).join('');
 }
 
 /**

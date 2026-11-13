@@ -103,9 +103,12 @@ export const RESULTS_SAMPLE = {
  * @type {import('./election-trend-chart.mjs').TrendPoint[]}
  */
 export const TREND_POINTS_SAMPLE = (() => {
-  // The first four parties of the registry's Republic of Ireland palette, and their shares (%) at
-  // each election, in that order.
-  const parties = [...new Set(partyPalettes.mapRoi.map(([name]) => name))].slice(0, 4);
+  // The first four parties of the registry's Republic of Ireland palette, by the names the election
+  // manager hands over (the palette's keys are folded: 'fianna fail'), and their shares (%) at each
+  // election, in that order.
+  /** @type {Record<string, string>} */
+  const NAMES = { 'fianna fail': 'Fianna Fáil', 'fine gael': 'Fine Gael', 'sinn fein': 'Sinn Féin', labour: 'Labour Party' };
+  const keys = [...new Set(partyPalettes.mapRoi.map(([name]) => name))].slice(0, 4);
   /** @type {[string, number[]][]} */
   const elections = [
     ['2011-02-25', [17.4, 36.1, 9.9, 19.5]],
@@ -113,8 +116,8 @@ export const TREND_POINTS_SAMPLE = (() => {
     ['2020-02-08', [22.2, 20.9, 24.5, 4.4]],
     ['2024-11-29', [21.9, 20.8, 19.0, 4.6]],
   ];
-  return elections.flatMap(([date, shares]) => parties.map((party, i) => ({
-    party, share: shares[i], colour: roi(party), entry: { key: `dail|${date}`, body: 'Dáil Éireann', date },
+  return elections.flatMap(([date, shares]) => keys.map((key, i) => ({
+    party: NAMES[key] || key, share: shares[i], colour: roi(key), entry: { key: `dail|${date}`, body: 'Dáil Éireann', date },
   })));
 })();
 
