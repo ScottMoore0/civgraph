@@ -34,6 +34,7 @@ import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
 /** @typedef {import('./ui-controller-types.d.ts').FeatureDetailEntry} FeatureDetailEntry */
 /** @typedef {import('./ui-controller-types.d.ts').HtmlRoot} HtmlRoot */
 /** @typedef {import('./ui-controller-types.d.ts').ViewElement} ViewElement */
+/** @typedef {import('./ui-controller-types.d.ts').FeatureSearchResult} FeatureSearchResult */
 /** @typedef {import('./ui-controller-types.d.ts').HtmlElementRoot} HtmlElementRoot */
 /** @typedef {import('./ui-controller-types.d.ts').MapListOptions} MapListOptions */
 /** @typedef {import('./ui-controller-types.d.ts').DetailViewState} DetailViewState */
@@ -2553,9 +2554,10 @@ class UIController {
     async yieldForCatalogueRender(index, batchSize = 8) {
         if (!this.isMobile && index % (batchSize * 2) !== batchSize * 2 - 1) return;
         if (index % batchSize !== batchSize - 1) return;
-        await new Promise((resolve) => this.scheduleIdleWork(resolve, 80));
+        await new Promise((/** @type {(value?: unknown) => void} */ resolve) => this.scheduleIdleWork(resolve, 80));
     }
 
+    /** @param {MapListOptions} [options] @param {{ defer?: boolean }} [when] */
     requestFlatViewRender(options = {}, { defer = false } = {}) {
         if (this.shouldDeferMobileCatalogueRender()) {
             this.renderDeferredMobileCatalogueShell();
@@ -2565,6 +2567,7 @@ class UIController {
         const renderPromise = new Promise((resolve) => {
             this._flatRenderResolvers.push(resolve);
         });
+        /** @param {unknown} value */
         const resolveRender = (value) => {
             const resolvers = this._flatRenderResolvers.splice(0);
             resolvers.forEach(resolve => resolve(value));
@@ -2619,6 +2622,7 @@ class UIController {
         this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: true });
     }
 
+    /** @param {MapListOptions} [options] */
     shouldUseBoundedMobileCatalogue(options = {}) {
         if (!this.isMobile) return false;
         if (this._mobileCatalogueExpanded) return false;
@@ -2651,8 +2655,9 @@ class UIController {
             .trim();
     }
 
+    /** @param {string} kind @returns {Promise<BrowseItem[]>} */
     async fetchCatalogueBrowseItems(kind) {
-        if (this._catalogueSearchBrowseCache.has(kind)) return this._catalogueSearchBrowseCache.get(kind);
+        if (this._catalogueSearchBrowseCache.has(kind)) return /** @type {Promise<BrowseItem[]>} */ (this._catalogueSearchBrowseCache.get(kind));
         const promise = fetch('data/browse/' + kind + '.json', { cache: 'force-cache' })
             .then(response => response.ok ? response.json() : { items: [] })
             .then(payload => Array.isArray(payload?.items) ? payload.items : [])
@@ -2661,6 +2666,7 @@ class UIController {
         return promise;
     }
 
+    /** @param {string} kind @param {BrowseItem | null | undefined} item */
     buildCatalogueSearchBrowseUrl(kind, item) {
         if (item?.browseUrl) return item.browseUrl;
         const slug = String(item?.slug || item?.id || item?.key || '').replace(/^(party|person|source):/, '');
@@ -2670,6 +2676,7 @@ class UIController {
         return pageType(kind) ? recordPagePath(kind, slug) : '/browse/#/' + kind + '/' + encodeURIComponent(slug);
     }
 
+    /** @param {Record<string, unknown> & { title?: unknown, name?: unknown, id?: unknown, subtitle?: unknown, category?: unknown, provider?: unknown, keywords?: unknown, constituencies?: unknown, parties?: unknown, shortName?: unknown, knownAliases?: unknown, type: string }} input @returns {CatalogueSearchRecord} */
     makeCatalogueSearchRecord(input) {
         const title = String(input.title || input.name || input.id || '').trim();
         const subtitle = String(input.subtitle || input.category || '').trim();
@@ -2682,7 +2689,7 @@ class UIController {
         });
         if (Array.isArray(input.keywords)) attributes.push(input.keywords.join(' '));
         if (Array.isArray(input.constituencies)) attributes.push(input.constituencies.join(' '));
-        if (Array.isArray(input.parties)) attributes.push(input.parties.map(p => p?.name || p).join(' '));
+        if (Array.isArray(input.parties)) attributes.push(input.parties.map((/** @type {{ name?: string } | string} */ p) => /** @type {{ name?: string }} */ (p)?.name || p).join(' '));
         // A party is found by any of its names: "Official Unionist" finds the UUP (H8).
         if (input.shortName) attributes.push(String(input.shortName));
         if (Array.isArray(input.knownAliases)) attributes.push(input.knownAliases.join(' '));
@@ -2700,6 +2707,7 @@ class UIController {
         if (this._catalogueSearchIndex) return this._catalogueSearchIndex;
         if (!this._catalogueSearchIndexPromise) {
             this._catalogueSearchIndexPromise = (async () => {
+                /** @type {CatalogueSearchRecord[]} */
                 const records = [];
                 const allMaps = /** @type {MapRecord[]} */ (dataService.getAllMaps()).filter(map => !map.hidden);
                 allMaps.forEach(map => {
@@ -2728,7 +2736,7 @@ class UIController {
                     ['persons', 'person', 'Person'],
                     ['sources', 'source', 'Source']
                 ];
-                const browsePayloads = await Promise.all(browseKinds.map(async ([kind, type, typeLabel]) => [kind, type, typeLabel, await this.fetchCatalogueBrowseItems(kind)]));
+                const browsePayloads = await Promise.all(browseKinds.map(async ([kind, type, typeLabel]) => /** @type {[string, string, string, BrowseItem[]]} */ ([kind, type, typeLabel, await this.fetchCatalogueBrowseItems(kind)])));
                 browsePayloads.forEach(([kind, type, typeLabel, items]) => {
                     items.forEach(item => {
                         // A party label linked to no election is a ballot-paper description or an
@@ -2763,6 +2771,7 @@ class UIController {
         return this._catalogueSearchIndexPromise;
     }
 
+    /** @param {FeatureSearchResult} result @returns {CatalogueSearchRecord} */
     featureSearchResultToCatalogueRecord(result) {
         const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(result.mapId));
         const name = String(result.name || result.id || 'Unnamed feature');
@@ -2785,7 +2794,15 @@ class UIController {
         });
     }
 
+    /**
+     * @param {string} action
+     * @param {string} label
+     * @param {string} icon
+     * @param {Record<string, unknown>} [dataset]
+     * @param {{ disabled?: boolean, className?: string }} [options]
+     */
     renderCatalogueSearchIconButton(action, label, icon, dataset = {}, options = {}) {
+        /** @param {unknown} value */
         const esc = value => this.escapeHtml(value == null ? '' : String(value));
         const attrs = Object.entries(dataset)
             .filter(([, value]) => value !== undefined && value !== null)
@@ -2796,7 +2813,9 @@ class UIController {
         return `<button type="button" class="btn btn--icon btn--xs catalogue-search__icon-btn${extraClass}" data-catalogue-search-action="${esc(action)}"${attrs} title="${esc(label)}" aria-label="${esc(label)}"${disabled}>${icon}</button>`;
     }
 
+    /** @param {CatalogueSearchRecord} record */
     renderCatalogueSearchActionStrip(record) {
+        /** @param {unknown} value */
         const esc = value => this.escapeHtml(value == null ? '' : String(value));
         const copyIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
         const downloadIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
@@ -2817,8 +2836,9 @@ class UIController {
         if (record.type === 'feature' && record.mapId) {
             const featureId = record.featureId || record.id;
             const bbox = Array.isArray(record.bbox) ? record.bbox.join(',') : '';
-            const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(record.mapId, featureId) : false;
-            const isVisible = this.onCheckFeatureVisible ? !!this.onCheckFeatureVisible(record.mapId, featureId) : isLoaded;
+            // A feature record has its id, or the id of its search result.
+            const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(record.mapId, /** @type {string} */ (featureId)) : false;
+            const isVisible = this.onCheckFeatureVisible ? !!this.onCheckFeatureVisible(record.mapId, /** @type {string} */ (featureId)) : isLoaded;
             const dataset = {
                 'map-id': record.mapId,
                 'feature-id': featureId,
@@ -2865,6 +2885,7 @@ class UIController {
         return url.toString();
     }
 
+    /** @param {HTMLElement} button @param {{ showInfo?: boolean }} [options] */
     async loadFeatureFromSearchButton(button, options = {}) {
         const { mapId, featureId, featureName, bbox } = this.getCatalogueSearchFeaturePayload(button);
         if (!mapId || !featureId) return null;
@@ -2940,6 +2961,7 @@ class UIController {
             }
         });
     }
+    /** @param {CatalogueSearchRecord} record @param {string[]} terms @param {string} normalizedQuery @param {Map<string, number>} [mapOrder] */
     scoreCatalogueSearchRecord(record, terms, normalizedQuery, mapOrder) {
         if (!record?.searchText) return 0;
         const title = this.normalizeCatalogueSearchText(record.title);
@@ -2961,19 +2983,22 @@ class UIController {
         if (record.type === 'map' && mapOrder?.has(record.mapId || record.id)) {
             score += Math.max(0, 450 - mapOrder.get(record.mapId || record.id));
         }
+        /** @type {Record<string, number>} */
         const typeBoost = { map: 90, election: 85, feature: 80, party: 70, person: 60, source: 40 };
         score += typeBoost[record.type] || 0;
         return score;
     }
 
+    /** @param {CatalogueSearchRecord} record */
     renderCatalogueSearchResult(record) {
+        /** @param {unknown} value */
         const esc = value => this.escapeHtml(value == null ? '' : String(value));
-        const typeLabel = record.typeLabel || ({ map: 'Map', election: 'Election', feature: 'Feature', party: 'Party / label', person: 'Person', source: 'Source' }[record.type] || record.type || 'Result');
+        const typeLabel = record.typeLabel || (/** @type {Record<string, string>} */ ({ map: 'Map', election: 'Election', feature: 'Feature', party: 'Party / label', person: 'Person', source: 'Source' })[record.type] || record.type || 'Result');
         let thumb = '';
         if (record.featureThumbnail?.url) thumb = '<img class="catalogue-search__thumbnail-img" src="' + esc(record.featureThumbnail.url) + '" loading="lazy" decoding="async" alt="">';
         else if (record.featureThumbnail) thumb = '<span class="catalogue-search__feature-thumb" aria-hidden="true">' + this._buildFeatureLocatorSvg(record.featureThumbnail.bbox, record.featureThumbnail.colour) + '</span>';
         else if (record.thumbSvg) thumb = '<span class="catalogue-search__feature-thumb" aria-hidden="true">' + record.thumbSvg + '</span>';
-        else if (record.thumbId) thumb = this.renderThumbnailZone(record.thumbId, 'catalogue-search__thumbnail-img', '48px');
+        else if (record.thumbId) thumb = this.renderThumbnailZone(/** @type {string} */ (record.thumbId), 'catalogue-search__thumbnail-img', '48px');
         else if (record.colour) thumb = '<span class="catalogue-search__colour-tab" style="background:' + esc(record.colour) + '"></span>';
         else thumb = '<span class="catalogue-search__fallback-thumb" aria-hidden="true"></span>';
 
@@ -2994,6 +3019,7 @@ class UIController {
         '</article>';
     }
 
+    /** @param {string} query @param {{ mapResultIds?: unknown[] }} [options] */
     async renderCatalogueSearchResults(query, options = {}) {
         if (catalogueNextRequested()) {
             this._catalogueSearchQuery = String(query || '').trim();
@@ -3025,6 +3051,7 @@ class UIController {
         ]);
         if (token !== this._catalogueSearchToken || this.normalizeCatalogueSearchText(this._catalogueSearchQuery) !== normalizedQuery) return [];
         const terms = normalizedQuery.split(/\s+/).filter(Boolean);
+        /** @type {Array<{ record: CatalogueSearchRecord, score: number }>} */
         const scored = [];
         index.forEach(record => {
             const score = this.scoreCatalogueSearchRecord(record, terms, normalizedQuery, mapOrder);
@@ -3248,7 +3275,7 @@ class UIController {
             || /** @type {HtmlRoot} */ (document).querySelector('.pane--info');
     }
 
-    /** @param {number | null} [count] */
+    /** @param {number} [count] */
     async waitForCatalogueFrame(count = 1) {
         for (let i = 0; i < count; i += 1) {
             await new Promise(resolve => requestAnimationFrame(resolve));
@@ -3492,9 +3519,9 @@ class UIController {
         if (this.isMobile) return;
         const wrap = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-flat__toc-thumbwrap'));
         if (!wrap || wrap.classList.contains('catalogue-flat__toc-thumbwrap--missing')) return;
-        const zoom = wrap.querySelector('.catalogue-flat__toc-thumbzoom');
+        const zoom = /** @type {ViewElement | null} */ (wrap.querySelector('.catalogue-flat__toc-thumbzoom'));
         if (!zoom) return;
-        this.loadLazyThumbnailImage(zoom.querySelector('img[data-thumbnail-src]'));
+        this.loadLazyThumbnailImage(/** @type {HTMLImageElement | null} */ (zoom.querySelector('img[data-thumbnail-src]')));
         const rect = wrap.getBoundingClientRect();
         let left = rect.right + 8;
         let top = rect.top + rect.height / 2 - 60;
@@ -3518,6 +3545,7 @@ class UIController {
      * catalogueNextRequested() -- on the test site only, until it is approved. Loaded on demand,
      * so the live pane carries none of its code.
      */
+    /** @param {HtmlElementRoot} container @param {{ query?: string }} [options] */
     async _renderCatalogueNext(container, options = {}) {
         if (!this._catalogueNext) {
             // One instance however many renders ask at once: each listens to the page's history.
@@ -3526,7 +3554,8 @@ class UIController {
             await this._catalogueNextLoading;
         }
         container.classList.remove('catalogue-flat-view--search', 'catalogue-flat-view--book-viewer');
-        await this._catalogueNext.render(container, options);
+        // Made by the import above.
+        await /** @type {import('./catalogue/index.js').CatalogueNext} */ (this._catalogueNext).render(container, options);
         container.dataset.rendered = 'next';
         return true;
     }
@@ -3543,9 +3572,11 @@ class UIController {
             this._catalogueNext.syncState();
             return;
         }
+        /** @type {HtmlRoot} */
         const root = document.getElementById('catalogueFlatView') || document;
         const visibleIds = new Set(options.visibleIds || this._lastMapListOptions.visibleIds || []);
 
+        /** @param {string} mapId @param {boolean} loaded */
         const isVisible = (mapId, loaded) => {
             if (typeof this.onCheckMapVisible === 'function') {
                 try { return !!this.onCheckMapVisible(mapId); } catch (err) {}
@@ -3557,7 +3588,7 @@ class UIController {
             const mapId = el.dataset.mapId;
             if (!mapId) return;
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
-            const visible = isVisible(mapId, loaded);
+
             el.classList.toggle('class-member--loaded', loaded && el.classList.contains('class-member'));
             el.classList.toggle('c1-grid-entry--loaded', loaded && el.classList.contains('c1-grid-entry'));
             el.classList.toggle('variant-item--loaded', loaded && el.classList.contains('variant-item'));
@@ -7288,7 +7319,7 @@ class UIController {
      * either the legacy `osniDownloads` field or the newer `sourceDownloads`
      * field. Both have the same shape: [{ label, file }].
      */
-    /** @param {MapRecord} map */
+    /** @param {Partial<MapRecord>} map @returns {SourceDownload[]} */
     getSourceDownloads(map) {
         if (Array.isArray(map.sourceDownloads) && map.sourceDownloads.length) return map.sourceDownloads;
         if (Array.isArray(map.osniDownloads) && map.osniDownloads.length) return map.osniDownloads;

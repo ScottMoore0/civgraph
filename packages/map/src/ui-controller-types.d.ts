@@ -131,7 +131,8 @@ export interface MapRecord {
   variants?: MapVariantView[];
   references?: MapReferenceView[];
   sourceDownloads?: import('../../types/index.js').SourceLink[];
-  downloads?: import('../../types/index.js').SourceLink[] | { [key: string]: unknown };
+  /** A list of links, or the files by format (an array has no fgb: it reads as undefined). */
+  downloads?: (import('../../types/index.js').SourceLink[] & { fgb?: undefined }) | { fgb?: string; [key: string]: unknown };
   licence?: string;
   license?: string;
   licenceUrl?: string;
@@ -186,7 +187,7 @@ export interface HtmlRoot {
 }
 
 /** An HTML element that holds HTML elements (HtmlRoot's lookups first). */
-export type HtmlElementRoot = HtmlRoot & ViewElement;
+export type HtmlElementRoot = HtmlRoot & HTMLElement;
 
 /** What the map list is drawn with (catalogue-list.js renderMapList), kept for later redraws. */
 export interface MapListOptions {
@@ -221,5 +222,22 @@ export interface BrowseItem {
   name?: string;
   subtitle?: string;
   category?: string;
+  relatedElectionCount?: number | string;
+  body?: string;
+  date?: string;
+  year?: number | string;
+  thumbnailMapId?: string;
+  provider?: string | string[];
+  keywords?: string[];
+  description?: string;
+  [key: string]: unknown;
+}
+
+/** One feature the place search found (searchFeatures): its map, id, name and box. */
+export interface FeatureSearchResult {
+  mapId: string;
+  id?: string | number;
+  name?: string;
+  bbox?: number[] | null;
   [key: string]: unknown;
 }
