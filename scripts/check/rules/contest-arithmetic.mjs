@@ -315,11 +315,13 @@ function checkStv(c, { fail, missing, info, valid, sum, votesKnown, electedN }) 
   if (recordsTransfers) {
     let bad = 0; let first = ''; let cut = 0;
     for (const k of cands) {
+      /** @type {number | null} the running total the transfers are added to */
       let run = null;
       for (let i = 0; i < stages.length; i += 1) {
         const b = k.stages.get(stages[i]);
         if (!b || b.total === null) { run = null; continue; }
         if (run === null || b.transfers === null) { run = b.total; continue; }
+        /** @type {number} */
         const expect = run + b.transfers;
         if (Math.abs(expect - b.total) <= 0.011) { run = b.total; continue; }
         if (b.total === Math.floor(expect + 1e-6) || b.total === Math.round(expect)) {
@@ -386,8 +388,10 @@ function checkStv(c, { fail, missing, info, valid, sum, votesKnown, electedN }) 
   // stv-exclusion: the excluded are the lowest still in the count at their stage
   {
     let bad = '';
+    /** @type {Map<number, Cand[]>} the excluded candidates by the stage they were excluded on */
     const byBase = new Map();
-    for (const [k, s] of exclusionBase) { if (!byBase.has(s)) byBase.set(s, []); byBase.get(s).push(k); }
+    // the key was set on the line before, so get finds it
+    for (const [k, s] of exclusionBase) { if (!byBase.has(s)) byBase.set(s, []); /** @type {Cand[]} */ (byBase.get(s)).push(k); }
     for (const [s, out] of [...byBase.entries()].sort((a, b) => a[0] - b[0])) {
       const outSet = new Set(out);
       const continuing = cands.filter((k) => {
