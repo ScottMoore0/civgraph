@@ -32,8 +32,9 @@ const notFound = () => jsonResponse({ error: 'not found' }, 404);
 export function matchLayersPath(parts) {
   const clean = parts.filter((p) => p !== '');
   if (!clean.length) return { kind: 'collection' };
-  if (clean.length === 1) return { kind: 'layer', id: clean[0] };
-  if (clean.length === 2 && clean[1] === 'duplicates') return { kind: 'duplicates', id: clean[0] };
+  const [id = '', second] = clean;
+  if (clean.length === 1) return { kind: 'layer', id };
+  if (clean.length === 2 && second === 'duplicates') return { kind: 'duplicates', id };
   return null;
 }
 
@@ -44,7 +45,7 @@ export async function onRequestGet(context) {
   // through the storage adapter (packages/storage/); the SQL is named in queries/maps.js
   /** @type {import('../../../../storage/src/store.js').RecordStore} */
   const db = fromD1(bound);
-  const parts = /** @type {string[]} */ ([]).concat(context.params?.path || []).map((p) => decodeURIComponent(p));
+  const parts = /** @type {string[]} */ ([]).concat(context.params?.['path'] || []).map((p) => decodeURIComponent(p));
   const route = matchLayersPath(parts);
   if (!route) return notFound();
   const url = new URL(context.request.url);

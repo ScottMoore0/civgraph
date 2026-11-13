@@ -156,9 +156,9 @@ export function lifecycleHeaders(api, key, rest, search) {
   const out = {};
   const next = api.successor;
   if (next && Object.hasOwn(next.routes, key)) {
-    out.Link = `<${next.prefix}/${[key, ...rest.map(pathSegment)].join('/')}${search}>; rel="successor-version"`;
+    out['Link'] = `<${next.prefix}/${[key, ...rest.map(pathSegment)].join('/')}${search}>; rel="successor-version"`;
   }
-  if (api.sunset) out.Sunset = api.sunset;
+  if (api.sunset) out['Sunset'] = api.sunset;
   return out;
 }
 

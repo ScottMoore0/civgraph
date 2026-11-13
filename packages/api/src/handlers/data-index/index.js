@@ -33,7 +33,7 @@
 import { jsonResponse, jsonNotAllowed } from '../_auth.js';
 import { listLevel, normalisePrefix, parseLimit, publicUrl } from '../_r2-listing.js';
 import { PUBLIC_PREFIXES, isListablePrefix, isPublicPrefix } from '../_public-prefixes.js';
-import { binding } from '../../../../config/src/config.js';
+import { blobStore } from '../../../../storage/src/blob-bindings.js';
 
 const CACHE = 'public, max-age=300, stale-while-revalidate=600';
 
@@ -41,7 +41,7 @@ const CACHE = 'public, max-age=300, stale-while-revalidate=600';
 export async function onRequest(context) {
   if (context.request.method !== 'GET') return jsonNotAllowed(context.request.method);
 
-  const bucket = binding(context.env, 'MAPS_BUCKET');
+  const bucket = blobStore(context.env, 'MAPS_BUCKET');
   if (!bucket) {
     return jsonResponse({ ok: false, error: 'R2 binding MAPS_BUCKET is not configured.' }, { status: 500 });
   }

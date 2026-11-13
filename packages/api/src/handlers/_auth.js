@@ -253,12 +253,13 @@ function base64UrlBytes(part) {
  */
 export async function verifyAccessJwt(assertion, env = {}) {
   const parts = String(assertion || '').split('.');
-  if (parts.length !== 3) return null;
+  const [head, body, signature] = parts;
+  if (parts.length !== 3 || head === undefined || body === undefined || signature === undefined) return null;
   try {
     /** @type {{ alg?: unknown, kid?: unknown } | null} */
-    const header = JSON.parse(new TextDecoder().decode(base64UrlBytes(parts[0])));
+    const header = JSON.parse(new TextDecoder().decode(base64UrlBytes(head)));
     /** @type {AccessJwtPayload | null} */
-    const payload = JSON.parse(new TextDecoder().decode(base64UrlBytes(parts[1])));
+    const payload = JSON.parse(new TextDecoder().decode(base64UrlBytes(body)));
     if (header?.alg !== 'RS256') return null;
     const team = String(env.CIVGRAPH_ACCESS_TEAM_DOMAIN || ACCESS_TEAM_DOMAIN).replace(/^https?:\/\//, '').replace(/\/$/, '');
     const now = Math.floor(Date.now() / 1000);
@@ -270,7 +271,7 @@ export async function verifyAccessJwt(assertion, env = {}) {
     const jwk = (await accessSigningKeys(team)).find((k) => k.kid === header.kid);
     if (!jwk) return null;
     const key = await crypto.subtle.importKey('jwk', jwk, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']);
-    const ok = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, base64UrlBytes(parts[2]), new TextEncoder().encode(`${parts[0]}.${parts[1]}`));
+    const ok = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, base64UrlBytes(signature), new TextEncoder().encode(`${head}.${body}`));
     if (!ok) return null;
     const email = payload.email || payload.identity?.email || null;
     return typeof email === 'string' && email.includes('@') ? { email, payload } : null;

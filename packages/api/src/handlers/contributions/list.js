@@ -1,7 +1,7 @@
 import { jsonResponse, jsonNotAllowed, requireAdmin } from '../_auth.js';
 import { methodGuard } from '../_method.js';
 import { INITIAL_STATUS } from '../../contribution-status.js';
-import { binding } from '../../../../config/src/config.js';
+import { blobStore } from '../../../../storage/src/blob-bindings.js';
 
 /**
  * List queued contributions. Administrators only.
@@ -36,10 +36,11 @@ export async function onRequestGet(context) {
   const limit = Math.min(MAX_LIMIT, Math.max(1, Number(url.searchParams.get('limit')) || DEFAULT_LIMIT));
   const env = context.env || {};
 
-  const queue = binding(env, 'CIVGRAPH_CONTRIBUTION_QUEUE');
-  const bucket = binding(env, 'CIVGRAPH_SUBMISSIONS');
+  // Through the blob store (packages/storage/src/blob.js): the KV queue, else the R2 bucket.
+  const queue = blobStore(env, 'CIVGRAPH_CONTRIBUTION_QUEUE');
+  const bucket = blobStore(env, 'CIVGRAPH_SUBMISSIONS');
 
-  if (!queue?.list && !bucket?.list) {
+  if (!queue?.supports('list') && !bucket?.supports('list')) {
     return jsonResponse({
       ok: false,
       error: 'Contribution queue is not configured. Add a KV binding named CIVGRAPH_CONTRIBUTION_QUEUE or an R2 binding named CIVGRAPH_SUBMISSIONS.',
@@ -50,7 +51,7 @@ export async function onRequestGet(context) {
   let scanned = 0;
   let complete = true;
 
-  if (queue?.list) {
+  if (queue?.supports('list')) {
     // KV list returns per-key metadata, so the common case -- "what is waiting for
     // me" -- is answered without reading a single value.
     //
@@ -70,14 +71,14 @@ export async function onRequestGet(context) {
     let cursor;
     for (;;) {
       const listing = await queue.list({ prefix: 'submissions/', limit: MAX_LIMIT, cursor });
-      for (const key of listing.keys || []) {
+      for (const key of listing.entries) {
         scanned += 1;
-        const meta = /** @type {Record<string, unknown>} */ (key.metadata || {}); // queueMetadata() in submit.js
-        if (wantStatus !== 'all' && meta.status !== wantStatus) continue;
-        items.push({ key: key.name, ...meta });
+        const meta = key.metadata || {}; // queueMetadata() in submit.js
+        if (wantStatus !== 'all' && meta['status'] !== wantStatus) continue;
+        items.push({ key: key.key, ...meta });
         if (items.length >= limit) break;
       }
-      cursor = listing.list_complete ? undefined : listing.cursor;
+      cursor = listing.cursor ?? undefined; // null once the listing is complete
       if (!cursor) break;                              // reached the end
       if (items.length >= limit) break;                // asked-for page is full
       if (scanned >= MAX_SCAN) break;                  // ceiling
@@ -87,8 +88,8 @@ export async function onRequestGet(context) {
     // holding a partial answer and must be told so.
     complete = !cursor;
   } else {
-    const listing = await /** @type {R2Bucket} */ (bucket).list({ prefix: 'submissions/', limit: MAX_LIMIT }); // no queue: the check above says the bucket is there
-    for (const object of listing.objects || []) {
+    const listing = await /** @type {NonNullable<typeof bucket>} */ (bucket).list({ prefix: 'submissions/', limit: MAX_LIMIT }); // no queue: the check above says the bucket is there
+    for (const object of listing.entries) {
       scanned += 1;
       items.push({ key: object.key, size: object.size, uploaded: object.uploaded });
       if (items.length >= limit) break;

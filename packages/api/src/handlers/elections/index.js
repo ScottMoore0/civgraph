@@ -190,7 +190,7 @@ async function handle(context) {
     if (contestSlugParam && (constituency === null || constituency === '')) {
       const row = await db.first(ELECTIONS_API.contestBySlug, [key, contestSlugParam.toLowerCase()]);
       if (!row) return json({ error: 'constituency not found' }, 404);
-      constituency = String(row.seq);
+      constituency = String(row['seq']);
     }
     if (constituencyName && (constituency === null || constituency === '')) {
       const names = /** @type {Array<{ seq: number, name: string }>} */ (await db.all(ELECTIONS_API.contestNames, [key]));
@@ -218,7 +218,7 @@ async function handle(context) {
         feature: feature || null,
         candidates: cands.map(withMeta),
         counts,
-        animationPayload: parseJson(anim?.payload),
+        animationPayload: parseJson(anim?.['payload']),
       });
     }
 
@@ -287,23 +287,23 @@ async function handleView(db, view, url) {
     case 'summary': {
       const k = await electionKeyFor(db, key);
       const row = k ? await db.first(ELECTIONS_API.summary, [k]) : null;
-      return row ? json(row.summary) : json({ error: 'summary not found' }, 404);
+      return row ? json(row['summary']) : json({ error: 'summary not found' }, 404);
     }
     case 'provenance': {
       const k = await electionKeyFor(db, key);
       const row = k ? await db.first(ELECTIONS_API.provenance, [k]) : null;
-      return row ? json(row.shard) : json({ error: 'provenance not found' }, 404);
+      return row ? json(row['shard']) : json({ error: 'provenance not found' }, 404);
     }
     case 'list': return json(await electionList(db, url));
     case 'detail': {
       const slug = await electionSlugFor(db, key);
       const row = slug ? await db.first(ELECTION_CARDS.detail, [slug]) : null;
-      return row?.detail ? json(`{"schemaVersion":1,"item":${row.detail}}`) : json({ error: 'election not found' }, 404);
+      return row?.['detail'] ? json(`{"schemaVersion":1,"item":${row['detail']}}`) : json({ error: 'election not found' }, 404);
     }
     case 'contests': {
       const slug = await electionSlugFor(db, key);
       const row = slug ? await db.first(ELECTION_CARDS.contests, [slug]) : null;
-      return row?.contests ? json(`{"schemaVersion":1,"items":${row.contests}}`) : json({ error: 'election not found' }, 404);
+      return row?.['contests'] ? json(`{"schemaVersion":1,"items":${row['contests']}}`) : json({ error: 'election not found' }, 404);
     }
     case 'record': return electionRecord(db, (url.searchParams.get('slug') || key).trim());
     case 'citations': return json(await citationsView(db, url));
@@ -384,11 +384,11 @@ async function electionRecord(db, slugIn) {
   if (!card) return json({ error: 'not found', slug }, 404);
   if (card.entryKind === 'election') {
     const row = await db.first(ELECTION_CARDS.detail, [slug]);
-    return row?.detail ? json(`{"item":${row.detail}}`) : json({ error: 'not found', slug }, 404);
+    return row?.['detail'] ? json(`{"item":${row['detail']}}`) : json({ error: 'not found', slug }, 404);
   }
   const parent = await electionSlugFor(db, card.electionKey);
   const row = parent ? await db.first(ELECTION_CARDS.contests, [parent]) : null;
-  const item = (/** @type {Array<{ slug?: unknown }> | null} */ (parseJson(row?.contests, [])) || []).find((/** @type {{ slug?: unknown }} */ entry) => entry.slug === slug);
+  const item = (/** @type {Array<{ slug?: unknown }> | null} */ (parseJson(row?.['contests'], [])) || []).find((/** @type {{ slug?: unknown }} */ entry) => entry.slug === slug);
   return item ? json({ item, parent }) : json({ error: 'not found', slug }, 404);
 }
 

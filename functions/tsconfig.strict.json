@@ -1,0 +1,9 @@
+{
+  "//": "The Functions' beyond-strict check (stream rf9-api-storage, 12 Nov 2026): functions/tsconfig.check.json with noUncheckedIndexedAccess and noPropertyAccessFromIndexSignature on, over the files of functions/, packages/api, packages/storage and packages/config/src/config.js. Run by `npm run check:types:functions-strict` (scripts/lib/typecheck.mjs: an error in an included file fails; one in a file they import from another folder, packages/core, packages/ui or site/, is a note for that folder's owner). The two flags move into tsconfig.check.json once those folders check clean under them too (LANDING rf9-api-storage).",
+  "extends": "./tsconfig.check.json",
+  "compilerOptions": {
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true
+  },
+  "include": ["**/*.js", "_lib/runtime.d.mts", "../packages/storage/src/*.js", "../packages/api/src/**/*.js", "../packages/config/src/config.js"]
+}

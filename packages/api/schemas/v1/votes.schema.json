@@ -140,7 +140,10 @@
           "type": "number"
         },
         "divisions": {
-          "type": "object"
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
         }
       },
       "required": [

@@ -3,7 +3,8 @@
   "units": {
     "storage-node": {
       "paths": [
-        "packages/storage/src/sqlite.mjs"
+        "packages/storage/src/sqlite.mjs",
+        "packages/storage/src/blob-fs.mjs"
       ],
       "allow": [
         "storage",
@@ -24,7 +25,8 @@
     },
     "config-node": {
       "paths": [
-        "packages/config/src/node.mjs"
+        "packages/config/src/node.mjs",
+        "packages/config/src/check.mjs"
       ],
       "allow": [
         "config",

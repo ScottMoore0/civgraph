@@ -130,7 +130,8 @@ export function describeSchema() {
       const described = { name, type };
       // Object arrays carry their attribute list so a client can render one
       // input per attribute rather than a JSON textarea.
-      if (type === 'objectArray') described.attributes = OBJECT_ARRAY_FIELDS[name];
+      const attributes = type === 'objectArray' ? OBJECT_ARRAY_FIELDS[name] : undefined;
+      if (attributes) described.attributes = attributes;
       return described;
     });
   }
@@ -270,8 +271,8 @@ export function dryRunPatch(entityType, patch, current) {
   // A year in the name that the date contradicts is the single most common real
   // defect in this catalogue -- six layers carried a wrong one until they were
   // corrected by hand. Cheap to spot, so spot it.
-  const proposedName = typeof patch?.name === 'string' ? patch.name : current?.name;
-  const proposedDate = typeof patch?.date === 'string' ? patch.date : current?.date;
+  const proposedName = typeof patch?.['name'] === 'string' ? patch['name'] : current?.['name'];
+  const proposedDate = typeof patch?.['date'] === 'string' ? patch['date'] : current?.['date'];
   if (proposedName && proposedDate) {
     const nameYear = String(proposedName).match(/\b(1[6-9]\d{2}|20\d{2})\b/);
     const dateYear = String(proposedDate).match(/\b(1[6-9]\d{2}|20\d{2})\b/);

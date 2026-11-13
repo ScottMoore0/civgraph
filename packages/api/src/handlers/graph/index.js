@@ -70,8 +70,8 @@ async function entityPayload(db, requestedId, { related, limit, offset }) {
       db.all(GRAPH.reverse, [entityId, MAX]),
       db.all(GRAPH.sourceStatements, [entityId, MAX]),
     ]));
-    out.reverse = reverse.map((r) => parseJson(r.item));
-    out.sourceStatements = sources.map((r) => parseJson(r.item));
+    out['reverse'] = reverse.map((r) => parseJson(r.item));
+    out['sourceStatements'] = sources.map((r) => parseJson(r.item));
   }
   return out;
 }
