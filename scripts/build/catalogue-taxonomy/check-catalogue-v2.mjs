@@ -10,20 +10,32 @@
  */
 import fs from 'fs';
 
+/** @typedef {{ id: string, name: string, c1Ids?: string[] }} Subject */
+/** @typedef {{ id: string, name: string, subjects: string[] }} Shelf */
+/** @typedef {{ id: string, name: string, subject: string, mapIds: string[] }} Entry */
+/** @typedef {{ id: string, subject?: string, hidden?: boolean, files?: object, variants?: unknown[], members?: unknown[], chunked?: unknown }} V2Map */
+/** @typedef {{ subjects: Subject[], shelves: Shelf[], entries: Entry[], maps: V2Map[], c1s?: { id: string }[] }} CatalogueV2 */
+
+/** @type {CatalogueV2} */
 const doc = JSON.parse(fs.readFileSync('data/database/maps-v2.json', 'utf8'));
+/** @type {string[]} */
 const fail = [];
-const check = (cond, msg) => { if (!cond) fail.push(msg); };
+const check = (/** @type {unknown} */ cond, /** @type {string} */ msg) => { if (!cond) fail.push(msg); };
 
 const subjectById = new Map(doc.subjects.map((s) => [s.id, s]));
 const mapById = new Map(doc.maps.map((m) => [m.id, m]));
 
 // --- the projection the pane performs -----------------------------------------------------
+/** @type {Map<string, Entry[]>} */
 const entriesBySubject = new Map();
 for (const e of doc.entries) {
   if (!entriesBySubject.has(e.subject)) entriesBySubject.set(e.subject, []);
-  entriesBySubject.get(e.subject).push(e);
+  // the key was set on the line before
+  /** @type {Entry[]} */ (entriesBySubject.get(e.subject)).push(e);
 }
+/** @type {{ id: string, name: string, subjectId: string }[]} */
 const projected = [];
+/** @type {{ heading: string, shelf: string, memberIds: string[] }[]} */
 const groups = [];
 for (const shelf of doc.shelves) {
   for (const sid of shelf.subjects) {
@@ -62,6 +74,7 @@ const noSubject = doc.maps.filter((m) => !m.subject);
 check(!noSubject.length, `${noSubject.length} maps carry no subject`);
 const badSubject = doc.maps.filter((m) => m.subject && !subjectById.has(m.subject));
 check(!badSubject.length, `${badSubject.length} maps name a subject that does not exist`);
+/** @type {Map<string, number>} */
 const shelfCount = new Map();
 for (const sh of doc.shelves) for (const sid of sh.subjects) shelfCount.set(sid, (shelfCount.get(sid) || 0) + 1);
 for (const s of doc.subjects) check(shelfCount.get(s.id) === 1, `subject ${s.id} sits on ${shelfCount.get(s.id) || 0} shelves`);
@@ -83,7 +96,8 @@ for (const sh of doc.shelves) {
   for (const sid of sh.subjects) {
     const list = entriesBySubject.get(sid) || [];
     if (!list.length) continue;
-    console.log(`     ${subjectById.get(sid).name} (${list.length}) — ${list.slice(0, 3).map((e) => e.name).join(', ')}${list.length > 3 ? ' …' : ''}`);
+    // a subject with entries is one the maps name; an unknown one was reported above and would throw here, as before
+    console.log(`     ${/** @type {Subject} */ (subjectById.get(sid)).name} (${list.length}) — ${list.slice(0, 3).map((e) => e.name).join(', ')}${list.length > 3 ? ' …' : ''}`);
   }
 }
 

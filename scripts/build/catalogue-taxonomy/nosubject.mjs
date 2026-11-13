@@ -4,9 +4,12 @@
 import fs from 'fs';
 const Q = String.fromCharCode(39), BS = String.fromCharCode(92);
 const src = fs.readFileSync('packages/map/src/ui-controller.js', 'utf8').split('\n');
+/** @typedef {{ id: string, name?: string, category?: string, provider?: string, keywords?: string[], hidden?: boolean, files?: object, variants?: unknown[], members?: unknown[], chunked?: unknown }} CatalogueMap */
+/** @type {{ maps: CatalogueMap[], classes: { id: string, maps?: string[] }[], categories: { id: string, name: string }[] }} */
 const j = JSON.parse(fs.readFileSync('data/database/maps.json', 'utf8'));
 
 const body = src.slice(3645, 4321).filter(l => !/^\s*\/\//.test(l)).join('\n');
+/** @type {string[]} */
 const objs = [];
 {
   let depth = 0, start = -1, inStr = false;
@@ -18,16 +21,17 @@ const objs = [];
     else if (ch === '}') { depth--; if (depth === 0) objs.push(body.slice(start, i + 1)); }
   }
 }
-const strs = s => { const o = []; let i = 0; while ((i = s.indexOf(Q, i)) !== -1) { let k = i + 1, b = ''; while (k < s.length && s[k] !== Q) { if (s[k] === BS) { b += s[k + 1]; k += 2; } else { b += s[k]; k++; } } o.push(b); i = k + 1; } return o; };
-const listAfter = (o, key) => { const a = o.indexOf(key + ':'); if (a === -1) return []; const p = o.indexOf('[', a), c = o.indexOf(']', p); return p === -1 || c === -1 ? [] : strs(o.slice(p, c)); };
-const nameOf = o => (o.match(new RegExp('name:\\s*' + Q + '([^' + Q + ']*)' + Q)) || [])[1] || '';
+const strs = (/** @type {string} */ s) => { /** @type {string[]} */ const o = []; let i = 0; while ((i = s.indexOf(Q, i)) !== -1) { let k = i + 1, b = ''; while (k < s.length && s[k] !== Q) { if (s[k] === BS) { b += s[k + 1]; k += 2; } else { b += s[k]; k++; } } o.push(b); i = k + 1; } return o; };
+const listAfter = (/** @type {string} */ o, /** @type {string} */ key) => { const a = o.indexOf(key + ':'); if (a === -1) return []; const p = o.indexOf('[', a), c = o.indexOf(']', p); return p === -1 || c === -1 ? [] : strs(o.slice(p, c)); };
+const nameOf = (/** @type {string} */ o) => (o.match(new RegExp('name:\\s*' + Q + '([^' + Q + ']*)' + Q)) || [])[1] || '';
 
 const classMaps = new Map(j.classes.map(c => [c.id, c.maps || []]));
-const renderable = m => !m.hidden && (Object.keys(m.files || {}).length || (m.variants || []).length || (m.members || []).length || m.chunked);
+const renderable = (/** @type {CatalogueMap} */ m) => !m.hidden && (Object.keys(m.files || {}).length || (m.variants || []).length || (m.members || []).length || m.chunked);
 const pub = j.maps.filter(renderable);
 const byId = new Map(j.maps.map(m => [m.id, m]));
 const catName = new Map(j.categories.map(c => [c.id, c.name]));
 
+/** @type {Map<string, string>} */
 const cardOf = new Map();          // mapId -> card name
 for (const o of objs) {
   const nm = nameOf(o);
@@ -55,9 +59,11 @@ for (const m of pub) {
 }
 rows.sort((a, b) => a.why.localeCompare(b.why) || a.name.localeCompare(b.name));
 fs.writeFileSync(process.argv[2], JSON.stringify(rows, null, 1));
+/** @type {Record<string, number>} */
 const tally = {};
 rows.forEach(r => { const k = r.why.split(':')[0]; tally[k] = (tally[k] || 0) + 1; });
 console.log('maps with no subject:', rows.length, JSON.stringify(tally));
+/** @type {Record<string, number>} */
 const buckets = {};
 rows.forEach(r => buckets[r.why] = (buckets[r.why] || 0) + 1);
 Object.entries(buckets).sort((a, b) => b[1] - a[1]).forEach(([k, v]) => console.log('  ' + String(v).padStart(3) + '  ' + k));

@@ -1,18 +1,26 @@
 // Build a self-contained review page for the whole proposed structure: shelf, subject, entry.
 import fs from 'fs';
+/** @typedef {{ id: string, name: string }} EntryMap */
+/** @typedef {{ name: string, subject: string, kind: string, n: number, axis: string | null, maps: EntryMap[] }} Entry */
+/** @typedef {{ name: string, kind: string, entries: number, maps: number }} ShelfSubject */
+/** @typedef {{ name: string, blurb: string, subjects: ShelfSubject[], entries: number, maps: number }} Shelf */
+/** @type {Shelf[]} */
 const shelves = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+/** @type {Entry[]} */
 const entries = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));
 const OUT = process.argv[4];
 
+/** @type {Map<string, Entry[]>} */
 const bySubject = new Map();
 for (const e of entries) {
   if (!bySubject.has(e.subject)) bySubject.set(e.subject, []);
-  bySubject.get(e.subject).push(e);
+  // the key was set on the line before
+  /** @type {Entry[]} */ (bySubject.get(e.subject)).push(e);
 }
-const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const variantLabel = (e, m) => m.name.replace(e.name, '').replace(/^[\s—–,-]+/, '').replace(/[\s—–,-]+$/, '').trim() || 'base';
+const esc = (/** @type {string} */ s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const variantLabel = (/** @type {Entry} */ e, /** @type {EntryMap} */ m) => m.name.replace(e.name, '').replace(/^[\s—–,-]+/, '').replace(/[\s—–,-]+$/, '').trim() || 'base';
 
-const subjectBlock = (s) => {
+const subjectBlock = (/** @type {ShelfSubject} */ s) => {
   const items = (bySubject.get(s.name) || []).sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
   return `
       <details class="subject" data-kind="${s.kind}" data-q="${esc((s.name + ' ' + items.map(i => i.name).join(' ')).toLowerCase())}">
