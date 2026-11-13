@@ -69,11 +69,74 @@ const OUT = PROVENANCE_FILE;
 const SHARD_DIR = PROVENANCE_SHARD_DIR;
 const CHECK = process.argv.includes('--check');
 
-const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'));
-const hostOf = (url) => { try { return new URL(url).host; } catch { return null; } };
+/**
+ * A source of a contest's figures, as every layer writes it (an undefined title or publisher is left out of the JSON).
+ * @typedef {{ title: string | null | undefined, publisher: string | null | undefined, url: string | null, archiveUrl: string | null, host: string | null,
+ *   kind: string | null, origin: string, basis: string | null, scope: string | null, checked: boolean, check: string | null,
+ *   match: string | null, document: { url: string, archiveUrl: string | null, label: string | null } | null,
+ *   supplies?: string[], locator?: string | null, edition?: string | null, accessed?: string }} Source
+ */
+/** A printed source recorded in a contest file. @typedef {{ title?: string, publisher?: string, kind?: string, check?: string }} PrintedSource */
+/** A contest file, the fields read. @typedef {{ constituency?: unknown, Constituency?: unknown, source_url?: unknown, source?: PrintedSource }} ContestFile */
+/** @typedef {{ file: string, body: string, date: string, constituency: string, sourceUrl: string | null, printed: PrintedSource | null }} DiskContest */
+/**
+ * A source in the Wikipedia review file.
+ * @typedef {{ url?: string, title?: string, publisher?: string, archiveUrl?: string, host?: string, kind?: string, basis?: string, scope?: string,
+ *   checkedByCivgraph?: unknown, check?: string, document?: { url: string, archiveUrl?: string, label?: string } }} ReviewSource
+ */
+/**
+ * A row of the Wikipedia review file (contest-sources.json).
+ * @typedef {{ civgraph?: { file?: string, match?: string | null } | null, verifyingSources?: ReviewSource[], citedSources?: ReviewSource[],
+ *   relatedWikipedia?: string | { url?: string } | null }} ReviewRow
+ */
+/** @typedef {{ sources: Source[], relatedWikipedia: string | null }} WikiEntry */
+/** @typedef {{ body: string, from: string, to: string, section?: string }} VolumeRule */
+/**
+ * A printed volume of walker-volumes.json.
+ * @typedef {{ id?: string, title: string, publisher?: string, url?: string, archiveUrl?: string, kind?: string, editor?: string,
+ *   year?: number | string, rules?: VolumeRule[] }} Volume
+ */
+/** A contest read against a volume. @typedef {{ file?: string, status?: string, figuresAgreed?: number }} VerifiedRecord */
+/**
+ * A record of the corrections overlays (data/elections/corrections/*.json): each file's records carry the fields its
+ * overlay reads.
+ * @typedef {{ status?: string, sourceFile?: string, source?: { title?: string }, proposedValue: number, currentValue: number, electorate: number,
+ *   resolvedBy?: { author?: string, title?: string, year?: number | string, locator?: string }, field?: string, candidate?: string, page?: unknown,
+ *   walkerCode?: string, imported?: string, gallagher?: GallagherFigures, site?: { validVotes?: number, electorate?: unknown }, decision?: string }} CorrectionRecord
+ */
+/** @typedef {{ validVotes?: number, electorate: number }} GallagherFigures */
+/** @typedef {{ records?: CorrectionRecord[], provenance?: { source?: { title?: string } }, source?: { title?: string } }} CorrectionsFile */
+/**
+ * A general-election article of wikipedia-uk-elections-ireland.json.
+ * @typedef {{ isRedirect?: boolean, year?: number, title: string, category?: string, url?: string,
+ *   citations?: { url?: string, title?: string, archiveUrl?: string }[] }} ArticleRecord
+ */
+/** @typedef {{ url?: string, sources: Source[] }} ArticleEntry */
+/**
+ * A History of Parliament contest citation.
+ * @typedef {{ file: string, supplies?: string[], title: string, publisher?: string, url: string, checked?: unknown, check?: string,
+ *   editor?: string, year?: number | string }} HopRecord
+ */
+/**
+ * A source Civgraph fetched and compared (web-checked-sources.json).
+ * @typedef {{ file: string, title?: string, publisher?: string, url?: string, archiveUrl?: string, kind?: string, scope?: string,
+ *   checked?: unknown, check?: string, disagreements?: unknown[], accessed?: string }} WebCheckRecord
+ */
+/** @typedef {{ id: string, label?: string, url?: string, basis?: string, note?: string, elections?: string[] }} LegislationItem */
+/**
+ * A contest's entry in a per-election shard.
+ * @typedef {{ constituency: string, status: string, relatedWikipedia: string | null, source: Record<string, unknown>, otherSources: number,
+ *   figureNotes?: { title: string | null | undefined, text: string }[] }} ShardContest
+ */
+/** @typedef {{ schemaVersion: number, key: string, contests: Record<string, ShardContest> }} Shard */
+
+const readJson = (/** @type {string} */ p) => JSON.parse(readFileSync(p, 'utf8'));
+// an undefined url throws in new URL, and has no host
+const hostOf = (/** @type {string | undefined} */ url) => { try { return new URL(/** @type {string} */ (url)).host; } catch { return null; } };
 
 /** Every contest on disk, with the source_url its file carries (null where there is none). */
 function contestsOnDisk() {
+  /** @type {DiskContest[]} */
   const out = [];
   for (const body of readdirSync(ELECTIONS, { withFileTypes: true })) {
     if (!body.isDirectory()) continue;
@@ -82,6 +145,7 @@ function contestsOnDisk() {
       for (const f of readdirSync(path.join(ELECTIONS, body.name, date.name))) {
         if (!f.endsWith('.json') || f.startsWith('_')) continue;
         const rel = `${body.name}/${date.name}/${f}`;
+        /** @type {ContestFile} */
         let doc = {};
         try { doc = readJson(path.join(ELECTIONS, body.name, date.name, f)); } catch { /* unreadable: still list it */ }
         const named = typeof doc.constituency === 'string' ? doc.constituency
@@ -108,6 +172,8 @@ function contestsOnDisk() {
  * reach us twice -- two rows of the review file can cover one contest, and one of them may cite a
  * source without having checked it. The reading that was checked has to win, or the contest loses
  * its verification to a duplicate that happened to arrive first.
+ * @param {Source[]} list
+ * @param {Source} s
  */
 function addSource(list, s) {
   const at = list.findIndex((p) => p.url === s.url);
@@ -115,21 +181,29 @@ function addSource(list, s) {
   else if (s.checked && !list[at].checked) list[at] = s;
 }
 
-/** Citation rows from the review file, keyed by contest path. Returns [map, stats]. */
+/**
+ * Citation rows from the review file, keyed by contest path. Returns [map, stats].
+ * @returns {[Map<string, WikiEntry>, { present: boolean, rows: number, unmatched: number, licence: string | null }]}
+ */
 function wikipediaLayer() {
   if (!existsSync(REVIEW)) return [new Map(), { present: false, rows: 0, unmatched: 0, licence: null }];
+  /** @type {{ licence?: unknown } & (ReviewRow[] | Record<string, unknown>)} */
   const doc = readJson(REVIEW);
+  // the rows are the list itself, or the longest list in the file
+  /** @type {ReviewRow[]} */
   const rows = Array.isArray(doc) ? doc
     : Object.values(doc).filter(Array.isArray).sort((a, b) => b.length - a.length)[0] ?? [];
   const licence = typeof doc?.licence === 'string' ? doc.licence : null;
+  /** @type {Map<string, WikiEntry>} */
   const map = new Map();
   let unmatched = 0;
   for (const row of rows) {
     const file = row?.civgraph?.file;
     if (!file) { unmatched += 1; continue; }
     const match = row?.civgraph?.match ?? null;
+    /** @type {Source[]} */
     const sources = [];
-    for (const [list, checkedDefault] of [[row.verifyingSources, true], [row.citedSources, false]]) {
+    for (const [list, checkedDefault] of /** @type {[ReviewSource[] | undefined, boolean][]} */ ([[row.verifyingSources, true], [row.citedSources, false]])) {
       for (const s of list ?? []) {
         if (!s?.url) continue;
         addSource(sources, {
@@ -169,10 +243,13 @@ function wikipediaLayer() {
  * range in walker-volumes.json, read from each volume's own contents page; nothing is inferred
  * from the scans. A contest can be covered by more than one volume -- the 1918 general election is
  * in both -- and each is cited separately, because they are different books a reader may consult.
+ * @returns {[Map<string, unknown> | ((body: string, date: string, file: string) => Source[]), { present: boolean, volumes: number, rows?: number, rules?: number }]}
  */
 function bibliographyLayer() {
   if (!existsSync(BIBLIOGRAPHY)) return [new Map(), { present: false, volumes: 0, rows: 0 }];
+  /** @type {{ volumes?: Volume[] }} */
   const doc = readJson(BIBLIOGRAPHY);
+  /** @type {{ v: Volume, r: VolumeRule }[]} */
   const rules = [];
   for (const v of doc.volumes ?? []) {
     for (const r of v.rules ?? []) rules.push({ v, r });
@@ -181,24 +258,33 @@ function bibliographyLayer() {
   // Without this every citation says `checked: false`, which understates what is known:
   // a citation nobody has opened and one whose figures were compared and matched are
   // different claims. A contest is listed only where every compared figure agreed.
+  /** @type {Map<string, VerifiedRecord>} */
   const verified = new Map();
   if (existsSync(BIBLIOGRAPHY_VERIFIED)) {
-    for (const r of readJson(BIBLIOGRAPHY_VERIFIED).records ?? []) {
+    for (const r of /** @type {{ records?: VerifiedRecord[] }} */ (readJson(BIBLIOGRAPHY_VERIFIED)).records ?? []) {
       // The verified list records a repo-relative path; a contest here is keyed by
       // its path relative to the elections directory. Without trimming the prefix the
       // two never meet and every citation stays unchecked.
       if (r.file) verified.set(String(r.file).replace('data/elections-source/data/elections/', ''), r);
     }
   }
+  /** @type {{ records?: VerifiedRecord[] } | null} */
   const figureChecks = existsSync(BIBLIOGRAPHY_FIGURE_CHECKS) ? readJson(BIBLIOGRAPHY_FIGURE_CHECKS) : null;
   for (const r of figureChecks?.records ?? []) {
-    if (r.file && r.status === 'agrees' && r.figuresAgreed > 0) verified.set(String(r.file).replace('data/elections-source/data/elections/', ''), r);
+    // a missing count compares as none
+    if (r.file && r.status === 'agrees' && /** @type {number} */ (r.figuresAgreed) > 0) verified.set(String(r.file).replace('data/elections-source/data/elections/', ''), r);
   }
   // Figures the manifest build takes FROM a volume (the Walker corrections overlay), and figures
   // where the volume and Civgraph disagree and the disagreement is still open. Both belong on the
   // citation: the first says what the reader is looking at came from this book, the second that
   // this book says otherwise.
+  /** @type {Map<string, Map<string, string[]>>} */
   const supplied = new Map();
+  /**
+   * @param {string | undefined} file
+   * @param {string | undefined} title
+   * @param {string} text
+   */
   const note = (file, title, text) => {
     if (!file || !title) return;
     const key = String(file).replace('data/elections-source/data/elections/', '');
@@ -206,6 +292,7 @@ function bibliographyLayer() {
     byTitle.set(title, [...(byTitle.get(title) ?? []), text]);
     supplied.set(key, byTitle);
   };
+  /** @type {(name: string) => CorrectionsFile | null} */
   const corrections = (name) => {
     const full = path.join('data', 'elections', 'corrections', name);
     return existsSync(full) ? readJson(full) : null;
@@ -220,35 +307,38 @@ function bibliographyLayer() {
     }
   }
   const pre1918 = corrections('walker-pre1918-electorates.json');
-  for (const r of pre1918?.records ?? []) note(r.sourceFile, pre1918.provenance?.source?.title, `electorate ${r.electorate.toLocaleString('en-GB')} taken from this volume`);
+  // each loop below runs only over a file that was read
+  for (const r of pre1918?.records ?? []) note(r.sourceFile, /** @type {CorrectionsFile} */ (pre1918).provenance?.source?.title, `electorate ${r.electorate.toLocaleString('en-GB')} taken from this volume`);
   const seats = corrections('walker-seat-corrections.json');
   for (const r of seats?.records ?? []) {
-    if (r.status === 'applied') note(r.sourceFile, seats.provenance?.source?.title, `seat count (${r.proposedValue}) taken from this volume`);
+    if (r.status === 'applied') note(r.sourceFile, /** @type {CorrectionsFile} */ (seats).provenance?.source?.title, `seat count (${r.proposedValue}) taken from this volume`);
   }
   // Figures this volume prints differently, found when the 93 contests above were compared (p. = printed page):
   // taken from it where settled for it, otherwise its figure is given beside the one shown.
   const figureFixes = corrections('walker-1832-1880-figure-corrections.json');
   for (const r of figureFixes?.records ?? []) {
     const what = r.field === 'electorate' ? 'electorate' : `${r.candidate}'s vote`;
-    const n = (v) => Number(v).toLocaleString('en-GB');
-    if (r.status === 'applied') note(r.sourceFile, figureFixes.source?.title, `${what} ${n(r.proposedValue)} taken from this volume (p. ${r.page}); imported as ${n(r.currentValue)}`);
-    if (r.status === 'held') note(r.sourceFile, figureFixes.source?.title, `this volume gives ${r.field === 'electorate' ? 'an electorate of' : `${r.candidate}`} ${n(r.proposedValue)} (p. ${r.page}); the figure shown is kept until a second source settles it`);
+    const n = (/** @type {unknown} */ v) => Number(v).toLocaleString('en-GB');
+    if (r.status === 'applied') note(r.sourceFile, /** @type {CorrectionsFile} */ (figureFixes).source?.title, `${what} ${n(r.proposedValue)} taken from this volume (p. ${r.page}); imported as ${n(r.currentValue)}`);
+    if (r.status === 'held') note(r.sourceFile, /** @type {CorrectionsFile} */ (figureFixes).source?.title, `this volume gives ${r.field === 'electorate' ? 'an electorate of' : `${r.candidate}`} ${n(r.proposedValue)} (p. ${r.page}); the figure shown is kept until a second source settles it`);
   }
   // Party labels the overlay takes from this volume in place of the import's.
   const parties = corrections('walker-party-corrections.json');
   for (const r of parties?.records ?? []) {
-    if (r.status === 'applied') note(r.sourceFile, parties.source?.title, `${r.candidate}'s party (${r.proposedValue}) taken from this volume, which prints ${r.walkerCode} (p. ${r.page}); imported as ${r.imported}`);
+    if (r.status === 'applied') note(r.sourceFile, /** @type {CorrectionsFile} */ (parties).source?.title, `${r.candidate}'s party (${r.proposedValue}) taken from this volume, which prints ${r.walkerCode} (p. ${r.page}); imported as ${r.imported}`);
   }
 
   // Gallagher, Irish Elections 1922-44: a contest is checked where his valid poll is ours; the
   // electorates the overlay takes from him, and the tiebreaks decided for him, are noted; the
   // 1923-44 by-elections were built from him and cross-checked against two other sources.
   const gallagher = (doc.volumes ?? []).find((v) => v.id === 'gallagher-1922-44');
+  /** @type {Map<string, string>} */
   const gallagherChecked = new Map();
   if (gallagher) {
     for (const r of corrections('gallagher-dail-electorates.json')?.records ?? []) {
       const key = String(r.sourceFile || '').replace('data/elections-source/data/elections/', '');
-      const g = r.gallagher ?? {};
+      // an empty fallback: its electorate is read only for a fill or a decision, which carry the figures
+      const g = r.gallagher ?? /** @type {GallagherFigures} */ ({});
       if (g.validVotes && r.site?.validVotes === g.validVotes) {
         gallagherChecked.set(key, 'valid poll read from the volume and agreed with ours');
       }
@@ -259,8 +349,8 @@ function bibliographyLayer() {
     }
     const byes = path.join('data', 'elections', 'gallagher-byelections-1923-44.json');
     if (existsSync(byes)) {
-      const slug = (s) => String(s).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      for (const b of readJson(byes).records ?? []) {
+      const slug = (/** @type {unknown} */ s) => String(s).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      for (const b of /** @type {{ records?: { date: string, constituency: string }[] }} */ (readJson(byes)).records ?? []) {
         gallagherChecked.set(`dail-eireann/${b.date}/${slug(b.constituency)}.json`,
           'results taken from this volume and cross-checked against ElectionsIreland and Wikipedia');
       }
@@ -271,6 +361,7 @@ function bibliographyLayer() {
 
   // Elliott, Northern Ireland Parliamentary Election Results 1921-1972: contests whose first
   // preferences were read from the volume and agreed (data/elections/elliott-verified-contests.json).
+  /** @type {Map<string, string>} */
   const elliottChecked = new Map();
   const elliottVolume = (doc.volumes ?? []).find((v) => v.id === 'elliott-1921-72');
   for (const r of corrections('elliott-stormont-electorates.json')?.records ?? []) {
@@ -278,16 +369,23 @@ function bibliographyLayer() {
   }
   const ELLIOTT_VERIFIED = path.join('data', 'elections', 'elliott-verified-contests.json');
   if (existsSync(ELLIOTT_VERIFIED)) {
-    for (const r of readJson(ELLIOTT_VERIFIED).records ?? []) {
-      if (r.file && r.figuresAgreed > 0) {
+    for (const r of /** @type {{ records?: VerifiedRecord[] }} */ (readJson(ELLIOTT_VERIFIED)).records ?? []) {
+      // a missing count compares as none
+      if (r.file && /** @type {number} */ (r.figuresAgreed) > 0) {
         elliottChecked.set(String(r.file).replace('data/elections-source/data/elections/', ''),
           `${r.figuresAgreed} figure(s) read from the volume and agreed with ours`);
       }
     }
   }
 
+  /**
+   * @param {string} body
+   * @param {string} date
+   * @param {string} file
+   */
   const forContest = (body, date, file) => {
     const day = String(date).slice(0, 10);
+    /** @type {Source[]} */
     const out = [];
     for (const { v, r } of rules) {
       if (r.body !== body || day < r.from || day > r.to) continue;
@@ -343,12 +441,15 @@ function bibliographyLayer() {
 const WIKIPEDIA_ELECTIONS = path.join('data', 'elections', 'wikipedia-uk-elections-ireland.json');
 const MONTHS = { january: '01', february: '02', october: '10', december: '12' };
 
+/** @returns {[Map<string, unknown> | ((body: string, date: string) => ArticleEntry | null), { present: boolean, articles: number, matched: number }]} */
 function wikipediaArticleLayer() {
   if (!existsSync(WIKIPEDIA_ELECTIONS)) return [new Map(), { present: false, articles: 0, matched: 0 }];
+  /** @type {{ records?: ArticleRecord[] }} */
   const doc = readJson(WIKIPEDIA_ELECTIONS);
+  /** @type {Map<string, ArticleEntry>} */
   const byElection = new Map();
   let matched = 0;
-  const datesOf = (body) => {
+  const datesOf = (/** @type {string} */ body) => {
     const dir = path.join(ELECTIONS, body);
     if (!existsSync(dir)) return [];
     return readdirSync(dir, { withFileTypes: true })
@@ -363,6 +464,7 @@ function wikipediaArticleLayer() {
     // Civgraph files the 1918 general election under dail-eireann as well, because its
     // returned members formed the First Dail.
     if (rec.category === 'Ireland' && rec.year === 1918) bodies.push('dail-eireann');
+    /** @type {Source[]} */
     const cites = [];
     const seen = new Set();
     for (const c of rec.citations ?? []) {
@@ -395,7 +497,7 @@ function wikipediaArticleLayer() {
       matched += 1;
     }
   }
-  const forContest = (body, date) => byElection.get(`${body}__${date}`) ?? null;
+  const forContest = (/** @type {string} */ body, /** @type {string} */ date) => byElection.get(`${body}__${date}`) ?? null;
   return [forContest, { present: true, articles: (doc.records ?? []).filter((r) => !r.isRedirect).length, matched }];
 }
 
@@ -406,8 +508,9 @@ function wikipediaArticleLayer() {
  */
 function hopLayer() {
   if (!existsSync(HOP_CITATIONS)) return new Map();
+  /** @type {Map<string, Source>} */
   const map = new Map();
-  for (const r of readJson(HOP_CITATIONS).records ?? []) {
+  for (const r of /** @type {{ records?: HopRecord[] }} */ (readJson(HOP_CITATIONS)).records ?? []) {
     map.set(r.file, {
       ...(r.supplies?.length ? { supplies: r.supplies } : {}),
       title: r.title,
@@ -432,10 +535,12 @@ function hopLayer() {
 
 /** web-check: a source fetched by Civgraph and compared with the contest's own figures. */
 function webCheckLayer() {
+  /** @type {Map<string, Source[]>} */
   const map = new Map();
   if (!existsSync(WEB_CHECKED)) return map;
-  for (const r of readJson(WEB_CHECKED).records ?? []) {
+  for (const r of /** @type {{ records?: WebCheckRecord[] }} */ (readJson(WEB_CHECKED)).records ?? []) {
     const disagreed = (r.disagreements || []).length;
+    /** @type {Source} */
     const entry = {
       title: r.title ?? null,
       publisher: r.publisher ?? null,
@@ -453,21 +558,25 @@ function webCheckLayer() {
       ...(r.accessed ? { accessed: r.accessed } : {}),
     };
     if (!map.has(r.file)) map.set(r.file, []);
-    map.get(r.file).push(entry);
+    // the key was set on the line before if it was missing
+    /** @type {Source[]} */ (map.get(r.file)).push(entry);
   }
   return map;
 }
 
 /** legislation: body__date -> the instrument ids it was held under, and the instruments by id. */
 function legislationLayer() {
+  /** @type {Map<string, string[]>} */
   const byElection = new Map();
+  /** @type {Record<string, { label?: string, url?: string, basis: string | null, note: string | null }>} */
   const items = {};
   if (!existsSync(LEGISLATION)) return { byElection, items };
-  for (const item of readJson(LEGISLATION).items ?? []) {
+  for (const item of /** @type {{ items?: LegislationItem[] }} */ (readJson(LEGISLATION)).items ?? []) {
     items[item.id] = { label: item.label, url: item.url, basis: item.basis ?? null, note: item.note ?? null };
     for (const key of item.elections ?? []) {
       if (!byElection.has(key)) byElection.set(key, []);
-      byElection.get(key).push(item.id);
+      // the key was set on the line before if it was missing
+      /** @type {string[]} */ (byElection.get(key)).push(item.id);
     }
   }
   return { byElection, items };
@@ -483,6 +592,7 @@ function build() {
   const hop = hopLayer();
   const contests = disk.map((c) => {
     const extra = wiki.get(c.file);
+    /** @type {Source[]} */
     const sources = [];
     if (c.sourceUrl) {
       sources.push({
@@ -523,7 +633,8 @@ function build() {
     // Printed citations last: they are the broadest claim, and anything fetched and compared
     // should sort above them.
     if (typeof bibliographyFor === 'function') sources.push(...bibliographyFor(c.body, c.date, c.file));
-    if (hop.has(c.file)) sources.push(hop.get(c.file));
+    // has() was checked first
+    if (hop.has(c.file)) sources.push(/** @type {Source} */ (hop.get(c.file)));
     // Article-level citations last of all: the broadest claim of any layer.
     const article = typeof articleFor === 'function' ? articleFor(c.body, c.date) : null;
     for (const s of article?.sources ?? []) {
@@ -551,6 +662,7 @@ function build() {
   const usedLegislation = Object.fromEntries(Object.entries(legislation.items)
     .filter(([id]) => contests.some((c) => c.legislation?.includes(id))));
 
+  /** @type {Record<string, { contests: number, withAnySource: number, verified: number }>} */
   const byBody = {};
   for (const c of contests) {
     const b = (byBody[c.body] ??= { contests: 0, withAnySource: 0, verified: 0 });
@@ -594,24 +706,28 @@ const summary = () => {
   }
 };
 
-const stable = (d) => JSON.stringify({ ...d, generatedAt: null });
+const stable = (/** @type {object} */ d) => JSON.stringify({ ...d, generatedAt: null });
 
 /** The app renders a constituency name; this is the key both sides can compute from it. */
-const nameKey = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+const nameKey = (/** @type {string} */ s) => (s || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
 
 /**
  * One small file per election holding the best source for each of its contests: checked before
  * unchecked, then the narrowest citation. Keyed by constituency name, so the app can look up what
  * it is showing without knowing anything about contest file paths.
+ * @param {ReturnType<typeof build>['doc']} provenance
  */
 function buildShards(provenance) {
+  /** @type {Record<string, number>} */
   const rank = { 'this contest': 3, 'same section': 2, article: 1 };
+  /** @type {Map<string, Shard>} */
   const byKey = new Map();
   for (const c of provenance.contests) {
     if (!c.sources.length) continue;
     const key = `${c.body}__${c.date}`;
     const best = [...c.sources].sort((a, b) => Number(b.checked) - Number(a.checked)
-      || (rank[b.scope] ?? 0) - (rank[a.scope] ?? 0))[0];
+      // a null scope finds no rank
+      || (rank[/** @type {string} */ (b.scope)] ?? 0) - (rank[/** @type {string} */ (a.scope)] ?? 0))[0];
     const shard = byKey.get(key) ?? { schemaVersion: 1, key, contests: {} };
     shard.contests[nameKey(c.constituency)] = {
       constituency: c.constituency,
@@ -641,7 +757,7 @@ function buildShards(provenance) {
   return byKey;
 }
 
-const shardText = (shard) => `${JSON.stringify({
+const shardText = (/** @type {Shard} */ shard) => `${JSON.stringify({
   ...shard,
   contests: Object.fromEntries(Object.keys(shard.contests).sort().map((k) => [k, shard.contests[k]])),
 }, null, 1)}\n`;
