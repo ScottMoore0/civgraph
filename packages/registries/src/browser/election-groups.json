@@ -9,6 +9,14 @@
    "icon": "dail"
   },
   {
+   "id": "seanad",
+   "label": "Seanad",
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "icon": "dail"
+  },
+  {
    "id": "westminster",
    "label": "Westminster",
    "bodies": [
@@ -219,6 +227,12 @@
     }
    },
    {
+    "label": "Seanad",
+    "match": {
+     "pattern": "Seanad"
+    }
+   },
+   {
     "label": "Westminster",
     "match": {
      "pattern": "Westminster"
@@ -258,6 +272,7 @@
   "fallback": "Other",
   "order": [
    "Dáil",
+   "Seanad",
    "Westminster",
    "Devolved",
    "Local",

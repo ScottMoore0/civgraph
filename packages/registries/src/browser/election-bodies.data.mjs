@@ -12,6 +12,14 @@ export default {
   "name": "President of Ireland",
   "jurisdiction": "ireland"
  },
+ "seanad-eireann": {
+  "name": "Seanad Éireann",
+  "jurisdiction": "ireland",
+  "typeLabel": "Seanad",
+  "shortLabel": "Seanad",
+  "shelf": "seanad",
+  "searchTerms": "Seanad Senate senator senators Seanad Éireann vocational panels Cultural and Educational Agricultural Labour Industrial and Commercial Administrative university constituencies National University of Ireland Dublin University Trinity"
+ },
  "ireland-local": {
   "name": "Local Authorities of Ireland",
   "jurisdiction": "ireland",

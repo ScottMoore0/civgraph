@@ -50,6 +50,34 @@ export function fillYear(template, date) {
 }
 
 /**
+ * The voting system a contest of the body is counted by: the first of its contestVotingSystems
+ * whose pattern matches the contest's name, else the body's votingSystem; null when the body
+ * states neither (the code's own rules then apply).
+ * @param {ElectionBody | null | undefined} body
+ * @param {unknown} contest  the contest's name ('' for the election as a whole)
+ * @returns {ElectionBody['votingSystem'] | null}
+ */
+export function votingSystemOf(body, contest) {
+  const name = String(contest ?? '');
+  const rule = name ? (body?.contestVotingSystems || []).find((entry) => new RegExp(entry.pattern, 'i').test(name)) : null;
+  return rule?.votingSystem || body?.votingSystem || null;
+}
+
+/**
+ * The title of a by-election of the body, from its byElectionTitle ({contest}: the one contest's
+ * name) or, for several on one day, byElectionsTitle; null when the body gives no template.
+ * @param {ElectionBody | null | undefined} body
+ * @param {unknown} date
+ * @param {string[]} contests  the contests held that day
+ * @returns {string | null}
+ */
+export function byElectionTitleOf(body, date, contests) {
+  const template = contests.length > 1 ? body?.byElectionsTitle : body?.byElectionTitle;
+  const title = fillYear(template, date);
+  return title ? title.replace(/\{contest\}/g, contests[0] || '').trim() : null;
+}
+
+/**
  * Errors the schema cannot state: a repeated id, two geography rules from one date, a shelf or
  * chart named twice, a body on a shelf that does not exist, a group list whose display order is
  * not its groups and fallback.

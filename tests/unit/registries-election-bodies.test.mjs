@@ -5,7 +5,8 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadRegistry, registryErrors, REPO_ROOT } from '../../packages/registries/src/index.mjs';
-import { checkElectionBodies, electionBody, fillYear, geographyRuleFor } from '../../packages/registries/src/election-bodies.mjs';
+import { byElectionTitleOf, checkElectionBodies, electionBody, fillYear, geographyRuleFor, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
+import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
 
 const registry = loadRegistry('election-bodies');
 const index = JSON.parse(readFileSync(path.join(REPO_ROOT, 'data/elections-source/data/elections_index.json'), 'utf8'));
@@ -58,4 +59,26 @@ test('checkElectionBodies finds a repeated id and a repeated rule date', () => {
   assert.equal(errors.length, 2);
   assert.equal(electionBody(registry, 'limerick-mayor')?.typeLabel, 'Mayoral');
   assert.equal(electionBody(registry, 'no-such-body'), null);
+});
+
+test('votingSystemOf: a contest rule before the registered system, none without a registered body', () => {
+  const seanad = electionBody(registry, 'seanad-eireann');
+  assert.equal(votingSystemOf(seanad, 'Labour Panel'), 'stv-gregory', 'the panels: papers valued at 1,000, fractions transferred');
+  assert.equal(votingSystemOf(seanad, 'National University of Ireland'), 'stv-hare');
+  assert.equal(votingSystemOf(seanad, 'Dublin University'), 'stv-hare');
+  assert.equal(votingSystemOf(seanad, ''), 'stv-gregory', 'the election as a whole takes the registered system');
+  assert.equal(votingSystemOf(electionBody(registry, 'limerick-mayor'), 'Limerick City and County'), 'stv-hare');
+  assert.equal(votingSystemOf(null, 'Clare'), null);
+});
+
+test('byElectionTitleOf and the Seanad titles: general elections by year, by-elections by contest', () => {
+  const seanad = electionBody(registry, 'seanad-eireann');
+  assert.equal(byElectionTitleOf(seanad, '2026-11-05', ['Cultural and Educational Panel']), '2026 Seanad by-election (Cultural and Educational Panel)');
+  assert.equal(byElectionTitleOf(seanad, '1950-05-01', ['Labour Panel', 'Agricultural Panel']), '1950 Seanad by-elections');
+  assert.equal(byElectionTitleOf(electionBody(registry, 'limerick-mayor'), '2024-06-07', ['Limerick City and County']), null);
+  const panels = ['Administrative Panel', 'Agricultural Panel', 'Cultural and Educational Panel', 'Industrial and Commercial Panel', 'Labour Panel', 'National University of Ireland', 'Dublin University'];
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '2020-03-30', constituencies: panels }), '2020 Seanad election');
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '2026-11-05', constituencies: ['Cultural and Educational Panel'] }), '2026 Seanad by-election (Cultural and Educational Panel)');
+  // A body with a title and no by-election template is unchanged: the mayoralty is never a by-election.
+  assert.equal(canonicalElectionTitle({ body: 'Mayor of Limerick', bodySlug: 'limerick-mayor', date: '2024-06-07', constituencies: ['Limerick City and County'] }), '2024 Limerick mayoral election');
 });

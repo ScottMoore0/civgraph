@@ -23,7 +23,7 @@ import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import { manifestCouncilSets } from '../../packages/registries/src/councils.mjs';
 import { labelInterpretationRules } from '../../packages/registries/src/parties.mjs';
 import { statesOf } from '../../packages/registries/src/statuses.mjs';
-import { electionBody, geographyRuleFor } from '../../packages/registries/src/election-bodies.mjs';
+import { electionBody, geographyRuleFor, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
 import { areaCandidateColours, areaCountSheet, areaFeatureNames } from '../../packages/core/src/area-results.mjs';
 
 /** @typedef {import('../../packages/core/src/election-domain.mjs').SourceRow} SourceRow */
@@ -2139,7 +2139,9 @@ function votingSystemForElection(entry, result = null) {
   const bodySlug = String(entry?.bodySlug || '');
   const year = Number(String(entry?.date || '').slice(0, 4));
   const resultName = normalizeName(result?.constituency || result?.featureName || result?.matchName || '');
-  const registeredSystem = electionBody(ELECTION_BODIES, bodySlug)?.votingSystem;
+  // A registered body's system, or its contest's where the body counts some contests otherwise
+  // (the Seanad's university constituencies).
+  const registeredSystem = votingSystemOf(electionBody(ELECTION_BODIES, bodySlug), result?.constituency || '');
   if (registeredSystem) return registeredSystem;
   if (bodySlug === 'dail-eireann') return 'stv-hare';
   if (bodySlug === 'president-of-ireland' || bodySlug === 'ireland-president') return 'stv-hare';
