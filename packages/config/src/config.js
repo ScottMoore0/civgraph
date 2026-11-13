@@ -20,8 +20,11 @@ export const SITE = /* @__PURE__ */ Object.freeze({
   /** R2 public bucket boundaries-data, behind the CDN: tiles, FGBs, thumbnails, downloads. */
   dataOrigin: 'https://data.civgraph.net',
   /**
-   * The User-Agent of every request this project makes to someone else's service. It names the
-   * site only; never an email address or any other personal identifier.
+   * The User-Agent of requests to Civgraph's OWN services only: civgraph.net, data.civgraph.net
+   * (our R2 bucket) and our dev proxies to them. Never send it to someone else's service: a
+   * crawler, scraper or fetch to a third party uses crawlHeaders() from
+   * packages/config/src/node.mjs, which sets no User-Agent (owner rule, 13 Nov 2026).
+   * tests/unit/crawl-headers.test.mjs lists the files allowed to read it.
    */
   userAgent: 'civgraph-research (+https://civgraph.net)',
 });
