@@ -167,3 +167,15 @@ export interface FeatureDetailEntry {
   primaryName: string;
   electoralHistory: unknown;
 }
+
+/**
+ * A part of the page the controller draws into (a pane, a card, a menu): the elements it holds are
+ * HTML elements, so a lookup in it gives one. HTMLElement and Document are both assignable to it.
+ */
+export interface HtmlRoot {
+  querySelector(selectors: string): HTMLElement | null;
+  querySelectorAll(selectors: string): NodeListOf<HTMLElement>;
+}
+
+/** An HTML element that holds HTML elements (HtmlRoot's lookups first). */
+export type HtmlElementRoot = HtmlRoot & HTMLElement;
