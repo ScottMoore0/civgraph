@@ -104,10 +104,10 @@ export const RESULTS_SAMPLE = {
  */
 export const TREND_POINTS_SAMPLE = (() => {
   // The first four parties of the registry's Republic of Ireland palette, by the names the election
-  // manager hands over (the palette's keys are folded: 'fianna fail'), and their shares (%) at each
-  // election, in that order.
+  // manager hands over (the palette's keys are folded: 'fianna fail'; the display names are the
+  // legend sample's above), and their shares (%) at each election, in that order.
   /** @type {Record<string, string>} */
-  const NAMES = { 'fianna fail': 'Fianna Fáil', 'fine gael': 'Fine Gael', 'sinn fein': 'Sinn Féin', labour: 'Labour Party' };
+  const NAMES = Object.fromEntries((LEGEND_SAMPLE.election?.items ?? []).map((item) => [item.party, item.name]));
   const keys = [...new Set(partyPalettes.mapRoi.map(([name]) => name))].slice(0, 4);
   /** @type {[string, number[]][]} */
   const elections = [
