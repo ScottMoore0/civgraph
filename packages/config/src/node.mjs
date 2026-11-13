@@ -10,7 +10,9 @@
  * CIVGRAPH_* defaults). Switched over so far: packages/loader/src/paths.mjs re-exports recordPaths()
  * from here (CFG-2; paths.py stays the Python twin, held equal by tests/records/paths.test.mjs),
  * and scripts/records and scripts/lib take the origins, the User-Agent and their CIVGRAPH_*
- * variables from here (CFG-4 for those folders).
+ * variables from here (CFG-4 for those folders). SITE.userAgent is for requests to our own
+ * services only; a crawler or any fetch to a third party takes crawlHeaders() below, which sets
+ * no User-Agent (owner rule, 13 Nov 2026).
  *
  *   node packages/config/src/node.mjs            the resolved configuration, as JSON
  *   node packages/config/src/node.mjs --env      the environment variables it knows, and which are set
@@ -24,6 +26,29 @@ import { fileURLToPath } from 'node:url';
 import { API, BINDINGS, CACHE, RUNTIME_VARS, SECRETS, SITE, binding, environmentFor, runtimeVar } from './config.js';
 
 export { API, BINDINGS, CACHE, RUNTIME_VARS, SECRETS, SITE, binding, environmentFor, runtimeVar };
+
+/**
+ * The headers of a request to someone else's service: a crawler, a scraper or any fetch to a
+ * third party. Owner rule, 13 Nov 2026: "By default, do not identify our crawlers or scrapers as
+ * Civgraph, or as anything, unless I approve you doing so." So these headers carry NO
+ * User-Agent and the client library's own generic default applies (undici's for Node fetch).
+ * Never put a browser's User-Agent here instead: that would be bot-detection evasion. A service
+ * whose terms want a descriptive User-Agent is the owner's decision, per service.
+ *
+ * `extra` is copied as given (Accept, Range, an API key header), less any User-Agent key in any
+ * letter case, which is dropped.
+ *
+ * @param {Record<string, string>} [extra]
+ * @returns {Record<string, string>}
+ */
+export function crawlHeaders(extra = {}) {
+  /** @type {Record<string, string>} */
+  const out = {};
+  for (const [name, value] of Object.entries(extra)) {
+    if (name.toLowerCase() !== 'user-agent') out[name] = value;
+  }
+  return out;
+}
 
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 
