@@ -108,7 +108,23 @@
         "title": { "type": "string", "pattern": "\\{year\\}", "description": "An election's title; {year} is its year." },
         "wikipediaTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The English Wikipedia article on an election, where no resolved article is on file; {year} is its year." },
         "wholeArea": { "type": "boolean", "description": "Every election of the body is held over its whole area, so none is a by-election." },
+        "byElectionTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The title of a by-election of the body, where `title` names its general elections; {year} is its year and {contest} the contest's name." },
+        "byElectionsTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The title of several by-elections of the body held on one day; {year} is their year." },
         "votingSystem": { "enum": ["stv-hare", "stv-gregory", "fptp", "block-vote", "party-list-dhondt", "ordinal"] },
+        "contestVotingSystems": {
+          "type": "array",
+          "description": "Contests of the body counted by another system than `votingSystem`, by the contest's name: the first rule whose `pattern` (a regular expression, case-insensitive) matches it applies.",
+          "items": {
+            "type": "object",
+            "required": ["pattern", "votingSystem"],
+            "additionalProperties": false,
+            "properties": {
+              "pattern": { "type": "string", "minLength": 1 },
+              "votingSystem": { "enum": ["stv-hare", "stv-gregory", "fptp", "block-vote", "party-list-dhondt", "ordinal"] },
+              "note": { "type": "string" }
+            }
+          }
+        },
         "partyGroup": {
           "type": "object",
           "required": ["id", "label"],

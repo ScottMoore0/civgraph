@@ -76,7 +76,17 @@ export interface Body {
   wikipediaTitle?: string;
   /** Every election of the body is held over its whole area, so none is a by-election. */
   wholeArea?: boolean;
+  /** The title of a by-election of the body, where `title` names its general elections; {year} is its year and {contest} the contest's name. */
+  byElectionTitle?: string;
+  /** The title of several by-elections of the body held on one day; {year} is their year. */
+  byElectionsTitle?: string;
   votingSystem?: "stv-hare" | "stv-gregory" | "fptp" | "block-vote" | "party-list-dhondt" | "ordinal";
+  /** Contests of the body counted by another system than `votingSystem`, by the contest's name: the first rule whose `pattern` (a regular expression, case-insensitive) matches it applies. */
+  contestVotingSystems?: Array<{
+    pattern: string;
+    votingSystem: "stv-hare" | "stv-gregory" | "fptp" | "block-vote" | "party-list-dhondt" | "ordinal";
+    note?: string;
+  }>;
   partyGroup?: {
     id: Slug;
     label: string;

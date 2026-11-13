@@ -2,7 +2,7 @@ import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import {
   councilNameOn, councilsById, eraTitles, plainTitleBodies, pre1973CouncilBodyNames
 } from '../../packages/registries/src/councils.mjs';
-import { electionBody, fillYear } from '../../packages/registries/src/election-bodies.mjs';
+import { byElectionTitleOf, electionBody, fillYear } from '../../packages/registries/src/election-bodies.mjs';
 
 /** @typedef {import('../../packages/registries/src/election-bodies.mjs').ElectionBody} ElectionBody */
 
@@ -445,7 +445,14 @@ export function canonicalElectionTitle({
 } = {}) {
   if (specialDisplayName) return specialDisplayName;
   const { year, dayMonthYear } = dateParts(date);
-  const registeredTitle = fillYear(registeredBody(bodySlug, body)?.title, date);
+  const registered = registeredBody(bodySlug, body);
+  // A body whose general elections take its title template names its by-elections by its
+  // by-election templates (the Seanad's "2026 Seanad by-election (Cultural and Educational Panel)").
+  if (registered?.byElectionTitle && isElectionByElectionScope({ body, bodyGroup, date, constituencies, specialType, bodySlug })) {
+    const byTitle = byElectionTitleOf(registered, date, electionConstituencyNames(constituencies));
+    if (byTitle) return byTitle;
+  }
+  const registeredTitle = fillYear(registered?.title, date);
   if (registeredTitle) return registeredTitle;
   // The Republic's local elections are one body contested across every council on the same
   // day, never a by-election and not the Northern Ireland local-government group, so they

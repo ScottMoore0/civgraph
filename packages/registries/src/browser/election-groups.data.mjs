@@ -10,6 +10,14 @@ export default {
    "icon": "dail"
   },
   {
+   "id": "seanad",
+   "label": "Seanad",
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "icon": "dail"
+  },
+  {
    "id": "westminster",
    "label": "Westminster",
    "bodies": [
@@ -220,6 +228,12 @@ export default {
     }
    },
    {
+    "label": "Seanad",
+    "match": {
+     "pattern": "Seanad"
+    }
+   },
+   {
     "label": "Westminster",
     "match": {
      "pattern": "Westminster"
@@ -259,6 +273,7 @@ export default {
   "fallback": "Other",
   "order": [
    "Dáil",
+   "Seanad",
    "Westminster",
    "Devolved",
    "Local",
