@@ -35,5 +35,9 @@
     "../scripts/*.mjs",
     "../tools/**/*.mjs",
     "../packages/maps-pipeline/src/thumbnails/*.mjs"
+  ],
+  "//exclude": "Gitignored local one-off scripts that the scripts/*.mjs glob would otherwise reach in a working checkout (not in the repository, so not in CI's or check:clean's export).",
+  "exclude": [
+    "../scripts/update-maps-1957-1965.mjs"
   ]
 }

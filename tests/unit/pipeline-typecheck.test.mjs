@@ -4,6 +4,7 @@
  * scripts/maps and scripts/dev, and those folders carry no type-check suppressions.
  */
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
@@ -72,6 +73,16 @@ function scriptsOf(/** @type {string} */ place) {
   return out;
 }
 
+/** The files git does not ignore: a local, gitignored one-off script (excluded in the config) is not the repository's. */
+function notIgnored(/** @type {string[]} */ files) {
+  if (!files.length) return files;
+  let ignored = '';
+  try { ignored = execFileSync('git', ['check-ignore', '--', ...files], { cwd: REPO_ROOT, encoding: 'utf8' }); }
+  catch (e) { ignored = /** @type {{ stdout?: string }} */ (e).stdout ?? ''; }
+  const out = new Set(ignored.split('\n').map((l) => l.trim()).filter(Boolean));
+  return files.filter((f) => !out.has(f));
+}
+
 test('the strict pipeline and tools configs keep full strict and noUnused* on', () => {
   for (const name of STRICT_CONFIGS) {
     const c = JSON.parse(readFileSync(path.join(REPO_ROOT, 'config', name), 'utf8'));
@@ -85,7 +96,7 @@ test('the strict pipeline and tools configs keep full strict and noUnused* on', 
 
 test('every pipeline and tools script is checked under strict with noUnused*', async () => {
   const checked = new Set((await Promise.all(STRICT_CONFIGS.map(checkedFiles))).flat());
-  const missing = STRICT_PLACES.flatMap(scriptsOf).filter((f) => !checked.has(f));
+  const missing = notIgnored(STRICT_PLACES.flatMap(scriptsOf).filter((f) => !checked.has(f)));
   assert.deepEqual(missing, [], 'a script here joins tsconfig.pipeline-strict.json (Node) or tsconfig.tools-browser.json (browser)');
 });
 
