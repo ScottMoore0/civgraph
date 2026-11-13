@@ -78,7 +78,16 @@ GENERIC = {'city', 'south', 'west', 'east', 'north', 'central', 'inner', 'no', '
 # Reasons that say the two ids are two people, or that joining them would join two people: the
 # pair is rejected. Any other reason leaves it for the owner to decide (held).
 REJECT = ('both ids in one election', 'ElectionsIreland names relatives', 'Snr, Jnr or a numeral',
-          'the ie person already holds', 'the ie person would join two', 'several ie ids for this')
+          'the ie person already holds', 'the ie person would join two', 'several ie ids for this',
+          'rejected on the papers')
+
+# Pairs the papers show to be other men: never written, even with --fresh. ElectionsIreland 1338
+# joins three Daniel Kennedys; IrelandElection.com 2117 is the Nenagh councillor of Foilduff,
+# Rearcross (Clann na Poblachta, 1950-79), not the Labour man of Ballagh whose rows keep ei:1338
+# (Irish Independent, 9 and 20 Jan 1932; King's County Chronicle, 20 Jul 1955; research-K1, 13 Nov 2026).
+REJECTED_PAIRS = {
+    ('ie:2117', 'ei:1338'): 'rejected on the papers: three Daniel Kennedys share ei:1338 (research-K1, MG-100, 13 Nov 2026)',
+}
 
 
 def matchkey(v):
@@ -103,6 +112,10 @@ def party_key(p):
 
 
 def scan():
+    # A row label-blanked-identity-keys.csv lists is read with the key it declares, which outranks
+    # its ElectionsIreland or IrelandElection id (build_person_registry_v2.declared_identity).
+    from build_person_registry_v2 import declared_identity, label_blanked_identity_keys
+    blanked = label_blanked_identity_keys()
     rows, councils = [], {}
 
     def council_of(source_file):
@@ -124,9 +137,13 @@ def scan():
                 if not (c.get('name') or '').strip():
                     continue
                 cons = str(r.get('constituency') or '')
+                src = str(c.get('sourcePersonId') or '').strip()
+                bk = (d.get('key'), cons, c.get('name') or '')
+                if bk in blanked:
+                    src = declared_identity(blanked[bk], '', src)[1]
                 rows.append({'key': d.get('key'), 'body': body, 'date': str(d.get('date') or ''),
                              'year': int(str(d.get('date') or '0')[:4] or 0), 'cons': cons, 'name': c['name'].strip(),
-                             'party': c.get('party') or '', 'src': str(c.get('sourcePersonId') or '').strip(),
+                             'party': c.get('party') or '', 'src': src,
                              'pid': str(c.get('personId') or ''), 'nk': matchkey(c['name']),
                              'ar': council_area(council) if local else '', 'lea': matchkey(cons.replace('*', '')).replace(' ', ''),
                              'pt': party_key(c.get('party') or '')})
@@ -245,6 +262,8 @@ def find_pairs(rows, relatives):
             span = [r['year'] for r in theirs]
             if ev['link'] == 'county-constituency' and max(span) - min(span) > 30:
                 why.append('the ElectionsIreland id spans more than 30 years')
+            if (ie, ei) in REJECTED_PAIRS:
+                why.append(REJECTED_PAIRS[(ie, ei)])
             pairs.append({'ie': ie, 'ei': ei, 'name': a['name'], 'council_area': a['ar'], 'link': ev['link'] or '',
                           'ie_evidence': row_text(a), 'ei_evidence': row_text(ev['b']),
                           'ie_years': ' '.join(sorted({r['date'][:4] for r in by_src[ie]})),
@@ -292,7 +311,7 @@ def main():
     if os.path.exists(OUT):
         with open(OUT, encoding='utf-8', newline='') as fh:
             on_file = {(r['ie'], r['ei']): r for r in csv.DictReader(fh)}
-    kept = {} if args.fresh else dict(on_file)
+    kept = {} if args.fresh else {k: r for k, r in on_file.items() if k not in REJECTED_PAIRS}
     apply = dict(kept)
     for p in pairs:
         if not p['why'] and (p['ie'], p['ei']) not in apply:

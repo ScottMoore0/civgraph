@@ -276,6 +276,12 @@ def same_ground(before, after):
 
 
 def observations():
+    # A row label-blanked-identity-keys.csv lists is held by the key it declares, which outranks
+    # its ElectionsIreland or IrelandElection id (build_person_registry_v2.declared_identity): the
+    # crosswalk must not pair the Mayo TD Ó Móráin with the Galway councillor through Castlebar rows
+    # that still carry the councillor's IrelandElection id.
+    from build_person_registry_v2 import declared_identity, label_blanked_identity_keys
+    blanked = label_blanked_identity_keys()
     obs = collections.defaultdict(list)
     for f in sorted(glob.glob(os.path.join(META, '*.json'))):
         d = json.load(open(f, encoding='utf-8'))
@@ -287,11 +293,15 @@ def observations():
                 pid = c.get('personId')
                 if pid is None:
                     continue
+                src = str(c.get('sourcePersonId') or '').strip()
+                bk = (key, str(r.get('constituency') or ''), c.get('name') or '')
+                if bk in blanked:
+                    src = declared_identity(blanked[bk], '', src)[1]
                 obs[pid].append({'key': key, 'body': body, 'con': con, 'council': str(r.get('localBody') or '').strip(),
                                  'y': int(yr) if yr.isdigit() else 0,
                                  'date': str(d.get('date') or ''),
                                  'party': party_of(c),
-                                 'src': str(c.get('sourcePersonId') or '').strip(),
+                                 'src': src,
                                  'off': list(c.get('officialPersonIds') or [])})
     return obs
 
@@ -538,6 +548,7 @@ def main():
     # SAME-SEAT-SEQUENCE joining it to Jnr after his father's biography had joined it to
     # Snr, and the two pairs together made father and son one man.
     people = ei_relatives.load()
+    overrides = ei_relatives.load_overrides(CONFIRMED)
     held = collections.defaultdict(set)
     for pid, e in ents.items():
         held[pid] |= set(e.get('sourcePersonIds') or [])
@@ -602,7 +613,10 @@ def main():
     for mg in sorted(merges, key=lambda m: (order.get(m['class'], len(order)), m['keep'], m['drop'])):
         ka, kb = find(mg['keep']), find(mg['drop'])
         if ka != kb:
-            why = ei_relatives.distinct(people, held[ka], held[kb]) or official_conflict(held[ka], held[kb]) or life_conflict(ka, kb)
+            # A confirmed pair declared one man over these vetoes (override_vetoes; John Beirne)
+            # is joined over them, and only that pair (ei_relatives.load_overrides).
+            official = None if ei_relatives.overridden(overrides, 'official-ids', held[ka], held[kb])                 else official_conflict(held[ka], held[kb])
+            why = ei_relatives.distinct(people, held[ka], held[kb], overrides) or official or life_conflict(ka, kb)
             if why:
                 vetoed.append((mg, why))
                 continue
