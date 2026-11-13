@@ -35,6 +35,12 @@ import { SITE } from '../../packages/config/src/node.mjs';
 // before it could run at all.
 const require = createRequire(import.meta.url);
 const args = process.argv.slice(2);
+/**
+ * The value after an argument, or the fallback.
+ * @param {string} name
+ * @param {string} fallback
+ * @returns {string}
+ */
 const argVal = (name, fallback) => {
   const i = args.indexOf(name);
   return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
@@ -45,7 +51,11 @@ const WIDTH = 1200;
 const HEIGHT = 630;
 const MAX_BYTES = 1_000_000; // og:image should stay small enough to fetch eagerly
 
-/** A PNG's width and height, from its IHDR chunk. */
+/**
+ * A PNG's width and height, from its IHDR chunk.
+ * @param {string} file
+ * @returns {{ width: number, height: number } | null}
+ */
 function pngSize(file) {
   const buf = readFileSync(file);
   if (buf.length < 24 || buf.toString('ascii', 12, 16) !== 'IHDR') return null;
@@ -82,7 +92,20 @@ const URL_ = argVal('--url', `${SITE.origin}/maps/`);
 const LAYER = argVal('--layer', 'counties-ireland');
 const MAP_IMAGE = argVal('--map', '');
 
-const { chromium } = require('playwright');
+/**
+ * What the page callbacks below use of the map page's test hook (window.__civgraphTest2). The
+ * callbacks run in the browser, so they reach it through window, cast to this shape.
+ * @typedef {object} HookMap
+ * @property {(event: string, listener: (value?: unknown) => void) => void} once
+ * @property {(bounds: [[number, number], [number, number]], options: { padding: number, duration: number }) => void} fitBounds
+ * @property {() => HTMLCanvasElement} getCanvas
+ * @typedef {object} TestHook
+ * @property {{ loadMap: (layerId: string) => Promise<unknown> }} app
+ * @property {{ map: HookMap }} mapController
+ * @typedef {Window & { __civgraphTest2?: TestHook }} HookWindow
+ */
+
+const { chromium } = /** @type {typeof import('playwright')} */ (require('playwright'));
 const browser = await chromium.launch({
   args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader']
 });
@@ -91,10 +114,11 @@ const browser = await chromium.launch({
 async function captureMap() {
   const page = await browser.newPage({ viewport: { width: 720, height: 760 }, deviceScaleFactor: 1 });
   await page.goto(URL_, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 90000 });
+  await page.waitForFunction(() => /** @type {HookWindow} */ (window).__civgraphTest2?.app, null, { timeout: 90000 });
   await page.waitForTimeout(2500);
   const loaded = await page.evaluate(async (layerId) => {
-    const t = window.__civgraphTest2;
+    // the waitForFunction above saw the hook, so it is there
+    const t = /** @type {TestHook} */ (/** @type {HookWindow} */ (window).__civgraphTest2);
     try {
       await t.app.loadMap(layerId);
       await new Promise((r) => t.mapController.map.once('idle', r));
@@ -106,7 +130,7 @@ async function captureMap() {
   if (!loaded) console.warn(`  (could not load ${LAYER}; capturing the default view instead)`);
   // Frame the island: its shape is the most recognisable thing in the picture.
   const rect = await page.evaluate(async () => {
-    const map = window.__civgraphTest2?.mapController?.map;
+    const map = /** @type {HookWindow} */ (window).__civgraphTest2?.mapController?.map;
     if (!map) return null;
     map.fitBounds([[-10.9, 51.3], [-5.3, 55.5]], { padding: 16, duration: 0 });
     await new Promise((r) => map.once('idle', r));
@@ -125,10 +149,15 @@ async function captureMap() {
   return shot;
 }
 
+/** @param {string} file a font under site/assets/fonts */
 const FONT = (file) => `data:font/woff2;base64,${readFileSync(path.resolve('site/assets/fonts', file)).toString('base64')}`;
 const LOGO = readFileSync(path.resolve('site/assets/images/civgraph-logo-icon.svg'), 'utf8');
 
 /** The card's HTML around the map image. No figures on it: nothing to go stale. */
+/**
+ * @param {string} mapDataUrl
+ * @returns {string}
+ */
 function cardHtml(mapDataUrl) {
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
 @font-face { font-family: Jakarta; src: url(${FONT('plus-jakarta-sans-latin.woff2')}) format('woff2'); font-weight: 200 800; }

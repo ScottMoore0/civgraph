@@ -10,6 +10,66 @@ import path from 'node:path';
  */
 export const PARITY_STATUSES = Object.freeze(['pass', 'fail', 'warn', 'reported-only']);
 
+/**
+ * docs/test2-general-parity-matrix.json: the areas the audit checks.
+ * @typedef {object} MatrixArea
+ * @property {string} id
+ * @property {string} title
+ * @property {string} classification
+ * @typedef {object} ParityMatrix
+ * @property {MatrixArea[]} [areas]
+ * @property {unknown} [version]
+ *
+ * One area's line in the report.
+ * @typedef {object} ParityResult
+ * @property {string} id
+ * @property {string} title
+ * @property {string} classification
+ * @property {ParityStatus} status
+ * @property {number} [durationMs]
+ * @property {unknown} [evidence]
+ * @property {string} [message]
+ *
+ * @typedef {import('@playwright/test').Page} Page
+ * @typedef {{ x: number, y: number, width: number, height: number }} ShellRect
+ * @typedef {{ left: number, top: number, right: number, bottom: number, width: number, height: number }} EdgeRect
+ * @typedef {Awaited<ReturnType<typeof extractElectionPaneSnapshot>>} Snapshot
+ *
+ * What the page callbacks reach through window. They run in the browser, so they cannot use this
+ * module's names; each casts window to this shape. The /test2 hook is there once bootTest2 has
+ * waited for it, and uiController once loadMainDail2024 has.
+ * @typedef {object} LeafletLayer a layer on the legacy (Leaflet) main page
+ * @property {() => LeafletLayer[]} [getLayers]
+ * @property {{ properties?: Record<string, unknown> }} [feature]
+ * @property {{ feature?: { properties?: Record<string, unknown> } }} [options]
+ * @property {(type: string, data: object) => void} [fire]
+ * @typedef {object} LoadedFeature
+ * @property {unknown} [id]
+ * @property {string} [name]
+ * @property {Record<string, unknown>} [properties]
+ * @property {unknown} [geometry]
+ * @typedef {object} Test2Hook
+ * @property {Promise<unknown>} restorePromise
+ * @property {{ loadMap: (id: string) => Promise<unknown>, loadedMaps?: Set<string>, loadedMapIds?: Set<string>, elections?: { activeEntry?: { body?: string, date?: string, key?: string } } }} app
+ * @property {{ map: import('maplibre-gl').Map, loadSingleFeature: (config: object, id: unknown, name: unknown) => Promise<{ feature?: LoadedFeature } | null | undefined> }} mapController
+ * @property {{ getLayer: (id: string) => { name?: string, geometryType?: string } | null | undefined }} metadataService
+ * @typedef {Window & typeof globalThis & {
+ *   __civgraphTest2: Test2Hook,
+ *   uiController: { onLoadElection: (body: string, date: string) => unknown, showFeatureInfo?: (features: object[], maps: object[]) => unknown },
+ *   mapController?: { map?: { eachLayer?: (fn: (layer: LeafletLayer) => void) => void } },
+ *   dataService?: { getMapById?: (id: string) => object | undefined }
+ * }} ParityWindow
+ *
+ * The feature index /test2 fetches for the feature-card check.
+ * @typedef {{ id?: unknown, name?: string, center?: [number, number] }} IndexedItem
+ * @typedef {{ items?: IndexedItem[] }} FeatureIndex
+ *
+ * render/metadata/main-site-port-plan.json and maps-test.json, as the data-coverage check reads them.
+ * @typedef {{ sourceMapId: string, conversionStatus: string, name?: string, unsupportedReason?: string, testLayerId?: string }} PortPlanRow
+ * @typedef {{ rows?: PortPlanRow[], totals?: unknown }} PortPlan
+ * @typedef {{ id: string, sourceMapId?: string, aliasOf?: string, aliasTargetLayerId?: string }} TestLayer
+ */
+
 const PORT = Number(process.env.TEST2_PARITY_PORT || 5055);
 const BASE = `http://127.0.0.1:${PORT}`;
 const MATRIX_PATH = 'docs/test2-general-parity-matrix.json';
@@ -20,8 +80,10 @@ if (!existsSync(MATRIX_PATH)) {
   throw new Error(`${MATRIX_PATH} is missing`);
 }
 
+/** @type {ParityMatrix} */
 const matrix = JSON.parse(readFileSync(MATRIX_PATH, 'utf8'));
 const matrixById = new Map((matrix.areas || []).map((area) => [area.id, area]));
+/** @type {ParityResult[]} */
 const results = [];
 
 const server = spawn('python', ['-m', 'http.server', String(PORT)], {
@@ -40,18 +102,30 @@ async function waitForServer() {
   throw new Error(`local static server did not start on ${BASE}`);
 }
 
+/** @param {number} ms */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/** @param {unknown} value */
 function normaliseText(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
+/**
+ * @param {unknown} condition
+ * @param {string} message
+ * @returns {asserts condition}
+ */
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+/**
+ * Run one area's check and record its result.
+ * @param {string} areaId
+ * @param {() => unknown} fn
+ */
 async function runCheck(areaId, fn) {
   const area = matrixById.get(areaId);
   if (!area) throw new Error(`Unknown parity matrix area: ${areaId}`);
@@ -73,11 +147,12 @@ async function runCheck(areaId, fn) {
       classification: area.classification,
       status: REQUIRED_CLASSIFICATIONS.has(area.classification) ? 'fail' : 'warn',
       durationMs: Date.now() - started,
-      message: error.message
+      message: /** @type {Error} */ (error).message
     });
   }
 }
 
+/** @param {Page} page */
 async function bootMain(page, url = '/') {
   await page.goto(`${BASE}${url}`);
   await page.waitForSelector('body.app-shell', { timeout: 25000 });
@@ -85,17 +160,24 @@ async function bootMain(page, url = '/') {
   await page.waitForSelector('#map', { timeout: 25000 });
 }
 
+/** @param {Page} page */
 async function bootTest2(page, hash = '') {
   await page.goto(`${BASE}/test2/${hash}`);
   await page.waitForSelector('body.app-shell', { timeout: 25000 });
-  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 25000 });
-  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => /** @type {ParityWindow} */ (window).__civgraphTest2?.restorePromise, null, { timeout: 25000 });
+  await page.evaluate(() => /** @type {ParityWindow} */ (window).__civgraphTest2.restorePromise);
   await page.waitForSelector('#catalogueFlatView', { state: 'attached', timeout: 25000 });
   await page.waitForSelector('#map canvas', { timeout: 25000 });
 }
 
+/**
+ * The shell's layout and furniture. Typed with its panes present: on the pages this check opens
+ * they are, and a missing one makes compareShell throw, which runCheck records as a failure.
+ * @param {Page} page
+ */
 async function extractShell(page) {
-  return page.evaluate(() => {
+  return /** @type {Promise<{ path: string, bodyClasses: string, header: ShellRect, infoPane: ShellRect, mapPane: ShellRect, search: ShellRect, searchPlaceholder: string, navTexts: string[], hasCatalogue: boolean, hasMainShell: boolean, catalogueRows: number, electionTocRows: number, decadeButtons: number, hasMapCanvas: boolean, hasLeafletAttribution: boolean, hasMapLibreAttribution: boolean }>} */ (page.evaluate(() => {
+    /** @param {string} selector @returns {ShellRect | null} */
     const rect = (selector) => {
       const el = document.querySelector(selector);
       if (!el) return null;
@@ -115,7 +197,8 @@ async function extractShell(page) {
       mapPane: rect('.pane--map'),
       search: rect('#searchInput'),
       searchPlaceholder: document.querySelector('#searchInput')?.getAttribute('placeholder') || '',
-      navTexts: [...document.querySelectorAll('.app-header__link, .app-header__support, .support-btn, #supportBtn, #mobileSupportBtn')].map((el) => el.textContent?.replace(/\s+/g, ' ').trim()).filter(Boolean),
+      // filter(Boolean) drops the empty texts
+      navTexts: /** @type {string[]} */ ([...document.querySelectorAll('.app-header__link, .app-header__support, .support-btn, #supportBtn, #mobileSupportBtn')].map((el) => el.textContent?.replace(/\s+/g, ' ').trim()).filter(Boolean)),
       hasCatalogue: Boolean(document.querySelector('#catalogueFlatView')),
       hasMainShell: Boolean(document.querySelector('body.app-shell .app-main .pane--info + .split-drag + .pane--map')),
       catalogueRows: document.querySelectorAll('#catalogueFlatView table tr').length,
@@ -125,9 +208,13 @@ async function extractShell(page) {
       hasLeafletAttribution: /Leaflet/.test(document.body.textContent || ''),
       hasMapLibreAttribution: /MapLibre/.test(document.body.textContent || '')
     };
-  });
+  }));
 }
 
+/**
+ * @param {Awaited<ReturnType<typeof extractShell>>} main
+ * @param {Awaited<ReturnType<typeof extractShell>>} test2
+ */
 function compareShell(main, test2) {
   assert(test2.hasMainShell, '/test2 is missing the production shell structure');
   assert(test2.hasCatalogue, '/test2 is missing the production catalogue container');
@@ -140,6 +227,7 @@ function compareShell(main, test2) {
   }
 }
 
+/** @param {Page} page */
 async function extractElectionPartyRows(page) {
   await page.waitForSelector('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)', { timeout: 30000 });
   return page.evaluate(() => [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)')]
@@ -147,6 +235,10 @@ async function extractElectionPartyRows(page) {
     .map((row) => [...row.children].slice(0, 12).map((cell) => cell.textContent?.trim()?.replace(/\s+/g, ' '))));
 }
 
+/**
+ * @param {Page} page
+ * @param {{ waitForTable?: boolean }} [options]
+ */
 async function extractElectionPaneSnapshot(page, options = {}) {
   const waitForTable = options.waitForTable !== false;
   if (waitForTable) {
@@ -155,7 +247,7 @@ async function extractElectionPaneSnapshot(page, options = {}) {
   return page.evaluate(() => {
     const pane = document.querySelector('#electionResultsPane') || document.querySelector('.election-results-pane');
     const content = document.querySelector('#electionPaneContent');
-    const normalise = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+    const normalise = (/** @type {unknown} */ value) => String(value || '').replace(/\s+/g, ' ').trim();
     const table = content?.querySelector('table');
     return {
       title: normalise(document.querySelector('#electionPaneTitle')?.textContent || pane?.querySelector('.election-results-title')?.textContent || ''),
@@ -178,11 +270,16 @@ async function extractElectionPaneSnapshot(page, options = {}) {
   });
 }
 
+/**
+ * @param {Page} page
+ * @param {RegExp} labelPattern
+ */
 async function clickElectionPaneControl(page, labelPattern) {
   await page.waitForSelector('#electionResultsPane, .election-results-pane', { timeout: 30000 });
   const clicked = await page.evaluate((patternSource) => {
     const pattern = new RegExp(patternSource, 'i');
-    const buttons = [...document.querySelectorAll('#electionResultsPane button, .election-results-pane button')];
+    // the selector matches button elements only
+    const buttons = /** @type {HTMLButtonElement[]} */ ([...document.querySelectorAll('#electionResultsPane button, .election-results-pane button')]);
     const button = buttons.find((candidate) => pattern.test(String(candidate.textContent || '').replace(/\s+/g, ' ').trim()));
     if (!button) return false;
     button.click();
@@ -192,16 +289,22 @@ async function clickElectionPaneControl(page, labelPattern) {
   await page.waitForTimeout(250);
 }
 
+/** @param {Page} page */
 async function loadMainDail2024(page) {
   await bootMain(page, '/');
-  await page.waitForFunction(() => window.uiController?.onLoadElection, null, { timeout: 30000 });
-  await page.evaluate(() => window.uiController.onLoadElection('D\u00e1il \u00c9ireann', '2024-11-29'));
+  await page.waitForFunction(() => /** @type {ParityWindow} */ (window).uiController?.onLoadElection, null, { timeout: 30000 });
+  await page.evaluate(() => /** @type {ParityWindow} */ (window).uiController.onLoadElection('D\u00e1il \u00c9ireann', '2024-11-29'));
 }
 
+/** @param {Page} page */
 async function selectMainRoscommonGalway(page) {
-  await page.waitForFunction(() => window.mapController?.map || window.uiController, null, { timeout: 30000 });
+  await page.waitForFunction(() => /** @type {ParityWindow} */ (window).mapController?.map || /** @type {ParityWindow} */ (window).uiController, null, { timeout: 30000 });
   await page.evaluate(async () => {
     const deadline = Date.now() + 20000;
+    /**
+     * @param {LeafletLayer | null | undefined} layer
+     * @returns {LeafletLayer | null}
+     */
     function findLayer(layer) {
       if (!layer) return null;
       if (typeof layer.getLayers === 'function') {
@@ -216,8 +319,9 @@ async function selectMainRoscommonGalway(page) {
       return null;
     }
     while (Date.now() < deadline) {
-      const map = window.mapController?.map;
-      let found = null;
+      const map = /** @type {ParityWindow} */ (window).mapController?.map;
+      // typed by a cast, so the assignment in the callback below is not narrowed away
+      let found = /** @type {LeafletLayer | null} */ (null);
       if (map?.eachLayer) map.eachLayer((layer) => { if (!found) found = findLayer(layer); });
       if (found) {
         if (typeof found.fire === 'function') found.fire('click', { target: found });
@@ -229,6 +333,7 @@ async function selectMainRoscommonGalway(page) {
   });
 }
 
+/** @param {Page} page */
 async function extractTimeline(page) {
   return page.evaluate(() => ({
     text: String(document.querySelector('.timeline-slider, #timeSlider, .time-slider')?.textContent || '').replace(/\s+/g, ' ').trim(),
@@ -238,6 +343,7 @@ async function extractTimeline(page) {
   }));
 }
 
+/** @param {Page} page */
 async function extractBrowseMapPage(page) {
   await page.goto(`${BASE}/browse/#/maps/admin-areas-1924-04-01`);
   await page.waitForSelector('main, .browse-shell, body', { timeout: 25000 });
@@ -254,6 +360,10 @@ async function extractBrowseMapPage(page) {
   }));
 }
 
+/**
+ * @param {Page} page
+ * @param {string} hash
+ */
 async function extractBrowseRoute(page, hash) {
   await page.goto(`${BASE}/browse/${hash}`);
   await page.waitForSelector('main, .browse-shell, body', { timeout: 25000 });
@@ -265,7 +375,7 @@ async function extractBrowseRoute(page, hash) {
       || /Open in interactive map|Open election layer/i.test(text);
   }, null, { timeout: 25000 });
   return page.evaluate(() => {
-    const normalise = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+    const normalise = (/** @type {unknown} */ value) => String(value || '').replace(/\s+/g, ' ').trim();
     return {
       hash: location.hash,
       title: normalise(document.querySelector('h1')?.textContent || ''),
@@ -284,10 +394,12 @@ async function extractBrowseRoute(page, hash) {
   });
 }
 
+/** @param {Page} page */
 async function extractMobileState(page) {
   await page.setViewportSize({ width: 390, height: 760 });
   await bootTest2(page);
   return page.evaluate(() => {
+    /** @param {string} selector @returns {EdgeRect | null} */
     const rect = (selector) => {
       const el = document.querySelector(selector);
       if (!el) return null;
@@ -301,7 +413,7 @@ async function extractMobileState(page) {
         height: Math.round(box.height)
       };
     };
-    const overlaps = (a, b) => a && b && !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
+    const overlaps = (/** @type {EdgeRect | null} */ a, /** @type {EdgeRect | null} */ b) => a && b && !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
     const header = rect('.app-header');
     const headerToggle = rect('#mobilePaneToggle');
     const mapToggle = rect('#mobileToggle');
@@ -322,10 +434,15 @@ async function extractMobileState(page) {
   });
 }
 
+/**
+ * @param {Page} page
+ * @param {{ width: number, height: number }} viewport
+ */
 async function extractMobileElectionState(page, viewport) {
   await page.setViewportSize(viewport);
   await bootTest2(page, '#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   return page.evaluate(() => {
+    /** @param {string} selector @returns {EdgeRect | null} */
     const rect = (selector) => {
       const el = document.querySelector(selector);
       if (!el) return null;
@@ -339,7 +456,7 @@ async function extractMobileElectionState(page, viewport) {
         height: Math.round(box.height)
       };
     };
-    const overlaps = (a, b) => a && b && !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
+    const overlaps = (/** @type {EdgeRect | null} */ a, /** @type {EdgeRect | null} */ b) => a && b && !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
     const header = rect('.app-header');
     const headerToggle = rect('#mobilePaneToggle');
     const mapToggle = rect('#mobileToggle');
@@ -361,12 +478,15 @@ async function extractMobileElectionState(page, viewport) {
   });
 }
 
+/** @param {unknown} value */
 function normalise(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
 function extractDataCoverageState() {
+  /** @type {PortPlan} */
   const plan = JSON.parse(readFileSync('render/metadata/main-site-port-plan.json', 'utf8'));
+  /** @type {{ layers?: TestLayer[] }} */
   const metadata = JSON.parse(readFileSync('render/metadata/maps-test.json', 'utf8'));
   const actionableStatuses = new Set(['needsVectorTileConversion', 'needsRasterStrategy', 'needsMapLibreSourceMapping']);
   const actionableRows = (plan.rows || []).filter((row) => actionableStatuses.has(row.conversionStatus));
@@ -430,10 +550,10 @@ try {
 
   await runCheck('ordinary.maps', async () => {
     const state = await test2Page.evaluate(async () => {
-      const app = window.__civgraphTest2.app;
+      const app = /** @type {ParityWindow} */ (window).__civgraphTest2.app;
       await app.loadMap('settlements-2015');
-      await new Promise((resolve) => window.__civgraphTest2.mapController.map.once('idle', resolve));
-      const map = window.__civgraphTest2.mapController.map;
+      await new Promise((resolve) => /** @type {ParityWindow} */ (window).__civgraphTest2.mapController.map.once('idle', resolve));
+      const map = /** @type {ParityWindow} */ (window).__civgraphTest2.mapController.map;
       const layers = map.getStyle().layers || [];
       const fillLayer = layers.find((layer) => /settlements-2015/.test(layer.id) && layer.type === 'fill');
       return {
@@ -450,12 +570,12 @@ try {
 
   await runCheck('ordinary.maps.multilayer', async () => {
     const state = await test2Page.evaluate(async () => {
-      const app = window.__civgraphTest2.app;
-      const map = window.__civgraphTest2.mapController.map;
+      const app = /** @type {ParityWindow} */ (window).__civgraphTest2.app;
+      const map = /** @type {ParityWindow} */ (window).__civgraphTest2.mapController.map;
       const requestedIds = ['settlements-2015', 'deas-1972', 'admin-areas-1924-04-01'];
       const cases = [];
       for (const id of requestedIds) {
-        const layer = window.__civgraphTest2.metadataService.getLayer(id);
+        const layer = /** @type {ParityWindow} */ (window).__civgraphTest2.metadataService.getLayer(id);
         if (!layer) {
           cases.push({ id, exists: false });
           continue;
@@ -491,10 +611,10 @@ try {
 
   await runCheck('feature.cards', async () => {
     const state = await test2Page.evaluate(async () => {
-      const app = window.__civgraphTest2.app;
-      const adapter = window.__civgraphTest2.mapController;
+      const app = /** @type {ParityWindow} */ (window).__civgraphTest2.app;
+      const adapter = /** @type {ParityWindow} */ (window).__civgraphTest2.mapController;
       const map = adapter.map;
-      const index = await fetch('/render/metadata/feature-indexes/deas-1972-vector.json').then((response) => response.json());
+      const index = /** @type {FeatureIndex} */ (await fetch('/render/metadata/feature-indexes/deas-1972-vector.json').then((response) => response.json()));
       const indexed = (index.items || []).find((item) => item.name === 'BELFAST AREA H')
         || (index.items || []).find((item) => /BELFAST AREA/i.test(item.name || ''))
         || (index.items || []).find((item) => item.name && !/Unnamed Feature/i.test(item.name));
@@ -505,9 +625,10 @@ try {
       }
       await app.loadMap('deas-1972');
       await new Promise((resolve) => map.once('idle', resolve));
-      const mainMapConfig = window.dataService?.getMapById?.('deas-1972') || { id: 'deas-1972', name: 'District Electoral Areas - 1972' };
+      const mainMapConfig = /** @type {ParityWindow} */ (window).dataService?.getMapById?.('deas-1972') || { id: 'deas-1972', name: 'District Electoral Areas - 1972' };
       const loaded = await adapter.loadSingleFeature(mainMapConfig, indexed.id, indexed.name);
       await new Promise((resolve) => map.once('idle', resolve));
+      /** @type {LoadedFeature} */
       const feature = loaded?.feature || {
         id: indexed.id,
         name: indexed.name,
@@ -515,7 +636,7 @@ try {
         geometry: null
       };
       const id = feature.id || indexed.id || feature.name;
-      window.uiController?.showFeatureInfo?.([{
+      /** @type {ParityWindow} */ (window).uiController?.showFeatureInfo?.([{
         mapId: 'deas-1972',
         id,
         name: feature.name,
@@ -568,6 +689,7 @@ try {
     await loadMainDail2024(mainPage);
     await bootTest2(test2Page, '#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
 
+    /** @type {{ candidate?: { main: Snapshot, test2: Snapshot }, party?: Snapshot, count?: Snapshot, transfers?: Snapshot, nonDail?: Snapshot, entity?: unknown }} */
     const modeEvidence = {};
     await clickElectionPaneControl(mainPage, /By Candidate/);
     await clickElectionPaneControl(test2Page, /By Candidate/);
@@ -608,7 +730,8 @@ try {
 
     await bootTest2(test2Page, '#layers=election-dil-ireann-2024-11-29&electionSelected=roscommon-galway&electionView=party&lng=-8.12&lat=53.48&zoom=7.00');
     const entityState = await test2Page.evaluate(() => {
-      const link = document.querySelector('#electionPaneContent [data-election-entity]');
+      // an entity link is an HTML element
+      const link = /** @type {HTMLElement | null} */ (document.querySelector('#electionPaneContent [data-election-entity]'));
       if (!link) return { hasEntityLink: false };
       const label = String(link.textContent || '').replace(/\s+/g, ' ').trim();
       link.click();
@@ -627,7 +750,7 @@ try {
     }, null, { timeout: 5000 });
     const entitySnapshot = await test2Page.evaluate(() => {
       const detail = document.querySelector('#catalogueDetailView');
-      const normalise = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+      const normalise = (/** @type {unknown} */ value) => String(value || '').replace(/\s+/g, ' ').trim();
       return {
         detailVisible: Boolean(detail && !detail.classList.contains('hidden') && detail.getBoundingClientRect().height > 20),
         detailText: normalise(detail?.textContent || ''),
@@ -649,7 +772,7 @@ try {
       seatCircles: document.querySelectorAll('.test2-election-seat-circle .seat-dot').length,
       renderer: document.querySelector('[data-election-renderer]')?.getAttribute('data-election-renderer') || '',
       labels: document.querySelectorAll('.maplibre-dom-label').length,
-      layers: (window.__civgraphTest2.mapController.map.getStyle().layers || []).filter((layer) => /election/.test(layer.id)).map((layer) => layer.id)
+      layers: (/** @type {ParityWindow} */ (window).__civgraphTest2.mapController.map.getStyle().layers || []).filter((layer) => /election/.test(layer.id)).map((layer) => layer.id)
     }));
     assert(state.seatCircles > 20, `/test2 election seat circles missing or too few: ${state.seatCircles}`);
     assert(state.renderer === 'test2-main-pane-contract', `/test2 election pane renderer mismatch: ${state.renderer}`);
@@ -679,6 +802,7 @@ try {
 
   await runCheck('browse.coverage', async () => {
     const browsePage = await context.newPage();
+    /** @type {{ hash: string, title: RegExp, minCards: number, action?: string, detail?: boolean }[]} */
     const routes = [
       { hash: '#/maps', title: /Maps/i, minCards: 1 },
       { hash: '#/elections', title: /Elections/i, minCards: 1, action: 'election' },
@@ -706,7 +830,7 @@ try {
   await runCheck('url.restore', async () => {
     await bootTest2(test2Page, '#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00&hidden=settlements-2015');
     const state = await test2Page.evaluate(() => {
-      const map = window.__civgraphTest2.mapController.map;
+      const map = /** @type {ParityWindow} */ (window).__civgraphTest2.mapController.map;
       const center = map.getCenter();
       return {
         path: location.pathname,
@@ -715,9 +839,9 @@ try {
         lat: center.lat,
         zoom: map.getZoom(),
         activeEntry: {
-          body: window.__civgraphTest2?.app?.elections?.activeEntry?.body || '',
-          date: window.__civgraphTest2?.app?.elections?.activeEntry?.date || '',
-          key: window.__civgraphTest2?.app?.elections?.activeEntry?.key || ''
+          body: /** @type {ParityWindow} */ (window).__civgraphTest2?.app?.elections?.activeEntry?.body || '',
+          date: /** @type {ParityWindow} */ (window).__civgraphTest2?.app?.elections?.activeEntry?.date || '',
+          key: /** @type {ParityWindow} */ (window).__civgraphTest2?.app?.elections?.activeEntry?.key || ''
         },
         activeElection: document.querySelector('#catalogueFlatView .flat-election-entry--active')?.textContent || ''
       };

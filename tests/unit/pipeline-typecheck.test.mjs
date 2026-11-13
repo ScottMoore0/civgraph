@@ -135,3 +135,37 @@ test('no type-check suppressions in scripts/build, scripts/check/rules or the D1
   if (/@ts-(nocheck|ignore|expect-error)/.test(readFileSync(path.join(REPO_ROOT, 'tests', 'records', 'd1-shim.mjs'), 'utf8'))) found.push('tests/records/d1-shim.mjs');
   assert.deepEqual(found, []);
 });
+
+// Every scripts/build and scripts/check/rules file is typed since 13 Nov 2026 (stream
+// rf10-build-types): each is listed in tsconfig.pipeline.json, or, for the three that drive a
+// browser through Playwright, in tsconfig.pipeline-playwright.json (the DOM library on top of the
+// same full-strict options).
+const playwright = JSON.parse(readFileSync(path.join(REPO_ROOT, 'config', 'tsconfig.pipeline-playwright.json'), 'utf8').replaceAll('"../', '"'));
+
+test('every scripts/build and scripts/check/rules file is in a strict pipeline config', () => {
+  /** @type {string[]} */
+  const files = [];
+  const walk = (/** @type {string} */ dir) => {
+    for (const e of readdirSync(path.join(REPO_ROOT, dir), { withFileTypes: true })) {
+      const rel = `${dir}/${e.name}`;
+      if (e.isDirectory()) walk(rel);
+      else if (/\.m?js$/.test(e.name)) files.push(rel);
+    }
+  };
+  walk('scripts/build');
+  walk('scripts/check/rules');
+  const listed = new Set([...config.include, ...playwright.include]);
+  assert.deepEqual(files.filter((f) => !listed.has(f)), [], 'a new scripts/build or scripts/check/rules file joins tsconfig.pipeline.json (or tsconfig.pipeline-playwright.json if its page callbacks need the DOM)');
+  assert.ok(TYPED_BUILD_AND_RULES.length >= 109, `${TYPED_BUILD_AND_RULES.length} build and check-rule files listed in tsconfig.pipeline.json; fewer than the 109 typed on 13 Nov 2026`);
+});
+
+test('tsconfig.pipeline-playwright.json keeps the pipeline options under full strict, with the DOM library', () => {
+  const o = playwright.compilerOptions;
+  assert.equal(o.strict, true);
+  assert.equal(o.noImplicitAny, true);
+  assert.ok(o.lib.includes('dom'), 'the page callbacks need the DOM types');
+  for (const [key, value] of Object.entries(config.compilerOptions)) {
+    if (key !== 'lib') assert.deepEqual(o[key], value, `${key} as in tsconfig.pipeline.json`);
+  }
+  for (const entry of ['scripts/build/og-preview.mjs', 'scripts/build/render_cited_sources.mjs', 'scripts/check/rules/general-parity.mjs']) assert.ok(playwright.include.includes(entry), entry);
+});

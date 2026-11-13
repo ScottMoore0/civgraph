@@ -26,16 +26,26 @@ const FILES = path.join(OUT, 'files');
 const LOG = path.join(OUT, 'rendered.jsonl');
 const HOST_GAP_MS = 3000;
 
+/** @typedef {{ key: string, url: string, host: string }} RenderTarget a row of render-targets.json */
+
+/** @type {RenderTarget[]} */
 const targets = JSON.parse(readFileSync(path.join(OUT, 'render-targets.json'), 'utf8'));
 const done = new Set(existsSync(LOG) ? readFileSync(LOG, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l).key) : []);
 const todo = targets.filter((t) => !done.has(t.key));
 console.log(`render: ${targets.length} targets, ${done.size} done, ${todo.length} to go`);
 
+/**
+ * Whether the host's robots.txt lets every agent fetch the path (true when it cannot be read).
+ * @param {string} origin
+ * @param {string} pathname
+ * @returns {Promise<boolean>}
+ */
 async function robotsAllows(origin, pathname) {
   try {
     const res = await fetch(`${origin}/robots.txt`);
     if (!res.ok) return true;
     let applies = false;
+    /** @type {string[]} */
     const disallow = [];
     for (const raw of (await res.text()).split('\n')) {
       const line = raw.replace(/#.*/, '').trim();
@@ -86,7 +96,7 @@ for (const [n, target] of todo.entries()) {
     })}\n`);
     ok += good ? 1 : 0;
   } catch (error) {
-    appendFileSync(LOG, `${JSON.stringify({ ...row, source: null, outcome: 'render-error', error: String(error.message || error).slice(0, 200) })}\n`);
+    appendFileSync(LOG, `${JSON.stringify({ ...row, source: null, outcome: 'render-error', error: String(/** @type {Error} */ (error).message || error).slice(0, 200) })}\n`);
   }
   if ((n + 1) % 25 === 0 || n + 1 === todo.length) console.log(`  rendered ${n + 1}/${todo.length} | ok ${ok}`);
 }

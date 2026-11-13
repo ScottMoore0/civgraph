@@ -1,0 +1,33 @@
+{
+  "//": "The pipeline scripts that drive a browser through Playwright (scripts/build/og-preview.mjs, scripts/build/render_cited_sources.mjs, scripts/check/rules/general-parity.mjs): tsconfig.pipeline.json's options under full strict, with the DOM library added for their page callbacks (page.evaluate and waitForFunction bodies run in the browser and use document, window and location). The DOM types would change the Node fetch types for the whole pipeline program, so these three are checked here instead (13 Nov 2026, stream rf10-build-types). Their callbacks cast window to the hooks they read. Run by `npm run check:types:pipeline`; tests/unit/pipeline-typecheck.test.mjs keeps every scripts/build and scripts/check/rules file in this config or tsconfig.pipeline.json.",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "es2023",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "types": ["node"],
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noImplicitThis": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "useUnknownInCatchVariables": true,
+    "strictPropertyInitialization": true,
+    "strictBuiltinIteratorReturn": true,
+    "strict": true
+  },
+  "include": [
+    "../scripts/build/og-preview.mjs",
+    "../scripts/build/render_cited_sources.mjs",
+    "../scripts/check/rules/general-parity.mjs"
+  ]
+}
