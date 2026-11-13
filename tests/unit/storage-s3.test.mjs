@@ -6,6 +6,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';
+import { createHash } from 'node:crypto';
 import { copySource, isNotFound, s3BlobStore, S3_DELETE_BATCH } from '../../packages/storage/src/s3.mjs';
 import { createFakeS3 } from '../fixtures/s3-fake/client-s3.mjs';
 
@@ -110,4 +111,58 @@ test('isNotFound: a 404, NotFound or NoSuchKey; nothing else', () => {
 
 test('s3BlobStore refuses something that is not a client', () => {
   assert.throws(() => s3BlobStore({ bucket: 'b', client: /** @type {any} */ ({}), commands: /** @type {any} */ ({}) }), /not an S3 client/);
+});
+
+test('put sends Content-Encoding only when given, after the Content-Type', async () => {
+  const { sdk, store } = make();
+  await store.put('t/0/0/0.pbf', Buffer.from('tile'), { contentType: 'application/x-protobuf', contentEncoding: 'gzip' });
+  const [put] = sent(sdk);
+  assert.deepEqual(Object.keys(put), ['op', 'Bucket', 'Key', 'Body', 'ContentType', 'ContentEncoding']);
+  assert.equal(put.ContentEncoding, 'gzip');
+  assert.equal((await store.head('t/0/0/0.pbf')).contentEncoding, 'gzip');
+});
+
+/** A part source over `bytes`, counting what was read. */
+function source(bytes) {
+  const reads = [];
+  return { reads, size: bytes.length, read: async (offset, length) => { reads.push([offset, length]); return bytes.subarray(offset, offset + length); } };
+}
+
+test('putMultipart sends equal parts in order, reading each when it is sent, and completes', async () => {
+  const { sdk, store } = make();
+  const bytes = Buffer.from('abcdefghijklmnopqrstuvwxyz');
+  const src = source(bytes);
+  assert.deepEqual(await store.putMultipart('big/a.pmtiles', src, { partSize: 10, contentType: 'application/octet-stream', cacheControl: 'public' }), { parts: 3 });
+  assert.deepEqual(src.reads, [[0, 10], [10, 10], [20, 6]]);
+  const calls = sent(sdk);
+  assert.deepEqual(calls.map((c) => [c.op, c.PartNumber ?? null, c.ContentLength ?? null]), [
+    ['CreateMultipartUpload', null, null], ['UploadPart', 1, 10], ['UploadPart', 2, 10], ['UploadPart', 3, 6], ['CompleteMultipartUpload', null, null],
+  ]);
+  assert.deepEqual(Object.keys(calls[0]), ['op', 'Bucket', 'Key', 'ContentType', 'CacheControl'], 'only the headers given, on the create');
+  assert.deepEqual(calls[4].MultipartUpload.Parts.map((p) => p.PartNumber), [1, 2, 3]);
+  assert.ok(calls[4].MultipartUpload.Parts.every((p) => /^"[0-9a-f]{32}"$/.test(p.ETag)), 'each part\'s ETag goes back in the completion');
+  const done = sdk.calls.at(-1).written;
+  assert.equal(done.size, 26);
+  assert.equal(done.sha256, createHash('sha256').update(bytes).digest('hex'));
+  const head = await store.head('big/a.pmtiles');
+  assert.equal(head.size, 26);
+  assert.equal(head.contentType, 'application/octet-stream');
+  assert.equal(head.cacheControl, 'public');
+});
+
+test('putMultipart aborts the upload when a part fails, and throws the part\'s error', async () => {
+  const { sdk, store } = make({ fail: [{ op: 'UploadPart', key: 'big/b.pmtiles', status: 503, name: 'SlowDown' }] });
+  await assert.rejects(store.putMultipart('big/b.pmtiles', source(Buffer.alloc(25)), { partSize: 10 }), { name: 'SlowDown' });
+  assert.deepEqual(sent(sdk).map((c) => c.op), ['CreateMultipartUpload', 'UploadPart', 'AbortMultipartUpload']);
+  assert.equal(sent(sdk)[2].UploadId, sent(sdk)[1].UploadId);
+  assert.equal(await store.head('big/b.pmtiles'), null, 'nothing was written');
+});
+
+test('putMultipart refuses a short read, an empty source and a bad part size', async () => {
+  const { sdk, store } = make();
+  const short = { size: 30, read: async (offset, length) => Buffer.alloc(offset === 10 ? length - 1 : length) };
+  await assert.rejects(store.putMultipart('big/c', short, { partSize: 10 }), /read 9 of 10 bytes at 10/);
+  assert.deepEqual(sent(sdk).map((c) => c.op), ['CreateMultipartUpload', 'UploadPart', 'AbortMultipartUpload']);
+  await assert.rejects(store.putMultipart('big/d', { size: 0, read: async () => Buffer.alloc(0) }, { partSize: 10 }), RangeError);
+  await assert.rejects(store.putMultipart('big/e', source(Buffer.alloc(5)), { partSize: 0 }), RangeError);
 });
