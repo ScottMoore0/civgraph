@@ -26,6 +26,174 @@ import { statesOf } from '../../packages/registries/src/statuses.mjs';
 import { electionBody, geographyRuleFor } from '../../packages/registries/src/election-bodies.mjs';
 import { areaCandidateColours, areaCountSheet, areaFeatureNames } from '../../packages/core/src/area-results.mjs';
 
+/** @typedef {import('../../packages/core/src/election-domain.mjs').SourceRow} SourceRow */
+/** @typedef {import('../../packages/core/src/election-domain.mjs').SourceConstituency} SourceConstituency */
+/** @typedef {import('../../packages/core/src/election-domain.mjs').ContestResult} ContestResult */
+/** @typedef {import('../../packages/core/src/election-domain.mjs').ResultCandidate} ResultCandidate */
+/**
+ * A contest as a bundle holds it: summarizeResult's result with its classification and map
+ * match. Its localBody is null outside the NI district councils, where election-domain's
+ * ContestResult has only a string.
+ * @typedef {{ [K in keyof ContestResult as K extends 'localBody' ? never : K]: ContestResult[K] } & { localBody?: string | null }} BundleResult
+ */
+
+/**
+ * A candidate of a scraper payload (a contest file's `candidates[]`, an official Dail record's,
+ * a fix's replacement list): the fields this build reads by name; the rest stay unknown.
+ * @typedef {SourceRow & {
+ *   name?: string,
+ *   candidateName?: string,
+ *   party?: string,
+ *   Party?: string,
+ *   counts?: unknown[],
+ *   first_pref?: unknown,
+ *   firstPrefs?: unknown,
+ *   ei_candidate_id?: string,
+ *   status?: string,
+ *   gender?: string,
+ *   sourcePersonId?: string
+ * }} ScraperCandidate
+ */
+
+/** A seat's own date in an 1832-1880 general election (Walker overlay). @typedef {{ label: string, date?: string, page?: unknown }} WalkerDateNote */
+
+/**
+ * One contest file as read (election-domain's RawResult: a count-group file or a scraper
+ * payload), with the fields the overlays below read and set.
+ * @typedef {import('../../packages/core/src/election-domain.mjs').RawResult & {
+ *   candidates?: ScraperCandidate[],
+ *   ei_candidates?: Array<{ id?: string, name?: string }>,
+ *   officialDail?: (SourceRow & { constituencyNumber?: unknown, constituencyId?: unknown }) | null,
+ *   constituency?: string,
+ *   cause?: string,
+ *   note?: string,
+ *   pollDate?: string,
+ *   pollDateKind?: string,
+ *   dateNote?: WalkerDateNote,
+ *   electorateNote?: string,
+ *   electorateSource?: string,
+ *   franchise?: string,
+ *   boundaryNote?: string,
+ *   correctionNote?: string,
+ *   sourceNote?: string,
+ *   countSourceNote?: string
+ * }} RawResult
+ */
+
+/**
+ * One body of the elections index (data/elections-source/data/elections_index.json) and the
+ * election dates it holds.
+ * @typedef {{
+ *   name: string,
+ *   slug: string,
+ *   bodyType?: string,
+ *   partyId?: string,
+ *   dates?: Array<{ date: string, constituencies?: string[], totalAreas?: number }>
+ * }} ElectionIndexBody
+ * @typedef {{ bodies?: ElectionIndexBody[] }} ElectionIndex
+ */
+
+/**
+ * One election to build: an index body's date, or (the NI district councils) every council's
+ * contests of one date grouped under 'local-government'.
+ * @typedef {{
+ *   body: string,
+ *   bodySlug: string,
+ *   bodyGroup: string | null,
+ *   bodyType?: string,
+ *   partyId?: string,
+ *   date: string,
+ *   bodyIndexes: number[],
+ *   constituencies: string[],
+ *   totalAreas?: number | null,
+ *   bodies?: string[],
+ *   localBodyByConstituency?: Record<string, string>,
+ *   displayTitle?: string,
+ *   displayProvider?: string
+ * }} ElectionEntry
+ */
+
+/**
+ * A map layer of render/metadata/maps-test.json, by the fields this build reads.
+ * @typedef {{
+ *   id: string,
+ *   sourceMapId?: string,
+ *   aliasOf?: string,
+ *   aliasTargetLayerId?: string,
+ *   labelProperty?: string,
+ *   promoteId?: string,
+ *   geometryType?: string,
+ *   sourceFile?: string,
+ *   featureIndexUrl?: string,
+ *   bounds?: unknown
+ * }} MapLayer
+ */
+
+/** @typedef {[number, number]} LonLat */
+/** @typedef {{ west: number, south: number, east: number, north: number }} Bounds */
+/**
+ * Where a contest's label or seat circle goes.
+ * @typedef {{ center: unknown, bounds?: Bounds | null, method: string, area: number | null }} Anchor
+ */
+
+/**
+ * A feature of a layer's feature index (render/metadata/feature-indexes/<layer>.json).
+ * @typedef {{ id?: string | number | null, name: string, aliases?: string[], center?: unknown, bounds?: Partial<Bounds> | null, anchor?: Anchor }} FeatureItem
+ * @typedef {{ items?: FeatureItem[] }} FeatureIndex
+ */
+
+/**
+ * Feature lookup by every name key, with the features themselves for pinned matches.
+ * @typedef {Map<string, FeatureItem> & { items?: FeatureItem[] }} FeatureLookup
+ */
+
+/**
+ * A layer's anchor index (render/metadata/election-anchors-test2/<layer>.json, plus a lookup
+ * by name key).
+ * @typedef {{ id: unknown, name: string, aliases: string[], anchor: Anchor, center: unknown, area: number | null, bounds?: Partial<Bounds> | null }} AnchorItem
+ * @typedef {{
+ *   schemaVersion: number,
+ *   layerId: string,
+ *   sourceMapId: string | null,
+ *   generatedFrom: string | null,
+ *   generatedFromSourceGeometry: boolean,
+ *   url: string,
+ *   items: AnchorItem[],
+ *   byName: Map<string, AnchorItem>
+ * }} AnchorIndex
+ */
+
+/**
+ * The map an election is drawn on (resolveElectionGeography).
+ * @typedef {{
+ *   sourceMapId: string | null,
+ *   singleConstituency?: boolean,
+ *   featureNamePrefix?: string,
+ *   featureOverrides?: Record<string, string>
+ * }} Geography
+ */
+
+/** A matched feature as a result records it. @typedef {{ id: string | number | null, name: string, aliases: string[] }} FeatureMatch */
+
+/**
+ * A result with no polygon of its own (a university seat, the Forum's regional list), placed
+ * off the north-east of the map.
+ * @typedef {{ id: string, name: string, aliases: string[], syntheticRegion: string, syntheticNonGeographic: true, anchor: Anchor }} SyntheticRegion
+ */
+
+/**
+ * The election-level classification (classifyElection, classifyElectionResult).
+ * @typedef {{
+ *   contestType: string,
+ *   kind: string | null,
+ *   votingSystem: string | null,
+ *   contestStatus: string,
+ *   candidateRowsExpected: boolean,
+ *   transferDataExpected: boolean,
+ *   votesPerElector: number | null
+ * }} ElectionMetadata
+ */
+
 const ROOT = process.cwd();
 const ELECTION_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections');
 const ELECTION_INDEX = path.join(ROOT, 'data/elections-source', 'data', 'elections_index.json');
@@ -50,12 +218,58 @@ const DAIL_APPROVED_CANDIDATE_ALIASES = path.join(ROOT, 'data', 'elections', 'da
 // Birth and death dates ElectionsIreland publishes for source person ids whose careers
 // look impossible. Written by scripts/ingest/electionsireland/harvest_ei_candidate_ids.py --lifespans.
 const EI_CANDIDATE_LIFESPANS = path.join(ROOT, 'data', 'elections', 'persons', 'ei-candidate-lifespans.json');
+/**
+ * One Dail contest of the official results (data/elections/dail-official-results.json).
+ * @typedef {{
+ *   constituency?: string,
+ *   constituencyId?: string,
+ *   constituencyNumber?: unknown,
+ *   constituencyIrish?: unknown,
+ *   sourceFiles?: unknown[],
+ *   electorate?: unknown,
+ *   totalPoll?: unknown,
+ *   spoiled?: unknown,
+ *   validPoll?: unknown,
+ *   turnoutPct?: unknown,
+ *   seats?: unknown,
+ *   quota?: unknown,
+ *   countCount?: unknown,
+ *   candidateCount?: unknown,
+ *   candidates?: Record<string, OfficialDailCandidate>
+ * }} OfficialDailRecord
+ * @typedef {{
+ *   candidateId?: string | number | null,
+ *   name?: string,
+ *   party?: string,
+ *   firstPref?: unknown,
+ *   gender?: unknown,
+ *   dailAbbreviation?: unknown,
+ *   officialStatus?: unknown
+ * }} OfficialDailCandidate
+ */
+/** @type {{ elections?: Record<string, { constituencies?: Record<string, OfficialDailRecord> }> }} */
 const dailOfficialResults = existsSync(DAIL_OFFICIAL_RESULTS)
   ? readJson(DAIL_OFFICIAL_RESULTS)
   : { elections: {} };
+/**
+ * An approved alias of a Dail candidate's name (data/elections/dail-approved-candidate-aliases.json).
+ * @typedef {{
+ *   electionDate?: string,
+ *   electionId?: string,
+ *   sourceCandidateName?: string,
+ *   canonicalCandidateName?: string,
+ *   canonicalCandidateId?: string | number | null,
+ *   sourceConstituency?: string,
+ *   canonicalConstituency?: string,
+ *   canonicalConstituencyId?: string
+ * }} DailCandidateAlias
+ * @typedef {DailCandidateAlias & { sourceNameKeys: Set<string>, canonicalNameKeys: Set<string>, constituencyKeys: Set<string> }} IndexedDailCandidateAlias
+ */
+/** @type {{ aliases?: DailCandidateAlias[] }} */
 const dailApprovedCandidateAliases = existsSync(DAIL_APPROVED_CANDIDATE_ALIASES)
   ? readJson(DAIL_APPROVED_CANDIDATE_ALIASES)
   : { aliases: [] };
+/** @type {Map<string, IndexedDailCandidateAlias[]>} */
 let dailApprovedCandidateAliasIndex = new Map();
 
 // Election source-backed corrections (generated from the 2026-06-28/30 Wikipedia gap audit).
@@ -72,8 +286,11 @@ const NI_LOCAL_VALID_POLL_CORRECTIONS = path.join(ROOT, 'data', 'elections', 'co
 // divisions. ...", shown at the head of the map panel's results so a partial round is not read as
 // the whole result. Browse shows the same line (build-browse-indexes.mjs).
 const ROUND_COMPLETENESS = path.join(ROOT, 'data', 'elections', 'round-completeness.json');
+/** @type {Record<string, { text?: string }>} */
 const roundCompleteness = existsSync(ROUND_COMPLETENESS) ? readJson(ROUND_COMPLETENESS).rounds || {} : {};
+/** @type {{ aliases?: Record<string, Record<string, string>> }} */
 const electionSourceAliasDoc = existsSync(ELECTION_SOURCE_ALIASES) ? readJson(ELECTION_SOURCE_ALIASES) : { aliases: {} };
+/** @type {{ records?: Array<{ electionKey: string, constituency: string, validPoll: number, spoilt?: number | null, electorate?: number | null }> }} */
 const niLocalValidPollDoc = existsSync(NI_LOCAL_VALID_POLL_CORRECTIONS) ? readJson(NI_LOCAL_VALID_POLL_CORRECTIONS) : { records: [] };
 const electionSourceAliasIndex = new Map(
   Object.entries(electionSourceAliasDoc.aliases || {}).map(([electionKey, byConstituency]) => [
@@ -85,6 +302,11 @@ const niLocalValidPollIndex = new Map(
   (niLocalValidPollDoc.records || []).map((record) => [`${record.electionKey}::${normalizeName(record.constituency)}`, record])
 );
 
+/**
+ * @param {string} electionKey
+ * @param {string} constituency
+ * @param {string} dateDir
+ */
 function electionSourceAliasFile(electionKey, constituency, dateDir) {
   const byConstituency = electionSourceAliasIndex.get(electionKey);
   if (!byConstituency) return null;
@@ -94,6 +316,13 @@ function electionSourceAliasFile(electionKey, constituency, dateDir) {
   return existsSync(full) ? full : null;
 }
 
+/**
+ * @template {RawResult | null | undefined} R
+ * @param {string} electionKey
+ * @param {string} constituency
+ * @param {R} rawResult
+ * @returns {R}
+ */
 function applyNiLocalValidPollCorrection(electionKey, constituency, rawResult) {
   const info = rawResult?.Constituency?.countInfo;
   if (!info) return rawResult;
@@ -122,15 +351,57 @@ const WALKER_CORRECTIONS_DIR = path.join(ROOT, 'data', 'elections', 'corrections
 const CORRECTIONS = loadRegistry('statuses');
 const CORRECTION_APPLIED = CORRECTIONS.machines.correction.appliedValue;
 const CORRECTION_STATES = new Set(statesOf(CORRECTIONS, 'correction'));
+/**
+ * What each Walker (and Wikipedia, Elliott, Gallagher) overlay field holds.
+ * @typedef {{
+ *   electorate: unknown,
+ *   electorateSource: string,
+ *   cause: string,
+ *   seats: unknown,
+ *   dateNote: WalkerDateNote,
+ *   party: Array<{ candidate?: string, party: unknown }>,
+ *   votes: Array<{ candidate?: string, votes: unknown }>,
+ *   pollDateKind: string
+ * }} WalkerValues
+ * @typedef {{ [K in keyof WalkerValues]?: { value: WalkerValues[K], onlyIfEmpty: boolean } }} WalkerCorrection
+ */
+/**
+ * A record of the overlay files, by the fields the readers below use.
+ * @typedef {{
+ *   sourceFile: string,
+ *   status?: string,
+ *   field?: string,
+ *   proposedValue?: unknown,
+ *   electorate?: unknown,
+ *   gallagher?: { electorate?: unknown },
+ *   decision?: string,
+ *   source?: { title?: string },
+ *   cause?: string,
+ *   dateKind?: string,
+ *   contested?: boolean,
+ *   date?: string,
+ *   page?: unknown,
+ *   candidate?: string
+ * }} WalkerRecord
+ */
+/** @type {Map<string, WalkerCorrection>} */
 const walkerCorrectionIndex = new Map();
+/**
+ * @template {keyof WalkerValues} K
+ * @param {string | undefined} sourceFile
+ * @param {K} field
+ * @param {WalkerValues[K] | null | undefined} value
+ * @param {boolean} [onlyIfEmpty]
+ */
 function addWalkerCorrection(sourceFile, field, value, onlyIfEmpty = false) {
   if (!sourceFile || value == null) return;
   const key = sourceFile.replace(/\\/g, '/');
   const record = walkerCorrectionIndex.get(key) || {};
-  record[field] = { value, onlyIfEmpty };
+  // value is of field's own type (the parameter says so); TS cannot match a generic key's write.
+  record[field] = /** @type {WalkerCorrection[K]} */ ({ value, onlyIfEmpty });
   walkerCorrectionIndex.set(key, record);
 }
-for (const [file, read] of [
+for (const [file, read] of /** @type {Array<[string, (doc: { records?: WalkerRecord[] }) => void]>} */ ([
   ['walker-electorate-review.json', (doc) => (doc.records || [])
     .filter((r) => r.status === CORRECTION_APPLIED && r.field === 'electorate')
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'electorate', r.proposedValue))],
@@ -190,9 +461,10 @@ for (const [file, read] of [
   ['walker-1818-1831-return-dates.json', (doc) => (doc.records || [])
     .filter((r) => r.status === CORRECTION_APPLIED)
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'pollDateKind', r.dateKind))]
-]) {
+])) {
   const full = path.join(WALKER_CORRECTIONS_DIR, file);
   if (!existsSync(full)) continue;
+  /** @type {{ records?: WalkerRecord[] }} */
   const doc = readJson(full);
   // A Walker review status outside the registry's list is not applied, as before; the build names it.
   const unknown = !file.startsWith('walker-') ? [] : [...new Set((doc.records || []).map((r) => r.status).filter((s) => s != null && !CORRECTION_STATES.has(s)))];
@@ -200,6 +472,12 @@ for (const [file, read] of [
   read(doc);
 }
 
+/**
+ * @template {RawResult | null | undefined} R
+ * @param {string | null | undefined} resultPath
+ * @param {R} rawResult
+ * @returns {R}
+ */
 function applyWalkerCorrections(resultPath, rawResult) {
   if (!resultPath || !rawResult) return rawResult;
   const record = walkerCorrectionIndex.get(slash(path.relative(ROOT, resultPath)));
@@ -233,16 +511,20 @@ function applyWalkerCorrections(resultPath, rawResult) {
   }
   if (record.pollDateKind && rawResult.pollDate && !rawResult.pollDateKind) rawResult.pollDateKind = record.pollDateKind.value;
   if (record.seats && info) {
-    const seats = record.seats.value;
+    // walker-seat-corrections.json gives each seat count as a number.
+    const seats = /** @type {number} */ (record.seats.value);
     info.Number_Of_Seats = String(seats);
     // The second member was imported as defeated. Top the poll by votes; an unopposed double
     // return carries no votes, and then every candidate returned was elected.
-    const rows = rawResult.Constituency.countGroup || [];
-    const isElected = (row) => /^elected$/i.test(String(row.Status || '').trim());
+    // info is this Constituency's countInfo, so the Constituency is there.
+    const rows = /** @type {SourceConstituency} */ (rawResult.Constituency).countGroup || [];
+    const isElected = (/** @type {SourceRow} */ row) => /^elected$/i.test(String(row.Status || '').trim());
     if (rows.filter(isElected).length < seats) {
-      const polled = rows.filter((row) => parseNumber(row.Total_Votes) > 0);
+      // A row with no figure (null) compares as no votes.
+      const polled = rows.filter((row) => /** @type {number} */ (parseNumber(row.Total_Votes)) > 0);
+      // Every polled row has a figure.
       const winners = polled.length
-        ? [...polled].sort((a, b) => parseNumber(b.Total_Votes) - parseNumber(a.Total_Votes)).slice(0, seats)
+        ? [...polled].sort((a, b) => /** @type {number} */ (parseNumber(b.Total_Votes)) - /** @type {number} */ (parseNumber(a.Total_Votes))).slice(0, seats)
         : (rows.length <= seats ? rows : []);
       for (const row of winners) row.Status = 'Elected';
     }
@@ -267,11 +549,37 @@ function applyWalkerCorrections(resultPath, rawResult) {
 //   restoreStageFractions {} -- stage totals the import cut to whole votes, rebuilt from the
 //                    transfers (scripts/lib/stage-fractions.mjs); after the other operations
 const SOURCE_CHECKED_FIXES = path.join(ROOT, 'data', 'elections', 'corrections', 'source-checked-fixes.json');
+/**
+ * One operation of a source-checked fix (the list above): `op` names it, and it carries the
+ * fields that operation uses.
+ * @typedef {{
+ *   op: string,
+ *   totalsOnly?: boolean,
+ *   path?: string,
+ *   value?: unknown,
+ *   name?: string,
+ *   set?: SourceRow,
+ *   count?: unknown,
+ *   candidateId?: unknown,
+ *   row?: SourceRow,
+ *   rows?: SourceRow[],
+ *   candidates?: ScraperCandidate[]
+ * }} SourceCheckedFixOp
+ * @typedef {{
+ *   sourceFile: string,
+ *   operations?: SourceCheckedFixOp[],
+ *   source?: { publisher?: string, title?: string },
+ *   reason?: string,
+ *   sourceNote?: string
+ * }} SourceCheckedFix
+ */
+/** @type {Map<string, SourceCheckedFix>} */
 const sourceCheckedFixIndex = new Map(
   (existsSync(SOURCE_CHECKED_FIXES) ? readJson(SOURCE_CHECKED_FIXES).records || [] : [])
-    .map((record) => [String(record.sourceFile).replace(/\\/g, '/'), record])
+    .map((/** @type {SourceCheckedFix} */ record) => [String(record.sourceFile).replace(/\\/g, '/'), record])
 );
 
+/** @param {SourceRow | null | undefined} row */
 function fixCandidateName(row) {
   return normalizeName(row?.candidateName || row?.name || `${row?.Firstname || ''} ${row?.Surname || ''}`);
 }
@@ -283,6 +591,11 @@ function fixCandidateName(row) {
 // count sidecar replaced them, the source-checked fixes have already corrected those same rows
 // in place; where one did, the fixes landed on the sidecar's copy, so apply them to a copy of the
 // flat rows as well, or the totals keep figures the contest itself no longer shows.
+/**
+ * @param {string | null} resultPath
+ * @param {RawResult | null} officialRawResult
+ * @param {RawResult | null} wikiEnrichedRawResult
+ */
 function rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) {
   if (!officialRawResult || wikiEnrichedRawResult === officialRawResult) return officialRawResult;
   return applyPartyLabelInterpretations(resultPath,
@@ -297,6 +610,12 @@ function rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) {
 // The file is part of the parties registry (data/registries/parties.json parts.labelInterpretations).
 const partyLabelInterpreter = createPartyLabelInterpreter(labelInterpretationRules(loadRegistry('parties')));
 
+/**
+ * @template {RawResult | null | undefined} R
+ * @param {string | null | undefined} resultPath
+ * @param {R} rawResult
+ * @returns {R}
+ */
 function applyPartyLabelInterpretations(resultPath, rawResult) {
   if (!resultPath || !rawResult) return rawResult;
   const [body = '', date = ''] = slash(path.relative(ELECTION_ROOT, resultPath)).split('/');
@@ -309,7 +628,13 @@ function applyPartyLabelInterpretations(resultPath, rawResult) {
 // sidecar then finds the candidates it matches its rows to, and the national totals, built from
 // the flat rows, count the right votes; replaced later, the list would overwrite the sidecar's
 // count-by-count rows instead.
+/** @type {Set<string>} */
 const prefilledImports = new Set();
+/**
+ * @param {string} resultPath
+ * @param {RawResult} rawResult
+ * @returns {RawResult}
+ */
 function fillReplacedImport(resultPath, rawResult) {
   if (!resultPath || !rawResult || rawResult.Constituency?.countGroup) return rawResult;
   if (!Array.isArray(rawResult.candidates)) return rawResult;
@@ -317,9 +642,17 @@ function fillReplacedImport(resultPath, rawResult) {
   const fill = sourceCheckedFixIndex.get(key)?.operations?.find((op) => op.op === 'replaceCandidates');
   if (!fill) return rawResult;
   prefilledImports.add(key);
-  return { ...rawResult, candidates: fill.candidates.map((candidate) => ({ ...candidate })) };
+  // A replaceCandidates operation carries its list.
+  return { ...rawResult, candidates: /** @type {ScraperCandidate[]} */ (fill.candidates).map((candidate) => ({ ...candidate })) };
 }
 
+/**
+ * @template {RawResult | null | undefined} R
+ * @param {string | null | undefined} resultPath
+ * @param {R} rawResult
+ * @param {{ lenient?: boolean }} [options]
+ * @returns {R}
+ */
 function applySourceCheckedFixes(resultPath, rawResult, { lenient = false } = {}) {
   if (!resultPath || !rawResult) return rawResult;
   const record = sourceCheckedFixIndex.get(slash(path.relative(ROOT, resultPath)));
@@ -336,9 +669,12 @@ function applySourceCheckedFixes(resultPath, rawResult, { lenient = false } = {}
     if (op.op === 'replaceCandidates' && prefilledImports.has(slash(path.relative(ROOT, resultPath)))) continue;
     if (op.op === 'set') {
       const keys = String(op.path).split('.');
+      /** @type {SourceRow} */
       let target = rawResult;
-      for (const key of keys.slice(0, -1)) target = target[key] ??= {};
-      target[keys.at(-1)] = op.value;
+      // Each step of the path is an object, or is made one.
+      for (const key of keys.slice(0, -1)) target = /** @type {SourceRow} */ (target[key] ??= {});
+      // split() returns at least one part.
+      target[/** @type {string} */ (keys.at(-1))] = op.value;
     } else if (op.op === 'candidate') {
       const want = normalizeName(op.name);
       const matched = rows().filter((row) => fixCandidateName(row) === want);
@@ -362,9 +698,11 @@ function applySourceCheckedFixes(resultPath, rawResult, { lenient = false } = {}
     } else if (op.op === 'addCandidateRows') {
       const list = rawResult.Constituency?.countGroup || (rawResult.candidates ??= []);
       if (!op.rows?.length) throw new Error(`source-checked-fixes: ${record.sourceFile} addCandidateRows has no rows`);
-      if (!list.some((row) => fixCandidateName(row) === fixCandidateName(op.rows[0]))) list.push(...op.rows.map((row) => ({ ...row })));
+      // op.rows was found non-empty on the line above.
+      if (!list.some((row) => fixCandidateName(row) === fixCandidateName(/** @type {SourceRow[]} */ (op.rows)[0]))) list.push(...op.rows.map((row) => ({ ...row })));
     } else if (op.op === 'replaceCandidates') {
-      rawResult.candidates = op.candidates.map((candidate) => ({ ...candidate }));
+      // A replaceCandidates operation carries its list.
+      rawResult.candidates = /** @type {ScraperCandidate[]} */ (op.candidates).map((candidate) => ({ ...candidate }));
     } else if (op.op === 'replaceCountRows') {
       if (!rawResult.Constituency?.countGroup) throw new Error(`source-checked-fixes: ${record.sourceFile} has no count rows to replace`);
       if (!op.rows?.length) throw new Error(`source-checked-fixes: ${record.sourceFile} replaceCountRows has no rows`);
@@ -394,11 +732,18 @@ function applySourceCheckedFixes(resultPath, rawResult, { lenient = false } = {}
 // "Democratic Unionist Party - D.U.P."). Each contest names the sheet the descriptions come from;
 // candidates are matched by name as the contest finally reads, after the source-checked fixes.
 const BALLOT_DESCRIPTIONS = path.join(ROOT, 'data', 'elections', 'ballot-descriptions.json');
+/** @type {Map<string, { candidates?: Record<string, string> }>} */
 const ballotDescriptionIndex = new Map(
   Object.entries(existsSync(BALLOT_DESCRIPTIONS) ? readJson(BALLOT_DESCRIPTIONS).contests || {} : {})
     .map(([sourceFile, contest]) => [sourceFile.replace(/\\/g, '/'), contest])
 );
 
+/**
+ * @template {RawResult | null | undefined} R
+ * @param {string | null | undefined} resultPath
+ * @param {R} rawResult
+ * @returns {R}
+ */
 function applyBallotDescriptions(resultPath, rawResult) {
   if (!resultPath || !rawResult) return rawResult;
   const contest = ballotDescriptionIndex.get(slash(path.relative(ROOT, resultPath)));
@@ -425,6 +770,11 @@ function applyBallotDescriptions(resultPath, rawResult) {
 // as the MP. 446 of 1,355 pre-1918 Westminster rows came in this way. Restore name and party;
 // an unopposed return has no vote. Checked against Wikipedia's lists of MPs elected: 410 of the
 // 411 restored names that could be matched to a seat name the member Wikipedia gives.
+/**
+ * @template {RawResult | null | undefined} R
+ * @param {R} rawResult
+ * @returns {R}
+ */
 function repairShiftedUnopposedRows(rawResult) {
   const rows = rawResult?.Constituency?.countGroup;
   if (!Array.isArray(rows)) return rawResult;
@@ -490,6 +840,7 @@ const NAME_ALIASES = new Map([
 
 dailApprovedCandidateAliasIndex = buildDailApprovedCandidateAliasIndex(dailApprovedCandidateAliases);
 
+/** @type {Map<string, Map<string, string | string[]>>} */
 const SOURCE_NAME_ALIASES = new Map([
   // The 1929-72 Stormont seat for Antrim town is "Antrim Borough" in every result, but both
   // constituency maps label it plain ANTRIM, so it was the one seat left uncoloured.
@@ -560,7 +911,7 @@ const SOURCE_NAME_ALIASES = new Map([
   ['dail-1947', new Map([
     ['Cork', 'Cork Borough'],
     // Filed by its period name; the 1959 referendum's results call it Laois–Offaly.
-    ['Leix-Offaly', ['Leix Offaly', 'Laois Offaly']],
+    ['Leix-Offaly', /** @type {string | string[]} */ (['Leix Offaly', 'Laois Offaly'])],
     ['Dublin North (Central)', 'Dublin North Central'],
     ['Dublin North (East)', 'Dublin North East'],
     ['Dublin North (West)', 'Dublin North West'],
@@ -818,8 +1169,22 @@ const PARTY_COLOURS = new Map([
   ['leave', '#d46a4c']
 ]);
 
+/**
+ * A geography mode of an election (geographyModes): the main results, or a second geography
+ * (turnout by constituency, area results) with its own results.
+ * @typedef {{ id: string, results?: unknown[], mainLikeTotals?: unknown, [field: string]: unknown }} GeographyMode
+ */
+
+/**
+ * An election bundle as written (ELECTION_BUNDLE_DIR/<key>.json): buildElectionBundle's object,
+ * and the geography modes main adds.
+ * @typedef {Awaited<ReturnType<typeof buildElectionBundle>> & { geographyModes?: GeographyMode[] }} ElectionBundle
+ */
+
 async function main() {
+  /** @type {ElectionIndex} */
   const electionIndex = readJson(ELECTION_INDEX);
+  /** @type {{ layers?: MapLayer[] }} */
   const mapMetadata = readJson(MAP_METADATA);
   const layers = Array.isArray(mapMetadata.layers) ? mapMetadata.layers : [];
   const layerBySource = buildLayerLookup(layers);
@@ -852,6 +1217,7 @@ async function main() {
     const layer = geography?.sourceMapId ? layerBySource.get(geography.sourceMapId) : null;
     const councilLayer = councilGeography?.sourceMapId ? layerBySource.get(councilGeography.sourceMapId) : null;
     const featureIndex = featureIndexForLayer(featureIndexes, layer);
+    /** @type {ElectionBundle} */
     const bundle = await buildElectionBundle(entry, geography, layer, featureIndex, previousKeyByKey.get(electionKey(entry)) || null, {
       councilGeography,
       councilLayer
@@ -968,8 +1334,14 @@ async function main() {
   console.log(`- report: ${path.relative(ROOT, OUT_REPORT)}`);
 }
 
+/**
+ * @param {ElectionIndex} index
+ * @returns {ElectionEntry[]}
+ */
 function buildUniqueElectionEntries(index) {
+  /** @type {Map<string, ElectionEntry>} */
   const byKey = new Map();
+  /** @type {Map<string, ElectionEntry & { bodies: string[], localBodyByConstituency: Record<string, string> }>} */
   const localByDate = new Map();
   for (const [bodyIndex, body] of (index.bodies || []).entries()) {
     for (const dateEntry of body.dates || []) {
@@ -988,7 +1360,8 @@ function buildUniqueElectionEntries(index) {
             localBodyByConstituency: {}
           });
         }
-        const group = localByDate.get(dateKey);
+        // Set on the line before when it was not there.
+        const group = /** @type {ElectionEntry & { bodies: string[], localBodyByConstituency: Record<string, string> }} */ (localByDate.get(dateKey));
         group.bodyIndexes.push(bodyIndex);
         if (!group.bodies.includes(body.name)) group.bodies.push(body.name);
         for (const constituency of dateEntry.constituencies || []) {
@@ -1051,10 +1424,15 @@ function buildUniqueElectionEntries(index) {
   }));
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @returns {ElectionEntry}
+ */
 function applyDuplicateLocalGovernmentResultAliases(entry) {
   const aliases = LOCAL_GOVERNMENT_DUPLICATE_RESULT_ALIASES.get(electionKey(entry));
   if (!aliases?.size) return entry;
   const constituencySet = new Set(entry.constituencies || []);
+  /** @type {Array<{ constituency: string, canonical: string }>} */
   const suppressed = [];
   const constituencies = (entry.constituencies || []).filter((constituency) => {
     const canonical = aliases.get(constituency);
@@ -1074,8 +1452,14 @@ function applyDuplicateLocalGovernmentResultAliases(entry) {
   };
 }
 
+/**
+ * @template {{ key: string, summaryUrl?: string }} T
+ * @param {T[]} entries
+ * @returns {T[]}
+ */
 function preserveExistingSummaryUrls(entries) {
   if (!existsSync(OUT_MANIFEST)) return entries;
+  /** @type {{ elections?: Array<{ key?: string, summaryUrl?: string }> }} */
   let existing;
   try {
     existing = readJson(OUT_MANIFEST);
@@ -1091,7 +1475,12 @@ function preserveExistingSummaryUrls(entries) {
   });
 }
 
+/**
+ * @param {ElectionEntry[]} entries
+ * @returns {Map<string, string>}
+ */
 function buildPreviousElectionKeyLookup(entries) {
+  /** @type {Map<string, string>} */
   const previousByKey = new Map();
   const ordered = [...entries].sort((a, b) => String(a.date).localeCompare(String(b.date)) || electionKey(a).localeCompare(electionKey(b)));
   for (const entry of ordered) {
@@ -1101,6 +1490,11 @@ function buildPreviousElectionKeyLookup(entries) {
   return previousByKey;
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {ElectionEntry[]} orderedEntries
+ * @returns {ElectionEntry | null}
+ */
 function findPreviousComparableElection(entry, orderedEntries) {
   const metadata = classifyElection(entry);
   const group = comparableElectionGroup(entry);
@@ -1149,12 +1543,17 @@ function findPreviousComparableElection(entry, orderedEntries) {
 
 // Belfast's nine PR wards of January 1920 were replaced by the fifteen wards again from 1923, so
 // a later Belfast election is never compared with 1920: wards of the same name were different areas.
+/**
+ * @param {ElectionEntry} entry
+ * @param {ElectionEntry} candidate
+ */
 function sameCouncilWardScheme(entry, candidate) {
   if (entry?.bodySlug !== 'belfast-county-borough-council') return true;
-  const pr1920 = (e) => String(e?.date || '').startsWith('1920');
+  const pr1920 = (/** @type {ElectionEntry} */ e) => String(e?.date || '').startsWith('1920');
   return pr1920(entry) === pr1920(candidate);
 }
 
+/** @param {ElectionEntry} entry */
 function comparableElectionGroup(entry) {
   const bodySlug = String(entry?.bodySlug || '');
   if (bodySlug === 'house-of-commons-of-the-united-kingdom') return 'westminster';
@@ -1177,6 +1576,10 @@ function comparableElectionGroup(entry) {
   return null;
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {ElectionEntry} candidate
+ */
 function electionsOverlapByArea(entry, candidate) {
   const current = normalizedElectionAreas(entry);
   if (!current.size) return true;
@@ -1188,7 +1591,9 @@ function electionsOverlapByArea(entry, candidate) {
   return false;
 }
 
+/** @param {ElectionEntry & { localBodies?: string[] | null }} entry */
 function normalizedElectionAreas(entry) {
+  /** @type {Set<string>} */
   const names = new Set();
   for (const name of entry?.constituencies || []) {
     const normalized = normalizeName(name);
@@ -1201,10 +1606,18 @@ function normalizedElectionAreas(entry) {
   return names;
 }
 
+/**
+ * @param {ElectionEntry} a
+ * @param {ElectionEntry} b
+ */
 function compareElectionEntriesAsc(a, b) {
   return String(a.date || '').localeCompare(String(b.date || '')) || electionKey(a).localeCompare(electionKey(b));
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @returns {Geography}
+ */
 function resolveElectionGeography(entry) {
   const year = Number(String(entry.date).slice(0, 4));
   const body = entry.body;
@@ -1370,6 +1783,10 @@ function resolveElectionGeography(entry) {
 // label, so it would paint them too. Strabane's four urban wards take the set in force: the
 // 1911 Ulster divisions before partition, 1921 to 1930, then 1930. Its whole-town poll of 1899
 // and the two combined PR areas of 1920 have no polygon of their own and are shown as results.
+/**
+ * @param {ElectionEntry} entry
+ * @returns {Geography}
+ */
 function pre1973CouncilGeography(entry) {
   const date = String(entry.date || '');
   if (PR1920_ONLY_COUNCIL_BODY_SLUGS.has(entry.bodySlug)) return { sourceMapId: null };
@@ -1393,6 +1810,7 @@ function pre1973CouncilGeography(entry) {
 // count, or eight counting areas) but whose TURNOUT was published per
 // Westminster constituency. These carry a second, constituency-level
 // "turnout" geography that the viewer exposes via a geography toggle.
+/** @type {Readonly<Record<string, { resultsLabel: string, sourceMapId: string, note: string }>>} */
 const NI_REFERENDUM_TURNOUT_GEOGRAPHY = Object.freeze({
   '1998-05-22-belfast-agreement': {
     resultsLabel: 'NI',
@@ -1406,12 +1824,20 @@ const NI_REFERENDUM_TURNOUT_GEOGRAPHY = Object.freeze({
   }
 });
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {ElectionBundle} bundle
+ * @param {Map<string, MapLayer>} layerBySource
+ * @param {Map<string, FeatureIndex>} featureIndexes
+ * @returns {Promise<GeographyMode[] | null>}
+ */
 async function buildReferendumGeographyModes(entry, bundle, layerBySource, featureIndexes) {
   const config = NI_REFERENDUM_TURNOUT_GEOGRAPHY[String(entry.date || '')];
   if (!config) return null;
   const dateDir = path.join(ELECTION_ROOT, entry.bodySlug, entry.date);
   const sidecarPath = path.join(dateDir, '_turnout_by_constituency.json');
   if (!existsSync(sidecarPath)) return null;
+  /** @type {{ rows?: Array<{ constituency: string, turnout_pct?: number | null }>, overall_turnout_pct?: number | null, source_url?: string }} */
   const sidecar = readJson(sidecarPath);
   const layer = layerBySource.get(config.sourceMapId);
   if (!layer) return null;
@@ -1483,6 +1909,11 @@ const AREA_RESULT_STYLE_MODES = ['winner', 'voteShare', 'majority', 'turnout'];
  * contest is, but stays inside the geography mode: the bundle's results, the candidacies the
  * records tables and the person scripts read, are the national contest alone. An area's
  * candidates carry the national candidate's id (nationalCandidateId) and no person id.
+ * @param {ElectionEntry} entry
+ * @param {ElectionBundle} bundle
+ * @param {Map<string, MapLayer>} layerBySource
+ * @param {Map<string, FeatureIndex>} featureIndexes
+ * @returns {Promise<GeographyMode[] | null>}
  */
 async function buildAreaResultsGeographyModes(entry, bundle, layerBySource, featureIndexes) {
   const config = electionBody(ELECTION_BODIES, entry.bodySlug)?.areaResults;
@@ -1490,6 +1921,7 @@ async function buildAreaResultsGeographyModes(entry, bundle, layerBySource, feat
   const dateDir = path.join(ROOT, config.dir, entry.date);
   const indexPath = path.join(dateDir, '_constituencies.json');
   if (!existsSync(indexPath)) return null;
+  /** @type {{ sourceMapId: string, counting_basis?: string, references?: unknown[], numCounts?: number }} */
   const index = readJson(indexPath);
   const layer = layerBySource.get(index.sourceMapId);
   const featureIndex = featureIndexForLayer(featureIndexes, layer);
@@ -1499,14 +1931,18 @@ async function buildAreaResultsGeographyModes(entry, bundle, layerBySource, feat
   }
   const national = (bundle.results || [])[0];
   if (!national || bundle.results.length !== 1) return null;
-  const nationalByName = new Map((national.candidates || []).map((candidate) => [normalizeName(candidate.name), candidate]));
-  const colours = areaCandidateColours(national.candidates || []);
+  // The national contest's candidates are summarizeResult's, each with its id, name, party and colour.
+  const nationalByName = new Map(/** @type {import('../../packages/core/src/area-results.mjs').NationalCandidate[]} */ (national.candidates || []).map((candidate) => [normalizeName(candidate.name), candidate]));
+  const colours = areaCandidateColours(/** @type {import('../../packages/core/src/area-results.mjs').NationalCandidate[]} */ (national.candidates || []));
   const featureByName = new Map((featureIndex.items || []).map((item) => [normalizeName(item.name), item]));
   const anchorIndex = await loadOrBuildAnchorIndex(layer, featureIndex);
   const electionMetadata = classifyElection(entry);
-  const label = config.labels[index.counting_basis] || Object.values(config.labels)[0];
+  // An index with no counting basis looks up 'undefined', which no label has.
+  const label = config.labels[/** @type {string} */ (index.counting_basis)] || Object.values(config.labels)[0];
+  /** @type {ContestResult[]} */
   const results = [];
   for (const file of readdirSync(dateDir).filter((name) => name.endsWith('.json') && !name.startsWith('_')).sort()) {
+    /** @type {import('../../packages/core/src/area-results.mjs').AreaFile} */
     const area = readJson(path.join(dateDir, file));
     const sheet = areaCountSheet(area, (name) => nationalByName.get(normalizeName(name)), colours);
     if (sheet.unmatchedCandidates.length) {
@@ -1515,8 +1951,9 @@ async function buildAreaResultsGeographyModes(entry, bundle, layerBySource, feat
     // countGroup is the animation payload's own rows again and nobody is elected in an area: both
     // left out (the map app takes the rows from the payload), as the lite bundle does.
     const { countGroup: _rows, elected: _elected, ...result } = ElectionDomain.summarizeResult(sheet, area.constituency);
-    const leader = result.candidates.find((candidate) => candidate.name === result.leadingName);
-    result.candidates = result.candidates.map((candidate) => ({ ...candidate, nationalCandidateId: candidate.id }));
+    // summarizeResult always lists the candidates.
+    const leader = /** @type {ResultCandidate[]} */ (result.candidates).find((candidate) => candidate.name === result.leadingName);
+    result.candidates = /** @type {ResultCandidate[]} */ (result.candidates).map((candidate) => ({ ...candidate, nationalCandidateId: candidate.id }));
     const names = areaFeatureNames(area);
     // An area reported for two features together (1945: the second count of County Limerick and
     // Limerick County Borough) is listed, not drawn: each feature has its own first count.
@@ -1575,6 +2012,10 @@ async function buildAreaResultsGeographyModes(entry, bundle, layerBySource, feat
   return [nationalMode, areaMode];
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @returns {Geography | null}
+ */
 function resolveLocalGovernmentCouncilGeography(entry) {
   if (entry?.bodyGroup !== 'local-government') return null;
   const year = Number(String(entry.date).slice(0, 4));
@@ -1586,12 +2027,14 @@ function resolveLocalGovernmentCouncilGeography(entry) {
   ]);
 }
 
+/** @param {ElectionEntry} entry */
 function isNationalAggregateElection(entry) {
   const constituencies = entry.constituencies || [];
   return constituencies.length === 1 && ['ireland', 'republic of ireland'].includes(normalizeName(constituencies[0]));
 }
 
 // Dáil constituency sets, newest first, with the general election each was first used at.
+/** @type {Array<[string, string]>} */
 const DAIL_SETS_BY_FIRST_USE = [
   ['2024-11-29', 'dail-2023'],
   ['2020-02-08', 'dail-2017'],
@@ -1609,6 +2052,7 @@ const DAIL_SETS_BY_FIRST_USE = [
   ['1948-02-04', 'dail-1947']
 ];
 
+/** @param {ElectionEntry} entry */
 function looksLikeRoiLocalAuthorityResults(entry) {
   const constituencies = entry.constituencies || [];
   const localAuthorityLikeCount = constituencies.filter((name) => {
@@ -1621,6 +2065,10 @@ function looksLikeRoiLocalAuthorityResults(entry) {
   return localAuthorityLikeCount >= 10 && localAuthorityLikeCount / Math.max(constituencies.length, 1) >= 0.5;
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @returns {Partial<ElectionMetadata>}
+ */
 function classifyElection(entry) {
   const contestType = contestTypeForElection(entry);
   const votingSystem = votingSystemForElection(entry);
@@ -1639,6 +2087,12 @@ function classifyElection(entry) {
   });
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {ContestResult} result
+ * @param {Partial<ElectionMetadata>} [parentMetadata]
+ * @returns {Partial<ElectionMetadata>}
+ */
 function classifyElectionResult(entry, result, parentMetadata = classifyElection(entry)) {
   const contestType = parentMetadata.contestType || contestTypeForElection(entry);
   const votingSystem = votingSystemForElection(entry, result) || parentMetadata.votingSystem;
@@ -1664,6 +2118,7 @@ function classifyElectionResult(entry, result, parentMetadata = classifyElection
   });
 }
 
+/** @param {ElectionEntry | null | undefined} entry */
 function contestTypeForElection(entry) {
   const bodySlug = String(entry?.bodySlug || '');
   const text = normalizeName(`${entry?.body || ''} ${entry?.displayTitle || canonicalElectionTitle(entry || {}) || ''} ${entry?.date || ''}`);
@@ -1673,6 +2128,11 @@ function contestTypeForElection(entry) {
   return 'election';
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {ContestResult | null} [result]
+ * @returns {string}
+ */
 function votingSystemForElection(entry, result = null) {
   const contestType = contestTypeForElection(entry);
   if (contestType === 'referendum' || contestType === 'recall-petition') return 'ordinal';
@@ -1712,6 +2172,10 @@ function votingSystemForElection(entry, result = null) {
   return 'fptp';
 }
 
+/**
+ * @param {ContestResult | null | undefined} result
+ * @param {{ shortNominationsUnopposed?: boolean }} [options]
+ */
 function contestStatusForResult(result, { shortNominationsUnopposed = false } = {}) {
   const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
   if (!candidates.length) return 'contested';
@@ -1719,7 +2183,8 @@ function contestStatusForResult(result, { shortNominationsUnopposed = false } = 
   const seatsTotal = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);
   // An unopposed return carries no votes, or (the presidential records) a placeholder 1.
   // A real count is more than that, so a winners-only record with votes stays contested.
-  const hasAnyVotes = candidates.some((candidate) => parseNumber(candidate?.firstPrefs) > 1);
+  // No figure (null) compares as no votes.
+  const hasAnyVotes = candidates.some((candidate) => /** @type {number} */ (parseNumber(candidate?.firstPrefs)) > 1);
   if (seatsTotal && elected >= seatsTotal && candidates.length <= seatsTotal && !hasAnyVotes) return 'uncontested';
   // A pre-1973 council ward with fewer nominations than seats (Keady 1920: four for nine; Lurgan
   // 1939: four for five) returned everyone nominated without a poll; the empty seats were filled
@@ -1733,9 +2198,13 @@ function contestStatusForResult(result, { shortNominationsUnopposed = false } = 
 // returns carry it with a placeholder vote of 1). A status that says more than "Elected" (the
 // Ceann Comhairle's "Elected (auto returned)") is the record's own and is kept.
 const PLAIN_ELECTED_STATUS = /^(|elected|deemed elected|made quota)$/i;
+/**
+ * @param {ContestResult} result
+ * @param {Partial<ElectionMetadata>} resultMetadata
+ */
 function markUnopposedReturns(result, resultMetadata) {
   if (resultMetadata?.contestStatus !== 'uncontested') return;
-  const relabel = (candidate) => (candidate?.elected && PLAIN_ELECTED_STATUS.test(String(candidate.status || '').trim())
+  const relabel = (/** @type {ResultCandidate} */ candidate) => (candidate?.elected && PLAIN_ELECTED_STATUS.test(String(candidate.status || '').trim())
     ? {
       ...candidate,
       status: 'Elected unopposed',
@@ -1749,9 +2218,15 @@ function markUnopposedReturns(result, resultMetadata) {
   if (Array.isArray(result.candidates)) result.candidates = result.candidates.map(relabel);
   if (Array.isArray(result.elected)) result.elected = result.elected.map(relabel);
   // Placeholder votes of 1 (and the valid poll they sum to) go: no poll was held.
-  scrubUnopposedPlaceholderVotes(result);
+  // It tests countInfo and the payload's sheet before it reads them, so a null countInfo and whatever
+  // payload it holds are safe; its parameter type is narrower than what it accepts.
+  scrubUnopposedPlaceholderVotes(/** @type {Parameters<typeof scrubUnopposedPlaceholderVotes>[0]} */ (result));
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {{ result?: ContestResult | null, votingSystem?: string | null, contestType?: string | null, contestStatus?: string }} [options]
+ */
 function transferDataExpectedForElection(entry, { result = null, votingSystem = null, contestType = null, contestStatus = 'contested' } = {}) {
   const type = contestType || contestTypeForElection(entry);
   if (type !== 'election' || contestStatus === 'uncontested') return false;
@@ -1762,6 +2237,14 @@ function transferDataExpectedForElection(entry, { result = null, votingSystem = 
   return true;
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {Geography} geography
+ * @param {MapLayer | null | undefined} layer
+ * @param {FeatureIndex | null} featureIndex
+ * @param {string | null} [previousKey]
+ * @param {{ councilGeography?: Geography | null, councilLayer?: MapLayer | null }} [options]
+ */
 async function buildElectionBundle(entry, geography, layer, featureIndex, previousKey = null, options = {}) {
   const key = electionKey(entry);
   const publicDisplayTitle = entry.displayTitle || canonicalElectionTitle({ ...entry, key });
@@ -1771,8 +2254,11 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   const dirExists = existsSync(dateDir);
   const singleFeature = geography?.singleConstituency ? firstFeature(featureIndex) : null;
   const anchorIndex = layer ? await loadOrBuildAnchorIndex(layer, featureIndex) : null;
+  /** @type {BundleResult[]} */
   const results = [];
+  /** @type {import('../../packages/core/src/election-domain.mjs').RawResultEntry[]} */
   const rawEntries = [];
+  /** @type {Array<string | undefined>} */
   const unmatched = [];
   const syntheticAnchorState = { count: 0 };
 
@@ -1828,9 +2314,10 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       ? syntheticNonGeographicMatch(anchorIndex, layer, result.constituency || constituency, syntheticAnchorState)
       : null;
     if (!match && !syntheticRegion && !geography?.singleConstituency) unmatched.push(result.constituency || constituency);
-    const featureMatches = syntheticRegion
+    // A synthetic region always makes a match, and filter(Boolean) dropped the nulls.
+    const featureMatches = /** @type {FeatureMatch[]} */ (syntheticRegion
       ? [normalizeFeatureMatch(syntheticRegion)]
-      : matchSet.map(normalizeFeatureMatch).filter(Boolean);
+      : matchSet.map(normalizeFeatureMatch).filter(Boolean));
     const featureMatchFields = buildFeatureMatchFields(featureMatches, match, syntheticRegion);
     results.push({
       ...result,
@@ -1880,9 +2367,10 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
         ? syntheticNonGeographicMatch(anchorIndex, layer, result.constituency, syntheticAnchorState)
         : null;
       if (!match && !syntheticRegion && !geography?.singleConstituency) unmatched.push(result.constituency);
-      const featureMatches = syntheticRegion
+      // A synthetic region always makes a match, and filter(Boolean) dropped the nulls.
+      const featureMatches = /** @type {FeatureMatch[]} */ (syntheticRegion
         ? [normalizeFeatureMatch(syntheticRegion)]
-        : matchSet.map(normalizeFeatureMatch).filter(Boolean);
+        : matchSet.map(normalizeFeatureMatch).filter(Boolean));
       const featureMatchFields = buildFeatureMatchFields(featureMatches, match, syntheticRegion);
       results.push({
         ...result,
@@ -1925,8 +2413,9 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     ? []
     : entry.bodySlug === 'dail-eireann'
       ? mainLikePartySummary.rows
-      : ElectionDomain.buildPartySummary(results);
-  const entityIndex = ElectionDomain.buildEntityIndex(results);
+      // Neither reads localBody, the one field whose type differs (null outside the councils).
+      : ElectionDomain.buildPartySummary(/** @type {ContestResult[]} */ (results));
+  const entityIndex = ElectionDomain.buildEntityIndex(/** @type {ContestResult[]} */ (results));
   return {
     schemaVersion: 1,
     key,
@@ -1974,9 +2463,16 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   };
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {string | undefined} constituency
+ * @param {string | null} [indexName]
+ * @returns {ElectionEntry}
+ */
 function matchEntryForConstituency(entry, constituency, indexName = null) {
   if (entry?.bodyGroup !== 'local-government') return entry;
-  const localBody = entry.localBodyByConstituency?.[constituency]
+  // A contest with no name looks up 'undefined', which no contest is.
+  const localBody = entry.localBodyByConstituency?.[/** @type {string} */ (constituency)]
     || entry.localBodyByConstituency?.[fixText(constituency || '').trim()]
     || (indexName ? entry.localBodyByConstituency?.[indexName] : null);
   if (!localBody || localBody === entry.body) return entry;
@@ -1986,6 +2482,7 @@ function matchEntryForConstituency(entry, constituency, indexName = null) {
   };
 }
 
+/** @type {Readonly<Record<string, Record<string, string[]>>>} */
 const REFERENDUM_RESULT_FEATURE_SPLITS = Object.freeze({
   'dail-2023': {
     'dublin fingal': ['Dublin Fingal East', 'Dublin Fingal West'],
@@ -2008,13 +2505,14 @@ const REFERENDUM_RESULT_FEATURE_SPLITS = Object.freeze({
 // first feature to claim a key keeps it: on dail-2009 "Limerick City" took "limerick", so
 // the county constituency's result coloured the city; on the council layers "Cork City"
 // fell to the county council (and, in 2002, "County Cork" to the city council).
-const COUNCIL_RESULT_FEATURES = (cities) => Object.fromEntries([
+const COUNCIL_RESULT_FEATURES = (/** @type {Record<string, string>} */ cities) => Object.fromEntries([
   ...['Carlow', 'Cavan', 'Clare', 'Cork', 'Donegal', 'Dublin', 'Galway', 'Kerry', 'Kildare', 'Kilkenny', 'Leitrim',
     'Limerick', 'Longford', 'Louth', 'Mayo', 'Meath', 'Monaghan', 'Offaly', 'Roscommon', 'Sligo', 'Waterford',
     'Westmeath', 'Wexford', 'Wicklow']
     .map((county) => [`county ${county.toLowerCase()}`, `${county.toUpperCase()} COUNTY COUNCIL`]),
   ...Object.entries(cities).map(([city, feature]) => [`${city.toLowerCase()} city`, feature])
 ]);
+/** @type {Record<string, Record<string, string>>} */
 const RESULT_FEATURE_OVERRIDES = {
   'dail-2009': { limerick: 'Limerick', 'limerick city': 'Limerick City' },
   // Its features carry seat counts, "Limerick City (4)" and "Limerick (3)".
@@ -2025,6 +2523,12 @@ const RESULT_FEATURE_OVERRIDES = {
   'local-authorities-2002': COUNCIL_RESULT_FEATURES({ Cork: 'CORK CITY COUNCIL', Dublin: 'DUBLIN CITY COUNCIL', Galway: 'GALWAY CITY COUNCIL', Limerick: 'LIMERICK CITY COUNCIL', Waterford: 'WATERFORD CITY COUNCIL' })
 };
 
+/**
+ * @param {FeatureLookup} featureLookup
+ * @param {Geography | null} geography
+ * @param {unknown} resultName
+ * @returns {FeatureItem | null}
+ */
 function overriddenFeature(featureLookup, geography, resultName) {
   const registered = Object.entries(geography?.featureOverrides || {})
     .find(([name]) => normalizeName(name) === normalizeName(resultName))?.[1];
@@ -2038,6 +2542,7 @@ function overriddenFeature(featureLookup, geography, resultName) {
 // the 1918 name and one under its old 1885 division name ("Longford" and "Longford S",
 // "King's County" and "Birr"). The result names one of them, so the other half stayed blank
 // on the map (seven white patches in 1918). These results colour both halves.
+/** @type {Readonly<Record<string, Record<string, string[]>>>} */
 const RESULT_FEATURE_UNIONS = Object.freeze({
   'pc-1918-ireland': {
     longford: ['Longford', 'Longford S'],
@@ -2050,13 +2555,29 @@ const RESULT_FEATURE_UNIONS = Object.freeze({
   }
 });
 
+/**
+ * @param {FeatureLookup} featureLookup
+ * @param {Geography | null} geography
+ * @param {unknown} resultName
+ * @returns {FeatureItem[] | null}
+ */
 function unionFeatures(featureLookup, geography, resultName) {
   const targets = RESULT_FEATURE_UNIONS[geography?.sourceMapId || '']?.[normalizeName(resultName)];
   if (!targets) return null;
   const matches = targets.map((target) => (featureLookup.items || []).find((item) => normalizeName(item.name) === normalizeName(target)));
-  return matches.every(Boolean) ? matches : null;
+  // every(Boolean) found each of them.
+  return matches.every(Boolean) ? /** @type {FeatureItem[]} */ (matches) : null;
 }
 
+/**
+ * @param {FeatureLookup} featureLookup
+ * @param {ElectionEntry} entry
+ * @param {Geography} geography
+ * @param {ContestResult} result
+ * @param {ElectionEntry} matchEntry
+ * @param {FeatureItem | null} [singleFeature]
+ * @returns {FeatureItem[]}
+ */
 function matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature = null) {
   if (singleFeature) return [singleFeature];
   const pinned = overriddenFeature(featureLookup, geography, result.constituency);
@@ -2067,6 +2588,7 @@ function matchFeaturesForResult(featureLookup, entry, geography, result, matchEn
   if (direct) return [direct];
   const splitTargets = referendumSplitTargets(entry, geography, result);
   if (!splitTargets.length) return [];
+  /** @type {FeatureItem[]} */
   const matches = [];
   for (const target of splitTargets) {
     const match = matchFeature(featureLookup, target, matchEntry);
@@ -2076,6 +2598,11 @@ function matchFeaturesForResult(featureLookup, entry, geography, result, matchEn
   return matches;
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {Geography} geography
+ * @param {ContestResult} result
+ */
 function referendumSplitTargets(entry, geography, result) {
   if (entry?.body !== 'Referendum (Ireland)') return [];
   const sourceMapId = geography?.sourceMapId || '';
@@ -2083,6 +2610,10 @@ function referendumSplitTargets(entry, geography, result) {
   return Array.isArray(targets) ? targets : [];
 }
 
+/**
+ * @param {{ id?: string | number | null, name?: string, aliases?: string[] } | null | undefined} match
+ * @returns {FeatureMatch | null}
+ */
 function normalizeFeatureMatch(match) {
   if (!match) return null;
   return {
@@ -2092,6 +2623,11 @@ function normalizeFeatureMatch(match) {
   };
 }
 
+/**
+ * @param {FeatureMatch[]} featureMatches
+ * @param {FeatureItem | null} match
+ * @param {SyntheticRegion | null} syntheticRegion
+ */
 function buildFeatureMatchFields(featureMatches, match, syntheticRegion) {
   if (featureMatches.length <= 1) {
     return {
@@ -2109,8 +2645,14 @@ function buildFeatureMatchFields(featureMatches, match, syntheticRegion) {
   };
 }
 
+/**
+ * @param {MapLayer[]} layers
+ * @returns {Map<string, MapLayer>}
+ */
 function buildLayerLookup(layers) {
+  /** @type {Map<string, MapLayer>} */
   const lookup = new Map();
+  /** @type {Map<string, MapLayer>} */
   const defaultVariantByParent = new Map();
   for (const layer of layers) {
     if (layer.id) lookup.set(layer.id, layer);
@@ -2128,6 +2670,7 @@ function buildLayerLookup(layers) {
   return lookup;
 }
 
+/** @param {unknown} sourceMapId */
 function parentMapIdForVariant(sourceMapId) {
   const match = String(sourceMapId || '').match(/^(.*)-v\d+$/);
   return match ? match[1] : null;
@@ -2153,6 +2696,7 @@ function parentMapIdForVariant(sourceMapId) {
 function readBaselinedFeatureIndexGaps() {
   if (!existsSync(FEATURE_INDEX_BASELINE)) return new Set();
   try {
+    /** @type {{ layers?: Array<{ layerId?: string }> }} */
     const doc = JSON.parse(readFileSync(FEATURE_INDEX_BASELINE, 'utf8'));
     return new Set((doc.layers || []).map((entry) => entry.layerId).filter(Boolean));
   } catch {
@@ -2169,17 +2713,31 @@ function readBaselinedFeatureIndexGaps() {
  * nine alias layers resolved to no index and their 18 elections matched nothing, while
  * the index they needed was sitting under the alias target the whole time.
  */
+/**
+ * @param {Map<string, FeatureIndex>} featureIndexes
+ * @param {MapLayer | null | undefined} layer
+ * @param {string | null} [extraKey]
+ * @returns {FeatureIndex | null}
+ */
 function featureIndexForLayer(featureIndexes, layer, extraKey = null) {
   if (!layer) return null;
+  // A layer with no sourceMapId looks up undefined, which finds nothing.
   return featureIndexes.get(layer.id)
-    || featureIndexes.get(layer.sourceMapId)
+    || featureIndexes.get(/** @type {string} */ (layer.sourceMapId))
     || (layer.aliasTargetLayerId ? featureIndexes.get(layer.aliasTargetLayerId) : null)
     || (extraKey ? featureIndexes.get(extraKey) : null)
     || null;
 }
 
-/** Returns the election keys to withhold from this build (empty unless asked). */
+/**
+ * Returns the election keys to withhold from this build (empty unless asked).
+ * @param {ElectionEntry[]} entries
+ * @param {Map<string, MapLayer>} layerBySource
+ * @param {Map<string, FeatureIndex>} featureIndexes
+ * @returns {Set<string>}
+ */
 function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
+  /** @type {Map<string, string[]>} */
   let missing = new Map();
   for (const entry of entries) {
     const geography = resolveElectionGeography(entry);
@@ -2187,7 +2745,8 @@ function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
     if (!layer) continue; // no geography at all is a different, already-handled case
     if (featureIndexForLayer(featureIndexes, layer)) continue;
     if (!missing.has(layer.id)) missing.set(layer.id, []);
-    missing.get(layer.id).push(electionKey(entry));
+    // Set on the line before when it was not there.
+    /** @type {string[]} */ (missing.get(layer.id)).push(electionKey(entry));
   }
   if (!missing.size) return new Set();
 
@@ -2250,7 +2809,12 @@ function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
   process.exit(1);
 }
 
+/**
+ * @param {MapLayer[]} layers
+ * @returns {Map<string, FeatureIndex>}
+ */
 function loadFeatureIndexes(layers) {
+  /** @type {Map<string, FeatureIndex>} */
   const indexes = new Map();
   for (const layer of layers) {
     const file = path.join(FEATURE_INDEX_DIR, `${layer.id}.json`);
@@ -2264,8 +2828,14 @@ function loadFeatureIndexes(layers) {
   return indexes;
 }
 
+/** @type {Map<string, AnchorIndex>} */
 const anchorCache = new Map();
 
+/**
+ * @param {MapLayer | null | undefined} layer
+ * @param {FeatureIndex | null} featureIndex
+ * @returns {Promise<AnchorIndex | null | undefined>}
+ */
 async function loadOrBuildAnchorIndex(layer, featureIndex) {
   if (!layer?.id) return null;
   if (anchorCache.has(layer.id)) return anchorCache.get(layer.id);
@@ -2277,6 +2847,7 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
     anchorCache.set(layer.id, anchorIndex);
     return anchorIndex;
   }
+  /** @type {AnchorItem[]} */
   const items = [];
 
   let generatedFromSourceGeometry = false;
@@ -2284,7 +2855,8 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
     try {
       for await (const feature of lonLatFeatures(sourceFile)) {
         const props = feature.properties || {};
-        const name = fixText(props[layer.labelProperty] || props.NAME || props.Name || props.name || props.label_name || '').normalize('NFC');
+        // A layer with no labelProperty looks up 'undefined', which no feature has.
+        const name = fixText(props[/** @type {string} */ (layer.labelProperty)] || props.NAME || props.Name || props.name || props.label_name || '').normalize('NFC');
         const anchor = geometryAnchor(feature.geometry);
         if (!anchor) continue;
         items.push({
@@ -2305,7 +2877,8 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
       }
       generatedFromSourceGeometry = items.length > 0;
     } catch (error) {
-      console.warn(`[test2 elections] Falling back to feature-index anchors for ${layer.id}: ${error.message}`);
+      // What the reader and ogr2ogr throw are Errors.
+      console.warn(`[test2 elections] Falling back to feature-index anchors for ${layer.id}: ${/** @type {Error} */ (error).message}`);
     }
   }
 
@@ -2323,6 +2896,7 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
     }
   }
 
+  /** @type {Map<string, AnchorItem>} */
   const byName = new Map();
   for (const item of items) {
     for (const key of [item.name, ...(item.aliases || [])].flatMap((name) => nameKeys(name))) {
@@ -2330,6 +2904,7 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
     }
   }
 
+  /** @type {AnchorIndex} */
   const anchorIndex = {
     schemaVersion: 1,
     layerId: layer.id,
@@ -2355,9 +2930,13 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
 // The source's features in lon/lat. A FlatGeobuf in another CRS (dail-1998 is TM65 / Irish
 // Grid, EPSG:29902) is read through ogr2ogr reprojected to EPSG:4326; before 11 Nov 2026 its
 // metres went straight into the anchors, so the 1997 and 2002 Dail seat circles sat off the map.
+/**
+ * @param {string} sourceFile
+ * @returns {AsyncGenerator<import('geojson').Feature>}
+ */
 async function* lonLatFeatures(sourceFile) {
-  /** @type {{ org?: string, code?: number } | null} */
-  let crs = null;
+  // Set by the header callback; typed so the callback's assignment is not narrowed away.
+  let crs = /** @type {import('flatgeobuf/lib/mjs/crs-meta.js').CrsMeta | null} */ (null);
   const sourceBytes = new Uint8Array(readFileSync(sourceFile));
   const features = deserialize(sourceBytes, undefined, (header) => { crs = header?.crs || null; });
   const buffered = [];
@@ -2380,8 +2959,14 @@ async function* lonLatFeatures(sourceFile) {
   }
 }
 
+/**
+ * @param {MapLayer} layer
+ * @param {Partial<Omit<AnchorIndex, 'byName' | 'url'>> | null} persisted
+ * @returns {AnchorIndex}
+ */
 function hydrateAnchorIndex(layer, persisted) {
   const items = Array.isArray(persisted?.items) ? persisted.items : [];
+  /** @type {Map<string, AnchorItem>} */
   const byName = new Map();
   for (const item of items) {
     for (const key of [item.name, ...(item.aliases || [])].flatMap((name) => nameKeys(name))) {
@@ -2400,6 +2985,12 @@ function hydrateAnchorIndex(layer, persisted) {
   };
 }
 
+/**
+ * @param {AnchorIndex | null | undefined} anchorIndex
+ * @param {{ name?: string, aliases?: string[] } | null} match
+ * @param {{ matchName?: unknown, constituency?: unknown } | null | undefined} result
+ * @returns {Anchor | null}
+ */
 function findAnchorForMatch(anchorIndex, match, result) {
   if (!anchorIndex) return null;
   for (const value of [match?.name, ...(match?.aliases || []), result?.matchName, result?.constituency]) {
@@ -2411,6 +3002,10 @@ function findAnchorForMatch(anchorIndex, match, result) {
   return null;
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {unknown} constituency
+ */
 function isSyntheticNonGeographicResult(entry, constituency) {
   const name = normalizeName(constituency);
   if (!name) return false;
@@ -2418,6 +3013,13 @@ function isSyntheticNonGeographicResult(entry, constituency) {
   return /\buniversity\b|\buniveristy\b|\btrinity college\b/.test(name);
 }
 
+/**
+ * @param {AnchorIndex | null | undefined} anchorIndex
+ * @param {MapLayer | null | undefined} layer
+ * @param {string | undefined} name
+ * @param {{ count: number }} [state]
+ * @returns {SyntheticRegion | null}
+ */
 function syntheticNonGeographicMatch(anchorIndex, layer, name, state = { count: 0 }) {
   const bounds = unionAnchorBounds(anchorIndex?.items || []) || layerBounds(layer?.bounds);
   if (!bounds) return null;
@@ -2441,12 +3043,18 @@ function syntheticNonGeographicMatch(anchorIndex, layer, name, state = { count: 
   };
 }
 
+/** @param {unknown} name */
 function syntheticNonGeographicLabel(name) {
   const normalized = normalizeName(name);
   if (normalized === 'northern ireland') return 'Regional List';
   return fixText(name || '').trim() || 'Non-geographical constituency';
 }
 
+/**
+ * @param {AnchorItem[]} items
+ * @param {Bounds} unionBounds
+ * @param {number} [index]
+ */
 function northEastSyntheticAnchor(items = [], unionBounds, index = 0) {
   const bounds = normalizeBounds(unionBounds);
   if (!bounds) return null;
@@ -2467,9 +3075,14 @@ function northEastSyntheticAnchor(items = [], unionBounds, index = 0) {
   };
 }
 
+/**
+ * @param {AnchorItem[]} items
+ * @param {Bounds} bounds
+ */
 function northEastAnchorItem(items = [], bounds) {
   const normalizedBounds = normalizeBounds(bounds);
   if (!normalizedBounds) return null;
+  /** @type {{ item: AnchorItem, bounds: Bounds, score: number } | null} */
   let best = null;
   for (const item of items || []) {
     const itemBounds = normalizeBounds(item?.anchor?.bounds || item?.bounds);
@@ -2485,11 +3098,18 @@ function northEastAnchorItem(items = [], bounds) {
   return best?.item || null;
 }
 
+/**
+ * @param {number} value
+ * @param {number} min
+ * @param {number} max
+ */
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
 
+/** @param {AnchorItem[]} [items] */
 function unionAnchorBounds(items = []) {
+  /** @type {Bounds | null} */
   let union = null;
   for (const item of items) {
     const bounds = item?.anchor?.bounds || item?.bounds || null;
@@ -2498,12 +3118,17 @@ function unionAnchorBounds(items = []) {
   return union;
 }
 
+/** @param {unknown} bounds */
 function layerBounds(bounds) {
   if (!Array.isArray(bounds) || !Array.isArray(bounds[0]) || !Array.isArray(bounds[1])) return null;
   const [[south, west], [north, east]] = bounds;
   return normalizeBounds({ west, south, east, north });
 }
 
+/**
+ * @param {import('geojson').Geometry | null} geometry
+ * @returns {Anchor | null}
+ */
 function geometryAnchor(geometry) {
   if (!geometry) return null;
   if (geometry.type === 'Point') {
@@ -2514,11 +3139,13 @@ function geometryAnchor(geometry) {
     const bounds = coordinateBounds(geometry.coordinates)?.bounds || pointBounds(geometry.coordinates[0]);
     return { center: geometry.coordinates[0], bounds, method: 'multipoint-first', area: null };
   }
+  /** @type {Array<number[][] | undefined>} */
   const rings = [];
   if (geometry.type === 'Polygon') rings.push(geometry.coordinates?.[0]);
   if (geometry.type === 'MultiPolygon') {
     for (const polygon of geometry.coordinates || []) rings.push(polygon?.[0]);
   }
+  /** @type {ReturnType<typeof ringStats>} */
   let best = null;
   for (const ring of rings) {
     const stats = ringStats(ring);
@@ -2526,10 +3153,12 @@ function geometryAnchor(geometry) {
     if (!best || stats.area > best.area) best = stats;
   }
   if (best) return { center: best.center, bounds: best.bounds, method: 'largest-ring-bounds-center', area: best.area };
-  const bbox = coordinateBounds(flatCoordinates(geometry.coordinates));
+  // A GeometryCollection has no coordinates, and flatCoordinates finds none in undefined.
+  const bbox = coordinateBounds(flatCoordinates(/** @type {{ coordinates?: unknown }} */ (geometry).coordinates));
   return bbox ? { center: bbox.center, bounds: bbox.bounds, method: 'geometry-bounds-center', area: null } : null;
 }
 
+/** @param {number[][] | undefined} ring */
 function ringStats(ring) {
   if (!Array.isArray(ring) || ring.length < 3) return null;
   let area = 0;
@@ -2553,6 +3182,11 @@ function ringStats(ring) {
   };
 }
 
+/**
+ * @param {unknown} value
+ * @param {number[][]} [out]
+ * @returns {number[][]}
+ */
 function flatCoordinates(value, out = []) {
   if (!Array.isArray(value)) return out;
   if (typeof value[0] === 'number' && typeof value[1] === 'number') {
@@ -2563,6 +3197,7 @@ function flatCoordinates(value, out = []) {
   return out;
 }
 
+/** @param {number[][]} coords */
 function coordinateBounds(coords) {
   if (!coords.length) return null;
   let minLng = Infinity;
@@ -2579,6 +3214,7 @@ function coordinateBounds(coords) {
   return { center: boundsCenter(bounds), bounds };
 }
 
+/** @param {ArrayLike<unknown> | null | undefined} point */
 function pointBounds(point) {
   const lng = Number(point?.[0]);
   const lat = Number(point?.[1]);
@@ -2586,6 +3222,10 @@ function pointBounds(point) {
   return normalizeBounds({ west: lng, south: lat, east: lng, north: lat });
 }
 
+/**
+ * @param {{ west?: unknown, south?: unknown, east?: unknown, north?: unknown } | null | undefined} bounds
+ * @returns {Bounds | null}
+ */
 function normalizeBounds(bounds) {
   const west = Number(bounds?.west);
   const south = Number(bounds?.south);
@@ -2600,6 +3240,10 @@ function normalizeBounds(bounds) {
   };
 }
 
+/**
+ * @param {Bounds | null} a
+ * @param {{ west?: unknown, south?: unknown, east?: unknown, north?: unknown } | null | undefined} b
+ */
 function mergeBounds(a, b) {
   const right = normalizeBounds(b);
   if (!right) return a ? normalizeBounds(a) : null;
@@ -2613,6 +3257,7 @@ function mergeBounds(a, b) {
   });
 }
 
+/** @param {Bounds | null} bounds */
 function boundsCenter(bounds) {
   const normalized = normalizeBounds(bounds);
   return normalized
@@ -2623,6 +3268,11 @@ function boundsCenter(bounds) {
 // A geography with featureNamePrefix uses only the features whose name carries the prefix and
 // also matches them without it: Belfast's 1920 council areas are the "BELFAST ..." divisions
 // of the 1918 parliamentary map, and no other division of that map may take a council result.
+/**
+ * @param {FeatureItem[]} items
+ * @param {Geography | null} geography
+ * @returns {FeatureItem[]}
+ */
 function scopeFeatureItems(items, geography) {
   const prefix = String(geography?.featureNamePrefix || '');
   if (!prefix) return items;
@@ -2635,11 +3285,20 @@ function scopeFeatureItems(items, geography) {
     });
 }
 
+/**
+ * @param {FeatureIndex | null} index
+ * @param {string | null | undefined} sourceMapId
+ * @param {Geography | null} [geography]
+ * @returns {FeatureLookup}
+ */
 function buildFeatureLookup(index, sourceMapId, geography = null) {
+  /** @type {FeatureLookup} */
   const byName = new Map();
-  const sourceAliases = SOURCE_NAME_ALIASES.get(sourceMapId) || new Map();
+  // A layer with no sourceMapId looks up undefined, which has no aliases.
+  const sourceAliases = SOURCE_NAME_ALIASES.get(/** @type {string} */ (sourceMapId)) || new Map();
   const scopedItems = scopeFeatureItems(index?.items || [], geography);
   for (const item of scopedItems) {
+    /** @type {string[]} */
     const explicitAliases = [];
     for (const name of [item.name, ...(item.aliases || [])]) {
       const alias = sourceAliases.get(name);
@@ -2649,6 +3308,7 @@ function buildFeatureLookup(index, sourceMapId, geography = null) {
       // records write the name out ("North Down") and call a borough a borough ("Galway
       // Borough" for the layer's "Galway City").
       if (sourceMapId === 'pc-1885-ireland' || sourceMapId === 'pc-1918-ireland') {
+        /** @type {Record<string, string>} */
         const COMPASS = { N: 'North', S: 'South', E: 'East', W: 'West', NE: 'North East', NW: 'North West', SE: 'South East', Mid: 'Mid' };
         const m = String(name || '').match(/^(.+?) (N|S|E|W|NE|NW|SE|Mid)$/);
         if (m) explicitAliases.push(`${COMPASS[m[2]]} ${m[1]}`);
@@ -2696,6 +3356,11 @@ function buildFeatureLookup(index, sourceMapId, geography = null) {
   return byName;
 }
 
+/**
+ * @param {FeatureLookup} lookup
+ * @param {unknown} name
+ * @param {ElectionEntry | null} [entry]
+ */
 function matchFeature(lookup, name, entry = null) {
   for (const key of matchNameKeys(name, entry)) {
     if (lookup.has(key)) return lookup.get(key);
@@ -2703,10 +3368,18 @@ function matchFeature(lookup, name, entry = null) {
   return null;
 }
 
+/**
+ * @param {FeatureIndex | null} index
+ * @returns {FeatureItem | null}
+ */
 function firstFeature(index) {
   return index?.items?.[0] || null;
 }
 
+/**
+ * @param {unknown} value
+ * @returns {string[]}
+ */
 function nameKeys(value) {
   const normalized = normalizeName(value);
   const alias = NAME_ALIASES.get(normalized);
@@ -2739,6 +3412,7 @@ function nameKeys(value) {
   ].map(compactNameKey).filter(Boolean));
 }
 
+/** @param {string} normalized */
 function sortedTokenKey(normalized) {
   const tokens = String(normalized || '')
     .split(/\s+/)
@@ -2748,15 +3422,25 @@ function sortedTokenKey(normalized) {
   return `sorted:${tokens.join(' ')}`;
 }
 
+/** @param {unknown} value */
 function compactNameKey(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
+/**
+ * @param {unknown} value
+ * @param {ElectionEntry | null} [entry]
+ */
 function matchNameKeys(value, entry = null) {
   const candidates = candidateMatchNames(value, entry);
   return unique(candidates.flatMap((candidate) => nameKeys(candidate)));
 }
 
+/**
+ * @param {unknown} value
+ * @param {ElectionEntry | null} [entry]
+ * @returns {string[]}
+ */
 function candidateMatchNames(value, entry = null) {
   const raw = fixText(value || '').trim();
   // An RoI local area name two councils share carries its council ("Athlone (Westmeath)"),
@@ -2806,7 +3490,9 @@ function candidateMatchNames(value, entry = null) {
   return [...candidates].filter(Boolean);
 }
 
+/** @param {unknown} value */
 function expandCompassTokens(value) {
+  /** @type {Record<string, string>} */
   const compassMap = {
     n: 'north',
     s: 'south',
@@ -2820,6 +3506,7 @@ function expandCompassTokens(value) {
   return normalizeName(value).replace(/\b(ne|nw|se|sw|n|s|e|w)\b/g, (match) => compassMap[match] || match);
 }
 
+/** @param {unknown} value */
 function escapeRegExp(value) {
   return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -2831,14 +3518,17 @@ const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'Ju
  * the day polling began where it differs from the election's date, the outcome of a petition,
  * an estimated electorate, the right of election -- for the result panel. The 1801-1832 files
  * carry these from Walker and the History of Parliament; until now none of it left the file.
+ * @param {RawResult | null | undefined} raw
+ * @returns {Array<{ label: string, text: string }>}
  */
 function contestNotes(raw) {
   if (!raw || typeof raw !== 'object') return [];
-  const day = (iso) => {
+  const day = (/** @type {unknown} */ iso) => {
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ''));
     return m ? `${Number(m[3])} ${MONTH_NAMES[Number(m[2]) - 1]} ${m[1]}` : String(iso || '');
   };
-  return [
+  // The filter keeps the pairs whose text is a non-empty string.
+  return /** @type {Array<[string, string]>} */ ([
     ['Cause', raw.cause],
     // Walker's dates are dates of return from 1818 (before that, the day polling began).
     [raw.pollDateKind === 'return' ? 'Date of return' : 'Polling began', raw.pollDate ? day(raw.pollDate) : null],
@@ -2847,7 +3537,8 @@ function contestNotes(raw) {
     ['Note', raw.note && raw.note !== 'Returned unopposed.' ? raw.note : null],
     ['Electorate', raw.electorateNote
       || (raw.electorateSource && Number(raw.Constituency?.countInfo?.Total_Electorate)
-        ? `${Number(raw.Constituency.countInfo.Total_Electorate).toLocaleString('en-GB')}: ${raw.electorateSource.replace(/,\s*(\d{4})/, ' in $1')}`
+        // The test above read a number from this countInfo.
+        ? `${Number(/** @type {{ countInfo: SourceRow }} */ (raw.Constituency).countInfo.Total_Electorate).toLocaleString('en-GB')}: ${raw.electorateSource.replace(/,\s*(\d{4})/, ' in $1')}`
         : null)],
     ['Right of election', raw.franchise],
     // What the contest's area was, where the map draws it from another layer (Belfast 1920).
@@ -2856,10 +3547,15 @@ function contestNotes(raw) {
     ['Source note', raw.sourceNote],
     // Where a contest's count-by-count figures come from (the Irish local elections' results books).
     ['Counts', raw.countSourceNote],
-  ].filter(([, text]) => typeof text === 'string' && text.trim())
+  ].filter(([, text]) => typeof text === 'string' && text.trim()))
     .map(([label, text]) => ({ label, text: text.trim() }));
 }
 
+/**
+ * @param {string} dateDir
+ * @param {string} constituency
+ * @returns {string | null}
+ */
 function findResultFile(dateDir, constituency) {
   if (!existsSync(dateDir)) return null;
   // A bracket the file name spells out first ("East Central Ward (Alderman)"): the
@@ -2876,7 +3572,7 @@ function findResultFile(dateDir, constituency) {
   // normalizeName drops "(Roscommon)", so both Athlones and all three "County Cork (...
   // Division)" counting areas looked for one file that does not exist. And with accented
   // letters dropped rather than decomposed, as the importer that wrote dn-laoghaire.json did.
-  const plain = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const plain = (/** @type {string} */ s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   for (const name of [
     fixText(constituency).normalize('NFKD').replace(/[̀-ͯ]/g, ''),
     fixText(constituency).replace(/[^\x00-\x7f]/g, '')
@@ -2900,13 +3596,19 @@ function findResultFile(dateDir, constituency) {
   return null;
 }
 
+/**
+ * @param {{ aliases?: DailCandidateAlias[] }} data
+ * @returns {Map<string, IndexedDailCandidateAlias[]>}
+ */
 function buildDailApprovedCandidateAliasIndex(data) {
+  /** @type {Map<string, IndexedDailCandidateAlias[]>} */
   const byElectionDate = new Map();
   for (const alias of Array.isArray(data?.aliases) ? data.aliases : []) {
     const electionDate = alias.electionDate || String(alias.electionId || '').split('__').at(1);
     if (!electionDate) continue;
     if (!byElectionDate.has(electionDate)) byElectionDate.set(electionDate, []);
-    byElectionDate.get(electionDate).push({
+    // Set on the line before when it was not there.
+    /** @type {IndexedDailCandidateAlias[]} */ (byElectionDate.get(electionDate)).push({
       ...alias,
       sourceNameKeys: new Set(nameKeys(alias.sourceCandidateName || '')),
       canonicalNameKeys: new Set(nameKeys(alias.canonicalCandidateName || '')),
@@ -2920,8 +3622,17 @@ function buildDailApprovedCandidateAliasIndex(data) {
   return byElectionDate;
 }
 
+/**
+ * @param {string | null} entryDate
+ * @param {OfficialDailRecord} official
+ * @param {ScraperCandidate} candidate
+ * @param {Map<string, OfficialDailCandidate>} byCandidateId
+ * @param {Map<string, OfficialDailCandidate>} byName
+ * @returns {OfficialDailCandidate | null}
+ */
 function approvedDailOfficialCandidateFor(entryDate, official, candidate, byCandidateId, byName) {
-  const aliases = dailApprovedCandidateAliasIndex.get(entryDate) || [];
+  // A null date looks up no aliases.
+  const aliases = dailApprovedCandidateAliasIndex.get(/** @type {string} */ (entryDate)) || [];
   if (!aliases.length) return null;
   const candidateNameKeys = new Set(nameKeys(candidate?.name || candidate?.candidateName || ''));
   const constituencyKeys = new Set([
@@ -2943,6 +3654,10 @@ function approvedDailOfficialCandidateFor(entryDate, official, candidate, byCand
   return null;
 }
 
+/**
+ * @param {Set<string>} a
+ * @param {Set<string>} b
+ */
 function setIntersects(a, b) {
   if (!a?.size || !b?.size) return false;
   for (const value of a) {
@@ -2951,6 +3666,12 @@ function setIntersects(a, b) {
   return false;
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {RawResult} rawResult
+ * @param {string} [fallbackConstituency]
+ * @returns {OfficialDailRecord | null}
+ */
 function officialDailRecordFor(entry, rawResult, fallbackConstituency = '') {
   if (entry?.bodySlug !== 'dail-eireann') return null;
   const election = dailOfficialResults?.elections?.[entry.date];
@@ -2977,6 +3698,12 @@ function officialDailRecordFor(entry, rawResult, fallbackConstituency = '') {
   return null;
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {RawResult | null} rawResult
+ * @param {string} [fallbackConstituency]
+ * @returns {RawResult | null}
+ */
 function enrichDailResultWithOfficialData(entry, rawResult, fallbackConstituency = '') {
   if (!rawResult || entry?.bodySlug !== 'dail-eireann') return rawResult;
   const official = officialDailRecordFor(entry, rawResult, fallbackConstituency);
@@ -3022,11 +3749,21 @@ function enrichDailResultWithOfficialData(entry, rawResult, fallbackConstituency
   };
 }
 
+/**
+ * @param {ScraperCandidate[]} candidates
+ * @param {OfficialDailRecord} official
+ * @param {string | null} [entryDate]
+ * @returns {ScraperCandidate[]}
+ */
 function mergeOfficialDailCandidates(candidates, official, entryDate = null) {
   if (!Array.isArray(candidates) || !official?.candidates) return candidates;
+  /** @type {Map<string, OfficialDailCandidate>} */
   const byName = new Map();
+  /** @type {Map<string, OfficialDailCandidate>} */
   const byNameParty = new Map();
+  /** @type {Map<string, OfficialDailCandidate>} */
   const byCandidateId = new Map();
+  /** @type {Map<number | null, OfficialDailCandidate[]>} */
   const byFirstPref = new Map();
   for (const candidate of Object.values(official.candidates)) {
     if (candidate?.candidateId !== undefined && candidate?.candidateId !== null) byCandidateId.set(String(candidate.candidateId), candidate);
@@ -3037,7 +3774,8 @@ function mergeOfficialDailCandidates(candidates, official, entryDate = null) {
     const firstPref = parseNumber(candidate?.firstPref);
     if (firstPref !== null) {
       if (!byFirstPref.has(firstPref)) byFirstPref.set(firstPref, []);
-      byFirstPref.get(firstPref).push(candidate);
+      // Set on the line before when it was not there.
+      /** @type {OfficialDailCandidate[]} */ (byFirstPref.get(firstPref)).push(candidate);
     }
   }
   return candidates.map((candidate) => {
@@ -3047,9 +3785,11 @@ function mergeOfficialDailCandidates(candidates, official, entryDate = null) {
     const officialCandidate = approvedDailOfficialCandidateFor(entryDate, official, candidate, byCandidateId, byName)
       || byNameParty.get(`${nameKey}|${partyKey}`)
       || byName.get(nameKey)
-      || ((byFirstPref.get(firstPref) || []).length === 1 ? byFirstPref.get(firstPref)[0] : null);
+      // The test before found exactly one.
+      || ((byFirstPref.get(firstPref) || []).length === 1 ? /** @type {OfficialDailCandidate[]} */ (byFirstPref.get(firstPref))[0] : null);
     if (!officialCandidate) return candidate;
-    return compactObject({
+    // The candidate with the official fields, less its empty ones.
+    return /** @type {ScraperCandidate} */ (compactObject({
       ...candidate,
       gender: candidate.gender || officialCandidate.gender,
       dailAbbreviation: candidate.dailAbbreviation || officialCandidate.dailAbbreviation,
@@ -3057,10 +3797,34 @@ function mergeOfficialDailCandidates(candidates, official, entryDate = null) {
       officialCandidateId: candidate.officialCandidateId || officialCandidate.candidateId,
       officialStatus: candidate.officialStatus || officialCandidate.officialStatus,
       party: candidate.party || officialCandidate.party
-    });
+    }));
   });
 }
 
+/**
+ * A count sidecar (data/elections/dail-wikipedia-counts, president-counts, roi-local-counts):
+ * every candidate's running total at each count.
+ * @typedef {{ id?: unknown, name?: string, party?: string, counts?: unknown[], electedAt?: unknown, lastCount?: unknown }} SidecarCandidate
+ * @typedef {{
+ *   candidates: SidecarCandidate[],
+ *   numCounts?: unknown,
+ *   note?: string,
+ *   constituency?: string,
+ *   pageTitle?: string,
+ *   pageUrl?: string,
+ *   sectionTitle?: string,
+ *   importedAt?: string,
+ *   meta?: SourceRow,
+ *   metadata?: SourceRow
+ * }} CountSidecar
+ */
+/**
+ * @param {ElectionEntry} entry
+ * @param {string | null} resultPath
+ * @param {RawResult | null} rawResult
+ * @param {string} [fallbackConstituency]
+ * @returns {RawResult | null}
+ */
 function enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, fallbackConstituency = '') {
   if (!rawResult || !resultPath) return rawResult;
   // The presidential elections' later counts come from newspaper reports (data/elections/president-counts),
@@ -3073,6 +3837,7 @@ function enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, fallb
   if (!root) return rawResult;
   const sidecarPath = path.join(root, entry.date, path.basename(resultPath));
   if (!existsSync(sidecarPath)) return rawResult;
+  /** @type {CountSidecar} */
   const sidecar = readJson(sidecarPath);
   if (!Array.isArray(sidecar?.candidates) || !sidecar.candidates.length || Number(sidecar.numCounts || 0) < 2) return rawResult;
   // A local contest's candidates may carry their person id as sourcePersonId (the IrelandElection.com
@@ -3088,15 +3853,24 @@ function enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, fallb
 // id, as "<system>:<id>". One id is one person and two ids of one system are two people, which
 // the person registry (build_person_registry_v2.py) reads from the candidacy's officialPersonIds.
 const OFFICIAL_PERSON_IDS = path.join(ROOT, 'data', 'elections', 'persons', 'official-person-ids.json');
+/** @typedef {{ election: string, constituency: string, name?: string, candidateId?: string, system: string, id: string }} OfficialIdLink */
+/** @type {Map<string, OfficialIdLink[]> | null} */
 let officialIdIndex = null;
+/**
+ * @param {string} electionKeyValue
+ * @param {ContestResult} result
+ * @param {string} [fallbackConstituency]
+ */
 function attachOfficialPersonIds(electionKeyValue, result, fallbackConstituency = '') {
   if (!officialIdIndex) {
     officialIdIndex = new Map();
+    /** @type {OfficialIdLink[]} */
     const links = existsSync(OFFICIAL_PERSON_IDS) ? readJson(OFFICIAL_PERSON_IDS).links || [] : [];
     for (const l of links) {
       const k = `${l.election}::${normalizeName(l.constituency)}`;
       if (!officialIdIndex.has(k)) officialIdIndex.set(k, []);
-      officialIdIndex.get(k).push(l);
+      // Set on the line before when it was not there.
+      /** @type {OfficialIdLink[]} */ (officialIdIndex.get(k)).push(l);
     }
   }
   const links = officialIdIndex.get(`${electionKeyValue}::${normalizeName(result?.constituency || fallbackConstituency)}`)
@@ -3115,10 +3889,11 @@ function attachOfficialPersonIds(electionKeyValue, result, fallbackConstituency 
   return result;
 }
 
+/** @type {Record<string, { born?: string, died?: string, url?: string }> | null} */
 let eiLifespans = null;
 function loadEiLifespans() {
   if (!eiLifespans) {
-    eiLifespans = existsSync(EI_CANDIDATE_LIFESPANS) ? (readJson(EI_CANDIDATE_LIFESPANS).persons || {}) : {};
+    eiLifespans = existsSync(EI_CANDIDATE_LIFESPANS) ? (/** @type {{ persons?: Record<string, { born?: string, died?: string, url?: string }> }} */ (readJson(EI_CANDIDATE_LIFESPANS)).persons || {}) : {};
   }
   return eiLifespans;
 }
@@ -3137,6 +3912,10 @@ function loadEiLifespans() {
  *
  * The id is kept on the candidacy as sourcePersonIdRejected, with the reason and the
  * page that gives the evidence, so the decision can be checked and reversed.
+ * @template {{ candidates?: LifespanCandidate[], elected?: LifespanCandidate[] }} T
+ * @param {ElectionEntry} entry
+ * @param {T | null | undefined} result
+ * @returns {T | null | undefined}
  */
 function applyLifespanEvidence(entry, result) {
   const lifespans = loadEiLifespans();
@@ -3160,6 +3939,15 @@ function applyLifespanEvidence(entry, result) {
   return result;
 }
 
+/** @typedef {{ sourcePersonId?: string, sourcePersonIdRejected?: unknown }} LifespanCandidate */
+
+/**
+ * @param {RawResult} rawResult
+ * @param {CountSidecar} sidecar
+ * @param {string} [fallbackConstituency]
+ * @param {{ carrySourcePersonId?: boolean }} [options]
+ * @returns {RawResult}
+ */
 function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency = '', { carrySourcePersonId = false } = {}) {
   // Every candidate the ElectionsIreland page listed, by name. The sidecar supplies
   // candidacies our own scrape of that page missed -- 1,380 of them between 1922 and
@@ -3172,15 +3960,20 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
   // candidate of 2002), and a plain map kept whichever came last -- filing the 1923
   // TD under a man who stood eighty years later. The matching pass in the harvester
   // already refuses such a name; this lookup has to refuse it too.
+  /** @type {Map<string, Set<string>>} */
   const eiRosterIds = new Map();
   for (const entry of rawResult?.ei_candidates || []) {
     if (!entry?.id) continue;
     const key = normalizeName(entry.name || '');
     if (!eiRosterIds.has(key)) eiRosterIds.set(key, new Set());
-    eiRosterIds.get(key).add(entry.id);
+    // Set on the line before when it was not there.
+    /** @type {Set<string>} */ (eiRosterIds.get(key)).add(entry.id);
   }
+  /** @type {Map<string, string>} */
   const eiRoster = new Map([...eiRosterIds].filter(([, ids]) => ids.size === 1).map(([key, ids]) => [key, [...ids][0]]));
+  /** @type {Map<string, ScraperCandidate | null>} */
   const localCandidates = new Map();
+  /** @type {Map<number, ScraperCandidate[]>} */
   const localCandidatesByFirstPref = new Map();
   for (const candidate of rawResult?.candidates || []) {
     // Two candidates of one name in one contest (the two Patrick O'Reillys of Cavan in 1951 and
@@ -3193,16 +3986,19 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
     const firstPref = parseNumber(candidate?.first_pref ?? candidate?.counts?.[0]);
     if (firstPref !== null) {
       if (!localCandidatesByFirstPref.has(firstPref)) localCandidatesByFirstPref.set(firstPref, []);
-      localCandidatesByFirstPref.get(firstPref).push(candidate);
+      // Set on the line before when it was not there.
+      /** @type {ScraperCandidate[]} */ (localCandidatesByFirstPref.get(firstPref)).push(candidate);
     }
   }
   // Second evidence, as in the harvester: a sidecar name that is the page's name written
   // differently ("Richard Mulcahy" for "General Richard Mulcahy"). Only a unique compatible
   // roster name nobody else has claimed, and only when no other unresolved sidecar name is
   // compatible with it, so two same-named candidates are never guessed between.
+  /** @type {Map<number, string>} */
   const compatibleRosterIds = new Map();
   {
     const claimed = new Set((rawResult?.candidates || []).map((c) => c?.ei_candidate_id).filter(Boolean));
+    /** @type {Array<{ index: number, name: string }>} */
     const unresolved = [];
     (sidecar?.candidates || []).forEach((candidate, index) => {
       const localCandidate = localCandidateForWikipediaCount(candidate, localCandidates, localCandidatesByFirstPref);
@@ -3217,10 +4013,12 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
       const hits = roster.filter((entry) => namesCompatible(row.name, entry.name));
       if (hits.length !== 1) continue;
       if (unresolved.some((other) => other !== row && namesCompatible(other.name, hits[0].name))) continue;
-      compatibleRosterIds.set(row.index, hits[0].id);
+      // The roster kept only entries with an id.
+      compatibleRosterIds.set(row.index, /** @type {string} */ (hits[0].id));
     }
   }
   const numCounts = Number(sidecar.numCounts || 0) || Math.max(1, ...sidecar.candidates.flatMap((candidate) => candidate.counts?.map((value, index) => value !== null && value !== undefined ? index + 1 : 0) || []));
+  /** @type {SourceRow[]} */
   const countGroup = sidecar.candidates.flatMap((candidate, index) => {
     const localCandidate = localCandidateForWikipediaCount(candidate, localCandidates, localCandidatesByFirstPref);
     const party = canonicalDailWikipediaParty(candidate.party, localCandidate);
@@ -3228,7 +4026,9 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
     const nameParts = candidateNameParts(name);
     const firstPref = parseNumber(candidate.counts?.[0]) ?? parseNumber(localCandidate?.first_pref) ?? parseNumber(localCandidate?.counts?.[0]) ?? 0;
     const occurrenceCount = candidate.electedAt || candidate.lastCount || '';
+    /** @type {SourceRow[]} */
     const rows = [];
+    /** @type {number | null} */
     let previousTotal = null;
     for (let countIndex = 0; countIndex < numCounts; countIndex += 1) {
       const countNumber = countIndex + 1;
@@ -3324,7 +4124,7 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
     ...(sidecar?.meta || {}),
     ...(sidecar?.metadata || {})
   };
-  const parseMetaNumber = (...values) => {
+  const parseMetaNumber = (/** @type {unknown[]} */ ...values) => {
     for (const value of values) {
       const parsed = parseNumber(value);
       if (parsed !== null) return parsed;
@@ -3387,6 +4187,12 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
   };
 }
 
+/**
+ * @param {SidecarCandidate} candidate
+ * @param {Map<string, ScraperCandidate | null>} localCandidates
+ * @param {Map<number, ScraperCandidate[]>} localCandidatesByFirstPref
+ * @returns {ScraperCandidate | null}
+ */
 function localCandidateForWikipediaCount(candidate, localCandidates, localCandidatesByFirstPref) {
   const direct = localCandidates.get(normalizeName(candidate.name || ''));
   if (direct) return direct;
@@ -3400,6 +4206,11 @@ function localCandidateForWikipediaCount(candidate, localCandidates, localCandid
   }) || null;
 }
 
+/**
+ * @param {unknown} wikipediaParty
+ * @param {ScraperCandidate | null} [localCandidate]
+ * @returns {string}
+ */
 function canonicalDailWikipediaParty(wikipediaParty, localCandidate = null) {
   const localParty = normalizeParty(String(localCandidate?.party || '').replace(/\s*Lozenge\s*$/i, '').trim());
   if (localParty && !/ceann comhairle/i.test(localParty)) return localParty;
@@ -3415,6 +4226,12 @@ function canonicalDailWikipediaParty(wikipediaParty, localCandidate = null) {
   return normalizeParty(wikipediaParty || 'Independent') || 'Independent';
 }
 
+/**
+ * @param {SidecarCandidate} candidate
+ * @param {ScraperCandidate | null} localCandidate
+ * @param {number} countNumber
+ * @param {number} numCounts
+ */
 function dailWikipediaCountStatus(candidate, localCandidate, countNumber, numCounts) {
   if (Number(candidate.electedAt || 0) === countNumber) {
     const localStatus = fixText(localCandidate?.status || '');
@@ -3425,6 +4242,7 @@ function dailWikipediaCountStatus(candidate, localCandidate, countNumber, numCou
   return '';
 }
 
+/** @param {unknown} name */
 function candidateNameParts(name) {
   const clean = fixText(name || '').trim();
   const space = clean.indexOf(' ');
@@ -3434,6 +4252,11 @@ function candidateNameParts(name) {
   };
 }
 
+/**
+ * @param {number} year
+ * @param {Array<[number, string]>} rows
+ * @returns {Geography}
+ */
 function sourceByYear(year, rows) {
   for (const [fromYear, sourceMapId] of rows) {
     if (year >= fromYear) return { sourceMapId };
@@ -3441,6 +4264,7 @@ function sourceByYear(year, rows) {
   return { sourceMapId: null };
 }
 
+/** @param {ElectionBundle} bundle */
 function resultsOnlyElection(bundle) {
   // The Republic's local elections without an LEA map, and referendums on constituencies with
   // no map (1937, on the 1935 set): their results are shown without a layer.
@@ -3450,6 +4274,12 @@ function resultsOnlyElection(bundle) {
     && (bundle.results || []).some((result) => (result.candidates || []).length > 0);
 }
 
+/**
+ * @param {ElectionEntry} entry
+ * @param {unknown[]} results
+ * @param {number} unmatchedCount
+ * @param {boolean} [hasMap]
+ */
 function formatElectionSubtitle(entry, results, unmatchedCount, hasMap = true) {
   const total = results.length || entry.constituencies.length;
   const prefix = entry.bodySlug === 'ireland-local'
@@ -3457,7 +4287,8 @@ function formatElectionSubtitle(entry, results, unmatchedCount, hasMap = true) {
     // some years: 2024 has 63 of 166.
     ? (entry.totalAreas && entry.totalAreas > total ? `results for ${total} of ${entry.totalAreas} LEAs` : `${total} LEAs`)
     : entry.bodyGroup === 'local-government'
-      ? (entry.bodies?.length > 1 ? `${total} DEAs` : entry.body)
+      // No list (undefined) is not more than one.
+      ? (/** @type {number} */ (entry.bodies?.length) > 1 ? `${total} DEAs` : entry.body)
       : PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug)
         ? `${total} ward${total === 1 ? '' : 's'}`
         : isPartyInternalBody(entry)
@@ -3469,8 +4300,12 @@ function formatElectionSubtitle(entry, results, unmatchedCount, hasMap = true) {
   return unmatchedCount > 0 ? `${prefix}; ${unmatchedCount} unmatched` : prefix;
 }
 
+/**
+ * @param {string} mode
+ * @param {Array<{ matched?: boolean, [field: string]: unknown }>} results
+ */
 function modeAvailable(mode, results) {
-  const field = {
+  const field = /** @type {Record<string, string>} */ ({
     winner: 'winnerParty',
     leadingParty: 'leadingParty',
     voteShare: 'leadingPct',
@@ -3478,11 +4313,18 @@ function modeAvailable(mode, results) {
     majority: 'majorityPct',
     seats: 'seatsWon',
     quota: 'quota'
-  }[mode];
+  })[mode];
   return results.some((result) => result.matched && result[field] !== null && result[field] !== undefined && result[field] !== '');
 }
 
+/**
+ * @template T, K
+ * @param {T[]} items
+ * @param {(item: T) => K} keyFn
+ * @returns {Map<K, number>}
+ */
 function countBy(items, keyFn) {
+  /** @type {Map<K, number>} */
   const counts = new Map();
   for (const item of items) {
     const key = keyFn(item);
@@ -3491,7 +4333,12 @@ function countBy(items, keyFn) {
   return counts;
 }
 
+/**
+ * @template K
+ * @param {Map<K, number>} counts
+ */
 function topCount(counts) {
+  /** @type {{ key: K, count: number } | null} */
   let best = null;
   for (const [key, count] of counts) {
     if (!best || count > best.count) best = { key, count };
@@ -3499,6 +4346,7 @@ function topCount(counts) {
   return best;
 }
 
+/** @param {unknown} value */
 function normalizeParty(value) {
   const text = fixText(value || '').trim();
   if (!text) return '';
@@ -3509,12 +4357,14 @@ function normalizeParty(value) {
     .replace(/^People Before Profit(?: Alliance)?$/i, 'PBP');
 }
 
+/** @param {unknown} value */
 function partyColour(value) {
   const key = normalizeName(value);
   // The shared registry (packages/core/src/election-domain.mjs) holds the historic and minor parties.
   return PARTY_COLOURS.get(key) || ElectionDomain.partyColour(value);
 }
 
+/** @param {{ bodySlug?: string | null, body?: unknown, date?: unknown }} entry */
 function electionKey(entry) {
   const bodyKey = entry.bodySlug === 'local-government'
     ? `local-government-${slugify(entry.body)}`
@@ -3522,12 +4372,17 @@ function electionKey(entry) {
   return `${bodyKey}__${slugify(entry.date)}`;
 }
 
+/**
+ * @param {{ key?: string, bodySlug?: string | null, body?: unknown, date?: string }} a
+ * @param {{ key?: string, bodySlug?: string | null, body?: unknown, date?: string }} b
+ */
 function compareElectionEntries(a, b) {
   const dateCompare = compareElectionsNewestFirst({ key: a.key || electionKey(a), date: a.date }, { key: b.key || electionKey(b), date: b.date });
   if (dateCompare !== 0) return dateCompare;
   return String(a.body).localeCompare(String(b.body));
 }
 
+/** @param {ElectionBundle} bundle */
 function buildUnmatchedDetails(bundle) {
   return (bundle.unmatchedConstituencies || []).map((constituency) => ({
     constituency,
@@ -3535,7 +4390,9 @@ function buildUnmatchedDetails(bundle) {
   }));
 }
 
+/** @param {Array<{ code?: string }>} details */
 function summarizeResiduals(details) {
+  /** @type {Record<string, number>} */
   const counts = {};
   for (const detail of details || []) {
     counts[detail.code || 'unclassified-needs-review'] = (counts[detail.code || 'unclassified-needs-review'] || 0) + 1;
@@ -3543,8 +4400,14 @@ function summarizeResiduals(details) {
   return Object.fromEntries(Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])));
 }
 
+/**
+ * @template {{ parityStatus?: string }} D
+ * @param {D[]} details
+ */
 function summarizeClosure(details) {
+  /** @type {Record<string, number>} */
   const byStatus = {};
+  /** @type {D[]} */
   const feasibleNow = [];
   for (const detail of details || []) {
     const status = detail.parityStatus || 'unclassified-needs-review';
@@ -3558,6 +4421,10 @@ function summarizeClosure(details) {
   };
 }
 
+/**
+ * @param {ElectionBundle} bundle
+ * @param {unknown} constituency
+ */
 function classifyUnmatchedConstituency(bundle, constituency) {
   const name = normalizeName(constituency);
   const sourceMapId = bundle.sourceMapId || null;
@@ -3650,12 +4517,19 @@ function classifyUnmatchedConstituency(bundle, constituency) {
   };
 }
 
+/** @typedef {{ cache?: Map<string, string> }} NameMemo */
+
 // Memoised: a pure string function called hundreds of thousands of times on a few thousand
 // distinct names (the largest single cost of the election manifest build). The cache lives on
 // the function so it exists however early the module calls it.
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 function normalizeName(value) {
   if (typeof value !== 'string') return normalizeNameUncached(value);
-  const cache = normalizeName.cache || (normalizeName.cache = new Map());
+  // The memo lives on the function (above).
+  const cache = /** @type {NameMemo} */ (normalizeName).cache || (/** @type {NameMemo} */ (normalizeName).cache = new Map());
   let result = cache.get(value);
   if (result === undefined) {
     if (cache.size > 200000) cache.clear();
@@ -3667,25 +4541,39 @@ function normalizeName(value) {
 
 // The key itself (scripts/lib/manifest-name-key.mjs): it reads ’ ‘ and ` as the straight
 // apostrophe, as core's normalizeName does.
+/** @param {unknown} value */
 function normalizeNameUncached(value) {
   return manifestNameKey(value);
 }
 
+/** @param {unknown} value */
 function slugify(value) {
   return normalizeName(value).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
 
+/**
+ * @param {unknown} value
+ * @returns {number | null}
+ */
 function parseNumber(value) {
   if (value === null || value === undefined || value === '') return null;
   const number = Number(String(value).replace(/,/g, ''));
   return Number.isFinite(number) ? number : null;
 }
 
+/** @param {unknown} value */
 function numberOrZero(value) {
   return Number.isFinite(Number(value)) ? Number(value) : 0;
 }
 
+/**
+ * The object without its empty fields (null, undefined, '', [] and {}).
+ * @template {object} T
+ * @param {T | null | undefined} object
+ * @returns {Partial<T>}
+ */
 function compactObject(object) {
+  /** @type {Record<string, unknown>} */
   const output = {};
   for (const [key, value] of Object.entries(object || {})) {
     if (value === null || value === undefined || value === '') continue;
@@ -3693,26 +4581,44 @@ function compactObject(object) {
     if (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0) continue;
     output[key] = value;
   }
-  return output;
+  // Only T's own fields were copied, each with its own value.
+  return /** @type {Partial<T>} */ (output);
 }
 
+/**
+ * @param {number} value
+ * @param {number} [decimals]
+ */
 function round(value, decimals = 2) {
   const factor = 10 ** decimals;
   return Math.round(value * factor) / factor;
 }
 
+/**
+ * The distinct non-empty values, in first-seen order.
+ * @template T
+ * @param {T[]} values
+ * @returns {NonNullable<T>[]}
+ */
 function unique(values) {
-  return [...new Set(values.filter((value) => value !== null && value !== undefined && String(value).trim() !== ''))];
+  // The filter dropped the null and undefined values.
+  return /** @type {NonNullable<T>[]} */ ([...new Set(values.filter((value) => value !== null && value !== undefined && String(value).trim() !== ''))]);
 }
 
+/** @param {string} file */
 function readJson(file) {
   return JSON.parse(readFileSync(file, 'utf8'));
 }
 
+/**
+ * @param {string} file
+ * @param {unknown} data
+ */
 function writeJson(file, data) {
   return writeStableGeneratedJson(file, data);
 }
 
+/** @param {unknown} value */
 function slash(value) {
   return String(value).replace(/\\/g, '/');
 }
