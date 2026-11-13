@@ -37,6 +37,16 @@ console.log(`${listed} objects under ${PREFIX}; ${orphans.length} match and are 
 for (const key of orphans.slice(0, 5)) console.log(`  ${key}`);
 if (orphans.length > 5) console.log(`  ... and ${orphans.length - 5} more`);
 if (!DELETE || !orphans.length) process.exit(0);
-// Quiet DeleteObjects requests of 1,000 keys each (the store's deleteMany).
-await store.deleteMany(orphans);
-console.log(`Deleted ${orphans.length}.`);
+// Quiet DeleteObjects requests of 1,000 keys each (the store's deleteMany). A quiet request
+// answers with the keys it could not delete, each with its error; every one is printed and
+// counted, and any failure ends the run with exit 1.
+const { errors } = await store.deleteMany(orphans);
+for (const failure of errors) {
+  console.error(`  FAILED ${failure.key ?? '(no key)'}: ${[failure.code, failure.message].filter(Boolean).join(' ') || 'no error given'}`);
+}
+if (!errors.length) {
+  console.log(`Deleted ${orphans.length}.`);
+} else {
+  console.log(`Deleted ${orphans.length - errors.length} of ${orphans.length}; ${errors.length} failed.`);
+  process.exit(1);
+}

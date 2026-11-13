@@ -9,11 +9,14 @@
 //     of '@aws-sdk/client-s3' here, and this module's own exports read the bucket from the JSON
 //     file in S3_FAKE_STATE and append each call, one JSON line, to the file in S3_FAKE_LOG.
 //
-// State: { pageSize?: number, objects?: { [key]: Seed }, fail?: Failure[] }
+// State: { pageSize?: number, objects?: { [key]: Seed }, fail?: Failure[], deleteErrors?: DeleteError[] }
 //   Seed     { body?: string, size?: number, etag?: string, contentType?, cacheControl?,
 //              contentEncoding?, metadata?: {} }   (size alone: an object whose bytes are not held)
 //   Failure  { op: 'PutObject' | 'HeadObject' | ..., key: string, times?: number (default 1),
 //              status?: number (500), name?: string ('InternalError') }
+//   DeleteError { key: string, code?: string ('AccessDenied'), message?: string ('Access Denied') }
+//              a DeleteObjects request answers 200 and lists this key in its Errors, as R2
+//              does for a key it could not delete; the object stays
 import { appendFileSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 
@@ -182,8 +185,13 @@ export function createFakeS3({ state = {}, log } = {}) {
       return { CopyObjectResult: { ETag: source.etag, LastModified: LAST_MODIFIED } };
     },
     async DeleteObjects({ Delete }) {
-      for (const { Key } of Delete.Objects) objects.delete(Key);
-      return {};
+      const errors = [];
+      for (const { Key } of Delete.Objects) {
+        const refused = (state.deleteErrors || []).find((e) => e.key === Key);
+        if (refused) errors.push({ Key, Code: refused.code ?? 'AccessDenied', Message: refused.message ?? 'Access Denied' });
+        else objects.delete(Key);
+      }
+      return errors.length ? { Errors: errors } : {};
     },
   };
 

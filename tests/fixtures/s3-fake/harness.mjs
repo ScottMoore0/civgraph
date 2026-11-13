@@ -8,7 +8,8 @@
 // compares with golden/<case>.json, which was recorded from main's scripts before they moved
 // onto packages/storage/src/s3.mjs. From the command line, run this file with node:
 //
-//   harness.mjs --record <rev> [case ...]   write golden/ from <rev>'s scripts
+//   harness.mjs --record <rev> [case ...]   write golden/ from <rev>'s scripts (<rev> 'worktree':
+//                                           the working tree's, for a case whose change is intended)
 //   harness.mjs --compare <rev> [case ...]  run <rev>'s and the working tree's, report differences
 //
 // Credentials: each run gets made-up R2_* values and none of the caller's R2_*, AWS_* or
@@ -269,6 +270,28 @@ CASES.push(
       const objects = {};
       for (let i = 0; i < 2003; i += 1) objects[`data/graph/many/k-${String(i).padStart(5, '0')}.json`] = { size: i };
       return { pageSize: 1000, objects };
+    },
+  },
+  {
+    // Two keys the bucket refuses to delete (owner-approved change, 13 Nov 2026: each failure is
+    // printed and counted, and the run exits 1); one error has no message.
+    id: 'orphans-delete-fails', script: 'r2-orphans', args: [...ORPHAN_ARGS, '--delete'],
+    setup: (fx) => ({
+      ...orphanFixture(fx),
+      deleteErrors: [
+        { key: 'data/graph/indexes/shards/s-002.json.br', code: 'AccessDenied', message: 'Access Denied' },
+        { key: 'data/graph/indexes/shards/s-014.json', code: 'InternalError', message: '' },
+      ],
+    }),
+  },
+  {
+    // A refusal in the second of three DeleteObjects requests.
+    id: 'orphans-delete-batches-fails', script: 'r2-orphans', args: ['--prefix', 'data/graph/many/', '--match', '\\.json$', '--delete'],
+    setup: () => {
+      /** @type {Record<string, { size: number }>} */
+      const objects = {};
+      for (let i = 0; i < 2003; i += 1) objects[`data/graph/many/k-${String(i).padStart(5, '0')}.json`] = { size: i };
+      return { pageSize: 1000, objects, deleteErrors: [{ key: 'data/graph/many/k-01500.json', code: 'SlowDown', message: 'Reduce your request rate.' }] };
     },
   },
 );
@@ -580,7 +603,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   mkdirSync(GOLDEN, { recursive: true });
   let differing = 0;
   for (const c of chosen) {
-    const before = runCase(c, { rev });
+    const before = runCase(c, { rev: rev === 'worktree' ? null : rev });
     if (mode === '--record') {
       writeFileSync(goldenFile(c.id), goldenText(before));
       console.log(`recorded ${c.id}: exit ${before.exit}, ${before.calls.length} calls`);
