@@ -48,7 +48,8 @@
     "w8-review-2026-11-12": "Northern Ireland council contests of 2014, 2019 and 2023 whose stage totals the import had cut to whole votes: the totals rebuilt from the transfers (restoreStageFractions) were each read by eye on the Electoral Office for Northern Ireland's scanned result sheet (w8-review, 12 Nov 2026), where OCR had not found them; contests where any rebuilt total differs from the sheet are not included.",
     "w8-arith2-2026-11-12": "Contests that still failed the contest arithmetic check (scripts/check/rules/contest-arithmetic.mjs) after arith-audit and w8-arith, checked against their sources: for the Northern Ireland councils of 1973-2005, the Electoral Office's declaration sheets (its Local Government Election Results booklets) and Nicholas Whyte's ARK spreadsheets transcribing them; for the Dail, ElectionsIreland.org's count sheets and the official results. A figure is changed only where the source shows it and the corrected stage then reconciles (each transfer brings the stage total to the next, and the votes handed out match the surplus or the votes of the candidates excluded). Where the source's own figures do not add up, the contest is listed in contest-arithmetic-allowlist.json instead.",
     "gap-roi-2026-11-12": "Republic of Ireland local contests that Civgraph held with no candidates, filled from an official results book read by eye or from a newspaper's printed first count (Irish Newspaper Archives), with IrelandElection.com as the pointer and for full names: a record is added only where the source's first preferences add up to the valid poll and the elected equal the seats (gap-roi, 12 Nov 2026). Each reason says what was read where.",
-    "review-rest-2026-11-12": "Northern Ireland council counts of 2014, 2019 and 2023 whose transfers differed from the Electoral Office for Northern Ireland's scanned result sheet (w8-review's list, 12 Nov 2026), and contests that still failed the contest arithmetic check: each sheet was read by eye, cell by cell, and the count rows set to the sheet's transfers and stage totals (candidateCount, or replaceCountRows where a non-transferable row was missing), so that every stage's transfers add up to the surplus or the votes excluded and every stage sums to the valid poll. Where the sheet's own figures do not add up, the contest is allowlisted in contest-arithmetic-allowlist.json with the reason (review-rest, 12 Nov 2026)."
+    "review-rest-2026-11-12": "Northern Ireland council counts of 2014, 2019 and 2023 whose transfers differed from the Electoral Office for Northern Ireland's scanned result sheet (w8-review's list, 12 Nov 2026), and contests that still failed the contest arithmetic check: each sheet was read by eye, cell by cell, and the count rows set to the sheet's transfers and stage totals (candidateCount, or replaceCountRows where a non-transferable row was missing), so that every stage's transfers add up to the surplus or the votes excluded and every stage sums to the valid poll. Where the sheet's own figures do not add up, the contest is allowlisted in contest-arithmetic-allowlist.json with the reason (review-rest, 12 Nov 2026).",
+    "owner-shortlist-2026-11-13": "Candidate spellings the owner settled from the 12 Nov 2026 shortlist of people and names (approved 13 Nov 2026): the spelling of the person's own official listing where the import misspelt it."
   },
   "records": [
     {
@@ -338487,6 +338488,29 @@
           "op": "set",
           "path": "Constituency.countInfo.Spoiled",
           "value": "171"
+        }
+      ]
+    },
+    {
+      "batch": "owner-shortlist-2026-11-13",
+      "sourceFile": "data/elections-source/data/elections/dail-eireann/2024-11-29/mayo.json",
+      "source": {
+        "title": "Member page: Keira Keogh",
+        "publisher": "Houses of the Oireachtas",
+        "url": "https://www.oireachtas.ie/en/members/member/Keira-Keogh.D.2024-11-29/",
+        "accessed": "2026-11-11"
+      },
+      "reason": "The Fine Gael TD elected for Mayo is Keira Keogh, as her Oireachtas member page and the Department's Local Elections 2024 results book (Westport LEA, p. 212) spell her; the ElectionsIreland import had Kiera Keogh. Her person page already shows Keira.",
+      "category": "candidate-name",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Kiera Keogh",
+          "set": {
+            "candidateName": "Keira Keogh",
+            "Firstname": "Keira",
+            "Surname": "Keogh"
+          }
         }
       ]
     }
