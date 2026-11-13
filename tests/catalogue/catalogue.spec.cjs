@@ -514,12 +514,12 @@ test('N20 placeholders, transport order, constituency hovers and dates', async (
 });
 
 test('N28 live planning maps are dated as at their snapshot (owner, 11 Nov 2026)', async ({ page }) => {
-  // data.gov.ie's national extract (ETL) of 20 Apr 2026; Roscommon's download of 26 Apr 2026.
+  // data.gov.ie's national extract (ETL) of 20 Apr 2026; Roscommon's live layer, fetched 8 Jul 2026.
   const national = catalogue.maps['roi-national-planning-applications'];
   const roscommon = catalogue.maps['oda-map-00115-planning-application-boundaries-roscommon'];
   expect([national.date, national.dateAsAt]).toEqual(['2026-04-20', true]);
-  expect([roscommon.date, roscommon.dateAsAt]).toEqual(['2026-04-26', true]);
-  expect(roscommon.dateNote).toMatch(/23 Apr 2026/);
+  expect([roscommon.date, roscommon.dateAsAt]).toEqual(['2026-07-08', true]);
+  expect(roscommon.dateNote).toMatch(/8 Jul 2026/);
   // Maps not dated that way read as before.
   expect(catalogue.maps['pc-2023'].dateAsAt).toBeUndefined();
   await open(page);
