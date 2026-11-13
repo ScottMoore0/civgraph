@@ -32,7 +32,7 @@ export { API, BINDINGS, CACHE, RUNTIME_VARS, SECRETS, SITE, binding, environment
  * subdomain of it (en.wikipedia.org, www.wikidata.org, query.wikidata.org, commons.wikimedia.org,
  * upload.wikimedia.org). The owner decided on 13 Nov 2026: "identify as Civgraph when interacting
  * with Wikimedia projects." scripts/ingest/wikimedia_headers.py is the Python twin, held equal by
- * tests/unit/crawl-headers.test.mjs.
+ * the crawl-headers unit test.
  */
 export const WIKIMEDIA_DOMAINS = Object.freeze(['wikipedia.org', 'wikidata.org', 'wikimedia.org']);
 

@@ -24,7 +24,7 @@ export const SITE = /* @__PURE__ */ Object.freeze({
    * dev proxies to them) and, by the owner's decision of 13 Nov 2026, to the Wikimedia projects.
    * Send it to no other service: a crawler, scraper or fetch to a third party uses crawlHeaders()
    * from packages/config/src/node.mjs, which sets no User-Agent except for Wikimedia (owner rule,
-   * 13 Nov 2026). tests/unit/crawl-headers.test.mjs lists the files allowed to read it.
+   * 13 Nov 2026). The crawl-headers unit test lists the files allowed to read it.
    */
   userAgent: 'civgraph-research (+https://civgraph.net)',
 });
