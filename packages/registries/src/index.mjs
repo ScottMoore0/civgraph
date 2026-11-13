@@ -20,6 +20,7 @@
  * | colours  | data/registries/colours.json                    | packages/registries/src/colours.mjs    |
  * | languages | data/registries/languages.json                 | packages/registries/src/languages.mjs  |
  * | catalogue-kinds | data/registries/catalogue-kinds.json     | packages/registries/src/catalogue-kinds.mjs |
+ * | source-kinds | data/registries/source-kinds.json           | packages/registries/src/source-kinds.mjs |
  *
  * Node only (reads files). The views modules are pure and take the loaded value, so a Worker or
  * the browser can use them over a generated copy. `node packages/registries/src/check.mjs` validates them all.
@@ -38,6 +39,7 @@ import { checkElectionTypes } from './election-types.mjs';
 import { checkColours } from './colours.mjs';
 import { checkLanguages } from './languages.mjs';
 import { checkCatalogueKinds } from './catalogue-kinds.mjs';
+import { checkSourceKinds } from './source-kinds.mjs';
 
 /** The repository root (this file is packages/registries/src/index.mjs). */
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
@@ -52,6 +54,7 @@ export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url
 /** @typedef {import('../../types/index.js').ColoursRegistry} ColoursRegistry */
 /** @typedef {import('../../types/index.js').LanguagesRegistry} LanguagesRegistry */
 /** @typedef {import('../../types/index.js').CatalogueKindsRegistry} CatalogueKindsRegistry */
+/** @typedef {import('../../types/index.js').SourceKindsRegistry} SourceKindsRegistry */
 /** @typedef {import('./validate.mjs').Schema} Schema */
 
 /**
@@ -66,7 +69,8 @@ export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url
  *   'election-types': ElectionTypesRegistry,
  *   colours: ColoursRegistry,
  *   languages: LanguagesRegistry,
- *   'catalogue-kinds': CatalogueKindsRegistry
+ *   'catalogue-kinds': CatalogueKindsRegistry,
+ *   'source-kinds': SourceKindsRegistry
  * }} Registries
  */
 /** @typedef {keyof Registries} RegistryName */
@@ -134,6 +138,11 @@ export const REGISTRIES = {
     schema: 'packages/registries/schemas/catalogue-kinds.schema.json',
     load: (root) => readJson(root, 'data/registries/catalogue-kinds.json'),
     check: (data) => checkCatalogueKinds(/** @type {CatalogueKindsRegistry} */ (data))
+  },
+  'source-kinds': {
+    schema: 'packages/registries/schemas/source-kinds.schema.json',
+    load: (root) => readJson(root, 'data/registries/source-kinds.json'),
+    check: (data) => checkSourceKinds(/** @type {SourceKindsRegistry} */ (data))
   }
 };
 
