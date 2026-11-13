@@ -14,7 +14,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { normalizeParty, partyColour } from '../../packages/core/src/election-domain.mjs';
+import { candidateDisplayName, normalizeParty, partyColour } from '../../packages/core/src/election-domain.mjs';
 import { createPartyLabelInterpreter } from '../../scripts/lib/party-label-interpretations.mjs';
 import { bracketedResultFile, seatTypeResultFile } from '../../scripts/lib/election-result-files.mjs';
 
@@ -72,10 +72,25 @@ test('every election body is placed inside or outside Northern Ireland, once', (
   }
 });
 
+// The one rule that acts outside Northern Ireland: the Independent Alliance of the 2016 Dail
+// election, a grouping of independents, read as Independent (owner's decision, 13 November 2026).
+const INDEPENDENT_ALLIANCE = new Set(['Independent Alliance', 'Independent Alliance (Ireland)']);
+
+/** A row as the 2016 Independent Alliance rule should leave it: its label read as Independent. */
+function asIndependentAlliance2016(row) {
+  const field = 'Party_Name' in row || !('party' in row) ? 'Party_Name' : 'party';
+  if (!INDEPENDENT_ALLIANCE.has(String(row[field] || '').trim())) return row;
+  const out = { ...row, [field]: 'Independent' };
+  // A row with no candidate id keeps its identity key (name and the label it had).
+  if (!String(row.Candidate_Id || '').trim() && !row.person_id) out.Candidate_Id = `${candidateDisplayName(row)}|${normalizeParty(row[field])}`;
+  return out;
+}
+
 test('no Dail, Republic or House of Commons contest changes its reading: a bare Labour there stays Irish Labour', () => {
   const outside = config.regions.notNi.bodies;
   let rows = 0;
   let labour = 0;
+  let alliance = 0;
   for (const body of outside) {
     const dir = path.join(ELECTIONS, body);
     let exists = true;
@@ -85,10 +100,15 @@ test('no Dail, Republic or House of Commons contest changes its reading: a bare 
       let raw;
       try { raw = JSON.parse(readFileSync(file, 'utf8')); } catch { continue; }
       const date = path.relative(dir, file).split(path.sep)[0];
-      const before = JSON.stringify(raw);
+      const expected = body === 'dail-eireann' && date === '2016-02-26' && raw && typeof raw === 'object' && !Array.isArray(raw)
+        ? { ...raw, ...(Array.isArray(raw.candidates) ? { candidates: raw.candidates.map(asIndependentAlliance2016) } : {}),
+          ...(raw.Constituency?.countGroup ? { Constituency: { ...raw.Constituency, countGroup: raw.Constituency.countGroup.map(asIndependentAlliance2016) } } : {}) }
+        : raw;
+      const before = JSON.stringify(expected);
       for (const row of [...(raw?.Constituency?.countGroup || []), ...(Array.isArray(raw?.candidates) ? raw.candidates : [])]) {
         rows += 1;
         if (/^labour$/i.test(String(row?.Party_Name ?? row?.party ?? '').trim())) labour += 1;
+        if (INDEPENDENT_ALLIANCE.has(String(row?.Party_Name ?? row?.party ?? '').trim())) alliance += 1;
       }
       interpreter.apply({ body, date }, raw);
       assert.equal(JSON.stringify(raw), before, `the party-label rules changed ${path.relative(ELECTIONS, file)}`);
@@ -96,6 +116,7 @@ test('no Dail, Republic or House of Commons contest changes its reading: a bare 
   }
   assert.ok(rows > 10000, `read the Republic's contests (${rows} rows)`);
   assert.ok(labour > 400, `including their bare Labour rows (${labour})`);
+  assert.equal(alliance, 21, 'the 2016 Independent Alliance candidates, each read as Independent');
   assert.equal(normalizeParty('Labour'), 'Irish Labour', 'the Dail convention is unchanged');
   assert.equal(readAs('dail-eireann', '1927-06-09', { party: 'Labour' }), 'Labour');
   assert.equal(readAs('ireland-local', '1999-06-11', { party: 'Labour' }), 'Labour');
@@ -220,4 +241,12 @@ test('a bracket spelt out in the file name wins over the bracket-dropped file: C
   }
   assert.equal(bracketedResultFile(dir, 'East Central Ward'), null, 'no bracket, no match');
   assert.equal(bracketedResultFile(dir, 'East Central Ward (Councillors)'), null, 'no such file');
+});
+
+test('the 2016 Independent Alliance reads as Independent, in the Dail of 2016 only', () => {
+  assert.equal(readAs('dail-eireann', '2016-02-26', { party: 'Independent Alliance' }), 'Independent');
+  assert.equal(readAs('dail-eireann', '2016-02-26', { party: 'Independent Alliance (Ireland)' }), 'Independent');
+  assert.equal(readAs('dail-eireann', '2020-02-08', { party: 'Independent Alliance' }), 'Independent Alliance');
+  assert.equal(readAs('dail-eireann', '2011-02-25', { party: 'South Kerry Independent Alliance' }), 'South Kerry Independent Alliance');
+  assert.equal(readAs('ireland-local', '2014-05-23', { party: 'Independent Alliance' }), 'Independent Alliance');
 });
