@@ -54,7 +54,7 @@ import { recordPagePath } from '../../../ui/src/page-types.mjs';
  *   elections: CatalogueElection[],
  *   contestIndex?: Record<string, string[]>
  * }} Catalogue
- * @typedef {{ id: string, title: string, date?: string, dateDisplay?: string, authors?: string[], keywords?: string[] }} CatalogueBook
+ * @typedef {{ id: string, title?: string, date?: string, dateDisplay?: string, authors?: string[], keywords?: string[] }} CatalogueBook
  */
 
 /**
@@ -417,7 +417,7 @@ export class CatalogueSearch {
 
 /**
  * Series whose maps cover a point, by layer bounds; and the named features there, by box.
- * @param {Catalogue} catalogue
+ * @param {Pick<Catalogue, 'series' | 'maps'>} catalogue  the series and their maps' records are all it reads
  * @param {{ rows: PlaceRow[] } | null | undefined} places  CatalogueSearch's places
  * @param {number} lng
  * @param {number} lat

@@ -80,7 +80,7 @@ export const PROVIDER_SHORT = {
 /** @param {string | null | undefined} name */
 export const shortProvider = (name) => PROVIDER_SHORT[String(name || '').trim()] || name;
 
-/** Short names for the jurisdictions, as the filters and rows show them. */
+/** Short names for the jurisdictions, as the filters and rows show them. @type {Record<string, string>} */
 export const SCOPE_SHORT = { 'Northern Ireland': 'NI', 'Republic of Ireland': 'ROI', Ireland: 'All-island' };
 // An election held before partition (3 May 1921) covered the island because the island was
 // one jurisdiction: Phelim Birch's "pre-partition" says that, where "all-island" would not.

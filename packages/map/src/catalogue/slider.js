@@ -13,14 +13,14 @@ import { setHidden } from '../state-helpers.mjs';
 const FLOOR = 1800;
 
 /** One step of the track: a decade (or everything before 1800). @typedef {{ label: string, start: number, end: number }} YearBin */
-/** What the readout and boxes show: the chosen years (null for no limit), the data's range, the count and its noun. @typedef {{ from: number | null, to: number | null, min: number, max: number, total: number, noun: string }} SliderState */
+/** What the readout and boxes show: the chosen years (null for no limit), the data's range, the count and its noun. @typedef {{ from: number | null, to: number | null, min: number | null, max: number | null, total: number, noun: string }} SliderState */
 
 /** The steps the handles run over: one per decade from the earliest to the latest year, with
  * anything before 1800 gathered into one first step.
- * @param {number[]} years
+ * @param {Array<number | null>} years  a year for each map, or null when it has none
  * @returns {YearBin[]} */
 export function decadeDomain(years) {
-  const ys = years.filter(Number.isFinite);
+  const ys = /** @type {number[]} */ (years.filter(Number.isFinite));
   if (!ys.length) return [];
   /** @type {YearBin[]} */
   const bins = [];
@@ -34,12 +34,13 @@ export function decadeDomain(years) {
 /**
  * How many of the years fall in each step.
  * @param {YearBin[]} bins
- * @param {number[]} years
+ * @param {Array<number | null>} years  a year for each map, or null when it has none
  * @returns {number[]}
  */
 export function binCounts(bins, years) {
   const counts = bins.map(() => 0);
-  for (const y of years) {
+  // The nulls (no year) are passed over by the test below.
+  for (const y of /** @type {number[]} */ (years)) {
     if (!Number.isFinite(y)) continue;
     const i = bins.findIndex((b) => y >= b.start && y <= b.end);
     if (i >= 0) counts[i] += 1;

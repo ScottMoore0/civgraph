@@ -27,7 +27,7 @@ import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
 import { compositeChildIds } from '../map-relations.mjs';
 import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import catalogueKinds from '../../../registries/src/browser/catalogue-kinds.mjs';
-import { esc, yearOf, longDate, mapDate, shortProvider } from './util.js';
+import { esc, yearOf, mapDate, shortProvider } from './util.js';
 import { formatDisplayDate } from '../../../core/src/date-format.mjs';
 import { cdnUrl } from '../cdn-url.js';
 import { openMenu, closeMenu } from './menu.js';
@@ -43,39 +43,107 @@ import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLangua
 import { siteNumber } from '../../../core/src/format.js';
 import { MAP_COLOURS } from '../colours.mjs';
 
+/** @typedef {import('./catalogue-types.d.ts').CatalogueDoc} CatalogueDoc */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueRow} CatalogueRow */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueRowMember} CatalogueRowMember */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueRowElection} CatalogueRowElection */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueShelf} CatalogueShelf */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueSubject} CatalogueSubject */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueMapRec} CatalogueMapRec */
+/** @typedef {import('./catalogue-types.d.ts').CataloguePeopleDoc} CataloguePeopleDoc */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueSearchRecord} CatalogueSearchRecord */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueUi} CatalogueUi */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueApp} CatalogueApp */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueMapView} CatalogueMapView */
+/** @typedef {import('./search.js').PersonRow} PersonRow */
+/** @typedef {import('./search.js').SearchHit} SearchHit */
+/** @typedef {import('./geocoder.js').AddressResult} AddressResult */
+/** @typedef {import('./menu.js').MenuItem} MenuItem */
+/** @typedef {import('./slider.js').YearBin} YearBin */
+/** @typedef {import('./slider.js').SliderState} SliderState */
+/** @typedef {import('../data-service.js').BooksDocument} BooksDocument */
+/** @typedef {import('../data-service.js').CatalogueMap} CatalogueMap */
+/**
+ * The Maps tab's filters (toAdd: an older store's, dropped on load).
+ * @typedef {{ scope: string, kind: string, from: number | null, to: number | null, onMap: boolean, undated: boolean, toAdd?: unknown }} MapFilters
+ */
+/** The Elections tab's filters. @typedef {{ body: string, ekind: string, escope: string, from: number | null, to: number | null }} ElectionFilters */
+/** Which filters: the Maps tab's or the Elections tab's. @typedef {'maps' | 'elections'} FilterKey */
+/**
+ * A shelf as the list draws it: its subjects with the rows they show, how many, and the best search score.
+ * @typedef {{ sh: CatalogueShelf, subjects: Array<{ sub: CatalogueSubject, series: CatalogueRow[], best: number }>, count: number, best: number }} VisibleShelf
+ */
+/**
+ * The addresses for the search box (geocoder.js), with how the search for them went.
+ * @typedef {{ query: string, results: AddressResult[], loading?: boolean, paused?: boolean, searched?: boolean, failed?: boolean, source?: string }} AddressState
+ */
+/** Named features of one name the search found, each with its record. @typedef {{ name: string, items: Array<{ record: CatalogueSearchRecord }> }} PlaceGroup */
+/**
+ * What a search found besides maps: places, people, parties and sources, and people who stood; or that it is still looking.
+ * @typedef {{ loading?: boolean, places?: PlaceGroup[], people?: CatalogueSearchRecord[], persons?: Array<{ row: PersonRow, score: number }> }} SearchExtras
+ */
+/**
+ * A person whose elections are listed: each contest's key with where, for which party and whether elected.
+ * @typedef {{ id: string, name: string, row: PersonRow, contests: Map<string, { place: string, party: string, won: boolean }> }} CataloguePerson
+ */
+/** Two maps compared: the second fades in over the first. @typedef {{ a: string, b: string, aLabel: string, bLabel: string, value: number }} CatalogueCompare */
+/** A point on the map ("What's here"). @typedef {{ lng: number, lat: number }} LngLat */
+/** Who is signed in (edit.js loadAuth). @typedef {{ authenticated?: boolean, allowed?: boolean, loginUrl?: string | null, email?: string }} CatalogueAuth */
+/**
+ * An element the catalogue found by a data attribute (data-cn-*): the attributes its handler reads
+ * are written with it in the views, and one that may be absent is tested where it is read.
+ * @typedef {HTMLElement & { dataset: Record<string, string> }} DataTarget
+ */
+/** A part of the catalogue's markup: what it holds are HTML elements. @typedef {{ querySelector(selectors: string): HTMLElement | null }} HtmlScope */
+/** A section of the open tab, for the contents drawer. @typedef {{ id: string, label: string | undefined, count: number, level: number, icon?: string, colour?: string }} ContentsSection */
 // From D1 since data design phase 3 (the /data/catalogue/*.json URLs still answer, from the same rows).
 const PLACES_URL = '/_api/catalogue?view=places';
 const PEOPLE_URL = '/_api/catalogue?view=people';
 const STORE = 'civgraph.catalogueNext.v2';
+/** @type {MapFilters} */
 const BLANK_FILTERS = { scope: '', kind: '', from: null, to: null, onMap: false, undated: false };
+/** @type {ElectionFilters} */
 const BLANK_EFILTERS = { body: '', ekind: 'general', escope: '', from: null, to: null };
 
-const app = () => (typeof window !== 'undefined' ? window.__civgraphTest2?.app : null);
-const readStore = () => { try { return JSON.parse(sessionStorage.getItem(STORE)) || {}; } catch { return {}; } };
+const app = () => (typeof window !== 'undefined' ? /** @type {CatalogueApp | undefined} */ (window.__civgraphTest2?.app) : null);
+// JSON.parse(null), nothing stored, is null, so the empty record.
+/** @returns {{ v?: number, filters?: Partial<MapFilters>, efilters?: Partial<ElectionFilters>, opened?: string[] }} */
+const readStore = () => { try { return JSON.parse(/** @type {string} */ (sessionStorage.getItem(STORE))) || {}; } catch { return {}; } };
 // The map sections, each the maps of one kind.
 // [section, kind, label, icon]: the catalogue-kinds registry's kinds (data/registries/catalogue-kinds.json), in order.
 export const SECTIONS = catalogueKinds.sections.map(([id, kind, label, ic]) => [id, kind, label, ic]);
+/** @type {Record<string, string>} */
 const TAB_SHORT = { places: 'Places', historic: 'Historic' };
 const KIND_OF_SECTION = Object.fromEntries(SECTIONS.map(([id, kind]) => [id, kind]));
 const SECTION_OF_KIND = Object.fromEntries(SECTIONS.map(([id, kind]) => [kind, id]));
-export const sectionOfKind = (kind) => SECTION_OF_KIND[kind] || 'boundaries';
+/** @param {string | undefined} kind */
+// No kind (a row not found) finds no section: the default.
+export const sectionOfKind = (kind) => SECTION_OF_KIND[/** @type {string} */ (kind)] || 'boundaries';
 
-/** A count's noun, singular for one: "1 County", "32 Counties". */
+/**
+ * A count's noun, singular for one: "1 County", "32 Counties".
+ * @param {string} unit
+ * @param {number} n
+ */
 export function unitWord(unit, n) {
   if (n !== 1) return unit;
   return String(unit).replace(/(\w+)$/, (w) => (/ies$/i.test(w) ? w.slice(0, -3) + 'y' : /(ches|shes|sses|xes)$/i.test(w) ? w.slice(0, -2) : /s$/i.test(w) && !/ss$/i.test(w) ? w.slice(0, -1) : w));
 }
 
-const cssId = (s) => (window.CSS?.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'));
+// CSS.escape is missing from some old browsers, which the lib types do not allow for.
+/** @param {string} s */
+const cssId = (s) => (/** @type {{ escape?: unknown } | undefined} */ (window.CSS)?.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'));
 
 export class CatalogueNext {
   /**
    * The open tab, a checked choice (route-state.mjs CATALOGUE_TAB; any other value throws).
    * @returns {'maps' | 'elections' | 'books'}
    */
-  get tab() { return this._tab; }
+  // The constructor sets the tab before anything reads it.
+  get tab() { return /** @type {'maps' | 'elections' | 'books'} */ (this._tab); }
   set tab(value) { this._tab = CATALOGUE_TAB.check(value); }
 
+  /** @param {CatalogueUi} ui */
   constructor(ui) {
     // The catalogue's lifetime (R8): its listeners on document and window pass this signal, and
     // dispose() takes them away.
@@ -84,12 +152,46 @@ export class CatalogueNext {
     defineFlagFields(this, ['drawn', 'picking', 'electionsFirst', 'langNotice']);
     defineFlagFields(this, ['placesReady'], { latch: true });
     this.ui = ui;
-    this.data = null;
+    // Made by load() and mount(); what reads them before then tests for them first.
+    /** @type {CatalogueDoc} */
+    this.data = /** @type {CatalogueDoc} */ (/** @type {unknown} */ (null));
+    /** @type {Promise<void> | null} */
     this.loading = null;
-    this.root = null;
+    /** @type {HTMLElement} */
+    this.root = /** @type {HTMLElement} */ (/** @type {unknown} */ (null));
+    // Made by mount() and load(), as root and data are; declared here as made.
+    /** @type {HTMLElement} */
+    this.tabsEl = /** @type {HTMLElement} */ (/** @type {unknown} */ (undefined));
+    /** @type {HTMLElement} */
+    this.viewEl = /** @type {HTMLElement} */ (/** @type {unknown} */ (undefined));
+    /** @type {HTMLElement} */
+    this.pickEl = /** @type {HTMLElement} */ (/** @type {unknown} */ (undefined));
+    /** @type {HTMLElement} */
+    this.compareEl = /** @type {HTMLElement} */ (/** @type {unknown} */ (undefined));
+    /** @type {Map<string, CatalogueRow>} */
+    this.seriesById = /** @type {Map<string, CatalogueRow>} */ (/** @type {unknown} */ (undefined));
+    /** @type {Map<string, CatalogueSubject>} */
+    this.subjectById = /** @type {Map<string, CatalogueSubject>} */ (/** @type {unknown} */ (undefined));
+    /** @type {Map<string, CatalogueShelf>} */
+    this.shelfById = /** @type {Map<string, CatalogueShelf>} */ (/** @type {unknown} */ (undefined));
+    /** @type {Map<string, string>} each map's row */
+    this.seriesOfMap = /** @type {Map<string, string>} */ (/** @type {unknown} */ (undefined));
+    /** @type {Map<string, CatalogueRowElection>} */
+    this.electionByKey = /** @type {Map<string, CatalogueRowElection>} */ (/** @type {unknown} */ (undefined));
+    /** @type {CatalogueSearch} */
+    this.search = /** @type {CatalogueSearch} */ (/** @type {unknown} */ (undefined));
+    /** @type {YearBin[]} */
+    this.mapBins = /** @type {YearBin[]} */ (/** @type {unknown} */ (undefined));
+    /** @type {YearBin[]} */
+    this.electionBins = /** @type {YearBin[]} */ (/** @type {unknown} */ (undefined));
+    /** @type {[number, number] | [null, null]} */
+    this.allMapYears = /** @type {[number, number] | [null, null]} */ (/** @type {unknown} */ (undefined));
+    /** @type {[number, number] | [null, null]} */
+    this.allElectionYears = /** @type {[number, number] | [null, null]} */ (/** @type {unknown} */ (undefined));
     const saved = readStore();
     this.tab = 'maps';
     this.section = 'boundaries';
+    /** @type {MapFilters} */
     this.filters = { ...BLANK_FILTERS, ...(saved.filters || {}) };
     // "On the map" has no button for now, so it cannot be left on unseen; "to be added" is per row.
     this.filters.onMap = false;
@@ -99,39 +201,63 @@ export class CatalogueNext {
     // Before v3 an empty kind was the default (All); General elections are now.
     const efilters = { ...(saved.efilters || {}) };
     if ((saved.v || 0) < 3) delete efilters.ekind;
+    /** @type {ElectionFilters} */
     this.efilters = { ...BLANK_EFILTERS, ...efilters, body: '' };
+    /** @type {Set<string>} the shelves open */
     this.opened = new Set(saved.opened || []);
     this.filtersOpen = false;
+    /** @type {Set<string>} the rows open */
     this.expanded = new Set();
+    /** @type {Map<string, string>} each row's chosen edition */
     this.selected = new Map();
+    /** @type {Map<string, string>} each row's edition last put on the map */
     this.lastOn = new Map();
+    /** @type {string | null} */
     this.focusSeries = null;
+    /** @type {Set<string>} */
     this.moreChips = new Set();
+    /** @type {Set<string>} */
     this.moreParts = new Set();
+    /** @type {Set<string>} */
     this.showTodo = new Set();
+    /** @type {Set<string>} */
     this.showLocal = new Set();
+    /** @type {Record<string, boolean>} which lists show in full */
     this.limits = {};
     this.query = '';
+    /** @type {Map<string, SearchHit> | null} */
     this.searchHits = null;
+    /** @type {{ from: number, to: number } | null} */
     this.searchPeriod = null;
+    /** @type {Map<string, string> | null} each election the search found, with why */
     this.electionHits = null;
     this.electionsFirst = false;
+    /** @type {Set<string> | null} */
     this.bookHits = null;
+    /** @type {SearchExtras | null} */
     this.extras = null;
     // The search is the language phrase (lang-reveal.js): one line in place of the results.
     this.langNotice = false;
     this.searchToken = 0;
+    /** @type {LngLat | null} */
     this.here = null;
+    /** @type {CataloguePerson | null} */
     this.person = null;
     // Addresses for the search box (geocoder.js): { loading, results, source, paused, query }.
     this.geocoder = new AddressGeocoder();
+    /** @type {AddressState | null} */
     this.addresses = null;
+    /** @type {AbortController | null} */
     this.addressController = null;
+    /** @type {PeopleSearch | null} */
     this.peopleSearch = null;
     this.placesReady = false;
+    /** @type {CatalogueCompare | null} */
     this.compare = null;
     this.picking = false;
+    /** @type {Set<string>} maps and elections loading */
     this.busy = new Set();
+    /** @type {Set<string>} */
     this.pendingToggle = new Set();
     if (typeof window !== 'undefined') {
       // Capture phase: the site's own popstate handlers, registered earlier, rewrite the address
@@ -143,7 +269,7 @@ export class CatalogueNext {
         forgetTypedPhrase();
         const input = document.getElementById('searchInput');
         if (!this.langNotice || !input) return;
-        input.value = '';
+        /** @type {HTMLInputElement} */ (input).value = '';
         input.dispatchEvent(new Event('input', { bubbles: true }));
       }, { signal: this.lifecycle.signal });
     }
@@ -169,7 +295,7 @@ export class CatalogueNext {
           this.ui.ensureFeatureCountManifest?.().catch(() => null),
         ]);
         if (!res.ok) throw new Error(`catalogue data: ${res.status}`);
-        this.data = await res.json();
+        this.data = /** @type {CatalogueDoc} */ (await res.json());
         this.seriesById = new Map(this.data.series.map((s) => [s.id, s]));
         loadAuth().then((auth) => { this.auth = auth; if (auth.allowed && this.drawn && this.expanded.size) this.refreshResults(); }).catch(() => {});
         this.subjectById = new Map(this.data.subjects.map((s) => [s.id, s]));
@@ -178,13 +304,16 @@ export class CatalogueNext {
         for (const s of this.data.series) for (const m of [...s.members, ...(s.local || [])]) this.seriesOfMap.set(m.id, s.id);
         for (const s of this.data.series) for (const m of s.members) for (const p of [...(this.data.maps[m.id]?.parts || []), ...(this.data.maps[m.id]?.counties || [])]) if (!this.seriesOfMap.has(p.id)) this.seriesOfMap.set(p.id, s.id);
         this.electionByKey = new Map(this.data.elections.map((e) => [e.key, e]));
+        /** @type {BooksDocument | null} */
         this.books = await books;
         if (this.books && !this.ui.booksData) this.ui.booksData = this.books;
         this.search = new CatalogueSearch(this.data, { books: this.books?.books || [] });
+        /** @type {Array<number | null>} */
         const editionYears = [];
         for (const s of this.data.series) for (const m of s.members) editionYears.push(yearOf(this.rec(m.id).date));
         this.mapBins = decadeDomain(editionYears);
-        const span2 = (ys) => { const v = ys.filter(Number.isFinite); return v.length ? [Math.min(...v), Math.max(...v)] : [null, null]; };
+        /** @param {Array<number | null>} ys @returns {[number, number] | [null, null]} */
+        const span2 = (ys) => { const v = /** @type {number[]} */ (ys.filter(Number.isFinite)); return v.length ? [Math.min(...v), Math.max(...v)] : [null, null]; };
         this.allMapYears = span2(editionYears);
         this.allElectionYears = span2(this.data.elections.map((e) => yearOf(e.date)));
         this.electionBins = decadeDomain(this.data.elections.map((e) => yearOf(e.date)));
@@ -194,13 +323,21 @@ export class CatalogueNext {
     await this.loading;
   }
 
+  /**
+   * Draw the catalogue into the container (mounting it there first), then search for the query.
+   * @param {HTMLElement} container
+   * @param {{ query?: string }} [options]
+   * @returns {Promise<boolean>} false when the catalogue could not be loaded
+   */
   async render(container, options = {}) {
+    /** @type {HTMLElement} */
     this.container = container;
     if (!this.root || !container.contains(this.root)) this.mount(container);
     try {
       await this.load();
     } catch (err) {
-      this.viewEl.innerHTML = `<p class="cn-empty">The catalogue could not be loaded (${esc(err.message)}).</p>`;
+      // fetch, res.json and load's own throw each reject with an Error.
+      this.viewEl.innerHTML = `<p class="cn-empty">The catalogue could not be loaded (${esc(/** @type {Error} */ (err).message)}).</p>`;
       return false;
     }
     // The section bar and jump bar stick below the title-and-search shell; the current pane's
@@ -214,6 +351,7 @@ export class CatalogueNext {
     return true;
   }
 
+  /** @param {HTMLElement} container */
   mount(container) {
     if (!document.getElementById('cn-styles')) {
       const style = document.createElement('style');
@@ -227,11 +365,13 @@ export class CatalogueNext {
       <div class="cn-view" data-cn-view><p class="cn-empty">Loading the catalogue…</p></div>
       <div data-cn-compare></div>
     </div>`;
-    this.root = container.querySelector('[data-cn-root]');
-    this.tabsEl = this.root.querySelector('[data-cn-tabs]');
-    this.viewEl = this.root.querySelector('[data-cn-view]');
-    this.pickEl = this.root.querySelector('[data-cn-pick]');
-    this.compareEl = this.root.querySelector('[data-cn-compare]');
+    // Each is in the markup set just above.
+    this.root = /** @type {HTMLElement} */ (container.querySelector('[data-cn-root]'));
+    this.tabsEl = /** @type {HTMLElement} */ (this.root.querySelector('[data-cn-tabs]'));
+    this.viewEl = /** @type {HTMLElement} */ (this.root.querySelector('[data-cn-view]'));
+    this.pickEl = /** @type {HTMLElement} */ (this.root.querySelector('[data-cn-pick]'));
+    this.compareEl = /** @type {HTMLElement} */ (this.root.querySelector('[data-cn-compare]'));
+    // Clicks and keys in the catalogue land on its elements.
     this.root.addEventListener('click', (e) => this.onClick(e));
     this.root.addEventListener('keydown', (e) => this.onKeyDown(e));
     this.root.addEventListener('input', (e) => this.onInput(e));
@@ -248,6 +388,7 @@ export class CatalogueNext {
     if (typeof ResizeObserver === 'function') {
       this.resizeObs?.disconnect();
       this.paneWidth = 0;
+      /** @type {ResizeObserver | undefined} */
       this.resizeObs = new ResizeObserver(([entry]) => {
         const w = Math.round(entry.contentRect.width);
         if (!w || Math.abs(w - (this.paneWidth || 0)) < 24) return;
@@ -260,7 +401,7 @@ export class CatalogueNext {
           const s = this.scroller || this.findScroller();
           const top = s?.scrollTop;
           this.refreshResults();
-          if (s) s.scrollTop = top;
+          if (s) s.scrollTop = /** @type {number} */ (top);
         }, 200);
       });
       this.resizeObs.observe(this.root);
@@ -271,17 +412,20 @@ export class CatalogueNext {
    * wrap, with "+N more" (itself on the first line) to show them all. A row whose chips are all
    * showing ("Hide" is drawn instead) is left as it is; so is one in a closed shelf, which is
    * fitted when it opens. */
+  /** @param {ParentNode} scope */
   fitChips(scope) {
     scope.querySelectorAll?.('.cn-chips').forEach((box) => {
-      const more = box.querySelector(':scope > [data-cn-more]');
-      if (!more || !box.offsetParent) return;
+      const more = /** @type {HTMLElement | null} */ (box.querySelector(':scope > [data-cn-more]'));
+      if (!more || !/** @type {HTMLElement} */ (box).offsetParent) return;
       // The to-be-added switch is a control, not a map: it stays on the line beside "+N more".
-      const keep = box.querySelector(':scope > [data-cn-todo]');
-      const items = [...box.children].filter((el) => el !== more && el !== keep);
+      const keep = /** @type {HTMLElement | null} */ (box.querySelector(':scope > [data-cn-todo]'));
+      const items = [.../** @type {HTMLCollectionOf<HTMLElement>} */ (box.children)].filter((el) => el !== more && el !== keep);
       items.forEach((el) => { setHidden(el, false); });
       setHidden(more, true);
       const top = items[0]?.offsetTop;
-      const wraps = (el) => el.offsetTop > top + 2;
+      // The first chip's top: there is one, as the row has more than fit.
+      /** @param {HTMLElement} el */
+      const wraps = (el) => el.offsetTop > /** @type {number} */ (top) + 2;
       const firstWrapped = items.findIndex(wraps);
       if (firstWrapped < 0) return;
       let shown = firstWrapped;
@@ -299,8 +443,9 @@ export class CatalogueNext {
     });
   }
 
+  /** The element the pane scrolls in: the catalogue's nearest scrolling ancestor. @returns {HTMLElement | null} */
   findScroller() {
-    for (let el = this.container; el; el = el.parentElement) {
+    for (let el = /** @type {HTMLElement | null | undefined} */ (this.container); el; el = el.parentElement) {
       const oy = getComputedStyle(el).overflowY;
       if (oy === 'auto' || oy === 'scroll') return el;
     }
@@ -327,7 +472,8 @@ export class CatalogueNext {
       results = MapsView.resultsHtml(this);
     }
     this.viewEl.innerHTML = `${toolbar}<div class="cn-results" data-cn-results>${results}</div>`;
-    this.resultsEl = this.viewEl.querySelector('[data-cn-results]');
+    /** @type {HTMLElement | null | undefined} */
+    this.resultsEl = /** @type {HTMLElement | null} */ (this.viewEl.querySelector('[data-cn-results]'));
     this.drawn = true;
     this.afterDraw(this.root);
     this.drawCompare();
@@ -346,11 +492,12 @@ export class CatalogueNext {
   }
 
   refreshToolbar() {
-    const bar = this.viewEl.querySelector('[data-cn-toolbar]');
+    const bar = /** @type {HTMLElement | null} */ (this.viewEl.querySelector('[data-cn-toolbar]'));
     if (!bar) return;
-    const key = bar.dataset.cnToolbar;
-    const f = key === 'maps' ? this.filters : this.efilters;
-    bar.querySelectorAll('[data-cn-filter]').forEach((b) => {
+    const key = /** @type {FilterKey} */ (bar.dataset.cnToolbar);
+    // Read by each button's filter name.
+    const f = /** @type {Record<string, unknown>} */ (key === 'maps' ? this.filters : this.efilters);
+    /** @type {NodeListOf<DataTarget>} */ (bar.querySelectorAll('[data-cn-filter]')).forEach((b) => {
       const g = b.dataset.cnFilter;
       const on = g === 'onMap' ? Boolean(f[g]) : (f[g] || '') === (b.dataset.value || '');
       b.setAttribute('aria-pressed', String(on));
@@ -358,7 +505,7 @@ export class CatalogueNext {
     const { i, j, narrowed } = this.yearRange(key);
     const bins = key === 'maps' ? this.mapBins : this.electionBins;
     updateSlider(bar.querySelector('[data-cn-slider]'), bins, i, j, this.yearState(key));
-    const undated = bar.querySelector('[data-cn-undated-wrap]');
+    const undated = /** @type {HTMLElement | null} */ (bar.querySelector('[data-cn-undated-wrap]'));
     if (undated) setHidden(undated, !narrowed);
     const n = this.activeFilterCount(key);
     const toggle = bar.querySelector('.cn-filters-toggle');
@@ -374,14 +521,14 @@ export class CatalogueNext {
   placeFiltersButton() {
     const search = document.querySelector('.search-input');
     if (!search) return;
-    let copy = document.getElementById('cnFiltersButton');
+    let copy = /** @type {HTMLButtonElement | null} */ (document.getElementById('cnFiltersButton'));
     if (!copy) {
       copy = document.createElement('button');
       copy.type = 'button';
       copy.id = 'cnFiltersButton';
       copy.className = 'cn-filters-button';
       copy.addEventListener('click', () => {
-        this.viewEl?.querySelector('[data-cn-toolbar] .cn-filters-toggle')?.click();
+        /** @type {HtmlScope | undefined} */ (this.viewEl)?.querySelector('[data-cn-toolbar] .cn-filters-toggle')?.click();
         this.placeFiltersButton();
       });
       search.after(copy);
@@ -399,6 +546,7 @@ export class CatalogueNext {
     }
   }
 
+  /** @param {ParentNode} scope */
   afterDraw(scope) {
     this.placeFiltersButton();
     // Sticky headings sit just below the section tabs, which wrap to two rows in a narrow pane.
@@ -409,7 +557,7 @@ export class CatalogueNext {
     this.fitChips(scope);
     // A long timeline opens on the chosen edition, not on its first year.
     scope.querySelectorAll?.('.cn-tl').forEach((tl) => {
-      const tick = tl.querySelector('.cn-tick[aria-pressed="true"]');
+      const tick = /** @type {HTMLElement | null} */ (tl.querySelector('.cn-tick[aria-pressed="true"]'));
       if (tick && tl.scrollWidth > tl.clientWidth) tl.scrollLeft = Math.max(0, tick.offsetLeft - tl.clientWidth / 2);
     });
     this.observeThumbs(scope);
@@ -430,6 +578,7 @@ export class CatalogueNext {
   tabsHtml() {
     const counts = this.tabCounts();
     // A phone shows a short label under the icon (styles.js): "Places", "Historic".
+    /** @param {string} id @param {string} ic @param {string} label @param {number} n */
     const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span class="cn-tab__long">${label}</span><span class="cn-tab__short">${TAB_SHORT[id] || label}</span><span class="cn-tab__count">${siteNumber(n)}</span></button>`;
     return SECTIONS.map(([id, , label, ic]) => tab(id, ic, label, counts[id])).join('') + tab('elections', 'vote', 'Elections', counts.elections);
   }
@@ -437,8 +586,10 @@ export class CatalogueNext {
   /** Series per section (those a search found, while searching) and elections. */
   tabCounts() {
     const searching = this.searching;
+    /** @type {Record<string, number>} */
     const out = { elections: this.visibleElections().length, books: searching ? this.bookHits?.size || 0 : this.books?.books?.length || 0 };
     // Each section counts its maps (every map a row can add: editions, versions, council maps), not its rows.
+    /** @param {CatalogueRow} s */
     const mapsIn = (s) => (searching ? (this.searchHits?.get(s.id)?.members?.length || s.members.length) : s.members.length + (s.local?.length || 0));
     for (const [id, kind] of SECTIONS) out[id] = this.data.series.filter((s) => s.kind === kind && (!searching || this.searchHits?.has(s.id))).reduce((n, s) => n + mapsIn(s), 0);
     return out;
@@ -448,35 +599,41 @@ export class CatalogueNext {
   otherTabHint() {
     if (!this.query) return '';
     const n = this.tabCounts();
-    const others = [...SECTIONS.map(([id, , label]) => [id, label.toLowerCase(), n[id]]), ['elections', 'elections', n.elections]].filter(([id, , k]) => id !== this.openSection && k);
+    const others = /** @type {Array<[string, string, number]>} */ ([...SECTIONS.map(([id, , label]) => [id, label.toLowerCase(), n[id]]), ['elections', 'elections', n.elections]]).filter(([id, , k]) => id !== this.openSection && k);
     if (!others.length) return '';
     return ` ${others.map(([id, label, k]) => `<button type="button" class="cn-link" data-cn-tab="${id}">${siteNumber(k)} in ${label}</button>`).join(', ')} match it.`;
   }
 
   /* ================================================================ data helpers (used by the views) */
 
+  /** @param {string} id @returns {CatalogueMapRec} */
   rec(id) { return this.data.maps[id] || {}; }
+  /** @param {string} id @returns {CatalogueMap | null} */
   full(id) { try { return dataService.getMapById(id) || null; } catch { return null; } }
   /**
    * A thumbnail, as the current pane draws it (same classes, so the same hover preview), but loaded
    * by observeThumbs: the current pane's loader watches the window, and the pane scrolls inside
    * its own box, which hides everything below its edge from that loader until it is on screen.
    */
+  /** @param {string | undefined} id */
   thumb(id) {
     const ui = this.ui;
     const small = (id && (ui.thumbnailPath?.(id, '-60') || ui.thumbnailPath?.(id))) || '';
     if (!small) return '<span class="catalogue-flat__toc-thumb catalogue-flat__toc-thumb--fallback"></span>';
-    const full = ui.thumbnailPath?.(id) || '';
+    // A thumbnail was found above, so there is an id.
+    const full = ui.thumbnailPath?.(/** @type {string} */ (id)) || '';
     const blank = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
     const zoom = full ? `<span class="catalogue-flat__toc-thumbzoom" aria-hidden="true"><img src="${blank}" data-thumbnail-src="${full}" data-thumbnail-defer="hover" alt="" loading="lazy"></span>` : '';
     return `<span class="catalogue-flat__toc-thumbwrap"><img class="catalogue-flat__toc-thumb" src="${blank}" data-cn-src="${small}" alt="" decoding="async">${zoom}</span>`;
   }
 
   /** Load thumbnails a screen or two before they scroll into the pane. */
+  /** @param {ParentNode} scope */
   observeThumbs(scope) {
-    const imgs = scope.querySelectorAll?.('img[data-cn-src]') || [];
+    const imgs = /** @type {NodeListOf<HTMLImageElement>} */ (scope.querySelectorAll?.('img[data-cn-src]') || []);
     if (!imgs.length) return;
-    const load = (img) => { img.src = img.dataset.cnSrc; img.removeAttribute('data-cn-src'); };
+    /** @param {HTMLImageElement} img one still to load, so with its data-cn-src */
+    const load = (img) => { img.src = /** @type {string} */ (img.dataset.cnSrc); img.removeAttribute('data-cn-src'); };
     if (!('IntersectionObserver' in window)) { imgs.forEach(load); return; }
     if (!this.thumbObserver || this.thumbObserverRoot !== this.scroller) {
       this.thumbObserver?.disconnect();
@@ -484,15 +641,16 @@ export class CatalogueNext {
       this.thumbObserver = new IntersectionObserver((entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          this.thumbObserver.unobserve(entry.target);
-          load(entry.target);
+          /** @type {IntersectionObserver} */ (this.thumbObserver).unobserve(entry.target);
+          load(/** @type {HTMLImageElement} */ (entry.target));
         }
       }, { root: this.scroller || null, rootMargin: '900px 0px' });
     }
-    imgs.forEach((img) => this.thumbObserver.observe(img));
+    imgs.forEach((img) => /** @type {IntersectionObserver} */ (this.thumbObserver).observe(img));
   }
 
   /** "OSNI - 11 Local Government Districts": provider and feature count, as the current pane writes it. */
+  /** @param {string} id @param {{ full?: boolean }} [options] */
   providerLine(id, { full: fullText = false } = {}) {
     const m = this.full(id);
     let line = '';
@@ -504,6 +662,7 @@ export class CatalogueNext {
     return fullText || line.length <= 90 ? line : `${line.slice(0, 88)}…`;
   }
 
+  /** @param {unknown} d @returns {number | null} */
   decimalYear(d) {
     const m = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?/.exec(String(d || ''));
     if (!m) return null;
@@ -511,6 +670,7 @@ export class CatalogueNext {
   }
 
   /** What a map's own name adds to its label: "2022 (Final Recommendations)" in LGDs, labelled 2022 -> "Final Recommendations". */
+  /** @param {string | undefined} name @param {string} label @param {string} [seriesName] */
   nameBeyondLabel(name, label, seriesName = '') {
     if (!name || name === label) return '';
     let rest = name;
@@ -522,15 +682,18 @@ export class CatalogueNext {
     return clean.length > 1 ? clean : '';
   }
 
+  /** @param {CatalogueRow} s */
   selectedMember(s) {
     const id = this.selected.get(s.id);
     return s.members.find((m) => m.id === id) || s.members.find((m) => this.isLoaded(m.id)) || s.members.find((m) => this.rec(m.id).status !== 'placeholder') || s.members[0];
   }
 
+  /** @param {CatalogueRow} s */
   hitFor(s) { return this.query ? this.searchHits?.get(s.id) : null; }
 
   /* ================================================================ filters */
 
+  /** @param {FilterKey} key */
   yearRange(key) {
     const f = key === 'maps' ? this.filters : this.efilters;
     // The pane can be drawn before the year bins exist (a slow first load): treat them as empty.
@@ -546,6 +709,7 @@ export class CatalogueNext {
   }
 
   /** What the year filter shows: the chosen years, the data's span, and how many it holds. */
+  /** @param {FilterKey} key @returns {SliderState} */
   yearState(key) {
     const r = this.yearRange(key);
     const years = key === 'maps'
@@ -554,19 +718,23 @@ export class CatalogueNext {
     const all = key === 'maps' ? this.allMapYears : this.allElectionYears;
     return {
       from: r.from, to: r.to, min: all[0], max: all[1],
-      total: years.filter((y) => Number.isFinite(y) && y >= r.lo && y <= r.hi).length,
+      // Number.isFinite has passed each year compared.
+      total: years.filter((y) => Number.isFinite(y) && /** @type {number} */ (y) >= r.lo && /** @type {number} */ (y) <= r.hi).length,
       noun: key === 'maps' ? 'dated map' : 'election',
     };
   }
 
+  /** @param {FilterKey} key @param {number | null} y */
   inYears(key, y) {
     const r = this.yearRange(key);
     if (!r.narrowed) return true;
-    return Number.isFinite(y) && y >= r.lo && y <= r.hi;
+    // Number.isFinite has passed the year compared.
+    return Number.isFinite(y) && /** @type {number} */ (y) >= r.lo && /** @type {number} */ (y) <= r.hi;
   }
 
   // A map with no date (Civil Parishes, Baronies) shows until years are chosen; then only if the
   // reader includes undated maps (Phelim Birch's review, 2026-10-08: off by default).
+  /** @param {string} id */
   editionInYears(id) {
     const r = this.rec(id);
     if (r.years?.length) return r.years.some((y) => this.inYears('maps', y));
@@ -577,18 +745,21 @@ export class CatalogueNext {
 
   /** What a map is, in one form everywhere (hover, rows): "date · provider · count", the date
    * left out when there is none. */
+  /** @param {string} id @param {{ date?: boolean, short?: boolean }} [options] */
   mapSummary(id, { date = true, short = false } = {}) {
     const r = this.rec(id);
     const m = this.full(id);
     const providers = (r.provider?.length ? r.provider : [m?.provider || []].flat()).filter(Boolean).map((p) => (short ? shortProvider(p) : p)).join(', ');
     let count = '';
     const n = r.features || (m && this.ui.getMapFeatureCount ? this.ui.getMapFeatureCount(m) : null);
-    if (Number.isFinite(n) && n > 0) count = `${siteNumber(n)} ${unitWord(r.unit || (m && this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, n) : 'features'), n)}`;
+    // Number.isFinite has passed the count used.
+    if (Number.isFinite(n) && /** @type {number} */ (n) > 0) count = `${siteNumber(/** @type {number} */ (n))} ${unitWord(r.unit || (m && this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, /** @type {number} */ (n)) : 'features'), /** @type {number} */ (n))}`;
     const constituencies = /^constituencies-/.test(this.seriesOfMap?.get(id) || '');
     return [date && r.date && !constituencies ? mapDate(r) : '', providers, count].filter(Boolean).join(' · ');
   }
 
   /** Contributors suggest edits to a map; anyone else is sent to sign in first (packages/map/src/catalogue/edit.js). */
+  /** @param {string} id */
   suggestEdit(id) {
     const record = this.full(id);
     if (!record) return;
@@ -601,23 +772,29 @@ export class CatalogueNext {
   }
 
   /** The description of the row a map is in, for its Details page ('' when it has none). */
+  /** @param {string} mapId */
   rowAboutHtml(mapId) {
-    const s = this.seriesById?.get(this.seriesOfMap?.get(mapId));
+    // A map in no row finds no row.
+    const s = this.seriesById?.get(/** @type {string} */ (this.seriesOfMap?.get(mapId)));
     return s?.about ? MapsView.aboutHtml(s.about, { heading: s.name }) : '';
   }
 
+  /** @param {FilterKey} key */
   activeFilterCount(key) {
-    const f = key === 'maps' ? this.filters : this.efilters;
+    // Either tab's filters: each reads its own fields.
+    const f = /** @type {Partial<MapFilters & ElectionFilters>} */ (key === 'maps' ? this.filters : this.efilters);
     const n = key === 'maps'
       ? [f.scope, f.kind, f.onMap].filter(Boolean).length
       : [f.ekind !== 'general', f.escope].filter(Boolean).length;
     return n + (this.yearRange(key).narrowed ? 1 : 0);
   }
 
+  /** @param {CatalogueRow} s */
   seriesOnMap(s) {
     return [...s.members, ...(s.local || [])].some((m) => this.isLoaded(m.id) || (this.rec(m.id).parts || []).some((p) => this.isLoaded(p.id)));
   }
 
+  /** @param {CatalogueRow} s @param {{ ignoreYears?: boolean, ignoreSection?: boolean }} [options] */
   seriesShown(s, { ignoreYears = false, ignoreSection = false } = {}) {
     const f = this.filters;
     if (f.scope && s.scope !== f.scope) return false;
@@ -629,16 +806,20 @@ export class CatalogueNext {
   }
 
   /** The shelf a series sits on in the open section (Boundaries merges four into Environment). */
+  /** @param {CatalogueRow} s */
   shelfIn(s) {
     for (const [id, m] of Object.entries(MERGED_SHELVES[this.section] || {})) if (m.shelves.includes(s.shelf)) return id;
     return s.shelf;
   }
 
+  /** @returns {VisibleShelf[]} */
   visibleShelves() {
+    /** @param {CatalogueRow} s */
     const score = (s) => this.searchHits?.get(s.id)?.score || 0;
     let shelves = this.data.shelves.map((sh) => {
-      const subjects = sh.subjects.map((sid) => this.subjectById.get(sid)).filter(Boolean).map((sub) => {
-        let series = sub.series.map((id) => this.seriesById.get(id)).filter((s) => s && this.seriesShown(s));
+      // Every id the document lists is in it: filter(Boolean) only guards against one that is not.
+      const subjects = /** @type {CatalogueSubject[]} */ (sh.subjects.map((sid) => this.subjectById.get(sid)).filter(Boolean)).map((sub) => {
+        let series = /** @type {CatalogueRow[]} */ (sub.series.map((id) => this.seriesById.get(id)).filter((s) => s && this.seriesShown(s)));
         if (this.query) series = series.sort((a, b) => score(b) - score(a));
         return { sub, series, best: Math.max(0, ...series.map(score)) };
       }).filter((x) => x.series.length);
@@ -648,6 +829,7 @@ export class CatalogueNext {
     for (const [id, m] of Object.entries(MERGED_SHELVES[this.section] || {})) {
       const parts = shelves.filter((x) => m.shelves.includes(x.sh.id));
       if (!parts.length) continue;
+      /** @type {VisibleShelf} */
       const merged = {
         // Each part's `last` rows still go to the end (Water Districts (Roscommon), a council's map).
         sh: { id, name: m.name, subjects: parts.flatMap((x) => x.sh.subjects), flat: true, last: parts.flatMap((x) => x.sh.last || []) },
@@ -664,6 +846,7 @@ export class CatalogueNext {
   }
 
   mapCounts() {
+    /** @type {Array<number | null>} */
     const years = [];
     for (const s of this.data.series) {
       if (!this.seriesShown(s, { ignoreYears: true })) continue;
@@ -672,6 +855,7 @@ export class CatalogueNext {
     return binCounts(this.mapBins, years);
   }
 
+  /** @param {CatalogueRowElection} e @param {{ ignoreYears?: boolean, ignoreKind?: boolean }} [options] */
   electionShown(e, { ignoreYears = false, ignoreKind = false } = {}) {
     const f = this.efilters;
     if (f.escope && e.scope !== f.escope) return false;
@@ -696,6 +880,7 @@ export class CatalogueNext {
 
   /** Where and body are one-of-several with an All; kind (maps) and where (elections) have no All:
    * a pressed button is pressed again to show everything. */
+  /** @param {string} group @param {string} value */
   setFilter(group, value) {
     if (group === 'scope') this.filters.scope = value;
     else if (group === 'kind') this.filters.kind = this.filters.kind === value ? '' : value;
@@ -722,6 +907,7 @@ export class CatalogueNext {
 
   /* ================================================================ search */
 
+  /** @param {string} q */
   setQuery(q) {
     this.query = q;
     if (q) this.person = null;
@@ -764,6 +950,7 @@ export class CatalogueNext {
    * While Photon is paused (it failed, or turned us away) nothing is asked per keystroke: the
    * block says press Enter, and searchAddressesNow() makes the one request.
    */
+  /** @param {string} q */
   loadAddresses(q) {
     this.addressController?.abort();
     this.addressController = null;
@@ -796,6 +983,7 @@ export class CatalogueNext {
   }
 
   /** Enter in the search box: while suggestions are paused, the one Nominatim search. */
+  /** @param {string} q */
   async searchAddressesNow(q) {
     const query = String(q || '').trim();
     if (!query || !this.geocoder.paused) return;
@@ -816,6 +1004,7 @@ export class CatalogueNext {
   }
 
   /** An address chosen from the results: fly there, with a marker; on a phone, show the map. */
+  /** @param {string | number | undefined} index */
   goToAddress(index) {
     const hit = this.addresses?.results?.[Number(index)];
     if (!hit) return;
@@ -826,6 +1015,7 @@ export class CatalogueNext {
 
   /** Places (named features, with their own buttons) and people, parties and sources, from the
    * current pane's search code, so they behave exactly as they do there. */
+  /** @param {string} q */
   async loadExtras(q) {
     const token = ++this.searchToken;
     const norm = normalise(q);
@@ -837,13 +1027,14 @@ export class CatalogueNext {
       norm.length >= 3 ? this.ensurePeople() : null,
     ]);
     if (token !== this.searchToken || q !== this.query) return;
+    /** @type {Map<string, PlaceGroup>} */
     const groups = new Map();
     for (const f of (features || []).slice(0, 150)) {
       const record = ui.featureSearchResultToCatalogueRecord ? ui.featureSearchResultToCatalogueRecord(f) : null;
       if (!record) continue;
       const k = normalise(record.title);
       if (!groups.has(k)) groups.set(k, { name: record.title, items: [] });
-      groups.get(k).items.push({ record });
+      /** @type {PlaceGroup} */ (groups.get(k)).items.push({ record });
     }
     const places = [...groups.values()].sort((a, b) => Number(normalise(b.name) === norm) - Number(normalise(a.name) === norm) || b.items.length - a.items.length);
     const qn = ui.normalizeCatalogueSearchText ? ui.normalizeCatalogueSearchText(q) : norm;
@@ -852,6 +1043,7 @@ export class CatalogueNext {
     // listed sixty parties and "Dáil 2020" put Renua above the election. Here every word but a
     // year must start a word of the record; a year alone names no party, person or source.
     const words = terms.filter((t) => !/^(1[5-9]\d\d|20\d\d)s?$/.test(t) && !STOP_WORDS.has(t));
+    /** @param {CatalogueSearchRecord} r */
     const allWords = (r) => {
       const text = ` ${r.searchText || ''}`;
       return words.length > 0 && words.every((w) => text.includes(` ${w}`));
@@ -860,6 +1052,7 @@ export class CatalogueNext {
     // Unionist" put sixty ballot-paper descriptions ("Ulster Unionist Farmer", each with 0 linked
     // elections) ahead of the UUP (UX review 2026-10-31, H8). Labels with no linked election are
     // left out of the index (ensureCatalogueSearchIndex).
+    /** @param {CatalogueSearchRecord} r */
     const linked = (r) => Number(r.relatedElectionCount) || 0;
     const people = (index || [])
       .filter((r) => r.type === 'person' || r.type === 'party' || r.type === 'source')
@@ -886,7 +1079,7 @@ export class CatalogueNext {
   /** Empty the search box and the search, as when the reader clears it. */
   clearSearch() {
     const input = document.getElementById('searchInput');
-    if (input) input.value = '';
+    if (input) /** @type {HTMLInputElement} */ (input).value = '';
     this.query = '';
     this.langNotice = false;
     this.searchHits = null;
@@ -901,11 +1094,14 @@ export class CatalogueNext {
   }
 
   /** The person index (data/catalogue/people.json), on the first search that needs it. */
+  /** @returns {Promise<PeopleSearch | null>} */
   ensurePeople() {
     if (this.peopleSearch) return Promise.resolve(this.peopleSearch);
     if (!this.peoplePromise) {
-      this.peoplePromise = fetch(PEOPLE_URL).then((r) => (r.ok ? r.json() : null)).then((doc) => {
+      /** @type {Promise<PeopleSearch | null> | undefined} */
+      this.peoplePromise = fetch(PEOPLE_URL).then((r) => (r.ok ? r.json() : null)).then((/** @type {CataloguePeopleDoc | null} */ doc) => {
         if (!doc) return null;
+        /** @type {CataloguePeopleDoc | undefined} */
         this.peopleDoc = doc;
         this.peopleSearch = new PeopleSearch(doc);
         this.peopleById = new Map(doc.people.map((row) => [String(row[0]), row]));
@@ -916,8 +1112,11 @@ export class CatalogueNext {
   }
 
   /** The elections a person stood in, each with where, for which party, and whether elected. */
+  /** @param {PersonRow} row */
   setPerson(row) {
-    const { parties, constituencies } = this.peopleDoc;
+    // A person's row comes from the people index, so it is loaded.
+    const { parties, constituencies } = /** @type {CataloguePeopleDoc} */ (this.peopleDoc);
+    /** @type {CataloguePerson['contests']} */
     const contests = new Map();
     for (const [ei, pi, won, party] of row[8]) {
       const e = this.data.elections[ei];
@@ -926,6 +1125,7 @@ export class CatalogueNext {
     this.person = { id: String(row[0]), name: row[1], row, contests };
   }
 
+  /** @param {string} id */
   async showPersonElections(id) {
     await this.ensurePeople();
     const row = this.peopleById?.get(String(id));
@@ -939,6 +1139,7 @@ export class CatalogueNext {
 
   /* ================================================================ routing */
 
+  /** @returns {string} */
   routeFromLocation() {
     const hash = location.hash.replace(/^#/, '');
     if (hash.startsWith('flat-card-')) return this.resolveRoute(hash);
@@ -949,6 +1150,7 @@ export class CatalogueNext {
     }
   }
 
+  /** @param {string} route @returns {string} */
   resolveRoute(route) {
     if (!route) return '';
     if (route.startsWith('flat-card-')) {
@@ -959,7 +1161,7 @@ export class CatalogueNext {
     // A link to one map or set (Browse's "open on the map"): the row it is in, opened at it.
     if (view === 'map') {
       const sid = this.seriesOfMap?.get(id);
-      if (sid && this.seriesById?.has(sid)) return this.seriesById.get(sid).members.some((m) => m.id === id) ? `series/${sid}/${id}` : `series/${sid}`;
+      if (sid && this.seriesById?.has(sid)) return /** @type {CatalogueRow} */ (this.seriesById.get(sid)).members.some((m) => m.id === id) ? `series/${sid}/${id}` : `series/${sid}`;
       // A map to be added opens its row with the maps to come showing; a hidden map, the row of
       // the map it belongs to (built into mapLinks).
       const link = this.data?.mapLinks?.[id];
@@ -991,22 +1193,24 @@ export class CatalogueNext {
     return this.section;
   }
 
+  /** @param {string} route */
   applyRoute(route) {
     const [view, a, b] = String(route || 'maps').split('/');
     this.here = null;
     if (view === 'series' && this.seriesById.has(a)) {
       this.tab = 'maps';
-      this.section = sectionOfKind(this.seriesById.get(a).kind);
+      // Each of these is a row found above.
+      this.section = sectionOfKind(/** @type {CatalogueRow} */ (this.seriesById.get(a)).kind);
       this.expanded.add(a);
       this.focusSeries = a;
       // A map still to be added is shown in its row's list of maps to come.
-      if (b && this.seriesById.get(a).todo?.some((t) => t.id === b)) this.showTodo.add(a);
+      if (b && /** @type {CatalogueRow} */ (this.seriesById.get(a)).todo?.some((t) => t.id === b)) this.showTodo.add(a);
       else if (b) this.selected.set(a, b);
       this.revealSeries(this.seriesById.get(a));
       this.scrollTarget = a;
     } else if (view === 'subject' && this.subjectById.has(a)) {
       this.tab = 'maps';
-      const first = this.seriesById.get(this.subjectById.get(a).series?.[0]);
+      const first = this.seriesById.get(/** @type {string} */ (/** @type {CatalogueSubject} */ (this.subjectById.get(a)).series?.[0]));
       if (first) this.section = sectionOfKind(first.kind);
       this.scrollTarget = `subject:${a}`;
     } else if (view === 'elections' && a === 'person' && b) {
@@ -1036,6 +1240,7 @@ export class CatalogueNext {
   }
 
   /** A linked series must be visible: open its shelf, and lift filters that would hide it. */
+  /** @param {CatalogueRow | undefined} s */
   revealSeries(s) {
     if (!s) return;
     this.opened.add(this.shelfIn(s));
@@ -1045,6 +1250,7 @@ export class CatalogueNext {
     }
   }
 
+  /** @param {string} route */
   go(route) {
     app()?.updateURLState?.();
     this.applyRoute(route);
@@ -1058,6 +1264,7 @@ export class CatalogueNext {
 
   replaceRoute() { app()?.updateURLState?.(); }
 
+  /** @param {{ rewrite?: boolean }} [options] */
   onLocationChange({ rewrite = false } = {}) {
     if (!this.data || !this.root) return;
     const r = this.routeFromLocation();
@@ -1084,8 +1291,10 @@ export class CatalogueNext {
     this.chromeWatched = true;
     const phone = window.matchMedia?.('(max-width: 768px)');
     let last = s.scrollTop;
+    /** @param {boolean} away */
     const set = (away) => { if (s.hasAttribute('data-chrome-away') !== away) s.toggleAttribute('data-chrome-away', away); };
     // A jump shows them at once (no slide), so it measures where the tabs end up, not where they were.
+    /** @type {((holdMs?: number) => void) | undefined} */
     this.showChrome = (holdMs = 0) => {
       this.chromeHold = Date.now() + holdMs;
       last = s.scrollTop;
@@ -1101,7 +1310,7 @@ export class CatalogueNext {
       last = y;
       set(Boolean(phone?.matches) && dy > 0 && y > 160 && Date.now() > (this.chromeHold || 0));
     }, { passive: true });
-    s.addEventListener('focusin', (e) => { if (e.target.closest?.('.catalogue-sticky-shell, [data-cn-tabs]')) this.showChrome(); });
+    s.addEventListener('focusin', (e) => { if (/** @type {Element} */ (e.target).closest?.('.catalogue-sticky-shell, [data-cn-tabs]')) /** @type {(holdMs?: number) => void} */ (this.showChrome)(); });
   }
 
   scrollToTarget() {
@@ -1118,13 +1327,16 @@ export class CatalogueNext {
     const s = this.scroller || this.findScroller();
     const under = (this.tabsEl?.getBoundingClientRect().bottom || 0) + 8 - el.getBoundingClientRect().top;
     if (s && under > 0) s.scrollTop -= under;
-    el.querySelector('[data-cn-expand]')?.focus({ preventScroll: true });
+    /** @type {HTMLElement | null} */ (el.querySelector('[data-cn-expand]'))?.focus({ preventScroll: true });
   }
 
   /* ================================================================ events */
 
+  /** @param {MouseEvent} e */
   onClick(e) {
-    const b = (sel) => e.target.closest(sel);
+    /** @param {string} sel @returns {DataTarget | null} */
+    const b = (sel) => /** @type {Element} */ (e.target).closest(sel);
+    /** @type {DataTarget | null} */
     let el;
     if ((el = b('[data-cn-address]'))) { e.preventDefault(); this.goToAddress(el.dataset.cnAddress); return; }
     if ((el = b('[data-cn-tab]'))) {
@@ -1139,7 +1351,7 @@ export class CatalogueNext {
     if ((el = b('[data-cn-menu]'))) { e.preventDefault(); this.openSeriesMenu(el, el.dataset.cnMenu); return; }
     if ((el = b('[data-cn-more]'))) { e.preventDefault(); this.moreChips.add(el.dataset.cnMore); this.rerenderRow(el.dataset.cnMore, { focus: 'chips' }); return; }
     if ((el = b('[data-cn-fewer]'))) { e.preventDefault(); this.moreChips.delete(el.dataset.cnFewer); this.rerenderRow(el.dataset.cnFewer, { focus: 'chips' }); return; }
-    if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(el.dataset.cnMoreParts); this.rerenderPanel(this.seriesOfMap.get(el.dataset.cnMoreParts.replace(/:counties$/, ''))); return; }
+    if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(el.dataset.cnMoreParts); this.rerenderPanel(/** @type {string} */ (this.seriesOfMap.get(el.dataset.cnMoreParts.replace(/:counties$/, '')))); return; }
     if ((el = b('[data-cn-visibility]'))) { e.preventDefault(); this.toggleVisible(el.dataset.cnVisibility); return; }
     if ((el = b('[data-cn-filter]'))) { e.preventDefault(); this.setFilter(el.dataset.cnFilter, el.dataset.value || ''); return; }
     if ((el = b('[data-cn-shelf]'))) { e.preventDefault(); this.toggleShelf(el); return; }
@@ -1149,7 +1361,7 @@ export class CatalogueNext {
     if ((el = b('[data-cn-open-page]'))) {
       e.preventDefault();
       const [kind, ...rest] = el.dataset.cnOpenPage.split(':');
-      this.ui.onOpenElectionEntityDetail?.(kind, rest.join(':'), el.textContent.trim());
+      this.ui.onOpenElectionEntityDetail?.(kind, rest.join(':'), /** @type {string} */ (el.textContent).trim());
       return;
     }
     if ((el = b('[data-cn-local]'))) {
@@ -1157,7 +1369,7 @@ export class CatalogueNext {
       const id = el.dataset.cnLocal;
       if (this.showLocal.has(id)) this.showLocal.delete(id); else this.showLocal.add(id);
       this.rerenderRow(id);
-      this.root.querySelector(`[data-cn-series="${cssId(id)}"] [data-cn-local]`)?.focus({ preventScroll: true });
+      /** @type {HtmlScope} */ (this.root).querySelector(`[data-cn-series="${cssId(id)}"] [data-cn-local]`)?.focus({ preventScroll: true });
       return;
     }
     if ((el = b('[data-cn-todo]'))) {
@@ -1165,7 +1377,7 @@ export class CatalogueNext {
       const id = el.dataset.cnTodo;
       if (this.showTodo.has(id)) this.showTodo.delete(id); else this.showTodo.add(id);
       this.rerenderRow(id);
-      this.root.querySelector(`[data-cn-series="${cssId(id)}"] [data-cn-todo]`)?.focus({ preventScroll: true });
+      /** @type {HtmlScope} */ (this.root).querySelector(`[data-cn-series="${cssId(id)}"] [data-cn-todo]`)?.focus({ preventScroll: true });
       return;
     }
     if ((el = b('[data-cn-goto]'))) {
@@ -1187,11 +1399,12 @@ export class CatalogueNext {
     if ((el = b('[data-cn-act]'))) { e.preventDefault(); this.act(el.dataset.cnAct, el); }
   }
 
+  /** @param {KeyboardEvent} e */
   onKeyDown(e) {
     // Arrow keys move along a row's chips; Tab moves on to the next control.
-    const chip = e.target.closest?.('.cn-chips .cn-chip');
+    const chip = /** @type {HTMLButtonElement | null} */ (/** @type {Element} */ (e.target).closest?.('.cn-chips .cn-chip'));
     if (chip && ['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) {
-      const list = [...chip.closest('.cn-chips').querySelectorAll('button.cn-chip')].filter((x) => !x.hidden);
+      const list = [.../** @type {NodeListOf<HTMLButtonElement>} */ (/** @type {Element} */ (chip.closest('.cn-chips')).querySelectorAll('button.cn-chip'))].filter((x) => !x.hidden);
       const i = list.indexOf(chip);
       const next = e.key === 'Home' ? list[0] : e.key === 'End' ? list[list.length - 1] : list[(i + (e.key === 'ArrowRight' ? 1 : -1) + list.length) % list.length];
       if (next) {
@@ -1203,13 +1416,14 @@ export class CatalogueNext {
     }
   }
 
+  /** @param {Event} e */
   onInput(e) {
-    const r = e.target.closest?.('[data-cn-range]');
+    const r = /** @type {HTMLInputElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-range]'));
     if (!r) return;
-    const key = r.dataset.key;
+    const key = /** @type {FilterKey} */ (r.dataset.key);
     const bins = key === 'maps' ? this.mapBins : this.electionBins;
-    const wrap = r.closest('[data-cn-slider]');
-    const [a, b] = wrap.querySelectorAll('input[type="range"]');
+    const wrap = /** @type {Element} */ (r.closest('[data-cn-slider]'));
+    const [a, b] = /** @type {NodeListOf<HTMLInputElement>} */ (wrap.querySelectorAll('input[type="range"]'));
     let from = Number(a.value);
     let to = Number(b.value);
     if (from > to) {
@@ -1221,24 +1435,25 @@ export class CatalogueNext {
     f.to = stepYear(bins, to, 'to');
     this.saveStore();
     updateSlider(wrap, bins, from, to, this.yearState(key));
-    cancelAnimationFrame(this.rangeRaf);
+    cancelAnimationFrame(/** @type {number} */ (this.rangeRaf));
     this.rangeRaf = requestAnimationFrame(() => this.refreshResults());
   }
 
   /** A year typed into a box: applied when the box is left or Enter is pressed, not per key. */
+  /** @param {Event} e */
   onYearTyped(e) {
-    if (e.target.matches?.('[data-cn-undated]')) {
-      this.filters.undated = e.target.checked;
+    if (/** @type {Element} */ (e.target).matches?.('[data-cn-undated]')) {
+      this.filters.undated = /** @type {HTMLInputElement} */ (e.target).checked;
       this.saveStore();
       this.refreshResults();
       return;
     }
-    const box = e.target.closest?.('[data-cn-year]');
+    const box = /** @type {HTMLInputElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-year]'));
     if (!box) return;
-    const key = box.dataset.key;
+    const key = /** @type {FilterKey} */ (box.dataset.key);
     const f = key === 'maps' ? this.filters : this.efilters;
     const v = box.value.trim() === '' ? null : Math.round(Number(box.value));
-    f[box.dataset.cnYear] = Number.isFinite(v) ? v : null;
+    /** @type {Record<string, unknown>} */ (f)[/** @type {string} */ (box.dataset.cnYear)] = Number.isFinite(v) ? v : null;
     if (f.from !== null && f.to !== null && f.from > f.to) [f.from, f.to] = [f.to, f.from];
     this.saveStore();
     const r = this.yearRange(key);
@@ -1246,18 +1461,21 @@ export class CatalogueNext {
     this.refreshResults();
   }
 
+  /** @param {ParentNode} scope */
   rovingChips(scope) {
     scope.querySelectorAll?.('.cn-chips').forEach((group) => {
-      [...group.querySelectorAll('button.cn-chip')].forEach((x, i) => { x.tabIndex = i === 0 ? 0 : -1; });
+      [.../** @type {NodeListOf<HTMLButtonElement>} */ (group.querySelectorAll('button.cn-chip'))].forEach((x, i) => { x.tabIndex = i === 0 ? 0 : -1; });
     });
   }
 
+  /** @param {string} kind @param {DataTarget} el */
   act(kind, el) {
-    const id = el.dataset.map;
+    // The actions on a map carry it (data-map); the rest do not read it.
+    const id = /** @type {string} */ (el.dataset.map);
     switch (kind) {
       case 'tables':
         if (this.ui.showTab) this.ui.showTab('tables');
-        else document.querySelector('[data-tab-target="tables"]')?.click();
+        else /** @type {HTMLElement | null} */ (document.querySelector('[data-tab-target="tables"]'))?.click();
         break;
       case 'filters': {
         this.filtersOpen = !this.filtersOpen;
@@ -1298,7 +1516,7 @@ export class CatalogueNext {
         // Show every place, or go back to the first five; the button keeps its place and focus.
         this.limits[el.dataset.what] = !this.limits[el.dataset.what];
         this.refreshExtras();
-        this.resultsEl?.querySelector(`[data-cn-act="toggle-all"][data-what="${el.dataset.what}"]`)?.focus({ preventScroll: true });
+        /** @type {HtmlScope | null | undefined} */ (this.resultsEl)?.querySelector(`[data-cn-act="toggle-all"][data-what="${el.dataset.what}"]`)?.focus({ preventScroll: true });
         break;
       }
       case 'pick-here': this.startPick(); break;
@@ -1312,6 +1530,7 @@ export class CatalogueNext {
 
   /* ================================================================ rows */
 
+  /** @param {string} id */
   toggleExpand(id) {
     if (this.expanded.has(id)) {
       this.expanded.delete(id);
@@ -1324,6 +1543,7 @@ export class CatalogueNext {
     this.replaceRoute();
   }
 
+  /** @param {string} sid @param {string} mid */
   select(sid, mid) {
     this.selected.set(sid, mid);
     this.focusSeries = sid;
@@ -1331,40 +1551,45 @@ export class CatalogueNext {
     this.replaceRoute();
   }
 
+  /** @param {CatalogueRow} s @returns {{ members?: string[] } | null | undefined} */
   rowHit(s) {
     if (!this.here) return this.hitFor(s);
     const hit = coveringPoint({ series: [s], maps: this.data.maps }, null, this.here.lng, this.here.lat);
     return { members: hit.series[0]?.members || [] };
   }
 
+  /** @param {string} id @param {{ focus?: 'title' | 'chips' }} [options] */
   rerenderRow(id, { focus } = {}) {
     const li = this.root?.querySelector(`[data-cn-series="${cssId(id)}"]`);
     const s = this.seriesById.get(id);
     if (!li || !s) return;
     const tmp = document.createElement('ul');
     tmp.innerHTML = MapsView.seriesRowHtml(this, s, this.rowHit(s));
-    const fresh = tmp.firstElementChild;
+    // The row's markup is one list item.
+    const fresh = /** @type {HTMLElement} */ (tmp.firstElementChild);
     li.replaceWith(fresh);
     this.afterDraw(fresh);
-    if (focus === 'title') fresh.querySelector('[data-cn-expand]')?.focus({ preventScroll: true });
-    if (focus === 'chips') fresh.querySelector('.cn-chips .cn-chip')?.focus({ preventScroll: true });
+    if (focus === 'title') /** @type {HTMLElement | null} */ (fresh.querySelector('[data-cn-expand]'))?.focus({ preventScroll: true });
+    if (focus === 'chips') /** @type {HTMLElement | null} */ (fresh.querySelector('.cn-chips .cn-chip'))?.focus({ preventScroll: true });
   }
 
+  /** @param {string} sid @param {string} [focusSel] */
   rerenderPanel(sid, focusSel) {
     const panel = this.root?.querySelector(`[data-cn-panel="${cssId(sid)}"]`);
     const s = this.seriesById.get(sid);
     if (!panel || !s) { this.rerenderRow(sid); return; }
     panel.innerHTML = MapsView.panelHtml(this, s);
     this.afterDraw(panel);
-    if (focusSel) panel.querySelector(focusSel)?.focus({ preventScroll: true });
+    if (focusSel) /** @type {HTMLElement | null} */ (panel.querySelector(focusSel))?.focus({ preventScroll: true });
   }
 
+  /** @param {HTMLElement} btn */
   toggleShelf(btn) {
-    const id = btn.dataset.cnShelf;
+    const id = /** @type {string} */ (btn.dataset.cnShelf);
     const open = btn.getAttribute('aria-expanded') !== 'true';
     if (open) this.opened.add(id); else this.opened.delete(id);
     btn.setAttribute('aria-expanded', String(open));
-    const body = btn.closest('.cn-shelf')?.querySelector('.cn-shelf__body');
+    const body = /** @type {HTMLElement | null | undefined} */ (btn.closest('.cn-shelf')?.querySelector('.cn-shelf__body'));
     if (body) setHidden(body, !open);
     if (open && body) this.fitChips(body);
     this.saveStore();
@@ -1400,6 +1625,7 @@ export class CatalogueNext {
   }
 
   /** Each section of the open tab: { id (an element's id), label, count, level, icon, colour }. */
+  /** @returns {ContentsSection[]} */
   sections() {
     if (this.tab === 'elections') {
       return shelvesOf(this.visibleElections()).map(({ g, es }) => ({ id: `cn-shelf-e-${g.id}`, label: g.label, count: es.length, level: 1, icon: g.icon, colour: g.colour }));
@@ -1411,6 +1637,7 @@ export class CatalogueNext {
         .map(({ cat, n }) => ({ id: `cn-books-${cat.id}`, label: cat.name, count: n, level: 1, icon: BOOK_CATEGORY_ICONS[cat.id] || 'book-open' }));
     }
     if (this.here) return [];
+    /** @type {ContentsSection[]} */
     const out = [];
     for (const { sh, subjects, count } of this.visibleShelves()) {
       const [look, col] = SHELF_LOOK[sh.id] || ['map', MAP_COLOURS.catalogueFallback];
@@ -1422,6 +1649,7 @@ export class CatalogueNext {
   }
 
   /** The section now at the top of the pane. */
+  /** @param {ContentsSection[]} list */
   currentSection(list) {
     const s = this.scroller || this.findScroller();
     const top = (s ? s.getBoundingClientRect().top : 0) + (this.tabsEl?.getBoundingClientRect().bottom || 0) - (s ? s.getBoundingClientRect().top : 0) + 16;
@@ -1459,25 +1687,29 @@ export class CatalogueNext {
     this.placeContents(pane);
     this.contentsBtn?.setAttribute('aria-expanded', 'true');
     el.addEventListener('click', (e) => {
-      const go = e.target.closest('[data-cn-goto-section]');
-      if (go) { this.closeContents({ focus: false }); this.goToSection(go.dataset.cnGotoSection); return; }
-      if (e.target.closest('[data-cn-drawer-close]')) this.closeContents();
+      // A click in the drawer lands on an element of it.
+      const go = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('[data-cn-goto-section]'));
+      if (go) { this.closeContents({ focus: false }); this.goToSection(/** @type {string} */ (go.dataset.cnGotoSection)); return; }
+      if (/** @type {Element} */ (e.target).closest('[data-cn-drawer-close]')) this.closeContents();
     });
     // Escape closes the panel wherever focus is: it moves into the panel a frame after opening,
     // and a key pressed before then would otherwise be lost.
+    /** @type {((e: KeyboardEvent) => void) | undefined} */
     this.onContentsKey = (e) => { if (e.key === 'Escape' && this.contentsEl) { e.preventDefault(); this.closeContents(); } };
     document.addEventListener('keydown', this.onContentsKey, true);
     el.addEventListener('keydown', (e) => {
       if (e.key !== 'Tab') return;
       const focusables = [...el.querySelectorAll('button')];
-      const i = focusables.indexOf(document.activeElement);
+      // Focus elsewhere (or on nothing) is not in the list: -1.
+      const i = focusables.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));
       if (e.shiftKey && i <= 0) { focusables[focusables.length - 1].focus(); e.preventDefault(); } else if (!e.shiftKey && i === focusables.length - 1) { focusables[0].focus(); e.preventDefault(); }
     });
+    /** @type {(() => void) | undefined} */
     this.onContentsResize = () => this.placeContents(pane);
     window.addEventListener('resize', this.onContentsResize);
     requestAnimationFrame(() => {
       el.classList.add('cn-drawer--open');
-      const target = el.querySelector('[aria-current="true"]') || el.querySelector('.cn-toc__link') || el.querySelector('[data-cn-drawer-close]');
+      const target = /** @type {HTMLElement | null} */ (el.querySelector('[aria-current="true"]') || el.querySelector('.cn-toc__link') || el.querySelector('[data-cn-drawer-close]'));
       // Scroll only the list to the current section: scrollIntoView would also scroll the drawer
       // itself sideways to reach the panel while it is still sliding in, and the two movements
       // made the panel shake as it opened (Alessio Coci).
@@ -1491,18 +1723,21 @@ export class CatalogueNext {
   }
 
   /** The panel covers the catalogue pane exactly, whatever the split between pane and map. */
+  /** @param {Element} pane */
   placeContents(pane) {
     if (!this.contentsEl) return;
     const r = pane.getBoundingClientRect();
     Object.assign(this.contentsEl.style, { top: `${r.top}px`, left: `${r.left}px`, width: `${r.width}px`, height: `${r.height}px` });
   }
 
+  /** @param {{ focus?: boolean }} [options] */
   closeContents({ focus = true } = {}) {
     const el = this.contentsEl;
     if (!el) return;
     this.contentsEl = null;
-    window.removeEventListener('resize', this.onContentsResize);
-    document.removeEventListener('keydown', this.onContentsKey, true);
+    // Both were set when the drawer opened.
+    window.removeEventListener('resize', /** @type {() => void} */ (this.onContentsResize));
+    document.removeEventListener('keydown', /** @type {(e: KeyboardEvent) => void} */ (this.onContentsKey), true);
     this.contentsBtn?.setAttribute('aria-expanded', 'false');
     el.classList.remove('cn-drawer--open');
     const done = () => el.remove();
@@ -1510,15 +1745,16 @@ export class CatalogueNext {
     if (focus) this.contentsBtn?.focus();
   }
 
+  /** @param {string} id */
   goToSection(id) {
     const el = document.getElementById(id);
     if (!el) return;
     // A subject in a closed shelf: open the shelf first.
     const shelf = el.closest('.cn-shelf');
-    const toggle = shelf?.querySelector('[data-cn-shelf][aria-expanded="false"]');
+    const toggle = /** @type {HTMLElement | null | undefined} */ (shelf?.querySelector('[data-cn-shelf][aria-expanded="false"]'));
     if (toggle) this.toggleShelf(toggle);
     el.scrollIntoView({ block: 'start' });
-    const focusTarget = el.querySelector('[data-cn-shelf], .cn-subject__head, .category-section__title');
+    const focusTarget = /** @type {HTMLElement | null} */ (el.querySelector('[data-cn-shelf], .cn-subject__head, .category-section__title'));
     if (focusTarget) {
       if (!focusTarget.matches('button')) focusTarget.tabIndex = -1;
       focusTarget.focus({ preventScroll: true });
@@ -1527,15 +1763,20 @@ export class CatalogueNext {
 
   /* ================================================================ actions on the map */
 
+  /** @param {string} id */
   isLoaded(id) { try { return Boolean(this.ui?.onCheckMapLoaded?.(id)); } catch { return false; } }
+  /** @param {string} id */
   isVisible(id) { try { return this.ui?.onCheckMapVisible ? Boolean(this.ui.onCheckMapVisible(id)) : true; } catch { return true; } }
+  /** @param {CatalogueRowElection} e */
   electionLoaded(e) { try { return Boolean(this.ui?.onCheckElectionLoaded?.(e.body, e.date)); } catch { return false; } }
 
+  /** @param {string} text */
   announce(text) {
     const el = document.getElementById('announcer') || document.querySelector('[aria-live="polite"]');
     if (el) { el.textContent = ''; setTimeout(() => { el.textContent = text; }, 30); }
   }
 
+  /** @param {string} id @param {HTMLElement} [btn] */
   async toggleMap(id, btn) {
     if (!id) return;
     // A click while the map is still loading is remembered and acted on when the load is done,
@@ -1566,13 +1807,16 @@ export class CatalogueNext {
     if (this.pendingToggle.delete(id)) await this.toggleMap(id, btn);
   }
 
+  /** @param {string} id */
   async addParts(id) {
     for (const p of this.rec(id).parts || []) if (!this.isLoaded(p.id)) await this.ui.onMapLoad?.(p.id);
     this.syncState();
   }
 
+  /** @param {string} id */
   toggleVisible(id) { this.ui.onMapToggle?.(id); setTimeout(() => this.syncState(), 60); }
 
+  /** @param {string} key @param {HTMLElement} [btn] */
   async toggleElection(key, btn) {
     const e = this.electionByKey.get(key);
     if (!e || this.busy.has(key)) return;
@@ -1590,34 +1834,40 @@ export class CatalogueNext {
     }
   }
 
+  /** @param {string} id */
   zoom(id) { const b = this.rec(id).bounds; if (b) app()?.mapController?.fitToBounds?.(b, { smooth: true }); }
+  /** @param {string} id */
   details(id) { this.ui.showCatalogueDetailView?.(id, true); }
 
+  /** @param {string} id @returns {MenuItem[]} */
   downloadsFor(id) {
     const full = this.full(id);
+    /** @type {MenuItem[]} */
     const out = [];
     if (!full) return out;
     if (resolveMapDownloadUrl(full)) out.push({ label: 'FlatGeobuf (.fgb)', icon: 'download', onSelect: () => this.ui.onDownloadFgb?.(id) });
-    if (full.files?.geojson) out.push({ label: 'Original GeoJSON', icon: 'download', href: full.files.geojson, download: true });
+    if (/** @type {{ geojson?: string } | undefined} */ (full.files)?.geojson) out.push({ label: 'Original GeoJSON', icon: 'download', href: /** @type {{ geojson: string }} */ (full.files).geojson, download: true });
     for (const d of this.ui.getSourceDownloads?.(full) || []) if (d?.file) out.push({ label: d.label || 'Source file', icon: 'download', href: d.file, download: true });
     // The statistics CSVs are on the data bucket (data/census/ is not in the Pages build).
-    if (full.isDataEntry && full.csv) out.push({ label: 'Statistics (CSV)', icon: 'download', href: cdnUrl(full.csv), download: true });
+    if (full.isDataEntry && full.csv) out.push({ label: 'Statistics (CSV)', icon: 'download', href: cdnUrl(/** @type {string} */ (full.csv)), download: true });
     // The map drawn as a Wikipedia-style locator map of the current view (packages/map/app/map-image-export.js):
     // any map with a vector data file of its own or in its members.
     const vector = resolveMapDownloadUrl(full) || compositeChildIds(full).some((cid) => resolveMapDownloadUrl(this.full(cid)));
     if (vector && this.ui.onExportMapImage) {
-      out.push({ label: 'Map image of this view (SVG)', icon: 'download', onSelect: () => this.ui.onExportMapImage(id, 'svg') });
-      out.push({ label: 'Map image of this view (PNG)', icon: 'download', onSelect: () => this.ui.onExportMapImage(id, 'png') });
+      out.push({ label: 'Map image of this view (SVG)', icon: 'download', onSelect: () => /** @type {(mapId: string, format: string) => unknown} */ (this.ui.onExportMapImage)(id, 'svg') });
+      out.push({ label: 'Map image of this view (PNG)', icon: 'download', onSelect: () => /** @type {(mapId: string, format: string) => unknown} */ (this.ui.onExportMapImage)(id, 'png') });
     }
     return out;
   }
 
+  /** @param {string} text @param {string} what */
   async copyText(text, what) {
     try { await navigator.clipboard.writeText(text); this.announce(`${what} copied`); return true; } catch { window.prompt(`Copy the ${what.toLowerCase()}:`, text); return false; }
   }
 
   /** A map's link opens its row at that map, whatever the pane showed when it was copied (a link
    * copied with the row closed said only cat=boundaries; Phelim Birch's review, 2026-10-11). */
+  /** @param {string} id */
   shareUrl(id) {
     const url = app()?.buildLayerShareUrl?.(id) || `${location.origin}/maps/#layers=${encodeURIComponent(id)}`;
     const route = this.resolveRoute(`map/${id}`);
@@ -1633,11 +1883,13 @@ export class CatalogueNext {
     }
   }
 
+  /** @param {string} id @param {HTMLElement} [btn] */
   async copyLink(id, btn) {
     await this.copyText(this.shareUrl(id), 'Link');
     this.flash(btn, 'Link copied');
   }
 
+  /** @param {string} id @param {CatalogueRow | undefined} s @param {HTMLElement} [btn] */
   async cite(id, s, btn) {
     const r = this.rec(id);
     const local = s?.local?.find((x) => x.id === id);
@@ -1650,6 +1902,7 @@ export class CatalogueNext {
     this.flash(btn, 'Citation copied');
   }
 
+  /** @param {HTMLElement | undefined} btn @param {string} text */
   flash(btn, text) {
     const label = btn?.querySelector('span');
     if (!label) return;
@@ -1659,18 +1912,21 @@ export class CatalogueNext {
   }
 
   /** The edition a row's menu acts on: the one last put on the map, else the chosen one, else the newest. */
+  /** @param {CatalogueRow} s */
   menuTarget(s) {
     const last = this.lastOn.get(s.id);
     if (last && this.isLoaded(last)) return s.members.find((m) => m.id === last) || s.members[0];
     return s.members.find((m) => this.isLoaded(m.id)) || this.selectedMember(s);
   }
 
+  /** @param {HTMLElement} anchor @param {string} sid */
   openSeriesMenu(anchor, sid) {
     const s = this.seriesById.get(sid);
     if (!s) return;
     const t = this.menuTarget(s);
     const r = this.rec(t.id);
     const loaded = this.isLoaded(t.id);
+    /** @type {MenuItem[]} */
     const items = [];
     if (s.members.length > 1) items.push({ heading: t.label });
     if (r.status !== 'placeholder') items.push({ label: loaded ? 'Remove from map' : 'Add to map', icon: loaded ? 'x' : 'plus', onSelect: () => this.toggleMap(t.id) });
@@ -1691,6 +1947,7 @@ export class CatalogueNext {
     openMenu(anchor, items, { label: `${s.name}: more` });
   }
 
+  /** @param {HTMLElement} anchor @param {CatalogueRow | undefined} s @param {string} id */
   openCompareMenu(anchor, s, id) {
     if (!s) return;
     const others = s.members.filter((m) => m.id !== id && this.rec(m.id).status !== 'placeholder');
@@ -1699,14 +1956,18 @@ export class CatalogueNext {
 
   /* ================================================================ compare */
 
+  /** @param {string} id */
   labelOf(id) {
-    const s = this.seriesById.get(this.seriesOfMap.get(id));
+    // A map in no row finds no row.
+    const s = this.seriesById.get(/** @type {string} */ (this.seriesOfMap.get(id)));
     const m = s?.members.find((x) => x.id === id);
     const local = s?.local?.find((x) => x.id === id);
-    if (local) return `${s.name}: ${local.label}`;
-    return m ? (s.members.length > 1 ? m.label : s.name) : (this.rec(id).name || id);
+    // A member or council map found is the row's.
+    if (local) return `${/** @type {CatalogueRow} */ (s).name}: ${local.label}`;
+    return m ? (/** @type {CatalogueRow} */ (s).members.length > 1 ? m.label : /** @type {CatalogueRow} */ (s).name) : (this.rec(id).name || id);
   }
 
+  /** @param {string} a @param {string} b */
   async startCompare(a, b) {
     // The second map is loaded last, so it draws on top; the slider fades it in over the first.
     if (!this.isLoaded(a)) await this.ui.onMapLoad?.(a);
@@ -1716,7 +1977,7 @@ export class CatalogueNext {
     this.setFade(50);
     this.drawCompare();
     this.syncState();
-    this.compareEl.querySelector('[data-cn-fade]')?.focus({ preventScroll: true });
+    /** @type {HTMLElement | null} */ (/** @type {HTMLElement} */ (this.compareEl).querySelector('[data-cn-fade]'))?.focus({ preventScroll: true });
   }
 
   drawCompare() {
@@ -1730,16 +1991,18 @@ export class CatalogueNext {
       <button type="button" class="cn-btn" data-cn-act="flip">${icon('arrow-left-right')}<span>Flip</span></button>
       <button type="button" class="cn-btn" data-cn-act="end-compare">${icon('x')}<span>End</span></button>
     </div>`;
-    this.compareEl.querySelector('[data-cn-fade]').addEventListener('input', (ev) => this.setFade(Number(ev.target.value)));
+    // The slider is in the markup set just above.
+    /** @type {HTMLInputElement} */ (this.compareEl.querySelector('[data-cn-fade]')).addEventListener('input', (ev) => this.setFade(Number(/** @type {HTMLInputElement} */ (ev.target).value)));
   }
 
+  /** @param {number} value @param {boolean} [moveSlider] */
   setFade(value, moveSlider = false) {
     if (!this.compare) return;
     this.compare.value = value;
     const mc = app()?.mapController;
     mc?.setOpacity?.(this.compare.b, value / 100);
     mc?.setOpacity?.(this.compare.a, value >= 100 ? 0.15 : 1);
-    if (moveSlider) { const r = this.compareEl.querySelector('[data-cn-fade]'); if (r) r.value = String(value); }
+    if (moveSlider) { const r = /** @type {HTMLInputElement | null} */ (/** @type {HTMLElement} */ (this.compareEl).querySelector('[data-cn-fade]')); if (r) r.value = String(value); }
   }
 
   endCompare() {
@@ -1753,7 +2016,8 @@ export class CatalogueNext {
 
   ensurePlaces() {
     if (this.placesReady || this.placesPromise) return this.placesPromise;
-    this.placesPromise = fetch(PLACES_URL).then((r) => r.json()).then((doc) => {
+    /** @type {Promise<void> | undefined} */
+    this.placesPromise = fetch(PLACES_URL).then((r) => r.json()).then((/** @type {import('./search.js').PlacesDoc} */ doc) => {
       this.search.setPlaces(doc);
       this.placesReady = true;
       if (this.here && this.drawn) this.refreshResults();
@@ -1762,14 +2026,19 @@ export class CatalogueNext {
   }
 
   hereResult() {
-    const { lng, lat } = this.here;
+    // Asked for only while a point is chosen.
+    const { lng, lat } = /** @type {LngLat} */ (this.here);
     const hit = coveringPoint(this.data, this.placesReady ? this.search.places : null, lng, lat);
-    const series = hit.series.map((h) => ({ s: this.seriesById.get(h.id), members: h.members })).filter((x) => x.s && this.seriesShown(x.s));
+    // The rows found and shown (filter drops a row not found).
+    const series = /** @type {Array<{ s: CatalogueRow, members: string[] }>} */ (hit.series.map((h) => ({ s: this.seriesById.get(h.id), members: h.members })).filter((x) => x.s && this.seriesShown(x.s)));
     // Named features whose box holds the point, smallest first: the most local place leads, and
     // whole regions and seas sink. Grid squares and codes ("H 86 62") are not places.
+    /** @param {string} name */
     const codeLike = (name) => (name.match(/\d/g) || []).length > name.length * 0.3;
+    /** @param {number[]} b */
     const area = (b) => (b[2] - b[0]) * (b[3] - b[1]);
     const seen = new Set();
+    /** @type {Array<{ name: string, map: string, seriesId: string | undefined, mapName: string | undefined }>} */
     const places = [];
     for (const n of hit.named.filter((x) => !codeLike(x.name)).sort((a, b) => area(a.bbox) - area(b.bbox))) {
       const k = normalise(n.name);
@@ -1789,6 +2058,7 @@ export class CatalogueNext {
     this.pickEl.innerHTML = `${icon('crosshair')}<span>Click a point on the map to list the maps that cover it</span><button type="button" class="cn-btn" data-cn-act="cancel-pick">Cancel</button>`;
     const canvas = map.getCanvas?.();
     if (canvas) canvas.style.cursor = 'crosshair';
+    /** @type {((ev: { lngLat: { lng: number, lat: number } }) => void) | null | undefined} */
     this.pickHandler = (ev) => {
       const { lng, lat } = ev.lngLat;
       this.stopPick();
@@ -1813,11 +2083,11 @@ export class CatalogueNext {
   /** Reflect what is on the map: called after every load, unload and visibility change. */
   syncState() {
     if (!this.root || !this.data) return;
-    this.root.querySelectorAll('[data-cn-toggle]').forEach((btn) => {
+    /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-toggle]')).forEach((btn) => {
       const on = String(this.isLoaded(btn.dataset.cnToggle));
       if (btn.getAttribute('aria-pressed') !== on) btn.setAttribute('aria-pressed', on);
     });
-    this.root.querySelectorAll('[data-cn-visibility]').forEach((btn) => {
+    /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-visibility]')).forEach((btn) => {
       const id = btn.dataset.cnVisibility;
       const on = this.isLoaded(id);
       setHidden(btn, !on);
@@ -1827,12 +2097,12 @@ export class CatalogueNext {
         if (btn.innerHTML !== html) btn.innerHTML = html;
       }
     });
-    this.root.querySelectorAll('[data-cn-dot]').forEach((d) => d.classList.toggle('cn-tick--on', this.isLoaded(d.dataset.cnDot)));
-    this.root.querySelectorAll('[data-cn-series]').forEach((li) => {
+    /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-dot]')).forEach((d) => d.classList.toggle('cn-tick--on', this.isLoaded(d.dataset.cnDot)));
+    /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-series]')).forEach((li) => {
       const s = this.seriesById.get(li.dataset.cnSeries);
       li.classList.toggle('cn-row--on', Boolean(s && this.seriesOnMap(s)));
     });
-    this.root.querySelectorAll('[data-cn-election-toggle]').forEach((btn) => {
+    /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-election-toggle]')).forEach((btn) => {
       const e = this.electionByKey.get(btn.dataset.cnElectionToggle);
       const on = String(Boolean(e && this.electionLoaded(e)));
       if (btn.getAttribute('aria-pressed') !== on) btn.setAttribute('aria-pressed', on);

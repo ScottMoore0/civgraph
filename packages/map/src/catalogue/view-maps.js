@@ -11,13 +11,30 @@ import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
 import { MAP_COLOURS } from '../colours.mjs';
 
+/** @typedef {import('./index.js').CatalogueNext} CatalogueNext */
+/** @typedef {import('./index.js').VisibleShelf} VisibleShelf */
+/** @typedef {import('./index.js').PlaceGroup} PlaceGroup */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueRow} CatalogueRow */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueRowMember} CatalogueRowMember */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueMapRec} CatalogueMapRec */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueShelf} CatalogueShelf */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueSubject} CatalogueSubject */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueAbout} CatalogueAbout */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueSearchRecord} CatalogueSearchRecord */
+/** @typedef {import('./search.js').PersonRow} PersonRow */
+/** @typedef {import('./catalogue-types.d.ts').CataloguePeopleDoc} CataloguePeopleDoc */
+/** @typedef {import('./index.js').LngLat} LngLat */
+/** The editions a search matched or a point is in (a row's hit). @typedef {{ members?: string[] } | null | undefined} RowHit */
 const FALLBACK = MAP_COLOURS.catalogueFallback;
+/** @param {CatalogueNext} c @param {CatalogueRow} s @param {string} id */
 const colourOf = (c, s, id) => c.rec(id).color || s.color || FALLBACK;
 
 /** Where (one of all, NI, ROI, Ireland) and kind (boundaries or data, or neither for both) share a
  * row; the years slider sits below. "What's here?" and "On the map" are built but not shown yet. */
+/** @param {CatalogueNext} c */
 export function toolbarHtml(c) {
   const f = c.filters;
+  /** @param {'scope'} group @param {string} value @param {string} label */
   const chip = (group, value, label) => `<button type="button" class="cn-fchip" data-cn-filter="${group}" data-value="${esc(value)}" aria-pressed="${String(f[group] === value)}">${esc(label)}</button>`;
   const active = c.activeFilterCount('maps');
   const { i, j } = c.yearRange('maps');
@@ -35,6 +52,7 @@ export function toolbarHtml(c) {
   </div>`;
 }
 
+/** @param {CatalogueNext} c */
 export function resultsHtml(c) {
   if (c.here) return hereHtml(c);
   const shelves = c.visibleShelves();
@@ -69,9 +87,12 @@ function keyHtml(cls = 'cn-key') {
 // A shelf can go by another name inside one section: under Boundaries, "People & Places" holds
 // the census and statistical areas. The Contents drawer uses the same name (shelfName), so its
 // entry and the heading it scrolls to agree.
+/** @type {Record<string, Record<string, string>>} */
 const SHELF_NAME_IN = { boundaries: { 'people-and-places': 'Census & Statistical Areas' } };
+/** @param {string} section @param {{ id: string, name: string }} sh */
 export const shelfName = (section, sh) => SHELF_NAME_IN[section]?.[sh.id] || sh.name;
 
+/** @param {CatalogueNext} c @param {VisibleShelf} shelf @param {boolean} [alone] */
 function shelfHtml(c, { sh, subjects, count }, alone = false) {
   const [look, col] = SHELF_LOOK[sh.id] || ['map', FALLBACK];
   const ic = SHELF_ICON_IN[c.section]?.[sh.id] || look;
@@ -92,17 +113,19 @@ function shelfHtml(c, { sh, subjects, count }, alone = false) {
 }
 
 /** A small section lists its series straight, without the subheadings a large one needs. */
+/** @param {CatalogueNext} c @param {VisibleShelf['subjects']} subjects @param {Partial<CatalogueShelf>} [sh] */
 function flatHtml(c, subjects, sh = {}) {
   // A shelf may send some rows to the end (Transport: collisions and road defects after every
   // route and network), whichever subject they sit in.
   const last = sh.last || [];
   const rows = subjects.flatMap((x) => x.series);
-  const ordered = c.query ? rows : [...rows.filter((s) => !last.includes(s.id)), ...last.map((id) => rows.find((s) => s.id === id)).filter(Boolean)];
+  const ordered = c.query ? rows : [...rows.filter((s) => !last.includes(s.id)), .../** @type {CatalogueRow[]} */ (last.map((id) => rows.find((s) => s.id === id)).filter(Boolean))];
   return `<div class="cn-subject cn-subject--flat">
     <ul class="cn-list" role="list">${ordered.map((s) => seriesRowHtml(c, s)).join('')}</ul>
   </div>`;
 }
 
+/** @param {CatalogueNext} c @param {VisibleShelf['subjects'][number]} subject @param {boolean} [heading] */
 function subjectHtml(c, { sub, series }, heading = true) {
   // A shelf showing one subject (Elections & Representation under Places & routes: only
   // "Current") needs no heading for it.
@@ -112,7 +135,12 @@ function subjectHtml(c, { sub, series }, heading = true) {
   </div>`;
 }
 
-/** One series. `hit` (optional) marks editions that matched a search or cover a point. */
+/**
+ * One series. `hit` (optional) marks editions that matched a search or cover a point.
+ * @param {CatalogueNext} c
+ * @param {CatalogueRow} s
+ * @param {RowHit} [hit]
+ */
 export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   const editions = s.members.filter((m) => !m.of);
   const todo = s.todo || [];
@@ -122,7 +150,8 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   // the row has a single Add button, as Civil Parishes does.
   const single = editions.length === 1;
   const open = drawable && c.expanded.has(s.id);
-  const meta = [SCOPE_SHORT[s.scope] || s.scope, span(s.years)].filter(Boolean).map((t) => `<span>${esc(t)}</span>`);
+  // A row with no scope finds no short name.
+  const meta = [SCOPE_SHORT[/** @type {string} */ (s.scope)] || s.scope, span(s.years)].filter(Boolean).map((t) => `<span>${esc(t)}</span>`);
   const tally = [
     editions.length > 1 ? plural(editions.length, s.arrangement === 'editions' ? 'edition' : 'map') : '',
     local.length ? plural(local.length, 'council map') : '',
@@ -156,6 +185,7 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   </li>`;
 }
 
+/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} m */
 function addButtonHtml(c, s, m) {
   const col = colourOf(c, s, m.id);
   const name = s.members.length > 1 ? `${s.name}, ${m.label}` : s.name;
@@ -163,14 +193,16 @@ function addButtonHtml(c, s, m) {
 }
 
 /** A series' council maps that a search or "What's here?" found: they show on the row; the rest
- * wait in the opened row. */
+ * wait in the opened row.
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {RowHit} hit */
 function localHitsOf(c, s, hit) {
   const hits = new Set(hit?.members || []);
   return (c.query || c.here) ? (s.local || []).filter((m) => hits.has(m.id)) : [];
 }
 
 /** The editions as chips; the maps still to be added join them, in date order, when asked for.
- * With years chosen, the maps in those years come first (Counties before 1930: 1927, 1922, 1915). */
+ * With years chosen, the maps in those years come first (Counties before 1930: 1927, 1922, 1915).
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} editions @param {RowHit} hit */
 function chipsHtml(c, s, editions, hit) {
   const hits = new Set(hit?.members || []);
   if (c.yearRange('maps').narrowed) editions = [...editions.filter((m) => c.editionInYears(m.id)), ...editions.filter((m) => !c.editionInYears(m.id))];
@@ -187,6 +219,7 @@ function chipsHtml(c, s, editions, hit) {
   if (hits.size && !showTodo) items = [...items.filter((x) => hits.has(x.m.id)), ...items.filter((x) => !hits.has(x.m.id))];
   const expandedChips = c.moreChips.has(s.id);
   const dimByPeriod = Boolean(c.searchPeriod && hits.size);
+  /** @param {CatalogueRowMember} m */
   const chip = (m) => chipHtml(c, s, m, { hit: hits.has(m.id) && (c.query || c.here), out: !c.editionInYears(m.id) || (dimByPeriod && !hits.has(m.id)) });
   return items.map(({ m, todo: isTodo }) => (isTodo ? todoChipHtml(c, m) : chip(m))).join('')
     + localHitsOf(c, s, hit).map(chip).join('')
@@ -198,12 +231,18 @@ function chipsHtml(c, s, editions, hit) {
         : `<button type="button" class="cn-chip cn-chip--more" data-cn-more="${esc(s.id)}" aria-expanded="false" hidden>+0 more</button>`);
 }
 
+/** @param {CatalogueNext} c @param {CatalogueRowMember} m */
 function todoChipHtml(c, m) {
-  const r = c.rec(m.id);
   const tip = c.mapSummary(m.id);
   return `<span class="cn-chip cn-chip--todo" title="${esc(tip ? `${tip}: to be added` : 'To be added')}, not yet on the map"><span class="cn-chip__dot" aria-hidden="true"></span><span class="cn-chip__label">${esc(m.label)}</span></span>`;
 }
 
+/**
+ * @param {CatalogueNext} c
+ * @param {CatalogueRow} s
+ * @param {CatalogueRowMember} m
+ * @param {{ hit?: unknown, out?: boolean, label?: string }} [options]  hit: whatever marks the chip a match, tested for truth
+ */
 export function chipHtml(c, s, m, { hit = false, out = false, label = m.label } = {}) {
   const r = c.rec(m.id);
   const col = colourOf(c, s, m.id);
@@ -215,14 +254,22 @@ export function chipHtml(c, s, m, { hit = false, out = false, label = m.label } 
   return `<button type="button" class="cn-chip${hit ? ' cn-chip--hit' : ''}${out ? ' cn-chip--out' : ''}${r.status === 'incomplete' ? ' cn-chip--part' : ''}" data-cn-toggle="${esc(m.id)}" data-series="${esc(s.id)}" aria-pressed="false" aria-label="${esc(`${s.name}, ${label}`)}" title="${esc(tip)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(label)}</span>${versions ? `<span class="cn-chip__more" aria-hidden="true">+${versions}</span>` : ''}</button>`;
 }
 
-/** What a row or an election is (data/catalogue/descriptions.json): its paragraphs, then its links. */
+/**
+ * What a row or an election is (data/catalogue/descriptions.json): its paragraphs, then its links.
+ * @param {CatalogueAbout | undefined} about
+ * @param {{ heading?: string }} [options]
+ */
 export function aboutHtml(about, { heading = '' } = {}) {
   if (!about?.text?.length) return '';
   const links = (about.links || []).map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`);
   return `<div class="cn-about">${heading ? `<span class="cn-label">${esc(heading)}</span>` : ''}${about.text.map((p) => `<p>${esc(p)}</p>`).join('')}${links.length ? `<p class="cn-about__links">${links.join('<span aria-hidden="true"> · </span>')}</p>` : ''}</div>`;
 }
 
-/** The opened row: what it is, timeline or list, then the chosen edition's facts and every action. */
+/**
+ * The opened row: what it is, timeline or list, then the chosen edition's facts and every action.
+ * @param {CatalogueNext} c
+ * @param {CatalogueRow} s
+ */
 export function panelHtml(c, s) {
   const editions = s.members.filter((m) => !m.of);
   const sel = c.selectedMember(s);
@@ -243,8 +290,10 @@ export function panelHtml(c, s) {
     </div>`;
 }
 
+/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} dated @param {CatalogueRowMember} sel */
 function timelineHtml(c, s, dated, sel) {
-  const pts = dated.map((m) => ({ m, t: c.decimalYear(c.rec(m.id).date) })).sort((a, b) => a.t - b.t);
+  // Dated editions only (panelHtml): each has its decimal year.
+  const pts = dated.map((m) => ({ m, t: /** @type {number} */ (c.decimalYear(c.rec(m.id).date)) })).sort((a, b) => a.t - b.t);
   const min = pts[0].t;
   const max = pts[pts.length - 1].t;
   const width = Math.max(240, pts.length * 46);
@@ -263,6 +312,7 @@ function timelineHtml(c, s, dated, sel) {
   return `<div class="cn-tl" role="group" aria-label="${esc(s.name)} on a timeline: choose an edition"><div class="cn-tl__track" style="min-width:${width}px"><span class="cn-tl__axis" aria-hidden="true"></span>${ticks}</div></div>`;
 }
 
+/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel */
 function memberListHtml(c, s, sel) {
   return `<ul class="cn-mlist" aria-label="${esc(s.name)}: choose a map">${s.members.filter((m) => !m.of).map((m) => {
     const r = c.rec(m.id);
@@ -273,26 +323,30 @@ function memberListHtml(c, s, sel) {
   }).join('')}</ul>`;
 }
 
-function factsHtml(c, sel, r) {
-  const rows = [
+/** @param {CatalogueNext} _c @param {CatalogueRowMember} _sel @param {CatalogueMapRec} r */
+function factsHtml(_c, _sel, r) {
+  // Each fact the record has, as [label, text].
+  const rows = /** @type {Array<[string, string]>} */ ([
     r.date && ['Date', r.dateNote ? `${mapDate(r)} (${r.dateNote})` : mapDate(r)],
     r.licence && ['Licence', r.licence],
     r.status && r.status !== 'ready' && ['Status', r.status === 'placeholder' ? 'To be added: listed, not yet drawn' : 'Incomplete'],
     r.note && ['Note', r.note],
-  ].filter(Boolean).map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`);
+  ].filter(Boolean)).map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`);
   if (r.orders?.length) {
     // Orders that took effect on the same terms are listed together, once.
+    /** @type {Map<string, { purposes: Array<[string, string]>, made: string[] }>} */
     const groups = new Map();
     for (const o of r.orders) {
       const k = JSON.stringify(o.purposes || []);
       if (!groups.has(k)) groups.set(k, { purposes: o.purposes || [], made: [] });
-      groups.get(k).made.push(`<b>${esc(o.divisions)}</b>, made ${esc(longDate(o.made))}`);
+      /** @type {{ made: string[] }} */ (groups.get(k)).made.push(`<b>${esc(o.divisions)}</b>, made ${esc(longDate(o.made))}`);
     }
     rows.splice(1, 0, `<dt>${r.orders.length > 1 ? 'Orders' : 'Order'}</dt><dd><ul class="cn-orders">${[...groups.values()].map((g) => `<li>${g.made.join('; ')}<ul>${g.purposes.map(([what, when]) => `<li>${esc(what)}: ${esc(when)}</li>`).join('')}</ul></li>`).join('')}</ul>${r.ordersSource ? `<span class="cn-orders__src">${esc(r.ordersSource)}</span>` : ''}</dd>`);
   }
   return rows.length ? `<dl class="cn-facts">${rows.join('')}</dl>` : '';
 }
 
+/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel */
 function versionsHtml(c, s, sel) {
   const base = sel.of || sel.id;
   const all = s.members.filter((m) => m.id === base || m.of === base);
@@ -309,7 +363,10 @@ function versionsHtml(c, s, sel) {
   }).join('')}</ul></div>`;
 }
 
-/** A series' council maps (one council's copy of a national map), beside the county maps. */
+/**
+ * A series' council maps (one council's copy of a national map), beside the county maps.
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel
+ */
 function localHtml(c, s, sel) {
   const base = sel ? sel.of || sel.id : null;
   const local = (s.local || []).filter((m) => !m.of || m.of === base);
@@ -318,11 +375,15 @@ function localHtml(c, s, sel) {
     <div class="cn-chips">${local.map((m) => itemHtml(c, chipHtml(c, s, m), m.id, m.label, { details: true })).join('')}</div></div>`;
 }
 
+/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel @param {CatalogueMapRec} r */
 function partsHtml(c, s, sel, r) {
   return partsGroupHtml(c, s, sel, r) + countiesHtml(c, s, sel, r);
 }
 
-/** The same map split by county (`counties`, from another map's county parts): one button each. */
+/**
+ * The same map split by county (`counties`, from another map's county parts): one button each.
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel @param {CatalogueMapRec} r
+ */
 function countiesHtml(c, s, sel, r) {
   if (!r.counties?.length) return '';
   const key = `${sel.id}:counties`;
@@ -333,7 +394,10 @@ function countiesHtml(c, s, sel, r) {
     ${r.counties.length > shown.length ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more-parts="${esc(key)}">+${r.counties.length - shown.length} more</button>` : ''}</div></div>`;
 }
 
-/** One part, county map or council map: its chip, then its own Details (when it has a page) and Download. */
+/**
+ * One part, county map or council map: its chip, then its own Details (when it has a page) and Download.
+ * @param {CatalogueNext} c @param {string} chip @param {string} id @param {string} label @param {{ details?: boolean }} [options]
+ */
 function itemHtml(c, chip, id, label, { details = false } = {}) {
   const dl = c.downloadsFor(id).length;
   const info = details && c.full(id);
@@ -341,6 +405,7 @@ function itemHtml(c, chip, id, label, { details = false } = {}) {
   return `<span class="cn-item">${chip}${info ? `<button type="button" class="cn-iconbtn cn-iconbtn--sm" data-cn-act="details" data-map="${esc(id)}" aria-label="${esc(label)}: details" title="Details">${icon('info')}</button>` : ''}${dl ? `<button type="button" class="cn-iconbtn cn-iconbtn--sm" data-cn-act="downloads" data-map="${esc(id)}" aria-haspopup="menu" aria-expanded="false" aria-label="${esc(label)}: download" title="Download">${icon('download')}</button>` : ''}</span>`;
 }
 
+/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel @param {CatalogueMapRec} r */
 function partsGroupHtml(c, s, sel, r) {
   if (!r.parts?.length) return '';
   const all = c.moreParts.has(sel.id);
@@ -352,6 +417,7 @@ function partsGroupHtml(c, s, sel, r) {
     ${r.parts.length > 1 ? `<div><button type="button" class="cn-link" data-cn-act="add-parts" data-map="${esc(sel.id)}">Add all ${r.parts.length} parts</button></div>` : ''}</div>`;
 }
 
+/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel @param {CatalogueMapRec} r */
 function actionsHtml(c, s, sel, r) {
   if (r.status === 'placeholder') return '<p class="cn-muted">Listed so you know it is coming: it cannot be drawn yet.</p>';
   const col = colourOf(c, s, sel.id);
@@ -372,7 +438,11 @@ function actionsHtml(c, s, sel, r) {
 
 /* ---------------------------------------------------------------- search: places and people */
 
-/** What a search finds besides maps: places (Maps only), people, and parties. */
+/**
+ * What a search finds besides maps: places (Maps only), people, and parties.
+ * @param {CatalogueNext} c
+ * @param {{ places?: boolean }} [options]
+ */
 export function extrasHtml(c, { places = true } = {}) {
   const x = c.extras;
   const addresses = places ? addressesHtml(c) : '';
@@ -382,6 +452,7 @@ export function extrasHtml(c, { places = true } = {}) {
 }
 
 // Who to credit for each source of address results (their terms ask for it).
+/** @type {Record<string, string>} */
 const ADDRESS_CREDIT = {
   photon: 'Addresses © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, found by <a href="https://photon.komoot.io" target="_blank" rel="noopener">Photon</a>',
   nominatim: 'Addresses © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, found by <a href="https://nominatim.org" target="_blank" rel="noopener">Nominatim</a>',
@@ -389,7 +460,8 @@ const ADDRESS_CREDIT = {
 };
 
 /** Addresses and postcodes for the query (index.js loadAddresses), with their credit; or, while
- * suggestions are paused, the note that Enter searches. */
+ * suggestions are paused, the note that Enter searches.
+ * @param {CatalogueNext} c */
 function addressesHtml(c) {
   const a = c.addresses;
   if (!a) return '';
@@ -404,15 +476,17 @@ function addressesHtml(c) {
   return `${note}<section class="cn-block cn-block--addresses" aria-labelledby="cn-addresses-h">
     <h3 class="cn-block__head" id="cn-addresses-h">${icon('map-pin')}<span>Addresses</span><span class="cn-count">${a.results.length}</span></h3>
     <ul class="cn-addresses">${a.results.map((r, i) => `<li><button type="button" class="cn-address" data-cn-address="${i}">${icon('map-pin')}<span class="cn-address__main"><span class="cn-address__name">${esc(r.name)}</span>${r.detail ? `<span class="cn-muted">${esc(r.detail)}</span>` : ''}</span></button></li>`).join('')}</ul>
-    <p class="cn-address-credit">${ADDRESS_CREDIT[a.source] || ADDRESS_CREDIT.photon}</p>
+    <p class="cn-address-credit">${ADDRESS_CREDIT[/** @type {string} */ (a.source)] || ADDRESS_CREDIT.photon}</p>
   </section>`;
 }
 
 /** Everyone who stood, by name: their main party and constituency, years, contests and wins, a
- * link to their page, and the elections they stood in, here in the Elections tab. */
+ * link to their page, and the elections they stood in, here in the Elections tab.
+ * @param {CatalogueNext} c @param {Array<{ row: PersonRow }>} results */
 function personsHtml(c, results) {
   const limit = c.limits.persons ? results.length : 6;
-  const { parties, constituencies } = c.peopleDoc;
+  // People were found, so the people index is loaded.
+  const { parties, constituencies } = /** @type {CataloguePeopleDoc} */ (c.peopleDoc);
   return `<section class="cn-block" aria-labelledby="cn-persons-h">
     <h3 class="cn-block__head" id="cn-persons-h">${icon('user')}<span>People</span><span class="cn-count">${results.length >= 200 ? '200+' : results.length}</span></h3>
     <ul class="cn-people">${results.slice(0, limit).map(({ row }) => {
@@ -425,6 +499,7 @@ function personsHtml(c, results) {
   </section>`;
 }
 
+/** @param {CatalogueNext} c @param {CatalogueSearchRecord} record */
 function placeThumb(c, record) {
   const t = record.featureThumbnail;
   if (t?.url) return `<img src="${esc(t.url)}" alt="" loading="lazy" decoding="async">`;
@@ -433,18 +508,21 @@ function placeThumb(c, record) {
 }
 
 /** What kind of geography a place's map is: "2012 Ward", "1993 District Electoral Area". The year
- * is the one the map is known by (its name: Wards 2012), else its date's. */
+ * is the one the map is known by (its name: Wards 2012), else its date's.
+ * @param {CatalogueNext} c @param {CatalogueSearchRecord} record */
 function placeKind(c, record) {
-  const r = c.rec(record.mapId) || {};
+  // A place's record is a feature of a map, so it names its map.
+  const r = c.rec(/** @type {string} */ (record.mapId)) || {};
   const name = r.name || record.subtitle || '';
   const year = yearOf(name) || yearOf(r.date);
   // The map's own unit, else its series', else what its name calls the areas, less any date.
-  const s = c.seriesById?.get(c.seriesOfMap?.get(record.mapId));
+  const s = c.seriesById?.get(/** @type {string} */ (c.seriesOfMap?.get(/** @type {string} */ (record.mapId))));
   const what = r.unit || s?.unit
     || name.replace(/\s*\([^)]*\)/g, '').replace(/\b\d{1,2} [A-Z][a-z]{2} \d{4}\b|\b\d{4}\b/g, '').replace(/\s{2,}/g, ' ').trim();
   return [year, what ? unitWord(what, 1) : ''].filter(Boolean).join(' ') || name;
 }
 
+/** @param {CatalogueNext} c @param {PlaceGroup[]} groups */
 function placesHtml(c, groups) {
   const all = Boolean(c.limits.places);
   const limit = all ? groups.length : 5;
@@ -468,8 +546,10 @@ function placesHtml(c, groups) {
   </section>`;
 }
 
+/** @param {CatalogueNext} c @param {CatalogueSearchRecord[]} records */
 function peopleHtml(c, records) {
   const limit = c.limits.people ? records.length : 5;
+  /** @type {Record<string, string>} */
   const ic = { person: 'user', party: 'flag', source: 'file-text' };
   const kinds = [['person', 'People'], ['party', 'Parties'], ['source', 'Sources']].filter(([t]) => records.some((r) => r.type === t)).map(([, l]) => l);
   const heading = kinds.length > 1 ? `${kinds.slice(0, -1).join(', ')} and ${kinds[kinds.length - 1].toLowerCase()}` : kinds[0] || 'People';
@@ -486,13 +566,16 @@ function peopleHtml(c, records) {
 
 /* ---------------------------------------------------------------- what's here */
 
+/** @param {CatalogueNext} c */
 function hereHtml(c) {
-  const { lng, lat } = c.here;
+  // Drawn only while a point is chosen.
+  const { lng, lat } = /** @type {LngLat} */ (c.here);
   const hit = c.hereResult();
+  /** @type {Map<string, Array<{ s: CatalogueRow, members: string[] }>>} */
   const shelves = new Map();
   for (const { s, members } of hit.series) {
     if (!shelves.has(s.shelf)) shelves.set(s.shelf, []);
-    shelves.get(s.shelf).push({ s, members });
+    /** @type {Array<{ s: CatalogueRow, members: string[] }>} */ (shelves.get(s.shelf)).push({ s, members });
   }
   const places = hit.places.slice(0, c.limits.here ? 400 : 30);
   return `<div class="cn-here__head"><h3>What's here</h3><button type="button" class="cn-btn" data-cn-act="close-here">${icon('x')}<span>Back to all maps</span></button></div>
