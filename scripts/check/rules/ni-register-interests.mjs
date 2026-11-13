@@ -12,6 +12,27 @@ const BROWSE_REGISTER_INTERESTS = path.join(BROWSE_DIR, 'register-interests.json
 const SOURCE_SHARDS = path.join(BROWSE_DIR, 'details', 'source-shards');
 const PAGES_MAX_FILE_BYTES = 25 * 1024 * 1024;
 
+/** @typedef {{ url?: string, name?: string, count?: number, bytes?: number }} ShardRef a shard listed by an index */
+/**
+ * The totals of data/database/ni-register-interests.json.
+ * @typedef {{
+ *   totalSourceRows: number, totalCanonicalInterests: number, totalBrowseRegisterRecords: number,
+ *   totalInterests: number, assemblyHistoricalHtmlInterests: number
+ * }} InterestSummary
+ */
+/**
+ * data/database/ni-register-interests.json, as far as the validators below read it.
+ * @typedef {{
+ *   summary: InterestSummary, browseShardMaxBytes: number,
+ *   canonicalShards?: ShardRef | ShardRef[], browseShards?: ShardRef | ShardRef[]
+ * }} InterestIndex
+ */
+/** @typedef {{ kind?: string }} SourceItem a file of a source record */
+/** @typedef {{ id?: string, url?: string, sourceItems?: SourceItem | SourceItem[] }} RegisterSource a record of the NI register source sidecar */
+/** @typedef {{ id?: string, detailUrl?: string }} BrowseSourceItem an item of the Browse sources index */
+/** @typedef {{ id?: string, sourceItems?: unknown }} SourceDetail a source's Browse detail record */
+/** @typedef {{ items?: SourceDetail | SourceDetail[] }} SourceDetailShard */
+
 main();
 
 function main() {
@@ -117,6 +138,7 @@ function main() {
   console.log(`NI register validation passed: ${sources.length} source records, ${totalShardRows} source rows, ${interestIndex.summary.totalCanonicalInterests} canonical interests, ${interestIndex.summary.totalBrowseRegisterRecords} grouped Browse records.`);
 }
 
+/** @param {InterestIndex} interestIndex */
 function validateCanonicalInterests(interestIndex) {
   const canonicalRows = loadCanonicalInterestRows(interestIndex);
   assert(canonicalRows.length === interestIndex.summary.totalCanonicalInterests, `canonical row count ${canonicalRows.length} does not match summary ${interestIndex.summary.totalCanonicalInterests}`);
@@ -141,6 +163,7 @@ function validateCanonicalInterests(interestIndex) {
   assert(htmlPdfRefs >= 2000, `expected substantial HTML/PDF merged evidence rows, found ${htmlPdfRefs}`);
 }
 
+/** @param {InterestIndex} interestIndex */
 function loadCanonicalInterestRows(interestIndex) {
   return normalizeArray(interestIndex.canonicalShards).flatMap((shard) => {
     assert(shard.url && /^\/data\/database\/ni-register-canonical-interests\//.test(shard.url), `unexpected canonical NI register shard URL: ${shard.url}`);
@@ -153,6 +176,7 @@ function loadCanonicalInterestRows(interestIndex) {
   });
 }
 
+/** @param {InterestIndex} interestIndex */
 function validateBrowseRegisterRecords(interestIndex) {
   const rows = loadGroupedBrowseRegisterRows(interestIndex);
   assert(rows.length === interestIndex.summary.totalBrowseRegisterRecords, `grouped Browse register row count ${rows.length} does not match summary ${interestIndex.summary.totalBrowseRegisterRecords}`);
@@ -193,6 +217,7 @@ function validateBrowseRegisterRecords(interestIndex) {
   assert(commonsRows > 0, 'grouped Browse register rows must include House of Commons records');
 }
 
+/** @param {InterestIndex} interestIndex */
 function loadGroupedBrowseRegisterRows(interestIndex) {
   return normalizeArray(interestIndex.browseShards).flatMap((shard) => {
     assert(shard.url && /^\/data\/database\/ni-register-browse-records\//.test(shard.url), `unexpected grouped Browse NI register shard URL: ${shard.url}`);
@@ -210,10 +235,14 @@ function loadGroupedBrowseRegisterRows(interestIndex) {
   });
 }
 
+/** @param {RegisterSource[]} expectedSources */
 function validateBrowseSources(expectedSources) {
   const browse = readJson(BROWSE_SOURCES);
-  const browseItems = resolveBrowseSourceItems(browse, ROOT);
+  // the Browse sources index's items are source records
+  const browseItems = /** @type {BrowseSourceItem[]} */ (resolveBrowseSourceItems(browse, ROOT));
+  /** @type {Map<string | undefined, BrowseSourceItem>} */
   const byId = new Map(browseItems.map((item) => [item.id, item]));
+  /** @type {Map<string, SourceDetailShard>} */
   const shardCache = new Map();
   for (const source of expectedSources) {
     const indexItem = byId.get(source.id);
@@ -225,6 +254,7 @@ function validateBrowseSources(expectedSources) {
   }
 }
 
+/** @param {InterestIndex} interestIndex */
 function validateBrowseRegisterInterests(interestIndex) {
   const browse = readJson(BROWSE_REGISTER_INTERESTS);
   assert(browse.schemaVersion === 1, 'Browse register interest index must use schemaVersion 1');
@@ -260,6 +290,7 @@ function validateBrowseRegisterInterests(interestIndex) {
   assert(normalizeArray(detailSample?.sourceRefs).length === detailSample?.sourceCount, `grouped detail ${sample.id} lost sourceRefs`);
 }
 
+/** @param {{ shards?: ShardRef | ShardRef[] }} browse */
 function loadBrowseRegisterInterestItems(browse) {
   return normalizeArray(browse.shards).flatMap((shard) => {
     assert(shard.url && /^\/data\/browse\/register-interest-shards\//.test(shard.url), `unexpected Browse register interest shard URL: ${shard.url}`);
@@ -274,41 +305,63 @@ function loadBrowseRegisterInterestItems(browse) {
   });
 }
 
+/** @param {unknown} value */
 function sortableRegisterDate(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(String(value || '')) ? String(value) : '';
 }
 
+/**
+ * @param {RegisterSource[]} sources
+ * @param {string} kind
+ */
 function countSourceItemsByKind(sources, kind) {
   return sources.filter((source) => normalizeArray(source.sourceItems).some((item) => item.kind === kind)).length;
 }
 
+/**
+ * @param {BrowseSourceItem} indexItem
+ * @param {Map<string, SourceDetailShard>} cache
+ */
 function readSourceDetail(indexItem, cache) {
   const shardName = indexItem.detailUrl?.split('/').pop();
   assert(shardName, `source index item ${indexItem.id} has no detail shard`);
   if (!cache.has(shardName)) {
     cache.set(shardName, readJson(path.join(SOURCE_SHARDS, shardName)));
   }
-  return normalizeArray(cache.get(shardName).items).find((item) => item.id === indexItem.id);
+  // the shard was cached on the lines before when it was absent
+  return normalizeArray(/** @type {SourceDetailShard} */ (cache.get(shardName)).items).find((item) => item.id === indexItem.id);
 }
 
+/**
+ * Every caller has first asserted the URL is a site path (/data/...), which never resolves to null.
+ * @param {unknown} url
+ */
 function publicUrlToLocalPath(url) {
-  return localPathForUrl(String(url || '').replace(/[?#].*$/, ''));
+  return /** @type {string} */ (localPathForUrl(String(url || '').replace(/[?#].*$/, '')));
 }
 
+/** @param {string} filePath */
 function readJson(filePath) {
   assert(existsSync(filePath), `missing file: ${path.relative(ROOT, filePath)}`);
   return JSON.parse(readFileSync(filePath, 'utf8'));
 }
 
+/**
+ * @template T
+ * @param {T | T[] | null | undefined} value
+ * @returns {T[]}
+ */
 function normalizeArray(value) {
   if (!value) return [];
   return Array.isArray(value) ? value : [value];
 }
 
+/** @param {unknown} value */
 function containsLocalPath(value) {
   return /[A-Z]:\\|\\\\|\/Users\/scomo|\/home\/|tmp\/ni-assembly-registers|Downloads\\/i.test(JSON.stringify(value));
 }
 
+/** @param {unknown} value */
 function normalizedCategory(value) {
   return cleanText(value)
     .toLowerCase()
@@ -317,10 +370,16 @@ function normalizedCategory(value) {
     .trim();
 }
 
+/** @param {unknown} value */
 function cleanText(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
+/**
+ * @param {unknown} condition
+ * @param {string} message
+ * @returns {asserts condition}
+ */
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
