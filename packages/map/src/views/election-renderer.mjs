@@ -25,15 +25,15 @@ import { MAP_COLOURS, NUMERIC_SCALE } from './colours.mjs';
  * can be read.
  * @typedef {{
  *   [field: string]: unknown,
- *   deltas?: { [field: string]: unknown } | null,
- *   previous?: { [field: string]: unknown } | null
+ *   deltas?: { [field: string]: unknown } | null | undefined,
+ *   previous?: { [field: string]: unknown } | null | undefined
  * }} TableRow
  */
 /**
  * One count of a candidate (or of the non-transferable votes): its number and the votes held.
  * @typedef {{ [field: string]: unknown, count?: unknown, total?: unknown, transfers?: unknown, status?: unknown, firstPrefs?: unknown }} CountRow
  */
-/** @typedef {TableRow & { counts?: CountRow[] }} CountCandidate */
+/** @typedef {TableRow & { counts?: CountRow[] | undefined }} CountCandidate */
 /** @typedef {{ [field: string]: unknown }} RecallPetition */
 /**
  * A contest as the renderer reads it (an election bundle's `results[]` item).
@@ -49,14 +49,14 @@ import { MAP_COLOURS, NUMERIC_SCALE } from './colours.mjs';
  * or the stand-in renderElectionSummaryFromViewModel builds. A host with the main-compatible
  * renderers draws the pane itself.
  * @typedef {{
- *   activeEntry?: ElectionRecord | null,
+ *   activeEntry?: ElectionRecord | null | undefined,
  *   activeBundle: ElectionRecord & { areaLabel?: string, completenessNote?: string, localBodies?: unknown[] },
  *   previousBundle?: { results?: ElectionResult[] } | null,
- *   activePanelView?: string,
- *   activeMode?: string,
- *   overlayMode?: string,
- *   activeLocalMode?: string,
- *   countDetailedView?: boolean,
+ *   activePanelView?: string | undefined,
+ *   activeMode?: string | undefined,
+ *   overlayMode?: string | undefined,
+ *   activeLocalMode?: string | undefined,
+ *   countDetailedView?: boolean | undefined,
  *   currentResults: () => ElectionResult[],
  *   isLocalGovernmentElection: () => boolean,
  *   localBodyCount: () => number,

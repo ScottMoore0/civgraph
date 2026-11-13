@@ -18,9 +18,9 @@ import {
  *   [field: string]: unknown,
  *   key?: string,
  *   id?: string,
- *   body?: string,
- *   bodyGroup?: string | null,
- *   date?: string,
+ *   body?: string | undefined,
+ *   bodyGroup?: string | null | undefined,
+ *   date?: string | undefined,
  *   displayTitle?: string,
  *   contestType?: string,
  *   type?: string,
@@ -70,17 +70,17 @@ import {
 
 /**
  * @param {{
- *   entry?: ElectionRecord | null,
- *   bundle?: ElectionRecord | null,
- *   results?: ElectionResult[],
- *   previousResults?: ElectionResult[],
- *   selectedResult?: ElectionResult | null,
- *   view?: string,
- *   mode?: string,
- *   overlayMode?: string,
- *   localMode?: string,
- *   countDetailedView?: boolean
- * }} [options]
+ *   entry?: ElectionRecord | null | undefined,
+ *   bundle?: ElectionRecord | null | undefined,
+ *   results?: ElectionResult[] | undefined,
+ *   previousResults?: ElectionResult[] | undefined,
+ *   selectedResult?: ElectionResult | null | undefined,
+ *   view?: string | undefined,
+ *   mode?: string | undefined,
+ *   overlayMode?: string | undefined,
+ *   localMode?: string | undefined,
+ *   countDetailedView?: boolean | undefined
+ * }} [options] (a field left undefined takes its default)
  */
 export function buildElectionViewModel({
   entry = null,
@@ -135,14 +135,14 @@ export function buildElectionViewModel({
  * @param {ElectionResult | null} [selectedResult]
  * @param {string | null} [view]
  * @param {{
- *   activeEntry?: ElectionRecord | null,
- *   activeBundle?: ElectionRecord | null,
- *   previousBundle?: ElectionRecord | null,
- *   activePanelView?: string,
- *   activeMode?: string,
- *   overlayMode?: string,
- *   activeLocalMode?: string,
- *   countDetailedView?: boolean
+ *   activeEntry?: ElectionRecord | null | undefined,
+ *   activeBundle?: ElectionRecord | null | undefined,
+ *   previousBundle?: ElectionRecord | null | undefined,
+ *   activePanelView?: string | undefined,
+ *   activeMode?: string | undefined,
+ *   overlayMode?: string | undefined,
+ *   activeLocalMode?: string | undefined,
+ *   countDetailedView?: boolean | undefined
  * }} manager the test2 election manager (packages/map/app/election-manager.js)
  */
 export function buildElectionViewModelFromTest2Manager(manager, selectedResult = null, view = null) {

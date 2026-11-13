@@ -81,7 +81,7 @@ export interface Contest {
   quota?: number | null;
   turnoutPct?: number | null;
   winnerParty?: string | null;
-  winnerName?: string | null;
+  winnerName?: string | null | undefined;
   leadingParty?: string | null;
   leadingName?: string | null;
   leadingVotes?: number | null;
