@@ -5,8 +5,8 @@
  *   source     en.json: the English every key falls back to. Fixed.
  *   generated  machine-written indexes (place-name-fields.json). Fixed.
  *   draft      a language file nobody fluent has reviewed.
- *   reviewed   a language file a named reviewer has checked (META.<lang>.reviewedBy in
- *              build-i18n.mjs, the route data/i18n/README.md documents).
+ *   reviewed   a language file a named reviewer has checked (the language's reviewedBy in
+ *              data/registries/languages.json, the route data/i18n/README.md documents).
  *
  *   draft <-> reviewed   naming the reviewer marks it reviewed; removing the name marks it draft
  *
@@ -27,7 +27,7 @@ export const translationStatus = defineMachine(/** @type {import('../../packages
 
 export const translationStatusGuards = defineGuards(translationStatus, {
   'draft->reviewed': (/** @type {{ reviewedBy?: string | null }} */ ctx) => (
-    String(ctx.reviewedBy ?? '').trim() ? null : 'no reviewer is named (META.<lang>.reviewedBy)'
+    String(ctx.reviewedBy ?? '').trim() ? null : 'no reviewer is named (reviewedBy in data/registries/languages.json)'
   ),
 });
 
