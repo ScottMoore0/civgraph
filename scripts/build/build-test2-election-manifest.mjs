@@ -1798,6 +1798,9 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       Constituency: rawResult.Constituency?.countInfo?.Total_Electorate ? rawResult.Constituency : (enrichedRawResult?.Constituency || rawResult.Constituency),
     } : rawResult);
     if (notes.length) result.contestNotes = notes;
+    // A contest file whose source printed only the members elected says so (losersNotPrinted: true);
+    // the Elections app notes it on that contest (site/apps/elections/lib/limits.js).
+    if (rawResult?.losersNotPrinted === true) result.losersNotPrinted = true;
     applyLifespanEvidence(entry, result);
     attachOfficialPersonIds(key, result, constituency);
     const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
