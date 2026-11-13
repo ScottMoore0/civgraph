@@ -57,9 +57,9 @@ const TIMEOUT_MS = 120_000;
  * What a portal keeps of each package: Open Data NI's records carry the description (its
  * whitespace collapsed, cut at `notesMax` characters; 0 keeps none) and the download links, and
  * their licence URL comes from the emitter's OGL rule; data.gov.ie's carry CKAN's licence URL and
- * neither of the others. A resource's name and format are trimmed; every other value is CKAN's
- * string as it stands (a trailing space in an organisation's title included), as the committed
- * records have them.
+ * neither of the others. The title and a resource's name and format are trimmed; every other
+ * value is CKAN's string as it stands (a trailing space in an organisation's title included), as
+ * the committed records have them.
  * @typedef {{ notesMax: number, resources: boolean, licenseUrl: boolean }} DatasetFields
  */
 /**
@@ -97,7 +97,7 @@ const text = (v) => (typeof v === 'string' && v !== '' ? v : undefined);
 export function toDataset(pkg, fields) {
   /** @type {HarvestDataset} */
   const d = { slug: pkg.name };
-  const title = text(pkg.title);
+  const title = text(pkg.title?.trim());
   if (title) d.title = title;
   const org = text(pkg.organization?.title) ?? text(pkg.organization?.name);
   if (org) d.org = org;
