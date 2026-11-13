@@ -1,6 +1,6 @@
 /**
  * The wave-3 rename rules (packages/core/src/layer-renames.mjs) and the server-side R2 copy
- * (scripts/publish/r2-copy-keys.mjs), against a fake S3 client: no network.
+ * (scripts/publish/r2-copy-keys.mjs, through the S3 blob store), against a fake S3 client: no network.
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -9,6 +9,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { legacyLayerId, renameLayerId, renamePmtilesKey } from '../../packages/core/src/layer-renames.mjs';
 import { copyPairs, copySource, MAX_SINGLE_COPY_BYTES, planManifest, validateManifest, verifyPairs } from '../../scripts/publish/r2-copy-keys.mjs';
+import { s3BlobStore } from '../../packages/storage/src/s3.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -67,6 +68,8 @@ test('validateManifest refuses keys outside the two prefixes and duplicate desti
 class Head { constructor(input) { this.kind = 'head'; this.input = input; } }
 class Copy { constructor(input) { this.kind = 'copy'; this.input = input; } }
 const commands = { HeadObjectCommand: Head, CopyObjectCommand: Copy };
+/** The S3 blob store the script uses, over the stand-in client below. */
+const storeOver = (s3, bucket = 'b') => s3BlobStore({ bucket, client: /** @type {any} */ (s3), commands: /** @type {any} */ (commands) });
 
 function fakeS3(objects) {
   const sent = [];
@@ -92,14 +95,14 @@ const NEW = 'data/maps/pmtiles/a-vector.pmtiles';
 
 test('a dry run sends nothing', async () => {
   const s3 = fakeS3(new Map([[OLD, { size: 10, etag: '"e"' }]]));
-  const results = await copyPairs([{ from: OLD, to: NEW }], { client: s3, commands, bucket: 'b', apply: false, log: () => {} });
+  const results = await copyPairs([{ from: OLD, to: NEW }], { store: storeOver(s3), apply: false, log: () => {} });
   assert.equal(s3.sent.length, 0);
   assert.equal(results[0].status, 'planned');
 });
 
 test('apply copies server-side with metadata, confirms, and is idempotent', async () => {
   const s3 = fakeS3(new Map([[OLD, { size: 10, etag: '"e"' }]]));
-  const opts = { client: s3, commands, bucket: 'boundaries-data', apply: true, log: () => {} };
+  const opts = { store: storeOver(s3, 'boundaries-data'), apply: true, log: () => {} };
   const first = await copyPairs([{ from: OLD, to: NEW }], opts);
   assert.equal(first[0].status, 'copied');
   const copy = s3.sent.find((c) => c.kind === 'copy');
@@ -118,7 +121,7 @@ test('apply never overwrites a different destination and reports a missing or ov
     { from: OLD, to: NEW },
     { from: 'data/maps/test/pmtiles/generated/none-vector-test.pmtiles', to: 'data/maps/pmtiles/none-vector.pmtiles' },
     { from: 'data/maps/test/pmtiles/generated/big-vector-test.pmtiles', to: 'data/maps/pmtiles/big-vector.pmtiles' },
-  ], { client: s3, commands, bucket: 'b', apply: true, log: () => {} });
+  ], { store: storeOver(s3), apply: true, log: () => {} });
   assert.deepEqual(results.map((r) => r.status), ['error', 'error', 'error']);
   assert.match(results[0].detail, /not overwritten/);
   assert.match(results[1].detail, /source missing/);
@@ -129,7 +132,7 @@ test('apply never overwrites a different destination and reports a missing or ov
 
 test('verify compares both keys without writing', async () => {
   const s3 = fakeS3(new Map([[OLD, { size: 10, etag: '"e"' }], [NEW, { size: 10, etag: '"e"' }]]));
-  const results = await verifyPairs([{ from: OLD, to: NEW }, { from: OLD, to: 'data/maps/pmtiles/missing.pmtiles' }], { client: s3, commands, bucket: 'b' });
+  const results = await verifyPairs([{ from: OLD, to: NEW }, { from: OLD, to: 'data/maps/pmtiles/missing.pmtiles' }], { store: storeOver(s3) });
   assert.deepEqual(results.map((r) => r.status), ['ok', 'new-missing']);
   assert.ok(s3.sent.every((c) => c.kind === 'head'));
 });
