@@ -306,9 +306,23 @@ export function spawnArgv(argv, { cwd, env = {}, stdio = 'inherit', input }) {
   const exe = prog === 'node' ? process.execPath : prog;
   // A PowerShell script runs as `powershell -NoProfile -File <script> ...`, under the machine's
   // own execution policy.
-  const rest = prog === 'powershell' ? ['-NoProfile', '-File', ...given] : given;
+  // A Python script runs isolated (`python -I`: ingest scripts read downloaded files), through
+  // frozen-clock/run_isolated.py, which gives it back its own folder and the user's packages.
+  const rest = prog === 'powershell' ? ['-NoProfile', '-File', ...given] : prog === 'python' ? pythonIsolatedArgs(given) : given;
   const res = spawnSync(exe, rest, { cwd, env: { ...process.env, ...env }, stdio: input !== undefined ? ['pipe', 'pipe', 'inherit'] : stdio, input, encoding: 'utf8', maxBuffer: 512 * 1024 * 1024 });
   return res;
+}
+
+/**
+ * The arguments `python` gets for a step's argv after the program: `-I` and the launcher, then
+ * the script and its arguments (or `-I` then the given flags, for `python -m ...` and the like).
+ * @param {string[]} given
+ * @returns {string[]}
+ */
+export function pythonIsolatedArgs(given) {
+  const first = given[0];
+  if (first === undefined || first.startsWith('-')) return ['-I', ...given];
+  return ['-I', path.join(CLOCK_DIR, 'run_isolated.py'), ...given];
 }
 
 /**
