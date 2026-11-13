@@ -18,6 +18,7 @@ import { join, relative, sep, resolve as resolvePath } from 'path';
 import { execFileSync } from 'child_process';
 import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
+import { DOWNLOADS_PREFIX } from '../../packages/loader/src/downloads-guard.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 const args = process.argv.slice(2);
@@ -31,6 +32,11 @@ if (positional.length < 2) {
 }
 
 const [LOCAL_DIR, KEY_PREFIX] = positional;
+// The bulk downloads have their own upload, which never overwrites a published snapshot version.
+if (`${KEY_PREFIX.replace(/^\/+/, '')}/`.startsWith(`${DOWNLOADS_PREFIX}/`)) {
+    console.error(`Refused: ${DOWNLOADS_PREFIX}/ is uploaded by node scripts/publish/r2-upload-downloads.mjs, which keeps every snapshot version.`);
+    process.exit(1);
+}
 const DRY_RUN = flags.has('--dry-run');
 const GATE_OVERRIDE = flags.has('--i-have-reviewed-this-publication');
 const CHECK_FIRST = flags.has('--check');

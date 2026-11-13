@@ -10,6 +10,7 @@
 import { existsSync } from 'fs';
 import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
+import { DOWNLOADS_PREFIX } from '../../packages/loader/src/downloads-guard.mjs';
 
 const arg = (/** @type {string} */ name) => { const i = process.argv.indexOf(name); return i > -1 ? process.argv[i + 1] : null; };
 const PREFIX = arg('--prefix');
@@ -28,6 +29,8 @@ const orphans = [];
 let listed = 0;
 for await (const object of store.listAll({ prefix: PREFIX })) {
   listed += 1;
+  // The bulk downloads keep every snapshot version: never an orphan (owner decision PG15).
+  if (object.key.startsWith(`${DOWNLOADS_PREFIX}/`)) continue;
   // R2 keys mirror the local paths; .br/.gz variants belong to their base file.
   const base = object.key.replace(/\.(br|gz)$/, '');
   if (pattern.test(base) && !existsSync(base)) orphans.push(object.key);

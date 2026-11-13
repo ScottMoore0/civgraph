@@ -8,8 +8,9 @@
  *     civgraph-graph-shards.tar.gz, the graph's shard files
  *   manifest.json: version, sizes, SHA-256, licence note
  *
- * It uploads nothing. Publishing them is a separate, approved step through the S3 path:
- *   node scripts/publish/r2-upload-tree.mjs --i-have-reviewed-this-publication ... data/downloads/
+ * It uploads nothing. Publishing them is a separate, approved step through the S3 path, which
+ * keeps every snapshot version and never overwrites one (packages/loader/src/downloads-guard.mjs):
+ *   node scripts/publish/r2-upload-downloads.mjs
  */
 import { createHash } from 'node:crypto';
 import { createReadStream, existsSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
@@ -54,7 +55,8 @@ for (const format of EXPORT_FORMATS) {
 const manifest = {
   schemaVersion: 1,
   version,
-  licence: `See ${SITE.origin}/pages/about.html for the licence of each source; the records cite theirs.`,
+  // The Licence page (owner decision PG17, 13 Nov 2026), from the next approved upload.
+  licence: `See ${SITE.origin}/pages/licence for the licence of Civgraph's own data and of each source; the records cite theirs.`,
   files: /** @type {{ name: string, bytes: number, sha256: string }[]} */ ([]),
 };
 for (const f of files) {

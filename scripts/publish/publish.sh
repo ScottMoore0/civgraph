@@ -16,8 +16,8 @@
 # Elections app's extracts, and only when they changed (scripts/publish/elections-app-refresh.mjs).
 #
 #   --dry-run    build, then say what would be loaded and pushed; push, load and upload nothing
-#   --downloads  also write the bulk downloads (tmp/records/downloads/); uploading them is the
-#                S3 path with --i-have-reviewed-this-publication, a step of its own
+#   --downloads  also write the bulk downloads (tmp/records/downloads/); uploading them is
+#                scripts/publish/r2-upload-downloads.mjs, a step of its own
 #
 # Order: refuse uncommitted changes; build the records database for HEAD (skipped when the
 # inputs are unchanged); load the delta into D1 and verify it; rebuild and check the Elections
