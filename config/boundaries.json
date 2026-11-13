@@ -291,7 +291,7 @@
   },
   "baseline": [],
   "engines": {
-    "//": "The engine rule (architecture rule R1, REFACTOR-PLAN.md ST-7, stream rf9-loader-storage, 12 Nov 2026): only the units in `units` may use an engine API, a module in `modules` (an entry ending in / covers the modules under it), by an import, an import() or a JSDoc type import(). Everything else opens a database or a bucket through packages/storage (openSqliteHandle and openSqlite for SQLite files, fsBlobStore for folders; the Functions reach D1, R2 and KV through fromD1 and blobStore, held by tests/functions/blob-store.test.mjs and named-queries.test.mjs), so a database swap touches only the adapter (acceptance test A3). `tests` may use the engine too: a fixture builds a database with it, and a test that reads a file without the adapter is an independent check of the adapter. `baseline` lists the known uses ('file -> module') and only shrinks: the publish scripts reach R2 through the S3 client directly, as packages/storage has no S3 blob store yet (plan ST-2's s3.mjs).",
+    "//": "The engine rule (architecture rule R1, REFACTOR-PLAN.md ST-7, stream rf9-loader-storage, 12 Nov 2026): only the units in `units` may use an engine API, a module in `modules` (an entry ending in / covers the modules under it), by an import, an import() or a JSDoc type import(). Everything else opens a database or a bucket through packages/storage (openSqliteHandle and openSqlite for SQLite files, fsBlobStore for folders, openS3BlobStore for R2's S3 endpoint; the Functions reach D1, R2 and KV through fromD1 and blobStore, held by tests/functions/blob-store.test.mjs and named-queries.test.mjs), so a database swap touches only the adapter (acceptance test A3). `tests` may use the engine too: a fixture builds a database with it, and a test that reads a file without the adapter is an independent check of the adapter. `baseline` lists the known uses ('file -> module') and only shrinks. It is empty: the 8 publish scripts that reached R2 through the S3 client directly moved onto the S3 blob store, packages/storage/src/s3.mjs (plan ST-2's s3.mjs; stream rf9-s3, 13 Nov 2026), one commit each.",
     "modules": [
       "node:sqlite",
       "better-sqlite3",
@@ -309,9 +309,7 @@
       "storage-node",
       "tests"
     ],
-    "baseline": [
-      "scripts/publish/verify-r2-parity.mjs -> @aws-sdk/client-s3"
-    ]
+    "baseline": []
   },
   "unowned": {
     "//": "Tracked scripts that belong to no unit, each with its reason (architecture rule R1; check C2 in npm run check:architecture fails on a script in no unit and not listed here, and on an entry here that matches nothing). A key ending in / covers a folder.",
