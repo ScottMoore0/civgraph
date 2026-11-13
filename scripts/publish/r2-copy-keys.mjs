@@ -20,14 +20,15 @@
  *         and HEAD it again to confirm size and ETag. Writes a receipt next to the manifest.
  * verify  read-only: HEADs both keys of every pair and reports any that differ or are missing.
  *
- * Bulk work uses the S3 endpoint (memory note feedback_r2_upload_path.md), with the R2_*
- * variables from .env.local. Credentials are read from the environment and never printed.
+ * Bulk work uses the S3 endpoint (memory note feedback_r2_upload_path.md), through the S3 blob
+ * store (packages/storage/src/s3.mjs), with the R2_* variables from .env.local. Credentials are read from the environment and never printed.
  * Nothing here deletes, and nothing runs from .claude/publish/.
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { NEW_PMTILES_PREFIX, OLD_PMTILES_PREFIX, renamePmtilesKey } from '../../packages/core/src/layer-renames.mjs';
+import { copySource, openS3BlobStore } from '../../packages/storage/src/s3.mjs';
 import { r2Credentials, s3ClientOptions } from './r2-env.mjs';
 import { pairShapeProblem, stateAfterCopy, stateFromVerify } from './key-migration.mjs';
 
@@ -52,8 +53,6 @@ const ALLOWED_PREFIXES = [OLD_PMTILES_PREFIX, NEW_PMTILES_PREFIX];
  * @property {KeyPair[]} pairs
  * @property {Array<{ url: string, count: number }>} notCovered  tileUrls the rename rule leaves alone
  */
-/** @typedef {import('@aws-sdk/client-s3').S3Client} S3Client */
-/** @typedef {Pick<typeof import('@aws-sdk/client-s3'), 'HeadObjectCommand' | 'CopyObjectCommand'>} S3Commands */
 /** @typedef {{ size: number, etag: string | null }} ObjectHead */
 
 /**
@@ -138,43 +137,31 @@ export function validateManifest(manifest) {
   return errors;
 }
 
-/**
- * @param {string | undefined} bucket
- * @param {string} key
- */
-export function copySource(bucket, key) {
-  return `${bucket}/${key.split('/').map(encodeURIComponent).join('/')}`;
-}
+// The CopySource of a key: each path segment encoded (the S3 blob store's, re-exported here).
+export { copySource };
+
+/** @typedef {import('../../packages/storage/src/s3.mjs').S3BlobStore} S3BlobStore */
 
 /**
- * @param {S3Client} client
- * @param {S3Commands} commands
- * @param {string | undefined} bucket
+ * @param {S3BlobStore} store
  * @param {string} key
- * @returns {Promise<ObjectHead | null>}  null when there is no such object
+ * @returns {Promise<ObjectHead | null>}  null when there is no such object (a 404, NotFound or NoSuchKey)
  */
-async function head(client, commands, bucket, key) {
-  try {
-    const res = await client.send(new commands.HeadObjectCommand({ Bucket: bucket, Key: key }));
-    return { size: Number(res.ContentLength), etag: res.ETag || null };
-  } catch (error) {
-    const failure = /** @type {{ $metadata?: { httpStatusCode?: number }, name?: string } | null | undefined} */ (error);
-    const status = failure?.$metadata?.httpStatusCode;
-    if (status === 404 || failure?.name === 'NotFound' || failure?.name === 'NoSuchKey') return null;
-    throw error;
-  }
+async function head(store, key) {
+  const res = await store.head(key);
+  return res ? { size: Number(res.size), etag: res.etag } : null;
 }
 
 const sameObject = (/** @type {ObjectHead | null} */ a, /** @type {ObjectHead | null} */ b) => Boolean(a && b && a.size === b.size && (!a.etag || !b.etag || a.etag === b.etag));
 
 /**
- * Copy (or, without apply, plan) every pair. `client` is an S3Client; `commands` holds the
- * command classes, injected so tests need no network. Returns per-pair results. A plan
- * (apply false) needs no client.
+ * Copy (or, without apply, plan) every pair. `store` is the S3 blob store
+ * (packages/storage/src/s3.mjs), over a stand-in client in the tests, so they need no network.
+ * Returns per-pair results. A plan (apply false) needs no store.
  * @param {Array<{ from: string, to: string }>} pairs
- * @param {{ client?: any, commands?: any, bucket?: string, apply?: boolean, log?: (message: string) => void }} options
+ * @param {{ store?: S3BlobStore, apply?: boolean, log?: (message: string) => void }} options
  */
-export async function copyPairs(pairs, { client, commands, bucket, apply = false, log = console.log }) {
+export async function copyPairs(pairs, { store, apply = false, log = console.log }) {
   const results = [];
   for (const { from, to } of pairs) {
     if (!apply) {
@@ -182,18 +169,19 @@ export async function copyPairs(pairs, { client, commands, bucket, apply = false
       results.push({ from, to, status: 'planned' });
       continue;
     }
-    const source = await head(client, commands, bucket, from);
+    if (!store) throw new TypeError('copyPairs: apply needs the S3 blob store');
+    const source = await head(store, from);
     if (!source) { results.push({ from, to, status: 'error', detail: 'source missing' }); continue; }
     if (source.size > MAX_SINGLE_COPY_BYTES) { results.push({ from, to, status: 'error', detail: `source is ${source.size} bytes; needs a multipart copy` }); continue; }
-    const existing = await head(client, commands, bucket, to);
+    const existing = await head(store, to);
     if (existing) {
       results.push(sameObject(source, existing)
         ? { from, to, status: 'already-copied', size: source.size }
         : { from, to, status: 'error', detail: 'destination exists with different content; not overwritten' });
       continue;
     }
-    await client.send(new commands.CopyObjectCommand({ Bucket: bucket, Key: to, CopySource: copySource(bucket, from), MetadataDirective: 'COPY' }));
-    const copied = await head(client, commands, bucket, to);
+    await store.copy(from, to, { metadataDirective: 'COPY' });
+    const copied = await head(store, to);
     results.push(sameObject(source, copied)
       ? { from, to, status: 'copied', size: source.size }
       : { from, to, status: 'error', detail: 'copy does not match its source' });
@@ -205,12 +193,12 @@ export async function copyPairs(pairs, { client, commands, bucket, apply = false
 /**
  * Read-only comparison of every pair.
  * @param {KeyPair[]} pairs
- * @param {{ client: S3Client, commands: S3Commands, bucket?: string }} s3
+ * @param {{ store: S3BlobStore }} s3
  */
-export async function verifyPairs(pairs, { client, commands, bucket }) {
+export async function verifyPairs(pairs, { store }) {
   const results = [];
   for (const { from, to } of pairs) {
-    const [a, b] = [await head(client, commands, bucket, from), await head(client, commands, bucket, to)];
+    const [a, b] = [await head(store, from), await head(store, to)];
     let status = 'ok';
     if (!a) status = 'old-missing';
     else if (!b) status = 'new-missing';
@@ -223,9 +211,7 @@ export async function verifyPairs(pairs, { client, commands, bucket }) {
 async function s3FromEnv() {
   // Loads .env.local; throws R2CredentialsError (names only) when a variable is still missing.
   const r2 = r2Credentials();
-  const sdk = await import('@aws-sdk/client-s3');
-  const client = new sdk.S3Client(s3ClientOptions(r2));
-  return { client, commands: sdk, bucket: r2.bucket };
+  return { store: await openS3BlobStore({ bucket: r2.bucket, clientOptions: s3ClientOptions(r2) }) };
 }
 
 /**
