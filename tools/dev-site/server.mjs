@@ -126,14 +126,15 @@ function readBody(req) {
 /**
  * The 200 rewrites of site/_redirects (from -> to), as Pages applies them and as the browser
  * tests' server does (scripts/dev/test-server.py): an exact path, or a prefix ending in /*
- * whose target names no :splat. /elections/... serves the Elections app's shell.
+ * whose target names no :splat, apart from the retired service worker's (a path ending /sw.js),
+ * which is left out, as it was. /elections/... serves the Elections app's shell.
  * @type {Array<[string, string]>}
  */
 const REWRITES = (() => {
   try {
     return readFileSync(path.join(ROOT, 'site', '_redirects'), 'utf8').split('\n')
       .map((line) => line.split('#', 1)[0].trim().split(/\s+/))
-      .filter((f) => f.length === 3 && f[2] === '200' && !f[1].includes(':splat') && f[0] !== '/test/sw.js')
+      .filter((f) => f.length === 3 && f[2] === '200' && !f[1].includes(':splat') && !f[0].endsWith('/sw.js'))
       .map((f) => /** @type {[string, string]} */ ([f[0], f[1]]));
   } catch {
     return [];
