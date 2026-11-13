@@ -4,13 +4,15 @@
  * application/octet-stream, the type data.civgraph.net already serves .fgb files with.
  * Each pair is a local file and the key it replaces. Run only at publish time; --dry-run
  * lists what would be sent. The S3 calls go through the storage adapter's S3 blob store
- * (packages/storage/src/s3.mjs).
+ * (packages/storage/src/s3.mjs): a file of 8 MiB or less in one PUT, a bigger one as a multipart
+ * upload in 8 MiB parts (r2-put-file.mjs).
  *
  *   node scripts/publish/r2-upload-files.mjs <file>=<r2/key> [<file>=<r2/key> ...] [--dry-run]
  */
-import { existsSync, readFileSync, statSync } from 'fs';
+import { existsSync, statSync } from 'fs';
 import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
+import { putLocalFile } from './r2-put-file.mjs';
 
 const DRY = process.argv.includes('--dry-run');
 const parsed = process.argv.slice(2).filter((a) => a !== '--dry-run').map((a) => {
@@ -34,8 +36,8 @@ if (DRY) {
 const R2 = r2CredentialsOrExit();
 const store = await openS3BlobStore({ bucket: R2.bucket, clientOptions: s3ClientOptions(R2, { maxAttempts: 5 }) });
 for (const p of pairs) {
-    const body = readFileSync(p.file);
-    await store.put(p.key, body, { contentType: 'application/octet-stream' });
-    console.log(`${p.key} ${(body.length / 1e6).toFixed(2)} MB`);
+    const bytes = statSync(p.file).size;
+    await putLocalFile(store, p.key, p.file, bytes, { contentType: 'application/octet-stream' });
+    console.log(`${p.key} ${(bytes / 1e6).toFixed(2)} MB`);
 }
 console.log(`Uploaded ${pairs.length} file(s).`);

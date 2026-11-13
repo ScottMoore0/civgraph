@@ -19,6 +19,11 @@
 // Content-Type, Content-Encoding, Cache-Control and metadata, with the exit code, output and
 // upload report. Two of them differ on purpose, and assert how (`intended`).
 //
+// r2-upload-files sends a file over 8 MiB as a multipart upload since stream s3-multipart-files
+// (13 Nov 2026). Its three cases with such files (upload-files-small, -large, -part-fails) are
+// held the same way, with golden-before/ recorded from the single-PUT version at rf9-s3b
+// (4776154b0e): the same objects (key, size, SHA-256, headers), exit code and output.
+//
 // To see the comparison against any revision directly:
 //
 //   node ../fixtures/s3-fake/harness.mjs --compare <rev>     (from this folder)
@@ -42,12 +47,32 @@ test('every case has a golden file, and every golden file a case', () => {
 });
 
 test('the wrangler recordings are what the objects-level cases claim', () => {
-  const objectCases = CASES.filter((c) => c.compare === 'objects');
-  assert.deepEqual([...new Set(objectCases.map((c) => c.script))], ['r2-upload-pmtiles']);
+  const objectCases = CASES.filter((c) => c.compare === 'objects' && c.script === 'r2-upload-pmtiles');
+  assert.deepEqual([...new Set(CASES.filter((c) => c.compare === 'objects').map((c) => c.script))].sort(), ['r2-upload-files', 'r2-upload-pmtiles']);
   const before = objectCases.flatMap((c) => goldenBefore(c.id).calls);
   assert.ok(before.length && before.every((/** @type {{ op: string }} */ call) => call.op === 'wrangler'), 'the earlier version only ever ran wrangler');
   const sizes = objectCases.flatMap((c) => objectsWritten(golden(c.id).calls).map((o) => o.size));
   assert.ok(sizes.some((n) => n > 128 * 1024 * 1024), 'a file over 128 MiB is among the objects written');
+});
+
+test('r2-upload-files: the single-PUT recordings hold one PutObject per file; the multipart ones split only the file over 8 MiB', () => {
+  const MIB = 1024 * 1024;
+  const cases = CASES.filter((c) => c.compare === 'objects' && c.script === 'r2-upload-files');
+  assert.deepEqual(cases.map((c) => c.id), ['upload-files-small', 'upload-files-large', 'upload-files-part-fails']);
+  for (const c of cases) {
+    const ops = (/** @type {{ calls: { op: string }[] }} */ run) => run.calls.map((call) => call.op).filter((op) => op !== 'client');
+    assert.ok(ops(goldenBefore(c.id)).every((op) => op === 'PutObject'), `${c.id}: the earlier version only sent single PUTs`);
+    const after = golden(c.id).calls;
+    for (const call of /** @type {Array<{ op: string, input?: { Body?: { size: number } } }>} */ (after)) {
+      if (call.op === 'PutObject') assert.ok(/** @type {{ size: number }} */ (call.input?.Body).size <= 8 * MIB, `${c.id}: a PUT of 8 MiB or less`);
+      if (call.op === 'UploadPart') assert.ok(/** @type {{ size: number }} */ (call.input?.Body).size <= 8 * MIB, `${c.id}: parts of 8 MiB at most`);
+    }
+  }
+  const large = golden('upload-files-large').calls.map((/** @type {{ op: string }} */ call) => call.op);
+  assert.equal(large.filter((op) => op === 'UploadPart').length, 6);
+  assert.equal(large.filter((op) => op === 'CompleteMultipartUpload').length, 1);
+  const fails = golden('upload-files-part-fails').calls.map((/** @type {{ op: string, failed?: number }} */ call) => `${call.op}${call.failed ? ' failed' : ''}`);
+  assert.deepEqual(fails.slice(-4), ['CreateMultipartUpload', 'UploadPart', 'UploadPart failed', 'AbortMultipartUpload']);
 });
 
 test('the scripts cover the operations the comparison promises', () => {

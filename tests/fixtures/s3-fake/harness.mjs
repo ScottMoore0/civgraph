@@ -239,7 +239,8 @@ const fgb = (/** @type {string} */ name) => `fixture geometry ${name}\n`;
 /** @type {Case[]} */
 export const CASES = [];
 
-// r2-upload-files: FlatGeobuf files to their keys, one PUT each.
+// r2-upload-files: FlatGeobuf files to their keys, one PUT each (a file over 8 MiB, since stream
+// s3-multipart-files, as a multipart upload in 8 MiB parts).
 CASES.push(
   { id: 'upload-files-usage', script: 'r2-upload-files', args: [] },
   { id: 'upload-files-not-fgb', script: 'r2-upload-files', args: ['a.fgb=data/maps/a.json'] },
@@ -259,6 +260,38 @@ CASES.push(
     id: 'upload-files-no-credentials', script: 'r2-upload-files', args: ['a.fgb=data/maps/a.fgb'], credentials: false,
     setup: (fx) => { fx.write('a.fgb', fgb('a')); },
   },
+);
+
+// r2-upload-files with files over 8 MiB (stream s3-multipart-files, owner-approved 13 Nov 2026).
+// The single-PUT version (rf9-s3b, 4776154b0e) and the multipart one make different calls, so
+// these cases are compared with the single-PUT recordings (golden-before/) at the level of the
+// objects written, as the pmtiles cases are.
+/** @param {Fixture} fx */
+function largeFgbFixture(fx) {
+  fx.write('a.fgb', fgb('a'));
+  // A 300 KB file, the size of the approximate boundary files: one PUT.
+  fx.big('small.fgb', 300_000, { 0: 'small fgb', [299_990]: 'small end' });
+  // Exactly one part's size: still one PUT.
+  fx.big('exact.fgb', 8 * MIB, { 0: 'exact fgb', [8 * MIB - 4]: 'end.' });
+  // 44 MB, the largest of the boundary drawings: 6 parts (5 of 8 MiB, then 2,056,960 bytes).
+  fx.big('big.fgb', 44_000_000, { 0: 'big fgb', [8 * MIB - 2]: 'across a part boundary', [24 * MIB]: 'part 4', [43_999_999]: '!' });
+  return {};
+}
+const LARGE_FGB_ARGS = ['a.fgb=data/maps/a.fgb', 'small.fgb=data/maps/small.fgb', 'exact.fgb=data/maps/exact.fgb', 'big.fgb=/data/maps/big.fgb'];
+/** @param {Partial<Case> & { id: string }} c @returns {Case} */
+const uf = (c) => ({ script: 'r2-upload-files', compare: 'objects', setup: largeFgbFixture, ...c });
+CASES.push(
+  uf({ id: 'upload-files-small', args: ['small.fgb=data/maps/small.fgb'] }),
+  uf({ id: 'upload-files-large', args: LARGE_FGB_ARGS }),
+  uf({
+    // The big file's second part fails: the multipart upload is aborted and the run stops, as
+    // the single PUT of that file failing stopped it; the files after it are not sent.
+    id: 'upload-files-part-fails', args: [...LARGE_FGB_ARGS, 'small.fgb=data/maps/after.fgb'],
+    setup: (fx) => ({
+      ...largeFgbFixture(fx),
+      fail: [{ op: 'UploadPart', key: 'data/maps/big.fgb', part: 2 }, { op: 'PutObject', key: 'data/maps/big.fgb' }],
+    }),
+  }),
 );
 
 // r2-orphans: list a prefix, keep the keys a pattern picks that are gone locally, delete with --delete.

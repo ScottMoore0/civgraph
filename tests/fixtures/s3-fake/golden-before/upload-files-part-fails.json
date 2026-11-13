@@ -1,0 +1,71 @@
+{
+ "id": "upload-files-part-fails",
+ "exit": 1,
+ "stdout": "data/maps/a.fgb 0.00 MB\ndata/maps/small.fgb 0.30 MB\ndata/maps/exact.fgb 8.39 MB\n",
+ "stderr": "Error [InternalError]: InternalError\n  '$fault': 'server',\n  '$metadata': { httpStatusCode: 500 }\n}\n[uncaught]\n",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/a.fgb",
+    "Body": {
+     "kind": "buffer",
+     "size": 19,
+     "sha256": "656642665a3333bade7406767a570bf7390e89a1608008b42157025be788d0ef"
+    },
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/small.fgb",
+    "Body": {
+     "kind": "buffer",
+     "size": 300000,
+     "sha256": "3f7f0a7a33f770956c143fa9119fc80a666311dbac6ab77b47f97fa1edba1d8f"
+    },
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/exact.fgb",
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2200a587f7a7de18442c6dd926405f06e6cf348446b22df742dc37e18693bd94"
+    },
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/big.fgb",
+    "Body": {
+     "kind": "buffer",
+     "size": 44000000,
+     "sha256": "f5b6cc66de0aa2ab49fce179aa20f70292bf332b73d1efee20274cecfb1434cb"
+    },
+    "ContentType": "application/octet-stream"
+   },
+   "failed": 500
+  }
+ ],
+ "files": {}
+}

@@ -1,0 +1,31 @@
+{
+ "id": "upload-files-small",
+ "exit": 0,
+ "stdout": "data/maps/small.fgb 0.30 MB\nUploaded 1 file(s).\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/small.fgb",
+    "Body": {
+     "kind": "buffer",
+     "size": 300000,
+     "sha256": "3f7f0a7a33f770956c143fa9119fc80a666311dbac6ab77b47f97fa1edba1d8f"
+    },
+    "ContentType": "application/octet-stream"
+   }
+  }
+ ],
+ "files": {}
+}

@@ -1,0 +1,199 @@
+{
+ "id": "upload-files-large",
+ "exit": 0,
+ "stdout": "data/maps/a.fgb 0.00 MB\ndata/maps/small.fgb 0.30 MB\ndata/maps/exact.fgb 8.39 MB\ndata/maps/big.fgb 44.00 MB\nUploaded 4 file(s).\n",
+ "stderr": "",
+ "calls": [
+  {
+   "op": "client",
+   "config": {
+    "region": "auto",
+    "endpoint": "http://127.0.0.1:9",
+    "credentials": "test credentials",
+    "maxAttempts": 5
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/a.fgb",
+    "Body": {
+     "kind": "buffer",
+     "size": 19,
+     "sha256": "656642665a3333bade7406767a570bf7390e89a1608008b42157025be788d0ef"
+    },
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/small.fgb",
+    "Body": {
+     "kind": "buffer",
+     "size": 300000,
+     "sha256": "3f7f0a7a33f770956c143fa9119fc80a666311dbac6ab77b47f97fa1edba1d8f"
+    },
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "PutObject",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/exact.fgb",
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2200a587f7a7de18442c6dd926405f06e6cf348446b22df742dc37e18693bd94"
+    },
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "CreateMultipartUpload",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/big.fgb",
+    "ContentType": "application/octet-stream"
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/big.fgb",
+    "UploadId": "upload-1",
+    "PartNumber": 1,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "bcf057de903bd332a6930cc3d34c40f294420a2487428f89be34388e870636a2"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/big.fgb",
+    "UploadId": "upload-1",
+    "PartNumber": 2,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "d925715652a8e37d0f81275ee7e86724b8b34d733374778c7c75ef09f20f586f"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/big.fgb",
+    "UploadId": "upload-1",
+    "PartNumber": 3,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/big.fgb",
+    "UploadId": "upload-1",
+    "PartNumber": 4,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "0915bb9e4d28ebb7d4490a0834c513f63c665ef1e784521c3f0ff99268dfc491"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/big.fgb",
+    "UploadId": "upload-1",
+    "PartNumber": 5,
+    "Body": {
+     "kind": "buffer",
+     "size": 8388608,
+     "sha256": "2daeb1f36095b44b318410b3f4e8b5d989dcc7bb023d1426c492dab0a3053e74"
+    },
+    "ContentLength": 8388608
+   }
+  },
+  {
+   "op": "UploadPart",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/big.fgb",
+    "UploadId": "upload-1",
+    "PartNumber": 6,
+    "Body": {
+     "kind": "buffer",
+     "size": 2056960,
+     "sha256": "e0dc0a233d628b8eb6d0189cd79db6401d5e03b658c8f7f580371754059ccd54"
+    },
+    "ContentLength": 2056960
+   }
+  },
+  {
+   "op": "CompleteMultipartUpload",
+   "input": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/big.fgb",
+    "UploadId": "upload-1",
+    "MultipartUpload": {
+     "Parts": [
+      {
+       "ETag": "\"f1bc2549d60da63eb146f0acaa9d2a7e\"",
+       "PartNumber": 1
+      },
+      {
+       "ETag": "\"9b0ff2fc2c3724266fb022f65777c282\"",
+       "PartNumber": 2
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 3
+      },
+      {
+       "ETag": "\"e2200889c90cdf89f0a1f7bb7a35ad99\"",
+       "PartNumber": 4
+      },
+      {
+       "ETag": "\"96995b58d4cbf6aaa9041b4f00c7f6ae\"",
+       "PartNumber": 5
+      },
+      {
+       "ETag": "\"7ee7e40451ac9e40d81be2449d87ecd7\"",
+       "PartNumber": 6
+      }
+     ]
+    }
+   },
+   "written": {
+    "Bucket": "boundaries-data",
+    "Key": "data/maps/big.fgb",
+    "size": 44000000,
+    "sha256": "f5b6cc66de0aa2ab49fce179aa20f70292bf332b73d1efee20274cecfb1434cb",
+    "ContentType": "application/octet-stream",
+    "Metadata": {}
+   }
+  }
+ ],
+ "files": {}
+}
