@@ -33,6 +33,7 @@ CACHE = REPO / '.cache' / 'seanad'
 OUT = REPO / 'data' / 'elections-source' / 'data' / 'elections' / 'seanad-eireann'
 INDEX = REPO / 'data' / 'elections-source' / 'data' / 'elections_index.json'
 OFFICIAL = REPO / 'data' / 'elections' / 'persons' / 'official-person-ids.json'
+CHECKS = REPO / 'data' / 'elections' / 'persons' / 'seanad-member-checks.csv'
 BODY = 'Seanad Éireann'
 SLUG = 'seanad-eireann'
 # IrelandElection.com numbers the Seanad general elections from 250 (April 1938, the 2nd Seanad).
@@ -49,6 +50,7 @@ UNIVERSITY_ELECTORATE = {
     'University of Dublin': "the university's graduates and scholars who are Irish citizens and registered (Seanad Electoral (University Members) Act 1937)",
 }
 IE_OFFICIAL: dict[str, set[str]] = {}
+CHECKED: dict[tuple[str, str, str], dict] = {}
 OIREACHTAS_MEMBER_URL = 'https://www.oireachtas.ie/en/members/member/{id}/'
 
 
@@ -108,6 +110,42 @@ def match_winner(name: str, contest: str, members: list[dict], term_start: str) 
     if len(by_surname) == 1:
         return by_surname[0], 'surname alone'
     return None, f'{len(exact)} by name, {len(near)} by surname and initial, {len(by_surname)} by surname'
+
+
+def member_checks() -> dict[tuple[str, str, str], dict]:
+    """The winners whose match was checked by hand (data/elections/persons/seanad-member-checks.csv):
+    each row names the election, contest and winner as written, the Oireachtas member code, the
+    verdict ('accept': join to that code; 'unjoined': no code) and the evidence (the member's panel
+    or university and term in the Oireachtas record). Keyed by (election, contest, name)."""
+    if not CHECKS.exists():
+        return {}
+    with open(CHECKS, encoding='utf-8', newline='') as handle:
+        rows = list(csv.DictReader(handle))
+    out = {}
+    for row in rows:
+        key = (row['election'], row['contest'], row['name'])
+        if key in out or row['verdict'] not in ('accept', 'unjoined'):
+            sys.exit(f'FAIL: {CHECKS.name}: {key} is listed twice or has an unknown verdict')
+        out[key] = row
+    return out
+
+
+def checked_member(name: str, contest: str, date: str, members: list[dict], found: dict | None) -> tuple[dict | None, str] | None:
+    """A winner the checks file lists: the member it names (who must sit for the same contest in
+    this term, and must be the one the name match found, if it found one), or none if the verdict
+    is 'unjoined'. None when the winner is not listed."""
+    check = CHECKED.get((f'{SLUG}__{date}', contest, name))
+    if not check:
+        return None
+    if check['verdict'] == 'unjoined':
+        return None, 'checked: kept unjoined'
+    code = check['oireachtas_code']
+    if found and found['code'] != code:
+        sys.exit(f"FAIL: {CHECKS.name}: {date} {contest} {name} names {code}, but the member list matches {found['code']}")
+    member = next((m for m in members if m['code'] == code and m['contest'] == contest), None)
+    if not member:
+        sys.exit(f'FAIL: {CHECKS.name}: {code} does not sit for {contest} in the Seanad of {date}')
+    return member, 'checked'
 
 
 def day_number(iso: str) -> int:
@@ -194,6 +232,9 @@ def contest_file(contest: str, date: str, house: dict, ie: dict, links: list, do
             })
         if cand['elected']:
             member, how = match_winner(name, contest, members, house['dateRange']['start'])
+            checked = checked_member(name, contest, date, members, member)
+            if checked:
+                member, how = checked
             known = IE_OFFICIAL.get(cand.get('source_person_id') or '', set())
             if member and known and f"oireachtas:{member['code']}" not in known:
                 # IrelandElection.com gives this senator the person id of another member of the
@@ -205,8 +246,8 @@ def contest_file(contest: str, date: str, house: dict, ie: dict, links: list, do
                         row['source_person_id'] = ''
             if member:
                 links.append({'system': 'oireachtas', 'id': member['code'], 'election': f'{SLUG}__{date}', 'constituency': contest,
-                              'name': name, 'candidateId': str(index + 1), 'confidence': 'high' if how == 'name' else 'medium'})
-                if how != 'name':
+                              'name': name, 'candidateId': str(index + 1), 'confidence': 'high' if how in ('name', 'checked') else 'medium'})
+                if how not in ('name', 'checked'):
                     doubtful.append({'election': date, 'contest': contest, 'name': name, 'oireachtas': member['name'], 'code': member['code'], 'note': f'matched by {how}'})
             else:
                 doubtful.append({'election': date, 'contest': contest, 'name': name, 'oireachtas': '', 'code': '', 'note': f'no Oireachtas member matched ({how})'})
@@ -267,6 +308,7 @@ def main(argv: list[str]) -> int:
     args = parser.parse_args(argv)
     ie_dir = Path(args.ie)
     IE_OFFICIAL.update(ie_official_ids())
+    CHECKED.update(member_checks())
     terms = houses()
     contests = [json.loads(line) for line in (ie_dir / 'index.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
     contests = [c for c in contests if c['election_type'] == 'seanad' and c['constituency'] in CONTESTS and c['num_counts']]
