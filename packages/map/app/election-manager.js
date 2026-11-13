@@ -3357,7 +3357,7 @@ export class Test2ElectionManager {
   }
 
   /**
-   * @param {ResultRow} [candidate]
+   * @param {CandidateRow} [candidate]
    * @param {BundleResult} [result]
    */
   candidateDeltaForResultCandidate(candidate = {}, result = {}) {
@@ -3372,8 +3372,8 @@ export class Test2ElectionManager {
     const key = this.candidateDeltaLookupKey(rowWithArea, result);
     if (!key) return { previous: null, deltas: null };
     /** @type {ResultRow | null} */
-    const explicitPrevious = candidate.previous && this.candidateDeltaLookupKey(/** @type {ResultRow} */ (candidate.previous), previousResult) === key
-      ? /** @type {ResultRow} */ (candidate.previous)
+    const explicitPrevious = candidate.previous && this.candidateDeltaLookupKey(candidate.previous, previousResult) === key
+      ? candidate.previous
       : null;
     const previousRows = Array.isArray(previousResult.candidates) ? previousResult.candidates : [];
     const previous = explicitPrevious || previousRows.find((row) => this.candidateDeltaLookupKey(row, previousResult) === key) || null;
