@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T03:17:04.003Z",
+  "generatedAt": "2026-11-13T13:55:57.032Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -8714,6 +8714,42 @@
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/county-ed-1921-05-03-vector-test.pmtiles",
       "bytes": 2666173,
       "exists": true
+    },
+    {
+      "layerId": "nuts-2-2016-2021-vector",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/nuts-2-2016-2021-vector.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/nuts-2-2016-2021-vector.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-2-2016-2021-vector.pmtiles",
+      "bytes": 3857466,
+      "exists": true
+    },
+    {
+      "layerId": "nuts-2-2003-2013-vector",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles",
+      "bytes": 1639593,
+      "exists": true
+    },
+    {
+      "layerId": "nuts-3-2016-2021-vector",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles",
+      "bytes": 4853849,
+      "exists": true
+    },
+    {
+      "layerId": "nuts-3-2003-2013-vector",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles",
+      "bytes": 2345287,
+      "exists": true
     }
   ],
   "commands": [
@@ -8943,7 +8979,7 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-munster-2006-vector-test.pmtiles --file render/pmtiles/generated/eds-munster-2006-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-roi-1921-connacht-vector-test.pmtiles --file render/pmtiles/generated/eds-roi-1921-connacht-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-roi-1921-ulster-vector-test.pmtiles --file render/pmtiles/generated/eds-roi-1921-ulster-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1911-vector-test.pmtiles --file render/pmtiles/generated/eds-ulster-1911-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1911-vector.pmtiles --file render/pmtiles/generated/eds-ulster-1911-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles --file render/pmtiles/generated/eds-ulster-1921-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1926-vector-test.pmtiles --file render/pmtiles/generated/eds-ulster-1926-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1986-vector-test.pmtiles --file render/pmtiles/generated/eds-ulster-1986-vector-test.pmtiles --remote --content-type application/octet-stream",
@@ -9233,16 +9269,16 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles --file render/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles --file render/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/stormont-1969-vector-test.pmtiles --file render/pmtiles/generated/stormont-1969-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-connacht-1907-vector-test.pmtiles --file render/pmtiles/generated/eds-connacht-1907-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1910-vector-test.pmtiles --file render/pmtiles/generated/eds-leinster-1910-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-connacht-1907-vector.pmtiles --file render/pmtiles/generated/eds-connacht-1907-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1910-vector.pmtiles --file render/pmtiles/generated/eds-leinster-1910-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1919-vector-test.pmtiles --file render/pmtiles/generated/eds-leinster-1919-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-munster-1907-vector-test.pmtiles --file render/pmtiles/generated/eds-munster-1907-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1912-vector-test.pmtiles --file render/pmtiles/generated/eds-ulster-1912-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1913-vector-test.pmtiles --file render/pmtiles/generated/eds-ulster-1913-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1914-vector-test.pmtiles --file render/pmtiles/generated/eds-ulster-1914-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1915-vector-test.pmtiles --file render/pmtiles/generated/eds-ulster-1915-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1916-vector-test.pmtiles --file render/pmtiles/generated/eds-ulster-1916-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1921-nine-county-vector-test.pmtiles --file render/pmtiles/generated/eds-ulster-1921-nine-county-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1912-vector.pmtiles --file render/pmtiles/generated/eds-ulster-1912-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1913-vector.pmtiles --file render/pmtiles/generated/eds-ulster-1913-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1914-vector.pmtiles --file render/pmtiles/generated/eds-ulster-1914-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1915-vector.pmtiles --file render/pmtiles/generated/eds-ulster-1915-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1916-vector.pmtiles --file render/pmtiles/generated/eds-ulster-1916-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-ulster-1921-nine-county-vector.pmtiles --file render/pmtiles/generated/eds-ulster-1921-nine-county-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/admin-areas-1946-06-11-vector-test.pmtiles --file render/pmtiles/generated/admin-areas-1946-06-11-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/admin-areas-1945-04-01-vector-test.pmtiles --file render/pmtiles/generated/admin-areas-1945-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/admin-areas-1962-04-01-vector-test.pmtiles --file render/pmtiles/generated/admin-areas-1962-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
@@ -9342,6 +9378,10 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1938-05-15-vector-test.pmtiles --file render/pmtiles/generated/county-ed-1938-05-15-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1938-04-01-vector-test.pmtiles --file render/pmtiles/generated/county-ed-1938-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1937-04-01-vector-test.pmtiles --file render/pmtiles/generated/county-ed-1937-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1921-05-03-vector-test.pmtiles --file render/pmtiles/generated/county-ed-1921-05-03-vector-test.pmtiles --remote --content-type application/octet-stream"
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1921-05-03-vector-test.pmtiles --file render/pmtiles/generated/county-ed-1921-05-03-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/nuts-2-2016-2021-vector.pmtiles --file render/pmtiles/generated/nuts-2-2016-2021-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles --file render/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles --file render/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles --file render/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles --remote --content-type application/octet-stream"
   ]
 }
