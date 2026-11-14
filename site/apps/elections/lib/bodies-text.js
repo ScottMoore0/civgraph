@@ -2,7 +2,7 @@
  * The words of the by-election tracker and council control (stream el-bodies), each keyed for
  * translation in data/i18n/strings/elections.txt (R10: the language runtime translates a text
  * node by its wording, so each sentence here is one node). {n}, {k}, {m} and {total} are numbers,
- * {year} a year, {name} a name. Pure; tests/unit/elections-app-bodies.test.mjs checks every one
+ * {year} a year, {name} a name. Pure; the unit test elections-app-bodies.test.mjs checks every one
  * is a key of site/assets/i18n/en.json.
  */
 export const TEXT = Object.freeze({

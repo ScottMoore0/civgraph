@@ -1,6 +1,6 @@
 /**
  * The by-election tracker's logic (/elections/byelections/, stream el-bodies): its URL state, the
- * filters, the sorting, the summary line and the CSV. Pure (no DOM): tests/unit/elections-app-bodies.test.mjs.
+ * filters, the sorting, the summary line and the CSV. Pure (no DOM): the unit test elections-app-bodies.test.mjs.
  *
  * URL state (every key optional; the defaults are left out of the address):
  *   body=<unit>          a body, or a council of a shared body (the table's `units`)

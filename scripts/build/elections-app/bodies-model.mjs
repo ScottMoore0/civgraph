@@ -1,7 +1,7 @@
 /**
  * The Elections app's by-election tracker and council-control tables (stream el-bodies, 14 Nov
  * 2026), as pure functions over elections the records build gives (scripts/build/elections-app/
- * bodies.mjs reads them). No I/O here; tests/unit/elections-app-bodies-model.test.mjs.
+ * bodies.mjs reads them). No I/O here; its unit test is elections-app-bodies-model.test.mjs.
  *
  * What the tables claim, and what they leave as "not recorded":
  *

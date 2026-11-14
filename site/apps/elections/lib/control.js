@@ -1,7 +1,7 @@
 /**
  * Council control's logic (/elections/control/, stream el-bodies): its URL state, the words for
  * who controlled a council, the timeline chart (HTML bars, so the text stays legible on a phone),
- * the cross-council view of one year and the CSVs. Pure (no DOM): tests/unit/elections-app-bodies.test.mjs.
+ * the cross-council view of one year and the CSVs. Pure (no DOM): the unit test elections-app-bodies.test.mjs.
  *
  * URL state: council=<id> shows one council over time; otherwise year=<yyyy> (default the latest
  * year with an election on file) shows every council in that year.

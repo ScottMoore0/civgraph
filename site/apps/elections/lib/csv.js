@@ -1,7 +1,7 @@
 /**
  * CSV text for the app's downloads of row lists (the by-election tracker, council control):
  * RFC 4180 quoting, a header row of column names, null as an empty cell. Pure:
- * tests/unit/elections-app-bodies.test.mjs.
+ * the unit test elections-app-bodies.test.mjs.
  */
 
 /**
