@@ -59,7 +59,9 @@ test('every ElectionHost field is set in Test2App, and every method is the app\'
 
 test('the manager is built with the app and its map adapter', () => {
   const pane = read('packages/map/src/app/election-pane.js');
-  assert.match(pane, /new Test2ElectionManager\(\{\s*app: this,\s*mapController: this\.mapController,/);
+  // Each may be cast to the type the manager takes, with a comment above saying why (rf12-map-ui).
+  const cast = String.raw`(?:\/\*\* @type \{\w+\} \*\/ \()?`;
+  assert.match(pane, new RegExp(String.raw`new Test2ElectionManager\(\{\s*(?:\/\/[^\n]*\n\s*)*app: ${cast}this\)?,\s*mapController: ${cast}this\.mapController\)?,`));
 });
 
 test('every method of the manager\'s method module types `this` as the manager', () => {
