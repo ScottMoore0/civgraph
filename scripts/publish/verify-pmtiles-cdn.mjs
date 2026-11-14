@@ -11,7 +11,7 @@
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { relative, resolve } from 'node:path';
 import { mergeArtefactRecords, assertKnownFlags } from '../../packages/maps-pipeline/src/safe-artefact-write.mjs';
 import { SITE } from '../../packages/config/src/node.mjs';
 
@@ -111,7 +111,7 @@ const report = {
 };
 
 writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
-console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
+console.log(`Wrote ${relative(ROOT, REPORT_PATH).replaceAll('\\', '/')}`);
 console.log(`This run: ${merged.updated} updated, ${merged.added} added, ${merged.kept} left untouched from earlier runs.`);
 // Exit on what THIS run found. A pre-existing failure in an untouched row is not this
 // run's result and must not fail it, or every scoped run inherits the backlog.

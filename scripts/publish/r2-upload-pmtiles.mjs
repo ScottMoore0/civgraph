@@ -140,7 +140,7 @@ for (const [index, asset] of assets.entries()) {
 }
 
 const report = writeReport();
-console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
+console.log(`Wrote ${relative(ROOT, REPORT_PATH).replaceAll('\\', '/')}`);
 if (report.totals.failed) process.exit(1);
 
 /**

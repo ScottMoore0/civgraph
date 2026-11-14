@@ -15,7 +15,7 @@
  */
 
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { dirname, relative, resolve } from 'node:path';
 import { assertKnownFlags, mergeArtefactRecords } from '../../packages/maps-pipeline/src/safe-artefact-write.mjs';
 import { pmtilesTargetSuffix } from './pmtiles-keys.mjs';
 import { contentRangeTotal } from './layer-lifecycle.mjs';
@@ -141,7 +141,7 @@ manifest.assets = mergedAssets.records;
 
 mkdirSync(dirname(OUTPUT_PATH), { recursive: true });
 writeFileSync(OUTPUT_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
-console.log(`Wrote ${OUTPUT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
+console.log(`Wrote ${relative(ROOT, OUTPUT_PATH).replaceAll('\\', '/')}`);
 console.log(`Assets: ${manifest.assets.length} (${mergedAssets.kept} carried forward from earlier runs).`);
 console.log(`PMTiles keys from: ${Object.entries(keySources).map(([source, n]) => `${source} ${n}`).join(', ') || 'none'}.`);
 if (carriedForward) {
