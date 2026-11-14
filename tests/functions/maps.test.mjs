@@ -139,6 +139,23 @@ test('/_api/catalogue keeps its contract and adds the pane views', async () => {
   assert.equal((await get(catalogueApi, '/_api/catalogue?view=nope')).status, 400);
 });
 
+test('/_api/catalogue?view=pane-core and ?view=contests split the pane: the core without contestIndex, the index alone', async () => {
+  const whole = file('data/catalogue/catalogue.json');
+  const pane = JSON.parse(whole);
+  const coreText = (await get(catalogueApi, '/_api/catalogue?view=pane-core')).text;
+  const core = JSON.parse(coreText);
+  assert.ok(!('contestIndex' in core));
+  const { contestIndex, ...rest } = pane;
+  assert.deepEqual(core, rest);
+  assert.deepEqual(Object.keys(core), Object.keys(rest), 'same key order as the whole');
+  assert.ok(coreText.length < whole.length && coreText.endsWith('}\n'));
+  const contests = json(await get(catalogueApi, '/_api/catalogue?view=contests'));
+  assert.deepEqual(contests, { schemaVersion: pane.schemaVersion, contestIndex });
+  assert.ok(Object.keys(contests.contestIndex).length > 100, 'the index is the real one');
+  // ?view=pane still answers the whole document, byte for byte (R13: v1 only grows).
+  assert.equal((await get(catalogueApi, '/_api/catalogue?view=pane')).text, whole);
+});
+
 test('/_api/layers: the full metadata, the startup index, a record and its sidecar', async () => {
   assert.deepEqual(json(await get(layersApi, '/_api/layers', { path: [] })), LAYERS);
   const index = json(await get(layersApi, '/_api/layers?view=index', { path: [] }));

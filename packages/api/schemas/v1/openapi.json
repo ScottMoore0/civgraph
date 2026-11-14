@@ -3636,7 +3636,7 @@
       "get": {
         "operationId": "catalogue",
         "summary": "The map catalogue",
-        "description": "The answer of /_api/catalogue, which stays as an alias. Variants: pane (view=pane); places (view=places); people (view=people); agent (view=agent); record-by-id (id=…); record-by-slug (slug=…); category (category=…); document (the default).",
+        "description": "The answer of /_api/catalogue, which stays as an alias. Variants: pane (view=pane); pane-core (view=pane-core); contests (view=contests); places (view=places); people (view=people); agent (view=agent); record-by-id (id=…); record-by-slug (slug=…); category (category=…); document (the default).",
         "parameters": [
           {
             "name": "id",
@@ -3708,6 +3708,53 @@
                         "schemaVersion",
                         "shelves",
                         "maps"
+                      ]
+                    },
+                    {
+                      "title": "pane-core (view=pane-core)",
+                      "description": "The catalogue pane without its contest index (the first load of /maps/)",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "shelves": {
+                          "type": "array"
+                        },
+                        "maps": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "object"
+                          }
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "shelves",
+                        "maps"
+                      ]
+                    },
+                    {
+                      "title": "contests (view=contests)",
+                      "description": "The contest index of the catalogue pane: each constituency name and the elections it was contested in",
+                      "type": "object",
+                      "properties": {
+                        "schemaVersion": {
+                          "type": "number"
+                        },
+                        "contestIndex": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "schemaVersion",
+                        "contestIndex"
                       ]
                     },
                     {

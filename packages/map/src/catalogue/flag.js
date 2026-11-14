@@ -43,7 +43,11 @@ export const initialCatalogueRoute = () => INITIAL;
  * takes the response once (takeCatalogueData); a second call fetches afresh.
  */
 // From D1 since data design phase 3 (the file URL /data/catalogue/catalogue.json still answers, from the same rows).
-export const CATALOGUE_DATA_URL = '/_api/catalogue?view=pane';
+// The first load is the pane without its contest index (a third of the whole, read only by
+// search); the index comes from CATALOGUE_CONTESTS_URL on the first search. ?view=pane still
+// answers the whole document.
+export const CATALOGUE_DATA_URL = '/_api/catalogue?view=pane-core';
+export const CATALOGUE_CONTESTS_URL = '/_api/catalogue?view=contests';
 /** @type {Promise<Response> | null} */
 let prefetched = null;
 export function prefetchCatalogueData() {

@@ -11,6 +11,8 @@
  *   GET /_api/catalogue?category=<c>[&visible=1]    { maps: [...] } of one category
  *   GET /_api/catalogue?view=pane|places|people     the catalogue pane's documents
  *                                          (data/catalogue/catalogue.json, places.json, people.json)
+ *   GET /_api/catalogue?view=pane-core     the pane document without contestIndex (/maps/'s first load)
+ *   GET /_api/catalogue?view=contests      { schemaVersion, contestIndex }, read when search needs it
  *   GET /_api/catalogue?view=agent         the slim agent index (agent/maps-index.json)
  *
  * The document shape is the one dataService already expects, so its 68 synchronous readers of

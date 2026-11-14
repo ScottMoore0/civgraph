@@ -315,10 +315,21 @@ export class CatalogueSearch {
         fields: [[tokenise(b.title), 8], [tokenise((b.authors || []).join(' ')), 4], [tokenise((b.keywords || []).join(' ')), 2]],
       });
     }
-    // Constituency names, normalised, for the elections they were contested in.
-    this.contests = Object.entries(catalogue.contestIndex || {}).map(([name, keys]) => ({ name, norm: normalise(name), keys }));
+    // Constituency names, normalised, for the elections they were contested in. The first load
+    // (?view=pane-core) has no index; setContests adds it when it comes (?view=contests).
+    /** @type {Array<{ name: string, norm: string, keys: string[] }>} */
+    this.contests = [];
+    this.setContests(catalogue.contestIndex);
     /** @type {{ maps: string[], rows: PlaceRow[] } | null} */
     this.places = null;
+  }
+
+  /**
+   * Load the contest index (constituency name -> election keys) to enable contest search.
+   * @param {Record<string, string[]> | null | undefined} index
+   */
+  setContests(index) {
+    this.contests = Object.entries(index || {}).map(([name, keys]) => ({ name, norm: normalise(name), keys }));
   }
 
   /**

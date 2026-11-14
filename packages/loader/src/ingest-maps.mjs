@@ -7,6 +7,8 @@
  *   render/metadata/maps-test.json      -> layers, layer_parts, layer_aliases
  *   render/metadata/feature-indexes/    -> layers.duplicates (the duplicate-feature-id sidecars)
  *   data/catalogue/{catalogue,places,people}.json, agent/maps-index.json -> document_parts (verbatim)
+ *   data/catalogue/catalogue.json, split (core/src/catalogue-pane.mjs) -> document_parts
+ *                                       'catalogue/catalogue-core.json', 'catalogue/contests.json'
  *   <browse>/maps.json, details/maps/, features.json (the Browse build) -> map_cards, feature_groups
  *
  * Records are stored as JSON.stringify of the parsed value: the documents are written by
@@ -16,6 +18,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { duplicateSidecar } from '../../core/src/layer-index.js';
+import { PANE_CONTESTS_DOCUMENT, PANE_CORE_DOCUMENT, splitCataloguePane } from '../../core/src/catalogue-pane.mjs';
 import { legacyLayerId, renameLayerId } from '../../core/src/layer-renames.mjs';
 import { LEGACY_LAYER_ID_PREFIXES } from '../../core/src/layer-renames.mjs';
 import { TableWriter, bool, readJson, transaction, txt } from './db.mjs';
@@ -29,6 +32,9 @@ import { PART_CHARS } from '../../schema/src/schema.mjs';
  * A card of a Browse list (data/browse/maps.json, features.json items[]): open JSON.
  * @typedef {{ slug?: string, id?: string, title?: string, [key: string]: unknown }} BrowseCard
  */
+
+/** The catalogue pane's whole document, which the load also stores split in two. */
+const PANE_DOCUMENT = 'catalogue/catalogue.json';
 
 export const MAP_SOURCES = {
   maps: 'data/database/maps.json',
@@ -170,7 +176,14 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
     for (const [name, rel] of Object.entries(MAP_SOURCES.documents)) {
       const file = at(rel);
       if (!existsSync(file)) continue;
-      splitParts(readFileSync(file, 'utf8')).forEach((body, part) => dp.add({ name, part, body }));
+      const text = readFileSync(file, 'utf8');
+      splitParts(text).forEach((body, part) => dp.add({ name, part, body }));
+      // The pane's first-load core and its contest index, which /maps/ reads only on a search.
+      if (name === PANE_DOCUMENT) {
+        const { core, contests } = splitCataloguePane(text);
+        splitParts(core).forEach((body, part) => dp.add({ name: PANE_CORE_DOCUMENT, part, body }));
+        splitParts(contests).forEach((body, part) => dp.add({ name: PANE_CONTESTS_DOCUMENT, part, body }));
+      }
     }
     counts.document_parts = dp.finish();
 

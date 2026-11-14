@@ -23,7 +23,7 @@ import { CatalogueSearch, PeopleSearch, STOP_WORDS, coveringPoint, normalise } f
 import { AddressGeocoder, parsePostcode } from './geocoder.js';
 import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
-import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
+import { CATALOGUE_CONTESTS_URL, initialCatalogueRoute, takeCatalogueData } from './flag.js';
 import { compositeChildIds } from '../map-relations.mjs';
 import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import catalogueKinds from '../../../registries/src/browser/catalogue-kinds.mjs';
@@ -150,7 +150,7 @@ export class CatalogueNext {
     this.lifecycle = new AbortController();
     // Two-state fields as flags, and placesReady as a latch (MA-L): reads and writes unchanged.
     defineFlagFields(this, ['drawn', 'picking', 'electionsFirst', 'langNotice']);
-    defineFlagFields(this, ['placesReady'], { latch: true });
+    defineFlagFields(this, ['placesReady', 'contestsReady'], { latch: true });
     this.ui = ui;
     // Made by load() and mount(); what reads them before then tests for them first.
     /** @type {CatalogueDoc} */
@@ -252,6 +252,8 @@ export class CatalogueNext {
     /** @type {PeopleSearch | null} */
     this.peopleSearch = null;
     this.placesReady = false;
+    // The contest index is not in the first load (?view=pane-core): ensureContests asks for it.
+    this.contestsReady = false;
     /** @type {CatalogueCompare | null} */
     this.compare = null;
     this.picking = false;
@@ -308,6 +310,8 @@ export class CatalogueNext {
         this.books = await books;
         if (this.books && !this.ui.booksData) this.ui.booksData = this.books;
         this.search = new CatalogueSearch(this.data, { books: this.books?.books || [] });
+        // The whole pane document (?view=pane) brings its contest index with it.
+        if (this.data.contestIndex) this.contestsReady = true;
         /** @type {Array<number | null>} */
         const editionYears = [];
         for (const s of this.data.series) for (const m of s.members) editionYears.push(yearOf(this.rec(m.id).date));
@@ -936,7 +940,15 @@ export class CatalogueNext {
     // "Dáil 2020" or "Westminster" is a search for elections: list them above any party or person
     // that shares a word, which used to push the election off the first screen.
     this.electionsFirst = r.elections.length > 0 && (r.namesBody || Boolean(r.period));
-    for (const c of r.contests) for (const k of c.keys) if (!this.electionHits.has(k)) this.electionHits.set(k, `${c.name} contested`);
+    this.addContestHits(r.contests);
+    // The first search asks for the contest index, then adds what it finds to this search.
+    if (!this.contestsReady) {
+      this.ensureContests()?.then(() => {
+        if (q !== this.query || !this.contestsReady || !this.electionHits) return;
+        const found = this.search.query(q, { includeToAdd: true }).contests;
+        if (this.addContestHits(found) && this.drawn) this.refreshResults();
+      });
+    }
     this.bookHits = new Set(r.books.map((h) => h.id));
     this.extras = normalise(q).length >= 2 ? { loading: true } : null;
     this.loadAddresses(q);
@@ -1011,6 +1023,36 @@ export class CatalogueNext {
     this.ui.onAddressSelect?.(hit.lat, hit.lon, [hit.name, hit.detail].filter(Boolean).join(', '));
     app()?.dismissMobileCatalogueAfterLoad?.(hit.name);
     this.announce(`Showing ${hit.name} on the map`);
+  }
+
+  /**
+   * Mark the elections of the contests a search found ("Belfast West contested").
+   * @param {Array<{ name: string, keys: string[] }>} contests
+   * @returns {boolean} whether any election was added
+   */
+  addContestHits(contests) {
+    const hits = this.electionHits;
+    if (!hits) return false;
+    const before = hits.size;
+    for (const c of contests) for (const k of c.keys) if (!hits.has(k)) hits.set(k, `${c.name} contested`);
+    return hits.size > before;
+  }
+
+  /**
+   * The contest index (?view=contests), which the first load leaves out: asked for on the first
+   * search. A failed answer is asked for again by the next search.
+   * @returns {Promise<void> | undefined}
+   */
+  ensureContests() {
+    if (this.contestsReady || this.contestsPromise) return this.contestsPromise;
+    /** @type {Promise<void> | undefined} */
+    this.contestsPromise = fetch(CATALOGUE_CONTESTS_URL).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`contests: ${r.status}`))))
+      .then((/** @type {import('../../../types/index.js').ApiV1.CatalogueContestsAnswer} */ doc) => {
+        this.search.setContests(doc.contestIndex);
+        this.contestsReady = true;
+      })
+      .catch(() => { this.contestsPromise = undefined; });
+    return this.contestsPromise;
   }
 
   /** Places (named features, with their own buttons) and people, parties and sources, from the

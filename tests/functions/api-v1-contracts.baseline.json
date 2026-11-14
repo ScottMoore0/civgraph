@@ -228,7 +228,10 @@
               "type": "string"
             },
             "contests": {
-              "type": "object"
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
             }
           },
           "required": [
@@ -2453,7 +2456,10 @@
               "type": "number"
             },
             "divisions": {
-              "type": "object"
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
             }
           },
           "required": [
@@ -2570,7 +2576,10 @@
               ]
             },
             "exports": {
-              "type": "object"
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
             },
             "api": {
               "type": "string"
@@ -2671,6 +2680,9 @@
             },
             "total": {
               "type": "number"
+            },
+            "retiredId": {
+              "type": "string"
             }
           },
           "required": [
@@ -2725,6 +2737,9 @@
             },
             "total": {
               "type": "number"
+            },
+            "retiredId": {
+              "type": "string"
             }
           },
           "required": [
@@ -2779,6 +2794,9 @@
             },
             "total": {
               "type": "number"
+            },
+            "retiredId": {
+              "type": "string"
             }
           },
           "required": [
@@ -2887,13 +2905,69 @@
               "type": "array"
             },
             "maps": {
-              "type": "object"
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
             }
           },
           "required": [
             "schemaVersion",
             "shelves",
             "maps"
+          ]
+        }
+      },
+      "pane-core": {
+        "when": {
+          "view": "pane-core"
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "number"
+            },
+            "shelves": {
+              "type": "array"
+            },
+            "maps": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "shelves",
+            "maps"
+          ]
+        }
+      },
+      "contests": {
+        "when": {
+          "view": "contests"
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "number"
+            },
+            "contestIndex": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "contestIndex"
           ]
         }
       },
@@ -3394,7 +3468,10 @@
           "type": "object",
           "properties": {
             "maps": {
-              "type": "object"
+              "type": "object",
+              "additionalProperties": {
+                "type": "array"
+              }
             }
           },
           "required": [

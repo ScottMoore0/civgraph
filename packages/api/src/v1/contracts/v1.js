@@ -56,7 +56,7 @@ const page = (/** @type {string} */ key, /** @type {JsonSchemaNode} */ item) => 
   applied: obj({ filters: arr(), sort: {} }),
 });
 
-const PERSON = obj({ id: str, slug: str, type: str, title: str, name: str, browseUrl: str, parties: arr(), elections: arr() }, ['id', 'slug', 'type', 'title', 'name', 'browseUrl']);
+const PERSON = obj({ id: str, slug: str, type: str, title: str, name: str, browseUrl: str, parties: arr(), elections: arr()}, ['id', 'slug', 'type', 'title', 'name', 'browseUrl']);
 const PARTY = obj({ id: str, slug: str, type: str, title: str, colour: str, browseUrl: str });
 const SOURCE = obj({ id: str, slug: str, type: str, title: str, browseUrl: str });
 const REGISTER_ENTRY = obj({ id: str, slug: str, type: str, title: str, memberName: str });
@@ -237,6 +237,8 @@ export const CONTRACTS = Object.freeze({
     errors: OK_FALSE_ERROR,
     variants: [
       v('pane', { view: 'pane' }, 'The catalogue pane', obj({ schemaVersion: num, shelves: arr(), maps: dict(object) })),
+      v('pane-core', { view: 'pane-core' }, 'The catalogue pane without its contest index (the first load of /maps/)', obj({ schemaVersion: num, shelves: arr(), maps: dict(object) })),
+      v('contests', { view: 'contests' }, 'The contest index of the catalogue pane: each constituency name and the elections it was contested in', obj({ schemaVersion: num, contestIndex: dict(arr(str)) })),
       v('places', { view: 'places' }, 'The catalogue\'s places', obj({ schemaVersion: num, maps: arr(), places: arr() })),
       v('people', { view: 'people' }, 'The catalogue\'s people', obj({ schemaVersion: num, parties: arr(), constituencies: arr(), people: arr() })),
       v('agent', { view: 'agent' }, 'The slim agent index of maps', obj({ count: num, maps: arr(), dataOverlays: arr() })),

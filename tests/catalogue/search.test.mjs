@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { CatalogueSearch, PeopleSearch, coveringPoint, normalise, parseQuery, withinOneEdit, wordMatch } from '../../packages/map/src/catalogue/search.js';
+import { splitCataloguePane } from '../../packages/core/src/catalogue-pane.mjs';
 
 const catalogue = JSON.parse(readFileSync('data/catalogue/catalogue.json', 'utf8'));
 const places = JSON.parse(readFileSync('data/catalogue/places.json', 'utf8'));
@@ -62,6 +63,18 @@ test('constituencies and places are found by name', () => {
   const r = search.query('dungannon');
   assert.ok(r.contests.some((c) => normalise(c.name) === 'dungannon'), 'Dungannon as a contest');
   assert.ok(r.places.some((p) => p.exact), 'Dungannon as a named place');
+});
+
+test('the first-load core (?view=pane-core) finds contests once the index (?view=contests) is set', () => {
+  const { core, contests } = splitCataloguePane(readFileSync('data/catalogue/catalogue.json', 'utf8'));
+  const lazy = new CatalogueSearch(JSON.parse(core), { books });
+  assert.deepEqual(lazy.query('dungannon').contests, [], 'no index in the core');
+  const whole = search.query('dungannon');
+  assert.deepEqual(lazy.query('dungannon').series, whole.series, 'maps are found without the index');
+  lazy.setContests(JSON.parse(contests).contestIndex);
+  assert.deepEqual(lazy.query('dungannon').contests, whole.contests, 'the same contests as the whole document');
+  assert.deepEqual(lazy.query('belfast west').contests, search.query('belfast west').contests);
+  assert.ok(lazy.query('belfast west').contests.length > 0);
 });
 
 test('filters by jurisdiction and kind apply to series', () => {

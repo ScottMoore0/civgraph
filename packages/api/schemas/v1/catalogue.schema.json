@@ -22,6 +22,20 @@
       "summary": "The catalogue pane"
     },
     {
+      "name": "pane-core",
+      "when": {
+        "view": "pane-core"
+      },
+      "summary": "The catalogue pane without its contest index (the first load of /maps/)"
+    },
+    {
+      "name": "contests",
+      "when": {
+        "view": "contests"
+      },
+      "summary": "The contest index of the catalogue pane: each constituency name and the elections it was contested in"
+    },
+    {
       "name": "places",
       "when": {
         "view": "places"
@@ -74,6 +88,12 @@
       "$ref": "#/$defs/pane"
     },
     {
+      "$ref": "#/$defs/pane-core"
+    },
+    {
+      "$ref": "#/$defs/contests"
+    },
+    {
       "$ref": "#/$defs/places"
     },
     {
@@ -117,6 +137,51 @@
         "schemaVersion",
         "shelves",
         "maps"
+      ]
+    },
+    "pane-core": {
+      "description": "The catalogue pane without its contest index (the first load of /maps/)",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "shelves": {
+          "type": "array"
+        },
+        "maps": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "shelves",
+        "maps"
+      ]
+    },
+    "contests": {
+      "description": "The contest index of the catalogue pane: each constituency name and the elections it was contested in",
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "number"
+        },
+        "contestIndex": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "contestIndex"
       ]
     },
     "places": {

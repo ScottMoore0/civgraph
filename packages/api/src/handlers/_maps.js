@@ -9,6 +9,7 @@
  * in their stored order with the list spliced in at its own place.
  */
 import { API_URLS, indexDocument, indexEntry } from '../../../core/src/layer-index.js';
+import { PANE_CONTESTS_DOCUMENT, PANE_CORE_DOCUMENT } from '../../../core/src/catalogue-pane.mjs';
 import { parseJson } from './_records.js';
 import { asStore } from '../../../storage/src/d1.js';
 import { LAYERS, MAPS, MAP_CARDS } from '../queries/maps.js';
@@ -225,6 +226,10 @@ export async function storedDocumentText(source, name) {
  */
 export const CATALOGUE_VIEWS = {
   pane: 'catalogue/catalogue.json',
+  // The pane split for /maps/'s first load (packages/core/src/catalogue-pane.mjs): the core
+  // without contestIndex, and the contest index that search asks for when it needs it.
+  'pane-core': PANE_CORE_DOCUMENT,
+  contests: PANE_CONTESTS_DOCUMENT,
   places: 'catalogue/places.json',
   people: 'catalogue/people.json',
   agent: 'agent/maps-index.json',

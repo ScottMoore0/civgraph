@@ -436,7 +436,7 @@ async function recordsCases(env) {
       ['stats', '', 'counts'],
       ['catalogue', '', 'document'], ['catalogue', '?visible=1', 'document'], ['catalogue', `?id=${map.id}`, 'record-by-id'],
       ['catalogue', `?slug=${map.slug}`, 'record-by-slug'], ['catalogue', `?category=${map.category}`, 'category'],
-      ['catalogue', '?view=pane', 'pane'], ['catalogue', '?view=places', 'places'], ['catalogue', '?view=people', 'people'], ['catalogue', '?view=agent', 'agent'],
+      ['catalogue', '?view=pane', 'pane'], ['catalogue', '?view=pane-core', 'pane-core'], ['catalogue', '?view=contests', 'contests'], ['catalogue', '?view=places', 'places'], ['catalogue', '?view=people', 'people'], ['catalogue', '?view=agent', 'agent'],
       ['layers', '', 'document'], ['layers', '?view=index', 'index'], ['layers', `/${layer.id}`, 'layer'],
     ];
     if (profiled) cases.push(['parties', `?slug=${profiled.slug}&view=profile`, 'profile']);

@@ -867,6 +867,27 @@ export interface CataloguePaneAnswer {
   [key: string]: unknown;
 }
 
+/** GET /api/v1/catalogue (view=pane-core): The catalogue pane without its contest index (the first load of /maps/) */
+export interface CataloguePaneCoreAnswer {
+  schemaVersion: number;
+  shelves: unknown[];
+  maps: {
+    [key: string]: {
+      [key: string]: unknown;
+    };
+  };
+  [key: string]: unknown;
+}
+
+/** GET /api/v1/catalogue (view=contests): The contest index of the catalogue pane: each constituency name and the elections it was contested in */
+export interface CatalogueContestsAnswer {
+  schemaVersion: number;
+  contestIndex: {
+    [key: string]: string[];
+  };
+  [key: string]: unknown;
+}
+
 /** GET /api/v1/catalogue (view=places): The catalogue's places */
 export interface CataloguePlacesAnswer {
   schemaVersion: number;
@@ -1264,6 +1285,8 @@ export interface V1Routes {
   catalogue: {
     variants: {
       pane: CataloguePaneAnswer;
+      "pane-core": CataloguePaneCoreAnswer;
+      contests: CatalogueContestsAnswer;
       places: CataloguePlacesAnswer;
       people: CataloguePeopleAnswer;
       agent: CatalogueAgentAnswer;

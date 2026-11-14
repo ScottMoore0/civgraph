@@ -17,7 +17,7 @@ scripts/records/paths.py local_path_for_url) when it holds them. Without a recor
 as on a fresh checkout. Nothing is proxied: the suite never reaches the deployed site.
 
 The map documents moved into D1 in data design phase 3 (PHASE3.md): the app reads its startup
-index from /_api/layers?view=index and the catalogue pane from /_api/catalogue?view=pane. The
+index from /_api/layers?view=index and the catalogue pane from /_api/catalogue?view=pane-core. The
 Functions answer those from rows loaded out of the tracked files, so here the same URLs answer
 with those files (_api_file): the generated copies the Functions' rows are built from.
 
@@ -45,6 +45,30 @@ REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 with open(os.path.join(REPO, 'packages', 'served.json'), encoding='utf-8') as _f:
     SERVED_FROM = {k: v for k, v in json.load(_f).items() if k != '//'}
 CATALOGUE_VIEWS = {'pane': 'catalogue.json', 'places': 'places.json', 'people': 'people.json'}
+# The pane split for /maps/'s first load (packages/core/src/catalogue-pane.mjs): written from
+# catalogue.json into tmp/ when it changes, as the records load stores them in D1.
+PANE_SPLIT = {'pane-core': 'catalogue-core.json', 'contests': 'contests.json'}
+
+
+def _pane_split_file(view):
+    """The file of a pane half (?view=pane-core or ?view=contests), made from catalogue.json."""
+    whole = os.path.join(REPO, 'data', 'catalogue', 'catalogue.json')
+    out_dir = os.path.join(REPO, 'tmp', 'catalogue-split')
+    out = os.path.join(out_dir, PANE_SPLIT[view])
+    try:
+        if os.path.exists(out) and os.path.getmtime(out) >= os.path.getmtime(whole):
+            return out
+        with open(whole, encoding='utf-8') as f:
+            doc = json.load(f)
+    except OSError:
+        return None
+    index = doc.pop('contestIndex', {})
+    halves = {'pane-core': doc, 'contests': {'schemaVersion': doc.get('schemaVersion', 1), 'contestIndex': index}}
+    os.makedirs(out_dir, exist_ok=True)
+    for name, part in halves.items():
+        with open(os.path.join(out_dir, PANE_SPLIT[name]), 'w', encoding='utf-8', newline='\n') as f:
+            f.write(json.dumps(part, ensure_ascii=False, separators=(',', ':')) + '\n')
+    return out
 
 
 def _rewrites():
@@ -94,6 +118,8 @@ def _api_file(path, query):
     if parts == ['_api', 'catalogue']:
         if view in CATALOGUE_VIEWS:
             return os.path.join(REPO, 'data', 'catalogue', CATALOGUE_VIEWS[view])
+        if view in PANE_SPLIT:
+            return _pane_split_file(view)
         if not query:
             return os.path.join(REPO, 'data', 'database', 'maps.json')
     return None
