@@ -10,6 +10,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { seatCountsByParty } from '../../packages/core/src/election-domain.mjs';
+import { mostSeats } from '../../site/apps/elections/lib/most-seats.js';
 import { WINNER_WORDS, contestWinner, winnerCellHtml, winnerChanged, winnerText } from '../../site/apps/elections/lib/winner.js';
 import { SWING_WORDS, anchoredSeats, baseContests, project, projectFromResult } from '../../site/apps/elections/lib/project.js';
 import { DIMENSIONS, DEFAULT_STATE, pivotSql, stateFromQuery } from '../../site/apps/elections/lib/pivot.js';
@@ -28,7 +29,25 @@ test('seatCountsByParty counts the elected by party, largest first, ties by name
     { Alliance: 1, DUP: 1, 'Sinn Féin': 1, TUV: 1, UUP: 1 });
   assert.deepEqual(Object.entries(seatCountsByParty([{ party: 'UUP' }, { party: 'Alliance' }, { party: 'DUP' }, { party: 'Alliance' }, { party: 'DUP' }])),
     [['Alliance', 2], ['DUP', 2], ['UUP', 1]]);
-  assert.deepEqual(seatCountsByParty([{ party: '' }]), { 'No label': 1 });
+  assert.deepEqual(seatCountsByParty([{ party: '' }]), { 'No party recorded': 1 });
+  // Equal seats rank by the elected's first preferences, as the results map ranks them.
+  assert.deepEqual(Object.keys(seatCountsByParty([{ party: 'B', firstPrefs: 900 }, { party: 'A', firstPrefs: 500 }])), ['B', 'A']);
+});
+
+test('the overview, Compare and the map find the same winner: one tie rule (lib/most-seats.js)', () => {
+  const cases = [
+    [{ party: 'UUP', elected: true, firstPrefs: 9000 }, { party: 'SF', elected: true, firstPrefs: 9500 }, { party: 'DUP', elected: true, firstPrefs: 7000 }, { party: 'X', elected: false, firstPrefs: 100 }],
+    [{ party: 'A', elected: true, firstPrefs: 1 }, { party: 'A', elected: true, firstPrefs: 1 }, { party: 'B', elected: true, firstPrefs: 5 }],
+    [{ party: 'A', elected: true, firstPrefs: 3 }, { party: 'B', elected: true, firstPrefs: 4 }, { party: 'A', elected: true }, { party: 'B', elected: true }, { party: '', elected: true }],
+  ];
+  for (const cands of cases) {
+    const map = mostSeats(cands);
+    const row = { seatsTotal: cands.length, seatsByParty: seatCountsByParty(cands.filter((c) => c.elected)) };
+    const w = contestWinner(row);
+    assert.deepEqual(w.parties, map.parties);
+    assert.equal(w.kind === 'tie', map.tie);
+    assert.equal(w.seats, map.seats);
+  }
 });
 
 test('a five-way tie is a tie, never "UUP most seats" (North Antrim 2022)', () => {

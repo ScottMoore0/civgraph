@@ -8,8 +8,10 @@
  * seatsByParty (party -> seats, scripts/build/build-test2-election-summaries.mjs, 14 Nov 2026)
  * decides. A summary built before that field falls back to winnerParty as "most seats", as before.
  *
- * The words are keyed for translation in data/i18n/strings/elections.txt (R10).
+ * The tie rule is the results map's (lib/most-seats.js topOfSeats): one rule for the overview,
+ * Compare and the map. The words are keyed for translation in data/i18n/strings/elections.txt (R10).
  */
+import { topOfSeats } from './most-seats.js';
 
 /** Every fixed wording (keys of data/i18n/strings/elections.txt). */
 export const WINNER_WORDS = Object.freeze({
@@ -42,12 +44,13 @@ export function contestWinner(row) {
     const name = Number(row.seatsWon) === 1 ? row.winnerName : row.leadingName || row.winnerName;
     return party ? { kind: 'single', parties: [String(party)], seats: 1, name: name ? String(name) : null } : { kind: 'none', parties: [], seats: null, name: name ? String(name) : null };
   }
+  // The summary lists the parties in the map's rank order (core's seatCountsByParty), so the
+  // map's tie rule (lib/most-seats.js topOfSeats) reads it as it is; a stable sort keeps that order.
   const by = row.seatsByParty && typeof row.seatsByParty === 'object' ? Object.entries(/** @type {Record<string, unknown>} */ (row.seatsByParty)) : [];
-  const won = by.map(([p, n]) => /** @type {[string, number]} */ ([p, Number(n) || 0])).filter(([, n]) => n > 0);
-  if (won.length) {
-    const top = Math.max(...won.map(([, n]) => n));
-    const parties = won.filter(([, n]) => n === top).map(([p]) => p);
-    return { kind: parties.length > 1 ? 'tie' : 'most', parties, seats: top, name: null };
+  const ranked = by.map(([party, n]) => ({ party, seats: Number(n) || 0, votes: 0 })).filter((r) => r.seats > 0).sort((a, b) => b.seats - a.seats);
+  if (ranked.length) {
+    const top = topOfSeats(ranked);
+    return { kind: top.tie ? 'tie' : 'most', parties: top.parties, seats: top.seats, name: null };
   }
   return row.winnerParty ? { kind: 'most', parties: [String(row.winnerParty)], seats: null, name: null } : { kind: 'none', parties: [], seats: null, name: null };
 }

@@ -55,7 +55,18 @@ export function seatsByParty(candidates) {
  * @returns {{ parties: string[], seats: number, tie: boolean, all: Array<{ party: string, seats: number, votes: number }> }}
  */
 export function mostSeats(candidates) {
-  const all = seatsByParty(candidates);
+  return topOfSeats(seatsByParty(candidates));
+}
+
+/**
+ * The tie rule itself, over seats already counted and ranked (seatsByParty's order): the parties
+ * with the largest count, a tie when more than one. The overview and Compare apply it to the
+ * election summary's seatsByParty, which the summaries count in the same order (core's
+ * seatCountsByParty), so every view finds the same winner (lib/winner.js).
+ * @param {Array<{ party: string, seats: number, votes: number }>} all
+ * @returns {{ parties: string[], seats: number, tie: boolean, all: Array<{ party: string, seats: number, votes: number }> }}
+ */
+export function topOfSeats(all) {
   const top = all[0]?.seats || 0;
   const parties = top ? all.filter((r) => r.seats === top).map((r) => r.party) : [];
   return { parties, seats: top, tie: parties.length > 1, all };

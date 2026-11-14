@@ -1440,16 +1440,27 @@ export const NO_PARTY_RECORDED = 'No party recorded';
 export const NO_LABEL = 'No label';
 
 /**
- * The seats each party won in one contest, from its elected candidates: party -> seats, the
- * largest first (ties by name). A contest's election summary carries it for multi-member seats
- * (scripts/build/build-test2-election-summaries.mjs, as seatsByParty), so a reader can tell "most seats" from a
- * tie at the top (the Elections app's lib/winner.js); winnerParty alone names one of the tied.
- * @param {Array<{ party?: unknown }>} elected
+ * The seats each party won in one contest, from its elected candidates: party -> seats, in the
+ * order the Elections app's results map ranks them (site/apps/elections/lib/most-seats.js): most
+ * seats first, then most first-preference votes of the party's elected, then name; no party is
+ * NO_PARTY_RECORDED there and here. A contest's election summary carries it for multi-member seats
+ * (scripts/build/build-test2-election-summaries.mjs, as seatsByParty), so the overview and
+ * Compare (lib/winner.js) find a tie at the top by the map's rule; winnerParty alone names one of
+ * the tied.
+ * @param {Array<{ party?: unknown, firstPrefs?: unknown }>} elected
  * @returns {Record<string, number>}
  */
 export function seatCountsByParty(elected) {
-  const counts = countBy(elected || [], (candidate) => String(candidate?.party || '') || NO_LABEL);
-  return Object.fromEntries([...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])));
+  /** @type {Map<string, { seats: number, votes: number }>} */
+  const by = new Map();
+  for (const candidate of elected || []) {
+    const party = String(candidate?.party || '').trim() || NO_PARTY_RECORDED;
+    const row = by.get(party) || { seats: 0, votes: 0 };
+    row.seats += 1;
+    row.votes += Number(candidate?.firstPrefs) > 0 ? Number(candidate?.firstPrefs) : 0;
+    by.set(party, row);
+  }
+  return Object.fromEntries([...by].sort((a, b) => b[1].seats - a[1].seats || b[1].votes - a[1].votes || a[0].localeCompare(b[0])).map(([party, row]) => [party, row.seats]));
 }
 
 /**
