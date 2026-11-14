@@ -321,6 +321,10 @@ def run_winners_only(terms: dict[int, dict], ie_dir: Path, links: list, doubtful
     w = module['WinnersOnly'](ctx, CACHE, ie_dir)
     for house_no in module['HOUSES_GENERAL']:
         w.general(house_no, terms[house_no])
+    if w.unsettled:
+        for r in w.report:
+            print(f"{r['election']} {r['contest']} {r['name']}: {r['note']}", file=sys.stderr)
+        sys.exit(f'FAIL: winners the sources name differently, not settled in {CHECKS.name}: {w.unsettled}')
     w.by_elections(terms)
     w.flush()
     USED_CHECKS.update(w.used_checks)

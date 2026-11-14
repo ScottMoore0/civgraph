@@ -158,6 +158,7 @@ class WinnersOnly:
         self.files: dict[tuple[str, str], dict] = {}
         self.code_names: dict[str, str] = {}
         self.used_checks: set[tuple[str, str, str]] = set()
+        self.unsettled: list[str] = []
 
     # ---- helpers
     def compact(self, text: str) -> str:
@@ -260,6 +261,8 @@ class WinnersOnly:
             if len(pairs) != seats:
                 self.report.append({'election': election, 'contest': contest, 'name': '', 'oireachtas': '', 'code': '',
                                     'note': f'{len(pairs)} winners for {seats} seats (IrelandElection.com)'})
+            if bad or len(pairs) != seats:
+                self.unsettled.append(f'{election} {contest}')
             winners = []
             for m, k, how in pairs:
                 ie_id = (k or {}).get('source_person_id') or ''
