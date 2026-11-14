@@ -6,7 +6,7 @@
  * The last tests run over the records build (skipped without one): "Strangford", "Naomi Long" and
  * "Sinn Féin" find the right things, and the real area pages' verdicts.
  *
- *   node --test tests/unit/elections-app-places.test.mjs
+ *   node --test elections-app-places.test.mjs (in the unit tests)
  */
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
