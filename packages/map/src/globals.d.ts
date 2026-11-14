@@ -57,7 +57,7 @@ declare global {
      * The browser suite's handle on the map app (packages/map/app/app.js sets it; the timeline adds
      * its test surface and a trace of every write to the slider).
      */
-    __civgraphTest2?: { timeline?: unknown; timelineWrites?: Array<{ index: number; from: string }>; [key: string]: unknown };
+    __civgraphTest2?: { timeline?: unknown; timelineWrites?: Array<{ index: number; from: string }>; flatRenders?: string[]; [key: string]: unknown };
     /** 'classic' on the archived classic page (civgraph.net/maps/classic/): packages/map/src/catalogue/flag.js. */
     CIVGRAPH_CATALOGUE?: string;
     /** The retired Leaflet map's controller, which ui-controller.js still resizes when the layout changes, if a page has it. */

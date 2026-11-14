@@ -42,6 +42,20 @@ import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
 /** @typedef {import('./ui-controller-types.d.ts').DetailViewState} DetailViewState */
 /** @typedef {import('./ui-controller-types.d.ts').FeatureThumbnailManifest} FeatureThumbnailManifest */
 /** @typedef {import('./ui-controller-types.d.ts').BrowseItem} BrowseItem */
+/** @typedef {import('./ui-controller-types.d.ts').LegacyClass} LegacyClass */
+/** @typedef {import('./ui-controller-types.d.ts').C1Record} C1Record */
+/** @typedef {import('./ui-controller-types.d.ts').C1StackedSection} C1StackedSection */
+/** @typedef {import('./ui-controller-types.d.ts').C1ExplicitGridSection} C1ExplicitGridSection */
+/** @typedef {import('./ui-controller-types.d.ts').ClassMapEntry} ClassMapEntry */
+/** @typedef {import('./ui-controller-types.d.ts').CardOptions} CardOptions */
+/** @typedef {import('./ui-controller-types.d.ts').ChronologicalGridItem} ChronologicalGridItem */
+/** @typedef {import('./ui-controller-types.d.ts').ElectionCatalogueCard} ElectionCatalogueCard */
+/** @typedef {import('./ui-controller-types.d.ts').FlatCard} FlatCard */
+/** @typedef {import('./ui-controller-types.d.ts').FlatTocMerge} FlatTocMerge */
+/** @typedef {import('./ui-controller-types.d.ts').FlatTocGroup} FlatTocGroup */
+/** @typedef {import('./ui-controller-types.d.ts').MapsV2Document} MapsV2Document */
+/** @typedef {import('./ui-controller-types.d.ts').MapsV2Entry} MapsV2Entry */
+/** @typedef {import('./ui-controller-types.d.ts').DownloadDropdown} DownloadDropdown */
 
 // Derived kinds, not state (architecture rule R7): each is worked out from data where it is read.
 /** @typedef {'numeric' | 'ordinal' | 'text' | 'date'} ColumnKind how a table column sorts: inferColumnKind's answer, an entity table column's `kind` */
@@ -128,6 +142,12 @@ class UIController {
 
         // When true, all maps show directly without 'Show X more maps' button
         this.showAllMaps = false;
+        // The legacy grouped list (renderMapList) reads these as the map app's; nothing sets them
+        // on the controller, so they stay empty and the list shows every book.
+        /** @type {string | undefined} */
+        this.searchQuery = undefined;
+        /** @type {string | undefined} */
+        this.currentCategory = undefined;
 
         // Callbacks (set by App.js): packages/map/src/app/ui-wiring.js sets each before init(), so each is
         // declared as set (null until then); the two nothing sets stay nullable.
@@ -722,7 +742,8 @@ class UIController {
     cacheElectionEntityDetailEntry(entity) {
         if (!entity?.kind || !entity?.key) return null;
         const detailId = this.createElectionEntityDetailId(entity.kind, entity.key);
-        this._electionEntityDetailCache.set(detailId, entity);
+        // The test above held both kind and key.
+        this._electionEntityDetailCache.set(detailId, /** @type {{ kind: string, key: string, [key: string]: unknown }} */ (entity));
         return detailId;
     }
 
@@ -1836,7 +1857,7 @@ class UIController {
         `;
     }
 
-    /** @param {Book} book @param {{ name?: string, description?: string } | null | undefined} category @param {string} query */
+    /** @param {Book} book @param {{ name?: string, description?: string } | null | undefined} category @param {string | undefined} query */
     _bookMatchesSearch(book, category, query) {
         const q = String(query || '').trim().toLowerCase();
         if (!q) return true;
@@ -1866,7 +1887,7 @@ class UIController {
     async _getBookMarkdownText(book) {
         if (!book?.markdownFile) return '';
         if (this._bookMarkdownCache.has(book.markdownFile)) {
-            return this._bookMarkdownCache.get(book.markdownFile);
+            return /** @type {string} */ (this._bookMarkdownCache.get(book.markdownFile));
         }
         const response = await fetch(/** @type {string} */ (book.markdownFile));
         if (!response.ok) throw new Error(`Failed to load Markdown (${response.status})`);
@@ -2240,11 +2261,13 @@ class UIController {
             this._featureCountManifestPromise = fetch('data/database/map-feature-counts.json', { cache: 'force-cache' })
                 .then((response) => response.ok ? response.json() : { counts: {} })
                 .then((manifest) => {
-                    this._featureCountManifest = manifest && typeof manifest === 'object' ? manifest : { counts: {} };
-                    if (!this._featureCountManifest.counts || typeof this._featureCountManifest.counts !== 'object') {
-                        this._featureCountManifest.counts = {};
+                    /** @type {{ counts: Record<string, number>, [key: string]: unknown }} */
+                    const loaded = manifest && typeof manifest === 'object' ? manifest : { counts: {} };
+                    this._featureCountManifest = loaded;
+                    if (!loaded.counts || typeof loaded.counts !== 'object') {
+                        loaded.counts = {};
                     }
-                    return this._featureCountManifest;
+                    return loaded;
                 })
                 .catch((error) => {
                     console.warn('[UIController] Feature-count manifest unavailable:', error);
@@ -2261,22 +2284,28 @@ class UIController {
             this._featureThumbnailManifestPromise = fetch('data/database/feature-thumbnails/_manifest.json', { cache: 'force-cache' })
                 .then((response) => response.ok ? response.json() : { maps: {} })
                 .then((manifest) => {
-                    this._featureThumbnailManifest = manifest && typeof manifest === 'object' ? manifest : { maps: {} };
-                    if (!this._featureThumbnailManifest.maps || typeof this._featureThumbnailManifest.maps !== 'object') {
-                        this._featureThumbnailManifest.maps = {};
+                    /** @type {FeatureThumbnailManifest} */
+                    const loaded = manifest && typeof manifest === 'object' ? manifest : { maps: {} };
+                    this._featureThumbnailManifest = loaded;
+                    if (!loaded.maps || typeof loaded.maps !== 'object') {
+                        loaded.maps = {};
                     }
-                    this._featureThumbnailRenderedIdsByMap = new Map();
-                    Object.entries(this._featureThumbnailManifest.maps).forEach(([mapId, config]) => {
+                    /** @type {Map<string, Set<string>>} */
+                    const renderedIdsByMap = new Map();
+                    this._featureThumbnailRenderedIdsByMap = renderedIdsByMap;
+                    Object.entries(loaded.maps).forEach(([mapId, config]) => {
                         const ids = Array.isArray(config?.renderedAssetIds) ? config.renderedAssetIds.map(String) : [];
-                        if (ids.length) this._featureThumbnailRenderedIdsByMap.set(String(mapId), new Set(ids));
+                        if (ids.length) renderedIdsByMap.set(String(mapId), new Set(ids));
                     });
-                    return this._featureThumbnailManifest;
+                    return loaded;
                 })
                 .catch((error) => {
                     console.warn('[UIController] Feature-thumbnail manifest unavailable:', error);
-                    this._featureThumbnailManifest = { maps: {} };
+                    /** @type {FeatureThumbnailManifest} */
+                    const empty = { maps: {} };
+                    this._featureThumbnailManifest = empty;
                     this._featureThumbnailRenderedIdsByMap = new Map();
-                    return this._featureThumbnailManifest;
+                    return empty;
                 });
         }
         return this._featureThumbnailManifestPromise;
@@ -2678,7 +2707,7 @@ class UIController {
         return pageType(kind) ? recordPagePath(kind, slug) : '/browse/#/' + kind + '/' + encodeURIComponent(slug);
     }
 
-    /** @param {Record<string, unknown> & { title?: unknown, name?: unknown, id?: unknown, subtitle?: unknown, category?: unknown, provider?: unknown, keywords?: unknown, constituencies?: unknown, parties?: unknown, shortName?: unknown, knownAliases?: unknown, type: string }} input @returns {CatalogueSearchRecord} */
+    /** @param {Record<string, unknown> & { title?: unknown, name?: unknown, id?: string, subtitle?: unknown, category?: unknown, provider?: unknown, keywords?: unknown, constituencies?: unknown, parties?: unknown, shortName?: unknown, knownAliases?: unknown, type: string }} input @returns {CatalogueSearchRecord} */
     makeCatalogueSearchRecord(input) {
         const title = String(input.title || input.name || input.id || '').trim();
         const subtitle = String(input.subtitle || input.category || '').trim();
@@ -2862,7 +2891,7 @@ class UIController {
         return '';
     }
 
-    /** @param {HTMLElement} button */
+    /** @param {ViewElement} button */
     getCatalogueSearchFeaturePayload(button) {
         const bboxNums = (button.dataset.featureBbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
         return {
@@ -2887,7 +2916,7 @@ class UIController {
         return url.toString();
     }
 
-    /** @param {HTMLElement} button @param {{ showInfo?: boolean }} [options] */
+    /** @param {ViewElement} button @param {{ showInfo?: boolean }} [options] */
     async loadFeatureFromSearchButton(button, options = {}) {
         const { mapId, featureId, featureName, bbox } = this.getCatalogueSearchFeaturePayload(button);
         if (!mapId || !featureId) return null;
@@ -2982,8 +3011,10 @@ class UIController {
         // Without this gate every record scores at least typeBoost, so the whole
         // index is returned for any query and the empty state can never render.
         if (!matched) return 0;
-        if (record.type === 'map' && mapOrder?.has(record.mapId || record.id)) {
-            score += Math.max(0, 450 - mapOrder.get(record.mapId || record.id));
+        const mapKey = record.mapId || record.id;
+        // A map's order key is a string: without one, has() was false.
+        if (record.type === 'map' && mapKey !== undefined && mapOrder?.has(mapKey)) {
+            score += Math.max(0, 450 - /** @type {number} */ (mapOrder.get(mapKey)));
         }
         /** @type {Record<string, number>} */
         const typeBoost = { map: 90, election: 85, feature: 80, party: 70, person: 60, source: 40 };
@@ -3192,13 +3223,15 @@ class UIController {
         }
     }
 
+    /** @param {MouseEvent} event */
     async handleFlatViewDelegatedClick(event) {
         // A click in the pane lands on an element of its markup.
-        const target = /** @type {ViewTarget} */ (event.target);
+        const target = /** @type {ViewElement} */ (event.target);
         const searchAction = target.closest?.('[data-catalogue-search-action]');
         if (searchAction) {
             event.preventDefault();
-            await this.handleCatalogueSearchAction(searchAction);
+            // Every [data-catalogue-search-action] of the pane is a button.
+            await this.handleCatalogueSearchAction(/** @type {ViewButton} */ (searchAction));
             return;
         }
 
@@ -3318,6 +3351,7 @@ class UIController {
         return findTarget();
     }
 
+    /** @param {HTMLElement | null} targetEl @param {{ focus?: boolean }} [options] */
     scrollCatalogueTargetIntoView(targetEl, { focus = true } = {}) {
         const pane = this.getCataloguePaneScroller();
         if (!targetEl || !pane) return false;
@@ -3339,7 +3373,7 @@ class UIController {
         return true;
     }
 
-    /** @param {HTMLElement} targetEl */
+    /** @param {HTMLElement | null} targetEl */
     isCatalogueTargetVisible(targetEl) {
         const pane = this.getCataloguePaneScroller();
         if (!targetEl || !pane) return false;
@@ -3403,6 +3437,7 @@ class UIController {
         });
     }
 
+    /** @param {MouseEvent} event @param {ViewElement} link */
     async handleFlatTocClick(event, link) {
         event.preventDefault();
         if (link.classList.contains('catalogue-flat__toc-toplink')) this._markActiveToplink(link);
@@ -3434,6 +3469,7 @@ class UIController {
      * for a short while after the click, a redraw that moves the target out of view scrolls
      * back to it, until the reader scrolls, taps or types themselves.
      */
+    /** @param {string} targetId @param {{ forMs?: number }} [options] */
     _keepCatalogueTargetInView(targetId, { forMs = 3000 } = {}) {
         this._catalogueTargetKeeper?.();
         const pane = this.getCataloguePaneScroller();
@@ -3456,6 +3492,7 @@ class UIController {
         this._catalogueTargetKeeper = stop;
     }
 
+    /** @param {MouseEvent} event @param {ViewElement} source */
     async handleFlatElectionClick(event, source) {
         const host = source.closest('.flat-election-entry') || source;
         if (host?.dataset?.electionPlaceholder === '1') {
@@ -3464,18 +3501,19 @@ class UIController {
             return;
         }
         if (source.classList.contains('flat-election-entry') &&
-            event.target.closest('.flat-election-link, .election-load-btn')) {
+            /** @type {Element} */ (event.target).closest('.flat-election-link, .election-load-btn')) {
             return;
         }
         event.preventDefault();
         event.stopPropagation();
-        const container = document.getElementById('catalogueFlatView') || document;
+        const container = /** @type {HtmlRoot} */ (document.getElementById('catalogueFlatView') || document);
         const body = source.dataset.electionBody || source.closest('.flat-election-entry')?.dataset.electionBody;
         const date = source.dataset.electionDate || source.closest('.flat-election-entry')?.dataset.electionDate;
         if (!body || !date) return;
         const matchingRows = [...container.querySelectorAll('.flat-election-entry')]
             .filter(row => row.dataset.electionBody === body && row.dataset.electionDate === date);
-        const matchingButtons = [...container.querySelectorAll('.election-load-btn')]
+        // Each .election-load-btn is a button.
+        const matchingButtons = [.../** @type {NodeListOf<ViewButton>} */ (container.querySelectorAll('.election-load-btn'))]
             .filter(button => button.dataset.electionBody === body && button.dataset.electionDate === date);
         if (matchingRows.some(row => row.classList.contains('flat-election-entry--loading'))) return;
         const isLoadBtn = source.classList.contains('election-load-btn');
@@ -3518,6 +3556,7 @@ class UIController {
         }
     }
 
+    /** @param {MouseEvent} event */
     handleFlatThumbnailMouseEnter(event) {
         if (this.isMobile) return;
         const wrap = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-flat__toc-thumbwrap'));
@@ -3536,6 +3575,7 @@ class UIController {
         zoom.classList.add('catalogue-flat__toc-thumbzoom--visible');
     }
 
+    /** @param {MouseEvent} event */
     handleFlatThumbnailMouseLeave(event) {
         const wrap = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-flat__toc-thumbwrap'));
         if (!wrap) return;
@@ -3569,6 +3609,7 @@ class UIController {
         return catalogueNextRequested() ? initialCatalogueRoute() : '';
     }
 
+    /** @param {MapListOptions} [options] */
     syncMapCatalogueState(options = {}) {
         this._lastMapListOptions = { ...(this._lastMapListOptions || {}), ...(options || {}) };
         if (this._catalogueNext) {
@@ -3601,7 +3642,8 @@ class UIController {
             }
         });
 
-        /** @type {NodeListOf<ViewElement>} */ (root.querySelectorAll('.load-btn[data-map-id], .c1-load-btn[data-map-id]')).forEach((btn) => {
+        // The load and visibility toggles are buttons.
+        /** @type {NodeListOf<ViewButton>} */ (root.querySelectorAll('.load-btn[data-map-id], .c1-load-btn[data-map-id]')).forEach((btn) => {
             const mapId = btn.dataset.mapId;
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
             // This runs part way through a load -- onMapLoad calls syncCatalogueMapState()
@@ -3616,7 +3658,7 @@ class UIController {
             btn.title = busy ? (loaded ? 'Unloading...' : 'Loading...') : (loaded ? 'Unload' : 'Load');
         });
 
-        /** @type {NodeListOf<ViewElement>} */ (root.querySelectorAll('.visibility-btn[data-map-id]')).forEach((btn) => {
+        /** @type {NodeListOf<ViewButton>} */ (root.querySelectorAll('.visibility-btn[data-map-id]')).forEach((btn) => {
             const mapId = btn.dataset.mapId;
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
             const visible = isVisible(mapId, loaded);
@@ -3630,6 +3672,7 @@ class UIController {
     // PHASE 2: Enhanced renderMapList
     // ============================================
 
+    /** @param {MapRecord[]} maps @param {MapListOptions} [options] */
     renderMapList(maps, options = {}) {
         this._lastMapListOptions = options || {};
         const container = document.getElementById('mapList');
@@ -3684,8 +3727,11 @@ class UIController {
         const allClasses = dataService.getAllClasses() || [];
         // Use visible classes only for rendering standalone class cards
         const visibleClasses = dataService.getClasses() || [];
-        const c1s = dataService.getC1s() || [];
+        // maps.json's c1s (packages/types holds them as unknown) are C1 cards.
+        const c1s = /** @type {C1Record[]} */ (dataService.getC1s() || []);
+        /** @type {Map<string, LegacyClass>} */
         const mapIdToClass = new Map();
+        /** @type {Map<string, LegacyClass[]>} */
         const classesByCategory = new Map();
 
         // Build mapIdToClass from ALL classes (needed for C1 rendering)
@@ -3697,29 +3743,32 @@ class UIController {
         visibleClasses.forEach(cls => {
             const cat = cls.category || 'other';
             if (!classesByCategory.has(cat)) classesByCategory.set(cat, []);
-            classesByCategory.get(cat).push(cls);
+            /** @type {LegacyClass[]} */ (classesByCategory.get(cat)).push(cls);
         });
 
         // Group maps by category
         const categories = dataService.getMapCategories() || [];
+        /** @type {Map<string, MapRecord[]>} */
         const mapsByCategory = new Map();
         maps.forEach(map => {
             const cat = map.category || 'other';
             if (!mapsByCategory.has(cat)) mapsByCategory.set(cat, []);
-            mapsByCategory.get(cat).push(map);
+            /** @type {MapRecord[]} */ (mapsByCategory.get(cat)).push(map);
         });
 
+        /** @type {Set<string>} */
         const renderedClasses = new Set();
 
         // Group categories by their `group` property
         const groupOrder = ['Communities', 'History', 'Elections and Government', 'Public Services', 'Physical Geography', 'Built Environment'];
+        /** @type {Map<string, Array<{ id: string, group?: string }>>} */
         const categoriesByGroup = new Map();
         groupOrder.forEach(g => categoriesByGroup.set(g, []));
 
         categories.forEach(category => {
             const groupName = category.group || 'Built Environment';
             if (!categoriesByGroup.has(groupName)) categoriesByGroup.set(groupName, []);
-            categoriesByGroup.get(groupName).push(category);
+            /** @type {Array<{ id: string, group?: string }>} */ (categoriesByGroup.get(groupName)).push(category);
         });
 
         // Render each group
@@ -3759,6 +3808,7 @@ class UIController {
                 const categoryClasses = classesByCategory.get(category.id) || [];
 
                 // Build set of C2 IDs in C1s
+                /** @type {Set<string>} */
                 const c2sInC1s = new Set();
                 categoryC1s.forEach(c1 => {
                     this.getC1ClassIds(c1).forEach(id => c2sInC1s.add(id));
@@ -3782,12 +3832,13 @@ class UIController {
                 });
 
                 // Build conjoined targets map
+                /** @type {Map<string, LegacyClass[]>} */
                 const conjoinedTargets = new Map();
                 categoryClasses.forEach(cls => {
                     if (c2sInC1s.has(cls.id)) return;
                     if (cls.conjoinedTo) {
                         if (!conjoinedTargets.has(cls.conjoinedTo)) conjoinedTargets.set(cls.conjoinedTo, []);
-                        conjoinedTargets.get(cls.conjoinedTo).push(cls);
+                        /** @type {LegacyClass[]} */ (conjoinedTargets.get(cls.conjoinedTo)).push(cls);
                     }
                 });
 
@@ -3890,7 +3941,8 @@ class UIController {
                                 const isExpanded = moreContainer.classList.toggle('category-more-maps--expanded');
                                 moreContainer.classList.toggle('category-more-maps--collapsed', !isExpanded);
                                 toggleBtn.classList.toggle('category-more-toggle--expanded', isExpanded);
-                                toggleBtn.querySelector('.category-more-toggle__text').textContent =
+                                // The button's own markup, just written.
+                            /** @type {Element} */ (toggleBtn.querySelector('.category-more-toggle__text')).textContent =
                                     isExpanded ? 'Show fewer maps' : `Show ${nonFeaturedMaps.length} more maps`;
                             });
                             categorySection.appendChild(toggleBtn);
@@ -3918,11 +3970,12 @@ class UIController {
                 container.appendChild(booksGroupHeader);
 
                 // Group books by category
+                /** @type {Map<string, Book[]>} */
                 const booksByCategory = new Map();
                 this.booksData.books.forEach(book => {
                     const cat = book.category || 'other';
                     if (!booksByCategory.has(cat)) booksByCategory.set(cat, []);
-                    booksByCategory.get(cat).push(book);
+                    /** @type {Book[]} */ (booksByCategory.get(cat)).push(book);
                 });
 
                 bookCategories.forEach(cat => {
@@ -3970,6 +4023,7 @@ class UIController {
         this.updateFilterStats(options.shownMaps ?? maps.length, options.totalMaps || maps.length);
     }
 
+    /** @param {number} shown @param {number} total */
     updateFilterStats(shown, total) {
         const text = shown === total
             ? `${siteNumber(total)} maps`
@@ -4006,8 +4060,8 @@ class UIController {
         this.setCatalogueViewMode('flat');
     }
 
-    /** @param {string} mode */
-    setCatalogueViewMode(mode) {
+    /** @param {string | undefined} _mode the mode asked for: the catalogue is always flat */
+    setCatalogueViewMode(_mode) {
         const flatView = document.getElementById('catalogueFlatView');
         const toggleContainer = document.getElementById('catalogueViewToggle');
         const categoryPillsContainer = /** @type {HtmlRoot} */ (document).querySelector('.category-pills-container');
@@ -4047,6 +4101,7 @@ class UIController {
         this.updateCatalogueHomeButton();
     }
 
+    /** @param {MapListOptions} [options] @returns {Promise<true | void>} */
     async renderFlatView(options = {}) {
         if (typeof window !== 'undefined' && window.__civgraphTest2) {
             const t = window.__civgraphTest2.flatRenders || (window.__civgraphTest2.flatRenders = []);
@@ -4067,7 +4122,7 @@ class UIController {
             return;
         }
         if (catalogueNextRequested() && !this._catalogueBookView) {
-            await this._renderCatalogueNext(container, options);
+            await this._renderCatalogueNext(container, /** @type {{ query?: string }} */ (options));
             return true;
         }
         if (this.shouldDeferMobileCatalogueRender()) {
@@ -4078,7 +4133,7 @@ class UIController {
         this._flatRenderToken = renderToken;
         await Promise.all([this.ensureThumbnailManifest(), this.ensureFeatureCountManifest()]);
         if (this._flatRenderToken !== renderToken) return;
-        const activeSearchQuery = String(this._catalogueSearchQuery || document.getElementById('searchInput')?.value || '').trim();
+        const activeSearchQuery = String(this._catalogueSearchQuery || /** @type {HTMLInputElement | null} */ (document.getElementById('searchInput'))?.value || '').trim();
         if (activeSearchQuery) {
             await this.renderCatalogueSearchResults(activeSearchQuery);
             return;
@@ -4110,14 +4165,15 @@ class UIController {
 
                 this._applyCatalogueBookViewerChrome(true);
                 container.classList.add('catalogue-flat-view--book-viewer');
-                container.innerHTML = this._renderCatalogueBookViewer(book, this._catalogueBookView.format, markdownText);
+                container.innerHTML = this._renderCatalogueBookViewer(book, /** @type {{ bookId: string, format: string }} */ (this._catalogueBookView).format, markdownText);
                 container.dataset.rendered = 'true';
                 this.hydrateLazyThumbnails(container);
 
                 container.querySelector('[data-book-view-close]')?.addEventListener('click', () => {
                     this.showCatalogueListView(true);
                 });
-                /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('[data-book-view-format]')).forEach((btn) => {
+                // The viewer's format switches are buttons.
+                /** @type {NodeListOf<ViewButton>} */ (container.querySelectorAll('[data-book-view-format]')).forEach((btn) => {
                     btn.addEventListener('click', () => {
                         if (btn.disabled) return;
                         this.openCatalogueBookViewer(book.id, btn.dataset.bookViewFormat || 'pdf');
@@ -4134,9 +4190,10 @@ class UIController {
 
         const allClasses = dataService.getAllClasses() || [];
         const classById = new Map(allClasses.map(cls => [cls.id, cls]));
-        const mapById = new Map(((dataService.maps?.maps) || []).map(map => [map.id, map]));
+        const mapById = new Map((/** @type {MapRecord[]} */ ((dataService.maps?.maps) || [])).map(map => [map.id, map]));
 
         // Flat mode map C1 cards, in the exact order requested.
+        /** @type {FlatCard[]} */
         const c1Cards = [
             // ── Historic Geographies ──
             { id: 'flat-townlands', name: 'Townlands', years: '', extent: 'Ireland', mapIds: ['all-ireland-townlands'] },
@@ -4822,6 +4879,7 @@ class UIController {
 
         const censusDataCards = c1Cards.filter(card => String(card.id || '').startsWith('flat-data-2021-'));
         if (censusDataCards.length > 0) {
+            /** @type {string[]} */
             const mergedMapIds = [];
             const seenCensusMapIds = new Set();
             censusDataCards.forEach(card => {
@@ -4870,11 +4928,12 @@ class UIController {
                 ((classById.get(classId) || {}).maps || []).forEach(id => claimedMapIds.add(id));
             });
         });
-        const allCatalogueMaps = (dataService.maps?.maps) || [];
+        const allCatalogueMaps = /** @type {MapRecord[]} */ ((dataService.maps?.maps) || []);
         // A variant is reached through its parent's row and never gets one of its own.
         const variantMapIds = new Set();
         allCatalogueMaps.forEach(map => (map.variants || []).forEach(v => v.id && variantMapIds.add(v.id)));
         const categoryNameById = new Map(((dataService.maps?.categories) || []).map(c => [c.id, c.name]));
+        /** @type {Map<string, string[]>} */
         const unclaimedByCategory = new Map();
         allCatalogueMaps.forEach(map => {
             if (map.hidden || claimedMapIds.has(map.id) || variantMapIds.has(map.id)) return;
@@ -4885,7 +4944,7 @@ class UIController {
             if (!hasData) return;
             const key = map.category || 'other';
             if (!unclaimedByCategory.has(key)) unclaimedByCategory.set(key, []);
-            unclaimedByCategory.get(key).push(map.id);
+            /** @type {string[]} */ (unclaimedByCategory.get(key)).push(map.id);
         });
         // The card KEEPS its category's name, because the table of contents groups cards by
         // name -- stripBracketParts(card.name) matched against the section member lists --
@@ -4926,6 +4985,7 @@ class UIController {
                 });
             });
 
+        /** @type {ElectionCatalogueCard[]} */
         let electionCatalogueCards = [];
         try {
             electionCatalogueCards = this.onBuildElectionCatalogueCards ? await this.onBuildElectionCatalogueCards() : [];
@@ -4942,11 +5002,13 @@ class UIController {
             .filter(Number.isFinite);
         const newestDecade = Math.floor(Math.max(new Date().getFullYear(), ...electionYears) / 10) * 10;
         const oldestDecade = electionYears.length ? Math.floor(Math.min(...electionYears) / 10) * 10 : 1880;
+        /** @type {Array<{ id: string, name: string, from: number, to: number }>} */
         const decadeDefs = [];
         for (let from = newestDecade; from >= oldestDecade; from -= 10) {
             decadeDefs.push({ id: `flat-elections-${from}s`, name: `${from}s`, from, to: from + 9 });
         }
 
+        /** @param {string} body @param {string} date @param {string | null} [bodyGroup] */
         const getElectionAppearance = (body, date, bodyGroup = null) => {
             const year = parseInt(String(date).slice(0, 4), 10) || 0;
             let thumb = 'pc-2008';
@@ -5010,6 +5072,7 @@ class UIController {
                 else thumb = 'dail-1980';
             }
 
+            /** @type {Readonly<Record<string, string>>} */
             const colorMap = BODY_COLOURS;
 
             return {
@@ -5018,6 +5081,7 @@ class UIController {
             };
         };
 
+        /** @type {FlatCard[]} */
         const decadeElectionCards = decadeDefs.map(def => {
             const entries = electionCatalogueCards
                 .filter(c => {
@@ -5043,8 +5107,11 @@ class UIController {
                 electionEntries: entries
             };
         });
+        /** @param {string | undefined} name */
         const stripBracketParts = (name) => String(name || '').replace(/\s*\([^)]*\)/g, '').trim();
+        /** @param {FlatCard} def */
         const collectCardMaps = (def) => {
+            /** @type {Array<{ map: MapRecord, classId: string }>} */
             const mapEntries = [];
             const seenMapIds = new Set();
             const excludeIds = new Set(def.id === 'flat-settlements' ? ['settlements-2015-craigavon'] : []);
@@ -5076,10 +5143,15 @@ class UIController {
         };
 
         // Build TOC HTML (no title, no column labels), with columns for name/years/extent.
+        /** @type {Set<string>} */
         const flatTocTargetIds = new Set();
+        /** @type {Map<string, string>} */
         const flatTargetToSection = new Map();
+        /** @type {Map<string, string>} */
         const flatSectionTargets = new Map();
+        /** @type {Map<string, string>} */
         const flatMapCardSectionKeyById = new Map();
+        /** @param {string | undefined} value */
         const sectionSlug = (value) => String(value || 'section')
             .toLowerCase()
             .normalize('NFKD')
@@ -5088,7 +5160,9 @@ class UIController {
             .replace(/\s+/g, '-')
             .replace(/-+/g, '-')
             .replace(/^-|-$/g, '') || 'section';
+        /** @param {string} heading */
         const mapSectionKeyForHeading = (heading) => `maps:${sectionSlug(heading)}`;
+        /** @param {string} targetId @param {string | null} [sectionKey] */
         const addFlatTocTarget = (targetId, sectionKey = null) => {
             if (targetId) {
                 flatTocTargetIds.add(targetId);
@@ -5115,6 +5189,7 @@ class UIController {
         // The flat view is re-rendered whenever a section is expanded, so the active tab is
         // remembered on the controller rather than read back from the old markup.
         const activeSectionTab = this._activeSectionTab || 'flat-section-elections';
+        /** @param {string} key */
         const current = (key) => (activeSectionTab === key ? ' aria-current="true"' : '');
         // Is the reorganised catalogue being previewed? The document has to carry entries as
         // well, so a stale or missing maps-v2.json falls back to the hand-authored arrays.
@@ -5215,12 +5290,15 @@ class UIController {
         const mergedIdSet = new Set(tocMerges.flatMap(m => m.mergedIds));
         // Top-level merges (no inHeading) get rendered during the main
         // c1Cards iteration; heading-scoped merges defer to the heading loop.
+        /** @type {Map<string, FlatTocMerge>} */
         const topLevelMergeByFirstId = new Map();
+        /** @type {Map<string, FlatTocMerge>} */
         const headingMergeByName = new Map();
         tocMerges.forEach(m => {
             if (m.inHeading) headingMergeByName.set(`${m.inHeading}::${m.canonicalName}`, m);
             else topLevelMergeByFirstId.set(m.mergedIds[0], m);
         });
+        /** @type {FlatTocGroup[]} */
         const tocGroups = [
             {
                 heading: 'Historic Geographies',
@@ -5367,19 +5445,21 @@ class UIController {
         // `shelves`, both keyed on id rather than on a display string.
         let tocGroupsActive = tocGroups;
         if (catalogueV2) {
-            const doc = dataService.maps;
+            // catalogueV2 held that the document is maps-v2.json's, with its entries.
+            const doc = /** @type {MapsV2Document} */ (dataService.maps);
             const subjectById = new Map((doc.subjects || []).map(s => [s.id, s]));
+            /** @type {Map<string, MapsV2Entry[]>} */
             const entriesBySubject = new Map();
             for (const entry of doc.entries) {
                 if (!entriesBySubject.has(entry.subject)) entriesBySubject.set(entry.subject, []);
-                entriesBySubject.get(entry.subject).push(entry);
+                /** @type {MapsV2Entry[]} */ (entriesBySubject.get(entry.subject)).push(entry);
             }
             // One card per entry. The years and extent shown on a card are derived from its
             // maps rather than restated, so they cannot drift from what the entry holds.
+            /** @param {MapsV2Entry} entry @returns {FlatCard} */
             const cardForEntry = (entry) => {
                 const maps = entry.mapIds.map(id => mapById.get(id)).filter(Boolean);
                 const years = maps.map(m => this.getYear(m?.date)).filter(Boolean).sort();
-                const extents = [...new Set(maps.map(m => m?.scope).filter(Boolean))];
                 return {
                     id: entry.id,
                     name: entry.name,
@@ -5394,10 +5474,13 @@ class UIController {
                     sortYear: entry.year || null
                 };
             };
+            /** @type {FlatCard[]} */
             const projected = [];
             for (const shelf of doc.shelves || []) {
                 for (const subjectId of shelf.subjects || []) {
+                    /** @type {Record<string, number>} */
                     const SCOPE_RANK = { IRE: 0, ROI: 1, NI: 2 };
+                    /** @param {MapsV2Entry} e */
                     const rank = e => (e.scope && SCOPE_RANK[e.scope] !== undefined ? SCOPE_RANK[e.scope] : 3);
                     const ordered = [...(entriesBySubject.get(subjectId) || [])].sort((a, b) =>
                         rank(a) - rank(b)
@@ -5414,7 +5497,9 @@ class UIController {
                 for (const subjectId of shelf.subjects || []) {
                     const subject = subjectById.get(subjectId);
                     if (!subject) continue;
+                    /** @type {Record<string, number>} */
                     const SCOPE_RANK = { IRE: 0, ROI: 1, NI: 2 };
+                    /** @param {MapsV2Entry} e */
                     const rank = e => (e.scope && SCOPE_RANK[e.scope] !== undefined ? SCOPE_RANK[e.scope] : 3);
                     const ordered = [...(entriesBySubject.get(subjectId) || [])].sort((a, b) =>
                         rank(a) - rank(b)
@@ -5434,7 +5519,8 @@ class UIController {
             // a card belonging to no section, and a section naming a card that does not
             // exist -- are silent in the renderer and loud here.
             const cardIds = new Set(projected.map(c => c.id));
-            const placed = new Set(tocGroupsActive.flatMap(g => g.memberIds));
+            // Every v2 group (pushed just above) carries its member ids.
+            const placed = new Set(tocGroupsActive.flatMap(g => /** @type {string[]} */ (g.memberIds)));
             const homeless = projected.filter(c => !placed.has(c.id));
             const dangling = [...placed].filter(id => !cardIds.has(id));
             if (homeless.length || dangling.length) {
@@ -5455,8 +5541,11 @@ class UIController {
             tocHtml += '\n                <tr class="catalogue-flat__toc-map-buttons-row">\n                    <td colspan="3">\n                        <div class="catalogue-flat__toc-map-buttons">' + mapSectionButtonsHtml + '</div>\n                    </td>\n                </tr>';
         }
 
+        /** @type {Map<string, string>} */
         const groupByMemberName = new Map();
+        /** @type {Map<string, string>} */
         const groupByMemberId = new Map();
+        /** @type {Map<string, FlatTocGroup>} */
         const groupByHeading = new Map();
         tocGroupsActive.forEach(group => {
             groupByHeading.set(group.heading, group);
@@ -5467,25 +5556,31 @@ class UIController {
         });
 
         const cardsById = new Map(c1Cards.map(card => [card.id, card]));
+        /** @type {Map<string, FlatCard[]>} */
         const cardsByStrippedName = new Map();
         c1Cards.forEach(card => {
             const strippedName = stripBracketParts(card.name);
             if (!cardsByStrippedName.has(strippedName)) cardsByStrippedName.set(strippedName, []);
-            cardsByStrippedName.get(strippedName).push(card);
+            /** @type {FlatCard[]} */ (cardsByStrippedName.get(strippedName)).push(card);
         });
 
+        /** @type {Set<string>} */
         const renderedHeadings = new Set();
+        /** @type {Set<string>} */
         const renderedCards = new Set();
 
         // A row's picture: the card's chosen map, else its first map that has a thumbnail --
         // not simply the newest, which in a series still being digitised is a placeholder
         // (County Electoral Divisions 1969, Stormont 1969) and showed an empty box.
+        /** @param {MapRecord | null | undefined} override @param {Array<{ map: MapRecord }>} maps */
         const pickPreview = (override, maps) => {
+            /** @param {MapRecord | null | undefined} m */
             const has = (m) => m && this.hasThumbnailAsset(m.cloneOf || m.id);
             if (has(override)) return override;
             return maps.map(entry => entry.map).find(has) || override || maps[0]?.map || null;
         };
 
+        /** @param {FlatCard} card @param {boolean} [indented] @param {string | null} [sectionKey] */
         const appendTocRow = (card, indented = false, sectionKey = null) => {
             const resolvedSectionKey = sectionKey || `map:${card.id}`;
             flatMapCardSectionKeyById.set(card.id, resolvedSectionKey);
@@ -5514,6 +5609,7 @@ class UIController {
             renderedCards.add(card.id);
         };
 
+        /** @param {FlatTocMerge} merge @param {boolean} indented @param {string | null} [sectionKey] */
         const renderMergeRow = (merge, indented, sectionKey = null) => {
             const resolvedSectionKey = sectionKey || `map:${merge.mergedIds[0]}`;
             merge.mergedIds.forEach(id => flatMapCardSectionKeyById.set(id, resolvedSectionKey));
@@ -5636,17 +5732,21 @@ class UIController {
         this._flatSectionTargets = flatSectionTargets;
         container.innerHTML = tocHtml + '<div class="catalogue-flat__cards" id="catalogueFlatCards"></div>';
         this._syncCatalogueShellHeight();
-        const cardsContainer = container.querySelector('#catalogueFlatCards');
+        // Just written above.
+        const cardsContainer = /** @type {ViewElement} */ (container.querySelector('#catalogueFlatCards'));
         const renderOptions = options || {};
         let renderedMobileMapCards = 0;
+        /** @param {string} sectionKey */
         const shouldRenderFlatSection = (sectionKey) => !singleSectionCatalogue || activeSectionKey === sectionKey;
         const headingBySectionKey = new Map(tocGroupsActive.map(group => [mapSectionKeyForHeading(group.heading), group.heading]));
+        /** @param {FlatCard} def */
         const shouldRenderMapCard = (def) => {
             if (!singleSectionCatalogue) return true;
             const sectionKey = flatMapCardSectionKeyById.get(def.id) || `map:${def.id}`;
             return activeSectionKey === sectionKey;
         };
 
+        /** @param {string | null | undefined} value */
         const esc = (value) => this.escapeHtml(value || '');
         if (shouldRenderFlatSection('elections')) {
             const electionsAnchor = document.createElement('div');
@@ -5863,11 +5963,12 @@ class UIController {
             cardsContainer.appendChild(booksGroupHeader);
 
             const bookCategories = this.booksData.categories || [];
+            /** @type {Map<string, Book[]>} */
             const booksByCategory = new Map();
             this.booksData.books.forEach(book => {
                 const cat = book.category || 'other';
                 if (!booksByCategory.has(cat)) booksByCategory.set(cat, []);
-                booksByCategory.get(cat).push(book);
+                /** @type {Book[]} */ (booksByCategory.get(cat)).push(book);
             });
 
             bookCategories.forEach(cat => {
@@ -5927,6 +6028,7 @@ class UIController {
     }
 
     /** Apply the toggle's visual state to a card and its button. */
+    /** @param {HtmlElementRoot} cardEl @param {boolean} showing */
     _applyPlaceholderToggle(cardEl, showing) {
         if (!cardEl) return;
         cardEl.classList.toggle('class-card--show-placeholders', !!showing);
@@ -5935,7 +6037,7 @@ class UIController {
         toggle.dataset.showing = showing ? 'true' : 'false';
         const label = toggle.querySelector('.class-card__placeholder-toggle-label');
         if (label) {
-            const count = label.textContent.match(/\d+/)?.[0] || '';
+            const count = /** @type {string} */ (label.textContent).match(/\d+/)?.[0] || '';
             label.textContent = showing ? `Hide ${count} to be added` : `Show ${count} to be added`;
         }
     }
@@ -5968,8 +6070,10 @@ class UIController {
     ensureMobileThumbnailDismissal() {
         if (this._mobileThumbnailDismissalBound || typeof document === 'undefined') return;
         this._mobileThumbnailDismissalBound = true;
+        /** @param {Event | null} [event] */
         const hide = (event = null) => {
-            const target = event?.target;
+            // An element of the page (closest is tested before it is called).
+            const target = /** @type {Element | null | undefined} */ (event?.target);
             if (target?.closest?.('.catalogue-flat__toc-thumbwrap, .thumb-zone, .thumbnail-preview')) return;
             /** @type {HtmlRoot} */ (document).querySelectorAll('.catalogue-flat__toc-thumbzoom--visible').forEach((zoom) => {
                 zoom.classList.remove('catalogue-flat__toc-thumbzoom--visible');
@@ -5986,12 +6090,14 @@ class UIController {
     // PHASE 3: createClassCard
     // ============================================
 
+    /** @param {LegacyClass} cls @param {CardOptions} [options] */
     createClassCard(cls, options = {}) {
         const card = document.createElement('div');
         card.className = 'map-card map-card--class';
         card.dataset.classId = cls.id;
 
-        const memberMaps = (cls.maps || []).map(id => /** @type {MapRecord | undefined} */ (dataService.getMapById(id))).filter(Boolean);
+        // filter(Boolean) keeps the maps found.
+        const memberMaps = /** @type {MapRecord[]} */ ((cls.maps || []).map(id => /** @type {MapRecord | undefined} */ (dataService.getMapById(id))).filter(Boolean));
         memberMaps.sort((a, b) => (this.parseDateToTimestamp(b.date) || 0) - (this.parseDateToTimestamp(a.date) || 0));
 
         const nonPlaceholderMaps = memberMaps.filter(m => !m.placeholder);
@@ -6074,8 +6180,9 @@ class UIController {
             // Handle overflow menu trigger
             if (btn.classList.contains('overflow-menu__trigger')) {
                 e.stopPropagation();
-                const menu = btn.closest('.overflow-menu');
-                const dropdown = menu.querySelector('.overflow-menu__dropdown');
+                // A menu's trigger is inside the menu, with its dropdown.
+                const menu = /** @type {ViewElement} */ (btn.closest('.overflow-menu'));
+                const dropdown = /** @type {ViewElement | null} */ (menu.querySelector('.overflow-menu__dropdown'));
                 // Close all other open menus first
                 /** @type {HtmlRoot} */ (document).querySelectorAll('.overflow-menu--open').forEach(m => {
                     if (m !== menu) m.classList.remove('overflow-menu--open');
@@ -6122,7 +6229,7 @@ class UIController {
         // Row clicks
         card.querySelectorAll('.class-member').forEach(memberEl => {
             memberEl.addEventListener('click', (e) => {
-                if (e.target.closest('button')) return;
+                if (/** @type {Element} */ (e.target).closest('button')) return;
                 const mapId = memberEl.dataset.mapId;
                 if (!mapId || memberEl.classList.contains('class-member--placeholder')) return;
                 const isLoaded = memberEl.classList.contains('class-member--loaded');
@@ -6133,17 +6240,20 @@ class UIController {
 
         // Timeline slider
         const slider = /** @type {HTMLInputElement | null} */ (card.querySelector('.timeline-slider'));
-        const timelineContainer = card.querySelector('.class-card__timeline');
+        const timelineContainer = /** @type {ViewElement | null} */ (card.querySelector('.class-card__timeline'));
         if (slider && timelineContainer) {
             const labels = card.querySelectorAll('.timeline-labels span');
             const sortedMaps = [...nonPlaceholderMaps].sort((a, b) =>
                 (this.parseDateToTimestamp(a.date) || 0) - (this.parseDateToTimestamp(b.date) || 0));
+            /** @type {string | number | null | undefined} */
             let lastLoadedDate = null;
 
             // Get percentage positions from data attribute
+            /** @type {number[]} */
             const percentages = JSON.parse(timelineContainer.dataset.percentages || '[]');
 
             // Find nearest percentage position
+            /** @param {number} value */
             const findNearestIndex = (value) => {
                 let nearestIdx = 0;
                 let minDiff = Infinity;
@@ -6167,7 +6277,7 @@ class UIController {
             slider.addEventListener('change', () => {
                 const nearestIdx = findNearestIndex(parseFloat(slider.value));
                 // Snap slider to exact label position
-                slider.value = percentages[nearestIdx];
+                slider.value = String(percentages[nearestIdx]);
                 labels.forEach((l, i) => l.classList.toggle('active', i === nearestIdx));
 
                 const selectedMap = sortedMaps[nearestIdx];
@@ -6192,7 +6302,7 @@ class UIController {
                     if (!label || !labelsContainer.contains(label)) return;
                     const pct = parseFloat(label.dataset.pct);
                     if (!Number.isFinite(pct)) return;
-                    slider.value = pct;
+                    slider.value = String(pct);
                     slider.dispatchEvent(new Event('change'));
                 });
             }
@@ -6203,11 +6313,13 @@ class UIController {
     // PHASE 4: createConjoinedClassGroup
     // ============================================
 
+    /** @param {LegacyClass[]} sourceClasses @param {LegacyClass} targetClass @param {CardOptions} [options] */
     createConjoinedClassGroup(sourceClasses, targetClass, options = {}) {
         const group = document.createElement('div');
         group.className = 'conjoined-class-group map-card map-card--class';
         group.dataset.groupId = `${sourceClasses.map(s => s.id).join('-')}-${targetClass.id}`;
 
+        /** @type {ClassMapEntry[]} */
         const allMaps = [];
         sourceClasses.forEach(cls => {
             (cls.maps || []).forEach(mapId => {
@@ -6293,6 +6405,7 @@ class UIController {
         return group;
     }
 
+    /** @param {HtmlElementRoot} group @param {ClassMapEntry[]} nonPlaceholderMaps */
     addConjoinedEventListeners(group, nonPlaceholderMaps) {
         group.addEventListener('click', (e) => {
             const btn = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('button'));
@@ -6308,15 +6421,18 @@ class UIController {
         });
 
         const slider = /** @type {HTMLInputElement | null} */ (group.querySelector('.timeline-slider'));
-        const timelineContainer = group.querySelector('.class-card__timeline');
+        const timelineContainer = /** @type {ViewElement | null} */ (group.querySelector('.class-card__timeline'));
         if (slider && timelineContainer) {
             const labels = group.querySelectorAll('.timeline-labels span');
+            /** @type {string | number | null | undefined} */
             let lastLoadedDate = null;
 
             // Get percentage positions from data attribute
+            /** @type {number[]} */
             const percentages = JSON.parse(timelineContainer.dataset.percentages || '[]');
 
             // Find nearest percentage position
+            /** @param {number} value */
             const findNearestIndex = (value) => {
                 let nearestIdx = 0;
                 let minDiff = Infinity;
@@ -6340,7 +6456,7 @@ class UIController {
             slider.addEventListener('change', () => {
                 const nearestIdx = findNearestIndex(parseFloat(slider.value));
                 // Snap slider to exact label position  
-                slider.value = percentages[nearestIdx];
+                slider.value = String(percentages[nearestIdx]);
                 labels.forEach((l, i) => l.classList.toggle('active', i === nearestIdx));
 
                 const selectedMap = nonPlaceholderMaps[nearestIdx];
@@ -6365,7 +6481,7 @@ class UIController {
                     if (!label || !labelsContainer.contains(label)) return;
                     const pct = parseFloat(label.dataset.pct);
                     if (!Number.isFinite(pct)) return;
-                    slider.value = pct;
+                    slider.value = String(pct);
                     slider.dispatchEvent(new Event('change'));
                 });
             }
@@ -6376,6 +6492,7 @@ class UIController {
     // PHASE 5: createC1Card
     // ============================================
 
+    /** @param {C1Record} c1 @param {CardOptions} [options] */
     createC1Card(c1, options = {}) {
         const card = document.createElement('div');
         card.className = 'c1-card map-card';
@@ -6383,8 +6500,10 @@ class UIController {
 
         const c2Ids = this.getC1ClassIds(c1);
         const classes = dataService.getAllClasses() || [];
-        const c2Classes = c2Ids.map(id => classes.find(c => c.id === id)).filter(Boolean);
+        // filter(Boolean) keeps the classes found.
+        const c2Classes = /** @type {LegacyClass[]} */ (c2Ids.map(id => classes.find(c => c.id === id)).filter(Boolean));
 
+        /** @type {ClassMapEntry[]} */
         const allMaps = [];
         c2Classes.forEach(cls => {
             (cls.maps || []).forEach(mapId => {
@@ -6465,6 +6584,7 @@ class UIController {
         return card;
     }
 
+    /** @param {Pick<LegacyClass, 'id' | 'name'>} cls @param {ClassMapEntry[]} allMaps @param {CardOptions} options */
     renderC2Section(cls, allMaps, options) {
         const classMaps = allMaps.filter(m => m.classId === cls.id);
         const sorted = [...classMaps].sort((a, b) => (this.parseDateToTimestamp(b.map.date) || 0) - (this.parseDateToTimestamp(a.map.date) || 0));
@@ -6567,15 +6687,18 @@ class UIController {
      * - Second item in each column ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ row 3, etc.
      * - This aligns items across columns by their position in the list
      */
+    /** @param {C1StackedSection} section @param {LegacyClass[]} classes @param {ClassMapEntry[]} allMaps @param {CardOptions} options */
     renderChronologicalGrid(section, classes, allMaps, options) {
         // =================================================================
         // STEP 1: Build column data with separate headers and entries
         // =================================================================
+        /** @type {Array<{ items: ChronologicalGridItem[], header: string, isStacked: boolean, colIndex: number }>} */
         const columnsData = [];
 
         section.columns.forEach((col, colIndex) => {
             const classIds = col.stack || (col.classId ? [col.classId] : []);
             const isStacked = classIds.length > 1;
+            /** @type {ChronologicalGridItem[]} */
             const items = [];
 
             classIds.forEach(classId => {
@@ -6588,7 +6711,7 @@ class UIController {
                 );
 
                 sorted.forEach(({ map }, idx) => {
-                    const year = parseInt(this.getYear(map.date));
+                    const year = parseInt(String(this.getYear(map.date)));
                     if (!year) return;
 
                     // For stacked columns: add header before first entry of each class
@@ -6748,8 +6871,9 @@ class UIController {
                 const gridCol = colIdx + 1;
 
                 // Check if any item covers this row
+                // STEP 3 gave every item its rows.
                 const covered = col.items.some(item =>
-                    item.gridRowStart <= gridRow && gridRow < item.gridRowEnd
+                    /** @type {number} */ (item.gridRowStart) <= gridRow && gridRow < /** @type {number} */ (item.gridRowEnd)
                 );
 
                 if (!covered) {
@@ -6768,6 +6892,7 @@ class UIController {
      * This is used for the Constituencies section where cell spans are
      * explicitly defined in the data rather than calculated.
      */
+    /** @param {C1ExplicitGridSection} section @param {CardOptions} options */
     renderExplicitGrid(section, options) {
         const totalRows = section.totalRows || 33;
         const numCols = section.columns.length;
@@ -6899,12 +7024,12 @@ class UIController {
      * This is now a no-op since grid-based rendering handles alignment.
      * Kept for backward compatibility.
      */
-    /** @param {HtmlElementRoot} card */
-    alignChronologicalColumns(card) {
+    /** @param {HtmlElementRoot} _card */
+    alignChronologicalColumns(_card) {
         // No longer needed - grid-based rendering handles alignment
     }
 
-    /** @param {HtmlElementRoot} card @param {MapRecord[]} nonPlaceholderMaps */
+    /** @param {HtmlElementRoot} card @param {ClassMapEntry[]} nonPlaceholderMaps */
     addC1CardEventListeners(card, nonPlaceholderMaps) {
         card.addEventListener('click', (e) => {
             const btn = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('button'));
@@ -6913,8 +7038,9 @@ class UIController {
             // Handle overflow menu trigger
             if (btn.classList.contains('overflow-menu__trigger')) {
                 e.stopPropagation();
-                const menu = btn.closest('.overflow-menu');
-                const dropdown = menu.querySelector('.overflow-menu__dropdown');
+                // A menu's trigger is inside the menu, with its dropdown.
+                const menu = /** @type {ViewElement} */ (btn.closest('.overflow-menu'));
+                const dropdown = /** @type {ViewElement | null} */ (menu.querySelector('.overflow-menu__dropdown'));
                 // Close all other open menus first
                 /** @type {HtmlRoot} */ (document).querySelectorAll('.overflow-menu--open').forEach(m => {
                     if (m !== menu) m.classList.remove('overflow-menu--open');
@@ -6973,7 +7099,7 @@ class UIController {
         card.addEventListener('click', (e) => {
             const entryEl = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('.c1-grid-entry'));
             if (!entryEl || !card.contains(entryEl)) return;
-            if (e.target.closest('button')) return;
+            if (/** @type {Element} */ (e.target).closest('button')) return;
             const mapId = entryEl.dataset.mapId;
             if (!mapId || entryEl.classList.contains('c1-grid-entry--placeholder')) return;
             const isLoaded = entryEl.classList.contains('c1-grid-entry--loaded');
@@ -6982,15 +7108,18 @@ class UIController {
         });
 
         const slider = /** @type {HTMLInputElement | null} */ (card.querySelector('.timeline-slider'));
-        const timelineContainer = card.querySelector('.class-card__timeline');
+        const timelineContainer = /** @type {ViewElement | null} */ (card.querySelector('.class-card__timeline'));
         if (slider && timelineContainer) {
             const labels = card.querySelectorAll('.timeline-labels span');
+            /** @type {string | number | null | undefined} */
             let lastLoadedDate = null;
 
             // Get percentage positions from data attribute
+            /** @type {number[]} */
             const percentages = JSON.parse(timelineContainer.dataset.percentages || '[]');
 
             // Find nearest percentage position
+            /** @param {number} value */
             const findNearestIndex = (value) => {
                 let nearestIdx = 0;
                 let minDiff = Infinity;
@@ -7014,7 +7143,7 @@ class UIController {
             slider.addEventListener('change', () => {
                 const nearestIdx = findNearestIndex(parseFloat(slider.value));
                 // Snap slider to exact label position
-                slider.value = percentages[nearestIdx];
+                slider.value = String(percentages[nearestIdx]);
                 labels.forEach((l, i) => l.classList.toggle('active', i === nearestIdx));
 
                 const selectedMap = nonPlaceholderMaps[nearestIdx];
@@ -7046,7 +7175,7 @@ class UIController {
                     if (!label || !labelsContainer.contains(label)) return;
                     const pct = parseFloat(label.dataset.pct);
                     if (!Number.isFinite(pct)) return;
-                    slider.value = pct;
+                    slider.value = String(pct);
                     slider.dispatchEvent(new Event('change'));
                 });
             }
@@ -7081,6 +7210,7 @@ class UIController {
 
             // Build section info: for each header, find the last row of its section
             // Group headers by column first to correctly calculate section boundaries
+            /** @type {Map<number, Element[]>} */
             const headersByColumn = new Map();
             sectionHeaders.forEach(header => {
                 const style = header.getAttribute('style') || '';
@@ -7089,11 +7219,11 @@ class UIController {
                 if (!headersByColumn.has(col)) {
                     headersByColumn.set(col, []);
                 }
-                headersByColumn.get(col).push(header);
+                /** @type {Element[]} */ (headersByColumn.get(col)).push(header);
             });
 
             // Sort headers within each column by row number
-            headersByColumn.forEach((headers, col) => {
+            headersByColumn.forEach((headers) => {
                 headers.sort((a, b) => {
                     const aStyle = a.getAttribute('style') || '';
                     const bStyle = b.getAttribute('style') || '';
@@ -7103,6 +7233,7 @@ class UIController {
                 });
             });
 
+            /** @type {Array<{ header: Element, startRow: number, endRow: number, col: number, lastItem?: Element | null }>} */
             const sectionInfo = [];
             sectionHeaders.forEach(header => {
                 const style = header.getAttribute('style') || '';
@@ -7188,7 +7319,7 @@ class UIController {
                 // For each section header, find the bottom of the LAST item in that section
                 // The header should stick until that last item scrolls above the sticky threshold
 
-                sectionInfo.forEach(({ header, col, lastItem }) => {
+                sectionInfo.forEach(({ header, lastItem }) => {
                     // Calculate if the section has scrolled past
                     let shouldScrollAway = false;
 
@@ -7229,7 +7360,7 @@ class UIController {
                 // they are overlapping at the sticky spot. Hide all but the last (lowest row) one.
                 // IMPORTANT: Only check for collisions when headers are actually stuck at the 
                 // sticky threshold (96px), not when they're in their natural grid positions.
-                headersByColumn.forEach((headersInCol, col) => {
+                headersByColumn.forEach((headersInCol) => {
                     // First, clear collision-hidden from all headers in this column
                     headersInCol.forEach(h => h.classList.remove('c1-grid-section-header--collision-hidden'));
 
@@ -7247,7 +7378,7 @@ class UIController {
                             header: h,
                             top: h.getBoundingClientRect().top,
                             startRow: info?.startRow || 0,
-                            text: h.textContent.trim().substring(0, 25)
+                            text: /** @type {string} */ (h.textContent).trim().substring(0, 25)
                         };
                     });
 
@@ -7295,7 +7426,9 @@ class UIController {
         });
     }
 
+    /** @param {C1Record} c1 */
     getC1ClassIds(c1) {
+        /** @type {string[]} */
         const ids = [];
         if (c1.c2s) ids.push(...c1.c2s);
         if (c1.rows) c1.rows.forEach(r => { if (r.left) ids.push(r.left); if (r.right) ids.push(r.right); });
@@ -7342,7 +7475,7 @@ class UIController {
      * which would otherwise make the card the containing block for a fixed
      * child and throw off the viewport maths.
      */
-    /** @param {HtmlElementRoot} dropdown @param {HTMLElement} anchorEl */
+    /** @param {DownloadDropdown} dropdown @param {HTMLElement} anchorEl */
     openDownloadDropdown(dropdown, anchorEl) {
         if (!dropdown) return;
         this.closeDownloadDropdown(dropdown, { keepOpen: true }); // clear any stale handlers/portal state first
@@ -7359,8 +7492,9 @@ class UIController {
 
         // Close on outside click, scroll, or resize so a fixed-position menu
         // can't drift away from its button. Cleaned up in closeDownloadDropdown.
+        /** @param {Event} [e] */
         const close = (e) => {
-            if (e && e.type === 'click' && (dropdown.contains(e.target) || anchorEl?.contains?.(e.target))) return;
+            if (e && e.type === 'click' && (dropdown.contains(/** @type {Node | null} */ (e.target)) || anchorEl?.contains?.(/** @type {Node | null} */ (e.target)))) return;
             this.closeDownloadDropdown(dropdown);
         };
         dropdown._ddCloseHandler = close;
@@ -7372,6 +7506,7 @@ class UIController {
         }, 0);
     }
 
+    /** @param {DownloadDropdown} dropdown @param {{ keepOpen?: boolean }} [options] */
     closeDownloadDropdown(dropdown, { keepOpen = false } = {}) {
         if (!dropdown) return;
         if (dropdown._ddCloseHandler) {
@@ -7406,7 +7541,7 @@ class UIController {
      * Toggle a download dropdown, positioning it within the viewport when it
      * opens. Returns the resulting open state.
      */
-    /** @param {HtmlElementRoot} dropdown @param {HTMLElement} anchorEl */
+    /** @param {DownloadDropdown} dropdown @param {HTMLElement} anchorEl */
     toggleDownloadDropdown(dropdown, anchorEl) {
         if (!dropdown) return false;
         if (dropdown.classList.contains('hidden')) {
@@ -9923,6 +10058,7 @@ class UIController {
         return String(value);
     }
 
+    /** @param {string | undefined} mapId @param {{ loadedIds?: string[] }} [options] */
     isMapLoadedState(mapId, options = {}) {
         if (!mapId) return false;
 
@@ -11604,7 +11740,7 @@ class UIController {
     // ============================================
     // Utilities
 
-    /** @param {string} text */
+    /** @param {string | null | undefined} text */
     escapeHtml(text) {
         if (!text) return '';
         const div = document.createElement('div');

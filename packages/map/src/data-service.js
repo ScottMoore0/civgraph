@@ -63,6 +63,12 @@ import { MONTH_NAMES } from '../../core/src/format.js';
  *   keywords?: string[],
  *   category?: string,
  *   relatedMaps?: string[],
+ *   date?: string,
+ *   dateDisplay?: string,
+ *   archiveUrl?: string,
+ *   file?: string,
+ *   markdownFile?: string,
+ *   transcriptionNotice?: string,
  *   [key: string]: unknown
  * }} Book
  */
