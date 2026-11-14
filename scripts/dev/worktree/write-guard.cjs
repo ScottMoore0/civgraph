@@ -31,6 +31,7 @@ const original = {
   writeFileSync: fs.writeFileSync,
   mkdirSync: fs.mkdirSync,
   rmdirSync: fs.rmdirSync,
+  unlinkSync: fs.unlinkSync,
   renameSync: fs.renameSync,
 };
 
@@ -98,7 +99,8 @@ function makeLocal(link) {
     const target = fs.readlinkSync(link.wtAbs);
     const staging = `${link.wtAbs}.local-${process.pid}`;
     copyWritable(target, staging);
-    original.rmdirSync(link.wtAbs); // removes the junction only
+    // Removes the link only: rmdir for a Windows junction, unlink for a POSIX symlink (rmdir answers ENOTDIR there).
+    try { original.rmdirSync(link.wtAbs); } catch { original.unlinkSync(link.wtAbs); }
     original.renameSync(staging, link.wtAbs);
     const state = readState();
     if (state) {
