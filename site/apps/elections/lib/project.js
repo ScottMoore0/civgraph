@@ -42,8 +42,9 @@ export function baseContests(rows, seatsOf) {
   }
   const out = [...by.values()];
   if (seatsOf) for (const c of out) c.seats = seatsOf.get(c.area) || 1;
-  // A contest with no votes is kept when the rows say who won it (returned unopposed, say): its
-  // seats count in the actual result and never move (projectFromResult).
+  // A contest with no votes is kept when the rows say who won it (returned unopposed, or only the
+  // winners on record, whose votes are not recorded): its seats count in the actual result and
+  // never move (projectFromResult).
   return out.filter((c) => [...c.votes.values()].some((v) => v > 0) || (!seatsOf && !!c.won?.size));
 }
 
