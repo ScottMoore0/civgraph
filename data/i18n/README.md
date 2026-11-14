@@ -102,7 +102,7 @@ node tools/test-site/server.mjs --port 4177
 | `assets/i18n/languages.json` | The runtime's table of the languages, built from the registry. |
 | `assets/i18n/names.ga.json` | English map / layer / Dáil constituency name to Irish, from the overlay. |
 | `assets/i18n/place-name-fields.json` | Layer id to the tile property holding its features' Irish names (generated). |
-| `data/i18n/review/` | **Review lists:** `strings-ga.tsv`, `strings-sco.tsv`, `map-names.tsv`, `place-name-fields.tsv`, `untranslated-ui.txt`, `coverage.json`. |
+| `data/i18n/review/` | **Review lists:** `strings-ga.tsv`, `strings-sco.tsv`, `map-names.tsv`, `place-name-fields.tsv`, `untranslated-ui.txt` (with its triage, `untranslated-ui-triage.tsv`), `coverage.json`. |
 | `data/i18n/place-names/` | Summary and sample of the Irish place-name crosswalk (the full crosswalk is in `E:\civgraph-i18n`). |
 | `scripts/i18n/` | The build, check, harvest and fetch scripts (below). |
 | `tests/i18n/` | Playwright tests (`npm run test:i18n`). |
@@ -113,7 +113,7 @@ node tools/test-site/server.mjs --port 4177
 npm run i18n:build      # place-name fields, map-name overlay, language files
 npm run check:i18n      # all three --check (part of npm run check)
 npm run test:i18n       # browser tests: toggle, persistence, fallback, flag off, 375px
-node scripts/i18n/extract-ui-strings.mjs --missing --review   # candidate strings with no key
+node scripts/i18n/extract-ui-strings.mjs --missing --review   # strings with no key, each with its triage class
 node scripts/i18n/harvest-untranslated.mjs                     # what still shows in English (needs a local server)
 node scripts/i18n/build-place-name-crosswalk.mjs               # Irish names per feature, from local source data
 LOGAINM_API_KEY=... node scripts/i18n/fetch-logainm.mjs        # Logainm API (needs the owner's key)
@@ -134,9 +134,16 @@ LOGAINM_API_KEY=... node scripts/i18n/fetch-logainm.mjs        # Logainm API (ne
 
 ## Coverage (2026-11-01)
 
-- **Interface strings:** 1,828 keys.
-  - Irish: 1,828 (all keys).
+- **Interface strings:** 2,180 keys.
+  - Irish: 1,828. The 305 keys added on 14 November 2026 from `review/untranslated-ui.txt` have
+    no draft yet; they show in English and are listed as UNTRANSLATED in the review lists.
   - Ulster-Scots: 34, deliberately conservative. The rest falls back to English.
+- **Strings with no key** (`review/untranslated-ui.txt`): every one has a class from
+  `review/untranslated-ui-triage.tsv`. None is unclassified interface text; 92 are interface text
+  of map-app code being rewritten, to key once that lands (class `later`). The rest are data
+  values, long prose, code, and pieces of sentences built in code (`part`).
+  `tests/unit/i18n-untranslated.test.mjs` keeps the count still to key from growing: new
+  interface text is keyed in `strings/<surface>.txt`, or classed in the triage file.
 - **Map names (`maps.json`):**
   - Irish: 639 of 1,104, composed from the glossary.
   - Layer names: 685 of 1,250.

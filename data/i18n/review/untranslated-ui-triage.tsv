@@ -1,0 +1,546 @@
+# Triage of data/i18n/review/untranslated-ui.txt: why a string the interface source holds has no
+# key. One line a string: class<TAB>text, the text exactly as the review list writes it ({x} for a
+# template's values). scripts/i18n/extract-ui-strings.mjs reads this file when it writes the list,
+# and a string not listed here is "interface": text still to key.
+#
+# Classes:
+#   data   a data value: a name of a place, body, map, layer, person, publisher or licence, or
+#          search keywords. Names go through the names overlay or stay as they are.
+#   prose  a long paragraph of a static page, left in English for now (data/i18n/README.md).
+#   code   code, a developer or log message, or an internal state name the scan cannot tell from text.
+#   part   a piece of a sentence built in code (a plural ending, a word joined to others), never
+#          shown on its own. It is keyed with its call site, as a whole sentence or pattern.
+#   later  interface text whose only source is map-app code being rewritten now
+#          (packages/map/src/ui-controller.js and its method modules, packages/map/app/app.js,
+#          boot.js). Key it once that change has landed.
+#
+# tests/unit/i18n-untranslated.test.mjs checks that every class is known, that no line is stale,
+# and that the review list's count of "interface" and "later" lines never grows.
+code	{x} map shelves ({x} known editions)
+code	0) ? renderPartyBarChart(series, colour,
+code	armagh banbridge and craigavon
+code	armagh city banbridge and craigavon
+code	block vote
+code	Budgets
+code	bundle fetch returned {x}
+code	button, input, select, textarea, a, label, .active-layer-item__opacity-panel, .active-layer-item__feature-list
+code	Cache entries
+code	constituency fetch returned {x}
+code	counted as elected
+code	DÃ¡il Ã‰ireann
+code	deemed elected
+code	Directory tile fallback
+code	election count detail
+code	election entity page
+code	election load
+code	election local level
+code	election overlay
+code	Election overlay worker failed
+code	Election overlay worker timed out
+code	Election overlay worker unavailable
+code	european parliament
+code	european parliament ireland
+code	export context outline load
+code	Fallbacks
+code	first past post
+code	flat catalogue render scheduled
+code	hash listen
+code	Heap
+code	irish local
+code	made quota
+code	mobile catalogue expanded
+code	navigation push
+code	NI grouped local view
+code	No budget report
+code	Non-
+code	northern ireland
+code	not active
+code	not controlling this page yet
+code	not elected
+code	open data ni
+code	parties index {x}
+code	Performance status unavailable: {x}
+code	president of ireland
+code	referendum ireland
+code	registered but not yet controlling this page
+code	republic of ireland
+code	Runtime
+code	search worker ready
+code	Service worker
+code	service worker registration
+code	service-worker API unavailable
+code	so unless you generated them locally every tile request will 404. Unset the flag to
+code	Source detail {x} was not found in {x}
+code	status timeout
+code	Storage
+code	thead th, tbody td:nth-child(-n+4)
+code	timeline apply
+code	timeline playback
+code	transform {x}ms ease
+code	URL restore
+code	URL suspend
+code	Worker
+data	, Northern Ireland, UK
+data	(ONS, Royal Mail and OS data © Crown copyright and database right)
+data	© Civgraph
+data	ABC Council
+data	Administrative Areas (Northern Ireland) (1920-1973)
+data	Administrative Regions
+data	An Garda Síochána Areas
+data	An Garda Síochána Areas (Republic of Ireland)
+data	Armagh Banbridge Craigavon
+data	Armagh City Banbridge Craigavon
+data	Armagh City, Banbridge and Craigavon
+data	Armagh, Banbridge and Craigavon
+data	Assembly Areas (1998-)
+data	Assembly Constituencies (1973)
+data	Assembly Constituencies (1982)
+data	Assembly NI Assembly Stormont MLA
+data	B. M. Walker, Parliamentary Election Results in Ireland, 1801–1922 (Royal Irish Academy, 1978)
+data	Bangor Borough Council
+data	Birch
+data	Boundary Commission for Northern Ireland
+data	Britain and Ireland
+data	Britain and Ireland Hills and Mountains
+data	Carriageway and Footway Surface Defects
+data	CC BY 4.0
+data	CC BY-SA 4.0 and ODbL
+data	Census Grid (2021) (Northern Ireland)
+data	Civgraph
+data	Civgraph\u2019s index
+data	Constitutional Convention Constituencies (1975)
+data	Copernicus 30m DEM
+data	Copernicus 30m DEM (Ireland)
+data	Counties (Ireland)
+data	County Electoral Divisions (Northern Ireland)
+data	Creative Commons Attribution 4.0 International (CC BY 4.0)
+data	CSO Electoral Divisions (Republic of Ireland) (2006-)
+data	CSO Urban Areas (2022)
+data	Dáil
+data	Dáil Dail Irish TD Oireachtas
+data	Dáil Éireann Constituencies (1923-)
+data	Data - Census 2021: Average household size
+data	Data - Census 2021: Born in Northern Ireland
+data	Data - Census 2021: Catholic community background
+data	Data - Census 2021: Day-to-day activities limited
+data	Data - Census 2021: Female population share
+data	Data - Census 2021: Households with no car or van
+data	Data - Census 2021: Level 4+ qualifications
+data	Data - Census 2021: No qualifications
+data	Data - Census 2021: Owner-occupied households
+data	Data - Census 2021: Population density
+data	Data - Census 2021: Private-rented households
+data	Data - Census 2021: Provides unpaid care
+data	Data - Census 2021: Religion (% Catholic)
+data	Data - Census 2021: Social-rented households
+data	Data - Census 2021: Some ability in Irish
+data	Data - Census 2021: Some ability in Ulster-Scots
+data	Data - Census 2021: Total households
+data	Data - Census 2021: Unemployed
+data	Data - Census 2021: Usual resident population
+data	Data - Census 2021: Work mainly at or from home
+data	Department of Health
+data	Department of Health (NI)
+data	Designated & Protected Sites (NIEA)
+data	District Electoral Areas (1973-)
+data	District Electoral Divisions (Northern Ireland) (1920-1973)
+data	District Electoral Divisions/Wards (Ireland, pre-partition)
+data	District-level Electoral Units
+data	DoH NI
+data	Dublin City Council - Open Data
+data	Dublin Electoral Counties (1985)
+data	Dún Laoghaire-Rathdown - Open Data
+data	Education and Library Boards (Northern Ireland)
+data	England and Wales
+data	England and Wales Hills and Mountains
+data	Environment, Water & Geology
+data	Environmental Noise (END 2017)
+data	European (Republic of Ireland)
+data	European Commission
+data	European Euro EU MEP European Parliament Irish
+data	European Euro EU MEP European Parliament NI
+data	European Parliament Constituencies (1979-)
+data	Eurostat
+data	Fingal - Open Data
+data	Forum Constituencies (1996)
+data	Gaeltacht Areas (Republic of Ireland)
+data	Geological Survey Ireland - Bedrock & Karst
+data	Global Watersheds
+data	GSNI Bedrock and Surface Geology
+data	Habitat Networks
+data	Habitat Networks (Ulster Wildlife)
+data	Health and Social Care Trusts (Northern Ireland) (2007)
+data	Heritage & Built Environment
+data	Heritage & Infrastructure (Republic of Ireland, Tailte Éireann)
+data	Heritage Sites
+data	High Value Datasets (Republic of Ireland, Tailte Éireann)
+data	Historic Sites
+data	Ireland / Northern Ireland
+data	Ireland Hills and Mountains
+data	Land & Property Services
+data	Land & Property Services (OSNI)
+data	Legal Towns and Cities (Republic of Ireland)
+data	LGBC NI
+data	LiDAR & 3D
+data	LiDAR Point Clouds (3D)
+data	Lisburn Borough Council
+data	Local Authorities (Ireland, pre-partition)
+data	Local Authorities (Northern Ireland) (1921)
+data	Local Authorities (Republic of Ireland)
+data	Local Authority Open Data
+data	Local Electoral Areas (Republic of Ireland)
+data	Local Government (Ireland)
+data	Local Government Boundary Commission for Northern Ireland
+data	Local Government Districts (Northern Ireland) (1973-)
+data	LPS (OSNI)
+data	M. Gallagher, Irish Elections 1922–44: Results and Analysis (PSAI Press, 1993)
+data	Markdown
+data	Matthews
+data	Moore
+data	Municipal Districts (Republic of Ireland)
+data	Neighbourhood Renewal Areas (Northern Ireland)
+data	NI Border Crossings & Pedestrian Crossings
+data	NI Border Crossings & Pedestrian Crossings (DfI)
+data	NI Convention Constitutional Convention
+data	NI Devolved Constituencies
+data	NI DfI Pothole Enquiries
+data	NI DfI Pothole Enquiries (2014-2021)
+data	NI DfI Road Surface Defects
+data	NI DfI Road Surface Defects (2008-2021)
+data	NI Forum Forum
+data	NI Government Land & Property Register (snapshots)
+data	NI LiDAR Elevation Models
+data	NI LiDAR Elevation Models (3D)
+data	NI Livestock Density
+data	NI Livestock Density (DAERA)
+data	NI local council councils district council LGD local elections
+data	NI Mineral & Mining Licences
+data	NI MP CSV
+data	NIEA Catchments, Waste & Water Bodies
+data	Nominatim
+data	Northern Ireland (Europe)
+data	Northern Ireland Office
+data	NUTS 2 Regions (Ireland)
+data	NUTS 3 Regions (2003) (Northern Ireland)
+data	Open Government Licence v3.0
+data	OpenStreetMap contributors
+data	OpenStreetMap Humanitarian
+data	OPW Flood Extents
+data	OSi
+data	OSNI Map Sheet Coverage Grids and Benchmarks
+data	OSNI Open Data
+data	OSNI Printed Raster Maps
+data	Paddy Matthews
+data	Parlconst.org
+data	Parliament of Northern Ireland Constituencies (1920-1973)
+data	Peacelines (Northern Ireland)
+data	Phelim Birch
+data	Photon
+data	Physical Features (Republic of Ireland, Tailte Éireann)
+data	Place Names (Northern Ireland)
+data	presidential president Uachtaran Irish
+data	PSNI Collisions
+data	PSNI Collisions (2013-2018)
+data	Referendum Counting Areas (1975-)
+data	referendum referenda Irish
+data	referendum referenda NI
+data	Regions & Boundaries (Republic of Ireland, Tailte Éireann)
+data	River Basin Districts
+data	River Basin Districts (2016) (Northern Ireland)
+data	River Basins
+data	River Basins (2016) (Northern Ireland)
+data	River Water Quality 1990–2018 - by parameter
+data	Rivers (2016) (Northern Ireland)
+data	Roads, Transport & Public Safety
+data	Scotland
+data	Scotland Hills and Mountains
+data	Scott Moore
+data	Seanad Senate senator Oireachtas
+data	Seas (2023) (These islands)
+data	Settlements & Built-Up Areas
+data	Settlements & Names (Republic of Ireland, Tailte Éireann)
+data	Small Census Units
+data	Small Census Units (Northern Ireland) (2001-present)
+data	Small Census Units (Republic of Ireland)
+data	South Dublin County Council - Open Data
+data	Spatial NI
+data	Staon
+data	Stormont NI Parliament Northern Ireland Parliament
+data	Street Names (Northern Ireland)
+data	Super Census Units
+data	Super Census Units (Northern Ireland) (2001-present)
+data	Surveys & Reference Maps
+data	Tailte Eireann
+data	Tailte Éireann
+data	Tailte Éireann (OSI)
+data	TÉ Built-Up Areas
+data	Tellus Airborne - raw flight-line data
+data	Tellus Airborne Geophysics
+data	Tellus Airborne Survey - Flight Lines
+data	Tellus Stream Sediments and Soils
+data	TII Transport Infrastructure
+data	TII Transport Infrastructure (ROI National Roads)
+data	Translink
+data	Translink (NI Public Transport)
+data	Transport Lines
+data	Transport Network (Republic of Ireland, Tailte Éireann)
+data	Travel To Work Areas (Northern Ireland) (2007-present)
+data	UK Parliamentary Constituencies
+data	UK Parliamentary Constituencies (1885-)
+data	USGS US Topo
+data	Wards (Northern Ireland) (1973-)
+data	Water Quality and Hydrology
+data	Westminster House of Commons UK parliament MP
+data	Wikidata
+data	Wikipedia
+later	{x} - Maps of Irish administrative geography and history
+later	{x} could not be {x}.
+later	{x} could not be loaded. Check the connection and try again.
+later	{x} could not be removed
+later	{x} failed to load
+later	{x} is not in the election catalogue.
+later	{x} map{x} in this category
+later	{x} map{x} in this class
+later	{x} moved to position {x} of {x}
+later	{x} party-list {x} (such as the 1996 Forum's regional lists) {x} not a person and {x} left out.
+later	{x} PDF viewer
+later	{x} pixels tall
+later	{x}: elections contested
+later	{x}: elections stood in
+later	A map image is already being prepared.
+later	Accessed {x}
+later	Acts
+later	Added {x}
+later	all contests
+later	Also written as ({x})
+later	Authors
+later	Book: {x}
+later	Candidates ({x})
+later	Candidates (first {x})
+later	Catalogue: {x}
+later	Catalogue: {x}{x}
+later	Change since {x}
+later	Color: {x}
+later	Could not load {x}
+later	Count
+later	Details: {x}
+later	Download locator map (SVG)
+later	Earlier feature: {x}
+later	Election history ({x})
+later	Election: {x}
+later	Failed to load Civgraph runtime: {x}
+later	Failed to load Markdown file.
+later	Failed to start Civgraph: {x}
+later	Feature: {x}
+later	Fill opacity percentage, {x}
+later	Fill opacity, {x}
+later	Fill: {x}
+later	Hide {x} to be added
+later	it was
+later	its map data did not arrive
+later	Later feature: {x}
+later	latest election
+later	Load {x} More Columns ({x} remaining)
+later	Loading {x}
+later	Loading {x} features...
+later	Loading {x}…
+later	Loading the candidates…
+later	Members ({x})
+later	More than one person is called {x}: choose one.
+later	no map
+later	No record of {x} was found.
+later	Opacity percentage, {x}
+later	Opacity, {x}
+later	Page {x} of {x}
+later	PMTiles archive
+later	Preparing the {x} of {x}…
+later	Preparing…
+later	Removed {x}
+later	Removing {x}
+later	Retained overlap
+later	Search results for "{x}" ({x})
+later	Search: {x}
+later	Share of
+later	shelf member(s) naming no entry
+later	Show {x} more maps
+later	Show {x} to be added
+later	Show DEAs ({x})
+later	Showing {x} of {x} features (scroll for more)
+later	Showing {x} of {x} filtered features from {x} total (scroll for more)
+later	Showing 0 of {x} features
+later	Showing all {x} features
+later	Showing all {x} filtered features from {x} total
+later	Sort or filter by {x}
+later	Split / non-primary successor
+later	Stroke opacity percentage, {x}
+later	Stroke opacity, {x}
+later	they were
+later	this column
+later	This link asks for {x} not found here, so {x} left out: {x}.
+later	Tile metadata
+later	Transferred / non-primary overlap
+later	Transition part
+later	Variants ({x})
+later	View changed to {x}
+later	Weight: {x}
+later	with {x} highlighted
+later	Zooming to {x}
+part	, but this account is not in the contributor allowlist.
+part	, found by
+part	, plus raw JSON
+part	({x} hidden by the filters)
+part	{x} {x} returned unopposed. {x}
+part	{x} {x}, each with its source
+part	{x} had {x} grouped {x} in this {x} edition.
+part	{x} in {x}. “Against own party” counts votes on the other side from most of the member's party (the party they were elected for).
+part	{x} on the site
+part	{x} result {x} not styled on the map because no exact converted geography match is available yet.
+part	{x} source rows
+part	{x} was founded {x} {x}{x}
+part	{x}: {x}, in the Civgraph semantic graph.
+part	{x}{x} constituencies in this election could not be matched to a boundary
+part	0 people
+part	Add {x}
+part	All {x}
+part	and {x} more step{x}: step one edition at a time to see them.
+part	and are drawn without results.{x}
+part	by council
+part	comparable elections
+part	Compare {x} with
+part	Compiled in {x}{x}
+part	Contains {x} {x}
+part	council map
+part	Count {x}
+part	count area
+part	count areas
+part	dataset that is
+part	datasets that are
+part	dated map
+part	devolved elections
+part	Feature {x}
+part	For example: {x}.
+part	In the party tables of {x}.
+part	Internal IDs and source-map wiring{x}
+part	its map did not arrive
+part	its results did not arrive
+part	its results or map did not arrive
+part	Known rounds so far: {x} on the site and {x} documented as not held.
+part	local elections
+part	Looking for {x}people…
+part	map's record
+part	No books match “{x}”.{x}
+part	Note: {x}
+part	of {x} known editions on the site, in {x}.
+part	Of the {x} listed in {x}.
+part	other version or local copy
+part	other versions or local copies
+part	over 99.9%
+part	overall results
+part	places and
+part	Postcode from
+part	renamed and redrawn, and a predecessor under a different name is not yet linked to it.
+part	Rounds
+part	row is
+part	rows are
+part	s here
+part	s record
+part	seat was
+part	seats were
+part	selected constituency
+part	Share of the vote at {x}{x}.
+part	Show {x} too
+part	Showing {x} of {x} comparable elections.
+part	Showing {x} of {x} features.
+part	Showing the first {x} of {x} features.
+part	Source: {x}.
+part	Source: {x}{x}{x}
+part	stood in {x} {x}
+part	stood in {x} here and won {x}{x}.
+part	the first 200
+part	The map catalogue also links to {x} Open Data NI {x} no longer listed.
+part	the Republic of Ireland
+part	the trend chart
+part	the trend crosshair
+part	under 0.1%
+part	Wikidata {x}
+part	with these filters
+part	Yes ({x} {x})
+prose	- a complete island-wide historic geography, named from Inishowen to Bantry.
+prose	- full catalogue
+prose	- how to find maps, fetch geometry, and compute feature correspondence (tested recipe)
+prose	- overview for automated clients
+prose	- slim catalogue: every layer with a direct FlatGeobuf geometry link
+prose	, a faster way into all
+prose	, how often words and phrases were used in the Dáil, the Seanad, the Northern Ireland Assembly and at Westminster.
+prose	, line up with some ward edges exactly, so those edges can be reused instead of traced.
+prose	, the service run by Ordnance Survey of Northern Ireland (OSNI). Spatial NI publishes maps produced by public bodies, which excludes maps made by citizens, so the 1984 council ward map we digitised could not appear there. On Civgraph they sit alongside everything else.
+prose	: credited to their creators by name, with the original's rights recorded separately from the digitisation.
+prose	: ElectionsNI, the ODI Belfast / NICVA open data project. Civgraph's STV count animation derives from their work, and they and the Electoral Office for Northern Ireland are credited accordingly.
+prose	: OSNI and NISRA material in the north, Tailte Éireann and Central Statistics Office material in the south, and PRONI eCatalogue records.
+prose	: Parliament of Northern Ireland debates and Acts, scanned from physical copies. No licence is asserted over the underlying material.
+prose	: the Database of British and Irish Hills.
+prose	58 organisations
+prose	A faster, independent interface to search all
+prose	baronies of Ireland
+prose	Boundaries move between censuses, so a figure for "the same place" in two years often needs re-basing. Northern Ireland as a whole needs none. The council and small-area comparisons below say which values are as published and which are
+prose	can be read on this page from Civgraph's copy.
+prose	catalogue entries and
+prose	Chart how often words and phrases were used in the Dáil, the Seanad, the Northern Ireland Assembly and by Irish and Northern Ireland members at Westminster, from 1803 to 2026, by chamber and party, and see who said them most.
+prose	Civgraph is a home for the digitising, scanning and research of volunteer contributors to coexist alongside the original sources, always clearly distinguished from them. Many of our maps are scanned and digitised by our volunteers where no official digitised version existed, mirrored and backed up for the years to come, and made available in full.
+prose	Civgraph is built by a small group of volunteers and the work carries on regardless, but we're always looking for people to join, and you can contribute as much or as little as you want. There's no need to know your way around GIS.
+prose	Civgraph showing the 1984 Northern Ireland ward boundaries, 552 named wards outlined in red, with a date slider reading 1984.
+prose	Civgraph showing the 1984 Northern Ireland ward boundaries: 552 named wards outlined in red across the province, with a date slider reading 1984, and a search panel listing related layers for 1972, 1993, 2012 and 2023.
+prose	Civgraph's electoral divisions currently start in 1911. Extending them back into the nineteenth century would connect the census and poor law records that use them.
+prose	Copernicus and the European Space Agency, Eurostat, the British Geological Survey, OpenTopography, the International Hydrographic Organization and Trinity College Dublin.
+prose	entities and
+prose	Every catalogued entity, with its count, at
+prose	Every table in NISRA's 2001 and 2011 bulk releases and the 2021 ready-made tables, with the titles NISRA gave them. Tables marked
+prose	Find census tables for Northern Ireland (1926 to 2021) and the Republic of Ireland (1841 to 2022), read and download the figures, chart them across censuses, and open the boundaries they were counted on in the map.
+prose	Find census tables for Northern Ireland (1926 to 2021) and the Republic of Ireland (1841 to 2022), see the figures here, download them, follow them across censuses, and open the boundaries they were counted on in the map.
+prose	finds every cube with a religion breakdown.
+prose	Four specific pieces of work need someone to take them on - historic Local Electoral Areas, town and urban districts, nineteenth-century Electoral Divisions, and Dáil election data - each with an experienced contributor to guide you. They are listed on the
+prose	Historic parliamentary constituency maps, such as those at
+prose	How far each source, election series and map series has got, measured against what is known to exist, is on the
+prose	individual contributors, credited by name on the maps they made, among them Phelim Birch, Paddy Matthews and Scott Moore.
+prose	Interactive maps of the administrative geography and history of Ireland. The map viewer needs JavaScript (it renders with MapLibre GL / WebGL).
+prose	Its scope is the island of Ireland, its seas and outlying islands, and openly available civic data about it, whether that comes from governments and public bodies or from private organisations, groups and individuals. It is meant as a factual work of reference on Irish civic life, released under open licences and built to be easy for anyone to use.
+prose	Many historic wards are simply stacks of townlands, and Tailte Éireann and OSNI both publish digital townland boundaries. Where a ward is a whole number of townlands, the work becomes a jigsaw rather than a drawing exercise.
+prose	Map submissions go through an approved-contributor list, so the submission form only opens once an email address has been given access. If you would like to submit a map, email
+prose	Maps, scans, corrections and sources are all welcome. Contributed maps are credited to their creators, and our submission route records the contributor alongside the original's rights holder.
+prose	north and south, and every layer is credited to the body that made it:
+prose	Northern Ireland: census reports and tables of the General Register Office for Northern Ireland and NISRA, Crown copyright, used under the
+prose	onto a fixed set of areas, and how.
+prose	Open Data NI and data.gov.ie, through which much of the above is published.
+prose	OpenStreetMap, parlconst.org, the Database of British and Irish Hills, Ulster Wildlife and the National Inventory of Architectural Heritage.
+prose	OSNI and Land & Property Services, NISRA, DAERA, the Northern Ireland Environment Agency, the Geological Survey of Northern Ireland, the Tellus survey, the Department for Infrastructure, the Department for Communities, the Police Service of Northern Ireland, Translink, NI Water and the Department of Health.
+prose	Our data is also mirrored to the Internet Archive, so it stays available independently of this site. Civgraph holds a mirror of all data from Open Data NI and the Open Data Portal Ireland. Where a rights position hasn't been established, we record it as unestablished and the material stays unpublished until it's settled.
+prose	So the boundaries were drawn in QGIS, by combining townlands and copying across identical wards from later time periods, and manually digitised along streets, fences, field edges and rail lines, checked against the scanned maps. That’s where Civgraph started.
+prose	Some boundaries do not change between reviews. Several 1992 wards were unchanged from 1985, so they can be copied across from a later digital map rather than redrawn.
+prose	Some of those tools exist today. The longer aim is that the whole linked record can be queried and analysed by anyone, and that any practically possible tool can be built on it.
+prose	statements linking them
+prose	Tailte Éireann, the Central Statistics Office, Geological Survey Ireland, Transport Infrastructure Ireland, the Office of Public Works, the National Parks and Wildlife Service, the Environmental Protection Agency, and the Department of Housing, Local Government and Heritage.
+prose	That breadth is the point. The catalogue draws on
+prose	The
+prose	The 1984 council wards - 552 boundaries, hand-digitised in QGIS for Civgraph because no digital version existed. The date slider sets the map to 1984, and the panel lists the same geography at 1972, 1993, 2012 and 2023.
+prose	The 1984 council wards, the map Civgraph began with. No digital version existed, so its wards were digitised in QGIS from OSNI scans and townland geometry.
+prose	The 1984 ward map took months of evenings this way. The same method has since been applied to Republic of Ireland electoral divisions, and it is the work we most need help with. Alongside it we scan books from libraries: first boundary commissioners' reports explaining why boundaries were drawn where they were, then other volumes that weren't online and could legally be scanned and redistributed.
+prose	The baronies of Ireland drawn across the whole island, from Inishowen in the north to Bantry in the south-west, each barony outlined and named.
+prose	The boundaries and geography are the backbone. Wards, districts, constituencies and census geographies are redrawn every 10-15 years. Nothing recorded about these geographies can be read across decades unless the boundaries themselves exist in digital form. Most of the historic ones didn’t.
+prose	The Civgraph data directory, listing maps, elections, features, parties, persons, register interests and sources with a count beside each.
+prose	The Civgraph data directory, showing counts for maps, elections, features, parties, persons, register interests and sources.
+prose	The CSO publishes the census as statistical tables ("cubes") on PxStat. These are the census cubes only: each one is listed under the census years it holds, and search reads the questions each cube is broken down by, so
+prose	The finished layer is compared back to the scanned map sheet by sheet. This is the slow part, and the part that decides whether the result is trustworthy.
+prose	the full catalogue and geometries are static and machine-readable - you do not need this UI.
+prose	the Local Government Boundaries Commissioner for Northern Ireland, the Boundary Commission for Northern Ireland, the Electoral Office for Northern Ireland and the Electoral Commission.
+prose	The map layers do not currently support the display of place names or other information in the Irish or Ulster-Scots languages. We would like to implement this, and the only barrier is finding the time. If you have any queries about this, please get in touch.
+prose	The maps are the means, not the end. Civgraph exists so that the data attached to Irish places can be compared across time by anyone who wants to, and not only by people who have GIS software and the patience to reconcile forty years of boundary changes before they can start.
+prose	The obstacle to using any of it together is that the boundaries move. Census geographies change, wards and constituencies are redrawn every ten to fifteen years, and almost nothing can be compared like-for-like across decades unless you know precisely which boundaries were in force when. That's the gap Civgraph fills.
+prose	The same is true south of the border, where many names were changed after independence: Queen's County and King's County became Laois and Offaly, Maryborough became Portlaoise, Kingstown became Dún Laoghaire and Queenstown became Cobh. Civgraph holds maps from both before and after those changes, so both forms appear in the data.
+prose	The town commissioners and urban districts that governed Irish towns until town councils were abolished in 2014, none of which exist as digital boundaries.
+prose	These are concrete pieces of work that would each make a real difference, and none of them are started. Phelim Birch, who has contributed a large part of the catalogue already, has offered to guide anyone who wants to take one on.
+prose	Turning the legal documents that define Local Electoral Area boundaries in the Republic - most of them freely available online - into digital boundaries, so local election results can be mapped to the areas that were actually in use. No scanned LEA maps exist, so the boundaries have to be built from the statutory descriptions.
+prose	Wards, DEAs, councils, constituencies, settlements and census data zones all have data attached to them: census and demographic statistics, election results, deprivation indicators, who stood and who won, public spending, geology, rivers, and distance to a hospital or a railway station.
+prose	We aim to record where every item came from. That's the discipline Civgraph runs on, and automated checks enforce it rather than leaving it to memory.
+prose	We aim to update every layer with its provenance: the author, licence, and original source. Open Government Licence material from OSNI and NISRA in the north and Tailte Éireann and the Central Statistics Office in the south, Crown copyright records, volunteer digitisation, and third-party datasets with attribution. Our data is also mirrored to the Internet Archive.
+prose	What is left gets drawn in QGIS against the scan, following streets, fences, field boundaries and rail lines, which is what the original surveyors used too.
+prose	You do not need to be able to use GIS software, and you do not need a corrected map. If you know a boundary, a date, a name or a result is wrong, tell us what it should be and where you know it from, and we'll check it and credit you if you'd like.
