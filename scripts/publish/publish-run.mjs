@@ -5,11 +5,17 @@
  * runs (state-machine catalogue PL-01).
  *
  *   start --> refused                                (uncommitted changes, real run)
- *   start --> built --> loaded ----------> [downloads] --> pushed --> logged
+ *   start --> built --> loaded ----------> [downloads] --> pushed --> [deployed] --> logged
  *               |   \-> would-load (dry) -> [downloads] ------------> logged
  *               +--> aborted-before-load             (records:build failed: nothing loaded)
+ *   start --> code-only --> pushed                   (nothing that feeds the records changed since
+ *                   \-> logged (dry)                  the last load: no build, load or R2 refresh)
  *   built  --> load-failed                           (records:deploy failed: D1 may hold part of it)
  *   loaded or downloads --> aborted-after-load       (push failed: D1 is ahead of the deployed code)
+ *   code-only --> push-failed                        (push failed; nothing was loaded)
+ *   pushed --> deploy-failed                         (the direct Pages deploy failed after the push)
+ *
+ * `built` is also the stage of a build reused because it was made from exactly these inputs.
  *
  * publish.sh used to keep the stage in its control flow only and log finished runs only, so an
  * abort after the D1 load left nothing for the next run to see. Each stage now goes through this
@@ -28,25 +34,29 @@ import { defineMachine } from '../../packages/core/src/state-machine.mjs';
 import { assertTransition, checkTransition, defineGuards } from './transition-check.mjs';
 
 /**
- * @typedef {'start' | 'refused' | 'built' | 'loaded' | 'would-load' | 'downloads' | 'pushed' | 'logged'
- *   | 'aborted-before-load' | 'load-failed' | 'aborted-after-load'} PublishStage
+ * @typedef {'start' | 'refused' | 'built' | 'code-only' | 'loaded' | 'would-load' | 'downloads' | 'pushed' | 'deployed'
+ *   | 'logged' | 'aborted-before-load' | 'load-failed' | 'aborted-after-load' | 'push-failed' | 'deploy-failed'} PublishStage
  */
 
 export const publishRun = defineMachine(/** @type {import('../../packages/core/src/state-machine.mjs').MachineSpec<PublishStage>} */ ({
   name: 'publish',
   initial: 'start',
   transitions: {
-    start: ['refused', 'built', 'aborted-before-load'],
+    start: ['refused', 'built', 'code-only', 'aborted-before-load'],
     built: ['loaded', 'would-load', 'load-failed'],
+    'code-only': ['pushed', 'logged', 'push-failed'],
     loaded: ['downloads', 'pushed', 'aborted-after-load'],
     'would-load': ['downloads', 'logged'],
     downloads: ['pushed', 'logged', 'aborted-after-load'],
-    pushed: ['logged'],
+    pushed: ['deployed', 'deploy-failed', 'logged'],
+    deployed: ['logged'],
     refused: [],
     logged: [],
     'aborted-before-load': [],
     'load-failed': [],
     'aborted-after-load': [],
+    'push-failed': [],
+    'deploy-failed': [],
   },
 }));
 
@@ -62,13 +72,16 @@ export const publishGuards = defineGuards(publishRun, {
   'downloads->logged': dryOnly,
   'downloads->pushed': realOnly,
   'downloads->aborted-after-load': realOnly,
+  'code-only->pushed': realOnly,
+  'code-only->push-failed': realOnly,
+  'code-only->logged': dryOnly,
 });
 
 /** @param {string} from @param {string} to @param {{ dry?: boolean }} [context] */
 export const checkPublishTransition = (from, to, context) => checkTransition(publishRun, publishGuards, from, to, context);
 
 /** Final stages that leave D1 ahead of (or out of step with) the deployed code. */
-export const UNSETTLED = Object.freeze(['load-failed', 'aborted-after-load']);
+export const UNSETTLED = Object.freeze(['load-failed', 'aborted-after-load', 'deploy-failed']);
 
 /**
  * The warning a new run prints about the last one, or null when it finished cleanly.
@@ -79,6 +92,7 @@ export function previousRunWarning(last) {
   const which = `the last publish (${last.startedAt || 'time unknown'}, ${last.head || 'HEAD unknown'}${last.dry ? ', dry run' : ''})`;
   if (last.stage === 'load-failed') return `WARNING: ${which} failed during the D1 load: D1 may hold part of that build. records:deploy is idempotent; this run reloads the delta.`;
   if (last.stage === 'aborted-after-load') return `WARNING: ${which} loaded D1 but did not push: D1 is ahead of the deployed Functions until this run pushes.`;
+  if (last.stage === 'deploy-failed') return `WARNING: ${which} pushed, but its direct Pages deploy failed: the site may still run the deployment before it.`;
   if (!publishRun.start(/** @type {PublishStage} */ (last.stage)).done()) return `WARNING: ${which} stopped at "${last.stage}" without finishing (killed or crashed).`;
   return null;
 }

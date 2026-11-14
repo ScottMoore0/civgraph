@@ -19,6 +19,11 @@
  *   5. validate (packages/loader/src/validate.mjs); errors stop the build
  *   6. dataset rows: version (hash of every table's count and checksum), git_commit, inputs_hash,
  *      table checksums; then the file is renamed into place.
+ *   7. inputs-manifest.json beside it: the content of every records input as the build began
+ *      (publish-inputs.mjs), so a publish can tell that this build is of exactly its inputs and skip
+ *      building again (scripts/publish/records-freshness.mjs). Written only by a build with the
+ *      default options (or --force-transform, --no-source-checks); removed before the database is
+ *      replaced, so a failed or partial build never keeps a manifest that is not its own.
  *
  * The person-registry curation loop (npm run persons:rebuild) rewrites committed files and stays a
  * separate step; this build only stamps from the committed registry.
@@ -51,6 +56,7 @@ import { buildVar } from '../../config/src/node.mjs';
 import { RECORDS_DB, recordPaths, REPO_ROOT, rel } from './paths.mjs';
 import { HASHED_TABLES } from '../../schema/src/schema.mjs';
 import { stabiliseOrder } from './stable-order.mjs';
+import { clearBuiltManifest, currentInputsManifest, writeBuiltManifest } from './publish-inputs.mjs';
 import { validateDatabase } from './validate.mjs';
 import { verifyVotesPin } from './votes-pin.mjs';
 
@@ -58,6 +64,8 @@ const args = process.argv.slice(2);
 const flag = (/** @type {string} */ name) => args.includes(name);
 const option = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
 const skip = new Set(String(option('--skip') || '').split(',').filter(Boolean));
+/** Options that leave the database as a default build makes it, so its inputs manifest holds. */
+const MANIFEST_SAFE_ARGS = ['--force-transform', '--no-source-checks'];
 
 /** @typedef {import('./db.mjs').DocumentRow} DocumentRow */
 /** @typedef {{ from: 'built' | 'tree' | 'previous' | 'none', dir?: string | null }} VotesFrom */
@@ -207,6 +215,8 @@ function mainMapsOnly() {
 function main() {
   if (option('--only') === 'maps') return mainMapsOnly();
   console.log('records:build');
+  // The inputs as this build begins (step 7); null when an option makes the output differ.
+  const manifest = args.every((a) => MANIFEST_SAFE_ARGS.includes(a)) ? step('inputs manifest', () => currentInputsManifest(process.env)) : null;
   const inputs = step('inputs hash', inputsHash);
   const prior = readPrior();
   const reuse = flag('--no-transform') || (!flag('--force-transform') && prior?.inputs === inputs && transformsPresent());
@@ -300,8 +310,10 @@ function main() {
     ins.run('unstamped_candidacies', String(result.facts.unstampedCandidacies));
   });
   db.close();
+  clearBuiltManifest(BUILD_ENV);
   for (const suffix of ['', '-journal']) rmSync(OUT + suffix, { force: true });
   renameSync(NEXT, OUT);
+  if (manifest) writeBuiltManifest(manifest, OUT, BUILD_ENV);
   writeFileSync(STATE, `${JSON.stringify({ inputs, unstamped: result.facts.unstampedCandidacies, version, gitCommit, builtAt: new Date().toISOString(), timings }, null, 2)}\n`);
 
   console.log(`\nrecords:build ${version} -> ${rel(OUT)} in ${((Date.now() - t0) / 1000).toFixed(1)}s`);

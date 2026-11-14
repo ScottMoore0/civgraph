@@ -30,6 +30,24 @@ test('every path publish.sh takes is allowed', () => {
   assert.equal(walk(['built', 'load-failed'], false), null);
   assert.equal(walk(['built', 'loaded', 'aborted-after-load'], false), null);
   assert.equal(walk(['built', 'loaded', 'downloads', 'aborted-after-load'], false), null);
+  // The code-only path, and the direct deploy after the push.
+  assert.equal(walk(['code-only', 'pushed', 'logged'], false), null);
+  assert.equal(walk(['code-only', 'pushed', 'deployed', 'logged'], false), null);
+  assert.equal(walk(['code-only', 'logged'], true), null);
+  assert.equal(walk(['code-only', 'push-failed'], false), null);
+  assert.equal(walk(['built', 'loaded', 'pushed', 'deployed', 'logged'], false), null);
+  assert.equal(walk(['built', 'loaded', 'pushed', 'deploy-failed'], false), null);
+});
+
+test('the code-only path never loads, and a dry run never pushes from it', () => {
+  assert.match(walk(['code-only', 'loaded'], false), /code-only -> loaded is not allowed/);
+  assert.match(walk(['code-only', 'built'], false), /not allowed/);
+  assert.match(walk(['code-only', 'downloads'], false), /not allowed/);
+  assert.match(walk(['code-only', 'pushed'], true), /a dry run/);
+  assert.match(walk(['code-only', 'logged'], false), /only a dry run/);
+  assert.match(walk(['built', 'deployed'], false), /not allowed/);
+  for (const end of ['push-failed', 'deploy-failed']) assert.ok(publishRun.start(end).done(), `${end} is final`);
+  assert.match(previousRunWarning({ stage: 'deploy-failed' }), /direct Pages deploy failed/);
 });
 
 test('out-of-order and wrong-mode moves are refused', () => {
