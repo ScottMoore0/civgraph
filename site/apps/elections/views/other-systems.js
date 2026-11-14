@@ -113,7 +113,7 @@ export function systemsHtml(cmp, stv) {
     const why = cmp.reason === 'block-vote' ? SYSTEMS_TEXT.blockVote : cmp.reason === 'no-votes' ? SYSTEMS_TEXT.noVotes : SYSTEMS_TEXT.system;
     return `<p class="cg-notice">${esc(why)}</p>`;
   }
-  const head = (/** @type {import('../lib/other-systems.js').SystemId} */ id) => (
+  const columnHeading = (/** @type {import('../lib/other-systems.js').SystemId} */ id) => (
     id === 'actual' ? COLUMN.actual
       : id === 'fptp' ? COLUMN.fptp
         : id === 'pr' ? COLUMN.pr
@@ -129,14 +129,14 @@ export function systemsHtml(cmp, stv) {
   };
   const table = `<div class="cg-table-wrap"><table class="cg-table cg-table--compact el-systems-table">
     <caption class="el-sr">${esc(SYSTEMS_TEXT.heading)}</caption>
-    <thead><tr><th scope="col">${esc(SYSTEMS_TEXT.party)}</th><th scope="col" class="num">${esc(stv ? SYSTEMS_TEXT.firstPrefs : SYSTEMS_TEXT.votes)}</th><th scope="col" class="num">${esc(SYSTEMS_TEXT.share)}</th>${cmp.columns.map((id) => `<th scope="col" class="num">${esc(head(id))}</th>`).join('')}</tr></thead>
+    <thead><tr><th scope="col">${esc(SYSTEMS_TEXT.party)}</th><th scope="col" class="num">${esc(stv ? SYSTEMS_TEXT.firstPrefs : SYSTEMS_TEXT.votes)}</th><th scope="col" class="num">${esc(SYSTEMS_TEXT.share)}</th>${cmp.columns.map((id) => `<th scope="col" class="num">${esc(columnHeading(id))}</th>`).join('')}</tr></thead>
     <tbody>${shown.map((r) => `<tr><th scope="row">${partyChip(r.party, r.colour)}</th><td class="num">${fmtInt(r.votes)}</td><td class="num">${fmtPct(r.share)}</td>${cmp.columns.map((id) => cell(r, id)).join('')}</tr>`).join('')}</tbody>
     <tfoot><tr><th scope="row">${esc(SYSTEMS_TEXT.total)}</th><td class="num">${fmtInt(cmp.votes)}</td><td></td>${cmp.columns.map((id) => `<td class="num">${fmtInt(cmp.rows.reduce((s, r) => s + r.seats[id], 0))}</td>`).join('')}</tr></tfoot>
   </table></div>`;
   const bars = `<figure class="cg-chart"><div class="el-systems-bars">${cmp.columns.map((id) => {
     const parties = shown.map((r) => ({ party: r.party, seats: r.seats[id], colour: r.colour }));
-    const title = `${head(id)}: ${parties.filter((p) => p.seats).map((p) => `${p.party} ${p.seats}`).join(', ')}`;
-    return `<div><p class="el-muted">${esc(head(id))}</p>${seatBar(parties, { title })}</div>`;
+    const title = `${columnHeading(id)}: ${parties.filter((p) => p.seats).map((p) => `${p.party} ${p.seats}`).join(', ')}`;
+    return `<div><p class="el-muted">${esc(columnHeading(id))}</p>${seatBar(parties, { title })}</div>`;
   }).join('')}</div><figcaption>${esc(SYSTEMS_TEXT.chartsCaption)}</figcaption></figure>`;
   const kept = cmp.keptSeats ? `<p class="el-muted">${esc((cmp.keptSeats === 1 ? KEPT[0] : KEPT[1]).replace('{n}', fmtInt(cmp.keptSeats)))}</p>` : '';
   const method = `<details class="el-systems-method"><summary>${esc(SYSTEMS_TEXT.method)}</summary><ul>

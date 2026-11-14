@@ -51,7 +51,7 @@ const finite = (/** @type {unknown} */ v) => (v === null || v === undefined || v
 export const partyOf = (c) => String(c.party || '').trim() || NO_PARTY_RECORDED;
 
 /** True for a label whose candidates stand alone (each a list of one). @param {string} party */
-export const standsAlone = (party) => party === NO_PARTY_RECORDED || /^(independent|non-party)\b/i.test(party);
+export const standsAlone = (party) => party === NO_PARTY_RECORDED || /^independent\b/i.test(party);
 
 /**
  * The contests of an election bundle (its `results`), each with its lists and kept seats.
