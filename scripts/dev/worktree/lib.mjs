@@ -362,8 +362,9 @@ export function runningPublishes() {
  */
 export function runNpm(cwd, step) {
   const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-  const result = spawnSync(npm, ['run', '-s', step.npm, ...(step.args?.length ? ['--', ...step.args] : [])],
-    { cwd, encoding: 'utf8', shell: process.platform === 'win32', env: { ...process.env, ...(step.env || {}) }, maxBuffer: 256 * 1024 * 1024 });
+  // One command string: npm.cmd needs a shell on Windows, and the words come from config/worktrees.json.
+  const command = [npm, 'run', '-s', step.npm, ...(step.args?.length ? ['--', ...step.args] : [])].join(' ');
+  const result = spawnSync(command, { cwd, encoding: 'utf8', shell: true, env: { ...process.env, ...(step.env || {}) }, maxBuffer: 256 * 1024 * 1024 });
   const output = `${result.stdout || ''}${result.stderr || ''}`.trim();
   return { code: result.status ?? 1, tail: output.split(/\r?\n/).slice(-30).join('\n') };
 }

@@ -141,13 +141,15 @@ test('WT-11 the write guard makes a linked folder local on the first write, leav
     copyFileSync(path.join(ROOT, 'scripts', 'dev', 'worktree', 'write-guard.cjs'), path.join(stateDir, 'write-guard.cjs'));
     writeFileSync(path.join(stateDir, 'state.json'), JSON.stringify({ links: [{ rel: 'out/browse', wtAbs: link, state: 'linked' }] }));
 
+    // The children run without the NODE_OPTIONS of a worktree this test may itself run in.
+    const HERMETIC = { ...process.env, NODE_OPTIONS: '' };
     // Without the guard the snapshot's read-only file refuses the write.
-    const bare = spawnSync(process.execPath, ['--input-type=module', '-e', `import { writeFileSync } from 'node:fs'; writeFileSync(${JSON.stringify(path.join(link, 'rewritten.json'))}, 'x');`], { encoding: 'utf8' });
+    const bare = spawnSync(process.execPath, ['--input-type=module', '-e', `import { writeFileSync } from 'node:fs'; writeFileSync(${JSON.stringify(path.join(link, 'rewritten.json'))}, 'x');`], { encoding: 'utf8', env: HERMETIC });
     assert.notEqual(bare.status, 0);
 
     const run = spawnSync(process.execPath, ['--require', path.join(stateDir, 'write-guard.cjs'), '--input-type=module', '-e',
       `import { writeFileSync } from 'node:fs'; writeFileSync(${JSON.stringify(path.join(link, 'rewritten.json'))}, '{"new":true}'); writeFileSync(${JSON.stringify(path.join(link, 'added.json'))}, '{}');`],
-    { encoding: 'utf8' });
+    { encoding: 'utf8', env: HERMETIC });
     assert.equal(run.status, 0, run.stderr);
     assert.match(run.stderr, /out\/browse is now a local folder/);
     assert.equal(lstatSync(link).isSymbolicLink(), false, 'the link is a local folder now');

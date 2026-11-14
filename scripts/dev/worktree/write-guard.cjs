@@ -178,7 +178,8 @@ function install() {
   require('node:module').syncBuiltinESMExports();
 }
 
-const MARK = Symbol.for('civgraph.worktreeWriteGuard');
+// One guard per state file: a process may carry two (a test of the guard run inside a worktree).
+const MARK = Symbol.for(`civgraph.worktreeWriteGuard:${norm(STATE_FILE)}`);
 const registry = /** @type {Record<symbol, boolean>} */ (/** @type {unknown} */ (globalThis));
 if (!registry[MARK]) {
   registry[MARK] = true;
