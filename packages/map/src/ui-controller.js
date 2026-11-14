@@ -68,6 +68,14 @@ import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
 /** @typedef {import('./ui-controller-types.d.ts').EntityDetail} EntityDetail */
 /** @typedef {import('./ui-controller-types.d.ts').EntityPersonRef} EntityPersonRef */
 /** @typedef {import('./ui-controller-types.d.ts').EntityPlaceholderInfo} EntityPlaceholderInfo */
+/** @typedef {import('./ui-controller-types.d.ts').TableRow} TableRow */
+/** @typedef {import('./ui-controller-types.d.ts').TablesState} TablesState */
+/** @typedef {import('./ui-controller-types.d.ts').BuildManifest} BuildManifest */
+/** @typedef {import('./ui-controller-types.d.ts').NominatimPlace} NominatimPlace */
+/** @typedef {import('./ui-controller-types.d.ts').SearchIndexItem} SearchIndexItem */
+/** @typedef {import('./ui-controller-types.d.ts').IntersectionItem} IntersectionItem */
+/** @typedef {import('./ui-controller-types.d.ts').ExploreHistoryEntry} ExploreHistoryEntry */
+/** @typedef {import('./globals.d.ts').FuseResult<SearchIndexItem>} SearchIndexResult */
 
 // Derived kinds, not state (architecture rule R7): each is worked out from data where it is read.
 /** @typedef {'numeric' | 'ordinal' | 'text' | 'date'} ColumnKind how a table column sorts: inferColumnKind's answer, an entity table column's `kind` */
@@ -154,6 +162,14 @@ class UIController {
 
         // When true, all maps show directly without 'Show X more maps' button
         this.showAllMaps = false;
+        // The Explore tab's history: made when the tab is first opened (initializeExplore).
+        /** @type {ExploreHistoryEntry[]} */
+        this.exploreHistory = /** @type {ExploreHistoryEntry[]} */ (/** @type {unknown} */ (undefined));
+        /** @type {number} */
+        this.exploreHistoryIndex = /** @type {number} */ (/** @type {unknown} */ (undefined));
+        // The Tables tab's state: made when the tab is set up (setupTablesTab).
+        /** @type {TablesState} */
+        this.tablesState = /** @type {TablesState} */ (/** @type {unknown} */ (undefined));
         // The authors filter's choices: made when its list is drawn (populateAuthorsFilter).
         /** @type {Set<string>} */
         this.selectedAuthors = /** @type {Set<string>} */ (/** @type {unknown} */ (undefined));
@@ -10881,7 +10897,6 @@ class UIController {
     setupTablesTab() {
         const dataTypeSelect = document.getElementById('tablesDataType');
         const searchInput = document.getElementById('tablesSearch');
-        const container = document.getElementById('tablesContainer');
 
         if (!dataTypeSelect) return;
 
@@ -10904,17 +10919,20 @@ class UIController {
         };
 
         dataTypeSelect.addEventListener('change', (e) => {
-            this.tablesState.dataType = e.target.value;
+            // The data type control is a select.
+            this.tablesState.dataType = /** @type {HTMLSelectElement} */ (e.target).value;
             this.tablesState.currentPage = 1;
             this.loadTablesData();
         });
 
         if (searchInput) {
+            /** @type {ReturnType<typeof setTimeout> | undefined} */
             let debounce;
             searchInput.addEventListener('input', (e) => {
                 clearTimeout(debounce);
                 debounce = setTimeout(() => {
-                    this.tablesState.searchQuery = e.target.value.trim().toLowerCase();
+                    // The search control is an input.
+                    this.tablesState.searchQuery = /** @type {HTMLInputElement} */ (e.target).value.trim().toLowerCase();
                     this.tablesState.currentPage = 1;
                     this.filterAndRenderTable();
                 }, 200);
@@ -10997,11 +11015,14 @@ class UIController {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
 
+            /** @type {BuildManifest} */
             const manifest = await response.json();
             this.tablesState.manifestData = manifest; // Cache for column recalculation
 
             const data = dataService.getData();
+            /** @type {TableRow[]} */
             const allFeatures = [];
+            /** @type {Map<string, Set<string>>} */
             const columnCoverage = new Map(); // column -> Set<mapId>
             const totalMapCount = Object.keys(manifest.files || {}).length;
 
@@ -11015,10 +11036,12 @@ class UIController {
                 const category = mapInfo?.category || '';
 
                 // Track which properties this map has (for coverage reporting)
+                /** @type {Set<string>} */
                 const mapProperties = new Set();
 
                 for (const feature of mapData.features) {
                     // Build feature object with base columns
+                    /** @type {TableRow} */
                     const featureObj = {
                         name: feature.name || `Feature ${feature.index + 1}`,
                         map: mapName,
@@ -11051,7 +11074,7 @@ class UIController {
                     if (!columnCoverage.has(prop)) {
                         columnCoverage.set(prop, new Set());
                     }
-                    columnCoverage.get(prop).add(mapId);
+                    /** @type {Set<string>} */ (columnCoverage.get(prop)).add(mapId);
                 }
             }
 
@@ -11073,11 +11096,13 @@ class UIController {
      * Calculate columns sorted by coverage (universal first, then descending by map count)
      * Called on initial load and when filter changes
      */
+    /** @param {Set<unknown> | null} [filteredMapIds] */
     calculateSortedColumns(filteredMapIds = null) {
         const baseColumns = ['name', 'map', 'category'];
         const columnCoverage = this.tablesState.columnCoverage;
 
         // Determine which maps to consider
+        /** @type {Set<unknown>} */
         let relevantMapIds;
         if (filteredMapIds && filteredMapIds.size > 0) {
             relevantMapIds = filteredMapIds;
@@ -11099,6 +11124,7 @@ class UIController {
         }
 
         // Calculate coverage for each column relative to the relevant maps
+        /** @type {Array<{ column: string, mapCount: number, isUniversal: boolean }>} */
         const columnStats = [];
         for (const [col, mapSet] of columnCoverage.entries()) {
             // Count how many of the relevant maps have this column
@@ -11147,10 +11173,11 @@ class UIController {
 
     }
 
-    /** @param {MapFeature[]} features */
+    /** @param {TableRow[]} features */
     calculateDynamicColumns(features) {
         if (!features || features.length === 0) return ['name', 'mapName'];
 
+        /** @type {Set<string>} */
         const allKeys = new Set();
         features.slice(0, 100).forEach(f => {
             Object.keys(f).forEach(k => allKeys.add(k));
@@ -11321,9 +11348,10 @@ class UIController {
         // Initialize Fuse.js with weighted search
         this.initializeFuse();
 
+        /** @type {ReturnType<typeof setTimeout> | undefined} */
         let debounceTimer;
         searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.trim();
+            const query = /** @type {HTMLInputElement} */ (e.target).value.trim();
             clearTimeout(debounceTimer);
 
             // Show/hide clear button
@@ -11397,7 +11425,7 @@ class UIController {
 
         // Close autocomplete on outside click
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.search-input')) {
+            if (!/** @type {Element} */ (e.target).closest('.search-input')) {
                 this.hideAutocomplete();
             }
         });
@@ -11413,13 +11441,13 @@ class UIController {
             } else if (e.key === 'Enter') {
                 e.preventDefault();
                 // 1. Arrow-key selected an item — commit it
-                const selected = autocomplete?.querySelector('.search-autocomplete__item--selected');
+                const selected = /** @type {HTMLElement | null | undefined} */ (autocomplete?.querySelector('.search-autocomplete__item--selected'));
                 if (selected) {
                     selected.click();
                     return;
                 }
                 // 2. Dropdown already has results — commit the top (most relevant) one
-                const firstItem = autocomplete?.querySelector('.search-autocomplete__item');
+                const firstItem = /** @type {HTMLElement | null | undefined} */ (autocomplete?.querySelector('.search-autocomplete__item'));
                 if (firstItem) {
                     firstItem.click();
                     return;
@@ -11430,7 +11458,7 @@ class UIController {
                 if (query.length >= 1) {
                     clearTimeout(debounceTimer);
                     Promise.resolve(this.performSearch(query)).then(() => {
-                        const first = autocomplete?.querySelector('.search-autocomplete__item');
+                        const first = /** @type {HTMLElement | null | undefined} */ (autocomplete?.querySelector('.search-autocomplete__item'));
                         if (first) first.click();
                     });
                 }
@@ -11442,6 +11470,7 @@ class UIController {
         const data = dataService.getData();
         if (!data) return;
 
+        /** @type {SearchIndexItem[]} */
         const searchItems = [];
 
         // Add maps
@@ -11519,6 +11548,7 @@ class UIController {
         if (this.onSearch) this.onSearch(query);
     }
 
+    /** @param {SearchIndexResult[]} results @param {FeatureSearchResult[]} featureResults @param {NominatimPlace[]} addressResults @param {string} query */
     renderCombinedAutocomplete(results, featureResults, addressResults, query) {
         const autocomplete = document.getElementById('searchAutocomplete');
         if (!autocomplete) return;
@@ -11606,7 +11636,8 @@ class UIController {
         return postcodePattern.test(query) || addressPattern.test(query) || query.includes(',');
     }
 
-    renderAutocomplete(results, query) {
+    /** @param {SearchIndexResult[]} results @param {string} _query */
+    renderAutocomplete(results, _query) {
         const autocomplete = document.getElementById('searchAutocomplete');
         if (!autocomplete) return;
 
@@ -11634,6 +11665,7 @@ class UIController {
         autocomplete.classList.remove('hidden');
     }
 
+    /** @param {string} text @param {SearchIndexResult['matches']} matches */
     highlightMatches(text, matches) {
         if (!matches || matches.length === 0) return this.escapeHtml(text);
 
@@ -11682,6 +11714,7 @@ class UIController {
         items[newIndex].scrollIntoView({ block: 'nearest' });
     }
 
+    /** @param {string} type @param {string} id */
     handleSearchSelection(type, id) {
         if (type === 'map') {
             if (this.onMapLoad) this.onMapLoad(id);
@@ -11706,7 +11739,6 @@ class UIController {
     /** @param {string} query */
     async performAddressSearch(query) {
         const autocomplete = document.getElementById('searchAutocomplete');
-        const addressResults = document.getElementById('addressResults');
 
         // Show loading state in autocomplete
         if (autocomplete) {
@@ -11724,6 +11756,7 @@ class UIController {
 
             if (!response.ok) throw new Error('Geocoding failed');
 
+            /** @type {NominatimPlace[]} */
             const results = await response.json();
 
             if (results.length === 0) {
@@ -11743,12 +11776,13 @@ class UIController {
         }
     }
 
+    /** @param {NominatimPlace[]} results */
     renderAddressResults(results) {
         const autocomplete = document.getElementById('searchAutocomplete');
         if (!autocomplete) return;
 
         const html = results.map(result => {
-            const displayName = result.display_name.split(',').slice(0, 3).join(', ');
+            const displayName = /** @type {string} */ (result.display_name).split(',').slice(0, 3).join(', ');
             const type = result.type || 'place';
 
             return `<div class="search-autocomplete__item search-autocomplete__item--address" 
@@ -11820,7 +11854,8 @@ class UIController {
         }
     }
 
-    renderIntersectionResults(intersections, lat, lon) {
+    /** @param {IntersectionItem[]} intersections @param {number} _lat @param {number} _lon */
+    renderIntersectionResults(intersections, _lat, _lon) {
         const addressResults = document.getElementById('addressResults');
         const contentEl = addressResults?.querySelector('.address-results__content');
         if (!contentEl) return;
@@ -11903,6 +11938,7 @@ class UIController {
         }
 
         if (searchInput) {
+            /** @type {ReturnType<typeof setTimeout> | undefined} */
             let debounce;
             searchInput.addEventListener('input', () => {
                 clearTimeout(debounce);
@@ -11966,6 +12002,7 @@ class UIController {
         if (existing) existing.remove();
     }
 
+    /** @param {string} type @param {string} id */
     getEntityLabel(type, id) {
         const data = dataService.getData();
         if (!data) return id;
@@ -12061,6 +12098,7 @@ class UIController {
         });
     }
 
+    /** @param {string} type @param {string} id */
     showEntityInfo(type, id) {
         const container = document.getElementById('exploreContent');
         if (!container) return;
@@ -12116,7 +12154,8 @@ class UIController {
             const classes = dataService.getClasses();
             const cls = classes.find(c => c.id === id);
             if (cls) {
-                const clsMaps = (cls.maps || []).map(mid => /** @type {MapRecord | undefined} */ (dataService.getMapById(mid))).filter(Boolean);
+                // filter(Boolean) keeps the maps found.
+                const clsMaps = /** @type {MapRecord[]} */ ((cls.maps || []).map(mid => /** @type {MapRecord | undefined} */ (dataService.getMapById(mid))).filter(Boolean));
                 html += `<div class="explore-detail__hero explore-detail__hero--class">
                     <span class="explore-detail__icon">[class]</span>
                     <h2 class="explore-detail__title">${this.escapeHtml(cls.name)}</h2>
@@ -12253,7 +12292,8 @@ class UIController {
         const exploreMapToggle = container.querySelector('[data-explore-map-toggle]');
         if (exploreMapToggle) {
             exploreMapToggle.addEventListener('click', async () => {
-                const mapId = exploreMapToggle.getAttribute('data-explore-map-toggle');
+                // The toggle was found by this attribute.
+                const mapId = /** @type {string} */ (exploreMapToggle.getAttribute('data-explore-map-toggle'));
                 const loadedIds = this.getMapIdsFromURL();
                 if (loadedIds.includes(mapId)) {
                     if (this.onMapUnload) this.onMapUnload(mapId);
@@ -12288,6 +12328,7 @@ class UIController {
         }
     }
 
+    /** @param {string} type @param {string} id */
     showEntityInfoWithoutHistory(type, id) {
         // Same as showEntityInfo but doesn't modify history
         const container = document.getElementById('exploreContent');
@@ -12327,6 +12368,7 @@ class UIController {
         const data = dataService.getData();
         if (!data) return;
 
+        /** @type {Array<{ type: string, item: { id: string }, name: unknown, icon?: string, color?: unknown }>} */
         const results = [];
 
         // Search categories
@@ -12438,8 +12480,8 @@ class UIController {
         }
     }
 
-    /** @param {MapRecord} map @param {boolean} isLoaded */
-    renderVariantsDropdown(map, isLoaded) {
+    /** @param {MapRecord} map @param {boolean} _isLoaded */
+    renderVariantsDropdown(map, _isLoaded) {
         if (!map.variants || map.variants.length === 0) return '';
 
         const visibleVariants = map.variants.filter(variant => !variant.hidden);
@@ -12530,6 +12572,7 @@ class UIController {
         return { features: featureLoader.spatialIndex || [] };
     }
 
+    /** @param {string} query @param {number} [limit] @returns {Promise<NominatimPlace[]>} */
     async searchAddressSuggestions(query, limit = 5) {
         if (!query || query.trim().length < 3) return [];
 
@@ -12549,6 +12592,7 @@ class UIController {
         return Array.isArray(data) ? data : [];
     }
 
+    /** @param {NominatimPlace | null | undefined} place */
     buildAddressDisplayName(place) {
         if (!place) return '';
         const addr = place.address || {};
@@ -12566,6 +12610,7 @@ class UIController {
         return place.display_name || '';
     }
 
+    /** @param {string} type */
     getSearchTypeIconSvg(type) {
         if (type === 'map') {
             return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -13018,7 +13063,7 @@ class UIController {
         this.announce(`Zooming to ${featureName || featureId}`);
     }
 
-    /** @param {string} text @param {string} query */
+    /** @param {string | undefined} text @param {string} query */
     highlightText(text, query) {
         if (!query || !text) return this.escapeHtml(text);
 

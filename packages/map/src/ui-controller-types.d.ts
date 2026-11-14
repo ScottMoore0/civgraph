@@ -57,8 +57,8 @@ export interface UiCallbacks {
   onExportMapImage: (mapId: string, format: string, options?: { trigger?: HTMLElement; selection?: { properties: Record<string, unknown>; name: string } }) => unknown;
   onAddressSelect: (lat: number, lon: number, name: string) => void;
   onRemoveAddressMarker: () => void;
-  onCheckIntersection: (lat: number, lon: number) => Promise<unknown[]>;
-  onGetLoadedFeatures: () => unknown[];
+  onCheckIntersection: (lat: number, lon: number) => Promise<IntersectionItem[]>;
+  onGetLoadedFeatures: () => Array<Record<string, unknown>>;
   onZoomToBbox: (bounds: unknown, options?: Record<string, unknown>) => void;
   onHighlightFeature: (mapId: string, featureId: string | number, options?: Record<string, unknown>) => void;
 }
@@ -613,3 +613,63 @@ export type InfoFeature = MapFeature & {
   wholeAreaM2?: number;
   wholePerimeterM?: number;
 };
+
+/** A row of the Tables tab: a map, a book or a feature, by column. */
+export type TableRow = Record<string, unknown>;
+
+/** data/build-manifest.json as the Tables tab reads it: each map's features, with their properties (an object of values, or in the old format a list of names). */
+export interface BuildManifest {
+  files?: Record<string, { features?: Array<{ name?: string; index: number; properties?: string[] | Record<string, unknown> }> }>;
+  [key: string]: unknown;
+}
+
+/** The Tables tab's state: what it lists, its filter, sort and page, and the All Features columns by coverage. */
+export interface TablesState {
+  dataType: string;
+  searchQuery: string;
+  sortKey: string | null;
+  sortDir: string;
+  currentPage: number;
+  pageSize: number;
+  allData: TableRow[];
+  filteredData: TableRow[];
+  columns: string[];
+  allColumns: string[];
+  /** column -> the maps that have it */
+  columnCoverage: Map<string, Set<string>>;
+  visibleColumnCount: number;
+  manifestData: BuildManifest | null;
+  totalMapCount?: number;
+}
+
+/** A place Nominatim's search answers (OpenStreetMap geocoding), the fields read. */
+export interface NominatimPlace {
+  display_name?: string;
+  lat: string;
+  lon: string;
+  type?: string;
+  address?: Record<string, string | undefined>;
+}
+
+/** An item of the map search's index (initializeFuse): a map, class or category. */
+export interface SearchIndexItem {
+  type: string;
+  id: string;
+  name: string;
+  keywords: string;
+  provider: string;
+  category: string;
+}
+
+/** A loaded feature that contains a looked-up address (the app's onCheckIntersection). */
+export interface IntersectionItem {
+  color?: string;
+  featureName?: string;
+  mapName?: string;
+}
+
+/** A place of the Explore tab's history. */
+export interface ExploreHistoryEntry {
+  type: string;
+  id: string;
+}

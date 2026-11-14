@@ -9,11 +9,13 @@ export {};
 export interface FuseResult<T> {
   item: T;
   score?: number;
+  /** With includeMatches: where each key matched, as [start, end] pairs. */
+  matches?: ReadonlyArray<{ key?: string; indices: ReadonlyArray<readonly [number, number]> }>;
 }
 
 /** The Fuse.js index the catalogue searches, as its callers use it. */
 export interface FuseIndex<T> {
-  search(query: string): FuseResult<T>[];
+  search(query: string, options?: { limit?: number }): FuseResult<T>[];
 }
 
 /** A Leaflet LatLngBounds, as packages/map/src/feature-loader.js reads one. */
