@@ -267,3 +267,19 @@ export const OTHER_SYSTEMS = defineMachine({
   initial: 'idle',
   transitions: { idle: ['loading'], loading: ['shown', 'not-applicable', 'failed'], failed: ['loading'], shown: [], 'not-applicable': [] },
 });
+
+/**
+ * el-stv (14 Nov 2026). An election overview's party-to-party transfers and closest last seats
+ * (views/stv-election.js): read only when the reader opens them, once. A failed read can be tried
+ * again by closing and opening them; what is shown stays shown.
+ */
+export const STV_TRANSFERS = defineMachine({
+  name: 'elections stv transfers',
+  initial: 'idle',
+  transitions: {
+    idle: ['loading'],
+    loading: ['shown', 'failed'],
+    shown: [],
+    failed: ['loading'],
+  },
+});

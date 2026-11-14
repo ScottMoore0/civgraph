@@ -100,7 +100,7 @@ test.describe('Civgraph Elections', () => {
     await expect(page.locator('h2#el-result')).toHaveText('Count sheet');
     await expect(page.locator('table.el-sheet thead th', { hasText: /^Count \d+$/ })).toHaveCount(11);
     await expect(page.locator('table.el-sheet tbody tr.cg-elected')).toHaveCount(5);
-    await expect(page.locator('details.el-flow-stage').first()).toContainText('surplus of Naomi Long');
+    await expect(page.locator('.el-count-labels li').nth(1)).toContainText("distribution of Naomi Long's surplus");
     await expect(page.locator('#el-quota')).toBeVisible();
     await expect(page.locator('ol.el-cites li').first()).toContainText('covers');
     await expect(page.locator('ol.el-cites .el-check').first()).toBeVisible();
@@ -469,10 +469,11 @@ test.describe('Civgraph Elections: chart data, methods, checked dates', () => {
     await page.goto('/elections/northern-ireland-assembly-2022-05-05/belfast-east/');
     await expect(page.locator('#data-quota summary')).toBeVisible();
     await page.locator('#data-quota summary').click();
-    await expect(page.locator('#data-quota thead th')).toHaveText(['Candidate', 'Votes', 'Share of the quota (%)']);
+    await expect(page.locator('#data-quota thead th')).toHaveText(['Candidate', 'Votes', 'Quotas']);
     await expect(page.locator('#data-quota tbody tr')).toHaveCount(await page.locator('svg.el-hbars rect').count());
-    // The transfer tables were on show before they had the control: they still are.
-    await expect(page.locator('details.el-flow-stage[open] details.el-chart-data[open] caption').first()).toHaveText(/^Transfers at count \d+$/);
+    // Every transfer of the count, behind the whole-count flow (el-stv).
+    await page.locator('#data-transfers summary').click();
+    await expect(page.locator('#data-transfers caption')).toHaveText('Every transfer of the count');
     // Belfast North 2019: compared with EONI's own results page (the latest checked day of its sources).
     await page.goto('/elections/house-of-commons-of-the-united-kingdom-2019-12-12/belfast-north/');
     const fact = page.locator('dl.cg-facts dd[data-checked]');

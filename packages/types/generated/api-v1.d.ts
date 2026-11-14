@@ -434,6 +434,7 @@ export interface ElectionsBundleAnswer {
   date: string;
   displayTitle: string;
   loadable: boolean;
+  results: unknown[];
   [key: string]: unknown;
 }
 

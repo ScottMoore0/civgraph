@@ -183,7 +183,7 @@ export const CONTRACTS = Object.freeze({
       v('contest-by-name', { key: '*', constituencyName: '*' }, 'One contest found by its name', CONTEST),
       v('contest', { key: '*', constituency: '*' }, 'One contest by its sequence number', CONTEST),
       v('bundle', { key: '*', format: 'bundle' }, 'The election bundle (the static file\'s shape); lite=1 leaves out the counts',
-        obj({ schemaVersion: num, key: str, body: str, date: str, displayTitle: str, loadable: bool })),
+        obj({ schemaVersion: num, key: str, body: str, date: str, displayTitle: str, loadable: bool, results: arr() })),
       v('election', { key: '*' }, 'One election with its constituencies',
         obj({ election: obj({ key: str, body: str, date: str, displayTitle: str }), constituencies: arr(obj({ seq: num, name: str })), matchedCount: num, unmatchedCount: num })),
     ],

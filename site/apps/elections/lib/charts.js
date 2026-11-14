@@ -5,7 +5,8 @@
  * party colours of the records; everything else uses currentColor and the chart tokens.
  * tests/unit/elections-app-lib.test.mjs.
  */
-import { esc, fmtInt, fmtPct, inkOn } from './format.js';
+import { esc, fmtInt, inkOn } from './format.js';
+import { inQuotas } from './stv.js';
 import { partyColour } from './party.js';
 import { seatPositions } from '../../../pkg/core/src/election-domain.mjs';
 import { electionsAppColours } from '../../../pkg/registries/src/browser/colour-palettes.mjs';
@@ -150,6 +151,7 @@ export function quotaBars(rows, quota) {
     max: max * quota,
     marker: { value: quota, label: `quota ${fmtInt(quota)}` },
     title: 'Votes at the last count against the quota',
-    format: (v) => `${fmtInt(v)} (${fmtPct((100 * v) / quota, 0)} of quota)`,
+    // A fraction of the quota is written in quotas ("1.14 quotas"), never as a percentage (el-stv).
+    format: (v) => `${fmtInt(v)} (${inQuotas(v, quota)})`,
   });
 }

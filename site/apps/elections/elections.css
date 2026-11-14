@@ -126,6 +126,41 @@ th[aria-sort="descending"] .el-sort::after { content: " \2193"; }
 @media (max-width: 40rem) {
   .el-ctl-row { grid-template-columns: 2.75rem minmax(0, 1fr); }
   .el-ctl-text { grid-column: 2; }
+/* el-stv (14 Nov 2026): readable STV counts (views/stv-contest.js, views/stv-election.js). */
+.el-stv-h3 { margin: var(--space-4) 0 var(--space-2); font-size: var(--text-lg); }
+.el-count-labels { margin: 0 0 var(--space-4); padding-left: var(--space-6); font-size: var(--text-sm); }
+.el-count-labels li { margin: var(--space-1) 0; }
+.el-narrow-only { display: none; }
+.el-stack-count { margin: 0 0 var(--space-4); }
+.el-stack-count h3, .el-stack-count h4 { margin: var(--space-3) 0 var(--space-1); font-size: var(--text-base); }
+.el-share { display: block; font-size: var(--text-xs); }
+.el-stepper__bar { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; margin: 0 0 var(--space-3); }
+.el-stepper__pos { min-width: 8rem; text-align: center; font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; }
+.el-stepper__now { min-height: 4.5rem; }
+.el-stepper__now h3 { margin: 0 0 var(--space-1); font-size: var(--text-lg); }
+.el-stepper__now p { margin: 0 0 var(--space-3); }
+.el-step__track { position: relative; display: block; min-width: 7rem; height: 6px; margin-top: 4px; border-radius: var(--radius-full); background: var(--surface-sunken); }
+.el-step__fill { position: absolute; top: 0; bottom: 0; left: 0; width: 0; border-radius: inherit; }
+.el-step__quota { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--text); }
+.el-step__q { display: block; font-size: var(--text-xs); }
+.el-stepper__table tr.el-step--out { color: var(--text-muted); }
+@media (prefers-reduced-motion: no-preference) {
+  .el-step__fill { transition: width var(--transition-base); }
+}
+.el-sankey-wrap { overflow-x: auto; }
+.el-sankey-wrap:focus-visible, .el-main .cg-table-wrap[tabindex]:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+/* The flow keeps its natural size (12 px text) and scrolls on a phone; on a wide screen it may shrink to fit. */
+.cg-chart .el-sankey { width: auto; max-width: none; color: var(--text); }
+.el-sankey text { font-family: var(--font-sans); }
+@media (min-width: 48rem) {
+  .cg-chart .el-sankey { max-width: 100%; }
+}
+.el-closest li { margin: var(--space-1) 0; }
+.el-stv-load summary { padding: var(--space-2) 0; font-weight: var(--weight-medium); cursor: pointer; }
+@media (max-width: 36rem) {
+  .el-wide-only { display: none; }
+  .el-narrow-only { display: block; }
+  .el-sheet-wrap:has(~ .el-stacked) { display: none; }
 }
 
 /* el-context (14 Nov 2026): the census context, "same votes, other systems" and the embed panel. */

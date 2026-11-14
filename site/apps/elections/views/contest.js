@@ -4,20 +4,22 @@
  * and the contest's sources with what each one covers.
  */
 import { contestCitations, contestResult, electionDetail } from '../lib/api.js';
-import { quotaBars, transferFlow } from '../lib/charts.js';
-import { cellAt, countSheet, fptpMajority, quotaProgress, transferStages } from '../lib/count.js';
+import { quotaBars } from '../lib/charts.js';
+import { cellAt, countSheet, fptpMajority, quotaProgress } from '../lib/count.js';
 import {
   appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, num, systemName,
 } from '../lib/format.js';
 import { NOTE, contestLimits, limitHtml, votesMissingNote } from '../lib/limits.js';
 import { partyChip } from '../lib/party.js';
-import { CHART_TEXT, chartData, fill } from '../lib/chart-data.js';
+import { CHART_TEXT, chartData } from '../lib/chart-data.js';
 import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
 import { checkedFact, comparedOn } from '../lib/checked.js';
 import { areaContextSection, contestLinker, mountAreaContext } from './area-context.js';
 import { embedOfferSection, mountEmbedOffer } from './embed-offer.js';
 import { personAppUrl } from '../lib/place-urls.js';
 import { mountContestNav } from './contest-nav.js';
+import { STV_VIEW_TEXT, stvParts, wireStepper } from './stv-contest.js';
+import { quotaFraction } from '../lib/stv.js';
 
 /** @type {Record<string, string>} */
 const KIND_NOTE = {
@@ -99,13 +101,15 @@ export async function render(root, route, ctx) {
     }</tbody></table></div>`;
   }
 
-  const flows = transferStages(sheet);
+  // el-stv: what each count did, the stepper, the transfers and the whole count as a flow (views/stv-contest.js).
+  const stvp = stv ? stvParts(sheet, route.query, `${electionSlug(detail.key)}-${cslug}-transfers`) : null;
   const quota = stv && sheet.quota && (sheet.kind === 'stages' || sheet.kind === 'single' || sheet.kind === 'order') ? quotaProgress(sheet) : [];
   const citations = (cites.citations || []).map((c) => ({ ...c, checked: c.checked === 1, check: c.checkNote ?? null }));
   const quotaData = quota.length ? chartData({
     id: 'quota', caption: CHART_TEXT.quotaProgress, file: `${electionSlug(detail.key)}-${cslug}-quota`,
-    columns: [{ label: CHART_TEXT.candidate }, { label: CHART_TEXT.votes, num: true, format: fmtInt }, { label: CHART_TEXT.quotaPct, num: true, format: (v) => fmtPct(v, 0), csv: (v) => (v === null || v === undefined ? '' : Math.round(Number(v))) }],
-    rows: quota.map((r) => [r.name, r.total, r.ratio === null ? null : 100 * r.ratio]),
+    columns: [{ label: CHART_TEXT.candidate }, { label: CHART_TEXT.votes, num: true, format: fmtInt }, { label: STV_VIEW_TEXT.quotas, num: true, format: (v) => (v === null || v === undefined ? '' : quotaFraction(Number(v))), csv: (v) => (v === null || v === undefined ? '' : Number(Number(v).toFixed(4))) }],
+    // el-stv: in quotas, as the bars are, never as a percentage.
+    rows: quota.map((r) => [r.name, r.total, r.ratio]),
   }) : '';
 
   root.innerHTML = `
@@ -117,16 +121,9 @@ export async function render(root, route, ctx) {
     <dl class="cg-facts">${/** @type {string[][]} */ (facts).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}${checkedFact(citations)}</dl>
     ${KIND_NOTE[sheet.kind] ? `<p class="cg-notice${sheet.kind === 'none' ? ' cg-notice--warning' : ''}">${esc(KIND_NOTE[sheet.kind])}</p>` : ''}
     ${limits.notes.map((l) => limitHtml(l, esc, 'cg-notice', l.id === 'losers' ? methodLink('losers') : '')).join('')}${votesNote ? limitHtml(votesNote, esc) : ''}
-    <section aria-labelledby="el-result"><h2 id="el-result">${sheet.kind === 'stages' ? 'Count sheet' : 'Result'}</h2>${table}</section>
+    <section aria-labelledby="el-result"><h2 id="el-result">${sheet.kind === 'stages' ? 'Count sheet' : 'Result'}</h2>${table}${stvp ? stvp.afterSheet : ''}</section>
     ${quota.length ? `<section aria-labelledby="el-quota"><h2 id="el-quota">Progress to the quota</h2><figure class="cg-chart">${quotaBars(quota, /** @type {number} */ (sheet.quota))}<figcaption>Each candidate's votes at ${sheet.kind === 'stages' ? 'their last count' : 'the first count'}, against the quota of ${fmtInt(sheet.quota)}. ${methodLink('majority')}</figcaption>${quotaData}</figure></section>` : ''}
-    ${flows.length ? `<section aria-labelledby="el-flows"><h2 id="el-flows">Transfers, count by count</h2>
-      <p class="el-muted">The sources give each candidate's gain or loss at each count, not who passed votes to whom. Where several candidates were distributed at one count, their votes are drawn as one pool.</p>
-      ${flows.map((st, i) => `<details class="el-flow-stage"${i < 2 ? ' open' : ''}><summary>Count ${st.stage}: ${st.kind === 'surplus' ? 'surplus of' : 'votes of'} ${esc(st.from.map((f) => f.name).join(', '))} (${fmtInt(st.distributed)})</summary><figure class="cg-chart">${transferFlow(st)}${chartData({
-          id: `transfers-${st.stage}`, caption: fill(CHART_TEXT.transfersAt, { n: st.stage }), file: `${electionSlug(detail.key)}-${cslug}-count-${st.stage}`, open: true,
-          columns: [{ label: CHART_TEXT.receivedBy }, { label: CHART_TEXT.votes, num: true, format: fmtInt }],
-          rows: [...st.to.map((t) => [t.name, t.amount]), ...(st.nonTransferable ? [['Non-transferable', st.nonTransferable]] : [])],
-        })}</figure></details>`).join('')}
-    </section>` : ''}
+    ${stvp ? stvp.sections : ''}
     ${areaContextSection()}
     ${embedOfferSection({ election: electionSlug(detail.key), contest: cslug, title })}
     <section aria-labelledby="el-sources"><h2 id="el-sources">Sources</h2>
@@ -140,6 +137,7 @@ export async function render(root, route, ctx) {
   mountEmbedOffer(root, ctx);
   // Arrows to the contests before and after this one under the same name (el-places).
   void mountContestNav(root, { electionKey: detail.key, contestSlug: cslug, seq: Number(c.seq), name: String(c.name || c.constituency), bodySlug: detail.bodySlug, stale: ctx.stale });
+  if (stvp) wireStepper(root, sheet, stvp.events, route.query, ctx?.signal);
   return title;
 }
 

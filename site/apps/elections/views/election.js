@@ -15,6 +15,8 @@ import { CHART_TEXT, chartData } from '../lib/chart-data.js';
 import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
 import { embedOfferSection, mountEmbedOffer } from './embed-offer.js';
 import { mountOtherSystems, otherSystemsSection } from './other-systems.js';
+import { transfersOpen } from '../lib/stv.js';
+import { electionStvHtml, wireElectionStv } from './stv-election.js';
 
 /**
  * The party table rows with change against the previous election.
@@ -114,6 +116,8 @@ export async function render(root, route, ctx) {
       + `<td class="num">${!polled ? '—' : isStv(detail.votingSystem) ? fmtInt(positive(r.quota)) : fmtInt(positive(r.majority))}</td></tr>`;
   }).join('');
 
+  // el-stv: an STV election's party-to-party transfers and closest last seats, read on demand (views/stv-election.js).
+  const stvTransfers = isStv(detail.votingSystem) && !referendum && withVotes > 0;
   const refs = (detail.references || []).map((r) => `<li><a href="${esc(r.url)}" rel="noopener">${esc(r.label)}</a>${r.note ? ` <span class="el-muted">${esc(r.note)}</span>` : ''}</li>`).join('');
 
   root.innerHTML = `
@@ -152,6 +156,7 @@ export async function render(root, route, ctx) {
         <tbody>${contestRows}</tbody>
       </table></div>
     </section>
+    ${stvTransfers ? electionStvHtml(transfersOpen(route.query)) : ''}
     ${referendum ? '' : otherSystemsSection(detail.votingSystem, results)}
     ${embedOfferSection({ election: electionSlug(key), title: detail.title })}
     <section aria-labelledby="el-sources"><h2 id="el-sources">Sources</h2>
@@ -161,6 +166,7 @@ export async function render(root, route, ctx) {
   // el-context: "same votes, other systems" (loads when opened) and the embed panel when on.
   mountOtherSystems(root, detail, ctx);
   mountEmbedOffer(root, ctx);
+  if (stvTransfers && ctx) wireElectionStv(root, detail, contestSlugs(detail.resultEntries || []), ctx);
   return detail.title;
 }
 

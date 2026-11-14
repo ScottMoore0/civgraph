@@ -476,3 +476,111 @@ parliamentary constituencies ¦ ¦
 @elections.places.elected Elected ¦ ¦
 @elections.places.not_elected Not elected ¦ ¦
 @elections.places.returned_unopposed Returned unopposed ¦ ¦
+# el-stv (14 Nov 2026): readable STV counts (site/apps/elections/lib/stv.js, lib/sankey.js,
+# views/stv-contest.js, views/stv-election.js). {count} is a count number, {n} {k} {m} {total} numbers,
+# {name} {other} a candidate, {names} {others} a comma list of candidates.
+@elections.stv.count.label_first Count {count}: first preferences ¦ ¦
+@elections.stv.count.label_surplus Count {count}: distribution of {name}'s surplus ({n}) ¦ ¦
+@elections.stv.count.label_surpluses Count {count}: distribution of the surpluses of {names} ({n}) ¦ ¦
+@elections.stv.count.label_exclusion Count {count}: exclusion of {name} ({n}) ¦ ¦
+@elections.stv.count.label_exclusions Count {count}: exclusion of {names} ({n}) ¦ ¦
+@elections.stv.count.label_mixed Count {count}: distribution of the surplus of {names} and exclusion of {others} ({n}) ¦ ¦
+@elections.stv.count.label_unrecorded Count {count}: what was distributed is not recorded ¦ ¦
+@elections.stv.count.label_quiet Count {count}: no votes moved ¦ ¦
+@elections.stv.count.label_order_elected Count {count}: {names} elected ¦ ¦
+@elections.stv.count.label_order_excluded Count {count}: exclusion of {names} ¦ ¦
+@elections.stv.count.label_order_both Count {count}: exclusion of {others}; {names} elected ¦ ¦
+@elections.stv.count.label_order_none Count {count}: not recorded ¦ ¦
+@elections.stv.count.first_counted The first preferences were counted. ¦ ¦
+@elections.stv.count.quota_is The quota is {n} votes. ¦ ¦
+@elections.stv.count.reached {name} reached the quota and was elected. ¦ ¦
+@elections.stv.count.elected_no_quota {name} was elected without reaching the quota. ¦ ¦
+@elections.stv.count.reached_only {name} reached the quota. ¦ ¦
+@elections.stv.count.declared_elected {name} was declared elected. ¦ ¦
+@elections.stv.count.elected_plain {name} was elected. ¦ ¦
+@elections.stv.count.surplus_one {name} had {n} votes more than the quota, and these were passed on to the next preferences marked. ¦ ¦
+@elections.stv.count.surplus_many The surpluses of {names}, {n} votes in all, were passed on to the next preferences marked. ¦ ¦
+@elections.stv.count.exclusion_one {name} was excluded, and their {n} votes were passed on to the next preferences marked. ¦ ¦
+@elections.stv.count.exclusion_many {names} were excluded together, and their {n} votes were passed on to the next preferences marked. ¦ ¦
+@elections.stv.count.pooled The source gives each candidate's gain, not whose votes it came from, so the votes passed on at this count are shown as one pool. ¦ ¦
+@elections.stv.count.unrecorded The source does not say whose votes were passed on at this count. ¦ ¦
+@elections.stv.count.unknown_mover The source does not say why {name}'s total fell by {n} at this count. ¦ ¦
+@elections.stv.count.top_gain {name} gained the most, {n} votes. ¦ ¦
+@elections.stv.count.nt_recorded {n} votes could not be passed on, because no further preference was marked for a candidate still in the count. ¦ ¦
+@elections.stv.count.nt_derived {n} votes did not pass to any candidate (worked out from the totals). ¦ ¦
+@elections.stv.count.excluded_only {name} was excluded. ¦ ¦
+@elections.stv.count.quiet No votes moved at this count. ¦ ¦
+@elections.stv.count.last_count This was the last count. ¦ ¦
+@elections.stv.count.order_only The source gives the count at which each candidate was elected or excluded, but not the votes moved, so no transfers are shown. ¦ ¦
+@elections.stv.count.droop The quota is {n} votes: the valid poll of {total} divided by {k} (the {m} seats plus one), rounded down, plus one. This is the Droop quota. ¦ ¦
+@elections.stv.count.droop_differs The source gives a quota of {n} votes. The Droop formula on the valid poll here gives {k}, so the count may have used another rule or another valid poll. ¦ ¦
+@elections.stv.count.quota_not_given The source gives no quota. The Droop formula on the valid poll here gives {n} votes. ¦ ¦
+@elections.stv.count.margin {name} won the last seat ahead of {other} by {n} votes at count {count}. ¦ ¦
+@elections.stv.count.margin_tie {name} won the last seat level with {other} at count {count}. ¦ ¦
+@elections.stv.count.quotas {n} quotas ¦ ¦
+@elections.stv.flow.title The whole count as a flow ¦ ¦
+@elections.stv.flow.desc Each column is a count and each block a candidate's votes at that count. Bands carry the votes a candidate kept from one count to the next, and the votes passed on to other candidates. ¦ ¦
+@elections.stv.flow.count Count {count} ¦ ¦
+@elections.stv.flow.elected {name} (elected) ¦ ¦
+@elections.stv.flow.non_transferable Non-transferable ¦ ¦
+@elections.stv.flow.pool Passed on together ¦ ¦
+@elections.stv.flow.kept {name} kept {n} ¦ ¦
+@elections.stv.flow.moved {name} to {other}: {n} ¦ ¦
+@elections.stv.flow.pooled {n} votes passed on together at count {count} ¦ ¦
+@elections.stv.flow.block {name}: {n} at count {count} ¦ ¦
+@elections.stv.contest.what_each_did What each count did ¦ ¦
+@elections.stv.contest.stacked_caption Each candidate at this count: the change since the count before, and the votes held. ¦ ¦
+@elections.stv.contest.candidate Candidate ¦ ¦
+@elections.stv.contest.change Change ¦ ¦
+@elections.stv.contest.votes Votes ¦ ¦
+@elections.stv.contest.elected Elected ¦ ¦
+@elections.stv.contest.excluded Excluded ¦ ¦
+@elections.stv.contest.continuing Continuing ¦ ¦
+@elections.stv.contest.quota_and_last_seat The quota and the last seat ¦ ¦
+@elections.stv.contest.margin_at At count {count}: {name} {n}, {other} {k}. ¦ ¦
+@elections.stv.contest.stepper Count by count ¦ ¦
+@elections.stv.contest.stepper_help Step through the count with the buttons, or with the arrow keys while a button has focus. ¦ ¦
+@elections.stv.contest.stepper_controls Step through the counts ¦ ¦
+@elections.stv.contest.first First count ¦ ¦
+@elections.stv.contest.prev Previous count ¦ ¦
+@elections.stv.contest.next Next count ¦ ¦
+@elections.stv.contest.last Last count ¦ ¦
+@elections.stv.contest.position Count {count} of {total} ¦ ¦
+@elections.stv.contest.link_here Link to this count ¦ ¦
+@elections.stv.contest.stepper_caption Each candidate at the count shown, whether elected, excluded or still in the count: the change since the count before, the votes held, and how far they are towards the quota. ¦ ¦
+@elections.stv.contest.matrix Transfers between candidates ¦ ¦
+@elections.stv.contest.matrix_lead Each row is a count after the first: whose votes were passed on, and how many each candidate received. A share is of the votes passed on at that count. ¦ ¦
+@elections.stv.contest.matrix_pooled A row marked "passed on together" moved several candidates' votes at once: the source gives each candidate's gain, not whose votes it came from. ¦ ¦
+@elections.stv.contest.matrix_derived A non-transferable figure marked * is worked out from the totals (the votes passed on less the votes received), because the source does not give it. ¦ ¦
+@elections.stv.contest.matrix_caption Transfers at each count, from the candidate or candidates passed on to each candidate who gained. ¦ ¦
+@elections.stv.contest.count Count ¦ ¦
+@elections.stv.contest.passed_on Passed on ¦ ¦
+@elections.stv.contest.together passed on together ¦ ¦
+@elections.stv.contest.sankey_lead Each column is a count. Colours are the parties' colours; grey is non-transferable votes and votes passed on together. Every band is also in the table of transfers above, and every total in the count sheet. ¦ ¦
+@elections.stv.contest.sankey_region The whole count as a flow (scrolls sideways) ¦ ¦
+@elections.stv.contest.matrix_region Transfers between candidates (scrolls sideways) ¦ ¦
+@elections.stv.contest.quotas Quotas ¦ ¦
+@elections.stv.contest.flow_data Every transfer of the count ¦ ¦
+@elections.stv.contest.from From ¦ ¦
+@elections.stv.contest.to To ¦ ¦
+@elections.stv.election.heading Transfers and close seats ¦ ¦
+@elections.stv.election.open Show the transfers between parties and the closest last seats ¦ ¦
+@elections.stv.election.loading Working out the transfers… ¦ ¦
+@elections.stv.election.failed The counts could not be read. Close and open this section to try again. ¦ ¦
+@elections.stv.election.parties_heading Transfers between parties ¦ ¦
+@elections.stv.election.covers Built from {n} of the {total} contests, from the {k} counts that passed on one candidate's votes. ¦ ¦
+@elections.stv.election.covers_one Built from {n} of the {total} contests, from the {k} count that passed on one candidate's votes. ¦ ¦
+@elections.stv.election.pooled_left_out {n} counts that passed on several candidates' votes together are left out: the source gives each candidate's gain, not whose votes it came from. ¦ ¦
+@elections.stv.election.pooled_left_out_one {n} count that passed on several candidates' votes together is left out: the source gives each candidate's gain, not whose votes it came from. ¦ ¦
+@elections.stv.election.no_stages {n} contests have no stage-by-stage count in the sources Civgraph holds, so they give no transfers. ¦ ¦
+@elections.stv.election.no_stages_one {n} contest has no stage-by-stage count in the sources Civgraph holds, so it gives no transfers. ¦ ¦
+@elections.stv.election.caveat Each share is of the votes a party's candidates passed on. Where those votes could go depended on which candidates were still in the count, so a share is not a measure of preference. ¦ ¦
+@elections.stv.election.none No count of this election passed on one candidate's votes, so there are no transfers between parties to show. ¦ ¦
+@elections.stv.election.passed_on Votes passed on ¦ ¦
+@elections.stv.election.transfers Counts ¦ ¦
+@elections.stv.election.table_caption Transfers between parties: each row the votes passed on by a party's candidates, and the share each party's candidates received. ¦ ¦
+@elections.stv.election.region Transfers between parties (scrolls sideways) ¦ ¦
+@elections.stv.election.share Share ¦ ¦
+@elections.stv.election.closest_heading The closest last seats ¦ ¦
+@elections.stv.election.closest_covers Margins are given for {n} of the {total} contests: those with a stage-by-stage count and a losing candidate. ¦ ¦
+@elections.stv.election.closest_none No contest of this election has a stage-by-stage count with a losing candidate, so no margins can be given. ¦ ¦
