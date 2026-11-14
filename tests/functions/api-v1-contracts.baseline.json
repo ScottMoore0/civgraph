@@ -1081,6 +1081,268 @@
           ]
         }
       },
+      "area-index": {
+        "when": {
+          "view": "area-index"
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "number"
+            },
+            "areas": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "slug": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "bodySlug": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "string"
+                  },
+                  "contests": {
+                    "type": "number"
+                  },
+                  "firstYear": {
+                    "type": "number"
+                  },
+                  "lastYear": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "slug",
+                  "name",
+                  "bodySlug",
+                  "contests"
+                ]
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "areas"
+          ]
+        }
+      },
+      "area-history": {
+        "when": {
+          "view": "area-history"
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "number"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "contests": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "electionKey": {
+                    "type": "string"
+                  },
+                  "electionSlug": {
+                    "type": "string"
+                  },
+                  "displayTitle": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "string"
+                  },
+                  "bodySlug": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string"
+                  },
+                  "year": {
+                    "type": "number"
+                  },
+                  "kind": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "contestType": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "votingSystem": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "contestStatus": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "layerId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "mapId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "mapName": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "seq": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "contestSlug": {
+                    "type": "string"
+                  },
+                  "seatsTotal": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "electorate": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "turnoutPct": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "quota": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "majority": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "matched": {
+                    "type": "boolean"
+                  },
+                  "candidates": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "party": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "personId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "personSlug": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "firstPrefs": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "elected": {
+                          "type": "boolean"
+                        },
+                        "unopposed": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "status": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "colour": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "elected"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "electionKey",
+                  "electionSlug",
+                  "body",
+                  "bodySlug",
+                  "date",
+                  "seq",
+                  "name",
+                  "contestSlug",
+                  "matched",
+                  "candidates"
+                ]
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "slug",
+            "name",
+            "contests"
+          ]
+        }
+      },
       "index-of-body": {
         "when": {
           "key": "",

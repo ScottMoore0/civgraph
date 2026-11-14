@@ -276,6 +276,68 @@ export interface ElectionsCitationsAnswer {
   [key: string]: unknown;
 }
 
+/** GET /api/v1/elections (view=area-index): Every place contests were held: a contest slug within a body, with its name, how many contests and their first and last years */
+export interface ElectionsAreaIndexAnswer {
+  schemaVersion: number;
+  areas: {
+    slug: string;
+    name: string;
+    bodySlug: string;
+    body?: string;
+    contests: number;
+    firstYear?: number;
+    lastYear?: number;
+    [key: string]: unknown;
+  }[];
+  [key: string]: unknown;
+}
+
+/** GET /api/v1/elections (view=area-history): Every contest held under one contest slug (slug=), any body, oldest first: its election, boundary map and candidates. A slug is a name, not a fixed area: bodies and redrawn boundaries can share one */
+export interface ElectionsAreaHistoryAnswer {
+  schemaVersion: number;
+  slug: string;
+  name: string;
+  contests: Array<{
+    electionKey: string;
+    electionSlug: string;
+    displayTitle?: string;
+    body: string;
+    bodySlug: string;
+    date: string;
+    year?: number;
+    kind?: string | null;
+    contestType?: string | null;
+    votingSystem?: string | null;
+    contestStatus?: string | null;
+    layerId?: string | null;
+    mapId?: string | null;
+    mapName?: string | null;
+    seq: number;
+    name: string;
+    contestSlug: string;
+    seatsTotal?: number | null;
+    electorate?: number | null;
+    turnoutPct?: number | null;
+    quota?: number | null;
+    majority?: number | null;
+    matched: boolean;
+    candidates: Array<{
+      name: string;
+      party?: string | null;
+      personId?: string | null;
+      personSlug?: string | null;
+      firstPrefs?: number | null;
+      elected: boolean;
+      unopposed?: number | null;
+      status?: string | null;
+      colour?: string | null;
+      [key: string]: unknown;
+    }>;
+    [key: string]: unknown;
+  }>;
+  [key: string]: unknown;
+}
+
 /** GET /api/v1/elections (key=<absent> body=<given>): One body's elections, by date then key */
 export interface ElectionsIndexOfBodyAnswer {
   elections: Array<{
@@ -1228,6 +1290,8 @@ export interface V1Routes {
       "citations-contest": ElectionsCitationsContestAnswer;
       "citations-contest-by-name": ElectionsCitationsContestByNameAnswer;
       citations: ElectionsCitationsAnswer;
+      "area-index": ElectionsAreaIndexAnswer;
+      "area-history": ElectionsAreaHistoryAnswer;
       "index-of-body": ElectionsIndexOfBodyAnswer;
       index: ElectionsIndexAnswer;
       "contest-by-slug": ElectionsContestBySlugAnswer;

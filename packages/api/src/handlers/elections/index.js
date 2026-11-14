@@ -27,6 +27,12 @@
  *                                 Dail constituency): per area, each candidate's figure at every count,
  *                                 the candidates named by their one national candidacy; areas [] when
  *                                 the election has none
+ *   view=area-index               every place contests were held (a contest slug within a body):
+ *                                 its name, how many contests and their first and last years
+ *   view=area-history&slug=<contest slug>
+ *                                 every contest held under that slug, any body, oldest first, with
+ *                                 its election, boundary map and candidates (the Elections app's
+ *                                 area pages, 14 Nov 2026)
  *
  * A retired contest slug (packages/core/src/election-slug-aliases.js) in contest= or in a record
  * view's slug= answers 301 to the same request with the slug that replaced it.
@@ -317,8 +323,51 @@ async function handleView(db, view, url) {
         : [];
       return json(areaResultsAnswer(row, modes, national));
     }
+    case 'area-index': return json({ schemaVersion: 1, areas: await db.all(ELECTIONS_API.areaIndex) });
+    case 'area-history': {
+      const slug = (url.searchParams.get('slug') || '').trim().toLowerCase();
+      if (!slug) return json({ error: 'slug is required' }, 400);
+      const [contests, candidates] = await Promise.all([
+        db.all(ELECTIONS_API.areaContests, [slug]),
+        db.all(ELECTIONS_API.areaCandidates, [slug]),
+      ]);
+      if (!contests.length) return json({ error: 'area not found' }, 404);
+      return json(areaHistoryAnswer(slug, /** @type {AreaContestRow[]} */ (contests), /** @type {AreaCandidateRow[]} */ (candidates)));
+    }
     default: return json({ error: `unknown view ${view}` }, 400);
   }
+}
+
+/**
+ * @typedef {Record<string, unknown> & { electionKey: string, seq: number, name: string, matched?: unknown }} AreaContestRow
+ * @typedef {Record<string, unknown> & { electionKey: string, seq: number, elected?: unknown }} AreaCandidateRow
+ */
+
+/**
+ * The area-history answer (view=area-history&slug=): every contest held under one contest slug,
+ * oldest first, each with its candidates. `name` is the latest contest's. Pure, for the tests.
+ * @param {string} slug
+ * @param {AreaContestRow[]} contests
+ * @param {AreaCandidateRow[]} candidates
+ */
+export function areaHistoryAnswer(slug, contests, candidates) {
+  /** @type {Map<string, Array<Record<string, unknown>>>} */
+  const byContest = new Map();
+  for (const { electionKey, seq, ...candidate } of candidates) {
+    const id = `${electionKey}|${seq}`;
+    if (!byContest.has(id)) byContest.set(id, []);
+    byContest.get(id)?.push({ ...candidate, elected: candidate.elected === 1 || candidate.elected === true });
+  }
+  return {
+    schemaVersion: 1,
+    slug,
+    name: String(contests.at(-1)?.name || slug),
+    contests: contests.map((c) => ({
+      ...c,
+      matched: c.matched === 1 || c.matched === true,
+      candidates: byContest.get(`${c.electionKey}|${c.seq}`) || [],
+    })),
+  };
 }
 
 /**

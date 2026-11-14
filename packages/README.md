@@ -69,8 +69,14 @@ each other keep working (`/pkg/ui/src/templates/components/index.js` imports
   `export * from '<up>/packages/<path>'`, for each module a page imports directly (the test holds
   each to that one line; a module with a default export needs a different shim).
 - **check:boundaries**: `site/pkg/` is the `site-pkg` unit (core, ui, config, registries-browser
-  only). The Elections app's unit may import `site-pkg`, never a package unit, and its ESLint
+  and, since 14 Nov 2026, map-views only). The Elections app's unit may import `site-pkg`, never a package unit, and its ESLint
   rules forbid any `packages/` import.
+
+**The /maps/ trend chart** (14 Nov 2026, stream el-places): the Elections app's area pages draw
+the party-share chart with `packages/map/src/views/election-trend-chart.mjs`, served at
+`/pkg/map/src/views/election-trend-chart.mjs`. Its key stands before `src/map/` in `served.json`,
+because the first key whose source holds a file gives its served path (the map app bundles it, so
+it read nothing at `/src/map/views/`).
 
 **To serve another module:** add `"pkg/<path>": "packages/<path>"` to `packages/served.json` (and
 the same for every module it imports), add it to the list in `tests/unit/served-pkg.test.mjs`,

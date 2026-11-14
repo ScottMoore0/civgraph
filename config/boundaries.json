@@ -215,7 +215,7 @@
       "node": false
     },
     "site-pkg": {
-      "//": "site/pkg/: one re-export per package module a served page imports from /pkg/ (packages/served.json), so Node and tsc resolve the page's import to the package. Pure browser packages only. Every served page may import them (site, site-apps, elections-app): Browse and Words in parliament read the origins from /pkg/config/src/config.js (architecture rule R6, check C5).",
+      "//": "site/pkg/: one re-export per package module a served page imports from /pkg/ (packages/served.json), so Node and tsc resolve the page's import to the package. Pure browser packages only. Every served page may import them (site, site-apps, elections-app): Browse and Words in parliament read the origins from /pkg/config/src/config.js (architecture rule R6, check C5). map-views since 14 Nov 2026 (el-places): the Elections app's area pages draw the /maps/ party trend chart, packages/map/src/views/election-trend-chart.mjs (pure), served at /pkg/map/src/views/.",
       "paths": [
         "site/pkg/"
       ],
@@ -223,7 +223,8 @@
         "core",
         "ui",
         "config",
-        "registries-browser"
+        "registries-browser",
+        "map-views"
       ],
       "node": false
     },

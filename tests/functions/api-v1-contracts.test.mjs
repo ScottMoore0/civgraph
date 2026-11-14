@@ -424,6 +424,7 @@ async function recordsCases(env) {
       ['elections', `?view=detail&key=${k}`, 'detail'], ['elections', `?view=contests&key=${k}`, 'contests'],
       ['elections', `?view=record&slug=${election.slug}`, 'record'],
       ['elections', `?view=areas&key=${k}`, 'areas'],
+      ['elections', '?view=area-index', 'area-index'], ['elections', `?view=area-history&slug=${encodeURIComponent(contest.slug)}`, 'area-history'],
       ['persons', '?limit=5', 'list'], ['persons', '?q=moore&limit=3', 'list'], ['persons', '?facets=1', 'facets'],
       ['persons', `?slug=${person.slug}`, 'record'], ['persons', `?slug=${person.slug}&view=candidacies`, 'candidacies'],
       ['parties', '', 'list'], ['parties', `?slug=${party.slug}`, 'record'], ['parties', '?view=names', 'names'], ['parties', '?view=folds', 'folds'],
@@ -461,7 +462,7 @@ async function recordsCases(env) {
       if (variant) answered.add(`${key}.${variant}`);
     }
     // error answers of each envelope
-    for (const url of ['/elections?key=no-such-election', '/elections?view=nonsense', '/elections?view=areas&key=no-such-election', '/persons?slug=no-such-person', '/catalogue?id=no-such-map',
+    for (const url of ['/elections?key=no-such-election', '/elections?view=nonsense', '/elections?view=areas&key=no-such-election', '/elections?view=area-history&slug=no-such-place', '/elections?view=area-history','/persons?slug=no-such-person', '/catalogue?id=no-such-map',
       '/catalogue?view=nonsense', '/layers/no-such-layer-vector', '/graph', '/votes', '/sources?slug=no-such-source']) {
       installCaches();
       resetDatasetMemo();

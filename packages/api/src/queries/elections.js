@@ -118,6 +118,35 @@ export const ELECTIONS_API = Object.freeze({
   personCitations: `SELECT c.election_key AS electionKey, k.seq, k.name AS constituency, ${CITE_COLS} FROM candidacies c `
     + 'JOIN contests k ON k.election_key = c.election_key AND k.seq = c.contest_seq '
     + `JOIN citations ci ON ${CITES_CONTEST} WHERE c.person_id = ?1 ORDER BY c.election_key, k.seq, c.ord, ci.ord`,
+  // The places contests were held (the Elections app's place search and area pages, 14 Nov 2026).
+  // A place is a contest slug within a body: the records hold no identity for an area across
+  // redistributions, so a page groups contests by their slug and says so.
+  /** [] -> { slug, name, bodySlug, body, contests, firstYear, lastYear } per contest slug and body, elections only */
+  areaIndex: `SELECT k.slug, MAX(k.name) AS name, e.body_slug AS bodySlug, MAX(e.body) AS body, COUNT(*) AS contests, MIN(e.year) AS firstYear, MAX(e.year) AS lastYear
+     FROM contests k JOIN ${T.elections} e ON e.key = k.election_key
+     WHERE e.contest_type = 'election' AND k.slug IS NOT NULL AND k.slug <> ''
+     GROUP BY k.slug, e.body_slug ORDER BY k.slug, e.body_slug`,
+  /**
+   * [contestSlug] -> every contest with that slug, any body, oldest first: the election, the
+   * contest, its boundary map (the election's source map and its name) and the feature match. The
+   * CROSS JOINs keep SQLite on the elections, then contests_slug (election_key, slug), not a
+   * scan of every contest.
+   */
+  areaContests: `SELECT e.key AS electionKey, e.slug AS electionSlug, e.display_title AS displayTitle, e.body, e.body_slug AS bodySlug,
+       e.date, e.year, e.kind, e.contest_type AS contestType, e.voting_system AS votingSystem, e.contest_status AS contestStatus,
+       e.layer_id AS layerId, e.source_map_id AS mapId, (SELECT m.name FROM maps m WHERE m.map_id = e.source_map_id) AS mapName,
+       k.seq, k.name, k.slug AS contestSlug, k.seats_total AS seatsTotal, k.electorate, k.turnout_pct AS turnoutPct, k.quota, k.majority,
+       f.matched
+     FROM ${T.elections} e CROSS JOIN contests k ON k.election_key = e.key AND k.slug = ?1
+     LEFT JOIN contest_features f ON f.election_key = k.election_key AND f.contest_seq = k.seq
+     ORDER BY e.date, e.key, k.seq`,
+  /** [contestSlug] -> the candidacies of every contest with that slug, in contest then ballot order */
+  areaCandidates: `SELECT a.electionKey, a.seq, c.name, c.party_label AS party, c.person_id AS personId,
+       (SELECT p.slug FROM person_cards p WHERE p.id = c.person_id ORDER BY p.ord LIMIT 1) AS personSlug,
+       c.first_prefs AS firstPrefs, c.elected, c.unopposed, c.status, c.colour
+     FROM (SELECT k.election_key AS electionKey, k.seq, e.date FROM ${T.elections} e CROSS JOIN contests k ON k.election_key = e.key AND k.slug = ?1) AS a
+     CROSS JOIN candidacies c ON c.election_key = a.electionKey AND c.contest_seq = a.seq
+     ORDER BY a.date, a.electionKey, a.seq, c.ord`,
 });
 
 export const ELECTION_CARDS = Object.freeze({

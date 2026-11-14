@@ -105,6 +105,21 @@ const SUMMARY_ROW = obj({
   turnoutPct: numOrNull, majority: numOrNull, candidateCount: num, featureName: strOrNull,
 }, ['constituency', 'candidateCount']);
 /** One original source of a contest's results (QA H5): what it is, and what it was checked for. */
+/** One place of the area index: a contest slug within a body (elections only). */
+const AREA_ROW = obj({ slug: str, name: str, bodySlug: str, body: str, contests: num, firstYear: num, lastYear: num }, ['slug', 'name', 'bodySlug', 'contests']);
+/** One candidacy of an area's history. */
+const AREA_CANDIDATE = obj({
+  name: str, party: strOrNull, personId: strOrNull, personSlug: strOrNull, firstPrefs: numOrNull, elected: bool,
+  unopposed: numOrNull, status: strOrNull, colour: strOrNull,
+}, ['name', 'elected']);
+/** One contest of an area's history: its election, the contest, its boundary map and candidates. */
+const AREA_CONTEST = obj({
+  electionKey: str, electionSlug: str, displayTitle: str, body: str, bodySlug: str, date: str, year: num,
+  kind: strOrNull, contestType: strOrNull, votingSystem: strOrNull, contestStatus: strOrNull,
+  layerId: strOrNull, mapId: strOrNull, mapName: strOrNull,
+  seq: num, name: str, contestSlug: str, seatsTotal: numOrNull, electorate: numOrNull, turnoutPct: numOrNull,
+  quota: numOrNull, majority: numOrNull, matched: bool, candidates: arr(AREA_CANDIDATE),
+}, ['electionKey', 'electionSlug', 'body', 'bodySlug', 'date', 'seq', 'name', 'contestSlug', 'matched', 'candidates']);
 const CITATION = obj({
   title: strOrNull, publisher: strOrNull, url: strOrNull, archiveUrl: strOrNull, host: strOrNull, kind: strOrNull,
   basis: strOrNull, checked: numOrNull, scope: strOrNull, match: strOrNull, checkNote: strOrNull,
@@ -155,6 +170,10 @@ export const CONTRACTS = Object.freeze({
         obj({ key: strOrNull, seq: num, constituency: str, citations: arr(CITATION) }, ['key', 'citations'])),
       v('citations', { view: 'citations' }, 'An election\'s distinct original sources, with how many of its contests cite each (key null: no such election)',
         obj({ key: strOrNull, contests: num, sources: arr(obj({ title: strOrNull, publisher: strOrNull, url: strOrNull, host: strOrNull, kind: strOrNull, contests: num })) }, ['key'])),
+      v('area-index', { view: 'area-index' }, 'Every place contests were held: a contest slug within a body, with its name, how many contests and their first and last years',
+        obj({ schemaVersion: num, areas: arr(AREA_ROW) })),
+      v('area-history', { view: 'area-history' }, 'Every contest held under one contest slug (slug=), any body, oldest first: its election, boundary map and candidates. A slug is a name, not a fixed area: bodies and redrawn boundaries can share one',
+        obj({ schemaVersion: num, slug: str, name: str, contests: arr(AREA_CONTEST) })),
       v('index-of-body', { key: '', body: '*' }, 'One body\'s elections, by date then key', obj({ elections: arr(ELECTION_ROW), count: num })),
       v('index', { key: '' }, 'Every election, by date then key', obj({ elections: arr(ELECTION_ROW), count: num })),
       v('contest-by-slug', { key: '*', contest: '*' }, 'One contest found by its Browse slug: candidates and counts', CONTEST),
