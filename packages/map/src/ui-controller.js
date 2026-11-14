@@ -162,6 +162,9 @@ class UIController {
 
         // When true, all maps show directly without 'Show X more maps' button
         this.showAllMaps = false;
+        // Townland feature indexes by map, made on the first townland search (_loadTownlandFeatureIndex).
+        /** @type {Map<string, Array<{ name: string, bbox: number[], chunk: unknown }> | null> | undefined} */
+        this._townlandIndexCache = undefined;
         // The Explore tab's history: made when the tab is first opened (initializeExplore).
         /** @type {ExploreHistoryEntry[]} */
         this.exploreHistory = /** @type {ExploreHistoryEntry[]} */ (/** @type {unknown} */ (undefined));
@@ -2371,7 +2374,7 @@ class UIController {
         return 'feature-' + safeMapId + '-' + hash;
     }
 
-    /** @param {{ mapId?: string, bbox?: number[] | null, name?: string, id?: string | number }} result @param {MapRecord | null | undefined} map @param {string} featureName */
+    /** @param {{ mapId?: string, bbox?: number[] | null, name?: string, id?: string | number | null }} result @param {MapRecord | null | undefined} map @param {string} featureName */
     getFeatureThumbnailForResult(result, map, featureName) {
         const mapId = String(result?.mapId || map?.id || '');
         const bbox = Array.isArray(result?.bbox) && result.bbox.length === 4 ? result.bbox : null;
@@ -10074,9 +10077,11 @@ class UIController {
 
     /** @param {Geometry | null | undefined} geometry */
     calculateGeodesicMetrics(geometry) {
+        /** @type {{ area: number | null, perimeter: number | null }} */
         const result = { area: null, perimeter: null };
 
-        if (!geometry || !geometry.coordinates) return result;
+        // A geometry collection has no coordinates, and measures nothing.
+        if (!geometry || !(/** @type {{ coordinates?: unknown }} */ (geometry)).coordinates) return result;
 
         const R = 6371; // Earth radius in km
 
@@ -10243,7 +10248,7 @@ class UIController {
         return `.load-btn[data-map-id="${id}"], .c1-load-btn[data-map-id="${id}"]`;
     }
 
-    /** @param {HTMLElement} btn @param {boolean} isLoaded @param {boolean} isBusy */
+    /** @param {HTMLElement & { disabled?: boolean }} btn a load button @param {boolean} isLoaded @param {boolean} isBusy */
     applyLoadButtonVisual(btn, isLoaded, isBusy) {
         // Skip if already correct. The observer below reacts to DOM changes, and rewriting
         // innerHTML unconditionally would retrigger it in a loop.
@@ -10301,7 +10306,8 @@ class UIController {
         }
         if (this._pendingLoadObserver) return;
         this._pendingLoadObserver = new MutationObserver(() => {
-            for (const mapId of this._pendingLoadToggles.keys()) {
+            // The observer runs only while toggles are pending.
+            for (const mapId of /** @type {Map<string, boolean>} */ (this._pendingLoadToggles).keys()) {
                 const isLoaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
                 /** @type {HtmlRoot} */ (document).querySelectorAll(this.loadButtonSelector(mapId)).forEach((btn) => {
                     this.applyLoadButtonVisual(btn, isLoaded, true);
@@ -10451,13 +10457,18 @@ class UIController {
         if (panel) panel.classList.add('hidden');
     }
 
-    /** @param {string} mapId @param {number} progress */
-    showLoadProgress(mapId, progress) {
+    /** @param {string} _mapId @param {number} _progress */
+    showLoadProgress(_mapId, _progress) {
         // Could show loading indicator - simplified for now
     }
 
+    /**
+     * @param {MapRecord[]} loadedMaps
+     * @param {Map<string, boolean> | null | undefined} visibilityMap
+     * @param {Map<string, { isPartial?: boolean, featureNames?: string[], featureItems: Array<{ index: number, name?: string, visible?: boolean }> }> | null | undefined} partialLayerInfo
+     */
     updateActiveLayers(loadedMaps, visibilityMap, partialLayerInfo) {
-        const container = document.getElementById('activeLayersList');
+        const container = /** @type {HtmlElementRoot | null} */ (document.getElementById('activeLayersList'));
         if (!container) return;
 
         // Preserve which opacity panels are open, so a re-render (e.g. from a
@@ -10470,6 +10481,7 @@ class UIController {
 
         if (!loadedMaps || loadedMaps.length === 0) {
             container.innerHTML = '<p class="text-muted text-sm">No layers loaded</p>';
+            /** @type {string | null} */
             this._activeLayersHtml = null;
             return;
         }
@@ -10479,7 +10491,7 @@ class UIController {
             const partial = partialLayerInfo?.get(map.id);
             const color = map.style?.color || MAP_COLOURS.layer;
             const authors = map.authors?.join(', ') || '';
-            const layerTitle = dataService.getMapDisplayTitle?.(map) || map.name;
+            const layerTitle = dataService.getMapDisplayTitle?.(/** @type {CatalogueMap} */ (map)) || map.name;
             // "1929 NI Parliament / 1929": the year under a title that already starts with it
             // cost every row a second line.
             const year = map.date ? this.getYear(map.date) : '';
@@ -10620,8 +10632,9 @@ class UIController {
         });
 
         // Opacity sliders and inputs
-        const syncOpacity = (mapId, type, value) => {
-            value = Math.max(0, Math.min(100, parseInt(value) || 0));
+        /** @param {string} mapId @param {string} type @param {string} rawValue */
+        const syncOpacity = (mapId, type, rawValue) => {
+            const value = Math.max(0, Math.min(100, parseInt(rawValue) || 0));
             const frac = value / 100;
             const state = mapController?.getLayerState?.(mapId) || mapController?.layerStates?.get(mapId);
             if (!state) return;
@@ -10644,16 +10657,16 @@ class UIController {
             if (item) {
                 const slider = /** @type {HTMLInputElement | null} */ (item.querySelector(`.${type}-opacity-slider`));
                 const input = /** @type {HTMLInputElement | null} */ (item.querySelector(`.${type}-opacity-input`));
-                if (slider) slider.value = value;
-                if (input) input.value = value;
+                if (slider) slider.value = String(value);
+                if (input) input.value = String(value);
             }
         };
 
         ['raster', 'stroke', 'fill'].forEach(type => {
-            /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll(`.${type}-opacity-slider`)).forEach(slider => {
+            /** @type {NodeListOf<ViewElement & HTMLInputElement>} */ (container.querySelectorAll(`.${type}-opacity-slider`)).forEach(slider => {
                 slider.addEventListener('input', () => syncOpacity(slider.dataset.mapId, type, slider.value));
             });
-            /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll(`.${type}-opacity-input`)).forEach(input => {
+            /** @type {NodeListOf<ViewElement & HTMLInputElement>} */ (container.querySelectorAll(`.${type}-opacity-input`)).forEach(input => {
                 input.addEventListener('change', () => syncOpacity(input.dataset.mapId, type, input.value));
             });
         });
@@ -10718,7 +10731,7 @@ class UIController {
         grips.forEach(grip => {
             grip.addEventListener('pointerdown', (down) => {
                 if (down.button !== undefined && down.button !== 0) return;
-                if (down.target.closest(INTERACTIVE)) return;
+                if (/** @type {Element} */ (down.target).closest(INTERACTIVE)) return;
                 const row = grip;
                 // Wait to see a drag: a few pixels of movement with a mouse or pen, or a 300 ms
                 // hold on touch (moving sooner is a scroll, and is left to the list).
@@ -10726,11 +10739,13 @@ class UIController {
                 let held = false;
                 const timer = touch ? setTimeout(() => { held = true; }, 300) : null;
                 const stopWaiting = () => {
-                    clearTimeout(timer);
+                    // clearTimeout ignores a null timer (no hold to wait for).
+                    clearTimeout(/** @type {ReturnType<typeof setTimeout> | undefined} */ (/** @type {unknown} */ (timer)));
                     window.removeEventListener('pointermove', onWait, true);
                     window.removeEventListener('pointerup', stopWaiting, true);
                     window.removeEventListener('pointercancel', stopWaiting, true);
                 };
+                /** @param {PointerEvent} ev */
                 const onWait = (ev) => {
                     if (ev.pointerId !== down.pointerId) return;
                     const moved = Math.hypot(ev.clientX - down.clientX, ev.clientY - down.clientY);
@@ -10746,6 +10761,7 @@ class UIController {
             });
         });
 
+        /** @param {ViewElement} row @param {PointerEvent} e */
         const startDrag = (row, e) => {
             {
 
@@ -10759,7 +10775,7 @@ class UIController {
                 // layout reserves its slot; a cloned node floats with the
                 // cursor so it reads as a dragged card.
                 row.classList.add('active-layer-item--dragging');
-                const clone = row.cloneNode(true);
+                const clone = /** @type {HTMLElement} */ (row.cloneNode(true));
                 clone.classList.remove('active-layer-item--dragging');
                 clone.classList.add('active-layer-item--clone');
                 Object.assign(clone.style, {
@@ -10778,6 +10794,7 @@ class UIController {
                 // FLIP the siblings: measure before mutation, apply an inverse
                 // translate immediately so they look unchanged, then transition
                 // the translate to zero so they glide to their new slot.
+                /** @param {() => void} mutate */
                 const flipReorder = (mutate) => {
                     const tracked = [...container.querySelectorAll('.active-layer-item')];
                     const before = new Map(tracked.map(el => [el, el.getBoundingClientRect()]));
@@ -10785,7 +10802,8 @@ class UIController {
                     for (const el of tracked) {
                         if (el === row) continue;
                         const a = el.getBoundingClientRect();
-                        const b = before.get(el);
+                        // Every tracked row was measured before.
+                        const b = /** @type {DOMRect} */ (before.get(el));
                         const dx = b.left - a.left;
                         const dy = b.top - a.top;
                         if (!dx && !dy) continue;
@@ -10799,6 +10817,7 @@ class UIController {
                     }
                 };
 
+                /** @param {PointerEvent} ev */
                 const onMove = (ev) => {
                     if (ev.pointerId !== startPointerId) return;
                     const dx = ev.clientX - pointerStartX;
@@ -10854,11 +10873,13 @@ class UIController {
                     setTimeout(done, FLIP_DURATION + 80);
                 };
 
+                /** @param {PointerEvent} ev */
                 const onUp = (ev) => {
                     if (ev.pointerId !== startPointerId) return;
                     cleanupListeners();
                     settle();
                     // The click that ends a drag is not a click on the row (the layer's name opens its page).
+                    /** @param {MouseEvent} click */
                     const swallow = (click) => { click.stopPropagation(); click.preventDefault(); };
                     window.addEventListener('click', swallow, { capture: true, once: true });
                     setTimeout(() => window.removeEventListener('click', swallow, { capture: true }), 80);
@@ -10870,6 +10891,7 @@ class UIController {
                     }
                 };
 
+                /** @param {PointerEvent} ev */
                 const onCancel = (ev) => {
                     if (ev.pointerId !== startPointerId) return;
                     cleanupListeners();
@@ -12539,8 +12561,8 @@ class UIController {
         return html;
     }
 
-    /** @param {MapRecord} map */
-    shouldExpandVariantsByDefault(map) {
+    /** @param {MapRecord} _map */
+    shouldExpandVariantsByDefault(_map) {
         // NOTHING EXPANDS ITS VARIANTS BY DEFAULT. This used to name four layers --
         // eds-1971, eds-1977, eds-1980 and eds-1983 -- and every one of them was an
         // Electoral Divisions card, so collapsing the ED items empties the rule entirely
@@ -12642,6 +12664,7 @@ class UIController {
      * "grange" that happen to appear in some keyword list would be
      * misclassified.
      */
+    /** @param {string} lowerToken @param {MapRecord | null | undefined} map */
     _tokenMatchesMap(lowerToken, map) {
         if (!map || !lowerToken) return false;
         if (map.id && map.id.toLowerCase().includes(lowerToken)) return true;
@@ -12660,7 +12683,9 @@ class UIController {
         const raw = (query || '').trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2);
         if (raw.length === 0) return { featureTokens: [], layerTokens: [] };
         if (raw.length === 1) return { featureTokens: raw, layerTokens: [] };
+        /** @type {string[]} */
         const featureTokens = [];
+        /** @type {string[]} */
         const layerTokens = [];
         for (const tok of raw) {
             const isLayer = maps.some(m => this._tokenMatchesMap(tok, m));
@@ -12686,12 +12711,15 @@ class UIController {
      * Cheap (no network), self-contained, and works for every feature
      * because we always have its bbox from the index.
      */
+    /** @param {number[] | null | undefined} bbox @param {string | undefined} colour */
     _buildFeatureLocatorSvg(bbox, colour) {
         const W = 36, H = 44;
         // Rough island bounding box (lon -10.7..-5.3, lat 51.3..55.5) — these
         // are slightly padded so even features on the coast aren't clipped.
         const IRE = { minX: -10.7, maxX: -5.3, minY: 51.3, maxY: 55.5 };
+        /** @param {number} lon */
         const lonToPx = (lon) => ((lon - IRE.minX) / (IRE.maxX - IRE.minX)) * W;
+        /** @param {number} lat */
         const latToPx = (lat) => ((IRE.maxY - lat) / (IRE.maxY - IRE.minY)) * H;
         // Coarse silhouette of the island (32 vertices, hand-traced from the
         // 1m-coastline FGB, lat-lon → SVG-px). Enough to be recognisable at
@@ -12731,6 +12759,7 @@ class UIController {
             const url = `data/maps/townlands/${mapId}-feature-index.json`;
             const resp = await fetch(url);
             if (!resp.ok) { this._townlandIndexCache.set(mapId, null); return null; }
+            /** @type {{ columns?: string[], features?: unknown[][] }} */
             const data = await resp.json();
             const cols = data.columns || ['minX', 'minY', 'maxX', 'maxY', 'diag', 'chunk', 'name'];
             const ix = {
@@ -12746,9 +12775,10 @@ class UIController {
                 this._townlandIndexCache.set(mapId, null);
                 return null;
             }
+            // A row is [minX, minY, maxX, maxY, diag, chunk, name] in its columns' order.
             const out = (data.features || []).map(r => ({
-                name: r[ix.name],
-                bbox: [r[ix.minX], r[ix.minY], r[ix.maxX], r[ix.maxY]],
+                name: /** @type {string} */ (r[ix.name]),
+                bbox: /** @type {number[]} */ ([r[ix.minX], r[ix.minY], r[ix.maxX], r[ix.maxY]]),
                 chunk: r[ix.chunk],
             }));
             this._townlandIndexCache.set(mapId, out);
@@ -12766,14 +12796,15 @@ class UIController {
         // Use the raw maps array (includes hidden maps like deds-ni-1926) so
         // those are findable as layer-qualifiers, plus inline variants so a
         // user can scope by ni-townlands / roi-townlands etc.
-        const rawMaps = dataService.maps?.maps || [];
+        const rawMaps = /** @type {MapRecord[]} */ (dataService.maps?.maps || []);
+        /** @type {MapRecord[]} */
         const maps = [];
         for (const m of rawMaps) {
             maps.push(m);
             if (Array.isArray(m.variants)) {
                 for (const v of m.variants) {
-                    // Variants inherit category from the parent unless overridden
-                    maps.push({ ...v, category: v.category || m.category });
+                    // Variants inherit category from the parent unless overridden; a variant is a map of its own.
+                    maps.push(/** @type {MapRecord} */ ({ ...v, category: v.category || m.category }));
                 }
             }
         }
@@ -12786,6 +12817,8 @@ class UIController {
         const probe = featureTokens.slice().sort((a, b) => b.length - a.length)[0];
         const candidatePoolSize = layerTokens.length > 0 ? 100 : 60;
 
+        // The index's features, and townland rows (which have no id).
+        /** @type {Array<{ id?: string | null, mapId: string, name?: string, bbox: number[], [key: string]: unknown }> | null} */
         let candidates = await featureLoader.searchViaAPI(probe, candidatePoolSize);
         if (!candidates) {
             await featureLoader.ensureInitialized();
@@ -12819,6 +12852,7 @@ class UIController {
             // Score each layer-matching map so canonical/whole-id matches
             // (e.g. "ni-townlands") rank above peripheral ones (e.g. county
             // variants which don't even have a per-map index). Then cap.
+            /** @param {string} lt @param {MapRecord} m */
             const _layerMatchScore = (lt, m) => {
                 if (!m) return 0;
                 const id = (m.id || '').toLowerCase();
@@ -12946,6 +12980,7 @@ class UIController {
         return mapId === 'ni-townlands' || mapId === 'roi-townlands' || mapId === 'all-ireland-townlands';
     }
 
+    /** @param {FeatureSearchResult[]} results */
     async _enrichResultsWithBbox(results) {
         const needs = results.filter(r => !Array.isArray(r.bbox) || r.bbox.length !== 4);
         if (needs.length === 0) return;
@@ -12953,6 +12988,7 @@ class UIController {
         const mapIds = new Set(needs.map(r => r.mapId).filter(Boolean));
         // Cap to avoid loading dozens of indices at once. Take the most
         // frequent mapIds first.
+        /** @type {Map<string, number>} */
         const counts = new Map();
         for (const r of needs) counts.set(r.mapId, (counts.get(r.mapId) || 0) + 1);
         const ranked = [...mapIds].sort((a, b) => (counts.get(b) || 0) - (counts.get(a) || 0)).slice(0, 30);
@@ -12965,14 +13001,15 @@ class UIController {
                 const features = isTownland
                     ? await this._loadTownlandFeatureIndex(mid)
                     : await featureLoader.loadMapIndex(mid);
-                if (!features) return [mid, null];
+                if (!features) return /** @type {[string, null]} */ ([mid, null]);
+                /** @type {Map<string, number[]>} */
                 const byName = new Map();
                 for (const f of features) {
                     if (f?.name && Array.isArray(f.bbox)) byName.set(String(f.name).toLowerCase(), f.bbox);
                 }
-                return [mid, byName];
+                return /** @type {[string, Map<string, number[]>]} */ ([mid, byName]);
             } catch {
-                return [mid, null];
+                return /** @type {[string, null]} */ ([mid, null]);
             }
         }));
         const tableByMap = new Map(lookups);
@@ -12984,6 +13021,7 @@ class UIController {
         }
     }
 
+    /** @param {FeatureSearchResult[]} results @param {string} query */
     renderFeatureSearchResults(results, query) {
         const autocomplete = document.getElementById('searchAutocomplete');
         if (!autocomplete) return;
@@ -13004,7 +13042,7 @@ class UIController {
                          data-feature-id="${result.id}"
                          data-map-id="${result.mapId}"
                          data-bbox="${result.bbox?.join(',') || ''}"
-                         data-centroid="${result.centroid?.join(',') || ''}">
+                         data-centroid="${/** @type {number[] | undefined} */ (result.centroid)?.join(',') || ''}">
                 <span class="search-autocomplete__icon">&#128269;</span>
                 <div class="search-autocomplete__content">
                     <span class="search-autocomplete__name">${this.highlightText(result.name, query)}</span>
@@ -13080,7 +13118,9 @@ class UIController {
         return `${this.escapeHtml(before)}<mark>${this.escapeHtml(match)}</mark>${this.escapeHtml(after)}`;
     }
 
+    /** @param {number[][]} bounds [[south, west], [north, east]] @param {string[]} loadedMapIds */
     async getFeaturesInViewport(bounds, loadedMapIds) {
+        /** @type {import('./feature-loader.js').SpatialFeature[]} */
         const results = [];
         const [southWest, northEast] = bounds;
 
@@ -13091,7 +13131,7 @@ class UIController {
             for (const feature of mapFeatures) {
                 if (!feature.centroid) continue;
 
-                const [lon, lat] = feature.centroid;
+                const [lon, lat] = /** @type {number[]} */ (feature.centroid);
 
                 if (lat >= southWest[0] && lat <= northEast[0] &&
                     lon >= southWest[1] && lon <= northEast[1]) {
@@ -13118,14 +13158,15 @@ if (typeof window !== 'undefined') {
     preview.className = 'thumbnail-preview';
     preview.innerHTML = '<img>';
     document.body.appendChild(preview);
-    const previewImg = preview.querySelector('img');
+    // The preview's own image, just written.
+    const previewImg = /** @type {HTMLImageElement} */ (preview.querySelector('img'));
 
     const ZONE_SELECTOR = '.thumb-zone';
     const OFFSET_X = 16;
     const OFFSET_Y = 16;
 
     document.addEventListener('mouseenter', (e) => {
-        if (!e.target || !e.target.closest) return;
+        if (!e.target || !(/** @type {Element} */ (e.target)).closest) return;
         const zone = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest(ZONE_SELECTOR));
         if (!zone) return;
         const img = zone.querySelector('img');
@@ -13135,11 +13176,11 @@ if (typeof window !== 'undefined') {
     }, { capture: true, signal: uiController.lifecycle.signal });
 
     document.addEventListener('mouseleave', (e) => {
-        if (!e.target || !e.target.closest) return;
+        if (!e.target || !(/** @type {Element} */ (e.target)).closest) return;
         const zone = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest(ZONE_SELECTOR));
         if (!zone) return;
         // Only hide if we're actually leaving the zone (not entering a child)
-        if (!zone.contains(e.relatedTarget)) {
+        if (!zone.contains(/** @type {Node | null} */ (e.relatedTarget))) {
             preview.style.display = 'none';
         }
     }, { capture: true, signal: uiController.lifecycle.signal });

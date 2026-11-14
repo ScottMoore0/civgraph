@@ -18,6 +18,23 @@ export interface FuseIndex<T> {
   search(query: string, options?: { limit?: number }): FuseResult<T>[];
 }
 
+/** A layer of the retired Leaflet map, as ui-controller.js's active-layers list reads and sets it. */
+export interface LegacyLayerState {
+  config?: import('./ui-controller-types.d.ts').MapRecord;
+  _strokeOpacity?: number;
+  _fillOpacity?: number;
+  _rasterOpacity?: number;
+  group?: { eachLayer(fn: (layer: { setOpacity?: (opacity: number) => void }) => void): void };
+  geoJsonLayers?: Array<{ setStyle(style: Record<string, number>): void }>;
+}
+
+/** The retired Leaflet map's controller, where a page still has it. */
+export interface LegacyMapController {
+  map?: { invalidateSize(): void } | null;
+  layerStates?: Map<string, LegacyLayerState>;
+  getLayerState?(id: string): LegacyLayerState | undefined;
+}
+
 /** A Leaflet LatLngBounds, as packages/map/src/feature-loader.js reads one. */
 export interface LatLngBoundsView {
   getNorth(): number;
@@ -54,6 +71,9 @@ declare global {
 
   var Fuse: new <T>(items: T[], options: Record<string, unknown>) => FuseIndex<T>;
 
+  /** The retired Leaflet map's controller, read by its global name (ui-controller.js updateActiveLayers). */
+  var mapController: LegacyMapController | undefined;
+
   interface Window {
     /**
      * The browser suite's handle on the map app (packages/map/app/app.js sets it; the timeline adds
@@ -63,7 +83,9 @@ declare global {
     /** 'classic' on the archived classic page (civgraph.net/maps/classic/): packages/map/src/catalogue/flag.js. */
     CIVGRAPH_CATALOGUE?: string;
     /** The retired Leaflet map's controller, which ui-controller.js still resizes when the layout changes, if a page has it. */
-    mapController?: { map?: { invalidateSize(): void } | null; layerStates?: Map<string, { config?: import('./ui-controller-types.d.ts').MapRecord }> };
+    mapController?: LegacyMapController;
+    /** The UI controller, for the onclick handlers of markup it writes (packages/map/src/ui-controller.js). */
+    uiController?: unknown;
     /** The interface-language runtime (site/assets/i18n/i18n.js, preview only), when it has loaded. */
     civgraphI18n?: { placeNameField?: (layer: unknown) => string | null };
     /** The site-head bootstrap's language-control loader (packages/map/src/catalogue/lang-reveal.js). */

@@ -31,7 +31,7 @@ export interface UiCallbacks {
   onCheckMapLoaded: (mapId: string) => boolean;
   onCheckMapSettled: (mapId: string) => string;
   onCheckMapVisible: (mapId: string) => boolean;
-  onLoadSingleFeature: (mapId: string, featureId: string | number, featureName: string | null, bbox: number[] | null, options?: Record<string, unknown>) => Promise<{ feature?: DetailFeature & { featureName?: string } } | null>;
+  onLoadSingleFeature: (mapId: string, featureId: string | number, featureName: string | null, bbox: number[] | null | undefined, options?: Record<string, unknown>) => Promise<{ feature?: DetailFeature & { featureName?: string } } | null>;
   onHideMap: (mapId: string) => void;
   onCategoryChange: (categoryId: string) => void;
   onProviderCategoryChange: (providerId: string, providers: string[]) => void;
@@ -147,6 +147,8 @@ export interface MapRecord {
   /** A composite's member layers (map-relations.mjs MapRelations). */
   members?: string[];
   chunked?: unknown;
+  authors?: string[];
+  opacity?: number;
   [key: string]: unknown;
 }
 
@@ -250,7 +252,8 @@ export interface BrowseItem {
 /** One feature the place search found (searchFeatures): its map, id, name and box. */
 export interface FeatureSearchResult {
   mapId: string;
-  id?: string | number;
+  /** Null for a townland row (the townland index has no ids). */
+  id?: string | number | null;
   name?: string;
   bbox?: number[] | null;
   [key: string]: unknown;

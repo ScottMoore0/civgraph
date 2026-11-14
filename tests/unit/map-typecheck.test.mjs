@@ -31,7 +31,10 @@ const BASELINE = [
   'src/cdn-url.js',
   'src/election-utils.js',
   // 8 Nov 2026 (noImplicitAny review): the catalogue search joins the check.
-  'src/catalogue/search.js'
+  'src/catalogue/search.js',
+  // 14 Nov 2026 (rf11-map-ui): the UI controller joins the check, with its declarations.
+  'src/ui-controller-types.d.ts',
+  'src/ui-controller.js'
 ];
 
 /** The files a simple include pattern names (a file, dir/*.ext, or dir/**\/*.ext). */
