@@ -10,6 +10,21 @@ import { partyColour } from '../lib/party.js';
 import { areaMap, idle, layerRecord } from '../lib/maplibre.js';
 import { areaRows, diverging, divergingLegend, partyShares, sequential, sequentialLegend } from '../lib/scales.js';
 import { MAP_MODES, MAP_STATUS, MULTIPLES, mapModeOf, mapModeShown } from '../state-machines.js';
+import { CHART_TEXT, chartData, fill } from '../lib/chart-data.js';
+import { METHOD_NOTE, methodNote } from '../lib/methods.js';
+
+/**
+ * The data behind a map (lib/chart-data.js): each area's figure, as the map shows it.
+ * @param {string} id @param {string} caption @param {string} mode @param {Array<[string, string]>} rows @param {string} file
+ */
+const mapTable = (id, caption, mode, rows, file) => chartData({
+  id, caption, file, columns: [{ label: CHART_TEXT.area }, { label: MAP_MODES.find((m) => m.mode === mode)?.label || mode }], rows,
+});
+
+/** The note beside a map's worked-out figures, by mode (lib/methods.js). @param {string} mode */
+const mapMethod = (mode) => (mode === 'swing' ? methodNote('swing', [METHOD_NOTE.mapSwing, METHOD_NOTE.labelsAsPrinted])
+  : mode === 'share' ? methodNote('shares', [METHOD_NOTE.mapShare, METHOD_NOTE.labelsAsPrinted])
+    : mode === 'turnout' ? methodNote('turnout', [METHOD_NOTE.mapTurnout]) : '');
 
 /** Party colours of an election, from its party summary. */
 async function colourOf(/** @type {string} */ key) {
@@ -134,7 +149,7 @@ export async function render(root, route, ctx) {
     <div id="mp-map" class="el-map" role="img" aria-label="Map of ${esc(el.displayTitle)}"></div>
     <div id="mp-legend"></div>
     <p id="mp-status" class="el-muted" role="status" data-state="loading">Loading the map…</p>
-    <details><summary>The figures as a table</summary><div id="mp-table"></div></details>
+    <div id="mp-table"></div>
     <section aria-labelledby="mp-sm"><h2 id="mp-sm">Small multiples</h2>
       <p class="el-muted">The winner in every ${esc(el.body)} election on these boundaries.</p>
       <button type="button" class="cg-button" id="mp-sm-go">Draw ${sameLayer.length + 1} maps</button>
@@ -189,7 +204,7 @@ export async function render(root, route, ctx) {
           await idle(m, 15000, ctx.signal);
           if (ctx.stale()) break;
           const src = m.getCanvas().toDataURL('image/png');
-          out.insertAdjacentHTML('beforeend', `<figure class="cg-chart"><a href="${url({ e: electionSlug(e.key), mode: 'winner' })}"><img src="${src}" alt="Winners, ${esc(e.displayTitle)}: ${esc(data.table.map(([a, v]) => `${a} ${v}`).join('; '))}" width="320" height="360" loading="lazy"></a><figcaption>${esc(e.displayTitle)}</figcaption></figure>`);
+          out.insertAdjacentHTML('beforeend', `<figure class="cg-chart"><a href="${url({ e: electionSlug(e.key), mode: 'winner' })}"><img src="${src}" alt="Winners, ${esc(e.displayTitle)}: ${esc(data.table.map(([a, v]) => `${a} ${v}`).join('; '))}" width="320" height="360" loading="lazy"></a><figcaption>${esc(e.displayTitle)}</figcaption>${mapTable(`winners-${electionSlug(e.key)}`, fill(CHART_TEXT.winnersOf, { name: e.displayTitle }), 'winner', data.table, `${electionSlug(e.key)}-winners`)}</figure>`);
         } finally {
           m.remove();
         }
@@ -210,15 +225,18 @@ export async function render(root, route, ctx) {
   const status = /** @type {HTMLElement} */ (root.querySelector('#mp-status'));
   const statusRun = MAP_STATUS.start();
   try {
-    const rec = await layerRecord(String(el.layerId));
     const data = await mapData(el, shown.mode, { party, vs });
+    if (ctx.stale()) return el.displayTitle;
+    // The figures as a table (and CSV) first: they stand even where the map cannot draw.
+    /** @type {HTMLElement} */ (root.querySelector('#mp-table')).innerHTML = mapMethod(shown.mode)
+      + mapTable('map', fill(CHART_TEXT.mapFigures, { name: el.displayTitle }), shown.mode, data.table, `${electionSlug(el.key)}-${shown.mode}${shown.mode === 'share' || shown.mode === 'swing' ? `-${party}` : ''}`);
+    const rec = await layerRecord(String(el.layerId));
     if (ctx.stale()) return el.displayTitle;
     // One map per visit, removed when the view is left (ctx.signal): every change of the form
     // renders the view again, so the previous map and its WebGL context go first.
     const map = await areaMap(/** @type {HTMLElement} */ (root.querySelector('#mp-map')), rec, { colours: data.colours, labels: data.labels, signal: ctx.signal });
     if (ctx.stale()) return el.displayTitle;
     /** @type {HTMLElement} */ (root.querySelector('#mp-legend')).innerHTML = legendHtml(data.legend);
-    /** @type {HTMLElement} */ (root.querySelector('#mp-table')).innerHTML = `<table class="cg-table cg-table--compact"><thead><tr><th scope="col">Area</th><th scope="col">Value</th></tr></thead><tbody>${data.table.map(([a, v]) => `<tr><th scope="row">${esc(a)}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table>`;
     await idle(map, 15000, ctx.signal);
     if (ctx.stale()) return el.displayTitle;
     status.dataset.state = statusRun.to('drawn');

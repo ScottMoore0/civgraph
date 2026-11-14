@@ -11,6 +11,8 @@ import { partyChip, partyColour } from '../lib/party.js';
 import { areaMap, idle, layerRecord } from '../lib/maplibre.js';
 import { allocate, deltasFromTargets, nationalShares, project } from '../lib/project.js';
 import { NOTIONAL_METHOD } from '../state-machines.js';
+import { CHART_TEXT, chartData } from '../lib/chart-data.js';
+import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
 
 export const PAIRS = ['pc-2008__pc-2023'];
 /** "BELFAST SOUTH AND MID DOWN" -> "Belfast South and Mid Down" (the boundary files' names are upper case). */
@@ -90,7 +92,7 @@ export async function render(root, route, ctx) {
   root.innerHTML = `
     <header class="el-head"><h1>Notional results</h1>
       <p class="el-lead">The <a href="${appUrl.election(el.key)}">${esc(el.displayTitle)}</a> as if it had been fought on the ${esc(W.new.label)}.</p></header>
-    <p class="cg-notice cg-notice--warning el-estimate"><strong>Estimates.</strong> Each old constituency's votes are shared out to the new ones ${method === 'population' ? 'by where its 2021 residents live' : 'by land area'}, so every figure on this page is an estimate${stv ? ', and multi-member seats are allocated by quotas of first preferences without transfers' : ''}. Not an official notional result.</p>
+    <p class="cg-notice cg-notice--warning el-estimate"><strong>Estimates.</strong> Each old constituency's votes are shared out to the new ones ${method === 'population' ? 'by where its 2021 residents live' : 'by land area'}, so every figure on this page is an estimate${stv ? ', and multi-member seats are allocated by quotas of first preferences without transfers' : ''}. Not an official notional result. ${methodLink('notional')}</p>
     <form class="el-controls" id="nt-form" onsubmit="return false">
       <label>Base election <select id="nt-e">${index.map((e) => `<option value="${esc(electionSlug(e.key))}"${e.key === el.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>
       <label>Method <select id="nt-method"><option value="population"${method === 'population' ? ' selected' : ''}>Population-weighted (2021 residents)</option><option value="areal"${method === 'areal' ? ' selected' : ''}>Area-weighted</option></select></label>
@@ -100,7 +102,13 @@ export async function render(root, route, ctx) {
       <figure class="cg-chart" id="nt-chart"></figure>
       <div id="nt-map" class="el-map" role="img" aria-label="Map of notional winners (estimate)"></div>
     </div>
+    ${chartData({
+      id: 'notional-map', caption: CHART_TEXT.notionalWinners, file: `${electionSlug(el.key)}-notional-${method}-map`,
+      columns: [{ label: CHART_TEXT.newConstituency }, { label: CHART_TEXT.notional }],
+      rows: perArea.map((a) => [titleCase(a.area), [...a.seats].map(([p, n]) => `${p}${n > 1 ? ` ×${n}` : ''}`).join(', ')]),
+    })}
     <h2>Notional result by new constituency (estimate)</h2>
+    ${methodNote('notional', [METHOD_NOTE.notionalWeights])}
     <div class="cg-table-wrap"><table class="cg-table cg-table--compact"><thead><tr><th scope="col">New constituency</th><th scope="col" class="num">Notional votes</th><th scope="col">${stv ? 'Notional seats' : 'Notional winner'}</th><th scope="col">Top shares</th></tr></thead>
       <tbody>${perArea.map((a) => `<tr><th scope="row">${esc(titleCase(a.area))}</th><td class="num">${fmtInt(Math.round(a.all))}</td><td>${[...a.seats].map(([p, n]) => `${partyChip(p, colours.get(p))}${n > 1 ? ` ×${n}` : ''}`).join(' ')}</td><td>${[...a.shares].sort((x, y) => y[1] - x[1]).slice(0, 3).map(([p, s]) => `${esc(p)} ${fmtPct(s)}`).join(', ')}</td></tr>`).join('')}</tbody></table></div>
     <h2 id="nt-proj">Projection from shares you set</h2>
@@ -112,7 +120,11 @@ export async function render(root, route, ctx) {
 
   const total = [...notionalSeats.values()].reduce((s, n) => s + n, 0);
   const chartParties = [...notionalSeats].map(([party, seats]) => ({ party, seats, colour: colours.get(party) })).sort((a, b) => b.seats - a.seats);
-  /** @type {HTMLElement} */ (root.querySelector('#nt-chart')).innerHTML = `${total >= 30 ? parliamentArc(chartParties, { title: `Notional seats (estimate): ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` }) : seatBar(chartParties, { title: 'Notional seats (estimate)' })}<figcaption>Notional seats on the new boundaries (estimate).</figcaption>`;
+  /** @type {HTMLElement} */ (root.querySelector('#nt-chart')).innerHTML = `${total >= 30 ? parliamentArc(chartParties, { title: `Notional seats (estimate): ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` }) : seatBar(chartParties, { title: 'Notional seats (estimate)' })}<figcaption>Notional seats on the new boundaries (estimate). ${methodLink('seat-estimates')}</figcaption>${chartData({
+    id: 'notional-seats', caption: CHART_TEXT.notionalSeats, file: `${electionSlug(el.key)}-notional-${method}-seats`,
+    columns: [{ label: CHART_TEXT.party }, { label: CHART_TEXT.notional, num: true }],
+    rows: chartParties.map((p) => [p.party, p.seats]),
+  })}`;
 
   const drawProjection = () => {
     const resP = project(contests, deltasFromTargets(base, targets));

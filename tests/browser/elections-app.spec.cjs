@@ -343,3 +343,106 @@ test.describe('Civgraph Elections', () => {
     await shot(page, '10-widget');
   });
 });
+
+// Stream el-tables (14 Nov 2026): every chart has its data as a table and a CSV made in the
+// browser (lib/chart-data.js); every worked-out figure carries a short note linking to its
+// section of the methods page (lib/methods.js); a contest whose sources carry a checked day shows
+// it beside its figures (lib/checked.js).
+test.describe('Civgraph Elections: chart data, methods, checked dates', () => {
+  test.skip(!RECORDS, 'needs the records build (npm run records:build)');
+
+  /** The CSV a data control links, decoded. */
+  async function csvOf(control) {
+    const href = await control.locator('.el-chart-data__csv a').getAttribute('href');
+    return decodeURIComponent(href.slice(href.indexOf(',') + 1)).replace(/^\uFEFF/, '');
+  }
+
+  test('election overview: each chart opens its data as a table, with the same figures and a CSV', async ({ page }) => {
+    await page.goto('/elections/northern-ireland-assembly-2022-05-05/');
+    const seats = page.locator('#data-seats');
+    await expect(seats.locator('summary')).toHaveText("View this chart's data as a table");
+    await expect(seats.locator('table')).toBeHidden();
+    // Keyboard: the control is reachable and opens with Enter.
+    await seats.locator('summary').focus();
+    await page.keyboard.press('Enter');
+    await expect(seats.locator('table caption')).toHaveText('Seats won by party');
+    const sf = seats.locator('tbody tr', { hasText: 'Sinn Féin' });
+    await expect(sf.locator('th[scope="row"]')).toHaveText('Sinn Féin');
+    await expect(sf.locator('td')).toHaveText('27');
+    // The table's seats add up to the arc's circles.
+    const total = await seats.locator('tbody td').evaluateAll((tds) => tds.reduce((s, td) => s + Number(td.textContent.replace(/,/g, '')), 0));
+    expect(total).toBe(await page.locator('svg.el-arc circle').count());
+    await expect(seats.locator('.el-chart-data__csv a')).toHaveAttribute('download', 'northern-ireland-assembly-2022-05-05-seats.csv');
+    const csv = await csvOf(seats);
+    expect(csv.split('\r\n')[0]).toBe('Party,Seats');
+    expect(csv).toContain('Sinn Féin,27\r\n');
+    const shares = page.locator('#data-shares');
+    await shares.locator('summary').click();
+    await expect(shares.locator('thead th')).toHaveText(['Party', 'Share (%)']);
+    expect((await csvOf(shares)).split('\r\n').length).toBe(await shares.locator('tbody tr').count() + 2);
+    // Worked-out figures: the shares, the median turnout and the change carry their notes.
+    await expect(page.locator('figure a.el-method-link[href="/elections/methods/#shares"]')).toBeVisible();
+    await expect(page.locator('dl.cg-facts a.el-method-link[href="/elections/methods/#turnout"]')).toBeVisible();
+    await expect(page.locator('[data-method="change"]')).toContainText("Change is against this body's previous general election.");
+    await expect(page.locator('[data-method="party-labels"]')).toBeVisible();
+    await shot(page, '12-chart-data');
+  });
+
+  test('a method link opens its section of the methods page', async ({ page }) => {
+    await page.goto('/elections/northern-ireland-assembly-2022-05-05/');
+    await page.click('[data-method="change"] a');
+    await expect(page).toHaveURL(/\/elections\/methods\/#change$/);
+    await expect(page.locator('h1')).toHaveText('How the figures are worked out');
+    await expect(page.locator('h2#change')).toBeFocused();
+    await expect(page.locator('.cg-tabs__bar a[data-tab="methods"]')).toHaveAttribute('aria-current', 'page');
+    // Every section is listed and has its heading.
+    const toc = await page.locator('.el-methods-toc a').count();
+    expect(toc).toBeGreaterThan(10);
+    await expect(page.locator('.el-method-section h2')).toHaveCount(toc);
+    await expect(page.locator('h2#swingometer + p')).toContainText('uniform swing');
+  });
+
+  test('contest: the quota chart and every count\'s transfers have their data; a checked day stands beside the figures', async ({ page }) => {
+    await page.goto('/elections/northern-ireland-assembly-2022-05-05/belfast-east/');
+    await expect(page.locator('#data-quota summary')).toBeVisible();
+    await page.locator('#data-quota summary').click();
+    await expect(page.locator('#data-quota thead th')).toHaveText(['Candidate', 'Votes', 'Share of the quota (%)']);
+    await expect(page.locator('#data-quota tbody tr')).toHaveCount(await page.locator('svg.el-hbars rect').count());
+    // The transfer tables were on show before they had the control: they still are.
+    await expect(page.locator('details.el-flow-stage[open] details.el-chart-data[open] caption').first()).toHaveText(/^Transfers at count \d+$/);
+    // Belfast North 2019: compared with EONI's own results page (the latest checked day of its sources).
+    await page.goto('/elections/house-of-commons-of-the-united-kingdom-2019-12-12/belfast-north/');
+    const fact = page.locator('dl.cg-facts dd[data-checked]');
+    await expect(fact).toHaveAttribute('data-checked', '2026-11-11');
+    await expect(fact.locator('time')).toHaveText('11 Nov 2026');
+    await expect(page.locator('dl.cg-facts dt', { hasText: 'Data checked' })).toBeVisible();
+    await expect(page.locator('ol.el-cites .el-compared').first()).toContainText('Compared on');
+  });
+
+  test('maps: the figures on the map are a table and a CSV, drawn before the map (and without it)', async ({ page }) => {
+    test.setTimeout(90000);
+    await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=winner');
+    const control = page.locator('#data-map');
+    await expect(control.locator('summary')).toBeVisible({ timeout: 60000 });
+    await control.locator('summary').click();
+    await expect(control.locator('thead th')).toHaveText(['Area', 'Winner']);
+    await expect(control.locator('tbody tr')).toHaveCount(18);
+    expect((await csvOf(control)).split('\r\n')[0]).toBe('Area,Winner');
+    await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=turnout');
+    await expect(page.locator('#mp-table [data-method="turnout"] a')).toHaveAttribute('href', '/elections/methods/#turnout', { timeout: 60000 });
+  });
+
+  test('phone width: the data tables and the methods page fit the screen', async ({ browser }) => {
+    const context = await browser.newContext({ viewport: { width: 375, height: 812 } });
+    const page = await context.newPage();
+    await page.goto('/elections/northern-ireland-assembly-2022-05-05/');
+    await expect(page.locator('details.el-chart-data summary')).toHaveCount(2);
+    for (const summary of await page.locator('details.el-chart-data summary').all()) await summary.click();
+    await expect(page.locator('details.el-chart-data[open]')).toHaveCount(2);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
+    await page.goto('/elections/methods/');
+    await expect(page.locator('h1')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
+    await context.close();
+  });
+});

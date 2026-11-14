@@ -6,6 +6,8 @@
  */
 import { hbars, parliamentArc, quotaBars, seatBar, transferFlow } from './lib/charts.js';
 import { partyChip } from './lib/party.js';
+import { chartData } from './lib/chart-data.js';
+import { methodNote } from './lib/methods.js';
 /**
  * The gallery's sample colours (data/registries/colours.json gallery.specimens, passed in by the
  * gallery page), so no real party is shown with made-up figures.
@@ -39,6 +41,14 @@ const DRAW = {
       + `<figure class="cg-chart">${transferFlow(flow)}<figcaption>A count's transfers</figcaption></figure>`;
   },
   'elections-chips': (sample) => `<p>${partyChip('Party one', sample.partyOne)} ${partyChip('Party two', sample.partyTwo)} ${partyChip('Independent', null)}</p>`,
+  'elections-chart-data': (sample) => {
+    const { one, two, three } = parties(sample);
+    const rows = [{ ...one, seats: 9 }, { ...two, seats: 6 }, { ...three, seats: 3 }];
+    return `<figure class="cg-chart">${seatBar(rows, { title: 'Sample council: 18 seats' })}<figcaption>Seat bar, with the data behind it</figcaption>${chartData({
+      id: 'sample-seats', caption: 'Sample council: seats won by party', file: 'sample-seats', open: true,
+      columns: [{ label: 'Party' }, { label: 'Seats', num: true }], rows: rows.map((p) => [p.party, p.seats]),
+    })}</figure>${methodNote('change', ['A note beside a worked-out figure, linking to its method.'])}`;
+  },
 };
 
 /** Three sample parties; the third has no colour (the app's neutral fallback). @param {SampleColours} sample */

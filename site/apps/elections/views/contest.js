@@ -11,6 +11,9 @@ import {
 } from '../lib/format.js';
 import { NOTE, contestLimits, limitHtml, votesMissingNote } from '../lib/limits.js';
 import { partyChip } from '../lib/party.js';
+import { CHART_TEXT, chartData, fill } from '../lib/chart-data.js';
+import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
+import { checkedFact, comparedOn } from '../lib/checked.js';
 
 /** @type {Record<string, string>} */
 const KIND_NOTE = {
@@ -42,6 +45,13 @@ export async function render(root, route) {
   const votesNote = votesMissingNote(limits.votesMissing, fmtInt);
   const majority = !stv && !limits.losersMissing ? (num(c.majority) ?? fptpMajority(sheet)) : null;
   const turnout = num(c.turnoutPct) ?? (num(c.totalPoll) !== null && num(c.electorate) ? (100 * Number(c.totalPoll)) / Number(c.electorate) : null);
+  // Figures this page works out, rather than reads: each says so beside it (lib/methods.js).
+  const derived = {
+    turnout: turnout !== null && num(c.turnoutPct) === null,
+    majority: majority !== null && num(c.majority) === null,
+    valid: valid !== null && num(c.validPoll) === null && num(c.totalVotes) === null,
+  };
+  const how = (/** @type {boolean} */ on, /** @type {import('../lib/methods.js').MethodId} */ id, /** @type {string} */ sentence) => (on ? methodNote(id, [sentence], 'el-muted el-method el-method--fact') : '');
   const title = `${c.name || c.constituency} – ${detail.title}`;
 
   const facts = [
@@ -50,10 +60,10 @@ export async function render(root, route) {
     num(c.electorate) !== null ? ['Electorate', fmtInt(c.electorate)] : null,
     sheet.kind !== 'unopposed' && num(c.totalPoll) !== null ? ['Total poll', fmtInt(c.totalPoll)] : null,
     sheet.kind !== 'unopposed' && num(c.spoiled) !== null ? ['Spoiled ballots', fmtInt(c.spoiled)] : null,
-    sheet.kind !== 'unopposed' && valid !== null ? ['Valid poll', fmtInt(valid)] : null,
-    sheet.kind !== 'unopposed' && turnout !== null ? ['Turnout', fmtPct(turnout)] : null,
+    sheet.kind !== 'unopposed' && valid !== null ? ['Valid poll', `${fmtInt(valid)}${how(derived.valid, 'shares', METHOD_NOTE.validDerived)}`] : null,
+    sheet.kind !== 'unopposed' && turnout !== null ? ['Turnout', `${fmtPct(turnout)}${how(derived.turnout, 'turnout', METHOD_NOTE.turnoutDerived)}`] : null,
     stv && sheet.quota !== null ? ['Quota', fmtInt(sheet.quota)] : null,
-    majority !== null && sheet.kind !== 'unopposed' ? ['Majority', `${fmtInt(majority)}${valid ? ` (${fmtPct((100 * majority) / valid)})` : ''}`] : null,
+    majority !== null && sheet.kind !== 'unopposed' ? ['Majority', `${fmtInt(majority)}${valid ? ` (${fmtPct((100 * majority) / valid)})` : ''}${how(derived.majority, 'majority', METHOD_NOTE.majorityDerived)}`] : null,
   ].filter(Boolean);
 
   let table = '';
@@ -88,6 +98,11 @@ export async function render(root, route) {
   const flows = transferStages(sheet);
   const quota = stv && sheet.quota && (sheet.kind === 'stages' || sheet.kind === 'single' || sheet.kind === 'order') ? quotaProgress(sheet) : [];
   const citations = (cites.citations || []).map((c) => ({ ...c, checked: c.checked === 1, check: c.checkNote ?? null }));
+  const quotaData = quota.length ? chartData({
+    id: 'quota', caption: CHART_TEXT.quotaProgress, file: `${electionSlug(detail.key)}-${cslug}-quota`,
+    columns: [{ label: CHART_TEXT.candidate }, { label: CHART_TEXT.votes, num: true, format: fmtInt }, { label: CHART_TEXT.quotaPct, num: true, format: (v) => fmtPct(v, 0), csv: (v) => (v === null || v === undefined ? '' : Math.round(Number(v))) }],
+    rows: quota.map((r) => [r.name, r.total, r.ratio === null ? null : 100 * r.ratio]),
+  }) : '';
 
   root.innerHTML = `
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › <a href="${appUrl.body(detail.bodySlug)}">${esc(detail.body)}</a> › <a href="${appUrl.election(detail.key)}">${esc(detail.title)}</a> › ${esc(c.name || c.constituency)}</nav>
@@ -95,15 +110,18 @@ export async function render(root, route) {
       <h1>${esc(c.name || c.constituency)}</h1>
       <p class="el-lead"><a href="${appUrl.election(detail.key)}">${esc(detail.title)}</a> · ${esc(fmtDate(detail.date))}</p>
     </header>
-    <dl class="cg-facts">${/** @type {string[][]} */ (facts).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>
+    <dl class="cg-facts">${/** @type {string[][]} */ (facts).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}${checkedFact(citations)}</dl>
     ${KIND_NOTE[sheet.kind] ? `<p class="cg-notice${sheet.kind === 'none' ? ' cg-notice--warning' : ''}">${esc(KIND_NOTE[sheet.kind])}</p>` : ''}
-    ${limits.notes.map((l) => limitHtml(l, esc)).join('')}${votesNote ? limitHtml(votesNote, esc) : ''}
+    ${limits.notes.map((l) => limitHtml(l, esc, 'cg-notice', l.id === 'losers' ? methodLink('losers') : '')).join('')}${votesNote ? limitHtml(votesNote, esc) : ''}
     <section aria-labelledby="el-result"><h2 id="el-result">${sheet.kind === 'stages' ? 'Count sheet' : 'Result'}</h2>${table}</section>
-    ${quota.length ? `<section aria-labelledby="el-quota"><h2 id="el-quota">Progress to the quota</h2><figure class="cg-chart">${quotaBars(quota, /** @type {number} */ (sheet.quota))}<figcaption>Each candidate's votes at ${sheet.kind === 'stages' ? 'their last count' : 'the first count'}, against the quota of ${fmtInt(sheet.quota)}.</figcaption></figure></section>` : ''}
+    ${quota.length ? `<section aria-labelledby="el-quota"><h2 id="el-quota">Progress to the quota</h2><figure class="cg-chart">${quotaBars(quota, /** @type {number} */ (sheet.quota))}<figcaption>Each candidate's votes at ${sheet.kind === 'stages' ? 'their last count' : 'the first count'}, against the quota of ${fmtInt(sheet.quota)}. ${methodLink('majority')}</figcaption>${quotaData}</figure></section>` : ''}
     ${flows.length ? `<section aria-labelledby="el-flows"><h2 id="el-flows">Transfers, count by count</h2>
       <p class="el-muted">The sources give each candidate's gain or loss at each count, not who passed votes to whom. Where several candidates were distributed at one count, their votes are drawn as one pool.</p>
-      ${flows.map((st, i) => `<details class="el-flow-stage"${i < 2 ? ' open' : ''}><summary>Count ${st.stage}: ${st.kind === 'surplus' ? 'surplus of' : 'votes of'} ${esc(st.from.map((f) => f.name).join(', '))} (${fmtInt(st.distributed)})</summary><figure class="cg-chart">${transferFlow(st)}</figure>
-        <table class="cg-table cg-table--compact"><caption class="el-sr">Transfers at count ${st.stage}</caption><thead><tr><th scope="col">Received by</th><th scope="col" class="num">Votes</th></tr></thead><tbody>${st.to.map((t) => `<tr><th scope="row">${esc(t.name)}</th><td class="num">${fmtInt(t.amount)}</td></tr>`).join('')}${st.nonTransferable ? `<tr><th scope="row">Non-transferable</th><td class="num">${fmtInt(st.nonTransferable)}</td></tr>` : ''}</tbody></table></details>`).join('')}
+      ${flows.map((st, i) => `<details class="el-flow-stage"${i < 2 ? ' open' : ''}><summary>Count ${st.stage}: ${st.kind === 'surplus' ? 'surplus of' : 'votes of'} ${esc(st.from.map((f) => f.name).join(', '))} (${fmtInt(st.distributed)})</summary><figure class="cg-chart">${transferFlow(st)}${chartData({
+          id: `transfers-${st.stage}`, caption: fill(CHART_TEXT.transfersAt, { n: st.stage }), file: `${electionSlug(detail.key)}-${cslug}-count-${st.stage}`, open: true,
+          columns: [{ label: CHART_TEXT.receivedBy }, { label: CHART_TEXT.votes, num: true, format: fmtInt }],
+          rows: [...st.to.map((t) => [t.name, t.amount]), ...(st.nonTransferable ? [['Non-transferable', st.nonTransferable]] : [])],
+        })}</figure></details>`).join('')}
     </section>` : ''}
     <section aria-labelledby="el-sources"><h2 id="el-sources">Sources</h2>
       ${citations.length ? `<p>Every figure on this page is from the sources below. Each says what it covers.</p><ol class="cg-citations el-cites">${citations.map(citation).join('')}</ol>`
@@ -129,7 +147,7 @@ function outcome(r, order = true) {
 }
 
 /** One citation: title (linked), publisher, what it covers and how it was checked. */
-/** @param {{ url?: string | null, title?: string | null, archiveUrl?: string | null, publisher?: string | null, scope?: string | null, basis?: string | null, check?: string | null, checked?: boolean }} ci */
+/** @param {{ url?: string | null, title?: string | null, archiveUrl?: string | null, publisher?: string | null, scope?: string | null, basis?: string | null, check?: string | null, checked?: boolean, accessed?: string | null }} ci */
 export function citation(ci) {
   const link = ci.url ? `<a href="${esc(ci.url)}" rel="noopener">${esc(ci.title || ci.url)}</a>` : esc(ci.title || 'Untitled source');
   const archive = ci.archiveUrl ? ` (<a href="${esc(ci.archiveUrl)}" rel="noopener">archived copy</a>)` : '';
@@ -138,7 +156,7 @@ export function citation(ci) {
     ci.scope ? `covers ${esc(ci.scope)}` : '',
     ci.basis ? esc(ci.basis) : '',
   ].filter(Boolean).join(' · ');
-  const check = ci.check ? `<div class="el-check">${ci.checked ? '<span class="cg-badge cg-badge--success">checked</span> ' : '<span class="cg-badge">not checked</span> '}${esc(ci.check)}</div>`
-    : ci.checked ? '<div class="el-check"><span class="cg-badge cg-badge--success">checked</span></div>' : '';
+  const check = ci.check ? `<div class="el-check">${ci.checked ? '<span class="cg-badge cg-badge--success">checked</span> ' : '<span class="cg-badge">not checked</span> '}${esc(ci.check)}${comparedOn(ci)}</div>`
+    : ci.checked ? `<div class="el-check"><span class="cg-badge cg-badge--success">checked</span>${comparedOn(ci)}</div>` : '';
   return `<li>${link}${archive}${bits ? `<div class="el-muted">${bits}</div>` : ''}${check}</li>`;
 }

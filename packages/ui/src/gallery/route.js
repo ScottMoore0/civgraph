@@ -269,6 +269,10 @@ export const APP_SPECIMENS = [
     stylesheets: ['apps/elections/elections.css'], frameClass: 'el-main', module: 'apps/elections/gallery-specimens.js',
   },
   {
+    id: 'elections-chart-data', title: "Elections: a chart's data as a table, and a method note", app: 'elections', source: 'site/apps/elections/lib/chart-data.js', functions: ['chartData', 'methodNote'],
+    stylesheets: ['apps/elections/elections.css'], frameClass: 'el-main', module: 'apps/elections/gallery-specimens.js',
+  },
+  {
     id: 'proni-record', title: 'PRONI Search: a record page', app: 'proni', source: 'packages/ui/src/templates/proni/record-view.js', functions: ['recordHtml', 'refWidget', 'pager', 'levelsNav'],
     stylesheets: ['apps/proni-search/app.css'], bodyAttributes: { 'data-app': 'proni' },
     render: () => `<div id="viewRecord">${recordHtml(SAMPLE_PRONI_RECORD, { fmt: siteNumber })}</div><p>On a search result card:</p>${refWidget('D0000/1/2', true)}`,

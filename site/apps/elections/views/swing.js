@@ -10,6 +10,8 @@ import { swingLimit } from '../lib/limits.js';
 import { partyChip, partyColour } from '../lib/party.js';
 import { baseContests, nationalShares, project } from '../lib/project.js';
 import { SWING_EDITS, SWING_LIMIT, clampSwing } from '../state-machines.js';
+import { CHART_TEXT, chartData } from '../lib/chart-data.js';
+import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
 
 /**
  * @param {HTMLElement} root
@@ -48,7 +50,7 @@ export async function render(root, route, ctx) {
   root.innerHTML = `
     <header class="el-head"><h1>Swingometer</h1>
       <p class="el-lead">Move each party's share from the <a href="${appUrl.election(el.key)}">${esc(el.displayTitle)}</a> and see the seats under uniform swing.</p></header>
-    <p class="cg-notice el-estimate">These are estimates, not forecasts: every contest moves by the same points. No polling data is used.</p>
+    <p class="cg-notice el-estimate">These are estimates, not forecasts: every contest moves by the same points. No polling data is used. ${methodLink('swingometer')}</p>
     <form class="el-controls" id="sw-form" onsubmit="return false">
       <label>Body <select id="sw-body">${bodies.map(([s, n]) => `<option value="${esc(s)}"${s === el.bodySlug ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
       <label>Base election <select id="sw-e">${index.filter((e) => e.bodySlug === el.bodySlug).map((e) => `<option value="${esc(electionSlug(e.key))}"${e.key === el.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>
@@ -62,14 +64,18 @@ export async function render(root, route, ctx) {
           <td class="num" data-new="${esc(p)}"></td></tr>`).join('')}</tbody></table></div>
       <div><figure class="cg-chart" id="sw-chart"></figure><div id="sw-seats"></div></div>
     </div>
-    <details><summary>Projected result in each contest</summary><div id="sw-contests"></div></details>`;
+    <details><summary>Projected result in each contest</summary>${methodNote('swingometer', [METHOD_NOTE.uniformSwing])}<div id="sw-contests"></div></details>`;
 
   const draw = () => {
     const res = project(contests, deltas);
     const total = [...res.seats.values()].reduce((s, n) => s + n, 0);
     const order = [...new Set([...parties, ...res.seats.keys()])].filter((p) => (res.seats.get(p) || 0) + (baseSeats.get(p) || 0) > 0);
     const chartParties = order.map((p) => ({ party: p, seats: res.seats.get(p) || 0, colour: colours.get(p) })).filter((p) => p.seats > 0).sort((a, b) => b.seats - a.seats);
-    /** @type {HTMLElement} */ (root.querySelector('#sw-chart')).innerHTML = `${total >= 30 ? parliamentArc(chartParties, { title: `Projected seats (estimate): ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` }) : seatBar(chartParties, { title: 'Projected seats (estimate)' })}<figcaption>Projected seats (estimate).${transfers ? ` <span data-limit="${transfers.id}">${esc(transfers.sentences.join(' '))}</span>` : ''}</figcaption>`;
+    /** @type {HTMLElement} */ (root.querySelector('#sw-chart')).innerHTML = `${total >= 30 ? parliamentArc(chartParties, { title: `Projected seats (estimate): ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` }) : seatBar(chartParties, { title: 'Projected seats (estimate)' })}<figcaption>Projected seats (estimate).${transfers ? ` <span data-limit="${transfers.id}">${esc(transfers.sentences.join(' '))}</span>` : ''} ${methodLink('seat-estimates')}</figcaption>${chartData({
+      id: 'projected-seats', caption: CHART_TEXT.projectedSeats, file: `${electionSlug(el.key)}-projected-seats`,
+      columns: [{ label: CHART_TEXT.party }, { label: CHART_TEXT.projected, num: true }],
+      rows: chartParties.map((p) => [p.party, p.seats]),
+    })}`;
     /** @type {HTMLElement} */ (root.querySelector('#sw-seats')).innerHTML = `<table class="cg-table cg-table--compact"><thead><tr><th scope="col">Party</th><th scope="col" class="num">Base</th><th scope="col" class="num">Projected</th><th scope="col" class="num">±</th></tr></thead><tbody>${order.sort((a, b) => (res.seats.get(b) || 0) - (res.seats.get(a) || 0)).map((p) => `<tr><th scope="row">${partyChip(p, colours.get(p))}</th><td class="num">${baseSeats.get(p) || 0}</td><td class="num">${res.seats.get(p) || 0}</td><td class="num">${fmtDelta((res.seats.get(p) || 0) - (baseSeats.get(p) || 0))}</td></tr>`).join('')}</tbody></table>
       <p class="el-muted">Base seats here are this model run with no change${stv ? ' (quota allocation of first preferences), which can differ from the seats actually won after transfers' : ''}; the actual result is on the <a href="${appUrl.election(el.key)}">election page</a>.</p>`;
     /** @type {HTMLElement} */ (root.querySelector('#sw-contests')).innerHTML = `<table class="cg-table cg-table--compact"><thead><tr><th scope="col">Contest</th><th scope="col">Projected seats</th></tr></thead><tbody>${res.contests.map((c) => `<tr><th scope="row">${esc(c.area)}</th><td>${[...c.seats].map(([p, n]) => `${esc(p)}${n > 1 ? ` ×${n}` : ''}`).join(', ')}</td></tr>`).join('')}</tbody></table>`;

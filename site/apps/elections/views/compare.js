@@ -8,6 +8,8 @@ import { parliamentArc, seatBar } from '../lib/charts.js';
 import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, summaryPollStatus } from '../lib/format.js';
 import { partyChip } from '../lib/party.js';
 import { partyRows } from './election.js';
+import { CHART_TEXT, chartData, fill } from '../lib/chart-data.js';
+import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
 
 /** @param {import('../lib/api.js').ElectionDetail} d */
 const seatChart = (d) => {
@@ -15,6 +17,13 @@ const seatChart = (d) => {
   const n = ps.reduce((s, p) => s + p.seats, 0);
   return n >= 30 ? parliamentArc(ps, { title: `${d.title}: ${n} seats` }) : seatBar(ps, { title: `${d.title}: ${n} seats` });
 };
+
+/** The data behind an election's seat chart (lib/chart-data.js). @param {import('../lib/api.js').ElectionDetail} d @param {string} id */
+const seatData = (d, id) => chartData({
+  id, caption: fill(CHART_TEXT.seatsOf, { name: d.title }), file: `${electionSlug(d.key)}-seats`,
+  columns: [{ label: CHART_TEXT.party }, { label: CHART_TEXT.seats, num: true, format: fmtInt }],
+  rows: (d.partySummary || []).filter((p) => p.seats > 0).map((p) => [p.party, p.seats]),
+});
 
 /**
  * @param {HTMLElement} root
@@ -49,10 +58,10 @@ export async function render(root, route, ctx) {
       <label>Body <select id="cmp-body-b">${bodies.map(([s, n]) => `<option value="${esc(s)}"${s === b.bodySlug ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
       <label>Later ${picker('cmp-b', bBody, b)}</label>
     </form>
-    ${a.bodySlug !== b.bodySlug ? '<p class="cg-notice cg-notice--warning">These are elections to different bodies: the parties are matched by their ballot labels only.</p>' : ''}
+    ${a.bodySlug !== b.bodySlug ? `<p class="cg-notice cg-notice--warning">These are elections to different bodies: the parties are matched by their ballot labels only. ${methodLink('party-labels')}</p>` : ''}
     <div class="el-grid">
-      <figure class="cg-chart">${seatChart(aDetail)}<figcaption><a href="${appUrl.election(a.key)}">${esc(aDetail.title)}</a></figcaption></figure>
-      <figure class="cg-chart">${seatChart(bDetail)}<figcaption><a href="${appUrl.election(b.key)}">${esc(bDetail.title)}</a></figcaption></figure>
+      <figure class="cg-chart">${seatChart(aDetail)}<figcaption><a href="${appUrl.election(a.key)}">${esc(aDetail.title)}</a></figcaption>${seatData(aDetail, 'seats-earlier')}</figure>
+      <figure class="cg-chart">${seatChart(bDetail)}<figcaption><a href="${appUrl.election(b.key)}">${esc(bDetail.title)}</a></figcaption>${seatData(bDetail, 'seats-later')}</figure>
     </div>
     <h2>Parties</h2>
     <div class="cg-table-wrap"><table class="cg-table cg-table--compact">
@@ -60,6 +69,7 @@ export async function render(root, route, ctx) {
       <tbody>${rows.map((p) => { const q = prev.get(p.party); return `<tr><th scope="row">${partyChip(p.party, p.colour)}</th><td class="num">${fmtInt(q?.seats ?? 0)}</td><td class="num">${fmtInt(p.seats)}</td><td class="num">${fmtDelta(p.seatChange)}</td>${votesA && votesB ? `<td class="num">${fmtPct(q?.share ?? 0)}</td><td class="num">${fmtPct(p.share)}</td><td class="num">${fmtDelta(p.shareChange, 1)}</td>` : ''}</tr>`; }).join('')}</tbody>
     </table></div>
     ${!(votesA && votesB) ? '<p class="el-muted">Vote shares are compared only when both elections have recorded votes.</p>' : ''}
+    ${methodNote('change', [METHOD_NOTE.compareChange])}
     <h2>Contest by contest</h2>
     ${shared.length ? `<p class="el-muted">${shared.length} contests have the same name in both elections${sameLayer ? ' and the same boundaries' : '; the boundaries may differ'}. ${sameLayer ? `<a href="/elections/map/?e=${encodeURIComponent(electionSlug(b.key))}&amp;mode=swing&amp;vs=${encodeURIComponent(electionSlug(a.key))}">Map the change</a>.` : ''}</p>
     <div class="cg-table-wrap"><table class="cg-table cg-table--compact"><thead><tr><th scope="col">Contest</th><th scope="col">Earlier</th><th scope="col">Later</th><th scope="col" class="num">Turnout ±</th></tr></thead><tbody>${shared.map((r) => {

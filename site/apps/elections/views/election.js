@@ -11,6 +11,8 @@ import {
 } from '../lib/format.js';
 import { NOTE, counted, limitHtml, summaryLosersMissing } from '../lib/limits.js';
 import { partyChip } from '../lib/party.js';
+import { CHART_TEXT, chartData } from '../lib/chart-data.js';
+import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
 
 /**
  * The party table rows with change against the previous election.
@@ -67,15 +69,27 @@ export async function render(root, route) {
   const referendum = detail.contestType && detail.contestType !== 'election';
 
   const chartParties = parties.filter((p) => p.seats > 0).map((p) => ({ party: p.party, seats: p.seats, colour: p.colour }));
+  const shareParties = parties.filter((p) => p.votes > 0).sort((a, b) => (b.share ?? 0) - (a.share ?? 0)).slice(0, 12).map((p) => ({ label: p.party, value: Math.round((p.share ?? 0) * 10) / 10, colour: p.colour }));
   const seatChart = referendum ? '' : seats >= 30 ? parliamentArc(chartParties, { title: `${seats} seats: ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` })
     : seatBar(chartParties, { title: `${seats} seats: ${chartParties.map((p) => `${p.party} ${p.seats}`).join(', ')}` });
-  const shareChart = votes && !referendum ? hbars(parties.filter((p) => p.votes > 0).sort((a, b) => (b.share ?? 0) - (a.share ?? 0)).slice(0, 12).map((p) => ({ label: p.party, value: Math.round((p.share ?? 0) * 10) / 10, colour: p.colour })),
-    { title: 'Share of the vote by party', format: (v) => fmtPct(v) }) : '';
+  const shareChart = votes && !referendum ? hbars(shareParties, { title: 'Share of the vote by party', format: (v) => fmtPct(v) }) : '';
+  // The data behind each chart, as a table and a CSV (lib/chart-data.js).
+  const file = electionSlug(key);
+  const seatData = seatChart ? chartData({
+    id: 'seats', caption: CHART_TEXT.seatsByParty, file: `${file}-seats`,
+    columns: [{ label: CHART_TEXT.party }, { label: CHART_TEXT.seats, num: true, format: fmtInt }],
+    rows: chartParties.map((p) => [p.party, p.seats]),
+  }) : '';
+  const shareData = shareChart ? chartData({
+    id: 'shares', caption: CHART_TEXT.shareByParty, file: `${file}-shares`,
+    columns: [{ label: CHART_TEXT.party }, { label: CHART_TEXT.sharePct, num: true, format: (v) => fmtPct(v) }],
+    rows: shareParties.map((p) => [p.label, p.value]),
+  }) : '';
 
   // EL2: contests whose losing candidates are not on file, marked in the list and counted where
   // the party votes are given (lib/limits.js).
   const losersMissing = new Set(results.filter(summaryLosersMissing));
-  const losersNote = votes && losersMissing.size ? limitHtml({ id: 'election-losers', sentences: [counted('electionLosers', losersMissing.size, fmtInt)] }, esc, 'el-muted') : '';
+  const losersNote = votes && losersMissing.size ? limitHtml({ id: 'election-losers', sentences: [counted('electionLosers', losersMissing.size, fmtInt)] }, esc, 'el-muted', methodLink('losers')) : '';
   const voteNote = !votes ? '<p class="el-muted">No votes are recorded for this election: every seat was returned unopposed or only the members returned are known.</p>'
     : withVotes < results.length ? `<p class="el-muted">Votes are recorded in ${withVotes} of ${results.length} contests${unopposed ? ` (${unopposed} returned unopposed)` : ''}; shares are of the votes cast where there was a poll.</p>` : '';
 
@@ -111,14 +125,14 @@ export async function render(root, route) {
       <dt>Seats</dt><dd>${fmtInt(seats)}</dd>
       <dt>Contests</dt><dd>${fmtInt(results.length)}${unopposed ? ` (${unopposed} returned unopposed)` : ''}</dd>
       ${votes ? `<dt>Valid votes</dt><dd>${fmtInt(detail.totals?.validPoll)}</dd>` : ''}
-      <dt>Turnout</dt><dd>${turnouts.length ? `median ${fmtPct(turnoutMedian)} across ${turnouts.length} contest${turnouts.length === 1 ? '' : 's'} (range ${fmtPct(Math.min(...turnouts))}–${fmtPct(Math.max(...turnouts))})` : 'not recorded'}</dd>
+      <dt>Turnout</dt><dd>${turnouts.length ? `median ${fmtPct(turnoutMedian)} across ${turnouts.length} contest${turnouts.length === 1 ? '' : 's'} (range ${fmtPct(Math.min(...turnouts))}–${fmtPct(Math.max(...turnouts))}) · ${methodLink('turnout')}` : 'not recorded'}</dd>
       ${prevAny ? `<dt>Previous</dt><dd><a href="${appUrl.election(String(prevKey))}">${esc(prevAny.title)}</a></dd>` : ''}
       <dt>Elsewhere</dt><dd><a href="/browse/elections/${esc(electionSlug(key))}">Browse record</a>${detail.interactiveUrl && detail.layerId ? ` · <a href="${esc(detail.interactiveUrl)}">on the map</a>` : ''} · <a href="/elections/map/?e=${encodeURIComponent(electionSlug(key))}">results map</a> · <a href="/elections/pivot/?body=${encodeURIComponent(detail.bodySlug)}&amp;election=${encodeURIComponent(key)}">pivot</a></dd>
     </dl>
     ${voteNote}${losersNote}
     <div class="el-grid">
-      ${seatChart ? `<figure class="cg-chart el-seatchart">${seatChart}<figcaption>Seats won${prevDetail ? ' (the table gives the change since the previous election)' : ''}.</figcaption></figure>` : ''}
-      ${shareChart ? `<figure class="cg-chart">${shareChart}<figcaption>Share of the vote${withVotes < results.length ? ' in contests with a poll' : ''}.</figcaption></figure>` : ''}
+      ${seatChart ? `<figure class="cg-chart el-seatchart">${seatChart}<figcaption>Seats won${prevDetail ? ' (the table gives the change since the previous election)' : ''}.</figcaption>${seatData}</figure>` : ''}
+      ${shareChart ? `<figure class="cg-chart">${shareChart}<figcaption>Share of the vote${withVotes < results.length ? ' in contests with a poll' : ''}. ${methodLink('shares')}</figcaption>${shareData}</figure>` : ''}
     </div>
     <section aria-labelledby="el-parties"><h2 id="el-parties">${referendum ? 'Result' : 'Parties'}</h2>
       <div class="cg-table-wrap"><table class="cg-table el-parties">
@@ -128,6 +142,7 @@ export async function render(root, route) {
           + `${votes ? `<td class="num">${p.gone ? '' : fmtInt(p.votes)}</td><td class="num">${p.gone ? '' : fmtPct(p.share)}</td>` : ''}${votes && prevVotes ? `<td class="num ${deltaClass(p.shareChange)}">${fmtDelta(p.shareChange, 1)}</td>` : ''}</tr>`).join('')}</tbody>
       </table></div>
       ${prevDetail && votes && !prevVotes ? '<p class="el-muted">No vote change is given: the previous election has no recorded votes.</p>' : ''}
+      ${referendum ? '' : methodNote('party-labels', [METHOD_NOTE.partyGrouped])}${prevDetail ? methodNote('change', [METHOD_NOTE.changeSince]) : ''}
     </section>
     <section aria-labelledby="el-contests"><h2 id="el-contests">Contests</h2>
       <div class="cg-table-wrap"><table class="cg-table cg-table--compact el-contests">

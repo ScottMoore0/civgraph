@@ -12,6 +12,7 @@ import {
 } from '../lib/pivot.js';
 import { PIVOT_RUN } from '../state-machines.js';
 import { siteNumber } from '../../../pkg/core/src/format.js';
+import { methodLink, pivotMethodLinks } from '../lib/methods.js';
 
 const SAVED = 'civgraph.elections.pivotViews';
 
@@ -148,7 +149,10 @@ export async function render(root, route, ctx) {
       <tbody>${table.rows.map((r) => `<tr><th scope="row">${esc(r.key || '(blank)')}</th>${r.values.map((v) => `<td class="num">${fmt(v)}</td>`).join('')}${showTotal && table.cols.length > 1 ? `<td class="num">${fmt(r.total)}</td>` : ''}</tr>`).join('')}</tbody>
       ${showTotal ? `<tfoot><tr><th scope="row">Total</th>${table.totals.map((v) => `<td class="num">${fmt(v)}</td>`).join('')}${table.cols.length > 1 ? `<td class="num">${fmt(table.totals.reduce((/** @type {number} */ s, v) => s + (v || 0), 0))}</td>` : ''}</tr></tfoot>` : ''}
     </table>`;
-      notes.innerHTML = limitRows[0] ? pivotLimits(settings, limitRows[0], fmtInt).map((l) => limitHtml(l, esc, 'el-muted')).join('') : '';
+      // Each note links to how its figure is worked out, where it is worked out (lib/methods.js).
+      const links = pivotMethodLinks(settings);
+      notes.innerHTML = (limitRows[0] ? pivotLimits(settings, limitRows[0], fmtInt).map((l) => limitHtml(l, esc, 'el-muted', links.limits[l.id] ? methodLink(links.limits[l.id]) : '')).join('') : '')
+        + (links.measure ? `<p class="el-muted el-method" data-method="${links.measure}">${methodLink(links.measure)}</p>` : '');
       status.textContent = `${fmtInt(table.rowCount)} rows × ${table.cols.length} columns${table.rowsCut ? ' (first 500 rows shown; the CSV has them all)' : ''} · ${Math.round(performance.now() - started)} ms`;
       setRun('shown');
     } catch (err) {
