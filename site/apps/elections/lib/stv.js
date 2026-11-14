@@ -31,7 +31,7 @@ import { siteNumber } from '../../../pkg/core/src/format.js';
  * @typedef {{
  *   stage: number, index: number, kind: CountKind, surpluses: Mover[], exclusions: Mover[], unknown: Mover[], gains: Mover[],
  *   distributed: number, received: number, nonTransferable: number, ntRecorded: boolean,
- *   elected: Declared[], excluded: Declared[], last: boolean,
+ *   electedHere: Declared[], excludedHere: Declared[], last: boolean,
  * }} CountEvent
  */
 
@@ -230,7 +230,7 @@ export function countEvents(sheet) {
     else if (surpluses.length) kind = 'surplus';
     else if (exclusions.length) kind = 'exclusion';
     else if (unknown.length || gains.length) kind = 'unrecorded';
-    return { stage, index, kind, surpluses, exclusions, unknown, gains, distributed, received, nonTransferable, ntRecorded, elected, excluded, last: index === stages.length - 1 };
+    return { stage, index, kind, surpluses, exclusions, unknown, gains, distributed, received, nonTransferable, ntRecorded, electedHere: elected, excludedHere: excluded, last: index === stages.length - 1 };
   });
 }
 
@@ -282,10 +282,10 @@ export function countSentences(ev, quota) {
   if (ev.nonTransferable > 0) out.push(fill(ev.ntRecorded ? STV_TEXT.ntRecorded : STV_TEXT.ntDerived, { n: fmtInt(ev.nonTransferable) }));
   if (ev.kind === 'quiet') out.push(STV_TEXT.quiet);
   const movedOut = new Set([...ev.exclusions, ...ev.unknown].map((x) => x.id));
-  for (const x of ev.excluded) if (!movedOut.has(x.id)) out.push(fill(STV_TEXT.excludedOnly, { name: x.name }));
+  for (const x of ev.excludedHere) if (!movedOut.has(x.id)) out.push(fill(STV_TEXT.excludedOnly, { name: x.name }));
   /** @type {Record<string, string>} */
   const said = { 'reached-elected': STV_TEXT.reached, reached: STV_TEXT.reachedOnly, declared: STV_TEXT.declaredElected, 'no-quota': STV_TEXT.electedNoQuota, elected: STV_TEXT.electedPlain };
-  for (const x of ev.elected) out.push(fill(said[x.how], { name: x.name }));
+  for (const x of ev.electedHere) out.push(fill(said[x.how], { name: x.name }));
   if (ev.last && ev.index > 0) out.push(STV_TEXT.lastCount);
   return out;
 }

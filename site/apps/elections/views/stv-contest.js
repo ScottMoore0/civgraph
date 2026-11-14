@@ -28,9 +28,9 @@ export const STV_VIEW_TEXT = Object.freeze({
   candidate: 'Candidate',
   change: 'Change',
   votes: 'Votes',
-  elected: 'Elected',
-  excluded: 'Excluded',
-  continuing: 'Continuing',
+  stateElected: 'Elected',
+  stateExcluded: 'Excluded',
+  stateContinuing: 'Continuing',
   nonTransferable: 'Non-transferable',
   quotaAndLastSeat: 'The quota and the last seat',
   marginAt: 'At count {count}: {name} {n}, {other} {k}.',
@@ -68,9 +68,9 @@ const quotaNote = (total, quota) => (quota ? `<span class="el-muted el-step__q">
 
 /** @param {'elected' | 'excluded' | 'continuing'} state @param {boolean} here */
 function stateBadge(state, here) {
-  if (state === 'elected') return `<span class="cg-badge cg-badge--success">${esc(STV_VIEW_TEXT.elected)}</span>`;
-  if (state === 'excluded') return here ? `<span class="cg-badge cg-badge--danger">${esc(STV_VIEW_TEXT.excluded)}</span>` : `<span class="el-muted">${esc(STV_VIEW_TEXT.excluded)}</span>`;
-  return `<span class="el-muted">${esc(STV_VIEW_TEXT.continuing)}</span>`;
+  if (state === 'elected') return `<span class="cg-badge cg-badge--success">${esc(STV_VIEW_TEXT.stateElected)}</span>`;
+  if (state === 'excluded') return here ? `<span class="cg-badge cg-badge--danger">${esc(STV_VIEW_TEXT.stateExcluded)}</span>` : `<span class="el-muted">${esc(STV_VIEW_TEXT.stateExcluded)}</span>`;
+  return `<span class="el-muted">${esc(STV_VIEW_TEXT.stateContinuing)}</span>`;
 }
 
 /** A change as "+12" or "−986", thousands kept. @param {number | null} v */
