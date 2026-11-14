@@ -479,15 +479,23 @@ export interface PersonsCandidaciesAnswer {
   slug: string;
   personId: string;
   total: number;
-  candidacies: {
+  candidacies: Array<{
     electionKey: string;
     electionSlug: string;
     date: string;
     contest: string;
     name: string;
     elected: boolean;
+    electionTitle?: string;
+    body?: string;
+    contestSeq?: number;
+    contestSlug?: string;
+    party?: string | null;
+    firstPrefs?: number | null;
+    status?: string | null;
+    unopposed?: boolean;
     [key: string]: unknown;
-  }[];
+  }>;
   [key: string]: unknown;
 }
 
@@ -510,10 +518,32 @@ export interface PersonsRecordAnswer {
     name: string;
     browseUrl: string;
     parties?: unknown[];
-    elections?: unknown[];
+    elections?: {
+      key: string;
+      title?: string;
+      date?: string;
+      constituency: string;
+      party?: string;
+      elected: boolean;
+      firstPrefs?: number;
+      share?: number;
+      status?: string;
+      [key: string]: unknown;
+    }[];
     notes?: {
       kind: string;
       text: string;
+      [key: string]: unknown;
+    }[];
+    firstYear?: number;
+    lastYear?: number;
+    bodies?: string[];
+    relatives?: {
+      relation: string;
+      name: string;
+      slug?: string;
+      personId?: string;
+      source?: string;
       [key: string]: unknown;
     }[];
     [key: string]: unknown;
@@ -526,10 +556,32 @@ export interface PersonsRecordAnswer {
     name: string;
     browseUrl: string;
     parties?: unknown[];
-    elections?: unknown[];
+    elections?: {
+      key: string;
+      title?: string;
+      date?: string;
+      constituency: string;
+      party?: string;
+      elected: boolean;
+      firstPrefs?: number;
+      share?: number;
+      status?: string;
+      [key: string]: unknown;
+    }[];
     notes?: {
       kind: string;
       text: string;
+      [key: string]: unknown;
+    }[];
+    firstYear?: number;
+    lastYear?: number;
+    bodies?: string[];
+    relatives?: {
+      relation: string;
+      name: string;
+      slug?: string;
+      personId?: string;
+      source?: string;
       [key: string]: unknown;
     }[];
     [key: string]: unknown;
@@ -547,10 +599,32 @@ export interface PersonsListAnswer {
     name: string;
     browseUrl: string;
     parties?: unknown[];
-    elections?: unknown[];
+    elections?: {
+      key: string;
+      title?: string;
+      date?: string;
+      constituency: string;
+      party?: string;
+      elected: boolean;
+      firstPrefs?: number;
+      share?: number;
+      status?: string;
+      [key: string]: unknown;
+    }[];
     notes?: {
       kind: string;
       text: string;
+      [key: string]: unknown;
+    }[];
+    firstYear?: number;
+    lastYear?: number;
+    bodies?: string[];
+    relatives?: {
+      relation: string;
+      name: string;
+      slug?: string;
+      personId?: string;
+      source?: string;
       [key: string]: unknown;
     }[];
     [key: string]: unknown;
@@ -629,6 +703,7 @@ export interface PartiesRecordAnswer {
     title: string;
     colour: string;
     browseUrl: string;
+    knownAliases?: string[];
     [key: string]: unknown;
   };
   [key: string]: unknown;
@@ -645,6 +720,7 @@ export interface PartiesListAnswer {
     title: string;
     colour: string;
     browseUrl: string;
+    knownAliases?: string[];
     [key: string]: unknown;
   }[];
   [key: string]: unknown;

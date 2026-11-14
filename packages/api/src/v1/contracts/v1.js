@@ -56,8 +56,11 @@ const page = (/** @type {string} */ key, /** @type {JsonSchemaNode} */ item) => 
   applied: obj({ filters: arr(), sort: {} }),
 });
 
-const PERSON = obj({ id: str, slug: str, type: str, title: str, name: str, browseUrl: str, parties: arr(), elections: arr(), notes: arr(obj({ kind: str, text: str })) }, ['id', 'slug', 'type', 'title', 'name', 'browseUrl']);
-const PARTY = obj({ id: str, slug: str, type: str, title: str, colour: str, browseUrl: str });
+// The Elections app's person page (14 Nov 2026) reads a candidacy's share and votes, the years and bodies, and relatives.
+const PERSON_ELECTION = obj({ key: str, title: str, date: str, constituency: str, party: str, elected: bool, firstPrefs: num, share: num, status: str }, ['key', 'constituency', 'elected']);
+const RELATIVE = obj({ relation: str, name: str, slug: str, personId: str, source: str }, ['relation', 'name']);
+const PERSON = obj({ id: str, slug: str, type: str, title: str, name: str, browseUrl: str, parties: arr(), elections: arr(PERSON_ELECTION), notes: arr(obj({ kind: str, text: str })), firstYear: num, lastYear: num, bodies: arr(str), relatives: arr(RELATIVE) }, ['id', 'slug', 'type', 'title', 'name', 'browseUrl']);
+const PARTY = obj({ id: str, slug: str, type: str, title: str, colour: str, browseUrl: str, knownAliases: arr(str) }, ['id', 'slug', 'type', 'title', 'colour', 'browseUrl']);
 const SOURCE = obj({ id: str, slug: str, type: str, title: str, browseUrl: str });
 const REGISTER_ENTRY = obj({ id: str, slug: str, type: str, title: str, memberName: str });
 const VOTES_PERSON = obj({ schemaVersion: num, personId: num, terms: arr(), divisions: arr() });
@@ -190,7 +193,8 @@ export const CONTRACTS = Object.freeze({
     variants: [
       v('facets', { facets: '1' }, 'The People filter options', obj({ facets: obj({ body: arr(), decade: arr(), elected: arr(), party: arr() }) })),
       v('candidacies', { slug: '*', view: 'candidacies' }, 'Every candidacy of one person, in date order',
-        obj({ slug: str, personId: str, total: num, candidacies: arr(obj({ electionKey: str, electionSlug: str, date: str, contest: str, name: str, elected: bool })) })),
+        obj({ slug: str, personId: str, total: num, candidacies: arr(obj({ electionKey: str, electionSlug: str, date: str, contest: str, name: str, elected: bool,
+          electionTitle: str, body: str, contestSeq: num, contestSlug: str, party: strOrNull, firstPrefs: numOrNull, status: strOrNull, unopposed: bool }, ['electionKey', 'electionSlug', 'date', 'contest', 'name', 'elected'])) })),
       v('votes', { slug: '*', view: 'votes' }, 'One person\'s parliamentary votes', VOTES_PERSON),
       v('record', { slug: '*' }, 'One person', obj({ person: PERSON, record: PERSON })),
       v('list', {}, 'A page of people, searched (q), filtered and sorted', page('persons', PERSON)),

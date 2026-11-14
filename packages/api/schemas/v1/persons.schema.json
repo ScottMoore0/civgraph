@@ -141,6 +141,39 @@
               },
               "elected": {
                 "type": "boolean"
+              },
+              "electionTitle": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "contestSeq": {
+                "type": "number"
+              },
+              "contestSlug": {
+                "type": "string"
+              },
+              "party": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "firstPrefs": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "status": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "unopposed": {
+                "type": "boolean"
               }
             },
             "required": [
@@ -214,7 +247,44 @@
               "type": "array"
             },
             "elections": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string"
+                  },
+                  "constituency": {
+                    "type": "string"
+                  },
+                  "party": {
+                    "type": "string"
+                  },
+                  "elected": {
+                    "type": "boolean"
+                  },
+                  "firstPrefs": {
+                    "type": "number"
+                  },
+                  "share": {
+                    "type": "number"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "constituency",
+                  "elected"
+                ]
+              }
             },
             "notes": {
               "type": "array",
@@ -231,6 +301,45 @@
                 "required": [
                   "kind",
                   "text"
+                ]
+              }
+            },
+            "firstYear": {
+              "type": "number"
+            },
+            "lastYear": {
+              "type": "number"
+            },
+            "bodies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "relatives": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "relation": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "personId": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "relation",
+                  "name"
                 ]
               }
             }
@@ -269,7 +378,44 @@
               "type": "array"
             },
             "elections": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string"
+                  },
+                  "constituency": {
+                    "type": "string"
+                  },
+                  "party": {
+                    "type": "string"
+                  },
+                  "elected": {
+                    "type": "boolean"
+                  },
+                  "firstPrefs": {
+                    "type": "number"
+                  },
+                  "share": {
+                    "type": "number"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key",
+                  "constituency",
+                  "elected"
+                ]
+              }
             },
             "notes": {
               "type": "array",
@@ -286,6 +432,45 @@
                 "required": [
                   "kind",
                   "text"
+                ]
+              }
+            },
+            "firstYear": {
+              "type": "number"
+            },
+            "lastYear": {
+              "type": "number"
+            },
+            "bodies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "relatives": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "relation": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "slug": {
+                    "type": "string"
+                  },
+                  "personId": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "relation",
+                  "name"
                 ]
               }
             }
@@ -336,7 +521,44 @@
                 "type": "array"
               },
               "elections": {
-                "type": "array"
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string"
+                    },
+                    "constituency": {
+                      "type": "string"
+                    },
+                    "party": {
+                      "type": "string"
+                    },
+                    "elected": {
+                      "type": "boolean"
+                    },
+                    "firstPrefs": {
+                      "type": "number"
+                    },
+                    "share": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "constituency",
+                    "elected"
+                  ]
+                }
               },
               "notes": {
                 "type": "array",
@@ -353,6 +575,45 @@
                   "required": [
                     "kind",
                     "text"
+                  ]
+                }
+              },
+              "firstYear": {
+                "type": "number"
+              },
+              "lastYear": {
+                "type": "number"
+              },
+              "bodies": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "relatives": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "relation": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "personId": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "relation",
+                    "name"
                   ]
                 }
               }
