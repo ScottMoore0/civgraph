@@ -45,6 +45,8 @@ test('each file has the class its folder and its readers give it', () => {
     'render/src/renderer.js': 'code',
     'docs/ARCHITECTURE-RULES.md': 'code',
     'CHECKS.md': 'code',
+    'scripts/README.md': 'code',
+    'data/elections-source/README.md': 'code',
     'scripts/check/run.mjs': 'code',
     'scripts/publish/publish.sh': 'code',
     'scripts/publish/publish-path.mjs': 'code',

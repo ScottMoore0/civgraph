@@ -52,7 +52,7 @@ export const CODE_ONLY = Object.freeze([
   /^packages\/(?:map|ui|api|types)\//,
   /^render\/src\//, /^render\/sw\.js$/,
   /^tests\//, /^docs\//, /^\.github\//, /^\.claude\//, /^tools\//,
-  /^[^/]+\.md$/, /^(?:LICENSE|NOTICE|\.nvmrc|\.cfignore|eslint\.config\.mjs)$/,
+  /^[^/]+\.md$/, /(?:^|\/)README\.md$/, /^(?:LICENSE|NOTICE|\.nvmrc|\.cfignore|eslint\.config\.mjs)$/,
   /^scripts\/check\//, /^scripts\/dev\//,
   // The publish scripts, less the Elections app's extract refresh and upload (R2).
   /^scripts\/publish\/(?!elections-app-)/,

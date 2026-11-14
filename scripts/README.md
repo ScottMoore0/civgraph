@@ -58,6 +58,53 @@ halves are gone: the records build writes the catalogue's rows, and the bounded
 
 Ask which half of a check is genuinely remote. Usually most of it is not.
 
+## Before and during a publish
+
+Two commands, in this order, from the main checkout. Commit between them; the publish refuses
+uncommitted changes to tracked files.
+
+```bash
+npm run rebuild                 # build and check what changed since the last publish
+git add -A && git commit        # the regenerated ledgers, catalogue, figures, sitemaps, stamps
+bash .claude/publish/publish.sh # after the owner's approval (--dry-run first is safe)
+```
+
+**`npm run rebuild`** (`build/rebuild-changed.mjs`; `--plan` prints the plan and stops) replaces
+the explicit chain run by hand before each publish. It compares the working tree with the last
+publish that loaded D1 (`.claude/publish/work/records-base.json`, else `origin/main`; `--since REF`
+for another commit) and sorts the changed files with `packages/loader/src/publish-inputs.mjs`:
+
+- **data** (a file that feeds the records build, D1 or R2): the person-id re-stamp when election
+  data changed, always with `MANIFEST_ARGS=--withhold-unmappable` (never `npm run persons:rebuild`
+  without it: it re-mints ids); timeline changes; the NI council rounds; `records:build`; the
+  graph-id and person-address ledgers; the catalogue and its check; `npm run build`;
+  `records:build` again when the steps before changed its inputs; the sitemaps, Browse cache
+  tokens, site figures (stamped into the home and About pages), status and licence page; the
+  Elections app's extracts; `records:check`, `check:fast` (with `test:unit`), the catalogue tests
+  and the browser tests (`--no-browser` to skip them). Each `records:build` is skipped when
+  `tmp/records` was built from exactly these inputs, and the re-stamp when it already ran on
+  these files.
+- **app** (map-app and check code only): the bundle, the shell and the app-facing checks.
+- **code** (other code: site pages, Functions, docs, tests): `npm run build` and `check:fast`.
+
+It reads the votes from `CIVGRAPH_VOTES_DIR`, or the directory the publish wrapper exports, so its
+records build is the one the publish would make. It ends by saying whether the publish will reuse
+that build.
+
+**The publish** (`publish/publish.sh`) first decides its path (`publish/publish-path.mjs`), and
+prints what it skipped and why:
+
+- **code-only** when it knows what D1 holds and no file of the records class changed since: no
+  records build, D1 load, safe verify or Elections app refresh; it pushes.
+- **full** otherwise (in doubt, always full). The records build is reused when its inputs manifest
+  (`inputs-manifest.json` beside the database: the content of every records input, the votes'
+  origin and the order seed) equals the inputs now (`publish/records-freshness.mjs`); `--rebuild`
+  forces a build. After the load, the safe verify runs in the background and its verdict is in the
+  summary; a failure exits 3 and rolls nothing back.
+
+With `CIVGRAPH_DIRECT_DEPLOY=1` it then deploys the built site with `publish/deploy-pages.mjs`
+after the push (off by default: Cloudflare builds from the push).
+
 ## Finding a script by what you want to do
 
 | I want to… | Start at |

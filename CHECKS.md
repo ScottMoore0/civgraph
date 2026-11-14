@@ -95,7 +95,7 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
 
 **4. Opt-in remote.** Run these by hand after a publish.
 - `verify` needs wrangler signed in. It runs `verify:proxies`, `verify:map-tokens`,
-  `verify:deploy`, `verify:source-cache`, `verify:records` and `check:r2-parity`. `verify:records` is bounded: one statement per wrangler call, 50 keys
+  `verify:deploy`, `verify:source-cache`, `verify:records` and `check:r2-parity`. `verify:records` is bounded: a few bounded statements per wrangler call (at most 8), 50 keys
   sampled per table, no table scanned. Since data phase 3 it covers the maps, layers and
   catalogue tables too, which is what `verify:catalogue-d1` did for the old catalogue database.
 - `verify:public` needs no credentials. It runs the CDN byte-range check
@@ -109,6 +109,11 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
   resumed with `--resume`. By default it reads small tables whole, the edge ranges, the ranges
   the last delta touched and 20 random ranges; `--full` walks every range. `--plan` estimates
   the cost without reading D1. The publish wrapper's `--check` runs it.
+- Since 14 Nov 2026 the publish runs `records:verify:safe -- --remote --db
+  .claude/publish/work/last-loaded.sqlite` itself after every D1 load, in the background while the
+  extracts are refreshed and the push goes out, and reports it in its summary. A failure is printed
+  loudly and the run exits 3; nothing is rolled back. A code-only publish loads nothing and runs no
+  verify (`scripts/README.md`, "Before and during a publish").
 
 ## What guards what (tier 1, the `npm run check` chain)
 
