@@ -1442,12 +1442,12 @@ export const NO_LABEL = 'No label';
 /**
  * The seats each party won in one contest, from its elected candidates: party -> seats, the
  * largest first (ties by name). A contest's election summary carries it for multi-member seats
- * (scripts/build/build-test2-election-summaries.mjs), so a reader can tell "most seats" from a
+ * (scripts/build/build-test2-election-summaries.mjs, as seatsByParty), so a reader can tell "most seats" from a
  * tie at the top (the Elections app's lib/winner.js); winnerParty alone names one of the tied.
  * @param {Array<{ party?: unknown }>} elected
  * @returns {Record<string, number>}
  */
-export function seatsByParty(elected) {
+export function seatCountsByParty(elected) {
   const counts = countBy(elected || [], (candidate) => String(candidate?.party || '') || NO_LABEL);
   return Object.fromEntries([...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])));
 }

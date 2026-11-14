@@ -10,7 +10,7 @@ import path from 'node:path';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
 import { ELECTION_MANIFEST, ELECTION_SUMMARY_DIR } from '../../packages/loader/src/paths.mjs';
 import { localPathForUrl } from '../../packages/loader/src/paths.mjs';
-import { seatsByParty } from '../../packages/core/src/election-domain.mjs';
+import { seatCountsByParty } from '../../packages/core/src/election-domain.mjs';
 
 const ROOT = process.cwd();
 const MANIFEST_PATH = ELECTION_MANIFEST;
@@ -62,7 +62,7 @@ function electedCount(/** @type {ElectionResult} */ result) {
 }
 
 /**
- * The seats each party won in a multi-member contest (core's seatsByParty), so a reader can tell a
+ * The seats each party won in a multi-member contest (core's seatCountsByParty), so a reader can tell a
  * tie at the top from "most seats"; null for a single seat or a contest with nobody elected.
  * The elected are the result's own list where it has one (summarizeResult's), else its
  * candidates marked elected.
@@ -70,7 +70,7 @@ function electedCount(/** @type {ElectionResult} */ result) {
 function partySeats(/** @type {ElectionResult} */ result) {
   if ((numberOrNull(result.seatsTotal) || 1) <= 1) return null;
   const elected = Array.isArray(result.elected) && result.elected.length ? /** @type {Candidate[]} */ (result.elected) : electedCandidates(result);
-  return elected.length ? seatsByParty(elected) : null;
+  return elected.length ? seatCountsByParty(elected) : null;
 }
 
 function partyCount(/** @type {ElectionResult} */ result) {

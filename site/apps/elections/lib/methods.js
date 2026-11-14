@@ -88,7 +88,7 @@ export const METHODS = Object.freeze([
     paragraphs: [
       'Candidates stand under the label printed on the ballot paper, and the records keep that label as printed.',
       "An election's party table groups the labels. Labels that differ only in capital letters, accents, punctuation, '&' for 'and', or a note in brackets count as one party, shown under the first spelling met. At Dáil elections a few older spellings are read as the current name (Sinn Fein as Sinn Féin, Fianna Fail as Fianna Fáil, Labour as Irish Labour, People Before Profit as PBP), and a candidate with no label counts as Independent.",
-      'The pivot tables, the share and change maps, the swingometer and the notional results do not group labels: each label as printed is a party of its own there, so one party can appear under several spellings. A candidacy with no label reads No party recorded.',
+      "The pivot tables' Party joins the labels that belong to one party on file under its most used label; a label that belongs to no party on file stays as printed. The pivot tables' Party (ballot label), the share and change maps, the swingometer and the notional results do not group labels: each label as printed is a party of its own there, so one party can appear under several spellings. A candidacy with no label reads No party recorded.",
     ],
   },
   {
@@ -106,7 +106,7 @@ export const METHODS = Object.freeze([
     link: 'How seats are estimated',
     paragraphs: [
       'The swingometer and the notional results estimate seats from vote shares alone. A contest with one seat goes to the party with the largest share. In a contest with several seats, each party gets a seat for every whole quota of 100 ÷ (seats + 1) per cent in its share, and any seats left go to the largest remainders.',
-      "A party's candidates are pooled, so the estimate is of the party's seats, not of who would win them. Under the single transferable vote the real count transfers votes, which often decides the last seats. Transfers are not modelled, so these estimates can differ from the seats actually won, even with no change at all.",
+      "A party's candidates are pooled, so the estimate is of the party's seats, not of who would win them. Under the single transferable vote the real count transfers votes, which often decides the last seats. Transfers are not modelled, so these estimates can differ from the seats actually won. The notional results show the estimates as they are; the swingometer applies only their change to the seats actually won (below).",
     ],
   },
   {
@@ -115,7 +115,7 @@ export const METHODS = Object.freeze([
     link: 'How the swingometer works',
     paragraphs: [
       "The swingometer starts from a base election's votes by contest and party (first preferences under the single transferable vote). Moving a party's slider adds that many points to its share in every contest: a uniform swing. A share cannot fall below zero, and each contest's shares are then scaled to add up to 100. Seats are then estimated as above.",
-      "Each party with at least 0.5% of the base election's vote has a slider, from −15 to +15 points. The base seats are the same estimate with no change, so they can differ from the seats actually won. The new share is each party's share of the whole vote with its change applied, scaled with the others to add up to 100. No poll is used.",
+      "Each party with at least 0.5% of the base election's vote has a slider, from −15 to +15 points. The base seats are the seats each party actually won. A change moves a contest's seats only where the estimate with the change differs from the estimate without it: a party loses as many of the seats it won as the estimate takes from it, and those seats go to the parties the estimate gives seats to. The new share is each party's share of the whole vote with its change applied, scaled with the others to add up to 100. No poll is used.",
     ],
   },
   {

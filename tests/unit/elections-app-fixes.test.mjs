@@ -9,7 +9,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { seatsByParty } from '../../packages/core/src/election-domain.mjs';
+import { seatCountsByParty } from '../../packages/core/src/election-domain.mjs';
 import { WINNER_WORDS, contestWinner, winnerCellHtml, winnerChanged, winnerText } from '../../site/apps/elections/lib/winner.js';
 import { SWING_WORDS, anchoredSeats, baseContests, project, projectFromResult } from '../../site/apps/elections/lib/project.js';
 import { DIMENSIONS, DEFAULT_STATE, pivotSql, stateFromQuery } from '../../site/apps/elections/lib/pivot.js';
@@ -23,12 +23,12 @@ const fmt = (/** @type {number} */ n) => fmtInt(n);
 
 // ------------------------------------------------------------------ winners
 
-test('seatsByParty counts the elected by party, largest first, ties by name', () => {
-  assert.deepEqual(seatsByParty([{ party: 'UUP' }, { party: 'Sinn Féin' }, { party: 'TUV' }, { party: 'DUP' }, { party: 'Alliance' }]),
+test('seatCountsByParty counts the elected by party, largest first, ties by name', () => {
+  assert.deepEqual(seatCountsByParty([{ party: 'UUP' }, { party: 'Sinn Féin' }, { party: 'TUV' }, { party: 'DUP' }, { party: 'Alliance' }]),
     { Alliance: 1, DUP: 1, 'Sinn Féin': 1, TUV: 1, UUP: 1 });
-  assert.deepEqual(Object.entries(seatsByParty([{ party: 'UUP' }, { party: 'Alliance' }, { party: 'DUP' }, { party: 'Alliance' }, { party: 'DUP' }])),
+  assert.deepEqual(Object.entries(seatCountsByParty([{ party: 'UUP' }, { party: 'Alliance' }, { party: 'DUP' }, { party: 'Alliance' }, { party: 'DUP' }])),
     [['Alliance', 2], ['DUP', 2], ['UUP', 1]]);
-  assert.deepEqual(seatsByParty([{ party: '' }]), { 'No label': 1 });
+  assert.deepEqual(seatCountsByParty([{ party: '' }]), { 'No label': 1 });
 });
 
 test('a five-way tie is a tie, never "UUP most seats" (North Antrim 2022)', () => {
