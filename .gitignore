@@ -467,3 +467,6 @@ data/database/corpus-index.private.json
 # DuckDB's WebAssembly and its parquet extension (scripts/build/elections-app/vendor.mjs): over the Pages limit or binary, served from R2; local copies only.
 /src/libs/duckdb-wasm-*/*.wasm
 /src/libs/duckdb-wasm-*/extensions/
+
+# A worktree made by npm run worktree:new preloads its write guard from here (scripts/dev/worktree/).
+/.npmrc

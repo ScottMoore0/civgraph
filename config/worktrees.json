@@ -1,0 +1,92 @@
+{
+  "//": "Parallel agent worktrees and the landing queue (speed-landing, 14 Nov 2026). Read by scripts/dev/worktree/ (npm run worktree:new, worktree:remove, worktree:own), scripts/dev/land.mjs (npm run land) and scripts/check/run.mjs (check:fast). A records entry names a key of recordPaths() (packages/config/src/node.mjs); a repo entry is a path from the repository root.",
+  "artefacts": {
+    "//": "What a new worktree gets of main's untracked generated artefacts. links: folders read from a shared read-only snapshot (one copy for every worktree, <parent of the main checkout>/<snapshotDir>/<fingerprint of main's copies>/), joined into the worktree by a directory junction; a write into one turns it into a local folder first (scripts/dev/worktree/write-guard.cjs), so no worktree's build ever reaches main's copy or another worktree's. copies: small files and folders copied into the worktree, because ordinary builds rewrite them there.",
+    "snapshotDir": "civgraph-artefacts",
+    "links": [
+      { "records": "BROWSE_DIR" },
+      { "records": "ELECTION_BUNDLE_DIR" },
+      { "records": "ELECTION_SUMMARY_DIR" },
+      { "records": "PROVENANCE_PART_DIR" },
+      { "records": "PROVENANCE_SHARD_DIR" }
+    ],
+    "copies": [
+      { "records": "PROVENANCE_FILE" },
+      { "records": "ELECTION_MANIFEST" },
+      { "records": "ELECTION_REPORT" },
+      { "repo": "site/app/build" },
+      { "repo": "build/main.css" },
+      { "repo": "build/main.critical.css" }
+    ]
+  },
+  "checkNeeds": {
+    "//": "The check:fast steps that read untracked generated artefacts. In a worktree (.git is a file) a step whose artefact is absent is reported as skipped, naming the artefact; in the main checkout every step runs and fails as before.",
+    "check:notices": [{ "repo": "site/app/build/metafile.json" }],
+    "check:asset-refs": [{ "repo": "site/app/build/app.bundle.js" }, { "repo": "build/main.css" }],
+    "check:doc-paths": [{ "repo": "site/app/build/app.bundle.js" }, { "repo": "build/main.css" }],
+    "check:election-source-enrichments": [{ "records": "BROWSE_DIR", "file": "elections.json" }],
+    "check:peatland-geoportal": [{ "records": "BROWSE_DIR", "file": "sources.json" }],
+    "check:approved-publication": [{ "records": "BROWSE_DIR", "file": "sources.json" }],
+    "check:ni-register-interests": [{ "records": "BROWSE_DIR", "file": "sources.json" }],
+    "check:public-map-count": [{ "records": "BROWSE_DIR", "file": "maps.json" }],
+    "check:status": [{ "records": "PROVENANCE_FILE" }],
+    "check:provenance": [{ "records": "PROVENANCE_FILE" }, { "records": "PROVENANCE_PART_DIR" }],
+    "check:site-figures": [{ "records": "ELECTION_BUNDLE_DIR" }],
+    "check:test2": [{ "records": "ELECTION_MANIFEST" }],
+    "test:elections-unit": [{ "records": "PROVENANCE_FILE" }, { "records": "ELECTION_BUNDLE_DIR" }]
+  },
+  "landing": {
+    "//": "npm run land. publishCommand: a running process whose command line matches this is a publish, and land refuses to start or to move main while one runs. generated: files whose rebase conflicts land resolves itself, by taking main's side and running the rule's regenerators afterwards; resolve 'file' takes main's whole file, 'hunks' takes main's side of each conflict only when every line of both sides matches 'line', 'tokens' only when the two sides differ in nothing but ?v= cache tokens. Any other conflict stops the queue. restamp: run on every branch after its rebase, committed when they change anything. gates: the check:fast steps a branch must pass before main moves.",
+    "publishCommand": "\\bbash(?:\\.exe)?\"?\\s+(?:\\S*[\\\\/])?(?:\\.claude|scripts)[\\\\/]publish[\\\\/]publish\\.sh",
+    "generated": [
+      {
+        "name": "the interface language files",
+        "files": ["site/assets/i18n/*.json", "data/i18n/review/*", "data/i18n/map-names.overlay.json"],
+        "resolve": "file",
+        "regenerate": [{ "npm": "i18n:build" }]
+      },
+      {
+        "name": "the generated types",
+        "files": ["packages/types/generated/**"],
+        "resolve": "file",
+        "regenerate": [{ "npm": "build:types" }]
+      },
+      {
+        "name": "the v1 contract baseline",
+        "files": ["**/api-v1-contracts.baseline.json"],
+        "resolve": "file",
+        "regenerate": [],
+        "note": "main's baseline is kept: rewriting it from the merged contracts would also accept an incompatible change. The branch's additions pass against it; take them in deliberately with API_CONTRACT_BASELINE=write."
+      },
+      {
+        "name": "the import maps",
+        "files": ["site/**/*.html"],
+        "resolve": "hunks",
+        "line": "^\\s*<script type=\"importmap\">",
+        "regenerate": [{ "npm": "build:import-maps" }, { "npm": "build:browse-cache" }]
+      },
+      {
+        "name": "the cache tokens",
+        "files": ["site/**/*.html"],
+        "resolve": "tokens",
+        "regenerate": [{ "npm": "build:import-maps" }, { "npm": "build:browse-cache" }]
+      }
+    ],
+    "restamp": [{ "npm": "build:import-maps" }, { "npm": "build:browse-cache" }],
+    "gates": [
+      "test:unit",
+      "check:i18n",
+      "check:architecture",
+      "check:boundaries",
+      "check:dir-names",
+      "check:types:functions",
+      "check:types:functions-strict",
+      "check:types:ui",
+      "check:types:records",
+      "check:types:pipeline",
+      "check:types:intake",
+      "check:types:shared",
+      "check:types:mapapp"
+    ]
+  }
+}

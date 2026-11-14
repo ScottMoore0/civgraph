@@ -16,6 +16,11 @@
  * Steps in SERIAL_ONLY write shared scratch files (test:scoped-writes) or are heavy enough
  * to starve the pool (eslint), and run one at a time after the parallel batch.
  *
+ * In a linked worktree (.git is a file, not a folder) a step that reads an untracked generated
+ * artefact which is absent there (config/worktrees.json checkNeeds) is reported as skipped,
+ * naming the artefact, instead of failing; npm run worktree:new provides those artefacts. In the
+ * main checkout every step runs, and fails, as before.
+ *
  * This is the fast local tier of CHECKS.md. `check` is offline: no step reads a remote
  * database, R2 or the deployed site. The comparisons with the LIVE databases and the R2 bucket
  * are in the opt-in `npm run verify` (verify:records, the bounded records check;
@@ -23,7 +28,7 @@
  * and the browser specs, npm run check:full.
  */
 import { spawn } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 
 const SERIAL_ONLY = new Set([
@@ -53,6 +58,24 @@ for (const step of steps) {
     console.error(`FAIL: no npm script named ${step}`);
     process.exit(1);
   }
+}
+
+// A linked worktree lacks main's untracked generated artefacts unless worktree:new provided them:
+// the steps that read an absent one are skipped there, and say which.
+const inWorktree = (() => { try { return statSync('.git').isFile(); } catch { return false; } })();
+/** @type {{ step: string, missing: string[] }[]} */
+const skipped = [];
+if (inWorktree) {
+  const { recordPaths } = await import('../../packages/config/src/node.mjs');
+  const { missingNeeds } = await import('../lib/artefact-refs.mjs');
+  const needs = JSON.parse(readFileSync('config/worktrees.json', 'utf8')).checkNeeds;
+  const env = { records: /** @type {Record<string, string | null>} */ (recordPaths()), root: process.cwd(), exists: existsSync };
+  for (const step of steps) {
+    const missing = missingNeeds(step, needs, env);
+    if (missing.length) skipped.push({ step, missing });
+  }
+  steps = steps.filter((step) => !skipped.some((s) => s.step === step));
+  for (const s of skipped) console.log(`skip          ${s.step}: needs ${s.missing.join(', ')}`);
 }
 
 // Slowest first, from the last run's timings, so one long step does not start last and
@@ -111,7 +134,8 @@ for (const result of failed) {
 }
 const seconds = ((Date.now() - started) / 1000).toFixed(0);
 if (failed.length) {
-  console.log(`\nCHECKS FAILED: ${failed.length} of ${results.length} (${seconds}s, ${jobs} at a time)`);
+  console.log(`\nCHECKS FAILED: ${failed.length} of ${results.length} (${seconds}s, ${jobs} at a time${skipped.length ? `; ${skipped.length} skipped in this worktree` : ''})`);
   process.exit(1);
 }
-console.log(`\nCHECKS OK: ${results.length} steps in ${seconds}s (${jobs} at a time; ${serialSeconds}s one after another)`);
+const skipNote = skipped.length ? `; ${skipped.length} skipped in this worktree for want of main's generated artefacts (npm run worktree:new provides them)` : '';
+console.log(`\nCHECKS OK: ${results.length} steps in ${seconds}s (${jobs} at a time; ${serialSeconds}s one after another${skipNote})`);
