@@ -14,7 +14,9 @@ import {
   loadRemovals,
   loadWikidataPersons,
   lostQids,
+  personNotes,
   personRedirects,
+  publicNoteText,
   personWikidata,
   rekeyWikidataPersons,
   restoreLostLinks,
@@ -273,4 +275,31 @@ test('the committed crosswalk is valid against the committed registry', () => {
   const { errors } = validateWikidataPersons(doc, { personIds, registryQids });
   assert.deepEqual(errors.slice(0, 5), []);
   assert.ok(Object.keys(doc.persons).length > 1000, 'the crosswalk holds the linked persons');
+});
+
+test('person notes: each held note of an entry, by kind, without the research stream tag (persons-13 request)', () => {
+  const doc = { persons: {
+    1: { qid: 'Q1', name: 'A', confidence: 'medium', evidence: [], dateNote: 'Died January 1987, not 1976. (research-K2 MG-H, 13 Nov 2026, owner-approved)' },
+    2: { qid: 'Q2', name: 'B', confidence: 'official', evidence: [], identityNote: 'Two official lists hold two people; one man (White (2018), p. 20) (research-K1 JB1, 13 Nov 2026, owner-approved).' },
+    3: { qid: 'Q3', name: 'C', confidence: 'high', evidence: [] },
+  } };
+  assert.deepEqual(personNotes(doc, 1), [{ kind: 'dates', text: 'Died January 1987, not 1976.' }]);
+  assert.deepEqual(personNotes(doc, '2'), [{ kind: 'identity', text: 'Two official lists hold two people; one man (White (2018), p. 20).' }]);
+  assert.deepEqual(personNotes(doc, 3), [], 'no note held, none shown: never a blanket disclaimer');
+  assert.deepEqual(personNotes(doc, 4), []);
+  assert.equal(publicNoteText('Born 1913 (News Letter, 19 Feb 1992, p. 9).'), 'Born 1913 (News Letter, 19 Feb 1992, p. 9).', 'a citation in brackets stays');
+  assert.equal(publicNoteText(null), '');
+});
+
+test('person notes: the committed crosswalk gives John Beirne his identity note and the MG-H entries their date notes', () => {
+  const doc = loadWikidataPersons();
+  const beirne = personNotes(doc, 100298);
+  assert.equal(beirne.length, 1);
+  assert.equal(beirne[0].kind, 'identity');
+  assert.match(beirne[0].text, /list two people/);
+  assert.doesNotMatch(beirne[0].text, /research-|owner-approved/);
+  const dated = Object.keys(doc.persons).filter((id) => personNotes(doc, id).some((n) => n.kind === 'dates'));
+  assert.ok(dated.length >= 16, `${dated.length} date notes`);
+  assert.ok(dated.includes('1371'), 'Ronald Broadhurst (died January 1987)');
+  for (const id of dated) for (const n of personNotes(doc, id)) assert.doesNotMatch(n.text, /research-|owner-approved/, id);
 });

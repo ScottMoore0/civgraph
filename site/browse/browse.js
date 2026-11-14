@@ -3944,7 +3944,7 @@ function renderRelatedPanel(type, item) {
     const withVotes = normalizeArray(item.elections).some((row) => Number(row.firstPrefs) > 0);
     const withShare = normalizeArray(item.elections).some((row) => Number.isFinite(Number(row.share)) && row.share !== null && row.share !== undefined);
     const headers = ['Date', 'Election', 'Party', { label: 'As printed', className: 'browse-col-printed' }, 'Constituency', 'Result', ...(withVotes ? ['Votes'] : []), ...(withShare ? ['Share'] : []), 'Map'];
-    return renderSimpleTable('Contests', headers, byDate(item.elections), (row) => [
+    return renderPersonNotes(item) + renderSimpleTable('Contests', headers, byDate(item.elections), (row) => [
       formatDate(row.date),
       row.key ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
       (row.party && row.party !== NO_LABEL ? partyLinkHtml(row.party) : noLabelHtml()) + partyInferredHtml(row),
@@ -4010,6 +4010,26 @@ function renderRelatedPanel(type, item) {
   if (type === 'maps') return renderMapVariants(item);
   if (type === 'offices') return renderOfficeHoldersPanel(item);
   return '';
+}
+
+/**
+ * The headings of the notes a person record may hold on that person alone, by kind: the words of
+ * the server-rendered person page (packages/ui/src/templates/records/person.js
+ * PERSON_NOTE_TITLES), keyed for translation in data/i18n/strings/browse.txt.
+ * @type {Readonly<Record<string, string>>}
+ */
+const PERSON_NOTE_HEADINGS = Object.freeze({ identity: 'About this record', dates: 'About the dates' });
+
+/**
+ * A person's own notes (who the record is; why a date differs from another source's), each shown
+ * where the record holds one: never a blanket disclaimer.
+ * @param {BrowseItem} item
+ */
+function renderPersonNotes(item) {
+  return normalizeArray(item.notes)
+    .filter((/** @type {BrowseItem} */ note) => note && note.text && PERSON_NOTE_HEADINGS[note.kind])
+    .map((/** @type {BrowseItem} */ note) => `<p class="browse-note" data-person-note="${escapeAttr(note.kind)}"><strong>${escapeHtml(PERSON_NOTE_HEADINGS[note.kind])}</strong><br><span>${escapeHtml(note.text)}</span></p>`)
+    .join('');
 }
 
 // ---- The facts model: offices, tenures, affiliations (docs/facts-model.md) ----

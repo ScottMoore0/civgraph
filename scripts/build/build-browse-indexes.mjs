@@ -11,7 +11,7 @@ import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../pac
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from '../lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from '../lib/person-name-artefacts.mjs';
 import { referenceOffices, referenceRelatives } from '../lib/reference-person-facts.mjs';
-import { loadWikidataPersons, personWikidata } from '../lib/wikidata-persons.mjs';
+import { loadWikidataPersons, personNotes, personWikidata } from '../lib/wikidata-persons.mjs';
 import { applyLedger, personKeepOf, readLedger } from '../lib/person-address-ledger.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { CDN_BASE } from '../../packages/map/src/cdn-url.js';
@@ -2627,6 +2627,7 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
   const missingRelatives = new Set();
   let withOffices = 0;
   let withRelatives = 0;
+  let withNotes = 0;
   const lifeDate = (/** @type {unknown[]} */ hop, /** @type {{ life: Record<string, string> | null }} */ official, /** @type {{ value: unknown, preferred: boolean, source: string } | null} */ reference, /** @type {string} */ field) => {
     if (hop.length) return {};
     const wikidata = official.life?.[field];
@@ -2726,6 +2727,10 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
     const honours = personHonours(person.id);
     const relatives = referenceRelatives(referenceRelationDoc, person.id, relativeLookup, missingRelatives);
     const formalNames = formalNamesOf(person.id);
+    // A note the crosswalk holds on this person (who the record is, why a date differs), shown
+    // on the person's page only.
+    const notes = personNotes(wikidataPersonsDoc, person.id);
+    if (notes.length) withNotes += 1;
     if (officesHeld.length) withOffices += 1;
     if (relatives.length) withRelatives += 1;
     const detail = {
@@ -2800,12 +2805,14 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
       ...(registeredLife?.died && !hop.length && !official.life?.died && !referenceDate(person.id, 'died')?.preferred ? { died: registeredLife.died, diedSource: registeredLife.source || 'Wikidata' } : {}),
       ...(relatives.length ? { relatives } : {}),
       ...(formalNames.length ? { formalNames, knownAliases: formalNames.map((entry) => entry.name) } : {}),
+      ...(notes.length ? { notes } : {}),
     };
     return [detail.slug, detail];
   }));
   console.log(`- persons: ${withOfficial} record(s) link to an official or Wikidata record of the person`
     + ` (${withCrosswalkQid} through the Wikidata crosswalk)`);
   console.log(`- persons: ${withOffices} record(s) list offices and ${withRelatives} list relatives from a reference work`);
+  console.log(`- persons: ${withNotes} record(s) carry a note of their own (identity or dates)`);
   const staleReferenceIds = [...new Set([...Object.keys(referenceOfficeDoc.people || {}), ...Object.keys(referenceRelationDoc.people || {}), ...missingRelatives])]
     .filter((id) => !byId.has(id));
   if (staleReferenceIds.length) {

@@ -26,6 +26,7 @@ import { citationItem } from './election.js';
  * @property {boolean} [elected]
  * @property {number | null} [firstPrefs]
  * @property {number | null} [share]
+ * @typedef {{ kind?: string, text?: string }} PersonNote
  * @typedef {object} PersonRecord
  * @property {string} [name]
  * @property {string} [title]
@@ -37,6 +38,8 @@ import { citationItem } from './election.js';
  * @property {string} [wikidata]
  * @property {boolean} [spanImplausible]
  * @property {string} [reviewNote]
+ * @property {PersonNote[]} [notes]  notes held on this person alone (the Wikidata crosswalk's
+ *   identityNote and dateNote): who the record is, why a date differs from another source's
  * @property {string} [born]
  * @property {string} [died]
  * @property {string} [bornSource]
@@ -104,6 +107,18 @@ function candidacyRows(record) {
   });
 }
 
+/**
+ * The heading of each kind of person note (keyed for translation in data/i18n/strings/browse.txt,
+ * as the Browse person page uses the same words).
+ * @type {Readonly<Record<string, string>>}
+ */
+export const PERSON_NOTE_TITLES = Object.freeze({ identity: 'About this record', dates: 'About the dates' });
+
+/** @param {PersonRecord} record */
+function notesHtml(record) {
+  return (record.notes || []).filter((n) => n.text && PERSON_NOTE_TITLES[n.kind || '']).map((n) => notice({ title: PERSON_NOTE_TITLES[n.kind || ''], body: n.text }));
+}
+
 /** @param {PersonRecord} record */
 function sourceItems(record) {
   /** @type {import('../components/index.js').Citation[]} */
@@ -157,7 +172,7 @@ ${badges([
     elected ? { label: `elected ${numberText(elected)} ${elected === 1 ? 'time' : 'times'}`, tone: 'success' } : '',
   ])}
 </header>
-${record.spanImplausible || record.reviewNote ? notice({ title: 'This record may combine more than one person', body: record.reviewNote || 'Its candidacies span longer than a career.', tone: 'warning' }) : ''}
+${record.spanImplausible || record.reviewNote ? notice({ title: 'This record may combine more than one person', body: record.reviewNote || 'Its candidacies span longer than a career.', tone: 'warning' }) : ''}${notesHtml(record)}
 ${facts([
     { label: 'Born', value: record.born ? dateText(record.born) : '' },
     { label: 'Died', value: record.died ? dateText(record.died) : '' },

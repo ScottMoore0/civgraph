@@ -321,3 +321,16 @@ test('the Carrickfergus 1955 aldermanic contests keep their published "-2" addre
   assert.equal(resolveElectionSlugAlias(`${base}-west-ward-2`), `${base}-west-ward-alderman`);
   assert.equal(resolveElectionSlugAlias(`${base}-east-central-ward`), `${base}-east-central-ward`, 'the councillor contest is unchanged');
 });
+
+test('a person page shows the notes its record holds, each under its heading, and none when it holds none', () => {
+  const bare = String(personBody(PERSON).body);
+  assert.ok(!bare.includes('About this record') && !bare.includes('About the dates'));
+  const withNotes = String(personBody({ ...PERSON, notes: [
+    { kind: 'identity', text: 'Two official lists hold two people <one man>.' },
+    { kind: 'dates', text: 'Died January 1987, not 1976.' },
+    { kind: 'unknown', text: 'not shown' },
+  ] }).body);
+  assert.match(withNotes, /<div class="cg-notice"><strong class="cg-notice__title">About this record<\/strong><p>Two official lists hold two people &lt;one man&gt;\.<\/p><\/div>/);
+  assert.match(withNotes, /<strong class="cg-notice__title">About the dates<\/strong><p>Died January 1987, not 1976\.<\/p>/);
+  assert.ok(!withNotes.includes('not shown'), 'a kind with no heading is not shown');
+});

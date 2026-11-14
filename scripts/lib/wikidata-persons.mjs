@@ -76,6 +76,40 @@ export function wikidataUrl(qid) {
 }
 
 /**
+ * The notes an entry holds about its own person, by field, and the kind each is shown as on the
+ * person page: `identity` (who the record is: John Beirne, whom two official lists hold as two
+ * people), `dates` (why a date of birth or death differs from Wikidata's or a reference work's).
+ */
+export const PERSON_NOTE_FIELDS = Object.freeze({ identityNote: 'identity', dateNote: 'dates' });
+
+/**
+ * A held note as the person page shows it: the research stream's own tag at the end
+ * ("(research-K2 MG-H, 13 Nov 2026, owner-approved)") is the file's provenance, not the reader's.
+ * @param {unknown} value
+ * @returns {string}
+ */
+export function publicNoteText(value) {
+  if (typeof value !== 'string') return '';
+  return value.replace(/\s*\((?:research|review)-[^()]*\)(\.?)\s*$/, '$1').trim();
+}
+
+/**
+ * The notes on one person, each where its entry holds one (never a blanket disclaimer): read by
+ * the Browse person record (build-browse-indexes.mjs) as `notes`.
+ * @param {any} doc  the parsed wikidata-persons.json
+ * @param {string|number} personId
+ * @returns {{ kind: string, text: string }[]}
+ */
+export function personNotes(doc, personId) {
+  const entry = doc?.persons?.[String(personId)];
+  if (!entry) return [];
+  return Object.entries(PERSON_NOTE_FIELDS).flatMap(([field, kind]) => {
+    const text = publicNoteText(entry[field]);
+    return text ? [{ kind, text }] : [];
+  });
+}
+
+/**
  * A crosswalk link: the person's Wikidata item, with the confidence and the evidence for it.
  * @typedef {{ qid: string, name: string, label?: string, confidence: string, evidence: string[] }} WikidataLink
  */

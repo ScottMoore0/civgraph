@@ -446,6 +446,11 @@ export interface PersonsRecordAnswer {
     browseUrl: string;
     parties?: unknown[];
     elections?: unknown[];
+    notes?: {
+      kind: string;
+      text: string;
+      [key: string]: unknown;
+    }[];
     [key: string]: unknown;
   };
   record: {
@@ -457,6 +462,11 @@ export interface PersonsRecordAnswer {
     browseUrl: string;
     parties?: unknown[];
     elections?: unknown[];
+    notes?: {
+      kind: string;
+      text: string;
+      [key: string]: unknown;
+    }[];
     [key: string]: unknown;
   };
   [key: string]: unknown;
@@ -473,6 +483,11 @@ export interface PersonsListAnswer {
     browseUrl: string;
     parties?: unknown[];
     elections?: unknown[];
+    notes?: {
+      kind: string;
+      text: string;
+      [key: string]: unknown;
+    }[];
     [key: string]: unknown;
   }[];
   total: number;

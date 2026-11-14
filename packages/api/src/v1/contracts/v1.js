@@ -56,7 +56,7 @@ const page = (/** @type {string} */ key, /** @type {JsonSchemaNode} */ item) => 
   applied: obj({ filters: arr(), sort: {} }),
 });
 
-const PERSON = obj({ id: str, slug: str, type: str, title: str, name: str, browseUrl: str, parties: arr(), elections: arr()}, ['id', 'slug', 'type', 'title', 'name', 'browseUrl']);
+const PERSON = obj({ id: str, slug: str, type: str, title: str, name: str, browseUrl: str, parties: arr(), elections: arr(), notes: arr(obj({ kind: str, text: str })) }, ['id', 'slug', 'type', 'title', 'name', 'browseUrl']);
 const PARTY = obj({ id: str, slug: str, type: str, title: str, colour: str, browseUrl: str });
 const SOURCE = obj({ id: str, slug: str, type: str, title: str, browseUrl: str });
 const REGISTER_ENTRY = obj({ id: str, slug: str, type: str, title: str, memberName: str });
