@@ -78,3 +78,25 @@ You must track any and all tasks you have to do in `docs/tasks/todo.md`, includi
 - Before writing or moving code, read `docs/ARCHITECTURE-RULES.md` (15 rules, each naming the check that holds it); `npm run check:architecture` runs the mechanical ones.
 - Don't work around a rule: amend the charter first, with the owner. An exception is `// arch-ok R<n>: reason`; `config/architecture-baseline.json` only shrinks.
 - Every LANDING.md has an "Architecture rules" section (the R15 checklist at the end of the charter).
+
+## Parallel worktrees (apply always)
+
+Parallel streams each work in their own worktree; the main checkout is the coordinator's.
+Settings: `config/worktrees.json`.
+
+- **Make one:** `npm run worktree:new -- <name>` (from the main checkout) makes
+  `civgraph-<name>` beside it on a new branch `<name>` from main. It has node_modules joined
+  to main's, main's generated record folders joined to a shared read-only snapshot (never to
+  main's own), the small build outputs copied, its own scratch folder (`tmp/scratch`) and a
+  write guard. Don't copy main's `tmp/records`.
+- **Writes:** a build run through `npm run` that writes into a joined folder turns it into a
+  local copy first. A builder run directly with `node` should `source tmp/worktree/env.sh`
+  first, or `npm run worktree:own -- <folder>` the folders it writes.
+- **Checks:** `check:fast` and `test:unit` pass in such a worktree as in the main checkout; in
+  a worktree without the artefacts, the steps that need them say `skip ... needs <artefact>`.
+- **Never** `git worktree remove` by hand: `npm run worktree:remove -- <name>` removes every
+  junction first (`git worktree remove --force` follows a junction and deletes what it points
+  at). An agent does not remove its own worktree; the lander does.
+- **Landing** (the coordinator): `npm run land -- <branch>...` rebases, regenerates, re-stamps,
+  gates and fast-forwards main, one branch at a time, and removes each worktree. It never
+  pushes, and it refuses to run while a publish runs.

@@ -19,7 +19,7 @@ Since the script reorganisation (November 2026) the folders say what a script do
 | `check/` | `run.mjs` (`check:fast`), `clean.mjs` (`check:clean`), the validators in `check/rules/` and the browser measurements in `check/browser/` |
 | `intake/` | the intake CLI, its delivery and source-path checks, and the contribution queue |
 | `maps/`, `i18n/` | layer-id renames and catalogue patches; translations and place names |
-| `dev/` | local servers (the Playwright test server included) |
+| `dev/` | local servers (the Playwright test server included); the worktree tools (`worktree/`: `worktree:new`, `worktree:remove`, `worktree:own`) and the landing queue (`land.mjs`: `npm run land`) |
 | `lib/` | shared modules |
 
 The files left at the top level are one-month shims from the first move (wave 1, 6

@@ -18,6 +18,10 @@ in parallel and prints only the failures. It is offline: nothing in it reads a r
 database, R2 or the deployed site. Many steps read build output (the app build, the
 catalogue import, `tmp/records`), so run `npm run rebuild` first, which builds what the
 changed files need and then runs the checks.
+In a linked worktree (`.git` is a file) a step whose generated artefact is absent is
+reported as `skip ... needs <artefact>` instead of failing (`config/worktrees.json`
+`checkNeeds`); a worktree made by `npm run worktree:new` has those artefacts, so nothing is
+skipped there. In the main checkout every step runs, as before.
 
 **2. Full local.**
 - `check:full` is tier 1, then `records:check` (the records database tests in
