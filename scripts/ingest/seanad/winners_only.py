@@ -12,7 +12,8 @@
 Every winners-only contest carries countInfo Candidates_Recorded "winners" (a poll was held; the
 losers and the votes are not known). The winners IrelandElection.com names differently from the
 Oireachtas, or not at all, are settled in data/elections/persons/seanad-member-checks.csv (verdicts:
-accept, the IrelandElection.com winner is that member; unjoined, written from IrelandElection.com
+accept, the IrelandElection.com winner is that member (accept-without-ie-id: and the person id
+IrelandElection.com gives him is another man's, so it is not carried); unjoined, written from IrelandElection.com
 with no member code; not-seated, an Oireachtas record that is not a winner of that contest, a
 second or misnamed record of another member); anything left unsettled FAILs the build.
 """
@@ -207,11 +208,11 @@ class WinnersOnly:
                 # named not-seated in the checks.
                 continue
             m = next((m for m in free_m if m['code'] == chk['oireachtas_code']), None)
-            if chk['verdict'] == 'accept' and m:
-                pairs.append((m, cand, 'checked'))
+            if chk['verdict'] in ('accept', 'accept-without-ie-id') and m:
+                pairs.append((m, cand, 'checked' if chk['verdict'] == 'accept' else 'checked: IrelandElection.com id not carried'))
                 free_m.remove(m)
                 free_c.remove(cand)
-            elif chk['verdict'] == 'accept':
+            elif chk['verdict'] in ('accept', 'accept-without-ie-id'):
                 sys.exit(f"FAIL: seanad-member-checks.csv: {election} {contest} {cand['name']}: {chk['oireachtas_code']} does not sit for the contest then")
         for rule in ('name', 'surname and initial', 'surname alone'):
             for m in list(free_m):
@@ -265,7 +266,8 @@ class WinnersOnly:
                 self.unsettled.append(f'{election} {contest}')
             winners = []
             for m, k, how in pairs:
-                ie_id = (k or {}).get('source_person_id') or ''
+                # A check may keep IrelandElection.com's person id off a winner it gives another man's id.
+                ie_id = '' if how == 'checked: IrelandElection.com id not carried' else (k or {}).get('source_person_id') or ''
                 known = self.c['IE_OFFICIAL'].get(ie_id, set())
                 if m and known and f"oireachtas:{m['code']}" not in known:
                     self.report.append({'election': election, 'contest': contest, 'name': k['name'], 'oireachtas': m['name'], 'code': m['code'],

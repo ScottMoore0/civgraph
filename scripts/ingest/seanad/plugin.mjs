@@ -1,16 +1,18 @@
 // Seanad Eireann: the general elections' panel and university counts (IrelandElection.com's parsed
-// contests), each winner joined to the Houses of the Oireachtas member list of that Seanad.
+// contests, 2002-2025), each winner joined to the Houses of the Oireachtas member list of that
+// Seanad; the general elections of 1938-1997 and the by-elections, winners only, from the member
+// lists (winners_only.py), with Wikipedia's by-election list and counts.
 import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
 
 export default definePlugin({
   id: 'seanad',
-  title: 'Seanad Eireann general elections',
+  title: 'Seanad Eireann general elections and by-elections',
   kinds: ['elections', 'persons'],
   personalData: { contains: true, handling: 'names-only', note: 'Candidates and senators by name, with their counts and official member codes.' },
   sources: [
     { id: 'oireachtas-open-data', title: 'Houses of the Oireachtas Open Data API: houses and members', publisher: 'Houses of the Oireachtas', url: 'https://api.oireachtas.ie/', rights: 'CC-BY', licence: 'Oireachtas (Open Data) PSI Licence (CC BY 4.0)' },
     { id: 'irelandelection', title: 'IrelandElection.com Seanad election results', publisher: 'IrelandElection.com', url: 'https://irelandelection.com/', rights: 'facts-with-citation', note: 'Read from the parsed copy of an earlier crawl, kept outside the repository (input ieDir).' },
-    { id: 'wikipedia', title: 'Wikipedia articles on each Seanad and its election', publisher: 'Wikimedia Foundation', url: 'https://en.wikipedia.org/', rights: 'CC-BY-SA', licence: 'CC BY-SA 4.0' },
+    { id: 'wikipedia', title: 'Wikipedia articles on each Seanad and its election, and the List of Seanad by-elections with its by-election articles', publisher: 'Wikimedia Foundation', url: 'https://en.wikipedia.org/', rights: 'CC-BY-SA', licence: 'CC BY-SA 4.0' },
   ],
   inputs: { ieDir: { env: 'CIVGRAPH_IRELANDELECTION_DIR', description: "IrelandElection.com's parsed contests (the folder holding index.jsonl and contests/), kept outside the repository" } },
   steps: {

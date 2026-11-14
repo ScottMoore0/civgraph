@@ -117,7 +117,8 @@ def match_winner(name: str, contest: str, members: list[dict], term_start: str) 
 def member_checks() -> dict[tuple[str, str, str], dict]:
     """The winners whose match was checked by hand (data/elections/persons/seanad-member-checks.csv):
     each row names the election, contest and winner as written, the Oireachtas member code, the
-    verdict ('accept': join to that code; 'unjoined': no code; 'not-seated', winners_only.py: the
+    verdict ('accept': join to that code; 'unjoined': no code; winners_only.py also reads
+    'accept-without-ie-id', join to the code but carry no IrelandElection.com person id, and 'not-seated', the
     Oireachtas record is no winner of that contest) and the evidence (the member's panel or
     university and term in the Oireachtas record). Keyed by (election, contest, name), a
     not-seated row by (election, contest, member code)."""
@@ -129,7 +130,7 @@ def member_checks() -> dict[tuple[str, str, str], dict]:
     for row in rows:
         # A not-seated row (an Oireachtas record that is no winner) is keyed by its member code.
         key = (row['election'], row['contest'], row['oireachtas_code'] if row['verdict'] == 'not-seated' else row['name'])
-        if key in out or row['verdict'] not in ('accept', 'unjoined', 'not-seated'):
+        if key in out or row['verdict'] not in ('accept', 'accept-without-ie-id', 'unjoined', 'not-seated'):
             sys.exit(f'FAIL: {CHECKS.name}: {key} is listed twice or has an unknown verdict')
         out[key] = row
     return out
