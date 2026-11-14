@@ -60,13 +60,18 @@ test('PSJ-01 the Mayo senator Paddy Burke keeps 119411; the 1967 Castlebar row i
 
 test('PSJ-02 the checked winners are linked to the member code the check names, and none is left at medium confidence', () => {
   const checks = csvRows(readFileSync(at('seanad-member-checks.csv'), 'utf8'));
-  assert.equal(checks.length, 24);
+  // 24 rows for the counted elections of 2002-25 (seanad-2), 51 for 1938-97 (seanad-3a).
+  assert.equal(checks.filter((c) => c.election >= 'seanad-eireann__2002').length, 24);
+  assert.equal(checks.length, 75);
   const { links } = JSON.parse(readFileSync(at('official-person-ids.json'), 'utf8'));
   const seanad = links.filter((l) => String(l.election).startsWith('seanad-eireann__'));
   for (const c of checks) {
     assert.ok(c.evidence && c.checked, `${c.name}: evidence recorded`);
     const link = seanad.find((l) => l.election === c.election && l.constituency === c.contest && l.name === c.name);
-    if (c.verdict === 'accept') {
+    if (c.verdict === 'not-seated') {
+      // An Oireachtas record that is no winner: no link names it in that contest.
+      assert.ok(!seanad.some((l) => l.election === c.election && l.constituency === c.contest && l.id === c.oireachtas_code), `${c.oireachtas_code} is not linked`);
+    } else if (c.verdict === 'accept' || c.verdict === 'accept-without-ie-id') {
       assert.ok(link, `${c.election} ${c.contest} ${c.name} is linked`);
       assert.equal(link.id, c.oireachtas_code);
       assert.equal(link.confidence, 'high');
@@ -79,7 +84,8 @@ test('PSJ-02 the checked winners are linked to the member code the check names, 
 
 test('PSJ-03 Brendan Ryan of the National University is not the Fingal Brendan Ryan', () => {
   const nui = holder('Brendan Ryan|nui-senator-1981-2007');
-  assert.equal(byId.get(nui).candidacies, 2);
+  // 2002 and 2007, and his National University seats of 1981-1997 (seanad-3a), joined by his member code.
+  assert.equal(byId.get(nui).candidacies, 8);
   assert.ok(byId.get(nui).officialPersonIds.includes('oireachtas:Brendan-Ryan.S.1981-08-10'));
   assert.ok(!byId.get(nui).officialPersonIds.includes('oireachtas:Brendan-Ryan.S.2007-07-23'));
   assert.notEqual(holder('oireachtas:Brendan-Ryan.S.2007-07-23'), nui);
