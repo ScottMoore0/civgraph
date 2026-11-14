@@ -1,0 +1,674 @@
+{
+ "schemaVersion": 1,
+ "description": "The sub-panel each candidate on a Seanad vocational panel stood on: the Oireachtas sub-panel (nominated by members of the Oireachtas) or the Nominating Bodies sub-panel (nominated by a registered nominating body). Each panel elects a minimum from each sub-panel (Seanad Electoral (Panel Members) Act 1947, as amended), so a count can exclude a candidate with more votes than one who stays in. From the Seanad Returning Officer's panels of candidates (2016, 2020, 2025: every candidate) and statements of the candidates elected (2002, 2007, 2011: the winners only, marked coverage 'winners'); the numbers elected from each sub-panel agree with the Houses of the Oireachtas table of the distribution of seats between the sub-panels, 1989-2025, except where a contest's note says. Keyed by contest file, then by the candidate's name as the contest file gives it. The manifest build carries it on the candidate (subPanel; scripts/lib/candidate-sub-panels.mjs).",
+ "sources": {
+  "iris-2002-07-26": {
+   "kind": "official",
+   "title": "Iris Oifigiúil, 26 July 2002: Seanad General Election, July 2002, statement of names of candidates elected",
+   "publisher": "Iris Oifigiúil",
+   "url": "https://www.irisoifigiuil.ie/archive/2002/july/2002%2007%2026%20IO%20Issue.PDF",
+   "accessed": "2026-11-14"
+  },
+  "iris-2007-07-31": {
+   "kind": "official",
+   "title": "Iris Oifigiúil, 31 July 2007: Seanad General Election, July 2007, statement of names of candidates elected",
+   "publisher": "Iris Oifigiúil",
+   "url": "https://www.irisoifigiuil.ie/archive/2007/july/2007%2007%2030%20IO%20Issue.PDF",
+   "accessed": "2026-11-14"
+  },
+  "iris-2011-05-06": {
+   "kind": "official",
+   "title": "Iris Oifigiúil, 6 May 2011: Seanad General Election, statement of names of candidates elected",
+   "publisher": "Iris Oifigiúil",
+   "url": "https://www.irisoifigiuil.ie/archive/2011/may/Ir060511.pdf",
+   "accessed": "2026-11-14"
+  },
+  "iris-2016-04-01": {
+   "kind": "official",
+   "title": "Iris Oifigiúil, 1 April 2016: Seanad General Election, panels of candidates prepared by the Seanad Returning Officer",
+   "publisher": "Iris Oifigiúil",
+   "url": "https://www.irisoifigiuil.ie/archive/2016/april/IR010416.pdf",
+   "accessed": "2026-11-14"
+  },
+  "iris-2020-03-10": {
+   "kind": "official",
+   "title": "Iris Oifigiúil, 10 March 2020, supplement 20A: Seanad General Election, March 2020, panels of candidates prepared by the Seanad Returning Officer",
+   "publisher": "Iris Oifigiúil",
+   "url": "https://data.oireachtas.ie/ie/oireachtas/electoralProcess/electoralRoll/seanad/2020/2020-03-10_seanad-general-election-2020-panels-of-candidates_en.pdf",
+   "accessed": "2026-11-14"
+  },
+  "handbook-2025": {
+   "kind": "official",
+   "title": "Houses of the Oireachtas, Seanad General Election, January 2025 and Bye-Elections to 2020-2025 Seanad (2026): Panels of Candidates, 2025",
+   "publisher": "Houses of the Oireachtas",
+   "url": "https://data.oireachtas.ie/ie/oireachtas/electoralProcess/electionResults/seanad/2026/2026-05-20_seanad-general-election-2025-results-handbook_en.pdf",
+   "page": "63-76",
+   "accessed": "2026-11-14"
+  },
+  "handbook-2025-distribution": {
+   "kind": "official",
+   "title": "Houses of the Oireachtas, Seanad General Election, January 2025 and Bye-Elections to 2020-2025 Seanad (2026): Distribution of Seats between the Sub-Panels 1989-2025",
+   "publisher": "Houses of the Oireachtas",
+   "url": "https://data.oireachtas.ie/ie/oireachtas/electoralProcess/electionResults/seanad/2026/2026-05-20_seanad-general-election-2025-results-handbook_en.pdf",
+   "page": "54-55",
+   "accessed": "2026-11-14"
+  }
+ },
+ "contests": {
+  "data/elections-source/data/elections/seanad-eireann/2002-09-12/administrative-panel.json": {
+   "source": "iris-2002-07-26",
+   "candidates": {
+    "Camillus Glynn": "Nominating Bodies",
+    "Joanna Tuffy": "Oireachtas",
+    "Anthony (Tony) Kett": "Nominating Bodies",
+    "Frank Feighan": "Nominating Bodies",
+    "Diarmuid Wilson": "Oireachtas",
+    "Timmy Dooley": "Nominating Bodies",
+    "Joe Mchugh": "Oireachtas"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2002-09-12/agricultural-panel.json": {
+   "source": "iris-2002-07-26",
+   "candidates": {
+    "Francis O'Brien": "Nominating Bodies",
+    "Kathleen O'Meara": "Oireachtas",
+    "Paddy Burke": "Nominating Bodies",
+    "Jim Walsh": "Oireachtas",
+    "Rory Kiely": "Nominating Bodies",
+    "Peter Callanan": "Nominating Bodies",
+    "Martin Mansergh": "Nominating Bodies",
+    "Paul Bradford": "Nominating Bodies",
+    "Ulick Burke": "Oireachtas",
+    "John Paul Phelan": "Nominating Bodies",
+    "Eamon Scanlon": "Oireachtas"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2002-09-12/cultural-and-educational-panel.json": {
+   "source": "iris-2002-07-26",
+   "candidates": {
+    "Paschal Canice Mooney": "Nominating Bodies",
+    "Brian Hayes": "Oireachtas",
+    "Labhras Ó Murchú": "Nominating Bodies",
+    "Noel Coonan": "Oireachtas",
+    "Ann Ormonde": "Nominating Bodies"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2002-09-12/industrial-and-commercial-panel.json": {
+   "source": "iris-2002-07-26",
+   "candidates": {
+    "Derek Mcdowell": "Oireachtas",
+    "Eddie Bohan": "Nominating Bodies",
+    "Kieran Phelan": "Nominating Bodies",
+    "James Bannon": "Nominating Bodies",
+    "Marc Macsharry": "Nominating Bodies",
+    "Mary M. White": "Nominating Bodies",
+    "Margaret Cox": "Oireachtas",
+    "Sheila Terry": "Oireachtas"
+   },
+   "coverage": "winners",
+   "note": "The Returning Officer's statement prints Paul Coghlan under the Nominating Bodies sub-panel, which makes six and three; the Houses of the Oireachtas give five and four for this panel in 2002 (Seanad General Election, January 2025, Distribution of Seats between the Sub-Panels). His sub-panel is left out."
+  },
+  "data/elections-source/data/elections/seanad-eireann/2002-09-12/labour-panel.json": {
+   "source": "iris-2002-07-26",
+   "candidates": {
+    "Liam Fitzgerald": "Oireachtas",
+    "Jim Higgins": "Oireachtas",
+    "Don Lydon": "Oireachtas",
+    "Michael Mccarthy": "Oireachtas",
+    "Maurice Cummins": "Nominating Bodies",
+    "Michael Finucane": "Oireachtas",
+    "Terry Leyden": "Nominating Bodies",
+    "Fergal Browne": "Oireachtas",
+    "Brendan Daly": "Oireachtas",
+    "Geraldine Feeney": "Nominating Bodies",
+    "John Gerard Hanafin": "Nominating Bodies"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2007-07-23/administrative-panel.json": {
+   "source": "iris-2007-07-31",
+   "candidates": {
+    "Nicky Mcfadden": "Oireachtas",
+    "Brendan Ryan": "Oireachtas",
+    "Mark Daly": "Nominating Bodies",
+    "Diarmuid Wilson": "Oireachtas",
+    "Tony Kett": "Nominating Bodies",
+    "Camillus Glynn": "Nominating Bodies",
+    "Paschal Donohoe": "Oireachtas"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2007-07-23/agricultural-panel.json": {
+   "source": "iris-2007-07-31",
+   "candidates": {
+    "Pearse Doherty": "Oireachtas",
+    "Alan Kelly": "Oireachtas",
+    "Jim Walsh": "Nominating Bodies",
+    "Pat Moylan": "Nominating Bodies",
+    "Francis O'Brien": "Nominating Bodies",
+    "Paddy Burke": "Nominating Bodies",
+    "Paul Bradford": "Nominating Bodies",
+    "John Carty": "Oireachtas",
+    "John Paul Phelan": "Oireachtas",
+    "Peter Callanan": "Nominating Bodies",
+    "Eugene Regan": "Oireachtas"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2007-07-23/cultural-and-educational-panel.json": {
+   "source": "iris-2007-07-31",
+   "candidates": {
+    "Alex White": "Oireachtas",
+    "Cecilia Keaveney": "Oireachtas",
+    "Labhrás Ó Murchú": "Nominating Bodies",
+    "Ann Ormonde": "Nominating Bodies",
+    "Liam Twomey": "Oireachtas"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2007-07-23/industrial-and-commercial-panel.json": {
+   "source": "iris-2007-07-31",
+   "candidates": {
+    "Dominic Hannigan": "Oireachtas",
+    "Marc Mac Sharry": "Nominating Bodies",
+    "Denis O'Donovan": "Oireachtas",
+    "Mary White": "Nominating Bodies",
+    "Kieran Phelan": "Nominating Bodies",
+    "Paul Coghlan": "Nominating Bodies",
+    "Larry Butler": "Nominating Bodies",
+    "Joe O'Reilly": "Oireachtas",
+    "Paudie Coffey": "Oireachtas"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2007-07-23/labour-panel.json": {
+   "source": "iris-2007-07-31",
+   "candidates": {
+    "Geraldine Feeney": "Nominating Bodies",
+    "John Hanafin": "Nominating Bodies",
+    "Donie Cassidy": "Oireachtas",
+    "Phil Prendergast": "Oireachtas",
+    "Maurice Cummins": "Nominating Bodies",
+    "Jerry Buttimer": "Oireachtas",
+    "Michael Mccarthy": "Nominating Bodies",
+    "Terry Leyden": "Nominating Bodies",
+    "Frances Fitzgerald": "Oireachtas",
+    "Fidelma Healy Eames": "Oireachtas",
+    "Ned O'Sullivan": "Nominating Bodies"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2011-05-25/administrative-panel.json": {
+   "source": "iris-2011-05-06",
+   "candidates": {
+    "Mark Daly": "Nominating Bodies",
+    "Diarmuid Wilson": "Oireachtas",
+    "Michael W. D'Arcy": "Oireachtas",
+    "Martin Conway": "Nominating Bodies",
+    "Denis Landy": "Nominating Bodies",
+    "John Kelly": "Oireachtas",
+    "Tom Sheahan": "Oireachtas"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2011-05-25/agricultural-panel.json": {
+   "source": "iris-2011-05-06",
+   "candidates": {
+    "James Heffernan": "Oireachtas",
+    "Paddy Burke": "Nominating Bodies",
+    "Trevor Ó Clochartaigh": "Oireachtas",
+    "Susan O'Keeffe": "Oireachtas",
+    "Paul Bradford": "Nominating Bodies",
+    "Brian Ó Domhnaill": "Nominating Bodies",
+    "Jim Walsh": "Nominating Bodies",
+    "Denis O'Donovan": "Nominating Bodies",
+    "Pat O'Neill": "Nominating Bodies",
+    "Michael Comiskey": "Oireachtas",
+    "Paschal Mooney": "Nominating Bodies"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2011-05-25/cultural-and-educational-panel.json": {
+   "source": "iris-2011-05-06",
+   "candidates": {
+    "John Gilroy": "Oireachtas",
+    "Thomas Byrne": "Oireachtas",
+    "Labhrás Ó Murchú": "Nominating Bodies",
+    "Deirdre Clune": "Oireachtas",
+    "Michael Mullins": "Nominating Bodies"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2011-05-25/industrial-and-commercial-panel.json": {
+   "source": "iris-2011-05-06",
+   "candidates": {
+    "Mary White": "Nominating Bodies",
+    "Averil Power": "Oireachtas",
+    "Kathryn Reilly": "Oireachtas",
+    "Jimmy Harte": "Oireachtas",
+    "Marc Macsharry": "Nominating Bodies",
+    "Paul Coghlan": "Nominating Bodies",
+    "Imelda Henry": "Nominating Bodies",
+    "Colm Burke": "Nominating Bodies",
+    "Catherine Noone": "Nominating Bodies"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2011-05-25/labour-panel.json": {
+   "source": "iris-2011-05-06",
+   "candidates": {
+    "Maurice Cummins": "Nominating Bodies",
+    "David Cullinane": "Oireachtas",
+    "Fidelma Healy Eames": "Oireachtas",
+    "John Whelan": "Oireachtas",
+    "Tony Mulcahy": "Oireachtas",
+    "Maire Moloney": "Nominating Bodies",
+    "Ned O'Sullivan": "Nominating Bodies",
+    "Terry Brennan": "Nominating Bodies",
+    "Darragh O'Brien": "Oireachtas",
+    "Terry Leyden": "Nominating Bodies",
+    "Cáit Keane": "Oireachtas"
+   },
+   "coverage": "winners"
+  },
+  "data/elections-source/data/elections/seanad-eireann/2016-04-25/administrative-panel.json": {
+   "source": "iris-2016-04-01",
+   "candidates": {
+    "Mark Daly": "Nominating Bodies",
+    "Niall Ó Donnghaile": "Oireachtas",
+    "Maura Hopkins": "Oireachtas",
+    "Kevin Humphreys": "Oireachtas",
+    "Diarmuid Wilson": "Oireachtas",
+    "Martin Conway": "Nominating Bodies",
+    "Mary Fitzpatrick": "Oireachtas",
+    "Thomas J. Welby": "Oireachtas",
+    "Tom Sheahan": "Oireachtas",
+    "Paudie Coffey": "Oireachtas",
+    "John Dolan": "Nominating Bodies",
+    "Eamonn Coghlan": "Nominating Bodies",
+    "Sean Power": "Nominating Bodies",
+    "Lorraine Dempsey": "Nominating Bodies",
+    "Jonathan Irwin": "Oireachtas",
+    "Rosaleen O'Grady": "Nominating Bodies",
+    "Mary Roche": "Oireachtas"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2016-04-25/agricultural-panel.json": {
+   "source": "iris-2016-04-01",
+   "candidates": {
+    "Rose Conway-Walsh": "Oireachtas",
+    "Victor Boyhan": "Oireachtas",
+    "Trevor Ó Clochartaigh": "Oireachtas",
+    "Denis O'Donovan": "Nominating Bodies",
+    "Paddy Burke": "Nominating Bodies",
+    "Denis Landy": "Nominating Bodies",
+    "Brian Ó Domhnaill": "Nominating Bodies",
+    "Paul Daly": "Nominating Bodies",
+    "Maria Byrne": "Nominating Bodies",
+    "Grace O'Sullivan": "Oireachtas",
+    "Jennifer Whitmore": "Oireachtas",
+    "Paschal Mooney": "Nominating Bodies",
+    "Tim Lombard": "Nominating Bodies",
+    "Pat O'Neill": "Nominating Bodies",
+    "Michael Smith": "Nominating Bodies",
+    "Connie Gerety-Quinn": "Oireachtas",
+    "Shane P. O'Reilly": "Nominating Bodies",
+    "Frank O'Flynn": "Nominating Bodies",
+    "John Sheahan": "Nominating Bodies",
+    "Noel Coonan": "Oireachtas",
+    "Anthony Lawlor": "Oireachtas",
+    "Colm Markey": "Nominating Bodies",
+    "Michael Comiskey": "Oireachtas",
+    "Pat Hayes": "Nominating Bodies"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2016-04-25/industrial-and-commercial-panel.json": {
+   "source": "iris-2016-04-01",
+   "candidates": {
+    "Pádraig Maclochlainn": "Oireachtas",
+    "Aodhán Ó Ríordáin": "Oireachtas",
+    "Frances Black": "Nominating Bodies",
+    "Catherine Noone": "Nominating Bodies",
+    "Aidan Davitt": "Nominating Bodies",
+    "Ciarán Staunton": "Oireachtas",
+    "Colm Burke": "Nominating Bodies",
+    "Catherine Ardagh": "Oireachtas",
+    "John Crowe": "Nominating Bodies",
+    "Nigel Dineen": "Oireachtas",
+    "Niall Blaney": "Nominating Bodies",
+    "Gerry Horkan": "Nominating Bodies",
+    "Bob Ryan": "Nominating Bodies",
+    "Imelda Henry": "Nominating Bodies",
+    "Deirdre O'Donovan": "Oireachtas",
+    "John Hanafin": "Nominating Bodies",
+    "Joe Kelly": "Nominating Bodies",
+    "Barry Ward": "Nominating Bodies",
+    "Paul Coghlan": "Nominating Bodies",
+    "Ray Butler": "Oireachtas",
+    "James Bannon": "Oireachtas",
+    "Danny Owens": "Nominating Bodies",
+    "Tom Macsharry": "Nominating Bodies",
+    "Aengus O'Rourke": "Nominating Bodies",
+    "Seán Mckiernan": "Nominating Bodies",
+    "Arthur Griffin": "Nominating Bodies",
+    "Linda O'Shea Farren": "Nominating Bodies",
+    "Niall Kelleher": "Nominating Bodies",
+    "Thomas Mcellistrim": "Nominating Bodies",
+    "William Lavelle": "Nominating Bodies",
+    "Cáit Keane": "Oireachtas",
+    "Peter J. Casey": "Nominating Bodies",
+    "Eoin Neylon": "Nominating Bodies",
+    "Mailo Power": "Nominating Bodies",
+    "Mary Hughes": "Nominating Bodies"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2016-04-25/labour-panel.json": {
+   "source": "iris-2016-04-01",
+   "candidates": {
+    "Máire Devine": "Oireachtas",
+    "Paul Gavan": "Nominating Bodies",
+    "Gerard Craughwell": "Nominating Bodies",
+    "Jerry Buttimer": "Oireachtas",
+    "Ged Nash": "Nominating Bodies",
+    "Ned O'Sullivan": "Nominating Bodies",
+    "Jennifer Murnane O'Connor": "Oireachtas",
+    "Robbie Gallagher": "Nominating Bodies",
+    "Joe O'Reilly": "Oireachtas",
+    "Cian Prendiville": "Oireachtas",
+    "Terry Leyden": "Nominating Bodies",
+    "Paul Mcauliffe": "Oireachtas",
+    "Neale Richmond": "Oireachtas",
+    "Terry Brennan": "Nominating Bodies",
+    "Colm Keaveney": "Oireachtas",
+    "Kate Feeney": "Nominating Bodies",
+    "Joe Neville": "Nominating Bodies",
+    "Noel Cribbin": "Nominating Bodies",
+    "Maurice Cummins": "Nominating Bodies",
+    "Tony Mulcahy": "Oireachtas",
+    "John Campbell": "Oireachtas",
+    "Daithí De Róiste": "Oireachtas",
+    "Madeline Spiers": "Nominating Bodies"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2020-03-30/administrative-panel.json": {
+   "source": "iris-2020-03-10",
+   "candidates": {
+    "Mark Daly": "Nominating Bodies",
+    "Niall Ó Donnghaile": "Oireachtas",
+    "Rebecca Moynihan": "Oireachtas",
+    "Diarmuid Wilson": "Oireachtas",
+    "Garret Ahearn": "Oireachtas",
+    "Martin Conway": "Nominating Bodies",
+    "Fiona O'Loughlin": "Nominating Bodies",
+    "Thomas Welby": "Oireachtas",
+    "Emer Currie": "Oireachtas",
+    "Noel Rock": "Oireachtas",
+    "Mick Cahill": "Nominating Bodies",
+    "John Bosco Conama": "Nominating Bodies",
+    "Lorraine Clifford-Lee": "Oireachtas",
+    "Joe Malone": "Nominating Bodies",
+    "John Dolan": "Nominating Bodies",
+    "Anne Marie Flanagan": "Nominating Bodies",
+    "Tony Geoghegan": "Nominating Bodies",
+    "Timothy Hogan": "Oireachtas",
+    "Salome Mbugua Henry": "Nominating Bodies"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2020-03-30/agricultural-panel.json": {
+   "source": "iris-2020-03-10",
+   "candidates": {
+    "Victor Boyhan": "Oireachtas",
+    "Denis O'Donovan": "Nominating Bodies",
+    "Lynn Boylan": "Oireachtas",
+    "Pippa Hackett": "Oireachtas",
+    "Paul Daly": "Nominating Bodies",
+    "Gerry Murray": "Oireachtas",
+    "Paddy Burke": "Nominating Bodies",
+    "Annie Hoey": "Oireachtas",
+    "Niall Blaney": "Nominating Bodies",
+    "Tim Lombard": "Nominating Bodies",
+    "Michael W. D'Arcy": "Oireachtas",
+    "Maria Byrne": "Nominating Bodies",
+    "Eugene Murphy": "Oireachtas",
+    "Aisling Dolan": "Oireachtas",
+    "Brian Ó Domhnaill": "Nominating Bodies",
+    "Shane P. O'Reilly": "Nominating Bodies",
+    "Pat Deering": "Nominating Bodies",
+    "Kevin O'Keeffe": "Nominating Bodies",
+    "Dermot Cantillon": "Nominating Bodies",
+    "Tom McEllistrim": "Nominating Bodies",
+    "Seamus Coyle": "Nominating Bodies",
+    "Ian Marshall": "Nominating Bodies",
+    "Dominic Hannigan": "Nominating Bodies",
+    "Richard Mulcahy": "Nominating Bodies",
+    "Patrick Kent": "Oireachtas"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2020-03-30/cultural-and-educational-panel.json": {
+   "source": "iris-2020-03-10",
+   "candidates": {
+    "Fintan Warfield": "Nominating Bodies",
+    "Saoirse Mchugh": "Oireachtas",
+    "John McGahon": "Oireachtas",
+    "Lisa Chambers": "Oireachtas",
+    "Sean Kyne": "Nominating Bodies",
+    "Joe Conway": "Nominating Bodies",
+    "Malcolm Byrne": "Nominating Bodies",
+    "Tom Neville": "Oireachtas",
+    "Margaret Murphy O'Mahony": "Oireachtas",
+    "Kate Feeney": "Nominating Bodies",
+    "Gabrielle McFadden": "Nominating Bodies",
+    "Declan Breathnach": "Oireachtas",
+    "Shane Curley": "Nominating Bodies",
+    "Mary Newman Julian": "Nominating Bodies",
+    "Paul Lawless": "Oireachtas",
+    "Michael Maher": "Nominating Bodies",
+    "Deirdre Conroy": "Nominating Bodies",
+    "Angela Flynn": "Nominating Bodies",
+    "Eamonn Walsh": "Nominating Bodies",
+    "Jack Mulcahy": "Nominating Bodies"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2020-03-30/industrial-and-commercial-panel.json": {
+   "source": "iris-2020-03-10",
+   "candidates": {
+    "Elisha McCallion": "Oireachtas",
+    "Niall Ó Tuathail": "Oireachtas",
+    "Mark Wall": "Oireachtas",
+    "Aidan Davitt": "Nominating Bodies",
+    "Frances Black": "Oireachtas",
+    "Ollie Crowe": "Nominating Bodies",
+    "Catherine Ardagh": "Oireachtas",
+    "Sharon Keogan": "Oireachtas",
+    "Micheal Carrigy": "Oireachtas",
+    "Gerry Horkan": "Nominating Bodies",
+    "Tom Sheahan": "Nominating Bodies",
+    "Timmy Dooley": "Nominating Bodies",
+    "Nigel Dineen": "Oireachtas",
+    "John Paul O'Shea": "Oireachtas",
+    "Tom MacSharry": "Nominating Bodies",
+    "Barry Ward": "Nominating Bodies",
+    "Arthur Griffin": "Nominating Bodies",
+    "Sharon Tolan": "Oireachtas",
+    "Garret Kelleher": "Nominating Bodies",
+    "Patrick Connor-Scarteen": "Nominating Bodies",
+    "Patsy O'Brien": "Nominating Bodies",
+    "Catherine Noone": "Nominating Bodies",
+    "Danny Byrne": "Nominating Bodies",
+    "Edward Timmins": "Nominating Bodies",
+    "James Geoghegan": "Nominating Bodies",
+    "Pat Hynes": "Nominating Bodies",
+    "Emma Blain": "Nominating Bodies",
+    "Linda O'Shea Farren": "Nominating Bodies",
+    "Áine Collins": "Nominating Bodies",
+    "Michael Vaughan": "Nominating Bodies",
+    "Joe Corr": "Nominating Bodies"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2020-03-30/labour-panel.json": {
+   "source": "iris-2020-03-10",
+   "candidates": {
+    "Jerry Buttimer": "Oireachtas",
+    "John Cummins": "Oireachtas",
+    "Robbie Gallagher": "Nominating Bodies",
+    "Pauline O'Reilly": "Oireachtas",
+    "Gerard Craughwell": "Nominating Bodies",
+    "Marie Sherlock": "Nominating Bodies",
+    "Eileen Flynn": "Oireachtas",
+    "Joe O'Reilly": "Oireachtas",
+    "Paul Gavan": "Nominating Bodies",
+    "Shane Cassells": "Oireachtas",
+    "Ned O'Sullivan": "Nominating Bodies",
+    "Pat Casey": "Oireachtas",
+    "Aengus O'Rourke": "Nominating Bodies",
+    "Mary Seery-Kearney": "Oireachtas",
+    "Michael Smyth": "Nominating Bodies",
+    "John Hanafin": "Nominating Bodies",
+    "Orla Leyden": "Nominating Bodies",
+    "Máire Devine": "Oireachtas",
+    "Sarah Walshe": "Nominating Bodies",
+    "Martina Harkin-Kelly": "Nominating Bodies"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2025-01-29/administrative-panel.json": {
+   "source": "handbook-2025",
+   "candidates": {
+    "Mark Daly": "Nominating Bodies",
+    "Nicole Ryan": "Oireachtas",
+    "Eileen Flynn": "Oireachtas",
+    "Fiona O'Loughlin": "Nominating Bodies",
+    "Darragh Moriarty": "Oireachtas",
+    "Diarmuid Wilson": "Oireachtas",
+    "Garret Ahearn": "Oireachtas",
+    "Martin Conway": "Nominating Bodies",
+    "Richie Molloy": "Nominating Bodies",
+    "Vicki Casserly": "Oireachtas",
+    "Noel O'Donovan": "Oireachtas",
+    "Niamh Madden": "Nominating Bodies",
+    "Ann Marie Flanagan": "Nominating Bodies",
+    "Conor Bergin": "Oireachtas",
+    "Justin Moylan": "Nominating Bodies",
+    "Joan Carthy": "Nominating Bodies",
+    "Cathal Berry": "Oireachtas"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2025-01-29/agricultural-panel.json": {
+   "source": "handbook-2025",
+   "candidates": {
+    "Malcolm Noonan": "Oireachtas",
+    "Joanne Collins": "Oireachtas",
+    "Victor Boyhan": "Oireachtas",
+    "Paul Daly": "Nominating Bodies",
+    "Angela Feeney": "Oireachtas",
+    "Sarah O'Reilly": "Oireachtas",
+    "Paraic Brady": "Nominating Bodies",
+    "Noel Thomas": "Oireachtas",
+    "Maria Byrne": "Nominating Bodies",
+    "Eileen Lynch": "Nominating Bodies",
+    "P. J. Murphy": "Nominating Bodies",
+    "Teresa Costello": "Oireachtas",
+    "Niall Blaney": "Nominating Bodies",
+    "Pat Fitzpatrick": "Nominating Bodies",
+    "Tim Lombard": "Nominating Bodies",
+    "Paddy O'Rourke": "Nominating Bodies",
+    "Imelda Goldsboro": "Oireachtas",
+    "Gillian Coughlan": "Nominating Bodies",
+    "Tim Durkan": "Nominating Bodies",
+    "Niall Kelleher": "Nominating Bodies",
+    "John McNulty": "Oireachtas",
+    "Aisling Dolan": "Nominating Bodies",
+    "Cillian Keane": "Nominating Bodies",
+    "Eugene Murphy": "Nominating Bodies",
+    "Breandan Fitzgerald": "Nominating Bodies",
+    "Matt Dempsey": "Nominating Bodies",
+    "Gerry McMunn": "Nominating Bodies",
+    "Michael D. O'Shea": "Nominating Bodies"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2025-01-29/cultural-and-educational-panel.json": {
+   "source": "handbook-2025",
+   "candidates": {
+    "Pauline Tully": "Oireachtas",
+    "Cathal Byrne": "Oireachtas",
+    "Shane Curley": "Nominating Bodies",
+    "Sean Kyne": "Nominating Bodies",
+    "Lorraine Clifford-Lee": "Nominating Bodies",
+    "Joe Conway": "Nominating Bodies",
+    "Joe Flaherty": "Oireachtas",
+    "Shane O'Callaghan": "Nominating Bodies",
+    "Máirín McGrath": "Nominating Bodies",
+    "Mikey Sheehy": "Nominating Bodies",
+    "Éanna Ní Lamhna": "Nominating Bodies",
+    "Carmel Brady": "Oireachtas",
+    "Gearóid Murphy": "Nominating Bodies",
+    "Sharon Tolan": "Oireachtas",
+    "Rob Power": "Nominating Bodies",
+    "Imran Khurshid": "Nominating Bodies",
+    "Liadh Ní Riada": "Nominating Bodies",
+    "Michelle Hayes": "Nominating Bodies",
+    "Kensika Monshengwo": "Nominating Bodies",
+    "Sabina Purcell": "Nominating Bodies",
+    "Angela Flynn": "Nominating Bodies"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2025-01-29/industrial-and-commercial-panel.json": {
+   "source": "handbook-2025",
+   "candidates": {
+    "Sharon Keogan": "Oireachtas",
+    "Conor Murphy": "Oireachtas",
+    "Frances Black": "Oireachtas",
+    "Aidan Davitt": "Nominating Bodies",
+    "Laura Harmon": "Oireachtas",
+    "Joan Hopkins": "Oireachtas",
+    "Ollie Crowe": "Nominating Bodies",
+    "Mary Fitzpatrick": "Nominating Bodies",
+    "Garret Kelleher": "Nominating Bodies",
+    "Danny Byrne": "Nominating Bodies",
+    "Linda Nelson Murray": "Nominating Bodies",
+    "Declan Burgess": "Nominating Bodies",
+    "Dee Ryan": "Oireachtas",
+    "Gerry Horkan": "Nominating Bodies",
+    "David Fitzgerald": "Oireachtas",
+    "Kate Feeney": "Nominating Bodies",
+    "Alan Farrell": "Oireachtas",
+    "Matt Shanahan": "Nominating Bodies",
+    "Michael Naughton": "Nominating Bodies",
+    "Tony Mulcahy": "Nominating Bodies",
+    "Mary Seery Kearney": "Oireachtas",
+    "Sinéad Lucey Brennan": "Nominating Bodies",
+    "Adrian Cummins": "Nominating Bodies",
+    "Joe Kelly": "Nominating Bodies",
+    "David Pratt": "Nominating Bodies",
+    "Vanessa Foran": "Nominating Bodies",
+    "Donal Kissane": "Nominating Bodies"
+   }
+  },
+  "data/elections-source/data/elections/seanad-eireann/2025-01-29/labour-panel.json": {
+   "source": "handbook-2025",
+   "candidates": {
+    "Robbie Gallagher": "Nominating Bodies",
+    "Gerard Craughwell": "Nominating Bodies",
+    "Chris Andrews": "Oireachtas",
+    "Patricia Stephenson": "Oireachtas",
+    "Maria McCormack": "Oireachtas",
+    "Nessa Cosgrove": "Nominating Bodies",
+    "Mark Duffy": "Oireachtas",
+    "Joe O'Reilly": "Nominating Bodies",
+    "Margaret Murphy O'Mahony": "Nominating Bodies",
+    "Mike Kennelly": "Oireachtas",
+    "Anne Rabbitte": "Oireachtas",
+    "Bernard Moynihan": "Nominating Bodies",
+    "Leonora Carey": "Oireachtas",
+    "Pat Casey": "Oireachtas",
+    "Michael Smyth": "Nominating Bodies",
+    "Anna Grainger": "Nominating Bodies",
+    "Jimmy Kavanagh": "Oireachtas",
+    "Paul Gavan": "Nominating Bodies",
+    "Daithí Doolan": "Nominating Bodies"
+   }
+  }
+ }
+}

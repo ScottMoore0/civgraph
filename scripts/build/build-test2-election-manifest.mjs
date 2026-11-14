@@ -17,6 +17,7 @@ import { createPartyLabelInterpreter } from '../lib/party-label-interpretations.
 import { bracketedResultFile, seatTypeResultFile } from '../lib/election-result-files.mjs';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
 import { restoreStageFractions } from '../lib/stage-fractions.mjs';
+import { applySubPanels, subPanelIndex } from '../lib/candidate-sub-panels.mjs';
 import { scrubUnopposedPlaceholderVotes } from '../lib/unopposed-placeholders.mjs';
 import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../packages/registries/src/index.mjs';
@@ -764,6 +765,12 @@ function applyBallotDescriptions(resultPath, rawResult) {
   }
   return rawResult;
 }
+
+// The sub-panel each Seanad panel candidate stood on (data/elections/seanad-sub-panels.json, from the
+// Seanad Returning Officer's panels of candidates and statements of the candidates elected), carried
+// on the count rows as Sub_Panel and in the summaries as subPanel (scripts/lib/candidate-sub-panels.mjs).
+const SUB_PANELS = path.join(ROOT, 'data', 'elections', 'seanad-sub-panels.json');
+const subPanels = subPanelIndex(existsSync(SUB_PANELS) ? readJson(SUB_PANELS) : null, (name) => normalizeName(name));
 
 // An unopposed return was imported with its columns shifted: the member's name in the vote
 // columns and the party split across Firstname and Surname, so the pane named "Irish Unionist"
@@ -2250,8 +2257,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const rawResult = resultPath ? fillReplacedImport(resultPath, readJson(resultPath)) : null;
     const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
     const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
-    const enrichedRawResult = applyPartyLabelInterpretations(resultPath, applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
-      repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult))))));
+    const enrichedRawResult = applyPartyLabelInterpretations(resultPath, applyBallotDescriptions(resultPath, applySubPanels(subPanels, resultPath && slash(path.relative(ROOT, resultPath)), applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
+      repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)))), (name) => normalizeName(name))));
     if (officialRawResult) rawEntries.push({ constituency, raw: rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
     // A cause supplied by an overlay (Wikipedia's by-election lists) counts as the file's own.
@@ -2326,8 +2333,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const constituency = file.replace(/\.json$/, '');
       const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
       const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
-      const enrichedRawResult = applyPartyLabelInterpretations(resultPath, applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
-        repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult))))));
+      const enrichedRawResult = applyPartyLabelInterpretations(resultPath, applyBallotDescriptions(resultPath, applySubPanels(subPanels, resultPath && slash(path.relative(ROOT, resultPath)), applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
+        repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)))), (name) => normalizeName(name))));
       rawEntries.push({ constituency, raw: rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) });
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
       applyLifespanEvidence(entry, result);

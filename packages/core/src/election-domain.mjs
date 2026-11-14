@@ -65,6 +65,7 @@ export { candidateReturnWithoutPoll, isUncontestedResult, isUnopposedCandidate, 
  *   officialStatus?: string,
  *   partyInferred?: boolean,
  *   partyBasis?: string,
+ *   subPanel?: string,
  *   counts?: CandidateCount[] | undefined,
  *   decidedAt?: number,
  *   droppedAt?: number
@@ -515,6 +516,9 @@ export function summarizeCandidateRows(rows = []) {
       // Jim Gibbonses keep ids of their own. Namespaced, because a second source with
       // its own numbering must not silently collide with this one.
       sourcePersonId: sourcePersonIdFor(row),
+      // The Seanad sub-panel the candidate stood on (Oireachtas or Nominating Bodies), where a
+      // source gives it (Sub_Panel, scripts/lib/candidate-sub-panels.mjs).
+      subPanel: fixText(row.Sub_Panel || ''),
       counts: []
     };
     const countNo = parseNumber(row.Count_Number) || 1;
@@ -540,6 +544,7 @@ export function summarizeCandidateRows(rows = []) {
       existing.ballotDescription = fixText(row.Ballot_Description || row.ballotDescription || '');
     }
     if (!existing.partyAsPrinted && row.Party_As_Printed) existing.partyAsPrinted = fixText(row.Party_As_Printed);
+    if (!existing.subPanel && row.Sub_Panel) existing.subPanel = fixText(row.Sub_Panel);
     // Many files (the NI council ones) mark Status on EVERY row of a candidate and record the stage
     // that decided it in Occurred_On_Count; the first such row is count 1, not that stage.
     const occurred = parseNumber(row.Occurred_On_Count);
@@ -579,6 +584,7 @@ export function summarizeCandidateRows(rows = []) {
     delete candidate.decidedAt;
     delete candidate.droppedAt;
     if (!candidate.sourcePersonId) delete candidate.sourcePersonId;
+    if (!candidate.subPanel) delete candidate.subPanel;
     // Only where the source records one. Kept verbatim even where it repeats the party: it is what
     // the "Show labels as printed" column shows (src/printed-labels.mjs); the default view does not.
     if (!candidate.ballotDescription) delete candidate.ballotDescription;
