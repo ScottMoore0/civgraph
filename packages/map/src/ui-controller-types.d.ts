@@ -354,7 +354,7 @@ export type ElectionCatalogueCard = import('./election/election-manager').Electi
   displaySubtitle?: string;
   displayProvider?: string;
   displayTitle?: string;
-  bodyGroup?: string;
+  bodyGroup?: string | null;
 };
 
 /** A card of the flat catalogue (renderFlatView): its maps by id or class, or a decade's elections. */

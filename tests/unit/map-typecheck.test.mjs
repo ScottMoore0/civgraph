@@ -41,7 +41,8 @@ const BASELINE = [
   'src/app/layers.js',
   'src/app/election-pane.js',
   'src/app/url-state.js',
-  'src/app/entity-bridge.js'
+  'src/app/entity-bridge.js',
+  'src/app/ui-wiring.js'
 ];
 
 /** The files a simple include pattern names (a file, dir/*.ext, or dir/**\/*.ext). */

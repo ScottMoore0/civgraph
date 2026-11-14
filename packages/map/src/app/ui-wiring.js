@@ -9,11 +9,25 @@ import uiController from '../ui-controller.js';
 import { normalizeEntityName } from './helpers.mjs';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 
+/**
+ * The app as these methods see it: they are wired once init has made the map controller, and read
+ * the History list's steps (url-state.js), how each map's load ended (layers.js) and the page asked
+ * for last (entity-bridge.js).
+ * @typedef {import('./map-app').MapAppReady & UiWiringMethods & import('./url-state.js').NavigationState
+ *   & import('./layers.js').SettleOutcomeState & import('./entity-bridge.js').EntityPageState} UiWiringApp
+ */
+/** @typedef {import('../ui-controller-types.d.ts').MapRecord} MapRecord */
+/** @typedef {import('../ui-controller-types.d.ts').UiCallbacks} UiCallbacks */
+/** @typedef {import('../ui-controller-types.d.ts').InfoFeature} InfoFeature */
+/** The controller, with the flag that says the state bridge below is installed on it. @typedef {typeof uiController & { __test2CatalogueStateBridgeInstalled?: boolean }} BridgedController */
+
 export class UiWiringMethods {
+  /** @this {UiWiringApp} */
   wireUiCallbacks() {
     // The History popup lists the reader's own steps (see installRouteGuard) and goes to one.
-    uiController.getNavigationHistory = () => (this.navEntries ? { entries: this.navEntries, index: this.navIndex } : null);
-    uiController.goToNavigationEntry = (index) => history.go(index - this.navIndex);
+    // The route guard sets the steps and the step the reader is on together (url-state.js).
+    uiController.getNavigationHistory = () => (this.navEntries ? { entries: this.navEntries, index: /** @type {number} */ (this.navIndex) } : null);
+    uiController.goToNavigationEntry = (index) => history.go(index - /** @type {number} */ (this.navIndex));
     uiController.onBuildElectionCatalogueCards = async () => {
       if (this.elections?.catalogue) return this.elections.buildCatalogueCards();
       this.scheduleElectionCatalogueWarm();
@@ -54,7 +68,8 @@ export class UiWiringMethods {
       const elections = await this.ensureElections();
       const entries = elections?.catalogue?.elections || [];
       const entry = (key && entries.find((item) => item.key === key))
-        || elections?.findEntry?.(body, date)
+        // No body finds nothing.
+        || elections?.findEntry?.(/** @type {string} */ (body), date)
         || entries.find((item) => item.date === date && normalizeEntityName(item.body) === normalizeEntityName(body))
         || null;
       if (!entry) {
@@ -121,7 +136,7 @@ export class UiWiringMethods {
         this.updateActiveLayers();
         this.updateURLState();
         this.undoNavigationSince(navMark);
-        const error = new Error(`${this.mapLabel(mapId)} could not be loaded: ${navigator.onLine === false ? 'you appear to be offline' : 'its map data did not arrive'}.`);
+        const error = /** @type {Error & { code?: string }} */ (new Error(`${this.mapLabel(mapId)} could not be loaded: ${navigator.onLine === false ? 'you appear to be offline' : 'its map data did not arrive'}.`));
         error.code = 'layer-data-failed';
         this.reportMapLoadFailure(mapId, error);
         throw error;
@@ -199,6 +214,7 @@ export class UiWiringMethods {
     };
     uiController.onProviderCategoryChange = (providerId, providers) => {
       this.currentProviderCategory = providerId;
+      /** @type {string[]} */
       this.currentProviderList = providers || [];
       this.updateMapList();
       this.updateURLState();
@@ -227,21 +243,25 @@ export class UiWiringMethods {
       // feature up in the spatial and feature indexes (QA 2026-11-11, H2).
       const result = await this.mapController.loadSingleFeature(mapConfig, featureId, featureName, bbox, {
         isolate: options.isolate !== false,
-        resolveBounds: (layerConfig) => this.resolveFeatureBounds(mapConfig, featureId, featureName, layerConfig)
+        // The layer's config, which may name its feature index.
+        resolveBounds: (layerConfig) => this.resolveFeatureBounds(mapConfig, featureId, featureName, /** @type {{ featureIndexUrl?: string } | null} */ (layerConfig))
       });
       this.syncCatalogueMapState();
       this.updateActiveLayers();
       this.updateURLState();
+      // The adapter's feature (its id, names, properties and geometry), read as the feature panel
+      // and pages read a GeoJSON one: they do not read the GeoJSON `type` it lacks.
       if (options.showInfo !== false) {
-        uiController.showFeatureInfo([{ ...result.feature, mapId, id: featureId }], dataService.getAllMaps());
+        uiController.showFeatureInfo([/** @type {InfoFeature} */ (/** @type {unknown} */ ({ ...result.feature, mapId, id: featureId }))], /** @type {MapRecord[]} */ (dataService.getAllMaps()));
       }
-      return result;
+      return /** @type {Awaited<ReturnType<UiCallbacks['onLoadSingleFeature']>>} */ (/** @type {unknown} */ (result));
     };
   }
 
+  /** @this {UiWiringApp} */
   installCatalogueStateBridge() {
-    if (uiController.__test2CatalogueStateBridgeInstalled) return;
-    uiController.__test2CatalogueStateBridgeInstalled = true;
+    if (/** @type {BridgedController} */ (uiController).__test2CatalogueStateBridgeInstalled) return;
+    /** @type {BridgedController} */ (uiController).__test2CatalogueStateBridgeInstalled = true;
 
     // Every page the pane opens is a browser history entry, so browser Back and the pane's own
     // Back step through the same places (UX review 2026-10-31, H4: Back undid the map behind a
@@ -252,7 +272,9 @@ export class UiWiringMethods {
       if (addToHistory && mapId !== this.currentDetailMapId) this.beginNavigation(`Details: ${this.mapLabel(mapId)}`);
       this.entityPageToken = (this.entityPageToken || 0) + 1;
       const result = showDetail(mapId, addToHistory);
+      /** @type {string | null} */
       this.currentDetailMapId = mapId || null;
+      /** @type {import('./map-app').MapApp['currentPage']} */
       this.currentPage = null;
       this.endNavigation();
       return result;
@@ -282,7 +304,7 @@ export class UiWiringMethods {
         this.currentPage = {
           kind: 'feature',
           key: detailId,
-          title: uiController.featureDisplayName?.(entry.primaryName, entry.mapConfig) || entry.primaryName || 'Feature',
+          title: uiController.featureDisplayName?.(entry.primaryName) || entry.primaryName || 'Feature',
           typeLabel: entry.mapConfig?.name || 'Feature'
         };
         this.currentDetailMapId = null;
@@ -300,7 +322,7 @@ export class UiWiringMethods {
     };
     const goBack = uiController.catalogueGoBack.bind(uiController);
     uiController.catalogueGoBack = () => {
-      if (!tablesOpen() && this.navIndex > 0) {
+      if (!tablesOpen() && (this.navIndex ?? 0) > 0) {
         history.back();
         return;
       }
@@ -308,7 +330,7 @@ export class UiWiringMethods {
     };
     const goForward = uiController.catalogueGoForward.bind(uiController);
     uiController.catalogueGoForward = () => {
-      if (!tablesOpen() && this.navEntries && this.navIndex < this.navEntries.length - 1) {
+      if (!tablesOpen() && this.navEntries && /** @type {number} */ (this.navIndex) < this.navEntries.length - 1) {
         history.forward();
         return;
       }
@@ -317,10 +339,10 @@ export class UiWiringMethods {
     const updateNav = uiController.updateCatalogueNavButtons.bind(uiController);
     uiController.updateCatalogueNavButtons = () => {
       updateNav();
-      const back = document.getElementById('catalogueBack');
-      const forward = document.getElementById('catalogueForward');
-      if (back && this.navIndex > 0) back.disabled = false;
-      if (forward && this.navEntries && this.navIndex < this.navEntries.length - 1) forward.disabled = false;
+      const back = /** @type {HTMLButtonElement | null} */ (document.getElementById('catalogueBack'));
+      const forward = /** @type {HTMLButtonElement | null} */ (document.getElementById('catalogueForward'));
+      if (back && (this.navIndex ?? 0) > 0) back.disabled = false;
+      if (forward && this.navEntries && /** @type {number} */ (this.navIndex) < this.navEntries.length - 1) forward.disabled = false;
     };
   }
 }
