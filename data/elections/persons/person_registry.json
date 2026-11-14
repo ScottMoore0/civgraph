@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 158934,
+ "idHighWater": 159147,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -42,6 +42,9 @@
    "34",
    "35",
    "36",
+   "37",
+   "38",
+   "72",
    "12211",
    "66768",
    "91406",
@@ -55,7 +58,7 @@
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
   "crossSystemMerges": 1061,
-  "sameNameLeftSplit": 2901
+  "sameNameLeftSplit": 2903
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -71,7 +74,6 @@
    ],
    "sourceIds": [
     "2997493022",
-    "72",
     "T2997493022"
    ],
    "sourcePersonIds": [],
@@ -9934,7 +9936,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158873
+    158994
    ]
   },
   {
@@ -12333,7 +12335,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158920
+    159095
    ]
   },
   {
@@ -25219,7 +25221,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158922
+    159097
    ]
   },
   {
@@ -30802,22 +30804,29 @@
    "personId": 48461,
    "displayName": "John Brennan",
    "aliases": [
+    "John J. Brennan",
     "John Brennan"
    ],
    "matchKeys": [
-    "john brennan"
+    "john brennan",
+    "john j brennan"
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:8936"
+    "ei:8936",
+    "ie:20420"
    ],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "officialPersonIds": [
+    "oireachtas:John-J-Brennan.S.1960-02-09",
+    "wikidata:Q6223067"
+   ],
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1948,
-   "lastYear": 1957,
+   "lastYear": 1973,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Fianna Fáil"
@@ -30825,7 +30834,10 @@
    "keyedBy": "src",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    158644
+   ]
   },
   {
    "id": "p48543",
@@ -39171,10 +39183,7 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    101567
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p63262",
@@ -39560,10 +39569,7 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    105941
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p63791",
@@ -43153,7 +43159,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158923
+    159098
    ]
   },
   {
@@ -46504,10 +46510,7 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "nameVariants": true,
-   "mergedFrom": [
-    143656
-   ]
+   "nameVariants": true
   },
   {
    "id": "p76195",
@@ -51395,9 +51398,7 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "mergedFrom": [
-    100930
-   ]
+   "nameVariants": true
   },
   {
    "id": "p84349",
@@ -60474,7 +60475,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158889
+    159028
    ]
   },
   {
@@ -60928,13 +60929,14 @@
     "oireachtas:Alfred-Byrne.D.1922-09-09",
     "wikidata:Q2644798"
    ],
-   "candidacies": 15,
-   "contests": 15,
+   "candidacies": 16,
+   "contests": 16,
    "firstYear": 1915,
    "lastYear": 1954,
    "bodies": [
     "dail-eireann",
-    "house-of-commons-of-the-united-kingdom"
+    "house-of-commons-of-the-united-kingdom",
+    "seanad-eireann"
    ],
    "parties": [
     "Independent",
@@ -62421,10 +62423,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158828,
-    158847,
-    158892,
-    158893
+    158946,
+    158965,
+    159068,
+    159069
    ]
   },
   {
@@ -62736,10 +62738,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158857,
-    158858,
-    158875,
-    158928
+    158975,
+    158976,
+    158996,
+    159103
    ]
   },
   {
@@ -63437,10 +63439,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158834,
-    158835,
-    158901,
-    158902
+    158952,
+    158953,
+    159077,
+    159078
    ]
   },
   {
@@ -63477,10 +63479,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158836,
-    158852,
-    158864,
-    158903
+    158954,
+    158970,
+    158985,
+    159079
    ]
   },
   {
@@ -63954,8 +63956,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158841,
-    158921
+    158959,
+    159096
    ]
   },
   {
@@ -64116,11 +64118,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158842,
-    158859,
-    158930,
-    158931,
-    158932
+    158960,
+    158977,
+    159105,
+    159106,
+    159107
    ]
   },
   {
@@ -64210,15 +64212,17 @@
     "oireachtas:Ernest-Blythe.D.1919-01-21",
     "wikidata:Q1356246"
    ],
-   "candidacies": 9,
-   "contests": 8,
+   "candidacies": 11,
+   "contests": 10,
    "firstYear": 1918,
-   "lastYear": 1933,
+   "lastYear": 1934,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Cumann na nGaedheal",
+    "Fine Gael",
     "Pro-Treaty Sinn Féin",
     "Sinn Féin"
    ],
@@ -64912,10 +64916,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158819,
-    158826,
-    158884,
-    158885
+    158937,
+    158944,
+    159023,
+    159024
    ]
   },
   {
@@ -65835,12 +65839,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158856,
-    158874,
-    158924,
-    158925,
-    158926,
-    158927
+    158974,
+    158995,
+    159099,
+    159100,
+    159101,
+    159102
    ]
   },
   {
@@ -66450,33 +66454,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:8523)",
-   "provisional": true
-  },
-  {
-   "id": "p100214",
-   "personId": 100214,
-   "displayName": "Seamus Fitzgerald",
-   "aliases": [
-    "Seamus Fitzgerald"
-   ],
-   "matchKeys": [
-    "seamus fitzgerald"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1922,
-   "lastYear": 1922,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Anti-Treaty Sinn Féin"
-   ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -68641,9 +68618,11 @@
    "personId": 100291,
    "displayName": "Edmund Duggan",
    "aliases": [
+    "Eamonn Duggan",
     "Edmund Duggan"
    ],
    "matchKeys": [
+    "eamonn duggan",
     "edmund duggan"
    ],
    "sourceIds": [],
@@ -68654,21 +68633,24 @@
     "oireachtas:Edmund-John-Duggan.D.1919-01-21",
     "wikidata:Q333270"
    ],
-   "candidacies": 7,
-   "contests": 7,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1918,
-   "lastYear": 1932,
+   "lastYear": 1934,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Cumann na nGaedheal",
+    "Fine Gael",
     "Pro-Treaty Sinn Féin",
     "Sinn Féin"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1055)",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p100292",
@@ -69578,8 +69560,8 @@
     "oireachtas:Pádraic-Ó-Maille.D.1919-01-21",
     "wikidata:Q7263988"
    ],
-   "candidacies": 8,
-   "contests": 8,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1918,
    "lastYear": 1938,
    "bodies": [
@@ -69657,8 +69639,8 @@
     "oireachtas:Patrick-Francis-Baxter.D.1923-09-19",
     "wikidata:Q1279753"
    ],
-   "candidacies": 17,
-   "contests": 17,
+   "candidacies": 18,
+   "contests": 18,
    "firstYear": 1922,
    "lastYear": 1957,
    "bodies": [
@@ -70291,9 +70273,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158820,
-    158821,
-    158849
+    158938,
+    158939,
+    158967
    ]
   },
   {
@@ -70331,11 +70313,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158831,
-    158850,
-    158851,
-    158863,
-    158898
+    158949,
+    158968,
+    158969,
+    158984,
+    159074
    ]
   },
   {
@@ -70372,10 +70354,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158817,
-    158822,
-    158911,
-    158912
+    158935,
+    158940,
+    159086,
+    159087
    ]
   },
   {
@@ -72529,11 +72511,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158818,
-    158876,
-    158877,
-    158878,
-    158933
+    158936,
+    158997,
+    158998,
+    158999,
+    159108
    ]
   },
   {
@@ -74074,12 +74056,13 @@
     "oireachtas:Joseph-O'Doherty.D.1919-01-21",
     "wikidata:Q6285872"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1918,
    "lastYear": 1933,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Anti-Treaty Sinn Féin",
@@ -75729,12 +75712,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158823,
-    158853,
-    158869,
-    158870,
-    158913,
-    158914
+    158941,
+    158971,
+    158990,
+    158991,
+    159088,
+    159089
    ]
   },
   {
@@ -75772,11 +75755,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158824,
-    158839,
-    158854,
-    158915,
-    158916
+    158942,
+    158957,
+    158972,
+    159090,
+    159091
    ]
   },
   {
@@ -75816,13 +75799,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158840,
-    158855,
-    158871,
-    158872,
-    158917,
-    158918,
-    158919
+    158958,
+    158973,
+    158992,
+    158993,
+    159092,
+    159093,
+    159094
    ]
   },
   {
@@ -81411,14 +81394,16 @@
     "oireachtas:Kathleen-Clarke.D.1921-08-16",
     "wikidata:Q1736270"
    ],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1921,
    "lastYear": 1948,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
+    "Anti-Treaty Sinn Féin",
     "Clann na Poblachta",
     "Fianna Fáil",
     "Sinn Féin"
@@ -82056,16 +82041,18 @@
     "oireachtas:Michael-Jordan.D.1927-10-11",
     "wikidata:Q6831715"
    ],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1922,
    "lastYear": 1932,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Cumann na nGaedheal",
-    "Farmers"
+    "Farmers",
+    "Farmers' Party"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1456)",
@@ -83749,12 +83736,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158827,
-    158844,
-    158845,
-    158846,
-    158887,
-    158888
+    158945,
+    158962,
+    158963,
+    158964,
+    159026,
+    159027
    ]
   },
   {
@@ -83920,11 +83907,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158829,
-    158830,
-    158848,
-    158896,
-    158897
+    158947,
+    158948,
+    158966,
+    159072,
+    159073
    ]
   },
   {
@@ -83960,9 +83947,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158832,
-    158899,
-    158900
+    158950,
+    159075,
+    159076
    ]
   },
   {
@@ -84001,12 +83988,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158837,
-    158838,
-    158866,
-    158867,
-    158868,
-    158910
+    158955,
+    158956,
+    158987,
+    158988,
+    158989,
+    159085
    ]
   },
   {
@@ -96719,19 +96706,22 @@
     "oireachtas:Richard-Wilson.D.1922-09-09",
     "wikidata:Q7330026"
    ],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1922,
-   "lastYear": 1927,
+   "lastYear": 1934,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
+    "Cumann na nGaedheal",
     "Farmers",
+    "Fine Gael",
     "Independent"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1464)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -98045,12 +98035,13 @@
     "oireachtas:William-Sears.D.1919-01-21",
     "wikidata:Q8018242"
    ],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1918,
-   "lastYear": 1927,
+   "lastYear": 1928,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Cumann na nGaedheal",
@@ -108673,10 +108664,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    158909
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p101710",
@@ -114102,14 +114091,16 @@
     "oireachtas:Hugh-Garahan.D.1927-06-23",
     "wikidata:Q5930891"
    ],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1923,
-   "lastYear": 1927,
+   "lastYear": 1931,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
+    "Cumann na nGaedheal",
     "Farmers"
    ],
    "keyedBy": "src",
@@ -119584,12 +119575,13 @@
     "oireachtas:Raphael-P-Keyes.D.1932-03-09",
     "wikidata:Q7293979"
    ],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1927,
-   "lastYear": 1933,
+   "lastYear": 1934,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Fianna Fáil"
@@ -121591,10 +121583,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158880,
-    158881,
-    158882,
-    158883
+    159019,
+    159020,
+    159021,
+    159022
    ]
   },
   {
@@ -121629,8 +121621,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158861,
-    158886
+    158982,
+    159025
    ]
   },
   {
@@ -126923,10 +126915,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158905,
-    158906,
-    158907,
-    158908
+    159081,
+    159082,
+    159083,
+    159084
    ]
   },
   {
@@ -143095,10 +143087,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    153585
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p102979",
@@ -147261,7 +147250,7 @@
    "provenance": "keyed on the source's own candidate id (ei:3485)",
    "provisional": true,
    "mergedFrom": [
-    158843
+    158961
    ]
   },
   {
@@ -151072,15 +151061,17 @@
     "oireachtas:Francis-MacGuinness.D.1922-09-09",
     "wikidata:Q5481897"
    ],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1922,
-   "lastYear": 1923,
+   "lastYear": 1925,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Cumann na nGaedheal",
+    "Independent",
     "Pro-Treaty Sinn Féin"
    ],
    "keyedBy": "name",
@@ -156188,12 +156179,13 @@
     "oireachtas:Laurence-O'Neill.D.1922-09-09",
     "wikidata:Q1808009"
    ],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1922,
-   "lastYear": 1922,
+   "lastYear": 1931,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Independent"
@@ -167275,7 +167267,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158891
+    159046
    ]
   },
   {
@@ -170850,7 +170842,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158890
+    159029
    ]
   },
   {
@@ -180653,8 +180645,8 @@
     "oireachtas:Seán-Milroy.D.1922-09-09",
     "wikidata:Q7459570"
    ],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 10,
+   "contests": 10,
    "firstYear": 1918,
    "lastYear": 1938,
    "bodies": [
@@ -180672,7 +180664,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1111)",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p104547",
@@ -207630,8 +207623,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158894,
-    158895
+    159070,
+    159071
    ]
   },
   {
@@ -207665,7 +207658,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158904
+    159080
    ]
   },
   {
@@ -270324,7 +270317,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158929
+    159104
    ]
   },
   {
@@ -276264,19 +276257,20 @@
     "oireachtas:Brian-O'Rourke.S.1922-06-12",
     "wikidata:Q16066797"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1937,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1922,
    "lastYear": 1938,
    "bodies": [
     "dail-eireann",
     "seanad-eireann"
    ],
    "parties": [
+    "Cumann na nGaedheal",
     "Fine Gael"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1935)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -284799,29 +284793,36 @@
    "personId": 109095,
    "displayName": "Dr Douglas Hyde",
    "aliases": [
-    "Dr Douglas Hyde"
+    "Dr Douglas Hyde",
+    "Douglas Hyde"
    ],
    "matchKeys": [
+    "douglas hyde",
     "dr douglas hyde"
    ],
    "sourceIds": [],
    "sourcePersonIds": [
     "ei:1983"
    ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1938,
+   "officialPersonIds": [
+    "oireachtas:Douglas-Hyde.S.1925-02-04",
+    "wikidata:Q237951"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1925,
    "lastYear": 1938,
    "bodies": [
-    "ireland-president"
+    "ireland-president",
+    "seanad-eireann"
    ],
    "parties": [
     "Independent"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1983)",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p109096",
@@ -293603,7 +293604,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1546)",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p109403",
@@ -319154,11 +319156,8 @@
     "Fine Gael"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:2289)",
-   "provisional": true,
-   "mergedFrom": [
-    132498
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:3410)",
+   "provisional": true
   },
   {
    "id": "p110327",
@@ -320795,14 +320794,16 @@
    "sourceIds": [],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1922,
-   "lastYear": 1922,
+   "lastYear": 1925,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
+    "Farmers' Party",
     "Independent"
    ],
    "keyedBy": "name",
@@ -322097,18 +322098,20 @@
     "oireachtas:Peter-De-Loughry.S.1922-12-06",
     "wikidata:Q7177894"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1927,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1922,
    "lastYear": 1927,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
-    "Cumann na nGaedheal"
+    "Cumann na nGaedheal",
+    "Independent"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1687)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -328430,7 +328433,7 @@
    "provenance": "keyed on the source's own candidate id (ie:6276)",
    "provisional": true,
    "mergedFrom": [
-    158860
+    158981
    ]
   },
   {
@@ -329739,23 +329742,29 @@
     "wikipedia:Walter Nugent"
    ],
    "officialPersonIds": [
+    "oireachtas:Walter-Nugent.S.1928-03-01",
     "wikidata:Q7529395"
    ],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1907,
-   "lastYear": 1918,
+   "lastYear": 1928,
    "bodies": [
     "dail-eireann",
-    "house-of-commons-of-the-united-kingdom"
+    "house-of-commons-of-the-united-kingdom",
+    "seanad-eireann"
    ],
    "parties": [
+    "Independent",
     "Irish Parliamentary",
     "Nationalist Party"
    ],
-   "keyedBy": "id",
+   "keyedBy": "name",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameKeyedRows": [
+    "sir walter nugent"
+   ],
    "nameVariants": true
   },
   {
@@ -336067,19 +336076,20 @@
     "oireachtas:William-Cummins.S.1923-02-21",
     "wikidata:Q8007371"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1938,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1923,
    "lastYear": 1938,
    "bodies": [
     "dail-eireann",
     "seanad-eireann"
    ],
    "parties": [
-    "Irish Labour"
+    "Irish Labour",
+    "Labour Party"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1963)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -340431,7 +340441,8 @@
    "personId": 111219,
    "displayName": "Seamus Fitzgerald",
    "aliases": [
-    "Seamus Fitzgerald"
+    "Seamus Fitzgerald",
+    "Séamus Fitzgerald"
    ],
    "matchKeys": [
     "seamus fitzgerald"
@@ -340445,21 +340456,24 @@
     "oireachtas:Séamus-Fitzgerald.D.1921-08-16",
     "wikidata:Q7665854"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1921,
    "lastYear": 1954,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
+    "Anti-Treaty Sinn Féin",
     "Fianna Fáil",
     "Republican",
     "Sinn Féin"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1187)",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p111220",
@@ -358325,8 +358339,8 @@
     "oireachtas:Denis-D-Healy.S.1934-06-12",
     "wikidata:Q16190537"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1927,
    "lastYear": 1944,
    "bodies": [
@@ -358874,14 +358888,16 @@
     "oireachtas:Michael-Staines.D.1919-01-21",
     "wikidata:Q6834553"
    ],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1918,
    "lastYear": 1943,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
+    "Cumann na nGaedheal",
     "Fine Gael",
     "Pro-Treaty Sinn Féin",
     "Sinn Féin"
@@ -360715,33 +360731,6 @@
    "provisional": true
   },
   {
-   "id": "p113021",
-   "personId": 113021,
-   "displayName": "Kathleen Clarke",
-   "aliases": [
-    "Kathleen Clarke"
-   ],
-   "matchKeys": [
-    "kathleen clarke"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1922,
-   "lastYear": 1922,
-   "bodies": [
-    "dail-eireann"
-   ],
-   "parties": [
-    "Anti-Treaty Sinn Féin"
-   ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p113037",
    "personId": 113037,
    "displayName": "Martin Kenny",
@@ -362034,18 +362023,20 @@
     "oireachtas:Thomas-Johnson.D.1922-09-09",
     "wikidata:Q4160445"
    ],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1922,
-   "lastYear": 1927,
+   "lastYear": 1934,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
-    "Irish Labour"
+    "Irish Labour",
+    "Labour Party"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1227)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -363259,7 +363250,7 @@
    "provisional": true,
    "nameVariants": true,
    "mergedFrom": [
-    158825
+    158943
    ]
   },
   {
@@ -366607,10 +366598,12 @@
    "personId": 113338,
    "displayName": "Seamus Robinson",
    "aliases": [
-    "Seamus Robinson"
+    "Seamus Robinson",
+    "Séumas Robinson"
    ],
    "matchKeys": [
-    "seamus robinson"
+    "seamus robinson",
+    "seumas robinson"
    ],
    "sourceIds": [],
    "sourcePersonIds": [
@@ -366620,19 +366613,22 @@
     "oireachtas:Seamus-Robinson.D.1921-08-16",
     "wikidata:Q7665879"
    ],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1921,
-   "lastYear": 1921,
+   "lastYear": 1928,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
+    "Fianna Fáil",
     "Sinn Féin"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:6813)",
-   "provisional": true
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p113340",
@@ -369182,10 +369178,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    133562
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p117341",
@@ -511736,7 +511729,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    158833
+    158951
    ]
   },
   {
@@ -513129,7 +513122,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158879
+    159018
    ]
   },
   {
@@ -515292,7 +515285,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158862
+    158983
    ]
   },
   {
@@ -516015,7 +516008,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (wikipedia:Henry Harrison (Irish politician))",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p122957",
@@ -517753,20 +517747,23 @@
     "wikipedia:P. J. Brady"
    ],
    "officialPersonIds": [
+    "oireachtas:Patrick-J-Brady.S.1927-01-26",
     "wikidata:Q15996053"
    ],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1910,
-   "lastYear": 1910,
+   "lastYear": 1927,
    "bodies": [
-    "house-of-commons-of-the-united-kingdom"
+    "house-of-commons-of-the-united-kingdom",
+    "seanad-eireann"
    ],
    "parties": [
+    "Independent",
     "Irish Parliamentary"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:P. J. Brady)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -527279,9 +527276,11 @@
    "personId": 123502,
    "displayName": "Thomas William Westropp Bennett",
    "aliases": [
-    "Thomas William Westropp Bennett"
+    "Thomas William Westropp Bennett",
+    "Thomas Westropp Bennett"
    ],
    "matchKeys": [
+    "thomas westropp bennett",
     "thomas william westropp bennett"
    ],
    "sourceIds": [
@@ -527292,19 +527291,23 @@
     "oireachtas:Thomas-Westropp-Bennett.S.1922-12-06",
     "wikidata:Q1259804"
    ],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1910,
-   "lastYear": 1910,
+   "lastYear": 1934,
    "bodies": [
-    "house-of-commons-of-the-united-kingdom"
+    "house-of-commons-of-the-united-kingdom",
+    "seanad-eireann"
    ],
    "parties": [
+    "Cumann na nGaedheal",
+    "Independent",
     "Independent Nationalist"
    ],
-   "keyedBy": "id",
+   "keyedBy": "name",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p123503",
@@ -528538,24 +528541,21 @@
     "oireachtas:Michael-Duffy.S.1922-12-06",
     "wikidata:Q6829968"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1930,
-   "lastYear": 1930,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1922,
+   "lastYear": 1931,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
-    "Irish Labour"
+    "Irish Labour",
+    "Labour Party"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:1745)",
-   "provisional": true,
-   "era": [
-    1930,
-    1930
-   ],
-   "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era"
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
   },
   {
    "id": "p123734",
@@ -556433,18 +556433,21 @@
     "oireachtas:Thomas-Farren.S.1922-12-06",
     "wikidata:Q7789534"
    ],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1915,
-   "lastYear": 1915,
+   "lastYear": 1931,
    "bodies": [
-    "house-of-commons-of-the-united-kingdom"
+    "house-of-commons-of-the-united-kingdom",
+    "seanad-eireann"
    ],
    "parties": [
-    "Irish Labour"
+    "Independent",
+    "Irish Labour",
+    "Labour Party"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Thomas Farren)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -563439,7 +563442,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    158865
+    158986
    ]
   },
   {
@@ -578042,7 +578045,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    158934
+    159120
    ]
   },
   {
@@ -579549,22 +579552,30 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:481"
+    "ei:481",
+    "ie:49"
    ],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "officialPersonIds": [
+    "oireachtas:Mick-Lanigan.S.1977-10-27",
+    "wikidata:Q6838273"
+   ],
+   "candidacies": 10,
+   "contests": 10,
    "firstYear": 1977,
-   "lastYear": 1982,
+   "lastYear": 1997,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Fianna Fáil"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:481)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    158558
+   ]
   },
   {
    "id": "p127546",
@@ -684435,11 +684446,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameVariants": true,
-   "mergedFrom": [
-    139383
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p133718",
@@ -1110645,9 +1110653,9 @@
     "oireachtas:Thomas-Ruane.S.1934-06-12",
     "wikidata:Q7793667"
    ],
-   "candidacies": 10,
-   "contests": 10,
-   "firstYear": 1938,
+   "candidacies": 11,
+   "contests": 11,
+   "firstYear": 1934,
    "lastYear": 1961,
    "bodies": [
     "ireland-local",
@@ -1140495,9 +1140503,7 @@
    "matchKeys": [
     "seamus hennessy"
    ],
-   "sourceIds": [
-    "37"
-   ],
+   "sourceIds": [],
    "sourcePersonIds": [
     "ie:20484"
    ],
@@ -1140613,9 +1140619,7 @@
    "matchKeys": [
     "toal o muire"
    ],
-   "sourceIds": [
-    "38"
-   ],
+   "sourceIds": [],
    "sourcePersonIds": [
     "ie:20488"
    ],
@@ -1145335,14 +1145339,15 @@
     "oireachtas:Henry-Leo-Barniville.S.1922-06-12",
     "wikidata:Q5717817"
    ],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1938,
+   "candidacies": 10,
+   "contests": 10,
+   "firstYear": 1922,
    "lastYear": 1957,
    "bodies": [
     "seanad-eireann"
    ],
    "parties": [
+    "Cumann na nGaedheal",
     "Fine Gael"
    ],
    "keyedBy": "src",
@@ -1145495,9 +1145500,9 @@
     "oireachtas:William-Quirke.S.1931-12-06",
     "wikidata:Q8017169"
    ],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1938,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1931,
    "lastYear": 1954,
    "bodies": [
     "seanad-eireann"
@@ -1145507,38 +1145512,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:4134)",
-   "provisional": true
-  },
-  {
-   "id": "p158558",
-   "personId": 158558,
-   "displayName": "Mick Lanigan",
-   "aliases": [
-    "Mick Lanigan"
-   ],
-   "matchKeys": [
-    "mick lanigan"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:49"
-   ],
-   "officialPersonIds": [
-    "oireachtas:Mick-Lanigan.S.1977-10-27",
-    "wikidata:Q6838273"
-   ],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1977,
-   "lastYear": 1997,
-   "bodies": [
-    "seanad-eireann"
-   ],
-   "parties": [
-    "Fianna Fáil"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:49)",
    "provisional": true
   },
   {
@@ -1146196,15 +1146169,17 @@
     "oireachtas:James-Joseph-Parkinson.S.1922-06-12",
     "wikidata:Q15997682"
    ],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1938,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1922,
    "lastYear": 1944,
    "bodies": [
     "seanad-eireann"
    ],
    "parties": [
-    "Fine Gael"
+    "Cumann na nGaedheal",
+    "Fine Gael",
+    "Independent"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:20346)",
@@ -1146228,9 +1146203,9 @@
     "oireachtas:James-Green-Douglas.S.1922-12-06",
     "wikidata:Q6134343"
    ],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1938,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1922,
    "lastYear": 1951,
    "bodies": [
     "seanad-eireann"
@@ -1146260,14 +1146235,15 @@
     "oireachtas:John-Joseph-Counihan.S.1922-12-06",
     "wikidata:Q6227297"
    ],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1938,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1922,
    "lastYear": 1948,
    "bodies": [
     "seanad-eireann"
    ],
    "parties": [
+    "Cumann na nGaedheal",
     "Independent"
    ],
    "keyedBy": "src",
@@ -1146816,38 +1146792,6 @@
    "provisional": true
   },
   {
-   "id": "p158644",
-   "personId": 158644,
-   "displayName": "John J. Brennan",
-   "aliases": [
-    "John J. Brennan"
-   ],
-   "matchKeys": [
-    "john j brennan"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:20420"
-   ],
-   "officialPersonIds": [
-    "oireachtas:John-J-Brennan.S.1960-02-09",
-    "wikidata:Q6223067"
-   ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1960,
-   "lastYear": 1973,
-   "bodies": [
-    "seanad-eireann"
-   ],
-   "parties": [
-    "Fianna Fáil"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:20420)",
-   "provisional": true
-  },
-  {
    "id": "p158645",
    "personId": 158645,
    "displayName": "Fintan Kennedy",
@@ -1147210,15 +1147154,16 @@
     "oireachtas:Thomas-Kennedy.S.1934-06-12",
     "wikidata:Q7791483"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1943,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1934,
    "lastYear": 1944,
    "bodies": [
     "seanad-eireann"
    ],
    "parties": [
-    "Irish Labour"
+    "Irish Labour",
+    "Labour Party"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:15225)",
@@ -1147274,9 +1147219,9 @@
     "oireachtas:McGillycuddy-of-the-Reeks.S.1928-12-06",
     "wikidata:Q15997985"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1938,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1928,
    "lastYear": 1938,
    "bodies": [
     "seanad-eireann"
@@ -1147284,8 +1147229,8 @@
    "parties": [
     "Independent"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:20343)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -1147306,18 +1147251,20 @@
     "oireachtas:John-MacLoughlin.S.1922-06-12",
     "wikidata:Q6246150"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1938,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1922,
    "lastYear": 1938,
    "bodies": [
     "seanad-eireann"
    ],
    "parties": [
-    "Fine Gael"
+    "Cumann na nGaedheal",
+    "Fine Gael",
+    "Independent"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:20350)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -1147338,9 +1147285,9 @@
     "oireachtas:Seán-E-MacEllin.S.1928-06-12",
     "wikidata:Q16006604"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1938,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1928,
    "lastYear": 1944,
    "bodies": [
     "seanad-eireann"
@@ -1147348,8 +1147295,8 @@
    "parties": [
     "Fianna Fáil"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:20370)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -1147370,18 +1147317,19 @@
     "oireachtas:Thomas-Foran.S.1923-11-28",
     "wikidata:Q7789707"
    ],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1938,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1923,
    "lastYear": 1943,
    "bodies": [
     "seanad-eireann"
    ],
    "parties": [
-    "Irish Labour"
+    "Irish Labour",
+    "Labour Party"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:20371)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -1148756,18 +1148704,19 @@
     "oireachtas:John-Thomas-OFarrell.S.1922-12-06",
     "wikidata:Q6107203"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1948,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1922,
    "lastYear": 1948,
    "bodies": [
     "seanad-eireann"
    ],
    "parties": [
-    "Irish Labour"
+    "Irish Labour",
+    "Labour Party"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:1196)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -1148980,9 +1148929,9 @@
     "oireachtas:Thomas-V-Honan.S.1934-06-12",
     "wikidata:Q15998520"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1948,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1934,
    "lastYear": 1948,
    "bodies": [
     "seanad-eireann"
@@ -1148990,8 +1148939,8 @@
    "parties": [
     "Fianna Fáil"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:20358)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -1149750,18 +1149699,2781 @@
     "oireachtas:Cornelius-Kennedy.S.1925-06-12",
     "wikidata:Q15998115"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1938,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1925,
    "lastYear": 1938,
    "bodies": [
     "seanad-eireann"
    ],
    "parties": [
+    "Fine Gael",
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p158978",
+   "personId": 158978,
+   "displayName": "Kathleen Browne",
+   "aliases": [
+    "Kathleen Browne"
+   ],
+   "matchKeys": [
+    "kathleen browne"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Kathleen-Anne-Browne.S.1929-06-20",
+    "wikidata:Q6376666"
+   ],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1929,
+   "lastYear": 1934,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal",
     "Fine Gael"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:9667)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p158979",
+   "personId": 158979,
+   "displayName": "Richard A. Butler",
+   "aliases": [
+    "Richard A. Butler",
+    "Richard Butler"
+   ],
+   "matchKeys": [
+    "richard a butler",
+    "richard butler"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Richard-A-Butler.S.1922-06-12",
+    "wikidata:Q7323545"
+   ],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1922,
+   "lastYear": 1929,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent",
+    "{{nowrap|Farmers' Party}}"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "nameVariants": true
+  },
+  {
+   "id": "p158980",
+   "personId": 158980,
+   "displayName": "Samuel Lombard Brown",
+   "aliases": [
+    "Samuel Lombard Brown"
+   ],
+   "matchKeys": [
+    "samuel lombard brown"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Samuel-Lombard-Brown.S.1923-12-12",
+    "wikidata:Q7412035"
+   ],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1923,
+   "lastYear": 1934,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159000",
+   "personId": 159000,
+   "displayName": "Andrew Jameson",
+   "aliases": [
+    "Andrew Jameson"
+   ],
+   "matchKeys": [
+    "andrew jameson"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Hon-Andrew-Jameson.S.1922-12-06",
+    "wikidata:Q4757488"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1928,
+   "lastYear": 1934,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159001",
+   "personId": 159001,
+   "displayName": "Arthur Vincent",
+   "aliases": [
+    "Arthur Vincent"
+   ],
+   "matchKeys": [
+    "arthur vincent"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Arthur-A-Bourn-Vincent.S.1931-05-28",
+    "wikidata:Q15998905"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1931,
+   "lastYear": 1931,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159002",
+   "personId": 159002,
+   "displayName": "Sir Edward Coey Bigger",
+   "aliases": [
+    "Sir Edward Coey Bigger",
+    "Edward Coey Bigger"
+   ],
+   "matchKeys": [
+    "edward coey bigger",
+    "sir edward coey bigger"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Edward-Coey-Bigger.S.1925-12-06",
+    "wikidata:Q5342344"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1925,
+   "lastYear": 1934,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "nameVariants": true
+  },
+  {
+   "id": "p159003",
+   "personId": 159003,
+   "displayName": "Edward MacEvoy",
+   "aliases": [
+    "Edward MacEvoy"
+   ],
+   "matchKeys": [
+    "edward macevoy"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Edward-MacEvoy.S.1922-06-12",
+    "wikidata:Q5344292"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1922,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal",
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159004",
+   "personId": 159004,
+   "displayName": "Edward MacLysaght",
+   "aliases": [
+    "Edward MacLysaght"
+   ],
+   "matchKeys": [
+    "edward maclysaght"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Edward-MacLysaght.S.1922-12-06",
+    "wikidata:Q5344293"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1922,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159005",
+   "personId": 159005,
+   "displayName": "Eileen Costello",
+   "aliases": [
+    "Eileen Costello"
+   ],
+   "matchKeys": [
+    "eileen costello"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Eileen-Ellen-Costello.S.1922-12-06",
+    "wikidata:Q5349344"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1922,
+   "lastYear": 1931,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159006",
+   "personId": 159006,
+   "displayName": "George Crosbie",
+   "aliases": [
+    "George Crosbie"
+   ],
+   "matchKeys": [
+    "george crosbie"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:George-Crosbie.S.1931-11-05",
+    "wikidata:Q16026989"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1931,
+   "lastYear": 1932,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159007",
+   "personId": 159007,
+   "displayName": "James J. MacKean",
+   "aliases": [
+    "James J. MacKean"
+   ],
+   "matchKeys": [
+    "james j mackean"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:James-J-MacKean.S.1922-06-12",
+    "wikidata:Q16227396"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1922,
+   "lastYear": 1931,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159008",
+   "personId": 159008,
+   "displayName": "John Philip Bagwell",
+   "aliases": [
+    "John Philip Bagwell"
+   ],
+   "matchKeys": [
+    "john philip bagwell"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:John-Philip-Bagwell.S.1922-12-06",
+    "wikidata:Q6252754"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1928,
+   "lastYear": 1934,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159009",
+   "personId": 159009,
+   "displayName": "Maurice George Moore",
+   "aliases": [
+    "Maurice George Moore"
+   ],
+   "matchKeys": [
+    "maurice george moore"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Maurice-George-Moore.S.1922-12-06",
+    "wikidata:Q6793137"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1922,
+   "lastYear": 1931,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Fianna Fáil",
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159010",
+   "personId": 159010,
+   "displayName": "Michael Comyn",
+   "aliases": [
+    "Michael Comyn"
+   ],
+   "matchKeys": [
+    "michael comyn"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Michael-Comyn.S.1928-06-12",
+    "wikidata:Q6829401"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1928,
+   "lastYear": 1931,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Fianna Fáil"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159011",
+   "personId": 159011,
+   "displayName": "Michael O'Dea",
+   "aliases": [
+    "Michael O'Dea"
+   ],
+   "matchKeys": [
+    "michael o dea"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Michael-O'Dea.S.1922-06-12",
+    "wikidata:Q6833148"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1922,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal",
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159012",
+   "personId": 159012,
+   "displayName": "Oliver St. John Gogarty",
+   "aliases": [
+    "Oliver St. John Gogarty"
+   ],
+   "matchKeys": [
+    "oliver st john gogarty"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Oliver-St-John-Gogarty.S.1922-06-12",
+    "wikidata:Q1388518"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1928,
+   "lastYear": 1934,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal",
+    "Fine Gael"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159013",
+   "personId": 159013,
+   "displayName": "Patrick Hooper",
+   "aliases": [
+    "Patrick Hooper"
+   ],
+   "matchKeys": [
+    "patrick hooper"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Patrick-Joseph-Hooper.S.1927-03-23",
+    "wikidata:Q16029922"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1925,
+   "lastYear": 1927,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159014",
+   "personId": 159014,
+   "displayName": "Patrick Lynch",
+   "aliases": [
+    "Patrick Lynch"
+   ],
+   "matchKeys": [
+    "patrick lynch"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Patrick-Lynch.S.1934-06-12",
+    "wikidata:Q7147041"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1934,
+   "lastYear": 1934,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Fianna Fáil"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159015",
+   "personId": 159015,
+   "displayName": "Sir John Griffith",
+   "aliases": [
+    "Sir John Griffith"
+   ],
+   "matchKeys": [
+    "sir john griffith"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:John-Purser-Griffith.S.1922-12-06",
+    "wikidata:Q6236372"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1922,
+   "lastYear": 1931,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159016",
+   "personId": 159016,
+   "displayName": "Thomas Linehan",
+   "aliases": [
+    "Thomas Linehan"
+   ],
+   "matchKeys": [
+    "thomas linehan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Thomas-Linehan.S.1922-12-06",
+    "wikidata:Q7791863"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1922,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Farmers' Party"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159017",
+   "personId": 159017,
+   "displayName": "William O'Sullivan",
+   "aliases": [
+    "William O'Sullivan"
+   ],
+   "matchKeys": [
+    "william o sullivan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:William-O'Sullivan.S.1922-06-12",
+    "wikidata:Q16227899"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1922,
+   "lastYear": 1931,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159030",
+   "personId": 159030,
+   "displayName": "John Patrick Cuffe",
+   "aliases": [
+    "John Patrick Cuffe"
+   ],
+   "matchKeys": [
+    "john patrick cuffe"
+   ],
+   "sourceIds": [
+    "39"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159031",
+   "personId": 159031,
+   "displayName": "Liam de Róiste",
+   "aliases": [
+    "Liam de Róiste"
+   ],
+   "matchKeys": [
+    "liam de roiste"
+   ],
+   "sourceIds": [
+    "40"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159032",
+   "personId": 159032,
+   "displayName": "Cornelius Irwin",
+   "aliases": [
+    "Cornelius Irwin"
+   ],
+   "matchKeys": [
+    "cornelius irwin"
+   ],
+   "sourceIds": [
+    "41"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159033",
+   "personId": 159033,
+   "displayName": "John William Garvey",
+   "aliases": [
+    "John William Garvey"
+   ],
+   "matchKeys": [
+    "john william garvey"
+   ],
+   "sourceIds": [
+    "42"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159034",
+   "personId": 159034,
+   "displayName": "Samuel Lombard Brown",
+   "aliases": [
+    "Samuel Lombard Brown"
+   ],
+   "matchKeys": [
+    "samuel lombard brown"
+   ],
+   "sourceIds": [
+    "43"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159035",
+   "personId": 159035,
+   "displayName": "Mary Josephine Mulcahy",
+   "aliases": [
+    "Mary Josephine Mulcahy"
+   ],
+   "matchKeys": [
+    "mary josephine mulcahy"
+   ],
+   "sourceIds": [
+    "44"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159036",
+   "personId": 159036,
+   "displayName": "John Charles Eason",
+   "aliases": [
+    "John Charles Eason"
+   ],
+   "matchKeys": [
+    "john charles eason"
+   ],
+   "sourceIds": [
+    "45"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159037",
+   "personId": 159037,
+   "displayName": "John O'Neill",
+   "aliases": [
+    "John O'Neill"
+   ],
+   "matchKeys": [
+    "john o neill"
+   ],
+   "sourceIds": [
+    "46"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p159038",
+   "personId": 159038,
+   "displayName": "Joseph Clayton Love",
+   "aliases": [
+    "Joseph Clayton Love"
+   ],
+   "matchKeys": [
+    "joseph clayton love"
+   ],
+   "sourceIds": [
+    "47"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159039",
+   "personId": 159039,
+   "displayName": "Anthony MacBride",
+   "aliases": [
+    "Anthony MacBride"
+   ],
+   "matchKeys": [
+    "anthony macbride"
+   ],
+   "sourceIds": [
+    "48"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159040",
+   "personId": 159040,
+   "displayName": "George Crosbie",
+   "aliases": [
+    "George Crosbie"
+   ],
+   "matchKeys": [
+    "george crosbie"
+   ],
+   "sourceIds": [
+    "49"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159041",
+   "personId": 159041,
+   "displayName": "Kathleen Browne",
+   "aliases": [
+    "Kathleen Browne"
+   ],
+   "matchKeys": [
+    "kathleen browne"
+   ],
+   "sourceIds": [
+    "50"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159042",
+   "personId": 159042,
+   "displayName": "John J. Horgan",
+   "aliases": [
+    "John J. Horgan"
+   ],
+   "matchKeys": [
+    "john j horgan"
+   ],
+   "sourceIds": [
+    "51"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159043",
+   "personId": 159043,
+   "displayName": "Michael Staines",
+   "aliases": [
+    "Michael Staines"
+   ],
+   "matchKeys": [
+    "michael staines"
+   ],
+   "sourceIds": [
+    "52"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159044",
+   "personId": 159044,
+   "displayName": "Henry Harrison",
+   "aliases": [
+    "Henry Harrison"
+   ],
+   "matchKeys": [
+    "henry harrison"
+   ],
+   "sourceIds": [
+    "53"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p159045",
+   "personId": 159045,
+   "displayName": "Douglas Hyde",
+   "aliases": [
+    "Douglas Hyde"
+   ],
+   "matchKeys": [
+    "douglas hyde"
+   ],
+   "sourceIds": [
+    "54"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159047",
+   "personId": 159047,
+   "displayName": "Seán Milroy",
+   "aliases": [
+    "Seán Milroy"
+   ],
+   "matchKeys": [
+    "sean milroy"
+   ],
+   "sourceIds": [
+    "55"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p159048",
+   "personId": 159048,
+   "displayName": "Seán Pádraig Mac Énrí",
+   "aliases": [
+    "Seán Pádraig Mac Énrí"
+   ],
+   "matchKeys": [
+    "sean padraig mac enri"
+   ],
+   "sourceIds": [
+    "56"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159049",
+   "personId": 159049,
+   "displayName": "Laurence Patrick Byrne",
+   "aliases": [
+    "Laurence Patrick Byrne"
+   ],
+   "matchKeys": [
+    "laurence patrick byrne"
+   ],
+   "sourceIds": [
+    "57"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Labour Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159050",
+   "personId": 159050,
+   "displayName": "Walter L. Cole",
+   "aliases": [
+    "Walter L. Cole"
+   ],
+   "matchKeys": [
+    "walter l cole"
+   ],
+   "sourceIds": [
+    "58"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159051",
+   "personId": 159051,
+   "displayName": "Daniel Nealon",
+   "aliases": [
+    "Daniel Nealon"
+   ],
+   "matchKeys": [
+    "daniel nealon"
+   ],
+   "sourceIds": [
+    "59"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159052",
+   "personId": 159052,
+   "displayName": "Owen Hynes",
+   "aliases": [
+    "Owen Hynes"
+   ],
+   "matchKeys": [
+    "owen hynes"
+   ],
+   "sourceIds": [
+    "60"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Labour Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159053",
+   "personId": 159053,
+   "displayName": "George Nesbitt",
+   "aliases": [
+    "George Nesbitt"
+   ],
+   "matchKeys": [
+    "george nesbitt"
+   ],
+   "sourceIds": [
+    "61"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:George-Nesbitt.S.1922-06-12",
+    "wikidata:Q5542832"
+   ],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1922,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "nameKeyedRows": [
+    "george nesbitt"
+   ],
+   "mergedFrom": [
+    159119
+   ]
+  },
+  {
+   "id": "p159054",
+   "personId": 159054,
+   "displayName": "Edward Patrick McLoughlin",
+   "aliases": [
+    "Edward Patrick McLoughlin"
+   ],
+   "matchKeys": [
+    "edward patrick mcloughlin"
+   ],
+   "sourceIds": [
+    "62"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159055",
+   "personId": 159055,
+   "displayName": "Joseph Johnston",
+   "aliases": [
+    "Joseph Johnston"
+   ],
+   "matchKeys": [
+    "joseph johnston"
+   ],
+   "sourceIds": [
+    "63"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p159056",
+   "personId": 159056,
+   "displayName": "Frederick Summerfield",
+   "aliases": [
+    "Frederick Summerfield"
+   ],
+   "matchKeys": [
+    "frederick summerfield"
+   ],
+   "sourceIds": [
+    "64"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159057",
+   "personId": 159057,
+   "displayName": "Francis Cahill",
+   "aliases": [
+    "Francis Cahill"
+   ],
+   "matchKeys": [
+    "francis cahill"
+   ],
+   "sourceIds": [
+    "65"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159058",
+   "personId": 159058,
+   "displayName": "Liam Ó Briain",
+   "aliases": [
+    "Liam Ó Briain"
+   ],
+   "matchKeys": [
+    "liam o briain"
+   ],
+   "sourceIds": [
+    "66"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159059",
+   "personId": 159059,
+   "displayName": "Seán Ó Murthuile",
+   "aliases": [
+    "Seán Ó Murthuile"
+   ],
+   "matchKeys": [
+    "sean o murthuile"
+   ],
+   "sourceIds": [
+    "67"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159060",
+   "personId": 159060,
+   "displayName": "Patrick MacSwiney",
+   "aliases": [
+    "Patrick MacSwiney"
+   ],
+   "matchKeys": [
+    "patrick macswiney"
+   ],
+   "sourceIds": [
+    "68"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159061",
+   "personId": 159061,
+   "displayName": "Charles Howard-Bury",
+   "aliases": [
+    "Charles Howard-Bury"
+   ],
+   "matchKeys": [
+    "charles howard bury"
+   ],
+   "sourceIds": [
+    "69"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159062",
+   "personId": 159062,
+   "displayName": "Charles Austin",
+   "aliases": [
+    "Charles Austin"
+   ],
+   "matchKeys": [
+    "charles austin"
+   ],
+   "sourceIds": [
+    "70"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159063",
+   "personId": 159063,
+   "displayName": "Ristéard Ó Foghludha",
+   "aliases": [
+    "Ristéard Ó Foghludha"
+   ],
+   "matchKeys": [
+    "risteard o foghludha"
+   ],
+   "sourceIds": [
+    "71"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159064",
+   "personId": 159064,
+   "displayName": "Darrell Figgis",
+   "aliases": [
+    "Darrell Figgis"
+   ],
+   "matchKeys": [
+    "darrell figgis"
+   ],
+   "sourceIds": [
+    "73"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159065",
+   "personId": 159065,
+   "displayName": "Conor O'Brien",
+   "aliases": [
+    "Conor O'Brien"
+   ],
+   "matchKeys": [
+    "conor o brien"
+   ],
+   "sourceIds": [
+    "74"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159066",
+   "personId": 159066,
+   "displayName": "John Henry Pigot",
+   "aliases": [
+    "John Henry Pigot"
+   ],
+   "matchKeys": [
+    "john henry pigot"
+   ],
+   "sourceIds": [
+    "75"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159067",
+   "personId": 159067,
+   "displayName": "Patricia Hoey",
+   "aliases": [
+    "Patricia Hoey"
+   ],
+   "matchKeys": [
+    "patricia hoey"
+   ],
+   "sourceIds": [
+    "76"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159109",
+   "personId": 159109,
+   "displayName": "Alexander McCabe",
+   "aliases": [
+    "Alexander McCabe"
+   ],
+   "matchKeys": [
+    "alexander mccabe"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159110",
+   "personId": 159110,
+   "displayName": "Alice Stopford Green",
+   "aliases": [
+    "Alice Stopford Green"
+   ],
+   "matchKeys": [
+    "alice stopford green"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Alice-Stopford-Green.S.1922-12-06",
+    "wikidata:Q4726110"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1922,
+   "lastYear": 1922,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159111",
+   "personId": 159111,
+   "displayName": "Cornelius Irwin",
+   "aliases": [
+    "Cornelius Irwin"
+   ],
+   "matchKeys": [
+    "cornelius irwin"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Cornelius-J-Irwin.S.1922-12-06",
+    "wikidata:Q5171393"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1922,
+   "lastYear": 1922,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159112",
+   "personId": 159112,
+   "displayName": "Daniel MacParland",
+   "aliases": [
+    "Daniel MacParland"
+   ],
+   "matchKeys": [
+    "daniel macparland"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Daniel-Henry-MacParland.S.1931-06-12",
+    "wikidata:Q16190757"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1931,
+   "lastYear": 1931,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Fianna Fáil"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159113",
+   "personId": 159113,
+   "displayName": "David Robinson",
+   "aliases": [
+    "David Robinson"
+   ],
+   "matchKeys": [
+    "david robinson"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:David-Lubbock-Robinson.S.1931-06-12",
+    "wikidata:Q5239131"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1931,
+   "lastYear": 1931,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Fianna Fáil"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p159114",
+   "personId": 159114,
+   "displayName": "Denis Houston",
+   "aliases": [
+    "Denis Houston"
+   ],
+   "matchKeys": [
+    "denis houston"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Labour Party"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159115",
+   "personId": 159115,
+   "displayName": "Denis Kennedy",
+   "aliases": [
+    "Denis Kennedy"
+   ],
+   "matchKeys": [
+    "denis kennedy"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159116",
+   "personId": 159116,
+   "displayName": "Eamonn Mansfield",
+   "aliases": [
+    "Eamonn Mansfield"
+   ],
+   "matchKeys": [
+    "eamonn mansfield"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Edward-Mansfield.S.1922-06-12",
+    "wikidata:Q5325573"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1922,
+   "lastYear": 1922,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159117",
+   "personId": 159117,
+   "displayName": "Edward Bellingham",
+   "aliases": [
+    "Edward Bellingham"
+   ],
+   "matchKeys": [
+    "edward bellingham"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Edward-Bellingham-Bart.S.1925-06-12",
+    "wikidata:Q7526518"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159118",
+   "personId": 159118,
+   "displayName": "Edward John Fitzgerald",
+   "aliases": [
+    "Edward John Fitzgerald"
+   ],
+   "matchKeys": [
+    "edward john fitzgerald"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Labour Party"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159121",
+   "personId": 159121,
+   "displayName": "James Boyle",
+   "aliases": [
+    "James Boyle"
+   ],
+   "matchKeys": [
+    "james boyle"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:James-Joseph-Boyle.S.1934-06-12",
+    "wikidata:Q6130092"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1934,
+   "lastYear": 1934,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Fianna Fáil"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p159122",
+   "personId": 159122,
+   "displayName": "James Charles Dowdall",
+   "aliases": [
+    "James Charles Dowdall"
+   ],
+   "matchKeys": [
+    "james charles dowdall"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:James-Charles-Dowdall.S.1922-12-06",
+    "wikidata:Q6131236"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1934,
+   "lastYear": 1934,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Fianna Fáil"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159123",
+   "personId": 159123,
+   "displayName": "James Dillon",
+   "aliases": [
+    "James Dillon"
+   ],
+   "matchKeys": [
+    "james dillon"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:James-Dillon.S.1925-06-12",
+    "wikidata:Q6132634"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Farmers' Party"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159124",
+   "personId": 159124,
+   "displayName": "Jennie Wyse Power",
+   "aliases": [
+    "Jennie Wyse Power"
+   ],
+   "matchKeys": [
+    "jennie wyse power"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Jane-Wyse-Power.S.1922-12-06",
+    "wikidata:Q15442806"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1934,
+   "lastYear": 1934,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Fianna Fáil"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159125",
+   "personId": 159125,
+   "displayName": "Jeremiah McVeagh",
+   "aliases": [
+    "Jeremiah McVeagh"
+   ],
+   "matchKeys": [
+    "jeremiah mcveagh"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159126",
+   "personId": 159126,
+   "displayName": "John O'Neill",
+   "aliases": [
+    "John O'Neill"
+   ],
+   "matchKeys": [
+    "john o neill"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:John-O'Neill.S.1925-03-05",
+    "wikidata:Q16227882"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p159127",
+   "personId": 159127,
+   "displayName": "John Ryan",
+   "aliases": [
+    "John Ryan"
+   ],
+   "matchKeys": [
+    "john ryan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Farmers' Party"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159128",
+   "personId": 159128,
+   "displayName": "Joseph Clayton Love",
+   "aliases": [
+    "Joseph Clayton Love"
+   ],
+   "matchKeys": [
+    "joseph clayton love"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Joseph-Clayton-Love.S.1922-06-12",
+    "wikidata:Q6282160"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1922,
+   "lastYear": 1922,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159129",
+   "personId": 159129,
+   "displayName": "Joseph Connolly",
+   "aliases": [
+    "Joseph Connolly"
+   ],
+   "matchKeys": [
+    "joseph connolly"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Joseph-Connolly.S.1928-06-12",
+    "wikidata:Q1706778"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1928,
+   "lastYear": 1928,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Fianna Fáil"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159130",
+   "personId": 159130,
+   "displayName": "Joseph O'Connor",
+   "aliases": [
+    "Joseph O'Connor"
+   ],
+   "matchKeys": [
+    "joseph o connor"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Joseph-O'Connor.S.1925-06-12",
+    "wikidata:Q6285868"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159131",
+   "personId": 159131,
+   "displayName": "Michael F. O'Hanlon",
+   "aliases": [
+    "Michael F. O'Hanlon"
+   ],
+   "matchKeys": [
+    "michael f o hanlon"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Michael-F-OHanlon.S.1925-12-06",
+    "wikidata:Q16005861"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Farmers' Party"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159132",
+   "personId": 159132,
+   "displayName": "Michael Fanning",
+   "aliases": [
+    "Michael Fanning"
+   ],
+   "matchKeys": [
+    "michael fanning"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Michael-Fanning.S.1925-06-12",
+    "wikidata:Q16211190"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159133",
+   "personId": 159133,
+   "displayName": "Patrick McCartan",
+   "aliases": [
+    "Patrick McCartan"
+   ],
+   "matchKeys": [
+    "patrick mccartan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159134",
+   "personId": 159134,
+   "displayName": "Patrick W. Kenny",
+   "aliases": [
+    "Patrick W. Kenny"
+   ],
+   "matchKeys": [
+    "patrick w kenny"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Patrick-W-Kenny.S.1922-12-06",
+    "wikidata:Q16029930"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1922,
+   "lastYear": 1922,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Cumann na nGaedheal"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159135",
+   "personId": 159135,
+   "displayName": "Séamus Ryan",
+   "aliases": [
+    "Séamus Ryan"
+   ],
+   "matchKeys": [
+    "seamus ryan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Seamus-Ryan.S.1931-06-12",
+    "wikidata:Q7665880"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1931,
+   "lastYear": 1931,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Fianna Fáil"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159136",
+   "personId": 159136,
+   "displayName": "Sir Arthur Chance",
+   "aliases": [
+    "Sir Arthur Chance"
+   ],
+   "matchKeys": [
+    "sir arthur chance"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159137",
+   "personId": 159137,
+   "displayName": "Sir Bryan Mahon",
+   "aliases": [
+    "Sir Bryan Mahon"
+   ],
+   "matchKeys": [
+    "sir bryan mahon"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Hon-Sir-Bryan-Mahon.S.1922-06-12",
+    "wikidata:Q2081060"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1928,
+   "lastYear": 1928,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159138",
+   "personId": 159138,
+   "displayName": "Sir Nugent Everard",
+   "aliases": [
+    "Sir Nugent Everard"
+   ],
+   "matchKeys": [
+    "sir nugent everard"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Nugent-Talbot-Everard.S.1922-12-06",
+    "wikidata:Q7528399"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1929,
+   "lastYear": 1929,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159139",
+   "personId": 159139,
+   "displayName": "Sir Simon Maddock",
+   "aliases": [
+    "Sir Simon Maddock"
+   ],
+   "matchKeys": [
+    "sir simon maddock"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159140",
+   "personId": 159140,
+   "displayName": "Stephen O'Mara, Snr",
+   "aliases": [
+    "Stephen O'Mara, Snr"
+   ],
+   "matchKeys": [
+    "stephen o mara snr"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Stephen-O'Mara.S.1925-06-12",
+    "wikidata:Q7610126"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159141",
+   "personId": 159141,
+   "displayName": "Thomas MacPartlin",
+   "aliases": [
+    "Thomas MacPartlin"
+   ],
+   "matchKeys": [
+    "thomas macpartlin"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Thomas-MacPartlin.S.1922-06-12",
+    "wikidata:Q7792090"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1922,
+   "lastYear": 1922,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Labour Party"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159142",
+   "personId": 159142,
+   "displayName": "Thomas Patrick McKenna",
+   "aliases": [
+    "Thomas Patrick McKenna"
+   ],
+   "matchKeys": [
+    "thomas patrick mckenna"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159143",
+   "personId": 159143,
+   "displayName": "Thomas Ryan",
+   "aliases": [
+    "Thomas Ryan"
+   ],
+   "matchKeys": [
+    "thomas ryan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Labour Party"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159144",
+   "personId": 159144,
+   "displayName": "Thomas Toal",
+   "aliases": [
+    "Thomas Toal"
+   ],
+   "matchKeys": [
+    "thomas toal"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Thomas-Toal.S.1925-06-12",
+    "wikidata:Q16228665"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159145",
+   "personId": 159145,
+   "displayName": "William Barrington",
+   "aliases": [
+    "William Barrington"
+   ],
+   "matchKeys": [
+    "william barrington"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:William-Barrington.S.1922-12-06",
+    "wikidata:Q8005120"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1922,
+   "lastYear": 1922,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159146",
+   "personId": 159146,
+   "displayName": "William Hickie",
+   "aliases": [
+    "William Hickie"
+   ],
+   "matchKeys": [
+    "william hickie"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:William-Hickie.S.1925-06-12",
+    "wikidata:Q8005460"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1925,
+   "lastYear": 1925,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159147",
+   "personId": 159147,
+   "displayName": "William Molloy",
+   "aliases": [
+    "William Molloy"
+   ],
+   "matchKeys": [
+    "william molloy"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:William-John-Molloy.S.1922-06-12",
+    "wikidata:Q16227662"
+   ],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1922,
+   "lastYear": 1922,
+   "bodies": [
+    "seanad-eireann"
+   ],
+   "parties": [
+    "Independent"
+   ],
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
@@ -1151665,16 +1154377,1716 @@
    "keyedBy": "registered",
    "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
    "provisional": false
+  },
+  {
+   "id": "p900082",
+   "personId": 900082,
+   "displayName": "John Keane",
+   "aliases": [
+    "John Keane"
+   ],
+   "matchKeys": [
+    "john keane"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:John-Keane.S.1922-12-06"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900083",
+   "personId": 900083,
+   "displayName": "Margaret Kennedy",
+   "aliases": [
+    "Margaret Kennedy"
+   ],
+   "matchKeys": [
+    "margaret kennedy"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Margaret-L-Kennedy.S.1938-04-27"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900084",
+   "personId": 900084,
+   "displayName": "Robert Farnan",
+   "aliases": [
+    "Robert Farnan"
+   ],
+   "matchKeys": [
+    "robert farnan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Robert-P-Farnan.S.1938-04-27"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900085",
+   "personId": 900085,
+   "displayName": "Patrick Keohane",
+   "aliases": [
+    "Patrick Keohane"
+   ],
+   "matchKeys": [
+    "patrick keohane"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Patrick-T-Keohane.S.1938-05-10"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900086",
+   "personId": 900086,
+   "displayName": "Pádraig Ó Siochfhradha",
+   "aliases": [
+    "Pádraig Ó Siochfhradha"
+   ],
+   "matchKeys": [
+    "padraig o siochfhradha"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Pádraig-Ó-Siochfhradha.S.1946-02-22"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900087",
+   "personId": 900087,
+   "displayName": "Edward Arthur Henry Pakenham",
+   "aliases": [
+    "Edward Arthur Henry Pakenham"
+   ],
+   "matchKeys": [
+    "edward arthur henry pakenham"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Edward-Arthur-Henry-Pakenham.S.1946-11-07"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900088",
+   "personId": 900088,
+   "displayName": "Edward Richard Richards-Orpen",
+   "aliases": [
+    "Edward Richard Richards-Orpen"
+   ],
+   "matchKeys": [
+    "edward richard richards orpen"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Edward-R-Richard-Richards-Orpen.S.1950-06-16"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900089",
+   "personId": 900089,
+   "displayName": "Patrick Woulfe",
+   "aliases": [
+    "Patrick Woulfe"
+   ],
+   "matchKeys": [
+    "patrick woulfe"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Patrick-Woulfe.S.1950-06-16"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900090",
+   "personId": 900090,
+   "displayName": "Séamus O'Farrell",
+   "aliases": [
+    "Séamus O'Farrell"
+   ],
+   "matchKeys": [
+    "seamus o farrell"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Séamus-O'Farrell.S.1950-06-16"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900091",
+   "personId": 900091,
+   "displayName": "Daniel Corkery",
+   "aliases": [
+    "Daniel Corkery"
+   ],
+   "matchKeys": [
+    "daniel corkery"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Daniel-Corkery.S.1952-03-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900092",
+   "personId": 900092,
+   "displayName": "Arthur Cox",
+   "aliases": [
+    "Arthur Cox"
+   ],
+   "matchKeys": [
+    "arthur cox"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Arthur-Cox.S.1956-05-14"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900093",
+   "personId": 900093,
+   "displayName": "Henry Eustace Guinness",
+   "aliases": [
+    "Henry Eustace Guinness"
+   ],
+   "matchKeys": [
+    "henry eustace guinness"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Henry-Eustace-Guinness.S.1954-10-01"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900094",
+   "personId": 900094,
+   "displayName": "Nora Connolly O'Brien",
+   "aliases": [
+    "Nora Connolly O'Brien"
+   ],
+   "matchKeys": [
+    "nora connolly o brien"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Nora-Connolly-O'Brien.S.1960-05-13"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900095",
+   "personId": 900095,
+   "displayName": "Michael Gallanagh",
+   "aliases": [
+    "Michael Gallanagh"
+   ],
+   "matchKeys": [
+    "michael gallanagh"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Michael-Gallanagh.S.1970-11-19"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900096",
+   "personId": 900096,
+   "displayName": "Peggy Farrell",
+   "aliases": [
+    "Peggy Farrell"
+   ],
+   "matchKeys": [
+    "peggy farrell"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Peggy-Farrell.S.1970-11-19"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900097",
+   "personId": 900097,
+   "displayName": "Arthur Francis Benjamin Guinness",
+   "aliases": [
+    "Arthur Francis Benjamin Guinness"
+   ],
+   "matchKeys": [
+    "arthur francis benjamin guinness"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Arthur-Francis-Benjamin-Guinness.S.1975-04-23"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900098",
+   "personId": 900098,
+   "displayName": "James Sanfey",
+   "aliases": [
+    "James Sanfey"
+   ],
+   "matchKeys": [
+    "james sanfey"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:James-W-Sanfey.S.1975-04-23"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900099",
+   "personId": 900099,
+   "displayName": "Patrick McGrath",
+   "aliases": [
+    "Patrick McGrath"
+   ],
+   "matchKeys": [
+    "patrick mcgrath"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Patrick-W-McGrath.S.1975-04-23"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900100",
+   "personId": 900100,
+   "displayName": "C. Gordon Lambert",
+   "aliases": [
+    "C. Gordon Lambert"
+   ],
+   "matchKeys": [
+    "c gordon lambert"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:C-Gordon-Lambert.S.1979-12-11"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900101",
+   "personId": 900101,
+   "displayName": "Eileen Cassidy",
+   "aliases": [
+    "Eileen Cassidy"
+   ],
+   "matchKeys": [
+    "eileen cassidy"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Eileen-Cassidy.S.1979-12-11"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900102",
+   "personId": 900102,
+   "displayName": "Thomas Whitaker",
+   "aliases": [
+    "Thomas Whitaker"
+   ],
+   "matchKeys": [
+    "thomas whitaker"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Thomas-K-Whitaker.S.1980-06-20"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900103",
+   "personId": 900103,
+   "displayName": "Joseph O'Neill",
+   "aliases": [
+    "Joseph O'Neill"
+   ],
+   "matchKeys": [
+    "joseph o neill"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Joseph-O'Neill.S.1981-07-16"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900104",
+   "personId": 900104,
+   "displayName": "John Carroll",
+   "aliases": [
+    "John Carroll"
+   ],
+   "matchKeys": [
+    "john carroll"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:John-F-Carroll.S.1981-08-10"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900105",
+   "personId": 900105,
+   "displayName": "Miriam Kearney",
+   "aliases": [
+    "Miriam Kearney"
+   ],
+   "matchKeys": [
+    "miriam kearney"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Miriam-Kearney.S.1981-08-10"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900106",
+   "personId": 900106,
+   "displayName": "Camilla Hannon",
+   "aliases": [
+    "Camilla Hannon"
+   ],
+   "matchKeys": [
+    "camilla hannon"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Camilla-Hannon.S.1982-12-13"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900107",
+   "personId": 900107,
+   "displayName": "Aidan Eames",
+   "aliases": [
+    "Aidan Eames"
+   ],
+   "matchKeys": [
+    "aidan eames"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Aidan-Eames.S.1982-12-13"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900108",
+   "personId": 900108,
+   "displayName": "Frank Wall",
+   "aliases": [
+    "Frank Wall"
+   ],
+   "matchKeys": [
+    "frank wall"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Frank-Wall.S.1982-12-13"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900109",
+   "personId": 900109,
+   "displayName": "Christy Kirwan",
+   "aliases": [
+    "Christy Kirwan"
+   ],
+   "matchKeys": [
+    "christy kirwan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Christy-Kirwan.S.1983-02-23"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900110",
+   "personId": 900110,
+   "displayName": "Eamon De Buitléar",
+   "aliases": [
+    "Eamon De Buitléar"
+   ],
+   "matchKeys": [
+    "eamon de buitlear"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Eamon-De-Buitléar.S.1989-06-26"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900111",
+   "personId": 900111,
+   "displayName": "George Eogan",
+   "aliases": [
+    "George Eogan"
+   ],
+   "matchKeys": [
+    "george eogan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:George-Eogan.S.1989-06-26"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900112",
+   "personId": 900112,
+   "displayName": "John Magnier",
+   "aliases": [
+    "John Magnier"
+   ],
+   "matchKeys": [
+    "john magnier"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:John-Magnier.S.1989-06-26"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900113",
+   "personId": 900113,
+   "displayName": "Vivian O'Callaghan",
+   "aliases": [
+    "Vivian O'Callaghan"
+   ],
+   "matchKeys": [
+    "vivian o callaghan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Vivian-O'Callaghan.S.1989-06-26"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900114",
+   "personId": 900114,
+   "displayName": "Frank McDonnell",
+   "aliases": [
+    "Frank McDonnell"
+   ],
+   "matchKeys": [
+    "frank mcdonnell"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Frank-McDonnell.S.1989-06-26"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900115",
+   "personId": 900115,
+   "displayName": "Paul Kavanagh",
+   "aliases": [
+    "Paul Kavanagh"
+   ],
+   "matchKeys": [
+    "paul kavanagh"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Paul-Kavanagh.S.1989-06-26"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900116",
+   "personId": 900116,
+   "displayName": "Edward Haughey",
+   "aliases": [
+    "Edward Haughey"
+   ],
+   "matchKeys": [
+    "edward haughey"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Edward-Haughey.S.1994-12-13"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900117",
+   "personId": 900117,
+   "displayName": "Martin Mackin",
+   "aliases": [
+    "Martin Mackin"
+   ],
+   "matchKeys": [
+    "martin mackin"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Martin-Mackin.S.2002-05-22"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900118",
+   "personId": 900118,
+   "displayName": "Chris Wall",
+   "aliases": [
+    "Chris Wall"
+   ],
+   "matchKeys": [
+    "chris wall"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Chris-Wall.S.2007-06-23"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900119",
+   "personId": 900119,
+   "displayName": "Peter Sands",
+   "aliases": [
+    "Peter Sands"
+   ],
+   "matchKeys": [
+    "peter sands"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Peter-Sands.S.2007-06-23"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900120",
+   "personId": 900120,
+   "displayName": "Seán Dorgan",
+   "aliases": [
+    "Seán Dorgan"
+   ],
+   "matchKeys": [
+    "sean dorgan"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Seán-Dorgan.S.2007-06-23"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900121",
+   "personId": 900121,
+   "displayName": "Eoghan Harris",
+   "aliases": [
+    "Eoghan Harris"
+   ],
+   "matchKeys": [
+    "eoghan harris"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Eoghan-Harris.S.2007-07-23"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900122",
+   "personId": 900122,
+   "displayName": "Fiach Mac Conghail",
+   "aliases": [
+    "Fiach Mac Conghail"
+   ],
+   "matchKeys": [
+    "fiach mac conghail"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Fiach-Mac-Conghail.S.2011-05-25"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900123",
+   "personId": 900123,
+   "displayName": "Jillian van Turnhout",
+   "aliases": [
+    "Jillian van Turnhout"
+   ],
+   "matchKeys": [
+    "jillian van turnhout"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Jillian-van-Turnhout.S.2011-05-25"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900124",
+   "personId": 900124,
+   "displayName": "Marie-Louise O'Donnell",
+   "aliases": [
+    "Marie-Louise O'Donnell"
+   ],
+   "matchKeys": [
+    "marie louise o donnell"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Marie-Louise-O'Donnell.S.2011-05-25"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900125",
+   "personId": 900125,
+   "displayName": "Martin McAleese",
+   "aliases": [
+    "Martin McAleese"
+   ],
+   "matchKeys": [
+    "martin mcaleese"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Martin-McAleese.S.2011-05-25"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900126",
+   "personId": 900126,
+   "displayName": "Mary Ann O'Brien",
+   "aliases": [
+    "Mary Ann O'Brien"
+   ],
+   "matchKeys": [
+    "mary ann o brien"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Mary-Ann-O'Brien.S.2011-05-25"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900127",
+   "personId": 900127,
+   "displayName": "Colette Kelleher",
+   "aliases": [
+    "Colette Kelleher"
+   ],
+   "matchKeys": [
+    "colette kelleher"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Colette-Kelleher.S.2016-04-25"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900128",
+   "personId": 900128,
+   "displayName": "Evanne Ní Chuilinn",
+   "aliases": [
+    "Evanne Ní Chuilinn"
+   ],
+   "matchKeys": [
+    "evanne ni chuilinn"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Evanne-Ní-Chuilinn.S.2025-01-29"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900129",
+   "personId": 900129,
+   "displayName": "Henry Givens Burgess",
+   "aliases": [
+    "Henry Givens Burgess"
+   ],
+   "matchKeys": [
+    "henry givens burgess"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Hon-Henry-Givens-Burgess.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900130",
+   "personId": 900130,
+   "displayName": "Lord Glenavy",
+   "aliases": [
+    "Lord Glenavy"
+   ],
+   "matchKeys": [
+    "lord glenavy"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Lord-Glenavy.S.1922-12-06"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900131",
+   "personId": 900131,
+   "displayName": "Edmund W. Eyre",
+   "aliases": [
+    "Edmund W. Eyre"
+   ],
+   "matchKeys": [
+    "edmund w eyre"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Edmund-W-Eyre.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900132",
+   "personId": 900132,
+   "displayName": "James Perry Goodbody",
+   "aliases": [
+    "James Perry Goodbody"
+   ],
+   "matchKeys": [
+    "james perry goodbody"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:James-Perry-Goodbody.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900133",
+   "personId": 900133,
+   "displayName": "Henry Greer",
+   "aliases": [
+    "Henry Greer"
+   ],
+   "matchKeys": [
+    "henry greer"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Henry-Greer.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900134",
+   "personId": 900134,
+   "displayName": "Benjamin Haughton",
+   "aliases": [
+    "Benjamin Haughton"
+   ],
+   "matchKeys": [
+    "benjamin haughton"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Benjamin-Haughton.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900135",
+   "personId": 900135,
+   "displayName": "Earl of Wicklow",
+   "aliases": [
+    "Earl of Wicklow"
+   ],
+   "matchKeys": [
+    "earl of wicklow"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Ralph-Howard.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900136",
+   "personId": 900136,
+   "displayName": "Arthur Jackson",
+   "aliases": [
+    "Arthur Jackson"
+   ],
+   "matchKeys": [
+    "arthur jackson"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Arthur-Jackson.S.1922-12-06"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900137",
+   "personId": 900137,
+   "displayName": "Marquess of Headfort",
+   "aliases": [
+    "Marquess of Headfort"
+   ],
+   "matchKeys": [
+    "marquess of headfort"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Geoffrey-Taylour.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900138",
+   "personId": 900138,
+   "displayName": "W. B. Yeats",
+   "aliases": [
+    "W. B. Yeats"
+   ],
+   "matchKeys": [
+    "w b yeats"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:William-Butler-Yeats.S.1922-12-06"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900139",
+   "personId": 900139,
+   "displayName": "Earl of Mayo",
+   "aliases": [
+    "Earl of Mayo"
+   ],
+   "matchKeys": [
+    "earl of mayo"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Dermot-Bourke.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900140",
+   "personId": 900140,
+   "displayName": "Countess of Desart",
+   "aliases": [
+    "Countess of Desart"
+   ],
+   "matchKeys": [
+    "countess of desart"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Countess-of-Desart.S.1922-12-06"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900141",
+   "personId": 900141,
+   "displayName": "Martin Fitzgerald",
+   "aliases": [
+    "Martin Fitzgerald"
+   ],
+   "matchKeys": [
+    "martin fitzgerald"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Martin-Fitzgerald.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900142",
+   "personId": 900142,
+   "displayName": "Earl of Granard",
+   "aliases": [
+    "Earl of Granard"
+   ],
+   "matchKeys": [
+    "earl of granard"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Bernard-Forbes.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900143",
+   "personId": 900143,
+   "displayName": "Henry Guinness",
+   "aliases": [
+    "Henry Guinness"
+   ],
+   "matchKeys": [
+    "henry guinness"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Henry-Seymour-Guinness.S.1922-12-06"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900144",
+   "personId": 900144,
+   "displayName": "James Moran",
+   "aliases": [
+    "James Moran"
+   ],
+   "matchKeys": [
+    "james moran"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:James-Moran.S.1922-12-06"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900145",
+   "personId": 900145,
+   "displayName": "Earl of Kerry",
+   "aliases": [
+    "Earl of Kerry"
+   ],
+   "matchKeys": [
+    "earl of kerry"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Henry-Petty-Fitzmaurice.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900146",
+   "personId": 900146,
+   "displayName": "Sir Horace Plunkett",
+   "aliases": [
+    "Sir Horace Plunkett"
+   ],
+   "matchKeys": [
+    "sir horace plunkett"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Horace-Plunkett.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900147",
+   "personId": 900147,
+   "displayName": "Sir Hutcheson Poë",
+   "aliases": [
+    "Sir Hutcheson Poë"
+   ],
+   "matchKeys": [
+    "sir hutcheson poe"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:William-Hutcheson-Poë.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900148",
+   "personId": 900148,
+   "displayName": "George Sigerson",
+   "aliases": [
+    "George Sigerson"
+   ],
+   "matchKeys": [
+    "george sigerson"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:George-Sigerson.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
+  },
+  {
+   "id": "p900149",
+   "personId": 900149,
+   "displayName": "Earl of Dunraven and Mount-Earl",
+   "aliases": [
+    "Earl of Dunraven and Mount-Earl"
+   ],
+   "matchKeys": [
+    "earl of dunraven and mount earl"
+   ],
+   "sourceIds": [],
+   "sourcePersonIds": [],
+   "officialPersonIds": [
+    "oireachtas:Windham-Wyndham-Quin.S.1922-06-12"
+   ],
+   "candidacies": 0,
+   "contests": 0,
+   "firstYear": null,
+   "lastYear": null,
+   "bodies": [],
+   "parties": [],
+   "keyedBy": "registered",
+   "provenance": "registered non-candidate (data/elections/persons/non-candidate-persons.json)",
+   "provisional": false
   }
  ],
  "corrections": {
-  "mergedIds": 126,
+  "mergedIds": 120,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 15,
-   "IE-EI-CROSSWALK": 4,
+   "WIKIPEDIA-BIOGRAPHY": 9,
+   "IE-EI-CROSSWALK": 3,
    "FORUM-DUPLICATE": 113,
    "LGR-2014": 2,
-   "SAME-SEAT-SEQUENCE": 1,
+   "SAME-SEAT-SEQUENCE": 2,
    "STRAY-INTO-CURATED": 4
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/ingest/persons/merge_person_ids.py for the tests applied."
