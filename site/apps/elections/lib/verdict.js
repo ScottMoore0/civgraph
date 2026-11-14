@@ -2,7 +2,7 @@
  * A one-line verdict per contest (el-places, 14 Nov 2026), the way a results table or a
  * constituency page sums one up: "DUP hold, majority 1,234", "Alliance gain from DUP", "SF 2,
  * DUP 2, Alliance 1 (Alliance +1, UUP −1)", "J. Smith (UUP) returned unopposed". Pure:
- * tests/unit/elections-app-places.test.mjs.
+ * the unit test elections-app-places.test.mjs.
  *
  * It compares a contest only with the one lib/area.js names as its previous (the same body under
  * the same name), never across a change of boundary map ("on new boundaries"), and an independent

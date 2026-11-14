@@ -2,7 +2,7 @@
  * The words of the area pages, the search, the person page and the contest arrows (el-places,
  * 14 Nov 2026), each keyed for translation in data/i18n/strings/elections.txt (R10: the language
  * runtime translates a text node by its wording, so a sentence is one node). A pattern's {name}
- * parts are filled by fill(). Pure; tests/unit/elections-app-places.test.mjs holds every one to a
+ * parts are filled by fill(). Pure; the unit test elections-app-places.test.mjs holds every one to a
  * key of site/assets/i18n/en.json.
  */
 

@@ -2,7 +2,7 @@
  * A person's career across bodies (el-places, 14 Nov 2026): their candidacies (the persons API's
  * view=candidacies, from the candidacies table the area pages also read), each with its share
  * from the person's record, and the other people Civgraph holds under the same name. Pure:
- * tests/unit/elections-app-places.test.mjs.
+ * the unit test elections-app-places.test.mjs.
  */
 import { candidateReturnWithoutPoll } from '../../../pkg/core/src/unopposed.mjs';
 import { foldText } from './search.js';

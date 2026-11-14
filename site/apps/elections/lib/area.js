@@ -2,7 +2,7 @@
  * An area's history (el-places, 14 Nov 2026): every contest held under one contest slug, from the
  * API's view=area-history, turned into the area page's series (one per body), its party-share
  * trend, its members grid, its boundary changes and the contest arrows. Pure (no DOM, no fetch):
- * tests/unit/elections-app-places.test.mjs.
+ * the unit test elections-app-places.test.mjs.
  *
  * One dataset: the area page, the contest arrows and the person page all read the candidacies the
  * records hold, through the same derivations here and in lib/verdict.js, so they cannot disagree.

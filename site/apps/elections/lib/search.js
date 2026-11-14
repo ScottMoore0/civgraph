@@ -1,6 +1,6 @@
 /**
  * The app's search over places, people, parties and elections (el-places, 14 Nov 2026). Pure (no
- * DOM, no fetch): views/search-box.js wires it. Tests: tests/unit/elections-app-places.test.mjs.
+ * DOM, no fetch): views/search-box.js wires it. Tests: the unit test elections-app-places.test.mjs.
  *
  * Case, accents and punctuation are folded away on both sides ("sinn fein" finds Sinn Féin, "naomi
  * long" Naomi Long), and every word typed must begin a word of the entry ("long" finds Naomi Long

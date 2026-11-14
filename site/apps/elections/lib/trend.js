@@ -2,7 +2,7 @@
  * The area page's party-share chart: the /maps/ trend chart's own model, layout and SVG
  * (packages/map/src/views/election-trend-chart.mjs, served at /pkg/), drawn statically at the
  * width the page gives it, with a legend and the figures as a table. Pure: the view measures
- * the width and inserts the markup. Tests: tests/unit/elections-app-places.test.mjs.
+ * the width and inserts the markup. Tests: the unit test elections-app-places.test.mjs.
  */
 import { buildTrendChartModel, layoutTrendChart, renderTrendChartSvg } from '../../../pkg/map/src/views/election-trend-chart.mjs';
 
