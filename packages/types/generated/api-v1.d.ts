@@ -207,6 +207,7 @@ export interface ElectionsCitationsPersonAnswer {
       scope: string | null;
       match: string | null;
       checkNote: string | null;
+      accessed: string | null;
       [key: string]: unknown;
     }>;
     [key: string]: unknown;
@@ -230,6 +231,7 @@ export interface ElectionsCitationsContestAnswer {
     scope: string | null;
     match: string | null;
     checkNote: string | null;
+    accessed: string | null;
     [key: string]: unknown;
   }>;
   [key: string]: unknown;
@@ -252,6 +254,7 @@ export interface ElectionsCitationsContestByNameAnswer {
     scope: string | null;
     match: string | null;
     checkNote: string | null;
+    accessed: string | null;
     [key: string]: unknown;
   }>;
   [key: string]: unknown;

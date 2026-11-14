@@ -108,6 +108,8 @@ const SUMMARY_ROW = obj({
 const CITATION = obj({
   title: strOrNull, publisher: strOrNull, url: strOrNull, archiveUrl: strOrNull, host: strOrNull, kind: strOrNull,
   basis: strOrNull, checked: numOrNull, scope: strOrNull, match: strOrNull, checkNote: strOrNull,
+  // The day Civgraph fetched the source and compared it figure by figure (YYYY-MM-DD), where held.
+  accessed: strOrNull,
 });
 
 const PRONI_CHILD = obj({ ref: str, slug: str, title: str, level: str, dates: str, hasChildren: bool });
