@@ -136,6 +136,8 @@ export interface MapApp {
   timelineItems: TimelineItem[];
   /** What a stop chosen on the slider does; null while no timeline is shown. */
   timelineOnSelect: ((...args: never[]) => unknown) | null;
+  /** The classic scripts asked for, by URL (lazy-runtime.js loadClassicScript). */
+  classicScriptPromises: Map<string, Promise<unknown>>;
 
   // Methods of other method modules.
   /** layers.js */

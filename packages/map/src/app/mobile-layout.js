@@ -9,7 +9,14 @@ import uiController from '../ui-controller.js';
 import { readStored, writeStored } from '../storage-keys.mjs';
 import { setHidden } from '../state-helpers.mjs';
 
+/**
+ * The app, with the phone layout's own state: whether the pane toggle is installed, and the peek's
+ * timer and its way to hide (set here, not in Test2App's constructor).
+ * @typedef {import('./map-app').MapApp & MobileLayoutMethods & { _mobilePaneToggleInstalled?: boolean, _mobilePeekTimer?: ReturnType<typeof setTimeout>, hideMobilePeek?: () => void }} MobileLayoutApp
+ */
+
 export class MobileLayoutMethods {
+  /** @this {MobileLayoutApp} */
   relocateMobileCatalogueToggle() {
     const toggle = document.getElementById('mobileToggle');
     const stack = document.querySelector('#map .test2-main-control-stack');
@@ -28,6 +35,7 @@ export class MobileLayoutMethods {
     }
   }
 
+  /** @this {MobileLayoutApp} */
   installMobilePaneToggle() {
     if (this._mobilePaneToggleInstalled) {
       this.updateMobilePaneToggleState();
@@ -40,7 +48,7 @@ export class MobileLayoutMethods {
     if (!toggle) {
       toggle = document.createElement('button');
       toggle.id = 'mobilePaneToggle';
-      toggle.type = 'button';
+      /** @type {HTMLButtonElement} */ (toggle).type = 'button';
       toggle.className = 'mobile-pane-toggle';
       toggle.innerHTML = '<span aria-hidden="true">☰</span>';
       const menuButton = header.querySelector(':scope > .mobile-menu-toggle') || document.getElementById('mobileMenuBtn');
@@ -81,8 +89,9 @@ export class MobileLayoutMethods {
    *
    * Only on a mobile-like layout, and only when the catalogue is the full-screen pane --
    * on a split or desktop layout both are visible and there is nothing to dismiss.
+   * @this {MobileLayoutApp} @param {string} [_label] the map loaded (the note that named it was dropped)
    */
-  dismissMobileCatalogueAfterLoad(label = '') {
+  dismissMobileCatalogueAfterLoad(_label = '') {
     if (!this.isPhoneLayout()) return;
     if (uiController.currentStateId !== 'info-full') return;
     uiController.setSplitState('map-full');
@@ -93,6 +102,7 @@ export class MobileLayoutMethods {
   }
 
   /** On a phone the catalogue and the map are separate views: a page opened from the map (a
+   * @this {MobileLayoutApp}
    * results table, a feature's name) or from a shared link is shown, not left behind the map. */
   revealCatalogueOnPhone() {
     if (!this.isPhoneLayout() || uiController.currentStateId !== 'map-full') return;
@@ -100,6 +110,7 @@ export class MobileLayoutMethods {
     this.updateMobilePaneToggleState();
   }
 
+  /** @this {MobileLayoutApp} */
   isPhoneLayout() {
     return Boolean(uiController.isMobile || window.matchMedia?.('(max-width: 768px), (pointer: coarse)')?.matches);
   }
@@ -108,6 +119,7 @@ export class MobileLayoutMethods {
    * A small bar across the top of the map on phones: what just happened, and a button to the
    * catalogue. It goes by itself after a while, or when the catalogue opens; the header's
    * catalogue button stays the one permanent way across, so the map has no second toggle.
+   * @this {MobileLayoutApp} @param {string} message @param {{ action?: string, timeoutMs?: number, onDismiss?: (() => void) | null }} [options]
    */
   showMobilePeek(message, { action = 'Open the catalogue', timeoutMs = 9000, onDismiss = null } = {}) {
     const host = document.querySelector('.pane--map') || document.getElementById('map')?.parentElement;
@@ -157,6 +169,7 @@ export class MobileLayoutMethods {
    * First visit on a phone: the page opens on a bare map, and nothing said where the maps
    * are. One hint, once; the flag lives in localStorage (readStored/writeStored swallow a
    * blocked or full store, so a private window just sees the hint again).
+   * @this {MobileLayoutApp}
    */
   showFirstVisitHint() {
     if (!this.isPhoneLayout() || uiController.currentStateId !== 'map-full') return;
@@ -169,6 +182,7 @@ export class MobileLayoutMethods {
     });
   }
 
+  /** @this {MobileLayoutApp} */
   updateMobilePaneToggleState() {
     const toggle = document.getElementById('mobilePaneToggle');
     if (!toggle) return;
@@ -189,6 +203,7 @@ export class MobileLayoutMethods {
     toggle.dataset.target = target;
   }
 
+  /** @this {MobileLayoutApp} */
   configureCataloguePerformanceProfile() {
     const mobileQuery = window.matchMedia?.('(max-width: 768px), (pointer: coarse)');
     const apply = () => {
