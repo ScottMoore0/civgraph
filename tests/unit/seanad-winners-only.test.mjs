@@ -119,7 +119,8 @@ test('WO-04 1938-1997: twenty general elections, seven contests each, 980 winner
 });
 
 test('WO-05 the by-elections: fifty seats, titled by the by-election templates, each with its cause', () => {
-  const by = contests().filter((c) => !GENERAL.has(c.date) && (c.doc.cause || /winner's membership/.test(c.doc.sourceNote || '')));
+  // the Seanad of 1938 on (the Free State Seanad's, in its one constituency, are seanad-3b's: SFS tests)
+  const by = contests().filter((c) => c.date >= '1937' && !GENERAL.has(c.date) && (c.doc.cause || /winner's membership/.test(c.doc.sourceNote || '')));
   const seats = by.reduce((n, c) => n + Number(c.doc.Constituency.countInfo.Number_Of_Seats), 0);
   assert.equal(seats, 50);
   assert.equal(by.length, 47);
