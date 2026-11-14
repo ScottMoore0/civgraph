@@ -80,6 +80,11 @@ declare global {
      * its test surface and a trace of every write to the slider).
      */
     __civgraphTest2?: { timeline?: unknown; timelineWrites?: Array<{ index: number; from: string }>; flatRenders?: string[]; [key: string]: unknown };
+    /** The map app's hash route guard is on the page (packages/map/src/app/url-state.js installRouteGuard). */
+    __civgraphTest2RouteGuardInstalled?: boolean;
+    /** The map page's boot has started the runtime's import, and when (packages/map/app/boot.js). */
+    __civgraphTest2BootStarted?: boolean;
+    __civgraphTest2RuntimeImportStartedAt?: number;
     /** 'classic' on the archived classic page (civgraph.net/maps/classic/): packages/map/src/catalogue/flag.js. */
     CIVGRAPH_CATALOGUE?: string;
     /** The retired Leaflet map's controller, which ui-controller.js still resizes when the layout changes, if a page has it. */

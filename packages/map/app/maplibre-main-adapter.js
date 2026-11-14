@@ -1344,7 +1344,7 @@ export class Test2MapLibreMainAdapter {
    * @param {unknown} featureId
    * @param {string | null | undefined} featureName
    * @param {unknown} bbox
-   * @param {{ isolate?: boolean, resolveBounds?: (layer: unknown) => unknown, smooth?: boolean }} [options]
+   * @param {{ isolate?: boolean, resolveBounds?: ((layer: unknown) => unknown) | null, smooth?: boolean }} [options]
    */
   async loadSingleFeature(mapConfig, featureId, featureName, bbox, options = {}) {
     const mainId = mapConfig?.id;

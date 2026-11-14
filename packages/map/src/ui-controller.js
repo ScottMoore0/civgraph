@@ -10465,7 +10465,7 @@ class UIController {
     /**
      * @param {MapRecord[]} loadedMaps
      * @param {Map<string, boolean> | null | undefined} visibilityMap
-     * @param {Map<string, { isPartial?: boolean, featureNames?: string[], featureItems: Array<{ index: number, name?: string, visible?: boolean }> }> | null | undefined} partialLayerInfo
+     * @param {Map<string, { isPartial?: boolean, featureNames?: unknown[], featureItems: Array<{ index: string | number, name?: unknown, visible?: boolean }> }> | null | undefined} partialLayerInfo
      */
     updateActiveLayers(loadedMaps, visibilityMap, partialLayerInfo) {
         const container = /** @type {HtmlElementRoot | null} */ (document.getElementById('activeLayersList'));

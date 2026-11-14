@@ -30,8 +30,10 @@ const methodModules = () => {
 
 /** The members an interface of map-app.d.ts declares: { name, method }. */
 function members(name) {
-  const body = new RegExp(`export interface ${name} \\{([\\s\\S]*?)\\n\\}`).exec(HOST)?.[1];
-  assert.ok(body, `map-app.d.ts has no interface ${name}`);
+  // An interface may extend a Pick of the class it views (MapControllerView, ElectionsView): the
+  // type check holds the picked names to that class, and this test the members written out.
+  const body = new RegExp(`export interface ${name}(?: extends [^{]+)? \\{([\\s\\S]*?)\\n\\}`).exec(HOST)?.[1];
+  assert.ok(body !== undefined, `map-app.d.ts has no interface ${name}`);
   return [...body.matchAll(/^ {2}(\w+)(\?)?(\(|:)/gm)].map((m) => ({ name: m[1], method: m[3] === '(' }));
 }
 
@@ -53,6 +55,8 @@ test('the controller and election views name members those classes have', () => 
   // The optional members of MapControllerView are the dashboard's defensive reads (see map-app.d.ts).
   for (const { name, method } of members('MapControllerView')) {
     if (['layers', 'metrics', 'runtimeProfile', 'getMetrics'].includes(name)) continue;
+    // waitForMap is the app's own, put on the adapter by its init.
+    if (name === 'waitForMap') { assert.match(APP, /this\.mapController\.waitForMap = /); continue; }
     assert.ok(method ? defines(adapter, name) : assigns(adapter, name), `MapControllerView.${name} is not on the adapter`);
   }
   for (const { name, method } of members('ElectionsView')) {

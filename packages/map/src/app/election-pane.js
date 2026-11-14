@@ -9,6 +9,21 @@
 import { parseLayerOrder } from './layer-order.mjs';
 import uiController from '../ui-controller.js';
 
+/**
+ * The pane's own state, set on first use, and the warm-up latch: a flag field Test2App's
+ * constructor defines (defineFlagFields).
+ * @typedef {{
+ *   _electionRefitObserver?: ResizeObserver | null,
+ *   _electionPaneResizeReady?: boolean,
+ *   _electionPaneHeight?: number,
+ *   syncElectionPaneResizerAria?: () => void,
+ *   electionCatalogueWarmScheduled: boolean
+ * }} ElectionPaneState
+ */
+/** @typedef {import('./map-app').MapApp & ElectionPaneMethods & ElectionPaneState} ElectionPaneApp */
+/** @typedef {import('./map-app').MapControllerView} MapControllerView */
+/** @typedef {import('../election/election-manager').ElectionHost} ElectionHost */
+
 export class ElectionPaneMethods {
   /**
    * Re-fit the map once the election results pane has taken its space.
@@ -24,6 +39,8 @@ export class ElectionPaneMethods {
    *
    * SKIPPED WHILE RESTORING FROM A URL. A viewport in the URL is an explicit request and
    * must win; re-fitting would silently discard the lng/lat/zoom someone shared.
+   * @this {ElectionPaneApp}
+   * @param {string | null | undefined} sourceMapId
    */
   refitAfterElectionPane(sourceMapId) {
     if (!sourceMapId || this.urlRestore.active) return;
@@ -32,7 +49,7 @@ export class ElectionPaneMethods {
     // Measure the container first. Without this the fit is computed against the
     // pre-pane height and lands in exactly the place this exists to correct.
     map.resize();
-    this.mapController.fitToLayer?.(sourceMapId);
+    /** @type {MapControllerView} */ (this.mapController).fitToLayer?.(sourceMapId);
     // The layout is not finished when the pane opens: the catalogue pane changes width a
     // moment later (packages/map/src/catalogue/split.js) and the pane slides up, so that fit was made for a
     // larger map than the one left. Fit again each time the map's box changes over the next
@@ -50,7 +67,7 @@ export class ElectionPaneMethods {
       frame = requestAnimationFrame(() => {
         if (this.elections?.activeEntry?.sourceMapId !== sourceMapId) return;
         map.resize();
-        this.mapController.fitToLayer?.(sourceMapId);
+        /** @type {MapControllerView} */ (this.mapController).fitToLayer?.(sourceMapId);
       });
     });
     this._electionRefitObserver = observer;
@@ -62,12 +79,14 @@ export class ElectionPaneMethods {
     }, 1200);
   }
 
+  /** @this {ElectionPaneApp} */
   setupElectionPaneResize() {
     if (this._electionPaneResizeReady) return;
     this._electionPaneResizeReady = true;
     const storageKey = 'civgraph:test2:electionPaneHeight';
     const minPaneHeight = 120;
     const defaultPaneHeight = () => Math.round(Math.min(window.innerHeight * 0.30, Math.max(minPaneHeight, window.innerHeight * 0.26)));
+    /** @param {unknown} value @param {number} fallback */
     const parseCssPx = (value, fallback) => {
       const number = Number.parseFloat(String(value || '').trim());
       return Number.isFinite(number) ? number : fallback;
@@ -83,16 +102,19 @@ export class ElectionPaneMethods {
       return Math.max(minPaneHeight, window.innerHeight - header - mapMin - timelineHeight - 6);
     };
     const isPhoneLayout = () => Boolean(window.matchMedia?.('(max-width: 768px)')?.matches);
+    /** @param {number} height */
     const clampPaneHeight = (height) => Math.max(minPaneHeight, Math.min(maxPaneHeight(), Math.round(height)));
     const invalidateMapSize = () => {
       requestAnimationFrame(() => this.mapController?.invalidateSize?.());
     };
+    /** @param {number} height */
     const applyPaneHeightCss = (height) => {
       const cssValue = `${height}px`;
       document.documentElement.style.setProperty('--test2-election-pane-height', cssValue);
       document.body.style.setProperty('--test2-election-pane-height', cssValue);
-      document.querySelector('.app-shell')?.style.setProperty('--test2-election-pane-height', cssValue);
+      /** @type {HTMLElement | null} */ (document.querySelector('.app-shell'))?.style.setProperty('--test2-election-pane-height', cssValue);
     };
+    /** @param {number} height @param {{ invalidate?: boolean, persist?: boolean } | null} [options] */
     const setPaneHeight = (height, options = {}) => {
       const { invalidate = true, persist = true } = options || {};
       const nextHeight = clampPaneHeight(height);
@@ -106,11 +128,13 @@ export class ElectionPaneMethods {
         }
       }
       if (invalidate) invalidateMapSize();
-      this.syncElectionPaneResizerAria();
+      // Set below, before anything sets the height.
+      /** @type {() => void} */ (this.syncElectionPaneResizerAria)();
       return nextHeight;
     };
     // The resizer is a separator with a value, so it must always say its value and range, not
     // only once a drag or key press has set them (UX review 2026-10-30, #13).
+    /** @type {() => void} */
     this.syncElectionPaneResizerAria = () => {
       const handle = document.querySelector('[data-election-pane-resize]');
       if (!handle) return;
@@ -140,6 +164,7 @@ export class ElectionPaneMethods {
       if (Number.isFinite(current)) setPaneHeight(current, { invalidate: true, persist: false });
     };
     window.addEventListener('resize', () => requestAnimationFrame(resizeSavedHeight), { passive: true, signal: this.lifecycle.signal });
+    /** @param {Element} target what the event was on */
     const getResizeTarget = (target) => {
       const explicit = target.closest?.('[data-election-pane-resize]');
       if (explicit) return explicit;
@@ -148,8 +173,9 @@ export class ElectionPaneMethods {
       const interactive = target.closest?.('button,a,input,select,textarea,[role="button"],[data-election-view],[data-election-entity],[data-election-result-key]');
       return interactive ? null : (document.querySelector('[data-election-pane-resize]') || header);
     };
+    /** @param {PointerEvent} event */
     const startDrag = (event) => {
-      const handle = getResizeTarget(event.target);
+      const handle = getResizeTarget(/** @type {Element} */ (event.target));
       if (!handle) return;
       const pane = document.getElementById('electionResultsPane');
       if (!pane?.classList.contains('election-results-pane--open')) return;
@@ -169,6 +195,7 @@ export class ElectionPaneMethods {
       document.body.classList.add('test2-election-pane-resizing');
       handle.setAttribute('aria-valuemin', String(minPaneHeight));
       handle.setAttribute('aria-valuemax', String(maxPaneHeight()));
+      /** @param {PointerEvent} moveEvent */
       const onMove = (moveEvent) => {
         moveEvent.preventDefault();
         moveEvent.stopPropagation();
@@ -218,7 +245,7 @@ export class ElectionPaneMethods {
     };
     document.addEventListener('pointerdown', startDrag, { signal: this.lifecycle.signal });
     document.addEventListener('keydown', (event) => {
-      const handle = getResizeTarget(event.target);
+      const handle = getResizeTarget(/** @type {Element} */ (event.target));
       if (!handle) return;
       const pane = document.getElementById('electionResultsPane');
       if (!pane?.classList.contains('election-results-pane--open')) return;
@@ -239,27 +266,33 @@ export class ElectionPaneMethods {
       }
     }, { signal: this.lifecycle.signal });
     document.addEventListener('dblclick', (event) => {
-      if (!getResizeTarget(event.target)) return;
+      if (!getResizeTarget(/** @type {Element} */ (event.target))) return;
       event.preventDefault();
       setPaneHeight(defaultPaneHeight());
     }, { signal: this.lifecycle.signal });
   }
 
+  /** @this {ElectionPaneApp} @param {{ refreshCatalogue?: boolean }} [options] */
   async ensureElections(options = {}) {
     if (this.elections?.catalogue) return this.elections;
     if (!this.electionModulePromise) {
+      /** @type {import('./map-app').MapApp['electionModulePromise']} */
       this.electionModulePromise = import('../../app/election-manager.js');
     }
     const { Test2ElectionManager } = await this.electionModulePromise;
     if (!this.elections) {
+      /** @type {import('./map-app').ElectionsView | null} */
       this.elections = new Test2ElectionManager({
-        app: this,
-        mapController: this.mapController,
+        // The map controller and the metadata service are made by init before anything opens an
+        // election (scheduleElectionCatalogueWarm waits for the controller).
+        app: /** @type {ElectionHost} */ (this),
+        mapController: /** @type {MapControllerView} */ (this.mapController),
         onError: (error) => this.showMapError(error)
       });
       if (window.__civgraphTest2) window.__civgraphTest2.elections = this.elections;
     }
     if (!this.electionLoadPromise) {
+      /** @type {Promise<unknown> | null} */
       this.electionLoadPromise = this.elections.load();
     }
     await this.electionLoadPromise;
@@ -274,12 +307,14 @@ export class ElectionPaneMethods {
    * the first map drawn (a feature click may show its election results: LayerMethods.loadMap).
    * The catalogue pane's Elections tab and the search read the pane's own data, and opening an
    * election, like every other path that needs the catalogue, loads it on demand (ensureElections).
+   * @this {ElectionPaneApp}
    */
   warmElectionCatalogueWhenWanted() {
     const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
     if (this.hasElectionURLState(params, parseLayerOrder(params.get('layers')))) this.scheduleElectionCatalogueWarm();
   }
 
+  /** @this {ElectionPaneApp} */
   scheduleElectionCatalogueWarm() {
     if (this.electionCatalogueWarmScheduled || this.elections?.catalogue) return;
     // Not before init has made the map controller: the election manager is built with it.
@@ -297,29 +332,32 @@ export class ElectionPaneMethods {
     this.scheduleIdleTask(warm, { timeout });
   }
 
-  /** Open an election as the catalogue would (loading panel, errors with a Retry, announcements). */
+  /** Open an election as the catalogue would (loading panel, errors with a Retry, announcements). @this {ElectionPaneApp} @param {string} body @param {string} date */
   openElection(body, date) {
     return uiController.onLoadElection?.(body, date);
   }
 
+  /** @this {ElectionPaneApp} @param {URLSearchParams} params @param {Iterable<string>} [layers] */
   hasElectionURLState(params, layers = []) {
     if ([...layers].some((id) => String(id).startsWith('election-'))) return true;
     return params.has('electionBody') || params.has('electionDate') || params.has('electionMode') || params.has('electionView');
   }
 
+  /** @this {ElectionPaneApp} @param {string} mapId */
   unloadActiveElectionForLayer(mapId) {
     if (!mapId || !this.elections?.activeEntry) return false;
     if (!this.isActiveElectionLayerId(mapId)) return false;
     const backingLayerIds = this.getActiveElectionBackingLayerIds(mapId);
     this.elections.unloadElection({ unloadBackingLayer: false });
     for (const layerId of backingLayerIds) {
-      if (this.mapController.getLayerState(layerId) || this.mapController.groupStates?.has(layerId)) {
-        this.mapController.unloadLayer(layerId);
+      if (/** @type {MapControllerView} */ (this.mapController).getLayerState(layerId) || /** @type {MapControllerView} */ (this.mapController).groupStates?.has(layerId)) {
+        /** @type {MapControllerView} */ (this.mapController).unloadLayer(layerId);
       }
     }
     return true;
   }
 
+  /** @this {ElectionPaneApp} @param {string} mapId */
   isActiveElectionLayerId(mapId) {
     if (!mapId || !this.elections?.activeEntry) return false;
     const activeElectionIds = this.getActiveElectionLayerIds();
@@ -327,26 +365,28 @@ export class ElectionPaneMethods {
     return [...candidateIds].some((candidateId) => activeElectionIds.has(candidateId));
   }
 
+  /** @this {ElectionPaneApp} @returns {Set<string>} */
   getActiveElectionLayerIds() {
     if (!this.elections?.activeEntry) return new Set();
     const activeEntry = this.elections.activeEntry;
     const activeBundle = this.elections.activeBundle;
-    return new Set([
+    return /** @type {Set<string>} */ (new Set([
       this.elections.getCanonicalLayerId?.(activeEntry),
       activeEntry?.sourceMapId,
       activeBundle?.sourceMapId,
       activeBundle?.layerId
-    ].filter(Boolean));
+    ].filter(Boolean)));
   }
 
+  /** @this {ElectionPaneApp} @param {string} mapId */
   getActiveElectionBackingLayerIds(mapId) {
     const activeEntry = this.elections?.activeEntry;
     const activeBundle = this.elections?.activeBundle;
-    const backingIds = new Set([
+    const backingIds = /** @type {Set<string>} */ (new Set([
       activeEntry?.sourceMapId,
       activeBundle?.sourceMapId,
       activeBundle?.layerId
-    ].filter(Boolean));
+    ].filter(Boolean)));
     const candidateIds = this.getMapUnloadCandidateIds(mapId);
     const requestedBackingIds = [...candidateIds].filter((candidateId) => backingIds.has(candidateId));
     return requestedBackingIds.length ? requestedBackingIds : [...backingIds];

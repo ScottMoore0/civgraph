@@ -65,52 +65,127 @@ export interface TimelineChangeState extends TimelineChangeView {
   drawn: boolean;
 }
 
-/** The renderer's record of a loaded layer (packages/map/src/renderer/map-controller.js). */
-export interface RendererLayerRecord {
-  color?: string;
-  fillColor?: string;
-  config?: { sourceType?: string; approximateSegments?: { note?: string } | null } | null;
-}
-
 /** One timing the map controller keeps (getMetrics). */
 export interface MapMetric {
   event?: string;
   [key: string]: unknown;
 }
 
-/** What the method modules use of the main map controller (packages/map/app/maplibre-main-adapter.js). */
-export interface MapControllerView {
-  map: { getContainer(): HTMLElement; getLayer(id: string): unknown } | null;
-  /** main map id -> the renderer's layer id. */
-  mainToTest: Map<string, string>;
-  renderer: { layers: Map<string, RendererLayerRecord> } | null;
+/** The main map's adapter (packages/map/app/maplibre-main-adapter.js). */
+type MainAdapter = import('../../app/maplibre-main-adapter.js').Test2MapLibreMainAdapter;
+/** The election manager with its installed methods (packages/map/src/election/election-manager.d.ts). */
+type ElectionManager = import('../election/election-manager').ElectionManager;
+
+/**
+ * What the method modules use of the main map controller (packages/map/app/maplibre-main-adapter.js):
+ * the adapter's own members, typed as the adapter types them, and below them the dashboard's reads.
+ */
+export interface MapControllerView extends Pick<MainAdapter,
+  | 'addAddressMarker'
+  | 'applyElectionStyle'
+  | 'clearElectionStyle'
+  | 'clearTimelineChanges'
+  | 'clearTransientHighlight'
+  | 'featuresAtLastClick'
+  | 'findRenderedFeature'
+  | 'fitToBounds'
+  | 'fitToLayer'
+  | 'fitToLayers'
+  | 'getCensusOverlayLegend'
+  | 'getLayerDrawOrder'
+  | 'getLayerLoadFailure'
+  | 'getLayerState'
+  | 'getLoadedFeatures'
+  | 'getPartialFeatureItems'
+  | 'getPartialFeatureNames'
+  | 'getTimelineChangesState'
+  | 'getVisibleLayers'
+  | 'groupStates'
+  | 'hideLayer'
+  | 'highlightFeature'
+  | 'invalidateSize'
+  | 'isFeatureLoaded'
+  | 'isFeatureVisible'
+  | 'isLayerLoaded'
+  | 'isLayerVisible'
+  | 'isPartialLayer'
+  | 'layerStates'
+  | 'loadLayer'
+  | 'loadSingleFeature'
+  | 'mainToTest'
+  | 'markGroupLoaded'
+  | 'queryFeaturesAtLngLat'
+  | 'removeAddressMarker'
+  | 'resolveLayer'
+  | 'selectFeatureAtClick'
+  | 'setBaseMap'
+  | 'setEditionRole'
+  | 'setElectionHatch'
+  | 'setFillTransparency'
+  | 'setLabelsEnabled'
+  | 'setLayerDrawOrder'
+  | 'setTextScale'
+  | 'setTimelineChanges'
+  | 'setTransparency'
+  | 'showLayer'
+  | 'toggleLayer'
+  | 'togglePartialFeature'
+  | 'unloadLayer'
+  | 'unloadPartialFeature'
+  | 'waitForMapRender'
+  | 'waitUntilSettled'> {
+  /** The MapLibre map (made by init). */
+  map: MainAdapter['map'];
+  /** The renderer under the adapter (made by init). */
+  renderer: MainAdapter['renderer'];
   // The performance dashboard (performance.js) also asks for these, defensively; the adapter has
   // none of them today, so the dashboard reports no metrics, no loaded layers and no runtime class.
   layers?: Map<string, unknown>;
   metrics?: MapMetric[];
   runtimeProfile?: { deviceClass?: string } | null;
   getMetrics?(): MapMetric[];
-  getCensusOverlayLegend(mainId: string): CensusLegend | null;
-  getVisibleLayers(): string[];
-  setTimelineChanges(geojson: { features?: unknown } | null | undefined, options?: { reversed?: boolean; points?: unknown; key?: string }): boolean;
-  clearTimelineChanges(): boolean;
-  fitToBounds(bounds: unknown, options?: { smooth?: boolean } | null): void;
-  setEditionRole(mainId: string, role: string | null | undefined): void;
-  showLayer(mainId: string): void;
-  resolveLayer(mainId: string): { loadable?: boolean } | null;
-  getTimelineChangesState(): unknown;
-  invalidateSize(): void;
+  /** Set by the app's init (app.js): the adapter's wait for the style, as the app's whenStyleLoaded. */
+  waitForMap?(): Promise<void>;
 }
 
-/** What the method modules use of the election manager (packages/map/app/election-manager.js). */
-export interface ElectionsView {
-  activeEntry: { key?: string } | null;
-  lastSeatCircleRenderMs?: number;
-  legendModel(): LegendModel | null;
-  getActiveElectionBackingLayerIds(): string[];
-  getActiveElectionStyleSourceMapId(): string | null;
-  getSeatCircleOverlayState(): unknown;
-  updateElectionTimeline(): void;
+/**
+ * A loaded layer's or group's state (the adapter's getLayerState): a layer's has no isGroup or
+ * childIds, which read undefined.
+ */
+export type LayerOrGroupState = import('../../app/maplibre-main-adapter.js').GroupState
+  | (import('../../app/maplibre-main-adapter.js').MainLayerState & { isGroup?: undefined; childIds?: undefined });
+
+/** What the method modules use of the election manager (packages/map/app/election-manager.js), typed as the manager types it. */
+export interface ElectionsView extends Pick<ElectionManager,
+  | 'activeBundle'
+  | 'activeEntry'
+  | 'buildCatalogueCards'
+  | 'cancelPendingLoad'
+  | 'catalogue'
+  | 'enrichFeature'
+  | 'findEntry'
+  | 'findEntryByCanonicalLayerId'
+  | 'findResultByKey'
+  | 'getActiveElectionBackingLayerIds'
+  | 'getActiveElectionStyleSourceMapId'
+  | 'getCanonicalLayerId'
+  | 'getSeatCircleOverlayState'
+  | 'getURLState'
+  | 'isCanonicalElectionLayerId'
+  | 'isElectionLoaded'
+  | 'lastSeatCircleRenderMs'
+  | 'legendModel'
+  | 'load'
+  | 'loadBundle'
+  | 'loadElection'
+  | 'loadRun'
+  | 'pendingLoad'
+  | 'renderPanel'
+  | 'restoreURLState'
+  | 'setPaneCollapsed'
+  | 'showFeatureResults'
+  | 'unloadElection'
+  | 'updateElectionTimeline'> {
 }
 
 export interface MapApp {
@@ -157,6 +232,30 @@ export interface MapApp {
   searchWorkerCallbacks: Map<number, { resolve(ids: string[]): void }>;
   workerSearchQuery: string;
   workerSearchResultIds: string[] | null;
+  /** The address held still while something else changes the map (url-sync.mjs createUrlSuspend). */
+  urlSuspend: ReturnType<typeof import('./url-sync.mjs').createUrlSuspend>;
+  /** Restoring the map from the address: idle, restoring or queued (url-sync.mjs createUrlRestore). */
+  urlRestore: ReturnType<typeof import('./url-sync.mjs').createUrlRestore>;
+  /** The next address write as a history entry (beginNavigation; url-sync.mjs createNavigationPush). */
+  navigationPush: ReturnType<typeof import('./url-sync.mjs').createNavigationPush>;
+  /** The hashchanges to ignore while a failed step is stepped back over (url-sync.mjs createHashListen). */
+  hashListen: ReturnType<typeof import('./url-sync.mjs').createHashListen>;
+  /** The address a Back or Forward step arrived at (url-sync.mjs createTraversal). */
+  traversal: ReturnType<typeof import('./url-sync.mjs').createTraversal>;
+  /** The map whose details the catalogue pane shows, if it shows one. */
+  currentDetailMapId: string | null;
+  /** The layer the source panel shows (sources.js), if it is open. */
+  currentSourceMapId: string | null;
+  /** The base map shown (controls.js applyBaseMap). */
+  baseMapId: string;
+  /** The reader chose the base map (controls.js applyBaseMap): the theme leaves it alone. */
+  userPickedBasemap: boolean;
+  /** The election manager's module, imported on demand (election-pane.js ensureElections). */
+  electionModulePromise: Promise<typeof import('../../app/election-manager.js')> | null;
+  /** The election catalogue's load (election-pane.js ensureElections). */
+  electionLoadPromise: Promise<unknown> | null;
+  /** Party, person and area pages built from the Browse records, by "<kind>:<key>" (entity-bridge.js). */
+  browseEntityDetailCache: Map<string, import('./entity-bridge.js').EntityPage | null>;
 
   // Methods of other method modules.
   /** layers.js */
@@ -176,7 +275,7 @@ export interface MapApp {
   /** url-state.js */
   updateURLState(): void;
   /** messages.js */
-  showMapError(error: unknown, options?: { kind?: string }): void;
+  showMapError(error: unknown, options?: { kind?: string; retry?: () => unknown; retryLabel?: string }): void;
   /** timeline/controls.js */
   isTimelineMapPlayable(mapId: string): boolean;
   /** timeline/controls.js */
@@ -237,4 +336,89 @@ export interface MapApp {
   updateMapList(): void;
   /** controls.js */
   syncBasemapToTheme(): Promise<unknown>;
+  /** controls.js */
+  applyBaseMap(baseMapId: string, options?: { userChoice?: boolean }): Promise<void>;
+  /** controls.js */
+  setMapControlsOpen(open: boolean, options?: { focus?: boolean }): void;
+  /** controls.js */
+  setActiveLayersPanelOpen(open: boolean, options?: { focus?: boolean }): void;
+  /** app.js */
+  whenStyleLoaded(): Promise<void>;
+  /** url-state.js */
+  beginNavigation(label?: string): void;
+  /** url-state.js */
+  endNavigation(): void;
+  /** url-state.js */
+  undoNavigationSince(mark: number | undefined): void;
+  /** url-state.js */
+  getCurrentURLParams(): URLSearchParams;
+  /** url-state.js */
+  pushURLState(label?: string): void;
+  /** timeline/controls.js */
+  setTimelineItems<T extends object>(items: T[], activeIndex: number, onSelect: (item: T) => unknown, options?: Record<string, unknown>): void;
+  /** timeline/controls.js */
+  getTimelineGeneralsOnly(fallback?: boolean): boolean;
+  /** url-state.js */
+  resolveFeatureBounds(mapConfig: { id?: string; featureIndexUrl?: string } | null | undefined, featureId: string | number, featureName: string | null | undefined, layerConfig?: { featureIndexUrl?: string } | null): Promise<import('./feature-bounds.mjs').BBox | null>;
+  /** layers.js */
+  getActiveLayerOrder(loadedIds?: string[]): string[];
+  /** layers.js */
+  setActiveLayerOrder(order: string[], options?: { persist?: boolean; notify?: boolean } | null): string[];
+  /** layers.js */
+  restoreLayerOrder(params: URLSearchParams): void;
+  /** layers.js */
+  waitForMapOutcome(mapId: string): Promise<import('../../app/settle.js').SettleOutcome | 'failed'>;
+  /** layers.js */
+  reportMapLoadFailure(mapId: string, error: unknown): void;
+  /** layers.js */
+  unloadMapNow(mapId: string): void;
+  /** layers.js */
+  getMapUnloadCandidateIds(mapId: string): Set<string>;
+  /** layers.js */
+  recordSettleOutcome<T extends string>(mapId: string, outcome: T): T;
+  /** election-pane.js */
+  ensureElections(options?: { refreshCatalogue?: boolean }): Promise<ElectionsView>;
+  /** election-pane.js */
+  scheduleElectionCatalogueWarm(): void;
+  /** election-pane.js */
+  hasElectionURLState(params: URLSearchParams, layers?: Iterable<string>): boolean;
+  /** election-pane.js */
+  unloadActiveElectionForLayer(mapId: string): boolean;
+  /** entity-bridge.js */
+  openElectionEntityDetailInCatalogue(kind: string | undefined, key: string | undefined, options?: { label?: string; fromHistory?: boolean; focus?: boolean }): Promise<boolean>;
+  /** sources.js */
+  bindActiveLayerSourceButtons(): void;
+  /** sources.js */
+  renderSourcePanel(): Promise<void>;
+  /** messages.js */
+  announce(message: string): void;
+  /** messages.js */
+  hideMapError(): void;
+  /** messages.js */
+  dismissStaleMapMessage(minAgeMs?: number): void;
+  /** messages.js */
+  triggerDownload(url: string, filename?: string): void;
+  /** mobile-layout.js */
+  dismissMobileCatalogueAfterLoad(label?: string): void;
+  /** mobile-layout.js */
+  revealCatalogueOnPhone(): void;
+  /** lazy-runtime.js */
+  scheduleIdleTask(callback: () => void, options?: { timeout?: number }): void;
+  /** catalogue-list.js */
+  focusActiveElectionCatalogueEntry(entry: { body?: string; date?: string } | null | undefined, options?: { scroll?: boolean }): void;
+  /** timeline/animation.js */
+  isTimelineAnimationLayer(mapId: string | null | undefined): boolean;
+  /** timeline/changes.js */
+  updateEditionRoles(): void;
+  /** legend.js */
+  updateMapLegend(): void;
+}
+
+/**
+ * The app once init has made the map controller (app.js init, before it wires the catalogue and
+ * restores the address). A method module whose methods run only after that, and use the
+ * controller without asking whether it is there, types `this` with this in place of MapApp.
+ */
+export interface MapAppReady extends MapApp {
+  mapController: MapControllerView;
 }

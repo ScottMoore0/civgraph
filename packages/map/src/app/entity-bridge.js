@@ -37,17 +37,63 @@ import {
 import { MAP_COLOURS } from '../colours.mjs';
 import { recordPagePath } from '../../../ui/src/page-types.mjs';
 
+/** @typedef {import('../ui-controller-types.d.ts').EntityDetail} EntityDetail */
+/** @typedef {import('../ui-controller-types.d.ts').EntityRow} EntityRow */
+/** @typedef {import('../../../types/index.js').ApiV1.PartiesListAnswer} PartiesListAnswer */
+/** @typedef {import('../../../types/index.js').ApiV1.PartiesRecordAnswer} PartiesRecordAnswer */
+/** @typedef {import('../../../types/index.js').ApiV1.PartiesMembersAnswer} PartiesMembersAnswer */
+/** @typedef {import('../../../types/index.js').ApiV1.PersonsRecordAnswer} PersonsRecordAnswer */
+/** @typedef {import('../../../types/index.js').ApiV1.PersonsListAnswer} PersonsListAnswer */
+/** @typedef {import('../election/election-manager').ElectionEntry} ElectionEntry */
+/** @typedef {import('../election/election-manager').BundleResult} BundleResult */
+
+/**
+ * A page the bridge builds: a party's, a person's or an area's, or, for a name more than one
+ * person has, a chooser of them (kind 'candidate-choice').
+ * @typedef {EntityDetail & { choices?: Array<{ key: string, name: string, subtitle: string }>, candidatesReady?: Promise<EntityPage> }} EntityPage
+ */
+/**
+ * An election of a party's record (relatedElections), the fields read here.
+ * @typedef {{ key?: string, body?: string, title?: string, date?: string, seats?: unknown, elected?: unknown, stood?: unknown, candidates?: unknown, votes?: unknown, firstPrefs?: unknown, share?: unknown, validVotePct?: unknown, totalSeats?: unknown, rank?: unknown, constituenciesContested?: unknown, constituencies?: unknown }} PartyElectionRow
+ */
+/**
+ * A party as /_api/parties gives it (an item of ApiV1 PartiesListAnswer or PartiesRecordAnswer),
+ * the fields read here.
+ * @typedef {{ slug?: string, title?: string, canonicalName?: string, shortName?: string, colour?: string, color?: string, partyColour?: string, observedNames?: string[], knownAliases?: string[], relatedElectionCount?: unknown, relatedElections?: PartyElectionRow[], totals?: Record<string, unknown>, firstYear?: string | number, lastYear?: string | number }} PartyItem
+ */
+/** The party registry by every spelling (loadPartyIndex). @typedef {{ items: PartyItem[], byAlias: Map<string, PartyItem> }} PartyIndex */
+/**
+ * A contest of a person's record (a card's elections, or a members row), the fields read here.
+ * @typedef {{ key?: string, title?: string, date?: string, constituency?: string, party?: string, status?: unknown, elected?: unknown, firstPref?: unknown, firstPrefs?: unknown, votes?: unknown, localBody?: string, bodyLabel?: string, rank?: unknown, firstPrefPct?: unknown, share?: unknown }} PersonElectionRow
+ */
+/**
+ * A person as /_api/persons gives them (ApiV1 PersonsRecordAnswer's person, PersonsListAnswer's
+ * persons), or a party's members row (party-members.mjs DecodedMember), the fields read here.
+ * @typedef {{ id?: string, slug?: string, name?: string, title?: string, subtitle?: string, names?: Array<{ name?: string }>, elections?: PersonElectionRow[], parties?: Array<{ name?: string } | string>, totals?: { stood?: unknown, elected?: unknown, firstPrefs?: unknown }, firstYear?: string | number, lastYear?: string | number, born?: string, died?: string, bornSource?: string, diedSource?: string, officialProfiles?: Array<{ url: string, source?: string, label?: string }>, ord?: number | null }} PersonCard
+ */
+/** The people who stood for a party, and whether the list stopped short (loadPartyPersons). @typedef {{ persons: PersonCard[], capped: boolean }} PartyPersons */
+/**
+ * The pages' own state, set on first use: the page asked for last (ui-wiring.js counts it on too),
+ * and the party registry's load.
+ * @typedef {{ entityPageToken?: number, partyIndexPromise?: Promise<PartyIndex> | null }} EntityPageState
+ */
+/** @typedef {import('./map-app').MapApp & EntityBridgeMethods & EntityPageState} EntityBridgeApp */
+/** An election of a party's page (mapPartyHistoryRow). @typedef {ReturnType<EntityBridgeMethods['mapPartyHistoryRow']>} PartyHistoryRow */
+/** A contest of a person's page (mapPersonAppearanceRow). @typedef {ReturnType<EntityBridgeMethods['mapPersonAppearanceRow']>} AppearanceRow */
+
 /**
  * The names a party is known by, as its people are looked up: canonical name, title, short name,
  * observed names and known aliases, each once.
+ * @param {PartyItem} [item]
+ * @returns {string[]}
  */
-const partyAliases = (item = {}) => [...new Set([
+const partyAliases = (item = {}) => /** @type {string[]} */ ([...new Set([
   item.canonicalName,
   item.title,
   item.shortName,
   ...(item.observedNames || []),
   ...(item.knownAliases || []),
-].filter(Boolean))];
+].filter(Boolean))]);
 
 export class EntityBridgeMethods {
   /**
@@ -62,6 +108,11 @@ export class EntityBridgeMethods {
    *
    * options.fromHistory: reopening from the address (Back, Forward, a reload or a shared link),
    * so no new history entry is made and the page keeps its scroll and table state.
+   * @this {EntityBridgeApp}
+   * @param {string | undefined} kind
+   * @param {string | undefined} key
+   * @param {{ label?: string, fromHistory?: boolean, focus?: boolean }} [options]
+   * @returns {Promise<boolean>}
    */
   async openElectionEntityDetailInCatalogue(kind, key, options = {}) {
     const pageKind = canonicalEntityKind(kind);
@@ -71,16 +122,20 @@ export class EntityBridgeMethods {
     // This opening's state: loading, then loaded, choice, error or missing (MA-10).
     const load = createState(ENTITY_PAGE_LOAD);
     const label = options.label || entityKeyLabel(pageKind, keyText);
-    const typeLabel = ENTITY_TYPE_LABEL[pageKind] || 'Page';
+    const typeLabel = ENTITY_TYPE_LABEL[/** @type {keyof typeof ENTITY_TYPE_LABEL} */ (pageKind)] || 'Page';
     const requested = { kind: pageKind, key: keyText, title: label, typeLabel };
     if (!options.fromHistory) this.beginNavigation(`${typeLabel}: ${label}`);
+    /** @type {import('./map-app').MapApp['currentPage']} */
     this.currentPage = requested;
+    /** @type {string | null} */
     this.currentDetailMapId = null;
     this.revealCatalogueOnPhone();
     uiController.showElectionEntityPlaceholder?.({ kind: pageKind, key: keyText, label, typeLabel, state: load.state() }, { addToHistory: !options.fromHistory });
     this.endNavigation();
 
+    /** @type {EntityPage | null | undefined} */
     let detail = null;
+    /** @type {unknown} */
     let failure = null;
     try {
       detail = await this.loadElectionEntityBrowseDetail(pageKind, keyText);
@@ -122,10 +177,12 @@ export class EntityBridgeMethods {
     return true;
   }
 
+  /** @this {EntityBridgeApp} @param {string} kind @param {string} key @returns {Promise<EntityPage | null | undefined>} */
   async loadElectionEntityBrowseDetail(kind, key) {
     const normalizedKind = canonicalEntityKind(kind);
     const cacheKey = `${normalizedKind}:${key || ''}`;
     if (this.browseEntityDetailCache.has(cacheKey)) return this.browseEntityDetailCache.get(cacheKey);
+    /** @type {EntityPage | null} */
     let detail = null;
     if (normalizedKind === 'party') {
       detail = await this.loadPartyBrowseDetail(key);
@@ -145,13 +202,17 @@ export class EntityBridgeMethods {
    * party as the ballot did ("Ulster Unionist", "Official Unionist"), and only the registry
    * knows that both are the UUP; a spelling two records share goes to the one with more
    * linked elections, the party rather than a ballot-paper label.
+   * @this {EntityBridgeApp}
+   * @returns {Promise<PartyIndex>}
    */
   async loadPartyIndex() {
     if (!this.partyIndexPromise) {
+      /** @type {Promise<PartyIndex> | null} */
       this.partyIndexPromise = fetch('/_api/parties', { cache: 'default' })
         .then((response) => (response.ok ? response.json() : Promise.reject(new Error(`parties index ${response.status}`))))
-        .then((payload) => {
-          const items = Array.isArray(payload?.items) ? payload.items : [];
+        .then((/** @type {PartiesListAnswer | null} */ payload) => {
+          const items = /** @type {PartyItem[]} */ (Array.isArray(payload?.items) ? payload.items : []);
+          /** @type {Map<string, PartyItem>} */
           const byAlias = new Map();
           const ranked = [...items].sort((a, b) => (Number(b.relatedElectionCount) || 0) - (Number(a.relatedElectionCount) || 0));
           for (const item of ranked) {
@@ -171,6 +232,7 @@ export class EntityBridgeMethods {
     return this.partyIndexPromise;
   }
 
+  /** @this {EntityBridgeApp} @param {PartyIndex | null | undefined} index @param {unknown} name */
   partyFromIndex(index, name) {
     if (!index?.byAlias || !name) return null;
     return index.byAlias.get(normalizeEntityName(name))
@@ -178,19 +240,23 @@ export class EntityBridgeMethods {
       || null;
   }
 
+  /** @this {EntityBridgeApp} @param {PartyIndex | null | undefined} index @param {unknown} name */
   partyColourFrom(index, name) {
     const hit = this.partyFromIndex(index, name);
     const colour = hit?.colour;
     return colour && colour !== MAP_COLOURS.partyGrey ? colour : MAP_COLOURS.swatch;
   }
 
+  /** @this {EntityBridgeApp} @param {string} key @returns {Promise<EntityPage | null>} */
   async loadPartyBrowseDetail(key) {
     const index = await this.loadPartyIndex();
     const hit = this.partyFromIndex(index, key);
     const slug = slugifyEntityKey(key);
-    const candidates = [...new Set([hit?.slug, slug, String(key || '').trim().toLowerCase()].filter(Boolean))];
+    const candidates = /** @type {string[]} */ ([...new Set([hit?.slug, slug, String(key || '').trim().toLowerCase()].filter(Boolean))]);
+    /** @type {unknown} */
     let failure = null;
     for (const candidateSlug of candidates) {
+      /** @type {Response} */
       let response;
       try {
         response = await fetch(`/_api/parties?slug=${encodeURIComponent(candidateSlug)}`, { cache: 'default' });
@@ -200,8 +266,8 @@ export class EntityBridgeMethods {
       }
       if (response.status === 404) continue;
       if (!response.ok) { failure = new Error(`party ${candidateSlug}: ${response.status}`); continue; }
-      const detail = await response.json();
-      const item = detail.item || detail;
+      const detail = /** @type {PartiesRecordAnswer} */ (await response.json());
+      const item = /** @type {PartyItem} */ (detail.item || detail);
       // The page shows as soon as the party is here; its candidate list follows (11 Nov 2026:
       // Fianna Fáil's took seventeen requests, and the whole page waited for them).
       const page = this.mapPartyBrowseItem(item, null, index);
@@ -231,6 +297,9 @@ export class EntityBridgeMethods {
    * The endpoint 404s honestly on a miss, which the shard walk could not do. The static shards
    * remain the fallback when the endpoint itself is unavailable, so a Functions outage degrades
    * rather than breaks.
+   * @this {EntityBridgeApp}
+   * @param {string} key
+   * @returns {Promise<EntityPage | null>}
    */
   async loadPersonBrowseDetail(key) {
     const raw = String(key || '').trim();
@@ -239,12 +308,13 @@ export class EntityBridgeMethods {
     const partyIndex = await this.loadPartyIndex();
     let endpointDown = false;
 
+    /** @param {string} slug @returns {Promise<PersonCard | null>} */
     const fetchOne = async (slug) => {
       const response = await fetch(`/_api/persons?slug=${encodeURIComponent(slug)}`, { cache: 'default' });
       if (response.status === 404) return null;
       if (!response.ok) throw new Error(`persons ${response.status}`);
-      const payload = await response.json();
-      return payload?.person || null;
+      const payload = /** @type {PersonsRecordAnswer | null} */ (await response.json());
+      return /** @type {PersonCard | null} */ (payload?.person || null);
     };
 
     if (!isNameKey) {
@@ -261,10 +331,11 @@ export class EntityBridgeMethods {
       try {
         const response = await fetch(`/_api/persons?q=${encodeURIComponent(namePart)}&limit=50`, { cache: 'default' });
         if (!response.ok) throw new Error(`persons search ${response.status}`);
-        const payload = await response.json();
+        const payload = /** @type {PersonsListAnswer | null} */ (await response.json());
         const wanted = normalizeEntityName(namePart);
-        const sameName = (payload?.persons || []).filter((person) => [person.name, person.title, ...(person.names || []).map((n) => n.name)]
+        const sameName = /** @type {PersonCard[]} */ (payload?.persons || []).filter((person) => [person.name, person.title, ...(person.names || []).map((n) => n.name)]
           .some((name) => normalizeEntityName(name) === wanted));
+        /** @param {PersonCard} person */
         const stoodFor = (person) => (person.elections || []).some((row) => (!partyPart || normalizeEntityName(row.party) === normalizeEntityName(partyPart)
           || this.partyFromIndex(partyIndex, row.party)?.slug === this.partyFromIndex(partyIndex, partyPart)?.slug)
           && (!datePart || row.date === datePart));
@@ -278,7 +349,8 @@ export class EntityBridgeMethods {
             kind: 'candidate-choice',
             key: raw,
             name: namePart,
-            choices: pool.map((person) => ({ key: person.slug || person.id, name: person.name || person.title, subtitle: person.subtitle || '' }))
+            // A person of the search has an id and a slug, and a name or a title.
+            choices: pool.map((person) => ({ key: /** @type {string} */ (person.slug || person.id), name: /** @type {string} */ (person.name || person.title), subtitle: person.subtitle || '' }))
           };
         }
       } catch {
@@ -295,6 +367,9 @@ export class EntityBridgeMethods {
   /**
    * The persons who stood for one party, for its candidate summaries: from the party's members
    * view (loadPartyMembers()), or, where that cannot answer, from their cards (loadPartyCards()).
+   * @this {EntityBridgeApp}
+   * @param {PartyItem} [item]
+   * @returns {Promise<PartyPersons>}
    */
   async loadPartyPersons(item = {}) {
     if (!partyAliases(item).length) return { persons: [], capped: false };
@@ -314,6 +389,10 @@ export class EntityBridgeMethods {
    * the first, as the party query did before it took an offset) the result is marked capped and
    * the page says the list is partial. At 20 pages it held 4,000 people, so the UUP's 4,509 were
    * cut short; the members view holds 10,000.
+   * @this {EntityBridgeApp}
+   * @param {PartyItem} [item]
+   * @param {{ maxPages?: number }} [options]
+   * @returns {Promise<PartyPersons>}
    */
   async loadPartyCards(item = {}, { maxPages = 20 } = {}) {
     const aliases = partyAliases(item);
@@ -321,19 +400,19 @@ export class EntityBridgeMethods {
     const PAGE = 200;
     // The pages after the first are asked a few at a time (paged-fetch.mjs): one after another,
     // Fianna Fáil's 3,372 candidates took seventeen requests in a row.
-    const { rows: persons, capped } = await loadAllPages(async (page) => {
+    const { rows: persons, capped } = await loadAllPages(async (/** @type {number} */ page) => {
       const params = new URLSearchParams();
       for (const alias of aliases) params.append('party', alias);
       params.set('limit', String(PAGE));
       if (page) params.set('offset', String(page * PAGE));
       try {
         const response = await fetch(`/_api/persons?${params}`, { cache: 'default' });
-        const payload = response.ok ? await response.json() : null;
-        return Array.isArray(payload?.persons) ? { rows: payload.persons, total: payload.total } : null;
+        const payload = /** @type {PersonsListAnswer | null} */ (response.ok ? await response.json() : null);
+        return Array.isArray(payload?.persons) ? { rows: /** @type {PersonCard[]} */ (payload.persons), total: payload.total } : null;
       } catch {
         return null;
       }
-    }, { pageSize: PAGE, maxPages, idOf: (person) => String(person.id || person.slug || '') });
+    }, { pageSize: PAGE, maxPages, idOf: (/** @type {PersonCard} */ person) => String(person.id || person.slug || '') });
     return { persons, capped };
   }
 
@@ -344,16 +423,19 @@ export class EntityBridgeMethods {
    * loadPartyPersons() sends, through an index rather than every card. Null when the view cannot
    * answer (a deployment whose records load predates it answers 503): the caller then reads the
    * cards as before.
+   * @this {EntityBridgeApp}
+   * @param {string} slug
+   * @returns {Promise<PartyPersons | null>}
    */
   async loadPartyMembers(slug) {
     const PAGE = 500;
     let unavailable = false;
-    const result = await loadAllPages(async (page) => {
+    const result = await loadAllPages(async (/** @type {number} */ page) => {
       const params = new URLSearchParams({ slug, view: 'members', limit: String(PAGE) });
       if (page) params.set('offset', String(page * PAGE));
       try {
         const response = await fetch(`/_api/parties?${params}`, { cache: 'default' });
-        const payload = response.ok ? await response.json() : null;
+        const payload = /** @type {PartiesMembersAnswer | null} */ (response.ok ? await response.json() : null);
         if (!Array.isArray(payload?.members)) {
           if (!page) unavailable = true;
           return null;
@@ -363,7 +445,7 @@ export class EntityBridgeMethods {
         if (!page) unavailable = true;
         return null;
       }
-    }, { pageSize: PAGE, maxPages: 20, idOf: (person) => person.slug });
+    }, { pageSize: PAGE, maxPages: 20, idOf: (/** @type {import('../../../core/src/party-members.mjs').DecodedMember} */ person) => person.slug });
     if (unavailable) return null;
     // In the people list's order, as the cards came: the candidate list keeps it where its own
     // order ties (two Henry Wilsons, each elected once).
@@ -371,6 +453,7 @@ export class EntityBridgeMethods {
     return { persons, capped: result.capped };
   }
 
+  /** @this {EntityBridgeApp} @param {string} kind @param {string} key @returns {Promise<EntityPage | null>} */
   async loadAreaBrowseDetail(kind, key) {
     const name = String(key || '').trim();
     if (!name) return null;
@@ -387,6 +470,7 @@ export class EntityBridgeMethods {
     // Four bundles at a time rather than one after another: a constituency contested in fifty
     // elections took 6.9 s to open (UX review 2026-10-31, H6).
     const perEntry = await mapWithConcurrency(entries, 4, async (entry) => {
+      /** @type {ElectionEntry | null} */
       let bundle = null;
       try {
         bundle = await elections.loadBundle(entry);
@@ -400,8 +484,9 @@ export class EntityBridgeMethods {
         return normalizeEntityName(result.constituency || result.matchName || result.featureName || '') === target;
       });
       if (!matchingResults.length) return [];
-      if (kind === 'lgd') return [this.mapCouncilAreaHistoryRow(entry, bundle, name, matchingResults)];
-      return matchingResults.map((result) => this.mapConstituencyAreaHistoryRow(entry, bundle, result, kind));
+      // A result matched, so the bundle loaded.
+      if (kind === 'lgd') return [this.mapCouncilAreaHistoryRow(entry, /** @type {ElectionEntry} */ (bundle), name, matchingResults)];
+      return matchingResults.map((result) => this.mapConstituencyAreaHistoryRow(entry, /** @type {ElectionEntry} */ (bundle), result, kind));
     });
     // Oldest first, as Browse lists elections.
     const rows = perEntry.flat()
@@ -439,11 +524,17 @@ export class EntityBridgeMethods {
   /**
    * A party page. personsResult null: its candidate list is still loading (candidatesLoading),
    * and fillPartyCandidates() completes it.
+   * @this {EntityBridgeApp}
+   * @param {PartyItem} item
+   * @param {Partial<PartyPersons> | PersonCard[] | null} [personsResult]
+   * @param {PartyIndex | null} [partyIndex]
+   * @returns {EntityPage}
    */
   mapPartyBrowseItem(item, personsResult = {}, partyIndex = null) {
     const related = Array.isArray(item.relatedElections) ? item.relatedElections : [];
     // Oldest first, as Browse lists a party's elections, so the two pages read the same way.
-    const historyRows = addPartyChanges(related.map((row) => this.mapPartyHistoryRow(row)))
+    // addPartyChanges gives back the rows it was given, with their changes added.
+    const historyRows = /** @type {PartyHistoryRow[]} */ (addPartyChanges(related.map((row) => this.mapPartyHistoryRow(row))))
       .sort((a, b) => String(a.date || '9999').localeCompare(String(b.date || '9999')));
     const slug = item.slug || slugifyEntityKey(item.canonicalName || item.title);
     const shortName = item.shortName || (item.canonicalName && item.canonicalName !== item.title ? item.canonicalName : '');
@@ -474,25 +565,36 @@ export class EntityBridgeMethods {
     return personsResult === null ? page : this.fillPartyCandidates(page, item, personsResult, partyIndex);
   }
 
-  /** A party page's candidate list, from the people who stood for it (loadPartyPersons()). */
+  /**
+   * A party page's candidate list, from the people who stood for it (loadPartyPersons()).
+   * @this {EntityBridgeApp}
+   * @param {EntityPage} page
+   * @param {PartyItem} item
+   * @param {Partial<PartyPersons> | PersonCard[]} [personsResult]
+   * @param {PartyIndex | null} [partyIndex]
+   */
   fillPartyCandidates(page, item, personsResult = {}, partyIndex = null) {
     const persons = Array.isArray(personsResult) ? personsResult : (personsResult?.persons || []);
     const { summaries, listEntries } = this.buildPartyCandidateSummaries(item, persons, partyIndex);
     page.candidateSummaries = summaries;
     // The people are read a page at a time; when a page cannot be had the list is said to be
     // partial rather than presented as the party's total (H2).
-    page.candidatesCapped = Boolean(personsResult?.capped);
+    // A bare list of people (not a page of them) has no `capped`: it reads undefined.
+    page.candidatesCapped = Boolean(/** @type {Partial<PartyPersons> | null | undefined} */ (personsResult)?.capped);
     page.listEntriesLeftOut = listEntries;
     page.candidatesLoading = false;
     return page;
   }
 
+  /** @this {EntityBridgeApp} @param {PersonCard} item @param {PartyIndex | null} [partyIndex] @returns {EntityPage} */
   mapPersonBrowseItem(item, partyIndex = null) {
     const elections = Array.isArray(item.elections) ? item.elections : [];
     // Oldest first, numbered as they go (the 3rd time standing, the 2nd win), as Browse lists them.
-    const appearances = addStandings(elections.map((row) => this.mapPersonAppearanceRow(row)));
+    // addStandings gives back the rows it was given, numbered.
+    const appearances = /** @type {AppearanceRow[]} */ (addStandings(elections.map((row) => this.mapPersonAppearanceRow(row))));
     const latest = appearances[appearances.length - 1] || null;
-    const latestParty = latest?.party || item.parties?.[0]?.name || '';
+    // A party is listed as an object with its name (a bare name has no .name, and stands for itself).
+    const latestParty = latest?.party || /** @type {{ name?: string } | undefined} */ (item.parties?.[0])?.name || '';
     const slug = item.slug || String(item.id || '') || slugifyEntityKey(item.name || item.title);
     const stood = knownCount(item.totals?.stood) ?? appearances.length;
     const won = knownCount(item.totals?.elected) ?? appearances.filter((row) => row.elected).length;
@@ -507,8 +609,8 @@ export class EntityBridgeMethods {
       // The person record has no colour; their latest party's, rather than a grey swatch (M3).
       colour: this.partyColourFrom(partyIndex, latestParty),
       // Each party once: "Protestant Unionist" and "Protestant Unionist Party" are one party.
-      parties: [...new Map((item.parties || []).map((party) => party.name || party).filter(Boolean)
-        .map((name) => [this.partyFromIndex(partyIndex, name)?.slug || normalizeEntityName(partyFullName(name)), name])).values()],
+      parties: /** @type {string[]} */ ([...new Map((item.parties || []).map((party) => /** @type {{ name?: string }} */ (party).name || party).filter(Boolean)
+        .map((name) => /** @type {[string, unknown]} */ ([this.partyFromIndex(partyIndex, name)?.slug || normalizeEntityName(partyFullName(/** @type {string} */ (name))), name]))).values()]),
       constituencyGroups: groupConstituencies(appearances),
       appearances,
       firstPrefs: votesKnown ? knownCount(item.totals?.firstPrefs, true) : null,
@@ -524,6 +626,7 @@ export class EntityBridgeMethods {
     };
   }
 
+  /** @this {EntityBridgeApp} @param {PartyElectionRow} [row] */
   mapPartyHistoryRow(row = {}) {
     const body = electionBodyFromEntityKey(row.key) || row.body || '';
     const electionType = electionTypeFromEntityKey(row.key, row.title);
@@ -562,6 +665,7 @@ export class EntityBridgeMethods {
     };
   }
 
+  /** @this {EntityBridgeApp} @param {PersonElectionRow} [row] */
   mapPersonAppearanceRow(row = {}) {
     const body = electionBodyFromEntityKey(row.key);
     const electionType = electionTypeFromEntityKey(row.key, row.title);
@@ -595,6 +699,10 @@ export class EntityBridgeMethods {
    * Everyone who stood for the party, with how often they stood and won and where. Labels such as
    * "DUP list" -- the 1996 Forum's regional lists -- are counted separately, not listed as people
    * (UX review 2026-10-31, H8).
+   * @this {EntityBridgeApp}
+   * @param {PartyItem} [item]
+   * @param {PersonCard[]} [persons]
+   * @param {PartyIndex | null} [partyIndex]
    */
   buildPartyCandidateSummaries(item = {}, persons = [], partyIndex = null) {
     const aliases = new Set([
@@ -605,6 +713,7 @@ export class EntityBridgeMethods {
       ...(item.knownAliases || [])
     ].map(normalizeEntityName).filter(Boolean));
     const ownSlug = item.slug || '';
+    /** @param {unknown} party */
     const isOwnParty = (party) => {
       const key = normalizeEntityName(party);
       if (aliases.has(key)) return true;
@@ -651,23 +760,29 @@ export class EntityBridgeMethods {
     return { summaries: list, listEntries };
   }
 
+  /**
+   * An election of a constituency's or DEA's page. The bundle's loose fields (a title, a district,
+   * the leading party and its colour, the names of those elected) are text.
+   * @this {EntityBridgeApp} @param {ElectionEntry} entry @param {ElectionEntry} bundle @param {BundleResult} result @param {string} kind
+   * @returns {EntityRow}
+   */
   mapConstituencyAreaHistoryRow(entry, bundle, result, kind) {
     const lead = leadingPartyOf(result, { normalise: normalizeEntityName });
     const seats = knownCount(result.seatsTotal ?? result.seatsWon, true);
     return {
       electionKey: bundle.key || entry.key || '',
-      electionDisplayName: bundle.displayTitle || entry.displayTitle || entry.title || entry.key || '',
+      electionDisplayName: /** @type {string} */ (bundle.displayTitle || entry.displayTitle || entry.title || entry.key || ''),
       electionBodyForOpen: bundle.body || entry.body || '',
       body: bundle.body || entry.body || '',
       date: bundle.date || entry.date || '',
       constituency: result.constituency || '',
-      localGovernmentDistrict: result.localBody || result.localGovernmentDistrict || '',
+      localGovernmentDistrict: /** @type {string} */ (result.localBody || result.localGovernmentDistrict || ''),
       // The party with the most votes, summed over its candidates (H3), not the poll-topper's.
-      winnerParty: lead.party,
-      winnerColour: lead.colour || MAP_COLOURS.noResult,
+      winnerParty: /** @type {string} */ (lead.party),
+      winnerColour: /** @type {string} */ (lead.colour || MAP_COLOURS.noResult),
       winnerVotes: lead.votes,
       winnerPct: lead.pct,
-      electedNames: lead.elected,
+      electedNames: /** @type {import('../ui-controller-types.d.ts').EntityPersonRef[]} */ (lead.elected),
       validVotes: knownCount(lead.valid, true),
       seats,
       isByElection: /by-election|bye-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`) || entry.kind === 'by-election',
@@ -675,7 +790,14 @@ export class EntityBridgeMethods {
     };
   }
 
+  /**
+   * An election of a council's page: its DEAs' results summed. The bundle's loose fields (a title,
+   * a party and its colour) are text.
+   * @this {EntityBridgeApp} @param {ElectionEntry} entry @param {ElectionEntry} bundle @param {string} name @param {BundleResult[]} results
+   * @returns {EntityRow}
+   */
   mapCouncilAreaHistoryRow(entry, bundle, name, results) {
+    /** @type {Map<string, { party: unknown, votes: number, colour: unknown }>} */
     const partyTotals = new Map();
     let validVotes = 0;
     let validKnown = false;
@@ -692,17 +814,18 @@ export class EntityBridgeMethods {
         partyTotals.set(key, current);
       }
     }
+    /** @type {{ party?: unknown, votes?: number, colour?: unknown }} */
     const leading = [...partyTotals.values()].sort((a, b) => b.votes - a.votes)[0] || {};
     return {
       electionKey: bundle.key || entry.key || '',
-      electionDisplayName: bundle.displayTitle || entry.displayTitle || entry.title || entry.key || '',
+      electionDisplayName: /** @type {string} */ (bundle.displayTitle || entry.displayTitle || entry.title || entry.key || ''),
       electionBodyForOpen: bundle.body || entry.body || '',
       body: bundle.body || entry.body || '',
       date: bundle.date || entry.date || '',
       deaCount: results.length,
-      districtElectoralAreas: results.map((result) => result.constituency).filter(Boolean),
-      winnerParty: leading.party || '',
-      winnerColour: leading.colour || MAP_COLOURS.noResult,
+      districtElectoralAreas: /** @type {string[]} */ (results.map((result) => result.constituency).filter(Boolean)),
+      winnerParty: /** @type {string} */ (leading.party || ''),
+      winnerColour: /** @type {string} */ (leading.colour || MAP_COLOURS.noResult),
       winnerVotes: leading.votes || null,
       winnerPct: validKnown && leading.votes ? leading.votes / validVotes * 100 : null,
       validVotes: validKnown ? validVotes : null,

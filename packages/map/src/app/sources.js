@@ -9,7 +9,20 @@ import uiController from '../ui-controller.js';
 import dataService from '../data-service.js';
 import { setHidden } from '../state-helpers.mjs';
 
+/**
+ * The app as these methods see it. featuresHereKeepOpen is a flag field Test2App's constructor
+ * defines (defineFlagFields): the Features-here list stays open across the next details shown.
+ * @typedef {import('./map-app').MapApp & SourcePanelMethods & { featuresHereKeepOpen: boolean }} SourcePanelApp
+ */
+/** @typedef {import('../../app/maplibre-main-adapter.js').RuntimeLayer} RuntimeLayer */
+/** A reference or download as the panel reads it: a link with its note. @typedef {import('../../../types/index.js').SourceLink & { file?: string, note?: string, description?: string }} SourceLinkView */
+/** The catalogue's record of a map, the fields the panel reads. @typedef {{ id?: string, name?: string, provider?: string | string[], description?: string, references?: SourceLinkView[], sourceDownloads?: SourceLinkView[] }} SourceConfigView */
+/** A layer's sources: its id, its layer in the map index and its catalogue record. @typedef {{ id: string, layer: RuntimeLayer | null, mainConfig: import('../data-service.js').CatalogueMap | null }} SourceRecord */
+/** A link the panel lists. @typedef {{ label: string, url?: string, note?: string }} SourcePanelLink */
+/** @typedef {import('./map-app').LayerOrGroupState} LayerOrGroupState */
+
 export class SourcePanelMethods {
+  /** @this {SourcePanelApp} */
   setupSourcePanel() {
     if (document.getElementById('test2SourcePanel')) return;
     const panel = document.createElement('aside');
@@ -31,12 +44,15 @@ export class SourcePanelMethods {
    * "Features here": every feature of the visible layers under the point clicked, so a reader
    * can show another one (a ward under a constituency, the 1911 union under the 1851 one) in the
    * feature details without hunting for a spot where it is on top.
+   * @this {SourcePanelApp}
+   * @param {{ mapId?: string, featureName?: unknown, name?: unknown } | null} current the feature the details show
    */
   addFeaturesHereList(current) {
     const entries = this.mapController?.featuresAtLastClick?.() || [];
     const content = document.getElementById('featureInfoContent');
     const section = content?.querySelector('.feature-info__section');
     if (!section || entries.length < 2) return;
+    /** @param {{ mapId: string, featureName: unknown }} entry */
     const isCurrent = (entry) => current && entry.mapId === current.mapId
       && String(entry.featureName) === String(current.featureName || current.name || '');
     const wrap = document.createElement('div');
@@ -44,15 +60,17 @@ export class SourcePanelMethods {
     const listId = 'featureInfoHereList';
     wrap.innerHTML = `<button type="button" class="feature-info__here-btn" aria-expanded="false" aria-controls="${listId}">${entries.length} here</button>
       <ul id="${listId}" class="feature-info__here-list" hidden>${entries.map((entry, i) => `<li><button type="button" data-here="${i}"${isCurrent(entry) ? ' aria-current="true"' : ''}><span class="feature-info__here-name">${escapeHtml(entry.featureName)}</span><span class="feature-info__here-layer">${escapeHtml(entry.layerName || '')}</span></button></li>`).join('')}</ul>`;
-    const toggle = wrap.querySelector('.feature-info__here-btn');
-    const list = wrap.querySelector('ul');
+    // Both are in the markup just written.
+    const toggle = /** @type {HTMLButtonElement} */ (wrap.querySelector('.feature-info__here-btn'));
+    const list = /** @type {HTMLUListElement} */ (wrap.querySelector('ul'));
+    /** @param {boolean} open */
     const setOpen = (open) => { setHidden(list, !open); toggle.setAttribute('aria-expanded', String(open)); };
     toggle.addEventListener('click', () => setOpen(list.hidden));
     list.addEventListener('click', (event) => {
-      const button = event.target.closest('button[data-here]');
+      const button = /** @type {HTMLElement | null} */ (/** @type {HTMLElement} */ (event.target).closest('button[data-here]'));
       if (!button) return;
       this.featuresHereKeepOpen = true;
-      this.mapController.selectFeatureAtClick(entries[Number(button.dataset.here)]);
+      /** @type {import('./map-app').MapControllerView} */ (this.mapController).selectFeatureAtClick(entries[Number(button.dataset.here)]);
     });
     // The button sits at the end of the layer-name line; the list opens beneath it.
     const headerRow = section.querySelector('.feature-info__header-row');
@@ -67,11 +85,12 @@ export class SourcePanelMethods {
   /**
    * A layer's name in the Active Layers list opens its page in the catalogue pane (what the "i"
    * button did, which went to save width; owner, 1 Nov 2026). Enter or Space does the same.
+   * @this {SourcePanelApp}
    */
   bindActiveLayerSourceButtons() {
-    const rows = document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]');
+    const rows = /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]'));
     rows.forEach((row) => {
-      const name = row.querySelector('.active-layer-item__name');
+      const name = /** @type {HTMLElement | null} */ (row.querySelector('.active-layer-item__name'));
       const mapId = row.dataset.mapId;
       if (!name || !mapId || name.dataset.opensPage) return;
       name.dataset.opensPage = '1';
@@ -85,7 +104,7 @@ export class SourcePanelMethods {
         uiController.showCatalogueDetailView(mapId);
       };
       name.addEventListener('click', open);
-      name.addEventListener('keydown', (event) => {
+      name.addEventListener('keydown', (/** @type {KeyboardEvent} */ event) => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
         event.preventDefault();
         event.stopPropagation();
@@ -94,6 +113,7 @@ export class SourcePanelMethods {
     });
   }
 
+  /** @this {SourcePanelApp} @param {string | null | undefined} mapId */
   openSourcePanel(mapId) {
     this.currentSourceMapId = mapId || null;
     const panel = document.getElementById('test2SourcePanel');
@@ -103,12 +123,14 @@ export class SourcePanelMethods {
     this.updateURLState();
   }
 
+  /** @this {SourcePanelApp} */
   closeSourcePanel() {
     this.currentSourceMapId = null;
     document.getElementById('test2SourcePanel')?.classList.add('hidden');
     this.updateURLState();
   }
 
+  /** @this {SourcePanelApp} */
   async renderSourcePanel() {
     const content = document.getElementById('test2SourcePanelContent');
     if (!content) return;
@@ -118,7 +140,7 @@ export class SourcePanelMethods {
       return;
     }
     content.innerHTML = records.map((record) => this.renderSourceRecord(record)).join('');
-    content.querySelectorAll('[data-copy-source-link]').forEach((button) => {
+    /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('[data-copy-source-link]')).forEach((button) => {
       button.addEventListener('click', async () => {
         try {
           await navigator.clipboard?.writeText(button.dataset.copySourceLink || '');
@@ -130,40 +152,42 @@ export class SourcePanelMethods {
     });
   }
 
+  /** @this {SourcePanelApp} @param {string | null} mapId @returns {Promise<SourceRecord[]>} */
   async getSourceRecords(mapId) {
     if (!mapId) return [];
-    const groupState = this.mapController.getLayerState(mapId);
+    const groupState = /** @type {LayerOrGroupState | null | undefined} */ (/** @type {import('./map-app').MapControllerView} */ (this.mapController).getLayerState(mapId));
     const childIds = groupState?.isGroup
       ? groupState.childIds || []
       : this.getConvertedCompositeChildIds(dataService.getMapById(mapId));
     const ids = childIds.length ? childIds : [mapId];
-    const records = ids
+    const records = /** @type {SourceRecord[]} */ (ids
       .map((id) => {
-        const layer = this.mapController.resolveLayer(id);
+        const layer = /** @type {import('./map-app').MapControllerView} */ (this.mapController).resolveLayer(id);
         const mainConfig = dataService.getMapById(id) || dataService.getMapById(layer?.sourceMapId) || null;
         if (!layer && !mainConfig) return null;
         return { id, layer, mainConfig };
       })
-      .filter(Boolean);
+      .filter(Boolean));
     await Promise.all(records.map((record) => record.layer?.id
-      ? this.metadataService.loadLayerDetails(record.layer.id).catch(() => null)
+      ? /** @type {import('../renderer/metadata-service.js').TestMetadataService} */ (this.metadataService).loadLayerDetails(record.layer.id).catch(() => null)
       : null));
     return records;
   }
 
+  /** @this {SourcePanelApp} @param {SourceRecord} record */
   renderSourceRecord(record) {
-    const layer = record.layer || {};
-    const mainConfig = record.mainConfig || {};
+    const layer = /** @type {Partial<RuntimeLayer>} */ (record.layer || {});
+    const mainConfig = /** @type {SourceConfigView} */ (record.mainConfig || {});
     const title = layer.name || mainConfig.name || record.id;
     const provider = [layer.provider, mainConfig.provider].flat(2).filter(Boolean).join(', ');
     const sourceId = layer.sourceMapId || mainConfig.id || record.id;
-    const references = [...(mainConfig.references || []), ...(layer.references || [])];
-    const downloads = [...(mainConfig.sourceDownloads || []), ...(layer.sourceDownloads || [])];
-    const technical = [
+    const references = /** @type {SourceLinkView[]} */ ([...(mainConfig.references || []), ...(layer.references || [])]);
+    const downloads = /** @type {SourceLinkView[]} */ ([...(mainConfig.sourceDownloads || []), ...(layer.sourceDownloads || [])]);
+    const technical = /** @type {SourcePanelLink[]} */ ([
       layer.tileUrl ? { label: 'PMTiles archive', url: layer.tileUrl } : null,
       layer.metadataUrl ? { label: 'Tile metadata', url: layer.metadataUrl } : null,
       layer.tilesFallback ? { label: 'Directory tile fallback', url: layer.tilesFallback.replace('/{z}/{x}/{y}.pbf', '/metadata.json') } : null
-    ].filter(Boolean);
+    ].filter(Boolean));
     const share = this.buildLayerShareUrl(sourceId);
     return `
       <article class="test2-source-panel__record" data-source-map-id="${escapeHtml(sourceId)}">
@@ -192,6 +216,7 @@ export class SourcePanelMethods {
     `;
   }
 
+  /** @this {SourcePanelApp} @param {string} title @param {SourcePanelLink[]} links */
   renderSourceLinks(title, links) {
     const validLinks = links.filter((link) => link.url);
     if (!validLinks.length) {
@@ -211,6 +236,7 @@ export class SourcePanelMethods {
     `;
   }
 
+  /** @this {SourcePanelApp} @param {string} mapId */
   buildLayerShareUrl(mapId) {
     const url = new URL(location.href);
     const params = this.getCurrentURLParams();

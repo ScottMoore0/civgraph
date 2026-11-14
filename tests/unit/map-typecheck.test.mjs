@@ -34,7 +34,14 @@ const BASELINE = [
   'src/catalogue/search.js',
   // 14 Nov 2026 (rf11-map-ui): the UI controller joins the check, with its declarations.
   'src/ui-controller-types.d.ts',
-  'src/ui-controller.js'
+  'src/ui-controller.js',
+  // 14 Nov 2026 (rf12-map-ui): the method modules join, each with its typed `this`.
+  'src/app/controls.js',
+  'src/app/sources.js',
+  'src/app/layers.js',
+  'src/app/election-pane.js',
+  'src/app/url-state.js',
+  'src/app/entity-bridge.js'
 ];
 
 /** The files a simple include pattern names (a file, dir/*.ext, or dir/**\/*.ext). */

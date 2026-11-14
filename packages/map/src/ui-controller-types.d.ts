@@ -533,11 +533,11 @@ export interface EntityDetail {
   parties?: string[];
   knownAliases?: string[];
   observedNames?: string[];
-  born?: string;
-  died?: string;
+  born?: string | null;
+  died?: string | null;
   lifeSource?: string;
-  firstYear?: string | number;
-  lastYear?: string | number;
+  firstYear?: string | number | null;
+  lastYear?: string | number | null;
   stoodCount?: unknown;
   electedCount?: unknown;
   firstPrefs?: unknown;
@@ -546,14 +546,14 @@ export interface EntityDetail {
   constituencyGroups?: EntityConstituencyGroup[];
   headlineCards?: Array<{ label: string; value: unknown; subtext?: string }>;
   metrics?: {
-    firstYear?: string | number;
-    lastYear?: string | number;
+    firstYear?: string | number | null;
+    lastYear?: string | number | null;
     elections?: unknown;
     byElections?: number;
     deas?: unknown;
     districts?: unknown;
     latestLeadingParty?: string;
-    latestDate?: string;
+    latestDate?: string | null;
     latestElected?: EntityPersonRef[];
     latestElection?: string;
   };

@@ -15,14 +15,46 @@ import { featureBoundsFromIndex, featureBoundsFromSpatial } from './feature-boun
 import { resolveBaseMapId } from '../renderer/basemap.mjs';
 import { layerOrderForAddress } from './layer-order.mjs';
 
-/** A promise, or null after `ms`: an index that is slow to come must not hold the map. */
+/**
+ * A promise, or null after `ms`: an index that is slow to come must not hold the map.
+ * @template T
+ * @param {Promise<T> | undefined} promise
+ * @param {number} ms
+ * @returns {Promise<T | null>}
+ */
 const within = (promise, ms) => Promise.race([promise, new Promise((resolve) => setTimeout(() => resolve(null), ms))]);
 
+/** One step of the reader's history (installRouteGuard): its tag and label. @typedef {{ id: number, label: string }} NavEntry */
+/**
+ * The address's own state, set on first use: the History list's steps (installRouteGuard) and the
+ * label of the next one, and the feature indexes asked for (resolveFeatureBounds); with whether a
+ * layer id is in the index, which the app's init sets. ui-wiring.js reads the steps.
+ * @typedef {{
+ *   navEntries?: NavEntry[],
+ *   navIndex?: number,
+ *   _pendingNavLabel?: string | null,
+ *   featureIndexRequests?: Map<string, Promise<FeatureIndex | null>>,
+ *   isKnownLayerId?: (id: string) => boolean
+ * }} NavigationState
+ */
+/** A layer's feature index, as feature-bounds.mjs reads it. @typedef {Parameters<typeof featureBoundsFromIndex>[0]} FeatureIndex */
+/** @typedef {import('./map-app').ElectionsView} ElectionsView */
+/** @typedef {import('../ui-controller-types.d.ts').MapRecord} MapRecord */
+/**
+ * The election's part of the address (the manager's getURLState): a pre-1973 Northern Ireland
+ * local year's (packages/map/app/ni-local-view.js), or another election's.
+ * @typedef {(ReturnType<typeof import('../election/panel-model.mjs').electionURLState> & { niLocal?: undefined })
+ *   | { layerId: string, body: string, date: string, niLocal: { level: string | null, show: string, members: string, area: string | null } }} ElectionUrlState
+ */
+/** The app as these methods see it: they run once init has made the map controller. @typedef {import('./map-app').MapAppReady & UrlStateMethods & NavigationState} UrlStateApp */
+
 export class UrlStateMethods {
+  /** @this {UrlStateApp} */
   installRouteGuard() {
     if (window.__civgraphTest2RouteGuardInstalled) return;
     window.__civgraphTest2RouteGuardInstalled = true;
 
+    /** @param {string | URL | null | undefined} url */
     const preserveCurrentPath = (url) => {
       if (typeof url !== 'string' || !url.startsWith('#')) return url;
       return `${window.location.pathname}${window.location.search || ''}${url}`;
@@ -34,17 +66,22 @@ export class UrlStateMethods {
     // History list can show the reader's own steps and go straight to one (history.go), and a
     // replaceState (pan, zoom, the slider) keeps the tag of the entry it rewrites rather than
     // wiping it with null.
+    /** @type {NavEntry[] | undefined} */
     this.navEntries = [{ id: 0, label: 'Opened the map' }];
+    /** @type {number | undefined} */
     this.navIndex = 0;
     let nextNavId = 1;
+    /** @param {unknown} state @param {number} id */
     const tagged = (state, id) => ({ ...(state && typeof state === 'object' ? state : {}), civgraphNav: id });
     nativeReplaceState(tagged(history.state, 0), '');
-    history.replaceState = (state, title, url) => nativeReplaceState(tagged(state, this.navEntries[this.navIndex]?.id ?? 0), title, preserveCurrentPath(url));
+    // navEntries and navIndex are set above, and only ever replaced, never unset.
+    history.replaceState = (state, title, url) => nativeReplaceState(tagged(state, /** @type {NavEntry[]} */ (this.navEntries)[/** @type {number} */ (this.navIndex)]?.id ?? 0), title, preserveCurrentPath(url));
     history.pushState = (state, title, url) => {
       const id = nextNavId++;
-      this.navEntries = this.navEntries.slice(0, this.navIndex + 1);
+      this.navEntries = /** @type {NavEntry[]} */ (this.navEntries).slice(0, /** @type {number} */ (this.navIndex) + 1);
       this.navEntries.push({ id, label: this._pendingNavLabel || this.describeNavigation(url) });
       this.navIndex = this.navEntries.length - 1;
+      /** @type {string | null | undefined} */
       this._pendingNavLabel = '';
       return nativePushState(tagged(state, id), title, preserveCurrentPath(url));
     };
@@ -52,13 +89,13 @@ export class UrlStateMethods {
     // the address straight away, and must find the entry it is on already current here.
     window.addEventListener('popstate', (event) => {
       const id = event.state?.civgraphNav;
-      const index = this.navEntries.findIndex((entry) => entry.id === id);
+      const index = /** @type {NavEntry[]} */ (this.navEntries).findIndex((entry) => entry.id === id);
       if (index >= 0) this.navIndex = index;
       this.traversal?.arrived(location.href);
     }, { capture: true, signal: this.lifecycle.signal });
 
     document.addEventListener('click', (event) => {
-      const anchor = event.target.closest?.('a[href^="#"]');
+      const anchor = /** @type {HTMLAnchorElement | null | undefined} */ (/** @type {Element} */ (event.target).closest?.('a[href^="#"]'));
       if (!anchor) return;
       if (anchor.closest?.('#catalogueFlatView') || anchor.dataset?.catalogueTarget) return;
 
@@ -80,6 +117,9 @@ export class UrlStateMethods {
    * Forward, a reload or a shared link. A feature page needs the feature itself, which a
    * reload no longer has: it is looked for among the features drawn on the map, and if it is
    * not there the catalogue stays on its list rather than showing an empty page.
+   * @this {UrlStateApp}
+   * @param {{ kind: string, key: string } | null} page
+   * @param {{ initial?: boolean }} [options]
    */
   async restorePage(page, { initial = false } = {}) {
     if (!page) return;
@@ -93,12 +133,14 @@ export class UrlStateMethods {
       const at = page.key.indexOf(':');
       const mapId = at > 0 ? page.key.slice(0, at) : '';
       const featureId = at > 0 ? page.key.slice(at + 1) : '';
-      const mapConfig = mapId ? dataService.getMapById(mapId) : null;
+      const mapConfig = mapId ? /** @type {MapRecord | undefined} */ (dataService.getMapById(mapId)) : null;
       if (!mapConfig || !featureId) return;
       await Promise.resolve(this.mapController.waitForMapRender?.()).catch(() => {});
       const feature = this.mapController.findRenderedFeature?.(mapId, featureId);
       if (!feature) return;
-      uiController.cacheFeatureDetailEntry(mapConfig, feature, null, featureId);
+      // A rendered feature (the adapter's): the feature page reads its id, properties, geometry and
+      // whole-feature figures, which it has, not the GeoJSON `type` it lacks.
+      uiController.cacheFeatureDetailEntry(mapConfig, /** @type {import('../ui-controller-types.d.ts').DetailFeature} */ (/** @type {unknown} */ (feature)), null, featureId);
     }
     if (uiController._featureDetailCache?.has(page.key)) {
       uiController.showFeatureDetailInCatalogue(page.key, false, { restoreState: true, focus: !initial });
@@ -110,6 +152,11 @@ export class UrlStateMethods {
    * spatial index (/_api/spatial), else a box from its centre and area in the layer's feature
    * index (featureIndexUrl). Null when neither knows it; the map then shows the layer.
    * packages/map/src/app/feature-bounds.mjs holds the matching rules.
+   * @this {UrlStateApp}
+   * @param {{ id?: string, featureIndexUrl?: string } | null | undefined} mapConfig
+   * @param {string | number} featureId
+   * @param {string | null | undefined} featureName
+   * @param {{ featureIndexUrl?: string } | null} [layerConfig]
    */
   async resolveFeatureBounds(mapConfig, featureId, featureName, layerConfig = null) {
     const mapId = mapConfig?.id;
@@ -121,6 +168,7 @@ export class UrlStateMethods {
     } catch { /* fall through to the feature index */ }
     const url = layerConfig?.featureIndexUrl || mapConfig.featureIndexUrl;
     if (!url) return null;
+    /** @type {Map<string, Promise<FeatureIndex | null>>} */
     this.featureIndexRequests ||= new Map();
     if (!this.featureIndexRequests.has(url)) {
       this.featureIndexRequests.set(url, fetch(url, { cache: 'default' })
@@ -131,6 +179,7 @@ export class UrlStateMethods {
     return featureBoundsFromIndex(index, featureId, featureName);
   }
 
+  /** @this {UrlStateApp} */
   setupURLStateListener() {
     // Back and Forward between the entries pushState makes fire hashchange (their addresses
     // differ only in the hash), as does editing the hash by hand; both mean "show this".
@@ -151,6 +200,8 @@ export class UrlStateMethods {
    * an address names, which is right for a shared link on a fresh page but not for a step
    * back, where what the earlier entry did not have must come off: the layer just added, the
    * election just opened.
+   * @this {UrlStateApp}
+   * @param {URLSearchParams} params
    */
   removeStateNotIn(params) {
     const wanted = new Set([...(params.get('layers') || '').split(','), params.get('featureMap') || '']
@@ -158,8 +209,8 @@ export class UrlStateMethods {
     const active = this.elections?.activeEntry;
     if (active) {
       const sameElection = (params.get('electionBody') === active.body && params.get('electionDate') === active.date)
-        || wanted.has(this.elections.getCanonicalLayerId?.(active));
-      if (!sameElection) this.elections.unloadElection();
+        || wanted.has(/** @type {ElectionsView} */ (this.elections).getCanonicalLayerId?.(active));
+      if (!sameElection) /** @type {ElectionsView} */ (this.elections).unloadElection();
     } else if (this.elections?.loadRun?.state() === 'loading') {
       // An election still loading that this entry does not have: cancel it, or it would open
       // after the step back (MA-03).
@@ -174,6 +225,7 @@ export class UrlStateMethods {
     }
   }
 
+  /** @this {UrlStateApp} */
   getPrimaryPartialFeatureURLState() {
     const states = this.mapController?.layerStates;
     if (!states?.[Symbol.iterator]) return null;
@@ -198,6 +250,7 @@ export class UrlStateMethods {
    * endNavigation() writes the final state and stops a step that changed nothing from turning
    * a later pan into a history entry.
    */
+  /** @this {UrlStateApp} @param {string} [label] */
   beginNavigation(label) {
     // A message from an earlier step ("This link asks for something not found here", an old
     // "could not be loaded") goes once the reader does something else (UX review 2026-10-31, L6).
@@ -206,29 +259,34 @@ export class UrlStateMethods {
     this.navigationPush.begin(label || 'Map');
   }
 
+  /** @this {UrlStateApp} */
   endNavigation() {
     this.updateURLState();
     this.navigationPush.clear();
   }
 
+  /** @this {UrlStateApp} @param {string} [label] */
   pushURLState(label) {
     this.beginNavigation(label);
     this.endNavigation();
   }
 
   /** A step that failed leaves no history entry behind: if one was pushed since `mark`, step
-   * back over it, without restoring anything (the map is already as it was). */
+   * back over it, without restoring anything (the map is already as it was). The mark is the
+   * step a caller was on (navIndex), so the route guard has made the steps.
+   * @this {UrlStateApp} @param {number | undefined} mark */
   undoNavigationSince(mark) {
-    if (!Number.isInteger(mark) || this.navIndex <= mark) return;
+    if (!Number.isInteger(mark) || /** @type {number} */ (this.navIndex) <= /** @type {number} */ (mark)) return;
     this.hashListen.hold();
-    history.go(mark - this.navIndex);
+    history.go(/** @type {number} */ (mark) - /** @type {number} */ (this.navIndex));
     // Forget the abandoned entry, so the History list does not offer it.
-    this.navEntries = this.navEntries.slice(0, mark + 1);
+    this.navEntries = /** @type {NavEntry[]} */ (this.navEntries).slice(0, /** @type {number} */ (mark) + 1);
     setTimeout(() => this.hashListen.release(), 500);
   }
 
   /** A label for a history entry pushed by something other than the app (the catalogue's
-   * routes), from the address it goes to. */
+   * routes), from the address it goes to.
+   * @this {UrlStateApp} @param {unknown} url */
   describeNavigation(url) {
     try {
       const params = new URLSearchParams(String(url || '').split('#')[1] || '');
@@ -241,10 +299,11 @@ export class UrlStateMethods {
     return 'Map';
   }
 
+  /** @this {UrlStateApp} */
   updateURLState() {
     if (this.urlSuspend.on || this.urlRestore.active) return;
     const loaded = this.getLoadedLayerIds();
-    const electionState = this.elections?.getURLState?.();
+    const electionState = /** @type {ElectionUrlState | null | undefined} */ (this.elections?.getURLState?.());
     const electionSourceIds = new Set([
       this.elections?.activeEntry?.sourceMapId,
       this.elections?.activeBundle?.sourceMapId,
@@ -265,7 +324,7 @@ export class UrlStateMethods {
     if (partialFeatureState?.mapId && partialFeatureState.featureId !== undefined && partialFeatureState.featureId !== null) {
       params.set('featureMap', partialFeatureState.mapId);
       params.set('featureId', String(partialFeatureState.featureId));
-      if (partialFeatureState.featureName) params.set('featureName', partialFeatureState.featureName);
+      if (partialFeatureState.featureName) params.set('featureName', String(partialFeatureState.featureName));
     }
     if (this.searchQuery) params.set('q', this.searchQuery);
     const detailViewOpen = !document.getElementById('catalogueDetailView')?.classList.contains('hidden');
@@ -285,7 +344,7 @@ export class UrlStateMethods {
       params.set('lng', center.lng.toFixed(5));
       params.set('lat', center.lat.toFixed(5));
     }
-    if (Number.isFinite(zoom)) params.set('zoom', zoom.toFixed(2));
+    if (Number.isFinite(zoom)) params.set('zoom', /** @type {number} */ (zoom).toFixed(2));
     if (this.baseMapId && this.baseMapId !== 'osm-standard') params.set('base', this.baseMapId);
     if (document.getElementById('activeLayersToggle')?.getAttribute('aria-expanded') === 'true') params.set('activePanel', '1');
     if (document.getElementById('mapControlsToggle')?.getAttribute('aria-expanded') === 'true') params.set('controls', '1');
@@ -294,17 +353,18 @@ export class UrlStateMethods {
       // and the area open in the pane (packages/map/app/ni-local-view.js).
       params.set('electionBody', electionState.body);
       params.set('electionDate', electionState.date);
-      params.set('electionLevel', electionState.niLocal.level);
+      params.set('electionLevel', String(electionState.niLocal.level));
       params.set('electionShow', electionState.niLocal.show);
       if (electionState.niLocal.members === 'aldermen') params.set('electionMembers', 'aldermen');
       if (electionState.niLocal.area) params.set('electionArea', electionState.niLocal.area);
     } else if (electionState) {
-      params.set('electionBody', electionState.body);
-      params.set('electionDate', electionState.date);
-      params.set('electionMode', electionState.mode);
-      params.set('electionOverlay', electionState.overlay);
-      params.set('electionView', electionState.view);
-      params.set('electionLocalMode', electionState.localMode);
+      // An unset one is written as "undefined", as set() writes any value.
+      params.set('electionBody', String(electionState.body));
+      params.set('electionDate', String(electionState.date));
+      params.set('electionMode', String(electionState.mode));
+      params.set('electionOverlay', String(electionState.overlay));
+      params.set('electionView', String(electionState.view));
+      params.set('electionLocalMode', String(electionState.localMode));
       if (electionState.geographyMode) params.set('electionGeographyMode', electionState.geographyMode);
       if (electionState.selected) params.set('electionSelected', electionState.selected);
       if (electionState.countDetail) params.set('electionCountDetail', '1');
@@ -334,6 +394,7 @@ export class UrlStateMethods {
    * bookmark and a shared link were indistinguishable no matter what was open.
    * Called from updateURLState, which already runs whenever the view changes, so
    * the title and the URL cannot drift apart.
+   * @this {UrlStateApp}
    */
   syncDocumentTitle() {
     const SUFFIX = 'Civgraph';
@@ -352,7 +413,7 @@ export class UrlStateMethods {
       } else if (this.getPrimaryPartialFeatureURLState()?.featureName) {
         // A feature opened on its own (a feature link, a search result): "BELFAST WEST –
         // Parliamentary Constituencies 2023", not only the layer's name (QA 2026-11-11, H2).
-        const feature = /** @type {{ mapId: string, featureName: string }} */ (this.getPrimaryPartialFeatureURLState());
+        const feature = /** @type {{ mapId: string, featureName: unknown }} */ (this.getPrimaryPartialFeatureURLState());
         const layerName = this.metadataService?.getLayer?.(feature.mapId)?.name || dataService.getMapById?.(feature.mapId)?.name || '';
         subject = layerName ? `${feature.featureName} – ${layerName}` : feature.featureName;
       } else {
@@ -374,10 +435,12 @@ export class UrlStateMethods {
     if (document.title !== next) document.title = next;
   }
 
+  /** @this {UrlStateApp} */
   getCurrentURLParams() {
     return new URLSearchParams(location.hash.replace(/^#/, ''));
   }
 
+  /** @this {UrlStateApp} @param {{ updateAfterRestore?: boolean, sync?: boolean }} [options] */
   async restoreURLState(options = {}) {
     this.urlRestore.begin();
     const shouldUpdateAfterRestore = options.updateAfterRestore !== false;
@@ -387,12 +450,13 @@ export class UrlStateMethods {
       const stepped = this.traversal?.take(location.href);
       if (stepped) history.replaceState(history.state, '', stepped);
     }
+    /** @type {URLSearchParams} */
     const params = renameElectionDatesInParams(this.getCurrentURLParams());
     const query = params.get('q');
     try {
       if (options.sync) this.removeStateNotIn(params);
       this.searchQuery = query || '';
-      const search = document.getElementById('searchInput');
+      const search = /** @type {HTMLInputElement | null} */ (document.getElementById('searchInput'));
       if (search) search.value = this.searchQuery;
       document.getElementById('searchClear')?.classList.toggle('visible', this.searchQuery.length > 0);
       this.updateMapList();
@@ -405,7 +469,7 @@ export class UrlStateMethods {
 
       const baseMap = params.get('base');
       if (baseMap) {
-        const select = document.getElementById('baseMapSelect');
+        const select = /** @type {HTMLSelectElement | null} */ (document.getElementById('baseMapSelect'));
         // A base map since removed (an Esri, CARTO or Stamen one, in an address saved before
         // 11 Nov 2026) shows, and draws, the default.
         if (select) select.value = resolveBaseMapId(baseMap);
@@ -438,7 +502,9 @@ export class UrlStateMethods {
         && (!featureMapId || id !== featureMapId));
       // What the link asks for and this site does not have: listed for the reader instead of
       // being dropped from the address without a word (UX review 2026-10-30, #15).
+      /** @type {string[]} */
       const missing = [];
+      /** @param {string} id */
       const knownLayer = (id) => Boolean(dataService.getMapById(id) || this.mapController.resolveLayer?.(id));
       const layersToLoad = mapLayers.filter((id) => {
         if (knownLayer(id)) return true;
@@ -450,7 +516,7 @@ export class UrlStateMethods {
       try {
         await this.elections?.restoreURLState?.(params);
       } catch (error) {
-        if (/not found/i.test(error?.message || '')) {
+        if (/not found/i.test(/** @type {{ message?: string } | null | undefined} */ (error)?.message || '')) {
           missing.push(`election “${[params.get('electionBody'), params.get('electionDate')].filter(Boolean).join(' ') || params.get('election')}”`);
         } else {
           this.showMapError(error, { retry: () => this.restoreURLState() });
@@ -472,7 +538,8 @@ export class UrlStateMethods {
           await this.mapController.loadSingleFeature(mapConfig, featureIdParam, featureNameParam || featureIdParam, null, {
             isolate: true,
             smooth: false,
-            resolveBounds: hasViewport ? null : (layerConfig) => this.resolveFeatureBounds(mapConfig, featureIdParam, featureNameParam, layerConfig)
+            // The layer's config, which may name its feature index.
+            resolveBounds: hasViewport ? null : (layerConfig) => this.resolveFeatureBounds(mapConfig, featureIdParam, featureNameParam, /** @type {{ featureIndexUrl?: string } | null} */ (layerConfig))
           });
         }
       }
@@ -491,6 +558,7 @@ export class UrlStateMethods {
         this.restorePage(page, { initial: !options.sync });
       } else if (detailId && dataService.getMapById(detailId)) {
         uiController.showCatalogueDetailView(detailId, false);
+        /** @type {string | null} */
         this.currentDetailMapId = detailId;
       } else if (!detailId && (this.currentDetailMapId || this.currentPage)) {
         uiController.showCatalogueListView(false);
@@ -498,10 +566,12 @@ export class UrlStateMethods {
 
       const sourceId = params.get('source');
       if (sourceId) {
+        /** @type {string | null} */
         this.currentSourceMapId = sourceId;
         document.getElementById('test2SourcePanel')?.classList.remove('hidden');
         await this.renderSourcePanel();
       } else {
+        /** @type {string | null} */
         this.currentSourceMapId = null;
         document.getElementById('test2SourcePanel')?.classList.add('hidden');
       }
