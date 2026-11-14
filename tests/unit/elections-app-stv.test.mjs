@@ -14,7 +14,7 @@ import {
   marginSentence, orderLabels, partyTransfers, quotaExplained, standingAt, stepFromQuery, stepSearch, stepTo, transfersOpen, transfersSearch,
 } from '../../site/apps/elections/lib/stv.js';
 import { SANKEY_TEXT, countSankey, heldVotes } from '../../site/apps/elections/lib/sankey.js';
-import { STV_VIEW_TEXT, afterSheetHtml, matrixHtml, quotaSectionHtml, signed, stvParts } from '../../site/apps/elections/views/stv-contest.js';
+import { STV_VIEW_TEXT, afterSheetHtml, matrixHtml, quotaSectionHtml, signed, stvParts, transferRows } from '../../site/apps/elections/views/stv-contest.js';
 import { STV_ELECTION_TEXT, closestSeatsHtml, electionStvHtml, partyTransfersHtml } from '../../site/apps/elections/views/stv-election.js';
 import { STV_TRANSFERS } from '../../site/apps/elections/state-machines.js';
 
@@ -200,6 +200,12 @@ test('the contest\'s transfer matrix: one row a count, from whom to whom, pooled
   assert.match(html, /19\*/, 'a worked-out non-transferable figure is marked');
   assert.match(html, /el-narrow-only/, 'a stacked twin for phones');
   assert.match(html, /tabindex="0" role="region"/, 'the wide table scrolls from the keyboard');
+  // The flow's figures (its chart-data table and CSV): one row a transfer, the pool named as such.
+  assert.deepEqual(transferRows(countEvents(dailSheet())).map((r) => [r[0], r[2], r[3], r[4]]), [
+    [2, 'E, F (passed on together)', 'B', 70], [2, 'E, F (passed on together)', 'C', 50],
+    [3, 'A', 'B', 200], [3, 'A', 'C', 80], [3, 'A', 'Non-transferable', 19],
+    [4, 'C', 'B', 900],
+  ]);
 });
 
 test('party-to-party transfers: only single-candidate counts, with how many contests they cover', () => {
