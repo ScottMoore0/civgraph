@@ -13,6 +13,8 @@
  *       same records build gives the same bytes), named by content (<body>-<sha256:12>.parquet),
  *       with index.json (bodies, rows, file names: what the app reads) and manifest.json (every
  *       file's name, bytes and SHA-256, and a fingerprint of the rows each body was built from).
+ *       Beside them, the by-election tracker's and council control's tables (bodies.mjs:
+ *       byelections-<sha256:12>.json, control-<sha256:12>.json, named in index.json `tables`).
  *       Default DIR is site/apps/elections/extracts (gitignored, so never in dist/ or a commit;
  *       the local servers serve it). Production reads the R2 copy (site/apps/elections/config.js),
  *       uploaded only with the owner's approval by scripts/publish/elections-app-r2-upload.mjs.
@@ -32,6 +34,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { recordPaths } from '../../../packages/config/src/node.mjs';
 import { openSqliteHandle } from '../../../packages/storage/src/sqlite.mjs';
+import { bodiesTables } from './bodies.mjs';
 import {
   EXTRACT_COLUMNS, contestFacts, decadeOf, electedPersons, emptyTally, extractRow, parseMeta, pct,
   tallyContest, tallyElection, toCsv,
@@ -282,12 +285,16 @@ function extracts(db, outDir, o) {
     x.file = `${x.slug}-${sha256(readFileSync(plain)).slice(0, 12)}.${ext}`;
     renameSync(plain, path.join(outDir, x.file));
   }
+  // The by-election tracker's and council control's tables (bodies.mjs), named by content too.
+  const tables = tableFiles(db);
+  for (const t of tables) writeFileSync(path.join(outDir, t.file), t.text);
   const indexJson = `${JSON.stringify({
     schemaVersion: 1,
     note: 'Civgraph Elections pivot extracts: one file per body, one row per candidacy, built from the records build by scripts/build/elections-app/data.mjs --extracts.',
     columns: EXTRACT_COLUMNS,
     format: ext,
     bodies: index.map(({ body, slug, elections, rows, file }) => ({ body, slug, elections, rows, file })),
+    tables: Object.fromEntries(tables.map((t) => [t.table, t.file])),
   }, null, 1)}\n`;
   writeFileSync(path.join(outDir, 'index.json'), indexJson);
   // No dates or paths: the same records build makes the same manifest, byte for byte.
@@ -297,6 +304,7 @@ function extracts(db, outDir, o) {
       const buf = readFileSync(path.join(outDir, x.file));
       return { name: x.file, body: x.slug, rows: x.rows, bytes: buf.length, sha256: sha256(buf), sourceSha256: x.sourceSha256 };
     }),
+    ...tables.map((t) => ({ name: t.file, table: t.table, bytes: Buffer.byteLength(t.text), sha256: t.sha, sourceSha256: t.sha })),
   ];
   const manifest = {
     schemaVersion: 1,
@@ -312,6 +320,41 @@ function extracts(db, outDir, o) {
   };
   writeFileSync(path.join(outDir, 'manifest.json'), `${JSON.stringify(manifest, null, 1)}\n`);
   return index;
+}
+
+/**
+ * The tables of the by-election tracker and council control (bodies.mjs) as the files to write:
+ * compact JSON, named by content. Throws when a table would publish a private-looking value.
+ * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db
+ * @returns {Array<{ table: string, file: string, text: string, sha: string }>}
+ */
+function tableFiles(db) {
+  const tables = bodiesTables(db);
+  const problems = tableProblems(tables);
+  if (problems.length) throw new Error(`the tables would publish what they must not:\n- ${problems.slice(0, 20).join('\n- ')}`);
+  return Object.entries(tables).map(([table, obj]) => {
+    const text = `${JSON.stringify(obj)}\n`;
+    const sha = sha256(text);
+    return { table, file: `${table}-${sha.slice(0, 12)}.json`, text, sha };
+  });
+}
+
+/**
+ * Private-looking values in the tables' text (names, areas, causes and notes): the extracts' rule.
+ * @param {Record<string, unknown>} tables
+ * @returns {string[]}
+ */
+export function tableProblems(tables) {
+  /** @type {string[]} */
+  const problems = [];
+  const visit = (/** @type {unknown} */ v, /** @type {string} */ where) => {
+    if (typeof v === 'string') {
+      for (const [what, re] of PRIVATE_VALUE_PATTERNS) if (re.test(v)) problems.push(`${where}: "${v}" looks like a ${what}`);
+    } else if (Array.isArray(v)) v.forEach((x, i) => visit(x, `${where}[${i}]`));
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) visit(x, `${where}.${k}`);
+  };
+  for (const [name, t] of Object.entries(tables)) visit(t, name);
+  return problems;
 }
 
 /**
@@ -334,6 +377,7 @@ function checkExtracts(db, outDir) {
   if (existsSync(path.join(outDir, 'index.json'))) {
     const index = JSON.parse(readFileSync(path.join(outDir, 'index.json'), 'utf8'));
     for (const b of index.bodies) if (!byFile.has(b.file)) problems.push(`index.json names ${b.file}, which the manifest does not list`);
+    for (const file of Object.values(index.tables || {})) if (!byFile.has(String(file))) problems.push(`index.json names ${file}, which the manifest does not list`);
   }
   // The columns, then the rows, against what the records build gives now.
   if (JSON.stringify(manifest.columns) !== JSON.stringify(EXTRACT_COLUMNS)) problems.push('the extracts have other columns than model.mjs EXTRACT_COLUMNS: rebuild them');
@@ -347,6 +391,14 @@ function checkExtracts(db, outDir) {
     if (f.rows !== b.rows.length || f.sourceSha256 !== csvOf(b.rows).sha) problems.push(`${slug}: the records build has changed since the extract was built (${f.rows} rows then, ${b.rows.length} now): rebuild with npm run build:elections-app`);
   }
   for (const slug of built.keys()) if (!byBody.has(slug)) problems.push(`${slug}: extract for a body the records build no longer has`);
+  // The by-election and council-control tables, rebuilt the same way.
+  const tablesNow = new Map(tableFiles(db).map((t) => [t.table, t]));
+  const tablesBuilt = manifest.files.filter((/** @type {any} */ f) => f.table);
+  for (const [table, t] of tablesNow) {
+    const f = tablesBuilt.find((/** @type {any} */ x) => x.table === table);
+    if (!f) problems.push(`${table}: no table in the extracts (rebuild: npm run build:elections-app)`);
+    else if (f.sourceSha256 !== t.sha) problems.push(`${table}: the records build has changed since the table was built: rebuild with npm run build:elections-app`);
+  }
   return { problems, checked: byBody.size };
 }
 

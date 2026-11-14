@@ -13,6 +13,7 @@
  *
  *   duckdb-wasm-1.29.0/duckdb-{eh,mvp}.wasm   application/wasm, immutable (src/libs/elections-app-vendor.json)
  *   extracts/<body>-<sha256:12>.parquet       immutable: named by content (extracts/manifest.json)
+ *   extracts/<table>-<sha256:12>.json         immutable: the by-election and council-control tables
  *   extracts/manifest.json, extracts/index.json   short cache, sent LAST, so a reader never gets
  *                                                 an index naming a file that is not there yet
  *
@@ -60,7 +61,9 @@ export function plan(root = REPO) {
   const json = [];
   for (const f of extracts.files) {
     const entry = { file: `site/apps/elections/extracts/${f.name}`, key: `${R2_PREFIX}extracts/${f.name}` };
-    if (f.name.endsWith('.json')) json.push({ ...entry, contentType: 'application/json; charset=utf-8', cacheControl: CACHE.index });
+    // The by-election and council-control tables are named by content, as the extracts are.
+    if (f.table) out.push({ ...entry, contentType: 'application/json; charset=utf-8', cacheControl: CACHE.immutable });
+    else if (f.name.endsWith('.json')) json.push({ ...entry, contentType: 'application/json; charset=utf-8', cacheControl: CACHE.index });
     else out.push({ ...entry, contentType: f.name.endsWith('.parquet') ? 'application/vnd.apache.parquet' : 'text/csv; charset=utf-8', cacheControl: CACHE.immutable });
   }
   out.push({ file: 'site/apps/elections/extracts/manifest.json', key: `${R2_PREFIX}extracts/manifest.json`, contentType: 'application/json; charset=utf-8', cacheControl: CACHE.index });
