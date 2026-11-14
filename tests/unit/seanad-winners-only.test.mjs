@@ -40,14 +40,16 @@ test('WO-01 an Oireachtas name loses its honorific and its Snr./Jnr.', (t) => {
 test('WO-02 each seat pairs an Oireachtas member with the IrelandElection.com winner: checks first, then name, initial, surname', (t) => {
   const out = python(t, [...SETUP,
     "ctx = {'fold': b['fold'], 'CHECKED': {('E', 'P', 'Ted Russell'): {'verdict': 'accept', 'oireachtas_code': 'G-Russell'},",
-    "                                     ('E', 'P', 'Sean Conway'): {'verdict': 'unjoined', 'oireachtas_code': ''}}}",
+    "                                     ('E', 'P', 'Sean Conway'): {'verdict': 'unjoined', 'oireachtas_code': ''},",
+    "                                     ('E', 'P', 'Michael Smith'): {'verdict': 'accept-without-ie-id', 'oireachtas_code': 'M'}}}",
     "x = w['WinnersOnly'](ctx, None, None)",
     "pool = [{'code': 'A', 'name': 'Ann Byrne', 'first': 'Ann', 'last': 'Byrne'},",
     "        {'code': 'J', 'name': 'John J. Brennan', 'first': 'John', 'last': 'Brennan'},",
     "        {'code': 'G-Russell', 'name': 'George E. Russell', 'first': 'George', 'last': 'Russell'},",
     "        {'code': 'T', 'name': 'Thomas Budd', 'first': 'Thomas', 'last': 'Budd'},",
-    "        {'code': 'X', 'name': 'Extra Person', 'first': 'Extra', 'last': 'Person'}]",
-    "cands = [{'name': n} for n in ['Ann Byrne', 'John Brennan', 'Ted Russell', 'Gardner Budd', 'Sean Conway', 'Nobody Else']]",
+    "        {'code': 'X', 'name': 'Extra Person', 'first': 'Extra', 'last': 'Person'},",
+    "        {'code': 'M', 'name': 'Michael Smith', 'first': 'Michael', 'last': 'Smith'}]",
+    "cands = [{'name': n} for n in ['Ann Byrne', 'John Brennan', 'Ted Russell', 'Gardner Budd', 'Sean Conway', 'Nobody Else', 'Michael Smith']]",
     "pairs = x.pair('E', 'P', pool, cands)",
     "print(json.dumps(sorted([[(m or {}).get('code'), (k or {}).get('name'), how] for m, k, how in pairs], key=str)))"]);
   if (!out) return;
@@ -55,6 +57,7 @@ test('WO-02 each seat pairs an Oireachtas member with the IrelandElection.com wi
     ['A', 'Ann Byrne', 'name'],
     ['G-Russell', 'Ted Russell', 'checked'],
     ['J', 'John Brennan', 'surname and initial'],
+    ['M', 'Michael Smith', 'checked: IrelandElection.com id not carried'],
     ['T', 'Gardner Budd', 'surname alone'],
     ['X', null, 'no IrelandElection.com winner'],
     [null, 'Nobody Else', 'no Oireachtas member'],
