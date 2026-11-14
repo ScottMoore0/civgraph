@@ -53,6 +53,7 @@ const TYPES = {
   '.ico': 'image/x-icon', '.woff': 'font/woff', '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.txt': 'text/plain; charset=utf-8',
   '.xml': 'application/xml', '.pdf': 'application/pdf', '.fgb': 'application/octet-stream', '.pmtiles': 'application/octet-stream',
   '.geojson': 'application/geo+json', '.webmanifest': 'application/manifest+json', '.map': 'application/json',
+  '.wasm': 'application/wasm', '.parquet': 'application/octet-stream',
 };
 const FLAG = `<script>window.CIVGRAPH_CATALOGUE=${JSON.stringify(CATALOGUE)};</script>`;
 
