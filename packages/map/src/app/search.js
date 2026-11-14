@@ -8,7 +8,10 @@ import uiController from '../ui-controller.js';
 import dataService from '../data-service.js';
 import { normalizeSearchText } from './helpers.mjs';
 
+/** @typedef {import('./map-app').MapApp & SearchMethods} SearchApp */
+
 export class SearchMethods {
+  /** @this {SearchApp} */
   setupSearch() {
     uiController.initializeFuse = () => {
       // The promoted MapLibre shell renders search results in the catalogue
@@ -17,6 +20,7 @@ export class SearchMethods {
       uiController.fuse = null;
       uiController.searchItems = [];
     };
+    /** @param {string} query @param {number} [limit] @returns {Promise<string[]>} */
     const mapResultsProvider = (query, limit = 1000) => this.searchCatalogueWithWorker(query, limit);
     uiController.performSearch = async (query) => {
       const trimmed = String(query || '').trim();
@@ -24,7 +28,9 @@ export class SearchMethods {
       this.searchQuery = trimmed;
       uiController._catalogueSearchQuery = trimmed;
       if (!trimmed) {
+        /** @type {string} */
         this.workerSearchQuery = '';
+        /** @type {string[] | null} */
         this.workerSearchResultIds = null;
         uiController.clearCatalogueSearchResults?.({ render: true });
         this.updateURLState();
@@ -59,15 +65,17 @@ export class SearchMethods {
     // packages/map/src/catalogue/geocoder.js. With suggestions running it does nothing extra.
     document.getElementById('searchInput')?.addEventListener('keydown', (event) => {
       if (event.key !== 'Enter' || event.isComposing) return;
-      uiController._catalogueNext?.searchAddressesNow?.(event.target.value);
+      // The listener is the search box's.
+      uiController._catalogueNext?.searchAddressesNow?.(/** @type {HTMLInputElement} */ (event.target).value);
     });
     document.addEventListener('click', (event) => {
-      if (!event.target.closest('.overflow-menu')) {
+      if (!/** @type {Element} */ (event.target).closest('.overflow-menu')) {
         document.querySelectorAll('.overflow-menu--open').forEach((menu) => menu.classList.remove('overflow-menu--open'));
       }
     }, { signal: this.lifecycle.signal });
   }
 
+  /** @this {SearchApp} */
   prepareSearchWorker() {
     if (!('Worker' in window)) return;
     try {
@@ -108,12 +116,13 @@ export class SearchMethods {
     }
   }
 
+  /** @this {SearchApp} @param {string} query @param {number} [limit] @returns {Promise<string[]>} */
   async searchCatalogueWithWorker(query, limit = 200) {
     const trimmed = String(query || '').trim();
     if (!trimmed || trimmed.length < 1) return [];
     if (!this.searchWorker) return this.simpleSearchMapIds(trimmed, limit);
     const seq = ++this.searchWorkerSeq;
-    return new Promise((resolve) => {
+    return new Promise((/** @type {(ids: string[]) => void} */ resolve) => {
       const timeout = setTimeout(() => {
         this.searchWorkerCallbacks.delete(seq);
         resolve(this.simpleSearchMapIds(trimmed, limit));
@@ -124,10 +133,12 @@ export class SearchMethods {
           resolve(ids);
         }
       });
-      this.searchWorker.postMessage({ type: 'search', query: trimmed, limit, seq });
+      // searchWorker was tested above, before the promise.
+      /** @type {Worker} */ (this.searchWorker).postMessage({ type: 'search', query: trimmed, limit, seq });
     });
   }
 
+  /** @this {SearchApp} @template {{ id: string }} T @param {string} query @param {T[]} allMaps @returns {T[]} */
   searchMapsForCatalogue(query, allMaps) {
     if (this.workerSearchQuery === query && Array.isArray(this.workerSearchResultIds)) {
       const idSet = new Set(this.workerSearchResultIds);
@@ -137,10 +148,12 @@ export class SearchMethods {
     return allMaps.filter((map) => fallbackIds.has(map.id));
   }
 
+  /** @this {SearchApp} @param {string} query @param {number} [limit] @returns {string[]} */
   simpleSearchMapIds(query, limit = 200) {
     const terms = normalizeSearchText(query).split(/\s+/).filter(Boolean);
     if (!terms.length) return [];
-    return dataService.getAllMaps()
+    // filter(Boolean) keeps the maps that matched.
+    return /** @type {Array<{ id: string, score: number, name: string }>} */ (dataService.getAllMaps()
       .map((map) => {
         const text = normalizeSearchText([
           map.id,
@@ -158,7 +171,7 @@ export class SearchMethods {
         const score = terms.reduce((sum, term) => sum + (name.startsWith(term) ? 100 : (name.includes(term) ? 60 : 10)), 0);
         return { id: map.id, score, name: map.name || '' };
       })
-      .filter(Boolean)
+      .filter(Boolean))
       .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
       .slice(0, limit)
       .map((item) => item.id);

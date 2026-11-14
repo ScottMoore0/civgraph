@@ -3086,7 +3086,7 @@ class UIController {
         '</article>';
     }
 
-    /** @param {string} query @param {{ mapResultIds?: unknown[] }} [options] */
+    /** @param {string} query @param {{ mapResultIds?: unknown[], mapResultsProvider?: unknown }} [options] the app's search results (mapResultsProvider, the search itself, is not read here) */
     async renderCatalogueSearchResults(query, options = {}) {
         if (catalogueNextRequested()) {
             this._catalogueSearchQuery = String(query || '').trim();
@@ -11534,6 +11534,7 @@ class UIController {
         });
 
         // Configure Fuse with weighted fields
+        /** @type {import('./globals.d.ts').FuseIndex<SearchIndexItem> | null | undefined} */
         this.fuse = new Fuse(searchItems, {
             keys: [
                 { name: 'name', weight: 2.0 },
@@ -11549,7 +11550,7 @@ class UIController {
         this.searchItems = searchItems;
     }
 
-    /** @param {string} query */
+    /** @param {string} query @returns {Promise<string[] | void>} (the app's search, set by search.js, answers the ids it found) */
     async performSearch(query) {
         if (!this.fuse) {
             this.initializeFuse();

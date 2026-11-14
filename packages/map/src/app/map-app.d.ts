@@ -150,6 +150,13 @@ export interface MapApp {
   searchQuery: string;
   /** The entity page shown, if one is (entity-bridge.js). */
   currentPage: { kind?: string; key?: string; title?: string; typeLabel?: string } | null;
+  /** The catalogue's search worker (search.js) and its answers by request number. */
+  searchWorker: Worker | null;
+  searchWorkerReady: ReturnType<typeof import('../state-helpers.mjs').createFlag>;
+  searchWorkerSeq: number;
+  searchWorkerCallbacks: Map<number, { resolve(ids: string[]): void }>;
+  workerSearchQuery: string;
+  workerSearchResultIds: string[] | null;
 
   // Methods of other method modules.
   /** layers.js */
@@ -227,6 +234,7 @@ export interface MapApp {
   /** mobile-layout.js */
   isPhoneLayout(): boolean;
   searchMapsForCatalogue<T extends { id: string }>(query: string, allMaps: T[]): T[];
+  updateMapList(): void;
   /** controls.js */
   syncBasemapToTheme(): Promise<unknown>;
 }
