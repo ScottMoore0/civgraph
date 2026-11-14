@@ -61,10 +61,12 @@ def ordinal(n: int) -> str:
 
 
 def wikipedia_titles(houses: list[dict]) -> list[str]:
-    """The term articles ("26th Seanad"), which give each election's dates, and the articles of
-    the elections that have one of their own."""
+    """The term articles ("26th Seanad"; "1928 Seanad" for the Seanad of the Irish Free State, whose
+    members were elected in stages), which give each election's dates and the members elected, and
+    the articles of the elections that have one of their own."""
     titles = [f'{ordinal(int(h["houseNo"]))} Seanad' for h in houses if str(h['houseNo']).isdigit() and int(h['houseNo']) < 100]
-    return titles + ['1922 Seanad election', '1925 Seanad election', '2020 Seanad election', '2025 Seanad election']
+    free_state = [f'{h["houseNo"]} Seanad' for h in houses if str(h['houseNo']).isdigit() and int(h['houseNo']) >= 1922]
+    return titles + free_state + ['1922 Seanad election', '1925 Seanad election', '2020 Seanad election', '2025 Seanad election']
 
 
 def fetch_article(title: str, refresh: bool) -> str:

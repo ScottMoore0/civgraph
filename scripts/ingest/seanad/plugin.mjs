@@ -27,6 +27,10 @@ export default definePlugin({
       argv: ['python', 'scripts/ingest/seanad/build_seanad.py', '--ie', '{input:ieDir}'],
       note: 'Then the person-id rebuild order (memory note project_ei_person_ids.md) and the records build.',
     },
+    'free-state': {
+      title: 'Gather the Seanad of the Irish Free State (1922-1936) into data/elections/seanad-free-state.json: the 1922 nominations and elections, the 1925 popular election, the 1928-34 elections by the Oireachtas and the by-elections, from the cache',
+      argv: ['python', 'scripts/ingest/seanad/free_state_sources.py'],
+    },
     nominees: {
       title: "Write the senators nominated by the Taoiseach as tenures of the office seanad-taoiseach-nominee, joined by member code or by seanad-nominee-checks.csv",
       argv: ['python', 'scripts/ingest/seanad/build_seanad_nominees.py'],
