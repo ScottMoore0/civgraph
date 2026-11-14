@@ -2,14 +2,15 @@
 """Build the Seanad Eireann election files from IrelandElection.com's parsed contests and the
 Oireachtas members harvest (harvest_seanad.py).
 
-Writes, for each Seanad general election whose count is on file:
+Writes, for each Seanad general election whose count is on file (2002-2025):
   data/elections-source/data/elections/seanad-eireann/<date>/<contest>.json  (+ _index.json)
   the seanad-eireann body of data/elections-source/data/elections_index.json
   the Seanad links of data/elections/persons/official-person-ids.json (system oireachtas: the
     member code of each elected senator, matched in the Oireachtas list of that Seanad's members
     for the same panel or university)
 and prints the arithmetic checks and the winners it could not match (the doubtful ones), which
-it also writes to the report file given with --report.
+it also writes to the report file given with --report. Then the contests whose sources name only
+the winners (winners_only.py): the general elections of 1938-1997 and the by-elections.
 
 An election is filed under the day the Oireachtas gives as the start of that Seanad's term
 (api.oireachtas.ie houses): polling for a Seanad general election runs by post over several
@@ -51,6 +52,7 @@ UNIVERSITY_ELECTORATE = {
 }
 IE_OFFICIAL: dict[str, set[str]] = {}
 CHECKED: dict[tuple[str, str, str], dict] = {}
+USED_CHECKS: set[tuple[str, str, str]] = set()
 OIREACHTAS_MEMBER_URL = 'https://www.oireachtas.ie/en/members/member/{id}/'
 
 
@@ -115,16 +117,19 @@ def match_winner(name: str, contest: str, members: list[dict], term_start: str) 
 def member_checks() -> dict[tuple[str, str, str], dict]:
     """The winners whose match was checked by hand (data/elections/persons/seanad-member-checks.csv):
     each row names the election, contest and winner as written, the Oireachtas member code, the
-    verdict ('accept': join to that code; 'unjoined': no code) and the evidence (the member's panel
-    or university and term in the Oireachtas record). Keyed by (election, contest, name)."""
+    verdict ('accept': join to that code; 'unjoined': no code; 'not-seated', winners_only.py: the
+    Oireachtas record is no winner of that contest) and the evidence (the member's panel or
+    university and term in the Oireachtas record). Keyed by (election, contest, name), a
+    not-seated row by (election, contest, member code)."""
     if not CHECKS.exists():
         return {}
     with open(CHECKS, encoding='utf-8', newline='') as handle:
         rows = list(csv.DictReader(handle))
     out = {}
     for row in rows:
-        key = (row['election'], row['contest'], row['name'])
-        if key in out or row['verdict'] not in ('accept', 'unjoined'):
+        # A not-seated row (an Oireachtas record that is no winner) is keyed by its member code.
+        key = (row['election'], row['contest'], row['oireachtas_code'] if row['verdict'] == 'not-seated' else row['name'])
+        if key in out or row['verdict'] not in ('accept', 'unjoined', 'not-seated'):
             sys.exit(f'FAIL: {CHECKS.name}: {key} is listed twice or has an unknown verdict')
         out[key] = row
     return out
@@ -137,6 +142,7 @@ def checked_member(name: str, contest: str, date: str, members: list[dict], foun
     check = CHECKED.get((f'{SLUG}__{date}', contest, name))
     if not check:
         return None
+    USED_CHECKS.add((f'{SLUG}__{date}', contest, name))
     if check['verdict'] == 'unjoined':
         return None, 'checked: kept unjoined'
     code = check['oireachtas_code']
@@ -301,6 +307,32 @@ def contest_file(contest: str, date: str, house: dict, ie: dict, links: list, do
     return out
 
 
+def run_winners_only(terms: dict[int, dict], ie_dir: Path, links: list, doubtful: list, dates: dict) -> int:
+    """The general elections of 1938-1997 and every by-election, winners only (winners_only.py).
+    Returns the number of contests written."""
+    module = __import__('runpy').run_path(str(Path(__file__).resolve().parent / 'winners_only.py'))
+    official = json.loads(OFFICIAL.read_text(encoding='utf-8'))
+    names_by_code = {l['id']: l['name'] for l in official['links'] if l.get('system') == 'oireachtas' and str(l.get('election', '')).startswith(f'{SLUG}__')}
+    names_by_code.update({l['id']: l['name'] for l in links})
+    ctx = {'fold': fold, 'slugify': slugify, 'SLUG': SLUG, 'BODY': BODY, 'OUT': OUT, 'PANELS': PANELS, 'CONTESTS': CONTESTS,
+           'PARTY_LABELS': PARTY_LABELS, 'PANEL_ELECTORATE': PANEL_ELECTORATE, 'UNIVERSITY_ELECTORATE': UNIVERSITY_ELECTORATE,
+           'IE_OFFICIAL': IE_OFFICIAL, 'CHECKED': CHECKED, 'IE_FIRST_ELECTION': IE_FIRST_ELECTION, 'FIRST_HOUSE': FIRST_HOUSE,
+           'NAMES_BY_CODE': names_by_code}
+    w = module['WinnersOnly'](ctx, CACHE, ie_dir)
+    for house_no in module['HOUSES_GENERAL']:
+        w.general(house_no, terms[house_no])
+    w.by_elections(terms)
+    w.flush()
+    USED_CHECKS.update(w.used_checks)
+    links.extend(w.links)
+    doubtful.extend(w.report)
+    for day, items in w.dates.items():
+        if day in dates:
+            sys.exit(f'FAIL: {day} holds both a counted election and winners-only contests')
+        dates[day] = items
+    return sum(len(v) for v in w.dates.values())
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--ie', required=True, help="IrelandElection.com's structured folder (index.jsonl, contests/)")
@@ -330,6 +362,7 @@ def main(argv: list[str]) -> int:
         (folder / name).write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
         dates.setdefault(date, []).append({'name': entry['constituency'], 'seats': int(ie['seats']), 'candidates': len(ie['candidates']),
                                            'quota': ie['quota'], 'file': name})
+    winners_only = run_winners_only(terms, ie_dir, links, doubtful, dates)
     for date, items in dates.items():
         (OUT / date / '_index.json').write_text(json.dumps(items, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
 
@@ -346,7 +379,10 @@ def main(argv: list[str]) -> int:
     OFFICIAL.write_text(json.dumps(official, ensure_ascii=False, indent=1) + '\n', encoding='utf-8', newline='\n')
 
     print(f'{sum(len(v) for v in dates.values())} contests in {len(dates)} elections; {len(links)} winners linked to Oireachtas member codes; '
-          f'{len(doubtful)} doubtful; {len(left_out)} contests left out')
+          f'{len(doubtful)} doubtful; {len(left_out)} contests left out; {winners_only} winners-only contests')
+    unused = sorted(set(CHECKED) - USED_CHECKS)
+    if unused:
+        sys.exit(f'FAIL: {CHECKS.name}: rows that match no winner: {unused}')
     if args.report:
         with open(args.report, 'w', encoding='utf-8', newline='') as handle:
             writer = csv.DictWriter(handle, fieldnames=['election', 'contest', 'name', 'oireachtas', 'code', 'note'])

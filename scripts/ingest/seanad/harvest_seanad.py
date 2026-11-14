@@ -5,7 +5,9 @@
   oireachtas/house-<n>.json       the members of each term, with their panel or university and
                                   their member code (the official person id)
   wikipedia/<title>.json          the wikitext of each term's article ("26th Seanad") and of the
-                                  elections that have an article of their own
+                                  elections that have an article of their own; the List of Seanad
+                                  by-elections, each by-election article it names, and the result
+                                  template an article draws its count from
 
 A file already in the cache is not fetched again (--refresh fetches everything). Requests are at
 least two seconds apart. No User-Agent is sent except to Wikimedia hosts (wikimedia_headers.py).
@@ -15,6 +17,7 @@ least two seconds apart. No User-Agent is sent except to Wikimedia hosts (wikime
 from __future__ import annotations
 
 import json
+import re
 import sys
 import time
 import urllib.parse
@@ -64,6 +67,23 @@ def wikipedia_titles(houses: list[dict]) -> list[str]:
     return titles + ['1922 Seanad election', '1925 Seanad election', '2020 Seanad election', '2025 Seanad election']
 
 
+def fetch_article(title: str, refresh: bool) -> str:
+    """An article's wikitext into the cache ('' when it is missing)."""
+    query = urllib.parse.urlencode({'action': 'parse', 'page': title, 'prop': 'wikitext', 'format': 'json', 'formatversion': '2', 'redirects': '1'})
+    try:
+        # A title's colon ("Template:...") would name an alternate data stream on Windows.
+        doc = cached(CACHE / 'wikipedia' / f"{title.replace(':', '_')}.json", f'{WIKI_API}?{query}', refresh)
+    except Exception as error:  # a missing article is reported, not fatal
+        print(f'{title}: {error}', file=sys.stderr)
+        return ''
+    return ((doc or {}).get('parse') or {}).get('wikitext') or ''
+
+
+def by_election_titles(listing: str) -> list[str]:
+    """The by-election articles the List of Seanad by-elections names (its `article` fields)."""
+    return sorted({m.strip() for m in re.findall(r'\|\s*article\s*=[ \t]*([^\n|]*)', listing) if m.strip()})
+
+
 def main(argv: list[str]) -> int:
     refresh = '--refresh' in argv
     houses_doc = cached(CACHE / 'oireachtas' / 'houses.json', f'{API}/houses?chamber=seanad&limit=100', refresh)
@@ -72,11 +92,11 @@ def main(argv: list[str]) -> int:
         number = house['houseNo']
         cached(CACHE / 'oireachtas' / f'house-{number}.json', f'{API}/members?chamber=seanad&house_no={number}&limit=500', refresh)
     for title in wikipedia_titles(houses):
-        query = urllib.parse.urlencode({'action': 'parse', 'page': title, 'prop': 'wikitext', 'format': 'json', 'formatversion': '2', 'redirects': '1'})
-        try:
-            cached(CACHE / 'wikipedia' / f'{title}.json', f'{WIKI_API}?{query}', refresh)
-        except Exception as error:  # a missing article is reported, not fatal
-            print(f'{title}: {error}', file=sys.stderr)
+        fetch_article(title, refresh)
+    for title in by_election_titles(fetch_article('List of Seanad by-elections', refresh)):
+        text = fetch_article(title, refresh)
+        for template in re.findall(r'\{\{(\d{4} [^{}|]*by-election result)\}\}', text):
+            fetch_article(f'Template:{template}', refresh)
     return 0
 
 
