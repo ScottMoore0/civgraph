@@ -80,6 +80,10 @@ export interface Body {
   byElectionTitle?: string;
   /** The title of several by-elections of the body held on one day; {year} is their year. */
   byElectionsTitle?: string;
+  /** Titles given outright to some general elections of the body, by the date each is filed under (YYYY-MM-DD), in place of `title`: two general elections in one year are told apart (the Seanad's April and August 1938 elections). */
+  titlesByDate?: {
+    [key: string]: string;
+  };
   votingSystem?: "stv-hare" | "stv-gregory" | "fptp" | "block-vote" | "party-list-dhondt" | "ordinal";
   /** Contests of the body counted by another system than `votingSystem`, by the contest's name: the first rule whose `pattern` (a regular expression, case-insensitive) matches it applies. */
   contestVotingSystems?: Array<{

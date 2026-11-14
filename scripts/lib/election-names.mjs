@@ -2,7 +2,7 @@ import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import {
   councilNameOn, councilsById, eraTitles, plainTitleBodies, pre1973CouncilBodyNames
 } from '../../packages/registries/src/councils.mjs';
-import { byElectionTitleOf, electionBody, fillYear } from '../../packages/registries/src/election-bodies.mjs';
+import { byElectionTitleOf, electionBody, generalElectionTitleOf } from '../../packages/registries/src/election-bodies.mjs';
 
 /** @typedef {import('../../packages/registries/src/election-bodies.mjs').ElectionBody} ElectionBody */
 
@@ -452,7 +452,7 @@ export function canonicalElectionTitle({
     const byTitle = byElectionTitleOf(registered, date, electionConstituencyNames(constituencies));
     if (byTitle) return byTitle;
   }
-  const registeredTitle = fillYear(registered?.title, date);
+  const registeredTitle = generalElectionTitleOf(registered, date);
   if (registeredTitle) return registeredTitle;
   // The Republic's local elections are one body contested across every council on the same
   // day, never a by-election and not the Northern Ireland local-government group, so they

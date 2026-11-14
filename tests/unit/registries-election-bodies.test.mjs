@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadRegistry, registryErrors, REPO_ROOT } from '../../packages/registries/src/index.mjs';
-import { byElectionTitleOf, checkElectionBodies, electionBody, fillYear, geographyRuleFor, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
+import { byElectionTitleOf, checkElectionBodies, electionBody, fillYear, generalElectionTitleOf, geographyRuleFor, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
 
 const registry = loadRegistry('election-bodies');
@@ -79,6 +79,17 @@ test('byElectionTitleOf and the Seanad titles: general elections by year, by-ele
   const panels = ['Administrative Panel', 'Agricultural Panel', 'Cultural and Educational Panel', 'Industrial and Commercial Panel', 'Labour Panel', 'National University of Ireland', 'Dublin University'];
   assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '2020-03-30', constituencies: panels }), '2020 Seanad election');
   assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '2026-11-05', constituencies: ['Cultural and Educational Panel'] }), '2026 Seanad by-election (Cultural and Educational Panel)');
+  // Two general elections in one year (1938): each titled by its date (titlesByDate), apart; the
+  // ids are the dates' own (seanad-eireann__1938-04-27, seanad-eireann__1938-09-07), so none changes.
+  assert.equal(generalElectionTitleOf(seanad, '1938-04-27'), 'April 1938 Seanad election');
+  assert.equal(generalElectionTitleOf(seanad, '1938-09-07'), 'August 1938 Seanad election');
+  assert.equal(generalElectionTitleOf(seanad, '1943-09-08'), '1943 Seanad election');
+  assert.equal(generalElectionTitleOf(electionBody(registry, 'limerick-mayor'), '2024-06-07'), '2024 Limerick mayoral election');
+  assert.equal(generalElectionTitleOf(null, '2024-06-07'), null);
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1938-04-27', constituencies: panels }), 'April 1938 Seanad election');
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1938-09-07', constituencies: panels }), 'August 1938 Seanad election');
+  // A by-election of 1938 keeps its own title.
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1938-09-07', constituencies: ['Labour Panel'] }), '1938 Seanad by-election (Labour Panel)');
   // A body with a title and no by-election template is unchanged: the mayoralty is never a by-election.
   assert.equal(canonicalElectionTitle({ body: 'Mayor of Limerick', bodySlug: 'limerick-mayor', date: '2024-06-07', constituencies: ['Limerick City and County'] }), '2024 Limerick mayoral election');
 });

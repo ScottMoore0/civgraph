@@ -50,6 +50,19 @@ export function fillYear(template, date) {
 }
 
 /**
+ * The title of a general election of the body: the one its titlesByDate gives for that date (two
+ * general elections in one year), else its title template with {year} filled in; null when the
+ * body gives neither.
+ * @param {ElectionBody | null | undefined} body
+ * @param {unknown} date
+ * @returns {string | null}
+ */
+export function generalElectionTitleOf(body, date) {
+  const day = String(date ?? '').slice(0, 10);
+  return body?.titlesByDate?.[day] || fillYear(body?.title, date);
+}
+
+/**
  * The voting system a contest of the body is counted by: the first of its contestVotingSystems
  * whose pattern matches the contest's name, else the body's votingSystem; null when the body
  * states neither (the code's own rules then apply).

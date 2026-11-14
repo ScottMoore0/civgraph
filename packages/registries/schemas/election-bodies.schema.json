@@ -110,6 +110,12 @@
         "wholeArea": { "type": "boolean", "description": "Every election of the body is held over its whole area, so none is a by-election." },
         "byElectionTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The title of a by-election of the body, where `title` names its general elections; {year} is its year and {contest} the contest's name." },
         "byElectionsTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The title of several by-elections of the body held on one day; {year} is their year." },
+        "titlesByDate": {
+          "type": "object",
+          "description": "Titles given outright to some general elections of the body, by the date each is filed under (YYYY-MM-DD), in place of `title`: two general elections in one year are told apart (the Seanad's April and August 1938 elections).",
+          "propertyNames": { "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        },
         "votingSystem": { "enum": ["stv-hare", "stv-gregory", "fptp", "block-vote", "party-list-dhondt", "ordinal"] },
         "contestVotingSystems": {
           "type": "array",
