@@ -97,8 +97,8 @@ test('WT-07 every npm script config/worktrees.json names exists', () => {
 });
 
 test('WT-08 a check step names what it needs; only the absent ones count', () => {
-  const records = { BROWSE_DIR: path.join('/r', 'browse'), PROVENANCE_FILE: path.join('/r', 'p.json') };
-  const needs = { 'check:a': [{ records: 'BROWSE_DIR', file: 'sources.json' }, { repo: 'site/app/build/x.js' }], 'check:b': [{ records: 'PROVENANCE_FILE' }] };
+  const records = { BROWSE_DIR: path.join('/r', 'browse'), SUMMARY_FILE: path.join('/r', 'p.json') };
+  const needs = { 'check:a': [{ records: 'BROWSE_DIR', file: 'sources.json' }, { repo: 'site/app/build/x.js' }], 'check:b': [{ records: 'SUMMARY_FILE' }] };
   assert.equal(artefactPath({ records: 'BROWSE_DIR', file: 'sources.json' }, records, '/r'), path.join('/r', 'browse', 'sources.json'));
   const present = new Set([path.join('/r', 'site', 'app', 'build', 'x.js')]);
   const env = { records, root: '/r', exists: (p) => present.has(p) };

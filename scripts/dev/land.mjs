@@ -173,7 +173,8 @@ function landBranch(branch, { mainRef, keepWorktree }) {
   if (!wtInfo) {
     const name = `land-${branch.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '')}`.slice(0, 60);
     log(`  ${branch} has no worktree: making a temporary one`);
-    createWorktree({ name, branch, existing: true, log: (line) => log(`    ${line}`) });
+    // The gates read no generated artefact, so the temporary worktree goes without them.
+    createWorktree({ name, branch, existing: true, artefacts: false, log: (line) => log(`    ${line}`) });
     wtInfo = listWorktrees().find((w) => w.branch === branch);
     temporary = true;
   }
