@@ -13,6 +13,7 @@ import { partyChip } from '../lib/party.js';
 import { areaUrl, layerMapUrl, personAppUrl } from '../lib/place-urls.js';
 import { TEXT, fill } from '../lib/places-text.js';
 import { trendChart, trendTable } from '../lib/trend.js';
+import { chartData } from '../lib/chart-data.js';
 import { contestVerdict } from '../lib/verdict.js';
 
 /** @typedef {import('../lib/area.js').Series} Series */
@@ -75,12 +76,13 @@ function chartHtml(chart, id) {
       ${chart.svg}
       <figcaption class="el-muted">${esc(TEXT.areaTrendNote)}</figcaption>
     </figure>
-    <details class="el-trend-table"><summary>${esc(TEXT.areaTrendTable)}</summary>
-      <div class="cg-table-wrap" tabindex="0" role="region" aria-labelledby="${id}"><table class="cg-table cg-table--compact">
-        <thead><tr><th scope="col">${esc(TEXT.colElection)}</th>${table.parties.map((p) => `<th scope="col" class="num">${esc(p.party)}</th>`).join('')}</tr></thead>
-        <tbody>${table.rows.map((r) => `<tr><th scope="row">${esc(fmtDate(r.date))}</th>${r.shares.map((v) => `<td class="num">${v === null ? '—' : fmtPct(v)}</td>`).join('')}</tr>`).join('')}</tbody>
-      </table></div>
-    </details>`;
+    ${chartData({
+      id,
+      caption: TEXT.areaTrend,
+      file: `civgraph-${id}`,
+      columns: [{ label: TEXT.colElection, format: (v) => fmtDate(v) }, ...table.parties.map((p) => ({ label: p.party, num: true, format: (/** @type {import('../lib/chart-data.js').Cell} */ v) => (v === null || v === undefined ? '—' : fmtPct(v)), csv: (/** @type {import('../lib/chart-data.js').Cell} */ v) => (typeof v === 'number' ? Number(v.toFixed(2)) : '') }))],
+      rows: table.rows.map((r) => [r.date, ...r.shares]),
+    })}`;
 }
 
 /** @param {ReturnType<typeof memberGrid>} grid @param {string} id */

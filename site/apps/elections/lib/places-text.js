@@ -25,7 +25,6 @@ export const TEXT = Object.freeze({
   areaBodies: 'Bodies',
   areaTrend: 'Share of the vote',
   areaTrendNote: 'General elections with every candidate\'s votes recorded. By-elections, unopposed returns and contests with missing votes are left out.',
-  areaTrendTable: 'The shares as a table',
   areaMembers: 'Members',
   areaMembersNew: 'new',
   areaContests: 'Every contest',
@@ -81,10 +80,5 @@ export const TEXT = Object.freeze({
   returnedUnopposed: 'Returned unopposed',
 });
 
-/**
- * A pattern with its {name} parts filled.
- * @param {string} pattern @param {Record<string, string | number>} values
- */
-export function fill(pattern, values) {
-  return pattern.replace(/\{(\w+)\}/g, (whole, name) => (name in values ? String(values[name]) : whole));
-}
+/** A pattern with its {name} parts filled: the app's one filler (lib/chart-data.js). */
+export { fill } from './chart-data.js';
