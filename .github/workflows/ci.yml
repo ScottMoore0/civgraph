@@ -50,19 +50,45 @@ jobs:
           python-version: '3.12'
       # The records build needs room: on a clean export it wrote 10.8 GB under tmp/records
       # (the 3.2 GB database, the order test's 3.4 GB reverse-loaded copy, and the election,
-      # Browse and graph trees), against the 14 GB a standard runner guarantees. The runner
-      # image's unused toolchains are removed first; df shows the room before and after.
+      # Browse and graph trees), against the 14 GB a standard runner guarantees. When the
+      # runner has less than 30 GB free, the image's unused toolchains are removed first (that
+      # took 130 s; the runners of November 2026 start with 85 GB free and skip it); df shows
+      # the room before and after.
       - name: Free disk space for the records build
         run: |
           df -h /
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
-          df -h /
+          if [ "$(df --output=avail -k / | tail -1)" -lt $((30 * 1024 * 1024)) ]; then
+            sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
+            df -h /
+          else
+            echo "30 GB or more free: nothing removed"
+          fi
       # npm ci, not npm install: check:notices compares exact installed versions with the
       # committed notices. --ignore-scripts: the canvas devDependency builds natively and
       # fails on the runner (pixman-1); nothing in the checks imports it.
       - run: npm ci --ignore-scripts
+      # The browser specs' Chromium, cached by the lockfile (which pins Playwright), installs
+      # in the background while check:ci runs; the step before the specs waits for it.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Chromium for the browser specs (in the background)
+        run: |
+          (npx playwright install --with-deps chromium > "$RUNNER_TEMP/playwright-install.log" 2>&1; echo $? > "$RUNNER_TEMP/playwright-install.status") &
+      # The check runner starts the slowest checks first, by the last run's timings
+      # (tmp/check-timings.json): kept between runs, so the first run of a fresh runner does too.
+      - uses: actions/cache@v4
+        with:
+          path: tmp/check-timings.json
+          key: check-timings-${{ github.sha }}
+          restore-keys: check-timings-
       - run: npm run check:ci
-      - run: npx playwright install --with-deps chromium
+      - name: Wait for the Chromium install
+        run: |
+          while [ ! -f "$RUNNER_TEMP/playwright-install.status" ]; do sleep 2; done
+          tail -5 "$RUNNER_TEMP/playwright-install.log"
+          exit "$(cat "$RUNNER_TEMP/playwright-install.status")"
       - run: npm run test:browser:maps
       - if: always()
         run: df -h / && du -sh tmp/records 2>/dev/null || true

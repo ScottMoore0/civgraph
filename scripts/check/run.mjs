@@ -102,7 +102,12 @@ writeFileSync(TIMINGS, `${JSON.stringify(timings, null, 1)}\n`);
 const serialSeconds = results.reduce((sum, result) => sum + result.seconds, 0).toFixed(0);
 for (const result of failed) {
   console.log(`\n--- ${result.step} (exit ${result.code}) ---`);
-  console.log(result.output.trim().split(/\r?\n/).slice(-25).join('\n'));
+  const lines = result.output.trim().split(/\r?\n/);
+  // node --test names every failing test on a ✖ line; the tail below shows only the last
+  // failure's detail, so a step with several failures names them all first.
+  const failing = [...new Set(lines.filter((line) => /^\s*✖ (?!failing tests:)/.test(line)).map((line) => line.trim()))];
+  if (failing.length > 1) console.log(`${failing.length} failing:\n${failing.slice(0, 40).join('\n')}\n...`);
+  console.log(lines.slice(-25).join('\n'));
 }
 const seconds = ((Date.now() - started) / 1000).toFixed(0);
 if (failed.length) {
