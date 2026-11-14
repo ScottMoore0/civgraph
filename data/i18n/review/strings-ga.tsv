@@ -1700,7 +1700,7 @@ elections.methods.change_p3	elections	Compare sets any two elections side by sid
 elections.methods.swing_title	elections	Swing on the results map		UNTRANSLATED - English shown
 elections.methods.swing_link	elections	How swing is worked out		UNTRANSLATED - English shown
 elections.methods.swing_p1	elections	The map's change mode shows, area by area, a party's share at this election minus its share at an earlier election of the same body fought on the same boundaries, in percentage points. A party's share in an area is its votes there divided by all the votes there (first preferences under the single transferable vote).		UNTRANSLATED - English shown
-elections.methods.swing_p2	elections	Parties are matched by their ballot label as printed. An area with no recorded votes at either election is left uncoloured. No change is mapped across a boundary change: the notional results carry votes across one.		UNTRANSLATED - English shown
+elections.methods.swing_p2	elections	Parties are matched by their ballot label as printed. An area with no recorded votes at either election is hatched. No change is mapped across a boundary change: the notional results carry votes across one.		UNTRANSLATED - English shown
 elections.methods.turnout_link	elections	How turnout is worked out		UNTRANSLATED - English shown
 elections.methods.turnout_p1	elections	A contest's turnout is the figure its source gives. Where the source gives none but gives the total poll and the electorate, turnout is the total poll divided by the electorate, as a percentage, and the contest page says it was worked out. Where the source gives the turnout but not the total poll, the total poll is the electorate times the turnout, rounded to a whole vote.		UNTRANSLATED - English shown
 elections.methods.turnout_p2	elections	An election's turnout is the median of its contests' turnouts, with the lowest and the highest. Contests with no turnout on file, those returned unopposed among them, are left out. The pivot tables' average turnout is the plain mean of the contests' turnouts, each contest counted once.		UNTRANSLATED - English shown
@@ -1733,6 +1733,87 @@ elections.methods.checked_title	elections	Data checked dates		UNTRANSLATED - Eng
 elections.methods.checked_link	elections	What the checked date means		UNTRANSLATED - English shown
 elections.methods.checked_p1	elections	Where Civgraph fetched a source and compared it with a contest figure by figure, the source carries the day of that comparison. A contest page gives, beside its figures, the latest such day among the sources that agreed with every figure compared, and each source in its list gives its own day.		UNTRANSLATED - English shown
 elections.methods.checked_p2	elections	A source that was compared but disagreed somewhere carries its day too, with what differed. Sources checked another way, such as a printed volume read page by page, carry no day.		UNTRANSLATED - English shown
+elections.map_mode.share	elections	A party's share of the vote		UNTRANSLATED - English shown
+elections.map_mode.swing	elections	Swing: change in a party's share		UNTRANSLATED - English shown
+elections.map_mode.margin	elections	Margin		UNTRANSLATED - English shown
+elections.map_mode.spoilt	elections	Spoilt ballots		UNTRANSLATED - English shown
+elections.map_mode.topper	elections	Poll-topper		UNTRANSLATED - English shown
+elections.map.unopposed	elections	returned unopposed		UNTRANSLATED - English shown
+elections.map.not_recorded	elections	votes not recorded		UNTRANSLATED - English shown
+elections.map.no_turnout	elections	turnout not recorded		UNTRANSLATED - English shown
+elections.map.no_spoilt	elections	spoilt ballots not recorded		UNTRANSLATED - English shown
+elections.map.stages_missing	elections	the stages of the count are not on file		UNTRANSLATED - English shown
+elections.map.no_seat	elections	no candidate is recorded as elected		UNTRANSLATED - English shown
+elections.map.no_margin	elections	the figures give no margin		UNTRANSLATED - English shown
+elections.map.no_match	elections	no contest of the same name at the earlier election		UNTRANSLATED - English shown
+elections.map.no_data	elections	No figure (hatched)		UNTRANSLATED - English shown
+elections.map.filtered_out	elections	Not a close contest (outline only)		UNTRANSLATED - English shown
+elections.map.key_winner	elections	Party with most seats		UNTRANSLATED - English shown
+elections.map.key_topper	elections	Poll-topper's party (most first preferences)		UNTRANSLATED - English shown
+elections.map.key_turnout	elections	Turnout (% of the electorate)		UNTRANSLATED - English shown
+elections.map.key_spoilt	elections	Spoilt ballots (% of the ballots cast)		UNTRANSLATED - English shown
+elections.map.key_margin	elections	Margin (% of the valid poll): the closer, the stronger the colour		UNTRANSLATED - English shown
+elections.map.key_ties	elections	Tie for most seats: stripes of the tied parties' colours		UNTRANSLATED - English shown
+elections.map.votes	elections	votes		UNTRANSLATED - English shown
+elections.map.pct_valid	elections	% of the valid poll		UNTRANSLATED - English shown
+elections.map.margin_method	elections	A contest's margin is the votes between the weakest member elected and the strongest candidate not elected: under the single transferable vote at the runner-up's last count, among the members elected then or later; otherwise in first preferences. Its percentage is of the valid poll.		UNTRANSLATED - English shown
+elections.map.spoilt_method	elections	Spoilt ballots are the source's figure, or the total poll less the valid poll; their share is of the total poll.		UNTRANSLATED - English shown
+elections.map_pattern.won_one	elections	{party} ({name})		UNTRANSLATED - English shown
+elections.map_pattern.won_many	elections	{party}: {seats} of {total} seats		UNTRANSLATED - English shown
+elections.map_pattern.tie_one	elections	Tie: {parties}, 1 seat each		UNTRANSLATED - English shown
+elections.map_pattern.tie_many	elections	Tie: {parties}, {seats} seats each		UNTRANSLATED - English shown
+elections.map_pattern.topper	elections	{name} ({party}), {votes} first preferences ({share})		UNTRANSLATED - English shown
+elections.map_pattern.topper_tie	elections	Tie: {names}, {votes} first preferences each		UNTRANSLATED - English shown
+elections.map_pattern.topper_votes	elections	{name} ({party}), {votes} votes ({share})		UNTRANSLATED - English shown
+elections.map_pattern.topper_tie_votes	elections	Tie: {names}, {votes} votes each		UNTRANSLATED - English shown
+elections.map_pattern.share	elections	{party} {share}		UNTRANSLATED - English shown
+elections.map_pattern.not_stood	elections	{party} did not stand		UNTRANSLATED - English shown
+elections.map_pattern.swing	elections	{party} {change} points ({before} to {after})		UNTRANSLATED - English shown
+elections.map_pattern.not_stood_either	elections	{party} stood at neither election		UNTRANSLATED - English shown
+elections.map_pattern.margin	elections	{votes} votes ({pct} of the valid poll) between {winner} and {runnerUp}		UNTRANSLATED - English shown
+elections.map_pattern.margin_at_count	elections	{votes} votes ({pct} of the valid poll) between {winner} and {runnerUp} at count {count}		UNTRANSLATED - English shown
+elections.map_pattern.turnout	elections	Turnout {pct}		UNTRANSLATED - English shown
+elections.map_pattern.spoilt	elections	{n} spoilt ballots ({pct} of the ballots cast)		UNTRANSLATED - English shown
+elections.map_pattern.key_share	elections	{party}'s share of the first preferences		UNTRANSLATED - English shown
+elections.map_pattern.key_share_votes	elections	{party}'s share of the vote		UNTRANSLATED - English shown
+elections.map_pattern.key_swing	elections	Change in {party}'s share since {election} (points)		UNTRANSLATED - English shown
+elections.map_pattern.key_tie	elections	Tie: {parties}		UNTRANSLATED - English shown
+elections.map_pattern.label	elections	{area}: {value}		UNTRANSLATED - English shown
+elections.map_pattern.range	elections	{from} to {to}		UNTRANSLATED - English shown
+elections.map_pattern.candidate	elections	{name} ({party})		UNTRANSLATED - English shown
+elections.map_view.title	elections	Results maps		UNTRANSLATED - English shown
+elections.map_view.lead	elections	Boundaries: {boundaries}.		UNTRANSLATED - English shown
+elections.map_view.vs	elections	Compared with		UNTRANSLATED - English shown
+elections.map_view.other_boundaries	elections	{election} (other boundaries)		UNTRANSLATED - English shown
+elections.map_view.close	elections	Close contests		UNTRANSLATED - English shown
+elections.map_view.under	elections	Margin under		UNTRANSLATED - English shown
+elections.map_view.unit	elections	Counted in		UNTRANSLATED - English shown
+elections.map_view.clear	elections	Show every contest		UNTRANSLATED - English shown
+elections.map_view.no_vs	elections	No other election of this body used the same boundaries, so there is no like-for-like change to map. The notional results view carries results across boundary changes.		UNTRANSLATED - English shown
+elections.map_view.no_party	elections	No party has recorded votes in this election, so there is no share to map: the winners are shown instead.		UNTRANSLATED - English shown
+elections.map_view.boundaries	elections	{election} was fought on other boundaries, so its contests are not the same areas: there is no like-for-like swing, and the share in this election is shown instead. The notional results view carries results across boundary changes.		UNTRANSLATED - English shown
+elections.map_view.map_label	elections	Map of {election}: {key}		UNTRANSLATED - English shown
+elections.map_view.loading	elections	Loading the map…		UNTRANSLATED - English shown
+elections.map_view.drawn	elections	{n} of {total} contests drawn.		UNTRANSLATED - English shown
+elections.map_view.drawn_some	elections	{n} of {total} contests drawn (the rest have no matching map area).		UNTRANSLATED - English shown
+elections.map_view.failed	elections	The map could not load: {error}		UNTRANSLATED - English shown
+elections.map_view.close_summary	elections	{n} of {total} contests had a margin under {limit}.		UNTRANSLATED - English shown
+elections.map_view.close_none	elections	No contest had a margin under {limit}.		UNTRANSLATED - English shown
+elections.map_view.close_caption	elections	Contests with a margin under {limit}, sorted by {column}		UNTRANSLATED - English shown
+elections.map_view.elected	elections	Last elected		UNTRANSLATED - English shown
+elections.map_view.runner_up	elections	Runner-up		UNTRANSLATED - English shown
+elections.map_view.margin_votes	elections	Margin (votes)		UNTRANSLATED - English shown
+elections.map_view.margin_pct	elections	Margin (% of the valid poll)		UNTRANSLATED - English shown
+elections.map_view.count	elections	At count		UNTRANSLATED - English shown
+elections.map_view.multiples	elections	Small multiples		UNTRANSLATED - English shown
+elections.map_view.multiples_lead	elections	The winners in every {body} election on these boundaries.		UNTRANSLATED - English shown
+elections.map_view.multiples_draw	elections	Draw {n} maps		UNTRANSLATED - English shown
+elections.map_view.multiples_alt	elections	Winners, {election}: {figures}		UNTRANSLATED - English shown
+elections.map_view.multiples_failed	elections	The maps could not be drawn: {error}		UNTRANSLATED - English shown
+elections.map_view.ascending	elections	ascending		UNTRANSLATED - English shown
+elections.map_view.limit_votes	elections	{n} votes		UNTRANSLATED - English shown
+elections.map_view.limit_pct	elections	{pct} of the valid poll		UNTRANSLATED - English shown
+elections.map_view.descending	elections	descending		UNTRANSLATED - English shown
 general.january	general	January	Eanáir	draft - needs review
 general.february	general	February	Feabhra	draft - needs review
 general.march	general	March	Márta	draft - needs review

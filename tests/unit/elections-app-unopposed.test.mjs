@@ -72,25 +72,24 @@ test('the maps: a contest with missing votes reads "votes not recorded", never "
   );
   assert.deepEqual(rows.map((r) => [r.name, r.poll]), [['Polled', 'polled'], ['Unopposed', 'unopposed'], ['Missing', 'not-recorded']]);
 
-  // The winner map's labels and table, through the view's own mapData (the records API stubbed).
-  const answers = {
-    summary: { results: [
-      { constituency: 'Unopposed', seatsTotal: 1, validPoll: 0, leadingVotes: 0, candidateCount: 1, winnerParty: 'Y', winnerName: 'W' },
-      { constituency: 'Missing', seatsTotal: 1, validPoll: 0, leadingVotes: 0, candidateCount: 3, winnerParty: 'Z', winnerName: 'V' },
-    ] },
-    contests: { items: ['Unopposed', 'Missing'].map((name) => ({ entryKind: 'election-constituency-result', constituency: name, featureName: name, matched: true })) },
-    detail: { item: { partySummary: [] } },
-  };
+  // The winner map's labels and table, through the view's own mapData (the records API stubbed:
+  // the election's bundle, el-maps 14 Nov 2026).
+  const bundle = { results: [
+    { constituency: 'Unopposed', featureName: 'UNOPPOSED', matched: true, seatsTotal: 1, contestStatus: 'uncontested', validPoll: 0,
+      candidates: [{ name: 'W', party: 'Y', status: 'Elected unopposed', elected: true, firstPrefs: null }] },
+    { constituency: 'Missing', featureName: 'MISSING', matched: true, seatsTotal: 1, validPoll: 0,
+      candidates: [{ name: 'V', party: 'Z', status: 'Elected', elected: true, firstPrefs: null }, { name: 'U', party: 'X', status: 'Not elected', elected: false, firstPrefs: null }, { name: 'T', party: 'X', status: 'Not elected', elected: false, firstPrefs: null }] },
+  ] };
   const realFetch = globalThis.fetch;
   globalThis.fetch = async (url) => {
-    const view = new URL(String(url), 'http://x.test').searchParams.get('view');
-    return new Response(JSON.stringify(answers[view] || {}), { status: 200 });
+    const q = new URL(String(url), 'http://x.test').searchParams;
+    return new Response(JSON.stringify(q.get('format') === 'bundle' ? bundle : {}), { status: 200 });
   };
   try {
     const { mapData } = await import('../../site/apps/elections/views/map.js');
-    const data = await mapData({ key: 'body__1900-01-01', bodySlug: 'body' }, 'winner');
-    assert.deepEqual(data.table, [['Unopposed', 'Y (returned unopposed)'], ['Missing', 'Z (votes not recorded)']]);
-    assert.match(String(data.labels.get('MISSING')), /votes not recorded$/);
+    const data = await mapData({ key: 'body__1900-01-01' }, 'winner');
+    assert.deepEqual(data.table, [['Unopposed', 'Y (W) (returned unopposed)'], ['Missing', 'Z (V) (votes not recorded)']]);
+    assert.match(String(data.labels.get('MISSING')), /votes not recorded\)$/);
     assert.doesNotMatch(String(data.labels.get('MISSING')), /unopposed/);
   } finally {
     globalThis.fetch = realFetch;

@@ -74,3 +74,16 @@ export const contestResult = (/** @type {string} */ key, /** @type {string} */ c
 export const contestCitations = (/** @type {string} */ key, /** @type {number} */ seq) => /** @type {Promise<CitationsAnswer>} */ (getJson({ view: 'citations', key, constituency: seq }));
 /** One election's provenance shard (status and primary source per contest). @returns {Promise<ProvenanceAnswer>} */
 export const electionProvenance = (/** @type {string} */ key) => /** @type {Promise<ProvenanceAnswer>} */ (getJson({ view: 'provenance', key }));
+/**
+ * One election's bundle without its count groups (format=bundle&lite=1, the bundle variant of v1):
+ * every contest with its candidates, their first preferences, whether elected and their totals at
+ * each count, and the contest's valid poll, ballots cast and spoilt ballots. The results map reads
+ * it (lib/map-modes.js bundleAreas); v1 promises its top level, and the contests are typed by
+ * core's ContestResult.
+ * @returns {Promise<ApiV1Bundle>}
+ */
+export const electionBundle = (/** @type {string} */ key) => /** @type {Promise<ApiV1Bundle>} */ (getJson({ key, format: 'bundle', lite: 1 }));
+/**
+ * @typedef {import('../../../packages/types/index.js').ApiV1.ElectionsBundleAnswer
+ *   & { results?: import('../../../pkg/core/src/election-domain.mjs').ContestResult[] }} ApiV1Bundle
+ */

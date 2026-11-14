@@ -24,6 +24,7 @@ import { rampColours } from '../../../pkg/registries/src/browser/colour-palettes
 import { fmtDelta, fmtInt, fmtPct, isStv } from './format.js';
 import { mostSeats, seatParty, tookSeat } from './most-seats.js';
 import { partyColour } from './party.js';
+import { fill } from './chart-data.js';
 
 /**
  * Fixed words of the map (each a line of data/i18n/strings/elections.txt).
@@ -48,6 +49,8 @@ export const MAP_TEXT = Object.freeze({
   keyTies: "Tie for most seats: stripes of the tied parties' colours",
   votes: 'votes',
   pctValid: '% of the valid poll',
+  marginMethod: "A contest's margin is the votes between the weakest member elected and the strongest candidate not elected: under the single transferable vote at the runner-up's last count, among the members elected then or later; otherwise in first preferences. Its percentage is of the valid poll.",
+  spoiltMethod: "Spoilt ballots are the source's figure, or the total poll less the valid poll; their share is of the total poll.",
 });
 
 /**
@@ -80,13 +83,8 @@ export const MAP_PATTERNS = Object.freeze({
   candidate: '{name} ({party})',
 });
 
-/**
- * A pattern with its values put in.
- * @param {string} pattern @param {Record<string, string | number>} values
- */
-export function fill(pattern, values) {
-  return pattern.replace(/\{(\w+)\}/g, (m, k) => (k in values ? String(values[k]) : m));
-}
+// A pattern with its values put in: the chart-data component's (el-tables), not a copy.
+export { fill };
 
 // ------------------------------------------------------------------ the areas
 

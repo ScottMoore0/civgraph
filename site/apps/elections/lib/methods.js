@@ -60,7 +60,7 @@ export const METHODS = Object.freeze([
     link: 'How swing is worked out',
     paragraphs: [
       "The map's change mode shows, area by area, a party's share at this election minus its share at an earlier election of the same body fought on the same boundaries, in percentage points. A party's share in an area is its votes there divided by all the votes there (first preferences under the single transferable vote).",
-      'Parties are matched by their ballot label as printed. An area with no recorded votes at either election is left uncoloured. No change is mapped across a boundary change: the notional results carry votes across one.',
+      'Parties are matched by their ballot label as printed. An area with no recorded votes at either election is hatched. No change is mapped across a boundary change: the notional results carry votes across one.',
     ],
   },
   {

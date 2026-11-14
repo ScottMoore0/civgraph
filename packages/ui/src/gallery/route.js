@@ -146,6 +146,10 @@ export const SPECIMENS = [
     render: () => html`<div class="cg-legend cg-legend--chips">${partyChip('Party one', SAMPLE.partyOne)}${partyChip('Party two', SAMPLE.partyTwo)}${partyChip('Independent', null)}</div>`,
   },
   {
+    id: 'legend-map', title: 'Legend of a map key: no figure, a tie, outside a filter', stylesheet: 'legend.css', templates: [],
+    render: () => raw(`<ul class="cg-legend" aria-label="Sample key"><li class="cg-legend__title" aria-hidden="true">Sample key</li><li class="cg-legend__item"><span class="cg-legend__swatch" style="--legend-colour:${SAMPLE.partyOne}" aria-hidden="true"></span>Party one</li><li class="cg-legend__item"><span class="cg-legend__swatch cg-legend__swatch--split" style="--legend-colour:${SAMPLE.partyOne};--legend-colour-2:${SAMPLE.partyTwo}" aria-hidden="true"></span>Tie: Party one, Party two</li><li class="cg-legend__item"><span class="cg-legend__swatch cg-legend__swatch--none" aria-hidden="true"></span>No figure (hatched)</li><li class="cg-legend__item"><span class="cg-legend__swatch cg-legend__swatch--empty" aria-hidden="true"></span>Outside the filter (outline only)</li></ul>`),
+  },
+  {
     id: 'chart', title: 'Chart frame', stylesheet: 'chart.css', templates: [],
     render: () => raw('<figure class="cg-chart"><svg viewBox="0 0 240 80" role="img" aria-label="Sample trend"><line x1="0" y1="70" x2="240" y2="70" stroke="var(--chart-baseline)"/><line x1="0" y1="40" x2="240" y2="40" stroke="var(--chart-grid)"/><polyline fill="none" stroke="var(--color-accent)" stroke-width="2" points="0,60 60,52 120,30 180,36 240,18"/></svg><figcaption>Share of the vote, sample data</figcaption></figure>'),
   },

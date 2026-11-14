@@ -87,3 +87,14 @@ h2 { margin: var(--space-8) 0 var(--space-3); font-size: var(--text-xl); }
 .el-compared time { white-space: nowrap; }
 .el-method-section h2:focus { outline: none; }
 .el-method-section p { max-width: 48rem; }
+
+/* The results map (el-maps, 14 Nov 2026): the close-contests filter, the key, the list's sort buttons. */
+.el-map-filter { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: end; margin: 0; padding: var(--space-2) var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); }
+.el-map-filter legend { padding: 0 var(--space-1); font-size: var(--text-sm); font-weight: var(--weight-semibold); }
+.el-map-filter input { width: 7rem; }
+.el-map-key { margin-top: var(--space-2); }
+.el-sort { padding: 0; border: 0; background: none; color: var(--link); font: inherit; font-weight: var(--weight-semibold); text-decoration: underline; cursor: pointer; }
+th[aria-sort="ascending"] .el-sort::after { content: " \2191"; }
+th[aria-sort="descending"] .el-sort::after { content: " \2193"; }
+/* The palest step of a scale still shows its edge on a light page. */
+.el-map-key .cg-legend__swatch:not(.cg-legend__swatch--none, .cg-legend__swatch--empty) { box-shadow: inset 0 0 0 1px var(--border); }

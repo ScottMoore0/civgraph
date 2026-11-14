@@ -81,7 +81,7 @@
 @elections.methods.swing_title Swing on the results map ¦ ¦
 @elections.methods.swing_link How swing is worked out ¦ ¦
 @elections.methods.swing_p1 The map's change mode shows, area by area, a party's share at this election minus its share at an earlier election of the same body fought on the same boundaries, in percentage points. A party's share in an area is its votes there divided by all the votes there (first preferences under the single transferable vote). ¦ ¦
-@elections.methods.swing_p2 Parties are matched by their ballot label as printed. An area with no recorded votes at either election is left uncoloured. No change is mapped across a boundary change: the notional results carry votes across one. ¦ ¦
+@elections.methods.swing_p2 Parties are matched by their ballot label as printed. An area with no recorded votes at either election is hatched. No change is mapped across a boundary change: the notional results carry votes across one. ¦ ¦
 @elections.methods.turnout_link How turnout is worked out ¦ ¦
 @elections.methods.turnout_p1 A contest's turnout is the figure its source gives. Where the source gives none but gives the total poll and the electorate, turnout is the total poll divided by the electorate, as a percentage, and the contest page says it was worked out. Where the source gives the turnout but not the total poll, the total poll is the electorate times the turnout, rounded to a whole vote. ¦ ¦
 @elections.methods.turnout_p2 An election's turnout is the median of its contests' turnouts, with the lowest and the highest. Contests with no turnout on file, those returned unopposed among them, are left out. The pivot tables' average turnout is the plain mean of the contests' turnouts, each contest counted once. ¦ ¦
@@ -114,3 +114,87 @@
 @elections.methods.checked_link What the checked date means ¦ ¦
 @elections.methods.checked_p1 Where Civgraph fetched a source and compared it with a contest figure by figure, the source carries the day of that comparison. A contest page gives, beside its figures, the latest such day among the sources that agreed with every figure compared, and each source in its list gives its own day. ¦ ¦
 @elections.methods.checked_p2 A source that was compared but disagreed somewhere carries its day too, with what differed. Sources checked another way, such as a printed volume read page by page, carry no day. ¦ ¦
+
+# el-maps (14 Nov 2026): the results map (site/apps/elections/views/map.js, lib/map-modes.js, the
+# modes in state-machines.js MAP_MODES). {name} placeholders are filled by the map; keep them in a translation.
+@elections.map_mode.share A party's share of the vote ¦ ¦
+@elections.map_mode.swing Swing: change in a party's share ¦ ¦
+@elections.map_mode.margin Margin ¦ ¦
+@elections.map_mode.spoilt Spoilt ballots ¦ ¦
+@elections.map_mode.topper Poll-topper ¦ ¦
+@elections.map.unopposed returned unopposed ¦ ¦
+@elections.map.not_recorded votes not recorded ¦ ¦
+@elections.map.no_turnout turnout not recorded ¦ ¦
+@elections.map.no_spoilt spoilt ballots not recorded ¦ ¦
+@elections.map.stages_missing the stages of the count are not on file ¦ ¦
+@elections.map.no_seat no candidate is recorded as elected ¦ ¦
+@elections.map.no_margin the figures give no margin ¦ ¦
+@elections.map.no_match no contest of the same name at the earlier election ¦ ¦
+@elections.map.no_data No figure (hatched) ¦ ¦
+@elections.map.filtered_out Not a close contest (outline only) ¦ ¦
+@elections.map.key_winner Party with most seats ¦ ¦
+@elections.map.key_topper Poll-topper's party (most first preferences) ¦ ¦
+@elections.map.key_turnout Turnout (% of the electorate) ¦ ¦
+@elections.map.key_spoilt Spoilt ballots (% of the ballots cast) ¦ ¦
+@elections.map.key_margin Margin (% of the valid poll): the closer, the stronger the colour ¦ ¦
+@elections.map.key_ties Tie for most seats: stripes of the tied parties' colours ¦ ¦
+@elections.map.votes votes ¦ ¦
+@elections.map.pct_valid % of the valid poll ¦ ¦
+@elections.map.margin_method A contest's margin is the votes between the weakest member elected and the strongest candidate not elected: under the single transferable vote at the runner-up's last count, among the members elected then or later; otherwise in first preferences. Its percentage is of the valid poll. ¦ ¦
+@elections.map.spoilt_method Spoilt ballots are the source's figure, or the total poll less the valid poll; their share is of the total poll. ¦ ¦
+@elections.map_pattern.won_one {party} ({name}) ¦ ¦
+@elections.map_pattern.won_many {party}: {seats} of {total} seats ¦ ¦
+@elections.map_pattern.tie_one Tie: {parties}, 1 seat each ¦ ¦
+@elections.map_pattern.tie_many Tie: {parties}, {seats} seats each ¦ ¦
+@elections.map_pattern.topper {name} ({party}), {votes} first preferences ({share}) ¦ ¦
+@elections.map_pattern.topper_tie Tie: {names}, {votes} first preferences each ¦ ¦
+@elections.map_pattern.topper_votes {name} ({party}), {votes} votes ({share}) ¦ ¦
+@elections.map_pattern.topper_tie_votes Tie: {names}, {votes} votes each ¦ ¦
+@elections.map_pattern.share {party} {share} ¦ ¦
+@elections.map_pattern.not_stood {party} did not stand ¦ ¦
+@elections.map_pattern.swing {party} {change} points ({before} to {after}) ¦ ¦
+@elections.map_pattern.not_stood_either {party} stood at neither election ¦ ¦
+@elections.map_pattern.margin {votes} votes ({pct} of the valid poll) between {winner} and {runnerUp} ¦ ¦
+@elections.map_pattern.margin_at_count {votes} votes ({pct} of the valid poll) between {winner} and {runnerUp} at count {count} ¦ ¦
+@elections.map_pattern.turnout Turnout {pct} ¦ ¦
+@elections.map_pattern.spoilt {n} spoilt ballots ({pct} of the ballots cast) ¦ ¦
+@elections.map_pattern.key_share {party}'s share of the first preferences ¦ ¦
+@elections.map_pattern.key_share_votes {party}'s share of the vote ¦ ¦
+@elections.map_pattern.key_swing Change in {party}'s share since {election} (points) ¦ ¦
+@elections.map_pattern.key_tie Tie: {parties} ¦ ¦
+@elections.map_pattern.label {area}: {value} ¦ ¦
+@elections.map_pattern.range {from} to {to} ¦ ¦
+@elections.map_pattern.candidate {name} ({party}) ¦ ¦
+@elections.map_view.title Results maps ¦ ¦
+@elections.map_view.lead Boundaries: {boundaries}. ¦ ¦
+@elections.map_view.vs Compared with ¦ ¦
+@elections.map_view.other_boundaries {election} (other boundaries) ¦ ¦
+@elections.map_view.close Close contests ¦ ¦
+@elections.map_view.under Margin under ¦ ¦
+@elections.map_view.unit Counted in ¦ ¦
+@elections.map_view.clear Show every contest ¦ ¦
+@elections.map_view.no_vs No other election of this body used the same boundaries, so there is no like-for-like change to map. The notional results view carries results across boundary changes. ¦ ¦
+@elections.map_view.no_party No party has recorded votes in this election, so there is no share to map: the winners are shown instead. ¦ ¦
+@elections.map_view.boundaries {election} was fought on other boundaries, so its contests are not the same areas: there is no like-for-like swing, and the share in this election is shown instead. The notional results view carries results across boundary changes. ¦ ¦
+@elections.map_view.map_label Map of {election}: {key} ¦ ¦
+@elections.map_view.loading Loading the map… ¦ ¦
+@elections.map_view.drawn {n} of {total} contests drawn. ¦ ¦
+@elections.map_view.drawn_some {n} of {total} contests drawn (the rest have no matching map area). ¦ ¦
+@elections.map_view.failed The map could not load: {error} ¦ ¦
+@elections.map_view.close_summary {n} of {total} contests had a margin under {limit}. ¦ ¦
+@elections.map_view.close_none No contest had a margin under {limit}. ¦ ¦
+@elections.map_view.close_caption Contests with a margin under {limit}, sorted by {column} ¦ ¦
+@elections.map_view.elected Last elected ¦ ¦
+@elections.map_view.runner_up Runner-up ¦ ¦
+@elections.map_view.margin_votes Margin (votes) ¦ ¦
+@elections.map_view.margin_pct Margin (% of the valid poll) ¦ ¦
+@elections.map_view.count At count ¦ ¦
+@elections.map_view.multiples Small multiples ¦ ¦
+@elections.map_view.multiples_lead The winners in every {body} election on these boundaries. ¦ ¦
+@elections.map_view.multiples_draw Draw {n} maps ¦ ¦
+@elections.map_view.multiples_alt Winners, {election}: {figures} ¦ ¦
+@elections.map_view.multiples_failed The maps could not be drawn: {error} ¦ ¦
+@elections.map_view.ascending ascending ¦ ¦
+@elections.map_view.limit_votes {n} votes ¦ ¦
+@elections.map_view.limit_pct {pct} of the valid poll ¦ ¦
+@elections.map_view.descending descending ¦ ¦

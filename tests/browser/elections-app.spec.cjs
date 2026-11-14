@@ -232,11 +232,74 @@ test.describe('Civgraph Elections', () => {
     const others = thirdParty(page);
     await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=winner');
     await expect(page.locator('#mp-map canvas')).toBeVisible({ timeout: 60000 });
-    await expect(page.locator('#mp-legend .cg-party')).not.toHaveCount(0);
+    await expect(page.locator('#mp-legend .cg-legend__item')).not.toHaveCount(0);
     await expect(page.locator('#mp-status')).toContainText('18 of 18 contests drawn', { timeout: 60000 });
     expect(others()).toEqual([]);
     await expect(page.locator('script[src*="cdn.jsdelivr.net"], link[href*="cdn.jsdelivr.net"]')).toHaveCount(0);
     await shot(page, '06-map');
+  });
+
+  // The map's modes, key and close-contests filter (el-maps, 14 Nov 2026; lib/map-modes.js).
+  test('maps: a tie is drawn and keyed as a tie, every mode draws with its key, the mode is in the URL', async ({ page, request }) => {
+    test.skip(!(await online(request, TILES)), 'data.civgraph.net (the tiles) is unreachable');
+    test.setTimeout(180000);
+    await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=winner');
+    await expect(page.locator('#mp-status')).toHaveAttribute('data-state', 'drawn', { timeout: 60000 });
+    // East Antrim 2022: DUP 2, Alliance 2. Never "Alliance most seats".
+    await expect(page.locator('#mp-legend')).toContainText('Tie: Alliance, DUP');
+    await expect(page.locator('#mp-table tr', { hasText: 'East Antrim' })).toContainText('Tie: Alliance, DUP, 2 seats each');
+    for (const mode of ['margin', 'spoilt', 'topper', 'turnout']) {
+      await page.selectOption('#mp-mode', mode);
+      await expect(page).toHaveURL(new RegExp(`mode=${mode}`));
+      await expect(page.locator('#mp-status')).toHaveAttribute('data-state', 'drawn', { timeout: 60000 });
+      await expect(page.locator('#mp-legend .cg-legend__item')).not.toHaveCount(0);
+      await expect(page.locator('#mp-mode')).toBeFocused();
+    }
+    await expect(page.locator('#mp-table')).toContainText('Turnout 69.5%');
+  });
+
+  test('maps: the close-contests filter keeps its contests in a sortable list, all in the URL', async ({ page, request }) => {
+    test.skip(!(await online(request, TILES)), 'data.civgraph.net (the tiles) is unreachable');
+    test.setTimeout(120000);
+    await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=margin');
+    await expect(page.locator('#mp-status')).toHaveAttribute('data-state', 'drawn', { timeout: 60000 });
+    await page.fill('#mp-under', '500');
+    await page.press('#mp-under', 'Enter');
+    await expect(page).toHaveURL(/under=500/);
+    await expect(page.locator('#mp-status')).toHaveAttribute('data-state', 'drawn', { timeout: 60000 });
+    await expect(page.locator('#mp-legend')).toContainText('Not a close contest');
+    const rows = page.locator('#mp-close tbody tr');
+    await expect(rows).toHaveCount(4);
+    await expect(rows.first()).toContainText('Foyle');
+    await expect(page.locator('#mp-close th[aria-sort="ascending"]')).toContainText('Margin (votes)');
+    // Sorting writes the URL and leaves the map as it is.
+    await page.click('#mp-close button[data-sort="name"]');
+    await expect(page).toHaveURL(/sort=name/);
+    await expect(rows.first()).toContainText('Foyle');
+    await page.click('#mp-close button[data-sort="name"]');
+    await expect(page).toHaveURL(/sort=-name/);
+    await expect(rows.first()).toContainText('Upper Bann');
+    await expect(page.locator('canvas')).toHaveCount(1);
+    await page.reload();
+    await expect(page.locator('#mp-close tbody tr').first()).toContainText('Upper Bann', { timeout: 60000 });
+  });
+
+  test('maps: a swing across a boundary change says so, and draws the share', async ({ page, request }) => {
+    test.skip(!(await online(request, TILES)), 'data.civgraph.net (the tiles) is unreachable');
+    test.setTimeout(120000);
+    await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=swing&party=DUP&vs=northern-ireland-assembly-2003-11-26');
+    await expect(page.locator('.cg-notice--warning')).toContainText('was fought on other boundaries');
+    await expect(page.locator('#mp-status')).toHaveAttribute('data-state', 'drawn', { timeout: 60000 });
+    await expect(page.locator('#mp-legend')).toContainText("DUP's share");
+  });
+
+  test('maps: fits a phone, its list scrolls in its own box', async ({ page, request }) => {
+    test.skip(!(await online(request, TILES)), 'data.civgraph.net (the tiles) is unreachable');
+    test.setTimeout(120000);
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=margin&under=2&unit=pct');
+    await expect(page.locator('#mp-status')).toHaveAttribute('data-state', 'drawn', { timeout: 60000 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
   });
 
   // The view lifecycle (11 Nov 2026 arch audit P1, site/apps/elections/lib/lifecycle.js): leaving a
@@ -425,9 +488,9 @@ test.describe('Civgraph Elections: chart data, methods, checked dates', () => {
     const control = page.locator('#data-map');
     await expect(control.locator('summary')).toBeVisible({ timeout: 60000 });
     await control.locator('summary').click();
-    await expect(control.locator('thead th')).toHaveText(['Area', 'Winner']);
+    await expect(control.locator('thead th')).toHaveText(['Area', 'Party with most seats']);
     await expect(control.locator('tbody tr')).toHaveCount(18);
-    expect((await csvOf(control)).split('\r\n')[0]).toBe('Area,Winner');
+    expect((await csvOf(control)).split('\r\n')[0]).toBe('Area,Party with most seats');
     await page.goto('/elections/map/?e=northern-ireland-assembly-2022-05-05&mode=turnout');
     await expect(page.locator('#mp-table [data-method="turnout"] a')).toHaveAttribute('href', '/elections/methods/#turnout', { timeout: 60000 });
   });

@@ -55,8 +55,8 @@ export function loadMapLibre() {
 }
 
 /**
- * A map layer's record (/_api/layers/<id>): its tile archive, source layer, label property and bounds.
- * @typedef {{ id: string, tileUrl?: string, cdnUrl?: string, sourceLayer: string, promoteId?: string, labelProperty?: string, label_property?: string,
+ * A map layer's record (/_api/layers/<id>): its name and category, tile archive, source layer, label property and bounds.
+ * @typedef {{ id: string, name?: string, category?: string, tileUrl?: string, cdnUrl?: string, sourceLayer: string, promoteId?: string, labelProperty?: string, label_property?: string,
  *   bounds?: [[number, number], [number, number]] }} LayerRecord
  */
 
@@ -107,17 +107,26 @@ const ink = () => getComputedStyle(document.documentElement).getPropertyValue('-
  * MapLibre has loaded makes no map at all (null). Without a signal the caller removes it.
  * @param {HTMLElement} container
  * @param {LayerRecord} rec the layer record
- * @param {{ colours: Map<string, string>, labels?: Map<string, string>, interactive?: boolean, preserve?: boolean, signal?: AbortSignal }} opts
- *   colours: feature label (upper case) -> colour; labels: feature label -> hover text
+ * @param {{ colours: Map<string, string>, labels?: Map<string, string>, interactive?: boolean, preserve?: boolean, signal?: AbortSignal,
+ *   patterns?: Map<string, string>, images?: Map<string, { width: number, height: number, data: Uint8Array }> }} opts
+ *   colours: feature label (upper case) -> colour; labels: feature label -> hover text (and tap text);
+ *   patterns: feature label -> the id of an image in `images`, drawn over the fill (el-maps, 14 Nov
+ *   2026: the results map's hatch for "no figure" and its stripes for a tie)
  * @returns {Promise<import('maplibre-gl').Map | null>} the map, or null when the signal aborted first
  */
 export async function areaMap(container, rec, opts) {
   const { maplibregl } = await loadMapLibre();
   if (opts.signal?.aborted) return null;
   const prop = rec.labelProperty || rec.label_property || 'name';
-  const fill = ['match', ['upcase', ['to-string', ['get', prop]]]];
+  const key = ['upcase', ['to-string', ['get', prop]]];
+  const fill = ['match', key];
   for (const [k, v] of opts.colours) fill.push(k, v);
   fill.push(electionsAppColours.noFill);
+  const patterned = [...(opts.patterns || new Map())].filter(([, id]) => opts.images?.has(id));
+  /** @type {unknown[]} */
+  const pattern = ['match', key];
+  for (const [k, id] of patterned) pattern.push(k, id);
+  pattern.push(patterned[0]?.[1] || '');
   const map = new maplibregl.Map({
     container,
     style: {
@@ -125,6 +134,11 @@ export async function areaMap(container, rec, opts) {
       sources: { areas: { type: 'vector', url: `pmtiles://${tileUrlOf(rec)}`, ...(rec.promoteId ? { promoteId: rec.promoteId } : {}) } },
       layers: [
         { id: 'fill', type: 'fill', source: 'areas', 'source-layer': rec.sourceLayer, paint: { 'fill-color': opts.colours.size ? /** @type {import('maplibre-gl').ExpressionSpecification} */ (/** @type {unknown} */ (fill)) : electionsAppColours.noFill, 'fill-opacity': 0.85 } },
+        ...(patterned.length ? [/** @type {import('maplibre-gl').LayerSpecification} */ ({
+          id: 'pattern', type: 'fill', source: 'areas', 'source-layer': rec.sourceLayer,
+          filter: /** @type {import('maplibre-gl').FilterSpecification} */ (/** @type {unknown} */ (['in', key, ['literal', patterned.map(([k]) => k)]])),
+          paint: { 'fill-pattern': /** @type {import('maplibre-gl').ExpressionSpecification} */ (/** @type {unknown} */ (pattern)) },
+        })] : []),
         { id: 'line', type: 'line', source: 'areas', 'source-layer': rec.sourceLayer, paint: { 'line-color': ink(), 'line-width': 0.6, 'line-opacity': 0.6 } },
       ],
     },
@@ -134,15 +148,26 @@ export async function areaMap(container, rec, opts) {
     attributionControl: { compact: true, customAttribution: 'Boundaries: Civgraph map layers (sources on each layer)' },
     canvasContextAttributes: { preserveDrawingBuffer: !!opts.preserve },
   });
+  // The pattern images, given to the map when a layer first asks for one (MapLibre's own hook).
+  if (patterned.length) {
+    map.on('styleimagemissing', (e) => {
+      const img = opts.images?.get(e.id);
+      if (img && !map.hasImage(e.id)) map.addImage(e.id, img, { pixelRatio: 2 });
+    });
+  }
   if (opts.labels && opts.interactive !== false) {
     const popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false });
-    map.on('mousemove', 'fill', (e) => {
+    /** @param {import('maplibre-gl').MapLayerMouseEvent} e */
+    const show = (e) => {
       const f = e.features?.[0];
       if (!f) return;
-      const key = String(f.properties?.[prop] ?? '').toUpperCase();
-      const text = opts.labels?.get(key) || String(f.properties?.[prop] ?? '');
+      const label = String(f.properties?.[prop] ?? '').toUpperCase();
+      const text = opts.labels?.get(label) || String(f.properties?.[prop] ?? '');
       popup.setLngLat(e.lngLat).setText(text).addTo(map);
-    });
+    };
+    map.on('mousemove', 'fill', show);
+    // A tap shows the same words on a touch screen, where there is no hover.
+    map.on('click', 'fill', show);
     map.on('mouseleave', 'fill', () => popup.remove());
   }
   opts.signal?.addEventListener('abort', () => map.remove(), { once: true });
