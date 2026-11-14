@@ -40,6 +40,25 @@ import { SiteChromeMethods } from '../src/app/site-chrome.js';
 import { PerformanceMethods } from '../src/app/performance.js';
 import { MessageMethods } from '../src/app/messages.js';
 
+/** @typedef {import('../src/app/map-app').MapApp} MapApp */
+/** @typedef {import('../src/renderer/metadata-service.js').PortPlan} PortPlan */
+/** @typedef {import('../src/election/election-manager').ElectionFeature} ElectionFeature */
+/** @typedef {import('./maplibre-main-adapter.js').AdapterFeature} AdapterFeature */
+/**
+ * The app as its start-up sees it: Test2App with every method module's methods (installMethods,
+ * below) and their state, and the two flag fields its constructor defines (defineFlagFields). It
+ * is the app once the map controller is made (MapAppReady): init makes it before anything it
+ * calls uses it.
+ * @typedef {import('../src/app/map-app').MapAppReady & Test2App
+ *   & LayerMethods & UrlStateMethods & UiWiringMethods & LazyRuntimeMethods & ElectionPaneMethods
+ *   & EntityBridgeMethods & CatalogueListMethods & SearchMethods & TimelineControlMethods
+ *   & TimelineAnimationMethods & TimelineChangeMethods & SourcePanelMethods & LegendMethods
+ *   & MapControlMethods & MobileLayoutMethods & SiteChromeMethods & PerformanceMethods & MessageMethods
+ *   & import('../src/app/url-state.js').NavigationState & import('../src/app/layers.js').SettleOutcomeState
+ *   & import('../src/app/entity-bridge.js').EntityPageState
+ *   & { electionCatalogueWarmScheduled: boolean, featuresHereKeepOpen: boolean, _styleLoadedPromise?: Promise<void> | null }} Test2AppThis
+ */
+
 /**
  * The map app at civgraph.net/maps/: Test2App owns the app state (the constructor) and the start-up
  * (init). Everything else is in modules under packages/map/src/app/, one concern each, whose methods are
@@ -53,9 +72,12 @@ class Test2App {
     this.currentCategory = 'all';
     this.currentAuthor = 'all';
     this.currentProviderCategory = 'all-providers';
+    /** @type {string[]} */
     this.currentProviderList = [];
     this.searchQuery = '';
+    /** @type {MapApp['mapController']} */
     this.mapController = null;
+    /** @type {MapApp['metadataService']} */
     this.metadataService = null;
     // The address bar: held still while something else changes the map, and the restore-from-
     // the-address machine, idle, restoring or queued (packages/map/src/app/url-sync.mjs).
@@ -67,10 +89,13 @@ class Test2App {
     this.hashListen = createHashListen();
     // The address a Back or Forward step arrived at, until the map is restored from it.
     this.traversal = createTraversal();
+    /** @type {string | null} */
     this.currentDetailMapId = null;
     // The party, person, constituency or feature page open in the catalogue pane, if any:
     // { kind, key, title, typeLabel }. In the address as page=kind:key (updateURLState).
+    /** @type {MapApp['currentPage']} */
     this.currentPage = null;
+    /** @type {string | null} */
     this.currentSourceMapId = null;
     this.baseMapId = 'osm-standard';
     // T1-06: set once the user picks a basemap deliberately; from then on the
@@ -78,15 +103,22 @@ class Test2App {
     this.userPickedBasemap = (() => {
       try { return localStorage.getItem('basemapUserChoice') === '1'; } catch { return false; }
     })();
+    /** @type {MapApp['elections']} */
     this.elections = null;
+    /** @type {MapApp['timelineItems']} */
     this.timelineItems = [];
+    /** @type {MapApp['timelineOnSelect']} */
     this.timelineOnSelect = null;
     this.timelineApplying = false;
     // Nested timeline applies (begin/endTimelineApply): idle or held (MA-L).
     this.timelineApply = createHoldCount('timeline apply');
+    /** @type {MapApp['timelineChangeIndex']} */
     this.timelineChangeIndex = null;
+    /** @type {MapApp['timelineChangeCache']} */
     this.timelineChangeCache = new Map();
+    /** @type {MapApp['timelineChangeView']} */
     this.timelineChangeView = null;
+    /** @type {MapApp['editionRoles']} */
     this.editionRoles = new Map();
     // The Play button's state machine (idle, playing, paused, ended) and the run's bookkeeping
     // (packages/map/src/app/timeline/playback.mjs).
@@ -98,21 +130,31 @@ class Test2App {
       singleLayerReferenceId: null,
       sequenceItems: []
     });
+    /** @type {Promise<unknown> | null} */
     this.booksPromise = null;
+    /** @type {MapApp['electionModulePromise']} */
     this.electionModulePromise = null;
+    /** @type {MapApp['electionLoadPromise']} */
     this.electionLoadPromise = null;
     // Set once (a latch), and the Features-here panel's keep-open request (a flag) (MA-L).
     defineFlagFields(this, ['electionCatalogueWarmScheduled'], { latch: true });
     defineFlagFields(this, ['featuresHereKeepOpen']);
+    /** @type {MapApp['searchWorker']} */
     this.searchWorker = null;
     this.searchWorkerReady = createFlag('search worker ready');
     this.searchWorkerSeq = 0;
+    /** @type {MapApp['searchWorkerCallbacks']} */
     this.searchWorkerCallbacks = new Map();
     this.workerSearchQuery = '';
+    /** @type {MapApp['workerSearchResultIds']} */
     this.workerSearchResultIds = null;
+    /** @type {PerformanceMethods['serviceWorkerStatusPromise'] | null} */
     this.serviceWorkerStatusPromise = null;
+    /** @type {PerformanceMethods['performanceBudget'] | null} */
     this.performanceBudget = null;
+    /** @type {MapApp['browseEntityDetailCache']} */
     this.browseEntityDetailCache = new Map();
+    /** @type {MapApp['classicScriptPromises']} */
     this.classicScriptPromises = new Map();
   }
 
@@ -122,6 +164,7 @@ class Test2App {
     this.mapController?.renderer?.dispose?.();
   }
 
+  /** @this {Test2AppThis} */
   async init() {
     const runtimeInitStartedAt = performance?.now?.() || Date.now();
     window.__civgraphTest2 = {
@@ -141,6 +184,7 @@ class Test2App {
     // on the next load and an unchanged index costs a 304: no content-hash token needed.
     // A layer id from a link is tried in its other spelling when it is not in the index
     // (packages/map/src/app/url-compat.mjs resolveLegacyLayerId).
+    /** @type {(id: string) => boolean} */
     this.isKnownLayerId = (id) => Boolean(this.metadataService?.getLayer(id));
     this.metadataService = new TestMetadataService('/_api/layers?view=index', undefined, {
       cache: 'default',
@@ -151,7 +195,8 @@ class Test2App {
     // map index and its port plan before it could draw (UX review 2026-10-31, L10).
     // The port plan is not fetched at all: the part of it the app reads (about 50 KB of the
     // 2.8 MB file) is built into the bundle (clientPortPlan, port-plan-client.generated.json).
-    const portPlan = Promise.resolve(CLIENT_PORT_PLAN);
+    // The JSON's rows write an absent field as null, which the port plan's readers take as absent.
+    const portPlan = Promise.resolve(/** @type {PortPlan} */ (/** @type {unknown} */ (CLIENT_PORT_PLAN)));
     this.metadataService.loadPortPlan = () => portPlan;
     await Promise.all([
       dataService.init({ loadBooks: false, loadGeographies: false }).then(() => { dataService.fuse = null; }),
@@ -168,27 +213,34 @@ class Test2App {
         const existingIds = new Set(dataService.maps.maps.map((m) => m.id));
         for (const layer of this.metadataService.layers || []) {
           if ((layer.sourceType === 'point-cloud' || layer.sourceType === 'raster-dem') && !existingIds.has(layer.id)) {
-            dataService.maps.maps.push(layer);
+            // A layer of the map index, read by the catalogue as a map of its own.
+            dataService.maps.maps.push(/** @type {import('../../types/index.js').MapEntry} */ (/** @type {unknown} */ (layer)));
           }
         }
       }
     } catch (e) { console.warn('[app] 3D layer catalogue injection failed', e); }
 
-    this.mapController = new Test2MapLibreMainAdapter('map', this.metadataService, {
+    // The map index (made above), as the adapter reads its layers.
+    this.mapController = new Test2MapLibreMainAdapter('map', /** @type {import('./maplibre-main-adapter.js').LayerIndex} */ (/** @type {unknown} */ (this.metadataService)), {
       onFeatureClick: (features) => {
         const feature = features?.[0] || null;
-        if (feature && this.elections?.showFeatureResults(feature)) {
+        // The manager reads a feature's id, map, names and properties.
+        if (feature && this.elections?.showFeatureResults(/** @type {ElectionFeature} */ (feature))) {
           uiController.hideFeatureInfo?.();
           return;
         }
-        uiController.showFeatureInfo(features, dataService.getAllMaps());
+        // The adapter's features (their ids, names, properties and geometry), read as the feature
+        // panel reads GeoJSON ones: it does not read the GeoJSON `type` they lack.
+        uiController.showFeatureInfo(/** @type {import('../src/ui-controller-types.d.ts').InfoFeature[]} */ (/** @type {unknown} */ (features)), /** @type {import('../src/ui-controller-types.d.ts').MapRecord[]} */ (dataService.getAllMaps()));
         this.addFeaturesHereList(feature);
       },
       getMainMap: (mapId) => dataService.getMapById(mapId),
-      onTimelineChangeClick: (changeKey) => this.zoomToTimelineChange(changeKey),
+      // The change's key, as setTimelineChanges wrote it on the marker.
+      onTimelineChangeClick: (changeKey) => this.zoomToTimelineChange(/** @type {string} */ (changeKey)),
       // A census statistic (data/database/data-entries.json), drawn on its geography's tiles.
       getDataEntry: (mapId) => (dataService.maps?.dataEntries || []).find((entry) => entry.id === mapId) || null,
-      enrichFeature: (feature, selection) => this.elections?.enrichFeature(feature, selection) || feature,
+      // The feature with its election result added, or as it was.
+      enrichFeature: (feature) => /** @type {AdapterFeature | undefined} */ (this.elections?.enrichFeature(/** @type {ElectionFeature} */ (feature))) || feature,
       onChange: () => {
         this.syncCatalogueMapState();
         this.updateActiveLayers();
@@ -196,8 +248,9 @@ class Test2App {
       },
       onError: (error) => this.showMapError(error)
     });
-    window.mapController = this.mapController;
-    globalThis.mapController = this.mapController;
+    // The catalogue reads the controller by these names (its map's invalidateSize is set by init).
+    window.mapController = /** @type {import('../src/globals.d.ts').LegacyMapController} */ (this.mapController);
+    globalThis.mapController = /** @type {import('../src/globals.d.ts').LegacyMapController} */ (this.mapController);
 
     this.wireUiCallbacks();
     this.installCatalogueStateBridge();
@@ -241,6 +294,7 @@ class Test2App {
         if (!map) { resolve({ idle: false, reason: 'no map' }); return; }
         if (map.loaded?.() && !map.isMoving?.()) { resolve({ idle: true, immediate: true }); return; }
         let settled = false;
+        /** @param {{ idle: boolean, immediate?: boolean, reason?: string }} payload */
         const done = (payload) => { if (!settled) { settled = true; map.off?.('idle', onIdle); resolve(payload); } };
         const onIdle = () => done({ idle: true, immediate: false });
         map.once?.('idle', onIdle);
@@ -285,6 +339,8 @@ class Test2App {
    * has, else on its 'style.load' (checked every quarter second too, in case the event was
    * missed). Never on a timer alone: adding a layer to a style still loading throws and the
    * layer is lost.
+   * @this {Test2AppThis}
+   * @returns {Promise<void>}
    */
   whenStyleLoaded() {
     const map = this.mapController?.map;
@@ -292,6 +348,7 @@ class Test2App {
     const ready = () => Boolean(map.style?._loaded) || Boolean(map.isStyleLoaded?.());
     if (ready()) return Promise.resolve();
     if (!this._styleLoadedPromise) {
+      /** @type {Promise<void> | null | undefined} */
       this._styleLoadedPromise = new Promise((resolve) => {
         let timer = 0;
         const check = () => {
@@ -334,7 +391,8 @@ installMethods(Test2App, [
   MessageMethods
 ]);
 
-const app = new Test2App();
+// The app, with the methods installMethods put on its prototype.
+const app = /** @type {Test2AppThis} */ (new Test2App());
 app.init().catch((error) => {
   console.error('[Test2] Failed to start', error);
   const target = document.getElementById('map') || document.body;

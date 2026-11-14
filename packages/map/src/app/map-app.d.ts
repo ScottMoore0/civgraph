@@ -103,6 +103,7 @@ export interface MapControllerView extends Pick<MainAdapter,
   | 'groupStates'
   | 'hideLayer'
   | 'highlightFeature'
+  | 'init'
   | 'invalidateSize'
   | 'isFeatureLoaded'
   | 'isFeatureVisible'

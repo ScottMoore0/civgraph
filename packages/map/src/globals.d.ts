@@ -28,7 +28,11 @@ export interface LegacyLayerState {
   geoJsonLayers?: Array<{ setStyle(style: Record<string, number>): void }>;
 }
 
-/** The retired Leaflet map's controller, where a page still has it. */
+/**
+ * The main map's controller as the catalogue reads it through window.mapController: on the map
+ * page the MapLibre adapter (packages/map/app/app.js sets it; its map's invalidateSize is the
+ * adapter's, set by its init), and on the retired Leaflet page that page's controller.
+ */
 export interface LegacyMapController {
   map?: { invalidateSize(): void } | null;
   layerStates?: Map<string, LegacyLayerState>;

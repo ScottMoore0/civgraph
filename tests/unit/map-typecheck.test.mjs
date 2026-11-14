@@ -42,7 +42,10 @@ const BASELINE = [
   'src/app/election-pane.js',
   'src/app/url-state.js',
   'src/app/entity-bridge.js',
-  'src/app/ui-wiring.js'
+  'src/app/ui-wiring.js',
+  // and the app itself, with its boot.
+  'app/app.js',
+  'app/boot.js'
 ];
 
 /** The files a simple include pattern names (a file, dir/*.ext, or dir/**\/*.ext). */

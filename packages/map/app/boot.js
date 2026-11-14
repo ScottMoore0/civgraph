@@ -39,12 +39,13 @@ if (document.readyState === 'loading') {
   startAfterFirstPaint();
 }
 
+/** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => /** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  }[ch]));
+  })[ch]);
 }

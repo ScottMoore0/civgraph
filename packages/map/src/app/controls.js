@@ -13,7 +13,7 @@ import { resolveBaseMapId } from '../renderer/basemap.mjs';
  * The app as these methods see it: the controls' own state is set on first use.
  * @typedef {import('./map-app').MapApp & MapControlMethods & {
  *   _outsideMapHighlightClearInstalled?: boolean,
- *   _lastClearedSelection?: import('../renderer/map-controller.js').FeatureSelection
+ *   _lastClearedSelection?: import('../renderer/map-controller.js').FeatureSelection | null
  * }} MapControlApp
  */
 
