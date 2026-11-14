@@ -10,12 +10,18 @@ import dataService from '../data-service.js';
 import featureLoader from '../feature-loader.js';
 import { publicMaps } from '../public-map.mjs';
 
+/** @typedef {import('./map-app').MapApp & CatalogueListMethods} CatalogueListApp */
+/** @typedef {import('../ui-controller-types.d.ts').MapRecord} MapRecord */
+/** @typedef {import('../ui-controller-types.d.ts').ViewElement} ViewElement */
+
 export class CatalogueListMethods {
+  /** @this {CatalogueListApp} */
   renderCategoryPills() {
     uiController.renderCategoryPills(dataService.getMapCategories(), this.currentCategory);
     uiController.renderProviderPills(this.currentProviderCategory);
   }
 
+  /** @this {CatalogueListApp} */
   updateMapList() {
     const allMaps = dataService.getAllMaps();
     let maps = dataService.getMapsByCategory(this.currentCategory);
@@ -43,8 +49,9 @@ export class CatalogueListMethods {
       if (count > 0) featureCounts.set(map.id, count);
     });
 
-    uiController.renderMapList(maps, {
-      visibleIds: this.mapController.getVisibleLayers(),
+    uiController.renderMapList(/** @type {MapRecord[]} */ (maps), {
+      // The list is drawn once the map is up.
+      visibleIds: /** @type {import('./map-app').MapControllerView} */ (this.mapController).getVisibleLayers(),
       loadedIds: this.getLoadedLayerIds(),
       featureCounts,
       totalMaps: this.publicMapCount(),
@@ -65,6 +72,7 @@ export class CatalogueListMethods {
    * The rule is in packages/map/src/public-map.mjs and is shared with build-browse-indexes.mjs, so the
    * two surfaces cannot drift again. Loadability is decided by the RENDER record, because
    * the DoBIH layers carry no catalogue `files` yet draw perfectly.
+   * @this {CatalogueListApp}
    */
   publicMapCount() {
     // READ the stamped number; do not recompute it. Computing it here from the browser's
@@ -72,12 +80,14 @@ export class CatalogueListMethods {
     // copy is not byte-identical to the file the other surfaces measure.
     // build-render-time-series-chains.mjs stamps it, and check:public-map-count pins it.
     const stamped = this.metadataService?.metadata?.publicMapCount;
-    if (Number.isFinite(stamped)) return stamped;
+    // Number.isFinite held that it is a number.
+    if (Number.isFinite(stamped)) return /** @type {number} */ (stamped);
     // Fallback only for a metadata load that has not landed yet.
     const layerIds = new Set((this.metadataService?.layers || []).map((layer) => layer.sourceMapId).filter(Boolean));
     return publicMaps(dataService.maps?.maps || [], (id) => layerIds.has(id)).length;
   }
 
+  /** @this {CatalogueListApp} @param {{ body?: string, date?: string } | null | undefined} entry @param {{ scroll?: boolean }} [options] */
   focusActiveElectionCatalogueEntry(entry, options = {}) {
     if (!entry?.body || !entry?.date) return;
     // An election opened from a party, person or constituency page leaves the reader on that
@@ -87,8 +97,9 @@ export class CatalogueListMethods {
       this.searchQuery = '';
       this.currentCategory = 'all';
       this.currentProviderCategory = 'all-providers';
+      /** @type {string[]} */
       this.currentProviderList = [];
-      const search = document.getElementById('searchInput');
+      const search = /** @type {HTMLInputElement | null} */ (document.getElementById('searchInput'));
       if (search) search.value = '';
       document.getElementById('searchClear')?.classList.remove('visible');
       uiController.showCatalogueListView?.(false);
@@ -108,8 +119,8 @@ export class CatalogueListMethods {
       const year = Number.parseInt(String(entry.date).slice(0, 4), 10);
       if (!Number.isFinite(year)) return;
       const label = `${Math.floor(year / 10) * 10}s`;
-      const button = [...document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-decade-btn')]
-        .find((el) => el.textContent.trim() === label);
+      const button = /** @type {ViewElement[]} */ ([...document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-decade-btn')])
+        .find((el) => /** @type {string} */ (el.textContent).trim() === label);
       const targetId = button?.dataset?.catalogueTarget;
       if (!targetId) return;
       // ensureCatalogueTargetRendered returns early when the card is already open, so
@@ -128,7 +139,7 @@ export class CatalogueListMethods {
     const focusDeadline = performance.now() + FOCUS_DEADLINE_MS;
     let listStateRestored = false;
     const focusRow = () => {
-      const rows = [...document.querySelectorAll('#catalogueFlatView .flat-election-entry')];
+      const rows = /** @type {ViewElement[]} */ ([...document.querySelectorAll('#catalogueFlatView .flat-election-entry')]);
       const target = rows.find((row) => row.dataset.electionBody === entry.body && row.dataset.electionDate === entry.date);
       if (!target) {
         if (performance.now() >= focusDeadline) return;

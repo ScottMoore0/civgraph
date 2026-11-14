@@ -91,6 +91,7 @@ export interface MapControllerView {
   runtimeProfile?: { deviceClass?: string } | null;
   getMetrics?(): MapMetric[];
   getCensusOverlayLegend(mainId: string): CensusLegend | null;
+  getVisibleLayers(): string[];
   setTimelineChanges(geojson: { features?: unknown } | null | undefined, options?: { reversed?: boolean; points?: unknown; key?: string }): boolean;
   clearTimelineChanges(): boolean;
   fitToBounds(bounds: unknown, options?: { smooth?: boolean } | null): void;
@@ -138,6 +139,17 @@ export interface MapApp {
   timelineOnSelect: ((...args: never[]) => unknown) | null;
   /** The classic scripts asked for, by URL (lazy-runtime.js loadClassicScript). */
   classicScriptPromises: Map<string, Promise<unknown>>;
+  /** The layer index (/_api/layers?view=index), made once the app starts. */
+  metadataService: import('../renderer/metadata-service.js').TestMetadataService | null;
+  /** The legacy catalogue list's filters (catalogue-list.js) and the search's query. */
+  currentCategory: string;
+  /** 'all', or the authors the filter keeps (ui-wiring.js onAuthorFilter). */
+  currentAuthor: string | string[];
+  currentProviderCategory: string;
+  currentProviderList: string[];
+  searchQuery: string;
+  /** The entity page shown, if one is (entity-bridge.js). */
+  currentPage: { kind?: string; key?: string; title?: string; typeLabel?: string } | null;
 
   // Methods of other method modules.
   /** layers.js */
@@ -214,6 +226,7 @@ export interface MapApp {
   exportMapImage(mapId: string, format?: string, options?: { trigger?: HTMLElement }): Promise<unknown>;
   /** mobile-layout.js */
   isPhoneLayout(): boolean;
+  searchMapsForCatalogue<T extends { id: string }>(query: string, allMaps: T[]): T[];
   /** controls.js */
   syncBasemapToTheme(): Promise<unknown>;
 }
