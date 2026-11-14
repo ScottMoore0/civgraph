@@ -104,9 +104,10 @@ if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
 fi
 
 # Full or code-only (scripts/publish/publish-path.mjs). Anything but a last line of exactly
-# "PATH code-only" is the full path.
+# "PATH code-only" on its standard output is the full path (its warnings go to a log of their own,
+# so a warning printed after the decision cannot hide it, or fake it).
 stamp "== publish path"
-node scripts/publish/publish-path.mjs ${REBUILD:+--rebuild} ${DOWNLOADS:+--downloads} > "$WORK/publish-path.log" 2>&1
+node scripts/publish/publish-path.mjs ${REBUILD:+--rebuild} ${DOWNLOADS:+--downloads} > "$WORK/publish-path.log" 2> "$WORK/publish-path.err"
 sed 's/^/  /' "$WORK/publish-path.log"
 if [ "$(tail -1 "$WORK/publish-path.log" | tr -d '\r')" = "PATH code-only" ]; then ROUTE=code-only; fi
 
@@ -118,7 +119,7 @@ else
   stamp "== records:build"
   FRESH=
   if [ -n "$REBUILD" ]; then echo "  building: --rebuild given"
-  elif node scripts/publish/records-freshness.mjs > "$WORK/records-freshness.log" 2>&1; then FRESH=1
+  elif node scripts/publish/records-freshness.mjs > "$WORK/records-freshness.log" 2> "$WORK/records-freshness.err"; then FRESH=1
   else echo "  building: $(tail -1 "$WORK/records-freshness.log")"; fi
   if [ -n "$FRESH" ]; then
     echo "  SKIPPED: the build in place is of exactly these inputs ($(tail -1 "$WORK/records-freshness.log"))"

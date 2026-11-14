@@ -62,6 +62,9 @@ const code = SH.split('\n').filter((line) => !/^\s*#/.test(line)).join('\n');
 
 test('publish.sh takes the code-only path only on an exact last line, and keeps --rebuild', () => {
   assert.match(code, /= "PATH code-only" \]; then ROUTE=code-only; fi/);
+  // The decision is read from standard output alone: a warning on stderr after it must not bury it.
+  assert.match(code, /publish-path\.mjs [^\n]*> "\$WORK\/publish-path\.log" 2> "\$WORK\/publish-path\.err"/);
+  assert.doesNotMatch(code, /publish-path\.log" 2>&1/);
   assert.match(code, /ROUTE=full /);
   assert.match(code, /--rebuild\) REBUILD=1/);
   assert.match(code, /publish-path\.mjs \$\{REBUILD:\+--rebuild\} \$\{DOWNLOADS:\+--downloads\}/);
