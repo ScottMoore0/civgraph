@@ -29,6 +29,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 // commit, and check it against the rules below (pure, closed, nothing private).
 const SERVED = [
   'pkg/config/src/config.js',
+  'pkg/core/src/apportionment.mjs',
   'pkg/core/src/date-format.mjs',
   'pkg/core/src/election-domain.mjs',
   'pkg/core/src/format.js',
