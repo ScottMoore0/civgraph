@@ -13,61 +13,23 @@
  *   - an entry's token is not the file's current hash;
  *   - an import specifier carries its own ?v= (the map does that, and TypeScript cannot
  *     resolve a specifier with a query).
- * The failure prints the import map to paste.
+ * The failure prints the import map to paste; npm run build:import-maps writes it. The graph and
+ * the tokens come from scripts/lib/import-map.mjs, which the stamper shares.
  *
  *   node --test tests/unit/ui-module-tokens.test.mjs
  */
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { sourceOf } from '../../scripts/build/site.mjs';
+import { IMPORT_MAP_PAGES, expectedImportMap, importsOf, moduleGraph, pageParts as htmlParts, readServed, token } from '../../scripts/lib/import-map.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const PAGES = ['browse/index.html', 'catalogue/index.html', 'records/index.html', 'apps/proni-search/index.html', 'apps/words/index.html', 'apps/elections/index.html'];
-
-// A served path a package provides is read from the package (packages/served.json).
-const read = (rel) => readFileSync(path.join(ROOT, sourceOf(rel)));
-export const token = (rel) => createHash('sha256').update(read(rel)).digest('hex').slice(0, 12);
-
-/** Static import specifiers of a module (import ... from '...'; export ... from '...'). */
-function importsOf(source) {
-  const out = [];
-  for (const match of source.matchAll(/^\s*(?:import|export)\s[^;'"]*?\sfrom\s+['"]([^'"]+)['"]/gm)) out.push(match[1]);
-  for (const match of source.matchAll(/^\s*import\s+['"]([^'"]+)['"]/gm)) out.push(match[1]);
-  return out;
-}
-
-/** Every module an entry reaches by relative or root-relative static imports, as site paths. */
-export function moduleGraph(entry) {
-  const seen = new Set();
-  const visit = (sitePath) => {
-    for (const spec of importsOf(read(sitePath.slice(1)).toString('utf8'))) {
-      if (!spec.startsWith('.') && !spec.startsWith('/')) continue;
-      const resolved = new URL(spec, `https://site.invalid${sitePath}`).pathname;
-      if (seen.has(resolved)) continue;
-      seen.add(resolved);
-      visit(resolved);
-    }
-  };
-  visit(entry);
-  return seen;
-}
-
-function pageParts(rel) {
-  const html = read(rel).toString('utf8');
-  const entry = html.match(/<script type="module" src="([^"?]+)(?:\?[^"]*)?"/)?.[1];
-  const mapText = html.match(/<script type="importmap">([\s\S]*?)<\/script>/)?.[1];
-  return { entry, map: mapText ? JSON.parse(mapText).imports || {} : null };
-}
-
-/** The import map a page should carry, for the failure message. */
-function expectedMap(entry) {
-  const imports = Object.fromEntries([...moduleGraph(entry)].sort().map((p) => [p, `${p}?v=${token(p.slice(1))}`]));
-  return `<script type="importmap">${JSON.stringify({ imports })}</script>`;
-}
+const PAGES = IMPORT_MAP_PAGES;
+const read = readServed;
+const pageParts = (rel) => htmlParts(read(rel).toString('utf8'));
+const expectedMap = expectedImportMap;
 
 for (const rel of PAGES) {
   test(`${rel}: every imported module is in the import map at its current hash`, () => {
