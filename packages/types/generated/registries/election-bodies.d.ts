@@ -76,6 +76,8 @@ export interface Body {
   wikipediaTitle?: string;
   /** Every election of the body is held over its whole area, so none is a by-election. */
   wholeArea?: boolean;
+  /** A day of the body's elections with at most this many contests is a by-election (otherwise 2): the Seanad has held by-elections in four panels on one day, and its general elections fill all seven contests. */
+  byElectionMaxContests?: number;
   /** The title of a by-election of the body, where `title` names its general elections; {year} is its year and {contest} the contest's name. */
   byElectionTitle?: string;
   /** The title of several by-elections of the body held on one day; {year} is their year. */

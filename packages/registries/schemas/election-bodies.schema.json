@@ -108,6 +108,7 @@
         "title": { "type": "string", "pattern": "\\{year\\}", "description": "An election's title; {year} is its year." },
         "wikipediaTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The English Wikipedia article on an election, where no resolved article is on file; {year} is its year." },
         "wholeArea": { "type": "boolean", "description": "Every election of the body is held over its whole area, so none is a by-election." },
+        "byElectionMaxContests": { "type": "integer", "minimum": 1, "description": "A day of the body's elections with at most this many contests is a by-election (otherwise 2): the Seanad has held by-elections in four panels on one day, and its general elections fill all seven contests." },
         "byElectionTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The title of a by-election of the body, where `title` names its general elections; {year} is its year and {contest} the contest's name." },
         "byElectionsTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The title of several by-elections of the body held on one day; {year} is their year." },
         "titlesByDate": {

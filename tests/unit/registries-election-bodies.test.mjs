@@ -6,7 +6,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadRegistry, registryErrors, REPO_ROOT } from '../../packages/registries/src/index.mjs';
 import { byElectionTitleOf, checkElectionBodies, electionBody, fillYear, generalElectionTitleOf, geographyRuleFor, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
-import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
+import { canonicalElectionTitle, isElectionByElectionScope } from '../../scripts/lib/election-names.mjs';
 
 const registry = loadRegistry('election-bodies');
 const index = JSON.parse(readFileSync(path.join(REPO_ROOT, 'data/elections-source/data/elections_index.json'), 'utf8'));
@@ -88,6 +88,15 @@ test('byElectionTitleOf and the Seanad titles: general elections by year, by-ele
   assert.equal(generalElectionTitleOf(null, '2024-06-07'), null);
   assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1938-04-27', constituencies: panels }), 'April 1938 Seanad election');
   assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1938-09-07', constituencies: panels }), 'August 1938 Seanad election');
+  // Up to four by-elections on one day (23 April 1975) are by-elections (byElectionMaxContests);
+  // a general election fills all seven contests (six where one is left out).
+  const four = ['Administrative Panel', 'Agricultural Panel', 'Cultural and Educational Panel', 'Industrial and Commercial Panel'];
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1975-04-23', constituencies: four }), '1975 Seanad by-elections');
+  assert.equal(isElectionByElectionScope({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1975-04-23', constituencies: four }), true);
+  assert.equal(isElectionByElectionScope({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '2016-04-25', constituencies: panels.slice(0, 6) }), false);
+  assert.equal(seanad.byElectionMaxContests, 4);
+  // Other bodies keep the rule of two.
+  assert.equal(isElectionByElectionScope({ body: 'Mayor of Limerick', bodySlug: 'limerick-mayor', date: '2024-06-07', constituencies: ['A', 'B', 'C'] }), false);
   // A by-election of 1938 keeps its own title.
   assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1938-09-07', constituencies: ['Labour Panel'] }), '1938 Seanad by-election (Labour Panel)');
   // A body with a title and no by-election template is unchanged: the mayoralty is never a by-election.

@@ -369,7 +369,8 @@ function niCouncilEraName(normalizedBody, date) {
 /** @param {ElectionNameScope} [scope] */
 export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null, bodySlug = '' } = {}) {
   const normalizedBody = normalizeName(body);
-  if (registeredBody(bodySlug, body)?.wholeArea) return false;
+  const registered = registeredBody(bodySlug, body);
+  if (registered?.wholeArea) return false;
   if (PRE1973_COUNCIL_BODIES.has(normalizedBody)) return false;
   // A party's own ballot (leader, nominee) is never a by-election, however few its contests.
   if (isPartyInternalBody({ body, bodySlug })) return false;
@@ -393,7 +394,7 @@ export function isElectionByElectionScope({ body = '', bodyGroup = null, date = 
   if (normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) < '1922-11-15') {
     return names.length < 20;
   }
-  return names.length <= 2;
+  return names.length <= (registered?.byElectionMaxContests || 2);
 }
 
 /**
