@@ -15,6 +15,7 @@ export default definePlugin({
     { id: 'wikipedia', title: 'Wikipedia articles on each Seanad and its election, and the List of Seanad by-elections with its by-election articles', publisher: 'Wikimedia Foundation', url: 'https://en.wikipedia.org/', rights: 'CC-BY-SA', licence: 'CC BY-SA 4.0' },
   ],
   inputs: { ieDir: { env: 'CIVGRAPH_IRELANDELECTION_DIR', description: "IrelandElection.com's parsed contests (the folder holding index.jsonl and contests/), kept outside the repository" } },
+  helpers: ['winners_only.py'],
   steps: {
     harvest: {
       title: 'Fetch the Seanad terms and members (Oireachtas API) and the Seanad articles (Wikipedia) into .cache/seanad/',
