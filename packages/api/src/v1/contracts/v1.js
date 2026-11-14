@@ -106,6 +106,9 @@ const SUMMARY_ROW = obj({
   constituency: str, seatsTotal: numOrNull, seatsWon: numOrNull, validPoll: numOrNull, quota: numOrNull,
   winnerParty: strOrNull, winnerName: strOrNull, leadingParty: strOrNull, leadingName: strOrNull, leadingVotes: numOrNull,
   turnoutPct: numOrNull, majority: numOrNull, candidateCount: num, featureName: strOrNull,
+  // Added 14 Nov 2026 (el-fixes): a multi-member contest's seats by party (party -> seats, so a
+  // tie at the top shows), and the electorate and total poll where recorded.
+  seatsByParty: either('object', 'null'), electorate: numOrNull, totalPoll: numOrNull,
 }, ['constituency', 'candidateCount']);
 /** One original source of a contest's results (QA H5): what it is, and what it was checked for. */
 /** One place of the area index: a contest slug within a body (elections only). */

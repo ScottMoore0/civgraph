@@ -54,6 +54,11 @@ export interface ElectionsSummaryAnswer {
     majority?: number | null;
     candidateCount: number;
     featureName?: string | null;
+    seatsByParty?: {
+      [key: string]: unknown;
+    } | null;
+    electorate?: number | null;
+    totalPoll?: number | null;
     [key: string]: unknown;
   }>;
   [key: string]: unknown;

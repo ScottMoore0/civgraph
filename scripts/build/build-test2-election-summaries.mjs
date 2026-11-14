@@ -10,6 +10,7 @@ import path from 'node:path';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
 import { ELECTION_MANIFEST, ELECTION_SUMMARY_DIR } from '../../packages/loader/src/paths.mjs';
 import { localPathForUrl } from '../../packages/loader/src/paths.mjs';
+import { seatsByParty } from '../../packages/core/src/election-domain.mjs';
 
 const ROOT = process.cwd();
 const MANIFEST_PATH = ELECTION_MANIFEST;
@@ -47,12 +48,29 @@ function numberOrNull(/** @type {unknown} */ value) {
   return Number.isFinite(number) ? number : null;
 }
 
-function electedCount(/** @type {ElectionResult} */ result) {
+function electedCandidates(/** @type {ElectionResult} */ result) {
   const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
   return candidates.filter((/** @type {Candidate} */ candidate) => {
     const status = String(candidate.status || '').toLowerCase();
-    return candidate.elected === true || status.includes('elected');
-  }).length;
+    // "Not elected" contains "elected": it was counted as elected until 14 Nov 2026.
+    return candidate.elected === true || (status.includes('elected') && !status.includes('not elected'));
+  });
+}
+
+function electedCount(/** @type {ElectionResult} */ result) {
+  return electedCandidates(result).length;
+}
+
+/**
+ * The seats each party won in a multi-member contest (core's seatsByParty), so a reader can tell a
+ * tie at the top from "most seats"; null for a single seat or a contest with nobody elected.
+ * The elected are the result's own list where it has one (summarizeResult's), else its
+ * candidates marked elected.
+ */
+function partySeats(/** @type {ElectionResult} */ result) {
+  if ((numberOrNull(result.seatsTotal) || 1) <= 1) return null;
+  const elected = Array.isArray(result.elected) && result.elected.length ? /** @type {Candidate[]} */ (result.elected) : electedCandidates(result);
+  return elected.length ? seatsByParty(elected) : null;
 }
 
 function partyCount(/** @type {ElectionResult} */ result) {
@@ -89,7 +107,10 @@ function summarizeResult(/** @type {ElectionResult} */ result) {
     hasAnimation: Boolean(result.animationPayload),
     // Only the winners are on record (packages/core/src/unopposed.mjs isWinnersOnlyRecord): the
     // row reads "votes not recorded", never "returned unopposed".
-    ...(result.candidatesRecorded ? { candidatesRecorded: result.candidatesRecorded } : {})
+    ...(result.candidatesRecorded ? { candidatesRecorded: result.candidatesRecorded } : {}),
+    seatsByParty: partySeats(result),
+    electorate: numberOrNull(result.electorate) || null,
+    totalPoll: numberOrNull(result.totalPoll) || null
   };
 }
 
