@@ -23,7 +23,7 @@ export interface OfficesDocument {
     name: string;
     institution: Slug;
     jurisdiction: Jurisdiction;
-    kind: "head-of-government" | "deputy-head-of-government" | "head-of-state" | "minister" | "minister-of-state" | "junior-minister" | "secretary-of-state" | "chief-whip" | "leader-of-house" | "speaker" | "deputy-speaker" | "presiding-officer" | "law-officer" | "chair" | "civil-service-head" | "commissioner" | "mayor" | "deputy-mayor" | "council-chair" | "high-sheriff" | "councillor" | "party-leader" | "party-deputy-leader" | "party-president" | "party-vice-president" | "party-chair" | "party-vice-chair" | "party-general-secretary" | "party-chief-whip" | "party-secretary" | "party-group-leader";
+    kind: "head-of-government" | "deputy-head-of-government" | "head-of-state" | "minister" | "minister-of-state" | "junior-minister" | "secretary-of-state" | "chief-whip" | "leader-of-house" | "speaker" | "deputy-speaker" | "presiding-officer" | "law-officer" | "chair" | "civil-service-head" | "commissioner" | "mayor" | "deputy-mayor" | "council-chair" | "high-sheriff" | "councillor" | "party-leader" | "party-deputy-leader" | "party-president" | "party-vice-president" | "party-chair" | "party-vice-chair" | "party-general-secretary" | "party-chief-whip" | "party-secretary" | "party-group-leader" | "nominated-member";
     partyId?: Slug;
     start: DateOrNull;
     startPrecision: PrecisionOrNull;

@@ -44,7 +44,7 @@ const KIND_LABELS = {
   councillor: 'Council seat', 'party-leader': 'Party leader', 'party-deputy-leader': 'Party deputy leader', 'party-president': 'Party president',
   'party-vice-president': 'Party vice-president', 'party-chair': 'Party chair', 'party-vice-chair': 'Party vice-chair',
   'party-general-secretary': 'Party general secretary', 'party-chief-whip': 'Party chief whip', 'party-secretary': 'Party secretary',
-  'party-group-leader': 'Leader of a party group',
+  'party-group-leader': 'Leader of a party group', 'nominated-member': 'Nominated member',
 };
 /** @type {Record<string, string>} */
 const JURISDICTIONS = { 'northern-ireland': 'Northern Ireland', ireland: 'Ireland', 'united-kingdom': 'United Kingdom', europe: 'Europe' };

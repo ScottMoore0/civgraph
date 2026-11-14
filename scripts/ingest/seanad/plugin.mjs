@@ -27,5 +27,10 @@ export default definePlugin({
       argv: ['python', 'scripts/ingest/seanad/build_seanad.py', '--ie', '{input:ieDir}'],
       note: 'Then the person-id rebuild order (memory note project_ei_person_ids.md) and the records build.',
     },
+    nominees: {
+      title: "Write the senators nominated by the Taoiseach as tenures of the office seanad-taoiseach-nominee, joined by member code or by seanad-nominee-checks.csv",
+      argv: ['python', 'scripts/ingest/seanad/build_seanad_nominees.py'],
+      note: 'Run after the person-id rebuild has stamped the Seanad member codes; then the person-id rebuild again (registers any new non-candidate) and check:facts.',
+    },
   },
 });
