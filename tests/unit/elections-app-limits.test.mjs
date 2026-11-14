@@ -96,7 +96,7 @@ test('the pivot notes follow the table: a note only for a dimension, filter or m
 test('a note is one span a sentence, escaped, with its limit named', () => {
   const html = limitHtml({ id: 'losers', sentences: ['A <b>.', 'B.'] }, esc);
   assert.equal(html, '<p class="cg-notice" data-limit="losers"><span>A &lt;b&gt;.</span> <span>B.</span></p>');
-  assert.match(limitHtml({ id: 'leaders', sentences: [NOTE.leaders] }, esc, 'el-muted'), /^<p class="el-muted" data-limit="leaders">/);
+  assert.match(limitHtml({ id: 'transfers', sentences: [NOTE.transfers] }, esc, 'el-muted'), /^<p class="el-muted" data-limit="transfers">/);
 });
 
 test('every note is keyed for translation in en.json (R10)', () => {

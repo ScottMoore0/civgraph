@@ -127,7 +127,6 @@ export async function render(root, route) {
           + `<td class="num">${fmtInt(p.seats)}</td>${prevDetail ? `<td class="num ${deltaClass(p.seatChange)}">${fmtDelta(p.seatChange)}</td>` : ''}<td class="num">${p.gone ? '' : fmtInt(p.stood)}</td>`
           + `${votes ? `<td class="num">${p.gone ? '' : fmtInt(p.votes)}</td><td class="num">${p.gone ? '' : fmtPct(p.share)}</td>` : ''}${votes && prevVotes ? `<td class="num ${deltaClass(p.shareChange)}">${fmtDelta(p.shareChange, 1)}</td>` : ''}</tr>`).join('')}</tbody>
       </table></div>
-      ${referendum ? '' : limitHtml({ id: 'leaders', sentences: [NOTE.leaders] }, esc, 'el-muted')}
       ${prevDetail && votes && !prevVotes ? '<p class="el-muted">No vote change is given: the previous election has no recorded votes.</p>' : ''}
     </section>
     <section aria-labelledby="el-contests"><h2 id="el-contests">Contests</h2>

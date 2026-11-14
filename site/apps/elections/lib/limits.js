@@ -12,8 +12,7 @@
  *   transfers      a seat estimate from first preferences for a voting system whose count
  *                  transfers votes (the election-types registry's `transfers`);
  *   gender, incumbency, party, unopposed
- *                  the pivot table's notes, from counts of the rows behind the table on screen;
- *   leaders        the records hold no party leaders, so the parties table says so.
+ *                  the pivot table's notes, from counts of the rows behind the table on screen.
  *
  * The words are English and keyed for translation in data/i18n/strings/elections.txt (R10: the
  * language runtime translates each note by its wording, so a note is one text node, a sentence a
@@ -32,7 +31,6 @@ export const NOTE = Object.freeze({
   votesNotRecorded: 'not recorded',
   losersMarker: 'losing candidates not on file',
   transfers: 'Seats are shared out by quotas of first preferences: the transfers that decide many seats under this system are left out.',
-  leaders: 'Party leaders are not recorded in Civgraph yet.',
   genderNeverInferred: 'The rest are shown as not recorded: gender is never inferred from a name.',
   incumbencyDerived: 'Incumbency is worked out, not taken from a source: a candidate counts as an incumbent when the same person was elected to the same body at its previous general election or at a by-election since.',
   partyAsPrinted: 'Party is the label on the ballot paper as recorded.',
@@ -62,7 +60,7 @@ export function counted(id, n, fmt, total) {
 
 /**
  * A data note: an id (the data-limit attribute, for tests and styling hooks) and its sentences.
- * @typedef {{ id: 'losers' | 'votes' | 'transfers' | 'leaders' | 'gender' | 'incumbency' | 'party' | 'unopposed' | 'election-losers', sentences: string[] }} Limit
+ * @typedef {{ id: 'losers' | 'votes' | 'transfers' | 'gender' | 'incumbency' | 'party' | 'unopposed' | 'election-losers', sentences: string[] }} Limit
  */
 
 /** Whether a voting system's count transfers votes (registry `transfers`). @param {unknown} system */

@@ -136,14 +136,15 @@ test.describe('Civgraph Elections', () => {
     await expect(page.locator('[data-limit="losers"]')).toHaveCount(0);
   });
 
-  test('data limits: a complete contest and its election carry no data note but the leaders one', async ({ page }) => {
+  test('data limits: a complete contest and its election carry no data note', async ({ page }) => {
     await page.goto('/elections/northern-ireland-assembly-2022-05-05/belfast-east/');
     await expect(page.locator('h2#el-result')).toHaveText('Count sheet');
     await expect(page.locator('#el-view [data-limit]')).toHaveCount(0);
     await page.goto('/elections/northern-ireland-assembly-2022-05-05/');
     await expect(page.locator('table.el-contests')).toBeVisible();
-    await expect(page.locator('#el-view [data-limit]')).toHaveCount(1);
-    await expect(page.locator('[data-limit="leaders"]')).toHaveText('Party leaders are not recorded in Civgraph yet.');
+    await expect(page.locator('#el-view [data-limit]')).toHaveCount(0);
+    // The party-leaders note was dropped (owner, 14 Nov 2026).
+    await expect(page.locator('#el-view')).not.toContainText('Party leaders are not recorded');
   });
 
   test('an unknown election is a "Not found" page', async ({ page }) => {
