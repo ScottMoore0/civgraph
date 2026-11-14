@@ -2,7 +2,7 @@
  * A referendum's result (14 Nov 2026): the options with their votes and shares, the electorate and
  * turnout, the result in words, and the result in each counting area. A referendum is not drawn
  * through the election template: it has options, not parties, and no seats. Pure (no DOM):
- * tests/unit/elections-app-fixes.test.mjs. The words are keyed in data/i18n/strings/elections.txt (R10).
+ * unit test elections-app-fixes.test.mjs. The words are keyed in data/i18n/strings/elections.txt (R10).
  *
  * The figures are the records' own: the options are the election detail's partySummary (one row
  * an option, its votes and share), each area is a row of the election summary. An area's votes

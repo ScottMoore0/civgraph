@@ -1,7 +1,7 @@
 /**
  * Readable STV counts (el-stv, 14 Nov 2026): what each count did, a plain sentence or two about
  * it, the transfers between candidates and between parties, the quota's formula and the margin of
- * the last seat. Pure (no DOM): tests/unit/elections-app-stv.test.mjs.
+ * the last seat. Pure (no DOM): unit test elections-app-stv.test.mjs.
  *
  * Everything here is worked out from the count sheet (lib/count.js countSheet): each candidate's
  * total at each count and the change since the count before. The records hold each candidate's

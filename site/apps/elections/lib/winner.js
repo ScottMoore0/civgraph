@@ -1,5 +1,5 @@
 /**
- * Who won a contest, from its row of the election summary. Pure (no DOM): tests/unit/elections-app-fixes.test.mjs.
+ * Who won a contest, from its row of the election summary. Pure (no DOM): unit test elections-app-fixes.test.mjs.
  *
  * A single seat goes to the elected candidate's party. A multi-member seat has no one winner: the
  * party with the most seats "won the most seats", and where two or more parties share the top

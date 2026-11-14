@@ -1,5 +1,5 @@
 /**
- * Formatting and small shared helpers of the Elections app. Pure (no DOM): tests/unit/elections-app-lib.test.mjs.
+ * Formatting and small shared helpers of the Elections app. Pure (no DOM): unit test elections-app-lib.test.mjs.
  *
  * Escaping, dates and slugs are the packages' own (packages/core, served at /pkg/ through
  * packages/served.json; the imports resolve to site/pkg/ in Node and tsc): the app keeps no copy.

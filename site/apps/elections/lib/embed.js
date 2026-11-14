@@ -1,7 +1,7 @@
 /**
  * Embeds (el-context, 14 Nov 2026): the widget's address for an election or one contest, the
  * HTML snippet a reader copies, whether the app offers it, and the licences the widget names.
- * Pure (no DOM): tests/unit/elections-app-embed.test.mjs.
+ * Pure (no DOM): unit test elections-app-embed.test.mjs.
  *
  * SWITCHED OFF until the owner approves the app going public. Two switches, both off:
  *   1. config.js EMBED.offered: false. The app shows no "Embed this" panel. On a local server

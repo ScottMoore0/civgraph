@@ -4,7 +4,7 @@
  * patterns (lib/map-modes.js), the URL state (lib/map-state.js), and the view's key and list
  * markup (views/map.js legendHtml, closeTableHtml).
  *
- *   node --test tests/unit/elections-app-map-modes.test.mjs
+ *   node --test elections-app-map-modes.test.mjs (in the unit tests folder)
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

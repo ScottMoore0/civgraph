@@ -3,7 +3,7 @@
  * Seanad's 1938-97 panels and its by-elections): a poll was held, but the losers and the votes are
  * not known. They are built as contested with no figures, never "Elected unopposed"; the Elections
  * app says "Only the winners are on record"; check:contest-arithmetic skips them. A fixture contest
- * (tests/fixtures/winners-only/labour-panel.json) is run through each step.
+ * (test fixture winners-only/labour-panel.json) is run through each step.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

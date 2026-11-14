@@ -478,8 +478,8 @@ assert(
       && appSource.includes('uiController.singleSectionFlatCatalogue = true'),
   '/test2 flat catalogue must render TOC-first and hydrate only the requested top-level section before scrolling within the catalogue pane'
 );
-assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
-assert(appSource.includes('this.elections?.showFeatureResults(feature)') && appSource.includes('uiController.hideFeatureInfo'), '/test2 active election feature selection must update the election pane before falling back to generic feature info');
+assert(appSource.includes('enrichFeature: (feature) =>') && appSource.includes('this.elections?.enrichFeature('), '/test2 selected feature details must merge election results where active');
+assert(appSource.includes('this.elections?.showFeatureResults(') && appSource.includes('uiController.hideFeatureInfo'), '/test2 active election feature selection must update the election pane before falling back to generic feature info');
 assert(electionManagerSource.includes('isFeatureFromActiveElection') && electionManagerSource.includes('return true;'), '/test2 election manager must report handled active-election feature selections');
 assert(test2Css.includes('body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open') && test2Css.includes('calc(100% - var(--test2-election-pane-height))'), '/test2 fixed-header layout must place the open election pane below the map, sized by --test2-election-pane-height');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');

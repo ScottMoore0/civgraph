@@ -1,7 +1,7 @@
 /**
  * Seat apportionment: the textbook methods that turn votes into seats for lists (parties, or
  * candidates standing alone). Pure, no DOM, no I/O; served to the Elections app at
- * /pkg/core/src/apportionment.mjs (packages/served.json). Tests: tests/unit/apportionment.test.mjs.
+ * /pkg/core/src/apportionment.mjs (packages/served.json). Tests: unit test apportionment.test.mjs.
  *
  *   highestAverages(lists, seats, 'dhondt')        D'Hondt: divisors 1, 2, 3, ...
  *   highestAverages(lists, seats, 'sainte-lague')  Sainte-Laguë (Webster): divisors 1, 3, 5, ...

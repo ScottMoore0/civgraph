@@ -3,7 +3,7 @@
  * arc, a seat bar, horizontal bars, quota bars and the transfer flow of one count stage. Every
  * chart has a <title> and a text equivalent beside it in the page (a table). Colours are the
  * party colours of the records; everything else uses currentColor and the chart tokens.
- * tests/unit/elections-app-lib.test.mjs.
+ * unit test elections-app-lib.test.mjs.
  */
 import { esc, fmtInt, inkOn } from './format.js';
 import { inQuotas } from './stv.js';

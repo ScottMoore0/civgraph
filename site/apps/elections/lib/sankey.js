@@ -1,7 +1,7 @@
 /**
  * The whole count as one flow (a Sankey), as an SVG string (no DOM, no library). One column a
  * count; one block a candidate's votes at that count; a band from count to count for the votes a
- * candidate kept, and a band for each transfer. Pure: tests/unit/elections-app-stv.test.mjs.
+ * candidate kept, and a band for each transfer. Pure: unit test elections-app-stv.test.mjs.
  *
  * Honest by construction: it draws only what lib/stv.js countEvents reads from the count sheet.
  * A count that passed on one candidate's votes draws a band from that candidate to each candidate

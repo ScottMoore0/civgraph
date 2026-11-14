@@ -2,7 +2,7 @@
  * An electoral area in its census context (el-context, 14 Nov 2026): a few standard census
  * indicators for the area, each with its rank among the other areas of the same boundary set and
  * the Northern Ireland figure, the census table cited by its code, and the areas most like it.
- * Pure (no DOM): tests/unit/elections-app-census-context.test.mjs.
+ * Pure (no DOM): unit test elections-app-census-context.test.mjs.
  *
  * The figures are site/apps/elections/census/ni-areas.json, written by
  * scripts/build/elections-app/census-context.mjs from NISRA's tables (Open Government Licence):

@@ -9,7 +9,7 @@
  * largest number of seats won; more than one is a tie. A candidate with no party counts under
  * "No party recorded" (core's NO_PARTY_RECORDED), never "Independent".
  *
- * Pure, no DOM: tests/unit/elections-app-map-modes.test.mjs. Written so the other views (the
+ * Pure, no DOM: unit test elections-app-map-modes.test.mjs. Written so the other views (the
  * overview's and Compare's contest tables) can use the same rule.
  */
 import { NO_PARTY_RECORDED } from '../../../pkg/core/src/election-domain.mjs';

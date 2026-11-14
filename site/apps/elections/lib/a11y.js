@@ -10,8 +10,8 @@
  *                  the tab order while it overflows, so a keyboard can scroll it.
  *
  * The words are keyed for translation in data/i18n/strings/elections.txt (R10). The choices are
- * pure functions (tests/unit/elections-app-fixes.test.mjs); the DOM helpers below only apply them
- * (tests/browser/elections-app.spec.cjs).
+ * pure functions (unit test elections-app-fixes.test.mjs); the DOM helpers below only apply them
+ * (browser spec elections-app.spec.cjs).
  */
 
 /** Every fixed wording (keys of data/i18n/strings/elections.txt). */

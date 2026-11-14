@@ -1,6 +1,6 @@
 /**
  * A view's lifetime (the Elections app's view contract, 11 Nov 2026 arch audit P1). Pure (no DOM
- * beyond AbortController and EventTarget, both in Node): tests/unit/elections-app-lifecycle.test.mjs.
+ * beyond AbortController and EventTarget, both in Node): unit test elections-app-lifecycle.test.mjs.
  *
  * app.js opens a scope for each view it renders and disposes the previous one first. A view
  * renders into the shared root with `render(root, route, ctx)`, where ctx carries:

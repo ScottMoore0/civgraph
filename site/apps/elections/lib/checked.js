@@ -4,7 +4,7 @@
  * the web-check citations (data/elections/web-checked-sources.json, carried into the citations
  * table and given by the citations view as `accessed`). The contest page shows the latest day
  * among the sources that agreed with every figure compared, beside its figures, and each source
- * its own day. Pure (no DOM): tests/unit/elections-app-methods.test.mjs.
+ * its own day. Pure (no DOM): unit test elections-app-methods.test.mjs.
  */
 import { escapeHtml as esc } from '../../../pkg/core/src/html.js';
 import { formatDisplayDate } from '../../../pkg/core/src/date-format.mjs';

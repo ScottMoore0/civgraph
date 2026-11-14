@@ -1,5 +1,5 @@
 /**
- * Colour scales and the per-area data of the map views. Pure: tests/unit/elections-app-lib.test.mjs.
+ * Colour scales and the per-area data of the map views. Pure: unit test elections-app-lib.test.mjs.
  * Sequential: one hue, light to dark (turnout, a party's share). Diverging: two hues around a
  * neutral midpoint (swing). Both are checked by eye in the light and dark themes; every map also
  * has the figures as a table.

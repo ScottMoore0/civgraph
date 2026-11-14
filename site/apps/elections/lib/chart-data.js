@@ -15,7 +15,7 @@
  *
  * The first column is the row's header cell. A column's `format` writes the cell on the page;
  * the CSV holds the raw value (no thousands separators, no % sign), with `csv` to write it
- * otherwise (e.g. rounded as the page shows it). Pure (no DOM): tests/unit/elections-app-chart-data.test.mjs.
+ * otherwise (e.g. rounded as the page shows it). Pure (no DOM): unit test elections-app-chart-data.test.mjs.
  * Its words are keyed for translation in data/i18n/strings/elections.txt (R10).
  */
 import { escapeHtml as esc } from '../../../pkg/core/src/html.js';

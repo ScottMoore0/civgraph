@@ -1,6 +1,6 @@
 /**
  * The results map's modes (el-maps, 14 Nov 2026): what each contest's area shows, its words, the
- * legend, and the close-contests filter. Pure, no DOM: tests/unit/elections-app-map-modes.test.mjs.
+ * legend, and the close-contests filter. Pure, no DOM: unit test elections-app-map-modes.test.mjs.
  *
  * Every mode reads one election bundle (/_api/elections?key=&format=bundle&lite=1, lib/api.js
  * electionBundle): each contest with its candidates, their first preferences, whether elected,

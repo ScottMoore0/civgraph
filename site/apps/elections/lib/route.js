@@ -1,5 +1,5 @@
 /**
- * The Elections app's routes. Pure: tests/unit/elections-app-lib.test.mjs.
+ * The Elections app's routes. Pure: unit test elections-app-lib.test.mjs.
  *
  * The app is served at /elections/ (a _redirects rewrite to /apps/elections/index.html) and
  * also answers at /apps/elections/ itself (the file's own address), so both prefixes route.

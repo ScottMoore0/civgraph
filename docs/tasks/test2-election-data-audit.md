@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-11T23:19:32.226Z
+Generated: 2026-11-14T16:08:52.791Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -8,25 +8,25 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 
 |area|value|
 |---|---:|
-|parent elections in manifest|2507|
-|manifest loadable elections|721|
-|manifest placeholders|569|
-|Browse parent election entries|2569|
-|Browse constituency/DEA sub-entries|21282|
-|Browse overall sub-entries|2507|
-|source detail records|2569|
-|result bundles loaded|2507|
-|result rows audited|21282|
-|candidate rows audited|77557|
-|rows with count detail|21262|
-|rows with animation payload|21262|
-|rows expected to have transfer/count data|4135|
-|expected transfer/count rows missing detail|0|
+|parent elections in manifest|2671|
+|manifest loadable elections|765|
+|manifest placeholders|656|
+|Browse parent election entries|2733|
+|Browse constituency/DEA sub-entries|22449|
+|Browse overall sub-entries|2671|
+|source detail records|2733|
+|result bundles loaded|2671|
+|result rows audited|22449|
+|candidate rows audited|85185|
+|rows with count detail|22428|
+|rows with animation payload|22428|
+|rows expected to have transfer/count data|4540|
+|expected transfer/count rows missing detail|1|
 |valid-poll review sidecar records|0|
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|2352|
+|warnings|2424|
 
 ## Blocking Structural Issues
 
@@ -36,11 +36,31 @@ _None._
 
 |severity|category|key|message|
 |---|---|---|---|
-|warning|browse-parent-count|data/browse/elections.json|Browse has 2569 parent elections, manifest has 2507.|
+|warning|browse-parent-count|data/browse/elections.json|Browse has 2733 parent elections, manifest has 2671.|
+|warning|candidate-party-missing|local-government-newtownabbey__2002-06-19|2 candidate rows have no party/label. Examples: John Blair in Macedon; William Ball in Macedon.|
 |warning|source-record-single-reference|fianna-fail-presidential-nomination__1997-09-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|fianna-fail-presidential-nomination__1997-09-17|2 candidate rows have no party/label. Examples: Mary McAleese in Fianna Fáil Parliamentary Party (first ballot); Mary McAleese in Fianna Fáil Parliamentary Party (second ballot).|
+|warning|candidate-party-missing|local-government-ards__1995-09-20|2 candidate rows have no party/label. Examples: Bobby McBride in Ards West; Terence Williams in Ards West.|
 |warning|source-record-single-reference|uup-leadership__1995-09-08|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|local-government-belfast__1995-05-31|1 candidate rows have no party/label. Examples: Niall Cusack in Balmoral.|
+|warning|candidate-party-missing|local-government-north-down__1995-03-22|1 candidate rows have no party/label. Examples: Robert Mooney in Bangor West.|
 |warning|source-record-single-reference|uup-leadership__1995-03-18|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|local-government-ballymena__1994-12-01|2 candidate rows have no party/label. Examples: Agnes McLeister in Ballymena South; Samuel Balmer in Ballymena South.|
+|warning|candidate-party-missing|local-government-lisburn__1993-11-24|1 candidate rows have no party/label. Examples: Jonathan Craig in Downshire.|
+|warning|candidate-party-missing|local-government-derry__1993-10-21|1 candidate rows have no party/label. Examples: P. Muldowney in Cityside.|
+|warning|candidate-party-missing|local-government-moyle__1991-05-30|1 candidate rows have no party/label. Examples: Annie Mary Dobbin in Ballycastle.|
+|warning|candidate-party-missing|local-government-north-down__1991-04-17|1 candidate rows have no party/label. Examples: Ivy Cooling in Ballyholme and Groomsport.|
+|warning|candidate-party-missing|local-government-fermanagh__1990-05-09|5 candidate rows have no party/label. Examples: Ethel Gregg in Enniskillen; Joseph Dodds in Enniskillen; Jim Lynch in Enniskillen; John McManus in Enniskillen; Cathy Kettyles in Enniskillen.|
+|warning|candidate-party-missing|local-government-cookstown__1990-03-29|3 candidate rows have no party/label. Examples: William John McCormick in Ballinderry; Francis Rocks in Ballinderry; Patrick McAleer in Ballinderry.|
+|warning|candidate-party-missing|local-government-newtownabbey__1988-09-29|2 candidate rows have no party/label. Examples: Scott in Ballyclare; Christie in Ballyclare.|
+|warning|candidate-party-missing|local-government-newtownabbey__1988-04-21|1 candidate rows have no party/label. Examples: Kirkham in Antrim Line.|
+|warning|candidate-party-missing|local-government-north-down__1988-02-04|2 candidate rows have no party/label. Examples: Robert Lyle in Ballyholme and Groomsport; Enid Stringer in Ballyholme and Groomsport.|
+|warning|candidate-party-missing|local-government-newtownabbey__1987-12-03|3 candidate rows have no party/label. Examples: William Ball in Shore Road; Patrick Joseph Sweeney in Shore Road; Patrick Lillis in Shore Road.|
+|warning|candidate-party-missing|local-government-newtownabbey__1987-09-17|8 candidate rows have no party/label. Examples: Billy Snoddy in Doagh Road; David Hollis in Doagh Road; David Lowrie in Doagh Road; John Blair in Doagh Road; Edward Ronnie Hales in Doagh Road.|
+|warning|candidate-party-missing|local-government-castlereagh__1987-03-19|1 candidate rows have no party/label. Examples: Timothy William Morrow in Castlereagh East.|
+|warning|candidate-party-missing|local-government-moyle__1986-05-14|1 candidate rows have no party/label. Examples: McIlroy in Giant's Causeway.|
+|warning|candidate-party-missing|local-government-newtownabbey__1986-05-01|1 candidate rows have no party/label. Examples: James Devlin in Antrim Line.|
+|warning|candidate-party-missing|local-government-banbridge__1985-08-28|1 candidate rows have no party/label. Examples: McCullough in Knockiveagh.|
 |warning|source-record-single-reference|fianna-fail-leadership__1979-12-07|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|belfast-county-borough-council__1972-05-10|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|belfast-county-borough-council__1972-03-23|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -63,6 +83,7 @@ _None._
 |warning|source-record-single-reference|antrim-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|antrim-county-council__1967-06-01|26 candidate rows have no party/label. Examples: William Robert Yarr in Aghalee; William Millar Cameron in Ahoghill; William Clark in Antrim; Alexander McConnell in Ballyclare; Allan Johnston in Ballymena.|
 |warning|source-record-single-reference|antrim-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|antrim-rural-district-council__1967-06-01|2 candidate rows have no party/label. Examples: J. W. Craig in Antrim Urban; James Boyd in Craigarogan.|
 |warning|source-record-single-reference|armagh-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|armagh-county-council__1967-06-01|1 candidate rows have no party/label. Examples: Frank Hayes in Killyman.|
 |warning|source-record-single-reference|armagh-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -78,13 +99,13 @@ _None._
 |warning|candidate-party-missing|castlereagh-rural-district-council__1967-06-01|4 candidate rows have no party/label. Examples: F. J. R. Storey in Ballycultra; J. C. Marks in Ballyhackamore; Thomas Gray in Craigavad; Thomas H. Boyd in Holywood Rural.|
 |warning|source-record-single-reference|clogher-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|coleraine-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|coleraine-rural-district-council__1967-06-01|4 candidate rows have no party/label. Examples: David Lennox in Kilrea; J. H. Knipe in Kilrea; C. R. Lee in Slaughtneil; W. W. Houston in Slaughtneil.|
+|warning|candidate-party-missing|coleraine-rural-district-council__1967-06-01|4 candidate rows have no party/label. Examples: David Lennox in Kilrea; J. H. Knipe in Kilrea; C. R. Lee in Slaght; W. W. Houston in Slaght.|
 |warning|source-record-single-reference|cookstown-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|cookstown-rural-district-council__1967-06-01|15 candidate rows have no party/label. Examples: William McIntyre in Ballyclog; Peter Conway in Beaghmore; James P. Duff in Coagh; William J. McCulla in Grange; Bernard Conway in Killeenan.|
 |warning|source-record-single-reference|down-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|down-county-council__1967-06-01|19 candidate rows have no party/label. Examples: Richard John Dougherty in Ardglass; Edward McVeigh in Ballynahinch; William Smyth in Banbridge; Frederick Charles Tughan in Bangor; Felix McKenna in Castlewellan.|
 |warning|source-record-single-reference|dungannon-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|dungannon-rural-district-council__1967-06-01|19 candidate rows have no party/label. Examples: P. J. Donnelly in Altmore; W. R. Knox in Anahoe; A. M. Reid in Benburb; R. Kempton in Bernagh; C. J. Burrowes in Bush.|
+|warning|candidate-party-missing|dungannon-rural-district-council__1967-06-01|19 candidate rows have no party/label. Examples: W. R. Knox in Aghnahoe; P. J. Donnelly in Altmore; A. M. Reid in Benburb; R. Kempton in Bernagh; C. J. Burrowes in Bush.|
 |warning|source-record-single-reference|east-down-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|east-down-rural-district-council__1967-06-01|6 candidate rows have no party/label. Examples: Robert Magee in Ardglass; George Joseph Connor in Ardglass; James Gerard Fitzpatrick in Castlewellan Urban; Felix McKenna in Castlewellan Urban; James Cleland in Downpatrick.|
 |warning|source-record-single-reference|fermanagh-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -94,30 +115,9 @@ _None._
 |warning|source-record-single-reference|larne-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|larne-rural-district-council__1967-06-01|18 candidate rows have no party/label. Examples: Francis Joseph O'Neill in Ardclinis; Thomas Snoddy in Ballycorr; James Park in Ballynure; Robert John Moore in Cairncastle; Edward Albert Reid in Carrickfergus Rural.|
 |warning|source-record-single-reference|limavady-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|lisburn-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|lisburn-rural-district-council__1967-06-01|11 candidate rows have no party/label. Examples: Thomas C. Wilson in Aghalee; Joseph Smyth in Andersonstown; William R. Yarr in Ballinderry; William R. Totten in Ballyscolly; John Maze in Islandkelly.|
-|warning|source-record-single-reference|londonderry-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|londonderry-county-council__1967-06-01|18 candidate rows have no party/label. Examples: George Haslett in Bellarena; Thomas James Bradley in Castledawson; Hugh Alphonsus McGurk in Clady; Robert Cunningham Bond in Claudy; Daniel Jackson Christie in Coleraine.|
-|warning|source-record-single-reference|londonderry-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|londonderry-rural-district-council__1967-06-01|12 candidate rows have no party/label. Examples: Thomas Montgomery Craig in Ardmore; Francis Joseph O'Kane in Ballymullins; John Conway in Banagher; Robert Cunningham Bond in Bond's Glen; William John Eakin in Claudy.|
-|warning|source-record-single-reference|magherafelt-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|magherafelt-rural-district-council__1967-06-01|25 candidate rows have no party/label. Examples: Hugh M'Clelland in Aughagaskin; Patrick John Scullion in Ballynease; Wm. Lees in Ballyronan; John Mallon in Bancran; William J. Overend in Bellaghy.|
-|warning|source-record-single-reference|moira-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|moira-rural-district-council__1967-06-01|6 candidate rows have no party/label. Examples: J. Wilson in Bleary; T. H. Creith in Clare; James Baird in Donacloney; T. Megarrell in Marlin; G. McCartney in Moira.|
-|warning|source-record-single-reference|newry-no-1-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|newry-no-1-rural-district-council__1967-06-01|18 candidate rows have no party/label. Examples: Thomas A. Shilliday in Ballycoshone; John McAteer in Ballyholland; Thomas David Maginnis in Ballyholland; Hugh Patrick Sands in Carrickcrossan; Thomas Edward Treanor in Clonallon.|
-|warning|source-record-single-reference|newry-no-2-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|newry-no-2-rural-district-council__1967-06-01|43 candidate rows have no party/label. Examples: Donald J. Mulligan in Ballybot; Gerald Mulholland in Ballybot; Harold Kinney in Ballybot; Patrick J. Luckie in Ballymoyer; Oliver B. Murphy in Belleek.|
-|warning|source-record-single-reference|north-down-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|omagh-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|omagh-rural-district-council__1967-06-01|39 candidate rows have no party/label. Examples: Mrs. Mary Ellen McGurn in Aughafad; Fred Giboney in Bencran; William Kirk in Beragh; Vincent O'Brien in Camderry; Michael Donaghy in Carrickmore.|
-|warning|source-record-single-reference|south-down-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|source-record-single-reference|strabane-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|strabane-rural-district-council__1967-06-01|26 candidate rows have no party/label. Examples: J. Stewart in Ardstraw; Patrick Devine in Balix; William Mehaffy in Ballyfatton; Robert P. Cummings in Ballymagorry; Thomas Moore in Baronscourt.|
-|warning|source-record-single-reference|tandragee-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|tandragee-rural-district-council__1967-06-01|5 candidate rows have no party/label. Examples: Andrew Isaac Crothers in Ballyshiel; Robert Woolsey in Laurelvale; Norman Alexander Beattie in Mullabrack; John McIntyre in Mullahead; Robert John McClelland in Tandragee Rural.|
+|warning|candidate-party-missing|limavady-rural-district-council__1967-06-01|1 candidate rows have no party/label. Examples: W. E. Conn in The Highlands.|
 
-_2272 more not shown; see JSON report._
+_2344 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 
@@ -125,31 +125,52 @@ _2272 more not shown; see JSON report._
 |---|---:|
 |parent source records missing|0|
 |source records with no references|0|
-|source records with one reference|1387|
-|source records with multiple references|1120|
+|source records with one reference|1416|
+|source records with multiple references|1255|
 |Browse sub-entries with no references|0|
-|Browse sub-entries with one reference|12525|
-|Browse sub-entries with multiple references|11264|
+|Browse sub-entries with one reference|13153|
+|Browse sub-entries with multiple references|11967|
 
 ## Party Colour Audit
 
 |metric|value|
 |---|---:|
-|saved Wikipedia colour audit present|no|
-|high-confidence mismatch file present|no|
+|saved Wikipedia colour audit present|yes|
+|high-confidence mismatch file present|yes|
 |review override file present|yes|
-|sampled mismatches already reviewed|0|
-|unique colour observations|0|
-|colour matches|0|
-|colour mismatches|0|
-|high-confidence mismatches|0|
-|entries with no explicit election colour|0|
-|entries with no Wikipedia match|0|
-|ambiguous Wikipedia matches|0|
+|sampled mismatches already reviewed|10|
+|unique colour observations|1032|
+|colour matches|73|
+|colour mismatches|135|
+|high-confidence mismatches|85|
+|entries with no explicit election colour|777|
+|entries with no Wikipedia match|684|
+|ambiguous Wikipedia matches|31|
 
 ### High-Confidence Colour Examples
 
-_None found from the saved audit._
+|party/label|election colour|Wikipedia match|Wikipedia colour|observations|review|
+|---|---|---|---|---:|---|
+|100% Redress|#C0C0C0|100% Redress|#F90606|1|needs-canonical-colour-decision|
+|An Rabharta Glas – Green Left|#C0C0C0|Rabharta|#488A89|4|needs-canonical-colour-decision|
+|Anti-Austerity Alliance|#E3170D|Anti-Austerity Alliance|#FFFF00|46|needs-canonical-colour-decision|
+|Anti-Treaty Sinn Féin|#C0C0C0|Sinn Féin (Anti-Treaty)|#326760|57|needs-canonical-colour-decision|
+|Aontú|#C62828|Aontú|#44532A|126|needs-canonical-colour-decision|
+|Clann na Poblachta|#C0C0C0|Clann na Poblachta|#BBE549|111|needs-canonical-colour-decision|
+|Clann na Talmhan|#C0C0C0|Clann na Talmhan|#BDB76B|50|needs-canonical-colour-decision|
+|Commonwealth Labour Party|#FF6666|Commonwealth Labour Party|#B22222|6|needs-canonical-colour-decision|
+|Communist Party of Ireland|#FF3300|Communist Party of Ireland|#E3170D|6|needs-canonical-colour-decision|
+|Communist Party of Ireland (Marxist-Leninist)|#E3170D|Communist Party of Ireland (Marxist–Leninist)|#660000|3|needs-canonical-colour-decision|
+|Conservative|#0E7C42|Conservative and Unionist Party (UK)|#0087DC|61||
+|Conservative|#1F4E8C|Conservative and Unionist Party (UK)|#0087DC|11||
+|Conservative|#888888|Conservative and Unionist Party (UK)|#0087DC|13||
+|Conservative|#9E9E9E|Conservative and Unionist Party (UK)|#0087DC|254||
+|Cumann na nGaedheal|#C0C0C0|Cumann na nGaedheal|#87CEFA|360||
+|Democracy First|#000000|Democracy First|#FF8C00|2||
+|Democratic Left|#DC241F|Democratic Left (Ireland)|#C700C7|21||
+|Democratic Partnership|#FF9800|Democratic Partnership|#F0E68C|10||
+|Direct Democracy Ireland|#FFFF00|Direct Democracy Ireland|#87CEFA|41||
+|Éirígí|#C0C0C0|Éirígí|#00A550|6||
 
 ## Next Fix Queue
 

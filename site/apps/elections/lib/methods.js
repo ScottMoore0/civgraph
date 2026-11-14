@@ -8,7 +8,7 @@
  *
  * Every sentence is keyed for translation in data/i18n/strings/elections.txt (R10: the language
  * runtime translates a text node by its wording, so a paragraph is one text node). Pure (no DOM):
- * tests/unit/elections-app-methods.test.mjs.
+ * unit test elections-app-methods.test.mjs.
  */
 import { escapeHtml as esc } from '../../../pkg/core/src/html.js';
 

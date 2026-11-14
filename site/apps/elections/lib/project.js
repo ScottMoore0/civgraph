@@ -1,6 +1,6 @@
 /**
  * Projections: uniform swing from a base election, and the seats it gives. Pure:
- * tests/unit/elections-app-lib.test.mjs. This is the app's projections hook: the swingometer
+ * unit test elections-app-lib.test.mjs. This is the app's projections hook: the swingometer
  * feeds it share changes typed by the reader, and a later poll average could feed it target
  * shares the same way (`deltasFromTargets`). No polling data is used or bundled: LucidTalk
  * files must never reach the site.

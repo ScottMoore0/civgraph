@@ -1,66 +1,307 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-11T23:19:32.226Z",
+  "generatedAt": "2026-11-14T16:08:52.791Z",
   "failOnBlocking": true,
   "stats": {
     "manifest": {
       "schemaVersion": 1,
-      "generatedAt": "2026-11-11T21:14:45.648Z",
-      "entries": 2507,
+      "generatedAt": "2026-11-14T15:50:43.427Z",
+      "entries": 2671,
       "totals": {
-        "elections": 2507,
-        "loadable": 721,
-        "placeholders": 569,
-        "matchedConstituencies": 7653,
-        "unmatchedConstituencies": 13629
+        "elections": 2671,
+        "loadable": 765,
+        "placeholders": 656,
+        "matchedConstituencies": 7806,
+        "unmatchedConstituencies": 14643
       }
     },
     "browse": {
-      "total": 26358,
-      "parents": 2569,
-      "subEntries": 23789,
-      "overallSubEntries": 2507,
-      "constituencySubEntries": 21282
+      "total": 27853,
+      "parents": 2733,
+      "subEntries": 25120,
+      "overallSubEntries": 2671,
+      "constituencySubEntries": 22449
     },
     "sources": {
-      "sourceDetailFiles": 2569,
+      "sourceDetailFiles": 2733,
       "resultBundles": 0,
       "summaryBundles": 0,
       "parentSourceRecordsMissing": 0,
       "sourceRecordsWithNoReferences": 0,
-      "sourceRecordsWithOneReference": 1387,
-      "sourceRecordsWithMultipleReferences": 1120,
+      "sourceRecordsWithOneReference": 1416,
+      "sourceRecordsWithMultipleReferences": 1255,
       "subEntriesWithNoReferences": 0,
-      "subEntriesWithOneReference": 12525,
-      "subEntriesWithMultipleReferences": 11264
+      "subEntriesWithOneReference": 13153,
+      "subEntriesWithMultipleReferences": 11967
     },
     "resultBundles": {
-      "loaded": 2507,
+      "loaded": 2671,
       "missing": 0,
-      "resultRows": 21282,
-      "matchedRows": 7653,
-      "unmatchedRows": 13629,
-      "candidateRows": 77557,
-      "electedRows": 45181,
-      "rowsWithCountDetail": 21262,
-      "rowsWithAnimationPayload": 21262,
-      "rowsExpectedTransferData": 4135,
-      "rowsMissingExpectedTransferData": 0,
-      "candidateRowsWithoutParty": 11260
+      "resultRows": 22449,
+      "matchedRows": 7806,
+      "unmatchedRows": 14643,
+      "candidateRows": 85185,
+      "electedRows": 49476,
+      "rowsWithCountDetail": 22428,
+      "rowsWithAnimationPayload": 22428,
+      "rowsExpectedTransferData": 4540,
+      "rowsMissingExpectedTransferData": 1,
+      "candidateRowsWithoutParty": 11947
     },
     "colours": {
-      "auditFilePresent": false,
-      "highConfidenceFilePresent": false,
+      "auditFilePresent": true,
+      "highConfidenceFilePresent": true,
       "reviewFilePresent": true,
-      "reviewedMismatches": 0,
-      "observations": 0,
-      "matches": 0,
-      "mismatches": 0,
-      "highConfidenceMismatches": 0,
-      "noElectionColour": 0,
-      "noWikipediaMatch": 0,
-      "ambiguousWikipediaMatch": 0,
-      "examples": []
+      "reviewedMismatches": 10,
+      "observations": 1032,
+      "matches": 73,
+      "mismatches": 135,
+      "highConfidenceMismatches": 85,
+      "noElectionColour": 777,
+      "noWikipediaMatch": 684,
+      "ambiguousWikipediaMatch": 31,
+      "examples": [
+        {
+          "party": "100% Redress",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "100% Redress",
+          "wikipediaColour": "#F90606",
+          "observations": 1,
+          "review": {
+            "party": "100% Redress",
+            "electionColour": "#C0C0C0",
+            "wikipediaName": "100% Redress",
+            "wikipediaColour": "#F90606",
+            "observations": 1,
+            "status": "needs-canonical-colour-decision",
+            "note": "Single-observation mismatch; verify whether Civgraph should keep a neutral local-label colour or adopt the saved Wikipedia colour."
+          }
+        },
+        {
+          "party": "An Rabharta Glas – Green Left",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Rabharta",
+          "wikipediaColour": "#488A89",
+          "observations": 4,
+          "review": {
+            "party": "An Rabharta Glas - Green Left",
+            "electionColour": "#C0C0C0",
+            "wikipediaName": "Rabharta",
+            "wikipediaColour": "#488A89",
+            "observations": 4,
+            "status": "needs-canonical-colour-decision",
+            "note": "Verify label naming and whether the Wikipedia/Rabharta colour should be canonical for this election label."
+          }
+        },
+        {
+          "party": "Anti-Austerity Alliance",
+          "electionColour": "#E3170D",
+          "wikipediaName": "Anti-Austerity Alliance",
+          "wikipediaColour": "#FFFF00",
+          "observations": 46,
+          "review": {
+            "party": "Anti-Austerity Alliance",
+            "electionColour": "#E3170D",
+            "wikipediaName": "Anti-Austerity Alliance",
+            "wikipediaColour": "#FFFF00",
+            "observations": 46,
+            "status": "needs-canonical-colour-decision",
+            "note": "High-observation mismatch; decide whether historical Civgraph red or saved Wikipedia yellow is the canonical display colour."
+          }
+        },
+        {
+          "party": "Anti-Treaty Sinn Féin",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Sinn Féin (Anti-Treaty)",
+          "wikipediaColour": "#326760",
+          "observations": 57,
+          "review": {
+            "party": "Anti-Treaty Sinn Fein",
+            "electionColour": "#C0C0C0",
+            "wikipediaName": "Sinn Fein (Anti-Treaty)",
+            "wikipediaColour": "#326760",
+            "observations": 57,
+            "status": "needs-canonical-colour-decision",
+            "note": "Historic Sinn Fein label mismatch; verify whether this should inherit modern Sinn Fein green or remain neutral."
+          }
+        },
+        {
+          "party": "Aontú",
+          "electionColour": "#C62828",
+          "wikipediaName": "Aontú",
+          "wikipediaColour": "#44532A",
+          "observations": 126,
+          "review": {
+            "party": "Aontu",
+            "electionColour": "#C62828",
+            "wikipediaName": "Aontu",
+            "wikipediaColour": "#44532A",
+            "observations": 126,
+            "status": "needs-canonical-colour-decision",
+            "note": "High-observation mismatch; likely canonical colour-map update candidate after checking existing Civgraph visual conventions."
+          }
+        },
+        {
+          "party": "Clann na Poblachta",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Clann na Poblachta",
+          "wikipediaColour": "#BBE549",
+          "observations": 111,
+          "review": {
+            "party": "Clann na Poblachta",
+            "electionColour": "#C0C0C0",
+            "wikipediaName": "Clann na Poblachta",
+            "wikipediaColour": "#BBE549",
+            "observations": 111,
+            "status": "needs-canonical-colour-decision",
+            "note": "Historic party currently neutral; verify whether saved Wikipedia colour should be adopted."
+          }
+        },
+        {
+          "party": "Clann na Talmhan",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Clann na Talmhan",
+          "wikipediaColour": "#BDB76B",
+          "observations": 50,
+          "review": {
+            "party": "Clann na Talmhan",
+            "electionColour": "#C0C0C0",
+            "wikipediaName": "Clann na Talmhan",
+            "wikipediaColour": "#BDB76B",
+            "observations": 50,
+            "status": "needs-canonical-colour-decision",
+            "note": "Historic party currently neutral; verify whether saved Wikipedia colour should be adopted."
+          }
+        },
+        {
+          "party": "Commonwealth Labour Party",
+          "electionColour": "#FF6666",
+          "wikipediaName": "Commonwealth Labour Party",
+          "wikipediaColour": "#B22222",
+          "observations": 6,
+          "review": {
+            "party": "Commonwealth Labour Party",
+            "electionColour": "#FF6666",
+            "wikipediaName": "Commonwealth Labour Party",
+            "wikipediaColour": "#B22222",
+            "observations": 6,
+            "status": "needs-canonical-colour-decision",
+            "note": "Low-observation historic label; verify whether to use the saved Wikipedia colour or existing Labour-family colour."
+          }
+        },
+        {
+          "party": "Communist Party of Ireland",
+          "electionColour": "#FF3300",
+          "wikipediaName": "Communist Party of Ireland",
+          "wikipediaColour": "#E3170D",
+          "observations": 6,
+          "review": {
+            "party": "Communist Party of Ireland",
+            "electionColour": "#FF3300",
+            "wikipediaName": "Communist Party of Ireland",
+            "wikipediaColour": "#E3170D",
+            "observations": 6,
+            "status": "needs-canonical-colour-decision",
+            "note": "Related red shades; verify whether exact Wikipedia shade should replace the existing display colour."
+          }
+        },
+        {
+          "party": "Communist Party of Ireland (Marxist-Leninist)",
+          "electionColour": "#E3170D",
+          "wikipediaName": "Communist Party of Ireland (Marxist–Leninist)",
+          "wikipediaColour": "#660000",
+          "observations": 3,
+          "review": {
+            "party": "Communist Party of Ireland (Marxist-Leninist)",
+            "electionColour": "#E3170D",
+            "wikipediaName": "Communist Party of Ireland (Marxist-Leninist)",
+            "wikipediaColour": "#660000",
+            "observations": 3,
+            "status": "needs-canonical-colour-decision",
+            "note": "Low-observation historic split label; verify before changing the canonical display colour."
+          }
+        },
+        {
+          "party": "Conservative",
+          "electionColour": "#0E7C42",
+          "wikipediaName": "Conservative and Unionist Party (UK)",
+          "wikipediaColour": "#0087DC",
+          "observations": 61,
+          "review": null
+        },
+        {
+          "party": "Conservative",
+          "electionColour": "#1F4E8C",
+          "wikipediaName": "Conservative and Unionist Party (UK)",
+          "wikipediaColour": "#0087DC",
+          "observations": 11,
+          "review": null
+        },
+        {
+          "party": "Conservative",
+          "electionColour": "#888888",
+          "wikipediaName": "Conservative and Unionist Party (UK)",
+          "wikipediaColour": "#0087DC",
+          "observations": 13,
+          "review": null
+        },
+        {
+          "party": "Conservative",
+          "electionColour": "#9E9E9E",
+          "wikipediaName": "Conservative and Unionist Party (UK)",
+          "wikipediaColour": "#0087DC",
+          "observations": 254,
+          "review": null
+        },
+        {
+          "party": "Cumann na nGaedheal",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Cumann na nGaedheal",
+          "wikipediaColour": "#87CEFA",
+          "observations": 360,
+          "review": null
+        },
+        {
+          "party": "Democracy First",
+          "electionColour": "#000000",
+          "wikipediaName": "Democracy First",
+          "wikipediaColour": "#FF8C00",
+          "observations": 2,
+          "review": null
+        },
+        {
+          "party": "Democratic Left",
+          "electionColour": "#DC241F",
+          "wikipediaName": "Democratic Left (Ireland)",
+          "wikipediaColour": "#C700C7",
+          "observations": 21,
+          "review": null
+        },
+        {
+          "party": "Democratic Partnership",
+          "electionColour": "#FF9800",
+          "wikipediaName": "Democratic Partnership",
+          "wikipediaColour": "#F0E68C",
+          "observations": 10,
+          "review": null
+        },
+        {
+          "party": "Direct Democracy Ireland",
+          "electionColour": "#FFFF00",
+          "wikipediaName": "Direct Democracy Ireland",
+          "wikipediaColour": "#87CEFA",
+          "observations": 41,
+          "review": null
+        },
+        {
+          "party": "Éirígí",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Éirígí",
+          "wikipediaColour": "#00A550",
+          "observations": 6,
+          "review": null
+        }
+      ]
     },
     "reviewSidecars": {
       "validPollRecords": 0,
@@ -70,14 +311,12 @@
   },
   "issueSummary": {
     "bySeverity": {
-      "warning": 2352
+      "warning": 2424
     },
     "byCategory": {
       "browse-parent-count": 1,
-      "source-record-single-reference": 1387,
-      "candidate-party-missing": 953,
-      "first-pref-sum": 1,
-      "elected-count": 10
+      "candidate-party-missing": 1007,
+      "source-record-single-reference": 1416
     }
   },
   "issues": [
@@ -85,7 +324,13 @@
       "severity": "warning",
       "category": "browse-parent-count",
       "key": "data/browse/elections.json",
-      "message": "Browse has 2569 parent elections, manifest has 2507."
+      "message": "Browse has 2733 parent elections, manifest has 2671."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-newtownabbey__2002-06-19",
+      "message": "2 candidate rows have no party/label. Examples: John Blair in Macedon; William Ball in Macedon."
     },
     {
       "severity": "warning",
@@ -101,15 +346,129 @@
     },
     {
       "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-ards__1995-09-20",
+      "message": "2 candidate rows have no party/label. Examples: Bobby McBride in Ards West; Terence Williams in Ards West."
+    },
+    {
+      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "uup-leadership__1995-09-08",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
     {
       "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-belfast__1995-05-31",
+      "message": "1 candidate rows have no party/label. Examples: Niall Cusack in Balmoral."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-north-down__1995-03-22",
+      "message": "1 candidate rows have no party/label. Examples: Robert Mooney in Bangor West."
+    },
+    {
+      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "uup-leadership__1995-03-18",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-ballymena__1994-12-01",
+      "message": "2 candidate rows have no party/label. Examples: Agnes McLeister in Ballymena South; Samuel Balmer in Ballymena South."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-lisburn__1993-11-24",
+      "message": "1 candidate rows have no party/label. Examples: Jonathan Craig in Downshire."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-derry__1993-10-21",
+      "message": "1 candidate rows have no party/label. Examples: P. Muldowney in Cityside."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-moyle__1991-05-30",
+      "message": "1 candidate rows have no party/label. Examples: Annie Mary Dobbin in Ballycastle."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-north-down__1991-04-17",
+      "message": "1 candidate rows have no party/label. Examples: Ivy Cooling in Ballyholme and Groomsport."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-fermanagh__1990-05-09",
+      "message": "5 candidate rows have no party/label. Examples: Ethel Gregg in Enniskillen; Joseph Dodds in Enniskillen; Jim Lynch in Enniskillen; John McManus in Enniskillen; Cathy Kettyles in Enniskillen."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-cookstown__1990-03-29",
+      "message": "3 candidate rows have no party/label. Examples: William John McCormick in Ballinderry; Francis Rocks in Ballinderry; Patrick McAleer in Ballinderry."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-newtownabbey__1988-09-29",
+      "message": "2 candidate rows have no party/label. Examples: Scott in Ballyclare; Christie in Ballyclare."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-newtownabbey__1988-04-21",
+      "message": "1 candidate rows have no party/label. Examples: Kirkham in Antrim Line."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-north-down__1988-02-04",
+      "message": "2 candidate rows have no party/label. Examples: Robert Lyle in Ballyholme and Groomsport; Enid Stringer in Ballyholme and Groomsport."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-newtownabbey__1987-12-03",
+      "message": "3 candidate rows have no party/label. Examples: William Ball in Shore Road; Patrick Joseph Sweeney in Shore Road; Patrick Lillis in Shore Road."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-newtownabbey__1987-09-17",
+      "message": "8 candidate rows have no party/label. Examples: Billy Snoddy in Doagh Road; David Hollis in Doagh Road; David Lowrie in Doagh Road; John Blair in Doagh Road; Edward Ronnie Hales in Doagh Road."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-castlereagh__1987-03-19",
+      "message": "1 candidate rows have no party/label. Examples: Timothy William Morrow in Castlereagh East."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-moyle__1986-05-14",
+      "message": "1 candidate rows have no party/label. Examples: McIlroy in Giant's Causeway."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-newtownabbey__1986-05-01",
+      "message": "1 candidate rows have no party/label. Examples: James Devlin in Antrim Line."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "local-government-banbridge__1985-08-28",
+      "message": "1 candidate rows have no party/label. Examples: McCullough in Knockiveagh."
     },
     {
       "severity": "warning",
@@ -245,6 +604,12 @@
     },
     {
       "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "antrim-rural-district-council__1967-06-01",
+      "message": "2 candidate rows have no party/label. Examples: J. W. Craig in Antrim Urban; James Boyd in Craigarogan."
+    },
+    {
+      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "armagh-county-council__1967-06-01",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -337,7 +702,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1967-06-01",
-      "message": "4 candidate rows have no party/label. Examples: David Lennox in Kilrea; J. H. Knipe in Kilrea; C. R. Lee in Slaughtneil; W. W. Houston in Slaughtneil."
+      "message": "4 candidate rows have no party/label. Examples: David Lennox in Kilrea; J. H. Knipe in Kilrea; C. R. Lee in Slaght; W. W. Houston in Slaght."
     },
     {
       "severity": "warning",
@@ -373,7 +738,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "dungannon-rural-district-council__1967-06-01",
-      "message": "19 candidate rows have no party/label. Examples: P. J. Donnelly in Altmore; W. R. Knox in Anahoe; A. M. Reid in Benburb; R. Kempton in Bernagh; C. J. Burrowes in Bush."
+      "message": "19 candidate rows have no party/label. Examples: W. R. Knox in Aghnahoe; P. J. Donnelly in Altmore; A. M. Reid in Benburb; R. Kempton in Bernagh; C. J. Burrowes in Bush."
     },
     {
       "severity": "warning",
@@ -431,6 +796,12 @@
     },
     {
       "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "limavady-rural-district-council__1967-06-01",
+      "message": "1 candidate rows have no party/label. Examples: W. E. Conn in The Highlands."
+    },
+    {
+      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "lisburn-rural-district-council__1967-06-01",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -439,7 +810,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "lisburn-rural-district-council__1967-06-01",
-      "message": "11 candidate rows have no party/label. Examples: Thomas C. Wilson in Aghalee; Joseph Smyth in Andersonstown; William R. Yarr in Ballinderry; William R. Totten in Ballyscolly; John Maze in Islandkelly."
+      "message": "10 candidate rows have no party/label. Examples: Thomas C. Wilson in Aghalee; Joseph Smyth in Andersonstown; William R. Yarr in Ballinderry; William R. Totten in Ballyscolly; John Maze in Islandkelly."
     },
     {
       "severity": "warning",
@@ -641,6 +1012,12 @@
     },
     {
       "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "carrickfergus-borough-council__1967-05-17",
+      "message": "11 candidate rows have no party/label. Examples: Theodore Beggs in East Central Ward (Alderman); John Henderson in East Central Ward (Councillors); Samuel Simms in East Central Ward (Councillors); Thomas Patterson in East Ward (Alderman); Martha Beattie in East Ward (Councillors)."
+    },
+    {
+      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "coleraine-borough-council__1967-05-17",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -701,6 +1078,12 @@
     },
     {
       "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "dungannon-urban-district-council__1967-05-17",
+      "message": "7 candidate rows have no party/label. Examples: M. Johnston in Central Ward; J. Shaw in Central Ward; H. Ferguson in Central Ward; R. Brown in Central Ward; J. Dugal in Central Ward."
+    },
+    {
+      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "holywood-urban-district-council__1967-05-17",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -734,6 +1117,12 @@
       "category": "source-record-single-reference",
       "key": "larne-borough-council__1967-05-17",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "larne-borough-council__1967-05-17",
+      "message": "4 candidate rows have no party/label. Examples: Thomas D. McKeever in Central Ward; Robert Kane in Central Ward; Andrew G. Doole in Curran Ward; Robert Gray in Curran Ward."
     },
     {
       "severity": "warning",
@@ -985,7 +1374,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "castlereagh-rural-district-council__1964-06-04",
-      "message": "7 candidate rows have no party/label. Examples: F. J. R. Storey in Ballycultra; T. Gray in Craigavad; Sarah Cunningham Cuthbertson in Dundonald; Robert Smart Hutchinson in Dundonald; James Steele Gardner in Gilnahirk."
+      "message": "7 candidate rows have no party/label. Examples: F. J. R. Storey in Ballycultra; Thomas Gray in Craigavad; Sarah Cunningham Cuthbertson in Dundonald; Robert Smart Hutchinson in Dundonald; James Steele Gardner in Gilnahirk."
     },
     {
       "severity": "warning",
@@ -1009,7 +1398,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1964-06-04",
-      "message": "5 candidate rows have no party/label. Examples: J. W. Stewart in Ballylagan; James Hugh McIlfatrick in Boveedy; David Lennox in Kilrea; John Harvey Knipe in Kilrea; G. A. McIlrath in Lislea."
+      "message": "6 candidate rows have no party/label. Examples: J. W. Stewart in Ballylagan; James Hugh McIlfatrick in Boveedy; S. F. Hutchinson in Downhill; David Lennox in Kilrea; John Harvey Knipe in Kilrea."
     },
     {
       "severity": "warning",
@@ -1093,7 +1482,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "hillsborough-rural-district-council__1964-06-04",
-      "message": "20 candidate rows have no party/label. Examples: James Campbell in Anahilt; Robert Herron in Anahilt; Nelson Magowan in Ballykeel; John Johnston in Ballymacbrennan; John Whittaker Henderson in Ballyskeagh."
+      "message": "17 candidate rows have no party/label. Examples: James Campbell in Anahilt; Nelson Magowan in Ballykeel; John Johnston in Ballymacbrennan; John Whittaker Henderson in Ballyskeagh; Samuel John Bell in Ballyworphy."
     },
     {
       "severity": "warning",
@@ -1117,7 +1506,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "larne-rural-district-council__1964-06-04",
-      "message": "4 candidate rows have no party/label. Examples: C. W. Torrance in Carrickfergus Rural; W. Johnston in Carrickfergus Rural; John Blair in Glynn; W. J. McKea Rea in Glynn."
+      "message": "18 candidate rows have no party/label. Examples: Francis Joseph O'Neill in Ardclinis; Thomas Snoddy in Ballycorr; James Park in Ballynure; William Percy in Cairncastle; C. W. Torrance in Carrickfergus Rural."
     },
     {
       "severity": "warning",
@@ -1129,7 +1518,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "limavady-rural-district-council__1964-06-04",
-      "message": "10 candidate rows have no party/label. Examples: D. Farren in Ballyharigan; P. O'Neill in Ballyharigan; James Boylan in Ballyrena; W. Canning in Ballyrena; F. Donaghy in Dungiven."
+      "message": "16 candidate rows have no party/label. Examples: D. Farren in Ballyharigan; P. O'Neill in Ballyharigan; James Boylan in Bellarena; W. Canning in Bellarena; D. Deighan in Benone."
     },
     {
       "severity": "warning",
@@ -1237,7 +1626,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "newry-no-2-rural-district-council__1964-06-04",
-      "message": "44 candidate rows have no party/label. Examples: Patrick Luckie in Ballymoyer; Patrick E. McKeown in Ballymoyer; Robert McGuinness in Belleek; James Andrews in Bessbrook North; Gerard Feighan in Bessbrook South."
+      "message": "44 candidate rows have no party/label. Examples: Patrick Luckie in Ballymoyer; Patrick E. McKeown in Ballymoyer; Robert McGuinness in Belleek; James Andrews in Bessbrook North; Gerard Feehan in Bessbrook South."
     },
     {
       "severity": "warning",
@@ -1249,7 +1638,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "north-down-rural-district-council__1964-06-04",
-      "message": "3 candidate rows have no party/label. Examples: James Joseph McMullan in Ards Peninsula; Miss S. P. Beckett in Ballyhalbert; Alfred A. Turkington in Ballyhalbert."
+      "message": "4 candidate rows have no party/label. Examples: Miss J. P. Beckett in Ballyhalbert; Alfred A. Turkington in Ballyhalbert; James B. Caughey in Kilmood; James Joseph McMullan in Quintin."
     },
     {
       "severity": "warning",
@@ -1273,7 +1662,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "south-down-rural-district-council__1964-06-04",
-      "message": "14 candidate rows have no party/label. Examples: Miss J. E. Gibney in Annalong; Alex Beck in Ballinran; Thomas N. Spence in Ballykeel; John Rooney in Ballymartin; R. J. Annett in Brackenagh."
+      "message": "18 candidate rows have no party/label. Examples: Miss J. E. Gibney in Annalong; Brendan McNamee in Attical; Hugh M. O'Neill in Attical; Alex Beck in Ballinran; Thomas N. Spence in Ballykeel."
     },
     {
       "severity": "warning",
@@ -1403,12 +1792,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "cookstown-urban-district-council__1964-05-20",
-      "message": "11 candidate rows have no party/label. Examples: W. Graham in Cookstown; Mrs. A. M. Leeper in Cookstown; A. McConnell in Cookstown; G. Ferguson in Cookstown; N. Watson in Cookstown."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "downpatrick-urban-district-council__1964-05-20",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -1453,7 +1836,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "holywood-urban-district-council__1964-05-20",
-      "message": "9 candidate rows have no party/label. Examples: W. Lapworth in Holywood; W. J. McCavana in Holywood; W. E. Russell in Holywood; Mrs. M. A. Smyth in Holywood; R. McCarty in Holywood."
+      "message": "10 candidate rows have no party/label. Examples: W. Lapworth in Holywood; W. J. McCavana in Holywood; W. E. Russell in Holywood; Mrs. M. A. Smyth in Holywood; R. McCarty in Holywood."
     },
     {
       "severity": "warning",
@@ -1567,7 +1950,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "portrush-urban-district-council__1964-05-20",
-      "message": "15 candidate rows have no party/label. Examples: W. R. Knox in Portrush; D. D. Fleck in Portrush; A. Taggart in Portrush; R. G. Macauley in Portrush; J. K. McMaster in Portrush."
+      "message": "17 candidate rows have no party/label. Examples: W. R. Knox in Portrush; D. D. Fleck in Portrush; A. Taggart in Portrush; R. G. Macauley in Portrush; J. K. McMaster in Portrush."
     },
     {
       "severity": "warning",
@@ -1777,7 +2160,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "cookstown-rural-district-council__1961-06-01",
-      "message": "16 candidate rows have no party/label. Examples: John Johnston in Ballyclog; Peter Conway in Beaghmore; James P. Duffy in Coagh; William M'Culla in Grange; Bernard Conway in Killeenan."
+      "message": "16 candidate rows have no party/label. Examples: John Johnston in Ballyclog; Peter Conway in Beaghmore; James P. Duff in Coagh; William M'Culla in Grange; Bernard Conway in Killeenan."
     },
     {
       "severity": "warning",
@@ -1801,7 +2184,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "dungannon-rural-district-council__1961-06-01",
-      "message": "2 candidate rows have no party/label. Examples: Daniel F. Mullan in Altmore; William R. Knox in Anahoe."
+      "message": "3 candidate rows have no party/label. Examples: William R. Knox in Aghnahoe; Daniel F. Mullan in Altmore; Cecil J. Burrowes in Bush."
     },
     {
       "severity": "warning",
@@ -1921,7 +2304,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "londonderry-rural-district-council__1961-06-01",
-      "message": "15 candidate rows have no party/label. Examples: Jack Buchanan in Ardmore; Francis J. O'Kane in Ballymullan; John Conway in Banagher; William A. Hawthorne in Bond's Glen; William John Eakin in Claudy."
+      "message": "15 candidate rows have no party/label. Examples: Jack Buchanan in Ardmore; Francis J. O'Kane in Ballymullins; John Conway in Banagher; William A. Hawthorne in Bond's Glen; William John Eakin in Claudy."
     },
     {
       "severity": "warning",
@@ -2095,7 +2478,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymoney-urban-district-council__1961-05-17",
-      "message": "12 candidate rows have no party/label. Examples: R. B. Price in Ballymoney; Mrs. M. J. Holmes in Ballymoney; T. W. M'Coubrey in Ballymoney; H. G. Campbell in Ballymoney; J. P. Owens in Ballymoney."
+      "message": "17 candidate rows have no party/label. Examples: R. B. Price in Ballymoney; Mrs. M. J. Holmes in Ballymoney; T. W. M'Coubrey in Ballymoney; H. G. Campbell in Ballymoney; J. P. Owens in Ballymoney."
     },
     {
       "severity": "warning",
@@ -2107,7 +2490,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "banbridge-urban-district-council__1961-05-17",
-      "message": "15 candidate rows have no party/label. Examples: J. G. H. Young, J.P. in East Ward; H. V. Bryans in East Ward; B. Adair in East Ward; T. A. Preston in East Ward; R. McCracken in East Ward."
+      "message": "16 candidate rows have no party/label. Examples: J. G. H. Young, J.P. in East Ward; H. V. Bryans in East Ward; B. Adair in East Ward; T. A. Preston in East Ward; R. McCracken in East Ward."
     },
     {
       "severity": "warning",
@@ -2238,6 +2621,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "holywood-urban-district-council__1961-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "holywood-urban-district-council__1961-05-17",
+      "message": "9 candidate rows have no party/label. Examples: William M. Dunn in Holywood; Ed. M'Cavana in Holywood; K. R. Dunlop in Holywood; J. Mullan in Holywood; R. M'Carty in Holywood."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "keady-urban-district-council__1961-05-17",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -2246,6 +2641,18 @@
       "category": "candidate-party-missing",
       "key": "keady-urban-district-council__1961-05-17",
       "message": "12 candidate rows have no party/label. Examples: John Greene in Keady; Vincent Mone in Keady; Bernard Arthurs in Keady; James M'Parland in Keady; Eugene Connolly in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "kilkeel-urban-district-council__1961-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "kilkeel-urban-district-council__1961-05-17",
+      "message": "9 candidate rows have no party/label. Examples: Robert A. Linton in Kilkeel; Edward M'Gonigle in Kilkeel; Wm. Hamilton in Kilkeel; F. S. Annett in Kilkeel; Samuel Smyth in Kilkeel."
     },
     {
       "severity": "warning",
@@ -2269,7 +2676,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "limavady-urban-district-council__1961-05-17",
-      "message": "9 candidate rows have no party/label. Examples: W. J. Barbour in Limavady; James Gilloway in Limavady; Robert Moffatt in Limavady; Alfred Cooke in Limavady; Henry W. Hull in Limavady."
+      "message": "11 candidate rows have no party/label. Examples: W. J. Barbour in Limavady; James Gilloway in Limavady; Robert Moffatt in Limavady; Alfred Cooke in Limavady; Henry W. Hull in Limavady."
     },
     {
       "severity": "warning",
@@ -2281,7 +2688,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "lisburn-borough-council__1961-05-17",
-      "message": "15 candidate rows have no party/label. Examples: Sarah Crothers in Central Ward; Arthur Bowman in Central Ward; James Ward in Central Ward; James A. Dickey in Central Ward; Samuel G. Weir in Central Ward."
+      "message": "22 candidate rows have no party/label. Examples: Sarah Crothers in Central Ward; Arthur Bowman in Central Ward; James Ward in Central Ward; James A. Dickey in Central Ward; Samuel G. Weir in Central Ward."
     },
     {
       "severity": "warning",
@@ -2305,7 +2712,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "newcastle-urban-district-council__1961-05-17",
-      "message": "9 candidate rows have no party/label. Examples: W. Porter in Newcastle; B. Hanna in Newcastle; J. H. Keenan in Newcastle; K. C. C. Smith in Newcastle; A. P. Cairns in Newcastle."
+      "message": "11 candidate rows have no party/label. Examples: W. Porter in Newcastle; B. Hanna in Newcastle; J. H. Keenan in Newcastle; K. C. C. Smith in Newcastle; A. P. Cairns in Newcastle."
     },
     {
       "severity": "warning",
@@ -2497,7 +2904,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymena-rural-district-council__1958-06-05",
-      "message": "4 candidate rows have no party/label. Examples: James C. Davison in Galgorm; Oliver Given in Galgorm; Thomas Smith in Portglenone; Logan Irwin in Portglenone."
+      "message": "25 candidate rows have no party/label. Examples: Robert Logan Bankhead in Ahoghill; Thomas Simpson in Ballyclug; Andrew Hamilton in Ballyconnolly; James Kerr in Ballyscullion; William Houston in Broughshane."
     },
     {
       "severity": "warning",
@@ -2569,7 +2976,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1958-06-05",
-      "message": "21 candidate rows have no party/label. Examples: William J. Anderson in Aghadowey; William J. Hull in Agivey; Henry Morrell in Articlave; John W. Stewart in Ballylaggan; Robert Sherrard in Bannbrook."
+      "message": "21 candidate rows have no party/label. Examples: William J. Anderson in Aghadowey; William J. Hull in Agivey; Henry Morrell in Articlave; John W. Stewart in Ballylagan; Robert Sherrard in Bannbrook."
     },
     {
       "severity": "warning",
@@ -2605,7 +3012,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "dungannon-rural-district-council__1958-06-05",
-      "message": "6 candidate rows have no party/label. Examples: Gerald Herron in Coalisland; James J. McNally in Coalisland; Peter O'Neill in Meenagh; Patrick Hughes in Meenagh; Patrick McGrath in Mountjoy."
+      "message": "9 candidate rows have no party/label. Examples: Cecil J. Burrowes in Bush; John Harvey in Clonavaddy; Gerald Herron in Coalisland; James J. McNally in Coalisland; Peter O'Neill in Meenagh."
     },
     {
       "severity": "warning",
@@ -2754,6 +3161,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "moira-rural-district-council__1958-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "moira-rural-district-council__1958-06-05",
+      "message": "7 candidate rows have no party/label. Examples: A. Gilpin in Ballyleney; T. C. Stevenson in Bleary; J. Wilson in Clare; J. C. G. McQuoid in Donacloney; R. Malcomson in Magheralin."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "newry-no-1-rural-district-council__1958-06-05",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -2774,6 +3193,18 @@
       "category": "candidate-party-missing",
       "key": "newry-no-2-rural-district-council__1958-06-05",
       "message": "1 candidate rows have no party/label. Examples: S. McCann in Moyra Castle."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "north-down-rural-district-council__1958-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "north-down-rural-district-council__1958-06-05",
+      "message": "14 candidate rows have no party/label. Examples: W. M'Dowell in Ardkeen; A. M'C. Dickson in Ballygowan; Miss J. P. Beckett in Ballyhalbert; D. Hamilton in Ballymaglaff; J. S. Fowler in Ballywalter."
     },
     {
       "severity": "warning",
@@ -2863,7 +3294,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymena-borough-council__1958-05-21",
-      "message": "11 candidate rows have no party/label. Examples: W. Alexander in Harryville Ward; S. Barr in Harryville Ward; J. Morrow in Harryville Ward; W. M'Ninch in Harryville Ward; J. S. M'Ilhagga in Harryville Ward (Alderman)."
+      "message": "15 candidate rows have no party/label. Examples: W. Alexander in Harryville Ward; S. Barr in Harryville Ward; J. Morrow in Harryville Ward; W. M'Ninch in Harryville Ward; J. S. M'Ilhagga in Harryville Ward (Alderman)."
     },
     {
       "severity": "warning",
@@ -2875,7 +3306,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymoney-urban-district-council__1958-05-21",
-      "message": "12 candidate rows have no party/label. Examples: Mrs. M. J. Holmes in Ballymoney; H. G. Campbell in Ballymoney; Mrs. W. B. Belford in Ballymoney; T. W. M'Coubrie in Ballymoney; J. R. Harrison in Ballymoney."
+      "message": "14 candidate rows have no party/label. Examples: Mrs. M. J. Holmes in Ballymoney; H. G. Campbell in Ballymoney; Mrs. W. B. Belford in Ballymoney; T. W. M'Coubrey in Ballymoney; J. R. Harrison in Ballymoney."
     },
     {
       "severity": "warning",
@@ -2923,7 +3354,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "carrickfergus-borough-council__1958-05-21",
-      "message": "3 candidate rows have no party/label. Examples: David Allen in North Ward (Councillors); William John Beggs in North Ward (Councillors); Mrs. M. Connor in North Ward (Councillors)."
+      "message": "12 candidate rows have no party/label. Examples: John W. Henderson in East Central Ward (Councillors); Theodore Beggs in East Central Ward (Councillors); Martha Beattie in East Ward (Councillors); Renwick Q. Holmes in East Ward (Councillors); James McNeill in Eden Ward (Councillors)."
     },
     {
       "severity": "warning",
@@ -3079,7 +3510,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "newcastle-urban-district-council__1958-05-21",
-      "message": "9 candidate rows have no party/label. Examples: Mrs. L. Purdy in Newcastle; J. A. Keenan in Newcastle; A. P. Cairns in Newcastle; K. C. C. Smith in Newcastle; B. Hanna in Newcastle."
+      "message": "17 candidate rows have no party/label. Examples: A. P. Cairns in Newcastle; K. C. C. Smith in Newcastle; B. Hanna in Newcastle; J. Hodgkins in Newcastle; Mrs. L. Purdy in Newcastle."
     },
     {
       "severity": "warning",
@@ -3109,7 +3540,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "newtownards-borough-council__1958-05-21",
-      "message": "19 candidate rows have no party/label. Examples: S. Gracey in Castle Ward; H. M'Roberts in Castle Ward; W. Orr in Castle Ward; J. M'C. Edgar in Castle Ward; J. Algie in Castle Ward Aldermanship."
+      "message": "20 candidate rows have no party/label. Examples: S. Gracey in Castle Ward; H. M'Roberts in Castle Ward; W. Orr in Castle Ward; J. M'C. Edgar in Castle Ward; J. Algie in Castle Ward Aldermanship."
     },
     {
       "severity": "warning",
@@ -3240,6 +3671,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "antrim-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "antrim-rural-district-council__1955-06-02",
+      "message": "3 candidate rows have no party/label. Examples: Margaret McGregor in Ballyclare Rural; Peter McMartin in Crumlin; W. J. Gregg in Crumlin."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "armagh-county-council__1955-06-02",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -3300,6 +3743,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "banbridge-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "banbridge-rural-district-council__1955-06-02",
+      "message": "20 candidate rows have no party/label. Examples: Robert Andrew Frazer in Annaclone; Eric Williamson in Balloolymore; James A. Cromie in Ballybrick; James Henry Cunningham in Ballyward; Robert Hawthorne Boyce in Banbridge Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "belfast-rural-district-council__1955-06-02",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -3336,6 +3791,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "clogher-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "clogher-rural-district-council__1955-06-02",
+      "message": "16 candidate rows have no party/label. Examples: William Boyd in Aughentaine; Robert McNeill in Augher; Robert Elliott in Aughnacloy Rural; Francis W. Malley in Aughnacloy Urban; Thomas R. Barnett in Ballagh."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "coleraine-rural-district-council__1955-06-02",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -3343,7 +3810,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1955-06-02",
-      "message": "3 candidate rows have no party/label. Examples: J. Hutchinson in Hervey Hill (Kilrea); J. Patterson in Hervey Hill (Kilrea); George H. Simpson in Portstewart Rural."
+      "message": "11 candidate rows have no party/label. Examples: E. P. Jamison in Agivey; J. W. Stewart in Ballylagan; J. M'Fetridge in Bovagh; Robert N. Workman in Garvagh; J. McIntyre in Glenkeen."
     },
     {
       "severity": "warning",
@@ -3368,6 +3835,18 @@
       "category": "candidate-party-missing",
       "key": "down-county-council__1955-06-02",
       "message": "19 candidate rows have no party/label. Examples: Edward K. McGrady in Ardglass; William Robert Flinn in Ballynahinch; Samuel Campbell Cupples in Banbridge; Francis Logan in Bangor; Felix McKenna in Castlewellan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "dungannon-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "dungannon-rural-district-council__1955-06-02",
+      "message": "7 candidate rows have no party/label. Examples: Thomas Loughran in Altmore; Cecil J. Burrowes in Bush; Francis Cush in Clonavaddy; Henry Campbell in Donaghmore; Peter O'Neill in Meenagh."
     },
     {
       "severity": "warning",
@@ -3421,7 +3900,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "irvinestown-rural-district-council__1955-06-02",
-      "message": "19 candidate rows have no party/label. Examples: Bernard J. Magee in Aghamuldowney; Thomas D. Craig in Ballinamallard; Thomas O'Loughlin in Belleek; Richard G. Rawe in Brookhill; Anthony Ruddy in Castlecaldwell."
+      "message": "19 candidate rows have no party/label. Examples: Bernard J. Magee in Aghamuldowney; Thomas D. Craig in Ballinamallard; Thomas O'Loughlin in Belleek; Richard G. Rowe in Brookhill; Anthony Ruddy in Castlecaldwell."
     },
     {
       "severity": "warning",
@@ -3440,6 +3919,24 @@
       "category": "source-record-single-reference",
       "key": "limavady-rural-district-council__1955-06-02",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "limavady-rural-district-council__1955-06-02",
+      "message": "9 candidate rows have no party/label. Examples: James E. Donaghy in Glenshane; Thomas Harkinson in Keady; James McKinney in Killywool; William Loughrey in Lislane; George Haslett in Myroe."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lisburn-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lisburn-rural-district-council__1955-06-02",
+      "message": "15 candidate rows have no party/label. Examples: Samuel Green in Aghalee; John Arnold in Ballinderry; Albert Arthur Peel in Ballyscolly; Samuel Duffield Gibson in Derriaghy; Samuel Neill in Dunmurry."
     },
     {
       "severity": "warning",
@@ -3504,6 +4001,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "moira-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "moira-rural-district-council__1955-06-02",
+      "message": "7 candidate rows have no party/label. Examples: Alfred Gilpin in Ballyleney; Thos. C. Stevenson in Bleary; Samuel J. Watson in Clare; John C. G. McQuoid in Donacloney; Robt. Malcomson in Magheralin."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "newry-no-1-rural-district-council__1955-06-02",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -3524,6 +4033,18 @@
       "category": "candidate-party-missing",
       "key": "newry-no-2-rural-district-council__1955-06-02",
       "message": "27 candidate rows have no party/label. Examples: John Reid in Ballybot; B. J. McVerry in Belleek; John Cartmill in Bessbrook North; Joseph Brown in Bessbrook South; Patrick Daniel Fearon in Camlough."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "north-down-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "north-down-rural-district-council__1955-06-02",
+      "message": "4 candidate rows have no party/label. Examples: William M'Dowell in Ardkeen; T. N. M'Lay in Ardkeen; J. Galbraith in Kilmood; W. S. M'Kinney in Newtownards North."
     },
     {
       "severity": "warning",
@@ -3619,7 +4140,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymena-borough-council__1955-05-18",
-      "message": "5 candidate rows have no party/label. Examples: J. D. Henry in Market Ward; J. Millar in Market Ward; R. Humphries in Market Ward; P. J. Burke in Market Ward; A. H. Erwin in Market Ward."
+      "message": "13 candidate rows have no party/label. Examples: Wm. Alexander in Harryville Ward; Samuel Barr in Harryville Ward; Morrow in Harryville Ward; Wm. M'Ninch in Harryville Ward; J. D. Henry in Market Ward."
     },
     {
       "severity": "warning",
@@ -3991,7 +4512,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "antrim-rural-district-council__1952-06-05",
-      "message": "4 candidate rows have no party/label. Examples: Robert Saunderson in Donegore; M. M'Gregor in Donegore; John Gray in Dunadry; R. M'Cammond in Dunadry."
+      "message": "6 candidate rows have no party/label. Examples: Robert Saunderson in Donegore; M. M'Gregor in Donegore; John Gray in Dunadry; R. M'Cammond in Dunadry; Wm. Clarke in Muckamore."
     },
     {
       "severity": "warning",
@@ -4075,7 +4596,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "belfast-rural-district-council__1952-06-05",
-      "message": "6 candidate rows have no party/label. Examples: Alexander Dundee in Ballyduff; Thomas Morley Erskine in Ballygolan; Joseph C. Taggart in Ballysillan; John Davidson in Carnmoney; Herbert Robinson in Jordanstown."
+      "message": "8 candidate rows have no party/label. Examples: Alexander Dundee in Ballyduff; Thomas Morley Erskine in Ballygolan; Thomas Clifford in Ballygomartin; Joseph C. Taggart in Ballysillan; John Davidson in Carnmoney."
     },
     {
       "severity": "warning",
@@ -4105,7 +4626,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "clogher-rural-district-council__1952-06-05",
-      "message": "16 candidate rows have no party/label. Examples: W. Boyd in Aughentaine; R. McNeill Roy in Augher; R. Elliott in Aughnacloy Rural; F. W. Malley in Aughnacloy Urban; T. Barnett in Ballagh."
+      "message": "16 candidate rows have no party/label. Examples: W. Boyd in Aughentaine; Robert McNeill in Augher; R. Elliott in Aughnacloy Rural; F. W. Malley in Aughnacloy Urban; T. Barnett in Ballagh."
     },
     {
       "severity": "warning",
@@ -4117,7 +4638,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1952-06-05",
-      "message": "4 candidate rows have no party/label. Examples: H. Morrell in Articlave; W. A. Walmsley in Articlave; John Williamson in Garvagh; Thomas Adams in Garvagh."
+      "message": "10 candidate rows have no party/label. Examples: E. P. Jamison in Agivey; H. Morrell in Articlave; W. A. Walmsley in Articlave; J. W. Stewart in Ballylagan; J. McMath in Bannbrook."
     },
     {
       "severity": "warning",
@@ -4153,7 +4674,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "dungannon-rural-district-council__1952-06-05",
-      "message": "3 candidate rows have no party/label. Examples: Cecil Burrows in Bush; W. M. Buchanan in Clonaneese; James Fleming in Newmills."
+      "message": "6 candidate rows have no party/label. Examples: A. Tally in Altmore; Cecil Burrows in Bush; W. M. Buchanan in Clonaneese; W. Espey in Killyman; Moses Busby in Minterburn."
     },
     {
       "severity": "warning",
@@ -4231,7 +4752,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "limavady-rural-district-council__1952-06-05",
-      "message": "16 candidate rows have no party/label. Examples: Denis Farren in Ballyharrigan; S. H. B. Allison Barr in Ballykelly; James W. McCracken in Bellarena; Daniel Deighan in Benone; James O'Neill in Dungiven."
+      "message": "16 candidate rows have no party/label. Examples: Denis Farren in Ballyharigan; S. H. B. Allison Barr in Ballykelly; James W. McCracken in Bellarena; Daniel Deighan in Benone; James O'Neill in Dungiven."
     },
     {
       "severity": "warning",
@@ -4273,7 +4794,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "londonderry-rural-district-council__1952-06-05",
-      "message": "13 candidate rows have no party/label. Examples: William Doherty in Ardmore; Francis Joseph O'Kane in Ballymullan; Patrick Conway in Banagher; William Hugh Hawthorne in Bond's Glen; William J. Eakin in Claudy."
+      "message": "13 candidate rows have no party/label. Examples: William Doherty in Ardmore; Francis Joseph O'Kane in Ballymullins; Patrick Conway in Banagher; William Hugh Hawthorne in Bond's Glen; William J. Eakin in Claudy."
     },
     {
       "severity": "warning",
@@ -4435,7 +4956,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymena-borough-council__1952-05-21",
-      "message": "6 candidate rows have no party/label. Examples: William M'Ninch in Harryville Ward; Samuel Barr in Harryville Ward; John Morrow in Harryville Ward; William Alexander in Harryville Ward; Adam Irwin in Harryville Ward."
+      "message": "17 candidate rows have no party/label. Examples: William M'Ninch in Harryville Ward; Samuel Barr in Harryville Ward; John Morrow in Harryville Ward; William Alexander in Harryville Ward; Adam Irwin in Harryville Ward."
     },
     {
       "severity": "warning",
@@ -4613,12 +5134,6 @@
     },
     {
       "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "limavady-urban-district-council__1952-05-21",
-      "message": "2 candidate rows have no party/label. Examples: G. H. P. Buchanan in Limavady; J. Simpson in Limavady."
-    },
-    {
-      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "lisburn-borough-council__1952-05-21",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -4693,7 +5208,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "portrush-urban-district-council__1952-05-21",
-      "message": "15 candidate rows have no party/label. Examples: D. D. Fleck in Portrush; G. M'Mullan in Portrush; R. B. Adams in Portrush; F. G. Blundell in Portrush; Mrs. E. Robinson in Portrush."
+      "message": "18 candidate rows have no party/label. Examples: D. D. Fleck in Portrush; G. M'Mullan in Portrush; R. B. Adams in Portrush; F. G. Blundell in Portrush; Mrs. E. Robinson in Portrush."
     },
     {
       "severity": "warning",
@@ -4915,7 +5430,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymena-rural-district-council__1949-06-02",
-      "message": "2 candidate rows have no party/label. Examples: John Black in Ballyclug; William M'Caughey in Ballyclug."
+      "message": "21 candidate rows have no party/label. Examples: A. C. Logan in Ahoghill; John Black in Ballyclug; William M'Caughey in Ballyclug; S. Watson in Ballyconnolly; Wm. Kerr in Ballyscullion."
     },
     {
       "severity": "warning",
@@ -4951,7 +5466,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "belfast-rural-district-council__1949-06-02",
-      "message": "1 candidate rows have no party/label. Examples: Wilson Cupples in Ballysillan."
+      "message": "9 candidate rows have no party/label. Examples: William Louden in Ballyduff; T. M. Erskine in Ballygolan; James Smyth in Ballygomartin; Wilson Cupples in Ballysillan; John Davidson in Carnmoney."
     },
     {
       "severity": "warning",
@@ -4999,7 +5514,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1949-06-02",
-      "message": "21 candidate rows have no party/label. Examples: W. J. Anderson in Aghadowey; E. P. Jamison in Agivey; Henry Morrell in Articlave; J. W. Stewart in Ballylaggan; Joseph M'Math in Bannbrook."
+      "message": "21 candidate rows have no party/label. Examples: W. J. Anderson in Aghadowey; E. P. Jamison in Agivey; Henry Morrell in Articlave; J. W. Stewart in Ballylagan; Joseph M'Math in Bannbrook."
     },
     {
       "severity": "warning",
@@ -5035,7 +5550,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "dungannon-rural-district-council__1949-06-02",
-      "message": "2 candidate rows have no party/label. Examples: M. A. Stevenson in Bernagh; J. Nimmons in Granville."
+      "message": "18 candidate rows have no party/label. Examples: T. J. Cuddy in Aghnahoe; A. Tally in Altmore; F. T. Roleston in Benburb; M. A. Stevenson in Bernagh; H. A. M'Minn in Bush."
     },
     {
       "severity": "warning",
@@ -5119,7 +5634,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "limavady-rural-district-council__1949-06-02",
-      "message": "16 candidate rows have no party/label. Examples: Dennis Farren in Ballyharrigan; William Selfridge in Ballykelly; Daniel Deehan in Benone; J. C. McLaughlin in Drum; James O'Neill in Dungiven."
+      "message": "16 candidate rows have no party/label. Examples: Dennis Farren in Ballyharigan; William Selfridge in Ballykelly; Daniel Deehan in Benone; J. C. McLaughlin in Drum; James O'Neill in Dungiven."
     },
     {
       "severity": "warning",
@@ -5310,6 +5825,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "aughnacloy-town-commissioners__1949-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "aughnacloy-town-commissioners__1949-05-18",
+      "message": "8 candidate rows have no party/label. Examples: John Brady in Aughnacloy; E. A. Argue in Aughnacloy; Joseph Keys in Aughnacloy; Samuel Henderson in Aughnacloy; Joseph Hardy in Aughnacloy."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "ballycastle-urban-district-council__1949-05-18",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -5335,7 +5862,19 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymena-borough-council__1949-05-18",
-      "message": "9 candidate rows have no party/label. Examples: Thos. Wilson in Market Ward; J. L. Sterling in Market Ward; J. J. Millar in Market Ward; J. Woodside in Market Ward; James Henry in Town Hall Ward."
+      "message": "13 candidate rows have no party/label. Examples: William Alexander in Harryville Ward; A. O'N. Chichester in Harryville Ward; John Morrow in Harryville Ward; William M'Ninch in Harryville Ward; Thos. Wilson in Market Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "ballymoney-urban-district-council__1949-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "ballymoney-urban-district-council__1949-05-18",
+      "message": "12 candidate rows have no party/label. Examples: R. M'Afee in Ballymoney; W. M'K. Dunlop in Ballymoney; J. M. Wreath in Ballymoney; J. P. Owens in Ballymoney; J. M'Cracken in Ballymoney."
     },
     {
       "severity": "warning",
@@ -5407,7 +5946,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "donaghadee-urban-district-council__1949-05-18",
-      "message": "5 candidate rows have no party/label. Examples: Benjamin Stafford in South Ward; John M'Cullough in South Ward; John H. Oswald in South Ward; Mrs. E. J. Boyd, M.B.E. in South Ward; George Arthur Taylor in South Ward."
+      "message": "8 candidate rows have no party/label. Examples: Thomas Howe in North Ward; W. Campbell in North Ward; Charles C. Stewart in North Ward; Benjamin Stafford in South Ward; John M'Cullough in South Ward."
     },
     {
       "severity": "warning",
@@ -5448,6 +5987,30 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "gilford-town-commissioners__1949-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "gilford-town-commissioners__1949-05-18",
+      "message": "9 candidate rows have no party/label. Examples: Cecil M'Ilroy in Gilford; Robert Leckey in Gilford; T. Cromie in Gilford; Wm. M'Dowell in Gilford; John Higgins in Gilford."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "holywood-urban-district-council__1949-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "holywood-urban-district-council__1949-05-18",
+      "message": "9 candidate rows have no party/label. Examples: F. C. Collins in Holywood; J. V. Addy in Holywood; W. G. Kearney in Holywood; R. M'Carty in Holywood; Ed. M'Cavana in Holywood."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "keady-urban-district-council__1949-05-18",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -5479,7 +6042,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "larne-borough-council__1949-05-18",
-      "message": "7 candidate rows have no party/label. Examples: H. A. M'Kay in Larne (10 seats); L. H. Brown in Larne (10 seats); A. G. Poole in Larne (10 seats); W. J. J. Johnston in Larne (10 seats); T. H. Pullin in Larne (10 seats)."
+      "message": "7 candidate rows have no party/label. Examples: H. A. M'Kay in Larne (10 seats); L. H. Brown in Larne (10 seats); A. G. Doole in Larne (10 seats); W. J. J. Johnston in Larne (10 seats); T. H. Pullin in Larne (10 seats)."
     },
     {
       "severity": "warning",
@@ -5492,6 +6055,18 @@
       "category": "candidate-party-missing",
       "key": "limavady-urban-district-council__1949-05-18",
       "message": "11 candidate rows have no party/label. Examples: J. McKay in Limavady; C. McElwee, sen. in Limavady; S. Moore, sen. in Limavady; J. C. Walker in Limavady; T. W. Teevin in Limavady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lisburn-borough-council__1949-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lisburn-borough-council__1949-05-18",
+      "message": "15 candidate rows have no party/label. Examples: William J. M'Mullen in Central Ward; James Ward in Central Ward; George S. Moore in Central Ward; Arthur Bowman in Central Ward; Mrs. Sarah Crothers in Central Ward."
     },
     {
       "severity": "warning",
@@ -5557,7 +6132,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "portrush-urban-district-council__1949-05-18",
-      "message": "15 candidate rows have no party/label. Examples: W. R. Knox in Portrush; G. M'Mullan in Portrush; H. Carson in Portrush; W. Black in Portrush; J. Logan in Portrush."
+      "message": "24 candidate rows have no party/label. Examples: W. R. Knox in Portrush; G. M'Mullan in Portrush; H. Carson in Portrush; W. Black in Portrush; J. Logan in Portrush."
     },
     {
       "severity": "warning",
@@ -5747,6 +6322,12 @@
     },
     {
       "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "antrim-rural-district-council__1946-10-03",
+      "message": "19 candidate rows have no party/label. Examples: John Anderson in Ballyclare Rural; Archibald M'Farland in Ballynadrenta; P. C. Grant in Cargin; Wm. Coleman in Carntall; Robert Dickey in Cogry."
+    },
+    {
+      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "armagh-county-council__1946-10-03",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -5881,7 +6462,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "enniskillen-rural-district-council__1946-10-03",
-      "message": "19 candidate rows have no party/label. Examples: James Owens in Ballyreagh; Hon. C. L.-Corry in Castlecoole; J. Coulter in Clabby; Thomas Bothwell in Coolyermor; G. A. Cathcart in Corraglass."
+      "message": "19 candidate rows have no party/label. Examples: James Owens in Ballyreagh; Hon. C. Lowry-Corry in Castlecoole; J. Coulter in Clabby; Thomas Bothwell in Coolyermor; G. A. Cathcart in Corraglass."
     },
     {
       "severity": "warning",
@@ -6072,6 +6653,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "ballymena-borough-council__1946-09-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "ballymena-borough-council__1946-09-18",
+      "message": "15 candidate rows have no party/label. Examples: John Morrow in Harryville Ward; A. O'N. Chichester in Harryville Ward; Arthur M'Master in Harryville Ward; Robert Lenzie in Harryville Ward; J. S. M'Ilhagga in Harryville Ward (Alderman)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "ballymoney-urban-district-council__1946-09-18",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -6079,7 +6672,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymoney-urban-district-council__1946-09-18",
-      "message": "12 candidate rows have no party/label. Examples: J. M. Reith in Ballymoney; J. W. M'Coubrey in Ballymoney; R. M'Afee in Ballymoney; J. M'Cracken in Ballymoney; A. G. Algeo in Ballymoney."
+      "message": "18 candidate rows have no party/label. Examples: J. M. Wreath in Ballymoney; T. W. M'Coubrey in Ballymoney; R. M'Afee in Ballymoney; J. M'Cracken in Ballymoney; A. G. Algeo in Ballymoney."
     },
     {
       "severity": "warning",
@@ -6169,7 +6762,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "donaghadee-urban-district-council__1946-09-18",
-      "message": "4 candidate rows have no party/label. Examples: Mrs. E. J. Boyd in Donaghadee; B. Stafford in Donaghadee; C. C. Stewart in Donaghadee; J. H. Oswald in Donaghadee."
+      "message": "7 candidate rows have no party/label. Examples: Mrs. E. J. Boyd in Donaghadee; B. Stafford in Donaghadee; C. C. Stewart in Donaghadee; J. H. Oswald in Donaghadee; Mrs. Agnew in Donaghadee."
     },
     {
       "severity": "warning",
@@ -6373,7 +6966,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "whitehead-urban-district-council__1946-09-18",
-      "message": "15 candidate rows have no party/label. Examples: A. Blackburn in Whitehead; R. B. Wilson in Whitehead; W. T. Devenny in Whitehead; W. J. Williamson in Whitehead; W. J. Russell in Whitehead."
+      "message": "15 candidate rows have no party/label. Examples: A. Blackburne in Whitehead; R. B. Wilson in Whitehead; W. T. Devenny in Whitehead; W. J. Williamson in Whitehead; W. J. Russell in Whitehead."
     },
     {
       "severity": "warning",
@@ -6403,7 +6996,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1939-06-02",
-      "message": "20 candidate rows have no party/label. Examples: Hugh M'Fetridge in Aghadowey; William Wilson in Agivey; William Tanner in Articlave; John W. Stewart in Ballylaggan; Joseph M'Math in Bannbrook."
+      "message": "20 candidate rows have no party/label. Examples: Hugh M'Fetridge in Aghadowey; William Wilson in Agivey; William Tanner in Articlave; John W. Stewart in Ballylagan; Joseph M'Math in Bannbrook."
     },
     {
       "severity": "warning",
@@ -6415,7 +7008,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "limavady-rural-district-council__1939-06-02",
-      "message": "23 candidate rows have no party/label. Examples: John Cochrane in Aghanloo; James C. Fulton in Ballyharrigan; William Selfridge in Ballykelly; William Deehan in Bellarena; James A. Morrison in Benone."
+      "message": "23 candidate rows have no party/label. Examples: John Cochrane in Aghanloo; James C. Fulton in Ballyharigan; William Selfridge in Ballykelly; William Deehan in Bellarena; James A. Morrison in Benone."
     },
     {
       "severity": "warning",
@@ -6439,7 +7032,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "londonderry-rural-district-council__1939-06-02",
-      "message": "13 candidate rows have no party/label. Examples: W. Doherty in Ardmore; Francis J. O'Kane in Ballymullan; Patrick Conway in Banagher; Wm. H. Hawthorne in Bond's Glen; A. J. Irwin in Claudy."
+      "message": "13 candidate rows have no party/label. Examples: W. Doherty in Ardmore; Francis J. O'Kane in Ballymullins; Patrick Conway in Banagher; Wm. H. Hawthorne in Bond's Glen; A. J. Irwin in Claudy."
     },
     {
       "severity": "warning",
@@ -6823,7 +7416,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymena-borough-council__1939-05-15",
-      "message": "19 candidate rows have no party/label. Examples: J. S. M'llhagga in Harryville Ward; David Henry in Harryville Ward; John Morrow in Harryville Ward; William Aiken in Harryville Ward; John Henry in Harryville Ward."
+      "message": "19 candidate rows have no party/label. Examples: J. S. M'Ilhagga in Harryville Ward; David Henry in Harryville Ward; John Morrow in Harryville Ward; William Aiken in Harryville Ward; John Henry in Harryville Ward."
     },
     {
       "severity": "warning",
@@ -6991,7 +7584,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "larne-borough-council__1939-05-15",
-      "message": "8 candidate rows have no party/label. Examples: W. B. Legg in Central Ward; W. H. Smith in Central Ward; J. Kirkwood in Central Ward; A. G. Bourke in Central Ward; J. Ross in Townparks Ward."
+      "message": "17 candidate rows have no party/label. Examples: W. B. Legg in Central Ward; W. H. Smith in Central Ward; J. Kirkwood in Central Ward; A. G. Bourke in Central Ward; W. Whyte Morrow in Curran Ward."
     },
     {
       "severity": "warning",
@@ -7004,6 +7597,18 @@
       "category": "candidate-party-missing",
       "key": "limavady-urban-district-council__1939-05-15",
       "message": "8 candidate rows have no party/label. Examples: John Hunter in Limavady; Thomas Ferris in Limavady; Alexander Smyth in Limavady; Archibald Campbell in Limavady; Robert Bloomfield in Limavady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lisburn-borough-council__1939-05-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lisburn-borough-council__1939-05-15",
+      "message": "15 candidate rows have no party/label. Examples: John D. Barbour in Central Ward; A. N. Stevenson in Central Ward; F. M'Mahon in Central Ward; J. M. Cumins in Central Ward; S. D. B. Hanna in Central Ward."
     },
     {
       "severity": "warning",
@@ -7231,7 +7836,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "larne-borough-council__1938-05-16",
-      "message": "2 candidate rows have no party/label. Examples: Captain R. M'Ilwaine in Gardenmore Ward; John Kirkpatrick in Gardenmore Ward."
+      "message": "6 candidate rows have no party/label. Examples: R. F. Greenlees in Central Ward; Clements Robinson in Curran Ward; Captain R. M'Ilwaine in Gardenmore Ward; John Kirkpatrick in Gardenmore Ward; John Girvan in Inver Ward."
     },
     {
       "severity": "warning",
@@ -7346,6 +7951,18 @@
       "category": "candidate-party-missing",
       "key": "carrickfergus-borough-council__1937-10-15",
       "message": "9 candidate rows have no party/label. Examples: Robert B. Lee in Carrickfergus (6 seats); Walter M'Keown in Carrickfergus (6 seats); John Law in Carrickfergus (6 seats); J. L. Simms in Carrickfergus (6 seats); Benjamin Oakes in Carrickfergus (6 seats)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "cookstown-urban-district-council__1937-10-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "cookstown-urban-district-council__1937-10-15",
+      "message": "4 candidate rows have no party/label. Examples: W. H. Newell in Cookstown; William Gough in Cookstown; James Wright in Cookstown; Samuel Cowan in Cookstown."
     },
     {
       "severity": "warning",
@@ -7703,6 +8320,12 @@
     },
     {
       "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "clogher-rural-district-council__1936-06-03",
+      "message": "1 candidate rows have no party/label. Examples: James E. Hackett in Cullamore."
+    },
+    {
+      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "cookstown-rural-district-council__1936-06-03",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
@@ -7746,6 +8369,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "omagh-rural-district-council__1936-06-03",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "omagh-rural-district-council__1936-06-03",
+      "message": "24 candidate rows have no party/label. Examples: Owen M'Cusker in Aughafad; Fred M'Ivor in Bencran; John Hutton in Beragh; Dominick M'Crossan in Camderry; Patrick Quinn in Carrickmore."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-rural-district-council__1936-06-03",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -7766,6 +8401,18 @@
       "category": "candidate-party-missing",
       "key": "tyrone-county-council__1936-06-03",
       "message": "21 candidate rows have no party/label. Examples: J. J. Rea in Aughnacloy; Joseph Higgins in Ballygawley; John Gray in Benburb; H. K. M'Aleer in Carrickmore; R. J. Howard in Castlecaulfield."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "coleraine-rural-district-council__1936-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "coleraine-rural-district-council__1936-06-02",
+      "message": "2 candidate rows have no party/label. Examples: Matthew Workman in Drumcroon; John N. Henry in Somerset."
     },
     {
       "severity": "warning",
@@ -7801,7 +8448,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "londonderry-rural-district-council__1936-06-02",
-      "message": "10 candidate rows have no party/label. Examples: Patrick Conway in Banagher; James Cochrane in Bond's Glen; Albert J. Irwin in Claudy; James Crawford in Glendermott; William G. Lynch in Lough Enagh."
+      "message": "10 candidate rows have no party/label. Examples: Patrick Conway in Banagher; James Cochrane in Bond's Glen; Albert J. Irwin in Claudy; James Crawford in Glendermott; William Shannon in Liberties Lower."
     },
     {
       "severity": "warning",
@@ -7897,7 +8544,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymena-borough-council__1936-05-15",
-      "message": "23 candidate rows have no party/label. Examples: James M'llhagga in Harryville Ward; David Henry in Harryville Ward; John Morrow in Harryville Ward; Robert Craig in Harryville Ward; John Woodburn in Harryville Ward."
+      "message": "23 candidate rows have no party/label. Examples: James M'Ilhagga in Harryville Ward; David Henry in Harryville Ward; John Morrow in Harryville Ward; Robert Craig in Harryville Ward; John Woodburn in Harryville Ward."
     },
     {
       "severity": "warning",
@@ -8304,6 +8951,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "kilkeel-urban-district-council__1934-08-07",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "kilkeel-urban-district-council__1934-08-07",
+      "message": "9 candidate rows have no party/label. Examples: James M'Kee in Kilkeel; Edward M'Gonigal in Kilkeel; R. J. Ferguson in Kilkeel; John Orr in Kilkeel; R. J. Sloane in Kilkeel."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "bangor-borough-council__1934-01-15",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -8318,12 +8977,6 @@
       "category": "source-record-single-reference",
       "key": "belfast-county-borough-council__1934-01-15",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "first-pref-sum",
-      "key": "belfast-county-borough-council__1934-01-15",
-      "message": "Pottinger first-preference sum 11006 exceeds valid poll ceiling 9006."
     },
     {
       "severity": "warning",
@@ -8377,7 +9030,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "larne-borough-council__1934-01-15",
-      "message": "2 candidate rows have no party/label. Examples: Clements Robinson in Curran Ward; Miss Sarah E. Morrow in Curran Ward."
+      "message": "6 candidate rows have no party/label. Examples: R. F. Greenlees in Central Ward; Clements Robinson in Curran Ward; Miss Sarah E. Morrow in Curran Ward; Thomas M'Connell in Gardenmore Ward; John Girvan in Inver Ward."
     },
     {
       "severity": "warning",
@@ -8461,7 +9114,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1933-06-02",
-      "message": "21 candidate rows have no party/label. Examples: H. M'Fetridge in Aghadowey; W. Wilson in Agivey; J. Calvin in Articlave; J. Irons in Ballylaggan; J. M'Math in Bannbrook."
+      "message": "21 candidate rows have no party/label. Examples: H. M'Fetridge in Aghadowey; W. Wilson in Agivey; J. Calvin in Articlave; J. Irons in Ballylagan; J. M'Math in Bannbrook."
     },
     {
       "severity": "warning",
@@ -8473,7 +9126,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "limavady-rural-district-council__1933-06-02",
-      "message": "23 candidate rows have no party/label. Examples: John Douglas in Aghanloo; James M'C. Fulton in Ballyhargan; William Selfridge in Ballykelly; Charles M'Dermott in Bellarena; James Morrison in Benone."
+      "message": "23 candidate rows have no party/label. Examples: John Douglas in Aghanloo; James M'C. Fulton in Ballyharigan; William Selfridge in Ballykelly; Charles M'Dermott in Bellarena; James Morrison in Benone."
     },
     {
       "severity": "warning",
@@ -8497,13 +9150,19 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "londonderry-rural-district-council__1933-06-02",
-      "message": "13 candidate rows have no party/label. Examples: William Doherty in Ardmore; Francis J. O'Kane in Ballymullan; Patrick Conway in Banagher; James Cochrane in Bond's Glen; Albert J. Irwin in Claudy."
+      "message": "13 candidate rows have no party/label. Examples: William Doherty in Ardmore; Francis J. O'Kane in Ballymullins; Patrick Conway in Banagher; James Cochrane in Bond's Glen; Albert J. Irwin in Claudy."
     },
     {
       "severity": "warning",
       "category": "source-record-single-reference",
       "key": "magherafelt-rural-district-council__1933-06-02",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "magherafelt-rural-district-council__1933-06-02",
+      "message": "2 candidate rows have no party/label. Examples: David W. Wallace in Lissan Upper; D. M'Clure in Salterstown."
     },
     {
       "severity": "warning",
@@ -8557,7 +9216,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymoney-rural-district-council__1933-06-01",
-      "message": "2 candidate rows have no party/label. Examples: James Madden in Vow; Joseph Donaghy in Vow."
+      "message": "12 candidate rows have no party/label. Examples: Robert H. Morrison in Dervock; Andrew Keers in Dirraw; James Drain in Dunloy; John Boyd in Killagan; Daniel Wallace in Killoquin Lower."
     },
     {
       "severity": "warning",
@@ -8629,13 +9288,19 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "dungannon-rural-district-council__1933-05-31",
-      "message": "11 candidate rows have no party/label. Examples: F. T. Roleston in Benburb; James Watt in Bernagh; W. J. M'Minn in Bush; Samuel Watson in Caledon; T. C. W. Marshall in Clonaneese."
+      "message": "18 candidate rows have no party/label. Examples: Thomas D. Givans in Aghnahoe; Patrick Loughran in Altmore; F. T. Roleston in Benburb; James Watt in Bernagh; W. J. M'Minn in Bush."
     },
     {
       "severity": "warning",
       "category": "source-record-single-reference",
       "key": "enniskillen-rural-district-council__1933-05-31",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "enniskillen-rural-district-council__1933-05-31",
+      "message": "1 candidate rows have no party/label. Examples: Thos. Elliott in Monea."
     },
     {
       "severity": "warning",
@@ -8677,7 +9342,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "strabane-rural-district-council__1933-05-31",
-      "message": "3 candidate rows have no party/label. Examples: Matthew J. Wauchob in Birnaghs; Patrick O'Doherty in Camus; Robt. Buchanan in Killyclooney."
+      "message": "4 candidate rows have no party/label. Examples: Matthew J. Wauchob in Birnaghs; Patrick O'Doherty in Camus; Joseph Mills in Clady; Robt. Buchanan in Killyclooney."
     },
     {
       "severity": "warning",
@@ -9049,7 +9714,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymena-borough-council__1932-01-15",
-      "message": "24 candidate rows have no party/label. Examples: William Aiken in Harryville Ward; James S. M'llhagga in Harryville Ward; David Henry in Harryville Ward; James N. Lamont in Harryville Ward; James Biggs in Harryville Ward."
+      "message": "24 candidate rows have no party/label. Examples: William Aiken in Harryville Ward; James S. M'Ilhagga in Harryville Ward; David Henry in Harryville Ward; James N. Lamont in Harryville Ward; James Biggs in Harryville Ward."
     },
     {
       "severity": "warning",
@@ -9180,6 +9845,12 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "gilford-town-commissioners__1932-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "holywood-urban-district-council__1932-01-15",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -9271,7 +9942,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "newcastle-urban-district-council__1932-01-15",
-      "message": "21 candidate rows have no party/label. Examples: R. Hastings in Newcastle North Ward; J. R. Stevens in Newcastle North Ward; W. Gilmore in Newcastle North Ward; J. M'Cafferly in Newcastle North Ward; J. M'Manus in Newcastle North Ward."
+      "message": "21 candidate rows have no party/label. Examples: R. Hastings in Newcastle North Ward; J. R. Stevens in Newcastle North Ward; W. Gilmore in Newcastle North Ward; J. M. M'Clafferty in Newcastle North Ward; J. M'Manus in Newcastle North Ward."
     },
     {
       "severity": "warning",
@@ -9445,7 +10116,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "carrickfergus-borough-council__1931-01-15",
-      "message": "6 candidate rows have no party/label. Examples: F. Atkinson in Carrickfergus (6 seats); John Graham in Carrickfergus (6 seats); C. M. Legg in Carrickfergus (6 seats); W. M'Cullough in Carrickfergus (6 seats); T. J. Patterson in Carrickfergus (6 seats)."
+      "message": "6 candidate rows have no party/label. Examples: Stanley Haggan in Carrickfergus (6 seats); John Graham in Carrickfergus (6 seats); C. M. Legg in Carrickfergus (6 seats); W. M'Cullough in Carrickfergus (6 seats); T. J. Patterson in Carrickfergus (6 seats)."
     },
     {
       "severity": "warning",
@@ -9565,7 +10236,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "antrim-county-council__1930-06-05",
-      "message": "22 candidate rows have no party/label. Examples: David Mairs in Aghalee; Robert J. Kirk in Antrim; Sydney J. Lyle in Ballycastle; Robert S. Thompson in Ballyclare; George Alfred Parkes in Ballygomartin."
+      "message": "23 candidate rows have no party/label. Examples: David Mairs in Aghalee; Samuel Watson in Ahoghill; Robert J. Kirk in Antrim; Sydney J. Lyle in Ballycastle; Robert S. Thompson in Ballyclare."
     },
     {
       "severity": "warning",
@@ -9577,7 +10248,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "antrim-rural-district-council__1930-06-05",
-      "message": "21 candidate rows have no party/label. Examples: R. Clarke in Antrim Rural; Samuel Suffern in Ballyclare Rural; Alex. Reid in Ballynadrenta; S. Porter in Ballyrobin; Daniel M'Keever in Cargin."
+      "message": "23 candidate rows have no party/label. Examples: R. Clarke in Antrim Rural; F. T. Smith in Antrim Urban; S. W. Brennan in Antrim Urban; Samuel Suffern in Ballyclare Rural; Alex. Reid in Ballynadrenta."
     },
     {
       "severity": "warning",
@@ -9637,7 +10308,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1930-06-05",
-      "message": "21 candidate rows have no party/label. Examples: Hugh M'Fetridge in Aghadowey; William Wilson in Agivey; John Calvin in Articlave; John Irons in Ballylaggan; Joseph M'Math in Bannbrook."
+      "message": "21 candidate rows have no party/label. Examples: Hugh M'Fetridge in Aghadowey; William Wilson in Agivey; John Calvin in Articlave; John Irons in Ballylagan; Joseph M'Math in Bannbrook."
     },
     {
       "severity": "warning",
@@ -9649,7 +10320,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "larne-rural-district-council__1930-06-05",
-      "message": "6 candidate rows have no party/label. Examples: James Crawford in Glenarm North; Robert Lindsay in Glenarm North; James M'Loughlin in Glencloy; Michael Lyons in Glencloy; William H. Craig in Glynn."
+      "message": "19 candidate rows have no party/label. Examples: Owen M'Auley in Ardclinis; Samuel M'Creery in Ballycorr; John Boyd in Ballynure; William Smyth in Cairncastle; John Magee in Carrickfergus Rural."
     },
     {
       "severity": "warning",
@@ -9661,7 +10332,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "limavady-rural-district-council__1930-06-05",
-      "message": "15 candidate rows have no party/label. Examples: John Douglas in Aghanloo; James M'C. Fulton in Ballyharigan; Charles E. Mullan in Drum; James Glendinning in Drumreighland; John Oliver in Drumsurn."
+      "message": "15 candidate rows have no party/label. Examples: John Douglas in Aghanloo; James M'C. Fulton in Ballyharigan; Charles E. Mullan in Drum; James Glendinning in Drumraighland; John Oliver in Drumsurn."
     },
     {
       "severity": "warning",
@@ -9673,7 +10344,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "lisburn-rural-district-council__1930-06-05",
-      "message": "8 candidate rows have no party/label. Examples: John Mooney in Aghalee; Mrs. Beattie in Dunmurry; David Benson in Islandkelly; Henry Ballance, J.P. in Lissue; Robert Armstrong in Magheragall."
+      "message": "9 candidate rows have no party/label. Examples: John Mooney in Aghalee; Samuel Buchanan in Ballyscolly; Mrs. Beattie in Dunmurry; David Benson in Islandkelly; Henry Ballance, J.P. in Lissue."
     },
     {
       "severity": "warning",
@@ -9697,7 +10368,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "londonderry-rural-district-council__1930-06-05",
-      "message": "13 candidate rows have no party/label. Examples: William Doherty in Ardmore; William Mullan in Ballymullan; Patrick Conway in Banagher; James Cochrane in Bond's Glen; Albert J. Irwin in Claudy."
+      "message": "13 candidate rows have no party/label. Examples: William Doherty in Ardmore; William Mullan in Ballymullins; Patrick Conway in Banagher; James Cochrane in Bond's Glen; Albert J. Irwin in Claudy."
     },
     {
       "severity": "warning",
@@ -9781,7 +10452,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "omagh-rural-district-council__1930-06-04",
-      "message": "3 candidate rows have no party/label. Examples: Michael Fox in Crockanboy; Solomon Morris in Fallagh; Daniel M'Crea in Glenlark."
+      "message": "4 candidate rows have no party/label. Examples: Michael Fox in Crockanboy; Solomon Morris in Fallagh; Daniel M'Crea in Glenlark; John M'Farland in Maine."
     },
     {
       "severity": "warning",
@@ -9889,7 +10560,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "newry-no-1-rural-district-council__1930-05-30",
-      "message": "4 candidate rows have no party/label. Examples: P. M'Ateer in Ballyholland; Pierce P. Fegan in Carrickcrossan; A. J. M'Clean in Drumgath; E. J. Convery in Glen."
+      "message": "1 candidate rows have no party/label. Examples: Pierce P. Fegan in Carrickcrossan."
     },
     {
       "severity": "warning",
@@ -9901,7 +10572,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "north-down-rural-district-council__1930-05-30",
-      "message": "13 candidate rows have no party/label. Examples: Alex. Kirkpatrick, J.P. in Ardkeen; Senator James Hill Dickson, J.P. in Ballygowan; Wm. Gowan in Ballyhalbert; Jos. Berkley, J.P. in Ballymaglaff; John Robb in Ballywalter."
+      "message": "13 candidate rows have no party/label. Examples: Alex. Kirkpatrick, J.P. in Ardkeen; Senator James Hill Dickson, J.P. in Ballygowan; Wm. Gowan in Ballyhalbert; Jos. Berkeley, J.P. in Ballymaglaff; John Robb in Ballywalter."
     },
     {
       "severity": "warning",
@@ -10387,7 +11058,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "lisburn-borough-council__1929-01-15",
-      "message": "14 candidate rows have no party/label. Examples: Jamison in Central Ward; Sinclair in Central Ward; Bowman in Central Ward; M'Creanor in Central Ward; Law in Central Ward."
+      "message": "18 candidate rows have no party/label. Examples: Jamison in Central Ward; Sinclair in Central Ward; Bowman in Central Ward; M'Creanor in Central Ward; Law in Central Ward."
     },
     {
       "severity": "warning",
@@ -10460,6 +11131,12 @@
       "category": "source-record-single-reference",
       "key": "omagh-urban-district-council__1929-01-15",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "omagh-urban-district-council__1929-01-15",
+      "message": "7 candidate rows have no party/label. Examples: Francis P. Cassidy in South Ward; J. Devlin in South Ward; Alexander E. Donnelly in South Ward; M. Lynch in South Ward; Daniel M'Auley in South Ward."
     },
     {
       "severity": "warning",
@@ -10753,7 +11430,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymena-rural-district-council__1927-06-02",
-      "message": "24 candidate rows have no party/label. Examples: William Ervine in Ahoghill; David Foster in Ballyclug; Charles M'Auley in Ballyclug; Samuel Watson in Ballyconnolly; George Elder in Ballyscullion."
+      "message": "27 candidate rows have no party/label. Examples: William Ervine in Ahoghill; David Foster in Ballyclug; Charles M'Auley in Ballyclug; Samuel Watson in Ballyconnolly; George Elder in Ballyscullion."
     },
     {
       "severity": "warning",
@@ -10843,7 +11520,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "larne-rural-district-council__1927-06-02",
-      "message": "4 candidate rows have no party/label. Examples: Owen M'Auley in Ardclinis (Carnlough); Daniel M'Gahan in Ardclinis (Carnlough); William Smyth in Cairncastle; John Hunter in Cairncastle."
+      "message": "18 candidate rows have no party/label. Examples: Owen M'Auley in Ardclinis (Carnlough); Daniel M'Gahan in Ardclinis (Carnlough); W. J. M'Creary in Ballycorr; John Boyd in Ballynure; William Smyth in Cairncastle."
     },
     {
       "severity": "warning",
@@ -10921,7 +11598,19 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "clogher-rural-district-council__1927-06-01",
-      "message": "2 candidate rows have no party/label. Examples: James Welsh in Augher; Francis M'Carroll in Foremass."
+      "message": "3 candidate rows have no party/label. Examples: James Welsh in Augher; Richard Vance in Aughnacloy Urban; Francis M'Carroll in Foremass."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "cookstown-rural-district-council__1927-06-01",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "cookstown-rural-district-council__1927-06-01",
+      "message": "17 candidate rows have no party/label. Examples: Ezekiel Watters in Ballyclog; James Loughran in Beaghmore; Hugh Duff in Coagh; S. S. Anderson in Grange; Michael M'Gurk in Killeenan."
     },
     {
       "severity": "warning",
@@ -10934,6 +11623,12 @@
       "category": "source-record-single-reference",
       "key": "omagh-rural-district-council__1927-06-01",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "omagh-rural-district-council__1927-06-01",
+      "message": "2 candidate rows have no party/label. Examples: Patrick Clarke in Fallagh; Philip M'Caffrey in Fintona."
     },
     {
       "severity": "warning",
@@ -10957,7 +11652,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "tyrone-county-council__1927-06-01",
-      "message": "1 candidate rows have no party/label. Examples: James Welsh in Aughnacloy."
+      "message": "2 candidate rows have no party/label. Examples: James Welsh in Aughnacloy; Joseph Newell in Dungannon."
     },
     {
       "severity": "warning",
@@ -10969,7 +11664,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1927-05-27",
-      "message": "21 candidate rows have no party/label. Examples: Hugh M'Fetridge in Aghadowey; William Wilson in Agivey; James Millen in Articlave; John Irons in Ballylaggan; Joseph M'Math in Bannbrook."
+      "message": "21 candidate rows have no party/label. Examples: Hugh M'Fetridge in Aghadowey; William Wilson in Agivey; James Millen in Articlave; John Irons in Ballylagan; Joseph M'Math in Bannbrook."
     },
     {
       "severity": "warning",
@@ -10981,7 +11676,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "limavady-rural-district-council__1927-05-27",
-      "message": "3 candidate rows have no party/label. Examples: James M'C. Fulton in Ballyhargan; Andrew Phillips in Ballykelly; William M. C. Gillespie in Faughanvale."
+      "message": "3 candidate rows have no party/label. Examples: James M'C. Fulton in Ballyharigan; Andrew Phillips in Ballykelly; William M. C. Gillespie in Faughanvale."
     },
     {
       "severity": "warning",
@@ -11005,7 +11700,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "londonderry-rural-district-council__1927-05-27",
-      "message": "13 candidate rows have no party/label. Examples: William Doherty, jun. in Ardmore; William Mullan in Ballymullan; John Quigley in Banagher; James Cochrane in Bond's Glen; Albert J. Irwin in Claudy."
+      "message": "13 candidate rows have no party/label. Examples: William Doherty, jun. in Ardmore; William Mullan in Ballymullins; John Quigley in Banagher; James Cochrane in Bond's Glen; Albert J. Irwin in Claudy."
     },
     {
       "severity": "warning",
@@ -11311,7 +12006,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballycastle-urban-district-council__1926-01-15",
-      "message": "16 candidate rows have no party/label. Examples: Bernard H. O'Connor in North Ward; Thomas Humphreys in North Ward; John M'Cartney in North Ward; Alexander M'Alister in North Ward; William H. Belford in North Ward."
+      "message": "16 candidate rows have no party/label. Examples: Bernard H. O'Connor in North Ward; Thomas Humphreys in North Ward; John M'Cartney in North Ward; Alexander M'Allister in North Ward; William H. Belford in North Ward."
     },
     {
       "severity": "warning",
@@ -11509,7 +12204,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "holywood-urban-district-council__1926-01-15",
-      "message": "12 candidate rows have no party/label. Examples: Hugh Shannon in Holywood; O. S. Anderson in Holywood; F. F. Graham in Holywood; J. Middleton in Holywood; R. Ardis in Holywood."
+      "message": "12 candidate rows have no party/label. Examples: Hugh Shannon in Holywood; O. S. Anderson in Holywood; F. F. Graham in Holywood; R. Ardis in Holywood; J. Middleton in Holywood."
     },
     {
       "severity": "warning",
@@ -11581,7 +12276,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "newcastle-urban-district-council__1926-01-15",
-      "message": "21 candidate rows have no party/label. Examples: W. Gilmore in Newcastle North Ward; P. Flanagan in Newcastle North Ward; W. Porter in Newcastle North Ward; R. V. Williams in Newcastle North Ward; J. M'Claferty in Newcastle North Ward."
+      "message": "21 candidate rows have no party/label. Examples: W. Gilmore in Newcastle North Ward; P. Flanagan in Newcastle North Ward; W. Porter in Newcastle North Ward; R. V. Williams in Newcastle North Ward; J. M'Clafferty in Newcastle North Ward."
     },
     {
       "severity": "warning",
@@ -11690,6 +12385,12 @@
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1926",
       "message": "9 candidate rows have no party/label. Examples: Thomas Stewart in East Ward; John Boyle in East Ward; William Forbes in East Ward; Michael McShane in South Ward; James McGraine in South Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "seanad-eireann__1925-12-06",
+      "message": "28 candidate rows have no party/label. Examples: William Hickie in Irish Free State; Michael Fanning in Irish Free State; Henry Barniville in Irish Free State; Edward Bellingham in Irish Free State; Edward Coey Bigger in Irish Free State."
     },
     {
       "severity": "warning",
@@ -11893,7 +12594,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "ballymoney-rural-district-council__1924-06-05",
-      "message": "14 candidate rows have no party/label. Examples: William Scally in Ballyhoe; Mrs. Elizabeth Ferguson Montgomery in Benvarden; Andrew Keers in Birraw; Samuel Montgomery in Carnmoon; Daniel Gillan in Castlequarter."
+      "message": "16 candidate rows have no party/label. Examples: William Scally in Ballyhoe; Mrs. Elizabeth Ferguson Montgomery in Benvarden; Andrew Keers in Birraw; Samuel Montgomery in Carnmoon; Daniel Gillan in Castlequarter."
     },
     {
       "severity": "warning",
@@ -11983,7 +12684,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "lisburn-rural-district-council__1924-06-05",
-      "message": "5 candidate rows have no party/label. Examples: Joseph Waring in Dunmurry; Mrs. M. Beattie in Dunmurry; Henry Ballance in Glenavy; Thomas Newell in Glenavy; Robert Armstrong in Magheragall."
+      "message": "17 candidate rows have no party/label. Examples: John Mooney in Aghalee; James Martin in Ballinderry; Edward Mockler in Ballyscolly; John Rosbotham in Derriaghy; Joseph Waring in Dunmurry."
     },
     {
       "severity": "warning",
@@ -12037,7 +12738,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "coleraine-rural-district-council__1924-05-30",
-      "message": "21 candidate rows have no party/label. Examples: Hugh M'Fetridge in Aghadowey; William Wilson in Agivey; James Millen in Articlave; John Irons in Ballylaggan; Joseph M'Math in Bannbrook."
+      "message": "21 candidate rows have no party/label. Examples: Hugh M'Fetridge in Aghadowey; William Wilson in Agivey; James Millen in Articlave; John Irons in Ballylagan; Joseph M'Math in Bannbrook."
     },
     {
       "severity": "warning",
@@ -12049,7 +12750,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "limavady-rural-district-council__1924-05-30",
-      "message": "16 candidate rows have no party/label. Examples: Stephen G. Moreland in Aghanloo; James M'C. Fulton in Ballyhargan; Andrew Phillips in Ballykelly; Canice O'Kane in Benone; James Glendinning in Drumreighland."
+      "message": "16 candidate rows have no party/label. Examples: Stephen G. Moreland in Aghanloo; James M'C. Fulton in Ballyharigan; Andrew Phillips in Ballykelly; Canice O'Kane in Benone; James Glendinning in Drumraighland."
     },
     {
       "severity": "warning",
@@ -12169,7 +12870,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "dungannon-rural-district-council__1924-05-28",
-      "message": "15 candidate rows have no party/label. Examples: Thomas Girans in Anahoe; A. Nelson in Benburb; John Richardson in Bernagh; W. J. M'Minn in Bush; W. J. Marshall in Caledon."
+      "message": "15 candidate rows have no party/label. Examples: Thomas Givans in Aghnahoe; A. Nelson in Benburb; John Richardson in Bernagh; W. J. M'Minn in Bush; W. J. Marshall in Caledon."
     },
     {
       "severity": "warning",
@@ -12223,7 +12924,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "tyrone-county-council__1924-05-28",
-      "message": "19 candidate rows have no party/label. Examples: William Coote in Aughnacloy; H. M. de F. Montgomery in Benburb; Robert J. Howard in Castlecaulfield; James Leitch in Castlederg; Anketell Moutray in Clogher."
+      "message": "21 candidate rows have no party/label. Examples: William Coote in Aughnacloy; H. M. de F. Montgomery in Benburb; Robert J. Howard in Castlecaulfield; James Leitch in Castlederg; Anketell Moutray in Clogher."
     },
     {
       "severity": "warning",
@@ -12595,7 +13296,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "limavady-urban-district-council__1923-01-15",
-      "message": "9 candidate rows have no party/label. Examples: M. M. M'Causland in Limavady; Thomas Ferris in Limavady; Captain W. A. Lane in Limavady; Colonel F. B. N. Macrory in Limavady; William Arthur in Limavady."
+      "message": "9 candidate rows have no party/label. Examples: M. M. M'Causland in Limavady; Thomas Ferris in Limavady; Captain W. A. Lane in Limavady; Colonel F. S. N. Macrory in Limavady; William Arthur in Limavady."
     },
     {
       "severity": "warning",
@@ -12607,7 +13308,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "lisburn-borough-council__1923-01-15",
-      "message": "5 candidate rows have no party/label. Examples: James Duff, jun. in South Ward; James Foots in South Ward; James Frazer in South Ward; J. F. Floyd in South Ward; W. J. Browne in South Ward."
+      "message": "16 candidate rows have no party/label. Examples: Henry M'Creanor in Central Ward; W. J. Law in Central Ward; James G. Hanna in Central Ward; Thos. Johnston in Central Ward; Charles K. Lindsay in Central Ward."
     },
     {
       "severity": "warning",
@@ -12619,7 +13320,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "londonderry-county-borough-council__1923-01-15",
-      "message": "23 candidate rows have no party/label. Examples: J. Mark in East; Humphrey Babington in East; J. Hamilton in East; J. G. Magee in East; H. C. M'Cay in East."
+      "message": "37 candidate rows have no party/label. Examples: J. Mark in East; Humphrey Babington in East; J. Hamilton in East; J. G. Magee in East; H. C. M'Cay in East."
     },
     {
       "severity": "warning",
@@ -13302,6 +14003,12 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "clogher-rural-district-council__1911-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "armagh-urban-district-council__1911-01-16",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -13470,6 +14177,12 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "clogher-rural-district-council__1908-05-27",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "lurgan-rural-district-council__1908-05-27",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -13628,6 +14341,12 @@
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1906",
       "message": "6 candidate rows have no party/label. Examples: Eugene Conroy in East Ward; James Dillon in East Ward; William McDevitt in North Ward; J McCrossan in South Ward; Owen Canavan in South Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "clogher-rural-district-council__1905-05-31",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
     {
       "severity": "warning",
@@ -13796,6 +14515,12 @@
       "category": "candidate-party-missing",
       "key": "lurgan-borough-council__1903-01-15",
       "message": "9 candidate rows have no party/label. Examples: Henry Grattan Guinness MacGeagh in Lurgan; John Mahaffy in Lurgan; James Gillespie in Lurgan; Walter Culbert in Lurgan; James Mercer in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "clogher-rural-district-council__1902-06-04",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
     {
       "severity": "warning",
@@ -14004,6 +14729,12 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "clogher-rural-district-council__1899-04-06",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "lurgan-rural-district-council__1899-04-06",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -14123,60 +14854,6 @@
     },
     {
       "severity": "warning",
-      "category": "elected-count",
-      "key": "house-of-commons-of-the-united-kingdom__1880-03-31",
-      "message": "Clonmel has 2 elected candidate rows but seatsWon is 1."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "house-of-commons-of-the-united-kingdom__1872-04-26",
-      "message": "Wexford has 2 elected candidate rows but seatsWon is 1."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "house-of-commons-of-the-united-kingdom__1847-07-29",
-      "message": "Clare has 3 elected candidate rows but seatsWon is 2."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "house-of-commons-of-the-united-kingdom__1837-07-24",
-      "message": "County Limerick has 3 elected candidate rows but seatsWon is 2."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "house-of-commons-of-the-united-kingdom__1836-05-06",
-      "message": "Mayo has 2 elected candidate rows but seatsWon is 1."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "house-of-commons-of-the-united-kingdom__1835-01-06",
-      "message": "Clare has 3 elected candidate rows but seatsWon is 2."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "house-of-commons-of-the-united-kingdom__1835-01-06",
-      "message": "Mayo has 3 elected candidate rows but seatsWon is 2."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "house-of-commons-of-the-united-kingdom__1832-12-08",
-      "message": "Belfast has 3 elected candidate rows but seatsWon is 2."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "house-of-commons-of-the-united-kingdom__1832-12-08",
-      "message": "Sligo has 2 elected candidate rows but seatsWon is 1."
-    },
-    {
-      "severity": "warning",
       "category": "candidate-party-missing",
       "key": "house-of-commons-of-the-united-kingdom__1832-08-08",
       "message": "1 candidate rows have no party/label. Examples: Robert Otway Cave in County Tipperary."
@@ -14186,12 +14863,6 @@
       "category": "candidate-party-missing",
       "key": "house-of-commons-of-the-united-kingdom__1832-02-28",
       "message": "1 candidate rows have no party/label. Examples: Sir Augustine Fitzgerald in Ennis."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "house-of-commons-of-the-united-kingdom__1831-08-18",
-      "message": "Dublin has 2 elected candidate rows but seatsWon is 1."
     }
   ]
 }

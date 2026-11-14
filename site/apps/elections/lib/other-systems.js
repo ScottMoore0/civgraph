@@ -3,7 +3,7 @@
  * first preferences, shared out again under D'Hondt, Sainte-Laguë, first past the post (where
  * every contest elects one member) and pure national proportional representation. Illustrative
  * arithmetic, never a prediction: the same votes, no tactical change, no transfers. Pure (no DOM):
- * tests/unit/elections-app-other-systems.test.mjs. The seat methods are packages/core's
+ * unit test elections-app-other-systems.test.mjs. The seat methods are packages/core's
  * (apportionment.mjs, served at /pkg/).
  *
  * What is assumed, as the methods note on the page says it:

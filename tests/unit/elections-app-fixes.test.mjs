@@ -4,7 +4,7 @@
  * separators, reader words for sources, the referendum template and the
  * announcer and scroll-area choices.
  *
- *   node --test tests/unit/elections-app-fixes.test.mjs
+ *   node --test elections-app-fixes.test.mjs (in the unit tests folder)
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

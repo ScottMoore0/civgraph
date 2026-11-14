@@ -10,7 +10,7 @@
  *   node scripts/build/elections-app/embed-licences.mjs           write the slice
  *   node scripts/build/elections-app/embed-licences.mjs --check   fail if it is out of date
  *
- * tests/unit/elections-app-embed.test.mjs also holds the committed slice to the ledger.
+ * unit test elections-app-embed.test.mjs also holds the committed slice to the ledger.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';

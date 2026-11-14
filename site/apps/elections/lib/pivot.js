@@ -1,7 +1,7 @@
 /**
  * Pivot tables over the build-time extracts (scripts/build/elections-app/data.mjs: one Parquet
  * file per body, one row per candidacy): the state <-> URL mapping, the SQL DuckDB runs, and the
- * shaping of its answer into a table. Pure (no DOM, no DuckDB): tests/unit/elections-app-lib.test.mjs.
+ * shaping of its answer into a table. Pure (no DOM, no DuckDB): unit test elections-app-lib.test.mjs.
  * The dimensions and measures are whitelisted, and filter values are SQL string literals with
  * quotes doubled, so a URL cannot inject SQL.
  */

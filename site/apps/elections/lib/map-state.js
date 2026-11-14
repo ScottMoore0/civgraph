@@ -1,6 +1,6 @@
 /**
  * The results map's state in its URL (R8: one pure function parses it, one writes it; el-maps,
- * 14 Nov 2026). Pure: tests/unit/elections-app-map-modes.test.mjs.
+ * 14 Nov 2026). Pure: unit test elections-app-map-modes.test.mjs.
  *
  *   /elections/map/?e=<election>&mode=<mode>&party=<label>&vs=<election>&under=<n>&unit=votes|pct&sort=<column>|-<column>
  *

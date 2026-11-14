@@ -108,7 +108,7 @@ export function contestPollStatus(result) {
  * null, for a contest without a poll). With no vote recorded, a contest that had no more
  * candidates than seats returned every candidate without a poll: unopposed. Over the records
  * build this agrees with contestPollStatus() for every contest
- * (tests/unit/elections-app-unopposed.test.mjs). A row whose sources name only the winners
+ * (unit test elections-app-unopposed.test.mjs). A row whose sources name only the winners
  * (isWinnersOnlyRecord) was polled, but its votes are not known.
  * @param {{ validPoll?: unknown, leadingVotes?: unknown, candidateCount?: unknown, seatsTotal?: unknown, candidatesRecorded?: unknown } | null | undefined} row
  * @returns {PollStatus}

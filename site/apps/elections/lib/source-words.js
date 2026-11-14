@@ -4,7 +4,7 @@
  * build found the citation and is not shown, the kind is named by the source-kinds registry (as
  * Browse names it), and the scope is said in words. A check note that says the source was only
  * partly checked, or not checked, sets the badge, so the badge and the note never disagree.
- * Pure: tests/unit/elections-app-fixes.test.mjs. The words are keyed in data/i18n/strings/elections.txt (R10).
+ * Pure: unit test elections-app-fixes.test.mjs. The words are keyed in data/i18n/strings/elections.txt (R10).
  */
 import { sourceKindLabels } from '../../../pkg/registries/src/browser/source-kind-labels.mjs';
 

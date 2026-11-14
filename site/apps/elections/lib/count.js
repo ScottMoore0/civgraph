@@ -1,7 +1,7 @@
 /**
  * The count sheet of one contest, from the elections API's candidates (each with its counts:
  * [{ count, total, transfers, status }]) and the contest row. Pure (no DOM):
- * tests/unit/elections-app-lib.test.mjs.
+ * unit test elections-app-lib.test.mjs.
  *
  * Kinds (docs/tasks/elections-app-data-audit.md, "What each view can show"):
  *   'stages'    real stage-by-stage totals: the full sheet, transfers and the flow diagram;
