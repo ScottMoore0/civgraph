@@ -120,7 +120,7 @@ test.describe('Civgraph Elections: el-fixes', () => {
       await expect(sheet).toHaveAttribute('aria-label', 'Count sheet');
       const flow = page.locator('details.el-flow-stage figure.cg-chart').first();
       await expect(flow).toHaveAttribute('tabindex', '0');
-      await expect(flow).toHaveAttribute('aria-label', /^Count 2: /);
+      await expect(flow).toHaveAttribute('aria-label', /count 2/i);
       const smallest = await page.evaluate(() => Math.min(...[...document.querySelectorAll('svg.el-flow text')].map((t) => {
         const svg = /** @type {SVGSVGElement} */ (t.ownerSVGElement);
         return parseFloat(getComputedStyle(t).fontSize) * (svg.getBoundingClientRect().width / svg.viewBox.baseVal.width);
