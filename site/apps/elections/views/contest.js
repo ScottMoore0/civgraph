@@ -137,7 +137,7 @@ export async function render(root, route, ctx) {
   mountEmbedOffer(root, ctx);
   // Arrows to the contests before and after this one under the same name (el-places).
   void mountContestNav(root, { electionKey: detail.key, contestSlug: cslug, seq: Number(c.seq), name: String(c.name || c.constituency), bodySlug: detail.bodySlug, stale: ctx.stale });
-  if (stvp) wireStepper(root, sheet, stvp.events, route.query, ctx?.signal);
+  if (stvp) wireStepper(root, sheet, stvp.events, route.query, ctx);
   return title;
 }
 

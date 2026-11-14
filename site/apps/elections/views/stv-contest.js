@@ -267,9 +267,10 @@ export function stvParts(sheet, query, file) {
  * Wire the stepper (if the page has one): its buttons, the arrow, Home and End keys while a
  * button has focus, and the URL (?count=), replaced so the history keeps one entry per page.
  * Every listener passes the view's signal (R8).
- * @param {HTMLElement} root @param {Sheet} sheet @param {CountEvent[]} events @param {URLSearchParams} query @param {AbortSignal} [signal]
+ * @param {HTMLElement} root @param {Sheet} sheet @param {CountEvent[]} events @param {URLSearchParams} query
+ * @param {{ signal?: AbortSignal }} ctx  the view's context (its signal ends the listeners)
  */
-export function wireStepper(root, sheet, events, query, signal) {
+export function wireStepper(root, sheet, events, query, ctx) {
   const el = /** @type {HTMLElement | null} */ (root.querySelector('[data-stv-stepper]'));
   if (!el) return;
   let stage = stepFromQuery(query, sheet.stages);
@@ -290,7 +291,7 @@ export function wireStepper(root, sheet, events, query, signal) {
     const b = e.target instanceof Element ? e.target.closest('button[data-step]') : null;
     if (!b) return;
     go(stepTo(/** @type {'first' | 'prev' | 'next' | 'last'} */ (b.getAttribute('data-step')), stage, sheet.stages), true);
-  }, { signal });
+  }, { signal: ctx.signal });
   el.addEventListener('keydown', (e) => {
     if (!(e.target instanceof HTMLButtonElement)) return;
     /** @type {Record<string, 'first' | 'prev' | 'next' | 'last'>} */
@@ -299,6 +300,6 @@ export function wireStepper(root, sheet, events, query, signal) {
     if (!move) return;
     e.preventDefault();
     go(stepTo(move, stage, sheet.stages), true);
-  }, { signal });
+  }, { signal: ctx.signal });
 }
 
