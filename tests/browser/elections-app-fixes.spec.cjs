@@ -107,25 +107,27 @@ test.describe('Civgraph Elections: el-fixes', () => {
         `/elections/compare/?a=northern-ireland-assembly-2017-03-02&b=${NI_2022}`, '/elections/ireland-referendum-2024-03-08-the-family/']) {
         await page.goto(url);
         await expect(page.locator('h1')).toBeVisible();
-        await page.waitForLoadState('networkidle');
+        await page.waitForTimeout(1500);
         expect(await overflow(page), url).toBeLessThanOrEqual(0);
       }
     });
 
-    test('the count sheet and the transfer diagrams scroll as named, focusable regions with readable labels', async ({ page }) => {
-      await page.goto(`/elections/${NI_2022}/north-antrim/`);
-      const sheet = page.locator('.el-sheet-wrap');
-      await expect(sheet).toHaveAttribute('tabindex', '0');
-      await expect(sheet).toHaveAttribute('role', 'region');
-      await expect(sheet).toHaveAttribute('aria-label', 'Count sheet');
-      const flow = page.locator('details.el-flow-stage figure.cg-chart').first();
-      await expect(flow).toHaveAttribute('tabindex', '0');
-      await expect(flow).toHaveAttribute('aria-label', /count 2/i);
-      const smallest = await page.evaluate(() => Math.min(...[...document.querySelectorAll('svg.el-flow text')].map((t) => {
-        const svg = /** @type {SVGSVGElement} */ (t.ownerSVGElement);
-        return parseFloat(getComputedStyle(t).fontSize) * (svg.getBoundingClientRect().width / svg.viewBox.baseVal.width);
-      })));
-      expect(smallest).toBeGreaterThanOrEqual(10.5);
+    test('every box that scrolls is a named, focusable region, and chart labels stay readable', async ({ page }) => {
+      for (const url of [`/elections/${NI_2022}/north-antrim/`, `/elections/${NI_2022}/`, '/elections/ireland-referendum-2024-03-08-the-family/']) {
+        await page.goto(url);
+        await expect(page.locator('h1')).toBeVisible();
+        await page.waitForTimeout(1500);
+        const boxes = await page.evaluate(() => [...document.querySelectorAll('#el-view .cg-table-wrap, #el-view figure.cg-chart, #el-view .el-pivot-wrap')]
+          .filter((b) => b.getClientRects().length && (b.scrollWidth > b.clientWidth + 1 || b.scrollHeight > b.clientHeight + 1))
+          .map((b) => ({ tab: b.getAttribute('tabindex'), role: b.getAttribute('role'), name: b.getAttribute('aria-label') || b.getAttribute('aria-labelledby') || '' })));
+        expect(boxes.length, url).toBeGreaterThan(0);
+        for (const b of boxes) expect(b, url).toMatchObject({ tab: '0', role: 'region', name: expect.stringMatching(/\S/) });
+        const smallest = await page.evaluate(() => Math.min(99, ...[...document.querySelectorAll('#el-view svg.el-flow text, #el-view svg.el-hbars text')].filter((t) => t.getClientRects().length).map((t) => {
+          const svg = /** @type {SVGSVGElement} */ (t.ownerSVGElement);
+          return parseFloat(getComputedStyle(t).fontSize) * (svg.getBoundingClientRect().width / svg.viewBox.baseVal.width);
+        })));
+        expect(smallest, url).toBeGreaterThanOrEqual(10.5);
+      }
     });
   });
 
