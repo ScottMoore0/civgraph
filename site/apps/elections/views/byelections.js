@@ -129,7 +129,7 @@ export async function render(root, route, ctx) {
     history.replaceState(null, '', `${BASE}${queryFromState(state) ? `?${queryFromState(state)}` : ''}`);
     draw();
   };
-  form.addEventListener('change', update, listen);
+  form.addEventListener('change', () => { update(); }, listen);
   form.addEventListener('input', (e) => { if (/** @type {HTMLElement} */ (e.target).id === 'be-area') update(); }, listen);
   results.addEventListener('click', (e) => {
     if (!(e.target instanceof HTMLElement) || e.target.id !== 'be-more') return;
@@ -140,7 +140,7 @@ export async function render(root, route, ctx) {
     // Keyboard users carry on from the first new row.
     /** @type {HTMLElement | null} */ (results.querySelector(`tbody tr:nth-child(${first + 1}) a`))?.focus();
   }, listen);
-  root.querySelector('#be-csv')?.addEventListener('click', () => downloadText('civgraph-by-elections.csv', byElectionsCsv(filtered, table)), listen);
+  root.querySelector('#be-csv')?.addEventListener('click', () => { downloadText('civgraph-by-elections.csv', byElectionsCsv(filtered, table)); }, listen);
   draw();
   return TEXT.beTitle;
 }

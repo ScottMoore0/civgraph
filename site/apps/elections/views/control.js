@@ -57,13 +57,13 @@ export async function render(root, route, ctx) {
       ${council.predecessors.length ? `<p><strong>${esc(TEXT.predecessors)}:</strong> ${council.predecessors.map(link).join(', ')}</p>` : ''}
       ${council.successors.length ? `<p><strong>${esc(TEXT.successors)}:</strong> ${council.successors.map(link).join(', ')}</p>` : ''}
       <h2>${esc(TEXT.chartTitle)}</h2>
-      <figure class="cg-chart el-ctl-figure">${controlChart(council, table.parties)}<figcaption class="el-muted">${esc(TEXT.majorityLine)}. ${esc(TEXT.partCouncil)}: <span class="el-ctl-key el-ctl-key--part" aria-hidden="true"></span> · ${esc(TEXT.missingSeats)}: <span class="el-ctl-key el-ctl-key--missing" aria-hidden="true"></span></figcaption></figure>
+      <figure class="cg-chart el-ctl-figure">${controlChart(council, table.parties)}<figcaption class="el-muted">${esc(TEXT.majorityLine)} · ${esc(TEXT.partCouncil)}: <span class="el-ctl-key el-ctl-key--part" aria-hidden="true"></span> · ${esc(TEXT.missingSeats)}: <span class="el-ctl-key el-ctl-key--missing" aria-hidden="true"></span></figcaption></figure>
       <h2>${esc(TEXT.timelineHeading)}</h2>
       <p><button type="button" class="cg-button" id="cc-csv">${esc(TEXT.csv)}</button></p>
       ${timelineTable(council, table)}
       ${preds.map((p) => `<section class="el-ctl-pred"><h2>${esc(TEXT.predecessors)}: <a href="${BASE}?council=${encodeURIComponent(p.id)}">${esc(p.name)}</a></h2><figure class="cg-chart el-ctl-figure">${controlChart(p, table.parties)}</figure></section>`).join('')}
       ${notes}`;
-    root.querySelector('#cc-csv')?.addEventListener('click', () => downloadText(`civgraph-council-control-${council.id}.csv`, councilCsv(council, table.parties)), listen);
+    root.querySelector('#cc-csv')?.addEventListener('click', () => { downloadText(`civgraph-council-control-${council.id}.csv`, councilCsv(council, table.parties)); }, listen);
     root.querySelector('#cc-council')?.addEventListener('change', (e) => {
       const id = /** @type {HTMLSelectElement} */ (e.target).value;
       go(queryFromState({ council: id, year: null }), 'cc-council');
@@ -96,8 +96,8 @@ export async function render(root, route, ctx) {
       }).join('')}</tbody></table></div>` : `<p class="el-muted">${esc(TEXT.ccNone)}</p>`}
     ${notes}`;
   const toYear = (/** @type {number} */ y, /** @type {string} */ focusId) => go(queryFromState({ council: '', year: Math.min(range.last, Math.max(range.first, y)) }), focusId);
-  root.querySelector('#cc-prev')?.addEventListener('click', () => toYear(year - 1, 'cc-prev'), listen);
-  root.querySelector('#cc-next')?.addEventListener('click', () => toYear(year + 1, 'cc-next'), listen);
+  root.querySelector('#cc-prev')?.addEventListener('click', () => { toYear(year - 1, 'cc-prev'); }, listen);
+  root.querySelector('#cc-next')?.addEventListener('click', () => { toYear(year + 1, 'cc-next'); }, listen);
   root.querySelector('#cc-year')?.addEventListener('change', (e) => {
     const v = /** @type {HTMLInputElement} */ (e.target).value;
     if (/^\d{4}$/.test(v)) toYear(Number(v), 'cc-year');
@@ -106,7 +106,7 @@ export async function render(root, route, ctx) {
     const id = /** @type {HTMLSelectElement} */ (e.target).value;
     if (id) go(queryFromState({ council: id, year: null }), 'cc-council');
   }, listen);
-  root.querySelector('#cc-csv')?.addEventListener('click', () => downloadText(`civgraph-council-control-${year}.csv`, yearCsv(rows, table.parties, year)), listen);
+  root.querySelector('#cc-csv')?.addEventListener('click', () => { downloadText(`civgraph-council-control-${year}.csv`, yearCsv(rows, table.parties, year)); }, listen);
   return `${TEXT.ccTitle}, ${year}`;
 }
 

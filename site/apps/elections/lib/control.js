@@ -62,7 +62,7 @@ export const seatsText = (seats, parties) => (seats || []).map(([p, n]) => `${p 
 /**
  * The timeline chart: one bar per election, of the composition after it (or, for an election of
  * part of the council, the seats it filled), scaled to the largest council of the timeline, with a
- * mark at half the seats. HTML, not SVG: the words stay at body size on a phone. Each bar's
+ * mark at half the seats, each party in the same place on every bar. HTML, not SVG: the words stay at body size on a phone. Each bar's
  * figures are in the table beside it; the year and the control are text on each row.
  * @param {Council} council @param {Parties} parties
  */
@@ -70,8 +70,14 @@ export function controlChart(council, parties) {
   const els = council.timeline.filter((e) => e.type === 'election');
   const size = (/** @type {Entry} */ e) => (e.whole ? e.total ?? e.filled ?? 0 : e.filled ?? 0);
   const max = Math.max(1, ...els.map(size));
+  // One order of parties for every bar (most seats over the timeline first, no label last), so a
+  // party keeps its place from row to row.
+  /** @type {Map<string | null, number>} */
+  const weight = new Map();
+  for (const e of els) for (const [p, n] of e.seats || []) weight.set(p, (weight.get(p) || 0) + n);
+  const rank = (/** @type {string | null} */ p) => (p === null ? -1 : weight.get(p) || 0);
   const rows = els.map((e) => {
-    const seats = e.whole && e.composition ? e.composition : e.seats || [];
+    const seats = [...(e.whole && e.composition ? e.composition : e.seats || [])].sort((a, b) => rank(b[0]) - rank(a[0]) || String(a[0]).localeCompare(String(b[0])));
     const segs = seats.map(([p, n]) => `<span class="el-ctl-seg" style="flex-grow:${n};background:${esc(partyColour(p ? parties[p]?.colour : null))}" title="${esc(`${p ? partyName(parties, p) : TEXT.noLabelSeats}: ${n}`)}"></span>`).join('')
       + (e.whole && e.missing ? `<span class="el-ctl-seg el-ctl-seg--missing" style="flex-grow:${e.missing}" title="${esc(`${TEXT.missingSeats}: ${e.missing}`)}"></span>` : '');
     const width = (100 * size(e)) / max;
