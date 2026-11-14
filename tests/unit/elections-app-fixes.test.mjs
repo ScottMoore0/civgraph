@@ -190,6 +190,7 @@ test('the announcer says a short line; focus returns to the control or goes to t
   assert.deepEqual(focusAfter({ keepScroll: true, activeId: 'cmp-a', has: () => true }), { to: 'control', id: 'cmp-a' });
   assert.deepEqual(focusAfter({ keepScroll: true, activeId: 'gone', has: () => false }), { to: 'heading' });
   assert.deepEqual(focusAfter({ keepScroll: false, activeId: 'cmp-a', has: () => true }), { to: 'heading' });
+  assert.deepEqual(focusAfter({ keepScroll: false, activeId: null, has: () => false, placed: true }), { to: 'stay' }, 'a view that focused its own target keeps it');
   assert.equal(scrollAreaName({ caption: "Count sheet: each candidate's total at each count" }), 'Count sheet');
   assert.equal(scrollAreaName({ heading: 'Contests' }), 'Contests');
   assert.equal(scrollAreaName({ diagram: true }), A11Y_WORDS.diagram);

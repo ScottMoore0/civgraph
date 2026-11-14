@@ -45,12 +45,14 @@ export function scrollAreaName({ caption, heading, diagram }) {
 }
 
 /**
- * Where focus goes once a view is drawn: the id of the control the reader was using when the
- * view re-rendered in place (a form change), when the new view has it; else the h1.
- * @param {{ keepScroll: boolean, activeId: string | null, has: (id: string) => boolean }} at
- * @returns {{ to: 'control', id: string } | { to: 'heading' }}
+ * Where focus goes once a view is drawn: nowhere new when the view put it somewhere itself (the
+ * methods page focuses the section a link asked for); the id of the control the reader was using
+ * when the view re-rendered in place (a form change), when the new view has it; else the h1.
+ * @param {{ keepScroll: boolean, activeId: string | null, has: (id: string) => boolean, placed?: boolean }} at
+ * @returns {{ to: 'control', id: string } | { to: 'heading' } | { to: 'stay' }}
  */
-export function focusAfter({ keepScroll, activeId, has }) {
+export function focusAfter({ keepScroll, activeId, has, placed = false }) {
+  if (placed) return { to: 'stay' };
   if (keepScroll && activeId && has(activeId)) return { to: 'control', id: activeId };
   return { to: 'heading' };
 }
@@ -72,7 +74,10 @@ export function announce(text) {
  * @param {HTMLElement} root @param {{ keepScroll: boolean, activeId: string | null }} at
  */
 export function moveFocus(root, { keepScroll, activeId }) {
-  const target = focusAfter({ keepScroll, activeId, has: (id) => !!root.querySelector(`#${CSS.escape(id)}`) });
+  const now = document.activeElement;
+  const placed = now instanceof HTMLElement && now !== root && root.contains(now);
+  const target = focusAfter({ keepScroll, activeId, has: (id) => !!root.querySelector(`#${CSS.escape(id)}`), placed });
+  if (target.to === 'stay') return;
   if (target.to === 'control') {
     /** @type {HTMLElement | null} */ (root.querySelector(`#${CSS.escape(target.id)}`))?.focus({ preventScroll: true });
     return;
