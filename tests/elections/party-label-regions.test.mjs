@@ -73,8 +73,12 @@ test('every election body is placed inside or outside Northern Ireland, once', (
 });
 
 // The one rule that acts outside Northern Ireland: the Independent Alliance of the 2016 Dail
-// election, a grouping of independents, read as Independent (owner's decision, 13 November 2026).
+// election, a grouping of independents, read as Independent (owner's decision, 13 November 2026),
+// and its two candidates at the Seanad election of 2016 (owner's decision, 14 November 2026).
 const INDEPENDENT_ALLIANCE = new Set(['Independent Alliance', 'Independent Alliance (Ireland)']);
+
+/** The 2016 elections the Independent Alliance rule reads, by body: the Dail's and the Seanad's. */
+const ALLIANCE_2016 = new Map([['dail-eireann', '2016-02-26'], ['seanad-eireann', '2016-04-25']]);
 
 /** A row as the 2016 Independent Alliance rule should leave it: its label read as Independent. */
 function asIndependentAlliance2016(row) {
@@ -91,6 +95,8 @@ test('no Dail, Republic or House of Commons contest changes its reading: a bare 
   let rows = 0;
   let labour = 0;
   let alliance = 0;
+  /** @type {Record<string, Set<string>>} */
+  const allianceRows = {};
   for (const body of outside) {
     const dir = path.join(ELECTIONS, body);
     let exists = true;
@@ -100,7 +106,7 @@ test('no Dail, Republic or House of Commons contest changes its reading: a bare 
       let raw;
       try { raw = JSON.parse(readFileSync(file, 'utf8')); } catch { continue; }
       const date = path.relative(dir, file).split(path.sep)[0];
-      const expected = body === 'dail-eireann' && date === '2016-02-26' && raw && typeof raw === 'object' && !Array.isArray(raw)
+      const expected = ALLIANCE_2016.get(body) === date && raw && typeof raw === 'object' && !Array.isArray(raw)
         ? { ...raw, ...(Array.isArray(raw.candidates) ? { candidates: raw.candidates.map(asIndependentAlliance2016) } : {}),
           ...(raw.Constituency?.countGroup ? { Constituency: { ...raw.Constituency, countGroup: raw.Constituency.countGroup.map(asIndependentAlliance2016) } } : {}) }
         : raw;
@@ -108,8 +114,11 @@ test('no Dail, Republic or House of Commons contest changes its reading: a bare 
       for (const row of [...(raw?.Constituency?.countGroup || []), ...(Array.isArray(raw?.candidates) ? raw.candidates : [])]) {
         rows += 1;
         if (/^labour$/i.test(String(row?.Party_Name ?? row?.party ?? '').trim())) labour += 1;
-        // The rule is the 2016 Dail election's; the Seanad's two Independent Alliance candidates of 2016 keep the label.
-        if (body === 'dail-eireann' && INDEPENDENT_ALLIANCE.has(String(row?.Party_Name ?? row?.party ?? '').trim())) alliance += 1;
+        // The 2016 Dail election's 21 candidates of the grouping, and the Seanad's two of 2016.
+        if (INDEPENDENT_ALLIANCE.has(String(row?.Party_Name ?? row?.party ?? '').trim())) {
+          alliance += 1;
+          (allianceRows[body] ||= new Set()).add(String(row?.candidateName ?? row?.name ?? ''));
+        }
       }
       interpreter.apply({ body, date }, raw);
       assert.equal(JSON.stringify(raw), before, `the party-label rules changed ${path.relative(ELECTIONS, file)}`);
@@ -117,7 +126,9 @@ test('no Dail, Republic or House of Commons contest changes its reading: a bare 
   }
   assert.ok(rows > 10000, `read the Republic's contests (${rows} rows)`);
   assert.ok(labour > 400, `including their bare Labour rows (${labour})`);
-  assert.equal(alliance, 21, 'the 2016 Independent Alliance candidates, each read as Independent');
+  assert.equal(allianceRows['dail-eireann']?.size, 21, 'the 2016 Dail Independent Alliance candidates, each read as Independent');
+  assert.deepEqual([...(allianceRows['seanad-eireann'] || [])].sort(), ['Carol Hunt', "Deirdre O'Donovan"], 'and the two Seanad candidates of 2016');
+  assert.ok(alliance >= 23, `every row of them (${alliance})`);
   assert.equal(normalizeParty('Labour'), 'Irish Labour', 'the Dail convention is unchanged');
   assert.equal(readAs('dail-eireann', '1927-06-09', { party: 'Labour' }), 'Labour');
   assert.equal(readAs('ireland-local', '1999-06-11', { party: 'Labour' }), 'Labour');
@@ -244,7 +255,13 @@ test('a bracket spelt out in the file name wins over the bracket-dropped file: C
   assert.equal(bracketedResultFile(dir, 'East Central Ward (Councillors)'), null, 'no such file');
 });
 
-test('the 2016 Independent Alliance reads as Independent, in the Dail of 2016 only', () => {
+test('the 2016 Independent Alliance reads as Independent, in the Dail and the Seanad of 2016 only', () => {
+  assert.equal(readAs('seanad-eireann', '2016-04-25', { party: 'Independent Alliance' }), 'Independent');
+  assert.equal(readAs('seanad-eireann', '2020-03-30', { party: 'Independent Alliance' }), 'Independent Alliance');
+  // Each of the two contests carries the grouping note, as the Dail's do.
+  const fixes = JSON.parse(readFileSync(path.join(root, 'data/elections/corrections/source-checked-fixes.json'), 'utf8'));
+  const notes = fixes.records.filter((r) => r.batch === 'independent-alliance-seanad-2016-2026-11-14').map((r) => [path.basename(r.sourceFile), r.sourceNote.split(' was ')[0]]);
+  assert.deepEqual(notes, [['industrial-and-commercial-panel.json', "Deirdre O'Donovan"], ['national-university-of-ireland.json', 'Carol Hunt']]);
   assert.equal(readAs('dail-eireann', '2016-02-26', { party: 'Independent Alliance' }), 'Independent');
   assert.equal(readAs('dail-eireann', '2016-02-26', { party: 'Independent Alliance (Ireland)' }), 'Independent');
   assert.equal(readAs('dail-eireann', '2020-02-08', { party: 'Independent Alliance' }), 'Independent Alliance');

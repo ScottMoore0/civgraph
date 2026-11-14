@@ -51,7 +51,8 @@
     "review-rest-2026-11-12": "Northern Ireland council counts of 2014, 2019 and 2023 whose transfers differed from the Electoral Office for Northern Ireland's scanned result sheet (w8-review's list, 12 Nov 2026), and contests that still failed the contest arithmetic check: each sheet was read by eye, cell by cell, and the count rows set to the sheet's transfers and stage totals (candidateCount, or replaceCountRows where a non-transferable row was missing), so that every stage's transfers add up to the surplus or the votes excluded and every stage sums to the valid poll. Where the sheet's own figures do not add up, the contest is allowlisted in contest-arithmetic-allowlist.json with the reason (review-rest, 12 Nov 2026).",
     "owner-quotas-2026-11-13": "Two 1981 council contests whose declaration sheets give a handwritten quota that does not match the Droop quota of the valid votes, and where no surplus was transferred, so the count cannot show which figure was used: Civgraph gives the calculated quota and records the sheet's reading (owner's decision, 13 November 2026).",
     "independent-alliance-2016-2026-11-13": "D\u00e1il general election of 26 February 2016: the candidates of the Independent Alliance, a grouping of independents that was not a registered party, are shown as Independent, as on the ballot paper and the official returns (non-party), each contest's note naming the members of the grouping (the label itself is set by a rule in data/elections/party-label-interpretations.json; owner's decision, 13 November 2026).",
-    "owner-shortlist-2026-11-13": "Candidate spellings the owner settled from the 12 Nov 2026 shortlist of people and names (approved 13 Nov 2026): the spelling of the person's own official listing where the import misspelt it."
+    "owner-shortlist-2026-11-13": "Candidate spellings the owner settled from the 12 Nov 2026 shortlist of people and names (approved 13 Nov 2026): the spelling of the person's own official listing where the import misspelt it.",
+    "independent-alliance-seanad-2016-2026-11-14": "Seanad general election of 2016 (filed under 25 April 2016): the two candidates of the Independent Alliance, a grouping of independents that was not a registered party, are shown as Independent, as the grouping's D\u00e1il candidates of 2016 are, each contest's note naming the member of the grouping (the label itself is set by a rule in data/elections/party-label-interpretations.json; owner's decision, 14 November 2026)."
   },
   "records": [
     {
@@ -339035,6 +339036,48 @@
           }
         }
       ]
+    },
+    {
+      "batch": "independent-alliance-seanad-2016-2026-11-14",
+      "sourceFile": "data/elections-source/data/elections/seanad-eireann/2016-04-25/industrial-and-commercial-panel.json",
+      "source": {
+        "title": "IrelandElection.com, 2016 Seanad Election: Industrial and Commercial Panel",
+        "publisher": "IrelandElection.com",
+        "url": "https://irelandelection.com/electiondetail/2016_seanad_election-industrial_and_commercial_panel/4/273/557",
+        "accessed": "2026-11-14"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-14"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Deirdre O'Donovan was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as the grouping's D\u00e1il candidates of 2016 are."
+    },
+    {
+      "batch": "independent-alliance-seanad-2016-2026-11-14",
+      "sourceFile": "data/elections-source/data/elections/seanad-eireann/2016-04-25/national-university-of-ireland.json",
+      "source": {
+        "title": "IrelandElection.com, 2016 Seanad Election: National University of Ireland",
+        "publisher": "IrelandElection.com",
+        "url": "https://irelandelection.com/electiondetail/2016_seanad_election-national_university_of_ireland/4/273/559",
+        "accessed": "2026-11-14"
+      },
+      "additionalSources": [
+        {
+          "title": "Independent Alliance (Ireland)",
+          "publisher": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Independent_Alliance_(Ireland)",
+          "accessed": "2026-11-14"
+        }
+      ],
+      "category": "party",
+      "operations": [],
+      "sourceNote": "Carol Hunt was a member of the Independent Alliance, a grouping of independents that was not a registered party, and is shown as Independent, as the grouping's D\u00e1il candidates of 2016 are."
     }
   ]
 }
