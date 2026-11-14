@@ -1,0 +1,559 @@
+{
+ "schemaVersion": 1,
+ "about": "Census indicators for Northern Ireland electoral areas, for the Elections app's area context. Built by scripts/build/elections-app/census-context.mjs from NISRA census tables (Civgraph's copies on its data host). Each indicator is [value] or [numerator, denominator]; areas are named as their layer's features.",
+ "licence": "NISRA census data: Open Government Licence v3.0",
+ "licenceUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+ "indicators": [
+  "residents",
+  "age65",
+  "owner",
+  "social",
+  "nocar",
+  "level4",
+  "unemployed"
+ ],
+ "sets": [
+  {
+   "id": "dea-2014",
+   "layers": [
+    "deas-2012-vector"
+   ],
+   "censuses": [
+    {
+     "year": 2021,
+     "date": "2021-03-21",
+     "source": "NISRA Census 2021 flexible table builder",
+     "geography": "District Electoral Areas 2014",
+     "tables": {
+      "residents": {
+       "code": "AGE_BAND_BROAD",
+       "title": "Age - 4 categories (usual residents)"
+      },
+      "age65": {
+       "code": "AGE_BAND_BROAD",
+       "title": "Age - 4 categories (usual residents)"
+      },
+      "owner": {
+       "code": "HH_TENURE_AGG7",
+       "title": "Tenure - 7 categories (households)"
+      },
+      "social": {
+       "code": "HH_TENURE_AGG7",
+       "title": "Tenure - 7 categories (households)"
+      },
+      "nocar": {
+       "code": "HH_CAR_VAN_TC5",
+       "title": "Car or van availability (households)"
+      },
+      "level4": {
+       "code": "HIGHEST_QUALIFICATION",
+       "title": "Qualifications (highest level)"
+      },
+      "unemployed": {
+       "code": "ECONOMIC_ACTIVITY_AGG9",
+       "title": "Economic activity - 9 categories"
+      }
+     },
+     "areas": {
+      "Airport": {"residents":[22029],"age65":[3069,22029],"owner":[6464,7964],"social":[322,7964],"nocar":[557,7963],"level4":[6310,17248],"unemployed":[365,11605]},
+      "Antrim": {"residents":[23950],"age65":[3849,23950],"owner":[6243,10223],"social":[1916,10223],"nocar":[2442,10223],"level4":[5033,19010],"unemployed":[531,11374]},
+      "Ards Peninsula": {"residents":[24964],"age65":[5346,24964],"owner":[7673,10314],"social":[972,10314],"nocar":[1185,10311],"level4":[5432,20359],"unemployed":[475,11460]},
+      "Armagh": {"residents":[32405],"age65":[5367,32405],"owner":[8026,12152],"social":[1439,12152],"nocar":[1949,12152],"level4":[7597,25041],"unemployed":[629,14966]},
+      "Ballyarnett": {"residents":[25252],"age65":[3319,25252],"owner":[4689,9639],"social":[3637,9639],"nocar":[2506,9638],"level4":[5939,19014],"unemployed":[744,10039]},
+      "Ballyclare": {"residents":[19069],"age65":[3387,19069],"owner":[6022,7883],"social":[655,7883],"nocar":[953,7880],"level4":[5117,15274],"unemployed":[351,9595]},
+      "Ballymena": {"residents":[24295],"age65":[4767,24295],"owner":[6001,10248],"social":[1755,10248],"nocar":[2554,10245],"level4":[4994,19648],"unemployed":[548,11075]},
+      "Ballymoney": {"residents":[24519],"age65":[4357,24519],"owner":[6691,9757],"social":[1176,9757],"nocar":[1373,9755],"level4":[5246,19539],"unemployed":[467,11515]},
+      "Balmoral": {"residents":[24491],"age65":[5143,24491],"owner":[7405,10664],"social":[1599,10664],"nocar":[1959,10664],"level4":[10175,20086],"unemployed":[477,11840]},
+      "Banbridge": {"residents":[34940],"age65":[6007,34940],"owner":[9635,14000],"social":[1569,14000],"nocar":[1982,13998],"level4":[8567,27547],"unemployed":[629,16615]},
+      "Bangor Central": {"residents":[26637],"age65":[5323,26637],"owner":[7715,11951],"social":[1941,11951],"nocar":[2359,11951],"level4":[7931,21545],"unemployed":[612,12353]},
+      "Bangor East and Donaghadee": {"residents":[22851],"age65":[5903,22851],"owner":[8011,9693],"social":[633,9693],"nocar":[1054,9692],"level4":[6754,19019],"unemployed":[413,10463]},
+      "Bangor West": {"residents":[19517],"age65":[4471,19517],"owner":[6177,8776],"social":[999,8776],"nocar":[1677,8775],"level4":[5311,15957],"unemployed":[420,8956]},
+      "Bann": {"residents":[17535],"age65":[3405,17535],"owner":[5046,6740],"social":[632,6740],"nocar":[664,6740],"level4":[4223,13938],"unemployed":[324,8133]},
+      "Bannside": {"residents":[19842],"age65":[3672,19842],"owner":[5935,7739],"social":[658,7739],"nocar":[778,7739],"level4":[4966,15858],"unemployed":[334,9802]},
+      "Benbradagh": {"residents":[17818],"age65":[2616,17818],"owner":[4733,6638],"social":[558,6638],"nocar":[836,6637],"level4":[3821,13768],"unemployed":[370,8261]},
+      "Black Mountain": {"residents":[35880],"age65":[5695,35880],"owner":[7933,14624],"social":[4529,14624],"nocar":[5775,14624],"level4":[6225,28223],"unemployed":[974,14304]},
+      "Botanic": {"residents":[49727],"age65":[4203,49727],"owner":[6411,20403],"social":[4113,20403],"nocar":[8431,20403],"level4":[19598,43996],"unemployed":[2248,25664]},
+      "Braid": {"residents":[23828],"age65":[4584,23828],"owner":[6825,9321],"social":[1001,9321],"nocar":[1098,9321],"level4":[5548,19078],"unemployed":[405,11619]},
+      "Carntogher": {"residents":[17168],"age65":[2784,17168],"owner":[4416,5945],"social":[512,5945],"nocar":[642,5943],"level4":[3946,13138],"unemployed":[261,8127]},
+      "Carrick Castle": {"residents":[18430],"age65":[3737,18430],"owner":[5536,8057],"social":[1199,8057],"nocar":[1662,8054],"level4":[4312,15267],"unemployed":[428,8727]},
+      "Castle": {"residents":[33677],"age65":[5312,33677],"owner":[7928,14383],"social":[3331,14383],"nocar":[4618,14382],"level4":[9556,27272],"unemployed":[994,15486]},
+      "Castlereagh East": {"residents":[21899],"age65":[3837,21899],"owner":[6867,9281],"social":[1305,9281],"nocar":[1462,9282],"level4":[6176,17708],"unemployed":[386,11226]},
+      "Castlereagh South": {"residents":[23489],"age65":[4098,23489],"owner":[7804,9282],"social":[412,9282],"nocar":[771,9283],"level4":[9690,18874],"unemployed":[349,12062]},
+      "Causeway": {"residents":[24542],"age65":[5759,24542],"owner":[6995,10710],"social":[1273,10710],"nocar":[1630,10712],"level4":[7146,20526],"unemployed":[614,10884]},
+      "Clogher Valley": {"residents":[21997],"age65":[3487,21997],"owner":[5895,7860],"social":[489,7860],"nocar":[710,7860],"level4":[5322,16918],"unemployed":[311,11079]},
+      "Coast Road": {"residents":[17005],"age65":[3681,17005],"owner":[4993,7662],"social":[1050,7662],"nocar":[1694,7661],"level4":[3492,14003],"unemployed":[448,7405]},
+      "Coleraine": {"residents":[23625],"age65":[4521,23625],"owner":[5868,10257],"social":[2109,10257],"nocar":[2572,10257],"level4":[5132,19204],"unemployed":[675,10260]},
+      "Collin": {"residents":[33909],"age65":[4317,33909],"owner":[7785,13054],"social":[3887,13054],"nocar":[3439,13053],"level4":[7219,25860],"unemployed":[906,14813]},
+      "Comber": {"residents":[19488],"age65":[4410,19488],"owner":[6360,8227],"social":[900,8227],"nocar":[844,8227],"level4":[5631,16128],"unemployed":[337,9523]},
+      "Cookstown": {"residents":[24617],"age65":[3879,24617],"owner":[5978,9110],"social":[890,9110],"nocar":[1374,9111],"level4":[5097,19082],"unemployed":[446,11493]},
+      "Court": {"residents":[33476],"age65":[5039,33476],"owner":[5550,15267],"social":[6785,15267],"nocar":[7555,15267],"level4":[4636,26136],"unemployed":[1033,12947]},
+      "Craigavon": {"residents":[29188],"age65":[4048,29188],"owner":[7799,10912],"social":[975,10912],"nocar":[1400,10913],"level4":[7256,22287],"unemployed":[505,14295]},
+      "Crotlieve": {"residents":[28668],"age65":[4392,28668],"owner":[7582,10197],"social":[722,10197],"nocar":[1056,10197],"level4":[8009,22185],"unemployed":[615,13845]},
+      "Cusher": {"residents":[26195],"age65":[4525,26195],"owner":[7451,9703],"social":[592,9703],"nocar":[860,9703],"level4":[6193,20347],"unemployed":[370,12724]},
+      "Derg": {"residents":[17809],"age65":[3066,17809],"owner":[4524,7016],"social":[948,7016],"nocar":[1154,7016],"level4":[3415,14016],"unemployed":[417,7724]},
+      "Downpatrick": {"residents":[21916],"age65":[3785,21916],"owner":[5582,8530],"social":[1140,8530],"nocar":[1384,8527],"level4":[5350,17204],"unemployed":[486,9755]},
+      "Downshire East": {"residents":[16746],"age65":[3353,16746],"owner":[5305,6492],"social":[505,6492],"nocar":[540,6491],"level4":[5869,13314],"unemployed":[256,8170]},
+      "Downshire West": {"residents":[17189],"age65":[3619,17189],"owner":[5639,7220],"social":[454,7220],"nocar":[677,7220],"level4":[6167,14010],"unemployed":[269,8647]},
+      "Dungannon": {"residents":[25640],"age65":[3442,25640],"owner":[5453,9364],"social":[1357,9364],"nocar":[1896,9364],"level4":[5399,19687],"unemployed":[538,12863]},
+      "Dunsilly": {"residents":[17998],"age65":[3026,17998],"owner":[5073,6561],"social":[414,6561],"nocar":[580,6561],"level4":[4905,14239],"unemployed":[285,9178]},
+      "Enniskillen": {"residents":[18451],"age65":[3743,18451],"owner":[4891,7880],"social":[1064,7880],"nocar":[1476,7880],"level4":[4906,14953],"unemployed":[350,8462]},
+      "Erne East": {"residents":[15944],"age65":[2917,15944],"owner":[4360,6049],"social":[528,6049],"nocar":[767,6051],"level4":[3608,12360],"unemployed":[237,7244]},
+      "Erne North": {"residents":[15083],"age65":[2860,15083],"owner":[4347,6119],"social":[584,6119],"nocar":[832,6118],"level4":[3623,11941],"unemployed":[289,6947]},
+      "Erne West": {"residents":[14661],"age65":[2879,14661],"owner":[4291,5422],"social":[204,5422],"nocar":[412,5422],"level4":[3941,11435],"unemployed":[218,6892]},
+      "Faughan": {"residents":[19234],"age65":[3067,19234],"owner":[5289,7309],"social":[783,7309],"nocar":[914,7311],"level4":[4963,15071],"unemployed":[401,9122]},
+      "Foyleside": {"residents":[17568],"age65":[3127,17568],"owner":[3803,7398],"social":[1830,7398],"nocar":[2290,7399],"level4":[4790,14545],"unemployed":[729,7592]},
+      "Glengormley Urban": {"residents":[21640],"age65":[4349,21640],"owner":[7379,9085],"social":[645,9085],"nocar":[1386,9086],"level4":[5559,17650],"unemployed":[460,10735]},
+      "Holywood and Clandeboye": {"residents":[20808],"age65":[4928,20808],"owner":[6588,8634],"social":[932,8634],"nocar":[1094,8633],"level4":[8106,17033],"unemployed":[347,9608]},
+      "Killultagh": {"residents":[22015],"age65":[2730,22015],"owner":[6797,7802],"social":[202,7802],"nocar":[346,7802],"level4":[6703,17072],"unemployed":[363,11815]},
+      "Knockagh": {"residents":[17272],"age65":[3056,17272],"owner":[5330,7362],"social":[938,7362],"nocar":[1271,7364],"level4":[4418,14138],"unemployed":[371,8479]},
+      "Lagan River": {"residents":[24804],"age65":[3930,24804],"owner":[7541,9510],"social":[548,9510],"nocar":[719,9511],"level4":[6987,19495],"unemployed":[414,12790]},
+      "Larne Lough": {"residents":[18324],"age65":[3843,18324],"owner":[5779,7898],"social":[567,7898],"nocar":[1107,7898],"level4":[4783,15083],"unemployed":[375,8868]},
+      "Limavady": {"residents":[16230],"age65":[3188,16230],"owner":[4006,6581],"social":[1129,6581],"nocar":[1323,6580],"level4":[3332,13168],"unemployed":[400,6734]},
+      "Lisburn North": {"residents":[23448],"age65":[4519,23448],"owner":[6572,10074],"social":[1863,10074],"nocar":[1965,10075],"level4":[6761,18957],"unemployed":[509,11359]},
+      "Lisburn South": {"residents":[24321],"age65":[4058,24321],"owner":[5962,9994],"social":[2660,9994],"nocar":[2060,9994],"level4":[5254,18989],"unemployed":[532,11289]},
+      "Lisnasharragh": {"residents":[29170],"age65":[5075,29170],"owner":[9173,12904],"social":[1543,12904],"nocar":[2419,12904],"level4":[10935,23842],"unemployed":[582,15138]},
+      "Lurgan": {"residents":[38197],"age65":[5797,38197],"owner":[10028,15382],"social":[1900,15382],"nocar":[3273,15381],"level4":[8436,29922],"unemployed":[755,18235]},
+      "Macedon": {"residents":[20323],"age65":[3571,20323],"owner":[4920,9275],"social":[2564,9275],"nocar":[2754,9274],"level4":[3904,16232],"unemployed":[537,8951]},
+      "Magherafelt": {"residents":[19266],"age65":[2800,19266],"owner":[4822,7111],"social":[675,7111],"nocar":[921,7111],"level4":[4606,14986],"unemployed":[364,9507]},
+      "Mid Tyrone": {"residents":[17590],"age65":[2716,17590],"owner":[4763,6140],"social":[237,6140],"nocar":[511,6138],"level4":[4604,13447],"unemployed":[276,8258]},
+      "Moyola": {"residents":[18586],"age65":[2874,18586],"owner":[4927,6506],"social":[407,6506],"nocar":[605,6506],"level4":[4361,14186],"unemployed":[289,9009]},
+      "Newry": {"residents":[27913],"age65":[4422,27913],"owner":[6343,10892],"social":[1784,10892],"nocar":[2516,10893],"level4":[6669,22046],"unemployed":[669,12548]},
+      "Newtownards": {"residents":[29395],"age65":[5845,29395],"owner":[8402,12854],"social":[2499,12854],"nocar":[2670,12854],"level4":[6587,23947],"unemployed":[734,13583]},
+      "Oldpark": {"residents":[34352],"age65":[4483,34352],"owner":[6050,14984],"social":[6017,14984],"nocar":[6755,14987],"level4":[5455,26350],"unemployed":[1040,13275]},
+      "Omagh": {"residents":[18480],"age65":[3469,18480],"owner":[4303,8021],"social":[1302,8021],"nocar":[1812,8023],"level4":[4469,15040],"unemployed":[382,8039]},
+      "Ormiston": {"residents":[34615],"age65":[7179,34615],"owner":[11207,15188],"social":[1994,15188],"nocar":[2432,15189],"level4":[12756,28182],"unemployed":[586,16848]},
+      "Portadown": {"residents":[32927],"age65":[5316,32927],"owner":[7630,12984],"social":[1867,12984],"nocar":[2933,12984],"level4":[6734,25773],"unemployed":[717,15650]},
+      "Rowallane": {"residents":[21240],"age65":[4208,21240],"owner":[6099,8679],"social":[951,8679],"nocar":[1113,8678],"level4":[5723,17195],"unemployed":[385,10229]},
+      "Slieve Croob": {"residents":[21387],"age65":[3485,21387],"owner":[5859,7780],"social":[543,7780],"nocar":[772,7781],"level4":[5258,16648],"unemployed":[391,10363]},
+      "Slieve Gullion": {"residents":[30747],"age65":[4293,30747],"owner":[7560,10777],"social":[1131,10777],"nocar":[1334,10776],"level4":[7114,23050],"unemployed":[653,13511]},
+      "Sperrin": {"residents":[24720],"age65":[4300,24720],"owner":[6250,9685],"social":[1519,9685],"nocar":[1856,9684],"level4":[5091,19551],"unemployed":[696,10975]},
+      "The Glens": {"residents":[17477],"age65":[3468,17477],"owner":[4760,6891],"social":[833,6891],"nocar":[954,6892],"level4":[4421,14016],"unemployed":[345,7907]},
+      "The Moor": {"residents":[17128],"age65":[2593,17128],"owner":[2943,7625],"social":[3009,7625],"nocar":[3403,7625],"level4":[3295,13692],"unemployed":[669,6593]},
+      "The Mournes": {"residents":[30203],"age65":[5744,30203],"owner":[7938,11543],"social":[1084,11543],"nocar":[1729,11543],"level4":[7012,23668],"unemployed":[590,13494]},
+      "Three Mile Water": {"residents":[20653],"age65":[3848,20653],"owner":[6417,8471],"social":[1099,8471],"nocar":[1293,8469],"level4":[5862,16746],"unemployed":[464,9971]},
+      "Titanic": {"residents":[36122],"age65":[4400,36122],"owner":[6607,17736],"social":[5417,17736],"nocar":[7210,17735],"level4":[9599,29353],"unemployed":[1160,17981]},
+      "Torrent": {"residents":[23020],"age65":[3259,23020],"owner":[5667,8110],"social":[765,8110],"nocar":[892,8110],"level4":[5178,17659],"unemployed":[377,10965]},
+      "Waterside": {"residents":[29045],"age65":[4685,29045],"owner":[7267,12264],"social":[2105,12264],"nocar":[2872,12264],"level4":[7726,22924],"unemployed":[791,13288]},
+      "West Tyrone": {"residents":[16603],"age65":[2853,16603],"owner":[4609,6085],"social":[387,6085],"nocar":[635,6085],"level4":[4092,12834],"unemployed":[230,7893]}
+     }
+    }
+   ]
+  },
+  {
+   "id": "dea-1993",
+   "layers": [
+    "deas-1993-vector"
+   ],
+   "censuses": [
+    {
+     "year": 2001,
+     "date": "2001-04-29",
+     "source": "NISRA Census 2001 Key Statistics",
+     "geography": "wards of 1992, summed into District Electoral Areas",
+     "tables": {
+      "residents": {
+       "code": "KS01",
+       "title": "Usually resident population"
+      },
+      "age65": {
+       "code": "KS02",
+       "title": "Age structure"
+      },
+      "owner": {
+       "code": "KS18",
+       "title": "Tenure"
+      },
+      "social": {
+       "code": "KS18",
+       "title": "Tenure"
+      },
+      "nocar": {
+       "code": "KS17",
+       "title": "Cars or vans"
+      },
+      "level4": {
+       "code": "KS13",
+       "title": "Qualifications and students"
+      },
+      "unemployed": {
+       "code": "KS09a",
+       "title": "Economic activity - all persons"
+      }
+     },
+     "areas": {
+      "ABBEY": {"residents":[18245],"age65":[2783,18246],"owner":[5202,7963],"social":[1849,7963],"nocar":[2506,7963],"level4":[2010,13261],"unemployed":[617,8670]},
+      "ANTRIM LINE": {"residents":[23290],"age65":[2954,23290],"owner":[7583,8582],"social":[552,8582],"nocar":[1345,8581],"level4":[2871,16721],"unemployed":[397,11545]},
+      "ANTRIM NORTH WEST": {"residents":[12079],"age65":[1411,12079],"owner":[3204,4011],"social":[446,4011],"nocar":[595,4012],"level4":[1321,8350],"unemployed":[229,5668]},
+      "ANTRIM SOUTH EAST": {"residents":[20088],"age65":[1960,20088],"owner":[4891,6765],"social":[890,6765],"nocar":[1049,6759],"level4":[2334,14508],"unemployed":[387,10069]},
+      "ANTRIM TOWN": {"residents":[16199],"age65":[1749,16199],"owner":[4110,6405],"social":[1937,6405],"nocar":[1991,6404],"level4":[1313,11721],"unemployed":[418,7790]},
+      "ARDS EAST": {"residents":[22561],"age65":[2886,22561],"owner":[6712,8757],"social":[1602,8757],"nocar":[1609,8757],"level4":[2292,16026],"unemployed":[497,11004]},
+      "ARDS PENINSULA": {"residents":[16031],"age65":[2249,16031],"owner":[4517,6056],"social":[994,6056],"nocar":[1119,6055],"level4":[1431,11515],"unemployed":[377,7255]},
+      "ARDS WEST": {"residents":[17748],"age65":[2464,17748],"owner":[5375,6730],"social":[948,6730],"nocar":[904,6730],"level4":[2274,12907],"unemployed":[314,8955]},
+      "ARMAGH CITY": {"residents":[14837],"age65":[1992,14837],"owner":[3427,5383],"social":[1352,5383],"nocar":[1567,5379],"level4":[1565,10236],"unemployed":[520,5971]},
+      "BALLINDERRY": {"residents":[12433],"age65":[1447,12434],"owner":[3138,3928],"social":[395,3928],"nocar":[621,3924],"level4":[875,8539],"unemployed":[293,4917]},
+      "BALLYCASTLE": {"residents":[6002],"age65":[846,6002],"owner":[1521,2304],"social":[481,2304],"nocar":[615,2307],"level4":[606,4139],"unemployed":[230,2307]},
+      "BALLYCLARE": {"residents":[16829],"age65":[2262,16829],"owner":[5282,6541],"social":[881,6541],"nocar":[1165,6541],"level4":[2209,12190],"unemployed":[317,8621]},
+      "BALLYHOLME AND GROOMSPORT": {"residents":[22698],"age65":[3538,22698],"owner":[7910,8773],"social":[474,8773],"nocar":[1060,8777],"level4":[3707,16151],"unemployed":[357,11199]},
+      "BALLYMENA NORTH": {"residents":[16272],"age65":[2437,16272],"owner":[4961,6286],"social":[909,6286],"nocar":[1233,6287],"level4":[2188,11725],"unemployed":[341,7740]},
+      "BALLYMENA SOUTH": {"residents":[15924],"age65":[2215,15923],"owner":[3845,6364],"social":[2000,6364],"nocar":[2187,6362],"level4":[1070,11438],"unemployed":[524,7189]},
+      "BALLYMONEY TOWN": {"residents":[8584],"age65":[1324,8583],"owner":[2266,3446],"social":[915,3446],"nocar":[929,3449],"level4":[647,6046],"unemployed":[237,3716]},
+      "BALLYNAHINCH": {"residents":[13706],"age65":[1647,13706],"owner":[3682,4764],"social":[694,4764],"nocar":[687,4766],"level4":[1384,9626],"unemployed":[314,6514]},
+      "BALMORAL": {"residents":[31942],"age65":[5007,31942],"owner":[8424,13310],"social":[2112,13310],"nocar":[4224,13310],"level4":[8456,23922],"unemployed":[747,15188]},
+      "BANBRIDGE TOWN": {"residents":[15411],"age65":[1829,15412],"owner":[4263,5864],"social":[1179,5864],"nocar":[1313,5861],"level4":[1637,10822],"unemployed":[350,7235]},
+      "BANGOR WEST": {"residents":[20616],"age65":[3674,20616],"owner":[6933,8550],"social":[991,8550],"nocar":[1748,8550],"level4":[3144,14830],"unemployed":[453,9616]},
+      "BANN": {"residents":[14260],"age65":[1977,14260],"owner":[3775,4999],"social":[735,4999],"nocar":[795,5002],"level4":[1352,10071],"unemployed":[361,6433]},
+      "BANN VALLEY": {"residents":[10598],"age65":[1329,10599],"owner":[2746,3571],"social":[565,3571],"nocar":[491,3568],"level4":[736,7395],"unemployed":[249,4763]},
+      "BANNSIDE": {"residents":[14111],"age65":[1970,14111],"owner":[3970,5086],"social":[767,5086],"nocar":[797,5087],"level4":[1357,9948],"unemployed":[232,6771]},
+      "BELLARENA": {"residents":[12875],"age65":[1096,12877],"owner":[2859,3939],"social":[520,3939],"nocar":[617,3940],"level4":[1055,9151],"unemployed":[414,5944]},
+      "BENBRADAGH": {"residents":[10184],"age65":[909,10184],"owner":[2472,3192],"social":[417,3192],"nocar":[581,3192],"level4":[682,6974],"unemployed":[365,4375]},
+      "BLACKWATER": {"residents":[10917],"age65":[1454,10917],"owner":[2909,3690],"social":[361,3690],"nocar":[473,3694],"level4":[994,7584],"unemployed":[246,4934]},
+      "BRAID": {"residents":[12303],"age65":[1839,12303],"owner":[3587,4326],"social":[316,4326],"nocar":[467,4326],"level4":[1265,8837],"unemployed":[188,6158]},
+      "BUSHVALE": {"residents":[7712],"age65":[981,7712],"owner":[1986,2618],"social":[448,2618],"nocar":[385,2619],"level4":[525,5446],"unemployed":[212,3534]},
+      "CARRICK CASTLE": {"residents":[8842],"age65":[1464,8844],"owner":[2175,3859],"social":[1351,3859],"nocar":[1487,3862],"level4":[556,6402],"unemployed":[361,3966]},
+      "CASTLE": {"residents":[29016],"age65":[5007,29016],"owner":[7826,11992],"social":[3073,11992],"nocar":[4532,11992],"level4":[3893,20258],"unemployed":[862,11876]},
+      "CASTLEREAGH CENTRAL": {"residents":[13719],"age65":[3120,13719],"owner":[4227,6029],"social":[1588,6029],"nocar":[1866,6030],"level4":[1403,9550],"unemployed":[272,5874]},
+      "CASTLEREAGH EAST": {"residents":[20546],"age65":[3272,20546],"owner":[6092,8455],"social":[2062,8455],"nocar":[2039,8456],"level4":[2247,14720],"unemployed":[469,9597]},
+      "CASTLEREAGH SOUTH": {"residents":[17094],"age65":[1861,17093],"owner":[5753,6250],"social":[256,6250],"nocar":[437,6250],"level4":[3679,12154],"unemployed":[189,8876]},
+      "CASTLEREAGH WEST": {"residents":[15129],"age65":[2681,15129],"owner":[4844,6150],"social":[1065,6150],"nocar":[1086,6151],"level4":[3117,10731],"unemployed":[264,7185]},
+      "CENTRAL": {"residents":[22227],"age65":[2480,22225],"owner":[5674,8274],"social":[2005,8274],"nocar":[2130,8272],"level4":[2175,15593],"unemployed":[486,9571]},
+      "CITYSIDE": {"residents":[12904],"age65":[1558,12905],"owner":[1960,4570],"social":[2421,4570],"nocar":[2470,4572],"level4":[717,8901],"unemployed":[884,4044]},
+      "CLOGHER VALLEY": {"residents":[10663],"age65":[1409,10663],"owner":[2659,3499],"social":[415,3499],"nocar":[597,3496],"level4":[899,7276],"unemployed":[252,4544]},
+      "COAST ROAD": {"residents":[9585],"age65":[1423,9587],"owner":[2648,3731],"social":[825,3731],"nocar":[986,3730],"level4":[964,6834],"unemployed":[302,4326]},
+      "COLERAINE CENTRAL": {"residents":[16042],"age65":[2157,16043],"owner":[4758,6266],"social":[952,6266],"nocar":[1441,6264],"level4":[2089,11295],"unemployed":[427,7573]},
+      "COLERAINE EAST": {"residents":[12906],"age65":[1492,12906],"owner":[2880,4899],"social":[1599,4899],"nocar":[1605,4903],"level4":[1228,9231],"unemployed":[478,5514]},
+      "COOKSTOWN CENTRAL": {"residents":[10852],"age65":[1210,10854],"owner":[2641,3985],"social":[914,3985],"nocar":[1038,3984],"level4":[904,7493],"unemployed":[290,4362]},
+      "COURT": {"residents":[22090],"age65":[4272,22090],"owner":[3711,10134],"social":[5725,10134],"nocar":[6123,10135],"level4":[586,15348],"unemployed":[1103,7199]},
+      "CROSSMORE": {"residents":[11882],"age65":[1361,11882],"owner":[2983,3708],"social":[378,3708],"nocar":[620,3713],"level4":[894,8135],"unemployed":[368,5000]},
+      "CROTLIEVE": {"residents":[22646],"age65":[2436,22647],"owner":[5968,7491],"social":[768,7491],"nocar":[1228,7491],"level4":[2812,15391],"unemployed":[631,9623]},
+      "CUSHER": {"residents":[14878],"age65":[1778,14878],"owner":[4297,5241],"social":[587,5241],"nocar":[706,5239],"level4":[1388,10537],"unemployed":[247,7074]},
+      "DERG": {"residents":[11569],"age65":[1493,11569],"owner":[2620,3957],"social":[899,3957],"nocar":[935,3957],"level4":[643,8044],"unemployed":[464,4316]},
+      "DOWNPATRICK": {"residents":[19788],"age65":[2268,19788],"owner":[4492,6666],"social":[1365,6666],"nocar":[1512,6664],"level4":[1971,13661],"unemployed":[631,8482]},
+      "DOWNSHIRE": {"residents":[16818],"age65":[2349,16818],"owner":[5460,6275],"social":[437,6275],"nocar":[512,6276],"level4":[3187,12194],"unemployed":[198,8401]},
+      "DROMORE": {"residents":[12520],"age65":[1568,12520],"owner":[3709,4545],"social":[516,4545],"nocar":[584,4548],"level4":[1369,8854],"unemployed":[215,6227]},
+      "DRUM MANOR": {"residents":[9296],"age65":[1091,9296],"owner":[2472,2974],"social":[213,2974],"nocar":[411,2975],"level4":[710,6385],"unemployed":[200,3924]},
+      "DUNGANNON TOWN": {"residents":[12020],"age65":[1649,12021],"owner":[3041,4565],"social":[1115,4565],"nocar":[1200,4557],"level4":[1396,8476],"unemployed":[297,4900]},
+      "DUNMURRY CROSS": {"residents":[29439],"age65":[2495,29439],"owner":[5395,10037],"social":[4347,10037],"nocar":[3636,10037],"level4":[2495,19148],"unemployed":[1168,11067]},
+      "ENNISKILLEN": {"residents":[18697],"age65":[2468,18697],"owner":[4885,7132],"social":[1498,7132],"nocar":[1738,7128],"level4":[2030,13095],"unemployed":[648,8288]},
+      "ERNE EAST": {"residents":[14307],"age65":[1894,14307],"owner":[3628,4871],"social":[695,4871],"nocar":[1008,4874],"level4":[1100,9955],"unemployed":[639,6074]},
+      "ERNE NORTH": {"residents":[12223],"age65":[1662,12223],"owner":[3325,4327],"social":[593,4327],"nocar":[795,4330],"level4":[1088,8446],"unemployed":[414,5187]},
+      "ERNE WEST": {"residents":[12300],"age65":[1935,12300],"owner":[3385,4118],"social":[303,4118],"nocar":[630,4121],"level4":[1175,8402],"unemployed":[342,5367]},
+      "GIANTS CAUSEWAY": {"residents":[4115],"age65":[708,4117],"owner":[1034,1628],"social":[445,1628],"nocar":[399,1625],"level4":[302,2948],"unemployed":[136,1769]},
+      "GLENELLY": {"residents":[10828],"age65":[1323,10828],"owner":[2667,3572],"social":[543,3572],"nocar":[577,3573],"level4":[707,7513],"unemployed":[343,4521]},
+      "HOLYWOOD": {"residents":[14764],"age65":[2540,14764],"owner":[4219,5601],"social":[770,5601],"nocar":[1083,5599],"level4":[2870,10640],"unemployed":[293,7017]},
+      "KILLULTAGH": {"residents":[19992],"age65":[2142,19992],"owner":[5814,6920],"social":[701,6920],"nocar":[712,6919],"level4":[2693,14333],"unemployed":[286,9911]},
+      "KILROOT": {"residents":[15075],"age65":[1979,15075],"owner":[4858,5745],"social":[623,5745],"nocar":[911,5744],"level4":[2009,10691],"unemployed":[249,7452]},
+      "KNOCKAGH MONUMENT": {"residents":[13742],"age65":[1556,13742],"owner":[4088,5180],"social":[858,5180],"nocar":[1011,5181],"level4":[1661,9858],"unemployed":[316,6737]},
+      "KNOCKIVEAGH": {"residents":[13461],"age65":[1799,13461],"owner":[3552,4778],"social":[830,4778],"nocar":[785,4778],"level4":[1201,9607],"unemployed":[265,6171]},
+      "LAGANBANK": {"residents":[33358],"age65":[3990,33358],"owner":[6345,13768],"social":[3564,13768],"nocar":[6137,13768],"level4":[9250,26666],"unemployed":[1032,15904]},
+      "LARNE LOUGH": {"residents":[11695],"age65":[1374,11695],"owner":[3655,4430],"social":[452,4430],"nocar":[702,4427],"level4":[1294,8429],"unemployed":[226,5793]},
+      "LARNE TOWN": {"residents":[9552],"age65":[1764,9552],"owner":[2723,4093],"social":[987,4093],"nocar":[1549,4091],"level4":[766,6823],"unemployed":[295,4220]},
+      "LIMAVADY TOWN": {"residents":[9363],"age65":[1158,9363],"owner":[2195,3565],"social":[1137,3565],"nocar":[1154,3564],"level4":[629,6636],"unemployed":[377,3838]},
+      "LISBURN TOWN NORTH": {"residents":[25966],"age65":[3096,25966],"owner":[7416,9513],"social":[1267,9513],"nocar":[1352,9512],"level4":[3782,18963],"unemployed":[376,13389]},
+      "LISBURN TOWN SOUTH": {"residents":[16479],"age65":[2833,16478],"owner":[4209,7114],"social":[2476,7114],"nocar":[2580,7117],"level4":[1283,11838],"unemployed":[428,7284]},
+      "LOUGHSIDE": {"residents":[18817],"age65":[1906,18817],"owner":[4611,6428],"social":[1263,6428],"nocar":[1906,6430],"level4":[1712,12724],"unemployed":[517,7852]},
+      "LOWER FALLS": {"residents":[26290],"age65":[3006,26290],"owner":[3882,9297],"social":[4764,9297],"nocar":[5977,9296],"level4":[1074,17427],"unemployed":[1617,7897]},
+      "LURGAN": {"residents":[20284],"age65":[3061,20283],"owner":[6002,7872],"social":[1370,7872],"nocar":[1633,7873],"level4":[2056,14340],"unemployed":[387,9386]},
+      "MACEDON": {"residents":[16032],"age65":[3242,16033],"owner":[3822,7169],"social":[2764,7169],"nocar":[3001,7167],"level4":[1049,11431],"unemployed":[542,6546]},
+      "MAGHERAFELT TOWN": {"residents":[15080],"age65":[1681,15081],"owner":[3781,5035],"social":[749,5035],"nocar":[870,5034],"level4":[1582,10380],"unemployed":[305,6760]},
+      "MID TYRONE": {"residents":[16065],"age65":[1695,16065],"owner":[3980,5013],"social":[441,5013],"nocar":[738,5014],"level4":[1592,10715],"unemployed":[488,6623]},
+      "MOURNE": {"residents":[15851],"age65":[1624,15852],"owner":[3354,5445],"social":[1675,5445],"nocar":[1813,5445],"level4":[1106,10890],"unemployed":[702,6076]},
+      "MOYOLA": {"residents":[12310],"age65":[1477,12310],"owner":[3074,4028],"social":[543,4028],"nocar":[733,4027],"level4":[1038,8524],"unemployed":[267,5370]},
+      "NEWCASTLE": {"residents":[16168],"age65":[2261,16168],"owner":[4199,5832],"social":[931,5832],"nocar":[1314,5831],"level4":[1836,11021],"unemployed":[441,6821]},
+      "NEWRY TOWN": {"residents":[19864],"age65":[2495,19864],"owner":[4542,7191],"social":[1839,7191],"nocar":[2535,7188],"level4":[1945,13857],"unemployed":[795,7572]},
+      "NEWTOWNARDS": {"residents":[16904],"age65":[2683,16904],"owner":[4630,7146],"social":[2079,7146],"nocar":[2238,7147],"level4":[1657,12430],"unemployed":[506,7866]},
+      "NORTHLAND": {"residents":[24416],"age65":[2257,24415],"owner":[4931,8393],"social":[2367,8393],"nocar":[3069,8393],"level4":[3019,17197],"unemployed":[1317,9643]},
+      "OLDPARK": {"residents":[35100],"age65":[4648,35100],"owner":[6842,13991],"social":[5727,13991],"nocar":[7685,13990],"level4":[1862,23836],"unemployed":[1761,12153]},
+      "OMAGH TOWN": {"residents":[16874],"age65":[2035,16874],"owner":[3825,6229],"social":[1528,6229],"nocar":[1756,6230],"level4":[1842,11962],"unemployed":[593,7138]},
+      "PORTADOWN": {"residents":[19343],"age65":[2744,19343],"owner":[4437,7610],"social":[2085,7610],"nocar":[2595,7610],"level4":[1279,13648],"unemployed":[585,8274]},
+      "POTTINGER": {"residents":[30867],"age65":[5161,30867],"owner":[7960,14399],"social":[4303,14399],"nocar":[6472,14400],"level4":[3940,21999],"unemployed":[1245,13293]},
+      "ROWALLANE": {"residents":[14166],"age65":[1912,14166],"owner":[4070,5063],"social":[650,5063],"nocar":[758,5067],"level4":[1895,9941],"unemployed":[246,6813]},
+      "RURAL": {"residents":[20798],"age65":[2090,20799],"owner":[5248,6747],"social":[1069,6747],"nocar":[1152,6751],"level4":[2217,14375],"unemployed":[690,8961]},
+      "SHANTALLOW": {"residents":[23895],"age65":[1396,23896],"owner":[4305,7312],"social":[2720,7312],"nocar":[2176,7311],"level4":[2642,15788],"unemployed":[1137,8849]},
+      "SLIEVE GULLION": {"residents":[13558],"age65":[1424,13558],"owner":[3467,4376],"social":[515,4376],"nocar":[829,4373],"level4":[1146,9175],"unemployed":[554,4936]},
+      "SPERRIN": {"residents":[12390],"age65":[1399,12390],"owner":[2932,3899],"social":[639,3899],"nocar":[699,3896],"level4":[1046,8520],"unemployed":[294,5257]},
+      "THE FEWS": {"residents":[16209],"age65":[1890,16209],"owner":[3939,5317],"social":[911,5317],"nocar":[1077,5314],"level4":[1336,11066],"unemployed":[524,6549]},
+      "THE GLENS": {"residents":[5816],"age65":[755,5815],"owner":[1442,1956],"social":[285,1956],"nocar":[362,1955],"level4":[566,3986],"unemployed":[165,2422]},
+      "THE MOURNES": {"residents":[14781],"age65":[1942,14781],"owner":[3740,4949],"social":[647,4949],"nocar":[1019,4947],"level4":[907,10079],"unemployed":[300,6146]},
+      "THE ORCHARD": {"residents":[12666],"age65":[1517,12666],"owner":[3496,4141],"social":[312,4141],"nocar":[435,4140],"level4":[1293,8844],"unemployed":[242,5715]},
+      "THE SKERRIES": {"residents":[13107],"age65":[2350,13107],"owner":[3516,5413],"social":[776,5413],"nocar":[1522,5412],"level4":[2271,9492],"unemployed":[401,5466]},
+      "TORRENT": {"residents":[14135],"age65":[1448,14135],"owner":[3342,4507],"social":[650,4507],"nocar":[861,4510],"level4":[1221,9499],"unemployed":[373,5327]},
+      "UNIVERSITY": {"residents":[23844],"age65":[2828,23844],"owner":[6716,9008],"social":[1952,9008],"nocar":[1971,9008],"level4":[3324,17565],"unemployed":[505,11479]},
+      "UPPER FALLS": {"residents":[31037],"age65":[4099,31038],"owner":[7131,10713],"social":[3031,10713],"nocar":[4224,10713],"level4":[2476,21333],"unemployed":[1459,11711]},
+      "VICTORIA": {"residents":[37691],"age65":[7180,37691],"owner":[11773,16328],"social":[3130,16328],"nocar":[4506,16329],"level4":[6418,26730],"unemployed":[856,17219]},
+      "WATERSIDE": {"residents":[23053],"age65":[2988,23054],"owner":[5604,8917],"social":[2281,8917],"nocar":[2818,8918],"level4":[2368,16404],"unemployed":[915,10026]},
+      "WEST TYRONE": {"residents":[15013],"age65":[1804,15014],"owner":[3804,4877],"social":[566,4877],"nocar":[828,4879],"level4":[1334,10368],"unemployed":[460,6464]}
+     }
+    },
+    {
+     "year": 2011,
+     "date": "2011-03-27",
+     "source": "NISRA Census 2011 Key Statistics",
+     "geography": "wards of 1992, summed into District Electoral Areas",
+     "tables": {
+      "residents": {
+       "code": "KS101NI",
+       "title": "Usual resident population"
+      },
+      "age65": {
+       "code": "KS102NI",
+       "title": "Age structure"
+      },
+      "owner": {
+       "code": "KS402NI",
+       "title": "Tenure and landlord"
+      },
+      "social": {
+       "code": "KS402NI",
+       "title": "Tenure and landlord"
+      },
+      "nocar": {
+       "code": "KS405NI",
+       "title": "Car or van availability"
+      },
+      "level4": {
+       "code": "KS501NI",
+       "title": "Qualifications and students"
+      },
+      "unemployed": {
+       "code": "KS601NI",
+       "title": "Economic activity"
+      }
+     },
+     "areas": {
+      "ABBEY": {"residents":[20374],"age65":[2919,20374],"owner":[5904,8988],"social":[1371,8988],"nocar":[2216,8988],"level4":[4111,16402],"unemployed":[765,10536]},
+      "ANTRIM LINE": {"residents":[25265],"age65":[3613,25265],"owner":[8271,9763],"social":[420,9763],"nocar":[1350,9763],"level4":[5299,19938],"unemployed":[564,13402]},
+      "ANTRIM NORTH WEST": {"residents":[13184],"age65":[1810,13184],"owner":[3509,4590],"social":[368,4590],"nocar":[567,4590],"level4":[2542,10183],"unemployed":[357,6641]},
+      "ANTRIM SOUTH EAST": {"residents":[20838],"age65":[2747,20838],"owner":[5762,7625],"social":[626,7625],"nocar":[1045,7625],"level4":[4060,16071],"unemployed":[514,10690]},
+      "ANTRIM TOWN": {"residents":[19406],"age65":[2514,19406],"owner":[5101,7849],"social":[1391,7849],"nocar":[2004,7849],"level4":[3226,15225],"unemployed":[634,10030]},
+      "ARDS EAST": {"residents":[23349],"age65":[3712,23349],"owner":[7155,9295],"social":[1112,9295],"nocar":[1407,9295],"level4":[4078,18494],"unemployed":[617,11668]},
+      "ARDS PENINSULA": {"residents":[19241],"age65":[3165,19241],"owner":[5609,7492],"social":[755,7492],"nocar":[1061,7492],"level4":[3034,15260],"unemployed":[643,9076]},
+      "ARDS WEST": {"residents":[18382],"age65":[3141,18382],"owner":[5777,7291],"social":[652,7291],"nocar":[781,7291],"level4":[3955,14995],"unemployed":[416,9517]},
+      "ARMAGH CITY": {"residents":[14798],"age65":[2298,14798],"owner":[3543,5896],"social":[1024,5896],"nocar":[1504,5896],"level4":[2609,11726],"unemployed":[735,6795]},
+      "BALLINDERRY": {"residents":[14856],"age65":[1814,14856],"owner":[3869,4952],"social":[281,4952],"nocar":[564,4952],"level4":[2308,11369],"unemployed":[472,6880]},
+      "BALLYCASTLE": {"residents":[6314],"age65":[1123,6314],"owner":[1631,2565],"social":[358,2565],"nocar":[608,2565],"level4":[1224,5074],"unemployed":[309,2806]},
+      "BALLYCLARE": {"residents":[18565],"age65":[2783,18565],"owner":[5810,7349],"social":[621,7349],"nocar":[1077,7349],"level4":[3818,14689],"unemployed":[386,9693]},
+      "BALLYHOLME AND GROOMSPORT": {"residents":[23016],"age65":[4459,23016],"owner":[8031,9299],"social":[388,9299],"nocar":[972,9299],"level4":[6230,18881],"unemployed":[515,11572]},
+      "BALLYMENA NORTH": {"residents":[17753],"age65":[3264,17753],"owner":[5137,6989],"social":[536,6989],"nocar":[1157,6989],"level4":[3746,14257],"unemployed":[504,8722]},
+      "BALLYMENA SOUTH": {"residents":[15497],"age65":[2546,15497],"owner":[3765,6549],"social":[1467,6549],"nocar":[2025,6549],"level4":[1876,12574],"unemployed":[631,7455]},
+      "BALLYMONEY TOWN": {"residents":[9552],"age65":[1681,9552],"owner":[2430,4036],"social":[740,4036],"nocar":[975,4036],"level4":[1326,7717],"unemployed":[443,4283]},
+      "BALLYNAHINCH": {"residents":[15328],"age65":[2236,15328],"owner":[4260,5642],"social":[511,5642],"nocar":[735,5642],"level4":[2778,11977],"unemployed":[465,7642]},
+      "BALMORAL": {"residents":[32017],"age65":[4721,32017],"owner":[7600,13512],"social":[1774,13512],"nocar":[4047,13512],"level4":[10940,27176],"unemployed":[993,16767]},
+      "BANBRIDGE TOWN": {"residents":[17033],"age65":[2379,17033],"owner":[4582,6840],"social":[923,6840],"nocar":[1304,6840],"level4":[3055,13340],"unemployed":[583,8410]},
+      "BANGOR WEST": {"residents":[21409],"age65":[4335,21409],"owner":[7025,9194],"social":[884,9194],"nocar":[1620,9194],"level4":[5414,17491],"unemployed":[576,10429]},
+      "BANN": {"residents":[15909],"age65":[2547,15909],"owner":[4388,5873],"social":[602,5873],"nocar":[757,5873],"level4":[2815,12428],"unemployed":[554,7580]},
+      "BANN VALLEY": {"residents":[12768],"age65":[1732,12768],"owner":[3304,4356],"social":[379,4356],"nocar":[469,4356],"level4":[1835,9887],"unemployed":[436,6124]},
+      "BANNSIDE": {"residents":[15900],"age65":[2419,15900],"owner":[4558,5864],"social":[527,5864],"nocar":[687,5864],"level4":[2756,12584],"unemployed":[401,8156]},
+      "BELLARENA": {"residents":[14304],"age65":[1609,14304],"owner":[3652,4895],"social":[424,4895],"nocar":[666,4895],"level4":[2179,11101],"unemployed":[629,6748]},
+      "BENBRADAGH": {"residents":[11104],"age65":[1267,11104],"owner":[2843,3775],"social":[270,3775],"nocar":[569,3775],"level4":[1543,8542],"unemployed":[547,5020]},
+      "BLACKWATER": {"residents":[13754],"age65":[1730,13754],"owner":[3644,4733],"social":[280,4733],"nocar":[433,4733],"level4":[2353,10512],"unemployed":[374,6973]},
+      "BRAID": {"residents":[14894],"age65":[2425,14894],"owner":[4384,5415],"social":[248,5415],"nocar":[415,5415],"level4":[2885,11770],"unemployed":[311,7687]},
+      "BUSHVALE": {"residents":[8904],"age65":[1239,8904],"owner":[2386,3116],"social":[318,3116],"nocar":[334,3116],"level4":[1360,7004],"unemployed":[322,4333]},
+      "CARRICK CASTLE": {"residents":[8526],"age65":[1632,8526],"owner":[2234,4082],"social":[1035,4082],"nocar":[1480,4082],"level4":[1053,7029],"unemployed":[428,3896]},
+      "CASTLE": {"residents":[29366],"age65":[4684,29366],"owner":[7603,12618],"social":[2753,12618],"nocar":[4303,12618],"level4":[6488,23671],"unemployed":[1202,14096]},
+      "CASTLEREAGH CENTRAL": {"residents":[13564],"age65":[2687,13564],"owner":[4199,6044],"social":[1213,6044],"nocar":[1626,6044],"level4":[2506,11158],"unemployed":[366,6592]},
+      "CASTLEREAGH EAST": {"residents":[20989],"age65":[3625,20989],"owner":[6318,8798],"social":[1519,8798],"nocar":[1790,8798],"level4":[3996,16904],"unemployed":[567,10540]},
+      "CASTLEREAGH SOUTH": {"residents":[17594],"age65":[2598,17594],"owner":[5734,6598],"social":[223,6598],"nocar":[528,6598],"level4":[5314,13988],"unemployed":[319,9346]},
+      "CASTLEREAGH WEST": {"residents":[15095],"age65":[2904,15095],"owner":[4645,6293],"social":[927,6293],"nocar":[1076,6293],"level4":[4488,12350],"unemployed":[333,7504]},
+      "CENTRAL": {"residents":[26498],"age65":[3287,26498],"owner":[6779,10185],"social":[1343,10185],"nocar":[2082,10185],"level4":[4601,20446],"unemployed":[854,12680]},
+      "CITYSIDE": {"residents":[11756],"age65":[1569,11756],"owner":[2110,4697],"social":[1906,4697],"nocar":[2432,4697],"level4":[1151,9258],"unemployed":[920,4289]},
+      "CLOGHER VALLEY": {"residents":[11760],"age65":[1659,11760],"owner":[3056,4064],"social":[308,4064],"nocar":[532,4064],"level4":[1960,9181],"unemployed":[356,5803]},
+      "COAST ROAD": {"residents":[9318],"age65":[1665,9318],"owner":[2712,3774],"social":[499,3774],"nocar":[789,3774],"level4":[1503,7505],"unemployed":[284,4414]},
+      "COLERAINE CENTRAL": {"residents":[16967],"age65":[2777,16967],"owner":[4680,6897],"social":[791,6897],"nocar":[1517,6897],"level4":[3376,13664],"unemployed":[578,8108]},
+      "COLERAINE EAST": {"residents":[13274],"age65":[1946,13274],"owner":[2967,5103],"social":[1203,5103],"nocar":[1409,5103],"level4":[2013,10704],"unemployed":[517,6160]},
+      "COOKSTOWN CENTRAL": {"residents":[11448],"age65":[1524,11448],"owner":[2687,4449],"social":[645,4449],"nocar":[1052,4449],"level4":[1559,9110],"unemployed":[466,5415]},
+      "COURT": {"residents":[21886],"age65":[3932,21886],"owner":[3890,10160],"social":[4553,10160],"nocar":[5464,10160],"level4":[1473,17341],"unemployed":[1098,8404]},
+      "CROSSMORE": {"residents":[12914],"age65":[1621,12914],"owner":[3403,4398],"social":[301,4398],"nocar":[573,4398],"level4":[2052,9955],"unemployed":[517,6307]},
+      "CROTLIEVE": {"residents":[26937],"age65":[3086,26937],"owner":[6903,9311],"social":[636,9311],"nocar":[1292,9311],"level4":[5450,20309],"unemployed":[1007,12772]},
+      "CUSHER": {"residents":[17639],"age65":[2490,17639],"owner":[5012,6436],"social":[469,6436],"nocar":[696,6436],"level4":[2973,13591],"unemployed":[436,8817]},
+      "DERG": {"residents":[12448],"age65":[1839,12448],"owner":[2989,4620],"social":[656,4620],"nocar":[993,4620],"level4":[1402,9778],"unemployed":[662,5315]},
+      "DOWNPATRICK": {"residents":[20528],"age65":[2804,20528],"owner":[5145,7689],"social":[922,7689],"nocar":[1552,7689],"level4":[3907,16009],"unemployed":[851,9638]},
+      "DOWNSHIRE": {"residents":[19008],"age65":[3377,19008],"owner":[6135,7241],"social":[351,7241],"nocar":[490,7241],"level4":[5555,15289],"unemployed":[371,9739]},
+      "DROMORE": {"residents":[15401],"age65":[2061,15401],"owner":[4525,5660],"social":[367,5660],"nocar":[564,5660],"level4":[3146,11785],"unemployed":[399,7891]},
+      "DRUM MANOR": {"residents":[10709],"age65":[1420,10709],"owner":[2920,3503],"social":[126,3503],"nocar":[344,3503],"level4":[1554,8240],"unemployed":[315,5123]},
+      "DUNGANNON TOWN": {"residents":[15234],"age65":[1884,15234],"owner":[3209,5724],"social":[936,5724],"nocar":[1450,5724],"level4":[2375,11880],"unemployed":[617,7454]},
+      "DUNMURRY CROSS": {"residents":[31836],"age65":[2925,31836],"owner":[7073,11639],"social":[3434,11639],"nocar":[3589,11639],"level4":[4892,23573],"unemployed":[1379,14142]},
+      "ENNISKILLEN": {"residents":[19551],"age65":[2880,19551],"owner":[5063,7727],"social":[1066,7727],"nocar":[1610,7727],"level4":[3622,15486],"unemployed":[673,9510]},
+      "ERNE EAST": {"residents":[15134],"age65":[2260,15134],"owner":[4034,5457],"social":[481,5457],"nocar":[819,5457],"level4":[2192,11921],"unemployed":[578,7232]},
+      "ERNE NORTH": {"residents":[13274],"age65":[2029,13274],"owner":[3759,5033],"social":[428,5033],"nocar":[776,5033],"level4":[2109,10409],"unemployed":[449,6308]},
+      "ERNE WEST": {"residents":[13846],"age65":[2055,13846],"owner":[3926,4852],"social":[195,4852],"nocar":[497,4852],"level4":[2430,10848],"unemployed":[393,6802]},
+      "GIANTS CAUSEWAY": {"residents":[4535],"age65":[842,4535],"owner":[1224,1829],"social":[337,1829],"nocar":[329,1829],"level4":[643,3617],"unemployed":[207,2092]},
+      "GLENELLY": {"residents":[11991],"age65":[1666,11991],"owner":[3197,4191],"social":[384,4191],"nocar":[561,4191],"level4":[1637,9333],"unemployed":[461,5496]},
+      "HOLYWOOD": {"residents":[14138],"age65":[2759,14138],"owner":[4171,5774],"social":[633,5774],"nocar":[1007,5774],"level4":[4332,11648],"unemployed":[332,6932]},
+      "KILLULTAGH": {"residents":[24978],"age65":[2981,24978],"owner":[7234,8863],"social":[565,8863],"nocar":[717,8863],"level4":[5631,19298],"unemployed":[512,13174]},
+      "KILROOT": {"residents":[16270],"age65":[2534,16270],"owner":[5122,6361],"social":[507,6361],"nocar":[950,6361],"level4":[3397,12940],"unemployed":[411,8278]},
+      "KNOCKAGH MONUMENT": {"residents":[14318],"age65":[2087,14318],"owner":[4391,5757],"social":[672,5757],"nocar":[1002,5757],"level4":[2875,11440],"unemployed":[436,7422]},
+      "KNOCKIVEAGH": {"residents":[15905],"age65":[2256,15905],"owner":[4438,5803],"social":[516,5803],"nocar":[728,5803],"level4":[2723,12402],"unemployed":[419,7886]},
+      "LAGANBANK": {"residents":[36790],"age65":[3589,36790],"owner":[6276,15366],"social":[3210,15366],"nocar":[6011,15366],"level4":[12465,31879],"unemployed":[1297,20751]},
+      "LARNE LOUGH": {"residents":[14090],"age65":[1848,14090],"owner":[4400,5555],"social":[312,5555],"nocar":[715,5555],"level4":[2614,11066],"unemployed":[356,7474]},
+      "LARNE TOWN": {"residents":[8772],"age65":[1971,8772],"owner":[2529,3968],"social":[613,3968],"nocar":[1369,3968],"level4":[1305,7428],"unemployed":[347,4074]},
+      "LIMAVADY TOWN": {"residents":[8128],"age65":[1359,8128],"owner":[1897,3428],"social":[863,3428],"nocar":[1124,3428],"level4":[1031,6650],"unemployed":[522,3299]},
+      "LISBURN TOWN NORTH": {"residents":[26923],"age65":[4279,26923],"owner":[8020,10427],"social":[1177,10427],"nocar":[1410,10427],"level4":[6093,21503],"unemployed":[621,13858]},
+      "LISBURN TOWN SOUTH": {"residents":[17420],"age65":[3097,17420],"owner":[4224,7553],"social":[2172,7553],"nocar":[2546,7553],"level4":[2462,13962],"unemployed":[645,8148]},
+      "LOUGHSIDE": {"residents":[19905],"age65":[2458,19905],"owner":[5010,7175],"social":[811,7175],"nocar":[1701,7175],"level4":[3183,15502],"unemployed":[818,9592]},
+      "LOWER FALLS": {"residents":[26588],"age65":[3143,26588],"owner":[4449,10657],"social":[4357,10657],"nocar":[6432,10657],"level4":[2222,20451],"unemployed":[1566,9837]},
+      "LURGAN": {"residents":[25539],"age65":[3847,25539],"owner":[7354,10003],"social":[1004,10003],"nocar":[1651,10003],"level4":[4721,19974],"unemployed":[759,12699]},
+      "MACEDON": {"residents":[15996],"age65":[2946,15996],"owner":[4015,7291],"social":[2040,7291],"nocar":[2718,7291],"level4":[1943,12899],"unemployed":[717,7266]},
+      "MAGHERAFELT TOWN": {"residents":[16427],"age65":[2047,16427],"owner":[4014,5629],"social":[523,5629],"nocar":[906,5629],"level4":[2826,12776],"unemployed":[541,8080]},
+      "MID TYRONE": {"residents":[18410],"age65":[2054,18410],"owner":[4672,6065],"social":[325,6065],"nocar":[644,6065],"level4":[3490,13856],"unemployed":[621,8557]},
+      "MOURNE": {"residents":[15404],"age65":[2082,15404],"owner":[3488,6006],"social":[1298,6006],"nocar":[1803,6006],"level4":[1952,11909],"unemployed":[907,6412]},
+      "MOYOLA": {"residents":[13926],"age65":[1732,13926],"owner":[3468,4617],"social":[363,4617],"nocar":[603,4617],"level4":[2240,10529],"unemployed":[411,6535]},
+      "NEWCASTLE": {"residents":[17916],"age65":[2819,17916],"owner":[4733,6893],"social":[683,6893],"nocar":[1316,6893],"level4":[3555,14041],"unemployed":[724,8267]},
+      "NEWRY TOWN": {"residents":[20614],"age65":[2802,20614],"owner":[4569,7951],"social":[1353,7951],"nocar":[2400,7951],"level4":[3384,16488],"unemployed":[1056,9640]},
+      "NEWTOWNARDS": {"residents":[17106],"age65":[3248,17106],"owner":[4762,7436],"social":[1575,7436],"nocar":[1984,7436],"level4":[2943,14064],"unemployed":[651,8110]},
+      "NORTHLAND": {"residents":[23935],"age65":[2717,23935],"owner":[4753,9135],"social":[2120,9135],"nocar":[3510,9135],"level4":[4314,19397],"unemployed":[1599,10825]},
+      "OLDPARK": {"residents":[34131],"age65":[4585,34131],"owner":[6847,14620],"social":[5164,14620],"nocar":[7455,14620],"level4":[3603,26480],"unemployed":[1917,13961]},
+      "OMAGH TOWN": {"residents":[16124],"age65":[2463,16124],"owner":[3796,6626],"social":[1109,6626],"nocar":[1749,6626],"level4":[2842,12916],"unemployed":[635,7123]},
+      "PORTADOWN": {"residents":[21081],"age65":[3025,21081],"owner":[4786,8568],"social":[1552,8568],"nocar":[2512,8568],"level4":[2806,16581],"unemployed":[823,10038]},
+      "POTTINGER": {"residents":[33057],"age65":[4466,33057],"owner":[7496,15509],"social":[3936,15509],"nocar":[6297,15509],"level4":[7425,27110],"unemployed":[1471,16982]},
+      "ROWALLANE": {"residents":[15959],"age65":[2557,15959],"owner":[4568,5982],"social":[459,5982],"nocar":[770,5982],"level4":[3509,12719],"unemployed":[411,8101]},
+      "RURAL": {"residents":[25802],"age65":[2738,25802],"owner":[6690,9044],"social":[840,9044],"nocar":[1367,9044],"level4":[5011,19409],"unemployed":[982,12260]},
+      "SHANTALLOW": {"residents":[23585],"age65":[2286,23585],"owner":[4483,8163],"social":[2489,8163],"nocar":[2393,8163],"level4":[3953,17306],"unemployed":[1229,9680]},
+      "SLIEVE GULLION": {"residents":[16989],"age65":[1882,16989],"owner":[4340,5653],"social":[469,5653],"nocar":[804,5653],"level4":[2675,12688],"unemployed":[903,7539]},
+      "SPERRIN": {"residents":[14685],"age65":[1850,14685],"owner":[3624,4791],"social":[392,4791],"nocar":[643,4791],"level4":[2401,11156],"unemployed":[445,6890]},
+      "THE FEWS": {"residents":[18931],"age65":[2191,18931],"owner":[4664,6394],"social":[671,6394],"nocar":[1002,6394],"level4":[2852,14061],"unemployed":[771,8725]},
+      "THE GLENS": {"residents":[6201],"age65":[956,6201],"owner":[1622,2214],"social":[195,2214],"nocar":[325,2214],"level4":[1130,4912],"unemployed":[261,2939]},
+      "THE MOURNES": {"residents":[16009],"age65":[2295,16009],"owner":[4095,5722],"social":[461,5722],"nocar":[968,5722],"level4":[2122,12416],"unemployed":[578,7531]},
+      "THE ORCHARD": {"residents":[13989],"age65":[2013,13989],"owner":[3970,4864],"social":[235,4864],"nocar":[437,4864],"level4":[2633,10923],"unemployed":[414,6992]},
+      "THE SKERRIES": {"residents":[12917],"age65":[2619,12917],"owner":[3550,5635],"social":[639,5635],"nocar":[1303,5635],"level4":[3442,10821],"unemployed":[426,5947]},
+      "TORRENT": {"residents":[17104],"age65":[1899,17104],"owner":[4119,5749],"social":[559,5749],"nocar":[830,5749],"level4":[2727,12894],"unemployed":[670,7651]},
+      "UNIVERSITY": {"residents":[25313],"age65":[3773,25313],"owner":[7156,9568],"social":[1400,9568],"nocar":[1788,9568],"level4":[5188,20266],"unemployed":[679,12498]},
+      "UPPER FALLS": {"residents":[28840],"age65":[4670,28840],"owner":[7594,11336],"social":[2456,11336],"nocar":[4233,11336],"level4":[4053,23206],"unemployed":[1296,12640]},
+      "VICTORIA": {"residents":[38287],"age65":[7101,38287],"owner":[11264,16817],"social":[2615,16817],"nocar":[4079,16817],"level4":[10867,31365],"unemployed":[992,19228]},
+      "WATERSIDE": {"residents":[22799],"age65":[3542,22799],"owner":[5564,9740],"social":[1916,9740],"nocar":[3137,9740],"level4":[3843,18293],"unemployed":[1174,10393]},
+      "WEST TYRONE": {"residents":[16822],"age65":[2198,16822],"owner":[4473,5752],"social":[379,5752],"nocar":[756,5752],"level4":[2986,12917],"unemployed":[552,8013]}
+     }
+    }
+   ]
+  },
+  {
+   "id": "pc-2008",
+   "layers": [
+    "pc-2008-vector",
+    "assembly-areas-2008-alias"
+   ],
+   "censuses": [
+    {
+     "year": 2011,
+     "date": "2011-03-27",
+     "source": "NISRA Census 2011 Key Statistics",
+     "geography": "Assembly Areas",
+     "tables": {
+      "residents": {
+       "code": "KS101NI",
+       "title": "Usual resident population"
+      },
+      "age65": {
+       "code": "KS102NI",
+       "title": "Age structure"
+      },
+      "owner": {
+       "code": "KS402NI",
+       "title": "Tenure and landlord"
+      },
+      "social": {
+       "code": "KS402NI",
+       "title": "Tenure and landlord"
+      },
+      "nocar": {
+       "code": "KS405NI",
+       "title": "Car or van availability"
+      },
+      "level4": {
+       "code": "KS501NI",
+       "title": "Qualifications and students"
+      },
+      "unemployed": {
+       "code": "KS601NI",
+       "title": "Economic activity"
+      }
+     },
+     "areas": {
+      "BELFAST EAST": {"residents":[92221],"age65":[16024,92221],"owner":[25926,40918],"social":[8152,40918],"nocar":[11675,40918],"level4":[20589,75141],"unemployed":[2842,45800]},
+      "BELFAST NORTH": {"residents":[102531],"age65":[16439,102531],"owner":[24379,44601],"social":[12523,44601],"nocar":[18167,44601],"level4":[15215,81552],"unemployed":[4664,45602]},
+      "BELFAST SOUTH": {"residents":[111402],"age65":[15061,111402],"owner":[26401,46630],"social":[7192,46630],"nocar":[13668,46630],"level4":[36543,93724],"unemployed":[3435,59911]},
+      "BELFAST WEST": {"residents":[93986],"age65":[11779,93986],"owner":[20005,36580],"social":[11865,36580],"nocar":[16314,36580],"level4":[10818,72358],"unemployed":[4672,38843]},
+      "EAST ANTRIM": {"residents":[90067],"age65":[14273,90067],"owner":[26378,36112],"social":[4423,36112],"nocar":[7406,36112],"level4":[17280,72357],"unemployed":[2777,44880]},
+      "EAST LONDONDERRY": {"residents":[99673],"age65":[14947,99673],"owner":[25826,37981],"social":[4980,37981],"nocar":[7695,37981],"level4":[17566,79190],"unemployed":[4064,46103]},
+      "FERMANAGH AND SOUTH TYRONE": {"residents":[102553],"age65":[14497,102553],"owner":[26691,37590],"social":[3694,37590],"nocar":[6117,37590],"level4":[17041,80237],"unemployed":[3440,50082]},
+      "FOYLE": {"residents":[100807],"age65":[12029,100807],"owner":[21751,38404],"social":[9083,38404],"nocar":[12489,38404],"level4":[17105,78383],"unemployed":[5613,44206]},
+      "LAGAN VALLEY": {"residents":[101710],"age65":[16055,101710],"owner":[29499,39850],"social":[5283,39850],"nocar":[6304,39850],"level4":[22679,80795],"unemployed":[2512,51554]},
+      "MID ULSTER": {"residents":[99155],"age65":[12286,99155],"owner":[24701,33690],"social":[2889,33690],"nocar":[4942,33690],"level4":[15615,76074],"unemployed":[3320,46574]},
+      "NEWRY AND ARMAGH": {"residents":[112401],"age65":[14922,112401],"owner":[28586,40538],"social":[4500,40538],"nocar":[7352,40538],"level4":[18531,86877],"unemployed":[4738,53125]},
+      "NORTH ANTRIM": {"residents":[108207],"age65":[17576,108207],"owner":[29346,41458],"social":[4989,41458],"nocar":[7117,41458],"level4":[17989,86137],"unemployed":[3654,52676]},
+      "NORTH DOWN": {"residents":[89498],"age65":[16702,89498],"owner":[28432,37740],"social":[3874,37740],"nocar":[6614,37740],"level4":[22106,73038],"unemployed":[2468,44424]},
+      "SOUTH ANTRIM": {"residents":[99238],"age65":[13423,99238],"owner":[28659,37715],"social":[3850,37715],"nocar":[6017,37715],"level4":[18785,77330],"unemployed":[2570,51300]},
+      "SOUTH DOWN": {"residents":[108835],"age65":[14716,108835],"owner":[28516,39030],"social":[3207,39030],"nocar":[5987,39030],"level4":[20057,83951],"unemployed":[3900,51988]},
+      "STRANGFORD": {"residents":[89370],"age65":[14622,89370],"owner":[26254,35412],"social":[4332,35412],"nocar":[5631,35412],"level4":[16527,71638],"unemployed":[2637,44439]},
+      "UPPER BANN": {"residents":[118010],"age65":[16067,118010],"owner":[30786,45766],"social":[5898,45766],"nocar":[9658,45766],"level4":[19789,92049],"unemployed":[4052,57344]},
+      "WEST TYRONE": {"residents":[91199],"age65":[12302,91199],"owner":[22615,33260],"social":[4151,33260],"nocar":[6506,33260],"level4":[14309,70709],"unemployed":[3838,40916]}
+     }
+    }
+   ]
+  },
+  {
+   "id": "pc-1995",
+   "layers": [
+    "pc-1995-vector",
+    "assembly-areas-1995-alias"
+   ],
+   "censuses": [
+    {
+     "year": 2001,
+     "date": "2001-04-29",
+     "source": "NISRA Census 2001 Key Statistics",
+     "geography": "parliamentary constituencies",
+     "tables": {
+      "residents": {
+       "code": "KS01",
+       "title": "Usually resident population"
+      },
+      "age65": {
+       "code": "KS02",
+       "title": "Age structure"
+      },
+      "owner": {
+       "code": "KS18",
+       "title": "Tenure"
+      },
+      "social": {
+       "code": "KS18",
+       "title": "Tenure"
+      },
+      "nocar": {
+       "code": "KS17",
+       "title": "Cars or vans"
+      },
+      "level4": {
+       "code": "KS13",
+       "title": "Qualifications and students"
+      },
+      "unemployed": {
+       "code": "KS09a",
+       "title": "Economic activity - all persons"
+      }
+     },
+     "areas": {
+      "BELFAST EAST": {"residents":[79261],"age65":[15203,79261],"owner":[23447,34824],"social":[8359,34824],"nocar":[11420,34824],"level4":[10921,55969],"unemployed":[2152,34821]},
+      "BELFAST NORTH": {"residents":[86066],"age65":[14599,86066],"owner":[18797,36383],"social":[14124,36383],"nocar":[17889,36383],"level4":[6727,59503],"unemployed":[3597,31693]},
+      "BELFAST SOUTH": {"residents":[94994],"age65":[13444,94994],"owner":[23987,39715],"social":[7939,39715],"nocar":[13545,39715],"level4":[24030,71904],"unemployed":[2444,45549]},
+      "BELFAST WEST": {"residents":[87610],"age65":[10183,87610],"owner":[15574,30992],"social":[13857,30992],"nocar":[15786,30992],"level4":[4909,58818],"unemployed":[4596,29831]},
+      "EAST ANTRIM": {"residents":[84062],"age65":[11473,84062],"owner":[24634,32789],"social":[6085,32789],"nocar":[7862,32789],"level4":[9850,60400],"unemployed":[2045,39979]},
+      "EAST LONDONDERRY": {"residents":[88737],"age65":[11136,88737],"owner":[22457,32280],"social":[6141,32280],"nocar":[7715,32280],"level4":[9306,62850],"unemployed":[2823,39143]},
+      "FERMANAGH AND SOUTH TYRONE": {"residents":[91127],"age65":[12470,91127],"owner":[23831,32203],"social":[4982,32203],"nocar":[6441,32203],"level4":[8682,63234],"unemployed":[2838,39294]},
+      "FOYLE": {"residents":[105066],"age65":[10286,105066],"owner":[22052,35947],"social":[10860,35947],"nocar":[11685,35947],"level4":[10963,72665],"unemployed":[4943,41523]},
+      "LAGAN VALLEY": {"residents":[101696],"age65":[13317,101696],"owner":[29222,38405],"social":[6672,38405],"nocar":[6919,38405],"level4":[13666,72778],"unemployed":[1712,49511]},
+      "MID ULSTER": {"residents":[86496],"age65":[9749,86496],"owner":[21375,28350],"social":[4102,28350],"nocar":[5233,28350],"level4":[7376,59340],"unemployed":[2022,35917]},
+      "NEWRY AND ARMAGH": {"residents":[100950],"age65":[12139,100950],"owner":[25386,34473],"social":[5843,34473],"nocar":[7697,34473],"level4":[9258,69832],"unemployed":[3183,41495]},
+      "NORTH ANTRIM": {"residents":[101437],"age65":[14404,101437],"owner":[27360,37582],"social":[7126,37582],"nocar":[7865,37582],"level4":[9262,71908],"unemployed":[2514,46369]},
+      "NORTH DOWN": {"residents":[85992],"age65":[14434,85992],"owner":[27137,34931],"social":[4940,34931],"nocar":[7360,34931],"level4":[12691,61680],"unemployed":[1967,40808]},
+      "SOUTH ANTRIM": {"residents":[99810],"age65":[11623,99810],"owner":[28268,36725],"social":[5806,36725],"nocar":[7164,36725],"level4":[11008,71898],"unemployed":[2021,49173]},
+      "SOUTH DOWN": {"residents":[104658],"age65":[12917,104658],"owner":[26903,35605],"social":[4996,35605],"nocar":[6479,35605],"level4":[10792,72072],"unemployed":[2623,45832]},
+      "STRANGFORD": {"residents":[98158],"age65":[13157,98158],"owner":[28729,37898],"social":[7070,37898],"nocar":[7238,37898],"level4":[11335,70645],"unemployed":[2089,47602]},
+      "UPPER BANN": {"residents":[102947],"age65":[12819,102947],"owner":[26808,38519],"social":[8373,38519],"nocar":[10004,38519],"level4":[9511,72091],"unemployed":[2479,45456]},
+      "WEST TYRONE": {"residents":[86200],"age65":[9972,86200],"owner":[20250,29097],"social":[5656,29097],"nocar":[6647,29097],"level4":[7224,59492],"unemployed":[3050,35138]}
+     }
+    }
+   ]
+  }
+ ]
+}
