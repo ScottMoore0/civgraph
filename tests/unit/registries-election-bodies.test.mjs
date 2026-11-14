@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadRegistry, registryErrors, REPO_ROOT } from '../../packages/registries/src/index.mjs';
-import { byElectionTitleOf, checkElectionBodies, electionBody, fillYear, generalElectionTitleOf, geographyRuleFor, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
+import { byElectionTitleOf, checkElectionBodies, electionBody, fillYear, generalElectionTitleOf, geographyRuleFor, isGeneralElectionDate, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
 import { canonicalElectionTitle, isElectionByElectionScope } from '../../scripts/lib/election-names.mjs';
 
 const registry = loadRegistry('election-bodies');
@@ -101,4 +101,19 @@ test('byElectionTitleOf and the Seanad titles: general elections by year, by-ele
   assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1938-09-07', constituencies: ['Labour Panel'] }), '1938 Seanad by-election (Labour Panel)');
   // A body with a title and no by-election template is unchanged: the mayoralty is never a by-election.
   assert.equal(canonicalElectionTitle({ body: 'Mayor of Limerick', bodySlug: 'limerick-mayor', date: '2024-06-07', constituencies: ['Limerick City and County'] }), '2024 Limerick mayoral election');
+});
+
+test('the Free State Seanad: a day generalElectionDates lists is a general election however few its contests (seanad-3b)', () => {
+  const seanad = electionBody(registry, 'seanad-eireann');
+  const freeState = ['Irish Free State'];
+  for (const [date, title] of [['1922-12-06', '1922 Seanad election'], ['1925-12-06', '1925 Seanad election'], ['1934-12-06', '1934 Seanad election']]) {
+    assert.equal(isGeneralElectionDate(seanad, date), true, date);
+    assert.equal(isElectionByElectionScope({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date, constituencies: freeState }), false, date);
+    assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date, constituencies: freeState }), title);
+  }
+  // a Free State by-election keeps its by-election title
+  assert.equal(isGeneralElectionDate(seanad, '1929-06-20'), false);
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1929-06-20', constituencies: freeState }), '1929 Seanad by-election (Irish Free State)');
+  assert.equal(isGeneralElectionDate(null, '1922-12-06'), false);
+  assert.equal(isGeneralElectionDate(seanad, ''), false);
 });

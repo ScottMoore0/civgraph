@@ -338,6 +338,38 @@ def run_winners_only(terms: dict[int, dict], ie_dir: Path, links: list, doubtful
     return sum(len(v) for v in w.dates.values())
 
 
+def run_free_state(links: list, dates: dict) -> int:
+    """The Seanad of the Irish Free State, 1922-1936 (free_state.py, from
+    data/elections/seanad-free-state.json): one contest per election day; two by-elections on one
+    day (two vacancies filled together) are one contest of two seats."""
+    module = __import__('runpy').run_path(str(Path(__file__).resolve().parent / 'free_state.py'))
+    by_day: dict[str, tuple[dict, list]] = {}
+    for day, data, day_links in module['contests'](REPO, SLUG, BODY):
+        if day in by_day:
+            held, held_links = by_day[day]
+            offset = len({r['Candidate_Id'] for r in held['Constituency']['countGroup']})
+            for row in data['Constituency']['countGroup']:
+                held['Constituency']['countGroup'].append({**row, 'Candidate_Id': str(int(row['Candidate_Id']) + offset)})
+            held_links += [{**l, 'candidateId': str(int(l['candidateId']) + offset)} for l in day_links]
+            held['seats'] += data['seats']
+            held['Constituency']['countInfo']['Number_Of_Seats'] = str(held['seats'])
+            seats_of = [re.match(r'To fill the seat of (.*) \((Wikipedia, [^)]*)\)$', c) for c in (held.get('cause'), data.get('cause')) if c]
+            if seats_of and all(seats_of):
+                held['cause'] = f"To fill the seats of {' and '.join(m.group(1) for m in seats_of)} ({seats_of[0].group(2)})"
+            continue
+        by_day[day] = (data, list(day_links))
+    for day, (data, day_links) in sorted(by_day.items()):
+        folder = OUT / day
+        folder.mkdir(parents=True, exist_ok=True)
+        name = f'{slugify(data["constituency"])}.json'
+        (folder / name).write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
+        dates.setdefault(day, []).append({'name': data['constituency'], 'seats': data['seats'],
+                                          'candidates': len({r['Candidate_Id'] for r in data['Constituency']['countGroup']}),
+                                          'quota': data['Constituency']['countInfo'].get('Quota') or None, 'file': name})
+        links.extend(day_links)
+    return len(by_day)
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--ie', required=True, help="IrelandElection.com's structured folder (index.jsonl, contests/)")
@@ -368,6 +400,7 @@ def main(argv: list[str]) -> int:
         dates.setdefault(date, []).append({'name': entry['constituency'], 'seats': int(ie['seats']), 'candidates': len(ie['candidates']),
                                            'quota': ie['quota'], 'file': name})
     winners_only = run_winners_only(terms, ie_dir, links, doubtful, dates)
+    winners_only += run_free_state(links, dates)
     for date, items in dates.items():
         (OUT / date / '_index.json').write_text(json.dumps(items, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
 

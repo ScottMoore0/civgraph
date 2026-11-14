@@ -82,6 +82,8 @@ export interface Body {
   byElectionTitle?: string;
   /** The title of several by-elections of the body held on one day; {year} is their year. */
   byElectionsTitle?: string;
+  /** Days (YYYY-MM-DD, as the elections are filed) on which the body held a general election however few its contests: never by-elections (the Seanad of the Irish Free State, whose elections had one national contest each). */
+  generalElectionDates?: string[];
   /** Titles given outright to some general elections of the body, by the date each is filed under (YYYY-MM-DD), in place of `title`: two general elections in one year are told apart (the Seanad's April and August 1938 elections). */
   titlesByDate?: {
     [key: string]: string;

@@ -111,6 +111,12 @@
         "byElectionMaxContests": { "type": "integer", "minimum": 1, "description": "A day of the body's elections with at most this many contests is a by-election (otherwise 2): the Seanad has held by-elections in four panels on one day, and its general elections fill all seven contests." },
         "byElectionTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The title of a by-election of the body, where `title` names its general elections; {year} is its year and {contest} the contest's name." },
         "byElectionsTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The title of several by-elections of the body held on one day; {year} is their year." },
+        "generalElectionDates": {
+          "type": "array",
+          "description": "Days (YYYY-MM-DD, as the elections are filed) on which the body held a general election however few its contests: never by-elections (the Seanad of the Irish Free State, whose elections had one national contest each).",
+          "items": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+          "uniqueItems": true
+        },
         "titlesByDate": {
           "type": "object",
           "description": "Titles given outright to some general elections of the body, by the date each is filed under (YYYY-MM-DD), in place of `title`: two general elections in one year are told apart (the Seanad's April and August 1938 elections).",

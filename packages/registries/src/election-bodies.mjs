@@ -63,6 +63,18 @@ export function generalElectionTitleOf(body, date) {
 }
 
 /**
+ * Whether the body held a general election on that day however few its contests (its
+ * generalElectionDates: the Free State Seanad's elections had one, the Irish Free State).
+ * @param {ElectionBody | null | undefined} body
+ * @param {unknown} date
+ * @returns {boolean}
+ */
+export function isGeneralElectionDate(body, date) {
+  const day = String(date ?? '').slice(0, 10);
+  return Boolean(day && body?.generalElectionDates?.includes(day));
+}
+
+/**
  * The voting system a contest of the body is counted by: the first of its contestVotingSystems
  * whose pattern matches the contest's name, else the body's votingSystem; null when the body
  * states neither (the code's own rules then apply).

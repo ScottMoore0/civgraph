@@ -161,7 +161,9 @@ def departures(house: str) -> list[dict]:
     for m in re.finditer(r'\{\{Constituency changes\n(.*?)\n\}\}', text, re.S):
         block = m.group(1)
         field = lambda k: (re.search(rf'\|{k}\s*=\s*([^\n]*)', block) or [None, ''])[1].strip()
-        gone = re.match(r'\s*(?:Death|Resignation) of (?:the )?\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', strip_refs(field('note')))
+        note = strip_refs(field('note'))
+        gone = (re.match(r'\s*(?:Death|Resignation) of (?:the )?\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', note)
+                or re.match(r'\s*\[\[([^\]|]+)(?:\|([^\]]+))?\]\] (?:elected to the \[\[\d+\w* Dáil|appointed )', note))
         if gone:
             out.append({'group': field('con'), 'name': (gone.group(2) or gone.group(1)).strip(), 'title': gone.group(1).strip(),
                         'party': PARTIES.get(field('loss'), field('loss'))})
@@ -264,8 +266,16 @@ def main(argv: list[str]) -> int:
                                        'termYears': int(re.search(r'(\d+) years', g['group']).group(1)) if 'years' in g['group'] else None,
                                        'wikipedia': g['title']} for g in new]})
     for house in HOUSES:
+        gone = departures(house)
         for ch in changes(house):
-            events.append({'date': ch['date'], 'kind': 'by-election', 'house': house, 'replaced': ch['replaced'], 'candidatesRecorded': 'winners',
+            replaced = ch['replaced']
+            if replaced and ' ' not in replaced:
+                # "to replace Byrne": the member of that surname the article says left the Seanad
+                full = [g['name'] for g in gone if fold(g['name']).split()[-1:] == fold(replaced).split()]
+                replaced = full[0] if len(full) == 1 else replaced
+            if replaced and re.match(r'(Marquess|Earl|Countess) of ', replaced):
+                replaced = f'the {replaced}'
+            events.append({'date': ch['date'], 'kind': 'by-election', 'house': house, 'replaced': replaced, 'candidatesRecorded': 'winners',
                            'debate': ch['debate'], 'candidates': [{'name': ch['name'], 'code': code_of(ch['name'], ch['title'], '*' + ch['date']),
                                                                    'party': ch['party'], 'wikipedia': ch['title']}]})
     # the members whose membership began on a day no event above accounts for

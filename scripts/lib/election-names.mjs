@@ -2,7 +2,7 @@ import { loadRegistry } from '../../packages/registries/src/index.mjs';
 import {
   councilNameOn, councilsById, eraTitles, plainTitleBodies, pre1973CouncilBodyNames
 } from '../../packages/registries/src/councils.mjs';
-import { byElectionTitleOf, electionBody, generalElectionTitleOf } from '../../packages/registries/src/election-bodies.mjs';
+import { byElectionTitleOf, electionBody, generalElectionTitleOf, isGeneralElectionDate } from '../../packages/registries/src/election-bodies.mjs';
 
 /** @typedef {import('../../packages/registries/src/election-bodies.mjs').ElectionBody} ElectionBody */
 
@@ -382,6 +382,8 @@ export function isElectionByElectionScope({ body = '', bodyGroup = null, date = 
   }
   const names = electionConstituencyNames(constituencies);
   if (!names.length) return false;
+  // A day the body's registry lists as a general election is one, however few its contests.
+  if (isGeneralElectionDate(registered, date)) return false;
   if (bodyGroup === 'local-government') return names.length <= 2;
   if (normalizedBody === 'european parliament' || normalizedBody === 'european parliament ireland') return false;
   if (normalizedBody === 'president of ireland' || normalizedBody === 'referendum ireland') return false;
