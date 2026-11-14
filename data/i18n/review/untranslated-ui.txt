@@ -4,7 +4,7 @@
 # in data/i18n/review/untranslated-ui-triage.tsv (see its header).
 # Templates are written with {x} for each value; one counts as keyed when en.json has a pattern
 # of the same shape (data/i18n/strings/patterns.txt).
-# Counts: interface 0, data 213, prose 79, code 64, part 80, later 92.
+# Counts: interface 0, data 213, prose 79, code 67, part 92, later 0.
 # class<TAB>surface<TAB>files<TAB>text
 prose	pages	site/index.html	- a complete island-wide historic geography, named from Inishowen to Bantry.
 prose	pages	site/maps/index.html	- full catalogue
@@ -26,47 +26,31 @@ prose	pages	site/pages/about.html	: Parliament of Northern Ireland debates and A
 prose	pages	site/pages/about.html	: the Database of British and Irish Hills.
 part	catalogue	packages/map/src/catalogue/view-elections.js	({x} hidden by the filters)
 data	catalogue	packages/map/src/catalogue/view-maps.js	(ONS, Royal Mail and OS data © Crown copyright and database right)
-later	app	packages/map/src/app/url-state.js	{x} - Maps of Irish administrative geography and history
 part	app	packages/map/app/election-manager.js	{x} {x} returned unopposed. {x}
 part	browse	site/browse/browse.js	{x} {x}, each with its source
-later	app	packages/map/src/app/entity-bridge.js	{x} could not be {x}.
-later	app	packages/map/src/ui-controller.js	{x} could not be loaded. Check the connection and try again.
-later	app	packages/map/src/ui-controller.js	{x} could not be removed
-later	app	packages/map/src/ui-controller.js	{x} failed to load
+part	app	packages/map/src/app/entity-bridge.js	{x} could not be {x}.
 part	browse	site/browse/browse.js	{x} had {x} grouped {x} in this {x} edition.
 part	browse	site/browse/browse.js	{x} in {x}. “Against own party” counts votes on the other side from most of the member's party (the party they were elected for).
-later	app	packages/map/src/app/ui-wiring.js	{x} is not in the election catalogue.
 code	pages	scripts/build/build-status.mjs	{x} map shelves ({x} known editions)
-later	app	packages/map/src/ui-controller.js	{x} map{x} in this category
-later	app	packages/map/src/ui-controller.js	{x} map{x} in this class
-later	app	packages/map/src/ui-controller.js	{x} moved to position {x} of {x}
+part	app	packages/map/src/ui-controller.js	{x} map{x} in this category
+part	app	packages/map/src/ui-controller.js	{x} map{x} in this class
 part	pages	scripts/build/build-status.mjs	{x} on the site
-later	app	packages/map/src/ui-controller.js	{x} party-list {x} (such as the 1996 Forum's regional lists) {x} not a person and {x} left out.
-later	app	packages/map/src/ui-controller.js	{x} PDF viewer
-later	app	packages/map/src/app/election-pane.js	{x} pixels tall
+part	app	packages/map/src/ui-controller.js	{x} party-list {x} (such as the 1996 Forum's regional lists) {x} not a person and {x} left out.
 part	app	packages/map/src/views/election-renderer.mjs	{x} result {x} not styled on the map because no exact converted geography match is available yet.
 part	browse	site/browse/browse.js	{x} source rows
 part	browse	site/browse/browse.js	{x} was founded {x} {x}{x}
 part	browse	site/browse/browse.js	{x}: {x}, in the Civgraph semantic graph.
-later	app	packages/map/src/ui-controller.js	{x}: elections contested
-later	app	packages/map/src/ui-controller.js	{x}: elections stood in
 part	app	packages/map/app/election-manager.js	{x}{x} constituencies in this election could not be matched to a boundary
 data	pages	site/index.html,site/pages/about.html,site/pages/census-explorer.html,site/pages/status.html,site/pages/api.html,site/apps/index.html,site/404.html	© Civgraph
 part	pages	site/assets/pages/js/07-fallback-stats.js	0 people
 code	browse	site/browse/browse.js	0) ? renderPartyBarChart(series, colour,
 prose	pages	site/pages/about.html	58 organisations
 prose	pages	site/apps/index.html	A faster, independent interface to search all
-later	app	packages/map/src/app/messages.js	A map image is already being prepared.
 data	app	packages/map/src/ui-controller.js	ABC Council
-later	app	packages/map/src/ui-controller.js	Accessed {x}
-later	app	packages/map/src/ui-controller.js	Acts
 part	browse	site/browse/browse.js	Add {x}
-later	app	packages/map/src/app/ui-wiring.js	Added {x}
 data	app	packages/map/src/ui-controller.js	Administrative Areas (Northern Ireland) (1920-1973)
 data	app	packages/map/src/ui-controller.js	Administrative Regions
 part	browse	site/browse/browse.js	All {x}
-later	app	packages/map/src/ui-controller.js	all contests
-later	app	packages/map/src/ui-controller.js	Also written as ({x})
 data	app	packages/map/src/ui-controller.js	An Garda Síochána Areas
 data	app	packages/map/src/ui-controller.js	An Garda Síochána Areas (Republic of Ireland)
 part	app	packages/map/src/views/timeline-view.mjs	and {x} more step{x}: step one edition at a time to see them.
@@ -81,13 +65,11 @@ data	app	packages/map/src/ui-controller.js	Assembly Areas (1998-)
 data	app	packages/map/src/ui-controller.js	Assembly Constituencies (1973)
 data	app	packages/map/src/ui-controller.js	Assembly Constituencies (1982)
 data	catalogue	packages/map/src/catalogue/search.js	Assembly NI Assembly Stormont MLA
-later	app	packages/map/src/ui-controller.js	Authors
 data	pages	scripts/build/build-status.mjs	B. M. Walker, Parliamentary Election Results in Ireland, 1801–1922 (Royal Irish Academy, 1978)
 data	app	packages/map/src/app/url-compat.mjs	Bangor Borough Council
 prose	pages	site/index.html,site/pages/about.html	baronies of Ireland
 data	catalogue	packages/map/src/catalogue/util.js	Birch
 code	app	packages/map/src/election/results-model.mjs	block vote
-later	app	packages/map/src/ui-controller.js	Book: {x}
 prose	pages	site/pages/census-explorer.html	Boundaries move between censuses, so a figure for "the same place" in two years often needs re-basing. Northern Ireland as a whole needs none. The council and small-area comparisons below say which values are as published and which are
 data	catalogue	packages/map/src/catalogue/util.js	Boundary Commission for Northern Ireland
 data	app	packages/map/src/ui-controller.js	Britain and Ireland
@@ -98,16 +80,12 @@ code	app	packages/map/src/ui-controller.js	button, input, select, textarea, a, l
 part	app	packages/map/app/election-manager.js	by council
 code	app	packages/map/src/app/performance.js	Cache entries
 prose	pages	site/pages/census-explorer.html	can be read on this page from Civgraph's copy.
-later	app	packages/map/src/ui-controller.js	Candidates ({x})
-later	app	packages/map/src/ui-controller.js	Candidates (first {x})
 data	app	packages/map/src/ui-controller.js	Carriageway and Footway Surface Defects
 prose	pages	site/pages/about.html	catalogue entries and
-later	app	packages/map/src/app/url-state.js	Catalogue: {x}
-later	app	packages/map/src/app/url-state.js	Catalogue: {x}{x}
+part	app	packages/map/src/app/url-state.js	Catalogue: {x}{x}
 data	pages	site/pages/about.html	CC BY 4.0
 data	pages	site/pages/about.html	CC BY-SA 4.0 and ODbL
 data	app	packages/map/src/ui-controller.js	Census Grid (2021) (Northern Ireland)
-later	app	packages/map/src/ui-controller.js	Change since {x}
 prose	pages	site/apps/index.html	Chart how often words and phrases were used in the Dáil, the Seanad, the Northern Ireland Assembly and by Irish and Northern Ireland members at Westminster, from 1803 to 2026, by chamber and party, and see who said them most.
 data	chrome,pages,catalogue,app	packages/ui/src/templates/shell.js,site/index.html,site/pages/about.html,site/pages/census-explorer.html,site/pages/status.html,site/pages/api.html,site/apps/index.html,site/maps/index.html,site/404.html,packages/map/src/catalogue/index.js,packages/map/src/app/url-state.js	Civgraph
 prose	pages	site/pages/about.html	Civgraph is a home for the digitising, scanning and research of volunteer contributors to coexist alongside the original sources, always clearly distinguished from them. Many of our maps are scanned and digitised by our volunteers where no official digitised version existed, mirrored and backed up for the years to come, and made available in full.
@@ -116,7 +94,6 @@ prose	pages	site/pages/about.html	Civgraph showing the 1984 Northern Ireland war
 prose	pages	site/index.html	Civgraph showing the 1984 Northern Ireland ward boundaries: 552 named wards outlined in red across the province, with a date slider reading 1984, and a search panel listing related layers for 1972, 1993, 2012 and 2023.
 prose	pages	site/pages/about.html	Civgraph's electoral divisions currently start in 1911. Extending them back into the nineteenth century would connect the census and poor law records that use them.
 data	browse	site/browse/browse.js	Civgraph\u2019s index
-later	app	packages/map/src/ui-controller.js	Color: {x}
 part	app	packages/map/app/election-manager.js	comparable elections
 part	catalogue	packages/map/src/catalogue/index.js	Compare {x} with
 part	browse	site/browse/browse.js	Compiled in {x}{x}
@@ -126,9 +103,8 @@ part	browse	site/browse/browse.js	Contains {x} {x}
 data	app	packages/map/src/ui-controller.js	Copernicus 30m DEM
 data	app	packages/map/src/ui-controller.js	Copernicus 30m DEM (Ireland)
 prose	pages	site/pages/about.html	Copernicus and the European Space Agency, Eurostat, the British Geological Survey, OpenTopography, the International Hydrographic Organization and Trinity College Dublin.
-later	app	packages/map/src/app/lazy-runtime.js	Could not load {x}
+code	app	packages/map/src/app/lazy-runtime.js	Could not load {x}
 part	catalogue	packages/map/src/catalogue/view-maps.js	council map
-later	app	packages/map/src/ui-controller.js	Count
 part	browse	site/browse/browse.js	Count {x}
 part	catalogue	packages/map/src/catalogue/view-elections.js	count area
 part	catalogue	packages/map/src/catalogue/view-elections.js	count areas
@@ -169,7 +145,6 @@ code	app	packages/map/src/election/results-model.mjs	deemed elected
 data	catalogue	packages/map/src/catalogue/util.js	Department of Health
 data	catalogue	packages/map/src/catalogue/util.js	Department of Health (NI)
 data	app	packages/map/src/ui-controller.js	Designated & Protected Sites (NIEA)
-later	app	packages/map/src/app/ui-wiring.js	Details: {x}
 part	app	packages/map/app/election-manager.js	devolved elections
 code	app	packages/map/src/app/sources.js	Directory tile fallback
 data	app	packages/map/src/ui-controller.js	District Electoral Areas (1973-)
@@ -177,22 +152,18 @@ data	app	packages/map/src/ui-controller.js	District Electoral Divisions (Norther
 data	app	packages/map/src/ui-controller.js	District Electoral Divisions/Wards (Ireland, pre-partition)
 data	app	packages/map/src/ui-controller.js	District-level Electoral Units
 data	catalogue	packages/map/src/catalogue/util.js	DoH NI
-later	app	packages/map/src/ui-controller.js	Download locator map (SVG)
 data	app	packages/map/src/ui-controller.js	Dublin City Council - Open Data
 data	app	packages/map/src/ui-controller.js	Dublin Electoral Counties (1985)
 data	app	packages/map/src/ui-controller.js	Dún Laoghaire-Rathdown - Open Data
-later	app	packages/map/src/ui-controller.js	Earlier feature: {x}
 data	app	packages/map/src/ui-controller.js	Education and Library Boards (Northern Ireland)
 code	app	packages/map/app/election-manager.js	election count detail
 code	app	packages/map/src/election/panel-model.mjs	election entity page
-later	app	packages/map/src/ui-controller.js	Election history ({x})
 code	app	packages/map/src/election/load-state.mjs	election load
 code	app	packages/map/src/election/panel-model.mjs	election local level
 code	app	packages/map/src/election/panel-model.mjs	election overlay
 code	app	packages/map/app/election-manager.js	Election overlay worker failed
 code	app	packages/map/app/election-manager.js	Election overlay worker timed out
 code	app	packages/map/app/election-manager.js	Election overlay worker unavailable
-later	app	packages/map/src/ui-controller.js	Election: {x}
 data	app	packages/map/src/ui-controller.js	England and Wales
 data	app	packages/map/src/ui-controller.js	England and Wales Hills and Mountains
 prose	pages	site/pages/about.html	entities and
@@ -209,15 +180,8 @@ data	app	packages/map/src/ui-controller.js	Eurostat
 prose	pages	site/pages/about.html	Every catalogued entity, with its count, at
 prose	pages	site/pages/census-explorer.html	Every table in NISRA's 2001 and 2011 bulk releases and the 2021 ready-made tables, with the titles NISRA gave them. Tables marked
 code	app	packages/map/src/app/export-context-state.mjs	export context outline load
-later	app	packages/map/app/boot.js	Failed to load Civgraph runtime: {x}
-later	app	packages/map/src/ui-controller.js	Failed to load Markdown file.
-later	app	packages/map/app/app.js	Failed to start Civgraph: {x}
 code	app	packages/map/src/app/performance.js	Fallbacks
 part	app	packages/map/app/maplibre-main-adapter.js,packages/map/src/ui-controller.js	Feature {x}
-later	app	packages/map/src/app/ui-wiring.js,packages/map/src/ui-controller.js	Feature: {x}
-later	app	packages/map/src/ui-controller.js	Fill opacity percentage, {x}
-later	app	packages/map/src/ui-controller.js	Fill opacity, {x}
-later	app	packages/map/src/ui-controller.js	Fill: {x}
 prose	pages	site/apps/index.html	Find census tables for Northern Ireland (1926 to 2021) and the Republic of Ireland (1841 to 2022), read and download the figures, chart them across censuses, and open the boundaries they were counted on in the map.
 prose	pages	site/pages/census-explorer.html	Find census tables for Northern Ireland (1926 to 2021) and the Republic of Ireland (1841 to 2022), see the figures here, download them, follow them across censuses, and open the boundaries they were counted on in the map.
 prose	pages	site/pages/census-explorer.html	finds every cube with a religion breakdown.
@@ -239,7 +203,6 @@ code	app	packages/map/src/app/performance.js	Heap
 data	app	packages/map/src/ui-controller.js	Heritage & Built Environment
 data	app	packages/map/src/ui-controller.js	Heritage & Infrastructure (Republic of Ireland, Tailte Éireann)
 data	app	packages/map/src/ui-controller.js	Heritage Sites
-later	app	packages/map/src/ui-controller.js	Hide {x} to be added
 data	app	packages/map/src/ui-controller.js	High Value Datasets (Republic of Ireland, Tailte Éireann)
 prose	pages	site/pages/about.html	Historic parliamentary constituency maps, such as those at
 data	app	packages/map/src/ui-controller.js	Historic Sites
@@ -251,8 +214,8 @@ part	browse	site/browse/browse.js	Internal IDs and source-map wiring{x}
 data	app	packages/map/src/ui-controller.js	Ireland / Northern Ireland
 data	app	packages/map/src/ui-controller.js	Ireland Hills and Mountains
 code	app	packages/map/src/election/palette.mjs	irish local
-later	app	packages/map/src/app/url-state.js	it was
-later	app	packages/map/src/app/ui-wiring.js	its map data did not arrive
+part	app	packages/map/src/app/url-state.js	it was
+part	app	packages/map/src/app/ui-wiring.js	its map data did not arrive
 part	app	packages/map/app/election-manager.js	its map did not arrive
 part	app	packages/map/app/election-manager.js	its results did not arrive
 part	app	packages/map/src/election/grouped-year-methods.js	its results or map did not arrive
@@ -260,18 +223,12 @@ prose	pages	site/pages/about.html	Its scope is the island of Ireland, its seas a
 part	pages	scripts/build/build-status.mjs	Known rounds so far: {x} on the site and {x} documented as not held.
 data	catalogue	packages/map/src/catalogue/util.js	Land & Property Services
 data	catalogue	packages/map/src/catalogue/util.js	Land & Property Services (OSNI)
-later	app	packages/map/src/ui-controller.js	Later feature: {x}
-later	app	packages/map/src/ui-controller.js	latest election
+part	app	packages/map/src/ui-controller.js	latest election
 data	app	packages/map/src/ui-controller.js	Legal Towns and Cities (Republic of Ireland)
 data	catalogue	packages/map/src/catalogue/util.js	LGBC NI
 data	app	packages/map/src/ui-controller.js	LiDAR & 3D
 data	app	packages/map/src/ui-controller.js	LiDAR Point Clouds (3D)
 data	app	packages/map/src/app/url-compat.mjs	Lisburn Borough Council
-later	app	packages/map/src/ui-controller.js	Load {x} More Columns ({x} remaining)
-later	app	packages/map/src/ui-controller.js	Loading {x}
-later	app	packages/map/src/ui-controller.js	Loading {x} features...
-later	app	packages/map/src/ui-controller.js	Loading {x}…
-later	app	packages/map/src/ui-controller.js	Loading the candidates…
 data	app	packages/map/src/ui-controller.js	Local Authorities (Ireland, pre-partition)
 data	app	packages/map/src/ui-controller.js	Local Authorities (Northern Ireland) (1921)
 data	app	packages/map/src/ui-controller.js	Local Authorities (Republic of Ireland)
@@ -291,10 +248,8 @@ part	browse	site/browse/browse.js	map's record
 prose	pages	site/pages/about.html	Maps, scans, corrections and sources are all welcome. Contributed maps are credited to their creators, and our submission route records the contributor alongside the original's rights holder.
 data	app	packages/map/src/ui-controller.js	Markdown
 data	catalogue	packages/map/src/catalogue/util.js	Matthews
-later	app	packages/map/src/ui-controller.js	Members ({x})
 code	app	packages/map/src/ui-controller.js	mobile catalogue expanded
 data	catalogue	packages/map/src/catalogue/util.js	Moore
-later	app	packages/map/src/app/entity-bridge.js	More than one person is called {x}: choose one.
 data	app	packages/map/src/ui-controller.js	Municipal Districts (Republic of Ireland)
 code	app	packages/map/src/app/url-sync.mjs	navigation push
 data	app	packages/map/src/ui-controller.js	Neighbourhood Renewal Areas (Northern Ireland)
@@ -319,8 +274,7 @@ data	browse	site/browse/browse.js	NI MP CSV
 data	app	packages/map/src/ui-controller.js	NIEA Catchments, Waste & Water Bodies
 part	catalogue	packages/map/src/catalogue/view-books.js	No books match “{x}”.{x}
 code	app	packages/map/src/app/performance.js	No budget report
-later	app	packages/map/app/app.js	no map
-later	app	packages/map/src/ui-controller.js	No record of {x} was found.
+code	app	packages/map/app/app.js	no map
 data	catalogue	packages/map/src/catalogue/view-maps.js	Nominatim
 code	app	packages/map/src/views/election-renderer.mjs	Non-
 prose	pages	site/pages/about.html	north and south, and every layer is credited to the body that made it:
@@ -337,8 +291,6 @@ data	app	packages/map/src/ui-controller.js	NUTS 3 Regions (2003) (Northern Irela
 part	pages	scripts/build/build-status.mjs	of {x} known editions on the site, in {x}.
 part	pages	scripts/build/build-status.mjs	Of the {x} listed in {x}.
 prose	pages	site/pages/census-explorer.html	onto a fixed set of areas, and how.
-later	app	packages/map/src/ui-controller.js	Opacity percentage, {x}
-later	app	packages/map/src/ui-controller.js	Opacity, {x}
 code	browse	site/browse/browse.js	open data ni
 prose	pages	site/pages/about.html	Open Data NI and data.gov.ie, through which much of the above is published.
 data	pages	site/pages/census-explorer.html	Open Government Licence v3.0
@@ -357,7 +309,6 @@ prose	pages	site/pages/about.html	Our data is also mirrored to the Internet Arch
 part	pages	scripts/build/build-status.mjs	over 99.9%
 part	app	packages/map/app/election-manager.js	overall results
 data	catalogue,app	packages/map/src/catalogue/util.js,packages/map/src/ui-controller.js	Paddy Matthews
-later	app	packages/map/src/ui-controller.js	Page {x} of {x}
 data	app	packages/map/src/ui-controller.js	Parlconst.org
 data	app	packages/map/src/ui-controller.js	Parliament of Northern Ireland Constituencies (1920-1973)
 code	app	packages/map/src/app/entity-bridge.js	parties index {x}
@@ -368,10 +319,7 @@ data	catalogue	packages/map/src/catalogue/view-maps.js	Photon
 data	app	packages/map/src/ui-controller.js	Physical Features (Republic of Ireland, Tailte Éireann)
 data	app	packages/map/src/ui-controller.js	Place Names (Northern Ireland)
 part	catalogue	packages/map/src/catalogue/view-maps.js	places and
-later	app	packages/map/src/app/sources.js	PMTiles archive
 part	catalogue	packages/map/src/catalogue/view-maps.js	Postcode from
-later	app	packages/map/src/app/messages.js	Preparing the {x} of {x}…
-later	app	packages/map/src/app/messages.js	Preparing…
 code	app	packages/map/src/election/palette.mjs	president of ireland
 data	catalogue	packages/map/src/catalogue/search.js	presidential president Uachtaran Irish
 data	app	packages/map/src/ui-controller.js	PSNI Collisions
@@ -382,11 +330,8 @@ data	catalogue	packages/map/src/catalogue/search.js	referendum referenda Irish
 data	catalogue	packages/map/src/catalogue/search.js	referendum referenda NI
 data	app	packages/map/src/ui-controller.js	Regions & Boundaries (Republic of Ireland, Tailte Éireann)
 code	app	packages/map/src/app/performance.js	registered but not yet controlling this page
-later	app	packages/map/src/app/ui-wiring.js	Removed {x}
-later	app	packages/map/src/ui-controller.js	Removing {x}
 part	app	packages/map/app/election-manager.js	renamed and redrawn, and a predecessor under a different name is not yet linked to it.
 code	app	packages/map/src/election/palette.mjs	republic of ireland
-later	app	packages/map/src/ui-controller.js	Retained overlap
 data	app	packages/map/src/ui-controller.js	River Basin Districts
 data	app	packages/map/src/ui-controller.js	River Basin Districts (2016) (Northern Ireland)
 data	app	packages/map/src/ui-controller.js	River Basins
@@ -404,9 +349,7 @@ data	app	packages/map/src/ui-controller.js	Scotland
 data	app	packages/map/src/ui-controller.js	Scotland Hills and Mountains
 data	chrome,pages,catalogue,app	packages/ui/src/templates/shell.js,site/index.html,site/pages/about.html,site/pages/census-explorer.html,site/pages/status.html,site/pages/api.html,site/apps/index.html,site/maps/index.html,site/404.html,packages/map/src/catalogue/util.js,packages/map/src/ui-controller.js	Scott Moore
 data	catalogue	packages/map/src/catalogue/search.js	Seanad Senate senator Oireachtas
-later	app	packages/map/src/ui-controller.js	Search results for "{x}" ({x})
 code	app	packages/map/app/app.js	search worker ready
-later	app	packages/map/src/app/url-state.js	Search: {x}
 data	app	packages/map/src/ui-controller.js	Seas (2023) (These islands)
 part	app	packages/map/app/election-manager.js	seat was
 part	app	packages/map/app/election-manager.js	seats were
@@ -416,20 +359,11 @@ code	app	packages/map/src/app/service-worker-state.mjs	service worker registrati
 code	app	packages/map/src/app/performance.js	service-worker API unavailable
 data	app	packages/map/src/ui-controller.js	Settlements & Built-Up Areas
 data	app	packages/map/src/ui-controller.js	Settlements & Names (Republic of Ireland, Tailte Éireann)
-later	app	packages/map/src/ui-controller.js	Share of
 part	app	packages/map/app/election-manager.js	Share of the vote at {x}{x}.
-later	app	packages/map/src/ui-controller.js	shelf member(s) naming no entry
-later	app	packages/map/src/ui-controller.js	Show {x} more maps
-later	app	packages/map/src/ui-controller.js	Show {x} to be added
+code	app	packages/map/src/ui-controller.js	shelf member(s) naming no entry
 part	catalogue	packages/map/src/catalogue/view-elections.js	Show {x} too
-later	app	packages/map/src/ui-controller.js	Show DEAs ({x})
 part	app	packages/map/app/election-manager.js	Showing {x} of {x} comparable elections.
-later	app	packages/map/src/ui-controller.js	Showing {x} of {x} features (scroll for more)
 part	browse	site/browse/browse.js	Showing {x} of {x} features.
-later	app	packages/map/src/ui-controller.js	Showing {x} of {x} filtered features from {x} total (scroll for more)
-later	app	packages/map/src/ui-controller.js	Showing 0 of {x} features
-later	app	packages/map/src/ui-controller.js	Showing all {x} features
-later	app	packages/map/src/ui-controller.js	Showing all {x} filtered features from {x} total
 part	browse	site/browse/browse.js	Showing the first {x} of {x} features.
 data	app	packages/map/src/ui-controller.js	Small Census Units
 data	app	packages/map/src/ui-controller.js	Small Census Units (Northern Ireland) (2001-present)
@@ -438,13 +372,11 @@ prose	pages	site/index.html	So the boundaries were drawn in QGIS, by combining t
 code	app	packages/map/app/maplibre-main-adapter.js	so unless you generated them locally every tile request will 404. Unset the flag to
 prose	pages	site/pages/about.html	Some boundaries do not change between reviews. Several 1992 wards were unchanged from 1985, so they can be copied across from a later digital map rather than redrawn.
 prose	pages	site/pages/about.html	Some of those tools exist today. The longer aim is that the whole linked record can be queried and analysed by anyone, and that any practically possible tool can be built on it.
-later	app	packages/map/src/ui-controller.js	Sort or filter by {x}
 code	browse	site/browse/browse.js	Source detail {x} was not found in {x}
 part	browse	site/browse/browse.js	Source: {x}.
 part	app	packages/map/src/views/legend-view.mjs,packages/map/src/ui-controller.js	Source: {x}{x}{x}
 data	app	packages/map/src/ui-controller.js	South Dublin County Council - Open Data
 data	pages	site/pages/about.html	Spatial NI
-later	app	packages/map/src/ui-controller.js	Split / non-primary successor
 data	browse	site/browse/browse.js	Staon
 prose	pages	site/pages/about.html	statements linking them
 code	app	packages/map/src/app/performance.js	status timeout
@@ -453,8 +385,6 @@ part	catalogue	packages/map/src/catalogue/view-elections.js	stood in {x} here an
 code	app	packages/map/src/app/performance.js	Storage
 data	catalogue	packages/map/src/catalogue/search.js	Stormont NI Parliament Northern Ireland Parliament
 data	app	packages/map/src/ui-controller.js	Street Names (Northern Ireland)
-later	app	packages/map/src/ui-controller.js	Stroke opacity percentage, {x}
-later	app	packages/map/src/ui-controller.js	Stroke opacity, {x}
 data	app	packages/map/src/ui-controller.js	Super Census Units
 data	app	packages/map/src/ui-controller.js	Super Census Units (Northern Ireland) (2001-present)
 data	app	packages/map/src/ui-controller.js	Surveys & Reference Maps
@@ -492,17 +422,14 @@ part	app	packages/map/src/election-trend-chart.mjs	the trend chart
 part	app	packages/map/src/election-trend-chart.mjs	the trend crosshair
 code	app	packages/map/app/election-manager.js	thead th, tbody td:nth-child(-n+4)
 prose	pages	site/pages/about.html	These are concrete pieces of work that would each make a real difference, and none of them are started. Phelim Birch, who has contributed a large part of the catalogue already, has offered to guide anyone who wants to take one on.
-later	app	packages/map/src/app/url-state.js	they were
-later	app	packages/map/src/ui-controller.js	this column
-later	app	packages/map/src/app/url-state.js	This link asks for {x} not found here, so {x} left out: {x}.
+part	app	packages/map/src/app/url-state.js	they were
+part	app	packages/map/src/ui-controller.js	this column
+part	app	packages/map/src/app/url-state.js	This link asks for {x} not found here, so {x} left out: {x}.
 data	app	packages/map/src/ui-controller.js	TII Transport Infrastructure
 data	app	packages/map/src/ui-controller.js	TII Transport Infrastructure (ROI National Roads)
-later	app	packages/map/src/app/sources.js	Tile metadata
 code	app	packages/map/app/app.js	timeline apply
 code	app	packages/map/src/app/timeline/playback.mjs	timeline playback
-later	app	packages/map/src/ui-controller.js	Transferred / non-primary overlap
 code	app	packages/map/src/ui-controller.js	transform {x}ms ease
-later	app	packages/map/src/ui-controller.js	Transition part
 data	app	packages/map/src/ui-controller.js	Translink
 data	app	packages/map/src/ui-controller.js	Translink (NI Public Transport)
 data	app	packages/map/src/ui-controller.js	Transport Lines
@@ -515,22 +442,18 @@ part	pages	scripts/build/build-status.mjs	under 0.1%
 code	app	packages/map/src/app/url-sync.mjs	URL restore
 code	app	packages/map/src/app/url-sync.mjs	URL suspend
 data	pages	site/maps/index.html	USGS US Topo
-later	app	packages/map/src/ui-controller.js	Variants ({x})
-later	app	packages/map/src/ui-controller.js	View changed to {x}
 data	app	packages/map/src/ui-controller.js	Wards (Northern Ireland) (1973-)
 prose	pages	site/pages/about.html	Wards, DEAs, councils, constituencies, settlements and census data zones all have data attached to them: census and demographic statistics, election results, deprivation indicators, who stood and who won, public spending, geology, rivers, and distance to a hospital or a railway station.
 data	app	packages/map/src/ui-controller.js	Water Quality and Hydrology
 prose	pages	site/pages/about.html	We aim to record where every item came from. That's the discipline Civgraph runs on, and automated checks enforce it rather than leaving it to memory.
 prose	pages	site/index.html	We aim to update every layer with its provenance: the author, licence, and original source. Open Government Licence material from OSNI and NISRA in the north and Tailte Éireann and the Central Statistics Office in the south, Crown copyright records, volunteer digitisation, and third-party datasets with attribution. Our data is also mirrored to the Internet Archive.
-later	app	packages/map/src/ui-controller.js	Weight: {x}
 data	catalogue	packages/map/src/catalogue/search.js	Westminster House of Commons UK parliament MP
 prose	pages	site/pages/about.html	What is left gets drawn in QGIS against the scan, following streets, fences, field boundaries and rail lines, which is what the original surveyors used too.
 data	browse	site/browse/browse.js	Wikidata
 part	browse	site/browse/browse.js	Wikidata {x}
 data	browse	site/browse/browse.js	Wikipedia
-later	app	packages/map/src/app/messages.js	with {x} highlighted
+part	app	packages/map/src/app/messages.js	with {x} highlighted
 part	catalogue	packages/map/src/catalogue/view-maps.js	with these filters
 code	app	packages/map/src/app/search.js	Worker
 part	pages	scripts/build/build-status.mjs	Yes ({x} {x})
 prose	pages	site/index.html,site/pages/about.html	You do not need to be able to use GIS software, and you do not need a corrected map. If you know a boundary, a date, a name or a result is wrong, tell us what it should be and where you know it from, and we'll check it and credit you if you'd like.
-later	app	packages/map/src/ui-controller.js	Zooming to {x}
