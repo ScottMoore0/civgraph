@@ -44,8 +44,8 @@ export interface UiCallbacks {
   onFeatureLoad: (mapId: string, featureIndex: string | number, featureName: string | null, bbox: number[] | null, options?: Record<string, unknown>) => Promise<unknown>;
   onSearch: (query: string) => void;
   onOpenElectionEntityDetail: (kind: string, key: string, label?: string) => Promise<unknown>;
-  onElectionEntityElectionOpen: (target: { key?: string; body?: string; date?: string; constituency?: string }) => Promise<unknown>;
-  onOpenElectionConstituencyFeature: (target: { constituency?: string; level?: string }) => Promise<unknown>;
+  onElectionEntityElectionOpen: (target: { key?: string; body?: string; date?: string; constituency?: string | null }) => Promise<unknown>;
+  onOpenElectionConstituencyFeature: (target: { body?: string; date?: string; constituency?: string; level?: string }) => Promise<unknown>;
   onBuildElectionCatalogueCards: () => Promise<ElectionCatalogueCard[]>;
   onLoadElection: (body: string, date: string) => Promise<unknown>;
   onUnloadElection: () => unknown;
@@ -54,7 +54,7 @@ export interface UiCallbacks {
   onShowOnMap: (label: string) => void;
   onReorderLayers: (ids: string[]) => void;
   onDownloadFgb: (mapId: string) => Promise<unknown>;
-  onExportMapImage: (mapId: string, format: string, options?: { trigger?: HTMLElement }) => unknown;
+  onExportMapImage: (mapId: string, format: string, options?: { trigger?: HTMLElement; selection?: { properties: Record<string, unknown>; name: string } }) => unknown;
   onAddressSelect: (lat: number, lon: number, name: string) => void;
   onRemoveAddressMarker: () => void;
   onCheckIntersection: (lat: number, lon: number) => Promise<unknown[]>;
@@ -84,6 +84,7 @@ export interface MapVariantView {
   id: string;
   name?: string;
   label?: string;
+  description?: string;
   files?: MapFilesView;
   [key: string]: unknown;
 }
@@ -170,7 +171,8 @@ export interface FeatureDetailEntry {
   };
   mapConfig: MapRecord | null | undefined;
   primaryName: string;
-  electoralHistory: unknown;
+  /** An area's election history, where the feature is a constituency, DEA or council. */
+  electoralHistory: { kind?: string; historyRows?: EntityRow[]; [field: string]: unknown } | null;
 }
 
 /**
@@ -214,7 +216,7 @@ export interface MapListOptions {
 
 /** A detail page's remembered place: its scroll and each table's state, by table id. */
 export interface DetailViewState {
-  tables: Record<string, unknown>;
+  tables: Record<string, EntityTablePersist>;
   scrollTop?: number;
 }
 
@@ -411,4 +413,203 @@ export type MapsV2Document = Omit<import('./data-service.js').CatalogueDocument,
 export type DownloadDropdown = HtmlElementRoot & {
   _ddHome?: { parent: ParentNode | null; next: ChildNode | null } | null;
   _ddCloseHandler?: ((e?: Event) => void) | null;
+};
+
+/** A person named on an entity page (an area's elected members). */
+export interface EntityPersonRef {
+  name: string;
+  personId?: unknown;
+  party?: string;
+}
+
+/**
+ * A row of an entity page's table (packages/map/src/app/entity-bridge.js builds them): an
+ * election of an area's history, a party's result or candidate, or a candidate's contest. The
+ * fields read as text are named; the figures are read through the formatters, which take any value.
+ */
+export interface EntityRow {
+  date?: string;
+  body?: string;
+  bodyGroup?: string;
+  constituency?: string;
+  electionKey?: string;
+  electionBodyForOpen?: string;
+  electionDisplayName?: string;
+  electionType?: string;
+  isByElection?: boolean;
+  status?: string;
+  statusSource?: string;
+  name?: string;
+  party?: string;
+  personId?: string | number;
+  localGovernmentDistrict?: string;
+  winnerParty?: string;
+  winnerColour?: string;
+  comparedWith?: string;
+  electedNames?: EntityPersonRef[];
+  districtElectoralAreas?: string[];
+  firstYear?: string | number;
+  lastYear?: string | number;
+  byGroup?: Array<{ group: string; won: number; stood: number }>;
+  constituencyGroups?: Array<{ label: string; years?: string }>;
+  [field: string]: unknown;
+}
+
+/** A column of an entity table: how it reads, sorts, filters and draws a row. */
+export interface EntityColumn {
+  key: string;
+  label: string;
+  kind?: 'numeric' | 'ordinal' | 'text' | 'date';
+  align?: string;
+  /** Left out when no row has a value. */
+  optional?: boolean;
+  /** A change since the previous election: shown only when the reader asks. */
+  delta?: boolean;
+  getValue?(row: EntityRow): unknown;
+  render?(row: EntityRow): string;
+  filterValue?(row: EntityRow): unknown;
+}
+
+/** A cell of a grouped header row. */
+export interface EntityHeaderCell {
+  label?: string;
+  align?: string;
+  colspan?: number;
+  rowspan?: number;
+  leafIndex?: number | null;
+}
+
+/** An entity table's columns, with grouped header rows where the table has them. */
+export type EntityColumns = EntityColumn[] & { headerRows?: EntityHeaderCell[][] };
+
+/** A table's state that the page keeps for Back: its sort, filters, body chip, depth and changes switch. */
+export interface EntityTablePersist {
+  filters?: Map<string, Set<string>>;
+  sort?: { key: string | null; dir: string };
+  group?: string;
+  showAll?: boolean;
+  showChanges?: boolean;
+}
+
+/** An entity table as a page mounts it (_mountEntityTable). */
+export interface EntityTableSpec {
+  tableId: string;
+  columns: EntityColumns;
+  rows: EntityRow[];
+  caption?: string;
+  rowClassNameFn?: ((row: EntityRow) => string) | null;
+  groupBy?: (row: EntityRow) => string | null | undefined;
+  pageSize?: number;
+  persist?: EntityTablePersist;
+}
+
+/** A constituency group of a candidate's page: the constituency, its years, and its latest contest. */
+export interface EntityConstituencyGroup {
+  name?: string;
+  label: string;
+  years?: string;
+  elected?: boolean;
+  latest?: { electionType?: string; body?: string };
+}
+
+/**
+ * A party, person, constituency, DEA or council as its page shows it (entity-bridge.js builds
+ * them; the controller caches them by detail id).
+ */
+export interface EntityDetail {
+  kind: string;
+  key: string;
+  name?: string;
+  shortName?: string;
+  subtitle?: string;
+  slug?: string;
+  colour?: string;
+  browseUrl?: string;
+  personId?: string | number;
+  latestParty?: string;
+  parties?: string[];
+  knownAliases?: string[];
+  observedNames?: string[];
+  born?: string;
+  died?: string;
+  lifeSource?: string;
+  firstYear?: string | number;
+  lastYear?: string | number;
+  stoodCount?: unknown;
+  electedCount?: unknown;
+  firstPrefs?: unknown;
+  relatedElectionCount?: unknown;
+  officialProfiles?: Array<{ url: string; source?: string; label?: string }>;
+  constituencyGroups?: EntityConstituencyGroup[];
+  headlineCards?: Array<{ label: string; value: unknown; subtext?: string }>;
+  metrics?: {
+    firstYear?: string | number;
+    lastYear?: string | number;
+    elections?: unknown;
+    byElections?: number;
+    deas?: unknown;
+    districts?: unknown;
+    latestLeadingParty?: string;
+    latestDate?: string;
+    latestElected?: EntityPersonRef[];
+    latestElection?: string;
+  };
+  historyRows?: EntityRow[];
+  appearances?: EntityRow[];
+  candidateSummaries?: EntityRow[];
+  candidatesLoading?: boolean;
+  candidatesCapped?: boolean;
+  listEntriesLeftOut?: number;
+  [field: string]: unknown;
+}
+
+/** What an entity page shows before (or instead of) its record: loading, an error, nothing found, or a choice of people. */
+export interface EntityPlaceholderInfo {
+  kind?: string;
+  key?: string;
+  label?: string;
+  typeLabel?: string;
+  state?: string;
+  choices?: Array<{ key: string; name?: string; subtitle?: string }>;
+  browseUrl?: string;
+  retry?: () => void;
+}
+
+/** A census statistic's figures for one area, as the feature panel shows them (maplibre-main-adapter.js censusStatisticFor). */
+export interface FeatureStatisticView {
+  entryId?: string;
+  areaName?: string;
+  missing?: boolean;
+  valueLabel?: string;
+  valueText?: string;
+  numeratorLabel?: string | null;
+  numeratorText?: string | null;
+  denominatorLabel?: string | null;
+  denominatorText?: string | null;
+  summary?: string;
+  other?: Array<{ column?: string; label?: string; text?: string }>;
+  sourceTitle?: string;
+  sourceUrl?: string;
+  licence?: { url?: string; short?: string; name?: string } | null;
+  [field: string]: unknown;
+}
+
+/**
+ * A feature the map gives the feature panel (maplibre-main-adapter.js normalizeRenderedFeature,
+ * or a timeline transition's part): the feature with its map and the names it is shown by.
+ */
+export type InfoFeature = MapFeature & {
+  mapId?: string;
+  mapName?: string;
+  layerName?: string;
+  featureName?: string;
+  name?: string;
+  color?: string;
+  sourceLayer?: string | null;
+  geometryIsClipped?: boolean;
+  isTimelineTransitionFeature?: boolean;
+  transitionType?: string;
+  statistic?: FeatureStatisticView;
+  wholeAreaM2?: number;
+  wholePerimeterM?: number;
 };

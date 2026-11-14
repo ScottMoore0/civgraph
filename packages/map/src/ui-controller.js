@@ -56,6 +56,18 @@ import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
 /** @typedef {import('./ui-controller-types.d.ts').MapsV2Document} MapsV2Document */
 /** @typedef {import('./ui-controller-types.d.ts').MapsV2Entry} MapsV2Entry */
 /** @typedef {import('./ui-controller-types.d.ts').DownloadDropdown} DownloadDropdown */
+/** @typedef {import('./ui-controller-types.d.ts').MapVariantView} MapVariantView */
+/** @typedef {import('./ui-controller-types.d.ts').InfoFeature} InfoFeature */
+/** @typedef {import('./ui-controller-types.d.ts').FeatureStatisticView} FeatureStatisticView */
+/** @typedef {import('./ui-controller-types.d.ts').EntityRow} EntityRow */
+/** @typedef {import('./ui-controller-types.d.ts').EntityColumn} EntityColumn */
+/** @typedef {import('./ui-controller-types.d.ts').EntityColumns} EntityColumns */
+/** @typedef {import('./ui-controller-types.d.ts').EntityHeaderCell} EntityHeaderCell */
+/** @typedef {import('./ui-controller-types.d.ts').EntityTableSpec} EntityTableSpec */
+/** @typedef {import('./ui-controller-types.d.ts').EntityTablePersist} EntityTablePersist */
+/** @typedef {import('./ui-controller-types.d.ts').EntityDetail} EntityDetail */
+/** @typedef {import('./ui-controller-types.d.ts').EntityPersonRef} EntityPersonRef */
+/** @typedef {import('./ui-controller-types.d.ts').EntityPlaceholderInfo} EntityPlaceholderInfo */
 
 // Derived kinds, not state (architecture rule R7): each is worked out from data where it is read.
 /** @typedef {'numeric' | 'ordinal' | 'text' | 'date'} ColumnKind how a table column sorts: inferColumnKind's answer, an entity table column's `kind` */
@@ -142,6 +154,9 @@ class UIController {
 
         // When true, all maps show directly without 'Show X more maps' button
         this.showAllMaps = false;
+        // The authors filter's choices: made when its list is drawn (populateAuthorsFilter).
+        /** @type {Set<string>} */
+        this.selectedAuthors = /** @type {Set<string>} */ (/** @type {unknown} */ (undefined));
         // The legacy grouped list (renderMapList) reads these as the map app's; nothing sets them
         // on the controller, so they stay empty and the list shows every book.
         /** @type {string | undefined} */
@@ -217,7 +232,7 @@ class UIController {
         this._showByElectionCards = new Set(); // election decade cards with by-elections expanded
         /** @type {HTMLElement | null} */
         this._cataloguePane = null;
-        /** @type {Map<string, { kind: string, key: string, [key: string]: unknown }>} */
+        /** @type {Map<string, EntityDetail>} */
         this._electionEntityDetailCache = new Map();
         // Per page: scroll and table state, so Back returns to the same place (M10).
         /** @type {Map<string, DetailViewState>} */
@@ -738,12 +753,12 @@ class UIController {
         return `election:${kind}:${key}`;
     }
 
-    /** @param {{ kind?: string, key?: string, [key: string]: unknown } | null | undefined} entity */
+    /** @param {Partial<EntityDetail> | null | undefined} entity */
     cacheElectionEntityDetailEntry(entity) {
         if (!entity?.kind || !entity?.key) return null;
         const detailId = this.createElectionEntityDetailId(entity.kind, entity.key);
         // The test above held both kind and key.
-        this._electionEntityDetailCache.set(detailId, /** @type {{ kind: string, key: string, [key: string]: unknown }} */ (entity));
+        this._electionEntityDetailCache.set(detailId, /** @type {EntityDetail} */ (entity));
         return detailId;
     }
 
@@ -752,7 +767,7 @@ class UIController {
      * @param {DetailFeature | null | undefined} feature
      * @param {string | null} [primaryNameOverride]
      * @param {string | number | null} [featureIdOverride]
-     * @param {{ electoralHistory?: unknown } | null} [extra]
+     * @param {{ electoralHistory?: FeatureDetailEntry['electoralHistory'] } | null} [extra]
      */
     cacheFeatureDetailEntry(mapConfig, feature, primaryNameOverride = null, featureIdOverride = null, extra = null) {
         const primary = primaryNameOverride
@@ -1585,9 +1600,9 @@ class UIController {
         } else if (entry.type === 'detail') {
             this.showCatalogueDetailView(/** @type {string} */ (entry.mapId), false);
         } else if (entry.type === 'feature-detail') {
-            this.showFeatureDetailInCatalogue(entry.detailId, false);
+            this.showFeatureDetailInCatalogue(/** @type {string} */ (entry.detailId), false);
         } else if (entry.type === 'election-entity-detail') {
-            this.showElectionEntityDetailInCatalogue(entry.detailId, false);
+            this.showElectionEntityDetailInCatalogue(/** @type {string} */ (entry.detailId), false);
         }
     }
 
@@ -7605,6 +7620,7 @@ class UIController {
     /** @param {MapRecord} map */
     getSourceDownloadsHeading(map) {
         const provider = Array.isArray(map.provider) ? map.provider[0] : map.provider;
+        /** @type {Record<string, string>} */
         const pretty = {
             'OSNI': 'OSNI Open Data',
             'OSI': 'Tailte Éireann (OSI)',
@@ -7655,6 +7671,7 @@ class UIController {
         `;
     }
 
+    /** @param {MapRecord} map @param {{ isLoaded?: boolean, isVisible?: boolean, buttonSize?: string, wrapperClass?: string }} [options] */
     renderMapActionStrip(map, options = {}) {
         const isLoaded = !!options.isLoaded;
         const isVisible = options.isVisible !== undefined ? !!options.isVisible : isLoaded;
@@ -7699,7 +7716,7 @@ class UIController {
                     </div>
                 ` : '<div class="download-btn-group--placeholder"></div>'}
                 ${hasVariants ? `
-                    <button class="btn btn--icon btn--${size} variants-btn" data-map-id="${map.id}" title="${map.variants.length} variants">
+                    <button class="btn btn--icon btn--${size} variants-btn" data-map-id="${map.id}" title="${/** @type {MapVariantView[]} */ (map.variants).length} variants">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M6 9l6 6 6-6"/>
                         </svg>
@@ -7709,6 +7726,7 @@ class UIController {
         `;
     }
 
+    /** @param {HtmlElementRoot} container @param {MapRecord} map @param {{ activeClassTarget?: HTMLElement | null, variantsHost?: HtmlElementRoot }} [options] */
     bindMapActionStrip(container, map, options = {}) {
         if (!container || !map) return;
         const activeClassTarget = options.activeClassTarget || null;
@@ -7744,7 +7762,8 @@ class UIController {
 
         container.querySelector('.load-btn')?.addEventListener('click', async (e) => {
             e.stopPropagation();
-            const btn = e.currentTarget;
+            // The listener is the strip's load button's.
+            const btn = /** @type {ViewButton | null} */ (e.currentTarget);
             if (btn?.dataset?.busy === '1') return;
             if (btn) {
                 btn.dataset.busy = '1';
@@ -7768,7 +7787,7 @@ class UIController {
 
         container.querySelector('.copy-url-btn')?.addEventListener('click', (e) => {
             e.stopPropagation();
-            this.copyMapUrl(map.id, e.currentTarget);
+            this.copyMapUrl(map.id, /** @type {HTMLElement | null} */ (e.currentTarget));
         });
 
         // Capture the dropdown reference once: while open it is portalled to
@@ -7778,7 +7797,7 @@ class UIController {
         container.querySelector('.download-btn')?.addEventListener('click', (e) => {
             e.stopPropagation();
             if (downloadDropdown) {
-                this.toggleDownloadDropdown(downloadDropdown, e.currentTarget);
+                this.toggleDownloadDropdown(downloadDropdown, /** @type {HTMLElement} */ (e.currentTarget));
             }
         });
 
@@ -7835,6 +7854,7 @@ class UIController {
     // Map Cards and Feature Info
     // ============================================
 
+    /** @param {MapRecord} map @param {MapListOptions} [options] */
     createMapCard(map, options = {}) {
         const card = document.createElement('div');
         const isLoaded = this.isMapLoadedState(map.id, options);
@@ -7845,9 +7865,6 @@ class UIController {
         const color = map.style?.color || MAP_COLOURS.layer;
         const providers = (map.provider || []).join(', ');
         const dateStr = this.formatMapDate(map.date, map);
-        const hasVariants = map.variants && map.variants.length > 0;
-        const hasDownload = map.files?.fgb || map.files?.geojson || this.getSourceDownloads(map).length > 0;
-
         // Note field if present
         const noteHtml = map.note ? `<div class="map-card__note">${this.escapeHtml(map.note)}</div>` : '';
 
@@ -7941,7 +7958,7 @@ class UIController {
             }
         `;
 
-        /** @type {NodeListOf<ViewElement>} */ (panel.querySelectorAll('.btn--variant-load')).forEach(btn => {
+        /** @type {NodeListOf<ViewButton>} */ (panel.querySelectorAll('.btn--variant-load')).forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const variantId = btn.dataset.variantId;
@@ -7968,7 +7985,7 @@ class UIController {
         // Setup toggle
         toggle.addEventListener('click', () => {
             const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-            toggle.setAttribute('aria-expanded', !isExpanded);
+            toggle.setAttribute('aria-expanded', String(!isExpanded));
             list.classList.toggle('filter-section__list--collapsed', isExpanded);
         });
 
@@ -8017,8 +8034,10 @@ class UIController {
         // Add change listeners
         list.querySelectorAll('.author-checkbox').forEach(checkbox => {
             checkbox.addEventListener('change', (e) => {
-                const author = e.target.value;
-                if (e.target.checked) {
+                // The author checkboxes are inputs.
+                const input = /** @type {HTMLInputElement} */ (e.target);
+                const author = input.value;
+                if (input.checked) {
                     this.selectedAuthors.add(author);
                 } else {
                     this.selectedAuthors.delete(author);
@@ -8047,7 +8066,7 @@ class UIController {
         this.selectedAuthors = new Set();
         const list = document.getElementById('authorsList');
         if (list) {
-            /** @type {NodeListOf<ViewElement>} */ (list.querySelectorAll('.author-checkbox')).forEach(cb => {
+            /** @type {NodeListOf<HTMLInputElement>} */ (list.querySelectorAll('.author-checkbox')).forEach(cb => {
                 cb.checked = false;
             });
         }
@@ -8071,7 +8090,8 @@ class UIController {
         }
     }
 
-    renderCategoryPills(categories, activeId = 'all') {
+    /** @param {unknown} _categories the categories (the pills list their own) @param {string} [activeId] */
+    renderCategoryPills(_categories, activeId = 'all') {
         const container = document.getElementById('categoryPills');
         const toggle = document.getElementById('categoryToggle');
 
@@ -8128,6 +8148,7 @@ class UIController {
         }
     }
 
+    /** @param {{ id: string, name: string, icon?: string, count?: number }} category @param {boolean} [isActive] */
     createCategoryPill(category, isActive = false) {
         const pill = document.createElement('button');
         pill.className = `category-pill${isActive ? ' category-pill--active' : ''}`;
@@ -8226,6 +8247,7 @@ class UIController {
         });
     }
 
+    /** @param {{ id: string, name: string, icon?: string, count?: number, providers: string[] }} category @param {boolean} [isActive] */
     createProviderPill(category, isActive = false) {
         const pill = document.createElement('button');
         pill.className = `category-pill${isActive ? ' category-pill--active' : ''}`;
@@ -8249,11 +8271,12 @@ class UIController {
         return pill;
     }
 
-    /** @param {MapFeature} feature */
+    /** @param {InfoFeature} feature */
     isTimelineTransitionFeature(feature) {
         return Boolean(feature?.isTimelineTransitionFeature || feature?.mapId === '__timeline_transition__' || feature?.sourceLayer === 'timeline-transition');
     }
 
+    /** @param {Record<string, unknown> | null | undefined} props @param {string[]} [excludeKeys] */
     renderTimelineTransitionPropertyRows(props, excludeKeys = []) {
         const excluded = new Set(excludeKeys);
         const rows = Object.entries(props || {})
@@ -8268,7 +8291,7 @@ class UIController {
         return rows || '<div class="feature-info__property"><span class="feature-info__value">No additional properties</span></div>';
     }
 
-    /** @param {MapFeature} feature */
+    /** @param {InfoFeature} feature */
     renderTimelineTransitionFeatureInfo(feature) {
         const props = feature?.properties || {};
         const layerName = feature.layerName || props.transitionLayerName || `${props.fromMapName || 'Earlier layer'} to ${props.toMapName || 'Later layer'}`;
@@ -8299,7 +8322,9 @@ class UIController {
                 <span class="feature-info__metric-value"><span class="metric-km">${this.formatNumber(perimKm, 3)} km</span><br><span class="metric-mi">(${this.formatNumber(perimMi, 3)} mi)</span></span>
             </div>`;
         }
+        /** @type {string[]} */
         const fromExcluded = [];
+        /** @type {string[]} */
         const toExcluded = [];
         const transitionExcluded = [
             'fromProperties', 'toProperties', 'geometry', 'transitionId', 'name', 'transitionName',
@@ -8321,15 +8346,15 @@ class UIController {
             </details>
             <details class="feature-info__details" open>
                 <summary class="feature-info__summary">Earlier feature: ${this.escapeHtml(fromName)}</summary>
-                <div class="feature-info__properties">${this.renderTimelineTransitionPropertyRows(props.fromProperties || {}, fromExcluded)}</div>
+                <div class="feature-info__properties">${this.renderTimelineTransitionPropertyRows(/** @type {Record<string, unknown>} */ (props.fromProperties || {}), fromExcluded)}</div>
             </details>
             <details class="feature-info__details" open>
                 <summary class="feature-info__summary">Later feature: ${this.escapeHtml(toName)}</summary>
-                <div class="feature-info__properties">${this.renderTimelineTransitionPropertyRows(props.toProperties || {}, toExcluded)}</div>
+                <div class="feature-info__properties">${this.renderTimelineTransitionPropertyRows(/** @type {Record<string, unknown>} */ (props.toProperties || {}), toExcluded)}</div>
             </details>
         `;
     }
-    /** @param {MapFeature[]} features @param {MapRecord[]} mapConfigs */
+    /** @param {InfoFeature[]} features @param {MapRecord[]} mapConfigs */
     showFeatureInfo(features, mapConfigs) {
         const panel = document.getElementById('featureInfo');
         const content = document.getElementById('featureInfoContent');
@@ -8339,8 +8364,8 @@ class UIController {
 
         features.forEach((feature, featureIndex) => {
             const mapConfig = mapConfigs.find(m => m.id === feature.mapId)
-                || /** @type {MapRecord | undefined} */ (dataService.getMapById(feature.mapId))
-                || window.mapController?.layerStates?.get(feature.mapId)?.config;
+                || /** @type {MapRecord | undefined} */ (dataService.getMapById(/** @type {string} */ (feature.mapId)))
+                || window.mapController?.layerStates?.get(/** @type {string} */ (feature.mapId))?.config;
             const props = feature.properties || {};
             const geometry = feature.geometry;
 
@@ -8361,6 +8386,7 @@ class UIController {
             `;
 
             // Resolve primary name using map label config first, then common fallback keys.
+            /** @type {string[]} */
             const preferredKeys = [];
             if (mapConfig?.labelProperty) preferredKeys.push(mapConfig.labelProperty);
             if (Array.isArray(mapConfig?.labelPropertyFallbacks)) {
@@ -8390,7 +8416,8 @@ class UIController {
                     v.trim() &&
                     /(name|title|label|dea|ward|district|constituency|county)/i.test(k)
                 );
-                if (fallback) primaryName = fallback[1].trim();
+                // find() kept a string value.
+                if (fallback) primaryName = /** @type {string} */ (fallback[1]).trim();
             }
             if (!primaryName) primaryName = 'Unnamed Feature';
 
@@ -8399,7 +8426,7 @@ class UIController {
             // Interface in Irish (language preview, assets/i18n/i18n.js): the feature's own Irish
             // name leads when its data has one, and the English name follows it.
             const irishField = window.civgraphI18n?.placeNameField?.(mapConfig) || null;
-            const irishName = irishField && typeof props[irishField] === 'string' ? props[irishField].trim() : '';
+            const irishName = irishField && typeof props[irishField] === 'string' ? /** @type {string} */ (props[irishField]).trim() : '';
             const showIrish = Boolean(irishName && irishName !== primaryName);
             const shownName = showIrish ? irishName : primaryName;
             const nameLang = showIrish ? ' lang="ga"' : '';
@@ -8429,6 +8456,7 @@ class UIController {
             // Row ids the tiles carry for the renderer (civ_fid, OBJECTID, FID, a numeric id)
             // and GIS bookkeeping fields mean nothing to a reader: "civ_fid 35.00" was the
             // first line of the properties a reader opened.
+            /** @param {string} key @param {unknown} value */
             const internalKey = (key, value) =>
                 /^(civ_fid|fid|objectid(_\d+)?|ogc_fid|shape_{1,2}(area|length|leng)|globalid|st_area\(shape\)|st_length\(shape\))$/i.test(key)
                 || (key === 'id' && (typeof value === 'number' || /^\d+$/.test(String(value))));
@@ -8480,7 +8508,7 @@ class UIController {
 
         /** @type {NodeListOf<ViewElement>} */ (content.querySelectorAll('.feature-info__export-btn')).forEach((btn) => {
             btn.addEventListener('click', () => {
-                const feature = features[Number(btn.dataset.featureIndex)] || {};
+                const feature = /** @type {Partial<InfoFeature>} */ (features[Number(btn.dataset.featureIndex)] || {});
                 this.onExportMapImage?.(btn.dataset.mapId, 'svg', {
                     trigger: btn,
                     selection: { properties: feature.properties || {}, name: btn.dataset.featureName || '' }
@@ -8502,7 +8530,9 @@ class UIController {
      * A census statistic's figures for one area: the mapped value, the count and the total it
      * is a share of, the table's other columns, and the source with its licence.
      */
+    /** @param {FeatureStatisticView} statistic */
     _censusStatisticHtml(statistic) {
+        /** @param {unknown} value */
         const esc = (value) => this.escapeHtml(String(value ?? ''));
         const rows = [];
         if (statistic.missing) {
@@ -8537,14 +8567,16 @@ class UIController {
      * SHAPE_AREA and SHAPE_LENGTH. The area and perimeter are buttons (M9): a click shows more
      * decimal places, and a keyboard could not reach them as divs.
      */
+    /** @param {InfoFeature | DetailFeature | FeatureDetailEntry['feature']} feature @param {Record<string, unknown>} props @param {Geometry | null | undefined} geometry */
     _featureMetricsHtml(feature, props, geometry) {
         let html = '';
         // Calculate area and perimeter if available. Prefer a stored
         // full-feature area attribute (e.g. Shape_Area) — it is duplicated
         // onto every tile fragment, so it is correct even when the polygon
         // is split across tiles, unlike area derived from clipped geometry.
-        let area = props.Area || props.area || props.AREA || props.Shape_Area || props.SHAPE_AREA || props.Shape__Area || props.SHAPE__AREA;
-        let perimeter = props.Perimeter || props.perimeter || props.PERIMETER;
+        // The source's figures: numbers, or numbers written as text.
+        let area = /** @type {number | string | undefined} */ (props.Area || props.area || props.AREA || props.Shape_Area || props.SHAPE_AREA || props.Shape__Area || props.SHAPE__AREA);
+        let perimeter = /** @type {number | string | undefined} */ (props.Perimeter || props.perimeter || props.PERIMETER);
 
         // Derived metrics are LABELLED when the geometry they came from is a fragment.
         //
@@ -8581,12 +8613,13 @@ class UIController {
         const perimeterLabel = metricsArePartial ? 'Part perimeter' : 'Perimeter';
 
         // Get elevation data
-        const minElevM = props.minElev_m;
-        const maxElevM = props.maxElev_m;
-        const minElevFt = props.minElev_ft;
-        const maxElevFt = props.maxElev_ft;
-        let meanElevM = props.meanElev_m;
-        let meanElevFt = props.meanElev_ft;
+        // The elevation model's figures, where the source has them.
+        const minElevM = /** @type {number | null | undefined} */ (props.minElev_m);
+        const maxElevM = /** @type {number | null | undefined} */ (props.maxElev_m);
+        const minElevFt = /** @type {number | null | undefined} */ (props.minElev_ft);
+        const maxElevFt = /** @type {number | null | undefined} */ (props.maxElev_ft);
+        let meanElevM = /** @type {number | null | undefined} */ (props.meanElev_m);
+        let meanElevFt = /** @type {number | null | undefined} */ (props.meanElev_ft);
         if ((meanElevM === undefined || meanElevM === null || isNaN(meanElevM)) &&
             minElevM !== undefined && minElevM !== null && !isNaN(minElevM) &&
             maxElevM !== undefined && maxElevM !== null && !isNaN(maxElevM)) {
@@ -8634,14 +8667,15 @@ class UIController {
             }
             // Elevation on one line -- range, then mean -- where all three are known. Three
             // separate cards took a third of a phone screen to say three numbers.
-            const hasElev = (v) => v !== undefined && v !== null && !isNaN(v);
+            /** @param {unknown} v */
+            const hasElev = (v) => v !== undefined && v !== null && !isNaN(/** @type {number} */ (v));
             if (hasElev(minElevM) && hasElev(maxElevM)) {
                 // A minimum a little below sea level inland (West Tyrone's -0.7 m) is the elevation
                 // model's noise, not a hollow: it reads as about 0 (UX review 2026-10-31, L8).
                 const nearZero = Number(minElevM) < 0 && Number(minElevM) > -5;
                 const minText = nearZero ? '≈0' : this.formatNumber(Number(minElevM), 1);
-                const minFt = nearZero ? '≈0' : (minElevFt || Math.round(minElevM * 3.28084));
-                const maxFt = maxElevFt || Math.round(maxElevM * 3.28084);
+                const minFt = nearZero ? '≈0' : (minElevFt || Math.round(Number(minElevM) * 3.28084));
+                const maxFt = maxElevFt || Math.round(Number(maxElevM) * 3.28084);
                 html += `<div class="feature-info__metric feature-info__metric--elevation">
                     <span class="feature-info__metric-label">Elevation</span>
                     <span class="feature-info__metric-value">
@@ -8689,7 +8723,7 @@ class UIController {
             metric.addEventListener('click', () => {
                 const currentPrecision = parseInt(metric.dataset.precision) || 2;
                 const newPrecision = currentPrecision === 2 ? 10 : 2;
-                metric.dataset.precision = newPrecision;
+                metric.dataset.precision = String(newPrecision);
                 const kmSpan = metric.querySelector('.metric-km');
                 const miSpan = metric.querySelector('.metric-mi');
                 if (metric.dataset.areaKm) {
@@ -8725,6 +8759,7 @@ class UIController {
 
     /** Which election history a map's features have, judged from the map's name: a Westminster
      * or Assembly constituency, a District Electoral Area or a council. Null for any other map. */
+    /** @param {MapRecord | null | undefined} mapConfig */
     featureElectionKind(mapConfig) {
         const name = `${mapConfig?.name || ''} ${mapConfig?.category || ''} ${mapConfig?.id || ''}`;
         if (/district electoral area|\bdeas?\b/i.test(name)) return 'dea';
@@ -8733,6 +8768,7 @@ class UIController {
         return null;
     }
 
+    /** @param {string} detailId @param {boolean} [addToHistory] @param {{ restoreState?: boolean, focus?: boolean }} [options] */
     showFeatureDetailInCatalogue(detailId, addToHistory = true, options = {}) {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry) return;
@@ -8758,13 +8794,14 @@ class UIController {
         if (!detailView) return;
         const viewState = this._detailViewStateFor(`feature:${detailId}`, Boolean(options.restoreState));
 
+        /** @param {unknown} value */
         const esc = (value) => this.escapeHtml(value);
         const props = feature?.properties || {};
         const displayName = this.featureDisplayName(primaryName || 'Feature');
         const electoralHistory = entry?.electoralHistory || null;
         const historyKind = electoralHistory?.kind === 'dea' || electoralHistory?.kind === 'lgd' ? electoralHistory.kind : null;
         const historyColumns = historyKind ? this._areaHistoryColumns(historyKind) : null;
-        const historyRows = historyKind ? (electoralHistory.historyRows || []) : null;
+        const historyRows = historyKind ? (electoralHistory?.historyRows || []) : null;
         const historyTableId = historyKind ? `catalogue-feature-${historyKind}-history-table` : null;
 
         // The popup's area, perimeter and elevation, first (M7): the attribute list below gave
@@ -8773,11 +8810,14 @@ class UIController {
 
         // Attributes a reader can use first; the renderer's ids and GIS bookkeeping (civ_fid,
         // OBJECTID, Shape_*) behind "All attributes", with the units the bookkeeping is in.
+        /** @param {string} key @param {unknown} value */
         const internalKey = (key, value) =>
             /^(civ_fid|fid|objectid(_\d+)?|ogc_fid|shape_{1,2}(area|length|leng)|globalid|st_area\(shape\)|st_length\(shape\)|(min|max|mean)elev_(m|ft))$/i.test(key)
             || (key === 'id' && (typeof value === 'number' || /^\d+$/.test(String(value))));
+        /** @param {string} key */
         const unitOf = (key) => (/^shape_{1,2}area$|^st_area/i.test(key) ? ' (m²)' : /^shape_{1,2}(length|leng)$|^st_length/i.test(key) ? ' (m)' : '');
         const present = Object.entries(props).filter(([, value]) => value !== null && value !== undefined && value !== '');
+        /** @param {[string, unknown]} entry */
         const metaRow = ([key, value]) => `
             <div class="catalogue-detail__meta-row">
                 <span class="catalogue-detail__meta-label">${esc(key)}${esc(unitOf(key))}</span>
@@ -8788,6 +8828,7 @@ class UIController {
 
         const electionKind = this.featureElectionKind(mapConfig);
         const featureBbox = this.getFeatureBBox(feature?.geometry);
+        /** @param {string} cls @param {string} label @param {string} icon @param {string} [extra] */
         const actionButton = (cls, label, icon, extra = '') => `<button type="button" class="btn btn--sm catalogue-detail__action ${cls}" ${extra}>${icon}<span class="catalogue-detail__action-label">${esc(label)}</span></button>`;
         const linkIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
         const downloadIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
@@ -8867,17 +8908,17 @@ class UIController {
         });
 
         detailView.querySelector('.feature-copy-url-btn')?.addEventListener('click', (event) => {
-            this.copyFeatureUrl(detailId, event.currentTarget);
+            this.copyFeatureUrl(detailId, /** @type {HTMLElement | null} */ (event.currentTarget));
         });
 
         detailView.querySelector('.feature-download-fgb-btn')?.addEventListener('click', () => {
             this.downloadFeature(detailId, 'fgb');
         });
 
-        const dropdown = detailView.querySelector('.feature-download-dropdown');
+        const dropdown = /** @type {ViewElement | null} */ (detailView.querySelector('.feature-download-dropdown'));
         detailView.querySelector('.feature-download-menu-btn')?.addEventListener('click', (event) => {
             event.stopPropagation();
-            if (dropdown) this.toggleDownloadDropdown(dropdown, event.currentTarget);
+            if (dropdown) this.toggleDownloadDropdown(dropdown, /** @type {HTMLElement} */ (event.currentTarget));
         });
 
         /** @type {NodeListOf<ViewElement>} */ (detailView.querySelectorAll('.feature-download-alt-btn')).forEach((btn) => {
@@ -8889,16 +8930,18 @@ class UIController {
         });
         this._bindFeatureMetricToggles(detailView);
         if (historyColumns && historyRows) {
-            const host = detailView.querySelector(`[data-entity-table-host="${historyTableId}"]`);
-            if (!viewState.tables[historyTableId]) viewState.tables[historyTableId] = {};
+            // The history's columns and rows are made with its table id (historyKind).
+            const tableId = /** @type {string} */ (historyTableId);
+            const host = /** @type {ViewElement | null} */ (detailView.querySelector(`[data-entity-table-host="${tableId}"]`));
+            if (!viewState.tables[tableId]) viewState.tables[tableId] = {};
             if (host) {
                 this._mountEntityTable(host, {
-                    tableId: historyTableId,
+                    tableId,
                     columns: historyColumns,
                     rows: historyRows,
                     caption: `${displayName}: elections`,
-                    rowClassNameFn: (row) => (row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''),
-                    persist: viewState.tables[historyTableId]
+                    rowClassNameFn: (/** @type {EntityRow} */ row) => (row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''),
+                    persist: viewState.tables[tableId]
                 });
             }
         }
@@ -8907,6 +8950,7 @@ class UIController {
         this._settleDetailView(detailView, viewState, options);
     }
 
+    /** @param {EntityColumns} columns */
     _buildEntityGroupedHeaderMarkup(columns) {
         const headerRows = Array.isArray(columns.headerRows) ? columns.headerRows : [];
         return headerRows.map((row, rowIndex) => `
@@ -8927,6 +8971,7 @@ class UIController {
         `).join('');
     }
 
+    /** @param {string} tableId @param {EntityColumns} columns @param {{ caption?: string }} [options] */
     _buildEntityTableMarkup(tableId, columns, options = {}) {
         const isHistoryTable = String(tableId || '').includes('history-table');
         const isGroupedHeaderTable = Array.isArray(columns.headerRows) && columns.headerRows.length > 0;
@@ -8952,6 +8997,7 @@ class UIController {
         `;
     }
 
+    /** @param {EntityColumn[]} columns @param {EntityRow[]} rows @param {((row: EntityRow) => string) | null} [rowClassNameFn] */
     _renderEntityTableRows(columns, rows, rowClassNameFn = null) {
         if (!rows.length) {
             return `<tr><td colspan="${columns.length}">Nothing to show</td></tr>`;
@@ -8971,12 +9017,14 @@ class UIController {
         }).join('');
     }
 
+    /** @param {EntityRow} row @param {EntityColumn} column */
     _getEntityTableFilterValue(row, column) {
         const raw = column.filterValue ? column.filterValue(row) : (column.getValue ? column.getValue(row) : row[column.key]);
         if (raw === null || raw === undefined || raw === '') return '';
         return String(raw);
     }
 
+    /** @param {EntityRow} a @param {EntityRow} b @param {EntityColumn} column @param {string} dir */
     _compareEntityTableValues(a, b, column, dir) {
         const kind = column.kind || 'text';
         const av = column.getValue ? column.getValue(a) : a[column.key];
@@ -8984,8 +9032,9 @@ class UIController {
         const asc = dir === 'asc' ? 1 : -1;
 
         if (kind === 'numeric' || kind === 'ordinal' || kind === 'date') {
-            const aNum = kind === 'date' ? Date.parse(av) : Number(av);
-            const bNum = kind === 'date' ? Date.parse(bv) : Number(bv);
+            // Date.parse reads any value as its text.
+            const aNum = kind === 'date' ? Date.parse(/** @type {string} */ (av)) : Number(av);
+            const bNum = kind === 'date' ? Date.parse(/** @type {string} */ (bv)) : Number(bv);
             const aFinite = Number.isFinite(aNum);
             const bFinite = Number.isFinite(bNum);
             if (aFinite && bFinite) return (aNum - bNum) * asc;
@@ -8998,18 +9047,27 @@ class UIController {
         return aText.localeCompare(bText, undefined, { numeric: true, sensitivity: 'base' }) * asc;
     }
 
+    /**
+     * @param {HtmlElementRoot} container @param {string} tableId @param {EntityColumn[]} columns @param {EntityRow[]} rows
+     * @param {{ rowClassNameFn?: ((row: EntityRow) => string) | null, groupOf?: (row: EntityRow) => string | null | undefined, pageSize?: number, persist?: EntityTablePersist }} [options]
+     */
     _initEntityDataTable(container, tableId, columns, rows, options = {}) {
         const table = container.querySelector(`[data-entity-table-id="${tableId}"]`);
         if (!table) return;
 
         const headers = [...table.querySelectorAll('thead th[data-leaf-col-idx]')];
-        const tbody = table.querySelector('tbody');
+        // The table's markup (_buildEntityTableMarkup) has its body.
+        const tbody = /** @type {HTMLTableSectionElement} */ (table.querySelector('tbody'));
         // Sort, filters, body chip and depth live in options.persist when the page keeps them
         // (M10), so they survive a re-render and Back; otherwise in a throwaway object.
         const persist = options.persist || {};
         if (!(persist.filters instanceof Map)) persist.filters = new Map();
         if (!persist.sort) persist.sort = { key: null, dir: 'default' };
         const pageSize = Number(options.pageSize) || 0;
+        /**
+         * @type {{ filters: Map<string, Set<string>>, sort: { key: string | null, dir: string }, activeMenu: HTMLElement | null,
+         *   activeMenuBtn: HTMLElement | null, documentClickHandler: ((event: MouseEvent) => void) | null, filteredRows: EntityRow[] }}
+         */
         const state = {
             filters: persist.filters,
             sort: persist.sort,
@@ -9046,7 +9104,7 @@ class UIController {
                 button.addEventListener('click', () => {
                     persist.showAll = true;
                     renderRows();
-                    tbody.rows[shown.length]?.querySelector('a, button')?.focus();
+                    /** @type {HTMLElement | null | undefined} */ (tbody.rows[shown.length]?.querySelector('a, button'))?.focus();
                 });
                 table.closest('.catalogue-detail__table-wrap')?.after(button);
             }
@@ -9089,6 +9147,7 @@ class UIController {
             renderRows();
         };
 
+        /** @param {EntityColumn} column @param {HTMLElement} anchorBtn */
         const openMenuForColumn = (column, anchorBtn) => {
             closeMenu();
             const optionsList = [...new Set(rows.map((row) => this._getEntityTableFilterValue(row, column)))]
@@ -9144,7 +9203,8 @@ class UIController {
             const fitsAbove = aboveTop >= viewportTop;
             menu.style.top = `${(fitsBelow || !fitsAbove) ? belowTop : aboveTop}px`;
 
-            const valuesHost = menu.querySelector('[data-role="values"]');
+            // The menu's own markup, just written.
+            const valuesHost = /** @type {HTMLElement} */ (menu.querySelector('[data-role="values"]'));
             const renderValues = (needle = '') => {
                 const q = needle.trim().toLowerCase();
                 valuesHost.innerHTML = '';
@@ -9154,7 +9214,7 @@ class UIController {
                         const item = document.createElement('label');
                         item.className = 'election-filter-menu__value';
                         item.innerHTML = `<input type="checkbox" ${selected.has(value) ? 'checked' : ''}><span>${this.escapeHtml(value || '(Blank)')}</span>`;
-                        const cb = item.querySelector('input');
+                        const cb = /** @type {HTMLInputElement} */ (item.querySelector('input'));
                         cb.addEventListener('change', () => {
                             if (cb.checked) selected.add(value);
                             else selected.delete(value);
@@ -9205,14 +9265,14 @@ class UIController {
 
             state.documentClickHandler = (event) => {
                 if (!state.activeMenu) return;
-                if (state.activeMenu.contains(event.target)) return;
-                if (state.activeMenuBtn && state.activeMenuBtn.contains(event.target)) return;
+                if (state.activeMenu.contains(/** @type {Node | null} */ (event.target))) return;
+                if (state.activeMenuBtn && state.activeMenuBtn.contains(/** @type {Node | null} */ (event.target))) return;
                 closeMenu();
             };
             document.addEventListener('click', state.documentClickHandler);
         };
 
-        headers.forEach((th, idx) => {
+        /** @type {ViewElement[]} */ (headers).forEach((th, idx) => {
             const leafIndex = Number(th.dataset.leafColIdx);
             const column = columns[Number.isFinite(leafIndex) ? leafIndex : idx];
             if (!column) return;
@@ -9258,11 +9318,16 @@ class UIController {
      * spec: { tableId, columns, rows, caption, rowClassNameFn, groupBy, pageSize, persist }.
      * persist keeps the reader's sort, filters, chip and switch for Back (M10).
      */
+    /** @param {HtmlElementRoot} host @param {EntityTableSpec} spec */
     _mountEntityTable(host, spec) {
         const persist = spec.persist || {};
+        /** @param {unknown} value */
         const esc = (value) => this.escapeHtml(value);
+        /** @param {EntityColumn} column @param {EntityRow} row */
         const valueOf = (column, row) => (column.getValue ? column.getValue(row) : row[column.key]);
+        /** @param {unknown} value */
         const filled = (value) => value !== null && value !== undefined && value !== '' && !(typeof value === 'number' && Number.isNaN(value));
+        /** @type {Map<string, number>} */
         const groupCounts = new Map();
         if (typeof spec.groupBy === 'function') {
             for (const row of spec.rows) {
@@ -9271,6 +9336,7 @@ class UIController {
             }
         }
         const known = [...BODY_GROUP_ORDER, 'General elections', 'By-elections'];
+        /** @param {string} group */
         const order = (group) => {
             const at = known.indexOf(group);
             return at < 0 ? known.length : at;
@@ -9284,7 +9350,7 @@ class UIController {
                 .filter((column) => !column.optional || spec.rows.some((row) => filled(valueOf(column, row))));
             const chips = groups.length > 1
                 ? `<div class="catalogue-detail__table-chips" role="group" aria-label="Show only">
-                    ${['', ...groups].map((group) => `<button type="button" class="catalogue-detail__chip" data-table-group="${esc(group)}" aria-pressed="${String((persist.group || '') === group)}">${esc(group || 'All')} <span class="catalogue-detail__chip-count">${siteNumber(group ? groupCounts.get(group) : spec.rows.length)}</span></button>`).join('')}
+                    ${['', ...groups].map((group) => `<button type="button" class="catalogue-detail__chip" data-table-group="${esc(group)}" aria-pressed="${String((persist.group || '') === group)}">${esc(group || 'All')} <span class="catalogue-detail__chip-count">${siteNumber(group ? /** @type {number} */ (groupCounts.get(group)) : spec.rows.length)}</span></button>`).join('')}
                 </div>`
                 : '';
             const toggle = hasChanges
@@ -9306,7 +9372,8 @@ class UIController {
                 });
             });
             host.querySelector('[data-table-changes]')?.addEventListener('change', (event) => {
-                persist.showChanges = event.target.checked;
+                // The switch is a checkbox.
+                persist.showChanges = /** @type {HTMLInputElement} */ (event.target).checked;
                 render();
                 host.querySelector('[data-table-changes]')?.focus();
             });
@@ -9314,6 +9381,7 @@ class UIController {
         render();
     }
 
+    /** @param {unknown} value @param {number} [precision] @param {string} [suffix] */
     _formatEntityDelta(value, precision = 0, suffix = '') {
         if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) {
             return '<span class="catalogue-detail__delta catalogue-detail__delta--neutral">—</span>';
@@ -9343,6 +9411,7 @@ class UIController {
         return `<span class="catalogue-detail__rank-delta catalogue-detail__rank-delta--${direction}">${triangle} ${Math.abs(numeric)}</span>`;
     }
 
+    /** @param {Array<{ constituency?: string, mapLayerYear?: string | number, level?: string, body?: string, date?: string, elected?: boolean }>} [entries] */
     _renderConstituencyEntryList(entries = []) {
         if (!Array.isArray(entries) || entries.length === 0) return '-';
         return entries.map((entry) => {
@@ -9369,8 +9438,11 @@ class UIController {
      */
     _entityFormatters() {
         const dash = '—';
+        /** @param {unknown} value */
         const fmt = (value) => (hasNumber(value) ? this.formatNumber(Math.round(Number(value)), 0) : dash);
+        /** @param {unknown} value @param {number} [digits] */
         const pct = (value, digits = 1) => (hasNumber(value) ? `${Number(value).toFixed(digits)}%` : dash);
+        /** @param {unknown} n */
         const ord = (n) => {
             if (!hasNumber(n) || Number(n) <= 0) return dash;
             const num = Number(n);
@@ -9418,11 +9490,13 @@ class UIController {
         state.scrollTop = this._catalogueScroller()?.scrollTop || 0;
         this._detailViewStates.set(key, state);
         // Only the last few pages are worth remembering.
-        if (this._detailViewStates.size > 30) this._detailViewStates.delete(this._detailViewStates.keys().next().value);
+        // More than 30 entries: the map has a first key.
+        if (this._detailViewStates.size > 30) this._detailViewStates.delete(/** @type {string} */ (this._detailViewStates.keys().next().value));
     }
 
     /** The state object for a page about to render: the remembered one when returning to it,
      * otherwise a fresh one. Tables keep their state in it as the reader changes them. */
+    /** @param {string} key @param {boolean} restore @returns {DetailViewState} */
     _detailViewStateFor(key, restore) {
         if (!this._detailViewStates) this._detailViewStates = new Map();
         let state = restore ? this._detailViewStates.get(key) : null;
@@ -9435,6 +9509,7 @@ class UIController {
     }
 
     /** After a page renders: its scroll (restored, or the top) and focus on its heading (M9). */
+    /** @param {HtmlElementRoot} detailView @param {DetailViewState} viewState @param {{ restoreState?: boolean, focus?: boolean }} [options] */
     _settleDetailView(detailView, viewState, options = {}) {
         const pane = this._catalogueScroller();
         pane?.scrollTo({ top: options.restoreState ? (viewState.scrollTop || 0) : 0, behavior: 'auto' });
@@ -9454,6 +9529,7 @@ class UIController {
      * info: { kind, key, label, typeLabel, state: 'loading'|'error'|'missing'|'choice', choices,
      *         browseUrl, retry }
      */
+    /** @param {EntityPlaceholderInfo} [info] @param {{ addToHistory?: boolean }} [options] */
     showElectionEntityPlaceholder(info = {}, { addToHistory = true } = {}) {
         if (!info.kind || !info.key) return;
         this._rememberDetailViewState();
@@ -9472,6 +9548,7 @@ class UIController {
         this._currentDetailViewKey = detailId;
         const label = info.label || info.key;
         const state = ENTITY_PLACEHOLDER.check(info.state || 'loading');
+        /** @param {unknown} value */
         const esc = (value) => this.escapeHtml(value);
         let body = '';
         if (state === 'loading') {
@@ -9507,10 +9584,11 @@ class UIController {
                 <div class="catalogue-detail__date">${esc(info.typeLabel || '')}</div>
             </div>
             ${body}`;
-        detailView.querySelector('.catalogue-detail__retry')?.addEventListener('click', () => info.retry());
+        // The Retry button is drawn only when info.retry is a function.
+        detailView.querySelector('.catalogue-detail__retry')?.addEventListener('click', () => /** @type {() => void} */ (info.retry)());
         this._bindEntityDetailClicks(detailView);
         if (state !== 'loading') {
-            detailView.querySelector('#catalogueDetailHeading')?.focus({ preventScroll: true });
+            /** @type {HTMLElement | null} */ (detailView.querySelector('#catalogueDetailHeading'))?.focus({ preventScroll: true });
         } else {
             this._catalogueScroller()?.scrollTo({ top: 0, behavior: 'auto' });
         }
@@ -9519,7 +9597,7 @@ class UIController {
 
     /** One click handler for every link on a detail page: elections, constituencies, parties and
      * people. Installed once per render, replacing the previous page's. */
-    /** @param {HtmlElementRoot} detailView */
+    /** @param {HtmlElementRoot & { _entityDetailClickHandler?: (event: MouseEvent) => Promise<void> }} detailView */
     _bindEntityDetailClicks(detailView) {
         if (detailView._entityDetailClickHandler) {
             detailView.removeEventListener('click', detailView._entityDetailClickHandler);
@@ -9554,7 +9632,7 @@ class UIController {
                 await this.onOpenElectionEntityDetail(
                     entityLink.dataset.electionEntityDetailKind,
                     entityLink.dataset.electionEntityDetailKey,
-                    entityLink.dataset.entityLabel || entityLink.textContent.replace(/\s+/g, ' ').trim()
+                    entityLink.dataset.entityLabel || /** @type {string} */ (entityLink.textContent).replace(/\s+/g, ' ').trim()
                 );
                 return;
             }
@@ -9569,25 +9647,31 @@ class UIController {
 
     /** Link and cell renderers shared by the person, party, constituency and feature pages. */
     _entityRenderers() {
+        /** @param {unknown} value */
         const esc = (value) => this.escapeHtml(value);
         const { dash } = this._entityFormatters();
+        /** @param {EntityRow} row @param {unknown} label @param {boolean} [includeConstituency] */
         const renderElectionLink = (row, label, includeConstituency = false) => `<a href="#"
                 class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
                 data-election-key="${esc(row.electionKey || '')}"
                 data-election-body="${esc(row.electionBodyForOpen || row.body || '')}"
                 data-election-date="${esc(row.date || '')}"
                 ${includeConstituency && row.constituency ? `data-election-constituency="${esc(row.constituency)}"` : ''}>${esc(label)}</a>`;
+        /** @param {string} kind @param {unknown} key @param {unknown} label */
         const renderEntityLink = (kind, key, label) => (key
             ? `<a href="#" class="catalogue-detail__entity-link catalogue-detail__entity-link--text" data-election-entity-detail-kind="${esc(kind)}" data-election-entity-detail-key="${esc(key)}">${esc(label)}</a>`
             : esc(label || dash));
+        /** @param {string | null | undefined} key */
         const renderPartyLink = (key) => (key
             ? `<a href="#" class="catalogue-detail__entity-link catalogue-detail__entity-link--text" data-election-entity-detail-kind="party" data-election-entity-detail-key="${esc(key)}">${partyLabelHtml(key, esc)}</a>`
             : dash);
+        /** @param {EntityRow} row */
         const renderLeadingParty = (row) => {
             if (!row?.winnerParty) return dash;
             const colour = esc(row.winnerColour || MAP_COLOURS.noResult);
             return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderPartyLink(row.winnerParty)}</span>`;
         };
+        /** @param {EntityRow} row */
         const renderDeaList = (row) => {
             const deas = row?.districtElectoralAreas || [];
             if (!deas.length) return dash;
@@ -9597,6 +9681,7 @@ class UIController {
                     <div class="catalogue-detail__inline-list-body">${links}</div>
                 </details>`;
         };
+        /** @param {EntityRow} row */
         const renderElectedNames = (row) => {
             const names = row?.electedNames || [];
             if (!names.length) return dash;
@@ -9612,16 +9697,25 @@ class UIController {
      * feature's page). The leading party is the one with the most votes, summed over its
      * candidates (H3); "Valid poll" is the contest's, not a candidate's (M5).
      */
+    /** @param {string} kind @returns {EntityColumn[]} */
     _areaHistoryColumns(kind) {
         const { fmt, pct } = this._entityFormatters();
         const r = this._entityRenderers();
+        /** @type {EntityColumn} */
         const date = { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => r.esc(formatElectionDate(row.date || '')) };
+        /** @type {EntityColumn} */
         const election = { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => r.renderElectionLink(row, row.electionDisplayName, kind !== 'lgd') };
+        /** @type {EntityColumn} */
         const leading = { key: 'winnerParty', label: 'Leading party (votes)', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => r.renderLeadingParty(row) };
+        /** @type {EntityColumn} */
         const votes = { key: 'winnerVotes', label: 'Party votes', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) };
+        /** @type {EntityColumn} */
         const share = { key: 'winnerPct', label: 'Party share', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) };
+        /** @type {EntityColumn} */
         const valid = { key: 'validVotes', label: 'Valid poll', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) };
+        /** @type {EntityColumn} */
         const seats = { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.seats, render: (row) => fmt(row.seats) };
+        /** @type {EntityColumn} */
         const elected = { key: 'electedNames', label: 'Elected', kind: 'text', optional: true, getValue: (row) => (row.electedNames || []).map((person) => person.name).join(', ') || null, render: (row) => r.renderElectedNames(row) };
         if (kind === 'lgd') {
             return [
@@ -9631,6 +9725,7 @@ class UIController {
                 leading, votes, share, valid, seats
             ];
         }
+        /** @type {EntityColumn[]} */
         const columns = [date, election];
         if (kind === 'dea') {
             columns.push({ key: 'localGovernmentDistrict', label: 'Council', kind: 'text', optional: true, getValue: (row) => row.localGovernmentDistrict || null, render: (row) => r.renderEntityLink('lgd', row.localGovernmentDistrict, row.localGovernmentDistrict) });
@@ -9640,6 +9735,7 @@ class UIController {
     }
 
     /** One table section of an entity page: its heading, any notes, and the host its table mounts in. */
+    /** @param {string} title @param {string} tableId @param {string} [html] @param {string} [attrs] */
     _entityTableSection(title, tableId, html = '', attrs = '') {
         return `<section class="catalogue-detail__section" aria-labelledby="${tableId}-h"${attrs}>
                 <h3 class="catalogue-detail__section-title" id="${tableId}-h">${title}</h3>
@@ -9652,10 +9748,12 @@ class UIController {
      * 2026: the page no longer waits for it) the section says so and is busy, and
      * refreshElectionEntityPartyCandidates() puts the list in its place.
      */
+    /** @param {EntityDetail} entry @returns {{ html: string, table: EntityTableSpec | null }} */
     _partyCandidatesSection(entry) {
         const { dash, fmt } = this._entityFormatters();
         const r = this._entityRenderers();
         const esc = r.esc;
+        /** @param {string} title @param {string} tableId @param {string} [html] @param {string} [attrs] */
         const tableSection = (title, tableId, html, attrs) => this._entityTableSection(title, tableId, html, attrs);
         if (entry.candidatesLoading) {
             return {
@@ -9664,6 +9762,7 @@ class UIController {
             };
         }
         const candidates = (entry.candidateSummaries || []).map((row, idx) => ({ ...row, candidateRank: idx + 1 }));
+        /** @type {EntityColumn[]} */
         const candidateColumns = [
             { key: 'candidateRank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.candidateRank, render: (row) => fmt(row.candidateRank) },
             { key: 'name', label: 'Candidate', kind: 'text', getValue: (row) => row.name, render: (row) => r.renderEntityLink('candidate', row.personId, row.name) },
@@ -9696,6 +9795,7 @@ class UIController {
      * if that page is still the one shown. The rest of the page, its scroll and its other tables'
      * state are left as they are. Returns whether it did.
      */
+    /** @param {EntityDetail | null | undefined} entry */
     refreshElectionEntityPartyCandidates(entry) {
         const detailView = document.getElementById('catalogueDetailView');
         if (!entry || entry.candidatesLoading || !detailView || this.catalogueView !== 'detail') return false;
@@ -9709,8 +9809,9 @@ class UIController {
         if (!fresh) return false;
         section.replaceWith(fresh);
         if (part.table) {
-            const host = fresh.querySelector(`[data-entity-table-host="${part.table.tableId}"]`);
+            const host = /** @type {ViewElement | null} */ (fresh.querySelector(`[data-entity-table-host="${part.table.tableId}"]`));
             const viewState = this._detailViewStates?.get(this._currentDetailViewKey);
+            /** @type {EntityTablePersist} */
             let persist = {};
             if (viewState) {
                 if (!viewState.tables[part.table.tableId]) viewState.tables[part.table.tableId] = {};
@@ -9721,11 +9822,13 @@ class UIController {
         return true;
     }
 
+    /** @param {string | Partial<EntityDetail>} detailOrId @param {boolean} [addToHistory] @param {{ restoreState?: boolean, focus?: boolean }} [options] */
     showElectionEntityDetailInCatalogue(detailOrId, addToHistory = true, options = {}) {
         const detailId = typeof detailOrId === 'string'
             ? detailOrId
             : this.cacheElectionEntityDetailEntry(detailOrId);
-        const entry = this._electionEntityDetailCache?.get(detailId);
+        // A null id (an entity with no kind or key) finds nothing, as the test below expects.
+        const entry = this._electionEntityDetailCache?.get(/** @type {string} */ (detailId));
         if (!entry || !detailId) return;
         const activeTabId = this._getActivePaneTabId();
 
@@ -9768,7 +9871,9 @@ class UIController {
 
         // ---------------------------------------------------------------- headline cards
         // Only figures the record has; a card with nothing to say is left out.
+        /** @type {Array<{ label: string, value: unknown, subtext: string }>} */
         const metrics = [];
+        /** @param {string} label @param {unknown} value @param {string} [subtext] */
         const card = (label, value, subtext = '') => {
             if (value === null || value === undefined || value === '' || value === dash) return;
             metrics.push({ label, value, subtext });
@@ -9797,6 +9902,7 @@ class UIController {
             </div>`).join('')}</div>` : '';
 
         // ---------------------------------------------------------------- summary list
+        /** @param {string} label @param {string} valueHtml */
         const metaRow = (label, valueHtml) => (valueHtml ? `
             <div class="catalogue-detail__meta-row">
                 <span class="catalogue-detail__meta-label">${esc(label)}</span>
@@ -9816,7 +9922,7 @@ class UIController {
             const parties = (entry.parties || []).map((party) => r.renderPartyLink(party)).join(', ');
             const profiles = (entry.officialProfiles || []).map((profile) => `<a href="${esc(profile.url)}" target="_blank" rel="noopener noreferrer">${esc(profile.source || profile.label || profile.url)}</a>`).join(' · ');
             summaryHtml = `<div class="catalogue-detail__meta">
-                ${metaRow(entry.parties?.length > 1 ? 'Parties' : 'Party', parties)}
+                ${metaRow((entry.parties?.length ?? 0) > 1 ? 'Parties' : 'Party', parties)}
                 ${metaRow('Constituencies', constituencies)}
                 ${metaRow('Official records', profiles)}
             </div>
@@ -9842,18 +9948,24 @@ class UIController {
         }
 
         // ---------------------------------------------------------------- tables
+        /** @param {EntityRow} row */
         const byElectionRow = (row) => (row.isByElection ? 'catalogue-detail__entity-row--by-election' : '');
+        /** @type {EntityTableSpec[]} */
         const tables = [];
+        /** @param {string} title @param {string} tableId @param {string} [html] */
         const tableSection = (title, tableId, html) => this._entityTableSection(title, tableId, html);
         let sectionsHtml = '';
         if (isParty) {
             const history = entry.historyRows || [];
+            /** @param {EntityRow} row */
             const changeTitle = (row) => (row.comparedWith ? `Change since ${row.comparedWith}` : '');
+            /** @param {string} key @param {string} label @param {number} [precision] @param {string} [suffix] @returns {EntityColumn} */
             const delta = (key, label, precision = 0, suffix = '') => ({
                 key, label, kind: 'numeric', align: 'num', optional: true, delta: true,
                 getValue: (row) => row[key],
                 render: (row) => `<span title="${esc(changeTitle(row))}">${this._formatEntityDelta(row[key], precision, suffix)}</span>`
             });
+            /** @type {EntityColumn[]} */
             const partyHistoryColumns = [
                 { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => esc(formatElectionDate(row.date || '')) },
                 { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => r.renderElectionLink(row, row.electionDisplayName) },
@@ -9879,8 +9991,11 @@ class UIController {
             if (candidatesPart.table) tables.push(candidatesPart.table);
         } else if (isCandidate) {
             const appearances = entry.appearances || [];
+            /** @param {EntityRow} row */
             const contestText = (row) => (row.overallStandingNumber ? `${ord(row.overallStandingNumber)} · ${ord(row.bodyStandingNumber)} ${row.electionType || ''}`.trim() : dash);
+            /** @param {EntityRow} row */
             const winText = (row) => (row.overallElectedNumber ? `${ord(row.overallElectedNumber)} · ${ord(row.bodyElectedNumber)} ${row.electionType || ''}`.trim() : dash);
+            /** @type {EntityColumn[]} */
             const candidateHistoryColumns = [
                 { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => esc(formatElectionDate(row.date || '')) },
                 { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => r.renderElectionLink(row, row.electionDisplayName, true) },
@@ -9933,7 +10048,7 @@ class UIController {
         `;
 
         for (const spec of tables) {
-            const host = detailView.querySelector(`[data-entity-table-host="${spec.tableId}"]`);
+            const host = /** @type {ViewElement | null} */ (detailView.querySelector(`[data-entity-table-host="${spec.tableId}"]`));
             if (!viewState.tables[spec.tableId]) viewState.tables[spec.tableId] = {};
             if (host) this._mountEntityTable(host, { ...spec, persist: viewState.tables[spec.tableId] });
         }
@@ -11740,11 +11855,11 @@ class UIController {
     // ============================================
     // Utilities
 
-    /** @param {string | null | undefined} text */
+    /** @param {unknown} text a value other than a string is written as its text, as textContent writes it */
     escapeHtml(text) {
         if (!text) return '';
         const div = document.createElement('div');
-        div.textContent = text;
+        div.textContent = /** @type {string} */ (text);
         return div.innerHTML;
     }
 

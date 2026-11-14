@@ -61,7 +61,9 @@ declare global {
     /** 'classic' on the archived classic page (civgraph.net/maps/classic/): packages/map/src/catalogue/flag.js. */
     CIVGRAPH_CATALOGUE?: string;
     /** The retired Leaflet map's controller, which ui-controller.js still resizes when the layout changes, if a page has it. */
-    mapController?: { map?: { invalidateSize(): void } | null };
+    mapController?: { map?: { invalidateSize(): void } | null; layerStates?: Map<string, { config?: import('./ui-controller-types.d.ts').MapRecord }> };
+    /** The interface-language runtime (site/assets/i18n/i18n.js, preview only), when it has loaded. */
+    civgraphI18n?: { placeNameField?: (layer: unknown) => string | null };
     /** The site-head bootstrap's language-control loader (packages/map/src/catalogue/lang-reveal.js). */
     civgraphLangReveal?: () => void;
   }
