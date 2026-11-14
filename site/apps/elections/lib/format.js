@@ -41,14 +41,14 @@ export function fmtPct(value, digits = 1) {
   return n === null ? '—' : `${n.toFixed(digits)}%`;
 }
 
-/** A signed change ("+3", "−1.2", "0"), with the Unicode minus. */
+/** A signed change ("+3", "−1.2", "+1,869", "0"), with the Unicode minus and thousands separators. */
 /** @param {unknown} value @param {number} [digits] */
 export function fmtDelta(value, digits = 0) {
   const n = num(value);
   if (n === null) return '';
   const r = Number(n.toFixed(digits));
   if (r === 0) return digits ? (0).toFixed(digits) : '0';
-  return `${r > 0 ? '+' : '−'}${Math.abs(r).toFixed(digits)}`;
+  return `${r > 0 ? '+' : '−'}${siteNumber(Math.abs(r), { minimumFractionDigits: digits, maximumFractionDigits: digits })}`;
 }
 
 /**

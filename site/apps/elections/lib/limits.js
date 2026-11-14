@@ -38,6 +38,7 @@ export const NOTE = Object.freeze({
   genderNeverInferred: 'The rest are shown as not recorded: gender is never inferred from a name.',
   incumbencyDerived: 'Incumbency is worked out, not taken from a source: a candidate counts as an incumbent when the same person was elected to the same body at its previous general election or at a by-election since.',
   partyAsPrinted: 'Party is the label on the ballot paper as recorded.',
+  partyFolded: 'Party joins the different ballot labels of one party under its most used label; a label that belongs to no party on file is shown as printed.',
 });
 
 /** Sentences with a count in them ({n} of {total}): the singular and the plural wording. */
@@ -156,9 +157,10 @@ export function pivotLimits(settings, counts, fmt) {
     const unknown = Number(counts.incumbent_unknown) || 0;
     out.push({ id: 'incumbency', sentences: [NOTE.incumbencyDerived, ...(unknown ? [counted('incumbencyUnknown', unknown, fmt, total)] : [])] });
   }
-  if (uses('party')) {
+  if (uses('party') || uses('party_folded')) {
     const none = Number(counts.no_party) || 0;
-    out.push({ id: 'party', sentences: [NOTE.partyAsPrinted, ...(none ? [counted('noParty', none, fmt, total)] : [])] });
+    const said = [...(uses('party') ? [NOTE.partyAsPrinted] : []), ...(uses('party_folded') ? [NOTE.partyFolded] : [])];
+    out.push({ id: 'party', sentences: [...said, ...(none ? [counted('noParty', none, fmt, total)] : [])] });
   }
   const unopposed = Number(counts.unopposed) || 0;
   if (VOTE_MEASURES.has(settings.measure) && unopposed) out.push({ id: 'unopposed', sentences: [counted('unopposed', unopposed, fmt, total)] });

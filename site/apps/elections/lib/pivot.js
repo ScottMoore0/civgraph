@@ -15,6 +15,7 @@ export const DIMENSIONS = Object.freeze({
   year: { label: 'Year', contest: true },
   decade: { label: 'Decade', contest: true },
   area: { label: 'Constituency or area', contest: true },
+  party_folded: { label: 'Party', contest: false },
   party: { label: 'Party (ballot label)', contest: false },
   candidate: { label: 'Candidate', contest: false },
   gender: { label: 'Gender (where recorded)', contest: false },
@@ -58,7 +59,7 @@ export const OUTCOMES = Object.freeze(['elected', 'elected unopposed', 'excluded
  */
 
 /** The default state: the NI Assembly, party by election, seats. */
-export const DEFAULT_STATE = /** @type {Readonly<PivotState>} */ (Object.freeze({ bodies: ['northern-ireland-assembly'], rows: 'party', cols: 'year', measure: 'seats', from: null, to: null, filters: {} }));
+export const DEFAULT_STATE = /** @type {Readonly<PivotState>} */ (Object.freeze({ bodies: ['northern-ireland-assembly'], rows: 'party_folded', cols: 'year', measure: 'seats', from: null, to: null, filters: {} }));
 
 /** A copy of a state that later changes to the form cannot reach (one run's settings). @param {PivotState} s @returns {PivotState} */
 export function settingsOf(s) {
@@ -110,9 +111,21 @@ export function queryFromState(/** @type {PivotInput} */ s) {
 /** A SQL string literal. */
 export const lit = (/** @type {unknown} */ v) => `'${String(v).replace(/'/g, "''")}'`;
 
+/**
+ * The folded party's names: each party record a ballot label folds to (the extracts' party_slug,
+ * from the records' party_label_map) named by its most used label in the bodies read, the
+ * alphabetically first on a tie. Joined as `pf` when a pivot uses the folded party.
+ */
+export const FOLDED_PARTY_SQL = 'LEFT JOIN (SELECT party_slug AS pf_slug, first(party ORDER BY n DESC, party) AS pf_name '
+  + 'FROM (SELECT party_slug, party, COUNT(*) AS n FROM rows WHERE party_slug IS NOT NULL GROUP BY party_slug, party) GROUP BY party_slug) pf '
+  + 'ON rows.party_slug = pf.pf_slug';
+
 /** The column expression of a dimension (booleans and nulls made readable). */
 export function dimSql(/** @type {string} */ d) {
   if (!Object.hasOwn(DIMENSIONS, d)) throw new Error(`unknown dimension ${d}`);
+  // The party a ballot label folds to (one party under its several spellings); a label that
+  // folds to no party record stays as printed.
+  if (d === 'party_folded') return 'COALESCE(pf.pf_name, party)';
   if (d === 'gender') return "COALESCE(gender, 'not recorded')";
   if (d === 'incumbent') return "CASE WHEN incumbent IS NULL THEN 'unknown' WHEN incumbent THEN 'incumbent' ELSE 'not incumbent' END";
   if (d === 'unopposed') return "CASE WHEN unopposed THEN 'unopposed' ELSE 'contested' END";
@@ -142,10 +155,11 @@ export function pivotSql(s) {
   const r = dimSql(s.rows);
   const c = s.cols === 'none' ? "'all'" : dimSql(s.cols);
   const where = whereSql(s);
+  const from = s.rows === 'party_folded' || s.cols === 'party_folded' ? `rows ${FOLDED_PARTY_SQL}` : 'rows';
   if (m.contest) {
-    return `SELECT r, c, AVG(turnout_pct) AS v FROM (SELECT DISTINCT election_key, contest_seq, ${r} AS r, ${c} AS c, turnout_pct FROM rows ${where}) GROUP BY r, c`;
+    return `SELECT r, c, AVG(turnout_pct) AS v FROM (SELECT DISTINCT election_key, contest_seq, ${r} AS r, ${c} AS c, turnout_pct FROM ${from} ${where}) GROUP BY r, c`;
   }
-  return `SELECT ${r} AS r, ${c} AS c, ${m.sql} AS v FROM rows ${where} GROUP BY r, c`;
+  return `SELECT ${r} AS r, ${c} AS c, ${m.sql} AS v FROM ${from} ${where} GROUP BY r, c`;
 }
 
 /**

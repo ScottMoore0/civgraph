@@ -8,7 +8,7 @@ import { parliamentArc, seatBar } from '../lib/charts.js';
 import { appUrl, electionSlug, esc, fmtDelta, fmtPct, isStv } from '../lib/format.js';
 import { swingLimit } from '../lib/limits.js';
 import { partyChip, partyColour } from '../lib/party.js';
-import { baseContests, nationalShares, project } from '../lib/project.js';
+import { SWING_WORDS, baseContests, nationalShares, projectFromResult } from '../lib/project.js';
 import { SWING_EDITS, SWING_LIMIT, clampSwing } from '../state-machines.js';
 import { CHART_TEXT, chartData } from '../lib/chart-data.js';
 import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
@@ -40,7 +40,8 @@ export async function render(root, route, ctx) {
   for (const p of parties) { const v = clampSwing(q.get(`d.${p}`)); if (v !== null) deltas.set(p, v); }
   /** EL-10: the base election, or edited. */
   const edits = SWING_EDITS.start(deltas.size ? 'edited' : 'base');
-  const baseSeats = project(contests, new Map()).seats;
+  // The seats actually won: the projection starts from the real result (lib/project.js projectFromResult).
+  const baseSeats = projectFromResult(contests, new Map()).seats;
   const stv = isStv(el.votingSystem);
   // EL2: the seat estimate's own caveat, beside it, for a system whose count transfers votes
   // (the election-types registry's `transfers`; lib/limits.js).
@@ -56,9 +57,9 @@ export async function render(root, route, ctx) {
       <label>Base election <select id="sw-e">${index.filter((e) => e.bodySlug === el.bodySlug).map((e) => `<option value="${esc(electionSlug(e.key))}"${e.key === el.key ? ' selected' : ''}>${esc(e.displayTitle)}</option>`).join('')}</select></label>
       <button type="button" class="cg-button" id="sw-reset">Reset</button>
     </form>
-    ${contests.length ? '' : '<p class="cg-notice cg-notice--warning">This election has no recorded votes to swing.</p>'}
+    ${contests.some((c) => [...c.votes.values()].some((v) => v > 0)) ? '' : '<p class="cg-notice cg-notice--warning">This election has no recorded votes to swing.</p>'}
     <div class="el-grid">
-      <div><table class="cg-table cg-table--compact"><thead><tr><th scope="col">Party</th><th scope="col" class="num">Base share</th><th scope="col">Change (points)</th><th scope="col" class="num">New share</th></tr></thead>
+      <div class="cg-table-wrap"><table class="cg-table cg-table--compact el-swing-parties"><thead><tr><th scope="col">Party</th><th scope="col" class="num">Base share</th><th scope="col">Change (points)</th><th scope="col" class="num">New share</th></tr></thead>
         <tbody>${parties.map((p) => `<tr><th scope="row">${partyChip(p, colours.get(p))}</th><td class="num">${fmtPct(base.get(p))}</td>
           <td><input type="range" min="${-SWING_LIMIT}" max="${SWING_LIMIT}" step="0.5" value="${deltas.get(p) || 0}" data-party="${esc(p)}" aria-label="Change in ${esc(p)} share, points"> <output data-out="${esc(p)}">${fmtDelta(deltas.get(p) || 0, 1)}</output></td>
           <td class="num" data-new="${esc(p)}"></td></tr>`).join('')}</tbody></table></div>
@@ -67,7 +68,7 @@ export async function render(root, route, ctx) {
     <details><summary>Projected result in each contest</summary>${methodNote('swingometer', [METHOD_NOTE.uniformSwing])}<div id="sw-contests"></div></details>`;
 
   const draw = () => {
-    const res = project(contests, deltas);
+    const res = projectFromResult(contests, deltas);
     const total = [...res.seats.values()].reduce((s, n) => s + n, 0);
     const order = [...new Set([...parties, ...res.seats.keys()])].filter((p) => (res.seats.get(p) || 0) + (baseSeats.get(p) || 0) > 0);
     const chartParties = order.map((p) => ({ party: p, seats: res.seats.get(p) || 0, colour: colours.get(p) })).filter((p) => p.seats > 0).sort((a, b) => b.seats - a.seats);
@@ -76,9 +77,9 @@ export async function render(root, route, ctx) {
       columns: [{ label: CHART_TEXT.party }, { label: CHART_TEXT.projected, num: true }],
       rows: chartParties.map((p) => [p.party, p.seats]),
     })}`;
-    /** @type {HTMLElement} */ (root.querySelector('#sw-seats')).innerHTML = `<table class="cg-table cg-table--compact"><thead><tr><th scope="col">Party</th><th scope="col" class="num">Base</th><th scope="col" class="num">Projected</th><th scope="col" class="num">±</th></tr></thead><tbody>${order.sort((a, b) => (res.seats.get(b) || 0) - (res.seats.get(a) || 0)).map((p) => `<tr><th scope="row">${partyChip(p, colours.get(p))}</th><td class="num">${baseSeats.get(p) || 0}</td><td class="num">${res.seats.get(p) || 0}</td><td class="num">${fmtDelta((res.seats.get(p) || 0) - (baseSeats.get(p) || 0))}</td></tr>`).join('')}</tbody></table>
-      <p class="el-muted">Base seats here are this model run with no change${stv ? ' (quota allocation of first preferences), which can differ from the seats actually won after transfers' : ''}; the actual result is on the <a href="${appUrl.election(el.key)}">election page</a>.</p>`;
-    /** @type {HTMLElement} */ (root.querySelector('#sw-contests')).innerHTML = `<table class="cg-table cg-table--compact"><thead><tr><th scope="col">Contest</th><th scope="col">Projected seats</th></tr></thead><tbody>${res.contests.map((c) => `<tr><th scope="row">${esc(c.area)}</th><td>${[...c.seats].map(([p, n]) => `${esc(p)}${n > 1 ? ` ×${n}` : ''}`).join(', ')}</td></tr>`).join('')}</tbody></table>`;
+    /** @type {HTMLElement} */ (root.querySelector('#sw-seats')).innerHTML = `<div class="cg-table-wrap"><table class="cg-table cg-table--compact"><thead><tr><th scope="col">Party</th><th scope="col" class="num">${esc(SWING_WORDS.won)}</th><th scope="col" class="num">Projected</th><th scope="col" class="num">±</th></tr></thead><tbody>${order.sort((a, b) => (res.seats.get(b) || 0) - (res.seats.get(a) || 0)).map((p) => `<tr><th scope="row">${partyChip(p, colours.get(p))}</th><td class="num">${baseSeats.get(p) || 0}</td><td class="num">${res.seats.get(p) || 0}</td><td class="num">${fmtDelta((res.seats.get(p) || 0) - (baseSeats.get(p) || 0))}</td></tr>`).join('')}</tbody></table></div>
+      <p class="el-muted">${esc(SWING_WORDS.base)}${stv ? ` ${esc(SWING_WORDS.baseStv)}` : ''} <a href="${appUrl.election(el.key)}">${esc(SWING_WORDS.resultLink)}</a></p>`;
+    /** @type {HTMLElement} */ (root.querySelector('#sw-contests')).innerHTML = `<div class="cg-table-wrap"><table class="cg-table cg-table--compact"><thead><tr><th scope="col">Contest</th><th scope="col">Projected seats</th></tr></thead><tbody>${res.contests.map((c) => `<tr><th scope="row">${esc(c.area)}</th><td>${[...c.seats].map(([p, n]) => `${esc(p)}${n > 1 ? ` ×${n}` : ''}`).join(', ')}</td></tr>`).join('')}</tbody></table></div>`;
     const sum = parties.reduce((s, p) => s + Math.max(0, (base.get(p) || 0) + (deltas.get(p) || 0)), 0) + [...base].filter(([p]) => !parties.includes(p)).reduce((s, [, v]) => s + v, 0);
     for (const p of parties) {
       const cell = root.querySelector(`[data-new="${CSS.escape(p)}"]`);

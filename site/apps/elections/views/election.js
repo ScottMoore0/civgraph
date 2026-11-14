@@ -17,6 +17,8 @@ import { embedOfferSection, mountEmbedOffer } from './embed-offer.js';
 import { mountOtherSystems, otherSystemsSection } from './other-systems.js';
 import { transfersOpen } from '../lib/stv.js';
 import { electionStvHtml, wireElectionStv } from './stv-election.js';
+import { winnerCellHtml } from '../lib/winner.js';
+import { renderReferendum } from './referendum.js';
 
 /**
  * The party table rows with change against the previous election.
@@ -58,6 +60,8 @@ export async function render(root, route, ctx) {
   const pos = sameBody.findIndex((e) => e.key === key);
   const before = pos > 0 ? sameBody[pos - 1] : null;
   const after = pos >= 0 && pos < sameBody.length - 1 ? sameBody[pos + 1] : null;
+  // A referendum has options, not parties or seats: its own template (views/referendum.js).
+  if (detail.contestType === 'referendum') return renderReferendum(root, { detail, summary, before, after, slugsByName: contestSlugs(detail.resultEntries || []) });
 
   const parties = (detail.partySummary || []).filter((p) => p.party);
   // Core's one rule (packages/core/src/unopposed.mjs): polled, returned unopposed, or votes not recorded.
@@ -108,8 +112,7 @@ export async function render(root, route, ctx) {
     const polled = pollOf.get(r) === 'polled';
     const result = un ? `<span class="cg-badge">Returned unopposed</span> <span class="el-muted">${esc(r.winnerName || '')}</span>`
       : !polled ? `${esc(r.winnerName || '—')} <span class="el-muted">votes not recorded</span>`
-      : (r.seatsTotal || 1) > 1 ? `${partyChip(r.winnerParty, colourOf.get(String(r.winnerParty)))} <span class="el-muted">most seats; top: ${esc(r.leadingName || '—')}</span>`
-        : `${esc(r.leadingName || r.winnerName || '—')} <span class="el-muted">${esc(r.leadingParty || r.winnerParty || '')}</span>`;
+      : winnerCellHtml(r, (p) => partyChip(p, colourOf.get(p)), esc, fmtInt);
     const limit = losersMissing.has(r) ? ` <span class="el-muted" data-limit="losers">${esc(NOTE.losersMarker)}</span>` : '';
     return `<tr><th scope="row">${name}</th><td class="num">${fmtInt(r.seatsTotal)}</td><td>${result}${limit}</td>`
       + `<td class="num">${polled ? fmtInt(r.validPoll) : '—'}</td><td class="num">${fmtPct(positive(r.turnoutPct))}</td>`
@@ -124,7 +127,7 @@ export async function render(root, route, ctx) {
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › <a href="${appUrl.body(detail.bodySlug)}">${esc(detail.body)}</a> › ${esc(fmtDate(detail.date))}</nav>
     <header class="el-head">
       <h1>${esc(detail.title)}</h1>
-      <p class="el-lead">${esc(fmtDate(detail.date))} · ${esc(detail.kind === 'by-election' ? 'by-election' : detail.kind || '')} · ${esc(systemName(detail.votingSystem))}</p>
+      <p class="el-lead">${[fmtDate(detail.date), detail.kind === 'by-election' ? 'by-election' : detail.kind || '', systemName(detail.votingSystem)].filter(Boolean).map((t) => esc(t)).join(' · ')}</p>
       <p class="el-nav">${before ? `<a href="${appUrl.election(before.key)}">← ${esc(before.displayTitle)}</a>` : ''}${after ? `<a href="${appUrl.election(after.key)}">${esc(after.displayTitle)} →</a>` : ''}</p>
     </header>
     <dl class="cg-facts">

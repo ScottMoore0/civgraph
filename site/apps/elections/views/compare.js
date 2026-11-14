@@ -7,6 +7,7 @@ import { bodyElections, electionDetail, electionIndex, electionSummary, must } f
 import { parliamentArc, seatBar } from '../lib/charts.js';
 import { appUrl, electionSlug, esc, fmtDelta, fmtInt, fmtPct, summaryPollStatus } from '../lib/format.js';
 import { partyChip } from '../lib/party.js';
+import { contestWinner, winnerChanged, winnerText } from '../lib/winner.js';
 import { partyRows } from './election.js';
 import { CHART_TEXT, chartData, fill } from '../lib/chart-data.js';
 import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
@@ -74,8 +75,9 @@ export async function render(root, route, ctx) {
     ${shared.length ? `<p class="el-muted">${shared.length} contests have the same name in both elections${sameLayer ? ' and the same boundaries' : '; the boundaries may differ'}. ${sameLayer ? `<a href="/elections/map/?e=${encodeURIComponent(electionSlug(b.key))}&amp;mode=swing&amp;vs=${encodeURIComponent(electionSlug(a.key))}">Map the change</a>.` : ''}</p>
     <div class="cg-table-wrap"><table class="cg-table cg-table--compact"><thead><tr><th scope="col">Contest</th><th scope="col">Earlier</th><th scope="col">Later</th><th scope="col" class="num">Turnout ±</th></tr></thead><tbody>${shared.map((r) => {
       const o = /** @type {import('../lib/api.js').SummaryRow} */ (aBy.get(r.constituency));
-      const w = (/** @type {import('../lib/api.js').SummaryRow} */ x) => (Number(x.seatsTotal) > 1 ? `${esc(x.winnerParty || '—')} (most seats)` : `${esc(x.leadingName || x.winnerName || '—')} (${esc(x.leadingParty || x.winnerParty || '')})`);
-      const changed = (Number(o.seatsTotal) > 1 ? o.winnerParty : o.leadingParty || o.winnerParty) !== (Number(r.seatsTotal) > 1 ? r.winnerParty : r.leadingParty || r.winnerParty);
+      // A multi-member seat's winner is the party with the most seats, or a tie (lib/winner.js).
+      const w = (/** @type {import('../lib/api.js').SummaryRow} */ x) => { const v = contestWinner(x); return v.kind === 'single' ? `${esc(v.name || '—')} (${esc(v.parties[0])})` : esc(winnerText(v, fmtInt)); };
+      const changed = winnerChanged(contestWinner(o), contestWinner(r));
       const t = Number(r.turnoutPct) > 0 && Number(o.turnoutPct) > 0 ? fmtDelta(Number(r.turnoutPct) - Number(o.turnoutPct), 1) : '';
       return `<tr${changed ? ' class="el-changed"' : ''}><th scope="row">${esc(r.constituency)}</th><td>${w(o)}</td><td>${w(r)}${changed ? ' <span class="cg-badge cg-badge--warning">changed</span>' : ''}</td><td class="num">${t}</td></tr>`;
     }).join('')}</tbody></table></div>` : '<p class="el-muted">No contest has the same name in both elections (boundaries changed). See the notional results view.</p>'}`;

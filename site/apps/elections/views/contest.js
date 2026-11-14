@@ -20,6 +20,8 @@ import { personAppUrl } from '../lib/place-urls.js';
 import { mountContestNav } from './contest-nav.js';
 import { STV_VIEW_TEXT, stvParts, wireStepper } from './stv-contest.js';
 import { quotaFraction } from '../lib/stv.js';
+import { sourceWords } from '../lib/source-words.js';
+import { referendumContestHtml } from './referendum.js';
 
 /** @type {Record<string, string>} */
 const KIND_NOTE = {
@@ -113,6 +115,16 @@ export async function render(root, route, ctx) {
     // el-stv: in quotas, as the bars are, never as a percentage.
     rows: quota.map((r) => [r.name, r.total, r.ratio]),
   }) : '';
+  const sources = `<section aria-labelledby="el-sources"><h2 id="el-sources">Sources</h2>
+      ${citations.length ? `<p>Every figure on this page is from the sources below. Each says what it covers.</p><ol class="cg-citations el-cites">${citations.map(citation).join('')}</ol>`
+        : '<p class="cg-notice cg-notice--warning">No source is recorded for this contest yet.</p>'}
+      <p class="el-muted"><a href="/browse/elections/${esc(electionSlug(detail.key))}-${esc(cslug)}">Browse record</a>${detail.interactiveUrl && detail.layerId ? ` · <a href="${esc(detail.interactiveUrl)}">on the map</a>` : ''}</p>
+    </section>`;
+  // A referendum's area has options, not candidates or seats (views/referendum.js).
+  if (detail.contestType === 'referendum') {
+    root.innerHTML = referendumContestHtml({ detail, contest: /** @type {Record<string, unknown>} */ (c), rows: sheet.rows, sources });
+    return title;
+  }
 
   root.innerHTML = `
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › <a href="${appUrl.body(detail.bodySlug)}">${esc(detail.body)}</a> › <a href="${appUrl.election(detail.key)}">${esc(detail.title)}</a> › ${esc(c.name || c.constituency)}</nav>
@@ -128,11 +140,7 @@ export async function render(root, route, ctx) {
     ${stvp ? stvp.sections : ''}
     ${areaContextSection()}
     ${embedOfferSection({ election: electionSlug(detail.key), contest: cslug, title })}
-    <section aria-labelledby="el-sources"><h2 id="el-sources">Sources</h2>
-      ${citations.length ? `<p>Every figure on this page is from the sources below. Each says what it covers.</p><ol class="cg-citations el-cites">${citations.map(citation).join('')}</ol>`
-        : '<p class="cg-notice cg-notice--warning">No source is recorded for this contest yet.</p>'}
-      <p class="el-muted"><a href="/browse/elections/${esc(electionSlug(detail.key))}-${esc(cslug)}">Browse record</a>${detail.interactiveUrl && detail.layerId ? ` · <a href="${esc(detail.interactiveUrl)}">on the map</a>` : ''}</p>
-    </section>`;
+    ${sources}`;
   // el-context: the area in the census (filled after the page draws), and the embed panel when on.
   const feature = /** @type {{ layerId?: string | null, featureName?: string | null } | null} */ (result.feature);
   mountAreaContext(root, { layerId: feature?.layerId || detail.layerId, area: feature?.featureName || String(c.name || c.constituency || ''), date: detail.date }, ctx, { linkFor: contestLinker(detail.key, detail.resultEntries || []) });
@@ -159,17 +167,18 @@ function outcome(r, order = true) {
   return esc(r.status && !/^not elected$/i.test(r.status) ? r.status : 'Not elected');
 }
 
-/** One citation: title (linked), publisher, what it covers and how it was checked. */
-/** @param {{ url?: string | null, title?: string | null, archiveUrl?: string | null, publisher?: string | null, scope?: string | null, basis?: string | null, check?: string | null, checked?: boolean, accessed?: string | null }} ci */
+/** One citation: title (linked), publisher, kind and what it covers, and how it was checked (lib/source-words.js). */
+/** @param {{ url?: string | null, title?: string | null, host?: string | null, archiveUrl?: string | null, publisher?: string | null, kind?: string | null, scope?: string | null, basis?: string | null, check?: string | null, checked?: boolean, accessed?: string | null }} ci */
 export function citation(ci) {
-  const link = ci.url ? `<a href="${esc(ci.url)}" rel="noopener">${esc(ci.title || ci.url)}</a>` : esc(ci.title || 'Untitled source');
+  const w = sourceWords(ci);
+  const link = ci.url ? `<a href="${esc(ci.url)}" rel="noopener">${esc(w.title)}</a>` : esc(w.title);
   const archive = ci.archiveUrl ? ` (<a href="${esc(ci.archiveUrl)}" rel="noopener">archived copy</a>)` : '';
   const bits = [
-    ci.publisher ? esc(ci.publisher) : '',
-    ci.scope ? `covers ${esc(ci.scope)}` : '',
-    ci.basis ? esc(ci.basis) : '',
+    ci.publisher && !w.title.includes(String(ci.publisher)) ? esc(ci.publisher) : '',
+    w.kind ? esc(w.kind) : '',
+    w.scope ? esc(w.scope) : '',
   ].filter(Boolean).join(' · ');
-  const check = ci.check ? `<div class="el-check">${ci.checked ? '<span class="cg-badge cg-badge--success">checked</span> ' : '<span class="cg-badge">not checked</span> '}${esc(ci.check)}${comparedOn(ci)}</div>`
-    : ci.checked ? `<div class="el-check"><span class="cg-badge cg-badge--success">checked</span>${comparedOn(ci)}</div>` : '';
+  const badge = `<span class="cg-badge${w.badge === 'checked' ? ' cg-badge--success' : ''}" data-check="${w.badge}">${esc(w.badgeText)}</span>`;
+  const check = w.note || ci.checked || w.badge === 'partly' ? `<div class="el-check">${badge}${w.note ? ` ${esc(w.note)}` : ''}${comparedOn(ci)}</div>` : '';
   return `<li>${link}${archive}${bits ? `<div class="el-muted">${bits}</div>` : ''}${check}</li>`;
 }
