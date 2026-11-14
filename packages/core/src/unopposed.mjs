@@ -30,6 +30,22 @@ export function candidateReturnWithoutPoll(candidate) {
 }
 
 /**
+ * The value of a contest file's countInfo `Candidates_Recorded` (and of a built contest's or
+ * summary row's `candidatesRecorded`) when its sources name only the members elected: the losing
+ * candidates and the votes are not known, but a poll was held (the Seanad's 1938-97 panels and its
+ * by-elections). Such a contest is never "returned unopposed".
+ */
+export const WINNERS_ONLY = 'winners';
+
+/**
+ * True for a contest, or a row of an election summary, whose sources name only the winners.
+ * @param {{ candidatesRecorded?: unknown, countInfo?: { Candidates_Recorded?: unknown } | null } | null | undefined} result
+ */
+export function isWinnersOnlyRecord(result) {
+  return result?.candidatesRecorded === WINNERS_ONLY || result?.countInfo?.Candidates_Recorded === WINNERS_ONLY;
+}
+
+/**
  * True for a candidate returned unopposed.
  * @param {Record<string, unknown> | null | undefined} candidate
  */
@@ -92,12 +108,14 @@ export function contestPollStatus(result) {
  * null, for a contest without a poll). With no vote recorded, a contest that had no more
  * candidates than seats returned every candidate without a poll: unopposed. Over the records
  * build this agrees with contestPollStatus() for every contest
- * (tests/unit/elections-app-unopposed.test.mjs).
- * @param {{ validPoll?: unknown, leadingVotes?: unknown, candidateCount?: unknown, seatsTotal?: unknown } | null | undefined} row
+ * (tests/unit/elections-app-unopposed.test.mjs). A row whose sources name only the winners
+ * (isWinnersOnlyRecord) was polled, but its votes are not known.
+ * @param {{ validPoll?: unknown, leadingVotes?: unknown, candidateCount?: unknown, seatsTotal?: unknown, candidatesRecorded?: unknown } | null | undefined} row
  * @returns {PollStatus}
  */
 export function summaryPollStatus(row) {
   if (votesOf(row?.validPoll) > 0 || votesOf(row?.leadingVotes) > 0) return 'polled';
+  if (isWinnersOnlyRecord(row)) return 'not-recorded';
   const candidates = votesOf(row?.candidateCount);
   const seats = votesOf(row?.seatsTotal);
   return candidates > 0 && seats > 0 && candidates <= seats ? 'unopposed' : 'not-recorded';

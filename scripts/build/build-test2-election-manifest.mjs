@@ -2096,7 +2096,7 @@ function classifyElection(entry) {
 function classifyElectionResult(entry, result, parentMetadata = classifyElection(entry)) {
   const contestType = parentMetadata.contestType || contestTypeForElection(entry);
   const votingSystem = votingSystemForElection(entry, result) || parentMetadata.votingSystem;
-  const contestStatus = contestStatusForResult(result, { shortNominationsUnopposed: PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug) });
+  const contestStatus = ElectionDomain.contestStatusForResult(result, { shortNominationsUnopposed: PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug) });
   const candidateRowsExpected = contestType === 'election' && contestStatus !== 'uncontested';
   const transferDataExpected = transferDataExpectedForElection(entry, {
     result,
@@ -2174,27 +2174,6 @@ function votingSystemForElection(entry, result = null) {
   return 'fptp';
 }
 
-/**
- * @param {ContestResult | null | undefined} result
- * @param {{ shortNominationsUnopposed?: boolean }} [options]
- */
-function contestStatusForResult(result, { shortNominationsUnopposed = false } = {}) {
-  const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
-  if (!candidates.length) return 'contested';
-  const elected = candidates.filter((candidate) => candidate?.elected).length;
-  const seatsTotal = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);
-  // An unopposed return carries no votes, or (the presidential records) a placeholder 1.
-  // A real count is more than that, so a winners-only record with votes stays contested.
-  // No figure (null) compares as no votes.
-  const hasAnyVotes = candidates.some((candidate) => /** @type {number} */ (parseNumber(candidate?.firstPrefs)) > 1);
-  if (seatsTotal && elected >= seatsTotal && candidates.length <= seatsTotal && !hasAnyVotes) return 'uncontested';
-  // A pre-1973 council ward with fewer nominations than seats (Keady 1920: four for nine; Lurgan
-  // 1939: four for five) returned everyone nominated without a poll; the empty seats were filled
-  // by old members or co-option, not by a contest.
-  if (shortNominationsUnopposed && seatsTotal && elected === candidates.length && elected < seatsTotal && !hasAnyVotes) return 'uncontested';
-  return 'contested';
-}
-
 // The winners of an unopposed return read "Elected unopposed", and only they do: a contested
 // win is plain "Elected". "Made Quota" goes too, since no count was held (the 1921 Dail
 // returns carry it with a placeholder vote of 1). A status that says more than "Elected" (the
@@ -2232,6 +2211,8 @@ function markUnopposedReturns(result, resultMetadata) {
 function transferDataExpectedForElection(entry, { result = null, votingSystem = null, contestType = null, contestStatus = 'contested' } = {}) {
   const type = contestType || contestTypeForElection(entry);
   if (type !== 'election' || contestStatus === 'uncontested') return false;
+  // Sources that name only the winners give no count to transfer.
+  if (ElectionDomain.isWinnersOnlyRecord(result)) return false;
   const system = votingSystem || votingSystemForElection(entry, result);
   if (!['stv-hare', 'stv-gregory'].includes(system)) return false;
   const seats = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);

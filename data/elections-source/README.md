@@ -122,6 +122,12 @@ ElectionViewer.buildSelector(selectorDiv, function (body, date, constituency) {
 }
 ```
 
+`countInfo` may also carry `"Candidates_Recorded": "winners"`: the sources name only the members
+elected, with no votes and no losing candidates, though a poll was held (the Seanad's 1938-1997
+panels and its by-elections). Such a contest is built as contested with no figures, never as
+"Elected unopposed"; the Elections app says "Only the winners are on record", and
+`check:contest-arithmetic` skips it (`packages/core/src/unopposed.mjs` `isWinnersOnlyRecord`).
+
 ## Files
 
 ```

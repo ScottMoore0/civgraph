@@ -42,6 +42,10 @@
  *   no poll
  *     unopposed-votes      a candidate returned unopposed carries no votes, and a contest with no
  *                          poll has no valid poll or turnout recorded as a figure
+ *   winners only
+ *     winners-only         a contest whose sources name only the winners (countInfo
+ *                          Candidates_Recorded "winners") has no figures to check: it is skipped,
+ *                          and listed as a note
  *
  * A contest that lacks what a rule needs (no valid poll, a candidate without votes, no count
  * stages) is listed under `missing` for that rule, never failed. Failures the source itself
@@ -63,6 +67,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isWinnersOnlyRecord } from '../../../packages/core/src/unopposed.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 export const ALLOWLIST = path.join(ROOT, 'data', 'elections', 'corrections', 'contest-arithmetic-allowlist.json');
@@ -143,6 +148,11 @@ export function checkContest(c) {
   const missing = (/** @type {string} */ rule, /** @type {string} */ detail) => out.push({ rule, kind: 'missing', detail });
   const info = (/** @type {string} */ rule, /** @type {string} */ detail) => out.push({ rule, kind: 'info', detail });
 
+  // Only the winners are on record: no votes, no losers, nothing to add up.
+  if (isWinnersOnlyRecord({ countInfo: c.info })) {
+    info('winners-only', 'only the winners are on record: no figures to check');
+    return out;
+  }
   const cands = c.candidates;
   const polled = cands.filter((k) => !k.unopposed && !k.autoReturned);
   const unopposedAll = cands.length > 0 && cands.every((k) => k.unopposed || k.autoReturned);

@@ -9,7 +9,7 @@ import { cellAt, countSheet, fptpMajority, quotaProgress } from '../lib/count.js
 import {
   appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, num, systemName,
 } from '../lib/format.js';
-import { NOTE, contestLimits, limitHtml, votesMissingNote } from '../lib/limits.js';
+import { NOTE, contestLimits, limitHtml, votesMissingNote, winnersOnly } from '../lib/limits.js';
 import { partyChip } from '../lib/party.js';
 import { CHART_TEXT, chartData } from '../lib/chart-data.js';
 import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
@@ -59,6 +59,8 @@ export async function render(root, route, ctx) {
   };
   const how = (/** @type {boolean} */ on, /** @type {import('../lib/methods.js').MethodId} */ id, /** @type {string} */ sentence) => (on ? methodNote(id, [sentence], 'el-muted el-method el-method--fact') : '');
   const title = `${c.name || c.constituency} – ${detail.title}`;
+  // A contest whose sources name only the winners has its own note (limits), not the kind's.
+  const kindNote = winnersOnly(c) ? '' : KIND_NOTE[sheet.kind];
 
   const facts = [
     ['Seats', fmtInt(c.seatsTotal)],
@@ -119,7 +121,7 @@ export async function render(root, route, ctx) {
       <p class="el-lead"><a href="${appUrl.election(detail.key)}">${esc(detail.title)}</a> · ${esc(fmtDate(detail.date))}</p>
     </header>
     <dl class="cg-facts">${/** @type {string[][]} */ (facts).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}${checkedFact(citations)}</dl>
-    ${KIND_NOTE[sheet.kind] ? `<p class="cg-notice${sheet.kind === 'none' ? ' cg-notice--warning' : ''}">${esc(KIND_NOTE[sheet.kind])}</p>` : ''}
+    ${kindNote ? `<p class="cg-notice${sheet.kind === 'none' ? ' cg-notice--warning' : ''}">${esc(kindNote)}</p>` : ''}
     ${limits.notes.map((l) => limitHtml(l, esc, 'cg-notice', l.id === 'losers' ? methodLink('losers') : '')).join('')}${votesNote ? limitHtml(votesNote, esc) : ''}
     <section aria-labelledby="el-result"><h2 id="el-result">${sheet.kind === 'stages' ? 'Count sheet' : 'Result'}</h2>${table}${stvp ? stvp.afterSheet : ''}</section>
     ${quota.length ? `<section aria-labelledby="el-quota"><h2 id="el-quota">Progress to the quota</h2><figure class="cg-chart">${quotaBars(quota, /** @type {number} */ (sheet.quota))}<figcaption>Each candidate's votes at ${sheet.kind === 'stages' ? 'their last count' : 'the first count'}, against the quota of ${fmtInt(sheet.quota)}. ${methodLink('majority')}</figcaption>${quotaData}</figure></section>` : ''}

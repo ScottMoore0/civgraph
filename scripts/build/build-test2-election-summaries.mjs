@@ -86,7 +86,10 @@ function summarizeResult(/** @type {ElectionResult} */ result) {
     candidateCount: Array.isArray(result.candidates) ? result.candidates.length : 0,
     electedCount: electedCount(result),
     partyCount: partyCount(result),
-    hasAnimation: Boolean(result.animationPayload)
+    hasAnimation: Boolean(result.animationPayload),
+    // Only the winners are on record (packages/core/src/unopposed.mjs isWinnersOnlyRecord): the
+    // row reads "votes not recorded", never "returned unopposed".
+    ...(result.candidatesRecorded ? { candidatesRecorded: result.candidatesRecorded } : {})
   };
 }
 

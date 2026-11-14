@@ -4,6 +4,9 @@
  * blanket disclaimer"). The limits are listed in docs/tasks/elections-app-data-audit.md. Each note
  * here is decided from the data in front of the view, never from a list of contests:
  *
+ *   winners        a contest whose sources name only the winners (countInfo Candidates_Recorded
+ *                  "winners", carried into the contest's record as `candidatesRecorded`): a poll
+ *                  was held, but its losers and votes are not known. Never "returned unopposed";
  *   losers         a polled contest with no more candidates than seats: its losing candidates are
  *                  not on file. A contest file that says its source printed only the members
  *                  elected (`losersNotPrinted: true`, carried into the contest's record by
@@ -20,10 +23,11 @@
  */
 import { NO_PARTY_RECORDED } from '../../../pkg/core/src/election-domain.mjs';
 import { votingSystemsWithTransfers } from '../../../pkg/registries/src/browser/election-type-names.mjs';
-import { summaryPollStatus } from '../../../pkg/core/src/unopposed.mjs';
+import { isWinnersOnlyRecord, summaryPollStatus } from '../../../pkg/core/src/unopposed.mjs';
 
 /** Every fixed sentence a note can use (each a key of data/i18n/strings/elections.txt). */
 export const NOTE = Object.freeze({
+  winnersOnly: 'Only the winners are on record: the other candidates and the votes are not known.',
   losersNotPrinted: 'The source printed only the members elected, so the losing candidates are not known.',
   losersMissing: 'The losing candidates are not on file: the sources read so far name only the members elected.',
   electedVotesOnly: "The valid poll and the shares here count the elected members' votes alone, and no majority can be given.",
@@ -60,7 +64,7 @@ export function counted(id, n, fmt, total) {
 
 /**
  * A data note: an id (the data-limit attribute, for tests and styling hooks) and its sentences.
- * @typedef {{ id: 'losers' | 'votes' | 'transfers' | 'gender' | 'incumbency' | 'party' | 'unopposed' | 'election-losers', sentences: string[] }} Limit
+ * @typedef {{ id: 'winners' | 'losers' | 'votes' | 'transfers' | 'gender' | 'incumbency' | 'party' | 'unopposed' | 'election-losers', sentences: string[] }} Limit
  */
 
 /** Whether a voting system's count transfers votes (registry `transfers`). @param {unknown} system */
@@ -72,12 +76,14 @@ const POLLED = new Set(['stages', 'single', 'order']);
 /**
  * The notes of one contest page, from its count sheet and its record.
  * @param {{ kind: string, rows: Array<{ firstPrefs: number | null, unopposed: boolean, autoReturned: boolean }>, seats: number | null, validPoll: number | null }} sheet
- * @param {{ losersNotPrinted?: unknown }} [contest]
+ * @param {{ losersNotPrinted?: unknown, candidatesRecorded?: unknown }} [contest]
  * @returns {{ notes: Limit[], losersMissing: boolean, votesMissing: number }}
  */
 export function contestLimits(sheet, contest = {}) {
   /** @type {Limit[]} */
   const notes = [];
+  // Only the winners are on record: the losers and every vote are missing, and the note says so.
+  if (winnersOnly(contest)) return { notes: [{ id: 'winners', sentences: [NOTE.winnersOnly] }], losersMissing: true, votesMissing: 0 };
   if (!POLLED.has(sheet.kind)) return { notes, losersMissing: false, votesMissing: 0 };
   const polled = sheet.rows.filter((r) => !r.unopposed && !r.autoReturned);
   const seats = sheet.seats || 0;
@@ -93,6 +99,12 @@ export function contestLimits(sheet, contest = {}) {
   const votesMissing = polled.filter((r) => r.firstPrefs === null).length;
   return { notes, losersMissing, votesMissing };
 }
+
+/**
+ * Whether a contest's sources name only the winners (core's rule, packages/core/src/unopposed.mjs).
+ * @param {{ candidatesRecorded?: unknown }} contest
+ */
+export const winnersOnly = (contest) => isWinnersOnlyRecord(contest);
 
 /** The note of a contest's candidates with no vote figure. @param {number} n @param {(v: number) => string} fmt @returns {Limit | null} */
 export const votesMissingNote = (n, fmt) => (n > 0 ? { id: 'votes', sentences: [counted('votesMissing', n, fmt)] } : null);

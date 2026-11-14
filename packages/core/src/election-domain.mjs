@@ -1,8 +1,8 @@
 import statuses from '../../registries/src/browser/statuses.mjs';
 import partyPalettes from '../../registries/src/browser/party-palettes.mjs';
-import { isUnopposedCandidate } from './unopposed.mjs';
+import { isUnopposedCandidate, isWinnersOnlyRecord, WINNERS_ONLY } from './unopposed.mjs';
 
-export { candidateReturnWithoutPoll, isUncontestedResult, isUnopposedCandidate, partyHadNoPoll, UNOPPOSED_SEATS_NOTE } from './unopposed.mjs';
+export { candidateReturnWithoutPoll, isUncontestedResult, isUnopposedCandidate, isWinnersOnlyRecord, partyHadNoPoll, UNOPPOSED_SEATS_NOTE, WINNERS_ONLY } from './unopposed.mjs';
 
 /** @typedef {import('../../types/index.js').Candidacy} Candidacy */
 /** @typedef {import('../../types/index.js').Contest} Contest */
@@ -1519,8 +1519,37 @@ export function summarizeResult(raw, fallbackConstituency) {
     animationPayload: withoutHarvestFields(mainPayload || raw || null),
     constituencyId: raw?.constituencyId || raw?.officialDail?.constituencyId || null,
     constituencyNumber: raw?.constituencyNumber || raw?.officialDail?.constituencyNumber || info.Constituency_Number || null,
-    officialDail: raw?.officialDail || null
+    officialDail: raw?.officialDail || null,
+    // A contest file whose sources name only the winners says so in its countInfo
+    // (Candidates_Recorded: "winners"); the contest record and its summary row carry it.
+    ...(isWinnersOnlyRecord({ countInfo: info }) ? { candidatesRecorded: WINNERS_ONLY } : {})
   };
+}
+
+/**
+ * Whether a contest went to a poll, from its result: 'uncontested' when the winners fill the
+ * seats, nobody else stood and no vote is recorded (an unopposed return carries no votes, or, in
+ * the presidential records, a placeholder 1; a real count is more than that, so a winners-only
+ * record with votes stays contested; no figure (null) compares as no votes); else 'contested'.
+ * A contest whose sources name only the winners (countInfo Candidates_Recorded "winners") was
+ * polled: it is contested, with no figures, never unopposed.
+ * With `shortNominationsUnopposed` (the pre-1973 NI councils), a ward with fewer nominations than
+ * seats (Keady 1920: four for nine; Lurgan 1939: four for five) returned everyone nominated
+ * without a poll; the empty seats were filled by old members or co-option, not by a contest.
+ * @param {{ candidates?: unknown, seatsTotal?: unknown, seatsWon?: unknown, candidatesRecorded?: unknown, countInfo?: SourceRow | null } | null | undefined} result
+ * @param {{ shortNominationsUnopposed?: boolean }} [options]
+ * @returns {'contested' | 'uncontested'}
+ */
+export function contestStatusForResult(result, { shortNominationsUnopposed = false } = {}) {
+  const candidates = /** @type {Array<{ elected?: unknown, firstPrefs?: unknown } | null | undefined>} */ (Array.isArray(result?.candidates) ? result.candidates : []);
+  if (!candidates.length) return 'contested';
+  if (isWinnersOnlyRecord(result)) return 'contested';
+  const elected = candidates.filter((candidate) => candidate?.elected).length;
+  const seatsTotal = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);
+  const hasAnyVotes = candidates.some((candidate) => /** @type {number} */ (parseNumber(candidate?.firstPrefs)) > 1);
+  if (seatsTotal && elected >= seatsTotal && candidates.length <= seatsTotal && !hasAnyVotes) return 'uncontested';
+  if (shortNominationsUnopposed && seatsTotal && elected === candidates.length && elected < seatsTotal && !hasAnyVotes) return 'uncontested';
+  return 'contested';
 }
 
 /**
