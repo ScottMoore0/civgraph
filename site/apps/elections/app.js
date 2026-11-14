@@ -8,6 +8,7 @@
 import { isAppHref, parseRoute } from './lib/route.js';
 import { esc } from './lib/format.js';
 import { createViewScope } from './lib/lifecycle.js';
+import { announce, announcement, moveFocus, watchScrollAreas } from './lib/a11y.js';
 import { ROUTE } from './state-machines.js';
 
 /**
@@ -43,8 +44,21 @@ const routeRun = ROUTE.start();
 /** The view on screen (or loading): leaving it disposes its listeners, maps and holders. */
 let scope = createViewScope();
 
-/** Render the current URL's view. */
-async function render() {
+/** The first view is not announced and keeps the page's own focus; every later one is (lib/a11y.js). */
+let first = true;
+
+/**
+ * Render the current URL's view. After the first, the new view is announced briefly and focus
+ * moves to its h1, or back to the control a form change re-rendered (keepScroll).
+ * @param {{ keepScroll?: boolean }} [opts]
+ */
+async function render({ keepScroll = false } = {}) {
+  const active = document.activeElement;
+  const activeId = active instanceof HTMLElement && active.id && root.contains(active) ? active.id : null;
+  const settle = (/** @type {string} */ title) => {
+    if (!first) { announce(announcement(title)); moveFocus(root, { keepScroll, activeId }); }
+    first = false;
+  };
   scope.dispose();
   const mine = createViewScope();
   scope = mine;
@@ -65,6 +79,8 @@ async function render() {
     root.dataset.route = routeRun.to('rendered');
     // Party chips link to the party's Browse page (el-places, lib/party-links.js).
     import('./lib/party-links.js').then((m) => m.linkPartyChips(root, mine.stale)).catch(() => {});
+    watchScrollAreas(root, mine.signal);
+    settle(title || 'Civgraph Elections');
   } catch (err) {
     if (mine.stale()) return;
     const status = /** @type {{ status?: number } | null} */ (err)?.status;
@@ -73,6 +89,7 @@ async function render() {
       : `<h1>Something went wrong</h1><p class="cg-notice cg-notice--danger">${esc(/** @type {Error} */ (err)?.message || err)}</p>`;
     document.title = 'Civgraph Elections';
     root.dataset.route = routeRun.to(status === 404 ? 'not-found' : 'failed');
+    settle(root.querySelector('h1')?.textContent || '');
     console.error(err);
   } finally {
     if (!mine.stale()) root.removeAttribute('aria-busy');
@@ -85,7 +102,7 @@ export function navigate(href, { replace = false, keepScroll = false } = {}) {
   if (replace) history.replaceState(null, '', href);
   else history.pushState(null, '', href);
   if (!keepScroll) window.scrollTo(0, 0);
-  return render();
+  return render({ keepScroll });
 }
 
 document.addEventListener('click', (event) => {

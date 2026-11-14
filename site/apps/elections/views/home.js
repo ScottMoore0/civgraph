@@ -47,8 +47,8 @@ export async function render(root, route, ctx) {
     </section>
     ${[...groups].filter(([, bs]) => bs.length).map(([g, bs]) => `
       <section aria-label="${esc(g)}"><h2>${esc(g)}</h2>
-        <table class="cg-table cg-table--compact el-bodies"><thead><tr><th scope="col">Body</th><th scope="col">Years</th><th scope="col" class="num">Elections</th><th scope="col" class="num">By-elections</th></tr></thead>
-        <tbody>${bs.sort((a, b) => b.n - a.n).map((b) => `<tr><th scope="row"><a href="${appUrl.body(b.slug)}">${esc(b.name)}</a></th><td>${b.from.slice(0, 4)}–${b.to.slice(0, 4)}</td><td class="num">${b.n - b.by}</td><td class="num">${b.by || ''}</td></tr>`).join('')}</tbody></table>
+        <div class="cg-table-wrap"><table class="cg-table cg-table--compact el-bodies"><thead><tr><th scope="col">Body</th><th scope="col">Years</th><th scope="col" class="num">Elections</th><th scope="col" class="num">By-elections</th></tr></thead>
+        <tbody>${bs.sort((a, b) => b.n - a.n).map((b) => `<tr><th scope="row"><a href="${appUrl.body(b.slug)}">${esc(b.name)}</a></th><td>${b.from.slice(0, 4)}–${b.to.slice(0, 4)}</td><td class="num">${b.n - b.by}</td><td class="num">${b.by || ''}</td></tr>`).join('')}</tbody></table></div>
       </section>`).join('')}`;
   // The search: places, people, parties and elections (views/search-box.js, el-places).
   mountSearch(root, { elections: all, query: route.query }, ctx);

@@ -161,6 +161,24 @@ th[aria-sort="descending"] .el-sort::after { content: " \2193"; }
   .el-wide-only { display: none; }
   .el-narrow-only { display: block; }
   .el-sheet-wrap:has(~ .el-stacked) { display: none; }
+
+
+
+/* el-fixes (14 Nov 2026): phones and keyboards. */
+/* A scroll area in the tab order (lib/a11y.js) shows its focus. */
+.el-main [data-scroll-area]:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+/* The view's h1 takes focus after a route change (tabindex -1): no ring for a heading. */
+.el-main h1[tabindex="-1"]:focus { outline: none; }
+.el-ref-result { font-weight: var(--weight-medium); }
+@media (max-width: 36rem) {
+  /* The transfer flows and bar charts keep their 12-unit labels near 12px: the diagram scrolls
+     sideways instead of shrinking to about 7px. */
+  .el-main figure.cg-chart { overflow-x: auto; }
+  .cg-chart svg.el-flow, .cg-chart svg.el-hbars { min-width: 35rem; }
+  /* The swingometer's sliders fit a phone's table column. */
+  .el-swing-parties input[type="range"] { width: 6.5rem; }
+  /* Long election names in the pickers wrap the controls rather than widen the page. */
+  .el-controls label, .el-controls select { max-width: 100%; min-width: 0; }
 }
 
 /* el-context (14 Nov 2026): the census context, "same votes, other systems" and the embed panel. */
