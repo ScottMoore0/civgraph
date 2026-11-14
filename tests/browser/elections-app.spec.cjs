@@ -507,5 +507,65 @@ test.describe('Civgraph Elections: chart data, methods, checked dates', () => {
     await expect(page.locator('h1')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
     await context.close();
+// el-places (14 Nov 2026): search over places, people and parties; area pages; the person page;
+// the contest arrows; party chips linked to Browse.
+test.describe('Civgraph Elections: places, people and parties', () => {
+  test.skip(!RECORDS, 'needs the records build (npm run records:build)');
+
+  test('search finds a place, a person and a party, accents and case folded, and keeps the query in the address', async ({ page }) => {
+    await page.goto('/elections/');
+    await page.fill('#el-q', 'Strangford');
+    await expect(page.locator('#el-results-places + ul a').first()).toHaveText('Strangford');
+    await page.fill('#el-q', 'naomi long');
+    await expect(page.locator('#el-results-people + ul a').first()).toHaveText('Naomi Long');
+    await expect(page).toHaveURL(/\?q=naomi%20long$/);
+    await page.fill('#el-q', 'SINN FEIN');
+    await expect(page.locator('#el-results-parties + ul a').first()).toHaveAttribute('href', '/browse/parties/sinn-fein');
+    await page.goto('/elections/?q=strangford');
+    await expect(page.locator('#el-q')).toHaveValue('strangford');
+    await expect(page.locator('#el-results-places + ul a').first()).toHaveAttribute('href', '/elections/area/strangford/');
+  });
+
+  test('area page: a section per body, a trend chart, members, verdicts and boundary maps; fits a phone', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 800 });
+    await page.goto('/elections/area/strangford/');
+    await expect(page.locator('h1')).toHaveText('Strangford');
+    await expect(page.locator('.cg-notice').first()).toContainText('gathered here by their name');
+    const commons = page.locator('section.el-series', { hasText: 'House of Commons of the United Kingdom' });
+    await expect(commons.locator('.el-trend svg[role="img"]')).toBeVisible();
+    await expect(commons.locator('table.el-area-contests tbody tr').first()).toContainText('DUP win, on new boundaries');
+    await expect(commons.locator('table.el-members')).toContainText('Jim Shannon');
+    await expect(commons.locator('a[href="/maps/#layers=pc-2023-vector"]')).toHaveCount(1);
+    await expect(page.locator('section.el-series', { hasText: 'East Down Rural District Council' })).toContainText('No boundary map is held');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
+    await page.click('.el-area-bodies a:text-is("Northern Ireland Assembly")');
+    await expect(page).toHaveURL(/\/elections\/area\/strangford\/\?body=northern-ireland-assembly$/);
+    await expect(page.locator('.el-crumbs')).toContainText('Northern Ireland Assembly');
+    await expect(page.locator('table.el-members thead th')).toHaveCount(7);
+    await shot(page, '20-area');
+  });
+
+  test('contest page: arrows to the contests before and after under the same name, people and party links', async ({ page }) => {
+    await page.goto('/elections/northern-ireland-assembly-2017-03-02/strangford/');
+    const nav = page.locator('nav.el-contest-nav');
+    await expect(nav.locator('a[rel="prev"]')).toHaveAttribute('href', '/elections/northern-ireland-assembly-2016-05-05/strangford/');
+    await expect(nav.locator('a[rel="next"]')).toHaveAttribute('href', '/elections/northern-ireland-assembly-2022-05-05/strangford/');
+    await expect(page.locator('a.el-party-link[href="/browse/parties/dup"]').first()).toBeVisible();
+    await page.click('table.el-sheet a:text-is("Michelle McIlveen")');
+    await expect(page).toHaveURL(/\/elections\/person\/michelle-mcilveen-[\w-]+\/$/);
+    await expect(page.locator('h1')).toHaveText('Michelle McIlveen');
+  });
+
+  test('person page: every candidacy across bodies, relatives, same-name people, the Browse record', async ({ page }) => {
+    await page.goto('/elections/person/naomi-long-51102/');
+    await expect(page.locator('h1')).toHaveText('Naomi Long');
+    await expect(page.locator('table.el-career tbody tr')).toHaveCount(14);
+    await expect(page.locator('table.el-career')).toContainText('European');
+    await expect(page.locator('a[href="/browse/persons/naomi-long-51102"]')).toHaveCount(1);
+    await page.goto('/elections/person/neil-t-blaney-100149/');
+    await expect(page.locator('#el-relatives + ul')).toContainText('father');
+    await page.goto('/elections/person/frank-aiken-105416/');
+    await expect(page.locator('#el-namesakes ~ ul li')).not.toHaveCount(0);
+    await shot(page, '21-person');
   });
 });
