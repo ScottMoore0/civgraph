@@ -507,6 +507,9 @@ test.describe('Civgraph Elections: chart data, methods, checked dates', () => {
     await expect(page.locator('h1')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(375);
     await context.close();
+  });
+});
+
 // el-places (14 Nov 2026): search over places, people and parties; area pages; the person page;
 // the contest arrows; party chips linked to Browse.
 test.describe('Civgraph Elections: places, people and parties', () => {
