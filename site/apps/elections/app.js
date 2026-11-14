@@ -31,9 +31,11 @@ const VIEWS = {
   methods: () => import('./views/methods.js'),
   byelections: () => import('./views/byelections.js'),
   control: () => import('./views/control.js'),
+  area: () => import('./views/area.js'),
+  person: () => import('./views/person.js'),
 };
 /** @type {Record<string, string>} */
-const TAB_OF = { home: 'home', body: 'home', election: 'home', contest: 'home', pivot: 'pivot', map: 'map', compare: 'compare', swing: 'swing', notional: 'notional', methods: 'methods', byelections: 'byelections', control: 'control' };
+const TAB_OF = { home: 'home', body: 'home', election: 'home', contest: 'home', pivot: 'pivot', map: 'map', compare: 'compare', swing: 'swing', notional: 'notional', methods: 'methods', byelections: 'byelections', control: 'control', area: 'home', person: 'home' };
 
 const root = /** @type {HTMLElement} */ (document.getElementById('el-view'));
 /** EL-01: the route's state (state-machines.js ROUTE). */
@@ -61,6 +63,8 @@ async function render() {
     if (mine.stale()) return;
     document.title = title ? `${title} - Civgraph Elections` : 'Civgraph Elections';
     root.dataset.route = routeRun.to('rendered');
+    // Party chips link to the party's Browse page (el-places, lib/party-links.js).
+    import('./lib/party-links.js').then((m) => m.linkPartyChips(root, mine.stale)).catch(() => {});
   } catch (err) {
     if (mine.stale()) return;
     const status = /** @type {{ status?: number } | null} */ (err)?.status;

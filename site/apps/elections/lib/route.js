@@ -11,13 +11,15 @@
  *   /elections/pivot/ map/ compare/ swing/ notional/   the tools (state in the query string)
  *   /elections/methods/                      how the worked-out figures are made (views/methods.js)
  *   /elections/byelections/ control/          the by-election tracker, council control (stream el-bodies)
+ *   /elections/area/<contest-slug>/[?body=]  every contest held under one name (el-places)
+ *   /elections/person/<person-slug>/         a person's candidacies across bodies (el-places)
  */
 export const BASES = ['/elections', '/apps/elections'];
 export const TOOLS = ['pivot', 'map', 'compare', 'swing', 'notional', 'methods', 'byelections', 'control'];
 
 /**
  * A parsed app URL: the view and its path parts, and the query (each tool's state).
- * @typedef {{ view: string, election?: string, contest?: string, body?: string, query: URLSearchParams }} Route
+ * @typedef {{ view: string, election?: string, contest?: string, body?: string, area?: string, person?: string, query: URLSearchParams }} Route
  */
 
 /**
@@ -35,6 +37,8 @@ export function parseRoute(pathname, search = '') {
   if (!parts.length) return { view: 'home', query };
   if (TOOLS.includes(parts[0])) return { view: parts[0], query };
   if (parts[0] === 'body' && parts[1]) return { view: 'body', body: parts[1], query };
+  if (parts[0] === 'area' && parts[1]) return { view: 'area', area: parts[1], query };
+  if (parts[0] === 'person' && parts[1]) return { view: 'person', person: parts[1], query };
   if (parts.length === 1) return { view: 'election', election: parts[0], query };
   return { view: 'contest', election: parts[0], contest: parts[1], query };
 }

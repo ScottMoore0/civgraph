@@ -194,7 +194,7 @@ export const CONTRACTS = Object.freeze({
       v('facets', { facets: '1' }, 'The People filter options', obj({ facets: obj({ body: arr(), decade: arr(), elected: arr(), party: arr() }) })),
       v('candidacies', { slug: '*', view: 'candidacies' }, 'Every candidacy of one person, in date order',
         obj({ slug: str, personId: str, total: num, candidacies: arr(obj({ electionKey: str, electionSlug: str, date: str, contest: str, name: str, elected: bool,
-          electionTitle: str, body: str, contestSeq: num, contestSlug: str, party: strOrNull, firstPrefs: numOrNull, status: strOrNull, unopposed: bool }, ['electionKey', 'electionSlug', 'date', 'contest', 'name', 'elected'])) })),
+          electionTitle: str, body: str, contestSeq: num, contestSlug: str, party: strOrNull, firstPrefs: numOrNull, status: strOrNull, unopposed: bool, colour: strOrNull }, ['electionKey', 'electionSlug', 'date', 'contest', 'name', 'elected'])) })),
       v('votes', { slug: '*', view: 'votes' }, 'One person\'s parliamentary votes', VOTES_PERSON),
       v('record', { slug: '*' }, 'One person', obj({ person: PERSON, record: PERSON })),
       v('list', {}, 'A page of people, searched (q), filtered and sorted', page('persons', PERSON)),

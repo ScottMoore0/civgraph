@@ -40,7 +40,7 @@ export const PERSONS = Object.freeze({
   candidacies: `SELECT c.election_key AS electionKey, e.slug AS electionSlug, e.display_title AS electionTitle, e.date, e.body,
        c.contest_seq AS contestSeq, k.name AS contest, k.slug AS contestSlug, c.ord, c.name, c.party_label AS party,
        c.party_as_printed AS partyAsPrinted, c.party_id AS partyId, c.first_prefs AS firstPrefs, c.final_votes AS finalVotes,
-       c.elected, c.status, c.unopposed
+       c.elected, c.status, c.unopposed, c.colour
      FROM candidacies c
      JOIN ${T.elections} e ON e.key = c.election_key
      JOIN contests k ON k.election_key = c.election_key AND k.seq = c.contest_seq

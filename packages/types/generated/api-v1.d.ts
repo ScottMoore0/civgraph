@@ -494,6 +494,7 @@ export interface PersonsCandidaciesAnswer {
     firstPrefs?: number | null;
     status?: string | null;
     unopposed?: boolean;
+    colour?: string | null;
     [key: string]: unknown;
   }>;
   [key: string]: unknown;

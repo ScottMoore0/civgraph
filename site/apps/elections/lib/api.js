@@ -30,8 +30,14 @@ const cache = new Map();
 /** GET a JSON answer of the elections API, once per URL. */
 /** @param {Record<string, string | number | null | undefined>} params @returns {Promise<unknown>} */
 export function getJson(params) {
+  return fetchOnce(API, params);
+}
+
+/** GET a JSON answer of a records route, once per URL (the cache above). */
+/** @param {string} base @param {Record<string, string | number | null | undefined>} params @returns {Promise<unknown>} */
+function fetchOnce(base, params) {
   const qs = new URLSearchParams(/** @type {[string, string][]} */ (Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== '').map(([k, v]) => [k, String(v)]))).toString();
-  const url = qs ? `${API}?${qs}` : API;
+  const url = qs ? `${base}?${qs}` : base;
   if (!cache.has(url)) {
     cache.set(url, fetch(url, { headers: { Accept: 'application/json' } }).then(async (res) => {
       if (!res.ok) throw Object.assign(new Error(`${res.status} ${url}`), { status: res.status });
@@ -110,3 +116,41 @@ export function appFile(path) {
 export const censusAreas = () => appFile('/apps/elections/census/ni-areas.json');
 /** The licences the widget names (embed/licences.json, scripts/build/elections-app/embed-licences.mjs). */
 export const embedLicences = () => appFile('/apps/elections/embed/licences.json');
+
+// ------------------------------------------------------------------ places, people and parties
+// (el-places, 14 Nov 2026): the area pages, the search, the person page and the party links. The
+// persons and parties answers come from their own routes of the same records API.
+
+/**
+ * @typedef {import('../../../packages/types/index.js').ApiV1.ElectionsAreaIndexAnswer} AreaIndexAnswer
+ * @typedef {import('../../../packages/types/index.js').ApiV1.ElectionsAreaHistoryAnswer} AreaHistoryAnswer
+ * @typedef {import('../../../packages/types/index.js').ApiV1.PersonsListAnswer} PersonsListAnswer
+ * @typedef {import('../../../packages/types/index.js').ApiV1.PersonsRecordAnswer} PersonRecordAnswer
+ * @typedef {import('../../../packages/types/index.js').ApiV1.PersonsCandidaciesAnswer} PersonCandidaciesAnswer
+ * @typedef {import('../../../packages/types/index.js').ApiV1.PartiesListAnswer} PartiesListAnswer
+ * @typedef {import('../../../packages/types/index.js').ApiV1.PartiesNamesAnswer} PartyNamesAnswer
+ * @typedef {AreaIndexAnswer['areas'][number]} AreaRow           one place of the area index
+ * @typedef {AreaHistoryAnswer['contests'][number]} AreaContest  one contest of an area's history
+ * @typedef {AreaContest['candidates'][number]} AreaCandidate
+ * @typedef {PersonsListAnswer['persons'][number]} PersonCard
+ * @typedef {PartiesListAnswer['items'][number]} PartyCard
+ */
+
+/** A records route other than elections (persons, parties), read the same way. */
+/** @param {'persons' | 'parties'} route @param {Record<string, string | number | null | undefined>} params */
+const getRoute = (route, params) => fetchOnce(`/_api/${route}`, params);
+
+/** Every place contests were held: a contest slug within a body (the place search). @returns {Promise<AreaRow[]>} */
+export const areaIndex = () => getJson({ view: 'area-index' }).then((j) => /** @type {AreaIndexAnswer} */ (j).areas || []);
+/** Every contest held under one contest slug, in every body, oldest first, with candidates. @returns {Promise<AreaHistoryAnswer>} */
+export const areaHistory = (/** @type {string} */ slug) => /** @type {Promise<AreaHistoryAnswer>} */ (getJson({ view: 'area-history', slug }));
+/** People whose record matches the words (the persons API folds accents), most seats won first. @returns {Promise<PersonCard[]>} */
+export const personSearch = (/** @type {string} */ q, limit = 40) => getRoute('persons', { q, limit, sort: 'elected' }).then((j) => /** @type {PersonsListAnswer} */ (j).persons || []);
+/** One person's record (the Browse card: parties, elections with shares, relatives). @returns {Promise<PersonRecordAnswer>} */
+export const personRecord = (/** @type {string} */ slug) => /** @type {Promise<PersonRecordAnswer>} */ (getRoute('persons', { slug }));
+/** Every candidacy of one person, in date order, with its contest's slug. @returns {Promise<PersonCandidaciesAnswer>} */
+export const personCandidacies = (/** @type {string} */ slug) => /** @type {Promise<PersonCandidaciesAnswer>} */ (getRoute('persons', { slug, view: 'candidacies' }));
+/** Every party (about 600). @returns {Promise<PartyCard[]>} */
+export const partyList = () => getRoute('parties', {}).then((j) => /** @type {PartiesListAnswer} */ (j).items || []);
+/** Every name a party is known by, folded, to its slug (about 40 KB). @returns {Promise<Record<string, string>>} */
+export const partyNames = () => getRoute('parties', { view: 'names' }).then((j) => /** @type {PartyNamesAnswer} */ (j).items || {});

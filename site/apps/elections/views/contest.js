@@ -7,7 +7,7 @@ import { contestCitations, contestResult, electionDetail } from '../lib/api.js';
 import { quotaBars, transferFlow } from '../lib/charts.js';
 import { cellAt, countSheet, fptpMajority, quotaProgress, transferStages } from '../lib/count.js';
 import {
-  appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, num, personUrl, systemName,
+  appUrl, electionSlug, esc, fmtDate, fmtDelta, fmtInt, fmtPct, isStv, num, systemName,
 } from '../lib/format.js';
 import { NOTE, contestLimits, limitHtml, votesMissingNote } from '../lib/limits.js';
 import { partyChip } from '../lib/party.js';
@@ -16,6 +16,8 @@ import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
 import { checkedFact, comparedOn } from '../lib/checked.js';
 import { areaContextSection, contestLinker, mountAreaContext } from './area-context.js';
 import { embedOfferSection, mountEmbedOffer } from './embed-offer.js';
+import { personAppUrl } from '../lib/place-urls.js';
+import { mountContestNav } from './contest-nav.js';
 
 /** @type {Record<string, string>} */
 const KIND_NOTE = {
@@ -136,12 +138,15 @@ export async function render(root, route, ctx) {
   const feature = /** @type {{ layerId?: string | null, featureName?: string | null } | null} */ (result.feature);
   mountAreaContext(root, { layerId: feature?.layerId || detail.layerId, area: feature?.featureName || String(c.name || c.constituency || ''), date: detail.date }, ctx, { linkFor: contestLinker(detail.key, detail.resultEntries || []) });
   mountEmbedOffer(root, ctx);
+  // Arrows to the contests before and after this one under the same name (el-places).
+  void mountContestNav(root, { electionKey: detail.key, contestSlug: cslug, seq: Number(c.seq), name: String(c.name || c.constituency), bodySlug: detail.bodySlug, stale: ctx.stale });
   return title;
 }
 
 /** @param {import('../lib/count.js').SheetRow} r */
 function personLink(r) {
-  const url = personUrl(r.name, r.personId, r.personSlug);
+  // The person's career in the app (el-places), which links on to their Browse page.
+  const url = personAppUrl(r);
   return url ? `<a href="${esc(url)}">${esc(r.name)}</a>` : esc(r.name);
 }
 
