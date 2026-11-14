@@ -192,7 +192,8 @@ export default {
   "mapInk": "#222",
   "noFill": "rgba(0,0,0,0)",
   "nonTransferable": "#9aa0a6",
-  "pooledTransfer": "#6b7280"
+  "pooledTransfer": "#6b7280",
+  "noDataHatch": "#8a8f98"
  },
  "browse": {
   "mapPreview": {

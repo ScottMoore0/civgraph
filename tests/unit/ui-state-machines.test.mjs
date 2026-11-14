@@ -202,6 +202,7 @@ test('Elections map mode (EL-07): every mode reaches every other; the guard draw
   const m = elections.MAP_MODE;
   assert.deepEqual([...m.states].sort(), elections.MAP_MODES.map((x) => x.mode).sort());
   m.assertPath(['swing', 'share', 'turnout', 'winner', 'share']);
+  m.assertPath(['margin', 'spoilt', 'topper', 'winner', 'margin', 'swing']);
   for (const s of m.states) assert.equal(m.can(s, s), false, `${s} -> ${s}`);
   assert.deepEqual(elections.mapModeShown('swing', { party: true, vs: false }), { mode: 'share', reason: 'no-vs' });
   assert.deepEqual(elections.mapModeShown('swing', { party: false, vs: true }), { mode: 'winner', reason: 'no-party' });

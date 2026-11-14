@@ -112,26 +112,35 @@ export const PIVOT_RUN = defineMachine({
   },
 });
 
-/** EL-07. What the results map shows; any mode may follow any other (the form's select). */
+/**
+ * EL-07. What the results map shows; any mode may follow any other (the form's select). margin,
+ * spoilt and topper joined on 14 Nov 2026 (el-maps; lib/map-modes.js draws each).
+ */
 export const MAP_MODE = defineMachine({
   name: 'elections map mode',
   initial: 'winner',
   transitions: {
-    winner: ['turnout', 'share', 'swing'],
-    turnout: ['winner', 'share', 'swing'],
-    share: ['winner', 'turnout', 'swing'],
-    swing: ['winner', 'turnout', 'share'],
+    winner: ['turnout', 'share', 'swing', 'margin', 'spoilt', 'topper'],
+    turnout: ['winner', 'share', 'swing', 'margin', 'spoilt', 'topper'],
+    share: ['winner', 'turnout', 'swing', 'margin', 'spoilt', 'topper'],
+    swing: ['winner', 'turnout', 'share', 'margin', 'spoilt', 'topper'],
+    margin: ['winner', 'turnout', 'share', 'swing', 'spoilt', 'topper'],
+    spoilt: ['winner', 'turnout', 'share', 'swing', 'margin', 'topper'],
+    topper: ['winner', 'turnout', 'share', 'swing', 'margin', 'spoilt'],
   },
 });
 
-/** @typedef {'winner' | 'turnout' | 'share' | 'swing'} MapMode */
+/** @typedef {'winner' | 'turnout' | 'share' | 'swing' | 'margin' | 'spoilt' | 'topper'} MapMode */
 
 /** The map modes, with their labels, in the order the form lists them. */
 export const MAP_MODES = /** @type {ReadonlyArray<{ mode: MapMode, label: string }>} */ (Object.freeze([
-  { mode: 'winner', label: 'Winner' },
+  { mode: 'winner', label: 'Winning party' },
   { mode: 'turnout', label: 'Turnout' },
-  { mode: 'share', label: 'Party share' },
-  { mode: 'swing', label: 'Change in party share' },
+  { mode: 'share', label: "A party's share of the vote" },
+  { mode: 'swing', label: "Swing: change in a party's share" },
+  { mode: 'margin', label: 'Margin' },
+  { mode: 'spoilt', label: 'Spoilt ballots' },
+  { mode: 'topper', label: 'Poll-topper' },
 ]));
 
 /** The map mode a URL asks for, or winner. @param {string | null | undefined} value @returns {MapMode} */
@@ -143,14 +152,16 @@ export function mapModeOf(value) {
  * EL-07's guard: the mode the map can draw for the mode asked for. Share and swing need a party
  * with votes; swing also needs an earlier election on the same boundaries (`vs`). Without one,
  * swing is drawn as the party's share and the page says why (`reason`); without a party, share
- * and swing fall back to the winner.
+ * and swing fall back to the winner. An earlier election on other boundaries (`sameBoundaries`
+ * false; 14 Nov 2026) is no like-for-like comparison either: the share, with reason 'boundaries'.
  * @param {MapMode} mode
- * @param {{ party: boolean, vs: boolean }} has
- * @returns {{ mode: MapMode, reason: 'no-vs' | 'no-party' | null }}
+ * @param {{ party: boolean, vs: boolean, sameBoundaries?: boolean }} has
+ * @returns {{ mode: MapMode, reason: 'no-vs' | 'no-party' | 'boundaries' | null }}
  */
 export function mapModeShown(mode, has) {
   if ((mode === 'share' || mode === 'swing') && !has.party) return { mode: 'winner', reason: 'no-party' };
   if (mode === 'swing' && !has.vs) return { mode: 'share', reason: 'no-vs' };
+  if (mode === 'swing' && has.sameBoundaries === false) return { mode: 'share', reason: 'boundaries' };
   return { mode, reason: null };
 }
 
