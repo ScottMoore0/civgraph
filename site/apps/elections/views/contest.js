@@ -14,6 +14,8 @@ import { partyChip } from '../lib/party.js';
 import { CHART_TEXT, chartData, fill } from '../lib/chart-data.js';
 import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
 import { checkedFact, comparedOn } from '../lib/checked.js';
+import { areaContextSection, contestLinker, mountAreaContext } from './area-context.js';
+import { embedOfferSection, mountEmbedOffer } from './embed-offer.js';
 
 /** @type {Record<string, string>} */
 const KIND_NOTE = {
@@ -24,8 +26,8 @@ const KIND_NOTE = {
   none: 'No votes are recorded for this contest in the sources Civgraph holds; only the candidates are known.',
 };
 
-/** @param {HTMLElement} root @param {import('../lib/route.js').Route} route */
-export async function render(root, route) {
+/** @param {HTMLElement} root @param {import('../lib/route.js').Route} route @param {import('../app.js').ViewContext} ctx */
+export async function render(root, route, ctx) {
   const eslug = /** @type {string} */ (route.election);
   const cslug = /** @type {string} */ (route.contest);
   const detail = await electionDetail(eslug);
@@ -123,11 +125,17 @@ export async function render(root, route) {
           rows: [...st.to.map((t) => [t.name, t.amount]), ...(st.nonTransferable ? [['Non-transferable', st.nonTransferable]] : [])],
         })}</figure></details>`).join('')}
     </section>` : ''}
+    ${areaContextSection()}
+    ${embedOfferSection({ election: electionSlug(detail.key), contest: cslug, title })}
     <section aria-labelledby="el-sources"><h2 id="el-sources">Sources</h2>
       ${citations.length ? `<p>Every figure on this page is from the sources below. Each says what it covers.</p><ol class="cg-citations el-cites">${citations.map(citation).join('')}</ol>`
         : '<p class="cg-notice cg-notice--warning">No source is recorded for this contest yet.</p>'}
       <p class="el-muted"><a href="/browse/elections/${esc(electionSlug(detail.key))}-${esc(cslug)}">Browse record</a>${detail.interactiveUrl && detail.layerId ? ` · <a href="${esc(detail.interactiveUrl)}">on the map</a>` : ''}</p>
     </section>`;
+  // el-context: the area in the census (filled after the page draws), and the embed panel when on.
+  const feature = /** @type {{ layerId?: string | null, featureName?: string | null } | null} */ (result.feature);
+  mountAreaContext(root, { layerId: feature?.layerId || detail.layerId, area: feature?.featureName || String(c.name || c.constituency || ''), date: detail.date }, ctx, { linkFor: contestLinker(detail.key, detail.resultEntries || []) });
+  mountEmbedOffer(root, ctx);
   return title;
 }
 

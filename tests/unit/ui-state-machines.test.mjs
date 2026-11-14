@@ -52,6 +52,8 @@ const MACHINES = {
   'elections SWING_EDITS': elections.SWING_EDITS,
   'elections NOTIONAL_METHOD': elections.NOTIONAL_METHOD,
   'elections EMBED': elections.EMBED,
+  'elections CENSUS_CONTEXT': elections.CENSUS_CONTEXT,
+  'elections OTHER_SYSTEMS': elections.OTHER_SYSTEMS,
   'site THEME_PREFERENCE': THEME_PREFERENCE,
 };
 
@@ -252,4 +254,19 @@ test('the served helper is the shared one: one source, no copy', async () => {
   const viaShim = await import('../../site/assets/ui/state/machine.js');
   assert.deepEqual(Object.keys(viaShim).sort(), Object.keys(core).sort());
   for (const k of Object.keys(core)) assert.equal(viaShim[k], core[k], `${k} is the core export itself`);
+});
+
+test('Elections census context and other systems (EL-15, EL-16, el-context): one settled state; a failed load of the votes can be tried again', () => {
+  const c = elections.CENSUS_CONTEXT.start();
+  assert.equal(c.state(), 'loading');
+  assert.equal(c.to('not-held'), 'not-held');
+  assert.equal(elections.CENSUS_CONTEXT.can('not-held', 'shown'), false);
+  const s = elections.OTHER_SYSTEMS.start();
+  assert.equal(s.state(), 'idle');
+  assert.equal(elections.OTHER_SYSTEMS.can('idle', 'shown'), false, 'nothing is shown before the votes load');
+  s.to('loading');
+  s.to('failed');
+  assert.equal(s.to('loading'), 'loading');
+  assert.equal(s.to('shown'), 'shown');
+  assert.equal(elections.OTHER_SYSTEMS.can('shown', 'loading'), false, 'once shown it stays');
 });

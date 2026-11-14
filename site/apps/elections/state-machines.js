@@ -245,3 +245,25 @@ export const EMBED = defineMachine({
 export function settle(run, next) {
   return run.state() === next ? next : run.to(next);
 }
+
+/**
+ * EL-15 (el-context). An area's census context (views/area-context.js): loading, then shown, or
+ * one of its reasons for none (no figures held for these boundaries, the area not among them), or
+ * failed (the figures did not load).
+ */
+export const CENSUS_CONTEXT = defineMachine({
+  name: 'elections census context',
+  initial: 'loading',
+  transitions: { loading: ['shown', 'not-held', 'no-area', 'failed'], shown: [], 'not-held': [], 'no-area': [], failed: [] },
+});
+
+/**
+ * EL-16 (el-context). "Same votes, other systems" (views/other-systems.js): idle until the reader
+ * opens it, then loading the election's votes, then shown or not applicable (a system or data it
+ * cannot work from); a failed load tries again when the reader opens it again.
+ */
+export const OTHER_SYSTEMS = defineMachine({
+  name: 'elections other systems',
+  initial: 'idle',
+  transitions: { idle: ['loading'], loading: ['shown', 'not-applicable', 'failed'], failed: ['loading'], shown: [], 'not-applicable': [] },
+});

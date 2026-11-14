@@ -87,3 +87,26 @@ export const electionBundle = (/** @type {string} */ key) => /** @type {Promise<
  * @typedef {import('../../../packages/types/index.js').ApiV1.ElectionsBundleAnswer
  *   & { results?: import('../../../pkg/core/src/election-domain.mjs').ContestResult[] }} ApiV1Bundle
  */
+
+/** el-context (14 Nov 2026): the static files of the census context and the widget's licences. */
+/** @type {Map<string, Promise<unknown>>} */
+const files = new Map();
+/**
+ * A static JSON file of the app, once per page (not the records API: the census figures and the
+ * widget's licences are build outputs committed with the app).
+ * @param {string} path
+ * @returns {Promise<unknown>}
+ */
+export function appFile(path) {
+  if (!files.has(path)) {
+    files.set(path, fetch(path, { headers: { Accept: 'application/json' } }).then(async (res) => {
+      if (!res.ok) throw Object.assign(new Error(`${res.status} ${path}`), { status: res.status });
+      return res.json();
+    }).catch((err) => { files.delete(path); throw err; }));
+  }
+  return /** @type {Promise<unknown>} */ (files.get(path));
+}
+/** The census figures of the area context (census/ni-areas.json, scripts/build/elections-app/census-context.mjs). */
+export const censusAreas = () => appFile('/apps/elections/census/ni-areas.json');
+/** The licences the widget names (embed/licences.json, scripts/build/elections-app/embed-licences.mjs). */
+export const embedLicences = () => appFile('/apps/elections/embed/licences.json');

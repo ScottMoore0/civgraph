@@ -127,3 +127,24 @@ th[aria-sort="descending"] .el-sort::after { content: " \2193"; }
   .el-ctl-row { grid-template-columns: 2.75rem minmax(0, 1fr); }
   .el-ctl-text { grid-column: 2; }
 }
+
+/* el-context (14 Nov 2026): the census context, "same votes, other systems" and the embed panel. */
+.el-census-table th[scope="row"] .el-muted { font-weight: var(--weight-normal); }
+.el-census-table td.num { white-space: nowrap; }
+.el-systems details > summary, .el-embed details > summary { cursor: pointer; font-weight: var(--weight-medium); padding: var(--space-2) 0; }
+.el-systems-bars { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--space-3); }
+.el-systems-bars p { margin: 0 0 var(--space-1); }
+.el-systems-method ul { margin: var(--space-2) 0 0; padding-left: var(--space-5); }
+.el-embed-label { display: block; margin-bottom: var(--space-1); font-size: var(--text-sm); font-weight: var(--weight-semibold); }
+.el-embed-code {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--space-2);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+.el-embed-preview { width: 100%; max-width: 36rem; height: 30rem; border: 1px solid var(--border); border-radius: var(--radius-md); }

@@ -13,6 +13,8 @@ import { NOTE, counted, limitHtml, summaryLosersMissing } from '../lib/limits.js
 import { partyChip } from '../lib/party.js';
 import { CHART_TEXT, chartData } from '../lib/chart-data.js';
 import { METHOD_NOTE, methodLink, methodNote } from '../lib/methods.js';
+import { embedOfferSection, mountEmbedOffer } from './embed-offer.js';
+import { mountOtherSystems, otherSystemsSection } from './other-systems.js';
 
 /**
  * The party table rows with change against the previous election.
@@ -38,8 +40,8 @@ export function partyRows(parties, previous, has) {
   return [...rows, ...gone].sort((a, b) => (b.seats || 0) - (a.seats || 0) || (b.votes || 0) - (a.votes || 0));
 }
 
-/** @param {HTMLElement} root @param {import('../lib/route.js').Route} route */
-export async function render(root, route) {
+/** @param {HTMLElement} root @param {import('../lib/route.js').Route} route @param {import('../app.js').ViewContext} ctx */
+export async function render(root, route, ctx) {
   const slug = /** @type {string} */ (route.election);
   const [detail, summary] = await Promise.all([electionDetail(slug), electionSummary(slug)]);
   const index = await bodyElections(detail.bodySlug);
@@ -150,10 +152,15 @@ export async function render(root, route) {
         <tbody>${contestRows}</tbody>
       </table></div>
     </section>
+    ${referendum ? '' : otherSystemsSection(detail.votingSystem, results)}
+    ${embedOfferSection({ election: electionSlug(key), title: detail.title })}
     <section aria-labelledby="el-sources"><h2 id="el-sources">Sources</h2>
       <p>Each contest page lists the sources of its own figures. For the election as a whole:</p>
       <ul class="cg-citations">${refs || '<li>No election-level references recorded.</li>'}</ul>
     </section>`;
+  // el-context: "same votes, other systems" (loads when opened) and the embed panel when on.
+  mountOtherSystems(root, detail, ctx);
+  mountEmbedOffer(root, ctx);
   return detail.title;
 }
 

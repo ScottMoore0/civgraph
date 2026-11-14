@@ -25,8 +25,9 @@
  * v1 is the extracts' schema (index.json schemaVersion 1, model.mjs EXTRACT_COLUMNS); a change to
  * the columns that old pages cannot read makes a v2 beside it.
  *
- * Embedding the widget on other sites is not a setting here: it is the frame-ancestors line of the
- * /apps/elections/embed/* block in site/_headers (off by default: 'self').
+ * Embedding the widget on other sites takes two switches, both off: EMBED below (the app's "Embed
+ * this" panel) and the frame-ancestors line of the /apps/elections/embed/* block in site/_headers
+ * ('self' by default).
  *
  * No DOM at the top level: scripts/build/elections-app/vendor.mjs and the unit tests import it (the
  * /pkg/ import resolves to site/pkg/, a re-export of the package, in Node).
@@ -81,3 +82,11 @@ export function currentSources() {
   try { override = localStorage.getItem(SOURCE_OVERRIDE_KEY); } catch { /* storage blocked */ }
   return SOURCES[sourceFor(location.hostname, override)];
 }
+
+/**
+ * Embeds (el-context, 14 Nov 2026): whether the app offers the "Embed this" panel with its
+ * copyable snippet. OFF until the owner approves the app going public. Switching embeds on is this
+ * flag AND the frame-ancestors line of the /apps/elections/embed/* block in site/_headers (see
+ * lib/embed.js). A local server can preview the panel (lib/embed.js EMBED_PREVIEW_KEY).
+ */
+export const EMBED = Object.freeze({ offered: false });
