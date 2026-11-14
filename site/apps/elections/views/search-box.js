@@ -57,16 +57,18 @@ async function placeIndex() {
 /**
  * Wire the search form drawn by searchFormHtml() inside `root`.
  * @param {HTMLElement} root
- * @param {{ elections: ElectionRow[], query: URLSearchParams, signal: AbortSignal }} opts
+ * @param {{ elections: ElectionRow[], query: URLSearchParams }} opts
+ * @param {Pick<import('../app.js').ViewContext, 'signal' | 'onDispose'>} ctx  the home view's: leaving it ends the search
  */
-export function mountSearch(root, { elections, query, signal }) {
+export function mountSearch(root, { elections, query }, ctx) {
+  const { signal } = ctx;
   const input = /** @type {HTMLInputElement} */ (root.querySelector('#el-q'));
   const out = /** @type {HTMLElement} */ (root.querySelector('#el-results'));
   const status = /** @type {HTMLElement} */ (root.querySelector('#el-search-status'));
   const runs = latestRun();
   /** @type {ReturnType<typeof setTimeout> | undefined} */
   let timer;
-  signal.addEventListener('abort', () => clearTimeout(timer), { once: true });
+  ctx.onDispose(() => clearTimeout(timer));
   const electionIndex = buildSearchIndex({ elections });
 
   const run = async () => {
@@ -99,7 +101,7 @@ export function mountSearch(root, { elections, query, signal }) {
       }
     }, PEOPLE_DELAY);
   };
-  input.addEventListener('input', () => { void run(); }, { signal });
+  input.addEventListener('input', () => { void run(); }, { signal: ctx.signal });
   const { q } = searchState(query);
   if (q) { input.value = q; void run(); }
 }
