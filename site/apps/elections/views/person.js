@@ -18,8 +18,11 @@ export function personState(route) {
   return { key: String(route.person || '') };
 }
 
-/** @type {Record<CareerRow['outcome'], string>} */
-const OUTCOME = { elected: TEXT.elected, unopposed: TEXT.returnedUnopposed, 'auto-returned': TEXT.elected, 'not-elected': TEXT.notElected };
+/** A candidacy's outcome in words. @param {CareerRow['outcome']} outcome */
+function outcomeText(outcome) {
+  if (outcome === 'unopposed') return TEXT.returnedUnopposed;
+  return outcome === 'not-elected' ? TEXT.notElected : TEXT.elected;
+}
 
 /** @param {HTMLElement} root @param {import('../lib/route.js').Route} route */
 export async function render(root, route) {
@@ -44,7 +47,7 @@ export async function render(root, route) {
           + `<th scope="row">${r.contestSlug ? `<a href="${appUrl.contest(r.electionKey, r.contestSlug)}">${esc(r.electionTitle)}</a>` : `<a href="${appUrl.election(r.electionKey)}">${esc(r.electionTitle)}</a>`}<br><span class="el-muted">${esc(fmtDate(r.date))}</span></th>`
           + `<td>${r.contestSlug ? `<a href="${areaUrl(r.contestSlug, null)}">${esc(r.contest)}</a>` : esc(r.contest)}</td>`
           + `<td>${partyChip(r.party, r.colour)}</td><td class="num">${fmtInt(r.votes)}</td><td class="num">${fmtPct(r.share)}</td>`
-          + `<td>${r.outcome === 'not-elected' ? esc(OUTCOME[r.outcome]) : `<span class="cg-badge cg-badge--success">${esc(OUTCOME[r.outcome])}</span>`}</td></tr>`).join('')}</tbody>
+          + `<td>${r.outcome === 'not-elected' ? esc(outcomeText(r.outcome)) : `<span class="cg-badge cg-badge--success">${esc(outcomeText(r.outcome))}</span>`}</td></tr>`).join('')}</tbody>
       </table></div>
     </section>
     ${relatives.length ? `<section aria-labelledby="el-relatives"><h2 id="el-relatives">${esc(TEXT.personRelatives)}</h2><ul class="el-list">${relatives.map((r) => {

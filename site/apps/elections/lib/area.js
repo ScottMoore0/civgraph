@@ -67,25 +67,24 @@ import { foldText } from './search.js';
  * @property {boolean} mapped   whether any of its contests has a boundary map
  */
 
-const INDEPENDENT = /^(ind|independent|non party|nonparty|no party)\b/;
-
 /**
  * The key a party label folds to: the party's slug where the parties' name list knows the label
  * (/_api/parties?view=names: "D.U.P." and "Democratic Unionist Party" both "dup"), else the label
- * normalised. Independents fold to one key, but lib/verdict.js compares them by person.
+ * normalised. The name list folds every independent's spelling ("Ind.", "Non-party") to the one
+ * key 'independent'; lib/verdict.js compares independents by person.
  * @param {Record<string, string>} [names]
  */
 export function partyKeyFor(names = {}) {
   return (/** @type {unknown} */ label) => {
     const folded = foldText(label);
     if (!folded) return 'none';
-    if (INDEPENDENT.test(folded)) return 'independent';
-    return names[folded] || `label:${normalizeName(label)}`;
+    if (names[folded]) return names[folded];
+    return folded === 'independent' ? folded : `label:${normalizeName(label)}`;
   };
 }
 
-/** Whether a party key is "no party" (an independent, or nothing recorded). @param {string} key */
-export const isNonParty = (key) => key === 'independent' || key === 'none';
+/** Whether a party key stands for no party (an independent, or nothing recorded). @param {string} key */
+export const isNoPartyKey = (key) => key === 'independent' || key === 'none';
 
 /** @param {unknown} v @returns {number | null} */
 const numOrNull = (v) => (v === null || v === undefined || v === '' || !Number.isFinite(Number(v)) ? null : Number(v));

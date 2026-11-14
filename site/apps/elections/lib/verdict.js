@@ -9,7 +9,7 @@
  * with a person, not with "Independent". Where the votes are missing it says so; it never infers.
  */
 import { POLL_STATUS_TEXT } from '../../../pkg/core/src/unopposed.mjs';
-import { boundaryChangedSince, isNonParty } from './area.js';
+import { boundaryChangedSince, isNoPartyKey } from './area.js';
 import { TEXT, fill } from './places-text.js';
 
 /** @typedef {import('./area.js').ContestModel} ContestModel */
@@ -89,7 +89,7 @@ export function contestVerdict(m, fmt) {
       const before = /** @type {ContestModel} */ (m.previous);
       // A by-election in a multi-seat area is held against the party that held the seat before:
       // who left is not recorded, so it is a hold when that party had any seat there.
-      const held = isNonParty(w.partyKey)
+      const held = isNoPartyKey(w.partyKey)
         ? before.elected.some((e) => e.personKey === w.personKey)
         : before.elected.some((e) => e.partyKey === w.partyKey);
       if (held) line = fill(TEXT.hold, { party: partyName(w) });
