@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 158816,
+ "idHighWater": 158934,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -9934,7 +9934,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158662
+    158873
    ]
   },
   {
@@ -12333,7 +12333,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158735
+    158920
    ]
   },
   {
@@ -25219,7 +25219,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158737
+    158922
    ]
   },
   {
@@ -39149,25 +39149,32 @@
     "austin kelly"
    ],
    "sourceIds": [
-    "100008"
+    "100008",
+    "T2595954672"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1982,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1981,
    "lastYear": 1987,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
+    "Workers Party",
+    "Workers Party Republican Clubs",
     "Workers' Party"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    101567
+   ]
   },
   {
    "id": "p63262",
@@ -39530,15 +39537,16 @@
    ],
    "sourceIds": [
     "63720",
+    "713888849-mid-and-east-antrim",
     "T713888849",
     "carrickfergus-area-c-1973-kenmcfaul"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1973,
-   "lastYear": 1982,
+   "lastYear": 2014,
    "bodies": [
     "local-government",
     "northern-ireland-assembly",
@@ -39546,12 +39554,16 @@
    ],
    "parties": [
     "DUP",
+    "TUV",
     "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    105941
+   ]
   },
   {
    "id": "p63791",
@@ -43141,7 +43153,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158738
+    158923
    ]
   },
   {
@@ -43278,14 +43290,11 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "nameVariants": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "nameKeyedRows": [
     "catherine seeley"
    ],
-   "mergedFrom": [
-    158755
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p70042",
@@ -46462,14 +46471,17 @@
    "displayName": "Sam Gardiner",
    "aliases": [
     "Samuel Gardiner",
-    "Sam Gardiner"
+    "Sam Gardiner",
+    "S. Gardiner"
    ],
    "matchKeys": [
+    "s gardiner",
     "sam gardiner",
     "samuel gardiner"
    ],
    "sourceIds": [
     "76185",
+    "Samuel Gardiner|lurgan-1964-1967",
     "T519163123"
    ],
    "sourcePersonIds": [],
@@ -46477,12 +46489,13 @@
     "niassembly:132",
     "wikidata:Q7407495"
    ],
-   "candidacies": 9,
-   "contests": 9,
-   "firstYear": 1981,
+   "candidacies": 11,
+   "contests": 11,
+   "firstYear": 1964,
    "lastYear": 2011,
    "bodies": [
     "local-government",
+    "lurgan-borough-council",
     "northern-ireland-assembly"
    ],
    "parties": [
@@ -46491,7 +46504,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    143656
+   ]
   },
   {
    "id": "p76195",
@@ -51348,31 +51364,40 @@
    "personId": 84239,
    "displayName": "Eamon Melaugh",
    "aliases": [
+    "Eamonn Melaugh",
     "Eamon Melaugh"
    ],
    "matchKeys": [
-    "eamon melaugh"
+    "eamon melaugh",
+    "eamonn melaugh"
    ],
    "sourceIds": [
-    "84239"
+    "84239",
+    "T2633674761"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 8,
+   "contests": 8,
    "firstYear": 1979,
-   "lastYear": 1987,
+   "lastYear": 1993,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
     "Republican Clubs",
+    "Workers Party",
+    "Workers Party Republican Clubs",
     "Workers' Party"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "mergedFrom": [
+    100930
+   ]
   },
   {
    "id": "p84349",
@@ -60449,7 +60474,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158704
+    158889
    ]
   },
   {
@@ -62396,10 +62421,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158587,
-    158620,
-    158707,
-    158708
+    158828,
+    158847,
+    158892,
+    158893
    ]
   },
   {
@@ -62711,10 +62736,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158630,
-    158631,
-    158664,
-    158743
+    158857,
+    158858,
+    158875,
+    158928
    ]
   },
   {
@@ -63412,10 +63437,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158593,
-    158594,
-    158716,
-    158717
+    158834,
+    158835,
+    158901,
+    158902
    ]
   },
   {
@@ -63452,10 +63477,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158595,
-    158625,
-    158653,
-    158718
+    158836,
+    158852,
+    158864,
+    158903
    ]
   },
   {
@@ -63929,8 +63954,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158600,
-    158736
+    158841,
+    158921
    ]
   },
   {
@@ -64091,11 +64116,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158601,
-    158632,
-    158745,
-    158746,
-    158747
+    158842,
+    158859,
+    158930,
+    158931,
+    158932
    ]
   },
   {
@@ -64887,10 +64912,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158569,
-    158585,
-    158699,
-    158700
+    158819,
+    158826,
+    158884,
+    158885
    ]
   },
   {
@@ -65810,12 +65835,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158629,
-    158663,
-    158739,
-    158740,
-    158741,
-    158742
+    158856,
+    158874,
+    158924,
+    158925,
+    158926,
+    158927
    ]
   },
   {
@@ -70266,9 +70291,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158570,
-    158571,
-    158622
+    158820,
+    158821,
+    158849
    ]
   },
   {
@@ -70306,11 +70331,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158590,
-    158623,
-    158624,
-    158652,
-    158713
+    158831,
+    158850,
+    158851,
+    158863,
+    158898
    ]
   },
   {
@@ -70347,10 +70372,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158559,
-    158572,
-    158726,
-    158727
+    158817,
+    158822,
+    158911,
+    158912
    ]
   },
   {
@@ -72504,11 +72529,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158560,
-    158665,
-    158666,
-    158667,
-    158748
+    158818,
+    158876,
+    158877,
+    158878,
+    158933
    ]
   },
   {
@@ -75704,12 +75729,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158573,
-    158626,
-    158658,
-    158659,
-    158728,
-    158729
+    158823,
+    158853,
+    158869,
+    158870,
+    158913,
+    158914
    ]
   },
   {
@@ -75747,11 +75772,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158574,
-    158598,
-    158627,
-    158730,
-    158731
+    158824,
+    158839,
+    158854,
+    158915,
+    158916
    ]
   },
   {
@@ -75791,13 +75816,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158599,
-    158628,
-    158660,
-    158661,
-    158732,
-    158733,
-    158734
+    158840,
+    158855,
+    158871,
+    158872,
+    158917,
+    158918,
+    158919
    ]
   },
   {
@@ -83724,12 +83749,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158586,
-    158617,
-    158618,
-    158619,
-    158702,
-    158703
+    158827,
+    158844,
+    158845,
+    158846,
+    158887,
+    158888
    ]
   },
   {
@@ -83895,11 +83920,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158588,
-    158589,
-    158621,
-    158711,
-    158712
+    158829,
+    158830,
+    158848,
+    158896,
+    158897
    ]
   },
   {
@@ -83935,9 +83960,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158591,
-    158714,
-    158715
+    158832,
+    158899,
+    158900
    ]
   },
   {
@@ -83976,12 +84001,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158596,
-    158597,
-    158655,
-    158656,
-    158657,
-    158725
+    158837,
+    158838,
+    158866,
+    158867,
+    158868,
+    158910
    ]
   },
   {
@@ -87184,36 +87209,6 @@
    ],
    "parties": [
     "Sinn Féin"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p100930",
-   "personId": 100930,
-   "displayName": "Eamonn Melaugh",
-   "aliases": [
-    "Eamonn Melaugh"
-   ],
-   "matchKeys": [
-    "eamonn melaugh"
-   ],
-   "sourceIds": [
-    "T2633674761"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1981,
-   "lastYear": 1993,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Workers Party",
-    "Workers Party Republican Clubs"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -104603,37 +104598,6 @@
    "provisional": true
   },
   {
-   "id": "p101567",
-   "personId": 101567,
-   "displayName": "Austin Kelly",
-   "aliases": [
-    "Austin Kelly"
-   ],
-   "matchKeys": [
-    "austin kelly"
-   ],
-   "sourceIds": [
-    "T2595954672"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1981,
-   "lastYear": 1987,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "Workers Party",
-    "Workers Party Republican Clubs"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p101568",
    "personId": 101568,
    "displayName": "Lee Reynolds",
@@ -108682,21 +108646,25 @@
    "personId": 101709,
    "displayName": "James Craig",
    "aliases": [
+    "J. W. Craig",
     "James Craig"
    ],
    "matchKeys": [
+    "j w craig",
     "james craig"
    ],
    "sourceIds": [
+    "James Wright Craig|antrim-1966-1977",
     "T3941250872"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1973,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1967,
    "lastYear": 1977,
    "bodies": [
+    "antrim-rural-district-council",
     "local-government"
    ],
    "parties": [
@@ -108705,7 +108673,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    158909
+   ]
   },
   {
    "id": "p101710",
@@ -121620,10 +121591,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158695,
-    158696,
-    158697,
-    158698
+    158880,
+    158881,
+    158882,
+    158883
    ]
   },
   {
@@ -121658,8 +121629,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158650,
-    158701
+    158861,
+    158886
    ]
   },
   {
@@ -126952,10 +126923,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158720,
-    158721,
-    158722,
-    158723
+    158905,
+    158906,
+    158907,
+    158908
    ]
   },
   {
@@ -143106,13 +143077,14 @@
     "louise marsden"
    ],
    "sourceIds": [
+    "T311544083",
     "T484356285"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2005,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 2004,
    "lastYear": 2011,
    "bodies": [
     "local-government"
@@ -143123,7 +143095,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    153585
+   ]
   },
   {
    "id": "p102979",
@@ -147286,7 +147261,7 @@
    "provenance": "keyed on the source's own candidate id (ei:3485)",
    "provisional": true,
    "mergedFrom": [
-    158605
+    158843
    ]
   },
   {
@@ -167300,7 +167275,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158706
+    158891
    ]
   },
   {
@@ -170875,7 +170850,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158705
+    158890
    ]
   },
   {
@@ -203848,36 +203823,6 @@
    "provisional": true
   },
   {
-   "id": "p105941",
-   "personId": 105941,
-   "displayName": "Ken McFaul",
-   "aliases": [
-    "Ken McFaul"
-   ],
-   "matchKeys": [
-    "ken mcfaul"
-   ],
-   "sourceIds": [
-    "713888849-mid-and-east-antrim"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2014,
-   "lastYear": 2014,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "TUV"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p105942",
    "personId": 105942,
    "displayName": "Tiernan Fitzlarkin",
@@ -207685,8 +207630,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158709,
-    158710
+    158894,
+    158895
    ]
   },
   {
@@ -207720,7 +207665,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158719
+    158904
    ]
   },
   {
@@ -270379,7 +270324,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158744
+    158929
    ]
   },
   {
@@ -319192,22 +319137,28 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:2289"
+    "ei:2289",
+    "ie:3410"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1948,
-   "lastYear": 1948,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1942,
+   "lastYear": 1974,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "ireland-local"
    ],
    "parties": [
-    "Clann na Talmhan"
+    "Clann na Talmhan",
+    "Fine Gael"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2289)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    132498
+   ]
   },
   {
    "id": "p110327",
@@ -328479,7 +328430,7 @@
    "provenance": "keyed on the source's own candidate id (ie:6276)",
    "provisional": true,
    "mergedFrom": [
-    158635
+    158860
    ]
   },
   {
@@ -363308,7 +363259,7 @@
    "provisional": true,
    "nameVariants": true,
    "mergedFrom": [
-    158575
+    158825
    ]
   },
   {
@@ -369211,15 +369162,18 @@
     "austin kelly"
    ],
    "sourceIds": [
-    "Austin Kelly|mid-ulster-sdlp-2011"
+    "2595954672-magherafelt-mid-ulster",
+    "Austin Kelly|mid-ulster-sdlp-2011",
+    "T2595954672-magherafelt-mid-ulster"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 2011,
-   "lastYear": 2011,
+   "lastYear": 2014,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
@@ -369228,7 +369182,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133562
+   ]
   },
   {
    "id": "p117341",
@@ -375259,11 +375216,8 @@
     "Fine Gael"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:10118)",
-   "provisional": true,
-   "mergedFrom": [
-    158603
-   ]
+   "provenance": "keyed on the source's own candidate id (ei:363)",
+   "provisional": true
   },
   {
    "id": "p117922",
@@ -496310,12 +496264,9 @@
     "Fine Gael"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:9136)",
+   "provenance": "keyed on the source's own candidate id (ie:20424)",
    "provisional": true,
-   "nameVariants": true,
-   "mergedFrom": [
-    130737
-   ]
+   "nameVariants": true
   },
   {
    "id": "p122206",
@@ -511785,7 +511736,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    158592
+    158833
    ]
   },
   {
@@ -513178,7 +513129,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158694
+    158879
    ]
   },
   {
@@ -515341,7 +515292,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158651
+    158862
    ]
   },
   {
@@ -563488,7 +563439,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    158654
+    158865
    ]
   },
   {
@@ -578091,7 +578042,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    158762
+    158934
    ]
   },
   {
@@ -644001,20 +643952,22 @@
    "personId": 131674,
    "displayName": "James Reynolds",
    "aliases": [
-    "James Reynolds"
+    "James Reynolds",
+    "Jim Reynolds"
    ],
    "matchKeys": [
-    "james reynolds"
+    "james reynolds",
+    "jim reynolds"
    ],
    "sourceIds": [],
    "sourcePersonIds": [
     "ie:12319"
    ],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1942,
-   "lastYear": 1974,
+   "lastYear": 1979,
    "bodies": [
     "ireland-local"
    ],
@@ -644024,7 +643977,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:12319)",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p131675",
@@ -663936,36 +663890,6 @@
    "provisional": true
   },
   {
-   "id": "p132498",
-   "personId": 132498,
-   "displayName": "Patrick Collins",
-   "aliases": [
-    "Patrick Collins"
-   ],
-   "matchKeys": [
-    "patrick collins"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:3410"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1942,
-   "lastYear": 1974,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Clann na Talmhan",
-    "Fine Gael"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:3410)",
-   "provisional": true
-  },
-  {
    "id": "p132499",
    "personId": 132499,
    "displayName": "Michael Mitchell",
@@ -681329,37 +681253,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p133562",
-   "personId": 133562,
-   "displayName": "Austin Kelly",
-   "aliases": [
-    "Austin Kelly"
-   ],
-   "matchKeys": [
-    "austin kelly"
-   ],
-   "sourceIds": [
-    "2595954672-magherafelt-mid-ulster",
-    "T2595954672-magherafelt-mid-ulster"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 2011,
-   "lastYear": 2014,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "SDLP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p133564",
    "personId": 133564,
    "displayName": "Seán Clarke",
@@ -684515,21 +684408,25 @@
    "personId": 133717,
    "displayName": "James Craig",
    "aliases": [
-    "James Craig"
+    "James Craig",
+    "J. Craig"
    ],
    "matchKeys": [
+    "j craig",
     "james craig"
    ],
    "sourceIds": [
+    "James Craig|ballyclare-newtownabbey-1958-1973",
     "T3941250872-newtownabbey"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1973,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1958,
    "lastYear": 1973,
    "bodies": [
+    "ballyclare-urban-district-council",
     "local-government"
    ],
    "parties": [
@@ -684538,7 +684435,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "nameVariants": true,
+   "mergedFrom": [
+    139383
+   ]
   },
   {
    "id": "p133718",
@@ -713053,20 +712954,22 @@
    "personId": 135469,
    "displayName": "James Donaghy",
    "aliases": [
-    "James Donaghy"
+    "James Donaghy",
+    "J. Donaghy"
    ],
    "matchKeys": [
+    "j donaghy",
     "james donaghy"
    ],
    "sourceIds": [
-    "James Donaghy|"
+    "James Donaghy|ballymoney-urban-1952-1955"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1955,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -713074,6 +712977,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -779204,33 +779108,6 @@
    "provisional": true
   },
   {
-   "id": "p138445",
-   "personId": 138445,
-   "displayName": "Jim Reynolds",
-   "aliases": [
-    "Jim Reynolds"
-   ],
-   "matchKeys": [
-    "jim reynolds"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1979,
-   "lastYear": 1979,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fine Gael"
-   ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p138446",
    "personId": 138446,
    "displayName": "Jim Shortt",
@@ -791636,20 +791513,22 @@
    "personId": 139078,
    "displayName": "S. Tate",
    "aliases": [
+    "Samuel Tate",
     "S. Tate"
    ],
    "matchKeys": [
-    "s tate"
+    "s tate",
+    "samuel tate"
    ],
    "sourceIds": [
     "S. Tate|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1955,
-   "lastYear": 1961,
+   "lastYear": 1964,
    "bodies": [
     "warrenpoint-urban-district-council"
    ],
@@ -791658,7 +791537,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p139080",
@@ -793517,28 +793397,32 @@
    "personId": 139150,
    "displayName": "H. C. O'Hagan",
    "aliases": [
+    "Harry C. O'Hagan",
     "H. C. O'Hagan"
    ],
    "matchKeys": [
-    "h c o hagan"
+    "h c o hagan",
+    "harry c o hagan"
    ],
    "sourceIds": [
-    "H. C. O'Hagan|"
+    "Henry C. O'Hagan|warrenpoint-1936-1949"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1939,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1936,
    "lastYear": 1949,
    "bodies": [
     "warrenpoint-urban-district-council"
    ],
-   "parties": [],
+   "parties": [
+    "Local Labour"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "nameVariants": true
   },
   {
    "id": "p139151",
@@ -798823,14 +798707,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1924,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1949,
    "lastYear": 1961,
    "bodies": [
     "enniskillen-borough-council",
-    "enniskillen-borough-council-aldermen",
-    "fermanagh-county-council"
+    "enniskillen-borough-council-aldermen"
    ],
    "parties": [
     "UUP"
@@ -799931,34 +799814,6 @@
    "provisional": true
   },
   {
-   "id": "p139383",
-   "personId": 139383,
-   "displayName": "J. Craig",
-   "aliases": [
-    "J. Craig"
-   ],
-   "matchKeys": [
-    "j craig"
-   ],
-   "sourceIds": [
-    "J. Craig|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
-   "lastYear": 1961,
-   "bodies": [
-    "ballyclare-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p139384",
    "personId": 139384,
    "displayName": "J. Cunningham",
@@ -800120,10 +799975,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1946,
-   "lastYear": 1955,
+   "lastYear": 1946,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -801458,12 +801313,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1920,
-   "lastYear": 1967,
+   "lastYear": 1926,
    "bodies": [
-    "ballyclare-urban-district-council",
     "belfast-county-borough-council",
     "gilford-town-commissioners"
    ],
@@ -801473,7 +801327,7 @@
    "provisional": true,
    "era": [
     1920,
-    1967
+    1926
    ],
    "eraReason": "split from a career spanning more than 60 years at a gap of 25 or more; the same id continues in the other era",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
@@ -809843,60 +809697,41 @@
    "personId": 139751,
    "displayName": "C. M'Greevy",
    "aliases": [
-    "C. M'Greevy"
+    "Charles M'Greevey",
+    "Charles McGreevey",
+    "Charles McGreevy",
+    "Chas. McGreevy",
+    "C. M'Greevy",
+    "C. McGreevy"
    ],
    "matchKeys": [
-    "c m greevy"
+    "c m greevy",
+    "c mcgreevy",
+    "charles m greevey",
+    "charles mcgreevey",
+    "charles mcgreevy",
+    "chas mcgreevy"
    ],
    "sourceIds": [
-    "C. M'Greevy|Independent"
+    "Charles McGreevy|warrenpoint-1949-1967"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1949,
    "lastYear": 1967,
    "bodies": [
     "warrenpoint-urban-district-council"
    ],
    "parties": [
-    "Independent"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p139752",
-   "personId": 139752,
-   "displayName": "C. M'Greevy",
-   "aliases": [
-    "C. M'Greevy"
-   ],
-   "matchKeys": [
-    "c m greevy"
-   ],
-   "sourceIds": [
-    "C. M'Greevy|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1955,
-   "lastYear": 1955,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
+    "Independent",
     "Irish Labour"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "nameVariants": true
   },
   {
    "id": "p139753",
@@ -810180,33 +810015,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p139763",
-   "personId": 139763,
-   "displayName": "Charles M'Greevey",
-   "aliases": [
-    "Charles M'Greevey"
-   ],
-   "matchKeys": [
-    "charles m greevey"
-   ],
-   "sourceIds": [
-    "Charles M'Greevey|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
-   "lastYear": 1949,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p139764",
@@ -811210,19 +811018,21 @@
    "personId": 139799,
    "displayName": "Edward M'Neill",
    "aliases": [
-    "Edward M'Neill"
+    "Edward M'Neill",
+    "Ed. McNeill"
    ],
    "matchKeys": [
+    "ed mcneill",
     "edward m neill"
    ],
    "sourceIds": [
-    "Edward M'Neill|Irish Labour"
+    "Edward McNeill|warrenpoint-1961-1967"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1961,
    "lastYear": 1967,
    "bodies": [
     "warrenpoint-urban-district-council"
@@ -811232,7 +811042,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p139800",
@@ -811602,19 +811413,23 @@
    "personId": 139813,
    "displayName": "G. M'Kevitt",
    "aliases": [
-    "G. M'Kevitt"
+    "Gregory McKevitt",
+    "G. M'Kevitt",
+    "G. McKevitt"
    ],
    "matchKeys": [
-    "g m kevitt"
+    "g m kevitt",
+    "g mckevitt",
+    "gregory mckevitt"
    ],
    "sourceIds": [
-    "G. M'Kevitt|Irish Labour"
+    "Gregory McKevitt|warrenpoint-1958-1967"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1958,
    "lastYear": 1967,
    "bodies": [
     "warrenpoint-urban-district-council"
@@ -811624,7 +811439,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p139814",
@@ -811793,36 +811609,6 @@
     "londonderry-county-borough-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p139820",
-   "personId": 139820,
-   "displayName": "H. C. O'Hagan",
-   "aliases": [
-    "H. C. O'Hagan"
-   ],
-   "matchKeys": [
-    "h c o hagan"
-   ],
-   "sourceIds": [
-    "H. C. O'Hagan|NI Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1936,
-   "lastYear": 1936,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Local Labour"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
@@ -812104,35 +811890,6 @@
    ],
    "parties": [
     "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p139832",
-   "personId": 139832,
-   "displayName": "Harry C. O'Hagan",
-   "aliases": [
-    "Harry C. O'Hagan"
-   ],
-   "matchKeys": [
-    "harry c o hagan"
-   ],
-   "sourceIds": [
-    "Harry C. O'Hagan|NI Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1946,
-   "lastYear": 1946,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Local Labour"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -812941,19 +812698,21 @@
    "personId": 139868,
    "displayName": "J. M'Cart",
    "aliases": [
+    "James McCart",
     "J. M'Cart"
    ],
    "matchKeys": [
-    "j m cart"
+    "j m cart",
+    "james mccart"
    ],
    "sourceIds": [
-    "J. M'Cart|Irish Labour"
+    "James McCart|warrenpoint-1964-1967"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1964,
    "lastYear": 1967,
    "bodies": [
     "warrenpoint-urban-district-council"
@@ -812963,7 +812722,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p139869",
@@ -813577,18 +813337,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1936,
-   "lastYear": 1949,
+   "lastYear": 1936,
    "bodies": [
-    "larne-rural-district-council",
-    "warrenpoint-urban-district-council"
+    "larne-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139892",
@@ -814583,29 +814343,35 @@
    "personId": 139928,
    "displayName": "James M'Mullan",
    "aliases": [
-    "James M'Mullan"
+    "James M'Mullan",
+    "James McMullan",
+    "J. M'Mullan"
    ],
    "matchKeys": [
-    "james m mullan"
+    "j m mullan",
+    "james m mullan",
+    "james mcmullan"
    ],
    "sourceIds": [
-    "James M'Mullan|NI Labour"
+    "James McMullan|warrenpoint-1946-1952"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1952,
    "bodies": [
     "warrenpoint-urban-district-council"
    ],
    "parties": [
+    "Irish Labour",
     "Local Labour"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p139929",
@@ -817491,19 +817257,21 @@
    "personId": 140037,
    "displayName": "Patrick O'Neill",
    "aliases": [
-    "Patrick O'Neill"
+    "Patrick O'Neill",
+    "P. O'Neill"
    ],
    "matchKeys": [
+    "p o neill",
     "patrick o neill"
    ],
    "sourceIds": [
-    "Patrick O'Neill|Irish Labour"
+    "Patrick O'Neill|warrenpoint-1958-1964"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1961,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1958,
    "lastYear": 1964,
    "bodies": [
     "warrenpoint-urban-district-council"
@@ -817514,6 +817282,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -828009,35 +827778,6 @@
    "provisional": true
   },
   {
-   "id": "p140436",
-   "personId": 140436,
-   "displayName": "C. McGreevy",
-   "aliases": [
-    "C. McGreevy"
-   ],
-   "matchKeys": [
-    "c mcgreevy"
-   ],
-   "sourceIds": [
-    "C. McGreevy|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
-   "lastYear": 1958,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p140437",
    "personId": 140437,
    "displayName": "C. Murdock",
@@ -829193,64 +828933,6 @@
    "provisional": true
   },
   {
-   "id": "p140480",
-   "personId": 140480,
-   "displayName": "Charles McGreevey",
-   "aliases": [
-    "Charles McGreevey"
-   ],
-   "matchKeys": [
-    "charles mcgreevey"
-   ],
-   "sourceIds": [
-    "Charles McGreevey|NI Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
-   "lastYear": 1952,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p140481",
-   "personId": 140481,
-   "displayName": "Charles McGreevy",
-   "aliases": [
-    "Charles McGreevy"
-   ],
-   "matchKeys": [
-    "charles mcgreevy"
-   ],
-   "sourceIds": [
-    "Charles McGreevy|Independent"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
-   "lastYear": 1964,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Independent"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p140482",
    "personId": 140482,
    "displayName": "Charles McKeown",
@@ -829560,35 +829242,6 @@
     "coleraine-borough-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p140493",
-   "personId": 140493,
-   "displayName": "Chas. McGreevy",
-   "aliases": [
-    "Chas. McGreevy"
-   ],
-   "matchKeys": [
-    "chas mcgreevy"
-   ],
-   "sourceIds": [
-    "Chas. McGreevy|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
-   "lastYear": 1961,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -839068,35 +838721,6 @@
    "provisional": true
   },
   {
-   "id": "p140854",
-   "personId": 140854,
-   "displayName": "G. McKevitt",
-   "aliases": [
-    "G. McKevitt"
-   ],
-   "matchKeys": [
-    "g mckevitt"
-   ],
-   "sourceIds": [
-    "G. McKevitt|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
-   "lastYear": 1961,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p140855",
    "personId": 140855,
    "displayName": "G. McNeillis",
@@ -839190,19 +838814,21 @@
    "personId": 140858,
    "displayName": "G. R. Boyle",
    "aliases": [
+    "Gerard Boyle",
     "G. R. Boyle"
    ],
    "matchKeys": [
-    "g r boyle"
+    "g r boyle",
+    "gerard boyle"
    ],
    "sourceIds": [
-    "G. R. Boyle|Irish Labour"
+    "Gerard Boyle|warrenpoint-1964-1967"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1964,
    "lastYear": 1967,
    "bodies": [
     "warrenpoint-urban-district-council"
@@ -839212,7 +838838,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p140859",
@@ -839987,9 +839614,11 @@
    "aliases": [
     "George Elliott, Junior",
     "George Elliott, Jun.",
-    "George Elliott, jun."
+    "George Elliott, jun.",
+    "George Elliott"
    ],
    "matchKeys": [
+    "george elliott",
     "george elliott jun",
     "george elliott junior"
    ],
@@ -839998,12 +839627,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 9,
+   "contests": 9,
    "firstYear": 1923,
-   "lastYear": 1932,
+   "lastYear": 1939,
    "bodies": [
-    "enniskillen-borough-council"
+    "enniskillen-borough-council",
+    "fermanagh-county-council"
    ],
    "parties": [
     "UUP"
@@ -840956,35 +840586,6 @@
    "provisional": true
   },
   {
-   "id": "p140924",
-   "personId": 140924,
-   "displayName": "Gerard Boyle",
-   "aliases": [
-    "Gerard Boyle"
-   ],
-   "matchKeys": [
-    "gerard boyle"
-   ],
-   "sourceIds": [
-    "Gerard Boyle|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
-   "lastYear": 1964,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p140925",
    "personId": 140925,
    "displayName": "Gilbert Robb Harkness",
@@ -841229,35 +840830,6 @@
     "larne-borough-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p140936",
-   "personId": 140936,
-   "displayName": "Gregory McKevitt",
-   "aliases": [
-    "Gregory McKevitt"
-   ],
-   "matchKeys": [
-    "gregory mckevitt"
-   ],
-   "sourceIds": [
-    "Gregory McKevitt|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
-   "lastYear": 1964,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -852111,18 +851683,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1952,
-   "lastYear": 1967,
+   "lastYear": 1952,
    "bodies": [
-    "antrim-rural-district-council",
     "antrim-town-commissioners"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141340",
@@ -853282,21 +852854,27 @@
   {
    "id": "p141381",
    "personId": 141381,
-   "displayName": "James Barry",
+   "displayName": "Michael J. Barry",
    "aliases": [
-    "James Barry"
+    "Michael Jos. Barry",
+    "Michael J. Barry",
+    "James Barry",
+    "M. J. Barry"
    ],
    "matchKeys": [
-    "james barry"
+    "james barry",
+    "m j barry",
+    "michael j barry",
+    "michael jos barry"
    ],
    "sourceIds": [
-    "James Barry|Irish Labour"
+    "Michael James Barry|warrenpoint-1952-1964"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1952,
    "lastYear": 1964,
    "bodies": [
     "warrenpoint-urban-district-council"
@@ -853306,7 +852884,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p141382",
@@ -855302,65 +854881,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p141455",
-   "personId": 141455,
-   "displayName": "James McCart",
-   "aliases": [
-    "James McCart"
-   ],
-   "matchKeys": [
-    "james mccart"
-   ],
-   "sourceIds": [
-    "James McCart|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
-   "lastYear": 1964,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p141456",
-   "personId": 141456,
-   "displayName": "James McMullan",
-   "aliases": [
-    "James McMullan"
-   ],
-   "matchKeys": [
-    "james mcmullan"
-   ],
-   "sourceIds": [
-    "James McMullan|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
-   "lastYear": 1952,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141457",
@@ -864875,35 +864395,6 @@
    ],
    "parties": [
     "NI Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p141814",
-   "personId": 141814,
-   "displayName": "Michael Jos. Barry",
-   "aliases": [
-    "Michael Jos. Barry"
-   ],
-   "matchKeys": [
-    "michael jos barry"
-   ],
-   "sourceIds": [
-    "Michael Jos. Barry|NI Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
-   "lastYear": 1952,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -886462,19 +885953,21 @@
    "personId": 142634,
    "displayName": "W. Gray",
    "aliases": [
-    "W. Gray"
+    "W. Gray",
+    "W. Grey"
    ],
    "matchKeys": [
-    "w gray"
+    "w gray",
+    "w grey"
    ],
    "sourceIds": [
-    "W. Gray|Irish Labour"
+    "William Gray|warrenpoint-1955-1958"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1955,
    "lastYear": 1958,
    "bodies": [
     "warrenpoint-urban-district-council"
@@ -886485,36 +885978,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p142635",
-   "personId": 142635,
-   "displayName": "W. Grey",
-   "aliases": [
-    "W. Grey"
-   ],
-   "matchKeys": [
-    "w grey"
-   ],
-   "sourceIds": [
-    "W. Grey|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1955,
-   "lastYear": 1955,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p142636",
@@ -907641,35 +907106,6 @@
    "provisional": true
   },
   {
-   "id": "p143656",
-   "personId": 143656,
-   "displayName": "S. Gardiner",
-   "aliases": [
-    "S. Gardiner"
-   ],
-   "matchKeys": [
-    "s gardiner"
-   ],
-   "sourceIds": [
-    "S. Gardiner|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1964,
-   "lastYear": 1967,
-   "bodies": [
-    "lurgan-borough-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p143657",
    "personId": 143657,
    "displayName": "S. Stewart",
@@ -914238,13 +913674,13 @@
     "thomas bothwell"
    ],
    "sourceIds": [
-    "Thomas Bothwell|"
+    "Thomas Bothwell, Senr.|old-barr-1952-1955"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1927,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1952,
    "lastYear": 1955,
    "bodies": [
     "enniskillen-rural-district-council"
@@ -918525,36 +917961,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p144253",
-   "personId": 144253,
-   "displayName": "Thomas Bothwell",
-   "aliases": [
-    "Thomas Bothwell"
-   ],
-   "matchKeys": [
-    "thomas bothwell"
-   ],
-   "sourceIds": [
-    "Thomas Bothwell|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1924,
-   "lastYear": 1933,
-   "bodies": [
-    "enniskillen-rural-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144254",
@@ -995131,12 +994537,14 @@
     "Thomas Bothwell, jun.",
     "Thos. Bothwell, Jun.",
     "Thomas Bothwell",
+    "Thos. Bothwell",
     "T. Bothwell"
    ],
    "matchKeys": [
     "t bothwell",
     "thomas bothwell",
     "thomas bothwell jun",
+    "thos bothwell",
     "thos bothwell jun"
    ],
    "sourceIds": [
@@ -995144,9 +994552,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1930,
+   "candidacies": 12,
+   "contests": 12,
+   "firstYear": 1924,
    "lastYear": 1961,
    "bodies": [
     "enniskillen-rural-district-council"
@@ -997604,35 +997012,6 @@
     "cookstown-rural-district-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p147198",
-   "personId": 147198,
-   "displayName": "Thos. Bothwell",
-   "aliases": [
-    "Thos. Bothwell"
-   ],
-   "matchKeys": [
-    "thos bothwell"
-   ],
-   "sourceIds": [
-    "Thos. Bothwell|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1936,
-   "lastYear": 1936,
-   "bodies": [
-    "enniskillen-rural-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1076276,36 +1075655,6 @@
    "provisional": true
   },
   {
-   "id": "p153197",
-   "personId": 153197,
-   "displayName": "P. O'Neill",
-   "aliases": [
-    "P. O'Neill"
-   ],
-   "matchKeys": [
-    "p o neill"
-   ],
-   "sourceIds": [
-    "P. O'Neill|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
-   "lastYear": 1958,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p153198",
    "personId": 153198,
    "displayName": "R. M'Meekan",
@@ -1076928,35 +1076277,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p153235",
-   "personId": 153235,
-   "displayName": "Ed. McNeill",
-   "aliases": [
-    "Ed. McNeill"
-   ],
-   "matchKeys": [
-    "ed mcneill"
-   ],
-   "sourceIds": [
-    "Ed. McNeill|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
-   "lastYear": 1961,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p153236",
@@ -1077974,35 +1077294,6 @@
    "provisional": true
   },
   {
-   "id": "p153282",
-   "personId": 153282,
-   "displayName": "M. J. Barry",
-   "aliases": [
-    "M. J. Barry"
-   ],
-   "matchKeys": [
-    "m j barry"
-   ],
-   "sourceIds": [
-    "M. J. Barry|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1955,
-   "lastYear": 1955,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p153283",
    "personId": 153283,
    "displayName": "M. Moriarty",
@@ -1078089,35 +1077380,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p153286",
-   "personId": 153286,
-   "displayName": "Michael J. Barry",
-   "aliases": [
-    "Michael J. Barry"
-   ],
-   "matchKeys": [
-    "michael j barry"
-   ],
-   "sourceIds": [
-    "Michael J. Barry|Irish Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
-   "lastYear": 1958,
-   "bodies": [
-    "warrenpoint-urban-district-council"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p153287",
@@ -1079548,36 +1078810,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p153585",
-   "personId": 153585,
-   "displayName": "Louise Marsden",
-   "aliases": [
-    "Louise Marsden"
-   ],
-   "matchKeys": [
-    "louise marsden"
-   ],
-   "sourceIds": [
-    "T311544083"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2004,
-   "lastYear": 2004,
-   "bodies": [
-    "local-government"
-   ],
-   "parties": [
-    "DUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p153586",
@@ -1115303,7 +1114535,7 @@
     "ireland-local"
    ],
    "parties": [
-    "Independent"
+    "Clann na Talmhan"
    ],
    "keyedBy": "name",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -1139494,14 +1138726,11 @@
    "parties": [
     "Irish Labour"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:18245)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "nameKeyedRows": [
     "angela feeney"
-   ],
-   "mergedFrom": [
-    158751
    ]
   },
   {
@@ -1140431,14 +1139660,11 @@
    "parties": [
     "Independent"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:20307)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "nameKeyedRows": [
     "aubrey mccarthy"
-   ],
-   "mergedFrom": [
-    158752
    ]
   },
   {
@@ -1140495,14 +1139721,11 @@
    "parties": [
     "Independent"
    ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:20310)",
+   "keyedBy": "name",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "nameKeyedRows": [
     "ade oluborode"
-   ],
-   "mergedFrom": [
-    158750
    ]
   },
   {
@@ -1152445,14 +1151668,14 @@
   }
  ],
  "corrections": {
-  "mergedIds": 123,
+  "mergedIds": 126,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 8,
-   "IE-EI-CROSSWALK": 3,
+   "WIKIPEDIA-BIOGRAPHY": 15,
+   "IE-EI-CROSSWALK": 4,
    "FORUM-DUPLICATE": 113,
    "LGR-2014": 2,
-   "SAME-SEAT-SEQUENCE": 5,
-   "STRAY-INTO-CURATED": 5
+   "SAME-SEAT-SEQUENCE": 1,
+   "STRAY-INTO-CURATED": 4
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/ingest/persons/merge_person_ids.py for the tests applied."
  }

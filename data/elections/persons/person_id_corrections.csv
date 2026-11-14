@@ -58,7 +58,6 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 136048,W. J. Black,OVER-MERGE,,id,4,1902,1949,47,37,2, / UUP,7,span 47y; gap 37y (1902->1939)
 135917,Joseph Allen,OVER-MERGE,,id,3,1899,1946,47,41,2,UUP,7,span 47y; gap 41y (1905->1946)
 135882,James Quinn,OVER-MERGE,,id,8,1899,1946,47,27,2,Nationalist Party,7,span 47y; gap 27y (1899->1926)
-139436,James Craig,OVER-MERGE,,id,6,1920,1967,47,38,3,,7,span 47y; gap 38y (1926->1964)
 146591,Mullan,OVER-MERGE,,id,2,1920,1967,47,47,2,,7,span 47y; gap 47y (1920->1967)
 53893,David Murphy,OVER-MERGE,,id,2,1964,2011,47,47,2,Alliance / NI Labour,7,span 47y; gap 47y (1964->2011)
 137323,Patrick Quinn,OVER-MERGE,,id,4,1899,1946,47,28,3,Nationalist Party,7,span 47y; gap 28y (1899->1927)
@@ -111,6 +110,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 94434,Gregory Campbell,OVER-MERGE,,id,24,1977,2024,47,5,3,DUP,5,span 47y
 96356,Sammy Wilson,OVER-MERGE,,id,21,1977,2024,47,5,3,DUP,5,span 47y
 110645,Seán McEniff,OVER-MERGE,yes,src,8,1967,2014,47,12,2,Fianna Fáil,5,span 47y
+76185,Sam Gardiner,OVER-MERGE,,id,11,1964,2011,47,14,3,UUP,5,span 47y
 105416,Frank Aiken,OVER-MERGE,yes,src,16,1923,1969,46,5,1,Fianna Fáil / Republican,5,span 46y
 100696,James Flanagan,OVER-MERGE,yes,src,10,1945,1991,46,16,2,Independent / Irish Labour / Non party/Independent,5,span 46y
 103109,Bernard Corcoran,OVER-MERGE,yes,src,9,1945,1991,46,7,2,Fine Gael / Irish Labour,5,span 46y
@@ -326,6 +326,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 135275+102422,Margaret Laird,UNDER-MERGE,,id/id,4,1961,1977,16,3,,UUP,4,"same name, careers 1961-1961 then 1964-1977, gap 3y"
 103828+135097,Samuel Rodgers,UNDER-MERGE,,id/id,5,1945,1961,16,3,,UUP,4,"same name, careers 1945-1958 then 1961-1961, gap 3y"
 105602+105278,Patrick Maxwell,UNDER-MERGE,,id/id,5,1937,1953,16,4,,Independent Nationalist / Nationalist Party,4,"same name, careers 1937-1949 then 1953-1953, gap 4y"
+109925+141381,M J Barry,UNDER-MERGE,,src/id,5,1948,1964,16,4,,Clann na Poblachta / Irish Labour,4,"same name, careers 1948-1948 then 1952-1964, gap 4y"
 109998+138500,Mary Byrne,UNDER-MERGE,,src/name,4,1969,1985,16,3,,Fianna Fáil / Fine Gael,4,"same name, careers 1969-1982 then 1985-1985, gap 3y"
 144573+144572,John Flanagan,UNDER-MERGE,,id/id,5,1933,1949,16,3,,Nationalist Party,4,"same name, careers 1933-1936 then 1939-1949, gap 3y"
 135181+138912,James M'Nally,UNDER-MERGE,,id/id,5,1920,1936,16,3,,Independent,4,"same name, careers 1920-1920 then 1923-1936, gap 3y"
@@ -350,7 +351,6 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 139446+139447,James Hegarty,UNDER-MERGE,,id/id,5,1949,1964,15,3,,Anti-Partitionist / Nationalist Party,4,"same name, careers 1949-1955 then 1958-1964, gap 3y"
 148366+147007,Samuel Magowan,UNDER-MERGE,,id/id,6,1946,1961,15,3,,UUP,4,"same name, careers 1946-1946 then 1949-1961, gap 3y"
 112881+157745,James Martin,UNDER-MERGE,,id/id,3,1924,1939,15,0,,,4,"same name, careers 1924-1939 then 1939-1939, gap 0y"
-139383+115562,J. Craig,UNDER-MERGE,,id/id,6,1958,1973,15,3,,DUP / Independent / Independent Unionist / United Loyalist,4,"same name, careers 1958-1961 then 1964-1973, gap 3y"
 135337+157606,James Campbell,UNDER-MERGE,,id/id,7,1952,1967,15,0,,,4,"same name, careers 1952-1967 then 1967-1967, gap 0y"
 136262+135348,Patrick M'Conville,UNDER-MERGE,,id/id,7,1899,1914,15,3,,Nationalist Party,4,"same name, careers 1899-1899 then 1902-1914, gap 3y"
 135860+157666,James Donaghy,UNDER-MERGE,,id/id,6,1899,1914,15,3,,Nationalist Party,4,"same name, careers 1899-1899 then 1902-1914, gap 3y"
@@ -387,7 +387,6 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 49548+129841,John Boyle,UNDER-MERGE,,id/id,6,2011,2024,13,0,,Aontú / SDLP,4,"same name, careers 2011-2023 then 2023-2024, gap 0y"
 105130+93037,Margaret Anne McKillop,UNDER-MERGE,,id/id,10,2011,2024,13,1,,SDLP / Sinn Féin,4,"same name, careers 2011-2014 then 2015-2024, gap 1y"
 133915+133334,John Scott,UNDER-MERGE,,id/id,4,2001,2014,13,4,,UUP / United Unionist,4,"same name, careers 2001-2001 then 2005-2014, gap 4y"
-115562+101709,James Craig,UNDER-MERGE,,id/id,6,1964,1977,13,0,,DUP / Independent / Independent Unionist / UUP,4,"same name, careers 1964-1973 then 1973-1977, gap 0y"
 100300+106067,John Lynch,UNDER-MERGE,,src/id,6,1951,1964,13,2,,Fine Gael / Republican / Sinn Féin,4,"same name, careers 1951-1957 then 1959-1964, gap 2y"
 154999+135973,Patrick McKenna,UNDER-MERGE,,src/id,4,1945,1958,13,5,,Fianna Fáil / Nationalist Party,4,"same name, careers 1945-1950 then 1955-1958, gap 5y"
 148644+101578,Kathleen Craig,UNDER-MERGE,,id/id,4,1998,2011,13,3,,DUP,4,"same name, careers 1998-1998 then 2001-2011, gap 3y"
@@ -399,7 +398,6 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 135810+135809,George Hutchinson,UNDER-MERGE,,id/id,4,1939,1952,13,3,,UUP,4,"same name, careers 1939-1946 then 1949-1952, gap 3y"
 135858+136899,James Creggan,UNDER-MERGE,,id/id,3,1911,1924,13,3,,UUP,4,"same name, careers 1911-1911 then 1914-1924, gap 3y"
 142458+139093,Terence Ruddy,UNDER-MERGE,,id/id,5,1923,1936,13,3,,Nationalist Party,4,"same name, careers 1923-1923 then 1926-1936, gap 3y"
-139820+139150,H. C. O'Hagan,UNDER-MERGE,,id/id,3,1936,1949,13,3,,Local Labour,4,"same name, careers 1936-1936 then 1939-1949, gap 3y"
 142881+157572,William Porter,UNDER-MERGE,,id/id,4,1936,1949,13,0,,,4,"same name, careers 1936-1939 then 1939-1949, gap 0y"
 150572+144873,Andrew M'Auley,UNDER-MERGE,,id/id,3,1920,1933,13,4,,UUP,4,"same name, careers 1920-1920 then 1924-1933, gap 4y"
 156847+146529,Michael Henry,UNDER-MERGE,,src/id,5,1945,1958,13,4,,Fine Gael,4,"same name, careers 1945-1945 then 1949-1958, gap 4y"
@@ -643,7 +641,6 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 129162+101402,Michael Kennedy,UNDER-MERGE,,src/id,4,1991,1998,7,1,,Fianna Fáil / Natural Law,4,"same name, careers 1991-1991 then 1992-1998, gap 1y"
 137283+102056,Patrick Curran,UNDER-MERGE,,id/src,4,1926,1933,7,1,,Catholic Labour / Irish Labour,4,"same name, careers 1926-1926 then 1927-1933, gap 1y"
 113365+102877,Paul Coleman,UNDER-MERGE,,src/id,3,2007,2014,7,4,,Non party/Fathers Rights Responsibilities / TUV,4,"same name, careers 2007-2007 then 2011-2014, gap 4y"
-153585+102978,Louise Marsden,UNDER-MERGE,,id/id,3,2004,2011,7,1,,DUP,4,"same name, careers 2004-2004 then 2005-2011, gap 1y"
 158140+119368,Gerry Breen,UNDER-MERGE,,src/name,3,2007,2014,7,3,,Fine Gael,4,"same name, careers 2007-2011 then 2014-2014, gap 3y"
 155613+136902,James Daly,UNDER-MERGE,,src/id,3,1942,1949,7,4,,Anti-Partitionist / Independent,4,"same name, careers 1942-1945 then 1949-1949, gap 4y"
 142505+104124,Thomas Loftus Cole,UNDER-MERGE,,id/id,3,1931,1938,7,2,,UUP,4,"same name, careers 1931-1931 then 1933-1938, gap 2y"
@@ -679,6 +676,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 104059+149086,Samuel Napier,UNDER-MERGE,,id/id,3,1949,1955,6,3,,NI Labour,4,"same name, careers 1949-1952 then 1955-1955, gap 3y"
 140607+140606,Dawson Gordon,UNDER-MERGE,,id/id,3,1923,1929,6,3,,Local Labour / NI Labour,4,"same name, careers 1923-1923 then 1926-1929, gap 3y"
 143740+143642,H. McCourt,UNDER-MERGE,,id/id,3,1955,1961,6,3,,Independent / UUP,4,"same name, careers 1955-1955 then 1958-1961, gap 3y"
+140037+139189,Patrick O'Neill,UNDER-MERGE,,id/id,4,1958,1964,6,0,,Irish Labour / NI Labour,4,"same name, careers 1958-1964 then 1964-1964, gap 0y"
 136458+136459,Daniel Dumigan,UNDER-MERGE,,id/id,3,1908,1914,6,3,,Ancient Order of Hibernians / Nationalist Party,4,"same name, careers 1908-1911 then 1914-1914, gap 3y"
 110943+151162,William Crawford,UNDER-MERGE,,src/id,3,1932,1938,6,2,,Independent,4,"same name, careers 1932-1932 then 1934-1938, gap 2y"
 124482+123906,Edward Gibson,UNDER-MERGE,,id/src,4,1874,1880,6,1,,Conservative / Irish Conservative,4,"same name, careers 1874-1874 then 1875-1880, gap 1y"
@@ -948,7 +946,6 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 134000+135261,John Boyle,UNDER-MERGE,,id/id,2,1920,1923,3,3,,Local Labour / Sinn Féin,4,"same name, careers 1920-1920 then 1923-1923, gap 3y"
 104778+56488,Susan-Anne White,UNDER-MERGE,,id/id,4,2014,2017,3,1,,Independent / Independent Other,4,"same name, careers 2014-2014 then 2015-2017, gap 1y"
 104919+57494,David McMaster,UNDER-MERGE,,id/id,3,2014,2017,3,2,,Independent / Independent Other,4,"same name, careers 2014-2014 then 2016-2017, gap 2y"
-117337+133562,Austin Kelly,UNDER-MERGE,,id/id,3,2011,2014,3,0,,SDLP,4,"same name, careers 2011-2011 then 2011-2014, gap 0y"
 106060+80293,Naomi Bailie,UNDER-MERGE,,id/id,2,2011,2014,3,3,,Sinn Féin,4,"same name, careers 2011-2011 then 2014-2014, gap 3y"
 146324+146323,John Kerr,UNDER-MERGE,,id/id,2,1927,1930,3,3,,Nationalist Party,4,"same name, careers 1927-1927 then 1930-1930, gap 3y"
 146879+148330,Robert McFarland,UNDER-MERGE,,id/id,2,1946,1949,3,3,,UUP,4,"same name, careers 1946-1946 then 1949-1949, gap 3y"
@@ -1042,7 +1039,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 135330+151279,William Davis,UNDER-MERGE,,id/id,2,1920,1923,3,3,,UUP,4,"same name, careers 1920-1920 then 1923-1923, gap 3y"
 135333+150860,William Logue,UNDER-MERGE,,id/id,2,1920,1923,3,3,,Nationalist Party,4,"same name, careers 1920-1920 then 1923-1923, gap 3y"
 136444+136443,D. F. Bell,UNDER-MERGE,,id/id,2,1920,1923,3,3,,Independent Unionist / UUP,4,"same name, careers 1920-1920 then 1923-1923, gap 3y"
-135469+157743,James Donaghy,UNDER-MERGE,,id/id,2,1952,1955,3,3,,,4,"same name, careers 1952-1952 then 1955-1955, gap 3y"
+135469+157743,James Donaghy,UNDER-MERGE,,id/id,3,1952,1955,3,0,,,4,"same name, careers 1952-1955 then 1955-1955, gap 0y"
 137970+135561,George A. Locke,UNDER-MERGE,,id/id,2,1911,1914,3,3,,,4,"same name, careers 1911-1911 then 1914-1914, gap 3y"
 136390+135755,Bernard J. McVerry,UNDER-MERGE,,id/id,2,1958,1961,3,3,,Nationalist Party,4,"same name, careers 1958-1958 then 1961-1961, gap 3y"
 136435+135762,Cornelius Short,UNDER-MERGE,,id/id,3,1899,1902,3,3,,Irish National Federation / Nationalist Party,4,"same name, careers 1899-1899 then 1902-1902, gap 3y"
@@ -1376,7 +1373,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 134680+68148,David Vipond,UNDER-MERGE,,src/id,2,1973,1974,1,1,,Communist (Marxist-Leninist) / Communist Party of Ireland (Marxist-Leninist),4,"same name, careers 1973-1973 then 1974-1974, gap 1y"
 101792+112159,Michael Kelly,UNDER-MERGE,,id/src,3,2023,2024,1,1,,IRSP / Irish Freedom Party / The Irish People,4,"same name, careers 2023-2023 then 2024-2024, gap 1y"
 136942+123302,James McCann,UNDER-MERGE,,id/src,2,1899,1900,1,1,,Irish Parliamentary / Nationalist Party,4,"same name, careers 1899-1899 then 1900-1900, gap 1y"
-120773+156570,James Reynolds,UNDER-MERGE,,src/name,2,1944,1945,1,1,,Clann na Talmhan / Independent,4,"same name, careers 1944-1944 then 1945-1945, gap 1y"
+120773+156570,James Reynolds,UNDER-MERGE,,src/name,2,1944,1945,1,1,,Clann na Talmhan,4,"same name, careers 1944-1944 then 1945-1945, gap 1y"
 107422+132338,John Murray,UNDER-MERGE,,id/src,2,1973,1974,1,1,,Fine Gael / Northern Ireland Labour Party,4,"same name, careers 1973-1973 then 1974-1974, gap 1y"
 156804+146291,John Henry,UNDER-MERGE,,src/id,2,1945,1946,1,1,,Fianna Fáil / UUP,4,"same name, careers 1945-1945 then 1946-1946, gap 1y"
 113338+103674,Seamus Robinson,UNDER-MERGE,,src/name,2,1921,1922,1,1,,Anti-Treaty Sinn Féin / Sinn Féin,4,"same name, careers 1921-1921 then 1922-1922, gap 1y"
@@ -1507,6 +1504,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 155090+102143,Tom Fleming,UNDER-MERGE,,src/src,12,1967,2011,44,7,,Fianna Fáil / Independent,2,"same name, careers 1967-1967 then 1974-2011, gap 7y"
 141825+106959,Millar,UNDER-MERGE,,id/id,3,1929,1973,44,6,,SDLP,2,"same name, careers 1929-1967 then 1973-1973, gap 6y"
 135938+108108,M. Cunningham,UNDER-MERGE,,id/id,7,1929,1973,44,6,,SDLP,2,"same name, careers 1929-1967 then 1973-1973, gap 6y"
+140888+140890,"George Elliott, Sen.",UNDER-MERGE,,id/id,10,1923,1967,44,10,,UUP,2,"same name, careers 1923-1929 then 1939-1967, gap 10y"
 144057,James Boyd,OVER-MERGE,,id,5,1924,1967,43,28,2,,2,gap 28y (1939->1967)
 124211,Stephen Moore,OVER-MERGE,yes,id,3,1837,1880,43,38,1,Conservative,2,gap 38y (1837->1875)
 122919,Charles Hemphill,OVER-MERGE,yes,src,4,1857,1900,43,36,1,Conservative / Liberal / Liberal-Conservative,2,gap 36y (1859->1895)
@@ -1530,6 +1528,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 110355,Patrick J Cummins,OVER-MERGE,yes,src,7,1958,1999,41,26,2,Fianna Fáil / Fine Gael / Independent,2,gap 26y (1973->1999)
 137525,T. Neill,OVER-MERGE,,id,2,1908,1949,41,41,2,UUP,2,gap 41y (1908->1949)
 135203,Alexander Patterson,OVER-MERGE,,id,3,1920,1961,41,26,2,UUP,2,gap 26y (1920->1946)
+63720,Ken McFaul,OVER-MERGE,,id,6,1973,2014,41,32,3,DUP / TUV / United Loyalist,2,gap 32y (1982->2014)
 135255,James Blair,OVER-MERGE,,id,4,1920,1961,41,32,3,UUP,2,gap 32y (1926->1958)
 135727,Patrick O'Callaghan,OVER-MERGE,,id,2,1920,1961,41,41,1,,2,gap 41y (1920->1961)
 144240,Robert S. Thompson,OVER-MERGE,,id,6,1924,1964,40,31,3,,2,gap 31y (1933->1964)
@@ -1772,7 +1771,6 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 135400+136919,James Grew,UNDER-MERGE,,id/id,6,1899,1920,21,6,,Nationalist Party,2,"same name, careers 1899-1908 then 1914-1920, gap 6y"
 135871+135586,James Lockhart,UNDER-MERGE,,id/id,5,1899,1920,21,6,,UUP,2,"same name, careers 1899-1902 then 1908-1920, gap 6y"
 141190+141191,J. Hamilton,UNDER-MERGE,,id/id,4,1946,1967,21,9,,Independent / UUP,2,"same name, careers 1946-1946 then 1955-1967, gap 9y"
-139389+142165,J. Donaghy,UNDER-MERGE,,id/id,4,1946,1967,21,9,,UUP,2,"same name, careers 1946-1955 then 1964-1967, gap 9y"
 139333+145694,G. Crawford,UNDER-MERGE,,id/id,3,1946,1967,21,6,,UUP,2,"same name, careers 1946-1961 then 1967-1967, gap 6y"
 144089+156652,Thomas Gillespie,UNDER-MERGE,,id/src,6,1924,1945,21,6,,Clann na Talmhan,2,"same name, careers 1924-1939 then 1945-1945, gap 6y"
 146015+144521,J. N. McNally,UNDER-MERGE,,id/id,3,1946,1967,21,6,,Nationalist Party / UUP,2,"same name, careers 1946-1946 then 1952-1967, gap 6y"
@@ -1807,7 +1805,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 101464+120154,Neil Armstrong,UNDER-MERGE,,id/src,4,2001,2019,18,8,,Independent / UUP,2,"same name, careers 2001-2011 then 2019-2019, gap 8y"
 144840+155791,William Moore,UNDER-MERGE,,id/src,4,1949,1967,18,6,,Fianna Fáil,2,"same name, careers 1949-1961 then 1967-1967, gap 6y"
 131733+102472,Cathal Quinn,UNDER-MERGE,,src/id,3,1979,1997,18,6,,Sinn Féin / Sinn Féin (Workers' Party),2,"same name, careers 1979-1979 then 1985-1997, gap 6y"
-135728+140037,Patrick O'Neill,UNDER-MERGE,,id/id,5,1946,1964,18,9,,Irish Citizen Association / Irish Labour,2,"same name, careers 1946-1952 then 1961-1964, gap 9y"
+135728+140037,Patrick O'Neill,UNDER-MERGE,,id/id,6,1946,1964,18,6,,Irish Citizen Association / Irish Labour,2,"same name, careers 1946-1952 then 1958-1964, gap 6y"
 135351+136521,Edward Lunn,UNDER-MERGE,,id/id,6,1902,1920,18,6,,Independent Labour,2,"same name, careers 1902-1914 then 1920-1920, gap 6y"
 136186+135435,James M'Quaid,UNDER-MERGE,,id/id,5,1902,1920,18,6,,Nationalist Party,2,"same name, careers 1902-1902 then 1908-1920, gap 6y"
 139134+139754,C. M'Keown,UNDER-MERGE,,id/id,4,1928,1946,18,7,,Nationalist Party,2,"same name, careers 1928-1939 then 1946-1946, gap 7y"
@@ -1835,6 +1833,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 139449+141457,James Morgan,UNDER-MERGE,,id/id,4,1936,1952,16,6,,NI Labour,2,"same name, careers 1936-1946 then 1952-1952, gap 6y"
 124122+124921,Peter Tait,UNDER-MERGE,,src/id,3,1858,1874,16,6,,Home Rule / Liberal-Conservative / Whig,2,"same name, careers 1858-1868 then 1874-1874, gap 6y"
 140302+139250,Alexander Boyd,UNDER-MERGE,,id/id,4,1923,1939,16,9,,Independent Unionist / UUP,2,"same name, careers 1923-1923 then 1932-1939, gap 9y"
+139891+139928,J. M'Mullan,UNDER-MERGE,,id/id,4,1936,1952,16,10,,Irish Labour / Local Labour,2,"same name, careers 1936-1936 then 1946-1952, gap 10y"
 147877+145316,Alexander Rea,UNDER-MERGE,,id/id,4,1933,1949,16,6,,UUP,2,"same name, careers 1933-1933 then 1939-1949, gap 6y"
 103890,Thomas Moles,OVER-MERGE,yes,id,8,1918,1933,15,4,3,UUP / Unionist,2,NI+RoI bodies
 108706,Arthur Samuels,OVER-MERGE,yes,src,4,1903,1918,15,14,2,Irish Unionist,2,NI+RoI bodies
@@ -1855,6 +1854,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 136889+135581,James Burke,UNDER-MERGE,,id/id,4,1899,1914,15,9,,UUP,2,"same name, careers 1899-1899 then 1908-1914, gap 9y"
 138972+134168,G. Hooley,UNDER-MERGE,,id/id,4,1952,1967,15,9,,NI Labour,2,"same name, careers 1952-1958 then 1967-1967, gap 9y"
 135380+135714,James M'Guill,UNDER-MERGE,,id/id,7,1905,1920,15,6,,Sinn Féin,2,"same name, careers 1905-1914 then 1920-1920, gap 6y"
+135469+142165,James Donaghy,UNDER-MERGE,,id/id,4,1952,1967,15,9,,UUP,2,"same name, careers 1952-1955 then 1964-1967, gap 9y"
 136875+135579,James A. Gilpin,UNDER-MERGE,,id/id,4,1899,1914,15,9,,UUP,2,"same name, careers 1899-1899 then 1908-1914, gap 9y"
 135869+135868,James Hobson,UNDER-MERGE,,id/id,4,1899,1914,15,6,,UUP,2,"same name, careers 1899-1908 then 1914-1914, gap 6y"
 142022+139551,R. G. Hanna,UNDER-MERGE,,id/id,4,1952,1967,15,6,,UUP,2,"same name, careers 1952-1952 then 1958-1967, gap 6y"
@@ -2073,6 +2073,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 140259+134083,A. Shaw,UNDER-MERGE,,id/id,2,1958,1967,9,9,,Independent Unionist / UUP,2,"same name, careers 1958-1958 then 1967-1967, gap 9y"
 134481+149576,William James Gunning,UNDER-MERGE,,id/id,2,1961,1970,9,9,,NI Labour,2,"same name, careers 1961-1961 then 1970-1970, gap 9y"
 135094+146606,Norman S. Dickson,UNDER-MERGE,,id/id,2,1949,1958,9,9,,Independent Unionist,2,"same name, careers 1949-1949 then 1958-1958, gap 9y"
+139389+135469,J. Donaghy,UNDER-MERGE,,id/id,3,1946,1955,9,6,,,2,"same name, careers 1946-1946 then 1952-1955, gap 6y"
 137967+136307,W. J. Johnston,UNDER-MERGE,,id/id,3,1902,1911,9,6,,Town Tenants' Association,2,"same name, careers 1902-1905 then 1911-1911, gap 6y"
 135654+137510,T. Hutchinson,UNDER-MERGE,,id/id,4,1955,1964,9,6,,Independent,2,"same name, careers 1955-1958 then 1964-1964, gap 6y"
 135726+136263,Patrick M'Donald,UNDER-MERGE,,id/id,3,1899,1908,9,9,,Nationalist Party,2,"same name, careers 1899-1899 then 1908-1908, gap 9y"
@@ -2111,6 +2112,7 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 142245+148348,S. Gracey,UNDER-MERGE,,id/id,3,1958,1967,9,6,,Independent,2,"same name, careers 1958-1961 then 1967-1967, gap 6y"
 142310+142311,Samuel Haslett,UNDER-MERGE,,id/id,2,1927,1936,9,9,,NI Labour,2,"same name, careers 1927-1927 then 1936-1936, gap 9y"
 142632+142631,W. Gough,UNDER-MERGE,,id/id,2,1946,1955,9,9,,UUP,2,"same name, careers 1946-1946 then 1955-1955, gap 9y"
+142634+142633,W. Gray,UNDER-MERGE,,id/id,3,1955,1964,9,6,,Irish Labour,2,"same name, careers 1955-1958 then 1964-1964, gap 6y"
 142692+142693,W. J. Purdy,UNDER-MERGE,,id/id,2,1955,1964,9,9,,UUP,2,"same name, careers 1955-1955 then 1964-1964, gap 9y"
 142717+143809,W. Mason,UNDER-MERGE,,id/id,2,1949,1958,9,9,,UUP,2,"same name, careers 1949-1949 then 1958-1958, gap 9y"
 142732+148461,W. Orr,UNDER-MERGE,,id/id,3,1958,1967,9,6,,Independent,2,"same name, careers 1958-1961 then 1967-1967, gap 6y"
@@ -2182,7 +2184,6 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 107127+119750,John Reilly,UNDER-MERGE,,id/src,2,1997,2004,7,7,,Fine Gael / UUP,2,"same name, careers 1997-1997 then 2004-2004, gap 7y"
 131425+107449,Thomas Grant,UNDER-MERGE,,src/id,2,1974,1981,7,7,,Irish Labour / UUP,2,"same name, careers 1974-1974 then 1981-1981, gap 7y"
 157744+134895,James Johnston,UNDER-MERGE,,id/id,2,1913,1920,7,7,,National Amalgamated Union of Labour,2,"same name, careers 1913-1913 then 1920-1920, gap 7y"
-109925+153282,M J Barry,UNDER-MERGE,,src/id,2,1948,1955,7,7,,Clann na Poblachta / Irish Labour,2,"same name, careers 1948-1948 then 1955-1955, gap 7y"
 141389+141388,James Campbell,UNDER-MERGE,,id/id,2,1926,1933,7,7,,Independent / NI Labour,2,"same name, careers 1926-1926 then 1933-1933, gap 7y"
 123160+123161,Arthur St George Patton,UNDER-MERGE,,id/id,2,1885,1892,7,7,,Irish Loyal and Patriotic Union / Liberal Unionist,2,"same name, careers 1885-1885 then 1892-1892, gap 7y"
 123298+123299,James Mackay Wilson,UNDER-MERGE,,id/id,2,1885,1892,7,7,,Conservative / Irish Unionist Alliance,2,"same name, careers 1885-1885 then 1892-1892, gap 7y"
@@ -2238,7 +2239,6 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 155973+106956,J. Clarke,UNDER-MERGE,,src/id,2,1967,1973,6,6,,Irish Labour / Northern Ireland Labour Party,2,"same name, careers 1967-1967 then 1973-1973, gap 6y"
 134396+107742,T. Pakenham,UNDER-MERGE,,id/id,2,1967,1973,6,6,,NI Labour / Northern Ireland Labour Party,2,"same name, careers 1967-1967 then 1973-1973, gap 6y"
 142516+108084,Thomas Simpson,UNDER-MERGE,,id/id,2,1967,1973,6,6,,Independent / NI Labour,2,"same name, careers 1967-1967 then 1973-1973, gap 6y"
-153197+139189,P. O'Neill,UNDER-MERGE,,id/id,2,1958,1964,6,6,,Irish Labour / NI Labour,2,"same name, careers 1958-1958 then 1964-1964, gap 6y"
 140031+108186,P. O'Neill,UNDER-MERGE,,id/id,2,1967,1973,6,6,,Independent Unionist / Republican Labour,2,"same name, careers 1967-1967 then 1973-1973, gap 6y"
 136243+136244,O'Neill,UNDER-MERGE,,id/id,2,1899,1905,6,6,,Nationalist Party,2,"same name, careers 1899-1899 then 1905-1905, gap 6y"
 108260+131778,Doherty,UNDER-MERGE,,id/src,2,1973,1979,6,6,,Fianna Fáil / Nationalist Party (Northern Ireland),2,"same name, careers 1973-1973 then 1979-1979, gap 6y"
@@ -2318,7 +2318,6 @@ personId,name,kind,sourceAsserted,keyedBy,candidacies,firstYear,lastYear,span,la
 142149+142148,Robert Fitzpatrick,UNDER-MERGE,,id/id,2,1946,1952,6,6,,NI Labour,2,"same name, careers 1946-1946 then 1952-1952, gap 6y"
 142522+142521,Thomas Turley,UNDER-MERGE,,id/id,2,1946,1952,6,6,,NI Labour,2,"same name, careers 1946-1946 then 1952-1952, gap 6y"
 142549+153330,Vincent G. Havern,UNDER-MERGE,,id/id,2,1952,1958,6,6,,Independent / Progressive,2,"same name, careers 1952-1952 then 1958-1958, gap 6y"
-142634+142633,W. Gray,UNDER-MERGE,,id/id,2,1958,1964,6,6,,Irish Labour,2,"same name, careers 1958-1958 then 1964-1964, gap 6y"
 142669+149559,W. J. Chambers,UNDER-MERGE,,id/id,2,1929,1935,6,6,,,2,"same name, careers 1929-1929 then 1935-1935, gap 6y"
 142752+148465,W. Spratt,UNDER-MERGE,,id/id,2,1958,1964,6,6,,UUP,2,"same name, careers 1958-1958 then 1964-1964, gap 6y"
 143219+145322,Alexander Wolsey McGowan,UNDER-MERGE,,id/id,2,1961,1967,6,6,,UUP,2,"same name, careers 1961-1961 then 1967-1967, gap 6y"
