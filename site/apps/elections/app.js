@@ -28,9 +28,10 @@ const VIEWS = {
   compare: () => import('./views/compare.js'),
   swing: () => import('./views/swing.js'),
   notional: () => import('./views/notional.js'),
+  methods: () => import('./views/methods.js'),
 };
 /** @type {Record<string, string>} */
-const TAB_OF = { home: 'home', body: 'home', election: 'home', contest: 'home', pivot: 'pivot', map: 'map', compare: 'compare', swing: 'swing', notional: 'notional' };
+const TAB_OF = { home: 'home', body: 'home', election: 'home', contest: 'home', pivot: 'pivot', map: 'map', compare: 'compare', swing: 'swing', notional: 'notional', methods: 'methods' };
 
 const root = /** @type {HTMLElement} */ (document.getElementById('el-view'));
 /** EL-01: the route's state (state-machines.js ROUTE). */
@@ -88,7 +89,9 @@ document.addEventListener('click', (event) => {
   const href = a.getAttribute('href') || '';
   if (!isAppHref(href, location.origin)) return;
   event.preventDefault();
-  navigate(new URL(href, location.origin).pathname + new URL(href, location.origin).search);
+  // The hash stays: a figure's method link names its section of the methods page (#swing).
+  const to = new URL(href, location.href);
+  navigate(to.pathname + to.search + to.hash);
 });
 window.addEventListener('popstate', () => render());
 

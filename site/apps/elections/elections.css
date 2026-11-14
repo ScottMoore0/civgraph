@@ -72,3 +72,18 @@ h2 { margin: var(--space-8) 0 var(--space-3); font-size: var(--text-xl); }
   .el-head h1 { font-size: var(--text-2xl); }
   .el-main { padding: var(--space-3) var(--space-3) var(--space-8); }
 }
+
+/* el-tables: the data behind each chart (lib/chart-data.js), the notes on worked-out figures
+   (lib/methods.js) and the methods page (views/methods.js). */
+.el-chart-data { margin: var(--space-2) 0 0; font-size: var(--text-sm); text-align: left; }
+.el-chart-data > summary { cursor: pointer; color: var(--link); padding: var(--space-1) 0; width: fit-content; }
+.el-chart-data > summary:focus-visible, .el-chart-data__wrap:focus-visible { outline: 2px solid var(--focus-ring, var(--link)); outline-offset: 2px; }
+.el-chart-data__wrap { margin-top: var(--space-2); }
+.el-chart-data caption { text-align: left; font-weight: var(--weight-semibold); padding-bottom: var(--space-1); }
+.el-chart-data__csv { margin: var(--space-2) 0 0; }
+.el-chart-data__csv a, .el-method-link { color: var(--link); }
+.el-method { margin: var(--space-2) 0; }
+.el-method--fact { display: block; margin: var(--space-1) 0 0; font-size: var(--text-xs); }
+.el-compared time { white-space: nowrap; }
+.el-method-section h2:focus { outline: none; }
+.el-method-section p { max-width: 48rem; }

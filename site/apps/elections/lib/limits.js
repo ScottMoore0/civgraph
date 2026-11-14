@@ -156,7 +156,8 @@ export function pivotLimits(settings, counts, fmt) {
 /**
  * A note as HTML: one sentence a span, so the language runtime translates each by its wording.
  * @param {Limit} limit @param {(s: string) => string} esc @param {string} [cls]  the element's classes
+ * @param {string} [after]  HTML after the sentences, inside the note (a link to its method, lib/methods.js)
  */
-export function limitHtml(limit, esc, cls = 'cg-notice') {
-  return `<p class="${cls}" data-limit="${esc(limit.id)}">${limit.sentences.map((s) => `<span>${esc(s)}</span>`).join(' ')}</p>`;
+export function limitHtml(limit, esc, cls = 'cg-notice', after = '') {
+  return `<p class="${cls}" data-limit="${esc(limit.id)}">${limit.sentences.map((s) => `<span>${esc(s)}</span>`).join(' ')}${after ? ` ${after}` : ''}</p>`;
 }
