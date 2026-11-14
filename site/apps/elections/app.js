@@ -29,9 +29,11 @@ const VIEWS = {
   swing: () => import('./views/swing.js'),
   notional: () => import('./views/notional.js'),
   methods: () => import('./views/methods.js'),
+  byelections: () => import('./views/byelections.js'),
+  control: () => import('./views/control.js'),
 };
 /** @type {Record<string, string>} */
-const TAB_OF = { home: 'home', body: 'home', election: 'home', contest: 'home', pivot: 'pivot', map: 'map', compare: 'compare', swing: 'swing', notional: 'notional', methods: 'methods' };
+const TAB_OF = { home: 'home', body: 'home', election: 'home', contest: 'home', pivot: 'pivot', map: 'map', compare: 'compare', swing: 'swing', notional: 'notional', methods: 'methods', byelections: 'byelections', control: 'control' };
 
 const root = /** @type {HTMLElement} */ (document.getElementById('el-view'));
 /** EL-01: the route's state (state-machines.js ROUTE). */

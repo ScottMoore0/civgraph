@@ -10,9 +10,10 @@
  *   /elections/<election-slug>/<contest>/    a contest: count sheet, transfers, sources
  *   /elections/pivot/ map/ compare/ swing/ notional/   the tools (state in the query string)
  *   /elections/methods/                      how the worked-out figures are made (views/methods.js)
+ *   /elections/byelections/ control/          the by-election tracker, council control (stream el-bodies)
  */
 export const BASES = ['/elections', '/apps/elections'];
-export const TOOLS = ['pivot', 'map', 'compare', 'swing', 'notional', 'methods'];
+export const TOOLS = ['pivot', 'map', 'compare', 'swing', 'notional', 'methods', 'byelections', 'control'];
 
 /**
  * A parsed app URL: the view and its path parts, and the query (each tool's state).

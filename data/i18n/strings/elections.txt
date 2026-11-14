@@ -198,3 +198,110 @@
 @elections.map_view.limit_votes {n} votes ¦ ¦
 @elections.map_view.limit_pct {pct} of the valid poll ¦ ¦
 @elections.map_view.descending descending ¦ ¦
+# el-bodies (14 Nov 2026): the by-election tracker and council control (site/apps/elections/lib/bodies-text.js).
+# {n} {k} {m} {total} are numbers, {year} a year, {name} a party or council name.
+@elections.bodies.be_title By-elections and vacancies ¦ ¦
+@elections.bodies.be_lead Every by-election on file, in every body, with the council seats filled by co-option where the records hold them. Filter, sort and download the list: the address keeps the view. ¦ ¦
+@elections.bodies.body Body ¦ ¦
+@elections.bodies.area Area ¦ ¦
+@elections.bodies.winning_party Winning party ¦ ¦
+@elections.bodies.defending_party Defending party ¦ ¦
+@elections.bodies.parties_standing Parties standing (all of them) ¦ ¦
+@elections.bodies.from_year From year ¦ ¦
+@elections.bodies.to_year To year ¦ ¦
+@elections.bodies.result Result ¦ ¦
+@elections.bodies.unopposed Returned unopposed ¦ ¦
+@elections.bodies.type Type ¦ ¦
+@elections.bodies.sort_by Sort by ¦ ¦
+@elections.bodies.share_of Share of party ¦ ¦
+@elections.bodies.order Order ¦ ¦
+@elections.bodies.any Any ¦ ¦
+@elections.bodies.held Held ¦ ¦
+@elections.bodies.gained Changed hands ¦ ¦
+@elections.bodies.not_recorded not recorded ¦ ¦
+@elections.bodies.not_recorded_option Not recorded ¦ ¦
+@elections.bodies.yes Yes ¦ ¦
+@elections.bodies.no No ¦ ¦
+@elections.bodies.by_elections By-elections ¦ ¦
+@elections.bodies.co_options Co-options ¦ ¦
+@elections.bodies.date Date ¦ ¦
+@elections.bodies.turnout Turnout ¦ ¦
+@elections.bodies.majority Majority ¦ ¦
+@elections.bodies.party_share A party's share ¦ ¦
+@elections.bodies.descending Newest or highest first ¦ ¦
+@elections.bodies.ascending Oldest or lowest first ¦ ¦
+@elections.bodies.reset Clear the filters ¦ ¦
+@elections.bodies.csv Download CSV ¦ ¦
+@elections.bodies.more Show more ¦ ¦
+@elections.bodies.winner Winner ¦ ¦
+@elections.bodies.defending Defending ¦ ¦
+@elections.bodies.share Share ¦ ¦
+@elections.bodies.co_opted Co-opted ¦ ¦
+@elections.bodies.no_match No by-election matches these filters. ¦ ¦
+@elections.bodies.be_unavailable The by-election list is not available here yet: it is built with the pivot tables' data. ¦ ¦
+@elections.bodies.be_summary_one {n} by-election, {m} changed hands. ¦ ¦
+@elections.bodies.be_summary {n} by-elections, {m} changed hands. ¦ ¦
+@elections.bodies.be_held {n} held by the defending party. ¦ ¦
+@elections.bodies.be_unknown For {n}, the defending party is not recorded. ¦ ¦
+@elections.bodies.be_co_option_one {n} seat filled by co-option. ¦ ¦
+@elections.bodies.be_co_option {n} seats filled by co-option. ¦ ¦
+@elections.bodies.showing Showing {n} of {total}. ¦ ¦
+@elections.bodies.basis_seat the member for the seat ¦ ¦
+@elections.bodies.basis_cause named in the cause ¦ ¦
+@elections.bodies.about_figures About these figures ¦ ¦
+@elections.bodies.be_note_what A by-election here is a contest of a by-election, or a council contest its source files as filling a casual vacancy. Pre-1973 Northern Ireland councils filed many vacancies this way. ¦ ¦
+@elections.bodies.be_note_defending The defending party is the party of the member the by-election replaced, and only where the records link that member to the seat: the one member of a single-member seat at its last election, or the one sitting member that the recorded cause of the vacancy names. Otherwise it is not recorded, and whether the seat changed hands cannot be said. ¦ ¦
+@elections.bodies.be_note_co_option Co-options are council seats filled without a poll, from the cited tenures of council offices. The member each replaced is not linked in the records. ¦ ¦
+@elections.bodies.be_note_held Changed hands counts the by-elections whose winner stood for another party than the defending one. A winner without a party label is not counted either way. ¦ ¦
+@elections.bodies.cc_title Council control ¦ ¦
+@elections.bodies.cc_lead Who controlled each council after each election, with the seats by party: Northern Ireland's councils from 1899 and the Republic's councils, as far as the records hold them. ¦ ¦
+@elections.bodies.year Year ¦ ¦
+@elections.bodies.council Council ¦ ¦
+@elections.bodies.show Show ¦ ¦
+@elections.bodies.previous_year Previous year ¦ ¦
+@elections.bodies.next_year Next year ¦ ¦
+@elections.bodies.control Control ¦ ¦
+@elections.bodies.largest_party Largest party ¦ ¦
+@elections.bodies.seats_by_party Seats by party ¦ ¦
+@elections.bodies.as_of As of ¦ ¦
+@elections.bodies.seats Seats ¦ ¦
+@elections.bodies.event Event ¦ ¦
+@elections.bodies.composition Composition after ¦ ¦
+@elections.bodies.election Election ¦ ¦
+@elections.bodies.by_election By-election ¦ ¦
+@elections.bodies.co_option Co-option ¦ ¦
+@elections.bodies.whole_council whole council elected ¦ ¦
+@elections.bodies.part_council part of the council elected ¦ ¦
+@elections.bodies.majority_of {name} majority ¦ ¦
+@elections.bodies.noc No overall control ¦ ¦
+@elections.bodies.noc_largest No overall control; largest party {name} ¦ ¦
+@elections.bodies.independent_majority Independents hold a majority ¦ ¦
+@elections.bodies.not_determinable Not determinable ¦ ¦
+@elections.bodies.composition_not_recorded Composition not recorded ¦ ¦
+@elections.bodies.departing_unknown The departing member is not on record. ¦ ¦
+@elections.bodies.seats_filled Seats filled at this election ¦ ¦
+@elections.bodies.no_label_seats no party label ¦ ¦
+@elections.bodies.missing_seats seats not on file ¦ ¦
+@elections.bodies.majority_line Line: half the seats ¦ ¦
+@elections.bodies.chart_title Seats by party after each election ¦ ¦
+@elections.bodies.timeline_heading Elections and changes between them ¦ ¦
+@elections.bodies.elections Elections ¦ ¦
+@elections.bodies.breadcrumb Breadcrumb ¦ ¦
+@elections.bodies.predecessors Predecessors ¦ ¦
+@elections.bodies.successors Successors ¦ ¦
+@elections.bodies.no_elections no elections on file ¦ ¦
+@elections.bodies.aldermen Aldermen are elected separately, half at a time, and are not counted here: ¦ ¦
+@elections.bodies.cc_summary_one {n} council in {year}. ¦ ¦
+@elections.bodies.cc_summary {n} councils in {year}. ¦ ¦
+@elections.bodies.cc_kinds {n} under a party majority, {k} under no overall control, {m} not determinable or not recorded. ¦ ¦
+@elections.bodies.cc_unavailable Council control is not available here yet: it is built with the pivot tables' data. ¦ ¦
+@elections.bodies.cc_none No council on file held an election by this year. ¦ ¦
+@elections.bodies.cc_note_whole Composition is known after an election that renewed the whole council. An election of part of the council (annual thirds, or a partial record) shows the seats it filled only, and the composition is not recorded until the next whole-council election. ¦ ¦
+@elections.bodies.cc_note_changes By-elections and co-options move the composition only where the departing member is on record. Defections between elections are not in the records, so they never move it. ¦ ¦
+@elections.bodies.cc_note_missing Seats not on file are the council's usual size less the seats on file at that election. They count as members whose party is not recorded, as members without a party label do: control is not determinable when they could tip the majority. ¦ ¦
+@elections.bodies.cc_note_year Each council's composition is the one after its last election on or before the year, with any recorded changes since. A council is listed until its abolition, while an election of it is on file within the twelve years before. ¦ ¦
+@elections.bodies.all_councils All councils ¦ ¦
+@elections.bodies.generation_pre_1973 Northern Ireland councils, 1899 to 1973 ¦ ¦
+@elections.bodies.generation_1973 Northern Ireland district councils, 1973 to 2015 ¦ ¦
+@elections.bodies.generation_2014 Northern Ireland district councils since 2015 ¦ ¦
+@elections.bodies.generation_ireland The Republic's councils ¦ ¦
