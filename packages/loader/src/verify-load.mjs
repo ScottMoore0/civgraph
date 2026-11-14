@@ -22,8 +22,13 @@
  *   - with no `since` (a --check, a full load), every table is sampled: 50 keys spread evenly
  *     over its rowids (verify --sample N).
  *
- * One statement per wrangler call, 1.5 s apart (--pause-ms). A 7429 is retried after 15, 30, 60,
- * 120 and 240 s; any other error fails at once. Nothing is retried in a tight loop.
+ * Each statement is one of those bounded reads. Consecutive statements share a wrangler call
+ * (D1 answers each statement of a call on its own): at most 8 of them, 24 KB of SQL (Windows caps a
+ * command line at 32,767 characters) and 2,500 rows read by their own bounds (2 per key looked up,
+ * the LIMIT of a count), against the 1,000,000 a whole --check may read; calls are 1.5 s apart
+ * (--pause-ms). A 7429 is retried after 15, 30, 60, 120 and 240 s; any other error fails at
+ * once. Nothing is retried in a tight loop. The publish's load (deploy-records.mjs) hands verify the
+ * keys its delta wrote, so the two databases are diffed once.
  *
  * The bounded check proves the delta landed, not that rows nobody touched are still right: that
  * rests on the previous verified load (the snapshot is replaced only after a PASS) and on the
@@ -32,10 +37,10 @@
  * FULL (--full-verify; the default against the local D1, which is a file on this machine)
  *
  * Per table, COUNT(*) and SUM(row_hash_n) of the whole table, locally (the SQLite build) and in D1,
- * one table per wrangler call, plus the schema. Against the remote database this reads every row
- * of every table (about 4 million rows, 4 GB): NEVER run it against the live database at a busy
- * time, and never from the publish. It is for a quiet hour after a recovery (records:deploy
- * --remote --resync requires it).
+ * one table per wrangler call (never packed), plus the schema. Against the remote database this
+ * reads every row of every table (about 4 million rows, 4 GB): NEVER run it against the live
+ * database at a busy time, and never from the publish. It is for a quiet hour after a recovery
+ * (records:deploy --remote --resync requires it).
  *
  *   node packages/loader/src/verify-load.mjs --local  [--db FILE] [--since FILE] [--bounded] [--sample N]
  *   node packages/loader/src/verify-load.mjs --remote [--db FILE] [--since FILE] [--sample N] [--pause-ms N]
@@ -53,7 +58,7 @@ import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
 import { datasetLoadState, LOADING_KEY } from './dataset-state.mjs';
 import { snapshotTable } from './db.mjs';
 import { verifyModeFor } from './deploy-plan.mjs';
-import { q } from './diff-load.mjs';
+import { bytesExpr, deltaKeys, keyOf, q } from './diff-load.mjs';
 import { buildVar } from '../../config/src/node.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
 import { HASHED_TABLES } from '../../schema/src/schema.mjs';
@@ -64,12 +69,8 @@ import { HASHED_TABLES } from '../../schema/src/schema.mjs';
 /** A sqlite_master row (name, sql): read locally or from D1. @typedef {{ name?: unknown, sql?: unknown }} SchemaRow */
 /** Per table: COUNT(*) and SUM(row_hash_n). @typedef {Record<string, { n: number, s: number }>} TableSums */
 /** @typedef {{ tables: TableSums, schema: SchemaRow[] }} Checksums */
-/**
- * A row's primary key as verify compares it: `key` is the JSON of its values as text, `hash` its
- * row_hash (null: deleted), `bytes` the size of its values.
- * @typedef {{ key: string, values: unknown[], hash: string | null, bytes: number }} KeyRef
- */
-/** @typedef {{ deleted: KeyRef[], upserted: KeyRef[], sampled?: boolean }} TouchedKeys */
+/** A row's primary key as verify compares it (diff-load.mjs). @typedef {import('./diff-load.mjs').KeyRef} KeyRef */
+/** The keys a delta touched in one table (diff-load.mjs). @typedef {import('./diff-load.mjs').TouchedKeys} TouchedKeys */
 
 /**
  * The D1 database behind the ELECTIONS_DB binding, read from wrangler.toml's production
@@ -125,6 +126,12 @@ export const BOUNDS = {
   smallTableBytes: 16 * 1024 * 1024,
   pauseMs: 1500,
   backoffMs: [15_000, 30_000, 60_000, 120_000, 240_000],
+  // A bounded verify's statements share a wrangler call (packSteps), within these: the SQL
+  // under the same command-line cap as one statement, and the rows read (each statement's own
+  // bound) a few keyed batches' worth.
+  callStatements: 8,
+  callBytes: 24 * 1024,
+  callRows: 2500,
 };
 
 const tableChecksumSql = (/** @type {Pick<TableSpec, 'name'>} */ t) => `SELECT '${t.name}' AS t, COUNT(*) AS n, COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`;
@@ -134,12 +141,11 @@ const DATASET_SQL = 'SELECT key, value FROM dataset ORDER BY key LIMIT 100';
 const LOAD_KEYS = new Set([LOADING_KEY, 'loaded_at']);
 
 /**
- * Run SQL through wrangler d1 execute and return the result rows.
+ * Run SQL through wrangler d1 execute --json: its exit status, stdout and stderr.
  * @param {string} sql
  * @param {{ remote?: boolean, cwd?: string }} [options]
- * @returns {QueryRows}
  */
-export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
+function runWrangler(sql, { remote = false, cwd = REPO_ROOT } = {}) {
   const dir = path.join(REPO_ROOT, 'tmp', 'records');
   mkdirSync(dir, { recursive: true });
   const outFile = path.join(dir, `wrangler-${process.pid}-${Date.now()}.json`);
@@ -152,7 +158,35 @@ export function wranglerQuery(sql, { remote = false, cwd = REPO_ROOT } = {}) {
   closeSync(fd);
   const text = readFileSync(outFile, 'utf8');
   rmSync(outFile, { force: true });
-  return parseWranglerOutput(res.status, text, res.stderr || '');
+  return { status: res.status, text, stderr: res.stderr || '' };
+}
+
+/**
+ * Run SQL through wrangler d1 execute and return the result rows.
+ * @param {string} sql
+ * @param {{ remote?: boolean, cwd?: string }} [options]
+ * @returns {QueryRows}
+ */
+export function wranglerQuery(sql, options = {}) {
+  const { status, text, stderr } = runWrangler(sql, options);
+  return parseWranglerOutput(status, text, stderr);
+}
+
+/** The most SQL one call may carry: Windows caps a command line at 32,767 characters. */
+const COMMAND_BYTES = 30 * 1024;
+
+/**
+ * Run several statements in one wrangler d1 execute call (D1 answers each on its own) and
+ * return each statement's rows, in order.
+ * @param {string[]} sqls
+ * @param {{ remote?: boolean, cwd?: string }} [options]
+ * @returns {QueryRows[]}
+ */
+export function wranglerQueryMany(sqls, options = {}) {
+  const sql = callSql(sqls);
+  if (Buffer.byteLength(sql) > COMMAND_BYTES) throw new Error(`refused: a call of ${Buffer.byteLength(sql)} bytes of SQL (wrangler's command line)`);
+  const { status, text, stderr } = runWrangler(sql, options);
+  return parseWranglerResults(status, text, stderr, sqls.length);
 }
 
 /** The exit status of a process that aborted on Windows (0xC0000409, STATUS_STACK_BUFFER_OVERRUN). */
@@ -191,6 +225,34 @@ const redactApiPath = (/** @type {string} */ s) => s.replace(/\/accounts\/[^/\s)
  * @returns {QueryRows}
  */
 export function parseWranglerOutput(status, text, stderr) {
+  return resultRows(parseWranglerAnswer(status, text, stderr));
+}
+
+/**
+ * The same, one result per statement of a call of `count` statements (D1 answers each statement
+ * of a call on its own, in order); an answer of any other length is an error.
+ * @param {number | null} status
+ * @param {string} text stdout
+ * @param {string} stderr
+ * @param {number} count
+ * @returns {QueryRows[]}
+ */
+export function parseWranglerResults(status, text, stderr, count) {
+  const answer = parseWranglerAnswer(status, text, stderr);
+  if (answer.length !== count) throw new WranglerError(`wrangler d1 execute answered ${answer.length} statement(s) of ${count}`, { status });
+  return answer.map((r) => resultRows([r]));
+}
+
+/** @typedef {{ results?: Record<string, D1Value>[], success?: boolean, meta?: { rows_read?: number, duration?: number } }} D1Answer */
+
+/**
+ * D1's answer to a call, one entry per statement, or the WranglerError it amounts to.
+ * @param {number | null} status
+ * @param {string} text stdout
+ * @param {string} stderr
+ * @returns {D1Answer[]}
+ */
+function parseWranglerAnswer(status, text, stderr) {
   const crashed = status === WINDOWS_ABORT_STATUS || /Assertion failed: .*UV_HANDLE_CLOSING/.test(stderr);
   const starts = [text.indexOf('['), text.indexOf('{')].filter((i) => i >= 0);
   /** @type {unknown} */
@@ -201,9 +263,9 @@ export function parseWranglerOutput(status, text, stderr) {
   if (parsed === undefined && status === 0 && text.includes('[')) {
     try { parsed = JSON.parse(text.slice(text.indexOf('['))); } catch { /* reported below */ }
   }
-  const answer = /** @type {{ success?: boolean }[]} */ (Array.isArray(parsed) ? parsed : []);
+  const answer = /** @type {D1Answer[]} */ (Array.isArray(parsed) ? parsed : []);
   if (Array.isArray(parsed) && (status === 0 || (crashed && answer.every((r) => r && typeof r === 'object' && r.success !== false)))) {
-    return resultRows(/** @type {{ results?: Record<string, D1Value>[], meta?: { rows_read?: number, duration?: number } }[]} */ (parsed));
+    return answer;
   }
   const abort = crashed ? `; wrangler then aborted (${String(stderr).trim().split(/\r?\n/).pop()?.slice(0, 160) || `exit ${status}`})` : '';
   const err = /** @type {{ error?: { text?: string, code?: number, notes?: { text?: string }[] } } | undefined} */ (parsed && !Array.isArray(parsed) && typeof parsed === 'object' ? parsed : undefined)?.error;
@@ -219,7 +281,7 @@ export function parseWranglerOutput(status, text, stderr) {
 
 /**
  * D1's answers as one list of rows, with D1's rows_read and SQL time attached.
- * @param {{ results?: Record<string, D1Value>[], meta?: { rows_read?: number, duration?: number } }[]} parsed
+ * @param {D1Answer[]} parsed
  * @returns {QueryRows}
  */
 function resultRows(parsed) {
@@ -253,12 +315,14 @@ export const isTransientAuth = (/** @type {unknown} */ error) => /\b7403\b/.test
 /**
  * `query(sql)` with a 7429 (overloaded) or a 7403 (the transient authorisation refusal above)
  * retried after each wait in `backoffMs` (never at once, never more often than that list says);
- * any other error is thrown as it is.
- * @param {Query} query
- * @param {string} sql
+ * any other error is thrown as it is. `sql` is one statement (a Query) or a call's statements (a
+ * QueryMany); the retry is the same.
+ * @template S, R
+ * @param {(sql: S, opts: { remote?: boolean }) => R} query
+ * @param {S} sql
  * @param {{ remote?: boolean }} opts
  * @param {{ backoffMs?: number[], sleep?: (ms: number) => void, log?: (line: string) => void }} [retry]
- * @returns {QueryRows}
+ * @returns {R}
  */
 export function queryWithRetry(query, sql, opts, { backoffMs = BOUNDS.backoffMs, sleep = sleepSync, log = console.warn } = {}) {
   for (let attempt = 0; ; attempt += 1) {
@@ -336,33 +400,8 @@ export function fullPlan(file) {
 
 // ------------------------------------------------------------------ the bounded mode
 
-const keyOf = (/** @type {string[]} */ pk, /** @type {Record<string, unknown>} */ row) => JSON.stringify(pk.map((c) => (row[c] === null || row[c] === undefined ? null : String(row[c]))));
-const bytesExpr = (/** @type {TableSpec} */ t, alias = '') => t.columns.map((c) => `COALESCE(length(${alias}${c.name}), 0)`).join(' + ');
-
-/**
- * The keys the delta from `since` to the build touched, per table: the same comparison
- * diff-load.mjs makes (primary key plus row_hash), reading keys, hashes and sizes only.
- * @param {SqliteHandle} db
- * @param {TableSpec[]} [tables]
- * @returns {Record<string, TouchedKeys>}
- */
-export function deltaKeys(db, tables = HASHED_TABLES) {
-  /** @type {Record<string, TouchedKeys>} */
-  const out = {};
-  for (const t of tables) {
-    const pk = t.pk.join(', ');
-    const ft = snapshotTable(db, 'f', t);
-    const deleted = db.prepare(`SELECT ${pk} FROM ${ft} EXCEPT SELECT ${pk} FROM main.${t.name} ORDER BY ${pk}`).all()
-      .map((r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: null, bytes: 0 }));
-    const join = t.pk.map((c) => `${ft}.${c} = m.${c}`).join(' AND ');
-    const upserted = db.prepare(
-      `SELECT ${t.pk.map((c) => `m.${c}`).join(', ')}, m.row_hash AS row_hash, ${bytesExpr(t, 'm.')} AS bytes FROM main.${t.name} m `
-      + `LEFT JOIN ${ft} ON ${join} WHERE ${ft}.row_hash IS NOT m.row_hash ORDER BY ${t.pk.map((c) => `m.${c}`).join(', ')}`,
-    ).all().map((r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: /** @type {string} */ (r.row_hash), bytes: Number(r.bytes) }));
-    if (deleted.length || upserted.length) out[t.name] = { deleted, upserted };
-  }
-  return out;
-}
+// keyOf, bytesExpr and deltaKeys live with the delta they describe (diff-load.mjs).
+export { deltaKeys };
 
 /**
  * About `n` rows of a table spread evenly over its rowids (rowid lookups, no scan).
@@ -449,15 +488,21 @@ export const boundedChecksumSql = (/** @type {Pick<TableSpec, 'name'>} */ t, /**
 /**
  * @typedef {Record<string, D1Value>[] & { rowsRead?: number, durationMs?: number }} QueryRows
  * @typedef {(sql: string, opts: { remote?: boolean }) => QueryRows} Query
- * @typedef {{ label: string, sql: string, check: (rows: QueryRows) => string[] }} PlanStep
+ * @typedef {(sqls: string[], opts: { remote?: boolean }) => QueryRows[]} QueryMany
+ * A step: one statement and its check. `rows` bounds the rows it reads (its LIMIT, or 2 per key it
+ * looks up); a step without it (the full scan) always has a wrangler call to itself.
+ * @typedef {{ label: string, sql: string, rows?: number, check: (rows: QueryRows) => string[] }} PlanStep
  * @typedef {{ steps: PlanStep[], notes: string[], mode: 'bounded'|'full' }} Plan
  */
 
 /**
- * @param {{ file: string, since?: string|null, sample?: number, bounds?: typeof BOUNDS }} options
+ * `touched` is the keys the delta from `since` wrote, when the caller has them (buildDelta's
+ * collectKeys): they are what deltaKeys would find, so the databases are not diffed again.
+ * @param {{ file: string, since?: string|null, sample?: number, bounds?: typeof BOUNDS,
+ *   touched?: Record<string, TouchedKeys> | null }} options
  * @returns {Plan}
  */
-export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bounds = BOUNDS }) {
+export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bounds = BOUNDS, touched: given = null }) {
   const db = openSqliteHandle(file, { readOnly: true });
   /** @type {string[]} */
   const notes = [];
@@ -470,6 +515,7 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
     steps.push({
       label: 'dataset',
       sql: DATASET_SQL,
+      rows: 100,
       check: (rows) => {
         const remote = new Map(rows.map((r) => [r.key, r.value]));
         /** @type {string[]} */
@@ -483,11 +529,12 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
       },
     });
     const schema = db.prepare(SCHEMA_SQL).all();
-    steps.push({ label: 'schema', sql: `${SCHEMA_SQL} LIMIT 1000`, check: (rows) => compareSchema(schema, rows) });
+    steps.push({ label: 'schema', sql: `${SCHEMA_SQL} LIMIT 1000`, rows: 1000, check: (rows) => compareSchema(schema, rows) });
 
     /** @type {Record<string, TouchedKeys>} */
     let touched;
-    if (since) {
+    if (since && given) touched = given;
+    else if (since) {
       db.exec(`ATTACH DATABASE '${since.replace(/'/g, "''")}' AS f`);
       touched = deltaKeys(db);
       db.exec('DETACH DATABASE f');
@@ -509,6 +556,8 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
         steps.push({
           label: `${t.name} keys ${i + 1} (${batch.length})`,
           sql: keyedSql(t, batch),
+          // A key looked up reads its index entry and its row (D1 reports 2 rows read per key).
+          rows: 2 * batch.length,
           check: (rows) => {
             /** @type {string[]} */
             const out = [];
@@ -530,6 +579,7 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
           steps.push({
             label: `${t.name} count+checksum (LIMIT ${n + 1})`,
             sql: boundedChecksumSql(t, n + 1),
+            rows: n + 1,
             check: (rows) => {
               const r = rows[0] || {};
               return Number(r.n) === n && Number(r.s) === s ? [] : [`${t.name}: local ${n}/${s}, D1 ${r.n}/${r.s}`];
@@ -545,41 +595,90 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
 }
 
 /**
- * Run a plan: one statement per call, a pause between calls, a 7429 retried with backoff.
+ * The steps grouped into wrangler calls, in order. A bounded plan's consecutive steps share a
+ * call: at most bounds.callStatements of them, bounds.callBytes of SQL in all (the Windows
+ * command line), and bounds.callRows rows read by their own bounds. A step with no bound on its
+ * rows (the full scan) has a call to itself, and so does a plan of mode 'full'.
  * @param {Plan} plan
- * @param {{ remote?: boolean, query?: Query, pauseMs?: number, sleep?: (ms: number) => void,
- *   log?: (line: string) => void, backoffMs?: number[] }} [options]
+ * @param {typeof BOUNDS} [bounds]
+ * @returns {PlanStep[][]}
+ */
+export function packSteps(plan, bounds = BOUNDS) {
+  if (plan.mode !== 'bounded') return plan.steps.map((step) => [step]);
+  /** @type {PlanStep[][]} */
+  const calls = [];
+  /** @type {PlanStep[]} */
+  let call = [];
+  let bytes = 0;
+  let rows = 0;
+  for (const step of plan.steps) {
+    const stepBytes = Buffer.byteLength(step.sql) + 2;
+    const stepRows = step.rows ?? Infinity;
+    if (call.length && (call.length >= bounds.callStatements || bytes + stepBytes > bounds.callBytes || rows + stepRows > bounds.callRows)) {
+      calls.push(call);
+      call = [];
+      bytes = 0;
+      rows = 0;
+    }
+    call.push(step);
+    bytes += stepBytes;
+    rows += stepRows;
+  }
+  if (call.length) calls.push(call);
+  return calls;
+}
+
+/** The statements of one call as wrangler's --command takes them. */
+export const callSql = (/** @type {string[]} */ sqls) => sqls.join('; ');
+
+/**
+ * Run a plan: its steps in calls (packSteps), a pause between calls, a 7429 retried with backoff
+ * (the whole call: every statement is a read). `query` runs one statement; `queryMany` runs a
+ * call's statements and answers each on its own. Given only a `query` (a test's stand-in), a
+ * call's statements go through it one by one, with no pause between them.
+ * @param {Plan} plan
+ * @param {{ remote?: boolean, query?: Query, queryMany?: QueryMany, pauseMs?: number, sleep?: (ms: number) => void,
+ *   log?: (line: string) => void, backoffMs?: number[], bounds?: typeof BOUNDS }} [options]
  * @returns {string[]} the mismatches
  */
-export function runPlan(plan, { remote = false, query = wranglerQuery, pauseMs = BOUNDS.pauseMs, sleep = sleepSync, log = () => {}, backoffMs } = {}) {
+export function runPlan(plan, { remote = false, query = wranglerQuery, queryMany, pauseMs = BOUNDS.pauseMs, sleep = sleepSync, log = () => {}, backoffMs, bounds = BOUNDS } = {}) {
+  /** @type {QueryMany} */
+  const many = queryMany || (query === wranglerQuery ? wranglerQueryMany : (sqls, opts) => sqls.map((sql) => query(sql, opts)));
   /** @type {string[]} */
   const mismatches = [];
   let rowsRead = 0;
-  plan.steps.forEach((step, i) => {
+  const calls = packSteps(plan, bounds);
+  calls.forEach((call, i) => {
     if (i > 0) sleep(pauseMs);
-    const rows = queryWithRetry(query, step.sql, { remote }, { sleep, backoffMs, log });
-    const found = step.check(rows);
-    rowsRead += Number(rows.rowsRead || 0);
-    log(`  ${found.length ? 'FAIL' : 'ok  '} ${step.label}${rows.rowsRead !== undefined ? ` (${rows.rowsRead} rows read)` : ''}`);
-    mismatches.push(...found);
+    const answers = call.length === 1
+      ? [queryWithRetry(query, call[0].sql, { remote }, { sleep, backoffMs, log })]
+      : queryWithRetry(many, call.map((step) => step.sql), { remote }, { sleep, backoffMs, log });
+    call.forEach((step, j) => {
+      const rows = answers[j];
+      const found = step.check(rows);
+      rowsRead += Number(rows.rowsRead || 0);
+      log(`  ${found.length ? 'FAIL' : 'ok  '} ${step.label}${rows.rowsRead !== undefined ? ` (${rows.rowsRead} rows read)` : ''}`);
+      mismatches.push(...found);
+    });
   });
-  log(`  verify ran ${plan.steps.length} statement(s)${rowsRead ? `, D1 read ${rowsRead} rows` : ''}`);
+  log(`  verify ran ${plan.steps.length} statement(s) in ${calls.length} call(s)${rowsRead ? `, D1 read ${rowsRead} rows` : ''}`);
   return mismatches;
 }
 
 /**
  * Verify a load. mode: 'bounded' (the default for the remote database) or 'full' (the default
- * for the local D1; against the remote only with --full-verify, at a quiet time).
+ * for the local D1; against the remote only with --full-verify, at a quiet time). `touched`: the
+ * keys the delta from `since` wrote, when the caller has them (boundedPlan).
  * @param {{ file: string, remote?: boolean, mode?: 'bounded'|'full', since?: string|null, sample?: number,
- *   query?: Query, pauseMs?: number, sleep?: (ms: number) => void, log?: (line: string) => void,
- *   bounds?: typeof BOUNDS }} options
+ *   query?: Query, queryMany?: QueryMany, pauseMs?: number, sleep?: (ms: number) => void, log?: (line: string) => void,
+ *   bounds?: typeof BOUNDS, touched?: Record<string, TouchedKeys> | null }} options
  * @returns {string[]} the mismatches
  */
-export function verify({ file, remote = false, mode = remote ? 'bounded' : 'full', since = null, sample, query = wranglerQuery, pauseMs, sleep, log, bounds } = /** @type {{ file: string }} */ ({})) {
-  const plan = mode === 'full' ? fullPlan(file) : boundedPlan({ file, since, sample, bounds });
+export function verify({ file, remote = false, mode = remote ? 'bounded' : 'full', since = null, sample, query = wranglerQuery, queryMany, pauseMs, sleep, log, bounds, touched } = /** @type {{ file: string }} */ ({})) {
+  const plan = mode === 'full' ? fullPlan(file) : boundedPlan({ file, since, sample, bounds, touched });
   for (const note of plan.notes) (log || console.log)(`  note: ${note}`);
-  (log || console.log)(`  verify (${plan.mode}, ${remote ? 'remote' : 'local'}): ${plan.steps.length} statement(s), one per call`);
-  return runPlan(plan, { remote, query, pauseMs: pauseMs ?? (remote ? BOUNDS.pauseMs : 0), sleep, log: log || console.log });
+  (log || console.log)(`  verify (${plan.mode}, ${remote ? 'remote' : 'local'}): ${plan.steps.length} statement(s) in ${packSteps(plan, bounds).length} call(s)`);
+  return runPlan(plan, { remote, query, queryMany, pauseMs: pauseMs ?? (remote ? BOUNDS.pauseMs : 0), sleep, log: log || console.log, bounds });
 }
 
 if (process.argv[1] && path.basename(process.argv[1]) === 'verify-load.mjs') {

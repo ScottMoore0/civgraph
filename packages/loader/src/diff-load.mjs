@@ -28,6 +28,7 @@ const MAX_DELETE_KEYS = 100;
 const PIECE_CHARS = 20_000;
 
 /** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
+/** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
 
 /** A value as an SQL literal. */
 export const q = (/** @type {unknown} */ value) => {
@@ -54,20 +55,80 @@ export function tableOrder() {
 
 /**
  * @typedef {{ deleted: number, upserted: number }} TableDelta
- * @typedef {{ summary: Record<string, TableDelta>, statements: number, version: string, full: boolean }} DeltaResult
+ * @typedef {{ summary: Record<string, TableDelta>, statements: number, version: string, full: boolean,
+ *   touched?: Record<string, TouchedKeys> }} DeltaResult
  */
+
+// ------------------------------------------------------------------ the keys a delta touches
+// The bounded verify (verify-load.mjs) checks in D1 the rows the delta wrote. It used to find
+// them by diffing the two databases a second time (deltaKeys below); buildDelta now collects
+// them as it writes the delta (collectKeys), from the same queries, so the publish diffs once.
+
+/**
+ * A row's primary key as verify compares it: `key` is the JSON of its values as text, `hash` its
+ * row_hash (null: deleted), `bytes` the size of its values.
+ * @typedef {{ key: string, values: unknown[], hash: string | null, bytes: number }} KeyRef
+ * @typedef {{ deleted: KeyRef[], upserted: KeyRef[], sampled?: boolean }} TouchedKeys
+ */
+
+/** @param {string[]} pk @param {Record<string, unknown>} row */
+export const keyOf = (pk, row) => JSON.stringify(pk.map((c) => (row[c] === null || row[c] === undefined ? null : String(row[c]))));
+/** The size of a row's values, as SQLite counts it (length() of each value). */
+export const bytesExpr = (/** @type {TableSpec} */ t, alias = '') => t.columns.map((c) => `COALESCE(length(${alias}${c.name}), 0)`).join(' + ');
+/** The column buildDelta adds to its upsert query when it collects keys (never written to D1). */
+const BYTES_COLUMN = 'verify_bytes__';
+
+/** @param {TableSpec} t @param {Record<string, unknown>} r @returns {KeyRef} */
+const deletedRef = (t, r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: null, bytes: 0 });
+/** @param {TableSpec} t @param {Record<string, unknown>} r @param {string} bytesColumn @returns {KeyRef} */
+const upsertedRef = (t, r, bytesColumn) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: /** @type {string} */ (r.row_hash), bytes: Number(r[bytesColumn]) });
+
+/** The deleted keys of a table: in the snapshot (`ft`), not in the build. */
+const goneSql = (/** @type {TableSpec} */ t, /** @type {string} */ ft) => {
+  const pk = t.pk.join(', ');
+  return `SELECT ${pk} FROM ${ft} EXCEPT SELECT ${pk} FROM main.${t.name} ORDER BY ${pk}`;
+};
+/** The build's rows that are new or changed against the snapshot (`ft`), by key. */
+const changedWhere = (/** @type {TableSpec} */ t, /** @type {string} */ ft) => `LEFT JOIN ${ft} ON ${t.pk.map((c) => `${ft}.${c} = m.${c}`).join(' AND ')} WHERE ${ft}.row_hash IS NOT m.row_hash ORDER BY ${t.pk.map((c) => `m.${c}`).join(', ')}`;
+
+/**
+ * The keys the delta from the attached snapshot `f` to the build touched, per table: the same
+ * comparison buildDelta makes (primary key plus row_hash), reading keys, hashes and sizes only.
+ * @param {SqliteHandle} db the build, with the snapshot attached as `f`
+ * @param {TableSpec[]} [tables]
+ * @returns {Record<string, TouchedKeys>}
+ */
+export function deltaKeys(db, tables = HASHED_TABLES) {
+  /** @type {Record<string, TouchedKeys>} */
+  const out = {};
+  for (const t of tables) {
+    const ft = snapshotTable(db, 'f', t);
+    const deleted = db.prepare(goneSql(t, ft)).all().map((r) => deletedRef(t, r));
+    const upserted = db.prepare(
+      `SELECT ${t.pk.map((c) => `m.${c}`).join(', ')}, m.row_hash AS row_hash, ${bytesExpr(t, 'm.')} AS bytes FROM main.${t.name} m ${changedWhere(t, ft)}`,
+    ).all().map((r) => upsertedRef(t, r, 'bytes'));
+    if (deleted.length || upserted.length) out[t.name] = { deleted, upserted };
+  }
+  return out;
+}
 
 /**
  * Write the delta. `from` may be null (full load). Returns per-table counts and the statement
- * count. `write(text)` receives statements, one per line.
+ * count. `write(text)` receives statements, one per line. With `collectKeys` (and a snapshot) the
+ * result also holds `touched`: per table, the keys deleted and upserted, exactly what deltaKeys
+ * returns for the same two databases. Collecting changes nothing that is written.
  * @param {{ toFile: string, fromFile?: string|null, write: (text: string) => unknown,
- *   version?: string, gitCommit?: string, loadedAt?: string }} options
+ *   version?: string, gitCommit?: string, loadedAt?: string, collectKeys?: boolean }} options
  * @returns {DeltaResult}
  */
-export function buildDelta({ toFile, fromFile = null, write, version, gitCommit, loadedAt }) {
+export function buildDelta({ toFile, fromFile = null, write, version, gitCommit, loadedAt, collectKeys = false }) {
   const db = openSqliteHandle(toFile, { readOnly: true });
   const full = !fromFile;
   if (!full) db.exec(`ATTACH DATABASE '${fromFile.replace(/'/g, "''")}' AS f`);
+  const collect = collectKeys && !full;
+  const hashed = new Set(HASHED_TABLES.map((t) => t.name));
+  /** @type {Record<string, TouchedKeys>} */
+  const touched = {};
   /** @type {Record<string, TableDelta>} */
   const summary = {};
   let statements = 0;
@@ -86,8 +147,9 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
     if (full) { emit(`DELETE FROM ${t.name};`); continue; }
     const pk = t.pk.join(', ');
     const ft = snapshotTable(db, 'f', t);
-    const gone = db.prepare(`SELECT ${pk} FROM ${ft} EXCEPT SELECT ${pk} FROM main.${t.name} ORDER BY ${pk}`).all();
+    const gone = db.prepare(goneSql(t, ft)).all();
     s.deleted = gone.length;
+    if (collect && hashed.has(t.name)) touched[t.name] = { deleted: gone.map((r) => deletedRef(t, r)), upserted: [] };
     for (let i = 0; i < gone.length; i += MAX_DELETE_KEYS) {
       const chunk = gone.slice(i, i + MAX_DELETE_KEYS);
       if (t.pk.length === 1) {
@@ -102,12 +164,13 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
     const s = summary[t.name];
     const cols = t.columns.map((c) => c.name);
     const ft = full ? null : snapshotTable(db, 'f', t);
-    const join = full ? '' : t.pk.map((c) => `${ft}.${c} = m.${c}`).join(' AND ');
+    const keys = collect && hashed.has(t.name) ? touched[t.name] : null;
     // A full load reads each table in storage order: the order of the statements does not
     // matter (every row is an upsert), and ordering by key costs a random read per row.
+    // Collecting keys adds each row's size as one more column, which no statement writes.
     const sql = full
       ? `SELECT * FROM main.${t.name}`
-      : `SELECT m.* FROM main.${t.name} m LEFT JOIN ${ft} ON ${join} WHERE ${ft}.row_hash IS NOT m.row_hash ORDER BY ${t.pk.map((c) => `m.${c}`).join(', ')}`;
+      : `SELECT m.*${keys ? `, ${bytesExpr(t, 'm.')} AS ${BYTES_COLUMN}` : ''} FROM main.${t.name} m ${changedWhere(t, /** @type {string} */ (ft))}`;
     const prefix = `INSERT OR REPLACE INTO ${t.name} (${cols.join(', ')}) VALUES `;
     /** @type {string[]} */
     let batch = [];
@@ -119,6 +182,7 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
     };
     for (const row of /** @type {Iterable<Record<string, import('../../storage/src/sqlite.mjs').SqliteValue>>} */ (db.prepare(sql).iterate())) {
       s.upserted += 1;
+      if (keys) keys.upserted.push(upsertedRef(t, row, BYTES_COLUMN));
       let tuple = `(${cols.map((c) => q(row[c])).join(', ')})`;
       if (tuple.length + prefix.length > MAX_STATEMENT_BYTES) {
         // Insert the row with its wide text values empty, then append them in pieces.
@@ -148,7 +212,10 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
   ];
   emit(`INSERT OR REPLACE INTO dataset (key, value) VALUES ${values.map(([k, v]) => `(${q(k)}, ${q(v)})`).join(', ')};`);
   db.close();
-  return { summary, statements, version: newVersion, full };
+  if (!collect) return { summary, statements, version: newVersion, full };
+  // deltaKeys names a table only when the delta touched it.
+  for (const [name, d] of Object.entries(touched)) if (!d.deleted.length && !d.upserted.length) delete touched[name];
+  return { summary, statements, version: newVersion, full, touched };
 }
 
 /**

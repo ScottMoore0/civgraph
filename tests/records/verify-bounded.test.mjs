@@ -1,8 +1,9 @@
 // The remote verify must be safe against the live database (2026-11-06: the old whole-table
 // checksums of all 47 tables made D1 answer 7429 and production 500/503 for two minutes). These
-// tests hold the bounded mode to that: one statement per call, no unbounded per-table aggregate,
-// every row lookup through a key's index, only the tables the delta touched, a pause between
-// calls and a backoff on 7429. And it still finds a wrong row.
+// tests hold the bounded mode to that: one bounded statement per step (a few steps share a call,
+// within the bounds load-speed.test.mjs holds), no unbounded per-table aggregate, every row lookup
+// through a key's index, only the tables the delta touched, a pause between calls and a backoff on
+// 7429. And it still finds a wrong row.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { copyFileSync, mkdirSync, rmSync } from 'node:fs';
@@ -13,7 +14,7 @@ import { buildDelta } from '../../packages/loader/src/diff-load.mjs';
 import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
 import { HASHED_TABLES, TABLE } from '../../packages/schema/src/schema.mjs';
 import {
-  BOUNDS, batches, boundedPlan, evenSample, fullPlan, queryWithRetry, runPlan, verify,
+  BOUNDS, batches, boundedPlan, evenSample, fullPlan, packSteps, queryWithRetry, runPlan, verify,
 } from '../../packages/loader/src/verify-load.mjs';
 
 const TMP = path.join(REPO_ROOT, 'tmp', 'records', 'test-verify');
@@ -85,7 +86,7 @@ const BOUNDED_AGGREGATE = /^SELECT COUNT\(\*\) AS n, COALESCE\(SUM\(row_hash_n\)
 
 /** Fail unless the statement is one of the bounded shapes, and its plan never scans a records table unbounded. */
 function assertBounded(db, sql) {
-  assert.ok(!/;/.test(sql.replace(/'(?:[^']|'')*'/g, "''")), `one statement per call: ${sql.slice(0, 120)}`);
+  assert.ok(!/;/.test(sql.replace(/'(?:[^']|'')*'/g, "''")), `one statement per step: ${sql.slice(0, 120)}`);
   const agg = BOUNDED_AGGREGATE.exec(sql);
   if (agg) {
     assert.ok(Number(agg[2]) <= BOUNDS.smallTableRows + 1, `aggregate bounded by a small LIMIT: ${sql}`);
@@ -175,7 +176,10 @@ test('calls are paced and a 7429 is retried with backoff, never at once; other e
   assert.deepEqual(runPlan(plan, { remote: true, query: flaky, pauseMs: 1500, sleep: (ms) => sleeps.push(ms) }), []);
   f.close();
   assert.deepEqual(sleeps.slice(0, 2), [BOUNDS.backoffMs[0], BOUNDS.backoffMs[1]]);
-  assert.deepEqual(sleeps.slice(2), Array(plan.steps.length - 1).fill(1500));
+  // A pause between calls, none between the statements of one call.
+  const packed = packSteps(plan).length;
+  assert.ok(packed > 1 && packed < plan.steps.length, `${packed} calls for ${plan.steps.length} steps`);
+  assert.deepEqual(sleeps.slice(2), Array(packed - 1).fill(1500));
   assert.ok(sleeps.every((ms) => ms > 0));
 
   const slept = [];

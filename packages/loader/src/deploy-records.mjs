@@ -13,21 +13,24 @@
  *   2. remote only: a Time Travel bookmark appended to .claude/publish/work/bookmarks.log
  *   3. the delta against the last-loaded snapshot (remote: .claude/publish/work/last-loaded.sqlite,
  *      local: tmp/records/last-loaded-local.sqlite); --full diffs against nothing. It is written in
- *      parts of at most 50 MB (tmp/records/delta/NNNN.sql), each a run of whole statements.
+ *      parts of at most 50 MB (tmp/records/delta/NNNN.sql), each a run of whole statements. The
+ *      keys it writes are kept for the bounded verify (step 6), so the databases are diffed once.
  *   4. --dry-run: print "DRY RUN: civgraph-records would apply N statements (...)" and stop
  *      (publish.sh greps the ^DRY RUN prefix)
- *   5. each part through wrangler d1 execute --file, in order, retried up to 4 times 90 s apart
- *      (every statement is idempotent, so a part can be re-run). tmp/records/deploy-run-<target>.json
- *      records the build, the snapshot and how many parts D1 has taken, and --start-part N is
- *      refused unless they are the stopped load's and N is no further than it got. --local --direct applies the
- *      same statements straight to the local D1's SQLite file instead (a full local load of
- *      four million rows through wrangler takes hours; the statements are the same).
+ *   5. each part through wrangler d1 execute --file, in order, retried up to 3 more times after
+ *      20, 60 and 90 s (90 s each when D1 said it was overloaded); every statement is idempotent,
+ *      so a part can be re-run, and wrangler does not upload again a file D1 already holds (by
+ *      its MD5). tmp/records/deploy-run-<target>.json records the build, the snapshot and how
+ *      many parts D1 has taken, and --start-part N is refused unless they are the stopped load's
+ *      and N is no further than it got. --local --direct applies the same statements straight to
+ *      the local D1's SQLite file instead (a full local load of four million rows through
+ *      wrangler takes hours; the statements are the same).
  *   6. verify-load through wrangler; on PASS the build becomes the last-loaded snapshot. Remote
  *      (and local with --bounded) it is the BOUNDED check: only the tables the delta touched, the
- *      rows it wrote looked up by primary key in batches, small tables counted under a LIMIT, one
- *      statement per wrangler call with a pause, 7429 retried with backoff (verify-load.mjs). It
- *      never scans a table of the live database. --full-verify scans every table instead: quiet
- *      hours only, never from the publish.
+ *      rows it wrote looked up by primary key in batches, small tables counted under a LIMIT, a few
+ *      such statements per wrangler call within a rows-read bound, calls apart, 7429 retried with
+ *      backoff (verify-load.mjs). It never scans a table of the live database. --full-verify
+ *      scans every table instead: quiet hours only, never from the publish.
  *   --resync skips 3-5: verify, and on PASS reset the snapshot. Remote it requires --full-verify
  *      (with no delta there is nothing bounded to check), so it is a quiet-hours step; it cannot
  *      be a dry run.
@@ -46,7 +49,7 @@ import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
 import { deployModeErrors, deployRun, parseDeployArgs, resumeCheck } from './deploy-plan.mjs';
 import { buildDelta, estimateWrites, printSummary } from './diff-load.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
-import { D1_NAME, PERSIST_DIR, WRANGLER, boundedPlan, d1Env, verify } from './verify-load.mjs';
+import { D1_NAME, PERSIST_DIR, WRANGLER, boundedPlan, d1Env, isOverloaded, packSteps, verify } from './verify-load.mjs';
 
 // The options, their checks and the order of the steps are deploy-plan.mjs's state machine.
 // --start-part N resumes a load that stopped part-way: the parts of the same build are the same
@@ -65,6 +68,20 @@ const PARTS = path.join(REPO_ROOT, 'tmp', 'records', 'delta');
 // which rewrites the parts, leaves the record of a stopped load in place.
 const RUN_FILE = path.join(REPO_ROOT, 'tmp', 'records', `deploy-run-${remote ? 'remote' : 'local'}.json`);
 const PART_BYTES = 50 * 1024 * 1024;
+/**
+ * The waits before a part's 2nd, 3rd and 4th attempts. A failed part is mostly the network
+ * ("fetch failed"), so the first retry comes soon; D1 saying it is overloaded (7429) waits the
+ * longest each time.
+ */
+export const PART_RETRY_MS = { remote: [20_000, 60_000, 90_000], overloaded: 90_000, local: [2_000, 2_000, 2_000] };
+/**
+ * The wait before attempt `attempt + 1` of a part, after `failure` (wrangler's output).
+ * @param {{ remote: boolean, attempt: number, failure: string }} args
+ */
+export function partRetryMs({ remote, attempt, failure }) {
+  if (!remote) return PART_RETRY_MS.local[attempt - 1] ?? 2_000;
+  return isOverloaded(failure) ? PART_RETRY_MS.overloaded : PART_RETRY_MS.remote[attempt - 1] ?? PART_RETRY_MS.overloaded;
+}
 const target = remote ? ['--remote'] : ['--local', '--persist-to', PERSIST_DIR];
 const t0 = Date.now();
 const log = (/** @type {string} */ s) => console.log(`[${((Date.now() - t0) / 1000).toFixed(1)}s] ${s}`);
@@ -85,10 +102,12 @@ function wrangler(cmdArgs, outName) {
 const sleep = (/** @type {number} */ ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
- * The delta as numbered part files of whole statements.
+ * The delta as numbered part files of whole statements, with the keys it writes when the bounded
+ * verify will check them.
  * @param {string | null} fromFile
+ * @param {boolean} collectKeys
  */
-function writeParts(fromFile) {
+function writeParts(fromFile, collectKeys) {
   rmSync(PARTS, { recursive: true, force: true });
   mkdirSync(PARTS, { recursive: true });
   /** @type {string[]} */
@@ -107,6 +126,7 @@ function writeParts(fromFile) {
   const result = buildDelta({
     toFile: BUILD,
     fromFile,
+    collectKeys,
     write: (statement) => {
       const len = Buffer.byteLength(statement);
       if (bytes && bytes + len > PART_BYTES) open();
@@ -199,15 +219,18 @@ async function steps(run) {
   // The snapshot D1 held before this load: the bounded verify checks the rows between it and
   // the build. Null for a full load (every table is then sampled).
   const fromFile = full || !existsSync(LAST) ? null : LAST;
+  /** @type {Record<string, import('./diff-load.mjs').TouchedKeys> | undefined} */
+  let touched;
   if (!resync) {
-    const { result, files } = writeParts(fromFile);
+    const { result, files } = writeParts(fromFile, verifyMode === 'bounded');
+    touched = result.touched;
     run.to(dryRun ? 'delta-previewed' : 'delta-written');
     printSummary(result, `${path.relative(REPO_ROOT, PARTS)} (${files.length} part${files.length === 1 ? '' : 's'})`);
     const { rows, writes } = estimateWrites(result.summary);
     if (dryRun) {
       if (verifyMode === 'bounded') {
-        const plan = boundedPlan({ file: BUILD, since: fromFile });
-        log(`a real run would verify with ${plan.steps.length} bounded statement(s), one per wrangler call`);
+        const plan = boundedPlan({ file: BUILD, since: fromFile, touched });
+        log(`a real run would verify with ${plan.steps.length} bounded statement(s) in ${packSteps(plan).length} wrangler call(s)`);
       }
       run.to('dry-run-reported');
       console.log(`DRY RUN: civgraph-records would apply ${result.statements} statements (${rows} rows, about ${writes} row writes, ${files.length} part(s), ${result.full ? 'full load' : 'delta'}) to ${remote ? 'remote' : 'local'} D1`);
@@ -237,7 +260,7 @@ async function steps(run) {
           ok = exec.status === 0;
           if (!ok) {
             console.error(`${path.basename(part)} attempt ${attempt} failed: ${exec.text.slice(-600)}`);
-            if (attempt < 4) await sleep(remote ? 90_000 : 2_000);
+            if (attempt < 4) await sleep(partRetryMs({ remote, attempt, failure: exec.text }));
           }
         }
         if (!ok) throw new Error(`${path.basename(part)} could not be applied; the statements are idempotent, so rerun the deploy (add --start-part ${Number(path.basename(part, '.sql'))} to resume there)`);
@@ -249,7 +272,7 @@ async function steps(run) {
     run.to('applied');
   }
 
-  const mismatches = verify({ file: BUILD, remote, mode: verifyMode, since: resync ? null : fromFile });
+  const mismatches = verify({ file: BUILD, remote, mode: verifyMode, since: resync ? null : fromFile, touched });
   if (mismatches.length) {
     for (const m of mismatches) console.error(`  ${m}`);
     throw new Error('verify failed: the last-loaded snapshot is left as it was');
