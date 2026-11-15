@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-14T16:08:52.791Z
+Generated: 2026-11-15T14:55:37.506Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -8,18 +8,18 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 
 |area|value|
 |---|---:|
-|parent elections in manifest|2671|
-|manifest loadable elections|765|
-|manifest placeholders|656|
-|Browse parent election entries|2733|
-|Browse constituency/DEA sub-entries|22449|
-|Browse overall sub-entries|2671|
-|source detail records|2733|
-|result bundles loaded|2671|
-|result rows audited|22449|
-|candidate rows audited|85185|
-|rows with count detail|22428|
-|rows with animation payload|22428|
+|parent elections in manifest|2675|
+|manifest loadable elections|768|
+|manifest placeholders|657|
+|Browse parent election entries|2737|
+|Browse constituency/DEA sub-entries|22516|
+|Browse overall sub-entries|2675|
+|source detail records|2737|
+|result bundles loaded|2675|
+|result rows audited|22516|
+|candidate rows audited|85287|
+|rows with count detail|22495|
+|rows with animation payload|22495|
 |rows expected to have transfer/count data|4540|
 |expected transfer/count rows missing detail|1|
 |valid-poll review sidecar records|0|
@@ -36,7 +36,7 @@ _None._
 
 |severity|category|key|message|
 |---|---|---|---|
-|warning|browse-parent-count|data/browse/elections.json|Browse has 2733 parent elections, manifest has 2671.|
+|warning|browse-parent-count|data/browse/elections.json|Browse has 2737 parent elections, manifest has 2675.|
 |warning|candidate-party-missing|local-government-newtownabbey__2002-06-19|2 candidate rows have no party/label. Examples: John Blair in Macedon; William Ball in Macedon.|
 |warning|source-record-single-reference|fianna-fail-presidential-nomination__1997-09-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|fianna-fail-presidential-nomination__1997-09-17|2 candidate rows have no party/label. Examples: Mary McAleese in Fianna Fáil Parliamentary Party (first ballot); Mary McAleese in Fianna Fáil Parliamentary Party (second ballot).|
@@ -126,10 +126,10 @@ _2344 more not shown; see JSON report._
 |parent source records missing|0|
 |source records with no references|0|
 |source records with one reference|1416|
-|source records with multiple references|1255|
+|source records with multiple references|1259|
 |Browse sub-entries with no references|0|
 |Browse sub-entries with one reference|13153|
-|Browse sub-entries with multiple references|11967|
+|Browse sub-entries with multiple references|12038|
 
 ## Party Colour Audit
 
