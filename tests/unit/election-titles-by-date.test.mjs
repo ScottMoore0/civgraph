@@ -1,7 +1,8 @@
 // Titles the election-bodies registry gives outright (titlesByDate), for elections named for what
 // was held rather than by their body's template: the Dáil's 1921 record holds the Southern Ireland
-// general election that returned the Second Dáil (Phelim Birch's catalogue review #96). Keys and
-// URLs are unchanged; only the title is.
+// general election that returned the Second Dáil (Phelim Birch's catalogue review #96), and its 1918
+// record the UK general election in Ireland whose Sinn Féin members formed the First Dáil (#98).
+// Keys and URLs are unchanged; only the title is.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -22,6 +23,12 @@ test('the Dáil\'s 1921 record is titled as the Southern Ireland general electio
   assert.equal(generalElectionTitleOf(electionBody(loadRegistry('election-bodies'), 'dail-eireann'), '1921-05-24'), title);
 });
 
+test('the Dáil\'s 1918 record is titled as the UK general election in Ireland (#98)', () => {
+  const title = '1918 UK general election in Ireland (First Dáil)';
+  assert.equal(canonicalElectionTitle({ ...DAIL, date: '1918-12-14', constituencies: seats(103) }), title);
+  assert.equal(generalElectionTitleOf(electionBody(loadRegistry('election-bodies'), 'dail-eireann'), '1918-12-14'), title);
+});
+
 test('the Dáil\'s other elections keep the titles the code gives them', () => {
   assert.equal(canonicalElectionTitle({ ...DAIL, date: '1923-08-27', constituencies: seats(30) }), '1923 Irish general election');
   assert.equal(canonicalElectionTitle({ ...DAIL, date: '1927-06-09', constituencies: seats(30), sameYearGeneral: true }), 'June 1927 Irish general election');
@@ -36,6 +43,7 @@ test('the committed catalogue carries the registry titles, and the 1918 election
   const rec = (key) => catalogue.elections.find((/** @type {{ key: string }} */ e) => e.key === key);
   assert.equal(rec('dail-eireann__1921-05-24')?.title, '1921 Southern Ireland general election (Second Dáil)');
   assert.equal(rec('dail-eireann__1921-05-24')?.scope, 'Republic of Ireland');
+  assert.equal(rec('dail-eireann__1918-12-14')?.title, '1918 UK general election in Ireland (First Dáil)');
   // Placed by its date before the registry's jurisdiction is asked (scripts/build/catalogue/build-catalogue.mjs).
   assert.equal(rec('dail-eireann__1918-12-14')?.scope, 'Ireland');
 });
