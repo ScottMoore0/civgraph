@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-15T12:36:10.664Z",
+  "generatedAt": "2026-11-15T14:04:44.399Z",
   "description": "Progress of Civgraph's sources, elections and maps, as shown on /pages/status.html. Each total states its basis. Built by scripts/build/build-status.mjs; generatedAt is when a figure last changed.",
   "figures": {
     "sources": [
@@ -3275,11 +3275,11 @@
         "id": "planning-and-property",
         "name": "Planning & Property",
         "totals": {
-          "known": 70,
-          "complete": 70,
+          "known": 68,
+          "complete": 68,
           "partial": 0,
           "notDrawn": 0,
-          "versions": 1
+          "versions": 5
         },
         "series": [
           {
@@ -3303,11 +3303,11 @@
             "scope": "Republic of Ireland",
             "shelf": "planning-and-property",
             "years": [
-              2016,
+              2010,
               2016
             ],
-            "known": 12,
-            "complete": 12,
+            "known": 13,
+            "complete": 13,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3385,21 +3385,6 @@
             "versions": 0
           },
           {
-            "id": "development-plans-and-zoning-other-councils",
-            "name": "Development Plans & Zoning (other councils)",
-            "scope": "Republic of Ireland",
-            "shelf": "planning-and-property",
-            "years": [
-              2022,
-              2022
-            ],
-            "known": 4,
-            "complete": 4,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "planning-applications-and-registers-planning-application-boundaries--points",
             "name": "Planning Applications",
             "scope": "Republic of Ireland",
@@ -3428,6 +3413,18 @@
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
+          },
+          {
+            "id": "development-plans-and-zoning-other-councils",
+            "name": "Development Plans & Zoning",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 4
           },
           {
             "id": "planning-applications-and-registers-planning-application-boundaries",
@@ -3739,8 +3736,8 @@
         "id": "heritage-and-culture",
         "name": "Heritage & Culture",
         "totals": {
-          "known": 60,
-          "complete": 60,
+          "known": 58,
+          "complete": 58,
           "partial": 0,
           "notDrawn": 0,
           "versions": 0
@@ -3885,18 +3882,6 @@
             "versions": 0
           },
           {
-            "id": "built-heritage-and-protected-structures-architectural-conservation-areas",
-            "name": "Architectural Conservation Areas",
-            "scope": "Republic of Ireland",
-            "shelf": "heritage-and-culture",
-            "years": null,
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "ecclesiastical-areas-catholic-dioceses-and-parishes--ireland",
             "name": "Catholic Dioceses",
             "scope": "Ireland",
@@ -3968,18 +3953,6 @@
               2026,
               2026
             ],
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "archaeology-and-monuments-sites-and-monuments-records",
-            "name": "Sites & Monuments Records",
-            "scope": "Ireland",
-            "shelf": "heritage-and-culture",
-            "years": null,
             "known": 1,
             "complete": 1,
             "partial": 0,
@@ -4215,11 +4188,11 @@
         "id": "water",
         "name": "Water",
         "totals": {
-          "known": 59,
-          "complete": 59,
+          "known": 58,
+          "complete": 58,
           "partial": 0,
           "notDrawn": 0,
-          "versions": 1
+          "versions": 0
         },
         "series": [
           {
@@ -4398,18 +4371,6 @@
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
-          },
-          {
-            "id": "coasts-seas-and-islands-boundaries-seawater-area",
-            "name": "Boundaries Seawater Area",
-            "scope": "Republic of Ireland",
-            "shelf": "water",
-            "years": null,
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 1
           },
           {
             "id": "rivers-lakes-and-catchments-rivers-and-lakes--boundaries",
@@ -4739,7 +4700,7 @@
           },
           {
             "id": "geophysics-and-geochemical-survey-tellus-rural-soil",
-            "name": "Tellus Rural Soil",
+            "name": "Soil Geochemistry (Tellus)",
             "scope": "Northern Ireland",
             "shelf": "earth-and-terrain",
             "years": null,
@@ -4751,7 +4712,7 @@
           },
           {
             "id": "geophysics-and-geochemical-survey-tellus-stream-sediments",
-            "name": "Tellus Stream Sediments & Waters",
+            "name": "Stream Sediment & Water Geochemistry (Tellus)",
             "scope": "Northern Ireland",
             "shelf": "earth-and-terrain",
             "years": null,
@@ -4820,7 +4781,7 @@
           },
           {
             "id": "geophysics-and-geochemical-survey-tellus-airborne-survey-flight-lines",
-            "name": "Tellus Airborne Survey Flight Lines",
+            "name": "Airborne Survey Flight Lines (Tellus)",
             "scope": "Northern Ireland",
             "shelf": "earth-and-terrain",
             "years": null,
@@ -4845,7 +4806,7 @@
         "series": [
           {
             "id": "lidar-point-clouds",
-            "name": "LiDAR Point Clouds",
+            "name": "3D Scans (LiDAR)",
             "scope": "Northern Ireland",
             "shelf": "surfaces-and-scans",
             "years": [
@@ -4860,7 +4821,7 @@
           },
           {
             "id": "geophysics-and-geochemical-survey-tellus-radiometric",
-            "name": "Tellus Radiometric",
+            "name": "Radiometric Survey (Tellus)",
             "scope": "Northern Ireland",
             "shelf": "surfaces-and-scans",
             "years": null,
@@ -4887,12 +4848,24 @@
           },
           {
             "id": "geophysics-and-geochemical-survey-tellus-magnetic",
-            "name": "Tellus Magnetic",
+            "name": "Magnetic Survey (Tellus)",
             "scope": "Northern Ireland",
             "shelf": "surfaces-and-scans",
             "years": null,
             "known": 3,
             "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geophysics-and-geochemical-survey-tellus-electromagnetic",
+            "name": "Electromagnetic Survey (Tellus)",
+            "scope": "Northern Ireland",
+            "shelf": "surfaces-and-scans",
+            "years": null,
+            "known": 2,
+            "complete": 2,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -4906,18 +4879,6 @@
               2014,
               2026
             ],
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "geophysics-and-geochemical-survey-tellus-electromagnetic",
-            "name": "Tellus Electromagnetic",
-            "scope": "Northern Ireland",
-            "shelf": "surfaces-and-scans",
-            "years": null,
             "known": 2,
             "complete": 2,
             "partial": 0,
