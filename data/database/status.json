@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-14T16:00:25.084Z",
+  "generatedAt": "2026-11-15T00:36:50.745Z",
   "description": "Progress of Civgraph's sources, elections and maps, as shown on /pages/status.html. Each total states its basis. Built by scripts/build/build-status.mjs; generatedAt is when a figure last changed.",
   "figures": {
     "sources": [
@@ -2135,8 +2135,8 @@
         "id": "government-and-administration",
         "name": "Government & Administration",
         "totals": {
-          "known": 120,
-          "complete": 65,
+          "known": 119,
+          "complete": 64,
           "partial": 55,
           "notDrawn": 0,
           "versions": 10
@@ -2218,21 +2218,6 @@
             "versions": 2
           },
           {
-            "id": "public-service-areas-superintendent-registrars-districts",
-            "name": "Superintendent Registrars' Districts",
-            "scope": "Republic of Ireland",
-            "shelf": "government-and-administration",
-            "years": [
-              1926,
-              1956
-            ],
-            "known": 5,
-            "complete": 5,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "public-service-areas-garda-areas",
             "name": "Garda Areas",
             "scope": "Republic of Ireland",
@@ -2240,6 +2225,21 @@
             "years": [
               2011,
               2011
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "public-service-areas-superintendent-registrars-districts",
+            "name": "Superintendent Registrars' Districts",
+            "scope": "Republic of Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1936,
+              1956
             ],
             "known": 4,
             "complete": 4,
@@ -2662,8 +2662,8 @@
         "id": "people-and-places",
         "name": "People & Places",
         "totals": {
-          "known": 116,
-          "complete": 116,
+          "known": 115,
+          "complete": 115,
           "partial": 0,
           "notDrawn": 0,
           "versions": 3
@@ -3105,20 +3105,8 @@
             "versions": 0
           },
           {
-            "id": "settlements-built-up-areas",
-            "name": "Built-Up Areas",
-            "scope": "Republic of Ireland",
-            "shelf": "people-and-places",
-            "years": null,
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "settlements-built-up-areas--points",
-            "name": "Built-Up Areas (points)",
+            "name": "Built-Up Areas",
             "scope": "Republic of Ireland",
             "shelf": "people-and-places",
             "years": null,
@@ -3228,18 +3216,6 @@
             "versions": 0
           },
           {
-            "id": "place-and-street-names-place-names-gazetteer",
-            "name": "Place Names Gazetteer",
-            "scope": "Northern Ireland",
-            "shelf": "people-and-places",
-            "years": null,
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "census-statistics-population-aged-10-19",
             "name": "Population aged 10–19",
             "scope": "Northern Ireland",
@@ -3280,6 +3256,18 @@
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
+          },
+          {
+            "id": "place-and-street-names-place-names-gazetteer",
+            "name": "Urban Place Names",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
           }
         ]
       },
@@ -3311,7 +3299,7 @@
           },
           {
             "id": "development-plans-and-zoning-dun-laoghaire-rathdown",
-            "name": "Development Plan (Dún Laoghaire-Rathdown)",
+            "name": "County Development Plan (Dún Laoghaire-Rathdown)",
             "scope": "Republic of Ireland",
             "shelf": "planning-and-property",
             "years": [
@@ -3325,23 +3313,38 @@
             "versions": 0
           },
           {
-            "id": "development-plans-and-zoning-roscommon-county-development-plan",
-            "name": "County Development Plan 2022–2028 (Roscommon)",
+            "id": "development-plans-and-zoning-roscommon-county-development-plan--points",
+            "name": "County Development Plans (Roscommon)",
             "scope": "Republic of Ireland",
             "shelf": "planning-and-property",
             "years": [
-              2022,
+              2014,
               2022
             ],
-            "known": 6,
-            "complete": 6,
+            "known": 10,
+            "complete": 10,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "development-plans-and-zoning-roscommon-county-development-plan",
+            "name": "County Development Plans (Roscommon)",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": [
+              2014,
+              2022
+            ],
+            "known": 7,
+            "complete": 7,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
           },
           {
             "id": "property-land-and-buildings-ni-government-land-and-property-register",
-            "name": "NI Government Land & Property Register",
+            "name": "Government Land & Property Register",
             "scope": "Northern Ireland",
             "shelf": "planning-and-property",
             "years": [
@@ -3350,36 +3353,6 @@
             ],
             "known": 6,
             "complete": 6,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "development-plans-and-zoning-roscommon-county-development-plan-2014--points",
-            "name": "County Development Plan 2014–2020 (Roscommon)",
-            "scope": "Republic of Ireland",
-            "shelf": "planning-and-property",
-            "years": [
-              2014,
-              2014
-            ],
-            "known": 5,
-            "complete": 5,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "development-plans-and-zoning-roscommon-county-development-plan--points",
-            "name": "County Development Plan 2022–2028 (Roscommon)",
-            "scope": "Republic of Ireland",
-            "shelf": "planning-and-property",
-            "years": [
-              2022,
-              2022
-            ],
-            "known": 5,
-            "complete": 5,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3401,7 +3374,7 @@
           },
           {
             "id": "development-plans-and-zoning-dun-laoghaire-rathdown--points",
-            "name": "Development Plan (Dún Laoghaire-Rathdown)",
+            "name": "County Development Plan (Dún Laoghaire-Rathdown)",
             "scope": "Republic of Ireland",
             "shelf": "planning-and-property",
             "years": null,
@@ -3442,23 +3415,8 @@
             "versions": 0
           },
           {
-            "id": "development-plans-and-zoning-roscommon-county-development-plan-2014",
-            "name": "County Development Plan 2014–2020 (Roscommon)",
-            "scope": "Republic of Ireland",
-            "shelf": "planning-and-property",
-            "years": [
-              2014,
-              2014
-            ],
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "planning-applications-and-registers-derelict-sites",
-            "name": "Derelict Sites",
+            "name": "Derelict Sites (Dún Laoghaire-Rathdown)",
             "scope": "Republic of Ireland",
             "shelf": "planning-and-property",
             "years": [
@@ -3522,8 +3480,8 @@
         "id": "transport",
         "name": "Transport",
         "totals": {
-          "known": 107,
-          "complete": 107,
+          "known": 105,
+          "complete": 105,
           "partial": 0,
           "notDrawn": 0,
           "versions": 1
@@ -3531,15 +3489,15 @@
         "series": [
           {
             "id": "roads-and-traffic-ni-road-surface-defects",
-            "name": "NI Road Surface Defects",
+            "name": "Road Surface Defects",
             "scope": "Northern Ireland",
             "shelf": "transport",
             "years": [
               2008,
               2021
             ],
-            "known": 14,
-            "complete": 14,
+            "known": 13,
+            "complete": 13,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3589,8 +3547,35 @@
               2014,
               2021
             ],
-            "known": 9,
-            "complete": 9,
+            "known": 8,
+            "complete": 8,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-psni-road-traffic-collisions",
+            "name": "Road Traffic Collisions",
+            "scope": "Ireland",
+            "shelf": "transport",
+            "years": [
+              2011,
+              2018
+            ],
+            "known": 8,
+            "complete": 8,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "parking-accessible-parking",
+            "name": "Parking",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 7,
+            "complete": 7,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3616,21 +3601,6 @@
             "scope": "Republic of Ireland",
             "shelf": "transport",
             "years": null,
-            "known": 6,
-            "complete": 6,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "roads-and-traffic-psni-road-traffic-collisions",
-            "name": "PSNI Road Traffic Collisions",
-            "scope": "Northern Ireland",
-            "shelf": "transport",
-            "years": [
-              2013,
-              2018
-            ],
             "known": 6,
             "complete": 6,
             "partial": 0,
@@ -3677,18 +3647,6 @@
             "versions": 0
           },
           {
-            "id": "parking-accessible-parking",
-            "name": "Accessible Parking",
-            "scope": "Republic of Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "air-and-sea-transport-airports-group",
             "name": "Airports & Airfields",
             "scope": "Republic of Ireland",
@@ -3711,45 +3669,6 @@
             ],
             "known": 3,
             "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "parking-car-and-coach-parking",
-            "name": "Car & Coach Parking",
-            "scope": "Republic of Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "parking-parking-meters",
-            "name": "Parking Meters",
-            "scope": "Republic of Ireland",
-            "shelf": "transport",
-            "years": null,
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "roads-and-traffic-tii-collision-rates",
-            "name": "TII Collision Rates",
-            "scope": "Republic of Ireland",
-            "shelf": "transport",
-            "years": [
-              2011,
-              2014
-            ],
-            "known": 2,
-            "complete": 2,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3829,12 +3748,27 @@
         "series": [
           {
             "id": "built-heritage-and-protected-structures-heritage-surveys-and-sites",
-            "name": "Heritage Surveys & Sites",
+            "name": "Heritage Sites",
+            "scope": "Ireland",
+            "shelf": "heritage-and-culture",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 9,
+            "complete": 9,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "archaeology-and-monuments-monument-types",
+            "name": "Monuments",
             "scope": "Ireland",
             "shelf": "heritage-and-culture",
             "years": null,
-            "known": 7,
-            "complete": 7,
+            "known": 9,
+            "complete": 9,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3847,18 +3781,6 @@
             "years": null,
             "known": 7,
             "complete": 7,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "archaeology-and-monuments-monument-types",
-            "name": "Monuments by Type (Historic Maps)",
-            "scope": "",
-            "shelf": "heritage-and-culture",
-            "years": null,
-            "known": 5,
-            "complete": 5,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -3912,18 +3834,6 @@
             "versions": 0
           },
           {
-            "id": "archaeology-and-monuments-ringfort",
-            "name": "Ringfort",
-            "scope": "Northern Ireland",
-            "shelf": "heritage-and-culture",
-            "years": null,
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "historic-and-printed-maps-osni-historical-six-inch-maps",
             "name": "OSNI Historical Six-Inch Maps",
             "scope": "Northern Ireland",
@@ -3952,7 +3862,7 @@
           },
           {
             "id": "built-heritage-and-protected-structures-protected-structures--points",
-            "name": "Protected Structures (points)",
+            "name": "Protected Structures",
             "scope": "Republic of Ireland",
             "shelf": "heritage-and-culture",
             "years": null,
@@ -4004,36 +3914,6 @@
             "scope": "Republic of Ireland",
             "shelf": "heritage-and-culture",
             "years": null,
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "built-heritage-and-protected-structures-defence-heritage-sites",
-            "name": "Defence Heritage Sites",
-            "scope": "Northern Ireland",
-            "shelf": "heritage-and-culture",
-            "years": [
-              2026,
-              2026
-            ],
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "built-heritage-and-protected-structures-industrial-heritage-record",
-            "name": "Industrial Heritage Record",
-            "scope": "Northern Ireland",
-            "shelf": "heritage-and-culture",
-            "years": [
-              2026,
-              2026
-            ],
             "known": 1,
             "complete": 1,
             "partial": 0,
@@ -4095,18 +3975,6 @@
             "versions": 0
           },
           {
-            "id": "archaeology-and-monuments-sites-and-monuments-records--points",
-            "name": "Sites & Monuments Record Points",
-            "scope": "Ireland",
-            "shelf": "heritage-and-culture",
-            "years": null,
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "archaeology-and-monuments-sites-and-monuments-records",
             "name": "Sites & Monuments Records",
             "scope": "Ireland",
@@ -4136,8 +4004,8 @@
         "id": "local-services-and-amenities",
         "name": "Local Services & Amenities",
         "totals": {
-          "known": 56,
-          "complete": 56,
+          "known": 55,
+          "complete": 55,
           "partial": 0,
           "notDrawn": 0,
           "versions": 0
@@ -4168,11 +4036,14 @@
             "versions": 0
           },
           {
-            "id": "community-education-and-civic-facilities-community-and-education",
-            "name": "Community & Education Facilities",
-            "scope": "Republic of Ireland",
+            "id": "municipal-services-and-utilities-authorised-waste-sites",
+            "name": "Authorised Waste Sites",
+            "scope": "Northern Ireland",
             "shelf": "local-services-and-amenities",
-            "years": null,
+            "years": [
+              2013,
+              2021
+            ],
             "known": 6,
             "complete": 6,
             "partial": 0,
@@ -4180,16 +4051,13 @@
             "versions": 0
           },
           {
-            "id": "municipal-services-and-utilities-niea-authorised-landfill-sites",
-            "name": "NIEA Authorised Landfill Sites",
-            "scope": "Northern Ireland",
+            "id": "community-education-and-civic-facilities-community-and-education",
+            "name": "Community & Education Facilities",
+            "scope": "Republic of Ireland",
             "shelf": "local-services-and-amenities",
-            "years": [
-              2013,
-              2017
-            ],
-            "known": 5,
-            "complete": 5,
+            "years": null,
+            "known": 6,
+            "complete": 6,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -4223,7 +4091,7 @@
           },
           {
             "id": "community-education-and-civic-facilities-council-offices-group",
-            "name": "Council Offices",
+            "name": "Local Authority Offices",
             "scope": "Republic of Ireland",
             "shelf": "local-services-and-amenities",
             "years": null,
@@ -4251,21 +4119,6 @@
             "scope": "Republic of Ireland",
             "shelf": "local-services-and-amenities",
             "years": null,
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "municipal-services-and-utilities-authorised-waste-sites",
-            "name": "Authorised Waste Sites",
-            "scope": "Northern Ireland",
-            "shelf": "local-services-and-amenities",
-            "years": [
-              2021,
-              2021
-            ],
             "known": 2,
             "complete": 2,
             "partial": 0,
@@ -4372,14 +4225,29 @@
           {
             "id": "water-quality-river-water-quality",
             "name": "River Water Quality",
-            "scope": "Northern Ireland",
+            "scope": "Ireland",
             "shelf": "water",
             "years": [
               1990,
               1990
             ],
-            "known": 13,
-            "complete": 13,
+            "known": 14,
+            "complete": 14,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
+            "name": "Theoretical Flood Extents",
+            "scope": "Ireland",
+            "shelf": "water",
+            "years": [
+              2018,
+              2022
+            ],
+            "known": 9,
+            "complete": 9,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -4401,25 +4269,10 @@
           },
           {
             "id": "coasts-seas-and-islands-coastline",
-            "name": "Coastline & Tide Marks",
+            "name": "Coast",
             "scope": "Republic of Ireland",
             "shelf": "water",
             "years": null,
-            "known": 5,
-            "complete": 5,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "flooding-and-coastal-risk-flood-extents",
-            "name": "Flood Extents & Zones",
-            "scope": "Ireland",
-            "shelf": "water",
-            "years": [
-              2018,
-              2022
-            ],
             "known": 5,
             "complete": 5,
             "partial": 0,
@@ -4493,33 +4346,9 @@
             "versions": 0
           },
           {
-            "id": "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
-            "name": "Community-Scale Coastal Flood Extents",
-            "scope": "Republic of Ireland",
-            "shelf": "water",
-            "years": null,
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "water-quality-drinking-water-protected-areas",
             "name": "Drinking Water Protected Areas",
             "scope": "Northern Ireland",
-            "shelf": "water",
-            "years": null,
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "flooding-and-coastal-risk-groundwater-flooding",
-            "name": "Groundwater Flooding",
-            "scope": "Republic of Ireland",
             "shelf": "water",
             "years": null,
             "known": 2,
@@ -4580,18 +4409,6 @@
             "versions": 0
           },
           {
-            "id": "water-quality-river-water-quality--roi",
-            "name": "River Water Quality",
-            "scope": "Republic of Ireland",
-            "shelf": "water",
-            "years": null,
-            "known": 1,
-            "complete": 1,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "water-quality-water-monitoring-points--roi",
             "name": "Water Monitoring Points",
             "scope": "Republic of Ireland",
@@ -4618,12 +4435,12 @@
         "series": [
           {
             "id": "nature-habitats-and-designated-sites-habitat-network",
-            "name": "Habitat Network",
-            "scope": "Northern Ireland",
+            "name": "Habitats",
+            "scope": "Ireland",
             "shelf": "environment-and-land-use",
             "years": null,
-            "known": 24,
-            "complete": 24,
+            "known": 28,
+            "complete": 28,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -4668,53 +4485,11 @@
             "versions": 0
           },
           {
-            "id": "nature-habitats-and-designated-sites-habitat-maps",
-            "name": "Habitat Maps",
-            "scope": "Ireland",
-            "shelf": "environment-and-land-use",
-            "years": null,
-            "known": 4,
-            "complete": 4,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "energy-and-climate-energy-infrastructure",
-            "name": "Energy Infrastructure & Decarbonisation",
-            "scope": "Republic of Ireland",
-            "shelf": "environment-and-land-use",
-            "years": [
-              2026,
-              2026
-            ],
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "trees-hedgerows-and-woodland-hedgerows-and-corridors",
-            "name": "Hedgerows, Treelines & Wildlife Corridors",
+            "name": "Hedgerows, Treelines & Wildlife Corridors (Roscommon)",
             "scope": "Republic of Ireland",
             "shelf": "environment-and-land-use",
             "years": null,
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "land-cover-and-land-use-land-cover",
-            "name": "Land Cover & Land Use",
-            "scope": "Ireland",
-            "shelf": "environment-and-land-use",
-            "years": [
-              2018,
-              2018
-            ],
             "known": 3,
             "complete": 3,
             "partial": 0,
@@ -4749,6 +4524,36 @@
             "versions": 0
           },
           {
+            "id": "energy-and-climate-energy-infrastructure",
+            "name": "Energy Infrastructure",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "land-cover-and-land-use-land-cover",
+            "name": "Land Cover",
+            "scope": "Ireland",
+            "shelf": "environment-and-land-use",
+            "years": [
+              2018,
+              2018
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
             "id": "landscape-and-scenic-amenity-landscape-character-types",
             "name": "Landscape Character Types",
             "scope": "Republic of Ireland",
@@ -4764,8 +4569,8 @@
             "versions": 0
           },
           {
-            "id": "nature-habitats-and-designated-sites-wetlands-survey",
-            "name": "Wetlands Survey",
+            "id": "trees-hedgerows-and-woodland-wicklow-county-council",
+            "name": "Tree Preservation Orders (Wicklow)",
             "scope": "Republic of Ireland",
             "shelf": "environment-and-land-use",
             "years": null,
@@ -4776,13 +4581,49 @@
             "versions": 0
           },
           {
-            "id": "trees-hedgerows-and-woodland-wicklow-county-council",
-            "name": "Wicklow County Council",
+            "id": "energy-and-climate-energy-infrastructure--boundaries",
+            "name": "Decarbonising Zones",
             "scope": "Republic of Ireland",
             "shelf": "environment-and-land-use",
             "years": null,
-            "known": 2,
-            "complete": 2,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "land-cover-and-land-use-land-use",
+            "name": "Land Use",
+            "scope": "Northern Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "nature-habitats-and-designated-sites-wetlands-survey",
+            "name": "Wetlands (Roscommon)",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "nature-habitats-and-designated-sites-wetlands-survey--boundaries",
+            "name": "Wetlands (Roscommon)",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 1,
+            "complete": 1,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -4816,31 +4657,16 @@
             "versions": 0
           },
           {
-            "id": "hills-and-mountains-hills-and-highlands",
-            "name": "Hills, Highlands & Mountains",
-            "scope": "Ireland",
-            "shelf": "earth-and-terrain",
-            "years": [
-              2026,
-              2026
-            ],
-            "known": 9,
-            "complete": 9,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "geology-and-soils-geology-maps",
-            "name": "Geology & Soils Maps",
+            "name": "Geology",
             "scope": "Ireland",
             "shelf": "earth-and-terrain",
             "years": [
               2012,
               2012
             ],
-            "known": 6,
-            "complete": 6,
+            "known": 8,
+            "complete": 8,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -4853,6 +4679,21 @@
             "years": [
               2012,
               2022
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "hills-and-mountains-hills-and-highlands",
+            "name": "Mountains",
+            "scope": "Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              2026,
+              2026
             ],
             "known": 5,
             "complete": 5,
@@ -4892,6 +4733,36 @@
             "years": null,
             "known": 5,
             "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "ireland-3d-terrain",
+            "name": "3D Terrain",
+            "scope": "Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              2014,
+              2026
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "hills-and-mountains-hills-and-highlands--boundaries",
+            "name": "Hills & Highlands",
+            "scope": "Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 4,
+            "complete": 4,
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
@@ -4939,18 +4810,6 @@
             "versions": 0
           },
           {
-            "id": "geology-and-soils-bedrock-geology-1-250-000",
-            "name": "Bedrock Geology 1:250,000",
-            "scope": "Northern Ireland",
-            "shelf": "earth-and-terrain",
-            "years": null,
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
             "id": "aerial-imagery-and-elevation-elevation-models",
             "name": "Elevation Models",
             "scope": "Ireland",
@@ -4958,36 +4817,6 @@
             "years": [
               2014,
               2026
-            ],
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "ireland-3d-terrain",
-            "name": "Ireland 3D Terrain",
-            "scope": "Ireland",
-            "shelf": "earth-and-terrain",
-            "years": [
-              2026,
-              2026
-            ],
-            "known": 2,
-            "complete": 2,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 0
-          },
-          {
-            "id": "ni-river-basin-lidar-3d",
-            "name": "NI River-Basin LiDAR — 1 m 3D Terrain",
-            "scope": "Northern Ireland",
-            "shelf": "earth-and-terrain",
-            "years": [
-              2014,
-              2014
             ],
             "known": 2,
             "complete": 2,
@@ -5009,7 +4838,7 @@
           },
           {
             "id": "geophysics-and-geochemical-survey-tellus-airborne-survey-flight-lines",
-            "name": "Tellus Airborne Survey — Flight Lines",
+            "name": "Tellus Airborne Survey Flight Lines",
             "scope": "Northern Ireland",
             "shelf": "earth-and-terrain",
             "years": null,

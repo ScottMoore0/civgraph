@@ -487,7 +487,10 @@ test('N20 placeholders, transport order, constituency hovers and dates', async (
   await pane(page).locator('[data-cn-tab="places"]').click();
   const names = await pane(page).locator('#cn-shelf-transport .cn-row__name').allTextContents();
   expect(names[0]).toBe('Roads');
-  expect(names.slice(-6)).toEqual(['PSNI Road Traffic Collisions', 'TII Collision Rates', 'Pothole Enquiries', 'NI Road Surface Defects', 'Way Points', 'GDF2s']);
+  // The collision rows are one since Phelim Birch's review of 12 Nov 2026 (#46/#47), and "NI" left the defects row (#49).
+  expect(names.slice(-5)).toEqual(['Road Traffic Collisions', 'Pothole Enquiries', 'Road Surface Defects', 'Way Points', 'GDF2s']);
+  // Water opens with the coast (#70: the shelf's `first` list).
+  expect((await pane(page).locator('#cn-shelf-water .cn-row__name').allTextContents())[0]).toBe('Coast');
   // A constituency map's hover gives no election-day date; its label keeps the year.
   await pane(page).locator('[data-cn-tab="boundaries"]').click();
   const wm = row(page, 'constituencies-parliamentary-constituencies').locator('.cn-chips [data-cn-toggle="pc-2023"]');
@@ -679,6 +682,13 @@ test('N21 links to maps without a row: to be added, hidden, and results listed u
   await page.goto('about:blank'); // links arrive as a fresh page load, as from Browse
   await open(page, 'layers=oda-map-00154-local-election-results-2014-roscommon', { shelves: 'closed' });
   await expect(pane(page).locator('#cn-shelf-e-irish-local [data-cn-shelf]')).toHaveAttribute('aria-expanded', 'true');
+});
+
+test('N21b the old address of a merged row opens the row it went into', async ({ page }) => {
+  // Phelim Birch's review (#59/#60): Ringfort went into Monuments (seriesRedirects).
+  await open(page, 'cat=series/archaeology-and-monuments-ringfort', { shelves: 'closed' });
+  await expect.poll(() => route(page)).toBe('series/archaeology-and-monuments-monument-types');
+  await expect(row(page, 'archaeology-and-monuments-monument-types').locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
 });
 
 test('N22 a copied map link opens its row, even one that named only the section', async ({ page }) => {
