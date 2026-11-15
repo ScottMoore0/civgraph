@@ -144924,10 +144924,372 @@
       "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/nuts-3-2003-2013-vector.json",
       "duplicateFeatureIdCount": 0,
       "featureIdMode": "unique"
+    },
+    {
+      "id": "itl-1-2021-2025-vector",
+      "sourceMapId": "itl-1-2021-2025",
+      "name": "ITL 1 Regions 2021–2025",
+      "category": "Census Statistical Areas",
+      "group": "Public Services",
+      "provider": [
+        "OSNI"
+      ],
+      "date": "2021",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland's ITL 1 region, TLN Northern Ireland, in the International Territorial Levels (ITL), the UK's statistical regions that replaced NUTS after Brexit, in ITL 2021 (from 1 Jan 2021) and ITL 2025 (from 1 Jan 2025), which changed no Northern Ireland unit. At ITL 1 and ITL 2 (TLN0) Northern Ireland is one region; at ITL 3 it has eleven (TLN06-TLN0G), one for each district council of 2015. Each ITL code is the NUTS 2021 code with TL in place of UK (TLN06 for UKN06); NUTS_ID carries the NUTS one. Built for Civgraph from its Local Government Districts 2012 map (OSNI) by the membership ONS's lookups give; the codes and names are ONS's. Its lines are that map's lines, so, like the NUTS 2016–2021 maps, it takes in some sea-lough water.",
+      "notes": "Generated from render/source-cache/vector-intake/itl-1-2021-2025.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227244,
+          -8.1775025
+        ],
+        [
+          55.3129843,
+          -5.4327894
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "itl_1_2021_2025",
+      "tileUrl": "/render/pmtiles/generated/itl-1-2021-2025-vector.pmtiles",
+      "tiles": "/render/tiles/generated/itl-1-2021-2025/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/itl-1-2021-2025/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/itl-1-2021-2025-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/itl-1-2021-2025/metadata.json",
+      "style": {
+        "color": "#8E6C00",
+        "fillColor": "#8E6C00",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#8E6C00",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "id",
+      "idProperty": "id",
+      "sourceFile": "render/source-cache/vector-intake/itl-1-2021-2025.fgb",
+      "sourceDatasetLayer": "ITL1_NI_2021-2025",
+      "featureIndexUrl": "/render/metadata/feature-indexes/itl-1-2021-2025-vector.json",
+      "numericProperties": [
+        "id",
+        "LEVL_CODE"
+      ],
+      "categoricalProperties": [
+        "ITL_ID",
+        "NAME",
+        "NUTS_ID",
+        "ITL2",
+        "ITL3"
+      ],
+      "popupProperties": [
+        "NAME",
+        "id",
+        "ITL_ID",
+        "LEVL_CODE",
+        "NUTS_ID",
+        "ITL2",
+        "ITL3"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/itl-1-2021-2025.fgb",
+        "bytes": 794720,
+        "files": 756,
+        "pbfFiles": 755,
+        "maxTileBytes": 11618
+      },
+      "keywords": [
+        "ITL",
+        "International Territorial Levels",
+        "statistical region",
+        "northern ireland",
+        "ONS",
+        "NUTS",
+        "ITL 2021",
+        "ITL 2025",
+        "2021",
+        "2025",
+        "ITL 1",
+        "TLN",
+        "ITL 1 Regions 2021–2025",
+        "Census Statistical Areas",
+        "Public Services",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/itl-1-2021-2025-vector.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/itl-1-2021-2025-vector.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "itl-2-2021-2025-vector",
+      "sourceMapId": "itl-2-2021-2025",
+      "name": "ITL 2 Regions 2021–2025",
+      "category": "Census Statistical Areas",
+      "group": "Public Services",
+      "provider": [
+        "OSNI"
+      ],
+      "date": "2021",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland's ITL 2 region, TLN0 Northern Ireland, in the International Territorial Levels (ITL), the UK's statistical regions that replaced NUTS after Brexit, in ITL 2021 (from 1 Jan 2021) and ITL 2025 (from 1 Jan 2025), which changed no Northern Ireland unit. Northern Ireland is one region at ITL 2, as at ITL 1 (TLN), and eleven at ITL 3 (TLN06-TLN0G); TLN0 lists them (ITL3). Each ITL code is the NUTS 2021 code with TL in place of UK (TLN06 for UKN06); NUTS_ID carries the NUTS one. Built for Civgraph from its Local Government Districts 2012 map (OSNI) by the membership ONS's lookups give; the codes and names are ONS's. Its lines are that map's lines, so, like the NUTS 2016–2021 maps, it takes in some sea-lough water.",
+      "notes": "Generated from render/source-cache/vector-intake/itl-2-2021-2025.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227244,
+          -8.1775025
+        ],
+        [
+          55.3129843,
+          -5.4327894
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "itl_2_2021_2025",
+      "tileUrl": "/render/pmtiles/generated/itl-2-2021-2025-vector.pmtiles",
+      "tiles": "/render/tiles/generated/itl-2-2021-2025/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/itl-2-2021-2025/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/itl-2-2021-2025-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/itl-2-2021-2025/metadata.json",
+      "style": {
+        "color": "#8E6C00",
+        "fillColor": "#8E6C00",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#8E6C00",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "id",
+      "idProperty": "id",
+      "sourceFile": "render/source-cache/vector-intake/itl-2-2021-2025.fgb",
+      "sourceDatasetLayer": "ITL2_NI_2021-2025",
+      "featureIndexUrl": "/render/metadata/feature-indexes/itl-2-2021-2025-vector.json",
+      "numericProperties": [
+        "id",
+        "LEVL_CODE"
+      ],
+      "categoricalProperties": [
+        "ITL_ID",
+        "NAME",
+        "NUTS_ID",
+        "ITL1_ID",
+        "ITL1_NAME",
+        "ITL3"
+      ],
+      "popupProperties": [
+        "NAME",
+        "id",
+        "ITL_ID",
+        "LEVL_CODE",
+        "NUTS_ID",
+        "ITL1_ID",
+        "ITL1_NAME",
+        "ITL3"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/itl-2-2021-2025.fgb",
+        "bytes": 810823,
+        "files": 756,
+        "pbfFiles": 755,
+        "maxTileBytes": 11639
+      },
+      "keywords": [
+        "ITL",
+        "International Territorial Levels",
+        "statistical region",
+        "northern ireland",
+        "ONS",
+        "NUTS",
+        "ITL 2021",
+        "ITL 2025",
+        "2021",
+        "2025",
+        "ITL 2",
+        "TLN0",
+        "ITL 2 Regions 2021–2025",
+        "Census Statistical Areas",
+        "Public Services",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/itl-2-2021-2025-vector.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/itl-2-2021-2025-vector.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "itl-3-2021-2025-vector",
+      "sourceMapId": "itl-3-2021-2025",
+      "name": "ITL 3 Regions 2021–2025",
+      "category": "Census Statistical Areas",
+      "group": "Public Services",
+      "provider": [
+        "OSNI"
+      ],
+      "date": "2021",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland's eleven ITL 3 regions in the International Territorial Levels (ITL), the UK's statistical regions that replaced NUTS after Brexit, in ITL 2021 (from 1 Jan 2021) and ITL 2025 (from 1 Jan 2025), which changed no Northern Ireland unit. One for each district council of 2015, from TLN06 Belfast to TLN0G Fermanagh and Omagh, all in TLN0 (ITL 2) and TLN (ITL 1); each lists its district (MEMBERS) and the district's code (LAD_CODE). ITL 2021 took Northern Ireland's codes from NUTS 2021, which recoded seven of them (UKN10-UKN16 became UKN0A-UKN0G, the areas unchanged), so TLN0A-TLN0G follow the 2021 codes. Each ITL code is the NUTS 2021 code with TL in place of UK (TLN06 for UKN06); NUTS_ID carries the NUTS one. Built for Civgraph from its Local Government Districts 2012 map (OSNI) by the membership ONS's lookups give; the codes and names are ONS's. Its lines are that map's lines, so, like the NUTS 2016–2021 maps, it takes in some sea-lough water.",
+      "notes": "Generated from render/source-cache/vector-intake/itl-3-2021-2025.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227244,
+          -8.1775025
+        ],
+        [
+          55.3129843,
+          -5.4327894
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "itl_3_2021_2025",
+      "tileUrl": "/render/pmtiles/generated/itl-3-2021-2025-vector.pmtiles",
+      "tiles": "/render/tiles/generated/itl-3-2021-2025/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/itl-3-2021-2025/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/itl-3-2021-2025-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/itl-3-2021-2025/metadata.json",
+      "style": {
+        "color": "#A38841",
+        "fillColor": "#A38841",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "NAME",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#A38841",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "id",
+      "idProperty": "id",
+      "sourceFile": "render/source-cache/vector-intake/itl-3-2021-2025.fgb",
+      "sourceDatasetLayer": "ITL3_NI_2021-2025",
+      "featureIndexUrl": "/render/metadata/feature-indexes/itl-3-2021-2025-vector.json",
+      "numericProperties": [
+        "id",
+        "LEVL_CODE"
+      ],
+      "categoricalProperties": [
+        "ITL_ID",
+        "NAME",
+        "NUTS_ID",
+        "ITL2_ID",
+        "ITL2_NAME",
+        "ITL1_ID",
+        "ITL1_NAME",
+        "LAD_CODE",
+        "MEMBERS"
+      ],
+      "popupProperties": [
+        "NAME",
+        "id",
+        "ITL_ID",
+        "LEVL_CODE",
+        "NUTS_ID",
+        "ITL2_ID",
+        "ITL2_NAME",
+        "ITL1_ID",
+        "ITL1_NAME",
+        "LAD_CODE"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/itl-3-2021-2025.fgb",
+        "bytes": 1405610,
+        "files": 756,
+        "pbfFiles": 755,
+        "maxTileBytes": 15141
+      },
+      "keywords": [
+        "ITL",
+        "International Territorial Levels",
+        "statistical region",
+        "northern ireland",
+        "ONS",
+        "NUTS",
+        "ITL 2021",
+        "ITL 2025",
+        "2021",
+        "2025",
+        "ITL 3",
+        "TLN06",
+        "TLN0G",
+        "district council",
+        "ITL 3 Regions 2021–2025",
+        "Census Statistical Areas",
+        "Public Services",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/itl-3-2021-2025-vector.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/itl-3-2021-2025-vector.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
     }
   ],
   "publicMapCount": 913,
   "generatedFrom": "render/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 1344
+  "detailLayerCount": 1347
 }
