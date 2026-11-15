@@ -511,7 +511,8 @@
    "series": [
     "nature-habitats-and-designated-sites-habitat-network",
     "nature-habitats-and-designated-sites-designated-and-protected-sites",
-    "nature-habitats-and-designated-sites-wetlands-survey"
+    "nature-habitats-and-designated-sites-wetlands-survey",
+    "nature-habitats-and-designated-sites-wetlands-survey--boundaries"
    ],
    "toBeAdded": []
   },
@@ -560,7 +561,8 @@
    "name": "Energy & Climate",
    "kind": "Dataset",
    "series": [
-    "energy-and-climate-energy-infrastructure"
+    "energy-and-climate-energy-infrastructure",
+    "energy-and-climate-energy-infrastructure--boundaries"
    ],
    "toBeAdded": []
   },
@@ -603,7 +605,8 @@
    "name": "Hills & Uplands",
    "kind": "Dataset",
    "series": [
-    "hills-and-mountains-hills-and-highlands"
+    "hills-and-mountains-hills-and-highlands",
+    "hills-and-mountains-hills-and-highlands--boundaries"
    ],
    "toBeAdded": []
   },
@@ -1049,7 +1052,8 @@
     "habitat-coastal-vegetated-shingle": "Habitat Network — Coastal Vegetated Shingle",
     "habitat-traditional-orchard": "Habitat Network — Traditional Orchard"
    },
-   "unitFromLabel": true
+   "unitFromLabel": true,
+   "kind": "Boundary"
   },
   {
    "id": "constituencies-d-il-ireann-constituencies",
@@ -2001,7 +2005,8 @@
     "oda-map-00612-landscape-character-areas-roscommon-cdp-2014-2020-expired",
     "oda-map-00613-landscape-character-areas-roscommon-cdp-2022-2028",
     "designated-lca"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "cycling-and-walking-bicycle-parking-stands",
@@ -2244,9 +2249,19 @@
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00093-boundaries",
     "oda-map-00625-locations"
    ]
+  },
+  {
+   "subject": "nature-habitats-and-designated-sites",
+   "id": "nature-habitats-and-designated-sites-wetlands-survey--boundaries",
+   "name": "Wetlands Survey",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "oda-map-00093-boundaries"
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "constituencies-ni-parliament",
@@ -2412,7 +2427,8 @@
    "members": [
     "oda-map-00615-landscape-character-types-roscommon-cdp-2014-2020-expired",
     "landscape-character-types"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "sport-and-recreation-skateboard-parks",
@@ -3348,22 +3364,34 @@
   },
   {
    "id": "energy-and-climate-energy-infrastructure",
-   "name": "Energy Infrastructure & Decarbonisation",
+   "name": "Energy Infrastructure",
    "subject": "energy-and-climate",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "tailte-power-plant",
-    "dlr-public-ev-charging-points",
-    "dlr-dlr-decarbonising-zone"
+    "dlr-public-ev-charging-points"
    ],
    "labels": {
     "tailte-power-plant": "Power Plant",
-    "dlr-public-ev-charging-points": "Public Ev Charging Points (DLR)",
-    "dlr-dlr-decarbonising-zone": "Decarbonising Zone (DLR)"
+    "dlr-public-ev-charging-points": "Public Ev Charging Points (DLR)"
    },
    "kind": "Places",
    "unitFromLabel": true
+  },
+  {
+   "subject": "energy-and-climate",
+   "id": "energy-and-climate-energy-infrastructure--boundaries",
+   "name": "Decarbonising Zones",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "dlr-dlr-decarbonising-zone"
+   ],
+   "kind": "Boundary",
+   "labels": {
+    "dlr-dlr-decarbonising-zone": "Dún Laoghaire-Rathdown"
+   }
   },
   {
    "id": "land-cover-and-land-use-land-cover",
@@ -3794,23 +3822,15 @@
   },
   {
    "id": "hills-and-mountains-hills-and-highlands",
-   "name": "Hills, Highlands & Mountains",
+   "name": "Mountains",
    "subject": "hills-and-mountains",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "tailte-mountains",
-    "irish-hill-summit-domains",
-    "irish-hill-prominence-domains",
-    "highlands-above-199m",
-    "uninhabited-highlands"
+    "tailte-mountains"
    ],
    "labels": {
-    "tailte-mountains": "Mountains",
-    "irish-hill-summit-domains": "Irish Hill Summit Domains",
-    "irish-hill-prominence-domains": "Irish Hill Prominence Domains",
-    "highlands-above-199m": "Highlands Above 199m",
-    "uninhabited-highlands": "Uninhabited Highlands"
+    "tailte-mountains": "Mountains"
    },
    "toBeAdded": [
     "dobih-v18-4-arderins",
@@ -3818,7 +3838,27 @@
     "dobih-v18-4-carns",
     "dobih-v18-4-binnions"
    ],
-   "kind": "Places",
+   "kind": "Places"
+  },
+  {
+   "subject": "hills-and-mountains",
+   "id": "hills-and-mountains-hills-and-highlands--boundaries",
+   "name": "Hills & Highlands",
+   "scope": "Ireland",
+   "arrangement": "set",
+   "members": [
+    "irish-hill-summit-domains",
+    "irish-hill-prominence-domains",
+    "highlands-above-199m",
+    "uninhabited-highlands"
+   ],
+   "kind": "Boundary",
+   "labels": {
+    "irish-hill-summit-domains": "Irish Hill Summit Domains",
+    "irish-hill-prominence-domains": "Irish Hill Prominence Domains",
+    "highlands-above-199m": "Highlands Above 199m",
+    "uninhabited-highlands": "Uninhabited Highlands"
+   },
    "unitFromLabel": true
   },
   {
