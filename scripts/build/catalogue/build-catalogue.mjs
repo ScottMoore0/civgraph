@@ -250,6 +250,16 @@ function unitFor(s, id, label) {
 }
 
 /**
+ * The layer of a map's default version (the one marked isDefault, else the first), if it has one.
+ * @param {MapRecord} m
+ */
+function defaultVariantLayer(m) {
+  const versions = /** @type {{ id: string, isDefault?: boolean }[]} */ (m.variants || []);
+  const v = versions.find((x) => x.isDefault) || versions[0];
+  return v ? layerBySource.get(v.id) : undefined;
+}
+
+/**
  * @param {string} id
  * @returns {MapOut}
  */
@@ -277,7 +287,10 @@ function addMap(id) {
   const n = m.featureCount || featureCounts[id] || (m.cloneOf && featureCounts[m.cloneOf]) || (m.aliasOf && featureCounts[m.aliasOf]);
   // n is read as a number only once Number.isFinite(n) has held
   if (Number.isFinite(n) && /** @type {number} */ (n) > 0) rec.features = /** @type {number} */ (n);
-  if (layer?.geometryType) rec.geometry = layer.geometryType;
+  // A map drawn only through its versions (maps.json `variants`, such as GSNI's 1:250,000 bedrock
+  // and superficial geology) takes the geometry of its default version's layer.
+  const drawn = layer || defaultVariantLayer(m);
+  if (drawn?.geometryType) rec.geometry = drawn.geometryType;
   if (m.description) rec.description = formatDatesInText(String(m.description)).slice(0, 600);
   // The note on what changed since the edition before: whole up to NOTE_LIMIT characters, else
   // cut at the end of a sentence (Phelim Birch's review, #5: notes stopped mid-word at 300).

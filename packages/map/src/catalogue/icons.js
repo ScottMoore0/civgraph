@@ -83,6 +83,8 @@ export const SHELF_LOOK = {
   water: ['droplets', SHELF_COLOURS.water],
   'environment-and-land-use': ['leaf', SHELF_COLOURS['environment-and-land-use']],
   'earth-and-terrain': ['mountain', SHELF_COLOURS['earth-and-terrain']],
+  // Rasters and point clouds (owner, 15 Nov 2026): Earth & Terrain's colour, as most of them came from it.
+  'surfaces-and-scans': ['layers', SHELF_COLOURS['earth-and-terrain']],
   'regional-divides': ['split', SHELF_COLOURS['regional-divides']],
   environment: ['leaf', SHELF_COLOURS.environment],
 };

@@ -159,6 +159,17 @@
     "aerial-imagery-and-elevation"
    ],
    "flat": true
+  },
+  {
+   "id": "surfaces-and-scans",
+   "name": "Surfaces & Scans",
+   "blurb": "Continuous surfaces drawn as images (elevation, airborne geophysics, modelled water pollution) and 3D LiDAR scans.",
+   "subjects": [
+    "surfaces-elevation-and-terrain",
+    "surfaces-airborne-geophysics",
+    "surfaces-water-quality-modelling"
+   ],
+   "flat": true
   }
  ],
  "subjects": [
@@ -468,8 +479,9 @@
     "water-quality-water-monitoring-points--roi",
     "water-quality-drinking-water-protected-areas",
     "water-quality-wfd-status",
+    "water-quality-wfd-status--boundaries",
     "water-quality-catchment-management-areas",
-    "water-quality-pollution-risk"
+    "water-quality-pollution-risk--boundaries"
    ],
    "toBeAdded": []
   },
@@ -480,6 +492,7 @@
    "series": [
     "rivers-lakes-and-catchments-water",
     "rivers-lakes-and-catchments-rivers-and-lakes",
+    "rivers-lakes-and-catchments-rivers-and-lakes--boundaries",
     "rivers-lakes-and-catchments-river-basins-group"
    ],
    "toBeAdded": []
@@ -489,7 +502,8 @@
    "name": "Flooding & Coastal Risk",
    "kind": "Dataset",
    "series": [
-    "flooding-and-coastal-risk-community-scale-coastal-flood-extents"
+    "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
+    "flooding-and-coastal-risk-community-scale-coastal-flood-extents--points"
    ],
    "toBeAdded": []
   },
@@ -523,6 +537,7 @@
    "series": [
     "trees-hedgerows-and-woodland-wicklow-county-council",
     "trees-hedgerows-and-woodland-hedgerows-and-corridors",
+    "trees-hedgerows-and-woodland-hedgerows-and-corridors--lines",
     "trees-hedgerows-and-woodland-trees-woodlands-and-tpos"
    ],
    "toBeAdded": []
@@ -581,6 +596,7 @@
    "kind": "Dataset",
    "series": [
     "geology-and-soils-geology-maps",
+    "geology-and-soils-geology-maps--lines",
     "geology-and-soils-boreholes-and-cores",
     "geology-and-soils-minerals-and-mining"
    ],
@@ -591,11 +607,8 @@
    "name": "Geophysics & Geochemical Survey",
    "kind": "Dataset",
    "series": [
-    "geophysics-and-geochemical-survey-tellus-radiometric",
     "geophysics-and-geochemical-survey-tellus-rural-soil",
     "geophysics-and-geochemical-survey-tellus-stream-sediments",
-    "geophysics-and-geochemical-survey-tellus-magnetic",
-    "geophysics-and-geochemical-survey-tellus-electromagnetic",
     "geophysics-and-geochemical-survey-tellus-airborne-survey-flight-lines"
    ],
    "toBeAdded": []
@@ -615,10 +628,38 @@
    "name": "Aerial Imagery & Elevation",
    "kind": "Dataset",
    "series": [
-    "aerial-imagery-and-elevation-osni-orthophoto-coverage",
+    "aerial-imagery-and-elevation-osni-orthophoto-coverage"
+   ],
+   "toBeAdded": []
+  },
+  {
+   "id": "surfaces-elevation-and-terrain",
+   "name": "Elevation & Terrain",
+   "kind": "Dataset",
+   "series": [
     "aerial-imagery-and-elevation-elevation-models",
     "ireland-3d-terrain",
     "lidar-point-clouds"
+   ],
+   "toBeAdded": []
+  },
+  {
+   "id": "surfaces-airborne-geophysics",
+   "name": "Airborne Geophysics",
+   "kind": "Dataset",
+   "series": [
+    "geophysics-and-geochemical-survey-tellus-radiometric",
+    "geophysics-and-geochemical-survey-tellus-magnetic",
+    "geophysics-and-geochemical-survey-tellus-electromagnetic"
+   ],
+   "toBeAdded": []
+  },
+  {
+   "id": "surfaces-water-quality-modelling",
+   "name": "Water Quality Modelling",
+   "kind": "Dataset",
+   "series": [
+    "water-quality-pollution-risk"
    ],
    "toBeAdded": []
   },
@@ -1587,7 +1628,7 @@
   {
    "id": "geophysics-and-geochemical-survey-tellus-radiometric",
    "name": "Tellus Radiometric",
-   "subject": "geophysics-and-geochemical-survey",
+   "subject": "surfaces-airborne-geophysics",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
@@ -1737,7 +1778,8 @@
     "wq-groundwater-bodies",
     "niea-transitional-water-bodies",
     "wq-lake-water-bodies"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "elections-and-voting-polling-districts",
@@ -1849,7 +1891,7 @@
   {
    "id": "geophysics-and-geochemical-survey-tellus-magnetic",
    "name": "Tellus Magnetic",
-   "subject": "geophysics-and-geochemical-survey",
+   "subject": "surfaces-airborne-geophysics",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
@@ -1968,7 +2010,7 @@
    "labels": {
     "dcc-noise-maps-from-traffic-sources-in-dublin-city-council": "Noise Maps From Traffic Sources In Dublin City Council"
    },
-   "kind": "Places",
+   "kind": "Boundary",
    "unitFromLabel": true
   },
   {
@@ -2362,7 +2404,7 @@
   {
    "id": "geophysics-and-geochemical-survey-tellus-electromagnetic",
    "name": "Tellus Electromagnetic",
-   "subject": "geophysics-and-geochemical-survey",
+   "subject": "surfaces-airborne-geophysics",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
@@ -2499,22 +2541,35 @@
     "community-scale-coastal-flood-extents-mid-range-future-scenario",
     "opw-coastal-flood-extents-2021-current",
     "opw-nifm-river-flood-extents-current",
-    "community-scale-flood-model-nodes-current-scenario",
     "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028",
-    "rivers-coastal-flood-2018",
     "gsi-groundwater-flooding-low",
     "gsi-groundwater-flooding-medium"
    ],
    "labels": {
     "opw-coastal-flood-extents-2021-current": "National Coastal Flood Extents — Current Scenario",
     "opw-nifm-river-flood-extents-current": "NIFM River Flood Extents — Current Scenario",
-    "community-scale-flood-model-nodes-current-scenario": "Community-Scale Flood Model Nodes — Current Scenario",
     "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028": "Settlement Flood Zones (Roscommon)",
-    "rivers-coastal-flood-2018": "Coastal Flood Boundary — Extreme Sea Levels",
     "community-scale-coastal-flood-extents-high-end-future-scenario": "Community-Scale Coastal Flood Extents — High-End Future Scenario",
     "community-scale-coastal-flood-extents-mid-range-future-scenario": "Community-Scale Coastal Flood Extents — Mid-Range Future Scenario",
     "gsi-groundwater-flooding-low": "Groundwater Flooding — Low Probability",
     "gsi-groundwater-flooding-medium": "Groundwater Flooding — Medium Probability"
+   },
+   "unitFromLabel": true,
+   "kind": "Boundary"
+  },
+  {
+   "id": "flooding-and-coastal-risk-community-scale-coastal-flood-extents--points",
+   "name": "Modelled Flood Levels",
+   "subject": "flooding-and-coastal-risk",
+   "scope": "Ireland",
+   "arrangement": "set",
+   "members": [
+    "community-scale-flood-model-nodes-current-scenario",
+    "rivers-coastal-flood-2018"
+   ],
+   "labels": {
+    "community-scale-flood-model-nodes-current-scenario": "Community-Scale Flood Model Nodes — Current Scenario",
+    "rivers-coastal-flood-2018": "Coastal Flood Boundary — Extreme Sea Levels"
    },
    "unitFromLabel": true
   },
@@ -2573,7 +2628,16 @@
     "tailte-boundaries-seawater-area",
     "tailte-boundaries-seawater-line"
    ],
-   "kind": "Boundary"
+   "kind": "Boundary",
+   "variantOf": {
+    "tailte-boundaries-seawater-line": "tailte-boundaries-seawater-area"
+   },
+   "labels": {
+    "tailte-boundaries-seawater-line": "Edges (lines, 1:1 million map)"
+   },
+   "versionLabels": {
+    "tailte-boundaries-seawater-area": "Area (1:250,000 map)"
+   }
   },
   {
    "id": "rail-and-public-transport-stations-and-stops",
@@ -2776,7 +2840,7 @@
   {
    "id": "aerial-imagery-and-elevation-elevation-models",
    "name": "Elevation Models",
-   "subject": "aerial-imagery-and-elevation",
+   "subject": "surfaces-elevation-and-terrain",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
@@ -2871,16 +2935,29 @@
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "water-framework-directive-2nd-cycle-interim-status1",
-    "wq-surface-water-bodies-2015",
     "niea-river-segments"
    ],
    "labels": {
-    "water-framework-directive-2nd-cycle-interim-status1": "Water Framework Directive 2nd Cycle Interim Status",
-    "wq-surface-water-bodies-2015": "WFD Surface Water Bodies — Status",
     "niea-river-segments": "River Segments"
    },
    "kind": "Places",
+   "unitFromLabel": true
+  },
+  {
+   "id": "water-quality-wfd-status--boundaries",
+   "name": "Water Framework Directive Status",
+   "subject": "water-quality",
+   "scope": "Northern Ireland",
+   "arrangement": "set",
+   "members": [
+    "water-framework-directive-2nd-cycle-interim-status1",
+    "wq-surface-water-bodies-2015"
+   ],
+   "kind": "Boundary",
+   "labels": {
+    "water-framework-directive-2nd-cycle-interim-status1": "Water Framework Directive 2nd Cycle Interim Status",
+    "wq-surface-water-bodies-2015": "WFD Surface Water Bodies — Status"
+   },
    "unitFromLabel": true
   },
   {
@@ -2903,18 +2980,31 @@
   {
    "id": "water-quality-pollution-risk",
    "name": "Water Pollution Risk",
+   "subject": "surfaces-water-quality-modelling",
+   "scope": "Northern Ireland",
+   "arrangement": "set",
+   "members": [
+    "wq-network-contribution"
+   ],
+   "labels": {
+    "wq-network-contribution": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin"
+   },
+   "kind": "Places",
+   "unitFromLabel": true
+  },
+  {
+   "id": "water-quality-pollution-risk--boundaries",
+   "name": "Water Pollution Risk",
    "subject": "water-quality",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "wq-agricultural-critical-risk",
-    "wq-network-contribution"
+    "wq-agricultural-critical-risk"
    ],
+   "kind": "Boundary",
    "labels": {
-    "wq-agricultural-critical-risk": "Agricultural Critical Risk Areas",
-    "wq-network-contribution": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin"
+    "wq-agricultural-critical-risk": "Agricultural Critical Risk Areas"
    },
-   "kind": "Places",
    "unitFromLabel": true
   },
   {
@@ -3254,26 +3344,38 @@
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "ni-250k-geology",
     "bedrock-geology-11000000-ireland-roini-itm",
     "gsni-superficial-geology-polygons-250k",
     "irish-peat-soils-map",
-    "gsi-karst-data",
     "oda-map-00583-geological-sites-audit-2012-roscommon",
-    "gsni-bedrock-geology-polygons-250k",
-    "gsni-bedrock-geology-lines-250k"
+    "gsni-bedrock-geology-polygons-250k"
    ],
    "labels": {
-    "ni-250k-geology": "Northern Ireland Geology",
     "bedrock-geology-11000000-ireland-roini-itm": "Bedrock Geology 1:1,000,000 Ireland ITM",
     "gsni-superficial-geology-polygons-250k": "Superficial Geology 1:250,000",
     "irish-peat-soils-map": "Irish Peat Soils Map",
-    "gsi-karst-data": "Karst Data",
     "oda-map-00583-geological-sites-audit-2012-roscommon": "Geological Sites Audit (Roscommon)",
-    "gsni-bedrock-geology-polygons-250k": "Bedrock Geology 1:250,000 (Polygons)",
-    "gsni-bedrock-geology-lines-250k": "Bedrock Geology 1:250,000 (Lines)"
+    "gsni-bedrock-geology-polygons-250k": "Bedrock Geology 1:250,000 (Polygons)"
    },
-   "kind": "Places",
+   "kind": "Boundary",
+   "unitFromLabel": true
+  },
+  {
+   "id": "geology-and-soils-geology-maps--lines",
+   "name": "Geology",
+   "subject": "geology-and-soils",
+   "scope": "Ireland",
+   "arrangement": "set",
+   "members": [
+    "ni-250k-geology",
+    "gsni-bedrock-geology-lines-250k",
+    "gsi-karst-data"
+   ],
+   "labels": {
+    "ni-250k-geology": "Northern Ireland Geology",
+    "gsni-bedrock-geology-lines-250k": "Bedrock Geology 1:250,000 (Lines)",
+    "gsi-karst-data": "Karst Data"
+   },
    "unitFromLabel": true
   },
   {
@@ -3345,21 +3447,33 @@
   },
   {
    "id": "trees-hedgerows-and-woodland-hedgerows-and-corridors",
-   "name": "Hedgerows, Treelines & Wildlife Corridors (Roscommon)",
+   "name": "Hedgerows & Wildlife Corridors (Roscommon)",
    "subject": "trees-hedgerows-and-woodland",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "oda-map-00589-hedgerows",
-    "oda-map-00808-treelines",
     "oda-map-00859-wildlife-corridors"
    ],
    "labels": {
     "oda-map-00589-hedgerows": "Hedgerows",
-    "oda-map-00808-treelines": "Treelines",
     "oda-map-00859-wildlife-corridors": "Wildlife Corridors"
    },
-   "kind": "Places",
+   "kind": "Boundary",
+   "unitFromLabel": true
+  },
+  {
+   "id": "trees-hedgerows-and-woodland-hedgerows-and-corridors--lines",
+   "name": "Treelines (Roscommon)",
+   "subject": "trees-hedgerows-and-woodland",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "oda-map-00808-treelines"
+   ],
+   "labels": {
+    "oda-map-00808-treelines": "Treelines"
+   },
    "unitFromLabel": true
   },
   {
@@ -3426,7 +3540,7 @@
     "corine-land-cover-2018": "CORINE Land Cover",
     "ni-land-classification": "Northern Ireland Land Classification"
    },
-   "kind": "Places",
+   "kind": "Boundary",
    "unitFromLabel": true
   },
   {
@@ -3799,7 +3913,6 @@
    "arrangement": "set",
    "members": [
     "rivers-2016",
-    "tailte-lakes-reservoirs",
     "tailte-reservoirs",
     "tailte-waterfalls",
     "tailte-hvd-water-single-stream",
@@ -3808,7 +3921,6 @@
    ],
    "labels": {
     "rivers-2016": "Rivers",
-    "tailte-lakes-reservoirs": "Lakes & Reservoirs",
     "tailte-reservoirs": "Reservoirs",
     "tailte-waterfalls": "Waterfalls",
     "tailte-hvd-water-single-stream": "Water Single Stream",
@@ -3816,6 +3928,21 @@
     "tailte-hydro-nodes": "Hydro Nodes"
    },
    "kind": "Places",
+   "unitFromLabel": true
+  },
+  {
+   "id": "rivers-lakes-and-catchments-rivers-and-lakes--boundaries",
+   "name": "Lakes & Reservoirs",
+   "subject": "rivers-lakes-and-catchments",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "tailte-lakes-reservoirs"
+   ],
+   "kind": "Boundary",
+   "labels": {
+    "tailte-lakes-reservoirs": "Lakes & Reservoirs"
+   },
    "unitFromLabel": true
   },
   {
@@ -3917,7 +4044,7 @@
   {
    "id": "ireland-3d-terrain",
    "name": "3D Terrain",
-   "subject": "aerial-imagery-and-elevation",
+   "subject": "surfaces-elevation-and-terrain",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
@@ -3936,7 +4063,7 @@
   {
    "id": "lidar-point-clouds",
    "name": "LiDAR Point Clouds",
-   "subject": "aerial-imagery-and-elevation",
+   "subject": "surfaces-elevation-and-terrain",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
