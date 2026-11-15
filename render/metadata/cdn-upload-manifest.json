@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T15:55:07.879Z",
+  "generatedAt": "2026-11-15T12:21:11.986Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -8750,6 +8750,15 @@
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles",
       "bytes": 2345287,
       "exists": true
+    },
+    {
+      "layerId": "ireland-before-1921-vector",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/ireland-before-1921-vector.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/ireland-before-1921-vector.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ireland-before-1921-vector.pmtiles",
+      "bytes": 2889102,
+      "exists": true
     }
   ],
   "commands": [
@@ -9075,6 +9084,7 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/mep-2024-vector-test.pmtiles --file render/pmtiles/generated/mep-2024-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/monaghan-townlands-vector-test.pmtiles --file render/pmtiles/generated/monaghan-townlands-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ni-1921-vector-test.pmtiles --file render/pmtiles/generated/ni-1921-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ireland-before-1921-vector.pmtiles --file render/pmtiles/generated/ireland-before-1921-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ni-250k-geology-vector-test.pmtiles --file render/pmtiles/generated/ni-250k-geology-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ni-authorised-waste-sites-vector-test.pmtiles --file render/pmtiles/generated/ni-authorised-waste-sites-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ni-defence-heritage-vector-test.pmtiles --file render/pmtiles/generated/ni-defence-heritage-vector-test.pmtiles --remote --content-type application/octet-stream",
