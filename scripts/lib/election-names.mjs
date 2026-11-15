@@ -32,6 +32,9 @@ function registeredBody(bodySlug, body) {
  * @property {string | null} [specialDisplayName] a title the index gives outright
  * @property {string} [key]                       the election key ('<body>__<date>-<topic>' for referendums)
  * @property {string} [bodySlug]
+ * @property {boolean} [sameYearGeneral]          the body held another general election in the same
+ *                                                calendar year (sameYearGeneralElections): the title
+ *                                                takes the month, "June 1927 Irish general election"
  */
 
 const NATIONAL_CONSTITUENCY_NAMES = new Set([
@@ -421,6 +424,46 @@ function byElectionRegion(body, bodyGroup) {
 
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+/** @param {string | null | undefined} date the month of an ISO day, in words ('' for none) */
+function monthName(date) {
+  return MONTH_NAMES[Number(String(date || '').slice(5, 7)) - 1] || '';
+}
+
+/**
+ * The general elections whose body held another general election in the same calendar year
+ * (the Dail in June and September 1927 and in February and November 1982, Westminster in
+ * January and December 1910 and in February and October 1974): their titles take the month
+ * (canonicalElectionTitle's sameYearGeneral). By-elections, referendums and recall petitions
+ * are passed over by `isGeneral`; a body is its slug and name together, so each council of the
+ * local-government slug is its own body.
+ * @template {{ body?: string, bodySlug?: string | null, date?: string }} T
+ * @param {T[]} entries
+ * @param {(entry: T) => boolean} isGeneral
+ * @returns {Set<T>}
+ */
+export function sameYearGeneralElections(entries, isGeneral) {
+  /** @type {Map<string, T[]>} */
+  const byBodyYear = new Map();
+  for (const entry of entries) {
+    const year = String(entry.date || '').slice(0, 4);
+    if (!/^\d{4}$/.test(year) || !isGeneral(entry)) continue;
+    const id = `${entry.bodySlug || ''}|${String(entry.body || '').trim()}|${year}`;
+    byBodyYear.set(id, [...(byBodyYear.get(id) || []), entry]);
+  }
+  return new Set([...byBodyYear.values()].filter((group) => group.length > 1).flat());
+}
+
+/**
+ * A general election's title with its month before the year when the body held two general
+ * elections that year ("1927 Irish general election" -> "June 1927 Irish general election").
+ * @param {string} title  a title that starts with the year
+ * @param {{ date?: string, sameYearGeneral?: boolean }} scope
+ */
+function withSameYearMonth(title, { date = '', sameYearGeneral = false }) {
+  const month = sameYearGeneral ? monthName(date) : '';
+  return month && /^\d{4} /.test(title) ? `${month} ${title}` : title;
+}
+
 /**
  * A party-internal body: a party's leadership or nomination ballots, whose electorate is a party
  * body (data/elections-source/data/elections_index.json bodyType "party-internal"; the slug ends
@@ -444,9 +487,12 @@ export function canonicalElectionTitle({
   specialType = null,
   specialDisplayName = null,
   key = '',
-  bodySlug = ''
+  bodySlug = '',
+  sameYearGeneral = false
 } = {}) {
   if (specialDisplayName) return specialDisplayName;
+  /** A general election's title, with the month when the body held two that year. @param {string} title */
+  const general = (title) => withSameYearMonth(title, { date, sameYearGeneral });
   const { year, dayMonthYear } = dateParts(date);
   const registered = registeredBody(bodySlug, body);
   // A body whose general elections take its title template names its by-elections by its
@@ -455,8 +501,10 @@ export function canonicalElectionTitle({
     const byTitle = byElectionTitleOf(registered, date, electionConstituencyNames(constituencies));
     if (byTitle) return byTitle;
   }
+  // A title the registry gives for the day (titlesByDate: the Seanad's April and August 1938)
+  // already tells that year's elections apart; its template takes the month like the others.
   const registeredTitle = generalElectionTitleOf(registered, date);
-  if (registeredTitle) return registeredTitle;
+  if (registeredTitle) return registered?.titlesByDate?.[String(date || '').slice(0, 10)] ? registeredTitle : general(registeredTitle);
   // The Republic's local elections are one body contested across every council on the same
   // day, never a by-election and not the Northern Ireland local-government group, so they
   // are named before either of those checks can claim them.
@@ -467,7 +515,7 @@ export function canonicalElectionTitle({
   // election", "September 1997 Fianna Fáil presidential nomination". The month is in the title
   // because one party can hold two in a year (the UUP in March and September 1995).
   if (isPartyInternalBody({ body, bodySlug })) {
-    const month = MONTH_NAMES[Number(String(date || '').slice(5, 7)) - 1] || '';
+    const month = monthName(date);
     const name = String(body || '').trim();
     return `${month ? `${month} ` : ''}${year} ${name}${/leadership$/i.test(name) ? ' election' : ''}`.trim();
   }
@@ -525,26 +573,24 @@ export function canonicalElectionTitle({
   if (niCouncilEra) return `${year} ${niCouncilEra} election`.trim();
   if (NI_COUNCILS_1923_67_PLAIN_TITLES.has(normalizedBody)) return `${year} ${body} election`.trim();
 
-  if (normalizedBody === 'dail eireann') return `${year} Irish general election`.trim();
-  if (normalizedBody === 'european parliament ireland') return `${year} European election in the Republic of Ireland`.trim();
-  if (normalizedBody === 'european parliament') return `${year} European election in Northern Ireland`.trim();
-  if (normalizedBody === 'northern ireland assembly') return `${year} Northern Ireland Assembly election`.trim();
+  // The general elections of the parliaments, assemblies and the presidency: a body that held two
+  // in one year has the month in each title (sameYearGeneral). The councils above do not: their
+  // polls are filed as whole-council elections, several a year, often two in one month.
+  if (normalizedBody === 'dail eireann') return general(`${year} Irish general election`.trim());
+  if (normalizedBody === 'european parliament ireland') return general(`${year} European election in the Republic of Ireland`.trim());
+  if (normalizedBody === 'european parliament') return general(`${year} European election in Northern Ireland`.trim());
+  if (normalizedBody === 'northern ireland assembly') return general(`${year} Northern Ireland Assembly election`.trim());
   if (normalizedBody === 'house of commons of the united kingdom') {
     // Before partition the Westminster elections in Ireland were all-Ireland; the first held in
-    // Northern Ireland alone was on 15 November 1922. 1910 had two, told apart by month.
+    // Northern Ireland alone was on 15 November 1922.
     const day = String(date || '').slice(0, 10);
-    if (day && day < '1922-11-15') {
-      const month = String(year) === '1910'
-        ? (day.slice(5, 7) === '01' ? 'January ' : day.slice(5, 7) === '12' ? 'December ' : '')
-        : '';
-      return `${month}${year} UK general election in Ireland`.trim();
-    }
-    return `${year} UK general election in Northern Ireland`.trim();
+    if (day && day < '1922-11-15') return general(`${year} UK general election in Ireland`.trim());
+    return general(`${year} UK general election in Northern Ireland`.trim());
   }
   if (normalizedBody === 'northern ireland forum for political dialogue') return '1996 Northern Ireland Forum election';
   if (normalizedBody === 'northern ireland constitutional convention') return '1975 Northern Ireland Constitutional Convention election';
-  if (normalizedBody === 'parliament of northern ireland') return `${year} Parliament of Northern Ireland election`.trim();
-  if (normalizedBody === 'president of ireland') return `${year} Irish presidential election`.trim();
+  if (normalizedBody === 'parliament of northern ireland') return general(`${year} Parliament of Northern Ireland election`.trim());
+  if (normalizedBody === 'president of ireland') return general(`${year} Irish presidential election`.trim());
   if (normalizedBody === 'referendum northern ireland') return niReferendumTitle({ date, key, bodySlug });
   if (normalizedBody === 'referendum ireland') return referendumTitle({ body, bodyGroup, date, constituencies, specialType, specialDisplayName, key, bodySlug });
 

@@ -12,7 +12,7 @@ import { fixText, manifestNameKey } from '../lib/manifest-name-key.mjs';
 const LEA_SEAT_SUFFIX = /\s*\(\d+\)\s*$/;
 // Usually " LEA-6", but some 2019 names join it with a hyphen ("BALLINAMORE-LEA-6").
 const LEA_CODE_SUFFIX = /[\s-]+LEA-\d+\s*$/i;
-import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElectionScope, isPartyInternalBody } from '../lib/election-names.mjs';
+import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElectionScope, isPartyInternalBody, sameYearGeneralElections } from '../lib/election-names.mjs';
 import { createPartyLabelInterpreter } from '../lib/party-label-interpretations.mjs';
 import { bracketedResultFile, seatTypeResultFile } from '../lib/election-result-files.mjs';
 import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
@@ -1425,9 +1425,13 @@ function buildUniqueElectionEntries(index) {
       }));
     }
   }
-  return [...byKey.values()].map((entry) => ({
+  // A body that held two general elections in one year gives each its month ("June 1927 Irish
+  // general election", "September 1927 ..."): which those are needs every election of the body.
+  const entries = [...byKey.values()];
+  const sameYear = sameYearGeneralElections(entries, (entry) => classifyElection(entry).kind === 'general');
+  return entries.map((entry) => ({
     ...entry,
-    displayTitle: entry.displayTitle || canonicalElectionTitle(entry)
+    displayTitle: entry.displayTitle || canonicalElectionTitle({ ...entry, sameYearGeneral: sameYear.has(entry) })
   }));
 }
 
