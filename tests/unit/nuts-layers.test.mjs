@@ -51,7 +51,8 @@ test('their live layers carry Eurostat\'s codes: UKN0A-0G for 2021 and UKN10-16 
 });
 
 test('the catalogue row lists them first, labelled by version, signed off', () => {
-  assert.deepEqual(series.members.slice(0, 4), ['nuts-2-2016-2021', 'nuts-2-2003-2013', 'nuts-3-2016-2021', 'nuts-3-2003-2013']);
+  // By NUTS iteration, not by Republic and Northern Ireland (Phelim Birch review #8).
+  assert.deepEqual(series.members.slice(0, 4), ['nuts-2-2016-2021', 'nuts-3-2016-2021', 'nuts-2-2003-2013', 'nuts-3-2003-2013']);
   assert.equal(series.labels['nuts-3-2016-2021'], 'NUTS 3 (2016–2021)');
   assert.equal(series.labels['nuts-2-2003-2013'], 'NUTS 2 (2003–2013)');
   const signed = new Set(read('data/catalogue/catalogue.source.json').signedOff.map((s) => s.id));
@@ -67,4 +68,14 @@ test('the Tailte NUTS maps label each area by its own name, not "Ireland"', () =
     const names = read(`render/metadata/feature-indexes/${id}.json`).items.map((i) => i.name);
     assert.ok(names.length > 1 && !names.includes('Ireland'), id);
   }
+});
+
+test('the Republic-only Tailte Eireann maps and the 2011 map are versions of their iteration, not rows or members of their own (Phelim Birch review #8, #9)', () => {
+  assert.deepEqual(series.variantOf, {
+    'tailte-nuts2-boundaries-ungeneralised': 'nuts-2-2016-2021',
+    'tailte-nuts3-boundaries-generalised-20m': 'nuts-3-2016-2021',
+    'nuts-2-all-ireland': 'nuts-2-2003-2013',
+  });
+  const all = read('data/catalogue/catalogue.source.json').series;
+  for (const id of Object.keys(series.variantOf)) assert.equal(all.filter((s) => s.members.includes(id)).length, 1, `${id} is in one row`);
 });
