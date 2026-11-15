@@ -1683,10 +1683,13 @@ function resolveElectionGeography(entry) {
     // 1885 divisions, and the 1918 map served until the Northern Ireland election of 1922.
     if (String(entry.date || '') < '1918-12-14') return { sourceMapId: 'pc-1885-ireland' };
     if (String(entry.date || '') < '1922-11-15') return { sourceMapId: 'pc-1918-ireland' };
+    // The 1995 and 2008 orders took effect at the next general election (1 May 1997, 6 May
+    // 2010): the 1995 North Down by-election was fought on the 1982 seats, the 2005 general
+    // election on the 1995 ones.
+    if (String(entry.date || '') >= '2010-05-06' && year < 2024) return { sourceMapId: 'pc-2008' };
+    if (String(entry.date || '') >= '1997-05-01' && year < 2024) return { sourceMapId: 'pc-1995' };
     return sourceByYear(year, [
       [2024, 'pc-2023'],
-      [2005, 'pc-2008'],
-      [1995, 'pc-1995'],
       [1983, 'pc-1982'],
       [1970, 'pc-1970'],
       [1950, 'pc-1948'],
