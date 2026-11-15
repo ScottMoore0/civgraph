@@ -119,7 +119,7 @@
         },
         "titlesByDate": {
           "type": "object",
-          "description": "Titles given outright to some general elections of the body, by the date each is filed under (YYYY-MM-DD), in place of `title`: two general elections in one year are told apart (the Seanad's April and August 1938 elections).",
+          "description": "Titles given outright to some general elections of the body, by the date each is filed under (YYYY-MM-DD), in place of `title`: two general elections in one year are told apart (the Seanad's April and August 1938 elections), or an election is named for what was held (the Dáil's 1918 and 1921 elections, held as a UK and a Southern Ireland general election).",
           "propertyNames": { "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
           "additionalProperties": { "type": "string", "minLength": 1 }
         },

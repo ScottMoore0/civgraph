@@ -20,6 +20,10 @@ export default {
   "shelf": "seanad",
   "searchTerms": "Seanad Senate senator senators Seanad Éireann vocational panels Cultural and Educational Agricultural Labour Industrial and Commercial Administrative university constituencies National University of Ireland Dublin University Trinity"
  },
+ "dail-eireann": {
+  "name": "Dáil Éireann",
+  "jurisdiction": "ireland"
+ },
  "ireland-local": {
   "name": "Local Authorities of Ireland",
   "jurisdiction": "ireland",

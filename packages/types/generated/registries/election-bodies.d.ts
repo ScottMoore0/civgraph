@@ -84,7 +84,7 @@ export interface Body {
   byElectionsTitle?: string;
   /** Days (YYYY-MM-DD, as the elections are filed) on which the body held a general election however few its contests: never by-elections (the Seanad of the Irish Free State, whose elections had one national contest each). */
   generalElectionDates?: string[];
-  /** Titles given outright to some general elections of the body, by the date each is filed under (YYYY-MM-DD), in place of `title`: two general elections in one year are told apart (the Seanad's April and August 1938 elections). */
+  /** Titles given outright to some general elections of the body, by the date each is filed under (YYYY-MM-DD), in place of `title`: two general elections in one year are told apart (the Seanad's April and August 1938 elections), or an election is named for what was held (the Dáil's 1918 and 1921 elections, held as a UK and a Southern Ireland general election). */
   titlesByDate?: {
     [key: string]: string;
   };
