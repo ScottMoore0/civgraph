@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "about": "Descriptions shown when a catalogue row or an election is opened, on a map's Details page and on an election's Browse page. Keyed by catalogue series id (rows) and election key (elections). Built into data/catalogue/catalogue.json (as about) and Browse's election records by scripts/catalogue/build-catalogue.mjs and scripts/build-browse-indexes.mjs; checked by scripts/catalogue/check-catalogue.mjs.",
- "source": "Phelim Birch, Civgraph descriptions document (Google Doc 13JPxXeZxjXDqv_JIlmxtAWDZeT_8GEOqfHPbl121THo), as of 2026-10-12; 13 further Dáil general elections from his Word document 'Civgraph Catalogue Descriptions' (2026-10-18). 1954 and 1957 as Phelim revised them, 2026-10-19. New local, European, presidential and referendum descriptions, and 1997 and 2016 Dáil revisions, from the same Google Doc as of 2026-10-24 (four factual slips corrected: 1984 vote shares, 2014 Sinn Féin seat share, 1987 and 2011 Wikipedia links; and, on review, the Nice II common-defence clause, Ó Dálaigh’s dispute with the government, O’Kelly’s 1945 final share on the valid-poll basis, Robinson as an independent nominated by Labour, and the Socialist Group in 1979 and 1989). The 2001 referendums and the 2025 presidential election added from the same document, 2026-10-24. European election descriptions recast to lead with the Irish parties, groups in brackets (Phelim's note C3), 2026-10-25. Further rows (census and statistical areas, planning and property, transport and others) and the 1974, 1979 and 1985 local elections from the same Google Doc as of 11 Nov 2026 (obvious slips fixed: a missing full stop, \"labelled\", \"Tailte\"). Further rows (local services, heritage, water, environment and terrain), the Places texts of the Roscommon and Dún Laoghaire-Rathdown development plans, the revised Boundaries texts of both plans, and the 2024 local and Limerick mayoral elections revised, from the same Google Doc as of 12 Nov 2026 (Phelim Birch review, imported 15 Nov 2026; light edits: cross-references name the current rows and sections, and Landscape Character Types names its two counties).",
+ "source": "Phelim Birch, Civgraph descriptions document (Google Doc 13JPxXeZxjXDqv_JIlmxtAWDZeT_8GEOqfHPbl121THo), as of 2026-10-12; 13 further Dáil general elections from his Word document 'Civgraph Catalogue Descriptions' (2026-10-18). 1954 and 1957 as Phelim revised them, 2026-10-19. New local, European, presidential and referendum descriptions, and 1997 and 2016 Dáil revisions, from the same Google Doc as of 2026-10-24 (four factual slips corrected: 1984 vote shares, 2014 Sinn Féin seat share, 1987 and 2011 Wikipedia links; and, on review, the Nice II common-defence clause, Ó Dálaigh’s dispute with the government, O’Kelly’s 1945 final share on the valid-poll basis, Robinson as an independent nominated by Labour, and the Socialist Group in 1979 and 1989). The 2001 referendums and the 2025 presidential election added from the same document, 2026-10-24. European election descriptions recast to lead with the Irish parties, groups in brackets (Phelim's note C3), 2026-10-25. Further rows (census and statistical areas, planning and property, transport and others) and the 1974, 1979 and 1985 local elections from the same Google Doc as of 11 Nov 2026 (obvious slips fixed: a missing full stop, \"labelled\", \"Tailte\"). Further rows (local services, heritage, water, environment and terrain), the Places texts of the Roscommon and Dún Laoghaire-Rathdown development plans, the revised Boundaries texts of both plans, and the 2024 local and Limerick mayoral elections revised, from the same Google Doc as of 12 Nov 2026 (Phelim Birch review, imported 15 Nov 2026; light edits: cross-references name the current rows and sections, and Landscape Character Types names its two counties). The two Dún Laoghaire-Rathdown plan texts dated by plan (Phelim Birch review #23, 15 Nov 2026): the maps are the data.gov.ie datasets of the 2022–2028 plan, except the 2016–2022 zoning objectives and the 2010–2016 conservation areas.",
  "rows": {
   "townlands-townlands": {
    "text": [
@@ -497,12 +497,20 @@
   },
   "development-plans-and-zoning-dun-laoghaire-rathdown": {
    "text": [
-    "Various boundaries relating to Dún Laoghaire-Rathdown County Council’s 2016-2022 County Development Plan. For points relating to this CDP, see Places & routes -> Planning & Property -> County Development Plan (Dún Laoghaire-Rathdown)."
+    "Various boundaries relating to Dún Laoghaire-Rathdown County Council’s County Development Plans. Most maps are from the 2022–2028 plan, in effect since 21 April 2022; the zoning objectives of the 2016–2022 plan and the architectural conservation areas of the 2010–2016 plan are kept for comparison. Each map is labelled with its plan. For points relating to these CDPs, see Places & routes -> Planning & Property -> County Development Plan (Dún Laoghaire-Rathdown)."
    ],
    "links": [
     {
+     "label": "Dún Laoghaire-Rathdown County Development Plan 2022–2028",
+     "url": "https://www.dlrcoco.ie/CDP2022-2028"
+    },
+    {
      "label": "Dún Laoghaire-Rathdown County Development Plan 2016–2022",
      "url": "https://www.dlrcoco.ie/county-development-plan/county-development-plan-2016-2022"
+    },
+    {
+     "label": "Development Plan 2010–2016 datasets (data.gov.ie)",
+     "url": "https://data.gov.ie/dataset/development-plans-dlr"
     }
    ]
   },
@@ -690,7 +698,13 @@
   },
   "development-plans-and-zoning-dun-laoghaire-rathdown--points": {
    "text": [
-    "Various point maps relating to Dún Laoghaire-Rathdown County Council’s 2016-2022 County Development Plan. For boundaries relating to this CDP, see Boundaries -> Planning & Property -> County Development Plan (Dún Laoghaire-Rathdown)."
+    "Various point and line maps relating to Dún Laoghaire-Rathdown County Council’s 2022–2028 County Development Plan. For boundaries relating to this CDP and the earlier ones, see Boundaries -> Planning & Property -> County Development Plans (Dún Laoghaire-Rathdown)."
+   ],
+   "links": [
+    {
+     "label": "Dún Laoghaire-Rathdown County Development Plan 2022–2028",
+     "url": "https://www.dlrcoco.ie/CDP2022-2028"
+    }
    ]
   },
   "rail-and-public-transport-luas": {
