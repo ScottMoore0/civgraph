@@ -39,6 +39,20 @@ MAX_CONTEXT_SPAN = 680000          # cap locator context so feature footprints s
 
 EMPTY_GEOMS = {'polys': [], 'lines': [], 'points': []}
 
+# Features a map's tiles leave out are left off its thumbnail too (an OGR SQL -where on the
+# source), keyed by a substring of the map id as in the tile profiles
+# (packages/maps-pipeline/src/tiles/tile-profiles.mjs sourceWhere): the DfI surface defects
+# recorded with no location sit at the Irish Grid origin, in the sea off Kerry.
+SOURCE_WHERE = {
+    'dfi-surface-defects': 'NOT (EASTING < 1000 AND NORTHING < 1000)',
+}
+
+def source_where(map_id):
+    for key, where in SOURCE_WHERE.items():
+        if key in (map_id or ''):
+            return where
+    return None
+
 def _empty_geoms():
     return {'polys': [], 'lines': [], 'points': []}
 
@@ -86,7 +100,7 @@ def load_geojson_geometries(path):
                 g['points'].append(_coord_xy(pt))
     return g
 
-def _ogr2ogr_to_geojson(src_path):
+def _ogr2ogr_to_geojson(src_path, where=None):
     """Convert src_path to GeoJSON in the thumbnail target projection, trying SRS fallbacks for
     FGBs that lack embedded SRS. Returns geometries dict or None."""
     import subprocess, tempfile
@@ -105,6 +119,7 @@ def _ogr2ogr_to_geojson(src_path):
         tmp = tempfile.mktemp(suffix='.geojson')
         try:
             r = subprocess.run(['ogr2ogr', '-f', 'GeoJSON', '-skipfailures',
+                                *(['-where', where] if where else []),
                                 *args, tmp, ogr_src],
                                capture_output=True, timeout=180)
             if r.returncode == 0 and os.path.exists(tmp) and os.path.getsize(tmp) > 200:
@@ -119,14 +134,14 @@ def _ogr2ogr_to_geojson(src_path):
                 except: pass
     return None
 
-def load_fgb_geometries(path):
+def load_fgb_geometries(path, where=None):
     """Load geometries from an FGB via ogr2ogr into the thumbnail projection."""
-    g = _ogr2ogr_to_geojson(path)
+    g = _ogr2ogr_to_geojson(path, where)
     return g if g is not None else _empty_geoms()
 
-def reproject_geojson_to_thumbnail_srs(src_path):
+def reproject_geojson_to_thumbnail_srs(src_path, where=None):
     """Reproject a GeoJSON file to the thumbnail projection via ogr2ogr."""
-    g = _ogr2ogr_to_geojson(src_path)
+    g = _ogr2ogr_to_geojson(src_path, where)
     return g if g is not None else _empty_geoms()
 
 def _merge_geoms(into, other):
@@ -183,38 +198,39 @@ def _lod_fallback_path(path):
             return candidate
     return path
 
-def _load_one_source(files):
+def _load_one_source(files, where=None):
     """Try GeoJSON/FGB local or remote for a single files dict."""
     geojson = files.get('geojson', '')
     geojson_local = _local_data_host_path(geojson) if geojson.startswith('http') else geojson
     if geojson_local and not geojson_local.startswith('http') and os.path.exists(geojson_local):
-        return reproject_geojson_to_thumbnail_srs(geojson_local)
+        return reproject_geojson_to_thumbnail_srs(geojson_local, where)
     fgb = files.get('fgb', '')
     fgb_local = _local_data_host_path(fgb) if fgb.startswith('http') else fgb
     fgb_local = _lod_fallback_path(fgb_local)
     if fgb_local and not fgb_local.startswith('http') and os.path.exists(fgb_local):
-        return load_fgb_geometries(fgb_local)
+        return load_fgb_geometries(fgb_local, where)
     # Prefer FGB over remote GeoJSON because FGB is significantly smaller
     if ALLOW_DOWNLOADS and fgb and fgb.startswith('http'):
         cached = _cached_download(fgb)
         if cached:
-            return load_fgb_geometries(cached)
+            return load_fgb_geometries(cached, where)
     if ALLOW_DOWNLOADS and geojson and geojson.startswith('http'):
         cached = _cached_download(geojson)
         if cached:
-            return reproject_geojson_to_thumbnail_srs(cached)
+            return reproject_geojson_to_thumbnail_srs(cached, where)
     return _empty_geoms()
 
 def load_map_geometries(map_config):
     """Load geometries for a map (handles isGroup variants by aggregation)."""
-    g = _load_one_source(map_config.get('files', {}) or {})
+    where = source_where(map_config.get('id'))
+    g = _load_one_source(map_config.get('files', {}) or {}, where)
     has_any = g['polys'] or g['lines'] or g['points']
     if has_any:
         return g
     # Fall back to variants (covers isGroup parents)
     out = _empty_geoms()
     for v in map_config.get('variants', []) or []:
-        _merge_geoms(out, _load_one_source(v.get('files', {}) or {}))
+        _merge_geoms(out, _load_one_source(v.get('files', {}) or {}, source_where(v.get('id')) or where))
     return out
 
 def polys_to_patches(polys, **kwargs):
