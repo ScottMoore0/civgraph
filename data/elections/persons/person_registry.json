@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 159147,
+ "idHighWater": 159296,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -9936,7 +9936,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158994
+    159204
    ]
   },
   {
@@ -12335,7 +12335,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159095
+    159251
    ]
   },
   {
@@ -25221,7 +25221,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159097
+    159253
    ]
   },
   {
@@ -30814,18 +30814,20 @@
    "sourceIds": [],
    "sourcePersonIds": [
     "ei:8936",
-    "ie:20420"
+    "ie:20420",
+    "ie:21998"
    ],
    "officialPersonIds": [
     "oireachtas:John-J-Brennan.S.1960-02-09",
     "wikidata:Q6223067"
    ],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1948,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1942,
    "lastYear": 1973,
    "bodies": [
     "dail-eireann",
+    "ireland-local",
     "seanad-eireann"
    ],
    "parties": [
@@ -30834,9 +30836,10 @@
    "keyedBy": "src",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158644
+    155694
    ]
   },
   {
@@ -43159,7 +43162,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159098
+    159254
    ]
   },
   {
@@ -60475,7 +60478,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159028
+    159220
    ]
   },
   {
@@ -62423,10 +62426,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158946,
-    158965,
-    159068,
-    159069
+    159159,
+    159178,
+    159223,
+    159224
    ]
   },
   {
@@ -62738,10 +62741,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158975,
-    158976,
-    158996,
-    159103
+    159188,
+    159189,
+    159206,
+    159259
    ]
   },
   {
@@ -63439,10 +63442,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158952,
-    158953,
-    159077,
-    159078
+    159165,
+    159166,
+    159232,
+    159233
    ]
   },
   {
@@ -63479,10 +63482,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158954,
-    158970,
-    158985,
-    159079
+    159167,
+    159183,
+    159195,
+    159234
    ]
   },
   {
@@ -63956,8 +63959,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158959,
-    159096
+    159172,
+    159252
    ]
   },
   {
@@ -64118,11 +64121,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158960,
-    158977,
-    159105,
-    159106,
-    159107
+    159173,
+    159190,
+    159261,
+    159262,
+    159263
    ]
   },
   {
@@ -64916,10 +64919,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158937,
-    158944,
-    159023,
-    159024
+    159150,
+    159157,
+    159215,
+    159216
    ]
   },
   {
@@ -65839,12 +65842,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158974,
-    158995,
-    159099,
-    159100,
-    159101,
-    159102
+    159187,
+    159205,
+    159255,
+    159256,
+    159257,
+    159258
    ]
   },
   {
@@ -70273,9 +70276,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158938,
-    158939,
-    158967
+    159151,
+    159152,
+    159180
    ]
   },
   {
@@ -70313,11 +70316,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158949,
-    158968,
-    158969,
-    158984,
-    159074
+    159162,
+    159181,
+    159182,
+    159194,
+    159229
    ]
   },
   {
@@ -70354,10 +70357,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158935,
-    158940,
-    159086,
-    159087
+    159148,
+    159153,
+    159242,
+    159243
    ]
   },
   {
@@ -72511,11 +72514,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158936,
-    158997,
-    158998,
-    158999,
-    159108
+    159149,
+    159207,
+    159208,
+    159209,
+    159264
    ]
   },
   {
@@ -75712,12 +75715,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158941,
-    158971,
-    158990,
-    158991,
-    159088,
-    159089
+    159154,
+    159184,
+    159200,
+    159201,
+    159244,
+    159245
    ]
   },
   {
@@ -75755,11 +75758,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158942,
-    158957,
-    158972,
-    159090,
-    159091
+    159155,
+    159170,
+    159185,
+    159246,
+    159247
    ]
   },
   {
@@ -75799,13 +75802,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158958,
-    158973,
-    158992,
-    158993,
-    159092,
-    159093,
-    159094
+    159171,
+    159186,
+    159202,
+    159203,
+    159248,
+    159249,
+    159250
    ]
   },
   {
@@ -83736,12 +83739,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158945,
-    158962,
-    158963,
-    158964,
-    159026,
-    159027
+    159158,
+    159175,
+    159176,
+    159177,
+    159218,
+    159219
    ]
   },
   {
@@ -83907,11 +83910,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158947,
-    158948,
-    158966,
-    159072,
-    159073
+    159160,
+    159161,
+    159179,
+    159227,
+    159228
    ]
   },
   {
@@ -83947,9 +83950,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158950,
-    159075,
-    159076
+    159163,
+    159230,
+    159231
    ]
   },
   {
@@ -83988,12 +83991,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158955,
-    158956,
-    158987,
-    158988,
-    158989,
-    159085
+    159168,
+    159169,
+    159197,
+    159198,
+    159199,
+    159241
    ]
   },
   {
@@ -116864,23 +116867,28 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:300"
+    "ei:300",
+    "ie:1202"
    ],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1999,
    "lastYear": 2011,
    "bodies": [
     "dail-eireann",
-    "ireland-local"
+    "ireland-local",
+    "seanad-eireann"
    ],
    "parties": [
     "Fianna Fáil"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:300)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    158210
+   ]
   },
   {
    "id": "p101993",
@@ -121583,10 +121591,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159019,
-    159020,
-    159021,
-    159022
+    159211,
+    159212,
+    159213,
+    159214
    ]
   },
   {
@@ -121621,8 +121629,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158982,
-    159025
+    159192,
+    159217
    ]
   },
   {
@@ -126915,10 +126923,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159081,
-    159082,
-    159083,
-    159084
+    159236,
+    159237,
+    159238,
+    159239
    ]
   },
   {
@@ -147250,7 +147258,7 @@
    "provenance": "keyed on the source's own candidate id (ei:3485)",
    "provisional": true,
    "mergedFrom": [
-    158961
+    159174
    ]
   },
   {
@@ -159490,22 +159498,27 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:2765"
+    "ei:2765",
+    "ie:1060"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1965,
    "lastYear": 1982,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "ireland-local"
    ],
    "parties": [
     "Irish Labour"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:2765)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    155119
+   ]
   },
   {
    "id": "p103565",
@@ -167267,7 +167280,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159046
+    159222
    ]
   },
   {
@@ -170842,7 +170855,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159029
+    159221
    ]
   },
   {
@@ -179959,24 +179972,30 @@
    ],
    "sourceIds": [
     "15916323",
-    "5746418"
+    "5746418",
+    "Stephen McGonagle|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1949,
    "lastYear": 1962,
    "bodies": [
+    "londonderry-county-borough-council",
     "parliament-of-northern-ireland"
    ],
    "parties": [
-    "Independent Labour"
+    "Independent Labour",
+    "Irish Labour"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    142366
+   ]
   },
   {
    "id": "p104505",
@@ -207623,8 +207642,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159070,
-    159071
+    159225,
+    159226
    ]
   },
   {
@@ -207658,7 +207677,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159080
+    159235
    ]
   },
   {
@@ -270317,7 +270336,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159104
+    159260
    ]
   },
   {
@@ -285647,22 +285666,27 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:10003"
+    "ei:10003",
+    "ie:1602"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 2014,
-   "lastYear": 2014,
+   "lastYear": 2016,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "seanad-eireann"
    ],
    "parties": [
     "Fine Gael"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:10003)",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    158229
+   ]
   },
   {
    "id": "p109124",
@@ -288605,8 +288629,8 @@
     "ie:11542"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1967,
    "lastYear": 1991,
    "bodies": [
@@ -288618,7 +288642,13 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:11542)",
-   "provisional": true
+   "provisional": true,
+   "nameKeyedRows": [
+    "farrell mcelgunn"
+   ],
+   "mergedFrom": [
+    138386
+   ]
   },
   {
    "id": "p109229",
@@ -328433,7 +328463,7 @@
    "provenance": "keyed on the source's own candidate id (ie:6276)",
    "provisional": true,
    "mergedFrom": [
-    158981
+    159191
    ]
   },
   {
@@ -329669,29 +329699,48 @@
    "personId": 110709,
    "displayName": "Sir Thomas Esmonde",
    "aliases": [
-    "Sir Thomas Esmonde"
+    "Sir Thomas Henry Grattan Esmonde",
+    "Sir Thomas Esmonde",
+    "Thomas Esmonde"
    ],
    "matchKeys": [
-    "sir thomas esmonde"
+    "sir thomas esmonde",
+    "sir thomas henry grattan esmonde",
+    "thomas esmonde"
    ],
-   "sourceIds": [],
+   "sourceIds": [
+    "Sir Thomas Henry Grattan Esmonde|Irish National Federation",
+    "Sir Thomas Henry Grattan Esmonde|Irish Parliamentary",
+    "Thomas Esmonde|Irish National Federation",
+    "Thomas Esmonde|Irish Parliamentary"
+   ],
    "sourcePersonIds": [
-    "ei:1095"
+    "ei:1095",
+    "wikipedia:Sir Thomas Esmonde, 11th Baronet"
    ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1918,
+   "officialPersonIds": [
+    "wikidata:Q7529116"
+   ],
+   "candidacies": 10,
+   "contests": 9,
+   "firstYear": 1885,
    "lastYear": 1918,
    "bodies": [
-    "dail-eireann"
+    "dail-eireann",
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
+    "Irish National Federation",
+    "Irish Parliamentary",
     "Nationalist Party"
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:1095)",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true,
+   "mergedFrom": [
+    122800
+   ]
   },
   {
    "id": "p110710",
@@ -345687,12 +345736,13 @@
    ],
    "sourceIds": [],
    "sourcePersonIds": [
-    "ei:3398"
+    "ei:3398",
+    "ie:15342"
    ],
    "officialPersonIds": [],
-   "candidacies": 10,
-   "contests": 10,
-   "firstYear": 1981,
+   "candidacies": 12,
+   "contests": 12,
+   "firstYear": 1979,
    "lastYear": 2014,
    "bodies": [
     "dail-eireann",
@@ -345706,6 +345756,9 @@
    "provisional": true,
    "nameKeyedRows": [
     "tom berkery"
+   ],
+   "mergedFrom": [
+    130921
    ]
   },
   {
@@ -363250,7 +363303,7 @@
    "provisional": true,
    "nameVariants": true,
    "mergedFrom": [
-    158943
+    159156
    ]
   },
   {
@@ -511729,7 +511782,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    158951
+    159164
    ]
   },
   {
@@ -512868,46 +512921,6 @@
    "provisional": true
   },
   {
-   "id": "p122800",
-   "personId": 122800,
-   "displayName": "Sir Thomas Henry Grattan Esmonde",
-   "aliases": [
-    "Sir Thomas Henry Grattan Esmonde",
-    "Thomas Esmonde"
-   ],
-   "matchKeys": [
-    "sir thomas henry grattan esmonde",
-    "thomas esmonde"
-   ],
-   "sourceIds": [
-    "Sir Thomas Henry Grattan Esmonde|Irish National Federation",
-    "Sir Thomas Henry Grattan Esmonde|Irish Parliamentary",
-    "Thomas Esmonde|Irish National Federation",
-    "Thomas Esmonde|Irish Parliamentary"
-   ],
-   "sourcePersonIds": [
-    "wikipedia:Sir Thomas Esmonde, 11th Baronet"
-   ],
-   "officialPersonIds": [
-    "wikidata:Q7529116"
-   ],
-   "candidacies": 9,
-   "contests": 8,
-   "firstYear": 1885,
-   "lastYear": 1910,
-   "bodies": [
-    "house-of-commons-of-the-united-kingdom"
-   ],
-   "parties": [
-    "Irish National Federation",
-    "Irish Parliamentary"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (wikipedia:Sir Thomas Esmonde, 11th Baronet)",
-   "provisional": true,
-   "nameVariants": true
-  },
-  {
    "id": "p122801",
    "personId": 122801,
    "displayName": "Thomas Lorimer Corbett",
@@ -513122,7 +513135,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159018
+    159210
    ]
   },
   {
@@ -515285,7 +515298,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    158983
+    159193
    ]
   },
   {
@@ -552585,9 +552598,9 @@
     "wikipedia:Maurice FitzGerald, 18th Knight of Kerry"
    ],
    "officialPersonIds": [],
-   "candidacies": 10,
-   "contests": 9,
-   "firstYear": 1802,
+   "candidacies": 11,
+   "contests": 10,
+   "firstYear": 1801,
    "lastYear": 1835,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -559470,9 +559483,9 @@
     "wikipedia:Sir Marcus Somerville, 4th Baronet"
    ],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
-   "firstYear": 1802,
+   "candidacies": 10,
+   "contests": 10,
+   "firstYear": 1801,
    "lastYear": 1831,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -559688,9 +559701,9 @@
     "wikipedia:Nathaniel Sneyd"
    ],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 6,
-   "firstYear": 1802,
+   "candidacies": 8,
+   "contests": 7,
+   "firstYear": 1801,
    "lastYear": 1820,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -559785,9 +559798,9 @@
     "wikipedia:Charles O'Hara (politician)"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1802,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1801,
    "lastYear": 1820,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -559846,9 +559859,9 @@
     "wikipedia:Arthur French (politician)"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1802,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1801,
    "lastYear": 1820,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -559945,9 +559958,9 @@
     "wikipedia:Hans Hamilton"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1802,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1801,
    "lastYear": 1820,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -559974,9 +559987,9 @@
     "wikipedia:James Butler, 1st Marquess of Ormonde"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1802,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1801,
    "lastYear": 1820,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -560038,9 +560051,9 @@
     "wikipedia:John Foster, 1st Baron Oriel"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1802,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1801,
    "lastYear": 1820,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -560231,9 +560244,9 @@
     "wikipedia:Denis Browne (politician)"
    ],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1802,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1801,
    "lastYear": 1820,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -560469,9 +560482,9 @@
     "wikipedia:Richard Martin (Irish politician)"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1802,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1801,
    "lastYear": 1826,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -560593,9 +560606,9 @@
     "wikipedia:Sir Thomas Fetherston, 2nd Baronet"
    ],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1802,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1801,
    "lastYear": 1818,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -560722,9 +560735,9 @@
     "hop:1790-1820/member/longfield-mountifort-1746-1819"
    ],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1802,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1801,
    "lastYear": 1818,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -560863,9 +560876,9 @@
     "hop:1790-1820/member/hume-william-hoare-1772-1815"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1802,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1801,
    "lastYear": 1812,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -560923,9 +560936,9 @@
     "wikipedia:Charles Vane, 3rd Marquess of Londonderry"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1802,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1801,
    "lastYear": 1812,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -560990,9 +561003,9 @@
    "officialPersonIds": [
     "wikidata:Q5257121"
    ],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1802,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1801,
    "lastYear": 1812,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -561019,9 +561032,9 @@
     "wikipedia:Edmond Alexander MacNaghten"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1802,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1801,
    "lastYear": 1826,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -561146,9 +561159,9 @@
     "wikipedia:George Knox (MP, died 1827)"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 2,
-   "firstYear": 1802,
+   "candidacies": 5,
+   "contests": 3,
+   "firstYear": 1801,
    "lastYear": 1806,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -561272,9 +561285,9 @@
     "wikipedia:Henry Boyle, 3rd Earl of Shannon"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 5,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -561363,9 +561376,9 @@
     "wikipedia:James Crosbie (Kerry politician)"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1802,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1801,
    "lastYear": 1826,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -561421,9 +561434,9 @@
     "wikipedia:John Claudius Beresford"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1802,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -561572,9 +561585,9 @@
     "wikipedia:Robert Stewart, Viscount Castlereagh"
    ],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1802,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1801,
    "lastYear": 1820,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -561604,9 +561617,9 @@
     "wikipedia:Sir Edward May, 2nd Baronet"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1802,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1801,
    "lastYear": 1812,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -561723,9 +561736,9 @@
     "wikipedia:William Odell (MP)"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1802,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1801,
    "lastYear": 1812,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -561951,9 +561964,9 @@
     "hop:1790-1820/member/stewart-james-1742-1821"
    ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -562153,9 +562166,9 @@
     "hop:1790-1820/member/smyth-william-1744-1827"
    ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -562455,9 +562468,9 @@
     "wikipedia:Francis Nathaniel Burton"
    ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -562484,9 +562497,9 @@
     "wikipedia:Francis Savage"
    ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -562734,9 +562747,9 @@
     "wikipedia:Patrick Duigenan"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1802,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1801,
    "lastYear": 1812,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -562764,9 +562777,9 @@
     "wikipedia:Richard Dawson (Irish politician, born 1762)"
    ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -562822,9 +562835,9 @@
     "wikipedia:Sir Frederick Falkiner, 1st Baronet"
    ],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1802,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1801,
    "lastYear": 1812,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -562882,9 +562895,9 @@
     "wikipedia:Sir John Keane, 1st Baronet"
    ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1812,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -563002,9 +563015,9 @@
     "wikipedia:Walter Jones (Irish politician)"
    ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -563201,16 +563214,16 @@
     "hop:1790-1820/member/lee-edward-1761-1822"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1802,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1801,
    "lastYear": 1806,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/lee-edward-1761-1822)",
    "provisional": true
   },
   {
@@ -563340,9 +563353,9 @@
     "wikipedia:John Bagwell (died 1816)"
    ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1812,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -563442,7 +563455,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    158986
+    159196
    ]
   },
   {
@@ -563982,9 +563995,9 @@
     "wikipedia:Abel Ram (died 1830)"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1802,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -564045,9 +564058,9 @@
     "wikipedia:Archibald Acheson, 2nd Earl of Gosford"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1802,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1801,
    "lastYear": 1806,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -564416,9 +564429,9 @@
     "wikipedia:Gustavus Hume Rochfort"
    ],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1802,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1801,
    "lastYear": 1820,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -564445,9 +564458,9 @@
     "wikipedia:Henry Vaughan Brooke"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1806,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -564690,9 +564703,9 @@
     "wikipedia:John Beresford (Waterford MP)"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 3,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -564993,9 +565006,9 @@
    "officialPersonIds": [
     "wikidata:Q16741860"
    ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1826,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -565388,9 +565401,9 @@
     "wikipedia:William Congreve Alcock"
    ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1802,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1807,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -566341,9 +566354,9 @@
    "officialPersonIds": [
     "wikidata:Q25863318"
    ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1821,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1821,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -568299,8 +568312,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1801,
    "lastYear": 1801,
    "bodies": [
@@ -568353,9 +568366,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -568407,9 +568420,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -568740,9 +568753,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -569294,9 +569307,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -569600,9 +569613,9 @@
     "wikipedia:Arthur Gore, 3rd Earl of Arran"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -569658,9 +569671,9 @@
     "wikipedia:Broderick Chinnery"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -569805,9 +569818,9 @@
     "wikipedia:Edward Hardman (MP)"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -569921,9 +569934,9 @@
     "wikipedia:Francis Mathew, 2nd Earl Landaff"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -569950,9 +569963,9 @@
     "wikipedia:Francis Saunderson"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -570398,9 +570411,9 @@
     "wikipedia:John Cole, 2nd Earl of Enniskillen"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -570543,9 +570556,9 @@
     "wikipedia:John Loftus, 2nd Marquess of Ely"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -570659,9 +570672,9 @@
     "wikipedia:Joshua Edward Cooper"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -570864,9 +570877,9 @@
     "wikipedia:Nathaniel Clements, 2nd Earl of Leitrim"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -571069,9 +571082,9 @@
     "wikipedia:Richard Trench, 2nd Earl of Clancarty"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -571243,9 +571256,9 @@
     "wikipedia:Robert Uniacke Fitzgerald"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -572068,9 +572081,9 @@
     "wikipedia:William Fortescue, 2nd Viscount Clermont"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -572155,9 +572168,9 @@
     "wikipedia:William Handcock, 1st Viscount Castlemaine"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1802,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1801,
    "lastYear": 1803,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -572302,9 +572315,9 @@
     "wikipedia:William Ponsonby, 1st Baron Ponsonby"
    ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1802,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1801,
    "lastYear": 1802,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -572456,9 +572469,9 @@
     "hop:1790-1820/member/power-richard-i-1747-1814"
    ],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1806,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1801,
    "lastYear": 1812,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -572914,9 +572927,9 @@
     "wikipedia:Mervyn Archdall (British Army officer, born 1763)"
    ],
    "officialPersonIds": [],
-   "candidacies": 10,
-   "contests": 10,
-   "firstYear": 1802,
+   "candidacies": 11,
+   "contests": 11,
+   "firstYear": 1801,
    "lastYear": 1832,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -573651,9 +573664,9 @@
     "wikipedia:Lawrence Parsons, 2nd Earl of Rosse"
    ],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1802,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1801,
    "lastYear": 1806,
    "bodies": [
     "house-of-commons-of-the-united-kingdom"
@@ -578045,7 +578058,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    159120
+    159265
    ]
   },
   {
@@ -579571,11 +579584,8 @@
     "Fianna Fáil"
    ],
    "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ei:481)",
-   "provisional": true,
-   "mergedFrom": [
-    158558
-   ]
+   "provenance": "keyed on the source's own candidate id (ie:49)",
+   "provisional": true
   },
   {
    "id": "p127546",
@@ -628334,35 +628344,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:15340)",
-   "provisional": true
-  },
-  {
-   "id": "p130921",
-   "personId": 130921,
-   "displayName": "Tom Berkery",
-   "aliases": [
-    "Tom Berkery"
-   ],
-   "matchKeys": [
-    "tom berkery"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:15342"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1979,
-   "lastYear": 1985,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fine Gael"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:15342)",
    "provisional": true
   },
   {
@@ -777746,33 +777727,6 @@
    "provisional": true
   },
   {
-   "id": "p138386",
-   "personId": 138386,
-   "displayName": "Farrell McElgunn",
-   "aliases": [
-    "Farrell McElgunn"
-   ],
-   "matchKeys": [
-    "farrell mcelgunn"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1979,
-   "lastYear": 1979,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fianna Fáil"
-   ],
-   "keyedBy": "name",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p138388",
    "personId": 138388,
    "displayName": "Frances Quigley",
@@ -778836,18 +778790,22 @@
    "personId": 138433,
    "displayName": "James Larkin",
    "aliases": [
-    "James Larkin"
+    "James Larkin",
+    "Jim Larkin"
    ],
    "matchKeys": [
-    "james larkin"
+    "james larkin",
+    "jim larkin"
    ],
    "sourceIds": [],
-   "sourcePersonIds": [],
+   "sourcePersonIds": [
+    "ie:7816"
+   ],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1985,
-   "lastYear": 1985,
+   "lastYear": 1991,
    "bodies": [
     "ireland-local"
    ],
@@ -778856,7 +778814,13 @@
    ],
    "keyedBy": "name",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameKeyedRows": [
+    "james larkin"
+   ],
+   "mergedFrom": [
+    155901
+   ]
   },
   {
    "id": "p138434",
@@ -859201,6 +859165,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "era": [
+    1928,
+    1928
+   ],
+   "eraReason": "rows of a name or id joined to a person who, by the dates History of Parliament, Wikidata or a reference work gives, was under 18 or dead at the time",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -879055,36 +879024,6 @@
    ],
    "parties": [
     "Nationalist Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p142366",
-   "personId": 142366,
-   "displayName": "Stephen McGonagle",
-   "aliases": [
-    "Stephen McGonagle"
-   ],
-   "matchKeys": [
-    "stephen mcgonagle"
-   ],
-   "sourceIds": [
-    "Stephen McGonagle|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
-   "lastYear": 1949,
-   "bodies": [
-    "londonderry-county-borough-council"
-   ],
-   "parties": [
-    "Irish Labour"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -1083954,35 +1083893,6 @@
    "provisional": true
   },
   {
-   "id": "p155119",
-   "personId": 155119,
-   "displayName": "Paddy Dunne",
-   "aliases": [
-    "Paddy Dunne"
-   ],
-   "matchKeys": [
-    "paddy dunne"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:1060"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
-   "lastYear": 1967,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Irish Labour"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:1060)",
-   "provisional": true
-  },
-  {
    "id": "p155120",
    "personId": 155120,
    "displayName": "Charles Weld",
@@ -1100417,36 +1100327,6 @@
    "provisional": true
   },
   {
-   "id": "p155694",
-   "personId": 155694,
-   "displayName": "John Brennan",
-   "aliases": [
-    "John Brennan"
-   ],
-   "matchKeys": [
-    "john brennan"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:21998"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1942,
-   "lastYear": 1950,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Fianna Fáil"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:21998)",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p155695",
    "personId": 155695,
    "displayName": "John Murphy",
@@ -1105720,35 +1105600,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:7814)",
-   "provisional": true
-  },
-  {
-   "id": "p155901",
-   "personId": 155901,
-   "displayName": "Jim Larkin",
-   "aliases": [
-    "Jim Larkin"
-   ],
-   "matchKeys": [
-    "jim larkin"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:7816"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1991,
-   "lastYear": 1991,
-   "bodies": [
-    "ireland-local"
-   ],
-   "parties": [
-    "Independent Fianna Fáil"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:7816)",
    "provisional": true
   },
   {
@@ -1137429,35 +1137280,6 @@
    "provisional": true
   },
   {
-   "id": "p158210",
-   "personId": 158210,
-   "displayName": "Maria Corrigan",
-   "aliases": [
-    "Maria Corrigan"
-   ],
-   "matchKeys": [
-    "maria corrigan"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:1202"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2007,
-   "lastYear": 2007,
-   "bodies": [
-    "seanad-eireann"
-   ],
-   "parties": [
-    "Fianna Fáil"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:1202)",
-   "provisional": true
-  },
-  {
    "id": "p158211",
    "personId": 158211,
    "displayName": "Richard Butler",
@@ -1137920,35 +1137742,6 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:15897)",
-   "provisional": true
-  },
-  {
-   "id": "p158229",
-   "personId": 158229,
-   "displayName": "Eamonn Coghlan",
-   "aliases": [
-    "Eamonn Coghlan"
-   ],
-   "matchKeys": [
-    "eamonn coghlan"
-   ],
-   "sourceIds": [],
-   "sourcePersonIds": [
-    "ie:1602"
-   ],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2016,
-   "lastYear": 2016,
-   "bodies": [
-    "seanad-eireann"
-   ],
-   "parties": [
-    "Fine Gael"
-   ],
-   "keyedBy": "src",
-   "provenance": "keyed on the source's own candidate id (ie:1602)",
    "provisional": true
   },
   {
@@ -1151016,9 +1150809,6 @@
    "provisional": true,
    "nameKeyedRows": [
     "george nesbitt"
-   ],
-   "mergedFrom": [
-    159119
    ]
   },
   {
@@ -1152474,6 +1152264,935 @@
    ],
    "keyedBy": "name",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159240",
+   "personId": 159240,
+   "displayName": "John Moore",
+   "aliases": [
+    "John Moore"
+   ],
+   "matchKeys": [
+    "john moore"
+   ],
+   "sourceIds": [
+    "John Moore|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/moore-john-1756-1834"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p159266",
+   "personId": 159266,
+   "displayName": "Hon. John Knox",
+   "aliases": [
+    "Hon. John Knox"
+   ],
+   "matchKeys": [
+    "hon john knox"
+   ],
+   "sourceIds": [
+    "Hon. John Knox|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/constituencies/dungannon/1801"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/constituencies/dungannon/1801)",
+   "provisional": true
+  },
+  {
+   "id": "p159267",
+   "personId": 159267,
+   "displayName": "Frederick Trench",
+   "aliases": [
+    "Frederick Trench"
+   ],
+   "matchKeys": [
+    "frederick trench"
+   ],
+   "sourceIds": [
+    "Frederick Trench|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/constituencies/portarlington/1801"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/constituencies/portarlington/1801)",
+   "provisional": true
+  },
+  {
+   "id": "p159268",
+   "personId": 159268,
+   "displayName": "Henry Alexander",
+   "aliases": [
+    "Henry Alexander"
+   ],
+   "matchKeys": [
+    "henry alexander"
+   ],
+   "sourceIds": [
+    "Henry Alexander|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/alexander-henry-1763-1818"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/alexander-henry-1763-1818)",
+   "provisional": true
+  },
+  {
+   "id": "p159269",
+   "personId": 159269,
+   "displayName": "Richard Bagwell",
+   "aliases": [
+    "Richard Bagwell"
+   ],
+   "matchKeys": [
+    "richard bagwell"
+   ],
+   "sourceIds": [
+    "Richard Bagwell|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/bagwell-richard-1778-1826"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/bagwell-richard-1778-1826)",
+   "provisional": true
+  },
+  {
+   "id": "p159270",
+   "personId": 159270,
+   "displayName": "Hon. Arthur Cole Hamilton",
+   "aliases": [
+    "Hon. Arthur Cole Hamilton"
+   ],
+   "matchKeys": [
+    "hon arthur cole hamilton"
+   ],
+   "sourceIds": [
+    "Hon. Arthur Cole Hamilton|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/cole-hamilton-hon-arthur-1750-1810"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/cole-hamilton-hon-arthur-1750-1810)",
+   "provisional": true
+  },
+  {
+   "id": "p159271",
+   "personId": 159271,
+   "displayName": "Charles Henry Coote",
+   "aliases": [
+    "Charles Henry Coote"
+   ],
+   "matchKeys": [
+    "charles henry coote"
+   ],
+   "sourceIds": [
+    "Charles Henry Coote|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/coote-charles-henry-1754-1823"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/coote-charles-henry-1754-1823)",
+   "provisional": true
+  },
+  {
+   "id": "p159272",
+   "personId": 159272,
+   "displayName": "Robert Camden Cope",
+   "aliases": [
+    "Robert Camden Cope"
+   ],
+   "matchKeys": [
+    "robert camden cope"
+   ],
+   "sourceIds": [
+    "Robert Camden Cope|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/cope-robert-camden-1771-1818"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/cope-robert-camden-1771-1818)",
+   "provisional": true
+  },
+  {
+   "id": "p159273",
+   "personId": 159273,
+   "displayName": "Noah Dalway",
+   "aliases": [
+    "Noah Dalway"
+   ],
+   "matchKeys": [
+    "noah dalway"
+   ],
+   "sourceIds": [
+    "Noah Dalway|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/dalway-noah-1746-1820"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/dalway-noah-1746-1820)",
+   "provisional": true
+  },
+  {
+   "id": "p159274",
+   "personId": 159274,
+   "displayName": "St George Daly",
+   "aliases": [
+    "St George Daly"
+   ],
+   "matchKeys": [
+    "st george daly"
+   ],
+   "sourceIds": [
+    "St George Daly|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/daly-st-george-1758-1829"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/daly-st-george-1758-1829)",
+   "provisional": true
+  },
+  {
+   "id": "p159275",
+   "personId": 159275,
+   "displayName": "Sir William Gleadowe Newcomen, bt",
+   "aliases": [
+    "Sir William Gleadowe Newcomen, bt"
+   ],
+   "matchKeys": [
+    "sir william gleadowe newcomen bt"
+   ],
+   "sourceIds": [
+    "Sir William Gleadowe Newcomen, bt|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/gleadowe-newcomen-sir-william-1740-1807"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/gleadowe-newcomen-sir-william-1740-1807)",
+   "provisional": true
+  },
+  {
+   "id": "p159276",
+   "personId": 159276,
+   "displayName": "Hamilton Gorges",
+   "aliases": [
+    "Hamilton Gorges"
+   ],
+   "matchKeys": [
+    "hamilton gorges"
+   ],
+   "sourceIds": [
+    "Hamilton Gorges|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/gorges-hamilton-1739-1802"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/gorges-hamilton-1739-1802)",
+   "provisional": true
+  },
+  {
+   "id": "p159277",
+   "personId": 159277,
+   "displayName": "Henry Deane Grady",
+   "aliases": [
+    "Henry Deane Grady"
+   ],
+   "matchKeys": [
+    "henry deane grady"
+   ],
+   "sourceIds": [
+    "Henry Deane Grady|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/grady-henry-deane-1764-1847"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/grady-henry-deane-1764-1847)",
+   "provisional": true
+  },
+  {
+   "id": "p159278",
+   "personId": 159278,
+   "displayName": "George Hatton",
+   "aliases": [
+    "George Hatton"
+   ],
+   "matchKeys": [
+    "george hatton"
+   ],
+   "sourceIds": [
+    "George Hatton|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/hatton-george-1761-1831"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/hatton-george-1761-1831)",
+   "provisional": true
+  },
+  {
+   "id": "p159279",
+   "personId": 159279,
+   "displayName": "Hon. John Hely-Hutchinson",
+   "aliases": [
+    "Hon. John Hely-Hutchinson"
+   ],
+   "matchKeys": [
+    "hon john hely hutchinson"
+   ],
+   "sourceIds": [
+    "Hon. John Hely-Hutchinson|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/hely-hutchinson-hon-john-1757-1832"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/hely-hutchinson-hon-john-1757-1832)",
+   "provisional": true
+  },
+  {
+   "id": "p159280",
+   "personId": 159280,
+   "displayName": "George Jackson",
+   "aliases": [
+    "George Jackson"
+   ],
+   "matchKeys": [
+    "george jackson"
+   ],
+   "sourceIds": [
+    "George Jackson|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/jackson-george-1761-1805"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/jackson-george-1761-1805)",
+   "provisional": true
+  },
+  {
+   "id": "p159281",
+   "personId": 159281,
+   "displayName": "Maurice Bagenal St Leger Keatinge",
+   "aliases": [
+    "Maurice Bagenal St Leger Keatinge"
+   ],
+   "matchKeys": [
+    "maurice bagenal st leger keatinge"
+   ],
+   "sourceIds": [
+    "Maurice Bagenal St Leger Keatinge|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/keatinge-maurice-bagenal-st-leger-1761-1835"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/keatinge-maurice-bagenal-st-leger-1761-1835)",
+   "provisional": true
+  },
+  {
+   "id": "p159282",
+   "personId": 159282,
+   "displayName": "John Latouche",
+   "aliases": [
+    "John Latouche"
+   ],
+   "matchKeys": [
+    "john latouche"
+   ],
+   "sourceIds": [
+    "John Latouche|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/latouche-john-i-1732-1810"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/latouche-john-i-1732-1810)",
+   "provisional": true
+  },
+  {
+   "id": "p159283",
+   "personId": 159283,
+   "displayName": "Robert Leigh",
+   "aliases": [
+    "Robert Leigh"
+   ],
+   "matchKeys": [
+    "robert leigh"
+   ],
+   "sourceIds": [
+    "Robert Leigh|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/leigh-robert-1729-1803"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/leigh-robert-1729-1803)",
+   "provisional": true
+  },
+  {
+   "id": "p159284",
+   "personId": 159284,
+   "displayName": "John Longfield",
+   "aliases": [
+    "John Longfield"
+   ],
+   "matchKeys": [
+    "john longfield"
+   ],
+   "sourceIds": [
+    "John Longfield|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/longfield-john-1741-1815"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/longfield-john-1741-1815)",
+   "provisional": true
+  },
+  {
+   "id": "p159285",
+   "personId": 159285,
+   "displayName": "Somerset Lowry Corry, Viscount Corry",
+   "aliases": [
+    "Somerset Lowry Corry, Viscount Corry"
+   ],
+   "matchKeys": [
+    "somerset lowry corry viscount corry"
+   ],
+   "sourceIds": [
+    "Somerset Lowry Corry, Viscount Corry|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/lowry-corry-somerset-1774-1841"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/lowry-corry-somerset-1774-1841)",
+   "provisional": true
+  },
+  {
+   "id": "p159286",
+   "personId": 159286,
+   "displayName": "Hon. Thomas Mahon",
+   "aliases": [
+    "Hon. Thomas Mahon"
+   ],
+   "matchKeys": [
+    "hon thomas mahon"
+   ],
+   "sourceIds": [
+    "Hon. Thomas Mahon|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/mahon-hon-thomas-1766-1835"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/mahon-hon-thomas-1766-1835)",
+   "provisional": true
+  },
+  {
+   "id": "p159287",
+   "personId": 159287,
+   "displayName": "Hugh Dillon Massey",
+   "aliases": [
+    "Hugh Dillon Massey"
+   ],
+   "matchKeys": [
+    "hugh dillon massey"
+   ],
+   "sourceIds": [
+    "Hugh Dillon Massey|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/massey-hugh-dillon-1768-1842"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/massey-hugh-dillon-1768-1842)",
+   "provisional": true
+  },
+  {
+   "id": "p159288",
+   "personId": 159288,
+   "displayName": "Arthur Moore",
+   "aliases": [
+    "Arthur Moore"
+   ],
+   "matchKeys": [
+    "arthur moore"
+   ],
+   "sourceIds": [
+    "Arthur Moore|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/moore-arthur-1764-1846"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/moore-arthur-1764-1846)",
+   "provisional": true
+  },
+  {
+   "id": "p159289",
+   "personId": 159289,
+   "displayName": "Sir John Parnell, bt",
+   "aliases": [
+    "Sir John Parnell, bt"
+   ],
+   "matchKeys": [
+    "sir john parnell bt"
+   ],
+   "sourceIds": [
+    "Sir John Parnell, bt|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/parnell-sir-john-1744-1801"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/parnell-sir-john-1744-1801)",
+   "provisional": true
+  },
+  {
+   "id": "p159290",
+   "personId": 159290,
+   "displayName": "Hon. Henry Sadleir Prittie",
+   "aliases": [
+    "Hon. Henry Sadleir Prittie"
+   ],
+   "matchKeys": [
+    "hon henry sadleir prittie"
+   ],
+   "sourceIds": [
+    "Hon. Henry Sadleir Prittie|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/prittie-hon-henry-sadleir-1775-1854"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/prittie-hon-henry-sadleir-1775-1854)",
+   "provisional": true
+  },
+  {
+   "id": "p159291",
+   "personId": 159291,
+   "displayName": "Clotworthy Rowley",
+   "aliases": [
+    "Clotworthy Rowley"
+   ],
+   "matchKeys": [
+    "clotworthy rowley"
+   ],
+   "sourceIds": [
+    "Clotworthy Rowley|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/rowley-clotworthy-1731-1805"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/rowley-clotworthy-1731-1805)",
+   "provisional": true
+  },
+  {
+   "id": "p159292",
+   "personId": 159292,
+   "displayName": "John Staples",
+   "aliases": [
+    "John Staples"
+   ],
+   "matchKeys": [
+    "john staples"
+   ],
+   "sourceIds": [
+    "John Staples|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/staples-john-1736-1820"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/staples-john-1736-1820)",
+   "provisional": true
+  },
+  {
+   "id": "p159293",
+   "personId": 159293,
+   "displayName": "William Talbot",
+   "aliases": [
+    "William Talbot"
+   ],
+   "matchKeys": [
+    "william talbot"
+   ],
+   "sourceIds": [
+    "William Talbot|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/talbot-william-1776-1851"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/talbot-william-1776-1851)",
+   "provisional": true
+  },
+  {
+   "id": "p159294",
+   "personId": 159294,
+   "displayName": "John Ormsby Vandeleur",
+   "aliases": [
+    "John Ormsby Vandeleur"
+   ],
+   "matchKeys": [
+    "john ormsby vandeleur"
+   ],
+   "sourceIds": [
+    "John Ormsby Vandeleur|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/vandeleur-john-ormsby-1765-1828"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/vandeleur-john-ormsby-1765-1828)",
+   "provisional": true
+  },
+  {
+   "id": "p159295",
+   "personId": 159295,
+   "displayName": "John Waller",
+   "aliases": [
+    "John Waller"
+   ],
+   "matchKeys": [
+    "john waller"
+   ],
+   "sourceIds": [
+    "John Waller|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/waller-john-1762-1836"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/waller-john-1762-1836)",
+   "provisional": true
+  },
+  {
+   "id": "p159296",
+   "personId": 159296,
+   "displayName": "Warner William Westenra",
+   "aliases": [
+    "Warner William Westenra"
+   ],
+   "matchKeys": [
+    "warner william westenra"
+   ],
+   "sourceIds": [
+    "Warner William Westenra|"
+   ],
+   "sourcePersonIds": [
+    "hop:1790-1820/member/westenra-warner-william-1765-1842"
+   ],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1801,
+   "lastYear": 1801,
+   "bodies": [
+    "house-of-commons-of-the-united-kingdom"
+   ],
+   "parties": [],
+   "keyedBy": "src",
+   "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/westenra-warner-william-1765-1842)",
    "provisional": true
   },
   {
@@ -1156080,13 +1156799,13 @@
   }
  ],
  "corrections": {
-  "mergedIds": 120,
+  "mergedIds": 126,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 9,
+   "WIKIPEDIA-BIOGRAPHY": 16,
    "IE-EI-CROSSWALK": 3,
    "FORUM-DUPLICATE": 113,
    "LGR-2014": 2,
-   "SAME-SEAT-SEQUENCE": 2,
+   "SAME-SEAT-SEQUENCE": 1,
    "STRAY-INTO-CURATED": 4
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/ingest/persons/merge_person_ids.py for the tests applied."
