@@ -387,6 +387,27 @@ def fingerprint(pair):
     return h.hexdigest()[:16]
 
 
+def sources_missing_here(pair, old, exists=lambda rel: (ROOT / rel).exists()):
+    """True when a pair cannot be recomputed in this checkout because the files it was built
+    from are not held here, so its previous entry and file must be kept as they are.
+
+    The source FlatGeobufs are not tracked: a git worktree or a clean checkout has none of
+    them, every pair then resolves to no sources (or to part of a group map's files), and
+    recomputing would record it as "unavailable" and delete its tracked change file. A pair is
+    kept when some file its previous entry was built from is missing here and the pair now
+    resolves to no file the previous entry did not already list (a map moved to a new file
+    that IS held here is recomputed as before)."""
+    if not old:
+        return False
+    for side in ('fromSources', 'toSources'):
+        before = set(old.get(side) or [])
+        now = {s for s, _ in pair[side]}
+        if now - before:
+            return False
+    recorded = list(old.get('fromSources') or []) + list(old.get('toSources') or [])
+    return any(not exists(rel) for rel in recorded)
+
+
 def round_coords(geom, ndigits=5):
     import shapely
     return shapely.set_precision(geom, 10 ** -ndigits) if not geom.is_empty else geom
@@ -844,10 +865,14 @@ def main():
         except (ValueError, KeyError):
             previous = {}
 
-    entries, todo = {}, []
+    entries, todo, kept = {}, [], []
     for p in pairs:
         sig = fingerprint(p)
         old = previous.get(p['id'])
+        if sources_missing_here(p, old):
+            entries[p['id']] = old
+            kept.append(p['id'])
+            continue
         reusable = (old and old.get('signature') == sig and not args.force
                     and (not old.get('path') or (ROOT / old['path']).exists()))
         if args.only and args.only in p['id']:
@@ -858,7 +883,10 @@ def main():
             todo.append(p)
         p['signature'] = sig
 
-    print(f'{len(pairs)} pairs; {len(todo)} to compute, {len(pairs) - len(todo)} unchanged', flush=True)
+    print(f'{len(pairs)} pairs; {len(todo)} to compute, {len(pairs) - len(todo) - len(kept)} unchanged', flush=True)
+    if kept:
+        print(f'{len(kept)} pair(s) kept as they were: their source files are not held in this checkout'
+              f' (e.g. {kept[0]}); run in the main checkout to recompute them', flush=True)
     by_id = {p['id']: p for p in pairs}
     live = {p['id'] for p in pairs}
 
