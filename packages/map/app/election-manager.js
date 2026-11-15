@@ -125,7 +125,7 @@ import { GroupedYearMethods } from '../src/election/grouped-year-methods.js';
 import { ELECTION_LOAD } from '../src/election/load-state.mjs';
 import { createFlag, createState, defineFlagFields } from '../src/state-helpers.mjs';
 import { installMethods } from '../src/app/install-methods.mjs';
-import { siteNumber } from '../../core/src/format.js';
+import { countNoun, siteNumber } from '../../core/src/format.js';
 import { MAP_COLOURS, VIEWER_COLOURS } from '../src/colours.mjs';
 
 /** @typedef {import('../src/election/election-manager').ElectionManager} ElectionManager */
@@ -421,10 +421,10 @@ export class Test2ElectionManager {
     }
     if (entry.bodyGroup === 'local-government') {
       const total = Number(entry.totalConstituencies ?? constituencies.length);
-      return `${Number.isFinite(total) ? total : 0} DEAs`;
+      return countNoun(Number.isFinite(total) ? total : 0, 'DEA');
     }
     const total = Number(entry.totalConstituencies ?? constituencies.filter((value) => value !== 'Northern Ireland').length);
-    return `${Number.isFinite(total) ? total : 0} constituencies`;
+    return countNoun(Number.isFinite(total) ? total : 0, 'constituency', 'constituencies');
   }
 
   /** keepView: leave the camera where the reader has it (stepping along the timeline);

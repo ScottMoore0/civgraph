@@ -10,6 +10,7 @@
  * sheets these functions make with election-domain's summarizeResult, as it does every contest.
  */
 import colours from '../../registries/src/browser/colours.mjs';
+import { countNoun } from './format.js';
 
 /**
  * One staged area file (data/elections/<dir>/<date>/<area>.json).
@@ -290,17 +291,20 @@ export function areaResultsFirst(modes) {
 }
 
 /**
- * The subtitle of an election counted by area: how many areas, in the registry's plural noun for
- * the counting basis (areaResults.units: "43 constituencies", "32 counties and county boroughs");
- * null when there is no area-results mode or no noun for its basis.
+ * The subtitle of an election counted by area: how many areas, in the registry's noun for the
+ * counting basis (areaResults.units, plural: "43 constituencies", "32 counties and county
+ * boroughs"; areaResults.unit, singular, for one: "1 constituency"); null when there is no
+ * area-results mode or no noun for its basis.
  * @param {Array<Record<string, unknown> | null | undefined> | null | undefined} modes  a bundle's geographyModes
  * @param {Record<string, string> | null | undefined} units  the registry's areaResults.units
+ * @param {Record<string, string> | null | undefined} [unit]  the registry's areaResults.unit
  * @returns {string | null}
  */
-export function areaResultsSubtitle(modes, units) {
+export function areaResultsSubtitle(modes, units, unit) {
   const mode = (modes || []).find((m) => m?.dataKind === 'area-results');
   const total = Number(mode?.totalConstituencies);
-  const noun = typeof mode?.countingBasis === 'string' ? units?.[mode.countingBasis] : undefined;
-  if (!mode || !noun || !Number.isFinite(total) || total < 1) return null;
-  return `${total} ${noun}`;
+  const basis = typeof mode?.countingBasis === 'string' ? mode.countingBasis : undefined;
+  const noun = basis ? units?.[basis] : undefined;
+  if (!mode || !basis || !noun || !Number.isFinite(total) || total < 1) return null;
+  return countNoun(total, unit?.[basis] || noun, noun);
 }

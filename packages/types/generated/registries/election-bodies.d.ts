@@ -131,6 +131,10 @@ export interface Body {
     units?: {
       [key: string]: string;
     };
+    /** The areas' singular noun, by counting basis, for a subtitle counting one ("1 constituency"). */
+    unit?: {
+      [key: string]: string;
+    };
     note: string;
   };
   sources: string[];

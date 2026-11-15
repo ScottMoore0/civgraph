@@ -17,7 +17,7 @@ import { CATALOGUE_HISTORY_ENTRY, CATALOGUE_VIEW, ENTITY_PLACEHOLDER, MOBILE_CAT
 import { createFlag, createState, setHidden } from './state-helpers.mjs';
 import { partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
 import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
-import { siteNumber } from '../../core/src/format.js';
+import { countNoun, siteNumber } from '../../core/src/format.js';
 import { pageType, recordPagePath } from '../../ui/src/page-types.mjs';
 import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
 /** @typedef {import('./ui-controller-types.d.ts').UiCallbacks} UiCallbacks */
@@ -5812,7 +5812,7 @@ class UIController {
                         ? (entry.constituencies || []).join(', ')
                         : ((entry.body === 'European Parliament' && (entry.constituencies || []).filter(c => c !== 'Northern Ireland').length === 0)
                             ? 'Northern Ireland'
-                            : `${(entry.constituencies || []).filter(c => c !== 'Northern Ireland').length} constituencies`));
+                            : countNoun((entry.constituencies || []).filter(c => c !== 'Northern Ireland').length, 'constituency', 'constituencies')));
                     const providerLabel = entry.displayProvider || bodyShort;
                     const placeholderClass = entry.placeholder ? ' class-member--placeholder' : '';
                     const isElectionLoaded = !entry.placeholder && !!this.onCheckElectionLoaded?.(entry.body, entry.date);

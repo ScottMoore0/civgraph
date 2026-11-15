@@ -197,6 +197,12 @@
               "propertyNames": { "$ref": "#/$defs/slug" },
               "additionalProperties": { "type": "string", "minLength": 1 }
             },
+            "unit": {
+              "type": "object",
+              "description": "The areas' singular noun, by counting basis, for a subtitle counting one (\"1 constituency\").",
+              "propertyNames": { "$ref": "#/$defs/slug" },
+              "additionalProperties": { "type": "string", "minLength": 1 }
+            },
             "note": { "type": "string", "minLength": 1 }
           }
         },

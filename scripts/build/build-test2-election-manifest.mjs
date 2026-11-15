@@ -26,6 +26,7 @@ import { labelInterpretationRules } from '../../packages/registries/src/parties.
 import { statesOf } from '../../packages/registries/src/statuses.mjs';
 import { electionBody, geographyRuleFor, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
 import { kindOfContestType } from '../../packages/registries/src/election-types.mjs';
+import { countNoun } from '../../packages/core/src/format.js';
 import { areaCandidateColours, areaCountSheet, areaFeatureNames, areaResultsFirst, areaResultsSubtitle } from '../../packages/core/src/area-results.mjs';
 
 /** @typedef {import('../../packages/core/src/election-domain.mjs').SourceRow} SourceRow */
@@ -1244,7 +1245,8 @@ async function main() {
     /** @type {{ sourceMapId?: string, layerId?: string, labelProperty?: string, stylingModes?: string[] } | null} */
     const areaMode = /** @type {{ sourceMapId?: string, layerId?: string, labelProperty?: string, stylingModes?: string[] } | undefined} */ (geographyModes?.find((mode) => mode.dataKind === 'area-results')) || null;
     if (geographyModes) bundle.geographyModes = geographyModes;
-    const areaSubtitle = areaResultsSubtitle(geographyModes, electionBody(ELECTION_BODIES, entry.bodySlug)?.areaResults?.units);
+    const areaResults = electionBody(ELECTION_BODIES, entry.bodySlug)?.areaResults;
+    const areaSubtitle = areaResultsSubtitle(geographyModes, areaResults?.units, areaResults?.unit);
     if (areaSubtitle) bundle.displaySubtitle = areaSubtitle;
     const bundlePath = path.join(OUT_DIR, `${bundle.key}.json`);
     writeJson(bundlePath, bundle);
@@ -4316,15 +4318,15 @@ function formatElectionSubtitle(entry, results, unmatchedCount, hasMap = true) {
   const prefix = entry.bodySlug === 'ireland-local'
     // Coverage is stated, because ElectionsIreland holds results for only some areas of
     // some years: 2024 has 63 of 166.
-    ? (entry.totalAreas && entry.totalAreas > total ? `results for ${total} of ${entry.totalAreas} LEAs` : `${total} LEAs`)
+    ? (entry.totalAreas && entry.totalAreas > total ? `results for ${total} of ${entry.totalAreas} LEAs` : countNoun(total, 'LEA'))
     : entry.bodyGroup === 'local-government'
       // No list (undefined) is not more than one.
-      ? (/** @type {number} */ (entry.bodies?.length) > 1 ? `${total} DEAs` : entry.body)
+      ? (/** @type {number} */ (entry.bodies?.length) > 1 ? countNoun(total, 'DEA') : entry.body)
       : PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug)
-        ? `${total} ward${total === 1 ? '' : 's'}`
+        ? countNoun(total, 'ward')
         : isPartyInternalBody(entry)
           ? `party ballot${total === 1 ? '' : `s (${total})`}`
-          : `${total} constituencies`;
+          : countNoun(total, 'constituency', 'constituencies');
   // RoI local years with no boundary map (1991-2004) have nothing to match against, so a
   // count of every area as "unmatched" would read as a matching failure.
   if ((entry.bodySlug === 'ireland-local' || PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug) || isPartyInternalBody(entry)) && !hasMap) return prefix;

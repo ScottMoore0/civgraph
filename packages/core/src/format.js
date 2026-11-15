@@ -200,6 +200,19 @@ export function listText(values, max = 4) {
 }
 
 /**
+ * A count with its noun, singular for one: "1 constituency", "43 constituencies". The digits are
+ * written plainly, as stored texts (election subtitles) are; the interface translates the phrase
+ * by its "{n} ..." pattern.
+ * @param {number} n
+ * @param {string} one   the singular noun
+ * @param {string} [many]  the plural noun (default: one + "s")
+ * @returns {string}
+ */
+export function countNoun(n, one, many = `${one}s`) {
+  return `${n} ${n === 1 ? one : many}`;
+}
+
+/**
  * "1983-2016", "1983", or "".
  * @param {string | number | null | undefined} first
  * @param {string | number | null | undefined} last
