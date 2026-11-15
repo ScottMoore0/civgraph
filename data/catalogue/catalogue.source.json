@@ -3367,12 +3367,10 @@
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "ni-250k-geology",
     "gsni-bedrock-geology-lines-250k",
     "gsi-karst-data"
    ],
    "labels": {
-    "ni-250k-geology": "Northern Ireland Geology",
     "gsni-bedrock-geology-lines-250k": "Bedrock Geology 1:250,000 (Lines)",
     "gsi-karst-data": "Karst Data"
    },
@@ -4888,6 +4886,11 @@
    "id": "transport-carriageway-defects-2021",
    "why": "Phelim Birch review #49 (doc of 12 Nov 2026): duplicate of dfi-surface-defects-2021. Compared 15 Nov 2026: the same 123,904 defects, all 11 attributes identical, at the same coordinates (stored as points here, single-point multipoints there). The DfI series map is kept.",
    "to": "dfi-surface-defects-2021"
+  },
+  {
+   "id": "ni-250k-geology",
+   "why": "Duplicate of gsni-bedrock-geology-lines-250k. Compared 15 Nov 2026: the same 1,578 GSNI 1:250,000 bedrock lines (1,504 inferred faults, 69 tectonic slides, 5 thrust faults) in the same order, with the same values in all 10 GSNI attributes (this Peatlands Geoportal copy adds the ArcGIS FID and Shape__Length) and the same vertices to within 0.0000005 degrees (about 5 cm). Its name, \"Northern Ireland Geology (1:250,000)\", read as the whole geology map; the Open Data NI copy, with its downloads and a description, is kept.",
+   "to": "gsni-bedrock-geology-lines-250k"
   }
  ],
  "signedOff": [
