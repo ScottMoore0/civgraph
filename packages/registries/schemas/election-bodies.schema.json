@@ -37,6 +37,20 @@
             }
           }
         },
+        "alsoListed": {
+          "type": "array",
+          "description": "Elections listed under a second body besides the one they are filed under (the record stays one): shown on that body's catalogue shelf and its Elections app page.",
+          "items": {
+            "type": "object",
+            "required": ["election", "body", "why"],
+            "additionalProperties": false,
+            "properties": {
+              "election": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*__\\d{4}-\\d{2}-\\d{2}", "description": "The election's key (<body>__<date>)." },
+              "body": { "$ref": "#/$defs/slug", "description": "The body it is also listed under: a body on a catalogue shelf, not its own." },
+              "why": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
         "partyCharts": {
           "type": "array",
           "minItems": 1,

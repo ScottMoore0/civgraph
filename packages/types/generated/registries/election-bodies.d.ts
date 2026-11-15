@@ -19,6 +19,14 @@ export interface ElectionBodiesRegistry {
       icon: Slug;
       note?: string;
     }[];
+    /** Elections listed under a second body besides the one they are filed under (the record stays one): shown on that body's catalogue shelf and its Elections app page. */
+    alsoListed?: {
+      /** The election's key (<body>__<date>). */
+      election: string;
+      /** The body it is also listed under: a body on a catalogue shelf, not its own. */
+      body: Slug;
+      why: string;
+    }[];
     partyCharts: {
       id: Slug;
       label: string;

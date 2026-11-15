@@ -3,7 +3,7 @@
 // (site/apps/elections/views/home.js): a page reaches a package module through a site/pkg/ shim,
 // which is `export *` and so carries no default export (tests/unit/served-pkg.test.mjs).
 import electionGroups from './election-groups.mjs';
-import { groupLabel } from './body-groups.mjs';
+import { alsoListedUnder, groupLabel } from './body-groups.mjs';
 
 /** The Elections home page's groups, in display order. @type {readonly string[]} */
 export const ELECTIONS_HOME_ORDER = Object.freeze([...electionGroups.electionsHome.order]);
@@ -27,4 +27,14 @@ export const ENTITY_HISTORY_ORDER = Object.freeze([...electionGroups.entityHisto
  */
 export function entityHistoryGroup(electionType) {
   return groupLabel(electionGroups.entityHistory, electionType);
+}
+
+/**
+ * The keys of the elections a body's page lists though they are filed under another body (the
+ * registry's groups.alsoListed): the 1918 election, filed under the Dáil, on the House of Commons'.
+ * @param {string} slug
+ * @returns {string[]}
+ */
+export function alsoListedUnderBody(slug) {
+  return alsoListedUnder(electionGroups.alsoListed, [slug]);
 }

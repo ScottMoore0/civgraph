@@ -152,6 +152,18 @@ test.describe('Civgraph Elections', () => {
     await expect(page.locator('h1')).toHaveText('Not found');
   });
 
+  test('a body page lists the elections the registry also lists under it, naming the body they are filed under', async ({ page }) => {
+    // groups.alsoListed (data/registries/election-bodies.json): the 1918 election, filed under the Dáil.
+    await page.goto('/elections/body/house-of-commons-of-the-united-kingdom/');
+    await expect(page.locator('h1')).toHaveText('House of Commons of the United Kingdom');
+    const also = page.locator('.el-list li', { has: page.locator('a[href="/elections/dail-eireann-1918-12-14/"]') });
+    await expect(also).toHaveCount(1);
+    await expect(also.locator('.el-muted')).toContainText('Dáil Éireann');
+    // On its own body's page it is listed as before, without a body name.
+    await page.goto('/elections/body/dail-eireann/');
+    await expect(page.locator('.el-list li', { has: page.locator('a[href="/elections/dail-eireann-1918-12-14/"]') }).locator('.el-muted')).not.toContainText('Dáil Éireann');
+  });
+
   test('compare: two elections side by side with contest-by-contest changes', async ({ page }) => {
     await page.goto('/elections/compare/?a=northern-ireland-assembly-2017-03-02&b=northern-ireland-assembly-2022-05-05');
     await expect(page.locator('svg.el-arc')).toHaveCount(2);

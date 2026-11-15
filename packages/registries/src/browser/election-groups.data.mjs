@@ -282,5 +282,11 @@ export default {
    "Referendum",
    "Other"
   ]
- }
+ },
+ "alsoListed": [
+  {
+   "election": "dail-eireann__1918-12-14",
+   "body": "house-of-commons-of-the-united-kingdom"
+  }
+ ]
 };

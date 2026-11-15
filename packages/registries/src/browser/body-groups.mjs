@@ -12,6 +12,23 @@
 /** @typedef {{ groups: LabelledGroup[], fallback: string, order: string[] }} LabelledGroups */
 
 /**
+ * An election listed under a second body besides the one it is filed under (the registry's
+ * groups.alsoListed): the record stays one.
+ * @typedef {{ election: string, body: string }} AlsoListed
+ */
+
+/**
+ * The keys of the elections listed under any of these bodies though filed under another, in
+ * registry order.
+ * @param {readonly AlsoListed[] | undefined} alsoListed
+ * @param {readonly string[]} bodies
+ * @returns {string[]}
+ */
+export function alsoListedUnder(alsoListed, bodies) {
+  return [...new Set((alsoListed || []).filter((entry) => bodies.includes(entry.body)).map((entry) => entry.election))];
+}
+
+/**
  * Whether a value meets a group's match.
  * @param {GroupMatch} match
  * @param {string} value

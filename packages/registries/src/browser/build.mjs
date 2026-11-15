@@ -40,9 +40,10 @@
  *                        map series, their sections and filter labels
  *   source-kinds.json    site/browse/browse.js (citationHtml: the label after a contest source's title), at
  *                        /pkg/ through source-kind-labels.mjs (packages/served.json)
- *   election-groups.json packages/map/src/catalogue/view-elections.js (the shelves), packages/map/src/
- *                        entity-detail-data.mjs (election-history groups), site/apps/elections/views/home.js
- *                        (the home page's groups, at /pkg/); placed by body-groups.mjs
+ *   election-groups.json packages/map/src/catalogue/view-elections.js (the shelves, with the elections
+ *                        also listed on them), packages/map/src/entity-detail-data.mjs (election-history
+ *                        groups), site/apps/elections/views/home.js (the home page's groups and the
+ *                        elections also listed on a body's page, at /pkg/); placed by body-groups.mjs
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -141,7 +142,10 @@ export function browserSlices(root = REPO_ROOT) {
     'election-groups.json': {
       shelves: catalogueShelves(electionBodies, (flag) => bodySlugsWithFlag(councils, /** @type {Parameters<typeof bodySlugsWithFlag>[1]} */ (flag))),
       electionsHome: structuredClone(electionBodies.groups.electionsHome),
-      entityHistory: structuredClone(electionBodies.groups.entityHistory)
+      entityHistory: structuredClone(electionBodies.groups.entityHistory),
+      // The elections also listed under a second body (the catalogue shelf and Elections app page of
+      // that body), without the registry's reasons.
+      alsoListed: (electionBodies.groups.alsoListed || []).map(({ election, body }) => ({ election, body }))
     },
     'election-types.json': browserElectionTypes(electionTypes),
     'catalogue-kinds.json': browserCatalogueKinds(loadRegistry('catalogue-kinds', { root })),

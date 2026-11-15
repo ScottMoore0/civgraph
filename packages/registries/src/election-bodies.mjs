@@ -105,7 +105,8 @@ export function byElectionTitleOf(body, date, contests) {
 /**
  * Errors the schema cannot state: a repeated id, two geography rules from one date, a shelf or
  * chart named twice, a body on a shelf that does not exist, a group list whose display order is
- * not its groups and fallback.
+ * not its groups and fallback, an election also listed under its own body, a shelfless body or
+ * the same body twice.
  * @param {ElectionBodiesRegistry} registry
  * @returns {string[]}
  */
@@ -134,6 +135,15 @@ export function checkElectionBodies(registry) {
   }
   for (const shelf of groups.catalogueShelves) {
     for (const id of shelf.bodies) if (groups.catalogueShelves.some((other) => other !== shelf && other.bodies.includes(id))) errors.push(`groups.catalogueShelves: ${id} is on two shelves`);
+  }
+  // An election is also listed under a body other than its own, one that has a shelf, once.
+  const shelved = new Set([...groups.catalogueShelves.flatMap((shelf) => shelf.bodies), ...registry.bodies.filter((body) => body.shelf).map((body) => body.id)]);
+  const listed = new Set();
+  for (const { election, body } of groups.alsoListed || []) {
+    if (election.split('__')[0] === body) errors.push(`groups.alsoListed: ${election} is filed under ${body} already`);
+    if (!shelved.has(body)) errors.push(`groups.alsoListed: ${body} (for ${election}) is on no catalogue shelf`);
+    if (listed.has(`${election} ${body}`)) errors.push(`groups.alsoListed: ${election} is listed under ${body} twice`);
+    listed.add(`${election} ${body}`);
   }
   return errors;
 }

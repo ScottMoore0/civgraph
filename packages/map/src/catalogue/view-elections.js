@@ -11,10 +11,15 @@ import { extrasHtml, aboutHtml } from './view-maps.js';
 import { PeopleSearch } from './search.js';
 import electionBodies from '../../../registries/src/browser/election-bodies.mjs';
 import electionGroups from '../../../registries/src/browser/election-groups.mjs';
+import { alsoListedUnder } from '../../../registries/src/browser/body-groups.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 /** @typedef {import('./index.js').CatalogueNext} CatalogueNext */
 /** @typedef {import('./catalogue-types.d.ts').CatalogueRowElection} CatalogueRowElection */
-/** A shelf of elections (BODY_GROUPS). @typedef {{ id: string, label: string, bodies: string[], icon: string, colour: string }} BodyGroup */
+/**
+ * A shelf of elections (BODY_GROUPS): its bodies, and the elections filed under another body that
+ * are listed on it too (`also`, keys).
+ * @typedef {{ id: string, label: string, bodies: string[], also: string[], icon: string, colour: string }} BodyGroup
+ */
 
 // Browse's slug for an election: its key lower-cased, runs of other characters as '-'
 // (dail-eireann__2024-11-29 -> dail-eireann-2024-11-29). Browse routes live in the hash.
@@ -53,9 +58,10 @@ export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
  * catalogueShelves (data/registries/election-bodies.json groups), each with every body on it: the
  * NI local shelf takes the pre-1973 councils (the councils registry's pre1973Council flag), and a
  * body the registry puts on a shelf joins it (the Mayor of Limerick, beside the Irish local
- * elections of the same day). */
+ * elections of the same day). An election the registry also lists under a body is on that body's
+ * shelf as well as its own (alsoListed: the 1918 election, filed under the Dáil, on Westminster's). */
 export const BODY_GROUPS = electionGroups.shelves.map(({ id, label, bodies, icon }) => ({
-  id, label, bodies: [...bodies], icon, colour: ELECTION_SHELF_COLOURS[/** @type {keyof typeof ELECTION_SHELF_COLOURS} */ (id)],
+  id, label, bodies: [...bodies], also: alsoListedUnder(electionGroups.alsoListed, bodies), icon, colour: ELECTION_SHELF_COLOURS[/** @type {keyof typeof ELECTION_SHELF_COLOURS} */ (id)],
 }));
 /** @param {string} slug */
 export const groupOfBody = (slug) => BODY_GROUPS.find((g) => g.bodies.includes(slug))?.id || '';
@@ -99,11 +105,11 @@ export function resultsHtml(c) {
   return c.electionsFirst ? `${banner}${summary}${body}${extras}` : `${extras}${banner}${summary}${body}`;
 }
 
-/** Elections on their body's shelf, in BODY_GROUPS' order, newest first, as the list and the
- * contents menu both show them. */
-/** @param {CatalogueRowElection[]} list */
-export function shelvesOf(list) {
-  return BODY_GROUPS.map((g) => ({ g, es: list.filter((e) => g.bodies.includes(e.bodySlug)) })).filter((x) => x.es.length);
+/** Elections on their body's shelf, and on any other shelf that also lists them, in BODY_GROUPS'
+ * order, newest first, as the list and the contents menu both show them. */
+/** @param {CatalogueRowElection[]} list @param {readonly BodyGroup[]} [groups] */
+export function shelvesOf(list, groups = BODY_GROUPS) {
+  return groups.map((g) => ({ g, es: list.filter((e) => g.bodies.includes(e.bodySlug) || g.also.includes(e.key)) })).filter((x) => x.es.length);
 }
 
 /** @param {CatalogueNext} c @param {BodyGroup} g @param {CatalogueRowElection[]} es @param {boolean} alone */

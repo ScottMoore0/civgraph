@@ -26,6 +26,10 @@ const loaded = (page) => page.evaluate(() => window.__civgraphTest2.app.getLoade
 const ELECTION_SHELVES = ['dail', 'westminster', 'ni-devolved', 'ni-local', 'irish-local', 'pre-partition-local', 'european', 'referendum', 'presidential'];
 const SHELF_IDS = [...catalogue.shelves.map((s) => s.id), 'environment', ...ELECTION_SHELVES.map((g) => `e-${g}`)];
 const generals = catalogue.elections.filter((e) => e.kind !== 'by-election');
+// An election the election-bodies registry also lists under a second body has a row on that body's
+// shelf too (groups.alsoListed: the 1918 election on the Dáil and Westminster shelves).
+const ALSO_LISTED = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/registries/election-bodies.json'), 'utf8')).groups.alsoListed || [];
+const rowsOf = (list) => list.length + ALSO_LISTED.filter((a) => list.some((e) => e.key === a.election)).length;
 async function open(page, hash = '', { shelves = 'open' } = {}) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
@@ -605,8 +609,23 @@ test('N08 elections: grouped bodies, and where they were held', async ({ page })
   await ni.click();
   await expect(pane(page).locator('.cn-erow')).toHaveCount(generals.filter((e) => e.scope === 'Northern Ireland').length);
   await ni.click();
-  await expect(pane(page).locator('.cn-erow')).toHaveCount(generals.length);
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(rowsOf(generals));
   await expect(pane(page).locator('.cn-jump, .cn-hist')).toHaveCount(0);
+});
+
+test('W16 an election also listed under a second body is on both shelves, one record turned on from either', async ({ page }) => {
+  await open(page, 'cat=elections');
+  const key = 'dail-eireann__1918-12-14';
+  await expect(pane(page).locator(`#cn-shelf-e-dail [data-cn-election="${key}"]`)).toHaveCount(1);
+  const westminster = pane(page).locator(`#cn-shelf-e-westminster [data-cn-election="${key}"]`);
+  await expect(westminster).toHaveCount(1);
+  // Filed under the Dáil, it says so on the Westminster shelf; its shelf count includes it.
+  await expect(westminster.locator('.cn-badge').first()).toHaveText('Dáil');
+  const onShelf = catalogue.elections.filter((e) => e.kind !== 'by-election' && e.bodySlug === 'house-of-commons-of-the-united-kingdom').length + 1;
+  await expect(pane(page).locator('#cn-shelf-e-westminster .cn-erow')).toHaveCount(onShelf);
+  // Turned on from one shelf, both rows show it on the map.
+  await westminster.locator('[data-cn-election-toggle]').click();
+  await expect(pane(page).locator(`#cn-shelf-e-dail [data-cn-election="${key}"] [data-cn-election-toggle]`)).toHaveAttribute('aria-pressed', 'true', { timeout: 30000 });
 });
 
 test('N09 rows put their details beside the name; no blurbs, no histogram', async ({ page }) => {
@@ -662,7 +681,7 @@ test('N11 search finds people; their elections show where they stood and whether
   await page.reload();
   await expect(pane(page).locator('.cn-person-banner')).toContainText('Sammy Wilson', { timeout: 45000 });
   await pane(page).locator('[data-cn-act="clear-person"]').click();
-  await expect(pane(page).locator('.cn-erow')).toHaveCount(generals.length);
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(rowsOf(generals));
   await expect.poll(() => route(page)).toBe('elections');
 });
 
@@ -711,14 +730,14 @@ test('N23 elections: shelves start closed, general elections by default, by-elec
   await open(page, 'cat=elections', { shelves: 'closed' });
   for (const v of await pane(page).locator('[data-cn-shelf]').evaluateAll((els) => els.map((e) => e.getAttribute('aria-expanded')))) expect(v).toBe('false');
   await expect(pane(page).locator('[data-cn-filter="ekind"][data-value="general"]')).toHaveAttribute('aria-pressed', 'true');
-  await expect(pane(page).locator('.cn-erow')).toHaveCount(generals.length);
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(rowsOf(generals));
   await expect(pane(page).locator('.cn-filters-toggle .cn-badge')).toHaveCount(0);
   // The summary offers the by-elections the default leaves out.
   const by = catalogue.elections.length - generals.length;
   const show = pane(page).locator('.cn-summary [data-cn-filter="ekind"][data-value=""]');
   await expect(show).toHaveText(`Show ${by.toLocaleString('en-GB')} by-elections too`);
   await show.click();
-  await expect(pane(page).locator('.cn-erow')).toHaveCount(catalogue.elections.length);
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(rowsOf(catalogue.elections));
   // A link to a body opens its shelf.
   await page.goto('about:blank');
   await open(page, 'cat=elections/irish-local', { shelves: 'closed' });
@@ -759,7 +778,8 @@ test('N25 descriptions: an opened row, an election and a map Details page say wh
   const ge = pane(page).locator('[data-cn-election="dail-eireann__2024-11-29"] .cn-erow__about');
   await ge.locator('summary').click();
   await expect(ge).toContainText('Election for the 34th Dáil');
-  await expect(pane(page).locator('.cn-erow__about')).toHaveCount(Object.keys(desc.elections).length);
+  // Counted by election: a row listed on two shelves is one election.
+  await expect.poll(() => pane(page).locator('.cn-erow:has(.cn-erow__about)').evaluateAll((rows) => new Set(rows.map((r) => r.getAttribute('data-cn-election'))).size)).toBe(Object.keys(desc.elections).length);
 });
 
 // The site's service worker answers /_api requests itself, out of reach of page.route: block it here.

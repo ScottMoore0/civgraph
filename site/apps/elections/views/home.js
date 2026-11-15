@@ -5,7 +5,8 @@ import { bodyElections, electionIndex } from '../lib/api.js';
 import { appUrl, esc, fmtDate } from '../lib/format.js';
 import { siteNumber } from '../../../pkg/core/src/format.js';
 import { mountSearch, searchFormHtml } from './search-box.js';
-import { ELECTIONS_HOME_ORDER, electionsHomeGroup } from '../../../pkg/registries/src/browser/election-group-lists.mjs';
+import { ELECTIONS_HOME_ORDER, alsoListedUnderBody, electionsHomeGroup } from '../../../pkg/registries/src/browser/election-group-lists.mjs';
+import { alsoListedSources, bodyListing, bodySummaries } from '../lib/body-list.js';
 
 /**
  * The group a body belongs to on the home page: the election-bodies registry's electionsHome groups
@@ -19,19 +20,16 @@ const GROUP_ORDER = ELECTIONS_HOME_ORDER;
 
 /** @param {HTMLElement} root @param {import('../lib/route.js').Route} route @param {import('../app.js').ViewContext} ctx */
 export async function render(root, route, ctx) {
-  if (route.view === 'body') return renderBody(root, await bodyElections(String(route.body)), /** @type {string} */ (route.body));
-  const all = await electionIndex();
-  /** @type {Map<string, { slug: string, name: string, n: number, by: number, from: string, to: string }>} */
-  const bodies = new Map();
-  for (const e of all) {
-    const b = bodies.get(e.bodySlug) || { slug: e.bodySlug, name: e.body || e.bodySlug, n: 0, by: 0, from: e.date, to: e.date };
-    b.n += 1;
-    if (e.kind === 'by-election') b.by += 1;
-    if (e.date < b.from) b.from = e.date;
-    if (e.date > b.to) b.to = e.date;
-    bodies.set(e.bodySlug, b);
+  if (route.view === 'body') {
+    const slug = String(route.body);
+    // The elections filed under another body that this body's page lists too (the registry's alsoListed).
+    const keys = alsoListedUnderBody(slug);
+    const [own, ...others] = await Promise.all([bodyElections(slug), ...[...alsoListedSources(keys, slug).keys()].map((body) => bodyElections(body))]);
+    return renderBody(root, bodyListing(own.filter((e) => e.bodySlug === slug), others.flat(), keys), slug);
   }
-  /** @type {Map<string, Array<{ slug: string, name: string, n: number, by: number, from: string, to: string }>>} */
+  const all = await electionIndex();
+  const bodies = bodySummaries(all, alsoListedUnderBody);
+  /** @type {Map<string, Array<import('../lib/body-list.js').BodySummary>>} */
   const groups = new Map(GROUP_ORDER.map((g) => [g, []]));
   for (const b of bodies.values()) groups.get(bodyGroup(b.slug))?.push(b);
   const recent = all.filter((e) => e.kind !== 'by-election' && e.contestType === 'election').sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 12);
@@ -55,11 +53,15 @@ export async function render(root, route, ctx) {
   return '';
 }
 
-/** @param {HTMLElement} root @param {import('../lib/api.js').ElectionRow[]} all @param {string} slug */
-function renderBody(root, all, slug) {
-  const list = all.filter((e) => e.bodySlug === slug).sort((a, b) => (a.date < b.date ? 1 : -1));
-  if (!list.length) { throw Object.assign(new Error('body not found'), { status: 404 }); }
-  const name = list[0].body || slug;
+/**
+ * One body's elections, newest first by decade; an election filed under another body (listed here
+ * too) names that body after its date.
+ * @param {HTMLElement} root @param {import('../lib/api.js').ElectionRow[]} list @param {string} slug
+ */
+function renderBody(root, list, slug) {
+  const own = list.find((e) => e.bodySlug === slug);
+  if (!own) { throw Object.assign(new Error('body not found'), { status: 404 }); }
+  const name = own.body || slug;
   /** @type {Map<string, import('../lib/api.js').ElectionRow[]>} */
   const decades = new Map();
   for (const e of list) {
@@ -71,6 +73,6 @@ function renderBody(root, all, slug) {
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › ${esc(name)}</nav>
     <h1>${esc(name)}</h1>
     <p class="el-lead">${siteNumber(list.length)} elections, ${String(list.at(-1)?.date).slice(0, 4)}–${list[0].date.slice(0, 4)}.</p>
-    ${[...decades].map(([d, es]) => `<section><h2>${esc(d)}</h2><ul class="el-list">${es.map((e) => `<li><a href="${appUrl.election(e.key)}">${esc(e.displayTitle)}</a> <span class="el-muted">${esc(fmtDate(e.date))}${e.contestStatus === 'uncontested' ? ' · unopposed' : ''}</span></li>`).join('')}</ul></section>`).join('')}`;
+    ${[...decades].map(([d, es]) => `<section><h2>${esc(d)}</h2><ul class="el-list">${es.map((e) => `<li><a href="${appUrl.election(e.key)}">${esc(e.displayTitle)}</a> <span class="el-muted">${esc(fmtDate(e.date))}${e.bodySlug !== slug ? ` · ${esc(e.body || e.bodySlug)}` : ''}${e.contestStatus === 'uncontested' ? ' · unopposed' : ''}</span></li>`).join('')}</ul></section>`).join('')}`;
   return name;
 }
