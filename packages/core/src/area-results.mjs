@@ -272,3 +272,35 @@ export function areaResultsAnswer(election, modes, nationalCandidates) {
     })),
   };
 }
+
+/**
+ * The geography modes in the order the election opens them: an area-results mode first, so a
+ * national contest counted by area (a presidential election by Dáil constituency) opens on its
+ * areas, with the national result one switch away. Other modes keep their order; no area-results
+ * mode, the same order.
+ * @template M
+ * @param {M[] | null | undefined} modes
+ * @returns {M[]}
+ */
+export function areaResultsFirst(modes) {
+  const list = [...(modes || [])];
+  const i = list.findIndex((m) => /** @type {{ dataKind?: unknown } | null | undefined} */ (m)?.dataKind === 'area-results');
+  if (i <= 0) return list;
+  return [list[i], ...list.slice(0, i), ...list.slice(i + 1)];
+}
+
+/**
+ * The subtitle of an election counted by area: how many areas, in the registry's plural noun for
+ * the counting basis (areaResults.units: "43 constituencies", "32 counties and county boroughs");
+ * null when there is no area-results mode or no noun for its basis.
+ * @param {Array<Record<string, unknown> | null | undefined> | null | undefined} modes  a bundle's geographyModes
+ * @param {Record<string, string> | null | undefined} units  the registry's areaResults.units
+ * @returns {string | null}
+ */
+export function areaResultsSubtitle(modes, units) {
+  const mode = (modes || []).find((m) => m?.dataKind === 'area-results');
+  const total = Number(mode?.totalConstituencies);
+  const noun = typeof mode?.countingBasis === 'string' ? units?.[mode.countingBasis] : undefined;
+  if (!mode || !noun || !Number.isFinite(total) || total < 1) return null;
+  return `${total} ${noun}`;
+}

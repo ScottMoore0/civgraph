@@ -26,7 +26,7 @@ import { labelInterpretationRules } from '../../packages/registries/src/parties.
 import { statesOf } from '../../packages/registries/src/statuses.mjs';
 import { electionBody, geographyRuleFor, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
 import { kindOfContestType } from '../../packages/registries/src/election-types.mjs';
-import { areaCandidateColours, areaCountSheet, areaFeatureNames } from '../../packages/core/src/area-results.mjs';
+import { areaCandidateColours, areaCountSheet, areaFeatureNames, areaResultsFirst, areaResultsSubtitle } from '../../packages/core/src/area-results.mjs';
 
 /** @typedef {import('../../packages/core/src/election-domain.mjs').SourceRow} SourceRow */
 /** @typedef {import('../../packages/core/src/election-domain.mjs').SourceConstituency} SourceConstituency */
@@ -1232,9 +1232,19 @@ async function main() {
       councilGeography,
       councilLayer
     });
-    const geographyModes = await buildReferendumGeographyModes(entry, bundle, layerBySource, featureIndexes)
+    const builtModes = await buildReferendumGeographyModes(entry, bundle, layerBySource, featureIndexes)
       || await buildAreaResultsGeographyModes(entry, bundle, layerBySource, featureIndexes);
+    // A national contest counted by area (a presidential election by Dáil constituency) opens on
+    // its areas: their mode comes first (the default geography), the manifest entry names their
+    // map (the one the election opens on, its thumbnail in the catalogue) and the subtitle counts
+    // them ("43 constituencies", not "1 constituencies"). The bundle keeps the national result's
+    // own map, which its results and the records tables are keyed by.
+    const geographyModes = builtModes ? areaResultsFirst(builtModes) : null;
+    /** @type {{ sourceMapId?: string, layerId?: string, labelProperty?: string, stylingModes?: string[] } | null} */
+    const areaMode = /** @type {{ sourceMapId?: string, layerId?: string, labelProperty?: string, stylingModes?: string[] } | undefined} */ (geographyModes?.find((mode) => mode.dataKind === 'area-results')) || null;
     if (geographyModes) bundle.geographyModes = geographyModes;
+    const areaSubtitle = areaResultsSubtitle(geographyModes, electionBody(ELECTION_BODIES, entry.bodySlug)?.areaResults?.units);
+    if (areaSubtitle) bundle.displaySubtitle = areaSubtitle;
     const bundlePath = path.join(OUT_DIR, `${bundle.key}.json`);
     writeJson(bundlePath, bundle);
 
@@ -1260,9 +1270,9 @@ async function main() {
       localBodies: bundle.localBodies,
       constituencies: bundle.constituencies,
       isByElection: bundle.isByElection,
-      sourceMapId: bundle.sourceMapId,
-      layerId: bundle.layerId,
-      labelProperty: bundle.labelProperty,
+      sourceMapId: areaMode?.sourceMapId || bundle.sourceMapId,
+      layerId: areaMode?.layerId || bundle.layerId,
+      labelProperty: areaMode?.labelProperty || bundle.labelProperty,
       councilSourceMapId: bundle.councilSourceMapId,
       councilLayerId: bundle.councilLayerId,
       councilLabelProperty: bundle.councilLabelProperty,
@@ -1283,7 +1293,7 @@ async function main() {
       anchorUrl: bundle.anchorUrl,
       previousKey: bundle.previousKey,
       previousDate: bundle.previousDate,
-      stylingModes: bundle.availableStyleModes,
+      stylingModes: areaMode?.stylingModes || bundle.availableStyleModes,
       geographyModes: geographyModes
         ? geographyModes.map(({ results, mainLikeTotals, ...meta }) => meta)
         : undefined

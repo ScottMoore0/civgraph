@@ -176,6 +176,12 @@
               "propertyNames": { "$ref": "#/$defs/slug" },
               "additionalProperties": { "type": "string", "minLength": 1 }
             },
+            "units": {
+              "type": "object",
+              "description": "The areas' plural noun, by counting basis, for the election's subtitle (\"43 constituencies\").",
+              "propertyNames": { "$ref": "#/$defs/slug" },
+              "additionalProperties": { "type": "string", "minLength": 1 }
+            },
             "note": { "type": "string", "minLength": 1 }
           }
         },

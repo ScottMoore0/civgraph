@@ -117,6 +117,10 @@ export interface Body {
     labels: {
       [key: string]: string;
     };
+    /** The areas' plural noun, by counting basis, for the election's subtitle ("43 constituencies"). */
+    units?: {
+      [key: string]: string;
+    };
     note: string;
   };
   sources: string[];

@@ -126,3 +126,29 @@ test('the server-rendered election page lists an election\'s areas', async () =>
   const plain = String(electionBody({ ...page, election: { ...page.election, meta: {} } }).body);
   assert.doesNotMatch(plain, /by-area/);
 });
+
+test('an election counted by area opens on its areas, and its subtitle counts them', async () => {
+  const { areaResultsFirst, areaResultsSubtitle } = await import('../../packages/core/src/area-results.mjs');
+  const national = { id: 'results', dataKind: 'results' };
+  const areas = { id: 'areas', dataKind: 'area-results', countingBasis: 'dail-constituencies', totalConstituencies: 43 };
+  assert.deepEqual(areaResultsFirst([national, areas]).map((m) => m.id), ['areas', 'results']);
+  assert.deepEqual(areaResultsFirst([areas, national]).map((m) => m.id), ['areas', 'results']);
+  // A referendum's modes (no area results) keep their order.
+  assert.deepEqual(areaResultsFirst([{ id: 'a', dataKind: 'results' }, { id: 'b', dataKind: 'turnout' }]).map((m) => m.id), ['a', 'b']);
+  assert.deepEqual(areaResultsFirst(null), []);
+  const { units } = electionBody(loadRegistry('election-bodies'), 'ireland-president').areaResults;
+  assert.equal(areaResultsSubtitle([national, areas], units), '43 constituencies');
+  assert.equal(areaResultsSubtitle([{ ...areas, countingBasis: 'county-and-county-borough', totalConstituencies: 32 }], units), '32 counties and county boroughs');
+  assert.equal(areaResultsSubtitle([national], units), null);
+  assert.equal(areaResultsSubtitle([{ ...areas, countingBasis: 'unknown-basis' }], units), null);
+});
+
+test('every counting basis of the presidential area results has a label and a unit noun', () => {
+  const config = electionBody(loadRegistry('election-bodies'), 'ireland-president').areaResults;
+  const dir = path.join(ROOT, config.dir);
+  for (const date of readdirSync(dir)) {
+    const basis = readJson(path.join(dir, date, '_constituencies.json')).counting_basis;
+    assert.ok(config.labels[basis], `${date}: no label for ${basis}`);
+    assert.ok(config.units?.[basis], `${date}: no unit noun for ${basis}`);
+  }
+});
