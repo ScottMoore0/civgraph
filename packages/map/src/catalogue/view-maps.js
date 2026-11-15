@@ -5,7 +5,7 @@
  * (index.js) owns state and behaviour, and is passed in as `c`.
  */
 import { icon, SHELF_LOOK, SHELF_ICON_IN, FLAT_SECTIONS } from './icons.js';
-import { esc, plural, span, inkOn, longDate, mapDate, SCOPE_SHORT, shortProvider, yearOf, orderShelfRows } from './util.js';
+import { esc, plural, span, inkOn, longDate, mapDate, SCOPE_SHORT, shortProvider, yearOf, orderShelfRows, otherRowsLast } from './util.js';
 import { SECTIONS, unitWord } from './index.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
@@ -129,7 +129,7 @@ function subjectHtml(c, { sub, series }, heading = true) {
   // "Current") needs no heading for it.
   return `<div class="cn-subject" id="cn-subject-${esc(sub.id)}" data-cn-subject="${esc(sub.id)}">
     ${heading ? `<h4 class="cn-subject__head">${esc(sub.name)} <span class="cn-count">${series.length}</span></h4>` : ''}
-    <ul class="cn-list" role="list">${series.map((s) => seriesRowHtml(c, s)).join('')}</ul>
+    <ul class="cn-list" role="list">${(c.query ? series : otherRowsLast(series)).map((s) => seriesRowHtml(c, s)).join('')}</ul>
   </div>`;
 }
 

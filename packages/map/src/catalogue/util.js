@@ -4,19 +4,34 @@ import { formatDisplayDate } from '../../../core/src/date-format.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 import { MAP_COLOURS } from '../colours.mjs';
 
+/** A row named "Other" or "Other ..." (Planning & Property's "Other"). */
+const OTHER_ROW = /^other(?![a-z])/i;
+
+/**
+ * Rows named "Other ..." moved to the end, in their order; the rest keep theirs (Phelim Birch's
+ * review #18: "Other" stays at the bottom of its shelf, whatever subject it sits in).
+ * @template {{ id: string, name?: string }} R
+ * @param {R[]} rows
+ * @returns {R[]}
+ */
+export function otherRowsLast(rows) {
+  const isOther = (/** @type {R} */ s) => OTHER_ROW.test(String(s.name ?? '').trim());
+  return [...rows.filter((s) => !isOther(s)), ...rows.filter(isOther)];
+}
+
 /**
  * A flat shelf's rows in order: the shelf's `first` rows at the top (Water: the coast, Phelim
  * Birch's review #70), its `last` rows at the end (Transport: collisions and road defects after
  * every route and network), each in the order the shelf lists them, and the rest as their
- * subjects give them.
- * @template {{ id: string }} R
+ * subjects give them. A row named "Other ..." comes after all of them (otherRowsLast).
+ * @template {{ id: string, name?: string }} R
  * @param {R[]} rows
  * @param {{ first?: string[], last?: string[] }} sh
  * @returns {R[]}
  */
 export function orderShelfRows(rows, { first = [], last = [] }) {
   const pick = (/** @type {string[]} */ ids) => /** @type {R[]} */ (ids.map((id) => rows.find((s) => s.id === id)).filter(Boolean));
-  return [...pick(first), ...rows.filter((s) => !first.includes(s.id) && !last.includes(s.id)), ...pick(last.filter((id) => !first.includes(id)))];
+  return otherRowsLast([...pick(first), ...rows.filter((s) => !first.includes(s.id) && !last.includes(s.id)), ...pick(last.filter((id) => !first.includes(id)))]);
 }
 
 /** @type {Record<string, string>} */
