@@ -512,7 +512,6 @@
    "name": "Coasts, Seas & Islands",
    "kind": "Dataset",
    "series": [
-    "coasts-seas-and-islands-boundaries-seawater-area",
     "coasts-seas-and-islands-coastline",
     "coasts-seas-and-islands-seas-and-island"
    ],
@@ -2623,27 +2622,6 @@
     "oda-map-00661-playgrounds-roscommon",
     "dlr-playgrounds"
    ]
-  },
-  {
-   "id": "coasts-seas-and-islands-boundaries-seawater-area",
-   "name": "Boundaries Seawater Area",
-   "subject": "coasts-seas-and-islands",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-boundaries-seawater-area",
-    "tailte-boundaries-seawater-line"
-   ],
-   "kind": "Boundary",
-   "variantOf": {
-    "tailte-boundaries-seawater-line": "tailte-boundaries-seawater-area"
-   },
-   "labels": {
-    "tailte-boundaries-seawater-line": "Edges (lines, 1:1 million map)"
-   },
-   "versionLabels": {
-    "tailte-boundaries-seawater-area": "Area (1:250,000 map)"
-   }
   },
   {
    "id": "rail-and-public-transport-stations-and-stops",
@@ -4897,6 +4875,16 @@
    "id": "ni-250k-geology",
    "why": "Duplicate of gsni-bedrock-geology-lines-250k. Compared 15 Nov 2026: the same 1,578 GSNI 1:250,000 bedrock lines (1,504 inferred faults, 69 tectonic slides, 5 thrust faults) in the same order, with the same values in all 10 GSNI attributes (this Peatlands Geoportal copy adds the ArcGIS FID and Shape__Length) and the same vertices to within 0.0000005 degrees (about 5 cm). Its name, \"Northern Ireland Geology (1:250,000)\", read as the whole geology map; the Open Data NI copy, with its downloads and a description, is kept.",
    "to": "gsni-bedrock-geology-lines-250k"
+  },
+  {
+   "id": "tailte-boundaries-seawater-area",
+   "why": "Phelim Birch's review #32 / owner, 15 Nov 2026: the area map (1:250,000) is hidden. Tailte Éireann's \"Boundaries Seawater\" maps are a cartographic mask of the national map frame, not a boundary: the area map is one 273,539 km2 polygon covering the 1:250,000 map frame minus the Republic's land (so it shows the sea and Northern Ireland as \"sea\"), and the line map is its 15 edges (the Northern Ireland border in pieces and the frame). They carry nothing the Coast and polity maps do not, and are easily misread as maritime limits. Hidden, not deleted; links open the Coast row.",
+   "to": "coasts-seas-and-islands-coastline"
+  },
+  {
+   "id": "tailte-boundaries-seawater-line",
+   "why": "Phelim Birch's review #32 / owner, 15 Nov 2026: the edge lines (1:1 million) are hidden with their area map. Tailte Éireann's \"Boundaries Seawater\" maps are a cartographic mask of the national map frame, not a boundary: the area map is one 273,539 km2 polygon covering the 1:250,000 map frame minus the Republic's land (so it shows the sea and Northern Ireland as \"sea\"), and the line map is its 15 edges (the Northern Ireland border in pieces and the frame). They carry nothing the Coast and polity maps do not, and are easily misread as maritime limits. Hidden, not deleted; links open the Coast row.",
+   "to": "coasts-seas-and-islands-coastline"
   }
  ],
  "signedOff": [
@@ -5274,6 +5262,7 @@
   "archaeology-and-monuments-sites-and-monuments-records--points": "archaeology-and-monuments-monument-types",
   "built-heritage-and-protected-structures-defence-heritage-sites": "built-heritage-and-protected-structures-heritage-surveys-and-sites",
   "built-heritage-and-protected-structures-industrial-heritage-record": "built-heritage-and-protected-structures-heritage-surveys-and-sites",
+  "coasts-seas-and-islands-boundaries-seawater-area": "coasts-seas-and-islands-coastline",
   "development-plans-and-zoning-roscommon-county-development-plan-2014": "development-plans-and-zoning-roscommon-county-development-plan",
   "development-plans-and-zoning-roscommon-county-development-plan-2014--points": "development-plans-and-zoning-roscommon-county-development-plan--points",
   "flooding-and-coastal-risk-flood-extents": "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
