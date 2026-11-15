@@ -1638,6 +1638,13 @@ function compareElectionEntriesAsc(a, b) {
   return String(a.date || '').localeCompare(String(b.date || '')) || electionKey(a).localeCompare(electionKey(b));
 }
 
+/** The 2019 mayoral plebiscites' councils, as the 2019 council-areas layer names them. */
+const MAYOR_PLEBISCITE_FEATURES = Object.freeze({
+  'Cork City': 'CORK CITY COUNCIL',
+  'Limerick City and County': 'LIMERICK CITY AND COUNTY COUNCIL',
+  'Waterford City and County': 'WATERFORD CITY AND COUNTY COUNCIL'
+});
+
 /**
  * @param {ElectionEntry} entry
  * @returns {Geography}
@@ -1756,6 +1763,10 @@ function resolveElectionGeography(entry) {
   if (body === 'Referendum (Ireland)') {
       const date = String(entry.date || '');
     if (isNationalAggregateElection(entry)) return { sourceMapId: 'roi-1938', singleConstituency: true };
+    // The directly-elected-mayor plebiscites of 24 May 2019 were polled in each council's area,
+    // Cork City's as extended on 31 May 2019 (its 151,149 electors are those of the five 2019
+    // Cork City local electoral areas), so all three are drawn on the 2019 council areas.
+    if (date.startsWith('2019-05-24-directly-elected-mayor-')) return { sourceMapId: 'local-authorities-2024', featureOverrides: MAYOR_PLEBISCITE_FEATURES };
     // The Cork city boundary moved on 31 May 2019, a week after that year's divorce
     // referendum, so the referendum belongs on the 2014 council areas.
     const councilSet = date < '2019-05-31' ? 'local-authorities-2014' : 'local-authorities-2024';

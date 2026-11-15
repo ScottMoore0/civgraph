@@ -105,6 +105,10 @@ const REFERENDUM_TOPIC_OVERRIDES = new Map([
   ['2024-03-08-the-family', '2024 family referendum'],
   ['2024-03-08-care', '2024 care referendum'],
   ['2019-05-24-regulation-of-divorce', '2019 divorce referendum'],
+  // The council plebiscites held the same day, filed with the referendums as the 1937 plebiscite is.
+  ['2019-05-24-directly-elected-mayor-cork-city', '2019 Cork City directly elected mayor plebiscite'],
+  ['2019-05-24-directly-elected-mayor-limerick', '2019 Limerick directly elected mayor plebiscite'],
+  ['2019-05-24-directly-elected-mayor-waterford', '2019 Waterford directly elected mayor plebiscite'],
   ['2018-10-26-repeal-of-blasphemy-offence', 'October 2018 blasphemy referendum'],
   ['2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment', 'May 2018 abortion referendum'],
   ['2015-05-22-equal-marriage', '2015 equal marriage referendum'],
