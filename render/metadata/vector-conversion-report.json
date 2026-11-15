@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-11-13T12:08:18.502Z",
+  "generatedAt": "2026-11-15T03:10:13.702Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "perLayerTimeoutMs": 600000,
   "totals": {
-    "vectorRows": 0,
-    "feasibleLocalCandidates": 4,
+    "vectorRows": 1,
+    "feasibleLocalCandidates": 1,
     "skipped": 0,
-    "selected": 4,
-    "converted": 4,
+    "selected": 1,
+    "converted": 1,
     "skippedExisting": 0,
     "failed": 0
   },
@@ -21,81 +21,33 @@
   ],
   "candidates": [
     {
-      "sourceMapId": "nuts-2-2016-2021",
-      "name": "NUTS 2 Regions 2016–2021",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-2-2016-2021.fgb",
-      "sourceBytes": 27988384,
-      "outputDirectory": "render/tiles/generated/nuts-2-2016-2021"
-    },
-    {
-      "sourceMapId": "nuts-2-2003-2013",
-      "name": "NUTS 2 Regions 2003–2013",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-2-2003-2013.fgb",
-      "sourceBytes": 6534680,
-      "outputDirectory": "render/tiles/generated/nuts-2-2003-2013"
-    },
-    {
-      "sourceMapId": "nuts-3-2016-2021",
-      "name": "NUTS 3 Regions 2016–2021",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-3-2016-2021.fgb",
-      "sourceBytes": 33191480,
-      "outputDirectory": "render/tiles/generated/nuts-3-2016-2021"
-    },
-    {
-      "sourceMapId": "nuts-3-2003-2013",
-      "name": "NUTS 3 Regions 2003–2013",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-3-2003-2013.fgb",
-      "sourceBytes": 9055104,
-      "outputDirectory": "render/tiles/generated/nuts-3-2003-2013"
+      "sourceMapId": "ireland-before-1921",
+      "name": "Ireland before 1921",
+      "category": "Polities",
+      "sourceFile": "render/source-cache/vector-intake/ireland-before-1921.fgb",
+      "sourceBytes": 22863616,
+      "outputDirectory": "render/tiles/generated/ireland-before-1921"
     }
   ],
   "selected": [
     {
-      "sourceMapId": "nuts-2-2016-2021",
-      "name": "NUTS 2 Regions 2016–2021",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-2-2016-2021.fgb",
-      "sourceBytes": 27988384,
-      "outputDirectory": "render/tiles/generated/nuts-2-2016-2021"
-    },
-    {
-      "sourceMapId": "nuts-2-2003-2013",
-      "name": "NUTS 2 Regions 2003–2013",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-2-2003-2013.fgb",
-      "sourceBytes": 6534680,
-      "outputDirectory": "render/tiles/generated/nuts-2-2003-2013"
-    },
-    {
-      "sourceMapId": "nuts-3-2016-2021",
-      "name": "NUTS 3 Regions 2016–2021",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-3-2016-2021.fgb",
-      "sourceBytes": 33191480,
-      "outputDirectory": "render/tiles/generated/nuts-3-2016-2021"
-    },
-    {
-      "sourceMapId": "nuts-3-2003-2013",
-      "name": "NUTS 3 Regions 2003–2013",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-3-2003-2013.fgb",
-      "sourceBytes": 9055104,
-      "outputDirectory": "render/tiles/generated/nuts-3-2003-2013"
+      "sourceMapId": "ireland-before-1921",
+      "name": "Ireland before 1921",
+      "category": "Polities",
+      "sourceFile": "render/source-cache/vector-intake/ireland-before-1921.fgb",
+      "sourceBytes": 22863616,
+      "outputDirectory": "render/tiles/generated/ireland-before-1921"
     }
   ],
   "skippedExisting": [],
   "converted": [
     {
-      "sourceMapId": "nuts-2-2016-2021",
-      "name": "NUTS 2 Regions 2016–2021",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-2-2016-2021.fgb",
-      "sourceBytes": 27988384,
-      "outputDirectory": "render/tiles/generated/nuts-2-2016-2021",
+      "sourceMapId": "ireland-before-1921",
+      "name": "Ireland before 1921",
+      "category": "Polities",
+      "sourceFile": "render/source-cache/vector-intake/ireland-before-1921.fgb",
+      "sourceBytes": 22863616,
+      "outputDirectory": "render/tiles/generated/ireland-before-1921",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -103,71 +55,11 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "nuts_2_2016_2021",
-      "files": 3925,
-      "pbfFiles": 3924,
-      "bytes": 6766889,
-      "maxTileBytes": 39089
-    },
-    {
-      "sourceMapId": "nuts-2-2003-2013",
-      "name": "NUTS 2 Regions 2003–2013",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-2-2003-2013.fgb",
-      "sourceBytes": 6534680,
-      "outputDirectory": "render/tiles/generated/nuts-2-2003-2013",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "nuts_2_2003_2013",
+      "sourceLayer": "ireland_before_1921",
       "files": 3913,
       "pbfFiles": 3912,
-      "bytes": 2768794,
-      "maxTileBytes": 33393
-    },
-    {
-      "sourceMapId": "nuts-3-2016-2021",
-      "name": "NUTS 3 Regions 2016–2021",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-3-2016-2021.fgb",
-      "sourceBytes": 33191480,
-      "outputDirectory": "render/tiles/generated/nuts-3-2016-2021",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "nuts_3_2016_2021",
-      "files": 3925,
-      "pbfFiles": 3924,
-      "bytes": 8406866,
-      "maxTileBytes": 50396
-    },
-    {
-      "sourceMapId": "nuts-3-2003-2013",
-      "name": "NUTS 3 Regions 2003–2013",
-      "category": "Census Statistical Areas",
-      "sourceFile": "render/source-cache/vector-intake/nuts-3-2003-2013.fgb",
-      "sourceBytes": 9055104,
-      "outputDirectory": "render/tiles/generated/nuts-3-2003-2013",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "nuts_3_2003_2013",
-      "files": 3913,
-      "pbfFiles": 3912,
-      "bytes": 3981633,
-      "maxTileBytes": 44440
+      "bytes": 5135464,
+      "maxTileBytes": 27965
     }
   ],
   "failed": [],

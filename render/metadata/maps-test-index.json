@@ -68861,6 +68861,111 @@
       "featureIdMode": "unique"
     },
     {
+      "id": "ireland-before-1921-vector",
+      "sourceMapId": "ireland-before-1921",
+      "name": "Ireland before 1921",
+      "category": "Polities",
+      "group": "Elections and Government",
+      "provider": [
+        "OSNI",
+        "Tailte Éireann"
+      ],
+      "date": "1801-01-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Ireland as one polity before partition: the whole island with its offshore islands, a part of the United Kingdom of Great Britain and Ireland from the Act of Union (1 Jan 1801) until the Government of Ireland Act 1920 divided it into Southern Ireland and Northern Ireland on 3 May 1921. The Kingdom of Ireland before the Union had the same bounds. The outline is the island polygon of Civgraph's Island of Ireland map (OSNI and Tailte Éireann coastlines; 84,402 km²), so it matches that map, and the pre-partition administrative counties of 1899 to within about 20 km² of coastline detail.",
+      "notes": "Generated from render/source-cache/vector-intake/ireland-before-1921.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.4327895
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "ireland_before_1921",
+      "tileUrl": "/render/pmtiles/generated/ireland-before-1921-vector.pmtiles",
+      "tiles": "/render/tiles/generated/ireland-before-1921/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/ireland-before-1921/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/ireland-before-1921-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/ireland-before-1921/metadata.json",
+      "style": {
+        "color": "#228B22",
+        "fillColor": "#228B22",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "Name",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#228B22",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "Name",
+      "idProperty": "Name",
+      "sourceFile": "render/source-cache/vector-intake/ireland-before-1921.fgb",
+      "sourceDatasetLayer": "ireland_before_1921",
+      "featureIndexUrl": "/render/metadata/feature-indexes/ireland-before-1921-vector.json",
+      "numericProperties": [
+        "Date"
+      ],
+      "categoricalProperties": [
+        "Name"
+      ],
+      "popupProperties": [
+        "Name",
+        "Date"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/ireland-before-1921.fgb",
+        "bytes": 5135464,
+        "files": 3913,
+        "pbfFiles": 3912,
+        "maxTileBytes": 27965
+      },
+      "keywords": [
+        "ireland",
+        "polity",
+        "before partition",
+        "pre-partition",
+        "all-island",
+        "act of union",
+        "united kingdom of great britain and ireland",
+        "1801",
+        "1921",
+        "Ireland before 1921",
+        "Polities",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/ireland-before-1921-vector.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/ireland-before-1921-vector.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
       "id": "ni-250k-geology-vector",
       "sourceMapId": "ni-250k-geology",
       "name": "Northern Ireland Geology (1:250,000)",
@@ -144823,5 +144928,5 @@
   "publicMapCount": 912,
   "generatedFrom": "render/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 1343
+  "detailLayerCount": 1344
 }

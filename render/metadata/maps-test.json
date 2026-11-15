@@ -148905,6 +148905,150 @@
       "featureIndexUrl": "/render/metadata/feature-indexes/ni-1921-vector.json"
     },
     {
+      "id": "ireland-before-1921-vector",
+      "sourceMapId": "ireland-before-1921",
+      "name": "Ireland before 1921",
+      "category": "Polities",
+      "group": "Elections and Government",
+      "date": "1801-01-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "OSNI",
+        "Tailte Éireann"
+      ],
+      "description": "Ireland as one polity before partition: the whole island with its offshore islands, a part of the United Kingdom of Great Britain and Ireland from the Act of Union (1 Jan 1801) until the Government of Ireland Act 1920 divided it into Southern Ireland and Northern Ireland on 3 May 1921. The Kingdom of Ireland before the Union had the same bounds. The outline is the island polygon of Civgraph's Island of Ireland map (OSNI and Tailte Éireann coastlines; 84,402 km²), so it matches that map, and the pre-partition administrative counties of 1899 to within about 20 km² of coastline detail.",
+      "renderer": "maplibre",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "tiles": "/render/tiles/generated/ireland-before-1921/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/render/tiles/generated/ireland-before-1921/metadata.json",
+      "sourceLayer": "ireland_before_1921",
+      "promoteId": "Name",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.4327895
+        ]
+      ],
+      "style": {
+        "color": "#228B22",
+        "fillColor": "#228B22",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "references": [
+        {
+          "label": "Union with Ireland Act 1800 (39 & 40 Geo. 3 c. 67)",
+          "url": "https://www.legislation.gov.uk/apgb/Geo3/39-40/67/contents",
+          "note": "With the Act of Union (Ireland) 1800, united the Kingdoms of Great Britain and Ireland from 1 Jan 1801."
+        },
+        {
+          "label": "Act of Union (Ireland) 1800 (40 Geo. 3 c. 38)",
+          "url": "https://www.legislation.gov.uk/aip/Geo3/40/38/contents"
+        },
+        {
+          "label": "Government of Ireland Act 1920 (10 & 11 Geo. 5 c. 67)",
+          "url": "https://www.legislation.gov.uk/ukpga/Geo5/10-11/67/contents",
+          "note": "Divided Ireland into Southern Ireland and Northern Ireland from the appointed day, 3 May 1921 (Civgraph's Northern Ireland 1921 and Republic of Ireland maps)."
+        },
+        {
+          "label": "Civgraph — Island of Ireland",
+          "url": "https://civgraph.net/maps/#layers=ireland-island",
+          "note": "The island polygon this map is drawn from (OSNI; Tailte Éireann)."
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Source file used for /test conversion",
+          "file": "render/source-cache/vector-intake/ireland-before-1921.fgb"
+        }
+      ],
+      "sourceCredits": [
+        "OSNI",
+        "Tailte Éireann"
+      ],
+      "keywords": [
+        "ireland",
+        "polity",
+        "before partition",
+        "pre-partition",
+        "all-island",
+        "act of union",
+        "united kingdom of great britain and ireland",
+        "1801",
+        "1921",
+        "Ireland before 1921",
+        "Polities",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "labelProperty": "Name",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#228B22",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "sourceFile": "render/source-cache/vector-intake/ireland-before-1921.fgb",
+      "sourceDatasetLayer": "ireland_before_1921",
+      "idProperty": "Name",
+      "popupProperties": [
+        "Name",
+        "Date"
+      ],
+      "numericProperties": [
+        "Date"
+      ],
+      "categoricalProperties": [
+        "Name"
+      ],
+      "categoricalValues": {
+        "Name": [
+          "Ireland"
+        ]
+      },
+      "status": "converted",
+      "notes": "Generated from render/source-cache/vector-intake/ireland-before-1921.fgb with GDAL MVT output.",
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/ireland-before-1921.fgb",
+        "bytes": 5135464,
+        "files": 3913,
+        "pbfFiles": 3912,
+        "maxTileBytes": 27965
+      },
+      "tileUrl": "/render/pmtiles/generated/ireland-before-1921-vector.pmtiles",
+      "tilesFallback": "/render/tiles/generated/ireland-before-1921/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "render/pmtiles/generated/ireland-before-1921-vector.pmtiles",
+        "url": "/render/pmtiles/generated/ireland-before-1921-vector.pmtiles",
+        "bytes": 2889102,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-11-15T03:13:33.964Z",
+        "fallback": "/render/tiles/generated/ireland-before-1921/{z}/{x}/{y}.pbf",
+        "sourceSha256": "3b97ad2cd0425831856524c602f2737b53b6bd037773b50c70a9b4e700af36e0"
+      },
+      "featureIndexUrl": "/render/metadata/feature-indexes/ireland-before-1921-vector.json"
+    },
+    {
       "id": "ni-250k-geology-vector",
       "sourceMapId": "ni-250k-geology",
       "name": "Northern Ireland Geology (1:250,000)",

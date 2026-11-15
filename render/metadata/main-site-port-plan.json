@@ -3,9 +3,9 @@
   "source": "data/database/maps.json",
   "testMetadata": "render/metadata/maps-test.json",
   "totals": {
-    "total": 1406,
-    "converted": 1371,
-    "convertedDirect": 1112,
+    "total": 1407,
+    "converted": 1372,
+    "convertedDirect": 1113,
     "convertedComposite": 37,
     "convertedAlias": 222,
     "needsVectorTileConversion": 0,
@@ -26218,6 +26218,74 @@
         }
       ],
       "references": [],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "ireland-before-1921",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Ireland before 1921",
+      "category": "Polities",
+      "categoryId": "polities",
+      "group": "Elections and Government",
+      "date": "1801-01-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "OSNI",
+        "Tailte Éireann"
+      ],
+      "description": "Ireland as one polity before partition: the whole island with its offshore islands, a part of the United Kingdom of Great Britain and Ireland from the Act of Union (1 Jan 1801) until the Government of Ireland Act 1920 divided it into Southern Ireland and Northern Ireland on 3 May 1921. The Kingdom of Ireland before the Union had the same bounds. The outline is the island polygon of Civgraph's Island of Ireland map (OSNI and Tailte Éireann coastlines; 84,402 km²), so it matches that map, and the pre-partition administrative counties of 1899 to within about 20 km² of coastline detail.",
+      "sourceCredits": [
+        "OSNI",
+        "Tailte Éireann"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "ireland-before-1921-vector",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.419897,
+          -10.662971
+        ],
+        [
+          55.44658,
+          -5.43279
+        ]
+      ],
+      "style": {
+        "color": "#228B22",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/physical/Ireland_Before_1921.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Union with Ireland Act 1800 (39 & 40 Geo. 3 c. 67)",
+          "url": "https://www.legislation.gov.uk/apgb/Geo3/39-40/67/contents"
+        },
+        {
+          "label": "Act of Union (Ireland) 1800 (40 Geo. 3 c. 38)",
+          "url": "https://www.legislation.gov.uk/aip/Geo3/40/38/contents"
+        },
+        {
+          "label": "Government of Ireland Act 1920 (10 & 11 Geo. 5 c. 67)",
+          "url": "https://www.legislation.gov.uk/ukpga/Geo5/10-11/67/contents"
+        },
+        {
+          "label": "Civgraph — Island of Ireland",
+          "url": "https://civgraph.net/maps/#layers=ireland-island"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
