@@ -5,7 +5,7 @@
  * (index.js) owns state and behaviour, and is passed in as `c`.
  */
 import { icon, SHELF_LOOK, SHELF_ICON_IN, FLAT_SECTIONS } from './icons.js';
-import { esc, plural, span, inkOn, longDate, mapDate, SCOPE_SHORT, shortProvider, yearOf } from './util.js';
+import { esc, plural, span, inkOn, longDate, mapDate, SCOPE_SHORT, shortProvider, yearOf, orderShelfRows } from './util.js';
 import { SECTIONS, unitWord } from './index.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
@@ -115,11 +115,9 @@ function shelfHtml(c, { sh, subjects, count }, alone = false) {
 /** A small section lists its series straight, without the subheadings a large one needs. */
 /** @param {CatalogueNext} c @param {VisibleShelf['subjects']} subjects @param {Partial<CatalogueShelf>} [sh] */
 function flatHtml(c, subjects, sh = {}) {
-  // A shelf may send some rows to the end (Transport: collisions and road defects after every
-  // route and network), whichever subject they sit in.
-  const last = sh.last || [];
+  // A shelf may bring some rows to the top or send some to the end, whichever subject they sit in.
   const rows = subjects.flatMap((x) => x.series);
-  const ordered = c.query ? rows : [...rows.filter((s) => !last.includes(s.id)), .../** @type {CatalogueRow[]} */ (last.map((id) => rows.find((s) => s.id === id)).filter(Boolean))];
+  const ordered = c.query ? rows : orderShelfRows(rows, sh);
   return `<div class="cn-subject cn-subject--flat">
     <ul class="cn-list" role="list">${ordered.map((s) => seriesRowHtml(c, s)).join('')}</ul>
   </div>`;

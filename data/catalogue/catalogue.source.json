@@ -60,9 +60,7 @@
     "planning-applications-and-registers-planning-registers",
     "planning-applications-and-registers-derelict-sites",
     "development-plans-and-zoning-roscommon-county-development-plan",
-    "development-plans-and-zoning-roscommon-county-development-plan-2014",
     "development-plans-and-zoning-roscommon-county-development-plan--points",
-    "development-plans-and-zoning-roscommon-county-development-plan-2014--points",
     "development-plans-and-zoning-roscommon-local-area-plans",
     "development-plans-and-zoning-dun-laoghaire-rathdown",
     "development-plans-and-zoning-dun-laoghaire-rathdown--points",
@@ -83,7 +81,6 @@
    "flat": true,
    "last": [
     "roads-and-traffic-psni-road-traffic-collisions",
-    "roads-and-traffic-tii-collision-rates",
     "roads-and-traffic-pothole-enquiries",
     "roads-and-traffic-ni-road-surface-defects",
     "roads-and-traffic-way-points",
@@ -131,7 +128,10 @@
     "flooding-and-coastal-risk",
     "coasts-seas-and-islands"
    ],
-   "flat": true
+   "flat": true,
+   "first": [
+    "coasts-seas-and-islands-coastline"
+   ]
   },
   {
    "id": "environment-and-land-use",
@@ -988,7 +988,7 @@
   },
   {
    "id": "nature-habitats-and-designated-sites-habitat-network",
-   "name": "Habitat Network",
+   "name": "Habitats",
    "subject": "nature-habitats-and-designated-sites",
    "scope": "Ireland",
    "arrangement": "set",
@@ -1096,7 +1096,7 @@
   },
   {
    "id": "roads-and-traffic-ni-road-surface-defects",
-   "name": "NI Road Surface Defects",
+   "name": "Road Surface Defects",
    "subject": "roads-and-traffic",
    "scope": "Northern Ireland",
    "arrangement": "editions",
@@ -1529,7 +1529,7 @@
   },
   {
    "id": "property-land-and-buildings-ni-government-land-and-property-register",
-   "name": "NI Government Land & Property Register",
+   "name": "Government Land & Property Register",
    "subject": "property-land-and-buildings",
    "scope": "Northern Ireland",
    "arrangement": "editions",
@@ -1985,7 +1985,7 @@
   },
   {
    "id": "built-heritage-and-protected-structures-protected-structures--points",
-   "name": "Protected Structures (points)",
+   "name": "Protected Structures",
    "subject": "built-heritage-and-protected-structures",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -2052,9 +2052,9 @@
     "tailte-border-exits-entrances"
    ],
    "labels": {
-    "tailte-border-exits-entrances": "Border Exits & Entrances (Republic of Ireland)",
-    "dfi-border-crossings-2018-points": "Points (Northern Ireland, 2018)",
-    "dfi-border-crossings-2018-lines": "Lines (Northern Ireland, 2018)"
+    "tailte-border-exits-entrances": "Tailte Éireann exits & entrances",
+    "dfi-border-crossings-2018-points": "DfI points, 2018",
+    "dfi-border-crossings-2018-lines": "DfI lines, 2018"
    }
   },
   {
@@ -2068,7 +2068,8 @@
    ],
    "kind": "Boundary",
    "labels": {
-    "oda-map-00115-planning-application-boundaries-roscommon": "Roscommon"
+    "oda-map-00115-planning-application-boundaries-roscommon": "Roscommon, as of 8 Jul 2026",
+    "roi-national-planning-applications": "National, as of 20 Apr 2026"
    },
    "local": [
     "oda-map-00115-planning-application-boundaries-roscommon"
@@ -2087,7 +2088,11 @@
     "oda-map-00300-planning-application-points-roscommon",
     "oda-map-00303-westmeath-planning-applications"
    ],
-   "kind": "Places"
+   "kind": "Places",
+   "labels": {
+    "oda-map-00300-planning-application-points-roscommon": "Roscommon",
+    "oda-map-00303-westmeath-planning-applications": "Westmeath"
+   }
   },
   {
    "id": "culture-and-the-arts-libraries",
@@ -2199,7 +2204,7 @@
   },
   {
    "id": "parking-accessible-parking",
-   "name": "Accessible Parking",
+   "name": "Parking",
    "subject": "parking",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -2244,24 +2249,30 @@
   },
   {
    "id": "nature-habitats-and-designated-sites-wetlands-survey",
-   "name": "Wetlands Survey",
+   "name": "Wetlands (Roscommon)",
    "subject": "nature-habitats-and-designated-sites",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "oda-map-00625-locations"
-   ]
+   ],
+   "labels": {
+    "oda-map-00625-locations": "Wetland Locations"
+   }
   },
   {
    "subject": "nature-habitats-and-designated-sites",
    "id": "nature-habitats-and-designated-sites-wetlands-survey--boundaries",
-   "name": "Wetlands Survey",
+   "name": "Wetlands (Roscommon)",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "oda-map-00093-boundaries"
    ],
-   "kind": "Boundary"
+   "kind": "Boundary",
+   "labels": {
+    "oda-map-00093-boundaries": "Wetland Boundaries"
+   }
   },
   {
    "id": "constituencies-ni-parliament",
@@ -2385,7 +2396,7 @@
   },
   {
    "id": "settlements-built-up-areas--points",
-   "name": "Built-Up Areas (points)",
+   "name": "Built-Up Areas",
    "subject": "settlements",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -2479,7 +2490,7 @@
   },
   {
    "id": "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
-   "name": "Community-Scale Coastal Flood Extents",
+   "name": "Theoretical Flood Extents",
    "subject": "flooding-and-coastal-risk",
    "scope": "Ireland",
    "arrangement": "set",
@@ -2509,14 +2520,18 @@
   },
   {
    "id": "trees-hedgerows-and-woodland-wicklow-county-council",
-   "name": "Wicklow County Council",
+   "name": "Tree Preservation Orders (Wicklow)",
    "subject": "trees-hedgerows-and-woodland",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "wicklow-county-council-tree-preservation-orders",
     "wicklow-county-council-tree-preservation-orders-bray"
-   ]
+   ],
+   "labels": {
+    "wicklow-county-council-tree-preservation-orders": "County Wicklow",
+    "wicklow-county-council-tree-preservation-orders-bray": "Bray"
+   }
   },
   {
    "id": "emergency-services-fire-stations",
@@ -2783,6 +2798,7 @@
    "arrangement": "set",
    "members": [
     "dcc-traffic-signals-and-scats-sites-locations",
+    "dcc-traffic-signal-sites-juctions",
     "dcc-dublin-city-council-traffic-poles-with-cctv",
     "dcc-dublin-city-council-variable-message-signs",
     "dlr-speed-signs",
@@ -2800,7 +2816,7 @@
     "tii-marker-plates": "Roadside Marker Plates (TII)",
     "oda-map-00862-winter-service-plan-routes-roscommon": "Winter Service Plan Routes (Roscommon)",
     "dcc-traffic-signals-and-scats-sites-locations": "Traffic Signals & SCATS Sites (Dublin City)",
-    "dcc-traffic-signal-sites-juctions": "Dublin City (signalled junctions)",
+    "dcc-traffic-signal-sites-juctions": "Signalled junctions",
     "tii-traffic-counter-locations": "TII Traffic Counters",
     "tii-wim-sensor-locations": "TII Weigh-in-Motion Sensors",
     "tailte-road-rail-intersections": "Road & Rail Intersections",
@@ -2808,11 +2824,11 @@
    },
    "kind": "Places",
    "unitFromLabel": true,
-   "local": [
-    "dcc-traffic-signal-sites-juctions"
-   ],
-   "localOf": {
+   "variantOf": {
     "dcc-traffic-signal-sites-juctions": "dcc-traffic-signals-and-scats-sites-locations"
+   },
+   "versionLabels": {
+    "dcc-traffic-signals-and-scats-sites-locations": "Traffic signals & SCATS sites"
    }
   },
   {
@@ -2952,13 +2968,16 @@
   },
   {
    "id": "geophysics-and-geochemical-survey-tellus-airborne-survey-flight-lines",
-   "name": "Tellus Airborne Survey — Flight Lines",
+   "name": "Tellus Airborne Survey Flight Lines",
    "subject": "geophysics-and-geochemical-survey",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
     "tellus-flight-tracks"
-   ]
+   ],
+   "labels": {
+    "tellus-flight-tracks": "Flight Lines"
+   }
   },
   {
    "id": "historic-and-printed-maps-osni-mapping-products",
@@ -3085,7 +3104,7 @@
   },
   {
    "id": "built-heritage-and-protected-structures-heritage-surveys-and-sites",
-   "name": "Heritage Surveys & Sites",
+   "name": "Heritage Sites",
    "subject": "built-heritage-and-protected-structures",
    "scope": "Ireland",
    "arrangement": "set",
@@ -3116,9 +3135,9 @@
   },
   {
    "id": "archaeology-and-monuments-monument-types",
-   "name": "Monuments by Type (Historic Maps)",
+   "name": "Monuments",
    "subject": "built-heritage-and-protected-structures",
-   "scope": "",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "historic-rock-scribing",
@@ -3230,7 +3249,7 @@
   },
   {
    "id": "geology-and-soils-geology-maps",
-   "name": "Geology & Soils Maps",
+   "name": "Geology",
    "subject": "geology-and-soils",
    "scope": "Ireland",
    "arrangement": "set",
@@ -3326,7 +3345,7 @@
   },
   {
    "id": "trees-hedgerows-and-woodland-hedgerows-and-corridors",
-   "name": "Hedgerows, Treelines & Wildlife Corridors",
+   "name": "Hedgerows, Treelines & Wildlife Corridors (Roscommon)",
    "subject": "trees-hedgerows-and-woodland",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -3520,7 +3539,7 @@
   },
   {
    "id": "community-education-and-civic-facilities-council-offices-group",
-   "name": "Council Offices",
+   "name": "Local Authority Offices",
    "subject": "community-education-and-civic-facilities",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -3608,7 +3627,7 @@
   },
   {
    "id": "coasts-seas-and-islands-coastline",
-   "name": "Coastline & Tide Marks",
+   "name": "Coast",
    "subject": "coasts-seas-and-islands",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -3620,7 +3639,7 @@
     "dcc-beaches"
    ],
    "labels": {
-    "tailte-coast": "Coast",
+    "tailte-coast": "Coastline",
     "tailte-high-water-mark": "High Water Mark",
     "tailte-low-water-mark": "Low Water Mark",
     "tailte-shore": "Shore",
@@ -3743,7 +3762,7 @@
   },
   {
    "id": "place-and-street-names-place-names-gazetteer",
-   "name": "Place Names Gazetteer",
+   "name": "Urban Place Names",
    "subject": "place-and-street-names",
    "scope": "Northern Ireland",
    "arrangement": "set",
@@ -3897,7 +3916,7 @@
   },
   {
    "id": "ireland-3d-terrain",
-   "name": "Ireland 3D Terrain",
+   "name": "3D Terrain",
    "subject": "aerial-imagery-and-elevation",
    "scope": "Ireland",
    "arrangement": "set",
@@ -4292,7 +4311,7 @@
   },
   {
    "id": "development-plans-and-zoning-dun-laoghaire-rathdown",
-   "name": "Development Plan (Dún Laoghaire-Rathdown)",
+   "name": "County Development Plan (Dún Laoghaire-Rathdown)",
    "subject": "development-plans-and-zoning",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -4358,7 +4377,13 @@
    ],
    "labels": {
     "eds-2022": "Census 2022",
-    "eds-2006": "Census 2006"
+    "eds-2006": "Census 2006, 2011, 2016"
+   },
+   "moreYears": {
+    "eds-2006": [
+     2011,
+     2016
+    ]
    }
   },
   {
@@ -4396,7 +4421,7 @@
   },
   {
    "id": "planning-applications-and-registers-derelict-sites",
-   "name": "Derelict Sites",
+   "name": "Derelict Sites (Dún Laoghaire-Rathdown)",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
@@ -4453,7 +4478,7 @@
   },
   {
    "id": "development-plans-and-zoning-dun-laoghaire-rathdown--points",
-   "name": "Development Plan (Dún Laoghaire-Rathdown)",
+   "name": "County Development Plan (Dún Laoghaire-Rathdown)",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [

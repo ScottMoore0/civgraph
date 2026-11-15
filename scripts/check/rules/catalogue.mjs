@@ -45,7 +45,7 @@ import { seriesRedirectProblems } from '../../../packages/map/src/catalogue/rout
 /** @typedef {{ id: string, kind?: string, seriesKind?: string, series?: string[], toBeAdded?: string[] }} SourceSubject */
 /**
  * @typedef {{
- *   shelves: { id: string, subjects?: string[] }[], subjects: SourceSubject[], series: SourceSeries[],
+ *   shelves: { id: string, subjects?: string[], first?: string[], last?: string[] }[], subjects: SourceSubject[], series: SourceSeries[],
  *   hidden?: { id: string, why?: string, route?: string, to?: string }[], signedOff?: { id: string }[], electionsHidden?: string[],
  *   seriesRedirects?: Record<string, string>
  * }} CatalogueSource
@@ -99,6 +99,16 @@ for (const sub of source.subjects) {
   if (!sub.series?.length && !sub.toBeAdded?.length) fail(`subject ${sub.id} is empty`);
 }
 for (const sid of subjectOnShelf.keys()) if (!subjectById.has(sid)) fail(`a shelf names subject ${sid}, which does not exist`);
+// A shelf's `first` and `last` rows exist and sit on that shelf.
+for (const sh of source.shelves) {
+  for (const key of /** @type {const} */ (['first', 'last'])) {
+    for (const id of sh[key] || []) {
+      const row = source.series.find((s) => s.id === id);
+      if (!row) fail(`shelf ${sh.id} lists ${id} in ${key}, which is not a series`);
+      else if (!(sh.subjects || []).includes(/** @type {string} */ (row.subject))) fail(`shelf ${sh.id} lists ${id} in ${key}, but that series is on another shelf`);
+    }
+  }
+}
 
 /** @type {Map<string, SourceSeries>} */
 const seriesById = new Map();

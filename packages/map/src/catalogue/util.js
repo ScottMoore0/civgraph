@@ -4,6 +4,21 @@ import { formatDisplayDate } from '../../../core/src/date-format.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 import { MAP_COLOURS } from '../colours.mjs';
 
+/**
+ * A flat shelf's rows in order: the shelf's `first` rows at the top (Water: the coast, Phelim
+ * Birch's review #70), its `last` rows at the end (Transport: collisions and road defects after
+ * every route and network), each in the order the shelf lists them, and the rest as their
+ * subjects give them.
+ * @template {{ id: string }} R
+ * @param {R[]} rows
+ * @param {{ first?: string[], last?: string[] }} sh
+ * @returns {R[]}
+ */
+export function orderShelfRows(rows, { first = [], last = [] }) {
+  const pick = (/** @type {string[]} */ ids) => /** @type {R[]} */ (ids.map((id) => rows.find((s) => s.id === id)).filter(Boolean));
+  return [...pick(first), ...rows.filter((s) => !first.includes(s.id) && !last.includes(s.id)), ...pick(last.filter((id) => !first.includes(id)))];
+}
+
 /** @type {Record<string, string>} */
 const ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
 /** @param {unknown} s */

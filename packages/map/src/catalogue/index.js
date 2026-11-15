@@ -835,8 +835,9 @@ export class CatalogueNext {
       if (!parts.length) continue;
       /** @type {VisibleShelf} */
       const merged = {
-        // Each part's `last` rows still go to the end (Water Districts (Roscommon), a council's map).
-        sh: { id, name: m.name, subjects: parts.flatMap((x) => x.sh.subjects), flat: true, last: parts.flatMap((x) => x.sh.last || []) },
+        // Each part's `first` rows still come first and its `last` rows go to the end (Water
+        // Districts (Roscommon), a council's map).
+        sh: { id, name: m.name, subjects: parts.flatMap((x) => x.sh.subjects), flat: true, first: parts.flatMap((x) => x.sh.first || []), last: parts.flatMap((x) => x.sh.last || []) },
         subjects: parts.flatMap((x) => x.subjects),
         count: parts.reduce((n, x) => n + x.count, 0),
         best: Math.max(...parts.map((x) => x.best)),

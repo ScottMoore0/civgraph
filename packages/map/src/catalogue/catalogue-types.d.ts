@@ -83,6 +83,7 @@ export interface CatalogueShelf {
   name: string;
   subjects: string[];
   flat?: boolean;
+  first?: string[];
   last?: string[];
 }
 
