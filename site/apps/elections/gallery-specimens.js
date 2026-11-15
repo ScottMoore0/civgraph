@@ -8,6 +8,7 @@ import { hbars, parliamentArc, quotaBars, seatBar, transferFlow } from './lib/ch
 import { partyChip } from './lib/party.js';
 import { chartData } from './lib/chart-data.js';
 import { methodNote } from './lib/methods.js';
+import { labelScrollAreas } from './lib/a11y.js';
 /**
  * The gallery's sample colours (data/registries/colours.json gallery.specimens, passed in by the
  * gallery page), so no real party is shown with made-up figures.
@@ -68,4 +69,6 @@ export function drawSpecimen(name, root, sample) {
   const draw = DRAW[name];
   if (!draw) throw new Error(`no Elections specimen ${name}`);
   root.innerHTML = draw(sample);
+  // A chart that scrolls sideways (on a phone) is a named region in the tab order, as in the app.
+  labelScrollAreas(root);
 }
