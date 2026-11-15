@@ -25,6 +25,7 @@ import { manifestCouncilSets } from '../../packages/registries/src/councils.mjs'
 import { labelInterpretationRules } from '../../packages/registries/src/parties.mjs';
 import { statesOf } from '../../packages/registries/src/statuses.mjs';
 import { electionBody, geographyRuleFor, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
+import { kindOfContestType } from '../../packages/registries/src/election-types.mjs';
 import { areaCandidateColours, areaCountSheet, areaFeatureNames } from '../../packages/core/src/area-results.mjs';
 
 /** @typedef {import('../../packages/core/src/election-domain.mjs').SourceRow} SourceRow */
@@ -214,6 +215,8 @@ const ROI_LOCAL_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'roi-local-co
 // elections are drawn on, its voting system, and the area results that break a national contest
 // down. A body not listed there keeps the rules written below.
 const ELECTION_BODIES = loadRegistry('election-bodies');
+// The kinds of election, and the contest types listed under one (data/registries/election-types.json).
+const ELECTION_TYPES = loadRegistry('election-types');
 const DAIL_OFFICIAL_RESULTS = path.join(ROOT, 'data', 'elections', 'dail-official-results.json');
 const DAIL_APPROVED_CANDIDATE_ALIASES = path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json');
 // Birth and death dates ElectionsIreland publishes for source person ids whose careers
@@ -2083,7 +2086,10 @@ function looksLikeRoiLocalAuthorityResults(entry) {
 function classifyElection(entry) {
   const contestType = contestTypeForElection(entry);
   const votingSystem = votingSystemForElection(entry);
-  const kind = contestType === 'election' ? (isElectionByElectionScope({ ...entry, specialType: contestType }) ? 'by-election' : 'general') : null;
+  // Another contest type takes the kind the election-types registry lists it under: a recall
+  // petition is listed with the by-elections, under its own title (Phelim Birch's review, #99).
+  const kind = contestType === 'election' ? (isElectionByElectionScope({ ...entry, specialType: contestType }) ? 'by-election' : 'general')
+    : kindOfContestType(ELECTION_TYPES, contestType);
   const candidateRowsExpected = contestType === 'election';
   const transferDataExpected = transferDataExpectedForElection(entry, { votingSystem, contestType, contestStatus: 'contested' });
   const votesPerElector = votingSystem === 'block-vote' ? 2 : null;

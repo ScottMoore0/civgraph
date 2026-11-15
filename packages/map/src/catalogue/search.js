@@ -43,6 +43,7 @@ import { recordPagePath } from '../../../ui/src/page-types.mjs';
  *   bodySlug: string,
  *   date: string,
  *   kind?: string,
+ *   contestType?: string,
  *   subtitle?: string,
  *   scope?: string
  * }} CatalogueElection

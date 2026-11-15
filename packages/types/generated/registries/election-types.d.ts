@@ -27,6 +27,8 @@ export interface ElectionTypesRegistry {
       about: string;
       /** The kind as a list of elections is named (Browse's Type filter). */
       listLabel: string;
+      /** The contest types other than an election (an election bundle's contestType) whose polls are listed under this kind: the catalogue, Browse and the Elections app list a recall petition with the by-elections, under its own title. One kind at most names a contest type. */
+      contestTypes?: string[];
     };
   };
 }

@@ -127,7 +127,7 @@ export async function render(root, route, ctx) {
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › <a href="${appUrl.body(detail.bodySlug)}">${esc(detail.body)}</a> › ${esc(fmtDate(detail.date))}</nav>
     <header class="el-head">
       <h1>${esc(detail.title)}</h1>
-      <p class="el-lead">${[fmtDate(detail.date), detail.kind === 'by-election' ? 'by-election' : detail.kind || '', systemName(detail.votingSystem)].filter(Boolean).map((t) => esc(t)).join(' · ')}</p>
+      <p class="el-lead">${[fmtDate(detail.date), referendum ? '' : detail.kind || '', systemName(detail.votingSystem)].filter(Boolean).map((t) => esc(t)).join(' · ')}</p>
       <p class="el-nav">${before ? `<a href="${appUrl.election(before.key)}">← ${esc(before.displayTitle)}</a>` : ''}${after ? `<a href="${appUrl.election(after.key)}">${esc(after.displayTitle)} →</a>` : ''}</p>
     </header>
     <dl class="cg-facts">

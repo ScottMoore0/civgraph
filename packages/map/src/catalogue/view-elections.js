@@ -166,7 +166,8 @@ export function rowHtml(c, e) {
   const meta = [
     `<span class="cn-badge">${esc(bodyShort(e))}</span>`,
     seatsText(e) && `<span>${esc(seatsText(e))}</span>`,
-    e.kind === 'by-election' && '<span class="cn-badge">By-election</span>',
+    // A recall petition is listed with the by-elections (its kind) but is not one: its title says what it is.
+    e.kind === 'by-election' && !e.contestType && '<span class="cn-badge">By-election</span>',
     e.mapless && '<span class="cn-badge" title="No map of these constituencies yet: opens the results">Results only</span>',
     note && `<span>${esc(note)}</span>`,
     stood && `<span class="cn-person-note">${esc([stood.place, stood.party].filter(Boolean).join(' · '))}${stood.place || stood.party ? ' · ' : ''}<strong>${stood.won ? 'Elected' : 'Not elected'}</strong></span>`,

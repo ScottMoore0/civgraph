@@ -26,13 +26,34 @@ export function electionKindIds(registry) {
 }
 
 /**
- * Errors the schema cannot state: none yet (ids are unique as object keys). Kept so the registry
- * has the same shape as the others.
- * @param {ElectionTypesRegistry} _registry
+ * The kind a poll of a contest type other than an election is listed under: the kind whose
+ * contestTypes names it (a recall petition is listed with the by-elections); null when no kind
+ * names it (a referendum, and an election, whose kind is its own: general or by-election).
+ * @param {ElectionTypesRegistry} registry
+ * @param {unknown} contestType  the poll's contestType ('referendum', 'recall-petition')
+ * @returns {string | null}
+ */
+export function kindOfContestType(registry, contestType) {
+  const type = String(contestType ?? '');
+  return Object.entries(registry.electionKinds).find(([, kind]) => kind.contestTypes?.includes(type))?.[0] ?? null;
+}
+
+/**
+ * Errors the schema cannot state: a contest type two kinds both name (ids are unique as object keys).
+ * @param {ElectionTypesRegistry} registry
  * @returns {string[]}
  */
-export function checkElectionTypes(_registry) {
-  return [];
+export function checkElectionTypes(registry) {
+  /** @type {string[]} */
+  const errors = [];
+  const seen = new Map();
+  for (const [id, kind] of Object.entries(registry.electionKinds)) {
+    for (const type of kind.contestTypes || []) {
+      if (seen.has(type)) errors.push(`electionKinds: ${type} is listed under ${seen.get(type)} and ${id}`);
+      seen.set(type, id);
+    }
+  }
+  return errors;
 }
 
 /**

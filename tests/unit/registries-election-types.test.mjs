@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
-import { browserElectionTypes, electionKindIds, votingSystemIds } from '../../packages/registries/src/election-types.mjs';
+import { browserElectionTypes, checkElectionTypes, electionKindIds, kindOfContestType, votingSystemIds } from '../../packages/registries/src/election-types.mjs';
 import { electionKindLabels, votingSystemNames, votingSystemsWithTransfers } from '../../packages/registries/src/browser/election-type-names.mjs';
 import { systemName } from '../../site/apps/elections/lib/format.js';
 
@@ -46,4 +46,14 @@ test('election-types: the readers show the words they showed before', () => {
   assert.equal(systemName(''), 'unknown system');
   assert.equal(systemName(null), 'unknown system');
   assert.deepEqual({ ...electionKindLabels, referendum: 'Referendums', other: 'Other' }, { general: 'General elections', 'by-election': 'By-elections', referendum: 'Referendums', other: 'Other' });
+});
+
+test('election-types: a recall petition is listed with the by-elections; a referendum under no kind', () => {
+  assert.equal(kindOfContestType(registry, 'recall-petition'), 'by-election');
+  assert.equal(kindOfContestType(registry, 'referendum'), null);
+  assert.equal(kindOfContestType(registry, 'election'), null);
+  assert.equal(kindOfContestType(registry, undefined), null);
+  const twice = structuredClone(registry);
+  twice.electionKinds.general.contestTypes = ['recall-petition'];
+  assert.deepEqual(checkElectionTypes(twice), ['electionKinds: recall-petition is listed under general and by-election']);
 });
