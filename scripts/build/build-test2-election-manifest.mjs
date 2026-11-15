@@ -1775,9 +1775,12 @@ function resolveElectionGeography(entry) {
     // Cork City's as extended on 31 May 2019 (its 151,149 electors are those of the five 2019
     // Cork City local electoral areas), so all three are drawn on the 2019 council areas.
     if (date.startsWith('2019-05-24-directly-elected-mayor-')) return { sourceMapId: 'local-authorities-2024', featureOverrides: MAYOR_PLEBISCITE_FEATURES };
-    // The Cork city boundary moved on 31 May 2019, a week after that year's divorce
-    // referendum, so the referendum belongs on the 2014 council areas.
-    const councilSet = date < '2019-05-31' ? 'local-authorities-2014' : 'local-authorities-2024';
+    // The Cork city boundary moved in law on 31 May 2019, a week after polling day, but the
+    // polls of 24 May 2019 were already counted on the extended city: the divorce referendum's
+    // Cork City electorate (142,627) is near the 2019 local elections' five Cork City LEAs
+    // (150,863), not the 2014 city's six (81,103). So results by council from 24 May 2019 are
+    // drawn on the 2019 council areas, as the mayor plebiscites above are.
+    const councilSet = date < '2019-05-24' ? 'local-authorities-2014' : 'local-authorities-2024';
     if (looksLikeRoiLocalAuthorityResults(entry)) {
       if (year >= 2014) return { sourceMapId: councilSet };
       if (year >= 2002) return { sourceMapId: 'local-authorities-2002' };
