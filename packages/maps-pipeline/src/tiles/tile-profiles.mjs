@@ -144,6 +144,13 @@ export function getTileProfile(id = '') {
   // the 4 MB budget), they carry the whole record the popup shows. Labels start at z10
   // either way. Result across the 13 years: every point in every zoom still; the worst
   // stored (gzip) tile 587-978 KB (2008: 731 KB against 1,904 KB before).
+  //
+  // sourceWhere leaves out the defects recorded with no location. 2008 and 2010-2017 carry
+  // 3,771 of them between them (994, 1,091, 901, 434, 264, 53, 19, 10, 5), all with
+  // EASTING and NORTHING 0 (one in 2013 has -33, 20): the origin of the Irish Grid, which
+  // the published lon/lat puts at 51.22N 10.86W, in the sea off Kerry. Nothing in the
+  // record says where the defect really was, so they stay in the download and leave the
+  // map. Every other point of every year is inside Northern Ireland.
   if (key.includes('dfi-surface-defects')) {
     return {
       maxSize: '3000000',
@@ -152,7 +159,8 @@ export function getTileProfile(id = '') {
       simplificationMaxZoom: '8',
       lowZoomAttributeCutoff: 9,
       lowZoomKeep: ['DEFECT_DETAIL', 'DIVISION', 'SECTION_OFFICE', 'DEFECT_STATUS'],
-      note: 'Dense DfI defect points: categorical fields only up to z9, the full record from z10.'
+      sourceWhere: 'NOT (EASTING < 1000 AND NORTHING < 1000)',
+      note: 'Dense DfI defect points: categorical fields only up to z9, the full record from z10; points at the grid origin (no location) left out.'
     };
   }
   // DAERA's agricultural critical risk areas: 172,265 field parcels, 20 attributes each.

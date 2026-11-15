@@ -324,6 +324,7 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
       ...getFailureOptions(layer.sourceMapId || layer.id),
       ...srsOptions,
       ...(opts.noSourceQuery ? [] : sourceQueryOptions(layer, sourcePath)),
+      ...sourceWhereOptions(profile),
       ...validityOptions(layer),
       '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
       '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
@@ -362,6 +363,7 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
     ...getFailureOptions(layer.sourceMapId || layer.id),
     ...srsOptions,
     ...(opts.noSourceQuery ? [] : sourceQueryOptions(layer, sourcePath)),
+    ...sourceWhereOptions(profile),
       ...validityOptions(layer),
     '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
     '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
@@ -602,8 +604,11 @@ function buildAttributePrunedArchive(layer, sourcePath, outputPath, profile, col
     .join(', ');
   const lowSelected = columnList(lowColumns);
   const highSelected = columnList(highColumns);
-  const lowSql = `SELECT FID AS civ_fid${lowSelected ? `, ${lowSelected}` : ''} FROM "${quoted}"`;
-  const highSql = `SELECT FID AS civ_fid${highSelected ? `, ${highSelected}` : ''} FROM "${quoted}"`;
+  // A profile's sourceWhere leaves out features whose geometry is known to be wrong (the
+  // DfI defects recorded at the grid origin); FID is still the source's, so civ_fid holds.
+  const where = profile.sourceWhere ? ` WHERE ${profile.sourceWhere}` : '';
+  const lowSql = `SELECT FID AS civ_fid${lowSelected ? `, ${lowSelected}` : ''} FROM "${quoted}"${where}`;
+  const highSql = `SELECT FID AS civ_fid${highSelected ? `, ${highSelected}` : ''} FROM "${quoted}"${where}`;
 
   const low = spawnSync(tools.ogr2ogr, [
     ...mbtilesArgs({ outputPath: lowMbtiles, sourcePath, minzoom, maxzoom: cutoff, profile, layerName }),
@@ -854,6 +859,16 @@ function sourceQueryOptions(layer, sourcePath) {
   const srcLayer = resolveSourceLayerName(sourcePath);
   if (!srcLayer) return [];
   return ['-sql', `SELECT FID AS civ_fid, * FROM "${srcLayer.replace(/"/g, '""')}"`];
+}
+
+/**
+ * A profile's sourceWhere as an ogr2ogr attribute filter (the pruned path puts it in its
+ * SQL instead).
+ * @param {{ sourceWhere?: string }} profile
+ * @returns {string[]}
+ */
+function sourceWhereOptions(profile) {
+  return profile.sourceWhere ? ['-where', profile.sourceWhere] : [];
 }
 
 // An invalid polygon (a self-intersecting or self-touching ring) survives in the source
