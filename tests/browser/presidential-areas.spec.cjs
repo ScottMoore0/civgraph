@@ -20,10 +20,13 @@ test('2011 presidential election: Ireland and Constituency geographies', async (
   await boot(page);
   await page.evaluate(() => window.__civgraphTest2.elections.loadElection('President of Ireland', '2011-10-27'));
   const options = await page.$$eval('#test2ElectionGeography option', (opts) => opts.map((o) => `${o.value}:${o.textContent.trim()}`));
-  expect(options).toEqual(['results:Ireland', 'areas:Constituency']);
+  // Opens on its area results (review #106); the national result is one switch away.
+  expect(options).toEqual(['areas:Constituency', 'results:Ireland']);
+  expect(await page.evaluate(() => window.__civgraphTest2.elections.isAreaResultsGeographyMode())).toBe(true);
 
-  const national = await page.evaluate(() => {
+  const national = await page.evaluate(async () => {
     const e = window.__civgraphTest2.elections;
+    await e.switchGeographyMode('results');
     return { src: e.getActiveElectionStyleSourceMapId(), rows: e.currentResults().length, areas: e.isAreaResultsGeographyMode() };
   });
   expect(national).toEqual({ src: 'roi-1938', rows: 1, areas: false });
