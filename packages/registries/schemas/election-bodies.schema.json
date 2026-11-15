@@ -33,6 +33,7 @@
               "bodies": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/slug" } },
               "councilFlag": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$", "description": "Adds the bodies of the councils registry's councils with this flag." },
               "icon": { "$ref": "#/$defs/slug" },
+              "yearGroupTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The shelf's elections of one year are shown as one grouped row with this title ({year} is the year): the European Parliament's, two records a year." },
               "note": { "type": "string", "minLength": 1 }
             }
           }

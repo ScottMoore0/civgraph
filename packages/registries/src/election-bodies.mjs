@@ -151,16 +151,16 @@ export function checkElectionBodies(registry) {
 /**
  * The catalogue's Elections shelves, each with every body on it: its own list, the councils with
  * its `councilFlag` (`councilBodies(flag)`, from the councils registry), then the bodies above whose
- * `shelf` names it, in registry order.
+ * `shelf` names it, in registry order; and its yearGroupTitle where it has one.
  * @param {ElectionBodiesRegistry} registry
  * @param {(flag: string) => string[]} councilBodies
- * @returns {{ id: string, label: string, bodies: string[], icon: string }[]}
+ * @returns {{ id: string, label: string, bodies: string[], icon: string, yearGroupTitle?: string }[]}
  */
 export function catalogueShelves(registry, councilBodies) {
   return registry.groups.catalogueShelves.map((shelf) => {
     const own = [...shelf.bodies, ...(shelf.councilFlag ? councilBodies(shelf.councilFlag) : [])];
     const joined = registry.bodies.filter((body) => body.shelf === shelf.id && !own.includes(body.id)).map((body) => body.id);
-    return { id: shelf.id, label: shelf.label, bodies: [...own, ...joined], icon: shelf.icon };
+    return { id: shelf.id, label: shelf.label, bodies: [...own, ...joined], icon: shelf.icon, ...(shelf.yearGroupTitle ? { yearGroupTitle: shelf.yearGroupTitle } : {}) };
   });
 }
 

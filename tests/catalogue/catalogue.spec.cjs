@@ -628,6 +628,23 @@ test('W16 an election also listed under a second body is on both shelves, one re
   await expect(pane(page).locator(`#cn-shelf-e-dail [data-cn-election="${key}"] [data-cn-election-toggle]`)).toHaveAttribute('aria-pressed', 'true', { timeout: 30000 });
 });
 
+test('W16 the European shelf shows each year\'s two elections as one grouped row', async ({ page }) => {
+  await open(page, 'cat=elections');
+  const shelf = pane(page).locator('#cn-shelf-e-european');
+  const european = generals.filter((e) => ['ireland-european', 'european-parliament'].includes(e.bodySlug));
+  const years = new Set(european.map((e) => e.date.slice(0, 4)));
+  const paired = [...years].filter((y) => european.filter((e) => e.date.startsWith(y)).length > 1);
+  await expect(shelf.locator('.cn-egroup')).toHaveCount(paired.length);
+  const y2019 = shelf.locator('.cn-egroup[data-cn-election-group="2019"]');
+  await expect(y2019.locator('.cn-egroup__title')).toHaveText('2019 European Parliament election');
+  // Still two records, each its own row to open.
+  await expect(y2019.locator('.cn-erow')).toHaveCount(2);
+  await expect(y2019.locator('[data-cn-election="ireland-european__2019-05-24"]')).toHaveCount(1);
+  await expect(y2019.locator('[data-cn-election="european-parliament__2019-05-23"]')).toHaveCount(1);
+  // Every election of the shelf is there once.
+  await expect(shelf.locator('.cn-erow')).toHaveCount(european.length);
+});
+
 test('N09 rows put their details beside the name; no blurbs, no histogram', async ({ page }) => {
   await open(page);
   const r = row(page, 'counties-counties');

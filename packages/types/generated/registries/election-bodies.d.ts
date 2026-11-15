@@ -17,6 +17,8 @@ export interface ElectionBodiesRegistry {
       /** Adds the bodies of the councils registry's councils with this flag. */
       councilFlag?: string;
       icon: Slug;
+      /** The shelf's elections of one year are shown as one grouped row with this title ({year} is the year): the European Parliament's, two records a year. */
+      yearGroupTitle?: string;
       note?: string;
     }[];
     /** Elections listed under a second body besides the one they are filed under (the record stays one): shown on that body's catalogue shelf and its Elections app page. */

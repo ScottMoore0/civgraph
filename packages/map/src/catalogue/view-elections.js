@@ -16,10 +16,12 @@ import { siteNumber } from '../../../core/src/format.js';
 /** @typedef {import('./index.js').CatalogueNext} CatalogueNext */
 /** @typedef {import('./catalogue-types.d.ts').CatalogueRowElection} CatalogueRowElection */
 /**
- * A shelf of elections (BODY_GROUPS): its bodies, and the elections filed under another body that
- * are listed on it too (`also`, keys).
- * @typedef {{ id: string, label: string, bodies: string[], also: string[], icon: string, colour: string }} BodyGroup
+ * A shelf of elections (BODY_GROUPS): its bodies, the elections filed under another body that are
+ * listed on it too (`also`, keys), and the title of a year's grouped row where its elections of one
+ * year are shown as one (`yearGroupTitle`, {year}: the European shelf).
+ * @typedef {{ id: string, label: string, bodies: string[], also: string[], icon: string, colour: string, yearGroupTitle?: string }} BodyGroup
  */
+/** A shelf's row: one election, or a year's elections under one title. @typedef {{ e: CatalogueRowElection } | { year: string, title: string, es: CatalogueRowElection[] }} ShelfRow */
 
 // Browse's slug for an election: its key lower-cased, runs of other characters as '-'
 // (dail-eireann__2024-11-29 -> dail-eireann-2024-11-29). Browse routes live in the hash.
@@ -60,8 +62,9 @@ export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
  * body the registry puts on a shelf joins it (the Mayor of Limerick, beside the Irish local
  * elections of the same day). An election the registry also lists under a body is on that body's
  * shelf as well as its own (alsoListed: the 1918 election, filed under the Dáil, on Westminster's). */
-export const BODY_GROUPS = electionGroups.shelves.map(({ id, label, bodies, icon }) => ({
+export const BODY_GROUPS = electionGroups.shelves.map((/** @type {{ id: string, label: string, bodies: string[], icon: string, yearGroupTitle?: string }} */ { id, label, bodies, icon, yearGroupTitle }) => ({
   id, label, bodies: [...bodies], also: alsoListedUnder(electionGroups.alsoListed, bodies), icon, colour: ELECTION_SHELF_COLOURS[/** @type {keyof typeof ELECTION_SHELF_COLOURS} */ (id)],
+  ...(yearGroupTitle ? { yearGroupTitle } : {}),
 }));
 /** @param {string} slug */
 export const groupOfBody = (slug) => BODY_GROUPS.find((g) => g.bodies.includes(slug))?.id || '';
@@ -112,6 +115,36 @@ export function shelvesOf(list, groups = BODY_GROUPS) {
   return groups.map((g) => ({ g, es: list.filter((e) => g.bodies.includes(e.bodySlug) || g.also.includes(e.key)) })).filter((x) => x.es.length);
 }
 
+/**
+ * A shelf's rows, in the order of its elections: each election a row, except on a shelf with a
+ * yearGroupTitle, where two or more elections of one year (the European elections in the Republic
+ * and in Northern Ireland, two records) are one row under the year's title. Display only.
+ * @param {CatalogueRowElection[]} es @param {string} [yearGroupTitle]
+ * @returns {ShelfRow[]}
+ */
+export function shelfRows(es, yearGroupTitle) {
+  if (!yearGroupTitle) return es.map((e) => ({ e }));
+  /** @type {Map<string, CatalogueRowElection[]>} */
+  const byYear = new Map();
+  for (const e of es) {
+    const year = String(e.date || '').slice(0, 4);
+    byYear.set(year, [...(byYear.get(year) || []), e]);
+  }
+  return [...byYear].flatMap(([year, list]) => /** @type {ShelfRow[]} */ (list.length > 1 && /^\d{4}$/.test(year)
+    ? [{ year, title: yearGroupTitle.replace(/\{year\}/g, year), es: list }]
+    : list.map((e) => ({ e }))));
+}
+
+/** @param {CatalogueNext} c @param {ShelfRow} row @param {string} shelf */
+function shelfRowHtml(c, row, shelf) {
+  if ('e' in row) return rowHtml(c, row.e);
+  const id = `cn-egroup-${shelf}-${row.year}`;
+  return `<li class="cn-egroup" data-cn-election-group="${esc(row.year)}">
+    <span class="cn-egroup__title" id="${esc(id)}">${esc(row.title)}</span>
+    <ul class="cn-egroup__list" role="list" aria-labelledby="${esc(id)}">${row.es.map((e) => rowHtml(c, e)).join('')}</ul>
+  </li>`;
+}
+
 /** @param {CatalogueNext} c @param {BodyGroup} g @param {CatalogueRowElection[]} es @param {boolean} alone */
 function shelfHtml(c, g, es, alone) {
   const id = `e-${g.id}`;
@@ -120,7 +153,7 @@ function shelfHtml(c, g, es, alone) {
     <h3 class="cn-shelf__head" id="cn-shelf-h-${id}"><button type="button" class="cn-shelf__toggle" data-cn-shelf="${id}" aria-expanded="${open}">
       <span class="cn-shelf__icon">${icon(g.icon)}</span><span class="cn-shelf__name">${esc(g.label)}</span><span class="cn-count">${plural(es.length, 'election')}</span>${icon('chevron-down', 'cn-icon cn-shelf__chev')}</button></h3>
     <div class="cn-shelf__body"${open ? '' : ' hidden'}>
-      <ul class="cn-list" role="list">${es.map((e) => rowHtml(c, e)).join('')}</ul>
+      <ul class="cn-list" role="list">${shelfRows(es, g.yearGroupTitle).map((row) => shelfRowHtml(c, row, g.id)).join('')}</ul>
     </div>
   </section>`;
 }

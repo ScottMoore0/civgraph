@@ -42,7 +42,8 @@ test('body groups: the catalogue shelves are the BODY_GROUPS literal they replac
     { id: 'ni-local', label: 'NI local', bodies: ['local-government', 'ni-local-elections', ...pre1973], icon: 'ni-local' },
     { id: 'irish-local', label: 'Irish local', bodies: ['ireland-local'], icon: 'irish-local' },
     { id: 'pre-partition-local', label: 'Pre-partition local', bodies: ['irish-local-elections'], icon: 'irish-local' },
-    { id: 'european', label: 'European', bodies: ['european-parliament', 'ireland-european'], icon: 'european' },
+    // The year's grouped row (Phelim Birch's review #105, 15 Nov 2026) is the one field added since.
+    { id: 'european', label: 'European', bodies: ['european-parliament', 'ireland-european'], icon: 'european', yearGroupTitle: '{year} European Parliament election' },
     { id: 'referendum', label: 'Referendum', bodies: ['ireland-referendum', 'northern-ireland-referendum'], icon: 'referendum' },
     { id: 'presidential', label: 'Presidential', bodies: ['ireland-president'], icon: 'presidential' },
   ].map((g) => ({

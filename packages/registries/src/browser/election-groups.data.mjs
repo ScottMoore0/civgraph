@@ -151,7 +151,8 @@ export default {
     "european-parliament",
     "ireland-european"
    ],
-   "icon": "european"
+   "icon": "european",
+   "yearGroupTitle": "{year} European Parliament election"
   },
   {
    "id": "referendum",

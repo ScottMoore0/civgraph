@@ -383,6 +383,12 @@ export const CATALOGUE_CSS = `
 .cn-erow__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin-top: 2px; color: var(--cn-muted); font-size: 12.5px; }
 .cn-erow .cn-add[aria-pressed="true"] { background: var(--cn-grad); border-color: transparent; color: #fff; }
 .cn-erow__end { display: flex; align-items: center; gap: 6px; }
+/* A year's elections as one row (a shelf's yearGroupTitle: the European elections in the Republic and in NI) */
+.cn-egroup { padding: 7px 0 0 8px; border-top: 1px solid var(--cn-line); }
+.cn-egroup:first-child { border-top: 0; }
+.cn-egroup__title { display: block; font-weight: 700; line-height: 1.3; }
+.cn-egroup__list { list-style: none; margin: 4px 0 0; padding: 0 0 0 10px; }
+.cn-egroup__list > .cn-erow:first-child { border-top: 1px solid var(--cn-line); }
 a.cn-iconbtn { text-decoration: none; }
 @container (max-width: 470px) {
   .cn-erow { grid-template-columns: 40px minmax(0, 1fr) auto; }
