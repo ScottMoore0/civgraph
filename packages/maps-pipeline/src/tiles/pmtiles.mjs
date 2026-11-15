@@ -304,7 +304,7 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
   // measured to be attribute-bound should carry it.
   const cutoff = Number(profile.lowZoomAttributeCutoff);
   if (Number.isFinite(cutoff) && cutoff >= Number(layer.minzoom ?? 0) && cutoff < Number(layer.maxzoom ?? 12)) {
-    const columns = lowZoomColumns(layer, sourcePath);
+    const columns = lowZoomColumns(layer, sourcePath, profile, cutoff);
     if (columns) {
       if (columns.dropped.length) {
         console.warn(`  ${layer.id}: excluding free-text field(s) from all tiles: ${columns.dropped.join(', ')}`);
@@ -409,9 +409,10 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
  * its full record. At z0 a click among 21,572 overlapping points is a lottery rather
  * than a choice, which is why this is the right trade -- but it is a real one.
  */
-function lowZoomColumns(layer, sourcePath) {
+function lowZoomColumns(layer, sourcePath, profile = {}, cutoff = Infinity) {
   const fields = readSourceFields(sourcePath);
   if (!fields.length) return null;   // cannot tell: build normally rather than guess
+  if (Array.isArray(profile.lowZoomKeep)) return listedLowZoomColumns(layer, sourcePath, fields, profile.lowZoomKeep, cutoff);
   // Anything the layer is STYLED by must survive, or the map draws the wrong colours
   // below the cutoff and the right ones above it -- a bug that looks like a rendering
   // glitch and would never be traced to a build flag. None of the layers enabled today
@@ -456,6 +457,41 @@ function lowZoomColumns(layer, sourcePath) {
   // one place: the builder should not be re-deriving which columns matter.
   const high = fields.filter((field) => !isProse(field));
   return { low: keep.filter((field) => !isProse(field)), high, dropped: fields.filter(isProse) };
+}
+
+/**
+ * The low-zoom columns a profile LISTS (lowZoomKeep), for a layer whose label is itself
+ * the payload. The derived set keeps the label field; on the DfI road surface defect
+ * years that is a works reference unique to each of 160,000 points, which alone kept
+ * their z0 tile at 6.5 MB decompressed. Their categorical fields (defect type, division,
+ * office, status) cost a byte or two a point, since a tile stores each distinct value
+ * once, and still tell a reader what they clicked.
+ *
+ * civ_fid and the promoteId stay, as in the derived set. So does anything the layer is
+ * styled by, and its label field when its labels draw below the cutoff; a label that
+ * starts above the cutoff (labelMinZoom) is not needed in the tiles below it.
+ * @param {{ promoteId?: string, labelProperty?: string | null, labelProperties?: string[] | null, labelMinZoom?: number | null }} layer
+ * @param {string} sourcePath
+ * @param {string[]} fields the source's columns
+ * @param {string[]} listed the profile's lowZoomKeep
+ * @param {number} cutoff the last zoom of the pruned range
+ * @returns {{ low: string[], high: string[], dropped: string[] }}
+ */
+function listedLowZoomColumns(layer, sourcePath, fields, listed, cutoff) {
+  const styled = styleFieldReferences(layer);
+  const labelFields = new Set([layer.labelProperty, ...(layer.labelProperties || [])].filter(Boolean));
+  const labelsBelowCutoff = Number(layer.labelMinZoom ?? 0) <= cutoff;
+  const keep = fields.filter((field) => listed.includes(field)
+    || field === layer.promoteId
+    || field === 'civ_fid'
+    || (styled.has(field) && (labelsBelowCutoff || !labelFields.has(field))));
+  const lengths = sampleFieldLengths(sourcePath);
+  const isProse = (field) => (lengths.get(field) ?? 0) > TILE_MAX_FIELD_CHARS;
+  return {
+    low: keep.filter((field) => !isProse(field)),
+    high: fields.filter((field) => !isProse(field)),
+    dropped: fields.filter(isProse)
+  };
 }
 
 /**

@@ -332,7 +332,7 @@ function buildVectorLayer(converted, row, map) {
     keywords: unique([...(map.keywords || []), row.name, row.category, row.group, 'maplibre', 'vector tiles']),
     labelProperty,
     labelPropertyFallbacks: labelFallbacks,
-    labelMinZoom: runtimeMinZoom(row.sourceMapId),
+    labelMinZoom: runtimeLabelMinZoom(row.sourceMapId),
     labelMaxZoom: null,
     labelStyle: defaultLabelStyle(style.color),
     // Only advertise a feature index that actually exists. Declaring it whenever a
@@ -697,16 +697,38 @@ function mergeCategories(existing, layers) {
   return [...categories.values()];
 }
 
+/**
+ * The zoom a layer's source starts at. The DfI road surface defect years were held to 10
+ * here because their full-record low-zoom tiles were 8-11 MB; that left them blank at
+ * every zoom the map opens them at (Phelim's catalogue review, #49). Their archives now
+ * carry only their categorical fields below z10 (tile-profiles.mjs), so they start at 0
+ * like every other point layer, and only their labels wait for z10 (runtimeLabelMinZoom).
+ * transport-carriageway-defects-2021 stays at 10: it is hidden as a copy of the 2021 year.
+ * @param {string} sourceMapId
+ * @returns {number}
+ */
 function runtimeMinZoom(sourceMapId) {
   const id = String(sourceMapId || '').toLowerCase();
-  if (id.includes('dfi-surface-defects')
-    || id.includes('transport-carriageway-defects')
+  if (id.includes('transport-carriageway-defects')
     || id.includes('agricultural-critical-risk')
     || id.includes('existing-protected-cycle-infrastructure')) {
     return 10;
   }
   if (id.includes('habitat-woodland-grouped') || id.includes('habitat-river')) return 8;
   return 0;
+}
+
+/**
+ * The zoom a layer's labels start at: its source's, except the DfI road surface defect
+ * years, whose label is a works reference on every one of their 94,000-216,000 points
+ * and stays at z10, where it always drew.
+ * @param {string} sourceMapId
+ * @returns {number}
+ */
+function runtimeLabelMinZoom(sourceMapId) {
+  const id = String(sourceMapId || '').toLowerCase();
+  if (id.includes('dfi-surface-defects')) return 10;
+  return runtimeMinZoom(sourceMapId);
 }
 
 function isGeneratedLayer(layer) {

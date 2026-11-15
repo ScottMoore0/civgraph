@@ -132,8 +132,30 @@ export function getTileProfile(id = '') {
       note: 'Retuned for very dense national planning records so PMTiles packaging and mobile loading stay bounded.'
     };
   }
-  if (key.includes('dfi-surface-defects')
-    || key.includes('transport-carriageway-defects')
+  // The DfI road surface defect years: 94,000-216,000 points each, nine attributes per
+  // point. MEASURED on dfi-surface-defects-2008 (159,531 points), built from z0 with every
+  // attribute: the worst tile is 11 MB decompressed at z0-z7, 8 MB at z8, 2.5 MB at z9 and
+  // 1.4 MB at z10. Those low-zoom tiles are why the layers were once held to minzoom 10,
+  // which left them blank at every zoom the map opens them at (Phelim's catalogue
+  // review, #49). Pruned to the derived set (civ_fid and the label field) z0 was still
+  // 6.5 MB: the label is a works reference unique to every point. So below the cutoff
+  // the tiles carry the listed categorical fields, which a tile stores once per distinct
+  // value; from z10 up, where every full-record tile is 1.3-2.1 MB decompressed (under
+  // the 4 MB budget), they carry the whole record the popup shows. Labels start at z10
+  // either way. Result across the 13 years: every point in every zoom still; the worst
+  // stored (gzip) tile 587-978 KB (2008: 731 KB against 1,904 KB before).
+  if (key.includes('dfi-surface-defects')) {
+    return {
+      maxSize: '3000000',
+      maxFeatures: '3000000',
+      simplification: '2',
+      simplificationMaxZoom: '8',
+      lowZoomAttributeCutoff: 9,
+      lowZoomKeep: ['DEFECT_DETAIL', 'DIVISION', 'SECTION_OFFICE', 'DEFECT_STATUS'],
+      note: 'Dense DfI defect points: categorical fields only up to z9, the full record from z10.'
+    };
+  }
+  if (key.includes('transport-carriageway-defects')
     || key.includes('agricultural-critical-risk')
     || key.includes('existing-protected-cycle-infrastructure')) {
     return {
