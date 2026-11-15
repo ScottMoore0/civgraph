@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
-import { browserElectionTypes, checkElectionTypes, electionKindIds, kindOfContestType, votingSystemIds } from '../../packages/registries/src/election-types.mjs';
+import { browserElectionTypes, checkElectionTypes, electionKindIds, kindContestTypes, kindOfContestType, votingSystemIds } from '../../packages/registries/src/election-types.mjs';
 import { electionKindLabels, votingSystemNames, votingSystemsWithTransfers } from '../../packages/registries/src/browser/election-type-names.mjs';
 import { systemName } from '../../site/apps/elections/lib/format.js';
 
@@ -30,7 +30,7 @@ test('election-types: the voting systems are the ones an election body may name'
   assert.deepEqual([...votingSystemIds(registry)].sort(), JSON.parse(allowed).sort());
   // The lists election-data-audit.mjs held before it read the registry (12 Nov 2026).
   assert.deepEqual(votingSystemIds(registry), ['fptp', 'block-vote', 'stv-gregory', 'stv-hare', 'party-list-dhondt', 'ordinal']);
-  assert.deepEqual(electionKindIds(registry), ['general', 'by-election']);
+  assert.deepEqual(electionKindIds(registry), ['general', 'by-election', 'union']);
 });
 
 test('election-types: the readers show the words they showed before', () => {
@@ -45,7 +45,7 @@ test('election-types: the readers show the words they showed before', () => {
   assert.equal(systemName('block-vote'), 'block-vote');
   assert.equal(systemName(''), 'unknown system');
   assert.equal(systemName(null), 'unknown system');
-  assert.deepEqual({ ...electionKindLabels, referendum: 'Referendums', other: 'Other' }, { general: 'General elections', 'by-election': 'By-elections', referendum: 'Referendums', other: 'Other' });
+  assert.deepEqual({ ...electionKindLabels, referendum: 'Referendums', other: 'Other' }, { general: 'General elections', 'by-election': 'By-elections', union: 'Members at the Union', referendum: 'Referendums', other: 'Other' });
 });
 
 test('election-types: a recall petition is listed with the by-elections; a referendum under no kind', () => {
@@ -53,6 +53,9 @@ test('election-types: a recall petition is listed with the by-elections; a refer
   assert.equal(kindOfContestType(registry, 'referendum'), null);
   assert.equal(kindOfContestType(registry, 'election'), null);
   assert.equal(kindOfContestType(registry, undefined), null);
+  // The Irish members at the Union (1801): a kind of its own, never a general election.
+  assert.equal(kindOfContestType(registry, 'union-roll'), 'union');
+  assert.deepEqual(kindContestTypes(registry), ['recall-petition', 'union-roll']);
   const twice = structuredClone(registry);
   twice.electionKinds.general.contestTypes = ['recall-petition'];
   assert.deepEqual(checkElectionTypes(twice), ['electionKinds: recall-petition is listed under general and by-election']);

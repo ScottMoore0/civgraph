@@ -90,7 +90,7 @@ import { areaCandidateColours, areaCountSheet, areaFeatureNames, areaResultsFirs
  *   slug: string,
  *   bodyType?: string,
  *   partyId?: string,
- *   dates?: Array<{ date: string, constituencies?: string[], totalAreas?: number }>
+ *   dates?: Array<{ date: string, constituencies?: string[], totalAreas?: number, contestType?: string, title?: string }>
  * }} ElectionIndexBody
  * @typedef {{ bodies?: ElectionIndexBody[] }} ElectionIndex
  */
@@ -108,6 +108,7 @@ import { areaCandidateColours, areaCountSheet, areaFeatureNames, areaResultsFirs
  *   bodyIndexes: number[],
  *   constituencies: string[],
  *   totalAreas?: number | null,
+ *   contestType?: string,
  *   bodies?: string[],
  *   localBodyByConstituency?: Record<string, string>,
  *   displayTitle?: string,
@@ -1411,7 +1412,12 @@ function buildUniqueElectionEntries(index) {
         constituencies: unique(dateEntry.constituencies || []),
         // How many areas the election had, where the index lists only those with results
         // (the Republic's local elections, which ElectionsIreland holds only in part).
-        totalAreas: dateEntry.totalAreas || null
+        totalAreas: dateEntry.totalAreas || null,
+        // A poll that is not an election names its contest type and title in the index: the
+        // Irish members of the Commons at the Union (1801), a kind of its own (the election-types
+        // registry lists which kind each contest type is filed under).
+        ...(dateEntry.contestType ? { contestType: dateEntry.contestType } : {}),
+        ...(dateEntry.title ? { displayTitle: dateEntry.title } : {})
       });
     }
   }
@@ -2161,6 +2167,7 @@ function classifyElectionResult(entry, result, parentMetadata = classifyElection
 
 /** @param {ElectionEntry | null | undefined} entry */
 function contestTypeForElection(entry) {
+  if (entry?.contestType) return entry.contestType;
   const bodySlug = String(entry?.bodySlug || '');
   const text = normalizeName(`${entry?.body || ''} ${entry?.displayTitle || canonicalElectionTitle(entry || {}) || ''} ${entry?.date || ''}`);
   if (bodySlug === 'ireland-referendum' || /\breferendum\b/.test(text)) return 'referendum';

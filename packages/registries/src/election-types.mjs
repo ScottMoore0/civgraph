@@ -39,6 +39,17 @@ export function kindOfContestType(registry, contestType) {
 }
 
 /**
+ * Every contest type other than an election that some kind lists (the recall petition, the
+ * Union's roll of members), in registry order: the contest types a bundle may carry besides
+ * 'election' and 'referendum'.
+ * @param {ElectionTypesRegistry} registry
+ * @returns {string[]}
+ */
+export function kindContestTypes(registry) {
+  return Object.values(registry.electionKinds).flatMap((kind) => kind.contestTypes || []);
+}
+
+/**
  * Errors the schema cannot state: a contest type two kinds both name (ids are unique as object keys).
  * @param {ElectionTypesRegistry} registry
  * @returns {string[]}

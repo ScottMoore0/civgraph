@@ -261,7 +261,8 @@ async function loadPersonFacets() {
 
 /** @param {BrowseItem} item */
 function electionKind(item) {
-  if (item.kind === 'general' || item.kind === 'by-election') return item.kind;
+  // A kind the election-types registry lists (general, by-election, the Union's members).
+  if (item.kind && Object.hasOwn(electionKindLabels, item.kind)) return item.kind;
   return /referendum/i.test(`${item.body || ''} ${item.title || ''}`) ? 'referendum' : 'other';
 }
 

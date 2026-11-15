@@ -9,7 +9,8 @@ export default {
  },
  "electionKindLabels": {
   "general": "General elections",
-  "by-election": "By-elections"
+  "by-election": "By-elections",
+  "union": "Members at the Union"
  },
  "votingSystemsWithTransfers": [
   "stv-gregory",

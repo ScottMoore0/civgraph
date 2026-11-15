@@ -4,7 +4,7 @@ import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
 import { recordPath } from '../../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../../packages/registries/src/index.mjs';
 import { enumValues } from '../../../packages/registries/src/statuses.mjs';
-import { electionKindIds, votingSystemIds } from '../../../packages/registries/src/election-types.mjs';
+import { electionKindIds, kindContestTypes, votingSystemIds } from '../../../packages/registries/src/election-types.mjs';
 
 /**
  * The party-colour comparison's outcome (state-machine catalogue PL-L, light). The audit rows spell
@@ -201,10 +201,12 @@ const normaliseNumber = (value) => {
 };
 
 // (These sets are looked up with optional fields, which are simply absent from them.)
-/** @type {Set<string | undefined>} */
-const VALID_CONTEST_TYPES = new Set(['election', 'referendum', 'recall-petition']);
 // The kinds of election and the voting systems: the election-types registry (REG-2).
 const ELECTION_TYPES = loadRegistry('election-types');
+// An election, a referendum, or a contest type a kind of the registry lists (a recall petition,
+// the Union's roll of members).
+/** @type {Set<string | undefined>} */
+const VALID_CONTEST_TYPES = new Set(['election', 'referendum', ...kindContestTypes(ELECTION_TYPES)]);
 /** @type {Set<string | undefined>} */
 const VALID_ELECTION_KINDS = new Set(electionKindIds(ELECTION_TYPES));
 // Contest statuses and what a missing one means: the statuses registry's contest entry (RG-02).
