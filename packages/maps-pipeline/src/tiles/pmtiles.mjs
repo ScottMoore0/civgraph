@@ -412,7 +412,7 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
 function lowZoomColumns(layer, sourcePath, profile = {}, cutoff = Infinity) {
   const fields = readSourceFields(sourcePath);
   if (!fields.length) return null;   // cannot tell: build normally rather than guess
-  if (Array.isArray(profile.lowZoomKeep)) return listedLowZoomColumns(layer, sourcePath, fields, profile.lowZoomKeep, cutoff);
+  if (Array.isArray(profile.lowZoomKeep)) return listedLowZoomColumns(layer, sourcePath, fields, profile, cutoff);
   // Anything the layer is STYLED by must survive, or the map draws the wrong colours
   // below the cutoff and the right ones above it -- a bug that looks like a rendering
   // glitch and would never be traced to a build flag. None of the layers enabled today
@@ -470,14 +470,20 @@ function lowZoomColumns(layer, sourcePath, profile = {}, cutoff = Infinity) {
  * civ_fid and the promoteId stay, as in the derived set. So does anything the layer is
  * styled by, and its label field when its labels draw below the cutoff; a label that
  * starts above the cutoff (labelMinZoom) is not needed in the tiles below it.
+ *
+ * Free text (a field longer than TILE_MAX_FIELD_CHARS) is left out of every tile, unless
+ * the profile sets keepProseAboveCutoff: then it is left out only below the cutoff. DCC's
+ * cycle infrastructure needs that, since its `description` (a KML table) is the only
+ * place some of each segment's attributes are.
  * @param {{ promoteId?: string, labelProperty?: string | null, labelProperties?: string[] | null, labelMinZoom?: number | null }} layer
  * @param {string} sourcePath
  * @param {string[]} fields the source's columns
- * @param {string[]} listed the profile's lowZoomKeep
+ * @param {{ lowZoomKeep: string[], keepProseAboveCutoff?: boolean }} profile
  * @param {number} cutoff the last zoom of the pruned range
  * @returns {{ low: string[], high: string[], dropped: string[] }}
  */
-function listedLowZoomColumns(layer, sourcePath, fields, listed, cutoff) {
+function listedLowZoomColumns(layer, sourcePath, fields, profile, cutoff) {
+  const listed = profile.lowZoomKeep;
   const styled = styleFieldReferences(layer);
   const labelFields = new Set([layer.labelProperty, ...(layer.labelProperties || [])].filter(Boolean));
   const labelsBelowCutoff = Number(layer.labelMinZoom ?? 0) <= cutoff;
@@ -487,10 +493,11 @@ function listedLowZoomColumns(layer, sourcePath, fields, listed, cutoff) {
     || (styled.has(field) && (labelsBelowCutoff || !labelFields.has(field))));
   const lengths = sampleFieldLengths(sourcePath);
   const isProse = (field) => (lengths.get(field) ?? 0) > TILE_MAX_FIELD_CHARS;
+  const proseAbove = profile.keepProseAboveCutoff === true;
   return {
     low: keep.filter((field) => !isProse(field)),
-    high: fields.filter((field) => !isProse(field)),
-    dropped: fields.filter(isProse)
+    high: fields.filter((field) => proseAbove || !isProse(field)),
+    dropped: proseAbove ? [] : fields.filter(isProse)
   };
 }
 

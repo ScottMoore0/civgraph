@@ -703,31 +703,31 @@ function mergeCategories(existing, layers) {
  * every zoom the map opens them at (Phelim's catalogue review, #49). Their archives now
  * carry only their categorical fields below z10 (tile-profiles.mjs), so they start at 0
  * like every other point layer, and only their labels wait for z10 (runtimeLabelMinZoom).
+ * The DAERA agricultural critical risk areas and DCC's protected cycle infrastructure were
+ * held to 10 the same way, and drew nothing at the zoom they open at; their archives are
+ * rebuilt from z0 (tile-profiles.mjs) and they start at 0 too.
  * transport-carriageway-defects-2021 stays at 10: it is hidden as a copy of the 2021 year.
  * @param {string} sourceMapId
  * @returns {number}
  */
 function runtimeMinZoom(sourceMapId) {
   const id = String(sourceMapId || '').toLowerCase();
-  if (id.includes('transport-carriageway-defects')
-    || id.includes('agricultural-critical-risk')
-    || id.includes('existing-protected-cycle-infrastructure')) {
-    return 10;
-  }
+  if (id.includes('transport-carriageway-defects')) return 10;
   if (id.includes('habitat-woodland-grouped') || id.includes('habitat-river')) return 8;
   return 0;
 }
 
 /**
- * The zoom a layer's labels start at: its source's, except the DfI road surface defect
- * years, whose label is a works reference on every one of their 94,000-216,000 points
- * and stays at z10, where it always drew.
+ * The zoom a layer's labels start at: its source's, except where the label is an
+ * identifier on every feature and stays at z10, where it always drew: the DfI road
+ * surface defect years (a works reference on each of 94,000-216,000 points) and the
+ * protected cycle infrastructure (a segment id such as ID_00398).
  * @param {string} sourceMapId
  * @returns {number}
  */
 function runtimeLabelMinZoom(sourceMapId) {
   const id = String(sourceMapId || '').toLowerCase();
-  if (id.includes('dfi-surface-defects')) return 10;
+  if (id.includes('dfi-surface-defects') || id.includes('existing-protected-cycle-infrastructure')) return 10;
   return runtimeMinZoom(sourceMapId);
 }
 

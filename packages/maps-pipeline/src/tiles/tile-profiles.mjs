@@ -155,9 +155,46 @@ export function getTileProfile(id = '') {
       note: 'Dense DfI defect points: categorical fields only up to z9, the full record from z10.'
     };
   }
-  if (key.includes('transport-carriageway-defects')
-    || key.includes('agricultural-critical-risk')
-    || key.includes('existing-protected-cycle-infrastructure')) {
+  // DAERA's agricultural critical risk areas: 172,265 field parcels, 20 attributes each.
+  // MEASURED built from z0 with every attribute: the worst tile is 5.3 MB decompressed
+  // (about 3 MB stored, at GDAL's MAX_SIZE) at z9 and 3.9 MB at z8; from z10 it is under
+  // 2 MB. Below the cutoff the tiles carry the parcel's land class, its hydrological
+  // connectivity and its risk score; from z10 the whole record. They were held to
+  // minzoom 10 and drew nothing at the zoom the map opens them at. Result: the low-zoom
+  // tiles hold far more parcels, since the full-record build was losing them to MAX_SIZE
+  // (z7, summed over its tiles: 152,239 against 33,573; z5: 42,873 against 11,914); the
+  // worst tile is 5.1 MB decompressed, 2.1 MB stored (z7), and z10-z12 are unchanged.
+  if (key.includes('agricultural-critical-risk')) {
+    return {
+      maxSize: '3000000',
+      maxFeatures: '3000000',
+      simplification: '2',
+      simplificationMaxZoom: '8',
+      lowZoomAttributeCutoff: 9,
+      lowZoomKeep: ['bh', 'hydoconnec', 'riskscore2'],
+      note: 'Dense DAERA parcels: land class, connectivity and risk score up to z9, the full record from z10.'
+    };
+  }
+  // DCC's protected cycle infrastructure: 4,826 segments, each with a 1.2 KB KML table of
+  // its own attributes in `description`. MEASURED built from z0 with every attribute: the
+  // whole county is one tile up to z7, 4.9 MB decompressed, and almost all of it is those
+  // tables. Below the cutoff the tiles carry the segment's id and type (Name); from z10
+  // the whole record, the table included (keepProseAboveCutoff: it is the only place the
+  // segment's two-way and bollard fields are, so it is not dropped as free text).
+  // Result: the worst tile below z10 is 0.16 MB decompressed (z7), against 4.9 MB.
+  if (key.includes('existing-protected-cycle-infrastructure')) {
+    return {
+      maxSize: '3000000',
+      maxFeatures: '3000000',
+      simplification: '2',
+      simplificationMaxZoom: '8',
+      lowZoomAttributeCutoff: 9,
+      lowZoomKeep: ['id', 'Name'],
+      keepProseAboveCutoff: true,
+      note: 'Cycle infrastructure segments: id and type up to z9, the full record (with its KML table) from z10.'
+    };
+  }
+  if (key.includes('transport-carriageway-defects')) {
     return {
       maxSize: '3000000',
       maxFeatures: '3000000',
