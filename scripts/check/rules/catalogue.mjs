@@ -15,6 +15,7 @@
  *   - a thumbnail the catalogue names is not in assets/thumbnails/manifest.json;
  *   - an election names a layer the site does not have;
  *   - an old card link redirects to a series that does not exist;
+ *   - a merged row's redirect (seriesRedirects) starts at a live row, loops or ends at no row;
  *   - the built files are stale (run build-catalogue.mjs);
  *   - a map in a series lacks a provider, a source link or something to draw, beyond the
  *     problems pinned in data/catalogue/quality-baseline.json; or is new and not signed off
@@ -29,6 +30,7 @@ import { loadRecords, placeable } from '../../build/catalogue/records.mjs';
 import { ELECTION_MANIFEST } from '../../../packages/loader/src/paths.mjs';
 import { loadRegistry } from '../../../packages/registries/src/index.mjs';
 import { catalogueKindIds } from '../../../packages/registries/src/catalogue-kinds.mjs';
+import { seriesRedirectProblems } from '../../../packages/map/src/catalogue/route-state.mjs';
 
 /** @typedef {import('../../build/catalogue/records.mjs').CatalogueRecord} CatalogueRecord */
 /**
@@ -44,7 +46,8 @@ import { catalogueKindIds } from '../../../packages/registries/src/catalogue-kin
 /**
  * @typedef {{
  *   shelves: { id: string, subjects?: string[] }[], subjects: SourceSubject[], series: SourceSeries[],
- *   hidden?: { id: string, why?: string, route?: string, to?: string }[], signedOff?: { id: string }[], electionsHidden?: string[]
+ *   hidden?: { id: string, why?: string, route?: string, to?: string }[], signedOff?: { id: string }[], electionsHidden?: string[],
+ *   seriesRedirects?: Record<string, string>
  * }} CatalogueSource
  */
 /**
@@ -155,6 +158,9 @@ for (const s of source.series) {
   }
 }
 for (const id of seriesInSubject.keys()) if (!seriesById.has(id)) fail(`a subject names series ${id}, which does not exist`);
+// A merged row's old id redirects to the row it went into: never from a live row, never in a loop,
+// never to no row.
+for (const problem of seriesRedirectProblems(source.seriesRedirects, new Set(seriesById.keys()))) fail(problem);
 // Names are what readers search and scan by: two series must never share one within a scope. The
 // scope (NI, ROI, All-island) is shown beside every name, so the name does not repeat it (owner,
 // 1 Nov 2026): "Administrative Counties" is three series, one per scope.

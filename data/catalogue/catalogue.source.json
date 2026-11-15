@@ -247,9 +247,7 @@
    "kind": "Dataset",
    "series": [
     "development-plans-and-zoning-roscommon-county-development-plan",
-    "development-plans-and-zoning-roscommon-county-development-plan-2014",
     "development-plans-and-zoning-roscommon-county-development-plan--points",
-    "development-plans-and-zoning-roscommon-county-development-plan-2014--points",
     "development-plans-and-zoning-roscommon-local-area-plans",
     "development-plans-and-zoning-dun-laoghaire-rathdown",
     "development-plans-and-zoning-dun-laoghaire-rathdown--points",
@@ -299,7 +297,6 @@
     "roads-and-traffic-gdf2s",
     "roads-and-traffic-traffic-management-and-signs",
     "roads-and-traffic-psni-road-traffic-collisions",
-    "roads-and-traffic-tii-collision-rates",
     "roads-and-traffic-pothole-enquiries",
     "roads-and-traffic-ni-road-surface-defects"
    ],
@@ -345,9 +342,7 @@
    "name": "Parking",
    "kind": "Dataset",
    "series": [
-    "parking-accessible-parking",
-    "parking-parking-meters",
-    "parking-car-and-coach-parking"
+    "parking-accessible-parking"
    ],
    "toBeAdded": []
   },
@@ -359,8 +354,6 @@
     "built-heritage-and-protected-structures-architectural-conservation-areas",
     "built-heritage-and-protected-structures-protected-structures--points",
     "built-heritage-and-protected-structures-listed-buildings",
-    "built-heritage-and-protected-structures-defence-heritage-sites",
-    "built-heritage-and-protected-structures-industrial-heritage-record",
     "built-heritage-and-protected-structures-heritage-surveys-and-sites",
     "archaeology-and-monuments-monument-types",
     "built-heritage-and-protected-structures-topographic-sites"
@@ -372,10 +365,8 @@
    "name": "Archaeology & Monuments",
    "kind": "Dataset",
    "series": [
-    "archaeology-and-monuments-ringfort",
     "archaeology-and-monuments-scheduled-historic-monument-areas",
-    "archaeology-and-monuments-sites-and-monuments-records",
-    "archaeology-and-monuments-sites-and-monuments-records--points"
+    "archaeology-and-monuments-sites-and-monuments-records"
    ],
    "toBeAdded": []
   },
@@ -407,7 +398,6 @@
    "name": "Municipal Services & Utilities",
    "kind": "Dataset",
    "series": [
-    "municipal-services-and-utilities-niea-authorised-landfill-sites",
     "municipal-services-and-utilities-public-toilets",
     "municipal-services-and-utilities-wifi4eu-access-points",
     "municipal-services-and-utilities-authorised-waste-sites",
@@ -473,7 +463,6 @@
    "kind": "Dataset",
    "series": [
     "water-quality-river-water-quality",
-    "water-quality-river-water-quality--roi",
     "water-quality-water-bodies",
     "water-quality-water-monitoring-points",
     "water-quality-water-monitoring-points--roi",
@@ -500,9 +489,7 @@
    "name": "Flooding & Coastal Risk",
    "kind": "Dataset",
    "series": [
-    "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
-    "flooding-and-coastal-risk-groundwater-flooding",
-    "flooding-and-coastal-risk-flood-extents"
+    "flooding-and-coastal-risk-community-scale-coastal-flood-extents"
    ],
    "toBeAdded": []
   },
@@ -524,8 +511,7 @@
    "series": [
     "nature-habitats-and-designated-sites-habitat-network",
     "nature-habitats-and-designated-sites-designated-and-protected-sites",
-    "nature-habitats-and-designated-sites-wetlands-survey",
-    "nature-habitats-and-designated-sites-habitat-maps"
+    "nature-habitats-and-designated-sites-wetlands-survey"
    ],
    "toBeAdded": []
   },
@@ -555,7 +541,8 @@
    "name": "Land Cover & Land Use",
    "kind": "Dataset",
    "series": [
-    "land-cover-and-land-use-land-cover"
+    "land-cover-and-land-use-land-cover",
+    "land-cover-and-land-use-land-use"
    ],
    "toBeAdded": []
   },
@@ -591,7 +578,6 @@
    "name": "Geology & Soils",
    "kind": "Dataset",
    "series": [
-    "geology-and-soils-bedrock-geology-1-250-000",
     "geology-and-soils-geology-maps",
     "geology-and-soils-boreholes-and-cores",
     "geology-and-soils-minerals-and-mining"
@@ -629,7 +615,6 @@
     "aerial-imagery-and-elevation-osni-orthophoto-coverage",
     "aerial-imagery-and-elevation-elevation-models",
     "ireland-3d-terrain",
-    "ni-river-basin-lidar-3d",
     "lidar-point-clouds"
    ],
    "toBeAdded": []
@@ -1002,7 +987,7 @@
    "id": "nature-habitats-and-designated-sites-habitat-network",
    "name": "Habitat Network",
    "subject": "nature-habitats-and-designated-sites",
-   "scope": "Northern Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "habitat-coastal-grouped",
@@ -1028,8 +1013,43 @@
     "habitat-maritime-cliff-slope",
     "habitat-limestone-pavement",
     "habitat-coastal-vegetated-shingle",
-    "habitat-traditional-orchard"
-   ]
+    "habitat-traditional-orchard",
+    "ni-priority-habitats-peatland",
+    "west-fermanagh-scarplands-sac-habitat",
+    "oda-map-00571-fossit-3-town",
+    "tailte-vegetation-areas"
+   ],
+   "labels": {
+    "ni-priority-habitats-peatland": "Priority Habitats — Peatland",
+    "west-fermanagh-scarplands-sac-habitat": "West Fermanagh Scarplands SAC Habitat Map",
+    "oda-map-00571-fossit-3-town": "Fossitt Habitats — Town",
+    "tailte-vegetation-areas": "Vegetation Areas",
+    "habitat-coastal-grouped": "Habitat Network — Coastal Habitat Networks (grouped)",
+    "habitat-heath": "Habitat Network — Heath",
+    "habitat-woodland-grouped": "Habitat Network — Woodland Habitat Networks (grouped)",
+    "habitat-wetland-grouped": "Habitat Network — Wetland Habitat Networks (grouped)",
+    "habitat-bog": "Habitat Network — Bog",
+    "habitat-deciduous-woodland": "Habitat Network — Deciduous Woodland",
+    "habitat-lake": "Habitat Network — Lake",
+    "habitat-river": "Habitat Network — River",
+    "habitat-grassland-grouped": "Habitat Network — Grassland Habitat Networks (grouped)",
+    "habitat-fen": "Habitat Network — Fen",
+    "habitat-lowland-meadow": "Habitat Network — Lowland Meadow",
+    "habitat-coastal-saltmarsh": "Habitat Network — Coastal Saltmarsh",
+    "habitat-purple-moor-grass": "Habitat Network — Purple Moor Grass and Rush Pasture",
+    "habitat-pond": "Habitat Network — Pond",
+    "habitat-calcareous-grassland": "Habitat Network — Calcareous Grassland",
+    "habitat-ancient-semi-natural-woodland": "Habitat Network — Ancient Semi-Natural Woodland",
+    "habitat-reedbed": "Habitat Network — Reedbed",
+    "habitat-wood-pasture-parkland": "Habitat Network — Wood Pasture and Parkland",
+    "habitat-coastal-sand-dune": "Habitat Network — Coastal Sand Dune",
+    "habitat-acid-grassland": "Habitat Network — Acid Grassland",
+    "habitat-maritime-cliff-slope": "Habitat Network — Maritime Cliff and Slope",
+    "habitat-limestone-pavement": "Habitat Network — Limestone Pavement",
+    "habitat-coastal-vegetated-shingle": "Habitat Network — Coastal Vegetated Shingle",
+    "habitat-traditional-orchard": "Habitat Network — Traditional Orchard"
+   },
+   "unitFromLabel": true
   },
   {
    "id": "constituencies-d-il-ireann-constituencies",
@@ -1096,7 +1116,7 @@
    "id": "water-quality-river-water-quality",
    "name": "River Water Quality",
    "subject": "water-quality",
-   "scope": "Northern Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "wq-rwq-ph",
@@ -1111,18 +1131,25 @@
     "wq-rwq-conductivity",
     "wq-rwq-alkalinity",
     "wq-rwq-soluble-phosphorus",
-    "wq-rwq-dissolved-copper"
-   ]
-  },
-  {
-   "id": "water-quality-river-water-quality--roi",
-   "name": "River Water Quality",
-   "subject": "water-quality",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "wq-rwq-dissolved-copper",
     "sdcc-monthly-river-quality-data-sdcc1"
-   ]
+   ],
+   "labels": {
+    "wq-rwq-ph": "pH — Northern Ireland",
+    "wq-rwq-dissolved-oxygen": "Dissolved oxygen — Northern Ireland",
+    "wq-rwq-biochemical-oxygen-demand": "Biochemical oxygen demand (BOD) — Northern Ireland",
+    "wq-rwq-ammonia": "Total ammonia (as N) — Northern Ireland",
+    "wq-rwq-nitrate": "Nitrate (as N) — Northern Ireland",
+    "wq-rwq-nitrite": "Nitrite (as N) — Northern Ireland",
+    "wq-rwq-dissolved-iron": "Dissolved iron — Northern Ireland",
+    "wq-rwq-dissolved-zinc": "Dissolved zinc — Northern Ireland",
+    "wq-rwq-suspended-solids": "Suspended solids — Northern Ireland",
+    "wq-rwq-conductivity": "Conductivity — Northern Ireland",
+    "wq-rwq-alkalinity": "Alkalinity — Northern Ireland",
+    "wq-rwq-soluble-phosphorus": "Soluble reactive phosphorus — Northern Ireland",
+    "wq-rwq-dissolved-copper": "Dissolved copper — Northern Ireland",
+    "sdcc-monthly-river-quality-data-sdcc1": "Monthly River Quality Data (SDCC)"
+   }
   },
   {
    "id": "constituencies-parliamentary-constituencies",
@@ -1471,9 +1498,9 @@
   },
   {
    "id": "roads-and-traffic-psni-road-traffic-collisions",
-   "name": "PSNI Road Traffic Collisions",
+   "name": "Road Traffic Collisions",
    "subject": "roads-and-traffic",
-   "scope": "Northern Ireland",
+   "scope": "Ireland",
    "arrangement": "editions",
    "members": [
     "psni-collisions-2013",
@@ -1481,8 +1508,20 @@
     "psni-collisions-2015",
     "psni-collisions-2016",
     "psni-collisions-2017",
-    "psni-collisions-2018"
-   ]
+    "psni-collisions-2018",
+    "tii-collision-rates-2011-2013",
+    "tii-collision-rates-2014-2016"
+   ],
+   "labels": {
+    "psni-collisions-2013": "2013 (PSNI collisions)",
+    "psni-collisions-2014": "2014 (PSNI collisions)",
+    "psni-collisions-2015": "2015 (PSNI collisions)",
+    "psni-collisions-2016": "2016 (PSNI collisions)",
+    "psni-collisions-2017": "2017 (PSNI collisions)",
+    "psni-collisions-2018": "2018 (PSNI collisions)",
+    "tii-collision-rates-2011-2013": "2011–2013 (TII collision rates)",
+    "tii-collision-rates-2014-2016": "2014–2016 (TII collision rates)"
+   }
   },
   {
    "id": "property-land-and-buildings-ni-government-land-and-property-register",
@@ -1539,20 +1578,6 @@
    "members": [
     "settlements-2015",
     "settlements-2005"
-   ]
-  },
-  {
-   "id": "municipal-services-and-utilities-niea-authorised-landfill-sites",
-   "name": "NIEA Authorised Landfill Sites",
-   "subject": "municipal-services-and-utilities",
-   "scope": "Northern Ireland",
-   "arrangement": "editions",
-   "members": [
-    "niea-landfill-sites-2013",
-    "niea-landfill-sites-2014",
-    "niea-landfill-sites-2015",
-    "niea-landfill-sites-2016",
-    "niea-landfill-sites-2017"
    ]
   },
   {
@@ -2094,18 +2119,6 @@
    }
   },
   {
-   "id": "archaeology-and-monuments-ringfort",
-   "name": "Ringfort",
-   "subject": "archaeology-and-monuments",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "historic-ringfort-rath",
-    "historic-ringfort-cashel",
-    "historic-ringfort-unclassified"
-   ]
-  },
-  {
    "id": "language-and-gaeltacht-gaeltacht-areas",
    "name": "Gaeltacht Areas",
    "subject": "government-current",
@@ -2188,8 +2201,22 @@
    "members": [
     "accessible-parking-spaces-sdcc3",
     "dcc-accessible-parking-spaces",
-    "dlr-accessible-parking-bays"
-   ]
+    "dlr-accessible-parking-bays",
+    "dlr-parking-meters",
+    "dcc-parking-meters-location-tariffs-and-zones-in-dublin-city",
+    "oda-map-00438-car-parking-locations-roscommon",
+    "dcc-coach-parking"
+   ],
+   "labels": {
+    "oda-map-00438-car-parking-locations-roscommon": "Car Parking Locations (Roscommon)",
+    "dcc-coach-parking": "Coach Parking (Dublin City)",
+    "accessible-parking-spaces-sdcc3": "Accessible Parking Spaces (SDCC)",
+    "dcc-accessible-parking-spaces": "Accessible Parking Spaces (Dublin City)",
+    "dlr-accessible-parking-bays": "Accessible Parking Bays (DLR)",
+    "dlr-parking-meters": "Parking Meters (DLR)",
+    "dcc-parking-meters-location-tariffs-and-zones-in-dublin-city": "Parking Meters: Locations, Tariffs & Zones (Dublin City)"
+   },
+   "unitFromLabel": true
   },
   {
    "id": "local-government-municipal-districts",
@@ -2255,17 +2282,6 @@
    "unit": "Constituencies"
   },
   {
-   "id": "roads-and-traffic-tii-collision-rates",
-   "name": "TII Collision Rates",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "editions",
-   "members": [
-    "tii-collision-rates-2011-2013",
-    "tii-collision-rates-2014-2016"
-   ]
-  },
-  {
    "id": "municipal-services-and-utilities-public-toilets",
    "name": "Public Toilets",
    "subject": "municipal-services-and-utilities",
@@ -2300,8 +2316,22 @@
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "niea-waste-sites-2021"
-   ]
+    "niea-waste-sites-2021",
+    "niea-landfill-sites-2017",
+    "niea-landfill-sites-2016",
+    "niea-landfill-sites-2015",
+    "niea-landfill-sites-2014",
+    "niea-landfill-sites-2013"
+   ],
+   "labels": {
+    "niea-waste-sites-2021": "Authorised Waste Sites (Feb 2021)",
+    "niea-landfill-sites-2013": "Authorised Landfill Sites (2013)",
+    "niea-landfill-sites-2014": "Authorised Landfill Sites (2014)",
+    "niea-landfill-sites-2015": "Authorised Landfill Sites (2015)",
+    "niea-landfill-sites-2016": "Authorised Landfill Sites (2016)",
+    "niea-landfill-sites-2017": "Authorised Landfill Sites (2017)"
+   },
+   "unitFromLabel": true
   },
   {
    "id": "geophysics-and-geochemical-survey-tellus-electromagnetic",
@@ -2374,32 +2404,6 @@
    }
   },
   {
-   "id": "built-heritage-and-protected-structures-defence-heritage-sites",
-   "name": "Defence Heritage Sites",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-defence-heritage"
-   ],
-   "labels": {
-    "ni-defence-heritage": "Northern Ireland"
-   }
-  },
-  {
-   "id": "built-heritage-and-protected-structures-industrial-heritage-record",
-   "name": "Industrial Heritage Record",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-industrial-heritage"
-   ],
-   "labels": {
-    "ni-industrial-heritage": "Northern Ireland"
-   }
-  },
-  {
    "id": "landscape-and-scenic-amenity-landscape-character-types",
    "name": "Landscape Character Types",
    "subject": "landscape-and-scenic-amenity",
@@ -2458,37 +2462,34 @@
    }
   },
   {
-   "id": "geology-and-soils-bedrock-geology-1-250-000",
-   "name": "Bedrock Geology 1:250,000",
-   "subject": "geology-and-soils",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "gsni-bedrock-geology-polygons-250k",
-    "gsni-bedrock-geology-lines-250k"
-   ]
-  },
-  {
    "id": "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
    "name": "Community-Scale Coastal Flood Extents",
    "subject": "flooding-and-coastal-risk",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "community-scale-coastal-flood-extents-high-end-future-scenario",
-    "community-scale-coastal-flood-extents-mid-range-future-scenario"
-   ]
-  },
-  {
-   "id": "flooding-and-coastal-risk-groundwater-flooding",
-   "name": "Groundwater Flooding",
-   "subject": "flooding-and-coastal-risk",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "community-scale-coastal-flood-extents-mid-range-future-scenario",
+    "opw-coastal-flood-extents-2021-current",
+    "opw-nifm-river-flood-extents-current",
+    "community-scale-flood-model-nodes-current-scenario",
+    "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028",
+    "rivers-coastal-flood-2018",
     "gsi-groundwater-flooding-low",
     "gsi-groundwater-flooding-medium"
-   ]
+   ],
+   "labels": {
+    "opw-coastal-flood-extents-2021-current": "National Coastal Flood Extents — Current Scenario",
+    "opw-nifm-river-flood-extents-current": "NIFM River Flood Extents — Current Scenario",
+    "community-scale-flood-model-nodes-current-scenario": "Community-Scale Flood Model Nodes — Current Scenario",
+    "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028": "Settlement Flood Zones (Roscommon)",
+    "rivers-coastal-flood-2018": "Coastal Flood Boundary — Extreme Sea Levels",
+    "community-scale-coastal-flood-extents-high-end-future-scenario": "Community-Scale Coastal Flood Extents — High-End Future Scenario",
+    "community-scale-coastal-flood-extents-mid-range-future-scenario": "Community-Scale Coastal Flood Extents — Mid-Range Future Scenario",
+    "gsi-groundwater-flooding-low": "Groundwater Flooding — Low Probability",
+    "gsi-groundwater-flooding-medium": "Groundwater Flooding — Medium Probability"
+   },
+   "unitFromLabel": true
   },
   {
    "id": "trees-hedgerows-and-woodland-wicklow-county-council",
@@ -2519,17 +2520,6 @@
    },
    "kind": "Places",
    "unitFromLabel": true
-  },
-  {
-   "id": "parking-parking-meters",
-   "name": "Parking Meters",
-   "subject": "parking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-parking-meters",
-    "dcc-parking-meters-location-tariffs-and-zones-in-dublin-city"
-   ]
   },
   {
    "id": "parks-and-open-space-playgrounds",
@@ -2660,27 +2650,6 @@
    "members": [
     "catholic-dioceses"
    ]
-  },
-  {
-   "id": "nature-habitats-and-designated-sites-habitat-maps",
-   "name": "Habitat Maps",
-   "subject": "nature-habitats-and-designated-sites",
-   "scope": "Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-priority-habitats-peatland",
-    "west-fermanagh-scarplands-sac-habitat",
-    "oda-map-00571-fossit-3-town",
-    "tailte-vegetation-areas"
-   ],
-   "labels": {
-    "ni-priority-habitats-peatland": "Priority Habitats — Peatland",
-    "west-fermanagh-scarplands-sac-habitat": "West Fermanagh Scarplands SAC Habitat Map",
-    "oda-map-00571-fossit-3-town": "Fossitt Habitats — Town",
-    "tailte-vegetation-areas": "Vegetation Areas"
-   },
-   "kind": "Places",
-   "unitFromLabel": true
   },
   {
    "id": "electoral-divisions-county-electoral-divisions",
@@ -3111,7 +3080,9 @@
     "dcc-heritage-sites-historic-monuments-and-government-buildings",
     "tailte-heritage",
     "dlr-burial-grounds",
-    "designated-whs"
+    "designated-whs",
+    "ni-defence-heritage",
+    "ni-industrial-heritage"
    ],
    "labels": {
     "niah-buildings": "NIAH Buildings",
@@ -3120,7 +3091,9 @@
     "dcc-heritage-sites-historic-monuments-and-government-buildings": "Heritage Sites Historic Monuments And Government Buildings (Dublin City)",
     "tailte-heritage": "Heritage Features",
     "dlr-burial-grounds": "Burial Grounds (DLR)",
-    "designated-whs": "World Heritage Site"
+    "designated-whs": "World Heritage Site",
+    "ni-defence-heritage": "Defence Heritage Sites (Northern Ireland)",
+    "ni-industrial-heritage": "Industrial Heritage Record (Northern Ireland)"
    },
    "kind": "Places",
    "unitFromLabel": true
@@ -3136,14 +3109,22 @@
     "historic-wedge-tomb",
     "historic-bullaun-stones",
     "historic-crannog",
-    "historic-standing-stones"
+    "historic-standing-stones",
+    "historic-ringfort-rath",
+    "historic-ringfort-cashel",
+    "historic-ringfort-unclassified",
+    "hed-sites-and-monuments"
    ],
    "labels": {
     "historic-rock-scribing": "Rock Scribing",
     "historic-wedge-tomb": "Wedge Tomb",
     "historic-bullaun-stones": "Bullaun Stones",
     "historic-crannog": "Crannog",
-    "historic-standing-stones": "Standing Stones"
+    "historic-standing-stones": "Standing Stones",
+    "hed-sites-and-monuments": "Sites and Monuments Record (Northern Ireland)",
+    "historic-ringfort-rath": "Ringfort — Rath",
+    "historic-ringfort-cashel": "Ringfort — Cashel",
+    "historic-ringfort-unclassified": "Ringfort — Unclassified"
    },
    "kind": "Places",
    "unitFromLabel": true
@@ -3243,7 +3224,9 @@
     "gsni-superficial-geology-polygons-250k",
     "irish-peat-soils-map",
     "gsi-karst-data",
-    "oda-map-00583-geological-sites-audit-2012-roscommon"
+    "oda-map-00583-geological-sites-audit-2012-roscommon",
+    "gsni-bedrock-geology-polygons-250k",
+    "gsni-bedrock-geology-lines-250k"
    ],
    "labels": {
     "ni-250k-geology": "Northern Ireland Geology",
@@ -3251,7 +3234,9 @@
     "gsni-superficial-geology-polygons-250k": "Superficial Geology 1:250,000",
     "irish-peat-soils-map": "Irish Peat Soils Map",
     "gsi-karst-data": "Karst Data",
-    "oda-map-00583-geological-sites-audit-2012-roscommon": "Geological Sites Audit (Roscommon)"
+    "oda-map-00583-geological-sites-audit-2012-roscommon": "Geological Sites Audit (Roscommon)",
+    "gsni-bedrock-geology-polygons-250k": "Bedrock Geology 1:250,000 (Polygons)",
+    "gsni-bedrock-geology-lines-250k": "Bedrock Geology 1:250,000 (Lines)"
    },
    "kind": "Places",
    "unitFromLabel": true
@@ -3324,29 +3309,6 @@
    }
   },
   {
-   "id": "flooding-and-coastal-risk-flood-extents",
-   "name": "Flood Extents & Zones",
-   "subject": "flooding-and-coastal-risk",
-   "scope": "Ireland",
-   "arrangement": "set",
-   "members": [
-    "opw-coastal-flood-extents-2021-current",
-    "opw-nifm-river-flood-extents-current",
-    "community-scale-flood-model-nodes-current-scenario",
-    "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028",
-    "rivers-coastal-flood-2018"
-   ],
-   "labels": {
-    "opw-coastal-flood-extents-2021-current": "National Coastal Flood Extents — Current Scenario",
-    "opw-nifm-river-flood-extents-current": "NIFM River Flood Extents — Current Scenario",
-    "community-scale-flood-model-nodes-current-scenario": "Community-Scale Flood Model Nodes - Current Scenario",
-    "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028": "Settlement Flood Zones (Roscommon)",
-    "rivers-coastal-flood-2018": "Coastal Flood Boundary — Extreme Sea Levels"
-   },
-   "kind": "Places",
-   "unitFromLabel": true
-  },
-  {
    "id": "trees-hedgerows-and-woodland-hedgerows-and-corridors",
    "name": "Hedgerows, Treelines & Wildlife Corridors",
    "subject": "trees-hedgerows-and-woodland",
@@ -3405,22 +3367,34 @@
   },
   {
    "id": "land-cover-and-land-use-land-cover",
-   "name": "Land Cover & Land Use",
+   "name": "Land Cover",
    "subject": "land-cover-and-land-use",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "corine-land-cover-2018",
-    "ni-land-classification",
-    "ni-historic-landuse"
+    "ni-land-classification"
    ],
    "labels": {
     "corine-land-cover-2018": "CORINE Land Cover",
-    "ni-land-classification": "Northern Ireland Land Classification",
-    "ni-historic-landuse": "Historic Land Use"
+    "ni-land-classification": "Northern Ireland Land Classification"
    },
    "kind": "Places",
    "unitFromLabel": true
+  },
+  {
+   "id": "land-cover-and-land-use-land-use",
+   "name": "Land Use",
+   "subject": "land-cover-and-land-use",
+   "scope": "Northern Ireland",
+   "arrangement": "set",
+   "members": [
+    "ni-historic-landuse"
+   ],
+   "kind": "Places",
+   "labels": {
+    "ni-historic-landuse": "Historic Land Use"
+   }
   },
   {
    "id": "culture-and-the-arts-museums-galleries-and-venues",
@@ -3468,23 +3442,6 @@
     "dcc-public-artworks-in-dublin-city": "Public Artworks In Dublin City",
     "dlr-public-art": "Public Art (DLR)",
     "dlr-sculpture-trail": "Sculpture Trail (DLR)"
-   },
-   "kind": "Places",
-   "unitFromLabel": true
-  },
-  {
-   "id": "parking-car-and-coach-parking",
-   "name": "Car & Coach Parking",
-   "subject": "parking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00438-car-parking-locations-roscommon",
-    "dcc-coach-parking"
-   ],
-   "labels": {
-    "oda-map-00438-car-parking-locations-roscommon": "Car Parking Locations (Roscommon)",
-    "dcc-coach-parking": "Coach Parking (Dublin City)"
    },
    "kind": "Places",
    "unitFromLabel": true
@@ -3737,20 +3694,6 @@
    "kind": "Boundary"
   },
   {
-   "id": "archaeology-and-monuments-sites-and-monuments-records--points",
-   "name": "Sites & Monuments Record Points",
-   "subject": "archaeology-and-monuments",
-   "scope": "Ireland",
-   "arrangement": "set",
-   "members": [
-    "hed-sites-and-monuments"
-   ],
-   "kind": "Places",
-   "labels": {
-    "hed-sites-and-monuments": "Sites and Monuments Record"
-   }
-  },
-  {
    "id": "civil-parishes-civil-parishes",
    "name": "Civil Parishes",
    "subject": "civil-parishes",
@@ -3920,19 +3863,16 @@
    "arrangement": "set",
    "members": [
     "ireland-terrain-3d",
-    "ireland-terrain-3d-grey"
-   ]
-  },
-  {
-   "id": "ni-river-basin-lidar-3d",
-   "name": "NI River-Basin LiDAR — 1 m 3D Terrain",
-   "subject": "aerial-imagery-and-elevation",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "ireland-terrain-3d-grey",
     "ni-lidar-1m-3d",
     "ni-lidar-1m-3d-grey"
-   ]
+   ],
+   "labels": {
+    "ireland-terrain-3d": "Ireland: best-available LiDAR + 30 m",
+    "ireland-terrain-3d-grey": "Ireland: best-available LiDAR + 30 m — grey relief",
+    "ni-lidar-1m-3d": "Northern Ireland river basins: LiDAR 1 m",
+    "ni-lidar-1m-3d-grey": "Northern Ireland river basins: LiDAR 1 m — grey relief"
+   }
   },
   {
    "id": "lidar-point-clouds",
@@ -4287,7 +4227,7 @@
   },
   {
    "id": "development-plans-and-zoning-roscommon-county-development-plan",
-   "name": "County Development Plan 2022–2028 (Roscommon)",
+   "name": "County Development Plans (Roscommon)",
    "subject": "development-plans-and-zoning",
    "scope": "Republic of Ireland",
    "arrangement": "set",
@@ -4297,15 +4237,17 @@
     "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028",
     "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028",
     "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028",
-    "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028"
+    "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028",
+    "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired"
    ],
    "labels": {
-    "oda-map-00610-land-use-zoning-roscommon-cdp-2022-2028": "Land-use Zoning",
-    "oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028": "Settlement Boundaries",
-    "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028": "Areas Under Urban Influence",
-    "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028": "Core Retail Areas",
-    "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028": "Town Core Residential Opportunity Sites",
-    "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028": "Architectural Conservation Areas"
+    "oda-map-00610-land-use-zoning-roscommon-cdp-2022-2028": "Land-use Zoning (2022–2028)",
+    "oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028": "Settlement Boundaries (2022–2028)",
+    "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028": "Areas Under Urban Influence (2022–2028)",
+    "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028": "Core Retail Areas (2022–2028)",
+    "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028": "Town Core Residential Opportunity Sites (2022–2028)",
+    "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028": "Architectural Conservation Areas (2022–2028)",
+    "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired": "Architectural Conservation Areas (2014–2020)"
    }
   },
   {
@@ -4438,22 +4380,8 @@
    "subject": "built-heritage-and-protected-structures"
   },
   {
-   "id": "development-plans-and-zoning-roscommon-county-development-plan-2014",
-   "name": "County Development Plan 2014–2020 (Roscommon)",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired"
-   ],
-   "kind": "Boundary",
-   "labels": {
-    "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired": "Architectural Conservation Areas"
-   },
-   "subject": "development-plans-and-zoning"
-  },
-  {
    "id": "development-plans-and-zoning-roscommon-county-development-plan--points",
-   "name": "County Development Plan 2022–2028 (Roscommon)",
+   "name": "County Development Plans (Roscommon)",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
@@ -4461,24 +4389,7 @@
     "oda-map-00733-scenic-routes-roscommon-cdp-2022-2028",
     "oda-map-00735-scenic-views-roscommon-cdp-2022-2028",
     "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028",
-    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028"
-   ],
-   "kind": "Places",
-   "labels": {
-    "oda-map-00695-record-of-protected-structures-roscommon-cdp-2022-2028": "Record of Protected Structures",
-    "oda-map-00733-scenic-routes-roscommon-cdp-2022-2028": "Scenic Routes",
-    "oda-map-00735-scenic-views-roscommon-cdp-2022-2028": "Scenic Views",
-    "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028": "Scenic Views Extents",
-    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028": "Areas Suitable for Windfarm Development"
-   },
-   "subject": "development-plans-and-zoning"
-  },
-  {
-   "id": "development-plans-and-zoning-roscommon-county-development-plan-2014--points",
-   "name": "County Development Plan 2014–2020 (Roscommon)",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028",
     "oda-map-00694-record-of-protected-structures-roscommon-cdp-2014-2020-expired",
     "oda-map-00732-scenic-routes-roscommon-cdp-2014-2020",
     "oda-map-00734-scenic-views-roscommon-cdp-2014-2020",
@@ -4487,11 +4398,16 @@
    ],
    "kind": "Places",
    "labels": {
-    "oda-map-00694-record-of-protected-structures-roscommon-cdp-2014-2020-expired": "Record of Protected Structures",
-    "oda-map-00732-scenic-routes-roscommon-cdp-2014-2020": "Scenic Routes",
-    "oda-map-00734-scenic-views-roscommon-cdp-2014-2020": "Scenic Views",
-    "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired": "Average Wind Speeds",
-    "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire": "Wind Energy Development Potential"
+    "oda-map-00695-record-of-protected-structures-roscommon-cdp-2022-2028": "Record of Protected Structures (2022–2028)",
+    "oda-map-00733-scenic-routes-roscommon-cdp-2022-2028": "Scenic Routes (2022–2028)",
+    "oda-map-00735-scenic-views-roscommon-cdp-2022-2028": "Scenic Views (2022–2028)",
+    "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028": "Scenic Views Extents (2022–2028)",
+    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028": "Areas Suitable for Windfarm Development (2022–2028)",
+    "oda-map-00694-record-of-protected-structures-roscommon-cdp-2014-2020-expired": "Record of Protected Structures (2014–2020)",
+    "oda-map-00732-scenic-routes-roscommon-cdp-2014-2020": "Scenic Routes (2014–2020)",
+    "oda-map-00734-scenic-views-roscommon-cdp-2014-2020": "Scenic Views (2014–2020)",
+    "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired": "Average Wind Speeds (2014–2020)",
+    "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire": "Wind Energy Development Potential (2014–2020)"
    },
    "subject": "development-plans-and-zoning"
   },
@@ -5146,5 +5062,24 @@
   "ireland-president__1974-12-03",
   "ireland-president__1952-05-16",
   "ireland-president__1938-05-04"
- ]
+ ],
+ "seriesRedirects": {
+  "archaeology-and-monuments-ringfort": "archaeology-and-monuments-monument-types",
+  "archaeology-and-monuments-sites-and-monuments-records--points": "archaeology-and-monuments-monument-types",
+  "built-heritage-and-protected-structures-defence-heritage-sites": "built-heritage-and-protected-structures-heritage-surveys-and-sites",
+  "built-heritage-and-protected-structures-industrial-heritage-record": "built-heritage-and-protected-structures-heritage-surveys-and-sites",
+  "development-plans-and-zoning-roscommon-county-development-plan-2014": "development-plans-and-zoning-roscommon-county-development-plan",
+  "development-plans-and-zoning-roscommon-county-development-plan-2014--points": "development-plans-and-zoning-roscommon-county-development-plan--points",
+  "flooding-and-coastal-risk-flood-extents": "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
+  "flooding-and-coastal-risk-groundwater-flooding": "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
+  "geology-and-soils-bedrock-geology-1-250-000": "geology-and-soils-geology-maps",
+  "municipal-services-and-utilities-niea-authorised-landfill-sites": "municipal-services-and-utilities-authorised-waste-sites",
+  "nature-habitats-and-designated-sites-habitat-maps": "nature-habitats-and-designated-sites-habitat-network",
+  "ni-river-basin-lidar-3d": "ireland-3d-terrain",
+  "parking-car-and-coach-parking": "parking-accessible-parking",
+  "parking-parking-meters": "parking-accessible-parking",
+  "roads-and-traffic-tii-collision-rates": "roads-and-traffic-psni-road-traffic-collisions",
+  "settlements-built-up-areas": "settlements-built-up-areas--points",
+  "water-quality-river-water-quality--roi": "water-quality-river-water-quality"
+ }
 }

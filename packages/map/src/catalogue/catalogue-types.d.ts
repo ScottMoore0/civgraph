@@ -112,6 +112,8 @@ export interface CatalogueDoc extends Catalogue {
   elections: CatalogueRowElection[];
   redirects?: Record<string, string>;
   mapLinks?: Record<string, CatalogueMapLink>;
+  /** A merged row's old id -> the row it went into (catalogue.source.json seriesRedirects). */
+  seriesRedirects?: Record<string, string>;
 }
 
 /** data/catalogue/people.json: everyone who stood, and the tables their rows index. */

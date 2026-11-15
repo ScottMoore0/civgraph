@@ -60,7 +60,8 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
 /**
  * @typedef {{
  *   shelves: SourceShelf[], subjects: SourceSubject[], series: SourceSeries[],
- *   hidden?: { id: string, why?: string, to?: string, route?: string }[], electionsHidden?: string[]
+ *   hidden?: { id: string, why?: string, to?: string, route?: string }[], electionsHidden?: string[],
+ *   seriesRedirects?: Record<string, string>
  * }} CatalogueSource
  */
 /** @typedef {{ id: string, label: string }} Labelled */
@@ -740,6 +741,9 @@ const catalogue = {
   contestIndex,
   redirects,
   mapLinks,
+  // A merged row's old id -> the row it went into, so old series/<id> links keep working
+  // (the pane follows chains; check:catalogue fails on a loop or a redirect to no row).
+  seriesRedirects: source.seriesRedirects || {},
 };
 const placesDoc = { schemaVersion: 1, maps: placeMaps, places };
 /** @type {[string, unknown][]} */

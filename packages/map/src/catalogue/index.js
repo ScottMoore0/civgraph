@@ -37,7 +37,7 @@ import * as MapsView from './view-maps.js';
 import * as ElectionsView from './view-elections.js';
 import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
 import * as BooksView from './view-books.js';
-import { CATALOGUE_TAB } from './route-state.mjs';
+import { CATALOGUE_TAB, followSeriesRedirect } from './route-state.mjs';
 import { defineFlagFields, setHidden } from '../state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 import { siteNumber } from '../../../core/src/format.js';
@@ -1199,7 +1199,7 @@ export class CatalogueNext {
       const s = this.data?.redirects?.[route.slice('flat-card-'.length)];
       return s ? `series/${s}` : 'maps';
     }
-    const [view, id] = route.split('/');
+    const [view, id, ...rest] = route.split('/');
     // A link to one map or set (Browse's "open on the map"): the row it is in, opened at it.
     if (view === 'map') {
       const sid = this.seriesOfMap?.get(id);
@@ -1215,7 +1215,11 @@ export class CatalogueNext {
       const old = this.data?.redirects?.[id];
       return old && this.seriesById?.has(old) ? `series/${old}` : '';
     }
-    if (view === 'series' && !this.seriesById?.has(id)) return 'maps';
+    if (view === 'series' && !this.seriesById?.has(id)) {
+      // A row merged into another (seriesRedirects) opens that row, at the same map if it has it.
+      const to = followSeriesRedirect(this.data?.seriesRedirects, id, (x) => Boolean(this.seriesById?.has(x)));
+      return to ? ['series', to, ...rest].join('/') : 'maps';
+    }
     if (view === 'subject' && !this.subjectById?.has(id)) return 'maps';
     return route;
   }

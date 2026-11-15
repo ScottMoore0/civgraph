@@ -38,3 +38,42 @@ export function routeKind(route) {
   if (view === 'elections') return a === 'person' && b ? 'elections-person' : 'elections';
   return 'section';
 }
+
+/**
+ * The row a retired row id now lives in. When rows are merged, catalogue.source.json
+ * `seriesRedirects` ({oldId: newId}, built into catalogue.json) keeps old `series/<id>` links
+ * working; a row merged twice is followed down the chain. '' when the id is not redirected, or
+ * its chain loops or ends at no row.
+ * @param {Record<string, string> | null | undefined} redirects
+ * @param {string} id
+ * @param {(id: string) => boolean} exists  whether a row with this id is in the catalogue
+ * @returns {string}
+ */
+export function followSeriesRedirect(redirects, id, exists) {
+  /** @type {Set<string>} */
+  const seen = new Set();
+  let at = id;
+  while (redirects && Object.hasOwn(redirects, at) && !seen.has(at)) {
+    seen.add(at);
+    at = redirects[at];
+    if (exists(at)) return at;
+  }
+  return '';
+}
+
+/**
+ * What is wrong with a redirect table (check:catalogue fails on each): a redirect from a row that
+ * still exists (it would never be followed), and one that loops or ends at no row.
+ * @param {Record<string, string> | null | undefined} redirects
+ * @param {Set<string>} rowIds  the catalogue's row ids
+ * @returns {string[]}
+ */
+export function seriesRedirectProblems(redirects, rowIds) {
+  /** @type {string[]} */
+  const problems = [];
+  for (const [from, to] of Object.entries(redirects || {})) {
+    if (rowIds.has(from)) problems.push(`seriesRedirects: ${from} is still a row, so its redirect to ${to} would never be followed`);
+    else if (!followSeriesRedirect(redirects, from, (id) => rowIds.has(id))) problems.push(`seriesRedirects: ${from} -> ${to} loops or ends at no row`);
+  }
+  return problems;
+}
