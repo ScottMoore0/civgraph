@@ -362,7 +362,6 @@
    "name": "Built Heritage & Protected Structures",
    "kind": "Dataset",
    "series": [
-    "built-heritage-and-protected-structures-architectural-conservation-areas",
     "built-heritage-and-protected-structures-protected-structures--points",
     "built-heritage-and-protected-structures-listed-buildings",
     "built-heritage-and-protected-structures-heritage-surveys-and-sites",
@@ -376,8 +375,7 @@
    "name": "Archaeology & Monuments",
    "kind": "Dataset",
    "series": [
-    "archaeology-and-monuments-scheduled-historic-monument-areas",
-    "archaeology-and-monuments-sites-and-monuments-records"
+    "archaeology-and-monuments-scheduled-historic-monument-areas"
    ],
    "toBeAdded": []
   },
@@ -2017,18 +2015,6 @@
    "unitFromLabel": true
   },
   {
-   "id": "built-heritage-and-protected-structures-architectural-conservation-areas",
-   "name": "Architectural Conservation Areas",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-01042-architectural-conservation-areas"
-   ],
-   "kind": "Boundary",
-   "unitFromLabel": true
-  },
-  {
    "id": "built-heritage-and-protected-structures-protected-structures--points",
    "name": "Protected Structures",
    "subject": "built-heritage-and-protected-structures",
@@ -2038,7 +2024,11 @@
     "co-wicklow-protected-structures",
     "dcc-record-protected-structures"
    ],
-   "kind": "Places"
+   "kind": "Places",
+   "labels": {
+    "co-wicklow-protected-structures": "Wicklow (County Development Plan 2016–2022)",
+    "dcc-record-protected-structures": "Dublin City (City Development Plan 2022–2028)"
+   }
   },
   {
    "id": "landscape-and-scenic-amenity-landscape-character-areas",
@@ -3823,20 +3813,6 @@
    "unitFromLabel": true
   },
   {
-   "id": "archaeology-and-monuments-sites-and-monuments-records",
-   "name": "Sites & Monuments Records",
-   "subject": "archaeology-and-monuments",
-   "scope": "Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-record-of-monuments-and-place"
-   ],
-   "labels": {
-    "dlr-record-of-monuments-and-place": "Record Of Monuments And Place (DLR)"
-   },
-   "kind": "Boundary"
-  },
-  {
    "id": "civil-parishes-civil-parishes",
    "name": "Civil Parishes",
    "subject": "civil-parishes",
@@ -4436,7 +4412,8 @@
     "dlr-strategic-land-reserve",
     "dlr-existing-conservation-areas",
     "dlr-development-plans",
-    "dlr-protected-structures"
+    "dlr-protected-structures",
+    "dlr-record-of-monuments-and-place"
    ],
    "labels": {
     "dlr-land-use-zoning": "Land Use Zoning (2022–2028)",
@@ -4450,7 +4427,8 @@
     "dlr-strategic-land-reserve": "Strategic Land Reserve (2022–2028)",
     "dlr-existing-conservation-areas": "Architectural Conservation Areas (2022–2028)",
     "dlr-development-plans": "Architectural Conservation Areas (2010–2016)",
-    "dlr-protected-structures": "Protected Structures (2022–2028)"
+    "dlr-protected-structures": "Protected Structures (2022–2028)",
+    "dlr-record-of-monuments-and-place": "Record of Monuments and Places (2022–2028)"
    }
   },
   {
@@ -4466,17 +4444,20 @@
     "oda-map-00224-gzt-current-plan": "Generalised Zoning Types (national)",
     "dcc-development-plan-dcc-2022-2028": "Dublin City: Zoning (2022–2028)",
     "use-zoning-objectives1": "South Dublin: Use Zoning Objectives (2022–2028)",
-    "oda-map-01068-cork-city-zoning-development-plan-2022-2028": "Cork City: Zoning (2022–2028)"
+    "oda-map-01068-cork-city-zoning-development-plan-2022-2028": "Cork City: Zoning (2022–2028)",
+    "oda-map-01042-architectural-conservation-areas": "Cork City: Architectural Conservation Areas (2022–2028)"
    },
    "local": [
     "dcc-development-plan-dcc-2022-2028",
     "use-zoning-objectives1",
-    "oda-map-01068-cork-city-zoning-development-plan-2022-2028"
+    "oda-map-01068-cork-city-zoning-development-plan-2022-2028",
+    "oda-map-01042-architectural-conservation-areas"
    ],
    "localOf": {
     "dcc-development-plan-dcc-2022-2028": "oda-map-00224-gzt-current-plan",
     "use-zoning-objectives1": "oda-map-00224-gzt-current-plan",
-    "oda-map-01068-cork-city-zoning-development-plan-2022-2028": "oda-map-00224-gzt-current-plan"
+    "oda-map-01068-cork-city-zoning-development-plan-2022-2028": "oda-map-00224-gzt-current-plan",
+    "oda-map-01042-architectural-conservation-areas": "oda-map-00224-gzt-current-plan"
    },
    "kind": "Boundary",
    "unitFromLabel": true
@@ -5266,7 +5247,9 @@
  ],
  "seriesRedirects": {
   "archaeology-and-monuments-ringfort": "archaeology-and-monuments-monument-types",
+  "archaeology-and-monuments-sites-and-monuments-records": "development-plans-and-zoning-dun-laoghaire-rathdown",
   "archaeology-and-monuments-sites-and-monuments-records--points": "archaeology-and-monuments-monument-types",
+  "built-heritage-and-protected-structures-architectural-conservation-areas": "development-plans-and-zoning-other-councils",
   "built-heritage-and-protected-structures-defence-heritage-sites": "built-heritage-and-protected-structures-heritage-surveys-and-sites",
   "built-heritage-and-protected-structures-industrial-heritage-record": "built-heritage-and-protected-structures-heritage-surveys-and-sites",
   "coasts-seas-and-islands-boundaries-seawater-area": "coasts-seas-and-islands-coastline",
