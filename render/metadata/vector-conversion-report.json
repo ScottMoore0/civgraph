@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-11-15T03:10:13.702Z",
+  "generatedAt": "2026-11-15T14:15:06.076Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "perLayerTimeoutMs": 600000,
   "totals": {
-    "vectorRows": 1,
-    "feasibleLocalCandidates": 1,
+    "vectorRows": 0,
+    "feasibleLocalCandidates": 2,
     "skipped": 0,
-    "selected": 1,
-    "converted": 1,
+    "selected": 2,
+    "converted": 2,
     "skippedExisting": 0,
     "failed": 0
   },
@@ -21,33 +21,49 @@
   ],
   "candidates": [
     {
-      "sourceMapId": "ireland-before-1921",
-      "name": "Ireland before 1921",
-      "category": "Polities",
-      "sourceFile": "render/source-cache/vector-intake/ireland-before-1921.fgb",
-      "sourceBytes": 22863616,
-      "outputDirectory": "render/tiles/generated/ireland-before-1921"
+      "sourceMapId": "plu-1921",
+      "name": "Poor Law Unions 31 Mar 1921",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-1921.fgb",
+      "sourceBytes": 49624712,
+      "outputDirectory": "render/tiles/generated/plu-1921"
+    },
+    {
+      "sourceMapId": "plu-parts-1921",
+      "name": "Poor Law Unions by county 31 Mar 1921",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-parts-1921.fgb",
+      "sourceBytes": 52549784,
+      "outputDirectory": "render/tiles/generated/plu-parts-1921"
     }
   ],
   "selected": [
     {
-      "sourceMapId": "ireland-before-1921",
-      "name": "Ireland before 1921",
-      "category": "Polities",
-      "sourceFile": "render/source-cache/vector-intake/ireland-before-1921.fgb",
-      "sourceBytes": 22863616,
-      "outputDirectory": "render/tiles/generated/ireland-before-1921"
+      "sourceMapId": "plu-1921",
+      "name": "Poor Law Unions 31 Mar 1921",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-1921.fgb",
+      "sourceBytes": 49624712,
+      "outputDirectory": "render/tiles/generated/plu-1921"
+    },
+    {
+      "sourceMapId": "plu-parts-1921",
+      "name": "Poor Law Unions by county 31 Mar 1921",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-parts-1921.fgb",
+      "sourceBytes": 52549784,
+      "outputDirectory": "render/tiles/generated/plu-parts-1921"
     }
   ],
   "skippedExisting": [],
   "converted": [
     {
-      "sourceMapId": "ireland-before-1921",
-      "name": "Ireland before 1921",
-      "category": "Polities",
-      "sourceFile": "render/source-cache/vector-intake/ireland-before-1921.fgb",
-      "sourceBytes": 22863616,
-      "outputDirectory": "render/tiles/generated/ireland-before-1921",
+      "sourceMapId": "plu-1921",
+      "name": "Poor Law Unions 31 Mar 1921",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-1921.fgb",
+      "sourceBytes": 49624712,
+      "outputDirectory": "render/tiles/generated/plu-1921",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -55,11 +71,31 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "ireland_before_1921",
-      "files": 3913,
-      "pbfFiles": 3912,
-      "bytes": 5135464,
-      "maxTileBytes": 27965
+      "sourceLayer": "plu_1921",
+      "files": 3917,
+      "pbfFiles": 3916,
+      "bytes": 12585465,
+      "maxTileBytes": 97245
+    },
+    {
+      "sourceMapId": "plu-parts-1921",
+      "name": "Poor Law Unions by county 31 Mar 1921",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-parts-1921.fgb",
+      "sourceBytes": 52549784,
+      "outputDirectory": "render/tiles/generated/plu-parts-1921",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "plu_parts_1921",
+      "files": 3917,
+      "pbfFiles": 3916,
+      "bytes": 12109592,
+      "maxTileBytes": 99414
     }
   ],
   "failed": [],

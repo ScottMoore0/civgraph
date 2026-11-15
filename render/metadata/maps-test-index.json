@@ -130240,7 +130240,7 @@
     {
       "id": "plu-1921-vector",
       "sourceMapId": "plu-1921",
-      "name": "Poor Law Unions 1 Apr 1921",
+      "name": "Poor Law Unions 31 Mar 1921",
       "category": "Local Government Districts",
       "group": "Elections and Government",
       "provider": [
@@ -130248,10 +130248,10 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "date": "1921-04-01",
+      "date": "1921-03-31",
       "dateAdded": null,
       "dateEffective": null,
-      "description": "The 158 Poor Law Unions of Ireland just before partition, drawn on the 1 Apr 1921 DED edition (Connacht 1919, Leinster 1919, Munster 1907, Ulster 1921 nine-county). No census was taken in 1921, so each 1921 DED takes the union of the 1911 DEDs it overlies (every one lies 98% or more in one union, Portrush Urban apart). The acreage and population are the 1911 census figures. The Dáil Éireann county schemes of 1921-22, which closed or merged many southern unions, came later. In the six counties the cross-border unions were reorganised on 1 Apr 1921; see Poor Law Unions (Northern Ireland).",
+      "description": "The 154 Poor Law Unions of Ireland as they stood on 31 Mar 1921, the day before the unions that crossed the new border were reorganised (1 Apr 1921) and five weeks before partition. Their boundaries last changed in 1918, when the North and South Dublin Unions were amalgamated as the Dublin Union. Each union is a set of whole District Electoral Divisions on the 1 Apr 1921 DED edition (Connacht 1919, Leinster 1919, Munster 1907, Ulster 1921 nine-county). No census was taken in 1921, so each DED takes the union of the 1911 DEDs it overlies (every one lies 98% or more in one union, Portrush Urban apart) and then follows the union changes of 1915-1918, each of which moved whole DEDs (see the change note). The acreage and population are 1911 census figures; for Dublin, Fermoy and Ballina they are the sums of the merged unions (Table 51), and for Clones and Cavan Table 51 plus the 1911 DED figures of their part of Cootehill. The Dáil Éireann county schemes of 1921-22, which closed or merged many southern unions, had no statutory force until 1923. For the unions from 1 Apr 1921 see Poor Law Unions (Northern Ireland) and Poor Law Unions (Republic of Ireland).",
       "notes": "Generated from render/source-cache/vector-intake/plu-1921.fgb with GDAL MVT output.",
       "sourceType": "pmtiles",
       "geometryType": "polygon",
@@ -130270,12 +130270,11 @@
       "minzoom": 0,
       "maxzoom": 12,
       "sourceLayer": "plu_1921",
-      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1921-vector-test.pmtiles",
+      "tileUrl": "/render/pmtiles/generated/plu-1921-vector.pmtiles",
       "tiles": "/render/tiles/generated/plu-1921/{z}/{x}/{y}.pbf",
       "tilesFallback": "/render/tiles/generated/plu-1921/{z}/{x}/{y}.pbf",
       "tilePackage": {
-        "serving": "cdn",
-        "localPath": "render/pmtiles/generated/plu-1921-vector-test.pmtiles"
+        "localPath": "render/pmtiles/generated/plu-1921-vector.pmtiles"
       },
       "metadataUrl": "/render/tiles/generated/plu-1921/metadata.json",
       "style": {
@@ -130317,7 +130316,8 @@
         "union_norm",
         "counties",
         "census_acres_source",
-        "census_pop_year"
+        "census_pop_year",
+        "changes_since_1911"
       ],
       "popupProperties": [
         "union_printed",
@@ -130329,15 +130329,16 @@
         "census_acres_source",
         "census_pop",
         "census_pop_year",
-        "map_vs_census_area_pct"
+        "map_vs_census_area_pct",
+        "changes_since_1911"
       ],
       "generatedFrom": {
         "pipeline": "build-test-vector-batch",
         "sourceFile": "render/source-cache/vector-intake/plu-1921.fgb",
-        "bytes": 12442726,
+        "bytes": 12585465,
         "files": 3917,
         "pbfFiles": 3916,
-        "maxTileBytes": 96661
+        "maxTileBytes": 97245
       },
       "keywords": [
         "poor law union",
@@ -130349,7 +130350,11 @@
         "before partition",
         "ireland",
         "all-island",
-        "Poor Law Unions 21 Mar 1921",
+        "1916",
+        "1917",
+        "1918",
+        "Dublin Union",
+        "Poor Law Unions 31 Mar 1921",
         "Local Government Districts",
         "Elections and Government",
         "maplibre",
@@ -130583,7 +130588,7 @@
     {
       "id": "plu-parts-1921-vector",
       "sourceMapId": "plu-parts-1921",
-      "name": "Poor Law Unions by county 21 Mar 1921",
+      "name": "Poor Law Unions by county 31 Mar 1921",
       "category": "Local Government Districts",
       "group": "Elections and Government",
       "provider": [
@@ -130591,10 +130596,10 @@
         "Phelim Birch",
         "Paddy Matthews"
       ],
-      "date": "1921-03-21",
+      "date": "1921-03-31",
       "dateAdded": null,
       "dateEffective": null,
-      "description": "The Poor Law Unions of 21 Mar 1921 split at county boundaries: 212 parts, each one union in one county. A union that crossed a county line was divided between counties for many purposes (from 1899 each part in one administrative county was a rural district), so this shows each part with its county and number of DEDs. The geometry is the same as the whole-union map (Poor Law Unions 21 Mar 1921).",
+      "description": "The Poor Law Unions of 31 Mar 1921 split at county boundaries: 207 parts, each one union in one county. A union that crossed a county line was divided between counties for many purposes (from 1899 each part in one administrative county was a rural district), so this shows each part with its county and number of DEDs. The geometry is the same as the whole-union map (Poor Law Unions 31 Mar 1921), which gives the union changes of 1915-1918.",
       "notes": "Generated from render/source-cache/vector-intake/plu-parts-1921.fgb with GDAL MVT output.",
       "sourceType": "pmtiles",
       "geometryType": "polygon",
@@ -130613,12 +130618,11 @@
       "minzoom": 0,
       "maxzoom": 12,
       "sourceLayer": "plu_parts_1921",
-      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-parts-1921-vector-test.pmtiles",
+      "tileUrl": "/render/pmtiles/generated/plu-parts-1921-vector.pmtiles",
       "tiles": "/render/tiles/generated/plu-parts-1921/{z}/{x}/{y}.pbf",
       "tilesFallback": "/render/tiles/generated/plu-parts-1921/{z}/{x}/{y}.pbf",
       "tilePackage": {
-        "serving": "cdn",
-        "localPath": "render/pmtiles/generated/plu-parts-1921-vector-test.pmtiles"
+        "localPath": "render/pmtiles/generated/plu-parts-1921-vector.pmtiles"
       },
       "metadataUrl": "/render/tiles/generated/plu-parts-1921/metadata.json",
       "style": {
@@ -130667,10 +130671,10 @@
       "generatedFrom": {
         "pipeline": "build-test-vector-batch",
         "sourceFile": "render/source-cache/vector-intake/plu-parts-1921.fgb",
-        "bytes": 12189997,
+        "bytes": 12109592,
         "files": 3917,
         "pbfFiles": 3916,
-        "maxTileBytes": 100741
+        "maxTileBytes": 99414
       },
       "keywords": [
         "poor law union",
@@ -130679,7 +130683,7 @@
         "1921",
         "before partition",
         "ireland",
-        "Poor Law Unions by county 21 Mar 1921",
+        "Poor Law Unions by county 31 Mar 1921",
         "Local Government Districts",
         "Elections and Government",
         "maplibre",
