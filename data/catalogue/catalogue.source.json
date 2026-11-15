@@ -224,7 +224,6 @@
     "settlements-cso-urban-areas",
     "settlements-settlements",
     "settlements-settlements--ni",
-    "settlements-built-up-areas",
     "settlements-built-up-areas--points",
     "settlements-centres-of-population",
     "settlements-geographical-names",
@@ -980,11 +979,9 @@
     "superintendent-registrars-districts-roi-1956",
     "superintendent-registrars-districts-roi-1951",
     "superintendent-registrars-districts-roi-1946",
-    "superintendent-registrars-districts-roi-1936",
-    "superintendent-registrars-districts-roi-1926"
+    "superintendent-registrars-districts-roi-1936"
    ],
    "labels": {
-    "superintendent-registrars-districts-roi-1926": "Census 1926 (estimate)",
     "superintendent-registrars-districts-roi-1956": "Census 1956",
     "superintendent-registrars-districts-roi-1951": "Census 1951",
     "superintendent-registrars-districts-roi-1946": "Census 1946",
@@ -999,7 +996,7 @@
     "civil registration",
     "poor law union"
    ],
-   "description": "The registration districts for births, deaths and marriages at the censuses of 1936 to 1956, with an estimate for 1926: the former Poor Law Unions, printed county by county under the unions' names, each the union of its dispensary districts (see Dispensary Districts and Poor Law Unions (Ireland before partition))."
+   "description": "The registration districts for births, deaths and marriages at the censuses of 1936 to 1956: the former Poor Law Unions, printed county by county under the unions' names, each the union of its dispensary districts (see Dispensary Districts and Poor Law Unions (Ireland before partition))."
   },
   {
    "id": "nature-habitats-and-designated-sites-habitat-network",
@@ -1092,8 +1089,7 @@
     "dfi-surface-defects-2018",
     "dfi-surface-defects-2019",
     "dfi-surface-defects-2020",
-    "dfi-surface-defects-2021",
-    "transport-carriageway-defects-2021"
+    "dfi-surface-defects-2021"
    ]
   },
   {
@@ -1256,8 +1252,7 @@
     "dfi-pothole-enquiries-2018",
     "dfi-pothole-enquiries-2019",
     "dfi-pothole-enquiries-2020",
-    "dfi-pothole-enquiries-2021",
-    "roads-pothole-enquiries"
+    "dfi-pothole-enquiries-2021"
    ]
   },
   {
@@ -2305,7 +2300,6 @@
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "ni-authorised-waste-sites",
     "niea-waste-sites-2021"
    ]
   },
@@ -2343,17 +2337,6 @@
     "osni-sixinch-edition-2"
    ],
    "kind": "Historic"
-  },
-  {
-   "id": "settlements-built-up-areas",
-   "name": "Built-Up Areas",
-   "subject": "settlements",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-built-up-1m"
-   ],
-   "kind": "Boundary"
   },
   {
    "id": "settlements-built-up-areas--points",
@@ -4772,6 +4755,31 @@
    "id": "osni-open-data-largescale-boundaries-local-government-districts-1993",
    "why": "Phelim Birch's review, 2026-10-11: the same OSNI Largescale data as lgd-1993, which the row shows as 'OSNI Largescale'.",
    "to": "lgd-1993"
+  },
+  {
+   "id": "superintendent-registrars-districts-roi-1926",
+   "why": "Phelim Birch review #2 (doc of 12 Nov 2026): maps labelled as estimates are hidden. The 1926 districts were an estimate (\"Census 1926 (estimate)\"); the row keeps the censuses of 1936 to 1956.",
+   "to": "public-service-areas-superintendent-registrars-districts"
+  },
+  {
+   "id": "tailte-built-up-1m",
+   "why": "Phelim Birch review #12/#13 (doc of 12 Nov 2026): the 1M Built-Up Areas map has 4 features (the four largest cities only); the Built-Up Areas points map (250k) under People & Places is kept, and the Boundaries row that held only this map is gone.",
+   "to": "tailte-built-up-points-250k"
+  },
+  {
+   "id": "roads-pothole-enquiries",
+   "why": "Phelim Birch review #48 (doc of 12 Nov 2026): duplicate of dfi-pothole-enquiries-2017. Compared 15 Nov 2026: the same 18,334 features, geometry and all 8 attributes identical (enquiries recorded 1 Apr 2017 to 31 Mar 2018); the files differ only in their headers. The dated DfI series map is kept.",
+   "to": "dfi-pothole-enquiries-2017"
+  },
+  {
+   "id": "ni-authorised-waste-sites",
+   "why": "Phelim Birch review #64 (doc of 12 Nov 2026): duplicate of niea-waste-sites-2021. Compared 15 Nov 2026: the same 32,519 NIEA sites with the same attribute values (this Peatlands Geoportal copy has shapefile-truncated field names, an extra FID and blanks for empty values) at the same places (within 0.0001 degrees). The NIEA February 2021 copy, dated and with its downloads, is kept.",
+   "to": "niea-waste-sites-2021"
+  },
+  {
+   "id": "transport-carriageway-defects-2021",
+   "why": "Phelim Birch review #49 (doc of 12 Nov 2026): duplicate of dfi-surface-defects-2021. Compared 15 Nov 2026: the same 123,904 defects, all 11 attributes identical, at the same coordinates (stored as points here, single-point multipoints there). The DfI series map is kept.",
+   "to": "dfi-surface-defects-2021"
   }
  ],
  "signedOff": [

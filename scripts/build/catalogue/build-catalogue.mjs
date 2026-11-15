@@ -607,6 +607,14 @@ try {
   /** @type {Map<string, string>} */
   const seriesOfMap = new Map();
   for (const s of seriesOut) for (const m of s.members) seriesOfMap.set(m.id, s.id);
+  // A card whose maps are all hidden points to the row their `hidden` entries send them to (a
+  // duplicate: the row of the copy kept).
+  /** @type {Map<string, string>} */
+  const hiddenTo = new Map();
+  for (const h of source.hidden || []) {
+    const to = h.to && (seriesOfMap.get(h.to) || (seriesOut.some((s) => s.id === h.to) ? h.to : ''));
+    if (to) hiddenTo.set(h.id, to);
+  }
   for (const m of ui.matchAll(/\{\s*id:\s*'(flat-[a-z0-9-]+)'[^{}]*?\}/g)) {
     const body = m[0];
     const ids = [...(body.match(/mapIds:\s*\[([^\]]*)\]/)?.[1] || '').matchAll(/'([a-z0-9-]+)'/g)].map((x) => x[1]);
@@ -614,6 +622,7 @@ try {
     /** @type {Map<string, number>} */
     const tally = new Map();
     for (const id of ids) { const s = seriesOfMap.get(id); if (s) tally.set(s, (tally.get(s) || 0) + 1); }
+    if (!tally.size) for (const id of ids) { const s = hiddenTo.get(id); if (s) tally.set(s, (tally.get(s) || 0) + 1); }
     const best = [...tally.entries()].sort((a, b) => b[1] - a[1])[0];
     if (best) redirects[m[1]] = best[0];
   }
