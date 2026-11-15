@@ -15,7 +15,7 @@ import { SECTIONS } from '../../packages/map/src/catalogue/index.js';
 const registry = loadRegistry('catalogue-kinds');
 
 test('catalogue kinds: the sections, filters and check read the literals they replaced', () => {
-  assert.deepEqual(SECTIONS, [['boundaries', 'Boundary', 'Boundaries', 'land-divisions'], ['places', 'Places', 'Places & routes', 'route'], ['statistics', 'Statistics', 'Statistics', 'chart-column'], ['historic', 'Historic', 'Historic Maps', 'landmark']]);
+  assert.deepEqual(SECTIONS, [['boundaries', 'Boundary', 'Boundaries', 'land-divisions'], ['places', 'Places', 'Places & routes', 'route'], ['statistics', 'Statistics', 'Statistics', 'chart-column'], ['historic', 'Historic', 'Scanned Maps', 'landmark']]);
   assert.deepEqual(KINDS, [['Boundary', 'Boundaries'], ['Places', 'Places & routes'], ['Statistics', 'Statistics']]);
   const ids = catalogueKindIds(registry);
   assert.deepEqual(ids, ['Boundary', 'Places', 'Statistics', 'Historic']);

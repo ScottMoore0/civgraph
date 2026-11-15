@@ -22,7 +22,7 @@ export default {
   [
    "historic",
    "Historic",
-   "Historic Maps",
+   "Scanned Maps",
    "landmark"
   ]
  ],

@@ -13,7 +13,7 @@ const lgd = catalogue.series.find((s) => s.id === LGD);
 const LGD_NEWEST = lgd.members[0].id;
 
 const ofKind = (kind) => catalogue.series.filter((s) => s.kind === kind);
-const SECTION_TABS = [['boundaries', 'Boundary', 'Boundaries'], ['places', 'Places', 'Places & routes'], ['statistics', 'Statistics', 'Statistics'], ['historic', 'Historic', 'Historic Maps']];
+const SECTION_TABS = [['boundaries', 'Boundary', 'Boundaries'], ['places', 'Places', 'Places & routes'], ['statistics', 'Statistics', 'Statistics'], ['historic', 'Historic', 'Scanned Maps']];
 const mapsOf = (kind) => ofKind(kind).reduce((n, s) => n + s.members.length + (s.local?.length || 0), 0);
 const pane = (page) => page.locator('#catalogueFlatView [data-cn-root]');
 const row = (page, id) => pane(page).locator(`[data-cn-series="${id}"]`);
@@ -339,7 +339,7 @@ test('C23 the sections are what a map draws, then Elections; Boundaries first', 
   await open(page);
   const tabs = pane(page).locator('.catalogue-flat__sections .catalogue-flat__section-tab');
   await expect(tabs).toHaveCount(5);
-  await expect(tabs).toContainText(['Boundaries', 'Places & routes', 'Statistics', 'Historic Maps', 'Elections']);
+  await expect(tabs).toContainText(['Boundaries', 'Places & routes', 'Statistics', 'Scanned Maps', 'Elections']);
   await expect(tabs.first()).toHaveAttribute('aria-current', 'true');
   // Each section counts its maps, not its rows (Phelim Birch, 2026-10-10).
   for (const [id, kind] of SECTION_TABS) await expect(pane(page).locator(`[data-cn-tab="${id}"] .cn-tab__count`)).toHaveText(mapsOf(kind).toLocaleString('en-GB'));
@@ -455,7 +455,7 @@ test('N18 shelves start closed; a link to a set opens its section, shelf and row
   // Boundaries gathers its environment rows on one shelf; the key explains the chip dots.
   await expect(pane(page).locator('.cn-shelf__name', { hasText: /^Environment$/ })).toHaveCount(1);
   await expect(pane(page).locator('.cn-key')).toContainText('Incomplete');
-  // Historic Maps lists its rows straight, as Statistics does.
+  // Scanned Maps lists its rows straight, as Statistics does.
   await pane(page).locator('[data-cn-tab="historic"]').click();
   await expect(pane(page).locator('.cn-shelf__head, .cn-subject__head')).toHaveCount(0);
   await expect(pane(page).locator('.cn-row').first()).toBeVisible();

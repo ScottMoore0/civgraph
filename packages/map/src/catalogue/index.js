@@ -113,7 +113,7 @@ const readStore = () => { try { return JSON.parse(/** @type {string} */ (session
 // [section, kind, label, icon]: the catalogue-kinds registry's kinds (data/registries/catalogue-kinds.json), in order.
 export const SECTIONS = catalogueKinds.sections.map(([id, kind, label, ic]) => [id, kind, label, ic]);
 /** @type {Record<string, string>} */
-const TAB_SHORT = { places: 'Places', historic: 'Historic' };
+const TAB_SHORT = { places: 'Places', historic: 'Scanned' };
 const KIND_OF_SECTION = Object.fromEntries(SECTIONS.map(([id, kind]) => [id, kind]));
 const SECTION_OF_KIND = Object.fromEntries(SECTIONS.map(([id, kind]) => [kind, id]));
 /** @param {string | undefined} kind */
@@ -581,7 +581,7 @@ export class CatalogueNext {
 
   tabsHtml() {
     const counts = this.tabCounts();
-    // A phone shows a short label under the icon (styles.js): "Places", "Historic".
+    // A phone shows a short label under the icon (styles.js): "Places", "Scanned".
     /** @param {string} id @param {string} ic @param {string} label @param {number} n */
     const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span class="cn-tab__long">${label}</span><span class="cn-tab__short">${TAB_SHORT[id] || label}</span><span class="cn-tab__count">${siteNumber(n)}</span></button>`;
     return SECTIONS.map(([id, , label, ic]) => tab(id, ic, label, counts[id])).join('') + tab('elections', 'vote', 'Elections', counts.elections);
