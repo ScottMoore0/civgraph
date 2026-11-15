@@ -1,25 +1,41 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-15T12:21:02.309Z",
+  "generatedAt": "2026-11-15T15:34:27.916Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "ireland-before-1921-vector"
+    "itl-1-2021-2025-vector",
+    "itl-2-2021-2025-vector",
+    "itl-3-2021-2025-vector"
   ],
   "totals": {
-    "assets": 1,
-    "processed": 1,
-    "ok": 1,
+    "assets": 3,
+    "processed": 3,
+    "ok": 3,
     "failed": 0,
-    "bytes": 2889102
+    "bytes": 1571954
   },
   "results": [
     {
-      "layerId": "ireland-before-1921-vector",
-      "targetKey": "data/maps/test/pmtiles/generated/ireland-before-1921-vector.pmtiles",
+      "layerId": "itl-1-2021-2025-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/itl-1-2021-2025-vector.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 2889102
+      "bytes": 382685
+    },
+    {
+      "layerId": "itl-2-2021-2025-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/itl-2-2021-2025-vector.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 385894
+    },
+    {
+      "layerId": "itl-3-2021-2025-vector",
+      "targetKey": "data/maps/test/pmtiles/generated/itl-3-2021-2025-vector.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 803375
     }
   ]
 }
