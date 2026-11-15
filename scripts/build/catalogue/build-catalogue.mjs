@@ -29,6 +29,7 @@ import { electionBody, jurisdictionLabel } from '../../../packages/registries/sr
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '../../../packages/core/src/date-format.mjs';
+import { cutNote } from '../../../packages/core/src/text-cut.mjs';
 import { openSqliteHandle } from '../../../packages/storage/src/sqlite.mjs';
 import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../../../packages/loader/src/paths.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../packages/map/src/ni-local-groups.mjs';
@@ -118,6 +119,8 @@ const ELECTION_BODIES = loadRegistry('election-bodies');
 const rel = (/** @type {string} */ p) => path.resolve(ROOT, p);
 const read = (/** @type {string} */ p) => JSON.parse(readFileSync(rel(p), 'utf8'));
 const CHECK = process.argv.includes('--check');
+/** The most characters of a map's change note the pane document keeps (a longer note ends at a sentence). */
+const NOTE_LIMIT = 1200;
 
 /** @type {CatalogueSource} */
 const source = read('data/catalogue/catalogue.source.json');
@@ -276,7 +279,9 @@ function addMap(id) {
   if (Number.isFinite(n) && /** @type {number} */ (n) > 0) rec.features = /** @type {number} */ (n);
   if (layer?.geometryType) rec.geometry = layer.geometryType;
   if (m.description) rec.description = formatDatesInText(String(m.description)).slice(0, 600);
-  if (m.changeNote) rec.note = String(m.changeNote).slice(0, 300);
+  // The note on what changed since the edition before: whole up to NOTE_LIMIT characters, else
+  // cut at the end of a sentence (Phelim Birch's review, #5: notes stopped mid-word at 300).
+  if (m.changeNote) rec.note = cutNote(m.changeNote, NOTE_LIMIT);
   // The orders a boundary edition follows, with the dates each took effect for each purpose
   // (registration, valuation, elections...), since an order rarely took effect on one day.
   if (m.boundaryOrders?.length) {
