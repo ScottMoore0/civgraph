@@ -4455,21 +4455,28 @@
   },
   {
    "id": "development-plans-and-zoning-other-councils",
-   "name": "Development Plans & Zoning (other councils)",
+   "name": "Development Plans & Zoning",
    "subject": "development-plans-and-zoning",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "dcc-development-plan-dcc-2022-2028",
-    "use-zoning-objectives1",
-    "oda-map-01068-cork-city-zoning-development-plan-2022-2028",
     "oda-map-00224-gzt-current-plan"
    ],
    "labels": {
-    "dcc-development-plan-dcc-2022-2028": "Development Plan (Dublin City) — 2022–2028",
-    "use-zoning-objectives1": "Development Plan (South Dublin) — Use Zoning Objectives",
-    "oda-map-01068-cork-city-zoning-development-plan-2022-2028": "Development Plan (Cork City) — Zoning 2022–2028",
-    "oda-map-00224-gzt-current-plan": "Generalised Zoning Types"
+    "oda-map-00224-gzt-current-plan": "Generalised Zoning Types (national)",
+    "dcc-development-plan-dcc-2022-2028": "Dublin City: Zoning (2022–2028)",
+    "use-zoning-objectives1": "South Dublin: Use Zoning Objectives (2022–2028)",
+    "oda-map-01068-cork-city-zoning-development-plan-2022-2028": "Cork City: Zoning (2022–2028)"
+   },
+   "local": [
+    "dcc-development-plan-dcc-2022-2028",
+    "use-zoning-objectives1",
+    "oda-map-01068-cork-city-zoning-development-plan-2022-2028"
+   ],
+   "localOf": {
+    "dcc-development-plan-dcc-2022-2028": "oda-map-00224-gzt-current-plan",
+    "use-zoning-objectives1": "oda-map-00224-gzt-current-plan",
+    "oda-map-01068-cork-city-zoning-development-plan-2022-2028": "oda-map-00224-gzt-current-plan"
    },
    "kind": "Boundary",
    "unitFromLabel": true
