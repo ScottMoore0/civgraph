@@ -19,12 +19,14 @@ const fileOf = (m) => String(m.files?.fgb || '').split('?')[0].split('/').pop();
 
 test('the audited editions carry approximateSegments', () => {
   const ids = new Set(withSegments.map((m) => m.id));
-  for (const id of ['stormont-1969', 'admin-areas-1956-04-01', 'admin-areas-1967-04-01', 'admin-areas-1966-07-04',
-    'admin-areas-1946-06-11', 'admin-areas-1938-04-01', 'ded-1939-04-01', 'lgd-1991-provisional']) {
+  for (const id of ['lgd-1991-provisional']) {
     assert.ok(ids.has(id), `${id} has approximateSegments`);
   }
-  // Editions on the published 1 Apr 1930 line, or taken whole from a source, have none.
-  for (const id of ['admin-areas-1930-04-01', 'admin-areas-1921-05-03', 'stormont-1929', 'deas-1992-provisional', 'lgd-1993']) {
+  // Editions on the published 1 Apr 1930 line, or taken whole from a source, have none; nor do the
+  // partial NI editions of 16 Nov 2026, which draw only lines taken whole from their sources.
+  for (const id of ['admin-areas-1930-04-01', 'admin-areas-1921-05-03', 'stormont-1929', 'deas-1992-provisional', 'lgd-1993',
+    'stormont-1969', 'admin-areas-1956-04-01', 'admin-areas-1967-04-01', 'admin-areas-1966-07-04', 'admin-areas-1946-06-11',
+    'admin-areas-1938-04-01', 'lgd-1966', 'ded-1939-04-01', 'ded-1969-04-02', 'county-ed-1969-04-01']) {
     assert.ok(!ids.has(id), `${id} has no approximateSegments`);
   }
 });
