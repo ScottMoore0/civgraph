@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-15T14:55:37.506Z
+Generated: 2026-11-16T15:02:06.205Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -9,8 +9,8 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |area|value|
 |---|---:|
 |parent elections in manifest|2675|
-|manifest loadable elections|768|
-|manifest placeholders|657|
+|manifest loadable elections|767|
+|manifest placeholders|658|
 |Browse parent election entries|2737|
 |Browse constituency/DEA sub-entries|22516|
 |Browse overall sub-entries|2675|
