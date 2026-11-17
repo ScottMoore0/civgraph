@@ -10,6 +10,7 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { SITE } from '../../packages/config/src/node.mjs';
+import { derivedFromLines } from '../../packages/core/src/credits.mjs';
 
 const doc = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
 const catGroup = new Map((doc.categories || []).map((/** @type {{ id: string, group?: string }} */ c) => [c.id, c.group || '']));
@@ -28,6 +29,8 @@ for (const m of doc.maps || []) {
     category: m.category,
     categoryGroup: catGroup.get(m.category) || undefined,
     provider: Array.isArray(m.provider) ? m.provider : (m.provider ? [m.provider] : undefined),
+    // What a layer built from other people's maps was derived from ("Derived from ...").
+    derivedFrom: derivedFromLines(m.sourceCredits).length ? derivedFromLines(m.sourceCredits) : undefined,
     date: m.date ?? undefined,
     labelProperty: m.labelProperty || undefined,
     bounds: m.bounds || undefined,

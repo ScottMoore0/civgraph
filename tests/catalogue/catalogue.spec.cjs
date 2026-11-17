@@ -410,6 +410,17 @@ test('N15 the 1911 County Electoral Divisions (Paddy Matthews) are listed and dr
   await expect.poll(() => loaded(page)).toEqual(expect.arrayContaining([expect.stringContaining('county-ed-1911')]));
 });
 
+test('N15b a layer built from other people\'s maps says what it was derived from, in its row and its Sources panel', async ({ page }) => {
+  // provider Scott Moore, sourceCredits "Derived from ..." (credit corrections, owner 17 Nov 2026)
+  await open(page);
+  const r = row(page, 'local-government-poor-law-unions--roi');
+  await expect(r.locator('.cn-row__credit')).toContainText('Moore; derived from the District Electoral Division maps of Phelim Birch and Paddy Matthews');
+  await expect(row(page, 'local-government-poor-law-unions--ireland').locator('.cn-row__credit'))
+    .toContainText('Moore; derived from the 1 Apr 1921, 1911 census and 1907-12 District Electoral Division maps of Phelim Birch and Paddy Matthews');
+  await page.evaluate(() => window.__civgraphTest2.app.openSourcePanel('plu-1911'));
+  await expect(page.locator('#test2SourcePanelContent')).toContainText('Scott Moore; derived from the 1911 census District Electoral Division maps of Phelim Birch and Paddy Matthews', { timeout: 45000 });
+});
+
 test('N16 a row keeps its chips to one line; "+N more" shows the rest and "Hide" puts them back', async ({ page }) => {
   await open(page);
   const r = row(page, 'local-government-local-authorities');

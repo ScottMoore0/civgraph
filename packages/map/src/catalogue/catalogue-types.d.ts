@@ -37,6 +37,8 @@ export interface CatalogueAbout {
 /** A map of the catalogue as its row draws it (the document's `maps`, by id). */
 export interface CatalogueMapRec extends CatalogueMapRecord {
   provider?: string[];
+  /** "Derived from ...": the maps a layer built for Civgraph was made from (packages/core/src/credits.mjs). */
+  derivedFrom?: string[];
   features?: number;
   unit?: string;
   status?: string;
@@ -59,6 +61,8 @@ export interface CatalogueRowMember extends CatalogueMember {
 /** A row of the catalogue: a series of maps, its editions as chips. */
 export interface CatalogueRow extends CatalogueSeries {
   kind: string;
+  /** The derived-from lines of the row's maps, each once. */
+  derivedFrom?: string[];
   members: CatalogueRowMember[];
   local?: CatalogueRowMember[];
   todo?: CatalogueRowMember[];

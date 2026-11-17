@@ -114,6 +114,8 @@ export interface MapRecord {
   dateEffective?: string;
   description?: string;
   provider?: string[];
+  /** Source credits; a "Derived from ..." line is shown with the provider (packages/core/src/credits.mjs). */
+  sourceCredits?: string[];
   keywords?: string[];
   featured?: boolean;
   hidden?: boolean;
