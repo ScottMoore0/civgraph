@@ -29,6 +29,7 @@ import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, F
 import catalogueKinds from '../../../registries/src/browser/catalogue-kinds.mjs';
 import { esc, yearOf, mapDate, shortProvider } from './util.js';
 import { formatDisplayDate } from '../../../core/src/date-format.mjs';
+import { creditLine, derivedFromLines } from '../../../core/src/credits.mjs';
 import { cdnUrl } from '../cdn-url.js';
 import { openMenu, closeMenu } from './menu.js';
 import { loadAuth, loginHref, openEditDialog, suggestEditOffered } from './edit.js';
@@ -661,7 +662,7 @@ export class CatalogueNext {
     if (m && this.ui.renderMapProviderSummary) line = this.ui.renderMapProviderSummary(m) || '';
     if (!line) {
       const r = this.rec(id);
-      line = [(r.provider || []).join(', '), r.features ? `${siteNumber(r.features)} features` : ''].filter(Boolean).join(' - ');
+      line = [creditLine(r.provider || [], r.derivedFrom || []), r.features ? `${siteNumber(r.features)} features` : ''].filter(Boolean).join(' - ');
     }
     return fullText || line.length <= 90 ? line : `${line.slice(0, 88)}…`;
   }
@@ -753,7 +754,9 @@ export class CatalogueNext {
   mapSummary(id, { date = true, short = false } = {}) {
     const r = this.rec(id);
     const m = this.full(id);
-    const providers = (r.provider?.length ? r.provider : [m?.provider || []].flat()).filter(Boolean).map((p) => (short ? shortProvider(p) : p)).join(', ');
+    const names = (r.provider?.length ? r.provider : [m?.provider || []].flat()).filter(Boolean).map((p) => (short ? shortProvider(p) : p));
+    // A layer built from other people's maps says so after its provider (packages/core/src/credits.mjs).
+    const providers = creditLine(names, r.derivedFrom?.length ? r.derivedFrom : derivedFromLines(m?.sourceCredits));
     let count = '';
     const n = r.features || (m && this.ui.getMapFeatureCount ? this.ui.getMapFeatureCount(m) : null);
     // Number.isFinite has passed the count used.
@@ -1942,7 +1945,7 @@ export class CatalogueNext {
     const local = s?.local?.find((x) => x.id === id);
     const m = s?.members.find((x) => x.id === id) || local;
     const year = yearOf(r.date);
-    const who = r.provider?.join(', ') || 'Civgraph';
+    const who = creditLine(r.provider || [], r.derivedFrom || []) || 'Civgraph';
     const title = s && (s.members.length > 1 || local) ? `${s.name}, ${m?.label || ''}` : (s?.name || r.name || id);
     const accessed = formatDisplayDate(new Date(Date.now() - new Date().getTimezoneOffset() * 60000));
     await this.copyText(`${who}. ${title}${year && !String(m?.label || '').includes(String(year)) ? ` (${year})` : ''} [map layer]. Civgraph, ${this.shareUrl(id)} (accessed ${accessed}).`, 'Citation');

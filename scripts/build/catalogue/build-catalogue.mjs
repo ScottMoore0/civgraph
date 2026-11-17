@@ -30,6 +30,7 @@ import path from 'node:path';
 import { loadRecords } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '../../../packages/core/src/date-format.mjs';
 import { cutNote } from '../../../packages/core/src/text-cut.mjs';
+import { combinedDerivedFromLines, derivedFromLines } from '../../../packages/core/src/credits.mjs';
 import { openSqliteHandle } from '../../../packages/storage/src/sqlite.mjs';
 import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../../../packages/loader/src/paths.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../packages/map/src/ni-local-groups.mjs';
@@ -40,7 +41,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * @typedef {import('./records.mjs').CatalogueRecord & {
  *   date?: unknown, dateEffective?: unknown, dateKind?: string, dateNote?: unknown, geography?: string, bounds?: unknown,
  *   cloneOf?: string, parentId?: string, aliasOf?: string, variants?: { id: string }[], placeholder?: unknown, csv?: unknown,
- *   incomplete?: unknown, provider?: unknown, licence?: string, license?: string, featureUnit?: string, featureCount?: number,
+ *   incomplete?: unknown, provider?: unknown, sourceCredits?: unknown, licence?: string, license?: string, featureUnit?: string, featureCount?: number,
  *   description?: unknown, changeNote?: unknown, boundaryOrders?: { divisions?: unknown, made?: unknown, purposes?: unknown }[],
  *   boundaryOrdersSource?: unknown, files?: { fgb?: unknown }, sourceDownloads?: unknown[], keywords?: string[],
  *   style?: { color?: string, fillColor?: string }
@@ -69,7 +70,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
 /**
  * A map as catalogue.json carries it.
  * @typedef {{
- *   name?: string, date: string, status: string, dateAsAt?: boolean, dateNote?: string, provider?: string[], thumb?: string,
+ *   name?: string, date: string, status: string, dateAsAt?: boolean, dateNote?: string, provider?: string[], derivedFrom?: string[], thumb?: string,
  *   bounds?: number[], features?: number, geometry?: string, description?: string, note?: string,
  *   orders?: { divisions?: unknown, made?: unknown, purposes?: unknown }[], ordersSource?: unknown, licence?: string,
  *   download?: boolean, kind?: string, keywords?: string[], color?: string, parts?: Labelled[], years?: number[],
@@ -82,7 +83,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * @typedef {{
  *   id: string, slug: string, name: string, subject: string, shelf: string | undefined, scope: string, arrangement: string,
  *   kind: string, members: Member[], todo?: Labelled[], local?: (Labelled & { of?: string })[], years?: number[],
- *   thumb?: string, color?: string, provider?: string[], status?: Record<string, number>, aliases?: string[],
+ *   thumb?: string, color?: string, provider?: string[], derivedFrom?: string[], status?: Record<string, number>, aliases?: string[],
  *   description?: string, about?: unknown
  * }} SeriesOut
  */
@@ -280,6 +281,10 @@ function addMap(id) {
   if (m.dateKind === 'as-at' && m.dateNote) rec.dateNote = String(m.dateNote).slice(0, 300);
   const p = providers(m);
   if (p.length) rec.provider = p;
+  // What a layer built from other people's maps was derived from (sourceCredits "Derived from ..."),
+  // shown with its provider wherever the credit shows (packages/core/src/credits.mjs).
+  const derived = derivedFromLines(m.sourceCredits);
+  if (derived.length) rec.derivedFrom = derived;
   const t = thumbOf(m);
   if (t) rec.thumb = t;
   const b = boundsOf(m);
@@ -394,6 +399,8 @@ for (const s of source.series) {
   if (slugsSeen.has(slug)) slug = `${slug}-${slugify(s.id)}`;
   slugsSeen.add(slug);
   const provs = [...new Set(recs.flatMap((r) => r.provider || []))];
+  // said once for the row: "the 1 Apr 1921, 1911 census and 1907-12 ... maps" (packages/core/src/credits.mjs)
+  const derivedFrom = combinedDerivedFromLines(recs.flatMap((r) => r.derivedFrom || []));
   const statusCounts = recs.reduce((a, r) => ((a[r.status] = (a[r.status] || 0) + 1), a), /** @type {Record<string, number>} */ ({}));
   // Variants (another scale, a council's excerpt) are labelled as a set member is, by what sets
   // them apart, and listed straight after the edition they are a version of.
@@ -497,6 +504,7 @@ for (const s of source.series) {
   const c = members.map((x) => out.maps[x.id]?.color).find(Boolean) || todoRecs.map((r) => r.color).find(Boolean);
   if (c) entry.color = c;
   if (provs.length) entry.provider = provs;
+  if (derivedFrom.length) entry.derivedFrom = derivedFrom;
   if (!recs.length) entry.status = { placeholder: todoRecs.length };
   else if (statusCounts.ready !== recs.length) entry.status = statusCounts;
   if (s.aliases?.length) entry.aliases = s.aliases;

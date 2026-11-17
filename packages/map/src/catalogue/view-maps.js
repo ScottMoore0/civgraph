@@ -10,6 +10,7 @@ import { SECTIONS, unitWord } from './index.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
 import { MAP_COLOURS } from '../colours.mjs';
+import { creditLine } from '../../../core/src/credits.mjs';
 
 /** @typedef {import('./index.js').CatalogueNext} CatalogueNext */
 /** @typedef {import('./index.js').VisibleShelf} VisibleShelf */
@@ -159,7 +160,7 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   else if (s.status?.incomplete) meta.push('<span class="cn-badge cn-badge--warn">Incomplete</span>');
   // A row of census figures says which areas they are counted by ("by Ward 2014").
   const by = s.kind === 'Statistics' && single ? /\bby ([^,)]+)\)?\s*$/.exec(c.rec(s.members[0].id).name || '')?.[1] : '';
-  const who = single ? c.mapSummary(s.members[0].id, { date: false, short: true }) : (s.provider || []).map(shortProvider).join(', ');
+  const who = single ? c.mapSummary(s.members[0].id, { date: false, short: true }) : creditLine((s.provider || []).map(shortProvider), s.derivedFrom || []);
   const second = [by ? `by ${by}` : '', who, ...tally].filter(Boolean);
   const credit = second.length ? `<span class="cn-row__credit">${second.map((t, k) => `<span class="cn-row__item">${esc(t)}${k < second.length - 1 ? '<span class="cn-row__dot" aria-hidden="true"> ·</span>' : ''}</span>`).join(' ')}</span>` : '';
   const text = `<span class="cn-row__text"><span class="cn-row__name">${esc(s.name)}</span><span class="cn-row__meta">${meta.join('<span class="cn-row__dot" aria-hidden="true">·</span>')}</span>${credit}</span>`;

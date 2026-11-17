@@ -32,6 +32,7 @@ import dataService, { resolveMapDownloadUrl } from '../src/data-service.js';
 import { compositeChildIds } from '../src/map-relations.mjs';
 import { SITE } from '../../config/src/config.js';
 import { siteNumber } from '../../core/src/format.js';
+import { creditLine, mergedDerivedFromLines } from '../../core/src/credits.mjs';
 import { EXPORT_COLOURS } from '../src/colours.mjs';
 import { createState } from '../src/state-helpers.mjs';
 import { CONTEXT_OUTLINE_LOAD } from '../src/app/export-context-state.mjs';
@@ -86,7 +87,7 @@ const LICENCE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';
  */
 /**
  * A layer as the export reads it from the map controller or the metadata service.
- * @typedef {{ id?: string, name?: string, provider?: unknown, license?: string, licence?: string, labelProperty?: string, references?: Array<{ url?: string, file?: string, label?: string }> }} ExportLayer
+ * @typedef {{ id?: string, name?: string, provider?: unknown, sourceCredits?: unknown, license?: string, licence?: string, labelProperty?: string, references?: Array<{ url?: string, file?: string, label?: string }> }} ExportLayer
  */
 /**
  * What the export reads of the map app (app/app.js): its map, its election and its metadata.
@@ -661,7 +662,8 @@ async function describeSources(app, mapIds) {
     const provider = [config.provider, detailed.provider].flat(2).filter(Boolean);
     const licence = detailed.license || detailed.licence || config.license || config.licence || '';
     const name = config.name || detailed.name || id;
-    credits.push(`${name}: ${[...new Set(provider)].join(', ') || 'source as recorded on Civgraph'}${licence ? ` (${licence})` : ''}`);
+    const credit = creditLine(provider.map(String), mergedDerivedFromLines(config.sourceCredits, detailed.sourceCredits));
+    credits.push(`${name}: ${credit || 'source as recorded on Civgraph'}${licence ? ` (${licence})` : ''}`);
     for (const ref of [...(config.references || []), ...(detailed.references || [])]) {
       const url = /** @type {string | undefined} */ (ref?.url || ref?.file);
       if (url && /^https?:/i.test(url) && !references.some((r) => r.url === url)) references.push({ label: ref.label || url, url });

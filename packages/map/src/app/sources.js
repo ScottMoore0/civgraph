@@ -5,6 +5,7 @@
  */
 
 import { escapeHtml } from './helpers.mjs';
+import { creditLine, mergedDerivedFromLines } from '../../../core/src/credits.mjs';
 import uiController from '../ui-controller.js';
 import dataService from '../data-service.js';
 import { setHidden } from '../state-helpers.mjs';
@@ -16,7 +17,7 @@ import { setHidden } from '../state-helpers.mjs';
  */
 /** @typedef {import('../../app/maplibre-main-adapter.js').RuntimeLayer} RuntimeLayer */
 /** A reference or download as the panel reads it: a link with its note. @typedef {import('../../../types/index.js').SourceLink & { file?: string, note?: string, description?: string }} SourceLinkView */
-/** The catalogue's record of a map, the fields the panel reads. @typedef {{ id?: string, name?: string, provider?: string | string[], description?: string, references?: SourceLinkView[], sourceDownloads?: SourceLinkView[] }} SourceConfigView */
+/** The catalogue's record of a map, the fields the panel reads. @typedef {{ id?: string, name?: string, provider?: string | string[], sourceCredits?: unknown, description?: string, references?: SourceLinkView[], sourceDownloads?: SourceLinkView[] }} SourceConfigView */
 /** A layer's sources: its id, its layer in the map index and its catalogue record. @typedef {{ id: string, layer: RuntimeLayer | null, mainConfig: import('../data-service.js').CatalogueMap | null }} SourceRecord */
 /** A link the panel lists. @typedef {{ label: string, url?: string, note?: string }} SourcePanelLink */
 /** @typedef {import('./map-app').LayerOrGroupState} LayerOrGroupState */
@@ -179,7 +180,8 @@ export class SourcePanelMethods {
     const layer = /** @type {Partial<RuntimeLayer>} */ (record.layer || {});
     const mainConfig = /** @type {SourceConfigView} */ (record.mainConfig || {});
     const title = layer.name || mainConfig.name || record.id;
-    const provider = [layer.provider, mainConfig.provider].flat(2).filter(Boolean).join(', ');
+    // The provider, then what a layer built from other people's maps was derived from (packages/core/src/credits.mjs).
+    const provider = creditLine([layer.provider, mainConfig.provider].flat(2).filter(Boolean).map(String), mergedDerivedFromLines(layer.sourceCredits, mainConfig.sourceCredits));
     const sourceId = layer.sourceMapId || mainConfig.id || record.id;
     const references = /** @type {SourceLinkView[]} */ ([...(mainConfig.references || []), ...(layer.references || [])]);
     const downloads = /** @type {SourceLinkView[]} */ ([...(mainConfig.sourceDownloads || []), ...(layer.sourceDownloads || [])]);

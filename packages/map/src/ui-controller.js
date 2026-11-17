@@ -2,6 +2,7 @@ import { compositeChildIds } from './map-relations.mjs';
 import { catalogueV2Requested } from './data-service.js';
 import { readStored, writeStored } from './storage-keys.mjs';
 import { formatDisplayDate } from '../../core/src/date-format.mjs';
+import { creditLine, derivedFromLines } from '../../core/src/credits.mjs';
 /**
  * NI Boundaries - UI Controller
  * Handles split-pane layout, search, filtering, map catalogue, and UI interactions
@@ -610,7 +611,7 @@ class UIController {
             <div class="catalogue-detail__meta">
                 <div class="catalogue-detail__meta-row">
                     <span class="catalogue-detail__meta-label">Provider</span>
-                    <span class="catalogue-detail__meta-value">${map.provider ? this.escapeHtml(map.provider.join(', ')) : 'Unknown'}</span>
+                    <span class="catalogue-detail__meta-value">${map.provider ? this.escapeHtml(creditLine(map.provider, derivedFromLines(map.sourceCredits))) : 'Unknown'}</span>
                 </div>
                 <div class="catalogue-detail__meta-row">
                     <span class="catalogue-detail__meta-label">Category</span>
@@ -2530,7 +2531,8 @@ class UIController {
 
     /** @param {MapRecord} map */
     renderMapProviderSummary(map) {
-        const providers = Array.isArray(map?.provider) ? map.provider.filter(Boolean).join(', ') : String(map?.provider || '').trim();
+        // A layer built from other people's maps says what it was derived from (packages/core/src/credits.mjs).
+        const providers = creditLine(Array.isArray(map?.provider) ? map.provider : [String(map?.provider || '')], derivedFromLines(map?.sourceCredits));
         const count = this.getMapFeatureCount(map);
         if (!Number.isFinite(count)) return providers;
         // Number.isFinite has passed the count.
