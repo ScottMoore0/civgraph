@@ -19,7 +19,7 @@ const fileOf = (m) => String(m.files?.fgb || '').split('?')[0].split('/').pop();
 test('every drawn edition has a file, a label property and a /test layer', () => {
   assert.ok(drawn.length >= 80, `drawn editions: ${drawn.length}`);
   for (const m of drawn) {
-    assert.match(m.files?.fgb || '', /^https:\/\/data\.civgraph\.net\/data\/maps\/electoral-divisions\/.+\.fgb$/, m.id);
+    assert.match(m.files?.fgb || '', /^https:\/\/data\.civgraph\.net\/data\/maps\/electoral-divisions\/.+\.fgb(\?v=[0-9a-f-]+)?$/, m.id);
     assert.ok(m.labelProperty, `${m.id} labelProperty`);
     const layer = layerBySource.get(m.id);
     assert.ok(layer, `${m.id} has a /test layer`);
