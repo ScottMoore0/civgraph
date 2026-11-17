@@ -9,6 +9,9 @@ import { SHELF_COLOURS } from '../colours.mjs';
 /** Lucide icon name -> its SVG markup. @type {Record<string, string>} */
 const PATHS = {
   // Sections, as in the current pane
+  // Owner-supplied, 17 Nov 2026, drawn on the same 24px grid.
+  'historic-maps': '<path d="M4 2.5V4M4 20v1.5M20 2.5V4M20 20v1.5"/><rect x="2" y="4" width="4" height="16" rx="2"/><rect x="18" y="4" width="4" height="16" rx="2"/><path d="M6 6c2 .8 4 .8 6 0s4-.8 6 0"/><path d="M6 18c2 .8 4 .8 6 0s4-.8 6 0"/><path d="M15 10.5c0 2.2-3 5-3 5s-3-2.8-3-5a3 3 0 0 1 6 0z"/><path d="M12 10.5h0"/>',
+  'surfaces-scans': '<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M6 17l4-7 3 4.5 2-3 3 5.5z"/>',
   vote: '<path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/>',
   map: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
   'book-open': '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
@@ -84,7 +87,7 @@ export const SHELF_LOOK = {
   'environment-and-land-use': ['leaf', SHELF_COLOURS['environment-and-land-use']],
   'earth-and-terrain': ['mountain', SHELF_COLOURS['earth-and-terrain']],
   // Rasters and point clouds (owner, 15 Nov 2026): Earth & Terrain's colour, as most of them came from it.
-  'surfaces-and-scans': ['layers', SHELF_COLOURS['earth-and-terrain']],
+  'surfaces-and-scans': ['surfaces-scans', SHELF_COLOURS['earth-and-terrain']],
   'regional-divides': ['split', SHELF_COLOURS['regional-divides']],
   environment: ['leaf', SHELF_COLOURS.environment],
 };

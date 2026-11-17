@@ -23,7 +23,7 @@ export default {
    "historic",
    "Historic",
    "Scanned Maps",
-   "landmark"
+   "historic-maps"
   ]
  ],
  "filters": [

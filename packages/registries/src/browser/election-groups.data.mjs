@@ -15,7 +15,7 @@ export default {
    "bodies": [
     "seanad-eireann"
    ],
-   "icon": "dail"
+   "icon": "seanad"
   },
   {
    "id": "westminster",
@@ -142,7 +142,7 @@ export default {
    "bodies": [
     "irish-local-elections"
    ],
-   "icon": "irish-local"
+   "icon": "pre-partition-local"
   },
   {
    "id": "european",

@@ -41,7 +41,7 @@ test('body groups: the catalogue shelves are the BODY_GROUPS literal they replac
     { id: 'ni-devolved', label: 'NI Devolved', bodies: ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'], icon: 'ni-devolved' },
     { id: 'ni-local', label: 'NI local', bodies: ['local-government', 'ni-local-elections', ...pre1973], icon: 'ni-local' },
     { id: 'irish-local', label: 'Irish local', bodies: ['ireland-local'], icon: 'irish-local' },
-    { id: 'pre-partition-local', label: 'Pre-partition local', bodies: ['irish-local-elections'], icon: 'irish-local' },
+    { id: 'pre-partition-local', label: 'Pre-partition local', bodies: ['irish-local-elections'], icon: 'pre-partition-local' },
     // The year's grouped row (Phelim Birch's review #105, 15 Nov 2026) is the one field added since.
     { id: 'european', label: 'European', bodies: ['european-parliament', 'ireland-european'], icon: 'european', yearGroupTitle: '{year} European Parliament election' },
     { id: 'referendum', label: 'Referendum', bodies: ['ireland-referendum', 'northern-ireland-referendum'], icon: 'referendum' },
@@ -52,7 +52,7 @@ test('body groups: the catalogue shelves are the BODY_GROUPS literal they replac
   }));
   // The Seanad shelf (wave 13, 13 Nov 2026) is the one added since, for the new body alone: every
   // shelf the literal had is unchanged.
-  const SEANAD = { id: 'seanad', label: 'Seanad', bodies: ['seanad-eireann'], icon: 'dail' };
+  const SEANAD = { id: 'seanad', label: 'Seanad', bodies: ['seanad-eireann'], icon: 'seanad' };
   const now = [before[0], SEANAD, ...before.slice(1)];
   assert.equal(JSON.stringify(catalogueShelves(registry, (flag) => bodySlugsWithFlag(councils, flag))), JSON.stringify(now));
   assert.equal(JSON.stringify(electionGroups.shelves), JSON.stringify(now));
