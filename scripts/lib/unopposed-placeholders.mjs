@@ -26,7 +26,7 @@ function isPlaceholderVote(value) {
 /**
  * @typedef {Record<string, unknown>} Row
  * @param {Record<string, unknown> & { candidates?: unknown, elected?: unknown, countInfo?: Row,
- *   animationPayload?: { Constituency?: { countInfo?: Row, countGroup?: unknown } } }} result  a built
+ *   animationPayload?: { Constituency?: { countInfo?: Row | undefined, countGroup?: unknown } } }} result  a built
  *   contest result; changed in place
  * @returns {boolean} whether anything was scrubbed (false when a candidate has real votes)
  */

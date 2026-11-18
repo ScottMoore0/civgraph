@@ -199,7 +199,7 @@ export const WINDOWS_ABORT_STATUS = 0xC0000409;
  * 0xC0000409, and stderr then holds only that line: D1's own error is the JSON on stdout.
  */
 export class WranglerError extends Error {
-  /** @param {string} message @param {{ status: number | null, d1Code?: number, crashed?: boolean }} info */
+  /** @param {string} message @param {{ status: number | null, d1Code?: number | undefined, crashed?: boolean }} info */
   constructor(message, { status, d1Code, crashed = false }) {
     super(message);
     this.status = status;
@@ -320,7 +320,7 @@ export const isTransientAuth = (/** @type {unknown} */ error) => /\b7403\b/.test
  * @param {(sql: S, opts: { remote?: boolean }) => R} query
  * @param {S} sql
  * @param {{ remote?: boolean }} opts
- * @param {{ backoffMs?: number[], sleep?: (ms: number) => void, log?: (line: string) => void }} [retry]
+ * @param {{ backoffMs?: number[] | undefined, sleep?: (ms: number) => void, log?: (line: string) => void }} [retry]
  * @returns {R}
  */
 export function queryWithRetry(query, sql, opts, { backoffMs = BOUNDS.backoffMs, sleep = sleepSync, log = console.warn } = {}) {
@@ -497,8 +497,8 @@ export const boundedChecksumSql = (/** @type {Pick<TableSpec, 'name'>} */ t, /**
 /**
  * `touched` is the keys the delta from `since` wrote, when the caller has them (buildDelta's
  * collectKeys): they are what deltaKeys would find, so the databases are not diffed again.
- * @param {{ file: string, since?: string|null, sample?: number, bounds?: typeof BOUNDS,
- *   touched?: Record<string, TouchedKeys> | null }} options
+ * @param {{ file: string, since?: string|null, sample?: number | undefined, bounds?: typeof BOUNDS | undefined,
+ *   touched?: Record<string, TouchedKeys> | null | undefined }} options
  * @returns {Plan}
  */
 export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bounds = BOUNDS, touched: given = null }) {
@@ -636,8 +636,8 @@ export const callSql = (/** @type {string[]} */ sqls) => sqls.join('; ');
  * call's statements and answers each on its own. Given only a `query` (a test's stand-in), a
  * call's statements go through it one by one, with no pause between them.
  * @param {Plan} plan
- * @param {{ remote?: boolean, query?: Query, queryMany?: QueryMany, pauseMs?: number, sleep?: (ms: number) => void,
- *   log?: (line: string) => void, backoffMs?: number[], bounds?: typeof BOUNDS }} [options]
+ * @param {{ remote?: boolean, query?: Query, queryMany?: QueryMany | undefined, pauseMs?: number, sleep?: ((ms: number) => void) | undefined,
+ *   log?: (line: string) => void, backoffMs?: number[] | undefined, bounds?: typeof BOUNDS | undefined }} [options]
  * @returns {string[]} the mismatches
  */
 export function runPlan(plan, { remote = false, query = wranglerQuery, queryMany, pauseMs = BOUNDS.pauseMs, sleep = sleepSync, log = () => {}, backoffMs, bounds = BOUNDS } = {}) {
@@ -668,9 +668,9 @@ export function runPlan(plan, { remote = false, query = wranglerQuery, queryMany
  * Verify a load. mode: 'bounded' (the default for the remote database) or 'full' (the default
  * for the local D1; against the remote only with --full-verify, at a quiet time). `touched`: the
  * keys the delta from `since` wrote, when the caller has them (boundedPlan).
- * @param {{ file: string, remote?: boolean, mode?: 'bounded'|'full', since?: string|null, sample?: number,
- *   query?: Query, queryMany?: QueryMany, pauseMs?: number, sleep?: (ms: number) => void, log?: (line: string) => void,
- *   bounds?: typeof BOUNDS, touched?: Record<string, TouchedKeys> | null }} options
+ * @param {{ file: string, remote?: boolean, mode?: 'bounded'|'full', since?: string|null, sample?: number | undefined,
+ *   query?: Query, queryMany?: QueryMany, pauseMs?: number | undefined, sleep?: (ms: number) => void, log?: (line: string) => void,
+ *   bounds?: typeof BOUNDS, touched?: Record<string, TouchedKeys> | null | undefined }} options
  * @returns {string[]} the mismatches
  */
 export function verify({ file, remote = false, mode = remote ? 'bounded' : 'full', since = null, sample, query = wranglerQuery, queryMany, pauseMs, sleep, log, bounds, touched } = /** @type {{ file: string }} */ ({})) {

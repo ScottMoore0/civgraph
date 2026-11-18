@@ -364,7 +364,7 @@ function keyValue(table, column, value) {
 /**
  * The plan for a build, from the cache when it was made for this very file and these limits.
  * @param {string} file
- * @param {{ rangeRows?: number, rangeBytes?: number, cacheDir?: string, log?: (line: string) => void }} [options]
+ * @param {{ rangeRows?: number | undefined, rangeBytes?: number | undefined, cacheDir?: string, log?: (line: string) => void }} [options]
  * @returns {RangePlan}
  */
 export function loadPlan(file, { rangeRows = SAFE.rangeRows, rangeBytes = SAFE.rangeBytes, cacheDir = STATE_DIR, log = () => {} } = {}) {
@@ -645,8 +645,8 @@ const fileVersion = (file) => {
 /**
  * Where the delta's keys come from: an explicit --since or --delta, else (remote and local D1) the
  * snapshot when it is not this build yet, else the delta parts if they are this build's.
- * @param {{ file: string, version: string, since?: string | null, deltaDir?: string | null, noDelta?: boolean,
- *   snapshot?: string | null, defaultDeltaDir?: string | null }} o
+ * @param {{ file: string, version: string, since?: string | null | undefined, deltaDir?: string | null | undefined, noDelta?: boolean | undefined,
+ *   snapshot?: string | null | undefined, defaultDeltaDir?: string | null | undefined }} o
  * @returns {{ touched: TouchedKeys | null, source: string }}
  */
 export function resolveDelta({ file, version, since = null, deltaDir = null, noDelta = false, snapshot = null, defaultDeltaDir = null }) {
@@ -707,7 +707,7 @@ function shuffle(list, rand) {
  * of the ranges the delta touched (drawn at random), then `sample` random others; --full: every
  * range, in plan order. (Rows outside a table's first and last key are the cheap bounds check's.)
  * @param {RangePlan} plan
- * @param {{ full?: boolean, sample?: number, deltaRanges?: number, seed?: number, touched?: Set<string> }} [options]
+ * @param {{ full?: boolean | undefined, sample?: number, deltaRanges?: number, seed?: number, touched?: Set<string> }} [options]
  * @returns {Selected[]}
  */
 export function selectRanges(plan, { full = false, sample = SAFE.sampleRanges, deltaRanges = SAFE.deltaRanges, seed = 1, touched = new Set() } = {}) {
@@ -769,10 +769,10 @@ export function schemaHash(rows, only) {
 
 /**
  * Verify. Everything it reads from the target goes through `query`, one statement at a time.
- * @param {{ file: string, query: Query, target: string, stateFile?: string, cacheDir?: string,
- *   full?: boolean, sample?: number, deltaRanges?: number, seed?: number, budget?: number, pauseMs?: number,
- *   rangeRows?: number, rangeBytes?: number, resume?: boolean, planOnly?: boolean, drill?: number,
- *   overloadRetries?: number, overloadWaitMs?: number, authBackoffMs?: number[], crashBackoffMs?: number[],
+ * @param {{ file: string, query: Query, target: string, stateFile?: string | undefined, cacheDir?: string | undefined,
+ *   full?: boolean, sample?: number | undefined, deltaRanges?: number | undefined, seed?: number | undefined, budget?: number | undefined, pauseMs?: number,
+ *   rangeRows?: number | undefined, rangeBytes?: number | undefined, resume?: boolean, planOnly?: boolean, drill?: number | undefined,
+ *   overloadRetries?: number | undefined, overloadWaitMs?: number, authBackoffMs?: number[], crashBackoffMs?: number[],
  *   since?: string | null, deltaDir?: string | null, noDelta?: boolean, snapshot?: string | null,
  *   defaultDeltaDir?: string | null, sleep?: (ms: number) => void, log?: (line: string) => void }} o
  * @returns {Report}

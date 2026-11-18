@@ -43,7 +43,7 @@ const BASELINE = {
   'packages/map/tsconfig.project.views.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess'], include: ['src/views/*.mjs'] },
   'packages/ui/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes'], include: ['assets/**/*.js', 'src/**/*.js', 'src/**/*.mjs'] },
   'packages/map/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes'], include: ['src/**/*.js', 'src/**/*.mjs', 'src/**/*.d.ts', 'app/**/*.js', 'src/renderer/port-plan-client.generated.json'] },
-  'packages/loader/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters'], include: ['src/*.mjs'] },
+  'packages/loader/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes'], include: ['src/*.mjs'] },
   'packages/intake/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes'], include: ['src/*.mjs'] },
   'packages/maps-pipeline/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes'], include: ['src/*.mjs', 'src/thumbnails/*.mjs'] },
 };

@@ -63,7 +63,7 @@ async function functionModule(route) {
  * Answer a records API request from the local build. `url` is absolute or a path; `dbFile`
  * defaults to the records build. GET and HEAD only, as the app uses them.
  * @param {string | URL} url
- * @param {{ method?: string, headers?: Record<string, string>, dbFile?: string }} [options]
+ * @param {{ method?: string | undefined, headers?: Record<string, string>, dbFile?: string }} [options]
  * @returns {Promise<Response | null>}
  */
 export async function answerRecordApi(url, { method = 'GET', headers = {}, dbFile = RECORDS_DB } = {}) {
