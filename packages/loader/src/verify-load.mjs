@@ -448,12 +448,12 @@ export function keyedSql(t, keys) {
 
 /**
  * Batches of at most batchKeys keys, batchBytes of row data and statementBytes of SQL.
- * @param {TableSpec} t
+ * @param {TableSpec} _t
  * @param {KeyRef[]} keys
  * @param {typeof BOUNDS} [bounds]
  * @returns {KeyRef[][]}
  */
-export function batches(t, keys, bounds = BOUNDS) {
+export function batches(_t, keys, bounds = BOUNDS) {
   /** @type {KeyRef[][]} */
   const out = [];
   /** @type {KeyRef[]} */
