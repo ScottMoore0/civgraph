@@ -45,7 +45,7 @@ export const PARITY_STATUSES = Object.freeze(['pass', 'fail', 'warn', 'reported-
  * @property {(type: string, data: object) => void} [fire]
  * @typedef {object} LoadedFeature
  * @property {unknown} [id]
- * @property {string} [name]
+ * @property {string | undefined} [name]
  * @property {Record<string, unknown>} [properties]
  * @property {unknown} [geometry]
  * @typedef {object} Test2Hook
