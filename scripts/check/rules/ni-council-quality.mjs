@@ -754,7 +754,7 @@ export function pollDateFindings(contests, countyOf) {
       if ((tally.get(modal) || 0) < 3) continue;
       for (const x of arr) {
         const days = Math.abs(Date.parse(x.date) - Date.parse(modal)) / 86400000;
-        if (days > 7 && !x.list.some((c) => /by-?election/i.test(String(c.data.note || '')))) {
+        if (days > 7 && !x.list.some((c) => /by-?election|casual vacancy|first election|incorporat|postpone|\(not \d{1,2} \w+ \d{4}\)/i.test(String(c.data.note || '')))) {
           out.push({ contest: x.list[0], type: 'poll-date', severity: 'low', detail: `town round filed on ${x.date}; ${tally.get(modal)} towns polled ${modal} that year` });
         }
       }
