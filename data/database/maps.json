@@ -55240,7 +55240,8 @@
       ],
       "sourceCredits": [
         "Scott Moore",
-        "Townland boundaries: Tailte Éireann (CC BY 4.0) and OSNI (Open Government Licence)"
+        "Townland boundaries: Tailte Éireann (CC BY 4.0) and OSNI (Open Government Licence)",
+        "Towns without townland boundaries: from the 1907-12 District Electoral Division maps of Phelim Birch and Paddy Matthews"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1849-09-29.fgb"
@@ -55268,7 +55269,7 @@
       ],
       "date": "1849-09-29",
       "dateEffective": "1841-08-02",
-      "description": "The 130 Poor Law Unions of Ireland formed under the Poor Relief (Ireland) Act 1838, as they stood before the recasting of 1849-50. They were declared between December 1838 (Belfast on 21 Dec 1838; Limerick earlier) and 1841; the last, Glenties, was formed on 2 Aug 1841. The first of the new unions recommended by the Boundary Commissioners (Belmullet, Killala, Dromore West and Castletown Berehaven) took effect on 30 Sep 1849, so the map stands for 2 Aug 1841 to 29 Sep 1849. No map of the unions or of their electoral divisions of this period is known, so each union is assembled from Civgraph's townlands. A townland is left in its union of 1851 where that union already existed before 1848; the townlands of the 33 unions made in 1848-50 are given to the older union whose electoral divisions, as the Parliamentary Gazetteer of Ireland (1846) names them, lie there (most divisions are named after a civil parish, a few after a townland or village), and where no named division decides, to the older union round them. Where a parish named as one union's division lay in another union by 1851 and the move brings both unions nearer their printed acreages, the parish goes back to the union that named it. Each union carries its order of declaration (rank), its date of declaration and the source of that date, the date of formation where the Poor Law Commissioners' returns print it, the number of divisions the Gazetteer names, its land area (land_acres), the acreage the Gazetteer prints (printed_acres), the difference (pct_diff), a confidence grade, and the share of its area placed only from its neighbours (inferred_pct). Of the 130 unions, 45 agree with the printed acreage within 1%, 56 within 2% and 73 within 5%. The printed acreages agree closely in most of Ulster and Leinster, where the unions did not change in 1848-50; elsewhere, chiefly in Munster and Connacht, many printed figures are estimates of the early 1840s or in Irish measure, so a larger difference there does not by itself show a wrong line. The lines between unions inside the areas recast in 1848-50 are the least certain. The map is simplified for display by a coverage simplification, so neighbouring unions keep common edges; the full-resolution file and a table of every townland with its union are among the downloads.",
+      "description": "The 130 Poor Law Unions of Ireland formed under the Poor Relief (Ireland) Act 1838, as they stood before the recasting of 1849-50. They were declared between December 1838 (Belfast on 21 Dec 1838; Limerick earlier) and 1841; the last, Glenties, was formed on 2 Aug 1841. The first of the new unions recommended by the Boundary Commissioners (Belmullet, Killala, Dromore West and Castletown Berehaven) took effect on 30 Sep 1849, so the map stands for 2 Aug 1841 to 29 Sep 1849. No map of the unions or of their electoral divisions of this period is known, so each union is assembled from Civgraph's townlands (towns and suburbs with no townland polygons are filled from the 1907-12 District Electoral Divisions, less water). A townland is left in its union of 1851 where that union already existed before 1848; the townlands of the 33 unions made in 1848-50 are given to the older union whose electoral divisions, as the Parliamentary Gazetteer of Ireland (1846) names them, lie there (most divisions are named after a civil parish, a few after a townland or village), and where no named division decides, to the older union round them. Where a parish named as one union's division lay in another union by 1851 and the move brings both unions nearer their printed acreages, the parish goes back to the union that named it. Each union carries its order of declaration (rank), its date of declaration and the source of that date, the date of formation where the Poor Law Commissioners' returns print it, the number of divisions the Gazetteer names, its land area (land_acres), the acreage the Gazetteer prints (printed_acres), the difference (pct_diff), a confidence grade, and the share of its area placed only from its neighbours (inferred_pct). Of the 130 unions, 44 agree with the printed acreage within 1%, 56 within 2% and 73 within 5%. The printed acreages agree closely in most of Ulster and Leinster, where the unions did not change in 1848-50; elsewhere, chiefly in Munster and Connacht, many printed figures are estimates of the early 1840s or in Irish measure, so a larger difference there does not by itself show a wrong line. The lines between unions inside the areas recast in 1848-50 are the least certain. The map is simplified for display by a coverage simplification, so neighbouring unions keep common edges; the full-resolution file and a table of every townland with its union are among the downloads.",
       "changeNote": "Earliest complete edition. Before it: the unions declared by 31 Dec 1839 and by 31 Dec 1840. After it: the 33 new unions of 1849-50 and the recast divisions (Poor Law Unions 30 Mar 1851).",
       "references": [
         {
@@ -55315,13 +55316,21 @@
           "note": "Every union is drawn as the townlands assigned to it."
         },
         {
+          "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
+          "note": "Towns and suburbs that have no townland polygons (Dublin, Cork, Galway, Limerick, Belfast and smaller towns) are filled from these divisions, less water."
+        },
+        {
+          "label": "CORINE Land Cover 2018 (Copernicus Land Monitoring Service)",
+          "note": "Water and intertidal flats, left out of the town fill."
+        },
+        {
           "label": "Civgraph civil parishes of Ireland",
           "note": "The parish of each townland, to place the electoral divisions named after parishes."
         }
       ],
-      "licence": "CC-BY-4.0",
-      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
-      "licenceNote": "Built for Civgraph (Scott Moore) from Civgraph's townland map (Tailte Éireann, CC BY 4.0; OSNI, Open Government Licence). The unions, their dates and their divisions are from the printed sources cited, which are out of copyright.",
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) from Civgraph's townland map (Tailte Éireann, CC BY 4.0; OSNI, Open Government Licence). Towns and suburbs that have no townland boundaries are filled from Phelim Birch's and Paddy Matthews's District Electoral Division maps (CC BY-SA 4.0), so the layer is shared under the same licence; water is left out using CORINE Land Cover 2018 (Copernicus). The unions, their dates and their divisions are from the printed sources cited, which are out of copyright.",
       "downloads": [
         {
           "label": "Poor Law Unions 29 Sep 1849 (FlatGeobuf, simplified)",
@@ -55351,7 +55360,8 @@
       ],
       "sourceCredits": [
         "Scott Moore",
-        "Townland boundaries: Tailte Éireann (CC BY 4.0) and OSNI (Open Government Licence)"
+        "Townland boundaries: Tailte Éireann (CC BY 4.0) and OSNI (Open Government Licence)",
+        "Towns without townland boundaries: from the 1907-12 District Electoral Division maps of Phelim Birch and Paddy Matthews"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1840-12-31.fgb"
@@ -55379,7 +55389,7 @@
       ],
       "date": "1840-12-31",
       "dateEffective": "1840-12-10",
-      "description": "The 124 Poor Law Unions of Ireland declared by 31 Dec 1840 under the Poor Relief (Ireland) Act 1838; the rest of the island was not yet in a union. Each union is drawn as it stood until the recasting of 1849-50 (see Poor Law Unions 29 Sep 1849, from which this map is taken): no change to a union's extent between its declaration and 1849 is known. Each union carries its date of declaration and the source of that date; a union whose date of declaration is not printed is placed by its order of declaration. No map of the unions or of their electoral divisions of this period is known, so each union is assembled from Civgraph's townlands. A townland is left in its union of 1851 where that union already existed before 1848; the townlands of the 33 unions made in 1848-50 are given to the older union whose electoral divisions, as the Parliamentary Gazetteer of Ireland (1846) names them, lie there (most divisions are named after a civil parish, a few after a townland or village), and where no named division decides, to the older union round them. Where a parish named as one union's division lay in another union by 1851 and the move brings both unions nearer their printed acreages, the parish goes back to the union that named it.",
+      "description": "The 124 Poor Law Unions of Ireland declared by 31 Dec 1840 under the Poor Relief (Ireland) Act 1838; the rest of the island was not yet in a union. Each union is drawn as it stood until the recasting of 1849-50 (see Poor Law Unions 29 Sep 1849, from which this map is taken): no change to a union's extent between its declaration and 1849 is known. Each union carries its date of declaration and the source of that date; a union whose date of declaration is not printed is placed by its order of declaration. No map of the unions or of their electoral divisions of this period is known, so each union is assembled from Civgraph's townlands (towns and suburbs with no townland polygons are filled from the 1907-12 District Electoral Divisions, less water). A townland is left in its union of 1851 where that union already existed before 1848; the townlands of the 33 unions made in 1848-50 are given to the older union whose electoral divisions, as the Parliamentary Gazetteer of Ireland (1846) names them, lie there (most divisions are named after a civil parish, a few after a townland or village), and where no named division decides, to the older union round them. Where a parish named as one union's division lay in another union by 1851 and the move brings both unions nearer their printed acreages, the parish goes back to the union that named it.",
       "changeNote": "Dated progress of the declarations; the complete map is Poor Law Unions 29 Sep 1849.",
       "references": [
         {
@@ -55426,13 +55436,21 @@
           "note": "Every union is drawn as the townlands assigned to it."
         },
         {
+          "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
+          "note": "Towns and suburbs that have no townland polygons (Dublin, Cork, Galway, Limerick, Belfast and smaller towns) are filled from these divisions, less water."
+        },
+        {
+          "label": "CORINE Land Cover 2018 (Copernicus Land Monitoring Service)",
+          "note": "Water and intertidal flats, left out of the town fill."
+        },
+        {
           "label": "Civgraph civil parishes of Ireland",
           "note": "The parish of each townland, to place the electoral divisions named after parishes."
         }
       ],
-      "licence": "CC-BY-4.0",
-      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
-      "licenceNote": "Built for Civgraph (Scott Moore) from Civgraph's townland map (Tailte Éireann, CC BY 4.0; OSNI, Open Government Licence). The unions, their dates and their divisions are from the printed sources cited, which are out of copyright.",
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) from Civgraph's townland map (Tailte Éireann, CC BY 4.0; OSNI, Open Government Licence). Towns and suburbs that have no townland boundaries are filled from Phelim Birch's and Paddy Matthews's District Electoral Division maps (CC BY-SA 4.0), so the layer is shared under the same licence; water is left out using CORINE Land Cover 2018 (Copernicus). The unions, their dates and their divisions are from the printed sources cited, which are out of copyright.",
       "downloads": [
         {
           "label": "Poor Law Unions 31 Dec 1840 (FlatGeobuf, simplified)",
@@ -55452,7 +55470,8 @@
       ],
       "sourceCredits": [
         "Scott Moore",
-        "Townland boundaries: Tailte Éireann (CC BY 4.0) and OSNI (Open Government Licence)"
+        "Townland boundaries: Tailte Éireann (CC BY 4.0) and OSNI (Open Government Licence)",
+        "Towns without townland boundaries: from the 1907-12 District Electoral Division maps of Phelim Birch and Paddy Matthews"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1839-12-31.fgb"
@@ -55480,7 +55499,7 @@
       ],
       "date": "1839-12-31",
       "dateEffective": "1839-12-31",
-      "description": "The 94 Poor Law Unions of Ireland declared by 31 Dec 1839 under the Poor Relief (Ireland) Act 1838; the rest of the island was not yet in a union. Each union is drawn as it stood until the recasting of 1849-50 (see Poor Law Unions 29 Sep 1849, from which this map is taken): no change to a union's extent between its declaration and 1849 is known. Each union carries its date of declaration and the source of that date; a union whose date of declaration is not printed is placed by its order of declaration. No map of the unions or of their electoral divisions of this period is known, so each union is assembled from Civgraph's townlands. A townland is left in its union of 1851 where that union already existed before 1848; the townlands of the 33 unions made in 1848-50 are given to the older union whose electoral divisions, as the Parliamentary Gazetteer of Ireland (1846) names them, lie there (most divisions are named after a civil parish, a few after a townland or village), and where no named division decides, to the older union round them. Where a parish named as one union's division lay in another union by 1851 and the move brings both unions nearer their printed acreages, the parish goes back to the union that named it.",
+      "description": "The 94 Poor Law Unions of Ireland declared by 31 Dec 1839 under the Poor Relief (Ireland) Act 1838; the rest of the island was not yet in a union. Each union is drawn as it stood until the recasting of 1849-50 (see Poor Law Unions 29 Sep 1849, from which this map is taken): no change to a union's extent between its declaration and 1849 is known. Each union carries its date of declaration and the source of that date; a union whose date of declaration is not printed is placed by its order of declaration. No map of the unions or of their electoral divisions of this period is known, so each union is assembled from Civgraph's townlands (towns and suburbs with no townland polygons are filled from the 1907-12 District Electoral Divisions, less water). A townland is left in its union of 1851 where that union already existed before 1848; the townlands of the 33 unions made in 1848-50 are given to the older union whose electoral divisions, as the Parliamentary Gazetteer of Ireland (1846) names them, lie there (most divisions are named after a civil parish, a few after a townland or village), and where no named division decides, to the older union round them. Where a parish named as one union's division lay in another union by 1851 and the move brings both unions nearer their printed acreages, the parish goes back to the union that named it.",
       "changeNote": "Dated progress of the declarations; the complete map is Poor Law Unions 29 Sep 1849.",
       "references": [
         {
@@ -55527,13 +55546,21 @@
           "note": "Every union is drawn as the townlands assigned to it."
         },
         {
+          "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
+          "note": "Towns and suburbs that have no townland polygons (Dublin, Cork, Galway, Limerick, Belfast and smaller towns) are filled from these divisions, less water."
+        },
+        {
+          "label": "CORINE Land Cover 2018 (Copernicus Land Monitoring Service)",
+          "note": "Water and intertidal flats, left out of the town fill."
+        },
+        {
           "label": "Civgraph civil parishes of Ireland",
           "note": "The parish of each townland, to place the electoral divisions named after parishes."
         }
       ],
-      "licence": "CC-BY-4.0",
-      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
-      "licenceNote": "Built for Civgraph (Scott Moore) from Civgraph's townland map (Tailte Éireann, CC BY 4.0; OSNI, Open Government Licence). The unions, their dates and their divisions are from the printed sources cited, which are out of copyright.",
+      "licence": "CC-BY-SA-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenceNote": "Built for Civgraph (Scott Moore) from Civgraph's townland map (Tailte Éireann, CC BY 4.0; OSNI, Open Government Licence). Towns and suburbs that have no townland boundaries are filled from Phelim Birch's and Paddy Matthews's District Electoral Division maps (CC BY-SA 4.0), so the layer is shared under the same licence; water is left out using CORINE Land Cover 2018 (Copernicus). The unions, their dates and their divisions are from the printed sources cited, which are out of copyright.",
       "downloads": [
         {
           "label": "Poor Law Unions 31 Dec 1839 (FlatGeobuf, simplified)",
