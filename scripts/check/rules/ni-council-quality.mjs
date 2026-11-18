@@ -35,6 +35,11 @@
  *   areas-over         a round holding more divisions than its council had (round-completeness
  *                      or the DED boundary edition), a division twice, or one person returned
  *                      for two divisions of the same round
+ *   name-initials      a forename printed only as initials where the same council, within two
+ *                      rounds, has the same surname with a written-out forename of those initials
+ *   poll-date          a CC/RD round filed on another day than its county's (CC and RDs polled
+ *                      together), a town round far from the towns' day, or a polled contest whose
+ *                      every cited issue predates the poll
  *
  * DETECTORS (need the local OCR caches of the cited pages; --ocr-roots <file>)
  *
@@ -51,6 +56,10 @@
  *   node scripts/check/rules/ni-council-quality.mjs --ocr-roots F   F lists cache folders
  *   node scripts/check/rules/ni-council-quality.mjs --origin-csv F  mark contests listed in F
  *                                                                   (column live_file)
+ *   node scripts/check/rules/ni-council-quality.mjs --ranked-csv F  one row per flagged contest,
+ *        ranked by the chance a real defect is there, then by the people it touches; with
+ *        --reviewed A.csv,B.csv (earlier fixers' ledgers: file, flag_types, action) a contest
+ *        already passed on the image for the same flags sinks
  *   node scripts/check/rules/ni-council-quality.mjs --from 1921 --to 1967
  *   node scripts/check/rules/ni-council-quality.mjs --strict        exit 1 on any finding
  */
@@ -76,7 +85,7 @@ const LAYERS = 'data/elections/ni-local/layer-features.json';
  * }} CountInfo a bundle's countInfo
  */
 /** @typedef {{ title?: string, url?: string, urls?: string[], kind?: string }} BundleSource a bundle's citation */
-/** @typedef {{ Constituency?: { countInfo?: CountInfo, countGroup?: BundleCandidate[] }, correctionNote?: string, source?: BundleSource }} Bundle an election bundle */
+/** @typedef {{ Constituency?: { countInfo?: CountInfo, countGroup?: BundleCandidate[] }, correctionNote?: string, note?: string, source?: BundleSource }} Bundle an election bundle */
 /** @typedef {{ body: string, round: string, year: string, file: string, data: Bundle, info: CountInfo, cands: Candidate[], area: string, seats: number }} Contest */
 /** @typedef {{ contest: Contest, type: string, severity: string, detail: string, candidate: string }} Finding */
 /** @typedef {{ district?: string, label?: string }} LayerFeature a boundary feature of layer-features.json */
@@ -270,6 +279,8 @@ function detectStructure(contest) {
   }
   if (voted.length && cands.length <= seats) {
     add(contest, 'omitted-loser', 'high', `votes printed for ${voted.length} but only ${cands.length} candidate(s) for ${seats} seat(s): the defeated are probably missing`);
+  } else if (!voted.length && cands.length <= seats && (num(info.Total_Poll) || num(info.Valid_Poll) || num(info.Majority_Printed))) {
+    add(contest, 'omitted-loser', 'high', `a poll or majority is recorded but only ${cands.length} candidate(s) for ${seats} seat(s) and no votes: the defeated and the votes are probably missing`);
   }
   if (voted.length === cands.length && cands.length > seats && elected.length === seats) {
     // every candidate has a vote here (voted.length === cands.length)
@@ -569,6 +580,347 @@ function detectAreas(contests) {
 }
 
 // ---------------------------------------------------------------------------------------------
+// Forenames printed as initials, polling days (pure: each returns its findings)
+
+/** @typedef {{ contest: Contest, type: string, severity: string, detail: string, candidate?: string }} NewFinding */
+
+const TITLES = /^(rev|dr|sir|mrs?|miss|capt|major|col|lt|lieut|prof|very rev)\.?\s+/i;
+
+/**
+ * The initials of a forename printed only as initials ("W. J.", "J", "W.J."), lower case; "" when
+ * any word is longer than a letter (a name, or an abbreviation such as "Wm." or "Jas.").
+ * @param {unknown} firstname
+ */
+export function initialsOf(firstname) {
+  const s = fold(firstname).replace(TITLES, '').trim();
+  if (!s) return '';
+  const words = s.split(/[\s.]+/).filter(Boolean);
+  return words.every((w) => /^[A-Za-z]$/.test(w)) ? words.join('').toLowerCase() : '';
+}
+
+/**
+ * The initials of a full forename ("William James" -> "wj"), or "" for an initials-only one.
+ * @param {unknown} firstname
+ */
+function fullInitials(firstname) {
+  const s = fold(firstname).replace(TITLES, '').trim();
+  if (!s || initialsOf(s)) return '';
+  const words = s.split(/[\s.]+/).filter(Boolean);
+  if (!words.some((w) => w.length >= 3 && !/^(wm|jas|thos|geo|chas|robt|jno|saml|edw|hy|alex|benj|danl|richd|wal|fras|patk|michl|jos)$/i.test(w))) return '';
+  return words.map((w) => w[0].toLowerCase()).join('');
+}
+
+/**
+ * Candidates whose forename is printed only as initials while a candidate of the same council,
+ * within two rounds, with the same surname and matching initials, has a written-out forename:
+ * the page may print the full name, and the person registry may hold the two as two people.
+ * With `personOf` (the stamped person ids of a records build), a pair the registry already holds
+ * as one person is no lead; a pair it holds as two is medium; without it, every pair is low.
+ * @param {Contest[]} contests
+ * @param {(contest: Contest, cand: Candidate) => number | null} [personOf]
+ * @returns {NewFinding[]}
+ */
+export function initialsOnlyFindings(contests, personOf) {
+  /** @type {NewFinding[]} */
+  const out = [];
+  /** @type {Map<string, Contest[]>} */
+  const byBody = new Map();
+  for (const c of contests) {
+    const body = c.body.replace(/-aldermen$/, '');
+    const list = byBody.get(body) || [];
+    list.push(c);
+    byBody.set(body, list);
+  }
+  for (const list of byBody.values()) {
+    const rounds = [...new Set(list.map((c) => c.round))].sort();
+    const roundIndex = new Map(rounds.map((r, i) => [r, i]));
+    /** @type {Map<string, { contest: Contest, cand: Candidate, ri: number, full: string }[]>} */
+    const fullBySurname = new Map();
+    for (const contest of list) {
+      for (const cand of contest.cands) {
+        const full = fullInitials(cand.Firstname);
+        if (!full || cand.surnameKey.length < 3) continue;
+        const rows = fullBySurname.get(cand.surnameKey) || [];
+        rows.push({ contest, cand, ri: roundIndex.get(contest.round) ?? 0, full });
+        fullBySurname.set(cand.surnameKey, rows);
+      }
+    }
+    for (const contest of list) {
+      const ri = roundIndex.get(contest.round) ?? 0;
+      for (const cand of contest.cands) {
+        const ini = initialsOf(cand.Firstname);
+        if (!ini) continue;
+        let near = (fullBySurname.get(cand.surnameKey) || []).filter((r) => Math.abs(r.ri - ri) <= 2
+          && (ini.length > 1 ? r.full === ini : r.full[0] === ini));
+        if (!near.length) continue;
+        const area = nameKeys(contest.area)[0];
+        const same = near.filter((r) => nameKeys(r.contest.area)[0] === area);
+        const forms = [...new Set(near.map((r) => r.cand.Firstname))];
+        let split = '';
+        if (personOf) {
+          const mine = personOf(contest, cand);
+          const theirs = (same.length ? same : near).map((r) => personOf(r.contest, r.cand));
+          if (mine !== null && theirs.includes(mine)) continue;
+          const other = theirs.find((p) => p !== null);
+          if (mine !== null && other !== null && other !== undefined) split = `; the registry holds them as two people (${mine}, ${other})`;
+        }
+        near = same.length ? same : near;
+        const best = near[0];
+        // Two different written-out forenames for the same initials are two men, or a guess: a lead only.
+        out.push({ contest, type: 'name-initials', severity: split && same.length && forms.length === 1 ? 'medium' : 'low',
+          detail: `printed "${cand.Firstname} ${cand.Surname}"; ${best.cand.candidateName} in ${best.contest.round} ${best.contest.area}${same.length ? ' (same division)' : ''}${forms.length > 1 ? `; also ${forms.slice(1, 3).join(', ')}` : ''}${split}`,
+          candidate: cand.candidateName });
+      }
+    }
+  }
+  return out;
+}
+
+const CC_RD = /-(county-council|rural-district-council)$/;
+const ANNUAL = /-(urban-district-council|borough-council|town-commissioners|county-borough-council)$/;
+
+/**
+ * The cited issue dates of a citation ("Paper, 6 June 1936, p. 7; Paper, 9 June 1936, p. 3").
+ * @param {BundleSource | undefined} source
+ */
+export function citedDates(source) {
+  /** @type {string[]} */
+  const out = [];
+  for (const m of String(source?.title || '').matchAll(/(\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})/g)) {
+    out.push(`${m[3]}-${String(MONTHS[m[2].toLowerCase()]).padStart(2, '0')}-${m[1].padStart(2, '0')}`);
+  }
+  return out;
+}
+
+/**
+ * Polling-day checks.
+ * - poll-date (round): a county council and its rural districts polled on one day; a CC/RD round
+ *   filed on another day than its county's (the CC's day, or the day most of its districts have).
+ *   A town (urban district, borough, town commissioners) round more than a week from the day most
+ *   towns polled that year is a low-severity lead (several towns had their own days).
+ * - poll-date (contest): a polled contest whose every cited issue is dated before the poll.
+ * Only each body's largest round of a year is compared (the others are by-elections).
+ * @param {Contest[]} contests
+ * @param {(body: string) => string} countyOf
+ * @returns {NewFinding[]}
+ */
+export function pollDateFindings(contests, countyOf) {
+  /** @type {NewFinding[]} */
+  const out = [];
+  /** @type {Map<string, Contest[]>} */
+  const rounds = new Map();
+  for (const c of contests) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(c.round)) continue;
+    const k = `${c.body}__${c.round}`;
+    const list = rounds.get(k) || [];
+    list.push(c);
+    rounds.set(k, list);
+  }
+  /** @type {Map<string, Contest[]>} largest round per body and year */
+  const main = new Map();
+  for (const list of rounds.values()) {
+    const k = `${list[0].body}__${list[0].year}`;
+    const have = main.get(k);
+    if (!have || list.length > have.length) main.set(k, list);
+  }
+  /** @type {Map<string, { body: string, date: string, list: Contest[] }[]>} */
+  const groups = new Map();
+  for (const list of main.values()) {
+    const { body, year, round } = list[0];
+    let g = '';
+    if (CC_RD.test(body)) g = `ccrd|${countyOf(body) || '?'}|${year}`;
+    else if (ANNUAL.test(body.replace(/-aldermen$/, ''))) g = `town|${year}`;
+    if (!g || g.includes('|?|')) continue;
+    const arr = groups.get(g) || [];
+    arr.push({ body, date: round, list });
+    groups.set(g, arr);
+  }
+  for (const [g, arr] of groups) {
+    const dates = new Set(arr.map((x) => x.date));
+    if (dates.size < 2) continue;
+    /** @type {Map<string, number>} */
+    const tally = new Map();
+    for (const x of arr) tally.set(x.date, (tally.get(x.date) || 0) + 1);
+    const modal = [...tally].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0][0];
+    if (g.startsWith('ccrd|')) {
+      const cc = arr.find((x) => x.body.endsWith('-county-council'));
+      const ref = cc ? cc.date : modal;
+      for (const x of arr) {
+        if (x.date === ref) continue;
+        out.push({ contest: x.list[0], type: 'poll-date', severity: 'medium',
+          detail: `round filed on ${x.date}; the county's ${cc ? 'county council' : 'other districts'} polled ${ref} (CC and RDs polled the same day)` });
+      }
+    } else {
+      if ((tally.get(modal) || 0) < 3) continue;
+      for (const x of arr) {
+        const days = Math.abs(Date.parse(x.date) - Date.parse(modal)) / 86400000;
+        if (days > 7 && !x.list.some((c) => /by-?election/i.test(String(c.data.note || '')))) {
+          out.push({ contest: x.list[0], type: 'poll-date', severity: 'low', detail: `town round filed on ${x.date}; ${tally.get(modal)} towns polled ${modal} that year` });
+        }
+      }
+    }
+  }
+  for (const c of contests) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(c.round) || !isContested(c)) continue;
+    const dates = citedDates(c.data.source);
+    if (dates.length && dates.every((d) => d < c.round)) {
+      out.push({ contest: c, type: 'poll-date', severity: 'high', detail: `polled contest, but every cited issue (${dates.join(', ')}) is dated before the poll ${c.round}: wrong poll date or a nominations notice cited for the result` });
+    }
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Ranking: one row per contest, with a confidence that a real defect is there
+
+/**
+ * Share of flags of each type that the November 2026 fixers found to be a real defect when they
+ * read the page image (council-audit ledgers: fixed / (fixed + confirmed-ok)); types they did
+ * not see are estimates. By severity where the severity changes the odds. name-initials is kept
+ * low: the page prints the initials, so the lead is a person-registry join, not a misreading.
+ * @type {Record<string, Record<string, number>>}
+ */
+export const DEFECT_ODDS = {
+  'omitted-loser': { high: 0.8 },
+  'name-chars': { high: 0.9 },
+  'status-blank': { high: 0.9 },
+  'name-variant': { high: 0.6, medium: 0.45 },
+  'omitted-loser-ocr': { high: 0.42 },
+  'poll-date': { high: 0.5, medium: 0.5, low: 0.1 },
+  'partial-votes': { medium: 0.33, low: 0.1 },
+  arithmetic: { high: 0.29 },
+  'register-vote': { high: 0.3, medium: 0.15 },
+  'name-letters': { medium: 0.24 },
+  'name-initials': { medium: 0.05, low: 0.02 },
+  'elected-vs-seats': { high: 0.15 },
+  'name-not-on-page': { high: 0.12, medium: 0.15 },
+  'name-rare': { low: 0.1 },
+  'areas-over': { high: 0.1, medium: 0.09, low: 0.03 },
+  citation: { medium: 0.1, low: 0.02 },
+  'table-summary': { low: 0.04 }
+};
+
+/**
+ * @param {string} type
+ * @param {string} severity
+ */
+function odds(type, severity) {
+  const t = DEFECT_ODDS[type];
+  if (!t) return 0.05;
+  return t[severity] ?? Math.max(...Object.values(t));
+}
+
+/** Reason codes for the CSV: short, stable. @type {Record<string, string>} */
+export const REASON = {
+  'omitted-loser': 'OMIT', 'omitted-loser-ocr': 'OMIT-OCR', 'elected-vs-seats': 'SEATS', 'status-blank': 'STATUS',
+  'partial-votes': 'PARTVOTE', arithmetic: 'ARITH', 'register-vote': 'REGVOTE', 'name-chars': 'NAME-CHARS',
+  'name-letters': 'NAME-OCR', 'name-variant': 'NAME-VAR', 'name-rare': 'NAME-RARE', 'name-initials': 'NAME-INIT',
+  'name-not-on-page': 'NOT-ON-PAGE', 'table-summary': 'TABLE-SUMMARY', citation: 'CITE', 'areas-over': 'AREAS', 'poll-date': 'DATE'
+};
+
+/** Flag types a fixer settles by reading the contest's names on the page image. */
+const PAGE_READ = new Set(['name-not-on-page', 'table-summary', 'name-rare', 'name-letters', 'name-variant', 'name-chars', 'citation']);
+
+/**
+ * @typedef {{ file: string, action: string, types: Set<string> }} Reviewed a contest an earlier fixer read on the image
+ * @typedef {{ file: string, body: string, round: string, area: string, candidates: number, reasons: string[], types: string[],
+ *   confidence: number, people: number, prior: string, details: string[] }} RankedContest
+ */
+
+/**
+ * One row per flagged contest: the chance at least one flag is a real defect (independent odds),
+ * and how many people the defects touch (each named candidate once, plus each defeated candidate
+ * the page shows and the contest lacks, plus each seat without a member). Where an earlier fixer
+ * passed the contest (fixed or confirmed-ok), each flag type that fixer saw keeps a tenth of its
+ * odds, so the contest sinks unless it has a flag that fixer did not see.
+ * @param {NewFinding[]} list
+ * @param {Map<string, Reviewed>} [reviewed]
+ * @returns {RankedContest[]}
+ */
+export function rankContests(list, reviewed = new Map()) {
+  /** @type {Map<string, NewFinding[]>} */
+  const byFile = new Map();
+  for (const f of list) {
+    const arr = byFile.get(f.contest.file) || [];
+    arr.push(f);
+    byFile.set(f.contest.file, arr);
+  }
+  /** @type {RankedContest[]} */
+  const rows = [];
+  for (const [file, fs_] of byFile) {
+    const c = fs_[0].contest;
+    /** @type {Map<string, number>} best odds per type */
+    const best = new Map();
+    for (const f of fs_) best.set(f.type, Math.max(best.get(f.type) || 0, odds(f.type, f.severity)));
+    const prior = reviewed.get(file);
+    const passed = !!prior && (prior.action === 'confirmed-ok' || prior.action === 'fixed');
+    // A flag type the earlier fixer saw and passed on the image keeps a tenth of its odds; so does
+    // any name or citation flag, since that fixer read every name of the contest on the page.
+    const confidence = 1 - [...best].reduce((p, [t, o]) => p * (1 - (passed && (prior?.types.has(t) || PAGE_READ.has(t)) ? o / 10 : o)), 1);
+    /** @type {Set<string>} */
+    const named = new Set();
+    let extra = 0;
+    for (const f of fs_) {
+      if (f.candidate) named.add(f.candidate);
+      if (f.type === 'omitted-loser-ocr') extra = Math.max(extra, (f.detail.split(': ').slice(1).join(': ').match(/;/g) || []).length + 1);
+      else if (f.type === 'omitted-loser') extra = Math.max(extra, 1);
+      else if (f.type === 'elected-vs-seats') {
+        const m = f.detail.match(/^(\d+) elected for (\d+) seat/);
+        if (m) extra = Math.max(extra, Math.abs(Number(m[2]) - Number(m[1])));
+      } else if (['poll-date', 'citation', 'areas-over', 'arithmetic', 'partial-votes'].includes(f.type) && !f.candidate && f.severity !== 'low') {
+        for (const x of c.cands) named.add(String(x.candidateName || ''));
+      }
+    }
+    const types = [...best.keys()];
+    let priorNote = '';
+    if (prior) {
+      const fresh = types.filter((t) => !prior.types.has(t));
+      priorNote = `${prior.action}${fresh.length ? ` (not then: ${fresh.map((t) => REASON[t] || t).join(';')})` : ''}`;
+    }
+    rows.push({
+      file, body: c.body, round: c.round, area: c.area, candidates: c.cands.length,
+      reasons: [...new Set(types.map((t) => REASON[t] || t))], types,
+      confidence: Math.round(confidence * 1000) / 1000, people: named.size + extra, prior: priorNote,
+      details: fs_.map((f) => `${REASON[f.type] || f.type}${f.candidate ? ` [${f.candidate}]` : ''}: ${f.detail}`)
+    });
+  }
+  return rows.sort((a, b) => b.confidence - a.confidence || b.people - a.people || (a.file < b.file ? -1 : 1));
+}
+
+/**
+ * Earlier fixers' ledgers (CSV with columns file, flag_types, action).
+ * @param {string[]} files
+ * @returns {Map<string, Reviewed>}
+ */
+function readReviewed(files) {
+  /** @type {Map<string, Reviewed>} */
+  const out = new Map();
+  for (const file of files) {
+    if (!fs.existsSync(file)) continue;
+    const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/);
+    const header = lines[0].split(',');
+    const iFile = header.indexOf('file');
+    const iTypes = header.indexOf('flag_types');
+    const iAction = header.indexOf('action');
+    for (const line of lines.slice(1)) {
+      const cells = (line.match(/("([^"]|"")*"|[^,]*)(,|$)/g) || []).map((x) => x.replace(/,$/, '').replace(/^"|"$/g, '').replace(/""/g, '"'));
+      const f = (cells[iFile] || '').replace(/\\/g, '/');
+      if (!f) continue;
+      const have = out.get(f);
+      const types = new Set((cells[iTypes] || '').split(';').map((t) => t.trim()).filter(Boolean));
+      if (have) for (const t of have.types) types.add(t);
+      // A later decision (fixed, confirmed-ok) outranks an earlier not-reached.
+      const action = have && (have.action === 'fixed' || have.action === 'confirmed-ok') && !(cells[iAction] === 'fixed' || cells[iAction] === 'confirmed-ok') ? have.action : cells[iAction] || '';
+      out.set(f, { file: f, action, types });
+    }
+  }
+  return out;
+}
+
+// The County Armagh councils were staged before the intake's authority list.
+const COUNTY_FALLBACK = /** @type {[RegExp, string][]} */ ([[/^(armagh|lurgan|tandragee|castleblayney-no-2|newry-no-2)-/, 'Armagh']]);
+
+// ---------------------------------------------------------------------------------------------
 // OCR-cache detectors (local only)
 
 /** @param {string} rootsFile */
@@ -753,7 +1105,34 @@ function csvCell(value) {
   return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
-function main() {
+/**
+ * The person ids a records build stamped on each candidacy (its election bundles), as a lookup by
+ * contest and candidate name; null where the build has no such row.
+ * @returns {Promise<(contest: Contest, cand: Candidate) => number | null>}
+ */
+async function stampedPersons() {
+  const { recordPaths } = await import('../../../packages/config/src/node.mjs');
+  const dir = recordPaths(process.env).ELECTION_BUNDLE_DIR;
+  /** @type {Map<string, Map<string, number>>} */
+  const byRound = new Map();
+  /** @param {string} key */
+  const load = (key) => {
+    const have = byRound.get(key);
+    if (have) return have;
+    /** @type {Map<string, number>} */
+    const m = new Map();
+    try {
+      /** @type {{ results?: { constituency?: string, candidates?: { name?: string, personId?: number }[] }[] }} */
+      const d = readJson(path.join(dir, `${key}.json`));
+      for (const r of d.results || []) for (const c of r.candidates || []) if (c.personId) m.set(`${r.constituency}|${c.name}`, c.personId);
+    } catch { /* no bundle for this round in the build */ }
+    byRound.set(key, m);
+    return m;
+  };
+  return (contest, cand) => load(`${contest.body}__${contest.round}`).get(`${contest.area}|${cand.candidateName}`) ?? null;
+}
+
+async function main() {
   const bodies = niBodies();
   const contests = loadContests(bodies);
   const corpus = corpusSurnames();
@@ -780,6 +1159,12 @@ function main() {
   }
   detectVariants(contests, corpus);
   detectAreas(contests);
+  /** @type {Record<string, { county?: string }>} */
+  const authorities = readJson(STATUS).authorities || {};
+  /** @param {string} body */
+  const countyOf = (body) => authorities[body]?.county || (COUNTY_FALLBACK.find(([re]) => re.test(body)) || [null, ''])[1];
+  const personOf = flag('--persons') ? await stampedPersons() : undefined;
+  for (const f of [...initialsOnlyFindings(contests, personOf), ...pollDateFindings(contests, countyOf)]) add(f.contest, f.type, f.severity, f.detail, f.candidate);
 
   const ocrRoots = option('--ocr-roots');
   let ocrChecked = 0;
@@ -852,6 +1237,20 @@ function main() {
       fs.writeFileSync(path.join(csvDir, `${body}.csv`), `${rows.join('\n')}\n`);
     }
     console.log(`  wrote ${byBody.size} CSVs to ${csvDir}`);
+  }
+
+  const rankedCsv = option('--ranked-csv');
+  if (rankedCsv) {
+    const reviewed = readReviewed((option('--reviewed') || '').split(',').filter(Boolean));
+    const ranked = rankContests(findings, reviewed);
+    const header = ['rank', 'confidence', 'people', 'reasons', 'file', 'council', 'round', 'area', 'candidates', 'deepseek', 'prior_review', 'details'];
+    const rows = [header.join(',')];
+    ranked.forEach((r, i) => rows.push([i + 1, r.confidence.toFixed(3), r.people, r.reasons.join(';'), r.file, r.body, r.round, r.area, r.candidates,
+      originCsv ? (origin.has(r.file) ? 'yes' : 'no') : '', r.prior, r.details.join(' | ')].map(csvCell).join(',')));
+    fs.mkdirSync(path.dirname(rankedCsv), { recursive: true });
+    fs.writeFileSync(rankedCsv, `${rows.join('\n')}\n`);
+    const band = (/** @type {number} */ lo, /** @type {number} */ hi) => ranked.filter((r) => r.confidence >= lo && r.confidence < hi).length;
+    console.log(`  ranked ${ranked.length} contests to ${rankedCsv}: confidence >=0.5 ${band(0.5, 2)}, 0.25-0.5 ${band(0.25, 0.5)}, 0.1-0.25 ${band(0.1, 0.25)}, <0.1 ${band(0, 0.1)}; ${ranked.filter((r) => r.prior).length} seen by an earlier fixer`);
   }
   if (flag('--strict') && findings.length) process.exit(1);
 }
