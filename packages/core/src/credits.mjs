@@ -36,11 +36,30 @@ export function mergedDerivedFromLines(...sourceCreditLists) {
 }
 
 /**
+ * Lines (as words) said as one when they differ only in the middle, or null when they cannot be.
+ * @param {readonly string[][]} kept  two or more lines, none beginning another
+ * @returns {string | null}
+ */
+function joinedLine(kept) {
+  const shortest = Math.min(...kept.map((w) => w.length));
+  let head = 0;
+  while (head < shortest && kept.every((w) => w[head] === kept[0][head])) head += 1;
+  let tail = 0;
+  while (tail < shortest - head && kept.every((w) => w[w.length - 1 - tail] === kept[0][kept[0].length - 1 - tail])) tail += 1;
+  const middles = kept.map((w) => w.slice(head, w.length - tail).join(' '));
+  // Shared words beyond "Derived from the" make the lines one statement; fewer, and they name different maps.
+  if (head + tail < 6 || middles.some((m) => !m)) return null;
+  const list = middles.length === 2 ? middles.join(' and ') : `${middles.slice(0, -1).join(', ')} and ${middles[middles.length - 1]}`;
+  return [...kept[0].slice(0, head), list, ...kept[0].slice(kept[0].length - tail)].join(' ');
+}
+
+/**
  * The derived-from lines of a row's maps said once for the row. A line that another line begins
  * with is left out (the longer one names the same map and more). Lines that differ only in the
  * middle are said as one, their middles listed: "Derived from the 1 Apr 1921, 1911 census and
- * 1907-12 District Electoral Division maps of Phelim Birch and Paddy Matthews". Otherwise each
- * line stays as it is.
+ * 1907-12 District Electoral Division maps of Phelim Birch and Paddy Matthews". A line that joins
+ * none of the others (the townland boundaries one map was also cut along) stays as it is, in its
+ * place in the row's order.
  * @param {readonly string[]} lines  derived-from lines, in the row's order
  * @returns {string[]}
  */
@@ -49,17 +68,14 @@ export function combinedDerivedFromLines(lines) {
   const words = unique.map((line) => line.split(' '));
   const startsWith = (/** @type {string[]} */ a, /** @type {string[]} */ b) => b.length < a.length && b.every((w, i) => a[i] === w);
   const kept = words.filter((w) => !words.some((other) => startsWith(other, w)));
-  if (kept.length < 2) return kept.map((w) => w.join(' '));
-  const shortest = Math.min(...kept.map((w) => w.length));
-  let head = 0;
-  while (head < shortest && kept.every((w) => w[head] === kept[0][head])) head += 1;
-  let tail = 0;
-  while (tail < shortest - head && kept.every((w) => w[w.length - 1 - tail] === kept[0][kept[0].length - 1 - tail])) tail += 1;
-  const middles = kept.map((w) => w.slice(head, w.length - tail).join(' '));
-  // Shared words beyond "Derived from the" make the lines one statement; fewer, and they name different maps.
-  if (head + tail < 6 || middles.some((m) => !m)) return kept.map((w) => w.join(' '));
-  const list = middles.length === 2 ? middles.join(' and ') : `${middles.slice(0, -1).join(', ')} and ${middles[middles.length - 1]}`;
-  return [[...kept[0].slice(0, head), list, ...kept[0].slice(kept[0].length - tail)].join(' ')];
+  /** @type {string[][][]} */
+  const groups = [];
+  for (const w of kept) {
+    const group = groups.find((g) => joinedLine([...g, w]) !== null);
+    if (group) group.push(w);
+    else groups.push([w]);
+  }
+  return groups.map((g) => (g.length < 2 ? g[0].join(' ') : /** @type {string} */ (joinedLine(g))));
 }
 
 /**

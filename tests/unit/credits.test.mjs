@@ -39,6 +39,11 @@ test('a row says the derived-from lines of its maps once', () => {
   assert.deepEqual(combinedDerivedFromLines([pm, both, pm]), [both]);
   assert.deepEqual(combinedDerivedFromLines(['Derived from OSNI townlands', pm]), ['Derived from OSNI townlands', pm]);
   assert.deepEqual(combinedDerivedFromLines([of('1911 census')]), [of('1911 census')]);
+  const townlands = 'Derived from the townland boundaries of Tailte Éireann (CC BY 4.0) and OSNI (OGL)';
+  assert.deepEqual(combinedDerivedFromLines([of('1 Apr 1921'), of('1911 census'), of('1907-12'), townlands, of('1907-12')]),
+    ['Derived from the 1 Apr 1921, 1911 census and 1907-12 District Electoral Division maps of Phelim Birch and Paddy Matthews', townlands]);
+  assert.deepEqual(combinedDerivedFromLines([townlands, of('1911 census'), of('1907-12')]),
+    [townlands, 'Derived from the 1911 census and 1907-12 District Electoral Division maps of Phelim Birch and Paddy Matthews']);
   assert.deepEqual(combinedDerivedFromLines([]), []);
 });
 
