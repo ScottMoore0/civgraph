@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { crawlHeaders } from '../../packages/config/src/node.mjs';
+import { crawlHeaders } from '@civgraph/config/node';
 
 const ROOT = process.cwd();
 const OUT_PATH = path.join(ROOT, 'data', 'database', 'external-sources.json');

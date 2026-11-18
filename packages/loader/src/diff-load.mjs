@@ -18,8 +18,8 @@
  */
 import { createWriteStream, existsSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
-import { HASHED_TABLES, TABLES } from '../../schema/src/schema.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
+import { HASHED_TABLES, TABLES } from '@civgraph/schema';
 import { DATASET_LOAD, LOADING_KEY, loadingValue } from './dataset-state.mjs';
 import { snapshotTable } from './db.mjs';
 
@@ -27,8 +27,8 @@ export const MAX_STATEMENT_BYTES = 60 * 1024;
 const MAX_DELETE_KEYS = 100;
 const PIECE_CHARS = 20_000;
 
-/** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
-/** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
+/** @typedef {import('@civgraph/schema').TableSpec} TableSpec */
+/** @typedef {import('@civgraph/storage/node').SqliteHandle} SqliteHandle */
 
 /** A value as an SQL literal. */
 export const q = (/** @type {unknown} */ value) => {
@@ -180,7 +180,7 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
       batch = [];
       bytes = 0;
     };
-    for (const row of /** @type {Iterable<Record<string, import('../../storage/src/sqlite.mjs').SqliteValue>>} */ (db.prepare(sql).iterate())) {
+    for (const row of /** @type {Iterable<Record<string, import('@civgraph/storage/node').SqliteValue>>} */ (db.prepare(sql).iterate())) {
       s.upserted += 1;
       if (keys) keys.upserted.push(upsertedRef(t, row, BYTES_COLUMN));
       let tuple = `(${cols.map((c) => q(row[c])).join(', ')})`;

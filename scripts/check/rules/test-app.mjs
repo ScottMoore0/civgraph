@@ -11,9 +11,9 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { isValidBounds } from '../../../packages/maps-pipeline/src/layer-bounds.mjs';
-import { loadRegistry } from '../../../packages/registries/src/index.mjs';
-import { drawnLayerTypes, typesWithBehaviour } from '../../../packages/registries/src/layers.mjs';
+import { isValidBounds } from '@civgraph/maps-pipeline/layer-bounds.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { drawnLayerTypes, typesWithBehaviour } from '@civgraph/registries/layers.mjs';
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');

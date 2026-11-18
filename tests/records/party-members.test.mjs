@@ -7,14 +7,14 @@ import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
 import { context, d1, installCaches } from './d1-shim.mjs';
-import { resetDatasetMemo } from '../../packages/api/src/handlers/_records.js';
-import * as parties from '../../packages/api/src/handlers/parties/index.js';
-import * as persons from '../../packages/api/src/handlers/persons/index.js';
-import { partyNames } from '../../packages/api/src/handlers/parties/members.js';
-import { PARTIES } from '../../packages/api/src/queries/parties.js';
-import { decodeMembers } from '../../packages/core/src/party-members.mjs';
+import { resetDatasetMemo } from '@civgraph/api/handlers/_records.js';
+import * as parties from '@civgraph/api/handlers/parties/index.js';
+import * as persons from '@civgraph/api/handlers/persons/index.js';
+import { partyNames } from '@civgraph/api/handlers/parties/members.js';
+import { PARTIES } from '@civgraph/api/queries/parties.js';
+import { decodeMembers } from '@civgraph/core/party-members.mjs';
 
 const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');
 const built = existsSync(DB) && (() => {

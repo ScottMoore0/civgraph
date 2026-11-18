@@ -8,9 +8,9 @@
  *   node scripts/publish/r2-orphans.mjs --prefix data/graph/indexes/ --match "statements-by-subject-shards/statements-by-subject-\d{3}\.json$" [--delete]
  */
 import { existsSync } from 'fs';
-import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { openS3BlobStore } from '@civgraph/storage/s3.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
-import { DOWNLOADS_PREFIX } from '../../packages/loader/src/downloads-guard.mjs';
+import { DOWNLOADS_PREFIX } from '@civgraph/loader/downloads-guard.mjs';
 
 const arg = (/** @type {string} */ name) => { const i = process.argv.indexOf(name); return i > -1 ? process.argv[i + 1] : null; };
 const PREFIX = arg('--prefix');

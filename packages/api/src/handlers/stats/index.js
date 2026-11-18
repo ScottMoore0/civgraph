@@ -8,8 +8,8 @@
  */
 import { cachedJson, datasetState, jsonResponse } from '../_records.js';
 import { reportError } from '../_error.js';
-import { binding } from '../../../../config/src/config.js';
-import { fromD1 } from '../../../../storage/src/d1.js';
+import { binding } from '@civgraph/config';
+import { fromD1 } from '@civgraph/storage/d1.js';
 import { STATS } from '../../queries/stats.js';
 
 const VERSION = 'stats-1';

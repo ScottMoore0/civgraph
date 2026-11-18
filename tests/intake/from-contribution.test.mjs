@@ -9,10 +9,10 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { loadBatch, validateBatch } from '../../packages/intake/src/batch.mjs';
-import { contributionRefusal, planContribution, readQueuedSubmission, submissionRecord } from '../../packages/intake/src/contribution.mjs';
-import { pluginMain } from '../../packages/intake/src/plugin-cli.mjs';
-import { stageBatch } from '../../packages/intake/src/stage.mjs';
+import { loadBatch, validateBatch } from '@civgraph/intake/batch.mjs';
+import { contributionRefusal, planContribution, readQueuedSubmission, submissionRecord } from '@civgraph/intake/contribution.mjs';
+import { pluginMain } from '@civgraph/intake/plugin-cli.mjs';
+import { stageBatch } from '@civgraph/intake/stage.mjs';
 import { applyPlan, planPatch, planRetire } from '../../scripts/intake/contributions.mjs';
 import { tempDir, writeFile } from './helpers.mjs';
 
@@ -35,7 +35,7 @@ function contributionRepo() {
   git(repo, 'config', 'core.autocrlf', 'false');
   writeFile(repo, 'data/database/maps.json', readFileSync(path.join(FIXTURES, 'maps.json'), 'utf8'));
   writeFile(repo, 'data/database/r2-publication-allowlist.json', { schemaVersion: 1, prefixes: [{ prefix: 'data/maps/' }] });
-  const plugin = readFileSync(path.resolve('scripts/ingest/contribution/plugin.mjs'), 'utf8').replaceAll("'../../../packages/intake/src", `'${INTAKE_SRC}`);
+  const plugin = readFileSync(path.resolve('scripts/ingest/contribution/plugin.mjs'), 'utf8').replaceAll("'@civgraph/intake", `'${INTAKE_SRC}`);
   writeFile(repo, 'scripts/ingest/contribution/plugin.mjs', plugin);
   git(repo, 'add', '-A');
   git(repo, 'commit', '-qm', 'base');

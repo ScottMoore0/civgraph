@@ -9,10 +9,10 @@
 //   node --test tests/unit/apostrophe-fold.test.mjs
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { normalizeName, normalizeNameUncached } from '../../packages/core/src/election-domain.mjs';
-import { foldSearchText, personSlug, slugify } from '../../packages/core/src/format.js';
-import { normalizeEntityName } from '../../packages/map/src/app/helpers.mjs';
-import { searchText } from '../../packages/loader/src/browse-columns.mjs';
+import { normalizeName, normalizeNameUncached } from '@civgraph/core/election-domain.mjs';
+import { foldSearchText, personSlug, slugify } from '@civgraph/core/format.js';
+import { normalizeEntityName } from '@civgraph/map/src/app/helpers.mjs';
+import { searchText } from '@civgraph/loader/browse-columns.mjs';
 
 const RIGHT = '\u2019';
 const LEFT = '\u2018';

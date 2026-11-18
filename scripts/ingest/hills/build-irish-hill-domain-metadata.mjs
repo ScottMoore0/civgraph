@@ -7,8 +7,8 @@
 
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { SITE } from '../../../packages/config/src/node.mjs';
-import { LAYER } from '../../../packages/intake/src/item-status.mjs';
+import { SITE } from '@civgraph/config/node';
+import { LAYER } from '@civgraph/intake/item-status.mjs';
 
 const ROOT = resolve(process.cwd());
 const REPORT_PATH = resolve(ROOT, 'tmp/dobih/domain-polygons/irish-hill-domain-build-report.json');

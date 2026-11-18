@@ -41,8 +41,8 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { recordPaths, REPO_ROOT } from '../../packages/config/src/node.mjs';
-import { publishInputClass, staleReasons, workingTreeFiles } from '../../packages/loader/src/publish-inputs.mjs';
+import { recordPaths, REPO_ROOT } from '@civgraph/config/node';
+import { publishInputClass, staleReasons, workingTreeFiles } from '@civgraph/loader/publish-inputs.mjs';
 import { resolveBase } from '../publish/publish-path.mjs';
 
 // Outputs the builds themselves write: a change here says nothing about what to rebuild.

@@ -10,17 +10,17 @@ import assert from 'node:assert/strict';
 import { copyFileSync, mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { createDatabase, TableWriter, transaction, rowHash, bindable } from '../../packages/loader/src/db.mjs';
-import { buildDelta, deltaKeys, MAX_STATEMENT_BYTES } from '../../packages/loader/src/diff-load.mjs';
-import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
-import { TABLE } from '../../packages/schema/src/schema.mjs';
+import { createDatabase, TableWriter, transaction, rowHash, bindable } from '@civgraph/loader/db.mjs';
+import { buildDelta, deltaKeys, MAX_STATEMENT_BYTES } from '@civgraph/loader/diff-load.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
+import { TABLE } from '@civgraph/schema';
 import {
   BOUNDS, boundedPlan, callSql, fullPlan, packSteps, parseWranglerResults, runPlan, wranglerQueryMany,
-} from '../../packages/loader/src/verify-load.mjs';
-import { PART_RETRY_MS, partRetryMs } from '../../packages/loader/src/deploy-records.mjs';
-import { openSqliteHandle } from '../../packages/storage/src/sqlite.mjs';
+} from '@civgraph/loader/verify-load.mjs';
+import { PART_RETRY_MS, partRetryMs } from '@civgraph/loader/deploy-records.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 
-/** @typedef {import('../../packages/loader/src/verify-load.mjs').QueryRows} QueryRows */
+/** @typedef {import('@civgraph/loader/verify-load.mjs').QueryRows} QueryRows */
 
 const TMP = path.join(REPO_ROOT, 'tmp', 'records', 'test-load-speed');
 
@@ -105,7 +105,7 @@ test('buildDelta collects the keys deltaKeys finds, and writes the same statemen
 test('the plan made from the handed-over keys is the plan made by diffing again', () => {
   const { OLD, NEW } = fixture();
   const { touched } = buildDelta({ toFile: NEW, fromFile: OLD, write: () => {}, collectKeys: true });
-  const shape = (/** @type {import('../../packages/loader/src/verify-load.mjs').Plan} */ p) => p.steps.map((s) => [s.label, s.sql, s.rows]);
+  const shape = (/** @type {import('@civgraph/loader/verify-load.mjs').Plan} */ p) => p.steps.map((s) => [s.label, s.sql, s.rows]);
   const given = boundedPlan({ file: NEW, since: OLD, touched });
   assert.deepEqual(shape(given), shape(boundedPlan({ file: NEW, since: OLD })));
   // Without a snapshot the keys are not used: every table is sampled, as before.

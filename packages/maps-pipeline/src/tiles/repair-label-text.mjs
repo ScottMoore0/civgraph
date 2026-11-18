@@ -33,7 +33,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { openSqliteHandle } from '../../../storage/src/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 import { repairApplies } from '../label-data.mjs';
 

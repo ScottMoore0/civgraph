@@ -27,7 +27,7 @@
  *   node scripts/build/build-elections-sqlite.mjs [--out <path>] [--limit N]
  */
 import { readdirSync, readFileSync, existsSync, mkdirSync, rmSync, statSync, createWriteStream } from 'node:fs';
-import { openSqliteHandle } from '../../packages/storage/src/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 
@@ -42,8 +42,8 @@ const argVal = (name, fallback) => {
 const OUT = path.resolve(argVal('--out', 'tmp/elections.sqlite'));
 const LIMIT = Number(argVal('--limit', Infinity));
 
-/** @typedef {import('../../packages/storage/src/sqlite.mjs').SqliteRow} SqliteRow */
-/** @typedef {import('../../packages/storage/src/sqlite.mjs').SqliteValue} SqliteValue */
+/** @typedef {import('@civgraph/storage/node').SqliteRow} SqliteRow */
+/** @typedef {import('@civgraph/storage/node').SqliteValue} SqliteValue */
 /** A candidate or count row of a bundle: its fields are bound as they come. @typedef {Record<string, unknown>} BundleRow */
 /**
  * A contest of an election bundle: the fields read by name, the rest bound as they come.

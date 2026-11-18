@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { orderShelfRows, otherRowsLast } from '../../packages/map/src/catalogue/util.js';
+import { orderShelfRows, otherRowsLast } from '@civgraph/map/catalogue/util.js';
 
 const rows = ['a', 'b', 'c', 'd', 'e'].map((id) => ({ id }));
 const ids = (/** @type {{ id: string }[]} */ r) => r.map((x) => x.id).join('');

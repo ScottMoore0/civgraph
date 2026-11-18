@@ -29,7 +29,7 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { buildVar, recordPaths, REPO_ROOT } from '../../config/src/node.mjs';
+import { buildVar, recordPaths, REPO_ROOT } from '@civgraph/config/node';
 
 /** @typedef {'records' | 'code' | 'outside'} PublishInputClass */
 

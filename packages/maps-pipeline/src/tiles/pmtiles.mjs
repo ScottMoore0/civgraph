@@ -12,9 +12,9 @@ import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { getTileProfile } from './tile-profiles.mjs';
-import { isPrimaryKey } from '../../../core/src/primary-feature-keys.mjs';
-import { loadRegistry } from '../../../registries/src/index.mjs';
-import { typesWithBehaviour } from '../../../registries/src/layers.mjs';
+import { isPrimaryKey } from '@civgraph/core/primary-feature-keys.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { typesWithBehaviour } from '@civgraph/registries/layers.mjs';
 
 // The layers drawn from vector tiles (the layer-types registry's vectorTiles types: mvt, pmtiles).
 const VECTOR_TILE_TYPES = typesWithBehaviour(loadRegistry('layers'), 'vectorTiles');

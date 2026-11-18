@@ -5,7 +5,7 @@
  * (packages/core/src/state-machine.mjs), which every stream uses.
  */
 
-/** @typedef {import('../../types/index.js').StatusesRegistry} StatusesRegistry */
+/** @typedef {import('@civgraph/types').StatusesRegistry} StatusesRegistry */
 
 /**
  * The fields a machine entry may carry beyond the schema's common ones (the schema's own

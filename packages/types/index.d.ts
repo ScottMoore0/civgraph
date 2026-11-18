@@ -1,5 +1,5 @@
-// The shared data shapes, for JSDoc. Import by relative path (packages/README.md), e.g.
-//   /** @typedef {import('../../packages/types/index.js').Council} Council */
+// The shared data shapes, for JSDoc. Import by the package name (packages/README.md), e.g.
+//   /** @typedef {import('@civgraph/types').Council} Council */
 // generated/ is written by src/generate.mjs (npm run build:types) from its sources and checked
 // by tests/unit/types-package.test.mjs; hand/core.d.ts is hand-written.
 

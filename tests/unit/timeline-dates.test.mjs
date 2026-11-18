@@ -3,7 +3,7 @@
 //   node --test tests/unit/timeline-dates.test.mjs
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { formatHectares, parseTimelineDate, timelineChangeName, yearOnlyMapDate } from '../../packages/map/src/app/timeline/dates.mjs';
+import { formatHectares, parseTimelineDate, timelineChangeName, yearOnlyMapDate } from '@civgraph/map/src/app/timeline/dates.mjs';
 
 const iso = (date) => date?.toISOString().slice(0, 10) ?? null;
 

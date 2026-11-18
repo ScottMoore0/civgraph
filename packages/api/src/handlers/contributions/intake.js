@@ -1,6 +1,6 @@
 import { jsonResponse, jsonNotAllowed, requireContributor } from '../_auth.js';
 import { methodGuard } from '../_method.js';
-import { blobStore } from '../../../../storage/src/blob-bindings.js';
+import { blobStore } from '@civgraph/storage/blob-bindings.js';
 
 /**
  * Accept a file into QUARANTINE so a contributor can supply data, not just a

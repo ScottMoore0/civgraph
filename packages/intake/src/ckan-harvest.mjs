@@ -18,7 +18,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { parseArgs } from 'node:util';
-import { crawlHeaders } from '../../config/src/node.mjs';
+import { crawlHeaders } from '@civgraph/config/node';
 import { CrawlRefused, isRefusal, looksLikeChallenge } from './crawl-guard.mjs';
 
 export const ROWS = 1000;

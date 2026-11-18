@@ -8,7 +8,7 @@
  * Each adapter calls its binding exactly as the handlers called it before they moved here (the
  * same method, arguments and option objects), so their answers are what they were.
  */
-import { BINDINGS, binding } from '../../config/src/config.js';
+import { BINDINGS, binding } from '@civgraph/config';
 import { assertBlobStore } from './blob.js';
 
 /**

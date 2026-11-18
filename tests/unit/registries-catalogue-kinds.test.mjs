@@ -7,10 +7,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
-import { catalogueKindIds } from '../../packages/registries/src/catalogue-kinds.mjs';
-import { KINDS } from '../../packages/map/src/catalogue/util.js';
-import { SECTIONS } from '../../packages/map/src/catalogue/index.js';
+import { REPO_ROOT, loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
+import { catalogueKindIds } from '@civgraph/registries/catalogue-kinds.mjs';
+import { KINDS } from '@civgraph/map/catalogue/util.js';
+import { SECTIONS } from '@civgraph/map/catalogue/index.js';
 
 const registry = loadRegistry('catalogue-kinds');
 

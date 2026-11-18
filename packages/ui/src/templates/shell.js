@@ -10,8 +10,8 @@
  *
  * No file system, no DOM: this runs in Pages Functions and in Node.
  */
-import { attrs, html, raw } from '../../../core/src/html.js';
-import { SITE } from '../../../config/src/config.js';
+import { attrs, html, raw } from '@civgraph/core/html.js';
+import { SITE } from '@civgraph/config';
 import { shareTagList } from './share.js';
 import { footerLinks, footerMeta } from './info-pages.js';
 
@@ -270,7 +270,7 @@ export const UI_STYLES = ['assets/ui/components.css'];
  * @param {Record<string, string>} [p.og]  Open Graph properties to override or add ({ 'og:type': 'profile' })
  * @param {string} [p.section]          NAV key for the header
  * @param {string} [p.layout]           header layout
- * @param {import('../../../core/src/html.js').Interpolation} p.body  html`` for <main>
+ * @param {import('@civgraph/core/html.js').Interpolation} p.body  html`` for <main>
  * @param {string[]} [p.styles]         extra stylesheet paths (no leading slash)
  * @param {string[]} [p.scripts]        extra deferred module scripts (no leading slash)
  * @param {string} [p.robots]           e.g. 'noindex'

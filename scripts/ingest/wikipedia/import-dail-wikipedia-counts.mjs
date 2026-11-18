@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { fixText, normalizeName, parseNumber } from '../../../packages/core/src/election-domain.mjs';
-import { RESULT } from '../../../packages/intake/src/item-status.mjs';
-import { crawlHeaders } from '../../../packages/config/src/node.mjs';
+import { fixText, normalizeName, parseNumber } from '@civgraph/core/election-domain.mjs';
+import { RESULT } from '@civgraph/intake/item-status.mjs';
+import { crawlHeaders } from '@civgraph/config/node';
 
 /**
  * A Dail contest file to find counts for: its date folder, file name and constituency.

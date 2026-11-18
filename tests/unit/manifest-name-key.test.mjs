@@ -9,7 +9,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fixText, manifestNameKey } from '../../scripts/lib/manifest-name-key.mjs';
-import { normalizeName as coreNormalizeName } from '../../packages/core/src/election-domain.mjs';
+import { normalizeName as coreNormalizeName } from '@civgraph/core/election-domain.mjs';
 
 // The key as it was before the fold (build-test2-election-manifest.mjs, main a36887c3fb).
 const before = (/** @type {unknown} */ value) => fixText(value)

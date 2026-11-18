@@ -47,10 +47,10 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import path from 'node:path';
 import { languageFileStatus } from './translation-status.mjs';
 import { parseStringFile } from './string-files.mjs';
-import { registryErrors } from '../../packages/registries/src/index.mjs';
-import { language, languageCodes, languageFileMeta, runtimeLanguages, translatedLanguages } from '../../packages/registries/src/languages.mjs';
+import { registryErrors } from '@civgraph/registries/index.mjs';
+import { language, languageCodes, languageFileMeta, runtimeLanguages, translatedLanguages } from '@civgraph/registries/languages.mjs';
 
-/** @typedef {import('../../packages/registries/src/languages.mjs').LanguagesRegistry} LanguagesRegistry */
+/** @typedef {import('@civgraph/registries/languages.mjs').LanguagesRegistry} LanguagesRegistry */
 /** @typedef {import('./build-map-name-overlay.mjs').MapNameOverlay} MapNameOverlay */
 /** @typedef {import('./build-map-name-overlay.mjs').MapNameRecord} MapNameRecord */
 

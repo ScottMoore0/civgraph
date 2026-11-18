@@ -12,8 +12,8 @@ import assert from 'node:assert/strict';
 import { readdirSync } from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
-import { PACKAGE_DIR, REPO_ROOT, SCHEMA_SETS, staleFiles } from '../../packages/types/src/generate.mjs';
-import { REGISTRIES, REGISTRY_NAMES, loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
+import { PACKAGE_DIR, REPO_ROOT, SCHEMA_SETS, staleFiles } from '@civgraph/types/src/generate.mjs';
+import { REGISTRIES, REGISTRY_NAMES, loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
 import { loadFactsModel, schemaErrors } from '../../scripts/lib/facts-model.mjs';
 
 /** The names code imports most; each must be exported by packages/types/index.d.ts. */

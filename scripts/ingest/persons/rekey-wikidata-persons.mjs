@@ -19,7 +19,7 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseCsv } from '../../../packages/loader/src/ingest-registries.mjs';
+import { parseCsv } from '@civgraph/loader/ingest-registries.mjs';
 import {
   WIKIDATA_PERSONS, WIKIDATA_REMOVALS, addRemovals, loadRemovals, loadWikidataPersons, rekeyWikidataPersons, restoreLostLinks
 } from '../../lib/wikidata-persons.mjs';

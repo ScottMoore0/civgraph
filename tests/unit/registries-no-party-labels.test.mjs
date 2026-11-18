@@ -6,9 +6,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
-import { notAPartyLabels } from '../../packages/core/src/party-names.mjs';
-import { NO_LABEL, NO_PARTY_RECORDED } from '../../packages/core/src/election-domain.mjs';
+import { REPO_ROOT, loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
+import { notAPartyLabels } from '@civgraph/core/party-names.mjs';
+import { NO_LABEL, NO_PARTY_RECORDED } from '@civgraph/core/election-domain.mjs';
 
 /** @param {string} rel */
 const read = (rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');

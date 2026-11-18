@@ -16,8 +16,8 @@
  */
 import { buildMatch, buildFilters } from './_query.js';
 import { reportError } from '../_error.js';
-import { binding } from '../../../../config/src/config.js';
-import { blobStore } from '../../../../storage/src/blob-bindings.js';
+import { binding } from '@civgraph/config';
+import { blobStore } from '@civgraph/storage/blob-bindings.js';
 import { CATALOGUE_IS_CLOSED, proniReader } from './_read.js';
 import { PRONI } from '../../queries/proni.js';
 
@@ -26,7 +26,7 @@ const MAX_LIMIT = 60;
 const DEFAULT_LIMIT = 25;
 const DESC_PREVIEW = 160; // trimmed list preview — full text is fetched on the record page
 
-/** @typedef {import('../../../../types/index.js').ApiV1.ProniSearchResultsAnswer} ProniSearchResultsAnswer */
+/** @typedef {import('@civgraph/types').ApiV1.ProniSearchResultsAnswer} ProniSearchResultsAnswer */
 /**
  * A row of the search list (queries/proni.js searchCols).
  * @typedef {object} ProniSearchRow
@@ -187,7 +187,7 @@ export function searchPlan({ match, where, binds, sort, dir, top, limit, offset 
 
 /**
  * Run a search plan in one round trip (the exact-reference lookup rides in the same batch).
- * @param {import('../../../../storage/src/store.js').RecordStore} db
+ * @param {import('@civgraph/storage/store.js').RecordStore} db
  * @param {ReturnType<typeof searchPlan>} plan
  * @param {string | null} exactRef
  * @returns {Promise<{ exact: ProniSearchRow[], results: ProniSearchRow[] }>}

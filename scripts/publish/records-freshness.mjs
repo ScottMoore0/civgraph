@@ -13,8 +13,8 @@
  *                                                 "STALE: <reasons>" when it is not
  */
 import { pathToFileURL } from 'node:url';
-import { recordPaths } from '../../packages/config/src/node.mjs';
-import { currentInputsManifest, readBuiltManifest, staleReasons } from '../../packages/loader/src/publish-inputs.mjs';
+import { recordPaths } from '@civgraph/config/node';
+import { currentInputsManifest, readBuiltManifest, staleReasons } from '@civgraph/loader/publish-inputs.mjs';
 
 /**
  * @param {NodeJS.ProcessEnv} [env]

@@ -9,7 +9,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   CODE_ONLY, inputsManifest, manifestDifferences, publishInputClass, READ_BY_BUILD, workingTreeFiles,
-} from '../../packages/loader/src/publish-inputs.mjs';
+} from '@civgraph/loader/publish-inputs.mjs';
+import { packageTarget } from '../../scripts/lib/package-names.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -65,15 +66,16 @@ test('each file has the class its folder and its readers give it', () => {
   assert.equal(publishInputClass('assets/images/proposal.docx'), 'records', 'tracked and unknown: records');
 });
 
-/** The relative static imports of a module, as repository paths. */
+/** The relative and @civgraph static imports of a module, as repository paths. */
 function importsOf(rel) {
   const text = readFileSync(path.join(ROOT, rel), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
   const re = /(?:^|[\s;])(?:import|export)\s[^'"`;]*?from\s*['"]([^'"]+)['"]|(?:^|[\s;])import\s*['"]([^'"]+)['"]|import\(\s*['"]([^'"]+)['"]\s*\)/gm;
   const out = [];
   for (const m of text.matchAll(re)) {
     const spec = m[1] || m[2] || m[3];
-    if (!spec.startsWith('.')) continue;
-    const target = path.posix.normalize(path.posix.join(path.posix.dirname(rel), spec));
+    // A package name resolves through the package's exports (scripts/lib/package-names.mjs).
+    const target = spec.startsWith('@civgraph/') ? packageTarget(spec) : spec.startsWith('.') ? path.posix.normalize(path.posix.join(path.posix.dirname(rel), spec)) : null;
+    if (target === null) continue;
     if (existsSync(path.join(ROOT, target))) out.push(target);
   }
   return out;

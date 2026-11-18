@@ -8,10 +8,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import * as apiRoute from '../../packages/api/src/v1/route.js';
-import { PREFIX, ROUTES } from '../../packages/api/src/v1/v1.js';
-import { REPO_ROOT } from '../../packages/config/src/node.mjs';
-import { footer } from '../../packages/ui/src/templates/shell.js';
+import * as apiRoute from '@civgraph/api/v1/route.js';
+import { PREFIX, ROUTES } from '@civgraph/api/v1/v1.js';
+import { REPO_ROOT } from '@civgraph/config/node';
+import { footer } from '@civgraph/ui/templates/shell.js';
 
 const read = (/** @type {string} */ rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');
 

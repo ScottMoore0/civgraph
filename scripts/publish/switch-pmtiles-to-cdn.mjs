@@ -16,7 +16,7 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { assertKnownFlags } from '../../packages/maps-pipeline/src/safe-artefact-write.mjs';
+import { assertKnownFlags } from '@civgraph/maps-pipeline/safe-artefact-write.mjs';
 import { checkLayerTransition, contentRangeTotal, mvtDirectoryState, pmtilesLayerState } from './layer-lifecycle.mjs';
 
 assertKnownFlags(['--ids']);
@@ -43,7 +43,7 @@ const UPLOAD_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-upload-report.json
 
 /**
  * A maps-test.json layer as this switch reads and rewrites it.
- * @typedef {import('../../packages/types/index.js').LayerEntry & {
+ * @typedef {import('@civgraph/types').LayerEntry & {
  *   tilePackage?: { url?: string, fallback?: string, localPath?: string, r2Key?: string, cdnUrl?: string, serving?: string, [key: string]: unknown }
  * }} SwitchLayer
  */

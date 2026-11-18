@@ -1,8 +1,8 @@
 /**
  * The server-rendered source page: /browse/sources/<slug>, from the browse_sources record.
  */
-import { html } from '../../../../core/src/html.js';
-import { dateText, numberText, safeUrl } from '../../../../core/src/format.js';
+import { html } from '@civgraph/core/html.js';
+import { dateText, numberText, safeUrl } from '@civgraph/core/format.js';
 import { badges, citations, facts, link } from '../components/index.js';
 
 /**

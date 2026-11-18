@@ -7,8 +7,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
-import { browserSourceKinds, sourceKindIds, unregisteredSourceKinds } from '../../packages/registries/src/source-kinds.mjs';
+import { REPO_ROOT, loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
+import { browserSourceKinds, sourceKindIds, unregisteredSourceKinds } from '@civgraph/registries/source-kinds.mjs';
 import { sourceKindLabels } from '../../site/pkg/registries/src/browser/source-kind-labels.mjs';
 
 const registry = loadRegistry('source-kinds');

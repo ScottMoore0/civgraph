@@ -32,8 +32,8 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { recordPaths } from '../../../packages/config/src/node.mjs';
-import { openSqliteHandle } from '../../../packages/storage/src/sqlite.mjs';
+import { recordPaths } from '@civgraph/config/node';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { bodiesTables } from './bodies.mjs';
 import {
   EXTRACT_COLUMNS, contestFacts, decadeOf, electedPersons, emptyTally, extractRow, parseMeta, pct,
@@ -52,7 +52,7 @@ const DB_FILE = path.resolve(REPO, opt('--db', recordPaths().RECORDS_DB) || '');
 
 /**
  * Walk every election in body, date order with its contests and candidacies.
- * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {(el: any, contests: Array<{ row: any, meta: any, cands: any[], provenance: string | null }>) => void} visit
  * @param {{ bodies?: string[] }} [filter]
  */
@@ -81,7 +81,7 @@ function walk(db, visit, filter = {}) {
   }
 }
 
-/** @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db */
+/** @param {import('@civgraph/storage/node').SqliteHandle} db */
 function labelMap(db) {
   return new Map(/** @type {any[]} */ (db.prepare('SELECT label, party_slug FROM party_label_map').all()).map((r) => [r.label, r.party_slug]));
 }
@@ -90,7 +90,7 @@ function labelMap(db) {
 
 export const DECISIONS_MARKER = '<!-- decisions: hand-written below this line, kept when the audit is regenerated -->';
 
-/** @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db */
+/** @param {import('@civgraph/storage/node').SqliteHandle} db */
 function audit(db) {
   const lm = labelMap(db);
   const total = emptyTally();
@@ -195,7 +195,7 @@ const posix = (p) => p.replace(/\\/g, '/');
 
 /**
  * Every body's extract rows, in memory, from the records build (bodies in slug order).
- * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db @param {string[]} [bodies]
+ * @param {import('@civgraph/storage/node').SqliteHandle} db @param {string[]} [bodies]
  * @returns {Map<string, { name: string, rows: any[], elections: number }>}
  */
 function extractRows(db, bodies = []) {
@@ -257,7 +257,7 @@ export function publicationProblems(byBody, columns = EXTRACT_COLUMNS) {
   return problems;
 }
 
-/** @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db @param {string} outDir @param {{ parquet: boolean, bodies: string[] }} o */
+/** @param {import('@civgraph/storage/node').SqliteHandle} db @param {string} outDir @param {{ parquet: boolean, bodies: string[] }} o */
 function extracts(db, outDir, o) {
   const byBody = extractRows(db, o.bodies);
   const problems = publicationProblems(byBody);
@@ -325,7 +325,7 @@ function extracts(db, outDir, o) {
 /**
  * The tables of the by-election tracker and council control (bodies.mjs) as the files to write:
  * compact JSON, named by content. Throws when a table would publish a private-looking value.
- * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @returns {Array<{ table: string, file: string, text: string, sha: string }>}
  */
 function tableFiles(db) {
@@ -359,7 +359,7 @@ export function tableProblems(tables) {
 
 /**
  * Whether the extracts in `outDir` are current against the records build and fit to publish.
- * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db @param {string} outDir
+ * @param {import('@civgraph/storage/node').SqliteHandle} db @param {string} outDir
  * @returns {{ problems: string[], checked: number }}
  */
 function checkExtracts(db, outDir) {

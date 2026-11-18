@@ -17,8 +17,8 @@
  */
 import { MAP_CACHE, layerIndexDocument, layerRow, layersDocumentText, resolveLayerId } from '../_maps.js';
 import { cachedJson, jsonResponse } from '../_records.js';
-import { binding } from '../../../../config/src/config.js';
-import { fromD1 } from '../../../../storage/src/d1.js';
+import { binding } from '@civgraph/config';
+import { fromD1 } from '@civgraph/storage/d1.js';
 
 const VERSION = 'layers-1';
 const notFound = () => jsonResponse({ error: 'not found' }, 404);
@@ -43,7 +43,7 @@ export async function onRequestGet(context) {
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!bound) return jsonResponse({ error: 'ELECTIONS_DB binding not configured' }, 503);
   // through the storage adapter (packages/storage/); the SQL is named in queries/maps.js
-  /** @type {import('../../../../storage/src/store.js').RecordStore} */
+  /** @type {import('@civgraph/storage/store.js').RecordStore} */
   const db = fromD1(bound);
   const parts = /** @type {string[]} */ ([]).concat(context.params?.['path'] || []).map((p) => decodeURIComponent(p));
   const route = matchLayersPath(parts);
@@ -56,7 +56,7 @@ export async function onRequestGet(context) {
 export const LAYER_VIEWS = Object.freeze(/** @type {const} */ (['full', 'index']));
 
 /**
- * @param {import('../../../../storage/src/store.js').RecordStore | D1Database} db
+ * @param {import('@civgraph/storage/store.js').RecordStore | D1Database} db
  * @param {LayersRoute} route
  * @param {URL} url
  */

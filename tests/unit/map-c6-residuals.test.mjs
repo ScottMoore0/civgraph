@@ -7,9 +7,9 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { CONTEXT_OUTLINE_LOAD } from '../../packages/map/src/app/export-context-state.mjs';
-import { CATALOGUE_TAB } from '../../packages/map/src/catalogue/route-state.mjs';
-import { selectedPaneStatusKind } from '../../packages/map/src/election/results-model.mjs';
+import { CONTEXT_OUTLINE_LOAD } from '@civgraph/map/src/app/export-context-state.mjs';
+import { CATALOGUE_TAB } from '@civgraph/map/catalogue/route-state.mjs';
+import { selectedPaneStatusKind } from '@civgraph/map/election/results-model.mjs';
 
 const STATES = ['idle', 'loading', 'ready', 'failed'];
 const ALLOWED = new Set(['idle>loading', 'loading>ready', 'loading>failed', 'failed>loading']);
@@ -34,7 +34,7 @@ test('CONTEXT_OUTLINE_LOAD: the table, and every move it forbids', () => {
 });
 
 test('loadContextLand: one fetch while loading, a retry after a failure, kept once loaded', async () => {
-  const { loadContextLand, loadContextLoughs } = await import('../../packages/map/app/map-image-export.js');
+  const { loadContextLand, loadContextLoughs } = await import('@civgraph/map/app/map-image-export.js');
   const realFetch = globalThis.fetch;
   let calls = 0;
   let fail = true;

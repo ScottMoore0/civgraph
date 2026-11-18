@@ -24,16 +24,16 @@
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { compareElectionsNewestFirst } from '../../lib/election-names.mjs';
-import { loadRegistry } from '../../../packages/registries/src/index.mjs';
-import { electionBody, jurisdictionLabel } from '../../../packages/registries/src/election-bodies.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { electionBody, jurisdictionLabel } from '@civgraph/registries/election-bodies.mjs';
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
-import { formatDatesInText, formatDisplayDate } from '../../../packages/core/src/date-format.mjs';
-import { cutNote } from '../../../packages/core/src/text-cut.mjs';
-import { combinedDerivedFromLines, derivedFromLines } from '../../../packages/core/src/credits.mjs';
-import { openSqliteHandle } from '../../../packages/storage/src/sqlite.mjs';
-import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '../../../packages/loader/src/paths.mjs';
-import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../../packages/map/src/ni-local-groups.mjs';
+import { formatDatesInText, formatDisplayDate } from '@civgraph/core/date-format.mjs';
+import { cutNote } from '@civgraph/core/text-cut.mjs';
+import { combinedDerivedFromLines, derivedFromLines } from '@civgraph/core/credits.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
+import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '@civgraph/loader/paths.mjs';
+import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '@civgraph/map/ni-local-groups.mjs';
 
 /** @typedef {import('./records.mjs').PartLink} PartLink */
 /**
@@ -89,7 +89,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  */
 /**
  * An election in the manifest (every one has a string key and bodySlug).
- * @typedef {import('../../../packages/core/src/election-view-model.mjs').ElectionRecord & {
+ * @typedef {import('@civgraph/core/election-view-model.mjs').ElectionRecord & {
  *   key: string, bodySlug: string, bodyType?: string, date?: string, isByElection?: boolean, kind?: string,
  *   totalConstituencies?: number, constituencies?: string[], layerId?: string, sourceMapId?: string,
  *   placeholder?: boolean, loadable?: boolean, displaySubtitle?: string

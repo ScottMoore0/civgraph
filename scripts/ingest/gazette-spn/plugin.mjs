@@ -1,8 +1,8 @@
 // The Belfast Gazette (every issue, crawled into a local data folder outside the repository) and
 // the statements of persons nominated: notices extracted, checked against Civgraph, and the
 // committed records they feed (election extras, reference names, checked sources).
-import { DEFAULT_BUILD_DIR } from '../../../packages/config/src/node.mjs';
-import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
+import { DEFAULT_BUILD_DIR } from '@civgraph/config/node';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'gazette-spn',

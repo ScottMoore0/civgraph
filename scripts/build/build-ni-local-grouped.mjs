@@ -39,17 +39,17 @@ import {
   isAldermanicContest,
   niLocalGroupTitle,
   niLocalNameKey
-} from '../../packages/map/src/ni-local-groups.mjs';
-import { printedLabelText } from '../../packages/map/src/printed-labels.mjs';
-import { ELECTION_MANIFEST, localPathForUrl } from '../../packages/loader/src/paths.mjs';
-import { loadRegistry } from '../../packages/registries/src/index.mjs';
-import { councilType } from '../../packages/registries/src/councils.mjs';
-import { missingRoundReason, siteRoundStatus } from '../../packages/registries/src/statuses.mjs';
-import { statusMachines } from '../../packages/registries/src/status-machines.mjs';
+} from '@civgraph/map/ni-local-groups.mjs';
+import { printedLabelText } from '@civgraph/map/printed-labels.mjs';
+import { ELECTION_MANIFEST, localPathForUrl } from '@civgraph/loader/paths.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { councilType } from '@civgraph/registries/councils.mjs';
+import { missingRoundReason, siteRoundStatus } from '@civgraph/registries/statuses.mjs';
+import { statusMachines } from '@civgraph/registries/status-machines.mjs';
 
 /**
  * A council round in the election manifest (each has these fields).
- * @typedef {import('../../packages/core/src/election-view-model.mjs').ElectionRecord & {
+ * @typedef {import('@civgraph/core/election-view-model.mjs').ElectionRecord & {
  *   key: string, body: string, bodySlug: string, date: string, resultUrl: string
  * }} ManifestRound
  */

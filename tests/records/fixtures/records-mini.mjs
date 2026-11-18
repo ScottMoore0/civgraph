@@ -14,9 +14,9 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
-import { TABLES, createTableSql } from '../../../packages/schema/src/schema.mjs';
-import { toD1 } from '../../../packages/storage/src/store.js';
-import { openSqlite } from '../../../packages/storage/src/sqlite.mjs';
+import { TABLES, createTableSql } from '@civgraph/schema';
+import { toD1 } from '@civgraph/storage/store.js';
+import { openSqlite } from '@civgraph/storage/node';
 
 export const RECORDS_MINI = path.join(path.dirname(fileURLToPath(import.meta.url)), 'records-mini.jsonl');
 

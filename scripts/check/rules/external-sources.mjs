@@ -2,7 +2,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveBrowseSourceItems } from '../../lib/browse-source-index.mjs';
-import { BROWSE_DIR, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
+import { BROWSE_DIR, localPathForUrl } from '@civgraph/loader/paths.mjs';
 
 /**
  * A record of data/database/external-sources.json, as far as this check reads it.

@@ -3,8 +3,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { CatalogueSearch, PeopleSearch, coveringPoint, normalise, parseQuery, withinOneEdit, wordMatch } from '../../packages/map/src/catalogue/search.js';
-import { splitCataloguePane } from '../../packages/core/src/catalogue-pane.mjs';
+import { CatalogueSearch, PeopleSearch, coveringPoint, normalise, parseQuery, withinOneEdit, wordMatch } from '@civgraph/map/catalogue/search.js';
+import { splitCataloguePane } from '@civgraph/core/catalogue-pane.mjs';
 
 const catalogue = JSON.parse(readFileSync('data/catalogue/catalogue.json', 'utf8'));
 const places = JSON.parse(readFileSync('data/catalogue/places.json', 'utf8'));

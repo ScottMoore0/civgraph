@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { sourceOf } from '../../scripts/build/site.mjs';
-import { RETIRED_WORKER_SCOPES, retireLegacyServiceWorkers } from '../../packages/map/src/app/retire-legacy-workers.mjs';
+import { RETIRED_WORKER_SCOPES, retireLegacyServiceWorkers } from '@civgraph/map/src/app/retire-legacy-workers.mjs';
 
 function registration(scope, { updateFails = false } = {}) {
   const calls = [];

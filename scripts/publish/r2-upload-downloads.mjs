@@ -21,13 +21,13 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
-import { DOWNLOADS_PREFIX, isVersionedName, planDownloadsUpload, versionedManifestName } from '../../packages/loader/src/downloads-guard.mjs';
+import { openS3BlobStore } from '@civgraph/storage/s3.mjs';
+import { DOWNLOADS_PREFIX, isVersionedName, planDownloadsUpload, versionedManifestName } from '@civgraph/loader/downloads-guard.mjs';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
-/** @typedef {import('../../packages/loader/src/downloads-guard.mjs').DownloadManifest} DownloadManifest */
-/** @typedef {import('../../packages/loader/src/downloads-guard.mjs').RemoteFile} RemoteFile */
+/** @typedef {import('@civgraph/loader/downloads-guard.mjs').DownloadManifest} DownloadManifest */
+/** @typedef {import('@civgraph/loader/downloads-guard.mjs').RemoteFile} RemoteFile */
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');

@@ -10,9 +10,9 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { createFlag, defineChoice } from '../../packages/map/src/state-helpers.mjs';
-import { TIMELINE_PLAYBACK, createTimelineAnimationState } from '../../packages/map/src/app/timeline/playback.mjs';
-import { URL_RESTORE, createUrlRestore, createUrlSuspend } from '../../packages/map/src/app/url-sync.mjs';
+import { createFlag, defineChoice } from '@civgraph/map/state-helpers.mjs';
+import { TIMELINE_PLAYBACK, createTimelineAnimationState } from '@civgraph/map/src/app/timeline/playback.mjs';
+import { URL_RESTORE, createUrlRestore, createUrlSuspend } from '@civgraph/map/src/app/url-sync.mjs';
 import { mapAppSourceFiles } from '../../scripts/lib/map-app-source.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -155,7 +155,7 @@ test('the map-app sources use the URL machines, not the old flags', () => {
 });
 
 test('election pane toggles: overlay and local level assignments go through their choice', async () => {
-  const { LOCAL_MODE, OVERLAY_MODE, freshPanelState } = await import('../../packages/map/src/election/panel-model.mjs');
+  const { LOCAL_MODE, OVERLAY_MODE, freshPanelState } = await import('@civgraph/map/election/panel-model.mjs');
   assert.deepEqual(OVERLAY_MODE.values, ['circles', 'bars']);
   assert.deepEqual(LOCAL_MODE.values, ['dea', 'district', 'constituency']);
   assert.equal(freshPanelState({ bodyGroup: 'local-government' }).activeLocalMode, 'dea');
@@ -172,8 +172,8 @@ test('the search worker readiness is a flag, set only through set()', () => {
 });
 
 test('election load (MA-03) and layer load (MA-06): the whole tables', async () => {
-  const { ELECTION_LOAD } = await import('../../packages/map/src/election/load-state.mjs');
-  const { LAYER_LOAD } = await import('../../packages/map/src/renderer/layer-load.mjs');
+  const { ELECTION_LOAD } = await import('@civgraph/map/election/load-state.mjs');
+  const { LAYER_LOAD } = await import('@civgraph/map/renderer/layer-load.mjs');
   assert.deepEqual(ELECTION_LOAD.transitions, {
     closed: ['loading', 'closed'],
     loading: ['loading', 'open', 'closed'],

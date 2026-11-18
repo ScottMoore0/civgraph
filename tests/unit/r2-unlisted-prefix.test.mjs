@@ -8,7 +8,7 @@ import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { PUBLIC_PREFIXES, isListablePrefix, isPublicPrefix } from '../../packages/api/src/handlers/_public-prefixes.js';
+import { PUBLIC_PREFIXES, isListablePrefix, isPublicPrefix } from '@civgraph/api/handlers/_public-prefixes.js';
 import { isPublishable, listedPrefixes, loadAllowlist } from '../../scripts/lib/r2-publication-gate.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');

@@ -1,10 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
-import { recordPath } from '../../../packages/loader/src/paths.mjs';
-import { loadRegistry } from '../../../packages/registries/src/index.mjs';
-import { enumValues } from '../../../packages/registries/src/statuses.mjs';
-import { electionKindIds, kindContestTypes, votingSystemIds } from '../../../packages/registries/src/election-types.mjs';
+import { recordPath } from '@civgraph/loader/paths.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { enumValues } from '@civgraph/registries/statuses.mjs';
+import { electionKindIds, kindContestTypes, votingSystemIds } from '@civgraph/registries/election-types.mjs';
 
 /**
  * The party-colour comparison's outcome (state-machine catalogue PL-L, light). The audit rows spell

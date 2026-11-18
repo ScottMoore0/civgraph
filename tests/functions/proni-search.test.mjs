@@ -6,11 +6,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { d1, installCaches, context } from '../records/d1-shim.mjs';
-import * as search from '../../packages/api/src/handlers/proni/search.js';
-import * as count from '../../packages/api/src/handlers/proni/count.js';
-import * as node from '../../packages/api/src/handlers/proni/node.js';
-import { buildFilters, buildMatch } from '../../packages/api/src/handlers/proni/_query.js';
-import { withPrimaryRetry } from '../../packages/api/src/handlers/proni/_read.js';
+import * as search from '@civgraph/api/handlers/proni/search.js';
+import * as count from '@civgraph/api/handlers/proni/count.js';
+import * as node from '@civgraph/api/handlers/proni/node.js';
+import { buildFilters, buildMatch } from '@civgraph/api/handlers/proni/_query.js';
+import { withPrimaryRetry } from '@civgraph/api/handlers/proni/_read.js';
 import { catalogue } from './proni-fixture.mjs';
 
 // The endpoints' SQL before the speed pass, as the reference answer.
@@ -125,7 +125,7 @@ test('node answers in one batch exactly as before, and childLimit keeps the firs
   const binding = d1(db);
   let batches = 0; let alls = 0;
   const counting = { ...binding, prepare: (sql) => binding.prepare(sql), batch: (s) => { batches += 1; return binding.batch(s); } };
-  const store = (await import('../../packages/storage/src/d1.js')).fromD1(counting);
+  const store = (await import('@civgraph/storage/d1.js')).fromD1(counting);
   const wrapped = { ...store, all: (sql, p) => { alls += 1; return store.all(sql, p); } };
   const full = await node.loadNode(wrapped, 'D100');
   assert.deepEqual([batches, alls], [1, 0]);

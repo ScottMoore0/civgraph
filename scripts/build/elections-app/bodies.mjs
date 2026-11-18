@@ -26,7 +26,7 @@ const readJson = (/** @type {string} */ rel) => JSON.parse(readFileSync(path.joi
 export const TABLES_SCHEMA = 1;
 
 /** @typedef {import('./bodies-model.mjs').El} El @typedef {import('./bodies-model.mjs').RegistryCouncil} RegistryCouncil */
-/** @typedef {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
+/** @typedef {import('@civgraph/storage/node').SqliteHandle} SqliteHandle */
 
 /**
  * Which council each contest file of the Republic's local elections belongs to, from the source

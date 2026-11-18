@@ -21,8 +21,8 @@
  */
 import { CATALOGUE_VIEWS, MAP_CACHE, mapRecord, mapsDocumentText, mapsInCategory, storedDocumentText } from '../_maps.js';
 import { cachedJson, jsonResponse } from '../_records.js';
-import { binding } from '../../../../config/src/config.js';
-import { fromD1 } from '../../../../storage/src/d1.js';
+import { binding } from '@civgraph/config';
+import { fromD1 } from '@civgraph/storage/d1.js';
 
 const VERSION = 'catalogue-records-1';
 const notFound = () => jsonResponse({ ok: false, error: 'Not found' }, 404);
@@ -32,13 +32,13 @@ export async function onRequestGet(context) {
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!bound) return jsonResponse({ ok: false, error: 'ELECTIONS_DB binding not configured' }, 503);
   // through the storage adapter (packages/storage/); the SQL is named in queries/maps.js
-  /** @type {import('../../../../storage/src/store.js').RecordStore} */
+  /** @type {import('@civgraph/storage/store.js').RecordStore} */
   const db = fromD1(bound);
   return cachedJson(context, VERSION, () => answer(db, new URL(context.request.url)), MAP_CACHE);
 }
 
 /**
- * @param {import('../../../../storage/src/store.js').RecordStore | D1Database} db
+ * @param {import('@civgraph/storage/store.js').RecordStore | D1Database} db
  * @param {URL} url
  */
 export async function answer(db, url) {

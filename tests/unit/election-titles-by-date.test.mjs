@@ -8,8 +8,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
-import { REPO_ROOT, loadRegistry } from '../../packages/registries/src/index.mjs';
-import { electionBody, generalElectionTitleOf, jurisdictionLabel } from '../../packages/registries/src/election-bodies.mjs';
+import { REPO_ROOT, loadRegistry } from '@civgraph/registries/index.mjs';
+import { electionBody, generalElectionTitleOf, jurisdictionLabel } from '@civgraph/registries/election-bodies.mjs';
 
 const DAIL = { body: 'Dáil Éireann', bodySlug: 'dail-eireann' };
 /** @param {number} n */

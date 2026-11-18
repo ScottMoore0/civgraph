@@ -7,8 +7,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { DATABASE_FILES, databaseFileErrors, databaseValueErrors } from '../../packages/registries/src/database.mjs';
-import { REPO_ROOT } from '../../packages/registries/src/index.mjs';
+import { DATABASE_FILES, databaseFileErrors, databaseValueErrors } from '@civgraph/registries/database.mjs';
+import { REPO_ROOT } from '@civgraph/registries/index.mjs';
 
 /** @param {string} rel */
 const read = (rel) => JSON.parse(readFileSync(path.join(REPO_ROOT, rel), 'utf8'));

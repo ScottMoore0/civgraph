@@ -9,7 +9,7 @@
  * Edge-cached, so each distinct query is counted at most once.
  */
 import { buildMatch, buildFilters } from './_query.js';
-import { binding } from '../../../../config/src/config.js';
+import { binding } from '@civgraph/config';
 import { PRONI } from '../../queries/proni.js';
 import { CATALOGUE_IS_CLOSED, proniReader } from './_read.js';
 

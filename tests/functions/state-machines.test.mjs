@@ -15,23 +15,23 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT } from '../../packages/config/src/node.mjs';
-import { defineMachine } from '../../packages/core/src/state-machine.mjs';
+import { REPO_ROOT } from '@civgraph/config/node';
+import { defineMachine } from '@civgraph/core/state-machine.mjs';
 import { canMarkApplied } from '../../scripts/intake/contributions.mjs';
 import {
   CONTRIBUTION_TRANSITIONS, DECISIONS, INITIAL_STATUS, canDecide, isContributionStatus,
-} from '../../packages/api/src/contribution-status.js';
-import { onRequestPost as decidePost } from '../../packages/api/src/handlers/contributions/decide.js';
+} from '@civgraph/api/contribution-status.js';
+import { onRequestPost as decidePost } from '@civgraph/api/handlers/contributions/decide.js';
 import {
   ANSWER_LADDER, GATE_SLOT, answerLadder, cachedJson, gateState, resetDatasetMemo, slotTo,
-} from '../../packages/api/src/handlers/_records.js';
-import { DATASET_PHASES, STORE, phaseOf, readDataset } from '../../packages/api/src/dataset-state.js';
-import { datasetVersion } from '../../packages/api/src/respond.js';
-import { SSR_MODES, ssrMode, ssrModeName } from '../../packages/ui/src/templates/records/index.js';
-import { FEATURE_ID_MODES } from '../../packages/core/src/layer-index.js';
-import { LAYER_VIEWS } from '../../packages/api/src/handlers/layers/[[path]].js';
-import { VERSION_STATUSES, versionStatus } from '../../packages/api/src/v1/delegate.js';
-import { V1 } from '../../packages/api/src/v1/v1.js';
+} from '@civgraph/api/handlers/_records.js';
+import { DATASET_PHASES, STORE, phaseOf, readDataset } from '@civgraph/api/dataset-state.js';
+import { datasetVersion } from '@civgraph/api/respond.js';
+import { SSR_MODES, ssrMode, ssrModeName } from '@civgraph/ui/templates/records/index.js';
+import { FEATURE_ID_MODES } from '@civgraph/core/layer-index.js';
+import { LAYER_VIEWS } from '@civgraph/api/handlers/layers/[[path]].js';
+import { VERSION_STATUSES, versionStatus } from '@civgraph/api/v1/delegate.js';
+import { V1 } from '@civgraph/api/v1/v1.js';
 import { installCaches } from '../records/d1-shim.mjs';
 
 /** Every (from, to) pair the table does NOT list. */
@@ -129,7 +129,7 @@ test("FN-04: the table is the registry's contribution machine", () => {
 
 test("FN-04: the registry's runnable machine answers every move as the mirror does", async () => {
   const registry = JSON.parse(readFileSync(REGISTRY, 'utf8'));
-  const { statusMachines, canMarkContributionApplied } = await import('../../packages/registries/src/status-machines.mjs');
+  const { statusMachines, canMarkContributionApplied } = await import('@civgraph/registries/status-machines.mjs');
   const machine = statusMachines(registry).contribution;
   const states = Object.keys(CONTRIBUTION_TRANSITIONS);
   assert.deepEqual([...machine.states].sort(), [...states].sort());

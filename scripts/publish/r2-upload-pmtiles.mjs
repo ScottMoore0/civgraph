@@ -18,7 +18,7 @@
 
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
-import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { openS3BlobStore } from '@civgraph/storage/s3.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 import { putLocalFile } from './r2-put-file.mjs';
 
@@ -61,7 +61,7 @@ const ONLY_IDS = new Set([
 ].map((value) => value.trim()).filter(Boolean));
 const PMTILES_HEADERS = Object.freeze({ contentType: 'application/octet-stream' });
 const MVT_HEADERS = Object.freeze({ contentType: 'application/x-protobuf', contentEncoding: 'gzip' });
-/** The S3 store, once the first upload has opened it (s3Store()). @type {Promise<import('../../packages/storage/src/s3.mjs').S3BlobStore> | null} */
+/** The S3 store, once the first upload has opened it (s3Store()). @type {Promise<import('@civgraph/storage/s3.mjs').S3BlobStore> | null} */
 let storeOpening = null;
 
 // `--ids ""` MUST NOT MEAN "everything".

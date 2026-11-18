@@ -4,15 +4,15 @@
  * contest (candidates and votes). The loader (packages/api/src/pages/election.js loadElectionPage)
  * reads D1 once per page; templates never query.
  */
-import { html } from '../../../../core/src/html.js';
-import { dateText, numberText, percentText, personRecordPath } from '../../../../core/src/format.js';
+import { html } from '@civgraph/core/html.js';
+import { dateText, numberText, percentText, personRecordPath } from '@civgraph/core/format.js';
 import { badges, citations, dataTable, facts, link, partyChip } from '../components/index.js';
-import { candidateReturnWithoutPoll, isUncontestedResult } from '../../../../core/src/unopposed.mjs';
+import { candidateReturnWithoutPoll, isUncontestedResult } from '@civgraph/core/unopposed.mjs';
 
 /**
- * @typedef {import('../../../../api/src/pages/election.js').ElectionPage} ElectionPage
- * @typedef {import('../../../../api/src/pages/election.js').ElectionPageCandidate} ElectionPageCandidate
- * @typedef {import('../../../../api/src/pages/election.js').ElectionPageContest} ElectionPageContest
+ * @typedef {import('@civgraph/api/pages/election.js').ElectionPage} ElectionPage
+ * @typedef {import('@civgraph/api/pages/election.js').ElectionPageCandidate} ElectionPageCandidate
+ * @typedef {import('@civgraph/api/pages/election.js').ElectionPageContest} ElectionPageContest
  */
 
 /** A candidacy's `elected` flag: 1 from D1; true kept for a record built elsewhere. */

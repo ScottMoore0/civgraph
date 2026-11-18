@@ -3,7 +3,7 @@
  * record can have means, which fields it must carry, and how the map app treats it. Pure.
  */
 
-/** @typedef {import('../../types/index.js').LayerTypesRegistry} LayerTypesRegistry */
+/** @typedef {import('@civgraph/types').LayerTypesRegistry} LayerTypesRegistry */
 /** @typedef {LayerTypesRegistry['types'][string]} LayerType */
 /**
  * A published layer record (a LayerEntry, or a record before it is published): the fields the

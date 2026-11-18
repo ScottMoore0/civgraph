@@ -8,7 +8,7 @@
  * (packages/registries/src/browser/colours.json) is computed by the same functions.
  */
 
-/** @typedef {import('../../types/index.js').ColoursRegistry} ColoursRegistry */
+/** @typedef {import('@civgraph/types').ColoursRegistry} ColoursRegistry */
 /** @typedef {ColoursRegistry['palettes'][string]['colours'][string]} ColourEntry */
 /** @typedef {string | string[] | Record<string, string> | Record<string, string[]>} ColourValue */
 

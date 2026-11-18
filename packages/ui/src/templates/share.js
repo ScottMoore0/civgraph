@@ -14,7 +14,7 @@
  *
  * No file system, no DOM: this runs in Pages Functions and in Node.
  */
-import { SITE } from '../../../config/src/config.js';
+import { SITE } from '@civgraph/config';
 
 /**
  * The default share image: 1200x630, the Open Graph size X also takes for summary_large_image.

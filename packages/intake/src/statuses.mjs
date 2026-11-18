@@ -42,12 +42,12 @@
  *   excluded; any round may also be excluded for a citation still to confirm or an unknown poll
  *   day. checks/ni-council-rounds.mjs reports a staging folder against this gate.
  */
-import { defineMachine } from '../../core/src/state-machine.mjs';
-import { loadRegistry } from '../../registries/src/index.mjs';
+import { defineMachine } from '@civgraph/core/state-machine.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
 
 /** @typedef {'draft' | 'staged' | 'committed' | 'uploaded' | 'published' | 'abandoned'} BatchStatus */
 
-export const BATCH_STATUS = defineMachine(/** @type {import('../../core/src/state-machine.mjs').MachineSpec<BatchStatus>} */ ({
+export const BATCH_STATUS = defineMachine(/** @type {import('@civgraph/core/state-machine.mjs').MachineSpec<BatchStatus>} */ ({
   name: 'batch status',
   initial: 'draft',
   transitions: {
@@ -119,7 +119,7 @@ export function commandAllowed(command, status) {
 
 // The table is the statuses registry's machine `contribution` (RG-04), not a copy kept here.
 const CONTRIBUTION_MACHINE = loadRegistry('statuses').machines.contribution;
-export const CONTRIBUTION_STATUS = defineMachine(/** @type {import('../../core/src/state-machine.mjs').MachineSpec<ContributionStatus>} */ (/** @type {unknown} */ ({
+export const CONTRIBUTION_STATUS = defineMachine(/** @type {import('@civgraph/core/state-machine.mjs').MachineSpec<ContributionStatus>} */ (/** @type {unknown} */ ({
   name: 'contribution status',
   initial: CONTRIBUTION_MACHINE.initial,
   transitions: structuredClone(CONTRIBUTION_MACHINE.transitions),
@@ -127,7 +127,7 @@ export const CONTRIBUTION_STATUS = defineMachine(/** @type {import('../../core/s
 
 /** @typedef {'queued' | 'held' | 'done' | 'partial' | 'no-election' | 'applied'} RoundStatus */
 
-export const ROUND_STATUS = defineMachine(/** @type {import('../../core/src/state-machine.mjs').MachineSpec<RoundStatus>} */ ({
+export const ROUND_STATUS = defineMachine(/** @type {import('@civgraph/core/state-machine.mjs').MachineSpec<RoundStatus>} */ ({
   name: 'council round status',
   initial: 'queued',
   transitions: {

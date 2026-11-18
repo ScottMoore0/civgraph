@@ -44,7 +44,7 @@
 import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '../_auth.js';
 import { listLevel, normalisePrefix, parseLimit, publicUrl } from '../_r2-listing.js';
 import { isPublicPrefix } from '../_public-prefixes.js';
-import { blobStore } from '../../../../storage/src/blob-bindings.js';
+import { blobStore } from '@civgraph/storage/blob-bindings.js';
 
 /** @param {import('../../types.js').ApiContext} context */
 export async function onRequest(context) {

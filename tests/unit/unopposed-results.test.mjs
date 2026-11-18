@@ -10,11 +10,11 @@ import test from 'node:test';
 import vm from 'node:vm';
 import {
   candidateReturnWithoutPoll, isUncontestedResult, isUnopposedCandidate, partyHadNoPoll,
-} from '../../packages/core/src/unopposed.mjs';
-import { buildMainLikePartySummaryFromRawResults, buildPartySummary } from '../../packages/core/src/election-domain.mjs';
-import { electionBody } from '../../packages/ui/src/templates/records/election.js';
-import { personBody } from '../../packages/ui/src/templates/records/person.js';
-import { toHtmlString } from '../../packages/core/src/html.js';
+} from '@civgraph/core/unopposed.mjs';
+import { buildMainLikePartySummaryFromRawResults, buildPartySummary } from '@civgraph/core/election-domain.mjs';
+import { electionBody } from '@civgraph/ui/templates/records/election.js';
+import { personBody } from '@civgraph/ui/templates/records/person.js';
+import { toHtmlString } from '@civgraph/core/html.js';
 
 // Falls ward, Belfast County Borough Council, 18 September 1946, as the records database holds
 // it: three candidacies with status "Elected unopposed" and no votes (data/elections-source/

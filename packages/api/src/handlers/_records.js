@@ -13,17 +13,17 @@
  * its cause (the rule in elections/index.js's json() helper).
  */
 import { STORE, phaseOf, readDataset, resetDatasetMemo } from '../dataset-state.js';
-import { CACHE, binding } from '../../../config/src/config.js';
-import { asStore } from '../../../storage/src/d1.js';
+import { CACHE, binding } from '@civgraph/config';
+import { asStore } from '@civgraph/storage/d1.js';
 import { T } from '../queries/tables.js';
 import { ELECTIONS } from '../queries/elections.js';
 import { DOCUMENTS } from '../queries/documents.js';
 
 /** @typedef {import('../types.js').ApiContext} ApiContext */
 /** @typedef {import('../types.js').ApiEnv} ApiEnv */
-/** @typedef {import('../../../storage/src/store.js').RecordStore | D1Database} StoreOrBinding a store or a D1 binding (asStore) */
-/** @typedef {import('../../../types/index.js').RecordsDb.RElectionsRow} RElectionsRow */
-/** @typedef {import('../../../types/index.js').RecordsDb.ElectionAggregatesRow} ElectionAggregatesRow */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore | D1Database} StoreOrBinding a store or a D1 binding (asStore) */
+/** @typedef {import('@civgraph/types').RecordsDb.RElectionsRow} RElectionsRow */
+/** @typedef {import('@civgraph/types').RecordsDb.ElectionAggregatesRow} ElectionAggregatesRow */
 
 /** The two tables whose final names are still taken by live legacy tables (stage H renames them). */
 export { T };

@@ -22,7 +22,7 @@ import { batchPath, phaseOf, readJson, repoPath, sha256File, toPosix } from './b
 /**
  * One edit of a maps-json-patch `edits` file: the shared type, and unset-field (a contribution's
  * patch deletes a field with null; packages/intake/src/contribution.mjs).
- * @typedef {import('../../types/index.js').IntakeMapEdit | { op: 'unset-field', id: string, field: string }} MapEdit
+ * @typedef {import('@civgraph/types').IntakeMapEdit | { op: 'unset-field', id: string, field: string }} MapEdit
  */
 /**
  * A stage operation's handler.

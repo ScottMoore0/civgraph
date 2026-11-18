@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
-import { createFlag } from '../../packages/map/src/state-helpers.mjs';
+import { createFlag } from '@civgraph/map/state-helpers.mjs';
 
 const SOURCE = readFileSync('packages/map/src/jquery-shim.js', 'utf8');
 const COPY = readFileSync('site/app/js/jquery-shim.js', 'utf8');

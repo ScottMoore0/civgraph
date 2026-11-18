@@ -11,10 +11,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
-import { assertRecordStore, bindValue, datasetState, toD1 } from '../../packages/storage/src/store.js';
-import { fromD1 } from '../../packages/storage/src/d1.js';
-import { openSqlite } from '../../packages/storage/src/sqlite.mjs';
-import { loadConfig } from '../../packages/config/src/node.mjs';
+import { assertRecordStore, bindValue, datasetState, toD1 } from '@civgraph/storage/store.js';
+import { fromD1 } from '@civgraph/storage/d1.js';
+import { openSqlite } from '@civgraph/storage/node';
+import { loadConfig } from '@civgraph/config/node';
 
 /** A D1 binding over node:sqlite: the calling convention of D1, batch() as one transaction. */
 function fakeD1(db = new DatabaseSync(':memory:')) {
@@ -148,9 +148,9 @@ const haveRecords = existsSync(RECORDS_DB);
 
 test('a real handler answers alike over the records tests\' D1 shim and over toD1(openSqlite())', { skip: !haveRecords && `no records build at ${RECORDS_DB}` }, async () => {
   const { context, d1, installCaches } = await import('../records/d1-shim.mjs');
-  const { resetDatasetMemo } = await import('../../packages/api/src/handlers/_records.js');
-  const stats = await import('../../packages/api/src/handlers/stats/index.js');
-  const parties = await import('../../packages/api/src/handlers/parties/index.js');
+  const { resetDatasetMemo } = await import('@civgraph/api/handlers/_records.js');
+  const stats = await import('@civgraph/api/handlers/stats/index.js');
+  const parties = await import('@civgraph/api/handlers/parties/index.js');
   const store = openSqlite(RECORDS_DB, { readOnly: true });
   const viaShim = { ELECTIONS_DB: d1(RECORDS_DB) };
   const viaStore = { ELECTIONS_DB: toD1(store) };

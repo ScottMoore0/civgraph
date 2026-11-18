@@ -5,7 +5,7 @@
  * the same functions.
  */
 
-/** @typedef {import('../../types/index.js').ElectionTypesRegistry} ElectionTypesRegistry */
+/** @typedef {import('@civgraph/types').ElectionTypesRegistry} ElectionTypesRegistry */
 
 /**
  * The voting system ids, in registry order.

@@ -64,7 +64,7 @@
  */
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
-import { SITE } from '../../packages/config/src/node.mjs';
+import { SITE } from '@civgraph/config/node';
 
 const CATALOGUE = 'data/database/maps.json';
 const RENDER = 'render/metadata/maps-test.json';
@@ -78,9 +78,9 @@ if (idsAt !== -1 && !ONLY.size) {
   process.exit(2);
 }
 
-/** @type {import('../../packages/types/index.js').MapCatalogue} */
+/** @type {import('@civgraph/types').MapCatalogue} */
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
-/** @type {{ layers?: Array<import('../../packages/types/index.js').LayerEntry & { sourceFile?: string }> }} */
+/** @type {{ layers?: Array<import('@civgraph/types').LayerEntry & { sourceFile?: string }> }} */
 const render = JSON.parse(readFileSync(RENDER, 'utf8'));
 
 // sourceMapId is the join between the catalogue's published download and the render

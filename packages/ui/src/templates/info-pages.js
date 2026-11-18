@@ -21,7 +21,7 @@
  * build-site-partials run with the flag set writes that day's date in its place, and --check
  * fails while a live page still holds the placeholder.
  */
-import { dateText } from '../../../core/src/format.js';
+import { dateText } from '@civgraph/core/format.js';
 
 /** Whether the information pages are public. Owner's decision; see the comment above. */
 export const INFO_PAGES_LIVE = false;

@@ -7,11 +7,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, loadRegistry } from '../../packages/registries/src/index.mjs';
-import { browserSlices, sliceText, staleSlices } from '../../packages/registries/src/browser/build.mjs';
+import { REPO_ROOT, loadRegistry } from '@civgraph/registries/index.mjs';
+import { browserSlices, sliceText, staleSlices } from '@civgraph/registries/browser/build.mjs';
 import { EXCLUDE, SITE_DIRS } from '../../scripts/build/site.mjs';
-import { statusKind } from '../../packages/core/src/election-domain.mjs';
-import { isNonParty, partyAbbreviation, partyFullName } from '../../packages/core/src/party-names.mjs';
+import { statusKind } from '@civgraph/core/election-domain.mjs';
+import { isNonParty, partyAbbreviation, partyFullName } from '@civgraph/core/party-names.mjs';
 
 const read = (rel) => readFileSync(path.join(REPO_ROOT, rel), 'utf8');
 
@@ -26,7 +26,7 @@ test('registries/browser: each reader imports its slice statically, through its 
   const readers = {
     'packages/map/src/ni-local-groups.mjs': '../../registries/src/browser/councils.mjs',
     'packages/map/src/catalogue/search.js': '../../../registries/src/browser/council-search.mjs',
-    'packages/core/src/party-names.mjs': '../../registries/src/browser/parties.mjs',
+    'packages/core/src/party-names.mjs': '@civgraph/registries/browser/parties.mjs',
     'packages/core/src/election-domain.mjs': '../../registries/src/browser/statuses.mjs',
     'packages/map/app/ni-local-view.js': '../../registries/src/browser/statuses.mjs',
     'packages/map/src/renderer/map-controller.js': '../../../registries/src/browser/layer-types.mjs',
@@ -73,7 +73,7 @@ test('registries/browser: the readers answer as the registries say', () => {
 });
 
 test('registries/browser: the catalogue shelves and labels the registries give (12 Nov 2026, rf8-registries)', async () => {
-  const { BODY_GROUPS, BODY_SHORT, groupOfBody } = await import('../../packages/map/src/catalogue/view-elections.js');
+  const { BODY_GROUPS, BODY_SHORT, groupOfBody } = await import('@civgraph/map/catalogue/view-elections.js');
   const councils = loadRegistry('councils');
   const pre1973 = councils.councils.filter((c) => c.flags?.pre1973Council).map((c) => c.bodySlug);
   // The 82 pre-1973 council bodies the NI local shelf listed by hand until it read the flag.
@@ -87,8 +87,8 @@ test('registries/browser: the catalogue shelves and labels the registries give (
 });
 
 test('registries/browser: the party palettes are the tables the code held (12 Nov 2026, rf8-registries)', async () => {
-  const { PARTY_COLOURS, ROI_MAIN_PARTY_COLOURS } = await import('../../packages/map/src/election/palette.mjs');
-  const { isRegistryColourParty, partyColour, resolvePartyColour } = await import('../../packages/core/src/election-domain.mjs');
+  const { PARTY_COLOURS, ROI_MAIN_PARTY_COLOURS } = await import('@civgraph/map/election/palette.mjs');
+  const { isRegistryColourParty, partyColour, resolvePartyColour } = await import('@civgraph/core/election-domain.mjs');
   assert.equal(PARTY_COLOURS.size, 31);
   assert.equal(ROI_MAIN_PARTY_COLOURS.size, 25);
   assert.equal(PARTY_COLOURS.get("people's democracy"), '#ff0000');

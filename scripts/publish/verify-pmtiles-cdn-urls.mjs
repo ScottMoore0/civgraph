@@ -17,7 +17,7 @@ if (!existsSync(METADATA_PATH)) {
 
 /**
  * A maps-test-index.json layer, with the tilePackage fields read here.
- * @typedef {import('../../packages/types/index.js').LayerEntry & { tilePackage?: { localPath?: string, serving?: string } }} IndexLayer
+ * @typedef {import('@civgraph/types').LayerEntry & { tilePackage?: { localPath?: string, serving?: string } }} IndexLayer
  */
 /**
  * One network check of a PMTiles URL.

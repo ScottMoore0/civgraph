@@ -202,7 +202,7 @@ test('district councils by name and date; the Republic\'s councils with their 20
 const DB = path.join(ROOT, 'tmp', 'records', 'civgraph-records.sqlite');
 
 test('from the records build: every by-election body, the 1983 Armagh by-election linked to 1982, NI councils back to 1899', { skip: !existsSync(DB) && 'no records build here' }, async () => {
-  const { openSqliteHandle } = await import('../../packages/storage/src/sqlite.mjs');
+  const { openSqliteHandle } = await import('@civgraph/storage/node');
   const { bodiesTables } = await import('../../scripts/build/elections-app/bodies.mjs');
   const tables = bodiesTables(openSqliteHandle(DB, { readOnly: true }));
   const rows = /** @type {any[]} */ (tables.byelections.rows);

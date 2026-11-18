@@ -14,15 +14,15 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { assertBlobStore, listPage, memoryBlobStore } from '../../packages/storage/src/blob.js';
-import { blobStore, fromKV, fromR2 } from '../../packages/storage/src/blob-bindings.js';
-import { fsBlobStore } from '../../packages/storage/src/blob-fs.mjs';
-import { s3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { assertBlobStore, listPage, memoryBlobStore } from '@civgraph/storage/blob.js';
+import { blobStore, fromKV, fromR2 } from '@civgraph/storage/blob-bindings.js';
+import { fsBlobStore } from '@civgraph/storage/blob-fs.mjs';
+import { s3BlobStore } from '@civgraph/storage/s3.mjs';
 import { createFakeS3 } from '../fixtures/s3-fake/client-s3.mjs';
 import { fakeKV, fakeR2 } from './blob-fakes.mjs';
-import * as storage from '../../packages/storage/src/index.js';
-import { BINDINGS } from '../../packages/config/src/config.js';
-import { REPO_ROOT } from '../../packages/config/src/node.mjs';
+import * as storage from '@civgraph/storage';
+import { BINDINGS } from '@civgraph/config';
+import { REPO_ROOT } from '@civgraph/config/node';
 
 const text = (body) => (typeof body === 'string' ? body : new TextDecoder().decode(body));
 

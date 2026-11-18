@@ -10,9 +10,9 @@
  * a budget check measuring the wrong set.
  */
 import { readFileSync } from 'node:fs';
-import { dryRunPatch, EDITABLE_FIELDS, VALID_KINDS, describeSchema } from '../../packages/api/src/handlers/contributions/_schema.js';
+import { dryRunPatch, EDITABLE_FIELDS, VALID_KINDS, describeSchema } from '@civgraph/api/handlers/contributions/_schema.js';
 import { canMarkApplied, TERMINAL_STATUS } from '../../scripts/intake/contributions.mjs';
-import { DECISIONS, isDecision } from '../../packages/api/src/contribution-status.js';
+import { DECISIONS, isDecision } from '@civgraph/api/contribution-status.js';
 
 let passed = 0;
 const failures = [];

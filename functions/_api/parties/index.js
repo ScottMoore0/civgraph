@@ -1,2 +1,2 @@
 // Moved to packages/api/src/handlers/parties/index.js (refactor PKG-8); this file stays as its Pages route entry point.
-export { onRequestGet } from '../../../packages/api/src/handlers/parties/index.js';
+export { onRequestGet } from '@civgraph/api/handlers/parties/index.js';

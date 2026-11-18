@@ -14,21 +14,21 @@
  * tests/functions/design-system.test.mjs requires a specimen for every component stylesheet and
  * every template function, and every cg-* class used here to exist in a stylesheet.
  */
-import { escapeHtml, html, raw, toHtmlString } from '../../../core/src/html.js';
+import { escapeHtml, html, raw, toHtmlString } from '@civgraph/core/html.js';
 import { page, sectionNav } from '../templates/shell.js';
 import { badges, citations, dataTable, facts, link, notice, partyChip } from '../templates/components/index.js';
-import colours from '../../../registries/src/browser/colours.mjs';
-import { siteNumber } from '../../../core/src/format.js';
+import colours from '@civgraph/registries/browser/colours.mjs';
+import { siteNumber } from '@civgraph/core/format.js';
 import { recordHtml, refWidget } from '../templates/proni/record-view.js';
 // The map app's own renderers and their sample data: its pure drawing code (unit map-views), which ui
 // may import (config/boundaries.json); never the map app itself.
-import { legendBodyHtml, legendShellHtml, legendSummaryText } from '../../../map/src/views/legend-view.mjs';
-import { renderElectionSummaryFromViewModel } from '../../../map/src/views/election-renderer.mjs';
-import { buildTrendChartModel, layoutTrendChart, renderTrendChartSvg, trendLegendHtml } from '../../../map/src/views/election-trend-chart.mjs';
-import { timelineChangesPanelHtml, timelineTicksHtml } from '../../../map/src/views/timeline-view.mjs';
+import { legendBodyHtml, legendShellHtml, legendSummaryText } from '@civgraph/map/views/legend-view.mjs';
+import { renderElectionSummaryFromViewModel } from '@civgraph/map/views/election-renderer.mjs';
+import { buildTrendChartModel, layoutTrendChart, renderTrendChartSvg, trendLegendHtml } from '@civgraph/map/views/election-trend-chart.mjs';
+import { timelineChangesPanelHtml, timelineTicksHtml } from '@civgraph/map/views/timeline-view.mjs';
 import {
   LEGEND_SAMPLE, RESULTS_SAMPLE, TIMELINE_CHANGES_SAMPLE, TIMELINE_ITEMS_SAMPLE, TREND_POINTS_SAMPLE, timelineSampleYear,
-} from '../../../map/src/views/specimens.mjs';
+} from '@civgraph/map/views/specimens.mjs';
 
 // The specimens' sample party colours: the colours registry's gallery.specimens (data/registries/colours.json).
 const SAMPLE = colours.gallery.specimens;

@@ -20,7 +20,7 @@ import * as browse from '../../site/browse/state-machines.js';
 import * as proni from '../../site/apps/proni-search/state-machines.js';
 import * as words from '../../site/apps/words/state-machines.js';
 import * as elections from '../../site/apps/elections/state-machines.js';
-import { THEME_PREFERENCE } from '../../packages/ui/assets/state/theme.js';
+import { THEME_PREFERENCE } from '@civgraph/ui/assets/state/theme.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -250,7 +250,7 @@ test('the served helper is the shared one: one source, no copy', async () => {
   const shim = readFileSync(path.join(ROOT, 'packages/ui/assets/state/machine.js'), 'utf8');
   assert.deepEqual(shim.split(/\r?\n/).filter((l) => l && !l.startsWith('//')), ["export * from '../../../core/src/state-machine.mjs';"],
     'packages/ui/assets/state/machine.js only re-exports the core helper: edit packages/core/src/state-machine.mjs');
-  const core = await import('../../packages/core/src/state-machine.mjs');
+  const core = await import('@civgraph/core/state-machine.mjs');
   const viaShim = await import('../../site/assets/ui/state/machine.js');
   assert.deepEqual(Object.keys(viaShim).sort(), Object.keys(core).sort());
   for (const k of Object.keys(core)) assert.equal(viaShim[k], core[k], `${k} is the core export itself`);

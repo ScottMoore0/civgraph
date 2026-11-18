@@ -27,8 +27,8 @@
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { parseStringFile } from './string-files.mjs';
-import { loadRegistry } from '../../packages/registries/src/index.mjs';
-import { languageCodes } from '../../packages/registries/src/languages.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { languageCodes } from '@civgraph/registries/languages.mjs';
 
 const CHECK = process.argv.includes('--check');
 const OUT = 'data/i18n/map-names.overlay.json';
@@ -168,7 +168,7 @@ function translateName(name) {
 
 /** @returns {MapNameOverlay} */
 function build() {
-  /** @type {import('../../packages/types/index.js').MapEntry[]} */
+  /** @type {import('@civgraph/types').MapEntry[]} */
   const maps = JSON.parse(readFileSync('data/database/maps.json', 'utf8')).maps || [];
   /** @type {Array<{ id: string, name?: string }>} */
   const index = JSON.parse(readFileSync('render/metadata/maps-test-index.json', 'utf8')).layers || [];

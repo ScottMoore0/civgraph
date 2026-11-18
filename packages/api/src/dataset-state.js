@@ -24,8 +24,8 @@
  * the server-rendered pages (respond.js datasetVersion): before this they kept a memo each and
  * could disagree for up to a minute about which version was loaded.
  */
-import { fromD1 } from '../../storage/src/d1.js';
-import { datasetState } from '../../storage/src/store.js';
+import { fromD1 } from '@civgraph/storage/d1.js';
+import { datasetState } from '@civgraph/storage/store.js';
 
 /** @typedef {'unknown' | 'loaded' | 'loading'} DatasetPhase */
 

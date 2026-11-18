@@ -29,7 +29,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
-import { IRELAND_LONLAT_BOUNDS, centreInIreland, hasReplacementChar, notNfc } from '../../../packages/maps-pipeline/src/label-data.mjs';
+import { IRELAND_LONLAT_BOUNDS, centreInIreland, hasReplacementChar, notNfc } from '@civgraph/maps-pipeline/label-data.mjs';
 
 const args = process.argv.slice(2);
 const rootAt = args.indexOf('--root');

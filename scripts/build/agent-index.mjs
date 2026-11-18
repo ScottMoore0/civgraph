@@ -9,8 +9,8 @@
  * Usage: node scripts/build/agent-index.mjs
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { SITE } from '../../packages/config/src/node.mjs';
-import { derivedFromLines } from '../../packages/core/src/credits.mjs';
+import { SITE } from '@civgraph/config/node';
+import { derivedFromLines } from '@civgraph/core/credits.mjs';
 
 const doc = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
 const catGroup = new Map((doc.categories || []).map((/** @type {{ id: string, group?: string }} */ c) => [c.id, c.group || '']));

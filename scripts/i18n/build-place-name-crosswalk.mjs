@@ -28,7 +28,7 @@ const arg = (/** @type {string} */ name, /** @type {string} */ fallback) => { co
 const CACHE = arg('--cache', process.env.CIVGRAPH_I18N_CACHE || path.join('tmp', 'i18n-cache'));
 const SAMPLE_PER_KIND = 25;
 
-/** @typedef {import('../../packages/types/index.js').LayerEntry & { sourceFile?: string }} IndexLayer  a maps-test-index.json layer */
+/** @typedef {import('@civgraph/types').LayerEntry & { sourceFile?: string }} IndexLayer  a maps-test-index.json layer */
 
 /** @type {Record<string, string>} layer id -> the property holding its Irish names */
 const fields = JSON.parse(readFileSync('site/assets/i18n/place-name-fields.json', 'utf8')).layers;

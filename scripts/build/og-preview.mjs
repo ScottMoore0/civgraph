@@ -27,7 +27,7 @@ import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { SITE } from '../../packages/config/src/node.mjs';
+import { SITE } from '@civgraph/config/node';
 
 // Resolve relative to this module. This previously hardcoded an absolute path
 // to one developer's checkout, which resolves nowhere else -- so

@@ -41,21 +41,21 @@
  * reorders rowids, and SQLite promises no order without ORDER BY.
  */
 import { reportError } from '../_error.js';
-import { resolveElectionSlugAlias } from '../../../../core/src/election-slug-aliases.js';
+import { resolveElectionSlugAlias } from '@civgraph/core/election-slug-aliases.js';
 import {
   bundleObject, cachedJson, documentBody, electionAggregates, isMarker, parseJson, withoutMarkers,
 } from '../_records.js';
-import { binding } from '../../../../config/src/config.js';
-import { fromD1 } from '../../../../storage/src/d1.js';
-import { areaResultsAnswer } from '../../../../core/src/area-results.mjs';
-import { foldSearchText } from '../../../../core/src/format.js';
+import { binding } from '@civgraph/config';
+import { fromD1 } from '@civgraph/storage/d1.js';
+import { areaResultsAnswer } from '@civgraph/core/area-results.mjs';
+import { foldSearchText } from '@civgraph/core/format.js';
 import { ELECTIONS, ELECTIONS_API, ELECTION_CARDS } from '../../queries/elections.js';
 
 // Bump whenever the RESPONSE SHAPE changes, not just when the data does: it is part of the
 // cache key. elections-8: the records tables; ORDER BY on every list; the views above.
 /** @typedef {import('../../types.js').ApiContext} ApiContext */
-/** @typedef {import('../../../../storage/src/store.js').RecordStore} RecordStore */
-/** @typedef {import('../../../../types/index.js').ApiV1.ElectionsListAnswer} ElectionsListAnswer */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore} RecordStore */
+/** @typedef {import('@civgraph/types').ApiV1.ElectionsListAnswer} ElectionsListAnswer */
 /**
  * A bundle result as lite=1 trims it: the fields it drops and the two it adds.
  * @typedef {object} LiteResult

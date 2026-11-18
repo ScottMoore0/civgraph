@@ -12,11 +12,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
-import { RECORDS_DB } from '../../packages/loader/src/paths.mjs';
+import { RECORDS_DB } from '@civgraph/loader/paths.mjs';
 import { context, d1, installCaches } from './d1-shim.mjs';
-import { resetDatasetMemo } from '../../packages/api/src/handlers/_records.js';
-import * as persons from '../../packages/api/src/handlers/persons/index.js';
-import { PERSONS } from '../../packages/api/src/queries/cards.js';
+import { resetDatasetMemo } from '@civgraph/api/handlers/_records.js';
+import * as persons from '@civgraph/api/handlers/persons/index.js';
+import { PERSONS } from '@civgraph/api/queries/cards.js';
 
 const DB = RECORDS_DB;
 const built = existsSync(DB) && (() => {

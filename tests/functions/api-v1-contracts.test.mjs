@@ -22,13 +22,13 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import * as apiRoute from '../../packages/api/src/v1/route.js';
-import { PREFIX, ROUTES, indexDocument, openApi } from '../../packages/api/src/v1/v1.js';
-import { CONTRACTS, variantFor } from '../../packages/api/src/v1/contracts/v1.js';
-import { incompatibilities, validate } from '../../packages/api/src/v1/json-schema.js';
-import { REPO_ROOT, loadConfig } from '../../packages/config/src/node.mjs';
+import * as apiRoute from '@civgraph/api/v1/route.js';
+import { PREFIX, ROUTES, indexDocument, openApi } from '@civgraph/api/v1/v1.js';
+import { CONTRACTS, variantFor } from '@civgraph/api/v1/contracts/v1.js';
+import { incompatibilities, validate } from '@civgraph/api/v1/json-schema.js';
+import { REPO_ROOT, loadConfig } from '@civgraph/config/node';
 import { recordsMini, recordsMiniHeader } from '../records/fixtures/records-mini.mjs';
-import { fileText, schemaFileName, schemaFiles } from '../../packages/api/src/v1/schema-files.js';
+import { fileText, schemaFileName, schemaFiles } from '@civgraph/api/v1/schema-files.js';
 
 const ORIGIN = 'https://civgraph.net';
 const BASELINE = path.join(REPO_ROOT, 'tests', 'functions', 'api-v1-contracts.baseline.json');
@@ -390,7 +390,7 @@ test('the committed openapi.json is the document /api/v1/openapi.json serves, an
  */
 async function recordsCases(env) {
   const { installCaches } = await import('../records/d1-shim.mjs');
-  const { resetDatasetMemo } = await import('../../packages/api/src/handlers/_records.js');
+  const { resetDatasetMemo } = await import('@civgraph/api/handlers/_records.js');
   const db = env.ELECTIONS_DB;
   const one = (sql) => db.prepare(sql).first();
   const answered = new Set();

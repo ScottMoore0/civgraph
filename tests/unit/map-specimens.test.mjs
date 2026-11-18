@@ -8,10 +8,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   RESULTS_SAMPLE, TIMELINE_CHANGES_SAMPLE, TIMELINE_ITEMS_SAMPLE, TREND_POINTS_SAMPLE, timelineSampleYear,
-} from '../../packages/map/src/specimens.mjs';
-import { renderElectionSummaryFromViewModel } from '../../packages/map/src/election-renderer.mjs';
-import { buildTrendChartModel, layoutTrendChart, renderTrendChartSvg } from '../../packages/map/src/election-trend-chart.mjs';
-import { timelineChangesPanelHtml, timelineTicksHtml } from '../../packages/map/src/app/timeline/timeline-view.mjs';
+} from '@civgraph/map/specimens.mjs';
+import { renderElectionSummaryFromViewModel } from '@civgraph/map/election-renderer.mjs';
+import { buildTrendChartModel, layoutTrendChart, renderTrendChartSvg } from '@civgraph/map/election-trend-chart.mjs';
+import { timelineChangesPanelHtml, timelineTicksHtml } from '@civgraph/map/src/app/timeline/timeline-view.mjs';
 
 const rows = (html) => (html.match(/<tr\b/g) || []).length;
 

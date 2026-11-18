@@ -41,7 +41,7 @@ import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { crawlHeaders } from '../../../packages/config/src/node.mjs';
+import { crawlHeaders } from '@civgraph/config/node';
 import { DUCKDB_VERSION, MAPLIBRE_VERSION, PMTILES_VERSION, R2_PREFIX, VENDOR } from '../../../site/apps/elections/config.js';
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');

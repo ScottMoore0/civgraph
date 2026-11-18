@@ -13,10 +13,10 @@ import { readFileSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import test from 'node:test';
 import vm from 'node:vm';
-import { migrationFiles, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
-import { onRequestGet as electionsApi } from '../../packages/api/src/handlers/elections/index.js';
-import { onRequestGet as personsApi } from '../../packages/api/src/handlers/persons/index.js';
-import { resetDatasetVersionCache } from '../../packages/api/src/respond.js';
+import { migrationFiles, TableWriter, transaction } from '@civgraph/loader/db.mjs';
+import { onRequestGet as electionsApi } from '@civgraph/api/handlers/elections/index.js';
+import { onRequestGet as personsApi } from '@civgraph/api/handlers/persons/index.js';
+import { resetDatasetVersionCache } from '@civgraph/api/respond.js';
 import { browsePageHandler } from '../../functions/_browse-page.js';
 
 const SHELL = readFileSync('site/browse/index.html', 'utf8');

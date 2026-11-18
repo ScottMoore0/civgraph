@@ -5,7 +5,7 @@
 //   node --test tests/unit/loader-count-links.test.mjs
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { countRowCandidacyOrds } from '../../packages/loader/src/ingest-elections.mjs';
+import { countRowCandidacyOrds } from '@civgraph/loader/ingest-elections.mjs';
 
 const row = (/** @type {Record<string, unknown>} */ fields) => ({ Count_Number: '1', Total_Votes: '1', ...fields });
 

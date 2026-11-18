@@ -30,7 +30,7 @@
  */
 import { statSync, existsSync, readdirSync, createReadStream, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { openS3BlobStore } from '@civgraph/storage/s3.mjs';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 

@@ -16,9 +16,9 @@ import { readFileSync, statSync, readdirSync } from 'fs';
 import { createHash } from 'crypto';
 import { join, relative, sep, resolve as resolvePath } from 'path';
 import { execFileSync } from 'child_process';
-import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { openS3BlobStore } from '@civgraph/storage/s3.mjs';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
-import { DOWNLOADS_PREFIX } from '../../packages/loader/src/downloads-guard.mjs';
+import { DOWNLOADS_PREFIX } from '@civgraph/loader/downloads-guard.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
 const args = process.argv.slice(2);

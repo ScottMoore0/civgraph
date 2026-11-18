@@ -40,7 +40,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { openS3BlobStore } from '@civgraph/storage/s3.mjs';
 import { r2Credentials, s3ClientOptions } from './r2-env.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');

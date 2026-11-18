@@ -9,7 +9,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { seatCountsByParty } from '../../packages/core/src/election-domain.mjs';
+import { seatCountsByParty } from '@civgraph/core/election-domain.mjs';
 import { mostSeats } from '../../site/apps/elections/lib/most-seats.js';
 import { WINNER_WORDS, contestWinner, winnerCellHtml, winnerChanged, winnerText } from '../../site/apps/elections/lib/winner.js';
 import { SWING_WORDS, anchoredSeats, baseContests, project, projectFromResult } from '../../site/apps/elections/lib/project.js';

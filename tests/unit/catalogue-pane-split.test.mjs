@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { splitCataloguePane } from '../../packages/core/src/catalogue-pane.mjs';
+import { splitCataloguePane } from '@civgraph/core/catalogue-pane.mjs';
 
 test('the core is the whole without contestIndex, in the same key order and form', () => {
   const doc = { schemaVersion: 1, about: 'x', shelves: [{ id: 'a' }], maps: { m: { name: 'Dáil' } }, contestIndex: { belfast: ['k1', 'k2'] }, redirects: {}, mapLinks: {} };

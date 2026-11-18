@@ -8,9 +8,9 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
-import { browserElectionTypes, checkElectionTypes, electionKindIds, kindContestTypes, kindOfContestType, votingSystemIds } from '../../packages/registries/src/election-types.mjs';
-import { electionKindLabels, votingSystemNames, votingSystemsWithTransfers } from '../../packages/registries/src/browser/election-type-names.mjs';
+import { loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
+import { browserElectionTypes, checkElectionTypes, electionKindIds, kindContestTypes, kindOfContestType, votingSystemIds } from '@civgraph/registries/election-types.mjs';
+import { electionKindLabels, votingSystemNames, votingSystemsWithTransfers } from '@civgraph/registries/browser/election-type-names.mjs';
 import { systemName } from '../../site/apps/elections/lib/format.js';
 
 const registry = loadRegistry('election-types');

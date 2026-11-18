@@ -8,11 +8,11 @@
  *
  * Pure apart from the helper (no I/O): pass the loaded registry, or the generated browser copy.
  */
-import { defineMachine, defineToggle } from '../../core/src/state-machine.mjs';
+import { defineMachine, defineToggle } from '@civgraph/core/state-machine.mjs';
 
-/** @typedef {import('../../types/index.js').StatusesRegistry} StatusesRegistry */
+/** @typedef {import('@civgraph/types').StatusesRegistry} StatusesRegistry */
 /** @typedef {import('./statuses.mjs').StatusMachineEntry} StatusMachineEntry */
-/** @typedef {import('../../core/src/state-machine.mjs').Machine<string>} Machine */
+/** @typedef {import('@civgraph/core/state-machine.mjs').Machine<string>} Machine */
 
 /**
  * name -> Machine, one per entry of `machines` in data/registries/statuses.json.

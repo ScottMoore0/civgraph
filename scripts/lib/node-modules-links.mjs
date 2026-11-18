@@ -9,7 +9,7 @@
  *
  * So a worktree gets a real node_modules folder instead: every entry of the source's node_modules
  * is a directory junction to it (a file, such as .package-lock.json, is copied), except
- * @civgraph, a real folder whose entries are junctions to THIS checkout's packages/<name>.
+ * the @civgraph scope, a real folder whose entries are junctions to THIS checkout's packages/<name>.
  * Nothing is installed or downloaded. Removing it removes the links first (removeShadow), never
  * what they point at.
  */

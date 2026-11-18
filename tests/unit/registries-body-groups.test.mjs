@@ -8,13 +8,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, loadRegistry } from '../../packages/registries/src/index.mjs';
-import { catalogueShelves, partyChartOf, partyCharts } from '../../packages/registries/src/election-bodies.mjs';
-import { bodySlugsWithFlag } from '../../packages/registries/src/councils.mjs';
-import { groupLabel } from '../../packages/registries/src/browser/body-groups.mjs';
-import electionGroups from '../../packages/registries/src/browser/election-groups.mjs';
-import { electionTypeFromEntityKey } from '../../packages/map/src/app/helpers.mjs';
-import { BODY_GROUP_ORDER, bodyGroupOf as entityBodyGroupOf } from '../../packages/map/src/entity-detail-data.mjs';
+import { REPO_ROOT, loadRegistry } from '@civgraph/registries/index.mjs';
+import { catalogueShelves, partyChartOf, partyCharts } from '@civgraph/registries/election-bodies.mjs';
+import { bodySlugsWithFlag } from '@civgraph/registries/councils.mjs';
+import { groupLabel } from '@civgraph/registries/browser/body-groups.mjs';
+import electionGroups from '@civgraph/registries/browser/election-groups.mjs';
+import { electionTypeFromEntityKey } from '@civgraph/map/src/app/helpers.mjs';
+import { BODY_GROUP_ORDER, bodyGroupOf as entityBodyGroupOf } from '@civgraph/map/entity-detail-data.mjs';
 import { bodyGroup as homeBodyGroup } from '../../site/apps/elections/views/home.js';
 
 const registry = loadRegistry('election-bodies');
@@ -148,7 +148,7 @@ test('body groups: a person or party history groups every election type as befor
 });
 
 test('body groups: the registry refuses a shelf that does not exist and an order that drops a group', async () => {
-  const { registryErrors } = await import('../../packages/registries/src/index.mjs');
+  const { registryErrors } = await import('@civgraph/registries/index.mjs');
   const shelfless = structuredClone(registry);
   shelfless.bodies[0].shelf = 'no-such-shelf';
   assert.ok(registryErrors('election-bodies', shelfless).some((e) => e.includes('shelf no-such-shelf')));

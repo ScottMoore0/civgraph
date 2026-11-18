@@ -5,10 +5,10 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { areaCandidateColours, areaCountSheet, areaFeatureNames, CANDIDATE_PALETTE } from '../../packages/core/src/area-results.mjs';
-import { summarizeResult } from '../../packages/core/src/election-domain.mjs';
-import { loadRegistry } from '../../packages/registries/src/index.mjs';
-import { electionBody } from '../../packages/registries/src/election-bodies.mjs';
+import { areaCandidateColours, areaCountSheet, areaFeatureNames, CANDIDATE_PALETTE } from '@civgraph/core/area-results.mjs';
+import { summarizeResult } from '@civgraph/core/election-domain.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { electionBody } from '@civgraph/registries/election-bodies.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'));
@@ -102,7 +102,7 @@ const MODES = [
 ];
 
 test('the API answer of an election\'s results by area', async () => {
-  const { areaResultsAnswer } = await import('../../packages/core/src/area-results.mjs');
+  const { areaResultsAnswer } = await import('@civgraph/core/area-results.mjs');
   const answer = areaResultsAnswer({ key: 'ireland-president__2011-10-27', displayTitle: '2011 Irish presidential election' }, MODES,
     [{ id: '1', name: 'Michael D Higgins', party: 'Irish Labour', personId: 100313, personSlug: 'michael-d-higgins-100313' }, { id: '3', name: 'David Norris', party: 'Independent', personId: null }]);
   assert.equal(answer.areaLabel, 'Constituency');
@@ -118,7 +118,7 @@ test('the API answer of an election\'s results by area', async () => {
 });
 
 test('the server-rendered election page lists an election\'s areas', async () => {
-  const { electionBody } = await import('../../packages/ui/src/templates/records/election.js');
+  const { electionBody } = await import('@civgraph/ui/templates/records/election.js');
   const page = { kind: 'election', election: { key: 'k', slug: 'k', title: 'T', body: 'President of Ireland', date: '2011-10-27', kind: 'general', votingSystem: 'stv-hare', meta: { geographyModes: MODES } }, contests: [], sources: [] };
   const html = String(electionBody(page).body);
   assert.match(html, /<h2 id="by-area">Results by constituency<\/h2>/);
@@ -128,7 +128,7 @@ test('the server-rendered election page lists an election\'s areas', async () =>
 });
 
 test('an election counted by area opens on its areas, and its subtitle counts them', async () => {
-  const { areaResultsFirst, areaResultsSubtitle } = await import('../../packages/core/src/area-results.mjs');
+  const { areaResultsFirst, areaResultsSubtitle } = await import('@civgraph/core/area-results.mjs');
   const national = { id: 'results', dataKind: 'results' };
   const areas = { id: 'areas', dataKind: 'area-results', countingBasis: 'dail-constituencies', totalConstituencies: 43 };
   assert.deepEqual(areaResultsFirst([national, areas]).map((m) => m.id), ['areas', 'results']);

@@ -1,7 +1,7 @@
 import { jsonResponse, jsonNotAllowed, requireAdmin } from '../_auth.js';
 import { methodGuard } from '../_method.js';
 import { canDecide, isDecision } from '../../contribution-status.js';
-import { blobStore } from '../../../../storage/src/blob-bindings.js';
+import { blobStore } from '@civgraph/storage/blob-bindings.js';
 
 /**
  * Record an approve/reject decision on a queued contribution. Administrators only.

@@ -12,12 +12,12 @@
  * only fills the body and sets the status. A record that cannot be looked up (no binding, a
  * failed query) gets the shell as it is, so an outage never turns real records into 404s.
  */
-import { binding } from '../../../../config/src/config.js';
-import { siteNumber } from '../../../../core/src/format.js';
+import { binding } from '@civgraph/config';
+import { siteNumber } from '@civgraph/core/format.js';
 import { reportError } from '../_error.js';
 import { proniReader } from './_read.js';
 import { loadNode } from './node.js';
-import { CHILD_CAP, esc, recordHtml, recordNotFound } from '../../../../ui/src/templates/proni/record-view.js';
+import { CHILD_CAP, esc, recordHtml, recordNotFound } from '@civgraph/ui/templates/proni/record-view.js';
 
 /**
  * The reference a /proni/... address names, read as the app reads it (app.js currentRef), or null

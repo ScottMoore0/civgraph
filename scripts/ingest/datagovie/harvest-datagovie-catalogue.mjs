@@ -8,7 +8,7 @@
  * Usage: node scripts/ingest/datagovie/harvest-datagovie-catalogue.mjs <out.json> [--raw <pages.json>]
  *        node scripts/ingest/datagovie/harvest-datagovie-catalogue.mjs <out.json> --replay <pages.json>
  */
-import { runCli } from '../../../packages/intake/src/ckan-harvest.mjs';
+import { runCli } from '@civgraph/intake/ckan-harvest.mjs';
 
 await runCli({
   origin: 'https://data.gov.ie',

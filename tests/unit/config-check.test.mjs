@@ -7,8 +7,8 @@ import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSy
 import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { envFileNames, formatFindings, preflight, readWrangler, satisfiesMinimum, PURPOSES } from '../../packages/config/src/check.mjs';
-import { BINDINGS, REPO_PATHS, REPO_ROOT } from '../../packages/config/src/node.mjs';
+import { envFileNames, formatFindings, preflight, readWrangler, satisfiesMinimum, PURPOSES } from '@civgraph/config/check.mjs';
+import { BINDINGS, REPO_PATHS, REPO_ROOT } from '@civgraph/config/node';
 
 const tmp = mkdtempSync(path.join(os.tmpdir(), 'civgraph-config-check-'));
 test.after(() => rmSync(tmp, { recursive: true, force: true }));

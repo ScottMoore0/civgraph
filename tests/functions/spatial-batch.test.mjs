@@ -5,10 +5,10 @@
 //   node --test tests/functions/spatial-batch.test.mjs
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { MAX_BATCH_MAPS, onRequestGet, parseMapIds } from '../../packages/api/src/handlers/spatial.js';
-import { CONTRACTS, variantFor } from '../../packages/api/src/v1/contracts/v1.js';
-import { ROUTES } from '../../packages/api/src/v1/v1.js';
-import { validate } from '../../packages/api/src/v1/json-schema.js';
+import { MAX_BATCH_MAPS, onRequestGet, parseMapIds } from '@civgraph/api/handlers/spatial.js';
+import { CONTRACTS, variantFor } from '@civgraph/api/v1/contracts/v1.js';
+import { ROUTES } from '@civgraph/api/v1/v1.js';
+import { validate } from '@civgraph/api/v1/json-schema.js';
 
 const INDEX = {
   'lgd-2012': [
@@ -86,7 +86,7 @@ test('the batch has a v1 contract, and its answer fits it', async () => {
 });
 
 test('the map search loads its candidate maps in one request and caches each as before', async () => {
-  const { default: featureLoader } = await import('../../packages/map/src/feature-loader.js');
+  const { default: featureLoader } = await import('@civgraph/map/feature-loader.js');
   const real = globalThis.fetch;
   const asked = [];
   globalThis.fetch = async (url) => {
@@ -120,7 +120,7 @@ test('the map search loads its candidate maps in one request and caches each as 
 });
 
 test('when the batch is not answered, each map is loaded on its own exactly as before', async () => {
-  const { default: featureLoader } = await import('../../packages/map/src/feature-loader.js');
+  const { default: featureLoader } = await import('@civgraph/map/feature-loader.js');
   const real = globalThis.fetch;
   const asked = [];
   globalThis.fetch = async (url) => {

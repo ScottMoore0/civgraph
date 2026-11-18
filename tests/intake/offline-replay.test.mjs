@@ -7,9 +7,9 @@ import { spawnSync } from 'node:child_process';
 import { cpSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import { pluginMain } from '../../packages/intake/src/plugin-cli.mjs';
-import { frozenClockEnv, offlineEnv } from '../../packages/intake/src/plugins.mjs';
-import { tempDir, writeFile } from './helpers.mjs';
+import { pluginMain } from '@civgraph/intake/plugin-cli.mjs';
+import { frozenClockEnv, offlineEnv } from '@civgraph/intake/plugins.mjs';
+import { linkWorkspace, tempDir, writeFile } from './helpers.mjs';
 
 const REPO = path.resolve('.');
 const hasPython = spawnSync('python', ['--version']).status === 0;
@@ -79,7 +79,8 @@ function logainmRepo({ ids, cached }) {
     mkdirSync(path.dirname(path.join(repo, rel)), { recursive: true });
     cpSync(path.join(REPO, rel), path.join(repo, rel), { recursive: true });
   }
-  writeFile(repo, '.gitignore', 'tmp/\n');
+  linkWorkspace(repo);
+  writeFile(repo, '.gitignore', 'tmp/\nnode_modules/\n');
   writeFile(repo, 'data/database/r2-publication-allowlist.json', { schemaVersion: 1, prefixes: [] });
   writeFile(repo, 'tmp/i18n-cache/place-name-crosswalk.tsv', ['layer\tfeature\tenglish\tirish\tlogainm', ...ids.map((id, i) => `test-layer\tf${i}\tTesttown ${i}\t\t${id}`)].join('\n') + '\n');
   for (const id of cached) {

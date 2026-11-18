@@ -22,15 +22,15 @@
  */
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
-import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../../packages/map/src/public-map.mjs';
-import { BROWSE_DIR } from '../../../packages/loader/src/paths.mjs';
+import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '@civgraph/map/public-map.mjs';
+import { BROWSE_DIR } from '@civgraph/loader/paths.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
 const RENDER = 'render/metadata/maps-test.json';
 const BROWSE = path.join(BROWSE_DIR, 'maps.json');
 const STATISTICS = 'data/database/data-entries.json';
 
-/** @typedef {import('../../../packages/map/src/public-map.mjs').CatalogueMap & { id: string }} CatalogueMap */
+/** @typedef {import('@civgraph/map/public-map.mjs').CatalogueMap & { id: string }} CatalogueMap */
 /** @type {{ maps?: CatalogueMap[] }} */
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
 /** @type {{ layers?: { sourceMapId?: string }[] }} */

@@ -37,7 +37,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, statSync, readdirSy
 import path from 'node:path';
 import os from 'node:os';
 import zlib from 'node:zlib';
-import { SITE } from '../../../packages/config/src/node.mjs';
+import { SITE } from '@civgraph/config/node';
 
 /**
  * @typedef {Record<string, string>} CsvRow

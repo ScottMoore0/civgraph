@@ -7,7 +7,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';
 import { createHash } from 'node:crypto';
-import { copySource, isNotFound, s3BlobStore, S3_DELETE_BATCH } from '../../packages/storage/src/s3.mjs';
+import { copySource, isNotFound, s3BlobStore, S3_DELETE_BATCH } from '@civgraph/storage/s3.mjs';
 import { createFakeS3 } from '../fixtures/s3-fake/client-s3.mjs';
 
 /** A store over a fresh stand-in bucket; `sdk.calls` lists what it sent. */

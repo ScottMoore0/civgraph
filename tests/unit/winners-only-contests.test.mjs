@@ -8,8 +8,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { contestStatusForResult, summarizeResult } from '../../packages/core/src/election-domain.mjs';
-import { contestPollStatus, isWinnersOnlyRecord, summaryPollStatus, WINNERS_ONLY } from '../../packages/core/src/unopposed.mjs';
+import { contestStatusForResult, summarizeResult } from '@civgraph/core/election-domain.mjs';
+import { contestPollStatus, isWinnersOnlyRecord, summaryPollStatus, WINNERS_ONLY } from '@civgraph/core/unopposed.mjs';
 import { countSheet } from '../../site/apps/elections/lib/count.js';
 import { NOTE, contestLimits, winnersOnly } from '../../site/apps/elections/lib/limits.js';
 import { checkContest } from '../../scripts/check/rules/contest-arithmetic.mjs';

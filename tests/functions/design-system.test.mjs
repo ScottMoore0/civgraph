@@ -13,10 +13,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import * as gallery from '../../packages/ui/src/gallery/route.js';
-import * as components from '../../packages/ui/src/templates/components/index.js';
-import { parseTokens } from '../../packages/ui/assets/gallery/gallery.js';
-import { REPO_ROOT } from '../../packages/config/src/node.mjs';
+import * as gallery from '@civgraph/ui/gallery/route.js';
+import * as components from '@civgraph/ui/templates/components/index.js';
+import { parseTokens } from '@civgraph/ui/assets/gallery/gallery.js';
+import { REPO_ROOT } from '@civgraph/config/node';
 
 const UI = path.join(REPO_ROOT, 'packages', 'ui', 'assets'); // served at /assets/ui/
 const read = (...p) => readFileSync(path.join(...p), 'utf8');

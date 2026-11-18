@@ -25,28 +25,39 @@ allow-list that does not name it (`tests/unit/site-build.test.mjs` holds that).
 
 ## How code imports a package
 
-**By relative path, everywhere**: `import { openSqlite } from '../../packages/storage/src/sqlite.mjs'`,
-never by the `@civgraph/<name>` name (tests/unit/packages.test.mjs fails on one). Why:
+**By name, since 18 Nov 2026 (rf-final)**: a module the site does not serve as a file imports
+another package by its `@civgraph/<name>` name and a subpath its `exports` reach:
+`import { openSqlite } from '@civgraph/storage/node'`, `import { escapeHtml } from
+'@civgraph/core/html.js'`, `/** @typedef {import('@civgraph/types').Council} Council */`.
+Inside one package, imports stay relative. `tests/unit/packages.test.mjs` holds both rules, and
+`node scripts/lib/package-names.mjs --write` rewrites a relative cross-package import to its
+name (it picks the package's own entry, such as `@civgraph/storage/node`, before a pattern, and
+only a name that resolves back to the same file).
 
-- Worktrees junction `node_modules` to the main checkout's (parallel-2026-11-07 COMMON.md), and
-  npm's workspace links there point at the main checkout's `packages/`. A name would run the
-  main checkout's copy of a package from a worktree, and a package that finds the repository
-  from its own location (`REPO_ROOT` in `config/src/node.mjs`, `DEFAULT_REPO` in
-  `intake/src/batch.mjs`) would then read and write the main checkout. `npm run check:clean`
-  links `node_modules` into its export the same way. A relative path always stays inside the
-  checkout it is in.
-- The Pages build and the Functions bundle never depend on the workspace links: esbuild (the
-  app bundle) and the Pages Functions bundler follow a relative path anywhere in the project
-  (`wrangler pages functions build` proves it locally).
+- **Resolution.** Node, tsc (`nodenext` and `bundler`), esbuild and the Pages Functions bundler
+  all resolve a name through `node_modules/@civgraph/<name>` (npm's workspace links) and the
+  package's `exports`, to the same file the relative path named: `check:boundaries` resolves
+  names the same way and lists the very same edges.
+- **Worktrees and check:clean** get their own `node_modules`: junctions to the main checkout's
+  entries, with the `@civgraph` links pointing at their OWN `packages/`
+  (`scripts/lib/node-modules-links.mjs`), so a name never runs another checkout's copy, and
+  `REPO_ROOT` (`config/src/node.mjs`) and `DEFAULT_REPO` (`intake/src/batch.mjs`) stay the
+  checkout's own. A worktree made before 18 Nov 2026 joined `node_modules` to main's whole:
+  `npm run worktree:links -- <name>` converts it (`npm run land` does so before its gates).
+- **The Pages build and the deploy** (`scripts/publish/deploy-pages.mjs`) run `npm ci` in a
+  clean stage, which makes the workspace links there. A preview deployment on 18 Nov 2026
+  (branch `preview-direct`) proved the Functions resolve the names.
+- **The map package** exports `./*` (its `src/`), `./app/*` (its `app/` folder) and
+  `./src/app/*` (its `src/app/`, which `./app/*` would otherwise shadow).
 
-The `exports` in each package.json and the workspace links are kept for the later switch to
-names, once worktrees run their own `npm install` and a Pages preview deploy has shown the
-Functions resolve them.
-
-Browser modules the site serves as files (assets/, browse/, apps/) import nothing from
-`packages/` by a relative path: it is not in `dist/`. The map app and the catalogue reach the
-core and config packages through the esbuild bundles; a served, unbundled page reaches an
-allowlisted module through `/pkg/` (next section).
+**Served files keep relative imports.** A module the site serves to the browser as a file
+(everything under `site/` and `render/`, and every source `packages/served.json` maps: the map
+package's served modules, `/assets/ui/`, the `/pkg/` allowlist) imports by relative path, never
+by name: the browser resolves URLs and knows no package names. Browser modules the site serves
+as files (assets/, browse/, apps/) import nothing from `packages/` by a relative path: it is not
+in `dist/`. The map app and the catalogue reach the core and config packages through the
+esbuild bundles; a served, unbundled page reaches an allowlisted module through `/pkg/` (next
+section).
 
 ## Served package modules (`/pkg/`)
 

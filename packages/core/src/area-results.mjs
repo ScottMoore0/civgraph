@@ -9,7 +9,7 @@
  * Pure: scripts/build/build-test2-election-manifest.mjs reads the files and summarises the count
  * sheets these functions make with election-domain's summarizeResult, as it does every contest.
  */
-import colours from '../../registries/src/browser/colours.mjs';
+import colours from '@civgraph/registries/browser/colours.mjs';
 import { countNoun } from './format.js';
 
 /**

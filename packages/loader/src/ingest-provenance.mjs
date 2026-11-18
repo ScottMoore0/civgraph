@@ -30,7 +30,7 @@ const SOURCE_PREFIX = 'data/elections-source/data/elections/';
  */
 
 /**
- * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {{ provenanceFile: string, partDir: string, shardDir: string }} options
  */
 export function ingestProvenance(db, { provenanceFile, partDir, shardDir }) {
@@ -39,7 +39,7 @@ export function ingestProvenance(db, { provenanceFile, partDir, shardDir }) {
   if (!doc) throw new Error(`${provenanceFile} does not exist: run node scripts/build/build-election-provenance.mjs`);
   // contests.source_file is the path from the repository root; provenance files are relative to
   // data/elections-source/data/elections/.
-  /** @type {Map<string, Record<string, import('../../storage/src/sqlite.mjs').SqliteValue>>} */
+  /** @type {Map<string, Record<string, import('@civgraph/storage/node').SqliteValue>>} */
   const contestByFile = new Map();
   for (const row of db.prepare('SELECT election_key, seq, source_file FROM contests WHERE source_file IS NOT NULL ORDER BY election_key, seq').all()) {
     const rel = String(row.source_file).startsWith(SOURCE_PREFIX) ? String(row.source_file).slice(SOURCE_PREFIX.length) : String(row.source_file);

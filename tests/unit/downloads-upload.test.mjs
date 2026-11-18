@@ -8,7 +8,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { runCase } from '../fixtures/s3-fake/harness.mjs';
-import { DOWNLOADS_PREFIX, isVersionedName, planDownloadsUpload, versionedManifestName } from '../../packages/loader/src/downloads-guard.mjs';
+import { DOWNLOADS_PREFIX, isVersionedName, planDownloadsUpload, versionedManifestName } from '@civgraph/loader/downloads-guard.mjs';
 
 const sha256 = (/** @type {string} */ text) => createHash('sha256').update(text).digest('hex');
 const V = 'aaaabbbbccccdddd';

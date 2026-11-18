@@ -5,7 +5,7 @@
  * are computed by the same functions, and a test can hand them a fixture registry.
  */
 
-/** @typedef {import('../../types/index.js').LanguagesRegistry} LanguagesRegistry */
+/** @typedef {import('@civgraph/types').LanguagesRegistry} LanguagesRegistry */
 /** @typedef {LanguagesRegistry['languages'][string]} Language */
 
 /**

@@ -10,8 +10,8 @@
  *     of the slices packages/registries/src/browser/build.mjs lists as PALETTE_SLICES (and only those).
  * C10 (R10): no hard-coded locale ('en-GB') and no month-name array outside the shared formatter.
  */
-import { SITE } from '../../../packages/config/src/node.mjs';
-import { PALETTE_SLICES } from '../../../packages/registries/src/browser/build.mjs';
+import { SITE } from '@civgraph/config/node';
+import { PALETTE_SLICES } from '@civgraph/registries/browser/build.mjs';
 import { codeOf, isString, lineOf, walk } from './lib.mjs';
 
 /** @typedef {import('./lib.mjs').Context} Context @typedef {import('./lib.mjs').Finding} Finding @typedef {import('./lib.mjs').AstNode} AstNode */

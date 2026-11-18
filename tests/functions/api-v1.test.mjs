@@ -14,10 +14,10 @@ import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import * as apiRoute from '../../packages/api/src/v1/route.js';
-import { EXCLUDED, PREFIX, ROUTES, indexDocument } from '../../packages/api/src/v1/v1.js';
-import { delegate, lifecycleHeaders, matchRoute, rewriteLocation } from '../../packages/api/src/v1/delegate.js';
-import { REPO_ROOT, loadConfig } from '../../packages/config/src/node.mjs';
+import * as apiRoute from '@civgraph/api/v1/route.js';
+import { EXCLUDED, PREFIX, ROUTES, indexDocument } from '@civgraph/api/v1/v1.js';
+import { delegate, lifecycleHeaders, matchRoute, rewriteLocation } from '@civgraph/api/v1/delegate.js';
+import { REPO_ROOT, loadConfig } from '@civgraph/config/node';
 
 const FUNCTIONS = path.join(REPO_ROOT, 'functions');
 const ORIGIN = 'https://civgraph.net';
@@ -234,7 +234,7 @@ async function v1Answer(url, env, resetState) {
 
 async function freshState() {
   const { installCaches } = await import('../records/d1-shim.mjs');
-  const { resetDatasetMemo } = await import('../../packages/api/src/handlers/_records.js');
+  const { resetDatasetMemo } = await import('@civgraph/api/handlers/_records.js');
   installCaches();
   resetDatasetMemo();
 }

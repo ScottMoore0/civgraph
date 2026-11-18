@@ -8,9 +8,9 @@
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { openDatabase } from './db.mjs';
-import { buildVar } from '../../config/src/node.mjs';
+import { buildVar } from '@civgraph/config/node';
 import { REPO_ROOT } from './paths.mjs';
-import { MAX_VALUE_BYTES, TABLES } from '../../schema/src/schema.mjs';
+import { MAX_VALUE_BYTES, TABLES } from '@civgraph/schema';
 
 // Source-file validators run as they are (stage C.3); each reads committed sources only.
 export const SOURCE_VALIDATORS = [
@@ -23,7 +23,7 @@ export const SOURCE_VALIDATORS = [
   'scripts/check/rules/candidate-name-party.mjs',
 ];
 
-/** @typedef {import('../../storage/src/sqlite.mjs').SqliteInput} SQLInputValue */
+/** @typedef {import('@civgraph/storage/node').SqliteInput} SQLInputValue */
 /**
  * What validateDatabase measured (build-records-db.mjs prints and keeps some of them).
  * @typedef {{ largestValue: { bytes: number, table?: string, column?: string },
@@ -32,7 +32,7 @@ export const SOURCE_VALIDATORS = [
  */
 
 /**
- * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {{ sourceValidators?: boolean }} [options]
  * @returns {{ errors: string[], warnings: string[], facts: ValidateFacts }}
  */

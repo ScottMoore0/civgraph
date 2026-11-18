@@ -18,7 +18,7 @@
  * Pages serves a matching static asset in preference to a Function, so data/graph/ is never
  * deployed (scripts/build/site.mjs builds dist/ from an allow-list that does not include it).
  */
-import { SITE } from '../../../packages/config/src/config.js';
+import { SITE } from '@civgraph/config';
 
 export const DOWNLOADS_ORIGIN = `${SITE.dataOrigin}/data/downloads`;
 const DOWNLOAD_FILES = new Set(['civgraph.jsonld', 'civgraph-rdf.ndjson', 'civgraph-provenance.json']);

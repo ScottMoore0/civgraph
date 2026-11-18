@@ -13,8 +13,8 @@
  */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { loadRegistry } from '../../packages/registries/src/index.mjs';
-import { languageCodes } from '../../packages/registries/src/languages.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { languageCodes } from '@civgraph/registries/languages.mjs';
 import { withColumn } from './string-files.mjs';
 
 const SRC_DIR = 'data/i18n/strings';

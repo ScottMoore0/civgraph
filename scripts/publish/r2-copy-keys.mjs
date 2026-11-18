@@ -27,8 +27,8 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { NEW_PMTILES_PREFIX, OLD_PMTILES_PREFIX, renamePmtilesKey } from '../../packages/core/src/layer-renames.mjs';
-import { copySource, openS3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { NEW_PMTILES_PREFIX, OLD_PMTILES_PREFIX, renamePmtilesKey } from '@civgraph/core/layer-renames.mjs';
+import { copySource, openS3BlobStore } from '@civgraph/storage/s3.mjs';
 import { r2Credentials, s3ClientOptions } from './r2-env.mjs';
 import { pairShapeProblem, stateAfterCopy, stateFromVerify } from './key-migration.mjs';
 
@@ -140,7 +140,7 @@ export function validateManifest(manifest) {
 // The CopySource of a key: each path segment encoded (the S3 blob store's, re-exported here).
 export { copySource };
 
-/** @typedef {import('../../packages/storage/src/s3.mjs').S3BlobStore} S3BlobStore */
+/** @typedef {import('@civgraph/storage/s3.mjs').S3BlobStore} S3BlobStore */
 
 /**
  * @param {S3BlobStore} store

@@ -5,9 +5,9 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { isValidBounds } from '../../../packages/maps-pipeline/src/layer-bounds.mjs';
-import { loadRegistry } from '../../../packages/registries/src/index.mjs';
-import { typesWithBehaviour } from '../../../packages/registries/src/layers.mjs';
+import { isValidBounds } from '@civgraph/maps-pipeline/layer-bounds.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { typesWithBehaviour } from '@civgraph/registries/layers.mjs';
 import { writeStableGeneratedJson } from '../../lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());

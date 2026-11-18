@@ -10,7 +10,7 @@
  * Each item status is the outcome of one item (a file, a page, a layer): from pending to one
  * terminal value, never back. Modes are chosen once per run.
  */
-import { loadRegistry } from '../../registries/src/index.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
 
 /** Files mirrored to the Internet Archive. */
 export const MIRROR_ITEM = Object.freeze(/** @type {const} */ (['already', 'uploaded', 'failed', 'skipped-dynamic', 'mirrored']));

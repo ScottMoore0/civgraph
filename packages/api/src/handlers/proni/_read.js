@@ -5,9 +5,9 @@
  * row with errors on 11 Nov 2026 (the production benchmark in LANDING/proni-app); each was a
  * 500 the reader saw. Results are the same either way: only where they are read from differs.
  */
-import { fromD1 } from '../../../../storage/src/d1.js';
+import { fromD1 } from '@civgraph/storage/d1.js';
 
-/** @typedef {import('../../../../storage/src/store.js').RecordStore} RecordStore */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore} RecordStore */
 
 /**
  * The catalogue is closed: every full-text document is a record, and every Extracted Dates row

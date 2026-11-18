@@ -10,7 +10,7 @@
  */
 import { renameSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT } from '../../../packages/config/src/node.mjs';
+import { REPO_ROOT } from '@civgraph/config/node';
 import { copyFolder, isLink, readState, removeLink, writeState } from './lib.mjs';
 
 const args = process.argv.slice(2);

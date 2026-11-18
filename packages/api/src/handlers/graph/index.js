@@ -18,13 +18,13 @@
  */
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
-import { binding } from '../../../../config/src/config.js';
-import { asStore } from '../../../../storage/src/d1.js';
+import { binding } from '@civgraph/config';
+import { asStore } from '@civgraph/storage/d1.js';
 import { GRAPH } from '../../queries/graph.js';
-import { foldSearchText } from '../../../../core/src/format.js';
+import { foldSearchText } from '@civgraph/core/format.js';
 
-/** @typedef {import('../../../../storage/src/store.js').RecordStore} RecordStore */
-/** @typedef {import('../../../../types/index.js').ApiV1.GraphEntityAnswer} GraphEntityAnswer */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore} RecordStore */
+/** @typedef {import('@civgraph/types').ApiV1.GraphEntityAnswer} GraphEntityAnswer */
 
 // graph-2 (12 Nov 2026): a retired entity id answers with the entity it became.
 const VERSION = 'graph-2';

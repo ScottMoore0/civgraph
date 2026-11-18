@@ -44,17 +44,17 @@ import { checkSourceKinds } from './source-kinds.mjs';
 /** The repository root (this file is packages/registries/src/index.mjs). */
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 
-/** @typedef {import('../../types/index.js').CouncilsRegistry} CouncilsRegistry */
-/** @typedef {import('../../types/index.js').PartiesRegistry} PartiesRegistry */
-/** @typedef {import('../../types/index.js').OfficesRegistryRegistry} OfficesRegistry */
-/** @typedef {import('../../types/index.js').LayerTypesRegistry} LayerTypesRegistry */
-/** @typedef {import('../../types/index.js').StatusesRegistry} StatusesRegistry */
-/** @typedef {import('../../types/index.js').ElectionBodiesRegistry} ElectionBodiesRegistry */
-/** @typedef {import('../../types/index.js').ElectionTypesRegistry} ElectionTypesRegistry */
-/** @typedef {import('../../types/index.js').ColoursRegistry} ColoursRegistry */
-/** @typedef {import('../../types/index.js').LanguagesRegistry} LanguagesRegistry */
-/** @typedef {import('../../types/index.js').CatalogueKindsRegistry} CatalogueKindsRegistry */
-/** @typedef {import('../../types/index.js').SourceKindsRegistry} SourceKindsRegistry */
+/** @typedef {import('@civgraph/types').CouncilsRegistry} CouncilsRegistry */
+/** @typedef {import('@civgraph/types').PartiesRegistry} PartiesRegistry */
+/** @typedef {import('@civgraph/types').OfficesRegistryRegistry} OfficesRegistry */
+/** @typedef {import('@civgraph/types').LayerTypesRegistry} LayerTypesRegistry */
+/** @typedef {import('@civgraph/types').StatusesRegistry} StatusesRegistry */
+/** @typedef {import('@civgraph/types').ElectionBodiesRegistry} ElectionBodiesRegistry */
+/** @typedef {import('@civgraph/types').ElectionTypesRegistry} ElectionTypesRegistry */
+/** @typedef {import('@civgraph/types').ColoursRegistry} ColoursRegistry */
+/** @typedef {import('@civgraph/types').LanguagesRegistry} LanguagesRegistry */
+/** @typedef {import('@civgraph/types').CatalogueKindsRegistry} CatalogueKindsRegistry */
+/** @typedef {import('@civgraph/types').SourceKindsRegistry} SourceKindsRegistry */
 /** @typedef {import('./validate.mjs').Schema} Schema */
 
 /**

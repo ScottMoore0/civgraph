@@ -27,9 +27,9 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { REPO_ROOT } from '../../packages/config/src/node.mjs';
-import { fileStamp, LAST_LOADED, publishInputClass } from '../../packages/loader/src/publish-inputs.mjs';
-import { openSqliteHandle } from '../../packages/storage/src/sqlite.mjs';
+import { REPO_ROOT } from '@civgraph/config/node';
+import { fileStamp, LAST_LOADED, publishInputClass } from '@civgraph/loader/publish-inputs.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 
 /**
  * @typedef {{ path: string, tracked: boolean }} ChangedFile

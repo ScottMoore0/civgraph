@@ -30,8 +30,8 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readProvenance } from '../../../packages/loader/src/election-provenance.mjs';
-import { PROVENANCE_FILE, rel } from '../../../packages/loader/src/paths.mjs';
+import { readProvenance } from '@civgraph/loader/election-provenance.mjs';
+import { PROVENANCE_FILE, rel } from '@civgraph/loader/paths.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 export const LEDGER = path.join(ROOT, 'data', 'database', 'source-ledger.json');
@@ -55,8 +55,8 @@ const WARN_MIN = 100;
  *   sources: LedgerSource[], liveStores?: { measuredAt?: string, [store: string]: unknown }
  * }} Ledger
  */
-/** @typedef {import('../../../packages/loader/src/election-provenance.mjs').ProvenanceSource} ProvenanceSource */
-/** @typedef {import('../../../packages/loader/src/election-provenance.mjs').ProvenanceDocument} ProvenanceDocument */
+/** @typedef {import('@civgraph/loader/election-provenance.mjs').ProvenanceSource} ProvenanceSource */
+/** @typedef {import('@civgraph/loader/election-provenance.mjs').ProvenanceDocument} ProvenanceDocument */
 
 export const CATEGORIES = ['elections', 'parliaments', 'gazettes', 'newspapers', 'census-statistics',
   'boundaries-maps', 'archives', 'open-data', 'geodata', 'books-catalogues', 'place-names', 'reference'];

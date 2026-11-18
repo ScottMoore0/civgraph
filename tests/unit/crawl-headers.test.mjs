@@ -18,7 +18,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
-import { SITE, WIKIMEDIA_DOMAINS, crawlHeaders, isWikimediaHost } from '../../packages/config/src/node.mjs';
+import { SITE, WIKIMEDIA_DOMAINS, crawlHeaders, isWikimediaHost } from '@civgraph/config/node';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CONFIG = 'packages/config/src/config.js'; // defines SITE.userAgent

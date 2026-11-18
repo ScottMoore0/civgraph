@@ -14,9 +14,9 @@ import test from 'node:test';
 import { pathToFileURL } from 'node:url';
 import {
   CrawlRefused, MIN_DELAY_MS, ROWS, fromPages, harvestJson, harvestPages, parsePage, searchUrl, toDataset,
-} from '../../packages/intake/src/ckan-harvest.mjs';
+} from '@civgraph/intake/ckan-harvest.mjs';
 
-/** @typedef {import('../../packages/intake/src/ckan-harvest.mjs').CkanPackage} CkanPackage */
+/** @typedef {import('@civgraph/intake/ckan-harvest.mjs').CkanPackage} CkanPackage */
 
 /** @param {number} n @returns {CkanPackage[]} */
 const catalogue = (n) => Array.from({ length: n }, (_, i) => ({
@@ -64,7 +64,7 @@ function deps() {
   return {
     sleeps,
     deps: {
-      /** @type {import('../../packages/intake/src/ckan-harvest.mjs').HarvestDeps['fetch']} */
+      /** @type {import('@civgraph/intake/ckan-harvest.mjs').HarvestDeps['fetch']} */
       fetch: (url, init) => fetch(url, init),
       /** @param {number} ms */
       sleep: async (ms) => { sleeps.push(ms); },

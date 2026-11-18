@@ -4,23 +4,23 @@ import path from 'node:path';
 import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
 import { fileLabel, normalizeFiles, normalizeLinks } from '../lib/browse-links.mjs';
 import { sourceAvailabilityDisplay } from '../lib/source-availability.mjs';
-import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '../../packages/core/src/election-domain.mjs';
+import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '@civgraph/core/election-domain.mjs';
 // A person's slug ("naomi-long-51102"): the one rule the pages' person links use too.
-import { personSlug } from '../../packages/core/src/format.js';
-import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../../packages/map/src/public-map.mjs';
+import { personSlug } from '@civgraph/core/format.js';
+import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '@civgraph/map/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from '../lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from '../lib/person-name-artefacts.mjs';
 import { referenceOffices, referenceRelatives } from '../lib/reference-person-facts.mjs';
 import { loadWikidataPersons, personNotes, personWikidata } from '../lib/wikidata-persons.mjs';
 import { applyLedger, personKeepOf, readLedger } from '../lib/person-address-ledger.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
-import { CDN_BASE } from '../../packages/map/src/cdn-url.js';
-import { RENAMED_ELECTION_DATES } from '../../packages/map/src/app/url-compat.mjs';
-import { BROWSE_DIR, ELECTION_MANIFEST, localPathForUrl } from '../../packages/loader/src/paths.mjs';
-import { readProvenance } from '../../packages/loader/src/election-provenance.mjs';
-import { loadRegistry } from '../../packages/registries/src/index.mjs';
-import { electionBody, fillYear } from '../../packages/registries/src/election-bodies.mjs';
-import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '../../packages/map/src/ni-local-groups.mjs';
+import { CDN_BASE } from '@civgraph/map/cdn-url.js';
+import { RENAMED_ELECTION_DATES } from '@civgraph/map/src/app/url-compat.mjs';
+import { BROWSE_DIR, ELECTION_MANIFEST, localPathForUrl } from '@civgraph/loader/paths.mjs';
+import { readProvenance } from '@civgraph/loader/election-provenance.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { electionBody, fillYear } from '@civgraph/registries/election-bodies.mjs';
+import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '@civgraph/map/ni-local-groups.mjs';
 
 /**
  * compactObject's result. Every field that is null, undefined, '' or an empty array or object is
@@ -130,12 +130,12 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * }} ElectionLike
  * @typedef {{ text: string[], links?: RawReferenceItem[] }} ElectionAbout
  * @typedef {{ url?: string, qid?: string }} ElectionArticle
- * @typedef {import('../../packages/core/src/election-view-model.mjs').ElectionRecord} NiElectionRecord
+ * @typedef {import('@civgraph/core/election-view-model.mjs').ElectionRecord} NiElectionRecord
  * @typedef {import('../lib/election-names.mjs').ElectionNameScope} ElectionNameScope
  * Lookups read once and kept on the function that reads them (its own property).
  * @typedef {{ all?: Record<string, ElectionAbout> }} AboutCache
  * @typedef {{ all?: Record<string, ElectionArticle> }} ArticleCache
- * @typedef {{ registry?: import('../../packages/registries/src/election-bodies.mjs').ElectionBodiesRegistry }} RegistryCache
+ * @typedef {{ registry?: import('@civgraph/registries/election-bodies.mjs').ElectionBodiesRegistry }} RegistryCache
  * @typedef {{ labels?: Map<string, string> }} LabelsCache
  */
 /**

@@ -17,16 +17,16 @@
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { duplicateSidecar } from '../../core/src/layer-index.js';
-import { PANE_CONTESTS_DOCUMENT, PANE_CORE_DOCUMENT, splitCataloguePane } from '../../core/src/catalogue-pane.mjs';
-import { legacyLayerId, renameLayerId } from '../../core/src/layer-renames.mjs';
-import { LEGACY_LAYER_ID_PREFIXES } from '../../core/src/layer-renames.mjs';
+import { duplicateSidecar } from '@civgraph/core/layer-index.js';
+import { PANE_CONTESTS_DOCUMENT, PANE_CORE_DOCUMENT, splitCataloguePane } from '@civgraph/core/catalogue-pane.mjs';
+import { legacyLayerId, renameLayerId } from '@civgraph/core/layer-renames.mjs';
+import { LEGACY_LAYER_ID_PREFIXES } from '@civgraph/core/layer-renames.mjs';
 import { TableWriter, bool, readJson, transaction, txt } from './db.mjs';
 import { REPO_ROOT } from './paths.mjs';
-import { PART_CHARS } from '../../schema/src/schema.mjs';
+import { PART_CHARS } from '@civgraph/schema';
 
-/** @typedef {import('../../types/index.js').MapEntry} MapEntry */
-/** @typedef {import('../../types/index.js').LayerEntry} LayerEntry */
+/** @typedef {import('@civgraph/types').MapEntry} MapEntry */
+/** @typedef {import('@civgraph/types').LayerEntry} LayerEntry */
 /** @typedef {import('./db.mjs').DocumentRow} DocumentRow */
 /**
  * A card of a Browse list (data/browse/maps.json, features.json items[]): open JSON.
@@ -116,7 +116,7 @@ export function splitParts(text, size = PART_CHARS) {
 }
 
 /**
- * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {{ root?: string, browseDir?: string|null }} options  root: where the source files are
  *   (the repository); browseDir: the Browse build's directory (absent: the Browse map tables
  *   stay empty and the Function answers 404 for those files).

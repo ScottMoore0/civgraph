@@ -5,7 +5,7 @@
  *
  * Falls back to reading the static names index from the origin when KV is not configured.
  */
-import { blobStore } from '../../../storage/src/blob-bindings.js';
+import { blobStore } from '@civgraph/storage/blob-bindings.js';
 
 // In-memory cache for the names index, per Worker isolate.
 //

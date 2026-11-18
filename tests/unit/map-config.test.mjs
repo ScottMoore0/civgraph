@@ -7,9 +7,9 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { SITE } from '../../packages/config/src/config.js';
-import { CDN_BASE, cdnUrl } from '../../packages/map/src/cdn-url.js';
-import { resolveApproximateSegmentsUrl } from '../../packages/map/src/renderer/approximate-segments.js';
+import { SITE } from '@civgraph/config';
+import { CDN_BASE, cdnUrl } from '@civgraph/map/cdn-url.js';
+import { resolveApproximateSegmentsUrl } from '@civgraph/map/renderer/approximate-segments.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 

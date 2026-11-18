@@ -17,7 +17,7 @@ import { createServer } from 'node:http';
 import { appendFileSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync, createReadStream } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SITE } from '../../packages/config/src/node.mjs';
+import { SITE } from '@civgraph/config/node';
 import { sourceOf } from '../../scripts/build/site.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));

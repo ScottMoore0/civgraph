@@ -13,7 +13,7 @@ import { open } from 'node:fs/promises';
 export const PART_SIZE = 8 * 1024 * 1024;
 
 /**
- * @param {import('../../packages/storage/src/s3.mjs').S3BlobStore} store
+ * @param {import('@civgraph/storage/s3.mjs').S3BlobStore} store
  * @param {string} key
  * @param {string} filePath
  * @param {number} bytes  the file's size

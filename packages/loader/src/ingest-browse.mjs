@@ -120,7 +120,7 @@ function aliasRows(items) {
 }
 
 /**
- * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {{ browseDir: string, paths?: RecordPaths }} options
  */
 export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {

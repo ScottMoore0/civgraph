@@ -26,7 +26,7 @@ import {
   nfcLabel,
   notNfc,
   repairApplies,
-} from '../../packages/maps-pipeline/src/label-data.mjs';
+} from '@civgraph/maps-pipeline/label-data.mjs';
 
 const FFFD = '�';
 const DECOMPOSED = 'Dún Braoin';

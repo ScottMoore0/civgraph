@@ -11,10 +11,10 @@
 //   - honours and professions (J.P., M.B.E., V.S.) are not labels: the reading stays blank,
 //     which the site shows as "No label".
 // The printed label itself is never changed.
-import { candidateDisplayName, normalizeName, normalizeParty } from '../../packages/core/src/election-domain.mjs';
+import { candidateDisplayName, normalizeName, normalizeParty } from '@civgraph/core/election-domain.mjs';
 
 /**
- * @typedef {import('../../packages/types/index.js').PartiesRegistry['labelInterpretations']} LabelInterpretations
+ * @typedef {import('@civgraph/types').PartiesRegistry['labelInterpretations']} LabelInterpretations
  * @typedef {LabelInterpretations['rules'][number]} LabelRule
  * @typedef {{ body: string, date?: string }} ContestScope  the result file's body and date folders
  * @typedef {Record<string, unknown>} ResultRow  one candidate (or count) row of a source result file

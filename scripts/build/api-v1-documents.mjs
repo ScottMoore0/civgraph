@@ -13,9 +13,9 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { CONTRACTS } from '../../packages/api/src/v1/contracts/v1.js';
-import { PREFIX, ROUTES, openApi } from '../../packages/api/src/v1/v1.js';
-import { fileText, schemaFiles } from '../../packages/api/src/v1/schema-files.js';
+import { CONTRACTS } from '@civgraph/api/v1/contracts/v1.js';
+import { PREFIX, ROUTES, openApi } from '@civgraph/api/v1/v1.js';
+import { fileText, schemaFiles } from '@civgraph/api/v1/schema-files.js';
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 export const SCHEMA_DIR = path.join(REPO, 'packages', 'api', 'schemas', 'v1');

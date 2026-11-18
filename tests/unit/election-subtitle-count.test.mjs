@@ -5,10 +5,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { countNoun } from '../../packages/core/src/format.js';
-import { areaResultsSubtitle } from '../../packages/core/src/area-results.mjs';
-import { loadRegistry } from '../../packages/registries/src/index.mjs';
-import { electionBody } from '../../packages/registries/src/election-bodies.mjs';
+import { countNoun } from '@civgraph/core/format.js';
+import { areaResultsSubtitle } from '@civgraph/core/area-results.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { electionBody } from '@civgraph/registries/election-bodies.mjs';
 
 test('countNoun takes the singular for one only', () => {
   assert.equal(countNoun(1, 'constituency', 'constituencies'), '1 constituency');

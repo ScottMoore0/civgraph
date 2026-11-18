@@ -8,8 +8,8 @@
  * the user at "Export all".
  */
 import { buildMatch, buildFilters } from './_query.js';
-import { binding } from '../../../../config/src/config.js';
-import { fromD1 } from '../../../../storage/src/d1.js';
+import { binding } from '@civgraph/config';
+import { fromD1 } from '@civgraph/storage/d1.js';
 import { PRONI } from '../../queries/proni.js';
 
 const MAX_ROWS = 50000;
@@ -35,7 +35,7 @@ export async function onRequestGet(context) {
   const bound = binding(context.env, 'PRONI_DB');
   if (!bound) return new Response('PRONI_DB binding not configured', { status: 503 });
   // through the storage adapter (packages/storage/); the SQL is named in queries/proni.js
-  /** @type {import('../../../../storage/src/store.js').RecordStore} */
+  /** @type {import('@civgraph/storage/store.js').RecordStore} */
   const db = fromD1(bound);
 
   const match = buildMatch(q, fields);

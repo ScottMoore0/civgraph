@@ -18,8 +18,8 @@ import { readFileSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readShareTags, SHARE_IMAGE, shareTagList, withShareTags } from '../../packages/ui/src/templates/share.js';
-import { page } from '../../packages/ui/src/templates/shell.js';
+import { readShareTags, SHARE_IMAGE, shareTagList, withShareTags } from '@civgraph/ui/templates/share.js';
+import { page } from '@civgraph/ui/templates/shell.js';
 import { proniRecordHead, proniRefFromPath, serveShell } from '../../functions/_proni-shell.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');

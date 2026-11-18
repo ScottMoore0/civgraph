@@ -14,8 +14,8 @@
  */
 import { MAP_CACHE, mapsDocumentText, storedDocumentText } from './_maps.js';
 import { cachedJson, jsonResponse } from './_records.js';
-import { binding } from '../../../config/src/config.js';
-import { fromD1 } from '../../../storage/src/d1.js';
+import { binding } from '@civgraph/config';
+import { fromD1 } from '@civgraph/storage/d1.js';
 
 // The cache token: part of every edge-cache key and ETag these documents get. Raised to 2 on
 // 13 Nov 2026, with the HEAD handlers, so the next publish stores and serves fresh copies and no
@@ -39,7 +39,7 @@ export async function onCompatDocument(context) {
   const doc = COMPAT_DOCUMENTS[new URL(context.request.url).pathname];
   const bound = binding(context.env, 'ELECTIONS_DB');
   if (!doc || !bound) return context.next();
-  /** @type {import('../../../storage/src/store.js').RecordStore} */
+  /** @type {import('@civgraph/storage/store.js').RecordStore} */
   const db = fromD1(bound);
   const resp = await cachedJson(context, VERSION, async () => {
     const text = doc.maps ? await mapsDocumentText(db, { pretty: true }) : await storedDocumentText(db, doc.name);

@@ -66,7 +66,7 @@ const inWorktree = (() => { try { return statSync('.git').isFile(); } catch { re
 /** @type {{ step: string, missing: string[] }[]} */
 const skipped = [];
 if (inWorktree) {
-  const { recordPaths } = await import('../../packages/config/src/node.mjs');
+  const { recordPaths } = await import('@civgraph/config/node');
   const { missingNeeds } = await import('../lib/artefact-refs.mjs');
   const needs = JSON.parse(readFileSync('config/worktrees.json', 'utf8')).checkNeeds;
   const env = { records: /** @type {Record<string, string | null>} */ (recordPaths()), root: process.cwd(), exists: existsSync };

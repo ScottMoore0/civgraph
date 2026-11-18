@@ -13,18 +13,18 @@ import path from 'node:path';
 import test from 'node:test';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
-import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
-import { browserColours, checkColours } from '../../packages/registries/src/colours.mjs';
-import { PALETTE_SLICES } from '../../packages/registries/src/browser/build.mjs';
-import colours from '../../packages/registries/src/browser/colours.mjs';
-import partyPalettes from '../../packages/registries/src/browser/party-palettes.mjs';
-import { CENSUS_RAMPS, EXPORT_COLOURS, MAP_COLOURS, NUMERIC_SCALE, VIEWER_COLOURS } from '../../packages/map/src/colours.mjs';
+import { loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
+import { browserColours, checkColours } from '@civgraph/registries/colours.mjs';
+import { PALETTE_SLICES } from '@civgraph/registries/browser/build.mjs';
+import colours from '@civgraph/registries/browser/colours.mjs';
+import partyPalettes from '@civgraph/registries/browser/party-palettes.mjs';
+import { CENSUS_RAMPS, EXPORT_COLOURS, MAP_COLOURS, NUMERIC_SCALE, VIEWER_COLOURS } from '@civgraph/map/colours.mjs';
 import { inkOn as electionsInkOn } from '../../site/apps/elections/lib/format.js';
 import { diverging, sequential } from '../../site/apps/elections/lib/scales.js';
-import { inkOn as catalogueInkOn } from '../../packages/map/src/catalogue/util.js';
-import { NEUTRAL_PARTY_COLOUR, isPlaceholderPartyColour } from '../../packages/core/src/election-domain.mjs';
-import { CANDIDATE_PALETTE } from '../../packages/core/src/area-results.mjs';
-import { partyColour, safeCssColour } from '../../packages/map/src/election/palette.mjs';
+import { inkOn as catalogueInkOn } from '@civgraph/map/catalogue/util.js';
+import { NEUTRAL_PARTY_COLOUR, isPlaceholderPartyColour } from '@civgraph/core/election-domain.mjs';
+import { CANDIDATE_PALETTE } from '@civgraph/core/area-results.mjs';
+import { partyColour, safeCssColour } from '@civgraph/map/election/palette.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 

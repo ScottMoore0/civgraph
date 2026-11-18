@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { getTileProfile } from '../../packages/maps-pipeline/src/tiles/tile-profiles.mjs';
+import { getTileProfile } from '@civgraph/maps-pipeline/tiles/tile-profiles.mjs';
 
 // Layers once held to minzoom 10 drew nothing at the zoom the map opens them at (Phelim Birch's
 // catalogue review, #49 and the wave-16 follow-up). Their archives carry pruned attributes below

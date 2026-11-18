@@ -2,9 +2,9 @@
 import path from 'node:path';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { mapAppSourceFiles, readElectionManagerSource, readMapAppSource } from '../../lib/map-app-source.mjs';
-import { BROWSE_DIR, ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../../../packages/loader/src/paths.mjs';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '@civgraph/loader/paths.mjs';
 // The map's fixed colours are the colours registry's (data/registries/colours.json), read through this view.
-import { MAP_COLOURS } from '../../../packages/map/src/colours.mjs';
+import { MAP_COLOURS } from '@civgraph/map/colours.mjs';
 
 /**
  * A map record of data/database/maps.json (or a variant, merged over its parent by findMap).

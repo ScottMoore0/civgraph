@@ -23,7 +23,7 @@
  * Like the dev-auth bypass in _auth.js it is opt-in and must stay unset in
  * production -- absent configuration means "do not disclose".
  */
-import { runtimeVar } from '../../../config/src/config.js';
+import { runtimeVar } from '@civgraph/config';
 
 /** @typedef {{ message?: unknown, stack?: unknown } | null | undefined} ErrorLike what a caught value may carry */
 

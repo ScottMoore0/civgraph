@@ -31,8 +31,8 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { crawlHeaders } from '../../../packages/config/src/node.mjs';
-import { HARVEST } from '../../../packages/intake/src/item-status.mjs';
+import { crawlHeaders } from '@civgraph/config/node';
+import { HARVEST } from '@civgraph/intake/item-status.mjs';
 
 const BASE = 'https://data.niassembly.gov.uk';
 

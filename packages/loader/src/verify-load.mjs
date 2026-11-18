@@ -54,17 +54,17 @@
 import { spawnSync } from 'node:child_process';
 import { closeSync, existsSync, mkdirSync, openSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { datasetLoadState, LOADING_KEY } from './dataset-state.mjs';
 import { snapshotTable } from './db.mjs';
 import { verifyModeFor } from './deploy-plan.mjs';
 import { bytesExpr, deltaKeys, keyOf, q } from './diff-load.mjs';
-import { buildVar } from '../../config/src/node.mjs';
+import { buildVar } from '@civgraph/config/node';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
-import { HASHED_TABLES } from '../../schema/src/schema.mjs';
+import { HASHED_TABLES } from '@civgraph/schema';
 
-/** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
-/** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
+/** @typedef {import('@civgraph/storage/node').SqliteHandle} SqliteHandle */
+/** @typedef {import('@civgraph/schema').TableSpec} TableSpec */
 /** A value as D1 answers it in wrangler's JSON (TEXT, INTEGER/REAL, NULL). @typedef {string | number | null} D1Value */
 /** A sqlite_master row (name, sql): read locally or from D1. @typedef {{ name?: unknown, sql?: unknown }} SchemaRow */
 /** Per table: COUNT(*) and SUM(row_hash_n). @typedef {Record<string, { n: number, s: number }>} TableSums */

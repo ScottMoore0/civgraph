@@ -36,7 +36,7 @@ import * as votes from '../handlers/votes/index.js';
 import { jsonAnswer, versionStatus } from './delegate.js';
 import { CONTRACTS } from './contracts/v1.js';
 import { openApiDocument } from './openapi.js';
-import { API, SITE } from '../../../config/src/config.js';
+import { API, SITE } from '@civgraph/config';
 
 export const VERSION = 'v1';
 export const PREFIX = API.prefix(VERSION);

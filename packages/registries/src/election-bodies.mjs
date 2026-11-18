@@ -7,7 +7,7 @@
 
 import { firstGroup } from './browser/body-groups.mjs';
 
-/** @typedef {import('../../types/index.js').ElectionBodiesRegistry} ElectionBodiesRegistry */
+/** @typedef {import('@civgraph/types').ElectionBodiesRegistry} ElectionBodiesRegistry */
 /** @typedef {import('./browser/body-groups.mjs').GroupMatch} GroupMatch */
 /** @typedef {ElectionBodiesRegistry['bodies'][number]} ElectionBody */
 /** @typedef {NonNullable<ElectionBody['geography']>[number]} ElectionBodyGeographyRule */

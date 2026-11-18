@@ -67,8 +67,8 @@
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
-import { HASHED_TABLES } from '../../schema/src/schema.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
+import { HASHED_TABLES } from '@civgraph/schema';
 import { datasetLoadState, LOADING_KEY, loadingValue } from './dataset-state.mjs';
 import { q } from './diff-load.mjs';
 import { RECORDS_DB, REPO_ROOT } from './paths.mjs';
@@ -76,8 +76,8 @@ import {
   BOUNDS, D1_NAME, deltaKeys, isOverloaded, isTransientAuth, isWranglerCrash, sampleKeys, sleepSync, wranglerQuery,
 } from './verify-load.mjs';
 
-/** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
-/** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
+/** @typedef {import('@civgraph/storage/node').SqliteHandle} SqliteHandle */
+/** @typedef {import('@civgraph/schema').TableSpec} TableSpec */
 /** @typedef {import('./verify-load.mjs').QueryRows} QueryRows */
 /** A statement sent to the database being verified. @typedef {(sql: string) => QueryRows} Query */
 /** A primary-key column value as the build holds it. @typedef {string | number | null} KeyValue */
@@ -392,7 +392,7 @@ export class TouchedKeys {
   constructor() {
     this.db = openSqliteHandle(':memory:');
     this.db.exec('BEGIN');
-    /** @type {Map<string, import('../../storage/src/sqlite.mjs').SqliteStatement>} */
+    /** @type {Map<string, import('@civgraph/storage/node').SqliteStatement>} */
     this.inserts = new Map();
     /** @type {Set<string>} */
     this.wholeTables = new Set();

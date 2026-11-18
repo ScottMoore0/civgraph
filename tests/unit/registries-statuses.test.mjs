@@ -6,11 +6,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
+import { REPO_ROOT, loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
 import {
   candidateCountState, candidateStatusKind, canTransition, enumValues, isContested, missingRoundReason, siteRoundStatus, statesOf
-} from '../../packages/registries/src/statuses.mjs';
-import { statusKind } from '../../packages/core/src/election-domain.mjs';
+} from '@civgraph/registries/statuses.mjs';
+import { statusKind } from '@civgraph/core/election-domain.mjs';
 import { canMarkApplied } from '../../scripts/intake/contributions.mjs';
 
 const registry = loadRegistry('statuses');
@@ -158,7 +158,7 @@ test('RG-06 enums: each is exactly the values its file writes', () => {
 });
 
 test('statuses: the machines run on the shared helper and refuse unlisted moves', { skip: helperMissing }, async () => {
-  const { statusMachines, canMarkContributionApplied } = await import('../../packages/registries/src/status-machines.mjs');
+  const { statusMachines, canMarkContributionApplied } = await import('@civgraph/registries/status-machines.mjs');
   const machines = statusMachines(registry);
   for (const [name, entry] of Object.entries(registry.machines)) {
     const machine = machines[name];

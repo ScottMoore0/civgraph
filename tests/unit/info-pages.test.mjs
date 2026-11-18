@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import { INFO_PAGES, INFO_PAGES_LIVE, draftBanner, draftHead, fillLastUpdated, footerLinks, footerMeta, hasLastUpdatedPlaceholder } from '../../packages/ui/src/templates/info-pages.js';
-import { footer } from '../../packages/ui/src/templates/shell.js';
-import { toHtmlString } from '../../packages/core/src/html.js';
+import { INFO_PAGES, INFO_PAGES_LIVE, draftBanner, draftHead, fillLastUpdated, footerLinks, footerMeta, hasLastUpdatedPlaceholder } from '@civgraph/ui/templates/info-pages.js';
+import { footer } from '@civgraph/ui/templates/shell.js';
+import { toHtmlString } from '@civgraph/core/html.js';
 import { TOP_LEVEL_PAGES } from '../../scripts/build/build-sitemap.mjs';
 
 // The information pages (Privacy, Licence, How to cite, Downloads) are drafts until the owner

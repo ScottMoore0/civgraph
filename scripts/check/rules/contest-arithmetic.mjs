@@ -67,7 +67,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { isWinnersOnlyRecord } from '../../../packages/core/src/unopposed.mjs';
+import { isWinnersOnlyRecord } from '@civgraph/core/unopposed.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 export const ALLOWLIST = path.join(ROOT, 'data', 'elections', 'corrections', 'contest-arithmetic-allowlist.json');
@@ -495,7 +495,7 @@ const round2 = (/** @type {number} */ n) => Math.round(n * 100) / 100;
 
 /**
  * Every contest in a records database, with its candidates and their count stages.
- * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @returns {Contest[]}
  */
 export function loadContests(db) {
@@ -580,7 +580,7 @@ export function loadAllowlist(file = ALLOWLIST) {
 
 /**
  * The audit over a database: every finding, tagged allowlisted or not.
- * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  */
 export function auditContests(db, { allowlist = loadAllowlist(), body = /** @type {string|null} */ (null) } = {}) {
   const rows = [];
@@ -614,9 +614,9 @@ async function main() {
     // Fast loop while fixing: the election bundles the manifest build wrote
     // (CIVGRAPH_BUILD_DIR=tmp/records node scripts/build/build-test2-election-manifest.mjs),
     // ingested into an in-memory database exactly as the records build does.
-    const { recordPaths } = await import('../../../packages/config/src/node.mjs');
-    const { createDatabase } = await import('../../../packages/loader/src/db.mjs');
-    const { ingestElections } = await import('../../../packages/loader/src/ingest-elections.mjs');
+    const { recordPaths } = await import('@civgraph/config/node');
+    const { createDatabase } = await import('@civgraph/loader/db.mjs');
+    const { ingestElections } = await import('@civgraph/loader/ingest-elections.mjs');
     const P = recordPaths(process.env);
     if (!existsSync(P.ELECTION_MANIFEST)) {
       console.log(`SKIP contest-arithmetic: no election manifest at ${path.relative(ROOT, P.ELECTION_MANIFEST)}`);
@@ -625,13 +625,13 @@ async function main() {
     db = createDatabase(':memory:');
     ingestElections(db, { bundleDir: P.ELECTION_BUNDLE_DIR, manifestFile: P.ELECTION_MANIFEST, summaryDir: P.ELECTION_SUMMARY_DIR });
   } else {
-    const { loadConfig } = await import('../../../packages/config/src/node.mjs');
+    const { loadConfig } = await import('@civgraph/config/node');
     const dbPath = path.resolve(ROOT, opt('--db') || loadConfig(process.env).recordsDb || '');
     if (!existsSync(dbPath)) {
       console.log(`SKIP contest-arithmetic: no records database at ${path.relative(ROOT, dbPath)} (run npm run records:build, or pass --db)`);
       return 0;
     }
-    const { openSqliteHandle } = await import('../../../packages/storage/src/sqlite.mjs');
+    const { openSqliteHandle } = await import('@civgraph/storage/node');
     db = openSqliteHandle(dbPath, { readOnly: true });
   }
   const { contestsChecked, contestsByGroup, rows } = auditContests(db, { body: opt('--body') });

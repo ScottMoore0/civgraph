@@ -17,13 +17,13 @@
  * `copied -> serving-new` needs a verify that both keys hold the same object, and
  * `serving-new -> old-retired` needs the owner's recorded approval.
  */
-import { defineMachine } from '../../packages/core/src/state-machine.mjs';
-import { layerIdForm } from '../../packages/core/src/layer-renames.mjs';
+import { defineMachine } from '@civgraph/core/state-machine.mjs';
+import { layerIdForm } from '@civgraph/core/layer-renames.mjs';
 import { assertTransition, checkTransition, defineGuards } from './transition-check.mjs';
 
 /** @typedef {'old-key' | 'copy-planned' | 'copied' | 'serving-new' | 'old-retired' | 'error'} KeyState */
 
-export const keyMigration = defineMachine(/** @type {import('../../packages/core/src/state-machine.mjs').MachineSpec<KeyState>} */ ({
+export const keyMigration = defineMachine(/** @type {import('@civgraph/core/state-machine.mjs').MachineSpec<KeyState>} */ ({
   name: 'R2 key migration',
   initial: 'old-key',
   transitions: {

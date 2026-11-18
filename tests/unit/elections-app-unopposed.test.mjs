@@ -16,7 +16,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { contestPollStatus, POLL_STATUS_TEXT, summaryPollStatus } from '../../packages/core/src/unopposed.mjs';
+import { contestPollStatus, POLL_STATUS_TEXT, summaryPollStatus } from '@civgraph/core/unopposed.mjs';
 import { countSheet } from '../../site/apps/elections/lib/count.js';
 import { areaRows } from '../../site/apps/elections/lib/scales.js';
 

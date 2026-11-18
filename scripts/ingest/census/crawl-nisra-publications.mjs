@@ -15,8 +15,8 @@
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { crawlHeaders } from '../../../packages/config/src/node.mjs';
-import { CrawlRefused, isRefusal, looksLikeChallenge } from '../../../packages/intake/src/crawl-guard.mjs';
+import { crawlHeaders } from '@civgraph/config/node';
+import { CrawlRefused, isRefusal, looksLikeChallenge } from '@civgraph/intake/crawl-guard.mjs';
 
 export { CrawlRefused, looksLikeChallenge };
 

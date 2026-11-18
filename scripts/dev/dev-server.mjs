@@ -28,7 +28,7 @@
 import http from 'node:http';
 import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
-import { SITE as SITE_CONFIG } from '../../packages/config/src/node.mjs';
+import { SITE as SITE_CONFIG } from '@civgraph/config/node';
 import { sourceOf } from '../build/site.mjs';
 
 const args = process.argv.slice(2);

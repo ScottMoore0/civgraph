@@ -40,7 +40,7 @@
  */
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { crawlHeaders } from '../../packages/config/src/node.mjs';
+import { crawlHeaders } from '@civgraph/config/node';
 
 /**
  * One source's snapshot as the ledger holds it: the date it was taken and its counts.
@@ -86,11 +86,11 @@ const log = (msg) => console.log(msg);
 
 // The crawl databases open through the storage adapter, loaded only when one is read (the engine
 // prints an ExperimentalWarning on some Node versions; it is harmless here).
-/** @type {typeof import('../../packages/storage/src/sqlite.mjs').openSqliteHandle | null} */
+/** @type {typeof import('@civgraph/storage/node').openSqliteHandle | null} */
 let openHandle = null;
-/** @returns {Promise<typeof import('../../packages/storage/src/sqlite.mjs').openSqliteHandle>} */
+/** @returns {Promise<typeof import('@civgraph/storage/node').openSqliteHandle>} */
 async function sqlite() {
-  if (!openHandle) ({ openSqliteHandle: openHandle } = await import('../../packages/storage/src/sqlite.mjs'));
+  if (!openHandle) ({ openSqliteHandle: openHandle } = await import('@civgraph/storage/node'));
   return openHandle;
 }
 

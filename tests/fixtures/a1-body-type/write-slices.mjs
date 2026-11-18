@@ -5,7 +5,7 @@
  */
 import { writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { browserSlices, sliceModuleText } from '../../../packages/registries/src/browser/build.mjs';
+import { browserSlices, sliceModuleText } from '@civgraph/registries/browser/build.mjs';
 
 const out = String(process.argv[2]);
 for (const [file, slice] of Object.entries(browserSlices())) {

@@ -4,13 +4,13 @@
  * label and search words, the map app's election type and history group, and the Elections app's
  * home group. Prints one JSON object.
  */
-import { loadRegistry } from '../../../packages/registries/src/index.mjs';
-import { electionBody, partyChartOf } from '../../../packages/registries/src/election-bodies.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { electionBody, partyChartOf } from '@civgraph/registries/election-bodies.mjs';
 import { canonicalElectionTitle, isElectionByElectionScope } from '../../../scripts/lib/election-names.mjs';
-import { bodyShort, groupOfBody, BODY_GROUPS } from '../../../packages/map/src/catalogue/view-elections.js';
-import { electionAliases } from '../../../packages/map/src/catalogue/search.js';
-import { electionTypeFromEntityKey } from '../../../packages/map/src/app/helpers.mjs';
-import { bodyGroupOf } from '../../../packages/map/src/entity-detail-data.mjs';
+import { bodyShort, groupOfBody, BODY_GROUPS } from '@civgraph/map/catalogue/view-elections.js';
+import { electionAliases } from '@civgraph/map/catalogue/search.js';
+import { electionTypeFromEntityKey } from '@civgraph/map/src/app/helpers.mjs';
+import { bodyGroupOf } from '@civgraph/map/entity-detail-data.mjs';
 import { bodyGroup } from '../../../site/apps/elections/views/home.js';
 
 const id = String(process.argv[2]);

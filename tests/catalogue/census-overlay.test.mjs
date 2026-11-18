@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import {
   classIndexFor, fillColorExpression, joinRows, LICENCES, licenceFor, NO_DATA_FILL,
   overlayClasses, parseCsv, statisticFor
-} from '../../packages/map/src/census-overlay.mjs';
+} from '@civgraph/map/census-overlay.mjs';
 
 const entries = JSON.parse(readFileSync(new URL('../../data/database/data-entries.json', import.meta.url), 'utf8')).dataEntries;
 const byId = (id) => entries.find((e) => e.id === id);

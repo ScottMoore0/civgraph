@@ -32,7 +32,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildVar } from '../../../packages/config/src/node.mjs';
+import { buildVar } from '@civgraph/config/node';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 const EXCEPTIONS = path.join(ROOT, 'data', 'elections', 'persons', 'lifespan-exceptions.json');
@@ -74,7 +74,7 @@ export function isBefore18(date, born) {
 
 /**
  * Every finding over a records database.
- * @param {import('../../../packages/storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {{ exceptions?: Array<{ personId: string | number, kind: string, date?: string }> }} [options]
  * @returns {Array<{ kind: string, personId: string, name: string, born: string, died: string, date: string, what: string, detail: string }>}
  */
@@ -171,7 +171,7 @@ async function main() {
     console.log(`SKIP person-activity-after-death: no records database at ${path.relative(ROOT, dbPath)} (run npm run records:build, or pass --db)`);
     return 0;
   }
-  const { openSqliteHandle } = await import('../../../packages/storage/src/sqlite.mjs');
+  const { openSqliteHandle } = await import('@civgraph/storage/node');
   const db = openSqliteHandle(dbPath, { readOnly: true });
   const exceptions = existsSync(EXCEPTIONS) ? JSON.parse(readFileSync(EXCEPTIONS, 'utf8')).exceptions || [] : [];
   const problems = findLifespanProblems(db, { exceptions });

@@ -4,10 +4,10 @@
  * Reads only the browse_persons record (the JSON the Browse app renders from), so this page
  * and the client show the same facts. Everything is in the HTML; nothing needs JavaScript.
  */
-import { html } from '../../../../core/src/html.js';
-import { dateText, numberText, percentText, slugify, yearSpan } from '../../../../core/src/format.js';
+import { html } from '@civgraph/core/html.js';
+import { dateText, numberText, percentText, slugify, yearSpan } from '@civgraph/core/format.js';
 import { badges, citations, dataTable, facts, link, notice } from '../components/index.js';
-import { candidateReturnWithoutPoll } from '../../../../core/src/unopposed.mjs';
+import { candidateReturnWithoutPoll } from '@civgraph/core/unopposed.mjs';
 import { citationItem } from './election.js';
 
 /**
@@ -153,7 +153,7 @@ function contestSourcesHtml(record) {
 /**
  * @param {PersonRecord} record  a browse_persons record
  * @param {{ canonical?: string }} [options]
- * @returns {{ body: import('../../../../core/src/html.js').SafeHtml, jsonLd: object }}
+ * @returns {{ body: import('@civgraph/core/html.js').SafeHtml, jsonLd: object }}
  */
 export function personBody(record, { canonical } = {}) {
   const name = record.name || record.title || record.slug;

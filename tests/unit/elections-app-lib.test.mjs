@@ -127,7 +127,7 @@ test('overview: party change rows and contest slugs by name', () => {
 
 const RECORDS = 'tmp/records/civgraph-records.sqlite';
 test('count sheet over real contests of the records build', { skip: existsSync(RECORDS) ? false : 'no records build' }, async () => {
-  const { answerRecordApi } = await import('../../packages/loader/src/local-api.mjs');
+  const { answerRecordApi } = await import('@civgraph/loader/local-api.mjs');
   const kindOf = async (key, contest) => {
     const res = /** @type {Response} */ (await answerRecordApi(`/_api/elections?key=${key}&contest=${contest}`));
     const j = await res.json();

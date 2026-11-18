@@ -13,12 +13,12 @@ import {
   ledgerEntries, ledgerType, personNumber, publishedGraphFromRows, readGraphLedger, readPersonNameRedirects, retiredSlugPairs,
 } from '../../scripts/lib/graph-id-ledger.mjs';
 import { makeEntityId } from '../../scripts/lib/graph-entity-id.mjs';
-import { RETIRED_CONTEST_SLUGS, resolveElectionSlugAlias } from '../../packages/core/src/election-slug-aliases.js';
-import { openSqlite } from '../../packages/storage/src/sqlite.mjs';
-import { toD1 } from '../../packages/storage/src/store.js';
+import { RETIRED_CONTEST_SLUGS, resolveElectionSlugAlias } from '@civgraph/core/election-slug-aliases.js';
+import { openSqlite } from '@civgraph/storage/node';
+import { toD1 } from '@civgraph/storage/store.js';
 import { context, installCaches } from '../records/d1-shim.mjs';
-import { resetDatasetMemo } from '../../packages/api/src/handlers/_records.js';
-import * as graphApi from '../../packages/api/src/handlers/graph/index.js';
+import { resetDatasetMemo } from '@civgraph/api/handlers/_records.js';
+import * as graphApi from '@civgraph/api/handlers/graph/index.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const REL = path.relative(ROOT, GRAPH_LEDGER_FILE).split(path.sep).join('/');

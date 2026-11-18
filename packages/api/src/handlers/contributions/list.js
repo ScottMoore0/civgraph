@@ -1,7 +1,7 @@
 import { jsonResponse, jsonNotAllowed, requireAdmin } from '../_auth.js';
 import { methodGuard } from '../_method.js';
 import { INITIAL_STATUS } from '../../contribution-status.js';
-import { blobStore } from '../../../../storage/src/blob-bindings.js';
+import { blobStore } from '@civgraph/storage/blob-bindings.js';
 
 /**
  * List queued contributions. Administrators only.

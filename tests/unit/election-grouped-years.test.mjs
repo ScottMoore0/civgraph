@@ -17,7 +17,7 @@ import {
   inTimelineSeries,
   keptGroupedYearView,
   listedElections
-} from '../../packages/map/src/election/grouped-years.mjs';
+} from '@civgraph/map/election/grouped-years.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const espree = createRequire(import.meta.url)('espree');

@@ -96,7 +96,7 @@ test('CountingTarget counts as a browser does: remove, abort and a pre-aborted s
 test('the printed-labels toggle listens once however often it starts, and stops on dispose', async () => {
   const document = fakeDocument();
   await withGlobals({ document, localStorage: undefined }, async () => {
-    const { disposePrintedLabels, initPrintedLabels } = await import('../../packages/map/src/printed-labels.mjs');
+    const { disposePrintedLabels, initPrintedLabels } = await import('@civgraph/map/printed-labels.mjs');
     initPrintedLabels();
     initPrintedLabels(); // the map app and an election view both call it
     assert.equal(document.count, 1);
@@ -125,7 +125,7 @@ test("the catalogue split's document listeners and observer go with dispose()", 
   });
   document.querySelectorAll = () => [element()];
   await withGlobals({ document, window, MutationObserver, requestAnimationFrame: () => 0, localStorage: undefined }, async () => {
-    const { installSplit } = await import('../../packages/map/src/catalogue/split.js');
+    const { installSplit } = await import('@civgraph/map/catalogue/split.js');
     const split = installSplit({ isMobile: true }, { host: element(), splitDrag: element() });
     assert.equal(document.count, 3, 'mouseup and touchend for a drag, mouseup for the keyboard value');
     assert.equal(media.count, 1);
@@ -141,7 +141,7 @@ test("the map app's theme listener (site chrome) goes with the app's lifecycle s
   const document = fakeDocument();
   document.querySelector = (selector) => (selector === '.app-header[data-site-chrome]' ? {} : null);
   await withGlobals({ document }, async () => {
-    const { SiteChromeMethods } = await import('../../packages/map/src/app/site-chrome.js');
+    const { SiteChromeMethods } = await import('@civgraph/map/src/app/site-chrome.js');
     let synced = 0;
     const app = { lifecycle: new AbortController(), syncBasemapToTheme: async () => { synced += 1; } };
     SiteChromeMethods.prototype.setupThemeToggle.call(app);

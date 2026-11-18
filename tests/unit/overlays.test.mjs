@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { RASTER_OVERLAYS, REMOVED_OVERLAY_IDS, overlayConfig } from '../../packages/map/src/renderer/overlays.mjs';
+import { RASTER_OVERLAYS, REMOVED_OVERLAY_IDS, overlayConfig } from '@civgraph/map/renderer/overlays.mjs';
 
 // The CARTO Voyager Labels and MERIT-Basins overlays were removed on 11 Nov 2026 (owner, batch 4).
 

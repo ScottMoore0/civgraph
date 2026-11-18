@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { divisor, highestAverages, largestRemainder, plurality } from '../../packages/core/src/apportionment.mjs';
+import { divisor, highestAverages, largestRemainder, plurality } from '@civgraph/core/apportionment.mjs';
 
 const lists = (/** @type {Record<string, number>} */ votes) => Object.entries(votes).map(([id, v]) => ({ id, votes: v }));
 const obj = (/** @type {Map<string, number>} */ m) => Object.fromEntries([...m].sort());

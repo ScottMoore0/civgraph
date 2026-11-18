@@ -12,8 +12,8 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { relative, resolve } from 'node:path';
-import { mergeArtefactRecords, assertKnownFlags } from '../../packages/maps-pipeline/src/safe-artefact-write.mjs';
-import { SITE } from '../../packages/config/src/node.mjs';
+import { mergeArtefactRecords, assertKnownFlags } from '@civgraph/maps-pipeline/safe-artefact-write.mjs';
+import { SITE } from '@civgraph/config/node';
 
 const ROOT = resolve(process.cwd());
 const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');

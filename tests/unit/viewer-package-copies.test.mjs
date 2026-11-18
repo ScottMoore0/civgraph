@@ -13,7 +13,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { escapeHtml } from '../../packages/core/src/html.js';
+import { escapeHtml } from '@civgraph/core/html.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const VIEWER = 'site/app/election-viewer-package/js';

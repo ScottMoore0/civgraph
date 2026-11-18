@@ -9,8 +9,8 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { createFlag, createState } from '../../packages/map/src/state-helpers.mjs';
-import { HASH_LISTEN, NAVIGATION_PUSH, createHashListen, createNavigationPush } from '../../packages/map/src/app/url-sync.mjs';
+import { createFlag, createState } from '@civgraph/map/state-helpers.mjs';
+import { HASH_LISTEN, NAVIGATION_PUSH, createHashListen, createNavigationPush } from '@civgraph/map/src/app/url-sync.mjs';
 import { mapAppSourceFiles } from '../../scripts/lib/map-app-source.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -84,7 +84,7 @@ test('MA-02: the sources use the push and listen machines, not the old fields', 
 });
 
 test('MA-04 entity page: the table, the fields it writes, and the manager writing only through it', async () => {
-  const { ENTITY_PAGE, PANEL_VIEWS, entityPageFields } = await import('../../packages/map/src/election/panel-model.mjs');
+  const { ENTITY_PAGE, PANEL_VIEWS, entityPageFields } = await import('@civgraph/map/election/panel-model.mjs');
   assert.deepEqual(ENTITY_PAGE.transitions, { closed: ['closed', 'open'], open: ['open', 'closed'] });
   assertTableEnforced(ENTITY_PAGE);
   assert.ok(PANEL_VIEWS.includes('results') && PANEL_VIEWS.includes('counts'));
@@ -99,7 +99,7 @@ test('MA-04 entity page: the table, the fields it writes, and the manager writin
 });
 
 test('MA-05 NI grouped view: the table, active as a view of it, and the view moving only through it', async () => {
-  const { NI_LOCAL_VIEW, niLocalViewActive } = await import('../../packages/map/src/election/ni-local-state.mjs');
+  const { NI_LOCAL_VIEW, niLocalViewActive } = await import('@civgraph/map/election/ni-local-state.mjs');
   assert.deepEqual(NI_LOCAL_VIEW.transitions, {
     inactive: ['opening', 'inactive', 'active'],
     opening: ['opening', 'active', 'inactive'],
@@ -118,7 +118,7 @@ test('MA-05 NI grouped view: the table, active as a view of it, and the view mov
 });
 
 test('MA-07 to MA-10: the catalogue pane machines and choices', async () => {
-  const m = await import('../../packages/map/src/ui-state-machines.mjs');
+  const m = await import('@civgraph/map/ui-state-machines.mjs');
   assert.deepEqual([...m.SPLIT_LAYOUT.values].sort(), ['balanced', 'info-75', 'info-full', 'map-75', 'map-full']);
   assert.equal(m.SPLIT_LAYOUT.initial, 'balanced');
   assert.deepEqual(m.SPLIT_ALLOWED.mobile, ['map-full', 'info-full']);
@@ -133,7 +133,7 @@ test('MA-07 to MA-10: the catalogue pane machines and choices', async () => {
 });
 
 test('MA-07 to MA-10: the sources write the pane state only through them', async () => {
-  const { CATALOGUE_HISTORY_ENTRY, SPLIT_ALLOWED } = await import('../../packages/map/src/ui-state-machines.mjs');
+  const { CATALOGUE_HISTORY_ENTRY, SPLIT_ALLOWED } = await import('@civgraph/map/ui-state-machines.mjs');
   const ui = read('packages/map/src/ui-controller.js');
   // The desktop order is the order splitStates lists the layouts in.
   const listed = [...ui.matchAll(/\{ id: '([a-z0-9-]+)', label: '[^']+'(?:, mobileLabel: '[^']+')? \}/g)].map((x) => x[1]);
@@ -152,7 +152,7 @@ test('MA-07 to MA-10: the sources write the pane state only through them', async
 });
 
 test('MA-11 direct gesture: the table, and directGestureActive a view of it', async () => {
-  const { DIRECT_GESTURE } = await import('../../packages/map/src/renderer/gesture-state.mjs');
+  const { DIRECT_GESTURE } = await import('@civgraph/map/renderer/gesture-state.mjs');
   const all = ['idle', 'pan', 'pinch', 'wheel'];
   assert.deepEqual(DIRECT_GESTURE.transitions, { idle: all, pan: all, pinch: all, wheel: all });
   assertTableEnforced(DIRECT_GESTURE);
@@ -164,7 +164,7 @@ test('MA-11 direct gesture: the table, and directGestureActive a view of it', as
 });
 
 test('MA-12 point-cloud tile: the table, and every write through moveNode', async () => {
-  const { POINT_CLOUD_NODE, moveNode } = await import('../../packages/map/src/renderer/point-cloud-node-state.mjs');
+  const { POINT_CLOUD_NODE, moveNode } = await import('@civgraph/map/renderer/point-cloud-node-state.mjs');
   assert.deepEqual(POINT_CLOUD_NODE.transitions, { unloaded: ['queued'], queued: ['loading', 'unloaded'], loading: ['loaded', 'unloaded'], loaded: ['unloaded'] });
   assertTableEnforced(POINT_CLOUD_NODE);
   const node = { state: 'unloaded' };
@@ -179,7 +179,7 @@ test('MA-12 point-cloud tile: the table, and every write through moveNode', asyn
 });
 
 test('MA-13 /maps tab and route kinds', async () => {
-  const { CATALOGUE_TAB, ROUTE_KINDS, routeKind } = await import('../../packages/map/src/catalogue/route-state.mjs');
+  const { CATALOGUE_TAB, ROUTE_KINDS, routeKind } = await import('@civgraph/map/catalogue/route-state.mjs');
   assert.deepEqual([...CATALOGUE_TAB.values], ['maps', 'elections', 'books']);
   for (const tab of Object.values(ROUTE_KINDS)) assert.ok(CATALOGUE_TAB.has(tab));
   assert.equal(routeKind('series/os-6inch/os-1'), 'series');
@@ -193,7 +193,7 @@ test('MA-13 /maps tab and route kinds', async () => {
 });
 
 test('MA-14 service worker registration, and the legacy sweep standalone', async () => {
-  const { SW_REGISTRATION } = await import('../../packages/map/src/app/service-worker-state.mjs');
+  const { SW_REGISTRATION } = await import('@civgraph/map/src/app/service-worker-state.mjs');
   assert.deepEqual(SW_REGISTRATION.transitions, { idle: ['unavailable', 'registering'], registering: ['ready', 'failed'], ready: [], failed: [], unavailable: [] });
   assertTableEnforced(SW_REGISTRATION);
   // The sweep is served on its own by the retired-service-worker spec: it must import nothing.
@@ -203,7 +203,7 @@ test('MA-14 service worker registration, and the legacy sweep standalone', async
 });
 
 test('MA-L: latches, flags and hold counts', async () => {
-  const { createHoldCount, createLatch, defineFlagFields } = await import('../../packages/map/src/state-helpers.mjs');
+  const { createHoldCount, createLatch, defineFlagFields } = await import('@civgraph/map/state-helpers.mjs');
   const latch = createLatch('installed');
   latch.set(false);
   latch.set(true);

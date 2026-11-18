@@ -6,11 +6,11 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT, loadRegistry } from '../../packages/registries/src/index.mjs';
-import { checkElectionBodies } from '../../packages/registries/src/election-bodies.mjs';
-import { alsoListedUnder } from '../../packages/registries/src/browser/body-groups.mjs';
-import { alsoListedUnderBody } from '../../packages/registries/src/browser/election-group-lists.mjs';
-import { BODY_GROUPS, shelvesOf } from '../../packages/map/src/catalogue/view-elections.js';
+import { REPO_ROOT, loadRegistry } from '@civgraph/registries/index.mjs';
+import { checkElectionBodies } from '@civgraph/registries/election-bodies.mjs';
+import { alsoListedUnder } from '@civgraph/registries/browser/body-groups.mjs';
+import { alsoListedUnderBody } from '@civgraph/registries/browser/election-group-lists.mjs';
+import { BODY_GROUPS, shelvesOf } from '@civgraph/map/catalogue/view-elections.js';
 import { alsoListedSources, bodyListing, bodySummaries } from '../../site/apps/elections/lib/body-list.js';
 
 const registry = loadRegistry('election-bodies');
@@ -47,7 +47,7 @@ test('alsoListedUnder: the keys listed under any of the bodies, once each', () =
 test('the catalogue lists the 1918 election on the Dáil and Westminster shelves, the rest on their own', () => {
   assert.deepEqual(BODY_GROUPS.find((g) => g.id === 'westminster')?.also, [KEY_1918]);
   /** @param {string} key @param {string} bodySlug @param {string} date */
-  const row = (key, bodySlug, date) => /** @type {import('../../packages/map/src/catalogue/catalogue-types.d.ts').CatalogueRowElection} */ (/** @type {unknown} */ ({ key, bodySlug, date, title: key }));
+  const row = (key, bodySlug, date) => /** @type {import('@civgraph/map/catalogue/catalogue-types.d.ts').CatalogueRowElection} */ (/** @type {unknown} */ ({ key, bodySlug, date, title: key }));
   const list = [
     row('house-of-commons-of-the-united-kingdom__1922-11-15', COMMONS, '1922-11-15'),
     row('dail-eireann__1921-05-24', 'dail-eireann', '1921-05-24'),

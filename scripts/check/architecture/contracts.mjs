@@ -90,7 +90,7 @@ export const C9 = {
   /** @param {Context} ctx @returns {Promise<Finding[]>} */
   async run(ctx) {
     const cfg = /** @type {{ include: string[], exclude?: string[], clientCalls: string[], ignoreRoutes: Record<string, string>, modifiers: Record<string, string[]> }} */ (ctx.config.C9);
-    const contracts = /** @type {Record<string, Contract>} */ (ctx.options.contracts || (await import('../../../packages/api/src/v1/contracts/v1.js')).CONTRACTS);
+    const contracts = /** @type {Record<string, Contract>} */ (ctx.options.contracts || (await import('@civgraph/api/v1/contracts/v1.js')).CONTRACTS);
     const routes = Object.keys(contracts);
     const ignored = Object.keys(cfg.ignoreRoutes || {}).filter((k) => k !== '//');
     const modifiersOf = (/** @type {string} */ route) => [...(cfg.modifiers['*'] || []), ...(cfg.modifiers[route] || [])];

@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import test from 'node:test';
-import { frozenClockEnv, offlineEnv, pythonIsolatedArgs, spawnArgv } from '../../packages/intake/src/plugins.mjs';
+import { frozenClockEnv, offlineEnv, pythonIsolatedArgs, spawnArgv } from '@civgraph/intake/plugins.mjs';
 import { tempDir, writeFile } from './helpers.mjs';
 
 const hasPython = spawnSync('python', ['--version']).status === 0;

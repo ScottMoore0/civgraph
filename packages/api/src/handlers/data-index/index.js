@@ -33,7 +33,7 @@
 import { jsonResponse, jsonNotAllowed } from '../_auth.js';
 import { listLevel, normalisePrefix, parseLimit, publicUrl } from '../_r2-listing.js';
 import { PUBLIC_PREFIXES, isListablePrefix, isPublicPrefix } from '../_public-prefixes.js';
-import { blobStore } from '../../../../storage/src/blob-bindings.js';
+import { blobStore } from '@civgraph/storage/blob-bindings.js';
 
 const CACHE = 'public, max-age=300, stale-while-revalidate=600';
 

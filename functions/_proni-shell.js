@@ -11,11 +11,11 @@
  * 404 (the app still loads and says so); one that cannot be looked up (no binding, a failed
  * query) answers 200 with the generic head, so an outage never turns real records into 404s.
  */
-import { binding, SITE } from '../packages/config/src/config.js';
-import { fromD1 } from '../packages/storage/src/d1.js';
-import { PRONI } from '../packages/api/src/queries/proni.js';
-import { withShareTags } from '../packages/ui/src/templates/share.js';
-import { reportError } from '../packages/api/src/handlers/_error.js';
+import { binding, SITE } from '@civgraph/config';
+import { fromD1 } from '@civgraph/storage/d1.js';
+import { PRONI } from '@civgraph/api/queries/proni.js';
+import { withShareTags } from '@civgraph/ui/templates/share.js';
+import { reportError } from '@civgraph/api/handlers/_error.js';
 
 // Bump when apps/proni-search/index.html changes in a way the edge copy must not outlive.
 const SHELL_VERSION = 'v19';

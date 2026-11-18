@@ -1,7 +1,7 @@
 // Stand-ins for the Cloudflare R2 and KV bindings, answering as the real ones do (sorted keys,
 // delimited and paged listings) and recording every call, for the blob store's tests
 // (tests/functions/blob-store.test.mjs) and the handlers' tests.
-import { listPage } from '../../packages/storage/src/blob.js';
+import { listPage } from '@civgraph/storage/blob.js';
 
 /** An R2 bucket stand-in over a Map, listing as R2 does (sorted, delimited, paged); records every call. */
 export function fakeR2() {

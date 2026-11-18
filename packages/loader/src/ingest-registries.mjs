@@ -26,7 +26,7 @@ import { REPO_ROOT } from './paths.mjs';
  * A party alias: a bare string, or the object form (`string`; older files have `name`).
  * @typedef {string | { string?: string, name?: string, corrupted?: boolean, from?: string, until?: string, bodies?: string[] }} PartyAlias
  */
-/** @typedef {Omit<import('../../types/index.js').PartiesRegistryTypes.Entity, 'aliases'> & { aliases?: PartyAlias[] }} RegistryParty */
+/** @typedef {Omit<import('@civgraph/types').PartiesRegistryTypes.Entity, 'aliases'> & { aliases?: PartyAlias[] }} RegistryParty */
 /**
  * An event of data/elections/parties/party-lineage.json, as the loader reads it.
  * @typedef {{ party?: string, date?: string, kind?: string, related?: unknown, into?: unknown, from?: unknown, [key: string]: unknown }} LineageEvent
@@ -85,7 +85,7 @@ export function readPersonMerges(root = REPO_ROOT) {
 }
 
 /**
- * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {{ root?: string }} [options]
  */
 export function ingestRegistries(db, { root = REPO_ROOT } = {}) {

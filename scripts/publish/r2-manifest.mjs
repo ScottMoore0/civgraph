@@ -16,10 +16,10 @@
 
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, relative, resolve } from 'node:path';
-import { assertKnownFlags, mergeArtefactRecords } from '../../packages/maps-pipeline/src/safe-artefact-write.mjs';
+import { assertKnownFlags, mergeArtefactRecords } from '@civgraph/maps-pipeline/safe-artefact-write.mjs';
 import { pmtilesTargetSuffix } from './pmtiles-keys.mjs';
 import { contentRangeTotal } from './layer-lifecycle.mjs';
-import { SITE } from '../../packages/config/src/node.mjs';
+import { SITE } from '@civgraph/config/node';
 
 assertKnownFlags([]);
 
@@ -52,7 +52,7 @@ assertKnownFlags([]);
  * switch-pmtiles-to-cdn.mjs.
  * @typedef {PmtilesAsset | MvtDirectoryAsset} CdnUploadAsset
  */
-/** @typedef {import('../../packages/types/index.js').LayerEntry & import('./pmtiles-keys.mjs').PmtilesLayer} ManifestLayer */
+/** @typedef {import('@civgraph/types').LayerEntry & import('./pmtiles-keys.mjs').PmtilesLayer} ManifestLayer */
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');

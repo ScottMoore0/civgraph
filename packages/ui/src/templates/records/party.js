@@ -3,8 +3,8 @@
  * details/parties/<slug>.json item, now a D1 row): summary, names it was printed as, and the
  * elections it contested.
  */
-import { html } from '../../../../core/src/html.js';
-import { dateText, numberText, yearSpan } from '../../../../core/src/format.js';
+import { html } from '@civgraph/core/html.js';
+import { dateText, numberText, yearSpan } from '@civgraph/core/format.js';
 import { dataTable, facts, link, partyChip } from '../components/index.js';
 
 /**

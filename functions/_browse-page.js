@@ -43,21 +43,21 @@
  * That happens only when CIVGRAPH_SSR_RECORDS names the type, or for ?ssr=1 when
  * CIVGRAPH_SSR_PREVIEW is set; with neither, this file behaves exactly as before.
  */
-import { reportError } from '../packages/api/src/handlers/_error.js';
-import { browseMapRecord } from '../packages/api/src/handlers/_maps.js';
-import { dateText, listText, numberText, slugify } from '../packages/core/src/format.js';
-import { datasetVersion, htmlResponse } from '../packages/api/src/respond.js';
-import { renderRecordPage, ssrMode } from '../packages/ui/src/templates/records/index.js';
-import { withShareTags } from '../packages/ui/src/templates/share.js';
-import { loadElectionPage, loadPersonContestSources } from '../packages/api/src/pages/election.js';
-import { groupedYearHero, groupedYearKey } from '../packages/ui/src/templates/records/grouped-year.js';
-import { PAGE_TYPES } from '../packages/ui/src/page-types.mjs';
-import { notAPartyLabels } from '../packages/core/src/party-names.mjs';
-import { resolveElectionSlugAlias } from '../packages/core/src/election-slug-aliases.js';
-import { SITE, binding } from '../packages/config/src/config.js';
-import { asStore } from '../packages/storage/src/d1.js';
-import { CARDS } from '../packages/api/src/queries/cards.js';
-import { ELECTION_PAGES, RECORD_PAGES } from '../packages/api/src/queries/pages.js';
+import { reportError } from '@civgraph/api/handlers/_error.js';
+import { browseMapRecord } from '@civgraph/api/handlers/_maps.js';
+import { dateText, listText, numberText, slugify } from '@civgraph/core/format.js';
+import { datasetVersion, htmlResponse } from '@civgraph/api/respond.js';
+import { renderRecordPage, ssrMode } from '@civgraph/ui/templates/records/index.js';
+import { withShareTags } from '@civgraph/ui/templates/share.js';
+import { loadElectionPage, loadPersonContestSources } from '@civgraph/api/pages/election.js';
+import { groupedYearHero, groupedYearKey } from '@civgraph/ui/templates/records/grouped-year.js';
+import { PAGE_TYPES } from '@civgraph/ui/page-types.mjs';
+import { notAPartyLabels } from '@civgraph/core/party-names.mjs';
+import { resolveElectionSlugAlias } from '@civgraph/core/election-slug-aliases.js';
+import { SITE, binding } from '@civgraph/config';
+import { asStore } from '@civgraph/storage/d1.js';
+import { CARDS } from '@civgraph/api/queries/cards.js';
+import { ELECTION_PAGES, RECORD_PAGES } from '@civgraph/api/queries/pages.js';
 
 // Retired election and contest slugs (packages/core/src/election-slug-aliases.js): lookupElection
 // finds the record under its new slug and the handler's slug check answers 301.
@@ -73,11 +73,11 @@ const NOT_A_PARTY = notAPartyLabels('candidacies');
 
 /**
  * @typedef {CivgraphEnv} Env
- * @typedef {import('../packages/storage/src/store.js').RecordStore} RecordStore
- * @typedef {import('../packages/ui/src/templates/records/person.js').PersonRecord} PersonRecord
- * @typedef {import('../packages/ui/src/templates/records/grouped-year.js').YearCard} YearCard
- * @typedef {import('../packages/ui/src/templates/records/grouped-year.js').YearFile} YearFile
- * @typedef {import('../packages/ui/src/templates/records/grouped-year.js').YearCoverage} YearCoverage
+ * @typedef {import('@civgraph/storage/store.js').RecordStore} RecordStore
+ * @typedef {import('@civgraph/ui/templates/records/person.js').PersonRecord} PersonRecord
+ * @typedef {import('@civgraph/ui/templates/records/grouped-year.js').YearCard} YearCard
+ * @typedef {import('@civgraph/ui/templates/records/grouped-year.js').YearFile} YearFile
+ * @typedef {import('@civgraph/ui/templates/records/grouped-year.js').YearCoverage} YearCoverage
  *
  * @typedef {object} RecordHeadFields  what recordMeta reads from a record of any type
  * @property {string} [title]

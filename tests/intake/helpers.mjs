@@ -1,8 +1,11 @@
 // Fixtures for the intake tests: a throwaway repository and batch folder under the OS temp
 // directory, so nothing here reads or writes the real tree, R2 or the network.
-import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, symlinkSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 export function tempDir(label) {
   return mkdtempSync(path.join(os.tmpdir(), `intake-test-${label}-`));
@@ -13,6 +16,23 @@ export function writeFile(root, rel, content) {
   mkdirSync(path.dirname(full), { recursive: true });
   writeFileSync(full, typeof content === 'string' ? content : `${JSON.stringify(content, null, 2)}\n`);
   return full;
+}
+
+/**
+ * Let the code copied into a throwaway repository import its packages by name (packages/README.md):
+ * each packages/<name> it holds gets the real package.json (for its exports) and a link
+ * node_modules/@civgraph/<name> to it, as npm's workspace links would.
+ * @param {string} repo
+ */
+export function linkWorkspace(repo) {
+  const base = path.join(repo, 'packages');
+  if (!existsSync(base)) return;
+  mkdirSync(path.join(repo, 'node_modules', '@civgraph'), { recursive: true });
+  for (const name of readdirSync(base)) {
+    const manifest = path.join(base, name, 'package.json');
+    if (!existsSync(manifest)) copyFileSync(path.join(REPO, 'packages', name, 'package.json'), manifest);
+    symlinkSync(path.join(base, name), path.join(repo, 'node_modules', '@civgraph', name), process.platform === 'win32' ? 'junction' : 'dir');
+  }
 }
 
 /** A repository with a two-entry maps.json, a corrections file and the R2 allowlist. */

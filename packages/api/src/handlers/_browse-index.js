@@ -22,13 +22,13 @@
  */
 import { reportError } from './_error.js';
 import { cachedJson } from './_records.js';
-import { binding } from '../../../config/src/config.js';
-import { fromD1 } from '../../../storage/src/d1.js';
+import { binding } from '@civgraph/config';
+import { fromD1 } from '@civgraph/storage/d1.js';
 import { CARDS } from '../queries/cards.js';
-import { foldSearchText } from '../../../core/src/format.js';
+import { foldSearchText } from '@civgraph/core/format.js';
 
 /** @typedef {import('../types.js').ApiContext} ApiContext */
-/** @typedef {import('../../../storage/src/store.js').RecordStore} RecordStore */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore} RecordStore */
 /** @typedef {{ record: string, slug?: string }} CardRow a row of an index table: its record JSON (the record column, or `card AS record`) and slug */
 /** @typedef {Record<string, unknown>} BrowseRecord one record of an index, parsed */
 /**

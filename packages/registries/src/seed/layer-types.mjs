@@ -19,9 +19,9 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { REPO_ROOT } from '../index.mjs';
 
-/** @typedef {import('../../../types/index.js').LayerTypesRegistry} LayerTypesRegistry */
+/** @typedef {import('@civgraph/types').LayerTypesRegistry} LayerTypesRegistry */
 /** @typedef {LayerTypesRegistry['types'][string]} LayerType */
-/** @typedef {import('../../../types/index.js').LayerEntry} LayerEntry */
+/** @typedef {import('@civgraph/types').LayerEntry} LayerEntry */
 
 const OUT = 'data/registries/layer-types.json';
 const CONTROLLER = 'packages/map/src/renderer/map-controller.js';

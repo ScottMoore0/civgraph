@@ -8,20 +8,20 @@
  * answers are concatenations of stored text with no parse: a whole document is its head keys
  * in their stored order with the list spliced in at its own place.
  */
-import { API_URLS, indexDocument, indexEntry } from '../../../core/src/layer-index.js';
-import { PANE_CONTESTS_DOCUMENT, PANE_CORE_DOCUMENT } from '../../../core/src/catalogue-pane.mjs';
+import { API_URLS, indexDocument, indexEntry } from '@civgraph/core/layer-index.js';
+import { PANE_CONTESTS_DOCUMENT, PANE_CORE_DOCUMENT } from '@civgraph/core/catalogue-pane.mjs';
 import { parseJson } from './_records.js';
-import { asStore } from '../../../storage/src/d1.js';
+import { asStore } from '@civgraph/storage/d1.js';
 import { LAYERS, MAPS, MAP_CARDS } from '../queries/maps.js';
 
-/** @typedef {import('../../../storage/src/store.js').RecordStore | D1Database} StoreOrBinding a store or a D1 binding (asStore) */
-/** @typedef {import('../../../storage/src/store.js').RecordStore} RecordStore */
-/** @typedef {import('../../../types/index.js').RecordsDb.CataloguePartsRow} CataloguePartsRow the head rows of catalogue_parts and layer_parts have the same shape */
-/** @typedef {import('../../../types/index.js').RecordsDb.MapsRow} MapsRow */
-/** @typedef {import('../../../types/index.js').RecordsDb.LayersRow} LayersRow */
-/** @typedef {import('../../../types/index.js').RecordsDb.MapCardsRow} MapCardsRow */
-/** @typedef {import('../../../types/index.js').RecordsDb.FeatureGroupsRow} FeatureGroupsRow */
-/** @typedef {import('../../../types/index.js').RecordsDb.DocumentPartsRow} DocumentPartsRow */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore | D1Database} StoreOrBinding a store or a D1 binding (asStore) */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore} RecordStore */
+/** @typedef {import('@civgraph/types').RecordsDb.CataloguePartsRow} CataloguePartsRow the head rows of catalogue_parts and layer_parts have the same shape */
+/** @typedef {import('@civgraph/types').RecordsDb.MapsRow} MapsRow */
+/** @typedef {import('@civgraph/types').RecordsDb.LayersRow} LayersRow */
+/** @typedef {import('@civgraph/types').RecordsDb.MapCardsRow} MapCardsRow */
+/** @typedef {import('@civgraph/types').RecordsDb.FeatureGroupsRow} FeatureGroupsRow */
+/** @typedef {import('@civgraph/types').RecordsDb.DocumentPartsRow} DocumentPartsRow */
 /**
  * One top-level key of a stored document, in order: its JSON text, or null for the list's place.
  * @typedef {{ key: string, ord: number, value: string | null }} HeadPart

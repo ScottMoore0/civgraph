@@ -10,12 +10,12 @@
  */
 import { cachedJson, documentBody, isMarker, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
-import { binding } from '../../../../config/src/config.js';
-import { asStore } from '../../../../storage/src/d1.js';
+import { binding } from '@civgraph/config';
+import { asStore } from '@civgraph/storage/d1.js';
 import { VOTES } from '../../queries/votes.js';
 
-/** @typedef {import('../../../../storage/src/store.js').RecordStore} RecordStore */
-/** @typedef {import('../../../../types/index.js').ApiV1.VotesShardAnswer} VotesShardAnswer */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore} RecordStore */
+/** @typedef {import('@civgraph/types').ApiV1.VotesShardAnswer} VotesShardAnswer */
 
 const VERSION = 'votes-1';
 
@@ -38,7 +38,7 @@ function fillVotes(recordText, votes) {
 }
 
 /**
- * @param {import('../../../../storage/src/store.js').RecordStore | D1Database} source a store or a D1 binding
+ * @param {import('@civgraph/storage/store.js').RecordStore | D1Database} source a store or a D1 binding
  * @param {number} shard
  * @returns {Promise<VotesShardAnswer | null>}
  */

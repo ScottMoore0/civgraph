@@ -7,7 +7,7 @@
  *
  * `index` and `out` name the legacy files; the records loader ignores them.
  */
-import { foldSearchText } from '../../core/src/format.js';
+import { foldSearchText } from '@civgraph/core/format.js';
 
 /**
  * A source's licence: a string, or `{status, note}` while it is still to be confirmed

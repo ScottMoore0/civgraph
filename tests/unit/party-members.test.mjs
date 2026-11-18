@@ -2,7 +2,7 @@
 // page decodes to the same fields it reads from a whole Browse card.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { MEMBER_COLUMNS, decodeMembers, memberEncoder } from '../../packages/core/src/party-members.mjs';
+import { MEMBER_COLUMNS, decodeMembers, memberEncoder } from '@civgraph/core/party-members.mjs';
 
 const card = {
   id: '100486',

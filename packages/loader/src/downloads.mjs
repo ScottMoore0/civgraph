@@ -16,8 +16,8 @@ import { createHash } from 'node:crypto';
 import { createReadStream, existsSync, mkdirSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pipeline } from 'node:stream/promises';
-import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
-import { SITE } from '../../config/src/node.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
+import { SITE } from '@civgraph/config/node';
 import { RECORDS_DB, recordPaths, REPO_ROOT } from './paths.mjs';
 import { EXPORT_FORMATS, ExportFailed } from './export-formats.mjs';
 

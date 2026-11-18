@@ -2,7 +2,7 @@
 // contests, 2002-2025), each winner joined to the Houses of the Oireachtas member list of that
 // Seanad; the general elections of 1938-1997 and the by-elections, winners only, from the member
 // lists (winners_only.py), with Wikipedia's by-election list and counts.
-import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'seanad',

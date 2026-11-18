@@ -22,7 +22,7 @@
  *   node scripts/build/words-parties.mjs --meta <...> --check
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { notAPartyLabels } from '../../packages/core/src/party-names.mjs';
+import { notAPartyLabels } from '@civgraph/core/party-names.mjs';
 
 const args = process.argv.slice(2);
 const opt = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };

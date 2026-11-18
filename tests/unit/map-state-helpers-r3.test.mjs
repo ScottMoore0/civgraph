@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
-import { present, setHidden } from '../../packages/map/src/state-helpers.mjs';
+import { present, setHidden } from '@civgraph/map/state-helpers.mjs';
 
 test('setHidden sets the hidden property from a boolean and returns it', () => {
   const node = { hidden: false };

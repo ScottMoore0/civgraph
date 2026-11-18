@@ -48,9 +48,9 @@
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { toHtmlString } from '../../packages/core/src/html.js';
-import { footer, head, header, supportModal } from '../../packages/ui/src/templates/shell.js';
-import { INFO_PAGES, INFO_PAGES_LIVE, draftBanner, draftHead, fillLastUpdated, hasLastUpdatedPlaceholder } from '../../packages/ui/src/templates/info-pages.js';
+import { toHtmlString } from '@civgraph/core/html.js';
+import { footer, head, header, supportModal } from '@civgraph/ui/templates/shell.js';
+import { INFO_PAGES, INFO_PAGES_LIVE, draftBanner, draftHead, fillLastUpdated, hasLastUpdatedPlaceholder } from '@civgraph/ui/templates/info-pages.js';
 import { sourceOf } from './site.mjs';
 
 const CHECK = process.argv.includes('--check');

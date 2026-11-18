@@ -32,12 +32,12 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
-import { BROWSE_DIR, ELECTION_BUNDLE_DIR } from '../../packages/loader/src/paths.mjs';
+import { BROWSE_DIR, ELECTION_BUNDLE_DIR } from '@civgraph/loader/paths.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';
 import { isPartyInternalBody } from '../lib/election-names.mjs';
-import { loadRegistry } from '../../packages/registries/src/index.mjs';
-import { partyCharts } from '../../packages/registries/src/election-bodies.mjs';
-import { firstGroup } from '../../packages/registries/src/browser/body-groups.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { partyCharts } from '@civgraph/registries/election-bodies.mjs';
+import { firstGroup } from '@civgraph/registries/browser/body-groups.mjs';
 
 const ROOT = process.cwd();
 const BROWSE = BROWSE_DIR;

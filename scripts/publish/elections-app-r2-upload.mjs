@@ -32,7 +32,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SITE } from '../../packages/config/src/node.mjs';
+import { SITE } from '@civgraph/config/node';
 import { R2_PREFIX, SOURCES } from '../../site/apps/elections/config.js';
 import { MANIFEST as VENDOR_MANIFEST, checkVendor, sha256 } from '../build/elections-app/vendor.mjs';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
@@ -105,7 +105,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   // 3. Send, skipping objects already there with the same content.
   const { r2CredentialsOrExit, s3ClientOptions } = await import('./r2-env.mjs');
   const R2 = r2CredentialsOrExit();
-  const { openS3BlobStore } = await import('../../packages/storage/src/s3.mjs');
+  const { openS3BlobStore } = await import('@civgraph/storage/s3.mjs');
   const store = await openS3BlobStore({ bucket: R2.bucket, clientOptions: s3ClientOptions(R2, { maxAttempts: 5 }) });
   let sent = 0;
   let skipped = 0;

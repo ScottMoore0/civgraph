@@ -27,7 +27,7 @@ const INDEX = 'render/metadata/maps-test-index.json';
 const OUT = 'site/assets/i18n/place-name-fields.json';
 const REVIEW = 'data/i18n/review/place-name-fields.tsv';
 
-/** @typedef {import('../../packages/types/index.js').LayerEntry} LayerEntry */
+/** @typedef {import('@civgraph/types').LayerEntry} LayerEntry */
 
 /** @type {Record<string, string[]>} label property -> Irish properties to try, in order. */
 const PAIRS = {

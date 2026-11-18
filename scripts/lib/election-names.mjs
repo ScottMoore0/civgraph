@@ -1,10 +1,10 @@
-import { loadRegistry } from '../../packages/registries/src/index.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
 import {
   councilNameOn, councilsById, eraTitles, plainTitleBodies, pre1973CouncilBodyNames
-} from '../../packages/registries/src/councils.mjs';
-import { byElectionTitleOf, electionBody, generalElectionTitleOf, isGeneralElectionDate } from '../../packages/registries/src/election-bodies.mjs';
+} from '@civgraph/registries/councils.mjs';
+import { byElectionTitleOf, electionBody, generalElectionTitleOf, isGeneralElectionDate } from '@civgraph/registries/election-bodies.mjs';
 
-/** @typedef {import('../../packages/registries/src/election-bodies.mjs').ElectionBody} ElectionBody */
+/** @typedef {import('@civgraph/registries/election-bodies.mjs').ElectionBody} ElectionBody */
 
 // The bodies data/registries/election-bodies.json describes: a body's title and whether its
 // elections can be by-elections come from there, by slug or by the body's name.

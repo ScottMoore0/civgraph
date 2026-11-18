@@ -5,13 +5,13 @@
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
+import { loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
 import {
   allTenures, councilForInstitution, councilsForInstitution, institutionsById, officesOfInstitution, tenuresOfOffice
-} from '../../packages/registries/src/offices.mjs';
-import { partiesById } from '../../packages/registries/src/parties.mjs';
+} from '@civgraph/registries/offices.mjs';
+import { partiesById } from '@civgraph/registries/parties.mjs';
 import { loadFactsModel, schemaErrors } from '../../scripts/lib/facts-model.mjs';
-import { REPO_ROOT } from '../../packages/registries/src/index.mjs';
+import { REPO_ROOT } from '@civgraph/registries/index.mjs';
 
 const registry = loadRegistry('offices');
 const clone = () => structuredClone(registry);

@@ -27,7 +27,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ELECTION_SLUG_ALIASES, RETIRED_CONTEST_SLUGS, resolveElectionSlugAlias } from '../../packages/core/src/election-slug-aliases.js';
+import { ELECTION_SLUG_ALIASES, RETIRED_CONTEST_SLUGS, resolveElectionSlugAlias } from '@civgraph/core/election-slug-aliases.js';
 import { makeEntityId, slugify } from './graph-entity-id.mjs';
 import { resolvePersonId } from './person-address-ledger.mjs';
 

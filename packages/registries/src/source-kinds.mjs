@@ -4,7 +4,7 @@
  * contest's Sources panel shows. Pure.
  */
 
-/** @typedef {import('../../types/index.js').SourceKindsRegistry} SourceKindsRegistry */
+/** @typedef {import('@civgraph/types').SourceKindsRegistry} SourceKindsRegistry */
 
 /**
  * Checks a schema cannot state: an id given twice.

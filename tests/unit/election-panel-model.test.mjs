@@ -15,7 +15,7 @@ import {
   restoredPanelView,
   selectedResultKey,
   stylingModeFor
-} from '../../packages/map/src/election/panel-model.mjs';
+} from '@civgraph/map/election/panel-model.mjs';
 
 test('the colouring mode an election opens in', () => {
   assert.equal(DEFAULT_MODE_ORDER[0], 'winner');

@@ -14,8 +14,8 @@
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { publishedText, readProvenance } from '../../packages/loader/src/election-provenance.mjs';
-import { recordPaths, rel } from '../../packages/loader/src/paths.mjs';
+import { publishedText, readProvenance } from '@civgraph/loader/election-provenance.mjs';
+import { recordPaths, rel } from '@civgraph/loader/paths.mjs';
 
 const args = process.argv.slice(2);
 const option = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
@@ -28,7 +28,7 @@ const P = recordPaths();
 const where = { file: path.resolve(option('--file') ?? P.PROVENANCE_FILE), partDir: path.resolve(option('--part-dir') ?? P.PROVENANCE_PART_DIR) };
 
 const singleText = readFileSync(single, 'utf8').replace(/\r\n/g, '\n');
-/** @type {import('../../packages/loader/src/election-provenance.mjs').ProvenanceDocument} */
+/** @type {import('@civgraph/loader/election-provenance.mjs').ProvenanceDocument} */
 const before = JSON.parse(singleText);
 if (!Array.isArray(before.contests)) {
   console.error(`${single} is not a single provenance file (it has no contests array)`);

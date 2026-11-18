@@ -10,7 +10,7 @@
  *   node scripts/publish/r2-upload-files.mjs <file>=<r2/key> [<file>=<r2/key> ...] [--dry-run]
  */
 import { existsSync, statSync } from 'fs';
-import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { openS3BlobStore } from '@civgraph/storage/s3.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 import { putLocalFile } from './r2-put-file.mjs';
 

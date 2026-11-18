@@ -10,11 +10,11 @@ import { graphEntityAliases, readGraphLedger, readPersonNameRedirects } from '..
 import { personKeepOf } from '../../lib/person-address-ledger.mjs';
 import { wikidataUrl } from '../../lib/wikidata-persons.mjs';
 import { buildTimestamp } from '../../lib/build-timestamp.mjs';
-import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, PROVENANCE_FILE, localPathForUrl } from '../../../packages/loader/src/paths.mjs';
-import { readProvenance } from '../../../packages/loader/src/election-provenance.mjs';
-import { notAPartyLabels } from '../../../packages/core/src/party-names.mjs';
-import { idBase } from '../../../packages/core/src/graph-iri.js';
-import { SITE } from '../../../packages/config/src/node.mjs';
+import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, PROVENANCE_FILE, localPathForUrl } from '@civgraph/loader/paths.mjs';
+import { readProvenance } from '@civgraph/loader/election-provenance.mjs';
+import { notAPartyLabels } from '@civgraph/core/party-names.mjs';
+import { idBase } from '@civgraph/core/graph-iri.js';
+import { SITE } from '@civgraph/config/node';
 
 // Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
 // "No label" (nothing printed or inferred) and a person record's "Unknown" (the parties

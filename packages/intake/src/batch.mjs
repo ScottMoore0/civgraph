@@ -28,16 +28,16 @@ export function phaseOf(op) {
 /**
  * A parsed batch.json. Its shape is scripts/intake/batch.schema.json, checked at run time by
  * validateBatch.
- * @typedef {import('../../types/index.js').IntakeManifest} Manifest
+ * @typedef {import('@civgraph/types').IntakeManifest} Manifest
  */
 /**
  * One operation of batch.json; which fields it has depends on its `type` (see the schema).
- * @typedef {import('../../types/index.js').IntakeOperation} Operation
+ * @typedef {import('@civgraph/types').IntakeOperation} Operation
  */
 /**
  * An operation of the named type(s).
  * @template {Operation['type']} T
- * @typedef {import('../../types/index.js').IntakeOperationOf<T>} OperationOf
+ * @typedef {import('@civgraph/types').IntakeOperationOf<T>} OperationOf
  */
 /** @typedef {{ dir: string, manifestPath: string, repo: string, manifest: Manifest }} Batch */
 /** @typedef {{ local: string, rel: string | null, repoRel: string | null }} TreeEntry */

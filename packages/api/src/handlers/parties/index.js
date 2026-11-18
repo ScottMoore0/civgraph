@@ -13,8 +13,8 @@
  */
 import { cachedJson, documentBody, jsonResponse, parseJson } from '../_records.js';
 import { reportError } from '../_error.js';
-import { binding } from '../../../../config/src/config.js';
-import { asStore } from '../../../../storage/src/d1.js';
+import { binding } from '@civgraph/config';
+import { asStore } from '@civgraph/storage/d1.js';
 import { PARTIES } from '../../queries/parties.js';
 import { partyMembers } from './members.js';
 
@@ -27,7 +27,7 @@ export async function onRequestGet(context) {
 
 /**
  * The live slug for a slug or a retired one, and whether it was retired.
- * @param {import('../../../../storage/src/store.js').RecordStore | D1Database} source a store or a D1 binding
+ * @param {import('@civgraph/storage/store.js').RecordStore | D1Database} source a store or a D1 binding
  * @param {string} slug
  * @returns {Promise<{ slug: string, redirect: string | null } | null>}
  */
@@ -44,7 +44,7 @@ async function handle(context) {
   const bound = binding(context.env, 'ELECTIONS_DB');
   // through the storage adapter (packages/storage/); the SQL is named in queries/parties.js
   // (cachedJson calls this only when the binding is there)
-  const db = /** @type {import('../../../../storage/src/store.js').RecordStore} */ (bound && asStore(bound));
+  const db = /** @type {import('@civgraph/storage/store.js').RecordStore} */ (bound && asStore(bound));
   const url = new URL(context.request.url);
   const slugParam = (url.searchParams.get('slug') || '').trim().toLowerCase();
   const view = (url.searchParams.get('view') || '').trim();

@@ -26,10 +26,10 @@
  * Pages serves a static file in preference to a Function: this answers only once the files are
  * no longer deployed (.gitignore, .cfignore and clean-for-pages.sh, stage G).
  */
-import { bundleChunks, cachedJson, datasetState, documentBody, parseJson, streamFrom } from '../../../packages/api/src/handlers/_records.js';
-import { binding } from '../../../packages/config/src/config.js';
-import { fromD1 } from '../../../packages/storage/src/d1.js';
-import { ELECTIONS_API } from '../../../packages/api/src/queries/elections.js';
+import { bundleChunks, cachedJson, datasetState, documentBody, parseJson, streamFrom } from '@civgraph/api/handlers/_records.js';
+import { binding } from '@civgraph/config';
+import { fromD1 } from '@civgraph/storage/d1.js';
+import { ELECTIONS_API } from '@civgraph/api/queries/elections.js';
 
 /**
  * @typedef {{ kind: 'manifest' } | { kind: 'bundle' | 'provenance', key: string } | { kind: 'summary', file: string }} MetadataRoute
@@ -105,7 +105,7 @@ export function matchRoute(parts) {
 }
 
 /**
- * @param {import('../../../packages/storage/src/store.js').RecordStore} db
+ * @param {import('@civgraph/storage/store.js').RecordStore} db
  * @param {MetadataRoute} route
  * @returns {Promise<Response>}
  */

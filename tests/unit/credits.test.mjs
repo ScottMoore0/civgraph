@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { combinedDerivedFromLines, creditLine, derivedFromLines, mergedDerivedFromLines } from '../../packages/core/src/credits.mjs';
+import { combinedDerivedFromLines, creditLine, derivedFromLines, mergedDerivedFromLines } from '@civgraph/core/credits.mjs';
 
 // A layer built for Civgraph from other people's maps credits its builder as provider and says what it
 // was derived from in sourceCredits; every place that shows the credit shows both (owner, 17 Nov 2026).

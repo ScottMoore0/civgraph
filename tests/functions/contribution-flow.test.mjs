@@ -17,10 +17,10 @@
  * because that is the property that matters -- "contributors cannot approve" is
  * only true if something has watched it fail.
  */
-import { onRequestPost as submitPost } from '../../packages/api/src/handlers/contributions/submit.js';
-import { onRequestGet as listGet } from '../../packages/api/src/handlers/contributions/list.js';
-import { onRequestPost as decidePost } from '../../packages/api/src/handlers/contributions/decide.js';
-import { safeReturnPath, DEFAULT_RETURN } from '../../packages/api/src/handlers/contributions/login.js';
+import { onRequestPost as submitPost } from '@civgraph/api/handlers/contributions/submit.js';
+import { onRequestGet as listGet } from '@civgraph/api/handlers/contributions/list.js';
+import { onRequestPost as decidePost } from '@civgraph/api/handlers/contributions/decide.js';
+import { safeReturnPath, DEFAULT_RETURN } from '@civgraph/api/handlers/contributions/login.js';
 
 const OWNER = 'owner@example.com';
 const CONTRIBUTOR = 'contributor@example.com';

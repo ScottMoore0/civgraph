@@ -8,12 +8,12 @@ import { readFileSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import test from 'node:test';
 import vm from 'node:vm';
-import { migrationFiles, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
-import { onRequestGet as electionsApi } from '../../packages/api/src/handlers/elections/index.js';
-import { loadElectionPage, loadPersonContestSources } from '../../packages/api/src/pages/election.js';
-import { electionBody } from '../../packages/ui/src/templates/records/election.js';
-import { personBody } from '../../packages/ui/src/templates/records/person.js';
-import { toHtmlString } from '../../packages/core/src/html.js';
+import { migrationFiles, TableWriter, transaction } from '@civgraph/loader/db.mjs';
+import { onRequestGet as electionsApi } from '@civgraph/api/handlers/elections/index.js';
+import { loadElectionPage, loadPersonContestSources } from '@civgraph/api/pages/election.js';
+import { electionBody } from '@civgraph/ui/templates/records/election.js';
+import { personBody } from '@civgraph/ui/templates/records/person.js';
+import { toHtmlString } from '@civgraph/core/html.js';
 
 const PREFIX = 'data/elections-source/data/elections/';
 const sqlite = new DatabaseSync(':memory:');

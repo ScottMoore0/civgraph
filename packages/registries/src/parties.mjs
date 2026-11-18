@@ -11,8 +11,8 @@
  * which is handed a reader.
  */
 
-/** @typedef {import('../../types/index.js').PartiesRegistry} PartiesRegistry */
-/** @typedef {import('../../types/index.js').PartiesRegistryTypes.Entity} PartyEntity */
+/** @typedef {import('@civgraph/types').PartiesRegistry} PartiesRegistry */
+/** @typedef {import('@civgraph/types').PartiesRegistryTypes.Entity} PartyEntity */
 /** @typedef {{ abbreviation: string, fullName: string }} PartyAbbreviation */
 
 /**

@@ -15,8 +15,8 @@
  */
 import { existsSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { recordPaths } from '../../packages/config/src/node.mjs';
-import { openSqlite } from '../../packages/storage/src/sqlite.mjs';
+import { recordPaths } from '@civgraph/config/node';
+import { openSqlite } from '@civgraph/storage/node';
 import { LEDGER_DESCRIPTION, LEDGER_FILE, growLedger, ledgerFailures, ledgerText, personKeepOf, publishedFromRows, readLedger } from '../lib/person-address-ledger.mjs';
 
 const args = process.argv.slice(2);
@@ -29,7 +29,7 @@ if (!existsSync(DB_FILE)) {
   process.exit(1);
 }
 const store = openSqlite(DB_FILE, { readOnly: true });
-/** @typedef {import('../../packages/storage/src/store.js').SqlValue} SqlValue */
+/** @typedef {import('@civgraph/storage/store.js').SqlValue} SqlValue */
 // each query's rows have exactly the columns it selects
 const cards = /** @type {{ id: SqlValue, slug: SqlValue }[]} */ (await store.all('SELECT id, slug FROM person_cards ORDER BY id'));
 const aliasRows = /** @type {{ alias: SqlValue, slug: SqlValue }[]} */ (await store.all('SELECT alias, slug FROM person_aliases ORDER BY alias'));

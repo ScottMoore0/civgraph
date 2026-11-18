@@ -12,7 +12,7 @@ import {
   parseLayerOrder,
   rowOrderToLoadedIds,
   serializeSavedLayerOrder
-} from '../../packages/map/src/app/layer-order.mjs';
+} from '@civgraph/map/src/app/layer-order.mjs';
 
 test('the storage key is unchanged', () => {
   assert.equal(LAYER_ORDER_STORAGE_KEY, 'civgraph:maplibre:layer-order');

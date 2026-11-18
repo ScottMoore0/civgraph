@@ -11,7 +11,7 @@ import {
   mapWithConcurrency,
   rememberLimitedCache,
   sharedLoad
-} from '../../packages/map/src/election/cache.mjs';
+} from '@civgraph/map/election/cache.mjs';
 
 test('limits and empty caches', () => {
   assert.deepEqual({ ...ELECTION_CACHE_LIMITS }, { bundles: 4, featureIndexes: 3, trendSummaries: 160, trendRenders: 40 });

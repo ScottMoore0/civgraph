@@ -9,10 +9,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { loadRegistry, REPO_ROOT } from '../../packages/registries/src/index.mjs';
-import { drawnLayerTypes } from '../../packages/registries/src/layers.mjs';
-import { RENDERERS, layerRenderer, renderedLayerKinds } from '../../packages/map/src/renderer/layer-kinds/index.mjs';
-import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates } from '../../packages/map/src/renderer/utils.js';
+import { loadRegistry, REPO_ROOT } from '@civgraph/registries/index.mjs';
+import { drawnLayerTypes } from '@civgraph/registries/layers.mjs';
+import { RENDERERS, layerRenderer, renderedLayerKinds } from '@civgraph/map/renderer/layer-kinds/index.mjs';
+import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates } from '@civgraph/map/renderer/utils.js';
 
 const registry = loadRegistry('layers');
 /** @type {any} */ (globalThis).location ??= { origin: 'https://civgraph.example' };
@@ -151,7 +151,7 @@ test('layer kinds: each type is drawn, made interactive and watched as before', 
   };
   assert.deepEqual(Object.keys(expected).sort(), renderedLayerKinds());
   for (const [type, want] of Object.entries(expected)) {
-    const renderer = /** @type {import('../../packages/map/src/renderer/layer-kinds/types.mjs').LayerRenderer} */ (layerRenderer(type));
+    const renderer = /** @type {import('@civgraph/map/renderer/layer-kinds/types.mjs').LayerRenderer} */ (layerRenderer(type));
     calls = [];
     assert.equal(Boolean(renderer.customLayer), type === 'point-cloud', `${type}: custom layer`);
     if (!renderer.customLayer) assert.deepEqual(/** @type {Function} */ (renderer.draw)(host, { id: type }, ids), want.overlays, `${type}: overlays`);
@@ -162,7 +162,7 @@ test('layer kinds: each type is drawn, made interactive and watched as before', 
 });
 
 test('layer kinds: the data registry refuses a published type without a renderer module', async () => {
-  const { registryErrors } = await import('../../packages/registries/src/index.mjs');
+  const { registryErrors } = await import('@civgraph/registries/index.mjs');
   const broken = structuredClone(registry);
   delete broken.types.raster.drawnBy;
   assert.ok(registryErrors('layers', broken).some((e) => e.includes('raster: a published type needs drawnBy')));

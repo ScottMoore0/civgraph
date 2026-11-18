@@ -7,13 +7,13 @@
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { personRecordKey, personRecordPath, personSlug } from '../../packages/core/src/format.js';
-import { toHtmlString } from '../../packages/core/src/html.js';
-import { electionBody } from '../../packages/ui/src/templates/records/election.js';
+import { personRecordKey, personRecordPath, personSlug } from '@civgraph/core/format.js';
+import { toHtmlString } from '@civgraph/core/html.js';
+import { electionBody } from '@civgraph/ui/templates/records/election.js';
 import { personUrl } from '../../site/apps/elections/lib/format.js';
 import { countSheet } from '../../site/apps/elections/lib/count.js';
-import { PeopleSearch } from '../../packages/map/src/catalogue/search.js';
-import { footer, header } from '../../packages/ui/src/templates/shell.js';
+import { PeopleSearch } from '@civgraph/map/catalogue/search.js';
+import { footer, header } from '@civgraph/ui/templates/shell.js';
 
 test('personSlug: the Browse build\'s rule, name and registry id', () => {
   assert.equal(personSlug('51102', 'Naomi Long'), 'naomi-long-51102');

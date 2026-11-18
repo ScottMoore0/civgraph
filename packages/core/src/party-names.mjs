@@ -8,9 +8,9 @@
  * data/elections-source/data/elections is listed against one abbreviation and one full name.
  * A party with no entry is shown as it is spelled in the data.
  */
-import parties from '../../registries/src/browser/parties.mjs';
+import parties from '@civgraph/registries/browser/parties.mjs';
 
-/** @typedef {import('../../types/index.js').Candidacy} Candidacy */
+/** @typedef {import('@civgraph/types').Candidacy} Candidacy */
 /** @typedef {{ abbreviation: string, fullName: string }} PartyInfo */
 
 // [abbreviation, full name, ...other spellings in the data]: the parties registry's abbreviations

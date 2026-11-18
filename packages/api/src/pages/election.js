@@ -4,16 +4,16 @@
  * reads D1 once per page; templates never query (PKG-1 moved it here from the template module).
  */
 import { parseJson, withoutMarkers } from '../handlers/_records.js';
-import { asStore } from '../../../storage/src/d1.js';
+import { asStore } from '@civgraph/storage/d1.js';
 import { ELECTION_PAGES } from '../queries/pages.js';
 import { ELECTIONS_API } from '../queries/elections.js';
 
 /**
  * The rows the ELECTION_PAGES queries return (their SELECT lists, over RecordsDb's tables).
- * @typedef {import('../../../types/index.js').RecordsDb.RElectionsRow} RElectionsRow
- * @typedef {import('../../../types/index.js').RecordsDb.ContestsRow} ContestsRow
- * @typedef {import('../../../types/index.js').RecordsDb.CandidaciesRow} CandidaciesRow
- * @typedef {import('../../../types/index.js').RecordsDb.CitationsRow} CitationsRow
+ * @typedef {import('@civgraph/types').RecordsDb.RElectionsRow} RElectionsRow
+ * @typedef {import('@civgraph/types').RecordsDb.ContestsRow} ContestsRow
+ * @typedef {import('@civgraph/types').RecordsDb.CandidaciesRow} CandidaciesRow
+ * @typedef {import('@civgraph/types').RecordsDb.CitationsRow} CitationsRow
  * @typedef {Pick<RElectionsRow, 'key' | 'slug' | 'body' | 'date' | 'kind' | 'meta'> & { title: RElectionsRow['display_title'], votingSystem: RElectionsRow['voting_system'] }} ElectionPageRow
  * @typedef {{ description?: string, [key: string]: unknown }} ElectionPageMeta  r_elections.meta, parsed
  * @typedef {Omit<ElectionPageRow, 'meta'> & { meta: ElectionPageMeta }} ElectionPageElection
@@ -29,7 +29,7 @@ import { ELECTIONS_API } from '../queries/elections.js';
 
 /**
  * Everything one election page needs, or null. `meta` is lookupElection's answer for the slug.
- * @param {import('../../../storage/src/store.js').RecordStore | D1Database} source
+ * @param {import('@civgraph/storage/store.js').RecordStore | D1Database} source
  * @param {{ slug: string, electionKey?: string | null, contestSeq?: number | null } | null | undefined} meta
  * @returns {Promise<ElectionPage | null>}
  */
@@ -60,7 +60,7 @@ export async function loadElectionPage(source, meta) {
 
 /**
  * The citations of every contest a person stood in (QA H5), for the person page's Sources.
- * @param {import('../../../storage/src/store.js').RecordStore | D1Database} source
+ * @param {import('@civgraph/storage/store.js').RecordStore | D1Database} source
  * @param {string | number | null | undefined} personId
  * @returns {Promise<Array<{ electionKey: string, seq: number, constituency: string, citations: ElectionPageCitation[] }>>}
  */

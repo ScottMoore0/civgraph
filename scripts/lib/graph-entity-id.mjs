@@ -5,7 +5,7 @@
  * contest slug had with the same function.
  */
 import crypto from 'node:crypto';
-import { slugify } from '../../packages/core/src/format.js';
+import { slugify } from '@civgraph/core/format.js';
 
 // The graph's slug of a text is the site's (accents dropped, lower case, runs of anything else one hyphen).
 export { slugify };

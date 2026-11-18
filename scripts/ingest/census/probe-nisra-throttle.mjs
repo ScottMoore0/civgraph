@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { crawlHeaders } from "../../../packages/config/src/node.mjs";
+import { crawlHeaders } from "@civgraph/config/node";
 
 /**
  * @template {string | number | null} F

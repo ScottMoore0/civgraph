@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import {
   ROI_STAGGERED_LOCAL_YEARS, isRoiStaggeredLocalYear, isRoiStaggeredRound, roiLocalYearKey, roiLocalYearTitle,
   groupRoiStaggeredRounds, buildRoiLocalYearEntry, replaceRoiStaggeredRoundsWithYears,
-} from '../../packages/core/src/roi-local-years.mjs';
+} from '@civgraph/core/roi-local-years.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 

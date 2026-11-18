@@ -39,12 +39,12 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { PROVENANCE_FILE, PROVENANCE_PART_DIR, PROVENANCE_SHARD_DIR, rel } from '../../packages/loader/src/paths.mjs';
+import { PROVENANCE_FILE, PROVENANCE_PART_DIR, PROVENANCE_SHARD_DIR, rel } from '@civgraph/loader/paths.mjs';
 import {
   budgetProblems, provenanceFiles, readProvenance, slimProvenance, writeProvenance,
-} from '../../packages/loader/src/election-provenance.mjs';
-import { loadRegistry } from '../../packages/registries/src/index.mjs';
-import { unregisteredSourceKinds } from '../../packages/registries/src/source-kinds.mjs';
+} from '@civgraph/loader/election-provenance.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { unregisteredSourceKinds } from '@civgraph/registries/source-kinds.mjs';
 
 const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
 const REVIEW = path.join('data', 'review-inputs', 'wikipedia-cited-sources', 'contest-sources.json');

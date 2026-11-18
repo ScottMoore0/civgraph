@@ -3,7 +3,7 @@
  * catalogue arranges, each with its section and, where the filters offer it, its filter label. Pure.
  */
 
-/** @typedef {import('../../types/index.js').CatalogueKindsRegistry} CatalogueKindsRegistry */
+/** @typedef {import('@civgraph/types').CatalogueKindsRegistry} CatalogueKindsRegistry */
 
 /**
  * Checks a schema cannot state: an id or a section given twice.

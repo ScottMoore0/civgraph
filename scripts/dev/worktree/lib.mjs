@@ -26,7 +26,7 @@ import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, rmdirSync, statSync, symlinkSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_PATHS, recordPaths, REPO_ROOT } from '../../../packages/config/src/node.mjs';
+import { REPO_PATHS, recordPaths, REPO_ROOT } from '@civgraph/config/node';
 import { artefactPath } from '../../lib/artefact-refs.mjs';
 
 /** @typedef {{ records?: string, repo?: string, file?: string }} ArtefactRef */

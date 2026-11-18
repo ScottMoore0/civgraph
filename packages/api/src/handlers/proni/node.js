@@ -9,12 +9,12 @@
  * cumulative '/'-prefixes of the reference (every one is a real record after the
  * container-title enrichment pass).
  */
-import { binding } from '../../../../config/src/config.js';
+import { binding } from '@civgraph/config';
 import { PRONI } from '../../queries/proni.js';
 import { proniReader } from './_read.js';
 
-/** @typedef {import('../../../../storage/src/store.js').Row} Row */
-/** @typedef {import('../../../../storage/src/store.js').RecordStore} RecordStore */
+/** @typedef {import('@civgraph/storage/store.js').Row} Row */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore} RecordStore */
 
 /** @param {string} ref */
 function ancestorRefs(ref) {

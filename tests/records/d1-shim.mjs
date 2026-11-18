@@ -9,11 +9,11 @@
  * underlying DatabaseSync, for tests that close it or read it directly.
  */
 import { DatabaseSync } from 'node:sqlite';
-import { toD1 } from '../../packages/storage/src/store.js';
-import { openSqlite } from '../../packages/storage/src/sqlite.mjs';
+import { toD1 } from '@civgraph/storage/store.js';
+import { openSqlite } from '@civgraph/storage/node';
 
 /**
- * @param {string | import('../../packages/storage/src/sqlite.mjs').SqliteHandle} file   a path, ':memory:', or an open handle to wrap (as openSqlite takes)
+ * @param {string | import('@civgraph/storage/node').SqliteHandle} file   a path, ':memory:', or an open handle to wrap (as openSqlite takes)
  * @param {{ readOnly?: boolean }} [options]
  */
 export function d1(file, { readOnly = true } = {}) {

@@ -93,7 +93,7 @@ export async function datasetState(store) {
   let version = '';
   let loading = '';
   try {
-    for (const r of /** @type {import('../../types/index.js').RecordsDb.DatasetRow[]} */ (/** @type {unknown} */ (await store.all("SELECT key, value FROM dataset WHERE key IN ('version', 'loading') ORDER BY key")))) {
+    for (const r of /** @type {import('@civgraph/types').RecordsDb.DatasetRow[]} */ (/** @type {unknown} */ (await store.all("SELECT key, value FROM dataset WHERE key IN ('version', 'loading') ORDER BY key")))) {
       if (r.key === 'version') version = r.value || '';
       if (r.key === 'loading') loading = r.value || '';
     }

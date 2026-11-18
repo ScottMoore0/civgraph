@@ -13,7 +13,7 @@ import {
   featureBoundsFromSpatial,
   sameFeature,
   validBbox,
-} from '../../packages/map/src/app/feature-bounds.mjs';
+} from '@civgraph/map/src/app/feature-bounds.mjs';
 
 const SPATIAL = JSON.parse(readFileSync('data/database/spatial-index/pc-2023.json', 'utf8'));
 const INDEX = JSON.parse(readFileSync('render/metadata/feature-indexes/pc-2023-vector.json', 'utf8'));

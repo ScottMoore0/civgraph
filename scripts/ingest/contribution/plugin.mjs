@@ -5,8 +5,8 @@
 // submission stays work by hand. Nothing here reads the queue, R2 or D1.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { planContribution } from '../../../packages/intake/src/contribution.mjs';
-import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
+import { planContribution } from '@civgraph/intake/contribution.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
 

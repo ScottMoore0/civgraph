@@ -17,8 +17,8 @@
  */
 import { existsSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { recordPaths } from '../../packages/config/src/node.mjs';
-import { openSqlite } from '../../packages/storage/src/sqlite.mjs';
+import { recordPaths } from '@civgraph/config/node';
+import { openSqlite } from '@civgraph/storage/node';
 import { GRAPH_LEDGER_DESCRIPTION, GRAPH_LEDGER_FILE, PUBLISHED_GRAPH_SQL, graphLedgerFailures, graphLedgerText, growGraphLedger, publishedGraphFromRows, readGraphLedger } from '../lib/graph-id-ledger.mjs';
 
 const args = process.argv.slice(2);
@@ -31,7 +31,7 @@ if (!existsSync(DB_FILE)) {
   process.exit(1);
 }
 const store = openSqlite(DB_FILE, { readOnly: true });
-/** @typedef {import('../../packages/storage/src/store.js').SqlValue} SqlValue */
+/** @typedef {import('@civgraph/storage/store.js').SqlValue} SqlValue */
 // each query's rows have exactly the columns it selects
 const published = publishedGraphFromRows(
   /** @type {{ entity_id: SqlValue, entity: SqlValue }[]} */ (await store.all(PUBLISHED_GRAPH_SQL.entities)),

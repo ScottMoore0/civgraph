@@ -6,7 +6,7 @@
  *
  * Falls back to reading static chunk files from the origin when KV is not configured.
  */
-import { blobStore } from '../../../storage/src/blob-bindings.js';
+import { blobStore } from '@civgraph/storage/blob-bindings.js';
 
 /** Most maps one batch request may name (the map search asks for up to 30). */
 export const MAX_BATCH_MAPS = 40;

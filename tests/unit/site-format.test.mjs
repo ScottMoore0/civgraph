@@ -10,11 +10,11 @@
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { MONTH_NAMES, numberText, siteDate, siteLocale, siteNumber } from '../../packages/core/src/format.js';
-import { SHORT_MONTHS } from '../../packages/core/src/date-format.mjs';
-import { formatElectionDate } from '../../packages/map/src/election-utils.js';
-import { formatNumber as censusNumber } from '../../packages/map/src/census-overlay.mjs';
-import { formatHectares } from '../../packages/map/src/app/timeline/dates.mjs';
+import { MONTH_NAMES, numberText, siteDate, siteLocale, siteNumber } from '@civgraph/core/format.js';
+import { SHORT_MONTHS } from '@civgraph/core/date-format.mjs';
+import { formatElectionDate } from '@civgraph/map/election-utils.js';
+import { formatNumber as censusNumber } from '@civgraph/map/census-overlay.mjs';
+import { formatHectares } from '@civgraph/map/src/app/timeline/dates.mjs';
 
 const OLD = 'en-GB';
 const NUMBERS = [0, 1, 7, 12, 999, 1000, 1234, 9999, 10000, 21912, 79894, 123456, 1234567, 37496, -1, -1234, -98765.4321,

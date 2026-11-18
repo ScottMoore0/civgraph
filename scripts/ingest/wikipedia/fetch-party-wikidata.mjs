@@ -33,7 +33,7 @@
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
-import { crawlHeaders } from '../../../packages/config/src/node.mjs';
+import { crawlHeaders } from '@civgraph/config/node';
 
 const ROOT = process.cwd();
 const OUT = 'data/elections/parties/party-wikidata.json';

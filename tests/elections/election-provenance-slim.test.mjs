@@ -9,8 +9,8 @@ import path from 'node:path';
 import {
   CONTEST_REQUIRED, INDEX_BUDGET_BYTES, PAGES_FILE_LIMIT, PART_BUDGET_BYTES, PUBLISHED_BUDGET_BYTES, SOURCE_REQUIRED,
   TOTAL_BUDGET_BYTES, partFileName, partOf, publishedText, readProvenance, slimProvenance,
-} from '../../packages/loader/src/election-provenance.mjs';
-import { PROVENANCE_FILE, PROVENANCE_PART_DIR } from '../../packages/loader/src/paths.mjs';
+} from '@civgraph/loader/election-provenance.mjs';
+import { PROVENANCE_FILE, PROVENANCE_PART_DIR } from '@civgraph/loader/paths.mjs';
 
 // Written by the records build (npm run records:build; tmp/records), no longer committed.
 const FILE = PROVENANCE_FILE;

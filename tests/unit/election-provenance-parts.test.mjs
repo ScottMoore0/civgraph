@@ -11,8 +11,8 @@ import { spawnSync } from 'node:child_process';
 import {
   PART_BUDGET_BYTES, UNDATED_PART, budgetProblems, joinProvenance, partFileName, partOf, provenanceFiles,
   provenanceText, publishedText, readProvenance, slimProvenance, splitProvenance, writeProvenance,
-} from '../../packages/loader/src/election-provenance.mjs';
-import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
+} from '@civgraph/loader/election-provenance.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
 
 /** A contest record as the build writes it (body/date/file.json). */
 const contest = (/** @type {string} */ body, /** @type {string} */ date, /** @type {string} */ name, extra = {}) => ({

@@ -1,6 +1,6 @@
 // Irish place names from the Placenames Database of Ireland (Logainm) API, for the Irish
 // place-name fields. The script stays in scripts/i18n/ beside the crosswalk it reads.
-import { definePlugin } from '../../../packages/intake/src/plugins.mjs';
+import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 export default definePlugin({
   id: 'logainm',

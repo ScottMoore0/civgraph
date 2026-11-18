@@ -12,9 +12,9 @@ import { basename, extname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { writeArtefactJson, allowDeletionsFlag } from '../safe-artefact-write.mjs';
 import { isValidBounds } from '../layer-bounds.mjs';
-import { SITE } from '../../../config/src/node.mjs';
-import { loadRegistry } from '../../../registries/src/index.mjs';
-import { typesWithBehaviour } from '../../../registries/src/layers.mjs';
+import { SITE } from '@civgraph/config/node';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { typesWithBehaviour } from '@civgraph/registries/layers.mjs';
 
 const ROOT = resolve(process.cwd());
 // Layers drawn from raster tiles or an image (the layer-types registry's rasterSource types).

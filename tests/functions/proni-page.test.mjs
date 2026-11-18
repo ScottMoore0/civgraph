@@ -5,12 +5,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT } from '../../packages/config/src/node.mjs';
+import { REPO_ROOT } from '@civgraph/config/node';
 import { d1, installCaches, context } from '../records/d1-shim.mjs';
-import { fillRecordView, refFromPath, serveRecordPage } from '../../packages/api/src/handlers/proni/page.js';
-import { loadNode } from '../../packages/api/src/handlers/proni/node.js';
-import { fromD1 } from '../../packages/storage/src/d1.js';
-import { recordHtml } from '../../packages/ui/src/templates/proni/record-view.js';
+import { fillRecordView, refFromPath, serveRecordPage } from '@civgraph/api/handlers/proni/page.js';
+import { loadNode } from '@civgraph/api/handlers/proni/node.js';
+import { fromD1 } from '@civgraph/storage/d1.js';
+import { recordHtml } from '@civgraph/ui/templates/proni/record-view.js';
 import { onRequestGet as proniPath } from '../../functions/proni/[[path]].js';
 import { catalogue } from './proni-fixture.mjs';
 

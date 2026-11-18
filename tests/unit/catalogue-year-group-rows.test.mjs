@@ -6,10 +6,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { REPO_ROOT } from '../../packages/registries/src/index.mjs';
-import { BODY_GROUPS, shelfRows, shelvesOf } from '../../packages/map/src/catalogue/view-elections.js';
+import { REPO_ROOT } from '@civgraph/registries/index.mjs';
+import { BODY_GROUPS, shelfRows, shelvesOf } from '@civgraph/map/catalogue/view-elections.js';
 
-/** @typedef {import('../../packages/map/src/catalogue/catalogue-types.d.ts').CatalogueRowElection} CatalogueRowElection */
+/** @typedef {import('@civgraph/map/catalogue/catalogue-types.d.ts').CatalogueRowElection} CatalogueRowElection */
 /** @param {string} key @param {string} date @returns {CatalogueRowElection} */
 const row = (key, date) => /** @type {CatalogueRowElection} */ (/** @type {unknown} */ ({ key, date, bodySlug: key.split('__')[0], title: key }));
 

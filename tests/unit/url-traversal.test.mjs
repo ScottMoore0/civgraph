@@ -5,7 +5,7 @@
 //   node --test tests/unit/url-traversal.test.mjs
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createTraversal } from '../../packages/map/src/app/url-sync.mjs';
+import { createTraversal } from '@civgraph/map/src/app/url-sync.mjs';
 
 const ELECTION = 'http://x/maps/#layers=election-a&electionBody=B&electionDate=2019-12-12';
 const STALE = 'http://x/maps/#lng=-8.05&lat=53.5&zoom=5.9&cat=elections';

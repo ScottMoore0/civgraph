@@ -19,7 +19,7 @@ import {
   provenanceUrl,
   reportElectionsApiIssue,
   useElectionsApi
-} from '../../packages/map/src/election/transport.mjs';
+} from '@civgraph/map/election/transport.mjs';
 
 const ENTRY = { key: 'westminster__2019-12-12', body: 'House of Commons', date: '2019-12-12', resultUrl: '/render/metadata/elections-test2/westminster__2019-12-12.json' };
 

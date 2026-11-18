@@ -91,7 +91,7 @@
  *   node scripts/publish/r2-cache-control.mjs --ext png --apply      # widen if wanted
  *   node scripts/publish/r2-cache-control.mjs --ext '*' --apply      # everything
  */
-import { openS3BlobStore } from '../../packages/storage/src/s3.mjs';
+import { openS3BlobStore } from '@civgraph/storage/s3.mjs';
 import { assertPublishable } from '../lib/r2-publication-gate.mjs';
 import { r2CredentialsOrExit, s3ClientOptions } from './r2-env.mjs';
 
@@ -158,13 +158,13 @@ console.log(`  value      : ${CACHE_CONTROL}`);
 console.log(`  extensions : ${EXTENSIONS ? [...EXTENSIONS].join(', ') : 'ALL'}\n`);
 
 /**
- * @param {import('../../packages/storage/src/blob.js').BlobEntry} obj
+ * @param {import('@civgraph/storage/blob.js').BlobEntry} obj
  */
 async function handle(obj) {
   let head;
   try {
     // Any failure, a 404 included, is this object's problem (missing: 'throw'), so head is never null.
-    head = /** @type {import('../../packages/storage/src/s3.mjs').S3Head} */ (await store.head(obj.key, { missing: 'throw' }));
+    head = /** @type {import('@civgraph/storage/s3.mjs').S3Head} */ (await store.head(obj.key, { missing: 'throw' }));
   } catch (error) {
     stats.failed += 1;
     problems.push(`${obj.key}: HEAD failed (${/** @type {Error} */ (error).name})`);

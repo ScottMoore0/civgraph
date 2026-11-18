@@ -6,9 +6,9 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { clientPortPlan, normalizeMetadata } from '../../packages/map/src/renderer/metadata-service.js';
+import { clientPortPlan, normalizeMetadata } from '@civgraph/map/renderer/metadata-service.js';
 import { clientPortPlanJson } from '../../scripts/build/build-test2-metadata-shards.mjs';
-import CLIENT_PORT_PLAN from '../../packages/map/src/renderer/port-plan-client.generated.json' with { type: 'json' };
+import CLIENT_PORT_PLAN from '@civgraph/map/renderer/port-plan-client.generated.json' with { type: 'json' };
 
 const read = (file) => JSON.parse(readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8'));
 const PLAN = read('render/metadata/main-site-port-plan.json');

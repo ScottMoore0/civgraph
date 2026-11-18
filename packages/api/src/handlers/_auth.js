@@ -1,4 +1,4 @@
-import { runtimeVar } from '../../../config/src/config.js';
+import { runtimeVar } from '@civgraph/config';
 
 /** @typedef {import('../types.js').ApiContext} ApiContext */
 /** @typedef {import('../types.js').ApiEnv} ApiEnv */

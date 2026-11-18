@@ -15,17 +15,17 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { TableWriter, bool, int, num, transaction, txt, withPlaceholders } from './db.mjs';
-import { PART_CHARS } from '../../schema/src/schema.mjs';
-import { slugify } from '../../core/src/format.js';
-import { normalizeName } from '../../core/src/election-domain.mjs';
+import { PART_CHARS } from '@civgraph/schema';
+import { slugify } from '@civgraph/core/format.js';
+import { normalizeName } from '@civgraph/core/election-domain.mjs';
 
 export { slugify };
 
-/** @typedef {import('../../types/index.js').Election} Election */
-/** @typedef {import('../../types/index.js').Contest} Contest */
-/** @typedef {import('../../types/index.js').Candidacy} Candidacy */
-/** @typedef {import('../../types/index.js').Count} Count */
-/** @typedef {import('../../types/index.js').ElectionManifestEntry} ElectionManifestEntry */
+/** @typedef {import('@civgraph/types').Election} Election */
+/** @typedef {import('@civgraph/types').Contest} Contest */
+/** @typedef {import('@civgraph/types').Candidacy} Candidacy */
+/** @typedef {import('@civgraph/types').Count} Count */
+/** @typedef {import('@civgraph/types').ElectionManifestEntry} ElectionManifestEntry */
 
 /**
  * @param {string} electionKey
@@ -93,7 +93,7 @@ export function countRowCandidacyOrds(candidates, countGroup) {
 }
 
 /**
- * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {{ bundleDir: string, manifestFile: string, summaryDir: string }} options
  */
 export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {

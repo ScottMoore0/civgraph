@@ -14,10 +14,10 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import { onRequestGet } from '../../functions/id/[[path]].js';
-import { entityIdFromIdPath, entityPagePath, idBase, ID_PATH, NON_RECORD_ID_KINDS } from '../../packages/core/src/graph-iri.js';
-import { SITE, loadConfig } from '../../packages/config/src/node.mjs';
-import { PAGE_TYPE_IDS } from '../../packages/ui/src/page-types.mjs';
-import { migrationFiles } from '../../packages/loader/src/db.mjs';
+import { entityIdFromIdPath, entityPagePath, idBase, ID_PATH, NON_RECORD_ID_KINDS } from '@civgraph/core/graph-iri.js';
+import { SITE, loadConfig } from '@civgraph/config/node';
+import { PAGE_TYPE_IDS } from '@civgraph/ui/page-types.mjs';
+import { migrationFiles } from '@civgraph/loader/db.mjs';
 import { d1 } from '../records/d1-shim.mjs';
 
 const BUILD_FILE = 'scripts/build/graph/build-semantic-graph.mjs';

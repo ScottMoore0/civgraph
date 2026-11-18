@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { cutNote } from '../../packages/core/src/text-cut.mjs';
+import { cutNote } from '@civgraph/core/text-cut.mjs';
 
 // The catalogue pane's map notes stopped mid-word at 300 characters (Phelim Birch's review, #5).
 

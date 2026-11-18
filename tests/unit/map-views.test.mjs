@@ -63,11 +63,11 @@ test('the views modules are pure: no DOM, no window, no document at all', () => 
 });
 
 test('the gallery draws the map components with the views renderers, from views/ only', async () => {
-  const route = await import('../../packages/ui/src/gallery/route.js');
+  const route = await import('@civgraph/ui/gallery/route.js');
   const source = readFileSync(path.join(ROOT, 'packages/ui/src/gallery/route.js'), 'utf8');
-  const mapImports = [...source.matchAll(/from '([^']*\/map\/[^']*)'/g)].map((m) => m[1]);
+  const mapImports = [...source.matchAll(/from '(@civgraph\/map\/[^']*|[^']*\/map\/[^']*)'/g)].map((m) => m[1]);
   assert.ok(mapImports.length > 0);
-  for (const spec of mapImports) assert.match(spec, /^\.\.\/\.\.\/\.\.\/map\/src\/views\//, `the gallery imports ${spec}: only views/ is open to ui`);
+  for (const spec of mapImports) assert.match(spec, /^@civgraph\/map\/views\//, `the gallery imports ${spec}: only views/ is open to ui`);
   const map = route.APP_SPECIMENS.filter((s) => s.app === 'map');
   assert.deepEqual(map.map((s) => s.id), ['map-legend', 'map-results', 'map-trends', 'map-timeline', 'map-timeline-changes']);
   const expect = {

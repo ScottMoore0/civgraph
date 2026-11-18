@@ -19,7 +19,7 @@ if (!patchPath) {
   process.exit(2);
 }
 const FILE = 'data/database/maps.json';
-/** @type {import('../../packages/types/index.js').MapCatalogue} */
+/** @type {import('@civgraph/types').MapCatalogue} */
 const doc = JSON.parse(readFileSync(FILE, 'utf8'));
 /** @type {Record<string, { approximateSegments?: unknown }>} map id -> its approximateSegments */
 const patch = JSON.parse(readFileSync(patchPath, 'utf8'));

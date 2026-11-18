@@ -6,12 +6,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
+import { loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
 import {
   abbreviationIndex, entityAliasStrings, labelFoldIndex, labelInterpretationRules, partiesById, partyInfoFrom,
   partyLabelKey, retiredPartySlugs
-} from '../../packages/registries/src/parties.mjs';
-import { isNonParty, partyInfo } from '../../packages/core/src/party-names.mjs';
+} from '@civgraph/registries/parties.mjs';
+import { isNonParty, partyInfo } from '@civgraph/core/party-names.mjs';
 import { createPartyLabelInterpreter } from '../../scripts/lib/party-label-interpretations.mjs';
 
 const registry = loadRegistry('parties');

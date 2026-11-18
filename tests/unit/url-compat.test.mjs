@@ -11,7 +11,7 @@ import {
   renameElectionDatesInParams,
   resolveLegacyLayerId,
   slugifyBody
-} from '../../packages/map/src/app/url-compat.mjs';
+} from '@civgraph/map/src/app/url-compat.mjs';
 
 test('resolveLegacyLayerId rewrites renamed prefixes and leaves the rest', () => {
   assert.equal(resolveLegacyLayerId('roi-local-authorities-1920-vector-test'), 'local-authorities-1920-vector-test');

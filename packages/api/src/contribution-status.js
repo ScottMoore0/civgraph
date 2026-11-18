@@ -22,7 +22,7 @@
  * helper (packages/core/src/state-machine.mjs) and walks every forbidden move.
  */
 
-import statuses from '../../registries/src/browser/statuses.mjs';
+import statuses from '@civgraph/registries/browser/statuses.mjs';
 
 /** @typedef {'pending-review' | 'approved' | 'rejected' | 'applied'} ContributionStatus */
 /** @typedef {'approved' | 'rejected'} ContributionDecision */

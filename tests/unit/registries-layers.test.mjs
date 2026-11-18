@@ -5,9 +5,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
-import { BEHAVIOUR_FLAGS, behaviourLine, seedLayerTypes } from '../../packages/registries/src/seed/layer-types.mjs';
-import { hasBehaviour, layerRecordErrors, typesWithBehaviour } from '../../packages/registries/src/layers.mjs';
+import { loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
+import { BEHAVIOUR_FLAGS, behaviourLine, seedLayerTypes } from '@civgraph/registries/seed/layer-types.mjs';
+import { hasBehaviour, layerRecordErrors, typesWithBehaviour } from '@civgraph/registries/layers.mjs';
 
 const registry = loadRegistry('layers');
 const read = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8');

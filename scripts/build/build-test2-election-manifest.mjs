@@ -3,8 +3,8 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from 'node:f
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
-import { centreInIreland } from '../../packages/maps-pipeline/src/label-data.mjs';
-import * as ElectionDomain from '../../packages/core/src/election-domain.mjs';
+import { centreInIreland } from '@civgraph/maps-pipeline/label-data.mjs';
+import * as ElectionDomain from '@civgraph/core/election-domain.mjs';
 import { namesCompatible } from '../lib/name-compatibility.mjs';
 import { fixText, manifestNameKey } from '../lib/manifest-name-key.mjs';
 
@@ -19,20 +19,20 @@ import { writeStableGeneratedJson } from '../lib/stable-generated-json.mjs';
 import { restoreStageFractions } from '../lib/stage-fractions.mjs';
 import { applySubPanels, subPanelIndex } from '../lib/candidate-sub-panels.mjs';
 import { scrubUnopposedPlaceholderVotes } from '../lib/unopposed-placeholders.mjs';
-import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '../../packages/loader/src/paths.mjs';
-import { loadRegistry } from '../../packages/registries/src/index.mjs';
-import { manifestCouncilSets } from '../../packages/registries/src/councils.mjs';
-import { labelInterpretationRules } from '../../packages/registries/src/parties.mjs';
-import { statesOf } from '../../packages/registries/src/statuses.mjs';
-import { electionBody, geographyRuleFor, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
-import { kindOfContestType } from '../../packages/registries/src/election-types.mjs';
-import { countNoun } from '../../packages/core/src/format.js';
-import { areaCandidateColours, areaCountSheet, areaFeatureNames, areaResultsFirst, areaResultsSubtitle } from '../../packages/core/src/area-results.mjs';
+import { ELECTION_BUNDLE_DIR, ELECTION_MANIFEST, ELECTION_REPORT } from '@civgraph/loader/paths.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { manifestCouncilSets } from '@civgraph/registries/councils.mjs';
+import { labelInterpretationRules } from '@civgraph/registries/parties.mjs';
+import { statesOf } from '@civgraph/registries/statuses.mjs';
+import { electionBody, geographyRuleFor, votingSystemOf } from '@civgraph/registries/election-bodies.mjs';
+import { kindOfContestType } from '@civgraph/registries/election-types.mjs';
+import { countNoun } from '@civgraph/core/format.js';
+import { areaCandidateColours, areaCountSheet, areaFeatureNames, areaResultsFirst, areaResultsSubtitle } from '@civgraph/core/area-results.mjs';
 
-/** @typedef {import('../../packages/core/src/election-domain.mjs').SourceRow} SourceRow */
-/** @typedef {import('../../packages/core/src/election-domain.mjs').SourceConstituency} SourceConstituency */
-/** @typedef {import('../../packages/core/src/election-domain.mjs').ContestResult} ContestResult */
-/** @typedef {import('../../packages/core/src/election-domain.mjs').ResultCandidate} ResultCandidate */
+/** @typedef {import('@civgraph/core/election-domain.mjs').SourceRow} SourceRow */
+/** @typedef {import('@civgraph/core/election-domain.mjs').SourceConstituency} SourceConstituency */
+/** @typedef {import('@civgraph/core/election-domain.mjs').ContestResult} ContestResult */
+/** @typedef {import('@civgraph/core/election-domain.mjs').ResultCandidate} ResultCandidate */
 /**
  * A contest as a bundle holds it: summarizeResult's result with its classification and map
  * match. Its localBody is null outside the NI district councils, where election-domain's
@@ -63,7 +63,7 @@ import { areaCandidateColours, areaCountSheet, areaFeatureNames, areaResultsFirs
 /**
  * One contest file as read (election-domain's RawResult: a count-group file or a scraper
  * payload), with the fields the overlays below read and set.
- * @typedef {import('../../packages/core/src/election-domain.mjs').RawResult & {
+ * @typedef {import('@civgraph/core/election-domain.mjs').RawResult & {
  *   candidates?: ScraperCandidate[],
  *   ei_candidates?: Array<{ id?: string, name?: string }>,
  *   officialDail?: (SourceRow & { constituencyNumber?: unknown, constituencyId?: unknown }) | null,
@@ -1981,8 +1981,8 @@ async function buildAreaResultsGeographyModes(entry, bundle, layerBySource, feat
   const national = (bundle.results || [])[0];
   if (!national || bundle.results.length !== 1) return null;
   // The national contest's candidates are summarizeResult's, each with its id, name, party and colour.
-  const nationalByName = new Map(/** @type {import('../../packages/core/src/area-results.mjs').NationalCandidate[]} */ (national.candidates || []).map((candidate) => [normalizeName(candidate.name), candidate]));
-  const colours = areaCandidateColours(/** @type {import('../../packages/core/src/area-results.mjs').NationalCandidate[]} */ (national.candidates || []));
+  const nationalByName = new Map(/** @type {import('@civgraph/core/area-results.mjs').NationalCandidate[]} */ (national.candidates || []).map((candidate) => [normalizeName(candidate.name), candidate]));
+  const colours = areaCandidateColours(/** @type {import('@civgraph/core/area-results.mjs').NationalCandidate[]} */ (national.candidates || []));
   const featureByName = new Map((featureIndex.items || []).map((item) => [normalizeName(item.name), item]));
   const anchorIndex = await loadOrBuildAnchorIndex(layer, featureIndex);
   const electionMetadata = classifyElection(entry);
@@ -1991,7 +1991,7 @@ async function buildAreaResultsGeographyModes(entry, bundle, layerBySource, feat
   /** @type {ContestResult[]} */
   const results = [];
   for (const file of readdirSync(dateDir).filter((name) => name.endsWith('.json') && !name.startsWith('_')).sort()) {
-    /** @type {import('../../packages/core/src/area-results.mjs').AreaFile} */
+    /** @type {import('@civgraph/core/area-results.mjs').AreaFile} */
     const area = readJson(path.join(dateDir, file));
     const sheet = areaCountSheet(area, (name) => nationalByName.get(normalizeName(name)), colours);
     if (sheet.unmatchedCandidates.length) {
@@ -2292,7 +2292,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   const anchorIndex = layer ? await loadOrBuildAnchorIndex(layer, featureIndex) : null;
   /** @type {BundleResult[]} */
   const results = [];
-  /** @type {import('../../packages/core/src/election-domain.mjs').RawResultEntry[]} */
+  /** @type {import('@civgraph/core/election-domain.mjs').RawResultEntry[]} */
   const rawEntries = [];
   /** @type {Array<string | undefined>} */
   const unmatched = [];

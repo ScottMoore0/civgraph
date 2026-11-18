@@ -30,15 +30,15 @@
  * Pages serves a matching static asset in preference to a Function, so data/browse/ is never
  * deployed (scripts/build/site.mjs builds dist/ from an allow-list that does not include it).
  */
-import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '../../../packages/api/src/handlers/_records.js';
-import { resolvePartySlug } from '../../../packages/api/src/handlers/parties/index.js';
-import { browseFeaturesText, browseMapsText } from '../../../packages/api/src/handlers/_maps.js';
-import { SITE, binding } from '../../../packages/config/src/config.js';
-import { fromD1 } from '../../../packages/storage/src/d1.js';
-import { OFFICES, SHARDS } from '../../../packages/api/src/queries/cards.js';
-import { ELECTION_CARDS } from '../../../packages/api/src/queries/elections.js';
-import { MAP_CARDS } from '../../../packages/api/src/queries/maps.js';
-import { PARTIES } from '../../../packages/api/src/queries/parties.js';
+import { cachedJson, documentBody, jsonResponse, parseJson, streamFrom } from '@civgraph/api/handlers/_records.js';
+import { resolvePartySlug } from '@civgraph/api/handlers/parties/index.js';
+import { browseFeaturesText, browseMapsText } from '@civgraph/api/handlers/_maps.js';
+import { SITE, binding } from '@civgraph/config';
+import { fromD1 } from '@civgraph/storage/d1.js';
+import { OFFICES, SHARDS } from '@civgraph/api/queries/cards.js';
+import { ELECTION_CARDS } from '@civgraph/api/queries/elections.js';
+import { MAP_CARDS } from '@civgraph/api/queries/maps.js';
+import { PARTIES } from '@civgraph/api/queries/parties.js';
 
 /**
  * What a /data/browse/ path asks for (matchBrowsePath).
@@ -50,7 +50,7 @@ import { PARTIES } from '../../../packages/api/src/queries/parties.js';
  *   | { kind: 'party-profile' | 'party-detail' | 'office-detail' | 'map-detail' | 'election-detail' | 'election-contests' | 'votes-party', slug: string }
  *   | { kind: 'votes-person', id: string }
  *   | { kind: 'votes-shard', shard: number }} BrowseRoute
- * @typedef {import('../../../packages/types/index.js').RecordsDb.Tables} Tables
+ * @typedef {import('@civgraph/types').RecordsDb.Tables} Tables
  */
 
 const VERSION = 'data-browse-4';
@@ -177,7 +177,7 @@ export const gone = () => new Response(JSON.stringify({
 }), { status: 410, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=300', 'Access-Control-Allow-Origin': '*' } });
 
 /**
- * @param {import('../../../packages/storage/src/store.js').RecordStore} db
+ * @param {import('@civgraph/storage/store.js').RecordStore} db
  * @param {BrowseRoute} route
  * @returns {Promise<Response>}
  */

@@ -37,9 +37,9 @@
  */
 import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
-import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { bindable, hashValues, rowHash, transaction } from './db.mjs';
-import { TABLES } from '../../schema/src/schema.mjs';
+import { TABLES } from '@civgraph/schema';
 
 export const GRID = 512;
 /** Placeholder sort keys while rows whose primary key includes `ord` are renumbered. */
@@ -47,8 +47,8 @@ const PARKED = -1e13;
 
 export const STABLE_ORDER_TABLES = TABLES.filter((t) => t.stableOrder);
 
-/** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
-/** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
+/** @typedef {import('@civgraph/storage/node').SqliteHandle} SqliteHandle */
+/** @typedef {import('@civgraph/schema').TableSpec} TableSpec */
 /** A row's sort key: the values of its table's stableOrder.sort columns (ord, shard: numbers). @typedef {number[]} SortKey */
 /** A sort key or a group's values (group columns may be text), compared element by element. @typedef {(string | number)[]} Key */
 /** A table whose stableOrder is set. @typedef {TableSpec & { stableOrder: NonNullable<TableSpec['stableOrder']> }} StableTable */
@@ -163,9 +163,9 @@ const idOf = (/** @type {unknown[]} */ values) => createHash('sha1').update(JSON
 /**
  * Rewrite the sort keys of `db` (an open, writable build) against `seedFile`. Returns per table
  * the number of rows whose key changed, and the groups that had a seed.
- * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {string|null} seedFile
- * @param {{ tables?: import('../../schema/src/schema.mjs').TableSpec[], log?: (line: string) => void }} [options]
+ * @param {{ tables?: import('@civgraph/schema').TableSpec[], log?: (line: string) => void }} [options]
  */
 export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log = () => {} } = {}) {
   if (!seedFile || !existsSync(seedFile)) return null;

@@ -12,10 +12,10 @@ import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { loadRegistry, registryErrors } from '../../packages/registries/src/index.mjs';
-import { checkLanguages, languageCodes, languageFileMeta, runtimeLanguages, translatedLanguages } from '../../packages/registries/src/languages.mjs';
+import { loadRegistry, registryErrors } from '@civgraph/registries/index.mjs';
+import { checkLanguages, languageCodes, languageFileMeta, runtimeLanguages, translatedLanguages } from '@civgraph/registries/languages.mjs';
 import { headerColumns, parseStringFile, withColumn } from '../../scripts/i18n/string-files.mjs';
-import { siteLocale } from '../../packages/core/src/format.js';
+import { siteLocale } from '@civgraph/core/format.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const registry = loadRegistry('languages');
@@ -60,7 +60,7 @@ test('languages: the lists the code held before (build-i18n.mjs LANGS and META, 
   const table = runtimeLanguages(registry);
   assert.equal(table.source, 'en');
   for (const [code, old] of Object.entries(before)) {
-    const now = /** @type {import('../../packages/registries/src/languages.mjs').RuntimeLanguage} */ (table.languages[code]);
+    const now = /** @type {import('@civgraph/registries/languages.mjs').RuntimeLanguage} */ (table.languages[code]);
     assert.deepEqual({ htmlLang: now.htmlLang, locale: now.locale, name: now.name }, old, code);
     assert.equal(now.dir, 'ltr');
     assert.equal(now.translatesDates, code === 'ga', code);

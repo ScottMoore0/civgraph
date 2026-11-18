@@ -8,7 +8,7 @@
  *
  *   node tests/functions/access-jwt.test.mjs
  */
-import { verifyAccessJwt, getContributorAuth } from '../../packages/api/src/handlers/_auth.js';
+import { verifyAccessJwt, getContributorAuth } from '@civgraph/api/handlers/_auth.js';
 
 const TEAM = 'icy-mouse-ce2a.cloudflareaccess.com';
 const failures = [];

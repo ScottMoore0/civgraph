@@ -15,7 +15,7 @@ import path from 'node:path';
 import { TableWriter, readJson, transaction, txt, withPlaceholders } from './db.mjs';
 
 /**
- * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {{ votesDir: string }} options
  */
 export function ingestVotes(db, { votesDir }) {

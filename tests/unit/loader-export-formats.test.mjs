@@ -9,7 +9,7 @@ import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSyn
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { gunzipSync } from 'node:zlib';
-import { EXPORT_FORMATS, downloadFileNames, exportFormat } from '../../packages/loader/src/export-formats.mjs';
+import { EXPORT_FORMATS, downloadFileNames, exportFormat } from '@civgraph/loader/export-formats.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '../..');
 

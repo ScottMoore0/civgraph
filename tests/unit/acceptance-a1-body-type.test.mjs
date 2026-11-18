@@ -23,7 +23,7 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writ
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { REPO_ROOT, registryErrors } from '../../packages/registries/src/index.mjs';
+import { REPO_ROOT, registryErrors } from '@civgraph/registries/index.mjs';
 
 const FIXTURE = path.join(REPO_ROOT, 'tests/fixtures/a1-body-type');
 const OVERLAY = path.join(FIXTURE, 'overlay.mjs');

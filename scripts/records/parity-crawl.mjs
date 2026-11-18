@@ -37,12 +37,12 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '../../packages/storage/src/sqlite.mjs';
-import { SITE } from '../../packages/config/src/node.mjs';
-import { RECORDS_DB, REPO_ROOT } from '../../packages/loader/src/paths.mjs';
-import { CatalogueSearch, PeopleSearch } from '../../packages/map/src/catalogue/search.js';
+import { openSqliteHandle } from '@civgraph/storage/node';
+import { SITE } from '@civgraph/config/node';
+import { RECORDS_DB, REPO_ROOT } from '@civgraph/loader/paths.mjs';
+import { CatalogueSearch, PeopleSearch } from '@civgraph/map/catalogue/search.js';
 
-/** @typedef {import('../../packages/storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
+/** @typedef {import('@civgraph/storage/node').SqliteHandle} SqliteHandle */
 /**
  * One URL of the crawl: `urlB` when side B answers it at another URL, `follow` to follow a 301
  * (whose target must be `expect`).

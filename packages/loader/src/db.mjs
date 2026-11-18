@@ -11,12 +11,12 @@
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import path from 'node:path';
-import { openSqliteHandle } from '../../storage/src/sqlite.mjs';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import { REPO_ROOT } from './paths.mjs';
-import { TABLE } from '../../schema/src/schema.mjs';
+import { TABLE } from '@civgraph/schema';
 
-/** @typedef {import('../../storage/src/sqlite.mjs').SqliteHandle} SqliteHandle */
-/** @typedef {import('../../schema/src/schema.mjs').TableSpec} TableSpec */
+/** @typedef {import('@civgraph/storage/node').SqliteHandle} SqliteHandle */
+/** @typedef {import('@civgraph/schema').TableSpec} TableSpec */
 /** A row as an ingest builds it: column name to value (bindable() normalises the value). @typedef {Record<string, unknown>} RowObject */
 /** A value the SQLite handle binds. @typedef {string | number | bigint | null} BoundValue */
 /** A documents row: a whole small document, stored as its JSON text. @typedef {{ name: string, body: string }} DocumentRow */

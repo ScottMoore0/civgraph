@@ -18,7 +18,7 @@ import {
 } from 'node:fs';
 import { basename, dirname, extname, relative, resolve, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { SITE } from '../../../packages/config/src/node.mjs';
+import { SITE } from '@civgraph/config/node';
 
 const ROOT = resolve(process.cwd());
 const DOWNLOAD_ROOT = resolve(ROOT, 'tmp/hill-bagging/downloads');

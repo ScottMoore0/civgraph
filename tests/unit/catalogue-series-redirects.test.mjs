@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { followSeriesRedirect, seriesRedirectProblems } from '../../packages/map/src/catalogue/route-state.mjs';
+import { followSeriesRedirect, seriesRedirectProblems } from '@civgraph/map/catalogue/route-state.mjs';
 
 const rows = new Set(['parking', 'heritage-sites']);
 const has = (/** @type {string} */ id) => rows.has(id);

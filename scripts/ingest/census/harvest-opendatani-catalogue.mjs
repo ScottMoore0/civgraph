@@ -8,7 +8,7 @@
  * Usage: node scripts/ingest/census/harvest-opendatani-catalogue.mjs <out.json> [--raw <pages.json>]
  *        node scripts/ingest/census/harvest-opendatani-catalogue.mjs <out.json> --replay <pages.json>
  */
-import { runCli } from '../../../packages/intake/src/ckan-harvest.mjs';
+import { runCli } from '@civgraph/intake/ckan-harvest.mjs';
 
 await runCli({
   // The portal's CKAN API answers on its admin host (www.opendatani.gov.uk/api/3 is a 404, 13 Nov

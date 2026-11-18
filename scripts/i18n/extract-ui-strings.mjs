@@ -318,7 +318,7 @@ export function buildReview(root = process.cwd()) {
   /** @type {{ strings?: Record<string, string> }} */
   const en = JSON.parse(read('site/assets/i18n/en.json'));
   // Map, series and election-body names are translated through the names overlay, not en.json.
-  /** @type {import('../../packages/types/index.js').MapEntry[]} */
+  /** @type {import('@civgraph/types').MapEntry[]} */
   const maps = JSON.parse(read('data/database/maps.json')).maps || [];
   /** @type {{ series: Array<{ name: string }>, electionBodies: Array<{ name: string }> }} the parts of data/catalogue/catalogue.json read here */
   const cat = JSON.parse(read('data/catalogue/catalogue.json'));

@@ -25,7 +25,7 @@ import { parseRoute } from '../../site/apps/elections/lib/route.js';
 import { areaState } from '../../site/apps/elections/views/area.js';
 import { personState } from '../../site/apps/elections/views/person.js';
 import { searchHref, searchState } from '../../site/apps/elections/views/search-box.js';
-import { areaHistoryAnswer } from '../../packages/api/src/handlers/elections/index.js';
+import { areaHistoryAnswer } from '@civgraph/api/handlers/elections/index.js';
 
 const fmt = (/** @type {number} */ n) => n.toLocaleString('en-GB');
 
@@ -240,7 +240,7 @@ test('every word of the area pages, search and person page is keyed for translat
 const DB = new URL('../../tmp/records/civgraph-records.sqlite', import.meta.url);
 test('over the records build: the benchmark searches find the right things, and real verdicts', { skip: !existsSync(DB) && 'no records build' }, async () => {
   const { DatabaseSync } = await import('node:sqlite');
-  const { ELECTIONS_API } = await import('../../packages/api/src/queries/elections.js');
+  const { ELECTIONS_API } = await import('@civgraph/api/queries/elections.js');
   const db = new DatabaseSync(DB, { readOnly: true });
   try {
     const areas = db.prepare(ELECTIONS_API.areaIndex).all();

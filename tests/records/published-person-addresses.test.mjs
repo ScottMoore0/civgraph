@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
 import { ledgerFailures, personKeepOf, publishedFromRows, readLedger } from '../../scripts/lib/person-address-ledger.mjs';
 
 const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');

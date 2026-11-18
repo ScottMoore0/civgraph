@@ -14,8 +14,8 @@
  * Neither variable is set in wrangler.toml, so production is unchanged until the owner
  * sets one. `npm run dev:records` sets both locally.
  */
-import { runtimeVar } from '../../../../config/src/config.js';
-import { toHtmlString } from '../../../../core/src/html.js';
+import { runtimeVar } from '@civgraph/config';
+import { toHtmlString } from '@civgraph/core/html.js';
 import { page, sectionNav } from '../shell.js';
 import { electionBody } from './election.js';
 import { partyBody } from './party.js';
@@ -102,7 +102,7 @@ export function renderRecordPage({ type, record, meta, pageTitle, canonical, pre
   const config = SSR_RECORD_TYPES[type];
   if (!config) throw new Error(`no server-rendered template for ${type}`);
   // Each type's body takes that type's record; the caller passes the record of `type`.
-  const { body, jsonLd } = /** @type {(record: object, options: { canonical?: string }) => { body: import('../../../../core/src/html.js').SafeHtml, jsonLd: object }} */ (config.body)(record, { canonical });
+  const { body, jsonLd } = /** @type {(record: object, options: { canonical?: string }) => { body: import('@civgraph/core/html.js').SafeHtml, jsonLd: object }} */ (config.body)(record, { canonical });
   const crumbs = sectionNav({
     items: [
       { href: '/browse/', label: 'Browse' },

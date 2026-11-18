@@ -16,16 +16,16 @@
  * When the lookup cannot be made (no binding, a failed query), a well-formed id still goes to
  * Browse's entity page, which looks the id up itself, so an outage never turns an id into a 404.
  */
-import { binding } from '../../../config/src/config.js';
-import { asStore } from '../../../storage/src/d1.js';
-import { entityIdFromIdPath, entityPagePath, NON_RECORD_ID_KINDS } from '../../../core/src/graph-iri.js';
-import { PAGE_TYPE_IDS } from '../../../ui/src/page-types.mjs';
+import { binding } from '@civgraph/config';
+import { asStore } from '@civgraph/storage/d1.js';
+import { entityIdFromIdPath, entityPagePath, NON_RECORD_ID_KINDS } from '@civgraph/core/graph-iri.js';
+import { PAGE_TYPE_IDS } from '@civgraph/ui/page-types.mjs';
 import { parseJson } from '../handlers/_records.js';
 import { reportError } from '../handlers/_error.js';
 import { GRAPH } from '../queries/graph.js';
 
 /** @typedef {import('../types.js').ApiContext} ApiContext */
-/** @typedef {import('../../../storage/src/store.js').RecordStore} RecordStore */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore} RecordStore */
 
 /**
  * A 303 to a page of this site.

@@ -8,11 +8,11 @@ import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
-import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
 import { PUBLISHED_GRAPH_SQL, graphLedgerFailures, publishedGraphFromRows, readGraphLedger } from '../../scripts/lib/graph-id-ledger.mjs';
 import { context, d1, installCaches } from './d1-shim.mjs';
-import { resetDatasetMemo } from '../../packages/api/src/handlers/_records.js';
-import * as graphApi from '../../packages/api/src/handlers/graph/index.js';
+import { resetDatasetMemo } from '@civgraph/api/handlers/_records.js';
+import * as graphApi from '@civgraph/api/handlers/graph/index.js';
 
 const DB = path.join(REPO_ROOT, 'tmp/records/civgraph-records.sqlite');
 const built = existsSync(DB);

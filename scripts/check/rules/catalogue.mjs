@@ -27,10 +27,10 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { loadRecords, placeable } from '../../build/catalogue/records.mjs';
-import { ELECTION_MANIFEST } from '../../../packages/loader/src/paths.mjs';
-import { loadRegistry } from '../../../packages/registries/src/index.mjs';
-import { catalogueKindIds } from '../../../packages/registries/src/catalogue-kinds.mjs';
-import { seriesRedirectProblems } from '../../../packages/map/src/catalogue/route-state.mjs';
+import { ELECTION_MANIFEST } from '@civgraph/loader/paths.mjs';
+import { loadRegistry } from '@civgraph/registries/index.mjs';
+import { catalogueKindIds } from '@civgraph/registries/catalogue-kinds.mjs';
+import { seriesRedirectProblems } from '@civgraph/map/catalogue/route-state.mjs';
 
 /** @typedef {import('../../build/catalogue/records.mjs').CatalogueRecord} CatalogueRecord */
 /**

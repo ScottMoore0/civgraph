@@ -12,10 +12,10 @@ import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, writeF
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { languageCodes } from '../../packages/registries/src/languages.mjs';
+import { languageCodes } from '@civgraph/registries/languages.mjs';
 import { withColumn } from '../../scripts/i18n/string-files.mjs';
 
-/** @typedef {import('../../packages/registries/src/languages.mjs').LanguagesRegistry} LanguagesRegistry */
+/** @typedef {import('@civgraph/registries/languages.mjs').LanguagesRegistry} LanguagesRegistry */
 /** @typedef {{ code: string, entry: LanguagesRegistry['languages'][string], translations: Record<string, string> }} NewLanguage */
 
 export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');

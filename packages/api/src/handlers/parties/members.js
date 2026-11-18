@@ -13,11 +13,11 @@
  * Pages (of up to MAX_LIMIT) are cut in slug order, the cheap order of the index; each person
  * carries their place in the Browse people list, and the page puts them in that order.
  */
-import { MEMBER_COLUMNS, MEMBERS_SCHEMA_VERSION, memberEncoder } from '../../../../core/src/party-members.mjs';
+import { MEMBER_COLUMNS, MEMBERS_SCHEMA_VERSION, memberEncoder } from '@civgraph/core/party-members.mjs';
 import { parseJson } from '../_records.js';
 import { PARTIES } from '../../queries/parties.js';
 
-/** @typedef {import('../../../../storage/src/store.js').RecordStore} RecordStore */
+/** @typedef {import('@civgraph/storage/store.js').RecordStore} RecordStore */
 
 export const DEFAULT_LIMIT = 500;
 export const MAX_LIMIT = 1000;

@@ -12,7 +12,7 @@
  * uncompressed from the base key — Cloudflare's edge compresses it on the
  * wire to the client.
  */
-import { blobStore } from '../../../packages/storage/src/blob-bindings.js';
+import { blobStore } from '@civgraph/storage/blob-bindings.js';
 /** @param {CatchAllContext} context */
 export async function onRequestGet(context) {
     // decodeURIComponent, matching functions/data/browse/[[path]].js.

@@ -27,9 +27,9 @@ import {
   niLocalGroupKey,
   niLocalGroupYear,
   replaceNiLocalRoundsWithGroups
-} from '../../packages/map/src/ni-local-groups.mjs';
-import { leadingParty, niLocalAreaName, voteShareOpacity } from '../../packages/map/app/ni-local-view.js';
-import { ELECTION_MANIFEST } from '../../packages/loader/src/paths.mjs';
+} from '@civgraph/map/ni-local-groups.mjs';
+import { leadingParty, niLocalAreaName, voteShareOpacity } from '@civgraph/map/app/ni-local-view.js';
+import { ELECTION_MANIFEST } from '@civgraph/loader/paths.mjs';
 import { nameKeys } from '../../scripts/build/build-ni-local-grouped.mjs';
 
 const ROOT = process.cwd();

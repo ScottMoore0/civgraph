@@ -9,12 +9,12 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 
-/** @typedef {import('../../types/index.js').OfficesRegistryRegistry} OfficesRegistry */
-/** @typedef {import('../../types/index.js').CouncilsRegistry} CouncilsRegistry */
-/** @typedef {import('../../types/index.js').Council} Council */
-/** @typedef {import('../../types/index.js').Institution} Institution */
-/** @typedef {import('../../types/index.js').Office} Office */
-/** @typedef {import('../../types/index.js').Tenure} Tenure */
+/** @typedef {import('@civgraph/types').OfficesRegistryRegistry} OfficesRegistry */
+/** @typedef {import('@civgraph/types').CouncilsRegistry} CouncilsRegistry */
+/** @typedef {import('@civgraph/types').Council} Council */
+/** @typedef {import('@civgraph/types').Institution} Institution */
+/** @typedef {import('@civgraph/types').Office} Office */
+/** @typedef {import('@civgraph/types').Tenure} Tenure */
 
 export const OFFICES_FILE = 'data/offices/offices.json';
 export const TENURES_DIR = 'data/offices/tenures';

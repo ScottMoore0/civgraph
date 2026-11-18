@@ -11,18 +11,18 @@ import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync,
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { bindable, createDatabase, rowHash, TableWriter, transaction } from '../../packages/loader/src/db.mjs';
-import { buildDelta } from '../../packages/loader/src/diff-load.mjs';
-import { REPO_ROOT } from '../../packages/loader/src/paths.mjs';
-import { TABLE } from '../../packages/schema/src/schema.mjs';
-import { openSqliteHandle } from '../../packages/storage/src/sqlite.mjs';
+import { bindable, createDatabase, rowHash, TableWriter, transaction } from '@civgraph/loader/db.mjs';
+import { buildDelta } from '@civgraph/loader/diff-load.mjs';
+import { REPO_ROOT } from '@civgraph/loader/paths.mjs';
+import { TABLE } from '@civgraph/schema';
+import { openSqliteHandle } from '@civgraph/storage/node';
 import {
   BOUNDS, isOverloaded, isTransientAuth, isWranglerCrash, parseWranglerOutput, WINDOWS_ABORT_STATUS, WranglerError,
-} from '../../packages/loader/src/verify-load.mjs';
+} from '@civgraph/loader/verify-load.mjs';
 import {
   assertBounded, boundsSql, compoundTerms, computePlan, formatReport, loadPlan, parseDeltaSql, publishInProgress, rangeChecksumSql, rangeKeysSql,
   reportFileFor, resolveDelta, safeVerify, scannedTables, selectRanges, TouchedKeys, touchedFromDeltaDir, touchedFromSnapshot,
-} from '../../packages/loader/src/safe-verify.mjs';
+} from '@civgraph/loader/safe-verify.mjs';
 
 const SCRIPT = path.join(REPO_ROOT, 'packages', 'loader', 'src', 'safe-verify.mjs');
 const LIMITS = { rangeRows: 100, rangeBytes: 64 * 1024 };

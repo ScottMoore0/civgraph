@@ -3,8 +3,8 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { Readable } from "node:stream";
-import { crawlHeaders } from "../../../packages/config/src/node.mjs";
-import { WAYBACK } from '../../../packages/intake/src/item-status.mjs';
+import { crawlHeaders } from "@civgraph/config/node";
+import { WAYBACK } from '@civgraph/intake/item-status.mjs';
 
 const CDX = "https://web.archive.org/cdx";
 

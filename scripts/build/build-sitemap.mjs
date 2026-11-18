@@ -35,10 +35,10 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { BROWSE_DIR, localPathForUrl } from '../../packages/loader/src/paths.mjs';
-import { SITE as SITE_CONFIG } from '../../packages/config/src/node.mjs';
-import { PAGE_TYPE_IDS } from '../../packages/ui/src/page-types.mjs';
-import { INFO_PAGES, INFO_PAGES_LIVE } from '../../packages/ui/src/templates/info-pages.js';
+import { BROWSE_DIR, localPathForUrl } from '@civgraph/loader/paths.mjs';
+import { SITE as SITE_CONFIG } from '@civgraph/config/node';
+import { PAGE_TYPE_IDS } from '@civgraph/ui/page-types.mjs';
+import { INFO_PAGES, INFO_PAGES_LIVE } from '@civgraph/ui/templates/info-pages.js';
 
 const SITE = SITE_CONFIG.origin;
 const OUT_DIR = 'sitemaps';

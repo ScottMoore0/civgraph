@@ -2,7 +2,7 @@ import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '
 import { methodGuard } from '../_method.js';
 import { VALID_KINDS, VALID_ENTITY_TYPES, dryRunPatch } from './_schema.js';
 import { INITIAL_STATUS } from '../../contribution-status.js';
-import { blobStore } from '../../../../storage/src/blob-bindings.js';
+import { blobStore } from '@civgraph/storage/blob-bindings.js';
 
 /**
  * Accept a contribution as a TYPED PATCH, dry-run it, and queue it for review.
@@ -32,7 +32,7 @@ import { blobStore } from '../../../../storage/src/blob-bindings.js';
 
 /** @typedef {import('../../types.js').ApiContext} ApiContext */
 /** @typedef {import('../../types.js').ApiEnv} ApiEnv */
-/** @typedef {import('../../../../types/index.js').Json} Json */
+/** @typedef {import('@civgraph/types').Json} Json */
 /** @typedef {ReturnType<typeof sanitizeMapRequest>} MapRequest */
 /**
  * A queued submission, as stored in the contribution queue.

@@ -22,7 +22,7 @@ import {
   namespaceStyle,
   preferredChain,
   resolveBaseMapId
-} from '../../packages/map/src/renderer/basemap.mjs';
+} from '@civgraph/map/renderer/basemap.mjs';
 
 function memoryStorage(initial = {}) {
   const data = new Map(Object.entries(initial));

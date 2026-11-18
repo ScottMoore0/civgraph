@@ -54,7 +54,7 @@ export function parseLimit(raw) {
  * which asks R2 for no metadata (`include: []`): custom and http metadata are not needed for an
  * index and cost payload size.
  *
- * @param {import('../../../storage/src/blob.js').BlobStore} bucket
+ * @param {import('@civgraph/storage/blob.js').BlobStore} bucket
  * @param {{prefix?: string | undefined, cursor?: string | undefined, limit?: number | undefined}} options
  */
 export async function listLevel(bucket, { prefix = '', cursor, limit = DEFAULT_LIMIT } = {}) {

@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 import { applySubPanels, subPanelIndex } from '../../scripts/lib/candidate-sub-panels.mjs';
-import { summarizeCandidateRows } from '../../packages/core/src/election-domain.mjs';
+import { summarizeCandidateRows } from '@civgraph/core/election-domain.mjs';
 
 const ROOT = new URL('../..', import.meta.url);
 const doc = JSON.parse(readFileSync(new URL('data/elections/seanad-sub-panels.json', ROOT), 'utf8'));

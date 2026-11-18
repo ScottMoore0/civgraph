@@ -8,8 +8,8 @@
  * literal is gone.
  */
 
-/** @typedef {import('../../types/index.js').CouncilsRegistry} CouncilsRegistry */
-/** @typedef {import('../../types/index.js').Council} Council */
+/** @typedef {import('@civgraph/types').CouncilsRegistry} CouncilsRegistry */
+/** @typedef {import('@civgraph/types').Council} Council */
 /** @typedef {keyof NonNullable<Council['flags']>} CouncilFlag */
 
 /**

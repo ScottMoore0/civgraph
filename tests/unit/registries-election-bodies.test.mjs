@@ -4,8 +4,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { loadRegistry, registryErrors, REPO_ROOT } from '../../packages/registries/src/index.mjs';
-import { byElectionTitleOf, checkElectionBodies, electionBody, fillYear, generalElectionTitleOf, geographyRuleFor, isGeneralElectionDate, votingSystemOf } from '../../packages/registries/src/election-bodies.mjs';
+import { loadRegistry, registryErrors, REPO_ROOT } from '@civgraph/registries/index.mjs';
+import { byElectionTitleOf, checkElectionBodies, electionBody, fillYear, generalElectionTitleOf, geographyRuleFor, isGeneralElectionDate, votingSystemOf } from '@civgraph/registries/election-bodies.mjs';
 import { canonicalElectionTitle, isElectionByElectionScope } from '../../scripts/lib/election-names.mjs';
 
 const registry = loadRegistry('election-bodies');

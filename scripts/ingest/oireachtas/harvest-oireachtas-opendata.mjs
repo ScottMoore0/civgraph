@@ -31,7 +31,7 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { crawlHeaders } from '../../../packages/config/src/node.mjs';
+import { crawlHeaders } from '@civgraph/config/node';
 
 const BASE = 'https://api.oireachtas.ie/v1';
 const PAGE = 1000;   // measured maximum; limit=2000 returns zero results

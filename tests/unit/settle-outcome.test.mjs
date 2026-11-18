@@ -21,7 +21,7 @@ import { readFileSync } from 'node:fs';
 import { readMapAppSource } from '../../scripts/lib/map-app-source.mjs';
 import {
   waitForMapSettle, SETTLE_SETTLED, SETTLE_TIMEOUT, SETTLE_UNAVAILABLE
-} from '../../packages/map/app/settle.js';
+} from '@civgraph/map/app/settle.js';
 
 let failures = 0;
 function check(name, actual, expected) {

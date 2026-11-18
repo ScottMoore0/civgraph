@@ -22,15 +22,15 @@ import path from 'node:path';
 /**
  * The facts documents (packages/types, generated from data/schemas). A missing file reads as
  * the empty document loadFactsModel gives it, so each is Partial.
- * @typedef {import('../../packages/types/index.js').OfficesDocument} OfficesDocument
- * @typedef {import('../../packages/types/index.js').TenuresDocument} TenuresDocument
- * @typedef {import('../../packages/types/index.js').PartyEventsDocument} PartyEventsDocument
- * @typedef {import('../../packages/types/index.js').AffiliationsDocument} AffiliationsDocument
- * @typedef {import('../../packages/types/index.js').NonCandidatePersonsDocument} NonCandidatePersonsDocument
- * @typedef {import('../../packages/types/index.js').HonoursDocument} HonoursDocument
- * @typedef {import('../../packages/types/index.js').Institution} Institution
- * @typedef {import('../../packages/types/index.js').Office} Office
- * @typedef {import('../../packages/types/index.js').Tenure} Tenure
+ * @typedef {import('@civgraph/types').OfficesDocument} OfficesDocument
+ * @typedef {import('@civgraph/types').TenuresDocument} TenuresDocument
+ * @typedef {import('@civgraph/types').PartyEventsDocument} PartyEventsDocument
+ * @typedef {import('@civgraph/types').AffiliationsDocument} AffiliationsDocument
+ * @typedef {import('@civgraph/types').NonCandidatePersonsDocument} NonCandidatePersonsDocument
+ * @typedef {import('@civgraph/types').HonoursDocument} HonoursDocument
+ * @typedef {import('@civgraph/types').Institution} Institution
+ * @typedef {import('@civgraph/types').Office} Office
+ * @typedef {import('@civgraph/types').Tenure} Tenure
  * @typedef {PartyEventsDocument['events'][number]} PartyEvent
  * @typedef {AffiliationsDocument['affiliations'][number]} Affiliation
  * @typedef {NonCandidatePersonsDocument['persons'][number]} NonCandidatePerson

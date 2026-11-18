@@ -4,7 +4,7 @@
 //   node --test tests/unit/paged-fetch.test.mjs
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { loadAllPages } from '../../packages/map/src/app/paged-fetch.mjs';
+import { loadAllPages } from '@civgraph/map/src/app/paged-fetch.mjs';
 
 const ids = (n, from = 0) => Array.from({ length: n }, (_, i) => ({ id: `p${from + i}` }));
 const options = { pageSize: 200, maxPages: 20, idOf: (row) => row.id };

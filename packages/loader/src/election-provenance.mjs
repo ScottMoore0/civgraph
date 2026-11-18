@@ -28,7 +28,7 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { recordPaths } from '../../config/src/node.mjs';
+import { recordPaths } from '@civgraph/config/node';
 
 export const SOURCE_REQUIRED = Object.freeze(['url', 'origin', 'checked']);
 export const CONTEST_REQUIRED = Object.freeze(['file', 'body', 'date', 'constituency', 'status', 'sources']);

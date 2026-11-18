@@ -25,7 +25,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readPersonMerges } from '../../packages/loader/src/ingest-registries.mjs';
+import { readPersonMerges } from '@civgraph/loader/ingest-registries.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 export const LEDGER_FILE = path.join(ROOT, 'data', 'elections', 'persons', 'published-person-addresses.json');

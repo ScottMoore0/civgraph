@@ -15,7 +15,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { TableWriter, readJson, transaction } from './db.mjs';
-import { foldSearchText } from '../../core/src/format.js';
+import { foldSearchText } from '@civgraph/core/format.js';
 
 /** @typedef {import('./db.mjs').DocumentRow} DocumentRow */
 /** An entity-search item: the entity's id and its search fields. @typedef {{ entityId?: string, [key: string]: unknown }} SearchItem */
@@ -58,7 +58,7 @@ function readParts(headFile, graphDir, onPart = () => {}) {
 const withoutGeneratedAt = (/** @type {Record<string, unknown>} */ { generatedAt: _g, ...rest }) => rest;
 
 /**
- * @param {import('../../storage/src/sqlite.mjs').SqliteHandle} db
+ * @param {import('@civgraph/storage/node').SqliteHandle} db
  * @param {{ graphDir: string }} options
  */
 export function ingestGraph(db, { graphDir }) {
