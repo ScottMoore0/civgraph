@@ -25,7 +25,7 @@ export const IRELAND_LONLAT_BOUNDS = Object.freeze({ west: -11, south: 51.2, eas
  */
 export function centreInIreland(center) {
   if (!Array.isArray(center) || center.length < 2) return false;
-  const [lon, lat] = center.map(Number);
+  const [lon, lat] = /** @type {[number, number, ...number[]]} two or more (checked above) */ (center.map(Number));
   if (!Number.isFinite(lon) || !Number.isFinite(lat)) return false;
   const b = IRELAND_LONLAT_BOUNDS;
   return lon >= b.west && lon <= b.east && lat >= b.south && lat <= b.north;

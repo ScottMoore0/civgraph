@@ -183,8 +183,8 @@ export function assertKnownFlags(allowed, argv = process.argv.slice(2)) {
   // A value following a known value-taking flag is not itself a flag.
   const unknown = argv.filter((arg, i) => arg.startsWith('--')
     && !known.has(arg)
-    && !known.has(String(arg).split('=')[0])
-    && !(i > 0 && known.has(argv[i - 1]) && !arg.startsWith('--')));
+    && !known.has(/** @type {string} split gives at least one part */ (String(arg).split('=')[0]))
+    && !(i > 0 && known.has(/** @type {string} i is past the first */ (argv[i - 1])) && !arg.startsWith('--')));
   if (!unknown.length) return;
   console.error(`FAIL: unrecognised flag(s): ${unknown.join(', ')}`);
   console.error(`  This script implements: ${allowed.join(', ') || '(none)'}`);
