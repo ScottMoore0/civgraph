@@ -107,11 +107,6 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-/** @param {unknown} value */
-function normaliseText(value) {
-  return String(value || '').replace(/\s+/g, ' ').trim();
-}
-
 /**
  * @param {unknown} condition
  * @param {string} message
@@ -297,43 +292,6 @@ async function loadMainDail2024(page) {
 }
 
 /** @param {Page} page */
-async function selectMainRoscommonGalway(page) {
-  await page.waitForFunction(() => /** @type {ParityWindow} */ (window).mapController?.map || /** @type {ParityWindow} */ (window).uiController, null, { timeout: 30000 });
-  await page.evaluate(async () => {
-    const deadline = Date.now() + 20000;
-    /**
-     * @param {LeafletLayer | null | undefined} layer
-     * @returns {LeafletLayer | null}
-     */
-    function findLayer(layer) {
-      if (!layer) return null;
-      if (typeof layer.getLayers === 'function') {
-        for (const child of layer.getLayers()) {
-          const found = findLayer(child);
-          if (found) return found;
-        }
-      }
-      const props = layer.feature?.properties || layer.options?.feature?.properties || {};
-      const text = Object.values(props).map(String).join(' ').toLowerCase();
-      if (text.includes('roscommon') && text.includes('galway')) return layer;
-      return null;
-    }
-    while (Date.now() < deadline) {
-      const map = /** @type {ParityWindow} */ (window).mapController?.map;
-      // typed by a cast, so the assignment in the callback below is not narrowed away
-      let found = /** @type {LeafletLayer | null} */ (null);
-      if (map?.eachLayer) map.eachLayer((layer) => { if (!found) found = findLayer(layer); });
-      if (found) {
-        if (typeof found.fire === 'function') found.fire('click', { target: found });
-        return;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 250));
-    }
-    throw new Error('Could not find Roscommon Galway feature on main');
-  });
-}
-
-/** @param {Page} page */
 async function extractTimeline(page) {
   return page.evaluate(() => ({
     text: String(document.querySelector('.timeline-slider, #timeSlider, .time-slider')?.textContent || '').replace(/\s+/g, ' ').trim(),
@@ -476,11 +434,6 @@ async function extractMobileElectionState(page, viewport) {
       timelineVisible: Boolean(timeline && timeline.width > 120)
     };
   });
-}
-
-/** @param {unknown} value */
-function normalise(value) {
-  return String(value || '').replace(/\s+/g, ' ').trim();
 }
 
 function extractDataCoverageState() {
