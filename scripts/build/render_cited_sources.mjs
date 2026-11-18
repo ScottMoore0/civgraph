@@ -49,7 +49,7 @@ async function robotsAllows(origin, pathname) {
     const disallow = [];
     for (const raw of (await res.text()).split('\n')) {
       const line = raw.replace(/#.*/, '').trim();
-      const [field, ...rest] = line.split(':');
+      const [field, ...rest] = /** @type {[string, ...string[]]} split gives at least one part */ (line.split(':'));
       const value = rest.join(':').trim();
       if (/^user-agent$/i.test(field)) applies = value === '*';
       else if (applies && /^disallow$/i.test(field) && value) disallow.push(value);

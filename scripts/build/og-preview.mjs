@@ -43,7 +43,7 @@ const args = process.argv.slice(2);
  */
 const argVal = (name, fallback) => {
   const i = args.indexOf(name);
-  return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
+  return i >= 0 && args[i + 1] ? /** @type {string} */ (args[i + 1]) : fallback;
 };
 
 const OUT = path.resolve('site/assets/images/og-preview.png');
