@@ -59,6 +59,33 @@ in `dist/`. The map app and the catalogue reach the core and config packages thr
 esbuild bundles; a served, unbundled page reaches an allowlisted module through `/pkg/` (next
 section).
 
+## How packages are type-checked
+
+**Per package, with project references, since 18 Nov 2026 (TS-4)**: `npm run check:types:packages`
+is `tsc -b config/tsconfig.packages.json`, a solution that references one composite project per
+package, `packages/<name>/tsconfig.project.json` (not `tsconfig.json`: esbuild, the map bundler
+and the Functions bundler, would read that, and `packages/types/tsconfig.json` is taken). Each
+project is `strict` plus the stricter flags its files pass, in its package's environment (the DOM,
+plus `functions/_lib/runtime.d.mts` for api and storage; Node for the node halves, loader,
+intake, maps-pipeline, schema and registries), and references the projects it imports: tsc
+checks it against their declarations, emitted to `tmp/tsbuild/<project>/` (gitignored), and
+builds only what changed since the last run. Nothing else is emitted.
+
+- **Split projects.** tsc -b refuses a cycle, and a project holds one environment, so five
+  packages have two projects (no file moved): config and storage (`tsconfig.project.json`, the
+  runtime half; `tsconfig.project.node.json`, the node half), registries
+  (`tsconfig.project.browser.json`, the slices of `src/browser/` that core imports; the rest,
+  with the slices' generator `src/browser/build.mjs`), map (`tsconfig.project.views.json`,
+  `src/views/`, which ui draws with; the rest) and ui (`tsconfig.project.base.json`, the two
+  modules the api imports, `src/page-types.mjs` and `src/templates/proni/record-view.js`; the
+  rest, which imports the api).
+- **A new file** in a package joins its project (most includes are globs) and must check clean.
+  `tests/unit/packages-typecheck.test.mjs` holds the projects: every package script file is in
+  exactly one project or on its LEFT list (files not yet clean, which only shrinks), the flags and
+  include lists only grow, and no file silences the checker.
+- The older checks (`check:types:shared`, `:functions`, `:mapapp`, `:records`, `:intake`, `:ui`,
+  `:pipeline`) still run, over the files outside `packages/` as well.
+
 ## Served package modules (`/pkg/`)
 
 Since 11 Nov 2026 (owner-approved; the Elections app's arch audit P3) a short allowlist of pure
