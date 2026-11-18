@@ -1081,6 +1081,7 @@ const RETIRED_CONTEST_SLUGS = [
   ['lisnaskea-rural-district-council-1927-05-25-springfield', 'lisnaskea-rural-district-council-1927-05-25-springtown'],
   ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03'],
   ['bangor-borough-council-1938-05-16-bangor-7-seats', 'bangor-borough-council-1938-05-16'],
+  ['carrickfergus-borough-council-1967-05-17-west-ward', 'carrickfergus-borough-council-1967-05-17-west-ward-alderman'],
   // Belfast's 1961 round, filed under its poll date (17 May 1961) since 11 Nov 2026.
   ['belfast-county-borough-council-1961', 'belfast-county-borough-council-1961-05-17'],
   ['belfast-county-borough-council-1961-overall-results', 'belfast-county-borough-council-1961-05-17-overall-results'],

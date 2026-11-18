@@ -197,6 +197,7 @@ const RETIRED = new Map([
   ['larne-borough-council-1964-05-20-gardenmore-ward-aldermanship', 'larne-borough-council-1964-05-20-gardenmore-ward-alderman'],
   ['lisnaskea-rural-district-council-1927-05-25-springfield', 'lisnaskea-rural-district-council-1927-05-25-springtown'],
   ['dungannon-rural-district-council-1936-06-03-bernagh', 'dungannon-rural-district-council-1936-06-03'],
+  ['carrickfergus-borough-council-1967-05-17-west-ward', 'carrickfergus-borough-council-1967-05-17-west-ward-alderman'],
   ['bangor-borough-council-1938-05-16-bangor-7-seats', 'bangor-borough-council-1938-05-16'],
   // Belfast 1961, filed under the year until its poll date (17 May 1961) was found: the election,
   // its overall results and each ward's contest, councillors and aldermen.

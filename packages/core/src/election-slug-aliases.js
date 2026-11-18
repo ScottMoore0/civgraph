@@ -60,6 +60,9 @@ export const RETIRED_CONTEST_SLUGS = [
   // Bangor 1938 was one seven-member contest until the borough's register of elections (PRONI
   // LA/20/1/DA/1, 11 Nov 2026) showed it ward by ward: the round's own page holds the ten wards' contests.
   ['bangor-borough-council-1938-05-16-bangor-7-seats', 'bangor-borough-council-1938-05-16'],
+  // Carrickfergus 1967's one-seat West Ward contest is the ward's aldermanship (w19-council-fix-east,
+  // 18 Nov 2026), beside the councillors' contest.
+  ['carrickfergus-borough-council-1967-05-17-west-ward', 'carrickfergus-borough-council-1967-05-17-west-ward-alderman'],
   // Belfast's 1961 triennial round (councillors and aldermen) was filed under the year alone
   // until the Corporation's register of members (PRONI LA/7/1/CA/1/3) gave its poll date,
   // 17 May 1961 (11 Nov 2026): its election, overall results and ward contests, each exactly
