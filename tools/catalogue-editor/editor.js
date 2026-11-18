@@ -275,8 +275,8 @@
     rows.forEach((r, i) => {
       if (inResult.has(r)) return;
       let j = i - 1;
-      while (j >= 0 && !inResult.has(rows[j])) j -= 1;
-      const at = j >= 0 ? result.indexOf(rows[j]) + 1 : 0;
+      while (j >= 0 && !inResult.has(/** @type {HTMLTableRowElement} */ (rows[j]))) j -= 1;
+      const at = j >= 0 ? result.indexOf(/** @type {HTMLTableRowElement} */ (rows[j])) + 1 : 0;
       result.splice(at, 0, r);
       inResult.add(r);
     });
@@ -333,7 +333,7 @@
   /** @param {string} k */
   function findEntryList(k) {
     const [, card] = k.split('|');
-    const cardEl = one(document, `.c1-card[data-c1-id="${cssq(card)}"]`);
+    const cardEl = one(document, `.c1-card[data-c1-id="${cssq(/** @type {string} an entries key names its card */ (card))}"]`);
     if (!cardEl) return null;
     const lists = new Set([...cardEl.querySelectorAll('.class-member[data-map-id]')].map((m) => /** @type {HTMLElement} */ (m.parentElement)));
     return [...lists].find((l) => listKey(l) === k) || null;
@@ -358,7 +358,7 @@
     const sorted = [...units].sort((a, b) => rank(a.id) - rank(b.id));
     if (sorted.every((u, i) => u.id === cur[i])) return;
     S.applying = true;
-    const anchor = units[0].nodes[0].previousSibling;
+    const anchor = /** @type {HTMLElement} a reordered list has an entry, and an entry a node */ (/** @type {{ nodes: HTMLElement[] }} */ (units[0]).nodes[0]).previousSibling;
     const frag = document.createDocumentFragment();
     sorted.forEach((u) => u.nodes.forEach((n) => frag.appendChild(n)));
     list.insertBefore(frag, anchor ? anchor.nextSibling : list.firstChild);
@@ -392,10 +392,10 @@
     /** @type {AttrFields} */
     const saved = edits().attrs[k]?.fields || {};
     const val = (/** @type {keyof AttrState} */ name) => (saved[name] !== undefined ? saved[name] : cur[name]);
-    const texts = isVar
+    const texts = /** @type {[string, string, string][]} */ (isVar
       ? [['name', '.variant-item__name', 'Display name'], ['description', '.variant-item__description', 'Description']]
       : [['name', '.class-member__name', 'Display name'], ['date', '.class-member__date', 'Date shown'],
-        ['provider', '.class-member__provider', 'Provider / feature count'], ['details', '.class-member__change-note, .class-member__desc', 'Details']];
+        ['provider', '.class-member__provider', 'Provider / feature count'], ['details', '.class-member__change-note, .class-member__desc', 'Details']]);
     const pop = document.createElement('div');
     pop.className = 'ce-ui ce-pop';
     pop.innerHTML = `<div class="ce-pop__title">${esc(text(nameEl) || m.dataset.mapId)}<span class="ce-pop__id">${esc(m.dataset.mapId)}</span></div>
@@ -605,7 +605,7 @@
         const unit = units.find((u) => u.nodes[0] === dragged.el);
         const target = units.find((u) => u.nodes[0] === over);
         if (unit && target) {
-          const ref = before ? target.nodes[0] : (target.nodes[target.nodes.length - 1].nextSibling);
+          const ref = before ? /** @type {HTMLElement} a unit has at least one node */ (target.nodes[0]) : (/** @type {HTMLElement} */ (target.nodes[target.nodes.length - 1]).nextSibling);
           unit.nodes.forEach((n) => list.insertBefore(n, ref));
           edits().order[listKey(list)] = entryUnits(list).map((u) => u.id);
           log('move entry', { list: listKey(list), entry: unit.id });
@@ -817,7 +817,7 @@
     pop.addEventListener('click', (ev) => {
       const b = /** @type {HTMLElement} */ (ev.target);
       if (b.dataset.revertText) {
-        const t = e.text[b.dataset.revertText];
+        const t = /** @type {TextEdit} the button is shown for an edited text */ (e.text[b.dataset.revertText]);
         delete e.text[b.dataset.revertText];
         all(document, `[data-ce-key="${cssq(b.dataset.revertText)}"]`).forEach((el) => { el.textContent = t.original ?? null; el.classList.remove('ce-changed'); });
         log('revert', { key: b.dataset.revertText });
