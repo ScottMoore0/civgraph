@@ -25,7 +25,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
  * @typedef {{ measure: string, value: number, note?: string }} Gap
  * @typedef {{ tests?: string[], npm?: string[], asserts?: string[], browser?: string[] }} Evidence
  * @typedef {{ id: string, title: string, status: 'met' | 'open', note?: string, evidence: Evidence, gaps?: Gap[] }} Criterion
- * @typedef {{ criteria: Criterion[] }} AcceptanceFile
+ * @typedef {{ testRoot?: string, criteria: Criterion[] }} AcceptanceFile
  * @typedef {{ ok: boolean, detail: string }} Outcome
  */
 
@@ -133,6 +133,23 @@ export function judgeGap(gap, now) {
 }
 
 /**
+ * A criterion's test file as a path from the repository root: the file lists test files relative
+ * to its testRoot (the tests directory), so the list does not repeat the directory name.
+ * @param {{ testRoot?: string }} file @param {string} t
+ */
+export const testPath = (file, t) => (file.testRoot ? path.posix.join(file.testRoot, t) : t);
+
+/**
+ * The file with every criterion's test files given from the repository root.
+ * @template {{ testRoot?: string, criteria: Array<{ evidence: { tests?: string[] } }> }} F
+ * @param {F} file @returns {F}
+ */
+export const withTestPaths = (file) => ({
+  ...file,
+  criteria: file.criteria.map((c) => (c.evidence.tests ? { ...c, evidence: { ...c.evidence, tests: c.evidence.tests.map((t) => testPath(file, t)) } } : c)),
+});
+
+/**
  * Check the file's own shape: a met criterion has no gaps, an open one has some.
  * @param {AcceptanceFile} file
  * @returns {string[]}
@@ -145,7 +162,7 @@ export function shapeProblems(file) {
     ids.add(c.id);
     if (c.status === 'met' && c.gaps?.length) problems.push(`${c.id}: met, but lists gaps`);
     if (c.status === 'open' && !c.gaps?.length) problems.push(`${c.id}: open, but lists no gap`);
-    for (const t of c.evidence.tests ?? []) if (!existsSync(path.join(ROOT, t))) problems.push(`${c.id}: no test file ${t}`);
+    for (const t of c.evidence.tests ?? []) if (!existsSync(path.join(ROOT, testPath(file, t)))) problems.push(`${c.id}: no test file ${t}`);
     for (const a of c.evidence.asserts ?? []) if (!(parts(a)[0] in ASSERTS)) problems.push(`${c.id}: unknown assertion ${a}`);
     for (const g of c.gaps ?? []) if (!(parts(g.measure)[0] in MEASURES)) problems.push(`${c.id}: unknown measure ${g.measure}`);
   }
@@ -195,8 +212,9 @@ async function main() {
   const measuresOnly = argv.includes('--measures');
   const onlyAt = argv.indexOf('--only');
   const only = onlyAt >= 0 ? new Set((argv[onlyAt + 1] ?? '').split(',')) : null;
-  const file = /** @type {AcceptanceFile} */ (readJson('config/acceptance.json'));
-  const shape = shapeProblems(file);
+  const listed = /** @type {AcceptanceFile} */ (readJson('config/acceptance.json'));
+  const shape = shapeProblems(listed);
+  const file = withTestPaths(listed);
   for (const p of shape) console.error(`FAIL: config/acceptance.json: ${p}`);
   const criteria = file.criteria.filter((c) => !only || only.has(c.id));
 

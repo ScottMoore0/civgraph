@@ -1,12 +1,13 @@
 {
   "//": "The refactor's acceptance criteria (REFACTOR-PLAN.md: the owner's five acceptance tests A1-A5 and the eight items; RF9-SURVEY.md), made executable by scripts/check/acceptance.mjs (npm run test:acceptance). Each criterion lists its evidence: test files run with node --test, npm scripts, and named assertions the runner implements. A criterion is 'met' or 'open'; an open one lists its gaps, each with a measure and the value it had when recorded. The runner fails when evidence fails, when a measure grows, and when it shrinks without this file being updated (a ratchet: a gap closed is written down, here, and a met criterion never goes back). --browser adds the browser evidence (Playwright).",
+  "testRoot": "tests",
   "criteria": [
     {
       "id": "A1",
       "title": "A new body type needs only config",
       "status": "open",
       "evidence": {
-        "tests": ["tests/unit/acceptance-a1-body-type.test.mjs", "tests/unit/registries-election-bodies.test.mjs", "tests/unit/registries-body-groups.test.mjs", "tests/unit/registries-catalogue-kinds.test.mjs", "tests/unit/registries-councils.test.mjs"],
+        "tests": ["unit/acceptance-a1-body-type.test.mjs", "unit/registries-election-bodies.test.mjs", "unit/registries-body-groups.test.mjs", "unit/registries-catalogue-kinds.test.mjs", "unit/registries-councils.test.mjs"],
         "asserts": ["architecture-baseline-empty:C4"]
       },
       "gaps": [
@@ -18,7 +19,7 @@
       "title": "A new source needs only one plugin",
       "status": "met",
       "evidence": {
-        "tests": ["tests/intake/plugins.test.mjs", "tests/intake/ingest-plugins.test.mjs"],
+        "tests": ["intake/plugins.test.mjs", "intake/ingest-plugins.test.mjs"],
         "asserts": ["file:packages/registries/schemas/database/providers.schema.json"]
       }
     },
@@ -28,7 +29,7 @@
       "status": "met",
       "note": "For the JavaScript code: only packages/storage (and tests) touch an engine API, every SQL string is a named query, and the conformance suite runs over both engines. The Python PRONI D1 builders (scripts/records/proni/*.py) and the SQLite-only query features named-queries.test lists would move with a swap.",
       "evidence": {
-        "tests": ["tests/unit/storage.test.mjs", "tests/unit/storage-adoption.test.mjs", "tests/unit/boundaries.test.mjs", "tests/functions/named-queries.test.mjs"],
+        "tests": ["unit/storage.test.mjs", "unit/storage-adoption.test.mjs", "unit/boundaries.test.mjs", "functions/named-queries.test.mjs"],
         "npm": ["check:boundaries"],
         "asserts": ["engines-baseline-empty", "boundaries-baseline-empty"]
       }
@@ -39,7 +40,7 @@
       "status": "met",
       "note": "Data colours (party colours, palettes a canvas or SVG draws with) are registry data, not tokens (R9, owner-approved 12 Nov 2026).",
       "evidence": {
-        "tests": ["tests/unit/ui-tokens.test.mjs", "tests/unit/registries-colours.test.mjs", "tests/functions/design-system.test.mjs"],
+        "tests": ["unit/ui-tokens.test.mjs", "unit/registries-colours.test.mjs", "functions/design-system.test.mjs"],
         "asserts": ["architecture-baseline-empty:C8"],
         "browser": ["test:browser:visual"]
       }
@@ -49,7 +50,7 @@
       "title": "A new language needs only translation files",
       "status": "met",
       "evidence": {
-        "tests": ["tests/unit/i18n-new-language.test.mjs", "tests/unit/i18n-languages.test.mjs", "tests/unit/i18n-untranslated.test.mjs", "tests/unit/site-format.test.mjs"],
+        "tests": ["unit/i18n-new-language.test.mjs", "unit/i18n-languages.test.mjs", "unit/i18n-untranslated.test.mjs", "unit/site-format.test.mjs"],
         "asserts": ["architecture-baseline-empty:C10"],
         "browser": ["test:i18n"]
       }
@@ -59,7 +60,7 @@
       "title": "Packages: npm workspaces under packages/, imported by their @civgraph names, import rules enforced",
       "status": "open",
       "evidence": {
-        "tests": ["tests/unit/packages.test.mjs", "tests/unit/boundaries.test.mjs", "tests/unit/served-pkg.test.mjs", "tests/unit/map-served-paths.test.mjs"],
+        "tests": ["unit/packages.test.mjs", "unit/boundaries.test.mjs", "unit/served-pkg.test.mjs", "unit/map-served-paths.test.mjs"],
         "npm": ["check:boundaries"],
         "asserts": ["boundaries-baseline-empty"]
       },
@@ -72,13 +73,13 @@
       "title": "TypeScript: types at every boundary, strict, per-package projects built with tsc -b",
       "status": "open",
       "evidence": {
-        "tests": ["tests/unit/typecheck.test.mjs", "tests/unit/packages-typecheck.test.mjs", "tests/unit/map-typecheck.test.mjs"],
+        "tests": ["unit/typecheck.test.mjs", "unit/packages-typecheck.test.mjs", "unit/map-typecheck.test.mjs"],
         "npm": ["check:types:packages", "check:types:records", "check:types:ui", "check:types:intake", "check:types:pipeline", "check:types:mapapp", "check:types:shared", "check:types:functions", "check:types:functions-strict"],
         "asserts": ["architecture-baseline-empty:C11"]
       },
       "gaps": [
         { "measure": "configs-without:noUncheckedIndexedAccess", "value": 10, "note": "type-check configs and package projects not yet under noUncheckedIndexedAccess" },
-        { "measure": "package-files-left", "value": 16, "note": "package files no package project includes yet (tests/unit/packages-typecheck.test.mjs LEFT)" }
+        { "measure": "package-files-left", "value": 16, "note": "package files no package project includes yet (the LEFT list of the package type-check unit test)" }
       ]
     },
     {
@@ -86,7 +87,7 @@
       "title": "Registries: the lists the code branches on are data with schemas",
       "status": "met",
       "evidence": {
-        "tests": ["tests/unit/registries.test.mjs", "tests/unit/registries-database.test.mjs", "tests/unit/registries-parties.test.mjs", "tests/unit/registries-statuses.test.mjs", "tests/unit/registries-layers.test.mjs", "tests/unit/registries-offices.test.mjs", "tests/unit/registries-source-kinds.test.mjs", "tests/unit/registries-no-party-labels.test.mjs"]
+        "tests": ["unit/registries.test.mjs", "unit/registries-database.test.mjs", "unit/registries-parties.test.mjs", "unit/registries-statuses.test.mjs", "unit/registries-layers.test.mjs", "unit/registries-offices.test.mjs", "unit/registries-source-kinds.test.mjs", "unit/registries-no-party-labels.test.mjs"]
       }
     },
     {
@@ -94,7 +95,7 @@
       "title": "Versioned API: /api/v1 with contracts, contract tests and an OpenAPI document",
       "status": "met",
       "evidence": {
-        "tests": ["tests/functions/api-v1.test.mjs", "tests/functions/api-v1-contracts.test.mjs", "tests/functions/api-v1-docs.test.mjs"],
+        "tests": ["functions/api-v1.test.mjs", "functions/api-v1-contracts.test.mjs", "functions/api-v1-docs.test.mjs"],
         "asserts": ["architecture-baseline-empty:C9"]
       }
     },
@@ -103,7 +104,7 @@
       "title": "Component gallery: /design-system/ from the real templates, with specimens and a visual gate",
       "status": "met",
       "evidence": {
-        "tests": ["tests/functions/design-system.test.mjs", "tests/unit/map-specimens.test.mjs", "tests/unit/map-views.test.mjs"],
+        "tests": ["functions/design-system.test.mjs", "unit/map-specimens.test.mjs", "unit/map-views.test.mjs"],
         "browser": ["test:browser:visual"]
       }
     },
@@ -112,7 +113,7 @@
       "title": "Config: one module for origins, bindings, variables, paths and cache policies",
       "status": "met",
       "evidence": {
-        "tests": ["tests/unit/config.test.mjs", "tests/unit/config-check.test.mjs", "tests/unit/config-adoption.test.mjs", "tests/unit/pipeline-config-adoption.test.mjs", "tests/unit/map-config.test.mjs"],
+        "tests": ["unit/config.test.mjs", "unit/config-check.test.mjs", "unit/config-adoption.test.mjs", "unit/pipeline-config-adoption.test.mjs", "unit/map-config.test.mjs"],
         "asserts": ["architecture-baseline-empty:C5"]
       }
     },
@@ -121,7 +122,7 @@
       "title": "Ingest plugins: one plugin per source, replayed byte for byte",
       "status": "open",
       "evidence": {
-        "tests": ["tests/intake/plugins.test.mjs", "tests/intake/ingest-plugins.test.mjs", "tests/intake/ingest-typecheck.test.mjs", "tests/intake/offline-replay.test.mjs"]
+        "tests": ["intake/plugins.test.mjs", "intake/ingest-plugins.test.mjs", "intake/ingest-typecheck.test.mjs", "intake/offline-replay.test.mjs"]
       },
       "gaps": [
         { "measure": "ingest-parity-blocked", "value": 7, "note": "ingest steps whose byte-for-byte replay is blocked (scripts/ingest/parity.json)" }
