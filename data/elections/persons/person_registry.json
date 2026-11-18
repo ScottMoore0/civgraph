@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 159868,
+ "idHighWater": 160105,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -58,7 +58,7 @@
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
   "crossSystemMerges": 1061,
-  "sameNameLeftSplit": 2904
+  "sameNameLeftSplit": 2905
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -9936,7 +9936,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159807
+    160045
    ]
   },
   {
@@ -12335,7 +12335,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159854
+    160091
    ]
   },
   {
@@ -25221,7 +25221,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159856
+    160093
    ]
   },
   {
@@ -43159,7 +43159,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159857
+    160094
    ]
   },
   {
@@ -60475,7 +60475,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159823
+    160061
    ]
   },
   {
@@ -62423,10 +62423,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159762,
-    159781,
-    159826,
-    159827
+    160000,
+    160019,
+    160064,
+    160065
    ]
   },
   {
@@ -62738,10 +62738,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159791,
-    159792,
-    159809,
-    159862
+    160029,
+    160030,
+    160047,
+    160099
    ]
   },
   {
@@ -63439,10 +63439,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159768,
-    159769,
-    159835,
-    159836
+    160006,
+    160007,
+    160073,
+    160074
    ]
   },
   {
@@ -63479,10 +63479,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159770,
-    159786,
-    159798,
-    159837
+    160008,
+    160024,
+    160036,
+    160075
    ]
   },
   {
@@ -63956,8 +63956,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159775,
-    159855
+    160013,
+    160092
    ]
   },
   {
@@ -64118,11 +64118,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159776,
-    159793,
-    159864,
-    159865,
-    159866
+    160014,
+    160031,
+    160101,
+    160102,
+    160103
    ]
   },
   {
@@ -64916,10 +64916,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159753,
-    159760,
-    159818,
-    159819
+    159991,
+    159998,
+    160056,
+    160057
    ]
   },
   {
@@ -65839,12 +65839,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159790,
-    159808,
-    159858,
-    159859,
-    159860,
-    159861
+    160028,
+    160046,
+    160095,
+    160096,
+    160097,
+    160098
    ]
   },
   {
@@ -70273,9 +70273,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159754,
-    159755,
-    159783
+    159992,
+    159993,
+    160021
    ]
   },
   {
@@ -70313,11 +70313,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159765,
-    159784,
-    159785,
-    159797,
-    159832
+    160003,
+    160022,
+    160023,
+    160035,
+    160070
    ]
   },
   {
@@ -70354,10 +70354,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159751,
-    159756,
-    159844,
-    159845
+    159989,
+    159994,
+    160082,
+    160083
    ]
   },
   {
@@ -72511,11 +72511,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159752,
-    159810,
-    159811,
-    159812,
-    159867
+    159990,
+    160048,
+    160049,
+    160050,
+    160104
    ]
   },
   {
@@ -75712,12 +75712,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159757,
-    159787,
-    159803,
-    159804,
-    159846,
-    159847
+    159995,
+    160025,
+    160041,
+    160042,
+    160084,
+    160085
    ]
   },
   {
@@ -75755,11 +75755,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159758,
-    159773,
-    159788,
-    159848,
-    159849
+    159996,
+    160011,
+    160026,
+    160086,
+    160087
    ]
   },
   {
@@ -75799,13 +75799,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159774,
-    159789,
-    159805,
-    159806,
-    159850,
-    159851,
-    159852
+    160012,
+    160027,
+    160043,
+    160044,
+    160088,
+    160089,
+    160090
    ]
   },
   {
@@ -83736,12 +83736,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159761,
-    159778,
-    159779,
-    159780,
-    159821,
-    159822
+    159999,
+    160016,
+    160017,
+    160018,
+    160059,
+    160060
    ]
   },
   {
@@ -83907,11 +83907,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159763,
-    159764,
-    159782,
-    159830,
-    159831
+    160001,
+    160002,
+    160020,
+    160068,
+    160069
    ]
   },
   {
@@ -83947,9 +83947,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159766,
-    159833,
-    159834
+    160004,
+    160071,
+    160072
    ]
   },
   {
@@ -83988,12 +83988,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159771,
-    159772,
-    159800,
-    159801,
-    159802,
-    159843
+    160009,
+    160010,
+    160038,
+    160039,
+    160040,
+    160081
    ]
   },
   {
@@ -121585,10 +121585,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159814,
-    159815,
-    159816,
-    159817
+    160052,
+    160053,
+    160054,
+    160055
    ]
   },
   {
@@ -121623,8 +121623,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159795,
-    159820
+    160033,
+    160058
    ]
   },
   {
@@ -126917,10 +126917,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159839,
-    159840,
-    159841,
-    159842
+    160077,
+    160078,
+    160079,
+    160080
    ]
   },
   {
@@ -147252,7 +147252,7 @@
    "provenance": "keyed on the source's own candidate id (ei:3485)",
    "provisional": true,
    "mergedFrom": [
-    159777
+    160015
    ]
   },
   {
@@ -167271,7 +167271,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159825
+    160063
    ]
   },
   {
@@ -170846,7 +170846,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159824
+    160062
    ]
   },
   {
@@ -207630,8 +207630,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159828,
-    159829
+    160066,
+    160067
    ]
   },
   {
@@ -207665,7 +207665,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159838
+    160076
    ]
   },
   {
@@ -270324,7 +270324,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159863
+    160100
    ]
   },
   {
@@ -328445,7 +328445,7 @@
    "provenance": "keyed on the source's own candidate id (ie:6276)",
    "provisional": true,
    "mergedFrom": [
-    159794
+    160032
    ]
   },
   {
@@ -363279,7 +363279,7 @@
    "provisional": true,
    "nameVariants": true,
    "mergedFrom": [
-    159759
+    159997
    ]
   },
   {
@@ -511758,7 +511758,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    159767
+    160005
    ]
   },
   {
@@ -513111,7 +513111,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159813
+    160051
    ]
   },
   {
@@ -515274,7 +515274,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    159796
+    160034
    ]
   },
   {
@@ -563431,7 +563431,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    159799
+    160037
    ]
   },
   {
@@ -578034,7 +578034,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    159868
+    160105
    ]
   },
   {
@@ -830318,35 +830318,6 @@
    "provisional": true
   },
   {
-   "id": "p140541",
-   "personId": 140541,
-   "displayName": "D. J. McQuaid",
-   "aliases": [
-    "D. J. McQuaid"
-   ],
-   "matchKeys": [
-    "d j mcquaid"
-   ],
-   "sourceIds": [
-    "D. J. McQuaid|Nationalist Party"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
-   "lastYear": 1964,
-   "bodies": [
-    "dungannon-urban-district-council"
-   ],
-   "parties": [
-    "Nationalist Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p140542",
    "personId": 140542,
    "displayName": "D. Jackson Christie",
@@ -844904,35 +844875,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p141095",
-   "personId": 141095,
-   "displayName": "J. Bradley",
-   "aliases": [
-    "J. Bradley"
-   ],
-   "matchKeys": [
-    "j bradley"
-   ],
-   "sourceIds": [
-    "J. Bradley|NI Labour"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1946,
-   "lastYear": 1946,
-   "bodies": [
-    "enniskillen-borough-council"
-   ],
-   "parties": [
-    "NI Labour"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p141096",
@@ -867480,35 +867422,6 @@
    "provisional": true
   },
   {
-   "id": "p141938",
-   "personId": 141938,
-   "displayName": "P. J. Donaghy",
-   "aliases": [
-    "P. J. Donaghy"
-   ],
-   "matchKeys": [
-    "p j donaghy"
-   ],
-   "sourceIds": [
-    "P. J. Donaghy|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
-   "lastYear": 1964,
-   "bodies": [
-    "dungannon-urban-district-council"
-   ],
-   "parties": [
-    "Campaign for Social Justice"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p141939",
    "personId": 141939,
    "displayName": "P. J. Hughes",
@@ -880324,23 +880237,29 @@
     "t j donaghy"
    ],
    "sourceIds": [
+    "T. J. Donaghy|",
     "T. J. Donaghy|Independent"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1964,
    "lastYear": 1967,
    "bodies": [
     "dungannon-urban-district-council"
    ],
    "parties": [
+    "Campaign for Social Justice",
     "Independent"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    159973
+   ]
   },
   {
    "id": "p142417",
@@ -880748,10 +880667,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    159853
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142433",
@@ -901057,8 +900973,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1932,
    "lastYear": 1949,
    "bodies": [
@@ -1026513,33 +1026429,6 @@
    "parties": [
     "Nationalist Party"
    ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p148378",
-   "personId": 148378,
-   "displayName": "T. Beggan",
-   "aliases": [
-    "T. Beggan"
-   ],
-   "matchKeys": [
-    "t beggan"
-   ],
-   "sourceIds": [
-    "T. Beggan|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
-   "lastYear": 1958,
-   "bodies": [
-    "lisnaskea-rural-district-council"
-   ],
-   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1153086,6 +1152975,62 @@
    "parties": [],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (hop:1790-1820/member/westenra-warner-william-1765-1842)",
+   "provisional": true
+  },
+  {
+   "id": "p159964",
+   "personId": 159964,
+   "displayName": "P. G. McQuaid",
+   "aliases": [
+    "P. G. McQuaid"
+   ],
+   "matchKeys": [
+    "p g mcquaid"
+   ],
+   "sourceIds": [
+    "P. G. McQuaid|Nationalist Party"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
+   "lastYear": 1964,
+   "bodies": [
+    "dungannon-urban-district-council"
+   ],
+   "parties": [
+    "Nationalist Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p159972",
+   "personId": 159972,
+   "displayName": "T. Beagan",
+   "aliases": [
+    "T. Beagan"
+   ],
+   "matchKeys": [
+    "t beagan"
+   ],
+   "sourceIds": [
+    "T. Beagan|"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "lisnaskea-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
   },
   {
