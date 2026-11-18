@@ -296,9 +296,9 @@ function readArgList(name) {
   /** @type {string[]} */
   const values = [];
   for (let index = 0; index < process.argv.length; index += 1) {
-    const arg = process.argv[index];
+    const arg = /** @type {string} index is within argv */ (process.argv[index]);
     if (arg === name && process.argv[index + 1]) {
-      values.push(...process.argv[index + 1].split(','));
+      values.push(.../** @type {string} checked just before */ (process.argv[index + 1]).split(','));
       index += 1;
     } else if (arg.startsWith(`${name}=`)) {
       values.push(...arg.slice(name.length + 1).split(','));

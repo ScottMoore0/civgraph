@@ -41,7 +41,7 @@ const args = process.argv.slice(2);
  * @param {T} d        the default
  * @returns {string | T}
  */
-const argVal = (n, d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };
+const argVal = (n, d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? /** @type {string} checked just before */ (args[i + 1]) : d; };
 const DIR = argVal('dir', null);
 // A SUBSET of a tree, as [{local, rel}], instead of everything under --dir. Needed when the
 // selection is not "this directory" but the result of a filter -- rights, integrity, or what
@@ -140,7 +140,7 @@ if (!VERIFY_ONLY && !DRY && todo.length) {
   await Promise.all(Array.from({ length: Math.min(CONCURRENCY, todo.length) }, async () => {
     while (i < todo.length) {
       const idx = i; i += 1;
-      const [key, { abs, size }] = todo[idx];
+      const [key, { abs, size }] = /** @type {(typeof todo)[number]} idx is within the list */ (todo[idx]);
       let ok = false;
       for (let attempt = 1; attempt <= 5 && !ok; attempt += 1) {
         try {

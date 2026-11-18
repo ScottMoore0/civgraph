@@ -29,7 +29,7 @@ import {
  */
 export function removeWorktree({ target, force = false, log = console.log }) {
   const all = listWorktrees();
-  const mainRoot = all[0].path;
+  const mainRoot = /** @type {{ path: string }} git lists the main worktree first */ (all[0]).path;
   const wt = /[\\/]/.test(target) ? path.resolve(target) : worktreePath(target);
   if (samePath(wt, mainRoot)) throw new Error('refusing to remove the main checkout');
   if (!all.some((w) => samePath(w.path, wt))) throw new Error(`${wt} is not a worktree of this repository`);

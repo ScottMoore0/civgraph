@@ -55,10 +55,10 @@ function pickLabel(properties) {
 /** @param {Coords} coords @returns {coords is number[]} */
 const isPosition = (coords) => typeof coords[0] === 'number';
 
-/** @param {number[]} bounds @param {Coords} coords */
+/** @param {[number, number, number, number]} bounds @param {Coords} coords */
 function extendBounds(bounds, coords) {
   if (isPosition(coords)) {
-    const [x, y] = coords;
+    const [x, y] = /** @type {[number, number]} a position has x and y */ (coords);
     if (x < bounds[0]) bounds[0] = x;
     if (y < bounds[1]) bounds[1] = y;
     if (x > bounds[2]) bounds[2] = x;
@@ -80,7 +80,7 @@ for (const file of files) {
   console.log(`\n${path.basename(file)}  (${(size / 1048576).toFixed(1)} MB)`);
   try {
     const bytes = new Uint8Array(readFileSync(file));
-    const bounds = [Infinity, Infinity, -Infinity, -Infinity];
+    const bounds = /** @type {[number, number, number, number]} */ ([Infinity, Infinity, -Infinity, -Infinity]);
     const propertyKeys = new Set();
     const geometryTypes = new Map();
     const samples = [];

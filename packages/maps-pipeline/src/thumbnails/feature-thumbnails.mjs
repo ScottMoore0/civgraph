@@ -31,7 +31,7 @@ const BLANK_GIF = Buffer.from('R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
 /**
  * @typedef {import('geojson').Geometry} Geometry
  * @typedef {import('geojson').Position} Position
- * @typedef {number[]} Bbox   [minX, minY, maxX, maxY]
+ * @typedef {[number, number, number, number]} Bbox   [minX, minY, maxX, maxY]
  * @typedef {import('canvas').Canvas} Canvas
  *
  * The command line.
@@ -110,7 +110,7 @@ function parseArgs(argv) {
     registry: null
   };
   for (let index = 0; index < argv.length; index += 1) {
-    const arg = argv[index];
+    const arg = /** @type {string} index is within argv */ (argv[index]);
     if (arg === '--all') args.all = true;
     else if (arg === '--force') args.force = true;
     else if (arg === '--map' || arg === '--maps') {
@@ -394,7 +394,7 @@ function renderFeatureThumbnail(geometry, colour) {
   const scale = Math.min(drawW / geoW, drawH / geoH);
   const offX = PADDING + (drawW - geoW * scale) / 2;
   const offY = PADDING + (drawH - geoH * scale) / 2;
-  const project = (/** @type {number} */ lon, /** @type {number} */ lat) => [offX + (lon - minX) * scale, offY + (maxY - lat) * scale];
+  const project = (/** @type {number} */ lon, /** @type {number} */ lat) => /** @type {[number, number]} */ ([offX + (lon - minX) * scale, offY + (maxY - lat) * scale]);
 
   const canvas = createCanvas(WIDTH, HEIGHT);
   const ctx = canvas.getContext('2d');
@@ -414,7 +414,7 @@ function renderFeatureThumbnail(geometry, colour) {
 
   for (const item of paths) {
     if (item.point) {
-      const [x, y] = project(item.point[0], item.point[1]);
+      const [x, y] = project(/** @type {number} a position has x and y */ (item.point[0]), /** @type {number} */ (item.point[1]));
       ctx.beginPath();
       ctx.arc(x, y, 4.5, 0, Math.PI * 2);
       ctx.fill();
@@ -424,7 +424,7 @@ function renderFeatureThumbnail(geometry, colour) {
     if (!Array.isArray(item.points) || item.points.length === 0) continue;
     ctx.beginPath();
     item.points.forEach((point, index) => {
-      const [x, y] = project(point[0], point[1]);
+      const [x, y] = project(/** @type {number} a position has x and y */ (point[0]), /** @type {number} */ (point[1]));
       if (index === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     });
@@ -537,7 +537,7 @@ function resolveSpatialFeature(spatialLookup, claimedSpatialIds, mapId, name, so
     if (scoreB.iou !== scoreA.iou) return scoreB.iou - scoreA.iou;
     return scoreA.distance - scoreB.distance;
   });
-  const selected = candidates[0];
+  const selected = /** @type {SpatialEntry} the list is not empty (checked above) */ (candidates[0]);
   claimedSpatialIds.add(selected.__thumbnailSpatialKey);
   return selected;
 }

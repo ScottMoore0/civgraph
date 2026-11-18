@@ -101,7 +101,7 @@ export function createWorktree({ name, branch = name, from = 'main', existing = 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
   const value = (/** @type {string} */ flag) => { const i = args.indexOf(flag); return i >= 0 ? args[i + 1] : undefined; };
-  const name = args.find((a, i) => !a.startsWith('--') && !['--from', '--branch'].includes(args[i - 1]));
+  const name = args.find((a, i) => !a.startsWith('--') && !/** @type {(string | undefined)[]} the first argument has none before it */ (['--from', '--branch']).includes(args[i - 1]));
   if (!name) {
     console.error('usage: npm run worktree:new -- <name> [--from <ref>] [--branch <branch>] [--existing] [--no-artefacts]');
     process.exit(2);

@@ -57,7 +57,7 @@ const argv = process.argv.slice(2);
  * @template T
  * @param {string} name
  * @param {T} fallback
- * @returns {string | T}
+ * @returns {string | T | undefined}   undefined when the flag is the last argument
  */
 const arg = (name, fallback) => {
   const i = argv.indexOf(name);
@@ -74,7 +74,7 @@ const POLL_SECONDS = 15;
 function assetPaths(html) {
   const found = new Set();
   for (const m of html.matchAll(/["'(]([^"'()\s]*?\/build\/[^"'()\s?]+\.(?:js|css))(?:\?v=[a-z0-9]+)?/g)) {
-    found.add(m[1].replace(/^\.?\//, '/'));
+    found.add(/** @type {string} the pattern has one group */ (m[1]).replace(/^\.?\//, '/'));
   }
   return [...found];
 }

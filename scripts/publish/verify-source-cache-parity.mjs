@@ -119,7 +119,7 @@ for (const map of catalogue.maps || []) {
   // check reported five such layers as mismatched before the guard existed. Comparing a
   // conversion against its input is not a staleness test, it is a format test.
   const localExt = (local.match(/\.([a-z0-9]+)$/i) || [])[1] || '';
-  const publishedExt = (String(published).split('?')[0].match(/\.([a-z0-9]+)$/i) || [])[1] || '';
+  const publishedExt = (/** @type {string} split gives at least one part */ (String(published).split('?')[0]).match(/\.([a-z0-9]+)$/i) || [])[1] || '';
   if (localExt.toLowerCase() !== publishedExt.toLowerCase()) { differentFormat.push(`${map.id} (${localExt} vs ${publishedExt})`); continue; }
 
   // 8 of 671 catalogue entries store a repo-relative path where the rest store a full

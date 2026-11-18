@@ -21,7 +21,7 @@
 export function globToRegExp(glob) {
   let out = '';
   for (let i = 0; i < glob.length; i += 1) {
-    const c = glob[i];
+    const c = /** @type {string} i is within the glob */ (glob[i]);
     if (c === '*' && glob[i + 1] === '*') {
       out += glob[i + 2] === '/' ? '(?:.*/)?' : '.*';
       i += glob[i + 2] === '/' ? 2 : 1;

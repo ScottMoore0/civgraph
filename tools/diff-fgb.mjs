@@ -20,7 +20,7 @@ import { readFileSync } from 'node:fs';
 import { geojson } from 'flatgeobuf';
 
 /** @typedef {import('geojson').Position} Position */
-/** @typedef {{ vertices: number, area: number, bounds: number[] }} Summary */
+/** @typedef {{ vertices: number, area: number, bounds: [number, number, number, number] }} Summary */
 const [fileA, fileB] = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const keyArg = process.argv[process.argv.indexOf('--key') + 1];
 const KEY = process.argv.includes('--key') ? keyArg : null;
@@ -50,7 +50,7 @@ function pickKey(properties, explicit) {
 function ringArea(ring) {
   let sum = 0;
   for (let i = 0, j = ring.length - 1; i < ring.length; j = i, i += 1) {
-    sum += (ring[j][0] * ring[i][1]) - (ring[i][0] * ring[j][1]);
+    sum += (/** @type {number} i and j are within the ring; a position has x and y */ (/** @type {Position} */ (ring[j])[0]) * /** @type {number} */ (/** @type {Position} */ (ring[i])[1])) - (/** @type {number} */ (/** @type {Position} */ (ring[i])[0]) * /** @type {number} */ (/** @type {Position} */ (ring[j])[1]));
   }
   return Math.abs(sum / 2);
 }
@@ -60,14 +60,14 @@ function ringArea(ring) {
  * @returns {Summary}
  */
 function summarise(geometry) {
-  const bounds = [Infinity, Infinity, -Infinity, -Infinity];
+  const bounds = /** @type {[number, number, number, number]} */ ([Infinity, Infinity, -Infinity, -Infinity]);
   let vertices = 0;
   let area = 0;
 
   const walkRing = (/** @type {Position[]} */ ring) => {
     vertices += ring.length;
     area += ringArea(ring);
-    for (const [x, y] of ring) {
+    for (const [x, y] of /** @type {[number, number][]} a position has x and y */ (ring)) {
       if (x < bounds[0]) bounds[0] = x;
       if (y < bounds[1]) bounds[1] = y;
       if (x > bounds[2]) bounds[2] = x;
@@ -118,7 +118,7 @@ for (const name of names) {
   // Relative, because counties differ in size by orders of magnitude and an
   // absolute threshold would either miss Louth or flag Cork for rounding.
   const areaDelta = left.area ? (right.area - left.area) / left.area : 0;
-  const boundsMoved = left.bounds.some((v, i) => Math.abs(v - right.bounds[i]) > 1e-9);
+  const boundsMoved = left.bounds.some((v, i) => Math.abs(v - /** @type {number} both have four bounds */ (right.bounds[i])) > 1e-9);
   if (vertexDelta !== 0 || Math.abs(areaDelta) > 1e-9 || boundsMoved) {
     changed.push({ name, vertexDelta, areaDelta, boundsMoved });
   }

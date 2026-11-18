@@ -31,7 +31,7 @@ if (positional.length < 2) {
     process.exit(1);
 }
 
-const [LOCAL_DIR, KEY_PREFIX] = positional;
+const [LOCAL_DIR, KEY_PREFIX] = /** @type {[string, string, ...string[]]} two or more (checked above) */ (positional);
 // The bulk downloads have their own upload, which never overwrites a published snapshot version.
 if (`${KEY_PREFIX.replace(/^\/+/, '')}/`.startsWith(`${DOWNLOADS_PREFIX}/`)) {
     console.error(`Refused: ${DOWNLOADS_PREFIX}/ is uploaded by node scripts/publish/r2-upload-downloads.mjs, which keeps every snapshot version.`);
@@ -182,7 +182,7 @@ async function runPool(items, worker, n) {
     const workers = Array.from({ length: n }, async () => {
         while (i < items.length) {
             const idx = i++;
-            try { await worker(items[idx], stats); }
+            try { await worker(/** @type {string} idx is within the list */ (items[idx]), stats); }
             catch (e) {
                 stats.errors++;
                 if (stats.errors <= 5) console.error(`\n  ✗ ${items[idx]}: ${/** @type {Error} */ (e).message || e}`);

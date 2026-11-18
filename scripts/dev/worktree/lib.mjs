@@ -81,7 +81,7 @@ export function listWorktrees() {
 
 /** The main checkout (the repository's first worktree). */
 export function mainCheckout() {
-  return listWorktrees()[0].path;
+  return /** @type {{ path: string }} git lists the main worktree first */ (listWorktrees()[0]).path;
 }
 
 /** Case-insensitive on Windows. @param {string} a @param {string} b */

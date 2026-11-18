@@ -90,8 +90,8 @@ function noteRef(raw, origin) {
   if (raw.includes('{z}') || raw.includes('{x}') || raw.includes('{y}')) return;   // tile template
   let p = raw;
   const m = /^https?:\/\/[^/]+\/(.*)$/.exec(p);
-  if (m) p = m[1];
-  p = p.split('#')[0].split('?')[0].replace(/^\/+/, '');
+  if (m) p = /** @type {string} the pattern has one group */ (m[1]);
+  p = /** @type {string} split gives at least one part */ (/** @type {string} split gives at least one part */ (p.split('#')[0]).split('?')[0]).replace(/^\/+/, '');
   try { p = decodeURIComponent(p); } catch { /* leave as-is */ }
   if (!PREFIXES.some((pre) => p.startsWith(pre))) return;
   if (!referenced.has(p)) referenced.set(p, new Set());

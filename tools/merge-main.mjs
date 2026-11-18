@@ -114,7 +114,7 @@ export function conflictHunks(text) {
   const re = /^<<<<<<< [^\n]*\n([\s\S]*?)^(?:\|\|\|\|\|\|\| [^\n]*\n[\s\S]*?)?^=======\n([\s\S]*?)^>>>>>>> [^\n]*\n/gm;
   /** @type {RegExpExecArray | null} */
   let m;
-  while ((m = re.exec(text))) hunks.push({ ours: m[1], theirs: m[2] });
+  while ((m = re.exec(text))) hunks.push({ ours: /** @type {string} both groups always take part */ (m[1]), theirs: /** @type {string} */ (m[2]) });
   return hunks;
 }
 
@@ -139,7 +139,7 @@ const steps = (/** @type {string} */ v) => v.split(' && ').map((s) => s.trim());
  * @param {string | null | undefined} base
  * @param {string} ours
  * @param {string} theirs
- * @param {{ key?: string, dropAdded?: (key: string, step: string) => boolean }} [options]
+ * @param {{ key?: string | undefined, dropAdded?: (key: string, step: string) => boolean }} [options]
  * @returns {{ value: string, notes: string[] }}
  */
 export function mergeChain(base, ours, theirs, { key = '', dropAdded = () => false } = {}) {
@@ -155,7 +155,7 @@ export function mergeChain(base, ours, theirs, { key = '', dropAdded = () => fal
     if (dropAdded(key, s)) { notes.push(`${key}: main added "${s}"; not added here (records:build runs it)`); return; }
     let at = -1;
     for (let j = i - 1; j >= 0; j -= 1) {
-      const k = result.indexOf(Tt[j]);
+      const k = result.indexOf(/** @type {string} j is within the list */ (Tt[j]));
       if (k >= 0) { at = k; break; }
     }
     result.splice(at + 1, 0, s);
@@ -192,7 +192,7 @@ export function merge3(base, ours, theirs, at, ctx) {
     Object.keys(theirs).forEach((k, i, all) => {
       if (keys.includes(k) || (k in b)) return;
       let pos = -1;
-      for (let j = i - 1; j >= 0; j -= 1) { pos = keys.indexOf(all[j]); if (pos >= 0) break; }
+      for (let j = i - 1; j >= 0; j -= 1) { pos = keys.indexOf(/** @type {string} j is within the keys */ (all[j])); if (pos >= 0) break; }
       keys.splice(pos + 1, 0, k);
     });
     for (const k of keys) {

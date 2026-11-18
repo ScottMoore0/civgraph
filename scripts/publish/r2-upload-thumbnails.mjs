@@ -48,13 +48,13 @@ const THUMBNAIL_UPLOAD_STATUSES = /** @type {readonly ThumbnailUploadStatus[]} *
  * @property {boolean} [dryRun]
  * @property {boolean} [skipCheck]
  * @property {boolean} [noResume]
- * @property {string} [root]
- * @property {string} [report]
- * @property {string} [bucket]
- * @property {string} [accountId]
- * @property {string} [prefix]
- * @property {string} [concurrency]
- * @property {string} [limit]
+ * @property {string | undefined} [root]
+ * @property {string | undefined} [report]
+ * @property {string | undefined} [bucket]
+ * @property {string | undefined} [accountId]
+ * @property {string | undefined} [prefix]
+ * @property {string | undefined} [concurrency]
+ * @property {string | undefined} [limit]
  */
 const SUPPORTED_EXTENSIONS = new Set(['.png', '.webp', '.jpg', '.jpeg', '.avif']);
 
@@ -112,7 +112,7 @@ async function worker() {
   while (cursor < uploadQueue.length) {
     const index = cursor;
     cursor += 1;
-    const item = uploadQueue[index];
+    const item = /** @type {(typeof uploadQueue)[number]} index is within the queue */ (uploadQueue[index]);
     const result = await uploadOne(item.file, item.index);
     if (!THUMBNAIL_UPLOAD_STATUSES.includes(result.status)) throw new Error(`unknown upload status ${result.status}`);
     results.push(result);
@@ -319,7 +319,7 @@ function parseArgs(argv) {
   /** @type {ThumbnailArgs} */
   const parsed = {};
   for (let index = 0; index < argv.length; index += 1) {
-    const arg = argv[index];
+    const arg = /** @type {string} index is within argv */ (argv[index]);
     if (arg === '--dry-run') parsed.dryRun = true;
     else if (arg === '--skip-check') parsed.skipCheck = true;
     else if (arg === '--no-resume') parsed.noResume = true;

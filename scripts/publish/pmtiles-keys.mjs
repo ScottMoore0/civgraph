@@ -50,7 +50,7 @@ function suffixUnder(/** @type {unknown} */ value, /** @type {string} */ root) {
   const base = trimSlashes(root);
   if (!text || !base) return null;
   if (!text.startsWith(`${base}/`)) return null;
-  const rest = text.slice(base.length + 1).split(/[?#]/)[0];
+  const rest = /** @type {string} split gives at least one part */ (text.slice(base.length + 1).split(/[?#]/)[0]);
   return rest.endsWith('.pmtiles') ? rest : null;
 }
 

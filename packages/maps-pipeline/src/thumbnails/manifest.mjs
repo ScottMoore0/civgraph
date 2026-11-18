@@ -136,7 +136,7 @@ function renderedAssetsForMapFromLocal(mapId) {
       if (!match) return null;
       const extension = normaliseExtension(match[2], '');
       if (!extension) return null;
-      return { id: match[1], extension };
+      return { id: /** @type {string} the pattern has one group */ (match[1]), extension };
     })
     .filter((entry) => entry !== null);
   if (!entries.length) return null;

@@ -69,9 +69,9 @@ export function renameInText(text) {
   let count = 0;
   const out = text.replace(OLD, (match, /** @type {string} */ kind, /** @type {number} */ at) => {
     let a = at;
-    while (a > 0 && !DELIM.test(text[a - 1])) a -= 1;
+    while (a > 0 && !DELIM.test(/** @type {string} a is within the text */ (text[a - 1]))) a -= 1;
     let b = at + match.length;
-    while (b < text.length && !DELIM.test(text[b])) b += 1;
+    while (b < text.length && !DELIM.test(/** @type {string} b is within the text */ (text[b]))) b += 1;
     if (TILE_TOKEN.test(text.slice(a, b))) return match;
     count += 1;
     return `-${kind}`;

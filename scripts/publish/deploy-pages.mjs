@@ -80,7 +80,7 @@ export function parseArgs(argv) {
   /** @type {DeployOptions} */
   const opts = { preview: false, branch: '', dryRun: false, rebuild: false, help: false };
   for (let i = 0; i < argv.length; i++) {
-    const a = argv[i];
+    const a = /** @type {string} i is within argv */ (argv[i]);
     if (a === '--preview') opts.preview = true;
     else if (a === '--dry-run') opts.dryRun = true;
     else if (a === '--rebuild') opts.rebuild = true;
@@ -212,7 +212,7 @@ export function checkDist(dist, maxFiles = MAX_FILES) {
  * @param {string} subject
  */
 export function commitMessage(subject) {
-  const line = subject.split(/\r?\n/)[0].replace(/["%^!`$\\<>|&]/g, '').replace(/\s+/g, ' ').trim();
+  const line = /** @type {string} split gives at least one part */ (subject.split(/\r?\n/)[0]).replace(/["%^!`$\\<>|&]/g, '').replace(/\s+/g, ' ').trim();
   return line.length > MESSAGE_MAX ? `${line.slice(0, MESSAGE_MAX - 3).trimEnd()}...` : line;
 }
 
@@ -379,7 +379,7 @@ export async function main(argv) {
   const tBuild = Date.now();
   const stageHead = existsSync(path.join(stage, '.git')) ? git(stage, ['rev-parse', 'HEAD']) : null;
   const lockHash = git(REPO_ROOT, ['rev-parse', `${head}:package-lock.json`]);
-  const node = process.versions.node.split('.')[0];
+  const node = /** @type {string} split gives at least one part */ (process.versions.node.split('.')[0]);
   const distDir = path.join(stage, OUT_DIR);
   const plan = planBuild({ head, lockHash, node, rebuild: opts.rebuild, stamp: readJson(stampFile), stageHead, distFiles: existsSync(distDir) ? countFiles(distDir).files : null });
   if (plan.reuse) {

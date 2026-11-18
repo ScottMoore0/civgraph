@@ -39,7 +39,7 @@ const ROOT = path.resolve(HERE, '..', '..');
  * @template T
  * @param {string} name
  * @param {T} fallback
- * @returns {string | T}
+ * @returns {string | T | undefined}   undefined when the flag is the last argument
  */
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
 const PORT = Number(arg('--port', process.env.PORT || 8790));
@@ -134,8 +134,8 @@ function readBody(req) {
 const REWRITES = (() => {
   try {
     return readFileSync(path.join(ROOT, 'site', '_redirects'), 'utf8').split('\n')
-      .map((line) => line.split('#', 1)[0].trim().split(/\s+/))
-      .filter((f) => f.length === 3 && f[2] === '200' && !f[1].includes(':splat') && !f[0].endsWith('/sw.js'))
+      .map((line) => /** @type {string} split gives at least one part */ (line.split('#', 1)[0]).trim().split(/\s+/))
+      .filter((f) => f.length === 3 && f[2] === '200' && !/** @type {string} three fields (checked) */ (f[1]).includes(':splat') && !/** @type {string} three fields (checked) */ (f[0]).endsWith('/sw.js'))
       .map((f) => /** @type {[string, string]} */ ([f[0], f[1]]));
   } catch {
     return [];
