@@ -22,6 +22,7 @@
  *     defines (defineMachine / defineToggle / defineChoice) is named in a test.
  */
 import { isFunction, isString, lineOf, nameOf, walk } from './lib.mjs';
+import { nameOfFile } from '../../lib/package-names.mjs';
 
 /** @typedef {import('./lib.mjs').Context} Context @typedef {import('./lib.mjs').Finding} Finding @typedef {import('./lib.mjs').AstNode} AstNode */
 
@@ -229,7 +230,8 @@ export const C12 = {
     const out = [];
     for (const file of ctx.select(cfg).filter((f) => modulePattern.test(f))) {
       const base = file.split('/').slice(-2).join('/');
-      const importers = tests.filter((t) => t.text.includes(base));
+      const named = nameOfFile(file);
+      const importers = tests.filter((t) => t.text.includes(base) || (named !== null && t.text.includes(`'${named}'`)));
       if (!importers.length) {
         out.push({ file, line: 1, message: `no test under ${cfg.tests.join(', ')} imports ${base}: walk its machines (assertTransition on every forbidden move)` });
         continue;

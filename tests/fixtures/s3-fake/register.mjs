@@ -15,6 +15,8 @@ import { EventEmitter } from 'node:events';
 import childProcess from 'node:child_process';
 import path from 'node:path';
 import net from 'node:net';
+import { pathToFileURL } from 'node:url';
+import { packageTarget } from '../../../scripts/lib/package-names.mjs';
 
 const FAKE = new URL('./client-s3.mjs', import.meta.url).href;
 
@@ -22,6 +24,13 @@ registerHooks({
   resolve(specifier, context, nextResolve) {
     if (specifier === '@aws-sdk/client-s3') return { url: FAKE, shortCircuit: true };
     if (specifier.startsWith('@aws-sdk/')) throw new Error(`s3-fake: ${specifier} is not stubbed, and the real SDK may not load in a dry run`);
+    // An @civgraph name resolves to the package file IN THE COPY (harness.mjs copies it with its
+    // package.json); the copy has no node_modules.
+    if (specifier.startsWith('@civgraph/') && process.env.S3_FAKE_ROOT) {
+      const target = packageTarget(specifier);
+      if (target === null) throw new Error(`s3-fake: no export of its package reaches ${specifier}`);
+      return { url: pathToFileURL(path.join(process.env.S3_FAKE_ROOT, ...target.split('/'))).href, shortCircuit: true };
+    }
     return nextResolve(specifier, context);
   },
 });

@@ -29,9 +29,10 @@ import { isDeepStrictEqual } from 'node:util';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { SITE } from '../../../packages/config/src/config.js';
+import { SITE } from '@civgraph/config';
 import { FILES, PINNED, r2KeyOf } from '../../../scripts/build/elections-app/vendor.mjs';
-import { OLD_PMTILES_PREFIX, renamePmtilesKey } from '../../../packages/core/src/layer-renames.mjs';
+import { OLD_PMTILES_PREFIX, renamePmtilesKey } from '@civgraph/core/layer-renames.mjs';
+import { packageTarget } from '../../../scripts/lib/package-names.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const REPO = path.resolve(HERE, '..', '..', '..');
@@ -50,7 +51,7 @@ const sha256 = (/** @type {string | Buffer} */ b) => createHash('sha256').update
 // ---------------------------------------------------------------------------------------------
 // The copy of the repository a run uses.
 
-const IMPORT = /(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s+)(['"])(\.{1,2}\/[^'"]+)\1/g;
+const IMPORT = /(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s+)(['"])(\.{1,2}\/[^'"]+|@civgraph\/[^'"]+)\1/g;
 
 /**
  * A repository file's text at `rev`, or in the working tree when `rev` is null.
@@ -79,7 +80,13 @@ export function importClosure(entries, rev) {
     try { text = source(rel, rev); } catch { continue; }  // a JSDoc type import of a file the revision lacks
     files.set(rel, text);
     for (const m of text.matchAll(IMPORT)) {
-      const next = path.posix.normalize(path.posix.join(path.posix.dirname(rel), /** @type {string} */ (m[2])));
+      const spec = /** @type {string} */ (m[2]);
+      // An @civgraph name: the package file its exports reach, and the package's package.json
+      // (register.mjs resolves the name in the copy; rf-final, 18 Nov 2026).
+      const named = spec.startsWith('@civgraph/');
+      const next = named ? packageTarget(spec) : path.posix.normalize(path.posix.join(path.posix.dirname(rel), spec));
+      if (next === null) continue;
+      if (named) queue.push(`${next.split('/').slice(0, 2).join('/')}/package.json`);
       if (!files.has(next)) queue.push(next);
     }
   }
@@ -212,7 +219,7 @@ export function runCase(c, { rev = null } = {}) {
     /** @type {Record<string, string | undefined>} */
     const env = {};
     for (const [k, v] of Object.entries(process.env)) if (!/^(R2_|AWS_|CLOUDFLARE_|S3_FAKE_)/.test(k) && k !== 'NODE_OPTIONS') env[k] = v;
-    Object.assign(env, c.credentials === false ? {} : TEST_ENV, { S3_FAKE_STATE: stateFile, S3_FAKE_LOG: logFile, NODE_NO_WARNINGS: '1' });
+    Object.assign(env, c.credentials === false ? {} : TEST_ENV, { S3_FAKE_STATE: stateFile, S3_FAKE_LOG: logFile, S3_FAKE_ROOT: fx.root, NODE_NO_WARNINGS: '1' });
     const res = spawnSync(process.execPath, ['--import', REGISTER, fx.abs(script), ...(c.args || [])], {
       cwd: fx.root, env, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, timeout: 120000,
     });

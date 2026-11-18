@@ -3,11 +3,13 @@
  * check:boundaries (REFACTOR-PLAN.md PKG-0): the import rules between the parts of the
  * repository, read from config/boundaries.json. Every tracked .js/.mjs/.cjs file in a unit
  * is read; each static import, re-export and dynamic import() with a literal relative specifier
- * is resolved to a file, and the edge fails when the importing unit does not allow the unit that
- * holds the target. node:* built-ins fail in a unit with "node": false. Bare names (npm
- * packages) are not checked; a computed import() is not seen (packages/loader/src/local-api.mjs
- * starts the Functions by path, as a dev server). Known violations go in boundaries.json
- * `baseline` ("from -> to"); an entry that no longer occurs fails too, so the list only shrinks.
+ * or an @civgraph name (through its package's exports) is resolved to a file, and the edge
+ * fails when the importing unit does not allow the unit that holds the target. node:* built-ins
+ * fail in a unit with "node": false. Other bare names (npm packages) are not checked; an
+ * @civgraph name no export reaches fails. A computed import() is not seen
+ * (packages/loader/src/local-api.mjs starts the Functions by path, as a dev server). Known
+ * violations go in boundaries.json `baseline` ("from -> to"); an entry that no longer occurs
+ * fails too, so the list only shrinks.
  *
  * Served pages (site/) are not bundled, so a relative import of packages/ would 404 in the
  * browser: they import only site/ files. Package code reaches them through packages/served.json,
@@ -31,6 +33,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SCOPE, packageTarget } from '../lib/package-names.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const config = JSON.parse(readFileSync(path.join(ROOT, 'config', 'boundaries.json'), 'utf8'));
@@ -152,8 +155,13 @@ export function edges() {
         if (!config.units[from].node) out.push({ file, target: spec, from, to: 'node:*', ok: false });
         continue;
       }
-      if (!spec.startsWith('.')) continue;
-      const target = path.posix.normalize(path.posix.join(path.posix.dirname(file), spec.split(/[?#]/)[0]));
+      let target;
+      if (spec.startsWith(`${SCOPE}/`)) {
+        target = packageTarget(spec);
+        if (target === null) { out.push({ file, target: spec, from, to: 'unresolved', ok: false }); continue; }
+      } else if (spec.startsWith('.')) {
+        target = path.posix.normalize(path.posix.join(path.posix.dirname(file), spec.split(/[?#]/)[0]));
+      } else continue;
       const to = unitOf(target);
       out.push({ file, target, from, to, ok: allowed(from, to) });
     }
