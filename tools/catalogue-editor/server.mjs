@@ -109,7 +109,7 @@ createServer(async (req, res) => {
       const headers = { 'User-Agent': 'civgraph-catalogue-editor' };
       for (const h of /** @type {const} */ (['range', 'content-type', 'accept', 'if-none-match'])) { const v = req.headers[h]; if (v) headers[h] = v; }
       const body = ['GET', 'HEAD'].includes(method) ? undefined : await readBody(req);
-      const r = await fetch(upstream, { method, headers, body, redirect: 'follow' });
+      const r = await fetch(upstream, /** @type {RequestInit} body is undefined for GET and HEAD */ ({ method, headers, body, redirect: 'follow' }));
       /** @type {Record<string, string | number>} */
       const out = { 'Cache-Control': 'no-store' };
       for (const h of ['content-type', 'content-range', 'content-length', 'accept-ranges', 'etag', 'content-encoding']) {

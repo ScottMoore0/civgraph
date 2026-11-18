@@ -33,8 +33,8 @@ assertKnownFlags([]);
  * @property {string} targetKey             the R2 key
  * @property {string} cdnUrl
  * @property {number | null} bytes          null when neither on disk nor verified remotely
- * @property {true} [remoteVerified]        the archive exists only in R2 (see the header)
- * @property {string} [remoteVerifiedAt]
+ * @property {true | undefined} [remoteVerified]        the archive exists only in R2 (see the header)
+ * @property {string | undefined} [remoteVerifiedAt]
  */
 /**
  * A directory of MVT tiles in the manifest's `assets`.

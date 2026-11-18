@@ -36,7 +36,7 @@ const SUPPORTED_EXTENSIONS = new Set(['webp', 'png', 'jpg', 'jpeg', 'avif']);
  * @property {string} renderedAssetBasePath
  * @property {string[]} renderedAssetIds
  * @property {string} renderedAssetExtension
- * @property {Record<string, string>} [renderedAssetExtensionsById]   only when they differ
+ * @property {Record<string, string> | undefined} [renderedAssetExtensionsById]   only when they differ
  */
 
 /**

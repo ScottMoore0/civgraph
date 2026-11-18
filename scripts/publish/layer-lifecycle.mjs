@@ -105,7 +105,7 @@ export function pmtilesLayerState({ layer, asset, upload, range }) {
 
 /**
  * The state the upload report puts an MVT directory in.
- * @param {{ upload?: { ok?: boolean, status?: string } }} evidence
+ * @param {{ upload?: { ok?: boolean, status?: string } | undefined }} evidence
  * @returns {LayerState}
  */
 export function mvtDirectoryState({ upload }) {
