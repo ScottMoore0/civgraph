@@ -55,7 +55,7 @@ export interface ElectionHost extends Pick<MapApp,
   /** legend.js */
   updateMapLegend(): void;
   /** entity-bridge.js */
-  openElectionEntityDetailInCatalogue(kind: string | undefined, key: string | undefined, options?: { label?: string }): Promise<boolean>;
+  openElectionEntityDetailInCatalogue(kind: string | undefined, key: string | undefined, options?: { label?: string | undefined }): Promise<boolean>;
   /** catalogue-list.js */
   updateMapList(): void;
   /** timeline/controls.js */
@@ -155,10 +155,10 @@ export interface ElectionCatalogue {
 
 /** The layer an election is drawn on, as the styling reads it: the renderer's layer, the bundle, or a geography mode's map. */
 export interface ElectionStyleLayer {
-  id?: string;
-  sourceMapId?: string;
-  labelProperty?: string | null;
-  geometryType?: string;
+  id?: string | undefined;
+  sourceMapId?: string | undefined;
+  labelProperty?: string | null | undefined;
+  geometryType?: string | undefined;
 }
 
 /** A feature the app asks the manager about (enrichFeature): the renderer's, with the map it is on. */
@@ -197,10 +197,10 @@ export interface BundleResult extends ElectionResult {
   featureAliases?: string[];
   featureNames?: string[];
   featureMatches?: Array<{ name?: string; aliases?: string[] } | null>;
-  animationPayload?: AnimationPayload | null;
+  animationPayload?: AnimationPayload | null | undefined;
   recallPetition?: RecallPetitionFigures | null;
   /** 'council' or 'district': a council's results drawn as one (buildCouncilAggregateResult). */
-  aggregateType?: string;
+  aggregateType?: string | undefined;
   /** Where the overlay draws the contest's seats: a centre, the area's bounds and its size. */
   anchor?: { center?: [number, number]; bounds?: GeoBounds | null; area?: unknown } | null;
   /** An STV count's non-transferable papers, by count. */
@@ -236,7 +236,7 @@ declare global {
     /** The jQuery shim (site/app/js/jquery-shim.js), loaded with the animation runtime. */
     $?: ViewerJQuery;
     /** The classic viewer's count animation (election-viewer-package/js/stages2.js). */
-    animateStages?: (options: { date?: string; electedBody?: string; constituency?: string; maxWidth?: number }) => void;
+    animateStages?: (options: { date?: string | undefined; electedBody?: string | undefined; constituency?: string | undefined; maxWidth?: number }) => void;
   }
 }
 

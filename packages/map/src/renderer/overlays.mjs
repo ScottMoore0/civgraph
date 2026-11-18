@@ -13,7 +13,7 @@
  * and showOverlay draws nothing, as for any id not listed here.
  */
 
-/** @typedef {{ tiles: string[], attribution: string, maxzoom?: number }} RasterOverlay */
+/** Each has its maxzoom: MapLibre would copy a maxzoom of undefined over its default. @typedef {{ tiles: string[], attribution: string, maxzoom: number }} RasterOverlay */
 
 /** @type {Readonly<Record<string, RasterOverlay>>} */
 export const RASTER_OVERLAYS = Object.freeze({});

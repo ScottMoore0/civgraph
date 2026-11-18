@@ -37,7 +37,7 @@ export { buildTrendChartModel, formatShare, layoutTrendChart, renderTrendChartSv
  *
  * @param {HTMLElement & { __trendChart?: TrendChartController }} container
  * @param {TrendModel} model
- * @param {{ ariaLabel?:string, footnotes?:string, formatDate?:(date:string)=>string, height?:number | ((width:number)=>number), fitTo?:Element }} [options]
+ * @param {{ ariaLabel?:string, footnotes?:string, formatDate?:(date:string)=>string, height?:number | ((width:number)=>number), fitTo?:Element | undefined }} [options]
  */
 export function mountTrendChart(container, model, options = {}) {
   if (!container) return null;
@@ -67,7 +67,7 @@ export function mountTrendChart(container, model, options = {}) {
    *   layout: TrendLayout | null,
    *   svg: SVGSVGElement | null,
    *   width: number,
-   *   height?: number,
+   *   height?: number | undefined,
    *   lockedParty: string | null,
    *   hoverParty: string | null,
    *   column: number,

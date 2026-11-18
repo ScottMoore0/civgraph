@@ -386,7 +386,7 @@ export interface MapApp {
   /** election-pane.js */
   unloadActiveElectionForLayer(mapId: string): boolean;
   /** entity-bridge.js */
-  openElectionEntityDetailInCatalogue(kind: string | undefined, key: string | undefined, options?: { label?: string; fromHistory?: boolean; focus?: boolean }): Promise<boolean>;
+  openElectionEntityDetailInCatalogue(kind: string | undefined, key: string | undefined, options?: { label?: string | undefined; fromHistory?: boolean; focus?: boolean }): Promise<boolean>;
   /** sources.js */
   bindActiveLayerSourceButtons(): void;
   /** sources.js */

@@ -290,7 +290,7 @@ export class NiLocalGroupedView {
 
   /**
    * @param {ElectionEntry} entry
-   * @param {{ keepView?: boolean, level?: string | null, show?: string | null, members?: string | null, area?: string | null }} [options]
+   * @param {{ keepView?: boolean, level?: string | null | undefined, show?: string | null | undefined, members?: string | null | undefined, area?: string | null }} [options]
    */
   async open(entry, { keepView = false, level = null, show = null, members = null, area = null } = {}) {
     this.viewState.to('opening');

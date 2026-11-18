@@ -29,7 +29,7 @@
 /**
  * The part-of fields of a catalogue map (a MapEntry, packages/types) as this module reads them.
  * @typedef {{
- *   variants?: Array<string | { id?: string } | null>,
+ *   variants?: Array<string | { id?: string } | null> | undefined,
  *   members?: string[],
  *   compositeSources?: string[],
  *   [key: string]: unknown

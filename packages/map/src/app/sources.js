@@ -19,7 +19,7 @@ import { setHidden } from '../state-helpers.mjs';
 /** A reference or download as the panel reads it: a link with its note. @typedef {import('../../../types/index.js').SourceLink & { file?: string, note?: string, description?: string }} SourceLinkView */
 /** The catalogue's record of a map, the fields the panel reads. @typedef {{ id?: string, name?: string, provider?: string | string[], sourceCredits?: unknown, description?: string, references?: SourceLinkView[], sourceDownloads?: SourceLinkView[] }} SourceConfigView */
 /** A layer's sources: its id, its layer in the map index and its catalogue record. @typedef {{ id: string, layer: RuntimeLayer | null, mainConfig: import('../data-service.js').CatalogueMap | null }} SourceRecord */
-/** A link the panel lists. @typedef {{ label: string, url?: string, note?: string }} SourcePanelLink */
+/** A link the panel lists. @typedef {{ label: string, url?: string | undefined, note?: string | undefined }} SourcePanelLink */
 /** @typedef {import('./map-app').LayerOrGroupState} LayerOrGroupState */
 
 export class SourcePanelMethods {

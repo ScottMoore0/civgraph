@@ -34,14 +34,14 @@ import { MAP_COLOURS } from '../colours.mjs';
  * `layers[]`): only the fields read here, any of which may be missing; the rest stay unknown.
  * @typedef {{
  *   [field: string]: unknown,
- *   id?: string,
- *   sourceMapId?: string,
+ *   id?: string | undefined,
+ *   sourceMapId?: string | undefined,
  *   sourceLayer?: string,
- *   style?: { color?: string, [key: string]: unknown },
+ *   style?: { color?: string, [key: string]: unknown } | undefined,
  *   labelStyle?: LabelStyleInput,
  *   labelMinZoom?: number | string,
  *   labelMaxZoom?: number | string | null,
- *   labelProperty?: string | null,
+ *   labelProperty?: string | null | undefined,
  *   labelPropertyFallbacks?: string[],
  *   labelCanonicalProperty?: string,
  *   labelRankProperty?: string,

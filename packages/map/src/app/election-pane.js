@@ -13,10 +13,10 @@ import uiController from '../ui-controller.js';
  * The pane's own state, set on first use, and the warm-up latch: a flag field Test2App's
  * constructor defines (defineFlagFields).
  * @typedef {{
- *   _electionRefitObserver?: ResizeObserver | null,
- *   _electionPaneResizeReady?: boolean,
- *   _electionPaneHeight?: number,
- *   syncElectionPaneResizerAria?: () => void,
+ *   _electionRefitObserver?: ResizeObserver | null | undefined,
+ *   _electionPaneResizeReady?: boolean | undefined,
+ *   _electionPaneHeight?: number | undefined,
+ *   syncElectionPaneResizerAria?: (() => void) | undefined,
  *   electionCatalogueWarmScheduled: boolean
  * }} ElectionPaneState
  */

@@ -166,7 +166,7 @@ export function buildTrendChartModel(points = [], options = {}) {
  * Compute every coordinate the renderer needs for a given pixel width.
  *
  * @param {ReturnType<typeof buildTrendChartModel>} model
- * @param {{ width?:number, height?:number, measureText?:(text:string, bold?:boolean, size?:number)=>number, directLabels?:boolean }} [options]
+ * @param {{ width?:number, height?:number | undefined, measureText?:(text:string, bold?:boolean, size?:number)=>number, directLabels?:boolean }} [options]
  */
 export function layoutTrendChart(model, options = {}) {
   const width = Math.max(240, Math.round(Number(options.width) || 640));
@@ -419,7 +419,7 @@ export function layoutTrendChart(model, options = {}) {
  * SVG markup for a laid-out chart. Static: interaction state is applied by the mount code.
  * @param {TrendModel} model
  * @param {TrendLayout} layout
- * @param {{ ariaLabel?: string }} [options]
+ * @param {{ ariaLabel?: string | undefined }} [options]
  */
 export function renderTrendChartSvg(model, layout, options = {}) {
   const { elections } = model;

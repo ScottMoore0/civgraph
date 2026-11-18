@@ -12,7 +12,7 @@ import { setHidden } from '../state-helpers.mjs';
 /**
  * The app, with the phone layout's own state: whether the pane toggle is installed, and the peek's
  * timer and its way to hide (set here, not in Test2App's constructor).
- * @typedef {import('./map-app').MapApp & MobileLayoutMethods & { _mobilePaneToggleInstalled?: boolean, _mobilePeekTimer?: ReturnType<typeof setTimeout>, hideMobilePeek?: () => void }} MobileLayoutApp
+ * @typedef {import('./map-app').MapApp & MobileLayoutMethods & { _mobilePaneToggleInstalled?: boolean | undefined, _mobilePeekTimer?: ReturnType<typeof setTimeout> | undefined, hideMobilePeek?: (() => void) | undefined }} MobileLayoutApp
  */
 
 export class MobileLayoutMethods {

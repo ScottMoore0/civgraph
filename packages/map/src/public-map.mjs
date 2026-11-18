@@ -38,7 +38,7 @@
  *   id?: string,
  *   files?: object | null,
  *   compositeSources?: string[],
- *   variants?: Array<{ id?: string, hidden?: boolean } | null>,
+ *   variants?: Array<{ id?: string, hidden?: boolean } | null> | undefined,
  *   isGroup?: boolean,
  *   members?: string[],
  *   cloneOf?: string,

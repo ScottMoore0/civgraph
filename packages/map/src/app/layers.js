@@ -32,7 +32,7 @@ const CIVIL_PARISHES_COMPOSITE_CHILD_IDS = [
 
 /**
  * How the last load of each map ended (recordSettleOutcome), made on first use; ui-wiring.js reads it.
- * @typedef {{ settleOutcomes?: Map<string, import('../../app/settle.js').SettleOutcome> }} SettleOutcomeState
+ * @typedef {{ settleOutcomes?: Map<string, import('../../app/settle.js').SettleOutcome> | undefined }} SettleOutcomeState
  */
 /** The app as these methods see it: they run once init has made the map controller. @typedef {import('./map-app').MapAppReady & LayerMethods & SettleOutcomeState} LayerApp */
 /**

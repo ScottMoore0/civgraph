@@ -4,7 +4,7 @@
  * @typedef {object} RenderLayer  the fields of a layer record (render/metadata/maps-test.json) a renderer reads
  * @property {string} id
  * @property {string} [sourceType]
- * @property {string} [tileUrl]
+ * @property {string | undefined} [tileUrl]
  * @property {string} [tiles]
  * @property {string} [imageUrl]
  * @property {string} [url]

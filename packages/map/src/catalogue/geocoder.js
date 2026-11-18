@@ -141,7 +141,7 @@ export class AddressGeocoder {
 
   /**
    * @param {string} q
-   * @param {{ signal?: AbortSignal }} [options]
+   * @param {{ signal?: AbortSignal | undefined }} [options]
    * @returns {Promise<AddressResult[]>}
    */
   async photon(q, { signal } = {}) {
@@ -177,12 +177,13 @@ export class AddressGeocoder {
 
   /**
    * @param {Postcode} postcode
-   * @param {{ signal?: AbortSignal }} [options]
+   * @param {{ signal?: AbortSignal | undefined }} [options]
    * @returns {Promise<AddressResult[]>}
    */
   async postcode({ kind, code }, { signal } = {}) {
     const path = kind === 'full' ? `/postcodes/${encodeURIComponent(code)}` : `/outcodes/${encodeURIComponent(code)}`;
-    const response = await this.fetch(`${POSTCODES_URL}${path}`, { signal });
+    // fetch reads a signal of undefined as no signal.
+    const response = await this.fetch(`${POSTCODES_URL}${path}`, /** @type {RequestInit} */ ({ signal }));
     if (!response.ok) return [];
     const { result } = await response.json();
     if (!result || !Number.isFinite(Number(result.latitude))) return [];

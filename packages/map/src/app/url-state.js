@@ -30,11 +30,11 @@ const within = (promise, ms) => Promise.race([promise, new Promise((resolve) => 
  * label of the next one, and the feature indexes asked for (resolveFeatureBounds); with whether a
  * layer id is in the index, which the app's init sets. ui-wiring.js reads the steps.
  * @typedef {{
- *   navEntries?: NavEntry[],
- *   navIndex?: number,
- *   _pendingNavLabel?: string | null,
- *   featureIndexRequests?: Map<string, Promise<FeatureIndex | null>>,
- *   isKnownLayerId?: (id: string) => boolean
+ *   navEntries?: NavEntry[] | undefined,
+ *   navIndex?: number | undefined,
+ *   _pendingNavLabel?: string | null | undefined,
+ *   featureIndexRequests?: Map<string, Promise<FeatureIndex | null>> | undefined,
+ *   isKnownLayerId?: ((id: string) => boolean) | undefined
  * }} NavigationState
  */
 /** A layer's feature index, as feature-bounds.mjs reads it. @typedef {Parameters<typeof featureBoundsFromIndex>[0]} FeatureIndex */
@@ -581,7 +581,8 @@ export class UrlStateMethods {
       const zoomParam = params.get('zoom') ?? params.get('z');
       const z = Number(zoomParam);
       if (Number.isFinite(lng) && Number.isFinite(lat)) {
-        this.mapController.map?.jumpTo({ center: [lng, lat], zoom: Number.isFinite(z) ? z : undefined });
+        // MapLibre reads a zoom of undefined as no zoom (the map sets no zoomSnap).
+        this.mapController.map?.jumpTo(/** @type {import('maplibre-gl').JumpToOptions} */ ({ center: [lng, lat], zoom: Number.isFinite(z) ? z : undefined }));
       }
 
       this.setActiveLayersPanelOpen(params.get('activePanel') === '1');

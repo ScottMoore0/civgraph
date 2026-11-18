@@ -169,7 +169,7 @@ import { MAP_COLOURS, VIEWER_COLOURS } from '../src/colours.mjs';
  * (withPartyDeltas, withCandidateDeltas).
  * @typedef {ResultRow & {
  *   party?: unknown, stood?: unknown, seats?: unknown, votes?: unknown, share?: unknown, unopposedSeats?: unknown,
- *   countNumbers?: unknown[], counts?: unknown[],
+ *   countNumbers?: unknown[], counts?: unknown[] | undefined,
  *   previous?: ResultRow | null,
  *   deltas?: { [field: string]: number | null | undefined } | null
  * }} DeltaRow

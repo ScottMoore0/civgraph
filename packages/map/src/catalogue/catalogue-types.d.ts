@@ -145,7 +145,7 @@ export interface CatalogueSearchRecord {
   subtitle: string;
   provider: string;
   searchText: string;
-  id?: string;
+  id?: string | undefined;
   typeLabel?: string;
   mapId?: string;
   featureId?: string;

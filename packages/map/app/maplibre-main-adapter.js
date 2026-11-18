@@ -56,7 +56,7 @@ import layerTypes from '../../registries/src/browser/layer-types.mjs';
  * @typedef {{
  *   id: string,
  *   name?: string,
- *   style?: { [key: string]: unknown },
+ *   style?: { [key: string]: unknown } | undefined,
  *   bounds?: unknown,
  *   rasterOpacity?: unknown,
  *   isGroup?: boolean,
@@ -115,7 +115,7 @@ import layerTypes from '../../registries/src/browser/layer-types.mjs';
 
 /** A rendered feature as the feature details read it (normalizeRenderedFeature). @typedef {{ id?: unknown, mapId: string, mapName: string, layerName: string, featureName: string, name: unknown, color: string, properties: Record<string, unknown>, geometry: unknown, geometryIsClipped: boolean, sourceLayer: string | null, statistic?: FeatureStatistic, [key: string]: unknown }} AdapterFeature */
 
-/** A statistic's figures for one area (censusStatisticFor). @typedef {{ areaName?: string, entryName?: string, sourceTitle: string, sourceUrl: string, licence: Licence | null, [key: string]: unknown }} FeatureStatistic */
+/** A statistic's figures for one area (censusStatisticFor). @typedef {{ areaName?: string | undefined, entryName?: string | undefined, sourceTitle: string, sourceUrl: string, licence: Licence | null, [key: string]: unknown }} FeatureStatistic */
 
 /** A feature index's whole-feature measures, by id and by unique name (wholeFeatureMetrics). @typedef {{ byId: Map<string, FeatureIndexItem>, byName: Map<string, FeatureIndexItem | null> }} FeatureMetricLookup */
 /** @typedef {{ id?: unknown, name?: unknown, areaM2?: number, perimeterM?: number }} FeatureIndexItem */
@@ -230,7 +230,7 @@ function normalizeOrderIds(ids) {
   return result;
 }
 
-/** @param {{ style?: { fillOpacity?: unknown, [key: string]: unknown } } | null | undefined} layer */
+/** @param {{ style?: { fillOpacity?: unknown, [key: string]: unknown } | undefined } | null | undefined} layer */
 function resolveFillOpacity(layer) {
   return clamp01(layer?.style?.fillOpacity ?? DEFAULT_VECTOR_FILL_OPACITY);
 }
@@ -1570,7 +1570,7 @@ export class Test2MapLibreMainAdapter {
 
   /**
    * Show one of featuresAtLastClick's entries in the feature details, as a click on it would.
-   * @param {{ layer?: ControllerLayer, raw?: FeatureLike } | null | undefined} entry
+   * @param {{ layer?: ControllerLayer | undefined, raw?: FeatureLike | undefined } | null | undefined} entry
    * @returns {boolean}
    */
   selectFeatureAtClick(entry) {
@@ -1943,7 +1943,7 @@ export class Test2MapLibreMainAdapter {
    * @returns {AdapterFeature}
    */
   normalizeRenderedFeature(feature, mainId, state, record) {
-    /** @type {{ name?: string, promoteId?: string, sourceLayer?: string, style?: { color?: string, fillColor?: string, [key: string]: unknown }, labelProperty?: string | null, nameProperty?: unknown, [key: string]: unknown }} */
+    /** @type {{ name?: string, promoteId?: string, sourceLayer?: string, style?: { color?: string, fillColor?: string, [key: string]: unknown } | undefined, labelProperty?: string | null | undefined, nameProperty?: unknown, [key: string]: unknown }} */
     const layerConfig = record?.config || state?.config || {};
     const properties = repairFeatureProperties(layerConfig, { ...(feature.properties || {}) });
     const id = feature.id ?? properties[layerConfig.promoteId || 'id'] ?? properties.id;
@@ -2144,7 +2144,7 @@ function noVisibleFeatureFilter() {
 }
 
 /**
- * @param {{ labelProperty?: string | null, nameProperty?: unknown } | null | undefined} layer
+ * @param {{ labelProperty?: string | null | undefined, nameProperty?: unknown } | null | undefined} layer
  * @param {Record<string, unknown> | null | undefined} properties
  * @param {unknown} fallbackId
  * @returns {string}
@@ -2159,7 +2159,7 @@ function readFeatureName(layer, properties, fallbackId) {
 }
 
 /**
- * @param {{ labelProperty?: string | null, nameProperty?: unknown } | null | undefined} layer
+ * @param {{ labelProperty?: string | null | undefined, nameProperty?: unknown } | null | undefined} layer
  * @returns {string[]}
  */
 function featureNameProperties(layer) {

@@ -81,7 +81,7 @@ export function stylingModeFor(entry, currentMode) {
 
 /**
  * The pane as an election opens: the party view, nothing selected, the election's own level.
- * @param {{ bodyGroup?: string | null } | null | undefined} entry
+ * @param {{ bodyGroup?: string | null | undefined } | null | undefined} entry
  */
 export function freshPanelState(entry) {
   return {

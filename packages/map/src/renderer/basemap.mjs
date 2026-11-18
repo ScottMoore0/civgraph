@@ -416,7 +416,8 @@ export class BasemapManager {
     if (!this.styleCache.has(provider.styleUrl)) {
       const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
       const timer = this.setTimeoutImpl(() => controller?.abort(), STYLE_FETCH_TIMEOUT_MS);
-      const request = this.fetchImpl(provider.styleUrl, { signal: controller?.signal, credentials: 'omit' })
+      // fetch reads a signal of undefined as no signal.
+      const request = this.fetchImpl(provider.styleUrl, /** @type {RequestInit} */ ({ signal: controller?.signal, credentials: 'omit' }))
         .then((response) => {
           if (!response.ok) throw new Error(`base map style ${response.status}`);
           return response.json();

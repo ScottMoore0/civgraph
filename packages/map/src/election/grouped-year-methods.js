@@ -18,7 +18,7 @@ export class GroupedYearMethods {
    * Back can undo, as for any election; the timeline steps through the years.
    * @this {ElectionManager}
    * @param {ElectionEntry} entry
-   * @param {{ keepView?: boolean, level?: string | null, show?: string | null, members?: string | null, area?: string | null }} [options]
+   * @param {{ keepView?: boolean, level?: string | null | undefined, show?: string | null | undefined, members?: string | null | undefined, area?: string | null }} [options]
    */
   async loadNiLocalGroup(entry, { keepView = false, level = null, show = null, members = null, area = null } = {}) {
     const requestId = ++this.loadSerial;

@@ -63,8 +63,8 @@ const LICENCE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';
 /** A GeoJSON geometry. @typedef {import('geojson').Geometry} Geometry */
 /** The FlatGeobuf reader (lazy-runtime.js ensureFlatgeobufRuntime). @typedef {{ deserialize(input: string | ReadableStream<Uint8Array> | null, rect?: { minX: number, minY: number, maxX: number, maxY: number }): AsyncIterable<GeoFeature> }} FgbRuntime */
 /** A geometry split by kind, in lon/lat: polygons (rings), lines and points. @typedef {{ polygons: Pt[][][], lines: Pt[][], points: Pt[] }} Exploded */
-/** The lough outlines, decoded. @typedef {{ credits: unknown[], loughs: Array<{ name?: string, kind?: string, polygons: Pt[][][], shore: Pt[][] | null }> }} LoughOutlines */
-/** The neighbouring land and borders, decoded. @typedef {{ credits: unknown[], land: Array<{ name?: string, polygons: Pt[][][] }>, borders: Array<{ name?: string, lines: Pt[][] }> }} LandOutlines */
+/** The lough outlines, decoded. @typedef {{ credits: unknown[], loughs: Array<{ name?: string | undefined, kind?: string | undefined, polygons: Pt[][][], shore: Pt[][] | null }> }} LoughOutlines */
+/** The neighbouring land and borders, decoded. @typedef {{ credits: unknown[], land: Array<{ name?: string | undefined, polygons: Pt[][][] }>, borders: Array<{ name?: string | undefined, lines: Pt[][] }> }} LandOutlines */
 /**
  * A quantised outline file (assets/map/context-*.json): each feature's rings, lines or shore as
  * [x0, y0, dx1, dy1, ...] integers.

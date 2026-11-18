@@ -1034,7 +1034,7 @@ class UIController {
 
     /**
      * @param {MapRecord | null | undefined} mapConfig
-     * @param {{ id?: string | number } | null | undefined} feature
+     * @param {{ id?: string | number | undefined } | null | undefined} feature
      * @param {string | number} featureIndex
      * @param {string | null | undefined} featureName
      * @param {number[] | null | undefined} bbox
@@ -2375,7 +2375,7 @@ class UIController {
         return 'feature-' + safeMapId + '-' + hash;
     }
 
-    /** @param {{ mapId?: string, bbox?: number[] | null, name?: string, id?: string | number | null }} result @param {MapRecord | null | undefined} map @param {string} featureName */
+    /** @param {{ mapId?: string, bbox?: number[] | null, name?: string | undefined, id?: string | number | null | undefined }} result @param {MapRecord | null | undefined} map @param {string} featureName */
     getFeatureThumbnailForResult(result, map, featureName) {
         const mapId = String(result?.mapId || map?.id || '');
         const bbox = Array.isArray(result?.bbox) && result.bbox.length === 4 ? result.bbox : null;
@@ -2743,7 +2743,7 @@ class UIController {
         return pageType(kind) ? recordPagePath(kind, slug) : '/browse/#/' + kind + '/' + encodeURIComponent(slug);
     }
 
-    /** @param {Record<string, unknown> & { title?: unknown, name?: unknown, id?: string, subtitle?: unknown, category?: unknown, provider?: unknown, keywords?: unknown, constituencies?: unknown, parties?: unknown, shortName?: unknown, knownAliases?: unknown, type: string }} input @returns {CatalogueSearchRecord} */
+    /** @param {Record<string, unknown> & { title?: unknown, name?: unknown, id?: string | undefined, subtitle?: unknown, category?: unknown, provider?: unknown, keywords?: unknown, constituencies?: unknown, parties?: unknown, shortName?: unknown, knownAliases?: unknown, type: string }} input @returns {CatalogueSearchRecord} */
     makeCatalogueSearchRecord(input) {
         const title = String(input.title || input.name || input.id || '').trim();
         const subtitle = String(input.subtitle || input.category || '').trim();
@@ -7692,7 +7692,7 @@ class UIController {
         `;
     }
 
-    /** @param {MapRecord} map @param {{ isLoaded?: boolean, isVisible?: boolean, buttonSize?: string, wrapperClass?: string }} [options] */
+    /** @param {MapRecord} map @param {{ isLoaded?: boolean, isVisible?: boolean | undefined, buttonSize?: string, wrapperClass?: string }} [options] */
     renderMapActionStrip(map, options = {}) {
         const isLoaded = !!options.isLoaded;
         const isVisible = options.isVisible !== undefined ? !!options.isVisible : isLoaded;
@@ -8992,7 +8992,7 @@ class UIController {
         `).join('');
     }
 
-    /** @param {string} tableId @param {EntityColumns} columns @param {{ caption?: string }} [options] */
+    /** @param {string} tableId @param {EntityColumns} columns @param {{ caption?: string | undefined }} [options] */
     _buildEntityTableMarkup(tableId, columns, options = {}) {
         const isHistoryTable = String(tableId || '').includes('history-table');
         const isGroupedHeaderTable = Array.isArray(columns.headerRows) && columns.headerRows.length > 0;
@@ -9070,7 +9070,7 @@ class UIController {
 
     /**
      * @param {HtmlElementRoot} container @param {string} tableId @param {EntityColumn[]} columns @param {EntityRow[]} rows
-     * @param {{ rowClassNameFn?: ((row: EntityRow) => string) | null, groupOf?: (row: EntityRow) => string | null | undefined, pageSize?: number, persist?: EntityTablePersist }} [options]
+     * @param {{ rowClassNameFn?: ((row: EntityRow) => string) | null | undefined, groupOf?: ((row: EntityRow) => string | null | undefined) | undefined, pageSize?: number | undefined, persist?: EntityTablePersist }} [options]
      */
     _initEntityDataTable(container, tableId, columns, rows, options = {}) {
         const table = container.querySelector(`[data-entity-table-id="${tableId}"]`);
@@ -12821,7 +12821,7 @@ class UIController {
         const candidatePoolSize = layerTokens.length > 0 ? 100 : 60;
 
         // The index's features, and townland rows (which have no id).
-        /** @type {Array<{ id?: string | null, mapId: string, name?: string, bbox: number[], [key: string]: unknown }> | null} */
+        /** @type {Array<{ id?: string | null | undefined, mapId: string, name?: string | undefined, bbox: number[], [key: string]: unknown }> | null} */
         let candidates = await featureLoader.searchViaAPI(probe, candidatePoolSize);
         if (!candidates) {
             await featureLoader.ensureInitialized();

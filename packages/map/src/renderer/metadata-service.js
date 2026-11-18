@@ -6,8 +6,8 @@ import { normalizeSearchText, unique } from './utils.js';
  * record's own (packages/types LayerEntry), which the renderer and the adapter type as they read them.
  * @typedef {Record<string, unknown> & {
  *   id: string,
- *   sourceMapId?: string,
- *   name?: string,
+ *   sourceMapId?: string | undefined,
+ *   name?: string | undefined,
  *   category: string,
  *   categoryId: string,
  *   group: string,
@@ -17,10 +17,10 @@ import { normalizeSearchText, unique } from './utils.js';
  *   loadable: boolean,
  *   detailUrl?: string,
  *   detailLoaded?: boolean,
- *   conversionStatus?: string
+ *   conversionStatus?: string | undefined
  * }} MetadataLayer
  */
-/** A layer as the index or a layer's detail file gives it, before normalising. @typedef {Record<string, unknown> & { id?: string, sourceMapId?: string, name?: string, category?: string, group?: string, order?: unknown, conversionStatus?: string }} RawLayer */
+/** A layer as the index or a layer's detail file gives it, before normalising. @typedef {Record<string, unknown> & { id?: string, sourceMapId?: string | undefined, name?: string | undefined, category?: string, group?: string, order?: unknown, conversionStatus?: string | undefined }} RawLayer */
 /** A category of the index. @typedef {{ id: string, name: string, group: string, description?: string }} MetadataCategory */
 /**
  * A row of the port plan (render/metadata/main-site-port-plan.json): a map of the main site and how far its conversion has got.

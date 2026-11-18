@@ -52,7 +52,7 @@ import { MAP_COLOURS } from '../colours.mjs';
  * A feature as the controller reads it: one MapLibre answered (queryRenderedFeatures), one the
  * caller passed (selectFeatureById), or one normalised for the selection.
  * @typedef {{
- *   id?: FeatureId | null,
+ *   id?: FeatureId | null | undefined,
  *   properties?: Record<string, unknown> | null,
  *   geometry?: { type: string, coordinates?: unknown } | null
  * }} FeatureLike
@@ -92,7 +92,7 @@ import { MAP_COLOURS } from '../colours.mjs';
  *   pointSize?: number,
  *   labelAllowOverlap?: boolean,
  *   labelIgnorePlacement?: boolean,
- *   tileUrl?: string,
+ *   tileUrl?: string | undefined,
  *   tiles?: string,
  *   tilesFallback?: string | null,
  *   promoteId?: string,
@@ -138,7 +138,7 @@ import { MAP_COLOURS } from '../colours.mjs';
  * }} LayerRecord
  */
 
-/** The hovered or selected feature (this.hovered, this.selected). @typedef {{ layerId: string, sourceId?: string, sourceLayer?: string, id: FeatureId, generated?: boolean, properties?: Record<string, unknown> }} FeatureSelection */
+/** The hovered or selected feature (this.hovered, this.selected). @typedef {{ layerId: string, sourceId?: string | undefined, sourceLayer?: string | undefined, id: FeatureId, generated?: boolean, properties?: Record<string, unknown> }} FeatureSelection */
 
 /** One timing or event the controller records (getMetrics). @typedef {{ event?: string, [key: string]: unknown }} ControllerMetric */
 
@@ -1389,14 +1389,15 @@ export class TestMapLibreController {
     // gives the opaque monochrome-grey relief surface.
     if (layer.hillshadeTiles) {
       const hsSourceId = `${sourceId}-hs`;
-      this.map.addSource(hsSourceId, {
+      // MapLibre's style check skips a property set to undefined (a zoom or bounds the layer does not give).
+      this.map.addSource(hsSourceId, /** @type {import('maplibre-gl').RasterSourceSpecification} */ ({
         type: 'raster',
         tiles: [absoluteTileTemplate(layer.hillshadeTiles)],
         tileSize: layer.tileSize || 256,
         minzoom: layer.hillshadeMinzoom ?? layer.minzoom,
         maxzoom: layer.hillshadeMaxzoom ?? layer.maxzoom,
         bounds: boundsToFlatBbox(layer.bounds)
-      });
+      }));
       this.map.addLayer({
         id: rasterId,
         type: 'raster',
@@ -1481,7 +1482,8 @@ export class TestMapLibreController {
   addGeometryLayers(layer, ids) {
     const { sourceId, fillId, lineId, hoverId, selectedFillId, selectedId } = ids;
     if (layer.geometryType !== 'line' && layer.geometryType !== 'point') {
-      this.map.addLayer({
+      // A 'source-layer' of undefined (a GeoJSON source) is none: MapLibre skips a property set to undefined.
+      this.map.addLayer(/** @type {import('maplibre-gl').AddLayerObject} */ ({
         id: fillId,
         type: 'fill',
         source: sourceId,
@@ -1493,7 +1495,7 @@ export class TestMapLibreController {
           'fill-opacity': resolveFillOpacity(layer),
           'fill-antialias': false
         }
-      });
+      }));
     }
 
     // A circle layer for points, a line layer otherwise, each with its own paint.
@@ -1514,7 +1516,7 @@ export class TestMapLibreController {
     }));
 
     if (layer.geometryType === 'point') {
-      this.map.addLayer({
+      this.map.addLayer(/** @type {import('maplibre-gl').AddLayerObject} */ ({
         id: hoverId,
         type: 'circle',
         source: sourceId,
@@ -1526,9 +1528,9 @@ export class TestMapLibreController {
           'circle-radius': ['case', ['boolean', ['feature-state', 'hover'], false], 7, 0],
           'circle-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
         }
-      });
+      }));
     } else if (layer.geometryType === 'line') {
-      this.map.addLayer({
+      this.map.addLayer(/** @type {import('maplibre-gl').AddLayerObject} */ ({
         id: hoverId,
         type: 'line',
         source: sourceId,
@@ -1538,9 +1540,9 @@ export class TestMapLibreController {
           'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 0],
           'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.95, 0]
         }
-      });
+      }));
     } else {
-      this.map.addLayer({
+      this.map.addLayer(/** @type {import('maplibre-gl').AddLayerObject} */ ({
         id: hoverId,
         type: 'fill',
         source: sourceId,
@@ -1550,11 +1552,11 @@ export class TestMapLibreController {
           'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.42, 0],
           'fill-antialias': false
         }
-      });
+      }));
     }
 
     if (layer.geometryType === 'point') {
-      this.map.addLayer({
+      this.map.addLayer(/** @type {import('maplibre-gl').AddLayerObject} */ ({
         id: selectedId,
         type: 'circle',
         source: sourceId,
@@ -1566,12 +1568,12 @@ export class TestMapLibreController {
           'circle-radius': ['case', ['boolean', ['feature-state', 'selected'], false], 8, 0],
           'circle-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.95, 0]
         }
-      });
+      }));
       return;
     }
 
     if (layer.geometryType !== 'line') {
-      this.map.addLayer({
+      this.map.addLayer(/** @type {import('maplibre-gl').AddLayerObject} */ ({
         id: selectedFillId,
         type: 'fill',
         source: sourceId,
@@ -1581,10 +1583,10 @@ export class TestMapLibreController {
           'fill-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.42, 0],
           'fill-antialias': false
         }
-      });
+      }));
       return;
     }
-    this.map.addLayer({
+    this.map.addLayer(/** @type {import('maplibre-gl').AddLayerObject} */ ({
       id: selectedId,
       type: 'line',
       source: sourceId,
@@ -1594,7 +1596,7 @@ export class TestMapLibreController {
         'line-width': ['case', ['boolean', ['feature-state', 'selected'], false], 3, 0],
         'line-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.95, 0]
       }
-    });
+    }));
   }
 
   // Approximate stretches of a reconstructed edition (approximate-segments.js): a casing that breaks the
@@ -1790,7 +1792,8 @@ export class TestMapLibreController {
     const labelMinZoom = getLabelMinZoom(layer);
     const labelMaxZoom = getLabelMaxZoom(layer);
     const labelStyle = getLabelStyle(layer);
-    this.map.addLayer({
+    // A 'source-layer' of undefined (a GeoJSON source) is none: MapLibre skips a property set to undefined.
+    this.map.addLayer(/** @type {import('maplibre-gl').AddLayerObject} */ ({
       id: labelId,
       type: 'symbol',
       source: sourceId,
@@ -1817,7 +1820,7 @@ export class TestMapLibreController {
         'text-halo-blur': labelStyle.haloBlur,
         'text-opacity': 0
       }
-    });
+    }));
     return [labelId];
   }
 
@@ -2157,13 +2160,14 @@ export class TestMapLibreController {
         const currentPitch = this.map.getPitch();
         const pitch = currentPitch < TERRAIN_AUTOTILT_THRESHOLD ? TERRAIN_LOAD_PITCH : currentPitch;
         if (pitch !== currentPitch) this.autoTilted = true;
-        this.map.easeTo({
+        // MapLibre reads a center or zoom of undefined as none (the map sets no zoomSnap).
+        this.map.easeTo(/** @type {import('maplibre-gl').EaseToOptions} */ ({
           center: camera.center,
           zoom: camera.zoom,
           bearing: camera.bearing ?? 0,
           pitch,
           duration: 700
-        });
+        }));
         return;
       }
     }
@@ -2199,7 +2203,8 @@ export class TestMapLibreController {
     if (!bounds || !(this.map.getPitch() > 0) || typeof this.map.cameraForBounds !== 'function') return false;
     const camera = this.map.cameraForBounds(bounds, { padding: 36, bearing: 0 });
     if (!camera) return false;
-    this.map.easeTo({ center: camera.center, zoom: camera.zoom, bearing: 0, pitch: 0, duration: 600 });
+    // MapLibre reads a center or zoom of undefined as none (the map sets no zoomSnap).
+    this.map.easeTo(/** @type {import('maplibre-gl').EaseToOptions} */ ({ center: camera.center, zoom: camera.zoom, bearing: 0, pitch: 0, duration: 600 }));
     return true;
   }
 
@@ -2664,10 +2669,11 @@ export class TestMapLibreController {
     // click still reassembles the whole feature. Filter by the promoted id.
     if (sourceId) {
       try {
-        collect(this.map.querySourceFeatures(sourceId, {
+        // MapLibre reads a sourceLayer of undefined as none (a GeoJSON source).
+        collect(this.map.querySourceFeatures(sourceId, /** @type {import('maplibre-gl').QuerySourceFeatureOptions} */ ({
           sourceLayer: layer.sourceLayer,
           filter: /** @type {FilterSpecification} */ (['==', ['get', layer.promoteId || 'id'], id])
-        }));
+        })));
       } catch { /* fall through to rendered-feature query */ }
     }
     // Fallback: rendered features (viewport-limited) if the source query is

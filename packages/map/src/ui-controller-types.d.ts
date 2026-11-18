@@ -255,8 +255,8 @@ export interface BrowseItem {
 export interface FeatureSearchResult {
   mapId: string;
   /** Null for a townland row (the townland index has no ids). */
-  id?: string | number | null;
-  name?: string;
+  id?: string | number | null | undefined;
+  name?: string | undefined;
   bbox?: number[] | null;
   [key: string]: unknown;
 }
@@ -346,7 +346,7 @@ export type CardOptions = MapListOptions & { fullWidth?: boolean; ignoreMemberHe
 /** A row of a stacked-columns grid: a class's heading, or one of its maps. */
 export type ChronologicalGridItem = { gridRowStart?: number; gridRowEnd?: number; year: number; classId: string } & (
   | { type: 'header'; name: string }
-  | { type: 'entry'; map: MapRecord; className: string; isLoaded: boolean; isPlaceholder?: boolean; isIncomplete?: boolean }
+  | { type: 'entry'; map: MapRecord; className: string; isLoaded: boolean; isPlaceholder?: boolean | undefined; isIncomplete?: boolean | undefined }
 );
 
 /** An election of the catalogue's lists: election-manager.js buildCatalogueCards's entry, with its listing fields. */
@@ -356,7 +356,7 @@ export type ElectionCatalogueCard = import('./election/election-manager').Electi
   displaySubtitle?: string;
   displayProvider?: string;
   displayTitle?: string;
-  bodyGroup?: string | null;
+  bodyGroup?: string | null | undefined;
 };
 
 /** A card of the flat catalogue (renderFlatView): its maps by id or class, or a decade's elections. */
@@ -391,7 +391,7 @@ export interface FlatTocGroup {
   members?: string[];
   memberIds?: string[];
   shelf?: string;
-  kind?: string;
+  kind?: string | undefined;
 }
 
 /** An entry of data/database/maps-v2.json (the reorganised catalogue). */
@@ -538,8 +538,8 @@ export interface EntityDetail {
   born?: string | null;
   died?: string | null;
   lifeSource?: string;
-  firstYear?: string | number | null;
-  lastYear?: string | number | null;
+  firstYear?: string | number | null | undefined;
+  lastYear?: string | number | null | undefined;
   stoodCount?: unknown;
   electedCount?: unknown;
   firstPrefs?: unknown;

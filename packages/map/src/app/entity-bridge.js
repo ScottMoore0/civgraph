@@ -75,7 +75,7 @@ import { recordPagePath } from '../../../ui/src/page-types.mjs';
 /**
  * The pages' own state, set on first use: the page asked for last (ui-wiring.js counts it on too),
  * and the party registry's load.
- * @typedef {{ entityPageToken?: number, partyIndexPromise?: Promise<PartyIndex> | null }} EntityPageState
+ * @typedef {{ entityPageToken?: number | undefined, partyIndexPromise?: Promise<PartyIndex> | null | undefined }} EntityPageState
  */
 /** @typedef {import('./map-app').MapApp & EntityBridgeMethods & EntityPageState} EntityBridgeApp */
 /** An election of a party's page (mapPartyHistoryRow). @typedef {ReturnType<EntityBridgeMethods['mapPartyHistoryRow']>} PartyHistoryRow */
@@ -111,7 +111,7 @@ export class EntityBridgeMethods {
    * @this {EntityBridgeApp}
    * @param {string | undefined} kind
    * @param {string | undefined} key
-   * @param {{ label?: string, fromHistory?: boolean, focus?: boolean }} [options]
+   * @param {{ label?: string | undefined, fromHistory?: boolean, focus?: boolean }} [options]
    * @returns {Promise<boolean>}
    */
   async openElectionEntityDetailInCatalogue(kind, key, options = {}) {
