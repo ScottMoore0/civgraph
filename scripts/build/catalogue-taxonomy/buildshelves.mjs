@@ -18,7 +18,6 @@ for (const e of entries) {
   /** @type {Entry[]} */ (bySubject.get(e.subject)).push(e);
 }
 const esc = (/** @type {string} */ s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const variantLabel = (/** @type {Entry} */ e, /** @type {EntryMap} */ m) => m.name.replace(e.name, '').replace(/^[\s—–,-]+/, '').replace(/[\s—–,-]+$/, '').trim() || 'base';
 
 const subjectBlock = (/** @type {ShelfSubject} */ s) => {
   const items = (bySubject.get(s.name) || []).sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));

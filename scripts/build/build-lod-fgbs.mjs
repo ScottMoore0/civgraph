@@ -34,9 +34,6 @@ const LOD_LEVELS = [
     { level: 1, suffix: '-lod1.fgb', tolerance: 0.0005 },   // ~50m
 ];
 
-// Max features to process at once. Files above this get chunked processing.
-const MAX_FEATURES_PER_PASS = 10000;
-
 const args = process.argv.slice(2);
 const force = args.includes('--force');
 const mapFilter = args.includes('--map') ? args[args.indexOf('--map') + 1] : null;

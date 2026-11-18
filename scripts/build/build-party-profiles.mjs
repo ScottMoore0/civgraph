@@ -30,7 +30,7 @@
  *
  * Usage: node scripts/build/build-party-profiles.mjs [--check]
  */
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { BROWSE_DIR, ELECTION_BUNDLE_DIR } from '@civgraph/loader/paths.mjs';
 import { browsePartySlugResolver, formatSpan, indexFactsModel, loadFactsModel } from '../lib/facts-model.mjs';

@@ -4353,35 +4353,6 @@ function modeAvailable(mode, results) {
   return results.some((result) => result.matched && result[field] !== null && result[field] !== undefined && result[field] !== '');
 }
 
-/**
- * @template T, K
- * @param {T[]} items
- * @param {(item: T) => K} keyFn
- * @returns {Map<K, number>}
- */
-function countBy(items, keyFn) {
-  /** @type {Map<K, number>} */
-  const counts = new Map();
-  for (const item of items) {
-    const key = keyFn(item);
-    counts.set(key, (counts.get(key) || 0) + 1);
-  }
-  return counts;
-}
-
-/**
- * @template K
- * @param {Map<K, number>} counts
- */
-function topCount(counts) {
-  /** @type {{ key: K, count: number } | null} */
-  let best = null;
-  for (const [key, count] of counts) {
-    if (!best || count > best.count) best = { key, count };
-  }
-  return best;
-}
-
 /** @param {unknown} value */
 function normalizeParty(value) {
   const text = fixText(value || '').trim();

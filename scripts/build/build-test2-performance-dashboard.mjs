@@ -275,7 +275,6 @@ function countFiles(relativeDir, predicate) {
   if (!existsSync(fullDir)) return 0;
   let count = 0;
   for (const entry of readdirSync(fullDir, { withFileTypes: true })) {
-    const fullPath = resolve(fullDir, entry.name);
     if (entry.isDirectory()) count += countFiles(`${relativeDir}/${entry.name}`, predicate);
     else if (predicate(entry.name)) count += 1;
   }

@@ -3,7 +3,7 @@
  * Validate generated /test tile outputs against operational budgets.
  */
 
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { isValidBounds } from '@civgraph/maps-pipeline/layer-bounds.mjs';
 import { loadRegistry } from '@civgraph/registries/index.mjs';

@@ -12,7 +12,6 @@ import { ELECTION_MANIFEST, ELECTION_SUMMARY_DIR } from '@civgraph/loader/paths.
 import { localPathForUrl } from '@civgraph/loader/paths.mjs';
 import { seatCountsByParty } from '@civgraph/core/election-domain.mjs';
 
-const ROOT = process.cwd();
 const MANIFEST_PATH = ELECTION_MANIFEST;
 const SUMMARY_DIR = ELECTION_SUMMARY_DIR;
 

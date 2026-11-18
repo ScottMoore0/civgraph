@@ -24,7 +24,7 @@
  * Usage:
  *   node scripts/check/rules/asset-references.mjs [--json]
  */
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { sourceOf } from '../../build/site.mjs';
 import { fileURLToPath } from 'node:url';

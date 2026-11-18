@@ -13,7 +13,7 @@
  * all-ireland-townlands) which drop ~30% of features at z7/z10.
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
-import { dirname, join, resolve, basename } from 'path';
+import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 import { createCanvas } from 'canvas';

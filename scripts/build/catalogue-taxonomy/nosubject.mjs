@@ -28,7 +28,6 @@ const nameOf = (/** @type {string} */ o) => (o.match(new RegExp('name:\\s*' + Q 
 const classMaps = new Map(j.classes.map(c => [c.id, c.maps || []]));
 const renderable = (/** @type {CatalogueMap} */ m) => !m.hidden && (Object.keys(m.files || {}).length || (m.variants || []).length || (m.members || []).length || m.chunked);
 const pub = j.maps.filter(renderable);
-const byId = new Map(j.maps.map(m => [m.id, m]));
 const catName = new Map(j.categories.map(c => [c.id, c.name]));
 
 /** @type {Map<string, string>} */

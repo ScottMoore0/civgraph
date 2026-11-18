@@ -179,7 +179,6 @@ function assertCatalogueMetadata() {
   const classById = new Map((mapsDb.classes || []).map((item) => [item.id, item]));
   const mapById = new Map((mapsDb.maps || []).map((item) => [item.id, item]));
   const layerSourceIds = new Set((testMetadata.layers || []).map((layer) => layer.sourceMapId || layer.id).filter(Boolean));
-  const layerIds = new Set((testMetadata.layers || []).map((layer) => layer.id).filter(Boolean));
   assert(chainClassIds.has('ni-counties'), 'Counties class must be attached to a time-series chain');
   assert(chainClassIds.has('ireland-provinces'), 'Provinces class must be attached to a time-series chain');
   assert((classById.get('ni-counties')?.maps || []).includes('counties-ireland-1955'), 'Counties class must include historical county variants instead of unrelated ED maps');

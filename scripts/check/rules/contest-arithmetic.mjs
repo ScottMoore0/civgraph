@@ -109,8 +109,6 @@ export function bodyGroup(bodySlug, date) {
 }
 
 /** @param {string} status */
-const isElectedStatus = (status) => /elected|made quota|deemed/i.test(status) && !/not elected/i.test(status);
-/** @param {string} status */
 const isUnopposedStatus = (status) => /unopposed/i.test(status);
 /** @param {string} status */
 const isAutoReturned = (status) => /auto[- ]?returned/i.test(status);

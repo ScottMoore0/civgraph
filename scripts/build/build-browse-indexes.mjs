@@ -2,7 +2,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
-import { fileLabel, normalizeFiles, normalizeLinks } from '../lib/browse-links.mjs';
+import { normalizeFiles, normalizeLinks } from '../lib/browse-links.mjs';
 import { sourceAvailabilityDisplay } from '../lib/source-availability.mjs';
 import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '@civgraph/core/election-domain.mjs';
 // A person's slug ("naomi-long-51102"): the one rule the pages' person links use too.
@@ -434,7 +434,7 @@ function main() {
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails, partyNames, folds: partyFolds } = buildParties(partyIds, electionDetails);
   reportPartyLabelFolds(partyFolds);
-  const { persons, personDetails } = buildPersons(electionDetails, parties, partyNames);
+  const { persons } = buildPersons(electionDetails, parties, partyNames);
   const registerInterests = buildRegisterInterests(niRegisterInterestsData);
   const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs, sourceEnrichmentInputs);
   for (const source of sources) applySourceReaderLabels(source);

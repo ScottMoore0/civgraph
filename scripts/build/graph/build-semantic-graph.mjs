@@ -2320,39 +2320,6 @@ async function loadRegisterInterestRecords() {
  * @param {GraphEntity[]} items
  * @param {Set<string>} allowedEntityIds
  */
-function buildEntitySlugIndex(items, allowedEntityIds) {
-  /** @type {Record<string, Partial<SlugSummary>>} */
-  const byId = {};
-  /** @type {Record<string, string>} */
-  const bySlug = {};
-  const typeLabelsById = new Map(entityTypes.map((type) => [type.id, type.label]));
-  for (const entity of items) {
-    if (allowedEntityIds && !allowedEntityIds.has(entity.id)) continue;
-    const slug = slugify(entity.browseSlug || entity.label || entity.id);
-    byId[entity.id] = compactObject({
-      slug,
-      label: entity.label,
-      typeIds: entity.typeIds,
-      typeLabels: normalizeArray(entity.typeIds).map((typeId) => typeLabelsById.get(typeId) || typeId),
-      browseType: entity.browseType,
-      browseSlug: entity.browseSlug,
-      browseUrl: entity.browseUrl
-    });
-    if (!bySlug[slug]) bySlug[slug] = entity.id;
-  }
-  return {
-    schemaVersion: 1,
-    generatedAt: GENERATED_AT,
-    total: Object.keys(byId).length,
-    byId,
-    bySlug
-  };
-}
-
-/**
- * @param {GraphEntity[]} items
- * @param {Set<string>} allowedEntityIds
- */
 async function writeEntitySlugIndex(items, allowedEntityIds) {
   /** @type {[string, SlugSummary][]} */
   const entries = [];
@@ -3105,14 +3072,6 @@ function dedupeRelations(relations) {
     String(a.propertyLabel || '').localeCompare(String(b.propertyLabel || ''), 'en') ||
     String(a.statementId || '').localeCompare(String(b.statementId || ''), 'en')
   ));
-}
-
-/** @param {unknown} value */
-function normalizeSearchText(value) {
-  return cleanText(value)
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase();
 }
 
 /**
