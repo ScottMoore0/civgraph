@@ -82,7 +82,7 @@ export function contentRangeTotal(value) {
 
 /**
  * @typedef {object} LayerEvidence
- * @property {{ tileUrl?: string, tilePackage?: { serving?: string } }} layer
+ * @property {{ tileUrl?: string | undefined, tilePackage?: { serving?: string | undefined } | undefined }} layer
  * @property {{ cdnUrl?: string, exists?: boolean } | undefined} [asset]
  * @property {{ ok?: boolean, status?: string } | undefined} [upload]
  * @property {{ ok?: boolean } | undefined} [range]
