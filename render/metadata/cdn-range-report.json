@@ -1,18 +1,20 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T11:52:28.986Z",
+  "generatedAt": "2026-11-18T23:54:46.928Z",
   "rangeRequest": "bytes=0-15",
   "origin": "https://civgraph.net",
   "totals": {
-    "assets": 960,
-    "ok": 960,
+    "assets": 963,
+    "ok": 963,
     "failed": 0
   },
   "scopedRun": {
     "ids": [
-      "plu-1851-vector"
+      "plu-1849-09-29-vector",
+      "plu-1840-12-31-vector",
+      "plu-1839-12-31-vector"
     ],
-    "checked": 1
+    "checked": 3
   },
   "results": [
     {
@@ -12602,6 +12604,48 @@
       "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
       "cacheStatus": "DYNAMIC",
       "checkedAt": "2026-11-16T14:34:30.393Z"
+    },
+    {
+      "layerId": "plu-1849-09-29-vector",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1849-09-29-vector.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/6786815",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC",
+      "checkedAt": "2026-11-18T23:54:46.273Z"
+    },
+    {
+      "layerId": "plu-1840-12-31-vector",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1840-12-31-vector.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/6373878",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC",
+      "checkedAt": "2026-11-18T23:54:46.515Z"
+    },
+    {
+      "layerId": "plu-1839-12-31-vector",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1839-12-31-vector.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/4227995",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC",
+      "checkedAt": "2026-11-18T23:54:46.775Z"
     }
   ]
 }
