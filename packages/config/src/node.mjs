@@ -100,7 +100,7 @@ export const BUILD_VARS = Object.freeze({
 
 /** The record build's file locations (the contract of packages/loader/src/paths.mjs recordPaths). */
 export function recordPaths(env = process.env) {
-  const value = String(env.CIVGRAPH_BUILD_DIR || '').trim() || DEFAULT_BUILD_DIR;
+  const value = String(/** @type {{ CIVGRAPH_BUILD_DIR?: string }} */ (env).CIVGRAPH_BUILD_DIR || '').trim() || DEFAULT_BUILD_DIR;
   const BUILD = value === 'legacy' ? null : path.resolve(REPO_ROOT, value);
   const at = (/** @type {string} */ built, /** @type {string} */ legacy) => (BUILD ? path.join(BUILD, built) : path.join(REPO_ROOT, legacy));
   return {
@@ -155,7 +155,7 @@ export function repoPath(nameOrRelative) {
  */
 export function buildVar(name, env = process.env) {
   if (!Object.hasOwn(BUILD_VARS, name)) throw new Error(`unknown build variable ${name} (packages/config/src/node.mjs BUILD_VARS)`);
-  return String(env[name] ?? '').trim() || BUILD_VARS[name].default || '';
+  return String(env[name] ?? '').trim() || /** @type {VarSpec} the name is listed (checked above) */ (BUILD_VARS[name]).default || '';
 }
 
 // RUNTIME_VARS (config.js) is read by any name here: an unknown name reads as undefined.
