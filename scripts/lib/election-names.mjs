@@ -497,7 +497,7 @@ export function canonicalElectionTitle({
   if (specialDisplayName) return specialDisplayName;
   /** A general election's title, with the month when the body held two that year. @param {string} title */
   const general = (title) => withSameYearMonth(title, { date, sameYearGeneral });
-  const { year, dayMonthYear } = dateParts(date);
+  const { year } = dateParts(date);
   const registered = registeredBody(bodySlug, body);
   // A body whose general elections take its title template names its by-elections by its
   // by-election templates (the Seanad's "2026 Seanad by-election (Cultural and Educational Panel)").

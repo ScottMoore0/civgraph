@@ -8,7 +8,7 @@
  * The card columns, search text and lookup key are exactly those of
  * packages/loader/src/browse-columns.mjs.
  */
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { ENTITIES, searchText } from './browse-columns.mjs';
 import { TableWriter, int, readJson, transaction, txt } from './db.mjs';
