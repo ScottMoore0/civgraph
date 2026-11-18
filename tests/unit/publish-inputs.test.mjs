@@ -53,6 +53,8 @@ test('each file has the class its folder and its readers give it', () => {
     'scripts/publish/publish-path.mjs': 'code',
     'scripts/build/app-bundle.mjs': 'code',
     'config/tsconfig.pipeline.json': 'code',
+    'packages/loader/tsconfig.project.json': 'code',
+    'packages/registries/tsconfig.project.browser.json': 'code',
     'data/database/site-stats.json': 'code',
     'data/database/status.json': 'code',
   };

@@ -58,6 +58,8 @@ export const CODE_ONLY = Object.freeze([
   /^scripts\/publish\/(?!elections-app-)/,
   // Builders of the app bundle and the Pages output only.
   /^scripts\/build\/(?:app-bundle|shell-assets|promote-test2-root|site|build-site-partials|rebuild-changed|stamp-map-cache-tokens)\.mjs$/,
+  // The package type-check projects (tsc -b, TS-4): only tsc reads them.
+  /^packages\/[^/]+\/tsconfig\.[a-z.-]+\.json$/,
   /^config\/(?:playwright\.config\.cjs|tsconfig\.[a-z-]+\.json|architecture(?:-baseline)?\.json|boundaries\.json)$/,
   // Figures for the pages, read by nothing but their own builders (the unit test holds this).
   /^data\/database\/(?:site-stats|status)\.json$/,
