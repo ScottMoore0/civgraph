@@ -1,0 +1,33 @@
+{
+  "//": "loader: The records loader (src/). One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "../../tmp/tsbuild/loader",
+    "allowJs": true,
+    "checkJs": true,
+    "target": "es2023",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["es2023"],
+    "types": ["node"],
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true
+  },
+  "include": [
+    "src/*.mjs"
+  ],
+  "references": [
+    { "path": "../config/tsconfig.project.node.json" },
+    { "path": "../core/tsconfig.project.json" },
+    { "path": "../schema/tsconfig.project.json" },
+    { "path": "../storage/tsconfig.project.json" },
+    { "path": "../storage/tsconfig.project.node.json" },
+    { "path": "../types/tsconfig.project.json" }
+  ]
+}

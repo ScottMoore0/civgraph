@@ -1,0 +1,34 @@
+{
+  "//": "ui-base: The two ui modules the api imports: the page types (src/page-types.mjs) and the PRONI record renderer (src/templates/proni/record-view.js). A project of their own because the rest of ui imports the api (the election template types its page from packages/api/src/pages/election.js), and tsc -b refuses a cycle. One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "../../tmp/tsbuild/ui-base",
+    "allowJs": true,
+    "checkJs": true,
+    "target": "es2023",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "types": [],
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true
+  },
+  "include": [
+    "src/page-types.mjs",
+    "src/templates/proni/record-view.js"
+  ],
+  "references": [
+    { "path": "../core/tsconfig.project.json" },
+    { "path": "../types/tsconfig.project.json" }
+  ]
+}

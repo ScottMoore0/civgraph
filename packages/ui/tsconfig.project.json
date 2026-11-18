@@ -1,0 +1,41 @@
+{
+  "//": "ui: The ui package but the two modules of tsconfig.project.base.json. One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "../../tmp/tsbuild/ui",
+    "allowJs": true,
+    "checkJs": true,
+    "target": "es2023",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "types": [],
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true
+  },
+  "include": [
+    "assets/**/*.js",
+    "src/**/*.js",
+    "src/**/*.mjs"
+  ],
+  "exclude": [
+    "src/page-types.mjs",
+    "src/templates/proni/record-view.js"
+  ],
+  "references": [
+    { "path": "../api/tsconfig.project.json" },
+    { "path": "../config/tsconfig.project.json" },
+    { "path": "../core/tsconfig.project.json" },
+    { "path": "../map/tsconfig.project.views.json" },
+    { "path": "../registries/tsconfig.project.browser.json" },
+    { "path": "./tsconfig.project.base.json" }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "//": "The solution of the package projects (TS-4): npm run check:types:packages runs tsc -b over it. Each package has a composite project, packages/<name>/tsconfig.project*.json, that references the projects it imports; declarations go to tmp/tsbuild/ (gitignored) and nothing else is emitted. tests/unit/packages-typecheck.test.mjs holds the list.",
+  "files": [],
+  "references": [
+    { "path": "../packages/types/tsconfig.project.json" },
+    { "path": "../packages/config/tsconfig.project.json" },
+    { "path": "../packages/config/tsconfig.project.node.json" },
+    { "path": "../packages/registries/tsconfig.project.browser.json" },
+    { "path": "../packages/core/tsconfig.project.json" },
+    { "path": "../packages/registries/tsconfig.project.json" },
+    { "path": "../packages/storage/tsconfig.project.json" },
+    { "path": "../packages/storage/tsconfig.project.node.json" },
+    { "path": "../packages/schema/tsconfig.project.json" },
+    { "path": "../packages/ui/tsconfig.project.base.json" },
+    { "path": "../packages/api/tsconfig.project.json" },
+    { "path": "../packages/map/tsconfig.project.views.json" },
+    { "path": "../packages/ui/tsconfig.project.json" },
+    { "path": "../packages/map/tsconfig.project.json" },
+    { "path": "../packages/loader/tsconfig.project.json" },
+    { "path": "../packages/intake/tsconfig.project.json" },
+    { "path": "../packages/maps-pipeline/tsconfig.project.json" }
+  ]
+}

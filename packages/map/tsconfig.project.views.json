@@ -1,0 +1,31 @@
+{
+  "//": "map-views: The map app's pure drawing code (src/views/, the map-views unit), which ui's gallery draws with; the rest of the map package is tsconfig.project.json. One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "../../tmp/tsbuild/map-views",
+    "allowJs": true,
+    "checkJs": true,
+    "target": "es2023",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "types": [],
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true
+  },
+  "include": [
+    "src/views/*.mjs"
+  ],
+  "references": [
+    { "path": "../core/tsconfig.project.json" },
+    { "path": "../registries/tsconfig.project.browser.json" }
+  ]
+}

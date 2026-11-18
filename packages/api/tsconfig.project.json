@@ -1,0 +1,39 @@
+{
+  "//": "api: The api package (src/), with the Workers runtime types of functions/_lib/runtime.d.mts. One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "../../tmp/tsbuild/api",
+    "allowJs": true,
+    "checkJs": true,
+    "target": "es2023",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "types": [],
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true
+  },
+  "include": [
+    "src/**/*.js",
+    "src/**/*.d.ts",
+    "../../functions/_lib/runtime.d.mts"
+  ],
+  "references": [
+    { "path": "../config/tsconfig.project.json" },
+    { "path": "../core/tsconfig.project.json" },
+    { "path": "../registries/tsconfig.project.browser.json" },
+    { "path": "../storage/tsconfig.project.json" },
+    { "path": "../types/tsconfig.project.json" },
+    { "path": "../ui/tsconfig.project.base.json" }
+  ]
+}

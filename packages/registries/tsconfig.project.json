@@ -1,0 +1,34 @@
+{
+  "//": "registries: The registries code (src/, src/seed/) and the browser slices' generator src/browser/build.mjs; the slices themselves are tsconfig.project.browser.json. One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "../../tmp/tsbuild/registries",
+    "allowJs": true,
+    "checkJs": true,
+    "target": "es2023",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["es2023"],
+    "types": ["node"],
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": [
+    "src/*.mjs",
+    "src/seed/*.mjs",
+    "src/browser/build.mjs"
+  ],
+  "references": [
+    { "path": "../core/tsconfig.project.json" },
+    { "path": "./tsconfig.project.browser.json" },
+    { "path": "../types/tsconfig.project.json" }
+  ]
+}

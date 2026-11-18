@@ -1,0 +1,33 @@
+{
+  "//": "types: The type declarations: index.d.ts, generated/ and hand/. Left out: src/generate.mjs (the generator, a Node script; 22 strict findings). One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "../../tmp/tsbuild/types",
+    "allowJs": true,
+    "checkJs": true,
+    "target": "es2023",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["es2023"],
+    "types": [],
+    "resolveJsonModule": true,
+    "skipLibCheck": false,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true
+  },
+  "include": [
+    "index.d.ts",
+    "generated/**/*.d.ts",
+    "hand/*.d.ts"
+  ],
+  "references": []
+}
