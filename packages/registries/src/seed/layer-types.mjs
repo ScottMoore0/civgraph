@@ -104,7 +104,7 @@ export function seedLayerTypes(root = REPO_ROOT) {
       const counts = new Map();
       for (const l of layers) for (const k of Object.keys(l)) counts.set(k, (counts.get(k) || 0) + 1);
       entry.requiredFields = [...counts].filter(([, n]) => n === layers.length).map(([k]) => k).sort();
-      entry.geometryTypes = /** @type {LayerType['geometryTypes']} */ ([...new Set(layers.map((l) => l.geometryType))].sort());
+      entry.geometryTypes = /** @type {NonNullable<LayerType['geometryTypes']>} */ ([...new Set(layers.map((l) => l.geometryType))].sort());
       entry.renderers = [...new Set(layers.map((l) => l.renderer))].sort();
     } else {
       entry.runtimeOnly = true;
