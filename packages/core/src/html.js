@@ -43,7 +43,7 @@ const ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&
  * @returns {string}
  */
 export function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (ch) => ESCAPES[ch]);
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => /** @type {string} every matched character has an escape */ (ESCAPES[ch]));
 }
 
 /** Markup the code vouches for. Never pass it data read from D1, R2 or a request. */

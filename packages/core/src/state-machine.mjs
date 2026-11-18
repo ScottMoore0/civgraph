@@ -94,7 +94,7 @@ export function defineMachine({ name, initial, transitions }) {
           seen.push(next);
           return current;
         },
-        done: () => table[current].length === 0,
+        done: () => /** @type {readonly S[]} every state has a row */ (table[current]).length === 0,
       };
     },
   };

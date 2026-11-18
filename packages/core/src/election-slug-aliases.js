@@ -333,10 +333,10 @@ export const RETIRED_CONTEST_SLUGS = [
  */
 export function resolveElectionSlugAlias(slug) {
   const lower = String(slug || '').toLowerCase();
-  for (const [from, to] of RETIRED_CONTEST_SLUGS) {
+  for (const [from, to] of /** @type {[string, string][]} */ (RETIRED_CONTEST_SLUGS)) {
     if (lower === from) return to;
   }
-  for (const [from, to] of ELECTION_SLUG_ALIASES) {
+  for (const [from, to] of /** @type {[string, string][]} */ (ELECTION_SLUG_ALIASES)) {
     if (lower === from || lower.startsWith(`${from}-`)) return to + lower.slice(from.length);
   }
   return lower;

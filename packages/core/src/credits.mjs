@@ -43,14 +43,14 @@ export function mergedDerivedFromLines(...sourceCreditLists) {
 function joinedLine(kept) {
   const shortest = Math.min(...kept.map((w) => w.length));
   let head = 0;
-  while (head < shortest && kept.every((w) => w[head] === kept[0][head])) head += 1;
+  while (head < shortest && kept.every((w) => w[head] === /** @type {string[]} two or more lines are given */ (kept[0])[head])) head += 1;
   let tail = 0;
-  while (tail < shortest - head && kept.every((w) => w[w.length - 1 - tail] === kept[0][kept[0].length - 1 - tail])) tail += 1;
+  while (tail < shortest - head && kept.every((w) => w[w.length - 1 - tail] === /** @type {string[]} */ (kept[0])[/** @type {string[]} */ (kept[0]).length - 1 - tail])) tail += 1;
   const middles = kept.map((w) => w.slice(head, w.length - tail).join(' '));
   // Shared words beyond "Derived from the" make the lines one statement; fewer, and they name different maps.
   if (head + tail < 6 || middles.some((m) => !m)) return null;
   const list = middles.length === 2 ? middles.join(' and ') : `${middles.slice(0, -1).join(', ')} and ${middles[middles.length - 1]}`;
-  return [...kept[0].slice(0, head), list, ...kept[0].slice(kept[0].length - tail)].join(' ');
+  return [.../** @type {string[]} */ (kept[0]).slice(0, head), list, .../** @type {string[]} */ (kept[0]).slice(/** @type {string[]} */ (kept[0]).length - tail)].join(' ');
 }
 
 /**
@@ -75,7 +75,7 @@ export function combinedDerivedFromLines(lines) {
     if (group) group.push(w);
     else groups.push([w]);
   }
-  return groups.map((g) => (g.length < 2 ? g[0].join(' ') : /** @type {string} */ (joinedLine(g))));
+  return groups.map((g) => (g.length < 2 ? /** @type {string[]} a group holds one line or more */ (g[0]).join(' ') : /** @type {string} */ (joinedLine(g))));
 }
 
 /**

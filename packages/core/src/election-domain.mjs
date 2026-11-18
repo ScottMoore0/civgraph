@@ -189,7 +189,7 @@ function isNeutralGrey(colour) {
   if (PLACEHOLDER_PARTY_COLOURS.has(text)) return true;
   const match = text.match(/^#([0-9a-f]{6})$/);
   if (!match) return false;
-  const [r, g, b] = [0, 2, 4].map((offset) => parseInt(match[1].slice(offset, offset + 2), 16));
+  const [r, g, b] = /** @type {[number, number, number]} */ ([0, 2, 4].map((offset) => parseInt(/** @type {string} the pattern's one group */ (match[1]).slice(offset, offset + 2), 16)));
   return Math.max(r, g, b) - Math.min(r, g, b) <= 8 && r >= 0x60 && r <= 0xc0;
 }
 
@@ -346,7 +346,7 @@ export function partyColour(value, fallback = NEUTRAL_PARTY_COLOUR) {
 
 // What a candidate's Status means (RG-01), in the order tried: the statuses registry's
 // candidate-count kindPatterns (data/registries/statuses.json; registries/browser/statuses.json).
-const STATUS_KIND_PATTERNS = statuses.candidateKindPatterns.map(([kind, pattern]) => ({ kind, pattern: new RegExp(pattern) }));
+const STATUS_KIND_PATTERNS = /** @type {[string, string][]} kind and pattern pairs */ (statuses.candidateKindPatterns).map(([kind, pattern]) => ({ kind, pattern: new RegExp(pattern) }));
 
 /**
  * What a candidate's Status means ('elected', 'excluded', ...), or the normalized status itself.
@@ -1170,7 +1170,7 @@ function inferMainLikeCandidateLifecycle(candidate, info, lastCount) {
 
   counts.forEach((countNum, index) => {
     const current = candidate.counts[countNum];
-    const previous = index > 0 ? candidate.counts[counts[index - 1]] : null;
+    const previous = index > 0 ? candidate.counts[/** @type {number} index is past the first */ (counts[index - 1])] : null;
     const total = current?.total ?? 0;
     const transfer = current?.transfers ?? 0;
 
@@ -1510,7 +1510,7 @@ export function summarizeResult(raw, fallbackConstituency) {
   const electedByParty = countBy(elected, (candidate) => candidate.party || NO_LABEL);
   const topElectedParty = topCount(electedByParty);
   const winnerParty = topElectedParty?.key || leading?.party || null;
-  const winnerName = elected.length === 1 ? elected[0].name : elected.length ? `${elected.length} elected` : leading?.name || null;
+  const winnerName = elected.length === 1 ? /** @type {{ name: string }} */ (elected[0]).name : elected.length ? `${elected.length} elected` : leading?.name || null;
   const leadingPct = leading && totalVotes ? round((numberOrZero(leading.firstPrefs) / totalVotes) * 100, 2) : null;
   const quota = parseNumber(info.Quota ?? raw?.meta?.quota ?? raw?.quota);
   const countNumbers = unique(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count))).sort((a, b) => a - b);
@@ -1842,16 +1842,16 @@ export function seatPositions(total, spacing = 13) {
     while (assigned > total) {
       const idx = findLastIndex(rowCounts, (count) => count > 1);
       if (idx < 0) break;
-      rowCounts[idx] -= 1;
+      /** @type {number} a found index */ (rowCounts[idx]) -= 1;
       assigned -= 1;
     }
     while (assigned < total) {
       const target = capacities
-        .map((capacity, idx) => ({ idx, deficit: capacity - rowCounts[idx] }))
+        .map((capacity, idx) => ({ idx, deficit: capacity - /** @type {number} one row count per capacity */ (rowCounts[idx]) }))
         .filter((item) => item.deficit > 0)
         .sort((a, b) => b.deficit - a.deficit)[0];
       if (!target) break;
-      rowCounts[target.idx] += 1;
+      /** @type {number} */ (rowCounts[target.idx]) += 1;
       assigned += 1;
     }
 
@@ -1920,7 +1920,7 @@ export function seatPositions(total, spacing = 13) {
  */
 function findLastIndex(items, predicate) {
   for (let index = items.length - 1; index >= 0; index -= 1) {
-    if (predicate(items[index], index, items)) return index;
+    if (predicate(/** @type {T} index is within the list */ (items[index]), index, items)) return index;
   }
   return -1;
 }

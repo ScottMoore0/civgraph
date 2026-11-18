@@ -39,13 +39,13 @@ export function formatDisplayDate(value) {
   const s = String(value ?? '').trim();
   // A referendum's date carries its question ("2024-03-08-the-family"); the day is what to show.
   let m = /^(\d{4})-(\d{2})-(\d{2})(?:T.*|-[a-z0-9-]+)?$/.exec(s);
-  if (m && Number(m[2]) >= 1 && Number(m[2]) <= 12) return dayMonthYear(m[3], Number(m[2]) - 1, m[1]);
+  if (m && Number(m[2]) >= 1 && Number(m[2]) <= 12) return dayMonthYear(/** @type {string} a matched group */ (m[3]), Number(m[2]) - 1, /** @type {string} */ (m[1]));
   m = /^(\d{4})-(\d{2})$/.exec(s);
   if (m && Number(m[2]) >= 1 && Number(m[2]) <= 12) return `${SHORT_MONTHS[Number(m[2]) - 1]} ${m[1]}`;
   m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(s);
-  if (m && Number(m[2]) >= 1 && Number(m[2]) <= 12) return dayMonthYear(m[1], Number(m[2]) - 1, m[3]);
+  if (m && Number(m[2]) >= 1 && Number(m[2]) <= 12) return dayMonthYear(/** @type {string} a matched group */ (m[1]), Number(m[2]) - 1, /** @type {string} */ (m[3]));
   m = /^(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+\.?),?\s+(\d{4})$/.exec(s);
-  if (m && monthIndex(m[2]) >= 0) return dayMonthYear(m[1], monthIndex(m[2]), m[3]);
+  if (m && monthIndex(/** @type {string} a matched group */ (m[2])) >= 0) return dayMonthYear(/** @type {string} */ (m[1]), monthIndex(/** @type {string} */ (m[2])), /** @type {string} */ (m[3]));
   return s;
 }
 

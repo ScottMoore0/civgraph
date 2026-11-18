@@ -99,7 +99,7 @@ export function areaCandidateColours(candidates) {
   let next = 0;
   const fresh = () => {
     while (next < CANDIDATE_PALETTE.length && used.has(CANDIDATE_PALETTE[next])) next += 1;
-    return CANDIDATE_PALETTE[next++ % CANDIDATE_PALETTE.length];
+    return /** @type {string} the index is taken modulo the length */ (CANDIDATE_PALETTE[next++ % CANDIDATE_PALETTE.length]);
   };
   for (const candidate of candidates) {
     const own = String(candidate.colour || '').toLowerCase();
@@ -143,7 +143,7 @@ export function areaCountSheet(area, nationalFor, colours) {
     const id = national ? String(national.id) : `area-${index + 1}`;
     const last = lastCount(candidate.counts);
     const excluded = last > 0 && last < numCounts;
-    const [firstname, ...rest] = String(candidate.name).split(' ');
+    const [firstname, ...rest] = /** @type {[string, ...string[]]} split gives at least one part */ (String(candidate.name).split(' '));
     let previous = null;
     for (let i = 0; i < numCounts; i += 1) {
       const total = candidate.counts[i];
@@ -287,7 +287,7 @@ export function areaResultsFirst(modes) {
   const list = [...(modes || [])];
   const i = list.findIndex((m) => /** @type {{ dataKind?: unknown } | null | undefined} */ (m)?.dataKind === 'area-results');
   if (i <= 0) return list;
-  return [list[i], ...list.slice(0, i), ...list.slice(i + 1)];
+  return [/** @type {M} found above */ (list[i]), ...list.slice(0, i), ...list.slice(i + 1)];
 }
 
 /**

@@ -102,5 +102,5 @@ export function largestRemainder(lists, seats) {
  */
 export function plurality(lists) {
   const live = standing(lists);
-  return live.length ? live[0].id : null;
+  return live.length ? /** @type {{ id: string }} */ (live[0]).id : null;
 }

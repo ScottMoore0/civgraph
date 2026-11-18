@@ -180,7 +180,7 @@ export function dateText(value) {
   const match = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?/.exec(String(value || ''));
   if (!match) return String(value || '');
   const [, year, month, day] = match;
-  if (!month) return year;
+  if (!month) return /** @type {string} the year group always matches */ (year);
   const monthName = MONTHS[Number(month) - 1] || month;
   return day ? `${Number(day)} ${monthName} ${year}` : `${monthName} ${year}`;
 }

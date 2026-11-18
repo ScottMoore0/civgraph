@@ -34,7 +34,7 @@ const NOT_PARTIES = parties.notParties;
  * @returns {Set<string>}
  */
 export function notAPartyLabels(...corpora) {
-  return new Set(parties.noPartyLabels.filter(([, ...within]) => within.some((c) => corpora.includes(/** @type {'candidacies' | 'persons' | 'words'} */ (c)))).map(([label]) => label));
+  return new Set(/** @type {[string, ...string[]][]} a label, then the corpora it stands in */ (parties.noPartyLabels).filter(([, ...within]) => within.some((c) => corpora.includes(/** @type {'candidacies' | 'persons' | 'words'} */ (c)))).map(([label]) => label));
 }
 
 /**
@@ -57,7 +57,7 @@ function key(value) {
 
 /** @type {Map<string, PartyInfo>} */
 const BY_KEY = new Map();
-for (const [abbreviation, fullName, ...spellings] of PARTIES) {
+for (const [abbreviation, fullName, ...spellings] of /** @type {[string, string, ...string[]][]} */ (PARTIES)) {
   for (const spelling of [abbreviation, fullName, ...spellings]) {
     const k = key(spelling);
     if (k && !BY_KEY.has(k)) BY_KEY.set(k, { abbreviation, fullName });
