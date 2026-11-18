@@ -7,8 +7,8 @@
 import partyPalettes from '../../../registries/src/browser/party-palettes.mjs';
 import { CENSUS_RAMPS, MAP_COLOURS } from './colours.mjs';
 
-/** A party's colour in the map's Republic of Ireland palette (the registry's mapRoi part). */
-const roi = (/** @type {string} */ party) => (partyPalettes.mapRoi.find(([name]) => name === party) || [party, MAP_COLOURS.partyGrey])[1];
+/** A party's colour in the map's Republic of Ireland palette (the registry's mapRoi part): each entry is [name, colour]. */
+const roi = (/** @type {string} */ party) => /** @type {string} */ ((partyPalettes.mapRoi.find(([name]) => name === party) || [party, MAP_COLOURS.partyGrey])[1]);
 const ramp = CENSUS_RAMPS.viridis || [];
 
 /**
@@ -57,11 +57,12 @@ export const LEGEND_SAMPLE = {
  * set to one of its results and `view` 'counts', the count table of that constituency.
  */
 const candidate = (/** @type {string} */ name, /** @type {string} */ party, /** @type {number[]} */ totals, /** @type {boolean} */ elected) => ({
-  name, party, elected, firstPrefs: totals[0], votes: totals[0], finalVotes: totals[totals.length - 1],
+  // Every candidate below has a total at each count, the first count's among them.
+  name, party, elected, firstPrefs: /** @type {number} */ (totals[0]), votes: /** @type {number} */ (totals[0]), finalVotes: /** @type {number} */ (totals[totals.length - 1]),
   status: elected ? 'Elected' : 'Excluded',
   counts: totals.map((total, i) => ({
-    count: i + 1, total, transfers: i ? total - totals[i - 1] : null,
-    status: elected && total >= totals[totals.length - 1] && i === totals.length - 1 ? 'Elected' : '',
+    count: i + 1, total, transfers: i ? total - /** @type {number} */ (totals[i - 1]) : null,
+    status: elected && total >= /** @type {number} */ (totals[totals.length - 1]) && i === totals.length - 1 ? 'Elected' : '',
   })),
 });
 const SAMPLE_RESULTS = [
@@ -108,7 +109,8 @@ export const TREND_POINTS_SAMPLE = (() => {
   // legend sample's above), and their shares (%) at each election, in that order.
   /** @type {Record<string, string>} */
   const NAMES = Object.fromEntries((LEGEND_SAMPLE.election?.items ?? []).map((item) => [item.party, item.name]));
-  const keys = [...new Set(partyPalettes.mapRoi.map(([name]) => name))].slice(0, 4);
+  // Each palette entry is [name, colour].
+  const keys = [...new Set(partyPalettes.mapRoi.map(([name]) => /** @type {string} */ (name)))].slice(0, 4);
   /** @type {[string, number[]][]} */
   const elections = [
     ['2011-02-25', [17.4, 36.1, 9.9, 19.5]],
@@ -117,7 +119,8 @@ export const TREND_POINTS_SAMPLE = (() => {
     ['2024-11-29', [21.9, 20.8, 19.0, 4.6]],
   ];
   return elections.flatMap(([date, shares]) => keys.map((key, i) => ({
-    party: NAMES[key] || key, share: shares[i], colour: roi(key), entry: { key: `dail|${date}`, body: 'Dáil Éireann', date },
+    // Four shares an election, one a key.
+    party: NAMES[key] || key, share: /** @type {number} */ (shares[i]), colour: roi(key), entry: { key: `dail|${date}`, body: 'Dáil Éireann', date },
   })));
 })();
 

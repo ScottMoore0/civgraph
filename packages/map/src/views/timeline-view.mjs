@@ -57,8 +57,9 @@ export function timelineTicksHtml(items, yearOf) {
     if (!held || (held.minor && !minor)) byDecade.set(decade, { index, year, minor });
   });
   const label = (/** @type {number} */ index, /** @type {number} */ year, /** @type {number} */ priority) => `<span class="timeline-year" data-priority="${priority}" style="--p:${(index / (count - 1)).toFixed(5)}">${year}</span>`;
-  const firstYear = yearOf(items[0]);
-  const lastYear = yearOf(items[count - 1]);
+  // There are two stops or more (above).
+  const firstYear = yearOf(/** @type {TimelineTickItem} */ (items[0]));
+  const lastYear = yearOf(/** @type {TimelineTickItem} */ (items[count - 1]));
   const labelled = new Set();
   if (Number.isFinite(firstYear)) { parts.push(label(0, firstYear, 3)); labelled.add(0); }
   if (Number.isFinite(lastYear)) { parts.push(label(count - 1, lastYear, 3)); labelled.add(count - 1); }

@@ -247,14 +247,16 @@ export function layoutTrendChart(model, options = {}) {
   } else {
     columns = elections.map((_election, index) => plot.left + (index / (elections.length - 1)) * plot.width);
   }
+  // A column per election (columns, times and each series' values run alike): an index below
+  // the length, and the last of a list that has one, name a column. So below.
   for (let index = 1; index < columns.length; index += 1) {
-    columns[index] = Math.max(columns[index], columns[index - 1] + MIN_COLUMN_GAP);
+    columns[index] = Math.max(/** @type {number} */ (columns[index]), /** @type {number} */ (columns[index - 1]) + MIN_COLUMN_GAP);
   }
-  const overshoot = columns.length ? columns[columns.length - 1] - plot.right : 0;
+  const overshoot = columns.length ? /** @type {number} */ (columns[columns.length - 1]) - plot.right : 0;
   if (overshoot > 0 && columns.length > 1) {
     const scale = plot.width / (plot.width + overshoot);
     for (let index = 0; index < columns.length; index += 1) {
-      columns[index] = plot.left + (columns[index] - plot.left) * scale;
+      columns[index] = plot.left + (/** @type {number} */ (columns[index]) - plot.left) * scale;
     }
   }
 
@@ -262,16 +264,16 @@ export function layoutTrendChart(model, options = {}) {
   /** @param {number} time */
   const xForTime = (time) => {
     if (!timed || !columns.length) return plot.left;
-    if (columns.length === 1) return columns[0];
-    if (time <= times[0]) return columns[0] - ((times[0] - time) / span) * plot.width;
+    if (columns.length === 1) return /** @type {number} */ (columns[0]);
+    if (time <= /** @type {number} */ (times[0])) return /** @type {number} */ (columns[0]) - ((/** @type {number} */ (times[0]) - time) / span) * plot.width;
     for (let index = 1; index < times.length; index += 1) {
-      if (time <= times[index]) {
-        const gap = times[index] - times[index - 1];
-        const ratio = gap > 0 ? (time - times[index - 1]) / gap : 1;
-        return columns[index - 1] + (columns[index] - columns[index - 1]) * ratio;
+      if (time <= /** @type {number} */ (times[index])) {
+        const gap = /** @type {number} */ (times[index]) - /** @type {number} */ (times[index - 1]);
+        const ratio = gap > 0 ? (time - /** @type {number} */ (times[index - 1])) / gap : 1;
+        return /** @type {number} */ (columns[index - 1]) + (/** @type {number} */ (columns[index]) - /** @type {number} */ (columns[index - 1])) * ratio;
       }
     }
-    return columns[columns.length - 1] + ((time - times[times.length - 1]) / span) * plot.width;
+    return /** @type {number} */ (columns[columns.length - 1]) + ((time - /** @type {number} */ (times[times.length - 1])) / span) * plot.width;
   };
 
   const xTicks = [];
@@ -279,18 +281,18 @@ export function layoutTrendChart(model, options = {}) {
     const minYear = new Date(minTime).getUTCFullYear();
     const maxYear = new Date(maxTime).getUTCFullYear();
     const spanYears = Math.max(1, maxYear - minYear);
-    const step = YEAR_STEPS.find((candidate) => (plot.width / (spanYears / candidate)) >= MIN_TICK_SPACING) || YEAR_STEPS[YEAR_STEPS.length - 1];
+    const step = YEAR_STEPS.find((candidate) => (plot.width / (spanYears / candidate)) >= MIN_TICK_SPACING) || /** @type {number} */ (YEAR_STEPS[YEAR_STEPS.length - 1]);
     for (let year = Math.ceil(minYear / step) * step; year <= maxYear; year += step) {
       const x = xForTime(Date.UTC(year, 0, 1));
       if (x < plot.left - 0.5 || x > plot.right + 0.5) continue;
       xTicks.push({ year, x });
     }
     if (!xTicks.length) {
-      xTicks.push({ year: minYear, x: columns[0] }, { year: maxYear, x: columns[columns.length - 1] });
+      xTicks.push({ year: minYear, x: /** @type {number} */ (columns[0]) }, { year: maxYear, x: /** @type {number} */ (columns[columns.length - 1]) });
     }
   } else {
     elections.forEach((election, index) => {
-      if (election.year) xTicks.push({ year: Number(election.year), x: columns[index] });
+      if (election.year) xTicks.push({ year: Number(election.year), x: /** @type {number} */ (columns[index]) });
     });
   }
 
@@ -309,7 +311,7 @@ export function layoutTrendChart(model, options = {}) {
         current = null;
         return;
       }
-      const x = columns[index];
+      const x = /** @type {number} */ (columns[index]);
       const y = yFor(value.share);
       markers.push({ index, x, y, share: value.share });
       if (!current) {
@@ -324,9 +326,10 @@ export function layoutTrendChart(model, options = {}) {
     // A faint dotted bridge across each gap keeps the series legible without claiming a value
     // for the elections the party has no comparable result at.
     const bridges = [];
+    // Each segment holds the point it was started for.
     for (let index = 1; index < segments.length; index += 1) {
-      const from = segments[index - 1][segments[index - 1].length - 1];
-      const to = segments[index][0];
+      const from = /** @type {TrendXY} */ (/** @type {TrendXY[]} */ (segments[index - 1])[/** @type {TrendXY[]} */ (segments[index - 1]).length - 1]);
+      const to = /** @type {TrendXY} */ (/** @type {TrendXY[]} */ (segments[index])[0]);
       bridges.push({ from, to });
     }
     const last = markers.length ? markers[markers.length - 1] : null;
@@ -375,16 +378,17 @@ export function layoutTrendChart(model, options = {}) {
       group.sort((a, b) => a.pointY - b.pointY);
       const top = plot.top + LABEL_FONT_SIZE / 2;
       const bottom = plot.bottom + 4;
+      // Every index read below is of a label in the group.
       for (let index = 0; index < group.length; index += 1) {
-        const floor = index === 0 ? top : group[index - 1].y + LABEL_GAP;
-        group[index].y = Math.max(group[index].y, floor);
+        const floor = index === 0 ? top : /** @type {TrendLabel} */ (group[index - 1]).y + LABEL_GAP;
+        /** @type {TrendLabel} */ (group[index]).y = Math.max(/** @type {TrendLabel} */ (group[index]).y, floor);
       }
       for (let index = group.length - 1; index >= 0; index -= 1) {
-        const ceiling = index === group.length - 1 ? bottom : group[index + 1].y - LABEL_GAP;
-        group[index].y = Math.min(group[index].y, ceiling);
+        const ceiling = index === group.length - 1 ? bottom : /** @type {TrendLabel} */ (group[index + 1]).y - LABEL_GAP;
+        /** @type {TrendLabel} */ (group[index]).y = Math.min(/** @type {TrendLabel} */ (group[index]).y, ceiling);
       }
       for (let index = 1; index < group.length; index += 1) {
-        group[index].y = Math.max(group[index].y, group[index - 1].y + LABEL_GAP);
+        /** @type {TrendLabel} */ (group[index]).y = Math.max(/** @type {TrendLabel} */ (group[index]).y, /** @type {TrendLabel} */ (group[index - 1]).y + LABEL_GAP);
       }
       for (const label of group) {
         label.x = Math.min(label.pointX + 8, width - label.width - 2);
@@ -455,7 +459,8 @@ export function renderTrendChartSvg(model, layout, options = {}) {
       ? `<path class="trend-gap" d="${item.bridges.map((bridge) => `M${bridge.from.x.toFixed(1)} ${bridge.from.y.toFixed(1)}L${bridge.to.x.toFixed(1)} ${bridge.to.y.toFixed(1)}`).join('')}"/>`
       : '';
     const markers = item.markers.map((marker) => {
-      const election = elections[marker.index];
+      // A marker is at an election's column (layoutTrendChart).
+      const election = /** @type {TrendElection} */ (elections[marker.index]);
       const title = escapeHtml(`${item.party}: ${formatShare(marker.share)} at ${[election.year, election.body].filter(Boolean).join(' ')}`);
       return `<circle class="trend-marker" data-election-index="${marker.index}" cx="${marker.x.toFixed(1)}" cy="${marker.y.toFixed(1)}" r="3.5"><title>${title}</title></circle>`;
     }).join('');

@@ -62,7 +62,8 @@ const esc = (value) => escapeHtml(String(value ?? ''));
 export function legendInk(hex) {
   const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || '').trim());
   if (!m) return MAP_COLOURS.inkDark;
-  const n = parseInt(m[1], 16);
+  // The pattern has one group, which matched.
+  const n = parseInt(/** @type {string} */ (m[1]), 16);
   const lum = (0.2126 * ((n >> 16) & 255) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255)) / 255;
   return lum > 0.55 ? MAP_COLOURS.inkDark : MAP_COLOURS.inkLight;
 }
@@ -142,7 +143,7 @@ export function legendBodyHtml({ election, statistics, layers, showLayers, appro
 export function legendSummaryText(election, statistics) {
   return election
     ? `Legend: ${election.title}`
-    : statistics.length === 1 ? `Legend: ${statistics[0].entry.name}` : 'Legend';
+    : statistics.length === 1 ? `Legend: ${/** @type {CensusLegend} */ (statistics[0]).entry.name}` : 'Legend';
 }
 
 /**
