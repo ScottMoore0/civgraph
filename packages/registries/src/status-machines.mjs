@@ -38,7 +38,7 @@ export function statusMachines(registry) {
  * @returns {{ ok: true } | { ok: false, reason: string }}
  */
 export function canMarkContributionApplied(registry, status) {
-  const machine = statusMachines(registry).contribution;
+  const machine = /** @type {Machine} the registry has a contribution machine */ (statusMachines(registry).contribution);
   if (machine.can(status, 'applied')) return { ok: true };
   if (status === 'applied') return { ok: false, reason: 'already marked applied' };
   return { ok: false, reason: `status is "${status}"; only an approved submission can be marked applied` };

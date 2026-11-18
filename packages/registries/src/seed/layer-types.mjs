@@ -50,7 +50,7 @@ export const SHARED_BEHAVIOUR_FLAGS = {
 const ALL_FLAGS = [...Object.keys(BEHAVIOUR_FLAGS), ...Object.keys(SHARED_BEHAVIOUR_FLAGS)];
 
 /** The line of map-controller.js that builds a flag's Set of source types from the registry. */
-export const behaviourLine = (/** @type {string} */ flag) => `const ${BEHAVIOUR_FLAGS[flag][0]} = new Set(layerTypes.behaviour.${flag});`;
+export const behaviourLine = (/** @type {string} */ flag) => `const ${/** @type {[string, string]} a listed flag */ (BEHAVIOUR_FLAGS[flag])[0]} = new Set(layerTypes.behaviour.${flag});`;
 
 /** @type {{ [type: string]: { note: string, sources: string[] } }} */
 const RUNTIME_ONLY = {
@@ -93,7 +93,7 @@ export function seedLayerTypes(root = REPO_ROOT) {
   for (const type of [...byType.keys(), ...Object.keys(RUNTIME_ONLY)].sort()) {
     const layers = byType.get(type) || [];
     /** @type {LayerType} */
-    const entry = { tileFormat: TILE_FORMAT[type] };
+    const entry = { tileFormat: /** @type {string} every layer type has a tile format */ (TILE_FORMAT[type]) };
     // The renderer module (the layer-type code registry, packages/map/src/renderer/layer-kinds/) is
     // kept as the file has it, as the behaviour flags are: tests/unit/map-layer-kinds.test.mjs holds
     // it to the code.
@@ -108,10 +108,10 @@ export function seedLayerTypes(root = REPO_ROOT) {
       entry.renderers = [...new Set(layers.map((l) => l.renderer))].sort();
     } else {
       entry.runtimeOnly = true;
-      entry.note = RUNTIME_ONLY[type].note;
-      entry.sources = RUNTIME_ONLY[type].sources;
+      entry.note = /** @type {{ note: string, sources: string[] }} a type with no layers is a runtime-only one */ (RUNTIME_ONLY[type]).note;
+      entry.sources = /** @type {{ note: string, sources: string[] }} */ (RUNTIME_ONLY[type]).sources;
     }
-    const flags = ALL_FLAGS.filter((f) => flagTypes[f].has(type));
+    const flags = ALL_FLAGS.filter((f) => /** @type {Set<string>} one set per flag */ (flagTypes[f]).has(type));
     if (flags.length) entry.behaviour = flags;
     types[type] = entry;
   }
@@ -139,7 +139,7 @@ export function seedLayerTypes(root = REPO_ROOT) {
 }
 
 // Also run through the re-export at packages/registries/src/seed/layer-types.mjs (kept until 8 Dec 2026).
-const isMain = Boolean(process.argv[1]) && /registries[\\/](?:src[\\/])?seed[\\/]layer-types\.mjs$/.test(path.resolve(process.argv[1]));
+const isMain = Boolean(process.argv[1]) && /registries[\\/](?:src[\\/])?seed[\\/]layer-types\.mjs$/.test(path.resolve(/** @type {string} checked above */ (process.argv[1])));
 if (isMain) {
   const out = `${JSON.stringify(seedLayerTypes(), null, 1)}\n`;
   const file = path.join(REPO_ROOT, OUT);

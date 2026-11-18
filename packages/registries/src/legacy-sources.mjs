@@ -54,13 +54,13 @@ export function pythonLiteral(rel, name, root = REPO_ROOT) {
   if (at < 0) throw new Error(`${rel}: ${name} not found`);
   const open = text.indexOf('=', at) + 1;
   let i = text.slice(open).search(/[[{]/) + open;
-  const startChar = text[i];
+  const startChar = /** @type {string} the search above found a bracket */ (text[i]);
   let depth = 0;
   let out = '';
   /** @type {string | null} */
   let quote = null;
   for (; i < text.length; i += 1) {
-    const ch = text[i];
+    const ch = /** @type {string} i is within the text */ (text[i]);
     if (quote) {
       if (ch === '\\') { out += ch + text[i + 1]; i += 1; continue; }
       if (ch === quote) { quote = null; out += '"'; continue; }

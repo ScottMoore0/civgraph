@@ -69,7 +69,7 @@ export function tenuresOfOffice(registry, officeId) {
  */
 export function councilForInstitution(councilsRegistry, institutionId) {
   const found = councilsForInstitution(councilsRegistry, institutionId);
-  return found.length === 1 ? found[0] : null;
+  return found.length === 1 ? /** @type {Council} */ (found[0]) : null;
 }
 
 /**

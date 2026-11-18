@@ -49,7 +49,7 @@ export function typesWithBehaviour(registry, flag) {
  * @returns {string[]}
  */
 export function drawnLayerTypes(registry) {
-  return Object.keys(registry.types).filter((t) => registry.types[t].drawnBy).sort();
+  return Object.keys(registry.types).filter((t) => /** @type {LayerType} a key of the same object */ (registry.types[t]).drawnBy).sort();
 }
 
 /**

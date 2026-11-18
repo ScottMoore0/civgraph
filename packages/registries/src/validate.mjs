@@ -164,7 +164,7 @@ export function validateAgainstSchema(value, schema, root = schema, at = '$', op
     }
     for (const [key, sub] of Object.entries(object)) {
       if (schema.propertyNames) check(key, schema.propertyNames, `${at}{${key}}`);
-      if (schema.properties && key in schema.properties) check(sub, schema.properties[key], `${at}.${key}`);
+      if (schema.properties && key in schema.properties) check(sub, /** @type {Schema} key is in properties (checked) */ (schema.properties[key]), `${at}.${key}`);
       else if (schema.additionalProperties === false) errors.push(`${at}: unknown property ${key}`);
       else if (schema.additionalProperties && typeof schema.additionalProperties === 'object') check(sub, schema.additionalProperties, `${at}.${key}`);
     }

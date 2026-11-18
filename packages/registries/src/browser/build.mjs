@@ -119,7 +119,7 @@ export function browserSlices(root = REPO_ROOT) {
     // the catalogue and the served pages each read several palettes.
     'colours.json': browserColours(colours),
     'statuses.json': {
-      candidateKindPatterns: /** @type {NonNullable<StatusMachineFields['kindPatterns']>} */ (statuses.machines['candidate-count'].kindPatterns).map(({ kind, pattern }) => [kind, pattern]),
+      candidateKindPatterns: /** @type {NonNullable<StatusMachineFields['kindPatterns']>} */ (/** @type {StatusMachineFields} the registry has a candidate-count machine */ (statuses.machines['candidate-count']).kindPatterns).map(({ kind, pattern }) => [kind, pattern]),
       roundSiteLabels: { ...round.siteLabels },
       missingReasons: structuredClone(round.missingReasons),
       contestLabels: { .../** @type {StatusMachineFields} */ (statuses.machines.contest).labels },
@@ -181,7 +181,7 @@ export function staleSlices(root = REPO_ROOT, dir = HERE) {
 }
 
 // Also run through the re-export at packages/registries/src/browser/build.mjs (kept until 8 Dec 2026).
-const isMain = Boolean(process.argv[1]) && /registries[\\/](?:src[\\/])?browser[\\/]build\.mjs$/.test(path.resolve(process.argv[1]));
+const isMain = Boolean(process.argv[1]) && /registries[\\/](?:src[\\/])?browser[\\/]build\.mjs$/.test(path.resolve(/** @type {string} checked above */ (process.argv[1])));
 if (isMain) {
   if (process.argv.includes('--check')) {
     const stale = staleSlices();

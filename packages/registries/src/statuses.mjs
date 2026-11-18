@@ -97,7 +97,7 @@ export function candidateStatusKind(registry, status) {
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
   if (!normalized) return '';
-  for (const { kind, pattern } of /** @type {NonNullable<StatusMachineEntry['kindPatterns']>} */ (registry.machines['candidate-count'].kindPatterns)) {
+  for (const { kind, pattern } of /** @type {NonNullable<StatusMachineEntry['kindPatterns']>} */ (/** @type {StatusMachineEntry} the registry has a candidate-count machine */ (registry.machines['candidate-count']).kindPatterns)) {
     if (new RegExp(pattern).test(normalized)) return kind;
   }
   return normalized;
@@ -144,7 +144,7 @@ export function siteRoundStatus(registry, row, completeness) {
  * @returns {MissingReason}
  */
 export function missingRoundReason(registry, row) {
-  const r = /** @type {NonNullable<StatusMachineEntry['missingReasons']>} */ (registry.machines['election-round'].missingReasons);
+  const r = /** @type {NonNullable<StatusMachineEntry['missingReasons']>} */ (/** @type {StatusMachineEntry} the registry has an election-round machine */ (registry.machines['election-round']).missingReasons);
   return row?.excluded ? r.excluded : r.otherwise;
 }
 

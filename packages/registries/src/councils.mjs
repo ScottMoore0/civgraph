@@ -56,7 +56,7 @@ export function councilsByBodySlug(registry, bodySlug) {
  */
 export function councilForBodySlug(registry, bodySlug) {
   const found = councilsByBodySlug(registry, bodySlug);
-  return found.length === 1 ? found[0] : null;
+  return found.length === 1 ? /** @type {Council} */ (found[0]) : null;
 }
 
 /**
@@ -126,7 +126,7 @@ export function councilNameOn(council, date) {
     if (n.until != null && day.slice(0, n.until.length) > n.until) continue;
     found = n;
   }
-  return (found || fallback || names[0]).name;
+  return /** @type {NonNullable<Council['names']>[number]} a council has at least one name */ (found || fallback || names[0]).name;
 }
 
 /**
@@ -270,7 +270,7 @@ export function checkCouncils(registry) {
   for (const [institution, councils] of byInstitution) {
     if (councils.length < 2) continue;
     const ids = new Set(councils.map((c) => c.id));
-    const reached = new Set([councils[0].id]);
+    const reached = new Set([/** @type {Council} two or more here */ (councils[0]).id]);
     for (let grew = true; grew;) {
       grew = false;
       for (const id of [...reached]) {
