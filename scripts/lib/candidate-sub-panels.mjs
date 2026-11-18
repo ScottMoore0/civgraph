@@ -34,7 +34,7 @@ export function subPanelIndex(doc, nameKey) {
  * Writes Sub_Panel on the count rows of the candidates the index names for this contest file.
  * Returns the result it was given (changed in place); a contest the index does not name is left
  * as it is.
- * @template {{ Constituency?: { countGroup?: SubPanelRow[] } } | null | undefined} R
+ * @template {{ Constituency?: { countGroup?: SubPanelRow[] } | undefined } | null | undefined} R
  * @param {Map<string, Map<string, string>>} index
  * @param {string | null | undefined} relativeFile the contest file, relative to the repository root
  * @param {R} rawResult

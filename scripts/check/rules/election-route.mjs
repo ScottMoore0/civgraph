@@ -9,7 +9,7 @@ import { MAP_COLOURS } from '@civgraph/map/colours.mjs';
 /**
  * A map record of data/database/maps.json (or a variant, merged over its parent by findMap).
  * @typedef {{
- *   id?: string, parentId?: string, variants?: MapRecord[], files?: { fgb?: string }, style?: { color?: string },
+ *   id?: string, parentId?: string | undefined, variants?: MapRecord[], files?: { fgb?: string }, style?: { color?: string },
  *   provider?: unknown, cloneOf?: string, isGroup?: boolean, labelProperty?: string, date?: unknown, placeholder?: boolean
  * }} MapRecord
  */

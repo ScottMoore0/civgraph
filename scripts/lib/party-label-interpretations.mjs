@@ -18,7 +18,7 @@ import { candidateDisplayName, normalizeName, normalizeParty } from '@civgraph/c
  * @typedef {LabelInterpretations['rules'][number]} LabelRule
  * @typedef {{ body: string, date?: string }} ContestScope  the result file's body and date folders
  * @typedef {Record<string, unknown>} ResultRow  one candidate (or count) row of a source result file
- * @typedef {{ Constituency?: { countGroup?: unknown }, candidates?: unknown }} RawResult
+ * @typedef {{ Constituency?: { countGroup?: unknown } | undefined, candidates?: unknown }} RawResult
  */
 
 /** @param {ResultRow | null | undefined} row */

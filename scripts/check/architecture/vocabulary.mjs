@@ -22,7 +22,7 @@ const norm = (/** @type {unknown} */ v) => String(v).trim().toLowerCase().replac
 
 /**
  * The vocabularies: value -> its category. Values shorter than three characters are left out.
- * @param {{ parties?: { abbreviations?: Array<unknown[] | { abbreviation?: unknown, fullName?: unknown, spellings?: unknown }> }, councils?: { councils?: Array<Record<string, unknown>>, types?: Record<string, unknown> }, statuses?: { machines?: Record<string, Record<string, unknown>> }, statusMachines?: string[], layerTypes?: { types?: Record<string, unknown> }, electionTypes?: { votingSystems?: Record<string, unknown>, electionKinds?: Record<string, unknown> }, extra?: Record<string, string[]> }} registries
+ * @param {{ parties?: { abbreviations?: Array<unknown[] | { abbreviation?: unknown, fullName?: unknown, spellings?: unknown }> } | undefined, councils?: { councils?: Array<Record<string, unknown>>, types?: Record<string, unknown> } | undefined, statuses?: { machines?: Record<string, Record<string, unknown>> } | undefined, statusMachines?: string[] | undefined, layerTypes?: { types?: Record<string, unknown> } | undefined, electionTypes?: { votingSystems?: Record<string, unknown>, electionKinds?: Record<string, unknown> } | undefined, extra?: Record<string, string[]> }} registries
  * @returns {Map<string, string>}
  */
 export function buildVocabulary(registries) {

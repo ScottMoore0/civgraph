@@ -188,8 +188,8 @@ export function sameDayReferendumAmendment(keyOrDate) {
 
 // Newest first; on a shared day, referendums by descending amendment number.
 /**
- * @param {{ date?: string, key?: string }} a
- * @param {{ date?: string, key?: string }} b
+ * @param {{ date?: string | undefined, key?: string }} a
+ * @param {{ date?: string | undefined, key?: string }} b
  */
 export function compareElectionsNewestFirst(a, b) {
   const day = String(b.date || '').slice(0, 10).localeCompare(String(a.date || '').slice(0, 10));

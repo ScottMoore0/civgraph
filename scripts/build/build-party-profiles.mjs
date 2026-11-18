@@ -89,17 +89,17 @@ const NOTABLE_LIMIT = 15;
  * A party ballot's bundle, the fields read.
  * @typedef {{ displayTitle?: string, results?: { constituency?: string, candidates?: { personId?: string, name?: string, firstPrefs?: unknown, votes?: unknown, elected?: unknown }[] }[] }} InternalBundle
  */
-/** A dated fact with its source. @typedef {{ date: string, precision?: string, source: string, basis?: unknown, citations?: unknown[] }} DateFact */
+/** A dated fact with its source. @typedef {{ date: string, precision?: string | undefined, source: string, basis?: unknown, citations?: unknown[] | undefined }} DateFact */
 /**
  * An election in a body's chart.
  * @typedef {{ key?: string, title?: string, date?: string, kind?: string, body?: string, contests?: number, candidates?: number, seats?: number,
  *   seatsTotal?: number, votes?: number, validPoll?: number, share?: number }} ElectionRow
  */
-/** @typedef {{ id: string, label: string, note?: string, elections: ElectionRow[] }} BodyChart */
+/** @typedef {{ id: string, label: string, note?: string | undefined, elections: ElectionRow[] }} BodyChart */
 /**
  * A dated item of a party's timeline.
- * @typedef {{ date?: string, precision?: string, kind?: string, text?: string, source?: string, basis?: unknown, note?: string, related?: RelatedParty[],
- *   persons?: unknown[], citations?: unknown[], electionKey?: string }} TimelineItem
+ * @typedef {{ date?: string | undefined, precision?: string | undefined, kind?: string | undefined, text?: string | undefined, source?: string, basis?: unknown, note?: string | undefined, related?: RelatedParty[] | undefined,
+ *   persons?: unknown[], citations?: unknown[] | undefined, electionKey?: string | undefined }} TimelineItem
  */
 /** @typedef {{ relation?: string, slug?: string, title?: string, label?: string, qid?: string, source?: string }} Relation */
 
@@ -207,7 +207,7 @@ function main() {
   // Candidacies by party and election, and each party's members.
   /** @type {Map<string, Map<string, { candidates: number, elected: number, votes: number, votesKnown: number, constituencies: Set<string> }>>} */
   const candidacies = new Map(); // slug -> key -> { candidates, elected, votes, constituencies:Set }
-  /** @type {Map<string, Map<string, { slug: string, name?: string, elected: number, contests: number, years: number[], bodies: Set<string> }>>} */
+  /** @type {Map<string, Map<string, { slug: string, name?: string | undefined, elected: number, contests: number, years: number[], bodies: Set<string> }>>} */
   const members = new Map(); // slug -> personSlug -> stats
   for (const person of persons) {
     for (const row of person.elections || []) {
@@ -412,7 +412,7 @@ function main() {
     const relations = [];
     /**
      * @param {string} relation
-     * @param {{ slug?: string, title?: string, label?: string, qid?: string, source: string }} target
+     * @param {{ slug?: string | undefined, title?: string | undefined, label?: string | undefined, qid?: string | undefined, source: string }} target
      */
     const addRelation = (relation, target) => {
       if (!target.title || relations.some((r) => (r.slug ? r.slug === target.slug : r.title === target.title))) return;

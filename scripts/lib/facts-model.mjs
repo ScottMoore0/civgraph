@@ -149,7 +149,7 @@ export function formatFactDate(date) {
  * they began, the span says so: "in post by June 1972", "in post by 1974 – 1983".
  * @param {string | null | undefined} start
  * @param {string | null | undefined} end
- * @param {{ startBy?: string | null }} [options]
+ * @param {{ startBy?: string | null | undefined }} [options]
  */
 export function formatSpan(start, end, { startBy = null } = {}) {
   const a = formatFactDate(start) || (startBy ? `in post by ${formatFactDate(startBy)}` : '');

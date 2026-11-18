@@ -36,9 +36,9 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  */
 /**
  * A reference as Browse writes it (addReference, normalizeReferences).
- * @typedef {{ label?: string, url?: string | null, source?: string, role?: string, scope?: string, note?: string, accessed?: string, type?: string }} Reference
+ * @typedef {{ label?: string, url?: string | null | undefined, source?: string | undefined, role?: string, scope?: string, note?: string, accessed?: string, type?: string }} Reference
  * A reference as the source files give it: a string (a label or a url) or an object.
- * @typedef {{ label?: string, title?: string, name?: string, url?: string | null, href?: string, note?: string, notes?: string, accessed?: string, accessedDate?: string, source?: string, role?: string, scope?: string, type?: string }} RawReference
+ * @typedef {{ label?: string, title?: string, name?: string, url?: string | null | undefined, href?: string, note?: string, notes?: string, accessed?: string, accessedDate?: string, source?: string | undefined, role?: string, scope?: string, type?: string }} RawReference
  * @typedef {string | RawReference | null | undefined} RawReferenceItem
  * @typedef {RawReferenceItem | RawReferenceItem[]} RawReferences
  * @typedef {{ kind?: string, id?: string, url?: string, smallUrl?: string, alt?: string, label?: string, type?: string }} Thumbnail
@@ -65,7 +65,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * @typedef {{ id: string, name?: string, scope?: string, maps?: string[] }} RawMapClass
  * @typedef {{ maps?: RawMap[], categories?: RawCategory[], classes?: RawMapClass[] }} RawMapsFile
  * @typedef {{ classId: string, className: string, scope: string | null, parentId?: string }} MapClassInfo
- * @typedef {{ id?: string, mapId?: string, name?: string, title?: string, label?: string, parentName?: string, date?: string }} MapTitleSource
+ * @typedef {{ id?: string | undefined, mapId?: string, name?: string | undefined, title?: string, label?: string, parentName?: string, date?: string }} MapTitleSource
  * @typedef {{
  *   id?: string, slug?: string, name?: string, title?: string, hidden?: boolean, csv?: string, geography?: string, region?: string,
  *   year?: string | number, date?: string, category?: string, categoryName?: string, group?: string, description?: string,
@@ -97,7 +97,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * @typedef {{
  *   name?: string, candidate?: string, Candidate?: string, personId?: string | number, person_id?: string | number, personID?: string | number,
  *   sourcePersonId?: string, officialPersonIds?: (string | number)[], name_id?: string,
- *   party?: string, Party?: string, constituency?: string, gender?: string, Gender?: string, genderId?: string, Gender_Id?: string,
+ *   party?: string | undefined, Party?: string, constituency?: string | undefined, gender?: string, Gender?: string, genderId?: string, Gender_Id?: string,
  *   elected?: boolean, counted_as_elected?: boolean, outcome?: string, status?: string,
  *   firstPrefs?: number, firstPref?: number, votes?: number,
  *   partyAsPrinted?: string, Party_As_Printed?: string, ballotDescription?: string, Ballot_Description?: string,
@@ -190,7 +190,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * }} RawExternalSource
  * @typedef {{
  *   id?: string, slug?: string, key?: string, type?: string, title?: string, subtitle?: string, category?: string, date?: unknown,
- *   provider?: unknown[], description?: string, url?: string, thumbnail?: Thumbnail | null, references?: Reference[],
+ *   provider?: unknown[], description?: string | undefined, url?: string, thumbnail?: Thumbnail | null, references?: Reference[],
  *   downloads?: import('../lib/browse-links.mjs').BrowseLink[],
  *   keywords?: unknown[], sourceItems?: SourceItem[], status?: string, statusChips?: unknown[], sourceHierarchy?: unknown[],
  *   viewport?: Viewport | null, shortCitation?: string, fullCitation?: string, relatedRecords?: unknown[], duplicateCount?: number,
@@ -456,7 +456,7 @@ function main() {
   // A feature group links to its map's record by the map's final slug.
   const mapSlugById = new Map(maps.map((map) => [map.id, map.slug]));
   for (const group of featureGroups) {
-    if (mapSlugById.has(group.sourceMapId)) group.mapSlug = mapSlugById.get(group.sourceMapId);
+    if (mapSlugById.has(group.sourceMapId)) group.mapSlug = /** @type {string} ensureUniqueSlugs gave every map a slug */ (mapSlugById.get(group.sourceMapId));
     else delete group.mapSlug;
   }
   const sourceDetailShardByKey = buildSourceDetailShardAssignments(sources);

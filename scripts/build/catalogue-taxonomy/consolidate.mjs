@@ -18,7 +18,7 @@ import fs from 'fs';
 
 /** @typedef {{ id: string, name?: unknown, keywords?: unknown[], provider?: string | string[], date?: string, dateEffective?: string }} CatalogueMap */
 /** @typedef {{ id: string, name: string, variantOf?: string }} EntryMap */
-/** @typedef {{ name: string, subject: string, kind: string, n: number, axis: string | null, maps: EntryMap[], scope?: string | null, year?: number | null }} Entry */
+/** @typedef {{ name: string, subject: string, kind: string, n: number, axis: string | null, maps: EntryMap[], scope?: string | null | undefined, year?: number | null }} Entry */
 
 /** @type {{ maps: CatalogueMap[], classes?: { maps?: string[], scope?: string }[] }} */
 const CATALOGUE = JSON.parse(fs.readFileSync('data/database/maps.json', 'utf8'));

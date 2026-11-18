@@ -85,7 +85,7 @@ export function isUnopposedContest(result) {
  * one is dropped), a table and the date the figures were read.
  * @typedef {{
  *   known: number | null | undefined, stages: Record<string, number | null | undefined>,
- *   facts?: (string | number | null | undefined)[], detail?: StatusTable | null, asOf?: string
+ *   facts?: (string | number | null | undefined)[], detail?: StatusTable | null | undefined, asOf?: string | undefined
  * }} SourceFigures
  */
 /** @typedef {(cfg: SourceConfig, snap: SourceSnapshot | undefined) => SourceFigures} SourceCompute */

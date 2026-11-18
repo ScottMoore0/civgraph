@@ -163,7 +163,7 @@ const JSONLD_CONTEXT = {
 /**
  * The graph this builds (scripts/check/rules/semantic-graph.mjs validates it): entities, and
  * statements about them (subject, property, value, qualifiers, references).
- * @typedef {{ type: 'entity', id: string, label?: string }} EntityValue  a link to an entity; its own label (a full date) is shown in place of the entity's (the date's month or year)
+ * @typedef {{ type: 'entity', id: string, label?: string | undefined }} EntityValue  a link to an entity; its own label (a full date) is shown in place of the entity's (the date's month or year)
  * @typedef {{ type: 'string' | 'date' | 'url', value: string, id?: undefined, label?: undefined }} TextValue
  * @typedef {{ type: 'boolean', value: boolean, id?: undefined, label?: undefined }} BooleanValue
  * @typedef {{ type: 'number', value: number, id?: undefined, label?: undefined }} NumberValue
@@ -175,17 +175,17 @@ const JSONLD_CONTEXT = {
 /**
  * @typedef {object} GraphReference  a statement's citation; compactObject has dropped its empty fields
  * @property {string} [sourceId]  the source entity (an original-source citation has none: it carries its title, kind and URL)
- * @property {string} [sourceTitle]
- * @property {string} [sourceKind]
- * @property {string} [sourceUrl]
+ * @property {string | undefined} [sourceTitle]
+ * @property {string | undefined} [sourceKind]
+ * @property {string | undefined} [sourceUrl]
  * @property {string} [sourceRecordId]
- * @property {string} [sourceRowId]
+ * @property {string | undefined} [sourceRowId]
  * @property {string} [date]
  * @property {string} [earliestDeclaration]
  * @property {string} [latestDeclaration]
  * @property {string} [extractionMethod]
  * @property {string} [extractionConfidence]
- * @property {string[]} [sourceExtractIds]
+ * @property {string[] | undefined} [sourceExtractIds]
  * @property {string | number} [sourcePageStart]
  * @property {string | number} [sourcePageEnd]
  */
@@ -208,12 +208,12 @@ const JSONLD_CONTEXT = {
  * @typedef {object} EntityInput  what addEntity is given: a new entity's fields, or more for an existing one
  * @property {string[]} [typeIds]
  * @property {string} [label]
- * @property {string} [description]
+ * @property {string | undefined} [description]
  * @property {string} [kind]
- * @property {string} [browseType]
- * @property {string} [browseSlug]
- * @property {string} [browseUrl]
- * @property {string} [sourceUrl]
+ * @property {string | undefined} [browseType]
+ * @property {string | undefined} [browseSlug]
+ * @property {string | undefined} [browseUrl]
+ * @property {string | undefined} [sourceUrl]
  * @property {Record<string, unknown>} [attributes]
  */
 
@@ -234,7 +234,7 @@ const JSONLD_CONTEXT = {
  * @property {string} propertyId
  * @property {GraphValue | null} value
  * @property {(Qualifier | null)[]} [qualifiers]
- * @property {(GraphReference | null)[]} [references]
+ * @property {(GraphReference | null)[] | undefined} [references]
  * @property {string} [rank]
  */
 
@@ -245,7 +245,7 @@ const JSONLD_CONTEXT = {
  * @typedef {{ label?: string, title?: string, source?: string, role?: string, url?: string }} BrowseReference  an external reference
  * @typedef {string | { name?: string, title?: string }} NameOrRef
  * @typedef {{ key?: string, id?: string, title?: string, date?: string, body?: string, constituency?: string, party?: string, status?: string, elected?: boolean, firstPrefs?: number }} ElectionRef  an election as a person or feature group names it
- * @typedef {{ key?: string, name?: string, title?: string, resultName?: string, resultKind?: string, browseUrl?: string, createdFrom?: string }} ContestInput  a contest of an election (contestInputsForElection)
+ * @typedef {{ key?: string | undefined, name?: string | undefined, title?: string, resultName?: string, resultKind?: string, browseUrl?: string, createdFrom?: string }} ContestInput  a contest of an election (contestInputsForElection)
  * @typedef {{ party?: string, name?: string, label?: string, stood?: number, seats?: number, votes?: number, share?: number }} PartySummaryRow
  * @typedef {{ title?: string, edition?: string, volume?: string, url?: string }} HopPage  a History of Parliament biography page
  * @typedef {{ title?: string, host?: string, url?: string | null, kind?: string }} Citation  an original source of a contest's result (election-provenance.json)
@@ -450,7 +450,7 @@ const JSONLD_CONTEXT = {
  * @typedef {{ slug: string, label?: string, typeIds?: string[], typeLabels?: string[], browseType?: string, browseSlug?: string, browseUrl?: string }} SlugSummary  an entity's entry in the slug index
  * @typedef {SlugSummary & { entityId: string, description?: string, searchHints?: string[] }} EntitySummary
  * @typedef {{ entityId: string, slug?: string, label?: string, types?: string[], browseType?: string, browseSlug?: string, searchHints?: string[] }} SearchEntry
- * @typedef {{ statementId?: string, subjectId?: string, subjectSlug?: string, subjectLabel?: string, subjectTypeLabels?: string[], propertyId?: string, propertyLabel?: string, sourceKind?: string, sourceRowId?: string, date?: string }} Relation  a statement pointing at an entity (as its value, or citing it)
+ * @typedef {{ statementId?: string, subjectId?: string, subjectSlug?: string, subjectLabel?: string, subjectTypeLabels?: string[], propertyId?: string, propertyLabel?: string, sourceKind?: string | undefined, sourceRowId?: string | undefined, date?: string }} Relation  a statement pointing at an entity (as its value, or citing it)
  * @typedef {Awaited<ReturnType<typeof writeRelatedIndex>>} RelatedIndex
  */
 
@@ -1570,7 +1570,7 @@ function addStatement(input) {
 
 /**
  * @param {unknown} name
- * @param {{ constituency?: string, partyLabels?: string[], body?: string }} [context]
+ * @param {{ constituency?: string | undefined, partyLabels?: string[] | undefined, body?: string | undefined }} [context]
  */
 function getPersonEntity(name, context = {}) {
   const label = cleanText(name) || 'Unnamed person';
@@ -2044,7 +2044,7 @@ function getMapLayerEntityId(value) {
 
 /**
  * @param {FileLink} file
- * @param {{ parentLabel?: string, relationship?: string }} [context]
+ * @param {{ parentLabel?: string | undefined, relationship?: string }} [context]
  */
 function getSourceFileEntity(file, context = {}) {
   const url = cleanText(file.url || file.href || file.path || '');

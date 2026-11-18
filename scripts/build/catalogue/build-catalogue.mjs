@@ -70,7 +70,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
 /**
  * A map as catalogue.json carries it.
  * @typedef {{
- *   name?: string, date: string, status: string, dateAsAt?: boolean, dateNote?: string, provider?: string[], derivedFrom?: string[], thumb?: string,
+ *   name?: string | undefined, date: string, status: string, dateAsAt?: boolean, dateNote?: string, provider?: string[], derivedFrom?: string[], thumb?: string,
  *   bounds?: number[], features?: number, geometry?: string, description?: string, note?: string,
  *   orders?: { divisions?: unknown, made?: unknown, purposes?: unknown }[], ordersSource?: unknown, licence?: string,
  *   download?: boolean, kind?: string, keywords?: string[], color?: string, parts?: Labelled[], years?: number[],
@@ -98,8 +98,8 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
 /**
  * An election as catalogue.json carries it.
  * @typedef {{
- *   key: string, title: string, body?: string, bodySlug: string, date?: string, kind: string, seats: number,
- *   subtitle?: string, scope?: string, thumb?: string, thumbBorrowed?: boolean, contestType?: string, layerId?: string,
+ *   key: string, title: string, body?: string | undefined, bodySlug: string, date?: string | undefined, kind: string, seats: number,
+ *   subtitle?: string, scope?: string, thumb?: string | undefined, thumbBorrowed?: boolean, contestType?: string, layerId?: string,
  *   sourceMapId?: string, bodyGroup?: string | null, mapless?: boolean, about?: unknown
  * }} ElectionOut
  */
@@ -332,7 +332,7 @@ const yearOfDate = (/** @type {string | undefined} */ d) => (YEAR.exec(d || '') 
 
 /**
  * @param {SourceSeries} series
- * @param {{ name?: string, date: string }} rec
+ * @param {{ name?: string | undefined, date: string }} rec
  * @param {{ date: string }[]} all
  * @returns {string}
  */

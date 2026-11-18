@@ -249,7 +249,7 @@ export function transfersReceived(meta) {
  * @param {{ key: string, slug: string, display_title?: string | null, body?: string | null, body_slug: string, kind?: string | null, voting_system?: string | null, date: string, year?: number | null }} el
  * @param {{ seq: number, name: string, slug: string, electorate?: number | null, turnout_pct?: number | null, quota?: number | null, meta: any }} contest
  * @param {{ name?: string | null, person_id?: string | null, party_label?: string | null, gender?: string | null, first_prefs?: number | null, final_votes?: number | null, elected?: number | null, excluded?: number | null, status?: string | null, meta: any }} c
- * @param {{ labelMap?: Map<string, string>, incumbents?: Set<string>, unopposed?: boolean, stages?: number }} [opts]
+ * @param {{ labelMap?: Map<string, string>, incumbents?: Set<string> | undefined, unopposed?: boolean, stages?: number }} [opts]
  */
 export function extractRow(el, contest, c, opts = {}) {
   const labelMap = opts.labelMap || new Map();

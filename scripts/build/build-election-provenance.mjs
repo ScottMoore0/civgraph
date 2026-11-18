@@ -111,7 +111,7 @@ const CHECK = process.argv.includes('--check');
  * @typedef {{ isRedirect?: boolean, year?: number, title: string, category?: string, url?: string,
  *   citations?: { url?: string, title?: string, archiveUrl?: string }[] }} ArticleRecord
  */
-/** @typedef {{ url?: string, sources: Source[] }} ArticleEntry */
+/** @typedef {{ url?: string | undefined, sources: Source[] }} ArticleEntry */
 /**
  * A History of Parliament contest citation.
  * @typedef {{ file: string, supplies?: string[], title: string, publisher?: string, url: string, checked?: unknown, check?: string,
@@ -568,7 +568,7 @@ function webCheckLayer() {
 function legislationLayer() {
   /** @type {Map<string, string[]>} */
   const byElection = new Map();
-  /** @type {Record<string, { label?: string, url?: string, basis: string | null, note: string | null }>} */
+  /** @type {Record<string, { label?: string | undefined, url?: string | undefined, basis: string | null, note: string | null }>} */
   const items = {};
   if (!existsSync(LEGISLATION)) return { byElection, items };
   for (const item of /** @type {{ items?: LegislationItem[] }} */ (readJson(LEGISLATION)).items ?? []) {

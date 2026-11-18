@@ -49,8 +49,8 @@ export const LEDGER_TYPES = /** @type {const} */ (['contest', 'election', 'perso
 /**
  * @typedef {object} GraphEntityRow  a built graph entity, as far as the ledger needs it
  * @property {string} id
- * @property {string} [browseSlug]
- * @property {string} [electionKey]  a contest's election key (attributes.electionKey)
+ * @property {string | undefined} [browseSlug]
+ * @property {string | undefined} [electionKey]  a contest's election key (attributes.electionKey)
  */
 
 /**

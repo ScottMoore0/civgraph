@@ -97,7 +97,7 @@ export function votesDirFromWrapper(wrapperText) {
 /** @typedef {'none' | 'app' | 'code' | 'data'} RebuildMode */
 /** @typedef {{ path: string, tracked: boolean }} ChangedFile */
 /**
- * @typedef {{ id: string, cmd: string, args: string[], after: string, env?: Record<string, string>,
+ * @typedef {{ id: string, cmd: string, args: string[], after: string, env?: Record<string, string> | undefined,
  *   gate?: 'records-stale' | 'persons-stale' }} Step
  *   after: what the step reads (why it is where it is); gate: a run-time skip when already current
  */
@@ -130,7 +130,7 @@ const APP_CHECKS = 'check:root,check:asset-refs,check:app-shell-cache,check:page
 
 /**
  * The steps for a mode, in order. Pure.
- * @param {{ mode: RebuildMode, persons: boolean, meaningful: string[], noBrowser?: boolean, votesDir?: string, manifestArgs?: string }} input
+ * @param {{ mode: RebuildMode, persons: boolean, meaningful: string[], noBrowser?: boolean, votesDir?: string, manifestArgs?: string | undefined }} input
  * @returns {Step[]}
  */
 export function planRebuild({ mode, persons, meaningful, noBrowser = false, votesDir = '', manifestArgs = '' }) {

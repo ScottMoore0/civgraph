@@ -110,7 +110,7 @@ import { statusMachines } from '@civgraph/registries/status-machines.mjs';
 /**
  * One level of one year (see buildLevel).
  * @typedef {{
- *   available: boolean, reason: string | null, sourceMapId?: string, layerId?: string | null, labelProperty?: string,
+ *   available: boolean, reason: string | null, sourceMapId?: string, layerId?: string | null, labelProperty?: string | undefined,
  *   keyProps?: unknown, editionDate?: string, editionName?: string,
  *   features: { councillors: FeatureItem[], aldermen: FeatureItem[] }, unplaced: [number, number][]
  * }} GroupedLevel
@@ -403,7 +403,7 @@ export function isKnownRoundWork(work) {
 /**
  * The site status of a published round from its round-status.json row and its round-completeness
  * entry (packages/registries/src/statuses.mjs siteRoundStatus).
- * @param {{ work?: string, excluded?: unknown } | null | undefined} row
+ * @param {{ work?: string | undefined, excluded?: unknown } | null | undefined} row
  * @param {{ text?: string, complete?: boolean } | undefined} completeness
  * @returns {GroupedRoundStatus}
  */

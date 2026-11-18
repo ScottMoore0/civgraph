@@ -58,7 +58,7 @@ import { areaCandidateColours, areaCountSheet, areaFeatureNames, areaResultsFirs
  * }} ScraperCandidate
  */
 
-/** A seat's own date in an 1832-1880 general election (Walker overlay). @typedef {{ label: string, date?: string, page?: unknown }} WalkerDateNote */
+/** A seat's own date in an 1832-1880 general election (Walker overlay). @typedef {{ label: string, date?: string | undefined, page?: unknown }} WalkerDateNote */
 
 /**
  * One contest file as read (election-domain's RawResult: a count-group file or a scraper
@@ -68,18 +68,18 @@ import { areaCandidateColours, areaCountSheet, areaFeatureNames, areaResultsFirs
  *   ei_candidates?: Array<{ id?: string, name?: string }>,
  *   officialDail?: (SourceRow & { constituencyNumber?: unknown, constituencyId?: unknown }) | null,
  *   constituency?: string,
- *   cause?: string,
+ *   cause?: string | undefined,
  *   note?: string,
  *   pollDate?: string,
- *   pollDateKind?: string,
- *   dateNote?: WalkerDateNote,
+ *   pollDateKind?: string | undefined,
+ *   dateNote?: WalkerDateNote | undefined,
  *   electorateNote?: string,
- *   electorateSource?: string,
+ *   electorateSource?: string | undefined,
  *   franchise?: string,
  *   boundaryNote?: string,
- *   correctionNote?: string,
- *   sourceNote?: string,
- *   countSourceNote?: string
+ *   correctionNote?: string | undefined,
+ *   sourceNote?: string | undefined,
+ *   countSourceNote?: string | undefined
  * }} RawResult
  */
 
@@ -365,8 +365,8 @@ const CORRECTION_STATES = new Set(statesOf(CORRECTIONS, 'correction'));
  *   cause: string,
  *   seats: unknown,
  *   dateNote: WalkerDateNote,
- *   party: Array<{ candidate?: string, party: unknown }>,
- *   votes: Array<{ candidate?: string, votes: unknown }>,
+ *   party: Array<{ candidate?: string | undefined, party: unknown }>,
+ *   votes: Array<{ candidate?: string | undefined, votes: unknown }>,
  *   pollDateKind: string
  * }} WalkerValues
  * @typedef {{ [K in keyof WalkerValues]?: { value: WalkerValues[K], onlyIfEmpty: boolean } }} WalkerCorrection
@@ -2259,7 +2259,7 @@ function markUnopposedReturns(result, resultMetadata) {
 
 /**
  * @param {ElectionEntry} entry
- * @param {{ result?: ContestResult | null, votingSystem?: string | null, contestType?: string | null, contestStatus?: string }} [options]
+ * @param {{ result?: ContestResult | null, votingSystem?: string | null | undefined, contestType?: string | null, contestStatus?: string }} [options]
  */
 function transferDataExpectedForElection(entry, { result = null, votingSystem = null, contestType = null, contestStatus = 'contested' } = {}) {
   const type = contestType || contestTypeForElection(entry);
@@ -2279,7 +2279,7 @@ function transferDataExpectedForElection(entry, { result = null, votingSystem = 
  * @param {MapLayer | null | undefined} layer
  * @param {FeatureIndex | null} featureIndex
  * @param {string | null} [previousKey]
- * @param {{ councilGeography?: Geography | null, councilLayer?: MapLayer | null }} [options]
+ * @param {{ councilGeography?: Geography | null, councilLayer?: MapLayer | null | undefined }} [options]
  */
 async function buildElectionBundle(entry, geography, layer, featureIndex, previousKey = null, options = {}) {
   const key = electionKey(entry);
