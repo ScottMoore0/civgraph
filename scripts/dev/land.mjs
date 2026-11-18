@@ -31,6 +31,7 @@ import { CONFIG, git, listWorktrees, runNpm, runningPublishes, samePath } from '
 import { globToRegExp, regenerationSteps, resolveConflict } from './worktree/conflicts.mjs';
 import { createWorktree } from './worktree/new.mjs';
 import { removeWorktree } from './worktree/remove.mjs';
+import { ensureOwnPackageLinks } from '../lib/node-modules-links.mjs';
 
 /** @typedef {import('./worktree/conflicts.mjs').Rule} Rule */
 
@@ -180,6 +181,9 @@ function landBranch(branch, { mainRef, keepWorktree }) {
   }
   const wt = /** @type {{ path: string }} */ (wtInfo).path;
   if (rebaseInProgress(wt)) throw new Stop(`a rebase is already in progress in ${wt}`);
+  // A worktree made before 18 Nov 2026 joined node_modules to main's whole, so the gates would
+  // run main's @civgraph packages instead of the branch's: give it its own links first.
+  if (ensureOwnPackageLinks(wt) === 'converted') log(`    ${wt}: node_modules now has its own @civgraph links`);
   const dirty = trackedChanges(wt);
   if (dirty) throw new Stop(`${wt} has uncommitted changes to tracked files:\n${dirty.split('\n').slice(0, 10).join('\n')}`);
 

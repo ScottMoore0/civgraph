@@ -6,7 +6,7 @@
  */
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { chmodSync, copyFileSync, existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { chmodSync, copyFileSync, existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -14,6 +14,7 @@ import { fileURLToPath } from 'node:url';
 import { globToRegExp, parseConflicts, regenerationSteps, resolveConflict, rulesFor } from '../../scripts/dev/worktree/conflicts.mjs';
 import { parseWorktreeList } from '../../scripts/dev/worktree/lib.mjs';
 import { artefactPath, missingNeeds } from '../../scripts/lib/artefact-refs.mjs';
+import { ensureOwnPackageLinks, packageLinkState, removeShadow } from '../../scripts/lib/node-modules-links.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CONFIG = JSON.parse(readFileSync(path.join(ROOT, 'config', 'worktrees.json'), 'utf8'));
@@ -158,6 +159,35 @@ test('WT-11 the write guard makes a linked folder local on the first write, leav
     assert.equal(readFileSync(path.join(snapshot, 'rewritten.json'), 'utf8'), '{"old":true}', 'the snapshot is unchanged');
     assert.equal(existsSync(path.join(snapshot, 'added.json')), false);
     assert.equal(JSON.parse(readFileSync(path.join(stateDir, 'state.json'), 'utf8')).links[0].state, 'local');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('WT-12 a worktree joined to main\'s node_modules gets its own @civgraph links, main\'s untouched', () => {
+  const dir = mkdtempSync(path.join(tmpdir(), 'wt-links-'));
+  try {
+    const main = path.join(dir, 'main');
+    const wt = path.join(dir, 'wt');
+    for (const root of [main, wt]) {
+      mkdirSync(path.join(root, 'packages', 'core'), { recursive: true });
+      writeFileSync(path.join(root, 'packages', 'core', 'package.json'), '{"name":"@civgraph/core"}\n');
+    }
+    mkdirSync(path.join(main, 'node_modules', 'esbuild'), { recursive: true });
+    mkdirSync(path.join(main, 'node_modules', '@civgraph'), { recursive: true });
+    symlinkSync(path.join(main, 'packages', 'core'), path.join(main, 'node_modules', '@civgraph', 'core'), 'junction');
+    writeFileSync(path.join(main, 'node_modules', '.package-lock.json'), '{}\n');
+    symlinkSync(path.join(main, 'node_modules'), path.join(wt, 'node_modules'), 'junction');
+    assert.equal(packageLinkState(wt), 'joined');
+    assert.equal(ensureOwnPackageLinks(wt), 'converted');
+    assert.equal(packageLinkState(wt), 'own');
+    assert.equal(ensureOwnPackageLinks(wt), 'own');
+    assert.equal(realpathSync(path.join(wt, 'node_modules', '@civgraph', 'core')), realpathSync(path.join(wt, 'packages', 'core')));
+    assert.ok(lstatSync(path.join(wt, 'node_modules', 'esbuild')).isSymbolicLink());
+    removeShadow(wt);
+    assert.ok(!existsSync(path.join(wt, 'node_modules')));
+    assert.ok(existsSync(path.join(main, 'node_modules', 'esbuild')), 'main\'s node_modules survives');
+    assert.equal(realpathSync(path.join(main, 'node_modules', '@civgraph', 'core')), realpathSync(path.join(main, 'packages', 'core')));
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

@@ -59,8 +59,9 @@ skipped there. In the main checkout every step runs, as before.
   the web fonts loaded. Any colour change over 0.05% of a shot fails it. A platform with no baseline
   skips. After an intended visual change, review the diffs and re-run with `--update-snapshots`.
 - `check:clean` (`scripts/check/clean.mjs`) exports exactly what a commit would contain into
-  a temporary directory, links `node_modules`, runs the CI builds and the tier 1 checks
-  there, and unlinks `node_modules` before deleting the export. A check that needs a
+  a temporary directory, gives it a `node_modules` of links to this one's (the `@civgraph` links pointing
+  at the export's own `packages/`), runs the CI builds and the tier 1 checks
+  there, and removes those links before deleting the export. A check that needs a
   gitignored file fails here as it would in CI. It needs about 11 GB of free space for the
   records build.
 

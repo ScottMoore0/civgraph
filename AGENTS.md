@@ -85,10 +85,13 @@ Parallel streams each work in their own worktree; the main checkout is the coord
 Settings: `config/worktrees.json`.
 
 - **Make one:** `npm run worktree:new -- <name>` (from the main checkout) makes
-  `civgraph-<name>` beside it on a new branch `<name>` from main. It has node_modules joined
-  to main's, main's generated record folders joined to a shared read-only snapshot (never to
-  main's own), the small build outputs copied, its own scratch folder (`tmp/scratch`) and a
-  write guard. Don't copy main's `tmp/records`.
+  `civgraph-<name>` beside it on a new branch `<name>` from main. It has its own
+  node_modules (junctions to main's entries, with the `@civgraph` links pointing at the
+  worktree's own `packages/`, since code imports the packages by name), main's generated
+  record folders joined to a shared read-only snapshot (never to main's own), the small build outputs copied, its own scratch folder (`tmp/scratch`) and a
+  write guard. Don't copy main's `tmp/records`. A worktree made before 18 Nov 2026 joined
+  node_modules to main's whole and would run main's packages: `npm run worktree:links -- <name>`
+  (or `--all`) converts it, and `land` does so before the gates.
 - **Writes:** a build run through `npm run` that writes into a joined folder turns it into a
   local copy first. A builder run directly with `node` should `source tmp/worktree/env.sh`
   first, or `npm run worktree:own -- <folder>` the folders it writes.

@@ -9,12 +9,13 @@
  *   1. export `git ls-files -co --exclude-standard` (tracked files plus new, non-ignored
  *      files: exactly what a commit would contain) into a temporary directory;
  *      and make it a one-commit git repository, as CI's checkout is (initExportRepo);
- *   2. link node_modules into it (a junction on Windows), rather than reinstalling;
+ *   2. give it a node_modules of links to this one's (junctions on Windows), rather than
+ *      reinstalling, with the @civgraph workspace links pointing at the export's packages/;
  *   3. run the derived inputs CI builds (`npm run build`, the Pages build, the catalogue D1
  *      import and the records database with its tests), then the offline check chain
  *      (scripts/check/run.mjs, with any arguments given here passed through);
- *   4. unlink node_modules BEFORE deleting the directory, so the delete can never reach
- *      the real node_modules through the link (memory note feedback_worktree_junction.md).
+ *   4. remove those links BEFORE deleting the directory, so the delete can never reach
+ *      the real node_modules through a link (memory note feedback_worktree_junction.md).
  *
  *   node scripts/check/clean.mjs                    build, then every offline check
  *   node scripts/check/clean.mjs --only check:dir-names,check:doc-paths
@@ -26,10 +27,11 @@
  * Offline, like `npm run check`; network checks are under `npm run verify`.
  */
 import { spawnSync } from 'node:child_process';
-import { copyFileSync, existsSync, lstatSync, mkdirSync, mkdtempSync, rmdirSync, rmSync, symlinkSync, unlinkSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { makeShadow, removeShadow } from '../lib/node-modules-links.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -87,26 +89,24 @@ export function initExportRepo(dest) {
   git(['-c', 'user.name=check-clean', '-c', 'user.email=check-clean@localhost', 'commit', '-q', '-m', 'clean export']);
 }
 
+/**
+ * Give the export its own node_modules: links to `source`'s entries, with the @civgraph workspace
+ * links pointing at the EXPORT's packages/ (scripts/lib/node-modules-links.mjs), so the checks run
+ * the exported packages, not this checkout's. Returns the export's node_modules folder.
+ * @param {string} source
+ * @param {string} dest
+ */
 export function linkNodeModules(source, dest) {
-  const link = path.join(dest, 'node_modules');
-  symlinkSync(source, link, process.platform === 'win32' ? 'junction' : 'dir');
-  return link;
+  return makeShadow(source, dest).dir;
 }
 
-/** Remove the link itself, never what it points at. */
+/**
+ * Remove the export's node_modules: its links first, never what they point at. Refuses a folder
+ * holding a real subfolder (only links and copied files are expected).
+ * @param {string} link  the export's node_modules folder
+ */
 export function unlinkNodeModules(link) {
-  let stat;
-  try {
-    stat = lstatSync(link);
-  } catch {
-    return;
-  }
-  if (!stat.isSymbolicLink()) throw new Error(`${link} is not a link; refusing to remove it`);
-  try {
-    unlinkSync(link);
-  } catch {
-    rmdirSync(link);   // a Windows junction: rmdir removes the reparse point only
-  }
+  removeShadow(path.dirname(link));
   if (existsSync(link)) throw new Error(`${link} is still there after unlinking`);
 }
 

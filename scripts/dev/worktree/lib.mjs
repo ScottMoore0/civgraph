@@ -3,7 +3,8 @@
  * the landing queue (npm run land). Settings: config/worktrees.json.
  *
  * A worktree is <parent of the main checkout>/civgraph-<name>, on its own branch. Its node_modules
- * is a junction to the main checkout's. Main's untracked generated artefacts reach it two ways:
+ * is its own folder of junctions to the main checkout's entries, except the @civgraph workspace
+ * links, which point at the worktree's own packages/ (scripts/lib/node-modules-links.mjs). Main's untracked generated artefacts reach it two ways:
  *
  *   links   folders joined by a directory junction to a SNAPSHOT: a read-only copy of main's
  *           folders, taken once and shared by every worktree (<parent>/civgraph-artefacts/<fp>/,

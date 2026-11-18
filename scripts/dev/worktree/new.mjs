@@ -5,7 +5,9 @@
  * Make an agent's worktree, ready for check:fast and test:unit:
  *   - <parent of the main checkout>/civgraph-<name>, on a new branch <name> (or --branch) from main
  *     (or --from <ref>); --existing checks out a branch that already exists instead;
- *   - node_modules: a junction to the main checkout's;
+ *   - node_modules: its own folder of junctions to the main checkout's entries, except the
+ *     @civgraph workspace links, which point at THIS worktree's packages/ (code imports the
+ *     packages by name; scripts/lib/node-modules-links.mjs);
  *   - main's generated artefacts (config/worktrees.json artefacts): the big folders joined to the
  *     shared read-only snapshot, the small ones copied (scripts/dev/worktree/lib.mjs says how a
  *     write is kept off main's copies and the snapshot);
@@ -22,6 +24,7 @@ import {
   GUARD_SOURCE, SCRATCH_DIR, STATE_DIR, artefactPlan, checkName, ensureSnapshot, git, junction,
   mainCheckout, pruneSnapshots, worktreePath, writeState,
 } from './lib.mjs';
+import { makeShadow } from '../../lib/node-modules-links.mjs';
 
 /**
  * Make a worktree. Returns its path and what it was given.
@@ -38,8 +41,8 @@ export function createWorktree({ name, branch = name, from = 'main', existing = 
   git(existing ? ['worktree', 'add', wt, branch] : ['worktree', 'add', '-b', branch, wt, from], { cwd: mainRoot });
   log(`worktree ${wt} on ${branch}${existing ? '' : ` (from ${from})`}`);
 
-  junction(path.join(mainRoot, 'node_modules'), path.join(wt, 'node_modules'));
-  log('  node_modules  junction to the main checkout\'s');
+  const modules = makeShadow(path.join(mainRoot, 'node_modules'), wt);
+  log(`  node_modules  ${modules.linked} junctions to the main checkout's entries; ${modules.packages.length} @civgraph links to this worktree's packages/`);
 
   const stateDir = path.join(wt, STATE_DIR);
   mkdirSync(stateDir, { recursive: true });

@@ -1,11 +1,11 @@
 /**
  * scripts/check/clean.mjs: the export holds what a commit would, and removing the export
- * never reaches the real node_modules through the link.
+ * never reaches the real node_modules through its links.
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { BUILD_STEPS, exportTree, linkNodeModules, listExportFiles, parseArgs, unlinkNodeModules } from '../../scripts/check/clean.mjs';
@@ -14,18 +14,24 @@ function scratch() {
   return mkdtempSync(path.join(os.tmpdir(), 'check-clean-test-'));
 }
 
-test('unlinking node_modules leaves the target intact, so the export can be deleted', () => {
+test('the export gets its own node_modules: links to the real one, workspace links to its own packages', () => {
   const base = scratch();
   try {
     const realModules = path.join(base, 'real', 'node_modules');
     mkdirSync(path.join(realModules, 'pkg'), { recursive: true });
+    mkdirSync(path.join(realModules, '@civgraph'), { recursive: true });
     writeFileSync(path.join(realModules, 'pkg', 'index.js'), 'module.exports = 1;\n');
+    writeFileSync(path.join(realModules, '.package-lock.json'), '{}\n');
     const dest = path.join(base, 'export');
-    mkdirSync(dest);
+    mkdirSync(path.join(dest, 'packages', 'core'), { recursive: true });
+    writeFileSync(path.join(dest, 'packages', 'core', 'package.json'), '{"name":"@civgraph/core"}\n');
+    writeFileSync(path.join(dest, 'packages', 'core', 'x.js'), 'export {};\n');
     const link = linkNodeModules(realModules, dest);
     assert.ok(existsSync(path.join(link, 'pkg', 'index.js')), 'the link resolves');
+    assert.ok(existsSync(path.join(link, '.package-lock.json')), 'files are copied');
+    assert.equal(realpathSync(path.join(link, '@civgraph', 'core', 'x.js')), realpathSync(path.join(dest, 'packages', 'core', 'x.js')), 'the workspace link is the export copy');
     unlinkNodeModules(link);
-    assert.ok(!existsSync(link), 'the link is gone');
+    assert.ok(!existsSync(link), 'node_modules is gone');
     rmSync(dest, { recursive: true, force: true });
     assert.equal(readFileSync(path.join(realModules, 'pkg', 'index.js'), 'utf8'), 'module.exports = 1;\n', 'the real node_modules survives');
   } finally {
@@ -33,12 +39,12 @@ test('unlinking node_modules leaves the target intact, so the export can be dele
   }
 });
 
-test('unlinkNodeModules refuses a real directory', () => {
+test('unlinkNodeModules refuses a node_modules holding a real folder', () => {
   const base = scratch();
   try {
-    mkdirSync(path.join(base, 'node_modules'));
-    assert.throws(() => unlinkNodeModules(path.join(base, 'node_modules')), /not a link/);
-    assert.ok(existsSync(path.join(base, 'node_modules')));
+    mkdirSync(path.join(base, 'node_modules', 'real-package'), { recursive: true });
+    assert.throws(() => unlinkNodeModules(path.join(base, 'node_modules')), /real folder/);
+    assert.ok(existsSync(path.join(base, 'node_modules', 'real-package')));
   } finally {
     rmSync(base, { recursive: true, force: true });
   }
