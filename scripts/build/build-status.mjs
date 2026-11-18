@@ -232,7 +232,7 @@ const SOURCE_FIGURES = {
       },
     };
   },
-  opendatani(cfg, snap) {
+  opendatani(_cfg, snap) {
     return {
       known: snap?.datasetsListed ?? null,
       stages: { mirrored: snap?.datasetsMirrored ?? null, used: snap?.datasetsUsed ?? null },
@@ -241,7 +241,7 @@ const SOURCE_FIGURES = {
       ],
     };
   },
-  legislation(cfg, snap) {
+  legislation(_cfg, snap) {
     const searched = new Set((snap?.items || []).map((i) => i.id));
     const cited = legislationCited();
     // Only NI legislation and UK instruments are in scope; a cited UK Act is counted too,
@@ -256,7 +256,7 @@ const SOURCE_FIGURES = {
       ],
     };
   },
-  proni(cfg, snap) {
+  proni(_cfg, snap) {
     const browse = readJson(path.join(BROWSE_DIR, 'index.json'), { optional: true });
     return {
       known: snap?.recordsCollected ?? null,

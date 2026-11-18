@@ -297,11 +297,11 @@ async function main() {
  * @param {StatementJson} statement
  * @param {GraphValueJson | undefined} value
  * @param {Set<unknown>} entityIds
- * @param {Set<unknown>} propertyIds
+ * @param {Set<unknown>} _propertyIds
  * @param {string[]} errors
  * @param {string} label
  */
-function validateValue(statement, value, entityIds, propertyIds, errors, label) {
+function validateValue(statement, value, entityIds, _propertyIds, errors, label) {
   if (!value?.type) {
     errors.push(`Statement ${statement.id} has missing ${label} type`);
     return;
@@ -505,10 +505,10 @@ async function countPersonElectionAppearances() {
  * @param {Map<string, number>} entityTypeCounts
  * @param {Map<string, EntityJson>} entityById
  * @param {Map<string, number>} statementPropertyCounts
- * @param {Record<string, unknown>} mappingItems
+ * @param {Record<string, unknown>} _mappingItems
  * @param {string[]} errors
  */
-async function validateMapAndSourceFileCoverage(entityTypeCounts, entityById, statementPropertyCounts, mappingItems, errors) {
+async function validateMapAndSourceFileCoverage(entityTypeCounts, entityById, statementPropertyCounts, _mappingItems, errors) {
   const maps = await loadBrowseItems('maps.json');
   const sources = await loadSourceRecordsWithDetails();
   const mapLayerCount = entityTypeCounts.get('cg:entity-type:map-layer') || 0;

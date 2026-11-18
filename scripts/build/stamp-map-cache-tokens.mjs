@@ -49,7 +49,7 @@ const TOKEN = 'v';
 const argv = process.argv.slice(2);
 const CHECK = argv.includes('--check');
 const WRITE = argv.includes('--write');
-const ids = argv.filter((a, i) => argv[i - 1] === '--id');
+const ids = argv.filter((_a, i) => argv[i - 1] === '--id');
 
 /** R2 quotes its ETags, and a quote is not legal in a query string. */
 function normaliseEtag(/** @type {string | null} */ raw) {

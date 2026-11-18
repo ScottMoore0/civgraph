@@ -3064,7 +3064,7 @@ function applySourceReaderLabels(source) {
   if (typeof source.description === 'string') {
     source.description = source.description
       .replace(/\s*Published as a Books\/Tables\/Sources source(?:[- ]table)? record(?: under ([^.]+))?\./,
-        (match, licence) => (licence ? ` Licence: ${readerLicence(licence)}.` : ''))
+        (_match, licence) => (licence ? ` Licence: ${readerLicence(licence)}.` : ''))
       .trim();
   }
 }

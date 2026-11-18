@@ -791,7 +791,7 @@ function buildLevel(level, { firstDate, rounds, missing, mapsById, renderBySourc
       });
     } else {
       const targets = authorityFeatures(round.bodySlug, round.county);
-      round.contests.forEach((contest, ci) => {
+      round.contests.forEach((_contest, ci) => {
         if (!targets.length) unplaced.push([ri, ci]);
         else for (const fi of targets) place(fi, ri, ci);
       });

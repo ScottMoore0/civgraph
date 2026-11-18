@@ -94,10 +94,10 @@ function cloneFeature(feature) {
 /**
  * @param {string} fgbPath
  * @param {string} fullPath
- * @param {string[]} mapIds
+ * @param {string[]} _mapIds
  * @param {LodConfig} lodConfig
  */
-async function generateLODForFile(fgbPath, fullPath, mapIds, lodConfig) {
+async function generateLODForFile(fgbPath, fullPath, _mapIds, lodConfig) {
     const name = basename(fgbPath, '.fgb');
     const dir = dirname(fullPath);
     const outputPath = join(dir, `${name}${lodConfig.suffix}`);

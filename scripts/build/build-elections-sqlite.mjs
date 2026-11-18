@@ -205,10 +205,10 @@ CREATE INDEX confeat_layer       ON constituency_features(layer_id, feature_id);
  */
 /**
  * @param {Record<string, unknown>} source
- * @param {string[]} promoted
+ * @param {string[]} _promoted
  * @param {string[]} [dropped]
  */
-function residual(source, promoted, dropped = []) {
+function residual(source, _promoted, dropped = []) {
   /** @type {Record<string, unknown>} */
   const rest = {};
   for (const [k, v] of Object.entries(source)) {
