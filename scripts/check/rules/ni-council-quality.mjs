@@ -582,7 +582,7 @@ function detectAreas(contests) {
 // ---------------------------------------------------------------------------------------------
 // Forenames printed as initials, polling days (pure: each returns its findings)
 
-/** @typedef {{ contest: Contest, type: string, severity: string, detail: string, candidate?: string }} NewFinding */
+/** @typedef {{ contest: Contest, type: string, severity: string, detail: string, candidate?: string | undefined }} NewFinding */
 
 const TITLES = /^(rev|dr|sir|mrs?|miss|capt|major|col|lt|lieut|prof|very rev)\.?\s+/i;
 
@@ -1111,7 +1111,7 @@ function csvCell(value) {
  * @returns {Promise<(contest: Contest, cand: Candidate) => number | null>}
  */
 async function stampedPersons() {
-  const { recordPaths } = await import('../../../packages/config/src/node.mjs');
+  const { recordPaths } = await import('@civgraph/config/node');
   const dir = recordPaths(process.env).ELECTION_BUNDLE_DIR;
   /** @type {Map<string, Map<string, number>>} */
   const byRound = new Map();
