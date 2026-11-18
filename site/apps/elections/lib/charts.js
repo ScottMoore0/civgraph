@@ -18,7 +18,7 @@ const SEAT_SPACING = 13;
  * A parliament arc of parties' seats ([{ party, seats, colour }], in the order to draw them), on
  * the map app's seat layout (packages/core/src/election-domain.mjs seatPositions: a hemicycle
  * past 12 seats, two rows below that), filled left to right.
- * @param {Array<{ party: string, seats: number, colour?: string }>} parties
+ * @param {Array<{ party: string, seats: number, colour?: string | undefined }>} parties
  * @param {{ title?: string, majority?: boolean }} [opts]
  */
 export function parliamentArc(parties, opts = {}) {
@@ -48,7 +48,7 @@ export function parliamentArc(parties, opts = {}) {
 
 /**
  * One stacked bar of seats by party, for a small body or a single contest.
- * @param {Array<{ party: string, seats: number, colour?: string }>} parties
+ * @param {Array<{ party: string, seats: number, colour?: string | undefined }>} parties
  * @param {{ title?: string }} [opts]
  */
 export function seatBar(parties, opts = {}) {
@@ -70,7 +70,7 @@ export function seatBar(parties, opts = {}) {
 
 /**
  * Horizontal bars: [{ label, value, colour, note? }], scaled to max (default the largest).
- * @param {Array<{ label: string, value: number | null, colour?: string, note?: string }>} rows
+ * @param {Array<{ label: string, value: number | null, colour?: string | undefined, note?: string }>} rows
  * @param {{ max?: number, format?: (v: number) => string, title?: string, marker?: { value: number, label: string } }} [opts]
  */
 export function hbars(rows, opts = {}) {

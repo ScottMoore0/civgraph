@@ -151,7 +151,7 @@ export function similarAreas(data, census, area, k = 5) {
 /**
  * An area's census context, or why there is none.
  * @param {CensusData} data
- * @param {{ layerId?: string | null, area?: string | null, date?: string | null }} where the election's layer, the
+ * @param {{ layerId?: string | null | undefined, area?: string | null, date?: string | null }} where the election's layer, the
  *   contest's feature (or contest) name, and the election's date
  * @returns {AreaContext}
  */

@@ -54,7 +54,7 @@ export function areaContextSection(id = 'el-census') {
 /**
  * Fill the component in `root` (the first [data-el-census] in it).
  * @param {HTMLElement} root
- * @param {{ layerId?: string | null, area?: string | null, date?: string | null }} where
+ * @param {{ layerId?: string | null | undefined, area?: string | null, date?: string | null }} where
  * @param {{ stale: () => boolean }} ctx the view's context (a stale view is left alone)
  * @param {{ linkFor?: (area: string) => string | null }} [opts]
  * @returns {Promise<string>} the state it settled in

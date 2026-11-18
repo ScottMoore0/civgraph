@@ -376,7 +376,7 @@ export const TIES_LISTED = 4;
  * Options of a mode: the party (share, swing), the earlier election's areas and title (swing), and
  * whether the page is dark: there a sequential scale runs dark to light, so the strong end of the
  * scale stands out from the dark page as the dark end does from a light one.
- * @typedef {{ party?: string, before?: MapArea[] | null, beforeTitle?: string, dark?: boolean }} ModeOptions
+ * @typedef {{ party?: string | undefined, before?: MapArea[] | null, beforeTitle?: string | undefined, dark?: boolean | undefined }} ModeOptions
  */
 
 /**

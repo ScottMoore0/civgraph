@@ -268,7 +268,7 @@ export function stvParts(sheet, query, file) {
  * button has focus, and the URL (?count=), replaced so the history keeps one entry per page.
  * Every listener passes the view's signal (R8).
  * @param {HTMLElement} root @param {Sheet} sheet @param {CountEvent[]} events @param {URLSearchParams} query
- * @param {{ signal?: AbortSignal }} ctx  the view's context (its signal ends the listeners)
+ * @param {{ signal: AbortSignal }} ctx  the view's context (its signal ends the listeners)
  */
 export function wireStepper(root, sheet, events, query, ctx) {
   const el = /** @type {HTMLElement | null} */ (root.querySelector('[data-stv-stepper]'));
