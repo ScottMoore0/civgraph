@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-11-15T14:19:47.673Z",
+  "generatedAt": "2026-11-18T20:26:27.475Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "perLayerTimeoutMs": 600000,
   "totals": {
-    "vectorRows": 1,
-    "feasibleLocalCandidates": 1,
+    "vectorRows": 3,
+    "feasibleLocalCandidates": 3,
     "skipped": 0,
-    "selected": 1,
-    "converted": 1,
+    "selected": 3,
+    "converted": 3,
     "skippedExisting": 0,
     "failed": 0
   },
@@ -21,33 +21,65 @@
   ],
   "candidates": [
     {
-      "sourceMapId": "plu-roi-1921-04-01",
-      "name": "Poor Law Unions 1 Apr 1921",
+      "sourceMapId": "plu-1849-09-29",
+      "name": "Poor Law Unions 29 Sep 1849",
       "category": "Local Government Districts",
-      "sourceFile": "render/source-cache/vector-intake/plu-roi-1921-04-01.fgb",
-      "sourceBytes": 38239064,
-      "outputDirectory": "render/tiles/generated/plu-roi-1921-04-01"
+      "sourceFile": "render/source-cache/vector-intake/plu-1849-09-29.fgb",
+      "sourceBytes": 18214360,
+      "outputDirectory": "render/tiles/generated/plu-1849-09-29"
+    },
+    {
+      "sourceMapId": "plu-1840-12-31",
+      "name": "Poor Law Unions 31 Dec 1840",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-1840-12-31.fgb",
+      "sourceBytes": 17067456,
+      "outputDirectory": "render/tiles/generated/plu-1840-12-31"
+    },
+    {
+      "sourceMapId": "plu-1839-12-31",
+      "name": "Poor Law Unions 31 Dec 1839",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-1839-12-31.fgb",
+      "sourceBytes": 10931360,
+      "outputDirectory": "render/tiles/generated/plu-1839-12-31"
     }
   ],
   "selected": [
     {
-      "sourceMapId": "plu-roi-1921-04-01",
-      "name": "Poor Law Unions 1 Apr 1921",
+      "sourceMapId": "plu-1849-09-29",
+      "name": "Poor Law Unions 29 Sep 1849",
       "category": "Local Government Districts",
-      "sourceFile": "render/source-cache/vector-intake/plu-roi-1921-04-01.fgb",
-      "sourceBytes": 38239064,
-      "outputDirectory": "render/tiles/generated/plu-roi-1921-04-01"
+      "sourceFile": "render/source-cache/vector-intake/plu-1849-09-29.fgb",
+      "sourceBytes": 18214360,
+      "outputDirectory": "render/tiles/generated/plu-1849-09-29"
+    },
+    {
+      "sourceMapId": "plu-1840-12-31",
+      "name": "Poor Law Unions 31 Dec 1840",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-1840-12-31.fgb",
+      "sourceBytes": 17067456,
+      "outputDirectory": "render/tiles/generated/plu-1840-12-31"
+    },
+    {
+      "sourceMapId": "plu-1839-12-31",
+      "name": "Poor Law Unions 31 Dec 1839",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-1839-12-31.fgb",
+      "sourceBytes": 10931360,
+      "outputDirectory": "render/tiles/generated/plu-1839-12-31"
     }
   ],
   "skippedExisting": [],
   "converted": [
     {
-      "sourceMapId": "plu-roi-1921-04-01",
-      "name": "Poor Law Unions 1 Apr 1921",
+      "sourceMapId": "plu-1849-09-29",
+      "name": "Poor Law Unions 29 Sep 1849",
       "category": "Local Government Districts",
-      "sourceFile": "render/source-cache/vector-intake/plu-roi-1921-04-01.fgb",
-      "sourceBytes": 38239064,
-      "outputDirectory": "render/tiles/generated/plu-roi-1921-04-01",
+      "sourceFile": "render/source-cache/vector-intake/plu-1849-09-29.fgb",
+      "sourceBytes": 18214360,
+      "outputDirectory": "render/tiles/generated/plu-1849-09-29",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -55,11 +87,51 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "plu_roi_1921_04_01",
-      "files": 3329,
-      "pbfFiles": 3328,
-      "bytes": 10462087,
-      "maxTileBytes": 79899
+      "sourceLayer": "plu_1849_09_29",
+      "files": 3892,
+      "pbfFiles": 3891,
+      "bytes": 9385686,
+      "maxTileBytes": 107382
+    },
+    {
+      "sourceMapId": "plu-1840-12-31",
+      "name": "Poor Law Unions 31 Dec 1840",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-1840-12-31.fgb",
+      "sourceBytes": 17067456,
+      "outputDirectory": "render/tiles/generated/plu-1840-12-31",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "plu_1840_12_31",
+      "files": 3750,
+      "pbfFiles": 3749,
+      "bytes": 8819111,
+      "maxTileBytes": 99669
+    },
+    {
+      "sourceMapId": "plu-1839-12-31",
+      "name": "Poor Law Unions 31 Dec 1839",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/plu-1839-12-31.fgb",
+      "sourceBytes": 10931360,
+      "outputDirectory": "render/tiles/generated/plu-1839-12-31",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "plu_1839_12_31",
+      "files": 2818,
+      "pbfFiles": 2817,
+      "bytes": 5836504,
+      "maxTileBytes": 70245
     }
   ],
   "failed": [],
