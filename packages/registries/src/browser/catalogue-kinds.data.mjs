@@ -10,7 +10,7 @@ export default {
   [
    "places",
    "Places",
-   "Places & routes",
+   "Places",
    "route"
   ],
   [
@@ -22,7 +22,7 @@ export default {
   [
    "historic",
    "Historic",
-   "Scanned Maps",
+   "Historic",
    "historic-maps"
   ]
  ],
@@ -33,7 +33,7 @@ export default {
   ],
   [
    "Places",
-   "Places & routes"
+   "Places"
   ],
   [
    "Statistics",

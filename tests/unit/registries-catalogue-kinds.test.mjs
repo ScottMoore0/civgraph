@@ -15,8 +15,8 @@ import { SECTIONS } from '@civgraph/map/catalogue/index.js';
 const registry = loadRegistry('catalogue-kinds');
 
 test('catalogue kinds: the sections, filters and check read the literals they replaced', () => {
-  assert.deepEqual(SECTIONS, [['boundaries', 'Boundary', 'Boundaries', 'land-divisions'], ['places', 'Places', 'Places & routes', 'route'], ['statistics', 'Statistics', 'Statistics', 'chart-column'], ['historic', 'Historic', 'Scanned Maps', 'historic-maps']]);
-  assert.deepEqual(KINDS, [['Boundary', 'Boundaries'], ['Places', 'Places & routes'], ['Statistics', 'Statistics']]);
+  assert.deepEqual(SECTIONS, [['boundaries', 'Boundary', 'Boundaries', 'land-divisions'], ['places', 'Places', 'Places', 'route'], ['statistics', 'Statistics', 'Statistics', 'chart-column'], ['historic', 'Historic', 'Historic', 'historic-maps']]);
+  assert.deepEqual(KINDS, [['Boundary', 'Boundaries'], ['Places', 'Places'], ['Statistics', 'Statistics']]);
   const ids = catalogueKindIds(registry);
   assert.deepEqual(ids, ['Boundary', 'Places', 'Statistics', 'Historic']);
   // The check's message, as it was written: "use Boundary, Places, Statistics or Historic".

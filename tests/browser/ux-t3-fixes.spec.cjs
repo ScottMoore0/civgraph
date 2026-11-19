@@ -32,7 +32,7 @@ test('T3-01 · the map count is formatted and internal codes are gone', async ({
       summary,
       shown: match?.[1] || null,
       label: match?.[2] || null,
-      tabLabel: tab?.querySelector('.cn-tab__long')?.textContent?.trim() || null,
+      tabLabel: tab?.querySelector('.cn-tab__label')?.textContent?.trim() || null,
       tabCount: tab?.querySelector('.cn-tab__count')?.textContent?.trim() || null,
       expected: (() => {
         const c = window.uiController._catalogueNext;
