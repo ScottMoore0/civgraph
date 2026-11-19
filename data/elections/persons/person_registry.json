@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 160697,
+ "idHighWater": 160814,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -9936,7 +9936,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160637
+    160754
    ]
   },
   {
@@ -12335,7 +12335,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160683
+    160800
    ]
   },
   {
@@ -24533,10 +24533,8 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140558
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p38797",
@@ -25227,7 +25225,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160685
+    160802
    ]
   },
   {
@@ -43165,7 +43163,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160686
+    160803
    ]
   },
   {
@@ -57317,9 +57315,7 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "mergedFrom": [
-    142724
-   ]
+   "nameVariants": true
   },
   {
    "id": "p94626",
@@ -60489,7 +60485,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160653
+    160770
    ]
   },
   {
@@ -62437,10 +62433,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160592,
-    160611,
-    160656,
-    160657
+    160709,
+    160728,
+    160773,
+    160774
    ]
   },
   {
@@ -62752,10 +62748,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160621,
-    160622,
-    160639,
-    160691
+    160738,
+    160739,
+    160756,
+    160808
    ]
   },
   {
@@ -63453,10 +63449,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160598,
-    160599,
-    160665,
-    160666
+    160715,
+    160716,
+    160782,
+    160783
    ]
   },
   {
@@ -63493,10 +63489,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160600,
-    160616,
-    160628,
-    160667
+    160717,
+    160733,
+    160745,
+    160784
    ]
   },
   {
@@ -63970,8 +63966,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160605,
-    160684
+    160722,
+    160801
    ]
   },
   {
@@ -64132,11 +64128,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160606,
-    160623,
-    160693,
-    160694,
-    160695
+    160723,
+    160740,
+    160810,
+    160811,
+    160812
    ]
   },
   {
@@ -64930,10 +64926,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160583,
-    160590,
-    160648,
-    160649
+    160700,
+    160707,
+    160765,
+    160766
    ]
   },
   {
@@ -65853,12 +65849,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160620,
-    160638,
-    160687,
-    160688,
-    160689,
-    160690
+    160737,
+    160755,
+    160804,
+    160805,
+    160806,
+    160807
    ]
   },
   {
@@ -70287,9 +70283,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160584,
-    160585,
-    160613
+    160701,
+    160702,
+    160730
    ]
   },
   {
@@ -70327,11 +70323,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160595,
-    160614,
-    160615,
-    160627,
-    160662
+    160712,
+    160731,
+    160732,
+    160744,
+    160779
    ]
   },
   {
@@ -70368,10 +70364,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160581,
-    160586,
-    160674,
-    160675
+    160698,
+    160703,
+    160791,
+    160792
    ]
   },
   {
@@ -72525,11 +72521,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160582,
-    160640,
-    160641,
-    160642,
-    160696
+    160699,
+    160757,
+    160758,
+    160759,
+    160813
    ]
   },
   {
@@ -75726,12 +75722,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160587,
-    160617,
-    160633,
-    160634,
-    160676,
-    160677
+    160704,
+    160734,
+    160750,
+    160751,
+    160793,
+    160794
    ]
   },
   {
@@ -75769,11 +75765,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160588,
-    160603,
-    160618,
-    160678,
-    160679
+    160705,
+    160720,
+    160735,
+    160795,
+    160796
    ]
   },
   {
@@ -75813,13 +75809,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160604,
-    160619,
-    160635,
-    160636,
-    160680,
-    160681,
-    160682
+    160721,
+    160736,
+    160752,
+    160753,
+    160797,
+    160798,
+    160799
    ]
   },
   {
@@ -83750,12 +83746,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160591,
-    160608,
-    160609,
-    160610,
-    160651,
-    160652
+    160708,
+    160725,
+    160726,
+    160727,
+    160768,
+    160769
    ]
   },
   {
@@ -83921,11 +83917,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160593,
-    160594,
-    160612,
-    160660,
-    160661
+    160710,
+    160711,
+    160729,
+    160777,
+    160778
    ]
   },
   {
@@ -83961,9 +83957,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160596,
-    160663,
-    160664
+    160713,
+    160780,
+    160781
    ]
   },
   {
@@ -84002,12 +83998,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160601,
-    160602,
-    160630,
-    160631,
-    160632,
-    160673
+    160718,
+    160719,
+    160747,
+    160748,
+    160749,
+    160790
    ]
   },
   {
@@ -121599,10 +121595,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160644,
-    160645,
-    160646,
-    160647
+    160761,
+    160762,
+    160763,
+    160764
    ]
   },
   {
@@ -121637,8 +121633,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160625,
-    160650
+    160742,
+    160767
    ]
   },
   {
@@ -126931,10 +126927,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160669,
-    160670,
-    160671,
-    160672
+    160786,
+    160787,
+    160788,
+    160789
    ]
   },
   {
@@ -147266,7 +147262,7 @@
    "provenance": "keyed on the source's own candidate id (ei:3485)",
    "provisional": true,
    "mergedFrom": [
-    160607
+    160724
    ]
   },
   {
@@ -167285,7 +167281,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160655
+    160772
    ]
   },
   {
@@ -170860,7 +170856,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160654
+    160771
    ]
   },
   {
@@ -207644,8 +207640,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160658,
-    160659
+    160775,
+    160776
    ]
   },
   {
@@ -207679,7 +207675,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160668
+    160785
    ]
   },
   {
@@ -270338,7 +270334,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160692
+    160809
    ]
   },
   {
@@ -328459,7 +328455,7 @@
    "provenance": "keyed on the source's own candidate id (ie:6276)",
    "provisional": true,
    "mergedFrom": [
-    160624
+    160741
    ]
   },
   {
@@ -359688,10 +359684,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146005
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p112884",
@@ -363299,7 +363293,7 @@
    "provisional": true,
    "nameVariants": true,
    "mergedFrom": [
-    160589
+    160706
    ]
   },
   {
@@ -511778,7 +511772,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    160597
+    160714
    ]
   },
   {
@@ -513131,7 +513125,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160643
+    160760
    ]
   },
   {
@@ -515294,7 +515288,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    160626
+    160743
    ]
   },
   {
@@ -563451,7 +563445,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    160629
+    160746
    ]
   },
   {
@@ -578054,7 +578048,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    160697
+    160814
    ]
   },
   {
@@ -708385,10 +708379,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141100
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135263",
@@ -710837,9 +710829,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137522
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135377",
@@ -711686,9 +711676,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136857
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135411",
@@ -711895,9 +711883,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137363
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135420",
@@ -712553,9 +712539,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    135544
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135452",
@@ -712586,9 +712570,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    135779
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135453",
@@ -713351,9 +713333,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    153265
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135482",
@@ -714022,10 +714002,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    135672
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135512",
@@ -714401,9 +714379,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136166
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135526",
@@ -714526,9 +714502,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136338
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135533",
@@ -714619,9 +714593,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136317
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135539",
@@ -714682,9 +714654,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136368
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135541",
@@ -714806,9 +714776,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136442
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135549",
@@ -715477,9 +715445,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136746
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135576",
@@ -716135,9 +716101,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    135839
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135600",
@@ -716310,9 +716274,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136835
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135606",
@@ -716634,11 +716596,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    135618,
-    137165
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135619",
@@ -717073,10 +717031,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    135992
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135638",
@@ -717192,9 +717147,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137366
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135642",
@@ -717424,9 +717377,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137452
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135652",
@@ -717833,9 +717784,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    135680
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135673",
@@ -718133,9 +718083,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137656
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135685",
@@ -719421,9 +719369,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136257
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135730",
@@ -720369,9 +720315,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136495
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135764",
@@ -720774,9 +720719,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    135786
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135781",
@@ -720810,11 +720753,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    136506,
-    136535
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135782",
@@ -721224,10 +721163,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    136563
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135798",
@@ -721371,9 +721308,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136631
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135804",
@@ -721694,9 +721629,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136624
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135816",
@@ -723794,9 +723727,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136800
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135892",
@@ -723942,9 +723873,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    138013
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135898",
@@ -724852,9 +724781,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136859
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135931",
@@ -725463,10 +725390,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137234,
-    137235
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135955",
@@ -725795,9 +725719,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137254
-   ]
+   "nameVariants": true
   },
   {
    "id": "p135969",
@@ -727007,9 +726929,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137569
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136015",
@@ -727071,9 +726991,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137581
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136017",
@@ -728747,9 +728665,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136090
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136086",
@@ -730928,10 +730844,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136864,
-    136969
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136170",
@@ -733335,9 +733248,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136270
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136255",
@@ -734961,9 +734872,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136361
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136322",
@@ -737103,9 +737012,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136424
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136405",
@@ -741074,11 +740981,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    136561,
-    136607
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136562",
@@ -744529,9 +744432,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136738
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136691",
@@ -744680,10 +744581,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    136706
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136696",
@@ -744772,9 +744670,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136734
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136699",
@@ -744807,10 +744703,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    136743
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136700",
@@ -744873,9 +744766,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    136735
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136702",
@@ -746336,10 +746227,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    136877
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136768",
@@ -748269,9 +748157,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137064
-   ]
+   "nameVariants": true
   },
   {
    "id": "p136837",
@@ -757114,9 +757000,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137214
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137175",
@@ -758578,9 +758462,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137231
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137228",
@@ -759043,9 +758925,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137285
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137250",
@@ -759162,9 +759042,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149034
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137255",
@@ -759533,9 +759411,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137319
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137268",
@@ -759736,9 +759612,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137356
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137277",
@@ -761966,9 +761840,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137412
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137367",
@@ -762431,9 +762303,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137428
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137383",
@@ -764290,9 +764160,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137477
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137450",
@@ -764381,9 +764249,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137493
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137455",
@@ -766267,10 +766133,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    137608
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137530",
@@ -769084,9 +768947,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    137703
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p137646",
@@ -769204,10 +769066,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    137710
-   ]
+   "nameVariants": true
   },
   {
    "id": "p137651",
@@ -782663,10 +782522,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    143361
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p138785",
@@ -782896,9 +782753,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140525
-   ]
+   "nameVariants": true
   },
   {
    "id": "p138797",
@@ -783271,9 +783126,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142277
-   ]
+   "nameVariants": true
   },
   {
    "id": "p138813",
@@ -784353,9 +784206,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143343
-   ]
+   "nameVariants": true
   },
   {
    "id": "p138861",
@@ -784502,10 +784353,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    138993
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p138866",
@@ -784877,9 +784726,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139611
-   ]
+   "nameVariants": true
   },
   {
    "id": "p138881",
@@ -784966,9 +784813,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139622
-   ]
+   "nameVariants": true
   },
   {
    "id": "p138886",
@@ -785586,10 +785431,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139826,
-    143133
-   ]
+   "nameVariants": true
   },
   {
    "id": "p138908",
@@ -786409,9 +786251,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143226
-   ]
+   "nameVariants": true
   },
   {
    "id": "p138942",
@@ -787046,11 +786886,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140752,
-    140786
-   ]
+   "nameVariants": true
   },
   {
    "id": "p138968",
@@ -787313,9 +787149,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    138982
-   ]
+   "nameVariants": true
   },
   {
    "id": "p138978",
@@ -787717,10 +787551,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141565
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p138995",
@@ -788538,9 +788370,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141350
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139023",
@@ -788855,10 +788685,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146029
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139034",
@@ -789035,9 +788863,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141710
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139040",
@@ -789077,10 +788903,7 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "nameVariants": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    139501
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139041",
@@ -789317,11 +789140,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141895,
-    141905
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139049",
@@ -789469,10 +789288,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141948
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139055",
@@ -790260,9 +790077,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142235
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139083",
@@ -790498,11 +790313,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    139644,
-    142425
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139093",
@@ -790647,11 +790458,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142586,
-    142802
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139102",
@@ -791209,9 +791017,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142585
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139121",
@@ -791271,9 +791077,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142681
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139123",
@@ -791718,9 +791522,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139139
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139138",
@@ -792326,9 +792128,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139940
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139160",
@@ -792936,10 +792736,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139967,
-    143166
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139181",
@@ -793339,9 +793136,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139197
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139195",
@@ -793770,9 +793565,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140105
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139211",
@@ -793972,9 +793765,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140160
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139219",
@@ -794456,9 +794247,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140281
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139237",
@@ -794747,9 +794536,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140233
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139247",
@@ -795511,9 +795298,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140412
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139275",
@@ -795632,9 +795417,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140439
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139279",
@@ -796206,9 +795989,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143250
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139302",
@@ -796244,10 +796025,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140751,
-    140811
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139303",
@@ -796421,9 +796199,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140682
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139309",
@@ -796686,9 +796462,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140794
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139318",
@@ -797261,9 +797035,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140911
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139338",
@@ -797642,9 +797414,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141036
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139351",
@@ -798332,9 +798102,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141376
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139376",
@@ -798771,9 +798539,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141149
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139392",
@@ -798807,11 +798573,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141148,
-    141416
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139393",
@@ -799008,10 +798770,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141425
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139400",
@@ -800648,9 +800407,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141088
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139456",
@@ -800854,10 +800611,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141856
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139463",
@@ -801173,10 +800928,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141245
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139475",
@@ -801355,10 +801108,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141308
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139481",
@@ -801514,10 +801265,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141104
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139487",
@@ -801550,9 +801299,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143331
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139488",
@@ -801729,9 +801476,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141234
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139494",
@@ -802110,9 +801855,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141748
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139511",
@@ -802148,10 +801891,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139987,
-    143424
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139512",
@@ -802182,9 +801922,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141765
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139513",
@@ -802438,9 +802176,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141859
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139522",
@@ -802936,9 +802672,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141951
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139541",
@@ -802969,9 +802703,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141920
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139542",
@@ -803288,9 +803020,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142152
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139553",
@@ -803662,9 +803392,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142081
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139566",
@@ -804006,9 +803734,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142042
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139578",
@@ -804155,10 +803881,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142073
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139583",
@@ -804219,10 +803943,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142083
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139585",
@@ -804678,9 +804400,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142329
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139602",
@@ -805718,10 +805438,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148387
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139645",
@@ -805952,9 +805670,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139700
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139659",
@@ -806014,9 +805731,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139701
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139661",
@@ -806247,9 +805962,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142832
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139669",
@@ -806575,9 +806288,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142844
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139680",
@@ -807091,9 +806802,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142567
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139698",
@@ -807182,9 +806891,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142599
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139703",
@@ -807556,9 +807263,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142665
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139716",
@@ -808183,9 +807888,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139743
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139742",
@@ -809001,9 +808704,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139777
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139773",
@@ -809896,9 +809597,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147742
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139806",
@@ -810554,9 +810254,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140972
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139833",
@@ -810876,10 +810574,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148914
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139849",
@@ -811138,9 +810834,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143154
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139858",
@@ -811173,9 +810867,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141610
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139859",
@@ -811638,9 +811330,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139918
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139878",
@@ -811877,10 +811567,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139925,
-    141260
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139886",
@@ -812048,10 +811735,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    144326
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139892",
@@ -812402,9 +812086,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    139934
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139904",
@@ -812824,9 +812506,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141258
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139921",
@@ -812915,9 +812595,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141259
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139924",
@@ -813696,10 +813374,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141261,
-    141262
-   ]
+   "nameVariants": true
   },
   {
    "id": "p139955",
@@ -815970,9 +815645,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140057
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140042",
@@ -817292,9 +816965,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142265
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140096",
@@ -818014,9 +817685,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140155
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140126",
@@ -818787,9 +818456,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140185
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140154",
@@ -820470,9 +820137,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140355
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140223",
@@ -821117,9 +820782,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140311
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140247",
@@ -823553,9 +823216,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143212
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140338",
@@ -823954,10 +823615,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    157315
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p140353",
@@ -824783,10 +824442,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143118,
-    143231
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140386",
@@ -825303,10 +824959,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140465
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140405",
@@ -825822,9 +825475,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147918
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p140425",
@@ -825971,10 +825623,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140475
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140430",
@@ -827311,9 +826960,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148847
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140485",
@@ -828238,9 +827885,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143260
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140527",
@@ -828388,10 +828033,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140591
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p140532",
@@ -829332,9 +828975,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140603
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140568",
@@ -831754,9 +831395,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140688
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140663",
@@ -833140,9 +832779,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140773
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140716",
@@ -833175,9 +832812,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140802
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140718",
@@ -833237,9 +832872,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140775
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140720",
@@ -833522,9 +833155,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140778
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140731",
@@ -834785,9 +834416,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    153239
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140784",
@@ -835507,9 +835136,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147996
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140814",
@@ -836001,9 +835628,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140893
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140832",
@@ -836205,9 +835830,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140897
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140839",
@@ -836667,9 +836290,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    140904
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140856",
@@ -836795,11 +836416,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    140860,
-    140931
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140861",
@@ -838912,9 +838529,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141007
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140949",
@@ -839681,10 +839296,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141015
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p140978",
@@ -839745,9 +839358,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141016
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140980",
@@ -839946,9 +839557,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141030
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140987",
@@ -840262,9 +839871,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148012
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140998",
@@ -840297,9 +839904,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148013
-   ]
+   "nameVariants": true
   },
   {
    "id": "p140999",
@@ -840589,9 +840194,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143305
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141010",
@@ -841967,9 +841570,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141360
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141072",
@@ -842002,9 +841604,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141503
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141073",
@@ -842096,11 +841696,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141076,
-    141362
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141077",
@@ -842187,9 +841783,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141369
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141080",
@@ -842828,10 +842422,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141390
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141107",
@@ -843063,10 +842654,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141662
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141115",
@@ -843099,10 +842687,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141395
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141116",
@@ -843163,9 +842749,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141397
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141118",
@@ -843340,9 +842924,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141136
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141126",
@@ -843684,9 +843267,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141542
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141140",
@@ -843832,9 +843413,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141556
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141145",
@@ -844035,9 +843614,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141563
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141154",
@@ -844470,9 +844047,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141426
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141169",
@@ -844503,9 +844078,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141427
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141170",
@@ -845160,11 +844733,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141679,
-    148936
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141193",
@@ -845310,9 +844879,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141584
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141198",
@@ -845514,9 +845081,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    154837
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141206",
@@ -845549,10 +845114,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148119
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141207",
@@ -845585,9 +845147,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141592
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141208",
@@ -845701,9 +845261,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141438
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141212",
@@ -846627,9 +846185,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141450
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141248",
@@ -846755,9 +846311,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141452
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141252",
@@ -847362,10 +846917,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141617
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141280",
@@ -847454,9 +847007,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141285
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141284",
@@ -847548,9 +847099,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141621
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141288",
@@ -847583,9 +847132,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141463
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141289",
@@ -847679,11 +847226,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141699,
-    148092
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141292",
@@ -848003,9 +847546,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141469
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141303",
@@ -848065,10 +847606,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141627
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141305",
@@ -848382,9 +847920,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141633
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141317",
@@ -848645,9 +848181,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141480
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141326",
@@ -849025,9 +848560,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141641
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141339",
@@ -849142,9 +848675,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143412
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141343",
@@ -849232,10 +848763,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148964
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141346",
@@ -849266,9 +848794,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141704
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141347",
@@ -852211,9 +851737,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143360
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141472",
@@ -854068,9 +853592,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143334
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141544",
@@ -854886,9 +854408,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148934
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141577",
@@ -855608,9 +855128,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143345
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141605",
@@ -856708,9 +856226,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143368
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141651",
@@ -857626,9 +857142,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    153260
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141688",
@@ -857999,9 +857513,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148095
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141703",
@@ -859289,9 +858801,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141779
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141755",
@@ -859759,11 +859269,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148204,
-    148234,
-    148235
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141773",
@@ -860989,9 +860495,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143427
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141824",
@@ -862513,10 +862017,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    141902
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141886",
@@ -862885,9 +862387,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143441
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141906",
@@ -863379,9 +862879,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    141981
-   ]
+   "nameVariants": true
   },
   {
    "id": "p141926",
@@ -865384,9 +864882,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142110
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142003",
@@ -865500,9 +864996,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142137
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142007",
@@ -866345,9 +865839,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142158
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142038",
@@ -866574,11 +866066,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142166,
-    150327
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142047",
@@ -866751,9 +866239,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142177
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142053",
@@ -867015,10 +866501,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142181
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142062",
@@ -867445,11 +866928,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142198,
-    149041
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142080",
@@ -867764,9 +867243,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142204
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142093",
@@ -867855,9 +867332,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142209
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142096",
@@ -868196,9 +867671,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142109
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142111",
@@ -868372,9 +867845,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143470
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142117",
@@ -868407,9 +867878,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148302
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142118",
@@ -868556,9 +868025,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143462
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142123",
@@ -868843,10 +868310,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    149036
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142133",
@@ -870078,9 +869543,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149039
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142188",
@@ -870276,9 +869739,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143181
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142195",
@@ -871051,9 +870512,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142290
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142225",
@@ -871252,9 +870711,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148756
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142232",
@@ -871790,9 +871247,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142314
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142252",
@@ -871850,9 +871305,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142317
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142254",
@@ -871886,11 +871339,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142255,
-    142315
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142256",
@@ -872005,9 +871454,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142367
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142260",
@@ -872211,9 +871658,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142325
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142269",
@@ -872580,9 +872025,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142340
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142283",
@@ -872754,10 +872198,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    149075
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142293",
@@ -874884,9 +874326,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142470
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142381",
@@ -875123,9 +874563,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147702
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142389",
@@ -876658,10 +876097,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142526
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142447",
@@ -877090,9 +876526,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143500
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142467",
@@ -877375,9 +876809,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    157357
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142478",
@@ -879414,9 +878846,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142780
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142561",
@@ -881032,9 +880462,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142821
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142628",
@@ -881067,9 +880495,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142822
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142629",
@@ -881532,9 +880958,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142827
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142646",
@@ -882543,9 +881967,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142842
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142685",
@@ -882772,11 +882194,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142693,
-    142846
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142694",
@@ -882895,11 +882313,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142698,
-    142858
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142699",
@@ -883017,10 +882431,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    149180
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142703",
@@ -883136,10 +882548,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142860
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142708",
@@ -883173,11 +882583,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142861,
-    143552
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142709",
@@ -883496,9 +882903,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143197
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142721",
@@ -883532,10 +882937,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    142873
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142722",
@@ -883716,9 +883119,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    157377
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142729",
@@ -883811,9 +883212,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149186
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142732",
@@ -884410,9 +883809,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    142896
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142755",
@@ -886302,10 +885699,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    143548
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142826",
@@ -888489,9 +887884,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143547
-   ]
+   "nameVariants": true
   },
   {
    "id": "p142913",
@@ -889783,10 +889176,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    143117
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p143115",
@@ -899220,10 +898611,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    151162
-   ]
+   "nameVariants": true
   },
   {
    "id": "p143540",
@@ -900894,9 +900282,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143756
-   ]
+   "nameVariants": true
   },
   {
    "id": "p143645",
@@ -901106,9 +900492,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143783
-   ]
+   "nameVariants": true
   },
   {
    "id": "p143668",
@@ -901258,9 +900642,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143812
-   ]
+   "nameVariants": true
   },
   {
    "id": "p143675",
@@ -901293,9 +900675,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143679
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p143676",
@@ -901620,9 +901001,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143700
-   ]
+   "nameVariants": true
   },
   {
    "id": "p143703",
@@ -902208,9 +901587,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    143734
-   ]
+   "nameVariants": true
   },
   {
    "id": "p143730",
@@ -903535,10 +902912,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    143813
-   ]
+   "nameVariants": true
   },
   {
    "id": "p143810",
@@ -903924,10 +903298,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147935
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p143899",
@@ -904182,10 +903554,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146723,
-    147682
-   ]
+   "nameVariants": true
   },
   {
    "id": "p143949",
@@ -904362,9 +903731,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    144432
-   ]
+   "nameVariants": true
   },
   {
    "id": "p143956",
@@ -904396,10 +903763,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145711
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p143957",
@@ -904761,9 +904126,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146928
-   ]
+   "nameVariants": true
   },
   {
    "id": "p143971",
@@ -905024,10 +904387,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145804
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p143985",
@@ -905455,9 +904816,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148200
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144001",
@@ -905915,9 +905274,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    144983
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144019",
@@ -905982,11 +905339,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    144986,
-    144987,
-    150813
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144021",
@@ -906044,9 +905397,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145088
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144024",
@@ -906105,9 +905456,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145304
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144027",
@@ -906313,9 +905662,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145464
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144037",
@@ -906431,10 +905778,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145553
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144043",
@@ -906662,9 +906007,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146076
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144054",
@@ -906815,10 +906158,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148082
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144059",
@@ -907116,10 +906457,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145932,
-    148063
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144069",
@@ -907294,9 +906632,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    144648
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144077",
@@ -907564,10 +906900,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146939,
-    146940
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144088",
@@ -907772,9 +907105,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147228
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144096",
@@ -908058,9 +907389,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    144957
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144106",
@@ -908260,9 +907589,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147819
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144113",
@@ -909459,10 +908786,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145786,
-    145787
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144163",
@@ -909779,9 +909103,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145923
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144175",
@@ -910074,10 +909396,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148056
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144185",
@@ -910665,9 +909985,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146006
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144205",
@@ -910765,9 +910083,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146454
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144208",
@@ -911002,10 +910318,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146630,
-    148253
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144217",
@@ -911292,9 +910605,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146905
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144227",
@@ -911379,10 +910691,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146722
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144230",
@@ -911413,10 +910723,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146729
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144231",
@@ -911761,9 +911069,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148343
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144244",
@@ -911794,9 +911100,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146949
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144245",
@@ -912391,9 +911695,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148438
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144273",
@@ -913442,9 +912744,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    144953
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144312",
@@ -913475,9 +912775,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    144955
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144313",
@@ -913564,9 +912862,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147748
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144316",
@@ -914092,9 +913388,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145082
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144335",
@@ -914509,9 +913803,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145134
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144349",
@@ -914716,9 +914009,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145162
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144357",
@@ -915144,9 +914435,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145226
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144373",
@@ -915769,9 +915058,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145233
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144395",
@@ -916258,9 +915545,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145507
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144412",
@@ -916794,9 +916079,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145601
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144434",
@@ -916966,10 +916249,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147651
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144440",
@@ -917702,9 +916982,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145701
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144466",
@@ -917929,9 +917207,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145830
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144474",
@@ -918273,9 +917549,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148021
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144486",
@@ -918560,9 +917834,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145788
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144496",
@@ -918966,9 +918238,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148949
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144511",
@@ -918999,9 +918269,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146111
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144512",
@@ -919259,9 +918527,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148169
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144521",
@@ -919415,11 +918681,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146045,
-    146385
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144526",
@@ -919453,9 +918715,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145904
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144527",
@@ -919599,9 +918859,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148062
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144532",
@@ -920199,9 +919457,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146023
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144553",
@@ -920752,11 +920008,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145938,
-    148731
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144572",
@@ -920932,10 +920185,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145957,
-    148075
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144578",
@@ -920995,9 +920245,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145967
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144581",
@@ -921055,9 +920303,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145976
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144583",
@@ -921403,9 +920649,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146014
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144595",
@@ -921984,9 +921228,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145966
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144615",
@@ -922158,9 +921400,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146020
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144621",
@@ -922250,9 +921490,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146456
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144627",
@@ -922367,9 +921605,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147670
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144631",
@@ -922402,9 +921638,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146487
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144633",
@@ -922664,9 +921898,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146603
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144642",
@@ -923887,9 +923119,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146734
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144688",
@@ -924202,9 +923432,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146754
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144699",
@@ -924583,10 +923811,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146769,
-    149043
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144712",
@@ -924736,9 +923961,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146772
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144717",
@@ -924825,9 +924048,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146984
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144720",
@@ -924973,9 +924194,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146925
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144725",
@@ -925317,9 +924536,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146961
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144737",
@@ -925377,9 +924594,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148342
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144741",
@@ -925441,9 +924656,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146952
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144743",
@@ -925644,9 +924857,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147158
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144752",
@@ -925794,9 +925005,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148379
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144757",
@@ -926556,9 +925765,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147084
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144784",
@@ -926936,9 +926143,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147458
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144802",
@@ -927055,10 +926260,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147478
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144806",
@@ -927736,9 +926939,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148451
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144830",
@@ -927855,9 +927056,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147274
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144834",
@@ -929242,9 +928441,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    144885
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144883",
@@ -929953,9 +929150,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    144920
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144911",
@@ -930072,9 +929267,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147737
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144915",
@@ -930958,9 +930151,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    144950
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144947",
@@ -931533,9 +930724,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145017
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144976",
@@ -931797,10 +930986,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145030
-   ]
+   "nameVariants": true
   },
   {
    "id": "p144988",
@@ -934311,10 +933497,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149073,
-    151177
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145081",
@@ -934654,9 +933837,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147802
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145098",
@@ -934861,9 +934042,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    150770
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145105",
@@ -935467,9 +934646,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145136
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145127",
@@ -935980,9 +935157,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147815
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145148",
@@ -936811,11 +935986,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145181,
-    145201,
-    147286
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145182",
@@ -936943,11 +936114,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147288,
-    148485
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145186",
@@ -937398,9 +936565,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147312
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145207",
@@ -937765,10 +936930,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145332
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145225",
@@ -937801,9 +936963,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145334
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145227",
@@ -937921,9 +937081,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148841
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145231",
@@ -938012,9 +937170,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148663
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145236",
@@ -938298,9 +937454,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148685
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145247",
@@ -938587,9 +937741,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148223
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145257",
@@ -939130,9 +938282,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    150732
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145276",
@@ -939712,9 +938862,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147842
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145300",
@@ -942362,9 +941510,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    150717
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145403",
@@ -942958,9 +942104,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147904
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145424",
@@ -943958,11 +943102,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145463,
-    145504
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145465",
@@ -944372,9 +943512,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145514
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145479",
@@ -944437,9 +943576,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145496
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145481",
@@ -944472,9 +943609,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145518
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145482",
@@ -944613,9 +943748,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145525
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145487",
@@ -946033,11 +945166,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145548,
-    145573
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145549",
@@ -946182,9 +945311,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145579
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145555",
@@ -947930,9 +947057,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148891
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145621",
@@ -948078,11 +947203,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145676,
-    147977
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145627",
@@ -948142,9 +947263,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145677
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145629",
@@ -949820,9 +948939,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148897
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145691",
@@ -950048,11 +949165,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147990,
-    147999
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145699",
@@ -950083,9 +949196,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145737
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145700",
@@ -950284,10 +949395,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148904
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145709",
@@ -951070,9 +950178,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147992
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145739",
@@ -952057,9 +951163,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148023
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145778",
@@ -952343,9 +951448,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    145833
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145791",
@@ -952486,10 +951589,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145875
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145797",
@@ -952893,11 +951994,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145812,
-    145818
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145813",
@@ -952930,9 +952028,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148022
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145814",
@@ -953105,9 +952201,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148016
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145821",
@@ -953338,9 +952432,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148911
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145829",
@@ -955170,9 +954262,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146220
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145906",
@@ -955599,9 +954689,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146242
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145922",
@@ -955772,9 +954860,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146097
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145929",
@@ -955834,9 +954920,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146099
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145933",
@@ -956349,9 +955433,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148190
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145953",
@@ -956523,9 +955605,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148160
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145960",
@@ -956558,10 +955638,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146282
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145961",
@@ -956622,9 +955699,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146134
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145963",
@@ -956684,9 +955760,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146287
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145965",
@@ -956719,9 +955794,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    157477
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p145968",
@@ -956893,9 +955967,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146297
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145975",
@@ -956959,11 +956031,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    145978,
-    146306
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145979",
@@ -957220,9 +956288,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148123
-   ]
+   "nameVariants": true
   },
   {
    "id": "p145988",
@@ -957675,9 +956741,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146163
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p146004",
@@ -958083,9 +957148,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146347
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146022",
@@ -958283,9 +957346,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    151224
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146031",
@@ -958316,9 +957377,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146362
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146032",
@@ -958942,9 +958001,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148044
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146057",
@@ -960946,9 +960003,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147911
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146133",
@@ -963189,9 +962244,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148048
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146218",
@@ -964643,9 +963696,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    150316
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146273",
@@ -966855,10 +965906,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148094
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p146357",
@@ -970216,9 +969265,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148214
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146485",
@@ -973087,9 +972134,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    150857
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146591",
@@ -973175,9 +972220,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146599
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146594",
@@ -973496,9 +972539,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146613
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146610",
@@ -973698,9 +972739,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148275
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146618",
@@ -973960,11 +972999,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146628,
-    148266
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146629",
@@ -974217,9 +973252,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146711
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146639",
@@ -976579,10 +975612,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146727,
-    148317
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146728",
@@ -976866,11 +975896,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146835,
-    150326
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146740",
@@ -976928,9 +975954,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148696
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146742",
@@ -977390,9 +976414,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148327
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146759",
@@ -977509,9 +976531,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149062
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146764",
@@ -977681,9 +976701,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149064
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146771",
@@ -977801,11 +976819,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146776,
-    148333
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146777",
@@ -981906,9 +980920,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    146970
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p146931",
@@ -981993,9 +981006,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149085
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146934",
@@ -982056,9 +981067,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149094
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146936",
@@ -982118,10 +981127,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146987
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146938",
@@ -982240,9 +981246,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147004
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146945",
@@ -982276,11 +981280,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    146946,
-    146998
-   ]
+   "nameVariants": true
   },
   {
    "id": "p146947",
@@ -982313,9 +981313,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147000
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p146948",
@@ -983667,9 +982666,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148352
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147007",
@@ -984315,10 +983312,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147033
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147034",
@@ -984376,9 +983370,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147036
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147037",
@@ -985014,9 +984006,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    151259
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147061",
@@ -985130,9 +984120,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147143
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147066",
@@ -985250,9 +984238,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147155
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147070",
@@ -985423,9 +984409,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147623
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147077",
@@ -985539,9 +984523,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147177
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147081",
@@ -985601,9 +984583,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149126
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147083",
@@ -988324,10 +987304,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148396
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147191",
@@ -989187,9 +988165,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149163
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147233",
@@ -989553,10 +988529,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147519
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147246",
@@ -989980,10 +988953,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148483
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147261",
@@ -990074,10 +989044,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147410
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147265",
@@ -990477,9 +989444,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149173
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147281",
@@ -990709,9 +989674,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147430
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147292",
@@ -991181,9 +990144,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147471
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147309",
@@ -991436,9 +990397,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    147496
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147319",
@@ -991581,10 +990540,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147499
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147324",
@@ -1000646,9 +999603,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    150755
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147725",
@@ -1003020,9 +1001975,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149103
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147822",
@@ -1005207,11 +1004160,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147909,
-    148860
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147910",
@@ -1005872,11 +1004821,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    147940,
-    150789
-   ]
+   "nameVariants": true
   },
   {
    "id": "p147941",
@@ -1008488,9 +1007433,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148148
-   ]
+   "nameVariants": true
   },
   {
    "id": "p148060",
@@ -1008923,9 +1007866,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148978
-   ]
+   "nameVariants": true
   },
   {
    "id": "p148079",
@@ -1009760,9 +1008701,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148933
-   ]
+   "nameVariants": true
   },
   {
    "id": "p148112",
@@ -1013179,10 +1012118,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    157617
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p148252",
@@ -1016411,9 +1015348,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    148408
-   ]
+   "nameVariants": true
   },
   {
    "id": "p148388",
@@ -1022537,9 +1021472,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    150772
-   ]
+   "nameVariants": true
   },
   {
    "id": "p148806",
@@ -1023702,10 +1022635,8 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    148868
-   ]
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p148866",
@@ -1027265,9 +1026196,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    151233
-   ]
+   "nameVariants": true
   },
   {
    "id": "p149022",
@@ -1028817,9 +1027746,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "mergedFrom": [
-    149112
-   ]
+   "nameVariants": true
   },
   {
    "id": "p149097",
@@ -1144625,9 +1143552,9 @@
   }
  ],
  "corrections": {
-  "mergedIds": 664,
+  "mergedIds": 117,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 554,
+   "WIKIPEDIA-BIOGRAPHY": 7,
    "IE-EI-CROSSWALK": 3,
    "FORUM-DUPLICATE": 113,
    "LGR-2014": 2,
