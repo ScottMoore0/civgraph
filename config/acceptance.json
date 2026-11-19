@@ -9,7 +9,7 @@
       "note": "The last Python council literal (scripts/ingest/wikipedia/scrape_and_compare_lgov_wikipedia.py) reads the councils registry since 19 Nov 2026 (w19-refactor-tail); python-council-lists.test holds every Python list to the registry.",
       "evidence": {
         "tests": ["unit/acceptance-a1-body-type.test.mjs", "unit/registries-election-bodies.test.mjs", "unit/registries-body-groups.test.mjs", "unit/registries-catalogue-kinds.test.mjs", "unit/registries-councils.test.mjs", "intake/python-council-lists.test.mjs"],
-        "asserts": ["architecture-baseline-empty:C4"]
+        "asserts": ["architecture-baseline-empty:C4", "measure-zero:python-literal-council-lists"]
       }
     },
     {
@@ -118,13 +118,12 @@
     {
       "id": "P8",
       "title": "Ingest plugins: one plugin per source, replayed byte for byte",
-      "status": "open",
+      "status": "met",
+      "note": "Since 19 Nov 2026 (w19-refactor-tail) every ingest step that does not fetch is proved in scripts/ingest/parity.json: the last seven blocked ones were replayed (six) or found to be no step (walker's check-civgraph, a helper that only prints).",
       "evidence": {
-        "tests": ["intake/plugins.test.mjs", "intake/ingest-plugins.test.mjs", "intake/ingest-typecheck.test.mjs", "intake/offline-replay.test.mjs"]
-      },
-      "gaps": [
-        { "measure": "ingest-parity-blocked", "value": 7, "note": "ingest steps whose byte-for-byte replay is blocked (scripts/ingest/parity.json)" }
-      ]
+        "tests": ["intake/plugins.test.mjs", "intake/ingest-plugins.test.mjs", "intake/ingest-typecheck.test.mjs", "intake/offline-replay.test.mjs"],
+        "asserts": ["measure-zero:ingest-parity-blocked"]
+      }
     }
   ]
 }

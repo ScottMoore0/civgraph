@@ -35,4 +35,8 @@ test('the measures and assertions answer on this tree', async () => {
   assert.equal(effectiveOptions('config/tsconfig.ui-strict.json').strict, true, 'extends is followed');
   assert.equal(ASSERTS.file('config/acceptance.json').ok, true);
   assert.equal(ASSERTS.file('config/no-such-file.json').ok, false);
+  assert.equal(ASSERTS['measure-zero']('python-literal-council-lists').ok, true);
+  assert.equal(ASSERTS['measure-zero']('ingest-parity-blocked').ok, true);
+  assert.match(ASSERTS['measure-zero']('no-such-measure').detail, /no measure/);
+  assert.match(ASSERTS['measure-zero']('package-files-left').detail, /not a measure that answers at once/);
 });

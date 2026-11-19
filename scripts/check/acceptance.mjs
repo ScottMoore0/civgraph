@@ -115,6 +115,17 @@ export const ASSERTS = {
     return { ok: n === 0, detail: `import-rule baseline: ${n}` };
   },
   file: (rel) => ({ ok: existsSync(path.join(ROOT, rel)), detail: rel }),
+  // A closed gap stays closed: a met criterion names the measure its last gap had (one of the
+  // measures that answer at once, without the TypeScript API).
+  'measure-zero': (spec) => {
+    const [name, arg] = parts(spec);
+    const measure = MEASURES[name];
+    if (!measure) return { ok: false, detail: `no measure ${name}` };
+    if (measure.constructor.name === 'AsyncFunction') return { ok: false, detail: `${name} is not a measure that answers at once` };
+    const now = measure(arg);
+    if (typeof now !== 'number') return { ok: false, detail: `${name} is not a measure that answers at once` };
+    return { ok: now === 0, detail: `${spec} = ${now}` };
+  },
 };
 
 /** Split 'name:arg' into its parts. @param {string} spec */
