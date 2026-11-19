@@ -1369,7 +1369,9 @@ const RETIRED_CONTEST_SLUGS = [
   ['strabane-rural-district-council-1958-06-05-donemana', 'strabane-rural-district-council-1958-06-05-dunnamanagh'],
   ['strabane-rural-district-council-1961-06-01-donemana', 'strabane-rural-district-council-1961-06-01-dunnamanagh'],
   ['strabane-rural-district-council-1964-06-04-donemana', 'strabane-rural-district-council-1964-06-04-dunnamanagh'],
-  ['strabane-rural-district-council-1967-06-01-donemana', 'strabane-rural-district-council-1967-06-01-dunnamanagh']
+  ['strabane-rural-district-council-1967-06-01-donemana', 'strabane-rural-district-council-1967-06-01-dunnamanagh'],
+  // Enniskillen Rural Drumee, filed under the official DED name Drummee (19 Nov 2026, w19-merges).
+  ['enniskillen-rural-district-council-1927-05-25-drumee', 'enniskillen-rural-district-council-1927-05-25-drummee']
 ];
 
 /** @param {string} type @param {string | null} id */
