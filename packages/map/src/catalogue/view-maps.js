@@ -49,11 +49,61 @@ export function toolbarHtml(c) {
       <div class="cn-frow">
         <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('scope', '', 'All')}${chip('scope', 'Northern Ireland', SCOPE_SHORT['Northern Ireland'])}${chip('scope', 'Republic of Ireland', SCOPE_SHORT['Republic of Ireland'])}${chip('scope', 'Ireland', SCOPE_SHORT.Ireland)}</span>
       </div>
+      ${providerFilterHtml(c.providerChoices())}
       ${sliderHtml('maps', c.mapBins, i, j, c.yearState('maps'))}
       <label class="cn-check" data-cn-undated-wrap${c.yearRange('maps').narrowed ? '' : ' hidden'}><input type="checkbox" id="cn-undated" data-cn-undated${c.filters.undated ? ' checked' : ''}> Include undated maps</label>
     </div>
     ${keyHtml()}
   </div>`;
+}
+
+/** One provider of the filter's list (CatalogueNext.providerChoices). @typedef {{ id: string, full: string, short: string, count: number, chosen: boolean }} ProviderChoice */
+
+/** What the closed Provider filter says: "All", or the chosen providers' short names.
+ * @param {ProviderChoice[]} choices */
+function providerSummary(choices) {
+  const chosen = choices.filter((p) => p.chosen);
+  if (!chosen.length) return 'All';
+  return chosen.length <= 2 ? chosen.map((p) => p.short).join(', ') : `${chosen.length} chosen`;
+}
+
+/**
+ * The Provider filter (Phelim Birch's notes, 19 Nov 2026): a list of the section's providers, each a
+ * checkbox with how many rows it is credited on under the other filters; several may be chosen, and
+ * a row shows when it credits any of them. Combines with Where and Years.
+ * @param {ProviderChoice[]} choices
+ */
+export function providerFilterHtml(choices) {
+  if (!choices.length) return '';
+  const chosen = choices.filter((p) => p.chosen).length;
+  return `<div class="cn-frow"><div class="cn-fgroup cn-prov" role="group" aria-label="Provider"><span class="cn-label" id="cn-prov-label">Provider</span>
+    <details class="cn-prov__box" data-cn-providers><summary class="cn-fchip cn-prov__summary" aria-describedby="cn-prov-label"><span data-cn-provider-summary>${esc(providerSummary(choices))}</span>${icon('chevron-down', 'cn-icon cn-prov__chev')}</summary>
+      <div class="cn-prov__panel">
+        <ul class="cn-prov__list" role="list">${choices.map((p) => `<li><label class="cn-prov__item${p.count || p.chosen ? '' : ' cn-prov__item--none'}" title="${esc(p.full)}"><input type="checkbox" data-cn-provider="${esc(p.id)}"${p.chosen ? ' checked' : ''}><span class="cn-prov__name">${esc(p.full)}${p.short !== p.full ? ` <span class="cn-muted">(${esc(p.short)})</span>` : ''}</span><span class="cn-count" data-cn-provider-count="${esc(p.id)}">${p.count}</span></label></li>`).join('')}</ul>
+        <button type="button" class="cn-link" data-cn-act="clear-providers"${chosen ? '' : ' hidden'}>Clear providers</button>
+      </div>
+    </details></div></div>`;
+}
+
+/**
+ * The Provider filter brought up to date in place (counts, ticks, summary), so an open list keeps
+ * its place and focus while a box is ticked.
+ * @param {ParentNode} bar @param {ProviderChoice[]} choices
+ */
+export function updateProviderFilter(bar, choices) {
+  const box = bar.querySelector('[data-cn-providers]');
+  if (!box) return;
+  const summary = box.querySelector('[data-cn-provider-summary]');
+  if (summary) summary.textContent = providerSummary(choices);
+  for (const p of choices) {
+    const count = box.querySelector(`[data-cn-provider-count="${CSS.escape(p.id)}"]`);
+    if (count) count.textContent = String(p.count);
+    const input = /** @type {HTMLInputElement | null} */ (box.querySelector(`[data-cn-provider="${CSS.escape(p.id)}"]`));
+    if (input && input.checked !== p.chosen) input.checked = p.chosen;
+    input?.closest('.cn-prov__item')?.classList.toggle('cn-prov__item--none', !p.count && !p.chosen);
+  }
+  const clear = /** @type {HTMLElement | null} */ (box.querySelector('[data-cn-act="clear-providers"]'));
+  if (clear) clear.hidden = !choices.some((p) => p.chosen);
 }
 
 /** @param {CatalogueNext} c */

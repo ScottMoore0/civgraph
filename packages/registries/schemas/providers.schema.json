@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/registries/providers.schema.json",
+  "title": "Providers registry (data/registries/providers.json)",
+  "description": "The bodies and people the map catalogue credits, with the full and short names the catalogue's provider filter and rows show. One entry per body; other spellings of the same body are its aliases.",
+  "type": "object",
+  "required": ["schemaVersion", "description", "providers"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "providers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "full", "short"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "The provider's id, as the filter's state keeps it." },
+          "name": { "type": "string", "minLength": 1, "description": "The provider as the catalogue credits it (a map's provider string)." },
+          "full": { "type": "string", "minLength": 1, "description": "Its full name: the filter's list." },
+          "short": { "type": "string", "minLength": 1, "description": "Its short name: a row's credit line and the filter's summary." },
+          "body": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "Its id in data/database/providers.json, the attribution registry." },
+          "aliases": { "type": "array", "items": { "type": "string", "minLength": 1 }, "description": "Other provider strings for the same body." }
+        }
+      }
+    }
+  }
+}

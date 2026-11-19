@@ -42,7 +42,8 @@ import { CATALOGUE_TAB, followSeriesRedirect } from './route-state.mjs';
 import { defineFlagFields, setHidden } from '../state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 import { siteNumber } from '../../../core/src/format.js';
-import { comparable, rowCitation } from './row-model.mjs';
+import { comparable, passesProviders, providerCounts, rowCitation, rowProviderIds } from './row-model.mjs';
+import { PROVIDERS } from './util.js';
 import { MAP_COLOURS } from '../colours.mjs';
 
 /** @typedef {import('./catalogue-types.d.ts').CatalogueDoc} CatalogueDoc */
@@ -67,7 +68,7 @@ import { MAP_COLOURS } from '../colours.mjs';
 /** @typedef {import('../ui-controller-types.d.ts').MapRecord} MapRecord */
 /**
  * The Maps tab's filters (toAdd: an older store's, dropped on load).
- * @typedef {{ scope: string, kind: string, from: number | null, to: number | null, onMap: boolean, undated: boolean, toAdd?: unknown }} MapFilters
+ * @typedef {{ scope: string, kind: string, from: number | null, to: number | null, onMap: boolean, undated: boolean, providers: string[], toAdd?: unknown }} MapFilters
  */
 /** The Elections tab's filters. @typedef {{ body: string, ekind: string, escope: string, from: number | null, to: number | null }} ElectionFilters */
 /** Which filters: the Maps tab's or the Elections tab's. @typedef {'maps' | 'elections'} FilterKey */
@@ -103,7 +104,7 @@ const PLACES_URL = '/_api/catalogue?view=places';
 const PEOPLE_URL = '/_api/catalogue?view=people';
 const STORE = 'civgraph.catalogueNext.v2';
 /** @type {MapFilters} */
-const BLANK_FILTERS = { scope: '', kind: '', from: null, to: null, onMap: false, undated: false };
+const BLANK_FILTERS = { scope: '', kind: '', from: null, to: null, onMap: false, undated: false, providers: [] };
 /** @type {ElectionFilters} */
 const BLANK_EFILTERS = { body: '', ekind: 'general', escope: '', from: null, to: null };
 
@@ -194,6 +195,8 @@ export class CatalogueNext {
     this.section = 'boundaries';
     /** @type {MapFilters} */
     this.filters = { ...BLANK_FILTERS, ...(saved.filters || {}) };
+    // Providers chosen (registry ids), kept with the other filters; anything else stored is dropped.
+    this.filters.providers = Array.isArray(this.filters.providers) ? this.filters.providers.filter((id) => typeof id === 'string') : [];
     // "On the map" has no button for now, so it cannot be left on unseen; "to be added" is per row.
     this.filters.onMap = false;
     delete this.filters.toAdd;
@@ -510,6 +513,7 @@ export class CatalogueNext {
     updateSlider(bar.querySelector('[data-cn-slider]'), bins, i, j, this.yearState(key));
     const undated = /** @type {HTMLElement | null} */ (bar.querySelector('[data-cn-undated-wrap]'));
     if (undated) setHidden(undated, !narrowed);
+    if (key === 'maps') MapsView.updateProviderFilter(bar, this.providerChoices());
     const n = this.activeFilterCount(key);
     const toggle = bar.querySelector('.cn-filters-toggle');
     if (toggle) toggle.innerHTML = `${icon('sliders')}Filters${n ? ` <span class="cn-badge">${n}</span>` : ''}`;
@@ -785,7 +789,7 @@ export class CatalogueNext {
     // Either tab's filters: each reads its own fields.
     const f = /** @type {Partial<MapFilters & ElectionFilters>} */ (key === 'maps' ? this.filters : this.efilters);
     const n = key === 'maps'
-      ? [f.scope, f.kind, f.onMap].filter(Boolean).length
+      ? [f.scope, f.kind, f.onMap, f.providers?.length].filter(Boolean).length
       : [f.ekind !== 'general', f.escope].filter(Boolean).length;
     return n + (this.yearRange(key).narrowed ? 1 : 0);
   }
@@ -795,10 +799,36 @@ export class CatalogueNext {
     return [...s.members, ...(s.local || [])].some((m) => this.isLoaded(m.id) || (this.rec(m.id).parts || []).some((p) => this.isLoaded(p.id)));
   }
 
-  /** @param {CatalogueRow} s @param {{ ignoreYears?: boolean, ignoreSection?: boolean }} [options] */
-  seriesShown(s, { ignoreYears = false, ignoreSection = false } = {}) {
+  /** The providers a row credits, as registry ids (row-model.mjs rowProviderIds), worked out once a row.
+   * @param {CatalogueRow} s @returns {Set<string>} */
+  providersOf(s) {
+    if (!this._rowProviders) /** @type {Map<string, Set<string>>} */ (this._rowProviders = new Map());
+    let ids = this._rowProviders.get(s.id);
+    if (!ids) { ids = rowProviderIds(s, (id) => this.rec(id), PROVIDERS.idOf); this._rowProviders.set(s.id, ids); }
+    return ids;
+  }
+
+  /**
+   * The provider filter's choices for the open section: every provider credited on one of its rows,
+   * with how many rows show for it under the other filters (Where, Years, a search), full names
+   * in alphabetical order. A chosen provider stays listed whatever its count.
+   * @returns {Array<{ id: string, full: string, short: string, count: number, chosen: boolean }>}
+   */
+  providerChoices() {
+    const inSection = this.data.series.filter((s) => s.kind === KIND_OF_SECTION[this.section]);
+    const counts = providerCounts(inSection.filter((s) => this.seriesShown(s, { ignoreProviders: true })).map((s) => this.providersOf(s)));
+    const listed = new Set([...inSection.flatMap((s) => [...this.providersOf(s)]), ...(this.filters.providers || [])]);
+    return [...listed].map((id) => {
+      const p = PROVIDERS.byId.get(id) || { id, full: id, short: id };
+      return { id, full: p.full, short: p.short, count: counts.get(id) || 0, chosen: (this.filters.providers || []).includes(id) };
+    }).sort((a, b) => a.full.localeCompare(b.full, undefined, { sensitivity: 'base' }));
+  }
+
+  /** @param {CatalogueRow} s @param {{ ignoreYears?: boolean, ignoreSection?: boolean, ignoreProviders?: boolean }} [options] */
+  seriesShown(s, { ignoreYears = false, ignoreSection = false, ignoreProviders = false } = {}) {
     const f = this.filters;
     if (f.scope && s.scope !== f.scope) return false;
+    if (!ignoreProviders && !passesProviders(this.providersOf(s), f.providers)) return false;
     if (!ignoreSection && s.kind !== KIND_OF_SECTION[this.section]) return false;
     if (!ignoreYears && this.yearRange('maps').narrowed && !s.members.some((m) => this.editionInYears(m.id))) return false;
     if (f.onMap && !this.seriesOnMap(s)) return false;
@@ -1485,6 +1515,16 @@ export class CatalogueNext {
   /** A year typed into a box: applied when the box is left or Enter is pressed, not per key. */
   /** @param {Event} e */
   onYearTyped(e) {
+    const provider = /** @type {HTMLInputElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-provider]'));
+    if (provider) {
+      const id = /** @type {string} */ (provider.dataset.cnProvider);
+      const chosen = new Set(this.filters.providers || []);
+      if (provider.checked) chosen.add(id); else chosen.delete(id);
+      this.filters.providers = [...chosen];
+      this.saveStore();
+      this.refreshResults();
+      return;
+    }
     if (/** @type {Element} */ (e.target).matches?.('[data-cn-undated]')) {
       this.filters.undated = /** @type {HTMLInputElement} */ (e.target).checked;
       this.saveStore();
@@ -1535,6 +1575,7 @@ export class CatalogueNext {
         break;
       }
       case 'clear-filters': this.clearFilters(); break;
+      case 'clear-providers': this.filters.providers = []; this.saveStore(); this.refreshResults(); break;
       case 'clear-person': this.person = null; this.draw(); this.replaceRoute(); break;
       case 'zoom': this.zoom(id); break;
       case 'details': this.details(id); break;

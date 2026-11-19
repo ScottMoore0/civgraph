@@ -1,0 +1,451 @@
+{
+ "schemaVersion": 1,
+ "description": "The bodies and people the map catalogue credits, as the catalogue's provider filter and rows name them (w19-catalogue-ui, 19 Nov 2026): one entry for each provider string in data/catalogue/catalogue.json, with its full name (the filter's list) and short name (a row's credit line, the filter's summary). A spelling of the same body is an alias of its entry (LPS and Land & Property Services; DfI Roads and Department for Infrastructure - Roads); distinct bodies are never merged, even where data/database/providers.json leaves a question open (OSNI and Land & Property Services (OSNI); the Database of British and Irish Hills and Hill Bagging; Copernicus and its products). `body` is the entry's id in data/database/providers.json, the attribution registry, where it has one. tests/unit/registries-providers.test.mjs holds every catalogue provider to an entry. Schema: packages/registries/schemas/providers.schema.json; views: packages/registries/src/providers.mjs.",
+ "providers": [
+  {
+   "id": "bgs",
+   "name": "BGS",
+   "full": "British Geological Survey",
+   "short": "BGS",
+   "body": "bgs"
+  },
+  {
+   "id": "bc-ni",
+   "name": "Boundary Commission for Northern Ireland",
+   "full": "Boundary Commission for Northern Ireland",
+   "short": "BCNI",
+   "body": "bc-ni"
+  },
+  {
+   "id": "cso",
+   "name": "CSO",
+   "full": "Central Statistics Office",
+   "short": "CSO",
+   "body": "cso"
+  },
+  {
+   "id": "copernicus",
+   "name": "Copernicus",
+   "full": "Copernicus",
+   "short": "Copernicus",
+   "body": "copernicus"
+  },
+  {
+   "id": "copernicus-dem",
+   "name": "Copernicus DEM",
+   "full": "Copernicus DEM",
+   "short": "Copernicus DEM",
+   "body": "copernicus-dem"
+  },
+  {
+   "id": "copernicus-clms",
+   "name": "Copernicus Land Monitoring Service (EEA)",
+   "full": "Copernicus Land Monitoring Service (EEA)",
+   "short": "CLMS",
+   "body": "copernicus-clms"
+  },
+  {
+   "id": "cork-city",
+   "name": "Cork City Council",
+   "full": "Cork City Council",
+   "short": "Cork City Council",
+   "body": "cork-city"
+  },
+  {
+   "id": "daera",
+   "name": "DAERA",
+   "full": "Department of Agriculture, Environment and Rural Affairs",
+   "short": "DAERA",
+   "body": "daera"
+  },
+  {
+   "id": "dobih",
+   "name": "Database of British and Irish Hills",
+   "full": "Database of British and Irish Hills",
+   "short": "DoBIH",
+   "body": "dobih"
+  },
+  {
+   "id": "dfc",
+   "name": "Department for Communities",
+   "full": "Department for Communities",
+   "short": "DfC",
+   "body": "dfc"
+  },
+  {
+   "id": "dfc-hed",
+   "name": "Department for Communities - Historic Environment Division",
+   "full": "Department for Communities, Historic Environment Division",
+   "short": "HED",
+   "body": "dfc-hed"
+  },
+  {
+   "id": "dfi-rivers",
+   "name": "Department for Infrastructure - Rivers",
+   "full": "Department for Infrastructure, Rivers",
+   "short": "DfI Rivers",
+   "body": "dfi-rivers"
+  },
+  {
+   "id": "dfi-roads",
+   "name": "Department for Infrastructure - Roads",
+   "full": "Department for Infrastructure, Roads",
+   "short": "DfI Roads",
+   "body": "dfi-roads",
+   "aliases": [
+    "DfI Roads"
+   ]
+  },
+  {
+   "id": "dfi-walking",
+   "name": "Department for Infrastructure - Walking and Cycling Branch",
+   "full": "Department for Infrastructure, Walking and Cycling Branch",
+   "short": "DfI Walking and Cycling",
+   "body": "dfi-walking"
+  },
+  {
+   "id": "dfe-minerals",
+   "name": "Department for the Economy - Minerals and Petroleum Branch",
+   "full": "Department for the Economy, Minerals and Petroleum Branch",
+   "short": "DfE Minerals and Petroleum",
+   "body": "dfe-minerals"
+  },
+  {
+   "id": "doh-ni",
+   "name": "Department of Health (NI)",
+   "full": "Department of Health (Northern Ireland)",
+   "short": "DoH NI",
+   "body": "doh-ni"
+  },
+  {
+   "id": "dhlgh",
+   "name": "Department of Housing, Local Government and Heritage",
+   "full": "Department of Housing, Local Government and Heritage",
+   "short": "DHLGH",
+   "body": "dhlgh"
+  },
+  {
+   "id": "dublin-city",
+   "name": "Dublin City Council",
+   "full": "Dublin City Council",
+   "short": "Dublin City Council",
+   "body": "dublin-city"
+  },
+  {
+   "id": "dlr",
+   "name": "Dún Laoghaire-Rathdown County Council",
+   "full": "Dún Laoghaire-Rathdown County Council",
+   "short": "DLR",
+   "body": "dlr"
+  },
+  {
+   "id": "epa-ie",
+   "name": "EPA",
+   "full": "Environmental Protection Agency",
+   "short": "EPA",
+   "body": "epa-ie"
+  },
+  {
+   "id": "esa",
+   "name": "ESA",
+   "full": "European Space Agency",
+   "short": "ESA",
+   "body": "esa"
+  },
+  {
+   "id": "electoral-commission",
+   "name": "Electoral Commission",
+   "full": "Electoral Commission",
+   "short": "Electoral Commission",
+   "body": "electoral-commission"
+  },
+  {
+   "id": "eoni",
+   "name": "Electoral Office for Northern Ireland",
+   "full": "Electoral Office for Northern Ireland",
+   "short": "EONI",
+   "body": "eoni"
+  },
+  {
+   "id": "fingal",
+   "name": "Fingal County Council",
+   "full": "Fingal County Council",
+   "short": "Fingal",
+   "body": "fingal"
+  },
+  {
+   "id": "fugro-bks",
+   "name": "Fugro-BKS",
+   "full": "Fugro-BKS",
+   "short": "Fugro-BKS"
+  },
+  {
+   "id": "gsni",
+   "name": "GSNI",
+   "full": "Geological Survey of Northern Ireland",
+   "short": "GSNI",
+   "body": "gsni"
+  },
+  {
+   "id": "gsi",
+   "name": "Geological Survey Ireland",
+   "full": "Geological Survey Ireland",
+   "short": "GSI",
+   "body": "gsi"
+  },
+  {
+   "id": "global-watersheds",
+   "name": "Global Watersheds",
+   "full": "Global Watersheds",
+   "short": "Global Watersheds",
+   "body": "global-watersheds"
+  },
+  {
+   "id": "hill-bagging",
+   "name": "Hill Bagging",
+   "full": "Hill Bagging",
+   "short": "Hill Bagging",
+   "body": "hill-bagging"
+  },
+  {
+   "id": "historic-maps",
+   "name": "Historic Maps",
+   "full": "Historic Maps",
+   "short": "Historic Maps",
+   "body": "historic-maps"
+  },
+  {
+   "id": "iho",
+   "name": "IHO",
+   "full": "International Hydrographic Organization",
+   "short": "IHO",
+   "body": "iho"
+  },
+  {
+   "id": "ibc-ni-1967",
+   "name": "Interim Boundary Commission for Northern Ireland",
+   "full": "Interim Boundary Commission for Northern Ireland",
+   "short": "Interim Boundary Commission",
+   "body": "ibc-ni-1967"
+  },
+  {
+   "id": "lps",
+   "name": "Land & Property Services",
+   "full": "Land & Property Services",
+   "short": "LPS",
+   "body": "lps",
+   "aliases": [
+    "LPS"
+   ]
+  },
+  {
+   "id": "lps-osni",
+   "name": "Land & Property Services (OSNI)",
+   "full": "Land & Property Services (OSNI)",
+   "short": "LPS (OSNI)",
+   "body": "lps-osni"
+  },
+  {
+   "id": "lgbc-ni",
+   "name": "Local Government Boundary Commission for Northern Ireland",
+   "full": "Local Government Boundary Commission for Northern Ireland",
+   "short": "LGBC NI",
+   "body": "lgbc-ni"
+  },
+  {
+   "id": "mid-ulster",
+   "name": "Mid Ulster District Council",
+   "full": "Mid Ulster District Council",
+   "short": "Mid Ulster Council",
+   "body": "mid-ulster"
+  },
+  {
+   "id": "monaghan",
+   "name": "Monaghan County Council",
+   "full": "Monaghan County Council",
+   "short": "Monaghan County Council",
+   "body": "monaghan"
+  },
+  {
+   "id": "niea",
+   "name": "NIEA",
+   "full": "Northern Ireland Environment Agency",
+   "short": "NIEA",
+   "body": "niea"
+  },
+  {
+   "id": "nisra",
+   "name": "NISRA",
+   "full": "Northern Ireland Statistics and Research Agency",
+   "short": "NISRA",
+   "body": "nisra"
+  },
+  {
+   "id": "niah",
+   "name": "National Inventory of Architectural Heritage (NIAH)",
+   "full": "National Inventory of Architectural Heritage",
+   "short": "NIAH",
+   "body": "niah"
+  },
+  {
+   "id": "npws",
+   "name": "National Parks & Wildlife Service (NPWS)",
+   "full": "National Parks & Wildlife Service",
+   "short": "NPWS",
+   "body": "npws"
+  },
+  {
+   "id": "newry-mourne-down",
+   "name": "Newry, Mourne and Down District Council",
+   "full": "Newry, Mourne and Down District Council",
+   "short": "Newry, Mourne and Down Council"
+  },
+  {
+   "id": "nio",
+   "name": "Northern Ireland Office",
+   "full": "Northern Ireland Office",
+   "short": "NIO",
+   "body": "nio"
+  },
+  {
+   "id": "osm",
+   "name": "OSM",
+   "full": "OpenStreetMap contributors",
+   "short": "OSM",
+   "body": "osm"
+  },
+  {
+   "id": "osni",
+   "name": "OSNI",
+   "full": "Ordnance Survey of Northern Ireland",
+   "short": "OSNI",
+   "body": "osni"
+  },
+  {
+   "id": "opw",
+   "name": "Office of Public Works",
+   "full": "Office of Public Works",
+   "short": "OPW",
+   "body": "opw"
+  },
+  {
+   "id": "open-data-ni",
+   "name": "Open Data NI",
+   "full": "Open Data NI",
+   "short": "Open Data NI",
+   "body": "open-data-ni"
+  },
+  {
+   "id": "opentopography",
+   "name": "OpenTopography.org",
+   "full": "OpenTopography",
+   "short": "OpenTopography",
+   "body": "opentopography"
+  },
+  {
+   "id": "ordnance-survey",
+   "name": "Ordnance Survey",
+   "full": "Ordnance Survey",
+   "short": "OS",
+   "body": "ordnance-survey"
+  },
+  {
+   "id": "paddy-matthews",
+   "name": "Paddy Matthews",
+   "full": "Paddy Matthews",
+   "short": "Matthews",
+   "body": "paddy-matthews"
+  },
+  {
+   "id": "parlconst",
+   "name": "Parlconst.org",
+   "full": "Parlconst.org",
+   "short": "Parlconst",
+   "body": "parlconst"
+  },
+  {
+   "id": "phelim-birch",
+   "name": "Phelim Birch",
+   "full": "Phelim Birch",
+   "short": "Birch",
+   "body": "phelim-birch"
+  },
+  {
+   "id": "psni",
+   "name": "Police Service of Northern Ireland",
+   "full": "Police Service of Northern Ireland",
+   "short": "PSNI",
+   "body": "psni"
+  },
+  {
+   "id": "scott-moore",
+   "name": "Scott Moore",
+   "full": "Scott Moore",
+   "short": "Moore",
+   "body": "scott-moore"
+  },
+  {
+   "id": "south-dublin",
+   "name": "South Dublin County Council",
+   "full": "South Dublin County Council",
+   "short": "South Dublin County Council",
+   "body": "south-dublin"
+  },
+  {
+   "id": "tailte",
+   "name": "Tailte Éireann",
+   "full": "Tailte Éireann",
+   "short": "TÉ",
+   "body": "tailte"
+  },
+  {
+   "id": "tellus",
+   "name": "Tellus",
+   "full": "Tellus",
+   "short": "Tellus",
+   "body": "tellus"
+  },
+  {
+   "id": "translink",
+   "name": "Translink",
+   "full": "Translink",
+   "short": "Translink",
+   "body": "translink"
+  },
+  {
+   "id": "tii",
+   "name": "Transport Infrastructure Ireland",
+   "full": "Transport Infrastructure Ireland",
+   "short": "TII",
+   "body": "tii"
+  },
+  {
+   "id": "tcd",
+   "name": "Trinity College Dublin",
+   "full": "Trinity College Dublin",
+   "short": "TCD",
+   "body": "tcd"
+  },
+  {
+   "id": "ulster-wildlife",
+   "name": "Ulster Wildlife",
+   "full": "Ulster Wildlife",
+   "short": "Ulster Wildlife",
+   "body": "ulster-wildlife"
+  },
+  {
+   "id": "xrysd",
+   "name": "XrysD",
+   "full": "XrysD",
+   "short": "XrysD",
+   "body": "xrysd"
+  },
+  {
+   "id": "data-gov-ie",
+   "name": "data.gov.ie",
+   "full": "data.gov.ie",
+   "short": "data.gov.ie",
+   "body": "data-gov-ie"
+  }
+ ]
+}

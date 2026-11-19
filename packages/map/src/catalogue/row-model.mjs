@@ -128,3 +128,57 @@ export function rowCitation(s, url, accessed) {
   const years = s.years ? (s.years[0] === s.years[1] ? String(s.years[0]) : `${s.years[0]}–${s.years[1]}`) : '';
   return `${who}. ${s.name}${years && !s.name.includes(years) ? ` (${years})` : ''} [map series]. Civgraph, ${url} (accessed ${accessed}).`;
 }
+
+/** A provider of the catalogue (the providers registry's browser slice): id, full name, short name, the strings it stands for. @typedef {[string, string, string, string[]]} ProviderEntry */
+
+/**
+ * The provider registry as lookups: a provider string's entry id, and an id's entry.
+ * @param {ProviderEntry[]} entries
+ */
+export function providerIndex(entries) {
+  /** @type {Map<string, string>} */
+  const idOf = new Map();
+  /** @type {Map<string, { id: string, full: string, short: string }>} */
+  const byId = new Map();
+  for (const [id, full, short, names] of entries) {
+    byId.set(id, { id, full, short });
+    for (const n of names) idOf.set(n, id);
+  }
+  return { idOf, byId };
+}
+
+/**
+ * The providers a row credits, as registry ids: the row's own and its maps' (council maps
+ * included). A string the registry does not know stands for itself.
+ * @param {CatalogueRow} s
+ * @param {RecordOf} rec
+ * @param {Map<string, string>} idOf
+ * @returns {Set<string>}
+ */
+export function rowProviderIds(s, rec, idOf) {
+  /** @type {Set<string>} */
+  const out = new Set();
+  const add = (/** @type {string[] | undefined} */ names) => { for (const n of names || []) out.add(idOf.get(n) || n); };
+  add(/** @type {string[] | undefined} */ (s.provider));
+  for (const m of [...s.members, ...(s.local || [])]) add(rec(m.id)?.provider);
+  return out;
+}
+
+/**
+ * How many of the rows each provider is credited on.
+ * @param {Iterable<Set<string>>} rowsProviders  each row's provider ids
+ * @returns {Map<string, number>}
+ */
+export function providerCounts(rowsProviders) {
+  /** @type {Map<string, number>} */
+  const counts = new Map();
+  for (const ids of rowsProviders) for (const id of ids) counts.set(id, (counts.get(id) || 0) + 1);
+  return counts;
+}
+
+/**
+ * Whether a row passes the provider filter: no provider chosen, or one of the chosen is credited.
+ * @param {Set<string>} ids  the row's provider ids
+ * @param {string[] | undefined} chosen
+ */
+export const passesProviders = (ids, chosen) => !chosen?.length || chosen.some((id) => ids.has(id));

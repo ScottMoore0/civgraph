@@ -38,6 +38,8 @@
  *                        filter's labels); both served pages reach it at /pkg/ (packages/served.json)
  *   catalogue-kinds.json packages/map/src/catalogue/index.js (SECTIONS) and util.js (KINDS): the kinds of
  *                        map series, their sections and filter labels
+ *   providers.json       packages/map/src/catalogue/util.js (shortProvider) and index.js (the provider
+ *                        filter): each provider's id, full and short names and the strings it stands for
  *   source-kinds.json    site/browse/browse.js (citationHtml: the label after a contest source's title), at
  *                        /pkg/ through source-kind-labels.mjs (packages/served.json)
  *   election-groups.json packages/map/src/catalogue/view-elections.js (the shelves, with the elections
@@ -56,6 +58,7 @@ import { browserElectionTypes } from '../election-types.mjs';
 import { browserColours } from '../colours.mjs';
 import { browserCatalogueKinds } from '../catalogue-kinds.mjs';
 import { browserSourceKinds } from '../source-kinds.mjs';
+import { browserProviders } from '../providers.mjs';
 
 /** @typedef {import('../statuses.mjs').StatusMachineFields} StatusMachineFields */
 
@@ -149,6 +152,7 @@ export function browserSlices(root = REPO_ROOT) {
     },
     'election-types.json': browserElectionTypes(electionTypes),
     'catalogue-kinds.json': browserCatalogueKinds(loadRegistry('catalogue-kinds', { root })),
+    'providers.json': browserProviders(loadRegistry('providers', { root })),
     'source-kinds.json': browserSourceKinds(loadRegistry('source-kinds', { root }))
   };
 }

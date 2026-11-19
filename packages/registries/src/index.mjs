@@ -21,6 +21,7 @@
  * | languages | data/registries/languages.json                 | packages/registries/src/languages.mjs  |
  * | catalogue-kinds | data/registries/catalogue-kinds.json     | packages/registries/src/catalogue-kinds.mjs |
  * | source-kinds | data/registries/source-kinds.json           | packages/registries/src/source-kinds.mjs |
+ * | providers | data/registries/providers.json                 | packages/registries/src/providers.mjs  |
  *
  * Node only (reads files). The views modules are pure and take the loaded value, so a Worker or
  * the browser can use them over a generated copy. `node packages/registries/src/check.mjs` validates them all.
@@ -38,6 +39,7 @@ import { checkElectionBodies } from './election-bodies.mjs';
 import { checkElectionTypes } from './election-types.mjs';
 import { checkColours } from './colours.mjs';
 import { checkLanguages } from './languages.mjs';
+import { checkProviders } from './providers.mjs';
 import { checkCatalogueKinds } from './catalogue-kinds.mjs';
 import { checkSourceKinds } from './source-kinds.mjs';
 
@@ -55,6 +57,7 @@ export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url
 /** @typedef {import('@civgraph/types').LanguagesRegistry} LanguagesRegistry */
 /** @typedef {import('@civgraph/types').CatalogueKindsRegistry} CatalogueKindsRegistry */
 /** @typedef {import('@civgraph/types').SourceKindsRegistry} SourceKindsRegistry */
+/** @typedef {import('@civgraph/types').ProvidersRegistry} ProvidersRegistry */
 /** @typedef {import('./validate.mjs').Schema} Schema */
 
 /**
@@ -70,7 +73,8 @@ export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url
  *   colours: ColoursRegistry,
  *   languages: LanguagesRegistry,
  *   'catalogue-kinds': CatalogueKindsRegistry,
- *   'source-kinds': SourceKindsRegistry
+ *   'source-kinds': SourceKindsRegistry,
+ *   providers: ProvidersRegistry
  * }} Registries
  */
 /** @typedef {keyof Registries} RegistryName */
@@ -143,6 +147,11 @@ export const REGISTRIES = {
     schema: 'packages/registries/schemas/source-kinds.schema.json',
     load: (root) => readJson(root, 'data/registries/source-kinds.json'),
     check: (data) => checkSourceKinds(/** @type {SourceKindsRegistry} */ (data))
+  },
+  providers: {
+    schema: 'packages/registries/schemas/providers.schema.json',
+    load: (root) => readJson(root, 'data/registries/providers.json'),
+    check: (data) => checkProviders(/** @type {ProvidersRegistry} */ (data))
   }
 };
 

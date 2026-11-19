@@ -284,6 +284,22 @@ export const CATALOGUE_CSS = `
 .cn-btn:hover, .cn-btn[aria-expanded="true"] { background: var(--cn-hover); }
 .cn-btn--primary { background: var(--cn-grad); border-color: transparent; color: #fff; }
 .cn-btn--primary:hover { filter: brightness(1.06); background: var(--cn-grad); }
+/* The Provider filter: a disclosure holding the section's providers as checkboxes with counts. */
+.cn-prov { flex-wrap: nowrap; align-items: flex-start; }
+.cn-prov__box { position: relative; min-width: 0; flex: 1; }
+.cn-prov__summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; max-width: 100%; }
+.cn-prov__summary::-webkit-details-marker { display: none; }
+.cn-prov__summary > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.cn-prov__box[open] .cn-prov__chev { transform: rotate(180deg); }
+.cn-prov__panel { margin-top: 6px; padding: 6px; border: 1px solid var(--cn-line); border-radius: 10px; background: var(--cn-surface); display: grid; gap: 4px; }
+.cn-prov__list { list-style: none; margin: 0; padding: 0; max-height: 260px; overflow-y: auto; display: grid; gap: 1px; }
+.cn-prov__item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 4px 6px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+.cn-prov__item:hover { background: var(--cn-hover); }
+.cn-prov__item input { margin: 0; accent-color: var(--cn-link); }
+.cn-prov__name { overflow-wrap: anywhere; }
+.cn-prov__item--none { color: var(--cn-muted); }
+.cn-prov__panel > .cn-link { justify-self: start; }
+
 /* A row's maps as a dated list (Phelim Birch's notes, 19 Nov 2026: the slider under the map is the
    timeline): the date, the map's chip, its tools, and the button that opens its facts beneath it. */
 .cn-dlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; }

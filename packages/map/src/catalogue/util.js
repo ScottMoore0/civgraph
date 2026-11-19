@@ -1,5 +1,7 @@
 /** Small helpers shared by the rebuilt catalogue's views. */
 import catalogueKinds from '../../../registries/src/browser/catalogue-kinds.mjs';
+import providerRegistry from '../../../registries/src/browser/providers.mjs';
+import { providerIndex } from './row-model.mjs';
 import { formatDisplayDate } from '../../../core/src/date-format.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 import { MAP_COLOURS } from '../colours.mjs';
@@ -94,21 +96,15 @@ export function inkOn(hex) {
  * row's tooltip and the map's details.
  * @type {Record<string, string>}
  */
-export const PROVIDER_SHORT = {
-  'Paddy Matthews': 'Matthews',
-  'Phelim Birch': 'Birch',
-  'Tailte Éireann': 'TÉ',
-  'Scott Moore': 'Moore',
-  'Northern Ireland Office': 'NIO',
-  'Local Government Boundary Commission for Northern Ireland': 'LGBC NI',
-  'Land & Property Services': 'LPS',
-  'Land & Property Services (OSNI)': 'LPS (OSNI)',
-  'Department of Health (NI)': 'DoH NI',
-  'Department of Health': 'DoH NI',
-  'Boundary Commission for Northern Ireland': 'BCNI',
+/** The catalogue's providers, from the providers registry (data/registries/providers.json): a
+ * provider string's entry, and each entry's full and short names. */
+export const PROVIDERS = providerIndex(/** @type {import('./row-model.mjs').ProviderEntry[]} */ (providerRegistry.providers));
+/** A provider's short name ("TÉ", "Birch"), as a row's credit line shows it: the registry's, else the name itself.
+ * @param {string | null | undefined} name */
+export const shortProvider = (name) => {
+  const id = PROVIDERS.idOf.get(String(name || '').trim());
+  return (id && PROVIDERS.byId.get(id)?.short) || name;
 };
-/** @param {string | null | undefined} name */
-export const shortProvider = (name) => PROVIDER_SHORT[String(name || '').trim()] || name;
 
 /** Short names for the jurisdictions, as the filters and rows show them. @type {Record<string, string>} */
 export const SCOPE_SHORT = { 'Northern Ireland': 'NI', 'Republic of Ireland': 'ROI', Ireland: 'All-island' };
