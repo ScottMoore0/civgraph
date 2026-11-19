@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T16:55:11.323Z",
+  "generatedAt": "2026-11-19T22:06:54.436Z",
   "totals": {
     "warnings": 0,
-    "errors": 0,
+    "errors": 5,
     "notes": 3
   },
   "notes": [
@@ -12,5 +12,11 @@
     "roi-counties-2011 quarantine has been superseded by the resolved PMTiles/CDN layer built from the valid FlatGeobuf source."
   ],
   "warnings": [],
-  "errors": []
+  "errors": [
+    "plu-1881-vector: PMTiles layer missing from CDN manifest",
+    "plu-1871-vector: PMTiles layer missing from CDN manifest",
+    "CDN range report verified 954/956 active PMTiles layers",
+    "render/pmtiles/generated/plu-1871-vector.pmtiles: local PMTiles archive is not represented in CDN manifest",
+    "render/pmtiles/generated/plu-1881-vector.pmtiles: local PMTiles archive is not represented in CDN manifest"
+  ]
 }
