@@ -20,7 +20,7 @@
     "census/nisra-publication-records": { "proved": "rf9-followups, from the NISRA publications harvest of 13 Nov 2026 (crawl-nisra-publications.mjs, 167 GETs, 3,293 publications; kept outside the repository); 1 file identical (3,003 records)" },
     "census/opendatani-records": { "proved": "odni-harvest, from the Open Data NI catalogue harvest of 13 Nov 2026 (harvest-opendatani-catalogue.mjs, 2 package_search GETs, 1,124 datasets; kept outside the repository); 1 file identical (50 records)" },
     "census/nisra-files-enrich": { "proved": "pubs-followups, from the NISRA publication-files crawl of 13 Nov 2026 (crawl-nisra-publication-files.mjs, 73 GETs for the 73 publications added on nisra-pubs; kept outside the repository); 1 file identical (sources-012.json)" },
-    "census/opendatani-ia-enrich": { "blocked": "needs the Internet Archive mirror's mirrored.json, the network mirror step's output" },
+    "census/opendatani-ia-enrich": { "proved": "w19-refactor-tail, from the nine per-item mirror manifests rebuilt from the gate's own Internet Archive links (2,055 Open Data NI files, each found in its item's file list: archive.org metadata, 9 GETs) with those links taken out of the working tree's gate first; 2 shards identical (2,061 links added)" },
     "datagovie/catalogue-records": { "proved": "odni-harvest, from the data.gov.ie catalogue harvest of 13 Nov 2026 (harvest-datagovie-catalogue.mjs, 23 package_search GETs, 22,963 datasets; kept outside the repository); 1 file identical (341 records)" },
     "dobih/assets": { "proved": "rf-ingest (79 files)" },
     "facts/elliott-flackes": { "proved": "rf9-ingest, from a copy of the extraction (elliott-flackes-1999/extract-full/facts.jsonl, E:); 13 files identical" },
