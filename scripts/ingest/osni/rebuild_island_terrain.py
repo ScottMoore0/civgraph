@@ -12,9 +12,12 @@ the midlands, the south-west and the north-west -- and parts of the pyramid came
     pixel and every good GLO-30 pixel is untouched; only an empty pixel (0 m) where GLO-30
     has land (> 1 m) is filled, from GLO-30 resampled bilinearly into the tile, and so is a
     pixel within two of an empty one that sits below GLO-30 (the July resampling blended the
-    land beside each hole with its 0 m: see island_terrain_fill.py);
-  - a tile is rewritten only when at least FILL_MIN of it was filled, so the two models'
-    slightly different coastlines do not rewrite every coastal tile;
+    land beside each hole with its 0 m: see island_terrain_fill.py), and so is every land pixel
+    in the band along a filled cell's border (border_band: that blend is up to 17 px wide at
+    zoom 15; the band stops at the NI LiDAR rectangle);
+  - a tile is rewritten only when at least FILL_MIN of it was filled outside that band, so the two models'
+    slightly different coastlines do not rewrite every coastal tile, or when the border band
+    raised a pixel by more than TRENCH_MIN (island_terrain_fill.rewrite);
   - hillshade is GDAL's multidirectional one (altitude 45 deg, z-factor 1.2 -- what the July
     tiles match; until 19 Nov 2026 this used Horn 315/45, z 1, which they do not), grey and
     opaque over land, and fills only where the existing hillshade is transparent; above zoom 11
@@ -43,11 +46,10 @@ from rasterio.transform import from_bounds
 from rasterio.warp import reproject, transform_bounds
 from rasterio.windows import from_bounds as window_from_bounds
 
-from island_terrain_fill import fill_mask, hillshade as multidirectional, near
+from island_terrain_fill import border_band, fill_mask, hillshade as multidirectional, near, rewrite
 
 BOUNDS = (-10.9, 51.2, -5.2, 55.7)          # the layer's own bounds: west, south, east, north
 CDN = 'https://data.civgraph.net/data/maps/physical/ireland-terrain-3d'
-FILL_MIN = 0.005                            # share of a tile's pixels that must be empty land
 WORLD = 20037508.342789244
 SIZE = 256
 
@@ -139,9 +141,10 @@ def do_tile(task):
         h_old = np.zeros((SIZE, SIZE))
     else:
         h_old = terrarium_decode(old)
-    filled = fill_mask(h_old, centre)
+    band = border_band(z, x, y)
+    filled = fill_mask(h_old, centre, band=band)
     share = float(filled.mean())
-    if share < FILL_MIN:
+    if not rewrite(filled, h_old, centre, band):
         return (z, x, y, share, False)
     merged = np.where(filled, centre, h_old)
     write('dem', z, x, y, terrarium_encode(merged), 'RGB')
