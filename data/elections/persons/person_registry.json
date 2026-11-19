@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 161991,
+ "idHighWater": 162226,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -58,7 +58,7 @@
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
   "crossSystemMerges": 1061,
-  "sameNameLeftSplit": 2899
+  "sameNameLeftSplit": 2900
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -9936,7 +9936,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161931
+    162166
    ]
   },
   {
@@ -12335,7 +12335,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161977
+    162212
    ]
   },
   {
@@ -25225,7 +25225,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161979
+    162214
    ]
   },
   {
@@ -43163,7 +43163,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161980
+    162215
    ]
   },
   {
@@ -60485,7 +60485,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161947
+    162182
    ]
   },
   {
@@ -62433,10 +62433,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161886,
-    161905,
-    161950,
-    161951
+    162121,
+    162140,
+    162185,
+    162186
    ]
   },
   {
@@ -62748,10 +62748,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161915,
-    161916,
-    161933,
-    161985
+    162150,
+    162151,
+    162168,
+    162220
    ]
   },
   {
@@ -63449,10 +63449,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161892,
-    161893,
-    161959,
-    161960
+    162127,
+    162128,
+    162194,
+    162195
    ]
   },
   {
@@ -63489,10 +63489,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161894,
-    161910,
-    161922,
-    161961
+    162129,
+    162145,
+    162157,
+    162196
    ]
   },
   {
@@ -63966,8 +63966,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161899,
-    161978
+    162134,
+    162213
    ]
   },
   {
@@ -64128,11 +64128,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161900,
-    161917,
-    161987,
-    161988,
-    161989
+    162135,
+    162152,
+    162222,
+    162223,
+    162224
    ]
   },
   {
@@ -64926,10 +64926,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161877,
-    161884,
-    161942,
-    161943
+    162112,
+    162119,
+    162177,
+    162178
    ]
   },
   {
@@ -65849,12 +65849,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161914,
-    161932,
-    161981,
-    161982,
-    161983,
-    161984
+    162149,
+    162167,
+    162216,
+    162217,
+    162218,
+    162219
    ]
   },
   {
@@ -70283,9 +70283,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161878,
-    161879,
-    161907
+    162113,
+    162114,
+    162142
    ]
   },
   {
@@ -70323,11 +70323,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161889,
-    161908,
-    161909,
-    161921,
-    161956
+    162124,
+    162143,
+    162144,
+    162156,
+    162191
    ]
   },
   {
@@ -70364,10 +70364,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161875,
-    161880,
-    161968,
-    161969
+    162110,
+    162115,
+    162203,
+    162204
    ]
   },
   {
@@ -72521,11 +72521,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161876,
-    161934,
-    161935,
-    161936,
-    161990
+    162111,
+    162169,
+    162170,
+    162171,
+    162225
    ]
   },
   {
@@ -75722,12 +75722,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161881,
-    161911,
-    161927,
-    161928,
-    161970,
-    161971
+    162116,
+    162146,
+    162162,
+    162163,
+    162205,
+    162206
    ]
   },
   {
@@ -75765,11 +75765,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161882,
-    161897,
-    161912,
-    161972,
-    161973
+    162117,
+    162132,
+    162147,
+    162207,
+    162208
    ]
   },
   {
@@ -75809,13 +75809,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161898,
-    161913,
-    161929,
-    161930,
-    161974,
-    161975,
-    161976
+    162133,
+    162148,
+    162164,
+    162165,
+    162209,
+    162210,
+    162211
    ]
   },
   {
@@ -83746,12 +83746,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161885,
-    161902,
-    161903,
-    161904,
-    161945,
-    161946
+    162120,
+    162137,
+    162138,
+    162139,
+    162180,
+    162181
    ]
   },
   {
@@ -83917,11 +83917,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161887,
-    161888,
-    161906,
-    161954,
-    161955
+    162122,
+    162123,
+    162141,
+    162189,
+    162190
    ]
   },
   {
@@ -83957,9 +83957,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161890,
-    161957,
-    161958
+    162125,
+    162192,
+    162193
    ]
   },
   {
@@ -83998,12 +83998,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161895,
-    161896,
-    161924,
-    161925,
-    161926,
-    161967
+    162130,
+    162131,
+    162159,
+    162160,
+    162161,
+    162202
    ]
   },
   {
@@ -121595,10 +121595,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161938,
-    161939,
-    161940,
-    161941
+    162173,
+    162174,
+    162175,
+    162176
    ]
   },
   {
@@ -121633,8 +121633,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161919,
-    161944
+    162154,
+    162179
    ]
   },
   {
@@ -126927,10 +126927,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161963,
-    161964,
-    161965,
-    161966
+    162198,
+    162199,
+    162200,
+    162201
    ]
   },
   {
@@ -147262,7 +147262,7 @@
    "provenance": "keyed on the source's own candidate id (ei:3485)",
    "provisional": true,
    "mergedFrom": [
-    161901
+    162136
    ]
   },
   {
@@ -167281,7 +167281,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161949
+    162184
    ]
   },
   {
@@ -170856,7 +170856,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161948
+    162183
    ]
   },
   {
@@ -207640,8 +207640,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161952,
-    161953
+    162187,
+    162188
    ]
   },
   {
@@ -207675,7 +207675,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161962
+    162197
    ]
   },
   {
@@ -270334,7 +270334,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161986
+    162221
    ]
   },
   {
@@ -328455,7 +328455,7 @@
    "provenance": "keyed on the source's own candidate id (ie:6276)",
    "provisional": true,
    "mergedFrom": [
-    161918
+    162153
    ]
   },
   {
@@ -363293,7 +363293,7 @@
    "provisional": true,
    "nameVariants": true,
    "mergedFrom": [
-    161883
+    162118
    ]
   },
   {
@@ -511772,7 +511772,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    161891
+    162126
    ]
   },
   {
@@ -513125,7 +513125,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161937
+    162172
    ]
   },
   {
@@ -515288,7 +515288,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    161920
+    162155
    ]
   },
   {
@@ -563445,7 +563445,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    161923
+    162158
    ]
   },
   {
@@ -578048,7 +578048,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    161991
+    162226
    ]
   },
   {
@@ -900869,19 +900869,22 @@
    "personId": 144007,
    "displayName": "Samuel Millar",
    "aliases": [
-    "Samuel Millar"
+    "Samuel Millar",
+    "S. Millar"
    ],
    "matchKeys": [
+    "s millar",
     "samuel millar"
    ],
    "sourceIds": [
+    "S. Millar|",
     "Samuel Millar|",
     "Samuel Millar|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 11,
-   "contests": 11,
+   "candidacies": 13,
+   "contests": 13,
    "firstYear": 1946,
    "lastYear": 1967,
    "bodies": [
@@ -900894,6 +900897,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -900987,23 +900991,26 @@
    "aliases": [
     "William James Hyndman",
     "William J. Hyndman",
-    "Wm. J. Hyndman"
+    "Wm. J. Hyndman",
+    "W. J. Hyndman"
    ],
    "matchKeys": [
+    "w j hyndman",
     "william j hyndman",
     "william james hyndman",
     "wm j hyndman"
    ],
    "sourceIds": [
+    "W. J. Hyndman|",
     "William J. Hyndman|",
     "William James Hyndman|",
     "Wm. J. Hyndman|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 11,
-   "contests": 11,
-   "firstYear": 1939,
+   "candidacies": 14,
+   "contests": 14,
+   "firstYear": 1933,
    "lastYear": 1961,
    "bodies": [
     "londonderry-county-council",
@@ -918752,9 +918759,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1964,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
    "lastYear": 1967,
    "bodies": [
     "londonderry-county-council"
@@ -919638,35 +919645,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p144722",
-   "personId": 144722,
-   "displayName": "S. Millar",
-   "aliases": [
-    "S. Millar"
-   ],
-   "matchKeys": [
-    "s millar"
-   ],
-   "sourceIds": [
-    "S. Millar|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1949,
-   "lastYear": 1955,
-   "bodies": [
-    "cookstown-rural-district-council",
-    "tyrone-county-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144723",
@@ -921542,35 +921520,6 @@
    "bodies": [
     "irvinestown-rural-district-council",
     "lisnaskea-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p144798",
-   "personId": 144798,
-   "displayName": "W. J. Hyndman",
-   "aliases": [
-    "W. J. Hyndman"
-   ],
-   "matchKeys": [
-    "w j hyndman"
-   ],
-   "sourceIds": [
-    "W. J. Hyndman|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1933,
-   "lastYear": 1955,
-   "bodies": [
-    "londonderry-county-council",
-    "londonderry-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -923718,19 +923667,23 @@
    "personId": 144883,
    "displayName": "B. M'Kenna",
    "aliases": [
+    "Bernard M'Kenna",
     "B. M'Kenna"
    ],
    "matchKeys": [
-    "b m kenna"
+    "b m kenna",
+    "bernard m kenna"
    ],
    "sourceIds": [
-    "B. M'Kenna|Nationalist Party"
+    "B. M'Kenna|Nationalist Party",
+    "Bernard M'Kenna|",
+    "Bernard M'Kenna|Nationalist Party"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1927,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1924,
    "lastYear": 1933,
    "bodies": [
     "magherafelt-rural-district-council"
@@ -923740,34 +923693,11 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p144886",
-   "personId": 144886,
-   "displayName": "Bernard M'Kenna",
-   "aliases": [
-    "Bernard M'Kenna"
-   ],
-   "matchKeys": [
-    "bernard m kenna"
-   ],
-   "sourceIds": [
-    "Bernard M'Kenna|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1924,
-   "lastYear": 1924,
-   "bodies": [
-    "magherafelt-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    144886,
+    162055
+   ]
   },
   {
    "id": "p144887",
@@ -926301,10 +926231,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1924,
-   "lastYear": 1936,
+   "lastYear": 1939,
    "bodies": [
     "limavady-rural-district-council"
    ],
@@ -931703,27 +931633,34 @@
    "personId": 145229,
    "displayName": "A. Cameron",
    "aliases": [
+    "Archibald Cameron",
     "A. Cameron"
    ],
    "matchKeys": [
-    "a cameron"
+    "a cameron",
+    "archibald cameron"
    ],
    "sourceIds": [
-    "A. Cameron|"
+    "A. Cameron|",
+    "Archibald Cameron|",
+    "Archibald Cameron|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1939,
    "lastYear": 1949,
    "bodies": [
     "cookstown-rural-district-council"
    ],
-   "parties": [],
+   "parties": [
+    "UUP"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -934634,37 +934571,6 @@
    "provisional": true
   },
   {
-   "id": "p145361",
-   "personId": 145361,
-   "displayName": "Archibald Cameron",
-   "aliases": [
-    "Archibald Cameron"
-   ],
-   "matchKeys": [
-    "archibald cameron"
-   ],
-   "sourceIds": [
-    "Archibald Cameron|",
-    "Archibald Cameron|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1939,
-   "lastYear": 1946,
-   "bodies": [
-    "cookstown-rural-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p145363",
    "personId": 145363,
    "displayName": "Archibald Johnston",
@@ -935288,35 +935194,6 @@
     "enniskillen-rural-district-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p145388",
-   "personId": 145388,
-   "displayName": "Bernard Kenna",
-   "aliases": [
-    "Bernard Kenna"
-   ],
-   "matchKeys": [
-    "bernard kenna"
-   ],
-   "sourceIds": [
-    "Bernard Kenna|Nationalist Party"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1930,
-   "lastYear": 1930,
-   "bodies": [
-    "magherafelt-rural-district-council"
-   ],
-   "parties": [
-    "Nationalist Party"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -939041,33 +938918,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p145557",
-   "personId": 145557,
-   "displayName": "E. Mackler",
-   "aliases": [
-    "E. Mackler"
-   ],
-   "matchKeys": [
-    "e mackler"
-   ],
-   "sourceIds": [
-    "E. Mackler|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1927,
-   "lastYear": 1927,
-   "bodies": [
-    "lisburn-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p145558",
@@ -951227,33 +951077,6 @@
    "lastYear": 1961,
    "bodies": [
     "ballymena-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p146085",
-   "personId": 146085,
-   "displayName": "James C. Fulton",
-   "aliases": [
-    "James C. Fulton"
-   ],
-   "matchKeys": [
-    "james c fulton"
-   ],
-   "sourceIds": [
-    "James C. Fulton|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
-   "lastYear": 1939,
-   "bodies": [
-    "limavady-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -969100,10 +968923,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1955,
-   "lastYear": 1955,
+   "lastYear": 1964,
    "bodies": [
     "londonderry-county-council"
    ],
@@ -974052,20 +973875,23 @@
    "personId": 147054,
    "displayName": "T. Curry",
    "aliases": [
+    "T. A. Currie",
     "T. Curry"
    ],
    "matchKeys": [
+    "t a currie",
     "t curry"
    ],
    "sourceIds": [
+    "T. A. Currie|",
     "T. Curry|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "dungannon-rural-district-council"
    ],
@@ -974074,7 +973900,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p147055",
@@ -1008932,19 +1008759,22 @@
    "personId": 148940,
    "displayName": "J. L. Sterling",
    "aliases": [
-    "J. L. Sterling"
+    "J. L. Sterling",
+    "J. L. Stirling"
    ],
    "matchKeys": [
-    "j l sterling"
+    "j l sterling",
+    "j l stirling"
    ],
    "sourceIds": [
-    "J. L. Sterling|"
+    "J. L. Sterling|",
+    "J. L. Stirling|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1946,
    "lastYear": 1949,
    "bodies": [
     "ballymena-borough-council"
@@ -1008952,7 +1008782,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p148941",
@@ -1009063,33 +1008894,6 @@
    "parties": [
     "UUP"
    ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p148945",
-   "personId": 148945,
-   "displayName": "J. Woodside",
-   "aliases": [
-    "J. Woodside"
-   ],
-   "matchKeys": [
-    "j woodside"
-   ],
-   "sourceIds": [
-    "J. Woodside|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
-   "lastYear": 1949,
-   "bodies": [
-    "ballymena-borough-council"
-   ],
-   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -1026728,33 +1026532,6 @@
    "provisional": true
   },
   {
-   "id": "p150838",
-   "personId": 150838,
-   "displayName": "T. A. Currie",
-   "aliases": [
-    "T. A. Currie"
-   ],
-   "matchKeys": [
-    "t a currie"
-   ],
-   "sourceIds": [
-    "T. A. Currie|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
-   "lastYear": 1949,
-   "bodies": [
-    "dungannon-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p150839",
    "personId": 150839,
    "displayName": "T. J. Cuddy",
@@ -1027425,10 +1027202,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1927,
    "bodies": [
     "lisburn-rural-district-council"
    ],
@@ -1050168,33 +1049945,6 @@
    "provisional": true
   },
   {
-   "id": "p154835",
-   "personId": 154835,
-   "displayName": "J. L. Stirling",
-   "aliases": [
-    "J. L. Stirling"
-   ],
-   "matchKeys": [
-    "j l stirling"
-   ],
-   "sourceIds": [
-    "J. L. Stirling|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1946,
-   "lastYear": 1946,
-   "bodies": [
-    "ballymena-borough-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p154836",
    "personId": 154836,
    "displayName": "J. M. Cumins",
@@ -1050236,10 +1049986,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "ballymena-borough-council"
    ],
@@ -1126826,9 +1126576,9 @@
   }
  ],
  "corrections": {
-  "mergedIds": 117,
+  "mergedIds": 119,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 7,
+   "WIKIPEDIA-BIOGRAPHY": 9,
    "IE-EI-CROSSWALK": 3,
    "FORUM-DUPLICATE": 113,
    "LGR-2014": 2,
