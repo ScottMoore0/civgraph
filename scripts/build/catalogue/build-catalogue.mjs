@@ -33,6 +33,7 @@ import { cutNote } from '@civgraph/core/text-cut.mjs';
 import { combinedDerivedFromLines, derivedFromLines } from '@civgraph/core/credits.mjs';
 import { openSqliteHandle } from '@civgraph/storage/node';
 import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '@civgraph/loader/paths.mjs';
+import { altNames, catalogueIrishNames, oldIdsByRow } from './alt-names.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '@civgraph/map/ni-local-groups.mjs';
 
 /** @typedef {import('./records.mjs').PartLink} PartLink */
@@ -83,7 +84,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * @typedef {{
  *   id: string, slug: string, name: string, subject: string, shelf: string | undefined, scope: string, arrangement: string,
  *   kind: string, members: Member[], todo?: Labelled[], local?: (Labelled & { of?: string })[], years?: number[],
- *   thumb?: string, color?: string, provider?: string[], derivedFrom?: string[], status?: Record<string, number>, aliases?: string[],
+ *   thumb?: string, color?: string, provider?: string[], derivedFrom?: string[], status?: Record<string, number>, aliases?: string[], alt?: string[],
  *   description?: string, about?: unknown
  * }} SeriesOut
  */
@@ -125,6 +126,14 @@ const NOTE_LIMIT = 1200;
 
 /** @type {CatalogueSource} */
 const source = read('data/catalogue/catalogue.source.json');
+// A row's other names, which search indexes (alt-names.mjs): Irish names, and the names of the
+// rows merged into it or renamed to it.
+const ALT = {
+  irishNames: catalogueIrishNames(read('site/assets/i18n/en.json').strings || {}, read('site/assets/i18n/ga.json').strings || {}),
+  overlay: /** @type {Record<string, { ga?: string }>} */ (read('data/i18n/map-names.overlay.json').maps || {}),
+  oldIds: oldIdsByRow(source.seriesRedirects || {}),
+  subjectIds: source.subjects.map((/** @type {{ id: string }} */ s) => s.id),
+};
 // What a row or an election is, in a few sentences with their links (Phelim Birch's
 // descriptions document): shown when it is opened, on a map's Details page and on Browse.
 /** @type {{ rows?: Record<string, unknown>, elections?: Record<string, unknown> }} */
@@ -508,6 +517,8 @@ for (const s of source.series) {
   if (!recs.length) entry.status = { placeholder: todoRecs.length };
   else if (statusCounts.ready !== recs.length) entry.status = statusCounts;
   if (s.aliases?.length) entry.aliases = s.aliases;
+  const alt = altNames(entry, { irishNames: ALT.irishNames, mapIrish: (id) => ALT.overlay[id]?.ga, oldIds: ALT.oldIds.get(s.id) || [], subjectIds: ALT.subjectIds });
+  if (alt.length) entry.alt = alt;
   if (s.description) entry.description = s.description;
   if (descriptions.rows?.[s.id]) entry.about = descriptions.rows[s.id];
   seriesOut.push(entry);

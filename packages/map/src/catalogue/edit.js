@@ -97,7 +97,6 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
     description: asText(record.description),
     date: asText(record.date),
     licence: asText(record.licence || record.license),
-    keywords: (record.keywords || []).join(', '),
     references: JSON.stringify(refs),
   };
   /** @param {EditRef} [r] */
@@ -119,7 +118,6 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
       <label>Date <input type="text" name="date" value="${esc(baseline.date)}" placeholder="YYYY or YYYY-MM-DD"></label>
       <label>Licence <input type="text" name="licence" value="${esc(baseline.licence)}"></label>
     </div>
-    <label>Keywords <input type="text" name="keywords" value="${esc(baseline.keywords)}" placeholder="comma, separated"></label>
     <fieldset class="cn-edit__refs"><legend>References</legend>
       <div data-refs>${refs.map(refRow).join('')}</div>
       <button type="button" class="cn-btn" data-ref-add>${icon('plus')}<span>Add a reference</span></button>
@@ -155,8 +153,8 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
       const v = String(fd.get(f) || '').trim();
       if (v !== baseline[f]) patch[f] = v === '' ? null : v;
     }
-    const kw = String(fd.get('keywords') || '').split(',').map((s) => s.trim()).filter(Boolean);
-    if (kw.join(', ') !== baseline.keywords) patch.keywords = kw.length ? kw : null;
+    // Keywords are no longer offered (Phelim Birch's notes, 19 Nov 2026): search uses the maps'
+    // generated other names; the field stays in the data and the review queue still accepts it.
     const nextRefs = [...refsEl.querySelectorAll('.cn-edit__ref')].map((row) => {
       /** @param {string} k each row has its three inputs */
       const get = (k) => /** @type {HTMLInputElement} */ (row.querySelector(`[data-ref="${k}"]`)).value.trim();

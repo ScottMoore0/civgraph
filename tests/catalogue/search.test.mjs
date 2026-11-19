@@ -159,3 +159,18 @@ test('a query that names a body says so, so the election is listed first', () =>
   }
   for (const q of ['general election 2020', 'wards', 'census 1911']) assert.ok(!search.query(q).namesBody, q);
 });
+
+test('search finds a row by its Irish name and by a name it had before, not by keywords (Phelim Birch\'s notes, 19 Nov 2026)', () => {
+  const counties = catalogue.series.find((s) => s.id === 'counties-counties');
+  assert.ok(counties.alt?.includes('Contaetha'), 'the row carries its Irish name');
+  assert.ok(search.query('contaetha').series.some((h) => h.id === 'counties-counties'), 'the Irish name finds the row');
+  // A row merged into another is found under its old name.
+  const merged = catalogue.series.find((s) => (s.alt || []).includes('defence heritage sites'));
+  assert.ok(merged, 'a merged row keeps its old name as another name');
+  assert.ok(search.query('defence heritage').series.some((h) => h.id === merged.id));
+  // A word only a map's keywords hold no longer finds anything by itself.
+  const names = (s) => normalise([s.name, ...(s.aliases || []), ...(s.alt || []), s.provider?.join(' '), ...s.members.map((m) => `${m.label} ${catalogue.maps[m.id]?.name || ''}`)].join(' '));
+  const keywordOnly = catalogue.series.flatMap((s) => s.members.flatMap((m) => (catalogue.maps[m.id]?.keywords || []).map((k) => ({ k: normalise(k), s }))))
+    .find(({ k, s }) => /^[a-z]{6,}$/.test(k) && !catalogue.series.some((x) => names(x).includes(k.slice(0, 5))) && !names(s).includes(k));
+  if (keywordOnly) assert.ok(!search.query(keywordOnly.k).series.some((h) => h.id === keywordOnly.s.id), `"${keywordOnly.k}" is only a keyword`);
+});
