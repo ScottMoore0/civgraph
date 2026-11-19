@@ -216,6 +216,8 @@ export const CATALOGUE_CSS = `
 @media (max-width: 560px) { .cn-edit__pair, .cn-edit__ref { grid-template-columns: 1fr; } }
 .cn-about { margin: 0 0 10px; font-size: 13.5px; line-height: 1.5; color: var(--cn-text); max-width: 68ch; }
 .cn-about p { margin: 0 0 6px; }
+.cn-about p:last-child { margin-bottom: 0; }
+.cn-panel > .cn-about { margin-bottom: 0; }
 .cn-about .cn-label { display: block; margin-bottom: 4px; }
 .cn-about__links { font-size: 12.5px; color: var(--cn-muted); }
 .cn-about__links a { color: var(--cn-link); }

@@ -364,7 +364,10 @@ export function panelHtml(c, s) {
   const sel = c.selectedMember(s);
   const list = datedList(s, (id) => c.rec(id));
   if (list.length > 1) return `${aboutHtml(s.about)}${datedListHtml(c, s, list, sel)}`;
-  return `${aboutHtml(s.about)}<div class="cn-ed">${editionHtml(c, s, sel)}</div>`;
+  // A single map with no facts, versions, parts or council maps draws no empty block (its grid gap
+  // left a band of empty space under the description: Phelim Birch, 19 Nov 2026).
+  const edition = editionHtml(c, s, sel).trim();
+  return `${aboutHtml(s.about)}${edition ? `<div class="cn-ed">${edition}</div>` : ''}`;
 }
 
 /**
