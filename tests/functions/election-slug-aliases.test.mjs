@@ -192,6 +192,7 @@ test('the respelt council divisions: one name per division, every round renamed,
 const OFFICIAL_DED_NAMES = [
   ['omagh-rural-district-council', 'Mountjoy Forest East', [['1930-06-04', 'Mountjoy East'], ['1936-06-03', 'Mountjoy East'], ['1939-05-31', 'Mountjoy East'], ['1946-10-03', 'Mountjoy East'], ['1955-06-02', 'Mountjoy East'], ['1958-06-05', 'Mountjoy East'], ['1961-06-01', 'Mountjoy East'], ['1964-06-04', 'Mountjoy East'], ['1967-06-01', 'Mountjoy East']]],
   ['omagh-rural-district-council', 'Mountjoy Forest West', [['1930-06-04', 'Mountjoy West'], ['1936-06-03', 'Mountjoy West'], ['1946-10-03', 'Mountjoy West'], ['1955-06-02', 'Mountjoy West'], ['1958-06-05', 'Mountjoy West'], ['1961-06-01', 'Mountjoy West'], ['1964-06-04', 'Mountjoy West'], ['1967-06-01', 'Mountjoy West']]],
+  ['omagh-rural-district-council', 'Rahony', [['1924-05-28', 'Rahoney'], ['1930-06-04', 'Rahoney'], ['1933-05-31', 'Rahoney'], ['1936-06-03', 'Rahoney'], ['1939-05-31', 'Rahoney'], ['1946-10-03', 'Rahoney'], ['1949-06-02', 'Rahoney'], ['1952-06-05', 'Rahoney'], ['1955-06-02', 'Rahoney'], ['1958-06-05', 'Rahoney'], ['1961-06-01', 'Rahoney'], ['1964-06-04', 'Rahoney'], ['1967-06-01', 'Rahoney']]],
 ];
 /** @returns {[string, string][]} each renamed division's old contest slug and its new one */
 function officialDedSlugs() {
