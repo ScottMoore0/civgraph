@@ -44,7 +44,7 @@
     "ni-assembly-opendata/register-interests": { "proved": "rf-ingest (128 files)" },
     "ni-local/round-status": { "proved": "rf-ingest" },
     "ni-local/layer-features": { "proved": "rf9-ingest, from a copy of the 7.6 GB vector-intake cache (given as --input cache, outside the repository); 1 file identical" },
-    "opendatani/planning-chunks": { "blocked": "reads and writes fixed folders outside the repository (named at the top of the script), so a run captures nothing" },
+    "opendatani/planning-chunks": { "proved": "w19-refactor-tail, once the source FGB and the output folder became arguments (defaults unchanged): from a copy of the published roi-national-planning-applications.fgb (data.civgraph.net, 595 MB, 493,439 points), output into an untracked folder of the worktree; 374 files identical (371 chunks, the index and the two LODs)" },
     "osni/river-basin-hillshade": { "proved": "w19-refactor-tail, over the Stonyford 2014 block (stonyford_16_06_2014.zip, 34 MB, one download from Open Data NI; 12 DTM_1m grids) with outDir an untracked folder of the worktree, zooms 8-16; 102 tiles identical" },
     "persons/rebuild": { "proved": "rf9-ingest, the full loop (manifest, summaries, registry, apply, merge passes, name registry, audit) twice over a copy of the records build, about 10 minutes a run; the election bundle (2,584 files), the manifest, the summaries, the registries and the two lifespan reports compared: 7 files changed by the runs, identical, the rest unchanged by both" },
     "persons/registry": { "proved": "r2-ingest" },

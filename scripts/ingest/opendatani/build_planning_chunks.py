@@ -10,12 +10,15 @@ Output:
     roi-national-planning-applications-chunks.json    (chunks index)
     chunks/
       roi-national-planning-applications_<row>_<col>.fgb  (one per non-empty 0.25° cell)
+
+Usage: python scripts/ingest/opendatani/build_planning_chunks.py [<source .fgb> [<output folder>]]
+(by default the two folders above, where the chunks were first built).
 """
-import os, json, subprocess, math
+import os, json, subprocess, math, sys
 from pathlib import Path
 
-SRC = Path(r'C:\tmp\integrate-batch2a\data\maps\roi-planning\roi-national-planning-applications.fgb')
-STAGE = Path(r'C:\tmp\planning-chunks\data\maps\roi-planning')
+SRC = Path(sys.argv[1] if len(sys.argv) > 1 else r'C:\tmp\integrate-batch2a\data\maps\roi-planning\roi-national-planning-applications.fgb')
+STAGE = Path(sys.argv[2] if len(sys.argv) > 2 else r'C:\tmp\planning-chunks\data\maps\roi-planning')
 STAGE.mkdir(parents=True, exist_ok=True)
 CHUNKS_DIR = STAGE / 'chunks'
 CHUNKS_DIR.mkdir(parents=True, exist_ok=True)

@@ -11,7 +11,7 @@ export default definePlugin({
     'planning-chunks': {
       title: 'Spatial chunks and LODs of the planning applications FGB',
       argv: ['python', 'scripts/ingest/opendatani/build_planning_chunks.py'],
-      note: 'Reads and writes fixed folders outside the repository (the integration and planning-chunks folders named at the top of the script), so a run captures nothing until those paths become arguments; kept as the record of how the chunks were built.',
+      note: 'Give the source FGB and the output folder after -- (without them it reads and writes the folders outside the repository where the chunks were first built, named at the top of the script, and a run captures nothing).',
     },
   },
 });
