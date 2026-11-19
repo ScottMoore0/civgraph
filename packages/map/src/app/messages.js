@@ -193,14 +193,8 @@ export class MessageMethods {
    * @this {MessageApp} @param {string} mapId
    * ("Townlands, Ireland"), else its catalogue name, else its id. */
   mapLabel(mapId) {
-    const cat = uiController._catalogueNext;
-    // A map in no series looks up undefined, which names no series.
-    const series = cat?.seriesById?.get(/** @type {string} */ (cat.seriesOfMap?.get(mapId)));
-    if (series) {
-      const member = [...(series.members || []), ...(series.local || [])].find((m) => m.id === mapId);
-      if (member && (series.members.length > 1 || series.local?.some((m) => m.id === mapId))) return `${series.name}, ${member.label}`;
-      return series.name;
-    }
+    const named = uiController._catalogueNext?.mapLabel?.(mapId);
+    if (named) return named;
     const config = dataService.getMapById(mapId);
     return String(config?.name || this.metadataService?.getLayer?.(mapId)?.name || mapId).replace(/\s+/g, ' ').trim();
   }

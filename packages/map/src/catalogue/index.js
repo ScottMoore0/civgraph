@@ -2067,6 +2067,18 @@ export class CatalogueNext {
 
   /* ================================================================ compare */
 
+  /** A map's name as the legend, the loaded-layers panel and messages give it: its row and
+   * edition as the catalogue shows them ("Counties, 1922"; "Townlands" for a row of one map), or ''
+   * for a map in no row. @param {string} id */
+  mapLabel(id) {
+    // A map in no series looks up undefined, which names no series.
+    const s = this.seriesById?.get(/** @type {string} */ (this.seriesOfMap?.get(id)));
+    if (!s) return '';
+    const member = [...(s.members || []), ...(s.local || [])].find((m) => m.id === id);
+    if (member && (s.members.length > 1 || s.local?.some((m) => m.id === id))) return `${s.name}, ${member.label}`;
+    return s.name;
+  }
+
   /** @param {string} id */
   labelOf(id) {
     // A map in no row finds no row.

@@ -10468,7 +10468,9 @@ class UIController {
             const partial = partialLayerInfo?.get(map.id);
             const color = map.style?.color || MAP_COLOURS.layer;
             const authors = map.authors?.join(', ') || '';
-            const layerTitle = dataService.getMapDisplayTitle?.(/** @type {CatalogueMap} */ (map)) || map.name;
+            // The legend's name for the layer (its catalogue row and edition, "Counties, 1922"), so
+            // the panel and the legend agree (Phelim Birch's notes, 19 Nov 2026).
+            const layerTitle = this._catalogueNext?.mapLabel?.(map.id) || dataService.getMapDisplayTitle?.(/** @type {CatalogueMap} */ (map)) || map.name;
             // "1929 NI Parliament / 1929": the year under a title that already starts with it
             // cost every row a second line.
             const year = map.date ? this.getYear(map.date) : '';
