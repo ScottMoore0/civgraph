@@ -9,7 +9,7 @@ import dataService from '../../data-service.js';
 import { compositeChildIds } from '../../map-relations.mjs';
 import { formatDisplayDate } from '../../../../core/src/date-format.mjs';
 import { parseTimelineDate, timelineSublabel, yearOnlyMapDate } from './dates.mjs';
-import { timelineTicksHtml } from './timeline-view.mjs';
+import { timelineTicksHtml } from '../../views/timeline-view.mjs';
 import { setHidden } from '../../state-helpers.mjs';
 
 /** @typedef {import('../map-app').MapApp & TimelineControlMethods} TimelineControlApp */

@@ -4,7 +4,7 @@ import providerRegistry from '../../../registries/src/browser/providers.mjs';
 import { providerIndex } from './row-model.mjs';
 import { formatDisplayDate } from '../../../core/src/date-format.mjs';
 import { siteNumber } from '../../../core/src/format.js';
-import { MAP_COLOURS } from '../colours.mjs';
+import { MAP_COLOURS } from '../views/colours.mjs';
 
 /** A row named "Other" or "Other ..." (Planning & Property's "Other"). */
 const OTHER_ROW = /^other(?![a-z])/i;

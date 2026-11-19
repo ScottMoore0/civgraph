@@ -31,7 +31,7 @@ import layerTypes from '../../../registries/src/browser/layer-types.mjs';
 import { layerRenderer } from './layer-kinds/index.mjs';
 import { hillshadeSource, tilePyramidsOf } from './layer-kinds/terrain.mjs';
 import { INDEXED_TILES_PROTOCOL, loadIndexedTile, registerTilePyramid, unregisterTilePyramids } from './indexed-tiles.mjs';
-import { MAP_COLOURS } from '../colours.mjs';
+import { MAP_COLOURS } from '../views/colours.mjs';
 
 /** @typedef {import('maplibre-gl').Map} MapLibreMap */
 /** @typedef {import('maplibre-gl').LngLat} LngLat */

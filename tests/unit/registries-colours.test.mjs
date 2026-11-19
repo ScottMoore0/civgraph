@@ -18,7 +18,7 @@ import { browserColours, checkColours } from '@civgraph/registries/colours.mjs';
 import { PALETTE_SLICES } from '@civgraph/registries/browser/build.mjs';
 import colours from '@civgraph/registries/browser/colours.mjs';
 import partyPalettes from '@civgraph/registries/browser/party-palettes.mjs';
-import { CENSUS_RAMPS, EXPORT_COLOURS, MAP_COLOURS, NUMERIC_SCALE, VIEWER_COLOURS } from '@civgraph/map/colours.mjs';
+import { CENSUS_RAMPS, EXPORT_COLOURS, MAP_COLOURS, NUMERIC_SCALE, VIEWER_COLOURS } from '@civgraph/map/views/colours.mjs';
 import { inkOn as electionsInkOn } from '../../site/apps/elections/lib/format.js';
 import { diverging, sequential } from '../../site/apps/elections/lib/scales.js';
 import { inkOn as catalogueInkOn } from '@civgraph/map/catalogue/util.js';

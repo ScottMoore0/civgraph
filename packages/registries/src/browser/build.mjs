@@ -26,7 +26,7 @@
  *                        (the map's two), packages/map/app/election-manager.js (the STV viewer's table, handed
  *                        to the classic viewer scripts as globalThis.civgraphViewerColours)
  *   colours.json         the fixed colours code draws with (data/registries/colours.json): the map app
- *                        (packages/map/src/colours.mjs), the catalogues, the Elections app, Browse, the
+ *                        (packages/map/src/views/colours.mjs), the catalogues, the Elections app, Browse, the
  *                        gallery, the STV viewer and core's area results; served pages reach it at /pkg/
  *                        through colour-palettes.mjs (packages/served.json)
  *   statuses.json        packages/core/src/election-domain.mjs (statusKind, RG-01),

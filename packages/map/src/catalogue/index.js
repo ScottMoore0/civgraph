@@ -45,7 +45,7 @@ import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLangua
 import { siteNumber } from '../../../core/src/format.js';
 import { comparable, passesProviders, providerCounts, rowCitation, rowProviderIds } from './row-model.mjs';
 import { PROVIDERS } from './util.js';
-import { MAP_COLOURS } from '../colours.mjs';
+import { MAP_COLOURS } from '../views/colours.mjs';
 
 /** @typedef {import('./catalogue-types.d.ts').CatalogueDoc} CatalogueDoc */
 /** @typedef {import('./catalogue-types.d.ts').CatalogueRow} CatalogueRow */

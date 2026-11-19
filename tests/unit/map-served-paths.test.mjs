@@ -13,14 +13,16 @@ import { SERVED_FROM, servedOf, siteFiles, sourceOf } from '../../scripts/build/
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
-// Every file the move took out of src/, by its served (old) path. Add to it; never take one out.
+// Every file the move took out of src/, by its served (old) path. Add to it; never take one out, except
+// a module retired with a permanent redirect: src/election-renderer.mjs moved to views/ (rf10-gallery)
+// and its old address answers 301 since 19 Nov 2026 (tests/unit/map-views.test.mjs holds it).
 const MOVED = [
   'src/catalogue/custom-icons.js', 'src/catalogue/edit.js', 'src/catalogue/flag.js', 'src/catalogue/geocoder.js',
   'src/catalogue/icons.js', 'src/catalogue/index.js', 'src/catalogue/lang-reveal.js', 'src/catalogue/menu.js',
   'src/catalogue/route-state.mjs', 'src/catalogue/search.js', 'src/catalogue/slider.js', 'src/catalogue/split.js',
   'src/catalogue/styles.js', 'src/catalogue/util.js', 'src/catalogue/view-books.js', 'src/catalogue/view-elections.js',
   'src/catalogue/view-maps.js', 'src/cdn-url.js', 'src/census-overlay.mjs', 'src/data-service.js', 'src/debug-log.js',
-  'src/election-main-pane-contract.mjs', 'src/election-renderer.mjs', 'src/election-trend-chart.mjs',
+  'src/election-main-pane-contract.mjs', 'src/election-trend-chart.mjs',
   'src/election-utils.js', 'src/entity-detail-data.mjs', 'src/feature-loader.js', 'src/fgb-worker.js',
   'src/jquery-shim.js', 'src/map-relations.mjs', 'src/ni-local-groups.mjs', 'src/printed-labels.mjs',
   'src/public-map.mjs', 'src/storage-keys.mjs', 'src/ui-controller.js', 'src/ui-state-machines.mjs',
@@ -37,7 +39,7 @@ test('every moved module is a packages/map/src file served at its old /src/ path
 });
 
 test('the map modules that were src/map/ files keep /src/map/ (the moved keys did not capture them)', () => {
-  for (const file of ['state-helpers.mjs', 'colours.mjs', 'app/helpers.mjs', 'election/palette.mjs', 'renderer/map-controller.js']) {
+  for (const file of ['state-helpers.mjs', 'views/colours.mjs', 'app/helpers.mjs', 'election/palette.mjs', 'renderer/map-controller.js']) {
     assert.equal(servedOf(`packages/map/src/${file}`), `src/map/${file}`);
   }
 });

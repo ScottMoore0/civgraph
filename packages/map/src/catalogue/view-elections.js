@@ -4,7 +4,7 @@
  * sections are laid out (Phelim Birch's review, 2026-10-11). Rendering only; `c` is the controller.
  */
 import { icon } from './icons.js';
-import { ELECTION_SHELF_COLOURS } from '../colours.mjs';
+import { ELECTION_SHELF_COLOURS } from '../views/colours.mjs';
 import { esc, plural, shortDate, ESCOPE_SHORT } from './util.js';
 import { sliderHtml } from './slider.js';
 import { extrasHtml, aboutHtml } from './view-maps.js';

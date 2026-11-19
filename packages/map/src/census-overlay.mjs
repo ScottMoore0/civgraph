@@ -20,7 +20,7 @@
  * Shared by the map (packages/map/app/maplibre-main-adapter.js), its legend and feature details
  * (packages/map/app/app.js, packages/map/src/ui-controller.js) and the Browse and catalogue builders. Pure: no DOM.
  */
-import { CENSUS_NO_DATA_FILL, CENSUS_RAMPS, MAP_COLOURS } from './colours.mjs';
+import { CENSUS_NO_DATA_FILL, CENSUS_RAMPS, MAP_COLOURS } from './views/colours.mjs';
 
 import { siteNumber } from '../../core/src/format.js';
 
@@ -66,7 +66,7 @@ import { siteNumber } from '../../core/src/format.js';
 
 // The ramps (Matplotlib samples) and the no-figure fill are the colours registry's
 // (data/registries/colours.json ramps.census and ramps.censusNoData, with the colours' history),
-// read through packages/map/src/colours.mjs.
+// read through packages/map/src/views/colours.mjs.
 /** @type {Record<string, string[]>} */
 export const RAMPS = CENSUS_RAMPS;
 

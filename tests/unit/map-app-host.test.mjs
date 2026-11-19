@@ -80,8 +80,8 @@ test('a method module in the type check types `this` on every method', () => {
 });
 
 test('legend-view renders an election key, a statistic and the other maps', async () => {
-  const { legendBodyHtml, legendSummaryText, legendShellHtml, legendInk } = await import('@civgraph/map/src/app/legend-view.mjs');
-  const { LEGEND_SAMPLE } = await import('@civgraph/map/specimens.mjs');
+  const { legendBodyHtml, legendSummaryText, legendShellHtml, legendInk } = await import('@civgraph/map/views/legend-view.mjs');
+  const { LEGEND_SAMPLE } = await import('@civgraph/map/views/specimens.mjs');
   const html = legendBodyHtml(LEGEND_SAMPLE);
   assert.match(html, /^<p class="test2-map-legend__heading">Constituencies coloured by winner<\/p>/);
   assert.match(html, /<span class="test2-map-legend__abbr">\(FF\)<\/span><\/span><span class="test2-map-legend__count">12<\/span>/);

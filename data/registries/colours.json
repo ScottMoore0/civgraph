@@ -3,7 +3,7 @@
  "description": "The site's fixed colours that code draws with outside the stylesheets. MapLibre paint, canvas and SVG drawing, exported SVG files, the inline styles classic scripts write and colour arithmetic (contrast picks, sanitisers) need a colour value, which a CSS var() is not. Each palette names its readers; party colours are in the parties registry (data/registries/parties/palettes.json). Moved out of the code unchanged, case included (wave10-colours, 12 Nov 2026; docs/ARCHITECTURE-RULES.md R9: colour data held in a registry part is the only place outside the token files where a colour literal may stand). An entry holds a `value`, a list of `values` (a ramp, low to high), a `table` (key -> colour) or `ramps` (name -> list). The browser slice (packages/registries/src/browser/colours.json) carries the values alone. Schema: packages/registries/schemas/colours.schema.json.",
  "palettes": {
   "map": {
-   "about": "The map app (packages/map/src/colours.mjs MAP_COLOURS): MapLibre paint, the legend, labels, the election and census overlays, the classic catalogue.",
+   "about": "The map app (packages/map/src/views/colours.mjs MAP_COLOURS): MapLibre paint, the legend, labels, the election and census overlays, the classic catalogue.",
    "colours": {
     "layer": {
      "value": "#3388ff",
@@ -227,7 +227,7 @@
       "#d97706",
       "#92400e"
      ],
-     "note": "The election pane's and map's five-step amber ramp for numeric modes (turnout, share, majority, seats, quota): src/election-renderer.mjs and packages/map/src/election/palette.mjs numericColour."
+     "note": "The election pane's and map's five-step amber ramp for numeric modes (turnout, share, majority, seats, quota): packages/map/src/views/election-renderer.mjs and packages/map/src/election/palette.mjs numericColour."
     },
     "census": {
      "ramps": {

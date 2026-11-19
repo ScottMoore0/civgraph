@@ -296,6 +296,17 @@
 /render/metadata/feature-indexes/water-framework-directive-2nd-cycle-interim-status1-vector-test.json  /render/metadata/feature-indexes/water-framework-directive-2nd-cycle-interim-status1-vector.json  301
 /render/metadata/feature-indexes/wicklow-county-council-tree-preservation-orders-vector-test.json  /render/metadata/feature-indexes/wicklow-county-council-tree-preservation-orders-vector.json  301
 
+# The map's pure drawing modules moved to packages/map/src/views/ on 13 Nov 2026 (rf10-gallery);
+# their old paths answered with one-line re-exports until 19 Nov 2026, when those were removed. The
+# map app is bundled and no page asks for these addresses, but a cached page or an outside link
+# might: each old address answers 301 with the module at its new one. Static rules, so they stay
+# above every splat rule.
+/src/election-renderer.mjs                /src/map/views/election-renderer.mjs  301
+/src/map/colours.mjs                      /src/map/views/colours.mjs            301
+/src/map/specimens.mjs                    /src/map/views/specimens.mjs          301
+/src/map/app/legend-view.mjs              /src/map/views/legend-view.mjs        301
+/src/map/app/timeline/timeline-view.mjs   /src/map/views/timeline-view.mjs      301
+
 # `test/` was renamed to `render/` on 2026-08-22. It was never test code: the production
 # renderer imports its map controller from there, and it also holds the render metadata,
 # source cache and generated tiles. Sitting beside `tests/` and `test2/`, the name was

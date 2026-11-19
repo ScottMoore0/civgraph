@@ -8,7 +8,7 @@
 
 import dataService from '../../data-service.js';
 import { formatHectares, timelineChangeName } from './dates.mjs';
-import { timelineChangesPanelHtml } from './timeline-view.mjs';
+import { timelineChangesPanelHtml } from '../../views/timeline-view.mjs';
 import { setHidden } from '../../state-helpers.mjs';
 import { siteNumber } from '../../../../core/src/format.js';
 

@@ -10,8 +10,8 @@
  * tests/unit/map-app-host.test.mjs holds every member to the app: a field must be assigned in the
  * constructor, a method defined by app.js or a method module. Members join as modules do.
  */
-import type { CensusLegend, LegendModel } from './legend-view.mjs';
-import type { TimelineChangeView } from './timeline/timeline-view.mjs';
+import type { CensusLegend, LegendModel } from '../views/legend-view.mjs';
+import type { TimelineChangeView } from '../views/timeline-view.mjs';
 import type { TimelineAnimationState, TimelineItem as PlaybackItem } from './timeline/playback.mjs';
 
 /** A stop on the timeline: an edition (its map) or an election (packages/map/src/app/timeline/controls.js). */

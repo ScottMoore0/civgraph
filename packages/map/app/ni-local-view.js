@@ -20,12 +20,12 @@ import { createState } from '../src/state-helpers.mjs';
 import statuses from '../../registries/src/browser/statuses.mjs';
 import { summaryPollStatus } from '../../core/src/unopposed.mjs';
 import { siteNumber } from '../../core/src/format.js';
-import { MAP_COLOURS } from '../src/colours.mjs';
+import { MAP_COLOURS } from '../src/views/colours.mjs';
 
 /** @typedef {import('../src/election/election-manager').ElectionManager} ElectionManager */
 /** @typedef {import('../src/election/election-manager').ElectionEntry} ElectionEntry */
 /** @typedef {import('../src/election/election-manager').ElectionFeature} ElectionFeature */
-/** @typedef {import('../src/app/legend-view.mjs').LegendModel} LegendModel */
+/** @typedef {import('../src/views/legend-view.mjs').LegendModel} LegendModel */
 /**
  * One area of a level (a feature of its map): its key and label (the file's, or a clicked feature's property), the [round, contest] pairs held
  * there, the seats and votes by party, and the hatching when its results are missing or partial.

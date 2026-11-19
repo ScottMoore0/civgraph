@@ -10,7 +10,7 @@
  * The palette is registry data (data/registries/colours.json map.loadOrder; a placeholder until the
  * owner supplies Phelim's QGIS colours). Pure: no DOM, no map (unit test: layer-palette.test.mjs).
  */
-import { MAP_COLOURS } from './colours.mjs';
+import { MAP_COLOURS } from './views/colours.mjs';
 
 /** The load-order palette, in order. @type {readonly string[]} */
 export const LOAD_ORDER_PALETTE = Object.freeze([.../** @type {string[]} */ (/** @type {unknown} */ (MAP_COLOURS.loadOrder) || [])]);

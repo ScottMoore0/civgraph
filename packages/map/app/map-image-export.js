@@ -33,7 +33,7 @@ import { compositeChildIds } from '../src/map-relations.mjs';
 import { SITE } from '../../config/src/config.js';
 import { siteNumber } from '../../core/src/format.js';
 import { creditLine, mergedDerivedFromLines } from '../../core/src/credits.mjs';
-import { EXPORT_COLOURS } from '../src/colours.mjs';
+import { EXPORT_COLOURS } from '../src/views/colours.mjs';
 import { createState } from '../src/state-helpers.mjs';
 import { CONTEXT_OUTLINE_LOAD } from '../src/app/export-context-state.mjs';
 

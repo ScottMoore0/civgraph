@@ -6,7 +6,7 @@ import maplibregl from 'maplibre-gl';
 import {
   createElectionRenderer,
   numericColour as sharedNumericColour
-} from '../src/election-renderer.mjs';
+} from '../src/views/election-renderer.mjs';
 import { MainElectionPaneContract } from '../src/election-main-pane-contract.mjs';
 import {
   buildCandidateSummary,
@@ -128,7 +128,7 @@ import { ELECTION_LOAD } from '../src/election/load-state.mjs';
 import { createFlag, createState, defineFlagFields } from '../src/state-helpers.mjs';
 import { installMethods } from '../src/app/install-methods.mjs';
 import { countNoun, siteNumber } from '../../core/src/format.js';
-import { MAP_COLOURS, VIEWER_COLOURS } from '../src/colours.mjs';
+import { MAP_COLOURS, VIEWER_COLOURS } from '../src/views/colours.mjs';
 
 /** @typedef {import('../src/election/election-manager').ElectionManager} ElectionManager */
 /** @typedef {import('../src/election/election-manager').ElectionHost} ElectionHost */
@@ -216,7 +216,7 @@ import { MAP_COLOURS, VIEWER_COLOURS } from '../src/colours.mjs';
  */
 /** Bounds in screen pixels. @typedef {{ minX: number, maxX: number, minY: number, maxY: number }} PixelBounds */
 /** @typedef {import('../src/election/election-manager').ElectionFeature} ElectionFeature */
-/** @typedef {import('../src/election-renderer.mjs').RendererHost} RendererHost */
+/** @typedef {import('../src/views/election-renderer.mjs').RendererHost} RendererHost */
 /** @typedef {import('../src/election-main-pane-contract.mjs').PaneHost} PaneHost */
 /** A party's row of a trend summary (buildTrendSummary). @typedef {{ party: string, share: number, votes: number, seats: number, colour: string, entry: ElectionEntry }} TrendRow */
 /**
@@ -4513,7 +4513,7 @@ export class Test2ElectionManager {
     return this.singleLegendModel();
   }
 
-  /** The open election's key (legendModel), a grouped entry's member's too. @returns {import('../src/app/legend-view.mjs').LegendModel | null} */
+  /** The open election's key (legendModel), a grouped entry's member's too. @returns {import('../src/views/legend-view.mjs').LegendModel | null} */
   singleLegendModel() {
     if (!this.activeEntry || !this.activeBundle) return null;
     const mode = this.activeMode;
@@ -4524,10 +4524,10 @@ export class Test2ElectionManager {
       ? /** @type {BundleResult[]} */ (/** @type {unknown} */ (buildCouncilSummary(this.currentResults()).map((row) => ({ winnerParty: row.leadingParty, leadingParty: row.leadingParty, colour: this.mainPanePartyColour(row.leadingParty, row.colour), leadingColour: this.mainPanePartyColour(row.leadingParty, row.colour) }))))
       : this.currentResults();
     const title = `${MODE_LABELS[mode] || mode}${district ? ' by council' : ''}`;
-    /** @type {import('../src/app/legend-view.mjs').LegendModel} */
+    /** @type {import('../src/views/legend-view.mjs').LegendModel} */
     const model = { title, election: this.activeBundle.displayTitle || this.activeEntry.displayTitle || '', items: [], ramp: null, seats: false };
     if (['winner', 'leadingParty'].includes(mode)) {
-      /** @type {Map<string, import('../src/app/legend-view.mjs').LegendItem>} */
+      /** @type {Map<string, import('../src/views/legend-view.mjs').LegendItem>} */
       const byKey = new Map();
       const byCandidate = this.isAreaResultsGeographyMode();
       for (const result of rows) {
@@ -4540,7 +4540,7 @@ export class Test2ElectionManager {
             ? { party, abbreviation: initials(result.leadingName), name: result.leadingName, colour, count: 0 }
             : { party, abbreviation: partyAbbreviation(party), name: partyFullName(party), colour, count: 0 });
         }
-        /** @type {import('../src/app/legend-view.mjs').LegendItem} */ (byKey.get(key)).count += 1;
+        /** @type {import('../src/views/legend-view.mjs').LegendItem} */ (byKey.get(key)).count += 1;
       }
       model.items = [...byKey.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
       model.unit = district ? 'council' : (this.isLocalGovernmentElection() ? 'area' : 'constituency');

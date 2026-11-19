@@ -34,7 +34,7 @@ import {
   normaliseStatus,
   partyHeadlineCards
 } from '../entity-detail-data.mjs';
-import { MAP_COLOURS } from '../colours.mjs';
+import { MAP_COLOURS } from '../views/colours.mjs';
 import { recordPagePath } from '../../../ui/src/page-types.mjs';
 
 /** @typedef {import('../ui-controller-types.d.ts').EntityDetail} EntityDetail */

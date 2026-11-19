@@ -1,4 +1,4 @@
-// The map app's components render in isolation from the sample data in packages/map/src/specimens.mjs
+// The map app's components render in isolation from the sample data in packages/map/src/views/specimens.mjs
 // (rf9-mapapp, 12 Nov 2026), as the design system's gallery specimens will (stream rf9-ui): the
 // results tables, the trend chart and the timeline's ticks and changes list. The legend's case is in
 // map-app-host.test.mjs. Each renderer is the one the app draws with, not a copy.
@@ -8,10 +8,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   RESULTS_SAMPLE, TIMELINE_CHANGES_SAMPLE, TIMELINE_ITEMS_SAMPLE, TREND_POINTS_SAMPLE, timelineSampleYear,
-} from '@civgraph/map/specimens.mjs';
-import { renderElectionSummaryFromViewModel } from '@civgraph/map/election-renderer.mjs';
+} from '@civgraph/map/views/specimens.mjs';
+import { renderElectionSummaryFromViewModel } from '@civgraph/map/views/election-renderer.mjs';
 import { buildTrendChartModel, layoutTrendChart, renderTrendChartSvg } from '@civgraph/map/election-trend-chart.mjs';
-import { timelineChangesPanelHtml, timelineTicksHtml } from '@civgraph/map/src/app/timeline/timeline-view.mjs';
+import { timelineChangesPanelHtml, timelineTicksHtml } from '@civgraph/map/views/timeline-view.mjs';
 
 const rows = (html) => (html.match(/<tr\b/g) || []).length;
 

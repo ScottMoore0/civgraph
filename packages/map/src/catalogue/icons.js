@@ -4,7 +4,7 @@
  * section icons are the same paths as the current pane's section bar.
  */
 import { CUSTOM_ICONS } from './custom-icons.js';
-import { SHELF_COLOURS } from '../colours.mjs';
+import { SHELF_COLOURS } from '../views/colours.mjs';
 
 /** Lucide icon name -> its SVG markup. @type {Record<string, string>} */
 const PATHS = {

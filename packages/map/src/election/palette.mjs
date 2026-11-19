@@ -18,7 +18,7 @@ import {
   partyColour as electionPartyColour
 } from '../../../core/src/election-domain.mjs';
 import partyPalettes from '../../../registries/src/browser/party-palettes.mjs';
-import { MAP_COLOURS, NUMERIC_SCALE } from '../colours.mjs';
+import { MAP_COLOURS, NUMERIC_SCALE } from '../views/colours.mjs';
 
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
@@ -69,7 +69,7 @@ export function safeCssColour(value, fallback = MAP_COLOURS.partyGrey) {
 
 /**
  * The five-step amber ramp for numeric modes (turnout, share, majority, seats, quota); grey for
- * a value that is not a number. Same ramp as numericColour in packages/map/src/election-renderer.mjs.
+ * a value that is not a number. Same ramp as numericColour in packages/map/src/views/election-renderer.mjs.
  * @param {unknown} value
  * @param {number} min
  * @param {number} max

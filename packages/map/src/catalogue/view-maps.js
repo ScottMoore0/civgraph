@@ -10,7 +10,7 @@ import { esc, plural, span, inkOn, longDate, mapDate, SCOPE_SHORT, shortProvider
 import { SECTIONS, unitWord } from './index.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
-import { MAP_COLOURS } from '../colours.mjs';
+import { MAP_COLOURS } from '../views/colours.mjs';
 import { creditLine } from '../../../core/src/credits.mjs';
 import { rowActionKind, rowCount, datedList, comparable, rowEditions } from './row-model.mjs';
 import { siteNumber } from '../../../core/src/format.js';

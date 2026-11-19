@@ -5,7 +5,7 @@ import {
   repairFeatureProperties
 } from './feature-property-repairs.js';
 import { clamp, unique } from './utils.js';
-import { MAP_COLOURS } from '../colours.mjs';
+import { MAP_COLOURS } from '../views/colours.mjs';
 
 /**
  * How a label's text is cleaned: strip a trailing bracket, or map whole values to others.

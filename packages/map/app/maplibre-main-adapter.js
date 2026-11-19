@@ -146,7 +146,7 @@ import layerTypes from '../../registries/src/browser/layer-types.mjs';
 // A census overlay is drawn on a vector geography: never on a raster, an image, terrain or a point
 // cloud (the layer-types registry's rasterSource and threeD types).
 const NON_VECTOR_SOURCE_TYPES = new Set([...layerTypes.behaviour.rasterSource, ...layerTypes.behaviour.threeD]);
-import { MAP_COLOURS } from '../src/colours.mjs';
+import { MAP_COLOURS } from '../src/views/colours.mjs';
 import { LOAD_ORDER_PALETTE, PaletteSlots, takesLoadOrderColour, withColour } from '../src/layer-palette.mjs';
 
 // The base maps (packages/map/src/renderer/basemap.mjs): 'osm-standard' is the default street map,
@@ -1815,7 +1815,7 @@ export class Test2MapLibreMainAdapter {
   /**
    * Everything the legend needs for a loaded statistic, or null when mainId is not one.
    * @param {string} mainId
-   * @returns {import('../src/app/legend-view.mjs').CensusLegend | null}
+   * @returns {import('../src/views/legend-view.mjs').CensusLegend | null}
    */
   getCensusOverlayLegend(mainId) {
     const overlay = this.layerStates.get(mainId)?.censusOverlay;

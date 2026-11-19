@@ -1,22 +1,22 @@
 /**
  * The map legend: the election key, layer swatches, statistics and the approximate-stretch entries of
  * reconstructed editions (packages/map/src/renderer/approximate-segments.js). The markup is
- * legend-view.mjs's; these methods gather its parts from the app.
+ * packages/map/src/views/legend-view.mjs's; these methods gather its parts from the app.
  *
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
 import layerTypes from '../../../registries/src/browser/layer-types.mjs';
-import { legendBodyHtml, legendShellHtml, legendSummaryText } from './legend-view.mjs';
+import { legendBodyHtml, legendShellHtml, legendSummaryText } from '../views/legend-view.mjs';
 
 // Layers with no vector features to colour, so no swatch: rasters, images, terrain and point
 // clouds (the layer-types registry's rasterSource and threeD types).
 const NO_SWATCH_SOURCE_TYPES = new Set([...layerTypes.behaviour.rasterSource, ...layerTypes.behaviour.threeD]);
-import { MAP_COLOURS } from '../colours.mjs';
+import { MAP_COLOURS } from '../views/colours.mjs';
 
 /** @typedef {import('./map-app').MapApp & LegendMethods} LegendApp */
-/** @typedef {import('./legend-view.mjs').CensusLegend} CensusLegend */
-/** @typedef {import('./legend-view.mjs').ApproximateLegend} ApproximateLegend */
+/** @typedef {import('../views/legend-view.mjs').CensusLegend} CensusLegend */
+/** @typedef {import('../views/legend-view.mjs').ApproximateLegend} ApproximateLegend */
 
 export class LegendMethods {
   /**

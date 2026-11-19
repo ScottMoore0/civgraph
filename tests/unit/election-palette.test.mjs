@@ -18,7 +18,7 @@ import {
   usesMainRoiPartyPalette
 } from '@civgraph/map/election/palette.mjs';
 import { partyColour as registryPartyColour } from '@civgraph/core/election-domain.mjs';
-import { numericColour as rendererNumericColour } from '@civgraph/map/election-renderer.mjs';
+import { numericColour as rendererNumericColour } from '@civgraph/map/views/election-renderer.mjs';
 
 test('tables and labels', () => {
   assert.equal(MODE_LABELS.leadingParty, 'Leading party');

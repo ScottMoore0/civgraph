@@ -20,7 +20,7 @@ import { partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
 import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
 import { countNoun, siteNumber } from '../../core/src/format.js';
 import { pageType, recordPagePath } from '../../ui/src/page-types.mjs';
-import { BODY_COLOURS, MAP_COLOURS } from './colours.mjs';
+import { BODY_COLOURS, MAP_COLOURS } from './views/colours.mjs';
 /** @typedef {import('./ui-controller-types.d.ts').UiCallbacks} UiCallbacks */
 /** @typedef {import('./ui-controller-types.d.ts').MapFeature} MapFeature */
 /** @typedef {import('./ui-controller-types.d.ts').CatalogueHistoryEntry} CatalogueHistoryEntry */
