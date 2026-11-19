@@ -76,7 +76,7 @@ export const TABLES = [
     // stamps). They are left out of row_hash (db.mjs hashValues), so a rebuild with no data
     // change gives an empty delta. The stored body keeps them: a document is reloaded, stamps
     // and all, whenever anything else in it changes.
-    volatileJson: { column: 'body', keys: (row) => (row.name === 'graph/manifest.json' ? ['generatedAt', 'inputs'] : ['generatedAt']) },
+    volatileJson: { column: 'body', keys: (/** @type {{ name?: unknown }} */ row) => (row.name === 'graph/manifest.json' ? ['generatedAt', 'inputs'] : ['generatedAt']) },
   },
 
   // ---------------------------------------------------------------- elections
