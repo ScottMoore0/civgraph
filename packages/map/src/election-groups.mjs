@@ -247,7 +247,7 @@ export function catalogueGroupRow(group, rowsByKey) {
   const rows = present.map((member) => /** @type {GroupMemberRow} */ (rowsByKey.get(member.election)));
   const first = /** @type {GroupMemberRow} */ (rows[0]);
   const days = rows.map((row) => electionDay(row.date)).filter(Boolean).sort();
-  const scopes = [...new Set(rows.map((row) => row.scope).filter((scope) => typeof scope === 'string' && scope))];
+  const scopes = [...new Set(rows.map((row) => row.scope || '').filter(Boolean))];
   const about = groupAbout(group, present.map((member, i) => ({ label: member.label, about: rows[i]?.about })));
   const thumb = rows.find((row) => row.thumb)?.thumb;
   return {
@@ -261,7 +261,7 @@ export function catalogueGroupRow(group, rowsByKey) {
     kind: 'general',
     subtitle: present.map((member) => member.label).join(' · '),
     members: present.map((member, i) => ({ key: member.election, label: member.label, title: rows[i]?.title || member.election, date: rows[i]?.date || '' })),
-    ...(scopes.length === 1 ? { scope: scopes[0] } : {}),
+    ...(scopes.length === 1 ? { scope: /** @type {string} */ (scopes[0]) } : {}),
     scopes,
     ...(thumb ? { thumb } : {}),
     ...(about ? { about } : {})
