@@ -29,7 +29,8 @@ import { DIRECT_GESTURE } from './gesture-state.mjs';
 import { createState, defineFlagFields, setHidden } from '../state-helpers.mjs';
 import layerTypes from '../../../registries/src/browser/layer-types.mjs';
 import { layerRenderer } from './layer-kinds/index.mjs';
-import { hillshadeSource } from './layer-kinds/terrain.mjs';
+import { hillshadePyramidOf, hillshadeSource } from './layer-kinds/terrain.mjs';
+import { HILLSHADE_PROTOCOL, loadHillshadeTile, registerHillshadePyramid, unregisterHillshadePyramid } from './hillshade-tiles.mjs';
 import { MAP_COLOURS } from '../colours.mjs';
 
 /** @typedef {import('maplibre-gl').Map} MapLibreMap */
@@ -87,6 +88,7 @@ import { MAP_COLOURS } from '../colours.mjs';
  *   hillshadeMinzoom?: number,
  *   hillshadeMaxzoom?: number,
  *   hillshadeOpacity?: number,
+ *   hillshadeTileIndex?: import('../../../core/src/tile-index.mjs').TileIndex,
  *   tilesetUrl?: string,
  *   pcFlat?: boolean,
  *   pcVersion?: string,
@@ -445,6 +447,8 @@ export class TestMapLibreController {
     /** @type {((event: Event) => void) | null} */
     this.documentHoverClearHandler = null;
     maplibregl.addProtocol('pmtiles', this.protocol.tile);
+    // A terrain drape with a tile index (hillshade-tiles.mjs): only the tiles it holds are fetched.
+    maplibregl.addProtocol(HILLSHADE_PROTOCOL, loadHillshadeTile);
   }
 
   /** Removes what the controller put on document and the map's container (R8). */
@@ -1390,6 +1394,8 @@ export class TestMapLibreController {
     // gives the opaque monochrome-grey relief surface.
     const hsSource = hillshadeSource(layer);
     if (hsSource) {
+      const pyramid = hillshadePyramidOf(layer);
+      if (pyramid) registerHillshadePyramid(layer.id, pyramid);
       const hsSourceId = `${sourceId}-hs`;
       this.map.addSource(hsSourceId, hsSource);
       this.map.addLayer({
@@ -1838,6 +1844,7 @@ export class TestMapLibreController {
       this.terrainSourceId = null;
       this.terrainExaggeration = null;
     }
+    unregisterHillshadePyramid(layerId);
     if (this.pointCloudLayers?.has(layerId)) {
       this.removePointCloudLayer(layerId);
     }

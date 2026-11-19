@@ -26,5 +26,10 @@ export default definePlugin({
       argv: ['python', 'scripts/ingest/osni/rebuild_island_terrain.py', '--glo', '{input:glo}', '--work', '{input:work}'],
       network: true,
     },
+    'hillshade-index': {
+      title: 'List the tiles the island terrain hillshade holds into its layers (hillshadeTileIndex; add --write after --)',
+      argv: ['node', 'scripts/ingest/osni/hillshade-index.mjs', '--from-r2'],
+      network: true,
+    },
   },
 });
