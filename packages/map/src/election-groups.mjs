@@ -188,10 +188,11 @@ export function inGroupTimelineSeries(entry, active, memberKeys) {
  * `match` pairs together, the first member's pair winning a label two members name. A member with
  * no match (nothing of it on the layer) adds nothing.
  * @param {unknown[]} expressions each a ['match', input, ...label, value, fallback] or a plain value
- * @param {unknown} fallback what the layer shows where no member has a result
+ * @param {unknown} [fallback] what the layer shows where no member has a result: by default the
+ *   first expression's own (every member's is the same where the layer is the same)
  * @returns {unknown}
  */
-export function mergeMatchExpressions(expressions, fallback) {
+export function mergeMatchExpressions(expressions, fallback = fallbackOf(expressions[0])) {
   /** @type {unknown} */
   let input = null;
   /** @type {unknown[]} */
@@ -210,11 +211,16 @@ export function mergeMatchExpressions(expressions, fallback) {
   return pairs.length ? ['match', input, ...pairs, fallback] : fallback;
 }
 
+/** A match expression's fallback, or a plain value itself. @param {unknown} expression */
+function fallbackOf(expression) {
+  return Array.isArray(expression) && expression[0] === 'match' ? expression[expression.length - 1] : expression;
+}
+
 /**
  * The description an entry shows: its own, else its members' (one member's as it stands; several
  * each led by its label).
  * @param {ElectionGroup} group
- * @param {{ label: string, about?: GroupAbout }[]} members
+ * @param {{ label: string, about?: GroupAbout | undefined }[]} members
  * @returns {GroupAbout | null}
  */
 export function groupAbout(group, members) {

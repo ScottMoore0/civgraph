@@ -37,6 +37,7 @@ import { decadeDomain, binCounts, indexOf, updateSlider, stepYear } from './slid
 import * as MapsView from './view-maps.js';
 import * as ElectionsView from './view-elections.js';
 import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
+import { electionLoadIdentity } from '../election-groups.mjs';
 import * as BooksView from './view-books.js';
 import { CATALOGUE_TAB, followSeriesRedirect } from './route-state.mjs';
 import { defineFlagFields, setHidden } from '../state-helpers.mjs';
@@ -890,7 +891,8 @@ export class CatalogueNext {
   /** @param {CatalogueRowElection} e @param {{ ignoreYears?: boolean, ignoreKind?: boolean }} [options] */
   electionShown(e, { ignoreYears = false, ignoreKind = false } = {}) {
     const f = this.efilters;
-    if (f.escope && e.scope !== f.escope) return false;
+    // A grouped entry held in several places (the European elections) is in each place's list.
+    if (f.escope && e.scope !== f.escope && !e.scopes?.includes(f.escope)) return false;
     // A person's record is every contest they stood in, by-elections included.
     const kind = ignoreKind || this.person ? '' : f.ekind;
     if (kind === 'by-election' && e.kind !== 'by-election') return false;
@@ -1856,7 +1858,7 @@ export class CatalogueNext {
   /** @param {string} id */
   isVisible(id) { try { return this.ui?.onCheckMapVisible ? Boolean(this.ui.onCheckMapVisible(id)) : true; } catch { return true; } }
   /** @param {CatalogueRowElection} e */
-  electionLoaded(e) { try { return Boolean(this.ui?.onCheckElectionLoaded?.(e.body, e.date)); } catch { return false; } }
+  electionLoaded(e) { try { const { body, date } = electionLoadIdentity(e); return Boolean(this.ui?.onCheckElectionLoaded?.(body, date)); } catch { return false; } }
 
   /** @param {string} text */
   announce(text) {
@@ -1909,8 +1911,10 @@ export class CatalogueNext {
     this.busy.add(key);
     btn?.setAttribute('aria-busy', 'true');
     try {
+      // A grouped entry opens all its elections together (packages/map/src/election-groups.mjs).
+      const { body, date } = electionLoadIdentity(e);
       if (this.electionLoaded(e)) await this.ui.onUnloadElection?.();
-      else await this.ui.onLoadElection?.(e.body, e.date);
+      else await this.ui.onLoadElection?.(body, date);
     } catch {
       // Reported by the app, with a Retry; the button goes back to Open below.
     } finally {

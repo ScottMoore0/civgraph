@@ -16,17 +16,17 @@ import { siteNumber } from '../../../core/src/format.js';
 /** @typedef {import('./index.js').CatalogueNext} CatalogueNext */
 /** @typedef {import('./catalogue-types.d.ts').CatalogueRowElection} CatalogueRowElection */
 /**
- * A shelf of elections (BODY_GROUPS): its bodies, the elections filed under another body that are
- * listed on it too (`also`, keys), and the title of a year's grouped row where its elections of one
- * year are shown as one (`yearGroupTitle`, {year}: the European shelf).
- * @typedef {{ id: string, label: string, bodies: string[], also: string[], alsoTitles: Record<string, string>, icon: string, colour: string, yearGroupTitle?: string }} BodyGroup
+ * A shelf of elections (BODY_GROUPS): its bodies, and the elections filed under another body that
+ * are listed on it too (`also`, keys).
+ * @typedef {{ id: string, label: string, bodies: string[], also: string[], alsoTitles: Record<string, string>, icon: string, colour: string }} BodyGroup
  */
-/** A shelf's row: one election, or a year's elections under one title. @typedef {{ e: CatalogueRowElection } | { year: string, title: string, es: CatalogueRowElection[] }} ShelfRow */
 
 // Browse's slug for an election: its key lower-cased, runs of other characters as '-'
 // (dail-eireann__2024-11-29 -> dail-eireann-2024-11-29). Browse routes live in the hash.
 /** @param {string} key */
 const browseSlug = (key) => String(key).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+/** An election's results page on Browse. @param {string} key */
+const resultsHref = (key) => `/browse/elections/${encodeURIComponent(browseSlug(key))}`;
 
 /** What a row calls each body: short, and the same everywhere. */
 /** @type {Record<string, string>} */
@@ -52,8 +52,8 @@ export const BODY_SHORT = {
   // Mayor of Limerick and the Irish local elections (ireland-local).
   ...Object.fromEntries(Object.entries(/** @type {Record<string, { shortLabel?: string }>} */ (electionBodies)).filter(([, b]) => b.shortLabel).map(([id, b]) => [id, b.shortLabel])),
 };
-/** @param {CatalogueRowElection} e */
-export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
+/** A row's badge: a grouped entry's own, else its (first) body's short name. @param {CatalogueRowElection} e */
+export const bodyShort = (e) => e.shortLabel || BODY_SHORT[e.bodySlug] || e.body;
 
 /** The shelves: the four Northern Ireland devolved bodies share one, as do the two European
  * Parliament constituencies and the two referendum series. They are the election-bodies registry's
@@ -62,9 +62,8 @@ export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
  * body the registry puts on a shelf joins it (the Mayor of Limerick, beside the Irish local
  * elections of the same day). An election the registry also lists under a body is on that body's
  * shelf as well as its own (alsoListed: the 1918 election, filed under the Dáil, on Westminster's). */
-export const BODY_GROUPS = electionGroups.shelves.map((/** @type {{ id: string, label: string, bodies: string[], icon: string, yearGroupTitle?: string }} */ { id, label, bodies, icon, yearGroupTitle }) => ({
+export const BODY_GROUPS = electionGroups.shelves.map((/** @type {{ id: string, label: string, bodies: string[], icon: string }} */ { id, label, bodies, icon }) => ({
   id, label, bodies: [...bodies], also: alsoListedUnder(electionGroups.alsoListed, bodies), alsoTitles: alsoListedTitles(electionGroups.alsoListed, bodies), icon, colour: ELECTION_SHELF_COLOURS[/** @type {keyof typeof ELECTION_SHELF_COLOURS} */ (id)],
-  ...(yearGroupTitle ? { yearGroupTitle } : {}),
 }));
 /** @param {string} slug */
 export const groupOfBody = (slug) => BODY_GROUPS.find((g) => g.bodies.includes(slug))?.id || '';
@@ -109,40 +108,11 @@ export function resultsHtml(c) {
 }
 
 /** Elections on their body's shelf, and on any other shelf that also lists them, in BODY_GROUPS'
- * order, newest first, as the list and the contents menu both show them. */
+ * order, newest first, as the list and the contents menu both show them. A grouped entry is on the
+ * shelf of each of its members' bodies (bodySlugs). */
 /** @param {CatalogueRowElection[]} list @param {readonly BodyGroup[]} [groups] */
 export function shelvesOf(list, groups = BODY_GROUPS) {
-  return groups.map((g) => ({ g, es: list.filter((e) => g.bodies.includes(e.bodySlug) || g.also.includes(e.key)) })).filter((x) => x.es.length);
-}
-
-/**
- * A shelf's rows, in the order of its elections: each election a row, except on a shelf with a
- * yearGroupTitle, where two or more elections of one year (the European elections in the Republic
- * and in Northern Ireland, two records) are one row under the year's title. Display only.
- * @param {CatalogueRowElection[]} es @param {string} [yearGroupTitle]
- * @returns {ShelfRow[]}
- */
-export function shelfRows(es, yearGroupTitle) {
-  if (!yearGroupTitle) return es.map((e) => ({ e }));
-  /** @type {Map<string, CatalogueRowElection[]>} */
-  const byYear = new Map();
-  for (const e of es) {
-    const year = String(e.date || '').slice(0, 4);
-    byYear.set(year, [...(byYear.get(year) || []), e]);
-  }
-  return [...byYear].flatMap(([year, list]) => /** @type {ShelfRow[]} */ (list.length > 1 && /^\d{4}$/.test(year)
-    ? [{ year, title: yearGroupTitle.replace(/\{year\}/g, year), es: list }]
-    : list.map((e) => ({ e }))));
-}
-
-/** @param {CatalogueNext} c @param {ShelfRow} row @param {string} shelf */
-function shelfRowHtml(c, row, shelf) {
-  if ('e' in row) return rowHtml(c, row.e);
-  const id = `cn-egroup-${shelf}-${row.year}`;
-  return `<li class="cn-egroup" data-cn-election-group="${esc(row.year)}">
-    <span class="cn-egroup__title" id="${esc(id)}">${esc(row.title)}</span>
-    <ul class="cn-egroup__list" role="list" aria-labelledby="${esc(id)}">${row.es.map((e) => rowHtml(c, e)).join('')}</ul>
-  </li>`;
+  return groups.map((g) => ({ g, es: list.filter((e) => g.bodies.includes(e.bodySlug) || g.also.includes(e.key) || Boolean(e.bodySlugs?.some((slug) => g.bodies.includes(slug)))) })).filter((x) => x.es.length);
 }
 
 /**
@@ -163,7 +133,7 @@ function shelfHtml(c, g, es, alone) {
     <h3 class="cn-shelf__head" id="cn-shelf-h-${id}"><button type="button" class="cn-shelf__toggle" data-cn-shelf="${id}" aria-expanded="${open}">
       <span class="cn-shelf__icon">${icon(g.icon)}</span><span class="cn-shelf__name">${esc(g.label)}</span><span class="cn-count">${plural(es.length, 'election')}</span>${icon('chevron-down', 'cn-icon cn-shelf__chev')}</button></h3>
     <div class="cn-shelf__body"${open ? '' : ' hidden'}>
-      <ul class="cn-list" role="list">${shelfRows(onShelf(g, es), g.yearGroupTitle).map((row) => shelfRowHtml(c, row, g.id)).join('')}</ul>
+      <ul class="cn-list" role="list">${onShelf(g, es).map((e) => rowHtml(c, e)).join('')}</ul>
     </div>
   </section>`;
 }
@@ -201,6 +171,8 @@ function seatsText(e) {
 /** @param {CatalogueRowElection} e */
 function aboutLabel(e) {
   const title = String(e.title || '');
+  // A grouped entry: several elections (or plebiscites) opened together.
+  if (e.members?.length) return /\bplebiscites?\b/i.test(title) ? 'About these plebiscites' : 'About these elections';
   if (/\bplebiscite\b/i.test(title)) return 'About this plebiscite';
   if (/\breferendum\b/i.test(title) || e.contestType === 'referendum') return 'About this referendum';
   if (/\brecall petition\b/i.test(title)) return 'About this recall petition';
@@ -221,12 +193,17 @@ export function rowHtml(c, e) {
     note && `<span>${esc(note)}</span>`,
     stood && `<span class="cn-person-note">${esc([stood.place, stood.party].filter(Boolean).join(' · '))}${stood.place || stood.party ? ' · ' : ''}<strong>${stood.won ? 'Elected' : 'Not elected'}</strong></span>`,
   ].filter(Boolean);
-  return `<li class="cn-erow" data-cn-election="${esc(e.key)}">
+  // A grouped entry opens all its elections together; each keeps its own results page.
+  const members = e.members?.length
+    ? `<span class="cn-erow__members"><span>Results pages:</span>${e.members.map((m) => `<a href="${esc(resultsHref(m.key))}" aria-label="${esc(m.title)}: results page" title="Results page: candidates, votes and sources">${esc(m.label)}</a>`).join('')}</span>`
+    : '';
+  const resultsLink = e.members?.length ? '' : `<a class="cn-iconbtn" href="${esc(resultsHref(e.key))}" aria-label="${esc(e.title)}: results page" title="Results page: candidates, votes and sources">${icon('file-text')}</a>`;
+  return `<li class="cn-erow${e.members?.length ? ' cn-erow--group' : ''}" data-cn-election="${esc(e.key)}">
     <span class="cn-erow__thumb">${c.thumb(e.thumb)}</span>
     <span class="cn-erow__date">${esc(shortDate(e.date))}</span>
-    <span class="cn-erow__main"><span class="cn-erow__title">${esc(e.title)}</span><span class="cn-erow__meta">${meta.join('')}</span></span>
+    <span class="cn-erow__main"><span class="cn-erow__title">${esc(e.title)}</span><span class="cn-erow__meta">${meta.join('')}</span>${members}</span>
     <span class="cn-erow__end">
-      <a class="cn-iconbtn" href="/browse/elections/${encodeURIComponent(browseSlug(e.key))}" aria-label="${esc(e.title)}: results page" title="Results page: candidates, votes and sources">${icon('file-text')}</a>
+      ${resultsLink}
       <button type="button" class="cn-add" data-cn-election-toggle="${esc(e.key)}" aria-pressed="false" aria-label="${esc(e.title)}: open on the map">${icon('plus', 'cn-icon cn-when-off')}${icon('check', 'cn-icon cn-when-on')}<span class="cn-when-off">Open</span><span class="cn-when-on">On map</span></button>
     </span>
     ${e.about ? `<details class="cn-erow__about"><summary>${esc(aboutLabel(e))}</summary>${aboutHtml(e.about)}</details>` : ''}

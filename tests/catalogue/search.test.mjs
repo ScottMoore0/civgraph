@@ -145,7 +145,13 @@ test('elections are found by the names people use for their body, and by year', 
   assert.deepEqual(titles('Dail 2020'), ['2020 Irish general election']);
   assert.deepEqual(titles('Stormont 1969'), ['1969 Parliament of Northern Ireland election']);
   assert.deepEqual(titles('NI Assembly 2022'), ['2022 Northern Ireland Assembly election']);
-  assert.equal(titles('European 2019').length, 2, 'both European constituencies in 2019');
+  // The Republic's and Northern Ireland's elections of a year are one entry (groupedElections, 19 Nov 2026),
+  // found by either's words.
+  assert.deepEqual(titles('European 2019'), ['2019 European Parliament election']);
+  assert.deepEqual(titles('European Northern Ireland 2014'), ['2014 European Parliament election']);
+  assert.deepEqual(titles('MEP 2024'), ['2024 European election in the Republic of Ireland']);
+  assert.deepEqual(titles('mayoral plebiscite 2019'), ['2019 mayoral plebiscites']);
+  assert.ok(titles('Cork City plebiscite').includes('2019 mayoral plebiscites'));
   assert.ok(titles('presidential').length && titles('presidential').every((t) => /presidential/i.test(t)));
   assert.ok(titles('referendum 2018').length && titles('referendum 2018').every((t) => /referendum/i.test(t) && /2018/.test(t)));
   // Councils are only those the election chose: Dungannon had a council in 1985, not in 2023.

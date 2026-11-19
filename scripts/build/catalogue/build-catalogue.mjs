@@ -35,6 +35,7 @@ import { openSqliteHandle } from '@civgraph/storage/node';
 import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '@civgraph/loader/paths.mjs';
 import { altNames, catalogueIrishNames, oldIdsByRow } from './alt-names.mjs';
 import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLocalCouncilRound, niLocalGroupKey } from '@civgraph/map/ni-local-groups.mjs';
+import { ELECTION_GROUPS, catalogueGroupRow } from '@civgraph/map/election-groups.mjs';
 
 /** @typedef {import('./records.mjs').PartLink} PartLink */
 /**
@@ -101,7 +102,8 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * @typedef {{
  *   key: string, title: string, body?: string | undefined, bodySlug: string, date?: string | undefined, kind: string, seats: number,
  *   subtitle?: string, scope?: string, thumb?: string | undefined, thumbBorrowed?: boolean, contestType?: string, layerId?: string,
- *   sourceMapId?: string, bodyGroup?: string | null, mapless?: boolean, about?: unknown
+ *   sourceMapId?: string, bodyGroup?: string | null, mapless?: boolean, about?: unknown,
+ *   members?: import('@civgraph/map/election-groups.mjs').CatalogueGroupMember[], bodySlugs?: string[], scopes?: string[], shortLabel?: string
  * }} ElectionOut
  */
 /**
@@ -603,6 +605,25 @@ const electionsOut = [...elections.filter((e) => !isNiLocalCouncilRound(e)).map(
     if (near) { e.thumb = near.thumb; e.thumbBorrowed = true; }
   }
 }
+// The grouped entries (data/registries/election-bodies.json groups.groupedElections,
+// packages/map/src/election-groups.mjs): one row standing for several elections that open together
+// on one map, each keeping its own results (the European elections in the Republic and Northern
+// Ireland of a year, the 2019 mayoral plebiscites). The row takes its members' places; their keys
+// count under it (people's contests, constituency search); their records and pages are unchanged.
+/** @type {Map<string, string>} */
+const groupOfElection = new Map();
+{
+  const rowsByKey = new Map(electionsOut.map((e) => [e.key, e]));
+  for (const group of ELECTION_GROUPS) {
+    const row = catalogueGroupRow(group, /** @type {Map<string, import('@civgraph/map/election-groups.mjs').GroupMemberRow>} */ (/** @type {unknown} */ (rowsByKey)));
+    if (!row) continue;
+    for (const member of row.members) groupOfElection.set(member.key, row.key);
+    const seats = row.members.reduce((n, member) => n + (rowsByKey.get(member.key)?.seats || 0), 0);
+    electionsOut.push({ ...row, seats });
+  }
+  const kept = electionsOut.filter((e) => !groupOfElection.has(e.key)).sort(compareElectionsNewestFirst);
+  electionsOut.splice(0, electionsOut.length, ...kept);
+}
 // Constituency names -> elections, so a search for "Dungannon" finds the elections it was fought in.
 /** @type {Record<string, string[]>} */
 const contestIndex = {};
@@ -610,7 +631,7 @@ for (const e of elections) {
   for (const c of new Set(e.constituencies || [])) {
     const k = String(c).trim();
     if (!k) continue;
-    const key = niLocalGroupOfRound.get(e.key) || e.key;
+    const key = niLocalGroupOfRound.get(e.key) || groupOfElection.get(e.key) || e.key;
     if (!(contestIndex[k] ||= []).includes(key)) contestIndex[k].push(key);
   }
 }
@@ -713,6 +734,10 @@ const peopleDoc = (() => {
   for (const [roundKey, groupKey] of niLocalGroupOfRound) {
     // has() is checked in the same statement
     if (electionIndex.has(groupKey)) electionIndex.set(roundKey, /** @type {number} */ (electionIndex.get(groupKey)));
+  }
+  // A grouped election's contest counts under its entry.
+  for (const [memberKey, groupKey] of groupOfElection) {
+    if (electionIndex.has(groupKey)) electionIndex.set(memberKey, /** @type {number} */ (electionIndex.get(groupKey)));
   }
   /** @type {PersonRow[]} */
   const people = [];

@@ -46,7 +46,11 @@ import { recordPagePath } from '../../../ui/src/page-types.mjs';
  *   kind?: string,
  *   contestType?: string,
  *   subtitle?: string,
- *   scope?: string
+ *   scope?: string,
+ *   members?: Array<{ key: string, label: string, title: string, date: string }>,
+ *   bodySlugs?: string[],
+ *   scopes?: string[],
+ *   shortLabel?: string
  * }} CatalogueElection
  * @typedef {{
  *   subjects: Array<{ id: string, name: string, kind?: string }>,
@@ -225,6 +229,11 @@ const { ni2014: NI_COUNCILS_2014, ni1973: NI_COUNCILS_1973, ireland: IRISH_COUNC
  * @param {CatalogueElection} e
  */
 export function electionAliases(e) {
+  // A grouped entry goes by its members' names: their bodies' and places' words, and their labels.
+  if (e.members?.length) {
+    return [...(e.bodySlugs || [e.bodySlug]).map((slug) => BODY_ALIASES[slug] || ''), ...e.members.map((m) => m.label),
+      ...(e.scopes || []).map(scopeAlias)].join(' ');
+  }
   const out = [BODY_ALIASES[e.bodySlug] || ''];
   const year = Number(String(e.date).slice(0, 4)) || 0;
   if (e.bodySlug === 'local-government') {
@@ -233,9 +242,15 @@ export function electionAliases(e) {
     else out.push(...(year >= 2014 ? NI_COUNCILS_2014 : NI_COUNCILS_1973));
   }
   if (e.bodySlug === 'ireland-local') out.push(...IRISH_COUNCILS);
-  if (e.scope === 'Northern Ireland') out.push('NI');
-  else if (e.scope === 'Republic of Ireland') out.push('Irish ROI');
+  out.push(scopeAlias(e.scope));
   return out.join(' ');
+}
+
+/** The short words for where an election was held. @param {string | undefined} scope */
+function scopeAlias(scope) {
+  if (scope === 'Northern Ireland') return 'NI';
+  if (scope === 'Republic of Ireland') return 'Irish ROI';
+  return '';
 }
 
 /** @typedef {{ id: string, tokens: string[], year: number | null }} SeriesMember */

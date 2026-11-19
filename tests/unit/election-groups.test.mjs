@@ -23,6 +23,7 @@ import {
   mergeMatchExpressions,
   withoutGroupMembers
 } from '@civgraph/map/election-groups.mjs';
+import { shelvesOf } from '@civgraph/map/catalogue/view-elections.js';
 
 /** @typedef {import('@civgraph/map/election-groups.mjs').ElectionGroup} ElectionGroup */
 
@@ -135,7 +136,10 @@ test('mergeMatchExpressions: the members\' pairs on one layer, the first winning
   assert.deepEqual(mergeMatchExpressions([a, b], '#eeeeee'), ['match', input, 'Limerick', '#111111', 'Waterford', '#222222', 'Cork', '#333333', '#eeeeee']);
   // A member with nothing on the layer is its plain fallback, and adds nothing.
   assert.deepEqual(mergeMatchExpressions(['#eeeeee', b], '#eeeeee'), ['match', input, 'Cork', '#333333', 'Limerick', '#999999', '#eeeeee']);
-  assert.equal(mergeMatchExpressions(['#eeeeee', 0.1], '#eeeeee'), '#eeeeee');
+  assert.equal(mergeMatchExpressions(['#eeeeee', '#eeeeee'], '#eeeeee'), '#eeeeee');
+  // The fallback is the members' own unless given.
+  assert.deepEqual(mergeMatchExpressions([a, b]), mergeMatchExpressions([a, b], '#eeeeee'));
+  assert.equal(mergeMatchExpressions(['#dddddd']), '#dddddd');
 });
 
 test('groupAbout and catalogueGroupRow: one row for the members, with their links and places', () => {
@@ -160,4 +164,22 @@ test('groupAbout and catalogueGroupRow: one row for the members, with their link
   assert.deepEqual(groupAbout({ ...SAMPLE, about: { text: ['Own.'] } }, [{ label: 'A', about: { text: ['One.'] } }]), { text: ['Own.'] });
   assert.equal(groupAbout(SAMPLE, [{ label: 'A' }]), null);
   assert.equal(catalogueGroupRow(SAMPLE, new Map()), null);
+});
+
+test('the committed catalogue: one row an entry, on its members\' shelves, in their place; their people count under it', () => {
+  const catalogue = JSON.parse(readFileSync(path.join(REPO_ROOT, 'data/catalogue/catalogue.json'), 'utf8'));
+  const people = JSON.parse(readFileSync(path.join(REPO_ROOT, 'data/catalogue/people.json'), 'utf8'));
+  const keys = new Set(catalogue.elections.map((/** @type {{ key: string }} */ e) => e.key));
+  const members = groupsByMember();
+  for (const group of ELECTION_GROUPS) assert.ok(keys.has(group.id), group.id);
+  for (const key of members.keys()) assert.ok(!keys.has(key), `${key} has no row of its own`);
+  const shelves = Object.fromEntries(shelvesOf(catalogue.elections).map(({ g, es }) => [g.id, es.map((/** @type {{ key: string }} */ e) => e.key)]));
+  for (const group of ELECTION_GROUPS.filter((g) => g.id.startsWith('european-parliament-'))) assert.ok(shelves.european?.includes(group.id), group.id);
+  assert.ok(shelves.referendum?.includes('mayoral-plebiscites-2019'));
+  // Newest first: the 2019 entry between the Republic's 2024 election and the 2014 entry.
+  const european = shelves.european || [];
+  assert.deepEqual(european.slice(0, 3), ['ireland-european__2024-06-07', 'european-parliament-2019', 'european-parliament-2014']);
+  // A candidate in either election of a year is a candidate in its entry.
+  const index = catalogue.elections.findIndex((/** @type {{ key: string }} */ e) => e.key === 'european-parliament-2019');
+  assert.ok(people.people.some((/** @type {unknown[]} */ row) => /** @type {number[][]} */ (row[8]).some((c) => c[0] === index)));
 });
