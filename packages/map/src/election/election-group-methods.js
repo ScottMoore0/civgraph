@@ -237,7 +237,7 @@ export class ElectionGroupMethods {
   groupTabsHtml() {
     const group = this.activeGroup;
     if (!group) return '';
-    return `<div class="election-view-tabs test2-election-tabs election-group-tabs" role="group" aria-label="Elections in ${escapeHtml(String(group.entry.displayTitle || ''))}">${group.members.map((member, i) => {
+    return `<div class="election-view-tabs test2-election-tabs election-group-tabs" role="group" aria-label="Elections shown together">${group.members.map((member, i) => {
       const on = i === group.index;
       return `<button type="button" class="election-view-tab${on ? ' election-view-tab--active' : ''}" data-election-group-member="${escapeHtml(member.entry.key)}" aria-pressed="${String(on)}" title="${escapeHtml(String(member.entry.displayTitle || member.label))}">${escapeHtml(member.label)}</button>`;
     }).join('')}</div>`;
