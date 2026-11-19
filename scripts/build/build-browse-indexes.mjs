@@ -653,7 +653,9 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       categoryId: map.category || null,
       category: category.name || map.category || null,
       group: category.group || map.group || null,
-      description: cleanText(map.description || category.description || ''),
+      // The map's own description or none: its category's tagline is not a description of the
+      // map, and the page shows the map's dates and area in its place (owner, 19 Nov 2026).
+      description: cleanText(map.description || ''),
       date: yearPrecisionDate(map.date || map.year || map.dateAdded || null, map),
       years: collectYears(map),
       provider: normalizeArray(map.provider || map.providers),
