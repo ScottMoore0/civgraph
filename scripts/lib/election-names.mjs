@@ -94,8 +94,9 @@ function dateParts(dateValue) {
 }
 
 // The years whose local elections also elected town and borough councils, which Civgraph does not
-// yet hold: their titles say the round is the administrative counties'.
-const IRELAND_LOCAL_COUNTY_ONLY_YEARS = new Set(['1974', '1979', '1985', '1999', '2004', '2009']);
+// yet hold: their titles say the round is the administrative counties' (1942-1967 added from
+// Phelim Birch's comment of 15 Nov 2026, "(administrative counties)": "You're forgetting these").
+const IRELAND_LOCAL_COUNTY_ONLY_YEARS = new Set(['1942', '1945', '1950', '1967', '1974', '1979', '1985', '1999', '2004', '2009']);
 
 // Every Republic referendum's title, as Phelim Birch worded them (October 2026; without "Irish"
 // since 11 Nov 2026, as only the Good Friday Agreement was voted on in both polities): the topic
