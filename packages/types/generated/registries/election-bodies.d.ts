@@ -27,6 +27,8 @@ export interface ElectionBodiesRegistry {
       election: string;
       /** The body it is also listed under: a body on a catalogue shelf, not its own. */
       body: Slug;
+      /** Its title on that body's catalogue shelf, where its own does not fit there (the 1918 election without its First Dáil marker on Westminster's). */
+      title?: string;
       why: string;
     }[];
     partyCharts: {

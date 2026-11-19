@@ -30,7 +30,7 @@ test('a year with one general election keeps the plain title', () => {
 });
 
 test('the flag changes no by-election, recall petition, registry day title or council title', () => {
-  assert.equal(titled({ ...DAIL, constituencies: ['Dublin West'] }, '1982-05-25'), '1982 Dublin West by-election');
+  assert.equal(titled({ ...DAIL, constituencies: ['Dublin West'] }, '1982-05-25'), '1982 Dublin West bye-election');
   assert.equal(titled({ ...WESTMINSTER, constituencies: ['North Antrim'], specialType: 'recall-petition' }, '2018-08-29'), '2018 North Antrim recall petition');
   // The Seanad's two 1938 elections are titled by the registry's titlesByDate.
   const seanad = { body: 'Seanad Éireann', bodySlug: 'seanad-eireann', constituencies: Array.from({ length: 6 }, (_, i) => `P${i}`) };

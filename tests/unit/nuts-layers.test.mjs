@@ -51,10 +51,11 @@ test('their live layers carry Eurostat\'s codes: UKN0A-0G for 2021 and UKN10-16 
 });
 
 test('the catalogue row lists them first, labelled by version, signed off', () => {
-  // By NUTS iteration, not by Republic and Northern Ireland (Phelim Birch review #8).
+  // By NUTS iteration, not by Republic and Northern Ireland (Phelim Birch review #8), labelled by the
+  // iterations' years (his comment of 15 Nov 2026).
   assert.deepEqual(series.members.slice(0, 4), ['nuts-2-2016-2021', 'nuts-3-2016-2021', 'nuts-2-2003-2013', 'nuts-3-2003-2013']);
-  assert.equal(series.labels['nuts-3-2016-2021'], 'NUTS 3 (2016–2021)');
-  assert.equal(series.labels['nuts-2-2003-2013'], 'NUTS 2 (2003–2013)');
+  assert.equal(series.labels['nuts-3-2016-2021'], 'NUTS 3 (2016, 2021)');
+  assert.equal(series.labels['nuts-2-2003-2013'], 'NUTS 2 (1999, 2003, 2006, 2010, 2013)');
   const signed = new Set(read('data/catalogue/catalogue.source.json').signedOff.map((s) => s.id));
   for (const id of Object.keys(EXPECTED)) assert.ok(signed.has(id), id);
 });

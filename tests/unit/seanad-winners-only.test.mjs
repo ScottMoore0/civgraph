@@ -132,9 +132,9 @@ test('WO-05 the by-elections: fifty seats, titled by the by-election templates, 
   const index = JSON.parse(readFileSync(path.join(REPO, 'data/elections-source/data/elections_index.json'), 'utf8'));
   const body = index.bodies.find((b) => b.slug === 'seanad-eireann');
   const title = (date) => canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date, constituencies: body.dates.find((d) => d.date === date).constituencies });
-  assert.equal(title('1941-01-22'), '1941 Seanad by-election (Cultural and Educational Panel)');
-  assert.equal(title('1956-05-14'), '1956 Seanad by-elections');
-  assert.equal(title('1975-04-23'), '1975 Seanad by-elections');
+  assert.equal(title('1941-01-22'), '1941 Seanad bye-election (Cultural and Educational Panel)');
+  assert.equal(title('1956-05-14'), '1956 Seanad bye-elections');
+  assert.equal(title('1975-04-23'), '1975 Seanad bye-elections');
   assert.equal(title('1938-04-27'), 'April 1938 Seanad election');
   assert.equal(title('1938-09-07'), 'August 1938 Seanad election');
   assert.equal(title('1997-09-17'), '1997 Seanad election');

@@ -488,6 +488,10 @@ test('N18 shelves start closed; a link to a set opens its section, shelf and row
   await pane(page).locator('[data-cn-tab="historic"]').click();
   await expect(pane(page).locator('.cn-shelf__head, .cn-subject__head')).toHaveCount(0);
   await expect(pane(page).locator('.cn-row').first()).toBeVisible();
+  // OSNI Orthophoto Coverage is listed here, and Road Traffic Collisions under Statistics (Phelim Birch, 15 Nov 2026).
+  await expect(row(page, 'aerial-imagery-and-elevation-osni-orthophoto-coverage')).toHaveCount(1);
+  await pane(page).locator('[data-cn-tab="statistics"]').click();
+  await expect(row(page, 'roads-and-traffic-psni-road-traffic-collisions')).toHaveCount(1);
   // From there, a link to Provinces goes to Boundaries with its shelf and row open.
   await page.evaluate(() => { location.hash = 'cat=series/counties-provinces'; });
   await expect(pane(page).locator('[data-cn-tab="boundaries"]')).toHaveAttribute('aria-current', 'true');
@@ -516,8 +520,10 @@ test('N20 placeholders, transport order, constituency hovers and dates', async (
   await pane(page).locator('[data-cn-tab="places"]').click();
   const names = await pane(page).locator('#cn-shelf-transport .cn-row__name').allTextContents();
   expect(names[0]).toBe('Roads');
-  // The collision rows are one since Phelim Birch's review of 12 Nov 2026 (#46/#47), and "NI" left the defects row (#49).
-  expect(names.slice(-5)).toEqual(['Road Traffic Collisions', 'Pothole Enquiries', 'Road Surface Defects', 'Way Points', 'GDF2s']);
+  // The collision rows are one since Phelim Birch's review of 12 Nov 2026 (#46/#47), listed under
+  // Statistics since his comment of 15 Nov 2026; and "NI" left the defects row (#49).
+  expect(names.slice(-4)).toEqual(['Pothole Enquiries', 'Road Surface Defects', 'Way Points', 'GDF2s']);
+  expect(names).not.toContain('Road Traffic Collisions');
   // Water opens with the coast (#70: the shelf's `first` list).
   expect((await pane(page).locator('#cn-shelf-water .cn-row__name').allTextContents())[0]).toBe('Coast');
   // A constituency map's hover gives no election-day date; its label keeps the year.
@@ -646,7 +652,8 @@ test('N08 elections: grouped bodies, and where they were held', async ({ page })
   await expect(pane(page).locator('#cn-shelf-e-ni-devolved .cn-erow')).toHaveCount(generals.filter((e) => devolved.includes(e.bodySlug)).length);
   const ni = pane(page).locator('[data-cn-filter="escope"][data-value="Northern Ireland"]');
   await ni.click();
-  await expect(pane(page).locator('.cn-erow')).toHaveCount(generals.filter((e) => e.scope === 'Northern Ireland').length);
+  // The 1921 Northern Ireland general election is on the Dáil shelf too (alsoListed), so it is two rows.
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(rowsOf(generals.filter((e) => e.scope === 'Northern Ireland')));
   await ni.click();
   await expect(pane(page).locator('.cn-erow')).toHaveCount(rowsOf(generals));
   await expect(pane(page).locator('.cn-jump, .cn-hist')).toHaveCount(0);
