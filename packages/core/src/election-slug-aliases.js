@@ -383,6 +383,20 @@ export const RETIRED_CONTEST_SLUGS = [
   ['lisnaskea-rural-district-council-1952-06-05-roslea', 'lisnaskea-rural-district-council-1952-06-05-rosslea'],
   ['lisnaskea-rural-district-council-1955-06-02-roslea', 'lisnaskea-rural-district-council-1955-06-02-rosslea'],
   ['lisnaskea-rural-district-council-1958-06-05-roslea', 'lisnaskea-rural-district-council-1958-06-05-rosslea'],
+  // Hillsborough Rural Glassdrummond and Glassdrumman, filed under the official DED name Glasdrumman (19 Nov 2026, w19-merges).
+  ['hillsborough-rural-district-council-1924-06-05-glassdrumman', 'hillsborough-rural-district-council-1924-06-05-glasdrumman'],
+  ['hillsborough-rural-district-council-1927-06-02-glassdrummond', 'hillsborough-rural-district-council-1927-06-02-glasdrumman'],
+  ['hillsborough-rural-district-council-1930-05-30-glassdrummond', 'hillsborough-rural-district-council-1930-05-30-glasdrumman'],
+  ['hillsborough-rural-district-council-1936-06-04-glassdrummond', 'hillsborough-rural-district-council-1936-06-04-glasdrumman'],
+  ['hillsborough-rural-district-council-1939-06-01-glassdrummond', 'hillsborough-rural-district-council-1939-06-01-glasdrumman'],
+  ['hillsborough-rural-district-council-1946-10-03-glassdrummond', 'hillsborough-rural-district-council-1946-10-03-glasdrumman'],
+  ['hillsborough-rural-district-council-1949-06-02-glassdrumman', 'hillsborough-rural-district-council-1949-06-02-glasdrumman'],
+  ['hillsborough-rural-district-council-1952-06-05-glassdrumman', 'hillsborough-rural-district-council-1952-06-05-glasdrumman'],
+  ['hillsborough-rural-district-council-1955-06-02-glassdrumman', 'hillsborough-rural-district-council-1955-06-02-glasdrumman'],
+  ['hillsborough-rural-district-council-1958-06-05-glassdrumman', 'hillsborough-rural-district-council-1958-06-05-glasdrumman'],
+  ['hillsborough-rural-district-council-1961-06-01-glassdrumman', 'hillsborough-rural-district-council-1961-06-01-glasdrumman'],
+  ['hillsborough-rural-district-council-1964-06-04-glassdrumman', 'hillsborough-rural-district-council-1964-06-04-glasdrumman'],
+  ['hillsborough-rural-district-council-1967-06-01-glassdrummond', 'hillsborough-rural-district-council-1967-06-01-glasdrumman'],
 ];
 
 /**

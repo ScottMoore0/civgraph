@@ -196,6 +196,7 @@ const OFFICIAL_DED_NAMES = [
   ['strabane-rural-district-council', 'Dunnamanagh', [['1924-05-28', 'Dunamanagh'], ['1927-06-01', 'Donemana'], ['1930-06-04', 'Donemana'], ['1933-05-31', 'Dunamanagh'], ['1936-06-03', 'Dunamanagh'], ['1939-05-31', 'Donemana'], ['1946-10-03', 'Donemana'], ['1949-06-02', 'Donemana'], ['1952-06-05', 'Donemana'], ['1955-06-02', 'Donemana'], ['1958-06-05', 'Donemana'], ['1961-06-01', 'Donemana'], ['1964-06-04', 'Donemana'], ['1967-06-01', 'Donemana']]],
   ['enniskillen-rural-district-council', 'Drummee', [['1927-05-25', 'Drumee']]],
   ['lisnaskea-rural-district-council', 'Rosslea', [['1936-06-03', 'Roslea'], ['1939-05-31', 'Roslea'], ['1949-06-02', 'Roslea'], ['1952-06-05', 'Roslea'], ['1955-06-02', 'Roslea'], ['1958-06-05', 'Roslea']]],
+  ['hillsborough-rural-district-council', 'Glasdrumman', [['1924-06-05', 'Glassdrumman'], ['1927-06-02', 'Glassdrummond'], ['1930-05-30', 'Glassdrummond'], ['1936-06-04', 'Glassdrummond'], ['1939-06-01', 'Glassdrummond'], ['1946-10-03', 'Glassdrummond'], ['1949-06-02', 'Glassdrumman'], ['1952-06-05', 'Glassdrumman'], ['1955-06-02', 'Glassdrumman'], ['1958-06-05', 'Glassdrumman'], ['1961-06-01', 'Glassdrumman'], ['1964-06-04', 'Glassdrumman'], ['1967-06-01', 'Glassdrummond']]],
 ];
 /** @returns {[string, string][]} each renamed division's old contest slug and its new one */
 function officialDedSlugs() {
