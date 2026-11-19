@@ -33,7 +33,6 @@
               "bodies": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/slug" } },
               "councilFlag": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]*$", "description": "Adds the bodies of the councils registry's councils with this flag." },
               "icon": { "$ref": "#/$defs/slug" },
-              "yearGroupTitle": { "type": "string", "pattern": "\\{year\\}", "description": "The shelf's elections of one year are shown as one grouped row with this title ({year} is the year): the European Parliament's, two records a year." },
               "note": { "type": "string", "minLength": 1 }
             }
           }
@@ -49,6 +48,44 @@
               "election": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*__\\d{4}-\\d{2}-\\d{2}", "description": "The election's key (<body>__<date>)." },
               "body": { "$ref": "#/$defs/slug", "description": "The body it is also listed under: a body on a catalogue shelf, not its own." },
               "title": { "type": "string", "minLength": 1, "description": "Its title on that body's catalogue shelf, where its own does not fit there (the 1918 election without its First Dáil marker on Westminster's)." },
+              "why": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "groupedElections": {
+          "type": "array",
+          "description": "Catalogue entries that each stand for several elections opened together on one map, each keeping its own results (packages/map/src/election-groups.mjs). The members keep their records, Browse pages, API answers and addresses.",
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "members", "why"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "$ref": "#/$defs/slug", "description": "The entry's key: its catalogue row and its address (electionBody=Group&electionDate=<id>, layers=election-group-<id>)." },
+              "title": { "type": "string", "minLength": 1 },
+              "shortLabel": { "type": "string", "minLength": 1, "description": "The row's badge, where the first member's body's short label does not fit." },
+              "members": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "required": ["election", "label"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "election": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*__\\d{4}-\\d{2}-\\d{2}", "description": "An election's key (<body>__<date>)." },
+                    "label": { "type": "string", "minLength": 1, "description": "What its tab in the results pane and its section of the legend are called." }
+                  }
+                }
+              },
+              "about": {
+                "type": "object",
+                "required": ["text"],
+                "additionalProperties": false,
+                "description": "The entry's description; without one the catalogue shows the members' own.",
+                "properties": {
+                  "text": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+                  "links": { "type": "array", "items": { "type": "object", "required": ["label", "url"], "additionalProperties": false, "properties": { "label": { "type": "string", "minLength": 1 }, "url": { "type": "string", "pattern": "^https?://" } } } }
+                }
+              },
               "why": { "type": "string", "minLength": 1 }
             }
           }

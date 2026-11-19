@@ -101,7 +101,7 @@
   }
  ],
  "groups": {
-  "description": "How the site groups the bodies, each list in its display order. A body is placed by the first group whose `match` it meets: `bodies` (its slug is one of these), `prefixes` (its slug starts with one), `contains` (its slug contains one), or `pattern` (a regular expression, case-insensitive). catalogueShelves: the catalogue's Elections shelves (packages/map/src/catalogue/view-elections.js BODY_GROUPS); a body listed above with a `shelf` joins that shelf, `councilFlag` adds the councils of the councils registry with that flag, and `yearGroupTitle` shows the shelf's elections of one year as one grouped row under that title ({year} is the year). alsoListed: elections listed under a second body besides the one they are filed under, the record staying one: shown on that body's catalogue shelf and on its page in the Elections app (site/apps/elections/views/home.js). partyCharts: the bodies a party profile charts (scripts/build/build-party-profiles.mjs), matched on the election key's body; a body listed above with a `partyGroup` gets a chart of its own after these. catalogueOrder: the order of the catalogue's body list (scripts/build/catalogue/build-catalogue.mjs); a body not listed follows, alphabetically. electionsHome: the Elections app's home page (site/apps/elections/views/home.js), matched on the body slug, shown in `order`. entityHistory: the groups of a person's or party's election history in the map app (packages/map/src/entity-detail-data.mjs), matched on the election's type label.",
+  "description": "How the site groups the bodies, each list in its display order. A body is placed by the first group whose `match` it meets: `bodies` (its slug is one of these), `prefixes` (its slug starts with one), `contains` (its slug contains one), or `pattern` (a regular expression, case-insensitive). catalogueShelves: the catalogue's Elections shelves (packages/map/src/catalogue/view-elections.js BODY_GROUPS); a body listed above with a `shelf` joins that shelf, `councilFlag` adds the councils of the councils registry with that flag. groupedElections: catalogue entries that each stand for several elections opened together on one map, each election keeping its own results (no merged figures): `members` (existing election keys, each with the `label` its tab and legend section show), `title`, an optional `shortLabel` (the row's badge) and an optional `about` (the entry's description; without one the members' own descriptions are shown); the entry takes the members' places in the catalogue's list and on the map's timeline, and the members keep their records, Browse pages, API answers and addresses (packages/map/src/election-groups.mjs). alsoListed: elections listed under a second body besides the one they are filed under, the record staying one: shown on that body's catalogue shelf and on its page in the Elections app (site/apps/elections/views/home.js). partyCharts: the bodies a party profile charts (scripts/build/build-party-profiles.mjs), matched on the election key's body; a body listed above with a `partyGroup` gets a chart of its own after these. catalogueOrder: the order of the catalogue's body list (scripts/build/catalogue/build-catalogue.mjs); a body not listed follows, alphabetically. electionsHome: the Elections app's home page (site/apps/elections/views/home.js), matched on the body slug, shown in `order`. entityHistory: the groups of a person's or party's election history in the map app (packages/map/src/entity-detail-data.mjs), matched on the election's type label.",
   "catalogueShelves": [
    {
     "id": "dail",
@@ -173,8 +173,7 @@
      "ireland-european"
     ],
     "icon": "european",
-    "yearGroupTitle": "{year} European Parliament election",
-    "note": "The Republic and Northern Ireland elect their MEPs as separate elections, under different laws and systems, filed as two records a year; the shelf shows each year's two as one grouped row (Phelim Birch's review #105)."
+    "note": "The Republic and Northern Ireland elect their MEPs as separate elections, under different laws and systems, filed as two records a year; each year's two are one entry (groupedElections), drawn together on one map (Phelim Birch's review #105 and comment of 17 Nov 2026)."
    },
    {
     "id": "referendum",
@@ -206,6 +205,182 @@
     "body": "dail-eireann",
     "title": "1921 Parliament of Northern Ireland election (Second Dáil)",
     "why": "Dáil Éireann took as its Second Dáil the members returned at both general elections of 24 May 1921 held under the Government of Ireland Act 1920: Southern Ireland's, filed under the Dáil, and Northern Ireland's, filed under the Parliament of Northern Ireland, so the Northern Ireland one is listed with the Dáil elections too (Phelim Birch's comment of 17 Nov 2026: 'its election was also part of the Second Dáil')."
+   }
+  ],
+  "groupedElections": [
+   {
+    "id": "european-parliament-1979",
+    "title": "1979 European Parliament election",
+    "shortLabel": "European",
+    "members": [
+     {
+      "election": "ireland-european__1979-06-07",
+      "label": "Republic of Ireland"
+     },
+     {
+      "election": "european-parliament__1979-06-07",
+      "label": "Northern Ireland"
+     }
+    ],
+    "why": "One election to the European Parliament, held in the Republic and in Northern Ireland as two elections under different laws and voting systems, filed as two records: one entry draws both, each area coloured by its own election's result (Phelim Birch's comments of 22 Oct and 17 Nov 2026; owner decision 3a of 19 Nov 2026)."
+   },
+   {
+    "id": "european-parliament-1984",
+    "title": "1984 European Parliament election",
+    "shortLabel": "European",
+    "members": [
+     {
+      "election": "ireland-european__1984-06-14",
+      "label": "Republic of Ireland"
+     },
+     {
+      "election": "european-parliament__1984-06-14",
+      "label": "Northern Ireland"
+     }
+    ],
+    "why": "One election to the European Parliament, held in the Republic and in Northern Ireland as two elections under different laws and voting systems, filed as two records: one entry draws both, each area coloured by its own election's result (Phelim Birch's comments of 22 Oct and 17 Nov 2026; owner decision 3a of 19 Nov 2026)."
+   },
+   {
+    "id": "european-parliament-1989",
+    "title": "1989 European Parliament election",
+    "shortLabel": "European",
+    "members": [
+     {
+      "election": "ireland-european__1989-06-15",
+      "label": "Republic of Ireland"
+     },
+     {
+      "election": "european-parliament__1989-06-15",
+      "label": "Northern Ireland"
+     }
+    ],
+    "why": "One election to the European Parliament, held in the Republic and in Northern Ireland as two elections under different laws and voting systems, filed as two records: one entry draws both, each area coloured by its own election's result (Phelim Birch's comments of 22 Oct and 17 Nov 2026; owner decision 3a of 19 Nov 2026)."
+   },
+   {
+    "id": "european-parliament-1994",
+    "title": "1994 European Parliament election",
+    "shortLabel": "European",
+    "members": [
+     {
+      "election": "ireland-european__1994-06-09",
+      "label": "Republic of Ireland"
+     },
+     {
+      "election": "european-parliament__1994-06-09",
+      "label": "Northern Ireland"
+     }
+    ],
+    "why": "One election to the European Parliament, held in the Republic and in Northern Ireland as two elections under different laws and voting systems, filed as two records: one entry draws both, each area coloured by its own election's result (Phelim Birch's comments of 22 Oct and 17 Nov 2026; owner decision 3a of 19 Nov 2026)."
+   },
+   {
+    "id": "european-parliament-1999",
+    "title": "1999 European Parliament election",
+    "shortLabel": "European",
+    "members": [
+     {
+      "election": "ireland-european__1999-06-11",
+      "label": "Republic of Ireland"
+     },
+     {
+      "election": "european-parliament__1999-06-10",
+      "label": "Northern Ireland"
+     }
+    ],
+    "why": "One election to the European Parliament, held in the Republic and in Northern Ireland as two elections under different laws and voting systems, filed as two records: one entry draws both, each area coloured by its own election's result (Phelim Birch's comments of 22 Oct and 17 Nov 2026; owner decision 3a of 19 Nov 2026)."
+   },
+   {
+    "id": "european-parliament-2004",
+    "title": "2004 European Parliament election",
+    "shortLabel": "European",
+    "members": [
+     {
+      "election": "ireland-european__2004-06-11",
+      "label": "Republic of Ireland"
+     },
+     {
+      "election": "european-parliament__2004-06-10",
+      "label": "Northern Ireland"
+     }
+    ],
+    "why": "One election to the European Parliament, held in the Republic and in Northern Ireland as two elections under different laws and voting systems, filed as two records: one entry draws both, each area coloured by its own election's result (Phelim Birch's comments of 22 Oct and 17 Nov 2026; owner decision 3a of 19 Nov 2026)."
+   },
+   {
+    "id": "european-parliament-2009",
+    "title": "2009 European Parliament election",
+    "shortLabel": "European",
+    "members": [
+     {
+      "election": "ireland-european__2009-06-05",
+      "label": "Republic of Ireland"
+     },
+     {
+      "election": "european-parliament__2009-06-04",
+      "label": "Northern Ireland"
+     }
+    ],
+    "why": "One election to the European Parliament, held in the Republic and in Northern Ireland as two elections under different laws and voting systems, filed as two records: one entry draws both, each area coloured by its own election's result (Phelim Birch's comments of 22 Oct and 17 Nov 2026; owner decision 3a of 19 Nov 2026)."
+   },
+   {
+    "id": "european-parliament-2014",
+    "title": "2014 European Parliament election",
+    "shortLabel": "European",
+    "members": [
+     {
+      "election": "ireland-european__2014-05-23",
+      "label": "Republic of Ireland"
+     },
+     {
+      "election": "european-parliament__2014-05-22",
+      "label": "Northern Ireland"
+     }
+    ],
+    "why": "One election to the European Parliament, held in the Republic and in Northern Ireland as two elections under different laws and voting systems, filed as two records: one entry draws both, each area coloured by its own election's result (Phelim Birch's comments of 22 Oct and 17 Nov 2026; owner decision 3a of 19 Nov 2026)."
+   },
+   {
+    "id": "european-parliament-2019",
+    "title": "2019 European Parliament election",
+    "shortLabel": "European",
+    "members": [
+     {
+      "election": "ireland-european__2019-05-24",
+      "label": "Republic of Ireland"
+     },
+     {
+      "election": "european-parliament__2019-05-23",
+      "label": "Northern Ireland"
+     }
+    ],
+    "why": "One election to the European Parliament, held in the Republic and in Northern Ireland as two elections under different laws and voting systems, filed as two records: one entry draws both, each area coloured by its own election's result (Phelim Birch's comments of 22 Oct and 17 Nov 2026; owner decision 3a of 19 Nov 2026)."
+   },
+   {
+    "id": "mayoral-plebiscites-2019",
+    "title": "2019 mayoral plebiscites",
+    "members": [
+     {
+      "election": "ireland-referendum__2019-05-24-directly-elected-mayor-limerick",
+      "label": "Limerick"
+     },
+     {
+      "election": "ireland-referendum__2019-05-24-directly-elected-mayor-waterford",
+      "label": "Waterford"
+     },
+     {
+      "election": "ireland-referendum__2019-05-24-directly-elected-mayor-cork-city",
+      "label": "Cork City"
+     }
+    ],
+    "about": {
+     "text": [
+      "Plebiscites held in Limerick City and County Council, Waterford City and County Council and Cork City Council on whether each local authority should have a directly elected mayor. The plebiscites in Waterford and Cork City were rejected with 49.2% Yes / 50.8% No and 49.3% Yes / 50.7% No votes respectively, but the plebiscite in Limerick was passed with a 52.4% Yes / 47.6% No vote."
+     ],
+     "links": [
+      {
+       "label": "Wikipedia: 2019 Irish local elections § Mayoral plebiscites",
+       "url": "https://en.wikipedia.org/wiki/2019_Irish_local_elections#Mayoral_plebiscites"
+      }
+     ]
+    },
+    "why": "Three plebiscites held on one day in three local authorities, each a vote of its own: one entry draws all three, each keeping its own result, with Phelim Birch's description (his comment of 17 Nov 2026; owner decision 3a of 19 Nov 2026)."
    }
   ],
   "partyCharts": [

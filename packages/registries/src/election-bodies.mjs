@@ -145,22 +145,39 @@ export function checkElectionBodies(registry) {
     if (listed.has(`${election} ${body}`)) errors.push(`groups.alsoListed: ${election} is listed under ${body} twice`);
     listed.add(`${election} ${body}`);
   }
+  // A grouped entry stands for two or more elections, each in no other entry, under an id no other
+  // entry has (packages/map/src/election-groups.mjs). That each member exists is the elections
+  // index's to say (tests/unit/election-groups.test.mjs), not this registry's.
+  const groupIds = new Set();
+  /** @type {Map<string, string>} */
+  const groupOf = new Map();
+  for (const group of groups.groupedElections || []) {
+    if (groupIds.has(group.id)) errors.push(`groups.groupedElections: ${group.id} is listed twice`);
+    groupIds.add(group.id);
+    const labels = group.members.map((member) => member.label);
+    if (new Set(labels).size !== labels.length) errors.push(`groups.groupedElections: ${group.id} gives two members one label`);
+    for (const { election } of group.members) {
+      const other = groupOf.get(election);
+      if (other) errors.push(`groups.groupedElections: ${election} is in ${other === group.id ? `${group.id} twice` : `${other} and ${group.id}`}`);
+      groupOf.set(election, group.id);
+    }
+  }
   return errors;
 }
 
 /**
  * The catalogue's Elections shelves, each with every body on it: its own list, the councils with
  * its `councilFlag` (`councilBodies(flag)`, from the councils registry), then the bodies above whose
- * `shelf` names it, in registry order; and its yearGroupTitle where it has one.
+ * `shelf` names it, in registry order.
  * @param {ElectionBodiesRegistry} registry
  * @param {(flag: string) => string[]} councilBodies
- * @returns {{ id: string, label: string, bodies: string[], icon: string, yearGroupTitle?: string }[]}
+ * @returns {{ id: string, label: string, bodies: string[], icon: string }[]}
  */
 export function catalogueShelves(registry, councilBodies) {
   return registry.groups.catalogueShelves.map((shelf) => {
     const own = [...shelf.bodies, ...(shelf.councilFlag ? councilBodies(shelf.councilFlag) : [])];
     const joined = registry.bodies.filter((body) => body.shelf === shelf.id && !own.includes(body.id)).map((body) => body.id);
-    return { id: shelf.id, label: shelf.label, bodies: [...own, ...joined], icon: shelf.icon, ...(shelf.yearGroupTitle ? { yearGroupTitle: shelf.yearGroupTitle } : {}) };
+    return { id: shelf.id, label: shelf.label, bodies: [...own, ...joined], icon: shelf.icon };
   });
 }
 

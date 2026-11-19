@@ -45,7 +45,8 @@
  *   election-groups.json packages/map/src/catalogue/view-elections.js (the shelves, with the elections
  *                        also listed on them), packages/map/src/entity-detail-data.mjs (election-history
  *                        groups), site/apps/elections/views/home.js (the home page's groups and the
- *                        elections also listed on a body's page, at /pkg/); placed by body-groups.mjs
+ *                        elections also listed on a body's page, at /pkg/); placed by body-groups.mjs;
+ *                        and the grouped entries, packages/map/src/election-groups.mjs
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -148,7 +149,10 @@ export function browserSlices(root = REPO_ROOT) {
       entityHistory: structuredClone(electionBodies.groups.entityHistory),
       // The elections also listed under a second body (the catalogue shelf and Elections app page of
       // that body), without the registry's reasons.
-      alsoListed: (electionBodies.groups.alsoListed || []).map(({ election, body, title }) => ({ election, body, ...(title ? { title } : {}) }))
+      alsoListed: (electionBodies.groups.alsoListed || []).map(({ election, body, title }) => ({ election, body, ...(title ? { title } : {}) })),
+      // The catalogue entries that open several elections together (packages/map/src/election-groups.mjs),
+      // without the registry's reasons.
+      groupedElections: (electionBodies.groups.groupedElections || []).map(({ why: _why, ...group }) => structuredClone(group))
     },
     'election-types.json': browserElectionTypes(electionTypes),
     'catalogue-kinds.json': browserCatalogueKinds(loadRegistry('catalogue-kinds', { root })),

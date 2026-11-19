@@ -17,8 +17,6 @@ export interface ElectionBodiesRegistry {
       /** Adds the bodies of the councils registry's councils with this flag. */
       councilFlag?: string;
       icon: Slug;
-      /** The shelf's elections of one year are shown as one grouped row with this title ({year} is the year): the European Parliament's, two records a year. */
-      yearGroupTitle?: string;
       note?: string;
     }[];
     /** Elections listed under a second body besides the one they are filed under (the record stays one): shown on that body's catalogue shelf and its Elections app page. */
@@ -31,6 +29,29 @@ export interface ElectionBodiesRegistry {
       title?: string;
       why: string;
     }[];
+    /** Catalogue entries that each stand for several elections opened together on one map, each keeping its own results (packages/map/src/election-groups.mjs). The members keep their records, Browse pages, API answers and addresses. */
+    groupedElections?: Array<{
+      /** The entry's key: its catalogue row and its address (electionBody=Group&electionDate=<id>, layers=election-group-<id>). */
+      id: Slug;
+      title: string;
+      /** The row's badge, where the first member's body's short label does not fit. */
+      shortLabel?: string;
+      members: {
+        /** An election's key (<body>__<date>). */
+        election: string;
+        /** What its tab in the results pane and its section of the legend are called. */
+        label: string;
+      }[];
+      /** The entry's description; without one the catalogue shows the members' own. */
+      about?: {
+        text: string[];
+        links?: {
+          label: string;
+          url: string;
+        }[];
+      };
+      why: string;
+    }>;
     partyCharts: {
       id: Slug;
       label: string;
