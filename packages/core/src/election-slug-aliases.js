@@ -397,6 +397,14 @@ export const RETIRED_CONTEST_SLUGS = [
   ['hillsborough-rural-district-council-1961-06-01-glassdrumman', 'hillsborough-rural-district-council-1961-06-01-glasdrumman'],
   ['hillsborough-rural-district-council-1964-06-04-glassdrumman', 'hillsborough-rural-district-council-1964-06-04-glasdrumman'],
   ['hillsborough-rural-district-council-1967-06-01-glassdrummond', 'hillsborough-rural-district-council-1967-06-01-glasdrumman'],
+  // Fermanagh County Council Roslea, filed under the official county electoral division name Rosslea (19 Nov 2026, w19-fixes2).
+  ['fermanagh-county-council-1949-06-02-roslea', 'fermanagh-county-council-1949-06-02-rosslea'],
+  ['fermanagh-county-council-1952-06-05-roslea', 'fermanagh-county-council-1952-06-05-rosslea'],
+  ['fermanagh-county-council-1955-06-02-roslea', 'fermanagh-county-council-1955-06-02-rosslea'],
+  ['fermanagh-county-council-1958-06-05-roslea', 'fermanagh-county-council-1958-06-05-rosslea'],
+  ['fermanagh-county-council-1961-06-01-roslea', 'fermanagh-county-council-1961-06-01-rosslea'],
+  ['fermanagh-county-council-1964-06-04-roslea', 'fermanagh-county-council-1964-06-04-rosslea'],
+  ['fermanagh-county-council-1967-06-01-roslea', 'fermanagh-county-council-1967-06-01-rosslea'],
 ];
 
 /**
