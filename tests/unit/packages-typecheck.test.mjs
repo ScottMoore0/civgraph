@@ -46,7 +46,7 @@ const BASELINE = {
   'packages/map/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess'], include: ['src/**/*.js', 'src/**/*.mjs', 'src/**/*.d.ts', 'app/**/*.js', 'src/renderer/port-plan-client.generated.json'] },
   'packages/loader/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess'], include: ['src/*.mjs'] },
   'packages/intake/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess'], include: ['src/*.mjs', 'src/frozen-clock/*.mjs'] },
-  'packages/maps-pipeline/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess'], include: ['src/*.mjs', 'src/thumbnails/*.mjs'] },
+  'packages/maps-pipeline/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess'], include: ['src/*.mjs', 'src/thumbnails/*.mjs', 'src/tiles/feature-index-from-tiles.mjs', 'src/tiles/repair-alias-layers.mjs', 'src/tiles/tile-profiles.mjs', 'src/tiles/vector-intake.mjs'] },
 };
 
 // The exclude entries as of 18 Nov 2026: each names files another project of the same package
@@ -62,16 +62,12 @@ const LEFT = [
   'packages/map/src/jquery-shim.js', // 106: a classic script loaded by URL
   'packages/maps-pipeline/src/tiles/assign-missing-label-properties.mjs', // 16
   'packages/maps-pipeline/src/tiles/download-sources.mjs', // 30
-  'packages/maps-pipeline/src/tiles/feature-index-from-tiles.mjs', // 8
   'packages/maps-pipeline/src/tiles/feature-indexes.mjs', // 45
   'packages/maps-pipeline/src/tiles/layer-plan.mjs', // 35
   'packages/maps-pipeline/src/tiles/pmtiles.mjs', // 83
   'packages/maps-pipeline/src/tiles/promote-layers.mjs', // 95
-  'packages/maps-pipeline/src/tiles/repair-alias-layers.mjs', // 1
   'packages/maps-pipeline/src/tiles/repair-label-text.mjs', // 11
-  'packages/maps-pipeline/src/tiles/tile-profiles.mjs', // 1
   'packages/maps-pipeline/src/tiles/vector-batch.mjs', // 54
-  'packages/maps-pipeline/src/tiles/vector-intake.mjs', // 13
 ];
 
 /** @param {string} file repository-relative */

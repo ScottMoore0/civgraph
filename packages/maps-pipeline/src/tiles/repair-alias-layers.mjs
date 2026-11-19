@@ -42,22 +42,29 @@ const FROM_TARGET = ['tileUrl', 'tiles', 'sourceLayer', 'sourceType'];
 
 let totalChanged = 0;
 
+/**
+ * A layer record of the metadata files: an alias names its target, and the fields copied from it.
+ * @typedef {{ id: string, aliasOf?: unknown, cloneOf?: unknown, aliasTargetLayerId?: string, status?: string, conversionStatus?: string } & Record<string, unknown>} LayerRecord
+ */
+
 for (const rel of FILES) {
   const path = resolve(ROOT, rel);
   if (!existsSync(path)) {
     console.error(`skipping ${rel}: not present`);
     continue;
   }
-  const doc = JSON.parse(readFileSync(path, 'utf8'));
+  const doc = /** @type {{ layers?: LayerRecord[] }} */ (JSON.parse(readFileSync(path, 'utf8')));
   const layers = doc.layers || [];
   const byId = new Map(layers.map((l) => [l.id, l]));
 
+  /** @type {string[]} */
   const changed = [];
+  /** @type {string[]} */
   const orphans = [];
 
   for (const layer of layers) {
     if (!layer.aliasOf && !layer.cloneOf && layer.conversionStatus !== 'convertedAlias') continue;
-    const target = byId.get(layer.aliasTargetLayerId);
+    const target = byId.get(/** @type {string} */ (layer.aliasTargetLayerId));
     if (!target) { orphans.push(layer.id); continue; }
 
     const before = JSON.stringify(layer);

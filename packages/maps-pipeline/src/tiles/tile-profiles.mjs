@@ -55,6 +55,7 @@ const ATTRIBUTE_BOUND = [
   'dlr-dlr-public-lighting'
 ];
 
+/** @param {string} key a layer id, lower case */
 function attributeCutoffFor(key) {
   return ATTRIBUTE_BOUND.some((prefix) => key.includes(prefix)) ? 7 : undefined;
 }

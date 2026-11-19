@@ -29,23 +29,32 @@ const env = { ...process.env, MSYS_NO_PATHCONV: '1', GDAL_HTTP_USERAGENT: SITE.u
 
 const args = process.argv.slice(2);
 const idsAt = args.indexOf('--ids');
-const onlyIds = idsAt >= 0 ? new Set(args[idsAt + 1].split(',').map((s) => s.trim()).filter(Boolean)) : null;
+const onlyIds = idsAt >= 0 ? new Set(/** @type {string} */ (args[idsAt + 1]).split(',').map((s) => s.trim()).filter(Boolean)) : null;
 const missing = args.includes('--missing');
 if (!onlyIds && !missing) {
   console.error('Pass --ids a,b or --missing.');
   process.exit(2);
 }
 
+/**
+ * A layer record of the render metadata, the fields read here.
+ * @typedef {{ id: string, promoteId?: string, featureIndexUrl?: string, tileUrl?: string, sourceFile?: string, maxzoom?: number,
+ *   labelProperty?: string, labelPropertyFallbacks?: string[], popupProperties?: string[] }} TileLayer
+ */
 const metadata = JSON.parse(readFileSync(METADATA, 'utf8'));
+/** @type {TileLayer[]} */
 const layers = Array.isArray(metadata) ? metadata : (metadata.layers || metadata.maps || Object.values(metadata).find(Array.isArray));
 const targets = layers.filter((layer) => layer.promoteId === 'civ_fid' && layer.featureIndexUrl && layer.tileUrl
   && (onlyIds ? onlyIds.has(layer.id) : !(layer.sourceFile && existsSync(join(ROOT, layer.sourceFile)))));
 
-const run = (cmd, cmdArgs) => spawnSync(cmd, cmdArgs, { encoding: 'utf8', env, maxBuffer: 512 * 1024 * 1024 });
-const quote = (name) => `"${String(name).replace(/"/g, '""')}"`;
+const run = (/** @type {string} */ cmd, /** @type {string[]} */ cmdArgs) => spawnSync(cmd, cmdArgs, { encoding: 'utf8', env, maxBuffer: 512 * 1024 * 1024 });
+const quote = (/** @type {string} */ name) => `"${String(name).replace(/"/g, '""')}"`;
 
+/** @param {string} text @returns {string[][]} */
 function parseCsv(text) {
+  /** @type {string[][]} */
   const rows = [];
+  /** @type {string[]} */
   let row = [];
   let cell = '';
   let inQuotes = false;
@@ -64,11 +73,12 @@ function parseCsv(text) {
 }
 
 // The same name fields build-test-feature-indexes.mjs uses, so results read the same.
+/** @param {TileLayer} layer @param {Set<string>} fields @returns {string[]} */
 function nameProperties(layer, fields) {
   const guessed = (layer.popupProperties || [])
     .filter((key) => /name|label|title|english|gaeilge|irish|county|sett|lea|district|division|region/i.test(key));
-  return [...new Set([layer.labelProperty, ...(layer.labelPropertyFallbacks || []), ...guessed])]
-    .filter((key) => key && fields.has(key));
+  return /** @type {string[]} */ ([...new Set([layer.labelProperty, ...(layer.labelPropertyFallbacks || []), ...guessed])]
+    .filter((key) => key && fields.has(key)));
 }
 
 const done = new Set();
@@ -80,7 +90,7 @@ for (const layer of targets) {
   const info = run('ogrinfo', ['-ro', '-so', '-al', tilePath, '-oo', 'ZOOM_LEVEL=0']);
   const tileLayer = (info.stdout.match(/^Layer name: (.+)$/m) || [])[1]?.trim();
   if (!tileLayer) { console.error(`${layer.id}: could not open ${layer.tileUrl}`); process.exitCode = 1; continue; }
-  const fields = new Set([...info.stdout.matchAll(/^(\S[^:]*): (?:String|Integer|Integer64|Real)/gm)].map((m) => m[1]));
+  const fields = new Set([...info.stdout.matchAll(/^(\S[^:]*): (?:String|Integer|Integer64|Real)/gm)].map((m) => /** @type {string} */ (m[1])));
   if (!fields.has('civ_fid')) { console.error(`${layer.id}: the tiles carry no civ_fid`); process.exitCode = 1; continue; }
   const names = nameProperties(layer, fields);
   if (!names.length) { console.error(`${layer.id}: no name field in the tiles`); process.exitCode = 1; continue; }
@@ -114,7 +124,7 @@ for (const layer of targets) {
   rmSync(work, { force: true });
   if (result.status !== 0) { console.error(`${layer.id}: ${result.stderr.slice(0, 300)}`); process.exitCode = 1; continue; }
 
-  const [header, ...rows] = parseCsv(result.stdout);
+  const [header, ...rows] = /** @type {[string[], ...string[][]]} */ (parseCsv(result.stdout));
   const items = rows.map((row) => Object.fromEntries(header.map((key, i) => [key, row[i]]))).map((props) => {
     const aliases = names.map((key) => String(props[key] ?? '').trim()).filter(Boolean);
     const lon = Number(props.lon);
@@ -131,7 +141,7 @@ for (const layer of targets) {
     };
   }).filter((item) => Number.isFinite(item.id) && item.name);
 
-  const indexPath = join(ROOT, layer.featureIndexUrl.replace(/^\//, ''));
+  const indexPath = join(ROOT, /** @type {string} */ (layer.featureIndexUrl).replace(/^\//, ''));
   mkdirSync(dirname(indexPath), { recursive: true });
   const capped = items.slice(0, MAX_INDEX_ITEMS);
   writeFileSync(indexPath, `${JSON.stringify({

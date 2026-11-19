@@ -13,8 +13,14 @@ const REPORT_PATH = resolve(ROOT, 'render/metadata/vector-conversion-report.json
 const OUTPUT_PATH = resolve(ROOT, 'render/metadata/vector-intake-report.json');
 const VECTOR_EXTENSIONS = new Set(['.fgb', '.geojson', '.json', '.gpkg', '.shp', '.zip']);
 
-const plan = JSON.parse(readFileSync(PLAN_PATH, 'utf8'));
-const conversionReport = existsSync(REPORT_PATH) ? JSON.parse(readFileSync(REPORT_PATH, 'utf8')) : { skipped: [] };
+/**
+ * @typedef {{ kind?: string, file?: string }} VectorSource  a source file of a plan row
+ * @typedef {{ label?: string, url: string }} SourceLink  a download or reference of a plan row
+ * @typedef {{ sourceMapId: string, parentId?: string, name?: string, category?: string, recommendedTarget?: string,
+ *   conversionStatus?: string, sourceFiles?: VectorSource[], sourceDownloads?: SourceLink[], references?: SourceLink[] }} PlanRow
+ */
+const plan = /** @type {{ rows?: PlanRow[] }} */ (JSON.parse(readFileSync(PLAN_PATH, 'utf8')));
+const conversionReport = /** @type {{ converted?: Array<{ sourceMapId: string }>, skipped: unknown[] }} */ (existsSync(REPORT_PATH) ? JSON.parse(readFileSync(REPORT_PATH, 'utf8')) : { skipped: [] });
 const convertedIds = new Set((conversionReport.converted || []).map((row) => row.sourceMapId));
 const rows = (plan.rows || []).filter((row) => row.conversionStatus === 'needsVectorTileConversion' && !convertedIds.has(row.sourceMapId));
 
@@ -26,7 +32,7 @@ const items = rows.map((row) => {
   ].filter((source) => isVectorSource(source.file || '')));
   const remoteSources = vectorSources.filter((source) => /^https?:\/\//i.test(source.file || ''));
   const localSources = vectorSources.filter((source) => !/^https?:\/\//i.test(source.file || ''));
-  const missingLocal = localSources.filter((source) => !existsSync(resolve(ROOT, source.file.replace(/^\//, ''))));
+  const missingLocal = localSources.filter((source) => !existsSync(resolve(ROOT, /** @type {string} */ (source.file).replace(/^\//, ''))));
   const action = chooseAction({ vectorSources, remoteSources, localSources, missingLocal });
   return {
     sourceMapId: row.sourceMapId,
@@ -51,7 +57,7 @@ const totals = items.reduce((acc, item) => {
   acc.total += 1;
   acc[item.action] = (acc[item.action] || 0) + 1;
   return acc;
-}, { total: 0 });
+}, /** @type {{ total: number } & Record<string, number>} */ ({ total: 0 }));
 
 const payload = {
   schemaVersion: 1,
@@ -73,6 +79,10 @@ writeFileSync(OUTPUT_PATH, `${JSON.stringify(payload, null, 2)}\n`);
 console.log(`Wrote ${OUTPUT_PATH.replace(`${ROOT}\\`, '')}`);
 console.log(`Intake rows: ${totals.total}`);
 
+/**
+ * What a row needs before it can be converted.
+ * @param {{ vectorSources: VectorSource[], remoteSources: VectorSource[], localSources: VectorSource[], missingLocal: VectorSource[] }} sources
+ */
 function chooseAction({ vectorSources, remoteSources, localSources, missingLocal }) {
   if (remoteSources.length) return 'download-remote-source';
   if (missingLocal.length || localSources.length) return 'locate-local-source';
@@ -80,13 +90,16 @@ function chooseAction({ vectorSources, remoteSources, localSources, missingLocal
   return 'review-source';
 }
 
+/** @param {string} file */
 function isVectorSource(file) {
   if (!file) return false;
-  const clean = file.split('?')[0].toLowerCase();
+  const clean = /** @type {string} */ (file.split('?')[0]).toLowerCase();
   return VECTOR_EXTENSIONS.has(extname(clean));
 }
 
+/** The sources with a file, each file once. @param {VectorSource[]} sources @returns {VectorSource[]} */
 function uniqueSources(sources) {
+  /** @type {Map<string, VectorSource>} */
   const byFile = new Map();
   for (const source of sources) {
     const file = source.file || '';
