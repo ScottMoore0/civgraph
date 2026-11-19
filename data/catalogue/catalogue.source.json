@@ -2097,13 +2097,16 @@
    "name": "Landscape Character Areas",
    "subject": "landscape-and-scenic-amenity",
    "scope": "Ireland",
-   "arrangement": "editions",
+   "arrangement": "set",
    "members": [
-    "oda-map-00612-landscape-character-areas-roscommon-cdp-2014-2020-expired",
     "oda-map-00613-landscape-character-areas-roscommon-cdp-2022-2028",
     "designated-lca"
    ],
-   "kind": "Boundary"
+   "kind": "Boundary",
+   "labels": {
+    "oda-map-00613-landscape-character-areas-roscommon-cdp-2022-2028": "Roscommon",
+    "designated-lca": "Northern Ireland"
+   }
   },
   {
    "id": "cycling-and-walking-bicycle-parking-stands",
@@ -2538,7 +2541,11 @@
     "oda-map-00615-landscape-character-types-roscommon-cdp-2014-2020-expired",
     "landscape-character-types"
    ],
-   "kind": "Boundary"
+   "kind": "Boundary",
+   "labels": {
+    "landscape-character-types": "Monaghan",
+    "oda-map-00615-landscape-character-types-roscommon-cdp-2014-2020-expired": "Roscommon"
+   }
   },
   {
    "id": "sport-and-recreation-skateboard-parks",
@@ -4935,6 +4942,11 @@
    "id": "tailte-boundaries-seawater-line",
    "why": "Phelim Birch's review #32 / owner, 15 Nov 2026: the edge lines (1:1 million) are hidden with their area map. Tailte Éireann's \"Boundaries Seawater\" maps are a cartographic mask of the national map frame, not a boundary: the area map is one 273,539 km2 polygon covering the 1:250,000 map frame minus the Republic's land (so it shows the sea and Northern Ireland as \"sea\"), and the line map is its 15 edges (the Northern Ireland border in pieces and the frame). They carry nothing the Coast and polity maps do not, and are easily misread as maritime limits. Hidden, not deleted; links open the Coast row.",
    "to": "coasts-seas-and-islands-coastline"
+  },
+  {
+   "id": "oda-map-00612-landscape-character-areas-roscommon-cdp-2014-2020-expired",
+   "why": "Phelim Birch's comments of 15 and 17 Nov 2026: the two Roscommon Landscape Character Areas maps are identical, keep one labelled \"Roscommon\". Compared 19 Nov 2026: the same 36 areas with the same names and values (\"Value_Desc\"), and the same geometry in all 278 tile pieces at zoom 12; the files differ only in their extra fields (this one has the 2015 creation and edit dates, the 2022-2028 one the area and value numbers). The 2022-2028 plan's map is kept.",
+   "to": "oda-map-00613-landscape-character-areas-roscommon-cdp-2022-2028"
   }
  ],
  "signedOff": [
