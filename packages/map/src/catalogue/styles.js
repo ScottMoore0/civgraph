@@ -66,16 +66,13 @@ export const CATALOGUE_CSS = `
 /* Four sections with counts: on a narrow pane they wrap to two rows rather than squeeze a label. */
 .cn-tabs .cn-tab { flex: 1 1 auto; white-space: nowrap; justify-content: center; }
 .cn-tab .cn-tab__count { font-weight: 500; opacity: .75; font-variant-numeric: tabular-nums; }
-.cn-tab .cn-tab__short { display: none; }
 @container (max-width: 430px) { .cn-tab .cn-tab__count { display: none; } }
-/* A phone: all five sections on one row, icon over a short label. A pane too narrow even for that
+/* A phone: all five sections on one row, icon over the section's name. A pane too narrow even for that
    scrolls the row sideways rather than squeeze a label. */
 @container (max-width: 520px) {
   .cn-tabs.catalogue-flat__sections { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 3px; margin: 4px 0; padding: 3px; }
   .cn-tabs.catalogue-flat__sections::-webkit-scrollbar { display: none; }
   .cn-tabs .cn-tab.catalogue-flat__section-tab { flex: 1 0 auto; flex-direction: column; gap: 3px; min-height: 42px; padding: 4px 3px; font-size: 11px; }
-  .cn-tab .cn-tab__long { display: none; }
-  .cn-tab .cn-tab__short { display: inline; }
 }
 
 /* Filters */
@@ -178,7 +175,7 @@ export const CATALOGUE_CSS = `
 .cn-row__title--static { cursor: default; }
 .cn-row__title--static:hover { background: none; }
 .cn-row__title[aria-expanded="true"] .cn-row__chev { transform: rotate(180deg); }
-.cn-row__end { grid-column: 4; display: flex; align-items: center; gap: 6px; }
+.cn-row__end { grid-column: 4; display: flex; align-items: center; gap: 4px; }
 .cn-row > .cn-chips { grid-column: 3 / span 2; margin-top: 6px; }
 .cn-iconbtn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--cn-line);
   background: var(--cn-surface); cursor: pointer; color: var(--cn-muted); }
@@ -287,24 +284,21 @@ export const CATALOGUE_CSS = `
 .cn-btn:hover, .cn-btn[aria-expanded="true"] { background: var(--cn-hover); }
 .cn-btn--primary { background: var(--cn-grad); border-color: transparent; color: #fff; }
 .cn-btn--primary:hover { filter: brightness(1.06); background: var(--cn-grad); }
-.cn-mlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.cn-mlist__item { display: flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 4px; border-radius: 6px; }
-.cn-mlist__item--version { padding-left: 22px; }
-.cn-mlist__name { flex: 1; min-width: 0; text-align: left; border: 0; background: none; cursor: pointer; padding: 4px 6px; border-radius: 6px; overflow-wrap: anywhere; }
-.cn-mlist__name:hover { background: var(--cn-hover); }
-.cn-mlist__name[aria-current="true"] { font-weight: 800; box-shadow: inset 3px 0 0 var(--c, var(--cn-text)); }
-
-/* Timeline of editions, spaced by date */
-.cn-tl { overflow-x: auto; padding: 4px 2px 0; }
-.cn-tl__track { position: relative; height: 46px; margin: 0 14px; }
-.cn-tl__axis { position: absolute; left: -8px; right: -8px; top: 13px; height: 2px; background: var(--cn-line); }
-.cn .cn-tick { position: absolute; top: 4px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; border: 0; background: none; padding: 0 2px; cursor: pointer; }
-.cn-tick__dot { width: 16px; height: 16px; border-radius: 50%; background: var(--cn-surface); border: 3px solid var(--c, #7a8699); }
-.cn-tick--on .cn-tick__dot { background: var(--c, #7a8699); }
-.cn-tick[aria-pressed="true"] .cn-tick__dot { box-shadow: 0 0 0 3px var(--cn-surface), 0 0 0 5px var(--cn-text); }
-.cn-tick__label { font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--cn-muted); white-space: nowrap; }
-.cn-tick[aria-pressed="true"] .cn-tick__label { color: var(--cn-text); font-weight: 800; }
-.cn-tl__ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--cn-muted); margin: 0 6px; }
+/* A row's maps as a dated list (Phelim Birch's notes, 19 Nov 2026: the slider under the map is the
+   timeline): the date, the map's chip, its tools, and the button that opens its facts beneath it. */
+.cn-dlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; }
+.cn-dlist__item { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 4px 0 4px 10px; border-left: 3px solid var(--c, var(--cn-line)); }
+.cn-dlist__item--open { padding-bottom: 10px; }
+.cn-dlist__line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-width: 0; }
+.cn-dlist__when { min-width: 0; font-size: 12.5px; color: var(--cn-muted); font-variant-numeric: tabular-nums; }
+.cn-dlist__when:empty { display: none; }
+.cn-dlist__chip { min-width: 0; max-width: 100%; display: inline-flex; }
+.cn-dlist__acts { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; }
+.cn-dlist__more .cn-icon { transition: transform .15s ease; }
+.cn-dlist__more[aria-expanded="true"] .cn-icon { transform: rotate(180deg); }
+.cn-dlist__item > .cn-ed { padding-left: 2px; }
+/* The Details page's actions: the catalogue's buttons, outside the catalogue's own root. */
+.cn.cn-detail-actions { margin: 10px 0 12px; padding: 0; }
 
 /* Things still to be added under a subject */
 .cn-todo { margin: 6px 6px 0; font-size: 13px; }
@@ -430,16 +424,14 @@ a.cn-iconbtn { text-decoration: none; }
   .cn .cn-row__thumb .catalogue-flat__toc-thumbwrap { width: 36px; height: 36px; }
   .cn-row > .cn-chips { grid-column: 2 / span 3; }
   .cn-panel { grid-column: 1 / span 4; margin-left: 4px; }
-  /* Add is a square "+" (a tick when on; its label stays for screen readers) and "More" is narrow but
-     full height, so the name and facts get the width the buttons gave up. */
-  .cn-row .cn-add { width: var(--cn-add-w, 32px); padding: 0; gap: 0; justify-content: center; }
-  .cn-row .cn-add span.cn-when-off, .cn-row .cn-add[aria-pressed] span.cn-when-on { display: none; }
-  .cn-row__end { gap: 4px; }
-  .cn-row .cn-iconbtn[data-cn-menu] { width: 28px; }
 }
 /* A phone, where the details could not sit beside the name anyway: they run on under it as one
    paragraph, and the chevron moves up beside the name to give them its column. */
 @container (max-width: 400px) {
+  /* The row's actions (two to four buttons) take a line of their own under the name, so the name
+     and facts keep the pane's width. */
+  .cn-row__end { grid-column: 2 / span 3; grid-row: 2; margin-top: 6px; justify-self: start; flex-wrap: wrap; }
+  .cn-row__thumb { grid-row: 1; }
   .cn-row__title { display: block; position: relative; }
   .cn-row__title > .cn-row__chev { position: absolute; top: 3px; right: 0; }
   .cn-row__text { display: block; }

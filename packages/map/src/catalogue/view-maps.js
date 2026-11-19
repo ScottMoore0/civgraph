@@ -1,7 +1,8 @@
 /**
  * The Maps section: filters, then every series as one row whose editions are chips that add their
- * map in one click. A row opens in place for its timeline, facts, versions, parts and the rest of
- * its actions; maps still to be added show on request, row by row. Rendering only: the controller
+ * map in one click. A row opens in place for its editions as a dated list, each with its own tools,
+ * and the facts, versions and parts of the one chosen; maps still to be added show on request, row
+ * by row. Rendering only: the controller
  * (index.js) owns state and behaviour, and is passed in as `c`.
  */
 import { icon, SHELF_LOOK, SHELF_ICON_IN, FLAT_SECTIONS } from './icons.js';
@@ -11,6 +12,8 @@ import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
 import { MAP_COLOURS } from '../colours.mjs';
 import { creditLine } from '../../../core/src/credits.mjs';
+import { rowActionKind, rowCount, datedList, comparable, rowEditions } from './row-model.mjs';
+import { siteNumber } from '../../../core/src/format.js';
 
 /** @typedef {import('./index.js').CatalogueNext} CatalogueNext */
 /** @typedef {import('./index.js').VisibleShelf} VisibleShelf */
@@ -141,18 +144,22 @@ function subjectHtml(c, { sub, series }, heading = true) {
  * @param {RowHit} [hit]
  */
 export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
-  const editions = s.members.filter((m) => !m.of);
+  const editions = rowEditions(s);
   const todo = s.todo || [];
   const local = s.local || [];
   const drawable = s.members.length > 0;
   // One map (its other versions, such as Townlands' 1844 Valuation, wait in the opened row):
-  // the row has a single Add button, as Civil Parishes does.
-  const single = editions.length === 1;
+  // the row acts on that map; a row of several acts on itself (row-model.mjs).
+  const kind = rowActionKind(s);
+  const single = kind === 'map';
   const open = drawable && c.expanded.has(s.id);
   // A row with no scope finds no short name.
   const meta = [SCOPE_SHORT[/** @type {string} */ (s.scope)] || s.scope, span(s.years)].filter(Boolean).map((t) => `<span>${esc(t)}</span>`);
+  // Dated editions of one map count "32 Counties · 6 editions" from the latest complete edition.
+  const counted = rowCount(s, (id) => c.rec(id));
   const tally = [
-    editions.length > 1 ? plural(editions.length, s.arrangement === 'editions' ? 'edition' : 'map') : '',
+    counted ? [counted.features ? `${siteNumber(counted.features)} ${unitWord(counted.unit, counted.features)}` : '', plural(counted.editions, 'edition')].filter(Boolean).join(' · ') : '',
+    !counted && editions.length > 1 ? plural(editions.length, s.arrangement === 'editions' ? 'edition' : 'map') : '',
     local.length ? plural(local.length, 'council map') : '',
   ].filter(Boolean);
   const allTodo = !drawable || s.members.every((m) => c.rec(m.id).status === 'placeholder');
@@ -171,17 +178,46 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
     : `<div class="cn-row__title cn-row__title--static">${text}</div>`;
   const localHits = localHitsOf(c, s, hit);
   const chips = !single || todo.length || localHits.length;
+  const ends = kind === 'row' ? rowActionsHtml(c, s) : kind === 'map' ? mapActionsHtml(c, s, s.members[0]) : '';
   return `<li class="cn-row${open ? ' cn-row--open' : ''}${drawable ? '' : ' cn-row--todo'}" data-cn-series="${esc(s.id)}" style="--c:${s.color || FALLBACK}">
     <span class="cn-row__stripe" aria-hidden="true"></span>
     <span class="cn-row__thumb">${s.thumb ? c.thumb(s.thumb) : `<span class="cn-thumb-none" aria-hidden="true">${icon('map')}</span>`}</span>
     ${title}
-    <span class="cn-row__end">
-      ${single ? addButtonHtml(c, s, s.members[0]) : ''}
-      ${drawable ? `<button type="button" class="cn-iconbtn" data-cn-menu="${esc(s.id)}" aria-haspopup="menu" aria-expanded="false" aria-label="More for ${esc(s.name)}" title="More: download, link, cite, compare">${icon('ellipsis')}</button>` : ''}
-    </span>
+    ${ends ? `<span class="cn-row__end" role="group" aria-label="${esc(s.name)}: actions">${ends}</span>` : ''}
     ${chips ? `<div class="cn-chips" role="group" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${chipsHtml(c, s, single ? [] : editions, hit)}</div>` : ''}
     ${open ? `<div class="cn-panel" id="cn-panel-${esc(s.id)}" data-cn-panel="${esc(s.id)}">${panelHtml(c, s)}</div>` : ''}
   </li>`;
+}
+
+/**
+ * A row of several maps acts on itself: a link to the row, its citation, and Compare (two of its
+ * editions, chosen from a menu) when it has two to compare.
+ * @param {CatalogueNext} c @param {CatalogueRow} s
+ */
+function rowActionsHtml(c, s) {
+  const pair = comparable(s, (id) => c.rec(id)).length >= 2;
+  return `<button type="button" class="cn-iconbtn" data-cn-act="row-link" data-series="${esc(s.id)}" aria-label="Copy a link to ${esc(s.name)}" title="Copy link">${icon('link')}</button>
+      <button type="button" class="cn-iconbtn" data-cn-act="row-cite" data-series="${esc(s.id)}" aria-label="Cite ${esc(s.name)}" title="Cite">${icon('quote')}</button>
+      ${pair ? `<button type="button" class="cn-iconbtn" data-cn-act="row-compare" data-series="${esc(s.id)}" aria-haspopup="menu" aria-expanded="false" aria-label="Compare two editions of ${esc(s.name)}" title="Compare two editions">${icon('columns')}</button>` : ''}`;
+}
+
+/**
+ * A row of one map acts on that map: Add, then Zoom, Download and Details.
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} m
+ */
+function mapActionsHtml(c, s, m) {
+  if (c.rec(m.id).status === 'placeholder') return '';
+  return `${addButtonHtml(c, s, m)}${mapToolsHtml(c, m.id, s.name)}`;
+}
+
+/**
+ * A map's own tools, each where it applies: Zoom (it has an extent), Download (it has files) and
+ * Details (it has a page). Every map, version and part in a row has them beside its chip.
+ * @param {CatalogueNext} c @param {string} id @param {string} label @param {{ small?: boolean }} [options]
+ */
+export function mapToolsHtml(c, id, label, { small = false } = {}) {
+  const cls = `cn-iconbtn${small ? ' cn-iconbtn--sm' : ''}`;
+  return `${c.rec(id).bounds ? `<button type="button" class="${cls}" data-cn-act="zoom" data-map="${esc(id)}" aria-label="Zoom to ${esc(label)}" title="Zoom to">${icon('maximize')}</button>` : ''}${c.downloadsFor(id).length ? `<button type="button" class="${cls}" data-cn-act="downloads" data-map="${esc(id)}" aria-haspopup="menu" aria-expanded="false" aria-label="Download ${esc(label)}" title="Download">${icon('download')}</button>` : ''}${c.full(id) ? `<button type="button" class="${cls}" data-cn-act="details" data-map="${esc(id)}" aria-label="Details of ${esc(label)}" title="Details">${icon('info')}</button>` : ''}`;
 }
 
 /** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} m */
@@ -265,59 +301,56 @@ export function aboutHtml(about, { heading = '' } = {}) {
 }
 
 /**
- * The opened row: what it is, timeline or list, then the chosen edition's facts and every action.
+ * The opened row: what it is; for a row of several maps, its maps as a dated list (newest first),
+ * each with its chip and tools, the chosen one opened for its facts, versions and parts; for a row
+ * of one map, that map's facts, versions and parts. The map's timeline is the slider under the map
+ * (Phelim Birch's notes, 19 Nov 2026: no second timeline in the row).
  * @param {CatalogueNext} c
  * @param {CatalogueRow} s
  */
 export function panelHtml(c, s) {
-  const editions = s.members.filter((m) => !m.of);
   const sel = c.selectedMember(s);
+  const list = datedList(s, (id) => c.rec(id));
+  if (list.length > 1) return `${aboutHtml(s.about)}${datedListHtml(c, s, list, sel)}`;
+  return `${aboutHtml(s.about)}<div class="cn-ed">${editionHtml(c, s, sel)}</div>`;
+}
+
+/**
+ * What the chosen map of a row holds: its facts, its versions, its parts and council maps.
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel
+ */
+function editionHtml(c, s, sel) {
   const r = c.rec(sel.id);
-  const dated = editions.filter((m) => c.decimalYear(c.rec(m.id).date) !== null);
-  const timeline = s.arrangement === 'editions' && dated.length >= 2;
-  return `${aboutHtml(s.about)}
-    ${timeline ? timelineHtml(c, s, dated, sel) : ''}
-    ${!timeline && s.members.filter((m) => !m.of).length > 1 ? memberListHtml(c, s, sel) : ''}
-    <div class="cn-ed">
-      ${factsHtml(c, sel, r)}
-      ${/* Descriptions are hidden until people write standard ones (Phelim Birch's review,
-          2026-10-06); the text stays in the data. */ ''}
+  // Descriptions are hidden until people write standard ones (Phelim Birch's review, 2026-10-06);
+  // the text stays in the data.
+  return `${factsHtml(c, sel, r)}
+      ${r.status === 'placeholder' ? '<p class="cn-muted">Listed so you know it is coming: it cannot be drawn yet.</p>' : ''}
       ${versionsHtml(c, s, sel)}
       ${partsHtml(c, s, sel, r)}
-      ${localHtml(c, s, sel)}
-      ${actionsHtml(c, s, sel, r)}
-    </div>`;
+      ${localHtml(c, s, sel)}`;
 }
 
-/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} dated @param {CatalogueRowMember} sel */
-function timelineHtml(c, s, dated, sel) {
-  // Dated editions only (panelHtml): each has its decimal year.
-  const pts = dated.map((m) => ({ m, t: /** @type {number} */ (c.decimalYear(c.rec(m.id).date)) })).sort((a, b) => a.t - b.t);
-  const min = pts[0].t;
-  const max = pts[pts.length - 1].t;
-  const width = Math.max(240, pts.length * 46);
-  // Labels are thinned to fit the track as drawn: at least its minimum, wider in a wider pane.
-  const drawn = Math.max(width, (c.paneWidth || 0) - 120);
-  const selBase = sel.of || sel.id;
-  let last = -Infinity;
-  const ticks = pts.map(({ m, t }) => {
-    const pct = max === min ? 50 : ((t - min) / (max - min)) * 100;
-    const px = (pct / 100) * drawn;
-    const show = px - last >= 40 || m.id === selBase;
-    if (show) last = px;
-    const label = m.label.length <= 6 ? m.label : String(Math.floor(t));
-    return `<button type="button" class="cn-tick" style="left:${pct.toFixed(2)}%;--c:${colourOf(c, s, m.id)}" data-cn-select="${esc(s.id)}|${esc(m.id)}" data-cn-dot="${esc(m.id)}" aria-pressed="${m.id === selBase}" aria-label="${esc(m.label)}" title="${esc(c.mapSummary(m.id))}"><span class="cn-tick__dot" aria-hidden="true"></span><span class="cn-tick__label" aria-hidden="true">${show ? esc(label) : ''}</span></button>`;
-  }).join('');
-  return `<div class="cn-tl" role="group" aria-label="${esc(s.name)} on a timeline: choose an edition"><div class="cn-tl__track" style="min-width:${width}px"><span class="cn-tl__axis" aria-hidden="true"></span>${ticks}</div></div>`;
-}
-
-/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel */
-function memberListHtml(c, s, sel) {
-  return `<ul class="cn-mlist" aria-label="${esc(s.name)}: choose a map">${s.members.filter((m) => !m.of).map((m) => {
+/**
+ * A row's maps, one line each: the map's date, its chip (on and off the map), its tools, and a
+ * button that opens its facts, versions and parts beneath it.
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} list @param {CatalogueRowMember} sel
+ */
+function datedListHtml(c, s, list, sel) {
+  const chosen = sel.of || sel.id;
+  const kind = s.arrangement === 'editions' ? 'editions' : 'maps';
+  return `<ul class="cn-dlist" aria-label="${esc(s.name)}: ${kind}">${list.map((m) => {
     const r = c.rec(m.id);
-    return `<li class="cn-mlist__item" style="--c:${colourOf(c, s, m.id)}">
-      <button type="button" class="cn-mlist__name" data-cn-select="${esc(s.id)}|${esc(m.id)}" aria-current="${m.id === sel.id || m.id === sel.of}" title="${esc(c.mapSummary(m.id))}">${esc(m.label)}</button>
-      ${r.status === 'placeholder' ? '<span class="cn-badge cn-badge--todo">To be added</span>' : addButtonHtml(c, s, m)}
+    const when = r.date ? mapDate(r) : '';
+    const open = m.id === chosen;
+    const label = `${s.name}, ${m.label}`;
+    const todo = r.status === 'placeholder';
+    return `<li class="cn-dlist__item${open ? ' cn-dlist__item--open' : ''}" style="--c:${colourOf(c, s, m.id)}">
+      <span class="cn-dlist__line">
+        <span class="cn-dlist__when">${when && when !== m.label ? esc(when) : ''}</span>
+        <span class="cn-dlist__chip">${chipHtml(c, s, m)}</span>
+        <span class="cn-dlist__acts">${todo ? '<span class="cn-badge cn-badge--todo">To be added</span>' : mapToolsHtml(c, m.id, label, { small: true })}<button type="button" class="cn-iconbtn cn-iconbtn--sm cn-dlist__more" data-cn-select="${esc(s.id)}|${esc(m.id)}" aria-expanded="${open}" aria-label="${esc(m.label)}: facts, versions and parts" title="Facts, versions and parts">${icon('chevron-down')}</button></span>
+      </span>
+      ${open ? `<div class="cn-ed">${editionHtml(c, s, sel)}</div>` : ''}
     </li>`;
   }).join('')}</ul>`;
 }
@@ -352,13 +385,9 @@ function versionsHtml(c, s, sel) {
   if (all.length < 2) return '';
   return `<div class="cn-sub"><span class="cn-label">Versions</span><ul class="cn-vlist">${all.map((m) => {
     const label = m.of ? m.label : (m.version || `${m.label} (main)`);
-    return `<li class="cn-vlist__item" style="--c:${colourOf(c, s, m.id)}">
-      <span class="cn-vlist__name" title="${esc(c.mapSummary(m.id))}">${esc(label)}</span>
-      <span class="cn-vlist__acts">
-        ${c.rec(m.id).status === 'placeholder' ? '<span class="cn-badge cn-badge--todo">To be added</span>' : addButtonHtml(c, s, m)}
-        ${c.full(m.id) ? `<button type="button" class="cn-iconbtn" data-cn-act="details" data-map="${esc(m.id)}" aria-label="${esc(label)}: details" title="Details">${icon('info')}</button>` : ''}
-        ${c.downloadsFor(m.id).length ? `<button type="button" class="cn-iconbtn" data-cn-act="downloads" data-map="${esc(m.id)}" aria-haspopup="menu" aria-expanded="false" aria-label="${esc(label)}: download" title="Download">${icon('download')}</button>` : ''}
-      </span></li>`;
+    return `<li class="cn-vlist__item">${c.rec(m.id).status === 'placeholder'
+      ? `<span class="cn-vlist__name">${esc(label)}</span><span class="cn-badge cn-badge--todo">To be added</span>`
+      : itemHtml(c, chipHtml(c, s, m, { label }), m.id, `${s.name}, ${label}`)}</li>`;
   }).join('')}</ul></div>`;
 }
 
@@ -371,7 +400,7 @@ function localHtml(c, s, sel) {
   const local = (s.local || []).filter((m) => !m.of || m.of === base);
   if (!local.length) return '';
   return `<div class="cn-sub"><span class="cn-label">Council maps · ${local.length}</span>
-    <div class="cn-chips">${local.map((m) => itemHtml(c, chipHtml(c, s, m), m.id, m.label, { details: true })).join('')}</div></div>`;
+    <div class="cn-chips">${local.map((m) => itemHtml(c, chipHtml(c, s, m), m.id, `${s.name}, ${m.label}`)).join('')}</div></div>`;
 }
 
 /** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel @param {CatalogueMapRec} r */
@@ -394,14 +423,13 @@ function countiesHtml(c, s, sel, r) {
 }
 
 /**
- * One part, county map or council map: its chip, then its own Details (when it has a page) and Download.
- * @param {CatalogueNext} c @param {string} chip @param {string} id @param {string} label @param {{ details?: boolean }} [options]
+ * One version, part, county map or council map: its chip, then its own Zoom, Download and Details,
+ * each where it applies.
+ * @param {CatalogueNext} c @param {string} chip @param {string} id @param {string} label
  */
-function itemHtml(c, chip, id, label, { details = false } = {}) {
-  const dl = c.downloadsFor(id).length;
-  const info = details && c.full(id);
-  if (!dl && !info) return chip;
-  return `<span class="cn-item">${chip}${info ? `<button type="button" class="cn-iconbtn cn-iconbtn--sm" data-cn-act="details" data-map="${esc(id)}" aria-label="${esc(label)}: details" title="Details">${icon('info')}</button>` : ''}${dl ? `<button type="button" class="cn-iconbtn cn-iconbtn--sm" data-cn-act="downloads" data-map="${esc(id)}" aria-haspopup="menu" aria-expanded="false" aria-label="${esc(label)}: download" title="Download">${icon('download')}</button>` : ''}</span>`;
+function itemHtml(c, chip, id, label) {
+  const tools = mapToolsHtml(c, id, label, { small: true });
+  return tools ? `<span class="cn-item">${chip}${tools}</span>` : chip;
 }
 
 /** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel @param {CatalogueMapRec} r */
@@ -414,25 +442,6 @@ function partsGroupHtml(c, s, sel, r) {
     <div class="cn-chips">${shown.map((p) => itemHtml(c, `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${r.name || sel.label}: ${p.label}`)}" title="${esc(p.label)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`, p.id, p.label)).join('')}
     ${r.parts.length > shown.length ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more-parts="${esc(sel.id)}">+${r.parts.length - shown.length} more</button>` : ''}</div>
     ${r.parts.length > 1 ? `<div><button type="button" class="cn-link" data-cn-act="add-parts" data-map="${esc(sel.id)}">Add all ${r.parts.length} parts</button></div>` : ''}</div>`;
-}
-
-/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel @param {CatalogueMapRec} r */
-function actionsHtml(c, s, sel, r) {
-  if (r.status === 'placeholder') return '<p class="cn-muted">Listed so you know it is coming: it cannot be drawn yet.</p>';
-  const col = colourOf(c, s, sel.id);
-  const others = s.members.filter((m) => m.id !== sel.id && c.rec(m.id).status !== 'placeholder');
-  const full = c.full(sel.id);
-  return `<div class="cn-actions">
-    <button type="button" class="cn-btn cn-btn--primary" data-cn-toggle="${esc(sel.id)}" data-series="${esc(s.id)}" aria-pressed="false" style="--c:${col};--on:${inkOn(col)}">${icon('plus', 'cn-icon cn-when-off')}${icon('x', 'cn-icon cn-when-on')}<span class="cn-when-off">Add to map</span><span class="cn-when-on">Remove from map</span></button>
-    <button type="button" class="cn-btn" data-cn-visibility="${esc(sel.id)}" hidden>${icon('eye-off')}<span>Hide</span></button>
-    ${r.bounds ? `<button type="button" class="cn-btn" data-cn-act="zoom" data-map="${esc(sel.id)}">${icon('maximize')}<span>Zoom to</span></button>` : ''}
-    ${full ? `<button type="button" class="cn-btn" data-cn-act="details" data-map="${esc(sel.id)}">${icon('info')}<span>Details</span></button>` : ''}
-    ${c.downloadsFor(sel.id).length ? `<button type="button" class="cn-btn" data-cn-act="downloads" data-map="${esc(sel.id)}" aria-haspopup="menu" aria-expanded="false">${icon('download')}<span>Download</span>${icon('chevron-down')}</button>` : ''}
-    <button type="button" class="cn-btn" data-cn-act="copy-link" data-map="${esc(sel.id)}">${icon('link')}<span>Copy link</span></button>
-    <button type="button" class="cn-btn" data-cn-act="cite" data-map="${esc(sel.id)}" data-series="${esc(s.id)}">${icon('quote')}<span>Cite</span></button>
-    ${c.auth?.allowed && full ? `<button type="button" class="cn-btn" data-cn-act="edit" data-map="${esc(sel.id)}">${icon('pencil')}<span>Suggest an edit</span></button>` : ''}
-    ${others.length ? `<button type="button" class="cn-btn" data-cn-act="compare" data-map="${esc(sel.id)}" data-series="${esc(s.id)}" aria-haspopup="menu" aria-expanded="false">${icon('columns')}<span>Compare</span>${icon('chevron-down')}</button>` : ''}
-  </div>`;
 }
 
 /* ---------------------------------------------------------------- search: places and people */

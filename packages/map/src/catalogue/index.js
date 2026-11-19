@@ -27,7 +27,7 @@ import { CATALOGUE_CONTESTS_URL, initialCatalogueRoute, takeCatalogueData } from
 import { compositeChildIds } from '../map-relations.mjs';
 import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import catalogueKinds from '../../../registries/src/browser/catalogue-kinds.mjs';
-import { esc, yearOf, mapDate, shortProvider } from './util.js';
+import { esc, yearOf, mapDate, shortProvider, inkOn } from './util.js';
 import { formatDisplayDate } from '../../../core/src/date-format.mjs';
 import { creditLine, derivedFromLines } from '../../../core/src/credits.mjs';
 import { cdnUrl } from '../cdn-url.js';
@@ -42,6 +42,7 @@ import { CATALOGUE_TAB, followSeriesRedirect } from './route-state.mjs';
 import { defineFlagFields, setHidden } from '../state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 import { siteNumber } from '../../../core/src/format.js';
+import { comparable, rowCitation } from './row-model.mjs';
 import { MAP_COLOURS } from '../colours.mjs';
 
 /** @typedef {import('./catalogue-types.d.ts').CatalogueDoc} CatalogueDoc */
@@ -114,7 +115,6 @@ const readStore = () => { try { return JSON.parse(/** @type {string} */ (session
 // [section, kind, label, icon]: the catalogue-kinds registry's kinds (data/registries/catalogue-kinds.json), in order.
 export const SECTIONS = catalogueKinds.sections.map(([id, kind, label, ic]) => [id, kind, label, ic]);
 /** @type {Record<string, string>} */
-const TAB_SHORT = { places: 'Places', historic: 'Scanned' };
 const KIND_OF_SECTION = Object.fromEntries(SECTIONS.map(([id, kind]) => [id, kind]));
 const SECTION_OF_KIND = Object.fromEntries(SECTIONS.map(([id, kind]) => [kind, id]));
 /** @param {string | undefined} kind */
@@ -211,8 +211,6 @@ export class CatalogueNext {
     this.expanded = new Set();
     /** @type {Map<string, string>} each row's chosen edition */
     this.selected = new Map();
-    /** @type {Map<string, string>} each row's edition last put on the map */
-    this.lastOn = new Map();
     /** @type {string | null} */
     this.focusSeries = null;
     /** @type {Set<string>} */
@@ -560,11 +558,6 @@ export class CatalogueNext {
     const tally = this.viewEl?.querySelector('[data-cn-tally]');
     if (tally) tally.textContent = this.resultsEl?.querySelector('.cn-summary--count')?.textContent || '';
     this.fitChips(scope);
-    // A long timeline opens on the chosen edition, not on its first year.
-    scope.querySelectorAll?.('.cn-tl').forEach((tl) => {
-      const tick = /** @type {HTMLElement | null} */ (tl.querySelector('.cn-tick[aria-pressed="true"]'));
-      if (tick && tl.scrollWidth > tl.clientWidth) tl.scrollLeft = Math.max(0, tick.offsetLeft - tl.clientWidth / 2);
-    });
     this.observeThumbs(scope);
     this.ui.hydrateLazyThumbnails?.(scope);
     this.ui.syncCatalogueSearchActionButtons?.(scope);
@@ -582,9 +575,10 @@ export class CatalogueNext {
 
   tabsHtml() {
     const counts = this.tabCounts();
-    // A phone shows a short label under the icon (styles.js): "Places", "Scanned".
+    // Every width shows the section's one name ("Places", "Historic"; never a shortened form): a
+    // phone puts it under the icon (styles.js).
     /** @param {string} id @param {string} ic @param {string} label @param {number} n */
-    const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span class="cn-tab__long">${label}</span><span class="cn-tab__short">${TAB_SHORT[id] || label}</span><span class="cn-tab__count">${siteNumber(n)}</span></button>`;
+    const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span class="cn-tab__label">${label}</span><span class="cn-tab__count">${siteNumber(n)}</span></button>`;
     return SECTIONS.map(([id, , label, ic]) => tab(id, ic, label, counts[id])).join('') + tab('elections', 'vote', 'Elections', counts.elections);
   }
 
@@ -1398,7 +1392,6 @@ export class CatalogueNext {
     if ((el = b('[data-cn-election-toggle]'))) { e.preventDefault(); this.toggleElection(el.dataset.cnElectionToggle, el); return; }
     if ((el = b('[data-cn-expand]'))) { e.preventDefault(); this.toggleExpand(el.dataset.cnExpand); return; }
     if ((el = b('[data-cn-select]'))) { e.preventDefault(); const [sid, mid] = el.dataset.cnSelect.split('|'); this.select(sid, mid); return; }
-    if ((el = b('[data-cn-menu]'))) { e.preventDefault(); this.openSeriesMenu(el, el.dataset.cnMenu); return; }
     if ((el = b('[data-cn-more]'))) { e.preventDefault(); this.moreChips.add(el.dataset.cnMore); this.rerenderRow(el.dataset.cnMore, { focus: 'chips' }); return; }
     if ((el = b('[data-cn-fewer]'))) { e.preventDefault(); this.moreChips.delete(el.dataset.cnFewer); this.rerenderRow(el.dataset.cnFewer, { focus: 'chips' }); return; }
     if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(el.dataset.cnMoreParts); this.rerenderPanel(/** @type {string} */ (this.seriesOfMap.get(el.dataset.cnMoreParts.replace(/:counties$/, '')))); return; }
@@ -1549,7 +1542,9 @@ export class CatalogueNext {
       case 'downloads': openMenu(el, this.downloadsFor(id), { label: 'Download' }); break;
       case 'copy-link': this.copyLink(id, el); break;
       case 'cite': this.cite(id, this.seriesById.get(el.dataset.series), el); break;
-      case 'compare': this.openCompareMenu(el, this.seriesById.get(el.dataset.series), id); break;
+      case 'row-link': this.copyRowLink(el.dataset.series, el); break;
+      case 'row-cite': this.citeRow(el.dataset.series, el); break;
+      case 'row-compare': this.openRowCompare(el, el.dataset.series); break;
       case 'add-parts': this.addParts(id); break;
       case 'more-text': {
         const p = el.previousElementSibling;
@@ -1842,8 +1837,6 @@ export class CatalogueNext {
         await this.ui.onMapUnload?.(id);
       } else {
         await this.ui.onMapLoad?.(id);
-        const sid = btn?.dataset.series || this.seriesOfMap.get(id);
-        if (sid) this.lastOn.set(sid, id);
       }
     } catch {
       // The app has said what went wrong, with a Retry, and taken the layer back off; the
@@ -1889,8 +1882,12 @@ export class CatalogueNext {
   /** @param {string} id */
   details(id) { this.ui.showCatalogueDetailView?.(id, true); }
 
-  /** @param {string} id @returns {MenuItem[]} */
-  downloadsFor(id) {
+  /**
+   * What a map can be downloaded as: its data files (FlatGeobuf, GeoJSON, the source's own files,
+   * statistics), then, unless `images` is false, a picture of the current view.
+   * @param {string} id @param {{ images?: boolean }} [options] @returns {MenuItem[]}
+   */
+  downloadsFor(id, { images = true } = {}) {
     const full = this.full(id);
     /** @type {MenuItem[]} */
     const out = [];
@@ -1902,12 +1899,69 @@ export class CatalogueNext {
     if (full.isDataEntry && full.csv) out.push({ label: 'Statistics (CSV)', icon: 'download', href: cdnUrl(/** @type {string} */ (full.csv)), download: true });
     // The map drawn as a Wikipedia-style locator map of the current view (packages/map/app/map-image-export.js):
     // any map with a vector data file of its own or in its members.
-    const vector = resolveMapDownloadUrl(full) || compositeChildIds(full).some((cid) => resolveMapDownloadUrl(this.full(cid)));
-    if (vector && this.ui.onExportMapImage) {
-      out.push({ label: 'Map image of this view (SVG)', icon: 'download', onSelect: () => /** @type {(mapId: string, format: string) => unknown} */ (this.ui.onExportMapImage)(id, 'svg') });
-      out.push({ label: 'Map image of this view (PNG)', icon: 'download', onSelect: () => /** @type {(mapId: string, format: string) => unknown} */ (this.ui.onExportMapImage)(id, 'png') });
-    }
+    if (images) out.push(...this.mapImagesFor(id));
     return out;
+  }
+
+  /** The map drawn as a picture of the current view, SVG or PNG: any map with a vector data file
+   * of its own or in its members. @param {string} id @returns {MenuItem[]} */
+  mapImagesFor(id) {
+    const full = this.full(id);
+    if (!full || !this.ui.onExportMapImage) return [];
+    const vector = resolveMapDownloadUrl(full) || compositeChildIds(full).some((cid) => resolveMapDownloadUrl(this.full(cid)));
+    if (!vector) return [];
+    const exportImage = /** @type {(mapId: string, format: string) => unknown} */ (this.ui.onExportMapImage);
+    return [
+      { label: 'Map image of this view (SVG)', icon: 'download', onSelect: () => exportImage(id, 'svg') },
+      { label: 'Map image of this view (PNG)', icon: 'download', onSelect: () => exportImage(id, 'png') },
+    ];
+  }
+
+  /**
+   * The Details page's actions for a map (ui-controller.js showCatalogueDetailView): put it on the
+   * map, zoom to it, download it (every format, the source's own files too), copy its link, cite
+   * it, a picture of the current view, and, for contributors, Suggest an edit.
+   * @param {string} id
+   */
+  detailActionsHtml(id) {
+    const r = this.rec(id);
+    const full = this.full(id);
+    const name = this.labelOf(id);
+    const sid = this.seriesOfMap?.get(id) || '';
+    const col = r.color || this.seriesById?.get(sid)?.color || MAP_COLOURS.catalogueFallback;
+    const btn = (/** @type {string} */ act, /** @type {string} */ ic, /** @type {string} */ text, menu = false) => `<button type="button" class="cn-btn" data-cn-act="${act}" data-map="${esc(id)}"${act === 'cite' ? ` data-series="${esc(sid)}"` : ''}${menu ? ' aria-haspopup="menu" aria-expanded="false"' : ''}>${icon(ic)}<span>${text}</span>${menu ? icon('chevron-down') : ''}</button>`;
+    return `<div class="cn cn-detail-actions" data-cn-detail-actions="${esc(id)}" role="group" aria-label="${esc(name)}: actions"><div class="cn-actions">
+      ${r.status === 'placeholder' ? '' : `<button type="button" class="cn-btn cn-btn--primary" data-cn-toggle="${esc(id)}" data-series="${esc(sid)}" aria-pressed="${this.isLoaded(id)}" style="--c:${col};--on:${inkOn(col)}">${icon('plus', 'cn-icon cn-when-off')}${icon('x', 'cn-icon cn-when-on')}<span class="cn-when-off">Add to map</span><span class="cn-when-on">Remove from map</span></button>`}
+      ${r.bounds ? btn('zoom', 'maximize', 'Zoom to') : ''}
+      ${this.downloadsFor(id, { images: false }).length ? btn('downloads-data', 'download', 'Download', true) : ''}
+      ${btn('copy-link', 'link', 'Copy link')}
+      ${btn('cite', 'quote', 'Cite')}
+      ${this.mapImagesFor(id).length ? btn('map-image', 'image', 'Map image', true) : ''}
+      ${full && suggestEditOffered(this.auth) ? btn('edit', 'pencil', this.auth?.allowed ? 'Suggest an edit' : 'Suggest an edit (contributor sign-in)') : ''}
+    </div></div>`;
+  }
+
+  /**
+   * Wire the Details page's actions (detailActionsHtml). The strip is drawn afresh with the page,
+   * so its listener goes with it.
+   * @param {HTMLElement | null} strip
+   */
+  bindDetailActions(strip) {
+    if (!strip) return;
+    const sync = () => strip.querySelectorAll('[data-cn-toggle]').forEach((b) => b.setAttribute('aria-pressed', String(this.isLoaded(String(/** @type {HTMLElement} */ (b).dataset.cnToggle)))));
+    strip.addEventListener('click', async (e) => {
+      const el = /** @type {DataTarget | null} */ (/** @type {Element} */ (e.target).closest('button'));
+      if (!el) return;
+      e.preventDefault();
+      if (el.dataset.cnToggle) { await this.toggleMap(el.dataset.cnToggle, el); sync(); return; }
+      const id = /** @type {string} */ (el.dataset.map);
+      switch (el.dataset.cnAct) {
+        case 'downloads-data': openMenu(el, this.downloadsFor(id, { images: false }), { label: 'Download' }); break;
+        case 'map-image': openMenu(el, this.mapImagesFor(id), { label: 'Map image' }); break;
+        default: this.act(/** @type {string} */ (el.dataset.cnAct), el);
+      }
+    });
+    sync();
   }
 
   /** @param {string} text @param {string} what */
@@ -1961,47 +2015,54 @@ export class CatalogueNext {
     setTimeout(() => { if (label.isConnected) label.textContent = before; }, 1600);
   }
 
-  /** The edition a row's menu acts on: the one last put on the map, else the chosen one, else the newest. */
-  /** @param {CatalogueRow} s */
-  menuTarget(s) {
-    const last = this.lastOn.get(s.id);
-    if (last && this.isLoaded(last)) return s.members.find((m) => m.id === last) || s.members[0];
-    return s.members.find((m) => this.isLoaded(m.id)) || this.selectedMember(s);
+  /** A row's own address: the catalogue opened at the row, nothing put on the map.
+   * @param {CatalogueRow} s */
+  rowShareUrl(s) {
+    const base = typeof location !== 'undefined' ? `${location.origin}${location.pathname.startsWith('/maps') ? location.pathname : '/maps/'}` : '/maps/';
+    return `${base}#cat=${encodeURIComponent(`series/${s.id}`).replace(/%2F/g, '/')}`;
   }
 
-  /** @param {HTMLElement} anchor @param {string} sid */
-  openSeriesMenu(anchor, sid) {
-    const s = this.seriesById.get(sid);
+  /** @param {string | undefined} sid @param {HTMLElement} [btn] */
+  async copyRowLink(sid, btn) {
+    const s = this.seriesById.get(/** @type {string} */ (sid));
     if (!s) return;
-    const t = this.menuTarget(s);
-    const r = this.rec(t.id);
-    const loaded = this.isLoaded(t.id);
-    /** @type {MenuItem[]} */
-    const items = [];
-    if (s.members.length > 1) items.push({ heading: t.label });
-    if (r.status !== 'placeholder') items.push({ label: loaded ? 'Remove from map' : 'Add to map', icon: loaded ? 'x' : 'plus', onSelect: () => this.toggleMap(t.id) });
-    if (loaded) items.push({ label: this.isVisible(t.id) ? 'Hide' : 'Show', icon: this.isVisible(t.id) ? 'eye-off' : 'eye', onSelect: () => this.toggleVisible(t.id) });
-    if (r.bounds) items.push({ label: 'Zoom to', icon: 'maximize', onSelect: () => this.zoom(t.id) });
-    if (this.full(t.id)) items.push({ label: 'Details', icon: 'info', onSelect: () => this.details(t.id) });
-    items.push({ label: this.expanded.has(sid) ? 'Close' : (s.members.length > 1 ? 'Open: timeline and all actions' : 'Open: facts and all actions'), icon: 'chevron-down', onSelect: () => this.toggleExpand(sid) });
-    const dls = this.downloadsFor(t.id);
-    if (dls.length) items.push({ separator: true }, { heading: 'Download' }, ...dls);
-    items.push({ separator: true }, { label: 'Copy link', icon: 'link', onSelect: () => this.copyLink(t.id) }, { label: 'Cite', icon: 'quote', onSelect: () => this.cite(t.id, s) });
-    // Signed out, offered only to contributors (?contribute, remembered), as on Browse.
-    if (this.full(t.id) && suggestEditOffered(this.auth)) items.push({ label: this.auth?.allowed ? 'Suggest an edit' : 'Suggest an edit (contributor sign-in)', icon: 'pencil', onSelect: () => this.suggestEdit(t.id) });
-    const others = s.members.filter((m) => m.id !== t.id && this.rec(m.id).status !== 'placeholder');
-    if (others.length) {
-      items.push({ separator: true }, { heading: `Compare ${t.label} with` }, ...others.slice(0, 8).map((m) => ({ label: m.label, icon: 'columns', onSelect: () => this.startCompare(t.id, m.id) })));
-      if (others.length > 8) items.push({ label: `${others.length - 8} more: open the row`, icon: 'chevron-down', onSelect: () => { if (!this.expanded.has(sid)) this.toggleExpand(sid); } });
-    }
-    openMenu(anchor, items, { label: `${s.name}: more` });
+    await this.copyText(this.rowShareUrl(s), 'Link');
+    this.flashTitle(btn, 'Link copied');
   }
 
-  /** @param {HTMLElement} anchor @param {CatalogueRow | undefined} s @param {string} id */
-  openCompareMenu(anchor, s, id) {
+  /** A row's citation: whom to credit, the row's name and years, and its address.
+   * @param {string | undefined} sid @param {HTMLElement} [btn] */
+  async citeRow(sid, btn) {
+    const s = this.seriesById.get(/** @type {string} */ (sid));
     if (!s) return;
-    const others = s.members.filter((m) => m.id !== id && this.rec(m.id).status !== 'placeholder');
-    openMenu(anchor, [{ heading: 'Compare with' }, ...others.map((m) => ({ label: m.label, icon: 'columns', onSelect: () => this.startCompare(id, m.id) }))], { label: 'Compare with' });
+    const accessed = formatDisplayDate(new Date(Date.now() - new Date().getTimezoneOffset() * 60000));
+    await this.copyText(rowCitation(s, this.rowShareUrl(s), accessed), 'Citation');
+    this.flashTitle(btn, 'Citation copied');
+  }
+
+  /** An icon button says what it did in its tooltip and to screen readers (it has no text to swap).
+   * @param {HTMLElement | undefined} btn @param {string} text */
+  flashTitle(btn, text) {
+    if (!btn) return;
+    const before = btn.title;
+    btn.title = text;
+    setTimeout(() => { if (btn.isConnected) btn.title = before; }, 1600);
+  }
+
+  /** Compare two maps of a row: choose the first, then the one to fade it into.
+   * @param {HTMLElement} anchor @param {string | undefined} sid */
+  openRowCompare(anchor, sid) {
+    const s = this.seriesById.get(/** @type {string} */ (sid));
+    if (!s) return;
+    const all = comparable(s, (id) => this.rec(id));
+    if (all.length < 2) return;
+    /** @param {CatalogueRowMember} m */
+    const name = (m) => (m.of ? `${m.label} (${s.members.find((x) => x.id === m.of)?.label || ''})` : m.label);
+    openMenu(anchor, [{ heading: 'Compare: choose the first' }, ...all.map((a) => ({
+      label: name(a),
+      icon: 'columns',
+      onSelect: () => openMenu(anchor, [{ heading: `Compare ${name(a)} with` }, ...all.filter((b) => b.id !== a.id).map((b) => ({ label: name(b), icon: 'columns', onSelect: () => this.startCompare(a.id, b.id) }))], { label: `Compare ${name(a)} with` }),
+    }))], { label: `Compare two editions of ${s.name}` });
   }
 
   /* ================================================================ compare */
@@ -2147,7 +2208,6 @@ export class CatalogueNext {
         if (btn.innerHTML !== html) btn.innerHTML = html;
       }
     });
-    /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-dot]')).forEach((d) => d.classList.toggle('cn-tick--on', this.isLoaded(d.dataset.cnDot)));
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-series]')).forEach((li) => {
       const s = this.seriesById.get(li.dataset.cnSeries);
       li.classList.toggle('cn-row--on', Boolean(s && this.seriesOnMap(s)));

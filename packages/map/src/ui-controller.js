@@ -518,11 +518,6 @@ class UIController {
             ? (this._catalogueNext?.rowAboutHtml?.(map.id) ? `<div class="catalogue-detail__description">${this._catalogueNext.rowAboutHtml(map.id)}</div>` : '')
             : (map.description ? `<div class="catalogue-detail__description">${this.escapeHtml(map.description)}</div>` : '');
 
-        // Build keywords HTML
-        const keywordsHtml = (map.keywords || []).map(k =>
-            `<span class="catalogue-detail__keyword">${this.escapeHtml(k)}</span>`
-        ).join('');
-
         // Build references HTML (Wikipedia-style numbered list)
         const referencesHtml = (map.references || []).map((ref, i) => {
             const num = i + 1;
@@ -533,15 +528,10 @@ class UIController {
             return `<div class="catalogue-detail__ref"><span class="catalogue-detail__ref-num">[${num}]</span> ${link}${note}${accessed}</div>`;
         }).join('');
 
-        // Build file path HTML
+        // The data file the attribute table reads. Not shown: the Details page no longer lists the
+        // file's address, its style or its keywords (Phelim Birch's notes, 19 Nov 2026); Download
+        // gives the files.
         const filePath = map.files?.fgb || map.files?.geojson || null;
-
-        // Build style info
-        const styleInfo = [];
-        if (map.style?.color) styleInfo.push(`Color: ${map.style.color}`);
-        if (map.style?.weight && !nextCatalogue) styleInfo.push(`Weight: ${map.style.weight}`);
-        if (map.style?.fillOpacity !== undefined && !nextCatalogue) styleInfo.push(`Fill: ${map.style.fillOpacity}`);
-        const styleStr = styleInfo.join(', ');
 
         // Build variants HTML
         let variantsHtml = '';
@@ -601,7 +591,7 @@ class UIController {
 
             ${descriptionHtml}
 
-            ${this.renderMapActionStrip(map, {
+            ${nextCatalogue && this._catalogueNext?.detailActionsHtml ? this._catalogueNext.detailActionsHtml(map.id) : this.renderMapActionStrip(map, {
             isLoaded,
             isVisible: this.onCheckMapVisible ? this.onCheckMapVisible(map.id) : isLoaded,
             buttonSize: 'sm',
@@ -632,23 +622,7 @@ class UIController {
                     <span class="catalogue-detail__meta-label">Priority Property</span>
                     <span class="catalogue-detail__meta-value catalogue-detail__meta-value--mono">${this.escapeHtml(map.priorityProperty)}</span>
                 </div>` : ''}
-                ${styleStr ? `
-                <div class="catalogue-detail__meta-row">
-                    <span class="catalogue-detail__meta-label">Style</span>
-                    <span class="catalogue-detail__meta-value">${map.style?.color ? `<span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:${this.escapeHtml(map.style.color)};vertical-align:middle;margin-right:4px;border:1px solid ${MAP_COLOURS.swatchEdge}"></span>` : ''}${this.escapeHtml(styleStr)}</span>
-                </div>` : ''}
-                ${filePath ? `
-                <div class="catalogue-detail__meta-row">
-                    <span class="catalogue-detail__meta-label">Data File</span>
-                    <span class="catalogue-detail__meta-value catalogue-detail__file-path">${this.escapeHtml(filePath)}</span>
-                </div>` : ''}
             </div>
-
-            ${keywordsHtml ? `
-            <div class="catalogue-detail__section">
-                <div class="catalogue-detail__section-title">Keywords</div>
-                <div class="catalogue-detail__keywords">${keywordsHtml}</div>
-            </div>` : ''}
 
             ${referencesHtml ? `
             <div class="catalogue-detail__section">
@@ -676,7 +650,8 @@ class UIController {
             backLink.addEventListener('click', () => this.showCatalogueListView());
         }
 
-        this.bindMapActionStrip(detailView, map, { activeClassTarget: detailView, variantsHost: detailView });
+        if (nextCatalogue && this._catalogueNext?.bindDetailActions) this._catalogueNext.bindDetailActions(/** @type {HTMLElement | null} */ (detailView.querySelector('[data-cn-detail-actions]')));
+        else this.bindMapActionStrip(detailView, map, { activeClassTarget: detailView, variantsHost: detailView });
 
         // Variant click handlers
         /** @type {NodeListOf<ViewElement>} */ (detailView.querySelectorAll('.catalogue-detail__variant')).forEach(el => {

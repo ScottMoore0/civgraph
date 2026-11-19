@@ -1,0 +1,130 @@
+/**
+ * What a catalogue row shows, derived from the catalogue document alone (view-maps.js draws it):
+ * which actions the row offers, its editions as a dated list, and the count on its second line.
+ * Pure: no DOM, no controller (tests/unit/catalogue-row-model.test.mjs).
+ *
+ * Phelim Birch's notes on map actions and layout, approved by the owner on 19 Nov 2026:
+ *   - a row of several maps acts on the row (Copy link, Cite, Compare two of its editions); a row of
+ *     one map acts on that map (Add, Zoom, Download, Details); every map inside a row has its chip
+ *     and its own Zoom, Download and Details;
+ *   - the opened row lists its editions by date (the map's own timeline is the slider under the map);
+ *   - a row of dated editions of one map counts "N <unit> · M editions", from its latest edition, or
+ *     from its latest complete one when the latest is incomplete.
+ */
+
+import { creditLine } from '../../../core/src/credits.mjs';
+
+/** @typedef {import('./catalogue-types.d.ts').CatalogueRow} CatalogueRow */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueRowMember} CatalogueRowMember */
+/** @typedef {import('./catalogue-types.d.ts').CatalogueMapRec} CatalogueMapRec */
+/** @typedef {(id: string) => CatalogueMapRec} RecordOf */
+
+/** A row's actions, by the shape of the row. @typedef {'row' | 'map' | 'none'} RowActionKind */
+
+/**
+ * The editions of a row: its members that are not another member's version.
+ * @param {CatalogueRow} s
+ * @returns {CatalogueRowMember[]}
+ */
+export function rowEditions(s) {
+  return s.members.filter((m) => !m.of);
+}
+
+/**
+ * Whether the row acts on itself (several maps), on its one map, or not at all (nothing drawn yet).
+ * @param {CatalogueRow} s
+ * @returns {RowActionKind}
+ */
+export function rowActionKind(s) {
+  if (!s.members.length) return 'none';
+  return rowEditions(s).length > 1 ? 'row' : 'map';
+}
+
+/**
+ * A date as a sortable key ("1977-01-01", "1977"): '' when there is none.
+ * @param {CatalogueMapRec | undefined} r
+ */
+const dateKey = (r) => {
+  const d = String(r?.date || '');
+  return /^\d{4}/.test(d) ? d : '';
+};
+
+/**
+ * A row's maps as its opened row lists them: for a row of editions, the dated ones newest first;
+ * for any other row, in the row's own order. Undated maps keep their place at the end.
+ * @param {CatalogueRow} s
+ * @param {RecordOf} rec
+ * @returns {CatalogueRowMember[]}
+ */
+export function datedList(s, rec) {
+  const editions = rowEditions(s);
+  if (s.arrangement !== 'editions') return editions;
+  const keyed = editions.map((m, i) => ({ m, i, k: dateKey(rec(m.id)) }));
+  keyed.sort((a, b) => {
+    if (a.k && b.k) return a.k === b.k ? a.i - b.i : (a.k < b.k ? 1 : -1);
+    if (a.k || b.k) return a.k ? -1 : 1;
+    return a.i - b.i;
+  });
+  return keyed.map((x) => x.m);
+}
+
+/**
+ * Whether a map is drawn whole: neither marked incomplete nor still to be added.
+ * @param {CatalogueMapRec | undefined} r
+ */
+export const isComplete = (r) => Boolean(r) && r?.status !== 'incomplete' && r?.status !== 'placeholder';
+
+/**
+ * The edition a row of editions takes its count from: the latest, or the latest complete one when
+ * the latest is incomplete; null when none is complete.
+ * @param {CatalogueRow} s
+ * @param {RecordOf} rec
+ * @returns {CatalogueRowMember | null}
+ */
+export function countEdition(s, rec) {
+  const dated = datedList(s, rec).filter((m) => dateKey(rec(m.id)));
+  return dated.find((m) => isComplete(rec(m.id))) || null;
+}
+
+/**
+ * The count on a row of dated editions of one map: how many features its latest (complete)
+ * edition has, in that edition's unit, and how many editions the row has. Null for any other row.
+ * `features` is null when no complete edition has a count.
+ * @param {CatalogueRow} s
+ * @param {RecordOf} rec
+ * @returns {{ features: number | null, unit: string, editions: number, from: string | null } | null}
+ */
+export function rowCount(s, rec) {
+  const editions = rowEditions(s).filter((m) => rec(m.id)?.status !== 'placeholder');
+  if (s.arrangement !== 'editions' || editions.length < 2) return null;
+  const from = countEdition(s, rec);
+  const r = from ? rec(from.id) : undefined;
+  const n = r?.features;
+  const features = Number.isFinite(n) && /** @type {number} */ (n) > 0 ? /** @type {number} */ (n) : null;
+  return { features, unit: features ? (r?.unit || s.unit || '') : '', editions: editions.length, from: features && from ? from.id : null };
+}
+
+/**
+ * The pairs a row's Compare offers: every drawable edition (or version) of the row, the first
+ * choice and then the other. Fewer than two: no Compare.
+ * @param {CatalogueRow} s
+ * @param {RecordOf} rec
+ * @returns {CatalogueRowMember[]}
+ */
+export function comparable(s, rec) {
+  return datedList(s, rec).concat(s.members.filter((m) => m.of)).filter((m) => rec(m.id)?.status !== 'placeholder');
+}
+
+/**
+ * A row's citation, as Cite copies it: whom to credit (packages/core/src/credits.mjs), the row's
+ * name and years, what it is, and where.
+ * @param {CatalogueRow} s
+ * @param {string} url  the row's address
+ * @param {string} accessed  the day, as the site writes dates
+ * @returns {string}
+ */
+export function rowCitation(s, url, accessed) {
+  const who = creditLine(s.provider || [], s.derivedFrom || []) || 'Civgraph';
+  const years = s.years ? (s.years[0] === s.years[1] ? String(s.years[0]) : `${s.years[0]}–${s.years[1]}`) : '';
+  return `${who}. ${s.name}${years && !s.name.includes(years) ? ` (${years})` : ''} [map series]. Civgraph, ${url} (accessed ${accessed}).`;
+}
