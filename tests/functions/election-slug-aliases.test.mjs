@@ -195,6 +195,7 @@ const OFFICIAL_DED_NAMES = [
   ['omagh-rural-district-council', 'Rahony', [['1924-05-28', 'Rahoney'], ['1930-06-04', 'Rahoney'], ['1933-05-31', 'Rahoney'], ['1936-06-03', 'Rahoney'], ['1939-05-31', 'Rahoney'], ['1946-10-03', 'Rahoney'], ['1949-06-02', 'Rahoney'], ['1952-06-05', 'Rahoney'], ['1955-06-02', 'Rahoney'], ['1958-06-05', 'Rahoney'], ['1961-06-01', 'Rahoney'], ['1964-06-04', 'Rahoney'], ['1967-06-01', 'Rahoney']]],
   ['strabane-rural-district-council', 'Dunnamanagh', [['1924-05-28', 'Dunamanagh'], ['1927-06-01', 'Donemana'], ['1930-06-04', 'Donemana'], ['1933-05-31', 'Dunamanagh'], ['1936-06-03', 'Dunamanagh'], ['1939-05-31', 'Donemana'], ['1946-10-03', 'Donemana'], ['1949-06-02', 'Donemana'], ['1952-06-05', 'Donemana'], ['1955-06-02', 'Donemana'], ['1958-06-05', 'Donemana'], ['1961-06-01', 'Donemana'], ['1964-06-04', 'Donemana'], ['1967-06-01', 'Donemana']]],
   ['enniskillen-rural-district-council', 'Drummee', [['1927-05-25', 'Drumee']]],
+  ['lisnaskea-rural-district-council', 'Rosslea', [['1936-06-03', 'Roslea'], ['1939-05-31', 'Roslea'], ['1949-06-02', 'Roslea'], ['1952-06-05', 'Roslea'], ['1955-06-02', 'Roslea'], ['1958-06-05', 'Roslea']]],
 ];
 /** @returns {[string, string][]} each renamed division's old contest slug and its new one */
 function officialDedSlugs() {

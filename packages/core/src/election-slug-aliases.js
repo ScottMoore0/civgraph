@@ -376,6 +376,13 @@ export const RETIRED_CONTEST_SLUGS = [
   ['strabane-rural-district-council-1967-06-01-donemana', 'strabane-rural-district-council-1967-06-01-dunnamanagh'],
   // Enniskillen Rural Drumee, filed under the official DED name Drummee (19 Nov 2026, w19-merges).
   ['enniskillen-rural-district-council-1927-05-25-drumee', 'enniskillen-rural-district-council-1927-05-25-drummee'],
+  // Lisnaskea Rural Roslea, filed under the official DED name Rosslea (19 Nov 2026, w19-merges).
+  ['lisnaskea-rural-district-council-1936-06-03-roslea', 'lisnaskea-rural-district-council-1936-06-03-rosslea'],
+  ['lisnaskea-rural-district-council-1939-05-31-roslea', 'lisnaskea-rural-district-council-1939-05-31-rosslea'],
+  ['lisnaskea-rural-district-council-1949-06-02-roslea', 'lisnaskea-rural-district-council-1949-06-02-rosslea'],
+  ['lisnaskea-rural-district-council-1952-06-05-roslea', 'lisnaskea-rural-district-council-1952-06-05-rosslea'],
+  ['lisnaskea-rural-district-council-1955-06-02-roslea', 'lisnaskea-rural-district-council-1955-06-02-rosslea'],
+  ['lisnaskea-rural-district-council-1958-06-05-roslea', 'lisnaskea-rural-district-council-1958-06-05-rosslea'],
 ];
 
 /**
