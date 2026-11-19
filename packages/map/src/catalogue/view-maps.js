@@ -450,7 +450,7 @@ function localHtml(c, s, sel) {
   const local = (s.local || []).filter((m) => !m.of || m.of === base);
   if (!local.length) return '';
   return `<div class="cn-sub"><span class="cn-label">Council maps · ${local.length}</span>
-    <div class="cn-chips">${local.map((m) => itemHtml(c, chipHtml(c, s, m), m.id, `${s.name}, ${m.label}`)).join('')}</div></div>`;
+    <div class="cn-chips">${local.map((m) => localItemHtml(c, s, m)).join('')}</div></div>`;
 }
 
 /** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel @param {CatalogueMapRec} r */
@@ -470,6 +470,12 @@ function countiesHtml(c, s, sel, r) {
   return `<div class="cn-sub"><span class="cn-label">By county · ${r.counties.length}</span>
     <div class="cn-chips">${shown.map((p) => itemHtml(c, `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${s.name}: County ${p.label}`)}" title="${esc(`County ${p.label}`)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`, p.id, `County ${p.label}`)).join('')}
     ${r.counties.length > shown.length ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more-parts="${esc(key)}">+${r.counties.length - shown.length} more</button>` : ''}</div></div>`;
+}
+
+/** A council map: its chip and tools. @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} m */
+function localItemHtml(c, s, m) {
+  const label = `${s.name}, ${m.label}`;
+  return itemHtml(c, chipHtml(c, s, m), m.id, label);
 }
 
 /**
