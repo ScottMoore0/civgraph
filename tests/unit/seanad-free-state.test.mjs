@@ -23,7 +23,7 @@ test('SFS-01 five general elections and nineteen by-elections, each one contest 
     assert.equal(Number(doc.Constituency.countInfo.Number_Of_Seats), doc.Constituency.countGroup.filter((/** @type {{ Status: string }} */ r) => r.Status === 'Elected').length, date);
   }
   for (const date of GENERAL) assert.equal(title(date), `${date.slice(0, 4)} Seanad election`);
-  assert.equal(title('1929-06-20'), '1929 Seanad by-election (Irish Free State)');
+  assert.equal(title('1929-06-20'), '1929 Seanad bye-election (Irish Free State)');
 });
 
 test('SFS-02 the 1925 popular election: 76 candidates, first preferences that add up to the valid poll, 19 elected', () => {

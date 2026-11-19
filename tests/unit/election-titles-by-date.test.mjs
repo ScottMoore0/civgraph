@@ -32,7 +32,7 @@ test('the Dáil\'s 1918 record is titled as the UK general election in Ireland (
 test('the Dáil\'s other elections keep the titles the code gives them', () => {
   assert.equal(canonicalElectionTitle({ ...DAIL, date: '1923-08-27', constituencies: seats(30) }), '1923 Irish general election');
   assert.equal(canonicalElectionTitle({ ...DAIL, date: '1927-06-09', constituencies: seats(30), sameYearGeneral: true }), 'June 1927 Irish general election');
-  assert.equal(canonicalElectionTitle({ ...DAIL, date: '1925-03-11', constituencies: ['Dublin North'] }), '1925 Dublin North by-election');
+  assert.equal(canonicalElectionTitle({ ...DAIL, date: '1925-03-11', constituencies: ['Dublin North'] }), '1925 Dublin North bye-election');
   // The Dáil is registered for its titles alone: it says where its elections were held, as before.
   assert.equal(jurisdictionLabel(electionBody(loadRegistry('election-bodies'), 'dail-eireann')), 'Republic of Ireland');
 });

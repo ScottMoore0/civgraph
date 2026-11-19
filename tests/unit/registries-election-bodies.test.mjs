@@ -73,12 +73,12 @@ test('votingSystemOf: a contest rule before the registered system, none without 
 
 test('byElectionTitleOf and the Seanad titles: general elections by year, by-elections by contest', () => {
   const seanad = electionBody(registry, 'seanad-eireann');
-  assert.equal(byElectionTitleOf(seanad, '2026-11-05', ['Cultural and Educational Panel']), '2026 Seanad by-election (Cultural and Educational Panel)');
-  assert.equal(byElectionTitleOf(seanad, '1950-05-01', ['Labour Panel', 'Agricultural Panel']), '1950 Seanad by-elections');
+  assert.equal(byElectionTitleOf(seanad, '2026-11-05', ['Cultural and Educational Panel']), '2026 Seanad bye-election (Cultural and Educational Panel)');
+  assert.equal(byElectionTitleOf(seanad, '1950-05-01', ['Labour Panel', 'Agricultural Panel']), '1950 Seanad bye-elections');
   assert.equal(byElectionTitleOf(electionBody(registry, 'limerick-mayor'), '2024-06-07', ['Limerick City and County']), null);
   const panels = ['Administrative Panel', 'Agricultural Panel', 'Cultural and Educational Panel', 'Industrial and Commercial Panel', 'Labour Panel', 'National University of Ireland', 'Dublin University'];
   assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '2020-03-30', constituencies: panels }), '2020 Seanad election');
-  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '2026-11-05', constituencies: ['Cultural and Educational Panel'] }), '2026 Seanad by-election (Cultural and Educational Panel)');
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '2026-11-05', constituencies: ['Cultural and Educational Panel'] }), '2026 Seanad bye-election (Cultural and Educational Panel)');
   // Two general elections in one year (1938): each titled by its date (titlesByDate), apart; the
   // ids are the dates' own (seanad-eireann__1938-04-27, seanad-eireann__1938-09-07), so none changes.
   assert.equal(generalElectionTitleOf(seanad, '1938-04-27'), 'April 1938 Seanad election');
@@ -91,14 +91,14 @@ test('byElectionTitleOf and the Seanad titles: general elections by year, by-ele
   // Up to four by-elections on one day (23 April 1975) are by-elections (byElectionMaxContests);
   // a general election fills all seven contests (six where one is left out).
   const four = ['Administrative Panel', 'Agricultural Panel', 'Cultural and Educational Panel', 'Industrial and Commercial Panel'];
-  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1975-04-23', constituencies: four }), '1975 Seanad by-elections');
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1975-04-23', constituencies: four }), '1975 Seanad bye-elections');
   assert.equal(isElectionByElectionScope({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1975-04-23', constituencies: four }), true);
   assert.equal(isElectionByElectionScope({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '2016-04-25', constituencies: panels.slice(0, 6) }), false);
   assert.equal(seanad.byElectionMaxContests, 4);
   // Other bodies keep the rule of two.
   assert.equal(isElectionByElectionScope({ body: 'Mayor of Limerick', bodySlug: 'limerick-mayor', date: '2024-06-07', constituencies: ['A', 'B', 'C'] }), false);
   // A by-election of 1938 keeps its own title.
-  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1938-09-07', constituencies: ['Labour Panel'] }), '1938 Seanad by-election (Labour Panel)');
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1938-09-07', constituencies: ['Labour Panel'] }), '1938 Seanad bye-election (Labour Panel)');
   // A body with a title and no by-election template is unchanged: the mayoralty is never a by-election.
   assert.equal(canonicalElectionTitle({ body: 'Mayor of Limerick', bodySlug: 'limerick-mayor', date: '2024-06-07', constituencies: ['Limerick City and County'] }), '2024 Limerick mayoral election');
 });
@@ -113,7 +113,7 @@ test('the Free State Seanad: a day generalElectionDates lists is a general elect
   }
   // a Free State by-election keeps its by-election title
   assert.equal(isGeneralElectionDate(seanad, '1929-06-20'), false);
-  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1929-06-20', constituencies: freeState }), '1929 Seanad by-election (Irish Free State)');
+  assert.equal(canonicalElectionTitle({ body: 'Seanad Éireann', bodySlug: 'seanad-eireann', date: '1929-06-20', constituencies: freeState }), '1929 Seanad bye-election (Irish Free State)');
   assert.equal(isGeneralElectionDate(null, '1922-12-06'), false);
   assert.equal(isGeneralElectionDate(seanad, ''), false);
 });

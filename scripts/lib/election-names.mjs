@@ -536,9 +536,10 @@ export function canonicalElectionTitle({
   }
 
   if (byElection) {
-    // One spelling on the site, "by-election", though the Oireachtas writes "bye-election":
-    // a source's own wording is kept where it is quoted, not in the titles made here.
-    const by = 'by';
+    // Dáil and Seanad contests are "bye-elections", the Oireachtas spelling (Phelim Birch, 19 Oct
+    // 2026, restored from his comment of 15 Nov 2026); Westminster, Stormont, the Assembly and the
+    // councils keep "by-election". The Seanad's own titles are its registry templates.
+    const by = normalizedBody === 'dail eireann' || normalizedBody === 'seanad eireann' ? 'bye' : 'by';
     if (names.length > 1) {
       const partitioned = !(normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) < '1922-11-15');
       return `${year} ${partitioned ? byElectionRegion(body, bodyGroup) : 'Irish'} ${by}-elections`.trim();
