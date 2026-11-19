@@ -7,15 +7,19 @@ import argparse
 import csv
 import datetime as dt
 import hashlib
+import io
 import json
 import math
 import re
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
 
 import openpyxl
 import xlrd
+from openpyxl.writer.excel import ExcelWriter
+from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
 
 ELECTION_RESULTS_HEADERS = [
@@ -975,7 +979,29 @@ def write_workbook(election_rows: list[dict[str, Any]], transfer_rows: list[dict
     for row in transfer_rows:
         ws_transfers.append([row.get(header) for header in TRANSFERS_HEADERS])
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    wb.save(output_path)
+    save_workbook_at_clock(wb, output_path)
+
+
+def save_workbook_at_clock(wb: openpyxl.Workbook, output_path: Path) -> None:
+    """wb.save, with every time the file holds read from time.time(): the workbook's created and
+    modified stamps (openpyxl's save stamps "modified" from the wall clock) and each zip member's
+    date (openpyxl writes the sheets from temporary files, which carry their own). On an ordinary
+    run they are the time of the save, as before; under a fixed clock (intake parity) the same
+    rows give the same bytes."""
+    now = time.time()
+    stamp = dt.datetime.fromtimestamp(now, dt.timezone.utc).replace(tzinfo=None, microsecond=0)
+    wb.properties.created = stamp
+    wb.properties.modified = stamp
+    buffer = io.BytesIO()
+    with ZipFile(buffer, "w", ZIP_DEFLATED, allowZip64=True) as archive:
+        ExcelWriter(wb, archive).save()
+    member_time = time.localtime(now)[:6]
+    with ZipFile(buffer) as built, ZipFile(output_path, "w", ZIP_DEFLATED, allowZip64=True) as out:
+        for info in built.infolist():
+            member = ZipInfo(info.filename, date_time=member_time)
+            member.compress_type = info.compress_type
+            member.external_attr = info.external_attr
+            out.writestr(member, built.read(info))
 
 
 def benchmark_against_reference(contests: list[Contest], election_rows: list[dict[str, Any]], transfer_rows: list[dict[str, Any]], reference_path: Path) -> dict[str, Any]:
