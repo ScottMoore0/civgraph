@@ -125,14 +125,17 @@ test('C05 C06 FlatGeobuf, the provider\'s files and the original GeoJSON are off
     return null;
   });
   expect(found).not.toBeNull();
-  // A row of one map has its Download beside Add.
+  // A row of one map has its Download beside Add (the row may be in another section: go to it).
+  await page.evaluate((id) => { location.hash = `cat=series/${id}`; }, found.series);
   const r = row(page, found.series);
+  await expect(r).toBeVisible({ timeout: 20000 });
   await r.scrollIntoViewIfNeeded();
   await r.locator('.cn-row__end [data-cn-act="downloads"]').click();
   for (const label of found.labels) await expect(menuItem(page, label).first()).toBeVisible();
   await page.keyboard.press('Escape');
   // A row of several: each edition in the opened row has its own.
-  await row(page, LGD).locator('[data-cn-expand]').click();
+  await page.evaluate((id) => { location.hash = `cat=series/${id}`; }, LGD);
+  await expect(row(page, LGD).locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true', { timeout: 20000 });
   await row(page, LGD).locator(`.cn-dlist [data-cn-act="downloads"][data-map="${LGD_NEWEST}"]`).click();
   await expect(menuItem(page, 'FlatGeobuf')).toBeVisible();
 });
@@ -193,7 +196,7 @@ test('N13 council maps (one council\'s copy of a national map) wait in the opene
 test('C08 a map\'s details page opens', async ({ page }) => {
   await open(page);
   await row(page, LGD).locator('[data-cn-expand]').click();
-  await row(page, LGD).locator('[data-cn-act="details"]').click();
+  await row(page, LGD).locator(`[data-cn-act="details"][data-map="${LGD_NEWEST}"]`).click();
   await expect(page.locator('#catalogueDetailView')).toBeVisible();
   await expect(page.locator('#catalogueDetailView')).toContainText('2022');
 });
@@ -892,11 +895,16 @@ test('N26 a contributor suggests an edit to a map from the catalogue; others are
   await page.route('**/_api/contributions/submit', async (r) => { sent = JSON.parse(r.request().postData()); await r.fulfill({ json: { ok: true, submission: { id: 'sub_test' } } }); });
   await open(page, `cat=series/${LGD}`);
   await expect.poll(() => page.evaluate(() => Boolean(window.uiController._catalogueNext.auth?.allowed))).toBe(true);
-  const btn = row(page, LGD).locator('[data-cn-act="edit"]');
+  // Suggest an edit is on the map's Details page (Phelim Birch's notes, 19 Nov 2026), not in its row.
+  await expect(row(page, LGD).locator('[data-cn-act="edit"]')).toHaveCount(0);
+  await page.evaluate((id) => window.uiController.showCatalogueDetailView(id, true), LGD_NEWEST);
+  const btn = page.locator('[data-cn-detail-actions] [data-cn-act="edit"]');
   await expect(btn).toBeVisible();
   await btn.click();
   const dialog = page.locator('dialog.cn-edit');
   await expect(dialog).toBeVisible();
+  // Keywords are no longer offered.
+  await expect(dialog.locator('[name="keywords"]')).toHaveCount(0);
   const name = await dialog.locator('input[name="name"]').inputValue();
   expect(name.length).toBeGreaterThan(0);
   await dialog.locator('textarea[name="description"]').fill('A clearer description.');
@@ -908,4 +916,125 @@ test('N26 a contributor suggests an edit to a map from the catalogue; others are
   expect(sent.entityId).toBe(LGD_NEWEST);
   expect(sent.patch).toEqual({ description: 'A clearer description.' });
 });
+});
+
+/* ------------------------------------------------------------------ Phelim Birch's notes, 19 Nov 2026 */
+
+test('N40 rows act by their shape: several maps link, cite and compare; one map adds, zooms, downloads and opens its Details', async ({ page }) => {
+  await open(page);
+  // No ⋯ menu any more.
+  await expect(pane(page).locator('[data-cn-menu]')).toHaveCount(0);
+  const multi = row(page, LGD).locator('.cn-row__end');
+  await expect(multi.locator('[data-cn-act]')).toHaveCount(3);
+  for (const [act, name] of [['row-link', `Copy a link to ${lgd.name}`], ['row-cite', `Cite ${lgd.name}`], ['row-compare', `Compare two editions of ${lgd.name}`]]) {
+    await expect(multi.locator(`[data-cn-act="${act}"]`)).toHaveAttribute('aria-label', name);
+  }
+  const town = row(page, 'townlands-townlands').locator('.cn-row__end');
+  await expect(town.locator('.cn-add[data-cn-toggle]')).toHaveCount(1);
+  for (const act of ['zoom', 'downloads', 'details']) await expect(town.locator(`[data-cn-act="${act}"]`)).toHaveCount(1);
+  // Every icon button has a name and a tooltip.
+  const unnamed = await pane(page).locator('.cn-iconbtn').evaluateAll((els) => els.filter((b) => !b.getAttribute('aria-label') || !b.getAttribute('title')).length);
+  expect(unnamed).toBe(0);
+  // Tab order: the row's title, then its actions, then its chips.
+  const order = await row(page, LGD).evaluate((li) => [...li.querySelectorAll('button')].slice(0, 5).map((b) => b.dataset.cnAct || (b.dataset.cnExpand ? 'title' : 'chip')));
+  expect(order.slice(0, 4)).toEqual(['title', 'row-link', 'row-cite', 'row-compare']);
+});
+
+test('N41 a row of dated editions counts its latest complete edition\'s features and its editions', async ({ page }) => {
+  await open(page);
+  const counties = catalogue.series.find((s) => s.id === 'counties-counties');
+  const editions = counties.members.filter((m) => !m.of).length;
+  const latest = catalogue.maps[counties.members[0].id];
+  await expect(row(page, 'counties-counties').locator('.cn-row__credit')).toContainText(`${latest.features} ${latest.unit} · ${editions} editions`);
+});
+
+test('N42 the Details page: its actions, and no Style, Data File or Keywords', async ({ page }) => {
+  await open(page);
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('counties-ireland', true));
+  const strip = page.locator('[data-cn-detail-actions]');
+  await expect(strip).toBeVisible();
+  for (const text of ['Add to map', 'Zoom to', 'Download', 'Copy link', 'Cite', 'Map image']) await expect(strip).toContainText(text);
+  const view = page.locator('#catalogueDetailView');
+  await expect(view.locator('.catalogue-detail__meta')).not.toContainText('Style');
+  await expect(view.locator('.catalogue-detail__meta')).not.toContainText('Data File');
+  await expect(view).not.toContainText('Keywords');
+  // Download lists every format, the source's files too; Map image the two pictures of the view.
+  await strip.locator('[data-cn-act="downloads-data"]').click();
+  await expect(menuItem(page, 'FlatGeobuf')).toBeVisible();
+  await expect(menuItem(page, 'Map image of this view')).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await strip.locator('[data-cn-act="map-image"]').click();
+  await expect(menuItem(page, 'Map image of this view (SVG)')).toBeVisible();
+  await expect(menuItem(page, 'Map image of this view (PNG)')).toBeVisible();
+  await page.keyboard.press('Escape');
+  // Add puts the map on, and the button says so.
+  await strip.locator('[data-cn-toggle]').click();
+  await expect.poll(() => loaded(page)).toContain('counties-ireland');
+  await expect(strip.locator('[data-cn-toggle]')).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('N43 load-order colours, the legend\'s names in the loaded-layers panel, and a colour of the reader\'s own', async ({ page }) => {
+  await page.addInitScript(() => { try { for (const k of Object.keys(localStorage)) if (k.startsWith('civgraph:test:controls:')) localStorage.removeItem(k); } catch { /* private */ } });
+  await open(page, 'layers=counties-ireland-1922,civil-parishes-by-province,baronies-all-ireland');
+  await expect.poll(() => loaded(page)).toHaveLength(3);
+  const palette = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/registries/colours.json'), 'utf8')).palettes.map.colours.loadOrder.values;
+  const colours = await page.evaluate(() => ['counties-ireland-1922', 'civil-parishes-by-province', 'baronies-all-ireland'].map((id) => window.mapController.getLayerColour(id)));
+  expect(colours.map((c) => c.toLowerCase())).toEqual(palette.slice(0, 3).map((c) => c.toLowerCase()));
+  // The panel names each layer as the legend does.
+  const names = await page.locator('#activeLayersList .active-layer-item__name').allTextContents();
+  expect(names.sort()).toEqual(['Baronies', 'Civil Parishes', 'Counties, 1922'].sort());
+  // A reader's colour, kept with the layer's preferences; Reset brings back the load-order colour.
+  await page.evaluate(() => document.getElementById('activeLayers')?.classList.remove('hidden'));
+  await page.locator('#activeLayersList .opacity-toggle-btn[data-map-id="baronies-all-ireland"]').click();
+  const input = page.locator('#activeLayersList .layer-colour-input[data-map-id="baronies-all-ireland"]');
+  await expect(input).toHaveAttribute('aria-label', 'Colour, Baronies');
+  await input.evaluate((el) => { el.value = '#123456'; el.dispatchEvent(new Event('change', { bubbles: true })); });
+  await expect.poll(() => page.evaluate(() => window.mapController.getLayerColour('baronies-all-ireland'))).toBe('#123456');
+  await page.locator('#activeLayersList .layer-colour-reset[data-map-id="baronies-all-ireland"]').click();
+  await expect.poll(() => page.evaluate(() => window.mapController.getLayerColour('baronies-all-ireland').toLowerCase())).toBe(palette[2].toLowerCase());
+  // A map taken off frees its colour for the next.
+  await page.evaluate(() => window.uiController.onMapUnload('civil-parishes-by-province'));
+  await page.evaluate(() => window.uiController.onMapLoad('provinces-1955'));
+  await expect.poll(() => page.evaluate(() => window.mapController.getLayerColour('provinces-1955').toLowerCase())).toBe(palette[1].toLowerCase());
+});
+
+test('N44 the Provider filter: several providers, with counts, combined with Where', async ({ page }) => {
+  await open(page);
+  const box = pane(page).locator('[data-cn-providers]');
+  // A narrow pane folds the filters behind the Filters button beside the search box.
+  if (!(await box.isVisible())) await page.locator('#cnFiltersButton').click();
+  await box.locator('summary').click();
+  const osni = box.locator('[data-cn-provider="osni"]');
+  const count = Number(await box.locator('[data-cn-provider-count="osni"]').textContent());
+  expect(count).toBeGreaterThan(5);
+  await osni.check();
+  await expect(pane(page).locator('.cn-row')).toHaveCount(count);
+  await expect(box.locator('[data-cn-provider-summary]')).toHaveText('OSNI');
+  // A second provider widens the list; Where narrows it.
+  await box.locator('[data-cn-provider="cso"]').check();
+  await expect.poll(() => pane(page).locator('.cn-row').count()).toBeGreaterThan(count);
+  await pane(page).locator('[data-cn-filter="scope"][data-value="Northern Ireland"]').click();
+  const ni = Number(await box.locator('[data-cn-provider-count="osni"]').textContent());
+  expect(ni).toBeLessThanOrEqual(count);
+  await expect(pane(page).locator('.cn-row .cn-row__meta', { hasText: 'ROI' })).toHaveCount(0);
+  // Kept with the other filters.
+  expect(await page.evaluate(() => window.uiController._catalogueNext.filters.providers)).toEqual(['osni', 'cso']);
+  await box.locator('[data-cn-act="clear-providers"]').click();
+  expect(await page.evaluate(() => window.uiController._catalogueNext.filters.providers)).toEqual([]);
+});
+
+test('N45 the map\'s timeline: the date above, the catalogue category under it', async ({ page }) => {
+  await open(page, 'layers=counties-ireland-1922');
+  await expect(page.locator('#timelineSlider')).toBeVisible({ timeout: 30000 });
+  await expect(page.locator('#timelineSublabel')).toHaveText('Counties');
+  await expect(page.locator('#timelineLabel')).toHaveText(/^\d{4}$|\d{4}$/);
+});
+
+test('N46 the section names are Places and Historic at every width', async ({ page }) => {
+  await open(page);
+  const tabs = () => pane(page).locator('.cn-tab').evaluateAll((els) => els.filter((el) => el.offsetParent).map((el) => el.querySelector('.cn-tab__label')?.textContent));
+  expect(await tabs()).toEqual(['Boundaries', 'Places', 'Statistics', 'Historic', 'Elections']);
+  // A phone shows the same names under the icons: there is no shortened form to switch to.
+  await expect(pane(page).locator('.cn-tab__short, .cn-tab__long')).toHaveCount(0);
+  expect(await pane(page).locator('.cn-tab .cn-tab__label').allTextContents()).toEqual(['Boundaries', 'Places', 'Statistics', 'Historic', 'Elections']);
 });

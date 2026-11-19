@@ -237,12 +237,13 @@ test.describe('row menus', () => {
     await boot(page);
     const shelf = page.locator('#catalogueFlatView .cn-shelf__toggle').first();
     if (await shelf.getAttribute('aria-expanded') !== 'true') await shelf.click();
-    const button = page.locator('#catalogueFlatView .cn-shelf__body:not([hidden]) [data-cn-menu]').nth(2);
+    // A row's own menu button: Download beside a one-map row's Add (the ⋯ menu went on 19 Nov 2026).
+    const button = page.locator('#catalogueFlatView .cn-shelf__body:not([hidden]) .cn-row__end [aria-haspopup="menu"]').nth(2);
     await button.click();
     const menu = page.locator('.cn-menu');
     await expect(menu).toBeVisible();
     const gap = () => page.evaluate(() => {
-      const anchor = document.querySelector('[data-cn-menu][aria-expanded="true"]');
+      const anchor = document.querySelector('.cn-row__end [aria-haspopup="menu"][aria-expanded="true"]');
       const m = document.querySelector('.cn-menu');
       if (!anchor || !m) return null;
       const a = anchor.getBoundingClientRect();

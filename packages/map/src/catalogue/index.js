@@ -764,8 +764,8 @@ export class CatalogueNext {
   }
 
   /** Contributors suggest edits to a map; anyone else is sent to sign in first (packages/map/src/catalogue/edit.js). */
-  /** @param {string} id */
-  suggestEdit(id) {
+  /** @param {string} id @param {HTMLElement} [host] where the dialog opens (the catalogue's root by default) */
+  suggestEdit(id, host) {
     const record = this.full(id);
     if (!record) return;
     if (!this.auth?.allowed) {
@@ -773,7 +773,7 @@ export class CatalogueNext {
       location.href = loginHref();
       return;
     }
-    openEditDialog(record, { host: this.root || document.body });
+    openEditDialog(record, { host: host || this.root || document.body });
   }
 
   /** The description of the row a map is in, for its Details page ('' when it has none). */
@@ -1579,7 +1579,9 @@ export class CatalogueNext {
       case 'clear-person': this.person = null; this.draw(); this.replaceRoute(); break;
       case 'zoom': this.zoom(id); break;
       case 'details': this.details(id); break;
-      case 'edit': this.suggestEdit(id); break;
+      // The dialog opens in the catalogue element it was asked from (a row, or the Details page's
+      // actions, outside the list), so it is shown and takes the catalogue's tokens.
+      case 'edit': this.suggestEdit(id, /** @type {HTMLElement | null} */ (el.closest('.cn')) || undefined); break;
       case 'downloads': openMenu(el, this.downloadsFor(id), { label: 'Download' }); break;
       case 'copy-link': this.copyLink(id, el); break;
       case 'cite': this.cite(id, this.seriesById.get(el.dataset.series), el); break;
@@ -1992,7 +1994,8 @@ export class CatalogueNext {
     const sync = () => strip.querySelectorAll('[data-cn-toggle]').forEach((b) => b.setAttribute('aria-pressed', String(this.isLoaded(String(/** @type {HTMLElement} */ (b).dataset.cnToggle)))));
     strip.addEventListener('click', async (e) => {
       const el = /** @type {DataTarget | null} */ (/** @type {Element} */ (e.target).closest('button'));
-      if (!el) return;
+      // Suggest an edit's dialog opens inside the strip (for the catalogue's tokens): its buttons are its own.
+      if (!el || el.closest('dialog')) return;
       e.preventDefault();
       if (el.dataset.cnToggle) { await this.toggleMap(el.dataset.cnToggle, el); sync(); return; }
       const id = /** @type {string} */ (el.dataset.map);

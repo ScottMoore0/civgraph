@@ -165,6 +165,12 @@ test.describe('Download SVG: a Wikipedia-style locator map of the view', () => {
     await expect(page.locator('#featureInfo .feature-info__export-btn')).toBeVisible({ timeout: 20000 });
 
     await page.fill('#searchInput', 'Parliamentary Constituencies');
+    // The edition's Download is in its row's dated list (a row of several maps since 19 Nov 2026).
+    const series = await page.waitForFunction(() => window.uiController?._catalogueNext?.seriesOfMap?.get('pc-2023'), null, { timeout: 30000 }).then((h) => h.jsonValue());
+    const expand = page.locator(`[data-cn-series="${series}"] [data-cn-expand]`).first();
+    await expect(expand).toBeVisible({ timeout: 20000 });
+    await page.waitForTimeout(1500);
+    if (await expand.getAttribute('aria-expanded') !== 'true') await expand.click();
     const trigger = page.locator('[data-cn-act="downloads"][data-map="pc-2023"]').first();
     await expect(trigger).toBeVisible({ timeout: 20000 });
     // Let the results settle: a re-render replaces the row and would close its menu.

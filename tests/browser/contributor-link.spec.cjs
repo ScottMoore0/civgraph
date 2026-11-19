@@ -19,22 +19,18 @@ test('?contribute offers it, and the browser remembers', async ({ page }) => {
   await expect(page.locator('[data-contributor-login]')).toBeVisible({ timeout: 30000 });
 });
 
-// The map catalogue's row menu (src/catalogue/index.js openSeriesMenu) offered "Suggest an edit
-// (contributor sign-in)" to every visitor. It follows the same rule, with the same remembered
-// flag (src/catalogue/edit.js contributorLinkWanted).
+// The map catalogue offered "Suggest an edit (contributor sign-in)" to every visitor. It follows
+// the same rule, with the same remembered flag (src/catalogue/edit.js contributorLinkWanted). Since
+// Phelim Birch's notes (19 Nov 2026) it is on a map's Details page, with Copy link and Cite
+// (src/catalogue/index.js detailActionsHtml); the rows' menu is gone.
 async function catalogueMenuItems(page, address) {
   await page.goto(address);
   await page.waitForFunction(() => document.getElementById('catalogueFlatView')?.dataset.rendered === 'next', null, { timeout: 60000 });
-  const shelf = page.locator('#catalogueFlatView .cn-shelf__toggle').first();
-  // The catalogue remembers an open shelf between visits.
-  if (await shelf.getAttribute('aria-expanded') !== 'true') await shelf.click();
-  await expect(shelf).toHaveAttribute('aria-expanded', 'true');
-  const menuButton = page.locator('#catalogueFlatView .cn-shelf__body:not([hidden]) [data-cn-menu]').first();
-  await menuButton.click();
-  const items = page.locator('.cn-menu [role="menuitem"]');
+  await page.waitForFunction(() => window.uiController?._catalogueNext?.detailActionsHtml, null, { timeout: 30000 });
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('counties-ireland', true));
+  const items = page.locator('[data-cn-detail-actions] button');
   await expect(items.first()).toBeVisible();
   const labels = await items.allTextContents();
-  await page.keyboard.press('Escape');
   return labels.map((label) => label.trim());
 }
 
