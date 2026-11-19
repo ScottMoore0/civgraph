@@ -57,7 +57,7 @@ import { SITE } from '@civgraph/config/node';
  */
 const args = process.argv.slice(2);
 /** @param {string} name @param {string} dflt */
-const argVal = (name, dflt) => { const i = args.indexOf(name); return i >= 0 && args[i + 1] ? args[i + 1] : dflt; };
+const argVal = (name, dflt) => { const i = args.indexOf(name); return i >= 0 && args[i + 1] ? /** @type {string} checked just before */ (args[i + 1]) : dflt; };
 const CACHE = argVal('--cache', existsSync('E:/') ? 'E:/civgraph-census-explorer/r2cache' : path.join(os.tmpdir(), 'civgraph-census-explorer'));
 const PXSTAT = argVal('--pxstat', 'D:/cso-pxstat');
 const R2 = `${SITE.dataOrigin}/`;
@@ -97,7 +97,7 @@ function parseCsv(text) {
 }
 /** @param {string} text */
 function csvObjects(text) {
-  const [head, ...rest] = parseCsv(text);
+  const [head, ...rest] = /** @type {[string[], ...string[][]]} */ (parseCsv(text));
   return rest.filter((r) => r.length > 1).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])));
 }
 /** @param {string} p */
@@ -127,11 +127,11 @@ async function r2(key) {
  */
 async function cleanedRows(year, table, geo) {
   const text = await r2(`data/census/${year}-cleaned/${table}__${geo}.csv.gz`);
-  const [head, ...rows] = parseCsv(text);
+  const [head, ...rows] = /** @type {[string[], ...string[][]]} */ (parseCsv(text));
   const catIdx = head.map((h, i) => (/^Category \d+$/.test(h) ? i : -1)).filter((i) => i >= 0);
   const vi = head.indexOf('Count');
   return rows.filter((r) => r.length > 2).map((r) => ({
-    code: r[0], label: r[1], cats: catIdx.map((i) => r[i]).join(' | '), value: num(r[vi]),
+    code: /** @type {string} */ (r[0]), label: /** @type {string} */ (r[1]), cats: catIdx.map((i) => r[i]).join(' | '), value: num(r[vi]),
   }));
 }
 
@@ -175,7 +175,7 @@ const NI_TOPIC_REPORTS_1991 = {
 };
 /** @param {number} year @param {string} conceptId */
 const reportLinks = (year, conceptId) => {
-  const out = (NI_REPORTS[year] || []).map(([label, key]) => ({ label: `${year} census: ${label}`, url: /^https?:/.test(key) ? key : R2 + key }));
+  const out = /** @type {[string, string][]} */ (NI_REPORTS[year] || []).map(([label, key]) => ({ label: `${year} census: ${label}`, url: /^https?:/.test(key) ? key : R2 + key }));
   if (year === 1991 && NI_TOPIC_REPORTS_1991[conceptId]) {
     const [label, stem] = NI_TOPIC_REPORTS_1991[conceptId];
     out.push({ label: `1991 census: ${label} (text)`, url: `${R2}data/census/1991/${stem}.md` });
@@ -284,8 +284,8 @@ function sentence(s) {
     if (!w.trim() || /^[\s\-()/,]+$/.test(w)) return w;
     const up = w.toUpperCase();
     if (KEEP.has(up) && up.length > 1) { first = false; return up; }
-    if (/^(irish|ireland|northern|catholic|protestant|presbyterian|methodist|church|christian|england|scotland|wales|europe|european|ulster-scots|ulster)$/.test(w)) { first = false; return w[0].toUpperCase() + w.slice(1); }
-    if (first) { first = false; return w[0].toUpperCase() + w.slice(1); }
+    if (/^(irish|ireland|northern|catholic|protestant|presbyterian|methodist|church|christian|england|scotland|wales|europe|european|ulster-scots|ulster)$/.test(w)) { first = false; return /** @type {string} */ (w[0]).toUpperCase() + w.slice(1); }
+    if (first) { first = false; return /** @type {string} */ (w[0]).toUpperCase() + w.slice(1); }
     return w;
   }).join('').replace(/\(\d\)/g, '').replace(/\s+/g, ' ').trim();
 }
@@ -421,8 +421,8 @@ async function niTables() {
     const files = {};
     for (const f of derived) {
       const m = f.match(/^ms-([a-z]\d{2})(?:-(.+))?-(lgd|dea|ward|settlement|sdz|dz)\.csv$/);
-      if (!m || `MS-${m[1].toUpperCase()}` !== code) continue;
-      const geo = DERIVED_GEO[m[3]];
+      if (!m || `MS-${/** @type {string} */ (m[1]).toUpperCase()}` !== code) continue;
+      const geo = /** @type {string} */ (DERIVED_GEO[/** @type {string} */ (m[3])]);
       (files[geo] ||= []).push([f, statSync(path.join(DERIVED, f)).size, m[2] ? sentence(m[2].replace(/-/g, ' ')) : null]);
     }
     const family = code.startsWith('MS') ? 'Main statistics' : code.startsWith('DT') ? 'Selected multivariate tables' : 'Alternative populations';
@@ -485,13 +485,13 @@ async function buildFtb() {
     maxBytes = Math.max(maxBytes, body.length); total += body.length; files += 1;
   };
   for (const [k, entries] of shards) {
-    const [ds, geo, v, n] = k.split('~');
+    const [ds, geo, v, n] = /** @type {[string, string, string, string]} */ (k.split('~'));
     const slot = ((shardIndex[`${ds}~${geo}`] ||= {})[v] ||= {});
     if (entries.length <= SPLIT) { write(k, entries); slot[n] = entries.length; continue; }
     /** @type {Map<string, string[]>} */
     const byW = new Map();
     for (const e of entries) {
-      for (const code of e.split(',')[0].split('.')) {
+      for (const code of /** @type {string} */ (e.split(',')[0]).split('.')) {
         if (!code) continue;
         if (!byW.has(code)) byW.set(code, []);
         // the key was set on the line before
@@ -500,7 +500,7 @@ async function buildFtb() {
     }
     /** @type {Record<string, number>} */
     const split = {};
-    for (const [w, list] of byW) { write(`${k}~${vars[parseInt(w, 36)]}`, list); split[vars[parseInt(w, 36)]] = list.length; }
+    for (const [w, list] of byW) { write(`${k}~${vars[parseInt(w, 36)]}`, list); split[/** @type {string} */ (vars[parseInt(w, 36)])] = list.length; }
     slot[n] = { total: entries.length, by: split };
   }
   const variables = vars.map((v) => ({ id: v, label: FTB_LABELS[v]?.label || v, dataset: FTB_LABELS[v]?.dataset || null, topic: topicOf(FTB_LABELS[v]?.label || v) }));
@@ -575,7 +575,7 @@ function buildRoi() {
     if (isCensusDim && !allCensus && !CENSUS_FAMILY.test(code)) { dropped += 1; continue; }
     const years = [...new Set(rawYears.map((y) => Number(y.slice(0, 4))).filter((y) => CENSUS_YEARS.has(String(y))))].sort((a, b) => a - b);
     if (!years.length) { dropped += 1; continue; }
-    const dims = it.id.filter((d) => d !== timeId && d !== 'STATISTIC').map((d) => ({ id: d, label: it.dimension[d].label }));
+    const dims = it.id.filter((d) => d !== timeId && d !== 'STATISTIC').map((d) => ({ id: d, label: /** @type {PxDimension} */ (it.dimension[d]).label }));
     const geoKeys = dims.map((d) => roiGeoKey(d.label, years)).filter(Boolean);
     const geo = ROI_GEO_RANK.find((k) => geoKeys.includes(k)) || null;
     let bytes = null;
@@ -591,8 +591,8 @@ function buildRoi() {
       // a JSON-stat 2.0 dataset
       const full = /** @type {PxCube} */ (readJson(path.join(PXSTAT, code.slice(0, 3), `${code}.json`)));
       large[code] = full.id.map((d) => {
-        const c = full.dimension[d].category; const idx = Array.isArray(c.index) ? c.index : Object.keys(c.index);
-        return { id: d, label: full.dimension[d].label, n: idx.length, cats: idx.length <= 400 ? idx.map((k) => [k, c.label?.[k] ?? k]) : null };
+        const c = /** @type {{ label: string; category: { index: string[] | Record<string, number>; label?: Record<string, string>; }; }} */ (full.dimension[d]).category; const idx = Array.isArray(c.index) ? c.index : Object.keys(c.index);
+        return { id: d, label: /** @type {{ label: string; category: { index: string[] | Record<string, number>; label?: Record<string, string>; }; }} */ (full.dimension[d]).label, n: idx.length, cats: idx.length <= 400 ? idx.map((k) => [k, c.label?.[k] ?? k]) : null };
       });
     }
   }
@@ -666,18 +666,18 @@ async function buildComparisons() {
   for (const [year, value, key] of HIST_POP) {
     const text = readFileSync(key, 'utf8');
     if (!text.includes(value.toLocaleString('en-GB'))) throw new Error(`${value} not found in ${key}`);
-    ni.population.points.push({ year, value, src: { label: `GRO NI census report (text in ${key.split('/').pop()})`, url: R2 + key } });
+    /** @type {Series} */ (ni.population).points.push({ year, value, src: { label: `GRO NI census report (text in ${key.split('/').pop()})`, url: R2 + key } });
   }
   // 1971/1981/1991 religion and population on the 26 districts.
   const cb = readCsv(`${DERIVED}/religion-common-basis-lgd.csv`);
-  const cbNi = readCsv(`${DERIVED}/religion-common-basis-ni.csv`)[0];
+  const cbNi = /** @type {{ [k: string]: string; }} */ (readCsv(`${DERIVED}/religion-common-basis-ni.csv`)[0]);
   const r81 = readCsv(`${DERIVED}/religion-1981-lgd.csv`);
   const src81 = { label: '1981 census, Table 8 (religion-1981-lgd.csv)', url: `${R2}${DERIVED}/religion-1981-lgd.csv` };
   const srcCb = { label: 'Common-basis religion series (religion-common-basis-ni.csv)', url: `${R2}${DERIVED}/religion-common-basis-ni.csv` };
-  ni.population.points.push({ year: 1991, value: num(cbNi.pop_1991), src: srcCb });
-  ni.catholic.points.push({ year: 1981, value: num(cbNi.raw_pct_1981), src: src81, flag: 'floor' });
-  ni.catholic.points.push({ year: 1991, value: num(cbNi.raw_pct_1991), src: srcCb });
-  ni.catholic_bg.points.push({ year: 1971, value: num(cbNi.cain_pct_1971), src: { label: 'CAIN retabulation of the 1971 census (religion-common-basis-ni.csv)', url: srcCb.url }, flag: 'est' });
+  /** @type {Series} */ (ni.population).points.push({ year: 1991, value: num(cbNi.pop_1991), src: srcCb });
+  /** @type {Series} */ (ni.catholic).points.push({ year: 1981, value: num(cbNi.raw_pct_1981), src: src81, flag: 'floor' });
+  /** @type {Series} */ (ni.catholic).points.push({ year: 1991, value: num(cbNi.raw_pct_1991), src: srcCb });
+  /** @type {Series} */ (ni.catholic_bg).points.push({ year: 1971, value: num(cbNi.cain_pct_1971), src: { label: 'CAIN retabulation of the 1971 census (religion-common-basis-ni.csv)', url: srcCb.url }, flag: 'est' });
   // 26-district codes: match names to the 2001 district codes (95AA..95ZZ) below.
   const r91 = readCsv(`${DERIVED}/census-1991-lgd-full.csv`);
   const src91 = { label: '1991 census district table (census-1991-lgd-full.csv)', url: `${R2}${DERIVED}/census-1991-lgd-full.csv` };
@@ -696,14 +696,14 @@ async function buildComparisons() {
       const byArea = new Map();
       // the key was set just before
       for (const r of rows) { if (!byArea.has(r.code)) byArea.set(r.code, { name: r.label, rows: [] }); /** @type {{ name: string, rows: CleanRow[] }} */ (byArea.get(r.code)).rows.push(r); }
-      const srcT = { label: `${NISRA[year].label}, table ${table}`, url: `${R2}data/census/${year}-cleaned/${table}__${files[files.length - 1]}.csv.gz` };
+      const srcT = { label: `${/** @type {{ provider: string; url: string; label: string; }} */ (NISRA[year]).label}, table ${table}`, url: `${R2}data/census/${year}-cleaned/${table}__${files[files.length - 1]}.csv.gz` };
       for (const [code, { name, rows: rr }] of byArea) {
         const isNi = code === '95' || code === 'N92000002';
         const is26 = /^95[A-Z]{2}$/.test(code);
         if (!isNi && !is26) continue;
         const { n, d } = share(rr, numRe, denRe);
         const value = ind.unit === 'count' ? n : (d ? (100 * n) / d : null);
-        if (isNi) ni[ind.id].points.push({ year, value: round(value, ind.unit === 'count' ? 0 : 2), src: srcT, n: ind.unit === 'pct' ? n : undefined, d: ind.unit === 'pct' ? d : undefined });
+        if (isNi) /** @type {{ points: unknown[] }} every indicator has its series */ (ni[ind.id]).points.push({ year, value: round(value, ind.unit === 'count' ? 0 : 2), src: srcT, n: ind.unit === 'pct' ? n : undefined, d: ind.unit === 'pct' ? d : undefined });
         if (is26) { lgdName[code] = sentence(name); put26(code, lgdName[code], ind.id, year, value, false); }
       }
     }
@@ -713,22 +713,22 @@ async function buildComparisons() {
   const code26 = (name) => nameTo26.get(String(name).toLowerCase().replace(/[^a-z]/g, '').replace(/^londonderry$/, 'derry'));
   for (const r of r91) {
     const c = code26(r.lgd); if (!c) { console.warn(`  1991 district not matched: ${r.lgd}`); continue; }
-    put26(c, lgdName[c], 'population', 1991, num(r.total_pop), false);
-    for (const [ind, col] of Object.entries(IND_1991)) put26(c, lgdName[c], ind, 1991, num(r[col]), false);
+    put26(c, /** @type {string} */ (lgdName[c]), 'population', 1991, num(r.total_pop), false);
+    for (const [ind, col] of Object.entries(IND_1991)) put26(c, /** @type {string} */ (lgdName[c]), ind, 1991, num(r[col]), false);
   }
   for (const r of cb) {
     const c = code26(r.area); if (!c) continue;
-    put26(c, lgdName[c], 'population', 1971, num(r.pop_1971), false);
-    put26(c, lgdName[c], 'population', 1981, num(r.pop_1981), false);
-    put26(c, lgdName[c], 'catholic_bg', 1971, num(r.cain_pct_1971), true);
+    put26(c, /** @type {string} */ (lgdName[c]), 'population', 1971, num(r.pop_1971), false);
+    put26(c, /** @type {string} */ (lgdName[c]), 'population', 1981, num(r.pop_1981), false);
+    put26(c, /** @type {string} */ (lgdName[c]), 'catholic_bg', 1971, num(r.cain_pct_1971), true);
   }
-  for (const r of r81) { const c = code26(r.lgd); if (c) put26(c, lgdName[c], 'catholic', 1981, num(r.catholic_pct), false); }
+  for (const r of r81) { const c = code26(r.lgd); if (c) put26(c, /** @type {string} */ (lgdName[c]), 'catholic', 1981, num(r.catholic_pct), false); }
   // NI 1991 indicators: population-weighted district values (the district table has no NI row).
   for (const [ind, col] of Object.entries(IND_1991)) {
     if (ind === 'catholic') continue; // from the common-basis file above
     let s = 0; let w = 0;
     for (const r of r91) { const v = num(r[col]); const p = num(r.total_pop); if (v != null && p) { s += v * p; w += p; } }
-    if (w) ni[ind].points.push({ year: 1991, value: round(s / w, 2), src: src91, flag: 'wtd' });
+    if (w) /** @type {{ points: unknown[] }} every indicator has its series */ (ni[ind]).points.push({ year: 1991, value: round(s / w, 2), src: src91, flag: 'wtd' });
   }
 
   // 2021: NI totals from the district extracts (sums), and 11-council values natively.
@@ -740,21 +740,21 @@ async function buildComparisons() {
     const rows = readCsv(`${DERIVED}/${stem}-lgd.csv`);
     let N = 0; let D = 0;
     for (const r of rows) {
-      const code = r.LGDCode || r.GeographyCode; const n = num(r[numCol]); const d = denCol ? num(r[denCol]) : null;
+      const code = /** @type {string} every row has a code */ (r.LGDCode || r.GeographyCode); const n = num(r[numCol]); const d = denCol ? num(r[denCol]) : null;
       N += n || 0; D += d || 0;
       // a blank count is null, which multiplies as 0
       const v = ind.unit === 'count' ? n : (d ? (100 * /** @type {number} */ (n)) / d : null);
-      ((lgd11[code] ||= { name: r.Geography, v: {} }).v[ind.id] ||= {})[2021] = round(v, ind.unit === 'count' ? 0 : 1);
+      ((lgd11[code] ||= { name: /** @type {string} */ (r.Geography), v: {} }).v[ind.id] ||= {})[2021] = round(v, ind.unit === 'count' ? 0 : 1);
     }
     const value = ind.unit === 'count' ? N : (100 * N) / D;
-    ni[ind.id].points.push({ year: 2021, value: round(value, ind.unit === 'count' ? 0 : 2), src: { label: `${NISRA[2021].label}, table ${stem.slice(0, 6).toUpperCase()} (sum of the 11 districts)`, url: `${R2}${DERIVED}/${stem}-lgd.csv` }, n: ind.unit === 'pct' ? N : undefined, d: ind.unit === 'pct' ? D : undefined });
+    /** @type {Series} */ (ni[ind.id]).points.push({ year: 2021, value: round(value, ind.unit === 'count' ? 0 : 2), src: { label: `${/** @type {{ provider: string; url: string; label: string; }} */ (NISRA[2021]).label}, table ${stem.slice(0, 6).toUpperCase()} (sum of the 11 districts)`, url: `${R2}${DERIVED}/${stem}-lgd.csv` }, n: ind.unit === 'pct' ? N : undefined, d: ind.unit === 'pct' ? D : undefined });
   }
 
   // 2011 on the 11 councils: ESTIMATED from Small Areas, each assigned whole to the council
   // its 2014 District Electoral Area lies in (best fit; SAs were built on the old wards).
   const deaRows = readCsv(`${DERIVED}/ms-a01-dea.csv`);
   /** @type {Map<string | undefined, string>} */
-  const deaToLgd = new Map(deaRows.map((r) => [r.Geography, `N090000${r.GeographyCode.slice(5, 7)}`]));
+  const deaToLgd = new Map(deaRows.map((r) => [r.Geography, `N090000${/** @type {string} */ (r.GeographyCode).slice(5, 7)}`]));
   const saDea = new Map(readCsv(`${DERIVED}/sa2011_to_deas.csv`).map((r) => [r.SA2011, r.dea_2012]));
   const sa11 = readCsv(`${DERIVED}/census-2011-sa.csv`);
   /** @type {Record<string, Accumulator>} */
@@ -784,8 +784,8 @@ async function buildComparisons() {
     a.pop += p; if (cbp != null) { a.cb += (cbp * p) / 100; a.cbw += p; }
   }
   for (const [c, a] of Object.entries(acc26)) {
-    put26(c, lgdName[c], 'population', 2021, a.pop, true);
-    put26(c, lgdName[c], 'catholic_bg', 2021, (100 * a.cb) / a.cbw, true);
+    put26(c, /** @type {string} */ (lgdName[c]), 'population', 2021, a.pop, true);
+    put26(c, /** @type {string} */ (lgdName[c]), 'catholic_bg', 2021, (100 * a.cb) / a.cbw, true);
   }
 
   for (const s of Object.values(ni)) s.points.sort((a, b) => a.year - b.year);
@@ -810,7 +810,7 @@ async function buildComparisons() {
 //    its method. 2021 is as published.
 // ---------------------------------------------------------------------------------------
 async function buildDzSeries() {
-  const pop21 = new Map(readCsv(`${DERIVED}/ms-a01-dz.csv`).map((r) => [r.GeographyCode, [r.Geography, num(r.AllUsualResidents)]]));
+  const pop21 = new Map(readCsv(`${DERIVED}/ms-a01-dz.csv`).map((r) => [/** @type {string} every row has a code */ (r.GeographyCode), [r.Geography, num(r.AllUsualResidents)]]));
   const ts = new Map(readCsv(`${DERIVED}/dz21-catholic-timeseries.csv`).map((r) => [r.DZ2021_cd, r]));
   const c01 = new Map(readCsv(`${DERIVED}/dz21-census-2001.csv`).map((r) => [r.DZ2021_cd, r]));
   const c91 = new Map(readCsv(`${DERIVED}/dz21-census-1991.csv`).map((r) => [r.DZ2021_cd, r]));
@@ -820,9 +820,9 @@ async function buildDzSeries() {
   /** @type {Map<string, number[]>} */
   const p7181 = new Map();
   for (const r of readCsv(`${DERIVED}/ward1972_to_dz2021_weights.csv`)) {
-    const a = p7181.get(r.DZ2021_cd) || [0, 0];
-    a[0] += num(r.pop_1971_apportioned) || 0; a[1] += num(r.pop_1981_apportioned) || 0;
-    p7181.set(r.DZ2021_cd, a);
+    const a = p7181.get(/** @type {string} */ (r.DZ2021_cd)) || [0, 0];
+    /** @type {number} */ (a[0]) += num(r.pop_1971_apportioned) || 0; /** @type {number} */ (a[1]) += num(r.pop_1981_apportioned) || 0;
+    p7181.set(/** @type {string} */ (r.DZ2021_cd), a);
   }
   // 2011 apportioned from Small Areas by the SA->DZ weights.
   const sa11 = new Map(readCsv(`${DERIVED}/census-2011-sa.csv`).map((r) => [r.SA2011, r]));
@@ -831,18 +831,18 @@ async function buildDzSeries() {
   for (const r of readCsv(`${DERIVED}/sa2011_to_dz2021_weights.csv`)) {
     const sa = sa11.get(r.SA2011); if (!sa) continue;
     const w = num(r.weight) || 0; const p = (num(sa.AllUsualResidents) || 0) * w; const cbp = num(sa.Catholic_background_pct);
-    const a = e11.get(r.DZ2021_cd) || { pop: 0, cb: 0, cbw: 0 };
+    const a = e11.get(/** @type {string} */ (r.DZ2021_cd)) || { pop: 0, cb: 0, cbw: 0 };
     a.pop += p; if (cbp != null) { a.cb += (cbp * p) / 100; a.cbw += p; }
-    e11.set(r.DZ2021_cd, a);
+    e11.set(/** @type {string} */ (r.DZ2021_cd), a);
   }
   // 2021 shares from the flexible-table builder at Data Zone level.
   /** @param {string} file @param {(c: number) => boolean} isNum @param {(c: number) => boolean} isDen */
   const ftbShare = async (file, isNum, isDen) => {
     const rows = parseCsv(await r2(`data/census/nisra-ftb/${file}`)).slice(1).filter((r) => r.length > 3);
-    /** @type {Map<string, number[]>} */
+    /** @type {Map<string, [number, number]>} */
     const acc = new Map();
     // a blank code is null, which the tests compare as 0
-    for (const r of rows) { const a = acc.get(r[0]) || [0, 0]; const c = num(r[2]); const v = num(r[4]) || 0; if (isNum(/** @type {number} */ (c))) a[0] += v; if (isDen(/** @type {number} */ (c))) a[1] += v; acc.set(r[0], a); }
+    for (const r of rows) { const a = acc.get(/** @type {string} */ (r[0])) || [0, 0]; const c = num(r[2]); const v = num(r[4]) || 0; if (isNum(/** @type {number} */ (c))) a[0] += v; if (isDen(/** @type {number} */ (c))) a[1] += v; acc.set(/** @type {string} */ (r[0]), a); }
     return new Map([...acc].map(([k, [n, d]]) => [k, d ? (100 * n) / d : null]));
   };
   const car21 = await ftbShare('HOUSEHOLD__DZ21~HH_CAR_VAN_TC5.csv.gz', (c) => c === 0, (c) => c >= 0);
@@ -850,7 +850,7 @@ async function buildDzSeries() {
   const soc21 = await ftbShare('HOUSEHOLD__DZ21~HH_TENURE_AGG7.csv.gz', (c) => c === 3 || c === 4, (c) => c >= 1);
   const iri21 = await ftbShare('PEOPLE__DZ21~IRISH_SKILLS_INTERMEDIATE.csv.gz', (c) => c >= 2 && c <= 4, (c) => c >= 1);
   /** @type {Map<string | undefined, string>} */
-  const deaToLgd = new Map(readCsv(`${DERIVED}/ms-a01-dea.csv`).map((r) => [r.Geography, `N090000${r.GeographyCode.slice(5, 7)}`]));
+  const deaToLgd = new Map(readCsv(`${DERIVED}/ms-a01-dea.csv`).map((r) => [r.Geography, `N090000${/** @type {string} */ (r.GeographyCode).slice(5, 7)}`]));
 
   const series = [
     { id: 'population', label: 'Usual residents', unit: 'count', years: [1971, 1981, 2001, 2011, 2021], method: { 1971: 'est-area', 1981: 'est-area', 2001: 'est-pop', 2011: 'est-pop', 2021: 'actual' } },
@@ -867,7 +867,7 @@ async function buildDzSeries() {
     const cm = comm.get(dz);
     rows[dz] = [
       name, t.lgd1993 || null, deaToLgd.get(dzDea.get(dz)) || null,
-      [p ? Math.round(p[0]) : null, p ? Math.round(p[1]) : null, round(num(a.total_pop), 0), e ? Math.round(e.pop) : null, p21],
+      [p ? Math.round(/** @type {number} */ (p[0])) : null, p ? Math.round(/** @type {number} */ (p[1])) : null, round(num(a.total_pop), 0), e ? Math.round(e.pop) : null, p21],
       [round(num(t.cath_1971)), round(num(t.cath_1981)), round(num(t.cath_1991) ?? num(b.rc_pct)), round(num(a.cb_catholic_pct)), e && e.cbw ? round((100 * e.cb) / e.cbw) : null, round(num(cm?.catholic_bg_pct) ?? num(t.cath_2021))],
       [round(num(b.no_car_pct)), round(num(a.no_car_pct)), round(car21.get(dz))],
       [round(num(b.owner_occ_pct)), round(num(a.owner_occ_pct)), round(own21.get(dz))],
@@ -909,11 +909,11 @@ const concepts = (ontology.concepts || []).map((c) => {
     return {
       year, available: codes.length > 0, code: codes[0]?.code || null, codes,
       resolvedTable: codes.length > 0 && codes.every((x) => x.resolved),
-      source: codes.length ? { provider: 'NISRA', url: NISRA[year].url, label: `${NISRA[year].label} (find table${codes.length > 1 ? 's' : ''} ${codes.map((x) => x.code).join(' and ')})` } : null,
+      source: codes.length ? { provider: 'NISRA', url: /** @type {{ provider: string; url: string; label: string; }} */ (NISRA[year]).url, label: `${/** @type {{ provider: string; url: string; label: string; }} */ (NISRA[year]).label} (find table${codes.length > 1 ? 's' : ''} ${codes.map((x) => x.code).join(' and ')})` } : null,
     };
   });
   const histYears = [...new Set([...(c.yearsAvailableHistorical || []), ...(HISTORICAL_EXTRA[c.id] || [])])].sort((a, b) => a - b);
-  const series = (CONCEPT_SERIES[c.id] || []).map((id) => seriesById[id]).filter(Boolean);
+  const series = (CONCEPT_SERIES[c.id] || []).map((id) => /** @type {NonNullable<(typeof seriesById)[string]>} a concept names series that exist */ (seriesById[id])).filter(Boolean);
   const historicalYearCells = histYears.map((year) => {
     const figures = series.map((s) => { const p = s.points.find((x) => x.year === year); return p ? { series: s.id, label: s.label, unit: s.unit, value: p.value, flag: p.flag || null } : null; }).filter(Boolean);
     return { year, available: true, reports: reportLinks(year, c.id), figures };

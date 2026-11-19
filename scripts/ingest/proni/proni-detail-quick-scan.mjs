@@ -106,10 +106,10 @@ function parseArgs(argv) {
   };
 
   for (let i = 0; i < argv.length; i += 1) {
-    const arg = argv[i];
+    const arg = /** @type {string} */ (argv[i]);
     if (!arg.startsWith("--")) continue;
     const key = arg.slice(2);
-    const next = argv[i + 1];
+    const next = /** @type {string} an option's value (a missing one is caught where it is read) */ (argv[i + 1]);
     const take = () => {
       i += 1;
       return next;
@@ -275,7 +275,7 @@ function parseGridRows(html) {
   for (const m of String(html).matchAll(/<input\b[^>]*GridView1\$ctl(\d+)\$(ResultsSelect|ResultsView)[^>]*>/gi)) {
     const tag = m[0];
     const ctl = `ctl${m[1]}`;
-    const kind = m[2];
+    const kind = /** @type {string} */ (m[2]);
     if (!map.has(ctl)) map.set(ctl, { ctl });
     // the key was set on the line before
     /** @type {GridRow} */ (map.get(ctl))[kind] = {
@@ -451,7 +451,7 @@ function recordRequestError(stats, options, attempt) {
   const now = performance.now();
   stats.errorEvents.push(now);
   const cutoff = now - options.errorWindowMs;
-  while (stats.errorEvents.length && stats.errorEvents[0] < cutoff) stats.errorEvents.shift();
+  while (stats.errorEvents.length && /** @type {number} */ (stats.errorEvents[0]) < cutoff) stats.errorEvents.shift();
   const burst = stats.errorEvents.length >= options.errorBurstThreshold;
   const baseCooldown = Math.max(options.backoffMs, options.backoffMs * attempt * 3);
   const cooldown = burst ? options.maxCooldownMs : Math.min(options.maxCooldownMs, baseCooldown);
@@ -474,7 +474,7 @@ class CookieJar {
       ? headers.getSetCookie()
       : splitSetCookie(headers.get("set-cookie"));
     for (const raw of setCookies || []) {
-      const [pair] = raw.split(";");
+      const [pair] = /** @type {[string]} */ (raw.split(";"));
       const idx = pair.indexOf("=");
       if (idx <= 0) continue;
       this.cookies.set(pair.slice(0, idx).trim(), pair.slice(idx + 1).trim());
@@ -632,7 +632,7 @@ function percentile(values, p) {
   const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
   if (!sorted.length) return null;
   const index = Math.min(sorted.length - 1, Math.max(0, Math.floor((sorted.length - 1) * p)));
-  return round(sorted[index], 1);
+  return round(/** @type {number} */ (sorted[index]), 1);
 }
 
 /** @param {Session} session @param {string} letter */
@@ -740,7 +740,7 @@ function makeIndexRow(row) {
 /** @param {IndexRow[]} rows @returns {PageUnit} */
 function makePageUnit(rows) {
   const sortedRows = rows.sort((a, b) => String(a.ctl).localeCompare(String(b.ctl), undefined, { numeric: true }));
-  const first = sortedRows[0] || {};
+  const first = /** @type {IndexRow} */ (sortedRows[0] || {});
   return {
     type: "page",
     branchKey: first.branchKey || "",
@@ -770,7 +770,7 @@ function makeBranchUnit(rows) {
       page: Number(page),
       rows: pageRows.sort((a, b) => String(a.ctl).localeCompare(String(b.ctl), undefined, { numeric: true })),
     }));
-  const first = rows[0] || {};
+  const first = /** @type {IndexRow} */ (rows[0] || {});
   return {
     type: "branch",
     branchKey: first.branchKey || "",
@@ -959,14 +959,14 @@ async function processRowsFromListing(session, listingHtml, rows, writers, optio
 /** @param {PageUnit} unit @param {Writers} writers @param {ScanOptions} options @param {Stats} stats @param {number} workerId */
 async function processPageUnit(unit, writers, options, stats, workerId) {
   const session = new Session(workerId, options, writers, stats);
-  let listingHtml = await readSnapshotHtml(unit.rows[0], options);
+  let listingHtml = await readSnapshotHtml(/** @type {{ branchKey: string; letter: string; path: string[]; page: number; ctl: string; expectedRef: string; proniReference: string; resultsViewName: string; resultsViewValue: string; pageSnapshotPath: string; pageSnapshotMetadataPath: string; }} */ (unit.rows[0]), options);
   let sourceRuntime = "raw-http-page-session-row-sequential";
   if (listingHtml) {
     stats.snapshotPagesUsed += 1;
     sourceRuntime = "raw-http-page-snapshot-row-sequential";
   } else {
     if (options.snapshotMode === SNAPSHOT.only) throw new Error(`No snapshot for ${unit.branchKey} page ${unit.firstPage}`);
-    listingHtml = await openBranchPage(session, unit.rows[0]);
+    listingHtml = await openBranchPage(session, /** @type {{ branchKey: string; letter: string; path: string[]; page: number; ctl: string; expectedRef: string; proniReference: string; resultsViewName: string; resultsViewValue: string; pageSnapshotPath: string; pageSnapshotMetadataPath: string; }} */ (unit.rows[0]));
   }
   await processRowsFromListing(session, listingHtml, unit.rows, writers, options, stats, workerId, sourceRuntime);
   stats.groupsCompleted += 1;
@@ -975,7 +975,7 @@ async function processPageUnit(unit, writers, options, stats, workerId) {
 /** @param {BranchUnit} unit @param {Writers} writers @param {ScanOptions} options @param {Stats} stats @param {number} workerId */
 async function processBranchUnit(unit, writers, options, stats, workerId) {
   const session = new Session(workerId, options, writers, stats);
-  let listingHtml = await openBranchPage(session, { ...unit.rows[0], page: unit.firstPage });
+  let listingHtml = await openBranchPage(session, { .../** @type {BranchUnit['rows'][number]} a unit has rows */ (unit.rows[0]), page: unit.firstPage });
   let currentPage = unit.firstPage;
   for (const page of unit.pages) {
     while (currentPage < page.page) {
@@ -1031,7 +1031,7 @@ function buildSubtreeUnits(records, options) {
     const key = keyOf(letter, pathArr);
     if (!nodes.has(key)) {
       nodes.set(key, {
-        key, letter, ref: pathArr[pathArr.length - 1], pathArr,
+        key, letter, ref: /** @type {string} */ (pathArr[pathArr.length - 1]), pathArr,
         parentKey: pathArr.length > 1 ? keyOf(letter, pathArr.slice(0, -1)) : null,
         childKeys: new Set(), directRecords: [], subtreeCount: 0,
       });
@@ -1086,11 +1086,11 @@ function buildSubtreeUnits(records, options) {
       const n = /** @type {TreeNode} */ (nodes.get(key));
       for (const r of n.directRecords) {
         refs.add(r.expectedRef);
-        const bref = r.path[r.path.length - 1];
+        const bref = /** @type {string} */ (r.path[r.path.length - 1]);
         if (!recordsByBranch.has(bref)) recordsByBranch.set(bref, []);
         // the key was set on the line before
         /** @type {ListingRow[]} */ (recordsByBranch.get(bref)).push(r);
-        for (let i = rootIdx + 1; i < r.path.length; i += 1) wantedBranchRefs.add(r.path[i]);
+        for (let i = rootIdx + 1; i < r.path.length; i += 1) wantedBranchRefs.add(/** @type {string} */ (r.path[i]));
       }
       if (descend) for (const ck of n.childKeys) collect(ck, true);
     };
@@ -1416,7 +1416,7 @@ async function runWorker(workerId, units, workQueue, writers, options, stats) {
         continue;
       }
       const { index, attempt } = item;
-      const unit = units[index];
+      const unit = /** @type {WorkUnit} */ (units[index]);
       if (options.resume) {
         const unitRefs = unit.rows ? unit.rows.map((row) => row.expectedRef) : (unit.refs ? [...unit.refs] : []);
         if (unitRefs.length && unitRefs.every((ref) => stats.completedRefs.has(ref))) {
@@ -1517,7 +1517,7 @@ function makeWorkQueue(units, options) {
       if (hot.length) return hot.shift();
       const now = performance.now();
       retry.sort((a, b) => a.dueMs - b.dueMs);
-      if (retry.length && retry[0].dueMs <= now) return retry.shift();
+      if (retry.length && /** @type {{ index: number; attempt: number; dueMs: number; delayMs: number; }} */ (retry[0]).dueMs <= now) return retry.shift();
       return null;
     },
     hasPending() {
@@ -1527,7 +1527,7 @@ function makeWorkQueue(units, options) {
       if (hot.length) return 0;
       if (!retry.length) return 0;
       retry.sort((a, b) => a.dueMs - b.dueMs);
-      return Math.max(0, retry[0].dueMs - performance.now());
+      return Math.max(0, /** @type {{ index: number; attempt: number; dueMs: number; delayMs: number; }} */ (retry[0]).dueMs - performance.now());
     },
     /** @param {number} index @param {number} [_attempt] */
     retry(index, _attempt = 1) {

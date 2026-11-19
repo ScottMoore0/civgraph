@@ -64,7 +64,7 @@ for (const file of readdirSync(SHARD_DIR)) {
   for (const record of items) {
     if (!(record.provider || []).includes('CSO')) continue;
     for (const match of JSON.stringify(record).matchAll(/\/table\/([A-Z0-9]+)|ReadDataset\/([A-Z0-9]+)\//g)) {
-      covered.add((match[1] || match[2]).toUpperCase());
+      covered.add(/** @type {string} one of the two groups matched */ (match[1] || match[2]).toUpperCase());
     }
   }
 }

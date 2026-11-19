@@ -49,7 +49,7 @@ export function reportRounds(phaseB) {
       if (isImplied) implied += 1;
       counts[status] = (counts[status] || 0) + 1;
       const { verdict } = roundGate(status, excluded.has(round));
-      byVerdict[verdict].push({ round, status, ...(excluded.has(round) ? { reason: excluded.get(round) } : {}) });
+      /** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (byVerdict[verdict]).push({ round, status, ...(excluded.has(round) ? { reason: excluded.get(round) } : {}) });
     }
   }
   const seen = new Set(Object.values(byVerdict).flat().map((r) => r.round));
@@ -65,13 +65,13 @@ function main() {
   if (args.includes('--json')) { console.log(JSON.stringify(r, null, 2)); }
   else {
     console.log(`Rounds by status: ${Object.entries(r.counts).map(([k, v]) => `${k} ${v}`).join(', ')} (${r.implied} with no status, read as done)`);
-    console.log(`apply ${r.byVerdict.apply.length}, held back ${r.byVerdict['held-back'].length}, excluded by choice ${r.byVerdict['excluded-by-choice'].length}`);
-    for (const x of r.byVerdict['excluded-by-choice']) console.log(`  excluded although ${x.status}: ${x.round} (${x.reason || 'no reason given'})`);
-    for (const x of r.byVerdict['would-apply-wrongly']) console.log(`  ERROR ${x.status} but not excluded, apply.py --write would copy it: ${x.round}`);
-    for (const x of r.byVerdict['unknown-status']) console.log(`  ERROR unknown status "${x.status}": ${x.round}`);
+    console.log(`apply ${/** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict.apply).length}, held back ${/** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['held-back']).length}, excluded by choice ${/** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['excluded-by-choice']).length}`);
+    for (const x of /** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['excluded-by-choice'])) console.log(`  excluded although ${x.status}: ${x.round} (${x.reason || 'no reason given'})`);
+    for (const x of /** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['would-apply-wrongly'])) console.log(`  ERROR ${x.status} but not excluded, apply.py --write would copy it: ${x.round}`);
+    for (const x of /** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['unknown-status'])) console.log(`  ERROR unknown status "${x.status}": ${x.round}`);
     for (const k of r.staleExclusions) console.log(`  note: apply-exclude.json names ${k}, which has no work record`);
   }
-  return r.byVerdict['would-apply-wrongly'].length || r.byVerdict['unknown-status'].length ? 1 : 0;
+  return /** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['would-apply-wrongly']).length || /** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['unknown-status']).length ? 1 : 0;
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) process.exitCode = main();

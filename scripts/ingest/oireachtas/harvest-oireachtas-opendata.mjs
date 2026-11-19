@@ -141,7 +141,7 @@ async function windowed(endpoint, start, end, extra, depth = 0) {
 async function pool(items, worker) {
   let i = 0;
   await Promise.all(Array.from({ length: Math.min(CONCURRENCY, items.length || 1) }, async () => {
-    while (i < items.length) { const idx = i; i += 1; await worker(items[idx]); }
+    while (i < items.length) { const idx = i; i += 1; await worker(/** @type {T} */ (items[idx])); }
   }));
 }
 

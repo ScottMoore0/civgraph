@@ -509,7 +509,7 @@ function buildBestSourceReview(rows) {
     .filter((group) => group.length > 1 || group.some((row) => ['Feature Service', 'WFS', 'Shapefile', 'Service Definition'].includes(row.type)))
     .map((group) => {
       const sorted = [...group].sort((a, b) => sourcePreferenceScore(b) - sourcePreferenceScore(a));
-      const preferred = sorted[0];
+      const preferred = /** @type {PeatRow} */ (sorted[0]);
       return {
         titleKey: preferred.normalizedTitle,
         preferredArcgisItemId: preferred.itemId,
@@ -908,7 +908,7 @@ function parseCsv(text) {
     row.push(field);
     rows.push(row);
   }
-  const [headers, ...body] = rows;
+  const [headers, ...body] = /** @type {[string[], ...string[][]]} */ (rows);
   return body
     .filter((values) => values.some((value) => cleanText(value)))
     .map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index] || ''])));

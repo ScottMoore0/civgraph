@@ -61,7 +61,7 @@ async function pool(items, worker) {
   await Promise.all(Array.from({ length: Math.min(CONCURRENCY, items.length || 1) }, async () => {
     while (i < items.length) {
       const idx = i; i += 1;
-      out[idx] = await worker(items[idx], idx);
+      out[idx] = await worker(/** @type {T} */ (items[idx]), idx);
     }
   }));
   return out;
@@ -155,7 +155,7 @@ console.log(`  delay  : ${DELAY}ms\n`);
 
 /** @type {Record<string, Record<string, unknown>[]>} */
 const seeds = {};
-for (const [svc, op] of SEED_OPS) {
+for (const [svc, op] of /** @type {[string, string][]} */ (SEED_OPS)) {
   const json = await fetchOp(svc, op);
   const n = records(json).length;
   if (json && n === 0) stats.empty += 1;
@@ -168,11 +168,11 @@ writeFileSync(path.join(OUT, '_seed-summary.json'), JSON.stringify(
 ));
 
 if (PHASE !== HARVEST.seed) {
-  const personIds = [...new Set(seeds.GetAllMembers_JSON.map((r) => r.PersonId).filter(Boolean))];
-  const constituencyIds = [...new Set(seeds.GetAllConstituencies_JSON.map((r) => r.ConstituencyId).filter(Boolean))];
-  const partyIds = [...new Set(seeds.GetPartiesListCurrent_JSON.map((r) => r.OrganisationId).filter(Boolean))];
-  const departmentIds = [...new Set(seeds.GetDepartmentListCurrent_JSON.map((r) => r.OrganisationId).filter(Boolean))];
-  const reportIds = [...new Set(seeds.GetAllHansardReports_JSON.map((r) => r.ReportDocId).filter(Boolean))];
+  const personIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds.GetAllMembers_JSON).map((r) => r.PersonId).filter(Boolean))];
+  const constituencyIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds.GetAllConstituencies_JSON).map((r) => r.ConstituencyId).filter(Boolean))];
+  const partyIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds.GetPartiesListCurrent_JSON).map((r) => r.OrganisationId).filter(Boolean))];
+  const departmentIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds.GetDepartmentListCurrent_JSON).map((r) => r.OrganisationId).filter(Boolean))];
+  const reportIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds.GetAllHansardReports_JSON).map((r) => r.ReportDocId).filter(Boolean))];
 
   console.log(`\n  ids: ${personIds.length} persons, ${constituencyIds.length} constituencies, ${partyIds.length} parties, ${departmentIds.length} departments, ${reportIds.length} hansard reports`);
 

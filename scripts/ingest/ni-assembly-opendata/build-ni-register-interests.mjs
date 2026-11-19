@@ -424,7 +424,7 @@ function buildBrowseRegisterRecords(sourceRows) {
 
   return [...groups.entries()].map(([key, rows]) => {
     const sortedRows = [...rows].sort(sortSourceRowsForCanonical);
-    const representative = sortedRows[0];
+    const representative = /** @type {InterestRow} */ (sortedRows[0]);
     const electedBody = electedBodyForInterest(representative);
     const date = registerRecordDate(representative) || 'undated';
     const interests = buildBrowseRecordInterestGroups(key, sortedRows);
@@ -516,7 +516,7 @@ function buildBrowseRecordInterestGroups(recordKey, rows) {
 
   return [...groups.entries()].map(([key, groupRows]) => {
     const sortedRows = [...groupRows].sort(sortSourceRowsForCanonical);
-    const representative = sortedRows[0];
+    const representative = /** @type {InterestRow} */ (sortedRows[0]);
     const sourceRefs = sortedRows.map((row) => canonicalSourceRef(row));
     const sourceKinds = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceKind));
     const sourceRecordIds = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceRecordId));
@@ -608,7 +608,7 @@ function buildCanonicalInterests(sourceRows) {
 
   return [...groups.entries()].map(([key, rows]) => {
     const sortedRows = [...rows].sort(sortSourceRowsForCanonical);
-    const representative = sortedRows[0];
+    const representative = /** @type {InterestRow} */ (sortedRows[0]);
     const sourceRefs = sortedRows.map(canonicalSourceRef);
     const dates = uniqueCleanStrings(sourceRefs.map((ref) => ref.date || ref.editionDate));
     const sourceKinds = uniqueCleanStrings(sourceRefs.map((ref) => ref.sourceKind));
@@ -977,7 +977,7 @@ function extractAssemblyPdfRows(pages, record, sourceRecordId) {
   };
 
   for (let index = 0; index < lines.length; index += 1) {
-    const item = lines[index];
+    const item = /** @type {{ page: number; text: string; }} */ (lines[index]);
     const text = item.text;
     const member = parseMemberHeading({ tag: 'h2' }, text);
     if (member) {
@@ -1070,7 +1070,7 @@ function parsePdfCategoryHeading(lines, index) {
   let category = cleanText(match[2] || '');
   let consumed = 0;
   if (shouldJoinPdfCategoryContinuation(category) && lines[index + 1]) {
-    const next = lines[index + 1].text;
+    const next = /** @type {PdfLine} */ (lines[index + 1]).text;
     if (!parseMemberHeading({ tag: 'h2' }, next) && !/^(\d{1,2})\.\s*/.test(next)) {
       category = cleanText(`${category} ${next}`);
       consumed = 1;
@@ -1264,7 +1264,7 @@ function tokenizeHtml(html) {
   const blockRe = /<(h[1-6]|p|li|blockquote|td)\b[^>]*>([\s\S]*?)<\/\1>/gi;
   let match;
   while ((match = blockRe.exec(cleanedHtml))) {
-    const tag = match[1].toLowerCase();
+    const tag = /** @type {string} */ (match[1]).toLowerCase();
     const text = cleanHtmlText(match[2]);
     if (text) tokens.push({ tag, text });
   }
@@ -1499,11 +1499,11 @@ function inferAssemblyRecordDate(record) {
 function isoDateFromText(value) {
   const text = cleanText(value);
   const namedMonth = text.match(/\b(\d{1,2})(?:st|nd|rd|th)?[-\s]+(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)[-\s]+(\d{2,4})\b/i);
-  if (namedMonth) return buildIsoDate(Number(namedMonth[1]), monthNumber(namedMonth[2]), Number(normalizeYear(namedMonth[3])));
+  if (namedMonth) return buildIsoDate(Number(namedMonth[1]), monthNumber(namedMonth[2]), Number(normalizeYear(/** @type {string} */ (namedMonth[3]))));
   const compactDate = text.match(/\bregister[_-]?(\d{2})(\d{2})(\d{2})\b/i);
-  if (compactDate) return buildIsoDate(Number(compactDate[1]), Number(compactDate[2]), Number(normalizeYear(compactDate[3])));
+  if (compactDate) return buildIsoDate(Number(compactDate[1]), Number(compactDate[2]), Number(normalizeYear(/** @type {string} */ (compactDate[3]))));
   const dashedDate = text.match(/\b(\d{1,2})[-_](jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[-_](\d{2,4})\b/i);
-  if (dashedDate) return buildIsoDate(Number(dashedDate[1]), monthNumber(dashedDate[2]), Number(normalizeYear(dashedDate[3])));
+  if (dashedDate) return buildIsoDate(Number(dashedDate[1]), monthNumber(dashedDate[2]), Number(normalizeYear(/** @type {string} */ (dashedDate[3]))));
   return null;
 }
 
@@ -1542,7 +1542,7 @@ function monthNumber(value) {
 /** @param {string | null} isoDate */
 function humanDate(isoDate) {
   if (!isoDate) return null;
-  const [year, month, day] = isoDate.split('-').map(Number);
+  const [year, month, day] = /** @type {[number, number, number]} */ (isoDate.split('-').map(Number));
   const monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][month - 1];
   return `${day} ${monthName} ${year}`;
 }
@@ -1576,7 +1576,7 @@ function decodeEntities(value) {
   return String(value || '')
     .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(Number.parseInt(hex, 16)))
     .replace(/&#(\d+);/g, (_, number) => String.fromCodePoint(Number(number)))
-    .replace(/&([a-z]+);/gi, (match, name) => Object.hasOwn(named, name.toLowerCase()) ? named[name.toLowerCase()] : match);
+    .replace(/&([a-z]+);/gi, (match, name) => Object.hasOwn(named, name.toLowerCase()) ? /** @type {string} hasOwn checked it */ (named[name.toLowerCase()]) : match);
 }
 
 /** @param {unknown} value */

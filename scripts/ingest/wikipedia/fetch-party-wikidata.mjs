@@ -161,7 +161,7 @@ function bestTime(entity, prop) {
   if (!claims.length) return null;
   claims.sort((a, b) => (Number(b.rank === 'preferred') - Number(a.rank === 'preferred'))
     || (claimRefs(b).length - claimRefs(a).length));
-  const chosen = claims[0];
+  const chosen = /** @type {Claim} */ (claims[0]);
   // the filter above kept only claims with a time
   const others = claims.slice(1).map((claim) => /** @type {WikidataTime} */ (wikidataTime(claim.mainsnak)).date).filter((d) => d !== /** @type {WikidataTime} */ (wikidataTime(chosen.mainsnak)).date);
   return { ...wikidataTime(chosen.mainsnak), refs: claimRefs(chosen), ...(others.length ? { otherValues: [...new Set(others)] } : {}) };
@@ -274,7 +274,7 @@ async function main() {
     if (typeof override === 'string') {
       matches[party.slug] = { qid: override, matchBasis: 'owner override' };
     } else if (passing.length === 1) {
-      matches[party.slug] = { qid: passing[0].qid, matchBasis: 'exact name; political party; Ireland/UK; years overlap' };
+      matches[party.slug] = { qid: /** @type {{ qid: string; label: string | undefined; description: string; isParty: boolean; inPlace: boolean; nameMatch: boolean; inYears: boolean; }} */ (passing[0]).qid, matchBasis: 'exact name; political party; Ireland/UK; years overlap' };
     } else {
       const near = (passing.length ? passing : scored.filter((c) => (c.nameMatch && c.isParty) || (c.isParty && c.inPlace))).slice(0, 6);
       (near.length ? uncertain : unmatched).push({
@@ -305,7 +305,7 @@ async function main() {
     const ranked = [...slugs].sort((a, b) => (Number(fold(/** @type {Party} */ (parties.find((p) => p.slug === b)).title) === label) - Number(fold(/** @type {Party} */ (parties.find((p) => p.slug === a)).title) === label))
       || (/** @type {number} */ (bySlugCount.get(b)) - /** @type {number} */ (bySlugCount.get(a))));
     for (const slug of ranked.slice(1)) {
-      if (matches[slug].matchBasis === 'owner override') continue;
+      if (/** @type {Match} */ (matches[slug]).matchBasis === 'owner override') continue;
       // every matched slug is one of the parties
       const party = /** @type {Party} */ (parties.find((p) => p.slug === slug));
       uncertain.push({ slug, title: party.title, years: [party.firstYear, party.lastYear], reason: `same Wikidata item as ${ranked[0]}`, candidates: [{ qid, label: candidateEntities[qid]?.labels?.en?.value, description: candidateEntities[qid]?.descriptions?.en?.value }] });
@@ -345,9 +345,9 @@ async function main() {
     const values = labelList.slice(i, i + 120).map((label) => `${JSON.stringify(label)}@en`).join(' ');
     const body = /** @type {SparqlResults} */ (await sparql(`SELECT ?pos ?l WHERE { VALUES ?l { ${values} } ?pos rdfs:label ?l . }`));
     for (const b of body.results?.bindings || []) {
-      if (!labelHits.has(b.l.value)) labelHits.set(b.l.value, new Set());
+      if (!labelHits.has(/** @type {{ value: string; }} */ (b.l).value)) labelHits.set(/** @type {{ value: string; }} */ (b.l).value, new Set());
       // the key was set on the line before; split always gives at least one part
-      /** @type {Set<string>} */ (labelHits.get(b.l.value)).add(/** @type {string} */ (b.pos.value.split('/').pop()));
+      /** @type {Set<string>} */ (labelHits.get(/** @type {{ value: string; }} */ (b.l).value)).add(/** @type {string} */ (/** @type {{ value: string; }} */ (b.pos).value.split('/').pop()));
     }
   }
   const officeEntities = await getEntities([...labelHits.values()].flatMap((set) => [...set]), 'labels|claims');
@@ -356,7 +356,7 @@ async function main() {
   for (const [label, qids] of labelHits) {
     // every label searched is a key of labelToSlugs
     for (const slug of /** @type {Set<string>} */ (labelToSlugs.get(label))) {
-      const partyQid = matches[slug].qid;
+      const partyQid = /** @type {Match} */ (matches[slug]).qid;
       for (const qid of qids) {
         const links = ['P2389', 'P361', 'P642'].flatMap((prop) => claimIds(officeEntities[qid], prop));
         // ...and it must be an office in Ireland or the UK ("President of Labour Party" is the
@@ -374,9 +374,9 @@ async function main() {
   const linked = /** @type {SparqlResults} */ (await sparql(`SELECT ?party ?pos WHERE { VALUES ?party { ${partyValues} } { ?pos wdt:P2389 ?party } UNION { ?party wdt:P2388 ?pos } }`));
   for (const b of linked.results?.bindings || []) {
     // the query's ?party values are the matched items, each in qidToSlug; split always gives at least one part
-    const slug = /** @type {string} */ (qidToSlug.get(/** @type {string} */ (b.party.value.split('/').pop())));
+    const slug = /** @type {string} */ (qidToSlug.get(/** @type {string} */ (/** @type {{ value: string; }} */ (b.party).value.split('/').pop())));
     if (!officeBySlug.has(slug)) officeBySlug.set(slug, new Set());
-    /** @type {Set<string>} */ (officeBySlug.get(slug)).add(/** @type {string} */ (b.pos.value.split('/').pop()));
+    /** @type {Set<string>} */ (officeBySlug.get(slug)).add(/** @type {string} */ (/** @type {{ value: string; }} */ (b.pos).value.split('/').pop()));
   }
   // A party chairman is not its leader where Wikidata also has a leader's office (the
   // Conservative Party has both); a chairman's office is kept only when it is the only one.
@@ -398,14 +398,14 @@ async function main() {
       SERVICE wikibase:label { bd:serviceParam wikibase:language "en". } }`));
     for (const b of body.results?.bindings || []) {
       // split always gives at least one part
-      const pos = /** @type {string} */ (b.pos.value.split('/').pop());
+      const pos = /** @type {string} */ (/** @type {{ value: string; }} */ (b.pos).value.split('/').pop());
       if (!holders.has(pos)) holders.set(pos, []);
       /** @param {string | undefined} value @param {string | undefined} prec */
       const time = (value, prec) => (value ? wikidataTime({ datavalue: { value: { time: `+${value.slice(0, 10)}T00:00:00Z`.replace('++', '+'), precision: Number(prec) } } }) : null);
       // the key was set above; split always gives at least one part
       /** @type {Holder[]} */ (holders.get(pos)).push({
-        qid: /** @type {string} */ (b.person.value.split('/').pop()),
-        name: b.personLabel.value,
+        qid: /** @type {string} */ (/** @type {{ value: string; }} */ (b.person).value.split('/').pop()),
+        name: /** @type {{ value: string; }} */ (b.personLabel).value,
         start: time(b.start?.value, b.startPrec?.value),
         end: time(b.end?.value, b.endPrec?.value)
       });

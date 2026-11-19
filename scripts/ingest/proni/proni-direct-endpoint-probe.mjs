@@ -19,7 +19,7 @@ function getArg(name, fallback = '') {
   const found = process.argv.find((item) => item.startsWith(prefix));
   if (found) return found.slice(prefix.length);
   const index = process.argv.indexOf(`--${name}`);
-  if (index >= 0 && index + 1 < process.argv.length) return process.argv[index + 1];
+  if (index >= 0 && index + 1 < process.argv.length) return /** @type {string} index + 1 is within argv */ (process.argv[index + 1]);
   return fallback;
 }
 

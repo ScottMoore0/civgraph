@@ -37,7 +37,7 @@ function isValidGeometry(geom) {
   if (!geom || !geom.type) return false;
   if (geom.type === 'Point') return Array.isArray(geom.coordinates) && geom.coordinates.length >= 2;
   if (geom.type === 'LineString') return Array.isArray(geom.coordinates) && geom.coordinates.length >= 2;
-  if (geom.type === 'Polygon') return Array.isArray(geom.coordinates) && geom.coordinates[0]?.length >= 4;
+  if (geom.type === 'Polygon') return Array.isArray(geom.coordinates) && /** @type {import('geojson').Position[]} */ (geom.coordinates[0])?.length >= 4;
   if (geom.type === 'MultiPolygon') return Array.isArray(geom.coordinates) && geom.coordinates.length > 0;
   if (geom.type === 'MultiLineString') return Array.isArray(geom.coordinates) && geom.coordinates.length > 0;
   if (geom.type === 'MultiPoint') return Array.isArray(geom.coordinates) && geom.coordinates.length > 0;

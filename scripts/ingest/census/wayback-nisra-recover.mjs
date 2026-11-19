@@ -92,7 +92,7 @@ function readArg(name, fallback = null) {
   const eq = process.argv.find((arg) => arg.startsWith(`${name}=`));
   if (eq) return eq.slice(name.length + 1);
   const idx = process.argv.indexOf(name);
-  return idx >= 0 && process.argv[idx + 1] ? process.argv[idx + 1] : fallback;
+  return idx >= 0 && process.argv[idx + 1] ? /** @type {string} */ (process.argv[idx + 1]) : fallback;
 }
 
 const args = {
@@ -267,7 +267,7 @@ function isExistingCurrentFile(original) {
     // the current mirror's inventory: URL -> local path
     const currentInventory = /** @type {Record<string, string>} */ (readJson(path.join(args.currentRoot, "_inventory.json"), {}));
     if (currentInventory[inventoryKey(original)] || currentInventory[original]) {
-      const target = path.resolve(args.currentRoot, currentInventory[inventoryKey(original)] || currentInventory[original]);
+      const target = path.resolve(args.currentRoot, /** @type {string} checked just above */ (currentInventory[inventoryKey(original)] || currentInventory[original]));
       return fs.existsSync(target) && fs.statSync(target).size > 0;
     }
     const local = localPathForCurrentMirror(original);

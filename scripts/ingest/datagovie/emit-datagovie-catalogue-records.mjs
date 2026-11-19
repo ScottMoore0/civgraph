@@ -33,7 +33,7 @@ const re = /data\.gov\.ie\/(?:dataset|datasets)\/([a-z0-9][a-z0-9-]{2,})/gi;
 for (const p of ['data/database/approved-publication-sources.json', 'data/database/medium-priority-publication-sources.json']) {
   const doc = JSON.parse(readFileSync(p, 'utf8'));
   const list = p.includes('approved-publication') ? resolveApprovedPublicationSources(doc) : (doc.sources || []);
-  for (const s of list) { let m; const str = JSON.stringify(s); while ((m = re.exec(str))) covered.add(m[1].toLowerCase()); }
+  for (const s of list) { let m; const str = JSON.stringify(s); while ((m = re.exec(str))) covered.add(/** @type {string} */ (m[1]).toLowerCase()); }
 }
 
 const sources = [];

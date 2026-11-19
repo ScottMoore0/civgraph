@@ -34,7 +34,7 @@ for (const p of ['data/database/approved-publication-sources.json', 'data/databa
   let doc;
   try { doc = JSON.parse(readFileSync(p, 'utf8')); } catch { continue; }
   const list = p.includes('approved-publication') ? resolveApprovedPublicationSources(doc) : (doc.sources || []);
-  for (const s of list) { let m; const str = JSON.stringify(s); while ((m = re.exec(str))) covered.add(m[1].toLowerCase()); }
+  for (const s of list) { let m; const str = JSON.stringify(s); while ((m = re.exec(str))) covered.add(/** @type {string} */ (m[1]).toLowerCase()); }
 }
 
 const OGL = 'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/';

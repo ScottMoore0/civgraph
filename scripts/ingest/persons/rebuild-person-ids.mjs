@@ -157,7 +157,7 @@ function main() {
   /** @type {Io} */
   const io = {
     exec: (argv) => {
-      const [prog, ...rest] = argv;
+      const [prog, ...rest] = /** @type {[string, ...string[]]} a command line names its program */ (argv);
       const res = spawnSync(prog === 'node' ? process.execPath : prog, rest, { encoding: 'utf8', maxBuffer: 1024 * 1024 * 1024 });
       return { status: res.error ? 1 : res.status, output: `${res.stdout || ''}${res.stderr || ''}${res.error ? `${res.error.message}\n` : ''}` };
     },

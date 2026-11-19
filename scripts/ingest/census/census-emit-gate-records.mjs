@@ -14,8 +14,8 @@
 import { readFileSync, writeFileSync } from 'fs';
 
 const args = process.argv.slice(2);
-const limit = args.includes('--limit') ? +args[args.indexOf('--limit') + 1] : Infinity;
-const out = args.includes('--out') ? args[args.indexOf('--out') + 1] : 'census-gate-records.json';
+const limit = args.includes('--limit') ? +/** @type {string} */ (args[args.indexOf('--limit') + 1]) : Infinity;
+const out = args.includes('--out') ? /** @type {string} */ (args[args.indexOf('--out') + 1]) : 'census-gate-records.json';
 
 const CSV = 'data/review-inputs/census-publish-ready/publish-tranche-cso-highconf.csv';
 const ATTR = JSON.parse(readFileSync('data/review-inputs/census-publish-ready/attribution.json', 'utf8')).variants.cso;
@@ -40,9 +40,9 @@ function parseCsv(text) {
 }
 
 const lines = parseCsv(readFileSync(CSV, 'utf8'));
-const hdr = lines[0];
+const hdr = /** @type {string[]} */ (lines[0]);
 const ix = Object.fromEntries(hdr.map((h, i) => [h.trim(), i]));
-const records = lines.slice(1).filter(r => r.length >= hdr.length && r[ix.id]);
+const records = lines.slice(1).filter(r => r.length >= hdr.length && r[/** @type {number} */ (ix.id)]);
 
 const slugify = (/** @type {string} */ s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
 const yearOf = (/** @type {string} */ t) => (t.match(/\b(1[89]\d\d|20\d\d)\b/) || [])[1] || '';
@@ -51,7 +51,7 @@ const sources = [];
 let counted = 0;
 for (const r of records) {
   if (counted >= limit) break;
-  const id = r[ix.id], title = r[ix.title], code = r[ix.sourceSlugOrId], conf = r[ix.confidence];
+  const id = r[/** @type {number} */ (ix.id)], title = /** @type {string} */ (r[/** @type {number} */ (ix.title)]), code = /** @type {string} */ (r[/** @type {number} */ (ix.sourceSlugOrId)]), conf = r[/** @type {number} */ (ix.confidence)];
   // fix #3: date from the title year, else the cube's single CensusYear; multi-census / undated stay ''
   const titleYear = yearOf(title);
   const date = titleYear || YEARS[code] || '';

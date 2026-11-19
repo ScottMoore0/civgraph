@@ -264,7 +264,7 @@ function derived2021Concept(file) {
   const stem = path.basename(file, ".csv");
   const match = stem.match(/^(ms-[a-z]\d+)(?:-(.*?))?-(lgd|ward|dea|dz|sdz|settlement)$/i);
   if (!match) return { tableId: stem, metric: null, geographyLevel: inferGeographyLevel(file) };
-  const [, tableId, metric, geography] = match;
+  const [, tableId, metric, geography] = /** @type {[unknown, string, string, string]} */ (match);
   return {
     tableId: tableId.toUpperCase(),
     metric: metric || null,
@@ -305,7 +305,7 @@ async function extractHistoricalMarkdownTables() {
   return Promise.all(files.map(async (file) => {
     const text = await fs.readFile(file, "utf8");
     const year = Number(path.basename(file).match(/census-(\d{4})/)?.[1]);
-    const headings = [...text.matchAll(/^#{1,3}\s+(.+)$/gm)].map((match) => match[1]).slice(0, 80);
+    const headings = [...text.matchAll(/^#{1,3}\s+(.+)$/gm)].map((match) => /** @type {string} the pattern's one group */ (match[1])).slice(0, 80);
     return {
       id: `historical-ni-${year}-${path.basename(file, ".md")}`,
       censusYear: year,

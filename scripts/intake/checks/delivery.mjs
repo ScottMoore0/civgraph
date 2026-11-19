@@ -31,13 +31,13 @@ function readPathArgs(flag) {
   /** @type {string[]} */
   const values = [];
   for (let i = 0; i < process.argv.length - 1; i += 1) {
-    if (process.argv[i] === flag) values.push(process.argv[i + 1]);
+    if (process.argv[i] === flag) values.push(/** @type {string} */ (process.argv[i + 1]));
   }
   return values;
 }
 
 const intakeArg = readPathArgs('--intake-dir');
-const INTAKE_DIR = intakeArg.length ? resolve(intakeArg[0]) : resolve(ROOT, 'data/intake');
+const INTAKE_DIR = intakeArg.length ? resolve(/** @type {string} */ (intakeArg[0])) : resolve(ROOT, 'data/intake');
 const metadataArgs = readPathArgs('--metadata');
 const METADATA = metadataArgs.length ? metadataArgs : ['render/metadata/maps-test.json', 'render/metadata/maps-test-index.json'];
 

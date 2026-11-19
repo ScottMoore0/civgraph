@@ -260,7 +260,7 @@ function loadTargets() {
 
 /** @param {string} constituency @param {string} [date] */
 function wikipediaPageTitle(constituency, date = '') {
-  return wikipediaPageTitleCandidates(constituency, date)[0];
+  return /** @type {string} the base title is always a candidate */ (wikipediaPageTitleCandidates(constituency, date)[0]);
 }
 
 /** @param {string} constituency @param {string} [date] */
@@ -348,7 +348,7 @@ async function fetchSingleWikipediaWikitext(title) {
     response = await fetch(url, { headers: crawlHeaders({}, { url }) });
     if (response.status !== 429) break;
     const retryAfter = Number(response.headers.get('retry-after') || 0);
-    const delay = retryAfter > 0 ? retryAfter * 1000 : RETRY_DELAYS_MS[attempt] || RETRY_DELAYS_MS[RETRY_DELAYS_MS.length - 1];
+    const delay = retryAfter > 0 ? retryAfter * 1000 : RETRY_DELAYS_MS[attempt] || /** @type {number} the list is not empty */ (RETRY_DELAYS_MS[RETRY_DELAYS_MS.length - 1]);
     await sleep(delay);
   }
   // the loop runs at least once (attempt 0), so a response is set
@@ -381,7 +381,7 @@ function parseElectionSections(wikitext) {
   /** @type {ElectionSection[]} */
   const sections = [];
   for (let index = 0; index < headings.length; index += 1) {
-    const heading = headings[index];
+    const heading = /** @type {RegExpExecArray} */ (headings[index]);
     const title = cleanWikitext(heading[1]);
     if (!/\bgeneral election\b/i.test(title)) continue;
     const start = heading.index + heading[0].length;
@@ -508,7 +508,7 @@ function extractTemplates(text, prefix) {
 /** @param {string} source */
 function templateName(source) {
   const inner = source.replace(/^\{\{/, '').replace(/\}\}$/, '');
-  return inner.split('|')[0].trim();
+  return /** @type {string} */ (inner.split('|')[0]).trim();
 }
 
 /** @param {string} source */

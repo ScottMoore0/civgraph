@@ -13,7 +13,7 @@ function readArg(name, fallback = /** @type {F} */ (null)) {
   const eq = process.argv.find((arg) => arg.startsWith(`${name}=`));
   if (eq) return eq.slice(name.length + 1);
   const idx = process.argv.indexOf(name);
-  return idx >= 0 && process.argv[idx + 1] ? process.argv[idx + 1] : fallback;
+  return idx >= 0 && process.argv[idx + 1] ? /** @type {string} */ (process.argv[idx + 1]) : fallback;
 }
 
 const args = {
@@ -81,7 +81,7 @@ function readCsv(file) {
   if (!fs.existsSync(file)) return [];
   const lines = fs.readFileSync(file, "utf8").split(/\r?\n/).filter(Boolean);
   if (!lines.length) return [];
-  const headers = parseCsvLine(lines[0]);
+  const headers = parseCsvLine(/** @type {string} */ (lines[0]));
   return lines.slice(1).map((line) => {
     const values = parseCsvLine(line);
     return Object.fromEntries(headers.map((header, idx) => [header, values[idx] || ""]));

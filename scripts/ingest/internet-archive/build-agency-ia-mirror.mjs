@@ -111,7 +111,7 @@ function main() {
     const existing = iaFilesCache[ag.id] || new Set();
     const recorded = [];
     for (const { url, kind } of urls) {
-      const fname = basename(url.split('?')[0]) || `${map.id}.bin`;
+      const fname = basename(/** @type {string} */ (url.split('?')[0])) || `${map.id}.bin`;
       const remote = `${map.id}/${fname}`;
       const iaUrl = `${IA_DL}/${ag.id}/${encodeURI(remote)}`;
       if (existing.has(remote)) { skipped++; recorded.push({ kind, name: fname, iaUrl, status: AGENCY_MIRROR['already-on-ia'] }); continue; }

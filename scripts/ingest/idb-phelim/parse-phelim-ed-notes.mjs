@@ -21,7 +21,7 @@ import { writeArtefactJson } from '@civgraph/maps-pipeline/safe-artefact-write.m
 const args = process.argv.slice(2);
 const NOTES_DIR = args.find((a) => !a.startsWith('--'));
 const outIdx = args.indexOf('--out');
-const OUT = resolve(outIdx >= 0 ? args[outIdx + 1] : 'data/intake/2026-07-26-ed-composition-specs.json');
+const OUT = resolve(outIdx >= 0 ? /** @type {string} */ (args[outIdx + 1]) : 'data/intake/2026-07-26-ed-composition-specs.json');
 
 if (!NOTES_DIR || !existsSync(NOTES_DIR)) {
   console.error('Usage: node scripts/ingest/idb-phelim/parse-phelim-ed-notes.mjs <notes-dir> [--out <path>]');
@@ -40,7 +40,7 @@ const PROVINCES = ['Leinster', 'Munster', 'Connacht', 'Ulster'];
 function resolveLayerId(sourceName) {
   if (SOURCE_TO_LAYER[sourceName]) return SOURCE_TO_LAYER[sourceName];
   const m = sourceName.match(/^(?:Wards_)?(?:DEDs|EDs)_([A-Za-z]+)_(\d{4})$/);
-  if (m && PROVINCES.includes(m[1])) return `eds-${m[1].toLowerCase()}-${m[2]}`;
+  if (m && PROVINCES.includes(/** @type {string} */ (m[1]))) return `eds-${/** @type {string} */ (m[1]).toLowerCase()}-${m[2]}`;
   return null;
 }
 

@@ -95,7 +95,7 @@ function parseCsv(text) {
   }
   if (field || row.length) { row.push(field); rows.push(row); }
   const header = rows.shift() || [];
-  return rows.filter((r) => r.length > 1).map((r) => Object.fromEntries(header.map((h, i) => [h, r[i]])));
+  return rows.filter((r) => r.length > 1).map((r) => Object.fromEntries(header.map((h, i) => [h, /** @type {string} */ (r[i])])));
 }
 
 const packages = new Map();

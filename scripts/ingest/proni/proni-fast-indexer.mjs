@@ -65,10 +65,10 @@ function parseArgs(argv) {
   };
 
   for (let i = 0; i < argv.length; i += 1) {
-    const arg = argv[i];
+    const arg = /** @type {string} */ (argv[i]);
     if (!arg.startsWith("--")) continue;
     const key = arg.slice(2);
-    const next = argv[i + 1];
+    const next = /** @type {string} an option's value (a missing one is caught where it is read) */ (argv[i + 1]);
     const take = () => {
       i += 1;
       return next;
@@ -210,7 +210,7 @@ function parseGridRows(html) {
   for (const m of String(html).matchAll(/<input\b[^>]*GridView1\$ctl(\d+)\$(ResultsSelect|ResultsView)[^>]*>/gi)) {
     const tag = m[0];
     const ctl = `ctl${m[1]}`;
-    const kind = m[2];
+    const kind = /** @type {string} */ (m[2]);
     if (!map.has(ctl)) map.set(ctl, { ctl });
     // the key was set on the line before
     /** @type {GridRow} */ (map.get(ctl))[kind] = {
@@ -320,7 +320,7 @@ class CookieJar {
       ? headers.getSetCookie()
       : splitSetCookie(headers.get("set-cookie"));
     for (const raw of setCookies || []) {
-      const [pair] = raw.split(";");
+      const [pair] = /** @type {[string]} */ (raw.split(";"));
       const idx = pair.indexOf("=");
       if (idx <= 0) continue;
       this.cookies.set(pair.slice(0, idx).trim(), pair.slice(idx + 1).trim());

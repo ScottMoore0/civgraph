@@ -34,7 +34,7 @@ function readPathArgs(flag) {
   /** @type {string[]} */
   const values = [];
   for (let i = 0; i < process.argv.length - 1; i += 1) {
-    if (process.argv[i] === flag) values.push(process.argv[i + 1]);
+    if (process.argv[i] === flag) values.push(/** @type {string} */ (process.argv[i + 1]));
   }
   return values;
 }

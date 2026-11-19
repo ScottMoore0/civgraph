@@ -29,7 +29,7 @@ import { BENCHMARK } from '@civgraph/intake/item-status.mjs';
 
 const RECORDS_FILE = process.argv[2];
 const ROOT_BRANCH = process.argv[3] || "YESB";
-const LETTER = process.argv[4] || ROOT_BRANCH[0];
+const LETTER = process.argv[4] || /** @type {string} a branch name is not empty */ (ROOT_BRANCH[0]);
 const REQUEST_CAP = Number(process.argv[5] || 250);
 
 if (!RECORDS_FILE) {
@@ -103,7 +103,7 @@ async function runDfs() {
   const got = new Set();
   let mismatched = 0;
 
-  const rootRec = rows.find((r) => (r.path || []).includes(ROOT_BRANCH)) || rows[0];
+  const rootRec = /** @type {(typeof rows)[number]} the index is not empty */ (rows.find((r) => (r.path || []).includes(ROOT_BRANCH)) || rows[0]);
   const rp = rootRec.path || [];
   const rootPath = rp.slice(0, rp.indexOf(ROOT_BRANCH) + 1);
   const rootHtml = await openBranchPage(session, { letter: LETTER, path: rootPath, page: 1, branchKey: `${LETTER}|${rootPath.join(">")}` });

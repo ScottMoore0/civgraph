@@ -39,7 +39,7 @@ const entities = registry.entities || [];
 const registryQids = new Map();
 for (const e of entities) {
   const held = (e.officialPersonIds || []).filter((o) => o.startsWith('wikidata:'));
-  if (held.length === 1) registryQids.set(String(e.personId), held[0].slice('wikidata:'.length));
+  if (held.length === 1) registryQids.set(String(e.personId), /** @type {string} */ (held[0]).slice('wikidata:'.length));
 }
 const redirects = ['person_id_confirmed_merges.csv', 'person_id_merges.csv', 'ie-ei-crosswalk.csv']
   .map((f) => path.join(PERSONS, f)).filter((f) => existsSync(f))

@@ -27,7 +27,7 @@ function getArg(name, fallback = '') {
   const found = process.argv.find((item) => item.startsWith(prefix));
   if (found) return found.slice(prefix.length);
   const index = process.argv.indexOf(`--${name}`);
-  if (index >= 0 && index + 1 < process.argv.length) return process.argv[index + 1];
+  if (index >= 0 && index + 1 < process.argv.length) return /** @type {string} index + 1 is within argv */ (process.argv[index + 1]);
   return fallback;
 }
 
@@ -101,7 +101,7 @@ function addRawAttribute(attributes, key, value) {
   } else if (Array.isArray(attributes[key])) {
     attributes[key].push(value);
   } else {
-    attributes[key] = [attributes[key], value];
+    attributes[key] = [/** @type {string} */ (attributes[key]), value];
   }
 }
 
@@ -241,7 +241,7 @@ async function runConcurrent(items, concurrency, worker) {
   let cursor = 0;
   const workers = Array.from({ length: Math.max(1, concurrency) }, async (_, workerId) => {
     while (cursor < items.length) {
-      const item = items[cursor++];
+      const item = /** @type {T} */ (items[cursor++]);
       await worker(item, workerId + 1);
     }
   });
