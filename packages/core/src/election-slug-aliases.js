@@ -327,6 +327,24 @@ export const RETIRED_CONTEST_SLUGS = [
   ['local-government-local-government-districts-2011-05-05-lg11-nod-ballyholme-and-groomsport', 'local-government-local-government-districts-2011-05-05-ballyholme-and-groomsport'],
   ['local-government-local-government-districts-2011-05-05-lg11-nod-bangor-west', 'local-government-local-government-districts-2011-05-05-bangor-west'],
   ['local-government-local-government-districts-2011-05-05-lg11-nod-holywood', 'local-government-local-government-districts-2011-05-05-holywood'],
+  // Omagh Rural Mountjoy East and West, filed under the official DED names Mountjoy Forest East, Mountjoy Forest West (19 Nov 2026, w19-merges).
+  ['omagh-rural-district-council-1930-06-04-mountjoy-east', 'omagh-rural-district-council-1930-06-04-mountjoy-forest-east'],
+  ['omagh-rural-district-council-1930-06-04-mountjoy-west', 'omagh-rural-district-council-1930-06-04-mountjoy-forest-west'],
+  ['omagh-rural-district-council-1936-06-03-mountjoy-east', 'omagh-rural-district-council-1936-06-03-mountjoy-forest-east'],
+  ['omagh-rural-district-council-1936-06-03-mountjoy-west', 'omagh-rural-district-council-1936-06-03-mountjoy-forest-west'],
+  ['omagh-rural-district-council-1939-05-31-mountjoy-east', 'omagh-rural-district-council-1939-05-31-mountjoy-forest-east'],
+  ['omagh-rural-district-council-1946-10-03-mountjoy-east', 'omagh-rural-district-council-1946-10-03-mountjoy-forest-east'],
+  ['omagh-rural-district-council-1946-10-03-mountjoy-west', 'omagh-rural-district-council-1946-10-03-mountjoy-forest-west'],
+  ['omagh-rural-district-council-1955-06-02-mountjoy-east', 'omagh-rural-district-council-1955-06-02-mountjoy-forest-east'],
+  ['omagh-rural-district-council-1955-06-02-mountjoy-west', 'omagh-rural-district-council-1955-06-02-mountjoy-forest-west'],
+  ['omagh-rural-district-council-1958-06-05-mountjoy-east', 'omagh-rural-district-council-1958-06-05-mountjoy-forest-east'],
+  ['omagh-rural-district-council-1958-06-05-mountjoy-west', 'omagh-rural-district-council-1958-06-05-mountjoy-forest-west'],
+  ['omagh-rural-district-council-1961-06-01-mountjoy-east', 'omagh-rural-district-council-1961-06-01-mountjoy-forest-east'],
+  ['omagh-rural-district-council-1961-06-01-mountjoy-west', 'omagh-rural-district-council-1961-06-01-mountjoy-forest-west'],
+  ['omagh-rural-district-council-1964-06-04-mountjoy-east', 'omagh-rural-district-council-1964-06-04-mountjoy-forest-east'],
+  ['omagh-rural-district-council-1964-06-04-mountjoy-west', 'omagh-rural-district-council-1964-06-04-mountjoy-forest-west'],
+  ['omagh-rural-district-council-1967-06-01-mountjoy-east', 'omagh-rural-district-council-1967-06-01-mountjoy-forest-east'],
+  ['omagh-rural-district-council-1967-06-01-mountjoy-west', 'omagh-rural-district-council-1967-06-01-mountjoy-forest-west'],
 ];
 
 /**

@@ -186,6 +186,37 @@ test('the respelt council divisions: one name per division, every round renamed,
   assert.equal(rounds, 101);
 });
 
+// Divisions filed under two spellings, given their official DED names on 19 Nov 2026 (w19-merges, the
+// owner's decision 4): body, the name now, and each round filed under another spelling, which the
+// contest keeps as Constituency_Name_As_Printed.
+const OFFICIAL_DED_NAMES = [
+  ['omagh-rural-district-council', 'Mountjoy Forest East', [['1930-06-04', 'Mountjoy East'], ['1936-06-03', 'Mountjoy East'], ['1939-05-31', 'Mountjoy East'], ['1946-10-03', 'Mountjoy East'], ['1955-06-02', 'Mountjoy East'], ['1958-06-05', 'Mountjoy East'], ['1961-06-01', 'Mountjoy East'], ['1964-06-04', 'Mountjoy East'], ['1967-06-01', 'Mountjoy East']]],
+  ['omagh-rural-district-council', 'Mountjoy Forest West', [['1930-06-04', 'Mountjoy West'], ['1936-06-03', 'Mountjoy West'], ['1946-10-03', 'Mountjoy West'], ['1955-06-02', 'Mountjoy West'], ['1958-06-05', 'Mountjoy West'], ['1961-06-01', 'Mountjoy West'], ['1964-06-04', 'Mountjoy West'], ['1967-06-01', 'Mountjoy West']]],
+];
+/** @returns {[string, string][]} each renamed division's old contest slug and its new one */
+function officialDedSlugs() {
+  return OFFICIAL_DED_NAMES.flatMap(([body, now, rounds]) => rounds.map(([date, old]) => /** @type {[string, string]} */ ([`${body}-${date}-${slugify(old)}`, `${body}-${date}-${slugify(now)}`])));
+}
+
+test('the double-spelled divisions take their official DED names: every round renamed, the printed spelling kept', () => {
+  const index = read('data/elections-source/data/elections_index.json');
+  for (const [body, now, renamed] of OFFICIAL_DED_NAMES) {
+    const olds = new Set(renamed.map(([, old]) => old));
+    for (const entry of index.bodies.find((b) => b.slug === body)?.dates || []) {
+      for (const name of entry.constituencies || []) assert.ok(!olds.has(name), `${body} ${entry.date} still names ${name}`);
+    }
+    for (const [date, old] of renamed) {
+      const dir = `data/elections-source/data/elections/${body}/${date}`;
+      assert.ok(!existsSync(path.join(ROOT, dir, `${slugify(old)}.json`)), `${dir}/${slugify(old)}.json is gone`);
+      const file = `${dir}/${slugify(now)}.json`;
+      const info = read(file).Constituency.countInfo;
+      assert.equal(info.Constituency_Name, now, `${file} names the division`);
+      assert.equal(info.Constituency_Name_As_Printed, old, `${file} keeps the spelling it was filed under`);
+      assert.ok(String(read(file).correctionNote).includes(`Renamed from '${old}' to ${now}`), `${file} records the rename`);
+    }
+  }
+});
+
 // The contest files the November 2026 council rounds deleted, renamed or refiled (12cd5ac496,
 // 22c749eecb): their published addresses answer 301 to where the content lives now.
 const RETIRED = new Map([
@@ -214,6 +245,8 @@ const RETIRED = new Map([
   // The spelling families and the two Dublin areas of 13 Nov 2026.
   ...spellingFamilySlugs(),
   ...DUBLIN_1979,
+  // The double-spelled divisions of 19 Nov 2026 (OFFICIAL_DED_NAMES).
+  ...officialDedSlugs(),
 ]);
 const sitemapSlugs = () => new Set([...readFileSync(path.join(ROOT, 'site', 'sitemaps', 'browse-elections.xml'), 'utf8')
   .matchAll(/<loc>https:\/\/civgraph\.net\/browse\/elections\/([^<]+)<\/loc>/g)].map((m) => m[1]));
