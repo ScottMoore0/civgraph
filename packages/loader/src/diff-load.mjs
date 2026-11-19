@@ -153,7 +153,7 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
     for (let i = 0; i < gone.length; i += MAX_DELETE_KEYS) {
       const chunk = gone.slice(i, i + MAX_DELETE_KEYS);
       if (t.pk.length === 1) {
-        emit(`DELETE FROM ${t.name} WHERE ${t.pk[0]} IN (${chunk.map((r) => q(r[t.pk[0]])).join(', ')});`);
+        emit(`DELETE FROM ${t.name} WHERE ${t.pk[0]} IN (${chunk.map((r) => q(r[/** @type {string} */ (t.pk[0])])).join(', ')});`);
       } else {
         emit(`DELETE FROM ${t.name} WHERE (${pk}) IN (VALUES ${chunk.map((r) => `(${t.pk.map((c) => q(r[c])).join(', ')})`).join(', ')});`);
       }
@@ -161,7 +161,7 @@ export function buildDelta({ toFile, fromFile = null, write, version, gitCommit,
   }
   // Upserts, parents first.
   for (const t of order) {
-    const s = summary[t.name];
+    const s = /** @type {TableDelta} */ (summary[t.name]);
     const cols = t.columns.map((c) => c.name);
     const ft = full ? null : snapshotTable(db, 'f', t);
     const keys = collect && hashed.has(t.name) ? touched[t.name] : null;

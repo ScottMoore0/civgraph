@@ -55,8 +55,8 @@ export const STABLE_ORDER_TABLES = TABLES.filter((t) => t.stableOrder);
 
 const cmp = (/** @type {Key} */ a, /** @type {Key} */ b) => {
   for (let i = 0; i < a.length; i += 1) {
-    if (a[i] < b[i]) return -1;
-    if (a[i] > b[i]) return 1;
+    if (/** @type {string | number} */ (a[i]) < /** @type {string | number} */ (b[i])) return -1;
+    if (/** @type {string | number} */ (a[i]) > /** @type {string | number} */ (b[i])) return 1;
   }
   return 0;
 };
@@ -90,14 +90,14 @@ export function longestIncreasing(keys) {
     let hi = tails.length;
     while (lo < hi) {
       const mid = (lo + hi) >> 1;
-      if (cmp(/** @type {Key} */ (keys[tails[mid]]), /** @type {Key} */ (keys[i])) < 0) lo = mid + 1; else hi = mid;
+      if (cmp(/** @type {Key} */ (keys[/** @type {number} */ (tails[mid])]), /** @type {Key} */ (keys[i])) < 0) lo = mid + 1; else hi = mid;
     }
     if (lo > 0) prev[i] = tails[lo - 1];
     tails[lo] = i;
   }
   /** @type {number[]} */
   const out = [];
-  for (let i = tails.length ? tails[tails.length - 1] : -1; i >= 0; i = prev[i]) out.push(i);
+  for (let i = tails.length ? /** @type {number} */ (tails[tails.length - 1]) : -1; i >= 0; i = prev[i]) out.push(i);
   return out.reverse();
 }
 
@@ -113,19 +113,19 @@ export function placeGroup(seedKeys) {
   /** @type {SortKey[]} */
   const out = new Array(seedKeys.length);
   for (const i of anchors) out[i] = /** @type {SortKey} */ (seedKeys[i]);
-  const last = (/** @type {SortKey} */ k) => k[k.length - 1];
+  const last = (/** @type {SortKey} */ k) => /** @type {number} a sort key is never empty */ (k[k.length - 1]);
   const withLast = (/** @type {SortKey} */ k, /** @type {number} */ v) => [...k.slice(0, -1), v];
   // Before the first anchor: first-m, ..., first-1 (an anchor's key is never null).
-  const first = /** @type {SortKey} */ (seedKeys[anchors[0]]);
-  for (let i = 0; i < anchors[0]; i += 1) out[i] = withLast(first, last(first) - (anchors[0] - i));
+  const first = /** @type {SortKey} */ (seedKeys[/** @type {number} */ (anchors[0])]);
+  for (let i = 0; i < /** @type {number} */ (anchors[0]); i += 1) out[i] = withLast(first, last(first) - (/** @type {number} */ (anchors[0]) - i));
   let a = 0; // index into anchors of the left anchor of the current window
   while (a < anchors.length) {
-    const left = anchors[a];
+    const left = /** @type {number} */ (anchors[a]);
     const lk = /** @type {SortKey} */ (seedKeys[left]);
     let b = a + 1;
     while (b < anchors.length) {
-      const rk = /** @type {SortKey} */ (seedKeys[anchors[b]]);
-      const m = anchors[b] - left - 1;
+      const rk = /** @type {SortKey} */ (seedKeys[/** @type {number} */ (anchors[b])]);
+      const m = /** @type {number} */ (anchors[b]) - left - 1;
       if (m === 0) break;
       const samePrefix = cmp(lk.slice(0, -1), rk.slice(0, -1)) === 0;
       if (!samePrefix) break;
@@ -134,10 +134,10 @@ export function placeGroup(seedKeys) {
       if (hi - lo - 1 >= m) break;
       b += 1; // too little room: place the next anchor again, with the rows around it
     }
-    const end = b < anchors.length ? anchors[b] : seedKeys.length;
+    const end = b < anchors.length ? /** @type {number} b is within anchors */ (anchors[b]) : seedKeys.length;
     const m = end - left - 1;
     if (m > 0) {
-      const rk = b < anchors.length ? seedKeys[anchors[b]] : null;
+      const rk = b < anchors.length ? seedKeys[/** @type {number} */ (anchors[b])] : null;
       if (!rk || cmp(lk.slice(0, -1), rk.slice(0, -1)) !== 0) {
         for (let j = 0; j < m; j += 1) out[left + 1 + j] = withLast(lk, last(lk) + j + 1);
       } else {
@@ -176,7 +176,7 @@ export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log
     for (const t of tables) {
       if (!t.stableOrder) throw new Error(`table ${t.name} has no stableOrder`);
       const { sort, group = [] } = t.stableOrder;
-      if (t.pk.length === 1 && sort.includes(t.pk[0]) && t.columns.find((c) => c.name === t.pk[0])?.type === 'INTEGER') {
+      if (t.pk.length === 1 && sort.includes(/** @type {string} */ (t.pk[0])) && t.columns.find((c) => c.name === t.pk[0])?.type === 'INTEGER') {
         log(`  ${t.name}: ord is the rowid, positions kept`); result[t.name] = { changed: 0, seeded: false }; continue;
       }
       const idCols = identityColumns(/** @type {StableTable} */ (t));
@@ -206,7 +206,7 @@ export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log
         const seedKeys = rows.map((r) => byId.get(r.id)?.shift() || null);
         const placed = placeGroup(seedKeys);
         if (placed) {
-          rows.forEach((r, i) => { if (cmp(r.key, placed[i]) !== 0) changes.push([r.rid, placed[i]]); });
+          rows.forEach((r, i) => { if (cmp(r.key, /** @type {SortKey} */ (placed[i])) !== 0) changes.push([r.rid, /** @type {SortKey} */ (placed[i])]); });
         }
         rows = [];
       };

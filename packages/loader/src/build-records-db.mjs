@@ -198,7 +198,7 @@ function mainMapsOnly() {
     process.exit(1);
   }
   const checksums = tableChecksums(db, HASHED_TABLES);
-  const version = createHash('sha256').update(JSON.stringify(HASHED_TABLES.map((t) => [t.name, checksums[t.name].n, checksums[t.name].s]))).digest('hex').slice(0, 16);
+  const version = createHash('sha256').update(JSON.stringify(HASHED_TABLES.map((t) => [t.name, /** @type {{ n: number; s: number; }} */ (checksums[t.name]).n, /** @type {{ n: number; s: number; }} */ (checksums[t.name]).s]))).digest('hex').slice(0, 16);
   const ins = db.prepare('INSERT OR REPLACE INTO dataset (key, value) VALUES (?, ?)');
   transaction(db, () => {
     ins.run('version', version);
@@ -297,7 +297,7 @@ function main() {
   }
 
   const checksums = tableChecksums(db, HASHED_TABLES);
-  const version = createHash('sha256').update(JSON.stringify(HASHED_TABLES.map((t) => [t.name, checksums[t.name].n, checksums[t.name].s]))).digest('hex').slice(0, 16);
+  const version = createHash('sha256').update(JSON.stringify(HASHED_TABLES.map((t) => [t.name, /** @type {{ n: number; s: number; }} */ (checksums[t.name]).n, /** @type {{ n: number; s: number; }} */ (checksums[t.name]).s]))).digest('hex').slice(0, 16);
   const gitCommit = run('git', ['rev-parse', 'HEAD'], { env: process.env }).trim();
   const ins = db.prepare('INSERT OR REPLACE INTO dataset (key, value) VALUES (?, ?)');
   transaction(db, () => {

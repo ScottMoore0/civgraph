@@ -161,7 +161,7 @@ export class StopRun extends Error {
  */
 export function rangeWhere(pk, lo, hi, lit = q) {
   const side = (/** @type {KeyValue[]} */ vals, /** @type {string} */ op) => (pk.length === 1
-    ? `${pk[0]} ${op} ${lit(vals[0])}`
+    ? `${pk[0]} ${op} ${lit(/** @type {KeyValue} */ (vals[0]))}`
     : `(${pk.join(', ')}) ${op} (${vals.map(lit).join(', ')})`);
   /** @type {string[]} */
   const parts = [];
@@ -539,8 +539,8 @@ export function parseDeltaSql(text, sink) {
     statements += 1;
     let m;
     if ((m = match(INSERT))) {
-      const table = m[1];
-      const cols = m[2].split(',').map((s) => s.trim());
+      const table = /** @type {string} */ (m[1]);
+      const cols = /** @type {string} */ (m[2]).split(',').map((s) => s.trim());
       if (table === 'dataset') {
         const ki = cols.indexOf('key');
         const vi = cols.indexOf('value');
@@ -564,9 +564,9 @@ export function parseDeltaSql(text, sink) {
       }
       expect(';');
     } else if ((m = match(DELETE_ALL))) {
-      if (sink.pkOf(m[1])) sink.table?.(m[1]);
+      if (sink.pkOf(/** @type {string} */ (m[1]))) sink.table?.(/** @type {string} */ (m[1]));
     } else if ((m = match(DELETE_TUPLES))) {
-      const table = m[1];
+      const table = /** @type {string} */ (m[1]);
       for (;;) {
         sink.key(table, tuple(null));
         if (text.startsWith(', ', i)) { i += 2; continue; }
@@ -574,7 +574,7 @@ export function parseDeltaSql(text, sink) {
       }
       expect(');');
     } else if ((m = match(DELETE_LIST))) {
-      const table = m[1];
+      const table = /** @type {string} */ (m[1]);
       for (;;) {
         sink.key(table, [value()]);
         if (text.startsWith(', ', i)) { i += 2; continue; }
@@ -697,7 +697,7 @@ function shuffle(list, rand) {
   const out = [...list];
   for (let i = out.length - 1; i > 0; i -= 1) {
     const j = Math.floor(rand() * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
+    [out[i], out[j]] = /** @type {[T, T]} i and j are within out */ ([out[j], out[i]]);
   }
   return out;
 }
@@ -718,7 +718,7 @@ export function selectRanges(plan, { full = false, sample = SAFE.sampleRanges, d
   const picks = [];
   const chosen = new Set();
   const pick = (/** @type {string} */ id, /** @type {Reason} */ reason) => { if (!chosen.has(id)) { chosen.add(id); picks.push({ id, reason }); } };
-  for (const t of plan.tables) if (t.ranges.length === 1) pick(t.ranges[0].id, 'small');
+  for (const t of plan.tables) if (t.ranges.length === 1) pick(/** @type {Range} */ (t.ranges[0]).id, 'small');
   for (const id of shuffle(all.filter((r) => touched.has(r.id) && !chosen.has(r.id)).map((r) => r.id), rand).slice(0, Math.max(0, deltaRanges))) pick(id, 'delta');
   for (const r of shuffle(all.filter((x) => !chosen.has(x.id)), rand).slice(0, Math.max(0, sample))) pick(r.id, 'sample');
   return picks;
@@ -828,7 +828,7 @@ export function safeVerify(o) {
     if (!o.full && touchedIds.size > deltaPicked + touchedSmall) notes.push(`delta: ${deltaPicked} of the ${touchedIds.size - touchedSmall} touched ranges of larger tables drawn (--delta-ranges ${deltaRanges}); a new run (or --seed) draws others, --full walks them all`);
     state = {
       planId: plan.id, target: o.target, version: plan.version, seed, full: Boolean(o.full), sample: o.sample ?? SAFE.sampleRanges,
-      delta: notes[notes.length - 1], selection, results: {}, runs: [],
+      delta: /** @type {string} */ (notes[notes.length - 1]), selection, results: {}, runs: [],
     };
   }
   const st = /** @type {RunState} */ (state);
@@ -877,7 +877,7 @@ export function safeVerify(o) {
   }
 
   st.runs.push({ startedAt: new Date().toISOString(), rowsRead: 0, statements: 0 });
-  const run = st.runs[st.runs.length - 1];
+  const run = /** @type {{ startedAt: string; finishedAt?: string; rowsRead: number; statements: number; outcome?: string; stop?: string; }} */ (st.runs[st.runs.length - 1]);
   const local = openSqliteHandle(o.file, { readOnly: true });
   let overloads = 0;
 
@@ -915,8 +915,8 @@ export function safeVerify(o) {
         }
         const backoff = o.authBackoffMs ?? SAFE.authBackoffMs;
         if (isTransientAuth(error) && attempt < backoff.length) {
-          log(`  D1 refused the request (7403): waiting ${backoff[attempt] / 1000} s before retry ${attempt + 1} of ${backoff.length}`);
-          sleep(backoff[attempt]);
+          log(`  D1 refused the request (7403): waiting ${/** @type {number} */ (backoff[attempt]) / 1000} s before retry ${attempt + 1} of ${backoff.length}`);
+          sleep(/** @type {number} */ (backoff[attempt]));
           continue;
         }
         const crashWaits = o.crashBackoffMs ?? SAFE.crashBackoffMs;
@@ -926,8 +926,8 @@ export function safeVerify(o) {
           report.rowsRead += estimate;
           run.rowsRead += estimate;
           if (!cheap && report.rowsRead + estimate > budget) throw new StopRun('budget', `rows_read budget: wrangler aborted with no answer (counted as ${estimate} read) and a retry could pass the budget ${budget}; --resume to carry on`);
-          log(`  wrangler aborted with no answer from D1: waiting ${crashWaits[crashes] / 1000} s before retry ${crashes + 1} of ${crashWaits.length} (counted ${estimate} rows_read)`);
-          sleep(crashWaits[crashes]);
+          log(`  wrangler aborted with no answer from D1: waiting ${/** @type {number} */ (crashWaits[crashes]) / 1000} s before retry ${crashes + 1} of ${crashWaits.length} (counted ${estimate} rows_read)`);
+          sleep(/** @type {number} */ (crashWaits[crashes]));
           crashes += 1;
           continue;
         }

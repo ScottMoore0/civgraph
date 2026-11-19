@@ -169,7 +169,7 @@ export function joinProvenance(index, readPart) {
   for (const [part, n] of contestParts.order) {
     const q = queues.get(part);
     if (!q || q.next + n > q.contests.length) throw new Error(`election provenance: the index's order overruns part ${part}`);
-    for (let i = 0; i < n; i += 1) contests.push(q.contests[q.next + i]);
+    for (let i = 0; i < n; i += 1) contests.push(/** @type {ProvenanceContest} */ (q.contests[q.next + i]));
     q.next += n;
   }
   for (const [part, q] of queues) {

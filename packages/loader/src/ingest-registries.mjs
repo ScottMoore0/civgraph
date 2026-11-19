@@ -55,7 +55,7 @@ export function parseCsv(text) {
     } else field += ch;
   }
   if (field || row.length) { row.push(field); rows.push(row); }
-  const [header, ...body] = rows.filter((r) => r.length > 1 || r[0]);
+  const [header, ...body] = /** @type {[string[], ...string[][]]} a registry CSV has its header row */ (rows.filter((r) => r.length > 1 || r[0]));
   return (body || []).map((r) => Object.fromEntries(header.map((h, i) => [h, r[i] ?? ''])));
 }
 
@@ -77,7 +77,7 @@ export function readPersonMerges(root = REPO_ROOT) {
     for (const row of parseCsv(readFileSync(full, 'utf8'))) {
       if (!row.drop || seen.has(row.drop)) continue;
       seen.add(row.drop);
-      const { keep, drop, ...rest } = row;
+      const { keep, drop, ...rest } = /** @type {{ keep: string, drop: string } & Record<string, string>} a merges row names both ids */ (row);
       rows.push({ drop, keep, confirmed, rest });
     }
   }
@@ -131,7 +131,7 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
     out.person_merges = merges.finish();
 
     const facts = new TableWriter(db, 'person_facts');
-    for (const [kind, file] of [['office', 'reference-offices.json'], ['relation', 'reference-relations.json'], ['dates', 'reference-dates.json']]) {
+    for (const [kind, file] of /** @type {[string, string][]} */ ([['office', 'reference-offices.json'], ['relation', 'reference-relations.json'], ['dates', 'reference-dates.json']])) {
       const docData = /** @type {{ people?: Record<string, unknown> }} */ (readJson(at('persons', file), { people: {} }));
       const people = docData.people || {};
       for (const pid of Object.keys(people).sort()) {

@@ -46,7 +46,7 @@ export function validateDatabase(db, { sourceValidators = false } = {}) {
   /**
    * The one row of an aggregate or PRAGMA query (always present): numbers (COUNT(*) AS n,
    * max(length(...))) unless the variable it is assigned to names another shape.
-   * @template [R=Record<string, number>]
+   * @template [R=Record<string, number> & { n: number }]
    * @param {string} sql
    * @param {SQLInputValue[]} a
    * @returns {R}
@@ -80,7 +80,7 @@ export function validateDatabase(db, { sourceValidators = false } = {}) {
       AND NOT EXISTS (SELECT 1 FROM candidacies c WHERE c.election_key = k.election_key AND c.contest_seq = k.seq)
     ORDER BY k.election_key, k.seq`);
   facts.contestsWithoutCandidacies = empty.length;
-  if (empty.length) warnings.push(`${empty.length} contest(s) expecting candidates have none (first: ${empty[0].election_key}#${empty[0].seq})`);
+  if (empty.length) warnings.push(`${empty.length} contest(s) expecting candidates have none (first: ${/** @type {import('@civgraph/storage/node').SqliteRow} */ (empty[0]).election_key}#${/** @type {import('@civgraph/storage/node').SqliteRow} */ (empty[0]).seq})`);
 
   const orphanPersons = one(`SELECT COUNT(*) AS n FROM candidacies c WHERE c.person_id IS NOT NULL
     AND NOT EXISTS (SELECT 1 FROM persons p WHERE p.person_id = c.person_id)`).n;

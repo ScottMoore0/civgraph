@@ -78,12 +78,12 @@ import { HASHED_TABLES } from '@civgraph/schema';
  */
 /** @param {string} tomlText */
 export function recordsDbName(tomlText) {
-  const top = String(tomlText).split(/^\[env\./m)[0];
+  const top = /** @type {string} */ (String(tomlText).split(/^\[env\./m)[0]);
   for (const block of top.split(/^\[\[d1_databases\]\]\s*$/m).slice(1)) {
-    const body = block.split(/^\[/m)[0];
+    const body = /** @type {string} */ (block.split(/^\[/m)[0]);
     if (/^\s*binding\s*=\s*"ELECTIONS_DB"/m.test(body)) {
       const m = body.match(/^\s*database_name\s*=\s*"([^"]+)"/m);
-      if (m) return m[1];
+      if (m) return /** @type {string} the pattern's one group */ (m[1]);
     }
   }
   throw new Error('wrangler.toml has no production [[d1_databases]] block for ELECTIONS_DB');
@@ -101,7 +101,7 @@ export const WRANGLER = (() => {
   const found = candidates.find((c) => existsSync(c));
   if (found) return found;
   const root = spawnSync('npm', ['root', '-g'], { encoding: 'utf8', shell: process.platform === 'win32' }).stdout?.trim();
-  return root ? path.join(root, 'wrangler', 'bin', 'wrangler.js') : candidates[1];
+  return root ? path.join(root, 'wrangler', 'bin', 'wrangler.js') : /** @type {string} the node_modules path is always listed */ (candidates[1]);
 })();
 
 export function d1Env() {
@@ -330,8 +330,8 @@ export function queryWithRetry(query, sql, opts, { backoffMs = BOUNDS.backoffMs,
     } catch (error) {
       const auth = isTransientAuth(error);
       if (!(isOverloaded(error) || auth) || attempt >= backoffMs.length) throw error;
-      log(`  D1 ${auth ? 'refused the request (7403)' : 'overloaded (7429)'}; waiting ${backoffMs[attempt] / 1000}s before retry ${attempt + 1} of ${backoffMs.length}`);
-      sleep(backoffMs[attempt]);
+      log(`  D1 ${auth ? 'refused the request (7403)' : 'overloaded (7429)'}; waiting ${/** @type {number} */ (backoffMs[attempt]) / 1000}s before retry ${attempt + 1} of ${backoffMs.length}`);
+      sleep(/** @type {number} */ (backoffMs[attempt]));
     }
   }
 }
@@ -370,7 +370,7 @@ export function compareLoad(local, remote) {
   /** @type {string[]} */
   const mismatches = [];
   for (const t of HASHED_TABLES) {
-    const a = local.tables[t.name];
+    const a = /** @type {{ n: number; s: number; }} */ (local.tables[t.name]);
     const b = remote.tables[t.name];
     if (!b || a.n !== b.n || a.s !== b.s) mismatches.push(`${t.name}: local ${a?.n}/${a?.s}, D1 ${b?.n}/${b?.s}`);
   }
@@ -389,7 +389,7 @@ export function fullPlan(file) {
   const steps = HASHED_TABLES.map((t) => ({
     label: `${t.name} (full scan)`,
     sql: tableChecksumSql(t),
-    check: (rows) => compareLoad({ tables: { [t.name]: local.tables[t.name] }, schema: [] }, {
+    check: (rows) => compareLoad({ tables: { [t.name]: /** @type {{ n: number, s: number }} every hashed table is counted */ (local.tables[t.name]) }, schema: [] }, {
       tables: Object.fromEntries(rows.map((r) => [r.t, { n: Number(r.n), s: Number(r.s) }])), schema: [],
     }).filter((m) => m.startsWith(`${t.name}:`)),
   }));
@@ -430,7 +430,7 @@ export function evenSample(list, n) {
   if (list.length <= n) return list;
   /** @type {T[]} */
   const out = [];
-  for (let i = 0; i < n; i += 1) out.push(list[Math.round((i * (list.length - 1)) / (n - 1))]);
+  for (let i = 0; i < n; i += 1) out.push(/** @type {T} */ (list[Math.round((i * (list.length - 1)) / (n - 1))]));
   return out;
 }
 
@@ -650,10 +650,10 @@ export function runPlan(plan, { remote = false, query = wranglerQuery, queryMany
   calls.forEach((call, i) => {
     if (i > 0) sleep(pauseMs);
     const answers = call.length === 1
-      ? [queryWithRetry(query, call[0].sql, { remote }, { sleep, backoffMs, log })]
+      ? [queryWithRetry(query, /** @type {PlanStep} */ (call[0]).sql, { remote }, { sleep, backoffMs, log })]
       : queryWithRetry(many, call.map((step) => step.sql), { remote }, { sleep, backoffMs, log });
     call.forEach((step, j) => {
-      const rows = answers[j];
+      const rows = /** @type {QueryRows} */ (answers[j]);
       const found = step.check(rows);
       rowsRead += Number(rows.rowsRead || 0);
       log(`  ${found.length ? 'FAIL' : 'ok  '} ${step.label}${rows.rowsRead !== undefined ? ` (${rows.rowsRead} rows read)` : ''}`);

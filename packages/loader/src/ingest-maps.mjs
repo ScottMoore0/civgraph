@@ -63,7 +63,7 @@ export function layerKind(id) {
  */
 function featureIndexFile(root, url) {
   if (!url || /^https?:\/\//i.test(url)) return null;
-  const file = path.join(root, ...String(url).split('?')[0].replace(/^\/+/, '').split('/'));
+  const file = path.join(root, .../** @type {string} */ (String(url).split('?')[0]).replace(/^\/+/, '').split('/'));
   return existsSync(file) ? file : null;
 }
 

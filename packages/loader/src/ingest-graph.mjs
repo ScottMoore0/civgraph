@@ -150,13 +150,13 @@ export function ingestGraph(db, { graphDir }) {
 
   /** @type {DocumentRow[]} */
   const docs = [];
-  for (const [name, file] of [
+  for (const [name, file] of /** @type {[string, string][]} */ ([
     ['graph/manifest.json', path.join(graphDir, 'manifest.json')],
     ['graph/entity-types.json', path.join(graphDir, 'entity-types.json')],
     ['graph/properties.json', path.join(graphDir, 'properties.json')],
     ['graph/indexes/property-summary.json', path.join(idx, 'property-summary.json')],
     ['graph/quality/validation-summary.json', path.join(graphDir, 'quality', 'validation-summary.json')],
-  ]) {
+  ])) {
     const value = readJson(file, null);
     if (value) docs.push({ name, body: JSON.stringify(value) });
   }

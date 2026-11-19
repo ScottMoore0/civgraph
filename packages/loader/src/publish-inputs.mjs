@@ -154,7 +154,7 @@ export function workingTreeFiles(cwd = REPO_ROOT) {
   /** @type {string[]} */
   const modified = [];
   for (let i = 0; i + 1 < changed.length; i += 2) {
-    const [status, file] = [changed[i], changed[i + 1]];
+    const [status, file] = /** @type {[string, string]} i + 1 is within changed */ ([changed[i], changed[i + 1]]);
     if (status === 'D') files.delete(file);
     else if (files.has(file)) modified.push(file);
   }
