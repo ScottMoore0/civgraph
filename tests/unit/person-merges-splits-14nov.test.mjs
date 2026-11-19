@@ -100,9 +100,10 @@ test('PMS14-06 the ten Warrenpoint Labour men each hold their run under one decl
     assert.equal(holder(key), keep, key);
     assert.equal(candidacies(keep), n, `${key}: ${candidacies(keep)} candidacies`);
   }
-  // McMullan keeps 139928: 139891 also holds the Larne Rural District J. M'Mullan of 1936 and stays live.
+  // McMullan keeps 139928: 139891 also holds the Larne Rural District J. M'Mullan of 1936 and stays live,
+  // joined on 19 Nov 2026 (w19-merges, initials joins) to John M'Mullan's Glenarm South rows of 1924-33.
   assert.ok(byId.has(139891));
-  assert.equal(candidacies(139891), 1);
+  assert.equal(candidacies(139891), 5);
 });
 
 test('PMS14-07 Patrick Collins of Menlough: the Ballinasloe councillor (ie:3410) is the 1948 Galway North candidate (ei:2289)', () => {

@@ -26,7 +26,8 @@ test('OT0-01 the name-joined council careers are split by council (C4-C10)', () 
     ['James Campbell|', 135337, 6, [['clogher-augher-1899', 1], ['lurgan-montiaghs-1911-1939', 5], ['bangor-1912-1937', 2], ['newry-1-drumgath-1967', 1]]],
     ['William Campbell|', 142799, 4, [['clogher-augher-1908', 1], ['antrim-cc-killoquin-1967', 1]]],
     ['William Porter|', 142881, 2, [['clogher-aughentaine-1908', 1], ['lisburn-rural-malone-1939-1949', 2], ['newcastle-1964', 1]]],
-    ['Patrick Hughes|', 144657, 2, [['lisnaskea-kulmore-1955', 1], ['dungannon-meenagh-1958', 1]]],
+    // The Kilmore piece holds P. Hughes's Kilmore row too since the initials joins of 19 Nov 2026 (w19-merges).
+    ['Patrick Hughes|', 144657, 2, [['lisnaskea-kulmore-1955', 2], ['dungannon-meenagh-1958', 1]]],
     ['John Porter|', 146350, 1, [['banbridge-loughbrickland-1952', 1]]],
     ['Robert Jones|', 137430, 2, [['lurgan-carrowbrack-1964', 1]]],
     ['John Smith|', 137081, 2, [['clogher-cecil-1908', 1], ['newry-2-forkhill-1911', 1], ['newcastle-1929', 1]]],
