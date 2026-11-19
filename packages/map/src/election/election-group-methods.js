@@ -11,6 +11,7 @@
 import { freshPanelState, OVERLAY_MODE, stylingModeFor } from './panel-model.mjs';
 import { escapeHtml } from '../../../core/src/html.js';
 import { mergeMatchExpressions } from '../election-groups.mjs';
+import { unionFlatBbox } from '../renderer/utils.js';
 
 /** @typedef {import('./election-manager').ElectionManager} ElectionManager */
 /** @typedef {import('./election-manager').ElectionEntry} ElectionEntry */
@@ -47,6 +48,9 @@ export class ElectionGroupMethods {
     let members;
     try {
       await Promise.all(mapIds.map((id) => this.app.loadMap(id, { fit: false })));
+      // Framed on every member's map at once, as one election's load frames its own.
+      const box = unionFlatBbox(mapIds.map((id) => this.mapController.resolveLayer?.(id)?.bounds));
+      if (!keepView && box) this.mapController.fitToBounds?.(box, { smooth: false });
       members = await Promise.all(entries.map(async (member, i) => {
         const [bundle, previous] = await Promise.all([this.loadBundle(member), this.loadPreviousBundle(member)]);
         await this.loadFeatureIndexForBundle(bundle).catch(() => null);

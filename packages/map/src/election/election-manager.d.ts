@@ -84,6 +84,7 @@ export type ElectionMapController = Pick<Test2MapLibreMainAdapter,
   | 'clearElectionStyle'
   | 'setElectionHatch'
   | 'fitToLayer'
+  | 'fitToBounds'
   | 'invalidateSize'> & {
   /** No controller has it today; the overlays' hover asks for it, defensively. */
   setMapCursor?(cursor: string): void;

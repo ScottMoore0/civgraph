@@ -1291,7 +1291,8 @@ export class Test2MapLibreMainAdapter {
       if (!normalized) return acc;
       return mergeBounds(acc, normalized);
     }, null);
-    if (bounds) this.fitToBounds(bounds, { smooth: false });
+    // As [west, south, east, north]: fitToBounds reads a pair of pairs as [lat, lng] and would swap them.
+    if (bounds) this.fitToBounds([bounds[0][0], bounds[0][1], bounds[1][0], bounds[1][1]], { smooth: false });
   }
 
   /**

@@ -55,6 +55,23 @@ export function boundsToFlatBbox(bounds) {
   return [converted[0][0], converted[0][1], converted[1][0], converted[1][1]];
 }
 
+/**
+ * The box around several layers' bounds (each south-west and north-east as [lat, lng] pairs), as
+ * MapLibre's flat [west, south, east, north]; undefined when none is a pair.
+ * @param {unknown[]} boundsList
+ * @returns {[number, number, number, number] | undefined}
+ */
+export function unionFlatBbox(boundsList) {
+  /** @type {[number, number, number, number] | undefined} */
+  let box;
+  for (const bounds of boundsList) {
+    const flat = boundsToFlatBbox(bounds);
+    if (!flat || !flat.every(Number.isFinite)) continue;
+    box = box ? [Math.min(box[0], flat[0]), Math.min(box[1], flat[1]), Math.max(box[2], flat[2]), Math.max(box[3], flat[3])] : flat;
+  }
+  return box;
+}
+
 /** @typedef {{ minzoom?: number, maxzoom?: number, bounds?: [number, number, number, number] }} TileSourceRange */
 
 /**

@@ -8,6 +8,7 @@
 
 import { parseLayerOrder } from './layer-order.mjs';
 import uiController from '../ui-controller.js';
+import { unionFlatBbox } from '../renderer/utils.js';
 
 /**
  * The pane's own state, set on first use, and the warm-up latch: a flag field Test2App's
@@ -49,7 +50,12 @@ export class ElectionPaneMethods {
     const map = this.mapController?.map;
     if (!map) return;
     const controller = /** @type {MapControllerView} */ (this.mapController);
-    const fit = () => (ids.length > 1 ? controller.fitToLayers?.(ids) : controller.fitToLayer?.(/** @type {string} */ (ids[0])));
+    // Several maps (a grouped entry's): the box around them all.
+    const fit = () => {
+      if (ids.length === 1) return controller.fitToLayer?.(/** @type {string} */ (ids[0]));
+      const box = unionFlatBbox(ids.map((id) => controller.resolveLayer?.(id)?.bounds));
+      if (box) controller.fitToBounds?.(box, { smooth: false });
+    };
     // What is open now, so a fit made for it is not made for what replaced it.
     const openKey = () => String(this.elections?.openElectionEntry?.()?.key || '');
     const key = openKey();

@@ -24,6 +24,7 @@ import {
   withoutGroupMembers
 } from '@civgraph/map/election-groups.mjs';
 import { shelvesOf } from '@civgraph/map/catalogue/view-elections.js';
+import { unionFlatBbox } from '@civgraph/map/renderer/utils.js';
 
 /** @typedef {import('@civgraph/map/election-groups.mjs').ElectionGroup} ElectionGroup */
 
@@ -182,4 +183,12 @@ test('the committed catalogue: one row an entry, on its members\' shelves, in th
   // A candidate in either election of a year is a candidate in its entry.
   const index = catalogue.elections.findIndex((/** @type {{ key: string }} */ e) => e.key === 'european-parliament-2019');
   assert.ok(people.people.some((/** @type {unknown[]} */ row) => /** @type {number[][]} */ (row[8]).some((c) => c[0] === index)));
+});
+
+test('unionFlatBbox: the box around a grouped entry\'s maps, as [west, south, east, north]', () => {
+  const republic = [[51.4, -10.7], [55.4, -6.0]];
+  const north = [[54.0, -8.2], [55.3, -5.4]];
+  assert.deepEqual(unionFlatBbox([republic, north]), [-10.7, 51.4, -5.4, 55.4]);
+  assert.deepEqual(unionFlatBbox([undefined, north, 'x']), [-8.2, 54.0, -5.4, 55.3]);
+  assert.equal(unionFlatBbox([]), undefined);
 });
