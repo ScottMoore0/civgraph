@@ -3,7 +3,7 @@
 //   node --test tests/unit/timeline-dates.test.mjs
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { formatHectares, parseTimelineDate, timelineChangeName, yearOnlyMapDate } from '@civgraph/map/src/app/timeline/dates.mjs';
+import { formatHectares, parseTimelineDate, timelineChangeName, timelineSublabel, yearOnlyMapDate } from '@civgraph/map/src/app/timeline/dates.mjs';
 
 const iso = (date) => date?.toISOString().slice(0, 10) ?? null;
 
@@ -46,4 +46,15 @@ test('formatHectares', () => {
   assert.equal(formatHectares(42.6), '43 ha');
   assert.equal(formatHectares(12345.4), '12,345 ha');
   assert.equal(formatHectares('x'), '0.0 ha');
+});
+
+test('timelineSublabel: the catalogue category under the date, unless it only repeats the date', () => {
+  assert.equal(timelineSublabel('Counties', '1977'), 'Counties');
+  assert.equal(timelineSublabel('  Wards \n', '2014'), 'Wards');
+  // A row named by a year, or by the date itself, says nothing the label does not.
+  assert.equal(timelineSublabel('2017', '2017'), '');
+  assert.equal(timelineSublabel('1922', '1977'), '');
+  assert.equal(timelineSublabel('1 Jan 1919', '1 Jan 1919'), '');
+  assert.equal(timelineSublabel('', '1977'), '');
+  assert.equal(timelineSublabel(undefined, '1977'), '');
 });

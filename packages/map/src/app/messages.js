@@ -204,4 +204,12 @@ export class MessageMethods {
     const config = dataService.getMapById(mapId);
     return String(config?.name || this.metadataService?.getLayer?.(mapId)?.name || mapId).replace(/\s+/g, ' ').trim();
   }
+
+  /** The catalogue category (row) a map is in, by its name ("Counties"); '' for a map in no row.
+   * @this {MessageApp} @param {string} mapId */
+  mapCategoryName(mapId) {
+    const cat = uiController._catalogueNext;
+    // A map in no series looks up undefined, which names no series.
+    return cat?.seriesById?.get(/** @type {string} */ (cat.seriesOfMap?.get(mapId)))?.name || '';
+  }
 }

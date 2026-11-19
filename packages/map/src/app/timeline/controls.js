@@ -8,7 +8,7 @@
 import dataService from '../../data-service.js';
 import { compositeChildIds } from '../../map-relations.mjs';
 import { formatDisplayDate } from '../../../../core/src/date-format.mjs';
-import { parseTimelineDate, yearOnlyMapDate } from './dates.mjs';
+import { parseTimelineDate, timelineSublabel, yearOnlyMapDate } from './dates.mjs';
 import { timelineTicksHtml } from './timeline-view.mjs';
 import { setHidden } from '../../state-helpers.mjs';
 
@@ -598,14 +598,16 @@ export class TimelineControlMethods {
     const items = timestamps.map((timestamp) => {
       const mapId = referenceMapId ? this.getTimelineMapIdForTimestamp(referenceMapId, timestamp) : null;
       const yearOnly = mapId ? this.yearOnlyMapDate(/** @type {Parameters<typeof yearOnlyMapDate>[0]} */ (dataService.getMapById(mapId))) : null;
+      const label = yearOnly || this.formatTimelineTimestamp(timestamp);
       return {
         timestamp,
-        label: yearOnly || this.formatTimelineTimestamp(timestamp),
+        label,
         // A map dated only by its year reads "2023", not "01 Jan 2023" (UX review L4).
         displayLabel: yearOnly || '',
         mapId,
-        // An edition named only by its year ("2017") would repeat the date above it.
-        sublabel: [mapId && dataService.getMapById(mapId)?.name].filter((name) => name && !/^\d{4}$/.test(String(name).trim()))[0] || ''
+        // The date is the label; under it, the catalogue category the map is in, unless it would
+        // only repeat the date (dates.mjs timelineSublabel).
+        sublabel: mapId ? timelineSublabel(this.mapCategoryName(mapId) || dataService.getMapById(mapId)?.name, label) : ''
       };
     }).filter((item) => this.isTimelineMapPlayable(item.mapId));
     const activeIndex = items.findIndex((item) => item.timestamp === currentTimestamp);

@@ -71,3 +71,20 @@ export function formatHectares(value) {
   if (ha >= 10) return `${Math.round(ha)} ha`;
   return `${ha.toFixed(1)} ha`;
 }
+
+/**
+ * The line under the timeline's date: the catalogue category (row) of the map shown, as the
+ * catalogue names it ("Counties", not the map's own "Counties of Ireland 1922 (all-island)"),
+ * dropped when it would only repeat the date above it (a row named "2017", or by the date itself).
+ * Phelim Birch's notes, approved 19 Nov 2026.
+ * @param {string | null | undefined} category
+ * @param {string | null | undefined} dateLabel
+ * @returns {string}
+ */
+export function timelineSublabel(category, dateLabel) {
+  const name = String(category || '').replace(/\s+/g, ' ').trim();
+  const date = String(dateLabel || '').replace(/\s+/g, ' ').trim();
+  if (!name || /^\d{4}$/.test(name)) return '';
+  if (date && name.toLowerCase() === date.toLowerCase()) return '';
+  return name;
+}

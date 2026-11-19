@@ -330,6 +330,8 @@ export interface MapApp {
   /** messages.js */
   mapLabel(mapId: string): string;
   /** messages.js */
+  mapCategoryName(mapId: string): string;
+  /** messages.js */
   exportMapImage(mapId: string, format?: string, options?: { trigger?: HTMLElement }): Promise<unknown>;
   /** mobile-layout.js */
   isPhoneLayout(): boolean;
