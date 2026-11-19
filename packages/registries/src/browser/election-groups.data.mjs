@@ -288,6 +288,10 @@ export default {
   {
    "election": "dail-eireann__1918-12-14",
    "body": "house-of-commons-of-the-united-kingdom"
+  },
+  {
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "body": "dail-eireann"
   }
  ]
 };
