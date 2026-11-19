@@ -187,8 +187,9 @@ test('the respelt council divisions: one name per division, every round renamed,
 });
 
 // Divisions filed under two spellings, given their official DED names on 19 Nov 2026 (w19-merges, the
-// owner's decision 4): body, the name now, and each round filed under another spelling, which the
-// contest keeps as Constituency_Name_As_Printed.
+// owner's decision 4; the rest of the NI council divisions by w19-tidy): body, the name now, and each
+// round filed under another spelling, which the contest keeps as Constituency_Name_As_Printed (or, where
+// the filed spelling was an OCR shape, the third element: the form the page prints).
 const OFFICIAL_DED_NAMES = [
   ['omagh-rural-district-council', 'Mountjoy Forest East', [['1930-06-04', 'Mountjoy East'], ['1936-06-03', 'Mountjoy East'], ['1939-05-31', 'Mountjoy East'], ['1946-10-03', 'Mountjoy East'], ['1955-06-02', 'Mountjoy East'], ['1958-06-05', 'Mountjoy East'], ['1961-06-01', 'Mountjoy East'], ['1964-06-04', 'Mountjoy East'], ['1967-06-01', 'Mountjoy East']]],
   ['omagh-rural-district-council', 'Mountjoy Forest West', [['1930-06-04', 'Mountjoy West'], ['1936-06-03', 'Mountjoy West'], ['1946-10-03', 'Mountjoy West'], ['1955-06-02', 'Mountjoy West'], ['1958-06-05', 'Mountjoy West'], ['1961-06-01', 'Mountjoy West'], ['1964-06-04', 'Mountjoy West'], ['1967-06-01', 'Mountjoy West']]],
@@ -198,6 +199,13 @@ const OFFICIAL_DED_NAMES = [
   ['lisnaskea-rural-district-council', 'Rosslea', [['1936-06-03', 'Roslea'], ['1939-05-31', 'Roslea'], ['1949-06-02', 'Roslea'], ['1952-06-05', 'Roslea'], ['1955-06-02', 'Roslea'], ['1958-06-05', 'Roslea']]],
   ['hillsborough-rural-district-council', 'Glasdrumman', [['1924-06-05', 'Glassdrumman'], ['1927-06-02', 'Glassdrummond'], ['1930-05-30', 'Glassdrummond'], ['1936-06-04', 'Glassdrummond'], ['1939-06-01', 'Glassdrummond'], ['1946-10-03', 'Glassdrummond'], ['1949-06-02', 'Glassdrumman'], ['1952-06-05', 'Glassdrumman'], ['1955-06-02', 'Glassdrumman'], ['1958-06-05', 'Glassdrumman'], ['1961-06-01', 'Glassdrumman'], ['1964-06-04', 'Glassdrumman'], ['1967-06-01', 'Glassdrummond']]],
   ['fermanagh-county-council', 'Rosslea', [['1949-06-02', 'Roslea'], ['1952-06-05', 'Roslea'], ['1955-06-02', 'Roslea'], ['1958-06-05', 'Roslea'], ['1961-06-01', 'Roslea'], ['1964-06-04', 'Roslea'], ['1967-06-01', 'Roslea']]],
+  ['ballycastle-rural-district-council', 'Glenmakeeran', [['1924-06-05', 'Glenmakeirnan'], ['1930-06-05', 'Glenmakeiran'], ['1946-10-03', 'Glenmaccn', 'Glenmacen']]],
+  ['ballymoney-rural-district-council', 'Ballycregagh', [['1946-10-03', 'Ballyeraigagh', 'Ballycraigagh'], ['1949-06-02', 'Ballybregagh']]],
+  ['hillsborough-rural-district-council', 'Annahilt', [['1924-06-05', 'Anahilt'], ['1927-06-02', 'Anahilt'], ['1936-06-04', 'Anahilt'], ['1939-06-01', 'Anahilt'], ['1946-10-03', 'Anahilt'], ['1952-06-05', 'Anahilt'], ['1955-06-02', 'Anahilt'], ['1961-06-01', 'Anahilt'], ['1964-06-04', 'Anahilt']]],
+  ['hillsborough-rural-district-council', 'Ballyworfy', [['1927-06-02', 'Ballyworphy'], ['1936-06-04', 'Ballyworphy'], ['1939-06-01', 'Ballyworphy'], ['1946-10-03', 'Ballyworphy'], ['1958-06-05', 'Ballyworphy'], ['1961-06-01', 'Ballyworphy'], ['1964-06-04', 'Ballyworphy']]],
+  ['hillsborough-rural-district-council', 'Ouley', [['1927-06-02', 'Oughley'], ['1930-05-30', 'Ougley'], ['1933-05-25', 'Ougley'], ['1967-06-01', 'Ougley']]],
+  ['north-down-rural-district-council', 'Ballymaglaff', [['1933-05-25', 'Ballymaglass'], ['1946-10-03', 'Ballymeglaff']]],
+  ['south-down-rural-district-council', 'Glasdrumman', [['1924-06-05', 'Glassdrummond'], ['1933-05-25', 'Glassdrumman'], ['1939-06-01', 'Glassdrummond'], ['1946-10-03', 'Glassdrumman'], ['1949-06-02', 'Glassdrumman'], ['1952-06-05', 'Glasdrummond'], ['1955-06-02', 'Glassdrumman'], ['1958-06-05', 'Glassdrumman']]],
 ];
 /** @returns {[string, string][]} each renamed division's old contest slug and its new one */
 function officialDedSlugs() {
@@ -211,13 +219,13 @@ test('the double-spelled divisions take their official DED names: every round re
     for (const entry of index.bodies.find((b) => b.slug === body)?.dates || []) {
       for (const name of entry.constituencies || []) assert.ok(!olds.has(name), `${body} ${entry.date} still names ${name}`);
     }
-    for (const [date, old] of renamed) {
+    for (const [date, old, printed] of renamed) {
       const dir = `data/elections-source/data/elections/${body}/${date}`;
       assert.ok(!existsSync(path.join(ROOT, dir, `${slugify(old)}.json`)), `${dir}/${slugify(old)}.json is gone`);
       const file = `${dir}/${slugify(now)}.json`;
       const info = read(file).Constituency.countInfo;
       assert.equal(info.Constituency_Name, now, `${file} names the division`);
-      assert.equal(info.Constituency_Name_As_Printed, old, `${file} keeps the spelling it was filed under`);
+      assert.equal(info.Constituency_Name_As_Printed, printed ?? old, `${file} keeps the spelling it was filed under`);
       assert.ok(String(read(file).correctionNote).includes(`Renamed from '${old}' to ${now}`), `${file} records the rename`);
     }
   }
