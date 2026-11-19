@@ -196,7 +196,7 @@ export function siteFiles(root = REPO_ROOT) {
     for (const d of BUILD_DIRS) walk(root, sourceOf(d), candidates);
   } else {
     candidates = ROOT_FILES.map(sourceOf);
-    for (const d of [...SITE_DIRS, ...BUILD_DIRS.filter((b) => !SITE_DIRS.includes(b.split('/')[0]))]) walk(root, sourceOf(d), candidates);
+    for (const d of [...SITE_DIRS, ...BUILD_DIRS.filter((b) => !SITE_DIRS.includes(/** @type {string} */ (b.split('/')[0])))]) walk(root, sourceOf(d), candidates);
   }
   /** @type {string[]} */
   const files = [];

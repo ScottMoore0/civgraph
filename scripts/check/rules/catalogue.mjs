@@ -227,7 +227,7 @@ if (existsSync(peoplePath)) {
     const okPlace = (/** @type {number} */ i) => i === -1 || (Number.isInteger(i) && i >= 0 && i < doc.constituencies.length);
     if (!row[1] || !okParty(row[2]) || !okPlace(row[3])) bad += 1;
     // a row's ninth field is its contests, each [election, constituency, elected, party?]
-    for (const c of /** @type {number[][]} */ (row[8])) if (!(c[0] >= 0 && c[0] < built.elections.length) || !okPlace(c[1]) || (c.length > 3 && !okParty(c[3]))) bad += 1;
+    for (const c of /** @type {number[][]} */ (row[8])) if (!(/** @type {number} */ (c[0]) >= 0 && /** @type {number} */ (c[0]) < built.elections.length) || !okPlace(/** @type {number} */ (c[1])) || (c.length > 3 && !okParty(/** @type {number} */ (c[3])))) bad += 1;
   }
   if (bad) fail(`${bad} people or contests in people.json point at elections, parties or constituencies that do not exist: rebuild it`);
 }

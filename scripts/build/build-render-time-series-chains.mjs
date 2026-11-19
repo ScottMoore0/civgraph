@@ -238,7 +238,7 @@ writeFileSync(RENDER, `${JSON.stringify(render, null, 2)}\n`);
 const total = chains.reduce((sum, c) => sum + c.maps.length, 0);
 console.log(`Wrote ${chains.length} chain(s), ${total} entr(ies), into ${RENDER}.`);
 for (const chain of chains) {
-  console.log(`  ${chain.id.padEnd(30)} ${String(chain.maps.length).padStart(3)} entries  ${chain.maps[0].date} .. ${chain.maps[chain.maps.length - 1].date}`);
+  console.log(`  ${chain.id.padEnd(30)} ${String(chain.maps.length).padStart(3)} entries  ${/** @type {ChainEntry} */ (chain.maps[0]).date} .. ${/** @type {ChainEntry} */ (chain.maps[chain.maps.length - 1]).date}`);
 }
 // Anything the catalogue declares and this deliberately does NOT emit is reported, so a
 // judgement call does not read as an omission.

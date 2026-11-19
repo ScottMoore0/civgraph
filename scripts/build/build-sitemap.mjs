@@ -131,7 +131,7 @@ function readJson(/** @type {string} */ file) {
  * @returns {BrowseItem[] | null}
  */
 function readBrowseItems(type) {
-  const file = path.join(BROWSE, BROWSE_INDEX_FILES[type]);
+  const file = path.join(BROWSE, /** @type {string} */ (BROWSE_INDEX_FILES[type]));
   if (!existsSync(file)) return null;
   const index = readJson(file);
   if (index.indexLayout !== 'sharded') return Array.isArray(index.items) ? index.items : null;
@@ -230,7 +230,7 @@ function validateUrlset(file, xml) {
   const problems = [];
   if (!xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')) problems.push('missing XML declaration');
   if (!/<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/.test(xml)) problems.push('missing urlset namespace');
-  const locs = [...xml.matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => m[1]);
+  const locs = [...xml.matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => /** @type {string} */ (m[1]));
   if (!locs.length) problems.push('no URLs');
   if (locs.length > 50000) problems.push(`${locs.length} URLs (limit 50,000)`);
   if (Buffer.byteLength(xml) > MAX_BYTES) problems.push(`${Buffer.byteLength(xml)} bytes (limit 50 MB)`);

@@ -34,7 +34,7 @@ const sourceText = (node) => {
 function longLived(target, ancestors) {
   const text = sourceText(target);
   if (!text) return null;
-  const head = text.split('.')[0];
+  const head = /** @type {string} */ (text.split('.')[0]);
   if (GLOBAL_TARGETS.has(head)) return text;
   if (target.type === 'Identifier' && ROOT_PARAM.test(text)) {
     for (const fn of ancestors.filter(isFunction)) {

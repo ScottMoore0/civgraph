@@ -20,6 +20,8 @@ test('tsconfig.pipeline.json checks the pipeline folders under full strict, noIm
   // full strict since 12 Nov 2026 (stream rf8-types)
   assert.equal(config.compilerOptions.strict, true, 'tsconfig.pipeline.json turned strict off');
   for (const flag of ['useUnknownInCatchVariables', 'strictPropertyInitialization', 'strictBuiltinIteratorReturn']) assert.equal(config.compilerOptions[flag], true, flag);
+  // noUncheckedIndexedAccess since 19 Nov 2026 (stream w19-refactor-now)
+  assert.equal(config.compilerOptions.noUncheckedIndexedAccess, true, 'tsconfig.pipeline.json turned noUncheckedIndexedAccess off');
   for (const folder of FOLDERS) assert.ok(config.include.includes(`${folder}/**/*.mjs`), folder);
 });
 

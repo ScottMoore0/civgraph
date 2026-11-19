@@ -3,8 +3,8 @@ import fs from 'fs';
 /** @typedef {{ id: string, name: string }} EntryMap */
 /** @typedef {{ name: string, subject: string, kind: string, n: number, axis: string | null, maps: EntryMap[] }} Entry */
 /** @type {Entry[]} */
-const entries = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-const OUT = process.argv[3];
+const entries = JSON.parse(fs.readFileSync(/** @type {string} */ (process.argv[2]), 'utf8'));
+const OUT = /** @type {string} */ (process.argv[3]);
 
 /** @type {Map<string, Entry[]>} */
 const bySubject = new Map();
@@ -15,7 +15,7 @@ for (const e of entries) {
 }
 const subjects = [...bySubject.entries()]
   .map(([name, items]) => ({
-    name, kind: items[0].kind,
+    name, kind: /** @type {Entry} */ (items[0]).kind,
     items: items.sort((a, b) => b.n - a.n || a.name.localeCompare(b.name)),
     maps: items.reduce((a, e) => a + e.n, 0),
   }))

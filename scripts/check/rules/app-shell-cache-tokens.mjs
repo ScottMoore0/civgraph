@@ -95,7 +95,7 @@ const REFERENCE = /["'](\/[^"'?\s]+\.(?:js|css))\?v=([a-f0-9]{6,})/g;
 const html = readFileSync(HTML, 'utf8');
 const seen = new Set();
 
-for (const [, assetPath, token] of html.matchAll(REFERENCE)) {
+for (const [, assetPath, token] of /** @type {Iterable<[string, string, string]>} */ (html.matchAll(REFERENCE))) {
   const key = `${assetPath}?${token}`;
   if (seen.has(key)) continue;
   seen.add(key);
@@ -126,7 +126,7 @@ if (existsSync(SW)) {
   } else if (existsSync(bundle)) {
     checked += 1;
     const expected = contentHash(bundle);
-    if (!match[1].endsWith(expected)) {
+    if (!/** @type {string} */ (match[1]).endsWith(expected)) {
       problems.push(
         `${SW}: VERSION is "${match[1]}"\n      but app/build/app.bundle.js hashes to ${expected}\n      owned by ${ownerOf('/app/build/app.bundle.js')}`,
       );

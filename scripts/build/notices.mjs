@@ -49,7 +49,7 @@ function bundledPackages() {
   const names = new Set();
   for (const p of Object.keys(meta.inputs || {})) {
     const m = /node_modules[/\\](@[^/\\]+[/\\][^/\\]+|[^/\\]+)/.exec(p);
-    if (m) names.add(m[1].replace(/\\/g, '/'));
+    if (m) names.add(/** @type {string} */ (m[1]).replace(/\\/g, '/'));
   }
   return [...names].sort();
 }

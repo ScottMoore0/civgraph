@@ -57,10 +57,10 @@ for (const m of pub) {
   });
 }
 rows.sort((a, b) => a.why.localeCompare(b.why) || a.name.localeCompare(b.name));
-fs.writeFileSync(process.argv[2], JSON.stringify(rows, null, 1));
+fs.writeFileSync(/** @type {string} */ (process.argv[2]), JSON.stringify(rows, null, 1));
 /** @type {Record<string, number>} */
 const tally = {};
-rows.forEach(r => { const k = r.why.split(':')[0]; tally[k] = (tally[k] || 0) + 1; });
+rows.forEach(r => { const k = /** @type {string} */ (r.why.split(':')[0]); tally[k] = (tally[k] || 0) + 1; });
 console.log('maps with no subject:', rows.length, JSON.stringify(tally));
 /** @type {Record<string, number>} */
 const buckets = {};

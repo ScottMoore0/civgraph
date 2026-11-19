@@ -114,10 +114,10 @@ const SHELL_REGIONS = {
   'site:head': () => toHtmlString(head({ version: versionOf })),
   // skip-also="#id:Label" adds a second skip link (Browse: to the results; PRONI: to the search).
   'site:header': (attrs) => toHtmlString(header({
-    active: attrs.active,
+    active: /** @type {string} */ (attrs.active),
     layout: attrs.layout || 'page',
     skipLink: attrs['skip-link'] !== 'page',
-    skipAlso: attrs['skip-also'] ? [{ href: attrs['skip-also'].split(':')[0], label: attrs['skip-also'].split(':').slice(1).join(':') }] : [],
+    skipAlso: attrs['skip-also'] ? [{ href: /** @type {string} */ (attrs['skip-also'].split(':')[0]), label: attrs['skip-also'].split(':').slice(1).join(':') }] : [],
   })),
   'site:support-modal': () => toHtmlString(supportModal()),
   'site:footer': () => toHtmlString(footer()),
@@ -167,11 +167,11 @@ function render(name, attrs, page) {
   for (const key of Object.keys(attrs)) {
     if (!allowed.has(key)) throw new Error(`${page}: <!-- ${name} --> does not take ${key}="..."`);
   }
-  if (name === 'site:header' && !NAV_KEYS.has(attrs.active)) {
+  if (name === 'site:header' && !NAV_KEYS.has(/** @type {string} */ (attrs.active))) {
     throw new Error(`${page}: <!-- site:header --> needs active="${[...NAV_KEYS].join('|')}"`);
   }
   if (SHELL_REGIONS[name]) return SHELL_REGIONS[name](attrs).replace(/\r\n/g, '\n').trimEnd();
-  let html = readFileSync(PARTIAL_FILES[name], 'utf8').replace(/\r\n/g, '\n').trimEnd();
+  let html = readFileSync(/** @type {string} */ (PARTIAL_FILES[name]), 'utf8').replace(/\r\n/g, '\n').trimEnd();
   html = html
     .replace(/\{\{active:([a-z]+)\}\}/g, (_, key) => (key === attrs.active ? ' app-header__link--active' : ''))
     .replace(/\{\{current:([a-z]+)\}\}/g, (_, key) => (key === attrs.active ? ' aria-current="page"' : ''))
@@ -197,7 +197,7 @@ for (const [page, expected] of PAGES) {
     const count = found.filter((f) => f === name).length;
     if (count !== 1) problems.push(`${page}: expected one <!-- ${name} --> region, found ${count}`);
   }
-  for (const name of new Set(found)) {
+  for (const name of /** @type {Set<string>} */ (new Set(found))) {
     if (!expected.includes(name)) problems.push(`${page}: has a <!-- ${name} --> region it should not`);
   }
   const eol = source.includes('\r\n') ? '\r\n' : '\n';

@@ -117,7 +117,7 @@ function build() {
 
 const { json, tsv, summary } = build();
 const stale = [];
-for (const [file, content] of [[OUT, json], [REVIEW, tsv]]) {
+for (const [file, content] of /** @type {Array<[string, string]>} */ ([[OUT, json], [REVIEW, tsv]])) {
   const current = existsSync(file) ? readFileSync(file, 'utf8').replace(/\r\n/g, '\n') : null;
   if (current === content) continue;
   if (CHECK) stale.push(file);

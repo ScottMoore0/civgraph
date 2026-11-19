@@ -77,7 +77,7 @@ const skip = (/** @type {string | undefined} */ u) =>
  * @param {string} fromFile
  */
 function resolveRef(ref, fromFile) {
-  const clean = ref.split('#')[0].split('?')[0];
+  const clean = /** @type {string} */ (ref.split('#')[0]).split('?')[0];
   if (!clean) return null;
   const abs = clean.startsWith('/')
     ? path.join(ROOT, clean)
@@ -98,7 +98,7 @@ function collect(file, patterns) {
   const src = readFileSync(abs, 'utf8');
   for (const re of patterns) {
     for (const m of src.matchAll(re)) {
-      const ref = m[1];
+      const ref = /** @type {string} */ (m[1]);
       if (skip(ref)) continue;
       const target = resolveRef(ref, file);
       if (target) refs.push({ from: file, ref, target });

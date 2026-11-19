@@ -37,7 +37,7 @@ const args = process.argv.slice(2);
 /** @type {<F>(name: string, fallback: F) => string | F} */
 const argVal = (name, fallback) => {
   const i = args.indexOf(name);
-  return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
+  return i >= 0 && args[i + 1] ? /** @type {string} */ (args[i + 1]) : fallback;
 };
 const OUT = path.resolve(argVal('--out', 'tmp/elections.sqlite'));
 const LIMIT = Number(argVal('--limit', Infinity));

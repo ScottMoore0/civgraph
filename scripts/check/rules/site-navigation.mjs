@@ -90,8 +90,8 @@ function navLabels(/** @type {string} */ html) {
   const scope = header ? header[0] : html;
   const nav = scope.match(/<nav\b[^>]*>([\s\S]*?)<\/nav>/i);
   if (!nav) return null;
-  return [...nav[1].matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gi)]
-    .map((m) => m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim())
+  return [.../** @type {string} */ (nav[1]).matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gi)]
+    .map((m) => /** @type {string} */ (m[1]).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim())
     .filter(Boolean);
 }
 

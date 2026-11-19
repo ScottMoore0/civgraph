@@ -1,7 +1,7 @@
 // Merge the two assignment passes into one whole-catalogue subject table.
 import fs from 'fs';
-const a = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));   // the 283 unfiled
-const b = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));   // the 475 already carded
+const a = JSON.parse(fs.readFileSync(/** @type {string} */ (process.argv[2]), 'utf8'));   // the 283 unfiled
+const b = JSON.parse(fs.readFileSync(/** @type {string} */ (process.argv[3]), 'utf8'));   // the 475 already carded
 // The two passes were written independently and landed on two names for one subject, and split
 // water access two ways. Reconcile here rather than in either pass, so both stay readable.
 /** @type {Record<string, string>} */
@@ -40,7 +40,7 @@ const all = [...a, ...b].map(r => {
   return { ...r, subject, kind: BOUNDARY_SUBJECTS.has(subject) ? 'Boundary' : 'Dataset' };
 });
 if (all.some(r => r.subject === 'Marine & Inland Waterways')) throw new Error('Marine subject survived');
-fs.writeFileSync(process.argv[4], JSON.stringify(all, null, 1));
+fs.writeFileSync(/** @type {string} */ (process.argv[4]), JSON.stringify(all, null, 1));
 
 // the two passes were written independently, so check they agree on kind
 const kindBySubject = new Map();

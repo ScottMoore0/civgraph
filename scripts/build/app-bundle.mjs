@@ -213,7 +213,7 @@ function copyAnimationRuntimeAssets() {
     ['data/elections-source/css/stages.css', 'site/app/election-viewer-package/css/stages.css'],
     ['data/elections-source/css/election-viewer.css', 'site/app/election-viewer-package/css/election-viewer.css']
   ];
-  for (const [source, target] of assets) {
+  for (const [source, target] of /** @type {Array<[string, string]>} */ (assets)) {
     if (!existsSync(source)) {
       throw new Error(`Missing election animation runtime source asset: ${source}`);
     }
@@ -222,5 +222,5 @@ function copyAnimationRuntimeAssets() {
     const content = readFileSync(target, 'utf8').replace(/[ \t]+$/gm, '');
     writeFileSync(target, content);
   }
-  return assets.map(([, target]) => target);
+  return /** @type {Array<[string, string]>} */ (assets).map(([, target]) => target);
 }

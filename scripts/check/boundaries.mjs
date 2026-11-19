@@ -93,7 +93,7 @@ const SPEC = /(?:^|[\s;}])(?:import|export)\s[^'"`;]*?\sfrom\s*(['"])([^'"]+)\1|
 /** The literal import specifiers of a module's source. @param {string} source @returns {string[]} */
 export function specifiers(source) {
   const out = [];
-  for (const m of strip(source).matchAll(SPEC)) out.push(m[2] || m[4] || m[6]);
+  for (const m of strip(source).matchAll(SPEC)) out.push(/** @type {string} */ (m[2] || m[4] || m[6]));
   return out;
 }
 
@@ -160,7 +160,7 @@ export function edges() {
         target = packageTarget(spec);
         if (target === null) { out.push({ file, target: spec, from, to: 'unresolved', ok: false }); continue; }
       } else if (spec.startsWith('.')) {
-        target = path.posix.normalize(path.posix.join(path.posix.dirname(file), spec.split(/[?#]/)[0]));
+        target = path.posix.normalize(path.posix.join(path.posix.dirname(file), /** @type {string} */ (spec.split(/[?#]/)[0])));
       } else continue;
       const to = unitOf(target);
       out.push({ file, target, from, to, ok: allowed(from, to) });

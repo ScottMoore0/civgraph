@@ -146,7 +146,7 @@ const winnersOf = (c) => c.cands.filter((x) => x.elected);
  * @returns {Defending | null}
  */
 export function defendingOf(holders, singleMember, c) {
-  if (singleMember && (c.seats ?? 1) === 1 && holders.length === 1) return { ...holders[0], basis: 'seat' };
+  if (singleMember && (c.seats ?? 1) === 1 && holders.length === 1) return { .../** @type {Holder} */ (holders[0]), basis: 'seat' };
   const cause = causeOf(c);
   if (!cause) return null;
   const words = ` ${foldName(cause)} `;
@@ -155,13 +155,13 @@ export function defendingOf(holders, singleMember, c) {
     const s = surnameOf(h.name);
     return !!s && words.includes(` ${s} `);
   });
-  return hits.length === 1 ? { ...hits[0], basis: 'cause' } : null;
+  return hits.length === 1 ? { .../** @type {Holder} */ (hits[0]), basis: 'cause' } : null;
 }
 
 /** @param {Defending | null} def @param {Array<{ party: string | null }>} winners @param {number} seats @returns {ResultKind} */
 export function resultOf(def, winners, seats) {
-  if (!def || !def.party || seats !== 1 || winners.length !== 1 || !winners[0].party) return null;
-  return winners[0].party === def.party ? 'held' : 'gained';
+  if (!def || !def.party || seats !== 1 || winners.length !== 1 || !/** @type {(typeof winners)[number]} */ (winners[0]).party) return null;
+  return /** @type {(typeof winners)[number]} */ (winners[0]).party === def.party ? 'held' : 'gained';
 }
 
 /**
@@ -345,12 +345,12 @@ export function buildTables(elections, opts = {}) {
               const loss = /** @type {Defending} */ (def).party;
               if ((m.get(loss) || 0) > 0) {
                 m.set(loss, (m.get(loss) || 0) - 1);
-                m.set(won[0].party, (m.get(won[0].party) || 0) + 1);
+                m.set(/** @type {Cand} */ (won[0]).party, (m.get(/** @type {Cand} */ (won[0]).party) || 0) + 1);
               } else comp = null;
             } else if (comp && won.length > 0) comp = null;
             timeline.push({
               type: 'by-election', date: el.date, election: el.key, contest: c.slug, area: c.name,
-              gain: won.length === 1 ? won[0].party : null, loss: def ? def.party : null, departing: def ? def.name : null, departingKnown: !!def,
+              gain: won.length === 1 ? /** @type {Cand} */ (won[0]).party : null, loss: def ? def.party : null, departing: def ? def.name : null, departingKnown: !!def,
               ...after(),
             });
           }

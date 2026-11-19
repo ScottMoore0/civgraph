@@ -173,8 +173,8 @@ const VALID = /arch-ok R(\d{1,2}): *(\S.*?)\s*(\*\/|-->)?\s*$/;
 export function markerOn(line) {
   if (!MARKER.test(line)) return null;
   const m = line.slice(line.indexOf('arch-ok')).match(VALID);
-  if (!m || m[2].replace(/\W/g, '').length < 3) return { malformed: true };
-  return { rule: `R${Number(m[1])}`, reason: m[2] };
+  if (!m || /** @type {string} */ (m[2]).replace(/\W/g, '').length < 3) return { malformed: true };
+  return { rule: `R${Number(m[1])}`, reason: /** @type {string} */ (m[2]) };
 }
 
 /**
@@ -186,7 +186,7 @@ export function markerOn(line) {
 export function excusedBy(lines, line, rule) {
   for (const at of [line, line - 1]) {
     if (at < 1 || at > lines.length) continue;
-    const marker = markerOn(lines[at - 1]);
+    const marker = markerOn(/** @type {string} */ (lines[at - 1]));
     if (marker && 'rule' in marker && marker.rule === rule) return { line: at, reason: marker.reason };
   }
   return null;

@@ -120,17 +120,17 @@ function ksTable(text) {
   const out = new Map();
   /** @type {Map<string, string>} */
   const labels = new Map();
-  const head = rows[0];
+  const head = /** @type {string[]} */ (rows[0]);
   const cat = head.indexOf('Category 1');
   const count = head.length - 1;
   for (const r of rows.slice(1)) {
-    const m = out.get(r[0]) || new Map();
+    const m = out.get(/** @type {string} */ (r[0])) || new Map();
     // KS17 (2001) has three category columns: the households total, a heading and the category.
     const key = head.length > 4 ? r.slice(cat + 1, count).join(' | ') : r[cat];
     m.set(key, Number(r[count]));
     if (head.length > 4) m.set('__total', Number(r[cat]));
-    out.set(r[0], m);
-    labels.set(r[0], r[1]);
+    out.set(/** @type {string} */ (r[0]), m);
+    labels.set(/** @type {string} */ (r[0]), /** @type {string} */ (r[1]));
   }
   return { out, labels };
 }
@@ -144,7 +144,7 @@ function pick(cats, patterns, where) {
   for (const re of patterns) {
     const hits = [...cats.keys()].filter((k) => re.test(k));
     if (hits.length !== 1) throw new Error(`${where}: ${re} matched ${hits.length} categories (${hits.join('; ')})`);
-    sum += /** @type {number} */ (cats.get(hits[0]));
+    sum += /** @type {number} */ (cats.get(/** @type {string} */ (hits[0])));
   }
   return sum;
 }
@@ -222,7 +222,7 @@ async function census2021Dea() {
     if (!files.has(s.file)) files.set(s.file, parseCsv(await source(`nisra-ftb/${s.file}.csv.gz`)));
     const rows = /** @type {string[][]} */ (files.get(s.file));
     for (const r of rows.slice(1)) {
-      const [code, label, cat, count] = [r[0], r[1], r[2], Number(r[4])];
+      const [code, label, cat, count] = [/** @type {string} */ (r[0]), /** @type {string} */ (r[1]), /** @type {string} */ (r[2]), Number(r[4])];
       labels.set(code, label);
       const isCount = s.id === 'residents';
       add(figures, code, isCount ? { [`${s.id}.v`]: count } : { [`${s.id}.n`]: s.n(cat) ? count : 0, [`${s.id}.d`]: s.d(cat) ? count : 0 });
@@ -236,12 +236,12 @@ async function census2021Dea() {
 /** Each 1992 ward's 1993 DEA, from the 2001 Output Areas' crosswalk. @returns {Promise<Map<string, string>>} */
 async function wardsToDea1993() {
   const rows = parseCsv(await source('derived/oa2001_to_deas.csv'));
-  const col = rows[0].indexOf('dea_1993');
+  const col = /** @type {string[]} */ (rows[0]).indexOf('dea_1993');
   /** @type {Map<string, string>} */
   const out = new Map();
   for (const r of rows.slice(1)) {
-    const ward = r[0].slice(0, 6);
-    const dea = r[col];
+    const ward = /** @type {string} */ (r[0]).slice(0, 6);
+    const dea = /** @type {string} */ (r[col]);
     if (out.has(ward) && out.get(ward) !== dea) throw new Error(`ward ${ward} lies in two 1993 DEAs (${out.get(ward)}, ${dea})`);
     out.set(ward, dea);
   }
@@ -282,7 +282,7 @@ function byArea(figures, areaOf, layer) {
     const parts = /** @type {Record<string, number>} */ (summed.get(name));
     /** @type {AreaFigures} */
     const area = {};
-    for (const id of INDICATOR_IDS) area[id] = parts[`${id}.v`] !== undefined ? [parts[`${id}.v`]] : [parts[`${id}.n`], parts[`${id}.d`]];
+    for (const id of INDICATOR_IDS) area[id] = parts[`${id}.v`] !== undefined ? [/** @type {number} */ (parts[`${id}.v`])] : [/** @type {number} */ (parts[`${id}.n`]), /** @type {number} */ (parts[`${id}.d`])];
     out[name] = area;
   }
   return out;

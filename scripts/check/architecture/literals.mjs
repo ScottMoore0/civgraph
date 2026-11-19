@@ -52,7 +52,7 @@ export function cssColours(css) {
   const text = css.replace(/\/\*[\s\S]*?\*\//g, (c) => c.replace(/[^\n]/g, ' '));
   const out = [];
   for (const m of text.matchAll(/([-\w]+)\s*:\s*([^;{}]+)(?=[;}])/g)) {
-    const value = m[2];
+    const value = /** @type {string} */ (m[2]);
     const hit = value.match(HEX) || value.match(FUNC);
     if (!hit) continue;
     const at = /** @type {number} */ (m.index) + m[0].indexOf(value) + /** @type {number} */ (hit.index);

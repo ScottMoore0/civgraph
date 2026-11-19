@@ -108,7 +108,7 @@ export function validateWorkflow(name, text) {
   ];
   for (const [re, why] of forbidden) {
     const hit = lines.findIndex((line) => re.test(line));
-    if (hit >= 0) errors.push(`${name}:${hit + 1}: ${why}: ${lines[hit].trim()}`);
+    if (hit >= 0) errors.push(`${name}:${hit + 1}: ${why}: ${/** @type {string} */ (lines[hit]).trim()}`);
   }
   return errors;
 }
@@ -137,7 +137,7 @@ export function validateCi(text, scripts) {
   if (!/^on:\s*$[\s\S]*?^\s+pull_request:/m.test(lines.join('\n'))) errors.push('ci.yml: does not run on pull requests.');
   if (!/^\s+branches:\s*\[\s*main\s*\]/m.test(lines.join('\n'))) errors.push('ci.yml: does not run on pushes to main.');
   for (const match of lines.join('\n').matchAll(/npm run (?:-s )?([\w:.-]+)/g)) {
-    if (!scripts[match[1]]) errors.push(`ci.yml names npm run ${match[1]}, which package.json does not define.`);
+    if (!scripts[/** @type {string} */ (match[1])]) errors.push(`ci.yml names npm run ${match[1]}, which package.json does not define.`);
   }
   if (scripts['check:ci'] !== 'node scripts/check/clean.mjs --in-place') {
     errors.push('package.json: check:ci is no longer `node scripts/check/clean.mjs --in-place`, so CI and check:clean can drift.');

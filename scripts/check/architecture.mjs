@@ -124,9 +124,9 @@ export function markers(ctx, exclude) {
     if (exclude.some((p) => file.startsWith(p)) || file.endsWith('.md')) continue;
     const lines = ctx.lines(file);
     for (let i = 0; i < lines.length; i++) {
-      const m = markerOn(lines[i]);
+      const m = markerOn(/** @type {string} */ (lines[i]));
       if (!m) continue;
-      if ('malformed' in m) malformed.push({ file, line: i + 1, text: lines[i].trim().slice(0, 120) });
+      if ('malformed' in m) malformed.push({ file, line: i + 1, text: /** @type {string} */ (lines[i]).trim().slice(0, 120) });
       else valid.push({ file, line: i + 1, rule: m.rule, reason: m.reason.slice(0, 120) });
     }
   }
@@ -166,7 +166,7 @@ export function nextBaseline(results, existing, noBaseline) {
     /** @type {Record<string, number>} */
     const files = {};
     for (const file of Object.keys(counts).sort()) {
-      const n = existing ? Math.min(counts[file], existing[id]?.[file] ?? 0) : counts[file];
+      const n = existing ? Math.min(/** @type {number} */ (counts[file]), existing[id]?.[file] ?? 0) : /** @type {number} */ (counts[file]);
       if (n > 0) files[file] = n;
     }
     out[id] = files;
@@ -182,7 +182,7 @@ if (isMain) {
   const args = process.argv.slice(2);
   const flag = (/** @type {string} */ name) => args.includes(name);
   const onlyAt = args.indexOf('--only');
-  const only = onlyAt >= 0 ? args[onlyAt + 1].split(',') : null;
+  const only = onlyAt >= 0 ? /** @type {string} */ (args[onlyAt + 1]).split(',') : null;
   const config = JSON.parse(readFileSync(path.join(ROOT, CONFIG_PATH), 'utf8'));
   const baselineFile = path.join(ROOT, BASELINE_PATH);
   const baseline = existsSync(baselineFile) ? JSON.parse(readFileSync(baselineFile, 'utf8')) : null;

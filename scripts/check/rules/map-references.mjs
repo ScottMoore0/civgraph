@@ -78,7 +78,7 @@ export function canonicalLabel(label, url = '') {
     again = false;
     const brackets = /^(.*\S)\s*\(([^()]+)\)$/.exec(l);
     const dash = /^(.*\S)\s+[—–-]\s+(\S+)$/.exec(l);
-    if (brackets && sameHost(brackets[2], host)) { l = brackets[1]; again = true; } else if (dash && sameHost(dash[2], host)) { l = dash[1]; again = true; }
+    if (brackets && sameHost(/** @type {string} */ (brackets[2]), host)) { l = /** @type {string} */ (brackets[1]); again = true; } else if (dash && sameHost(/** @type {string} */ (dash[2]), host)) { l = /** @type {string} */ (dash[1]); again = true; }
     if (again && !l.toLowerCase().startsWith(`${host} — `)) l = `${host} — ${l}`;
     if (again) l = l.replace(new RegExp(`^(${host.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} — )+`, 'i'), `${host} — `);
   }

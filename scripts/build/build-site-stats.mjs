@@ -327,7 +327,7 @@ if (!unchanged) writeFileSync(OUT, `${JSON.stringify(stamp, null, 2)}\n`);
 
 console.log('Site stats');
 for (const [key, value] of Object.entries(stats)) {
-  console.log(`  ${LABELS[key].padEnd(20)} ${fmt(value).padStart(8)}   ${PROVENANCE[key]}`);
+  console.log(`  ${/** @type {string} */ (LABELS[key]).padEnd(20)} ${fmt(value).padStart(8)}   ${PROVENANCE[key]}`);
 }
 console.log(unchanged
   ? `\nUnchanged; ${path.relative(ROOT, OUT)} left as it is.`

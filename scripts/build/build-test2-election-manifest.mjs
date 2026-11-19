@@ -354,7 +354,7 @@ function applyNiLocalValidPollCorrection(electionKey, constituency, rawResult) {
 const WALKER_CORRECTIONS_DIR = path.join(ROOT, 'data', 'elections', 'corrections');
 // The correction record statuses (statuses registry, RG-05): the value that marks a record applied,
 // and the others a review may give (records with those are not used).
-const CORRECTIONS = loadRegistry('statuses');
+const CORRECTIONS = /** @type {import('@civgraph/types').StatusesRegistry & { machines: { correction: import('@civgraph/types').StatusesRegistry['machines'][string] } }} */ (loadRegistry('statuses'));
 const CORRECTION_APPLIED = CORRECTIONS.machines.correction.appliedValue;
 const CORRECTION_STATES = new Set(statesOf(CORRECTIONS, 'correction'));
 /**
@@ -3203,8 +3203,8 @@ function ringStats(ring) {
   let maxLng = -Infinity;
   let maxLat = -Infinity;
   for (let i = 0, j = ring.length - 1; i < ring.length; j = i, i += 1) {
-    const [lng1, lat1] = ring[j];
-    const [lng2, lat2] = ring[i];
+    const [lng1, lat1] = /** @type {[number, number]} */ (/** @type {number[]} */ (ring[j]));
+    const [lng2, lat2] = /** @type {[number, number]} */ (/** @type {number[]} */ (ring[i]));
     area += (lng1 + lng2) * (lat1 - lat2);
     minLng = Math.min(minLng, lng2);
     maxLng = Math.max(maxLng, lng2);
@@ -3240,7 +3240,7 @@ function coordinateBounds(coords) {
   let minLat = Infinity;
   let maxLng = -Infinity;
   let maxLat = -Infinity;
-  for (const [lng, lat] of coords) {
+  for (const [lng, lat] of /** @type {Array<[number, number]>} */ (coords)) {
     minLng = Math.min(minLng, lng);
     maxLng = Math.max(maxLng, lng);
     minLat = Math.min(minLat, lat);
@@ -3347,7 +3347,7 @@ function buildFeatureLookup(index, sourceMapId, geography = null) {
         /** @type {Record<string, string>} */
         const COMPASS = { N: 'North', S: 'South', E: 'East', W: 'West', NE: 'North East', NW: 'North West', SE: 'South East', Mid: 'Mid' };
         const m = String(name || '').match(/^(.+?) (N|S|E|W|NE|NW|SE|Mid)$/);
-        if (m) explicitAliases.push(`${COMPASS[m[2]]} ${m[1]}`);
+        if (m) explicitAliases.push(`${COMPASS[/** @type {string} */ (m[2])]} ${m[1]}`);
         const city = String(name || '').match(/^(.+) City$/i);
         if (city) explicitAliases.push(`${city[1]} Borough`);
       }
@@ -3504,14 +3504,14 @@ function candidateMatchNames(value, entry = null) {
   }
   const bodyCode = LOCAL_GOVERNMENT_CODE_PREFIXES.get(body);
   const codedArea = raw.match(/^lg\d{2}-([A-Za-z]{3})-Area-([A-Z])$/i);
-  if (codedArea && bodyCode && codedArea[1].toLowerCase() === bodyCode.toLowerCase()) {
-    candidates.add(`${body} Area ${codedArea[2].toUpperCase()}`);
+  if (codedArea && bodyCode && /** @type {string} */ (codedArea[1]).toLowerCase() === bodyCode.toLowerCase()) {
+    candidates.add(`${body} Area ${/** @type {string} */ (codedArea[2]).toUpperCase()}`);
   }
 
   const councilArea = raw.match(/^(.+?)\s+Area\s+([A-Z])$/i);
   if (councilArea) {
-    candidates.add(`${councilArea[1]} Area ${councilArea[2].toUpperCase()}`);
-    if (/^Derry$/i.test(councilArea[1])) candidates.add(`Londonderry Area ${councilArea[2].toUpperCase()}`);
+    candidates.add(`${councilArea[1]} Area ${/** @type {string} */ (councilArea[2]).toUpperCase()}`);
+    if (/^Derry$/i.test(/** @type {string} */ (councilArea[1]))) candidates.add(`Londonderry Area ${/** @type {string} */ (councilArea[2]).toUpperCase()}`);
   }
 
   if (/^derry\b/i.test(raw)) candidates.add(raw.replace(/^Derry\b/i, 'Londonderry'));
@@ -4006,7 +4006,7 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
     /** @type {Set<string>} */ (eiRosterIds.get(key)).add(entry.id);
   }
   /** @type {Map<string, string>} */
-  const eiRoster = new Map([...eiRosterIds].filter(([, ids]) => ids.size === 1).map(([key, ids]) => [key, [...ids][0]]));
+  const eiRoster = new Map([...eiRosterIds].filter(([, ids]) => ids.size === 1).map(([key, ids]) => [key, /** @type {string} */ ([...ids][0])]));
   /** @type {Map<string, ScraperCandidate | null>} */
   const localCandidates = new Map();
   /** @type {Map<number, ScraperCandidate[]>} */
@@ -4048,9 +4048,9 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
     for (const row of unresolved) {
       const hits = roster.filter((entry) => namesCompatible(row.name, entry.name));
       if (hits.length !== 1) continue;
-      if (unresolved.some((other) => other !== row && namesCompatible(other.name, hits[0].name))) continue;
+      if (unresolved.some((other) => other !== row && namesCompatible(other.name, /** @type {(typeof hits)[number]} */ (hits[0]).name))) continue;
       // The roster kept only entries with an id.
-      compatibleRosterIds.set(row.index, /** @type {string} */ (hits[0].id));
+      compatibleRosterIds.set(row.index, /** @type {string} */ (/** @type {(typeof hits)[number]} */ (hits[0]).id));
     }
   }
   const numCounts = Number(sidecar.numCounts || 0) || Math.max(1, ...sidecar.candidates.flatMap((candidate) => candidate.counts?.map((value, index) => value !== null && value !== undefined ? index + 1 : 0) || []));
@@ -4234,7 +4234,7 @@ function localCandidateForWikipediaCount(candidate, localCandidates, localCandid
   if (direct) return direct;
   const firstPref = parseNumber(candidate.counts?.[0]);
   const byVote = firstPref !== null ? localCandidatesByFirstPref.get(firstPref) || [] : [];
-  if (byVote.length === 1) return byVote[0];
+  if (byVote.length === 1) return /** @type {ScraperCandidate} */ (byVote[0]);
   const party = normalizeName(candidate.party || '');
   return byVote.find((localCandidate) => {
     const localParty = normalizeName(localCandidate?.party || '');
@@ -4341,7 +4341,7 @@ function formatElectionSubtitle(entry, results, unmatchedCount, hasMap = true) {
  * @param {Array<{ matched?: boolean, [field: string]: unknown }>} results
  */
 function modeAvailable(mode, results) {
-  const field = /** @type {Record<string, string>} */ ({
+  const field = /** @type {string} */ (/** @type {Record<string, string>} */ ({
     winner: 'winnerParty',
     leadingParty: 'leadingParty',
     voteShare: 'leadingPct',
@@ -4349,7 +4349,7 @@ function modeAvailable(mode, results) {
     majority: 'majorityPct',
     seats: 'seatsWon',
     quota: 'quota'
-  })[mode];
+  })[mode]);
   return results.some((result) => result.matched && result[field] !== null && result[field] !== undefined && result[field] !== '');
 }
 

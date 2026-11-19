@@ -28,7 +28,7 @@ const API_URL = /\/(?:_api|api\/v1)\/([^?#\s'"`]*)(?:\?([^#\s'"`]*))?/;
 export function parseApiUrl(text, routes) {
   const m = text.match(API_URL);
   if (!m) return null;
-  const path = m[1].replace(/\/+$/, '');
+  const path = /** @type {string} */ (m[1]).replace(/\/+$/, '');
   if (!path || path.startsWith(HOLE)) return null;
   const route = [...routes].sort((a, b) => b.length - a.length).find((r) => path === r || path.startsWith(`${r}/`)) ?? null;
   /** @type {Record<string, string> | null} */
@@ -36,7 +36,7 @@ export function parseApiUrl(text, routes) {
   if (m[2] !== undefined) {
     for (const pair of m[2].split('&')) {
       if (!pair) continue;
-      const [k, v = ''] = pair.split('=');
+      const [k, v = ''] = /** @type {[string, string?]} */ (pair.split('='));
       if (k.includes(HOLE)) { params = null; break; }
       params[k] = v.includes(HOLE) ? '*' : decodeURIComponent(v);
     }
@@ -128,8 +128,8 @@ export const C9 = {
       /** @type {Set<string>} */
       const fileRoutes = new Set();
       const check = (/** @type {string} */ route, /** @type {Record<string, string>} */ params, /** @type {number} */ line) => {
-        for (const problem of requestProblems(contracts[route], params, modifiersOf(route))) out.push({ file, line, message: `/_api/${route}: ${problem}` });
-        const loose = looseFields(chosenVariant(contracts[route], params));
+        for (const problem of requestProblems(/** @type {Contract} */ (contracts[route]), params, modifiersOf(route))) out.push({ file, line, message: `/_api/${route}: ${problem}` });
+        const loose = looseFields(chosenVariant(/** @type {Contract} */ (contracts[route]), params));
         if (loose.length) notes.push(`${file}:${line} /_api/${route} reads fields typed only object: ${loose.join(', ')}`);
       };
       for (const { line, text } of urls) {
@@ -145,7 +145,7 @@ export const C9 = {
         if (parsed.params) check(parsed.route, parsed.params, line);
       }
       if (clientCalls.length && fileRoutes.size === 1) {
-        const [route] = fileRoutes;
+        const [route] = /** @type {Set<string> & [string]} */ (fileRoutes); // its one route (size 1)
         for (const { line, params } of clientCalls) check(route, params, line);
       }
     }

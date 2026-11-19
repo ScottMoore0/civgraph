@@ -33,7 +33,7 @@ export function licenceSlice(ledger) {
       return { id: s.id, publisher: s.publisher, rights: s.rights, title: w.title, ...(w.url ? { url: w.url } : {}), hosts: [...(s.match?.hosts || [])].sort() };
     })
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
-  const own = RIGHTS['CC-BY-4.0'];
+  const own = /** @type {(typeof RIGHTS)[string]} */ (RIGHTS['CC-BY-4.0']);
   return `${JSON.stringify({
     schemaVersion: 1,
     about: 'The licence of each source the Elections widget may cite, by the hosts its links are on: a slice of data/database/source-ledger.json written by scripts/build/elections-app/embed-licences.mjs.',

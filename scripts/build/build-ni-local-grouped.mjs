@@ -266,15 +266,15 @@ export function editDistance(a, b) {
   const s = String(a);
   const t = String(b);
   const d = Array.from({ length: s.length + 1 }, (_, i) => [i, ...Array(t.length).fill(0)]);
-  for (let j = 1; j <= t.length; j += 1) d[0][j] = j;
+  for (let j = 1; j <= t.length; j += 1) /** @type {(typeof d)[number]} */ (d[0])[j] = j;
   for (let i = 1; i <= s.length; i += 1) {
     for (let j = 1; j <= t.length; j += 1) {
       const cost = s[i - 1] === t[j - 1] ? 0 : 1;
-      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
-      if (i > 1 && j > 1 && s[i - 1] === t[j - 2] && s[i - 2] === t[j - 1]) d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+      /** @type {(typeof d)[number]} */ (d[i])[j] = Math.min(/** @type {(typeof d)[number]} */ (d[i - 1])[j] + 1, /** @type {(typeof d)[number]} */ (d[i])[j - 1] + 1, /** @type {(typeof d)[number]} */ (d[i - 1])[j - 1] + cost);
+      if (i > 1 && j > 1 && s[i - 1] === t[j - 2] && s[i - 2] === t[j - 1]) /** @type {(typeof d)[number]} */ (d[i])[j] = Math.min(/** @type {(typeof d)[number]} */ (d[i])[j], /** @type {(typeof d)[number]} */ (d[i - 2])[j - 2] + 1);
     }
   }
-  return d[s.length][t.length];
+  return /** @type {(typeof d)[number]} */ (d[s.length])[t.length];
 }
 
 /**
@@ -309,7 +309,7 @@ function featureKeys(label, stem = '') {
 function chooseEdition(level, date, mapsById, layerFeatures) {
   // The level is one of NI_LOCAL_LEVEL_IDS, each a key here.
   /** @type {LevelSpec} */
-  const spec = /** @type {Readonly<Record<string, LevelSpec>>} */ (LEVEL_EDITIONS)[level];
+  const spec = /** @type {LevelSpec} */ (/** @type {Readonly<Record<string, LevelSpec>>} */ (LEVEL_EDITIONS)[level]);
   const pool = spec.all || (date < '1921-05-03' ? spec.before1921 : spec.after1921);
   const editions = pool
     .filter((id) => layerFeatures[id])
@@ -317,7 +317,7 @@ function chooseEdition(level, date, mapsById, layerFeatures) {
     .sort((a, b) => a.date.localeCompare(b.date));
   if (!editions.length) return null;
   const before = editions.filter((edition) => edition.date <= date);
-  return before.length ? before[before.length - 1] : editions[0];
+  return before.length ? /** @type {(typeof before)[number]} */ (before[before.length - 1]) : /** @type {(typeof editions)[number]} */ (editions[0]);
 }
 
 /** @param {BundleCandidate} candidate */
@@ -527,7 +527,7 @@ function main() {
       });
     }
 
-    const firstDate = rounds.map((round) => round.date).sort()[0];
+    const firstDate = /** @type {string} */ (rounds.map((round) => round.date).sort()[0]);
     /** @type {Record<string, GroupedLevel>} */
     const levels = {};
     for (const level of NI_LOCAL_LEVEL_IDS) {
@@ -675,7 +675,7 @@ function buildLevel(level, { firstDate, rounds, missing, mapsById, renderBySourc
   if (!edition) {
     return { available: false, reason: 'No boundary layer for this level', features: empty, unplaced: [] };
   }
-  const layer = layerFeatures[edition.id];
+  const layer = /** @type {Layer} */ (layerFeatures[edition.id]);
   const render = renderBySource.get(edition.id);
   const features = layer.features.map((feature) => ({ ...feature, matchKey: feature.key || feature.label }));
 
@@ -724,7 +724,7 @@ function buildLevel(level, { firstDate, rounds, missing, mapsById, renderBySourc
       return { fi, best };
     }).sort((a, b) => a.best - b.best);
     const limit = target.length >= 8 ? 2 : 1;
-    if (scored.length && scored[0].best <= limit && (scored.length === 1 || scored[1].best > scored[0].best)) return scored[0].fi;
+    if (scored.length && /** @type {(typeof scored)[number]} */ (scored[0]).best <= limit && (scored.length === 1 || /** @type {(typeof scored)[number]} */ (scored[1]).best > /** @type {(typeof scored)[number]} */ (scored[0]).best)) return /** @type {(typeof scored)[number]} */ (scored[0]).fi;
     return null;
   };
 
@@ -839,7 +839,7 @@ function buildLevel(level, { firstDate, rounds, missing, mapsById, renderBySourc
       ? 'Results held back in review'
       : 'No results yet, though an election was held';
     for (const fi of authorityFeatures(item.bodySlug, item.county)) {
-      if (!(placements.get(fi) || []).some(([r]) => Boolean(rounds[r].aldermen) === Boolean(item.aldermen))) hatch(fi, why, view);
+      if (!(placements.get(fi) || []).some(([r]) => Boolean(/** @type {GroupedRound} */ (rounds[r]).aldermen) === Boolean(item.aldermen))) hatch(fi, why, view);
       else if (aggregate) hatch(fi, why, view);
     }
   }
@@ -848,14 +848,14 @@ function buildLevel(level, { firstDate, rounds, missing, mapsById, renderBySourc
   const buildView = (view) => {
     const wantAldermen = view === 'aldermen';
     return features.map((feature, fi) => {
-      const refs = (placements.get(fi) || []).filter(([ri, ci]) => Boolean(rounds[ri].contests[ci].aldermen || rounds[ri].aldermen) === wantAldermen);
+      const refs = (placements.get(fi) || []).filter(([ri, ci]) => Boolean(/** @type {CompactContest} */ (/** @type {GroupedRound} */ (rounds[ri]).contests[ci]).aldermen || /** @type {GroupedRound} */ (rounds[ri]).aldermen) === wantAldermen);
       /** @type {Record<string, number>} */
       const seats = {};
       /** @type {Record<string, number>} */
       const votes = {};
       let contested = 0;
       for (const [ri, ci] of refs) {
-        const contest = rounds[ri].contests[ci];
+        const contest = /** @type {CompactContest} */ (/** @type {GroupedRound} */ (rounds[ri]).contests[ci]);
         for (const [, party, , vote, elected] of contest.cands) {
           if (elected) addTo(seats, party, 1);
           if (contest.contested && vote !== null) addTo(votes, party, vote);

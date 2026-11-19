@@ -42,7 +42,7 @@ import { crawlHeaders } from '@civgraph/config/node';
  * @param {T} fallback
  * @returns {string | T}
  */
-const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
+const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? /** @type {string} */ (process.argv[i + 1]) : fallback; };
 // Same cache as build-place-name-crosswalk.mjs: CIVGRAPH_I18N_CACHE, --cache, or tmp/i18n-cache.
 const CACHE = arg('--cache', process.env.CIVGRAPH_I18N_CACHE || path.join('tmp', 'i18n-cache'));
 const LIMIT = Number(arg('--limit', 0)) || Infinity;
@@ -60,7 +60,7 @@ if (!existsSync(crosswalk)) {
 /** @type {Map<string, { layer: string, english: string, irish: string }>} Logainm id -> its first crosswalk row */
 const ids = new Map();
 for (const line of readFileSync(crosswalk, 'utf8').split('\n').slice(1)) {
-  const [layer, , english, irish, logainm] = line.split('\t');
+  const [layer, , english, irish, logainm] = /** @type {[string, string, string, string, string]} */ (line.split('\t'));
   const id = String(logainm || '').trim();
   if (/^\d+$/.test(id) && !ids.has(id)) ids.set(id, { layer, english, irish });
 }

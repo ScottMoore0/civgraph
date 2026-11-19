@@ -1125,11 +1125,11 @@ function addHistoryOfParliament(id, item) {
     subjectId: id,
     propertyId: PROP.historyOfParliament,
     value: urlValue(page.url),
-    references: [refs[i]]
+    references: [/** @type {(typeof refs)[number]} */ (refs[i])]
   }));
   // The seats he held and when, each referenced to the page that lists it.
   for (const seat of normalizeArray(item.seatsHeld)) {
-    const ref = refs[pages.findIndex((page) => page.url === seat.source)] || refs[0];
+    const ref = refs[pages.findIndex((page) => page.url === seat.source)] || /** @type {(typeof refs)[number]} */ (refs[0]);
     addStatement({
       subjectId: id,
       propertyId: PROP.seatHeld,
@@ -2131,13 +2131,13 @@ function isLikelyUrl(value) {
 
 /** @param {unknown} value */
 function inferFileName(value) {
-  const text = cleanText(value).split('?')[0];
+  const text = /** @type {string} */ (cleanText(value).split('?')[0]);
   return text.split(/[\\/]/).filter(Boolean).pop() || '';
 }
 
 /** @param {unknown} value */
 function inferFormat(value) {
-  const text = cleanText(value).split('?')[0].toLowerCase();
+  const text = /** @type {string} */ (cleanText(value).split('?')[0]).toLowerCase();
   const extension = text.match(/\.([a-z0-9]{2,8})$/)?.[1];
   if (extension) return extension.toUpperCase();
   const known = ['GeoJSON', 'KML', 'ZIP', 'CSV', 'PDF', 'PNG', 'JPG', 'JPEG', 'WEBP', 'FGB', 'PMTILES', 'MBTILES'];
@@ -2434,7 +2434,7 @@ async function writeLookupIndex({ browseMapping, entitySummaries, bySlug, subjec
     const count = LOOKUP_BUCKETS[kind];
     /** @type {Record<string, unknown>[]} */
     const buckets = Array.from({ length: count }, () => ({}));
-    for (const [key, value] of entries) buckets[lookupBucket(key, count)][key] = value;
+    for (const [key, value] of entries) /** @type {Record<string, unknown>} */ (buckets[lookupBucket(key, count)])[key] = value;
     for (let index = 0; index < count; index += 1) {
       await writeJson(path.join(dir, kind, `${String(index).padStart(4, '0')}.json`), {
         schemaVersion: 1, generatedAt: GENERATED_AT, items: buckets[index]
@@ -2491,7 +2491,7 @@ async function writeIndexParts(name, collections, shape) {
   });
   for (let i = 0; i < INDEX_PARTS; i += 1) {
     // a map's piece is a list of its entries
-    const pieces = split.map((pieceList, k) => (Array.isArray(collections[k]) ? pieceList[i] : Object.fromEntries(/** @type {[string, unknown][]} */ (pieceList[i]))));
+    const pieces = split.map((pieceList, k) => (Array.isArray(collections[k]) ? /** @type {unknown[]} */ (pieceList[i]) : Object.fromEntries(/** @type {[string, unknown][]} */ (pieceList[i]))));
     const file = `${name}-part-${i}.json`;
     await writeJson(path.join(OUTPUT_DIR, 'indexes', file), { schemaVersion: 1, generatedAt: GENERATED_AT, part: i, ...shape(pieces) }, { pretty: false });
     urls.push(`/data/graph/indexes/${file}`);
@@ -2598,7 +2598,7 @@ async function writeReverseEntityValueIndex(statements, entitySummaryById) {
     const subjectSummary = entitySummaryById[statement.subjectId];
     if (!valueSummary || !subjectSummary) continue;
     if (!byValue[statement.value.id]) byValue[statement.value.id] = [];
-    byValue[statement.value.id].push(compactObject({
+    /** @type {Relation[]} */ (byValue[statement.value.id]).push(compactObject({
       statementId: statement.id,
       subjectId: statement.subjectId,
       subjectSlug: subjectSummary.slug,
@@ -2625,7 +2625,7 @@ async function writeSourceStatementIndex(statements, entitySummaryById) {
     for (const reference of normalizeArray(statement.references)) {
       if (!reference.sourceId || !entitySummaryById[reference.sourceId]) continue;
       if (!bySource[reference.sourceId]) bySource[reference.sourceId] = [];
-      bySource[reference.sourceId].push(compactObject({
+      /** @type {Relation[]} */ (bySource[reference.sourceId]).push(compactObject({
         statementId: statement.id,
         subjectId: statement.subjectId,
         subjectSlug: subjectSummary.slug,
@@ -3136,7 +3136,7 @@ function buildCompactStatementsBySubject(sortedStatements, allowedSubjectIds) {
       references: normalizeArray(statement.references).slice(0, COMPACT_REFERENCE_LIMIT).map(compactReference)
     });
     if (!bySubject[statement.subjectId]) bySubject[statement.subjectId] = [];
-    bySubject[statement.subjectId].push(compact);
+    /** @type {Record<string, unknown>[]} */ (bySubject[statement.subjectId]).push(compact);
   }
   return sortObjectByKey(bySubject);
 }
@@ -3160,9 +3160,9 @@ async function writeSubjectStatementShards(compactBySubject) {
   const shards = [];
   /** @type {[string, Record<string, unknown>[]][][]} */
   const buckets = Array.from({ length: SUBJECT_STATEMENT_BUCKETS }, () => []);
-  for (const entry of entries) buckets[lookupBucket(entry[0], SUBJECT_STATEMENT_BUCKETS)].push(entry);
+  for (const entry of entries) /** @type {[string, Record<string, unknown>[]][]} */ (buckets[lookupBucket(entry[0], SUBJECT_STATEMENT_BUCKETS)]).push(entry);
   for (let shardIndex = 0; shardIndex < buckets.length; shardIndex += 1) {
-    const chunk = buckets[shardIndex];
+    const chunk = /** @type {[string, Record<string, unknown>[]][]} */ (buckets[shardIndex]);
     if (!chunk.length) continue;
     const items = Object.fromEntries(chunk);
     const name = `statements-by-subject-${String(shardIndex).padStart(4, '0')}.json`;

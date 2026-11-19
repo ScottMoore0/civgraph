@@ -22,7 +22,7 @@ import { createWriteStream, existsSync, mkdirSync, readFileSync, writeFileSync }
 import path from 'node:path';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 
-const arg = (/** @type {string} */ name, /** @type {string} */ fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
+const arg = (/** @type {string} */ name, /** @type {string} */ fallback) => { const i = process.argv.indexOf(name); return i > 0 ? /** @type {string} */ (process.argv[i + 1]) : fallback; };
 // Large cache: outside the repository. Set CIVGRAPH_I18N_CACHE (the owner's machine keeps it on a
 // data drive) or pass --cache; the default is the gitignored tmp/ folder.
 const CACHE = arg('--cache', process.env.CIVGRAPH_I18N_CACHE || path.join('tmp', 'i18n-cache'));

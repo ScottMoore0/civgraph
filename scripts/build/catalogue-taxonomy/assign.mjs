@@ -8,7 +8,7 @@
 import fs from 'fs';
 
 /** @type {Row[]} */
-const rows = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+const rows = JSON.parse(fs.readFileSync(/** @type {string} */ (process.argv[2]), 'utf8'));
 
 // kind: 'Boundary' = reference geography you drape other things on.
 //       'Dataset'  = something observed, recorded or proposed at a place.
@@ -85,7 +85,7 @@ const CORRECTIONS = {
 const applied = new Set();
 /** @typedef {{ id: string, name: string, keywords?: unknown, why?: string }} Row */
 const assign = (/** @type {Row} */ r) => {
-  if (CORRECTIONS[r.name]) { applied.add(r.name); return CORRECTIONS[r.name]; }
+  if (CORRECTIONS[r.name]) { applied.add(r.name); return /** @type {string} */ (CORRECTIONS[r.name]); }
   const hay = `${r.name} ${r.keywords}`;
   for (const [subject, re] of RULES) if (re.test(hay)) return subject;
   return 'REVIEW';
@@ -95,7 +95,7 @@ const out = rows.map((/** @type {Row} */ r) => {
   const subject = assign(r);
   return { id: r.id, name: r.name, subject, kind: subject === 'REVIEW' ? '' : kindOf(subject), from: r.why };
 });
-fs.writeFileSync(process.argv[3], JSON.stringify(out, null, 1));
+fs.writeFileSync(/** @type {string} */ (process.argv[3]), JSON.stringify(out, null, 1));
 
 const missed = Object.keys(CORRECTIONS).filter(k => !applied.has(k));
 if (missed.length) console.log('!! corrections that matched no row:', missed);

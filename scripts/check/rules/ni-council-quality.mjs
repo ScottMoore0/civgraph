@@ -285,7 +285,7 @@ function detectStructure(contest) {
   if (voted.length === cands.length && cands.length > seats && elected.length === seats) {
     // every candidate has a vote here (voted.length === cands.length)
     const sorted = /** @type {VotedCandidate[]} */ ([...cands]).sort((a, b) => b.votes - a.votes);
-    const cut = sorted[seats - 1].votes;
+    const cut = /** @type {VotedCandidate} */ (sorted[seats - 1]).votes;
     const wrong = /** @type {VotedCandidate[]} */ (cands).filter((c) => (c.elected && c.votes < cut) || (!c.elected && c.votes > cut));
     // A single-seat STV or an alderman/councillor split can legitimately break this; still a lead.
     if (wrong.length && !num(info.Quota)) {
@@ -312,8 +312,8 @@ function detectArithmetic(contest) {
   if (majority !== null && seats >= 1) {
     // Papers print a multi-seat majority either over the last elected or over the top elected
     // (the Belfast Telegraph's tables): either reading reconciles.
-    const diff = sorted[seats - 1].votes - sorted[seats].votes;
-    const fromTop = sorted[0].votes - sorted[seats].votes;
+    const diff = /** @type {VotedCandidate} */ (sorted[seats - 1]).votes - /** @type {VotedCandidate} */ (sorted[seats]).votes;
+    const fromTop = /** @type {VotedCandidate} */ (sorted[0]).votes - /** @type {VotedCandidate} */ (sorted[seats]).votes;
     results.push(['majority', diff === majority || fromTop === majority, `printed majority ${majority}, votes give ${diff}${seats > 1 ? ` (or ${fromTop} from the top)` : ''}`]);
   }
   const valid = num(info.Valid_Poll);
@@ -326,8 +326,8 @@ function detectArithmetic(contest) {
   }
   if (total !== null && seats > 1) {
     // Each voter has up to `seats` votes: the poll lies between the top vote and the sum/seats.
-    const ok = total >= sorted[0].votes && total * seats >= sum;
-    results.push(['total poll', ok, `total poll ${total} for ${seats} seats, top vote ${sorted[0].votes}, votes sum to ${sum}`]);
+    const ok = total >= /** @type {VotedCandidate} */ (sorted[0]).votes && total * seats >= sum;
+    results.push(['total poll', ok, `total poll ${total} for ${seats} seats, top vote ${/** @type {VotedCandidate} */ (sorted[0]).votes}, votes sum to ${sum}`]);
   }
   const electorate = num(info.Total_Electorate);
   if (electorate && total !== null) results.push(['electorate', total <= electorate, `total poll ${total}, electorate ${electorate}`]);
@@ -340,7 +340,7 @@ function detectRegisterVote(contest) {
   const note = contest.data.correctionNote || '';
   const re = /([^:;]+?)'s vote is ([\d,]+) as the register records it \(previously ([\d,]+)/g;
   for (const m of note.matchAll(re)) {
-    const who = m[1].trim();
+    const who = /** @type {string} */ (m[1]).trim();
     const now = num(m[2]);
     const before = num(m[3]);
     const results = detectArithmeticQuiet(contest);
@@ -465,14 +465,14 @@ const MONTHS = { january: 1, february: 2, march: 3, april: 4, may: 5, june: 6, j
 /** @param {BundleSource | undefined} source */
 export function citationParts(source) {
   const title = String(source?.title || '');
-  const first = title.split(/;\s/)[0];
+  const first = /** @type {string} */ (title.split(/;\s/)[0]);
   const date = first.match(/(\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})/);
   const page = /\bpp?\.\s*\d/.test(first);
   const proni = /\bPRONI\b|\bLA\/\d|\bD\/\d/.test(title);
-  const paper = first.split(',')[0].trim();
+  const paper = /** @type {string} */ (first.split(',')[0]).trim();
   return {
     paper,
-    date: date ? `${date[3]}-${String(MONTHS[date[2].toLowerCase()]).padStart(2, '0')}-${date[1].padStart(2, '0')}` : '',
+    date: date ? `${date[3]}-${String(MONTHS[/** @type {string} */ (date[2]).toLowerCase()]).padStart(2, '0')}-${/** @type {string} */ (date[1]).padStart(2, '0')}` : '',
     page,
     proni,
     url: source?.url || (source?.urls || [])[0] || ''
@@ -525,11 +525,11 @@ function detectAreas(contests) {
     /** @type {Contest[]} */ (byRound.get(key)).push(c);
   }
   for (const [key, list] of byRound) {
-    const [body, round] = key.split('__');
+    const [body, round] = /** @type {[string, string]} */ (key.split('__'));
     const expected = completeness[key]?.expected;
     const stated = statusExpected.get(key);
-    if (expected && list.length > expected) add(list[0], 'areas-over', 'high', `${list.length} divisions in the round, round-completeness expects ${expected}`);
-    if (stated && list.length > stated) add(list[0], 'areas-over', 'high', `${list.length} divisions in the round, the intake's round status expects ${stated}`);
+    if (expected && list.length > expected) add(/** @type {Contest} */ (list[0]), 'areas-over', 'high', `${list.length} divisions in the round, round-completeness expects ${expected}`);
+    if (stated && list.length > stated) add(/** @type {Contest} */ (list[0]), 'areas-over', 'high', `${list.length} divisions in the round, the intake's round status expects ${stated}`);
     if (body.endsWith('-rural-district-council') && /^\d{4}-\d{2}-\d{2}$/.test(round)) {
       const edition = round < '1930-04-01' ? 'ded-1921-05-03' : 'ded-1930-04-01';
       const stems = authorityStems(body);
@@ -544,7 +544,7 @@ function detectAreas(contests) {
       // divisions than either. Only a count above both editions and any stated count is a lead.
       const most = Math.max(deds.length, ofDistrict('ded-1921-05-03').length, ofDistrict('ded-1930-04-01').length);
       if (most && list.length > most && !(stated && list.length <= stated) && !(expected && list.length <= expected)) {
-        add(list[0], 'areas-over', 'medium', `${list.length} divisions in the round; the DED boundary editions have at most ${most} for this district`);
+        add(/** @type {Contest} */ (list[0]), 'areas-over', 'medium', `${list.length} divisions in the round; the DED boundary editions have at most ${most} for this district`);
       }
       if (deds.length) {
         /** @param {string} k */
@@ -607,7 +607,7 @@ function fullInitials(firstname) {
   if (!s || initialsOf(s)) return '';
   const words = s.split(/[\s.]+/).filter(Boolean);
   if (!words.some((w) => w.length >= 3 && !/^(wm|jas|thos|geo|chas|robt|jno|saml|edw|hy|alex|benj|danl|richd|wal|fras|patk|michl|jos)$/i.test(w))) return '';
-  return words.map((w) => w[0].toLowerCase()).join('');
+  return words.map((w) => /** @type {string} */ (w[0]).toLowerCase()).join('');
 }
 
 /**
@@ -665,7 +665,7 @@ export function initialsOnlyFindings(contests, personOf) {
           if (mine !== null && other !== null && other !== undefined) split = `; the registry holds them as two people (${mine}, ${other})`;
         }
         near = same.length ? same : near;
-        const best = near[0];
+        const best = /** @type {(typeof near)[number]} */ (near[0]);
         // Two different written-out forenames for the same initials are two men, or a guess: a lead only.
         out.push({ contest, type: 'name-initials', severity: split && same.length && forms.length === 1 ? 'medium' : 'low',
           detail: `printed "${cand.Firstname} ${cand.Surname}"; ${best.cand.candidateName} in ${best.contest.round} ${best.contest.area}${same.length ? ' (same division)' : ''}${forms.length > 1 ? `; also ${forms.slice(1, 3).join(', ')}` : ''}${split}`,
@@ -687,7 +687,7 @@ export function citedDates(source) {
   /** @type {string[]} */
   const out = [];
   for (const m of String(source?.title || '').matchAll(/(\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})/g)) {
-    out.push(`${m[3]}-${String(MONTHS[m[2].toLowerCase()]).padStart(2, '0')}-${m[1].padStart(2, '0')}`);
+    out.push(`${m[3]}-${String(MONTHS[/** @type {string} */ (m[2]).toLowerCase()]).padStart(2, '0')}-${/** @type {string} */ (m[1]).padStart(2, '0')}`);
   }
   return out;
 }
@@ -719,14 +719,14 @@ export function pollDateFindings(contests, countyOf) {
   /** @type {Map<string, Contest[]>} largest round per body and year */
   const main = new Map();
   for (const list of rounds.values()) {
-    const k = `${list[0].body}__${list[0].year}`;
+    const k = `${/** @type {Contest} */ (list[0]).body}__${/** @type {Contest} */ (list[0]).year}`;
     const have = main.get(k);
     if (!have || list.length > have.length) main.set(k, list);
   }
   /** @type {Map<string, { body: string, date: string, list: Contest[] }[]>} */
   const groups = new Map();
   for (const list of main.values()) {
-    const { body, year, round } = list[0];
+    const { body, year, round } = /** @type {Contest} */ (list[0]);
     let g = '';
     if (CC_RD.test(body)) g = `ccrd|${countyOf(body) || '?'}|${year}`;
     else if (ANNUAL.test(body.replace(/-aldermen$/, ''))) g = `town|${year}`;
@@ -741,13 +741,13 @@ export function pollDateFindings(contests, countyOf) {
     /** @type {Map<string, number>} */
     const tally = new Map();
     for (const x of arr) tally.set(x.date, (tally.get(x.date) || 0) + 1);
-    const modal = [...tally].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0][0];
+    const modal = /** @type {[string, number]} */ ([...tally].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0])[0];
     if (g.startsWith('ccrd|')) {
       const cc = arr.find((x) => x.body.endsWith('-county-council'));
       const ref = cc ? cc.date : modal;
       for (const x of arr) {
         if (x.date === ref) continue;
-        out.push({ contest: x.list[0], type: 'poll-date', severity: 'medium',
+        out.push({ contest: /** @type {Contest} */ (x.list[0]), type: 'poll-date', severity: 'medium',
           detail: `round filed on ${x.date}; the county's ${cc ? 'county council' : 'other districts'} polled ${ref} (CC and RDs polled the same day)` });
       }
     } else {
@@ -755,7 +755,7 @@ export function pollDateFindings(contests, countyOf) {
       for (const x of arr) {
         const days = Math.abs(Date.parse(x.date) - Date.parse(modal)) / 86400000;
         if (days > 7 && !x.list.some((c) => /by-?election|casual vacancy|first election|incorporat|postpone|\(not \d{1,2} \w+ \d{4}\)/i.test(String(c.data.note || '')))) {
-          out.push({ contest: x.list[0], type: 'poll-date', severity: 'low', detail: `town round filed on ${x.date}; ${tally.get(modal)} towns polled ${modal} that year` });
+          out.push({ contest: /** @type {Contest} */ (x.list[0]), type: 'poll-date', severity: 'low', detail: `town round filed on ${x.date}; ${tally.get(modal)} towns polled ${modal} that year` });
         }
       }
     }
@@ -848,7 +848,7 @@ export function rankContests(list, reviewed = new Map()) {
   /** @type {RankedContest[]} */
   const rows = [];
   for (const [file, fs_] of byFile) {
-    const c = fs_[0].contest;
+    const c = /** @type {NewFinding} */ (fs_[0]).contest;
     /** @type {Map<string, number>} best odds per type */
     const best = new Map();
     for (const f of fs_) best.set(f.type, Math.max(best.get(f.type) || 0, odds(f.type, f.severity)));
@@ -898,7 +898,7 @@ function readReviewed(files) {
   for (const file of files) {
     if (!fs.existsSync(file)) continue;
     const lines = fs.readFileSync(file, 'utf8').split(/\r?\n/);
-    const header = lines[0].split(',');
+    const header = /** @type {string} */ (lines[0]).split(',');
     const iFile = header.indexOf('file');
     const iTypes = header.indexOf('flag_types');
     const iAction = header.indexOf('action');
@@ -1082,7 +1082,7 @@ function detectOcr(contest, index, corpus, roundAreas) {
         const extra = [];
         for (const v of block.matchAll(/\b([A-Z][a-zA-Z']{2,})[,.]?\s*(?:\([^)]{1,30}\))?[\s.,:-]{0,6}(\d{1,2},?\d{3}|\d{2,4})\b/g)) {
           const s = surnameKey(v[1]);
-          const n = Number(v[2].replace(/,/g, ''));
+          const n = Number(/** @type {string} */ (v[2]).replace(/,/g, ''));
           if (n < 10 || (n >= 1880 && n <= 1975) || have.has(s) || STOP_TOKENS.has(s) || placeTokens.has(s) || (corpus.get(s) || 0) < 2) continue;
           if ([...have].some((h) => editDistance(h, s) <= 1)) continue;
           extra.push(`${v[1]} ${v[2]}`);
@@ -1188,7 +1188,7 @@ async function main() {
   const originCsv = option('--origin-csv');
   if (originCsv) {
     const lines = fs.readFileSync(originCsv, 'utf8').split(/\r?\n/);
-    const header = lines[0].split(',');
+    const header = /** @type {string} */ (lines[0]).split(',');
     const col = header.indexOf('live_file');
     for (const line of lines.slice(1)) {
       const cells = line.match(/("([^"]|"")*"|[^,]*)(,|$)/g)?.map((x) => x.replace(/,$/, '').replace(/^"|"$/g, '')) || [];

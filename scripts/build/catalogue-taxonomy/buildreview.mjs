@@ -1,7 +1,7 @@
 // Build a self-contained review page for the subject assignment.
 import fs from 'fs';
-const rows = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
-const OUT = process.argv[3];
+const rows = JSON.parse(fs.readFileSync(/** @type {string} */ (process.argv[2]), 'utf8'));
+const OUT = /** @type {string} */ (process.argv[3]);
 
 /** @typedef {{ name: string, subject: string, kind: string, from: string }} Row */
 /** @type {Map<string, Row[]>} */
@@ -11,7 +11,7 @@ for (const r of rows) {
   /** @type {Row[]} */ (bySubject.get(r.subject)).push(r);
 }
 const subjects = [...bySubject.entries()]
-  .map(([name, items]) => ({ name, kind: items[0].kind, items: items.sort((a, b) => a.name.localeCompare(b.name)) }))
+  .map(([name, items]) => ({ name, kind: /** @type {Row} */ (items[0]).kind, items: items.sort((a, b) => a.name.localeCompare(b.name)) }))
   .sort((a, b) => (a.kind === b.kind ? b.items.length - a.items.length : a.kind === 'Boundary' ? -1 : 1));
 
 // rows carry where they came from as "<prefix>:<label>" -- a publisher-named card, a

@@ -23,7 +23,7 @@ export function charterProblems(text, known) {
   lines.forEach((line, i) => {
     const m = line.match(/^\*\*R(\d+)\.\s/);
     if (m) rules.push({ n: Number(m[1]), line: i + 1, body: [] });
-    else if (rules.length && !/^#{1,3} /.test(line)) rules[rules.length - 1].body.push(line);
+    else if (rules.length && !/^#{1,3} /.test(line)) /** @type {(typeof rules)[number]} */ (rules[rules.length - 1]).body.push(line);
     else if (/^#{1,3} /.test(line) && rules.length) rules.push({ n: -1, line: i + 1, body: [] }); // a heading closes the rule
   });
   const real = rules.filter((r) => r.n > 0);
@@ -33,8 +33,8 @@ export function charterProblems(text, known) {
   for (const rule of real) {
     const checked = rule.body.find((l) => /Checked by\b/i.test(l));
     if (!checked) { out.push([rule.line, `R${rule.n} has no "Checked by" line`]); continue; }
-    const names = [...checked.matchAll(/`([^`]+)`/g)].map((m) => m[1]);
-    const scripts = names.filter((n) => /^(check|test|lint)(:|$)/.test(n));
+    const names = [...checked.matchAll(/`([^`]+)`/g)].map((m) => /** @type {string} */ (m[1]));
+    const scripts = /** @type {string[]} */ (names.filter((n) => /^(check|test|lint)(:|$)/.test(n)));
     const ids = [...checked.matchAll(/\bC(\d+)\b/g)].map((m) => `C${m[1]}`);
     const exists = (/** @type {string} */ s) => (s.endsWith('*') ? Object.keys(known.scripts).some((k) => k.startsWith(s.slice(0, -1))) : Boolean(known.scripts[s]));
     for (const s of scripts) if (!exists(s)) out.push([rule.line, `R${rule.n} names ${s}, which is not an npm script`]);

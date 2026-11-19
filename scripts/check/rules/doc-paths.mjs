@@ -102,12 +102,12 @@ for (const doc of DOCS) {
   const seen = new Set();
 
   for (const match of text.matchAll(CANDIDATE)) {
-    const raw = match[1];
+    const raw = /** @type {string} */ (match[1]);
     const p = raw.replace(/\/$/, '');
     if (seen.has(p)) continue;
     seen.add(p);
 
-    if (!ROOTS.has(p.split('/')[0])) continue;         // not a repo path
+    if (!ROOTS.has(/** @type {string} */ (p.split('/')[0]))) continue;         // not a repo path
     if (/[*?]/.test(p)) continue;                       // glob, nothing to assert
     if (TOLERATED_PREFIXES.some((t) => `${p}/`.startsWith(t))) continue;
     if (NEGATED.test(lineContaining(text, match.index))) continue;
@@ -139,7 +139,7 @@ if (existsSync('README.md')) {
     problems.push(`README.md: "${TABLE_HEADING}" section is gone — the canonical layout table lived there`);
   } else {
     const section = text.slice(start, text.indexOf('\n## ', start + 1) >>> 0 || undefined);
-    for (const [, raw] of section.matchAll(/\|\s*`([^`]+)`\s*\|/g)) {
+    for (const [, raw] of /** @type {Iterable<[string, string]>} */ (section.matchAll(/\|\s*`([^`]+)`\s*\|/g))) {
       // Test the RAW value for being a path, THEN strip the trailing slash.
       //
       // Doing it the other way round turned `app/` into `app`, which contains no

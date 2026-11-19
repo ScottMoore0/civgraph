@@ -77,7 +77,7 @@ export function bodiesTables(db) {
 
   const irishFiles = irishCouncilByFile();
   const printed = [...new Set([...irishFiles.entries()].map(([file, name]) => `${name}\u0000${file.split('/').at(-2)}`))].map((s) => {
-    const [name, date] = s.split('\u0000');
+    const [name, date] = /** @type {[string, string]} */ (s.split('\u0000'));
     return { name, date };
   });
   const irish = irishCouncilUnits(registry, printed);

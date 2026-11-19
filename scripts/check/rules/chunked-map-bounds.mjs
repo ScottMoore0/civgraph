@@ -47,7 +47,7 @@ function asFiniteNumber(value) {
 function isValidBbox(value) {
   if (!Array.isArray(value) || value.length !== 4) return false;
   // a null (not a finite number) returns false on the next line
-  const [west, south, east, north] = /** @type {number[]} */ (value.map(asFiniteNumber));
+  const [west, south, east, north] = /** @type {[number, number, number, number]} */ (/** @type {number[]} */ (value.map(asFiniteNumber)));
   if ([west, south, east, north].some((number) => number === null)) return false;
   if (!(west < east && south < north)) return false;
   if (west < IRELAND_BBOX_LIMITS.west || east > IRELAND_BBOX_LIMITS.east) return false;
@@ -110,10 +110,10 @@ function unionBboxes(bboxes) {
   return bboxes.reduce((/** @type {number[] | null} */ bbox, values) => {
     if (!bbox) return [...values];
     return [
-      Math.min(bbox[0], values[0]),
-      Math.min(bbox[1], values[1]),
-      Math.max(bbox[2], values[2]),
-      Math.max(bbox[3], values[3])
+      Math.min(/** @type {number} */ (bbox[0]), /** @type {number} */ (values[0])),
+      Math.min(/** @type {number} */ (bbox[1]), /** @type {number} */ (values[1])),
+      Math.max(/** @type {number} */ (bbox[2]), /** @type {number} */ (values[2])),
+      Math.max(/** @type {number} */ (bbox[3]), /** @type {number} */ (values[3]))
     ];
   }, null);
 }

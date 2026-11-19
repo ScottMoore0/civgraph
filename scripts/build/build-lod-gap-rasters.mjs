@@ -174,7 +174,7 @@ function computeBboxFromFeatures(features, fallbackBbox) {
  * @param {number} targetWidth
  */
 function rasterizeGapFeatures(features, bbox, color, targetWidth) {
-    const [minX, minY, maxX, maxY] = bbox;
+    const [minX, minY, maxX, maxY] = /** @type {[number, number, number, number]} */ (bbox);
     const geoW = maxX - minX;
     const geoH = maxY - minY;
     const aspect = geoH / geoW;
@@ -204,7 +204,7 @@ function rasterizeGapFeatures(features, bbox, color, targetWidth) {
                 if (!ring || ring.length < 3) continue;
                 ctx.beginPath();
                 for (let i = 0; i < ring.length; i++) {
-                    const [px, py] = project(ring[i][0], ring[i][1]);
+                    const [px, py] = /** @type {[number, number]} */ (project(/** @type {number} */ (/** @type {import("geojson").Position} */ (ring[i])[0]), /** @type {number} */ (/** @type {import("geojson").Position} */ (ring[i])[1])));
                     if (i === 0) ctx.moveTo(px, py);
                     else ctx.lineTo(px, py);
                 }

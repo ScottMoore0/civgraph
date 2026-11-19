@@ -92,7 +92,7 @@ for (const [en, ga] of readPairs('data/i18n/strings/general.txt')) add(en, ga);
 // Provinces inside a name read as the province ("Leinster District Electoral Divisions").
 const PLACES = new Map(readPairs('data/i18n/strings/general.txt').filter(([en]) => !/^(January|February|March|April|May|June|July|August|September|October|November|December)$/.test(en)));
 // arch-ok R6: place names with their Irish forms (the overlay's translation glossary), not council bodies
-for (const extra of [['Belfast', 'Béal Feirste'], ['Derry', 'Doire'], ['Newry & Mourne', 'An tIúr agus Múrna'], ['Leinster', 'Cúige Laighean'], ['Munster', 'Cúige Mumhan'], ['Connacht', 'Cúige Chonnacht'], ['Ulster', 'Cúige Uladh']]) PLACES.set(extra[0], extra[1]);
+for (const extra of [['Belfast', 'Béal Feirste'], ['Derry', 'Doire'], ['Newry & Mourne', 'An tIúr agus Múrna'], ['Leinster', 'Cúige Laighean'], ['Munster', 'Cúige Mumhan'], ['Connacht', 'Cúige Chonnacht'], ['Ulster', 'Cúige Uladh']]) PLACES.set(/** @type {string} */ (extra[0]), /** @type {string} */ (extra[1]));
 const phrases = [...glossary.keys()].sort((a, b) => b.length - a.length);
 const placeNames = [...PLACES.keys()].sort((a, b) => b.length - a.length);
 
@@ -121,10 +121,10 @@ function compose(text) {
     let m;
     if ((m = /^\s+/.exec(s))) { out += ' '; s = s.slice(m[0].length); continue; }
     if ((m = /^(\d{1,2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{4})\b/.exec(s))) {
-      out += `${m[1]} ${gaShort[SHORT.indexOf(m[2])]} ${m[3]}`; s = s.slice(m[0].length); continue;
+      out += `${m[1]} ${gaShort[SHORT.indexOf(/** @type {string} */ (m[2]))]} ${m[3]}`; s = s.slice(m[0].length); continue;
     }
     if ((m = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{4})\b/.exec(s))) {
-      out += `${gaShort[SHORT.indexOf(m[1])]} ${m[2]}`; s = s.slice(m[0].length); continue;
+      out += `${gaShort[SHORT.indexOf(/** @type {string} */ (m[1]))]} ${m[2]}`; s = s.slice(m[0].length); continue;
     }
     if ((m = /^\d[\d,.:]*(?:\s*[–-]\s*\d[\d,.]*)?[a-z]?\b/.exec(s))) { out += m[0]; s = s.slice(m[0].length); continue; }
     if ((m = /^[()[\],.:;/–—~+'"·-]/.exec(s))) { out += m[0]; s = s.slice(1); continue; }
@@ -150,7 +150,7 @@ function translateName(name) {
   // "NI Road Surface Defects": the jurisdiction follows the noun in Irish.
   const lead = /^(NI|ROI) (.+)$/.exec(text);
   if (lead && !glossary.has(text)) {
-    const inner = compose(lead[2]);
+    const inner = compose(/** @type {string} */ (lead[2]));
     if (inner.text) return { text: `${inner.text} ${lead[1] === 'NI' ? 'TÉ' : 'PÉ'}` };
   }
   // "<Place> <series> <rest>" -> "<series> – <place> <rest>"

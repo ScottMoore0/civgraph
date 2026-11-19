@@ -6,7 +6,7 @@
 // the MAP name with the card name appended as context, and a grab-bag splits on its own.
 import fs from 'fs';
 
-const cards = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+const cards = JSON.parse(fs.readFileSync(/** @type {string} */ (process.argv[2]), 'utf8'));
 
 const BOUNDARY_SUBJECTS = new Set([
   'Townlands', 'Civil Parishes & Baronies', 'Counties & Provinces', 'States & Polities',
@@ -101,7 +101,7 @@ for (const c of cards) for (const m of c.maps) {
   const subject = assign(c.card, m.name);
   out.push({ id: m.id, name: m.name, subject, kind: subject === 'REVIEW' ? '' : kindOf(subject), from: 'card:' + c.card });
 }
-fs.writeFileSync(process.argv[3], JSON.stringify(out, null, 1));
+fs.writeFileSync(/** @type {string} */ (process.argv[3]), JSON.stringify(out, null, 1));
 
 const missed = Object.keys(CORRECTIONS).filter(k => !applied.has(k));
 if (missed.length) console.log('!! corrections that matched no row:\n   ' + missed.join('\n   '));

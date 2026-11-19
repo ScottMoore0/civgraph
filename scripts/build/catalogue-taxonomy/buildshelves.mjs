@@ -5,10 +5,10 @@ import fs from 'fs';
 /** @typedef {{ name: string, kind: string, entries: number, maps: number }} ShelfSubject */
 /** @typedef {{ name: string, blurb: string, subjects: ShelfSubject[], entries: number, maps: number }} Shelf */
 /** @type {Shelf[]} */
-const shelves = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+const shelves = JSON.parse(fs.readFileSync(/** @type {string} */ (process.argv[2]), 'utf8'));
 /** @type {Entry[]} */
-const entries = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));
-const OUT = process.argv[4];
+const entries = JSON.parse(fs.readFileSync(/** @type {string} */ (process.argv[3]), 'utf8'));
+const OUT = /** @type {string} */ (process.argv[4]);
 
 /** @type {Map<string, Entry[]>} */
 const bySubject = new Map();

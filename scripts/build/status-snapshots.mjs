@@ -266,7 +266,7 @@ async function opendatani() {
   }
   // Datasets a map on the site draws on: any Open Data NI dataset link in the catalogue.
   const maps = readFileSync(path.join(ROOT, 'data/database/maps.json'), 'utf8');
-  const refs = new Set([...maps.matchAll(/opendatani\.gov\.uk\/dataset\/([A-Za-z0-9_-]+)/g)].map((m) => m[1]));
+  const refs = /** @type {Set<string>} */ (new Set([...maps.matchAll(/opendatani\.gov\.uk\/dataset\/([A-Za-z0-9_-]+)/g)].map((m) => m[1])));
   /** @type {Set<string>} */
   const used = new Set();
   let unlisted = 0;
@@ -314,12 +314,12 @@ const LEG_DROP = /trade union|benefit|superannuation|pension|human rights|abando
 async function legislation() {
   if (NO_NETWORK) return log('legislation: --no-network; kept the previous snapshot');
   const found = new Map();
-  for (const [type, term] of LEG_QUERIES) {
+  for (const [type, term] of /** @type {Array<[string, string]>} */ (LEG_QUERIES)) {
     for (let page = 1; page <= 10; page += 1) {
       const url = `https://www.legislation.gov.uk/${type}/data.feed?title=${encodeURIComponent(term)}&page=${page}`;
       let xml;
       try { xml = await getText(url); } catch (error) { log(`legislation: ${/** @type {Error} */ (error).message}`); break; }
-      const entries = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((m) => m[1]);
+      const entries = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((m) => /** @type {string} */ (m[1]));
       for (const e of entries) {
         const id = (e.match(/<id>https?:\/\/www\.legislation\.gov\.uk\/id\/([^<]+)<\/id>/) || [])[1];
         const title = (e.match(/<title>([^<]*)<\/title>/) || [])[1]?.replace(/&amp;/g, '&').trim();

@@ -130,7 +130,7 @@ async function bundle(entry, out) {
   // The packages that landed in the bundle, for the notices (filter(Boolean) drops the nulls).
   return /** @type {string[]} */ ([...new Set(Object.keys(r.metafile.inputs).map((p) => {
     const m = /node_modules[/\\](@[^/\\]+[/\\][^/\\]+|[^/\\]+)/.exec(p);
-    return m ? m[1].replace(/\\/g, '/') : null;
+    return m ? /** @type {string} */ (m[1]).replace(/\\/g, '/') : null;
   }).filter(Boolean))].sort());
 }
 
@@ -173,7 +173,7 @@ async function build() {
     if (f.host === 'pages' && buf.length > PAGES_MAX_BYTES) throw new Error(`${f.to} is ${buf.length} bytes, over the Pages limit: host it on R2`);
     entries.push({
       path: f.to,
-      package: `${f.pkg}@${lock.packages[`node_modules/${f.pkg}`].version}`,
+      package: `${f.pkg}@${/** @type {(typeof lock.packages)[string]} */ (lock.packages[`node_modules/${f.pkg}`]).version}`,
       from: f.url || (f.bundle ? `${f.from} bundled with esbuild ${esbuildVersion} (format esm, minify, target es2020)` : f.from),
       host: f.host,
       ...(f.host === 'r2' ? { r2Key: r2KeyOf(f.to), contentType: 'application/wasm' } : {}),
@@ -187,7 +187,7 @@ async function build() {
     generatedBy: 'node scripts/build/elections-app/vendor.mjs',
     note: 'Browser libraries the Elections app self-hosts. host "pages": committed here and deployed with the site. host "r2": over the 25 MiB Pages limit, gitignored locally and served from R2 at r2Key (data.civgraph.net).',
     lockfile: 'scripts/build/elections-app/vendor-deps/package-lock.json',
-    packages: Object.fromEntries([...pkgs].sort().map((p) => [p, { version: lock.packages[`node_modules/${p}`].version, integrity: lock.packages[`node_modules/${p}`].integrity, license: lock.packages[`node_modules/${p}`].license }])),
+    packages: Object.fromEntries([...pkgs].sort().map((p) => [p, { version: /** @type {(typeof lock.packages)[string]} */ (lock.packages[`node_modules/${p}`]).version, integrity: /** @type {(typeof lock.packages)[string]} */ (lock.packages[`node_modules/${p}`]).integrity, license: /** @type {(typeof lock.packages)[string]} */ (lock.packages[`node_modules/${p}`]).license }])),
     files: entries,
   };
   writeFileSync(path.join(REPO, MANIFEST), `${JSON.stringify(manifest, null, 1)}\n`);

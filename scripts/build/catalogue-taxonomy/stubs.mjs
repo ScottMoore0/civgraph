@@ -57,7 +57,7 @@ if (missing.length) throw new Error(`categories with no subject mapping: ${missi
 
 const out = rows.map(m => {
   const name = m.name || m.id;
-  let subject = BY_CATEGORY[m.category];
+  let subject = /** @type {string} */ (BY_CATEGORY[m.category]);
   for (const [s, re] of BY_NAME) if (re.test(name)) { subject = s; break; }
   return {
     id: m.id,
@@ -68,7 +68,7 @@ const out = rows.map(m => {
     from: 'category:' + (m.category || '-'),
   };
 });
-fs.writeFileSync(process.argv[2], JSON.stringify(out, null, 1));
+fs.writeFileSync(/** @type {string} */ (process.argv[2]), JSON.stringify(out, null, 1));
 
 const tally = new Map();
 out.forEach(r => tally.set(r.subject, (tally.get(r.subject) || 0) + 1));

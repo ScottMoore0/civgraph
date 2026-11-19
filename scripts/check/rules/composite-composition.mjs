@@ -41,7 +41,7 @@ const ROOT = resolve(process.cwd());
  */
 function readPathArg(flag, fallback) {
   const i = process.argv.indexOf(flag);
-  return i >= 0 && process.argv[i + 1] ? resolve(process.argv[i + 1]) : resolve(ROOT, fallback);
+  return i >= 0 && process.argv[i + 1] ? resolve(/** @type {string} */ (process.argv[i + 1])) : resolve(ROOT, fallback);
 }
 
 const INTAKE_DIR = readPathArg('--intake-dir', 'data/intake');

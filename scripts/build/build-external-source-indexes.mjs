@@ -197,7 +197,7 @@ async function buildInternetArchiveRasterMapSources() {
   const records = [];
   for (const group of grouped.values()) {
     group.sort((a, b) => String(a.title).localeCompare(String(b.title)));
-    const primary = group[0];
+    const primary = /** @type {Candidate} */ (group[0]);
     const extraTitles = group.slice(1).map((item) => item.title).filter((title) => title && title !== primary.title);
     records.push({
       id: `external:internet-archive-raster-map:${slugify(primary.identifier)}`,
@@ -458,7 +458,7 @@ function extractKeywords(value) {
 /** @param {unknown} value */
 function fileExtension(value) {
   const match = String(value || '').match(/\.([a-z0-9]+)(?:[?#].*)?$/i);
-  return match ? match[1].toLowerCase() : null;
+  return match ? /** @type {string} */ (match[1]).toLowerCase() : null;
 }
 
 /** @param {unknown} value */

@@ -1205,9 +1205,9 @@ function assertStvTerminalTransferCoverage() {
           .filter((row) => Number.isFinite(row.count))
           .sort((a, b) => a.count - b.count);
         for (let index = 1; index < rows.length; index += 1) {
-          const row = rows[index];
+          const row = /** @type {(typeof rows)[number]} */ (rows[index]);
           if (row.count <= 1) continue;
-          const previous = rows[index - 1];
+          const previous = /** @type {(typeof rows)[number]} */ (rows[index - 1]);
           const total = finiteValidationNumber(row.total ?? row.firstPrefs);
           const previousTotal = finiteValidationNumber(previous.total ?? previous.firstPrefs);
           const transfer = finiteValidationNumber(row.transfers);

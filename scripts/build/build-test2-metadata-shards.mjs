@@ -61,7 +61,7 @@ function writeJsonIfChanged(file, value) {
 
 function localPathForUrl(/** @type {string | null | undefined} */ url) {
   if (!url || /^https?:\/\//i.test(url)) return null;
-  const clean = String(url).split('?')[0].replace(/^\/+/, '');
+  const clean = /** @type {string} */ (String(url).split('?')[0]).replace(/^\/+/, '');
   return path.join(ROOT, clean);
 }
 

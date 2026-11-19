@@ -71,7 +71,7 @@ function isValidGeometry(geom) {
     if (!geom || !geom.type) return false;
     if (geom.type === 'Point') return geom.coordinates?.length >= 2;
     if (geom.type === 'LineString') return geom.coordinates?.length >= 2;
-    if (geom.type === 'Polygon') return geom.coordinates?.length > 0 && geom.coordinates[0]?.length >= 4;
+    if (geom.type === 'Polygon') return geom.coordinates?.length > 0 && /** @type {number} */ (geom.coordinates[0]?.length) >= 4;
     if (geom.type === 'MultiPolygon') return geom.coordinates?.length > 0;
     if (geom.type === 'MultiLineString') return geom.coordinates?.length > 0;
     if (geom.type === 'MultiPoint') return geom.coordinates?.length > 0;

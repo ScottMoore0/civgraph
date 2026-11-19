@@ -582,7 +582,7 @@ function bar(parts, known, { label, unit, approximate = false }) {
   const n = parts.length;
   const segs = [];
   for (let i = n - 1; i >= 0; i -= 1) {
-    const v = parts[i].value;
+    const v = /** @type {Stage} */ (parts[i]).value;
     if (v == null) continue;
     const inner = parts.slice(i + 1).map((p) => p.value).filter((x) => x != null);
     const covered = inner.length ? Math.min(v, Math.max(...inner)) : 0;
@@ -724,7 +724,7 @@ ${rows}
  * @param {{ totals: Record<string, number> }[]} arr
  * @param {string} k
  */
-const sum = (arr, k) => arr.reduce((s, x) => s + x.totals[k], 0);
+const sum = (arr, k) => arr.reduce((s, x) => s + /** @type {number} */ (x.totals[k]), 0);
 const mapTotals = { known: sum(mapShelves, 'known'), complete: sum(mapShelves, 'complete'), partial: sum(mapShelves, 'partial'), notDrawn: sum(mapShelves, 'notDrawn') };
 const electionContestGroups = electionGroups.filter((g) => g.unit !== 'rounds');
 const elTotals = { known: sum(electionContestGroups, 'known'), onSite: sum(electionContestGroups, 'onSite'), full: sum(electionContestGroups, 'full'), verified: sum(electionContestGroups, 'verified') };

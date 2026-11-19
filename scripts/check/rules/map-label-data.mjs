@@ -33,7 +33,7 @@ import { IRELAND_LONLAT_BOUNDS, centreInIreland, hasReplacementChar, notNfc } fr
 
 const args = process.argv.slice(2);
 const rootAt = args.indexOf('--root');
-const ROOT = resolve(rootAt >= 0 ? args[rootAt + 1] : '.');
+const ROOT = resolve(rootAt >= 0 ? /** @type {string} */ (args[rootAt + 1]) : '.');
 const SOURCES = args.includes('--sources');
 const FEATURE_INDEXES = 'render/metadata/feature-indexes';
 const ANCHORS = 'render/metadata/election-anchors-test2';

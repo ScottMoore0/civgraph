@@ -119,7 +119,7 @@ const isAutoReturned = (status) => /auto[- ]?returned/i.test(status);
  */
 const decimals = (v) => {
   const m = String(v ?? '').match(/\.(\d+)/);
-  return m ? m[1].length : 0;
+  return m ? /** @type {string} */ (m[1]).length : 0;
 };
 
 /**
@@ -391,7 +391,7 @@ function checkStv(c, { fail, missing, info, valid, sum, votesKnown, electedN }) 
   if (partial) return;
   // A candidate whose rows stop before the stage they were elected or excluded at: rows missing.
   const short = cands.filter((k) => k.stages.size && ((k.excludedAt !== null && lastStage(k) < k.excludedAt - 1) || (k.electedAt !== null && lastStage(k) < k.electedAt)));
-  if (short.length) { missing('stv-rows', `${short.length} candidate${short.length === 1 ? '' : 's'}' rows stop early (first: ${short[0].name}, rows to stage ${lastStage(short[0])})`); return; }
+  if (short.length) { missing('stv-rows', `${short.length} candidate${short.length === 1 ? '' : 's'}' rows stop early (first: ${/** @type {Cand} */ (short[0]).name}, rows to stage ${lastStage(/** @type {Cand} */ (short[0]))})`); return; }
 
   // stv-exclusion: the excluded are the lowest still in the count at their stage
   {

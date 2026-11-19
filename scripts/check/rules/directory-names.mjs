@@ -128,13 +128,13 @@ for (const file of walk(ROOT)) {
   const lines = text.split(/\r?\n/);
   for (let i = 0; i < lines.length; i++) {
     for (const target of TARGETS) {
-      if (!target.re.test(lines[i])) continue;
+      if (!target.re.test(/** @type {string} */ (lines[i]))) continue;
       findings.push({
         file,
         line: i + 1,
         dir: target.dir,
         kind: classify(file),
-        text: lines[i].trim().slice(0, 160),
+        text: /** @type {string} */ (lines[i]).trim().slice(0, 160),
       });
     }
   }
@@ -163,7 +163,7 @@ console.log(`  by directory     : ${Object.entries(byDir).map(([k, v]) => `${k} 
 console.log('  by risk class    :');
 for (const kind of ['RUNTIME', 'CONFIG', 'BUILD', 'TEST', 'DOC']) {
   if (!byKind[kind]) continue;
-  console.log(`     ${kind.padEnd(8)} ${String(byKind[kind]).padStart(4)} refs in ${filesByKind[kind].size} file(s)`);
+  console.log(`     ${kind.padEnd(8)} ${String(byKind[kind]).padStart(4)} refs in ${/** @type {Set<string>} */ (filesByKind[kind]).size} file(s)`);
 }
 
 console.log('\n  RUNTIME references — these 404 in production if missed:');

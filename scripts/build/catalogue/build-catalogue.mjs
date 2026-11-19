@@ -170,7 +170,7 @@ function dateOf(m) {
   const d = String(m.dateEffective || m.date || '').trim();
   if (/^\d{4}(-\d{2}(-\d{2})?)?$/.test(d)) return d;
   const y = YEAR.exec(d) || YEAR.exec(`${m.id} ${m.name}`);
-  return y ? y[1] : '';
+  return y ? /** @type {string} */ (y[1]) : '';
 }
 const round = (/** @type {number} */ n) => Math.round(n * 1e4) / 1e4;
 /**
@@ -216,7 +216,7 @@ const licenceOf = (/** @type {MapRecord} */ m) => m.licence || m.license || '';
 function shortPart(label, parentName) {
   const l = String(label || '');
   const head = l.split(/\s+[—–]\s+/);
-  if (head.length > 1 && parentName && parentName.toLowerCase().startsWith(head[0].toLowerCase())) return head.slice(1).join(' — ');
+  if (head.length > 1 && parentName && parentName.toLowerCase().startsWith(/** @type {string} */ (head[0]).toLowerCase())) return head.slice(1).join(' — ');
   return l;
 }
 // Labels that all open the same way lose it: "NI LiDAR 1 m — Ballycastle (2010)" -> "Ballycastle (2010)".
@@ -228,8 +228,8 @@ function dropSharedPrefix(items) {
   if (items.length < 2) return items;
   const parts = items.map((x) => x.label.split(/\s+[—–]\s+/));
   let k = 0;
-  while (parts.every((p) => p.length > k + 1 && p[k] === parts[0][k])) k += 1;
-  return k ? items.map((x, i) => ({ ...x, label: parts[i].slice(k).join(' — ') })) : items;
+  while (parts.every((p) => p.length > k + 1 && p[k] === /** @type {string[]} */ (parts[0])[k])) k += 1;
+  return k ? items.map((x, i) => ({ ...x, label: /** @type {string[]} */ (parts[i]).slice(k).join(' — ') })) : items;
 }
 /** @type {{ maps: Record<string, MapOut> }} */
 const out = { maps: {} };
@@ -391,7 +391,7 @@ for (const s of source.series) {
   const recs = s.members.map((id) => ({ id, ...addMap(id) }));
   // A series of geographies treated as constant (townlands, like civil parishes) carries no
   // dates: its maps are not editions, and the year filter always shows them.
-  if (s.undated) for (const r of recs) { r.date = ''; out.maps[r.id].date = ''; }
+  if (s.undated) for (const r of recs) { r.date = ''; /** @type {MapOut} */ (out.maps[r.id]).date = ''; }
   if (s.arrangement === 'editions') recs.sort((a, b) => String(b.date).localeCompare(String(a.date)));
   // A series spans the years of its editions, not of their versions (the NI part of the 1885
   // Westminster map is no edition of its own).
@@ -400,7 +400,7 @@ for (const s of source.series) {
   // A map drawn for more than one year (Fingal's polling stations, 2011 and 2016) is in each.
   for (const [id, more] of Object.entries(s.moreYears || {})) {
     // filter(Boolean) dropped the nulls
-    out.maps[id].years = /** @type {number[]} */ ([...new Set([yearOfDate(out.maps[id].date), ...more].filter(Boolean))].sort());
+    /** @type {MapOut} */ (out.maps[id]).years = /** @type {number[]} */ ([...new Set([yearOfDate(/** @type {MapOut} */ (out.maps[id]).date), ...more].filter(Boolean))].sort());
     years.push(...more);
   }
   // Unique across the catalogue: names no longer carry their scope ("Administrative Counties" is
@@ -430,8 +430,8 @@ for (const s of source.series) {
   if (s.arrangement === 'set' && members.length > 1) {
     const parts = members.map((m) => m.label.split(' — '));
     let k = 0;
-    while (parts.every((p) => p.length > k + 1 && p[k] === parts[0][k])) k += 1;
-    if (k) members.forEach((m, i) => { m.label = parts[i].slice(k).join(' — '); });
+    while (parts.every((p) => p.length > k + 1 && p[k] === /** @type {string[]} */ (parts[0])[k])) k += 1;
+    if (k) members.forEach((m, i) => { m.label = /** @type {string[]} */ (parts[i]).slice(k).join(' — '); });
   }
   // A variant's label drops the edition's year it repeats: "(1993) — OSNI 50k" -> "OSNI 50k".
   for (const m of members) if (m.of) m.label = m.label.replace(YEAR, '').replace(/^[\s()—–:-]+/, '').replace(/\(\s*\)/g, '').trim() || m.label;
@@ -441,7 +441,7 @@ for (const s of source.series) {
     const parent = mapById.get(m.id)?.partOf;
     if (!parent || !hiddenIds.has(parent)) continue;
     const label = partsOf.get(parent)?.find((p) => p.id === m.id)?.label;
-    if (label) { m.label = label; out.maps[m.id].name = label; }
+    if (label) { m.label = label; /** @type {MapOut} */ (out.maps[m.id]).name = label; }
   }
   // Two editions with one date (a national map and a council's copy) are told apart by who
   // published them, or failing that by name.
@@ -450,10 +450,10 @@ for (const s of source.series) {
   for (const m of members) if (!m.of) byLabel.set(m.label, [...(byLabel.get(m.label) || []), m]);
   for (const group of byLabel.values()) {
     if (group.length < 2) continue;
-    const provs = group.map((m) => out.maps[m.id].provider?.[0] || '');
+    const provs = group.map((m) => /** @type {MapOut} */ (out.maps[m.id]).provider?.[0] || '');
     const useProvider = provs.every(Boolean) && new Set(provs).size === group.length;
     group.forEach((m, i) => {
-      const rec = out.maps[m.id];
+      const rec = /** @type {MapOut} */ (out.maps[m.id]);
       const name = editionLabel({ ...s, arrangement: 'set' }, { ...rec, name: /** @type {string} */ (rec.name).replace(YEAR, '').replace(/\(\s*\)/g, '').replace(/\s{2,}/g, ' ').trim() }, recs);
       m.label = `${m.label} · ${useProvider ? provs[i] : (name || m.id)}`;
     });
@@ -467,15 +467,15 @@ for (const s of source.series) {
   }
   // What sets a main map apart from its versions (`versionLabels`: "Ungeneralised" beside
   // "Generalised 20m"), shown with its versions.
-  for (const m of members) if (s.versionLabels?.[m.id]) m.version = s.versionLabels[m.id];
+  for (const m of members) if (s.versionLabels?.[m.id]) m.version = /** @type {string} */ (s.versionLabels[m.id]);
   // A label the curator gives (catalogue.source.json `labels`) wins over a derived one.
-  for (const m of members) if (s.labels?.[m.id]) m.label = s.labels[m.id];
+  for (const m of members) if (s.labels?.[m.id]) m.label = /** @type {string} */ (s.labels[m.id]);
   // Dates in labels follow the site's one form, "1 Apr 1969" (packages/core/src/date-format.mjs), whether they
   // came from a map's name ("01 April 1969") or a curator's label ("04/10/1920").
   for (const m of members) m.label = formatDatesInText(m.label);
   // A row's own note on one of its maps (why 2001 Wards sit with the census areas).
   for (const [id, note] of Object.entries(s.notes || {})) if (out.maps[id]) out.maps[id].note = note;
-  for (const m of members) if (!out.maps[m.id].unit) out.maps[m.id].unit = unitFor(s, m.id, m.label);
+  for (const m of members) if (!/** @type {MapOut} */ (out.maps[m.id]).unit) /** @type {MapOut} */ (out.maps[m.id]).unit = unitFor(s, m.id, m.label);
   /** @type {SeriesOut} */
   const entry = {
     id: s.id,
@@ -498,11 +498,11 @@ for (const s of source.series) {
   // One council's copy of a national map (`local`): kept off the row until a reader asks for
   // the local maps, labelled by the council the curator names.
   const localRecs = (s.local || []).map((id) => ({ id, ...addMap(id) }));
-  if (s.undated) for (const r of localRecs) { r.date = ''; out.maps[r.id].date = ''; }
+  if (s.undated) for (const r of localRecs) { r.date = ''; /** @type {MapOut} */ (out.maps[r.id]).date = ''; }
   if (localRecs.length) {
     localRecs.sort((a, b) => String(s.labels?.[a.id] || a.name).localeCompare(String(s.labels?.[b.id] || b.name)));
     entry.local = localRecs.map((r) => ({ id: r.id, label: formatDatesInText(s.labels?.[r.id] || editionLabel({ ...s, arrangement: 'set' }, r, localRecs)), ...(s.localOf?.[r.id] ? { of: s.localOf[r.id] } : {}) }));
-    for (const m of entry.local) if (!out.maps[m.id].unit) out.maps[m.id].unit = unitFor({ ...s, unitFromLabel: false }, m.id, m.label);
+    for (const m of entry.local) if (!/** @type {MapOut} */ (out.maps[m.id]).unit) /** @type {MapOut} */ (out.maps[m.id]).unit = unitFor({ ...s, unitFromLabel: false }, m.id, m.label);
   }
   // filter(Boolean) dropped the nulls
   const todoYears = /** @type {number[]} */ (todoRecs.map((r) => yearOfDate(r.date)).filter(Boolean));
@@ -677,14 +677,14 @@ try {
   }
   for (const m of ui.matchAll(/\{\s*id:\s*'(flat-[a-z0-9-]+)'[^{}]*?\}/g)) {
     const body = m[0];
-    const ids = [...(body.match(/mapIds:\s*\[([^\]]*)\]/)?.[1] || '').matchAll(/'([a-z0-9-]+)'/g)].map((x) => x[1]);
-    for (const c of (body.match(/classIds:\s*\[([^\]]*)\]/)?.[1] || '').matchAll(/'([a-z0-9-]+)'/g)) ids.push(...(classes.get(c[1]) || []));
+    const ids = [...(body.match(/mapIds:\s*\[([^\]]*)\]/)?.[1] || '').matchAll(/'([a-z0-9-]+)'/g)].map((x) => /** @type {string} */ (x[1]));
+    for (const c of (body.match(/classIds:\s*\[([^\]]*)\]/)?.[1] || '').matchAll(/'([a-z0-9-]+)'/g)) ids.push(...(classes.get(/** @type {string} */ (c[1])) || []));
     /** @type {Map<string, number>} */
     const tally = new Map();
     for (const id of ids) { const s = seriesOfMap.get(id); if (s) tally.set(s, (tally.get(s) || 0) + 1); }
     if (!tally.size) for (const id of ids) { const s = hiddenTo.get(id); if (s) tally.set(s, (tally.get(s) || 0) + 1); }
     const best = [...tally.entries()].sort((a, b) => b[1] - a[1])[0];
-    if (best) redirects[m[1]] = best[0];
+    if (best) redirects[/** @type {string} */ (m[1])] = best[0];
   }
 } catch { /* redirects are a convenience */ }
 

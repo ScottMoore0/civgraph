@@ -76,7 +76,7 @@ const SHELVES = [
 ];
 
 /** @type {EntryRow[]} */
-const entries = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+const entries = JSON.parse(fs.readFileSync(/** @type {string} */ (process.argv[2]), 'utf8'));
 
 // ---- every subject placed exactly once
 const known = new Set(entries.map(e => e.subject));
@@ -96,7 +96,7 @@ if (orphans.length) throw new Error(`subjects on no shelf: ${orphans.join(', ')}
 const out = SHELVES.map(([name, blurb, subs]) => {
   const subjects = subs.map(s => {
     const items = entries.filter(e => e.subject === s);
-    return { name: s, kind: items[0].kind, entries: items.length, maps: items.reduce((a, e) => a + e.n, 0) };
+    return { name: s, kind: /** @type {EntryRow} */ (items[0]).kind, entries: items.length, maps: items.reduce((a, e) => a + e.n, 0) };
   });   // declared order, not sorted: the sequence above IS the contents order
   return {
     name, blurb, subjects,
@@ -104,7 +104,7 @@ const out = SHELVES.map(([name, blurb, subs]) => {
     maps: subjects.reduce((a, s) => a + s.maps, 0),
   };
 });
-fs.writeFileSync(process.argv[3], JSON.stringify(out, null, 1));
+fs.writeFileSync(/** @type {string} */ (process.argv[3]), JSON.stringify(out, null, 1));
 
 const tE = out.reduce((a, s) => a + s.entries, 0);
 const tM = out.reduce((a, s) => a + s.maps, 0);

@@ -101,7 +101,7 @@ function computeDiag(geometry) {
     if (geometry.type === 'Point') return Infinity;
     const bbox = computeBbox(geometry);
     if (!bbox) return Infinity;
-    const dx = bbox[2] - bbox[0], dy = bbox[3] - bbox[1];
+    const dx = /** @type {number} */ (bbox[2]) - /** @type {number} */ (bbox[0]), dy = /** @type {number} */ (bbox[3]) - /** @type {number} */ (bbox[1]);
     return Math.sqrt(dx * dx + dy * dy);
 }
 
@@ -109,7 +109,7 @@ function computeDiag(geometry) {
 function computeCentroid(geometry) {
     const bbox = computeBbox(geometry);
     if (!bbox) return null;
-    return [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+    return [(/** @type {number} */ (bbox[0]) + /** @type {number} */ (bbox[2])) / 2, (/** @type {number} */ (bbox[1]) + /** @type {number} */ (bbox[3])) / 2];
 }
 
 /**
@@ -324,10 +324,10 @@ async function chunkMap(mapId, fgbPath, gridCols, gridRows) {
     for (const f of features) {
         const bbox = computeBbox(f.geometry);
         if (!bbox) continue;
-        if (bbox[0] < oMinX) oMinX = bbox[0];
-        if (bbox[1] < oMinY) oMinY = bbox[1];
-        if (bbox[2] > oMaxX) oMaxX = bbox[2];
-        if (bbox[3] > oMaxY) oMaxY = bbox[3];
+        if (/** @type {number} */ (bbox[0]) < oMinX) oMinX = /** @type {number} */ (bbox[0]);
+        if (/** @type {number} */ (bbox[1]) < oMinY) oMinY = /** @type {number} */ (bbox[1]);
+        if (/** @type {number} */ (bbox[2]) > oMaxX) oMaxX = /** @type {number} */ (bbox[2]);
+        if (/** @type {number} */ (bbox[3]) > oMaxY) oMaxY = /** @type {number} */ (bbox[3]);
     }
     const padX = (oMaxX - oMinX) * 0.001, padY = (oMaxY - oMinY) * 0.001;
     oMinX -= padX; oMinY -= padY; oMaxX += padX; oMaxY += padY;
@@ -339,8 +339,8 @@ async function chunkMap(mapId, fgbPath, gridCols, gridRows) {
     for (const feature of features) {
         const centroid = computeCentroid(feature.geometry);
         if (!centroid) continue;
-        let col = Math.floor((centroid[0] - oMinX) / cellW);
-        let row = Math.floor((centroid[1] - oMinY) / cellH);
+        let col = Math.floor((/** @type {number} */ (centroid[0]) - oMinX) / cellW);
+        let row = Math.floor((/** @type {number} */ (centroid[1]) - oMinY) / cellH);
         col = Math.max(0, Math.min(gridCols - 1, col));
         row = Math.max(0, Math.min(gridRows - 1, row));
         const key = `${col}_${row}`;
@@ -359,10 +359,10 @@ async function chunkMap(mapId, fgbPath, gridCols, gridRows) {
         for (const f of cellFeatures) {
             const bbox = computeBbox(f.geometry);
             if (!bbox) continue;
-            if (bbox[0] < cMinX) cMinX = bbox[0];
-            if (bbox[1] < cMinY) cMinY = bbox[1];
-            if (bbox[2] > cMaxX) cMaxX = bbox[2];
-            if (bbox[3] > cMaxY) cMaxY = bbox[3];
+            if (/** @type {number} */ (bbox[0]) < cMinX) cMinX = /** @type {number} */ (bbox[0]);
+            if (/** @type {number} */ (bbox[1]) < cMinY) cMinY = /** @type {number} */ (bbox[1]);
+            if (/** @type {number} */ (bbox[2]) > cMaxX) cMaxX = /** @type {number} */ (bbox[2]);
+            if (/** @type {number} */ (bbox[3]) > cMaxY) cMaxY = /** @type {number} */ (bbox[3]);
         }
 
         const chunkBaseName = `${mapId}_${key}`;
@@ -469,7 +469,7 @@ async function buildTownlandFineGrid(overrideMapId = null) {
                 const features = await readFGB(fullPath);
                 if (countyElevs) {
                     for (let i = 0; i < features.length && i < countyElevs.length; i++) {
-                        features[i]._elev = countyElevs[i];
+                        /** @type {ChunkFeature} */ (features[i])._elev = /** @type {ElevRecord} */ (countyElevs[i]);
                     }
                 }
                 allFeatures.push(...features);
@@ -498,10 +498,10 @@ async function buildTownlandFineGrid(overrideMapId = null) {
     for (const f of allFeatures) {
         const bbox = computeBbox(f.geometry);
         if (!bbox) continue;
-        if (bbox[0] < oMinX) oMinX = bbox[0];
-        if (bbox[1] < oMinY) oMinY = bbox[1];
-        if (bbox[2] > oMaxX) oMaxX = bbox[2];
-        if (bbox[3] > oMaxY) oMaxY = bbox[3];
+        if (/** @type {number} */ (bbox[0]) < oMinX) oMinX = /** @type {number} */ (bbox[0]);
+        if (/** @type {number} */ (bbox[1]) < oMinY) oMinY = /** @type {number} */ (bbox[1]);
+        if (/** @type {number} */ (bbox[2]) > oMaxX) oMaxX = /** @type {number} */ (bbox[2]);
+        if (/** @type {number} */ (bbox[3]) > oMaxY) oMaxY = /** @type {number} */ (bbox[3]);
     }
 
     // Grid dimensions
@@ -517,12 +517,12 @@ async function buildTownlandFineGrid(overrideMapId = null) {
     const featureIndex = []; // [minX, minY, maxX, maxY, diag, chunkId] per feature
 
     for (let i = 0; i < allFeatures.length; i++) {
-        const feature = allFeatures[i];
+        const feature = /** @type {ChunkFeature} */ (allFeatures[i]);
         const centroid = computeCentroid(feature.geometry);
         if (!centroid) continue;
 
-        let col = Math.floor((centroid[0] - oMinX) / TOWNLAND_CELL_SIZE);
-        let row = Math.floor((centroid[1] - oMinY) / TOWNLAND_CELL_SIZE);
+        let col = Math.floor((/** @type {number} */ (centroid[0]) - oMinX) / TOWNLAND_CELL_SIZE);
+        let row = Math.floor((/** @type {number} */ (centroid[1]) - oMinY) / TOWNLAND_CELL_SIZE);
         col = Math.max(0, Math.min(gridCols - 1, col));
         row = Math.max(0, Math.min(gridRows - 1, row));
 
@@ -535,10 +535,10 @@ async function buildTownlandFineGrid(overrideMapId = null) {
         const diag = computeDiag(feature.geometry);
         if (bbox) {
             featureIndex.push([
-                Math.round(bbox[0] * 10000) / 10000,
-                Math.round(bbox[1] * 10000) / 10000,
-                Math.round(bbox[2] * 10000) / 10000,
-                Math.round(bbox[3] * 10000) / 10000,
+                Math.round(/** @type {number} */ (bbox[0]) * 10000) / 10000,
+                Math.round(/** @type {number} */ (bbox[1]) * 10000) / 10000,
+                Math.round(/** @type {number} */ (bbox[2]) * 10000) / 10000,
+                Math.round(/** @type {number} */ (bbox[3]) * 10000) / 10000,
                 Math.round(diag * 10000) / 10000,
                 key
             ]);
@@ -561,10 +561,10 @@ async function buildTownlandFineGrid(overrideMapId = null) {
             for (const f of cellFeatures) {
                 const bbox = computeBbox(f.geometry);
                 if (!bbox) continue;
-                if (bbox[0] < cMinX) cMinX = bbox[0];
-                if (bbox[1] < cMinY) cMinY = bbox[1];
-                if (bbox[2] > cMaxX) cMaxX = bbox[2];
-                if (bbox[3] > cMaxY) cMaxY = bbox[3];
+                if (/** @type {number} */ (bbox[0]) < cMinX) cMinX = /** @type {number} */ (bbox[0]);
+                if (/** @type {number} */ (bbox[1]) < cMinY) cMinY = /** @type {number} */ (bbox[1]);
+                if (/** @type {number} */ (bbox[2]) > cMaxX) cMaxX = /** @type {number} */ (bbox[2]);
+                if (/** @type {number} */ (bbox[3]) > cMaxY) cMaxY = /** @type {number} */ (bbox[3]);
             }
 
             const chunkBaseName = `${mapId}_${key}`;
@@ -640,7 +640,7 @@ async function main() {
         if (!fgbPath) { console.warn(`  ⚠ ${mapId} has no FGB`); continue; }
 
         try {
-            if (await chunkMap(mapId, fgbPath, config.grid[0], config.grid[1])) processed++;
+            if (await chunkMap(mapId, fgbPath, /** @type {number} */ (config.grid[0]), /** @type {number} */ (config.grid[1]))) processed++;
             else errors++;
         } catch (err) {
             // what is thrown here is an Error

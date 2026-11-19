@@ -831,7 +831,7 @@ async function validateCompressedNdjsonSample(shards, errors, label) {
       errors.push(`${label} shard ${shard.url} manifest count ${shard.count} does not match ${lines.length}`);
       continue;
     }
-    for (const line of [lines[0], lines[lines.length - 1]].filter(Boolean)) {
+    for (const line of /** @type {string[]} */ ([lines[0], lines[lines.length - 1]].filter(Boolean))) {
       JSON.parse(line);
     }
   }
@@ -841,7 +841,7 @@ async function validateCompressedNdjsonSample(shards, errors, label) {
 function sampleShards(shards) {
   const items = requireArray(shards || [], 'export shards');
   if (items.length <= 2) return items;
-  return [items[0], items[items.length - 1]];
+  return [/** @type {ShardRef} */ (items[0]), /** @type {ShardRef} */ (items[items.length - 1])];
 }
 
 /** @param {ShardRef[] | undefined} shards */
@@ -903,7 +903,7 @@ async function exists(filePath) {
 /** @param {unknown} url  a site path (/data/graph/..., /data/browse/...) */
 function siteUrlToPath(url) {
   if (!url) throw new Error('Missing graph URL in manifest.');
-  const clean = decodeURIComponent(String(url).split('?')[0].replace(/^\/+/, ''));
+  const clean = decodeURIComponent(/** @type {string} */ (String(url).split('?')[0]).replace(/^\/+/, ''));
   return path.join(ROOT_DIR, ...clean.split('/'));
 }
 

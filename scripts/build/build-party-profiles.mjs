@@ -128,7 +128,7 @@ const num = (/** @type {unknown} */ value) => (value === null || value === undef
 const BODY_GROUPS = partyCharts(loadRegistry('election-bodies'));
 /** @type {(key: string) => { id: string, label: string, note?: string } | null} */
 const bodyGroupOf = (key) => {
-  const prefix = String(key).split('__')[0];
+  const prefix = /** @type {string} */ (String(key).split('__')[0]);
   if (/referendum/.test(prefix)) return null;
   // A party's own leadership and nomination ballots are listed under internalContests, never
   // charted as a body: a leadership won is not a seat, nor the party's whole vote 100% of a poll.
@@ -370,7 +370,7 @@ function main() {
     if (founded) timeline.push({ date: founded.date, precision: founded.precision, kind: 'founded', text: 'Founded.', source: founded.source, basis: founded.basis, citations: founded.citations });
     for (const event of events) {
       if (event.kind === 'founded' && founded?.source === 'lineage' && event.date === founded.date) {
-        Object.assign(timeline[0], { text: event.text, related: event.related, note: event.note });
+        Object.assign(/** @type {TimelineItem} */ (timeline[0]), { text: event.text, related: event.related, note: event.note });
         continue;
       }
       timeline.push({ date: event.date, precision: event.precision, kind: event.kind, text: event.text, basis: event.basis, note: event.note, related: event.related, source: 'lineage', citations: event.citations });

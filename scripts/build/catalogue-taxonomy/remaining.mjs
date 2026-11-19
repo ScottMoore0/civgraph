@@ -41,7 +41,7 @@ for (const o of objs) {
   mine.forEach(id => seen.add(id));
   if (mine.length) cards.push({ card: nm, n: mine.length, maps: mine.map(id => ({ id, name: nameById.get(id) })) });
 }
-fs.writeFileSync(process.argv[2], JSON.stringify(cards, null, 1));
+fs.writeFileSync(/** @type {string} */ (process.argv[2]), JSON.stringify(cards, null, 1));
 console.log('cards:', cards.length, ' maps:', cards.reduce((a, c) => a + c.n, 0));
 cards.sort((a, b) => b.n - a.n).forEach(c => {
   const sample = c.n > 6 ? c.maps.slice(0, 4).map(m=>m.name).join(' / ') + ` … +${c.n - 4}` : c.maps.map(m=>m.name).join(' / ');

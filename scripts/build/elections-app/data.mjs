@@ -46,7 +46,7 @@ const opt = (/** @type {string} */ name, /** @type {string | null} */ dflt = nul
   const i = args.indexOf(name);
   return i >= 0 && args[i + 1] ? args[i + 1] : dflt;
 };
-const many = (/** @type {string} */ name) => args.flatMap((a, i) => (a === name && args[i + 1] ? [args[i + 1]] : []));
+const many = (/** @type {string} */ name) => args.flatMap((a, i) => (a === name && args[i + 1] ? [/** @type {string} */ (args[i + 1])] : []));
 
 const DB_FILE = path.resolve(REPO, opt('--db', recordPaths().RECORDS_DB) || '');
 

@@ -159,9 +159,9 @@ const RENAME_BY_MAP_ID = new Map(Object.entries({
   'tailte-heritage': 'Heritage Features',
   'tailte-hvd-sites': 'Topographic Sites',
 }));
-const displayName = (/** @type {Entry} */ entry) => (entry.maps.length === 1 && RENAME_BY_MAP_ID.has(entry.maps[0].id)
+const displayName = (/** @type {Entry} */ entry) => (entry.maps.length === 1 && RENAME_BY_MAP_ID.has(/** @type {EntryMap} */ (entry.maps[0]).id)
   // has() was checked on the line before
-  ? /** @type {string} */ (RENAME_BY_MAP_ID.get(entry.maps[0].id))
+  ? /** @type {string} */ (RENAME_BY_MAP_ID.get(/** @type {EntryMap} */ (entry.maps[0]).id))
   : entry.name);
 
 /**
@@ -381,12 +381,12 @@ for (const e of entries) {
  */
 const pickName = (/** @type {Entry[]} */ group) => {
   const names = group.map(displayName).sort((a, b) => a.length - b.length || a.localeCompare(b));
-  if (names.length === 1) return names[0];
+  if (names.length === 1) return /** @type {string} */ (names[0]);
   const words = names.map((n) => n.split(/\s+/));
   /** @type {string[]} */
   const shared = [];
-  for (let i = 0; i < words[0].length; i++) {
-    const w = words[0][i];
+  for (let i = 0; i < /** @type {string[]} */ (words[0]).length; i++) {
+    const w = /** @type {string} */ (/** @type {string[]} */ (words[0])[i]);
     if (!words.every((ws) => ws[i] === w)) break;
     shared.push(w);
   }
@@ -408,8 +408,8 @@ const pickName = (/** @type {Entry[]} */ group) => {
     places: countIn(n, PLACES),
     noise: countIn(n, FORMS) + countIn(n, NAME_NOISE),
   })).sort((a, b) => a.places - b.places || a.noise - b.noise || b.n.length - a.n.length);
-  if (!scored[0].places) return scored[0].n;
-  const longest = [...names].sort((a, b) => b.length - a.length)[0];
+  if (!/** @type {(typeof scored)[number]} */ (scored[0]).places) return /** @type {(typeof scored)[number]} */ (scored[0]).n;
+  const longest = /** @type {string} */ ([...names].sort((a, b) => b.length - a.length)[0]);
   let cleaned = longest.replace(BRACKET, ' ').replace(/\s+[–—-]\s+[^–—-]+$/, '');
   for (const p of PLACES) {
     cleaned = cleaned.replace(new RegExp(`\\b${p.replace(/ /g, '[ .]')}\\b`, 'gi'), ' ');
@@ -437,7 +437,7 @@ for (const [subject, list] of bySubject) {
     consolidated.push({
       name: pickName(group),
       subject,
-      kind: group[0].kind,
+      kind: /** @type {Entry} */ (group[0]).kind,
       n: maps.length,
       axis: maps.length === 1 ? null : (group.some((e) => e.axis === 'edition') ? 'edition' : 'variant'),
       maps,
@@ -447,7 +447,7 @@ for (const [subject, list] of bySubject) {
 // ---- editorial placements -----------------------------------------------------------------
 const findCard = (/** @type {string} */ subject, /** @type {string} */ name) => consolidated.find((e) => e.subject === subject && e.name === name);
 for (const [mapId, target] of ASSIGN_TO_CARD) {
-  const [subject, name] = target.split(' :: ');
+  const [subject, name] = /** @type {[string, string]} */ (target.split(' :: '));
   const src = consolidated.find((e) => e.maps.some((m) => m.id === mapId));
   if (!src) throw new Error(`ASSIGN_TO_CARD names a map that is in no entry: ${mapId}`);
   const map = src.maps.find((m) => m.id === mapId);
@@ -491,7 +491,7 @@ for (const e of consolidated) {
   e.axis = e.n <= 1 ? null : (e.axis || 'variant');
 }
 // An entry emptied by the placements above has nothing left to show.
-for (let i = consolidated.length - 1; i >= 0; i--) if (!consolidated[i].n) consolidated.splice(i, 1);
+for (let i = consolidated.length - 1; i >= 0; i--) if (!/** @type {Entry} */ (consolidated[i]).n) consolidated.splice(i, 1);
 
 for (const [mapId, name] of CARD_RENAME) {
   const card = consolidated.find((e) => e.maps.some((m) => m.id === mapId));

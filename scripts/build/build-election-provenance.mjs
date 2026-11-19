@@ -178,7 +178,7 @@ function contestsOnDisk() {
 function addSource(list, s) {
   const at = list.findIndex((p) => p.url === s.url);
   if (at < 0) list.push(s);
-  else if (s.checked && !list[at].checked) list[at] = s;
+  else if (s.checked && !/** @type {Source} */ (list[at]).checked) list[at] = s;
 }
 
 /**
@@ -491,7 +491,7 @@ function wikipediaArticleLayer() {
     for (const body of bodies) {
       const candidates = datesOf(body).filter((d) => d.date.startsWith(prefix));
       if (!candidates.length) continue;
-      const best = candidates.sort((a, b) => b.n - a.n)[0];
+      const best = /** @type {{ date: string; n: number; }} */ (candidates.sort((a, b) => b.n - a.n)[0]);
       if (best.n < 5) continue;                       // no general election on this body that year
       byElection.set(`${body}__${best.date}`, { url: rec.url, sources: cites });
       matched += 1;
@@ -725,9 +725,9 @@ function buildShards(provenance) {
   for (const c of provenance.contests) {
     if (!c.sources.length) continue;
     const key = `${c.body}__${c.date}`;
-    const best = [...c.sources].sort((a, b) => Number(b.checked) - Number(a.checked)
+    const best = /** @type {Source} */ ([...c.sources].sort((a, b) => Number(b.checked) - Number(a.checked)
       // a null scope finds no rank
-      || (rank[/** @type {string} */ (b.scope)] ?? 0) - (rank[/** @type {string} */ (a.scope)] ?? 0))[0];
+      || (rank[/** @type {string} */ (b.scope)] ?? 0) - (rank[/** @type {string} */ (a.scope)] ?? 0))[0]);
     const shard = byKey.get(key) ?? { schemaVersion: 1, key, contests: {} };
     shard.contests[nameKey(c.constituency)] = {
       constituency: c.constituency,
@@ -751,7 +751,7 @@ function buildShards(provenance) {
     };
     // Figures a printed volume supplied, or disputes, whatever source ranks first.
     const notes = c.sources.flatMap((s) => (s.supplies ?? []).map((text) => ({ title: s.title, text })));
-    if (notes.length) shard.contests[nameKey(c.constituency)].figureNotes = notes;
+    if (notes.length) /** @type {ShardContest} */ (shard.contests[nameKey(c.constituency)]).figureNotes = notes;
     byKey.set(key, shard);
   }
   return byKey;

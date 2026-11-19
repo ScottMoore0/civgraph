@@ -74,7 +74,7 @@ function collect(dir, prefix = '') {
     // invoke a Function for every map metadata file.
     const declared = readFileSync(full, 'utf8').match(/export\s+const\s+ROUTE_PATTERNS\s*=\s*\[([^\]]*)\]/);
     if (declared) {
-      routes.push(...[...declared[1].matchAll(/'([^']+)'/g)].map((m) => m[1]));
+      routes.push(...[.../** @type {string} */ (declared[1]).matchAll(/'([^']+)'/g)].map((m) => /** @type {string} */ (m[1])));
       continue;
     }
     if (base === 'index') routes.push(`${prefix}/`);

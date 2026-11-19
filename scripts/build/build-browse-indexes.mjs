@@ -811,8 +811,8 @@ function derivedMapNamePart(map, title, parentTitle = '') {
   if (parentTitle) {
     const parentPattern = escapeRegExp(parentTitle).replace(/\\ /g, '\\s+');
     const parentDateMatch = text.match(new RegExp(`^${parentPattern}\\s+(.+)$`, 'i'));
-    if (parentDateMatch && isDerivedMapName(map, parentDateMatch[1])) {
-      return parentDateMatch[1].trim();
+    if (parentDateMatch && isDerivedMapName(map, /** @type {string} */ (parentDateMatch[1]))) {
+      return /** @type {string} */ (parentDateMatch[1]).trim();
     }
   }
   return isDerivedMapName(map, text) ? text : '';
@@ -849,11 +849,11 @@ function formatPlainMapDate(dateStr) {
   const longMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   if (/^\d{4}$/.test(str)) return str;
   if (/^\d{4}-\d{2}$/.test(str)) {
-    const [year, month] = str.split('-').map(Number);
+    const [year, month] = /** @type {[number, number]} */ (str.split('-').map(Number));
     return `${shortMonths[month - 1]} ${year}`;
   }
   if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
-    const [year, month, day] = str.split('-').map(Number);
+    const [year, month, day] = /** @type {[number, number, number]} */ (str.split('-').map(Number));
     return `${String(day).padStart(2, '0')} ${longMonths[month - 1]} ${year}`;
   }
   return str;
@@ -2141,7 +2141,7 @@ function partyLabelFolds(parties, registry, registryAliases, partyIdOf) {
       if (isTypoOf(words, target.words, vocabulary)) matched.set(target.id, target.name);
     }
     if (matched.size === 1) {
-      const [[target, name]] = [...matched];
+      const [[target, name]] = /** @type {[[string, string]]} */ ([...matched]);
       add(party, target, `misspelling of "${name}"`);
     } else if (matched.size > 1) {
       ambiguous.push(`${party.canonical_name} (${[...matched.keys()].join(', ')})`);
@@ -2176,8 +2176,8 @@ function isTypoOf(words, targetWords, vocabulary) {
   if (words.length !== targetWords.length) return false;
   let differing = 0;
   for (let i = 0; i < words.length; i += 1) {
-    const word = words[i];
-    const target = targetWords[i];
+    const word = /** @type {string} */ (words[i]);
+    const target = /** @type {string} */ (targetWords[i]);
     if (word === target) continue;
     if (word.length < 5 || target.length < 5 || word[0] !== target[0] || vocabulary.has(word)) return false;
     if (editDistance(word, target) > (Math.min(word.length, target.length) >= 8 ? 2 : 1)) return false;
@@ -2193,15 +2193,15 @@ function isTypoOf(words, targetWords, vocabulary) {
  */
 function editDistance(a, b) {
   const rows = Array.from({ length: a.length + 1 }, (_, i) => [i]);
-  for (let j = 1; j <= b.length; j += 1) rows[0][j] = j;
+  for (let j = 1; j <= b.length; j += 1) /** @type {number[]} */ (rows[0])[j] = j;
   for (let i = 1; i <= a.length; i += 1) {
     for (let j = 1; j <= b.length; j += 1) {
       const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-      rows[i][j] = Math.min(rows[i - 1][j] + 1, rows[i][j - 1] + 1, rows[i - 1][j - 1] + cost);
-      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) rows[i][j] = Math.min(rows[i][j], rows[i - 2][j - 2] + 1);
+      /** @type {number[]} */ (rows[i])[j] = Math.min(/** @type {number} */ (/** @type {number[]} */ (rows[i - 1])[j]) + 1, /** @type {number} */ (/** @type {number[]} */ (rows[i])[j - 1]) + 1, /** @type {number} */ (/** @type {number[]} */ (rows[i - 1])[j - 1]) + cost);
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) /** @type {number[]} */ (rows[i])[j] = Math.min(/** @type {number} */ (/** @type {number[]} */ (rows[i])[j]), /** @type {number} */ (/** @type {number[]} */ (rows[i - 2])[j - 2]) + 1);
     }
   }
-  return rows[a.length][b.length];
+  return /** @type {number} */ (/** @type {number[]} */ (rows[a.length])[b.length]);
 }
 
 /**
@@ -2261,7 +2261,7 @@ function loadHopPages() {
     const list = byKey.get(key) || [];
     const at = list.findIndex((p) => p.page.url === page.url);
     if (at < 0) list.push({ page, strong });
-    else if (strong) list[at].strong = true;
+    else if (strong) /** @type {(typeof list)[number]} */ (list[at]).strong = true;
     byKey.set(key, list);
   };
   const pageOf = new Map();
@@ -2546,7 +2546,7 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
     if (slugs.length) person.previousSlugs = slugs;
     else delete person.previousSlugs;
   }
-  console.log(`- persons: ${ledger.restored} published name key(s) restored from the address ledger, ${ledger.moved} taken back from another record; ${ledger.unresolved.length} whose person no longer resolves${ledger.unresolved.length ? ` (first: ${ledger.unresolved[0].join(' -> ')})` : ''}`);
+  console.log(`- persons: ${ledger.restored} published name key(s) restored from the address ledger, ${ledger.moved} taken back from another record; ${ledger.unresolved.length} whose person no longer resolves${ledger.unresolved.length ? ` (first: ${/** @type {[string, string]} */ (ledger.unresolved[0]).join(' -> ')})` : ''}`);
   if (candidateLists.size) {
     console.log(`- persons: ${candidateLists.size} record(s) marked entryKind "candidate-list", not people: ${[...candidateLists].join(', ')}`);
   }
@@ -2866,7 +2866,7 @@ function linkRegisterInterestsToPersons(records, persons) {
     const matches = candidates.filter((person) => normalizeArray(person.constituencies)
       .some((place) => places.has(normalizeName(place?.name || place))));
     if (matches.length === 1) {
-      record.personSlug = matches[0].slug;
+      record.personSlug = /** @type {(typeof matches)[number]} */ (matches[0]).slug;
       linked += 1;
     }
   }
@@ -3301,7 +3301,7 @@ function mergeDuplicateSources(sources) {
   const better = (/** @type {SourceRecord} */ a, /** @type {SourceRecord} */ b) => {
     const x = rank(a);
     const y = rank(b);
-    for (let i = 0; i < x.length; i += 1) if (x[i] !== y[i]) return x[i] > y[i];
+    for (let i = 0; i < x.length; i += 1) if (x[i] !== y[i]) return /** @type {number} */ (x[i]) > /** @type {number} */ (y[i]);
     return String(a.id) < String(b.id);
   };
 
@@ -3875,7 +3875,7 @@ function writeElectionContestShards(parents, contests) {
   const bucketDir = path.join(OUT_DIR, 'election-contest-parents');
   /** @type {Record<string, string>[]} */
   const buckets = Array.from({ length: CONTEST_PARENT_BUCKETS }, () => ({}));
-  for (const [slug, parentSlug] of Object.entries(parentOf)) buckets[lookupBucket(slug, CONTEST_PARENT_BUCKETS)][slug] = parentSlug;
+  for (const [slug, parentSlug] of Object.entries(parentOf)) /** @type {Record<string, string>} */ (buckets[lookupBucket(slug, CONTEST_PARENT_BUCKETS)])[slug] = parentSlug;
   pruneStaleShards(bucketDir, new Set(buckets.map((_, index) => `${bucketName(index)}.json`)));
   buckets.forEach((items, index) => {
     writeJson(path.join('election-contest-parents', `${bucketName(index)}.json`), { schemaVersion: 1, generatedAt: GENERATED_AT, items }, { compact: true });

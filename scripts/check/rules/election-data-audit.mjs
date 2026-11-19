@@ -91,7 +91,7 @@ const writeTextIfChanged = (file, text) => {
 /** @param {unknown} url */
 const urlToRelativePath = (url) => {
   if (!url || typeof url !== 'string') return null;
-  const clean = url.split('#')[0].split('?')[0].replace(/^\/+/, '');
+  const clean = /** @type {string} */ (/** @type {string} */ (url.split('#')[0]).split('?')[0]).replace(/^\/+/, '');
   return clean || null;
 };
 
@@ -210,7 +210,7 @@ const VALID_CONTEST_TYPES = new Set(['election', 'referendum', ...kindContestTyp
 /** @type {Set<string | undefined>} */
 const VALID_ELECTION_KINDS = new Set(electionKindIds(ELECTION_TYPES));
 // Contest statuses and what a missing one means: the statuses registry's contest entry (RG-02).
-const STATUSES = loadRegistry('statuses');
+const STATUSES = /** @type {import('@civgraph/types').StatusesRegistry & { machines: { contest: import('@civgraph/types').StatusesRegistry['machines'][string] } }} */ (loadRegistry('statuses'));
 /** @type {Set<string | undefined>} */
 const VALID_CONTEST_STATUSES = new Set(enumValues(STATUSES, 'contest'));
 const CONTEST_STATUS_IF_MISSING = STATUSES.machines.contest.missingMeans;
@@ -636,13 +636,13 @@ if (fs.existsSync(colourAuditPath)) {
     if (String(row.match_status || '').startsWith('ambiguous')) stats.colours.ambiguousWikipediaMatch += 1;
   }
   stats.colours.examples = colourRows
-    .filter((row) => row.colour_status === 'colour_mismatch' && ['name', 'manual_alias'].includes(row.wikipedia_match_basis))
+    .filter((row) => row.colour_status === 'colour_mismatch' && ['name', 'manual_alias'].includes(/** @type {string} */ (row.wikipedia_match_basis)))
     .slice(0, 20)
     .map((row) => ({
-      party: row.party_or_ticket,
-      electionColour: row.election_colour,
-      wikipediaName: row.wikipedia_match_name,
-      wikipediaColour: row.wikipedia_colour,
+      party: /** @type {string} */ (row.party_or_ticket),
+      electionColour: /** @type {string} */ (row.election_colour),
+      wikipediaName: /** @type {string} */ (row.wikipedia_match_name),
+      wikipediaColour: /** @type {string} */ (row.wikipedia_colour),
       observations: normaliseNumber(row.observations) || 0,
       review: partyColourReviewByParty.get(normalizeKeyText(row.party_or_ticket)) || null
     }));

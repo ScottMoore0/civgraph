@@ -153,8 +153,8 @@ export function htmlStrings(html) {
     .replace(/<style\b[\s\S]*?<\/style>/gi, ' ')
     .replace(/<svg\b[\s\S]*?<\/svg>/gi, ' ')
     .replace(/<!--[\s\S]*?-->/g, ' ');
-  for (const m of stripped.matchAll(/>([^<>]+)</g)) out.push(decodeEntities(m[1]));
-  for (const m of stripped.matchAll(/\b(?:title|aria-label|placeholder|alt|data-tooltip)\s*=\s*"([^"]*)"/g)) out.push(decodeEntities(m[1]));
+  for (const m of stripped.matchAll(/>([^<>]+)</g)) out.push(decodeEntities(/** @type {string} */ (m[1])));
+  for (const m of stripped.matchAll(/\b(?:title|aria-label|placeholder|alt|data-tooltip)\s*=\s*"([^"]*)"/g)) out.push(decodeEntities(/** @type {string} */ (m[1])));
   return out;
 }
 
@@ -167,12 +167,12 @@ export function scriptStrings(src) {
   const lines = src.split('\n').filter((line) => !/console\.(?:log|warn|error|info|debug)|throw new Error|\bfail\(|^\s*(?:\/\/|\*|\/\*)/.test(line));
   const code = lines.join('\n');
   for (const m of code.matchAll(/'((?:[^'\\\n]|\\.){2,400})'|"((?:[^"\\\n]|\\.){2,400})"/g)) {
-    const s = (m[1] ?? m[2]).replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\n/g, ' ');
+    const s = (m[1] ?? /** @type {string} */ (m[2])).replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\n/g, ' ');
     if (/<[a-z][^>]*>|<\/[a-z]/i.test(s)) out.push(...htmlStrings(`>${s}<`));
     else out.push(decodeEntities(s));
   }
   for (const m of code.matchAll(/`((?:[^`\\]|\\.)*)`/g)) {
-    const body = m[1];
+    const body = /** @type {string} */ (m[1]);
     if (/<[a-z][^>]*>|<\/[a-z]/i.test(body)) {
       // Interpolations become a placeholder so "Show all ${n}" is collected as "Show all {n}".
       out.push(...htmlStrings(`>${body.replace(/\$\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/g, '{x}')}<`));

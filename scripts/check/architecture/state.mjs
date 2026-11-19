@@ -56,8 +56,8 @@ function declaredValues(ast, comments) {
     }
   });
   for (const c of comments) {
-    for (const union of c.value.matchAll(/\{([^{}]*'[^{}]*\|[^{}]*)\}/g)) for (const q of union[1].matchAll(/'([^']*)'|"([^"]*)"/g)) declared.add(q[1] ?? q[2]);
-    for (const td of c.value.matchAll(/@typedef\s+\{([^}]*)\}/g)) for (const q of td[1].matchAll(/'([^']*)'|"([^"]*)"/g)) declared.add(q[1] ?? q[2]);
+    for (const union of c.value.matchAll(/\{([^{}]*'[^{}]*\|[^{}]*)\}/g)) for (const q of /** @type {string} */ (union[1]).matchAll(/'([^']*)'|"([^"]*)"/g)) declared.add(q[1] ?? /** @type {string} */ (q[2]));
+    for (const td of c.value.matchAll(/@typedef\s+\{([^}]*)\}/g)) for (const q of /** @type {string} */ (td[1]).matchAll(/'([^']*)'|"([^"]*)"/g)) declared.add(q[1] ?? /** @type {string} */ (q[2]));
   }
   return declared;
 }
