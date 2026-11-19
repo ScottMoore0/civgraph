@@ -223,6 +223,8 @@ export interface CatalogueApp {
     setOpacity?(mapId: string, opacity: number): void;
     /** The colour a loaded map is drawn in now (its load-order or visitor's colour), or ''. */
     getLayerColour?(mapId: string): string;
+    /** A map's layer as the renderer knows it (its bounds as [[south, west], [north, east]]). */
+    resolveLayer?(mapId: string): { bounds?: unknown } | null | undefined;
   } | null;
   updateURLState?(): void;
   dismissMobileCatalogueAfterLoad?(label: string): void;

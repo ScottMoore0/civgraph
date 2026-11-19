@@ -269,7 +269,7 @@ function mapActionsHtml(c, s, m) {
  */
 export function mapToolsHtml(c, id, label, { small = false } = {}) {
   const cls = `cn-iconbtn${small ? ' cn-iconbtn--sm' : ''}`;
-  return `${c.rec(id).bounds ? `<button type="button" class="${cls}" data-cn-act="zoom" data-map="${esc(id)}" aria-label="Zoom to ${esc(label)}" title="Zoom to">${icon('maximize')}</button>` : ''}${c.downloadsFor(id).length ? `<button type="button" class="${cls}" data-cn-act="downloads" data-map="${esc(id)}" aria-haspopup="menu" aria-expanded="false" aria-label="Download ${esc(label)}" title="Download">${icon('download')}</button>` : ''}${c.full(id) ? `<button type="button" class="${cls}" data-cn-act="details" data-map="${esc(id)}" aria-label="Details of ${esc(label)}" title="Details">${icon('info')}</button>` : ''}`;
+  return `${c.boundsOf(id) ? `<button type="button" class="${cls}" data-cn-act="zoom" data-map="${esc(id)}" aria-label="Zoom to ${esc(label)}" title="Zoom to">${icon('maximize')}</button>` : ''}${c.downloadsFor(id).length ? `<button type="button" class="${cls}" data-cn-act="downloads" data-map="${esc(id)}" aria-haspopup="menu" aria-expanded="false" aria-label="Download ${esc(label)}" title="Download">${icon('download')}</button>` : ''}${c.full(id) ? `<button type="button" class="${cls}" data-cn-act="details" data-map="${esc(id)}" aria-label="Details of ${esc(label)}" title="Details">${icon('info')}</button>` : ''}`;
 }
 
 /** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} m */

@@ -1920,8 +1920,24 @@ export class CatalogueNext {
     }
   }
 
+  /**
+   * A map's extent as [west, south, east, north]: the catalogue's, else its layer's (a part or
+   * county map the catalogue lists without one); null when neither is known.
+   * @param {string} id @returns {number[] | null}
+   */
+  boundsOf(id) {
+    const own = this.rec(id).bounds;
+    if (own) return own;
+    const b = /** @type {unknown} */ (app()?.mapController?.resolveLayer?.(id)?.bounds);
+    if (Array.isArray(b) && b.length === 2 && b.every((p) => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite))) {
+      const [[s, w], [n, e]] = /** @type {[[number, number], [number, number]]} */ (b);
+      return [w, s, e, n];
+    }
+    return null;
+  }
+
   /** @param {string} id */
-  zoom(id) { const b = this.rec(id).bounds; if (b) app()?.mapController?.fitToBounds?.(b, { smooth: true }); }
+  zoom(id) { const b = this.boundsOf(id); if (b) app()?.mapController?.fitToBounds?.(b, { smooth: true }); }
   /** @param {string} id */
   details(id) { this.ui.showCatalogueDetailView?.(id, true); }
 
@@ -1975,7 +1991,7 @@ export class CatalogueNext {
     const btn = (/** @type {string} */ act, /** @type {string} */ ic, /** @type {string} */ text, menu = false) => `<button type="button" class="cn-btn" data-cn-act="${act}" data-map="${esc(id)}"${act === 'cite' ? ` data-series="${esc(sid)}"` : ''}${menu ? ' aria-haspopup="menu" aria-expanded="false"' : ''}>${icon(ic)}<span>${text}</span>${menu ? icon('chevron-down') : ''}</button>`;
     return `<div class="cn cn-detail-actions" data-cn-detail-actions="${esc(id)}" role="group" aria-label="${esc(name)}: actions"><div class="cn-actions">
       ${r.status === 'placeholder' ? '' : `<button type="button" class="cn-btn cn-btn--primary" data-cn-toggle="${esc(id)}" data-series="${esc(sid)}" aria-pressed="${this.isLoaded(id)}" style="--c:${col};--on:${inkOn(col)}">${icon('plus', 'cn-icon cn-when-off')}${icon('x', 'cn-icon cn-when-on')}<span class="cn-when-off">Add to map</span><span class="cn-when-on">Remove from map</span></button>`}
-      ${r.bounds ? btn('zoom', 'maximize', 'Zoom to') : ''}
+      ${this.boundsOf(id) ? btn('zoom', 'maximize', 'Zoom to') : ''}
       ${this.downloadsFor(id, { images: false }).length ? btn('downloads-data', 'download', 'Download', true) : ''}
       ${btn('copy-link', 'link', 'Copy link')}
       ${btn('cite', 'quote', 'Cite')}
