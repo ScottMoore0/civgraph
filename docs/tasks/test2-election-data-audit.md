@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-19T01:47:49.914Z
+Generated: 2026-11-19T14:51:18.402Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -26,7 +26,7 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|2424|
+|warnings|2427|
 
 ## Blocking Structural Issues
 
@@ -89,11 +89,11 @@ _None._
 |warning|source-record-single-reference|armagh-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|armagh-rural-district-council__1967-06-01|2 candidate rows have no party/label. Examples: Ernest William Charles Weir in Killyman; Kenneth Kelly in Richhill.|
 |warning|source-record-single-reference|ballymena-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|ballymena-rural-district-council__1967-06-01|23 candidate rows have no party/label. Examples: Andrew Hugh Simpson in Ahoghill; William Hugh Simpson in Ballyclug; Robert Hamilton in Ballyconnolly; John McNeilly in Ballyscullion; William Houston in Broughshane.|
+|warning|candidate-party-missing|ballymena-rural-district-council__1967-06-01|23 candidate rows have no party/label. Examples: Andrew Hugh Simpson in Ahoghill; William Hugh Simpson in Ballyclug; Robert Hamilton in Ballyconnelly; John McNeilly in Ballyscullion; William Houston in Broughshane.|
 |warning|source-record-single-reference|ballymoney-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|ballymoney-rural-district-council__1967-06-01|4 candidate rows have no party/label. Examples: John P. Mulholland in Ballyhoe; John McCollam in Ballyhoe; Mrs. Mary Hunter in Seacon; D. Moore in Seacon.|
 |warning|source-record-single-reference|banbridge-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|banbridge-rural-district-council__1967-06-01|19 candidate rows have no party/label. Examples: Robert A. Frazer in Annaclone; Eric Williamson in Ballooleymore; T. H. C. Murray in Ballybrick; J. S. Higginson in Ballyward; John Martin in Banbridge Rural.|
+|warning|candidate-party-missing|banbridge-rural-district-council__1967-06-01|19 candidate rows have no party/label. Examples: Robert A. Frazer in Annaclone; Eric Williamson in Balloolymore; T. H. C. Murray in Ballybrick; J. S. Higginson in Ballyward; John Martin in Banbridge Rural.|
 |warning|source-record-single-reference|castlederg-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|castlereagh-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|castlereagh-rural-district-council__1967-06-01|4 candidate rows have no party/label. Examples: F. J. R. Storey in Ballycultra; J. C. Marks in Ballyhackamore; Thomas Gray in Craigavad; Thomas H. Boyd in Holywood Rural.|
@@ -107,7 +107,7 @@ _None._
 |warning|source-record-single-reference|dungannon-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|dungannon-rural-district-council__1967-06-01|19 candidate rows have no party/label. Examples: W. R. Knox in Aghnahoe; P. J. Donnelly in Altmore; A. M. Reid in Benburb; R. Kempton in Bernagh; C. J. Burrowes in Bush.|
 |warning|source-record-single-reference|east-down-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|east-down-rural-district-council__1967-06-01|6 candidate rows have no party/label. Examples: Robert Magee in Ardglass; George Joseph Connor in Ardglass; James Gerard Fitzpatrick in Castlewellan Urban; Felix McKenna in Castlewellan Urban; James Cleland in Downpatrick.|
+|warning|candidate-party-missing|east-down-rural-district-council__1967-06-01|6 candidate rows have no party/label. Examples: Robert Magee in Ardglass; George Joseph Connor in Ardglass; James Gerard Fitzpatrick in Castlewellan Urban; Felix McKenna in Castlewellan Urban; James Cleland in Downpatrick Rural.|
 |warning|source-record-single-reference|fermanagh-county-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|fermanagh-county-council__1967-06-01|41 candidate rows have no party/label. Examples: David Brien in Ballinamallard; Warren Loane in Ballinamallard; John Brooke in Brookeborough; Francis Ebbitt in Brookeborough; Albert J. Anderson in Clonelly.|
 |warning|source-record-single-reference|hillsborough-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -117,7 +117,7 @@ _None._
 |warning|source-record-single-reference|limavady-rural-district-council__1967-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|limavady-rural-district-council__1967-06-01|1 candidate rows have no party/label. Examples: W. E. Conn in The Highlands.|
 
-_2344 more not shown; see JSON report._
+_2347 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 
