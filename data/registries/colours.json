@@ -17,6 +17,10 @@
      "value": "#7C3AED",
      "note": "A layer's default fill colour."
     },
+    "loadOrder": {
+     "values": ["#0077BB", "#D55E00", "#AA3377", "#EE3377", "#117733", "#AA4499", "#009988", "#CC3311", "#228833", "#0072B2", "#CC6677", "#4477AA"],
+     "note": "PLACEHOLDER until the owner supplies Phelim Birch's ~40 QGIS colours (owner decision, 19 Nov 2026): replace these values with his, in his order; nothing else changes. The colours boundary and point maps take in the order they are put on the map (packages/map/src/layer-palette.mjs): the first palette[0], the next palette[1], a freed colour reused first. Meanwhile: mid-tones from Paul Tol's qualitative schemes (bright, vibrant, muted) and Okabe-Ito, each at least 2.7:1 (all but one at least 3:1) against the land of the three base maps (Positron #fafaf8, Liberty #f8f4f0 and its parks #d8e8c8, Dark Matter #0e0e0e), ordered so the first eight stay apart under protanopia, deuteranopia and tritanopia (Machado 2009 simulation; the closest pair of the eight is 9.6 CIELAB units apart under the worst of them)."
+    },
     "swatch": {
      "value": "#888",
      "note": "A catalogue or legend swatch for a map without a style colour."

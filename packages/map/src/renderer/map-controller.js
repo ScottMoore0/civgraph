@@ -1928,6 +1928,34 @@ export class TestMapLibreController {
   }
 
   /**
+   * A layer's line colour, and its fill too unless the fill is a colour of its own (a visitor's
+   * colour from the loaded-layers panel).
+   * @param {string} layerId
+   * @param {unknown} color
+   */
+  setLayerColorAndFill(layerId, color) {
+    const record = this.layers.get(layerId);
+    if (!record || !isColor(color)) return;
+    const ownFill = record.fillColor && record.color && record.fillColor !== record.color;
+    this.setLayerColor(layerId, color);
+    if (!ownFill) this.setLayerFillColor(layerId, color);
+  }
+
+  /**
+   * Remember a layer's preferences (read back by applySavedLayerPreferences when it is next put
+   * on): the fields given replace the saved ones, and a field given as undefined is forgotten.
+   * @param {string} layerId
+   * @param {Record<string, unknown>} patch  preference -> value (undefined: forget it)
+   */
+  saveLayerPreferences(layerId, patch) {
+    const saved = /** @type {Record<string, unknown>} */ ({ ...(readLayerPreferences(layerId) || {}) });
+    for (const [key, value] of Object.entries(patch)) {
+      if (value === undefined) delete saved[key]; else saved[key] = value;
+    }
+    writeLayerPreferences(layerId, /** @type {SavedLayerPreferences} */ (saved));
+  }
+
+  /**
    * @param {string} layerId
    * @param {unknown} color
    */
@@ -2100,7 +2128,7 @@ export class TestMapLibreController {
     if (!saved) return;
     if (saved.opacity !== undefined) this.setOpacity(layerId, Number(saved.opacity));
     if (saved.strokeWidth !== undefined) this.setLayerStrokeWidth(layerId, Number(saved.strokeWidth));
-    if (saved.color) this.setLayerColor(layerId, saved.color);
+    if (saved.color) this.setLayerColorAndFill(layerId, saved.color);
     if (saved.fillColor) this.setLayerFillColor(layerId, saved.fillColor);
     if (saved.labelsEnabled !== undefined) this.setLayerLabelsEnabled(layerId, Boolean(saved.labelsEnabled));
     if (saved.textScale !== undefined) this.setLayerTextScale(layerId, Number(saved.textScale));
@@ -3161,6 +3189,17 @@ function readLayerPreferences(layerId) {
   } catch {
     return null;
   }
+}
+
+/**
+ * @param {string} layerId
+ * @param {SavedLayerPreferences} preferences
+ */
+function writeLayerPreferences(layerId, preferences) {
+  try {
+    if (Object.keys(preferences).length) localStorage.setItem(`civgraph:test:controls:${layerId}`, JSON.stringify(preferences));
+    else localStorage.removeItem(`civgraph:test:controls:${layerId}`);
+  } catch { /* storage off: the colour lasts until the map is taken off */ }
 }
 
 /** @returns {string[]} */

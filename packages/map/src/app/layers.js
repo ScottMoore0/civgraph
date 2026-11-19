@@ -140,7 +140,11 @@ export class LayerMethods {
     });
   }
 
-  /** @this {LayerApp} @param {string} mapId @param {{ fit?: boolean }} [options] */
+  /**
+   * @this {LayerApp} @param {string} mapId
+   * @param {{ fit?: boolean, paletteKey?: string }} [options]  paletteKey: the map whose load-order
+   *   colour this one shares (a composite's own id, for its members: layer-palette.mjs)
+   */
   async loadMap(mapId, options = {}) {
     // A map drawn: its features may carry election results, so the election catalogue is
     // fetched now if it has not been (warmElectionCatalogueWhenWanted).
@@ -148,7 +152,7 @@ export class LayerMethods {
     const mapConfig = /** @type {LayerMapConfig | undefined} */ (dataService.getMapById(mapId));
     if (mapConfig?.isGroup && compositeChildIds(mapConfig).length) {
       const childIds = compositeChildIds(mapConfig);
-      await Promise.all(childIds.map((memberId) => this.loadMap(memberId, { fit: options.fit !== false })));
+      await Promise.all(childIds.map((memberId) => this.loadMap(memberId, { fit: options.fit !== false, paletteKey: options.paletteKey || mapId })));
       this.mapController.markGroupLoaded(mapId, mapConfig, childIds);
       return;
     }
@@ -156,7 +160,7 @@ export class LayerMethods {
       const variantIds = mapConfig.variants
         .map((variant) => variant?.id)
         .filter((variantId) => this.mapController.resolveLayer(variantId)?.loadable);
-      await Promise.all(variantIds.map((variantId) => this.mapController.loadLayer(variantId, { fit: false })));
+      await Promise.all(variantIds.map((variantId) => this.mapController.loadLayer(variantId, { fit: false, paletteKey: options.paletteKey || mapId })));
       this.mapController.markGroupLoaded(mapId, mapConfig, variantIds);
       if (options.fit !== false) {
         if (mapConfig.bounds) this.mapController.fitToBounds(mapConfig.bounds, { smooth: false });
@@ -172,7 +176,7 @@ export class LayerMethods {
           id: mapId,
           name: 'Civil Parishes of Ireland'
         };
-        await Promise.all(civilParishChildIds.map((childId) => this.mapController.loadLayer(childId, { fit: false })));
+        await Promise.all(civilParishChildIds.map((childId) => this.mapController.loadLayer(childId, { fit: false, paletteKey: options.paletteKey || groupConfig.id || mapId })));
         this.mapController.markGroupLoaded(groupConfig.id || mapId, groupConfig, civilParishChildIds);
         if (options.fit !== false) {
           if (groupConfig.bounds) this.mapController.fitToBounds(groupConfig.bounds, { smooth: false });
@@ -182,14 +186,14 @@ export class LayerMethods {
       }
       const childIds = this.getConvertedCompositeChildIds(mapConfig);
       if (childIds.length) {
-        await Promise.all(childIds.map((childId) => this.mapController.loadLayer(childId, { fit: false })));
+        await Promise.all(childIds.map((childId) => this.mapController.loadLayer(childId, { fit: false, paletteKey: options.paletteKey || mapId })));
         // Composite children were found, so there is a config (getConvertedCompositeChildIds).
         this.mapController.markGroupLoaded(/** @type {LayerMapConfig} */ (mapConfig).id, mapConfig, childIds);
         if (options.fit !== false && /** @type {LayerMapConfig} */ (mapConfig).bounds) this.mapController.fitToBounds(/** @type {LayerMapConfig} */ (mapConfig).bounds, { smooth: false });
         return;
       }
     }
-    await this.mapController.loadLayer(mapConfig || mapId, { fit: options.fit !== false });
+    await this.mapController.loadLayer(mapConfig || mapId, { fit: options.fit !== false, ...(options.paletteKey ? { paletteKey: options.paletteKey } : {}) });
   }
 
   /** Take a map off, with its members if it is a group or composite. @this {LayerApp} @param {string} mapId */

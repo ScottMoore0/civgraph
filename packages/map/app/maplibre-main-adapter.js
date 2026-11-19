@@ -147,6 +147,7 @@ import layerTypes from '../../registries/src/browser/layer-types.mjs';
 // cloud (the layer-types registry's rasterSource and threeD types).
 const NON_VECTOR_SOURCE_TYPES = new Set([...layerTypes.behaviour.rasterSource, ...layerTypes.behaviour.threeD]);
 import { MAP_COLOURS } from '../src/colours.mjs';
+import { LOAD_ORDER_PALETTE, PaletteSlots, takesLoadOrderColour, withColour } from '../src/layer-palette.mjs';
 
 // The base maps (packages/map/src/renderer/basemap.mjs): 'osm-standard' is the default street map,
 // not one tile server but the provider chain there (OpenFreeMap, then OpenStreetMap's own tiles as
@@ -256,6 +257,8 @@ export class Test2MapLibreMainAdapter {
     this.groupStates = new Map();
     /** @type {Map<string, string>} */
     this.mainToTest = new Map();
+    // Load-order colours (layer-palette.mjs): which palette colour each boundary or point map holds.
+    this.paletteSlots = new PaletteSlots(LOAD_ORDER_PALETTE.length);
     /** @type {Map<string, string>} */
     this.testToMain = new Map();
     /** @type {Map<string, { sourceId: string, layerId: string, visible: boolean }>} */
@@ -358,7 +361,9 @@ export class Test2MapLibreMainAdapter {
 
   /**
    * @param {string | MainConfig | null | undefined} mapOrId
-   * @param {{ fit?: boolean, partial?: boolean }} [options]
+   * @param {{ fit?: boolean, partial?: boolean, paletteKey?: string, ownColour?: boolean }} [options]
+   *   paletteKey: the map whose load-order colour this one shares (a composite's or group's own id);
+   *   ownColour: keep the map's own colour (an election's geography, restyled by its results)
    * @returns {Promise<MainLayerState | null | undefined>}
    */
   async loadLayer(mapOrId, options = {}) {
@@ -378,6 +383,7 @@ export class Test2MapLibreMainAdapter {
       /** @type {Array<MainLayerState | null | undefined>} */
       const results = await Promise.all(groupChildIds.map((memberId) => this.loadLayer(memberId, {
         ...options,
+        paletteKey: options.paletteKey || mainId,
         fit: false
       })));
       if (options.fit !== false) this.fitToLayers(groupChildIds);
@@ -397,7 +403,11 @@ export class Test2MapLibreMainAdapter {
     }
 
     const mainConfig = config || this.options.getMainMap?.(mainId) || this.options.getMainMap?.(layer.sourceMapId) || null;
-    const runtimeLayer = this.toRuntimeLayer(layer, mainConfig);
+    const ownLayer = this.toRuntimeLayer(layer, mainConfig);
+    // A boundary or point map takes the next load-order colour; a visitor's own choice, saved with
+    // the layer's preferences, still wins when the renderer applies them.
+    const colour = this.loadOrderColour(mainId, ownLayer, mainConfig, options);
+    const runtimeLayer = colour ? withColour(ownLayer, colour) : ownLayer;
     // A census statistic: its figures are fetched before the layer is added, so the
     // boundaries never flash up unshaded and a missing CSV fails the load outright.
     const overlay = runtimeLayer.censusOverlay ? await this.prepareCensusOverlay(runtimeLayer.censusOverlay) : null;
@@ -406,7 +416,10 @@ export class Test2MapLibreMainAdapter {
     // init() made the renderer before any layer is asked for.
     await /** @type {TestMapLibreController} */ (this.renderer).loadLayer(runtimeLayer, { fit: options.fit !== false });
     // Taken off while it loaded (the renderer's layer-load machine cancelled it): record nothing.
-    if (/** @type {TestMapLibreController} */ (this.renderer).layers instanceof Map && !/** @type {TestMapLibreController} */ (this.renderer).layers.has(runtimeLayer.id)) return null;
+    if (/** @type {TestMapLibreController} */ (this.renderer).layers instanceof Map && !/** @type {TestMapLibreController} */ (this.renderer).layers.has(runtimeLayer.id)) {
+      if (!this.layerStates.has(mainId)) this.paletteSlots.release(mainId);
+      return null;
+    }
     const state = this.createMainLayerState(mainId, runtimeLayer, mainConfig);
     if (overlay) {
       state.censusOverlay = overlay;
@@ -464,6 +477,7 @@ export class Test2MapLibreMainAdapter {
     }
     const testId = this.mainToTest.get(mainId) || mainId;
     this.renderer?.unloadLayer(testId);
+    this.paletteSlots.release(mainId);
     this.mainToTest.delete(mainId);
     this.testToMain.delete(testId);
     this.layerStates.delete(mainId);
@@ -696,6 +710,63 @@ export class Test2MapLibreMainAdapter {
       if (groupedChildIds.has(mainId)) continue;
       if (this.layerStates.get(mainId)?.loaded) this._moveMainLayerToTop(mainId);
     }
+  }
+
+  /**
+   * The load-order colour a map is drawn in, taken now (layer-palette.mjs), or null when it keeps
+   * its own: rasters, terrain, statistics, data-driven and classed styles, an election's geography.
+   * @param {string} mainId
+   * @param {RuntimeLayer} layer
+   * @param {MainConfig | null} mainConfig
+   * @param {{ paletteKey?: string, ownColour?: boolean }} options
+   * @returns {string | null}
+   */
+  loadOrderColour(mainId, layer, mainConfig, options) {
+    if (options.ownColour || !LOAD_ORDER_PALETTE.length) return null;
+    if (!takesLoadOrderColour(/** @type {import('../src/layer-palette.mjs').PaletteLayer} */ (layer), /** @type {{ isDataEntry?: boolean } | null} */ (mainConfig), layerTypes.behaviour.vectorTiles)) return null;
+    return LOAD_ORDER_PALETTE[this.paletteSlots.take(mainId, options.paletteKey || mainId)] || null;
+  }
+
+  /** The maps a colour change applies to: a group's members, else the map. @param {string} mainId @returns {string[]} */
+  colourTargets(mainId) {
+    const group = this.groupStates?.get(mainId);
+    return Array.isArray(group?.childIds) && group.childIds.length ? group.childIds : [mainId];
+  }
+
+  /** The colour a loaded map's lines are drawn in now, or ''. @param {string} mainId @returns {string} */
+  getLayerColour(mainId) {
+    const [first] = this.colourTargets(mainId);
+    const record = this.renderer?.layers.get(this.mainToTest.get(first) || first);
+    return record?.color || '';
+  }
+
+  /**
+   * A visitor's colour for a loaded map (the loaded-layers panel), remembered with the layer's
+   * preferences, so it comes back when the map is next put on.
+   * @param {string} mainId
+   * @param {string} colour  a #rrggbb colour
+   */
+  setLayerColour(mainId, colour) {
+    for (const id of this.colourTargets(mainId)) {
+      const testId = this.mainToTest.get(id) || id;
+      this.renderer?.setLayerColorAndFill(testId, colour);
+      this.renderer?.saveLayerPreferences(testId, { color: colour });
+    }
+    this.options.onChange?.(this);
+  }
+
+  /** The visitor's colour forgotten: the map goes back to its load-order colour, or its own.
+   * @param {string} mainId */
+  resetLayerColour(mainId) {
+    for (const id of this.colourTargets(mainId)) {
+      const testId = this.mainToTest.get(id) || id;
+      this.renderer?.saveLayerPreferences(testId, { color: undefined });
+      const slot = this.paletteSlots.slotOf(id);
+      const own = this.renderer?.layers.get(testId)?.config?.style?.color;
+      const colour = slot >= 0 ? LOAD_ORDER_PALETTE[slot] : own;
+      if (colour) this.renderer?.setLayerColorAndFill(testId, colour);
+    }
+    this.options.onChange?.(this);
   }
 
   /**

@@ -37,6 +37,12 @@ export interface LegacyMapController {
   map?: { invalidateSize(): void } | null;
   layerStates?: Map<string, LegacyLayerState>;
   getLayerState?(id: string): LegacyLayerState | undefined;
+  /** The colour a loaded map is drawn in now (the MapLibre adapter: its load-order or visitor's colour). */
+  getLayerColour?(id: string): string;
+  /** A visitor's colour for a loaded map, remembered with its preferences. */
+  setLayerColour?(id: string, colour: string): void;
+  /** The visitor's colour forgotten: back to the load-order colour, or the map's own. */
+  resetLayerColour?(id: string): void;
 }
 
 /** A Leaflet LatLngBounds, as packages/map/src/feature-loader.js reads one. */

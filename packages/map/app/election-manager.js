@@ -643,7 +643,8 @@ export class Test2ElectionManager {
     const councilId = this.activeBundle?.councilSourceMapId || this.activeEntry?.councilSourceMapId;
     if (this.activeLocalMode === 'district' && councilId) {
       if (!this.mapController.isLayerLoaded?.(councilId)) {
-        await this.mapController.loadLayer(councilId, { fit: false });
+        // Drawn in the election's colours, so it takes no load-order colour (layer-palette.mjs).
+        await this.mapController.loadLayer(councilId, { fit: false, ownColour: true });
       }
       if (deaId && this.mapController.isLayerLoaded?.(deaId)) {
         this.mapController.clearElectionStyle?.(deaId);
@@ -3062,7 +3063,7 @@ export class Test2ElectionManager {
       if (!mode.sourceMapId) continue;
       if (mode.id === active?.id) {
         if (!this.mapController.isLayerLoaded?.(mode.sourceMapId)) {
-          await this.mapController.loadLayer(mode.sourceMapId, { fit: false });
+          await this.mapController.loadLayer(mode.sourceMapId, { fit: false, ownColour: true });
         }
         this.mapController.showLayer?.(mode.sourceMapId);
       } else if (this.mapController.isLayerLoaded?.(mode.sourceMapId)) {

@@ -2206,9 +2206,22 @@ export class CatalogueNext {
   /** Reflect what is on the map: called after every load, unload and visibility change. */
   syncState() {
     if (!this.root || !this.data) return;
+    const mc = app()?.mapController;
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-toggle]')).forEach((btn) => {
       const on = String(this.isLoaded(btn.dataset.cnToggle));
       if (btn.getAttribute('aria-pressed') !== on) btn.setAttribute('aria-pressed', on);
+      // A chip on the map fills with the colour the map is drawn in (its load-order colour, or the
+      // reader's own), and goes back to the map's own colour when it comes off.
+      const live = on === 'true' ? mc?.getLayerColour?.(btn.dataset.cnToggle) : '';
+      if (live) {
+        if (btn.dataset.ownColour === undefined) btn.dataset.ownColour = btn.style.getPropertyValue('--c');
+        btn.style.setProperty('--c', live);
+        btn.style.setProperty('--on', inkOn(live));
+      } else if (btn.dataset.ownColour !== undefined) {
+        const own = btn.dataset.ownColour;
+        delete btn.dataset.ownColour;
+        if (own) { btn.style.setProperty('--c', own); btn.style.setProperty('--on', inkOn(own)); }
+      }
     });
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-visibility]')).forEach((btn) => {
       const id = btn.dataset.cnVisibility;

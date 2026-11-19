@@ -10466,7 +10466,8 @@ class UIController {
         const html = loadedMaps.map(map => {
             const isVisible = visibilityMap?.get(map.id) ?? true;
             const partial = partialLayerInfo?.get(map.id);
-            const color = map.style?.color || MAP_COLOURS.layer;
+            // The colour the layer is drawn in now: its load-order colour, or the reader's own.
+            const color = mapController?.getLayerColour?.(map.id) || map.style?.color || MAP_COLOURS.layer;
             const authors = map.authors?.join(', ') || '';
             // The legend's name for the layer (its catalogue row and edition, "Counties, 1922"), so
             // the panel and the legend agree (Phelim Birch's notes, 19 Nov 2026).
@@ -10509,7 +10510,15 @@ class UIController {
                     <input type="range" class="active-layer-item__slider fill-opacity-slider" data-map-id="${map.id}" aria-label="Fill opacity, ${this.escapeHtml(layerTitle)}" min="0" max="100" value="${curFillOp}">
                     <div class="active-layer-item__opacity-val"><input type="number" class="active-layer-item__opacity-input fill-opacity-input" data-map-id="${map.id}" aria-label="Fill opacity percentage, ${this.escapeHtml(layerTitle)}" min="0" max="100" value="${curFillOp}"><span>%</span></div>
                 </div>`;
-            const opacityControls = `<div class="active-layer-item__opacity-panel" data-map-id="${map.id}" style="display:none;">${opacityRows}</div>`;
+            // A boundary or point layer's colour can be changed here (Phelim Birch's notes, 19 Nov 2026);
+            // the choice is kept with the layer's preferences until it is reset.
+            const colourRow = !isRaster && /^#[0-9a-f]{6}$/i.test(color) && mapController?.setLayerColour ? `
+                <div class="active-layer-item__opacity active-layer-item__colour">
+                    <label class="active-layer-item__opacity-label" for="layerColour-${map.id}">Colour</label>
+                    <input type="color" id="layerColour-${map.id}" class="active-layer-item__colour-input layer-colour-input" data-map-id="${map.id}" value="${color.toLowerCase()}" aria-label="Colour, ${this.escapeHtml(layerTitle)}">
+                    <button type="button" class="active-layer-item__feature-btn layer-colour-reset" data-map-id="${map.id}" aria-label="Reset the colour of ${this.escapeHtml(layerTitle)}">Reset</button>
+                </div>` : '';
+            const opacityControls = `<div class="active-layer-item__opacity-panel" data-map-id="${map.id}" style="display:none;">${colourRow}${opacityRows}</div>`;
 
             return `
                 <div class="active-layer-item ${isVisible ? '' : 'active-layer-item--hidden'}${partial?.isPartial ? ' active-layer-item--partial' : ''}" data-map-id="${map.id}" style="--layer-colour: ${color}" tabindex="0" title="Drag to reorder, or press the up or down arrow key" aria-label="${this.escapeHtml(layerTitle)}. Drag, or press the up or down arrow key, to reorder.">
@@ -10519,7 +10528,7 @@ class UIController {
                         ${partial?.featureItems?.length ? `<div class="active-layer-item__feature-list">${featureRows}</div>` : ''}
                     </div>
                     <div class="active-layer-item__actions">
-                        <button class="active-layer-item__btn opacity-toggle-btn" data-map-id="${map.id}" title="Transparency">
+                        <button class="active-layer-item__btn opacity-toggle-btn" data-map-id="${map.id}" title="${isRaster ? 'Transparency' : 'Colour and transparency'}" aria-label="${isRaster ? 'Transparency' : 'Colour and transparency'}, ${this.escapeHtml(layerTitle)}">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" opacity="0.3"/><circle cx="12" cy="12" r="6"/></svg>
                         </button>
                         <button class="active-layer-item__btn visibility-btn${isVisible ? '' : ' visibility-btn--off'}" data-map-id="${map.id}" aria-pressed="${isVisible ? 'false' : 'true'}" title="${isVisible ? 'Hide' : 'Show'}" aria-label="${isVisible ? 'Hide' : 'Show'} ${this.escapeHtml(layerTitle)}">
@@ -10599,6 +10608,20 @@ class UIController {
                     panel.style.display = showing ? 'none' : 'block';
                     btn.classList.toggle('active', !showing);
                 }
+            });
+        });
+
+        // A colour chosen (the picker closed: 'change', so the panel is not redrawn under an open picker).
+        /** @type {NodeListOf<HTMLInputElement>} */ (container.querySelectorAll('.layer-colour-input')).forEach((input) => {
+            input.addEventListener('change', () => {
+                const mapId = input.dataset.mapId;
+                if (mapId && /^#[0-9a-f]{6}$/i.test(input.value)) mapController?.setLayerColour?.(mapId, input.value);
+            });
+        });
+        /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.layer-colour-reset')).forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const mapId = btn.dataset.mapId;
+                if (mapId) mapController?.resetLayerColour?.(mapId);
             });
         });
 

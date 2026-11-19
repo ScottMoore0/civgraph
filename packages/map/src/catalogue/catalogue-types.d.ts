@@ -221,6 +221,8 @@ export interface CatalogueApp {
     map?: CatalogueMapView | null;
     fitToBounds?(bounds: unknown, options?: { smooth?: boolean }): void;
     setOpacity?(mapId: string, opacity: number): void;
+    /** The colour a loaded map is drawn in now (its load-order or visitor's colour), or ''. */
+    getLayerColour?(mapId: string): string;
   } | null;
   updateURLState?(): void;
   dismissMobileCatalogueAfterLoad?(label: string): void;

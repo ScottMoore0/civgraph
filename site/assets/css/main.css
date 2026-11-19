@@ -5972,6 +5972,20 @@ html:not([data-theme]) .feature-info__value,
   border-color: var(--color-primary);
 }
 
+.active-layer-item__colour-input {
+  width: 32px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.active-layer-item__colour .layer-colour-reset {
+  margin-left: auto;
+}
+
 .opacity-toggle-btn.active {
   color: var(--color-primary) !important;
   background: var(--color-primary-50) !important;
