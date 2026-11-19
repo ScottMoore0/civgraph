@@ -200,8 +200,9 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   const drawable = s.members.length > 0;
   // One map (its other versions, such as Townlands' 1844 Valuation, wait in the opened row):
   // the row acts on that map; a row of several acts on itself (row-model.mjs).
-  const kind = rowActionKind(s);
-  const single = kind === 'map';
+  /** @type {import('./row-model.mjs').RowActionKind} */
+  const actsOn = rowActionKind(s);
+  const single = actsOn === 'map';
   const open = drawable && c.expanded.has(s.id);
   // A row with no scope finds no short name.
   const meta = [SCOPE_SHORT[/** @type {string} */ (s.scope)] || s.scope, span(s.years)].filter(Boolean).map((t) => `<span>${esc(t)}</span>`);
@@ -228,7 +229,7 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
     : `<div class="cn-row__title cn-row__title--static">${text}</div>`;
   const localHits = localHitsOf(c, s, hit);
   const chips = !single || todo.length || localHits.length;
-  const ends = kind === 'row' ? rowActionsHtml(c, s) : kind === 'map' ? mapActionsHtml(c, s, s.members[0]) : '';
+  const ends = actsOn === 'row' ? rowActionsHtml(c, s) : single ? mapActionsHtml(c, s, s.members[0]) : '';
   return `<li class="cn-row${open ? ' cn-row--open' : ''}${drawable ? '' : ' cn-row--todo'}" data-cn-series="${esc(s.id)}" style="--c:${s.color || FALLBACK}">
     <span class="cn-row__stripe" aria-hidden="true"></span>
     <span class="cn-row__thumb">${s.thumb ? c.thumb(s.thumb) : `<span class="cn-thumb-none" aria-hidden="true">${icon('map')}</span>`}</span>
@@ -387,8 +388,7 @@ function editionHtml(c, s, sel) {
  */
 function datedListHtml(c, s, list, sel) {
   const chosen = sel.of || sel.id;
-  const kind = s.arrangement === 'editions' ? 'editions' : 'maps';
-  return `<ul class="cn-dlist" aria-label="${esc(s.name)}: ${kind}">${list.map((m) => {
+  return `<ul class="cn-dlist" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${list.map((m) => {
     const r = c.rec(m.id);
     const when = r.date ? mapDate(r) : '';
     const open = m.id === chosen;
