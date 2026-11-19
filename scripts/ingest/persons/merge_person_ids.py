@@ -60,6 +60,7 @@ import os, re, sys, json, glob, csv, argparse, collections, unicodedata
 
 import display_names
 import ei_relatives
+import kept_apart
 import person_lifespans
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -557,6 +558,12 @@ def main():
         held[pid] |= {o for x in xs for o in x.get('off') or []}
     for pid, e in ents.items():
         held[pid] |= set(e.get('officialPersonIds') or [])
+    # Two men the papers tell apart (person_id_kept_apart.csv) are never joined, by any class:
+    # the test is made, like the others, against everything each side holds so far.
+    apart_rules = kept_apart.load()
+    keys_held = collections.defaultdict(set)
+    for pid, e in ents.items():
+        keys_held[pid] |= set(e.get('sourceIds') or []) | set(e.get('sourcePersonIds') or [])
 
     crosswalk_path = os.path.join(REPO, 'data', 'elections', 'persons', 'official-person-crosswalk.json')
     _cw = json.load(open(crosswalk_path, encoding='utf-8')) if os.path.exists(crosswalk_path) else {}
@@ -617,7 +624,9 @@ def main():
             # is joined over them, and only that pair (ei_relatives.load_overrides).
             overruled = ei_relatives.overridden(overrides, 'official-ids', held[ka], held[kb])
             official = None if overruled else official_conflict(held[ka], held[kb])
-            why = ei_relatives.distinct(people, held[ka], held[kb], overrides) or official or life_conflict(ka, kb)
+            why = ei_relatives.distinct(people, held[ka], held[kb], overrides) or official or life_conflict(ka, kb) \
+                or ('two men on the evidence (person_id_kept_apart.csv)'
+                    if kept_apart.apart(apart_rules, keys_held[ka], keys_held[kb]) else None)
             if why:
                 vetoed.append((mg, why))
                 continue
@@ -630,6 +639,7 @@ def main():
             lo, hi = min(ka, kb), max(ka, kb)
             parent[hi] = lo
             held[lo] |= held.pop(hi, set())
+            keys_held[lo] |= keys_held.pop(hi, set())
             years[lo] |= years.pop(hi, set())
             dates[lo] |= dates.pop(hi, set())
         applied.append(mg)

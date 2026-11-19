@@ -36,6 +36,7 @@ import os, re, sys, json, glob, argparse, collections, unicodedata
 
 import display_names
 import ei_relatives
+import kept_apart
 import person_id_issued
 import person_lifespans
 
@@ -761,6 +762,7 @@ def main():
             names = {matchkey(r['name']) for r in v} if k[1] in declared else {matchkey(v[0]['name'])}
             for nm in sorted(names):
                 by_name[nm].append(k)
+    apart_rules = kept_apart.load()
     merges, review = {}, []
     for nm, keys in by_name.items():
         if len(keys) < 2:
@@ -773,9 +775,13 @@ def main():
             if any(k in merges or k in merges.values() for k in keys):
                 review.append(nm)
                 continue
+            # Nor two groups the papers tell apart (person_id_kept_apart.csv, kept_apart.py).
             if not set.intersection(*[{r['key'] for r in groups[k]} for k in keys]) \
                     and not across_a_generation([groups[k] for k in keys]) \
-                    and not across_counties([groups[k] for k in keys]):
+                    and not across_counties([groups[k] for k in keys]) \
+                    and not any(kept_apart.apart(apart_rules, kept_apart.group_keys(groups[a]),
+                                                 kept_apart.group_keys(groups[b]))
+                                for i, a in enumerate(keys) for b in keys[i + 1:]):
                 for k in keys[1:]:
                     merges[k] = keys[0]
                 continue
@@ -877,6 +883,10 @@ def main():
             # father and son (ei_relatives.py) are two people even where a prior registry
             # recorded them as one.
             if ei_relatives.distinct(ei_people, ours_src, their_src, overrides):
+                continue
+            # Nor one the papers contradict (person_id_kept_apart.csv): a split made with declared
+            # keys is not undone by the join the prior registry recorded.
+            if kept_apart.apart(apart_rules, kept_apart.group_keys(merged[lead]), kept_apart.group_keys(merged[k])):
                 continue
             # Nor one made while a row still had a placeholder for a name (named_after_import):
             # the rows' real names now differ, so the join rested on the placeholder alone.
