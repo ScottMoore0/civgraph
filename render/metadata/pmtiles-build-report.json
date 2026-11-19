@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-19T13:37:35.726Z",
+  "generatedAt": "2026-11-19T21:45:50.244Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,19 +12,19 @@
   "outputDirectory": "render/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 3,
-    "converted": 3,
+    "candidates": 2,
+    "converted": 2,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 3,
+    "metadataPreferred": 2,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "plu-1849-09-29-vector",
-      "sourceMapId": "plu-1849-09-29",
-      "name": "Poor Law Unions 29 Sep 1849",
-      "sourceType": "pmtiles",
+      "layerId": "plu-1881-vector",
+      "sourceMapId": "plu-1881",
+      "name": "Poor Law Unions 3 Apr 1881",
+      "sourceType": "mvt",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -33,15 +33,15 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/plu-1849-09-29-vector.pmtiles",
-      "bytes": 6855742,
+      "output": "render/pmtiles/generated/plu-1881-vector.pmtiles",
+      "bytes": 6002154,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "plu-1840-12-31-vector",
-      "sourceMapId": "plu-1840-12-31",
-      "name": "Poor Law Unions 31 Dec 1840",
-      "sourceType": "pmtiles",
+      "layerId": "plu-1871-vector",
+      "sourceMapId": "plu-1871",
+      "name": "Poor Law Unions 2 Apr 1871",
+      "sourceType": "mvt",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -50,25 +50,8 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/plu-1840-12-31-vector.pmtiles",
-      "bytes": 6438597,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "plu-1839-12-31-vector",
-      "sourceMapId": "plu-1839-12-31",
-      "name": "Poor Law Unions 31 Dec 1839",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/plu-1839-12-31-vector.pmtiles",
-      "bytes": 4294510,
+      "output": "render/pmtiles/generated/plu-1871-vector.pmtiles",
+      "bytes": 6033802,
       "exceedsGithubBudget": false
     }
   ],
