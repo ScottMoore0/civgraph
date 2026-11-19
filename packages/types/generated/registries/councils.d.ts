@@ -81,6 +81,8 @@ export interface Council {
   wikipedia?: {
     key: string;
     titleVariants: string[];
+    /** The title forms the 1973-2011 party-label comparison (scripts/ingest/wikipedia/scrape_and_compare_lgov_wikipedia.py) tries, in its order, when they differ from titleVariants: the first is the name the LGOV export gives the council, which the comparison files rows under. Every form is also one of titleVariants. */
+    compareTitleVariants?: string[];
   };
   flags?: {
     niLocalGroup?: true;

@@ -28,34 +28,11 @@ wikimedia_headers = _WM['wikimedia_headers']
 
 YEARS = [1973, 1977, 1981, 1985, 1989, 1993, 1997, 2001, 2005, 2011]
 
-COUNCILS = [
-    {"key": "antrim", "variants": ["Antrim District Council", "Antrim Borough Council"]},
-    {"key": "ards", "variants": ["Ards District Council", "Ards Borough Council"]},
-    {"key": "armagh", "variants": ["Armagh City and District Council", "Armagh District Council", "Armagh City Council"]},
-    {"key": "ballymena", "variants": ["Ballymena Borough Council"]},
-    {"key": "ballymoney", "variants": ["Ballymoney Borough Council"]},
-    {"key": "banbridge", "variants": ["Banbridge District Council"]},
-    {"key": "belfast", "variants": ["Belfast City Council"]},
-    {"key": "carrickfergus", "variants": ["Carrickfergus Borough Council"]},
-    {"key": "castlereagh", "variants": ["Castlereagh Borough Council"]},
-    {"key": "coleraine", "variants": ["Coleraine Borough Council"]},
-    {"key": "cookstown", "variants": ["Cookstown District Council"]},
-    {"key": "craigavon", "variants": ["Craigavon Borough Council"]},
-    {"key": "derry", "variants": ["Derry City Council", "Londonderry City Council"]},
-    {"key": "down", "variants": ["Down District Council"]},
-    {"key": "dungannon_and_south_tyrone", "variants": ["Dungannon and South Tyrone Borough Council", "Dungannon and South Tyrone District Council", "Dungannon District Council"]},
-    {"key": "fermanagh", "variants": ["Fermanagh District Council"]},
-    {"key": "larne", "variants": ["Larne Borough Council"]},
-    {"key": "limavady", "variants": ["Limavady Borough Council"]},
-    {"key": "lisburn", "variants": ["Lisburn City Council", "Lisburn Borough Council"]},
-    {"key": "magherafelt", "variants": ["Magherafelt District Council"]},
-    {"key": "moyle", "variants": ["Moyle District Council"]},
-    {"key": "newry_and_mourne", "variants": ["Newry and Mourne District Council"]},
-    {"key": "newtownabbey", "variants": ["Newtownabbey Borough Council"]},
-    {"key": "north_down", "variants": ["North Down Borough Council"]},
-    {"key": "omagh", "variants": ["Omagh District Council"]},
-    {"key": "strabane", "variants": ["Strabane District Council"]},
-]
+# The 1973 councils and the Wikipedia title forms this comparison tries, from the councils registry
+# (data/registries/councils.json, through scripts/ingest/councils_registry.py); each council's first
+# form is the name LGOV_CODE_TO_COUNCIL gives it.
+_CR = __import__('runpy').run_path(str(Path(__file__).resolve().parents[1] / 'councils_registry.py'))
+COUNCILS = _CR['wikipedia_compare_councils']()
 
 LGOV_CODE_TO_COUNCIL = {
     "ANT": "Antrim District Council",

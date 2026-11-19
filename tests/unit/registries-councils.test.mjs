@@ -133,7 +133,13 @@ test('councils: counties, offices institutions and the scrapers\' lists', () => 
   const wiki = (gen) => new Map(registry.councils.filter((c) => c.generation === gen && c.wikipedia).map((c) => [c.wikipedia.key, c.wikipedia.titleVariants]));
   if (src.wikipedia1973) assert.deepEqual(wiki('1973'), new Map(src.wikipedia1973.map((w) => [w.key, w.variants])));
   if (src.wikipedia2014) assert.deepEqual(wiki('2014'), new Map(src.wikipedia2014.map((w) => [w.key, w.variants])));
-  // The comparison scraper's lists are subsets (same council keys, fewer "District Council" forms).
+  // The comparison scraper's forms (compareTitleVariants, which it reads since 19 Nov 2026) are
+  // title forms of the same council, fewer "District Council" forms and its comparison name first.
+  for (const c of registry.councils.filter((x) => x.wikipedia?.compareTitleVariants)) {
+    assert.equal(c.generation, '1973', c.id);
+    for (const v of c.wikipedia.compareTitleVariants) assert.ok(c.wikipedia.titleVariants.includes(v), `${c.id}: ${v}`);
+    assert.notDeepEqual(c.wikipedia.compareTitleVariants, c.wikipedia.titleVariants, `${c.id}: give compareTitleVariants only when they differ`);
+  }
   for (const w of src.wikipedia1973Compare || []) {
     for (const v of w.variants) assert.ok(wiki('1973').get(w.key).includes(v), `${w.key}: ${v}`);
   }

@@ -98,7 +98,8 @@ function optional(read) {
  * six council sets, scripts/lib/election-names.mjs's three lists and the grouped build's
  * AUTHORITY_STEM_ALIASES; and (reg-app, 8 Nov 2026) the map app's: src/ni-local-groups.mjs's
  * NI_COUNCIL_SLUGS and NI_LOCAL_TIERS and src/catalogue/search.js's council lists and aliases,
- * which read registries/browser/councils.json. With the first went registries/seed/councils.mjs: since then
+ * which read registries/browser/councils.json; and (w19-refactor-tail, 19 Nov 2026) the comparison
+ * scraper's COUNCILS, now the registry's compareTitleVariants. With the first went registries/seed/councils.mjs: since then
  * data/registries/councils.json is the source, edited by hand and checked by
  * node packages/registries/src/check.mjs and tests/unit/registries-councils.test.mjs.
  * @param {string} [root]

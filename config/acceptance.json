@@ -5,14 +5,12 @@
     {
       "id": "A1",
       "title": "A new body type needs only config",
-      "status": "open",
+      "status": "met",
+      "note": "The last Python council literal (scripts/ingest/wikipedia/scrape_and_compare_lgov_wikipedia.py) reads the councils registry since 19 Nov 2026 (w19-refactor-tail); python-council-lists.test holds every Python list to the registry.",
       "evidence": {
-        "tests": ["unit/acceptance-a1-body-type.test.mjs", "unit/registries-election-bodies.test.mjs", "unit/registries-body-groups.test.mjs", "unit/registries-catalogue-kinds.test.mjs", "unit/registries-councils.test.mjs"],
+        "tests": ["unit/acceptance-a1-body-type.test.mjs", "unit/registries-election-bodies.test.mjs", "unit/registries-body-groups.test.mjs", "unit/registries-catalogue-kinds.test.mjs", "unit/registries-councils.test.mjs", "intake/python-council-lists.test.mjs"],
         "asserts": ["architecture-baseline-empty:C4"]
-      },
-      "gaps": [
-        { "measure": "python-literal-council-lists", "value": 1, "note": "a Python scraper still spells its council list out instead of reading data/registries (scripts/ingest/wikipedia)" }
-      ]
+      }
     },
     {
       "id": "A2",

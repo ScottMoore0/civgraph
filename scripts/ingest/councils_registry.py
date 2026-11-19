@@ -38,6 +38,15 @@ def wikipedia_councils(generation, path=REGISTRY):
             for c in councils(path) if c.get('generation') == generation and c.get('wikipedia')]
 
 
+def wikipedia_compare_councils(path=REGISTRY):
+    """{'key', 'variants'} for each 1973 council the 1973-2011 party-label comparison fetches: its
+    Wikipedia key and the title forms that scraper tries (compareTitleVariants where the registry
+    gives them, else titleVariants); the first form is the name the LGOV export files it under."""
+    return [{'key': c['wikipedia']['key'],
+             'variants': list(c['wikipedia'].get('compareTitleVariants') or c['wikipedia']['titleVariants'])}
+            for c in councils(path) if c.get('generation') == '1973' and c.get('wikipedia')]
+
+
 def wikipedia_display(generation, path=REGISTRY):
     """key -> the council's name, for each council of a generation with Wikipedia articles."""
     return {c['wikipedia']['key']: c['name'] for c in councils(path) if c.get('generation') == generation and c.get('wikipedia')}
