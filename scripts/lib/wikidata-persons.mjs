@@ -61,7 +61,7 @@ export function wikidataOf(doc, personId) {
  * @returns {{ qid: string|null, fromCrosswalk: boolean }}
  */
 export function personWikidata(idQids, doc, personId) {
-  if (idQids.size) return { qid: idQids.size === 1 ? [...idQids][0] : null, fromCrosswalk: false };
+  if (idQids.size) return { qid: idQids.size === 1 ? /** @type {string} the one item */ ([...idQids][0]) : null, fromCrosswalk: false };
   const qid = wikidataOf(doc, personId);
   return { qid, fromCrosswalk: Boolean(qid) };
 }

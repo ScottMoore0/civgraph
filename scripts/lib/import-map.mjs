@@ -48,8 +48,8 @@ export const token = (rel) => createHash('sha256').update(readServed(rel)).diges
  */
 export function importsOf(source) {
   const out = [];
-  for (const match of source.matchAll(/^\s*(?:import|export)\s[^;'"]*?\sfrom\s+['"]([^'"]+)['"]/gm)) out.push(match[1]);
-  for (const match of source.matchAll(/^\s*import\s+['"]([^'"]+)['"]/gm)) out.push(match[1]);
+  for (const match of source.matchAll(/^\s*(?:import|export)\s[^;'"]*?\sfrom\s+['"]([^'"]+)['"]/gm)) out.push(/** @type {string} the pattern's one group */ (match[1]));
+  for (const match of source.matchAll(/^\s*import\s+['"]([^'"]+)['"]/gm)) out.push(/** @type {string} the pattern's one group */ (match[1]));
   return out;
 }
 

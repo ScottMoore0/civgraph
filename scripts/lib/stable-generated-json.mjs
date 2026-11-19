@@ -44,7 +44,7 @@ function setPath(value, pathExpression, nextValue) {
     if (!current[part] || typeof current[part] !== 'object') current[part] = {};
     current = /** @type {Record<string, unknown>} */ (current[part]);
   }
-  if (parts.length) current[parts[parts.length - 1]] = nextValue;
+  if (parts.length) current[/** @type {string} */ (parts[parts.length - 1])] = nextValue;
 }
 
 /**
@@ -58,7 +58,7 @@ function deletePath(value, pathExpression) {
     if (!current || typeof current !== 'object') return;
     current = /** @type {Record<string, unknown>} */ (current)[part];
   }
-  if (current && typeof current === 'object' && parts.length) delete /** @type {Record<string, unknown>} */ (current)[parts[parts.length - 1]];
+  if (current && typeof current === 'object' && parts.length) delete /** @type {Record<string, unknown>} */ (current)[/** @type {string} */ (parts[parts.length - 1])];
 }
 
 /**

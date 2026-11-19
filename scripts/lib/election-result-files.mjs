@@ -18,7 +18,7 @@ const SEAT_TYPE_SUFFIX = /\(\s*(aldermen|councillors)\s*\)\s*$/i;
 export function seatTypeResultFile(dateDir, constituency) {
   const match = SEAT_TYPE_SUFFIX.exec(String(constituency ?? ''));
   if (!match) return null;
-  const file = path.join(dateDir, `${match[1].toLowerCase()}.json`);
+  const file = path.join(dateDir, `${/** @type {string} */ (match[1]).toLowerCase()}.json`);
   return existsSync(file) ? file : null;
 }
 

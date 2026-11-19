@@ -171,7 +171,7 @@ function jsonlIndex(file) {
     // Cheap prefix scan: the writer always emits "k" first, so this avoids
     // JSON.parse over hundreds of thousands of bodies just to list keys.
     const m = /^\{"k":("(?:[^"\\]|\\.)*")/.exec(line);
-    if (m) { try { keys.add(JSON.parse(m[1])); } catch { /* skip malformed */ } }
+    if (m) { try { keys.add(JSON.parse(/** @type {string} */ (m[1]))); } catch { /* skip malformed */ } }
   }
   return keys;
 }

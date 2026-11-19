@@ -40,8 +40,8 @@ export function namesCompatible(a, b) {
   const fb = tb.slice(0, -1).filter((t) => !PARTICLES.has(t));
   if (!fa.length || !fb.length) return false;
   for (let i = 0; i < Math.min(fa.length, fb.length); i += 1) {
-    const x = fa[i];
-    const y = fb[i];
+    const x = /** @type {string} */ (fa[i]);
+    const y = /** @type {string} */ (fb[i]);
     if (!(x === y || (x.length === 1 && y.startsWith(x)) || (y.length === 1 && x.startsWith(y)))) return false;
   }
   return true;

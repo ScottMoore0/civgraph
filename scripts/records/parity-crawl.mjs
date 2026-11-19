@@ -71,7 +71,7 @@ const args = process.argv.slice(2);
  * @param {F} fallback
  * @returns {string | F}
  */
-const opt = (name, fallback) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
+const opt = (name, fallback) => { const i = args.indexOf(name); return i >= 0 ? /** @type {string} */ (args[i + 1]) : fallback; };
 const A = String(opt('--a', SITE.origin)).replace(/\/$/, '');
 const B = String(opt('--b', 'http://127.0.0.1:8788')).replace(/\/$/, '');
 const DB = path.resolve(opt('--db', RECORDS_DB));
@@ -101,7 +101,7 @@ function sample(list, n) {
   const k = Math.min(a.length, Math.max(0, Math.round(n * SCALE)));
   for (let i = 0; i < k; i += 1) {
     const j = i + Math.floor(rand() * (a.length - i));
-    [a[i], a[j]] = [a[j], a[i]];
+    [a[i], a[j]] = /** @type {[T, T]} i and j are within a */ ([a[j], a[i]]);
   }
   return a.slice(0, k).sort();
 }
@@ -142,7 +142,7 @@ export function buildUrlList(db) {
   for (const k of sample(keys, 60)) add('api-bundle', `/_api/elections?key=${enc(k)}&format=bundle&lite=1`);
   const contests = db.prepare('SELECT election_key AS k, seq FROM contests ORDER BY election_key, seq').all();
   for (const c of sample(contests.map((r) => `${r.k}|${r.seq}`), 40)) {
-    const [k, seq] = c.split('|');
+    const [k, seq] = /** @type {[string, string]} joined with | above */ (c.split('|'));
     add('api-constituency', `/_api/elections?key=${enc(k)}&constituency=${seq}`);
   }
   add('api-elections-index', '/_api/elections');
@@ -261,7 +261,7 @@ export function addMapUrls(db, { col, add, enc }) {
   const aliases = /** @type {{ alias: string, layer_id: string }[]} */ (db.prepare('SELECT alias, layer_id FROM layer_aliases ORDER BY alias').all())
     .filter((r) => !/-test$/.test(r.alias)).map((r) => `${r.alias}|${r.layer_id}`);
   for (const a of sample(aliases, 20)) {
-    const [alias, id] = a.split('|');
+    const [alias, id] = /** @type {[string, string]} joined with | above */ (a.split('|'));
     add('layer-alias', `/render/metadata/layer-details-test2/${fileName(id)}`, 'json', { follow: true, urlB: `/_api/layers/${enc(alias)}`, expect: `/_api/layers/${enc(id)}` });
   }
   for (const f of ['maps.json', 'features.json']) add('browse-maps-file', `/data/browse/${f}`);
@@ -486,7 +486,7 @@ async function crawl(urls) {
     while (next < urls.length) {
       const i = next;
       next += 1;
-      const u = urls[i];
+      const u = /** @type {CrawlUrl} */ (urls[i]);
       if (u.mode !== 'search') fetchB[i] = await get(B, u.urlB || u.url, { follow: Boolean(u.follow) });
     }
   };
@@ -494,9 +494,9 @@ async function crawl(urls) {
   await bDone;
   const searches = urls.some((u) => u.mode === 'search') ? await searchDocuments() : null;
   for (let i = 0; i < urls.length; i += 1) {
-    if (urls[i].mode === 'search') { results[i] = compareSearch(urls[i], searches); continue; }
-    const a = await get(A, urls[i].url, { follow: Boolean(urls[i].follow) });
-    results[i] = compare(urls[i], /** @type {Fetched} */ (a), /** @type {Fetched} */ (fetchB[i]));
+    if (/** @type {CrawlUrl} */ (urls[i]).mode === 'search') { results[i] = compareSearch(/** @type {CrawlUrl} */ (urls[i]), searches); continue; }
+    const a = await get(A, /** @type {CrawlUrl} */ (urls[i]).url, { follow: Boolean(/** @type {CrawlUrl} */ (urls[i]).follow) });
+    results[i] = compare(/** @type {CrawlUrl} */ (urls[i]), /** @type {Fetched} */ (a), /** @type {Fetched} */ (fetchB[i]));
     if (!isLocal(A)) await sleep(DELAY_A);
     if ((i + 1) % 100 === 0) console.log(`  ${i + 1}/${urls.length}`);
   }
@@ -507,9 +507,9 @@ async function crawl(urls) {
     console.log(`  retrying ${again.length} URL(s) that answered 5xx`);
     await sleep(60_000);
     for (const i of again) {
-      const a = await get(A, urls[i].url);
-      const b = await get(B, urls[i].url);
-      results[i] = { ...compare(urls[i], /** @type {Fetched} */ (a), /** @type {Fetched} */ (b)), retried: true };
+      const a = await get(A, /** @type {CrawlUrl} */ (urls[i]).url);
+      const b = await get(B, /** @type {CrawlUrl} */ (urls[i]).url);
+      results[i] = { ...compare(/** @type {CrawlUrl} */ (urls[i]), /** @type {Fetched} */ (a), /** @type {Fetched} */ (b)), retried: true };
       if (!isLocal(A)) await sleep(DELAY_A);
     }
   }

@@ -60,7 +60,7 @@ export async function typecheck(configFile, { root = REPO_ROOT } = {}) {
   const outside = [];
   for (const d of ts.getPreEmitDiagnostics(program)) {
     if (d.category !== ts.DiagnosticCategory.Error) continue;
-    const message = ts.flattenDiagnosticMessageText(d.messageText, '\n').split('\n')[0];
+    const message = /** @type {string} split always gives one part */ (ts.flattenDiagnosticMessageText(d.messageText, '\n').split('\n')[0]);
     if (!d.file) {
       errors.push({ file: '', line: 0, column: 0, code: d.code, message });
       continue;

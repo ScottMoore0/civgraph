@@ -71,7 +71,7 @@ export function emptyGraphLedger() {
  * @returns {LedgerType | null}
  */
 export function ledgerType(id) {
-  const type = String(id).split(':')[1];
+  const type = /** @type {string} */ (String(id).split(':')[1]);
   return /** @type {readonly string[]} */ (LEDGER_TYPES).includes(type) && String(id).startsWith(`cg:${type}:`) ? /** @type {LedgerType} */ (type) : null;
 }
 
@@ -125,10 +125,10 @@ export const PERSON_NAME_REDIRECTS_FILE = path.join(ROOT, 'data', 'elections', '
  */
 export function readPersonNameRedirects(file = PERSON_NAME_REDIRECTS_FILE) {
   if (!existsSync(file)) return new Map();
-  const [head, ...lines] = readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean);
+  const [head, ...lines] = /** @type {[string, ...string[]]} the file starts with its header */ (readFileSync(file, 'utf8').split(/\r?\n/).filter(Boolean));
   const cols = head.split(',');
   const [slugAt, keepAt] = [cols.indexOf('name_slug'), cols.indexOf('keep')];
-  return new Map(lines.map((line) => line.split(',')).map((row) => [row[slugAt], row[keepAt]]));
+  return new Map(lines.map((line) => line.split(',')).map((row) => /** @type {[string, string]} every row has both columns */ ([row[slugAt], row[keepAt]])));
 }
 
 /** The person id a person entity's slug ends with ("dawson-bates-104451" -> "104451"), or null. */
@@ -184,7 +184,7 @@ export function retiredSlugPairs(liveSlugs, { retiredContestSlugs = RETIRED_CONT
   /** @type {[string, string][]} */
   const pairs = retiredContestSlugs.map(([from, to]) => /** @type {[string, string]} */ ([from, to]));
   for (const slug of liveSlugs) {
-    for (const [from, to] of electionSlugAliases) {
+    for (const [from, to] of /** @type {readonly (readonly [string, string])[]} each alias is a pair */ (electionSlugAliases)) {
       if (slug === to || slug.startsWith(`${to}-`)) pairs.push([from + slug.slice(to.length), slug]);
     }
   }
