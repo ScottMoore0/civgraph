@@ -103,5 +103,5 @@ test('the election manager installs the grouped-year methods and defines none of
   assert.deepEqual(grouped, ['loadNiLocalGroup', 'closeGroupedYearLayers']);
   for (const name of grouped) assert.equal(own.has(name), false, `${name} is defined in both`);
   const source = readFileSync(path.join(ROOT, 'packages/map/app/election-manager.js'), 'utf8');
-  assert.match(source, /installMethods\(Test2ElectionManager, \[GroupedYearMethods\]\)/);
+  assert.match(source, /installMethods\(Test2ElectionManager, \[GroupedYearMethods, ElectionGroupMethods\]\)/);
 });

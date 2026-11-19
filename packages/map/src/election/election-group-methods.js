@@ -62,7 +62,7 @@ export class ElectionGroupMethods {
       manager.pendingLoad = null;
       this.app.navigationPush?.clear();
       const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
-      const wrapped = new Error(`${entry.displayTitle || entry.date} could not be loaded: ${offline ? 'you appear to be offline' : 'its results or maps did not arrive'}.`);
+      const wrapped = new Error(`${entry.displayTitle || entry.date} could not be loaded: ${offline ? 'you appear to be offline' : 'its results or map did not arrive'}.`);
       wrapped.cause = error;
       throw wrapped;
     }

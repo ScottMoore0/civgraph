@@ -39,7 +39,7 @@ import { buildVar, recordPaths, REPO_ROOT } from '@civgraph/config/node';
  * listed here.
  */
 export const READ_BY_BUILD = Object.freeze([
-  /^packages\/map\/src\/(?:public-map\.mjs|cdn-url\.js|app\/url-compat\.mjs|ni-local-groups\.mjs|printed-labels\.mjs)$/,
+  /^packages\/map\/src\/(?:public-map\.mjs|cdn-url\.js|app\/url-compat\.mjs|ni-local-groups\.mjs|election-groups\.mjs|printed-labels\.mjs)$/,
   /^site\/pkg\//,
   /^scripts\/publish\/r2-env\.mjs$/,
 ]);

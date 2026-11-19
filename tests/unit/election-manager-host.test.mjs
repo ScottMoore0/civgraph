@@ -64,19 +64,21 @@ test('the manager is built with the app and its map adapter', () => {
   assert.match(pane, new RegExp(String.raw`new Test2ElectionManager\(\{\s*(?:\/\/[^\n]*\n\s*)*app: ${cast}this\)?,\s*mapController: ${cast}this\.mapController\)?,`));
 });
 
-test('every method of the manager\'s method module types `this` as the manager', () => {
-  const file = 'packages/map/src/election/grouped-year-methods.js';
-  const lines = read(file).split('\n');
-  let methods = 0;
-  lines.forEach((line, i) => {
-    if (!/^ {2}(?:async )?[A-Za-z_$][\w$]*\([^)]*\) \{$/.test(line)) return;
-    methods += 1;
-    const doc = lines.slice(Math.max(0, i - 30), i).join('\n');
-    assert.match(doc.slice(doc.lastIndexOf('/**')), /@this \{ElectionManager\}/, `${file}:${i + 1} ${line.trim()} has no @this`);
-  });
-  assert.ok(methods >= 2, 'loadNiLocalGroup and closeGroupedYearLayers');
+test('every method of the manager\'s method modules types `this` as the manager', () => {
+  // The grouped years, and the grouped entries (election-group-methods.js, 19 Nov 2026).
+  for (const [file, least] of /** @type {const} */ ([['packages/map/src/election/grouped-year-methods.js', 2], ['packages/map/src/election/election-group-methods.js', 8]])) {
+    const lines = read(file).split('\n');
+    let methods = 0;
+    lines.forEach((line, i) => {
+      if (!/^ {2}(?:async )?[A-Za-z_$][\w$]*\([^)]*\) \{$/.test(line)) return;
+      methods += 1;
+      const doc = lines.slice(Math.max(0, i - 30), i).join('\n');
+      assert.match(doc.slice(doc.lastIndexOf('/**')), /@this \{ElectionManager\}/, `${file}:${i + 1} ${line.trim()} has no @this`);
+    });
+    assert.ok(methods >= least, file);
+  }
   const manager = read('packages/map/app/election-manager.js');
-  assert.match(manager, /installMethods\(Test2ElectionManager, \[GroupedYearMethods\]\)/, 'the module is installed on the manager');
+  assert.match(manager, /installMethods\(Test2ElectionManager, \[GroupedYearMethods, ElectionGroupMethods\]\)/, 'the modules are installed on the manager');
 });
 
 test('the manager, its method module, the NI local view and the declaration stay in the map type check', () => {
@@ -84,6 +86,7 @@ test('the manager, its method module, the NI local view and the declaration stay
   for (const entry of [
     'src/election/election-manager.d.ts',
     'src/election/grouped-year-methods.js',
+    'src/election/election-group-methods.js',
     'app/ni-local-view.js',
     'app/election-manager.js'
   ]) assert.ok(include.includes(entry), `packages/map/tsconfig.check.json lost ${entry}`);

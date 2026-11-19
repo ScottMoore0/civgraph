@@ -242,7 +242,8 @@ export function electionAliases(e) {
     else out.push(...(year >= 2014 ? NI_COUNCILS_2014 : NI_COUNCILS_1973));
   }
   if (e.bodySlug === 'ireland-local') out.push(...IRISH_COUNCILS);
-  out.push(scopeAlias(e.scope));
+  const scope = scopeAlias(e.scope);
+  if (scope) out.push(scope);
   return out.join(' ');
 }
 
