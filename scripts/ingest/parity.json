@@ -32,7 +32,7 @@
     "gazette-spn/reference-names": { "proved": "rf-ingest (from the Gazette data folder)" },
     "gazette-spn/provenance": { "proved": "rf-ingest (from the Gazette data folder)" },
     "geoportal/source-records": { "proved": "rf-ingest" },
-    "hansard/clean": { "blocked": "needs the OCR text folder (an input), which is not on this machine; it cleans the files in place, outside the repository" },
+    "hansard/clean": { "proved": "w19-refactor-tail, with the 1921 Senate volume's OCR text from the Internet Archive item civgraph-ni-hansard-1921-1945 (one GET; 1 hyphen rejoined, 1 page-number line removed) and a page too short to clean, as .txt in an untracked folder of the worktree; 1 file identical" },
     "hills/domain-assets": { "proved": "rf-ingest (9 files; generatedAt volatile)" },
     "hills/domain-metadata": { "proved": "r2-ingest (7 files, run in place)" },
     "hop/extract": { "proved": "rf-ingest (from the local History of Parliament archive)" },
