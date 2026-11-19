@@ -36,7 +36,8 @@ test('the four NUTS maps are in maps.json, built from council maps and citing th
     assert.ok(urls.some((u) => /eurostat\/web\/nuts\/history/.test(u)), `${id} cites Eurostat's code lists`);
     assert.ok(urls.some((u) => /layers=(local-authorities-20(08|14))/.test(u)) && urls.some((u) => /layers=lgd-(1993|2012)/.test(u)), `${id} cites its council maps`);
   }
-  assert.match(maps.get('nuts-3-2016-2021').description, /UKN10-UKN16 became UKN0A-UKN0G/);
+  // No map description: the drafted one was AI prose (owner, 19 Nov 2026); the codes are tested below.
+  for (const id of Object.keys(EXPECTED)) assert.equal(maps.get(id).description, undefined, id);
 });
 
 test('their live layers carry Eurostat\'s codes: UKN0A-0G for 2021 and UKN10-16 for 2016', () => {

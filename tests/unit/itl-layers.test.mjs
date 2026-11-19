@@ -30,7 +30,8 @@ test('the three ITL maps are in maps.json, built from lgd-2012 and citing ONS', 
     const urls = m.references.map((r) => r.url);
     assert.ok(urls.some((u) => u.startsWith('https://geoportal.statistics.gov.uk/datasets/')), `${id} cites ONS Open Geography`);
     assert.ok(urls.includes('https://civgraph.net/maps/#layers=lgd-2012'), `${id} cites its district map`);
-    assert.match(m.description, /ITL 2025 \(from 1 Jan 2025\), which changed no Northern Ireland unit/);
+    // No map description: the drafted one was AI prose (owner, 19 Nov 2026).
+    assert.equal(m.description, undefined, id);
   }
 });
 

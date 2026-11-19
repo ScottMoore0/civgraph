@@ -1949,7 +1949,7 @@
     "2023",
     "proposal"
    ],
-   "description": "Northern Ireland's 11 Local Government Districts as set out in the Local Government Boundary Commission's Final Recommendations published May 2022. The 11-LGD count is unchanged from the existing 2014 boundaries, but the lines themselves are redrawn. Includes electorate counts per district. These are recommendations from the Commission and may not yet be in legal force — verify current statutory status before using for official purposes.",
+   "description": "Northern Ireland's 11 Local Government Districts as set out in the Local Government Boundary Commission's Final Recommendations published May 2022.",
    "references": [
     {
      "label": "LGBC 21/22 Public Consultation app",
@@ -3571,7 +3571,7 @@
     "current",
     "wards"
    ],
-   "description": "Northern Ireland's 462 wards, as recommended by the Local Government Boundaries Commissioner in the Final Recommendations published in May 2022 and used at the May 2023 local government elections. Same ward count as the 2014 boundaries but with substantially redrawn lines, and a new WardCode scheme. Each ward carries its electorate count and the local government district it sits in. Confirm the current statutory position before relying on these for official purposes.",
+   "description": "Northern Ireland's 462 wards, as recommended by the Local Government Boundaries Commissioner in the Final Recommendations published in May 2022 and used at the May 2023 local government elections.",
    "references": [
     {
      "label": "LGBC 21/22 Public Consultation app",
@@ -6324,7 +6324,7 @@
     "all-ireland",
     "ireland"
    ],
-   "description": "All-Ireland Westminster parliamentary constituencies after the 1918 Representation of the People Act. 107 constituencies covering the whole island, in use for the December 1918 General Election. Built by dissolving parlconst's per-section boundary mosaics (105–111 ROI + the parlconst NI 1918 layer).",
+   "description": "All-Ireland Westminster parliamentary constituencies after the 1918 Representation of the People Act. 107 constituencies covering the whole island, in use for the December 1918 General Election.",
    "date": 1918,
    "variants": [
     {
@@ -7001,7 +7001,6 @@
    ],
    "cloneOf": "provinces-1955",
    "irishLabelProperty": "CUIGE",
-   "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation.",
    "subject": "counties"
   },
   {
@@ -7330,7 +7329,7 @@
      ]
     }
    ],
-   "description": "Current all-island county layer. Republic of Ireland and Northern Ireland component layers remain available as sub-maps; older all-island county vintages are catalogue siblings rather than sub-maps of this 1977/current entry.",
+   "description": "Current all-island county layer.",
    "subject": "counties"
   },
   {
@@ -9880,7 +9879,7 @@
    "chunkOverviewMaxZoom": 13,
    "chunkInitialBuffer": 0.1,
    "chunkLoadConcurrency": 1,
-   "description": "Unified all-Ireland civil parish boundaries. The interactive layer uses overview LODs at low and medium zooms, then viewport chunks at high zooms.",
+   "description": "Unified all-Ireland civil parish boundaries.",
    "subject": "civil-parishes"
   },
   {
@@ -10592,7 +10591,7 @@
    "featured": true,
    "cloneOf": "wards-1993",
    "note": "Same boundaries as 1993 Wards, used as a 2001 Census output geography",
-   "description": "The 1993 wards, reused unchanged as an output geography for the 2001 Census. Northern Ireland had no Super Output Areas or Super Data Zones in 2001, so wards carried the small-area statistics that later censuses publish on those geographies. \"Wards 2001\" is therefore a census output geography rather than a separate set of boundaries.",
+   "description": "The 1993 wards, reused unchanged as an output geography for the 2001 Census.",
    "keywords": [
     "ward",
     "2001",
@@ -18586,7 +18585,7 @@
     "GSNI",
     "BGS"
    ],
-   "description": "Faults in the bedrock of Northern Ireland at 1:250,000 scale, from the Geological Survey of Northern Ireland’s 250K bedrock geology map: 1,578 lines, of which 1,504 are inferred faults at rockhead, 69 tectonic slides and 5 thrust faults. The map’s other line features (bedrock boundaries, fold axial traces, dykes, lineaments) are not in this dataset.",
+   "description": "Faults in the bedrock of Northern Ireland at 1:250,000 scale, from the Geological Survey of Northern Ireland’s 250K bedrock geology map: 1,578 lines, of which 1,504 are inferred faults at rockhead, 69 tectonic slides and 5 thrust faults.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-geology-lines.fgb"
    },
@@ -19024,7 +19023,7 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Polygonal overlay of Ordnance Survey of Northern Ireland 1:10,000-scale printed-map tile footprints, labelled by sheet name. Useful for locating which historic / current OSNI sheet covers a site.",
+   "description": "Polygonal overlay of Ordnance Survey of Northern Ireland 1:10,000-scale printed-map tile footprints, labelled by sheet name.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-10k.fgb"
    },
@@ -19079,7 +19078,6 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Polygonal overlay of OSNI 1:50,000-scale printed-map tile footprints, labelled by tile identifier — the coarser complement to the 1:10K coverage grid.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/osni-reference/coverage-grid-50k.fgb"
    },
@@ -19134,7 +19132,6 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Historic OSNI benchmarks — small brass plates or chiselled grooves set into permanent features (bridges, walls, milestones) whose heights above Ordnance Datum were precisely determined by levelling surveys. Used by surveyors as known reference points before GPS. ~10,000 points across Northern Ireland, each attributed with its height in metres.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/osni-reference/benchmarks.fgb"
    },
@@ -19310,7 +19307,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "Tellus stream-sediment samples specifically analysed for boron, which requires a separate analytical method from the main XRF panel. ~5,840 points.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/geology/tellus-stream-sediments-boron.fgb"
    },
@@ -19368,7 +19364,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "A-horizon (topsoil) samples from the Tellus rural soil survey digested with aqua regia and analysed for the trace/heavy metal elements that resist XRF. Complements the A-horizon XRF layer. ~6,870 points.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-a-aqua-regia.fgb"
    },
@@ -19428,7 +19423,7 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "S-horizon (subsoil) samples from the Tellus rural soil survey, aqua regia digest. The deeper soil samples — useful for distinguishing surface anthropogenic contamination from underlying geology. ~6,870 points.",
+   "description": "S-horizon (subsoil) samples from the Tellus rural soil survey, aqua regia digest.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-s-aqua-regia.fgb"
    },
@@ -19487,7 +19482,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "S-horizon (subsoil) samples digested with HF-HClO4-HNO3 (\"near total\") and analysed by ICP-MS — a more aggressive extraction than aqua regia, recovering more of the silicate-bound element pool. ~6,870 points.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-s-near-total.fgb"
    },
@@ -19547,7 +19541,7 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "S-horizon subsoil samples subjected to fire assay specifically to recover gold (Au) and platinum group elements. The classical mineral-prospecting technique applied across the Tellus survey grid. ~6,850 points.",
+   "description": "S-horizon subsoil samples subjected to fire assay specifically to recover gold (Au) and platinum group elements.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/geology/tellus-rural-soil-s-fire-assay.fgb"
    },
@@ -19606,7 +19600,7 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Bilingual map of Northern Ireland with place-names rendered in Irish (Gaeilge) alongside their English forms. Cropped raster cartography in Irish Grid TM65, served as XYZ tiles at zoom 6–12.",
+   "description": "Bilingual map of Northern Ireland with place-names rendered in Irish (Gaeilge) alongside their English forms.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/osni-raster/eire-thuaidh/{z}/{x}/{y}.png"
    },
@@ -19662,7 +19656,7 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Topographic raster cartography at 1:10,000 scale across all of Northern Ireland — a 292-sheet mosaic of OSNI base-map tiles. Useful background context for site-level work; shows roads, settlements, contours and named features. Served as XYZ tiles at zoom 8–15.",
+   "description": "Topographic raster cartography at 1:10,000 scale across all of Northern Ireland — a 292-sheet mosaic of OSNI base-map tiles.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/osni-raster/mid-scale-raster/{z}/{x}/{y}.png"
    },
@@ -19714,7 +19708,6 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Detailed printed street-map sheets for 109 towns and villages across Northern Ireland — 0.85 m/pixel native resolution showing individual streets, building outlines, and town features. Coverage is sparse (only published towns are mapped); the rest of NI is blank in this layer. Served as XYZ tiles at zoom 8–16.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/osni-raster/streetmaps/{z}/{x}/{y}.png"
    },
@@ -19766,7 +19759,7 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Small-scale (1:1,000,000) printed thematic map of Northern Ireland showing the historic six-county boundaries against a base outline. Designed as a wall-poster reference — re-tiled here as an interactive overlay at zoom 6–11.",
+   "description": "Small-scale (1:1,000,000) printed thematic map of Northern Ireland showing the historic six-county boundaries against a base outline.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-county-boundaries/{z}/{x}/{y}.png"
    },
@@ -19817,7 +19810,7 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Small-scale (1:1,000,000) thematic map showing major roads, railways, ports, airports, and other transport infrastructure across Northern Ireland. Re-tiled as an interactive overlay at zoom 6–11.",
+   "description": "Small-scale (1:1,000,000) thematic map showing major roads, railways, ports, airports, and other transport infrastructure across Northern Ireland.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-infrastructure/{z}/{x}/{y}.png"
    },
@@ -19871,7 +19864,7 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Small-scale (1:1,000,000) thematic map labelling major settlements and locations across Northern Ireland. Re-tiled as an interactive overlay at zoom 6–11.",
+   "description": "Small-scale (1:1,000,000) thematic map labelling major settlements and locations across Northern Ireland.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-locations/{z}/{x}/{y}.png"
    },
@@ -19923,7 +19916,7 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Small-scale (1:1,000,000) thematic map of Northern Ireland’s natural environment — drainage, lakes, mountains, and broad land cover. Re-tiled as an interactive overlay at zoom 6–11.",
+   "description": "Small-scale (1:1,000,000) thematic map of Northern Ireland’s natural environment — drainage, lakes, mountains, and broad land cover.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-natural-environment/{z}/{x}/{y}.png"
    },
@@ -19976,7 +19969,7 @@
    "provider": [
     "OSNI"
    ],
-   "description": "Small-scale (1:1,000,000) thematic map showing Northern Ireland’s Westminster parliamentary constituency boundaries. Re-tiled as an interactive overlay at zoom 6–11.",
+   "description": "Small-scale (1:1,000,000) thematic map showing Northern Ireland’s Westminster parliamentary constituency boundaries.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-parliamentary/{z}/{x}/{y}.png"
    },
@@ -20076,7 +20069,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "River-segment polygons for each WFD river water body (2nd-cycle classification). Each segment is a single management unit under the EU Water Framework Directive.",
+   "description": "River-segment polygons for each WFD river water body (2nd-cycle classification).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/wfd-river-water-bodies-2nd-cycle1.fgb"
    },
@@ -20283,7 +20276,6 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Long-term chemistry time-series from NI rivers, 1990–2018, broken down by 14 individual parameters (pH, dissolved oxygen, BOD, ammonia, nitrate, nitrite, dissolved iron, suspended solids, plus extended set: alkalinity, conductivity, dissolved copper, dissolved zinc, soluble phosphorus). The \"umbrella\" package contains the spatial monitoring sites + summary; per-parameter packages contain the full time-series CSVs. No interactive map layer — use the WFD Monitoring Sites layer to see where samples are taken.",
    "keywords": [
     "river",
     "water quality",
@@ -20440,7 +20432,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "Residual total magnetic intensity (TMI) from the GSNI Tellus airborne survey — variations in the Earth's magnetic field caused by buried magnetic minerals (chiefly magnetite). High-magnetic anomalies trace mafic/ultramafic intrusions, basaltic flows, and iron-bearing sedimentary basins; magnetic lows mark sedimentary basins and demagnetised alteration zones. 35m grid spacing, ±3σ rainbow ramp.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/geology/tellus-mag-tmi/{z}/{x}/{y}.png"
    },
@@ -20499,7 +20490,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "TMI corrected by reduction-to-pole, which compensates for the dipolar shape of magnetic anomalies caused by NI's inclined magnetic field. RTP places the peak directly above the source body, simplifying interpretation. ±3σ rainbow ramp.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/geology/tellus-mag-rtp/{z}/{x}/{y}.png"
    },
@@ -20554,7 +20544,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "Tilt derivative of the RTP magnetic field — an edge-detection filter that highlights the boundaries of magnetic source bodies regardless of their amplitude. Excellent for tracing dykes, faults, and contacts. ±3σ rainbow ramp.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/geology/tellus-mag-rtp-tilt/{z}/{x}/{y}.png"
    },
@@ -20610,7 +20599,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "Apparent ground conductivity at 3 kHz from the Tellus airborne EM survey — penetrates ~50–150 m, mapping conductive saline groundwater, clay-rich soils, mineralised zones, and pollution plumes. Viridis colormap (low = purple, high = yellow), -2σ to +4σ stretch.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/geology/tellus-em-3khz/{z}/{x}/{y}.png"
    },
@@ -20670,7 +20658,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "Apparent ground conductivity at 14 kHz — shallower depth (~10–30 m) than the 3 kHz channel, more sensitive to surface and near-surface conductors. Useful for soil moisture, near-surface alteration, and thin clay layers. Viridis colormap, -2σ to +4σ stretch.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/geology/tellus-em-14khz/{z}/{x}/{y}.png"
    },
@@ -20726,7 +20713,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "Surface potassium concentration from natural gamma-ray emissions. Highlights granites and other felsic intrusions (potassium-rich), alkaline volcanics, and certain sedimentary horizons. Inferno colormap (dark = low, bright = high), ±2-3σ stretch.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-k/{z}/{x}/{y}.png"
    },
@@ -20786,7 +20772,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "Uranium-equivalent concentration from the 1.76 MeV bismuth-214 daughter peak. Highlights uranium-bearing granites, organic-rich shales, phosphatic horizons, and mineralised zones. Viridis colormap, ±2-3σ stretch.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-u/{z}/{x}/{y}.png"
    },
@@ -20842,7 +20827,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "Thorium-equivalent concentration from the 2.61 MeV thallium-208 daughter peak. Often correlates with heavy minerals (monazite, zircon) in placer deposits and resistate sediments. Rainbow colormap, ±2-3σ stretch.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-th/{z}/{x}/{y}.png"
    },
@@ -20898,7 +20882,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "Total gamma-ray count rate — a summed proxy for combined K, U, Th, and other radionuclide activity. Useful for identifying overall radiometric \"hot\" zones before decomposing into individual channels. Inferno colormap, ±2-3σ stretch.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-total/{z}/{x}/{y}.png"
    },
@@ -20953,7 +20936,6 @@
     "GSNI",
     "Tellus"
    ],
-   "description": "The iconic radiometric ternary composite — K mapped to red, Th to green, U to blue. Reds = potassic (granite, certain volcanics); greens = thorium-rich (resistate sediments, heavy minerals); blues = uranium-rich (organic shales, mineralisation); whites/pale = high in all three; blacks = low overall. The most interpretively powerful single radiometric view. Each band stretched independently to mean ± 2σ.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/geology/tellus-rad-ternary/{z}/{x}/{y}.png"
    },
@@ -21010,7 +20992,6 @@
     "OSNI",
     "Ordnance Survey"
    ],
-   "description": "The original Six-Inch-to-One-Mile County Series — the first complete topographic survey of Ireland, produced 1829–1835 by the Ordnance Survey. 308 historical map sheets covering all six Northern Ireland counties (Antrim, Armagh, Derry/Londonderry, Down, Fermanagh, Tyrone), engraved at a scale where every individual building, road, field boundary, and town feature is shown. Mosaicked and re-tiled here at 4 m/pixel for interactive viewing on the catalogue map. For pixel-level detail, download the original sheet TIFs from the per-county packages linked below.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/historic/sixinch-edition-1/{z}/{x}/{y}.png"
    },
@@ -21113,7 +21094,6 @@
     "OSNI",
     "Ordnance Survey"
    ],
-   "description": "Second edition of the Six-Inch-to-One-Mile County Series, surveyed 1838–1862, providing the first comprehensive update to the original 1830s survey. 261 historical sheets covering all six Northern Ireland counties. Captures the rapid changes in Irish landscape, settlement patterns, and infrastructure during the mid-19th century — including the period before, during, and immediately after the Great Famine (1845–1852). Mosaicked and re-tiled here at 4 m/pixel.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/historic/sixinch-edition-2/{z}/{x}/{y}.png"
    },
@@ -21219,7 +21199,6 @@
     "Tellus",
     "BGS"
    ],
-   "description": "Raw magnetometer readings along each Tellus survey flight line — the original point measurements that the gridded \"Tellus Magnetic\" products on this site are derived from. Typically ~250 m line spacing with samples every ~7 m. Useful only if you want to re-grid with custom parameters or interrogate noise; for a map-style view use the gridded TMI / RTP / RTP-Tilt cards in this category.",
    "keywords": [
     "tellus",
     "gsni",
@@ -21259,7 +21238,6 @@
     "Tellus",
     "BGS"
    ],
-   "description": "Raw multi-frequency airborne EM coil readings along each Tellus flight line — the original point measurements behind the gridded conductivity products. Frequencies 912 Hz, 3 kHz, 11.9 kHz, and 24.5 kHz at the same line/sample spacing as the magnetic data.",
    "keywords": [
     "tellus",
     "gsni",
@@ -21300,7 +21278,6 @@
     "Tellus",
     "BGS"
    ],
-   "description": "Raw airborne gamma-ray spectrometer readings along each Tellus flight line — K, U, Th window counts plus total count, before gridding into the radiometric maps already on this site. Useful for re-processing or quality-assessing the gridded products.",
    "keywords": [
     "tellus",
     "gsni",
@@ -21341,7 +21318,6 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "DAERA classification of land parcels by their relative risk of contributing diffuse agricultural pollution to receiving waters. Each parcel is scored 0–1 (`riskscore2`) by combining slope, hydrological connectivity, soil characteristics, rainfall, river-buffer proximity and land-use rules. Companion to the Network Contribution datasets — the polygon equivalent of the per-river-basin SciMAP score.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/agricultural-critical-risk-areas.fgb"
    },
@@ -21387,7 +21363,6 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-river-basin pollution-contribution scores from the SciMAP hydrological model (CEH Land Cover 2007 + Met Office rainfall + 5 m DTM), rasterised at 25 m and rendered as a Web Mercator tile pyramid coloured on inferno (low → high contribution). Raw GRIDCODE values of 58–100 stretch the inferno ramp from dark purple to pale yellow. Each parcel of land is scored for how much sediment / nutrient pollution its upstream catchment contributes to receiving waters. 26 catchment datasets were rasterised individually, mosaicked, and re-projected; per-catchment download links remain in sourceDownloads for the raw vector data.",
    "keywords": [
     "scimap",
     "pollution",
@@ -21542,7 +21517,7 @@
     "DfI",
     "Roads NI"
    ],
-   "description": "Every recorded surface defect (potholes, cracks, ruts, surface damage) on Northern Ireland's public roads and footways during 2021, with division/section/response-time attributes. ~124 K point records — DfI's authoritative road-condition survey for that year.",
+   "description": "Every recorded surface defect (potholes, cracks, ruts, surface damage) on Northern Ireland's public roads and footways during 2021, with division/section/response-time attributes.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/transport/carriageway-footway-defects-2021.fgb"
    },
@@ -21589,7 +21564,6 @@
    "provider": [
     "DAERA"
    ],
-   "description": "Strategic noise mapping for the Belfast Metropolitan Urban Area agglomeration: combined noise from all sources (road, rail, industry, airports, ports) over 24 hours weighted by time of day (Lden). Round 3 (2017) under the EU Environmental Noise Directive 2002/49/EC. Polygons are the standard 5 dB Lden bands, coloured to the END convention.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/environment/noise-agglomeration-lden-r3.fgb"
    },
@@ -21629,7 +21603,6 @@
    "provider": [
     "DAERA"
    ],
-   "description": "Lden noise contours along Northern Ireland's major road network (>3 million vehicle passages per year), Round 3 (2017) of the EU Environmental Noise Directive. Bands rendered in the standard END Lden palette.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/environment/noise-major-roads-lden-r3.fgb"
    },
@@ -21669,7 +21642,6 @@
    "provider": [
     "DAERA"
    ],
-   "description": "Lden noise contours along major Translink rail routes (>30 000 train passages per year), Round 3 (2017) of the EU Environmental Noise Directive.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/environment/noise-major-rail-lden-r3.fgb"
    },
@@ -21710,7 +21682,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean ph for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean ph for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-ph.fgb"
    },
@@ -21757,7 +21729,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean dissolved oxygen for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean dissolved oxygen for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-oxygen.fgb"
    },
@@ -21804,7 +21776,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean biochemical oxygen demand (bod) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean biochemical oxygen demand (bod) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-biochemical-oxygen-demand.fgb"
    },
@@ -21851,7 +21823,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean total ammonia (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean total ammonia (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-ammonia.fgb"
    },
@@ -21898,7 +21870,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean nitrate (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean nitrate (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrate.fgb"
    },
@@ -21945,7 +21917,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean nitrite (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean nitrite (as n) for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-nitrite.fgb"
    },
@@ -21992,7 +21964,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean dissolved iron for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean dissolved iron for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-iron.fgb"
    },
@@ -22039,7 +22011,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean dissolved copper for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 377 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean dissolved copper for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 377 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-copper.fgb"
    },
@@ -22086,7 +22058,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean dissolved zinc for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean dissolved zinc for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 559 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-dissolved-zinc.fgb"
    },
@@ -22133,7 +22105,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean suspended solids for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 540 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean suspended solids for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 540 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-suspended-solids.fgb"
    },
@@ -22180,7 +22152,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean conductivity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean conductivity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-conductivity.fgb"
    },
@@ -22227,7 +22199,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean alkalinity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 633 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean alkalinity for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 633 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-alkalinity.fgb"
    },
@@ -22274,7 +22246,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Per-monitoring-site mean soluble reactive phosphorus for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites). Site points are coloured by mean value over the period; click any site for its full statistics including min, max, and most recent measurement. Older or full-time-series data is available as the per-parameter umbrella card linked from the catalogue.",
+   "description": "Per-monitoring-site mean soluble reactive phosphorus for the 2010–2018 period, derived from DAERA's River Water Quality Monitoring 1990–2018 dataset (~141 K sample-time records aggregated to 572 active sites).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water-quality/rwq-soluble-phosphorus.fgb"
    },
@@ -22322,7 +22294,7 @@
     "Tellus",
     "BGS"
    ],
-   "description": "The actual flight-line pattern flown by the Tellus airborne geophysical survey (2005–2008) — 2 210 individual flight lines at ~250 m spacing across all of Northern Ireland, derived from the raw radiometric sample positions. Toggle on alongside any of the gridded magnetic / electromagnetic / radiometric layers to see where the survey actually sampled the ground; anomalies on the gridded products are most reliable inside dense flight coverage and progressively less reliable on the edges and in gaps. Single inert MultiLineString — non-interactive (no per-line popup, hover, or click) so it doesn't compete with the per-feature data layers underneath.",
+   "description": "The actual flight-line pattern flown by the Tellus airborne geophysical survey (2005–2008) — 2 210 individual flight lines at ~250 m spacing across all of Northern Ireland, derived from the raw radiometric sample positions.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/geology/tellus-flight-tracks.fgb"
    },
@@ -23514,7 +23486,7 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Eight Areas of Outstanding Natural Beauty designated under Article 14 of the Nature Conservation and Amenity Lands (Northern Ireland) Order 1985 for landscape protection. Includes the Mournes, Antrim Coast & Glens, Causeway Coast, Ring of Gullion, Sperrins, Strangford Lough, Erne Lakeland and Lagan Valley AONBs.",
+   "description": "Eight Areas of Outstanding Natural Beauty designated under Article 14 of the Nature Conservation and Amenity Lands (Northern Ireland) Order 1985 for landscape protection.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-aonb.fgb"
    },
@@ -23552,7 +23524,6 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Areas of Special Scientific Interest provide statutory protection under the Nature Conservation and Amenity Lands (NI) Order 1985 for the best examples of NI's flora, fauna, geological or physiographical features. The 394 ASSIs are NI's principal site-based wildlife protection mechanism.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-assi.fgb"
    },
@@ -23590,7 +23561,6 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Statutory nature reserves declared under the Nature Conservation and Amenity Lands (NI) Order 1985 for areas of importance for flora, fauna, geological or other special features. The 50 NNRs are managed primarily for conservation, with the highest level of legal site protection in NI.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-nnr.fgb"
    },
@@ -23628,7 +23598,6 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Wetlands of international importance designated under the 1971 Ramsar Convention on Wetlands. The 20 NI Ramsar sites cover loughs, estuaries and bogs of internationally significant ecological character.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-ramsar.fgb"
    },
@@ -23666,7 +23635,6 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "SACs are habitats and species given the greatest protection under the EU Habitats Directive (transposed into UK law via the Conservation Regulations). 58 sites in NI form part of the Natura 2000 network — the highest level of habitat protection in European law.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-sac.fgb"
    },
@@ -23704,7 +23672,6 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Designated under the EU Birds Directive for vulnerable, migratory and other significant bird species. 16 SPAs in NI form part of the Natura 2000 network. Many overlap with Ramsar / SAC / ASSI designations.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-spa.fgb"
    },
@@ -23742,7 +23709,6 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "Northern Ireland's sole UNESCO World Heritage Site: the Giant's Causeway and Causeway Coast. Inscribed in 1986 under criteria (vii) and (viii) for its outstanding geological and natural features — the famous columnar basalt formations and associated coastal landscape.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-whs.fgb"
    },
@@ -23780,7 +23746,6 @@
     "DAERA",
     "NIEA"
    ],
-   "description": "The Northern Ireland Landscape Character Assessment (NIEA, 2000) subdivides the countryside into 130 Landscape Character Areas based on local geology, landform, land use, settlement and ecology. LCAs underpin landscape policy and planning decisions.",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/designated-sites/designated-lca.fgb"
    },
@@ -23886,7 +23851,7 @@
    "provider": [
     "Department for Infrastructure - Rivers"
    ],
-   "description": "Modelled extreme sea levels around the NI coast at multiple return periods (2018 mapping). Used by DfI Rivers for coastal flood risk assessment.",
+   "description": "Modelled extreme sea levels around the NI coast at multiple return periods (2018 mapping).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/environment/rivers-coastal-flood-2018.fgb",
     "shp_zip": "https://data.civgraph.net/data/maps/environment/rivers-coastal-flood-2018.zip"
@@ -24165,7 +24130,7 @@
    "provider": [
     "Geological Survey Ireland"
    ],
-   "description": "Karst features and limestone terrain across Ireland (all-island, GSI). Includes the Burren, Marble Arch, and other significant karst landscapes.",
+   "description": "Karst features and limestone terrain across Ireland (all-island, GSI).",
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/geology/gsi-karst-data.fgb"
    },
@@ -25314,7 +25279,7 @@
     "pollution",
     "recycling"
    ],
-   "description": "Locations of 32,519 authorised waste treatment and storage sites in Northern Ireland (as of February 2021). Spatially chunked into 45 cells with LOD overview; full set only loads features in the current viewport.",
+   "description": "Locations of 32,519 authorised waste treatment and storage sites in Northern Ireland (as of February 2021).",
    "references": [
     {
      "label": "Source — admin.opendatani.gov.uk",
@@ -25677,7 +25642,7 @@
     "roi",
     "ireland"
    ],
-   "description": "All-Ireland planning applications — point map of 493,439 planning decisions. Spatially chunked into 209 cells with LOD overview; full network only loads features visible in the current viewport.",
+   "description": "All-Ireland planning applications — point map of 493,439 planning decisions.",
    "references": [
     {
      "label": "Source — data.gov.ie",
@@ -29392,7 +29357,7 @@
     "development",
     "plans"
    ],
-   "description": "The 35 architectural conservation areas of the Dún Laoghaire-Rathdown County Development Plan 2010–2016, from the plan’s datasets (“Development Plan 2010 - 2016 DLR”, whose conservation areas layer this is) published by Dún Laoghaire-Rathdown County Council. The council’s current architectural conservation areas are those of the 2022–2028 plan.",
+   "description": "The 35 architectural conservation areas of the Dún Laoghaire-Rathdown County Development Plan 2010–2016, from the plan’s datasets (“Development Plan 2010 - 2016 DLR”, whose conservation areas layer this is) published by Dún Laoghaire-Rathdown County Council.",
    "references": [
     {
      "label": "Development Plan 2010 - 2016 DLR — data.gov.ie",
@@ -36904,7 +36869,7 @@
     "conservation",
     "biodiversity"
    ],
-   "description": "Northern Ireland Priority Habitats — Peatland (6,469 polygons), published by DAERA. Licence confirmed.",
+   "description": "Northern Ireland Priority Habitats — Peatland (6,469 polygons), published by DAERA.",
    "references": [
     {
      "label": "Open Data NI — Priority Habitats - Peatland (DAERA)",
@@ -37880,7 +37845,7 @@
    ],
    "license": "Open Government Licence v3.0",
    "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-   "description": "Multidirectional hillshade of the 1 m bare-earth LiDAR digital terrain model (DTM) for the Stonyford catchment, flown 2014 in the OSNI/LPS River Basin LiDAR survey. Reveals fine ground topography — stream channels, field drains, banks and earthworks — beneath vegetation.",
+   "description": "Multidirectional hillshade of the 1 m bare-earth LiDAR digital terrain model (DTM) for the Stonyford catchment, flown 2014 in the OSNI/LPS River Basin LiDAR survey.",
    "files": {
     "xyz": "https://data.civgraph.net/data/maps/physical/osni-lidar-stonyford-2014/{z}/{x}/{y}.png"
    },
@@ -46532,7 +46497,7 @@
     "historic"
    ],
    "date": "1921-05-03",
-   "description": "Local authority areas of the 26 counties as at 1921, after the partition boundary took effect. The territory was styled Southern Ireland at this date; the Irish Free State followed in December 1922, and the state did not become the Republic of Ireland until 1949.",
+   "description": "Local authority areas of the 26 counties as at 1921, after the partition boundary took effect.",
    "subject": "local-government"
   },
   {
@@ -46561,7 +46526,7 @@
     "historic"
    ],
    "date": "1927-10-25",
-   "description": "Local authority areas of the Irish Free State (Saorstát Éireann) as at 1927. The state did not become the Republic of Ireland until 1949.",
+   "description": "Local authority areas of the Irish Free State (Saorstát Éireann) as at 1927.",
    "subject": "local-government"
   }
  ],
