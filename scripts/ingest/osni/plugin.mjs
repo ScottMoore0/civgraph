@@ -32,4 +32,6 @@ export default definePlugin({
       network: true,
     },
   },
+  // the fill's array steps (fill mask, non-wrapping grow, multidirectional hillshade), tested in tests/unit
+  helpers: ['island_terrain_fill.py'],
 });
