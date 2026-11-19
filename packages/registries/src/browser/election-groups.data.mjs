@@ -292,7 +292,8 @@ export default {
   },
   {
    "election": "parliament-of-northern-ireland__1921-05-24",
-   "body": "dail-eireann"
+   "body": "dail-eireann",
+   "title": "1921 Parliament of Northern Ireland election (Second Dáil)"
   }
  ]
 };
