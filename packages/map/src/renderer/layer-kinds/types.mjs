@@ -14,6 +14,9 @@
  * @property {number} [maxzoom]
  * @property {unknown} [bounds]
  * @property {string} [promoteId]
+ * @property {string} [hillshadeTiles]  a terrain layer's hillshade drape (terrain.mjs hillshadeSource)
+ * @property {number} [hillshadeMinzoom]
+ * @property {number} [hillshadeMaxzoom]
  *
  * @typedef {{ [field: string]: unknown }} SourceSpec  a MapLibre source, as map.addSource takes it
  *

@@ -2,7 +2,7 @@
  * Renderers for the flat raster layer types: raster tiles at z/x/y, and one georeferenced image.
  * Both are drawn as a single raster style layer, with no features to pick.
  */
-import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates } from '../utils.js';
+import { absoluteTileTemplate, boundsToImageCoordinates, tileSourceRange } from '../utils.js';
 
 /** @typedef {import('./types.mjs').LayerRenderer} LayerRenderer */
 /** @typedef {import('./types.mjs').LayerHost} LayerHost */
@@ -28,9 +28,7 @@ export const rasterRenderer = Object.freeze({
       type: 'raster',
       tiles: [absoluteTileTemplate(/** @type {string} */ (layer.tiles || layer.tileUrl))],
       tileSize: layer.tileSize || 256,
-      minzoom: layer.minzoom,
-      maxzoom: layer.maxzoom,
-      bounds: boundsToFlatBbox(layer.bounds)
+      ...tileSourceRange(layer.minzoom, layer.maxzoom, layer.bounds)
     };
   },
   draw: drawRaster

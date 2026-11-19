@@ -2,7 +2,7 @@
  * Renderers for the vector-tile layer types: a PMTiles archive, and the z/x/y.pbf tiles the app
  * falls back to. Both are drawn as fills and lines with hover, selection and labels.
  */
-import { absoluteTileTemplate, boundsToFlatBbox } from '../utils.js';
+import { absoluteTileTemplate, tileSourceRange } from '../utils.js';
 
 /** @typedef {import('./types.mjs').LayerRenderer} LayerRenderer */
 /** @typedef {import('./types.mjs').LayerHost} LayerHost */
@@ -31,7 +31,7 @@ export const pmtilesRenderer = Object.freeze({
   source(layer, ctx) {
     if (!layer.tileUrl) throw new Error('missing PMTiles URL');
     ctx.openPmtilesArchive(layer.tileUrl);
-    return { type: 'vector', url: `pmtiles://${layer.tileUrl}`, minzoom: layer.minzoom, maxzoom: layer.maxzoom, promoteId: layer.promoteId };
+    return { type: 'vector', url: `pmtiles://${layer.tileUrl}`, ...tileSourceRange(layer.minzoom, layer.maxzoom), promoteId: layer.promoteId };
   },
   draw: drawGeometry,
   interactive: true,
@@ -43,7 +43,7 @@ export const mvtRenderer = Object.freeze({
   kind: 'mvt',
   source(layer) {
     if (!layer.tiles) throw new Error('missing vector tile URL template');
-    return { type: 'vector', tiles: [absoluteTileTemplate(layer.tiles)], minzoom: layer.minzoom, maxzoom: layer.maxzoom, bounds: boundsToFlatBbox(layer.bounds), promoteId: layer.promoteId };
+    return { type: 'vector', tiles: [absoluteTileTemplate(layer.tiles)], ...tileSourceRange(layer.minzoom, layer.maxzoom, layer.bounds), promoteId: layer.promoteId };
   },
   draw: drawGeometry,
   interactive: true

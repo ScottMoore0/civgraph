@@ -55,6 +55,27 @@ export function boundsToFlatBbox(bounds) {
   return [converted[0][0], converted[0][1], converted[1][0], converted[1][1]];
 }
 
+/** @typedef {{ minzoom?: number, maxzoom?: number, bounds?: [number, number, number, number] }} TileSourceRange */
+
+/**
+ * The zoom range and bounds of a tiled MapLibre source, with only the keys that have a value.
+ * MapLibre copies a key that is present but undefined over its default (minzoom 0, maxzoom 22, or
+ * the TileJSON's own), which leaves the source with no zoom range and no parent-tile fallback.
+ * @param {unknown} minzoom
+ * @param {unknown} maxzoom
+ * @param {unknown} [bounds]  [[south, west], [north, east]]
+ * @returns {TileSourceRange}
+ */
+export function tileSourceRange(minzoom, maxzoom, bounds) {
+  /** @type {TileSourceRange} */
+  const range = {};
+  if (typeof minzoom === 'number' && Number.isFinite(minzoom)) range.minzoom = minzoom;
+  if (typeof maxzoom === 'number' && Number.isFinite(maxzoom)) range.maxzoom = maxzoom;
+  const bbox = boundsToFlatBbox(bounds);
+  if (bbox) range.bounds = bbox;
+  return range;
+}
+
 /**
  * @param {unknown} bounds
  * @returns {[[number, number], [number, number], [number, number], [number, number]] | null}

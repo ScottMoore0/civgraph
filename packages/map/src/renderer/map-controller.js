@@ -21,7 +21,7 @@ import {
   getLabelStyle
 } from './labels.js';
 import { repairFeatureProperties } from './feature-property-repairs.js';
-import { absoluteTileTemplate, boundsToFlatBbox, boundsToMapLibre, clamp } from './utils.js';
+import { boundsToMapLibre, clamp } from './utils.js';
 import { approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegmentsUrl } from './approximate-segments.js';
 import { LAYER_LOAD } from './layer-load.mjs';
 import { BasemapManager } from './basemap.mjs';
@@ -29,6 +29,7 @@ import { DIRECT_GESTURE } from './gesture-state.mjs';
 import { createState, defineFlagFields, setHidden } from '../state-helpers.mjs';
 import layerTypes from '../../../registries/src/browser/layer-types.mjs';
 import { layerRenderer } from './layer-kinds/index.mjs';
+import { hillshadeSource } from './layer-kinds/terrain.mjs';
 import { MAP_COLOURS } from '../colours.mjs';
 
 /** @typedef {import('maplibre-gl').Map} MapLibreMap */
@@ -1387,17 +1388,10 @@ export class TestMapLibreController {
     // Optional baked multidirectional-hillshade drape. Opacity < 1 lets the
     // currently-selected basemap show through as the surface texture; opacity 1
     // gives the opaque monochrome-grey relief surface.
-    if (layer.hillshadeTiles) {
+    const hsSource = hillshadeSource(layer);
+    if (hsSource) {
       const hsSourceId = `${sourceId}-hs`;
-      // MapLibre's style check skips a property set to undefined (a zoom or bounds the layer does not give).
-      this.map.addSource(hsSourceId, /** @type {import('maplibre-gl').RasterSourceSpecification} */ ({
-        type: 'raster',
-        tiles: [absoluteTileTemplate(layer.hillshadeTiles)],
-        tileSize: layer.tileSize || 256,
-        minzoom: layer.hillshadeMinzoom ?? layer.minzoom,
-        maxzoom: layer.hillshadeMaxzoom ?? layer.maxzoom,
-        bounds: boundsToFlatBbox(layer.bounds)
-      }));
+      this.map.addSource(hsSourceId, hsSource);
       this.map.addLayer({
         id: rasterId,
         type: 'raster',

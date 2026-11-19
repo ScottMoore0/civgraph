@@ -12,7 +12,8 @@ import { pathToFileURL } from 'node:url';
 import { loadRegistry, REPO_ROOT } from '@civgraph/registries/index.mjs';
 import { drawnLayerTypes } from '@civgraph/registries/layers.mjs';
 import { RENDERERS, layerRenderer, renderedLayerKinds } from '@civgraph/map/renderer/layer-kinds/index.mjs';
-import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates } from '@civgraph/map/renderer/utils.js';
+import { absoluteTileTemplate, boundsToFlatBbox, boundsToImageCoordinates, tileSourceRange } from '@civgraph/map/renderer/utils.js';
+import { hillshadeSource } from '@civgraph/map/renderer/layer-kinds/terrain.mjs';
 
 const registry = loadRegistry('layers');
 /** @type {any} */ (globalThis).location ??= { origin: 'https://civgraph.example' };
@@ -91,6 +92,16 @@ function registrySource(layer, archives) {
   return renderer.source(layer, { openPmtilesArchive: (url) => { archives.set(url, url); } });
 }
 
+/**
+ * A reference source without the minzoom, maxzoom and bounds keys it set to undefined.
+ * @param {any} source
+ */
+function withoutUndefinedRange(source) {
+  const copy = { ...source };
+  for (const key of ['minzoom', 'maxzoom', 'bounds']) if (copy[key] === undefined) delete copy[key];
+  return copy;
+}
+
 /** @param {() => unknown} fn */
 const outcome = (fn) => { try { return { value: fn() }; } catch (error) { return { error: /** @type {Error} */ (error).message }; } };
 
@@ -115,11 +126,16 @@ test('layer kinds: every published layer gets the source it got before, and brok
     { id: 'unknown', sourceType: 'geojson' },
     { id: 'none' }
   ];
+  const published = new Set(index.layers);
   let compared = 0;
   for (const layer of samples) {
     const before = new Map();
     const after = new Map();
-    assert.deepEqual(outcome(() => registrySource(layer, after)), outcome(() => referenceSource(layer, before)), layer.id);
+    const want = outcome(() => referenceSource(layer, before));
+    // Every published layer gets exactly the source it got before. A runtime-only sample's zoom or
+    // bounds it does not give is now left out, where the reference set it to undefined.
+    if (!published.has(layer) && 'value' in want) want.value = withoutUndefinedRange(want.value);
+    assert.deepEqual(outcome(() => registrySource(layer, after)), want, layer.id);
     assert.deepEqual([...after], [...before], `${layer.id}: the same PMTiles archive is opened`);
     compared += 1;
   }
@@ -166,4 +182,47 @@ test('layer kinds: the data registry refuses a published type without a renderer
   const broken = structuredClone(registry);
   delete broken.types.raster.drawnBy;
   assert.ok(registryErrors('layers', broken).some((e) => e.includes('raster: a published type needs drawnBy')));
+});
+
+test('layer kinds: a tiled source sets minzoom, maxzoom and bounds only when the layer gives them', () => {
+  const bounds = [[51.4, -10.7], [55.4, -5.4]];
+  assert.deepEqual(tileSourceRange(5, 16, bounds), { minzoom: 5, maxzoom: 16, bounds: [-10.7, 51.4, -5.4, 55.4] });
+  assert.deepEqual(tileSourceRange(0, 22), { minzoom: 0, maxzoom: 22 }, 'zoom 0 is a value');
+  for (const [min, max, b] of [[undefined, undefined, undefined], [null, NaN, null], ['5', Infinity, [1, 2, 3]]]) {
+    assert.deepEqual(tileSourceRange(min, max, b), {}, `${String(min)} ${String(max)} ${JSON.stringify(b)}`);
+  }
+  // MapLibre copies a key that is present but undefined over its default: no renderer may emit one.
+  const bare = [
+    { id: 'raster', sourceType: 'raster', tiles: '/r/{z}/{x}/{y}.png' },
+    { id: 'dem', sourceType: 'raster-dem', tiles: '/d/{z}/{x}/{y}.png' },
+    { id: 'pmtiles', sourceType: 'pmtiles', tileUrl: '/p.pmtiles' },
+    { id: 'mvt', sourceType: 'mvt', tiles: '/m/{z}/{x}/{y}.pbf' }
+  ];
+  for (const layer of bare) {
+    const source = /** @type {Record<string, unknown>} */ (registrySource(layer, new Map()));
+    for (const key of ['minzoom', 'maxzoom', 'bounds']) assert.ok(!(key in source), `${layer.id}: no ${key} key`);
+  }
+});
+
+test('layer kinds: the hillshade drape takes its own zooms, else the layer zooms, and never an undefined key', () => {
+  const bounds = [[51.2, -10.9], [55.7, -5.2]];
+  const base = { id: 't', sourceType: 'raster-dem', tiles: '/dem/{z}/{x}/{y}.png', hillshadeTiles: '/hs/{z}/{x}/{y}.png', tileSize: 256 };
+  assert.equal(hillshadeSource({ id: 'no-drape', sourceType: 'raster-dem' }), null);
+  assert.deepEqual(hillshadeSource({ ...base, minzoom: 5, maxzoom: 16, hillshadeMinzoom: 6, hillshadeMaxzoom: 12, bounds }),
+    { type: 'raster', tiles: [absoluteTileTemplate('/hs/{z}/{x}/{y}.png')], tileSize: 256, minzoom: 6, maxzoom: 12, bounds: [-10.9, 51.2, -5.2, 55.7] });
+  assert.deepEqual(hillshadeSource({ ...base, minzoom: 5, maxzoom: 16 }),
+    { type: 'raster', tiles: [absoluteTileTemplate('/hs/{z}/{x}/{y}.png')], tileSize: 256, minzoom: 5, maxzoom: 16 });
+  const bare = /** @type {Record<string, unknown>} */ (hillshadeSource(base));
+  for (const key of ['minzoom', 'maxzoom', 'bounds']) assert.ok(!(key in bare), `no ${key} key`);
+  // Every published terrain layer's drape keeps a full range, as before.
+  /** @type {{ layers: any[] }} */
+  const index = JSON.parse(readFileSync(path.join(REPO_ROOT, 'render/metadata/maps-test.json'), 'utf8'));
+  const terrain = index.layers.filter((layer) => layer.hillshadeTiles);
+  assert.ok(terrain.length > 0);
+  for (const layer of terrain) {
+    const source = /** @type {import('maplibre-gl').RasterSourceSpecification} */ (hillshadeSource(layer));
+    assert.equal(source.minzoom, layer.hillshadeMinzoom ?? layer.minzoom, layer.id);
+    assert.equal(source.maxzoom, layer.hillshadeMaxzoom ?? layer.maxzoom, layer.id);
+    assert.deepEqual(source.bounds, boundsToFlatBbox(layer.bounds), layer.id);
+  }
 });
