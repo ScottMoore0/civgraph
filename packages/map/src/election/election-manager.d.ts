@@ -14,10 +14,11 @@ import type { MapApp } from '../app/map-app';
 import type { LayerIndex, Test2MapLibreMainAdapter } from '../../app/maplibre-main-adapter.js';
 import type { Test2ElectionManager } from '../../app/election-manager.js';
 import type { GroupedYearMethods } from './grouped-year-methods.js';
+import type { ElectionGroupMethods } from './election-group-methods.js';
 import type { ElectionRecord, ElectionResult } from '../../../core/src/election-view-model.mjs';
 
 /** The manager with the methods installMethods puts on its prototype. */
-export type ElectionManager = Test2ElectionManager & GroupedYearMethods;
+export type ElectionManager = Test2ElectionManager & GroupedYearMethods & ElectionGroupMethods;
 
 /** What the manager uses of the map app (packages/map/app/app.js and its method modules). */
 export interface ElectionHost extends Pick<MapApp,
@@ -43,7 +44,7 @@ export interface ElectionHost extends Pick<MapApp,
 
   // Methods of the app's method modules.
   /** election-pane.js */
-  refitAfterElectionPane(sourceMapId: string): void;
+  refitAfterElectionPane(sourceMapId: string | string[]): void;
   /** catalogue-list.js */
   focusActiveElectionCatalogueEntry(entry: ElectionEntry | null, options?: { scroll?: boolean }): void;
   /** url-state.js */
@@ -140,11 +141,31 @@ export interface ElectionEntry extends ElectionRecord {
   previousKey?: string;
   isByElection?: boolean;
   niLocalGroup?: unknown;
+  /** A grouped entry (packages/map/src/election-groups.mjs): its members' keys and labels, and its first day. */
+  electionGroup?: boolean;
+  memberKeys?: string[];
+  memberLabels?: string[];
+  sortDate?: string;
   constituencies?: string[];
   /** A local election's councils (one entry each). */
   localBodies?: unknown[];
   displaySubtitle?: string;
   displayProvider?: string;
+}
+
+/** A member of an open grouped entry: its election, results, the results its changes are reckoned from, and its tab's label. */
+export interface ElectionGroupMember {
+  entry: ElectionEntry;
+  bundle: ElectionEntry;
+  previousBundle: ElectionEntry | null | undefined;
+  label: string;
+}
+
+/** The grouped entry open (election-group-methods.js): the entry, its members, and the one the pane shows. */
+export interface ElectionGroupState {
+  entry: ElectionEntry;
+  members: ElectionGroupMember[];
+  index: number;
 }
 
 /** The election catalogue (the manifest, ELECTION_MANIFEST_URL), with its grouped years added. */

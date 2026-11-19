@@ -40,8 +40,9 @@ export class UiWiringMethods {
         const elections = await this.ensureElections();
         await elections.loadElection(body, date);
         this.updateMapList();
-        this.focusActiveElectionCatalogueEntry(this.elections?.activeEntry, { scroll: false });
-        const title = this.elections?.activeBundle?.displayTitle || this.elections?.activeEntry?.displayTitle || `${body} ${date}`;
+        this.focusActiveElectionCatalogueEntry(this.elections?.openElectionEntry() || null, { scroll: false });
+        // A grouped entry is announced by its title.
+        const title = this.elections?.activeGroup?.entry.displayTitle || this.elections?.activeBundle?.displayTitle || this.elections?.activeEntry?.displayTitle || `${body} ${date}`;
         // On a phone the catalogue covered the map, so opening an election changed nothing
         // the reader could see (UX review 2026-10-30, #12). Maps already did this; elections now do.
         this.dismissMobileCatalogueAfterLoad(title);

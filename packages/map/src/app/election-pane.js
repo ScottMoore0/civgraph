@@ -39,17 +39,24 @@ export class ElectionPaneMethods {
    *
    * SKIPPED WHILE RESTORING FROM A URL. A viewport in the URL is an explicit request and
    * must win; re-fitting would silently discard the lng/lat/zoom someone shared.
+   * A grouped entry passes each member's map; the view takes them all in.
    * @this {ElectionPaneApp}
-   * @param {string | null | undefined} sourceMapId
+   * @param {string | string[] | null | undefined} sourceMapId
    */
   refitAfterElectionPane(sourceMapId) {
-    if (!sourceMapId || this.urlRestore.active) return;
+    const ids = (Array.isArray(sourceMapId) ? sourceMapId : [sourceMapId]).filter((id) => typeof id === 'string' && Boolean(id)).map(String);
+    if (!ids.length || this.urlRestore.active) return;
     const map = this.mapController?.map;
     if (!map) return;
+    const controller = /** @type {MapControllerView} */ (this.mapController);
+    const fit = () => (ids.length > 1 ? controller.fitToLayers?.(ids) : controller.fitToLayer?.(/** @type {string} */ (ids[0])));
+    // What is open now, so a fit made for it is not made for what replaced it.
+    const openKey = () => String(this.elections?.openElectionEntry?.()?.key || '');
+    const key = openKey();
     // Measure the container first. Without this the fit is computed against the
     // pre-pane height and lands in exactly the place this exists to correct.
     map.resize();
-    /** @type {MapControllerView} */ (this.mapController).fitToLayer?.(sourceMapId);
+    fit();
     // The layout is not finished when the pane opens: the catalogue pane changes width a
     // moment later (packages/map/src/catalogue/split.js) and the pane slides up, so that fit was made for a
     // larger map than the one left. Fit again each time the map's box changes over the next
@@ -65,9 +72,9 @@ export class ElectionPaneMethods {
       last = size;
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        if (this.elections?.activeEntry?.sourceMapId !== sourceMapId) return;
+        if (openKey() !== key) return;
         map.resize();
-        /** @type {MapControllerView} */ (this.mapController).fitToLayer?.(sourceMapId);
+        fit();
       });
     });
     this._electionRefitObserver = observer;
@@ -218,7 +225,7 @@ export class ElectionPaneMethods {
           if (folded) {
             this.elections?.setPaneCollapsed?.(false, { refit: false });
             setPaneHeight(defaultPaneHeight(), { invalidate: false, persist: true });
-            if (this.elections?.activeEntry?.sourceMapId) this.refitAfterElectionPane(this.elections.activeEntry.sourceMapId);
+            if (this.elections?.activeEntry?.sourceMapId) this.refitAfterElectionPane(this.elections.electionFitLayerIds());
           }
           return;
         }
@@ -233,7 +240,7 @@ export class ElectionPaneMethods {
           const nearest = stops.reduce((best, stop) => (Math.abs(stop - current) < Math.abs(best - current) ? stop : best), stops[0]);
           setPaneHeight(nearest, { invalidate: false, persist: true });
           invalidateMapSize();
-          if (this.elections?.activeEntry?.sourceMapId) this.refitAfterElectionPane(this.elections.activeEntry.sourceMapId);
+          if (this.elections?.activeEntry?.sourceMapId) this.refitAfterElectionPane(this.elections.electionFitLayerIds());
           return;
         }
         setPaneHeight(current, { invalidate: false, persist: true });
@@ -371,10 +378,12 @@ export class ElectionPaneMethods {
     const activeEntry = this.elections.activeEntry;
     const activeBundle = this.elections.activeBundle;
     return /** @type {Set<string>} */ (new Set([
-      this.elections.getCanonicalLayerId?.(activeEntry),
+      this.elections.getCanonicalLayerId?.(this.elections.openElectionEntry()),
       activeEntry?.sourceMapId,
       activeBundle?.sourceMapId,
-      activeBundle?.layerId
+      activeBundle?.layerId,
+      // A grouped entry's other members' maps are the election's too.
+      ...(this.elections.activeGroup ? this.elections.getActiveElectionBackingLayerIds() : [])
     ].filter(Boolean)));
   }
 
@@ -385,7 +394,8 @@ export class ElectionPaneMethods {
     const backingIds = /** @type {Set<string>} */ (new Set([
       activeEntry?.sourceMapId,
       activeBundle?.sourceMapId,
-      activeBundle?.layerId
+      activeBundle?.layerId,
+      ...(this.elections?.activeGroup ? this.elections.getActiveElectionBackingLayerIds() : [])
     ].filter(Boolean)));
     const candidateIds = this.getMapUnloadCandidateIds(mapId);
     const requestedBackingIds = [...candidateIds].filter((candidateId) => backingIds.has(candidateId));

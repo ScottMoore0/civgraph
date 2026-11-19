@@ -32,6 +32,11 @@ const generals = catalogue.elections.filter((e) => e.kind !== 'by-election');
 // shelf too (groups.alsoListed: the 1918 election on the Dáil and Westminster shelves).
 const ALSO_LISTED = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/registries/election-bodies.json'), 'utf8')).groups.alsoListed || [];
 const rowsOf = (list) => list.length + ALSO_LISTED.filter((a) => list.some((e) => e.key === a.election)).length;
+// A grouped entry (groups.groupedElections: the European elections of a year in the Republic and
+// Northern Ireland, the 2019 mayoral plebiscites) is one row standing for its members, held in
+// each of their places.
+const GROUPED = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/registries/election-bodies.json'), 'utf8')).groups.groupedElections || [];
+const heldIn = (e, scope) => e.scope === scope || Boolean(e.scopes?.includes(scope));
 async function open(page, hash = '', { shelves = 'open' } = {}) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
@@ -653,7 +658,7 @@ test('N08 elections: grouped bodies, and where they were held', async ({ page })
   const ni = pane(page).locator('[data-cn-filter="escope"][data-value="Northern Ireland"]');
   await ni.click();
   // The 1921 Northern Ireland general election is on the Dáil shelf too (alsoListed), so it is two rows.
-  await expect(pane(page).locator('.cn-erow')).toHaveCount(rowsOf(generals.filter((e) => e.scope === 'Northern Ireland')));
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(rowsOf(generals.filter((e) => heldIn(e, 'Northern Ireland'))));
   await ni.click();
   await expect(pane(page).locator('.cn-erow')).toHaveCount(rowsOf(generals));
   await expect(pane(page).locator('.cn-jump, .cn-hist')).toHaveCount(0);
@@ -674,21 +679,102 @@ test('W16 an election also listed under a second body is on both shelves, one re
   await expect(pane(page).locator(`#cn-shelf-e-dail [data-cn-election="${key}"] [data-cn-election-toggle]`)).toHaveAttribute('aria-pressed', 'true', { timeout: 30000 });
 });
 
-test('W16 the European shelf shows each year\'s two elections as one grouped row', async ({ page }) => {
+test('W19 the European shelf lists each year 1979-2019 as one entry for both elections; 2024 alone', async ({ page }) => {
   await open(page, 'cat=elections');
   const shelf = pane(page).locator('#cn-shelf-e-european');
   const european = generals.filter((e) => ['ireland-european', 'european-parliament'].includes(e.bodySlug));
-  const years = new Set(european.map((e) => e.date.slice(0, 4)));
-  const paired = [...years].filter((y) => european.filter((e) => e.date.startsWith(y)).length > 1);
-  await expect(shelf.locator('.cn-egroup')).toHaveCount(paired.length);
-  const y2019 = shelf.locator('.cn-egroup[data-cn-election-group="2019"]');
-  await expect(y2019.locator('.cn-egroup__title')).toHaveText('2019 European Parliament election');
-  // Still two records, each its own row to open.
-  await expect(y2019.locator('.cn-erow')).toHaveCount(2);
-  await expect(y2019.locator('[data-cn-election="ireland-european__2019-05-24"]')).toHaveCount(1);
-  await expect(y2019.locator('[data-cn-election="european-parliament__2019-05-23"]')).toHaveCount(1);
-  // Every election of the shelf is there once.
+  // Nine entries and the Republic's 2024 election, which Northern Ireland, out of the EU, did not hold.
   await expect(shelf.locator('.cn-erow')).toHaveCount(european.length);
+  await expect(shelf.locator('.cn-erow--group')).toHaveCount(9);
+  await expect(shelf.locator('[data-cn-election="ireland-european__2024-06-07"]')).toHaveCount(1);
+  await expect(shelf.locator('[data-cn-election="european-parliament__2019-05-23"], [data-cn-election="ireland-european__2019-05-24"]')).toHaveCount(0);
+  const y2019 = shelf.locator('[data-cn-election="european-parliament-2019"]');
+  await expect(y2019.locator('.cn-erow__title')).toHaveText('2019 European Parliament election');
+  await expect(y2019.locator('.cn-badge').first()).toHaveText('European');
+  // Each election keeps its own results page.
+  await expect(y2019.locator('.cn-erow__members a')).toHaveText(['Republic of Ireland', 'Northern Ireland']);
+  await expect(y2019.locator('.cn-erow__members a').first()).toHaveAttribute('href', '/browse/elections/ireland-european-2019-05-24');
+  await expect(y2019.locator('.cn-erow__members a').last()).toHaveAttribute('href', '/browse/elections/european-parliament-2019-05-23');
+  // Held in both places: each Where filter keeps it.
+  for (const scope of ['Northern Ireland', 'Republic of Ireland']) {
+    const chip = pane(page).locator(`[data-cn-filter="escope"][data-value="${scope}"]`);
+    await chip.click();
+    await expect(pane(page).locator('[data-cn-election="european-parliament-2019"]')).toHaveCount(1);
+    await chip.click();
+  }
+});
+
+/** The group open on the map: its key, the member shown and the members' maps, as the manager holds them. */
+const groupState = (page) => page.evaluate(() => {
+  const el = window.__civgraphTest2?.elections;
+  return el?.activeGroup ? { key: el.activeGroup.entry.key, shown: el.activeEntry?.key, members: el.activeGroup.members.map((m) => m.entry.key) } : null;
+});
+
+for (const group of GROUPED) {
+  test(`W19 ${group.id}: one Open draws every election, each in its own colours, with a tab each; Open again takes it off`, async ({ page }) => {
+    const errors = await open(page, 'cat=elections');
+    const row = pane(page).locator(`[data-cn-election="${group.id}"]`).first();
+    const toggle = row.locator('[data-cn-election-toggle]');
+    await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true', { timeout: 60000 });
+    await expect.poll(() => groupState(page), { timeout: 30000 }).toEqual({ key: group.id, shown: group.members[0].election, members: group.members.map((m) => m.election) });
+    // Every member's map is drawn, styled by its own election.
+    const maps = await page.evaluate((keys) => keys.map((key) => window.__civgraphTest2.elections.catalogue.elections.find((e) => e.key === key)?.sourceMapId), group.members.map((m) => m.election));
+    const layers = await loaded(page);
+    for (const id of new Set(maps)) expect(layers).toContain(id);
+    // The pane names the entry; its tabs name the members, the first shown.
+    await expect(page.locator('#electionPaneTitle')).toHaveText(group.title);
+    const tabs = page.locator('#electionPaneContent [data-election-group-member]');
+    await expect(tabs).toHaveText(group.members.map((m) => m.label));
+    await expect(tabs.first()).toHaveAttribute('aria-pressed', 'true');
+    // The legend has a section a member.
+    await expect(page.locator('#test2MapLegend .test2-map-legend__heading--member')).toHaveText(group.members.map((m) => m.label));
+    // Another tab shows that member's results; the address says which.
+    await tabs.nth(1).click();
+    await expect.poll(async () => (await groupState(page))?.shown).toBe(group.members[1].election);
+    await expect(tabs.nth(1)).toHaveAttribute('aria-pressed', 'true');
+    await expect.poll(() => page.evaluate(() => new URLSearchParams(location.hash.slice(1)).get('electionMember'))).toBe(group.members[1].election);
+    expect(await page.evaluate(() => new URLSearchParams(location.hash.slice(1)).get('layers'))).toBe(`election-group-${group.id}`);
+    // Open again: off, every member's map with it.
+    await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-pressed', 'false', { timeout: 30000 });
+    await expect.poll(() => groupState(page)).toBe(null);
+    await expect.poll(() => loaded(page)).toEqual([]);
+    expect(errors).toEqual([]);
+  });
+}
+
+test('W19 a grouped entry\'s address opens it, at the member it names; the timeline steps through the entries', async ({ page }) => {
+  const group = GROUPED.find((g) => g.id === 'european-parliament-2014');
+  const member = group.members[1].election;
+  await open(page, `electionBody=Group&electionDate=${group.id}&electionMember=${member}&cat=elections`);
+  await expect.poll(() => groupState(page), { timeout: 60000 }).toEqual({ key: group.id, shown: member, members: group.members.map((m) => m.election) });
+  await expect(page.locator(`#electionPaneContent [data-election-group-member="${member}"]`)).toHaveAttribute('aria-pressed', 'true');
+  await expect(pane(page).locator(`[data-cn-election="${group.id}"] [data-cn-election-toggle]`).first()).toHaveAttribute('aria-pressed', 'true');
+  // The layer form of the address (as a copied link or the History list writes it) opens it too.
+  await page.goto('about:blank');
+  await open(page, `layers=election-group-${group.id}&cat=elections`);
+  await expect.poll(async () => (await groupState(page))?.key, { timeout: 60000 }).toBe(group.id);
+  // The timeline's stops are the entries (and the Republic's 2024 election), not their members.
+  const stops = await page.evaluate(() => (window.__civgraphTest2.app.timelineItems || []).map((item) => item.date));
+  expect(stops).toContain('european-parliament-2019');
+  expect(stops).toContain('2024-06-07');
+  expect(stops).not.toContain('2014-05-22');
+});
+
+test('W19 a member\'s own address still opens that election alone', async ({ page }) => {
+  // Browse's "Open map" link for the 2019 European election in Northern Ireland.
+  await open(page, 'layers=election-european-parliament-2019-05-23');
+  await expect.poll(() => page.evaluate(() => window.__civgraphTest2?.elections?.activeEntry?.key || null), { timeout: 60000 }).toBe('european-parliament__2019-05-23');
+  expect(await groupState(page)).toBe(null);
+  await expect(page.locator('#electionPaneContent [data-election-group-member]')).toHaveCount(0);
+  // The pane's own title for one election ("European - 23 May 2019"), not the entry's.
+  await expect(page.locator('#electionPaneTitle')).toHaveText('European - 23 May 2019');
+  // And by body and date, as an election-history link names it.
+  await page.goto('about:blank');
+  await open(page, 'electionBody=Referendum%20(Ireland)&electionDate=2019-05-24-directly-elected-mayor-cork-city');
+  await expect.poll(() => page.evaluate(() => window.__civgraphTest2?.elections?.activeEntry?.key || null), { timeout: 60000 }).toBe('ireland-referendum__2019-05-24-directly-elected-mayor-cork-city');
+  expect(await groupState(page)).toBe(null);
 });
 
 test('N09 rows put their details beside the name; no blurbs, no histogram', async ({ page }) => {
@@ -841,8 +927,17 @@ test('N25 descriptions: an opened row, an election and a map Details page say wh
   const ge = pane(page).locator('[data-cn-election="dail-eireann__2024-11-29"] .cn-erow__about');
   await ge.locator('summary').click();
   await expect(ge).toContainText('Election for the 34th Dáil');
-  // Counted by election: a row listed on two shelves is one election.
-  await expect.poll(() => pane(page).locator('.cn-erow:has(.cn-erow__about)').evaluateAll((rows) => new Set(rows.map((r) => r.getAttribute('data-cn-election'))).size)).toBe(Object.keys(desc.elections).length);
+  // Counted by election: a row listed on two shelves is one election. A grouped entry is one row
+  // for its members: its own description, else its members'.
+  const memberOf = new Map(GROUPED.flatMap((g) => g.members.map((m) => [m.election, g.id])));
+  const described = new Set(Object.keys(desc.elections).map((key) => memberOf.get(key) || key));
+  for (const g of GROUPED) if (g.about) described.add(g.id);
+  await expect.poll(() => pane(page).locator('.cn-erow:has(.cn-erow__about)').evaluateAll((rows) => new Set(rows.map((r) => r.getAttribute('data-cn-election'))).size)).toBe(described.size);
+  // The plebiscites' entry carries Phelim Birch's description.
+  const plebiscites = pane(page).locator('[data-cn-election="mayoral-plebiscites-2019"] .cn-erow__about');
+  await plebiscites.locator('summary').click();
+  await expect(plebiscites.locator('summary')).toHaveText('About these plebiscites');
+  await expect(plebiscites).toContainText(GROUPED.find((g) => g.id === 'mayoral-plebiscites-2019').about.text[0].slice(0, 80));
 });
 
 // The site's service worker answers /_api requests itself, out of reach of page.route: block it here.

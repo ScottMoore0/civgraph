@@ -122,6 +122,8 @@ import {
   listedElections
 } from '../src/election/grouped-years.mjs';
 import { GroupedYearMethods } from '../src/election/grouped-year-methods.js';
+import { ElectionGroupMethods } from '../src/election/election-group-methods.js';
+import { addElectionGroups, groupsByMember, inGroupTimelineSeries, withoutGroupMembers } from '../src/election-groups.mjs';
 import { ELECTION_LOAD } from '../src/election/load-state.mjs';
 import { createFlag, createState, defineFlagFields } from '../src/state-helpers.mjs';
 import { installMethods } from '../src/app/install-methods.mjs';
@@ -136,6 +138,7 @@ import { MAP_COLOURS, VIEWER_COLOURS } from '../src/colours.mjs';
 /** @typedef {import('../src/election/election-manager').ElectionGeographyMode} ElectionGeographyMode */
 /** @typedef {import('../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 /** @typedef {import('./ni-local-view.js').NiLocalGroupedView} NiLocalGroupedView */
+/** @typedef {import('../src/election/election-manager').ElectionGroupState} ElectionGroupState */
 /** @typedef {import('../src/election/election-manager').ElectionStyleLayer} ElectionStyleLayer */
 /** @typedef {import('../src/election/election-manager').BundleResult} BundleResult */
 /** @typedef {import('../src/election/election-manager').EntityPageEntity} EntityPageEntity */
@@ -241,6 +244,13 @@ const SEAT_CIRCLE_GROUP_LIMIT_MOBILE = 90;
 /** @type {Promise<void> | null} */
 let electionAnimationRuntimePromise = null;
 
+/**
+ * The manager with the methods installMethods puts on its prototype, as the type check sees it.
+ * @param {Test2ElectionManager} manager
+ * @returns {ElectionManager}
+ */
+const withMethods = (manager) => /** @type {ElectionManager} */ (/** @type {unknown} */ (manager));
+
 const MAIN_ELECTION_GEOGRAPHY_STYLE = Object.freeze({
   unmatchedFillColor: MAP_COLOURS.unmatchedFill,
   unmatchedFillOpacity: 0.42,
@@ -318,6 +328,9 @@ export class Test2ElectionManager {
     // The year of pre-1973 Northern Ireland council elections open, if any (grouped-year-methods.js makes it).
     /** @type {NiLocalGroupedView | undefined} */
     this.niLocal;
+    // The grouped entry open, if any (election-group-methods.js): its members, and which is shown.
+    /** @type {ElectionGroupState | null} */
+    this.activeGroup = null;
     // The results whose count detail has been asked for (hydrateSelectedResult makes the set).
     /** @type {WeakSet<BundleResult> | undefined} */
     this.countDetailRequested;
@@ -376,6 +389,8 @@ export class Test2ElectionManager {
   async load() {
     this.catalogue = await fetchElectionManifest();
     this.addNiLocalGroups();
+    // The grouped entries (packages/map/src/election-groups.mjs), beside their members.
+    addElectionGroups(this.catalogue);
     return this.catalogue;
   }
 
@@ -389,7 +404,7 @@ export class Test2ElectionManager {
   }
 
   buildCatalogueCards() {
-    return listedElections(this.catalogue?.elections || []).map((entry) => ({
+    return withoutGroupMembers(listedElections(this.catalogue?.elections || [])).map((entry) => ({
       ...entry,
       canonicalLayerId: this.getCanonicalLayerId(entry),
       // A results-only election (no boundary layer for its year) is listed and opens like
@@ -442,6 +457,11 @@ export class Test2ElectionManager {
       // loadNiLocalGroup is GroupedYearMethods' (installMethods put it on the prototype).
       return /** @type {ElectionManager} */ (/** @type {unknown} */ (this)).loadNiLocalGroup(groupEntry, { keepView, ...keptGroupedYearView(this.niLocal) });
     }
+    if (groupEntry?.electionGroup) {
+      // A grouped entry: several elections drawn together (election-group-methods.js).
+      this.cancelPendingLoad({ unloadBackingLayer: false });
+      return /** @type {ElectionManager} */ (/** @type {unknown} */ (this)).loadElectionGroup(groupEntry, { keepView });
+    }
     const requestId = ++this.loadSerial;
     const entry = groupEntry;
     if (!entry) throw new Error(`Election not found: ${body} ${date}`);
@@ -452,7 +472,7 @@ export class Test2ElectionManager {
     // Opening an election is a step Back can undo; stepping along the timeline (keepView) is
     // scrubbing, and rewrites the entry it is on.
     if (!keepView) this.app.beginNavigation?.(`Opened ${entry.displayTitle || `${body} ${date}`}`);
-    if (this.activeEntry && (this.activeEntry.body !== body || this.activeEntry.date !== date)) {
+    if (this.activeGroup || (this.activeEntry && (this.activeEntry.body !== body || this.activeEntry.date !== date))) {
       // Quietly: the address is written once this one is open, so the entry the reader steps
       // back to still has the election being replaced.
       this.unloadElection({ updateURL: false, keepLoad: true });
@@ -508,7 +528,7 @@ export class Test2ElectionManager {
     this.pendingLoad = null;
     this.activeEntry = entry;
     this.activeBundle = bundle;
-    this.previousBundle = entry.isByElection ? sameAreaPreviousBundle(previousBundle, bundle) : previousBundle;
+    this.previousBundle = this.previousBundleFor(entry, previousBundle, bundle) ?? null;
     this.activeMode = stylingModeFor(entry, this.activeMode);
     if (!this.shouldRenderElectionOverlays()) this.overlayMode = OVERLAY_MODE.check('circles');
     Object.assign(this, freshPanelState(entry));
@@ -583,6 +603,11 @@ export class Test2ElectionManager {
     }
     if (sourceMapId) this.mapController.clearElectionStyle?.(sourceMapId);
     if (this.activeBundle?.councilSourceMapId) this.mapController.clearElectionStyle?.(this.activeBundle.councilSourceMapId);
+    if (this.activeGroup) {
+      // Every member's map loses its colours, the boundaries left plain where they stay.
+      for (const id of withMethods(this).groupLayerIds()) this.mapController.clearElectionStyle?.(id);
+      this.activeGroup = null;
+    }
     this.removeElectionOverlays();
     this.resultsByLayer.clear();
     this.activeEntry = null;
@@ -611,6 +636,18 @@ export class Test2ElectionManager {
       // filter(Boolean) leaves only ids, here and below.
       return /** @type {string[]} */ ([...new Set([...this.niLocal.backingLayerIds(), entry.sourceMapId].filter(Boolean))]);
     }
+    // A grouped entry's: every member's (the open member is one of them).
+    if (this.activeGroup && entry === this.activeEntry) return withMethods(this).groupLayerIds();
+    return this.backingLayerIdsOf(entry, bundle);
+  }
+
+  /**
+   * The maps one election draws on: its boundaries, its bundle's layers and its other geographies.
+   * @param {ElectionEntry | null | undefined} entry
+   * @param {ElectionEntry | null | undefined} bundle
+   * @returns {string[]}
+   */
+  backingLayerIdsOf(entry, bundle) {
     const geographyLayerIds = Array.isArray(bundle?.geographyModes)
       ? bundle.geographyModes.flatMap((mode) => [mode.sourceMapId, mode.layerId])
       : [];
@@ -667,7 +704,45 @@ export class Test2ElectionManager {
    * @param {unknown} date
    */
   isElectionLoaded(body, date) {
-    return this.activeEntry?.body === body && this.activeEntry?.date === date;
+    const open = this.openElectionEntry();
+    return open?.body === body && open?.date === date;
+  }
+
+  /** What is open: the grouped entry while one is, else the election (null when none is). */
+  openElectionEntry() {
+    return this.activeGroup?.entry || this.activeEntry;
+  }
+
+  /** The maps the open election (or each member of the open entry) is fitted to. @returns {string[]} */
+  electionFitLayerIds() {
+    const entries = this.activeGroup ? this.activeGroup.members.map((member) => member.entry) : [this.activeEntry];
+    return /** @type {string[]} */ ([...new Set(entries.filter((entry) => entry && !entry.resultsOnly).map((entry) => entry?.sourceMapId).filter(Boolean))]);
+  }
+
+  /**
+   * The results by each name they answer to, the first result a name finds keeping it.
+   * @param {BundleResult[] | null | undefined} results
+   * @returns {Map<string, BundleResult>}
+   */
+  resultIndex(results) {
+    /** @type {Map<string, BundleResult>} */
+    const index = new Map();
+    for (const result of results || []) {
+      for (const key of resultKeys(result)) {
+        if (!index.has(key)) index.set(key, result);
+      }
+    }
+    return index;
+  }
+
+  /**
+   * The previous election a delta is reckoned from: a by-election's, only where it covered the same area.
+   * @param {ElectionEntry} entry
+   * @param {ElectionEntry | null | undefined} previous
+   * @param {ElectionEntry | null | undefined} bundle
+   */
+  previousBundleFor(entry, previous, bundle) {
+    return entry.isByElection ? sameAreaPreviousBundle(previous, bundle) : previous;
   }
 
   getURLState() {
@@ -678,6 +753,16 @@ export class Test2ElectionManager {
         body: this.activeEntry.body,
         date: this.activeEntry.date,
         niLocal: this.niLocal.urlState()
+      };
+    }
+    if (this.activeGroup) {
+      // A grouped entry's address names the entry, and the member shown with its own view of it.
+      const group = this.activeGroup.entry;
+      return {
+        ...electionURLState(/** @type {Parameters<typeof electionURLState>[0]} */ (this), this.getCanonicalLayerId(group)),
+        body: group.body,
+        date: group.date,
+        member: this.activeEntry.key
       };
     }
     // activeEntry is set (tested above).
@@ -718,6 +803,9 @@ export class Test2ElectionManager {
       return;
     }
     await this.loadElection(body, date);
+    // A grouped entry: the member the address shows (else its first).
+    const member = params.get('electionMember');
+    if (this.activeGroup && member) withMethods(this).activateGroupMember(member, { render: false });
     const geographyMode = params.get('electionGeographyMode');
     if (geographyMode && this.geographyModes().some((item) => item.id === geographyMode)) {
       await this.switchGeographyMode(geographyMode);
@@ -846,12 +934,7 @@ export class Test2ElectionManager {
 
   /** @param {ElectionEntry} bundle */
   indexBundle(bundle) {
-    const layerResults = new Map();
-    for (const result of bundle.results || []) {
-      for (const key of resultKeys(result)) {
-        if (!layerResults.has(key)) layerResults.set(key, result);
-      }
-    }
+    const layerResults = this.resultIndex(bundle.results);
     if (bundle.layerId) this.resultsByLayer.set(bundle.layerId, layerResults);
     if (bundle.sourceMapId) this.resultsByLayer.set(bundle.sourceMapId, layerResults);
     // A national contest's results by area (the presidential elections by Dail constituency): a
@@ -875,6 +958,11 @@ export class Test2ElectionManager {
   enrichFeature(feature) {
     if (this.niLocal?.active) return this.niLocal.enrichFeature(feature);
     if (!this.activeBundle || !feature) return feature;
+    // A grouped entry: an area clicked is its own election's, which the pane then shows.
+    if (this.activeGroup) {
+      const member = withMethods(this).groupMemberForFeature(feature);
+      if (member && member.entry !== this.activeEntry) withMethods(this).activateGroupMember(member.entry.key, { render: false });
+    }
     const layerResults = this.resultsByLayer.get(feature.mapId)
       || this.resultsByLayer.get(this.activeBundle.layerId)
       || this.resultsByLayer.get(this.activeBundle.sourceMapId);
@@ -953,11 +1041,28 @@ export class Test2ElectionManager {
       return;
     }
     if (!this.activeEntry || !this.activeBundle) return;
+    // A grouped entry: every member's areas in its own colours (election-group-methods.js).
+    if (this.activeGroup) {
+      withMethods(this).applyGroupStyle();
+      return;
+    }
+    const parts = this.activeStyleParts();
+    if (!parts) return;
+    this.mapController.applyElectionStyle?.(parts.sourceMapId, parts.style);
+    this.renderLegend();
+  }
+
+  /**
+   * The open election's styling, and the map it is drawn on (null when it has none).
+   * @param {string} [mode]
+   * @returns {{ sourceMapId: string, style: import('./maplibre-main-adapter.js').ElectionStyle } | null}
+   */
+  activeStyleParts(mode = this.activeMode) {
     const styleLayer = this.getActiveElectionStyleLayer();
     const styleSourceMapId = styleLayer?.sourceMapId || this.getActiveElectionStyleSourceMapId();
-    if (!styleSourceMapId) return;
+    if (!styleSourceMapId) return null;
     const fillColorExpression = this.buildColourExpression(
-      this.activeMode,
+      mode,
       MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillColor,
       styleLayer
     );
@@ -965,8 +1070,8 @@ export class Test2ElectionManager {
     // The areas of a results-by-area geography are matched against its own results, not the
     // national one (which names no area of that map).
     const matchRows = this.isAreaResultsGeographyMode() ? this.currentResults() : undefined;
-    this.mapController.applyElectionStyle?.(styleSourceMapId, {
-      mode: this.activeMode,
+    return { sourceMapId: styleSourceMapId, style: {
+      mode,
       fillColorExpression,
       lineColorExpression: isPointGeometry
         ? fillColorExpression
@@ -987,8 +1092,7 @@ export class Test2ElectionManager {
       lineOpacity: isPointGeometry ? undefined : MAIN_ELECTION_GEOGRAPHY_STYLE.strokeOpacity,
       lineWidth: isPointGeometry ? undefined : MAIN_ELECTION_GEOGRAPHY_STYLE.strokeWidth,
       hideLabels: true
-    });
-    this.renderLegend();
+    } };
   }
 
   getActiveElectionStyleSourceMapId() {
@@ -1186,6 +1290,11 @@ export class Test2ElectionManager {
       headerRight.innerHTML = this.mainPaneContract.renderHeaderRight(selectedResult, nextView);
     }
     content.innerHTML = this.mainPaneContract.renderPanelContent(selectedResult, nextView);
+    // A grouped entry: its members' tabs above the results of the one shown.
+    if (this.activeGroup) {
+      content.insertAdjacentHTML('afterbegin', withMethods(this).groupTabsHtml());
+      withMethods(this).bindGroupTabs(content);
+    }
     pane.classList.add('election-results-pane--open');
     document.body.classList.add('test2-election-open');
     back?.addEventListener('click', () => this.renderPanel(null, 'party'));
@@ -1312,7 +1421,7 @@ export class Test2ElectionManager {
   renderPanelTitle(title, selectedResult = null) {
     if (!title) return;
     if (!selectedResult?.constituency) {
-      title.textContent = this.mainPaneContract.renderTitle(selectedResult);
+      title.textContent = this.activeGroup ? String(this.activeGroup.entry.displayTitle || '') : this.mainPaneContract.renderTitle(selectedResult);
       return;
     }
     const kind = this.selectedResultEntityKind();
@@ -4365,6 +4474,7 @@ export class Test2ElectionManager {
     if (!this.activeBundle || !feature) return false;
     const featureMapId = normalizeName(feature.mapId || feature.sourceMapId || feature.layerId || '');
     if (!featureMapId) return false;
+    if (this.activeGroup && withMethods(this).groupLayerIds().some((/** @type {string} */ id) => normalizeName(id) === featureMapId)) return true;
     return [
       this.activeBundle.layerId,
       this.activeBundle.sourceMapId,
@@ -4398,6 +4508,13 @@ export class Test2ElectionManager {
    */
   legendModel() {
     if (this.niLocal?.active) return this.niLocal.legendModel();
+    // A grouped entry: a section a member (election-group-methods.js).
+    if (this.activeGroup) return withMethods(this).groupLegendModel();
+    return this.singleLegendModel();
+  }
+
+  /** The open election's key (legendModel), a grouped entry's member's too. @returns {import('../src/app/legend-view.mjs').LegendModel | null} */
+  singleLegendModel() {
     if (!this.activeEntry || !this.activeBundle) return null;
     const mode = this.activeMode;
     const district = this.isLocalGovernmentElection() && this.activeLocalMode === 'district';
@@ -4517,7 +4634,7 @@ export class Test2ElectionManager {
       button.title = label;
     }
     try { localStorage.setItem('civgraph:test2:electionPaneCollapsed', collapsed ? '1' : '0'); } catch { /* private mode */ }
-    if (refit && this.activeEntry?.sourceMapId) this.app.refitAfterElectionPane?.(this.activeEntry.sourceMapId);
+    if (refit && this.activeEntry?.sourceMapId) this.app.refitAfterElectionPane?.(this.electionFitLayerIds());
     else requestAnimationFrame(() => this.app.mapController?.invalidateSize?.());
   }
 
@@ -5388,12 +5505,21 @@ export class Test2ElectionManager {
   }
 
   updateElectionTimeline() {
-    if (!this.activeEntry || !this.catalogue?.elections) return;
+    // What is open: a grouped entry steps through the entries and elections of its members' bodies.
+    const active = this.openElectionEntry();
+    if (!active || !this.catalogue?.elections) return;
+    const members = groupsByMember();
+    /** @param {ElectionEntry} entry */
+    const inSeries = (entry) => (entry.niLocalGroup || active.niLocalGroup
+      ? inTimelineSeries(entry, active)
+      // The grouped entries stand for their members, except the election open alone.
+      : inGroupTimelineSeries(entry, active, members));
+    /** @param {ElectionEntry} entry */
+    const sortKey = (entry) => String(entry.sortDate || entry.date);
     const all = this.catalogue.elections
       // The council years run as one series, the island's (before 1921) into Northern Ireland's.
-      // The active entry is set (tested above), here and below.
-      .filter((entry) => (entry.loadable || entry.resultsOnly) && inTimelineSeries(entry, /** @type {ElectionEntry} */ (this.activeEntry)))
-      .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+      .filter((entry) => (entry.loadable || entry.resultsOnly) && inSeries(entry))
+      .sort((a, b) => sortKey(a).localeCompare(sortKey(b)));
     // By-elections far outnumber general elections (879 to 206 across the catalogue), so a
     // body's slider is mostly by-election stops. The filter steps through the rest; the open
     // election always stays on it, even when it is itself a by-election.
@@ -5405,13 +5531,14 @@ export class Test2ElectionManager {
     const crowded = byElections > 2 * (all.length - byElections);
     const generalsOnly = available && Boolean(this.app.getTimelineGeneralsOnly?.(crowded));
     const entries = generalsOnly
-      ? all.filter((entry) => entry.kind !== 'by-election' || entry.date === /** @type {ElectionEntry} */ (this.activeEntry).date)
+      ? all.filter((entry) => entry.kind !== 'by-election' || entry.date === active.date)
       : all;
-    const activeIndex = entries.findIndex((entry) => entry.body === /** @type {ElectionEntry} */ (this.activeEntry).body && entry.date === /** @type {ElectionEntry} */ (this.activeEntry).date);
+    const activeIndex = entries.findIndex((entry) => entry.body === active.body && entry.date === active.date);
     this.app.setTimelineItems(entries.map((entry) => ({
-      label: entry.date,
-      // A year of council elections is a year, not 1 January of it.
+      label: sortKey(entry),
+      // A year of council elections is a year, not 1 January of it; a grouped entry is its first day.
       ...(entry.niLocalGroup ? { displayLabel: String(entry.year || entry.date) } : {}),
+      ...(entry.electionGroup && entry.sortDate ? { displayLabel: formatDisplayDate(entry.sortDate) } : {}),
       body: entry.body,
       date: entry.date,
       minor: entry.kind === 'by-election',
@@ -5457,7 +5584,7 @@ export class Test2ElectionManager {
 }
 
 // Opening a grouped year (packages/map/src/election/grouped-year-methods.js).
-installMethods(Test2ElectionManager, [GroupedYearMethods]);
+installMethods(Test2ElectionManager, [GroupedYearMethods, ElectionGroupMethods]);
 
 /** @param {unknown} value */
 function mainElectionSlug(value) {
@@ -5741,6 +5868,7 @@ function normalizeName(value) {
  */
 function timelineStopName(entry = {}) {
   if (entry.niLocalGroup) return `${entry.councilCount || ''} councils`.trim();
+  if (entry.electionGroup) return String(entry.displaySubtitle || '');
   if (entry.kind === 'general') return 'General election';
   return String(entry.displayTitle || '').replace(/^\d{4}\s+/, '').trim();
 }

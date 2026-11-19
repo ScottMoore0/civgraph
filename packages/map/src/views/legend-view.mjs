@@ -29,6 +29,8 @@ import { MAP_COLOURS } from './colours.mjs';
  * @property {LegendKeyNote[]} [keyNotes]
  * @property {boolean} seats one dot per seat is drawn
  * @property {boolean} [bars] vote-share bars are drawn
+ * @property {{ label: string, model: LegendModel }[]} [members] a grouped entry's elections, each
+ *   keyed as its own areas are coloured (packages/map/src/election-groups.mjs)
  */
 /**
  * A census statistic on the map, keyed by its classes (the map controller's getCensusOverlayLegend).
@@ -77,24 +79,15 @@ export function legendInk(hex) {
 export function legendBodyHtml({ election, statistics, layers, showLayers, approximate, electionMapId }) {
   /** @type {string[]} */
   const parts = [];
+  if (election?.members?.length) {
+    // A grouped entry: each election's key under its own name.
+    for (const member of election.members) {
+      parts.push(`<div class="test2-map-legend__member"><p class="test2-map-legend__heading test2-map-legend__heading--member">${esc(member.label)}</p>${electionKeyHtml(member.model)}</div>`);
+    }
+  } else if (election) {
+    parts.push(electionKeyHtml(election));
+  }
   if (election) {
-    const unit = election.heading || (election.unit ? `${election.unit === 'council' ? 'Councils' : election.unit === 'area' ? 'Areas' : 'Constituencies'} coloured by ${election.title.toLowerCase()}` : `${election.title}, low to high`);
-    parts.push(`<p class="test2-map-legend__heading">${esc(unit)}</p>`);
-    if (election.items.length) {
-      const shown = election.items.slice(0, 14);
-      parts.push(`<ul class="test2-map-legend__list">${shown.map((item) => `<li><span class="test2-map-legend__swatch" style="background:${esc(item.colour)};color:${legendInk(item.colour)}" aria-hidden="true">${esc(item.abbreviation.length <= 5 ? item.abbreviation : '')}</span><span class="test2-map-legend__name">${esc(item.name)}${item.abbreviation && item.abbreviation !== item.name ? ` <span class="test2-map-legend__abbr">(${esc(item.abbreviation)})</span>` : ''}</span><span class="test2-map-legend__count">${item.count}</span></li>`).join('')}</ul>`);
-      if (election.items.length > shown.length) parts.push(`<p class="test2-map-legend__note">and ${election.items.length - shown.length} more</p>`);
-    } else if (election.ramp) {
-      parts.push(`<div class="test2-map-legend__ramp" style="background:${esc(election.ramp.gradient)}" aria-hidden="true"></div><p class="test2-map-legend__ramp-labels"><span>${esc(election.ramp.low)}</span><span>${esc(election.ramp.high)}</span></p>`);
-    }
-    // Swatches for what is not a party: hatching (results not available or incomplete), the
-    // neutral fill (returned unopposed) and seats split evenly (packages/map/app/ni-local-view.js).
-    const keyNotes = (election.keyNotes || []).filter((note) => note && note.text);
-    if (keyNotes.length) {
-      /** @param {string} kind */
-      const swatch = (kind) => (kind === 'note' ? '' : `<span class="test2-map-legend__swatch test2-map-legend__swatch--${esc(kind)}" aria-hidden="true"></span>`);
-      parts.push(`<ul class="test2-map-legend__list test2-map-legend__list--key">${keyNotes.map((note) => `<li${note.kind === 'note' ? ' class="test2-map-legend__keynote"' : ''}>${swatch(note.kind)}<span class="test2-map-legend__name">${esc(note.text)}</span>${Number.isFinite(note.count) ? `<span class="test2-map-legend__count">${note.count}</span>` : ''}</li>`).join('')}</ul>`);
-    }
     if (election.seats) parts.push('<p class="test2-map-legend__note"><span class="test2-map-legend__dots" aria-hidden="true"><i></i><i></i><i></i></span>One dot per seat, in the colour of the party that won it</p>');
     else if (election.bars) parts.push('<p class="test2-map-legend__note">Bars: each party\'s share of the vote</p>');
   }
@@ -132,6 +125,34 @@ export function legendBodyHtml({ election, statistics, layers, showLayers, appro
   }
   // The election map as a Wikipedia-style SVG of this view, areas in their party colours.
   if (electionMapId) parts.push(`<button type="button" class="test2-map-legend__export" data-map-image-export="${esc(electionMapId)}"><span data-export-label>Download map (SVG)</span></button>`);
+  return parts.join('');
+}
+
+/**
+ * An election's key: what its colours mean, and the swatches for what is not a party.
+ * @param {LegendModel} election
+ * @returns {string}
+ */
+function electionKeyHtml(election) {
+  /** @type {string[]} */
+  const parts = [];
+  const unit = election.heading || (election.unit ? `${election.unit === 'council' ? 'Councils' : election.unit === 'area' ? 'Areas' : 'Constituencies'} coloured by ${election.title.toLowerCase()}` : `${election.title}, low to high`);
+  parts.push(`<p class="test2-map-legend__heading">${esc(unit)}</p>`);
+  if (election.items.length) {
+    const shown = election.items.slice(0, 14);
+    parts.push(`<ul class="test2-map-legend__list">${shown.map((item) => `<li><span class="test2-map-legend__swatch" style="background:${esc(item.colour)};color:${legendInk(item.colour)}" aria-hidden="true">${esc(item.abbreviation.length <= 5 ? item.abbreviation : '')}</span><span class="test2-map-legend__name">${esc(item.name)}${item.abbreviation && item.abbreviation !== item.name ? ` <span class="test2-map-legend__abbr">(${esc(item.abbreviation)})</span>` : ''}</span><span class="test2-map-legend__count">${item.count}</span></li>`).join('')}</ul>`);
+    if (election.items.length > shown.length) parts.push(`<p class="test2-map-legend__note">and ${election.items.length - shown.length} more</p>`);
+  } else if (election.ramp) {
+    parts.push(`<div class="test2-map-legend__ramp" style="background:${esc(election.ramp.gradient)}" aria-hidden="true"></div><p class="test2-map-legend__ramp-labels"><span>${esc(election.ramp.low)}</span><span>${esc(election.ramp.high)}</span></p>`);
+  }
+  // Swatches for what is not a party: hatching (results not available or incomplete), the
+  // neutral fill (returned unopposed) and seats split evenly (packages/map/app/ni-local-view.js).
+  const keyNotes = (election.keyNotes || []).filter((note) => note && note.text);
+  if (keyNotes.length) {
+    /** @param {string} kind */
+    const swatch = (kind) => (kind === 'note' ? '' : `<span class="test2-map-legend__swatch test2-map-legend__swatch--${esc(kind)}" aria-hidden="true"></span>`);
+    parts.push(`<ul class="test2-map-legend__list test2-map-legend__list--key">${keyNotes.map((note) => `<li${note.kind === 'note' ? ' class="test2-map-legend__keynote"' : ''}>${swatch(note.kind)}<span class="test2-map-legend__name">${esc(note.text)}</span>${Number.isFinite(note.count) ? `<span class="test2-map-legend__count">${note.count}</span>` : ''}</li>`).join('')}</ul>`);
+  }
   return parts.join('');
 }
 

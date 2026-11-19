@@ -160,6 +160,9 @@ export type LayerOrGroupState = import('../../app/maplibre-main-adapter.js').Gro
 export interface ElectionsView extends Pick<ElectionManager,
   | 'activeBundle'
   | 'activeEntry'
+  | 'activeGroup'
+  | 'electionFitLayerIds'
+  | 'openElectionEntry'
   | 'buildCatalogueCards'
   | 'cancelPendingLoad'
   | 'catalogue'

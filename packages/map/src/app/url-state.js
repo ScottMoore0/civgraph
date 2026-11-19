@@ -43,7 +43,7 @@ const within = (promise, ms) => Promise.race([promise, new Promise((resolve) => 
 /**
  * The election's part of the address (the manager's getURLState): a pre-1973 Northern Ireland
  * local year's (packages/map/app/ni-local-view.js), or another election's.
- * @typedef {(ReturnType<typeof import('../election/panel-model.mjs').electionURLState> & { niLocal?: undefined })
+ * @typedef {(ReturnType<typeof import('../election/panel-model.mjs').electionURLState> & { niLocal?: undefined, member?: string })
  *   | { layerId: string, body: string, date: string, niLocal: { level: string | null, show: string, members: string, area: string | null } }} ElectionUrlState
  */
 /** The app as these methods see it: they run once init has made the map controller. @typedef {import('./map-app').MapAppReady & UrlStateMethods & NavigationState} UrlStateApp */
@@ -206,7 +206,8 @@ export class UrlStateMethods {
   removeStateNotIn(params) {
     const wanted = new Set([...(params.get('layers') || '').split(','), params.get('featureMap') || '']
       .map((id) => resolveLegacyLayerId(id.trim(), this.isKnownLayerId)).filter(Boolean));
-    const active = this.elections?.activeEntry;
+    // What is open: a grouped entry (its member shown is activeEntry) or the election.
+    const active = this.elections?.openElectionEntry();
     if (active) {
       const sameElection = (params.get('electionBody') === active.body && params.get('electionDate') === active.date)
         || wanted.has(/** @type {ElectionsView} */ (this.elections).getCanonicalLayerId?.(active));
@@ -307,7 +308,9 @@ export class UrlStateMethods {
     const electionSourceIds = new Set([
       this.elections?.activeEntry?.sourceMapId,
       this.elections?.activeBundle?.sourceMapId,
-      this.elections?.activeBundle?.layerId
+      this.elections?.activeBundle?.layerId,
+      // A grouped entry draws every member's map; its address names the entry, not the maps.
+      ...(this.elections?.activeGroup ? this.elections.getActiveElectionBackingLayerIds() : [])
     ].filter(Boolean));
     const urlLoaded = electionState?.layerId
       ? [electionState.layerId, ...loaded.filter((id) => !electionSourceIds.has(id))]
@@ -373,6 +376,8 @@ export class UrlStateMethods {
         params.set('electionEntityKey', electionState.entityKey);
         if (electionState.entityReturnView) params.set('electionEntityReturnView', electionState.entityReturnView);
       }
+      // A grouped entry: the member the results pane shows.
+      if (electionState.member) params.set('electionMember', electionState.member);
     }
     const catalogueRoute = uiController.catalogueNextRoute?.();
     if (catalogueRoute) params.set('cat', catalogueRoute);
@@ -400,7 +405,8 @@ export class UrlStateMethods {
     const SUFFIX = 'Civgraph';
     let subject = null;
     try {
-      const election = this.elections?.activeBundle;
+      // A grouped entry is named by its title, not its member shown.
+      const election = this.elections?.activeGroup?.entry || this.elections?.activeBundle;
       const page = this.currentPage && !document.getElementById('catalogueDetailView')?.classList.contains('hidden') ? this.currentPage : null;
       if (page?.title) {
         // "Ulster Unionist Party – Party – Civgraph": the page, not the election behind it.
