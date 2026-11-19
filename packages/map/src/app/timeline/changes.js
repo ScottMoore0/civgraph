@@ -109,7 +109,7 @@ export class TimelineChangeMethods {
       const toMapId = items[i + 1]?.mapId;
       if (!fromMapId || !toMapId || fromMapId === toMapId) continue;
       const id = `${fromMapId}__${toMapId}`;
-      steps.push({ id, fromMapId, toMapId, fromItem: items[i], toItem: items[i + 1], entry: this.timelineChangeIndex?.[id] || null });
+      steps.push({ id, fromMapId, toMapId, fromItem: /** @type {import("../map-app.js").TimelineItem} */ (items[i]), toItem: /** @type {import("../map-app.js").TimelineItem} */ (items[i + 1]), entry: this.timelineChangeIndex?.[id] || null });
     }
     return toIndex < fromIndex ? steps.reverse() : steps;
   }
@@ -320,7 +320,7 @@ export class TimelineChangeMethods {
       else this.renderTimelineChangesControl();
       return;
     }
-    if ((view && view.toMapId === items[shown].mapId) || this.timelineChangeStepPending) {
+    if ((view && view.toMapId === /** @type {import("../map-app.js").TimelineItem} */ (items[shown]).mapId) || this.timelineChangeStepPending) {
       this.renderTimelineChangesControl();
       return;
     }
@@ -431,7 +431,7 @@ export class TimelineChangeMethods {
   zoomToTimelineChange(changeKey) {
     const change = this.timelineChangeView?.changes?.find((item) => item.key === changeKey);
     if (!change || !Array.isArray(change.bbox)) return;
-    const [w, s, e, n] = /** @type {unknown[]} */ (change.bbox).map(Number);
+    const [w, s, e, n] = /** @type {[number, number, number, number]} */ (/** @type {unknown[]} */ (change.bbox).map(Number));
     // A small change is shown with some country round it, not filling the screen.
     const padLng = Math.max((e - w) * 0.6, 0.01);
     const padLat = Math.max((n - s) * 0.6, 0.006);
@@ -464,7 +464,7 @@ export class TimelineChangeMethods {
       const dated = members
         .map((id) => ({ id, time: Number(dataService.parseMapDate?.(dataService.getMapById(id)?.date)) }))
         .sort((a, b) => (Number.isFinite(b.time) ? b.time : -Infinity) - (Number.isFinite(a.time) ? a.time : -Infinity));
-      roles.set(dated[0].id, 'newer');
+      roles.set(/** @type {(typeof dated)[number]} */ (dated[0]).id, 'newer');
       for (const { id } of dated.slice(1)) roles.set(id, 'older');
     }
     for (const id of new Set([...(this.editionRoles?.keys() || []), ...roles.keys()])) {

@@ -55,7 +55,7 @@ export function followSeriesRedirect(redirects, id, exists) {
   let at = id;
   while (redirects && Object.hasOwn(redirects, at) && !seen.has(at)) {
     seen.add(at);
-    at = redirects[at];
+    at = /** @type {string} */ (redirects[at]);
     if (exists(at)) return at;
   }
   return '';

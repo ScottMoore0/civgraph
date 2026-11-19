@@ -86,7 +86,7 @@ export const span = (years) => (!years ? '' : years[0] === years[1] ? String(yea
 export function inkOn(hex) {
   const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || ''));
   if (!m) return MAP_COLOURS.catalogueInkLight;
-  const n = parseInt(m[1], 16);
+  const n = parseInt(/** @type {string} */ (m[1]), 16);
   const lum = (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
   return lum > 0.6 ? MAP_COLOURS.catalogueInkDark : MAP_COLOURS.catalogueInkLight;
 }

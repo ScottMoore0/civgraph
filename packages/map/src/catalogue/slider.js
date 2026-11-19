@@ -43,7 +43,7 @@ export function binCounts(bins, years) {
   for (const y of /** @type {number[]} */ (years)) {
     if (!Number.isFinite(y)) continue;
     const i = bins.findIndex((b) => y >= b.start && y <= b.end);
-    if (i >= 0) counts[i] += 1;
+    if (i >= 0) /** @type {number} */ (counts[i]) += 1;
   }
   return counts;
 }
@@ -68,14 +68,14 @@ export function indexOf(bins, year, fallback) {
 export function stepYear(bins, i, end) {
   if (end === 'from' && i === 0) return null;
   if (end === 'to' && i === bins.length - 1) return null;
-  return Number.isFinite(bins[i].start) ? bins[i].start : FLOOR - 1;
+  return Number.isFinite(/** @type {YearBin} */ (bins[i]).start) ? /** @type {YearBin} */ (bins[i]).start : FLOOR - 1;
 }
 
 /** st: { from, to, min, max, total, noun } -- from/to are the chosen years, or null for no limit.
  * @param {YearBin[]} bins
  * @param {SliderState} st */
 function readout(bins, st) {
-  const a = st.from ?? (Number.isFinite(bins[0]?.start) ? bins[0].start : `before ${FLOOR}`);
+  const a = st.from ?? (Number.isFinite(bins[0]?.start) ? /** @type {YearBin} */ (bins[0]).start : `before ${FLOOR}`);
   const b = st.to ?? st.max;
   return `${a === b ? a : `${a} – ${b}`} · ${plural(st.total, st.noun)}`;
 }
@@ -103,8 +103,8 @@ export function sliderHtml(key, bins, i, j, st) {
     </div>
     <div class="cn-years__row">
       <div class="cn-range">
-        <input type="range" min="0" max="${last}" step="1" value="${i}" data-cn-range="from" data-key="${esc(key)}" aria-label="Earliest year" aria-valuetext="${esc(bins[i].label)}">
-        <input type="range" min="0" max="${last}" step="1" value="${j}" data-cn-range="to" data-key="${esc(key)}" aria-label="Latest year" aria-valuetext="${esc(bins[j].label)}">
+        <input type="range" min="0" max="${last}" step="1" value="${i}" data-cn-range="from" data-key="${esc(key)}" aria-label="Earliest year" aria-valuetext="${esc(/** @type {YearBin} */ (bins[i]).label)}">
+        <input type="range" min="0" max="${last}" step="1" value="${j}" data-cn-range="to" data-key="${esc(key)}" aria-label="Latest year" aria-valuetext="${esc(/** @type {YearBin} */ (bins[j]).label)}">
       </div>
       <div class="cn-years__boxes">${box('from', st.from, 'First year', 'From')}<span aria-hidden="true">–</span>${box('to', st.to, 'Last year', 'To')}</div>
     </div>
@@ -125,8 +125,8 @@ export function updateSlider(el, bins, i, j, st) {
   const [a, b] = /** @type {NodeListOf<HTMLInputElement>} */ (el.querySelectorAll('input[type="range"]'));
   if (a && Number(a.value) !== i) a.value = String(i);
   if (b && Number(b.value) !== j) b.value = String(j);
-  a?.setAttribute('aria-valuetext', bins[i].label);
-  b?.setAttribute('aria-valuetext', bins[j].label);
+  a?.setAttribute('aria-valuetext', /** @type {YearBin} */ (bins[i]).label);
+  b?.setAttribute('aria-valuetext', /** @type {YearBin} */ (bins[j]).label);
   for (const [end, v] of [['from', st.from], ['to', st.to]]) {
     const box = /** @type {HTMLInputElement | null} */ (el.querySelector(`[data-cn-year="${end}"]`));
     // The box takes a year as its text, as the DOM turns a number into one.

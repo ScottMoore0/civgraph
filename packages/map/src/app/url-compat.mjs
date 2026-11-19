@@ -57,13 +57,13 @@ export const RENAMED_ELECTION_BODIES = [
 export function renameElectionDatesInParams(params) {
   for (const [name, value] of [...params.entries()]) {
     let next = value;
-    for (const [body, from, to] of RENAMED_ELECTION_DATES) {
+    for (const [body, from, to] of /** @type {Array<[string, string, string]>} */ (RENAMED_ELECTION_DATES)) {
       next = renameKeyDate(renameKeyDate(next, `${body}__`, from, to), `${body}:`, from, to);
       // The election's map layer id ("election-<body>-<date>"), as for renamed bodies below.
       next = renameKeyDate(next, `election-${body}-`, from, to);
       if (name === 'electionDate' && next === from && slugifyBody(params.get('electionBody')) === body) next = to;
     }
-    for (const [from, to, toName, date] of RENAMED_ELECTION_BODIES) {
+    for (const [from, to, toName, date] of /** @type {Array<[string, string, string, string]>} */ (RENAMED_ELECTION_BODIES)) {
       next = next.split(`${from}__${date}`).join(`${to}__${date}`).split(`${from}:${date}`).join(`${to}:${date}`)
         .split(`election-${from}-${date}`).join(`election-${to}-${date}`);
       if (name === 'electionBody' && slugifyBody(next) === from && params.get('electionDate') === date) next = toName;

@@ -6,19 +6,19 @@ import electionBodies from '../../../registries/src/browser/election-bodies.mjs'
 
 /** @param {unknown} value */
 export function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (ch) => (/** @type {Record<string, string>} */ ({
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => (/** @type {string} */ (/** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  })[ch]));
+  })[ch])));
 }
 
 /** @param {unknown} value */
 export function slugifyEntityKey(value) {
-  return String(value || '')
-    .split('|')[0]
+  return /** @type {string} */ (String(value || '')
+    .split('|')[0])
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
@@ -30,8 +30,8 @@ export function slugifyEntityKey(value) {
 
 /** @param {unknown} value */
 export function normalizeEntityName(value) {
-  return String(value || '')
-    .split('|')[0]
+  return /** @type {string} */ (String(value || '')
+    .split('|')[0])
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/\([^)]*\)/g, ' ')
@@ -81,7 +81,7 @@ export function electionBodyFromEntityKey(key) {
  * @param {string} [title]
  */
 export function electionTypeFromEntityKey(key, title = '') {
-  const bodyKey = String(key || '').split('__')[0];
+  const bodyKey = /** @type {string} */ (String(key || '').split('__')[0]);
   const label = `${bodyKey} ${title || ''}`;
   const registered = registryBody(bodyKey)?.typeLabel;
   if (registered) return registered;
@@ -181,7 +181,7 @@ export function parsePageParam(value) {
  * @param {unknown} key
  */
 export function entityKeyLabel(kind, key) {
-  const text = String(key || '').split('|')[0].trim();
+  const text = /** @type {string} */ (String(key || '').split('|')[0]).trim();
   if (kind === 'candidate' && /^\d+$/.test(text)) return `Person ${text}`;
   if (kind === 'candidate' && /-\d+$/.test(text)) {
     return text.replace(/-\d+$/, '').split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
@@ -196,7 +196,7 @@ export function entityKeyLabel(kind, key) {
  */
 export function entityBrowseSearchUrl(kind, label) {
   const section = kind === 'party' ? 'parties' : kind === 'candidate' ? 'persons' : 'features';
-  return `/browse/#/${section}?q=${encodeURIComponent(String(label || '').split('|')[0].trim())}`;
+  return `/browse/#/${section}?q=${encodeURIComponent(/** @type {string} */ (String(label || '').split('|')[0]).trim())}`;
 }
 
 /**
@@ -215,7 +215,7 @@ export async function mapWithConcurrency(items, limit, fn) {
     while (next < items.length) {
       const index = next;
       next += 1;
-      results[index] = await fn(items[index], index);
+      results[index] = await fn(/** @type {T} */ (items[index]), index);
     }
   };
   await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));

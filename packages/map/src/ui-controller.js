@@ -1054,7 +1054,7 @@ class UIController {
         let effectiveFilePath = filePath;
         if (!effectiveFilePath && map.isGroup) {
             if (map.variants && map.variants.length > 0) {
-                const firstVariant = /** @type {MapRecord | undefined} */ (dataService.getMapById(map.variants[0].id));
+                const firstVariant = /** @type {MapRecord | undefined} */ (dataService.getMapById(/** @type {import("./ui-controller-types.js").MapVariantView} */ (map.variants[0]).id));
                 effectiveFilePath = firstVariant?.files?.fgb || firstVariant?.files?.geojson;
             } else if (compositeChildIds(map).length > 0) {
                 const firstMember = /** @type {MapRecord | undefined} */ (dataService.getMapById(compositeChildIds(map)[0]));
@@ -1093,8 +1093,8 @@ class UIController {
                 allFeatures = data.features || [data];
             }
 
-            if (allFeatures.length > 0 && allFeatures[0].properties) {
-                attrKeys = Object.keys(allFeatures[0].properties);
+            if (allFeatures.length > 0 && /** @type {(typeof allFeatures)[number]} */ (allFeatures[0]).properties) {
+                attrKeys = Object.keys(/** @type {(typeof allFeatures)[number]} */ (allFeatures[0]).properties);
             }
 
             if (allFeatures.length === 0 || !attrKeys) {
@@ -1317,7 +1317,7 @@ class UIController {
                 headers.forEach((th, idx) => {
                     const btn = /** @type {ViewElement | null} */ (th.querySelector('[data-table-filter-sort-btn]'));
                     if (!btn) return;
-                    const key = attrKeys[idx];
+                    const key = /** @type {string} */ (attrKeys[idx]);
                     const filtered = state.filters.has(key) && (state.filters.get(key)?.size ?? 0) > 0;
                     const sorted = state.sort.key === key && state.sort.dir !== 'default';
                     btn.classList.toggle('election-th-btn--active', filtered || sorted);
@@ -1329,7 +1329,7 @@ class UIController {
             /** @param {number} idx @param {HTMLElement} anchorBtn */
             const openMenuForColumn = (idx, anchorBtn) => {
                 closeMenu();
-                const key = attrKeys[idx];
+                const key = /** @type {string} */ (attrKeys[idx]);
                 const kind = inferColumnKind(key);
                 const options = getUniqueValues(key);
                 const current = state.filters.get(key);
@@ -1562,7 +1562,7 @@ class UIController {
         }
         if (this.catalogueHistoryIndex > 0) {
             this.catalogueHistoryIndex--;
-            const entry = this.catalogueHistory[this.catalogueHistoryIndex];
+            const entry = /** @type {import("./ui-controller-types.js").CatalogueHistoryEntry} */ (this.catalogueHistory[this.catalogueHistoryIndex]);
             this._applyCatalogueHistoryEntry(entry);
         }
         this.updateCatalogueNavButtons();
@@ -1571,7 +1571,7 @@ class UIController {
     catalogueGoForward() {
         if (this.catalogueHistoryIndex < this.catalogueHistory.length - 1) {
             this.catalogueHistoryIndex++;
-            const entry = this.catalogueHistory[this.catalogueHistoryIndex];
+            const entry = /** @type {import("./ui-controller-types.js").CatalogueHistoryEntry} */ (this.catalogueHistory[this.catalogueHistoryIndex]);
             this._applyCatalogueHistoryEntry(entry);
         }
         this.updateCatalogueNavButtons();
@@ -2049,7 +2049,7 @@ class UIController {
 
         /** @param {MouseEvent | TouchEvent} e */
         const getPosition = (e) => {
-            const clientX = /** @type {TouchEvent} */ (e).touches ? /** @type {TouchEvent} */ (e).touches[0].clientX : /** @type {MouseEvent} */ (e).clientX;
+            const clientX = /** @type {TouchEvent} */ (e).touches ? /** @type {Touch} */ (/** @type {TouchEvent} */ (e).touches[0]).clientX : /** @type {MouseEvent} */ (e).clientX;
             const rect = appMain.getBoundingClientRect();
             let percent = ((clientX - rect.left) / rect.width) * 100;
 
@@ -2178,7 +2178,7 @@ class UIController {
         const allowedStates = this.getAllowedStates();
         const currentIndex = allowedStates.findIndex(s => s.id === this.currentStateId);
         const nextIndex = (currentIndex + direction + allowedStates.length) % allowedStates.length;
-        this.setSplitState(allowedStates[nextIndex].id);
+        this.setSplitState(/** @type {(typeof allowedStates)[number]} */ (allowedStates[nextIndex]).id);
     }
 
     /** @returns {Array<{ id: string, label: string, mobileLabel?: string }>} */
@@ -2473,7 +2473,7 @@ class UIController {
         const counts = this._featureCountManifest.counts;
         const candidates = [map.id, map.cloneOf, map.aliasOf, map.sourceMapId].filter(Boolean).map(String);
         for (const id of candidates) {
-            const value = counts[id];
+            const value = /** @type {number} */ (counts[id]);
             if (Number.isFinite(value)) return value;
         }
         return null;
@@ -2778,7 +2778,7 @@ class UIController {
                     ['persons', 'person', 'Person'],
                     ['sources', 'source', 'Source']
                 ];
-                const browsePayloads = await Promise.all(browseKinds.map(async ([kind, type, typeLabel]) => /** @type {[string, string, string, BrowseItem[]]} */ ([kind, type, typeLabel, await this.fetchCatalogueBrowseItems(kind)])));
+                const browsePayloads = await Promise.all(/** @type {Array<[string, string, string]>} */ (browseKinds).map(async ([kind, type, typeLabel]) => /** @type {[string, string, string, BrowseItem[]]} */ ([kind, type, typeLabel, await this.fetchCatalogueBrowseItems(kind)])));
                 browsePayloads.forEach(([kind, type, typeLabel, items]) => {
                     items.forEach(item => {
                         // A party label linked to no election is a ballot-paper description or an
@@ -2906,8 +2906,8 @@ class UIController {
     getCatalogueSearchFeaturePayload(button) {
         const bboxNums = (button.dataset.featureBbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
         return {
-            mapId: button.dataset.mapId,
-            featureId: button.dataset.featureId,
+            mapId: /** @type {string} */ (button.dataset.mapId),
+            featureId: /** @type {string} */ (button.dataset.featureId),
             featureName: button.dataset.featureName || button.dataset.featureId || '',
             bbox: bboxNums.length === 4 ? bboxNums : null
         };
@@ -2967,7 +2967,7 @@ class UIController {
     /** @param {HtmlRoot} [container] */
     syncCatalogueSearchActionButtons(container = document) {
         container.querySelectorAll?.('.catalogue-search__action-strip[data-search-kind="map"]').forEach(strip => {
-            const mapId = strip.dataset.mapId;
+            const mapId = /** @type {string} */ (strip.dataset.mapId);
             const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(mapId) : false;
             const isVisible = this.onCheckMapVisible ? !!this.onCheckMapVisible(mapId) : isLoaded;
             const loadBtn = /** @type {ViewElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-map-load"]'));
@@ -2984,8 +2984,8 @@ class UIController {
             }
         });
         container.querySelectorAll?.('.catalogue-search__action-strip[data-search-kind="feature"]').forEach(strip => {
-            const mapId = strip.dataset.mapId;
-            const featureId = strip.dataset.featureId;
+            const mapId = /** @type {string} */ (strip.dataset.mapId);
+            const featureId = /** @type {string} */ (strip.dataset.featureId);
             const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureId) : false;
             const isVisible = this.onCheckFeatureVisible ? !!this.onCheckFeatureVisible(mapId, featureId) : isLoaded;
             const loadBtn = /** @type {ViewElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-feature-load"]'));
@@ -3257,14 +3257,14 @@ class UIController {
         const bookView = target.closest?.('[data-book-view]');
         if (bookView) {
             event.preventDefault();
-            this.openCatalogueBookViewer(bookView.dataset.bookView, bookView.dataset.bookFormat || 'pdf');
+            this.openCatalogueBookViewer(/** @type {string} */ (bookView.dataset.bookView), bookView.dataset.bookFormat || 'pdf');
             return;
         }
 
         const tabLink = target.closest?.('.catalogue-flat__toc-toplink--tab[data-tab-target]');
         if (tabLink) {
             event.preventDefault();
-            this.showTab(tabLink.dataset.tabTarget);
+            this.showTab(/** @type {string} */ (tabLink.dataset.tabTarget));
             // T3-09 (#116): Tables switches PANE rather than scrolling to a flat-section
             // anchor, so it never touched the hash -- leaving whatever the previous
             // toplink set. Measured: click Books then Tables and the URL still reads
@@ -3655,7 +3655,7 @@ class UIController {
 
         // The load and visibility toggles are buttons.
         /** @type {NodeListOf<ViewButton>} */ (root.querySelectorAll('.load-btn[data-map-id], .c1-load-btn[data-map-id]')).forEach((btn) => {
-            const mapId = btn.dataset.mapId;
+            const mapId = /** @type {string} */ (btn.dataset.mapId);
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
             // This runs part way through a load -- onMapLoad calls syncCatalogueMapState()
             // before it returns -- so without the pending check it would repaint the
@@ -3670,7 +3670,7 @@ class UIController {
         });
 
         /** @type {NodeListOf<ViewButton>} */ (root.querySelectorAll('.visibility-btn[data-map-id]')).forEach((btn) => {
-            const mapId = btn.dataset.mapId;
+            const mapId = /** @type {string} */ (btn.dataset.mapId);
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
             const visible = isVisible(mapId, loaded);
             btn.innerHTML = this.getVisibilityButtonIcon(visible);
@@ -4025,7 +4025,7 @@ class UIController {
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('[data-book-view]')).forEach((btn) => {
             btn.addEventListener('click', () => {
-                this.openCatalogueBookViewer(btn.dataset.bookView, btn.dataset.bookFormat || 'pdf');
+                this.openCatalogueBookViewer(/** @type {string} */ (btn.dataset.bookView), btn.dataset.bookFormat || 'pdf');
             });
         });
 
@@ -5307,7 +5307,7 @@ class UIController {
         const headingMergeByName = new Map();
         tocMerges.forEach(m => {
             if (m.inHeading) headingMergeByName.set(`${m.inHeading}::${m.canonicalName}`, m);
-            else topLevelMergeByFirstId.set(m.mergedIds[0], m);
+            else topLevelMergeByFirstId.set(/** @type {string} */ (m.mergedIds[0]), m);
         });
         /** @type {FlatTocGroup[]} */
         const tocGroups = [
@@ -5492,7 +5492,7 @@ class UIController {
                     /** @type {Record<string, number>} */
                     const SCOPE_RANK = { IRE: 0, ROI: 1, NI: 2 };
                     /** @param {MapsV2Entry} e */
-                    const rank = e => (e.scope && SCOPE_RANK[e.scope] !== undefined ? SCOPE_RANK[e.scope] : 3);
+                    const rank = e => (e.scope && SCOPE_RANK[e.scope] !== undefined ? /** @type {number} */ (SCOPE_RANK[e.scope]) : 3);
                     const ordered = [...(entriesBySubject.get(subjectId) || [])].sort((a, b) =>
                         rank(a) - rank(b)
                         || (b.year || 0) - (a.year || 0)
@@ -5511,7 +5511,7 @@ class UIController {
                     /** @type {Record<string, number>} */
                     const SCOPE_RANK = { IRE: 0, ROI: 1, NI: 2 };
                     /** @param {MapsV2Entry} e */
-                    const rank = e => (e.scope && SCOPE_RANK[e.scope] !== undefined ? SCOPE_RANK[e.scope] : 3);
+                    const rank = e => (e.scope && SCOPE_RANK[e.scope] !== undefined ? /** @type {number} */ (SCOPE_RANK[e.scope]) : 3);
                     const ordered = [...(entriesBySubject.get(subjectId) || [])].sort((a, b) =>
                         rank(a) - rank(b)
                         || (b.year || 0) - (a.year || 0)
@@ -5773,7 +5773,7 @@ class UIController {
             }
             for (let defIndex = 0; defIndex < electionCardsToRender.length; defIndex++) {
                 if (this._flatRenderToken !== renderToken) return;
-                const def = electionCardsToRender[defIndex];
+                const def = /** @type {import("./ui-controller-types.js").FlatCard} */ (electionCardsToRender[defIndex]);
                 const anchor = document.createElement('div');
                 anchor.id = `flat-card-${def.id}`;
                 anchor.className = 'catalogue-flat__anchor';
@@ -5883,7 +5883,7 @@ class UIController {
         let renderedActiveMapSectionHeader = false;
         for (let defIndex = 0; defIndex < c1Cards.length; defIndex++) {
             if (this._flatRenderToken !== renderToken) return;
-            const def = c1Cards[defIndex];
+            const def = /** @type {import("./ui-controller-types.js").FlatCard} */ (c1Cards[defIndex]);
             if (!shouldRenderMapCard(def)) continue;
             const cardSectionKey = flatMapCardSectionKeyById.get(def.id) || `map:${def.id}`;
             if (singleSectionCatalogue && cardSectionKey.startsWith('maps:') && !renderedActiveMapSectionHeader) {
@@ -6306,12 +6306,12 @@ class UIController {
 
             // Timeline label clicks — delegated to the labels container, one listener
             // for any number of labels (replaces one-per-label attachment).
-            if (labels.length && labels[0].parentNode) {
-                const labelsContainer = labels[0].parentNode;
+            if (labels.length && /** @type {import("./ui-controller-types.js").ViewElement} */ (labels[0]).parentNode) {
+                const labelsContainer = /** @type {import("./ui-controller-types.js").ViewElement} */ (labels[0]).parentNode;
                 labelsContainer.addEventListener('click', (e) => {
                     const label = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
                     if (!label || !labelsContainer.contains(label)) return;
-                    const pct = parseFloat(label.dataset.pct);
+                    const pct = parseFloat(/** @type {string} */ (label.dataset.pct));
                     if (!Number.isFinite(pct)) return;
                     slider.value = String(pct);
                     slider.dispatchEvent(new Event('change'));
@@ -6485,12 +6485,12 @@ class UIController {
 
             // Timeline label clicks — delegated to the labels container, one listener
             // for any number of labels (replaces one-per-label attachment).
-            if (labels.length && labels[0].parentNode) {
-                const labelsContainer = labels[0].parentNode;
+            if (labels.length && /** @type {import("./ui-controller-types.js").ViewElement} */ (labels[0]).parentNode) {
+                const labelsContainer = /** @type {import("./ui-controller-types.js").ViewElement} */ (labels[0]).parentNode;
                 labelsContainer.addEventListener('click', (e) => {
                     const label = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
                     if (!label || !labelsContainer.contains(label)) return;
-                    const pct = parseFloat(label.dataset.pct);
+                    const pct = parseFloat(/** @type {string} */ (label.dataset.pct));
                     if (!Number.isFinite(pct)) return;
                     slider.value = String(pct);
                     slider.dispatchEvent(new Event('change'));
@@ -7179,12 +7179,12 @@ class UIController {
 
             // Timeline label clicks — delegated to the labels container, one listener
             // for any number of labels (replaces one-per-label attachment).
-            if (labels.length && labels[0].parentNode) {
-                const labelsContainer = labels[0].parentNode;
+            if (labels.length && /** @type {import("./ui-controller-types.js").ViewElement} */ (labels[0]).parentNode) {
+                const labelsContainer = /** @type {import("./ui-controller-types.js").ViewElement} */ (labels[0]).parentNode;
                 labelsContainer.addEventListener('click', (e) => {
                     const label = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
                     if (!label || !labelsContainer.contains(label)) return;
-                    const pct = parseFloat(label.dataset.pct);
+                    const pct = parseFloat(/** @type {string} */ (label.dataset.pct));
                     if (!Number.isFinite(pct)) return;
                     slider.value = String(pct);
                     slider.dispatchEvent(new Event('change'));
@@ -7226,7 +7226,7 @@ class UIController {
             sectionHeaders.forEach(header => {
                 const style = header.getAttribute('style') || '';
                 const colMatch = style.match(/grid-column:\s*(\d+)/);
-                const col = colMatch ? parseInt(colMatch[1]) : 1;
+                const col = colMatch ? parseInt(/** @type {string} */ (colMatch[1])) : 1;
                 if (!headersByColumn.has(col)) {
                     headersByColumn.set(col, []);
                 }
@@ -7249,9 +7249,9 @@ class UIController {
             sectionHeaders.forEach(header => {
                 const style = header.getAttribute('style') || '';
                 const rowMatch = style.match(/grid-row:\s*(\d+)/);
-                const startRow = rowMatch ? parseInt(rowMatch[1]) : 1;
+                const startRow = rowMatch ? parseInt(/** @type {string} */ (rowMatch[1])) : 1;
                 const colMatch = style.match(/grid-column:\s*(\d+)/);
-                const col = colMatch ? parseInt(colMatch[1]) : 1;
+                const col = colMatch ? parseInt(/** @type {string} */ (colMatch[1])) : 1;
 
                 // Find the next section header in THE SAME COLUMN
                 const headersInCol = headersByColumn.get(col) || [];
@@ -7260,10 +7260,10 @@ class UIController {
                 let endRow;
                 if (headerIdx >= 0 && headerIdx < headersInCol.length - 1) {
                     // Next header in same column determines end
-                    const nextHeader = headersInCol[headerIdx + 1];
+                    const nextHeader = /** @type {Element} */ (headersInCol[headerIdx + 1]);
                     const nextStyle = nextHeader.getAttribute('style') || '';
                     const nextMatch = nextStyle.match(/grid-row:\s*(\d+)/);
-                    endRow = nextMatch ? parseInt(nextMatch[1]) : startRow;
+                    endRow = nextMatch ? parseInt(/** @type {string} */ (nextMatch[1])) : startRow;
                 } else {
                     // Last section in column - find max row from all items in this column
                     const cells = grid.querySelectorAll('.c1-grid-cell, .c1-grid-annotation');
@@ -7271,11 +7271,11 @@ class UIController {
                     cells.forEach(cell => {
                         const cellStyle = cell.getAttribute('style') || '';
                         const cellColMatch = cellStyle.match(/grid-column:\s*(\d+)/);
-                        const cellCol = cellColMatch ? parseInt(cellColMatch[1]) : 1;
+                        const cellCol = cellColMatch ? parseInt(/** @type {string} */ (cellColMatch[1])) : 1;
                         if (cellCol === col) {
                             const cellRowMatch = cellStyle.match(/grid-row:\s*(\d+)(?:\s*\/\s*(\d+))?/);
                             if (cellRowMatch) {
-                                const rowEnd = cellRowMatch[2] ? parseInt(cellRowMatch[2]) : parseInt(cellRowMatch[1]) + 1;
+                                const rowEnd = cellRowMatch[2] ? parseInt(cellRowMatch[2]) : parseInt(/** @type {string} */ (cellRowMatch[1])) + 1;
                                 maxRow = Math.max(maxRow, rowEnd);
                             }
                         }
@@ -7308,8 +7308,8 @@ class UIController {
                     const s = item.getAttribute('style') || '';
                     const colM = s.match(/grid-column:\s*(\d+)/);
                     const rowM = s.match(/grid-row:\s*(\d+)(?:\s*\/\s*(\d+))?/);
-                    const col = colM ? parseInt(colM[1]) : 0;
-                    const rowStart = rowM ? parseInt(rowM[1]) : 0;
+                    const col = colM ? parseInt(/** @type {string} */ (colM[1])) : 0;
+                    const rowStart = rowM ? parseInt(/** @type {string} */ (rowM[1])) : 0;
                     const rowEnd = rowM && rowM[2] ? parseInt(rowM[2]) : rowStart + 1;
                     return { item, col, rowStart, rowEnd };
                 });
@@ -7407,11 +7407,11 @@ class UIController {
                     // Find headers that are at nearly the same position as a later header
                     for (let i = 0; i < headerPositions.length - 1; i++) {
                         for (let j = i + 1; j < headerPositions.length; j++) {
-                            const diff = Math.abs(headerPositions[i].top - headerPositions[j].top);
+                            const diff = Math.abs(/** @type {(typeof headerPositions)[number]} */ (headerPositions[i]).top - /** @type {(typeof headerPositions)[number]} */ (headerPositions[j]).top);
                             // If within 10px of each other, they're overlapping
                             if (diff < 10) {
                                 // Hide the earlier one (lower row number) using collision-hidden class
-                                headerPositions[i].header.classList.add('c1-grid-section-header--collision-hidden');
+                                /** @type {(typeof headerPositions)[number]} */ (headerPositions[i]).header.classList.add('c1-grid-section-header--collision-hidden');
                                 break; // This header is now hidden, check next
                             }
                         }
@@ -7813,11 +7813,11 @@ class UIController {
         const str = String(dateStr);
         if (/^\d{4}$/.test(str)) return new Date(parseInt(str), 0, 1).getTime();
         if (/^\d{4}-\d{2}$/.test(str)) {
-            const [y, m] = str.split('-').map(Number);
+            const [y, m] = /** @type {[number, number]} */ (str.split('-').map(Number));
             return new Date(y, m - 1, 1).getTime();
         }
         if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
-            const [y, m, d] = str.split('-').map(Number);
+            const [y, m, d] = /** @type {[number, number, number]} */ (str.split('-').map(Number));
             return new Date(y, m - 1, d).getTime();
         }
         return null;
@@ -7957,7 +7957,7 @@ class UIController {
         /** @type {NodeListOf<ViewButton>} */ (panel.querySelectorAll('.btn--variant-load')).forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const variantId = btn.dataset.variantId;
+                const variantId = /** @type {string} */ (btn.dataset.variantId);
                 if (this.onMapLoad) this.onMapLoad(variantId);
                 btn.textContent = 'Loading...';
                 btn.disabled = true;
@@ -8505,7 +8505,7 @@ class UIController {
         /** @type {NodeListOf<ViewElement>} */ (content.querySelectorAll('.feature-info__export-btn')).forEach((btn) => {
             btn.addEventListener('click', () => {
                 const feature = /** @type {Partial<InfoFeature>} */ (features[Number(btn.dataset.featureIndex)] || {});
-                this.onExportMapImage?.(btn.dataset.mapId, 'svg', {
+                this.onExportMapImage?.(/** @type {string} */ (btn.dataset.mapId), 'svg', {
                     trigger: btn,
                     selection: { properties: feature.properties || {}, name: btn.dataset.featureName || '' }
                 });
@@ -8717,20 +8717,20 @@ class UIController {
     _bindFeatureMetricToggles(container) {
         container?.querySelectorAll('.feature-info__metric--clickable').forEach((metric) => {
             metric.addEventListener('click', () => {
-                const currentPrecision = parseInt(metric.dataset.precision) || 2;
+                const currentPrecision = parseInt(/** @type {string} */ (metric.dataset.precision)) || 2;
                 const newPrecision = currentPrecision === 2 ? 10 : 2;
                 metric.dataset.precision = String(newPrecision);
                 const kmSpan = metric.querySelector('.metric-km');
                 const miSpan = metric.querySelector('.metric-mi');
                 if (metric.dataset.areaKm) {
                     const areaKm = parseFloat(metric.dataset.areaKm);
-                    const areaMi = parseFloat(metric.dataset.areaMi);
+                    const areaMi = parseFloat(/** @type {string} */ (metric.dataset.areaMi));
                     if (kmSpan) kmSpan.textContent = `${this.formatNumber(areaKm, newPrecision)} km2`;
                     if (miSpan) miSpan.textContent = `(${this.formatNumber(areaMi, newPrecision)} sq mi)`;
                 }
                 if (metric.dataset.perimKm) {
                     const perimKm = parseFloat(metric.dataset.perimKm);
-                    const perimMi = parseFloat(metric.dataset.perimMi);
+                    const perimMi = parseFloat(/** @type {string} */ (metric.dataset.perimMi));
                     if (kmSpan) kmSpan.textContent = `${this.formatNumber(perimKm, newPrecision)} km`;
                     if (miSpan) miSpan.textContent = `(${this.formatNumber(perimMi, newPrecision)} mi)`;
                 }
@@ -8920,7 +8920,7 @@ class UIController {
         /** @type {NodeListOf<ViewElement>} */ (detailView.querySelectorAll('.feature-download-alt-btn')).forEach((btn) => {
             btn.addEventListener('click', (event) => {
                 event.stopPropagation();
-                this.downloadFeature(detailId, btn.dataset.format);
+                this.downloadFeature(detailId, /** @type {string} */ (btn.dataset.format));
                 if (dropdown) this.closeDownloadDropdown(dropdown);
             });
         });
@@ -9107,7 +9107,7 @@ class UIController {
             headers.forEach((th, idx) => {
                 const btn = /** @type {ViewElement | null} */ (th.querySelector('[data-table-filter-sort-btn]'));
                 if (!btn) return;
-                const column = columns[idx];
+                const column = /** @type {import("./ui-controller-types.js").EntityColumn} */ (columns[idx]);
                 const filtered = state.filters.has(column.key) && (state.filters.get(column.key)?.size ?? 0) > 0;
                 const sorted = state.sort.key === column.key && state.sort.dir !== 'default';
                 btn.classList.toggle('election-th-btn--active', filtered || sorted);
@@ -9604,8 +9604,8 @@ class UIController {
                 event.preventDefault();
                 this.onElectionEntityElectionOpen?.({
                     key: electionLink.dataset.electionKey || '',
-                    body: electionLink.dataset.electionBody,
-                    date: electionLink.dataset.electionDate,
+                    body: /** @type {string} */ (electionLink.dataset.electionBody),
+                    date: /** @type {string} */ (electionLink.dataset.electionDate),
                     constituency: electionLink.dataset.electionConstituency || null
                 });
                 return;
@@ -9614,9 +9614,9 @@ class UIController {
             if (constituencyLink) {
                 event.preventDefault();
                 await this.onOpenElectionConstituencyFeature?.({
-                    body: constituencyLink.dataset.electionConstituencyBody,
-                    date: constituencyLink.dataset.electionConstituencyDate,
-                    constituency: constituencyLink.dataset.electionConstituencyName,
+                    body: /** @type {string} */ (constituencyLink.dataset.electionConstituencyBody),
+                    date: /** @type {string} */ (constituencyLink.dataset.electionConstituencyDate),
+                    constituency: /** @type {string} */ (constituencyLink.dataset.electionConstituencyName),
                     level: constituencyLink.dataset.electionConstituencyLevel || 'dea'
                 });
                 return;
@@ -9626,15 +9626,15 @@ class UIController {
             event.preventDefault();
             if (typeof this.onOpenElectionEntityDetail === 'function') {
                 await this.onOpenElectionEntityDetail(
-                    entityLink.dataset.electionEntityDetailKind,
-                    entityLink.dataset.electionEntityDetailKey,
+                    /** @type {string} */ (entityLink.dataset.electionEntityDetailKind),
+                    /** @type {string} */ (entityLink.dataset.electionEntityDetailKey),
                     entityLink.dataset.entityLabel || /** @type {string} */ (entityLink.textContent).replace(/\s+/g, ' ').trim()
                 );
                 return;
             }
             const nextDetailId = this.createElectionEntityDetailId(
-                entityLink.dataset.electionEntityDetailKind,
-                entityLink.dataset.electionEntityDetailKey
+                /** @type {string} */ (entityLink.dataset.electionEntityDetailKind),
+                /** @type {string} */ (entityLink.dataset.electionEntityDetailKey)
             );
             this.showElectionEntityDetailInCatalogue(nextDetailId, true);
         };
@@ -9811,7 +9811,7 @@ class UIController {
             let persist = {};
             if (viewState) {
                 if (!viewState.tables[part.table.tableId]) viewState.tables[part.table.tableId] = {};
-                persist = viewState.tables[part.table.tableId];
+                persist = /** @type {import("./ui-controller-types.js").EntityTablePersist} */ (viewState.tables[part.table.tableId]);
             }
             if (host) this._mountEntityTable(host, { ...part.table, persist });
         }
@@ -10046,7 +10046,7 @@ class UIController {
         for (const spec of tables) {
             const host = /** @type {ViewElement | null} */ (detailView.querySelector(`[data-entity-table-host="${spec.tableId}"]`));
             if (!viewState.tables[spec.tableId]) viewState.tables[spec.tableId] = {};
-            if (host) this._mountEntityTable(host, { ...spec, persist: viewState.tables[spec.tableId] });
+            if (host) this._mountEntityTable(host, { ...spec, persist: /** @type {import("./ui-controller-types.js").EntityTablePersist} */ (viewState.tables[spec.tableId]) });
         }
         this._bindEntityDetailClicks(detailView);
         this._settleDetailView(detailView, viewState, options);
@@ -10064,7 +10064,7 @@ class UIController {
 
         try {
             if (geometry.type === 'Polygon') {
-                const coords = geometry.coordinates[0];
+                const coords = /** @type {import("geojson").Position[]} */ (geometry.coordinates[0]);
                 result.area = this.calculatePolygonArea(coords, R);
                 result.perimeter = this.calculatePolygonPerimeter(coords, R);
             } else if (geometry.type === 'MultiPolygon') {
@@ -10072,7 +10072,7 @@ class UIController {
                 let totalPerimeter = 0;
 
                 geometry.coordinates.forEach(polygon => {
-                    const coords = polygon[0];
+                    const coords = /** @type {import("geojson").Position[]} */ (polygon[0]);
                     totalArea += this.calculatePolygonArea(coords, R);
                     totalPerimeter += this.calculatePolygonPerimeter(coords, R);
                 });
@@ -10093,10 +10093,10 @@ class UIController {
         let total = 0;
 
         for (let i = 0; i < coords.length - 1; i++) {
-            const lon1 = coords[i][0] * Math.PI / 180;
-            const lat1 = coords[i][1] * Math.PI / 180;
-            const lon2 = coords[i + 1][0] * Math.PI / 180;
-            const lat2 = coords[i + 1][1] * Math.PI / 180;
+            const lon1 = /** @type {number} */ (/** @type {number[]} */ (coords[i])[0]) * Math.PI / 180;
+            const lat1 = /** @type {number} */ (/** @type {number[]} */ (coords[i])[1]) * Math.PI / 180;
+            const lon2 = /** @type {number} */ (/** @type {number[]} */ (coords[i + 1])[0]) * Math.PI / 180;
+            const lat2 = /** @type {number} */ (/** @type {number[]} */ (coords[i + 1])[1]) * Math.PI / 180;
 
             total += (lon2 - lon1) * (2 + Math.sin(lat1) + Math.sin(lat2));
         }
@@ -10110,8 +10110,8 @@ class UIController {
         let total = 0;
 
         for (let i = 0; i < coords.length - 1; i++) {
-            const [lon1, lat1] = coords[i];
-            const [lon2, lat2] = coords[i + 1];
+            const [lon1, lat1] = /** @type {[number, number]} */ (/** @type {number[]} */ (coords[i]));
+            const [lon2, lat2] = /** @type {[number, number]} */ (/** @type {number[]} */ (coords[i + 1]));
 
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
@@ -10555,28 +10555,28 @@ class UIController {
         // Add event listeners
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.visibility-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = btn.dataset.mapId;
+                const mapId = /** @type {string} */ (btn.dataset.mapId);
                 if (this.onMapToggle) this.onMapToggle(mapId);
             });
         });
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.expand-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = btn.dataset.mapId;
+                const mapId = /** @type {string} */ (btn.dataset.mapId);
                 if (this.onExpandToFullMap) this.onExpandToFullMap(mapId);
             });
         });
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.remove-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = btn.dataset.mapId;
+                const mapId = /** @type {string} */ (btn.dataset.mapId);
                 if (this.onMapUnload) this.onMapUnload(mapId);
             });
         });
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.partial-visibility-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = btn.dataset.mapId;
+                const mapId = /** @type {string} */ (btn.dataset.mapId);
                 const rawFeatureIndex = btn.dataset.featureIndex;
                 const numericFeatureIndex = Number(rawFeatureIndex);
                 const featureIndex = Number.isFinite(numericFeatureIndex) && rawFeatureIndex !== '' ? numericFeatureIndex : rawFeatureIndex;
@@ -10588,7 +10588,7 @@ class UIController {
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.partial-unload-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = btn.dataset.mapId;
+                const mapId = /** @type {string} */ (btn.dataset.mapId);
                 const rawFeatureIndex = btn.dataset.featureIndex;
                 const numericFeatureIndex = Number(rawFeatureIndex);
                 const featureIndex = Number.isFinite(numericFeatureIndex) && rawFeatureIndex !== '' ? numericFeatureIndex : rawFeatureIndex;
@@ -10666,10 +10666,10 @@ class UIController {
 
         ['raster', 'stroke', 'fill'].forEach(type => {
             /** @type {NodeListOf<ViewElement & HTMLInputElement>} */ (container.querySelectorAll(`.${type}-opacity-slider`)).forEach(slider => {
-                slider.addEventListener('input', () => syncOpacity(slider.dataset.mapId, type, slider.value));
+                slider.addEventListener('input', () => syncOpacity(/** @type {string} */ (slider.dataset.mapId), type, slider.value));
             });
             /** @type {NodeListOf<ViewElement & HTMLInputElement>} */ (container.querySelectorAll(`.${type}-opacity-input`)).forEach(input => {
-                input.addEventListener('change', () => syncOpacity(input.dataset.mapId, type, input.value));
+                input.addEventListener('change', () => syncOpacity(/** @type {string} */ (input.dataset.mapId), type, input.value));
             });
         });
 
@@ -10712,14 +10712,14 @@ class UIController {
                 if (target < 0 || target >= rows.length) return;   // already at the end
                 event.preventDefault();
 
-                if (event.key === 'ArrowUp') container.insertBefore(row, rows[target]);
-                else container.insertBefore(rows[target], row);
+                if (event.key === 'ArrowUp') container.insertBefore(row, /** @type {import("./ui-controller-types.js").ViewElement} */ (rows[target]));
+                else container.insertBefore(/** @type {import("./ui-controller-types.js").ViewElement} */ (rows[target]), row);
 
-                const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset.mapId);
+                const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => /** @type {string} */ (r.dataset.mapId));
                 if (typeof this.onReorderLayers === 'function') this.onReorderLayers(newOrder);
 
                 const name = row.querySelector('.active-layer-item__name')?.textContent?.trim() || 'Layer';
-                this.announce?.(`${name} moved to position ${newOrder.indexOf(row.dataset.mapId) + 1} of ${newOrder.length}`);
+                this.announce?.(`${name} moved to position ${newOrder.indexOf(/** @type {string} */ (row.dataset.mapId)) + 1} of ${newOrder.length}`);
 
                 // The list re-renders asynchronously; re-find this layer's handle by id.
                 const mapId = grip.dataset.mapId;
@@ -10861,8 +10861,8 @@ class UIController {
                     const dx = finalRowRect.left - cloneRect.left;
                     const dy = finalRowRect.top - cloneRect.top;
                     const cur = clone.style.transform.match(/translate\(\s*(-?[\d.]+)px\s*,\s*(-?[\d.]+)px\s*\)/);
-                    const curX = cur ? parseFloat(cur[1]) : 0;
-                    const curY = cur ? parseFloat(cur[2]) : 0;
+                    const curX = cur ? parseFloat(/** @type {string} */ (cur[1])) : 0;
+                    const curY = cur ? parseFloat(/** @type {string} */ (cur[2])) : 0;
                     clone.style.transition = `transform ${FLIP_DURATION}ms ease`;
                     clone.style.transform = `translate(${curX + dx}px, ${curY + dy}px)`;
                     const done = () => {
@@ -10885,7 +10885,7 @@ class UIController {
                     const swallow = (click) => { click.stopPropagation(); click.preventDefault(); };
                     window.addEventListener('click', swallow, { capture: true, once: true });
                     setTimeout(() => window.removeEventListener('click', swallow, { capture: true }), 80);
-                    const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset.mapId);
+                    const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => /** @type {string} */ (r.dataset.mapId));
                     const changed = newOrder.length !== startOrder.length
                         || newOrder.some((id, i) => id !== startOrder[i]);
                     if (changed && typeof this.onReorderLayers === 'function') {
@@ -11420,25 +11420,25 @@ class UIController {
             autocomplete.addEventListener('click', (e) => {
                 const item = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('.search-autocomplete__item'));
                 if (!item) return;
-                const type = item.dataset.type;
+                const type = /** @type {string} */ (item.dataset.type);
                 if (type === 'feature') {
                     const bboxNums = (item.dataset.bbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
                     const bbox = bboxNums.length === 4 ? bboxNums : null;
                     const mapId = item.dataset.mapId;
-                    const featureId = item.dataset.featureId;
+                    const featureId = /** @type {string} */ (item.dataset.featureId);
                     const featureName = item.dataset.featureName || featureId || '';
                     if (mapId) {
                         this.zoomToFeature(bbox, mapId, featureId, featureName);
                     }
                 } else if (type === 'address') {
-                    const lat = parseFloat(item.dataset.lat);
-                    const lon = parseFloat(item.dataset.lon);
+                    const lat = parseFloat(/** @type {string} */ (item.dataset.lat));
+                    const lon = parseFloat(/** @type {string} */ (item.dataset.lon));
                     const name = item.dataset.name || '';
                     if (Number.isFinite(lat) && Number.isFinite(lon)) {
                         this.handleAddressSelection(lat, lon, name);
                     }
                 } else {
-                    const id = item.dataset.id;
+                    const id = /** @type {string} */ (item.dataset.id);
                     this.handleSearchSelection(type, id);
                 }
                 this.hideAutocomplete();
@@ -11731,12 +11731,12 @@ class UIController {
         if (currentIndex === -1) {
             newIndex = direction === 1 ? 0 : items.length - 1;
         } else {
-            items[currentIndex].classList.remove('search-autocomplete__item--selected');
+            /** @type {Element} */ (items[currentIndex]).classList.remove('search-autocomplete__item--selected');
             newIndex = (currentIndex + direction + items.length) % items.length;
         }
 
-        items[newIndex].classList.add('search-autocomplete__item--selected');
-        items[newIndex].scrollIntoView({ block: 'nearest' });
+        /** @type {Element} */ (items[newIndex]).classList.add('search-autocomplete__item--selected');
+        /** @type {Element} */ (items[newIndex]).scrollIntoView({ block: 'nearest' });
     }
 
     /** @param {string} type @param {string} id */
@@ -11829,9 +11829,9 @@ class UIController {
         // Add click handlers for address results
         /** @type {NodeListOf<ViewElement>} */ (autocomplete.querySelectorAll('.search-autocomplete__item--address')).forEach(item => {
             item.addEventListener('click', () => {
-                const lat = parseFloat(item.dataset.lat);
-                const lon = parseFloat(item.dataset.lon);
-                const name = item.dataset.name;
+                const lat = parseFloat(/** @type {string} */ (item.dataset.lat));
+                const lon = parseFloat(/** @type {string} */ (item.dataset.lon));
+                const name = /** @type {string} */ (item.dataset.name);
                 this.handleAddressSelection(lat, lon, name);
                 this.hideAutocomplete();
             });
@@ -12012,9 +12012,9 @@ class UIController {
         /** @type {NodeListOf<ViewElement>} */ (dropdown.querySelectorAll('.explore-history-item')).forEach(item => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const idx = parseInt(item.dataset.idx, 10);
+                const idx = parseInt(/** @type {string} */ (item.dataset.idx), 10);
                 this.exploreHistoryIndex = idx;
-                const { type, id } = this.exploreHistory[idx];
+                const { type, id } = /** @type {import("./ui-controller-types.js").ExploreHistoryEntry} */ (this.exploreHistory[idx]);
                 this.showEntityInfoWithoutHistory(type, id);
                 this.updateExploreNavButtons();
                 this.closeExploreHistoryDropdown();
@@ -12116,8 +12116,8 @@ class UIController {
         // Add click listeners
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.explore-item[data-type]')).forEach(item => {
             item.addEventListener('click', () => {
-                const type = item.dataset.type;
-                const id = item.dataset.id;
+                const type = /** @type {string} */ (item.dataset.type);
+                const id = /** @type {string} */ (item.dataset.id);
                 this.showEntityInfo(type, id);
             });
         });
@@ -12311,7 +12311,7 @@ class UIController {
         // Add link listeners for all clickable items
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.explore-detail__item[data-type], .explore-detail__link[data-type]')).forEach(link => {
             link.addEventListener('click', () => {
-                this.showEntityInfo(link.dataset.type, link.dataset.id);
+                this.showEntityInfo(/** @type {string} */ (link.dataset.type), /** @type {string} */ (link.dataset.id));
             });
         });
         const exploreMapToggle = container.querySelector('[data-explore-map-toggle]');
@@ -12334,7 +12334,7 @@ class UIController {
     exploreGoBack() {
         if (this.exploreHistoryIndex > 0) {
             this.exploreHistoryIndex--;
-            const { type, id } = this.exploreHistory[this.exploreHistoryIndex];
+            const { type, id } = /** @type {import("./ui-controller-types.js").ExploreHistoryEntry} */ (this.exploreHistory[this.exploreHistoryIndex]);
             // Don't push to history when navigating back
             const container = document.getElementById('exploreContent');
             if (container) this.showEntityInfoWithoutHistory(type, id);
@@ -12347,7 +12347,7 @@ class UIController {
     exploreGoForward() {
         if (this.exploreHistoryIndex < this.exploreHistory.length - 1) {
             this.exploreHistoryIndex++;
-            const { type, id } = this.exploreHistory[this.exploreHistoryIndex];
+            const { type, id } = /** @type {import("./ui-controller-types.js").ExploreHistoryEntry} */ (this.exploreHistory[this.exploreHistoryIndex]);
             this.showEntityInfoWithoutHistory(type, id);
             this.updateExploreNavButtons();
         }
@@ -12444,7 +12444,7 @@ class UIController {
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.explore-item[data-type]')).forEach(item => {
             item.addEventListener('click', () => {
-                this.showEntityInfo(item.dataset.type, item.dataset.id);
+                this.showEntityInfo(/** @type {string} */ (item.dataset.type), /** @type {string} */ (item.dataset.id));
             });
         });
     }
@@ -12582,7 +12582,7 @@ class UIController {
         const hash = window.location.hash;
         const layersMatch = hash.match(/layers=([^&]+)/);
         if (layersMatch) {
-            return layersMatch[1].split('%2C').map(decodeURIComponent);
+            return /** @type {string} */ (layersMatch[1]).split('%2C').map(decodeURIComponent);
         }
         return [];
     }
@@ -12697,7 +12697,7 @@ class UIController {
         // Pathological case — every token classifies as a layer. Demote the
         // longest one to a feature token so we still show some matches.
         if (featureTokens.length === 0 && layerTokens.length > 0) {
-            const longest = layerTokens.slice().sort((a, b) => b.length - a.length)[0];
+            const longest = /** @type {string} */ (layerTokens.slice().sort((a, b) => b.length - a.length)[0]);
             const idx = layerTokens.indexOf(longest);
             layerTokens.splice(idx, 1);
             featureTokens.push(longest);
@@ -12732,7 +12732,7 @@ class UIController {
         if (!Array.isArray(bbox) || bbox.length !== 4) {
             return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><polygon points="${silhouette}" fill="#e5edf3" stroke="#a8b5be" stroke-width="0.8"/></svg>`;
         }
-        const [minLon, minLat, maxLon, maxLat] = bbox;
+        const [minLon, minLat, maxLon, maxLat] = /** @type {[number, number, number, number]} */ (bbox);
         const cx = (minLon + maxLon) / 2;
         const cy = (minLat + maxLat) / 2;
         const px = lonToPx(cx);
@@ -12817,7 +12817,7 @@ class UIController {
 
         // The substring-API/index doesn't handle space-separated feature names
         // well, so probe with the longest feature-token and re-filter locally.
-        const probe = featureTokens.slice().sort((a, b) => b.length - a.length)[0];
+        const probe = /** @type {string} */ (featureTokens.slice().sort((a, b) => b.length - a.length)[0]);
         const candidatePoolSize = layerTokens.length > 0 ? 100 : 60;
 
         // The index's features, and townland rows (which have no id).
@@ -13061,8 +13061,8 @@ class UIController {
         /** @type {NodeListOf<ViewElement>} */ (autocomplete.querySelectorAll('.search-autocomplete__item--feature')).forEach(item => {
             item.addEventListener('click', () => {
                 const bboxStr = item.dataset.bbox;
-                const mapId = item.dataset.mapId;
-                const featureId = item.dataset.featureId;
+                const mapId = /** @type {string} */ (item.dataset.mapId);
+                const featureId = /** @type {string} */ (item.dataset.featureId);
 
                 if (bboxStr) {
                     const bbox = bboxStr.split(',').map(Number);
@@ -13125,7 +13125,7 @@ class UIController {
     async getFeaturesInViewport(bounds, loadedMapIds) {
         /** @type {import('./feature-loader.js').SpatialFeature[]} */
         const results = [];
-        const [southWest, northEast] = bounds;
+        const [southWest, northEast] = /** @type {[number[], number[]]} */ (bounds);
 
         for (const mapId of loadedMapIds) {
             // Use featureLoader's per-map data (loaded by loadMapIndex in app.js loadMap)
@@ -13134,10 +13134,10 @@ class UIController {
             for (const feature of mapFeatures) {
                 if (!feature.centroid) continue;
 
-                const [lon, lat] = /** @type {number[]} */ (feature.centroid);
+                const [lon, lat] = /** @type {[number, number]} */ (/** @type {number[]} */ (feature.centroid));
 
-                if (lat >= southWest[0] && lat <= northEast[0] &&
-                    lon >= southWest[1] && lon <= northEast[1]) {
+                if (lat >= /** @type {number} */ (southWest[0]) && lat <= /** @type {number} */ (northEast[0]) &&
+                    lon >= /** @type {number} */ (southWest[1]) && lon <= /** @type {number} */ (northEast[1])) {
                     results.push(feature);
                 }
             }

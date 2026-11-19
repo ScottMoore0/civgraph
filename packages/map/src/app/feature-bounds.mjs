@@ -30,7 +30,7 @@ export function validBbox(bbox) {
   if (!Array.isArray(bbox) || bbox.length !== 4) return null;
   const values = bbox.map(Number);
   if (!values.every(Number.isFinite)) return null;
-  const [w, s, e, n] = values;
+  const [w, s, e, n] = /** @type {[number, number, number, number]} */ (values);
   if (w > e || s > n || s < -90 || n > 90) return null;
   return /** @type {BBox} */ (values);
 }
@@ -58,7 +58,7 @@ export function featureBoundsFromSpatial(entries, mapId, featureId, featureName)
     const wanted = norm(name);
     if (!wanted) continue;
     const matches = entries.filter((entry) => entry && norm(entry.name) === wanted && validBbox(entry.bbox));
-    if (matches.length === 1) return validBbox(matches[0].bbox);
+    if (matches.length === 1) return validBbox(/** @type {(typeof matches)[number]} */ (matches[0]).bbox);
     if (matches.length > 1) return sameFeature(unionBbox(matches.map((entry) => /** @type {BBox} */ (validBbox(entry.bbox)))));
   }
   return null;
@@ -97,7 +97,7 @@ const METRES_PER_DEGREE = 111_320;
  */
 export function bboxAround(center, areaM2) {
   if (!Array.isArray(center) || center.length < 2) return null;
-  const [lng, lat] = center.map(Number);
+  const [lng, lat] = /** @type {[number, number]} */ (center.map(Number));
   if (!Number.isFinite(lng) || !Number.isFinite(lat) || Math.abs(lat) > 89) return null;
   const side = Math.max(1500, Number(areaM2) > 0 ? Math.sqrt(Number(areaM2)) * 2 : 0);
   const half = side / 2;

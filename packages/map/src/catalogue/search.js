@@ -189,7 +189,7 @@ function bestIn(word, tokens) {
  * @param {number[] | null} span  [from, to] years
  * @param {{ from: number, to: number } | null} period
  */
-const overlaps = (span, period) => !period || (span && span[0] <= period.to && span[1] >= period.from);
+const overlaps = (span, period) => !period || (span && /** @type {number} */ (span[0]) <= period.to && /** @type {number} */ (span[1]) >= period.from);
 
 /*
  * What people call each body, beside its formal name. The catalogue titles say "2019 UK general
@@ -358,7 +358,7 @@ export class CatalogueSearch {
    * @param {PlacesDoc | null | undefined} doc
    */
   setPlaces(doc) {
-    this.places = doc ? { maps: doc.maps, rows: doc.places.map((p) => ({ name: p[0], norm: normalise(p[0]), map: doc.maps[p[1]], bbox: /** @type {number[]} */ (p.slice(2, 6)) })) } : null;
+    this.places = doc ? { maps: doc.maps, rows: doc.places.map((p) => ({ name: p[0], norm: normalise(p[0]), map: /** @type {string} */ (doc.maps[p[1]]), bbox: /** @type {number[]} */ (p.slice(2, 6)) })) } : null;
   }
 
   /**
@@ -456,7 +456,7 @@ export class CatalogueSearch {
  */
 export function coveringPoint(catalogue, places, lng, lat) {
   /** @param {number[] | undefined} b  [west, south, east, north] */
-  const inBox = (b) => b && lng >= b[0] && lng <= b[2] && lat >= b[1] && lat <= b[3];
+  const inBox = (b) => b && lng >= /** @type {number} */ (b[0]) && lng <= /** @type {number} */ (b[2]) && lat >= /** @type {number} */ (b[1]) && lat <= /** @type {number} */ (b[3]);
   /** @type {Array<{ id: string, members: string[] }>} */
   const series = [];
   for (const s of catalogue.series) {

@@ -232,7 +232,7 @@ export class UrlStateMethods {
     if (!states?.[Symbol.iterator]) return null;
     for (const [mapId, state] of states) {
       if (!state?.isPartial || !state.loadedIndices?.size) continue;
-      const featureId = [...state.loadedIndices][0];
+      const featureId = /** @type {import("../../app/maplibre-main-adapter.js").FeatureKey} */ ([...state.loadedIndices][0]);
       const featureName = state.featureNames?.get(featureId) || state.featureProperties?.get(featureId)?.name || '';
       return { mapId, featureId, featureName };
     }
@@ -425,7 +425,7 @@ export class UrlStateMethods {
       } else {
         const loaded = this.getLoadedLayerIds?.() || [];
         if (loaded.length === 1) {
-          subject = this.metadataService?.getLayer?.(loaded[0])?.name || null;
+          subject = this.metadataService?.getLayer?.(/** @type {string} */ (loaded[0]))?.name || null;
         } else if (loaded.length > 1) {
           subject = `${loaded.length} layers`;
         } else if (this.searchQuery) {

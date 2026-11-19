@@ -76,8 +76,8 @@ export class SiteChromeMethods {
       if (event.key !== 'Tab') return;
       const items = focusables();
       if (!items.length) return;
-      const first = items[0];
-      const last = items[items.length - 1];
+      const first = /** @type {HTMLElement} */ (items[0]);
+      const last = /** @type {HTMLElement} */ (items[items.length - 1]);
       // Wrap at both ends, and also catch the case where focus has escaped the modal
       // entirely (a click on the background, a browser quirk) by pulling it back.
       if (event.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {

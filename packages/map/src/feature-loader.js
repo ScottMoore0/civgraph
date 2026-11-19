@@ -401,7 +401,7 @@ class FeatureLoader {
         const maxLat = bufferedBounds.getNorth();
 
         return features.filter(f => {
-            const [fMinLng, fMinLat, fMaxLng, fMaxLat] = f.bbox;
+            const [fMinLng, fMinLat, fMaxLng, fMaxLat] = /** @type {[number, number, number, number]} */ (f.bbox);
             // Check if bboxes intersect
             return !(fMaxLng < minLng || fMinLng > maxLng || fMaxLat < minLat || fMinLat > maxLat);
         });
@@ -414,7 +414,7 @@ class FeatureLoader {
      */
     parseFeatureId(id) {
         const parts = id.split(':');
-        return parseInt(parts[1], 10);
+        return parseInt(/** @type {string} */ (parts[1]), 10);
     }
 
     /**

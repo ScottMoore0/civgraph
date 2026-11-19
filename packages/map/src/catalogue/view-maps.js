@@ -48,7 +48,7 @@ export function toolbarHtml(c) {
     <span class="cn-tally" data-cn-tally aria-hidden="true"></span>
     <div class="cn-filters">
       <div class="cn-frow">
-        <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('scope', '', 'All')}${chip('scope', 'Northern Ireland', SCOPE_SHORT['Northern Ireland'])}${chip('scope', 'Republic of Ireland', SCOPE_SHORT['Republic of Ireland'])}${chip('scope', 'Ireland', SCOPE_SHORT.Ireland)}</span>
+        <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('scope', '', 'All')}${chip('scope', 'Northern Ireland', /** @type {string} */ (SCOPE_SHORT['Northern Ireland']))}${chip('scope', 'Republic of Ireland', /** @type {string} */ (SCOPE_SHORT['Republic of Ireland']))}${chip('scope', 'Ireland', /** @type {string} */ (SCOPE_SHORT.Ireland))}</span>
       </div>
       ${providerFilterHtml(c.providerChoices())}
       ${sliderHtml('maps', c.mapBins, i, j, c.yearState('maps'))}
@@ -218,19 +218,19 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   if (allTodo) meta.push('<span class="cn-badge cn-badge--todo">To be added</span>');
   else if (s.status?.incomplete) meta.push('<span class="cn-badge cn-badge--warn">Incomplete</span>');
   // A row of census figures says which areas they are counted by ("by Ward 2014").
-  const by = s.kind === 'Statistics' && single ? /\bby ([^,)]+)\)?\s*$/.exec(c.rec(s.members[0].id).name || '')?.[1] : '';
-  const who = single ? c.mapSummary(s.members[0].id, { date: false, short: true }) : creditLine((s.provider || []).map(shortProvider), s.derivedFrom || []);
+  const by = s.kind === 'Statistics' && single ? /\bby ([^,)]+)\)?\s*$/.exec(c.rec(/** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0]).id).name || '')?.[1] : '';
+  const who = single ? c.mapSummary(/** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0]).id, { date: false, short: true }) : creditLine((s.provider || []).map(shortProvider), s.derivedFrom || []);
   const second = [by ? `by ${by}` : '', who, ...tally].filter(Boolean);
   const credit = second.length ? `<span class="cn-row__credit">${second.map((t, k) => `<span class="cn-row__item">${esc(t)}${k < second.length - 1 ? '<span class="cn-row__dot" aria-hidden="true"> ·</span>' : ''}</span>`).join(' ')}</span>` : '';
   const text = `<span class="cn-row__text"><span class="cn-row__name">${esc(s.name)}</span><span class="cn-row__meta">${meta.join('<span class="cn-row__dot" aria-hidden="true">·</span>')}</span>${credit}</span>`;
   // A series with nothing to draw yet is a heading and its list of maps to come: nothing to open.
-  const tip = single ? c.mapSummary(s.members[0].id) : '';
+  const tip = single ? c.mapSummary(/** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0]).id) : '';
   const title = drawable
     ? `<button type="button" class="cn-row__title" data-cn-expand="${esc(s.id)}" aria-expanded="${open}" aria-controls="cn-panel-${esc(s.id)}"${tip ? ` title="${esc(tip)}"` : ''}>${text}${icon('chevron-down', 'cn-icon cn-row__chev')}</button>`
     : `<div class="cn-row__title cn-row__title--static">${text}</div>`;
   const localHits = localHitsOf(c, s, hit);
   const chips = !single || todo.length || localHits.length;
-  const ends = actsOn === 'row' ? rowActionsHtml(c, s) : single ? mapActionsHtml(c, s, s.members[0]) : '';
+  const ends = actsOn === 'row' ? rowActionsHtml(c, s) : single ? mapActionsHtml(c, s, /** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0])) : '';
   return `<li class="cn-row${open ? ' cn-row--open' : ''}${drawable ? '' : ' cn-row--todo'}" data-cn-series="${esc(s.id)}" style="--c:${s.color || FALLBACK}">
     <span class="cn-row__stripe" aria-hidden="true"></span>
     <span class="cn-row__thumb">${s.thumb ? c.thumb(s.thumb) : `<span class="cn-thumb-none" aria-hidden="true">${icon('map')}</span>`}</span>
@@ -603,7 +603,7 @@ function placesHtml(c, groups) {
       const kinds = [...new Set(g.items.map(({ record }) => placeKind(c, record)))];
       const kind = kinds.length > 2 ? `${kinds.slice(0, 2).join(', ')} +${kinds.length - 2}` : kinds.join(', ');
       return `<li class="cn-place"><details${groups.length === 1 ? ' open' : ''}>
-      <summary><span class="cn-place__thumb">${placeThumb(c, g.items[0].record)}</span><span class="cn-place__name">${esc(g.name)}</span><span class="cn-place__kind">${esc(kind)}</span>${icon('chevron-down', 'cn-icon cn-place__chev')}</summary>
+      <summary><span class="cn-place__thumb">${placeThumb(c, /** @type {(typeof g.items)[number]} */ (g.items[0]).record)}</span><span class="cn-place__name">${esc(g.name)}</span><span class="cn-place__kind">${esc(kind)}</span>${icon('chevron-down', 'cn-icon cn-place__chev')}</summary>
       <ul class="cn-place__list">${g.items.map(({ record }) => `<li class="cn-place__item">
         <span class="cn-place__thumb">${placeThumb(c, record)}</span>
         <button type="button" class="cn-link cn-place__map" data-catalogue-search-action="open-feature-detail" data-map-id="${esc(record.mapId)}" data-feature-id="${esc(record.featureId || record.id)}" data-feature-name="${esc(record.title)}" data-feature-bbox="${esc((record.bbox || []).join(','))}">${esc(record.subtitle || record.mapId)}</button>
@@ -620,7 +620,7 @@ function peopleHtml(c, records) {
   /** @type {Record<string, string>} */
   const ic = { person: 'user', party: 'flag', source: 'file-text' };
   const kinds = [['person', 'People'], ['party', 'Parties'], ['source', 'Sources']].filter(([t]) => records.some((r) => r.type === t)).map(([, l]) => l);
-  const heading = kinds.length > 1 ? `${kinds.slice(0, -1).join(', ')} and ${kinds[kinds.length - 1].toLowerCase()}` : kinds[0] || 'People';
+  const heading = kinds.length > 1 ? `${kinds.slice(0, -1).join(', ')} and ${/** @type {string} */ (kinds[kinds.length - 1]).toLowerCase()}` : kinds[0] || 'People';
   return `<section class="cn-block" aria-labelledby="cn-people-h">
     <h3 class="cn-block__head" id="cn-people-h">${icon(records[0]?.type === 'party' ? 'flag' : 'user')}<span>${esc(heading)}</span><span class="cn-count">${records.length}</span></h3>
     <ul class="cn-people">${records.slice(0, limit).map((r) => {

@@ -183,13 +183,13 @@ function normalizeBounds(bounds) {
   if (bounds.length === 4) {
     const values = bounds.map(Number);
     if (!values.every(Number.isFinite)) return null;
-    return [[values[0], values[1]], [values[2], values[3]]];
+    return [[/** @type {number} */ (values[0]), /** @type {number} */ (values[1])], [/** @type {number} */ (values[2]), /** @type {number} */ (values[3])]];
   }
   const converted = boundsToMapLibre(bounds);
   if (!converted) return null;
   const values = converted.flat().map(Number);
   if (!values.every(Number.isFinite)) return null;
-  return [[values[0], values[1]], [values[2], values[3]]];
+  return [[/** @type {number} */ (values[0]), /** @type {number} */ (values[1])], [/** @type {number} */ (values[2]), /** @type {number} */ (values[3])]];
 }
 
 /**
@@ -460,7 +460,7 @@ export class Test2MapLibreMainAdapter {
     const groupState = this.groupStates.get(mainId);
     if (groupState) {
       const failures = (groupState.childIds || []).map((childId) => this.getLayerLoadFailure(childId));
-      return failures.length && failures.every(Boolean) ? failures[0] : null;
+      return failures.length && failures.every(Boolean) ? /** @type {(typeof failures)[number]} */ (failures[0]) : null;
     }
     const testId = this.mainToTest.get(mainId) || mainId;
     return this.renderer?.getLayerLoadFailure?.(testId) || null;
@@ -735,7 +735,7 @@ export class Test2MapLibreMainAdapter {
 
   /** The colour a loaded map's lines are drawn in now, or ''. @param {string} mainId @returns {string} */
   getLayerColour(mainId) {
-    const [first] = this.colourTargets(mainId);
+    const [first] = /** @type {[string]} */ (this.colourTargets(mainId));
     const record = this.renderer?.layers.get(this.mainToTest.get(first) || first);
     return record?.color || '';
   }
@@ -2162,7 +2162,7 @@ function ensureHatchImage(map, name, dark) {
       const colour = d <= coreWidth / 2 ? core : (d <= edgeWidth / 2 ? edge : null);
       if (colour) {
         const i = (y * px + x) * 4;
-        data[i] = colour[0]; data[i + 1] = colour[1]; data[i + 2] = colour[2]; data[i + 3] = colour[3];
+        data[i] = /** @type {number} */ (colour[0]); data[i + 1] = /** @type {number} */ (colour[1]); data[i + 2] = /** @type {number} */ (colour[2]); data[i + 3] = /** @type {number} */ (colour[3]);
       }
     }
   }
@@ -2257,12 +2257,12 @@ function featureDedupeKey(feature) {
 
 /** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (ch) => /** @type {Record<string, string>} */ ({
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => /** @type {string} */ (/** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  })[ch]);
+  })[ch]));
 }
 

@@ -25,10 +25,10 @@ function bboxDiag(geometry) {
     function walk(coords, depth) {
         if (depth === 0) {
             // coords is [lng, lat]
-            if (/** @type {number[]} */ (coords)[0] < minX) minX = /** @type {number[]} */ (coords)[0];
-            if (/** @type {number[]} */ (coords)[0] > maxX) maxX = /** @type {number[]} */ (coords)[0];
-            if (/** @type {number[]} */ (coords)[1] < minY) minY = /** @type {number[]} */ (coords)[1];
-            if (/** @type {number[]} */ (coords)[1] > maxY) maxY = /** @type {number[]} */ (coords)[1];
+            if (/** @type {number} */ (/** @type {number[]} */ (coords)[0]) < minX) minX = /** @type {number} */ (/** @type {number[]} */ (coords)[0]);
+            if (/** @type {number} */ (/** @type {number[]} */ (coords)[0]) > maxX) maxX = /** @type {number} */ (/** @type {number[]} */ (coords)[0]);
+            if (/** @type {number} */ (/** @type {number[]} */ (coords)[1]) < minY) minY = /** @type {number} */ (/** @type {number[]} */ (coords)[1]);
+            if (/** @type {number} */ (/** @type {number[]} */ (coords)[1]) > maxY) maxY = /** @type {number} */ (/** @type {number[]} */ (coords)[1]);
         } else {
             for (let i = 0; i < /** @type {unknown[]} */ (coords).length; i++) walk(/** @type {unknown[]} */ (coords)[i], depth - 1);
         }

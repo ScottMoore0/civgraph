@@ -39,7 +39,7 @@ export function defineChoice(name, values) {
   // Any value may follow any other, itself included: the table only fixes the set.
   const machine = defineMachine({
     name,
-    initial: values[0],
+    initial: /** @type {V} */ (values[0]),
     transitions: /** @type {Record<V, V[]>} */ (Object.fromEntries(values.map((value) => [value, [...values]])))
   });
   return Object.freeze({

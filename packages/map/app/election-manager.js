@@ -779,7 +779,7 @@ export class Test2ElectionManager {
       const parts = mainElectionParam.split(':');
       if (parts.length >= 2) {
         const bodySlug = parts[0];
-        date = parts[1];
+        date = /** @type {string} */ (parts[1]);
         mainElectionSelected = parts.length > 2 ? parts[2] : null;
         /** @param {unknown} value */
         const slugify = (value) => String(value || '').toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
@@ -3124,7 +3124,7 @@ export class Test2ElectionManager {
 
   defaultGeographyModeId() {
     const modes = this.geographyModes();
-    return modes.length ? modes[0].id : null;
+    return modes.length ? /** @type {import("../src/election/election-manager.js").ElectionGeographyMode} */ (modes[0]).id : null;
   }
 
   activeGeographyMode() {
@@ -4163,16 +4163,16 @@ export class Test2ElectionManager {
       seq = rows.findIndex((row) => resultKeys(row).some((rowKey) => keys.has(rowKey)));
     }
     if (!key || seq < 0) return null;
-    if (rows[seq].animationPayload && rows[seq] !== result) {
-      result.animationPayload = rows[seq].animationPayload;
-      if (!Array.isArray(result.countGroup)) result.countGroup = rows[seq].countGroup || result.animationPayload?.Constituency?.countGroup || [];
+    if (/** @type {import("../src/election/election-manager.js").BundleResult} */ (rows[seq]).animationPayload && rows[seq] !== result) {
+      result.animationPayload = /** @type {import("../src/election/election-manager.js").BundleResult} */ (rows[seq]).animationPayload;
+      if (!Array.isArray(result.countGroup)) result.countGroup = /** @type {import("../src/election/election-manager.js").BundleResult} */ (rows[seq]).countGroup || result.animationPayload?.Constituency?.countGroup || [];
       return result.animationPayload;
     }
     // A failed request is reported and answers null (packages/map/src/election/transport.mjs).
     const detail = await fetchConstituencyDetail(key, seq);
     if (detail?.animationPayload) {
       // On the bundle's own row too, so the copy and the original never fetch it twice.
-      for (const target of new Set([result, rows[seq]])) {
+      for (const target of /** @type {Set<import("../src/election/election-manager.js").BundleResult>} */ (new Set([result, rows[seq]]))) {
         target.animationPayload = detail.animationPayload;
         if (!Array.isArray(target.countGroup)) {
           target.countGroup = detail.animationPayload?.Constituency?.countGroup || [];
@@ -5574,7 +5574,7 @@ export class Test2ElectionManager {
     if (found) return found;
     // election-northern-ireland-local-elections-1911: a pre-1921 year by its earlier name.
     const year = groupedYearForLayerId(layerId);
-    return year ? this.findEntry(year.body, year.date) : null;
+    return year ? this.findEntry(/** @type {string} */ (year.body), year.date) : null;
   }
 
   /** @param {unknown} layerId */
@@ -6179,11 +6179,11 @@ function recallTriggered(result = {}) {
 
 /** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => /** @type {Record<string, string>} */ ({
+  return String(value ?? '').replace(/[&<>"']/g, (char) => /** @type {string} */ (/** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  })[char]);
+  })[char]));
 }

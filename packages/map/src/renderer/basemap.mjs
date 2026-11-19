@@ -212,13 +212,13 @@ export function glyphUrlForAvailableFont(url, fonts) {
   if (!url || !fonts?.length) return url;
   const match = /\/fonts\/([^/]+)\/(\d+-\d+\.pbf)(\?.*)?$/.exec(url);
   if (!match) return url;
-  const stack = decodeURIComponent(match[1]).split(',').map((font) => font.trim());
+  const stack = decodeURIComponent(/** @type {string} */ (match[1])).split(',').map((font) => font.trim());
   if (stack.some((font) => fonts.includes(font))) return url;
   const wanted = stack.join(' ');
   const pick = (/bold/i.test(wanted) && fonts.find((font) => /bold/i.test(font)))
     || (/italic/i.test(wanted) && fonts.find((font) => /italic/i.test(font)))
     || fonts.find((font) => /regular/i.test(font))
-    || fonts[0];
+    || /** @type {string} */ (fonts[0]);
   return url.slice(0, match.index) + `/fonts/${encodeURIComponent(pick)}/${match[2]}${match[3] || ''}`;
 }
 
@@ -246,7 +246,7 @@ export function createBasemapFailover(chain, { storage = null } = {}) {
      * @returns {BasemapProvider}
      */
     current() {
-      const provider = chain.find((item) => !failed.has(item.id)) || chain[chain.length - 1];
+      const provider = chain.find((item) => !failed.has(item.id)) || /** @type {BasemapProvider} */ (chain[chain.length - 1]);
       if (provider.id !== currentId) {
         currentId = provider.id;
         errors = 0;

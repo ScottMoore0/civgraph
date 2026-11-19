@@ -205,7 +205,7 @@ function geodeticToMercator(lngDeg, latDeg, alt) {
  */
 function ecefToMercator(x, y, z) {
   const g = ecefToGeodetic(x, y, z);
-  return geodeticToMercator(g[0], g[1], g[2]);
+  return geodeticToMercator(/** @type {number} */ (g[0]), /** @type {number} */ (g[1]), /** @type {number} */ (g[2]));
 }
 
 /**
@@ -218,9 +218,9 @@ function ecefToMercator(x, y, z) {
  */
 function xformPt(m, x, y, z) {
   return [
-    m[0] * x + m[4] * y + m[8] * z + m[12],
-    m[1] * x + m[5] * y + m[9] * z + m[13],
-    m[2] * x + m[6] * y + m[10] * z + m[14]
+    /** @type {number} */ (m[0]) * x + /** @type {number} */ (m[4]) * y + /** @type {number} */ (m[8]) * z + /** @type {number} */ (m[12]),
+    /** @type {number} */ (m[1]) * x + /** @type {number} */ (m[5]) * y + /** @type {number} */ (m[9]) * z + /** @type {number} */ (m[13]),
+    /** @type {number} */ (m[2]) * x + /** @type {number} */ (m[6]) * y + /** @type {number} */ (m[10]) * z + /** @type {number} */ (m[14])
   ];
 }
 /**
@@ -234,7 +234,7 @@ function mul4(a, b) {
   const o = new Array(16);
   for (let c = 0; c < 4; c++) {
     for (let r = 0; r < 4; r++) {
-      o[c * 4 + r] = a[r] * b[c * 4] + a[4 + r] * b[c * 4 + 1] + a[8 + r] * b[c * 4 + 2] + a[12 + r] * b[c * 4 + 3];
+      o[c * 4 + r] = /** @type {number} */ (a[r]) * /** @type {number} */ (b[c * 4]) + /** @type {number} */ (a[4 + r]) * /** @type {number} */ (b[c * 4 + 1]) + /** @type {number} */ (a[8 + r]) * /** @type {number} */ (b[c * 4 + 2]) + /** @type {number} */ (a[12 + r]) * /** @type {number} */ (b[c * 4 + 3]);
     }
   }
   return o;
@@ -411,37 +411,37 @@ function makeNode(raw, parentWorld, baseUrl, parentRefine) {
   const hz = [box[9], box[10], box[11]];
 
   // ref + fitted affine local -> (mercator - ref)
-  const e0 = xformPt(world, L0[0], L0[1], L0[2]);
-  const ref = ecefToMercator(e0[0], e0[1], e0[2]);
+  const e0 = xformPt(world, /** @type {number} */ (L0[0]), /** @type {number} */ (L0[1]), /** @type {number} */ (L0[2]));
+  const ref = ecefToMercator(/** @type {number} */ (e0[0]), /** @type {number} */ (e0[1]), /** @type {number} */ (e0[2]));
   /** @type {number[][]} */
   const cols = [];
   for (const e of [[1, 0, 0], [0, 1, 0], [0, 0, 1]]) {
-    const p = xformPt(world, L0[0] + e[0], L0[1] + e[1], L0[2] + e[2]);
-    const m = ecefToMercator(p[0], p[1], p[2]);
-    cols.push([m[0] - ref[0], m[1] - ref[1], m[2] - ref[2]]);
+    const p = xformPt(world, /** @type {number} */ (L0[0]) + /** @type {number} */ (e[0]), /** @type {number} */ (L0[1]) + /** @type {number} */ (e[1]), /** @type {number} */ (L0[2]) + /** @type {number} */ (e[2]));
+    const m = ecefToMercator(/** @type {number} */ (p[0]), /** @type {number} */ (p[1]), /** @type {number} */ (p[2]));
+    cols.push([/** @type {number} */ (m[0]) - /** @type {number} */ (ref[0]), /** @type {number} */ (m[1]) - /** @type {number} */ (ref[1]), /** @type {number} */ (m[2]) - /** @type {number} */ (ref[2])]);
   }
   const t = [
-    -(cols[0][0] * L0[0] + cols[1][0] * L0[1] + cols[2][0] * L0[2]),
-    -(cols[0][1] * L0[0] + cols[1][1] * L0[1] + cols[2][1] * L0[2]),
-    -(cols[0][2] * L0[0] + cols[1][2] * L0[1] + cols[2][2] * L0[2])
+    -(/** @type {number} */ (/** @type {number[]} */ (cols[0])[0]) * /** @type {number} */ (L0[0]) + /** @type {number} */ (/** @type {number[]} */ (cols[1])[0]) * /** @type {number} */ (L0[1]) + /** @type {number} */ (/** @type {number[]} */ (cols[2])[0]) * /** @type {number} */ (L0[2])),
+    -(/** @type {number} */ (/** @type {number[]} */ (cols[0])[1]) * /** @type {number} */ (L0[0]) + /** @type {number} */ (/** @type {number[]} */ (cols[1])[1]) * /** @type {number} */ (L0[1]) + /** @type {number} */ (/** @type {number[]} */ (cols[2])[1]) * /** @type {number} */ (L0[2])),
+    -(/** @type {number} */ (/** @type {number[]} */ (cols[0])[2]) * /** @type {number} */ (L0[0]) + /** @type {number} */ (/** @type {number[]} */ (cols[1])[2]) * /** @type {number} */ (L0[1]) + /** @type {number} */ (/** @type {number[]} */ (cols[2])[2]) * /** @type {number} */ (L0[2]))
   ];
   // column-major: local -> (mercator - ref)
   const affine = [
-    cols[0][0], cols[0][1], cols[0][2], 0,
-    cols[1][0], cols[1][1], cols[1][2], 0,
-    cols[2][0], cols[2][1], cols[2][2], 0,
-    t[0], t[1], t[2], 1
+    /** @type {number} */ (/** @type {number[]} */ (cols[0])[0]), /** @type {number} */ (/** @type {number[]} */ (cols[0])[1]), /** @type {number} */ (/** @type {number[]} */ (cols[0])[2]), 0,
+    /** @type {number} */ (/** @type {number[]} */ (cols[1])[0]), /** @type {number} */ (/** @type {number[]} */ (cols[1])[1]), /** @type {number} */ (/** @type {number[]} */ (cols[1])[2]), 0,
+    /** @type {number} */ (/** @type {number[]} */ (cols[2])[0]), /** @type {number} */ (/** @type {number[]} */ (cols[2])[1]), /** @type {number} */ (/** @type {number[]} */ (cols[2])[2]), 0,
+    /** @type {number} */ (t[0]), /** @type {number} */ (t[1]), /** @type {number} */ (t[2]), 1
   ];
 
   // 8 corners -> mercator (for frustum culling)
   /** @type {number[][]} */
   const corners = [];
   for (let sx = -1; sx <= 1; sx += 2) for (let sy = -1; sy <= 1; sy += 2) for (let sz = -1; sz <= 1; sz += 2) {
-    const lx = L0[0] + sx * hx[0] + sy * hy[0] + sz * hz[0];
-    const ly = L0[1] + sx * hx[1] + sy * hy[1] + sz * hz[1];
-    const lz = L0[2] + sx * hx[2] + sy * hy[2] + sz * hz[2];
+    const lx = /** @type {number} */ (L0[0]) + sx * /** @type {number} */ (hx[0]) + sy * /** @type {number} */ (hy[0]) + sz * /** @type {number} */ (hz[0]);
+    const ly = /** @type {number} */ (L0[1]) + sx * /** @type {number} */ (hx[1]) + sy * /** @type {number} */ (hy[1]) + sz * /** @type {number} */ (hz[1]);
+    const lz = /** @type {number} */ (L0[2]) + sx * /** @type {number} */ (hx[2]) + sy * /** @type {number} */ (hy[2]) + sz * /** @type {number} */ (hz[2]);
     const p = xformPt(world, lx, ly, lz);
-    corners.push(ecefToMercator(p[0], p[1], p[2]));
+    corners.push(ecefToMercator(/** @type {number} */ (p[0]), /** @type {number} */ (p[1]), /** @type {number} */ (p[2])));
   }
 
   const content = raw.content || raw.contents?.[0];
@@ -530,12 +530,12 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       if (typeof map.setMaxPitch === 'function' && map.getMaxPitch() < 80) map.setMaxPitch(85);
       if (this._edlEnabled) { try { this._initEDL(gl); } catch (e) { this._edl = null; console.warn('[pc-stream] EDL unavailable, using direct render', e); } }
       fetch(tilesetUrl).then((r) => r.json()).then((/** @type {{ root: RawTile }} */ ts) => {
-        const baseUrl = tilesetUrl.split('?')[0];
+        const baseUrl = /** @type {string} */ (tilesetUrl.split('?')[0]);
         this._root = makeNode(ts.root, IDENT, baseUrl, 'REPLACE');
         // Global vertical range (mercator z) from the root box corners, so the
         // elevation ramp is coherent across all tiles (not normalised per node).
         let lo = Infinity, hi = -Infinity;
-        for (const c of this._root.corners) { if (c[2] < lo) lo = c[2]; if (c[2] > hi) hi = c[2]; }
+        for (const c of this._root.corners) { if (/** @type {number} */ (c[2]) < lo) lo = /** @type {number} */ (c[2]); if (/** @type {number} */ (c[2]) > hi) hi = /** @type {number} */ (c[2]); }
         if (hi > lo) { this._mzMin = lo; this._mzMax = hi; }
         this._map?.triggerRepaint();
       }).catch((e) => console.error('[pc-stream] tileset load failed', id, e));
@@ -560,7 +560,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       if (node.externalUri) {
         fetch(node.externalUri).then((r) => r.json()).then((/** @type {{ root: RawTile }} */ sub) => {
           // Still the external tileset's address: a node's content does not change.
-          node._extBase = /** @type {string} */ (node.externalUri).split('?')[0];
+          node._extBase = /** @type {string} */ (/** @type {string} */ (node.externalUri).split('?')[0]);
           build(sub.root);
         }).catch((_e) => { node.children = []; node.resolving = false; })
           .finally(() => { this._resolving--; });
@@ -616,23 +616,23 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
         // source colour, e.g. sept2022-northcoast). Detect that and fall back to
         // the elevation ramp so the surface is visible instead of rendering black.
         let mx = 0;
-        for (let i = 0; i < n * 3; i++) { if (rgb[i] > mx) { mx = rgb[i]; if (mx >= 8) break; } }
+        for (let i = 0; i < n * 3; i++) { if (/** @type {number} */ (rgb[i]) > mx) { mx = /** @type {number} */ (rgb[i]); if (mx >= 8) break; } }
         if (mx >= 8) {
           useRgb = true;
-          for (let i = 0; i < n * 3; i++) cols[i] = rgb[i] / 255;
+          for (let i = 0; i < n * 3; i++) cols[i] = /** @type {number} */ (rgb[i]) / 255;
         }
       }
       if (!useRgb) {
         // Coherent elevation ramp: each point's absolute mercator-z (via the
         // node's local->mercator affine + ref), normalised over the whole
         // cloud's vertical range so colour tracks true height everywhere.
-        const A = node.affine, rz = node.ref[2];
+        const A = node.affine, rz = /** @type {number} */ (node.ref[2]);
         const lo = this._mzMin, span = (this._mzMax - this._mzMin) || 1;
         for (let i = 0; i < n; i++) {
-          const x = pos[i * 3], y = pos[i * 3 + 1], z = pos[i * 3 + 2];
-          const mz = rz + A[2] * x + A[6] * y + A[10] * z + A[14];
+          const x = /** @type {number} */ (pos[i * 3]), y = /** @type {number} */ (pos[i * 3 + 1]), z = /** @type {number} */ (pos[i * 3 + 2]);
+          const mz = rz + /** @type {number} */ (A[2]) * x + /** @type {number} */ (A[6]) * y + /** @type {number} */ (A[10]) * z + /** @type {number} */ (A[14]);
           const c = ramp((mz - lo) / span);
-          cols[i * 3] = c[0]; cols[i * 3 + 1] = c[1]; cols[i * 3 + 2] = c[2];
+          cols[i * 3] = /** @type {number} */ (c[0]); cols[i * 3 + 1] = /** @type {number} */ (c[1]); cols[i * 3 + 2] = /** @type {number} */ (c[2]);
         }
       }
       node.buf = gl.createBuffer();
@@ -669,9 +669,9 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
     _culled(node, m) {
       let l = 0, r = 0, b = 0, t = 0, ne = 0;
       for (const c of node.corners) {
-        const cx = m[0] * c[0] + m[4] * c[1] + m[8] * c[2] + m[12];
-        const cy = m[1] * c[0] + m[5] * c[1] + m[9] * c[2] + m[13];
-        const cw = m[3] * c[0] + m[7] * c[1] + m[11] * c[2] + m[15];
+        const cx = /** @type {number} */ (m[0]) * /** @type {number} */ (c[0]) + /** @type {number} */ (m[4]) * /** @type {number} */ (c[1]) + /** @type {number} */ (m[8]) * /** @type {number} */ (c[2]) + /** @type {number} */ (m[12]);
+        const cy = /** @type {number} */ (m[1]) * /** @type {number} */ (c[0]) + /** @type {number} */ (m[5]) * /** @type {number} */ (c[1]) + /** @type {number} */ (m[9]) * /** @type {number} */ (c[2]) + /** @type {number} */ (m[13]);
+        const cw = /** @type {number} */ (m[3]) * /** @type {number} */ (c[0]) + /** @type {number} */ (m[7]) * /** @type {number} */ (c[1]) + /** @type {number} */ (m[11]) * /** @type {number} */ (c[2]) + /** @type {number} */ (m[15]);
         if (cw <= 0) { ne++; continue; }
         const x = cx / cw, y = cy / cw;
         if (x < -1) l++; if (x > 1) r++; if (y < -1) b++; if (y > 1) t++;
@@ -745,12 +745,12 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
 
     // per-node local->clip matrix: mainMatrix . translate(ref) . affine
     _nodeMatrix(m, node) {
-      const rx = node.ref[0], ry = node.ref[1], rz = node.ref[2];
+      const rx = /** @type {number} */ (node.ref[0]), ry = /** @type {number} */ (node.ref[1]), rz = /** @type {number} */ (node.ref[2]);
       const rtc = m.slice();
-      rtc[12] = m[0] * rx + m[4] * ry + m[8] * rz + m[12];
-      rtc[13] = m[1] * rx + m[5] * ry + m[9] * rz + m[13];
-      rtc[14] = m[2] * rx + m[6] * ry + m[10] * rz + m[14];
-      rtc[15] = m[3] * rx + m[7] * ry + m[11] * rz + m[15];
+      rtc[12] = /** @type {number} */ (m[0]) * rx + /** @type {number} */ (m[4]) * ry + /** @type {number} */ (m[8]) * rz + /** @type {number} */ (m[12]);
+      rtc[13] = /** @type {number} */ (m[1]) * rx + /** @type {number} */ (m[5]) * ry + /** @type {number} */ (m[9]) * rz + /** @type {number} */ (m[13]);
+      rtc[14] = /** @type {number} */ (m[2]) * rx + /** @type {number} */ (m[6]) * ry + /** @type {number} */ (m[10]) * rz + /** @type {number} */ (m[14]);
+      rtc[15] = /** @type {number} */ (m[3]) * rx + /** @type {number} */ (m[7]) * ry + /** @type {number} */ (m[11]) * rz + /** @type {number} */ (m[15]);
       return new Float32Array(mul4(rtc, node.affine));
     },
 
@@ -904,7 +904,7 @@ export function createStreamingPointCloudLayer(id, tilesetUrl, opts = {}) {
       gl.uniform1f(e.sLoc.u_edlStrength, this._edlStrength);
       gl.uniform1f(e.sLoc.u_edlRadius, this._edlRadius);
       gl.uniform1f(e.sLoc.u_normalStr, this._normalStr);
-      gl.uniform3f(e.sLoc.u_lightDir, this._lightDir[0], this._lightDir[1], this._lightDir[2]);
+      gl.uniform3f(e.sLoc.u_lightDir, /** @type {number} */ (this._lightDir[0]), /** @type {number} */ (this._lightDir[1]), /** @type {number} */ (this._lightDir[2]));
       gl.uniform1f(e.sLoc.u_ambient, this._ambient);
       gl.uniform1f(e.sLoc.u_diffuse, this._diffuse);
       gl.drawArrays(gl.TRIANGLES, 0, 3);

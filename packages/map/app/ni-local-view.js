@@ -87,7 +87,7 @@ const STYLE = Object.freeze({
 
 /** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (ch) => /** @type {Record<string, string>} */ ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => /** @type {string} */ (/** @type {Record<string, string>} */ ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]));
 }
 
 /** @param {unknown} value */
@@ -116,7 +116,7 @@ export function leadingParty(counts = {}) {
   const rows = Object.entries(counts || {}).filter(([, n]) => Number(n) > 0).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   const total = rows.reduce((sum, [, n]) => sum + Number(n), 0);
   if (!rows.length || !total) return null;
-  return { party: rows[0][0], value: rows[0][1], total, share: (rows[0][1] / total) * 100, tie: rows.length > 1 && rows[1][1] === rows[0][1] };
+  return { party: /** @type {[string, number]} */ (rows[0])[0], value: /** @type {[string, number]} */ (rows[0])[1], total, share: (/** @type {[string, number]} */ (rows[0])[1] / total) * 100, tie: rows.length > 1 && /** @type {[string, number]} */ (rows[1])[1] === /** @type {[string, number]} */ (rows[0])[1] };
 }
 
 /**
@@ -650,7 +650,7 @@ export class NiLocalGroupedView {
   segmentedHtml(name, label, options, active, { disabled = () => '', describedBy = '' } = {}) {
     return `<div class="ni-seg" role="group" aria-label="${escapeHtml(label)}"${describedBy ? ` aria-describedby="${describedBy}"` : ''}>
       <span class="ni-seg__label" aria-hidden="true">${escapeHtml(label)}</span>
-      <span class="ni-seg__buttons">${options.map(([id, text, full]) => {
+      <span class="ni-seg__buttons">${/** @type {Array<[string, string, string]>} */ (options).map(([id, text, full]) => {
         const reason = disabled(id);
         return `<button type="button" class="ni-seg__btn" data-ni-${name}="${escapeHtml(id)}" aria-pressed="${String(id === active)}"${reason ? ` aria-disabled="true" title="${escapeHtml(reason)}"` : (full ? ` title="${escapeHtml(full)}"` : '')}>${escapeHtml(text)}</button>`;
       }).join('')}</span>
@@ -670,7 +670,7 @@ export class NiLocalGroupedView {
       <summary class="ni-local-view__summary"><span class="ni-local-view__label">View</span> <span class="ni-local-view__current">${escapeHtml(summary)}</span></summary>
       <div class="ni-local-controls">
         ${this.segmentedHtml('level', 'Level', levelOptions, this.level, { disabled: (id) => this.levelReason(id) })}
-        ${this.segmentedHtml('show', 'Show', SHOW_OPTIONS.map(([id, text]) => [id, text, id === 'votes' ? 'Colour contested polls by the leading party' : 'Colour every area by the party holding its seats']), this.show)}
+        ${this.segmentedHtml('show', 'Show', /** @type {Array<[string, string]>} */ (SHOW_OPTIONS).map(([id, text]) => [id, text, id === 'votes' ? 'Colour contested polls by the leading party' : 'Colour every area by the party holding its seats']), this.show)}
         ${membersShown ? this.segmentedHtml('members', 'Members', MEMBER_OPTIONS, this.members, { disabled: (id) => (id === 'aldermen' && !this.aldermenAvailable() ? `No aldermanic polls at the ${levelLabel} level this year` : '') }) : ''}
       </div>
     </details>`;
@@ -684,7 +684,7 @@ export class NiLocalGroupedView {
     const hatched = items.filter((item) => item.hatch).length;
     const unplaced = (info.unplaced || []).filter(([ri, ci]) => {
       // The year is loaded while its levels are drawn.
-      const round = /** @type {NiLocalYear} */ (this.data).rounds[ri];
+      const round = /** @type {NiLocalRound} */ (/** @type {NiLocalYear} */ (this.data).rounds[ri]);
       return Boolean(round.aldermen || round.contests[ci]?.aldermen) === (this.members === 'aldermen');
     }).length;
     const edition = info.editionName ? `Boundaries: ${info.editionName}` : '';
@@ -808,8 +808,8 @@ export class NiLocalGroupedView {
     }
     const blocks = [...byRound.entries()].map(([ri, contestIndexes]) => {
       // The year is loaded while its levels are drawn.
-      const round = /** @type {NiLocalYear} */ (this.data).rounds[ri];
-      const contests = contestIndexes.map((ci) => this.contestHtml(round.contests[ci])).join('');
+      const round = /** @type {NiLocalRound} */ (/** @type {NiLocalYear} */ (this.data).rounds[ri]);
+      const contests = contestIndexes.map((ci) => this.contestHtml(/** @type {NiLocalContest} */ (round.contests[ci]))).join('');
       return `<section class="ni-local-round">
         <h4 class="ni-local-round__title">${escapeHtml(round.body)} <span class="ni-local-council__meta">${escapeHtml(formatDisplayDate(round.date))}</span></h4>
         ${contests}

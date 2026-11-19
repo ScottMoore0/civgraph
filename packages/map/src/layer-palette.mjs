@@ -61,7 +61,7 @@ export function pickSlot(held, size) {
   if (size <= 0) return -1;
   /** @type {number[]} */
   const uses = new Array(size).fill(0);
-  for (const slot of held) if (slot >= 0 && slot < size) uses[slot] += 1;
+  for (const slot of held) if (slot >= 0 && slot < size) /** @type {number} */ (uses[slot]) += 1;
   const fewest = Math.min(...uses);
   return uses.indexOf(fewest);
 }

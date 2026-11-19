@@ -411,7 +411,7 @@ class DataService {
       const parentPattern = this.escapeRegExp(parent).replace(/\\ /g, '\\s+');
       const parentDateMatch = text.match(new RegExp(`^${parentPattern}\\s+(.+)$`, 'i'));
       if (parentDateMatch && this.isDerivedMapName(map, parentDateMatch[1])) {
-        return parentDateMatch[1].trim();
+        return /** @type {string} */ (parentDateMatch[1]).trim();
       }
     }
 
@@ -459,11 +459,11 @@ class DataService {
     const monthNames = MONTH_NAMES;
     if (/^\d{4}$/.test(str)) return str;
     if (/^\d{4}-\d{2}$/.test(str)) {
-      const [y, m] = str.split('-').map(Number);
+      const [y, m] = /** @type {[number, number]} */ (str.split('-').map(Number));
       return `${months[m - 1]} ${y}`;
     }
     if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
-      const [y, m, d] = str.split('-').map(Number);
+      const [y, m, d] = /** @type {[number, number, number]} */ (str.split('-').map(Number));
       return `${String(d).padStart(2, '0')} ${monthNames[m - 1]} ${y}`;
     }
     return str;

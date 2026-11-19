@@ -287,19 +287,19 @@ function firstTwoTouchPoints(event) {
  */
 function midpoint(points) {
   return {
-    x: (points[0].x + points[1].x) / 2,
-    y: (points[0].y + points[1].y) / 2
+    x: (/** @type {ScreenPoint} */ (points[0]).x + /** @type {ScreenPoint} */ (points[1]).x) / 2,
+    y: (/** @type {ScreenPoint} */ (points[0]).y + /** @type {ScreenPoint} */ (points[1]).y) / 2
   };
 }
 
 /** @param {ScreenPoint[]} points */
 function distance(points) {
-  return Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
+  return Math.hypot(/** @type {ScreenPoint} */ (points[1]).x - /** @type {ScreenPoint} */ (points[0]).x, /** @type {ScreenPoint} */ (points[1]).y - /** @type {ScreenPoint} */ (points[0]).y);
 }
 
 /** @param {ScreenPoint[]} points */
 function angle(points) {
-  return Math.atan2(points[1].y - points[0].y, points[1].x - points[0].x);
+  return Math.atan2(/** @type {ScreenPoint} */ (points[1]).y - /** @type {ScreenPoint} */ (points[0]).y, /** @type {ScreenPoint} */ (points[1]).x - /** @type {ScreenPoint} */ (points[0]).x);
 }
 
 /** @param {number} value */
@@ -757,7 +757,7 @@ export class TestMapLibreController {
       applyPendingPan();
     };
     const canActivateFallback = (/** @type {PanGestureState} */ state) => {
-      const thresholds = fallbackThresholds[state.pointerType] || fallbackThresholds.default;
+      const thresholds = fallbackThresholds[state.pointerType] || /** @type {{ distance: number; elapsedMs: number; samples: number; }} */ (fallbackThresholds.default);
       const elapsed = performance.now() - state.startedAt;
       return Math.hypot(state.latestDx, state.latestDy) >= thresholds.distance
         && state.noCameraSamples >= thresholds.samples
@@ -830,7 +830,7 @@ export class TestMapLibreController {
         return;
       }
       if (!state.fallbackActive) {
-        const thresholds = fallbackThresholds[state.pointerType] || fallbackThresholds.default;
+        const thresholds = fallbackThresholds[state.pointerType] || /** @type {{ distance: number; elapsedMs: number; samples: number; }} */ (fallbackThresholds.default);
         if (Math.hypot(dx, dy) < thresholds.distance) return;
         state.noCameraSamples += 1;
         scheduleNativeFailureCheck(state);
@@ -1444,7 +1444,7 @@ export class TestMapLibreController {
     if (layer.pcFlat) {
       // Legacy flat single-file path: a pre-flattened point file (pc.json header +
       // pc.bin body) served next to the tileset. Opt-in via metadata pcFlat:true.
-      const base = tilesetUrl.split('?')[0].replace(/tileset\.json$/, 'pc.json');
+      const base = /** @type {string} */ (tilesetUrl.split('?')[0]).replace(/tileset\.json$/, 'pc.json');
       custom = createPointCloudLayer(layerId, base + '?v=' + (layer.pcVersion || 'pc2'), {
         pointSize: layer.pointSize ?? 2.5, opacity
       });
@@ -2070,7 +2070,7 @@ export class TestMapLibreController {
     const index = entries.findIndex(([id]) => id === layerId);
     const next = index + delta;
     if (next < 0 || next >= entries.length) return false;
-    const [entry] = entries.splice(index, 1);
+    const [entry] = /** @type {[[string, LayerRecord]]} */ (entries.splice(index, 1));
     entries.splice(next, 0, entry);
     this.layers = new Map(entries);
     this.reapplyLayerOrder();
@@ -2090,7 +2090,7 @@ export class TestMapLibreController {
     const index = entries.findIndex(([id]) => id === layerId);
     const beforeIndex = entries.findIndex(([id]) => id === beforeLayerId);
     if (index < 0 || beforeIndex < 0) return false;
-    const [entry] = entries.splice(index, 1);
+    const [entry] = /** @type {[[string, LayerRecord]]} */ (entries.splice(index, 1));
     const targetIndex = entries.findIndex(([id]) => id === beforeLayerId);
     entries.splice(targetIndex < 0 ? beforeIndex : targetIndex, 0, entry);
     this.layers = new Map(entries);
@@ -2799,7 +2799,7 @@ export class TestMapLibreController {
     // it. (These are DOM labels, so MapLibre's symbol collision doesn't apply.)
     const orderedLayerIds = [...this.layers.keys()];
     for (let i = orderedLayerIds.indexOf(layerId) + 1; i < orderedLayerIds.length; i += 1) {
-      const otherRecord = this.layers.get(orderedLayerIds[i]);
+      const otherRecord = this.layers.get(/** @type {string} */ (orderedLayerIds[i]));
       if (!otherRecord?.domLabelMarkers) continue;
       for (const otherMarker of otherRecord.domLabelMarkers.values()) {
         const otherEl = otherMarker.getElement?.();
@@ -3003,7 +3003,7 @@ function featureLabelLngLat(feature) {
   let minLat = Infinity;
   let maxLng = -Infinity;
   let maxLat = -Infinity;
-  for (const [lng, lat] of points) {
+  for (const [lng, lat] of /** @type {Array<[number, number]>} */ (points)) {
     if (!Number.isFinite(lng) || !Number.isFinite(lat)) continue;
     minLng = Math.min(minLng, lng);
     maxLng = Math.max(maxLng, lng);
@@ -3099,7 +3099,7 @@ function geometrySignature(geometry) {
   let minLat = Infinity;
   let maxLng = -Infinity;
   let maxLat = -Infinity;
-  for (const [lng, lat] of points) {
+  for (const [lng, lat] of /** @type {Array<[number, number]>} */ (points)) {
     if (!Number.isFinite(lng) || !Number.isFinite(lat)) continue;
     minLng = Math.min(minLng, lng);
     maxLng = Math.max(maxLng, lng);

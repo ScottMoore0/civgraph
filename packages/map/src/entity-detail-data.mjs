@@ -276,7 +276,7 @@ export function leadingPartyOf(result = {}, { normalise = (v) => String(v || '')
     const party = result.winnerParty || result.leadingParty || elected[0]?.party || '';
     return { party, colour: result.winnerColour || result.leadingColour || result.colour || null, votes: null, pct: null, valid, elected };
   }
-  const top = ranked[0];
+  const top = /** @type {(typeof ranked)[number]} */ (ranked[0]);
   return {
     party: top.party,
     colour: top.colour || result.leadingColour || result.colour || null,

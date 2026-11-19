@@ -28,5 +28,5 @@ export const REMOVED_OVERLAY_IDS = Object.freeze(['voyager-labels', 'merit-catch
  */
 export function overlayConfig(id) {
   const key = String(id ?? '');
-  return Object.prototype.hasOwnProperty.call(RASTER_OVERLAYS, key) ? RASTER_OVERLAYS[key] : null;
+  return Object.prototype.hasOwnProperty.call(RASTER_OVERLAYS, key) ? /** @type {RasterOverlay} */ (RASTER_OVERLAYS[key]) : null;
 }

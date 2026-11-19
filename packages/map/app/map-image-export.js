@@ -57,7 +57,7 @@ const CONTEXT_LAND_URL = '/assets/map/context-land.json';
 const CONTEXT_LOUGHS_URL = '/assets/map/context-loughs.json';
 const LICENCE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';
 
-/** A point: [x, y] on the page, or [lon, lat]. @typedef {number[]} Pt */
+/** A point: [x, y] on the page, or [lon, lat]. @typedef {[number, number]} Pt */
 /** A frame of the export: the bounds drawn, the page size, and lon/lat to page. @typedef {{ bounds: number[], width: number, height: number, project: (lon: number, lat: number) => Pt }} Frame */
 /** A GeoJSON feature read from a map's FlatGeobuf. @typedef {import('geojson').Feature} GeoFeature */
 /** A GeoJSON geometry. @typedef {import('geojson').Geometry} Geometry */
@@ -128,7 +128,7 @@ const mercY = (lat) => Math.log(Math.tan(Math.PI / 4 + Math.max(-85, Math.min(85
 
 /** @param {number[]} bounds [west, south, east, north] @param {number} [width] @returns {Frame} */
 export function createFrame(bounds, width = TARGET_WIDTH) {
-  const [west, south, east, north] = bounds;
+  const [west, south, east, north] = /** @type {[number, number, number, number]} */ (bounds);
   const x0 = mercX(west);
   const x1 = mercX(east);
   const y0 = mercY(south);
@@ -154,15 +154,15 @@ export function createFrame(bounds, width = TARGET_WIDTH) {
 export function simplifyPoints(points, tolerance) {
   if (points.length <= 2 || tolerance <= 0) return points.slice();
   // A cheap radial pass first: dense source data can carry dozens of points per pixel.
-  const radial = [points[0]];
+  const radial = [/** @type {Pt} */ (points[0])];
   const r2 = (tolerance / 2) ** 2;
   for (let i = 1; i < points.length - 1; i += 1) {
-    const prev = radial[radial.length - 1];
-    const dx = points[i][0] - prev[0];
-    const dy = points[i][1] - prev[1];
-    if (dx * dx + dy * dy >= r2) radial.push(points[i]);
+    const prev = /** @type {Pt} */ (radial[radial.length - 1]);
+    const dx = /** @type {Pt} */ (points[i])[0] - prev[0];
+    const dy = /** @type {Pt} */ (points[i])[1] - prev[1];
+    if (dx * dx + dy * dy >= r2) radial.push(/** @type {Pt} */ (points[i]));
   }
-  radial.push(points[points.length - 1]);
+  radial.push(/** @type {Pt} */ (points[points.length - 1]));
   const n = radial.length;
   if (n <= 2) return radial;
   const keep = new Uint8Array(n);
@@ -172,16 +172,16 @@ export function simplifyPoints(points, tolerance) {
   const tol2 = tolerance * tolerance;
   while (stack.length) {
     // The loop runs while the stack has a pair.
-    const [first, last] = /** @type {number[]} */ (stack.pop());
-    const [ax, ay] = radial[first];
-    const [bx, by] = radial[last];
+    const [first, last] = /** @type {[number, number]} */ (/** @type {number[]} */ (stack.pop()));
+    const [ax, ay] = /** @type {Pt} */ (radial[first]);
+    const [bx, by] = /** @type {Pt} */ (radial[last]);
     const dx = bx - ax;
     const dy = by - ay;
     const len2 = dx * dx + dy * dy;
     let maxD = -1;
     let index = -1;
     for (let i = first + 1; i < last; i += 1) {
-      const [px, py] = radial[i];
+      const [px, py] = /** @type {Pt} */ (radial[i]);
       let d;
       if (len2 === 0) {
         d = (px - ax) ** 2 + (py - ay) ** 2;
@@ -196,19 +196,19 @@ export function simplifyPoints(points, tolerance) {
       stack.push([first, index], [index, last]);
     }
   }
-  return radial.filter((_, i) => keep[i]);
+  return /** @type {Pt[]} */ (radial.filter((_, i) => keep[i]));
 }
 
 /** @param {Pt[]} points */
 function ringArea(points) {
   let area = 0;
   for (let i = 0, j = points.length - 1; i < points.length; j = i, i += 1) {
-    area += (points[j][0] + points[i][0]) * (points[j][1] - points[i][1]);
+    area += (/** @type {Pt} */ (points[j])[0] + /** @type {Pt} */ (points[i])[0]) * (/** @type {Pt} */ (points[j])[1] - /** @type {Pt} */ (points[i])[1]);
   }
   return area / 2;
 }
 
-/** @param {Pt[]} points @returns {number[]} */
+/** @param {Pt[]} points @returns {[number, number, number, number]} */
 function bboxOf(points) {
   let minX = Infinity; let minY = Infinity; let maxX = -Infinity; let maxY = -Infinity;
   for (const [x, y] of points) {
@@ -223,7 +223,7 @@ function bboxOf(points) {
 /**
  * Sutherland-Hodgman clip of a closed ring to a rectangle (used for the context land only).
  * @param {Pt[]} points
- * @param {number[]} box [minX, minY, maxX, maxY]
+ * @param {[number, number, number, number]} box [minX, minY, maxX, maxY]
  * @returns {Pt[]}
  */
 function clipRing(points, [minX, minY, maxX, maxY]) {
@@ -243,15 +243,15 @@ function clipRing(points, [minX, minY, maxX, maxY]) {
     const input = output;
     output = [];
     for (let i = 0; i < input.length; i += 1) {
-      const current = input[i];
-      const previous = input[(i + input.length - 1) % input.length];
-      const inCurrent = edges[e](current);
-      const inPrevious = edges[e](previous);
+      const current = /** @type {Pt} */ (input[i]);
+      const previous = /** @type {Pt} */ (input[(i + input.length - 1) % input.length]);
+      const inCurrent = /** @type {(p: Pt) => boolean} */ (edges[e])(current);
+      const inPrevious = /** @type {(p: Pt) => boolean} */ (edges[e])(previous);
       if (inCurrent) {
-        if (!inPrevious) output.push(cut[e](previous, current));
+        if (!inPrevious) output.push(/** @type {(a: Pt, b: Pt) => Pt} */ (cut[e])(previous, current));
         output.push(current);
       } else if (inPrevious) {
-        output.push(cut[e](previous, current));
+        output.push(/** @type {(a: Pt, b: Pt) => Pt} */ (cut[e])(previous, current));
       }
     }
   }
@@ -273,15 +273,15 @@ export function pathData(rings, { close = true } = {}) {
   const parts = [];
   for (const ring of rings) {
     if (!ring || ring.length < 2) continue;
-    let px = Math.round(ring[0][0] * 100);
-    let py = Math.round(ring[0][1] * 100);
+    let px = Math.round(/** @type {Pt} */ (ring[0])[0] * 100);
+    let py = Math.round(/** @type {Pt} */ (ring[0])[1] * 100);
     let d = `M${fmt(px / 100)},${fmt(py / 100)}`;
     const steps = [];
-    const last = close && ring.length > 2 && ring[0][0] === ring[ring.length - 1][0] && ring[0][1] === ring[ring.length - 1][1]
+    const last = close && ring.length > 2 && /** @type {Pt} */ (ring[0])[0] === /** @type {Pt} */ (ring[ring.length - 1])[0] && /** @type {Pt} */ (ring[0])[1] === /** @type {Pt} */ (ring[ring.length - 1])[1]
       ? ring.length - 1 : ring.length;
     for (let i = 1; i < last; i += 1) {
-      const qx = Math.round(ring[i][0] * 100);
-      const qy = Math.round(ring[i][1] * 100);
+      const qx = Math.round(/** @type {Pt} */ (ring[i])[0] * 100);
+      const qy = Math.round(/** @type {Pt} */ (ring[i])[1] * 100);
       if (qx === px && qy === py) continue;
       steps.push(`${fmt((qx - px) / 100)},${fmt((qy - py) / 100)}`);
       px = qx;
@@ -311,7 +311,7 @@ const xmlEscape = (value) => String(value ?? '')
  */
 export function svgId(name, used) {
   const ascii = String(name || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
-  let id = ascii.split(/[^A-Za-z0-9]+/).filter(Boolean).map((w) => (w === w.toUpperCase() && w.length > 1 ? w[0] + w.slice(1).toLowerCase() : w[0].toUpperCase() + w.slice(1))).join('') || 'Feature';
+  let id = ascii.split(/[^A-Za-z0-9]+/).filter(Boolean).map((w) => (w === w.toUpperCase() && w.length > 1 ? w[0] + w.slice(1).toLowerCase() : /** @type {string} */ (w[0]).toUpperCase() + w.slice(1))).join('') || 'Feature';
   if (!/^[A-Za-z_]/.test(id)) id = `F${id}`;
   let unique = id;
   for (let n = 2; used.has(unique); n += 1) unique = `${id}-${n}`;
@@ -382,7 +382,7 @@ function rewriteForLocalDev(url) {
  * @returns {Promise<GeoFeature[]>}
  */
 async function readFeaturesInBounds(fgb, url, bounds, limit, onProgress) {
-  const [minX, minY, maxX, maxY] = bounds;
+  const [minX, minY, maxX, maxY] = /** @type {[number, number, number, number]} */ (bounds);
   const rect = { minX, minY, maxX, maxY };
   /** @type {GeoFeature[]} */
   const out = [];
@@ -415,7 +415,7 @@ async function readFeaturesInBounds(fgb, url, bounds, limit, onProgress) {
   }
   for await (const feature of fgb.deserialize(response.body)) {
     const box = geometryBbox(feature.geometry);
-    if (box && box[0] <= maxX && box[2] >= minX && box[1] <= maxY && box[3] >= minY) take(feature);
+    if (box && /** @type {number} */ (box[0]) <= maxX && /** @type {number} */ (box[2]) >= minX && /** @type {number} */ (box[1]) <= maxY && /** @type {number} */ (box[3]) >= minY) take(feature);
   }
   return out;
 }
@@ -429,8 +429,8 @@ function geometryBbox(geometry) {
     if (typeof c[0] === 'number') {
       if (/** @type {number[]} */ (c)[0] < minX) minX = /** @type {number[]} */ (c)[0];
       if (/** @type {number[]} */ (c)[0] > maxX) maxX = /** @type {number[]} */ (c)[0];
-      if (/** @type {number[]} */ (c)[1] < minY) minY = /** @type {number[]} */ (c)[1];
-      if (/** @type {number[]} */ (c)[1] > maxY) maxY = /** @type {number[]} */ (c)[1];
+      if (/** @type {number} */ (/** @type {number[]} */ (c)[1]) < minY) minY = /** @type {number} */ (/** @type {number[]} */ (c)[1]);
+      if (/** @type {number} */ (/** @type {number[]} */ (c)[1]) > maxY) maxY = /** @type {number} */ (/** @type {number[]} */ (c)[1]);
       return;
     }
     for (const part of c) walk(/** @type {unknown[]} */ (part));
@@ -474,8 +474,8 @@ function decoder(q) {
     const points = [];
     let x = 0; let y = 0;
     for (let i = 0; i < flat.length; i += 2) {
-      x += flat[i];
-      y += flat[i + 1];
+      x += /** @type {number} */ (flat[i]);
+      y += /** @type {number} */ (flat[i + 1]);
       points.push([x / q, y / q]);
     }
     return points;
@@ -773,6 +773,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
   // Context land, clipped to the frame plus a margin so its cut edges stay off the page.
   onProgress('Drawing neighbouring land…');
   const margin = 12;
+  /** @type {[number, number, number, number]} */
   const clipBox = [-margin, -margin, frame.width + margin, frame.height + margin];
   const land = await loadContextLand(options.contextLandUrl);
   const landPaths = [];
@@ -809,7 +810,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
   const shoreRings = [];
   const shoreLines = [];
   /** @param {number[]} box */
-  const outsideClip = (box) => box[2] < clipBox[0] || box[0] > clipBox[2] || box[3] < clipBox[1] || box[1] > clipBox[3];
+  const outsideClip = (box) => /** @type {number} */ (box[2]) < clipBox[0] || /** @type {number} */ (box[0]) > clipBox[2] || /** @type {number} */ (box[3]) < clipBox[1] || /** @type {number} */ (box[1]) > clipBox[3];
   /** @param {Pt[]} line */
   const projectLine = (line) => simplifyPoints(line.map(([lon, lat]) => frame.project(lon, lat)), tolerance);
   for (const lough of loughs?.loughs || []) {
@@ -870,7 +871,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
   const order =drawn.map((_, i) => i).filter((i) => i !== selectedIndex);
   if (selectedIndex >= 0) order.push(selectedIndex);
   for (const i of order) {
-    const f = drawn[i];
+    const f = /** @type {(typeof drawn)[number]} */ (drawn[i]);
     const isSelected = i === selectedIndex;
     const id = svgId(f.name || `Feature ${i + 1}`, usedIds);
     const styles = [];

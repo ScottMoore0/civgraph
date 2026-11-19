@@ -41,11 +41,11 @@ if (document.readyState === 'loading') {
 
 /** @param {unknown} value */
 function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (ch) => /** @type {Record<string, string>} */ ({
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => /** @type {string} */ (/** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  })[ch]);
+  })[ch]));
 }

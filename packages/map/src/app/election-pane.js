@@ -243,7 +243,7 @@ export class ElectionPaneMethods {
             return;
           }
           const stops = [defaultPaneHeight(), maxPaneHeight()];
-          const nearest = stops.reduce((best, stop) => (Math.abs(stop - current) < Math.abs(best - current) ? stop : best), stops[0]);
+          const nearest = /** @type {number} */ (stops.reduce((best, stop) => (Math.abs(stop - current) < Math.abs(best - current) ? stop : best), /** @type {number} */ (stops[0])));
           setPaneHeight(nearest, { invalidate: false, persist: true });
           invalidateMapSize();
           if (this.elections?.activeEntry?.sourceMapId) this.refitAfterElectionPane(this.elections.electionFitLayerIds());

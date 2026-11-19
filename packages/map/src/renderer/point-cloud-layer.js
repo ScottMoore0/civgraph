@@ -156,13 +156,13 @@ export function createPointCloudLayer(id, headerUrl, opts = {}) {
       const n = Math.min(hdr.count, Math.floor(buf.byteLength / stride));
       if (n < hdr.count) console.warn('[pointcloud] binary shorter than header', id, hdr.count, '->', n);
       const dv = new DataView(buf);
-      const [clng, clat, calt] = hdr.center;
+      const [clng, clat, calt] = /** @type {[number, number, number]} */ (hdr.center);
       const cm = maplibregl.MercatorCoordinate.fromLngLat([clng, clat], calt);
       const mpm = cm.meterInMercatorCoordinateUnits(); // mercator units per meter
       this._ref = [cm.x, cm.y, cm.z];
       const offs = new Float32Array(n * 3);
       const cols = new Float32Array(n * 3);
-      const [umin, umax] = hdr.upRange || [0, 1];
+      const [umin, umax] = /** @type {[number, number]} */ (hdr.upRange || [0, 1]);
       const span = (umax - umin) || 1;
       for (let i = 0; i < n; i++) {
         const b = i * stride;
@@ -178,7 +178,7 @@ export function createPointCloudLayer(id, headerUrl, opts = {}) {
           cols[i * 3 + 2] = dv.getUint8(b + 14) / 255;
         } else {
           const c = ramp((up - umin) / span);
-          cols[i * 3] = c[0]; cols[i * 3 + 1] = c[1]; cols[i * 3 + 2] = c[2];
+          cols[i * 3] = /** @type {number} */ (c[0]); cols[i * 3 + 1] = /** @type {number} */ (c[1]); cols[i * 3 + 2] = /** @type {number} */ (c[2]);
         }
       }
       gl.bindBuffer(gl.ARRAY_BUFFER, this._offBuf);
@@ -197,13 +197,13 @@ export function createPointCloudLayer(id, headerUrl, opts = {}) {
       const m = Array.isArray(args) ? args
         : (args?.defaultProjectionData?.mainMatrix || args?.mainMatrix || args);
       if (!m || m.length !== 16) return;
-      const [rx, ry, rz] = this._ref;
+      const [rx, ry, rz] = /** @type {[number, number, number]} */ (this._ref);
       const rtc = new Float32Array(16);
-      for (let i = 0; i < 16; i++) rtc[i] = m[i];
-      rtc[12] = m[0] * rx + m[4] * ry + m[8] * rz + m[12];
-      rtc[13] = m[1] * rx + m[5] * ry + m[9] * rz + m[13];
-      rtc[14] = m[2] * rx + m[6] * ry + m[10] * rz + m[14];
-      rtc[15] = m[3] * rx + m[7] * ry + m[11] * rz + m[15];
+      for (let i = 0; i < 16; i++) rtc[i] = /** @type {number} */ (m[i]);
+      rtc[12] = /** @type {number} */ (m[0]) * rx + /** @type {number} */ (m[4]) * ry + /** @type {number} */ (m[8]) * rz + /** @type {number} */ (m[12]);
+      rtc[13] = /** @type {number} */ (m[1]) * rx + /** @type {number} */ (m[5]) * ry + /** @type {number} */ (m[9]) * rz + /** @type {number} */ (m[13]);
+      rtc[14] = /** @type {number} */ (m[2]) * rx + /** @type {number} */ (m[6]) * ry + /** @type {number} */ (m[10]) * rz + /** @type {number} */ (m[14]);
+      rtc[15] = /** @type {number} */ (m[3]) * rx + /** @type {number} */ (m[7]) * ry + /** @type {number} */ (m[11]) * rz + /** @type {number} */ (m[15]);
 
       gl.useProgram(this._prog);
       gl.uniformMatrix4fv(this._loc.u_matrix, false, rtc);

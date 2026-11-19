@@ -101,11 +101,11 @@ function lerpHex(a, b, t) {
  * @param {unknown} t  0 to 1
  */
 export function rampSample(rampName, t) {
-  const stops = RAMPS[rampName] || RAMPS.viridis;
+  const stops = RAMPS[rampName] || /** @type {string[]} */ (RAMPS.viridis);
   const x = Math.max(0, Math.min(1, Number(t) || 0)) * (stops.length - 1);
   const i = Math.floor(x);
   if (i >= stops.length - 1) return stops[stops.length - 1];
-  return lerpHex(stops[i], stops[i + 1], x - i);
+  return lerpHex(/** @type {string} */ (stops[i]), /** @type {string} */ (stops[i + 1]), x - i);
 }
 
 /**
@@ -294,7 +294,7 @@ export function columnLabel(column) {
  * @returns {OverlayClass[]}
  */
 export function overlayClasses(entry) {
-  const [lo, hi] = (Array.isArray(entry?.domain) ? entry.domain : [0, 1]).map(Number);
+  const [lo, hi] = /** @type {[number, number]} */ ((Array.isArray(entry?.domain) ? entry.domain : [0, 1]).map(Number));
   const ramp = entry?.ramp || 'viridis';
   const percent = isPercentColumn(entry?.valueColumn);
   const span = hi - lo;
@@ -303,12 +303,12 @@ export function overlayClasses(entry) {
   const named = Array.isArray(entry?.classLabels) ? entry.classLabels : null;
   if (Number.isInteger(lo) && Number.isInteger(hi) && span > 0 && span <= 11 && (named || /decile|quintile|band|class/i.test(entry?.valueColumn || ''))) {
     const n = span + 1;
-    return Array.from({ length: n }, (_, i) => ({
+    return /** @type {{ min: number; max: number; colour: string; label: string; }[]} */ (Array.from({ length: n }, (_, i) => ({
       min: lo + i - 0.5,
       max: lo + i + 0.5,
       colour: rampSample(ramp, n === 1 ? 0 : i / (n - 1)),
       label: named?.[i] ? `${lo + i} ${named[i]}` : String(lo + i)
-    }));
+    })));
   }
   const n = Math.max(2, Math.min(10, Number(entry?.classCount) || (lo === 0 && hi === 100 ? 10 : 6)));
   const log = Boolean(entry?.logarithmic) && lo > 0 && hi > 0;
@@ -323,15 +323,15 @@ export function overlayClasses(entry) {
   const decimals = decimalsFor(edges.slice(1, -1));
   /** @param {number} v */
   const fmt = (v) => formatNumber(v, { decimals, percent });
-  return Array.from({ length: n }, (_, i) => {
+  return /** @type {{ min: number; max: number; colour: string; label: string; }[]} */ (Array.from({ length: n }, (_, i) => {
     const min = i === 0 ? -Infinity : edges[i];
     const max = i === n - 1 ? Infinity : edges[i + 1];
     let label;
-    if (i === 0) label = `Under ${fmt(edges[1])}`;
-    else if (i === n - 1) label = `${fmt(edges[i])} and over`;
-    else label = `${fmt(edges[i])} to under ${fmt(edges[i + 1])}`;
+    if (i === 0) label = `Under ${fmt(/** @type {number} */ (edges[1]))}`;
+    else if (i === n - 1) label = `${fmt(/** @type {number} */ (edges[i]))} and over`;
+    else label = `${fmt(/** @type {number} */ (edges[i]))} to under ${fmt(/** @type {number} */ (edges[i + 1]))}`;
     return { min, max, colour: rampSample(ramp, i / (n - 1)), label };
-  });
+  }));
 }
 
 /**
@@ -342,9 +342,9 @@ export function classIndexFor(classes, value) {
   const n = toNumber(value);
   if (!Number.isFinite(n) || !classes.length) return -1;
   for (let i = 0; i < classes.length; i += 1) {
-    if (n >= classes[i].min && n < classes[i].max) return i;
+    if (n >= /** @type {OverlayClass} */ (classes[i]).min && n < /** @type {OverlayClass} */ (classes[i]).max) return i;
   }
-  return n < classes[0].min ? 0 : classes.length - 1;
+  return n < /** @type {OverlayClass} */ (classes[0]).min ? 0 : classes.length - 1;
 }
 
 /**
@@ -381,10 +381,10 @@ export function fillColorExpression(entry, joined, classes = overlayClasses(entr
   const groups = classes.map(() => /** @type {string[]} */ ([]));
   for (const [tileValue, row] of joined.byTileValue) {
     const i = classIndexFor(classes, row[entry.valueColumn]);
-    if (i >= 0) groups[i].push(tileValue);
+    if (i >= 0) /** @type {string[]} */ (groups[i]).push(tileValue);
   }
   const expr = ['match', ['to-string', ['get', joined.tileKey]]];
-  classes.forEach((cls, i) => { if (groups[i].length) expr.push(groups[i], cls.colour); });
+  classes.forEach((cls, i) => { if (/** @type {string[]} */ (groups[i]).length) expr.push(/** @type {string[]} */ (groups[i]), cls.colour); });
   if (expr.length === 2) return NO_DATA_FILL;
   expr.push(NO_DATA_FILL);
   return expr;
@@ -400,7 +400,7 @@ export function classCounts(entry, joined, classes = overlayClasses(entry)) {
   const counts = classes.map(() => 0);
   for (const row of joined.byTileValue.values()) {
     const i = classIndexFor(classes, row[entry.valueColumn]);
-    if (i >= 0) counts[i] += 1;
+    if (i >= 0) /** @type {number} */ (counts[i]) += 1;
   }
   return counts;
 }

@@ -78,11 +78,11 @@ export function numericColour(value, min, max) {
   const number = Number(value);
   if (!Number.isFinite(number)) return MAP_COLOURS.noFigure;
   const t = Math.max(0, Math.min(1, (number - min) / (max - min || 1)));
-  if (t < 0.2) return NUMERIC_SCALE[0];
-  if (t < 0.4) return NUMERIC_SCALE[1];
-  if (t < 0.6) return NUMERIC_SCALE[2];
-  if (t < 0.8) return NUMERIC_SCALE[3];
-  return NUMERIC_SCALE[4];
+  if (t < 0.2) return /** @type {string} */ (NUMERIC_SCALE[0]);
+  if (t < 0.4) return /** @type {string} */ (NUMERIC_SCALE[1]);
+  if (t < 0.6) return /** @type {string} */ (NUMERIC_SCALE[2]);
+  if (t < 0.8) return /** @type {string} */ (NUMERIC_SCALE[3]);
+  return /** @type {string} */ (NUMERIC_SCALE[4]);
 }
 
 /**

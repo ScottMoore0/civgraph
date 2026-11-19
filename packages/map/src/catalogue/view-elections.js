@@ -122,7 +122,7 @@ export function shelvesOf(list, groups = BODY_GROUPS) {
  * @returns {CatalogueRowElection[]}
  */
 export function onShelf(g, es) {
-  return es.map((e) => (!g.bodies.includes(e.bodySlug) && g.alsoTitles?.[e.key] ? { ...e, title: g.alsoTitles[e.key] } : e));
+  return es.map((e) => (!g.bodies.includes(e.bodySlug) && g.alsoTitles?.[e.key] ? { ...e, title: /** @type {string} */ (g.alsoTitles[e.key]) } : e));
 }
 
 /** @param {CatalogueNext} c @param {BodyGroup} g @param {CatalogueRowElection[]} es @param {boolean} alone */

@@ -13,13 +13,13 @@ export function clamp(value, min, max) {
 
 /** @param {unknown} value */
 export function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => (/** @type {Record<string, string>} */ ({
+  return String(value ?? '').replace(/[&<>"']/g, (char) => (/** @type {string} */ (/** @type {Record<string, string>} */ ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#39;'
-  })[char]));
+  })[char])));
 }
 
 /**

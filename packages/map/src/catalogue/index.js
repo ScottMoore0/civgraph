@@ -397,7 +397,7 @@ export class CatalogueNext {
       this.paneWidth = 0;
       /** @type {ResizeObserver | undefined} */
       this.resizeObs = new ResizeObserver(([entry]) => {
-        const w = Math.round(entry.contentRect.width);
+        const w = Math.round(/** @type {ResizeObserverEntry} */ (entry).contentRect.width);
         if (!w || Math.abs(w - (this.paneWidth || 0)) < 24) return;
         const first = !this.paneWidth;
         this.paneWidth = w;
@@ -443,7 +443,7 @@ export class CatalogueNext {
       // "+N more" sits on the first line too: give it room by hiding chips from the end.
       while (shown > 1 && (wraps(more) || (keep && wraps(keep)))) {
         shown -= 1;
-        setHidden(items[shown], true);
+        setHidden(/** @type {HTMLElement} */ (items[shown]), true);
         label();
       }
       more.setAttribute('aria-label', `Show ${items.length - shown} more`);
@@ -505,7 +505,7 @@ export class CatalogueNext {
     // Read by each button's filter name.
     const f = /** @type {Record<string, unknown>} */ (key === 'maps' ? this.filters : this.efilters);
     /** @type {NodeListOf<DataTarget>} */ (bar.querySelectorAll('[data-cn-filter]')).forEach((b) => {
-      const g = b.dataset.cnFilter;
+      const g = /** @type {string} */ (b.dataset.cnFilter);
       const on = g === 'onMap' ? Boolean(f[g]) : (f[g] || '') === (b.dataset.value || '');
       b.setAttribute('aria-pressed', String(on));
     });
@@ -584,7 +584,7 @@ export class CatalogueNext {
     // phone puts it under the icon (styles.js).
     /** @param {string} id @param {string} ic @param {string} label @param {number} n */
     const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span class="cn-tab__label">${label}</span><span class="cn-tab__count">${siteNumber(n)}</span></button>`;
-    return SECTIONS.map(([id, , label, ic]) => tab(id, ic, label, counts[id])).join('') + tab('elections', 'vote', 'Elections', counts.elections);
+    return /** @type {Array<[string, string, string, string]>} */ (SECTIONS).map(([id, , label, ic]) => tab(id, ic, label, /** @type {number} */ (counts[id]))).join('') + tab('elections', 'vote', 'Elections', /** @type {number} */ (counts.elections));
   }
 
   /** Series per section (those a search found, while searching) and elections. */
@@ -595,7 +595,7 @@ export class CatalogueNext {
     // Each section counts its maps (every map a row can add: editions, versions, council maps), not its rows.
     /** @param {CatalogueRow} s */
     const mapsIn = (s) => (searching ? (this.searchHits?.get(s.id)?.members?.length || s.members.length) : s.members.length + (s.local?.length || 0));
-    for (const [id, kind] of SECTIONS) out[id] = this.data.series.filter((s) => s.kind === kind && (!searching || this.searchHits?.has(s.id))).reduce((n, s) => n + mapsIn(s), 0);
+    for (const [id, kind] of /** @type {Array<[string, string]>} */ (SECTIONS)) out[id] = this.data.series.filter((s) => s.kind === kind && (!searching || this.searchHits?.has(s.id))).reduce((n, s) => n + mapsIn(s), 0);
     return out;
   }
 
@@ -603,7 +603,7 @@ export class CatalogueNext {
   otherTabHint() {
     if (!this.query) return '';
     const n = this.tabCounts();
-    const others = /** @type {Array<[string, string, number]>} */ ([...SECTIONS.map(([id, , label]) => [id, label.toLowerCase(), n[id]]), ['elections', 'elections', n.elections]]).filter(([id, , k]) => id !== this.openSection && k);
+    const others = /** @type {Array<[string, string, number]>} */ ([.../** @type {Array<[string, string, string]>} */ (SECTIONS).map(([id, , label]) => [id, label.toLowerCase(), n[id]]), ['elections', 'elections', n.elections]]).filter(([id, , k]) => id !== this.openSection && k);
     if (!others.length) return '';
     return ` ${others.map(([id, label, k]) => `<button type="button" class="cn-link" data-cn-tab="${id}">${siteNumber(k)} in ${label}</button>`).join(', ')} match it.`;
   }
@@ -689,7 +689,7 @@ export class CatalogueNext {
   /** @param {CatalogueRow} s */
   selectedMember(s) {
     const id = this.selected.get(s.id);
-    return s.members.find((m) => m.id === id) || s.members.find((m) => this.isLoaded(m.id)) || s.members.find((m) => this.rec(m.id).status !== 'placeholder') || s.members[0];
+    return s.members.find((m) => m.id === id) || s.members.find((m) => this.isLoaded(m.id)) || s.members.find((m) => this.rec(m.id).status !== 'placeholder') || /** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0]);
   }
 
   /** @param {CatalogueRow} s */
@@ -870,7 +870,7 @@ export class CatalogueNext {
         count: parts.reduce((n, x) => n + x.count, 0),
         best: Math.max(...parts.map((x) => x.best)),
       };
-      const at = shelves.indexOf(parts[0]);
+      const at = shelves.indexOf(/** @type {(typeof parts)[number]} */ (parts[0]));
       shelves = shelves.filter((x) => !parts.includes(x));
       shelves.splice(at, 0, merged);
     }
@@ -1190,9 +1190,9 @@ export class CatalogueNext {
     const { parties, constituencies } = /** @type {CataloguePeopleDoc} */ (this.peopleDoc);
     /** @type {CataloguePerson['contests']} */
     const contests = new Map();
-    for (const [ei, pi, won, party] of row[8]) {
+    for (const [ei, pi, won, party] of /** @type {Array<[number, number, number, number]>} */ (row[8])) {
       const e = this.data.elections[ei];
-      if (e) contests.set(e.key, { place: constituencies[pi] || '', party: party !== undefined ? parties[party] : (parties[row[2]] || ''), won: Boolean(won) });
+      if (e) contests.set(e.key, { place: constituencies[pi] || '', party: party !== undefined ? /** @type {string} */ (parties[party]) : (parties[row[2]] || ''), won: Boolean(won) });
     }
     this.person = { id: String(row[0]), name: row[1], row, contests };
   }
@@ -1229,7 +1229,7 @@ export class CatalogueNext {
       const s = this.data?.redirects?.[route.slice('flat-card-'.length)];
       return s ? `series/${s}` : 'maps';
     }
-    const [view, id, ...rest] = route.split('/');
+    const [view, id, ...rest] = /** @type {[string, string, ...string[]]} */ (route.split('/'));
     // A link to one map or set (Browse's "open on the map"): the row it is in, opened at it.
     if (view === 'map') {
       const sid = this.seriesOfMap?.get(id);
@@ -1271,7 +1271,7 @@ export class CatalogueNext {
 
   /** @param {string} route */
   applyRoute(route) {
-    const [view, a, b] = String(route || 'maps').split('/');
+    const [view, a, b] = /** @type {[string, string, string]} */ (String(route || 'maps').split('/'));
     this.here = null;
     if (view === 'series' && this.seriesById.has(a)) {
       this.tab = 'maps';
@@ -1417,31 +1417,31 @@ export class CatalogueNext {
     if ((el = b('[data-cn-address]'))) { e.preventDefault(); this.goToAddress(el.dataset.cnAddress); return; }
     if ((el = b('[data-cn-tab]'))) {
       e.preventDefault();
-      if (el.dataset.cnTab !== this.openSection || this.here) this.go(el.dataset.cnTab);
+      if (el.dataset.cnTab !== this.openSection || this.here) this.go(/** @type {string} */ (el.dataset.cnTab));
       return;
     }
-    if ((el = b('[data-cn-toggle]'))) { e.preventDefault(); this.toggleMap(el.dataset.cnToggle, el); return; }
-    if ((el = b('[data-cn-election-toggle]'))) { e.preventDefault(); this.toggleElection(el.dataset.cnElectionToggle, el); return; }
-    if ((el = b('[data-cn-expand]'))) { e.preventDefault(); this.toggleExpand(el.dataset.cnExpand); return; }
-    if ((el = b('[data-cn-select]'))) { e.preventDefault(); const [sid, mid] = el.dataset.cnSelect.split('|'); this.select(sid, mid); return; }
-    if ((el = b('[data-cn-more]'))) { e.preventDefault(); this.moreChips.add(el.dataset.cnMore); this.rerenderRow(el.dataset.cnMore, { focus: 'chips' }); return; }
-    if ((el = b('[data-cn-fewer]'))) { e.preventDefault(); this.moreChips.delete(el.dataset.cnFewer); this.rerenderRow(el.dataset.cnFewer, { focus: 'chips' }); return; }
-    if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(el.dataset.cnMoreParts); this.rerenderPanel(/** @type {string} */ (this.seriesOfMap.get(el.dataset.cnMoreParts.replace(/:counties$/, '')))); return; }
-    if ((el = b('[data-cn-visibility]'))) { e.preventDefault(); this.toggleVisible(el.dataset.cnVisibility); return; }
-    if ((el = b('[data-cn-filter]'))) { e.preventDefault(); this.setFilter(el.dataset.cnFilter, el.dataset.value || ''); return; }
+    if ((el = b('[data-cn-toggle]'))) { e.preventDefault(); this.toggleMap(/** @type {string} */ (el.dataset.cnToggle), el); return; }
+    if ((el = b('[data-cn-election-toggle]'))) { e.preventDefault(); this.toggleElection(/** @type {string} */ (el.dataset.cnElectionToggle), el); return; }
+    if ((el = b('[data-cn-expand]'))) { e.preventDefault(); this.toggleExpand(/** @type {string} */ (el.dataset.cnExpand)); return; }
+    if ((el = b('[data-cn-select]'))) { e.preventDefault(); const [sid, mid] = /** @type {[string, string]} */ (/** @type {string} */ (el.dataset.cnSelect).split('|')); this.select(sid, mid); return; }
+    if ((el = b('[data-cn-more]'))) { e.preventDefault(); this.moreChips.add(/** @type {string} */ (el.dataset.cnMore)); this.rerenderRow(/** @type {string} */ (el.dataset.cnMore), { focus: 'chips' }); return; }
+    if ((el = b('[data-cn-fewer]'))) { e.preventDefault(); this.moreChips.delete(/** @type {string} */ (el.dataset.cnFewer)); this.rerenderRow(/** @type {string} */ (el.dataset.cnFewer), { focus: 'chips' }); return; }
+    if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(/** @type {string} */ (el.dataset.cnMoreParts)); this.rerenderPanel(/** @type {string} */ (this.seriesOfMap.get(/** @type {string} */ (el.dataset.cnMoreParts).replace(/:counties$/, '')))); return; }
+    if ((el = b('[data-cn-visibility]'))) { e.preventDefault(); this.toggleVisible(/** @type {string} */ (el.dataset.cnVisibility)); return; }
+    if ((el = b('[data-cn-filter]'))) { e.preventDefault(); this.setFilter(/** @type {string} */ (el.dataset.cnFilter), el.dataset.value || ''); return; }
     if ((el = b('[data-cn-shelf]'))) { e.preventDefault(); this.toggleShelf(el); return; }
-    if ((el = b('[data-cn-person]'))) { e.preventDefault(); this.showPersonElections(el.dataset.cnPerson); return; }
+    if ((el = b('[data-cn-person]'))) { e.preventDefault(); this.showPersonElections(/** @type {string} */ (el.dataset.cnPerson)); return; }
     // A person or party found by search opens its page here in the pane (UX review 2026-10-31, M6),
     // with the full record a link away in Browse; the name used to leave the map for Browse.
     if ((el = b('[data-cn-open-page]'))) {
       e.preventDefault();
-      const [kind, ...rest] = el.dataset.cnOpenPage.split(':');
+      const [kind, ...rest] = /** @type {[string, ...string[]]} */ (/** @type {string} */ (el.dataset.cnOpenPage).split(':'));
       this.ui.onOpenElectionEntityDetail?.(kind, rest.join(':'), /** @type {string} */ (el.textContent).trim());
       return;
     }
     if ((el = b('[data-cn-local]'))) {
       e.preventDefault();
-      const id = el.dataset.cnLocal;
+      const id = /** @type {string} */ (el.dataset.cnLocal);
       if (this.showLocal.has(id)) this.showLocal.delete(id); else this.showLocal.add(id);
       this.rerenderRow(id);
       /** @type {HtmlScope} */ (this.root).querySelector(`[data-cn-series="${cssId(id)}"] [data-cn-local]`)?.focus({ preventScroll: true });
@@ -1449,7 +1449,7 @@ export class CatalogueNext {
     }
     if ((el = b('[data-cn-todo]'))) {
       e.preventDefault();
-      const id = el.dataset.cnTodo;
+      const id = /** @type {string} */ (el.dataset.cnTodo);
       if (this.showTodo.has(id)) this.showTodo.delete(id); else this.showTodo.add(id);
       this.rerenderRow(id);
       /** @type {HtmlScope} */ (this.root).querySelector(`[data-cn-series="${cssId(id)}"] [data-cn-todo]`)?.focus({ preventScroll: true });
@@ -1471,7 +1471,7 @@ export class CatalogueNext {
       this.replaceRoute();
       return;
     }
-    if ((el = b('[data-cn-act]'))) { e.preventDefault(); this.act(el.dataset.cnAct, el); }
+    if ((el = b('[data-cn-act]'))) { e.preventDefault(); this.act(/** @type {string} */ (el.dataset.cnAct), el); }
   }
 
   /** @param {KeyboardEvent} e */
@@ -1498,7 +1498,7 @@ export class CatalogueNext {
     const key = /** @type {FilterKey} */ (r.dataset.key);
     const bins = key === 'maps' ? this.mapBins : this.electionBins;
     const wrap = /** @type {Element} */ (r.closest('[data-cn-slider]'));
-    const [a, b] = /** @type {NodeListOf<HTMLInputElement>} */ (wrap.querySelectorAll('input[type="range"]'));
+    const [a, b] = /** @type {NodeListOf<HTMLInputElement> & [HTMLInputElement, HTMLInputElement]} */ (wrap.querySelectorAll('input[type="range"]')); // the slider's two range inputs
     let from = Number(a.value);
     let to = Number(b.value);
     if (from > to) {
@@ -1586,7 +1586,7 @@ export class CatalogueNext {
       case 'edit': this.suggestEdit(id, /** @type {HTMLElement | null} */ (el.closest('.cn')) || undefined); break;
       case 'downloads': openMenu(el, this.downloadsFor(id), { label: 'Download' }); break;
       case 'copy-link': this.copyLink(id, el); break;
-      case 'cite': this.cite(id, this.seriesById.get(el.dataset.series), el); break;
+      case 'cite': this.cite(id, this.seriesById.get(/** @type {string} */ (el.dataset.series)), el); break;
       case 'row-link': this.copyRowLink(el.dataset.series, el); break;
       case 'row-cite': this.citeRow(el.dataset.series, el); break;
       case 'row-compare': this.openRowCompare(el, el.dataset.series); break;
@@ -1597,14 +1597,14 @@ export class CatalogueNext {
         break;
       }
       case 'show-all': {
-        this.limits[el.dataset.what] = true;
+        this.limits[/** @type {string} */ (el.dataset.what)] = true;
         if (el.dataset.what === 'here') { this.refreshResults(); break; }
         this.refreshExtras();
         break;
       }
       case 'toggle-all': {
         // Show every place, or go back to the first five; the button keeps its place and focus.
-        this.limits[el.dataset.what] = !this.limits[el.dataset.what];
+        this.limits[/** @type {string} */ (el.dataset.what)] = !this.limits[/** @type {string} */ (el.dataset.what)];
         this.refreshExtras();
         /** @type {HtmlScope | null | undefined} */ (this.resultsEl)?.querySelector(`[data-cn-act="toggle-all"][data-what="${el.dataset.what}"]`)?.focus({ preventScroll: true });
         break;
@@ -1792,7 +1792,7 @@ export class CatalogueNext {
       const focusables = [...el.querySelectorAll('button')];
       // Focus elsewhere (or on nothing) is not in the list: -1.
       const i = focusables.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));
-      if (e.shiftKey && i <= 0) { focusables[focusables.length - 1].focus(); e.preventDefault(); } else if (!e.shiftKey && i === focusables.length - 1) { focusables[0].focus(); e.preventDefault(); }
+      if (e.shiftKey && i <= 0) { /** @type {HTMLButtonElement} */ (focusables[focusables.length - 1]).focus(); e.preventDefault(); } else if (!e.shiftKey && i === focusables.length - 1) { /** @type {HTMLButtonElement} */ (focusables[0]).focus(); e.preventDefault(); }
     });
     /** @type {(() => void) | undefined} */
     this.onContentsResize = () => this.placeContents(pane);
@@ -2223,7 +2223,7 @@ export class CatalogueNext {
     /** @param {string} name */
     const codeLike = (name) => (name.match(/\d/g) || []).length > name.length * 0.3;
     /** @param {number[]} b */
-    const area = (b) => (b[2] - b[0]) * (b[3] - b[1]);
+    const area = (b) => (/** @type {number} */ (b[2]) - /** @type {number} */ (b[0])) * (/** @type {number} */ (b[3]) - /** @type {number} */ (b[1]));
     const seen = new Set();
     /** @type {Array<{ name: string, map: string, seriesId: string | undefined, mapName: string | undefined }>} */
     const places = [];
@@ -2272,11 +2272,11 @@ export class CatalogueNext {
     if (!this.root || !this.data) return;
     const mc = app()?.mapController;
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-toggle]')).forEach((btn) => {
-      const on = String(this.isLoaded(btn.dataset.cnToggle));
+      const on = String(this.isLoaded(/** @type {string} */ (btn.dataset.cnToggle)));
       if (btn.getAttribute('aria-pressed') !== on) btn.setAttribute('aria-pressed', on);
       // A chip on the map fills with the colour the map is drawn in (its load-order colour, or the
       // reader's own), and goes back to the map's own colour when it comes off.
-      const live = on === 'true' ? mc?.getLayerColour?.(btn.dataset.cnToggle) : '';
+      const live = on === 'true' ? mc?.getLayerColour?.(/** @type {string} */ (btn.dataset.cnToggle)) : '';
       if (live) {
         if (btn.dataset.ownColour === undefined) btn.dataset.ownColour = btn.style.getPropertyValue('--c');
         btn.style.setProperty('--c', live);
@@ -2288,7 +2288,7 @@ export class CatalogueNext {
       }
     });
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-visibility]')).forEach((btn) => {
-      const id = btn.dataset.cnVisibility;
+      const id = /** @type {string} */ (btn.dataset.cnVisibility);
       const on = this.isLoaded(id);
       setHidden(btn, !on);
       if (on) {
@@ -2298,11 +2298,11 @@ export class CatalogueNext {
       }
     });
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-series]')).forEach((li) => {
-      const s = this.seriesById.get(li.dataset.cnSeries);
+      const s = this.seriesById.get(/** @type {string} */ (li.dataset.cnSeries));
       li.classList.toggle('cn-row--on', Boolean(s && this.seriesOnMap(s)));
     });
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-election-toggle]')).forEach((btn) => {
-      const e = this.electionByKey.get(btn.dataset.cnElectionToggle);
+      const e = this.electionByKey.get(/** @type {string} */ (btn.dataset.cnElectionToggle));
       const on = String(Boolean(e && this.electionLoaded(e)));
       if (btn.getAttribute('aria-pressed') !== on) btn.setAttribute('aria-pressed', on);
       btn.closest('.cn-erow')?.classList.toggle('cn-erow--on', on === 'true');

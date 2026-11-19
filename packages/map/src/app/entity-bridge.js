@@ -343,7 +343,7 @@ export class EntityBridgeMethods {
         // namesake: no page is better than the wrong person's.
         const narrowed = sameName.filter(stoodFor);
         const pool = partyPart || datePart ? narrowed : sameName;
-        if (pool.length === 1) return this.mapPersonBrowseItem(pool[0], partyIndex);
+        if (pool.length === 1) return this.mapPersonBrowseItem(/** @type {PersonCard} */ (pool[0]), partyIndex);
         if (pool.length > 1) {
           return {
             kind: 'candidate-choice',

@@ -152,7 +152,7 @@ export class TimelineControlMethods {
         this.beginTimelineApply();
         try {
           // Checked above, before the request was queued; hideTimeline clears it only with the items.
-          await /** @type {(item: TimelineItem, index: number) => unknown} */ (this.timelineOnSelect)(timelineItems[safeIndex], safeIndex);
+          await /** @type {(item: TimelineItem, index: number) => unknown} */ (this.timelineOnSelect)(/** @type {import("../map-app.js").TimelineItem} */ (timelineItems[safeIndex]), safeIndex);
         } finally {
           this.endTimelineApply();
         }
@@ -593,7 +593,7 @@ export class TimelineControlMethods {
       return;
     }
     const referenceMapId = activeIds.length === 1 ? activeIds[0] : this.timelineAnimation.singleLayerReferenceId;
-    this.timelineAnimation.singleLayerReferenceId = activeIds.length === 1 ? activeIds[0] : this.timelineAnimation.singleLayerReferenceId;
+    this.timelineAnimation.singleLayerReferenceId = activeIds.length === 1 ? /** @type {string} */ (activeIds[0]) : this.timelineAnimation.singleLayerReferenceId;
     const currentTimestamp = this.getCurrentTimelineTimestamp(activeIds);
     const items = timestamps.map((timestamp) => {
       const mapId = referenceMapId ? this.getTimelineMapIdForTimestamp(referenceMapId, timestamp) : null;

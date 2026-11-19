@@ -115,7 +115,7 @@ export function mountTrendChart(container, model, options = {}) {
       root.classList.remove('is-hovering');
       return;
     }
-    const x = layout.columns[next].toFixed(1);
+    const x = /** @type {number} */ (layout.columns[next]).toFixed(1);
     crosshair.setAttribute('x1', x);
     crosshair.setAttribute('x2', x);
     crosshair.classList.add('is-active');
@@ -158,7 +158,7 @@ export function mountTrendChart(container, model, options = {}) {
     const rootRect = root.getBoundingClientRect();
     const svgRect = present(state.svg, 'the trend chart').getBoundingClientRect();
     const scale = svgRect.width / layout.width || 1;
-    const columnX = (svgRect.left - rootRect.left) + layout.columns[index] * scale;
+    const columnX = (svgRect.left - rootRect.left) + /** @type {number} */ (layout.columns[index]) * scale;
     const tipWidth = tooltip.offsetWidth;
     const tipHeight = tooltip.offsetHeight;
     let left = columnX + 12;

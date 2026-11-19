@@ -311,7 +311,7 @@ function renderContestNotes(result = {}) {
   if (!notes.length) return '';
   const labels = [...new Set(notes.map((note) => note.label).filter(Boolean))].join(', ') || 'Note';
   return `<details class="election-contest-notes">
-    <summary><span class="election-contest-notes__label">${escapeHtml(labels)}</span><span class="election-contest-notes__preview">${escapeHtml(notes[0].text)}</span></summary>
+    <summary><span class="election-contest-notes__label">${escapeHtml(labels)}</span><span class="election-contest-notes__preview">${escapeHtml(/** @type {(typeof notes)[number]} */ (notes[0]).text)}</span></summary>
     <dl class="election-contest-notes__list">${notes
       .map((note) => `<div><dt>${escapeHtml(note.label)}</dt><dd>${escapeHtml(note.text)}</dd></div>`)
       .join('')}</dl>

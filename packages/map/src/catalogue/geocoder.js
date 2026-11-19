@@ -46,7 +46,7 @@ export function parsePostcode(query) {
   let m = FULL_POSTCODE.exec(String(query || ''));
   if (m) return { kind: 'full', code: `${m[1]} ${m[2]}`.toUpperCase() };
   m = OUTWARD_CODE.exec(String(query || ''));
-  if (m) return { kind: 'outward', code: m[1].toUpperCase() };
+  if (m) return { kind: 'outward', code: /** @type {string} */ (m[1]).toUpperCase() };
   return null;
 }
 
@@ -133,7 +133,7 @@ export class AddressGeocoder {
     return {
       source: 'nominatim',
       results: (Array.isArray(rows) ? rows : []).map((/** @type {{ display_name?: string, name?: string, lat?: unknown, lon?: unknown }} */ row) => {
-        const [name, ...rest] = String(row.display_name || row.name || '').split(', ');
+        const [name, ...rest] = /** @type {[string, ...string[]]} */ (String(row.display_name || row.name || '').split(', '));
         return { name: row.name || name, detail: rest.slice(0, 3).join(', '), lat: Number(row.lat), lon: Number(row.lon), source: 'nominatim' };
       }).filter((/** @type {AddressResult} */ r) => Number.isFinite(r.lat) && Number.isFinite(r.lon)),
     };
