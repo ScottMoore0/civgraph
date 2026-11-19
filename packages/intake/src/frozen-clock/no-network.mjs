@@ -23,7 +23,9 @@ const target = (x) => {
   try { return String(/** @type {TargetLike} */ (x)?.url ?? /** @type {TargetLike} */ (x)?.href ?? /** @type {TargetLike} */ (x)?.host ?? /** @type {TargetLike} */ (x)?.hostname ?? x); } catch { return '?'; }
 };
 
-globalThis.fetch = async (/** @type {unknown} */ input) => refuse(`fetch ${target(input)}`);
+// Reflect.set is the same assignment, but TypeScript does not read it as a new declaration of the
+// global fetch (a one-parameter fetch here narrowed fetch for every file of the intake project).
+Reflect.set(globalThis, 'fetch', async (/** @type {unknown} */ input) => refuse(`fetch ${target(input)}`));
 for (const [name, mod] of /** @type {[string, typeof http | typeof https][]} */ ([['http', http], ['https', https]])) {
   mod.request = (/** @type {unknown} */ a) => refuse(`${name}.request ${target(a)}`);
   mod.get = (/** @type {unknown} */ a) => refuse(`${name}.get ${target(a)}`);

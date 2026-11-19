@@ -9,7 +9,7 @@
  *   - the names the row was known by before it was renamed or merged (catalogue.source.json
  *     seriesRedirects: an old row id is its subject's id and its old name, slugged).
  *
- * Pure: the build reads the files and hands their contents in (tests/unit/catalogue-alt-names.test.mjs).
+ * Pure: the build reads the files and hands their contents in (unit test: catalogue-alt-names.test.mjs).
  */
 
 /**

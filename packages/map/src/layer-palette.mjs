@@ -8,7 +8,7 @@
  * results restyle their geography themselves (maplibre-main-adapter.js applyElectionStyle).
  *
  * The palette is registry data (data/registries/colours.json map.loadOrder; a placeholder until the
- * owner supplies Phelim's QGIS colours). Pure: no DOM, no map (tests/unit/layer-palette.test.mjs).
+ * owner supplies Phelim's QGIS colours). Pure: no DOM, no map (unit test: layer-palette.test.mjs).
  */
 import { MAP_COLOURS } from './colours.mjs';
 
@@ -16,7 +16,7 @@ import { MAP_COLOURS } from './colours.mjs';
 export const LOAD_ORDER_PALETTE = Object.freeze([.../** @type {string[]} */ (/** @type {unknown} */ (MAP_COLOURS.loadOrder) || [])]);
 
 /**
- * Layer categories (render/metadata layers' `category`) whose maps keep the colours they were given,
+ * Layer categories (the layer metadata's `category`) whose maps keep the colours they were given,
  * because a colour there stands for a class: a rock type, a flood return period, a water-quality
  * status, a referendum's side.
  */

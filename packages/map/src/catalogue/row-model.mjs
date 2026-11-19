@@ -1,7 +1,7 @@
 /**
  * What a catalogue row shows, derived from the catalogue document alone (view-maps.js draws it):
  * which actions the row offers, its editions as a dated list, and the count on its second line.
- * Pure: no DOM, no controller (tests/unit/catalogue-row-model.test.mjs).
+ * Pure: no DOM, no controller (its unit test is catalogue-row-model.test.mjs).
  *
  * Phelim Birch's notes on map actions and layout, approved by the owner on 19 Nov 2026:
  *   - a row of several maps acts on the row (Copy link, Cite, Compare two of its editions); a row of
