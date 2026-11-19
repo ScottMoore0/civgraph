@@ -10,12 +10,15 @@ the midlands, the south-west and the north-west -- and parts of the pyramid came
 
   - a pixel keeps the elevation it has wherever that is above 0.5 m, so every 1 m OSNI LiDAR
     pixel and every good GLO-30 pixel is untouched; only an empty pixel (0 m) where GLO-30
-    has land (> 1 m) is filled, from GLO-30 resampled bilinearly into the tile;
+    has land (> 1 m) is filled, from GLO-30 resampled bilinearly into the tile, and so is a
+    pixel within two of an empty one that sits below GLO-30 (the July resampling blended the
+    land beside each hole with its 0 m: see island_terrain_fill.py);
   - a tile is rewritten only when at least FILL_MIN of it was filled, so the two models'
     slightly different coastlines do not rewrite every coastal tile;
-  - hillshade is the standard one (lit from 315 deg at 45 deg, z-factor 1 -- what the
-    existing tiles match), grey and opaque over land, and fills only where the existing
-    hillshade is transparent; above zoom 11 it is touched only where a hillshade tile exists.
+  - hillshade is GDAL's multidirectional one (altitude 45 deg, z-factor 1.2 -- what the July
+    tiles match; until 19 Nov 2026 this used Horn 315/45, z 1, which they do not), grey and
+    opaque over land, and fills only where the existing hillshade is transparent; above zoom 11
+    it is touched only where a hillshade tile exists.
 
 Stage base does zooms 5-12 across the layer's bounds and records the zoom-12 tiles that
 needed filling; stage deep does their descendants at 13-15, and at 16 those that exist.
@@ -39,6 +42,8 @@ from rasterio.enums import Resampling
 from rasterio.transform import from_bounds
 from rasterio.warp import reproject, transform_bounds
 from rasterio.windows import from_bounds as window_from_bounds
+
+from island_terrain_fill import fill_mask, hillshade as multidirectional, near
 
 BOUNDS = (-10.9, 51.2, -5.2, 55.7)          # the layer's own bounds: west, south, east, north
 CDN = 'https://data.civgraph.net/data/maps/physical/ireland-terrain-3d'
@@ -113,19 +118,10 @@ def terrarium_encode(h):
 
 
 def hillshade(h, z, y):
-    """Standard Horn hillshade, 315 deg / 45 deg, z-factor 1, on a (SIZE+2)^2 array."""
+    """The island tiles' hillshade (island_terrain_fill.hillshade) on a (SIZE+2)^2 array."""
     n = 2 ** z
     lat = math.degrees(math.atan(math.sinh(math.pi * (1 - 2 * (y + 0.5) / n))))
-    res = 2 * WORLD / n / SIZE * math.cos(math.radians(lat))
-    a, b, c = h[:-2, :-2], h[:-2, 1:-1], h[:-2, 2:]
-    d, f = h[1:-1, :-2], h[1:-1, 2:]
-    g, hh, i = h[2:, :-2], h[2:, 1:-1], h[2:, 2:]
-    dzdx = ((c + 2 * f + i) - (a + 2 * d + g)) / (8 * res)
-    dzdy = ((g + 2 * hh + i) - (a + 2 * b + c)) / (8 * res)
-    slope = np.arctan(np.hypot(dzdx, dzdy))
-    aspect = np.arctan2(dzdy, -dzdx)
-    zen, az = math.radians(45), math.radians(360 - 315 + 90)
-    return np.clip(255 * (math.cos(zen) * np.cos(slope) + math.sin(zen) * np.sin(slope) * np.cos(az - aspect)), 1, 255)
+    return multidirectional(h, 2 * WORLD / n / SIZE * math.cos(math.radians(lat)))
 
 
 def write(kind, z, x, y, arr, mode):
@@ -143,7 +139,7 @@ def do_tile(task):
         h_old = np.zeros((SIZE, SIZE))
     else:
         h_old = terrarium_decode(old)
-    filled = (h_old <= 0.5) & (centre > 1.0)
+    filled = fill_mask(h_old, centre)
     share = float(filled.mean())
     if share < FILL_MIN:
         return (z, x, y, share, False)
@@ -161,10 +157,7 @@ def do_tile(task):
         if hs_old is not None:
             # The old hillshade beside a hole was lit against a 0 m cliff: within two pixels
             # of anything filled it is recomputed, so no bright seam marks the join.
-            near = filled.copy()
-            for _ in range(2):
-                near = near | np.roll(near, 1, 0) | np.roll(near, -1, 0) | np.roll(near, 1, 1) | np.roll(near, -1, 1)
-            keep = (hs_old[..., 3] > 0) & ~near
+            keep = (hs_old[..., 3] > 0) & ~near(filled, 2)
             grey = np.where(keep, hs_old[..., 0], grey)
             alpha = np.where(keep, hs_old[..., 3], alpha)
         rgba = np.dstack([grey, grey, grey, alpha]).astype(np.uint8)
