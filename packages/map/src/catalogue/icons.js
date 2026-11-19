@@ -99,10 +99,11 @@ export const SHELF_LOOK = {
 export const SHELF_ICON_IN = { boundaries: { 'people-and-places': 'census-statistics' } };
 
 /** Shelves a section shows as one (Phelim Birch's review, 2026-10-11): Boundaries has a few rows
- * on each of these, so they share an Environment shelf there. */
+ * on each of these, so they share an Environment shelf there. Water is not merged: its boundary
+ * rows have a Water shelf of their own, as in Places & routes (his comment of 15 Nov 2026). */
 /** @type {Record<string, Record<string, { name: string, shelves: string[] }>>} */
 export const MERGED_SHELVES = {
-  boundaries: { environment: { name: 'Environment', shelves: ['local-services-and-amenities', 'water', 'environment-and-land-use', 'earth-and-terrain'] } },
+  boundaries: { environment: { name: 'Environment', shelves: ['local-services-and-amenities', 'environment-and-land-use', 'earth-and-terrain'] } },
 };
 
 /** Sections that list their rows straight, with no shelf or subject headings. */

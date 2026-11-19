@@ -522,6 +522,9 @@ test('N20 placeholders, transport order, constituency hovers and dates', async (
   expect((await pane(page).locator('#cn-shelf-water .cn-row__name').allTextContents())[0]).toBe('Coast');
   // A constituency map's hover gives no election-day date; its label keeps the year.
   await pane(page).locator('[data-cn-tab="boundaries"]').click();
+  // Boundaries has a Water shelf of its own, as Places & routes does (Phelim Birch, 15 Nov 2026).
+  await expect(pane(page).locator('#cn-shelf-water')).toHaveCount(1);
+  await expect(pane(page).locator('#cn-shelf-water [data-cn-series="water-quality-water-bodies"]').first()).toHaveCount(1);
   const wm = row(page, 'constituencies-parliamentary-constituencies').locator('.cn-chips [data-cn-toggle="pc-2023"]');
   await expect(wm).toHaveText(/2024/);
   expect(await wm.getAttribute('title')).not.toMatch(/July/);
