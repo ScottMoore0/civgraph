@@ -25,12 +25,16 @@ test('OT0-01 the name-joined council careers are split by council (C4-C10)', () 
   const splits = [
     ['James Campbell|', 135337, 6, [['clogher-augher-1899', 1], ['lurgan-montiaghs-1911-1939', 5], ['bangor-1912-1937', 2], ['newry-1-drumgath-1967', 1]]],
     ['William Campbell|', 142799, 4, [['clogher-augher-1908', 1], ['antrim-cc-killoquin-1967', 1]]],
-    ['William Porter|', 142881, 2, [['clogher-aughentaine-1908', 1], ['lisburn-rural-malone-1939-1949', 2], ['newcastle-1964', 1]]],
+    // The Newcastle piece holds W. Porter's Newcastle rows of 1923-61 too since the initials joins of 19 Nov 2026 (w19-initials2:
+    // the Irish News of 4 May 1961 names the 1961 candidate 'William Porter, a former councillor, who lost his seat at last election').
+    ['William Porter|', 142881, 2, [['clogher-aughentaine-1908', 1], ['lisburn-rural-malone-1939-1949', 2], ['newcastle-1964', 7]]],
     // The Kilmore piece holds P. Hughes's Kilmore row too since the initials joins of 19 Nov 2026 (w19-merges).
     ['Patrick Hughes|', 144657, 2, [['lisnaskea-kulmore-1955', 2], ['dungannon-meenagh-1958', 1]]],
     ['John Porter|', 146350, 1, [['banbridge-loughbrickland-1952', 1]]],
     ['Robert Jones|', 137430, 2, [['lurgan-carrowbrack-1964', 1]]],
-    ['John Smith|', 137081, 2, [['clogher-cecil-1908', 1], ['newry-2-forkhill-1911', 1], ['newcastle-1929', 1]]],
+    // The Newcastle piece holds J. Smith's South Ward rows of 1923-26 too since 19 Nov 2026 (w19-initials2: the News-Letter of
+    // 6 Jan 1926 prints 'John Smith' for South Ward and of 7 Jan 1929 'John Smith (retiring)').
+    ['John Smith|', 137081, 2, [['clogher-cecil-1908', 1], ['newry-2-forkhill-1911', 1], ['newcastle-1929', 3]]],
   ];
   for (const [key, id, left, pieces] of splits) {
     assert.equal(holder(key), id, key);
@@ -47,7 +51,9 @@ test('OT0-01 the name-joined council careers are split by council (C4-C10)', () 
 
 test('OT0-02 the ids split only by an abbreviated name are one person, the lowest id kept (A11, A14-A16)', () => {
   const merged = [
-    [139837, ["Herbert B. M'Nally|", "Herbert C. B. M'Nally|"], 139838],
+    // Herbert C. B. M'Nally's lowest id is now 139148, his H. C. B. M'Nally returns of 1939-58, joined on 19 Nov 2026 (w19-initials2:
+    // the News-Letter of 5 Sep 1946 prints 'Herbert C. B. M'Nally' for the 1946 North Ward row); 139838 still redirects through 139837.
+    [139837, ["Herbert B. M'Nally|", "Herbert C. B. M'Nally|"], 139838, 139148],
     [136339, ['Alfred Gilpin|', 'A. Gilpin|'], 143964],
     [144746, ['T. C. Stevenson|', 'Thos. C. Stevenson|'], 150340],
     [145916, ['J. C. G. McQuoid|', 'John C. G. McQuoid|'], 150320],
@@ -59,8 +65,8 @@ test('OT0-02 the ids split only by an abbreviated name are one person, the lowes
   ];
   const lines = readFileSync(at('person_id_confirmed_merges.csv'), 'utf8').split('\n').filter(Boolean);
   const drops = new Map(lines.slice(1).map((l) => l.split(',')).map(([keep, drop]) => [drop, keep]));
-  for (const [keep, keys, drop] of merged) {
-    for (const key of keys) assert.equal(holder(key), keep, key);
+  for (const [keep, keys, drop, now = keep] of merged) {
+    for (const key of keys) assert.equal(holder(key), now, key);
     assert.ok(!byId.has(drop), `${drop} is still a live person`);
     assert.equal(drops.get(String(drop)), String(keep), `${drop} -> ${keep}`);
   }
