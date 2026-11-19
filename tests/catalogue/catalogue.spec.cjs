@@ -18,6 +18,8 @@ const mapsOf = (kind) => ofKind(kind).reduce((n, s) => n + s.members.length + (s
 const pane = (page) => page.locator('#catalogueFlatView [data-cn-root]');
 const row = (page, id) => pane(page).locator(`[data-cn-series="${id}"]`);
 const menuItem = (page, text) => page.locator('.cn-menu [role="menuitem"]', { hasText: text });
+// An edition in an opened row's dated list: the button that opens its facts, versions and parts.
+const pick = (r, label) => r.locator(`.cn-dlist__more[aria-label="${label}: facts, versions and parts"]`);
 const route = (page) => page.evaluate(() => new URLSearchParams(location.hash.slice(1)).get('cat'));
 const loaded = (page) => page.evaluate(() => window.__civgraphTest2.app.getLoadedLayerIds());
 
@@ -84,23 +86,28 @@ test('C02 one click adds a map from the list, and a second removes it', async ({
   await expect(single).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('C03 a loaded map can be hidden and shown from its row', async ({ page }) => {
+test('C03 a loaded map can be hidden and shown from the loaded-layers panel', async ({ page }) => {
   await open(page);
   await row(page, LGD).locator(`.cn-chips [data-cn-toggle="${LGD_NEWEST}"]`).click();
   await expect.poll(() => loaded(page)).toContain(LGD_NEWEST);
-  await row(page, LGD).locator('[data-cn-menu]').click();
-  await menuItem(page, 'Hide').click();
+  // The row has no Hide since Phelim Birch's notes (19 Nov 2026): the panel of loaded layers does it.
+  await page.evaluate(() => document.getElementById('activeLayers')?.classList.remove('hidden'));
+  const eye = page.locator(`#activeLayersList .visibility-btn[data-map-id="${LGD_NEWEST}"]`);
+  await eye.click();
   await expect.poll(() => page.evaluate((id) => window.uiController.onCheckMapVisible(id), LGD_NEWEST)).toBe(false);
-  await row(page, LGD).locator('[data-cn-menu]').click();
-  await menuItem(page, 'Show').click();
+  await page.locator(`#activeLayersList .visibility-btn[data-map-id="${LGD_NEWEST}"]`).click();
   await expect.poll(() => page.evaluate((id) => window.uiController.onCheckMapVisible(id), LGD_NEWEST)).toBe(true);
 });
 
-test('C04 a map\'s shareable link can be copied', async ({ page, context }) => {
+test('C04 a row\'s link and a map\'s link can be copied', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await open(page);
-  await row(page, LGD).locator('[data-cn-menu]').click();
-  await menuItem(page, 'Copy link').click();
+  // A row of several maps links to itself.
+  await row(page, LGD).locator('.cn-row__end [data-cn-act="row-link"]').click();
+  await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain(`cat=series/${LGD}`);
+  // A map's own link is on its Details page.
+  await page.evaluate((id) => window.uiController.showCatalogueDetailView(id, true), LGD_NEWEST);
+  await page.locator('[data-cn-detail-actions] [data-cn-act="copy-link"]').click();
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain(`layers=${LGD_NEWEST}`);
 });
 
@@ -110,30 +117,34 @@ test('C05 C06 FlatGeobuf, the provider\'s files and the original GeoJSON are off
     const ui = window.uiController;
     const n = ui._catalogueNext;
     for (const s of n.data.series) {
-      const t = n.menuTarget(s);
-      const full = n.full(t.id);
+      if (s.members.filter((m) => !m.of).length !== 1) continue;
+      const full = n.full(s.members[0].id);
       const src = full ? ui.getSourceDownloads(full) : [];
       if (src.length >= 2) return { series: s.id, labels: src.slice(0, 3).map((d) => d.label) };
     }
     return null;
   });
   expect(found).not.toBeNull();
+  // A row of one map has its Download beside Add.
   const r = row(page, found.series);
   await r.scrollIntoViewIfNeeded();
-  await r.locator('[data-cn-menu]').click();
+  await r.locator('.cn-row__end [data-cn-act="downloads"]').click();
   for (const label of found.labels) await expect(menuItem(page, label).first()).toBeVisible();
   await page.keyboard.press('Escape');
-  await row(page, LGD).locator('[data-cn-menu]').click();
+  // A row of several: each edition in the opened row has its own.
+  await row(page, LGD).locator('[data-cn-expand]').click();
+  await row(page, LGD).locator(`.cn-dlist [data-cn-act="downloads"][data-map="${LGD_NEWEST}"]`).click();
   await expect(menuItem(page, 'FlatGeobuf')).toBeVisible();
 });
 
 test('C07 other versions of an edition and a map\'s parts are reachable', async ({ page }) => {
   await open(page);
   await row(page, LGD).locator('[data-cn-expand]').click();
-  await row(page, LGD).locator('.cn-tick[aria-label="1993"]').click();
+  await pick(row(page, LGD), '1993').click();
   const versions = row(page, LGD).locator('.cn-sub', { hasText: 'Versions' });
   await expect(versions).toContainText('OSNI 1:50,000');
-  // Each version has its own Add, Details and Download.
+  // Each version has its own chip, Zoom, Download and Details.
+  await expect(versions.locator('.cn-chip[data-cn-toggle]')).toHaveCount(await versions.locator('.cn-vlist__item').count());
   await expect(versions.locator('[data-cn-act="details"]')).toHaveCount(await versions.locator('.cn-vlist__item').count());
   const town = row(page, 'townlands-townlands');
   await town.scrollIntoViewIfNeeded();
@@ -443,9 +454,9 @@ test('N17 council maps follow their edition; hovers name the unit; parts downloa
   // The 2019 ED council maps show with the 2019 edition only.
   const ed = row(page, 'electoral-divisions-electoral-divisions');
   await ed.locator('[data-cn-expand]').click();
-  await ed.locator('.cn-tick[aria-label="2019"]').click();
+  await pick(ed, '2019').click();
   await expect(ed.locator('.cn-sub', { hasText: 'Council maps' })).toContainText('Fingal (2019)');
-  await ed.locator('.cn-tick[aria-label="1997"]').click();
+  await pick(ed, '1997').click();
   await expect(ed.locator('.cn-sub', { hasText: 'Council maps' })).toHaveCount(0);
   // Parts have their own download.
   const town = row(page, 'townlands-townlands');
@@ -487,7 +498,7 @@ test('N19 a link that opens one map (Browse) opens its row at that map', async (
   const ed = row(page, 'electoral-divisions-electoral-divisions');
   await expect(ed.locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
   await expect(ed).toBeVisible();
-  await expect(ed.locator('.cn-tick[aria-label="1983"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(pick(ed, '1983')).toHaveAttribute('aria-expanded', 'true');
 });
 
 test('N20 placeholders, transport order, constituency hovers and dates', async ({ page }) => {
@@ -573,9 +584,11 @@ test('N03 arrow keys move along a row\'s editions', async ({ page }) => {
   await expect(chips.last()).toBeFocused();
 });
 
-test('N04 two editions can be compared', async ({ page }) => {
+test('N04 two editions can be compared, chosen in turn from the row\'s Compare', async ({ page }) => {
   await open(page);
-  await row(page, LGD).locator('[data-cn-menu]').click();
+  await row(page, LGD).locator('.cn-row__end [data-cn-act="row-compare"]').click();
+  await menuItem(page, lgd.members[0].label).first().click();
+  await expect(page.locator('.cn-menu')).toContainText(`Compare ${lgd.members[0].label} with`);
   await menuItem(page, '1993').first().click();
   await expect(pane(page).locator('.cn-compare')).toBeVisible({ timeout: 30000 });
   await pane(page).locator('[data-cn-fade]').fill('100');
@@ -591,12 +604,21 @@ test('N05 What\'s here? (button hidden for now) still answers by address', async
   await expect(pane(page).locator('[data-cn-filter="onMap"]')).toHaveCount(0);
 });
 
-test('N06 opening a row shows the timeline; choosing a dot changes the edition shown', async ({ page }) => {
+test('N06 opening a row lists its editions by date, newest first; choosing one opens its facts', async ({ page }) => {
   await open(page);
   await row(page, LGD).locator('[data-cn-expand]').click();
-  await expect(row(page, LGD).locator('.cn-tick')).toHaveCount(lgd.members.filter((m) => !m.of).length);
-  await row(page, LGD).locator('.cn-tick[aria-label="1985"]').click();
-  await expect(row(page, LGD).locator('.cn-tick[aria-label="1985"]')).toHaveAttribute('aria-pressed', 'true');
+  const items = row(page, LGD).locator('.cn-dlist__item');
+  await expect(items).toHaveCount(lgd.members.filter((m) => !m.of).length);
+  // No timeline in the row: the slider under the map is the timeline (Phelim Birch's notes, 19 Nov 2026).
+  await expect(row(page, LGD).locator('.cn-tl, .cn-tick')).toHaveCount(0);
+  const years = await items.locator('.cn-chip__label').allTextContents();
+  expect(years.map((y) => Number(y.slice(0, 4)))).toEqual([...years.map((y) => Number(y.slice(0, 4)))].sort((a, b) => b - a));
+  // Each edition has its chip and tools.
+  await expect(items.first().locator('[data-cn-toggle]')).toHaveCount(1);
+  await expect(items.first().locator('[data-cn-act="details"]')).toHaveCount(1);
+  await pick(row(page, LGD), '1985').click();
+  await expect(pick(row(page, LGD), '1985')).toHaveAttribute('aria-expanded', 'true');
+  await expect(row(page, LGD).locator('.cn-dlist__item--open')).toContainText('1985');
   await expect(row(page, LGD).locator('.cn-ed__title')).toHaveCount(0);
   await expect.poll(() => route(page)).toMatch(new RegExp(`^series/${LGD}/`));
 });
@@ -743,7 +765,7 @@ test('N22 a copied map link opens its row, even one that named only the section'
   await open(page, 'layers=eds-2019&lng=-8.05000&lat=53.50197&zoom=5.86&cat=boundaries', { shelves: 'closed' });
   const ed = row(page, 'electoral-divisions-electoral-divisions');
   await expect(ed.locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
-  await expect(ed.locator('.cn-tick[aria-label="2019"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(pick(ed, '2019')).toHaveAttribute('aria-expanded', 'true');
   await expect(ed).toBeInViewport();
   // The row's title starts below the sticky section tabs, not under them.
   const [tabsBottom, titleTop] = await page.evaluate(() => [document.querySelector('[data-cn-tabs]').getBoundingClientRect().bottom, document.querySelector('[data-cn-series="electoral-divisions-electoral-divisions"] .cn-row__name').getBoundingClientRect().top]);

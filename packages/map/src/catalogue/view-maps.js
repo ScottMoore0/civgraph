@@ -14,6 +14,7 @@ import { MAP_COLOURS } from '../colours.mjs';
 import { creditLine } from '../../../core/src/credits.mjs';
 import { rowActionKind, rowCount, datedList, comparable, rowEditions } from './row-model.mjs';
 import { siteNumber } from '../../../core/src/format.js';
+import { setHidden } from '../state-helpers.mjs';
 
 /** @typedef {import('./index.js').CatalogueNext} CatalogueNext */
 /** @typedef {import('./index.js').VisibleShelf} VisibleShelf */
@@ -103,7 +104,7 @@ export function updateProviderFilter(bar, choices) {
     input?.closest('.cn-prov__item')?.classList.toggle('cn-prov__item--none', !p.count && !p.chosen);
   }
   const clear = /** @type {HTMLElement | null} */ (box.querySelector('[data-cn-act="clear-providers"]'));
-  if (clear) clear.hidden = !choices.some((p) => p.chosen);
+  if (clear) setHidden(clear, !choices.some((p) => p.chosen));
 }
 
 /** @param {CatalogueNext} c */
