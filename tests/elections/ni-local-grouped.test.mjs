@@ -302,7 +302,7 @@ test('Clogher Rural District\'s Aughentaine is placed on the DED map (the bounda
     file.rounds.forEach((round, ri) => {
       if (round.bodySlug !== 'clogher-rural-district-council') return;
       round.contests.forEach((contest, ci) => {
-        if (!/^aughentaine?$/i.test(contest.area)) return;
+        if (!/^(aughentaine?|aghintain)$/i.test(contest.area)) return; // filed as Aghintain, the DED name, since w19-tidy
         rounds += 1;
         assert.ok(!unplaced.some(([r, c]) => r === ri && c === ci), `${year} ${contest.area}`);
       });
