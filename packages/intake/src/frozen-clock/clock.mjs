@@ -4,13 +4,15 @@
 const FIXED = Date.parse(process.env.INTAKE_FROZEN_CLOCK || '2026-01-01T00:00:00.000Z');
 const RealDate = Date;
 class FrozenDate extends RealDate {
+  /** @param {...(string | number | Date)} args */
   constructor(...args) {
     if (args.length === 0) super(FIXED);
-    else super(...args);
+    else super(.../** @type {[string | number | Date]} Date's one-value form; its other forms pass through as given */ (args));
   }
 
+  /** @override */
   static now() {
     return FIXED;
   }
 }
-globalThis.Date = FrozenDate;
+globalThis.Date = /** @type {DateConstructor} a Date that answers every call the same, but now */ (FrozenDate);
