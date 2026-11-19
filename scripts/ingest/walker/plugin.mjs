@@ -28,7 +28,6 @@ export default definePlugin({
     byelections: { title: 'Harvest the 1885-1922 by-election tables', argv: ['python', `${W}/harvest_byelections.py`] },
     electorates: { title: 'Harvest the pre-1918 elector counts (give --pages and --out after --)', argv: ['python', `${W}/harvest_electorates.py`] },
     'record-verified': { title: 'Record which contests were checked against Walker and agreed', argv: ['python', `${W}/record_verified.py`] },
-    'check-civgraph': { title: 'Compare Civgraph\'s figures with Walker\'s printed tables (give --volume and --pages after --)', argv: ['python', `${W}/check_against_civgraph.py`] },
     'import-1801-1831': { title: 'Import the 1801-1831 results read from Walker (with the HoP overlay)', argv: ['python', `${W}/import_walker_1801_1831.py`, '--write'] },
     'crosscheck-1801-1831': { title: 'Check the 1801-1831 results against Wikipedia', argv: ['python', `${W}/crosscheck_walker_1801_1831.py`] },
     // Gallagher.
@@ -49,7 +48,9 @@ export default definePlugin({
     'import-wikipedia-boxes': { title: 'Import the cross-checked Wikipedia boxes as source files', argv: ['python', `${W}/import_wikipedia_boxes.py`, '--write'] },
     'stamp-wikipedia-person-ids': { title: 'Give each 1832-1922 candidacy its Wikipedia article as source person id', argv: ['python', `${W}/stamp_wikipedia_person_ids.py`, '--write'] },
   },
-  helpers: ['extract.py', 'gallagher.py', 'wiki_tables.py'],
+  // check_against_civgraph.py: the readers harvest_electorates.py and record_verified.py import, and
+  // a check run by hand (--volume --pages --body) that only prints, so not a step.
+  helpers: ['check_against_civgraph.py', 'extract.py', 'gallagher.py', 'wiki_tables.py'],
   research: ['spot_check.py'],
   data: ['README.md'],
 });
