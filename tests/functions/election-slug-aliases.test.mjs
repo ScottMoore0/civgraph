@@ -1,7 +1,9 @@
 /**
  * Retired election and contest slugs (packages/core/src/election-slug-aliases.js) keep working:
- * the Browse page answers a 301, the elections API answers a 301, and browse.js maps the old
- * #/ address to the new one from the same list.
+ * the Browse page answers a 301, the elections API answers a 301, and the sources API answers a 301
+ * for an election's source page. browse.js keeps no copy of the list: an old #/ address asks the
+ * API for its record like any other, follows the 301 and shows the record's own address
+ * (tests/browser/browse-share-urls.spec.cjs walks one in the browser).
  *
  * The two North Down by-elections renamed on 7 Nov 2026 (1993 Holywood, 1975 North Down Area B)
  * are checked from the data too: the index names the area, the file alias finds the contest's
@@ -14,10 +16,11 @@ import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { browsePageHandler, resolveElectionSlugAlias } from '../../functions/_browse-page.js';
-import { ELECTION_SLUG_ALIASES, RETIRED_CONTEST_SLUGS } from '@civgraph/core/election-slug-aliases.js';
+import { ELECTION_SLUG_ALIASES, ELECTION_SOURCE_PREFIX, RETIRED_CONTEST_SLUGS, resolveElectionSourceSlugAlias } from '@civgraph/core/election-slug-aliases.js';
 import { slugify } from '@civgraph/core/format.js';
 import { canonicalElectionTitle } from '../../scripts/lib/election-names.mjs';
 import { onRequestGet as electionsApi, retiredSlugRedirect } from '@civgraph/api/handlers/elections/index.js';
+import { onRequestGet as sourcesApi, retiredSourceRedirect } from '@civgraph/api/handlers/sources/index.js';
 import { resetDatasetVersionCache } from '@civgraph/api/respond.js';
 import { migrationFiles, TableWriter, transaction } from '@civgraph/loader/db.mjs';
 
@@ -80,16 +83,12 @@ test('the old contest slugs resolve to the new ones, and nothing else moves', ()
   assert.equal(resolveElectionSlugAlias('local-government-local-government-districts-1975-05-29-belfast-area-b'), 'local-government-local-government-districts-1975-05-29-belfast-area-b');
 });
 
-test('browse.js maps the same retired slugs for #/ addresses', () => {
+test('browse.js holds no copy of the retired slugs: the server resolves them', () => {
   const source = readFileSync(path.join(ROOT, 'site', 'browse', 'browse.js'), 'utf8');
-  const block = source.match(/const RENAMED_RECORD_PREFIXES = \[([\s\S]*?)\n\];/);
-  assert.ok(block, 'browse.js has RENAMED_RECORD_PREFIXES');
-  const pairs = [...block[1].matchAll(/\[\s*'([^']+)',\s*'([^']+)'\s*\]/g)].map((m) => [m[1], m[2]]);
-  assert.deepEqual(pairs, ELECTION_SLUG_ALIASES, 'browse.js and packages/core/src/election-slug-aliases.js hold the same list');
-  const exact = source.match(/const RETIRED_CONTEST_SLUGS = \[([\s\S]*?)\n\];/);
-  assert.ok(exact, 'browse.js has RETIRED_CONTEST_SLUGS');
-  const exactPairs = [...exact[1].matchAll(/\[\s*'([^']+)',\s*'([^']+)'\s*\]/g)].map((m) => [m[1], m[2]]);
-  assert.deepEqual(exactPairs, RETIRED_CONTEST_SLUGS, 'browse.js and packages/core/src/election-slug-aliases.js hold the same retired contests');
+  assert.doesNotMatch(source, /RENAMED_RECORD_PREFIXES|RETIRED_CONTEST_SLUGS|ELECTION_SLUG_ALIASES/);
+  for (const [from] of [...ELECTION_SLUG_ALIASES, ...RETIRED_CONTEST_SLUGS]) {
+    assert.ok(!source.includes(`'${from}'`), `browse.js does not list ${from}`);
+  }
 });
 
 // Council divisions filed under a misprint or garbled reading in one round, renamed on 12 Nov 2026
@@ -483,12 +482,12 @@ transaction(sqlite, () => {
   });
 });
 
-function d1() {
+function d1(db = sqlite) {
   return {
     prepare(sql) {
       const api = (args) => ({
-        async first() { return sqlite.prepare(sql).get(...args) ?? null; },
-        async all() { return { results: sqlite.prepare(sql).all(...args) }; },
+        async first() { return db.prepare(sql).get(...args) ?? null; },
+        async all() { return { results: db.prepare(sql).all(...args) }; },
       });
       return { bind: (...args) => api(args), ...api([]) };
     },
@@ -501,10 +500,10 @@ const ASSETS = {
   },
 };
 
-async function browse(slug) {
+async function browse(slug, db = sqlite) {
   resetDatasetVersionCache();
   const request = new Request(`https://civgraph.net/browse/elections/${slug}`);
-  return browsePageHandler('elections')({ request, env: { ELECTIONS_DB: d1(), ASSETS } });
+  return browsePageHandler('elections')({ request, env: { ELECTIONS_DB: d1(db), ASSETS } });
 }
 
 test('the Browse page answers an old contest address with a 301 to the new one', async () => {
@@ -598,4 +597,66 @@ test('the Browse page and the elections API send the old address of a renamed di
   assert.equal(retiredSlugRedirect(new URL(`https://civgraph.net/_api/elections?key=${key}&contest=clare`)), null);
   // Holywood Rural continues the old slug: only the old one itself moves.
   assert.equal(resolveElectionSlugAlias('castlereagh-rural-district-council-1964-06-04-holywood-rural'), 'castlereagh-rural-district-council-1964-06-04-holywood-rural');
+});
+
+// Every retired slug of the list, each against a records database holding every target: the
+// elections and contests the old addresses lead to, under their current slugs.
+const EVERY_RETIRED = [
+  ...RETIRED_CONTEST_SLUGS,
+  ...ELECTION_SLUG_ALIASES,
+  // A prefix rule moves what continues the old slug too: the round's overall results.
+  ...ELECTION_SLUG_ALIASES.filter(([from]) => /\d{4}-\d{2}-\d{2}$/.test(from)).map(([from, to]) => [`${from}-overall-results`, `${to}-overall-results`]),
+];
+const targets = new DatabaseSync(':memory:');
+for (const file of migrationFiles()) targets.exec(readFileSync(file, 'utf8'));
+transaction(targets, () => {
+  const elections = new TableWriter(targets, 'r_elections');
+  const contests = new TableWriter(targets, 'contests');
+  /** @type {Map<string, Set<string>>} each target election's key and its contests' slugs */
+  const rounds = new Map();
+  for (const [, to] of EVERY_RETIRED) {
+    const match = /^(.+?)-(\d{4}-\d{2}-\d{2})(?:-(.+))?$/.exec(to);
+    assert.ok(match, `${to} names its round`);
+    const key = `${match[1]}__${match[2]}`;
+    if (!rounds.has(key)) rounds.set(key, new Set());
+    if (match[3] && match[3] !== 'overall-results') rounds.get(key).add(match[3]);
+  }
+  [...rounds].forEach(([key, slugs], ord) => {
+    const [body, date] = key.split('__');
+    elections.add({ key, slug: slugify(key), body_slug: body, body, body_group: 'local-government', display_title: `${body} ${date}`, date, year: Number(date.slice(0, 4)), ord, meta: '{}' });
+    [...slugs].forEach((slug, seq) => contests.add({ election_key: key, seq, name: slug, slug, seats_total: 1, meta: '{}' }));
+  });
+});
+
+test('every retired slug answers 301 from the Browse page, to its current address', async () => {
+  assert.ok(EVERY_RETIRED.length > 700, `${EVERY_RETIRED.length} retired slugs`);
+  for (const [old, now] of EVERY_RETIRED) {
+    const res = await browse(old, targets);
+    assert.equal(res.status, 301, old);
+    assert.equal(res.headers.get('Location'), `https://civgraph.net/browse/elections/${now}`, old);
+  }
+});
+
+test('every in-app old route resolves through the API: the record view and the source page answer 301', async () => {
+  for (const [old, now] of EVERY_RETIRED) {
+    // browse.js loadElectionRecord asks /_api/elections?view=record&slug=<the address's slug>.
+    const record = await electionsApi({ request: new Request(`https://civgraph.net/_api/elections?view=record&slug=${old}`), env: {} });
+    assert.equal(record.status, 301, old);
+    assert.equal(new URL(record.headers.get('Location')).searchParams.get('slug'), now, old);
+    // browse.js fetchIndexRecord asks /_api/sources?slug=<the address's slug> for #/sources/.
+    const source = await sourcesApi({ request: new Request(`https://civgraph.net/_api/sources?slug=${ELECTION_SOURCE_PREFIX}${old}`), env: {} });
+    assert.equal(source.status, 301, old);
+    assert.equal(new URL(source.headers.get('Location')).searchParams.get('slug'), `${ELECTION_SOURCE_PREFIX}${now}`, old);
+  }
+});
+
+test('the sources API moves only retired election sources, keeping the rest of the request', () => {
+  const moved = retiredSourceRedirect(new URL('https://civgraph.net/_api/sources?slug=election-source-bangor-urban-district-council-1920-01-15&view=detail'));
+  assert.equal(moved.status, 301);
+  assert.equal(moved.headers.get('Location'), 'https://civgraph.net/_api/sources?slug=election-source-bangor-borough-council-1920-01-15&view=detail');
+  for (const slug of ['election-source-bangor-borough-council-1920-01-15', 'ark-elections', 'bangor-urban-district-council-1920-01-15', '']) {
+    assert.equal(retiredSourceRedirect(new URL(`https://civgraph.net/_api/sources?slug=${slug}`)), null, slug);
+    assert.equal(resolveElectionSourceSlugAlias(slug), slug, slug);
+  }
+  assert.equal(retiredSourceRedirect(new URL('https://civgraph.net/_api/sources?q=bangor')), null);
 });

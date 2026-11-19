@@ -7,10 +7,15 @@
  *   GET /_api/sources?category=&publicationStatus=
  *   GET /_api/sources?slug=<slug>&view=detail    -> { item } the full record (was details/source-shards)
  *
+ * An election's source under a retired election or contest slug (election-source-<old>,
+ * packages/core/src/election-slug-aliases.js) answers 301 to the same request with the slug that
+ * replaced it, as the elections API does: browse.js follows it for an old #/ address.
+ *
  * The largest of the three indexes: 40,327 records, 51 MB across nine shards. Opening a
  * single source in Browse required all of it, because findItem() searches an in-memory
  * list. This returns kilobytes.
  */
+import { resolveElectionSourceSlugAlias } from '@civgraph/core/election-slug-aliases.js';
 import { browseIndexHandler } from '../_browse-index.js';
 import { parseJson } from '../_records.js';
 import { SOURCES } from '../../queries/cards.js';
@@ -27,7 +32,7 @@ async function detail({ db, slug, record, json }) {
   return json({ schemaVersion: 1, item: { ...record, ...match } });
 }
 
-export const onRequestGet = browseIndexHandler({
+const sources = browseIndexHandler({
   table: 'sources',
   recordColumn: 'card',
   aliasTable: 'source_aliases',
@@ -49,3 +54,25 @@ export const onRequestGet = browseIndexHandler({
   },
   facets: true,
 });
+
+/** @param {import('../../types.js').ApiContext} context */
+export async function onRequestGet(context) {
+  return retiredSourceRedirect(new URL(context.request.url)) || sources(context);
+}
+
+/**
+ * The same request with a retired election source slug replaced, as a 301, or null.
+ * @param {URL} url
+ * @returns {Response | null}
+ */
+export function retiredSourceRedirect(url) {
+  const slug = (url.searchParams.get('slug') || '').trim();
+  const resolved = slug ? resolveElectionSourceSlugAlias(slug) : slug;
+  if (!slug || resolved === slug) return null;
+  const target = new URL(url);
+  target.searchParams.set('slug', resolved);
+  return new Response(null, {
+    status: 301,
+    headers: { Location: target.toString(), 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' },
+  });
+}

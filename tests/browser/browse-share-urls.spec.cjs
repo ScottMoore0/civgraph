@@ -65,6 +65,34 @@ test.describe('Browse share addresses', () => {
     expect(length).toBeLessThanOrEqual(3);
   });
 
+  // A retired election slug (packages/core/src/election-slug-aliases.js): browse.js keeps no copy of
+  // the list. It asks the API for the old slug as for any record, fetch follows the 301 the API
+  // answers with (tests/functions/election-slug-aliases.test.mjs), and browse.js shows the record
+  // at its own address. page.route sees only the first request of a redirect, so the stub answers
+  // the old slug as the followed 301 does: with the current record.
+  test('an old #/ election address follows the API 301 and becomes the current record path', async ({ page }) => {
+    const OLD = 'castlederg-rural-district-council-1936-06-03-clue';
+    const NOW = 'castlederg-rural-district-council-1936-06-03-clare';
+    const asked = [];
+    await stubBrowse(page);
+    await page.route((url) => url.pathname === '/_api/elections', (route) => {
+      const url = new URL(route.request().url());
+      const slug = url.searchParams.get('slug');
+      if (url.searchParams.get('view') !== 'record') return route.fulfill(json({ error: 'not found' }, 404));
+      asked.push(slug);
+      if (slug === OLD || slug === NOW) return route.fulfill(json({ item: { slug: NOW, title: 'Clare', constituency: 'Clare', date: '1936-06-03' }, parent: { slug: 'castlederg-rural-district-council-1936-06-03' } }));
+      return route.fulfill(json({ error: 'not found', slug }, 404));
+    });
+    await page.goto('/browse/');
+    await page.goto(`/browse/#/elections/${OLD}`);
+    await expect(page).toHaveURL(new RegExp(`/browse/elections/${NOW}$`));
+    await expect(page.locator('#browseHero h1')).toContainText('Clare');
+    // One request: the old slug, answered with the current record; the address changes in place.
+    expect(asked).toEqual([OLD]);
+    const length = await page.evaluate(() => history.length);
+    expect(length).toBeLessThanOrEqual(3);
+  });
+
   test('lists keep their address in the hash', async ({ page }) => {
     await stubBrowse(page);
     await page.goto('/browse/');

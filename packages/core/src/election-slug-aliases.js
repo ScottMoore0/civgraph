@@ -2,11 +2,14 @@
  * Retired election and contest slugs, and the slugs that replaced them.
  *
  * An election or contest whose slug changed after it was published keeps its old address:
- * the Browse page Function (functions/_browse-page.js) and the elections API
- * (functions/_api/elections/index.js) answer the old one with a 301 to the new. _redirects
- * cannot do this, because Pages does not apply redirects to routes a Function serves. In-app
- * #/ links never reach the server; browse.js (RENAMED_RECORD_PREFIXES) keeps the same list
- * for those, and tests/functions/election-slug-aliases.test.mjs holds the two lists together.
+ * the Browse page Function (functions/_browse-page.js), the elections API
+ * (packages/api/src/handlers/elections/index.js) and the sources API, for an election's source
+ * page (packages/api/src/handlers/sources/index.js), answer the old one with a 301 to the new.
+ * _redirects cannot do this, because Pages does not apply redirects to routes a Function serves.
+ * This module is the only copy of the list: an in-app #/ link that never reaches the Browse page
+ * Function still asks the API for its record, follows the 301, and browse.js then shows the
+ * record's own address (tests/functions/election-slug-aliases.test.mjs, and
+ * tests/browser/browse-share-urls.spec.cjs for one old #/ route).
  *
  * ELECTION_SLUG_ALIASES maps an old slug, or an old prefix of slugs, to the new: an entry
  * matches the slug itself and any slug that continues it after a hyphen (an election's
@@ -893,6 +896,9 @@ export const RETIRED_CONTEST_SLUGS = [
   ['omagh-rural-district-council-1967-06-01-bencran', 'omagh-rural-district-council-1967-06-01-bancran'],
 ];
 
+/** An election's source record is this prefix and the election's or contest's slug. */
+export const ELECTION_SOURCE_PREFIX = 'election-source-';
+
 /**
  * The current slug for a retired one (lower-cased); any other slug comes back lower-cased.
  * @param {string | null | undefined} slug
@@ -907,4 +913,18 @@ export function resolveElectionSlugAlias(slug) {
     if (lower === from || lower.startsWith(`${from}-`)) return to + lower.slice(from.length);
   }
   return lower;
+}
+
+/**
+ * The current slug of an election's source record whose election or contest slug was retired
+ * (election-source-<old> to election-source-<new>); any other slug comes back as it was.
+ * @param {string | null | undefined} slug
+ * @returns {string}
+ */
+export function resolveElectionSourceSlugAlias(slug) {
+  const value = String(slug || '');
+  if (!value.toLowerCase().startsWith(ELECTION_SOURCE_PREFIX)) return value;
+  const rest = value.slice(ELECTION_SOURCE_PREFIX.length);
+  const resolved = resolveElectionSlugAlias(rest);
+  return resolved === rest.toLowerCase() ? value : ELECTION_SOURCE_PREFIX + resolved;
 }

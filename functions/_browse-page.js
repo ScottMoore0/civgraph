@@ -53,7 +53,7 @@ import { loadElectionPage, loadPersonContestSources } from '@civgraph/api/pages/
 import { groupedYearHero, groupedYearKey } from '@civgraph/ui/templates/records/grouped-year.js';
 import { PAGE_TYPES } from '@civgraph/ui/page-types.mjs';
 import { notAPartyLabels } from '@civgraph/core/party-names.mjs';
-import { resolveElectionSlugAlias } from '@civgraph/core/election-slug-aliases.js';
+import { ELECTION_SOURCE_PREFIX, resolveElectionSlugAlias } from '@civgraph/core/election-slug-aliases.js';
 import { SITE, binding } from '@civgraph/config';
 import { asStore } from '@civgraph/storage/d1.js';
 import { CARDS } from '@civgraph/api/queries/cards.js';
@@ -65,8 +65,6 @@ export { slugify, resolveElectionSlugAlias };
 export const SITE_ORIGIN = SITE.origin;
 const SITE_NAME = 'Civgraph';
 const DESCRIPTION_LIMIT = 300;
-/** An election's source record: this prefix and the election's slug. */
-const ELECTION_SOURCE_PREFIX = 'election-source-';
 // What a person's party list holds for candidacies with no label: the labels the parties registry
 // says stand for no party in candidacies (noPartyLabels: No label, No party recorded).
 const NOT_A_PARTY = notAPartyLabels('candidacies');
