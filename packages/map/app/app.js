@@ -229,9 +229,9 @@ class Test2App {
           uiController.hideFeatureInfo?.();
           return;
         }
-        // The adapter's features (their ids, names, properties and geometry), read as the feature
-        // panel reads GeoJSON ones: it does not read the GeoJSON `type` they lack.
-        uiController.showFeatureInfo(/** @type {import('../src/ui-controller-types.d.ts').InfoFeature[]} */ (/** @type {unknown} */ (features)), /** @type {import('../src/ui-controller-types.d.ts').MapRecord[]} */ (dataService.getAllMaps()));
+        // The adapter's features (their ids, names, properties and geometry), as the feature panel
+        // reads them: an InfoFeature is a PanelFeature, without the GeoJSON `type` they lack.
+        uiController.showFeatureInfo(/** @type {import('../src/ui-controller-types.d.ts').InfoFeature[]} */ (features), /** @type {import('../src/ui-controller-types.d.ts').MapRecord[]} */ (dataService.getAllMaps()));
         this.addFeaturesHereList(feature);
       },
       getMainMap: (mapId) => dataService.getMapById(mapId),

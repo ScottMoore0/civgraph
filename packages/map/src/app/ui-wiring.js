@@ -249,10 +249,10 @@ export class UiWiringMethods {
       this.syncCatalogueMapState();
       this.updateActiveLayers();
       this.updateURLState();
-      // The adapter's feature (its id, names, properties and geometry), read as the feature panel
-      // and pages read a GeoJSON one: they do not read the GeoJSON `type` it lacks.
+      // The adapter's feature (its id, names, properties and geometry), as the feature panel and
+      // pages read it: an InfoFeature is a PanelFeature, without the GeoJSON `type` it lacks.
       if (options.showInfo !== false) {
-        uiController.showFeatureInfo([/** @type {InfoFeature} */ (/** @type {unknown} */ ({ ...result.feature, mapId, id: featureId }))], /** @type {MapRecord[]} */ (dataService.getAllMaps()));
+        uiController.showFeatureInfo([/** @type {InfoFeature} */ ({ ...result.feature, mapId, id: featureId })], /** @type {MapRecord[]} */ (dataService.getAllMaps()));
       }
       return /** @type {Awaited<ReturnType<UiCallbacks['onLoadSingleFeature']>>} */ (/** @type {unknown} */ (result));
     };

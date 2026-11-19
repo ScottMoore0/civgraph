@@ -154,8 +154,15 @@ export interface MapRecord {
   [key: string]: unknown;
 }
 
+/**
+ * A feature as the map app hands it to its panels and pages: GeoJSON's, but for the `type`, which
+ * the map's rendered and found features (maplibre-main-adapter.js AdapterFeature) do not carry and
+ * nothing that reads one looks at.
+ */
+export type PanelFeature = Omit<MapFeature, 'type'> & { type?: 'Feature' };
+
 /** A feature as the feature pages keep it, with the whole-feature figures the popup worked out. */
-export type DetailFeature = MapFeature & {
+export type DetailFeature = PanelFeature & {
   mapId?: string;
   wholeAreaM2?: number;
   wholePerimeterM?: number;
@@ -603,7 +610,7 @@ export interface FeatureStatisticView {
  * A feature the map gives the feature panel (maplibre-main-adapter.js normalizeRenderedFeature,
  * or a timeline transition's part): the feature with its map and the names it is shown by.
  */
-export type InfoFeature = MapFeature & {
+export type InfoFeature = PanelFeature & {
   mapId?: string;
   mapName?: string;
   layerName?: string;

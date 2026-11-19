@@ -139,8 +139,8 @@ export class UrlStateMethods {
       const feature = this.mapController.findRenderedFeature?.(mapId, featureId);
       if (!feature) return;
       // A rendered feature (the adapter's): the feature page reads its id, properties, geometry and
-      // whole-feature figures, which it has, not the GeoJSON `type` it lacks.
-      uiController.cacheFeatureDetailEntry(mapConfig, /** @type {import('../ui-controller-types.d.ts').DetailFeature} */ (/** @type {unknown} */ (feature)), null, featureId);
+      // whole-feature figures, which it has; a DetailFeature is a PanelFeature, without the `type` it lacks.
+      uiController.cacheFeatureDetailEntry(mapConfig, /** @type {import('../ui-controller-types.d.ts').DetailFeature} */ (feature), null, featureId);
     }
     if (uiController._featureDetailCache?.has(page.key)) {
       uiController.showFeatureDetailInCatalogue(page.key, false, { restoreState: true, focus: !initial });
