@@ -8,9 +8,9 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { REPO_ROOT, loadRegistry } from '@civgraph/registries/index.mjs';
 import { checkElectionBodies } from '@civgraph/registries/election-bodies.mjs';
-import { alsoListedUnder } from '@civgraph/registries/browser/body-groups.mjs';
+import { alsoListedTitles, alsoListedUnder } from '@civgraph/registries/browser/body-groups.mjs';
 import { alsoListedUnderBody } from '@civgraph/registries/browser/election-group-lists.mjs';
-import { BODY_GROUPS, shelvesOf } from '@civgraph/map/catalogue/view-elections.js';
+import { BODY_GROUPS, onShelf, shelvesOf } from '@civgraph/map/catalogue/view-elections.js';
 import { alsoListedSources, bodyListing, bodySummaries } from '../../site/apps/elections/lib/body-list.js';
 
 const registry = loadRegistry('election-bodies');
@@ -41,7 +41,23 @@ test('alsoListedUnder: the keys listed under any of the bodies, once each', () =
   assert.deepEqual(alsoListedUnder(listed, ['x']), []);
   assert.deepEqual(alsoListedUnder(undefined, ['b']), []);
   assert.deepEqual(alsoListedUnderBody(COMMONS), [KEY_1918]);
-  assert.deepEqual(alsoListedUnderBody('dail-eireann'), []);
+  // The Northern Ireland general election of 24 May 1921 returned members of the Second Dáil too
+  // (Phelim Birch's comment of 17 Nov 2026).
+  assert.deepEqual(alsoListedUnderBody('dail-eireann'), ['parliament-of-northern-ireland__1921-05-24']);
+});
+
+test('alsoListedTitles and onShelf: a cross-listed election takes its title for that shelf only', () => {
+  const listed = [{ election: 'a__2000-01-01', body: 'b', title: 'A on b' }, { election: 'a__2000-01-01', body: 'c' }];
+  assert.deepEqual(alsoListedTitles(listed, ['b']), { 'a__2000-01-01': 'A on b' });
+  assert.deepEqual(alsoListedTitles(listed, ['c']), {});
+  assert.deepEqual(alsoListedTitles(undefined, ['b']), {});
+  // The 1918 election is "(First Dáil)" on the Dáil shelf and plain on Westminster's (comment of 17 Nov 2026).
+  const westminster = /** @type {import('@civgraph/map/catalogue/view-elections.js').BodyGroup} */ (BODY_GROUPS.find((g) => g.id === 'westminster'));
+  const dail = /** @type {import('@civgraph/map/catalogue/view-elections.js').BodyGroup} */ (BODY_GROUPS.find((g) => g.id === 'dail'));
+  assert.equal(westminster.alsoTitles[KEY_1918], '1918 UK general election in Ireland');
+  const e1918 = /** @type {import('@civgraph/map/catalogue/catalogue-types.d.ts').CatalogueRowElection} */ (/** @type {unknown} */ ({ key: KEY_1918, bodySlug: 'dail-eireann', title: '1918 UK general election in Ireland (First Dáil)' }));
+  assert.equal(onShelf(westminster, [e1918])[0].title, '1918 UK general election in Ireland');
+  assert.equal(onShelf(dail, [e1918])[0].title, '1918 UK general election in Ireland (First Dáil)');
 });
 
 test('the catalogue lists the 1918 election on the Dáil and Westminster shelves, the rest on their own', () => {

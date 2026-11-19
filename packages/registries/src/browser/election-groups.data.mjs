@@ -287,7 +287,8 @@ export default {
  "alsoListed": [
   {
    "election": "dail-eireann__1918-12-14",
-   "body": "house-of-commons-of-the-united-kingdom"
+   "body": "house-of-commons-of-the-united-kingdom",
+   "title": "1918 UK general election in Ireland"
   },
   {
    "election": "parliament-of-northern-ireland__1921-05-24",

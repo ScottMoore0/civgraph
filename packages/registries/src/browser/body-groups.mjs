@@ -14,7 +14,7 @@
 /**
  * An election listed under a second body besides the one it is filed under (the registry's
  * groups.alsoListed): the record stays one.
- * @typedef {{ election: string, body: string }} AlsoListed
+ * @typedef {{ election: string, body: string, title?: string }} AlsoListed
  */
 
 /**
@@ -26,6 +26,18 @@
  */
 export function alsoListedUnder(alsoListed, bodies) {
   return [...new Set((alsoListed || []).filter((entry) => bodies.includes(entry.body)).map((entry) => entry.election))];
+}
+
+/**
+ * The titles the elections listed under any of these bodies take there, where the registry gives
+ * one (the 1918 election, "(First Dáil)" in its own title, is plain "1918 UK general election in
+ * Ireland" on Westminster's shelf): election key -> title.
+ * @param {readonly AlsoListed[] | undefined} alsoListed
+ * @param {readonly string[]} bodies
+ * @returns {Record<string, string>}
+ */
+export function alsoListedTitles(alsoListed, bodies) {
+  return Object.fromEntries((alsoListed || []).filter((entry) => bodies.includes(entry.body) && entry.title).map((entry) => [entry.election, /** @type {string} */ (entry.title)]));
 }
 
 /**

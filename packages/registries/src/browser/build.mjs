@@ -148,7 +148,7 @@ export function browserSlices(root = REPO_ROOT) {
       entityHistory: structuredClone(electionBodies.groups.entityHistory),
       // The elections also listed under a second body (the catalogue shelf and Elections app page of
       // that body), without the registry's reasons.
-      alsoListed: (electionBodies.groups.alsoListed || []).map(({ election, body }) => ({ election, body }))
+      alsoListed: (electionBodies.groups.alsoListed || []).map(({ election, body, title }) => ({ election, body, ...(title ? { title } : {}) }))
     },
     'election-types.json': browserElectionTypes(electionTypes),
     'catalogue-kinds.json': browserCatalogueKinds(loadRegistry('catalogue-kinds', { root })),

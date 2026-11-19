@@ -11,7 +11,7 @@ import { extrasHtml, aboutHtml } from './view-maps.js';
 import { PeopleSearch } from './search.js';
 import electionBodies from '../../../registries/src/browser/election-bodies.mjs';
 import electionGroups from '../../../registries/src/browser/election-groups.mjs';
-import { alsoListedUnder } from '../../../registries/src/browser/body-groups.mjs';
+import { alsoListedTitles, alsoListedUnder } from '../../../registries/src/browser/body-groups.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 /** @typedef {import('./index.js').CatalogueNext} CatalogueNext */
 /** @typedef {import('./catalogue-types.d.ts').CatalogueRowElection} CatalogueRowElection */
@@ -19,7 +19,7 @@ import { siteNumber } from '../../../core/src/format.js';
  * A shelf of elections (BODY_GROUPS): its bodies, the elections filed under another body that are
  * listed on it too (`also`, keys), and the title of a year's grouped row where its elections of one
  * year are shown as one (`yearGroupTitle`, {year}: the European shelf).
- * @typedef {{ id: string, label: string, bodies: string[], also: string[], icon: string, colour: string, yearGroupTitle?: string }} BodyGroup
+ * @typedef {{ id: string, label: string, bodies: string[], also: string[], alsoTitles: Record<string, string>, icon: string, colour: string, yearGroupTitle?: string }} BodyGroup
  */
 /** A shelf's row: one election, or a year's elections under one title. @typedef {{ e: CatalogueRowElection } | { year: string, title: string, es: CatalogueRowElection[] }} ShelfRow */
 
@@ -63,7 +63,7 @@ export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
  * elections of the same day). An election the registry also lists under a body is on that body's
  * shelf as well as its own (alsoListed: the 1918 election, filed under the Dáil, on Westminster's). */
 export const BODY_GROUPS = electionGroups.shelves.map((/** @type {{ id: string, label: string, bodies: string[], icon: string, yearGroupTitle?: string }} */ { id, label, bodies, icon, yearGroupTitle }) => ({
-  id, label, bodies: [...bodies], also: alsoListedUnder(electionGroups.alsoListed, bodies), icon, colour: ELECTION_SHELF_COLOURS[/** @type {keyof typeof ELECTION_SHELF_COLOURS} */ (id)],
+  id, label, bodies: [...bodies], also: alsoListedUnder(electionGroups.alsoListed, bodies), alsoTitles: alsoListedTitles(electionGroups.alsoListed, bodies), icon, colour: ELECTION_SHELF_COLOURS[/** @type {keyof typeof ELECTION_SHELF_COLOURS} */ (id)],
   ...(yearGroupTitle ? { yearGroupTitle } : {}),
 }));
 /** @param {string} slug */
@@ -145,6 +145,16 @@ function shelfRowHtml(c, row, shelf) {
   </li>`;
 }
 
+/**
+ * A shelf's elections as it shows them: one listed there from another body takes the title the
+ * registry gives it on this shelf, if any (alsoListed `title`: the 1918 election on Westminster's).
+ * @param {Pick<BodyGroup, 'bodies' | 'alsoTitles'>} g @param {CatalogueRowElection[]} es
+ * @returns {CatalogueRowElection[]}
+ */
+export function onShelf(g, es) {
+  return es.map((e) => (!g.bodies.includes(e.bodySlug) && g.alsoTitles?.[e.key] ? { ...e, title: g.alsoTitles[e.key] } : e));
+}
+
 /** @param {CatalogueNext} c @param {BodyGroup} g @param {CatalogueRowElection[]} es @param {boolean} alone */
 function shelfHtml(c, g, es, alone) {
   const id = `e-${g.id}`;
@@ -153,7 +163,7 @@ function shelfHtml(c, g, es, alone) {
     <h3 class="cn-shelf__head" id="cn-shelf-h-${id}"><button type="button" class="cn-shelf__toggle" data-cn-shelf="${id}" aria-expanded="${open}">
       <span class="cn-shelf__icon">${icon(g.icon)}</span><span class="cn-shelf__name">${esc(g.label)}</span><span class="cn-count">${plural(es.length, 'election')}</span>${icon('chevron-down', 'cn-icon cn-shelf__chev')}</button></h3>
     <div class="cn-shelf__body"${open ? '' : ' hidden'}>
-      <ul class="cn-list" role="list">${shelfRows(es, g.yearGroupTitle).map((row) => shelfRowHtml(c, row, g.id)).join('')}</ul>
+      <ul class="cn-list" role="list">${shelfRows(onShelf(g, es), g.yearGroupTitle).map((row) => shelfRowHtml(c, row, g.id)).join('')}</ul>
     </div>
   </section>`;
 }

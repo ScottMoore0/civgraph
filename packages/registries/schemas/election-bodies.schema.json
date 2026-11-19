@@ -48,6 +48,7 @@
             "properties": {
               "election": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*__\\d{4}-\\d{2}-\\d{2}", "description": "The election's key (<body>__<date>)." },
               "body": { "$ref": "#/$defs/slug", "description": "The body it is also listed under: a body on a catalogue shelf, not its own." },
+              "title": { "type": "string", "minLength": 1, "description": "Its title on that body's catalogue shelf, where its own does not fit there (the 1918 election without its First Dáil marker on Westminster's)." },
               "why": { "type": "string", "minLength": 1 }
             }
           }
