@@ -115,7 +115,7 @@ const SECTION_COPY = {
 function sectionTypes() {
   const all = Object.keys(ENTITY_CONFIG);
   if (!SECTION_LAYER) return all;
-  return all.filter((type) => ENTITY_CONFIG[type].layer === SECTION_LAYER);
+  return all.filter((type) => /** @type {EntityConfig} */ (ENTITY_CONFIG[type]).layer === SECTION_LAYER);
 }
 
 /** @param {string} type */
@@ -865,7 +865,7 @@ function syncListAddress() {
   }
   for (const [key, value] of Object.entries(state.listFilters[state.activeType] || {})) if (value) params.set(`f.${key}`, value);
   if (state.activeType === 'parties' && ballotLabelsShown()) params.set('labels', '1');
-  if (LIST_SORTS[state.activeType] && state.listSort[state.activeType]) params.set('sort', state.listSort[state.activeType]);
+  if (LIST_SORTS[state.activeType] && state.listSort[state.activeType]) params.set('sort', /** @type {string} */ (state.listSort[state.activeType]));
   if (state.activeType === 'register-interests') {
     const controls = state.registerInterestControls;
     if (controls.sortKey && controls.sortKey !== 'date') params.set('sort', controls.sortKey);
@@ -949,7 +949,7 @@ const SHELL_PATH = pathRouteParts() ? '/browse/' : location.pathname;
  */
 function addressForRoute(route) {
   const raw = String(route || '').replace(/^.*?#\/?/, '');
-  const [routePath, query = ''] = raw.split('?');
+  const [routePath, query = ''] = /** @type {[string, string?]} */ (raw.split('?'));
   const parts = routePath.split('/').filter(Boolean);
   const type = parts[0] === 'people' ? 'persons' : parts[0];
   if (type && parts.length > 1 && PATH_ROUTE_TYPES.has(type)) {
@@ -1009,9 +1009,9 @@ function watchRecordLinks() {
 
 function pathRouteParts() {
   const match = /^\/browse\/([^/]+)\/(.+?)\/?$/.exec(location.pathname);
-  if (!match || !PATH_ROUTE_TYPES.has(match[1])) return null;
+  if (!match || !PATH_ROUTE_TYPES.has(/** @type {string} */ (match[1]))) return null;
   try {
-    return [match[1], decodeURIComponent(match[2])];
+    return [match[1], decodeURIComponent(/** @type {string} */ (match[2]))];
   } catch {
     return [match[1], match[2]];
   }
@@ -1024,7 +1024,7 @@ function parseRoute() {
   const useHash = !pathParts || /^#\//.test(location.hash);
   const rawHash = useHash ? location.hash.replace(/^#\/?/, '') : '';
   // A list keeps its search, depth, sort and filters after a ? inside the hash (syncListAddress).
-  const [hashPath, hashQuery = ''] = rawHash.split('?');
+  const [hashPath, hashQuery = ''] = /** @type {[string, string?]} */ (rawHash.split('?'));
   const hash = decodeURIComponent(hashPath);
   const parts = useHash ? hash.split('/').filter(Boolean) : pathParts;
   const params = new URLSearchParams(location.search);
@@ -1097,7 +1097,7 @@ async function renderCurrent() {
     await renderDivisionRoute(state.activeId);
     return;
   }
-  const config = ENTITY_CONFIG[state.activeType];
+  const config = /** @type {EntityConfig} */ (ENTITY_CONFIG[state.activeType]);
   state.currentDetail = null;
   setHero(config, null);
   els.results.innerHTML = '<div class="browse-loading">Loading browse data...</div>';
@@ -1334,7 +1334,7 @@ async function renderPortalSearch(query) {
           </div>
           ${group.type === 'proni'
             ? `<ul class="proni-child-list">${group.items.map((item) => proniResultRow(/** @type {BrowseItem} */ (item))).join('')}</ul>`
-            : `<div class="browse-grid">${group.items.map((item) => renderCard(group.type, /** @type {BrowseItem} */ (item), ENTITY_CONFIG[group.type], 3)).join('')}</div>`}
+            : `<div class="browse-grid">${group.items.map((item) => renderCard(group.type, /** @type {BrowseItem} */ (item), /** @type {EntityConfig} */ (ENTITY_CONFIG[group.type]), 3)).join('')}</div>`}
           ${group.seeAll ? `<p class="browse-section-switch"><a href="${escapeAttr(group.href)}" data-browse-link>${escapeHtml(group.seeAll)}</a></p>` : ''}
         </section>
       `).join('')}
@@ -1353,7 +1353,7 @@ async function renderPortalSearch(query) {
  * @returns {Promise<import('./search-all.js').SectionAnswer>}
  */
 async function searchSection(type, query) {
-  const label = ENTITY_CONFIG[type].label;
+  const label = /** @type {EntityConfig} */ (ENTITY_CONFIG[type]).label;
   try {
     if (type === 'proni') {
       if (query.length < 2) return { type, label, items: [], total: 0 };
@@ -1657,7 +1657,7 @@ function renderList(type, items) {
     renderRegisterInterestList(items);
     return;
   }
-  const config = ENTITY_CONFIG[type];
+  const config = /** @type {EntityConfig} */ (ENTITY_CONFIG[type]);
   let filtered = sortListItems(type, filterItems(applyListFilters(type, items), state.query));
   // Parties: the ballot-paper labels (a spelling seen on a few ballot papers, in no election's
   // party table) wait behind a button, so the parties are not lost among them.
@@ -1752,7 +1752,7 @@ function renderListFilterControls(type, items, facets = null) {
       </label>` : '';
   if (!selects && !sortSelect) return '';
   return `
-    <section class="browse-controls" aria-label="${escapeAttr(ENTITY_CONFIG[type].label)} filters">
+    <section class="browse-controls" aria-label="${escapeAttr(/** @type {EntityConfig} */ (ENTITY_CONFIG[type]).label)} filters">
       <div class="browse-filter-grid">${selects}${sortSelect}</div>
       ${active ? `<div class="browse-control-footer"><span>${active} active ${active === 1 ? 'filter' : 'filters'}.</span><button type="button" class="browse-btn" data-list-clear-filters>Clear filters</button></div>` : ''}
     </section>
@@ -1778,7 +1778,7 @@ function renderRegisterInterestList(items) {
   const textFiltered = filterItems(items, state.query);
   const filtered = applyRegisterInterestFilters(textFiltered);
   const sorted = sortRegisterInterestItems(filtered);
-  const config = ENTITY_CONFIG['register-interests'];
+  const config = /** @type {EntityConfig} */ (ENTITY_CONFIG['register-interests']);
   els.results.innerHTML = `
     ${renderRegisterInterestControls(items, sorted.length, items.length)}
     ${renderFilterSummary(sorted.length, items.length)}
@@ -2024,7 +2024,7 @@ async function loadProniNode(slug) {
 /** @param {string | null} id */
 async function renderProniRoute(id) {
   const token = renderSeq;
-  const config = ENTITY_CONFIG.proni;
+  const config = /** @type {EntityConfig} */ (ENTITY_CONFIG.proni);
   state.currentDetail = null;
   if (!id) {
     setHero(config, null);
@@ -2270,7 +2270,7 @@ function renderProniDetailPage(node) {
 /** @param {string} type @param {BrowseItem} indexItem */
 async function renderDetail(type, indexItem) {
   const token = renderSeq;
-  const config = ENTITY_CONFIG[type];
+  const config = /** @type {EntityConfig} */ (ENTITY_CONFIG[type]);
   const detail = await loadDetail(type, indexItem);
   if (token !== renderSeq) return;
   const item = detail?.item || indexItem;
@@ -2647,13 +2647,13 @@ function parseInterestText(text) {
   const matches = [...normalized.matchAll(labelPattern)];
   if (!matches.length) return { leading: normalized, fields: [] };
   const fields = [];
-  const firstIndex = matches[0].index + matches[0][1].length;
+  const firstIndex = /** @type {RegExpExecArray} */ (matches[0]).index + /** @type {string} */ (/** @type {RegExpExecArray} */ (matches[0])[1]).length;
   const leading = normalized.slice(0, firstIndex).trim();
   for (let i = 0; i < matches.length; i += 1) {
-    const match = matches[i];
-    const label = canonicalInterestLabel(match[2]);
+    const match = /** @type {RegExpExecArray} */ (matches[i]);
+    const label = canonicalInterestLabel(/** @type {string} */ (match[2]));
     const valueStart = match.index + match[0].length;
-    const valueEnd = i + 1 < matches.length ? matches[i + 1].index : normalized.length;
+    const valueEnd = i + 1 < matches.length ? /** @type {RegExpExecArray} */ (matches[i + 1]).index : normalized.length;
     const value = normalized.slice(valueStart, valueEnd).trim();
     if (value) fields.push([label, value]);
   }
@@ -2900,7 +2900,7 @@ async function renderMapFeaturesTable(item, entityId) {
   const bodyRows = shown.map((feature, index) => {
     const link = `<a href="#/entities/${encodeURIComponent(feature.subjectId)}" data-browse-link>${escapeHtml(feature.subjectLabel || feature.subjectId)}</a>`;
     const cells = columns.map((col) => {
-      const raw = attrMaps[index][col] || '';
+      const raw = /** @type {Record<string, string>} */ (attrMaps[index])[col] || '';
       return `<td>${isBoundingBoxColumn(col) ? renderBoundingBoxCell(raw) : escapeHtml(raw)}</td>`;
     }).join('');
     return `<tr><td class="browse-feature-thumb"></td><td>${link}</td>${cells}</tr>`;
@@ -3491,7 +3491,7 @@ function partyChartFrame(series) {
   const max = Math.max(...times);
   const span = Math.max(max - min, 1);
   const plotWidth = PARTY_CHART.width - PARTY_CHART.left - PARTY_CHART.right;
-  const x = (/** @type {number} */ index) => PARTY_CHART.left + ((times[index] - min) / span) * plotWidth;
+  const x = (/** @type {number} */ index) => PARTY_CHART.left + ((/** @type {number} */ (times[index]) - min) / span) * plotWidth;
   const firstYear = new Date(min).getUTCFullYear();
   const lastYear = new Date(max).getUTCFullYear();
   return { x, firstYear, lastYear, plotWidth, times };
@@ -3530,12 +3530,12 @@ function renderPartyBarChart(series, colour, label) {
   const { grid, xLabels, plotBottom, plotHeight } = partyChartAxes(maxSeats, (value) => formatNumber(Math.round(value)), frame);
   // Bars as wide as the closest pair of elections allows, less a 2px gap, within 3-14px.
   const xs = series.map((_point, index) => frame.x(index));
-  const closest = xs.slice(1).reduce((gap, value, index) => Math.min(gap, value - xs[index]), frame.plotWidth);
+  const closest = xs.slice(1).reduce((gap, value, index) => Math.min(gap, value - /** @type {number} */ (xs[index])), frame.plotWidth);
   const barWidth = Math.max(3, Math.min(14, closest - 2));
   const bars = series.map((point, index) => {
     const seats = Number(point.seats) || 0;
     const height = (seats / maxSeats) * plotHeight;
-    const cx = Math.min(Math.max(xs[index], PARTY_CHART.left + barWidth / 2), PARTY_CHART.width - PARTY_CHART.right - barWidth / 2);
+    const cx = Math.min(Math.max(/** @type {number} */ (xs[index]), PARTY_CHART.left + barWidth / 2), PARTY_CHART.width - PARTY_CHART.right - barWidth / 2);
     const x0 = cx - barWidth / 2;
     const radius = Math.min(4, barWidth / 2, height);
     const path = height > 0
@@ -3547,7 +3547,7 @@ function renderPartyBarChart(series, colour, label) {
       <rect class="browse-chart__hit" x="${cx - Math.max(barWidth, 10) / 2}" y="${PARTY_CHART.top}" width="${Math.max(barWidth, 10)}" height="${plotHeight}"><title>${escapeHtml(tip)}</title></rect>
     </g>`;
   }).join('');
-  const peak = series.reduce((best, point) => ((Number(point.seats) || 0) > (Number(best.seats) || 0) ? point : best), series[0]);
+  const peak = series.reduce((best, point) => ((Number(point.seats) || 0) > (Number(best.seats) || 0) ? point : best), /** @type {BrowseItem} */ (series[0]));
   return `
     <figure class="browse-chart">
       <figcaption>Seats won</figcaption>
@@ -3569,11 +3569,11 @@ function renderPartyLineChart(series, colour, label) {
       <circle class="browse-chart__dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="${escapeAttr(colour)}"></circle>
       <circle class="browse-chart__hit" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9"><title>${escapeHtml(`${formatDate(point.date)}: ${Number(point.share).toFixed(1)}%${point.votes ? ` (${formatNumber(point.votes)} votes)` : ''}`)}</title></circle>
     </g>`).join('');
-  const last = points[points.length - 1];
+  const last = /** @type {(typeof points)[number]} */ (points[points.length - 1]);
   return `
     <figure class="browse-chart">
       <figcaption>Share of the vote</figcaption>
-      <svg viewBox="0 0 ${PARTY_CHART.width} ${PARTY_CHART.height}" role="img" aria-label="${escapeAttr(`${label}: from ${Number(series[0].share).toFixed(1)}% in ${frame.firstYear} to ${Number(last.point.share).toFixed(1)}% in ${frame.lastYear}. The table below lists every figure.`)}">
+      <svg viewBox="0 0 ${PARTY_CHART.width} ${PARTY_CHART.height}" role="img" aria-label="${escapeAttr(`${label}: from ${Number(/** @type {BrowseItem} */ (series[0]).share).toFixed(1)}% in ${frame.firstYear} to ${Number(last.point.share).toFixed(1)}% in ${frame.lastYear}. The table below lists every figure.`)}">
         ${grid}
         <path class="browse-chart__line" d="${line}" stroke="${escapeAttr(colour)}"></path>
         ${marks}
@@ -4400,7 +4400,7 @@ const LINKABLE_ENTITY_KINDS = new Set([
  */
 function isLinkableEntityId(id) {
   const match = /^cg:([a-z-]+):/.exec(String(id || ''));
-  return Boolean(match && LINKABLE_ENTITY_KINDS.has(match[1]));
+  return Boolean(match && LINKABLE_ENTITY_KINDS.has(/** @type {string} */ (match[1])));
 }
 
 /**
@@ -6300,22 +6300,22 @@ async function renderFeatureGroups(data) {
   const selectedHtml = selected ? await renderFeatureGroupDetail(selected) : '';
   if (token !== renderSeq) return;
   if (selectedId && !selected) {
-    renderNotFound(ENTITY_CONFIG.features, selectedId);
+    renderNotFound(/** @type {EntityConfig} */ (ENTITY_CONFIG.features), selectedId);
     return;
   }
   // A feature group's page is titled by its map, as every other record is by itself; it kept
   // the heading "Features".
-  if (selected) setHero(ENTITY_CONFIG.features, { ...selected, description: selected.category || '' });
+  if (selected) setHero(/** @type {EntityConfig} */ (ENTITY_CONFIG.features), { ...selected, description: selected.category || '' });
   els.results.innerHTML = `
     ${selected ? selectedHtml : `
       <p class="browse-note">Each map's boundaries by name, grouped by map.</p>
       ${renderFilterSummary(items.length, data.items?.length || 0)}
-      ${renderListPage(items, (entry) => renderCard('features', entry, ENTITY_CONFIG.features))}
+      ${renderListPage(items, (entry) => renderCard('features', entry, /** @type {EntityConfig} */ (ENTITY_CONFIG.features)))}
     `}
   `;
   if (!selected) {
     state.lastListRender = () => renderFeatureGroups(data);
-    announceList(ENTITY_CONFIG.features, items.length);
+    announceList(/** @type {EntityConfig} */ (ENTITY_CONFIG.features), items.length);
   } else {
     announce(`Loaded ${selected.title}.`);
   }
@@ -6641,7 +6641,7 @@ async function fetchIndexFacets(type) {
  * @param {{ append?: boolean }} [options]
  */
 async function renderServerList(type, { append = false } = {}) {
-  const config = ENTITY_CONFIG[type];
+  const config = /** @type {EntityConfig} */ (ENTITY_CONFIG[type]);
   const isRegister = type === 'register-interests';
   const isSources = type === 'sources';
   const isPersons = type === 'persons';
@@ -6886,7 +6886,7 @@ async function loadElectionRecord(id) {
  * @param {{ list?: boolean }} [options]
  */
 async function loadIndex(type, { list = false } = {}) {
-  const config = ENTITY_CONFIG[type];
+  const config = /** @type {EntityConfig} */ (ENTITY_CONFIG[type]);
   if (list && config.listIndex) {
     const cacheKey = `${type}:list`;
     if (state.indexes.has(cacheKey)) return state.indexes.get(cacheKey);
@@ -6952,7 +6952,7 @@ function expandElectionList(data) {
  * @param {BrowseItem} item
  */
 async function loadDetail(type, item) {
-  const config = ENTITY_CONFIG[type];
+  const config = /** @type {EntityConfig} */ (ENTITY_CONFIG[type]);
   if (!config.detailDir) return { item };
   if (type === 'elections' && item.entryKind && item.entryKind !== 'election') return { item };
   const slug = item.slug || slugify(item.id || item.key || item.title);

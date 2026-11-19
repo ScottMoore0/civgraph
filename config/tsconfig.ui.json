@@ -10,6 +10,7 @@
     "tsconfig.ui-strict.json holds the files that check under full `strict`.",
     "Full `strict` here too since 12 Nov 2026 (stream rf8-types: strictPropertyInitialization and strictBuiltinIteratorReturn,",
     "the two flags it lacked, found nothing), so every file of this check, browse.js among them, checks under strict.",
+    "noUncheckedIndexedAccess since 19 Nov 2026 (stream w19-refactor-now): an index read is T | undefined; the fixes are JSDoc casts to the type the read had before, and words.js's year spans name their arrays once.",
     "rootDirs: site/ is the served root, so a served-URL relative import in site/ (../../packages/types/) resolves from the repository root (8 Nov 2026)."
   ],
   "compilerOptions": {
@@ -39,7 +40,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "exactOptionalPropertyTypes": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true
   },
   "include": [
     "../site/browse/browse.js",

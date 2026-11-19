@@ -168,7 +168,7 @@ function totalAt(c, n) {
 }
 
 /** The last count at which a candidate held votes. @param {MapCandidate} c */
-const lastHeld = (c) => (c.counts.length ? c.counts[c.counts.length - 1][0] : 0);
+const lastHeld = (c) => (c.counts.length ? /** @type {[number, number]} */ (c.counts[c.counts.length - 1])[0] : 0);
 
 /**
  * How close a contest was: the votes between the weakest candidate elected and the strongest not
@@ -204,20 +204,20 @@ export function contestMargin(a) {
   /** @type {number | null} */
   let count = null;
   if (a.lastCount > 1) {
-    runnerUp = [...losers].sort((x, y) => lastHeld(y) - lastHeld(x) || (totalAt(y, lastHeld(y)) || 0) - (totalAt(x, lastHeld(x)) || 0))[0];
+    runnerUp = /** @type {MapCandidate} */ ([...losers].sort((x, y) => lastHeld(y) - lastHeld(x) || (totalAt(y, lastHeld(y)) || 0) - (totalAt(x, lastHeld(x)) || 0))[0]);
     count = lastHeld(runnerUp);
     const at = /** @type {number} */ (count);
     const late = winners.filter((w) => w.electedAt !== null && w.electedAt >= at);
     const held = (late.length ? late : winners).map((w) => /** @type {[MapCandidate, number | null]} */ ([w, totalAt(w, at)])).filter(([, t]) => t !== null);
     if (!held.length || !count) return { reason: MAP_TEXT.stagesMissing };
     held.sort((x, y) => /** @type {number} */ (x[1]) - /** @type {number} */ (y[1]));
-    winner = held[0][0];
-    votes = /** @type {number} */ (held[0][1]) - /** @type {number} */ (totalAt(runnerUp, at));
+    winner = /** @type {[MapCandidate, number | null]} */ (held[0])[0];
+    votes = /** @type {number} */ (/** @type {[MapCandidate, number | null]} */ (held[0])[1]) - /** @type {number} */ (totalAt(runnerUp, at));
   } else {
     if (isStv(a.system) && !(a.quota && winners.every((w) => (w.first || 0) >= /** @type {number} */ (a.quota)))) return { reason: MAP_TEXT.stagesMissing };
     if (winners.some((w) => w.first === null)) return { reason: MAP_TEXT.notRecorded };
-    winner = [...winners].sort((x, y) => (x.first || 0) - (y.first || 0))[0];
-    runnerUp = [...losers].sort((x, y) => (y.first || 0) - (x.first || 0))[0];
+    winner = /** @type {MapCandidate} */ ([...winners].sort((x, y) => (x.first || 0) - (y.first || 0))[0]);
+    runnerUp = /** @type {MapCandidate} */ ([...losers].sort((x, y) => (y.first || 0) - (x.first || 0))[0]);
     votes = (winner.first || 0) - (runnerUp.first || 0);
   }
   if (!(votes >= 0)) return { reason: MAP_TEXT.noMargin };
@@ -294,20 +294,20 @@ export function classEdges(values, n = 5) {
   let lo = Math.floor(min / step) * step;
   while (Math.ceil((max - lo) / step) > n) { step = niceStep(step * 1.01); lo = Math.floor(min / step) * step; }
   const edges = [lo];
-  while (edges[edges.length - 1] < max) edges.push(Math.round((edges[edges.length - 1] + step) * 1e6) / 1e6);
+  while (/** @type {number} */ (edges[edges.length - 1]) < max) edges.push(Math.round((/** @type {number} */ (edges[edges.length - 1]) + step) * 1e6) / 1e6);
   return edges;
 }
 
 /** The colours of k classes from the sequential ramp, spread over it. @param {number} k */
 export function classColours(k) {
-  if (k <= 1) return [SEQ[Math.floor(SEQ.length / 2)]];
-  return Array.from({ length: k }, (_, i) => SEQ[Math.round((i * (SEQ.length - 1)) / (k - 1))]);
+  if (k <= 1) return [/** @type {string} */ (SEQ[Math.floor(SEQ.length / 2)])];
+  return Array.from({ length: k }, (_, i) => /** @type {string} */ (SEQ[Math.round((i * (SEQ.length - 1)) / (k - 1))]));
 }
 
 /** The class of v among the edges. @param {number} v @param {number[]} edges */
 export function classOf(v, edges) {
   if (edges.length < 2) return 0;
-  for (let i = 1; i < edges.length - 1; i += 1) if (v < edges[i]) return i - 1;
+  for (let i = 1; i < edges.length - 1; i += 1) if (v < /** @type {number} */ (edges[i])) return i - 1;
   return edges.length - 2;
 }
 
@@ -325,8 +325,8 @@ export function sequentialScale(values, fmt, opt = {}) {
   const colourOf = (/** @type {number | null} */ v) => (v === null || !edges.length ? null : colours[classOf(v, edges)]);
   /** @type {LegendItem[]} */
   const legend = edges.length < 2 ? [] : edges[0] === edges[1]
-    ? [{ kind: 'swatch', colours: [colours[0]], label: fmt(edges[0], digits) }]
-    : colours.map((c, i) => ({ kind: 'swatch', colours: [c], label: `${fmt(edges[i], digits)}–${fmt(edges[i + 1], digits)}` }));
+    ? [{ kind: 'swatch', colours: [/** @type {string} */ (colours[0])], label: fmt(/** @type {number} */ (edges[0]), digits) }]
+    : colours.map((c, i) => ({ kind: 'swatch', colours: [c], label: `${fmt(/** @type {number} */ (edges[i]), digits)}–${fmt(/** @type {number} */ (edges[i + 1]), digits)}` }));
   return { colourOf, legend };
 }
 
@@ -415,18 +415,18 @@ export function modeFigures(areas, mode, opt = {}) {
         text = m.tie
           ? fill(m.seats === 1 ? MAP_PATTERNS.tieOne : MAP_PATTERNS.tieMany, { parties: m.parties.join(', '), seats: m.seats })
           : a.seats === 1 && lone.length === 1
-            ? fill(MAP_PATTERNS.wonOne, { party: m.parties[0], name: lone[0].name })
-            : fill(MAP_PATTERNS.wonMany, { party: m.parties[0], seats: m.seats, total: a.seats });
+            ? fill(MAP_PATTERNS.wonOne, { party: /** @type {string} */ (m.parties[0]), name: /** @type {MapCandidate} */ (lone[0]).name })
+            : fill(MAP_PATTERNS.wonMany, { party: /** @type {string} */ (m.parties[0]), seats: m.seats, total: a.seats });
         if (a.poll !== 'polled') text += ` (${a.poll === 'unopposed' ? MAP_TEXT.unopposed : MAP_TEXT.notRecorded})`;
       } else {
         const top = pollToppers(a);
         if (!top.length) return blank(a.poll === 'unopposed' ? MAP_TEXT.unopposed : MAP_TEXT.notRecorded);
         who = [...new Map(top.map((c) => [c.party, { party: c.party, colour: c.colour }])).values()].sort((x, y) => x.party.localeCompare(y.party));
-        const share = a.valid ? fmtPct((100 * /** @type {number} */ (top[0].first)) / a.valid) : '—';
+        const share = a.valid ? fmtPct((100 * /** @type {number} */ (/** @type {MapCandidate} */ (top[0]).first)) / a.valid) : '—';
         const stv = isStv(a.system);
         text = top.length > 1
-          ? fill(stv ? MAP_PATTERNS.topperTie : MAP_PATTERNS.topperTieVotes, { names: top.map((c) => fill(MAP_PATTERNS.candidate, { name: c.name, party: c.party })).join(', '), votes: fmtInt(top[0].first) })
-          : fill(stv ? MAP_PATTERNS.topper : MAP_PATTERNS.topperVotes, { name: top[0].name, party: top[0].party, votes: fmtInt(top[0].first), share });
+          ? fill(stv ? MAP_PATTERNS.topperTie : MAP_PATTERNS.topperTieVotes, { names: top.map((c) => fill(MAP_PATTERNS.candidate, { name: c.name, party: c.party })).join(', '), votes: fmtInt(/** @type {MapCandidate} */ (top[0]).first) })
+          : fill(stv ? MAP_PATTERNS.topper : MAP_PATTERNS.topperVotes, { name: /** @type {MapCandidate} */ (top[0]).name, party: /** @type {MapCandidate} */ (top[0]).party, votes: fmtInt(/** @type {MapCandidate} */ (top[0]).first), share });
       }
       if (who.length > 1) {
         const id = `tie:${who.map((w) => w.party).join('|')}`;
@@ -435,8 +435,8 @@ export function modeFigures(areas, mode, opt = {}) {
         for (const w of who) used.set(w.party, w.colour);
         return { value: who.length, pattern: id, text };
       }
-      used.set(who[0].party, who[0].colour);
-      return { value: 1, colour: who[0].colour, text };
+      used.set(/** @type {(typeof who)[number]} */ (who[0]).party, /** @type {(typeof who)[number]} */ (who[0]).colour);
+      return { value: 1, colour: /** @type {(typeof who)[number]} */ (who[0]).colour, text };
     });
     title = mode === 'winner' ? MAP_TEXT.keyWinner : MAP_TEXT.keyTopper;
     // Up to TIES_LISTED ties each have their own entry; more (a local election has dozens) share one.
@@ -444,7 +444,7 @@ export function modeFigures(areas, mode, opt = {}) {
     legend = [
       ...[...used].sort((x, y) => x[0].localeCompare(y[0])).map(([label, colour]) => ({ kind: /** @type {const} */ ('swatch'), colours: [colour], label })),
       ...(ties.length > TIES_LISTED
-        ? [{ kind: /** @type {const} */ ('split'), colours: ties[0][1], label: MAP_TEXT.keyTies }]
+        ? [{ kind: /** @type {const} */ ('split'), colours: /** @type {[string, string[]]} */ (ties[0])[1], label: MAP_TEXT.keyTies }]
         : ties.map(([id, colours]) => ({ kind: /** @type {const} */ ('split'), colours, label: fill(MAP_PATTERNS.keyTie, { parties: id.slice(4).split('|').join(', ') }) }))),
     ];
   } else if (mode === 'share' || mode === 'swing') {
@@ -468,7 +468,7 @@ export function modeFigures(areas, mode, opt = {}) {
       };
     });
     const scale = mode === 'share' ? sequentialScale(raw.map((r) => r.value), (v, d) => fmtPct(v, d), { reverse: !!opt.dark }) : divergingScale(raw.map((r) => r.value), (v) => fmtDelta(v, 1));
-    raw = raw.map((r) => ({ ...r, colour: r.value === null ? null : scale.colourOf(r.value) }));
+    raw = raw.map((r) => ({ ...r, colour: r.value === null ? null : /** @type {string | null} */ (scale.colourOf(r.value)) }));
     legend = scale.legend;
     title = mode === 'share' ? fill(areas.some((a) => isStv(a.system)) ? MAP_PATTERNS.keyShare : MAP_PATTERNS.keyShareVotes, { party }) : fill(MAP_PATTERNS.keySwing, { party, election: opt.beforeTitle || '' });
   } else {
@@ -485,7 +485,7 @@ export function modeFigures(areas, mode, opt = {}) {
       return { value: m.pct, text: marginText(m) };
     });
     const scale = sequentialScale(raw.map((r) => r.value), (v, d) => fmtPct(v, d), { reverse: (mode === 'margin') !== !!opt.dark });
-    raw = raw.map((r) => ({ ...r, colour: r.value === null ? null : scale.colourOf(r.value) }));
+    raw = raw.map((r) => ({ ...r, colour: r.value === null ? null : /** @type {string | null} */ (scale.colourOf(r.value)) }));
     legend = scale.legend;
     title = mode === 'turnout' ? MAP_TEXT.keyTurnout : mode === 'spoilt' ? MAP_TEXT.keySpoilt : MAP_TEXT.keyMargin;
   }
@@ -493,10 +493,10 @@ export function modeFigures(areas, mode, opt = {}) {
   const figures = areas.map((a, i) => ({
     name: a.name,
     feature: a.feature,
-    value: raw[i].value,
-    colour: raw[i].colour ?? null,
-    pattern: raw[i].pattern ?? null,
-    text: raw[i].text,
+    value: /** @type {(typeof raw)[number]} */ (raw[i]).value,
+    colour: /** @type {(typeof raw)[number]} */ (raw[i]).colour ?? null,
+    pattern: /** @type {(typeof raw)[number]} */ (raw[i]).pattern ?? null,
+    text: /** @type {(typeof raw)[number]} */ (raw[i]).text,
     margin: contestMargin(a),
   }));
   if (figures.some((f) => f.pattern === NO_DATA)) legend.push({ kind: 'none', colours: [], label: MAP_TEXT.noData });

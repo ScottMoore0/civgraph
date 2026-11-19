@@ -198,7 +198,7 @@
       var parts = en.split(/(\{[a-zA-Z0-9_]+\})/);
       var src = parts.map(function (part) {
         var m = /^\{([a-zA-Z0-9_]+)\}$/.exec(part);
-        if (m) { names.push(m[1]); return PLACEHOLDER_RE[m[1]] || '(.+?)'; }
+        if (m) { names.push(/** @type {string} */ (m[1])); return PLACEHOLDER_RE[/** @type {string} */ (m[1])] || '(.+?)'; }
         return escapeRe(part);
       }).join('');
       if (!names.length) return;
@@ -320,7 +320,7 @@
   function matchPatterns(s, depth) {
     if (s.length > 240) return null;
     for (var i = 0; i < state.patterns.length; i++) {
-      var p = state.patterns[i];
+      var p = /** @type {(typeof state.patterns)[number]} */ (state.patterns[i]);
       if (p.anchor && s.indexOf(p.anchor) < 0) continue;
       var match = p.re.exec(s);
       if (!match) continue;
@@ -330,10 +330,10 @@
       var params = {};
       var untranslated = 0;
       for (var j = 0; j < p.names.length; j++) {
-        var value = match[j + 1];
-        var out = translateValue(p.names[j], value, depth);
-        if (out === value && /[A-Za-z]{3}/.test(value) && !PLACEHOLDER_RE[p.names[j]]) untranslated += 1;
-        params[p.names[j]] = out;
+        var value = /** @type {string} */ (match[j + 1]);
+        var out = translateValue(/** @type {string} */ (p.names[j]), value, depth);
+        if (out === value && /[A-Za-z]{3}/.test(value) && !PLACEHOLDER_RE[/** @type {string} */ (p.names[j])]) untranslated += 1;
+        params[/** @type {string} */ (p.names[j])] = out;
       }
       // "{a} {b}"-style patterns with no literal of their own only count when they translated
       // something; otherwise any two words would be rearranged.
@@ -422,7 +422,7 @@
     if (!checked && skipElement(el)) return;
     var memo = attrMemo.get(el);
     for (var i = 0; i < ATTRS.length; i++) {
-      var name = ATTRS[i];
+      var name = /** @type {string} */ (ATTRS[i]);
       if (!el.hasAttribute(name)) continue;
       var value = el.getAttribute(name) || '';
       var rec = memo && memo[name];
@@ -468,8 +468,8 @@
       spec.split(';').forEach(function (pair) {
         var bits = pair.split(':');
         if (bits.length !== 2) return;
-        var attr = bits[0].trim();
-        var akey = bits[1].trim();
+        var attr = /** @type {string} */ (bits[0]).trim();
+        var akey = /** @type {string} */ (bits[1]).trim();
         var orig = el.getAttribute('data-i18n-orig-' + attr);
         if (orig === null) { orig = el.getAttribute(attr) || ''; el.setAttribute('data-i18n-orig-' + attr, orig); }
         var v = inSource() ? null : state.target[akey];
@@ -491,7 +491,7 @@
     var container = /** @type {ParentNode} */ (rootNode);
     if (container.querySelectorAll) {
       var list = container.querySelectorAll('[data-i18n],[data-i18n-html],[data-i18n-attr]');
-      for (var k = 0; k < list.length; k++) keyed.push(list[k]);
+      for (var k = 0; k < list.length; k++) keyed.push(/** @type {Element} */ (list[k]));
     }
     keyed.forEach(translateKeyed);
     var walker = document.createTreeWalker(rootNode, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT, {
@@ -541,9 +541,9 @@
   var observer = new MutationObserver(function (records) {
     if (applying || (inSource() && !textMemoInUse)) return;
     for (var i = 0; i < records.length; i++) {
-      var r = records[i];
+      var r = /** @type {MutationRecord} */ (records[i]);
       if (r.type === 'childList') {
-        for (var j = 0; j < r.addedNodes.length; j++) queue(r.addedNodes[j]);
+        for (var j = 0; j < r.addedNodes.length; j++) queue(/** @type {Node} */ (r.addedNodes[j]));
       } else if (r.type === 'characterData') {
         queue(r.target);
       } else if (r.type === 'attributes') {
@@ -603,8 +603,8 @@
     Object.keys(LANGS).forEach(function (code) {
       var opt = document.createElement('option');
       opt.value = code;
-      opt.textContent = LANGS[code].name; // each language in its own name, never translated
-      opt.lang = LANGS[code].htmlLang || SOURCE;
+      opt.textContent = /** @type {(typeof LANGS)[string]} */ (LANGS[code]).name; // each language in its own name, never translated
+      opt.lang = /** @type {(typeof LANGS)[string]} */ (LANGS[code]).htmlLang || SOURCE;
       select.appendChild(opt);
     });
     select.value = state.lang;
@@ -774,11 +774,11 @@
     var ids = [layer.id, layer.layerId, layer.sourceMapId, layer.mapId];
     for (var k = 0; k < ids.length; k++) {
       var id = ids[k];
-      if (id && state.placeFields[id]) return state.placeFields[id];
+      if (id && state.placeFields[id]) return /** @type {string} */ (state.placeFields[id]);
     }
     var props = /** @type {string[]} */ ([]).concat(layer.categoricalProperties || [], layer.popupProperties || []);
     for (var i = 0; i < state.placeFieldHints.length; i++) {
-      if (props.indexOf(state.placeFieldHints[i]) >= 0) return state.placeFieldHints[i];
+      if (props.indexOf(/** @type {string} */ (state.placeFieldHints[i])) >= 0) return /** @type {string} */ (state.placeFieldHints[i]);
     }
     return null;
   }

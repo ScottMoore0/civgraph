@@ -165,7 +165,7 @@ export function seriesOf(history, partyKey = partyKeyFor()) {
     /** @type {ContestModel | null} */
     let lastGeneral = null;
     s.contests.forEach((m, i) => {
-      const before = i ? s.contests[i - 1] : null;
+      const before = i ? /** @type {ContestModel} */ (s.contests[i - 1]) : null;
       m.boundary = !before ? 'first'
         : !m.contest.mapId || !before.contest.mapId ? 'unknown'
           : m.contest.mapId === before.contest.mapId ? 'same' : 'changed';

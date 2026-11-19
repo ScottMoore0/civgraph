@@ -45,8 +45,8 @@ export function sourceWords(ci) {
   // A bare address as the title (an archive's ARK, say) reads as its site.
   const title = rawTitle && !/^https?:\/\//i.test(rawTitle) ? rawTitle : host || rawTitle || SOURCE_WORDS.untitled;
   const kindId = String(ci.kind || '');
-  const kind = Object.hasOwn(sourceKindLabels, kindId) ? sourceKindLabels[kindId] : '';
-  const scope = Object.hasOwn(SCOPE_WORDS, String(ci.scope || '')) ? SCOPE_WORDS[String(ci.scope)] : '';
+  const kind = Object.hasOwn(sourceKindLabels, kindId) ? /** @type {string} */ (sourceKindLabels[kindId]) : '';
+  const scope = Object.hasOwn(SCOPE_WORDS, String(ci.scope || '')) ? /** @type {string} */ (SCOPE_WORDS[String(ci.scope)]) : '';
   let note = String(ci.check || '').trim();
   /** @type {SourceWords['badge']} */
   let badge = ci.checked ? 'checked' : 'unchecked';

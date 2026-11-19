@@ -59,7 +59,7 @@ export const COUNTED_PATTERNS = Object.freeze([...new Set(Object.values(COUNTED)
  * @param {keyof typeof COUNTED} id @param {number} n @param {(v: number) => string} fmt @param {number} [total]
  */
 export function counted(id, n, fmt, total) {
-  const [one, many] = COUNTED[id];
+  const [one, many] = /** @type {[string, string]} */ (COUNTED[id]);
   return (n === 1 ? one : many).replace('{n}', fmt(n)).replace('{total}', total === undefined ? '' : fmt(total));
 }
 

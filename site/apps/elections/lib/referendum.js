@@ -65,8 +65,8 @@ export function referendumOptions(partySummary) {
 export function resultWords(options, pct) {
   const ranked = [...options].filter((o) => o.share !== null).sort((a, b) => (b.share ?? 0) - (a.share ?? 0));
   if (!ranked.length) return '';
-  if (ranked.length > 1 && ranked[0].share === ranked[1].share) return REFERENDUM_WORDS.tied;
-  const top = ranked[0];
+  if (ranked.length > 1 && /** @type {RefOption} */ (ranked[0]).share === /** @type {RefOption} */ (ranked[1]).share) return REFERENDUM_WORDS.tied;
+  const top = /** @type {RefOption} */ (ranked[0]);
   const yesNo = options.length === 2 && options.every((o) => /^(yes|no)$/i.test(o.option));
   const share = pct(/** @type {number} */ (top.share));
   if (yesNo) return (/^yes$/i.test(top.option) ? REFERENDUM_WORDS.carried : REFERENDUM_WORDS.rejected).replace('{pct}', share);

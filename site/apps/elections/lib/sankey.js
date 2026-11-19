@@ -64,8 +64,8 @@ export function heldVotes(sheet, events) {
       const total = totalAt(row, stage);
       if (total !== null) { list.push(Math.max(0, total)); return; }
       if (i === 0 || !row.elected) { list.push(0); return; }
-      const moved = events[i].surpluses.find((s) => s.id === row.id)?.amount || 0;
-      list.push(Math.max(0, list[i - 1] - moved));
+      const moved = /** @type {import("./stv.js").CountEvent} */ (events[i]).surpluses.find((s) => s.id === row.id)?.amount || 0;
+      list.push(Math.max(0, /** @type {number} */ (list[i - 1]) - moved));
     });
     held.set(row.id, list);
   }
@@ -82,11 +82,11 @@ export function countSankey(sheet, events) {
   const held = heldVotes(sheet, events);
   const rows = sheet.rows;
   const nt = [0];
-  for (let i = 1; i < S; i += 1) nt.push(nt[i - 1] + events[i].nonTransferable);
+  for (let i = 1; i < S; i += 1) nt.push(/** @type {number} */ (nt[i - 1]) + /** @type {import("./stv.js").CountEvent} */ (events[i]).nonTransferable);
   const colGap = Math.max(64, Math.min(110, (1000 - LEFT - RIGHT) / (S - 1)));
   const W = Math.round(LEFT + (S - 1) * colGap + NODE_W + RIGHT);
   const x = (/** @type {number} */ i) => LEFT + i * colGap;
-  const poll = Math.max(1, ...sheet.stages.map((_, i) => rows.reduce((s, r) => s + (/** @type {number[]} */ (held.get(r.id))[i] || 0), 0) + nt[i]));
+  const poll = Math.max(1, ...sheet.stages.map((_, i) => rows.reduce((s, r) => s + (/** @type {number[]} */ (held.get(r.id))[i] || 0), 0) + /** @type {number} */ (nt[i])));
   const slots = rows.length + 1;
   const chartH = Math.max(260, slots * 22);
   const scale = (chartH - GAP * (slots - 1)) / poll;
@@ -100,7 +100,7 @@ export function countSankey(sheet, events) {
   for (let i = 0; i < S; i += 1) {
     let y = TOP;
     for (const r of rows) {
-      const v = /** @type {number[]} */ (held.get(r.id))[i];
+      const v = /** @type {number} */ (/** @type {number[]} */ (held.get(r.id))[i]);
       if (!top.has(r.id)) top.set(r.id, []);
       /** @type {number[]} */ (top.get(r.id))[i] = y;
       if (v > EPS) y += v * scale + GAP;
@@ -108,7 +108,7 @@ export function countSankey(sheet, events) {
     ntTop.push(y);
   }
   // Where the next band leaves (out) and arrives (in) on each block.
-  const outY = (/** @type {string} */ id, /** @type {number} */ i) => /** @type {number[]} */ (top.get(id))[i];
+  const outY = (/** @type {string} */ id, /** @type {number} */ i) => /** @type {number} */ (/** @type {number[]} */ (top.get(id))[i]);
   /** @type {Map<string, number>} */ const outUsed = new Map();
   /** @type {Map<string, number>} */ const inUsed = new Map();
   const take = (/** @type {Map<string, number>} */ used, /** @type {string} */ key, /** @type {number} */ base, /** @type {number} */ h) => {
@@ -124,29 +124,29 @@ export function countSankey(sheet, events) {
   /** @type {string[]} */
   const parts = [];
   for (let i = 1; i < S; i += 1) {
-    const ev = events[i];
+    const ev = /** @type {import("./stv.js").CountEvent} */ (events[i]);
     const x0 = x(i - 1) + NODE_W;
     const x1 = x(i);
     // Votes kept: each candidate's block to their block at the next count.
     for (const r of rows) {
       const h = /** @type {number[]} */ (held.get(r.id));
-      const kept = Math.min(h[i - 1], h[i]);
+      const kept = Math.min(/** @type {number} */ (h[i - 1]), /** @type {number} */ (h[i]));
       if (kept <= EPS) continue;
       const k = `${r.id}@${i - 1}`;
       const hk = kept * scale;
       parts.push(band(x0, take(outUsed, k, outY(r.id, i - 1), hk), x1, take(inUsed, `${r.id}@${i}`, outY(r.id, i), hk), hk, partyColour(r.colour), 0.22,
         fill(SANKEY_TEXT.kept, { name: r.name, n: fmtInt(kept) })));
     }
-    if (nt[i - 1] > EPS) {
-      const hk = nt[i - 1] * scale;
-      parts.push(band(x0, take(outUsed, `nt@${i - 1}`, ntTop[i - 1], hk), x1, take(inUsed, `nt@${i}`, ntTop[i], hk), hk, electionsAppColours.nonTransferable, 0.22, SANKEY_TEXT.nonTransferable));
+    if (/** @type {number} */ (nt[i - 1]) > EPS) {
+      const hk = /** @type {number} */ (nt[i - 1]) * scale;
+      parts.push(band(x0, take(outUsed, `nt@${i - 1}`, /** @type {number} */ (ntTop[i - 1]), hk), x1, take(inUsed, `nt@${i}`, /** @type {number} */ (ntTop[i]), hk), hk, electionsAppColours.nonTransferable, 0.22, SANKEY_TEXT.nonTransferable));
     }
     const from = [...ev.surpluses, ...ev.exclusions, ...ev.unknown];
     const targets = ev.gains.map((g) => ({ id: g.id, name: g.name, colour: g.colour, amount: g.amount, nt: false }));
     if (ev.nonTransferable > EPS) targets.push({ id: 'nt', name: SANKEY_TEXT.nonTransferable, colour: electionsAppColours.nonTransferable, amount: ev.nonTransferable, nt: true });
-    const arrive = (/** @type {{ id: string, nt: boolean }} */ t, /** @type {number} */ hh) => (t.nt ? take(inUsed, `nt@${i}`, ntTop[i], hh) : take(inUsed, `${t.id}@${i}`, outY(t.id, i), hh));
+    const arrive = (/** @type {{ id: string, nt: boolean }} */ t, /** @type {number} */ hh) => (t.nt ? take(inUsed, `nt@${i}`, /** @type {number} */ (ntTop[i]), hh) : take(inUsed, `${t.id}@${i}`, outY(t.id, i), hh));
     if (from.length === 1) {
-      const src = from[0];
+      const src = /** @type {import("./stv.js").Mover} */ (from[0]);
       const srcRow = byId.get(src.id);
       for (const t of targets) {
         const hh = t.amount * scale;
@@ -183,20 +183,20 @@ export function countSankey(sheet, events) {
   for (let i = 0; i < S; i += 1) {
     blocks.push(`<text x="${(x(i) + NODE_W / 2).toFixed(1)}" y="14" text-anchor="middle" font-size="11" fill="currentColor">${esc(fill(SANKEY_TEXT.count, { count: sheet.stages[i] }))}</text>`);
     for (const r of rows) {
-      const v = /** @type {number[]} */ (held.get(r.id))[i];
+      const v = /** @type {number} */ (/** @type {number[]} */ (held.get(r.id))[i]);
       if (v <= EPS) continue;
       blocks.push(`<rect x="${x(i)}" y="${outY(r.id, i).toFixed(1)}" width="${NODE_W}" height="${Math.max(1, v * scale).toFixed(1)}" fill="${esc(partyColour(r.colour))}"><title>${esc(fill(SANKEY_TEXT.block, { name: r.name, n: fmtInt(v), count: sheet.stages[i] }))}</title></rect>`);
     }
-    if (nt[i] > EPS) blocks.push(`<rect x="${x(i)}" y="${ntTop[i].toFixed(1)}" width="${NODE_W}" height="${Math.max(1, nt[i] * scale).toFixed(1)}" fill="${esc(electionsAppColours.nonTransferable)}"><title>${esc(SANKEY_TEXT.nonTransferable)}: ${esc(fmtInt(nt[i]))}</title></rect>`);
+    if (/** @type {number} */ (nt[i]) > EPS) blocks.push(`<rect x="${x(i)}" y="${/** @type {number} */ (ntTop[i]).toFixed(1)}" width="${NODE_W}" height="${Math.max(1, /** @type {number} */ (nt[i]) * scale).toFixed(1)}" fill="${esc(electionsAppColours.nonTransferable)}"><title>${esc(SANKEY_TEXT.nonTransferable)}: ${esc(fmtInt(nt[i]))}</title></rect>`);
   }
   /** @type {string[]} */
   const labels = [];
   const side = (/** @type {number} */ i, /** @type {'start' | 'end'} */ anchor) => {
     const lx = anchor === 'end' ? x(i) - 6 : x(i) + NODE_W + 6;
     let last = -Infinity;
-    const items = rows.map((r) => ({ r, v: /** @type {number[]} */ (held.get(r.id))[i] })).filter((o) => o.v > EPS)
-      .map((o) => ({ text: anchor === 'start' && electedFrom(o.r, sheet.stages, sheet.quota) !== null ? fill(SANKEY_TEXT.elected, { name: o.r.name }) : o.r.name, mid: outY(o.r.id, i) + (o.v * scale) / 2 }));
-    if (nt[i] > EPS) items.push({ text: SANKEY_TEXT.nonTransferable, mid: ntTop[i] + (nt[i] * scale) / 2 });
+    const items = rows.map((r) => ({ r, v: /** @type {number[]} */ (held.get(r.id))[i] })).filter((o) => /** @type {number} */ (o.v) > EPS)
+      .map((o) => ({ text: anchor === 'start' && electedFrom(o.r, sheet.stages, sheet.quota) !== null ? fill(SANKEY_TEXT.elected, { name: o.r.name }) : o.r.name, mid: outY(o.r.id, i) + (/** @type {number} */ (o.v) * scale) / 2 }));
+    if (/** @type {number} */ (nt[i]) > EPS) items.push({ text: SANKEY_TEXT.nonTransferable, mid: /** @type {number} */ (ntTop[i]) + (/** @type {number} */ (nt[i]) * scale) / 2 });
     for (const it of items) {
       const y = Math.max(last + 13, it.mid + 4);
       last = y;

@@ -58,8 +58,8 @@ export async function render(root, route, ctx) {
   const prevDetail = prevAny && detail.kind !== 'by-election' && prevAny.kind !== 'by-election' ? prevAny : null;
   const sameBody = index.filter((e) => e.bodySlug === detail.bodySlug).sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
   const pos = sameBody.findIndex((e) => e.key === key);
-  const before = pos > 0 ? sameBody[pos - 1] : null;
-  const after = pos >= 0 && pos < sameBody.length - 1 ? sameBody[pos + 1] : null;
+  const before = pos > 0 ? /** @type {(typeof sameBody)[number]} */ (sameBody[pos - 1]) : null;
+  const after = pos >= 0 && pos < sameBody.length - 1 ? /** @type {(typeof sameBody)[number]} */ (sameBody[pos + 1]) : null;
   // A referendum has options, not parties or seats: its own template (views/referendum.js).
   if (detail.contestType === 'referendum') return renderReferendum(root, { detail, summary, before, after, slugsByName: contestSlugs(detail.resultEntries || []) });
 

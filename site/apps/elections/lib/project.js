@@ -72,7 +72,7 @@ export function allocate(shares, seats) {
   const out = new Map();
   const ranked = [...shares].filter(([, s]) => s > 0).sort((a, b) => b[1] - a[1]);
   if (!ranked.length) return out;
-  if (seats <= 1) { out.set(ranked[0][0], 1); return out; }
+  if (seats <= 1) { out.set(/** @type {[string, number]} */ (ranked[0])[0], 1); return out; }
   const quota = 100 / (seats + 1);
   let left = seats;
   /** @type {Array<[string, number]>} */
@@ -84,7 +84,7 @@ export function allocate(shares, seats) {
     rem.push([p, s - n * quota]);
   }
   rem.sort((a, b) => b[1] - a[1]);
-  for (let i = 0; left > 0 && i < rem.length; i += 1, left -= 1) out.set(rem[i][0], (out.get(rem[i][0]) || 0) + 1);
+  for (let i = 0; left > 0 && i < rem.length; i += 1, left -= 1) out.set(/** @type {[string, number]} */ (rem[i])[0], (out.get(/** @type {[string, number]} */ (rem[i])[0]) || 0) + 1);
   return out;
 }
 
@@ -145,7 +145,7 @@ export function anchoredSeats(won, before, after, shares) {
     freed -= give;
   }
   // Seats taken that no gain claimed (the model gave a party a seat it did not hold) go back.
-  for (let i = 0; freed > 0 && losers.length; i = (i + 1) % losers.length, freed -= 1) out.set(losers[i], (out.get(losers[i]) || 0) + 1);
+  for (let i = 0; freed > 0 && losers.length; i = (i + 1) % losers.length, freed -= 1) out.set(/** @type {string} */ (losers[i]), (out.get(/** @type {string} */ (losers[i])) || 0) + 1);
   for (const [p, n] of out) if (n <= 0) out.delete(p);
   return out;
 }
@@ -163,9 +163,9 @@ export function projectFromResult(contests, deltas) {
   /** @type {Map<string, number>} */
   const total = new Map();
   const per = contests.map((c, i) => {
-    const seats = c.won && c.won.size ? anchoredSeats(c.won, base[i].seats, moved[i].seats, moved[i].shares) : moved[i].seats;
+    const seats = c.won && c.won.size ? anchoredSeats(c.won, /** @type {(typeof base)[number]} */ (base[i]).seats, /** @type {(typeof moved)[number]} */ (moved[i]).seats, /** @type {(typeof moved)[number]} */ (moved[i]).shares) : /** @type {(typeof moved)[number]} */ (moved[i]).seats;
     for (const [p, n] of seats) total.set(p, (total.get(p) || 0) + n);
-    return { area: c.area, shares: moved[i].shares, seats };
+    return { area: c.area, shares: /** @type {(typeof moved)[number]} */ (moved[i]).shares, seats };
   });
   return { seats: total, contests: per };
 }

@@ -57,7 +57,7 @@ export async function render(root, route, ctx) {
   /** The form's state; each run takes a copy of it (settingsOf), so a later change cannot reshape an earlier answer. */
   let state = stateFromQuery(route.query);
   state.bodies = state.bodies.filter((b) => bodies.some((x) => x.slug === b));
-  if (!state.bodies.length) state.bodies = [bodies.find((x) => x.slug === 'northern-ireland-assembly')?.slug || bodies[0].slug];
+  if (!state.bodies.length) state.bodies = [bodies.find((x) => x.slug === 'northern-ireland-assembly')?.slug || /** @type {(typeof bodies)[number]} */ (bodies[0]).slug];
 
   root.innerHTML = `
     <header class="el-head"><h1>Pivot tables</h1>
@@ -151,7 +151,7 @@ export async function render(root, route, ctx) {
     </table>`;
       // Each note links to how its figure is worked out, where it is worked out (lib/methods.js).
       const links = pivotMethodLinks(settings);
-      notes.innerHTML = (limitRows[0] ? pivotLimits(settings, limitRows[0], fmtInt).map((l) => limitHtml(l, esc, 'el-muted', links.limits[l.id] ? methodLink(links.limits[l.id]) : '')).join('') : '')
+      notes.innerHTML = (limitRows[0] ? pivotLimits(settings, limitRows[0], fmtInt).map((l) => limitHtml(l, esc, 'el-muted', links.limits[l.id] ? methodLink(/** @type {import("../lib/methods.js").MethodId} */ (links.limits[l.id])) : '')).join('') : '')
         + (links.measure ? `<p class="el-muted el-method" data-method="${links.measure}">${methodLink(links.measure)}</p>` : '');
       status.textContent = `${fmtInt(table.rowCount)} rows × ${table.cols.length} columns${table.rowsCut ? ' (first 500 rows shown; the CSV has them all)' : ''} · ${Math.round(performance.now() - started)} ms`;
       setRun('shown');
@@ -209,7 +209,7 @@ export async function render(root, route, ctx) {
     const settings = settingsOf(state);
     queryBodies(settings.bodies, `SELECT * FROM rows ${whereSql(settings)} ORDER BY date, election_key, contest_seq LIMIT 200000`).then((rows) => {
       if (ctx.stale()) return;
-      const cols = rows.length ? Object.keys(rows[0]) : [];
+      const cols = rows.length ? Object.keys(/** @type {Record<string, unknown>} */ (rows[0])) : [];
       const cell = (/** @type {unknown} */ v) => { const x = v === null || v === undefined ? '' : String(v); return /[",\n]/.test(x) ? `"${x.replace(/"/g, '""')}"` : x; };
       download(`civgraph-candidacies-${settings.bodies.join('+')}.csv`, `${[cols.join(','), ...rows.map((r) => cols.map((c) => cell(r[c])).join(','))].join('\n')}\n`);
     }, (err) => { if (!ctx.stale()) failed(err); });

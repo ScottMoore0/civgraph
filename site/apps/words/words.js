@@ -24,7 +24,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
   var CDN = SITE.dataOrigin + '/';
   var DATA = (function () {
     var m = /[?&]data=([^&#]+)/.exec(location.search);
-    return (m ? decodeURIComponent(m[1]).replace(/\/?$/, '/') : CDN) + 'data/parliament/words/';
+    return (m ? decodeURIComponent(/** @type {string} */ (m[1])).replace(/\/?$/, '/') : CDN) + 'data/parliament/words/';
   })();
   var MAX_TERMS = 7;
   var LOW_WORDS = 100000;
@@ -116,7 +116,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
       if (v == null || v === false) return;
       if (k === 'text') n.textContent = /** @type {string} */ (v);
       else if (k === 'class') n.className = /** @type {string} */ (v);
-      else if (k === 'on') Object.keys(v).forEach(function (e) { n.addEventListener(e, /** @type {Listeners} */ (v)[e]); });
+      else if (k === 'on') Object.keys(v).forEach(function (e) { n.addEventListener(e, /** @type {Listeners[string]} */ (/** @type {Listeners} */ (v)[e])); });
       else n.setAttribute(k, v === true ? '' : /** @type {string} */ (v));
     });
     (kids || []).forEach(function (c) { if (c != null && c !== false) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
@@ -157,7 +157,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     var bytes = new TextEncoder().encode(str);
     var n = bytes.length;
     var words32 = new Array(((n + 8) >> 6) + 1 << 4).fill(0);
-    for (var i = 0; i < n; i++) words32[i >> 2] |= bytes[i] << ((i % 4) * 8);
+    for (var i = 0; i < n; i++) words32[i >> 2] |= /** @type {number} */ (bytes[i]) << ((i % 4) * 8);
     words32[n >> 2] |= 0x80 << ((n % 4) * 8);
     words32[words32.length - 2] = n * 8;
     var S1 = [7, 12, 17, 22], S2 = [5, 9, 14, 20], S3 = [4, 11, 16, 23], S4 = [6, 10, 15, 21];
@@ -167,12 +167,12 @@ import { siteNumber } from '../../pkg/core/src/format.js';
       var A = a0, B = b0, C = c0, D = d0;
       for (var j = 0; j < 64; j++) {
         var F, g, s;
-        if (j < 16) { F = (B & C) | (~B & D); g = j; s = S1[j % 4]; }
-        else if (j < 32) { F = (D & B) | (~D & C); g = (5 * j + 1) % 16; s = S2[j % 4]; }
-        else if (j < 48) { F = B ^ C ^ D; g = (3 * j + 5) % 16; s = S3[j % 4]; }
-        else { F = C ^ (B | ~D); g = (7 * j) % 16; s = S4[j % 4]; }
+        if (j < 16) { F = (B & C) | (~B & D); g = j; s = /** @type {number} */ (S1[j % 4]); }
+        else if (j < 32) { F = (D & B) | (~D & C); g = (5 * j + 1) % 16; s = /** @type {number} */ (S2[j % 4]); }
+        else if (j < 48) { F = B ^ C ^ D; g = (3 * j + 5) % 16; s = /** @type {number} */ (S3[j % 4]); }
+        else { F = C ^ (B | ~D); g = (7 * j) % 16; s = /** @type {number} */ (S4[j % 4]); }
         var tmp = D; D = C; C = B;
-        var x = (A + F + K[j] + words32[off + g]) | 0;
+        var x = (A + F + /** @type {number} */ (K[j]) + words32[off + g]) | 0;
         B = (B + ((x << s) | (x >>> (32 - s)))) | 0;
         A = tmp;
       }
@@ -183,7 +183,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     }).join('');
   }
   /** @param {string} term @param {number} n its number of words */
-  function bucketOf(term, n) { return parseInt(md5hex(term).slice(0, 8), 16) % META.buckets[String(n)]; }
+  function bucketOf(term, n) { return parseInt(md5hex(term).slice(0, 8), 16) % /** @type {number} */ (META.buckets[String(n)]); }
 
   // The shards are gzip JSON. R2 serves them either as stored bytes (decompressed here) or
   // with Content-Encoding: gzip (already decompressed by the browser); both are handled.
@@ -306,16 +306,16 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     /** @type {WordsMeta['years']} */
     var yrs = {};
     raw.totals.forEach(function (r) {
-      var body = bi[r[0]]; if (!BODY[body]) return; // the Stormont sample is not shown
-      var y = r[1]; var g = groups[r[2]]; var lang = r[3]; var w = r[4];
+      var body = /** @type {string} */ (bi[r[0]]); if (!BODY[body]) return; // the Stormont sample is not shown
+      var y = r[1]; var g = /** @type {(typeof groups)[number]} */ (groups[r[2]]); var lang = r[3]; var w = r[4];
       W[lang] = W[lang] || {}; WP[lang] = WP[lang] || {};
-      var wb = W[lang][body] = W[lang][body] || {};
+      var wb = /** @type {Record<string, Record<number, number>>} */ (W[lang])[body] = /** @type {Record<string, Record<number, number>>} */ (W[lang])[body] || {};
       wb[y] = (wb[y] || 0) + w;
-      var pb = WP[lang][body] = WP[lang][body] || {};
+      var pb = /** @type {Record<string, Record<string, Record<number, number>>>} */ (WP[lang])[body] = /** @type {Record<string, Record<string, Record<number, number>>>} */ (WP[lang])[body] || {};
       var pg = pb[g.key] = pb[g.key] || {};
       pg[y] = (pg[y] || 0) + w;
-      yrs[lang] = yrs[lang] || {}; yrs[lang][body] = yrs[lang][body] || [9999, 0];
-      if (w > 0) { yrs[lang][body][0] = Math.min(yrs[lang][body][0], y); yrs[lang][body][1] = Math.max(yrs[lang][body][1], y); }
+      var yl = yrs[lang] = yrs[lang] || {}; var span = yl[body] = yl[body] || [9999, 0];
+      if (w > 0) { span[0] = Math.min(span[0], y); span[1] = Math.max(span[1], y); }
     });
     /** @type {WordsMeta['gByKey']} */
     var gByKey = {}; groups.forEach(function (g) { gByKey[g.key] = g; });
@@ -346,8 +346,8 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     /** @type {TermEntry['CP']} */
     var CP = {};
     for (var i = 0; i < e.s.length; i += 4) {
-      var body = META.bodies[e.s[i]]; if (!BODY[body]) continue;
-      var y = e.s[i + 1]; var g = META.groups[e.s[i + 2]]; var c = e.s[i + 3];
+      var body = /** @type {string} */ (META.bodies[/** @type {number} */ (e.s[i])]); if (!BODY[body]) continue;
+      var y = /** @type {number} */ (e.s[i + 1]); var g = /** @type {(typeof META.groups)[number]} */ (META.groups[/** @type {number} */ (e.s[i + 2])]); var c = /** @type {number} */ (e.s[i + 3]);
       var cb = C[body] = C[body] || {}; cb[y] = (cb[y] || 0) + c;
       var pb = CP[body] = CP[body] || {}; var pg = pb[g.key] = pb[g.key] || {}; pg[y] = (pg[y] || 0) + c;
     }
@@ -387,9 +387,9 @@ import { siteNumber } from '../../pkg/core/src/format.js';
   // in that order, so a party keeps its colour whatever the term; the rest fold into Other.
   /** @param {string} body @param {[number, number]} yr @returns {{ top: string[], rest: string[] }} party keys */
   function partyLineup(body, yr) {
-    var wp = (META.WP[S.lang] && META.WP[S.lang][body]) || {};
+    var wp = (META.WP[S.lang] && /** @type {Record<string, Record<string, Record<number, number>>>} */ (META.WP[S.lang])[body]) || {};
     var tot = Object.keys(wp).map(function (k) {
-      var s = 0; for (var y = yr[0]; y <= yr[1]; y++) s += wp[k][y] || 0;
+      var s = 0; for (var y = yr[0]; y <= yr[1]; y++) s += /** @type {Record<number, number>} */ (wp[k])[y] || 0;
       return { key: k, w: s };
     }).filter(function (x) { return x.w > 0; }).sort(function (a, b) { return b.w - a.w; });
     return { top: tot.slice(0, 7).map(function (x) { return x.key; }), rest: tot.slice(7).map(function (x) { return x.key; }) };
@@ -409,22 +409,22 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     if (S.split === 'body') {
       return found.map(function (r) {
         return { title: r.term, series: bodies.map(function (b) {
-          return mkSeries(b, BODY[b].label, 's' + BODY[b].slot, function (y) { return (r.entry.C[b] && r.entry.C[b][y]) || 0; }, function (y) { return (W[b] && W[b][y]) || 0; }, yr);
+          return mkSeries(b, /** @type {(typeof BODY)[string]} */ (BODY[b]).label, 's' + /** @type {(typeof BODY)[string]} */ (BODY[b]).slot, function (y) { return (r.entry.C[b] && r.entry.C[b][y]) || 0; }, function (y) { return (W[b] && W[b][y]) || 0; }, yr);
         }) };
       });
     }
     var body = S.pb; var lu = partyLineup(body, yr);
-    var wp = (META.WP[lang] && META.WP[lang][body]) || {};
+    var wp = (META.WP[lang] && /** @type {Record<string, Record<string, Record<number, number>>>} */ (META.WP[lang])[body]) || {};
     return found.map(function (r) {
       var cp = r.entry.CP[body] || {};
       var series = lu.top.map(function (k, i) {
-        return mkSeries(k, META.gByKey[k].name, 's' + (i + 1), function (y) { return (cp[k] && cp[k][y]) || 0; }, function (y) { return (wp[k] && wp[k][y]) || 0; }, yr);
+        return mkSeries(k, /** @type {(typeof META.gByKey)[string]} */ (META.gByKey[k]).name, 's' + (i + 1), function (y) { return (cp[k] && cp[k][y]) || 0; }, function (y) { return (wp[k] && wp[k][y]) || 0; }, yr);
       });
       if (lu.rest.length) {
         series.push(mkSeries('other', 'Other parties', 'so', function (y) { var s = 0; lu.rest.forEach(function (k) { s += (cp[k] && cp[k][y]) || 0; }); return s; },
           function (y) { var s = 0; lu.rest.forEach(function (k) { s += (wp[k] && wp[k][y]) || 0; }); return s; }, yr));
       }
-      return { title: r.term + ' — ' + BODY[body].label, series: series };
+      return { title: r.term + ' — ' + /** @type {(typeof BODY)[string]} */ (BODY[body]).label, series: series };
     });
   }
   // Rate per million at each point, pooled over the smoothing window (sum of uses over sum of words).
@@ -435,7 +435,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     return pts.map(function (p, i) {
       if (!(p.w > 0)) return null;
       var c = 0, w = 0;
-      for (var j = Math.max(0, i - k); j <= Math.min(pts.length - 1, i + k); j++) { if (pts[j].w > 0) { c += pts[j].c; w += pts[j].w; } }
+      for (var j = Math.max(0, i - k); j <= Math.min(pts.length - 1, i + k); j++) { if (/** @type {(typeof pts)[number]} */ (pts[j]).w > 0) { c += /** @type {(typeof pts)[number]} */ (pts[j]).c; w += /** @type {(typeof pts)[number]} */ (pts[j]).w; } }
       return { y: p.y, r: c / w * 1e6, raw: p.c / p.w * 1e6, c: p.c, w: p.w, low: p.w < LOW_WORDS };
     });
   }
@@ -463,7 +463,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     var yv = function (/** @type {number} */ v) { return M.t + ih - v / ymax * ih; };
     var svg = sv('svg', { viewBox: '0 0 ' + width + ' ' + height, width: width, height: height, role: 'img',
       'aria-label': (panel.title ? panel.title + ': ' : '') + 'uses per million words, ' + yr[0] + ' to ' + yr[1] + '. ' + panel.series.map(function (s, i) {
-        var best = data[i].reduce(function (/** @type {{ r: number, y: number } | null} */ top, /** @type {{ r: number, y: number } | null} */ p) {
+        var best = /** @type {(typeof data)[number]} */ (data[i]).reduce(function (/** @type {{ r: number, y: number } | null} */ top, /** @type {{ r: number, y: number } | null} */ p) {
           return p && (!top || p.r > top.r) ? p : top;
         }, null);
         return s.label + (best ? ', highest ' + rateFmt(best.r) + ' in ' + best.y : ', no uses');
@@ -481,7 +481,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     /** @type {Array<{ y: number, x: number, s: WordsSeries }>} */
     var labels = [];
     panel.series.forEach(function (s, i) {
-      var d = data[i];
+      var d = /** @type {(typeof data)[number]} */ (data[i]);
       // A path per run of points, solid or dotted (low volume); a gap where there were no words.
       /** @typedef {{ low: boolean, pts: WordsRate[] }} WordsRun */
       /** @type {WordsRun[]} */
@@ -499,17 +499,17 @@ import { siteNumber } from '../../pkg/core/src/format.js';
         } else { cur = { low: p.low, pts: [p] }; runs.push(cur); }
       }
       runs.forEach(function (run) {
-        if (run.pts.length === 1) { svg.appendChild(sv('circle', { class: s.cls, cx: x(run.pts[0].y), cy: yv(run.pts[0].r), r: 2.5 })); return; }
+        if (run.pts.length === 1) { svg.appendChild(sv('circle', { class: s.cls, cx: x(/** @type {(typeof run.pts)[number]} */ (run.pts[0]).y), cy: yv(/** @type {(typeof run.pts)[number]} */ (run.pts[0]).r), r: 2.5 })); return; }
         svg.appendChild(sv('path', { class: 'ln ' + s.cls + (run.low ? ' low' : ''), d: run.pts.map(function (q, m) { return (m ? 'L' : 'M') + x(q.y).toFixed(1) + ',' + yv(q.r).toFixed(1); }).join('') }));
       });
       /** @type {WordsRate | null} */
-      var last = null; for (var z = d.length - 1; z >= 0; z--) if (d[z]) { last = d[z]; break; }
+      var last = null; for (var z = d.length - 1; z >= 0; z--) if (d[z]) { last = /** @type {(typeof d)[number]} */ (d[z]); break; }
       if (direct && last) labels.push({ y: yv(last.r), x: x(last.y), s: s });
     });
     // Direct labels for up to four lines, pushed apart so they never overlap.
     labels.sort(function (a, b) { return a.y - b.y; });
-    for (var li = 1; li < labels.length; li++) if (labels[li].y - labels[li - 1].y < 15) labels[li].y = labels[li - 1].y + 15;
-    var over = labels.length ? labels[labels.length - 1].y - (M.t + ih) : 0;
+    for (var li = 1; li < labels.length; li++) if (/** @type {(typeof labels)[number]} */ (labels[li]).y - /** @type {(typeof labels)[number]} */ (labels[li - 1]).y < 15) /** @type {(typeof labels)[number]} */ (labels[li]).y = /** @type {(typeof labels)[number]} */ (labels[li - 1]).y + 15;
+    var over = labels.length ? /** @type {(typeof labels)[number]} */ (labels[labels.length - 1]).y - (M.t + ih) : 0;
     if (over > 0) labels.forEach(function (l) { l.y -= over; });
     labels.forEach(function (l) {
       svg.appendChild(sv('line', { class: l.s.cls, x1: M.l + iw + 6, x2: M.l + iw + 16, y1: l.y, y2: l.y, 'stroke-width': 3 }));
@@ -539,9 +539,9 @@ import { siteNumber } from '../../pkg/core/src/format.js';
       /** @type {string[]} */
       var spoken = [];
       panel.series.forEach(function (s, i) {
-        var p = data[i][idx];
-        if (p) { dots[i].setAttribute('cx', String(xx)); dots[i].setAttribute('cy', String(yv(p.r))); dots[i].setAttribute('visibility', 'visible'); }
-        else dots[i].setAttribute('visibility', 'hidden');
+        var p = /** @type {(typeof data)[number]} */ (data[i])[idx];
+        if (p) { /** @type {SVGElement} */ (dots[i]).setAttribute('cx', String(xx)); /** @type {SVGElement} */ (dots[i]).setAttribute('cy', String(yv(p.r))); /** @type {SVGElement} */ (dots[i]).setAttribute('visibility', 'visible'); }
+        else /** @type {SVGElement} */ (dots[i]).setAttribute('visibility', 'hidden');
         var txt = p ? rateFmt(p.r) + ' per million' : 'no words in scope';
         var sub = p ? int(p.c) + ' uses in ' + words(p.w) + ' words' + (S.sm ? ' (that year)' : '') + (p.low ? ', low volume' : '') : '';
         tip.appendChild(el('div', { class: 'row' }, [el('i', { class: 'sw ' + s.cls, 'aria-hidden': 'true' }), el('span', { text: s.label }), el('span', { text: txt }), sub ? el('small', { text: sub }) : null]));
@@ -581,7 +581,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     var n = panel.series[0] ? panel.series[0].pts.length : 0;
     for (var i = 0; i < n; i++) {
       if (!data.some(function (d) { return d[i]; })) continue;
-      rows.push(el('tr', {}, [el('th', { scope: 'row', text: String(panel.series[0].pts[i].y) })].concat(data.map(function (d) {
+      rows.push(el('tr', {}, [el('th', { scope: 'row', text: String(/** @type {{ y: number; c: number; w: number; }} */ (/** @type {(typeof panel.series)[number]} */ (panel.series[0]).pts[i]).y) })].concat(data.map(function (d) {
         return el('td', { class: 'num', text: d[i] ? rateFmt(/** @type {WordsRate} */ (d[i]).r) + ' (' + int(/** @type {WordsRate} */ (d[i]).c) + ')' : '–' });
       }))));
     }
@@ -605,10 +605,10 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     var mount = clear($('panels'));
     drawn = [];
     var ps = panels();
-    var bodyNames = S.b.filter(function (b) { return META.W[S.lang] && META.W[S.lang][b]; }).map(function (b) { return BODY[b].label; });
+    var bodyNames = S.b.filter(function (b) { return META.W[S.lang] && /** @type {Record<string, Record<number, number>>} */ (META.W[S.lang])[b]; }).map(function (b) { return /** @type {(typeof BODY)[string]} */ (BODY[b]).label; });
     $('chartIntro').textContent = (S.split === 'none' ? 'All the chambers selected, pooled: ' + bodyNames.join(', ') + '.'
       : S.split === 'body' ? 'One chart per term, a line per chamber.'
-        : 'One chart per term, a line for each of the seven parties with the most words in the ' + BODY[S.pb].name + ' over these years; the rest are Other parties.')
+        : 'One chart per term, a line for each of the seven parties with the most words in the ' + /** @type {(typeof BODY)[string]} */ (BODY[S.pb]).name + ' over these years; the rest are Other parties.')
       + (S.lang === 'ga' ? ' Irish-language paragraphs only.' : '') + ' Hover over a chart, or focus it and use the arrow keys, to read the figures for a year.';
     ps.forEach(function (panel) {
       var fig = el('figure', { class: 'panel' }, [
@@ -674,10 +674,10 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     /** @type {SpeakerRow[]} */
     var rows = [];
     for (var i = 0; i < r.entry.k.length; i += 2) {
-      var sp = SPEAKERS[r.entry.k[i]]; if (!sp || !BODY[sp[2]]) continue;
+      var sp = SPEAKERS[/** @type {number} */ (r.entry.k[i])]; if (!sp || !BODY[sp[2]]) continue;
       if (S.b.indexOf(sp[2]) < 0) continue;
       if (S.sb && sp[2] !== S.sb) continue;
-      rows.push({ si: r.entry.k[i], sp: sp, c: r.entry.k[i + 1], rate: sp[5] > 0 ? r.entry.k[i + 1] / sp[5] * 1e4 : 0 });
+      rows.push({ si: /** @type {number} */ (r.entry.k[i]), sp: sp, c: /** @type {number} */ (r.entry.k[i + 1]), rate: sp[5] > 0 ? /** @type {number} */ (r.entry.k[i + 1]) / sp[5] * 1e4 : 0 });
     }
     /** @type {string | null} */
     var note = null;
@@ -696,7 +696,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
       var tr = el('tr', {}, [
         el('td', { class: 'num', text: String(n + 1) }),
         el('td', {}, [personLink(x.sp)]),
-        el('td', { text: BODY[x.sp[2]].label }),
+        el('td', { text: /** @type {(typeof BODY)[string]} */ (BODY[x.sp[2]]).label }),
         el('td', {}, [partyCell(x.sp[3])]),
         el('td', { class: 'num hide-sm', text: x.sp[6] === x.sp[7] ? String(x.sp[6]) : x.sp[6] + '–' + x.sp[7] }),
         el('td', { class: 'num', text: int(x.c) }),
@@ -729,7 +729,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
       clear(cell);
       var list = (obj && obj[String(x.si)]) || [];
       if (!list.length) { cell.appendChild(el('span', { class: 'hint', text: 'No distinctive words recorded for this speaker.' })); return; }
-      cell.appendChild(el('div', { class: 'hint', text: 'Words and phrases ' + x.sp[1] + ' used more often than the ' + BODY[x.sp[2]].label + ' as a whole (times as often). Select one to search it.' }));
+      cell.appendChild(el('div', { class: 'hint', text: 'Words and phrases ' + x.sp[1] + ' used more often than the ' + /** @type {(typeof BODY)[string]} */ (BODY[x.sp[2]]).label + ' as a whole (times as often). Select one to search it.' }));
       cell.appendChild(el('div', { class: 'termlist' }, list.slice(0, 20).map(function (t) {
         return el('button', { type: 'button', text: t[0] + ' ×' + t[2], on: { click: function () { search(t[0], { lang: 'en' }); } } });
       })));
@@ -741,16 +741,16 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     var mount = clear($('parties'));
     var r = focusResult(); if (!r) return;
     var body = S.cb; var yr = years();
-    var wp = (META.WP[S.lang] && META.WP[S.lang][body]) || {};
+    var wp = (META.WP[S.lang] && /** @type {Record<string, Record<string, Record<number, number>>>} */ (META.WP[S.lang])[body]) || {};
     var cp = r.entry.CP[body] || {};
     /** @type {Array<{ key: string, w: number, c: number, label?: string }>} */
     var rows = Object.keys(wp).map(function (k) {
-      var w = 0, c = 0; for (var y = yr[0]; y <= yr[1]; y++) { w += wp[k][y] || 0; c += (cp[k] && cp[k][y]) || 0; }
+      var w = 0, c = 0; for (var y = yr[0]; y <= yr[1]; y++) { w += /** @type {Record<number, number>} */ (wp[k])[y] || 0; c += (cp[k] && cp[k][y]) || 0; }
       return { key: k, w: w, c: c };
     }).filter(function (x) { return x.w > 0; });
     var W = 0, C = 0; rows.forEach(function (x) { W += x.w; C += x.c; });
-    if (!W) { mount.appendChild(el('p', { class: 'empty', text: 'The ' + BODY[body].name + ' has no ' + (S.lang === 'ga' ? 'Irish-language ' : '') + 'words on record in ' + yr[0] + '–' + yr[1] + '.' })); return; }
-    if (!C) { mount.appendChild(el('p', { class: 'empty', text: 'No uses of ' + quote(r.term) + ' in the ' + BODY[body].name + ' in ' + yr[0] + '–' + yr[1] + '.' })); return; }
+    if (!W) { mount.appendChild(el('p', { class: 'empty', text: 'The ' + /** @type {(typeof BODY)[string]} */ (BODY[body]).name + ' has no ' + (S.lang === 'ga' ? 'Irish-language ' : '') + 'words on record in ' + yr[0] + '–' + yr[1] + '.' })); return; }
+    if (!C) { mount.appendChild(el('p', { class: 'empty', text: 'No uses of ' + quote(r.term) + ' in the ' + /** @type {(typeof BODY)[string]} */ (BODY[body]).name + ' in ' + yr[0] + '–' + yr[1] + '.' })); return; }
     rows.sort(function (a, b) { return b.c - a.c || b.w - a.w; });
     var show = rows.slice(0, 10); var rest = rows.slice(10);
     if (rest.length) {
@@ -763,7 +763,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
       return el('div', { class: 'bar' }, [el('i', { class: cls, style: 'width:' + Math.max(1, share / maxShare * 90).toFixed(0) + 'px', 'aria-hidden': 'true' }), el('span', { text: (share * 100).toFixed(1) + '%' })]);
     }
     var tbody = el('tbody', {}, show.map(function (x) {
-      var g = META.gByKey[x.key]; var ratio = (x.c / C) / (x.w / W);
+      var g = /** @type {(typeof META.gByKey)[string]} */ (META.gByKey[x.key]); var ratio = (x.c / C) / (x.w / W);
       return el('tr', {}, [
         el('td', {}, [x.label ? document.createTextNode(x.label) : g.slug ? el('a', { href: '/browse/#/parties/' + encodeURIComponent(g.slug), text: g.name }) : document.createTextNode(g.name)]),
         el('td', { class: 'num', text: int(x.c) }),
@@ -773,11 +773,11 @@ import { siteNumber } from '../../pkg/core/src/format.js';
       ]);
     }));
     mount.appendChild(el('div', { class: 'tablewrap' }, [el('table', { class: 'data' }, [
-      el('caption', { class: 'visually-hidden', text: 'Party shares of ' + r.term + ' in the ' + BODY[body].name + ', ' + yr[0] + '–' + yr[1] }),
+      el('caption', { class: 'visually-hidden', text: 'Party shares of ' + r.term + ' in the ' + /** @type {(typeof BODY)[string]} */ (BODY[body]).name + ', ' + yr[0] + '–' + yr[1] }),
       el('thead', {}, [el('tr', {}, [el('th', { scope: 'col', text: 'Party' }), el('th', { scope: 'col', class: 'num', text: 'Uses' }), el('th', { scope: 'col', text: 'Share of uses' }), el('th', { scope: 'col', text: 'Share of words' }), el('th', { scope: 'col', class: 'num', text: 'Ratio' })])]),
       tbody
     ])]));
-    mount.appendChild(el('p', { class: 'hint', text: quote(r.term) + ' in the ' + BODY[body].name + ', ' + yr[0] + '–' + yr[1] + ': ' + int(C) + ' uses in ' + words(W) + ' words. Ratio not shown for parties with under 0.2% of the words.' }));
+    mount.appendChild(el('p', { class: 'hint', text: quote(r.term) + ' in the ' + /** @type {(typeof BODY)[string]} */ (BODY[body]).name + ', ' + yr[0] + '–' + yr[1] + ': ' + int(C) + ' uses in ' + words(W) + ' words. Ratio not shown for parties with under 0.2% of the words.' }));
   }
 
   // ------------------------------------------------------------------ CSV
@@ -788,7 +788,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     var terms = RESULTS.filter(function (r) { return r.entry; });
     ps.forEach(function (panel, pi) {
       panel.series.forEach(function (s) {
-        var term = S.split === 'none' ? s.label : terms[pi].term;
+        var term = S.split === 'none' ? s.label : /** @type {(typeof terms)[number]} */ (terms[pi]).term;
         var series = S.split === 'none' ? 'all selected chambers' : s.label;
         rates(s).forEach(function (p) {
           if (!p) return;
@@ -858,7 +858,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     $('spkSort').value = S.sort;
     var sb = clear($('spkBody'));
     sb.appendChild(el('option', { value: '', text: 'All selected' }));
-    S.b.forEach(function (c) { sb.appendChild(el('option', { value: c, text: BODY[c].label })); });
+    S.b.forEach(function (c) { sb.appendChild(el('option', { value: c, text: /** @type {(typeof BODY)[string]} */ (BODY[c]).label })); });
     sb.value = S.sb;
     var found = RESULTS.filter(function (r) { return r.entry; });
     var f = clear($('focus'));
@@ -894,7 +894,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
       fetchData('suggest/' + S.lang + '-' + n + '.json.gz').then(function (/** @type {Array<[string, number]>} */ rows) {
         if (mine !== seq) return;
         sugItems = [];
-        for (var i = 0; i < rows.length && sugItems.length < 8; i++) if (rows[i][0].indexOf(prefix) === 0) sugItems.push(rows[i]);
+        for (var i = 0; i < rows.length && sugItems.length < 8; i++) if (/** @type {[string, number]} */ (rows[i])[0].indexOf(prefix) === 0) sugItems.push(/** @type {[string, number]} */ (rows[i]));
         clear(list); sugActive = -1;
         if (!sugItems.length) { closeSuggest(); return; }
         sugItems.forEach(function (row, i) {
@@ -911,13 +911,13 @@ import { siteNumber } from '../../pkg/core/src/format.js';
         sugActive = (sugActive + (e.key === 'ArrowDown' ? 1 : -1) + sugItems.length) % sugItems.length;
         Array.prototype.forEach.call(list.children, function (/** @type {Element} */ li, /** @type {number} */ i) { li.setAttribute('aria-selected', i === sugActive ? 'true' : 'false'); });
         input.setAttribute('aria-activedescendant', 'sug-' + sugActive);
-        list.children[sugActive].scrollIntoView({ block: 'nearest' });
+        /** @type {Element} */ (list.children[sugActive]).scrollIntoView({ block: 'nearest' });
       } else if (e.key === 'Enter' && sugActive >= 0) { e.preventDefault(); pick(sugActive); }
       else if (e.key === 'Escape') { e.preventDefault(); closeSuggest(); }
     });
     input.addEventListener('blur', function () { setTimeout(closeSuggest, 120); });
     /** @param {number} i */
-    function pick(i) { var ls = lastSegment(); input.value = ls.head + sugItems[i][0]; closeSuggest(); input.focus(); }
+    function pick(i) { var ls = lastSegment(); input.value = ls.head + /** @type {[string, number]} */ (sugItems[i])[0]; closeSuggest(); input.focus(); }
   }
 
   // ------------------------------------------------------------------ run
@@ -939,7 +939,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     }
     if (failed.length) {
       mount.appendChild(el('div', { class: 'notice err', role: 'alert' }, [
-        'Could not load the counts for ' + failed.map(function (r) { return quote(r.term); }).join(', ') + ' (' + failed[0].error + ').',
+        'Could not load the counts for ' + failed.map(function (r) { return quote(r.term); }).join(', ') + ' (' + /** @type {(typeof failed)[number]} */ (failed[0]).error + ').',
         el('button', { type: 'button', class: 'btn', text: 'Try again', on: { click: function () { run(false); } } })
       ]));
     }

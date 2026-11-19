@@ -86,11 +86,11 @@ export const isStv = (/** @type {unknown} */ system) => /^stv/.test(String(syste
 export function inkOn(hex) {
   const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || ''));
   if (!m) return electionsAppColours.inkDark;
-  const v = parseInt(m[1], 16);
-  const [r, g, b] = [(v >> 16) & 255, (v >> 8) & 255, v & 255].map((c) => {
+  const v = parseInt(/** @type {string} */ (m[1]), 16);
+  const [r, g, b] = /** @type {[number, number, number]} */ ([(v >> 16) & 255, (v >> 8) & 255, v & 255].map((c) => {
     const s = c / 255;
     return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
-  });
+  }));
   return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.179 ? electionsAppColours.inkDark : electionsAppColours.inkLight;
 }
 
@@ -100,7 +100,7 @@ export function median(values) {
   const xs = values.filter((v) => num(v) !== null).map(Number).sort((a, b) => a - b);
   if (!xs.length) return null;
   const mid = Math.floor(xs.length / 2);
-  return xs.length % 2 ? xs[mid] : (xs[mid - 1] + xs[mid]) / 2;
+  return xs.length % 2 ? xs[mid] : (/** @type {number} */ (xs[mid - 1]) + /** @type {number} */ (xs[mid])) / 2;
 }
 
 /**

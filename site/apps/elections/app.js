@@ -71,7 +71,7 @@ async function render({ keepScroll = false } = {}) {
   }
   root.setAttribute('aria-busy', 'true');
   try {
-    const mod = await VIEWS[route.view]();
+    const mod = await /** @type {() => Promise<ViewModule>} */ (VIEWS[route.view])();
     if (mine.stale()) return;
     const title = await mod.render(root, route, { signal: mine.signal, stale: mine.stale, onDispose: mine.onDispose, navigate });
     if (mine.stale()) return;

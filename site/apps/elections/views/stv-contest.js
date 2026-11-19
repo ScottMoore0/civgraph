@@ -163,7 +163,7 @@ export function stepScale(sheet) {
  */
 export function drawStep(el, sheet, events, stage, pathname, search) {
   const i = Math.max(0, sheet.stages.indexOf(stage));
-  const ev = events[i];
+  const ev = /** @type {import("../lib/stv.js").CountEvent} */ (events[i]);
   const scale = stepScale(sheet);
   const now = /** @type {HTMLElement} */ (el.querySelector('[data-step-now]'));
   now.innerHTML = `<h3>${esc(countLabel(ev))}</h3><p>${countSentences(ev, sheet.quota).map((s) => `<span>${esc(s)}</span>`).join(' ')}</p>`;
@@ -234,7 +234,7 @@ export function transferRows(events) {
   const rows = [];
   for (const m of contestMatrix(events)) {
     const ev = /** @type {CountEvent} */ (events.find((e) => e.stage === m.stage));
-    const from = m.from.length === 1 ? m.from[0].name : `${m.from.map((f) => f.name).join(', ')} (${STV_VIEW_TEXT.together})`;
+    const from = m.from.length === 1 ? /** @type {import("../lib/stv.js").Mover} */ (m.from[0]).name : `${m.from.map((f) => f.name).join(', ')} (${STV_VIEW_TEXT.together})`;
     for (const g of ev.gains) rows.push([m.stage, m.label, from, g.name, g.amount]);
     if (m.nonTransferable > 0) rows.push([m.stage, m.label, from, STV_VIEW_TEXT.nonTransferable, m.nonTransferable]);
   }

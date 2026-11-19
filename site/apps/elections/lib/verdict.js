@@ -57,7 +57,7 @@ export function majorityOf(m) {
   if (Number.isFinite(recorded) && recorded > 0) return recorded;
   if (!m.votesComplete) return null;
   const votes = m.candidates.map((c) => Number(c.votes)).sort((a, b) => b - a);
-  return votes.length > 1 ? votes[0] - votes[1] : null;
+  return votes.length > 1 ? /** @type {number} */ (votes[0]) - /** @type {number} */ (votes[1]) : null;
 }
 
 /**
@@ -73,7 +73,7 @@ export function contestVerdict(m, fmt) {
     return `${top.label} ${Number(top.share).toFixed(1)}%`;
   }
   if (m.poll === 'unopposed') {
-    if (m.elected.length === 1) return fill(TEXT.unopposedOne, { name: m.elected[0].name, party: partyName(m.elected[0]) });
+    if (m.elected.length === 1) return fill(TEXT.unopposedOne, { name: /** @type {import("./area.js").Member} */ (m.elected[0]).name, party: partyName(/** @type {import("./area.js").Member} */ (m.elected[0])) });
     return fill(TEXT.unopposedMany, { n: fmt(m.elected.length), parties: seatTally(m) });
   }
   if (!m.elected.length) return TEXT.noneElected;
@@ -81,7 +81,7 @@ export function contestVerdict(m, fmt) {
   const tail = m.poll === 'not-recorded' ? ` · ${POLL_STATUS_TEXT['not-recorded']}` : '';
 
   if (m.seats === 1 || m.byElection) {
-    const w = m.elected[0];
+    const w = /** @type {import("./area.js").Member} */ (m.elected[0]);
     let line;
     if (!m.previous) line = fill(TEXT.winFirst, { party: partyName(w) });
     else if (!comparable) line = fill(boundaryChangedSince(m) ? TEXT.winNewBoundaries : TEXT.win, { party: partyName(w) });

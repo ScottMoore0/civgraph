@@ -99,9 +99,9 @@ const EPS = 0.005;
  */
 export function changeAt(row, stages, index) {
   if (index <= 0) return null;
-  const k = cellAt(row, stages[index]);
+  const k = cellAt(row, /** @type {number} */ (stages[index]));
   if (!k) return null;
-  const prev = cellAt(row, stages[index - 1]);
+  const prev = cellAt(row, /** @type {number} */ (stages[index - 1]));
   if (k.total !== null && prev && prev.total !== null) return k.total - prev.total;
   return k.transfers;
 }
@@ -247,10 +247,10 @@ export function countLabel(ev) {
   switch (ev.kind) {
     case 'first': return fill(STV_TEXT.labelFirst, { count });
     case 'surplus': return ev.surpluses.length === 1
-      ? fill(STV_TEXT.labelSurplus, { count, name: ev.surpluses[0].name, n })
+      ? fill(STV_TEXT.labelSurplus, { count, name: /** @type {Mover} */ (ev.surpluses[0]).name, n })
       : fill(STV_TEXT.labelSurpluses, { count, names: nameList(ev.surpluses), n });
     case 'exclusion': return ev.exclusions.length === 1
-      ? fill(STV_TEXT.labelExclusion, { count, name: ev.exclusions[0].name, n })
+      ? fill(STV_TEXT.labelExclusion, { count, name: /** @type {Mover} */ (ev.exclusions[0]).name, n })
       : fill(STV_TEXT.labelExclusions, { count, names: nameList(ev.exclusions), n });
     case 'mixed': return fill(STV_TEXT.labelMixed, { count, names: nameList(ev.surpluses), others: nameList(ev.exclusions), n });
     case 'unrecorded': return fill(STV_TEXT.labelUnrecorded, { count });
@@ -271,21 +271,21 @@ export function countSentences(ev, quota) {
     if (quota) out.push(fill(STV_TEXT.quotaIs, { n: fmtInt(quota) }));
   }
   const movers = ev.surpluses.length + ev.exclusions.length + ev.unknown.length;
-  if (ev.surpluses.length === 1) out.push(fill(STV_TEXT.surplusOne, { name: ev.surpluses[0].name, n: fmtInt(ev.surpluses[0].amount) }));
+  if (ev.surpluses.length === 1) out.push(fill(STV_TEXT.surplusOne, { name: /** @type {Mover} */ (ev.surpluses[0]).name, n: fmtInt(/** @type {Mover} */ (ev.surpluses[0]).amount) }));
   else if (ev.surpluses.length > 1) out.push(fill(STV_TEXT.surplusMany, { names: nameList(ev.surpluses), n: fmtInt(sum(ev.surpluses)) }));
-  if (ev.exclusions.length === 1) out.push(fill(STV_TEXT.exclusionOne, { name: ev.exclusions[0].name, n: fmtInt(ev.exclusions[0].amount) }));
+  if (ev.exclusions.length === 1) out.push(fill(STV_TEXT.exclusionOne, { name: /** @type {Mover} */ (ev.exclusions[0]).name, n: fmtInt(/** @type {Mover} */ (ev.exclusions[0]).amount) }));
   else if (ev.exclusions.length > 1) out.push(fill(STV_TEXT.exclusionMany, { names: nameList(ev.exclusions), n: fmtInt(sum(ev.exclusions)) }));
   for (const u of ev.unknown) out.push(fill(STV_TEXT.unknownMover, { name: u.name, n: fmtInt(u.amount) }));
   if (ev.kind === 'unrecorded' && !ev.unknown.length) out.push(STV_TEXT.unrecorded);
   if (movers > 1) out.push(STV_TEXT.pooled);
-  if (ev.gains.length && ev.index > 0) out.push(fill(STV_TEXT.topGain, { name: ev.gains[0].name, n: fmtInt(ev.gains[0].amount) }));
+  if (ev.gains.length && ev.index > 0) out.push(fill(STV_TEXT.topGain, { name: /** @type {Mover} */ (ev.gains[0]).name, n: fmtInt(/** @type {Mover} */ (ev.gains[0]).amount) }));
   if (ev.nonTransferable > 0) out.push(fill(ev.ntRecorded ? STV_TEXT.ntRecorded : STV_TEXT.ntDerived, { n: fmtInt(ev.nonTransferable) }));
   if (ev.kind === 'quiet') out.push(STV_TEXT.quiet);
   const movedOut = new Set([...ev.exclusions, ...ev.unknown].map((x) => x.id));
   for (const x of ev.excludedHere) if (!movedOut.has(x.id)) out.push(fill(STV_TEXT.excludedOnly, { name: x.name }));
   /** @type {Record<string, string>} */
   const said = { 'reached-elected': STV_TEXT.reached, reached: STV_TEXT.reachedOnly, declared: STV_TEXT.declaredElected, 'no-quota': STV_TEXT.electedNoQuota, elected: STV_TEXT.electedPlain };
-  for (const x of ev.electedHere) out.push(fill(said[x.how], { name: x.name }));
+  for (const x of ev.electedHere) out.push(fill(/** @type {string} */ (said[x.how]), { name: x.name }));
   if (ev.last && ev.index > 0) out.push(STV_TEXT.lastCount);
   return out;
 }
@@ -468,7 +468,7 @@ export function partyTransfers(sheets) {
       if (from.length > 1 || ev.unknown.length) { pooled += 1; continue; }
       used = true;
       transfers += 1;
-      const src = from[0];
+      const src = /** @type {Mover} */ (from[0]);
       let row = rows.get(src.party);
       if (!row) { row = { from: src.party, colour: src.colour, distributed: 0, transfers: 0, to: new Map(), nonTransferable: 0 }; rows.set(src.party, row); }
       row.distributed += src.amount;
@@ -513,7 +513,7 @@ export function closestSeats(contests, limit = 10) {
  */
 export function stepFromQuery(query, stages) {
   const n = Number(query.get('count'));
-  return stages.includes(n) ? n : stages[0];
+  return stages.includes(n) ? n : /** @type {number} */ (stages[0]);
 }
 
 /**
@@ -534,10 +534,10 @@ export function stepSearch(search, stage, stages) {
  */
 export function stepTo(move, current, stages) {
   const i = Math.max(0, stages.indexOf(current));
-  if (move === 'first') return stages[0];
-  if (move === 'last') return stages[stages.length - 1];
-  if (move === 'prev') return stages[Math.max(0, i - 1)];
-  return stages[Math.min(stages.length - 1, i + 1)];
+  if (move === 'first') return /** @type {number} */ (stages[0]);
+  if (move === 'last') return /** @type {number} */ (stages[stages.length - 1]);
+  if (move === 'prev') return /** @type {number} */ (stages[Math.max(0, i - 1)]);
+  return /** @type {number} */ (stages[Math.min(stages.length - 1, i + 1)]);
 }
 
 /**

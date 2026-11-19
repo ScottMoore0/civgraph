@@ -95,7 +95,7 @@ export function referendumContestHtml({ detail, contest: c, rows, sources }) {
   const options = referendumOptions(rows.map((r) => ({ party: r.name || r.party, votes: r.firstPrefs, share: r.firstPrefs !== null && valid ? (100 * r.firstPrefs) / valid : null, colour: r.colour })));
   const words = resultWords(options, (v) => fmtPct(v));
   const ranked = options.map((o) => o.votes ?? 0).sort((a, b) => b - a);
-  const majority = ranked.length >= 2 ? ranked[0] - ranked[1] : null;
+  const majority = ranked.length >= 2 ? /** @type {number} */ (ranked[0]) - /** @type {number} */ (ranked[1]) : null;
   const num = (/** @type {unknown} */ v) => (Number(v) > 0 ? Number(v) : null);
   const turnout = num(c['turnoutPct']) ?? (num(c['totalPoll']) && num(c['electorate']) ? (100 * Number(c['totalPoll'])) / Number(c['electorate']) : null);
   const facts = [

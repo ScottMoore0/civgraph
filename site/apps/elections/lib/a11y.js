@@ -37,7 +37,7 @@ export function announcement(title) {
  * @param {{ caption?: string | null, heading?: string | null, diagram?: boolean }} parts
  */
 export function scrollAreaName({ caption, heading, diagram }) {
-  const c = String(caption || '').trim().split(':')[0].trim();
+  const c = /** @type {string} */ (String(caption || '').trim().split(':')[0]).trim();
   if (c) return c;
   const h = String(heading || '').trim();
   if (h) return h;

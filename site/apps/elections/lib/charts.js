@@ -35,7 +35,7 @@ export function parliamentArc(parties, opts = {}) {
   const base = pad + height;
   const title = opts.title || `${n} seats`;
   const circles = points.map((pt, i) => {
-    const p = seats[i];
+    const p = /** @type {(typeof seats)[number]} */ (seats[i]);
     return `<circle cx="${(pad + pt.x).toFixed(1)}" cy="${(pad + pt.y).toFixed(1)}" r="${r.toFixed(2)}" fill="${esc(partyColour(p.colour))}"><title>${esc(p.party)}</title></circle>`;
   }).join('');
   const half = Math.floor(n / 2) + 1;
@@ -115,8 +115,8 @@ export function transferFlow(st) {
   const scale = usable / total;
   const fromH = Math.max(4, st.distributed * scale);
   const fromY = 10 + (usable - fromH) / 2;
-  const fromColour = st.from.length === 1 ? partyColour(st.from[0].colour) : electionsAppColours.pooledTransfer;
-  const fromName = st.from.length === 1 ? st.from[0].name : `${st.from.length} candidates`;
+  const fromColour = st.from.length === 1 ? partyColour(/** @type {(typeof st.from)[number]} */ (st.from[0]).colour) : electionsAppColours.pooledTransfer;
+  const fromName = st.from.length === 1 ? /** @type {(typeof st.from)[number]} */ (st.from[0]).name : `${st.from.length} candidates`;
   let y = 10;
   let fy = fromY;
   let labelY = 0; // labels keep 14 units apart even where the bands are thin

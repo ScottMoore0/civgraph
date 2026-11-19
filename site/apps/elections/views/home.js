@@ -72,7 +72,7 @@ function renderBody(root, list, slug) {
   root.innerHTML = `
     <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › ${esc(name)}</nav>
     <h1>${esc(name)}</h1>
-    <p class="el-lead">${siteNumber(list.length)} elections, ${String(list.at(-1)?.date).slice(0, 4)}–${list[0].date.slice(0, 4)}.</p>
+    <p class="el-lead">${siteNumber(list.length)} elections, ${String(list.at(-1)?.date).slice(0, 4)}–${/** @type {(typeof list)[number]} */ (list[0]).date.slice(0, 4)}.</p>
     ${[...decades].map(([d, es]) => `<section><h2>${esc(d)}</h2><ul class="el-list">${es.map((e) => `<li><a href="${appUrl.election(e.key)}">${esc(e.displayTitle)}</a> <span class="el-muted">${esc(fmtDate(e.date))}${e.bodySlug !== slug ? ` · ${esc(e.body || e.bodySlug)}` : ''}${e.contestStatus === 'uncontested' ? ' · unopposed' : ''}</span></li>`).join('')}</ul></section>`).join('')}`;
   return name;
 }

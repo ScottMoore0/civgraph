@@ -35,12 +35,12 @@ export function parseRoute(pathname, search = '') {
   }
   const parts = rest.split('/').filter(Boolean).map((p) => decodeURIComponent(p)).filter((p) => p !== 'index.html');
   if (!parts.length) return { view: 'home', query };
-  if (TOOLS.includes(parts[0])) return { view: parts[0], query };
+  if (TOOLS.includes(/** @type {string} */ (parts[0]))) return { view: /** @type {string} */ (parts[0]), query };
   if (parts[0] === 'body' && parts[1]) return { view: 'body', body: parts[1], query };
   if (parts[0] === 'area' && parts[1]) return { view: 'area', area: parts[1], query };
   if (parts[0] === 'person' && parts[1]) return { view: 'person', person: parts[1], query };
-  if (parts.length === 1) return { view: 'election', election: parts[0], query };
-  return { view: 'contest', election: parts[0], contest: parts[1], query };
+  if (parts.length === 1) return { view: 'election', election: /** @type {string} */ (parts[0]), query };
+  return { view: 'contest', election: /** @type {string} */ (parts[0]), contest: /** @type {string} */ (parts[1]), query };
 }
 
 /** Whether a link's href is one of the app's own routes (handled without a page load). */

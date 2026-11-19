@@ -67,8 +67,8 @@ export const CONTEXT_TEXT = Object.freeze([...Object.values(INDICATOR_LABELS), .
  * @param {string} id @param {number} year
  */
 export function baseOf(id, year) {
-  if (id === 'level4' && year === 2001) return BASES_16_74.level4;
-  if (id === 'unemployed' && year <= 2011) return BASES_16_74.unemployed;
+  if (id === 'level4' && year === 2001) return /** @type {string} */ (BASES_16_74.level4);
+  if (id === 'unemployed' && year <= 2011) return /** @type {string} */ (BASES_16_74.unemployed);
   return BASES[id] || '';
 }
 
@@ -87,8 +87,8 @@ export function setFor(data, layerId) {
 export function censusFor(set, date) {
   const list = [...set.censuses].sort((a, b) => a.year - b.year);
   const t = Date.parse(String(date || ''));
-  if (!Number.isFinite(t)) return list[list.length - 1];
-  let best = list[0];
+  if (!Number.isFinite(t)) return /** @type {CensusBlock} */ (list[list.length - 1]);
+  let best = /** @type {CensusBlock} */ (list[0]);
   for (const c of list) if (Math.abs(Date.parse(c.date) - t) < Math.abs(Date.parse(best.date) - t)) best = c;
   return best;
 }
@@ -96,8 +96,8 @@ export function censusFor(set, date) {
 /** An area's figure: the count, or the share (%) for a numerator and denominator. @param {number[] | undefined} f */
 export function figure(f) {
   if (!f || !f.length) return null;
-  if (f.length === 1) return f[0];
-  return f[1] ? (100 * f[0]) / f[1] : null;
+  if (f.length === 1) return /** @type {number} */ (f[0]);
+  return f[1] ? (100 * /** @type {number} */ (f[0])) / f[1] : null;
 }
 
 /**
@@ -115,8 +115,8 @@ export function totalOf(census, id) {
   for (const a of Object.values(census.areas)) {
     const f = a[id];
     if (!f) continue;
-    n += f[0];
-    if (f.length > 1) d += f[1];
+    n += /** @type {number} */ (f[0]);
+    if (f.length > 1) d += /** @type {number} */ (f[1]);
   }
   return d ? (100 * n) / d : n;
 }
@@ -136,12 +136,12 @@ export function similarAreas(data, census, area, k = 5) {
   /** @type {Record<string, { mean: number, sd: number }>} */
   const scale = {};
   for (const id of ids) {
-    const xs = names.map((n) => figure(census.areas[n][id])).filter((v) => v !== null).map(Number);
+    const xs = names.map((n) => figure(/** @type {AreaFigures} */ (census.areas[n])[id])).filter((v) => v !== null).map(Number);
     const mean = xs.reduce((s, v) => s + v, 0) / (xs.length || 1);
     const sd = Math.sqrt(xs.reduce((s, v) => s + (v - mean) ** 2, 0) / (xs.length || 1)) || 1;
     scale[id] = { mean, sd };
   }
-  const z = (/** @type {string} */ n, /** @type {string} */ id) => ((figure(census.areas[n][id]) ?? scale[id].mean) - scale[id].mean) / scale[id].sd;
+  const z = (/** @type {string} */ n, /** @type {string} */ id) => ((figure(/** @type {AreaFigures} */ (census.areas[n])[id]) ?? /** @type {(typeof scale)[string]} */ (scale[id]).mean) - /** @type {(typeof scale)[string]} */ (scale[id]).mean) / /** @type {(typeof scale)[string]} */ (scale[id]).sd;
   return names.filter((n) => n !== area)
     .map((n) => ({ name: n, distance: Math.sqrt(ids.reduce((s, id) => s + (z(n, id) - z(area, id)) ** 2, 0)) }))
     .sort((a, b) => a.distance - b.distance || (a.name < b.name ? -1 : 1))
@@ -164,18 +164,18 @@ export function areaContext(data, { layerId, area, date }) {
   if (!name) return { status: 'no-area', set, census };
   const names = Object.keys(census.areas);
   const rows = data.indicators.map((id) => {
-    const value = /** @type {number} */ (figure(census.areas[name][id]));
-    const values = names.map((n) => figure(census.areas[n][id]));
+    const value = /** @type {number} */ (figure(/** @type {AreaFigures} */ (census.areas[name])[id]));
+    const values = names.map((n) => figure(/** @type {AreaFigures} */ (census.areas[n])[id]));
     return {
       id,
       label: INDICATOR_LABELS[id] || id,
       base: baseOf(id, census.year),
-      kind: /** @type {'count' | 'pct'} */ (census.areas[name][id].length === 1 ? 'count' : 'pct'),
+      kind: /** @type {'count' | 'pct'} */ (/** @type {number[]} */ (/** @type {AreaFigures} */ (census.areas[name])[id]).length === 1 ? 'count' : 'pct'),
       value,
       rank: rankOf(value, values),
       of: names.length,
       ni: totalOf(census, id),
-      table: census.tables[id],
+      table: /** @type {TableRef} */ (census.tables[id]),
     };
   });
   const others = set.censuses.map((c) => c.year).filter((y) => y !== census.year);

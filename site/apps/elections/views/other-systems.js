@@ -138,7 +138,7 @@ export function systemsHtml(cmp, stv) {
     const title = `${columnHeading(id)}: ${parties.filter((p) => p.seats).map((p) => `${p.party} ${p.seats}`).join(', ')}`;
     return `<div><p class="el-muted">${esc(columnHeading(id))}</p>${seatBar(parties, { title })}</div>`;
   }).join('')}</div><figcaption>${esc(SYSTEMS_TEXT.chartsCaption)}</figcaption></figure>`;
-  const kept = cmp.keptSeats ? `<p class="el-muted">${esc((cmp.keptSeats === 1 ? KEPT[0] : KEPT[1]).replace('{n}', fmtInt(cmp.keptSeats)))}</p>` : '';
+  const kept = cmp.keptSeats ? `<p class="el-muted">${esc((cmp.keptSeats === 1 ? /** @type {string} */ (KEPT[0]) : /** @type {string} */ (KEPT[1])).replace('{n}', fmtInt(cmp.keptSeats)))}</p>` : '';
   const method = `<details class="el-systems-method"><summary>${esc(SYSTEMS_TEXT.method)}</summary><ul>
     <li>${esc(SYSTEMS_TEXT.mSame)}</li>
     ${stv ? `<li>${esc(SYSTEMS_TEXT.mFirst)}</li>` : ''}

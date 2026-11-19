@@ -166,5 +166,5 @@ export function quotaProgress(sheet) {
 export function fptpMajority(sheet) {
   const votes = /** @type {number[]} */ (sheet.rows.map((r) => r.firstPrefs).filter((v) => v !== null)).sort((a, b) => b - a);
   if (votes.length < 2 || sheet.seats !== 1) return null;
-  return votes[0] - votes[1];
+  return /** @type {number} */ (votes[0]) - /** @type {number} */ (votes[1]);
 }

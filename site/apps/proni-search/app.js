@@ -873,7 +873,7 @@ document.addEventListener('keydown', (/** @type {KeyboardEvent} */ rawEvent) => 
 window.addEventListener('popstate', route);
 
 new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting && view.state() === 'search' && state.results.state() === 'idle' && hasAnyInput()) search(false);
+  if (/** @type {IntersectionObserverEntry} */ (entries[0]).isIntersecting && view.state() === 'search' && state.results.state() === 'idle' && hasAnyInput()) search(false);
 }, { rootMargin: '600px' }).observe(els.sentinel);
 
 // Initialise the home view, then render whatever the current URL asks for.
