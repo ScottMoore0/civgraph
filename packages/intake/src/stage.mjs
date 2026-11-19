@@ -158,7 +158,7 @@ function mapsJsonPatchOp(batch, op, view, out) {
     for (const ed of /** @type {MapEdit[]} */ (readJson(batchPath(batch, op.edits)))) {
       const i = ids.indexOf(ed.id);
       if (i === -1) { out.warnings.push(`${op.id}: ${ed.id} not in ${target}; edit skipped`); continue; }
-      const m = maps[i];
+      const m = /** @type {MapsRecord} */ (maps[i]);
       if (ed.op === 'replace-text') {
         const text = /** @type {string} */ (m[ed.field] || '');
         if (text.includes(ed.new)) continue;

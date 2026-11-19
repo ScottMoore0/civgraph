@@ -190,7 +190,7 @@ export function formatStep(s) {
 
 /** @type {Spawn} */
 function defaultSpawn(argv, { cwd }) {
-  const [prog, ...args] = argv;
+  const [prog, ...args] = /** @type {[string, ...string[]]} a command line names its program */ (argv);
   // node runs as this very executable; npm is a .cmd shim on Windows and needs the shell.
   const exe = prog === 'node' ? process.execPath : prog;
   const res = spawnSync(exe, args, { cwd, stdio: 'inherit', shell: prog === 'npm' && process.platform === 'win32' });

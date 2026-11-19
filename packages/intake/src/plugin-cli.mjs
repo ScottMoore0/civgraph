@@ -36,11 +36,11 @@ const VALUE = new Set(['--step', '--input', '--repo', '--scratch', '--submission
 
 /** @param {string[]} argv */
 export function parsePluginArgs(argv) {
-  const [command, ...rest] = argv;
+  const [command, ...rest] = /** @type {[string, ...string[]]} the caller passes the command first */ (argv);
   /** @type {{ command: string, positional: string[], flags: Set<string>, steps: string[], inputs: Record<string, string>, values: Record<string, string>, extra: string[] }} */
   const o = { command, positional: [], flags: new Set(), steps: [], inputs: {}, values: {}, extra: [] };
   for (let i = 0; i < rest.length; i += 1) {
-    const a = rest[i];
+    const a = /** @type {string} */ (rest[i]);
     if (a === '--') { o.extra = rest.slice(i + 1); break; }
     if (a.startsWith('--')) {
       if (BOOL.has(a)) { o.flags.add(a); continue; }
@@ -220,7 +220,7 @@ async function fromContributionCommand(repo, o, { log, err, stdio }) {
  */
 async function parityCommand(repo, o, { log, err, stdio }) {
   if (o.positional.length !== 1) { err('intake: parity <plugin>'); return 2; }
-  const plugin = await loadPlugin(repo, o.positional[0]);
+  const plugin = await loadPlugin(repo, /** @type {string} */ (o.positional[0]));
   if (!plugin.steps) { err('intake: parity compares step plugins with their old command lines'); return 2; }
   const offline = o.flags.has('--offline');
   const steps = selectSteps(plugin, o.steps, { all: o.flags.has('--all'), allowNetwork: offline });
@@ -254,7 +254,7 @@ async function parityCommand(repo, o, { log, err, stdio }) {
  */
 function markCommand(repo, o, { log, err }) {
   if (o.positional.length !== 2) { err('intake: mark <batch-dir> <status>'); return 2; }
-  const [dir, to] = o.positional;
+  const [dir, to] = /** @type {[string, string]} the length is checked above */ (o.positional);
   const batch = loadBatch(dir, { repo });
   const lockProblems = checkLock(batch);
   if (lockProblems.length) { err(`intake: the batch changed since review (${lockProblems.join('; ')}); validate --lock first`); return 1; }

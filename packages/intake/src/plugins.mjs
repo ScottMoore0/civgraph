@@ -170,12 +170,12 @@ export function pluginProblems(input) {
       for (const [name, st] of Object.entries(def.steps)) {
         if (!ID.test(name)) p.push(`step ${name}: not an id`);
         if (!st || typeof st.title !== 'string') p.push(`step ${name}: title is required`);
-        if (!Array.isArray(st?.argv) || st.argv.length < 2 || !PROGRAMS.has(st.argv[0])) p.push(`step ${name}: argv must be [node|python|bash|powershell, script, ...]`);
-        else if (!/^scripts\//.test(st.argv[1])) p.push(`step ${name}: the script must be under scripts/`);
+        if (!Array.isArray(st?.argv) || st.argv.length < 2 || !PROGRAMS.has(/** @type {string} */ (st.argv[0]))) p.push(`step ${name}: argv must be [node|python|bash|powershell, script, ...]`);
+        else if (!/^scripts\//.test(/** @type {string} */ (st.argv[1]))) p.push(`step ${name}: the script must be under scripts/`);
         for (const o of st?.outputs || []) if (!/^(?![A-Za-z]:|\/|\\)(?!.*(^|\/)\.\.(\/|$)).+$/.test(o)) p.push(`step ${name}: output ${o} is not a repository path`);
         for (const a of st?.argv || []) {
           const m = /^\{input:([^}]+)\}$/.exec(a) || /\{input:([^}]+)\}/.exec(a);
-          if (m && !def.inputs?.[m[1]]) p.push(`step ${name}: uses undeclared input ${m[1]}`);
+          if (m && !def.inputs?.[/** @type {string} */ (m[1])]) p.push(`step ${name}: uses undeclared input ${m[1]}`);
         }
         if (/@[a-z0-9-]+\.[a-z]{2,}/i.test((st?.argv || []).join(' '))) p.push(`step ${name}: argv carries what looks like an email address`);
       }
@@ -245,9 +245,9 @@ export function unaccountedFiles(plugin) {
   const named = new Set(['plugin.mjs', ...(plugin.helpers || []), ...(plugin.research || []), ...(plugin.data || [])]);
   for (const st of Object.values(plugin.steps || {})) for (const a of st.argv) {
     const m = /^scripts\/ingest\/[^/]+\/(.+)$/.exec(a);
-    if (m) named.add(m[1].includes('/') ? `${m[1].split('/')[0]}/` : m[1]);
+    if (m) named.add(/** @type {string} */ (m[1]).includes('/') ? `${/** @type {string} */ (m[1]).split('/')[0]}/` : /** @type {string} */ (m[1]));
   }
-  if (plugin.command) { const m = /^scripts\/ingest\/[^/]+\/(.+)$/.exec(plugin.command[1]); if (m) named.add(m[1]); }
+  if (plugin.command) { const m = /^scripts\/ingest\/[^/]+\/(.+)$/.exec(/** @type {string} */ (plugin.command[1])); if (m) named.add(/** @type {string} */ (m[1])); }
   const out = [];
   for (const name of readdirSync(plugin.folder).sort()) {
     if (name === '__pycache__' || name === 'README.md') continue;
@@ -293,7 +293,7 @@ export function resolveArgv(step, { repo, outRoot, inputs, args = [] }) {
 /** Repository paths a step names with {out:...}. @param {Step} step */
 export function redirectedOutputs(step) {
   const out = [];
-  for (const a of step.argv) for (const m of a.matchAll(/\{out:([^}]+)\}/g)) out.push(m[1]);
+  for (const a of step.argv) for (const m of a.matchAll(/\{out:([^}]+)\}/g)) out.push(/** @type {string} the pattern's one group */ (m[1]));
   return out;
 }
 
@@ -302,7 +302,7 @@ export function redirectedOutputs(step) {
  * @param {{ cwd: string, env?: Record<string, string>, stdio?: import('node:child_process').StdioOptions, input?: string }} options
  */
 export function spawnArgv(argv, { cwd, env = {}, stdio = 'inherit', input }) {
-  const [prog, ...given] = argv;
+  const [prog, ...given] = /** @type {[string, ...string[]]} a command line names its program */ (argv);
   const exe = prog === 'node' ? process.execPath : prog;
   // A PowerShell script runs as `powershell -NoProfile -File <script> ...`, under the machine's
   // own execution policy.
@@ -333,7 +333,7 @@ export function pythonIsolatedArgs(given) {
  */
 export function runStepsDirect(plugin, stepIds, { repo, inputs, args = [], stdio = 'inherit', env = {} }) {
   for (const id of stepIds) {
-    const step = /** @type {Record<string, Step>} */ (plugin.steps)[id];
+    const step = /** @type {Step} */ (/** @type {Record<string, Step>} */ (plugin.steps)[id]);
     const argv = resolveArgv(step, { repo, outRoot: repo, inputs, args });
     const res = spawnArgv(argv, { cwd: repo, env: { ...env, ...step.env }, stdio });
     if (res.status !== 0) throw new Error(`${plugin.id}/${id} exited ${res.status}${res.error ? ` (${res.error.message})` : ''}: ${argv.join(' ')}`);
@@ -350,7 +350,7 @@ export function selectSteps(plugin, named, { all = false, allowNetwork = false }
   if (!plugin.steps) throw new Error(`${plugin.id} has no steps (it is ${plugin.produce || plugin.command ? 'a produce or bridge plugin' : 'research only'})`);
   const steps = plugin.steps;
   const ids = Object.keys(steps);
-  let chosen = named.length ? named : all ? ids.filter((i) => !steps[i].network || allowNetwork) : ids.length === 1 ? ids : null;
+  let chosen = named.length ? named : all ? ids.filter((i) => !/** @type {Step} */ (steps[i]).network || allowNetwork) : ids.length === 1 ? ids : null;
   if (!chosen) throw new Error(`${plugin.id} has ${ids.length} steps; name them with --step (${ids.join(', ')}) or give --all`);
   for (const s of chosen) {
     if (!steps[s]) throw new Error(`${plugin.id} has no step ${s} (${ids.join(', ')})`);
@@ -375,14 +375,14 @@ export async function producePlugin(plugin, { repo, batchDir, steps = [], all = 
 
   if (plugin.steps) {
     const chosen = selectSteps(plugin, steps, { all, allowNetwork });
-    const declared = chosen.flatMap((s) => /** @type {Record<string, Step>} */ (plugin.steps)[s].outputs || []);
+    const declared = chosen.flatMap((s) => /** @type {Step} */ (/** @type {Record<string, Step>} */ (plugin.steps)[s]).outputs || []);
     const snap = snapshot(repo, { outputs: declared });
     let changed = [];
     let deleted = [];
     try {
       try {
         for (const id of chosen) {
-          const step = plugin.steps[id];
+          const step = /** @type {Step} */ (plugin.steps[id]);
           for (const rel of redirectedOutputs(step)) mkdirSync(path.dirname(path.join(stagedDir, rel)), { recursive: true });
           const argv = resolveArgv(step, { repo, outRoot: stagedDir, inputs: resolved, args });
           const res = spawnArgv(argv, { cwd: repo, env: { ...env, ...step.env }, stdio });
@@ -499,9 +499,9 @@ export async function parity(plugin, { repo, steps, args = [], inputs = {}, scra
   }
   const clockEnv = frozenClock ? frozenClockEnv() : {};
   const env = offline ? offlineEnv(clockEnv) : clockEnv;
-  const declared = steps.flatMap((s) => [...(/** @type {Record<string, Step>} */ (plugin.steps)[s].outputs || []), ...redirectedOutputs(/** @type {Record<string, Step>} */ (plugin.steps)[s])]);
+  const declared = steps.flatMap((s) => [...(/** @type {Step} */ (/** @type {Record<string, Step>} */ (plugin.steps)[s]).outputs || []), ...redirectedOutputs(/** @type {Step} */ (/** @type {Record<string, Step>} */ (plugin.steps)[s]))]);
 
-  const volatile = steps.flatMap((s) => /** @type {Record<string, Step>} */ (plugin.steps)[s].volatile || []);
+  const volatile = steps.flatMap((s) => /** @type {Step} */ (/** @type {Record<string, Step>} */ (plugin.steps)[s]).volatile || []);
   const oldCopies = path.join(scratch, `parity-${plugin.id}-old`);
   const newCopies = path.join(scratch, `parity-${plugin.id}-new`);
   for (const d of [oldCopies, newCopies]) rmSync(d, { recursive: true, force: true });
@@ -622,7 +622,7 @@ export function offlineEnv(base = {}) {
  * @param {Plugin} plugin @param {string[]} stepIds
  */
 export function offlineUnguarded(plugin, stepIds) {
-  return stepIds.filter((id) => ['bash', 'powershell'].includes(/** @type {Record<string, Step>} */ (plugin.steps)[id].argv[0]));
+  return stepIds.filter((id) => ['bash', 'powershell'].includes(/** @type {string} */ (/** @type {Step} */ (/** @type {Record<string, Step>} */ (plugin.steps)[id]).argv[0])));
 }
 
 /**

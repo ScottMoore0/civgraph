@@ -25,7 +25,7 @@ export function parseTokens(text, opener) {
   let group = 'tokens';
   for (const line of body.split('\n')) {
     const comment = line.match(/^\s*\/\*\s*([^:*(]+?)\s*(?:[:(].*)?\*\/\s*$/);
-    if (comment) { group = comment[1]; continue; }
+    if (comment) { group = /** @type {string} */ (comment[1]); continue; }
     const decl = line.match(/^\s*(--[a-z0-9-]+)\s*:\s*(.+?);\s*$/);
     if (decl) out.push({ group, name: decl[1], value: decl[2] });
   }
@@ -120,7 +120,7 @@ async function drawTokens() {
     for (const t of tokens) {
       const row = body.insertRow();
       row.append(cell('th', t.name), cell('td', t.value), cell('td', dark.get(t.name) || ''), cell('td', preview(t.name, live.getPropertyValue(t.name).trim())));
-      row.cells[0].scope = 'row';
+      /** @type {HTMLTableCellElement} */ (row.cells[0]).scope = 'row';
     }
     container.append(h, table);
   }
