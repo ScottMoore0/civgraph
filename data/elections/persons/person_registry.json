@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 162694,
+ "idHighWater": 162850,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -57,8 +57,8 @@
    "fix-john-carson-ballymena"
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
-  "crossSystemMerges": 1061,
-  "sameNameLeftSplit": 2900
+  "crossSystemMerges": 1057,
+  "sameNameLeftSplit": 2919
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -3803,20 +3803,23 @@
    "personId": 6861,
    "displayName": "William Baird",
    "aliases": [
-    "William Baird"
+    "William Baird",
+    "W. Baird"
    ],
    "matchKeys": [
+    "w baird",
     "william baird"
    ],
    "sourceIds": [
+    "W. Baird|UUP",
     "William Baird|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 7,
+   "contests": 7,
    "firstYear": 1939,
-   "lastYear": 1964,
+   "lastYear": 1967,
    "bodies": [
     "newry-urban-district-council"
    ],
@@ -3826,7 +3829,10 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    142570
+   ]
   },
   {
    "id": "p6934",
@@ -9936,7 +9942,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162634
+    162762
    ]
   },
   {
@@ -12335,7 +12341,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162680
+    162830
    ]
   },
   {
@@ -19228,31 +19234,26 @@
     "john wright"
    ],
    "sourceIds": [
-    "30094",
-    "John Wright|UUP",
-    "T1670173676"
+    "30094"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1964,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1997,
    "lastYear": 2003,
    "bodies": [
     "house-of-commons-of-the-united-kingdom",
-    "local-government",
-    "northern-ireland-assembly",
-    "portadown-borough-council"
+    "northern-ireland-assembly"
    ],
    "parties": [
     "Green",
-    "Independent",
-    "Natural Law",
-    "UUP"
+    "Natural Law"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p30141",
@@ -25225,7 +25226,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162682
+    162832
    ]
   },
   {
@@ -37780,25 +37781,24 @@
     "john sharkey"
    ],
    "sourceIds": [
-    "60569",
-    "John Sharkey|NI Labour"
+    "60569"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1946,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1970,
    "lastYear": 1970,
    "bodies": [
-    "house-of-commons-of-the-united-kingdom",
-    "londonderry-county-borough-council"
+    "house-of-commons-of-the-united-kingdom"
    ],
    "parties": [
     "NI Labour"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p60960",
@@ -43163,7 +43163,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162683
+    162833
    ]
   },
   {
@@ -49383,7 +49383,6 @@
     "12229787",
     "5955906",
     "80677",
-    "John Taylor|UUP",
     "T3684325721"
    ],
    "sourcePersonIds": [],
@@ -49392,15 +49391,14 @@
     "ukparliament:657",
     "wikidata:Q333991"
    ],
-   "candidacies": 19,
-   "contests": 19,
-   "firstYear": 1958,
+   "candidacies": 17,
+   "contests": 17,
+   "firstYear": 1965,
    "lastYear": 2003,
    "bodies": [
     "european-parliament",
     "house-of-commons-of-the-united-kingdom",
     "local-government",
-    "newry-urban-district-council",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention",
     "parliament-of-northern-ireland",
@@ -60489,7 +60487,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162650
+    162783
    ]
   },
   {
@@ -62437,10 +62435,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162589,
-    162608,
-    162653,
-    162654
+    162708,
+    162728,
+    162787,
+    162788
    ]
   },
   {
@@ -62752,10 +62750,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162618,
-    162619,
-    162636,
-    162688
+    162741,
+    162742,
+    162765,
+    162838
    ]
   },
   {
@@ -63453,10 +63451,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162595,
-    162596,
-    162662,
-    162663
+    162714,
+    162715,
+    162797,
+    162798
    ]
   },
   {
@@ -63493,10 +63491,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162597,
-    162613,
-    162625,
-    162664
+    162716,
+    162733,
+    162751,
+    162800
    ]
   },
   {
@@ -63970,8 +63968,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162602,
-    162681
+    162722,
+    162831
    ]
   },
   {
@@ -64132,11 +64130,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162603,
-    162620,
-    162690,
-    162691,
-    162692
+    162723,
+    162743,
+    162840,
+    162841,
+    162842
    ]
   },
   {
@@ -64930,10 +64928,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162580,
-    162587,
-    162645,
-    162646
+    162698,
+    162706,
+    162777,
+    162778
    ]
   },
   {
@@ -65706,21 +65704,18 @@
     "james graham"
    ],
    "sourceIds": [
-    "James Graham|Communist (NI)",
     "T4218507060"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 8,
-   "firstYear": 1964,
+   "candidacies": 8,
+   "contests": 7,
+   "firstYear": 1973,
    "lastYear": 1997,
    "bodies": [
-    "belfast-county-borough-council",
     "local-government"
    ],
    "parties": [
-    "Communist (NI)",
     "DUP",
     "UUP"
    ],
@@ -65853,12 +65848,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162617,
-    162635,
-    162684,
-    162685,
-    162686,
-    162687
+    162740,
+    162764,
+    162834,
+    162835,
+    162836,
+    162837
    ]
   },
   {
@@ -70287,9 +70282,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162581,
-    162582,
-    162610
+    162699,
+    162700,
+    162730
    ]
   },
   {
@@ -70327,11 +70322,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162592,
-    162611,
-    162612,
-    162624,
-    162659
+    162711,
+    162731,
+    162732,
+    162750,
+    162793
    ]
   },
   {
@@ -70368,10 +70363,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162578,
-    162583,
-    162671,
-    162672
+    162696,
+    162702,
+    162819,
+    162820
    ]
   },
   {
@@ -72525,11 +72520,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162579,
-    162637,
-    162638,
-    162639,
-    162693
+    162697,
+    162766,
+    162767,
+    162768,
+    162843
    ]
   },
   {
@@ -75726,12 +75721,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162584,
-    162614,
-    162630,
-    162631,
-    162673,
-    162674
+    162703,
+    162736,
+    162758,
+    162759,
+    162821,
+    162822
    ]
   },
   {
@@ -75769,11 +75764,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162585,
-    162600,
-    162615,
-    162675,
-    162676
+    162704,
+    162720,
+    162737,
+    162825,
+    162826
    ]
   },
   {
@@ -75813,13 +75808,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162601,
-    162616,
-    162632,
-    162633,
-    162677,
-    162678,
-    162679
+    162721,
+    162738,
+    162760,
+    162761,
+    162827,
+    162828,
+    162829
    ]
   },
   {
@@ -83750,12 +83745,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162588,
-    162605,
-    162606,
-    162607,
-    162648,
-    162649
+    162707,
+    162725,
+    162726,
+    162727,
+    162781,
+    162782
    ]
   },
   {
@@ -83921,11 +83916,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162590,
-    162591,
-    162609,
-    162657,
-    162658
+    162709,
+    162710,
+    162729,
+    162791,
+    162792
    ]
   },
   {
@@ -83961,9 +83956,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162593,
-    162660,
-    162661
+    162712,
+    162794,
+    162795
    ]
   },
   {
@@ -84002,12 +83997,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162598,
-    162599,
-    162627,
-    162628,
-    162629,
-    162670
+    162718,
+    162719,
+    162755,
+    162756,
+    162757,
+    162818
    ]
   },
   {
@@ -106505,17 +106500,15 @@
     "james howard"
    ],
    "sourceIds": [
-    "James Howard|",
     "T3124622530"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1949,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1973,
    "lastYear": 1981,
    "bodies": [
-    "lisburn-borough-council",
     "local-government"
    ],
    "parties": [
@@ -121599,10 +121592,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162641,
-    162642,
-    162643,
-    162644
+    162772,
+    162773,
+    162774,
+    162775
    ]
   },
   {
@@ -121637,8 +121630,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162622,
-    162647
+    162747,
+    162779
    ]
   },
   {
@@ -126931,10 +126924,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162666,
-    162667,
-    162668,
-    162669
+    162802,
+    162803,
+    162804,
+    162805
    ]
   },
   {
@@ -142166,21 +142159,18 @@
     "hugh boyle"
    ],
    "sourceIds": [
-    "Hugh Boyle|",
     "T4205471677"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1952,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1977,
    "lastYear": 1981,
    "bodies": [
-    "lisnaskea-rural-district-council",
     "local-government"
    ],
    "parties": [
-    "Anti-Partitionist",
     "Independent"
    ],
    "keyedBy": "id",
@@ -147266,7 +147256,7 @@
    "provenance": "keyed on the source's own candidate id (ei:3485)",
    "provisional": true,
    "mergedFrom": [
-    162604
+    162724
    ]
   },
   {
@@ -167285,7 +167275,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162652
+    162785
    ]
   },
   {
@@ -170860,7 +170850,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162651
+    162784
    ]
   },
   {
@@ -184356,18 +184346,15 @@
     "j walsh"
    ],
    "sourceIds": [
-    "2054957",
-    "J. Walsh|"
+    "2054957"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1921,
-   "lastYear": 1932,
+   "lastYear": 1921,
    "bodies": [
-    "banbridge-urban-district-council",
-    "lurgan-rural-district-council",
     "parliament-of-northern-ireland"
    ],
    "parties": [
@@ -207656,8 +207643,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162655,
-    162656
+    162789,
+    162790
    ]
   },
   {
@@ -207691,7 +207678,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162665
+    162801
    ]
   },
   {
@@ -220379,26 +220366,24 @@
     "j doherty"
    ],
    "sourceIds": [
-    "J. Doherty|Nationalist Party",
     "T1779417035"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
    "lastYear": 1973,
    "bodies": [
-    "local-government",
-    "londonderry-county-borough-council"
+    "local-government"
    ],
    "parties": [
-    "Independent",
-    "Nationalist Party"
+    "Independent"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p106801",
@@ -224306,19 +224291,16 @@
     "j trainor"
    ],
    "sourceIds": [
-    "J. Trainor|",
     "T2010075254"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1946,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
    "lastYear": 1973,
    "bodies": [
-    "ballymoney-urban-district-council",
-    "local-government",
-    "newcastle-urban-district-council"
+    "local-government"
    ],
    "parties": [
     "Republican Clubs"
@@ -231014,17 +230996,15 @@
     "m johnston"
    ],
    "sourceIds": [
-    "M. Johnston|",
     "T2403292848"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1946,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
    "lastYear": 1973,
    "bodies": [
-    "dungannon-urban-district-council",
     "local-government"
    ],
    "parties": [
@@ -236421,17 +236401,15 @@
     "r blair"
    ],
    "sourceIds": [
-    "R. Blair|",
     "T2730222163"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1955,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
    "lastYear": 1973,
    "bodies": [
-    "ballyclare-urban-district-council",
     "local-government"
    ],
    "parties": [
@@ -270354,7 +270332,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162689
+    162839
    ]
   },
   {
@@ -328475,7 +328453,7 @@
    "provenance": "keyed on the source's own candidate id (ie:6276)",
    "provisional": true,
    "mergedFrom": [
-    162621
+    162744
    ]
   },
   {
@@ -363313,7 +363291,7 @@
    "provisional": true,
    "nameVariants": true,
    "mergedFrom": [
-    162586
+    162705
    ]
   },
   {
@@ -511792,7 +511770,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    162594
+    162713
    ]
   },
   {
@@ -513145,7 +513123,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162640
+    162770
    ]
   },
   {
@@ -515308,7 +515286,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    162623
+    162749
    ]
   },
   {
@@ -563465,7 +563443,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    162626
+    162752
    ]
   },
   {
@@ -578068,7 +578046,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    162694
+    162850
    ]
   },
   {
@@ -595557,7 +595535,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:12051)",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p128254",
@@ -696519,13 +696498,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1926,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
    "lastYear": 1967,
    "bodies": [
-    "belfast-county-borough-council-aldermen",
-    "omagh-urban-district-council"
+    "belfast-county-borough-council-aldermen"
    ],
    "parties": [
     "UUP"
@@ -703507,24 +703485,26 @@
   {
    "id": "p134864",
    "personId": 134864,
-   "displayName": "J. Graham",
+   "displayName": "Joseph Graham",
    "aliases": [
+    "Joseph Graham",
     "J. Graham"
    ],
    "matchKeys": [
-    "j graham"
+    "j graham",
+    "joseph graham"
    ],
    "sourceIds": [
-    "J. Graham|UUP"
+    "J. Graham|UUP",
+    "Joseph Graham|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 3,
    "contests": 3,
-   "firstYear": 1920,
-   "lastYear": 1936,
+   "firstYear": 1930,
+   "lastYear": 1939,
    "bodies": [
-    "belfast-county-borough-council",
     "newry-no-1-rural-district-council"
    ],
    "parties": [
@@ -703533,7 +703513,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    146424
+   ]
   },
   {
    "id": "p134865",
@@ -710343,28 +710326,28 @@
   {
    "id": "p135359",
    "personId": 135359,
-   "displayName": "J. Gray",
+   "displayName": "Joseph Gray",
    "aliases": [
+    "Joseph Gray",
     "J. Gray"
    ],
    "matchKeys": [
-    "j gray"
+    "j gray",
+    "joseph gray"
    ],
    "sourceIds": [
-    "J. Gray|UUP"
+    "J. Gray|UUP",
+    "Joseph Gray|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 8,
-   "firstYear": 1914,
+   "candidacies": 11,
+   "contests": 11,
+   "firstYear": 1932,
    "lastYear": 1964,
    "bodies": [
     "armagh-county-council",
-    "armagh-rural-district-council",
-    "armagh-urban-district-council",
-    "downpatrick-urban-district-council",
-    "tyrone-county-council"
+    "armagh-urban-district-council"
    ],
    "parties": [
     "UUP"
@@ -710372,7 +710355,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    135412
+   ]
   },
   {
    "id": "p135360",
@@ -710958,14 +710944,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1905,
-   "lastYear": 1939,
+   "lastYear": 1920,
    "bodies": [
-    "antrim-county-council",
-    "coleraine-rural-district-council",
-    "dungannon-rural-district-council",
     "lurgan-rural-district-council"
    ],
    "parties": [],
@@ -711707,36 +711690,6 @@
    "firstYear": 1920,
    "lastYear": 1932,
    "bodies": [
-    "armagh-urban-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p135412",
-   "personId": 135412,
-   "displayName": "Joseph Gray",
-   "aliases": [
-    "Joseph Gray"
-   ],
-   "matchKeys": [
-    "joseph gray"
-   ],
-   "sourceIds": [
-    "Joseph Gray|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1932,
-   "lastYear": 1961,
-   "bodies": [
-    "armagh-county-council",
     "armagh-urban-district-council"
    ],
    "parties": [
@@ -713379,12 +713332,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1932,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1936,
    "lastYear": 1964,
    "bodies": [
-    "ballymoney-urban-district-council",
     "newry-no-2-rural-district-council"
    ],
    "parties": [],
@@ -715627,14 +715579,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 10,
-   "contests": 10,
-   "firstYear": 1927,
-   "lastYear": 1964,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1949,
+   "lastYear": 1955,
    "bodies": [
-    "antrim-rural-district-council",
-    "armagh-county-council",
-    "belfast-county-borough-council"
+    "armagh-county-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -717513,9 +717463,11 @@
    "personId": 135662,
    "displayName": "Thomas McLaughlin",
    "aliases": [
-    "Thomas McLaughlin"
+    "Thomas McLaughlin",
+    "T. McLaughlin"
    ],
    "matchKeys": [
+    "t mclaughlin",
     "thomas mclaughlin"
    ],
    "sourceIds": [
@@ -717523,8 +717475,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1930,
    "lastYear": 1939,
    "bodies": [
@@ -717536,6 +717488,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -717631,22 +717584,25 @@
   {
    "id": "p135670",
    "personId": 135670,
-   "displayName": "W. Barr",
+   "displayName": "William Barr",
    "aliases": [
+    "William Barr",
     "W. Barr"
    ],
    "matchKeys": [
-    "w barr"
+    "w barr",
+    "william barr"
    ],
    "sourceIds": [
-    "W. Barr|"
+    "W. Barr|",
+    "William Barr|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1939,
-   "lastYear": 1946,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1929,
+   "lastYear": 1952,
    "bodies": [
     "armagh-county-council",
     "tandragee-urban-district-council"
@@ -717654,7 +717610,10 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    135679
+   ]
   },
   {
    "id": "p135671",
@@ -717861,39 +717820,6 @@
     "lurgan-borough-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p135679",
-   "personId": 135679,
-   "displayName": "William Barr",
-   "aliases": [
-    "William Barr"
-   ],
-   "matchKeys": [
-    "william barr"
-   ],
-   "sourceIds": [
-    "William Barr|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1927,
-   "lastYear": 1952,
-   "bodies": [
-    "antrim-rural-district-council",
-    "armagh-county-council",
-    "londonderry-county-borough-council",
-    "tandragee-urban-district-council"
-   ],
-   "parties": [
-    "Anti-Partitionist",
-    "Derry Labour Party"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -719100,24 +719026,26 @@
    "personId": 135722,
    "displayName": "John M'Loughlin",
    "aliases": [
-    "John M'Loughlin"
+    "John M'Loughlin",
+    "J. McLoughlin"
    ],
    "matchKeys": [
+    "j mcloughlin",
     "john m loughlin"
    ],
    "sourceIds": [
+    "J. McLoughlin|Nationalist Party",
     "John M'Loughlin|Nationalist Party"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
-   "firstYear": 1899,
+   "candidacies": 8,
+   "contests": 8,
+   "firstYear": 1927,
    "lastYear": 1939,
    "bodies": [
     "enniskillen-borough-council",
-    "fermanagh-county-council",
-    "newry-no-2-rural-district-council"
+    "fermanagh-county-council"
    ],
    "parties": [
     "Nationalist Party"
@@ -719125,7 +719053,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    146011
+   ]
   },
   {
    "id": "p135724",
@@ -719556,21 +719487,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 10,
-   "contests": 10,
-   "firstYear": 1946,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1952,
    "lastYear": 1967,
    "bodies": [
-    "armagh-county-council",
-    "down-county-council",
-    "dromore-urban-district-council",
-    "lurgan-rural-district-council",
     "portrush-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p135740",
@@ -720078,14 +720006,13 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1923,
-   "lastYear": 1967,
+   "lastYear": 1924,
    "bodies": [
     "armagh-county-council",
-    "armagh-urban-district-council",
-    "omagh-urban-district-council"
+    "armagh-urban-district-council"
    ],
    "parties": [
     "UUP"
@@ -724727,12 +724654,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1929,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1946,
    "lastYear": 1967,
    "bodies": [
-    "ballymoney-urban-district-council",
     "newry-no-2-rural-district-council",
     "newry-urban-district-council"
    ],
@@ -726735,12 +726661,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1936,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1964,
    "lastYear": 1964,
    "bodies": [
-    "armagh-county-council",
     "armagh-urban-district-council"
    ],
    "parties": [
@@ -727552,13 +727477,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1899,
-   "lastYear": 1952,
+   "lastYear": 1911,
    "bodies": [
-    "ballymena-borough-council",
-    "cookstown-urban-district-council",
     "lurgan-rural-district-council",
     "moira-rural-district-council"
    ],
@@ -730249,12 +730172,14 @@
   {
    "id": "p136167",
    "personId": 136167,
-   "displayName": "J. O'Neill",
+   "displayName": "John O'Neill",
    "aliases": [
+    "John O'Neill",
     "J. O'Neill"
    ],
    "matchKeys": [
-    "j o neill"
+    "j o neill",
+    "john o neill"
    ],
    "sourceIds": [
     "J. O'Neill|Nationalist Party"
@@ -730263,11 +730188,10 @@
    "officialPersonIds": [],
    "candidacies": 2,
    "contests": 2,
-   "firstYear": 1933,
+   "firstYear": 1939,
    "lastYear": 1946,
    "bodies": [
-    "dungannon-rural-district-council",
-    "lurgan-rural-district-council"
+    "dungannon-rural-district-council"
    ],
    "parties": [
     "Nationalist Party"
@@ -730275,6 +730199,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -731706,9 +731631,11 @@
    "personId": 136218,
    "displayName": "Joseph O'Neill",
    "aliases": [
-    "Joseph O'Neill"
+    "Joseph O'Neill",
+    "J. O'Neill"
    ],
    "matchKeys": [
+    "j o neill",
     "joseph o neill"
    ],
    "sourceIds": [
@@ -731716,8 +731643,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1899,
    "lastYear": 1939,
    "bodies": [
@@ -731729,7 +731656,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p136219",
@@ -734024,29 +733952,37 @@
    "personId": 136309,
    "displayName": "William M'Cullough",
    "aliases": [
-    "William M'Cullough"
+    "William M'Cullough",
+    "W. M'Cullough"
    ],
    "matchKeys": [
+    "w m cullough",
     "william m cullough"
    ],
    "sourceIds": [
+    "W. M'Cullough|",
     "William M'Cullough|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1920,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1925,
    "lastYear": 1949,
    "bodies": [
     "antrim-county-council",
-    "carrickfergus-borough-council",
-    "tandragee-urban-district-council"
+    "carrickfergus-borough-council"
    ],
-   "parties": [],
+   "parties": [
+    "Progressive"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    138920
+   ]
   },
   {
    "id": "p136310",
@@ -743128,33 +743064,39 @@
   {
    "id": "p136693",
    "personId": 136693,
-   "displayName": "H. Morris",
+   "displayName": "Harry Morris",
    "aliases": [
+    "Harry Morris",
     "H. Morris"
    ],
    "matchKeys": [
-    "h morris"
+    "h morris",
+    "harry morris"
    ],
    "sourceIds": [
-    "H. Morris|Nationalist Party"
+    "H. Morris|Nationalist Party",
+    "Harry Morris|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1905,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1946,
    "lastYear": 1964,
    "bodies": [
-    "armagh-county-council",
     "enniskillen-borough-council"
    ],
    "parties": [
+    "Anti-Partitionist",
     "Nationalist Party"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    141004
+   ]
   },
   {
    "id": "p136694",
@@ -747621,13 +747563,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1911,
-   "lastYear": 1936,
+   "lastYear": 1911,
    "bodies": [
-    "belfast-county-borough-council",
-    "dromore-urban-district-council",
     "tandragee-urban-district-council"
    ],
    "parties": [],
@@ -749864,9 +749804,11 @@
    "personId": 136970,
    "displayName": "James Walsh",
    "aliases": [
-    "James Walsh"
+    "James Walsh",
+    "J. Walsh"
    ],
    "matchKeys": [
+    "j walsh",
     "james walsh"
    ],
    "sourceIds": [
@@ -749874,10 +749816,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1924,
-   "lastYear": 1924,
+   "lastYear": 1927,
    "bodies": [
     "lurgan-rural-district-council"
    ],
@@ -749887,6 +749829,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -767003,30 +766946,36 @@
   {
    "id": "p137667",
    "personId": 137667,
-   "displayName": "W. J. Hanna",
+   "displayName": "William J. Hanna",
    "aliases": [
+    "William J. Hanna",
     "W. J. Hanna"
    ],
    "matchKeys": [
-    "w j hanna"
+    "w j hanna",
+    "william j hanna"
    ],
    "sourceIds": [
-    "W. J. Hanna|"
+    "W. J. Hanna|",
+    "William J. Hanna|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 4,
    "contests": 4,
-   "firstYear": 1911,
-   "lastYear": 1930,
+   "firstYear": 1924,
+   "lastYear": 1936,
    "bodies": [
-    "londonderry-county-council",
-    "newry-no-2-rural-district-council"
+    "londonderry-county-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    147425
+   ]
   },
   {
    "id": "p137668",
@@ -771242,17 +771191,14 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1908,
-   "lastYear": 1952,
+   "lastYear": 1908,
    "bodies": [
-    "cookstown-urban-district-council",
     "portadown-borough-council"
    ],
-   "parties": [
-    "UUP"
-   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
@@ -781091,18 +781037,14 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1932,
-   "lastYear": 1958,
+   "lastYear": 1932,
    "bodies": [
-    "carrickfergus-borough-council",
-    "londonderry-county-borough-council",
-    "portrush-urban-district-council"
+    "carrickfergus-borough-council"
    ],
-   "parties": [
-    "Irish Labour"
-   ],
+   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
@@ -781472,28 +781414,34 @@
    "personId": 138862,
    "displayName": "John Morrow",
    "aliases": [
-    "John Morrow"
+    "John Morrow",
+    "J. Morrow"
    ],
    "matchKeys": [
+    "j morrow",
     "john morrow"
    ],
    "sourceIds": [
+    "J. Morrow|",
     "John Morrow|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 13,
-   "contests": 13,
+   "candidacies": 11,
+   "contests": 11,
    "firstYear": 1920,
    "lastYear": 1961,
    "bodies": [
-    "ballymena-borough-council",
-    "coleraine-rural-district-council"
+    "ballymena-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    148942
+   ]
   },
   {
    "id": "p138863",
@@ -782306,30 +782254,36 @@
   {
    "id": "p138895",
    "personId": 138895,
-   "displayName": "W. J. Russell",
+   "displayName": "William J. Russell",
    "aliases": [
+    "William J. Russell",
     "W. J. Russell"
    ],
    "matchKeys": [
-    "w j russell"
+    "w j russell",
+    "william j russell"
    ],
    "sourceIds": [
-    "W. J. Russell|"
+    "W. J. Russell|",
+    "William J. Russell|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 4,
    "contests": 4,
    "firstYear": 1936,
-   "lastYear": 1958,
+   "lastYear": 1949,
    "bodies": [
-    "holywood-urban-district-council",
     "whitehead-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    142847
+   ]
   },
   {
    "id": "p138896",
@@ -783031,35 +782985,6 @@
    ],
    "parties": [
     "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p138920",
-   "personId": 138920,
-   "displayName": "W. M'Cullough",
-   "aliases": [
-    "W. M'Cullough"
-   ],
-   "matchKeys": [
-    "w m cullough"
-   ],
-   "sourceIds": [
-    "W. M'Cullough|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1931,
-   "lastYear": 1946,
-   "bodies": [
-    "carrickfergus-borough-council"
-   ],
-   "parties": [
-    "Progressive"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -784667,22 +784592,24 @@
   {
    "id": "p138988",
    "personId": 138988,
-   "displayName": "J. Boyle",
+   "displayName": "James Boyle",
    "aliases": [
+    "James Boyle",
     "J. Boyle"
    ],
    "matchKeys": [
-    "j boyle"
+    "j boyle",
+    "james boyle"
    ],
    "sourceIds": [
     "J. Boyle|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1926,
-   "lastYear": 1932,
+   "lastYear": 1936,
    "bodies": [
     "dromore-urban-district-council"
    ],
@@ -784690,6 +784617,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -784708,12 +784636,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1961,
-   "lastYear": 1967,
+   "lastYear": 1964,
    "bodies": [
-    "dungannon-urban-district-council",
     "omagh-urban-district-council"
    ],
    "parties": [
@@ -784727,24 +784654,26 @@
   {
    "id": "p138991",
    "personId": 138991,
-   "displayName": "J. Doris",
+   "displayName": "John Doris",
    "aliases": [
+    "John Doris",
     "J. Doris"
    ],
    "matchKeys": [
-    "j doris"
+    "j doris",
+    "john doris"
    ],
    "sourceIds": [
-    "J. Doris|Nationalist Party"
+    "J. Doris|Nationalist Party",
+    "John Doris|Nationalist Party"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1933,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1936,
    "lastYear": 1964,
    "bodies": [
-    "cookstown-rural-district-council",
     "downpatrick-urban-district-council"
    ],
    "parties": [
@@ -784753,7 +784682,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    141547
+   ]
   },
   {
    "id": "p138992",
@@ -785319,30 +785251,39 @@
    "personId": 139012,
    "displayName": "James Doherty",
    "aliases": [
-    "James Doherty"
+    "James Doherty",
+    "J. Doherty"
    ],
    "matchKeys": [
+    "j doherty",
     "james doherty"
    ],
    "sourceIds": [
+    "James Doherty|",
+    "James Doherty|Anti-Partitionist",
     "James Doherty|Nationalist Party"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1961,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1949,
    "lastYear": 1967,
    "bodies": [
     "londonderry-county-borough-council"
    ],
    "parties": [
+    "Anti-Partitionist",
     "Nationalist Party"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "nameVariants": true,
+   "mergedFrom": [
+    139440
+   ]
   },
   {
    "id": "p139013",
@@ -787032,12 +786973,14 @@
   {
    "id": "p139070",
    "personId": 139070,
-   "displayName": "S. Fawcett",
+   "displayName": "Samuel Fawcett",
    "aliases": [
+    "Samuel Fawcett",
     "S. Fawcett"
    ],
    "matchKeys": [
-    "s fawcett"
+    "s fawcett",
+    "samuel fawcett"
    ],
    "sourceIds": [
     "S. Fawcett|"
@@ -787046,16 +786989,16 @@
    "officialPersonIds": [],
    "candidacies": 3,
    "contests": 3,
-   "firstYear": 1949,
-   "lastYear": 1952,
+   "firstYear": 1938,
+   "lastYear": 1949,
    "bodies": [
-    "antrim-town-commissioners",
     "portrush-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -792444,22 +792387,25 @@
   {
    "id": "p139270",
    "personId": 139270,
-   "displayName": "C. Walker",
+   "displayName": "Cecil Walker",
    "aliases": [
+    "Cecil Walker",
     "C. Walker"
    ],
    "matchKeys": [
-    "c walker"
+    "c walker",
+    "cecil walker"
    ],
    "sourceIds": [
+    "C. Walker|",
     "C. Walker|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
-   "lastYear": 1961,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1952,
+   "lastYear": 1967,
    "bodies": [
     "omagh-urban-district-council"
    ],
@@ -792469,7 +792415,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    140446
+   ]
   },
   {
    "id": "p139271",
@@ -794548,14 +794498,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1924,
-   "lastYear": 1961,
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
    "bodies": [
-    "belfast-county-borough-council",
-    "limavady-rural-district-council",
-    "lisburn-borough-council"
+    "belfast-county-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -795371,12 +795319,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1949,
-   "lastYear": 1964,
+   "lastYear": 1955,
    "bodies": [
-    "dungannon-urban-district-council",
     "newry-urban-district-council"
    ],
    "parties": [
@@ -795640,18 +795587,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1923,
-   "lastYear": 1929,
+   "lastYear": 1923,
    "bodies": [
-    "downpatrick-urban-district-council",
-    "dromore-urban-district-council"
+    "downpatrick-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139389",
@@ -795785,30 +795732,36 @@
   {
    "id": "p139394",
    "personId": 139394,
-   "displayName": "J. Fox",
+   "displayName": "Joseph Fox",
    "aliases": [
+    "Joseph Fox",
     "J. Fox"
    ],
    "matchKeys": [
-    "j fox"
+    "j fox",
+    "joseph fox"
    ],
    "sourceIds": [
-    "J. Fox|"
+    "J. Fox|",
+    "Joseph Fox|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 3,
    "contests": 3,
-   "firstYear": 1933,
+   "firstYear": 1934,
    "lastYear": 1946,
    "bodies": [
-    "dungannon-rural-district-council",
     "portrush-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    141673
+   ]
   },
   {
    "id": "p139395",
@@ -795925,22 +795878,24 @@
   {
    "id": "p139400",
    "personId": 139400,
-   "displayName": "J. Graham",
+   "displayName": "James Graham",
    "aliases": [
+    "James Graham",
     "J. Graham"
    ],
    "matchKeys": [
-    "j graham"
+    "j graham",
+    "james graham"
    ],
    "sourceIds": [
     "J. Graham|Communist (NI)"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1949,
-   "lastYear": 1952,
+   "lastYear": 1964,
    "bodies": [
     "belfast-county-borough-council"
    ],
@@ -795950,6 +795905,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -796094,22 +796050,24 @@
   {
    "id": "p139406",
    "personId": 139406,
-   "displayName": "J. Howard",
+   "displayName": "James Howard",
    "aliases": [
+    "James Howard",
     "J. Howard"
    ],
    "matchKeys": [
-    "j howard"
+    "j howard",
+    "james howard"
    ],
    "sourceIds": [
     "J. Howard|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1946,
-   "lastYear": 1958,
+   "lastYear": 1961,
    "bodies": [
     "lisburn-borough-council"
    ],
@@ -796117,6 +796075,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -797101,37 +797060,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p139440",
-   "personId": 139440,
-   "displayName": "James Doherty",
-   "aliases": [
-    "James Doherty"
-   ],
-   "matchKeys": [
-    "james doherty"
-   ],
-   "sourceIds": [
-    "James Doherty|",
-    "James Doherty|Anti-Partitionist"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1949,
-   "lastYear": 1955,
-   "bodies": [
-    "londonderry-county-borough-council"
-   ],
-   "parties": [
-    "Anti-Partitionist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p139441",
    "personId": 139441,
    "displayName": "James Donaghy",
@@ -797975,18 +797903,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1933,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1938,
    "lastYear": 1946,
    "bodies": [
-    "down-county-council",
     "larne-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139472",
@@ -800430,30 +800358,36 @@
   {
    "id": "p139564",
    "personId": 139564,
-   "displayName": "R. Thornton",
+   "displayName": "Robert Thornton",
    "aliases": [
+    "Robert Thornton",
     "R. Thornton"
    ],
    "matchKeys": [
-    "r thornton"
+    "r thornton",
+    "robert thornton"
    ],
    "sourceIds": [
-    "R. Thornton|"
+    "R. Thornton|",
+    "Robert Thornton|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
    "candidacies": 3,
    "contests": 3,
    "firstYear": 1926,
-   "lastYear": 1958,
+   "lastYear": 1932,
    "bodies": [
-    "enniskillen-rural-district-council",
     "newcastle-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    142212
+   ]
   },
   {
    "id": "p139565",
@@ -800910,28 +800844,36 @@
   {
    "id": "p139581",
    "personId": 139581,
-   "displayName": "Robert MacAfee",
+   "displayName": "Robert Macafee",
    "aliases": [
     "Robert Macafee, J.P.",
     "Robert MacAfee",
+    "Robert Macafee",
+    "Robert M'Afee",
+    "R. Macafee",
     "R. M'Afee"
    ],
    "matchKeys": [
     "r m afee",
+    "r macafee",
+    "robert m afee",
     "robert macafee",
     "robert macafee j p"
    ],
    "sourceIds": [
     "R. M'Afee|",
+    "R. Macafee|",
+    "Robert M'Afee|",
     "Robert MacAfee|",
-    "Robert Macafee, J.P.|"
+    "Robert Macafee, J.P.|",
+    "Robert Macafee|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1932,
-   "lastYear": 1949,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1923,
+   "lastYear": 1952,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -800940,7 +800882,11 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "nameVariants": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    140061,
+    142067
+   ]
   },
   {
    "id": "p139582",
@@ -801580,12 +801526,12 @@
    "officialPersonIds": [],
    "candidacies": 7,
    "contests": 7,
-   "firstYear": 1938,
+   "firstYear": 1939,
    "lastYear": 1952,
    "bodies": [
     "antrim-county-council",
     "antrim-rural-district-council",
-    "portrush-urban-district-council"
+    "antrim-town-commissioners"
    ],
    "parties": [
     "UUP"
@@ -803545,18 +803491,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1927,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1932,
    "lastYear": 1955,
    "bodies": [
-    "hillsborough-rural-district-council",
     "newcastle-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139688",
@@ -808555,18 +808501,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
+   "candidacies": 1,
+   "contests": 1,
    "firstYear": 1929,
-   "lastYear": 1939,
+   "lastYear": 1929,
    "bodies": [
-    "belfast-county-borough-council",
-    "clogher-rural-district-council"
+    "belfast-county-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139891",
@@ -812719,33 +812665,6 @@
    "lastYear": 1929,
    "bodies": [
     "dromore-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p140061",
-   "personId": 140061,
-   "displayName": "Robert M'Afee",
-   "aliases": [
-    "Robert M'Afee"
-   ],
-   "matchKeys": [
-    "robert m afee"
-   ],
-   "sourceIds": [
-    "Robert M'Afee|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1926,
-   "lastYear": 1926,
-   "bodies": [
-    "ballymoney-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -822185,34 +822104,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p140446",
-   "personId": 140446,
-   "displayName": "C. Walker",
-   "aliases": [
-    "C. Walker"
-   ],
-   "matchKeys": [
-    "c walker"
-   ],
-   "sourceIds": [
-    "C. Walker|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1964,
-   "lastYear": 1964,
-   "bodies": [
-    "omagh-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p140447",
@@ -832247,29 +832138,32 @@
   {
    "id": "p140864",
    "personId": 140864,
-   "displayName": "G. Stewart",
+   "displayName": "George Stewart",
    "aliases": [
+    "George Stewart",
     "G. Stewart"
    ],
    "matchKeys": [
-    "g stewart"
+    "g stewart",
+    "george stewart"
    ],
    "sourceIds": [
     "G. Stewart|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1958,
-   "lastYear": 1958,
+   "lastYear": 1961,
    "bodies": [
     "lisburn-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p140865",
@@ -835694,36 +835588,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p141004",
-   "personId": 141004,
-   "displayName": "Harry Morris",
-   "aliases": [
-    "Harry Morris"
-   ],
-   "matchKeys": [
-    "harry morris"
-   ],
-   "sourceIds": [
-    "Harry Morris|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1949,
-   "lastYear": 1955,
-   "bodies": [
-    "enniskillen-borough-council"
-   ],
-   "parties": [
-    "Anti-Partitionist"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p141005",
    "personId": 141005,
    "displayName": "Henry A. Hamilton",
@@ -836173,20 +836037,23 @@
    "personId": 141027,
    "displayName": "Herbert McCullough",
    "aliases": [
-    "Herbert McCullough"
+    "Herbert McCullough",
+    "H. M'Cullough"
    ],
    "matchKeys": [
+    "h m cullough",
     "herbert mccullough"
    ],
    "sourceIds": [
+    "H. M'Cullough|UUP",
     "Herbert McCullough|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "newry-urban-district-council"
    ],
@@ -836196,7 +836063,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    143132
+   ]
   },
   {
    "id": "p141028",
@@ -843460,12 +843330,14 @@
   {
    "id": "p141321",
    "personId": 141321,
-   "displayName": "J. Sharkey",
+   "displayName": "John Sharkey",
    "aliases": [
+    "John Sharkey",
     "J. Sharkey"
    ],
    "matchKeys": [
-    "j sharkey"
+    "j sharkey",
+    "john sharkey"
    ],
    "sourceIds": [
     "J. Sharkey|"
@@ -843474,18 +843346,20 @@
    "officialPersonIds": [],
    "candidacies": 2,
    "contests": 2,
-   "firstYear": 1949,
+   "firstYear": 1946,
    "lastYear": 1949,
    "bodies": [
-    "londonderry-county-borough-council",
-    "omagh-urban-district-council"
+    "londonderry-county-borough-council"
    ],
    "parties": [
-    "Irish Labour"
+    "Irish Labour",
+    "NI Labour"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p141322",
@@ -843870,22 +843744,24 @@
   {
    "id": "p141335",
    "personId": 141335,
-   "displayName": "J. Taylor",
+   "displayName": "John Taylor",
    "aliases": [
+    "John Taylor",
     "J. Taylor"
    ],
    "matchKeys": [
-    "j taylor"
+    "j taylor",
+    "john taylor"
    ],
    "sourceIds": [
     "J. Taylor|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
-   "lastYear": 1961,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1958,
+   "lastYear": 1964,
    "bodies": [
     "newry-urban-district-council"
    ],
@@ -843894,7 +843770,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p141336",
@@ -845142,9 +845019,11 @@
    "personId": 141386,
    "displayName": "James Brown",
    "aliases": [
-    "James Brown"
+    "James Brown",
+    "J. Brown"
    ],
    "matchKeys": [
+    "j brown",
     "james brown"
    ],
    "sourceIds": [
@@ -845152,10 +845031,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1958,
-   "lastYear": 1958,
+   "lastYear": 1964,
    "bodies": [
     "dungannon-urban-district-council"
    ],
@@ -845165,6 +845044,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -845634,9 +845514,11 @@
    "personId": 141408,
    "displayName": "James Dickson",
    "aliases": [
-    "James Dickson"
+    "James Dickson",
+    "J. Dickson"
    ],
    "matchKeys": [
+    "j dickson",
     "james dickson"
    ],
    "sourceIds": [
@@ -845644,17 +845526,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1923,
-   "lastYear": 1923,
+   "lastYear": 1929,
    "bodies": [
     "dromore-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p141409",
@@ -845690,22 +845573,26 @@
    "personId": 141411,
    "displayName": "James Donnelly",
    "aliases": [
-    "James Donnelly"
+    "James Donnelly",
+    "J. Donnelly"
    ],
    "matchKeys": [
+    "j donnelly",
     "james donnelly"
    ],
    "sourceIds": [
+    "James Donnelly|",
     "James Donnelly|Nationalist Party"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1958,
-   "lastYear": 1958,
+   "lastYear": 1967,
    "bodies": [
-    "dungannon-urban-district-council"
+    "dungannon-urban-district-council",
+    "tyrone-county-council"
    ],
    "parties": [
     "Nationalist Party"
@@ -845713,7 +845600,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    146103
+   ]
   },
   {
    "id": "p141412",
@@ -848787,36 +848678,6 @@
    "provisional": true
   },
   {
-   "id": "p141547",
-   "personId": 141547,
-   "displayName": "John Doris",
-   "aliases": [
-    "John Doris"
-   ],
-   "matchKeys": [
-    "john doris"
-   ],
-   "sourceIds": [
-    "John Doris|Nationalist Party"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1949,
-   "lastYear": 1961,
-   "bodies": [
-    "downpatrick-urban-district-council"
-   ],
-   "parties": [
-    "Nationalist Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p141549",
    "personId": 141549,
    "displayName": "John Dougal",
@@ -850812,9 +850673,11 @@
    "personId": 141639,
    "displayName": "John Trainor",
    "aliases": [
-    "John Trainor"
+    "John Trainor",
+    "J. Trainor"
    ],
    "matchKeys": [
+    "j trainor",
     "john trainor"
    ],
    "sourceIds": [
@@ -850822,10 +850685,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1958,
-   "lastYear": 1958,
+   "lastYear": 1961,
    "bodies": [
     "ballymoney-urban-district-council"
    ],
@@ -850833,6 +850696,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -851336,9 +851200,11 @@
    "personId": 141659,
    "displayName": "Joseph Campbell",
    "aliases": [
-    "Joseph Campbell"
+    "Joseph Campbell",
+    "J. Campbell"
    ],
    "matchKeys": [
+    "j campbell",
     "joseph campbell"
    ],
    "sourceIds": [
@@ -851346,19 +851212,21 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "londonderry-county-borough-council"
    ],
    "parties": [
+    "Irish Labour",
     "NI Labour"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -851620,33 +851488,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p141673",
-   "personId": 141673,
-   "displayName": "Joseph Fox",
-   "aliases": [
-    "Joseph Fox"
-   ],
-   "matchKeys": [
-    "joseph fox"
-   ],
-   "sourceIds": [
-    "Joseph Fox|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1938,
-   "lastYear": 1938,
-   "bodies": [
-    "portrush-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p141675",
@@ -854508,9 +854349,11 @@
    "personId": 141795,
    "displayName": "Matthew Johnston",
    "aliases": [
-    "Matthew Johnston"
+    "Matthew Johnston",
+    "M. Johnston"
    ],
    "matchKeys": [
+    "m johnston",
     "matthew johnston"
    ],
    "sourceIds": [
@@ -854519,10 +854362,10 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1955,
-   "lastYear": 1958,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1946,
+   "lastYear": 1967,
    "bodies": [
     "dungannon-urban-district-council"
    ],
@@ -854532,6 +854375,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -859755,31 +859599,37 @@
   {
    "id": "p142015",
    "personId": 142015,
-   "displayName": "R. Elliott",
+   "displayName": "Robert Elliott",
    "aliases": [
+    "Robert Elliott",
     "R. Elliott"
    ],
    "matchKeys": [
-    "r elliott"
+    "r elliott",
+    "robert elliott"
    ],
    "sourceIds": [
-    "R. Elliott|"
+    "R. Elliott|",
+    "Robert Elliott|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1927,
-   "lastYear": 1952,
+   "candidacies": 9,
+   "contests": 9,
+   "firstYear": 1946,
+   "lastYear": 1964,
    "bodies": [
     "aughnacloy-town-commissioners",
-    "clogher-rural-district-council",
-    "enniskillen-rural-district-council"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    144689
+   ]
   },
   {
    "id": "p142016",
@@ -861037,38 +860887,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p142067",
-   "personId": 142067,
-   "displayName": "Robert Macafee",
-   "aliases": [
-    "Robert Macafee",
-    "R. Macafee"
-   ],
-   "matchKeys": [
-    "r macafee",
-    "robert macafee"
-   ],
-   "sourceIds": [
-    "R. Macafee|",
-    "Robert Macafee|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1923,
-   "lastYear": 1952,
-   "bodies": [
-    "ballymoney-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "nameVariants": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p142068",
@@ -862542,9 +862360,11 @@
    "personId": 142129,
    "displayName": "Robert Blair",
    "aliases": [
-    "Robert Blair"
+    "Robert Blair",
+    "R. Blair"
    ],
    "matchKeys": [
+    "r blair",
     "robert blair"
    ],
    "sourceIds": [
@@ -862552,17 +862372,18 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1952,
-   "lastYear": 1952,
+   "lastYear": 1958,
    "bodies": [
     "ballyclare-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p142131",
@@ -864268,33 +864089,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p142212",
-   "personId": 142212,
-   "displayName": "Robert Thornton",
-   "aliases": [
-    "Robert Thornton"
-   ],
-   "matchKeys": [
-    "robert thornton"
-   ],
-   "sourceIds": [
-    "Robert Thornton|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1929,
-   "lastYear": 1929,
-   "bodies": [
-    "newcastle-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p142213",
@@ -870145,9 +869939,11 @@
    "personId": 142461,
    "displayName": "Thomas A. Henderson",
    "aliases": [
-    "Thomas A. Henderson"
+    "Thomas A. Henderson",
+    "T. Henderson"
    ],
    "matchKeys": [
+    "t henderson",
     "thomas a henderson"
    ],
    "sourceIds": [
@@ -870155,9 +869951,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1932,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1926,
    "lastYear": 1932,
    "bodies": [
     "omagh-urban-district-council"
@@ -870167,7 +869963,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p142462",
@@ -871931,30 +871728,35 @@
    "personId": 142529,
    "displayName": "Thomas Wilson",
    "aliases": [
-    "Thomas Wilson"
+    "Thomas Wilson",
+    "T. Wilson"
    ],
    "matchKeys": [
+    "t wilson",
     "thomas wilson"
    ],
    "sourceIds": [
+    "T. Wilson|",
     "Thomas Wilson|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
-   "firstYear": 1905,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1946,
    "lastYear": 1967,
    "bodies": [
     "antrim-county-council",
-    "ballymena-borough-council",
-    "bangor-borough-council"
+    "larne-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    147089
+   ]
   },
   {
    "id": "p142530",
@@ -872598,21 +872400,23 @@
   {
    "id": "p142563",
    "personId": 142563,
-   "displayName": "W. Alexander",
+   "displayName": "William Alexander",
    "aliases": [
+    "William Alexander",
     "W. Alexander"
    ],
    "matchKeys": [
-    "w alexander"
+    "w alexander",
+    "william alexander"
    ],
    "sourceIds": [
     "W. Alexander|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1958,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1949,
    "lastYear": 1964,
    "bodies": [
     "ballymena-borough-council"
@@ -872620,7 +872424,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p142564",
@@ -872764,54 +872569,25 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p142570",
-   "personId": 142570,
-   "displayName": "W. Baird",
-   "aliases": [
-    "W. Baird"
-   ],
-   "matchKeys": [
-    "w baird"
-   ],
-   "sourceIds": [
-    "W. Baird|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1949,
-   "lastYear": 1967,
-   "bodies": [
-    "lurgan-borough-council",
-    "newry-urban-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p142571",
    "personId": 142571,
-   "displayName": "W. Beatty",
+   "displayName": "William Beatty",
    "aliases": [
+    "William Beatty",
     "W. Beatty"
    ],
    "matchKeys": [
-    "w beatty"
+    "w beatty",
+    "william beatty"
    ],
    "sourceIds": [
     "W. Beatty|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1926,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1923,
    "lastYear": 1926,
    "bodies": [
     "newcastle-urban-district-council"
@@ -872819,7 +872595,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p142572",
@@ -874221,50 +873998,25 @@
   {
    "id": "p142631",
    "personId": 142631,
-   "displayName": "W. Gough",
+   "displayName": "William Gough",
    "aliases": [
+    "William Gough",
     "W. Gough"
    ],
    "matchKeys": [
-    "w gough"
+    "w gough",
+    "william gough"
    ],
    "sourceIds": [
-    "W. Gough|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1955,
-   "lastYear": 1955,
-   "bodies": [
-    "cookstown-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p142632",
-   "personId": 142632,
-   "displayName": "W. Gough",
-   "aliases": [
-    "W. Gough"
-   ],
-   "matchKeys": [
-    "w gough"
-   ],
-   "sourceIds": [
+    "W. Gough|",
     "W. Gough|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 3,
+   "contests": 3,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1955,
    "bodies": [
     "cookstown-urban-district-council"
    ],
@@ -874274,7 +874026,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "nameVariants": true,
+   "mergedFrom": [
+    142632
+   ]
   },
   {
    "id": "p142633",
@@ -878403,13 +878159,12 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1899,
-   "lastYear": 1923,
+   "lastYear": 1908,
    "bodies": [
-    "clogher-rural-district-council",
-    "newcastle-urban-district-council"
+    "clogher-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -879710,33 +879465,6 @@
    "parties": [
     "UUP"
    ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p142847",
-   "personId": 142847,
-   "displayName": "William J. Russell",
-   "aliases": [
-    "William J. Russell"
-   ],
-   "matchKeys": [
-    "william j russell"
-   ],
-   "sourceIds": [
-    "William J. Russell|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
-   "lastYear": 1939,
-   "bodies": [
-    "whitehead-urban-district-council"
-   ],
-   "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -882790,36 +882518,6 @@
     "holywood-urban-district-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p143132",
-   "personId": 143132,
-   "displayName": "H. M'Cullough",
-   "aliases": [
-    "H. M'Cullough"
-   ],
-   "matchKeys": [
-    "h m cullough"
-   ],
-   "sourceIds": [
-    "H. M'Cullough|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1946,
-   "lastYear": 1949,
-   "bodies": [
-    "moira-rural-district-council",
-    "newry-urban-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -892296,31 +891994,36 @@
   {
    "id": "p143615",
    "personId": 143615,
-   "displayName": "J. Wright",
+   "displayName": "John Wright",
    "aliases": [
+    "John Wright",
     "J. Wright"
    ],
    "matchKeys": [
-    "j wright"
+    "j wright",
+    "john wright"
    ],
    "sourceIds": [
     "J. Wright|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1955,
-   "lastYear": 1961,
+   "lastYear": 1977,
    "bodies": [
+    "local-government",
     "portadown-borough-council"
    ],
    "parties": [
+    "Independent",
     "UUP"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -895983,30 +895686,35 @@
    "personId": 143946,
    "displayName": "John Hutchinson",
    "aliases": [
-    "John Hutchinson"
+    "John Hutchinson",
+    "J. Hutchinson"
    ],
    "matchKeys": [
+    "j hutchinson",
     "john hutchinson"
    ],
    "sourceIds": [
+    "J. Hutchinson|",
     "John Hutchinson|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 14,
-   "contests": 14,
-   "firstYear": 1924,
+   "candidacies": 16,
+   "contests": 16,
+   "firstYear": 1933,
    "lastYear": 1967,
    "bodies": [
     "coleraine-rural-district-council",
-    "londonderry-county-council",
-    "omagh-rural-district-council"
+    "londonderry-county-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    144170
+   ]
   },
   {
    "id": "p143947",
@@ -896378,31 +896086,34 @@
    "personId": 143960,
    "displayName": "John Ferguson",
    "aliases": [
-    "John Ferguson"
+    "John Ferguson",
+    "J. Ferguson"
    ],
    "matchKeys": [
+    "j ferguson",
     "john ferguson"
    ],
    "sourceIds": [
+    "J. Ferguson|",
     "John Ferguson|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 9,
-   "contests": 9,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1927,
-   "lastYear": 1967,
+   "lastYear": 1939,
    "bodies": [
-    "belfast-county-borough-council",
-    "castlereagh-rural-district-council",
-    "enniskillen-rural-district-council",
-    "fermanagh-county-council"
+    "castlereagh-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    145944
+   ]
   },
   {
    "id": "p143961",
@@ -900310,9 +900021,11 @@
    "personId": 144122,
    "displayName": "Alfred Russell",
    "aliases": [
-    "Alfred Russell"
+    "Alfred Russell",
+    "A. Russell"
    ],
    "matchKeys": [
+    "a russell",
     "alfred russell"
    ],
    "sourceIds": [
@@ -900320,9 +900033,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1949,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1946,
    "lastYear": 1958,
    "bodies": [
     "down-county-council"
@@ -900330,7 +900043,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p144123",
@@ -901462,34 +901176,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p144170",
-   "personId": 144170,
-   "displayName": "J. Hutchinson",
-   "aliases": [
-    "J. Hutchinson"
-   ],
-   "matchKeys": [
-    "j hutchinson"
-   ],
-   "sourceIds": [
-    "J. Hutchinson|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1933,
-   "lastYear": 1961,
-   "bodies": [
-    "coleraine-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p144171",
@@ -915135,35 +914821,6 @@
    "provisional": true
   },
   {
-   "id": "p144689",
-   "personId": 144689,
-   "displayName": "Robert Elliott",
-   "aliases": [
-    "Robert Elliott"
-   ],
-   "matchKeys": [
-    "robert elliott"
-   ],
-   "sourceIds": [
-    "Robert Elliott|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 7,
-   "contests": 7,
-   "firstYear": 1946,
-   "lastYear": 1964,
-   "bodies": [
-    "aughnacloy-town-commissioners",
-    "clogher-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p144690",
    "personId": 144690,
    "displayName": "Robert F. Cummings",
@@ -918213,30 +917870,42 @@
   {
    "id": "p144809",
    "personId": 144809,
-   "displayName": "W. Wilson",
+   "displayName": "William C. Wilson",
    "aliases": [
+    "William C. Wilson",
+    "William Wilson",
     "W. Wilson"
    ],
    "matchKeys": [
-    "w wilson"
+    "w wilson",
+    "william c wilson",
+    "william wilson"
    ],
    "sourceIds": [
-    "W. Wilson|"
+    "W. Wilson|",
+    "William C. Wilson|",
+    "William Wilson|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1927,
-   "lastYear": 1946,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1924,
+   "lastYear": 1949,
    "bodies": [
-    "coleraine-rural-district-council",
     "enniskillen-rural-district-council"
    ],
-   "parties": [],
+   "parties": [
+    "UUP"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    147368,
+    147517
+   ]
   },
   {
    "id": "p144811",
@@ -919000,9 +918669,11 @@
    "personId": 144839,
    "displayName": "William Martin, J.P.",
    "aliases": [
-    "William Martin, J.P."
+    "William Martin, J.P.",
+    "W. Martin"
    ],
    "matchKeys": [
+    "w martin",
     "william martin j p"
    ],
    "sourceIds": [
@@ -919010,9 +918681,9 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1930,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1927,
    "lastYear": 1933,
    "bodies": [
     "hillsborough-rural-district-council"
@@ -919020,7 +918691,8 @@
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p144840",
@@ -923144,9 +922816,11 @@
    "displayName": "John J. M'Mahon",
    "aliases": [
     "John Joseph McMahon",
-    "John J. M'Mahon"
+    "John J. M'Mahon",
+    "J. M'Mahon"
    ],
    "matchKeys": [
+    "j m mahon",
     "john j m mahon",
     "john joseph mcmahon"
    ],
@@ -923156,8 +922830,8 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1936,
    "lastYear": 1949,
    "bodies": [
@@ -943370,33 +943044,6 @@
    "provisional": true
   },
   {
-   "id": "p145944",
-   "personId": 145944,
-   "displayName": "J. Ferguson",
-   "aliases": [
-    "J. Ferguson"
-   ],
-   "matchKeys": [
-    "j ferguson"
-   ],
-   "sourceIds": [
-    "J. Ferguson|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1933,
-   "lastYear": 1933,
-   "bodies": [
-    "castlereagh-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p145945",
    "personId": 145945,
    "displayName": "J. G. Allen",
@@ -944489,29 +944136,32 @@
   {
    "id": "p145990",
    "personId": 145990,
-   "displayName": "J. Kirkpatrick",
+   "displayName": "John Kirkpatrick",
    "aliases": [
+    "John Kirkpatrick",
     "J. Kirkpatrick"
    ],
    "matchKeys": [
-    "j kirkpatrick"
+    "j kirkpatrick",
+    "john kirkpatrick"
    ],
    "sourceIds": [
     "J. Kirkpatrick|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1930,
-   "lastYear": 1930,
+   "lastYear": 1933,
    "bodies": [
     "down-county-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p145992",
@@ -944977,35 +944627,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p146011",
-   "personId": 146011,
-   "displayName": "J. McLoughlin",
-   "aliases": [
-    "J. McLoughlin"
-   ],
-   "matchKeys": [
-    "j mcloughlin"
-   ],
-   "sourceIds": [
-    "J. McLoughlin|Nationalist Party"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1936,
-   "lastYear": 1936,
-   "bodies": [
-    "fermanagh-county-council"
-   ],
-   "parties": [
-    "Nationalist Party"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p146012",
@@ -945804,29 +945425,35 @@
   {
    "id": "p146047",
    "personId": 146047,
-   "displayName": "J. Williamson",
+   "displayName": "John Williamson",
    "aliases": [
+    "John Williamson",
     "J. Williamson"
    ],
    "matchKeys": [
-    "j williamson"
+    "j williamson",
+    "john williamson"
    ],
    "sourceIds": [
-    "J. Williamson|"
+    "J. Williamson|",
+    "John Williamson|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1949,
-   "lastYear": 1949,
+   "lastYear": 1952,
    "bodies": [
     "coleraine-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    146391
+   ]
   },
   {
    "id": "p146048",
@@ -947170,35 +946797,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p146103",
-   "personId": 146103,
-   "displayName": "James Donnelly",
-   "aliases": [
-    "James Donnelly"
-   ],
-   "matchKeys": [
-    "james donnelly"
-   ],
-   "sourceIds": [
-    "James Donnelly|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1961,
-   "lastYear": 1964,
-   "bodies": [
-    "dungannon-urban-district-council",
-    "tyrone-county-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p146105",
@@ -953884,36 +953482,6 @@
    "provisional": true
   },
   {
-   "id": "p146391",
-   "personId": 146391,
-   "displayName": "John Williamson",
-   "aliases": [
-    "John Williamson"
-   ],
-   "matchKeys": [
-    "john williamson"
-   ],
-   "sourceIds": [
-    "John Williamson|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1930,
-   "lastYear": 1952,
-   "bodies": [
-    "belfast-county-borough-council",
-    "coleraine-rural-district-council",
-    "limavady-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p146392",
    "personId": 146392,
    "displayName": "Johnston McClughan",
@@ -954760,36 +954328,6 @@
     "larne-rural-district-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p146424",
-   "personId": 146424,
-   "displayName": "Joseph Graham",
-   "aliases": [
-    "Joseph Graham"
-   ],
-   "matchKeys": [
-    "joseph graham"
-   ],
-   "sourceIds": [
-    "Joseph Graham|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1939,
-   "lastYear": 1939,
-   "bodies": [
-    "newry-no-1-rural-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
@@ -969842,35 +969380,6 @@
    "provisional": true
   },
   {
-   "id": "p147089",
-   "personId": 147089,
-   "displayName": "T. Wilson",
-   "aliases": [
-    "T. Wilson"
-   ],
-   "matchKeys": [
-    "t wilson"
-   ],
-   "sourceIds": [
-    "T. Wilson|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1946,
-   "lastYear": 1955,
-   "bodies": [
-    "antrim-county-council",
-    "larne-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p147094",
    "personId": 147094,
    "displayName": "The Earl of Belmore",
@@ -976395,33 +975904,6 @@
    "provisional": true
   },
   {
-   "id": "p147368",
-   "personId": 147368,
-   "displayName": "William C. Wilson",
-   "aliases": [
-    "William C. Wilson"
-   ],
-   "matchKeys": [
-    "william c wilson"
-   ],
-   "sourceIds": [
-    "William C. Wilson|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
-   "lastYear": 1949,
-   "bodies": [
-    "enniskillen-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p147369",
    "personId": 147369,
    "displayName": "William Cathcart",
@@ -977830,34 +977312,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "nameVariants": true
-  },
-  {
-   "id": "p147425",
-   "personId": 147425,
-   "displayName": "William J. Hanna",
-   "aliases": [
-    "William J. Hanna"
-   ],
-   "matchKeys": [
-    "william j hanna"
-   ],
-   "sourceIds": [
-    "William J. Hanna|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1936,
-   "lastYear": 1936,
-   "bodies": [
-    "londonderry-county-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147426",
@@ -979773,36 +979227,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p147517",
-   "personId": 147517,
-   "displayName": "William Wilson",
-   "aliases": [
-    "William Wilson"
-   ],
-   "matchKeys": [
-    "william wilson"
-   ],
-   "sourceIds": [
-    "William Wilson|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1924,
-   "lastYear": 1924,
-   "bodies": [
-    "enniskillen-rural-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p147518",
@@ -988569,29 +987993,34 @@
   {
    "id": "p148010",
    "personId": 148010,
-   "displayName": "H. Boyle",
+   "displayName": "Hugh Boyle",
    "aliases": [
+    "Hugh Boyle",
     "H. Boyle"
    ],
    "matchKeys": [
-    "h boyle"
+    "h boyle",
+    "hugh boyle"
    ],
    "sourceIds": [
     "H. Boyle|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
-   "lastYear": 1958,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1952,
+   "lastYear": 1964,
    "bodies": [
     "lisnaskea-rural-district-council"
    ],
-   "parties": [],
+   "parties": [
+    "Anti-Partitionist"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true
   },
   {
    "id": "p148011",
@@ -1003359,33 +1002788,6 @@
    "lastYear": 1961,
    "bodies": [
     "dungannon-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p148942",
-   "personId": 148942,
-   "displayName": "J. Morrow",
-   "aliases": [
-    "J. Morrow"
-   ],
-   "matchKeys": [
-    "j morrow"
-   ],
-   "sourceIds": [
-    "J. Morrow|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1958,
-   "lastYear": 1958,
-   "bodies": [
-    "ballymena-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -1116895,6 +1116297,1124 @@
    "provisional": true
   },
   {
+   "id": "p162695",
+   "personId": 162695,
+   "displayName": "James Graham",
+   "aliases": [
+    "James Graham"
+   ],
+   "matchKeys": [
+    "james graham"
+   ],
+   "sourceIds": [
+    "James Graham||Antrim Rural Muckamore"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1927,
+   "lastYear": 1964,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162701",
+   "personId": 162701,
+   "displayName": "Matthew Cunningham",
+   "aliases": [
+    "Matthew Cunningham",
+    "M. Cunningham"
+   ],
+   "matchKeys": [
+    "m cunningham",
+    "matthew cunningham"
+   ],
+   "sourceIds": [
+    "M. Cunningham||Ballymoney UDC"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1929,
+   "lastYear": 1946,
+   "bodies": [
+    "ballymoney-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162717",
+   "personId": 162717,
+   "displayName": "John Ferguson",
+   "aliases": [
+    "John Ferguson"
+   ],
+   "matchKeys": [
+    "john ferguson"
+   ],
+   "sourceIds": [
+    "John Ferguson||Fermanagh Rahalton Monea"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1961,
+   "lastYear": 1967,
+   "bodies": [
+    "enniskillen-rural-district-council",
+    "fermanagh-county-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162734",
+   "personId": 162734,
+   "displayName": "J. Trainor",
+   "aliases": [
+    "J. Trainor"
+   ],
+   "matchKeys": [
+    "j trainor"
+   ],
+   "sourceIds": [
+    "J. Trainor||Newcastle UDC"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1946,
+   "lastYear": 1958,
+   "bodies": [
+    "newcastle-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162735",
+   "personId": 162735,
+   "displayName": "John Morrow",
+   "aliases": [
+    "John Morrow"
+   ],
+   "matchKeys": [
+    "john morrow"
+   ],
+   "sourceIds": [
+    "John Morrow||Coleraine Rural Knockintern"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1924,
+   "lastYear": 1930,
+   "bodies": [
+    "coleraine-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162739",
+   "personId": 162739,
+   "displayName": "Thomas Wilson",
+   "aliases": [
+    "Thomas Wilson"
+   ],
+   "matchKeys": [
+    "thomas wilson"
+   ],
+   "sourceIds": [
+    "Thomas Wilson||Bangor Dufferin Ward"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1905,
+   "lastYear": 1914,
+   "bodies": [
+    "bangor-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162745",
+   "personId": 162745,
+   "displayName": "John M'Loughlin",
+   "aliases": [
+    "John M'Loughlin"
+   ],
+   "matchKeys": [
+    "john m loughlin"
+   ],
+   "sourceIds": [
+    "John M'Loughlin|Nationalist Party|Newry No 2 Rural Belleek"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1899,
+   "lastYear": 1902,
+   "bodies": [
+    "newry-no-2-rural-district-council"
+   ],
+   "parties": [
+    "Nationalist Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162746",
+   "personId": 162746,
+   "displayName": "John O'Neill",
+   "aliases": [
+    "John O'Neill"
+   ],
+   "matchKeys": [
+    "john o neill"
+   ],
+   "sourceIds": [
+    "John O'Neill||Coleraine Rural Portstewart Rural"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1927,
+   "lastYear": 1930,
+   "bodies": [
+    "coleraine-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162748",
+   "personId": 162748,
+   "displayName": "A. Russell",
+   "aliases": [
+    "A. Russell"
+   ],
+   "matchKeys": [
+    "a russell"
+   ],
+   "sourceIds": [
+    "A. Russell||Lurgan Rural Kernan"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1952,
+   "lastYear": 1964,
+   "bodies": [
+    "armagh-county-council",
+    "lurgan-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162753",
+   "personId": 162753,
+   "displayName": "John Hutchinson",
+   "aliases": [
+    "John Hutchinson"
+   ],
+   "matchKeys": [
+    "john hutchinson"
+   ],
+   "sourceIds": [
+    "John Hutchinson||Omagh Rural Sixmilecross"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1924,
+   "lastYear": 1936,
+   "bodies": [
+    "omagh-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162754",
+   "personId": 162754,
+   "displayName": "John Williamson",
+   "aliases": [
+    "John Williamson"
+   ],
+   "matchKeys": [
+    "john williamson"
+   ],
+   "sourceIds": [
+    "John Williamson||Limavady Rural Fruithill"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1930,
+   "lastYear": 1933,
+   "bodies": [
+    "limavady-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162763",
+   "personId": 162763,
+   "displayName": "Thomas Wilson",
+   "aliases": [
+    "Thomas Wilson"
+   ],
+   "matchKeys": [
+    "thomas wilson"
+   ],
+   "sourceIds": [
+    "Thomas Wilson||Ballymena Market Ward"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1936,
+   "lastYear": 1939,
+   "bodies": [
+    "ballymena-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162769",
+   "personId": 162769,
+   "displayName": "William Barr",
+   "aliases": [
+    "William Barr"
+   ],
+   "matchKeys": [
+    "william barr"
+   ],
+   "sourceIds": [
+    "William Barr||Londonderry South Ward"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1946,
+   "lastYear": 1949,
+   "bodies": [
+    "londonderry-county-borough-council"
+   ],
+   "parties": [
+    "Anti-Partitionist",
+    "Derry Labour Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162771",
+   "personId": 162771,
+   "displayName": "H. M'Cullough",
+   "aliases": [
+    "H. M'Cullough"
+   ],
+   "matchKeys": [
+    "h m cullough"
+   ],
+   "sourceIds": [
+    "H. M'Cullough|UUP|Moira Rural Magheralin"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1946,
+   "lastYear": 1946,
+   "bodies": [
+    "moira-rural-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162776",
+   "personId": 162776,
+   "displayName": "John O'Neill",
+   "aliases": [
+    "John O'Neill"
+   ],
+   "matchKeys": [
+    "john o neill"
+   ],
+   "sourceIds": [
+    "John O'Neill||Antrim CC 1920 Antrim Area"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1920,
+   "lastYear": 1920,
+   "bodies": [
+    "antrim-county-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162780",
+   "personId": 162780,
+   "displayName": "William M'Cullough",
+   "aliases": [
+    "William M'Cullough"
+   ],
+   "matchKeys": [
+    "william m cullough"
+   ],
+   "sourceIds": [
+    "William M'Cullough||Tandragee UDC 1920"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1920,
+   "lastYear": 1920,
+   "bodies": [
+    "tandragee-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162786",
+   "personId": 162786,
+   "displayName": "A. Russell",
+   "aliases": [
+    "A. Russell"
+   ],
+   "matchKeys": [
+    "a russell"
+   ],
+   "sourceIds": [
+    "A. Russell||Dromore UDC 1955"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1955,
+   "lastYear": 1955,
+   "bodies": [
+    "dromore-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162796",
+   "personId": 162796,
+   "displayName": "George Stewart",
+   "aliases": [
+    "George Stewart"
+   ],
+   "matchKeys": [
+    "george stewart"
+   ],
+   "sourceIds": [
+    "George Stewart||Limavady Rural Gelvin"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1924,
+   "lastYear": 1924,
+   "bodies": [
+    "limavady-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162799",
+   "personId": 162799,
+   "displayName": "H. Morris",
+   "aliases": [
+    "H. Morris"
+   ],
+   "matchKeys": [
+    "h morris"
+   ],
+   "sourceIds": [
+    "H. Morris|Nationalist Party|Armagh CC Crossmaglen 1905"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1905,
+   "lastYear": 1905,
+   "bodies": [
+    "armagh-county-council"
+   ],
+   "parties": [
+    "Nationalist Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162806",
+   "personId": 162806,
+   "displayName": "J. Campbell",
+   "aliases": [
+    "J. Campbell"
+   ],
+   "matchKeys": [
+    "j campbell"
+   ],
+   "sourceIds": [
+    "J. Campbell||Portrush UDC 1958"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "portrush-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162807",
+   "personId": 162807,
+   "displayName": "J. Doris",
+   "aliases": [
+    "J. Doris"
+   ],
+   "matchKeys": [
+    "j doris"
+   ],
+   "sourceIds": [
+    "J. Doris|Nationalist Party|Cookstown Rural Mullanahoe"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "cookstown-rural-district-council"
+   ],
+   "parties": [
+    "Nationalist Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162808",
+   "personId": 162808,
+   "displayName": "J. Fox",
+   "aliases": [
+    "J. Fox"
+   ],
+   "matchKeys": [
+    "j fox"
+   ],
+   "sourceIds": [
+    "J. Fox||Dungannon Rural Donaghmore"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "dungannon-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162809",
+   "personId": 162809,
+   "displayName": "J. Graham",
+   "aliases": [
+    "J. Graham"
+   ],
+   "matchKeys": [
+    "j graham"
+   ],
+   "sourceIds": [
+    "J. Graham|UUP|Belfast Woodvale 1920"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1920,
+   "lastYear": 1920,
+   "bodies": [
+    "belfast-county-borough-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162810",
+   "personId": 162810,
+   "displayName": "J. Gray",
+   "aliases": [
+    "J. Gray"
+   ],
+   "matchKeys": [
+    "j gray"
+   ],
+   "sourceIds": [
+    "J. Gray|UUP|Armagh Rural Clady 1914"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1914,
+   "lastYear": 1914,
+   "bodies": [
+    "armagh-rural-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162811",
+   "personId": 162811,
+   "displayName": "J. Gray",
+   "aliases": [
+    "J. Gray"
+   ],
+   "matchKeys": [
+    "j gray"
+   ],
+   "sourceIds": [
+    "J. Gray|UUP|Downpatrick UDC"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "downpatrick-urban-district-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162812",
+   "personId": 162812,
+   "displayName": "J. Gray",
+   "aliases": [
+    "J. Gray"
+   ],
+   "matchKeys": [
+    "j gray"
+   ],
+   "sourceIds": [
+    "J. Gray|UUP|Tyrone CC Benburb"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1952,
+   "lastYear": 1952,
+   "bodies": [
+    "tyrone-county-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162813",
+   "personId": 162813,
+   "displayName": "J. Sharkey",
+   "aliases": [
+    "J. Sharkey"
+   ],
+   "matchKeys": [
+    "j sharkey"
+   ],
+   "sourceIds": [
+    "J. Sharkey||Omagh UDC West Ward"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1949,
+   "lastYear": 1949,
+   "bodies": [
+    "omagh-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162814",
+   "personId": 162814,
+   "displayName": "J. Walsh",
+   "aliases": [
+    "J. Walsh"
+   ],
+   "matchKeys": [
+    "j walsh"
+   ],
+   "sourceIds": [
+    "J. Walsh||Banbridge UDC Western Ward"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1932,
+   "lastYear": 1932,
+   "bodies": [
+    "banbridge-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162815",
+   "personId": 162815,
+   "displayName": "James Boyle",
+   "aliases": [
+    "James Boyle"
+   ],
+   "matchKeys": [
+    "james boyle"
+   ],
+   "sourceIds": [
+    "James Boyle||Belfast Smithfield 1933"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "belfast-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162816",
+   "personId": 162816,
+   "displayName": "John Ferguson",
+   "aliases": [
+    "John Ferguson"
+   ],
+   "matchKeys": [
+    "john ferguson"
+   ],
+   "sourceIds": [
+    "John Ferguson||Belfast Clifton 1937"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1937,
+   "lastYear": 1937,
+   "bodies": [
+    "belfast-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162817",
+   "personId": 162817,
+   "displayName": "John Williamson",
+   "aliases": [
+    "John Williamson"
+   ],
+   "matchKeys": [
+    "john williamson"
+   ],
+   "sourceIds": [
+    "John Williamson||Belfast St Georges 1940"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1940,
+   "lastYear": 1940,
+   "bodies": [
+    "belfast-county-borough-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162823",
+   "personId": 162823,
+   "displayName": "R. Elliott",
+   "aliases": [
+    "R. Elliott"
+   ],
+   "matchKeys": [
+    "r elliott"
+   ],
+   "sourceIds": [
+    "R. Elliott||Enniskillen Rural Killesher"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "enniskillen-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162824",
+   "personId": 162824,
+   "displayName": "R. Thornton",
+   "aliases": [
+    "R. Thornton"
+   ],
+   "matchKeys": [
+    "r thornton"
+   ],
+   "sourceIds": [
+    "R. Thornton||Enniskillen Rural Lisbofin"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "enniskillen-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162844",
+   "personId": 162844,
+   "displayName": "W. Baird",
+   "aliases": [
+    "W. Baird"
+   ],
+   "matchKeys": [
+    "w baird"
+   ],
+   "sourceIds": [
+    "W. Baird|UUP|Lurgan Borough 1967"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1967,
+   "lastYear": 1967,
+   "bodies": [
+    "lurgan-borough-council"
+   ],
+   "parties": [
+    "UUP"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162845",
+   "personId": 162845,
+   "displayName": "W. J. Hanna",
+   "aliases": [
+    "W. J. Hanna"
+   ],
+   "matchKeys": [
+    "w j hanna"
+   ],
+   "sourceIds": [
+    "W. J. Hanna||Newry No 2 Rural Tullyhappy"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1911,
+   "lastYear": 1911,
+   "bodies": [
+    "newry-no-2-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162846",
+   "personId": 162846,
+   "displayName": "W. J. Russell",
+   "aliases": [
+    "W. J. Russell"
+   ],
+   "matchKeys": [
+    "w j russell"
+   ],
+   "sourceIds": [
+    "W. J. Russell||Holywood UDC 1958"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1958,
+   "lastYear": 1958,
+   "bodies": [
+    "holywood-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162847",
+   "personId": 162847,
+   "displayName": "W. Wilson",
+   "aliases": [
+    "W. Wilson"
+   ],
+   "matchKeys": [
+    "w wilson"
+   ],
+   "sourceIds": [
+    "W. Wilson||Coleraine Rural Agivey"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1933,
+   "lastYear": 1933,
+   "bodies": [
+    "coleraine-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162848",
+   "personId": 162848,
+   "displayName": "William Alexander",
+   "aliases": [
+    "William Alexander"
+   ],
+   "matchKeys": [
+    "william alexander"
+   ],
+   "sourceIds": [
+    "William Alexander||Cookstown UDC"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1939,
+   "lastYear": 1939,
+   "bodies": [
+    "cookstown-urban-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p162849",
+   "personId": 162849,
+   "displayName": "William Barr",
+   "aliases": [
+    "William Barr"
+   ],
+   "matchKeys": [
+    "william barr"
+   ],
+   "sourceIds": [
+    "William Barr||Antrim Rural Coggrey"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1927,
+   "lastYear": 1927,
+   "bodies": [
+    "antrim-rural-district-council"
+   ],
+   "parties": [],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
    "id": "p900001",
    "personId": 900001,
    "displayName": "Peter Brooke",
@@ -1120498,13 +1121018,13 @@
   }
  ],
  "corrections": {
-  "mergedIds": 117,
+  "mergedIds": 144,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 7,
+   "WIKIPEDIA-BIOGRAPHY": 33,
    "IE-EI-CROSSWALK": 3,
    "FORUM-DUPLICATE": 113,
    "LGR-2014": 2,
-   "SAME-SEAT-SEQUENCE": 1,
+   "SAME-SEAT-SEQUENCE": 2,
    "STRAY-INTO-CURATED": 4
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/ingest/persons/merge_person_ids.py for the tests applied."
