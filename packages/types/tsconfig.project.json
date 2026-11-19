@@ -1,5 +1,5 @@
 {
-  "//": "types: The type declarations: index.d.ts, generated/ and hand/. Left out: src/generate.mjs (the generator, a Node script; 22 strict findings). One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
+  "//": "types: The type declarations: index.d.ts, generated/ and hand/. The generator (src/generate.mjs, a Node script) is tsconfig.project.generator.json. One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
   "compilerOptions": {
     "composite": true,
     "declaration": true,

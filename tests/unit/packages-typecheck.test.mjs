@@ -30,6 +30,7 @@ const STRICT_FAMILY = ['noImplicitAny', 'strictNullChecks', 'strictFunctionTypes
 // either; never take an entry out.
 const BASELINE = {
   'packages/types/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess', 'noPropertyAccessFromIndexSignature'], include: ['index.d.ts', 'generated/**/*.d.ts', 'hand/*.d.ts'] },
+  'packages/types/tsconfig.project.generator.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess'], include: ['src/generate.mjs'] },
   'packages/config/tsconfig.project.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess', 'noPropertyAccessFromIndexSignature'], include: ['src/config.js'] },
   'packages/config/tsconfig.project.node.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess', 'noPropertyAccessFromIndexSignature'], include: ['src/node.mjs', 'src/check.mjs'] },
   'packages/registries/tsconfig.project.browser.json': { flags: ['noImplicitReturns', 'noFallthroughCasesInSwitch', 'noImplicitOverride', 'noUnusedLocals', 'noUnusedParameters', 'exactOptionalPropertyTypes', 'noUncheckedIndexedAccess', 'noPropertyAccessFromIndexSignature'], include: ['src/browser/*.mjs'] },
@@ -58,7 +59,6 @@ const EXCLUDE = {
 
 // Package script files in no project, with their strict findings on 18 Nov 2026. Only shrinks.
 const LEFT = [
-  'packages/types/src/generate.mjs', // 22
   'packages/map/src/jquery-shim.js', // 106: a classic script loaded by URL
   'packages/maps-pipeline/src/tiles/assign-missing-label-properties.mjs', // 16
   'packages/maps-pipeline/src/tiles/download-sources.mjs', // 30
