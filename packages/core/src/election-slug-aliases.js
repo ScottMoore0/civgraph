@@ -359,6 +359,21 @@ export const RETIRED_CONTEST_SLUGS = [
   ['omagh-rural-district-council-1961-06-01-rahoney', 'omagh-rural-district-council-1961-06-01-rahony'],
   ['omagh-rural-district-council-1964-06-04-rahoney', 'omagh-rural-district-council-1964-06-04-rahony'],
   ['omagh-rural-district-council-1967-06-01-rahoney', 'omagh-rural-district-council-1967-06-01-rahony'],
+  // Strabane Rural Donemana and Dunamanagh, filed under the official DED name Dunnamanagh (19 Nov 2026, w19-merges).
+  ['strabane-rural-district-council-1924-05-28-dunamanagh', 'strabane-rural-district-council-1924-05-28-dunnamanagh'],
+  ['strabane-rural-district-council-1927-06-01-donemana', 'strabane-rural-district-council-1927-06-01-dunnamanagh'],
+  ['strabane-rural-district-council-1930-06-04-donemana', 'strabane-rural-district-council-1930-06-04-dunnamanagh'],
+  ['strabane-rural-district-council-1933-05-31-dunamanagh', 'strabane-rural-district-council-1933-05-31-dunnamanagh'],
+  ['strabane-rural-district-council-1936-06-03-dunamanagh', 'strabane-rural-district-council-1936-06-03-dunnamanagh'],
+  ['strabane-rural-district-council-1939-05-31-donemana', 'strabane-rural-district-council-1939-05-31-dunnamanagh'],
+  ['strabane-rural-district-council-1946-10-03-donemana', 'strabane-rural-district-council-1946-10-03-dunnamanagh'],
+  ['strabane-rural-district-council-1949-06-02-donemana', 'strabane-rural-district-council-1949-06-02-dunnamanagh'],
+  ['strabane-rural-district-council-1952-06-05-donemana', 'strabane-rural-district-council-1952-06-05-dunnamanagh'],
+  ['strabane-rural-district-council-1955-06-02-donemana', 'strabane-rural-district-council-1955-06-02-dunnamanagh'],
+  ['strabane-rural-district-council-1958-06-05-donemana', 'strabane-rural-district-council-1958-06-05-dunnamanagh'],
+  ['strabane-rural-district-council-1961-06-01-donemana', 'strabane-rural-district-council-1961-06-01-dunnamanagh'],
+  ['strabane-rural-district-council-1964-06-04-donemana', 'strabane-rural-district-council-1964-06-04-dunnamanagh'],
+  ['strabane-rural-district-council-1967-06-01-donemana', 'strabane-rural-district-council-1967-06-01-dunnamanagh'],
 ];
 
 /**
