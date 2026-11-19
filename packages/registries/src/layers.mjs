@@ -2,6 +2,7 @@
  * The layer-types registry (data/registries/layer-types.json): what each sourceType a map layer
  * record can have means, which fields it must carry, and how the map app treats it. Pure.
  */
+import { TILE_INDEX_FIELDS, tileIndexErrors } from '@civgraph/core/tile-index.mjs';
 
 /** @typedef {import('@civgraph/types').LayerTypesRegistry} LayerTypesRegistry */
 /** @typedef {LayerTypesRegistry['types'][string]} LayerType */
@@ -74,7 +75,7 @@ export function layerRecordErrors(registry, layer) {
   for (const f of requiredFields) if (!(f in layer)) errors.push(`${at}: ${layer.sourceType} layer without ${f}`);
   if (!geometryTypes.includes(/** @type {string} */ (layer.geometryType))) errors.push(`${at}: geometryType ${layer.geometryType} is not one of ${geometryTypes.join(', ')}`);
   if (!renderers.includes(/** @type {string} */ (layer.renderer))) errors.push(`${at}: renderer ${layer.renderer} is not one of ${renderers.join(', ')}`);
-  if ('hillshadeTileIndex' in layer) errors.push(...hillshadeTileIndexErrors(at, /** @type {{ hillshadeTileIndex?: unknown, hillshadeTiles?: unknown }} */ (layer)));
+  errors.push(...layerTileIndexErrors(at, /** @type {{ [field: string]: unknown }} */ (layer)));
   const alias = registry.variants.alias;
   if (/** @type {{ [field: string]: unknown }} */ (layer)[alias.marker] != null) {
     if (!alias.of.includes(/** @type {string} */ (layer.sourceType))) errors.push(`${at}: an alias edition must be ${alias.of.join(' or ')}`);
@@ -84,21 +85,23 @@ export function layerRecordErrors(registry, layer) {
 }
 
 /**
- * A terrain layer's hillshadeTileIndex (packages/core/src/tile-index.mjs, which reads it; the unit
- * tests decode every published one): its shape, and that the layer has the drape it indexes.
+ * A layer's tile indexes (hillshadeTileIndex, demTileIndex: packages/core/src/tile-index.mjs
+ * TILE_INDEX_FIELDS, which the map app reads them with): each one decodes, and the layer has the
+ * template of the pyramid it lists.
  * @param {string} at
- * @param {{ hillshadeTileIndex?: unknown, hillshadeTiles?: unknown }} layer
+ * @param {{ [field: string]: unknown }} layer
  * @returns {string[]}
  */
-function hillshadeTileIndexErrors(at, layer) {
-  const index = /** @type {{ minzoom?: unknown, maxzoom?: unknown, roots?: unknown, children?: unknown } | null} */ (
-    layer.hillshadeTileIndex && typeof layer.hillshadeTileIndex === 'object' ? layer.hillshadeTileIndex : null);
-  const zoom = (/** @type {unknown} */ v) => Number.isInteger(v) && Number(v) >= 0 && Number(v) <= 24;
-  const ok = index !== null && typeof layer.hillshadeTiles === 'string'
-    && zoom(index.minzoom) && zoom(index.maxzoom) && Number(index.minzoom) <= Number(index.maxzoom)
-    && Array.isArray(index.roots) && index.roots.every((r) => Array.isArray(r) && r.length === 2 && r.every((n) => Number.isInteger(n) && n >= 0))
-    && typeof index.children === 'string' && /^[0-9a-f]*$/.test(index.children);
-  return ok ? [] : [`${at}: hillshadeTileIndex is { minzoom, maxzoom, roots: [[x, y]], children: hex digits } on a layer with hillshadeTiles`];
+function layerTileIndexErrors(at, layer) {
+  /** @type {string[]} */
+  const errors = [];
+  for (const { field, template } of TILE_INDEX_FIELDS) {
+    if (!(field in layer)) continue;
+    const problems = tileIndexErrors(layer[field]);
+    if (typeof layer[template] !== 'string') problems.push(`it lists a pyramid the layer has no ${template} for`);
+    if (problems.length) errors.push(`${at}: ${field} is { minzoom, maxzoom, roots: [[x, y]], children } (${problems.join('; ')})`);
+  }
+  return errors;
 }
 
 /**

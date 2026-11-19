@@ -135,6 +135,9 @@ test('layer kinds: every published layer gets the source it got before, and brok
     // Every published layer gets exactly the source it got before. A runtime-only sample's zoom or
     // bounds it does not give is now left out, where the reference set it to undefined.
     if (!published.has(layer) && 'value' in want) want.value = withoutUndefinedRange(want.value);
+    // A terrain layer with a DEM tile index (w19-dem-fallback, 19 Nov 2026: ireland-terrain-3d and
+    // -grey) asks the indexed-tiles protocol for its DEM tiles; every other key stays as before.
+    if (layer.demTileIndex && 'value' in want) want.value = { ...want.value, tiles: [`civgraph-tiles://${layer.id}/dem/{z}/{x}/{y}`] };
     assert.deepEqual(outcome(() => registrySource(layer, after)), want, layer.id);
     assert.deepEqual([...after], [...before], `${layer.id}: the same PMTiles archive is opened`);
     compared += 1;

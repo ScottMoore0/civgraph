@@ -17,7 +17,8 @@
  * @property {string} [hillshadeTiles]  a terrain layer's hillshade drape (terrain.mjs hillshadeSource)
  * @property {number} [hillshadeMinzoom]
  * @property {number} [hillshadeMaxzoom]
- * @property {import('../../../../core/src/tile-index.mjs').TileIndex} [hillshadeTileIndex]  the tiles the hillshade pyramid holds, when it is not complete to hillshadeMaxzoom everywhere (hillshade-tiles.mjs)
+ * @property {import('../../../../core/src/tile-index.mjs').TileIndex} [hillshadeTileIndex]  the tiles the hillshade pyramid holds, when it is not complete to hillshadeMaxzoom everywhere (indexed-tiles.mjs)
+ * @property {import('../../../../core/src/tile-index.mjs').TileIndex} [demTileIndex]  the tiles a raster-dem layer's DEM pyramid (tiles) holds, when it is not complete to maxzoom everywhere (indexed-tiles.mjs)
  *
  * @typedef {{ [field: string]: unknown }} SourceSpec  a MapLibre source, as map.addSource takes it
  *

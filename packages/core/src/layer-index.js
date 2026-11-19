@@ -57,6 +57,7 @@ export const COMPACT_LAYER_FIELDS = [
   'hillshadeMinzoom',
   'hillshadeMaxzoom',
   'hillshadeTileIndex',
+  'demTileIndex',
   // variant linkage (per-basin terrain variants)
   'variantOf',
   'parentCard',
