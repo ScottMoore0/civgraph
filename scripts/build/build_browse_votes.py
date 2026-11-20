@@ -31,6 +31,21 @@ import unicodedata
 from bisect import bisect_right
 from collections import Counter, defaultdict
 
+
+def write_json(path, obj, **kw):
+    """Write obj as JSON to path. On Windows a file just written can be held for a moment by another
+    reader (an antivirus scan, the indexer), so a refused open is retried briefly before failing."""
+    import time
+    for attempt in range(8):
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(obj, f, **kw)
+            return
+        except PermissionError:
+            if attempt == 7:
+                raise
+            time.sleep(0.25 * (attempt + 1))
+
 csv.field_size_limit(10 ** 8)
 REPO = os.environ.get("CIVGRAPH_REPO") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 _RP = __import__('runpy').run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'records', 'paths.py'))
@@ -364,16 +379,15 @@ def main():
                 tindex[title] = len(titles)
                 titles.append(title)
             compact.append([did, date, body, tindex[title], vote, tell, result, mj])
-        json.dump({"schemaVersion": 1, "personId": pid, "terms": terms_out, "titles": titles,
-                   "columns": ["divisionId", "date", "body", "titleIndex", "vote", "teller", "result", "partyMajority"],
-                   "divisions": compact},
-                  open(os.path.join(a.out, "persons", f"{pid}.json"), "w", encoding="utf-8"), ensure_ascii=False,
-                  separators=(",", ":"))
+        write_json(os.path.join(a.out, "persons", f"{pid}.json"),
+                   {"schemaVersion": 1, "personId": pid, "terms": terms_out, "titles": titles,
+                    "columns": ["divisionId", "date", "body", "titleIndex", "vote", "teller", "result", "partyMajority"],
+                    "divisions": compact},
+                   ensure_ascii=False, separators=(",", ":"))
         n_persons += 1
     for k, recs in div_shards.items():
-        json.dump({"schemaVersion": 1, "shard": k, "divisions": recs},
-                  open(os.path.join(a.out, "divisions", f"{k:03d}.json"), "w", encoding="utf-8"), ensure_ascii=False,
-                  separators=(",", ":"))
+        write_json(os.path.join(a.out, "divisions", f"{k:03d}.json"),
+                   {"schemaVersion": 1, "shard": k, "divisions": recs}, ensure_ascii=False, separators=(",", ":"))
     n_parties = 0
     written = set()
     for party, bt in party_stats.items():
@@ -395,8 +409,8 @@ def main():
         else:
             n_parties += 1
         written.add(slug)
-        json.dump({"schemaVersion": 1, "slug": slug, "labels": sorted(labels), "terms": out},
-                  open(p, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+        write_json(p, {"schemaVersion": 1, "slug": slug, "labels": sorted(labels), "terms": out},
+                   ensure_ascii=False, separators=(",", ":"))
     cover = defaultdict(lambda: {"divisions": 0, "first": "9999", "last": "0000"})
     for d in divisions.values():
         c = cover[d["body"]]
