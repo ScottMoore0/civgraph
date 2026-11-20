@@ -49,11 +49,13 @@ test('the manifest: the record carries the field and is contested, never unoppos
 });
 
 test('the manifest builder uses core\'s rule and expects no transfers from a winners-only contest', () => {
-  const source = readFileSync(new URL('../../scripts/build/build-test2-election-manifest.mjs', import.meta.url), 'utf8');
+  // Bracket index-signature reads (noPropertyAccessFromIndexSignature, w20-refactor2) are read as dot access.
+  const dotted = (text) => text.replace(/(?<=[\w$)\]])(\?\.)?\['([A-Za-z_$][\w$]*)'\]/g, (_m, optional, name) => `${optional ? '?.' : '.'}${name}`);
+  const source = dotted(readFileSync(new URL('../../scripts/build/build-test2-election-manifest.mjs', import.meta.url), 'utf8'));
   assert.match(source, /ElectionDomain\.contestStatusForResult\(/);
   assert.doesNotMatch(source, /^function contestStatusForResult\(/m, 'no copy of the rule in the builder');
   assert.match(source, /ElectionDomain\.isWinnersOnlyRecord\(result\)\) return false/);
-  const summaries = readFileSync(new URL('../../scripts/build/build-test2-election-summaries.mjs', import.meta.url), 'utf8');
+  const summaries = dotted(readFileSync(new URL('../../scripts/build/build-test2-election-summaries.mjs', import.meta.url), 'utf8'));
   assert.match(summaries, /candidatesRecorded: result\.candidatesRecorded/);
 });
 

@@ -120,7 +120,9 @@ test('RG-05 correction: every walker correction record has a registered status; 
     }
   }
   // The manifest builder reads the applied value from the registry (r2-pipeline adoption).
-  const builder = read('scripts/build/build-test2-election-manifest.mjs');
+  // Bracket index-signature reads (noPropertyAccessFromIndexSignature, w20-refactor2) are read as dot access.
+  const dotted = (text) => text.replace(/(?<=[\w$)\]])(\?\.)?\['([A-Za-z_$][\w$]*)'\]/g, (_m, optional, name) => `${optional ? '?.' : '.'}${name}`);
+  const builder = dotted(read('scripts/build/build-test2-election-manifest.mjs'));
   assert.ok(builder.includes('machines.correction.appliedValue'));
   assert.ok(!builder.includes(`r.status === '${registry.machines.correction.appliedValue}'`));
 });
