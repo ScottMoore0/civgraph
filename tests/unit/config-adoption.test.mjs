@@ -48,7 +48,7 @@ test('no hard-coded origin, User-Agent or database path in scripts/records and s
       const lines = readFileSync(path.join(config.REPO_ROOT, dir, name), 'utf8').split('\n');
       lines.forEach((line, i) => {
         const code = line.replace(/^\s*(\*|\/\/).*$/, '').replace(/\/\/ .*$/, '');
-        if (/https:\/\/(data\.)?civgraph\.net|civgraph-research \(|'civgraph-records\.sqlite'|process\.env\.CIVGRAPH_/.test(code)) found.push(`${dir}/${name}:${i + 1}`);
+        if (/https:\/\/(data\.)?civgraph\.net|civgraph-research \(|'civgraph-records\.sqlite'|process\.env(?:\.|\[['"])CIVGRAPH_/.test(code)) found.push(`${dir}/${name}:${i + 1}`);
       });
     }
   }

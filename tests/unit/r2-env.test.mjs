@@ -87,6 +87,6 @@ test('no S3 publish script reads R2 credentials on its own any more', () => {
   for (const name of ['r2-upload-manifest', 'r2-upload-files', 'r2-orphans', 'r2-upload-tree', 'r2-cache-control', 'r2-copy-keys', 'verify-r2-parity']) {
     const src = readFileSync(path.join(dir, `${name}.mjs`), 'utf8');
     assert.match(src, /from '\.\/r2-env\.mjs'/, `${name} imports r2-env.mjs`);
-    assert.doesNotMatch(src, /process\.env\.R2_|loadEnvFile\(/, `${name} reads no R2_* variable itself`);
+    assert.doesNotMatch(src, /process\.env(?:\.|\[['"])R2_|loadEnvFile\(/, `${name} reads no R2_* variable itself`);
   }
 });
