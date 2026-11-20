@@ -70,26 +70,34 @@ import { MAP_COLOURS } from '@civgraph/map/views/colours.mjs';
 
 /** @type {string[]} */
 const failures = [];
+/**
+ * The map and core sources read with index-signature access spelled as dot access again: since
+ * noPropertyAccessFromIndexSignature (20 Nov 2026, w20-refactor) a read such as
+ * `anchor.dataset?.catalogueTarget` is written `anchor.dataset?.['catalogueTarget']`. The text
+ * assertions below name the dot form, and both forms then match them, the negative ones included.
+ * @param {string} text
+ */
+const dotted = (text) => text.replace(/(?<=[\w$)\]])(\?\.)?\['([A-Za-z_$][\w$]*)'\]/g, (_m, /** @type {string | undefined} */ optional, /** @type {string} */ name) => `${optional ? '?.' : '.'}${name}`);
 // The MapLibre app. It was index.html until the landing page took the root; this kept
 // reading index.html, so every shell assertion below was checking the Home page.
 const index = readFileSync('site/maps/index.html', 'utf8');
 // /test2/ is a 301 to /maps/ (_redirects) since the legacy apps retired; test2/sw.js is the
 // retired-app kill switch, the same bytes as render/sw.js.
 const redirectsSource = readFileSync('site/_redirects', 'utf8');
-const bootSource = readFileSync('packages/map/app/boot.js', 'utf8');
+const bootSource = dotted(readFileSync('packages/map/app/boot.js', 'utf8'));
 // app.js and the modules split out of it under packages/map/src/app/ (frontend-plan.md 5.2).
-const appSource = readMapAppSource();
-const adapterSource = readFileSync('packages/map/app/maplibre-main-adapter.js', 'utf8');
+const appSource = dotted(readMapAppSource());
+const adapterSource = dotted(readFileSync('packages/map/app/maplibre-main-adapter.js', 'utf8'));
 // The election manager and the modules split out of it under packages/map/src/election/ (frontend-plan.md
 // 5.1): a rule checked against its source holds wherever the code now lives.
-const electionManagerSource = readElectionManagerSource();
-const electionPaneContractSource = readFileSync('packages/map/app/election-pane-main-contract.js', 'utf8');
+const electionManagerSource = dotted(readElectionManagerSource());
+const electionPaneContractSource = dotted(readFileSync('packages/map/app/election-pane-main-contract.js', 'utf8'));
 const test2ServiceWorkerSource = readFileSync('site/test2/sw.js', 'utf8');
 const rootServiceWorkerSource = readFileSync('site/sw.js', 'utf8');
-const mainElectionPaneContractSource = readFileSync('packages/map/src/election-main-pane-contract.mjs', 'utf8');
-const electionDomainSource = readFileSync('packages/core/src/election-domain.mjs', 'utf8');
-const electionViewModelSource = readFileSync('packages/core/src/election-view-model.mjs', 'utf8');
-const electionRendererSource = readFileSync('packages/map/src/views/election-renderer.mjs', 'utf8');
+const mainElectionPaneContractSource = dotted(readFileSync('packages/map/src/election-main-pane-contract.mjs', 'utf8'));
+const electionDomainSource = dotted(readFileSync('packages/core/src/election-domain.mjs', 'utf8'));
+const electionViewModelSource = dotted(readFileSync('packages/core/src/election-view-model.mjs', 'utf8'));
+const electionRendererSource = dotted(readFileSync('packages/map/src/views/election-renderer.mjs', 'utf8'));
 const electionManifestBuilderSource = readFileSync('scripts/build/build-test2-election-manifest.mjs', 'utf8');
 // Boundary changes between consecutive timeline editions (scripts/build/timeline-changes.py,
 // data/timeline-changes/). They replace the Play-only transition overlays of
@@ -109,8 +117,8 @@ const readTimelineChangePair = (id) => {
 };
 const browseIndexBuilderSource = readFileSync('scripts/build/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/check/rules/election-data-audit.mjs', 'utf8');
-const uiControllerSource = readFileSync('packages/map/src/ui-controller.js', 'utf8');
-const mapControllerSource = readFileSync('packages/map/src/renderer/map-controller.js', 'utf8');
+const uiControllerSource = dotted(readFileSync('packages/map/src/ui-controller.js', 'utf8'));
+const mapControllerSource = dotted(readFileSync('packages/map/src/renderer/map-controller.js', 'utf8'));
 // The map's Republic of Ireland party palette is registry data since 12 Nov 2026 (rf8-registries,
 // data/registries/parties/palettes.json mapRoi), read by packages/map/src/election/palette.mjs.
 /** @type {{ party?: string, colour?: string }[]} */
@@ -120,8 +128,8 @@ const roiPalette = JSON.parse(readFileSync('data/registries/parties/palettes.jso
  * @param {string} colour
  */
 const roiPaletteHas = (party, colour) => roiPalette.some((row) => row.party === party && row.colour === colour);
-const labelsSource = readFileSync('packages/map/src/renderer/labels.js', 'utf8');
-const featureRepairsSource = readFileSync('packages/map/src/renderer/feature-property-repairs.js', 'utf8');
+const labelsSource = dotted(readFileSync('packages/map/src/renderer/labels.js', 'utf8'));
+const featureRepairsSource = dotted(readFileSync('packages/map/src/renderer/feature-property-repairs.js', 'utf8'));
 const test2Css = readFileSync('packages/map/app/test2.css', 'utf8');
 const mainCss = readFileSync('site/assets/css/main.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
@@ -1049,7 +1057,7 @@ if (failures.length) {
 console.log('PASS: /test2 route shell and engine isolation checks passed.');
 
 function buildPlanSourceIncludesCompositeCoverage() {
-  const source = readFileSync('packages/maps-pipeline/src/tiles/layer-plan.mjs', 'utf8');
+  const source = dotted(readFileSync('packages/maps-pipeline/src/tiles/layer-plan.mjs', 'utf8'));
   return source.includes('MANUAL_ALIAS_TARGETS')
     && source.includes('convertedCompositeChildIds')
     && source.includes('convertedSourceIds');
