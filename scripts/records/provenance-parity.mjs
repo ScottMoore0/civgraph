@@ -57,7 +57,7 @@ const n = Math.min(before.contests.length, after.contests.length);
 for (let i = 0; i < n; i += 1) {
   if (JSON.stringify(before.contests[i]) !== JSON.stringify(after.contests[i])) {
     differing += 1;
-    if (differing <= 20) problems.push(`contest ${i} differs: ${/** @type {import('@civgraph/loader/election-provenance.mjs').ProvenanceContest} */ (before.contests[i]).file} / ${/** @type {import('@civgraph/loader/election-provenance.mjs').ProvenanceContest} */ (after.contests[i]).file}`);
+    if (differing <= 20) problems.push(`contest ${i} differs: ${/** @type {import('@civgraph/loader/election-provenance.mjs').ProvenanceContest} */ (before.contests[i])['file']} / ${/** @type {import('@civgraph/loader/election-provenance.mjs').ProvenanceContest} */ (after.contests[i])['file']}`);
   }
 }
 if (differing > 20) problems.push(`... ${differing} contests differ in all`);

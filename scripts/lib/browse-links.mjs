@@ -41,11 +41,11 @@ function asArray(value) {
  * @returns {BrowseLink[] | null}
  */
 function labelledFile(link) {
-  if (typeof link.file !== 'string' || !link.file) return null;
-  const label = cleanText(link.label || link.title || link.name) || fileLabel(link.file);
+  if (typeof link['file'] !== 'string' || !link['file']) return null;
+  const label = cleanText(link['label'] || link['title'] || link['name']) || fileLabel(link['file']);
   /** @type {BrowseLink[]} */
-  const out = [{ label, url: link.file }];
-  if (typeof link.mirror === 'string' && link.mirror) out.push({ label: `${label} (mirror)`, url: link.mirror });
+  const out = [{ label, url: link['file'] }];
+  if (typeof link['mirror'] === 'string' && link['mirror']) out.push({ label: `${label} (mirror)`, url: link['mirror'] });
   return out;
 }
 
@@ -83,11 +83,11 @@ export function normalizeLinks(value) {
     if (Array.isArray(link)) return link.flatMap(normalizeLinks);
     if (typeof link === 'object') {
       const record = /** @type {Record<string, unknown>} */ (link);
-      const url = record.url || record.href;
+      const url = record['url'] || record['href'];
       if (typeof url === 'string' && url) {
         /** @type {BrowseLink} */
-        const out = { label: cleanText(record.label || record.title || record.name || fileLabel(url)), url };
-        if (typeof record.type === 'string' && record.type) out.type = record.type;
+        const out = { label: cleanText(record['label'] || record['title'] || record['name'] || fileLabel(url)), url };
+        if (typeof record['type'] === 'string' && record['type']) out.type = record['type'];
         return [out];
       }
       return normalizeFiles(record);

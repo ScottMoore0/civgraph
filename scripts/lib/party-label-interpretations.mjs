@@ -23,7 +23,7 @@ import { candidateDisplayName, normalizeName, normalizeParty } from '@civgraph/c
 
 /** @param {ResultRow | null | undefined} row */
 function candidateNameKey(row) {
-  return normalizeName(row?.candidateName || row?.name || `${row?.Firstname || ''} ${row?.Surname || ''}`);
+  return normalizeName(row?.['candidateName'] || row?.['name'] || `${row?.['Firstname'] || ''} ${row?.['Surname'] || ''}`);
 }
 
 /**
@@ -102,9 +102,9 @@ export function createPartyLabelInterpreter(config = {}) {
         if (!row || typeof row !== 'object') continue;
         const field = 'Party_Name' in row || !('party' in row) ? 'Party_Name' : 'party';
         const nameKey = candidateNameKey(row);
-        const key = `${row.Candidate_Id || ''}|${nameKey}`;
+        const key = `${row['Candidate_Id'] || ''}|${nameKey}`;
         if (!readings.has(key)) {
-          const printed = String(row.Party_As_Printed ?? row.partyAsPrinted ?? '').trim();
+          const printed = String(row['Party_As_Printed'] ?? row['partyAsPrinted'] ?? '').trim();
           const current = String(row[field] || '').trim();
           const reading = read(printed, current, scope, nameKey, previous);
           readings.set(key, { from: current, to: reading });
@@ -119,8 +119,8 @@ export function createPartyLabelInterpreter(config = {}) {
         // A row with no candidate id is keyed by its name and party (summarizeCandidateRows), and
         // the person registry recognises the candidacy by that key. The key is the row's identity,
         // not its reading: keep the one it had, so a new reading never renumbers the person.
-        if (!String(row.Candidate_Id || '').trim() && !row.person_id) {
-          row.Candidate_Id = `${candidateDisplayName(row)}|${normalizeParty(before)}`;
+        if (!String(row['Candidate_Id'] || '').trim() && !row['person_id']) {
+          row['Candidate_Id'] = `${candidateDisplayName(row)}|${normalizeParty(before)}`;
         }
         row[field] = reading;
       }

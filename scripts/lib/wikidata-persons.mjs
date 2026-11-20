@@ -355,7 +355,7 @@ export function validateRemovals(doc) {
   /** @type {string[]} */
   const errors = [];
   if (!doc || typeof doc !== 'object') return ['not a JSON object'];
-  if (doc.schemaVersion !== 1) errors.push('schemaVersion must be 1');
+  if (doc['schemaVersion'] !== 1) errors.push('schemaVersion must be 1');
   for (const key of /** @type {const} */ (['conflicts', 'removals'])) {
     if (!Array.isArray(doc[key])) { errors.push(`${key} must be a list`); continue; }
     for (const [i, r] of /** @type {WikidataRemoval[]} */ (doc[key]).entries()) {

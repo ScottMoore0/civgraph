@@ -33,7 +33,7 @@ function isPlaceholderVote(value) {
 export function scrubUnopposedPlaceholderVotes(result) {
   /** @type {Row[]} */
   const candidates = Array.isArray(result.candidates) ? result.candidates : [];
-  if (candidates.some((candidate) => (num(candidate?.firstPrefs) ?? 0) > 1 || (num(candidate?.finalVotes) ?? 0) > 1)) return false;
+  if (candidates.some((candidate) => (num(candidate?.['firstPrefs']) ?? 0) > 1 || (num(candidate?.['finalVotes']) ?? 0) > 1)) return false;
   /** @param {unknown} value */
   const placeholderPoll = (value) => {
     const n = num(value);
@@ -44,7 +44,7 @@ export function scrubUnopposedPlaceholderVotes(result) {
     if (!candidate || typeof candidate !== 'object') return candidate;
     /** @type {Row} */
     const next = { ...candidate, firstPrefs: null, finalVotes: null };
-    if (Array.isArray(candidate.counts)) next.counts = candidate.counts.map((/** @type {Row} */ count) => ({ ...count, total: null, firstPrefs: null }));
+    if (Array.isArray(candidate['counts'])) next['counts'] = candidate['counts'].map((/** @type {Row} */ count) => ({ ...count, total: null, firstPrefs: null }));
     return next;
   };
   result.candidates = candidates.map(clearVotes);
@@ -56,14 +56,14 @@ export function scrubUnopposedPlaceholderVotes(result) {
   for (const field of ['leadingVotes', 'leadingPct', 'majority', 'majorityPct']) {
     if (result[field] !== undefined) result[field] = null;
   }
-  if (result.countInfo && placeholderPoll(result.countInfo.Valid_Poll)) result.countInfo = { ...result.countInfo, Valid_Poll: '' };
+  if (result.countInfo && placeholderPoll(result.countInfo['Valid_Poll'])) result.countInfo = { ...result.countInfo, Valid_Poll: '' };
   // The count sheet's rows carry the same placeholders ('' is how a return without them reads).
   const sheet = result.animationPayload?.Constituency;
   if (sheet && typeof sheet === 'object') {
-    const countInfo = sheet.countInfo && placeholderPoll(sheet.countInfo.Valid_Poll) ? { ...sheet.countInfo, Valid_Poll: '' } : sheet.countInfo;
+    const countInfo = sheet.countInfo && placeholderPoll(sheet.countInfo['Valid_Poll']) ? { ...sheet.countInfo, Valid_Poll: '' } : sheet.countInfo;
     const countGroup = Array.isArray(sheet.countGroup)
-      ? sheet.countGroup.map((/** @type {Row} */ row) => (isPlaceholderVote(row?.Total_Votes)
-        && (isPlaceholderVote(row?.Candidate_First_Pref_Votes) || !String(row?.Candidate_First_Pref_Votes ?? '').trim())
+      ? sheet.countGroup.map((/** @type {Row} */ row) => (isPlaceholderVote(row?.['Total_Votes'])
+        && (isPlaceholderVote(row?.['Candidate_First_Pref_Votes']) || !String(row?.['Candidate_First_Pref_Votes'] ?? '').trim())
         ? { ...row, Total_Votes: '', Candidate_First_Pref_Votes: '', Transfers: '' }
         : row))
       : sheet.countGroup;

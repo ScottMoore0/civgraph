@@ -63,7 +63,7 @@ export function isPublishable(key, allowlist) {
  */
 export function listedPrefixes(allowlist) {
   return (allowlist.prefixes || [])
-    .filter((entry) => entry && entry.unlisted !== true)
+    .filter((entry) => entry && entry['unlisted'] !== true)
     .map((entry) => entry.prefix)
     .filter((prefix) => typeof prefix === 'string' && prefix.length > 0)
     .sort();

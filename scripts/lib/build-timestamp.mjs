@@ -27,7 +27,7 @@ let warned = false;
 export function buildTimestamp() {
   if (cached) return cached;
 
-  const epoch = process.env.SOURCE_DATE_EPOCH;
+  const epoch = process.env['SOURCE_DATE_EPOCH'];
   if (epoch && /^\d+$/.test(epoch)) {
     cached = new Date(Number(epoch) * 1000).toISOString();
     return cached;

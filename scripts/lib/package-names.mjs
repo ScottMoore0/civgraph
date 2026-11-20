@@ -45,7 +45,7 @@ export function readPackages(root = ROOT) {
     /** @type {[string, string][]} */
     const exports = [];
     for (const [key, value] of Object.entries(pkg.exports || {})) {
-      const target = typeof value === 'string' ? value : (value.types ?? value.import ?? value.default);
+      const target = typeof value === 'string' ? value : (value['types'] ?? value['import'] ?? value['default']);
       if (typeof target === 'string') exports.push([key, target]);
     }
     out.set(entry.name, { dir: entry.name, name: pkg.name, entries: exports });

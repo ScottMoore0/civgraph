@@ -141,7 +141,7 @@ export function buildUrlList(db) {
   for (const n of sample(summaries, 50)) add('summary', `/render/metadata/elections-test2-summaries/${n}`);
   for (const k of sample(keys, 60)) add('api-bundle', `/_api/elections?key=${enc(k)}&format=bundle&lite=1`);
   const contests = db.prepare('SELECT election_key AS k, seq FROM contests ORDER BY election_key, seq').all();
-  for (const c of sample(contests.map((r) => `${r.k}|${r.seq}`), 40)) {
+  for (const c of sample(contests.map((r) => `${r['k']}|${r['seq']}`), 40)) {
     const [k, seq] = /** @type {[string, string]} joined with | above */ (c.split('|'));
     add('api-constituency', `/_api/elections?key=${enc(k)}&constituency=${seq}`);
   }
@@ -336,10 +336,10 @@ async function searchDocuments() {
   const docsB = await load(B, { catalogue: '/_api/catalogue?view=pane', places: '/_api/catalogue?view=places', people: '/_api/catalogue?view=people' });
   /** @returns {SearchEngines | null} */
   const engines = (/** @type {Record<string, unknown>} */ docs) => {
-    if (!docs.catalogue || !docs.people) return null;
-    const maps = new CatalogueSearch(/** @type {ConstructorParameters<typeof CatalogueSearch>[0]} */ (docs.catalogue));
-    if (docs.places) maps.setPlaces(/** @type {Parameters<CatalogueSearch['setPlaces']>[0]} */ (docs.places));
-    return { maps, people: new PeopleSearch(/** @type {ConstructorParameters<typeof PeopleSearch>[0]} */ (docs.people)) };
+    if (!docs['catalogue'] || !docs['people']) return null;
+    const maps = new CatalogueSearch(/** @type {ConstructorParameters<typeof CatalogueSearch>[0]} */ (docs['catalogue']));
+    if (docs['places']) maps.setPlaces(/** @type {Parameters<CatalogueSearch['setPlaces']>[0]} */ (docs['places']));
+    return { maps, people: new PeopleSearch(/** @type {ConstructorParameters<typeof PeopleSearch>[0]} */ (docs['people'])) };
   };
   return { a: engines(docsA), b: engines(docsB) };
 }
