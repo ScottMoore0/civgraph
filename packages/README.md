@@ -5,7 +5,7 @@ one part of the site shares: refactor item 1, REFACTOR-PLAN.md section 2. Each p
 `@civgraph/<name>`, `"private": true` (never published to npm), `"type": "module"`, and says
 what it offers in its `exports`. The repository root stays the one deployable site.
 
-| Package | Holds | Old paths (the package move's 120 one-line re-exports were removed on 8 Nov 2026) |
+| Package | Holds | Moved from (history only: no old path keeps a re-export. The package move's 120 one-line re-exports were removed on 8 Nov 2026 and rf10-gallery's five on 19 Nov 2026; import the package path or name) |
 |---|---|---|
 | `@civgraph/storage` | the RecordStore interface (`store.js`), the D1 adapter (`d1.js`; `.` is the runtime entry) and the node:sqlite adapter (`sqlite.mjs`, entry `@civgraph/storage/node`) | `functions/_lib/storage/store.js`, `functions/_lib/storage/d1.js`, `scripts/lib/storage/sqlite.mjs` (removed) |
 | `@civgraph/core` | pure domain code with no I/O (`src/`: date-format, election-domain, election-view-model, party-names, html escaping, format, election-slug-aliases, layer-index: the layer file and API URLs, PKG-8) | `src/date-format.mjs`, `src/election-domain.mjs`, `src/election-view-model.mjs`, `src/party-names.mjs`, `functions/_lib/layer-index.js`, `functions/_lib/html.js`, `functions/_lib/format.js`, `functions/_lib/election-slug-aliases.js` (removed) |
@@ -81,8 +81,9 @@ builds only what changed since the last run. Nothing else is emitted.
   rest, which imports the api).
 - **A new file** in a package joins its project (most includes are globs) and must check clean.
   `tests/unit/packages-typecheck.test.mjs` holds the projects: every package script file is in
-  exactly one project or on its LEFT list (files not yet clean, which only shrinks), the flags and
-  include lists only grow, and no file silences the checker.
+  exactly one project (the LEFT list of files not yet clean has been empty since 20 Nov 2026,
+  stream w20-refactor, and only shrinks), the flags and include lists only grow, and no file
+  silences the checker.
 - The older checks (`check:types:shared`, `:functions`, `:mapapp`, `:records`, `:intake`, `:ui`,
   `:pipeline`) still run, over the files outside `packages/` as well.
 
