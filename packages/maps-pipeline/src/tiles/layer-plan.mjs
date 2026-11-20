@@ -20,7 +20,21 @@ const MANUAL_ALIAS_TARGETS = new Map([
   ['civil-parishes', 'civil-parishes-by-province']
 ]);
 
+/** @typedef {{ color?: string, fillColor?: string, fillOpacity?: number, weight?: number }} Style */
+/**
+ * A catalogue entry of maps.json (or one of its variants, merged over it), as far as the plan reads it.
+ * @typedef {{ id: string, name?: string, label?: string, cloneOf?: string, parentId?: string, parentName?: string | undefined,
+ *   category?: string, group?: string, date?: string, dateAdded?: string, dateEffective?: string,
+ *   provider?: string | string[], description?: string, note?: string, style?: Style, references?: unknown,
+ *   sourceDownloads?: unknown, osniDownloads?: unknown, variants?: MainMap[], placeholder?: boolean,
+ *   compositeSources?: string[], files?: Record<string, unknown>, downloads?: Record<string, unknown>,
+ *   tileUrl?: string, isGroup?: boolean, bounds?: unknown }} MainMap
+ */
+/** @typedef {{ id: string, sourceMapId?: string, aliasOf?: string, aliasTargetLayerId?: string, bounds?: unknown }} TestLayer */
+/** @typedef {{ kind: string, file: string }} SourceFile */
+/** @type {{ maps?: MainMap[], categories?: Array<{ id: string, name?: string, group?: string }> }} */
 const main = JSON.parse(readFileSync(MAIN_METADATA_PATH, 'utf8'));
+/** @type {{ layers?: TestLayer[] }} */
 const test = JSON.parse(readFileSync(TEST_METADATA_PATH, 'utf8'));
 const convertedBySource = new Map((test.layers || []).map((layer) => [layer.sourceMapId || layer.id, layer]));
 const convertedById = new Map((test.layers || []).map((layer) => [layer.id, layer]));
@@ -28,6 +42,7 @@ const convertedSourceIds = new Set((test.layers || [])
   .flatMap((layer) => [layer.sourceMapId, layer.id])
   .filter(Boolean));
 const categories = new Map((main.categories || []).map((category) => [category.id, category]));
+/** @type {Array<ReturnType<typeof buildRow>>} */
 const rows = [];
 
 for (const map of main.maps || []) {
@@ -59,6 +74,7 @@ console.log(`Needs vector tiles: ${totals.needsVectorTileConversion || 0}`);
 console.log(`Needs raster strategy: ${totals.needsRasterStrategy || 0}`);
 console.log(`Metadata only: ${totals.metadataOnly || 0}`);
 
+/** @param {MainMap} map @param {MainMap | null} parent */
 function buildRow(map, parent) {
   const converted = convertedBySource.get(map.id) || convertedById.get(map.id);
   const cloneTarget = map.cloneOf ? (convertedBySource.get(map.cloneOf) || convertedById.get(map.cloneOf)) : null;
@@ -67,7 +83,7 @@ function buildRow(map, parent) {
     ? (convertedBySource.get(manualAliasTargetId) || convertedById.get(manualAliasTargetId))
     : null;
   const compositeChildIds = !parent ? convertedCompositeChildIds(map) : [];
-  const category = categories.get(map.category) || {};
+  const category = categories.get(/** @type {string} */ (map.category)) || /** @type {{ name?: string, group?: string }} */ ({});
   const sourceFiles = collectSourceFiles(map);
   const conversionStatus = converted
     ? (converted.aliasOf ? 'convertedAlias' : 'converted')
@@ -111,6 +127,7 @@ function buildRow(map, parent) {
   };
 }
 
+/** @param {MainMap} map @returns {string[]} */
 function convertedCompositeChildIds(map) {
   const candidates = [
     ...(Array.isArray(map.compositeSources) ? map.compositeSources : []),
@@ -123,6 +140,7 @@ function convertedCompositeChildIds(map) {
   return uniqueCandidates.every((id) => convertedSourceIds.has(id)) ? uniqueCandidates : [];
 }
 
+/** @param {Array<{ conversionStatus: string }>} inputRows */
 function summarizeRows(inputRows) {
   const directConverted = inputRows.filter((row) => row.conversionStatus === 'converted').length;
   const compositeConverted = inputRows.filter((row) => row.conversionStatus === 'convertedComposite').length;
@@ -140,7 +158,9 @@ function summarizeRows(inputRows) {
   };
 }
 
+/** @param {MainMap} map */
 function collectSourceFiles(map) {
+  /** @type {SourceFile[]} */
   const files = [];
   for (const [kind, value] of Object.entries(map.files || {})) {
     if (typeof value === 'string') files.push({ kind, file: value });
@@ -152,6 +172,7 @@ function collectSourceFiles(map) {
   return files;
 }
 
+/** @param {MainMap} map @param {SourceFile[]} sourceFiles */
 function classifyConversionStatus(map, sourceFiles) {
   if (map.isGroup && !sourceFiles.length) return 'metadataOnly';
   if (sourceFiles.some((entry) => /\.(png|jpe?g|webp|tif|tiff)$/i.test(entry.file))) return 'needsRasterStrategy';
@@ -160,6 +181,7 @@ function classifyConversionStatus(map, sourceFiles) {
   return 'metadataOnly';
 }
 
+/** @param {MainMap} map @param {SourceFile[]} sourceFiles */
 function recommendedTarget(map, sourceFiles) {
   if (map.tileUrl || sourceFiles.some((entry) => isTileTemplate(entry.file) || /\/tiles?\//i.test(entry.file))) return 'maplibre-raster-or-vector-source';
   if (sourceFiles.some((entry) => /\.(fgb|geojson|json|shp|gpkg)$/i.test(entry.file))) return 'mvt-or-pmtiles';
@@ -167,16 +189,19 @@ function recommendedTarget(map, sourceFiles) {
   return 'catalogue-metadata';
 }
 
+/** @param {MainMap} map @param {SourceFile[]} sourceFiles */
 function unsupportedReason(map, sourceFiles) {
   if (map.isGroup && !sourceFiles.length) return 'group entry needs child/variant conversion';
   if (!sourceFiles.length && !map.tileUrl) return 'no direct source file recorded';
   return null;
 }
 
+/** @param {string} file */
 function isTileTemplate(file) {
   return /\{z\}.*\{x\}.*\{y\}/i.test(String(file || ''));
 }
 
+/** @param {Style | undefined} style */
 function summarizeStyle(style) {
   if (!style) return null;
   return {
@@ -187,6 +212,7 @@ function summarizeStyle(style) {
   };
 }
 
+/** @param {unknown} links @returns {Array<{ label: string | null, url: string | null }>} */
 function summarizeLinks(links) {
   if (!Array.isArray(links)) return [];
   return links.map((link) => ({
@@ -195,7 +221,9 @@ function summarizeLinks(links) {
   }));
 }
 
+/** @param {MainMap} map @param {MainMap | null} parent */
 function summarizeCredits(map, parent) {
+  /** @type {string[]} */
   const credits = [];
   for (const value of [map.provider, parent?.provider]) {
     if (Array.isArray(value)) credits.push(...value);

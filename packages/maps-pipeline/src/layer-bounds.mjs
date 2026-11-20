@@ -49,7 +49,7 @@ const WIDER = [
 
 /**
  * @param {unknown} bounds
- * @param {{ sourceMapId?: string, id?: string } | null} [layer]
+ * @param {{ sourceMapId?: string | undefined, id?: string | undefined } | null} [layer]
  */
 export function isValidBounds(bounds, layer = null) {
   if (!Array.isArray(bounds) || bounds.length !== 2) return false;

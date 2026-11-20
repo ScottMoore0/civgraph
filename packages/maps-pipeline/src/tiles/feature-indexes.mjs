@@ -14,43 +14,51 @@ const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
 const ONLY_IDS = new Set(readArgList('--ids'));
 const MAX_INDEX_ITEMS = readNumberArg('--max-items', 20000);
+/**
+ * A layer of maps-test.json, as far as the index build reads it.
+ * @typedef {{ id: string, sourceMapId?: string, name?: string, featureIndexUrl?: string, sourceFile?: string, aliasOf?: string,
+ *   idProperty?: string, promoteId?: string, sourceDatasetLayer?: string, labelProperty?: string,
+ *   labelPropertyFallbacks?: string[], popupProperties?: string[], featureIndexIdFromFid?: boolean, geometryType?: string }} Layer
+ */
+/** @typedef {Record<string, string | undefined>} Props  one CSV row of ogr2ogr's output, by column */
+/** @type {{ layers?: Layer[] }} */
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const layers = (metadata.layers || [])
   .filter((layer) => layer.featureIndexUrl && layer.sourceFile)
   .filter((layer) => !layer.aliasOf)
-  .filter((layer) => !ONLY_IDS.size || ONLY_IDS.has(layer.id) || ONLY_IDS.has(layer.sourceMapId));
+  .filter((layer) => !ONLY_IDS.size || ONLY_IDS.has(layer.id) || ONLY_IDS.has(/** @type {string} */ (layer.sourceMapId)));
 let built = 0;
 let skipped = 0;
 const outputRoot = resolve(ROOT, 'render/metadata/feature-indexes');
 if (existsSync(outputRoot)) {
   for (const entry of readdirSync(outputRoot, { withFileTypes: true })) {
     if (!entry.isFile() || !entry.name.endsWith('.json')) continue;
-    if (!ONLY_IDS.size || layers.some((layer) => entry.name === basename(layer.featureIndexUrl))) {
+    if (!ONLY_IDS.size || layers.some((layer) => entry.name === basename(/** @type {string} */ (layer.featureIndexUrl)))) {
       rmSync(resolve(outputRoot, entry.name), { force: true });
     }
   }
 }
 
 for (const layer of layers) {
-  const sourcePath = resolve(ROOT, layer.sourceFile.replace(/^\//, ''));
+  const sourcePath = resolve(ROOT, /** @type {string} */ (layer.sourceFile).replace(/^\//, ''));
   if (!existsSync(sourcePath)) {
     console.warn(`${layer.id}: skipped missing source file ${layer.sourceFile}`);
     skipped += 1;
     continue;
   }
-  const indexPath = resolve(ROOT, layer.featureIndexUrl.replace(/^\//, ''));
+  const indexPath = resolve(ROOT, /** @type {string} */ (layer.featureIndexUrl).replace(/^\//, ''));
   mkdirSync(dirname(indexPath), { recursive: true });
   const idProperty = layer.idProperty || layer.promoteId || 'id';
   const sourceInfo = getSourceInfo(sourcePath);
   const sourceFields = sourceInfo.fields;
   const sourceLayerName = layer.sourceDatasetLayer && sourceInfo.layerNames.includes(layer.sourceDatasetLayer)
     ? layer.sourceDatasetLayer
-    : sourceInfo.layerNames[0] || layerNameFromSource(layer.sourceFile);
+    : sourceInfo.layerNames[0] || layerNameFromSource(/** @type {string} */ (layer.sourceFile));
   const nameProperties = unique([
     layer.labelProperty,
     ...(layer.labelPropertyFallbacks || []),
     ...guessNameProperties(layer.popupProperties || [])
-  ]).filter((key) => sourceFields.has(key));
+  ]).filter((key) => sourceFields.has(/** @type {string} */ (key)));
   const effectiveIdProperty = sourceFields.has(idProperty) ? idProperty : chooseIdProperty(sourceFields);
   if (!nameProperties.length) {
     console.warn(`${layer.id}: skipped because no label/name property is configured`);
@@ -67,7 +75,7 @@ for (const layer of layers) {
       .map((key) => `${quoteSqlIdentifier(key)} AS ${quoteSqlIdentifier(key)}`)
   ];
   const where = featureIndexWhere(layer);
-  const runQuery = (epsg, withMetrics = true) => spawnSync('ogr2ogr', [
+  const runQuery = (/** @type {number | null} */ epsg, withMetrics = true) => spawnSync('ogr2ogr', [
     '-f', 'CSV',
     '/vsistdout/',
     sourcePath,
@@ -91,7 +99,7 @@ for (const layer of layers) {
     console.error(`${layer.id}: ${result.error?.message || result.stderr || result.stdout || 'ogr2ogr failed'}`);
     process.exit(result.status || 1);
   }
-  const [header, ...rows] = parseCsv(result.stdout);
+  const [header, ...rows] = /** @type {[string[], ...string[][]]} */ (parseCsv(result.stdout));
   const items = rows
     .map((row) => Object.fromEntries(header.map((key, index) => [key, row[index]])))
     .map((props, index) => {
@@ -119,7 +127,7 @@ for (const layer of layers) {
   // those items keep their name but lose the centre, as a feature with no geometry would.
   const outside = items.filter((item) => item.center && !centreInIreland(item.center));
   if (outside.length && outside.length * 2 > items.length) {
-    console.error(`${layer.id}: ${outside.length} of ${items.length} centres are not lon/lat on the island of Ireland (source EPSG ${sourceInfo.epsg ?? 'unknown'}), e.g. ${JSON.stringify(outside[0].center)}. Give the source a CRS.`);
+    console.error(`${layer.id}: ${outside.length} of ${items.length} centres are not lon/lat on the island of Ireland (source EPSG ${sourceInfo.epsg ?? 'unknown'}), e.g. ${JSON.stringify(/** @type {(typeof outside)[number]} */ (outside[0]).center)}. Give the source a CRS.`);
     process.exit(1);
   }
   for (const item of outside) {
@@ -140,10 +148,12 @@ for (const layer of layers) {
 
 console.log(`Built ${built} feature index(es); skipped ${skipped}.`);
 
+/** @param {string[]} properties */
 function guessNameProperties(properties) {
   return properties.filter((key) => /name|label|title|english|gaeilge|irish|county|sett|lea|district|division|region/i.test(key));
 }
 
+/** @param {Layer} layer @param {string[]} propertyColumns @param {number | null} epsg */
 function featureIndexColumns(layer, propertyColumns, epsg, withMetrics = true) {
   if (layer.sourceMapId === 'dcc-dcc-public-cycle-parking-stands') {
     return [
@@ -166,14 +176,16 @@ function featureIndexColumns(layer, propertyColumns, epsg, withMetrics = true) {
 // geometry is clipped. ST_MakeValid because a self-intersecting ring measures wrongly.
 // Only for a source whose CRS is a known EPSG code: geodesic measurement needs lon/lat,
 // and ST_Transform on an SRID-0 source throws and aborts the whole run (ni-1921 did).
+/** @param {Layer} layer @param {number | null} epsg */
 function wholeFeatureMetricColumns(layer, epsg) {
   const geom = String(layer.geometryType || '').toLowerCase();
   if (geom !== 'polygon' && geom !== 'multipolygon') return [];
-  if (!Number.isInteger(epsg) || epsg <= 0) return [];
+  if (!Number.isInteger(epsg) || /** @type {number} */ (epsg) <= 0) return [];
   const valid = epsg === 4326 ? 'ST_MakeValid(geometry)' : `ST_Transform(ST_MakeValid(geometry), 4326)`;
   return [`ST_Area(${valid}, 1) AS area_m2`, `ST_Perimeter(${valid}, 1) AS perimeter_m`];
 }
 
+/** @param {Layer} layer */
 function featureIndexWhere(layer) {
   if (layer.sourceMapId === 'dcc-dcc-public-cycle-parking-stands') {
     return ' WHERE Latitude BETWEEN -11 AND -4 AND Longitude BETWEEN 51 AND 56';
@@ -181,11 +193,13 @@ function featureIndexWhere(layer) {
   return '';
 }
 
+/** @param {Layer} layer */
 function featureRepairProperties(layer) {
   if (layer.sourceMapId === 'deas-1972' || layer.id === 'deas-1972-vector') return ['Area_SqKM', 'OBJECTID'];
   return [];
 }
 
+/** @param {Layer} layer @param {Props} props @param {number} index */
 function fallbackFeatureName(layer, props, index) {
   if (layer.sourceMapId === 'dcc-dcc-public-cycle-parking-stands') {
     const lon = Number(props.lon);
@@ -201,11 +215,13 @@ function fallbackFeatureName(layer, props, index) {
 
 // NFC, so a name stored decomposed (eds-ulster-1912..1921 carried "u" + U+0301) is indexed,
 // searched and shown as the precomposed letter.
+/** @param {unknown} value */
 function cleanIndexValue(value) {
   if (value === undefined || value === null) return '';
   return String(value).trim().normalize('NFC');
 }
 
+/** @param {Layer} layer @param {Props} [props] @returns {Props} */
 function repairFeatureIndexProperties(layer, props = {}) {
   if (layer.sourceMapId !== 'deas-1972' && layer.id !== 'deas-1972-vector') return props;
   const repairedName = deas1972RepairedName(props);
@@ -218,6 +234,7 @@ function repairFeatureIndexProperties(layer, props = {}) {
   };
 }
 
+/** @param {Props} [props] */
 function deas1972RepairedName(props = {}) {
   if (isBlank(props.NAME) && nearly(props.Area_SqKM, 13.1719213882566)) return 'ARMAGH AREA D';
   if (String(props.OBJECTID ?? '').trim() === '1624' && normalizeText(props.NAME) === 'DUNGANNON AREA D') return 'DUNGANNON AREA C';
@@ -225,19 +242,26 @@ function deas1972RepairedName(props = {}) {
   return '';
 }
 
+/** @param {unknown} value */
 function isBlank(value) {
   return value === undefined || value === null || String(value).trim() === '';
 }
 
+/** @param {unknown} value @param {number} expected */
 function nearly(value, expected) {
   const number = Number(value);
   return Number.isFinite(number) && Math.abs(number - expected) < 0.0001;
 }
 
+/** @param {unknown} value */
 function normalizeText(value) {
   return String(value ?? '').trim().toUpperCase();
 }
 
+/**
+ * @param {string} sourcePath
+ * @returns {{ fields: Set<string>, layerNames: string[], epsg: number | null }}
+ */
 function getSourceInfo(sourcePath) {
   const result = spawnSync('ogrinfo', ['-json', '-so', sourcePath], {
     cwd: ROOT,
@@ -249,8 +273,8 @@ function getSourceInfo(sourcePath) {
     const payload = JSON.parse(result.stdout);
     const crsId = payload.layers?.[0]?.geometryFields?.[0]?.coordinateSystem?.projjson?.id;
     return {
-      fields: new Set((payload.layers?.[0]?.fields || []).map((field) => field.name).filter(Boolean)),
-      layerNames: (payload.layers || []).map((layer) => layer.name).filter(Boolean),
+      fields: new Set((payload.layers?.[0]?.fields || []).map((/** @type {{ name?: string }} */ field) => field.name).filter(Boolean)),
+      layerNames: (payload.layers || []).map((/** @type {{ name?: string }} */ layer) => layer.name).filter(Boolean),
       epsg: crsId?.authority === 'EPSG' ? Number(crsId.code) : null
     };
   } catch {
@@ -258,25 +282,30 @@ function getSourceInfo(sourcePath) {
   }
 }
 
+/** @param {unknown} value */
 function quoteSqlIdentifier(value) {
   return `"${String(value).replace(/"/g, '""')}"`;
 }
 
+/** @param {Set<string>} fields */
 function chooseIdProperty(fields) {
   return ['id', 'ID', 'OBJECTID', 'OBJECTID_1', 'FID', 'fid', 'ED_ID', 'GUID', 'SMALL_AREA']
     .find((key) => fields.has(key)) || [...fields][0] || 'id';
 }
 
+/** @param {string} source */
 function layerNameFromSource(source) {
   return basename(source).replace(extname(source), '');
 }
 
+/** @param {string} name */
 function readArgList(name) {
+  /** @type {string[]} */
   const values = [];
   for (let index = 0; index < process.argv.length; index += 1) {
-    const arg = process.argv[index];
+    const arg = /** @type {string} */ (process.argv[index]);
     if (arg === name && process.argv[index + 1]) {
-      values.push(...process.argv[index + 1].split(','));
+      values.push(.../** @type {string} */ (process.argv[index + 1]).split(','));
       index += 1;
     } else if (arg.startsWith(`${name}=`)) {
       values.push(...arg.slice(name.length + 1).split(','));
@@ -285,6 +314,7 @@ function readArgList(name) {
   return values.map((value) => value.trim()).filter(Boolean);
 }
 
+/** @param {string} name @param {number} fallback */
 function readNumberArg(name, fallback) {
   const index = process.argv.indexOf(name);
   if (index < 0) return fallback;
@@ -292,8 +322,11 @@ function readNumberArg(name, fallback) {
   return Number.isFinite(value) && value > 0 ? value : fallback;
 }
 
+/** @param {string} text */
 function parseCsv(text) {
+  /** @type {string[][]} */
   const rows = [];
+  /** @type {string[]} */
   let row = [];
   let value = '';
   let quoted = false;
@@ -332,6 +365,7 @@ function parseCsv(text) {
   return rows;
 }
 
+/** @param {Array<string | undefined>} values */
 function unique(values) {
-  return [...new Set(values.filter(Boolean))];
+  return [...new Set(/** @type {string[]} */ (values.filter(Boolean)))];
 }

@@ -64,12 +64,23 @@ const FORCE = process.argv.includes('--force');
 const NO_METADATA = process.argv.includes('--no-metadata');
 const IDS = readIds();
 
+/**
+ * A layer of maps-test.json, as far as the archive build reads it.
+ * @typedef {{ id: string, sourceMapId?: string, name?: string, sourceType?: string, aliasOf?: string, sourceFile?: string,
+ *   tiles?: unknown, tilesFallback?: unknown, warning?: string, minzoom?: number, maxzoom?: number, sourceLayer?: string,
+ *   geometryType?: string, promoteId?: string, labelProperty?: string | null, labelProperties?: string[] | null,
+ *   labelMinZoom?: number | null, style?: unknown, conditionalStyling?: unknown, classification?: unknown, legend?: unknown,
+ *   paint?: unknown }} Layer
+ */
+/** @typedef {ReturnType<typeof getTileProfile>} Profile */
+/** @typedef {{ status: number | null, stdout: string, stderr: string }} RunResult */
+/** @type {{ layers?: Layer[] }} */
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const layers = (metadata.layers || [])
-  .filter((layer) => VECTOR_TILE_TYPES.includes(layer.sourceType))
+  .filter((layer) => VECTOR_TILE_TYPES.includes(/** @type {string} */ (layer.sourceType)))
   .filter((layer) => !layer.aliasOf)
   .filter((layer) => layer.sourceFile)
-  .filter((layer) => !IDS.size || IDS.has(layer.id) || IDS.has(layer.sourceMapId));
+  .filter((layer) => !IDS.size || IDS.has(layer.id) || IDS.has(/** @type {string} */ (layer.sourceMapId)));
 
 const tools = {
   ogr2ogr: findCommand('ogr2ogr'),
@@ -77,15 +88,18 @@ const tools = {
   sqlite3: findCommand('sqlite3')
 };
 const pmtilesDriver = tools.ogr2ogr ? hasGdalPmtilesDriver(tools.ogr2ogr) : false;
+/** @type {Array<ReturnType<typeof row>>} */
 const converted = [];
+/** @type {Array<ReturnType<typeof row>>} */
 const skipped = [];
+/** @type {Array<ReturnType<typeof row>>} */
 const failed = [];
 
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
 for (const layer of layers) {
   const outputPath = resolve(OUTPUT_DIR, `${layer.id}.pmtiles`);
-  const sourcePath = resolve(ROOT, layer.sourceFile.replace(/^\//, ''));
+  const sourcePath = resolve(ROOT, /** @type {string} */ (layer.sourceFile).replace(/^\//, ''));
   if (!existsSync(sourcePath)) {
     skipped.push(row(layer, 'missing-source', { sourceFile: layer.sourceFile }));
     continue;
@@ -208,6 +222,7 @@ if (failed.length) process.exit(1);
  * source cache was the stale copy and the archive was built from it faithfully -- source
  * and archive agreed, and this check would have passed. That hop is verify:source-cache.
  */
+/** @param {string | undefined} sourceFile */
 function sourceContentHash(sourceFile) {
   if (!sourceFile || !existsSync(sourceFile)) return undefined;
   try {
@@ -217,6 +232,7 @@ function sourceContentHash(sourceFile) {
   }
 }
 
+/** @param {{ generatedAt: string, converted: Array<{ status: string, layerId: string }>, failed: Array<{ layerId: string }> }} report */
 function syncMetadata(report) {
   let preferred = 0;
   let oversized = 0;
@@ -225,7 +241,7 @@ function syncMetadata(report) {
     .map((item) => item.layerId));
   const failedLayerIds = new Set(report.failed.map((item) => item.layerId));
   const nextLayers = (metadata.layers || []).map((layer) => {
-    if (!VECTOR_TILE_TYPES.includes(layer.sourceType)) return layer;
+    if (!VECTOR_TILE_TYPES.includes(/** @type {string} */ (layer.sourceType))) return layer;
     if (IDS.size && failedLayerIds.has(layer.id)) {
       return {
         ...layer,
@@ -281,6 +297,7 @@ function syncMetadata(report) {
 // parser trims off, after which the identifier no longer matches. When ogr2ogr reports
 // the table is missing, retry once without the injection -- the layer converts and only
 // loses promoteId, which is far better than not existing.
+/** @param {Layer} layer @param {string} sourcePath @param {string} outputPath @param {Profile} profile @param {string[]} srsOptions */
 function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
   const first = buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions);
   if (first.status === 0) return first;
@@ -293,6 +310,11 @@ function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
   return retry;
 }
 
+/**
+ * @param {Layer} layer @param {string} sourcePath @param {string} outputPath @param {Profile} profile @param {string[]} srsOptions
+ * @param {{ noSourceQuery?: boolean }} [opts]
+ * @returns {RunResult}
+ */
 function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, opts = {}) {
   if ((layer.sourceMapId || layer.id) === 'habitat-deciduous-woodland'
     && existsSync(resolve(ROOT, DECIDUOUS_LOD0_SOURCE))
@@ -411,10 +433,11 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
  * its full record. At z0 a click among 21,572 overlapping points is a lottery rather
  * than a choice, which is why this is the right trade -- but it is a real one.
  */
+/** @param {Layer} layer @param {string} sourcePath @param {Partial<Profile>} [profile] */
 function lowZoomColumns(layer, sourcePath, profile = {}, cutoff = Infinity) {
   const fields = readSourceFields(sourcePath);
   if (!fields.length) return null;   // cannot tell: build normally rather than guess
-  if (Array.isArray(profile.lowZoomKeep)) return listedLowZoomColumns(layer, sourcePath, fields, profile, cutoff);
+  if (Array.isArray(profile.lowZoomKeep)) return listedLowZoomColumns(layer, sourcePath, fields, /** @type {{ lowZoomKeep: string[], keepProseAboveCutoff?: boolean }} */ (profile), cutoff);
   // Anything the layer is STYLED by must survive, or the map draws the wrong colours
   // below the cutoff and the right ones above it -- a bug that looks like a rendering
   // glitch and would never be traced to a build flag. None of the layers enabled today
@@ -436,7 +459,7 @@ function lowZoomColumns(layer, sourcePath, profile = {}, cutoff = Infinity) {
   // per-layer list, it needs no maintenance as sources change, and it targets the actual
   // cost. A categorical value stays; a paragraph does not.
   const lengths = sampleFieldLengths(sourcePath);
-  const isProse = (field) => (lengths.get(field) ?? 0) > TILE_MAX_FIELD_CHARS;
+  const isProse = (/** @type {string} */ field) => (lengths.get(field) ?? 0) > TILE_MAX_FIELD_CHARS;
   if (!keep.length) {
     if (!lengths.size) return null;
     keep = fields.filter((field) => (lengths.get(field) ?? Infinity) <= LOW_ZOOM_MAX_FIELD_CHARS);
@@ -449,7 +472,7 @@ function lowZoomColumns(layer, sourcePath, profile = {}, cutoff = Infinity) {
   // roughly 95% of the bytes. Counting fields would have abandoned the largest win
   // available because that win was concentrated in a single column.
   if (lengths.size) {
-    const weight = (field) => (lengths.get(field) ?? 0) + field.length;
+    const weight = (/** @type {string} */ field) => (lengths.get(field) ?? 0) + field.length;
     const total = fields.reduce((sum, field) => sum + weight(field), 0);
     const kept = keep.reduce((sum, field) => sum + weight(field), 0);
     if (total > 0 && kept > total * 0.6 && !fields.some(isProse)) return null;
@@ -494,7 +517,7 @@ function listedLowZoomColumns(layer, sourcePath, fields, profile, cutoff) {
     || field === 'civ_fid'
     || (styled.has(field) && (labelsBelowCutoff || !labelFields.has(field))));
   const lengths = sampleFieldLengths(sourcePath);
-  const isProse = (field) => (lengths.get(field) ?? 0) > TILE_MAX_FIELD_CHARS;
+  const isProse = (/** @type {string} */ field) => (lengths.get(field) ?? 0) > TILE_MAX_FIELD_CHARS;
   const proseAbove = profile.keepProseAboveCutoff === true;
   return {
     low: keep.filter((field) => !isProse(field)),
@@ -510,6 +533,7 @@ function listedLowZoomColumns(layer, sourcePath, fields, profile, cutoff) {
  * free text. It is a threshold on the data, not on the schema, so a field that happens
  * to be short in one source and long in another is treated correctly in each.
  */
+/** @param {string} sourcePath @returns {Map<string, number>} */
 function sampleFieldLengths(sourcePath, sampleSize = 300) {
   const result = spawnSync(tools.ogr2ogr, [
     '-f', 'GeoJSON', '/vsistdout/', sourcePath,
@@ -522,7 +546,9 @@ function sampleFieldLengths(sourcePath, sampleSize = 300) {
   } catch {
     return new Map();
   }
+  /** @type {Map<string, number>} */
   const totals = new Map();
+  /** @type {Map<string, number>} */
   const counts = new Map();
   for (const feature of features) {
     for (const [key, value] of Object.entries(feature.properties || {})) {
@@ -530,12 +556,16 @@ function sampleFieldLengths(sourcePath, sampleSize = 300) {
       counts.set(key, (counts.get(key) || 0) + 1);
     }
   }
+  /** @type {Map<string, number>} */
   const means = new Map();
   for (const [key, total] of totals) means.set(key, total / (counts.get(key) || 1));
   return means;
 }
 
-/** Every attribute name this layer's styling configuration mentions. */
+/**
+ * Every attribute name this layer's styling configuration mentions.
+ * @param {Pick<Layer, 'style' | 'conditionalStyling' | 'classification' | 'legend' | 'paint' | 'labelProperty' | 'labelProperties'>} layer
+ */
 function styleFieldReferences(layer) {
   const blob = JSON.stringify({
     style: layer.style,
@@ -545,18 +575,20 @@ function styleFieldReferences(layer) {
     paint: layer.paint,
     labelProperty: layer.labelProperty,
     labelProperties: layer.labelProperties
-  } ?? {});
+  });
+  /** @type {Set<string>} */
   const names = new Set();
   for (const match of blob.matchAll(/"(?:property|field|attribute|column|labelProperty)"\s*:\s*"([^"]+)"/g)) {
-    names.add(match[1]);
+    names.add(/** @type {string} */ (match[1]));
   }
   // MapLibre's own ["get", "FIELD"] form, which a hand-written paint expression uses.
-  for (const match of blob.matchAll(/\["get","([^"]+)"\]/g)) names.add(match[1]);
+  for (const match of blob.matchAll(/\["get","([^"]+)"\]/g)) names.add(/** @type {string} */ (match[1]));
   if (layer.labelProperty) names.add(layer.labelProperty);
   for (const name of layer.labelProperties || []) names.add(name);
   return names;
 }
 
+/** @param {string} sourcePath @returns {string[]} */
 function readSourceFields(sourcePath) {
   const result = spawnSync(tools.ogrinfo, ['-so', '-al', '-json', sourcePath], {
     cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024
@@ -565,7 +597,7 @@ function readSourceFields(sourcePath) {
   try {
     const doc = JSON.parse(result.stdout);
     const fields = (doc.layers || [])[0]?.fields || [];
-    return fields.map((field) => field.name).filter(Boolean);
+    return fields.map((/** @type {{ name?: string }} */ field) => field.name).filter(Boolean);
   } catch {
     return [];
   }
@@ -578,6 +610,11 @@ function readSourceFields(sourcePath) {
  * The merge is the same ATTACH that buildDeciduousMultiZoomArchive already uses for its
  * two geometry LODs -- this varies the column list instead of the source file, so the
  * mechanism is reused rather than reinvented.
+ */
+/**
+ * @param {Layer} layer @param {string} sourcePath @param {string} outputPath @param {Profile} profile
+ * @param {{ low: string[], high: string[] }} columns @param {number} cutoff
+ * @returns {RunResult}
  */
 function buildAttributePrunedArchive(layer, sourcePath, outputPath, profile, columns, cutoff) {
   const { low: lowColumns, high: highColumns } = columns;
@@ -598,7 +635,7 @@ function buildAttributePrunedArchive(layer, sourcePath, outputPath, profile, col
   // -sql rather than -select, because the polygon/line path already needs -sql to inject
   // civ_fid and the two options cannot be combined. One shape for both keeps this from
   // silently doing something different per geometry type.
-  const columnList = (names) => names
+  const columnList = (/** @type {string[]} */ names) => names
     .filter((name) => name !== 'civ_fid')
     .map((name) => `"${name.replace(/"/g, '""')}"`)
     .join(', ');
@@ -659,6 +696,7 @@ function buildAttributePrunedArchive(layer, sourcePath, outputPath, profile, col
   return pmtiles;
 }
 
+/** @param {Layer} layer @param {string} outputPath @param {Profile} profile @returns {RunResult} */
 function buildDeciduousMultiZoomArchive(layer, outputPath, profile) {
   if (!tools.sqlite3) {
     return { status: 1, stderr: 'sqlite3 is required to merge low/high zoom MBTiles before PMTiles packaging.', stdout: '' };
@@ -713,6 +751,7 @@ function buildDeciduousMultiZoomArchive(layer, outputPath, profile) {
   return pmtiles;
 }
 
+/** @param {{ outputPath: string, sourcePath: string, minzoom: number, maxzoom: number, profile: Profile, layerName: string }} options */
 function mbtilesArgs({ outputPath, sourcePath, minzoom, maxzoom, profile, layerName }) {
   return [
     '-f', 'MBTiles',
@@ -729,6 +768,7 @@ function mbtilesArgs({ outputPath, sourcePath, minzoom, maxzoom, profile, layerN
   ];
 }
 
+/** @param {Layer} layer */
 function usesMbtilesIntermediate(layer) {
   return new Set([
     'habitat-wetland-grouped',
@@ -736,6 +776,7 @@ function usesMbtilesIntermediate(layer) {
   ]).has(layer.sourceMapId || layer.id);
 }
 
+/** @param {string} outputPath */
 function describeArchive(outputPath) {
   const bytes = statSync(outputPath).size;
   return {
@@ -745,6 +786,7 @@ function describeArchive(outputPath) {
   };
 }
 
+/** @param {Layer} layer @param {string} status @param {Record<string, unknown>} [extra] */
 function row(layer, status, extra = {}) {
   return {
     layerId: layer.id,
@@ -756,6 +798,7 @@ function row(layer, status, extra = {}) {
   };
 }
 
+/** @param {string} command */
 function findCommand(command) {
   const result = spawnSync(process.platform === 'win32' ? 'where.exe' : 'which', [command], {
     cwd: ROOT,
@@ -765,6 +808,7 @@ function findCommand(command) {
   return result.stdout.split(/\r?\n/).find(Boolean) || '';
 }
 
+/** @param {string} ogr2ogr */
 function hasGdalPmtilesDriver(ogr2ogr) {
   const result = spawnSync(ogr2ogr, ['--formats'], {
     cwd: ROOT,
@@ -780,6 +824,7 @@ function readIds() {
   return new Set(String(process.argv[index + 1] || '').split(',').map((item) => item.trim()).filter(Boolean));
 }
 
+/** @param {string} name @param {number} fallback */
 function readNumberArg(name, fallback) {
   const index = process.argv.indexOf(name);
   if (index < 0) return fallback;
@@ -787,23 +832,28 @@ function readNumberArg(name, fallback) {
   return Number.isFinite(value) && value > 0 ? value : fallback;
 }
 
+/** @param {string} path */
 function relative(path) {
   return path.replace(`${ROOT}\\`, '').replaceAll('\\', '/');
 }
 
+/** @param {unknown} value */
 function trim(value) {
   const text = String(value || '').trim();
   return text.length > 2000 ? `${text.slice(0, 2000)}...` : text;
 }
 
+/** @param {string} value */
 function safeLayerName(value) {
   return String(value || 'layer').replace(/[^a-z0-9_]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase() || 'layer';
 }
 
+/** @param {string[]} values */
 function unique(values) {
   return [...new Set(values.filter(Boolean))];
 }
 
+/** @param {string} sourceMapId */
 function getSourceSrsOptions(sourceMapId) {
   const id = String(sourceMapId || '').toLowerCase();
   if (id === 'pc-1995' || id === 'ni-townlands-1844' || WGS84_UNKNOWN_SRS_IDS.has(id)) {
@@ -815,6 +865,7 @@ function getSourceSrsOptions(sourceMapId) {
   return [];
 }
 
+/** @param {string} sourceMapId */
 function getSourceQueryOptions(sourceMapId) {
   const id = String(sourceMapId || '').toLowerCase();
   if (id === 'dcc-dcc-public-cycle-parking-stands') {
@@ -827,6 +878,7 @@ function getSourceQueryOptions(sourceMapId) {
 }
 
 // Resolve the first (usually only) layer name inside a vector source datasource.
+/** @param {string} sourcePath */
 function resolveSourceLayerName(sourcePath) {
   try {
     const r = spawnSync(tools.ogrinfo, ['-q', sourcePath], { cwd: ROOT, encoding: 'utf8' });
@@ -838,9 +890,9 @@ function resolveSourceLayerName(sourcePath) {
     // Take everything up to the trailing parenthesised geometry type instead.
     const out = r.stdout || '';
     const withGeom = /^\s*\d+:\s*(.+?)\s+\([^)]*\)\s*$/m.exec(out);
-    if (withGeom) return withGeom[1].trim();
+    if (withGeom) return /** @type {string} */ (withGeom[1]).trim();
     const bare = /^\s*\d+:\s*(.+?)\s*$/m.exec(out);
-    return bare ? bare[1].trim() : null;
+    return bare ? /** @type {string} */ (bare[1]).trim() : null;
   } catch {
     return null;
   }
@@ -851,6 +903,7 @@ function resolveSourceLayerName(sourcePath) {
 // per-fragment stats. Inject the stable source FID as a `civ_fid` attribute
 // (unique per feature) so the layer can set promoteId=civ_fid and MapLibre
 // unifies every fragment. Layers with a bespoke source query keep it as-is.
+/** @param {Layer} layer @param {string} sourcePath */
 function sourceQueryOptions(layer, sourcePath) {
   const custom = getSourceQueryOptions(layer.sourceMapId || layer.id);
   if (custom.length) return custom;
@@ -878,11 +931,13 @@ function sourceWhereOptions(profile) {
 // county could not be clicked. 100 of the 290 polygon sources had at least one such
 // feature. -makevalid repairs each geometry as it is read and then drops any stray line or
 // point pieces the repair leaves, so feature order (and with it civ_fid) is unchanged.
+/** @param {Layer} layer */
 function validityOptions(layer) {
   const geom = String(layer.geometryType || '').toLowerCase();
   return geom === 'polygon' || geom === 'multipolygon' ? ['-makevalid'] : [];
 }
 
+/** @param {string} sourceMapId */
 function getFailureOptions(sourceMapId) {
   if (String(sourceMapId || '').toLowerCase() === 'roi-national-planning-applications') {
     return ['-skipfailures'];
@@ -890,6 +945,7 @@ function getFailureOptions(sourceMapId) {
   return [];
 }
 
+/** @param {string} mbtilesPath @param {string} layerName @returns {RunResult} */
 function ensureMbtilesVectorMetadata(mbtilesPath, layerName) {
   if (!tools.sqlite3) return { status: 0, stderr: '', stdout: '' };
   const vectorLayers = JSON.stringify({
@@ -907,10 +963,12 @@ function ensureMbtilesVectorMetadata(mbtilesPath, layerName) {
   ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 });
 }
 
+/** @param {string} value */
 function escapeSqlitePath(value) {
   return String(value || '').replaceAll('\\', '/').replaceAll("'", "''");
 }
 
+/** @param {string} value */
 function escapeSqliteValue(value) {
   return String(value || '').replaceAll("'", "''");
 }

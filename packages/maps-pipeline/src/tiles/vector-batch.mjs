@@ -42,12 +42,21 @@ const FORMATS = new Set(['.fgb', '.geojson', '.json', '.gpkg', '.shp', '.zip']);
 const FORCE = process.argv.includes('--force');
 const PER_LAYER_TIMEOUT_MS = readNumberArg('--per-layer-timeout-ms', 10 * 60 * 1000);
 
+/** @typedef {{ file?: string, prefer?: boolean, note?: string, cachedFrom?: string | undefined }} SourceFile */
+/** @typedef {{ sourceMapId: string, name?: string, category?: string, conversionStatus?: string, sourceFiles?: SourceFile[] }} PlanRow */
+/** @typedef {{ sourceMapId: string, name?: string | undefined, category?: string | undefined, sourceFile: string, sourceBytes: number, outputDirectory: string }} Candidate */
+/** @typedef {ReturnType<typeof getTileProfile>} Profile */
+/** @typedef {{ status: number | null, stdout: string, stderr: string, error?: Error | undefined }} RunResult */
+/** @type {{ rows?: PlanRow[] }} */
 const plan = JSON.parse(readFileSync(PLAN_PATH, 'utf8'));
+/** @type {{ sources?: Array<{ sourceMapId: string, localPath?: string, url?: string }> }} */
 const sourceCache = existsSync(SOURCE_CACHE_MANIFEST_PATH)
   ? JSON.parse(readFileSync(SOURCE_CACHE_MANIFEST_PATH, 'utf8'))
   : { sources: [] };
 const cachedSourceById = new Map((sourceCache.sources || []).map((source) => [source.sourceMapId, source]));
+/** @type {Candidate[]} */
 const candidates = [];
+/** @type {Array<{ sourceMapId: string, reason: string, file?: string | undefined }>} */
 const skipped = [];
 
 for (const row of plan.rows || []) {
@@ -58,7 +67,7 @@ for (const row of plan.rows || []) {
     skipped.push({ sourceMapId: row.sourceMapId, reason: 'no local vector source file in supported format' });
     continue;
   }
-  const localPath = resolve(ROOT, source.file.replace(/^\//, ''));
+  const localPath = resolve(ROOT, /** @type {string} */ (source.file).replace(/^\//, ''));
   if (!existsSync(localPath)) {
     skipped.push({ sourceMapId: row.sourceMapId, reason: 'source file missing locally', file: source.file });
     continue;
@@ -67,15 +76,18 @@ for (const row of plan.rows || []) {
     sourceMapId: row.sourceMapId,
     name: row.name,
     category: row.category,
-    sourceFile: source.file,
+    sourceFile: /** @type {string} */ (source.file),
     sourceBytes: statSize(localPath),
     outputDirectory: `render/tiles/generated/${slugify(row.sourceMapId)}`
   });
 }
 
 const selected = candidates.filter((candidate) => candidate.sourceBytes / 1024 / 1024 <= MAX_SOURCE_MB).slice(0, LIMIT);
+/** @type {Array<Candidate & Record<string, unknown>>} */
 const converted = [];
+/** @type {Array<Candidate & { error: string | undefined }>} */
 const failed = [];
+/** @type {Array<Candidate & Record<string, unknown>>} */
 const skippedExisting = [];
 
 if (EXECUTE) {
@@ -170,6 +182,7 @@ function writeReport() {
   }
 }
 
+/** @param {PlanRow} row @returns {SourceFile | null} */
 function chooseSource(row) {
   const preferredFallback = localFallbackSource(row.sourceMapId);
   if (preferredFallback?.prefer) return preferredFallback;
@@ -185,10 +198,12 @@ function chooseSource(row) {
   }) || null;
 }
 
+/** @param {SourceFile} left @param {SourceFile} right */
 function compareSourcePreference(left, right) {
   return sourceRank(left) - sourceRank(right);
 }
 
+/** @param {SourceFile | undefined} source */
 function sourceRank(source) {
   const ext = extname(source?.file || '').toLowerCase();
   if (ext === '.fgb') return 0;
@@ -199,6 +214,7 @@ function sourceRank(source) {
   return 10;
 }
 
+/** @param {string} sourceMapId @returns {SourceFile | null} */
 function localFallbackSource(sourceMapId) {
   if (sourceMapId === 'habitat-deciduous-woodland' && existsSync(resolve(ROOT, DECIDUOUS_LOD1_SOURCE))) {
     return {
@@ -223,6 +239,7 @@ function localFallbackSource(sourceMapId) {
   return null;
 }
 
+/** @param {string} name @param {number} fallback */
 function readNumberArg(name, fallback) {
   const index = process.argv.indexOf(name);
   if (index < 0) return fallback;
@@ -230,6 +247,7 @@ function readNumberArg(name, fallback) {
   return Number.isFinite(value) && value > 0 ? value : fallback;
 }
 
+/** @param {string} command */
 function commandAvailable(command) {
   const result = spawnSync(process.platform === 'win32' ? 'where.exe' : 'which', [command], {
     cwd: ROOT,
@@ -238,6 +256,10 @@ function commandAvailable(command) {
   return result.status === 0;
 }
 
+/**
+ * @param {string} outputPath
+ * @returns {{ ok: false, error: string, sourceLayer?: undefined, stats?: undefined } | { ok: true, sourceLayer: string, stats: ReturnType<typeof directoryStats>, error?: undefined }}
+ */
 function verifyMvtDirectory(outputPath) {
   const metadataPath = resolve(outputPath, 'metadata.json');
   if (!existsSync(metadataPath)) return { ok: false, error: 'metadata.json was not created' };
@@ -245,8 +267,9 @@ function verifyMvtDirectory(outputPath) {
   try {
     metadata = JSON.parse(readFileSync(metadataPath, 'utf8'));
   } catch (err) {
-    return { ok: false, error: `metadata.json is invalid JSON: ${err.message}` };
+    return { ok: false, error: `metadata.json is invalid JSON: ${/** @type {Error} */ (err).message}` };
   }
+  /** @type {Array<{ id?: string }>} */
   let vectorLayers = [];
   try {
     vectorLayers = JSON.parse(metadata.json || '{}').vector_layers || [];
@@ -260,6 +283,7 @@ function verifyMvtDirectory(outputPath) {
   return { ok: true, sourceLayer, stats };
 }
 
+/** @param {string} outputPath */
 function directoryStats(outputPath) {
   const stack = [outputPath];
   let files = 0;
@@ -267,7 +291,7 @@ function directoryStats(outputPath) {
   let bytes = 0;
   let maxTileBytes = 0;
   while (stack.length) {
-    const current = stack.pop();
+    const current = /** @type {string} */ (stack.pop());
     for (const entry of safeReadDir(current)) {
       const child = resolve(current, entry.name);
       if (entry.isDirectory()) stack.push(child);
@@ -285,6 +309,7 @@ function directoryStats(outputPath) {
   return { files, pbfFiles, bytes, maxTileBytes };
 }
 
+/** @param {string} path */
 function safeReadDir(path) {
   try {
     return readdirSync(path, { withFileTypes: true });
@@ -293,6 +318,7 @@ function safeReadDir(path) {
   }
 }
 
+/** @param {string} outputPath */
 function assertInsideOutputRoot(outputPath) {
   const rel = relative(OUTPUT_ROOT, outputPath);
   if (rel === '' || rel.startsWith('..') || /^[a-z]:/i.test(rel)) {
@@ -300,6 +326,7 @@ function assertInsideOutputRoot(outputPath) {
   }
 }
 
+/** @param {string} path */
 function statSize(path) {
   try {
     return statSync(path).size;
@@ -308,12 +335,18 @@ function statSize(path) {
   }
 }
 
+/** @param {string} name @param {string} fallback */
 function readStringArg(name, fallback) {
   const index = process.argv.indexOf(name);
   if (index < 0) return fallback;
   return process.argv[index + 1] || fallback;
 }
 
+/**
+ * @param {Candidate} candidate @param {string} sourcePath @param {string} outputPath @param {string} layerName
+ * @param {Profile} profile @param {string[]} srsOptions
+ * @returns {RunResult}
+ */
 function buildMvtOutput(candidate, sourcePath, outputPath, layerName, profile, srsOptions) {
   if (candidate.sourceMapId === 'habitat-deciduous-woodland'
     && existsSync(resolve(ROOT, DECIDUOUS_LOD0_SOURCE))
@@ -341,6 +374,7 @@ function buildMvtOutput(candidate, sourcePath, outputPath, layerName, profile, s
   ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, timeout: PER_LAYER_TIMEOUT_MS });
 }
 
+/** @param {string} outputPath @param {string} layerName @param {string} name @param {Profile} profile @returns {RunResult} */
 function buildDeciduousMultiZoomMvt(outputPath, layerName, name, profile) {
   const lowPath = `${outputPath}.__lod0`;
   const highPath = `${outputPath}.__lod1`;
@@ -384,6 +418,7 @@ function buildDeciduousMultiZoomMvt(outputPath, layerName, name, profile) {
   return { status: 0, stdout: `${name} generated from LOD0 z0-z7 and LOD1 z8-z12.`, stderr: '' };
 }
 
+/** @param {{ outputPath: string, sourcePath: string, layerName: string, name: string, minzoom: number, maxzoom: number, profile: Profile }} options */
 function mvtArgs({ outputPath, sourcePath, layerName, name, minzoom, maxzoom, profile }) {
   return [
     '-f', 'MVT',
@@ -404,12 +439,14 @@ function mvtArgs({ outputPath, sourcePath, layerName, name, minzoom, maxzoom, pr
   ];
 }
 
+/** @param {string} outputPath @param {number} minzoom @param {number} maxzoom */
 function normalizeMergedMvtMetadata(outputPath, minzoom, maxzoom) {
   const metadataPath = resolve(outputPath, 'metadata.json');
   if (!existsSync(metadataPath)) return;
   const metadata = JSON.parse(readFileSync(metadataPath, 'utf8'));
   metadata.minzoom = minzoom;
   metadata.maxzoom = maxzoom;
+  /** @type {{ vector_layers?: Array<{ minzoom?: number, maxzoom?: number }> }} */
   let json = {};
   try {
     json = JSON.parse(metadata.json || '{}');
@@ -424,10 +461,12 @@ function normalizeMergedMvtMetadata(outputPath, minzoom, maxzoom) {
   writeFileSync(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`);
 }
 
+/** @param {string} value */
 function slugify(value) {
   return String(value || 'layer').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
+/** @param {string} sourceMapId */
 function getSourceSrsOptions(sourceMapId) {
   const id = String(sourceMapId || '').toLowerCase();
   if (id === 'pc-1995' || id === 'ni-townlands-1844' || WGS84_UNKNOWN_SRS_IDS.has(id)) {
@@ -439,6 +478,7 @@ function getSourceSrsOptions(sourceMapId) {
   return [];
 }
 
+/** @param {string} sourceMapId */
 function getSourceQueryOptions(sourceMapId) {
   const id = String(sourceMapId || '').toLowerCase();
   if (id === 'dcc-dcc-public-cycle-parking-stands') {

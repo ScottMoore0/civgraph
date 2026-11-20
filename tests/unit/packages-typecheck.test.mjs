@@ -60,14 +60,6 @@ const EXCLUDE = {
 // Package script files in no project, with their strict findings on 18 Nov 2026. Only shrinks.
 const LEFT = [
   'packages/map/src/jquery-shim.js', // 106: a classic script loaded by URL
-  'packages/maps-pipeline/src/tiles/assign-missing-label-properties.mjs', // 16
-  'packages/maps-pipeline/src/tiles/download-sources.mjs', // 30
-  'packages/maps-pipeline/src/tiles/feature-indexes.mjs', // 45
-  'packages/maps-pipeline/src/tiles/layer-plan.mjs', // 35
-  'packages/maps-pipeline/src/tiles/pmtiles.mjs', // 83
-  'packages/maps-pipeline/src/tiles/promote-layers.mjs', // 95
-  'packages/maps-pipeline/src/tiles/repair-label-text.mjs', // 11
-  'packages/maps-pipeline/src/tiles/vector-batch.mjs', // 54
 ];
 
 /** @param {string} file repository-relative */

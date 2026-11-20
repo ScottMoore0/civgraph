@@ -1,5 +1,5 @@
 {
-  "//": "maps-pipeline: The map build pipeline's typed modules. Left out: eight modules of src/tiles/ (the other four joined on 19 Nov 2026, stream w19-refactor-now). One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
+  "//": "maps-pipeline: The map build pipeline's typed modules, every one of them (src/tiles/ joined on 19-20 Nov 2026, streams w19-refactor-now and w20-refactor). One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
   "compilerOptions": {
     "composite": true,
     "declaration": true,
@@ -29,7 +29,8 @@
     "src/tiles/feature-index-from-tiles.mjs",
     "src/tiles/repair-alias-layers.mjs",
     "src/tiles/tile-profiles.mjs",
-    "src/tiles/vector-intake.mjs"
+    "src/tiles/vector-intake.mjs",
+    "src/tiles/*.mjs"
   ],
   "references": [
     { "path": "../config/tsconfig.project.node.json" }

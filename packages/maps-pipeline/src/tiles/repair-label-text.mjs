@@ -38,7 +38,7 @@ import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 import { repairApplies } from '../label-data.mjs';
 
 const args = process.argv.slice(2);
-const argValue = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
+const argValue = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
 const ROOT = resolve(argValue('--root') || process.cwd());
 const WRITE = args.includes('--write');
 const IN_PLACE = args.includes('--in-place');
@@ -50,9 +50,10 @@ const OUT_DIR = resolve(process.cwd(), argValue('--out') || 'tmp/label-text-repa
 
 /** @type {Map<string, { sources: string[], plans: Plan[] }>} */
 const layers = new Map();
+/** @param {string} layer @param {string[]} sources @param {Plan} p */
 const plan = (layer, sources, p) => {
   if (ONLY.size && !ONLY.has(layer)) return;
-  const entry = layers.get(layer) || { sources, plans: [] };
+  const entry = layers.get(layer) || { sources, plans: /** @type {Plan[]} */ ([]) };
   entry.plans.push(p);
   layers.set(layer, entry);
 };
@@ -148,6 +149,7 @@ async function repairFile(path, plans) {
 function planChanges(features, plans) {
   /** @type {Map<number, Record<string, string>>} */
   const changes = new Map();
+  /** @param {number} index @param {string} field @param {string} value */
   const set = (index, field, value) => { changes.set(index, { ...(changes.get(index) || {}), [field]: value }); };
   const seenKeys = new Set();
   features.forEach((feature, index) => {
@@ -168,7 +170,7 @@ function planChanges(features, plans) {
         if (current !== repair.damaged) throw new Error(`${p.key} ${props[p.key]}: ${p.field} is ${JSON.stringify(current)}, not the damaged ${JSON.stringify(repair.damaged)} the repair expects`);
         set(index, p.field, repair.value);
       } else if (p.byValue && typeof current === 'string' && Object.hasOwn(p.byValue, current)) {
-        set(index, p.field, p.byValue[current]);
+        set(index, p.field, /** @type {string} */ (p.byValue[current]));
       }
     }
   });
@@ -189,9 +191,10 @@ async function readFeatures(path) {
   let header = null;
   const features = [];
   for await (const feature of deserialize(new Uint8Array(readFileSync(path)), undefined, (h) => { header = h; })) {
-    features.push({ properties: feature.properties || {}, bbox: bboxOf(feature.geometry) });
+    features.push({ properties: feature.properties || {}, bbox: bboxOf(/** @type {{ coordinates?: unknown[] }} */ (feature.geometry)) });
   }
-  return { features, layerName: header?.name || null, indexed: Number(header?.indexNodeSize || 0) > 0 };
+  /** @typedef {{ name?: string | null, indexNodeSize?: number } | null} Header  the callback's assignment is invisible to narrowing */
+  return { features, layerName: /** @type {Header} */ (header)?.name || null, indexed: Number(/** @type {Header} */ (header)?.indexNodeSize || 0) > 0 };
 }
 
 /** @param {{ coordinates?: unknown[] } | null | undefined} geometry */
@@ -213,17 +216,18 @@ function bboxOf(geometry) {
 
 /**
  * Null when `after` is `before` with exactly the planned changes; otherwise what differs.
- * @param {Array<{ properties: Record<string, unknown>, bbox: number[] | null }>} before
- * @param {Array<{ properties: Record<string, unknown>, bbox: number[] | null }>} after
+ * @typedef {{ properties: Record<string, unknown>, bbox: number[] | null }} Row
+ * @param {Row[]} before
+ * @param {Row[]} after
  * @param {Map<number, Record<string, string>>} changes
  */
 function compare(before, after, changes) {
   if (before.length !== after.length) return `${before.length} features became ${after.length}`;
   for (let i = 0; i < before.length; i += 1) {
-    if (JSON.stringify(before[i].bbox) !== JSON.stringify(after[i].bbox)) return `feature ${i} moved or changed shape`;
-    const expected = { ...before[i].properties, ...(changes.get(i) || {}) };
+    if (JSON.stringify(/** @type {Row} */ (before[i]).bbox) !== JSON.stringify(/** @type {Row} */ (after[i]).bbox)) return `feature ${i} moved or changed shape`;
+    const expected = { .../** @type {Row} */ (before[i]).properties, ...(changes.get(i) || {}) };
     for (const [key, value] of Object.entries(expected)) {
-      const got = after[i].properties[key];
+      const got = /** @type {Row} */ (after[i]).properties[key];
       if (!sameValue(value, got)) return `feature ${i} ${key}: ${JSON.stringify(value)} became ${JSON.stringify(got)}`;
     }
   }

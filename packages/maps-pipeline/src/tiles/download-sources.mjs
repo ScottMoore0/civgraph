@@ -19,7 +19,13 @@ const LIMIT = readNumberArg('--limit', Infinity);
 const ONLY_IDS = new Set(readStringArg('--ids', '').split(',').map((value) => value.trim()).filter(Boolean));
 const CONCURRENCY = Math.max(1, Math.min(8, readNumberArg('--concurrency', 4)));
 
+/** @typedef {{ file?: string }} SourceFile */
+/** @typedef {{ action?: string, sourceMapId: string, name?: string, category?: string, sourceFiles?: SourceFile[] }} IntakeItem */
+/** @typedef {{ item: IntakeItem, sources: SourceFile[] }} Entry */
+/** @typedef {{ sourceMapId: string, localPath?: string, [field: string]: unknown }} CachedSource */
+/** @type {{ items?: IntakeItem[] }} */
 const intake = JSON.parse(readFileSync(INTAKE_PATH, 'utf8'));
+/** @type {{ sources?: CachedSource[] }} */
 const existingManifest = existsSync(MANIFEST_PATH) ? JSON.parse(readFileSync(MANIFEST_PATH, 'utf8')) : { sources: [] };
 const existingById = new Map((existingManifest.sources || []).map((source) => [source.sourceMapId, source]));
 const items = (intake.items || [])
@@ -31,8 +37,11 @@ const items = (intake.items || [])
 
 mkdirSync(CACHE_ROOT, { recursive: true });
 
+/** @type {CachedSource[]} */
 const downloaded = [];
+/** @type {CachedSource[]} */
 const skipped = [];
+/** @type {Array<{ sourceMapId: string, name: string | undefined, url: string, error: string }>} */
 const failed = [];
 let cursor = 0;
 
@@ -40,7 +49,7 @@ await Promise.all(Array.from({ length: Math.min(CONCURRENCY, items.length) }, as
   while (cursor < items.length) {
     const index = cursor;
     cursor += 1;
-    await processEntry(items[index], index);
+    await processEntry(/** @type {Entry} */ (items[index]));
   }
 }));
 
@@ -78,9 +87,10 @@ console.log(`Cached sources: ${manifestSources.length}`);
 console.log(`Wrote ${relativeReport(REPORT_PATH)}`);
 if (failed.length) process.exit(1);
 
+/** @param {Entry} entry */
 async function processEntry(entry) {
   const { item, sources } = entry;
-  const firstSource = sources[0];
+  const firstSource = /** @type {SourceFile} */ (sources[0]);
   const extension = cleanExtension(firstSource.file) || '.fgb';
   const localPath = `render/source-cache/vector-intake/${slugify(item.sourceMapId)}${extension}`;
   const absolutePath = resolve(ROOT, localPath);
@@ -100,15 +110,16 @@ async function processEntry(entry) {
     skipped.push({ ...existing, reason: 'already cached in manifest' });
     return;
   }
+  /** @type {string[]} */
   const errors = [];
   for (const source of sources) {
     try {
-      const response = await fetch(source.file, { redirect: 'follow' });
+      const response = await fetch(/** @type {string} */ (source.file), { redirect: 'follow' });
       if (!response.ok || !response.body) throw new Error(`HTTP ${response.status}`);
       mkdirSync(dirname(absolutePath), { recursive: true });
       const tempPath = `${absolutePath}.tmp`;
       if (existsSync(tempPath)) unlinkSync(tempPath);
-      await pipeline(Readable.fromWeb(response.body), createWriteStream(tempPath));
+      await pipeline(Readable.fromWeb(/** @type {import('node:stream/web').ReadableStream} */ (response.body)), createWriteStream(tempPath));
       renameSync(tempPath, absolutePath);
       downloaded.push({
         sourceMapId: item.sourceMapId,
@@ -121,7 +132,7 @@ async function processEntry(entry) {
       });
       return;
     } catch (error) {
-      errors.push(`${source.file}: ${error.message}`);
+      errors.push(`${source.file}: ${/** @type {Error} */ (error).message}`);
     }
   }
   failed.push({
@@ -132,23 +143,28 @@ async function processEntry(entry) {
   });
 }
 
+/** @param {IntakeItem} item */
 function chooseRemoteSources(item) {
   return uniqueSources((item.sourceFiles || [])
     .filter((source) => /^https?:\/\//i.test(source.file || '') && VECTOR_EXTENSIONS.has(cleanExtension(source.file))));
 }
 
+/** @param {string | undefined} file */
 function cleanExtension(file) {
-  const path = String(file || '').split('?')[0].toLowerCase();
+  const path = /** @type {string} */ (String(file || '').split('?')[0]).toLowerCase();
   return extname(path);
 }
 
+/** @param {CachedSource[]} existing @param {CachedSource[]} next */
 function mergeSources(existing, next) {
+  /** @type {Map<string, CachedSource>} */
   const merged = new Map();
   for (const source of existing) merged.set(source.sourceMapId, source);
   for (const source of next) merged.set(source.sourceMapId, source);
   return [...merged.values()].sort((a, b) => String(a.sourceMapId).localeCompare(String(b.sourceMapId)));
 }
 
+/** @param {string} name @param {number} fallback */
 function readNumberArg(name, fallback) {
   const index = process.argv.indexOf(name);
   if (index < 0) return fallback;
@@ -156,17 +172,21 @@ function readNumberArg(name, fallback) {
   return Number.isFinite(value) && value > 0 ? value : fallback;
 }
 
+/** @param {string} name @param {string} fallback */
 function readStringArg(name, fallback) {
   const index = process.argv.indexOf(name);
   if (index < 0) return fallback;
   return process.argv[index + 1] || fallback;
 }
 
+/** @param {string} value */
 function slugify(value) {
   return String(value || 'layer').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
+/** @param {SourceFile[]} sources */
 function uniqueSources(sources) {
+  /** @type {Map<string, SourceFile>} */
   const byFile = new Map();
   for (const source of sources) {
     const file = source.file || '';
@@ -176,6 +196,7 @@ function uniqueSources(sources) {
   return [...byFile.values()];
 }
 
+/** @param {string} path */
 function relativeReport(path) {
   return path.replace(`${ROOT}\\`, '').replace(`${ROOT}/`, '');
 }

@@ -60,9 +60,14 @@ const SUFFIXED = /(^|_)(name(text)?|nm|label|title|english)(_|$)/i;
 // Never a label, whatever else matches.
 const NEVER = /^(civ_fid|fid|objectid|gid|id|uid|uuid|shape_|st_|geom)/i;
 
+/** @typedef {{ id: string, hidden?: boolean, placeholder?: boolean, labelProperty?: string }} CatalogueMap */
+/** @typedef {{ id: string, sourceMapId: string, sourceType?: string, geometryType?: string, tileUrl?: string, labelProperty?: string }} RenderLayer */
+/** @type {{ maps?: CatalogueMap[] }} */
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
+/** @type {{ layers?: RenderLayer[] }} */
 const render = JSON.parse(readFileSync(RENDER, 'utf8'));
 
+/** @type {Map<string, RenderLayer>} */
 const layerByMapId = new Map();
 for (const layer of render.layers || []) {
   const geometry = String(layer.geometryType || '').toLowerCase();
@@ -83,11 +88,15 @@ for (const layer of render.layers || []) {
 // in alongside it so the two stop drifting.
 const targets = (catalogue.maps || []).filter((map) =>
   !map.hidden && !map.placeholder && layerByMapId.has(map.id)
-  && !layerByMapId.get(map.id).labelProperty);
+  && !/** @type {RenderLayer} */ (layerByMapId.get(map.id)).labelProperty);
 
+/** @typedef {import('pmtiles').Source} Source */
+/** @implements {Source} */
 class FileSource {
+  /** @param {string} path */
   constructor(path) { this.path = path; this.fd = openSync(path, 'r'); }
   getKey() { return this.path; }
+  /** @param {number} offset @param {number} length */
   async getBytes(offset, length) {
     const buf = Buffer.alloc(length);
     readSync(this.fd, buf, 0, length, offset);
@@ -95,9 +104,12 @@ class FileSource {
   }
 }
 
+/** @implements {Source} */
 class HttpSource {
+  /** @param {string} url */
   constructor(url) { this.url = url; }
   getKey() { return this.url; }
+  /** @param {number} offset @param {number} length */
   async getBytes(offset, length) {
     const response = await fetch(this.url, { headers: { Range: `bytes=${offset}-${offset + length - 1}` } });
     if (!response.ok && response.status !== 206) throw new Error(`HTTP ${response.status}`);
@@ -105,12 +117,17 @@ class HttpSource {
   }
 }
 
-/** Sample feature properties from the first non-empty tile we can find. */
+/**
+ * Sample feature properties from the first non-empty tile we can find.
+ * @typedef {Record<string, string | number | boolean>} Properties
+ * @param {import('pmtiles').Source} source
+ */
 async function sampleProperties(source) {
   const archive = new PMTiles(source);
   const header = await archive.getHeader();
   const zoom = Math.min(header.maxZoom, Math.max(header.minZoom, 5));
   const side = 2 ** zoom;
+  /** @type {Properties[]} */
   const samples = [];
   for (let x = 0; x < side && samples.length < 40; x += 1) {
     for (let y = 0; y < side && samples.length < 40; y += 1) {
@@ -120,7 +137,7 @@ async function sampleProperties(source) {
       if (buf[0] === 0x1f && buf[1] === 0x8b) buf = gunzipSync(buf);
       const parsed = new VectorTile(new Protobuf(buf));
       for (const name of Object.keys(parsed.layers)) {
-        const layer = parsed.layers[name];
+        const layer = /** @type {import('@mapbox/vector-tile').VectorTileLayer} */ (parsed.layers[name]);
         for (let i = 0; i < Math.min(layer.length, 40) && samples.length < 40; i += 1) {
           samples.push(layer.feature(i).properties);
         }
@@ -130,17 +147,22 @@ async function sampleProperties(source) {
   return samples;
 }
 
-/** Rank the attributes present in the samples and return the best label, or null. */
+/**
+ * Rank the attributes present in the samples and return the best label, or null.
+ * @param {Properties[]} samples
+ * @returns {{ field: string | null, reason: string }}
+ */
 function chooseLabel(samples) {
   if (!samples.length) return { field: null, reason: 'no features sampled' };
+  /** @type {Set<string>} */
   const fields = new Set();
   for (const properties of samples) for (const key of Object.keys(properties)) fields.add(key);
 
-  const usable = (field) => {
+  const usable = (/** @type {string} */ field) => {
     const values = samples.map((properties) => properties[field]).filter((value) => value !== undefined && value !== null);
     if (!values.length) return false;
     if (!values.every((value) => typeof value === 'string')) return false;
-    if (values.some((value) => !value.trim())) return false;
+    if (values.some((value) => !/** @type {string} */ (value).trim())) return false;
     // A column holding one repeated value is a category, not a name.
     return new Set(values).size > 1;
   };
@@ -151,17 +173,19 @@ function chooseLabel(samples) {
     if (hit && usable(hit)) return { field: hit, reason: 'exact' };
   }
   const suffixed = candidates.filter((field) => SUFFIXED.test(field) && usable(field));
-  if (suffixed.length === 1) return { field: suffixed[0], reason: 'suffix' };
+  if (suffixed.length === 1) return { field: /** @type {string} */ (suffixed[0]), reason: 'suffix' };
   if (suffixed.length > 1) return { field: null, reason: `ambiguous: ${suffixed.join(', ')}` };
   return { field: null, reason: `no name-like attribute (${[...fields].slice(0, 8).join(', ')})` };
 }
 
+/** @type {Array<{ id: string, field: string, reason: string }>} */
 const chosen = [];
+/** @type {Array<{ id: string, reason: string }>} */
 const skipped = [];
 let index = 0;
 for (const map of targets) {
   index += 1;
-  const layer = layerByMapId.get(map.id);
+  const layer = /** @type {RenderLayer} */ (layerByMapId.get(map.id));
   const localPath = `render/pmtiles/generated/${layer.id}.pmtiles`;
   let source = null;
   if (existsSync(localPath)) source = new FileSource(localPath);
@@ -174,7 +198,7 @@ for (const map of targets) {
     if (field) chosen.push({ id: map.id, field, reason });
     else skipped.push({ id: map.id, reason });
   } catch (error) {
-    skipped.push({ id: map.id, reason: `read failed: ${error.message}` });
+    skipped.push({ id: map.id, reason: `read failed: ${/** @type {Error} */ (error).message}` });
   }
   if (index % 10 === 0) console.error(`  ...${index}/${targets.length}`);
 }
@@ -188,7 +212,7 @@ for (const row of skipped) console.log(`  SKIP ${row.id.padEnd(52)} ${row.reason
 
 if (WRITE && chosen.length) {
   const byId = new Map((catalogue.maps || []).map((map) => [map.id, map]));
-  for (const row of chosen) byId.get(row.id).labelProperty = row.field;
+  for (const row of chosen) /** @type {CatalogueMap} */ (byId.get(row.id)).labelProperty = row.field;
   writeFileSync(CATALOGUE, `${JSON.stringify(catalogue, null, 2)}\n`);
 
   // Write the RENDER record too. The renderer reads that, not the catalogue, so a value
