@@ -59,7 +59,7 @@
       "status": "met",
       "note": "No old-path shim is left: the package move's 120 were removed on 8 Nov 2026 and rf10-gallery's five (the map views' old paths: legend-view, timeline-view, election-renderer, colours, specimens) on 19 Nov 2026 (w19-refactor-now, owner decision 7.2), every importer pointed at views/ and each old served address answering 301 (map-views.test).",
       "evidence": {
-        "tests": ["unit/packages.test.mjs", "unit/boundaries.test.mjs", "unit/served-pkg.test.mjs", "unit/map-served-paths.test.mjs", "unit/map-views.test.mjs"],
+        "tests": ["unit/packages.test.mjs", "unit/boundaries.test.mjs", "unit/served-pkg.test.mjs", "unit/map-served-paths.test.mjs", "unit/map-views.test.mjs", "unit/eslint-boundaries.test.mjs"],
         "npm": ["check:boundaries"],
         "asserts": ["boundaries-baseline-empty", "measure-zero:old-path-shims"]
       }
@@ -106,7 +106,7 @@
       "title": "Config: one module for origins, bindings, variables, paths and cache policies",
       "status": "met",
       "evidence": {
-        "tests": ["unit/config.test.mjs", "unit/config-check.test.mjs", "unit/config-adoption.test.mjs", "unit/pipeline-config-adoption.test.mjs", "unit/map-config.test.mjs"],
+        "tests": ["unit/config.test.mjs", "unit/config-check.test.mjs", "unit/config-adoption.test.mjs", "unit/pipeline-config-adoption.test.mjs", "unit/map-config.test.mjs", "unit/config-schema.test.mjs"],
         "asserts": ["architecture-baseline-empty:C5"]
       }
     },

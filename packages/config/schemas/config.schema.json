@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schemas/config/config.schema.json",
+  "title": "Civgraph's central configuration (packages/config, REFACTOR-PLAN.md item 7, P7)",
+  "description": "The declarative tables of @civgraph/config, as JSON: SITE, API (its constants; prefix() is a function), BINDINGS, RUNTIME_VARS and CACHE from src/config.js, BUILD_VARS and REPO_PATHS from src/node.mjs. tests/unit/config-schema.test.mjs builds this object from the modules and validates it with packages/registries/src/validate.mjs. Nothing reads this file at run time: the modules stay the configuration, and the schema says what shape they must keep. A new entry that fits the shape needs no change here; a new field or kind does.",
+  "type": "object",
+  "required": ["site", "api", "bindings", "runtimeVars", "cache", "buildVars", "repoPaths"],
+  "additionalProperties": false,
+  "properties": {
+    "site": {
+      "type": "object",
+      "description": "SITE: public origins and identity.",
+      "required": ["name", "origin", "dataOrigin", "userAgent"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "origin": { "$ref": "#/$defs/origin" },
+        "dataOrigin": { "$ref": "#/$defs/origin" },
+        "userAgent": { "type": "string", "minLength": 1, "description": "The User-Agent of requests to Civgraph's own services and the Wikimedia hosts." }
+      }
+    },
+    "api": {
+      "type": "object",
+      "description": "API: the versions of the public API and its legacy prefix.",
+      "required": ["current", "versions", "legacyPrefix"],
+      "additionalProperties": false,
+      "properties": {
+        "current": { "$ref": "#/$defs/apiVersion" },
+        "versions": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/apiVersion" } },
+        "legacyPrefix": { "type": "string", "pattern": "^/[a-z_]+$" }
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "description": "BINDINGS: every Pages binding a Function may read, by its name in env.",
+      "propertyNames": { "pattern": "^[A-Z][A-Z0-9_]*$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["kind", "environments", "purpose"],
+        "additionalProperties": false,
+        "properties": {
+          "kind": { "enum": ["d1", "kv", "r2", "assets"] },
+          "name": { "type": "string", "minLength": 1, "description": "The database or bucket name in wrangler.toml." },
+          "environments": { "type": "array", "uniqueItems": true, "items": { "enum": ["production", "preview"] } },
+          "optional": { "const": true, "description": "Read when present; answered 503 or a fallback when absent." },
+          "retiring": { "const": true, "description": "On its way out; may already be gone from wrangler.toml." },
+          "builtin": { "const": true, "description": "Provided by Pages, not declared in wrangler.toml." },
+          "purpose": { "$ref": "#/$defs/purpose" }
+        }
+      }
+    },
+    "runtimeVars": {
+      "type": "object",
+      "description": "RUNTIME_VARS: the environment variables the Functions read. Each is a secret (set with wrangler, never in the repository) or a flag.",
+      "propertyNames": { "pattern": "^CIVGRAPH_[A-Z0-9_]+$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["purpose"],
+        "additionalProperties": false,
+        "properties": {
+          "secret": { "const": true },
+          "flag": { "const": true },
+          "purpose": { "$ref": "#/$defs/purpose" }
+        },
+        "oneOf": [
+          { "required": ["secret"] },
+          { "required": ["flag"] }
+        ]
+      }
+    },
+    "cache": {
+      "type": "object",
+      "description": "CACHE: Cache-Control policies, by what is being served.",
+      "required": ["records", "loading", "lastGood", "redirect", "error"],
+      "propertyNames": { "pattern": "^[a-z][A-Za-z]*$" },
+      "additionalProperties": { "type": "string", "pattern": "^(no-store|public(, (max-age|stale-while-revalidate)=[0-9]+)+)$" }
+    },
+    "buildVars": {
+      "type": "object",
+      "description": "BUILD_VARS: the environment variables of the build, ingest and publish scripts. A secret has no default; any other has one ('' means unset).",
+      "propertyNames": { "pattern": "^[A-Z][A-Z0-9_]*$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["purpose"],
+        "additionalProperties": false,
+        "properties": {
+          "default": { "type": "string" },
+          "secret": { "const": true },
+          "purpose": { "$ref": "#/$defs/purpose" }
+        },
+        "oneOf": [
+          { "required": ["default"] },
+          { "required": ["secret"] }
+        ]
+      }
+    },
+    "repoPaths": {
+      "type": "object",
+      "description": "REPO_PATHS: fixed repository locations, relative to the repository root, with forward slashes.",
+      "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
+      "additionalProperties": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*\\\\)(?!.*(^|/)\\.\\.(/|$))[^:]+$" }
+    }
+  },
+  "$defs": {
+    "origin": { "type": "string", "pattern": "^https://[a-z0-9.-]+$", "description": "An https origin with no path or trailing slash." },
+    "apiVersion": { "type": "string", "pattern": "^v[1-9][0-9]*$" },
+    "purpose": { "type": "string", "minLength": 1 }
+  }
+}
