@@ -33,8 +33,8 @@
  */
 import { SITE as SITE_CONFIG } from '@civgraph/config/node';
 
-const SITE = process.env.VERIFY_SITE || SITE_CONFIG.origin;
-const ORIGIN = process.env.VERIFY_ORIGIN || 'https://boundaries-website.pages.dev';
+const SITE = process.env['VERIFY_SITE'] || SITE_CONFIG.origin;
+const ORIGIN = process.env['VERIFY_ORIGIN'] || 'https://boundaries-website.pages.dev';
 
 /**
  * One entry per proxied prefix. `cacheControl` is the signature the Function

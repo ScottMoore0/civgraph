@@ -24,7 +24,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..');
 const STATE = path.join(HERE, 'state');
 const portArg = process.argv.indexOf('--port');
-const PORT = Number(portArg > 0 ? process.argv[portArg + 1] : process.env.PORT || 8780);
+const PORT = Number(portArg > 0 ? process.argv[portArg + 1] : process.env['PORT'] || 8780);
 
 mkdirSync(STATE, { recursive: true });
 

@@ -59,12 +59,12 @@ const THUMBNAIL_UPLOAD_STATUSES = /** @type {readonly ThumbnailUploadStatus[]} *
 const SUPPORTED_EXTENSIONS = new Set(['.png', '.webp', '.jpg', '.jpeg', '.avif']);
 
 const args = parseArgs(process.argv.slice(2));
-const LOCAL_ROOT = path.resolve(ROOT, args.root || process.env.FEATURE_THUMBNAIL_RENDERED_ROOT || DEFAULT_ROOT);
+const LOCAL_ROOT = path.resolve(ROOT, args.root || process.env['FEATURE_THUMBNAIL_RENDERED_ROOT'] || DEFAULT_ROOT);
 const REPORT_PATH = path.resolve(ROOT, args.report || DEFAULT_REPORT);
-const BUCKET = args.bucket || process.env.R2_BUCKET || DEFAULT_BUCKET;
-const ACCOUNT_ID = args.accountId || process.env.CLOUDFLARE_ACCOUNT_ID || DEFAULT_ACCOUNT_ID;
-const KEY_PREFIX = String(args.prefix || process.env.FEATURE_THUMBNAIL_R2_PREFIX || 'data/thumbnails/features').replace(/^\/+|\/+$/g, '');
-const CONCURRENCY = Math.max(1, Number(args.concurrency || process.env.FEATURE_THUMBNAIL_UPLOAD_CONCURRENCY || 10));
+const BUCKET = args.bucket || process.env['R2_BUCKET'] || DEFAULT_BUCKET;
+const ACCOUNT_ID = args.accountId || process.env['CLOUDFLARE_ACCOUNT_ID'] || DEFAULT_ACCOUNT_ID;
+const KEY_PREFIX = String(args.prefix || process.env['FEATURE_THUMBNAIL_R2_PREFIX'] || 'data/thumbnails/features').replace(/^\/+|\/+$/g, '');
+const CONCURRENCY = Math.max(1, Number(args.concurrency || process.env['FEATURE_THUMBNAIL_UPLOAD_CONCURRENCY'] || 10));
 const DRY_RUN = Boolean(args.dryRun);
 const SKIP_CHECK = Boolean(args.skipCheck);
 const RESUME = !DRY_RUN && !args.noResume;
@@ -296,8 +296,8 @@ function contentTypeFor(file) {
 function readWranglerToken() {
   /** @type {Array<{ token?: string, source?: string, path?: string }>} */
   const candidates = [];
-  if (process.env.CLOUDFLARE_API_TOKEN) candidates.push({ token: process.env.CLOUDFLARE_API_TOKEN, source: 'CLOUDFLARE_API_TOKEN' });
-  const appData = process.env.APPDATA;
+  if (process.env['CLOUDFLARE_API_TOKEN']) candidates.push({ token: process.env['CLOUDFLARE_API_TOKEN'], source: 'CLOUDFLARE_API_TOKEN' });
+  const appData = process.env['APPDATA'];
   const home = os.homedir();
   if (appData) candidates.push({ path: path.join(appData, 'xdg.config', '.wrangler', 'config', 'default.toml') });
   if (home) candidates.push({ path: path.join(home, '.wrangler', 'config', 'default.toml') });

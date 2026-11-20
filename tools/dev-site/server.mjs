@@ -42,7 +42,7 @@ const ROOT = path.resolve(HERE, '..', '..');
  * @returns {string | T | undefined}   undefined when the flag is the last argument
  */
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : fallback; };
-const PORT = Number(arg('--port', process.env.PORT || 8790));
+const PORT = Number(arg('--port', process.env['PORT'] || 8790));
 const CATALOGUE = arg('--catalogue', 'next');
 
 /** @type {Record<string, string>} */

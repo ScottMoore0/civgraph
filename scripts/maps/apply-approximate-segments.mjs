@@ -34,12 +34,12 @@ let removed = 0;
 for (const map of doc.maps) {
   const wanted = patch[map.id]?.approximateSegments;
   if (wanted) {
-    if (JSON.stringify(map.approximateSegments) !== JSON.stringify(wanted)) {
-      map.approximateSegments = wanted;
+    if (JSON.stringify(map['approximateSegments']) !== JSON.stringify(wanted)) {
+      map['approximateSegments'] = wanted;
       set += 1;
     }
-  } else if (map.approximateSegments) {
-    delete map.approximateSegments;
+  } else if (map['approximateSegments']) {
+    delete map['approximateSegments'];
     removed += 1;
   }
 }

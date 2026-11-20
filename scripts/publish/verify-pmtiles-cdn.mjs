@@ -19,7 +19,7 @@ const ROOT = resolve(process.cwd());
 const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
 const REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
 const APPLY = process.argv.includes('--apply');
-const ORIGIN = process.env.TEST_CDN_VERIFY_ORIGIN || SITE.origin;
+const ORIGIN = process.env['TEST_CDN_VERIFY_ORIGIN'] || SITE.origin;
 assertKnownFlags(['--ids', '--apply']);
 const ONLY_IDS = new Set(readArgList('--ids'));
 

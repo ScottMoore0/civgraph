@@ -114,7 +114,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const sha = sha256(body);
     // null when the bucket has no such object (a 404); any other failure stops the run.
     const head = await store.head(o.key);
-    if (head && head.size === body.length && head.metadata?.sha256 === sha && head.cacheControl === o.cacheControl) { skipped += 1; continue; }
+    if (head && head.size === body.length && head.metadata?.['sha256'] === sha && head.cacheControl === o.cacheControl) { skipped += 1; continue; }
     await store.put(o.key, body, { contentType: o.contentType, cacheControl: o.cacheControl, metadata: { sha256: sha } });
     sent += 1;
     console.log(`  sent ${o.key} ${(body.length / 1048576).toFixed(2)} MiB`);

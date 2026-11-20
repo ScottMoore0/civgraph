@@ -67,7 +67,7 @@ async function proxy(req, res, upstream) {
   }
   /** @type {Record<string, string>} */
   const headers = { 'user-agent': USER_AGENT };
-  if (req.headers.range) headers.range = req.headers.range;
+  if (req.headers.range) headers['range'] = req.headers.range;
   try {
     const response = await fetch(upstream, { method: req.method, headers });
     /** @type {Record<string, string>} */

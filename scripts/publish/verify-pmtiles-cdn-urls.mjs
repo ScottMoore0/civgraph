@@ -7,8 +7,8 @@ const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test-index.json');
 const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
 const REPORT_PATH = resolve(ROOT, 'render/metadata/test2-cdn-validation-report.json');
-const NETWORK = process.argv.includes('--network') || process.env.TEST2_CDN_VALIDATE === '1';
-const MAX_NETWORK_CHECKS = Number(process.env.TEST2_CDN_MAX_CHECKS || 24);
+const NETWORK = process.argv.includes('--network') || process.env['TEST2_CDN_VALIDATE'] === '1';
+const MAX_NETWORK_CHECKS = Number(process.env['TEST2_CDN_MAX_CHECKS'] || 24);
 
 if (!existsSync(METADATA_PATH)) {
   console.error('render/metadata/maps-test-index.json is missing; run npm run build:test2:metadata');

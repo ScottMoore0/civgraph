@@ -53,10 +53,10 @@ const ROOT = resolve(process.cwd());
 const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
 const REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-upload-report.json');
 const RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
-const BUCKET = process.env.TEST_R2_BUCKET || 'boundaries-data';
+const BUCKET = process.env['TEST_R2_BUCKET'] || 'boundaries-data';
 const DRY_RUN = process.argv.includes('--dry-run');
 const ONLY_IDS = new Set([
-  ...(process.env.TEST_UPLOAD_LAYER_IDS || '').split(','),
+  ...(process.env['TEST_UPLOAD_LAYER_IDS'] || '').split(','),
   ...readArgList('--ids')
 ].map((value) => value.trim()).filter(Boolean));
 const PMTILES_HEADERS = Object.freeze({ contentType: 'application/octet-stream' });

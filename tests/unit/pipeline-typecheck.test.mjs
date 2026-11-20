@@ -93,6 +93,8 @@ test('the strict pipeline and tools configs keep full strict and noUnused* on', 
   }
   // noPropertyAccessFromIndexSignature in tsconfig.tools-browser.json since 20 Nov 2026 (stream w20-refactor); only add flags.
   assert.equal(JSON.parse(readFileSync(path.join(REPO_ROOT, 'config', 'tsconfig.tools-browser.json'), 'utf8')).compilerOptions.noPropertyAccessFromIndexSignature, true, 'tsconfig.tools-browser.json turned noPropertyAccessFromIndexSignature off');
+  // and in tsconfig.pipeline-strict.json since 20 Nov 2026 (stream w20-refactor2).
+  assert.equal(JSON.parse(readFileSync(path.join(REPO_ROOT, 'config', 'tsconfig.pipeline-strict.json'), 'utf8')).compilerOptions.noPropertyAccessFromIndexSignature, true, 'tsconfig.pipeline-strict.json turned noPropertyAccessFromIndexSignature off');
   const pkg = JSON.parse(readFileSync(path.join(REPO_ROOT, 'package.json'), 'utf8'));
   for (const name of STRICT_CONFIGS) assert.match(pkg.scripts['check:types:pipeline'], new RegExp(`config/${name.replaceAll('.', '\.')}`));
   assert.match(pkg.scripts.check, /npm run check:types:pipeline/);

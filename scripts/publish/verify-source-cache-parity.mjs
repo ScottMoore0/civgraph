@@ -103,7 +103,7 @@ const differentFormat = [];
 const relativePaths = [];
 for (const map of catalogue.maps || []) {
   if (ONLY.size && !ONLY.has(map.id)) continue;
-  const published = /** @type {string | undefined} */ (map.files?.fgb); // a URL or (8 entries) a repo-relative path
+  const published = /** @type {string | undefined} */ (map.files?.['fgb']); // a URL or (8 entries) a repo-relative path
   if (!published) continue;
   const local = sourceByMapId.get(map.id);
   if (!local) continue;
