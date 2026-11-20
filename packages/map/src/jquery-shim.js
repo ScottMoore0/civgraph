@@ -580,14 +580,25 @@
     /** @type {unknown} */
     let _preloadedElectionData = null;
 
-    /** @param {{ url?: string, success?: (data: unknown) => void }} opts */
+    /**
+     * @typedef {{ status: number, statusText: string }} AjaxFailure  what a failure handler is given
+     *   (the XHR itself when the fallback answered with an error status)
+     */
+
+    /**
+     * The call is synchronous, so it has settled before `.fail(fn)` is chained onto it: `.fail` runs
+     * `fn` at once when the call failed, as a settled jQuery Deferred does, and never when it
+     * succeeded. Until 20 Nov 2026 `.fail` ran `fn` whenever no data was preloaded, even when the
+     * XHR fallback had loaded the election, and never passed the fallback's own failure.
+     * @param {{ url?: string, success?: (data: unknown) => void }} opts
+     */
     $.ajax = function (opts) {
-        /** @type {{ fail: (fn: ((xhr: { status: number, statusText: string }) => void) | undefined) => unknown, _failFn?: (xhr: XMLHttpRequest) => void }} */
+        /** @type {AjaxFailure | null} */
+        let failure = null;
+        /** @type {{ fail: (fn: ((xhr: AjaxFailure) => void) | undefined) => unknown }} */
         const result = {
             fail: function (fn) {
-                if (!_preloadedElectionData && fn) {
-                    fn({ status: 0, statusText: 'No pre-loaded data' });
-                }
+                if (failure && fn) fn(failure);
                 return result;
             }
         };
@@ -595,22 +606,27 @@
         if (_preloadedElectionData) {
             if (opts.success) opts.success(_preloadedElectionData);
         } else {
-            // Fallback: actual fetch (async, despite stages2.js expecting sync)
+            // Fallback: a synchronous fetch, as stages2.js expects
             console.warn('[jquery-shim] No pre-loaded data; $.ajax fetch fallback');
             if (opts.url) {
                 const xhr = new XMLHttpRequest();
                 xhr.open('GET', opts.url, false); // synchronous to match stages2.js
+                let loaded = false;
                 try {
                     xhr.send();
                     if (xhr.status === 200) {
                         const data = JSON.parse(xhr.responseText);
+                        loaded = true;
                         if (opts.success) opts.success(data);
-                    } else if (result._failFn) {
-                        result._failFn(xhr);
+                    } else {
+                        failure = xhr;
                     }
                 } catch (e) {
                     console.error('[jquery-shim] XHR fallback failed', e);
+                    if (!loaded) failure = { status: xhr.status, statusText: e && typeof e === 'object' && 'message' in e ? String(e.message) : String(e) };
                 }
+            } else {
+                failure = { status: 0, statusText: 'No pre-loaded data' };
             }
         }
 
