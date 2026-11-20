@@ -248,6 +248,8 @@ export interface MapApp {
   traversal: ReturnType<typeof import('./url-sync.mjs').createTraversal>;
   /** The map whose details the catalogue pane shows, if it shows one. */
   currentDetailMapId: string | null;
+  /** The id the last details request named, before a part was resolved to its map (ui-wiring.js). */
+  requestedDetailId: string | null;
   /** The layer the source panel shows (sources.js), if it is open. */
   currentSourceMapId: string | null;
   /** The base map shown (controls.js applyBaseMap). */

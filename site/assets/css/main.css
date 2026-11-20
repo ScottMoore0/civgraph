@@ -1850,13 +1850,6 @@ button.catalogue-flat__toc-toplink {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.catalogue-detail__variant:hover {
-  border-color: var(--color-primary);
-  background: var(--color-primary-50);
 }
 
 /* Badges row */
@@ -7955,8 +7948,7 @@ a.visually-hidden:focus-visible {
   background: var(--map-bg-dark-19);
 }
 
-[data-theme="dark"] .catalogue-detail__attr-table-header:hover,
-[data-theme="dark"] .catalogue-detail__variant:hover {
+[data-theme="dark"] .catalogue-detail__attr-table-header:hover {
   background: var(--map-bg-dark-21);
 }
 
@@ -13787,8 +13779,7 @@ abbr.party-abbr {
     background: var(--map-bg-dark-19);
   }
 
-  :root:not([data-theme="light"]) .catalogue-detail__attr-table-header:hover,
-  :root:not([data-theme="light"]) .catalogue-detail__variant:hover {
+  :root:not([data-theme="light"]) .catalogue-detail__attr-table-header:hover {
     background: var(--map-bg-dark-21);
   }
 

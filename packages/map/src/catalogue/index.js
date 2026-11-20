@@ -308,6 +308,14 @@ export class CatalogueNext {
         this.seriesOfMap = new Map();
         for (const s of this.data.series) for (const m of [...s.members, ...(s.local || [])]) this.seriesOfMap.set(m.id, s.id);
         for (const s of this.data.series) for (const m of s.members) for (const p of [...(this.data.maps[m.id]?.parts || []), ...(this.data.maps[m.id]?.counties || [])]) if (!this.seriesOfMap.has(p.id)) this.seriesOfMap.set(p.id, s.id);
+        // Parts have no pages of their own: Details for one opens the map it is listed under
+        // (data-service.js detailPageId), and so does an address naming one that opened before now.
+        /** @type {Map<string, string>} */
+        const holders = new Map();
+        for (const s of this.data.series) for (const m of s.members) for (const p of [...(this.data.maps[m.id]?.parts || []), ...(this.data.maps[m.id]?.counties || [])]) if (!holders.has(p.id)) holders.set(p.id, m.id);
+        dataService.setPartHolders(holders);
+        const asked = app()?.requestedDetailId;
+        if (asked && app()?.currentDetailMapId && dataService.detailPageId(asked) !== app()?.currentDetailMapId) this.ui.showCatalogueDetailView?.(asked, false);
         this.electionByKey = new Map(this.data.elections.map((e) => [e.key, e]));
         /** @type {BooksDocument | null} */
         this.books = await books;

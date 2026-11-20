@@ -264,12 +264,14 @@ function mapActionsHtml(c, s, m) {
 
 /**
  * A map's own tools, each where it applies: Zoom (it has an extent), Download (it has files) and
- * Details (it has a page). Every map, version and part in a row has them beside its chip.
- * @param {CatalogueNext} c @param {string} id @param {string} label @param {{ small?: boolean }} [options]
+ * Details (it has a page). Every map, version and part in a row has them beside its chip, except
+ * that a part has no Details: parts have no pages of their own (Phelim Birch's review,
+ * owner-approved 20 Nov 2026; data-service.js detailPageId opens the map's page for one).
+ * @param {CatalogueNext} c @param {string} id @param {string} label @param {{ small?: boolean, details?: boolean }} [options]
  */
-export function mapToolsHtml(c, id, label, { small = false } = {}) {
+export function mapToolsHtml(c, id, label, { small = false, details = true } = {}) {
   const cls = `cn-iconbtn${small ? ' cn-iconbtn--sm' : ''}`;
-  return `${c.boundsOf(id) ? `<button type="button" class="${cls}" data-cn-act="zoom" data-map="${esc(id)}" aria-label="Zoom to ${esc(label)}" title="Zoom to">${icon('maximize')}</button>` : ''}${c.downloadsFor(id).length ? `<button type="button" class="${cls}" data-cn-act="downloads" data-map="${esc(id)}" aria-haspopup="menu" aria-expanded="false" aria-label="Download ${esc(label)}" title="Download">${icon('download')}</button>` : ''}${c.full(id) ? `<button type="button" class="${cls}" data-cn-act="details" data-map="${esc(id)}" aria-label="Details of ${esc(label)}" title="Details">${icon('info')}</button>` : ''}`;
+  return `${c.boundsOf(id) ? `<button type="button" class="${cls}" data-cn-act="zoom" data-map="${esc(id)}" aria-label="Zoom to ${esc(label)}" title="Zoom to">${icon('maximize')}</button>` : ''}${c.downloadsFor(id).length ? `<button type="button" class="${cls}" data-cn-act="downloads" data-map="${esc(id)}" aria-haspopup="menu" aria-expanded="false" aria-label="Download ${esc(label)}" title="Download">${icon('download')}</button>` : ''}${details && c.full(id) ? `<button type="button" class="${cls}" data-cn-act="details" data-map="${esc(id)}" aria-label="Details of ${esc(label)}" title="Details">${icon('info')}</button>` : ''}`;
 }
 
 /** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} m */
@@ -328,12 +330,14 @@ function todoChipHtml(c, m) {
  * @param {CatalogueNext} c
  * @param {CatalogueRow} s
  * @param {CatalogueRowMember} m
- * @param {{ hit?: unknown, out?: boolean, label?: string }} [options]  hit: whatever marks the chip a match, tested for truth
+ * @param {{ hit?: unknown, out?: boolean, label?: string, versions?: boolean }} [options]  hit: whatever marks the
+ *   chip a match, tested for truth; versions: false drops the "+N" that says the map has other
+ *   versions, inside the opened row, where they are listed (Phelim Birch's review, 20 Nov 2026)
  */
-export function chipHtml(c, s, m, { hit = false, out = false, label = m.label } = {}) {
+export function chipHtml(c, s, m, { hit = false, out = false, label = m.label, versions: countVersions = true } = {}) {
   const r = c.rec(m.id);
   const col = colourOf(c, s, m.id);
-  const versions = s.members.filter((x) => x.of === m.id).length;
+  const versions = countVersions ? s.members.filter((x) => x.of === m.id).length : 0;
   const tip = [[c.mapSummary(m.id), r.status === 'incomplete' ? 'incomplete' : ''].filter(Boolean).join(' · '), r.note].filter(Boolean).join('\n');
   if (r.status === 'placeholder') {
     return `<span class="cn-chip cn-chip--todo" title="${esc(tip)}: to be added, not yet on the map"><span class="cn-chip__dot" aria-hidden="true"></span><span class="cn-chip__label">${esc(label)}</span></span>`;
@@ -401,7 +405,7 @@ function datedListHtml(c, s, list, sel) {
     return `<li class="cn-dlist__item${open ? ' cn-dlist__item--open' : ''}" style="--c:${colourOf(c, s, m.id)}">
       <span class="cn-dlist__line">
         <span class="cn-dlist__when">${when && when !== m.label ? esc(when) : ''}</span>
-        <span class="cn-dlist__chip">${chipHtml(c, s, m)}</span>
+        <span class="cn-dlist__chip">${chipHtml(c, s, m, { versions: false })}</span>
         <span class="cn-dlist__acts">${todo ? '<span class="cn-badge cn-badge--todo">To be added</span>' : mapToolsHtml(c, m.id, label, { small: true })}<button type="button" class="cn-iconbtn cn-iconbtn--sm cn-dlist__more" data-cn-select="${esc(s.id)}|${esc(m.id)}" aria-expanded="${open}" aria-label="${esc(m.label)}: facts, versions and parts" title="Facts, versions and parts">${icon('chevron-down')}</button></span>
       </span>
       ${open ? `<div class="cn-ed">${editionHtml(c, s, sel)}</div>` : ''}
@@ -441,7 +445,7 @@ function versionsHtml(c, s, sel) {
     const label = m.of ? m.label : (m.version || `${m.label} (main)`);
     return `<li class="cn-vlist__item">${c.rec(m.id).status === 'placeholder'
       ? `<span class="cn-vlist__name">${esc(label)}</span><span class="cn-badge cn-badge--todo">To be added</span>`
-      : itemHtml(c, chipHtml(c, s, m, { label }), m.id, `${s.name}, ${label}`)}</li>`;
+      : itemHtml(c, chipHtml(c, s, m, { label, versions: false }), m.id, `${s.name}, ${label}`)}</li>`;
   }).join('')}</ul></div>`;
 }
 
@@ -472,23 +476,23 @@ function countiesHtml(c, s, sel, r) {
   const shown = c.moreParts.has(key) ? r.counties : r.counties.slice(0, 12);
   const col = colourOf(c, s, sel.id);
   return `<div class="cn-sub"><span class="cn-label">By county · ${r.counties.length}</span>
-    <div class="cn-chips">${shown.map((p) => itemHtml(c, `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${s.name}: County ${p.label}`)}" title="${esc(`County ${p.label}`)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`, p.id, `County ${p.label}`)).join('')}
+    <div class="cn-chips">${shown.map((p) => itemHtml(c, `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${s.name}: County ${p.label}`)}" title="${esc(`County ${p.label}`)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`, p.id, `County ${p.label}`, { part: true })).join('')}
     ${r.counties.length > shown.length ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more-parts="${esc(key)}">+${r.counties.length - shown.length} more</button>` : ''}</div></div>`;
 }
 
 /** A council map: its chip and tools. @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} m */
 function localItemHtml(c, s, m) {
   const label = `${s.name}, ${m.label}`;
-  return itemHtml(c, chipHtml(c, s, m), m.id, label);
+  return itemHtml(c, chipHtml(c, s, m, { versions: false }), m.id, label);
 }
 
 /**
  * One version, part, county map or council map: its chip, then its own Zoom, Download and Details,
- * each where it applies.
- * @param {CatalogueNext} c @param {string} chip @param {string} id @param {string} label
+ * each where it applies (a part or county map has no Details: mapToolsHtml).
+ * @param {CatalogueNext} c @param {string} chip @param {string} id @param {string} label @param {{ part?: boolean }} [options]
  */
-function itemHtml(c, chip, id, label) {
-  const tools = mapToolsHtml(c, id, label, { small: true });
+function itemHtml(c, chip, id, label, { part = false } = {}) {
+  const tools = mapToolsHtml(c, id, label, { small: true, details: !part });
   return tools ? `<span class="cn-item">${chip}${tools}</span>` : chip;
 }
 
@@ -499,7 +503,7 @@ function partsGroupHtml(c, s, sel, r) {
   const shown = all ? r.parts : r.parts.slice(0, 12);
   const col = colourOf(c, s, sel.id);
   return `<div class="cn-sub"><span class="cn-label">Parts · ${r.parts.length}</span>
-    <div class="cn-chips">${shown.map((p) => itemHtml(c, `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${r.name || sel.label}: ${p.label}`)}" title="${esc(p.label)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`, p.id, p.label)).join('')}
+    <div class="cn-chips">${shown.map((p) => itemHtml(c, `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${r.name || sel.label}: ${p.label}`)}" title="${esc(p.label)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`, p.id, p.label, { part: true })).join('')}
     ${r.parts.length > shown.length ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more-parts="${esc(sel.id)}">+${r.parts.length - shown.length} more</button>` : ''}</div>
     ${r.parts.length > 1 ? `<div><button type="button" class="cn-link" data-cn-act="add-parts" data-map="${esc(sel.id)}">Add all ${r.parts.length} parts</button></div>` : ''}</div>`;
 }

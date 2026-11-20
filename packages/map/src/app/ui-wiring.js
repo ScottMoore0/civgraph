@@ -269,12 +269,18 @@ export class UiWiringMethods {
     // person's page while the pane kept showing it). Reopening from the address passes
     // addToHistory false and makes no entry.
     const showDetail = uiController.showCatalogueDetailView.bind(uiController);
-    uiController.showCatalogueDetailView = (mapId, addToHistory = true) => {
+    uiController.showCatalogueDetailView = (partOrMapId, addToHistory = true) => {
+      // A part's page is its map's (data-service.js detailPageId), and so is the address it leaves.
+      const mapId = partOrMapId && dataService.detailPageId(partOrMapId);
       if (addToHistory && mapId !== this.currentDetailMapId) this.beginNavigation(`Details: ${this.mapLabel(mapId)}`);
       this.entityPageToken = (this.entityPageToken || 0) + 1;
       const result = showDetail(mapId, addToHistory);
       /** @type {string | null} */
       this.currentDetailMapId = mapId || null;
+      // The id asked for, so the catalogue can re-open a part's page under the map it lists the
+      // part under once its data arrives (catalogue/index.js).
+      /** @type {string | null} */
+      this.requestedDetailId = partOrMapId || null;
       /** @type {import('./map-app').MapApp['currentPage']} */
       this.currentPage = null;
       this.endNavigation();

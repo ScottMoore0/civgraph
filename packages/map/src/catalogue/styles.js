@@ -232,7 +232,13 @@ export const CATALOGUE_CSS = `
 .cn-chip--todo-toggle:hover { background: var(--cn-amber-bg); border-color: var(--cn-amber-ink); }
 .cn-chip--todo-toggle .cn-icon { width: 14px; height: 14px; }
 /* A part, county map or council map with its own small buttons. */
-.cn-item { display: inline-flex; align-items: center; gap: 2px; }
+.cn-item { display: inline-flex; align-items: center; gap: 2px; max-width: 100%; min-width: 0; }
+.cn-item > .cn-iconbtn { flex: none; }
+/* Inside the opened row a long name ("Cork, Dublin and Galway cities and islands (Paddy Matthews)")
+   wraps onto more lines, its buttons staying beside it, rather than running off the pane's edge
+   (Phelim Birch's review, 20 Nov 2026). The collapsed row's chips stay one line each (fitChips). */
+.cn-panel .cn-chip { flex: 0 1 auto; min-width: 0; white-space: normal; text-align: left; border-radius: 13px; }
+.cn-panel .cn-chip__label { overflow-wrap: anywhere; }
 .cn-iconbtn.cn-iconbtn--sm { width: 26px; height: 26px; min-width: 26px; }
 .cn-iconbtn--sm .cn-icon, .cn-iconbtn--sm svg { width: 14px; height: 14px; }
 .cn-shelf--bare { border: 0; }

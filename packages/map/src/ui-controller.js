@@ -457,6 +457,8 @@ class UIController {
 
     /** @param {string} mapId @param {boolean} [addToHistory] */
     showCatalogueDetailView(mapId, addToHistory = true) {
+        // A part of a map has no page of its own: its map's page opens (data-service.js detailPageId).
+        mapId = dataService.detailPageId(mapId);
         const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(mapId));
         if (!map) {
             console.warn('[UIController] Map not found:', mapId);
@@ -653,13 +655,8 @@ class UIController {
         if (nextCatalogue && this._catalogueNext?.bindDetailActions) this._catalogueNext.bindDetailActions(/** @type {HTMLElement | null} */ (detailView.querySelector('[data-cn-detail-actions]')));
         else this.bindMapActionStrip(detailView, map, { activeClassTarget: detailView, variantsHost: detailView });
 
-        // Variant click handlers
-        /** @type {NodeListOf<ViewElement>} */ (detailView.querySelectorAll('.catalogue-detail__variant')).forEach(el => {
-            el.addEventListener('click', () => {
-                const variantId = /** @type {HTMLElement} */ (el).dataset.mapId;
-                if (variantId) this.showCatalogueDetailView(variantId);
-            });
-        });
+        // The variants and members listed are the map's parts, which have no pages of their own
+        // (data-service.js detailPageId): they are listed, not linked.
 
         // Attribute table toggle
         const attrTableHeader = document.getElementById('catalogueAttrTableHeader');

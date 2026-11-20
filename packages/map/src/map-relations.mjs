@@ -67,3 +67,20 @@ export function compositeChildIds(mapConfig) {
 export function isComposite(mapConfig) {
   return compositeChildIds(mapConfig).length > 0;
 }
+
+/**
+ * The map a part belongs to: the first map listing `id` among its parts (compositeChildIds), or
+ * null when no map does. A part has no page of its own (Phelim Birch's review, owner-approved
+ * 20 Nov 2026), so a link or address naming one opens its map's page instead.
+ * A record's own `parentId` is not read: the hill lists carry one without being parts.
+ * @param {Iterable<MapRelations & { id?: string }> | null | undefined} maps
+ * @param {string | null | undefined} id
+ * @returns {string | null}
+ */
+export function partParentId(maps, id) {
+  if (!id || !maps) return null;
+  for (const map of maps) {
+    if (map?.id && map.id !== id && compositeChildIds(map).includes(id)) return map.id;
+  }
+  return null;
+}

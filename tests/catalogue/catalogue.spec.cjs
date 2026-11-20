@@ -1143,3 +1143,83 @@ test('N46 the section names are Places and Historic at every width', async ({ pa
   await expect(pane(page).locator('.cn-tab__short, .cn-tab__long')).toHaveCount(0);
   expect(await pane(page).locator('.cn-tab .cn-tab__label').allTextContents()).toEqual(['Boundaries', 'Places', 'Statistics', 'Historic', 'Elections']);
 });
+
+/* ------------------------------------------------------------------ Phelim Birch's review, 20 Nov 2026 */
+
+test('N47 "+N" (other versions) marks the collapsed row only, not the opened row\'s lists', async ({ page }) => {
+  await open(page);
+  const base = lgd.members.find((m) => lgd.members.some((x) => x.of === m.id));
+  const versions = lgd.members.filter((x) => x.of === base.id).length;
+  await expect(row(page, LGD).locator(`:scope > .cn-chips [data-cn-toggle="${base.id}"] .cn-chip__more`)).toHaveText(`+${versions}`);
+  await row(page, LGD).locator('[data-cn-expand]').click();
+  await pick(row(page, LGD), base.label).click();
+  await expect(row(page, LGD).locator('.cn-sub', { hasText: 'Versions' })).toBeVisible();
+  await expect(row(page, LGD).locator('.cn-panel .cn-chip__more')).toHaveCount(0);
+});
+
+test('N48 parts and county maps have no Details of their own; their Zoom and Download stay', async ({ page }) => {
+  await open(page);
+  const town = row(page, 'townlands-townlands');
+  await town.scrollIntoViewIfNeeded();
+  await town.locator('[data-cn-expand]').click();
+  const parts = town.locator('.cn-sub', { hasText: 'Parts' });
+  await expect(parts.locator('.cn-item')).toHaveCount(catalogue.maps['all-ireland-townlands'].parts.length);
+  await expect(parts.locator('[data-cn-act="details"]')).toHaveCount(0);
+  await expect(parts.locator('[data-cn-act="zoom"]').first()).toBeVisible();
+  await expect(parts.locator('[data-cn-act="downloads"]').first()).toBeVisible();
+  await expect(town.locator('.cn-sub', { hasText: 'By county' }).locator('[data-cn-act="details"]')).toHaveCount(0);
+  // The map itself keeps its Details.
+  await expect(town.locator('.cn-row__end [data-cn-act="details"]')).toHaveCount(1);
+});
+
+test('N49 an old address naming a part opens its map\'s details page', async ({ page }) => {
+  // The details page covers the list, so this waits for it, not for the list (open()).
+  await page.goto('/maps/#detail=townlands-cities-and-islands');
+  await expect(page.locator('#catalogueDetailView')).toBeVisible({ timeout: 45000 });
+  const parent = await page.evaluate(() => window.__civgraphTest2.app.currentDetailMapId);
+  expect(parent).toBe('all-ireland-townlands');
+  await expect.poll(() => page.evaluate(() => new URLSearchParams(location.hash.slice(1)).get('detail'))).toBe('all-ireland-townlands');
+  // A county map opens the map it is listed under in the catalogue.
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('cork-townlands'));
+  expect(await page.evaluate(() => window.__civgraphTest2.app.currentDetailMapId)).toBe('all-ireland-townlands');
+});
+
+for (const [name, viewport] of [['desktop', { width: 1280, height: 860 }], ['phone', { width: 375, height: 812 }]]) {
+  test(`N50 long names wrap in the opened row, their buttons in view (${name})`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    if (name === 'phone') {
+      // A phone opens on the map: the catalogue is a button away. Shelves open as in open().
+      await page.addInitScript((ids) => {
+        const KEY = 'civgraph.catalogueNext.v2';
+        if (!sessionStorage.getItem(KEY)) sessionStorage.setItem(KEY, JSON.stringify({ opened: ids }));
+      }, SHELF_IDS);
+      await page.goto('/maps/');
+      await page.getByRole('button', { name: 'Open the catalogue' }).click({ timeout: 45000 });
+      await expect(pane(page).locator('[data-cn-results]')).toBeVisible({ timeout: 45000 });
+    } else await open(page);
+    const town = row(page, 'townlands-townlands');
+    await town.scrollIntoViewIfNeeded();
+    await town.locator('[data-cn-expand]').click();
+    const item = town.locator('.cn-item', { has: page.locator('[data-cn-toggle="townlands-cities-and-islands"]') });
+    await expect(item).toBeVisible();
+    const fit = await item.evaluate((el) => {
+      const panel = /** @type {HTMLElement} */ (el.closest('.cn-panel')).getBoundingClientRect();
+      const chip = /** @type {HTMLElement} */ (el.querySelector('.cn-chip')).getBoundingClientRect();
+      const buttons = [...el.querySelectorAll('.cn-iconbtn')].map((b) => b.getBoundingClientRect());
+      return {
+        inside: [chip, ...buttons].every((r) => r.right <= panel.right + 0.5 && r.left >= panel.left - 0.5),
+        buttons: buttons.length,
+        centred: buttons.every((b) => Math.abs((b.top + b.bottom) / 2 - (chip.top + chip.bottom) / 2) < 2),
+        label: /** @type {HTMLElement} */ (el.querySelector('.cn-chip__label')).scrollWidth <= /** @type {HTMLElement} */ (el.querySelector('.cn-chip__label')).clientWidth + 1,
+      };
+    });
+    expect(fit).toEqual({ inside: true, buttons: 2, centred: true, label: true });
+    // Nothing in the pane runs past its right edge.
+    const over = await pane(page).evaluate((root) => {
+      const edge = root.getBoundingClientRect().right + 0.5;
+      return [...root.querySelectorAll('.cn-row__name, .cn-row__meta, .cn-row__credit, .cn-chip, .cn-iconbtn')]
+        .filter((e) => /** @type {HTMLElement} */ (e).offsetParent && e.getBoundingClientRect().right > edge).length;
+    });
+    expect(over).toBe(0);
+  });
+}

@@ -1,5 +1,5 @@
 import { debugLog } from './debug-log.js';
-import { compositeChildIds } from './map-relations.mjs';
+import { compositeChildIds, partParentId } from './map-relations.mjs';
 import { licenceFor } from './census-overlay.mjs';
 import { SHORT_MONTHS } from '../../core/src/date-format.mjs';
 import { MONTH_NAMES } from '../../core/src/format.js';
@@ -125,6 +125,8 @@ class DataService {
   constructor() {
     /** @type {CatalogueDocument | null} */
     this.maps = null;
+    /** The map each part is listed under in the catalogue (setPartHolders). @type {Map<string, string> | null} */
+    this.partHolders = null;
     /** @type {BooksDocument | null} */
     this.books = null;
     /** @type {GeographiesDocument | null} */
@@ -277,6 +279,29 @@ class DataService {
   getAllMaps() {
     const maps = this.maps?.maps || [];
     return maps.filter(m => !m.hidden);
+  }
+
+  /**
+   * The map each part (and county map) is listed under in the catalogue, which detailPageId
+   * prefers to the map that names it a part in maps.json (a county townland map is a part of the
+   * 1844 map but listed under Townlands). Set by the catalogue when its data arrives.
+   * @param {Map<string, string>} holders  part id -> map id
+   */
+  setPartHolders(holders) {
+    this.partHolders = holders;
+  }
+
+  /**
+   * The id whose page a map's Details opens: its own, or, for a part of a map, that map's (parts
+   * have no page of their own: Phelim Birch's review, owner-approved 20 Nov 2026). The map is the
+   * one the catalogue lists the part under, else the one naming it a part (map-relations.mjs
+   * partParentId).
+   * @param {string} id
+   * @returns {string}
+   */
+  detailPageId(id) {
+    const parent = this.partHolders?.get(id) || partParentId(this.maps?.maps || [], id);
+    return parent && parent !== id && this.getMapById(parent) ? parent : id;
   }
 
   /**

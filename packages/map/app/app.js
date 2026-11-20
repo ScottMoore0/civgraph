@@ -91,6 +91,9 @@ class Test2App {
     this.traversal = createTraversal();
     /** @type {string | null} */
     this.currentDetailMapId = null;
+    // The id the last details request named, before a part was resolved to its map (ui-wiring.js).
+    /** @type {string | null} */
+    this.requestedDetailId = null;
     // The party, person, constituency or feature page open in the catalogue pane, if any:
     // { kind, key, title, typeLabel }. In the address as page=kind:key (updateURLState).
     /** @type {MapApp['currentPage']} */

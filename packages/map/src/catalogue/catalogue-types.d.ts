@@ -227,6 +227,10 @@ export interface CatalogueApp {
     resolveLayer?(mapId: string): { bounds?: unknown } | null | undefined;
   } | null;
   updateURLState?(): void;
+  /** The map whose details page is open (a part's resolves to its map: data-service.js detailPageId). */
+  currentDetailMapId?: string | null;
+  /** The id the last details request named, before a part was resolved to its map. */
+  requestedDetailId?: string | null;
   dismissMobileCatalogueAfterLoad?(label: string): void;
   buildLayerShareUrl?(mapId: string): string;
   getLoadedLayerIds?(): string[];

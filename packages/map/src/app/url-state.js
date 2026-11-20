@@ -564,8 +564,9 @@ export class UrlStateMethods {
         this.restorePage(page, { initial: !options.sync });
       } else if (detailId && dataService.getMapById(detailId)) {
         uiController.showCatalogueDetailView(detailId, false);
+        // An old address naming a part opens its map's page (data-service.js detailPageId).
         /** @type {string | null} */
-        this.currentDetailMapId = detailId;
+        this.currentDetailMapId = dataService.detailPageId(detailId);
       } else if (!detailId && (this.currentDetailMapId || this.currentPage)) {
         uiController.showCatalogueListView(false);
       }
