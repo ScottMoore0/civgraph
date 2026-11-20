@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://civgraph.net/schemas/config/config.schema.json",
   "title": "Civgraph's central configuration (packages/config, REFACTOR-PLAN.md item 7, P7)",
-  "description": "The declarative tables of @civgraph/config, as JSON: SITE, API (its constants; prefix() is a function), BINDINGS, RUNTIME_VARS and CACHE from src/config.js, BUILD_VARS and REPO_PATHS from src/node.mjs. tests/unit/config-schema.test.mjs builds this object from the modules and validates it with packages/registries/src/validate.mjs. Nothing reads this file at run time: the modules stay the configuration, and the schema says what shape they must keep. A new entry that fits the shape needs no change here; a new field or kind does.",
+  "description": "The declarative tables of @civgraph/config, as JSON: SITE, API (its constants; prefix() is a function), BINDINGS, RUNTIME_VARS and CACHE from src/config.js, BUILD_VARS and REPO_PATHS from src/node.mjs. The config-schema unit test (config-schema.test.mjs) builds this object from the modules and validates it with packages/registries/src/validate.mjs. Nothing reads this file at run time: the modules stay the configuration, and the schema says what shape they must keep. A new entry that fits the shape needs no change here; a new field or kind does.",
   "type": "object",
   "required": ["site", "api", "bindings", "runtimeVars", "cache", "buildVars", "repoPaths"],
   "additionalProperties": false,

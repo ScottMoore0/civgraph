@@ -2,7 +2,7 @@
 // 20 Nov 2026): the eslint rule civgraph/boundaries gives check:boundaries' verdicts, eslint.config.mjs
 // turns it on, and on the repository as it stands it agrees with the gate (every tracked edge allowed).
 //
-//   node --test tests/unit/eslint-boundaries.test.mjs
+//   node --test this file (the eslint-boundaries unit test)
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import test from 'node:test';

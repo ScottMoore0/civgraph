@@ -3,7 +3,7 @@
 // JSON, validate against it, and the schema rejects the shapes it is there to stop. Nothing reads
 // the schema at run time.
 //
-//   node --test tests/unit/config-schema.test.mjs
+//   node --test this file (the config-schema unit test)
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';

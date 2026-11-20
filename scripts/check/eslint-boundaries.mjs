@@ -16,7 +16,7 @@
  * check:boundaries stays the gate (npm run check, CI): it also reads the JSDoc type import()s the
  * engine rule covers, which this rule does not see (they are comments to the parser).
  *
- *   tests/unit/eslint-boundaries.test.mjs holds it to check:boundaries' verdicts.
+ *   Its unit test (eslint-boundaries.test.mjs) holds it to check:boundaries' verdicts.
  */
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
