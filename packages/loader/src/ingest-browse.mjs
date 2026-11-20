@@ -42,12 +42,12 @@ const readDocument = (file, fallback) => /** @type {BrowseDocument | F} */ (read
  */
 function readIndex(file, paths) {
   const manifest = readDocument(file);
-  if (manifest.indexLayout !== 'sharded' || !Array.isArray(manifest.shards)) {
+  if (manifest['indexLayout'] !== 'sharded' || !Array.isArray(manifest['shards'])) {
     return { manifest, items: Array.isArray(manifest.items) ? manifest.items : [] };
   }
   /** @type {BrowseItem[]} */
   const items = [];
-  for (const shard of /** @type {{ url: string }[]} */ (manifest.shards)) {
+  for (const shard of /** @type {{ url: string }[]} */ (manifest['shards'])) {
     const shardFile = localPathForUrl(shard.url, paths);
     if (!shardFile || !existsSync(shardFile)) throw new Error(`shard missing on disk: ${shard.url}`);
     items.push(...(readDocument(shardFile).items || []));
@@ -140,27 +140,27 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
         const cols = cardColumns(ENTITIES.persons, item);
         cards.add({
           ...cols,
-          first_year: cols.first_year, last_year: cols.last_year,
+          first_year: cols['first_year'], last_year: cols['last_year'],
           ord, card: JSON.stringify(item),
         });
       });
-      out.person_cards = cards.finish();
+      out['person_cards'] = cards.finish();
       // Each party name a card lists, once per card: the party page's members (person_card_parties).
       const cardParties = new TableWriter(db, 'person_card_parties');
       for (const item of items) {
-        const names = new Set((Array.isArray(item.parties) ? item.parties : [])
+        const names = new Set((Array.isArray(item['parties']) ? item['parties'] : [])
           .map((party) => (party && typeof party === 'object' ? /** @type {{ name?: unknown }} */ (party).name : null))
           .filter((name) => typeof name === 'string' && name !== ''));
         for (const party of names) cardParties.add({ party, slug: item.slug });
       }
-      out.person_card_parties = cardParties.finish();
+      out['person_card_parties'] = cardParties.finish();
       const aliases = new TableWriter(db, 'person_aliases');
       const personAliases = aliasRows(items);
       // A person id merged away (person_id_merges.csv, person_id_confirmed_merges.csv) answers
       // with the person it was merged into, followed through chains of merges.
       const slugById = new Map(items.map((item) => [String(item.id), item.slug]));
       const taken = new Set([...items.map((item) => item.slug), ...items.map((item) => String(item.id)), ...personAliases.map((a) => a.alias)]);
-      const keepOf = new Map(db.prepare('SELECT drop_id, keep_id FROM person_merges ORDER BY drop_id').all().map((r) => /** @type {[string, string]} */ ([String(r.drop_id), String(r.keep_id)])));
+      const keepOf = new Map(db.prepare('SELECT drop_id, keep_id FROM person_merges ORDER BY drop_id').all().map((r) => /** @type {[string, string]} */ ([String(r['drop_id']), String(r['keep_id'])])));
       for (const drop of [...keepOf.keys()].sort()) {
         // Followed only while the id reached is not a live person: a merge row whose drop id
         // still holds a person (a temporary id a later rebuild gave back) must not carry the
@@ -174,9 +174,9 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
         }
       }
       for (const row of personAliases) aliases.add(row);
-      out.person_aliases = aliases.finish();
+      out['person_aliases'] = aliases.finish();
       const facets = readDocument(at('persons-facets.json'), null);
-      if (facets) new TableWriter(db, 'person_cards_facets').add({ id: 1, facets: JSON.stringify(facets.facets || {}) });
+      if (facets) new TableWriter(db, 'person_cards_facets').add({ id: 1, facets: JSON.stringify(facets['facets'] || {}) });
       doc('browse/persons.json', strip(manifest));
       if (facets) doc('browse/persons-facets.json', strip(facets));
     }
@@ -194,11 +194,11 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
         const detail = details.get(String(item.id));
         w.add({ ...cardColumns(ENTITIES['register-interests'], item), ord, card: JSON.stringify(item), detail: detail ? JSON.stringify(detail) : null });
       });
-      out.register_entries = w.finish();
+      out['register_entries'] = w.finish();
       new TableWriter(db, 'register_entries_facets').add({ id: 1, facets: JSON.stringify(facetOptions(ENTITIES['register-interests'], items)) });
       const aliases = new TableWriter(db, 'register_entries_aliases');
       for (const row of aliasRows(items)) aliases.add(row);
-      out.register_entries_aliases = aliases.finish();
+      out['register_entries_aliases'] = aliases.finish();
       doc('browse/register-interests.json', strip(manifest));
     }
 
@@ -219,17 +219,17 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
         const detail = detailFor(item);
         w.add({ ...cardColumns(ENTITIES.sources, item), ord, card: JSON.stringify(item), detail: detail ? JSON.stringify(detail) : null });
       });
-      out.sources = w.finish();
+      out['sources'] = w.finish();
       new TableWriter(db, 'sources_facets').add({ id: 1, facets: JSON.stringify(facetOptions(ENTITIES.sources, items)) });
       const aliases = new TableWriter(db, 'source_aliases');
       for (const row of aliasRows(items)) aliases.add(row);
-      out.source_aliases = aliases.finish();
+      out['source_aliases'] = aliases.finish();
       doc('browse/sources.json', strip(manifest));
       const merges = readDocument(at('source-merges.json'), null);
       if (merges) {
         const m = new TableWriter(db, 'source_merges');
         (merges.items || []).forEach((/** @type {unknown} */ item, /** @type {number} */ ord) => m.add({ ord, item: JSON.stringify(item) }));
-        out.source_merges = m.finish();
+        out['source_merges'] = m.finish();
         const { items: _i, ...head } = strip(merges);
         doc('browse/source-merges.json', head);
       }
@@ -250,12 +250,12 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
         const profile = readItem('party-profiles', item.slug);
         w.add({
           slug: item.slug, id: txt(item.id), title: txt(item.title), title_norm: String(item.title || '').toLowerCase(),
-          search_norm: searchText(item), occurrences: int(item.occurrenceCount), ord,
+          search_norm: searchText(item), occurrences: int(item['occurrenceCount']), ord,
           card: JSON.stringify(item), detail: detail ? JSON.stringify(detail.item ?? null) : null,
           profile: profile ? JSON.stringify(strip(profile)) : null,
         });
       });
-      out.party_cards = w.finish();
+      out['party_cards'] = w.finish();
       // A detail file under a slug no party has is a retired slug pointing at the party it now is.
       const aliases = new Map();
       for (const f of readdirSync(at('details', 'parties')).filter((x) => x.endsWith('.json')).sort()) {
@@ -269,14 +269,14 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       }
       const a = new TableWriter(db, 'party_aliases');
       for (const [alias, slug] of [...aliases].sort()) a.add({ alias, slug });
-      out.party_aliases = a.finish();
+      out['party_aliases'] = a.finish();
       const { items: _p, ...partiesHead } = strip(parties);
       doc('browse/parties.json', partiesHead);
 
       const names = /** @type {{ items?: Record<string, string>, [key: string]: unknown }} */ (readJson(at('party-names.json'), { items: {} }));
       const lm = new TableWriter(db, 'party_label_map');
       Object.entries(names.items || {}).forEach(([label, slug], ord) => lm.add({ label, party_slug: String(slug), ord }));
-      out.party_label_map = lm.finish();
+      out['party_label_map'] = lm.finish();
       const { items: _n, ...namesHead } = strip(names);
       doc('browse/party-names.json', namesHead);
       const folds = readDocument(at('party-label-folds.json'), null);
@@ -299,7 +299,7 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
             detail: detail ? JSON.stringify(detail.item ?? null) : null,
           });
         });
-        out.office_cards = w.finish();
+        out['office_cards'] = w.finish();
         const { items: _o, ...officesHead } = strip(offices);
         doc('browse/offices.json', officesHead);
       }
@@ -314,17 +314,17 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
       const listBySlug = new Map((list.items || []).map((item) => [item.slug, item]));
       const w = new TableWriter(db, 'election_cards');
       (full.items || []).forEach((item, ord) => {
-        const electionKey = item.entryKind === 'election' ? item.key : (item.parentElectionKey || null);
+        const electionKey = item['entryKind'] === 'election' ? item['key'] : (item['parentElectionKey'] || null);
         const title = item.title || '';
         w.add({
-          slug: item.slug, id: txt(item.id), key: txt(item.key), entry_kind: txt(item.entryKind),
+          slug: item.slug, id: txt(item.id), key: txt(item['key']), entry_kind: txt(item['entryKind']),
           election_key: txt(electionKey), title: txt(title), title_norm: String(title).toLowerCase(),
-          search_norm: searchText(item), body_slug: txt(item.bodySlug), body: txt(item.body), date: txt(item.date),
-          decade: txt(item.decade), kind: txt(item.kind), ord, card: JSON.stringify(item),
+          search_norm: searchText(item), body_slug: txt(item['bodySlug']), body: txt(item['body']), date: txt(item['date']),
+          decade: txt(item['decade']), kind: txt(item['kind']), ord, card: JSON.stringify(item),
           list_card: listBySlug.has(item.slug) ? JSON.stringify(listBySlug.get(item.slug)) : null,
         });
       });
-      out.election_cards = w.finish();
+      out['election_cards'] = w.finish();
       const { items: _e, ...fullHead } = strip(full);
       doc('browse/elections.json', fullHead);
       const { items: _l, ...listHead } = strip(list);
@@ -343,12 +343,12 @@ export function ingestBrowse(db, { browseDir, paths = recordPaths() }) {
         const contests = existsSync(path.join(contestDir, `${slug}.json`)) ? readDocument(path.join(contestDir, `${slug}.json`)) : null;
         d.add({
           slug,
-          election_key: txt(detail?.item?.key ?? contests?.items?.[0]?.parentElectionKey ?? null),
+          election_key: txt(detail?.item?.['key'] ?? contests?.items?.[0]?.['parentElectionKey'] ?? null),
           detail: detail ? JSON.stringify(detail.item ?? null) : null,
           contests: contests ? JSON.stringify(contests.items || []) : null,
         });
       }
-      out.election_details = d.finish();
+      out['election_details'] = d.finish();
     }
 
     // ---- small whole documents

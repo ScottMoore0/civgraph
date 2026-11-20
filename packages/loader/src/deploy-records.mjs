@@ -145,7 +145,7 @@ function writeParts(fromFile, collectKeys) {
 function datasetVersion(file) {
   const db = openSqliteHandle(file, { readOnly: true });
   try {
-    return String(db.prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.value ?? '');
+    return String(db.prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.['value'] ?? '');
   } catch {
     return '';
   } finally {

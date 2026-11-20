@@ -96,7 +96,7 @@ export const WRANGLER = (() => {
   const candidates = /** @type {string[]} */ ([
     buildVar('CIVGRAPH_WRANGLER_JS'),
     path.join(REPO_ROOT, 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
-    process.env.APPDATA && path.join(process.env.APPDATA, 'npm', 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
+    process.env['APPDATA'] && path.join(process.env['APPDATA'], 'npm', 'node_modules', 'wrangler', 'bin', 'wrangler.js'),
   ].filter(Boolean));
   const found = candidates.find((c) => existsSync(c));
   if (found) return found;
@@ -390,7 +390,7 @@ export function fullPlan(file) {
     label: `${t.name} (full scan)`,
     sql: tableChecksumSql(t),
     check: (rows) => compareLoad({ tables: { [t.name]: /** @type {{ n: number, s: number }} every hashed table is counted */ (local.tables[t.name]) }, schema: [] }, {
-      tables: Object.fromEntries(rows.map((r) => [r.t, { n: Number(r.n), s: Number(r.s) }])), schema: [],
+      tables: Object.fromEntries(rows.map((r) => [r['t'], { n: Number(r['n']), s: Number(r['s']) }])), schema: [],
     }).filter((m) => m.startsWith(`${t.name}:`)),
   }));
   steps.push({ label: 'schema', sql: SCHEMA_SQL, check: (rows) => compareSchema(local.schema, rows) });
@@ -416,7 +416,7 @@ export function sampleKeys(db, t, n) {
   const hi = Number(range.hi);
   const ids = [...new Set(Array.from({ length: n }, (_, i) => Math.round(lo + ((hi - lo) * i) / Math.max(1, n - 1))))];
   return db.prepare(`SELECT ${t.pk.join(', ')}, row_hash, ${bytesExpr(t)} AS bytes FROM ${t.name} WHERE rowid IN (${ids.join(', ')})`).all()
-    .map((r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: /** @type {string} */ (r.row_hash), bytes: Number(r.bytes) }));
+    .map((r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: /** @type {string} */ (r['row_hash']), bytes: Number(r['bytes']) }));
 }
 
 /**
@@ -516,7 +516,7 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
       sql: DATASET_SQL,
       rows: 100,
       check: (rows) => {
-        const remote = new Map(rows.map((r) => [r.key, r.value]));
+        const remote = new Map(rows.map((r) => [r['key'], r['value']]));
         /** @type {string[]} */
         const out = [];
         for (const r of dataset) {
@@ -560,7 +560,7 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
           check: (rows) => {
             /** @type {string[]} */
             const out = [];
-            const got = new Map(rows.map((r) => [keyOf(t.pk, r), r.row_hash]));
+            const got = new Map(rows.map((r) => [keyOf(t.pk, r), r['row_hash']]));
             for (const [k, hash] of expect) {
               if (hash === null && got.has(k)) out.push(`${t.name} ${k}: deleted locally, still in D1`);
               if (hash !== null && !got.has(k)) out.push(`${t.name} ${k}: missing in D1`);
@@ -570,18 +570,18 @@ export function boundedPlan({ file, since = null, sample = BOUNDS.sampleKeys, bo
           },
         });
       }
-      const n = recorded[t.name]?.n ?? Number(db.prepare(`SELECT COUNT(*) AS n FROM ${t.name}`).get()?.n);
+      const n = recorded[t.name]?.n ?? Number(db.prepare(`SELECT COUNT(*) AS n FROM ${t.name}`).get()?.['n']);
       if (n <= bounds.smallTableRows) {
-        const size = Number(db.prepare(`SELECT COALESCE(SUM(${bytesExpr(t)}), 0) AS b FROM (SELECT * FROM ${t.name} LIMIT ${bounds.smallTableRows + 1})`).get()?.b);
+        const size = Number(db.prepare(`SELECT COALESCE(SUM(${bytesExpr(t)}), 0) AS b FROM (SELECT * FROM ${t.name} LIMIT ${bounds.smallTableRows + 1})`).get()?.['b']);
         if (size <= bounds.smallTableBytes) {
-          const s = recorded[t.name]?.s ?? Number(db.prepare(`SELECT COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`).get()?.s);
+          const s = recorded[t.name]?.s ?? Number(db.prepare(`SELECT COALESCE(SUM(row_hash_n), 0) AS s FROM ${t.name}`).get()?.['s']);
           steps.push({
             label: `${t.name} count+checksum (LIMIT ${n + 1})`,
             sql: boundedChecksumSql(t, n + 1),
             rows: n + 1,
             check: (rows) => {
               const r = rows[0] || {};
-              return Number(r.n) === n && Number(r.s) === s ? [] : [`${t.name}: local ${n}/${s}, D1 ${r.n}/${r.s}`];
+              return Number(r['n']) === n && Number(r['s']) === s ? [] : [`${t.name}: local ${n}/${s}, D1 ${r['n']}/${r['s']}`];
             },
           });
         }

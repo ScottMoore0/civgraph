@@ -47,7 +47,7 @@ const same = (/** @type {unknown} */ a, /** @type {unknown} */ b) => JSON.string
  * The name a count row carries: the bundle's candidateName, else the source's Firstname and Surname.
  * @param {Count} row
  */
-const countRowName = (row) => String(row.candidateName || [row.Firstname, row.Surname].filter(Boolean).join(' ') || '');
+const countRowName = (row) => String(row['candidateName'] || [row['Firstname'], row['Surname']].filter(Boolean).join(' ') || '');
 
 /**
  * Which candidacy (its `ord` in the contest's candidates) each count row belongs to.
@@ -160,8 +160,8 @@ export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
         const anim = r.animationPayload;
         /** @type {Record<string, string>} */
         const markers = { candidates: '$candidacies' };
-        if ('animationPayload' in r && anim) markers.animationPayload = '$animation';
-        if ('countGroup' in r && anim && same(r.countGroup, /** @type {{ Constituency?: { countGroup?: unknown } }} */ (anim)?.Constituency?.countGroup)) markers.countGroup = '$animation.countGroup';
+        if ('animationPayload' in r && anim) markers['animationPayload'] = '$animation';
+        if ('countGroup' in r && anim && same(r.countGroup, /** @type {{ Constituency?: { countGroup?: unknown } }} */ (anim)?.Constituency?.countGroup)) markers['countGroup'] = '$animation.countGroup';
         else if ('countGroup' in r) stats.countGroupVerbatim += 1;
         W.contests.add({
           election_key: key,
@@ -218,11 +218,11 @@ export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
             candidate_id: txt(cand.id),
             person_id: txt(cand.personId),
             name: txt(cand.name),
-            name_as_printed: txt(cand.nameAsPrinted ?? printed?.Name_As_Printed ?? null),
-            party_as_printed: txt(cand.partyAsPrinted ?? printed?.Party_As_Printed ?? null),
+            name_as_printed: txt(cand.nameAsPrinted ?? printed?.['Name_As_Printed'] ?? null),
+            party_as_printed: txt(cand.partyAsPrinted ?? printed?.['Party_As_Printed'] ?? null),
             party_label: txt(cand.party),
             party_rule: int(cand.partyLabelRule),
-            party_id: txt(cand.partyId ?? cand.party_id),
+            party_id: txt(cand.partyId ?? cand['party_id']),
             ballot_description: txt(cand.ballotDescription),
             first_prefs: num(cand.firstPrefs),
             final_votes: num(cand.finalVotes),
@@ -257,7 +257,7 @@ export function ingestElections(db, { bundleDir, manifestFile, summaryDir }) {
     stats.manifestHead = head;
 
     for (const entry of manifestEntries) {
-      const url = String(entry.summaryUrl || '');
+      const url = String(entry['summaryUrl'] || '');
       if (!url) continue;
       const file = /** @type {string} */ (url.split('?')[0]).split('/').pop() ?? '';
       let text;

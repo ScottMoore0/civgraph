@@ -79,12 +79,12 @@ export const ENTITIES = {
     // prefix -- so it asks for "simon-harris" while the slug is "name-simon-harris".
     key: (item) => entityKey(item.name || item.title || item.slug),
     extra: {
-      first_year: (item) => num(item.firstYear),
-      last_year: (item) => num(item.lastYear),
+      first_year: (item) => num(item['firstYear']),
+      last_year: (item) => num(item['lastYear']),
       // Browse's People filters and sorts (functions/_api/persons). A multi-valued facet is
       // stored delimited, '|Dáil Éireann|Local Authorities of Ireland|', and matched with
       // LIKE '%|value|%', so a person who stood for two bodies is found under either.
-      bodies: (item) => delimited(item.bodies),
+      bodies: (item) => delimited(item['bodies']),
       decades: (item) => delimited((item.elections || []).map((row) => decadeOf(row.year))),
       elected: (item) => (Number(item.totals?.elected) > 0 ? 'yes' : 'no'),
       contests: (item) => num(item.totals?.stood ?? (item.elections || []).length),
@@ -99,31 +99,31 @@ export const ENTITIES = {
     key: (item) => entityKey(item.slug || item.id),
     extra: {
       member_name: (item) => text(item.memberName),
-      elected_body: (item) => text(item.electedBody),
-      category: (item) => text(item.category),
+      elected_body: (item) => text(item['electedBody']),
+      category: (item) => text(item['category']),
       // Only a date sorts as one: two entries carry the word "undated", which sorted above
       // every real date under Newest first. NULL goes last either way (_browse-index.js).
-      date: (item) => (/^\d{4}(-\d{2}){0,2}$/.test(String(item.date || '')) ? item.date : null),
+      date: (item) => (/^\d{4}(-\d{2}){0,2}$/.test(String(item['date'] || '')) ? item['date'] : null),
       // The six sort keys browse.js offers. Lifted into columns because ORDER BY cannot
       // reach into the JSON blob without a scan.
-      constituency: (item) => text(normaliseOne(item.constituencies || item.constituency)),
-      member_type: (item) => text(item.memberType),
-      chamber: (item) => text(item.chamber),
-      interest_count: (item) => num(item.interestCount),
-      source_count: (item) => num(item.sourceCount),
-      nil_status: (item) => (item.isNone === true ? 'nil-only'
-        : Number(item.nonNilInterestCount || 0) > 0 ? 'has-registrable' : 'includes-nil'),
+      constituency: (item) => text(normaliseOne(item['constituencies'] || item['constituency'])),
+      member_type: (item) => text(item['memberType']),
+      chamber: (item) => text(item['chamber']),
+      interest_count: (item) => num(item['interestCount']),
+      source_count: (item) => num(item['sourceCount']),
+      nil_status: (item) => (item['isNone'] === true ? 'nil-only'
+        : Number(item['nonNilInterestCount'] || 0) > 0 ? 'has-registrable' : 'includes-nil'),
     },
     // Facet dropdowns. browse.js builds these by scanning the item list for distinct
     // values, which server-side would mean a SELECT DISTINCT per facet per request.
     // Precomputed at import instead: the values only change when the index is rebuilt.
     facets: {
-      electedBody: (item) => [item.electedBody],
-      memberType: (item) => [item.memberType],
-      chamber: (item) => [item.chamber],
-      constituency: (item) => arr(item.constituencies || item.constituency),
-      categories: (item) => arr(item.categories || item.category),
-      sourceKinds: (item) => arr(item.sourceKinds || item.sourceKind),
+      electedBody: (item) => [item['electedBody']],
+      memberType: (item) => [item['memberType']],
+      chamber: (item) => [item['chamber']],
+      constituency: (item) => arr(item['constituencies'] || item['constituency']),
+      categories: (item) => arr(item['categories'] || item['category']),
+      sourceKinds: (item) => arr(item['sourceKinds'] || item['sourceKind']),
     },
   },
   sources: {
@@ -133,16 +133,16 @@ export const ENTITIES = {
     title: (item) => item.title,
     key: (item) => entityKey(item.slug || item.id),
     extra: {
-      provider: (item) => text(item.provider),
-      category: (item) => text(item.category),
-      publication_status: (item) => text(item.publicationStatus),
-      date: (item) => text(item.date),
+      provider: (item) => text(item['provider']),
+      category: (item) => text(item['category']),
+      publication_status: (item) => text(item['publicationStatus']),
+      date: (item) => text(item['date']),
       license: (item) => licenseLabel(item.license),
     },
     facets: {
-      provider: (item) => arr(item.provider),
-      category: (item) => [item.category],
-      publicationStatus: (item) => [item.publicationStatus],
+      provider: (item) => arr(item['provider']),
+      category: (item) => [item['category']],
+      publicationStatus: (item) => [item['publicationStatus']],
       // 79.4% of sources carry one. The gap is worth showing rather than hiding: an
       // unlicensed source is one that cannot be republished, which is a fact about the
       // catalogue, not a rendering problem.

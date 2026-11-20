@@ -75,8 +75,8 @@ export function readPersonMerges(root = REPO_ROOT) {
     const full = path.join(root, 'data', 'elections', 'persons', file);
     if (!existsSync(full)) continue;
     for (const row of parseCsv(readFileSync(full, 'utf8'))) {
-      if (!row.drop || seen.has(row.drop)) continue;
-      seen.add(row.drop);
+      if (!row['drop'] || seen.has(row['drop'])) continue;
+      seen.add(row['drop']);
       const { keep, drop, ...rest } = /** @type {{ keep: string, drop: string } & Record<string, string>} a merges row names both ids */ (row);
       rows.push({ drop, keep, confirmed, rest });
     }
@@ -106,7 +106,7 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
         candidacies: int(p.candidacies), ord, meta: JSON.stringify(p),
       });
     });
-    out.persons = persons.finish();
+    out['persons'] = persons.finish();
 
     const names = /** @type {NameRegistry} */ (readJson(at('persons', 'name_registry.json'), { names: [], attestations: [] }));
     const nameString = new Map((names.names || []).map((n) => [n.id, n.string]));
@@ -122,13 +122,13 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
         candidacies: int(a.candidacies), first_year: int(a.firstYear), last_year: int(a.lastYear),
       });
     }
-    out.person_names = pn.finish();
+    out['person_names'] = pn.finish();
 
     const merges = new TableWriter(db, 'person_merges');
     for (const { drop, keep, confirmed, rest } of readPersonMerges(root)) {
       merges.add({ drop_id: drop, keep_id: keep, confirmed, meta: JSON.stringify(rest) });
     }
-    out.person_merges = merges.finish();
+    out['person_merges'] = merges.finish();
 
     const facts = new TableWriter(db, 'person_facts');
     for (const [kind, file] of /** @type {[string, string][]} */ ([['office', 'reference-offices.json'], ['relation', 'reference-relations.json'], ['dates', 'reference-dates.json']])) {
@@ -139,7 +139,7 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
         entries.forEach((value, ord) => facts.add({ person_id: String(pid), kind, ord, value: JSON.stringify(value) }));
       }
     }
-    out.person_facts = facts.finish();
+    out['person_facts'] = facts.finish();
 
     const parties = /** @type {{ entities?: RegistryParty[] }} */ (readJson(at('parties', 'party_registry.json')));
     const pw = new TableWriter(db, 'parties');
@@ -163,8 +163,8 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
         bodies: x.bodies ? JSON.stringify(x.bodies) : null, meta: x.meta ? JSON.stringify(x.meta) : null,
       }));
     });
-    out.parties = pw.finish();
-    out.party_names = names2.finish();
+    out['parties'] = pw.finish();
+    out['party_names'] = names2.finish();
 
     const lineage = /** @type {{ events?: LineageEvent[] }} */ (readJson(at('parties', 'party-lineage.json'), { events: [] }));
     const ev = new TableWriter(db, 'party_events');
@@ -172,7 +172,7 @@ export function ingestRegistries(db, { root = REPO_ROOT } = {}) {
       ord, party_id: String(e.party || ''), date: txt(e.date), kind: txt(e.kind),
       related: e.related || e.into || e.from ? JSON.stringify(e.related ?? e.into ?? e.from) : null, meta: JSON.stringify(e),
     }));
-    out.party_events = ev.finish();
+    out['party_events'] = ev.finish();
     return out;
   });
 }

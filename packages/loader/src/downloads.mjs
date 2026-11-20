@@ -40,7 +40,7 @@ if (!existsSync(DB)) {
   process.exit(1);
 }
 mkdirSync(OUT, { recursive: true });
-const version = openSqliteHandle(DB, { readOnly: true }).prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.value || 'unversioned';
+const version = openSqliteHandle(DB, { readOnly: true }).prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.['value'] || 'unversioned';
 // Each download the export-formats registry holds, in its order (export-formats.mjs).
 const files = [];
 for (const format of EXPORT_FORMATS) {

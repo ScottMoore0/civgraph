@@ -69,7 +69,7 @@ const cmp = (/** @type {Key} */ a, /** @type {Key} */ b) => {
  */
 function columnsOf(db, schema, table) {
   try {
-    return new Set(db.prepare(`SELECT name FROM ${schema}.pragma_table_info('${table}')`).all().map((r) => r.name));
+    return new Set(db.prepare(`SELECT name FROM ${schema}.pragma_table_info('${table}')`).all().map((r) => r['name']));
   } catch {
     return new Set();
   }
@@ -215,7 +215,7 @@ export function stabiliseOrder(db, seedFile, { tables = STABLE_ORDER_TABLES, log
         const gv = /** @type {Key} */ (group.map((c) => r[c]));
         if (groupValues && cmp(gv, groupValues) !== 0) flush();
         groupValues = gv;
-        rows.push({ rid: /** @type {number} */ (r._rid), key: /** @type {SortKey} */ (sort.map((c) => r[c])), id: idOf(idCols.map((c) => r[c])) });
+        rows.push({ rid: /** @type {number} */ (r['_rid']), key: /** @type {SortKey} */ (sort.map((c) => r[c])), id: idOf(idCols.map((c) => r[c])) });
       }
       flush();
       applyKeys(db, /** @type {StableTable} */ (t), changes);

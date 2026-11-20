@@ -104,7 +104,7 @@ export function publishedText(doc) {
  * @param {Record<string, unknown>} contest
  */
 export function partOf(contest) {
-  const m = /^(\d{3})\d/.exec(String(contest.date ?? ''));
+  const m = /^(\d{3})\d/.exec(String(contest['date'] ?? ''));
   return m ? `${m[1]}0s` : UNDATED_PART;
 }
 

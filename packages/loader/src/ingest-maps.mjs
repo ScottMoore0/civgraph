@@ -139,12 +139,12 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
         ord, record: JSON.stringify(m),
       });
     });
-    counts.maps = maps.finish();
+    counts['maps'] = maps.finish();
     const parts = new TableWriter(db, 'catalogue_parts');
     Object.keys(catalogue).forEach((key, ord) => {
       if (key !== 'maps') parts.add({ key, ord, value: JSON.stringify(catalogue[key]) });
     });
-    counts.catalogue_parts = parts.finish();
+    counts['catalogue_parts'] = parts.finish();
 
     // ---- maps-test.json
     const render = /** @type {{ layers?: LayerEntry[], [key: string]: unknown }} */ (readJson(at(MAP_SOURCES.layers)));
@@ -161,15 +161,15 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
         record: JSON.stringify(layer), duplicates: duplicates ? JSON.stringify(duplicates) : null,
       });
     });
-    counts.layers = layers.finish();
+    counts['layers'] = layers.finish();
     const lparts = new TableWriter(db, 'layer_parts');
     Object.keys(render).forEach((key, ord) => {
       if (key !== 'layers') lparts.add({ key, ord, value: JSON.stringify(render[key]) });
     });
-    counts.layer_parts = lparts.finish();
+    counts['layer_parts'] = lparts.finish();
     const aliases = new TableWriter(db, 'layer_aliases');
     for (const row of layerAliasRows(ids)) aliases.add(row);
-    counts.layer_aliases = aliases.finish();
+    counts['layer_aliases'] = aliases.finish();
 
     // ---- whole documents, verbatim
     const dp = new TableWriter(db, 'document_parts');
@@ -185,7 +185,7 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
         splitParts(contests).forEach((body, part) => dp.add({ name: PANE_CONTESTS_DOCUMENT, part, body }));
       }
     }
-    counts.document_parts = dp.finish();
+    counts['document_parts'] = dp.finish();
 
     // ---- the Browse build's map list, map pages and feature groups
     if (browseDir && existsSync(path.join(browseDir, 'maps.json'))) {
@@ -197,21 +197,21 @@ export function ingestMaps(db, { root = REPO_ROOT, browseDir = null } = {}) {
         const detail = existsSync(file) ? /** @type {{ item?: unknown }} */ (readJson(file)).item ?? null : null;
         cards.add({ slug: String(item.slug), id: txt(item.id), title: txt(item.title), ord, card: JSON.stringify(item), detail: detail ? JSON.stringify(detail) : null });
       });
-      counts.map_cards = cards.finish();
+      counts['map_cards'] = cards.finish();
       const { items: _m, generatedAt: _g, ...head } = list;
       docs.push({ name: 'browse/maps.json', body: JSON.stringify(head) });
       // A detail file no card names (none today) would be unreachable: say so.
       if (existsSync(detailDir)) {
         const slugs = new Set((list.items || []).map((i) => i.slug));
         const orphans = readdirSync(detailDir).filter((f) => f.endsWith('.json') && !slugs.has(f.slice(0, -5)));
-        if (orphans.length) counts.map_details_without_card = orphans.length;
+        if (orphans.length) counts['map_details_without_card'] = orphans.length;
       }
     }
     if (browseDir && existsSync(path.join(browseDir, 'features.json'))) {
       const features = /** @type {{ items?: BrowseCard[], [key: string]: unknown }} */ (readJson(path.join(browseDir, 'features.json')));
       const fg = new TableWriter(db, 'feature_groups');
       (features.items || []).forEach((item, ord) => fg.add({ ord, id: txt(item.id), card: JSON.stringify(item) }));
-      counts.feature_groups = fg.finish();
+      counts['feature_groups'] = fg.finish();
       const { items: _f, generatedAt: _g, ...head } = features;
       docs.push({ name: 'browse/features.json', body: JSON.stringify(head) });
     }

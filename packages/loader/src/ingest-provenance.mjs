@@ -42,7 +42,7 @@ export function ingestProvenance(db, { provenanceFile, partDir, shardDir }) {
   /** @type {Map<string, Record<string, import('@civgraph/storage/node').SqliteValue>>} */
   const contestByFile = new Map();
   for (const row of db.prepare('SELECT election_key, seq, source_file FROM contests WHERE source_file IS NOT NULL ORDER BY election_key, seq').all()) {
-    const rel = String(row.source_file).startsWith(SOURCE_PREFIX) ? String(row.source_file).slice(SOURCE_PREFIX.length) : String(row.source_file);
+    const rel = String(row['source_file']).startsWith(SOURCE_PREFIX) ? String(row['source_file']).slice(SOURCE_PREFIX.length) : String(row['source_file']);
     if (!contestByFile.has(rel)) contestByFile.set(rel, row);
   }
   let unmatched = 0;
@@ -55,8 +55,8 @@ export function ingestProvenance(db, { provenanceFile, partDir, shardDir }) {
       if (!match) unmatched += 1;
       cp.add({
         source_file: contest.file,
-        election_key: match?.election_key ?? null,
-        contest_seq: match?.seq ?? null,
+        election_key: match?.['election_key'] ?? null,
+        contest_seq: match?.['seq'] ?? null,
         body: txt(contest.body), date: txt(contest.date), constituency: txt(contest.constituency),
         status: txt(contest.status), ord,
         record: JSON.stringify(withPlaceholders(contest, { sources: '$citations', legislation: '$legislation' })),

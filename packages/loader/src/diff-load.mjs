@@ -81,7 +81,7 @@ const BYTES_COLUMN = 'verify_bytes__';
 /** @param {TableSpec} t @param {Record<string, unknown>} r @returns {KeyRef} */
 const deletedRef = (t, r) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: null, bytes: 0 });
 /** @param {TableSpec} t @param {Record<string, unknown>} r @param {string} bytesColumn @returns {KeyRef} */
-const upsertedRef = (t, r, bytesColumn) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: /** @type {string} */ (r.row_hash), bytes: Number(r[bytesColumn]) });
+const upsertedRef = (t, r, bytesColumn) => ({ key: keyOf(t.pk, r), values: t.pk.map((c) => r[c]), hash: /** @type {string} */ (r['row_hash']), bytes: Number(r[bytesColumn]) });
 
 /** The deleted keys of a table: in the snapshot (`ft`), not in the build. */
 const goneSql = (/** @type {TableSpec} */ t, /** @type {string} */ ft) => {

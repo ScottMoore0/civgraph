@@ -95,7 +95,7 @@ export const EXPORT_FORMATS = Object.freeze([
       if (!shardDirs.length) return [];
       const archive = path.join(out, SHARD_ARCHIVE);
       // On Windows use the system's bsdtar: Git Bash's GNU tar reads "C:\..." as a remote host.
-      const winTar = process.platform === 'win32' ? path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'tar.exe') : '';
+      const winTar = process.platform === 'win32' ? path.join(process.env['SystemRoot'] || 'C:\\Windows', 'System32', 'tar.exe') : '';
       const tarBin = winTar && existsSync(winTar) ? winTar : 'tar';
       const tar = spawnSync(tarBin, ['-czf', archive, '-C', graphDir, ...shardDirs], { stdio: 'inherit' });
       if (tar.status !== 0) throw new ExportFailed('tar failed: the graph shard archive was not written');

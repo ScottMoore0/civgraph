@@ -231,7 +231,7 @@ export function boundsSql(tables, maxBytes = BOUNDS.statementBytes - 512, maxTer
  */
 export function scannedTables(db, sql) {
   return db.prepare(`EXPLAIN QUERY PLAN ${sql}`).all()
-    .map((r) => /^SCAN (\w+)/.exec(String(r.detail))?.[1])
+    .map((r) => /^SCAN (\w+)/.exec(String(r['detail']))?.[1])
     .filter((name) => typeof name === 'string' && DATA_TABLES.has(name));
 }
 
@@ -267,7 +267,7 @@ const bytesExpr = (/** @type {TableSpec} */ t) => t.columns.map((c) => `COALESCE
  */
 function datasetValue(db, key) {
   const row = db.prepare('SELECT value FROM dataset WHERE key = ?').get(key);
-  return row ? String(row.value) : '';
+  return row ? String(row['value']) : '';
 }
 
 /**
@@ -325,7 +325,7 @@ export function computePlan(file, { rangeRows = SAFE.rangeRows, rangeBytes = SAF
       for (const row of db.prepare(sql).iterate()) {
         firstRow ??= row;
         lastRow = row;
-        const b = bytesCounted ? Number(row.bytes__) : 0;
+        const b = bytesCounted ? Number(row['bytes__']) : 0;
         if (cur.rows > 0 && (cur.rows >= rangeRows || (bytesCounted && cur.bytes + b > rangeBytes))) {
           const key = t.pk.map((c) => keyValue(t.name, c, row[c]));
           close(key);
@@ -419,7 +419,7 @@ export class TouchedKeys {
   counts() {
     /** @type {Record<string, number>} */
     const out = {};
-    for (const t of this.inserts.keys()) out[t] = Number(this.db.prepare(`SELECT COUNT(*) AS n FROM "k_${t}"`).get()?.n);
+    for (const t of this.inserts.keys()) out[t] = Number(this.db.prepare(`SELECT COUNT(*) AS n FROM "k_${t}"`).get()?.['n']);
     for (const t of this.wholeTables) out[t] = -1;
     return out;
   }
@@ -951,7 +951,7 @@ export function safeVerify(o) {
     // 1. Cheap checks.
     const dataset = /** @type {{ key: string, value: string | null }[]} */ (local.prepare('SELECT key, value FROM dataset ORDER BY key').all());
     const dRows = send(DATASET_SQL, 101, null, true);
-    const remote = new Map(dRows.map((r) => [String(r.key), r.value]));
+    const remote = new Map(dRows.map((r) => [String(r['key']), r['value']]));
     if (datasetLoadState(remote.get(LOADING_KEY)) === 'loading') {
       report.outcome = 'REFUSED';
       report.stop = `D1's dataset says a load is in progress (loading = '${remote.get(LOADING_KEY)}'): verify after it finishes`;
@@ -967,9 +967,9 @@ export function safeVerify(o) {
     const names = new Set(localSchema.map((r) => r.name));
     const lh = schemaHash(localSchema);
     const rh = schemaHash(sRows, /** @type {Set<unknown>} */ (names));
-    const remoteSchema = new Map(sRows.map((r) => [r.name, norm(r.sql)]));
+    const remoteSchema = new Map(sRows.map((r) => [r['name'], norm(r['sql'])]));
     const schemaDiffs = localSchema.filter((r) => remoteSchema.get(r.name) !== norm(r.sql)).map((r) => `schema ${r.name} differs or is missing in D1`);
-    const extra = sRows.filter((r) => !names.has(String(r.name))).map((r) => String(r.name));
+    const extra = sRows.filter((r) => !names.has(String(r['name']))).map((r) => String(r['name']));
     report.mismatches.push(...schemaDiffs);
     report.cheap.push(`schema: ${schemaDiffs.length ? 'DIFFERS' : 'ok'} (hash local ${lh}, D1 ${rh}; ${localSchema.length} tables and indexes${extra.length ? `; D1 also has ${extra.length} more: ${extra.slice(0, 5).join(', ')}` : ''})`);
     if (!report.mismatches.length) {
@@ -979,8 +979,8 @@ export function safeVerify(o) {
       for (const b of boundsSql(plan.tables)) {
         for (const row of send(b.sql, 2 * b.tables.length + 1, null, true)) {
           checked += 1;
-          if (Number(row.below)) outside.push(`${row.t}: D1 has rows below the build's first key`);
-          if (Number(row.above)) outside.push(`${row.t}: D1 has rows above the build's last key`);
+          if (Number(row['below'])) outside.push(`${row['t']}: D1 has rows below the build's first key`);
+          if (Number(row['above'])) outside.push(`${row['t']}: D1 has rows above the build's last key`);
         }
       }
       if (checked !== plan.tables.filter((t) => t.first).length) outside.push(`bounds: ${checked} tables answered, ${plan.tables.filter((t) => t.first).length} asked`);
@@ -1003,23 +1003,23 @@ export function safeVerify(o) {
       const exp = /** @type {{ n: number, s: number }} */ (local.prepare(sql).get());
       const before = report.rowsRead;
       const got = send(sql, rangeCost(r), whole)[0] || {};
-      const ok = Number(got.n) === Number(exp.n) && Number(got.s) === Number(exp.s);
+      const ok = Number(got['n']) === Number(exp.n) && Number(got['s']) === Number(exp.s);
       /** @type {RangeResult} */
       const res = {
-        ok, n: got.n === undefined ? null : Number(got.n), s: got.s === undefined ? null : Number(got.s),
+        ok, n: got['n'] === undefined ? null : Number(got['n']), s: got['s'] === undefined ? null : Number(got['s']),
         ln: Number(exp.n), ls: Number(exp.s), rowsRead: report.rowsRead - before, at: new Date().toISOString(),
       };
       st.results[p.id] = res;
       log(`  ${ok ? 'ok  ' : 'FAIL'} ${r.id} [${p.reason}] ${r.rows} rows, ${res.rowsRead} read`);
       if (!ok) {
-        report.mismatches.push(`${r.id}: local ${exp.n} rows / ${exp.s}, D1 ${got.n} / ${got.s}`);
+        report.mismatches.push(`${r.id}: local ${exp.n} rows / ${exp.s}, D1 ${got['n']} / ${got['s']}`);
         const keysSql = rangeKeysSql(t, r);
         const cost = r.rows + SAFE.drillExtraRows;
         if (drills < (o.drill ?? SAFE.drill) && cost <= SAFE.drillMaxRows && report.rowsRead + cost <= budget) {
           drills += 1;
           const keyOf = (/** @type {Record<string, unknown>} */ row) => JSON.stringify(t.pk.map((c) => row[c] ?? null));
-          const want = new Map(local.prepare(keysSql).all().map((x) => [keyOf(x), String(x.row_hash)]));
-          const have = new Map(send(keysSql, cost, whole).map((x) => [keyOf(x), String(x.row_hash)]));
+          const want = new Map(local.prepare(keysSql).all().map((x) => [keyOf(x), String(x['row_hash'])]));
+          const have = new Map(send(keysSql, cost, whole).map((x) => [keyOf(x), String(x['row_hash'])]));
           /** @type {string[]} */
           const detail = [];
           for (const [k, h] of want) {

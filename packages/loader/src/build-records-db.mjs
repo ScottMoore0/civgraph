@@ -276,7 +276,7 @@ function main() {
   if (seed) {
     try {
       const s = openSqliteHandle(seed, { readOnly: true });
-      seedVersion = /** @type {string} */ (s.prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.value || '');
+      seedVersion = /** @type {string} */ (s.prepare("SELECT value FROM dataset WHERE key = 'version'").get()?.['value'] || '');
       s.close();
     } catch { /* a seed without a dataset table still seeds */ }
     console.log(`  stable order: seeded from ${rel(seed)}${seedVersion ? ` (${seedVersion})` : ''}`);
