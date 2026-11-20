@@ -54,7 +54,8 @@ const MANUAL_ALIAS_TARGETS = new Map([
  *   opacity?: number, variants?: Rec[], compositeSources?: string[], keywords?: unknown[] | undefined, references?: unknown[] | undefined,
  *   sourceDownloads?: Download[] | undefined, sourceCredits?: string[] | undefined, sourceFiles?: Array<{ file?: string }>,
  *   popupProperties?: unknown[], loadable?: boolean, generatedFrom?: { pipeline?: string, [field: string]: unknown },
- *   labelStyle?: { color?: string | undefined, [field: string]: unknown }, [field: string]: unknown }} Rec
+ *   labelStyle?: { color?: string | undefined, [field: string]: unknown }, tilePackage?: unknown, warning?: string,
+ *   [field: string]: unknown }} Rec
  */
 /** @typedef {{ sourceMapId: string, sourceFile: string, outputDirectory: string, sourceLayer?: string, bytes?: number, files?: number, pbfFiles?: number, maxTileBytes?: number }} Converted */
 /** @typedef {{ id?: string | undefined, name?: string | null | undefined, group?: string | null | undefined, description?: string | undefined }} Category */

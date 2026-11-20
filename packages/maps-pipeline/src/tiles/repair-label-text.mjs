@@ -107,7 +107,7 @@ async function repairFile(path, plans) {
   run('ogr2ogr', ['-f', 'GPKG', gpkg, path, '-nln', 'features', '-lco', 'SPATIAL_INDEX=NO']);
 
   const db = openSqliteHandle(gpkg);
-  const pk = db.prepare("SELECT name FROM pragma_table_info('features') WHERE pk = 1").get()?.name || 'fid';
+  const pk = db.prepare("SELECT name FROM pragma_table_info('features') WHERE pk = 1").get()?.['name'] || 'fid';
   db.exec('BEGIN');
   let updated = 0;
   for (const [index, fields] of changes) {

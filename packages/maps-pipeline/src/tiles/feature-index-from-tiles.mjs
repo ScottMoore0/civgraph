@@ -127,15 +127,15 @@ for (const layer of targets) {
   const [header, ...rows] = /** @type {[string[], ...string[][]]} */ (parseCsv(result.stdout));
   const items = rows.map((row) => Object.fromEntries(header.map((key, i) => [key, row[i]]))).map((props) => {
     const aliases = names.map((key) => String(props[key] ?? '').trim()).filter(Boolean);
-    const lon = Number(props.lon);
-    const lat = Number(props.lat);
-    const areaM2 = Number(props.area_m2);
-    const perimeterM = Number(props.perimeter_m);
+    const lon = Number(props['lon']);
+    const lat = Number(props['lat']);
+    const areaM2 = Number(props['area_m2']);
+    const perimeterM = Number(props['perimeter_m']);
     return {
-      id: Number(props.civ_fid),
+      id: Number(props['civ_fid']),
       name: aliases[0],
       aliases,
-      center: Number.isFinite(lon) && Number.isFinite(lat) && props.lon !== '' ? [Number(lon.toFixed(6)), Number(lat.toFixed(6))] : null,
+      center: Number.isFinite(lon) && Number.isFinite(lat) && props['lon'] !== '' ? [Number(lon.toFixed(6)), Number(lat.toFixed(6))] : null,
       ...(areaM2 > 0 ? { areaM2: Math.round(areaM2) } : {}),
       ...(perimeterM > 0 ? { perimeterM: Math.round(perimeterM) } : {})
     };

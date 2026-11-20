@@ -7,10 +7,10 @@ const MAPS_PATH = path.join(ROOT, 'data/database/maps.json');
 const OUT_DIR = path.join(ROOT, 'data/database/feature-thumbnails');
 const MANIFEST_PATH = path.join(OUT_DIR, '_manifest.json');
 const DEFAULT_RENDERED_ROOT = path.join(ROOT, 'site/assets/thumbnails/features');
-const RENDERED_ROOT = path.resolve(ROOT, process.env.FEATURE_THUMBNAIL_RENDERED_ROOT || DEFAULT_RENDERED_ROOT);
-const PUBLIC_BASE = normalisePublicBase(process.env.FEATURE_THUMBNAIL_PUBLIC_BASE || 'assets/thumbnails/features');
-const RENDERED_REGISTRY_PATH = process.env.FEATURE_THUMBNAIL_RENDERED_REGISTRY
-  ? path.resolve(ROOT, process.env.FEATURE_THUMBNAIL_RENDERED_REGISTRY)
+const RENDERED_ROOT = path.resolve(ROOT, process.env['FEATURE_THUMBNAIL_RENDERED_ROOT'] || DEFAULT_RENDERED_ROOT);
+const PUBLIC_BASE = normalisePublicBase(process.env['FEATURE_THUMBNAIL_PUBLIC_BASE'] || 'assets/thumbnails/features');
+const RENDERED_REGISTRY_PATH = process.env['FEATURE_THUMBNAIL_RENDERED_REGISTRY']
+  ? path.resolve(ROOT, process.env['FEATURE_THUMBNAIL_RENDERED_REGISTRY'])
   : path.join(OUT_DIR, 'rendered-assets.json');
 const SUPPORTED_EXTENSIONS = new Set(['webp', 'png', 'jpg', 'jpeg', 'avif']);
 

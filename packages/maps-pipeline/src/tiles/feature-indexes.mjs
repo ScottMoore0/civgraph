@@ -107,12 +107,12 @@ for (const layer of layers) {
       const name = nameProperties
         .map((key) => cleanIndexValue(repairedProps[key]))
         .find(Boolean) || fallbackFeatureName(layer, repairedProps, index);
-      const lon = Number(props.lon);
-      const lat = Number(props.lat);
-      const areaM2 = props.area_m2 === '' ? NaN : Number(props.area_m2);
-      const perimeterM = props.perimeter_m === '' ? NaN : Number(props.perimeter_m);
+      const lon = Number(props['lon']);
+      const lat = Number(props['lat']);
+      const areaM2 = props['area_m2'] === '' ? NaN : Number(props['area_m2']);
+      const perimeterM = props['perimeter_m'] === '' ? NaN : Number(props['perimeter_m']);
       return {
-        id: fidId ? Number(props.civ_fid) : (cleanIndexValue(repairedProps[effectiveIdProperty]) || `${layer.id}-${index}`),
+        id: fidId ? Number(props['civ_fid']) : (cleanIndexValue(repairedProps[effectiveIdProperty]) || `${layer.id}-${index}`),
         name,
         aliases: nameProperties.map((key) => cleanIndexValue(repairedProps[key])).filter(Boolean),
         center: Number.isFinite(lon) && Number.isFinite(lat) ? [Number(lon.toFixed(6)), Number(lat.toFixed(6))] : null,
@@ -202,8 +202,8 @@ function featureRepairProperties(layer) {
 /** @param {Layer} layer @param {Props} props @param {number} index */
 function fallbackFeatureName(layer, props, index) {
   if (layer.sourceMapId === 'dcc-dcc-public-cycle-parking-stands') {
-    const lon = Number(props.lon);
-    const lat = Number(props.lat);
+    const lon = Number(props['lon']);
+    const lat = Number(props['lat']);
     const suffix = Number.isFinite(lon) && Number.isFinite(lat)
       ? ` (${lat.toFixed(5)}, ${lon.toFixed(5)})`
       : '';
@@ -229,16 +229,16 @@ function repairFeatureIndexProperties(layer, props = {}) {
   return {
     ...props,
     NAME: repairedName,
-    name: props.name || repairedName,
-    label_name: props.label_name || repairedName
+    name: props['name'] || repairedName,
+    label_name: props['label_name'] || repairedName
   };
 }
 
 /** @param {Props} [props] */
 function deas1972RepairedName(props = {}) {
-  if (isBlank(props.NAME) && nearly(props.Area_SqKM, 13.1719213882566)) return 'ARMAGH AREA D';
-  if (String(props.OBJECTID ?? '').trim() === '1624' && normalizeText(props.NAME) === 'DUNGANNON AREA D') return 'DUNGANNON AREA C';
-  if (isBlank(props.NAME) && nearly(props.Area_SqKM, 8.44105398081151)) return 'LIMAVADY AREA C';
+  if (isBlank(props['NAME']) && nearly(props['Area_SqKM'], 13.1719213882566)) return 'ARMAGH AREA D';
+  if (String(props['OBJECTID'] ?? '').trim() === '1624' && normalizeText(props['NAME']) === 'DUNGANNON AREA D') return 'DUNGANNON AREA C';
+  if (isBlank(props['NAME']) && nearly(props['Area_SqKM'], 8.44105398081151)) return 'LIMAVADY AREA C';
   return '';
 }
 

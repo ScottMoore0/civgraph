@@ -105,8 +105,8 @@ function parseArgs(argv) {
     all: false,
     force: false,
     limit: Infinity,
-    output: process.env.FEATURE_THUMBNAIL_RENDERED_ROOT || DEFAULT_OUTPUT_ROOT,
-    format: process.env.FEATURE_THUMBNAIL_FORMAT || 'png',
+    output: process.env['FEATURE_THUMBNAIL_RENDERED_ROOT'] || DEFAULT_OUTPUT_ROOT,
+    format: process.env['FEATURE_THUMBNAIL_FORMAT'] || 'png',
     registry: null
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -704,7 +704,7 @@ async function main() {
   const registry = {
     schemaVersion: 1,
     generated: report.generated,
-    publicBase: process.env.FEATURE_THUMBNAIL_PUBLIC_BASE || `${SITE.dataOrigin}/data/thumbnails/features`,
+    publicBase: process.env['FEATURE_THUMBNAIL_PUBLIC_BASE'] || `${SITE.dataOrigin}/data/thumbnails/features`,
     extension,
     /** @type {Record<string, { renderedAssetIds: string[], renderedAssetExtension: string }>} */
     maps: {}
