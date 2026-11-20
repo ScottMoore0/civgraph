@@ -1,4 +1,5 @@
 import globals from 'globals';
+import { plugin as boundaries } from './scripts/check/eslint-boundaries.mjs';
 
 // Deliberately minimal. This gate exists to catch typos and dead bindings —
 // the two classes of bug a bundler will happily ship. Everything is a WARNING
@@ -108,5 +109,14 @@ export default [
         message: "A view's listener must end with the view: pass { signal: ctx.signal } (site/apps/elections/lib/lifecycle.js).",
       }],
     },
+  },
+  // The package import rules in the editor (20 Nov 2026, stream w20-refactor2): civgraph/boundaries
+  // gives check:boundaries' verdict on each import as it is written, read from config/boundaries.json
+  // through scripts/check/boundaries.mjs, so it never drifts from the gate. An ERROR, as the gate is;
+  // it finds nothing while check:boundaries passes. Files in no unit are not looked at.
+  {
+    files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
+    plugins: { civgraph: boundaries },
+    rules: { 'civgraph/boundaries': 'error' },
   },
 ];

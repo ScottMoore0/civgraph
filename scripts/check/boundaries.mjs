@@ -56,6 +56,9 @@ export function allowed(from, to) {
   return allow.includes('*') || allow.includes(to);
 }
 
+/** Whether the import rules leave a path out (vendored, minified, build output). @param {string} rel */
+export const skipped = (rel) => SKIP.test(rel);
+
 /** The tracked scripts the import rules read (vendored, minified and build output left out). */
 export function trackedScripts() {
   return execFileSync('git', ['ls-files', '-z', '*.js', '*.mjs', '*.cjs'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 1 << 26 })
@@ -142,28 +145,57 @@ export function engineEdges() {
   return out;
 }
 
+/**
+ * @typedef {object} Edge
+ * @property {string} file     the importing file (repository-relative)
+ * @property {string} target   the file the specifier resolves to, or the specifier (node:*, unresolved)
+ * @property {string} from     the importing unit
+ * @property {string | null} to  the target's unit ('node:*', 'unresolved', or null for a file in no unit)
+ * @property {boolean} ok
+ */
+
+/**
+ * The edge one import specifier of a file makes, or null when the rules do not look at it (the
+ * file is in no unit; an npm package; node:* in a unit that allows it). check:boundaries reads
+ * every edge through this, and so does its editor-time mirror (scripts/check/eslint-boundaries.mjs).
+ * @param {string} file  repository-relative, forward slashes
+ * @param {string} spec
+ * @returns {Edge | null}
+ */
+export function edgeOf(file, spec) {
+  const from = unitOf(file);
+  if (!from) return null;
+  if (spec.startsWith('node:')) {
+    return config.units[from].node ? null : { file, target: spec, from, to: 'node:*', ok: false };
+  }
+  let target;
+  if (spec.startsWith(`${SCOPE}/`)) {
+    target = packageTarget(spec);
+    if (target === null) return { file, target: spec, from, to: 'unresolved', ok: false };
+  } else if (spec.startsWith('.')) {
+    target = path.posix.normalize(path.posix.join(path.posix.dirname(file), /** @type {string} */ (spec.split(/[?#]/)[0])));
+  } else return null;
+  const to = unitOf(target);
+  return { file, target, from, to, ok: allowed(from, to) };
+}
+
+/** Whether an edge is a known violation listed in boundaries.json `baseline`. @param {Edge} e */
+export const inBaseline = (e) => config.baseline.includes(`${e.file} -> ${e.target}`);
+
+/** Whether an engine use is listed in boundaries.json `engines.baseline`. @param {string} file @param {string} engine */
+export const engineInBaseline = (file, engine) => ENGINES.baseline.includes(`${file} -> ${engine}`);
+
 export function edges() {
   const files = trackedScripts();
+  /** @type {Edge[]} */
   const out = [];
   for (const file of files) {
-    const from = unitOf(file);
-    if (!from) continue;
+    if (!unitOf(file)) continue;
     let source;
     try { source = readFileSync(path.join(ROOT, file), 'utf8'); } catch { continue; }
     for (const spec of specifiers(source)) {
-      if (spec.startsWith('node:')) {
-        if (!config.units[from].node) out.push({ file, target: spec, from, to: 'node:*', ok: false });
-        continue;
-      }
-      let target;
-      if (spec.startsWith(`${SCOPE}/`)) {
-        target = packageTarget(spec);
-        if (target === null) { out.push({ file, target: spec, from, to: 'unresolved', ok: false }); continue; }
-      } else if (spec.startsWith('.')) {
-        target = path.posix.normalize(path.posix.join(path.posix.dirname(file), /** @type {string} */ (spec.split(/[?#]/)[0])));
-      } else continue;
-      const to = unitOf(target);
-      out.push({ file, target, from, to, ok: allowed(from, to) });
+      const edge = edgeOf(file, spec);
+      if (edge) out.push(edge);
     }
   }
   return out;
