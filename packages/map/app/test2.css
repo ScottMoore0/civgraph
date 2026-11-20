@@ -3162,6 +3162,12 @@ body.test2-election-pane-resizing * {
   border-top: 2px dashed var(--raw-475569);
 }
 
+/* A renamed unit is outlined on the map, not filled: its land did not change hands. */
+.timeline-changes-panel__swatch--renamed {
+  border: 1.5px solid var(--raw-d6246e);
+  opacity: .7;
+}
+
 .timeline-changes-panel__list {
   margin: 0 0 6px;
   padding: 0;
@@ -3207,6 +3213,12 @@ body.test2-election-pane-resizing * {
   background: var(--color-surface-elevated, var(--raw-ffffff));
   color: var(--color-text, var(--raw-111827));
   cursor: pointer;
+}
+
+/* The zoom-to frame, as on the catalogue rows. */
+.timeline-changes-panel__zoom-icon {
+  width: 14px;
+  height: 14px;
 }
 
 @media (hover: hover) {

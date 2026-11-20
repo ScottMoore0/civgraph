@@ -5,6 +5,7 @@
  */
 import { CUSTOM_ICONS } from './custom-icons.js';
 import { SHELF_COLOURS } from '../views/colours.mjs';
+import { ZOOM_ICON_PATHS, strokeIconSvg } from '../views/icons.mjs';
 
 /** Lucide icon name -> its SVG markup. @type {Record<string, string>} */
 const PATHS = {
@@ -47,7 +48,7 @@ const PATHS = {
   ellipsis: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
   'chevron-down': '<path d="m6 9 6 6 6-6"/>',
   'chevron-right': '<path d="m9 18 6-6-6-6"/>',
-  maximize: '<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>',
+  maximize: ZOOM_ICON_PATHS,
   quote: '<path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/>',
   columns: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/>',
   crosshair: '<circle cx="12" cy="12" r="10"/><path d="M22 12h-4"/><path d="M6 12H2"/><path d="M12 6V2"/><path d="M12 22v-4"/>',
@@ -70,7 +71,7 @@ const PATHS = {
 export function icon(name, cls = 'cn-icon') {
   // Alessio Coci's hand-drawn icons (custom-icons.js) are drawn on a 512px grid and filled.
   if (CUSTOM_ICONS[name]) return `<svg aria-hidden="true" class="${cls}" fill="currentColor" viewBox="0 0 512 512">${CUSTOM_ICONS[name]}</svg>`;
-  return `<svg aria-hidden="true" class="${cls}" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">${PATHS[name] || PATHS['map']}</svg>`;
+  return strokeIconSvg(PATHS[name] || /** @type {string} */ (PATHS['map']), cls);
 }
 
 /** Each shelf's icon and colour: the colour marks the shelf's icon and heading, nothing else. */

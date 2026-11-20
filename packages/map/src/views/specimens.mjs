@@ -135,8 +135,8 @@ export const TIMELINE_ITEMS_SAMPLE = ['1921-05-24', '1925-04-03', '1929-05-22', 
 export const timelineSampleYear = (item) => Number(String(item?.date ?? '').slice(0, 4)) || NaN;
 /** @type {import('./timeline-view.mjs').TimelineChangeView} */
 export const TIMELINE_CHANGES_SAMPLE = {
-  fromLabel: '1973', toLabel: '1985', reversed: false, skipped: 1,
-  parts: [{ label: '1973 to 1985', text: '3 areas changed' }],
+  fromLabel: '1973', toLabel: '1985', dateLabels: ['1985'], reversed: false, skipped: 1,
+  parts: [{ label: '1985', text: '3 changes (1 rename), 120 ha in all.' }],
   changes: [
     { type: 'created', text: 'Carnmoney formed from Newtownabbey', key: 'a:1' },
     { type: 'renamed', text: 'Larne Lough renamed Larne', key: 'a:2' },

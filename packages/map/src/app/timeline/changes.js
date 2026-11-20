@@ -193,9 +193,9 @@ export class TimelineChangeMethods {
     steps.forEach((step, k) => {
       const file = files[k];
       const entry = step.entry || null;
-      const label = reversed
-        ? `${this.formatTimelineItemLabel(step.toItem)} to ${this.formatTimelineItemLabel(step.fromItem)}`
-        : `${this.formatTimelineItemLabel(step.fromItem)} to ${this.formatTimelineItemLabel(step.toItem)}`;
+      // A step is named by the later edition's date, when its changes took effect (Phelim,
+      // 20 Nov 2026); step.toItem is the later edition whichever way the slider moved.
+      const label = this.formatTimelineItemLabel(step.toItem);
       parts.push({ label, kind: entry?.kind || 'unknown', count: Number(entry?.count) || 0, text: entry?.text || 'No change data for this step.' });
       for (const change of Array.isArray(file?.changes) ? file.changes : []) {
         changes.push({ ...change, key: `${k}:${change.id}`, step: multi ? label : '', text: this.describeTimelineChange(change, reversed) });
@@ -213,6 +213,7 @@ export class TimelineChangeMethods {
         : kinds.has('redrawn') ? 'redrawn'
           : kinds.has('none') ? 'none' : 'unknown';
     const toMapId = toItem?.mapId || null;
+    const dateLabels = parts.map((part) => part.label);
     return {
       key: steps.map((step) => step.id).join('|') + (reversed ? '|reversed' : ''),
       reversed,
@@ -224,6 +225,8 @@ export class TimelineChangeMethods {
       skipped,
       fromLabel: this.formatTimelineItemLabel(fromItem),
       toLabel: this.formatTimelineItemLabel(toItem),
+      // Earliest first: stepping back lists the latest step first.
+      dateLabels: reversed ? dateLabels.reverse() : dateLabels,
       fromMapId: fromItem?.mapId || null,
       toMapId,
       note: !reversed && !multi && toMapId ? String(dataService.getMapById(toMapId)?.changeNote || '') : '',

@@ -130,6 +130,53 @@ test.describe('boundary changes on the timeline', () => {
     expect(center[1]).toBeLessThan(55.3);
   });
 
+  // Phelim, 20 Nov 2026: the heading names only when the changes took effect (the later
+  // edition's date), the zoom button draws the app's zoom-to frame, and renames are listed.
+  test('the heading names the later date; the zoom button is the zoom-to frame', async ({ page }) => {
+    await bootApp(page);
+    await page.evaluate(() => { try { localStorage.removeItem('civgraph:timelineHighlightChanges'); } catch {} });
+    await openSeries(page, 'counties-ireland-1955');
+    const i1927 = await indexOf(page, 'counties-ireland-1927');
+    await stepTo(page, i1927);
+    await stepTo(page, i1927 + 1);
+
+    const button = page.locator('#timelineChanges');
+    // The tooltip keeps the "since" context: both editions.
+    await expect(button).toHaveAttribute('title', /^25 Oct 1927 to 01 Apr 1955: /);
+    await button.click();
+    const panel = page.locator('#timelineChangesPanel');
+    await expect(panel.locator('.timeline-changes-panel__title')).toHaveText('Changes, 01 Apr 1955');
+    const zoom = panel.locator('.timeline-changes-panel__zoom').first();
+    await expect(zoom.locator('svg.timeline-changes-panel__zoom-icon path')).toHaveCount(4);
+    await expect(zoom.locator('circle')).toHaveCount(0);
+    expect(await zoom.locator('path').first().getAttribute('d')).toBe('M8 3H5a2 2 0 0 0-2 2v3');
+
+    // Back from 1955 to 1927: the same changes, which took effect in 1955.
+    await stepTo(page, i1927);
+    await expect(panel.locator('.timeline-changes-panel__title')).toHaveText('Changes, 01 Apr 1955');
+  });
+
+  test('a rename is listed as its own kind, counted, keyed and outlined on the map', async ({ page }) => {
+    await bootApp(page);
+    await page.evaluate(() => { try { localStorage.removeItem('civgraph:timelineHighlightChanges'); } catch {} });
+    await openSeries(page, 'counties-ireland');
+    const i1957 = await indexOf(page, 'counties-ireland-1957');
+    const iNow = await indexOf(page, 'counties-ireland');
+    expect(iNow).toBe(i1957 + 1);
+    await stepTo(page, i1957);
+    await stepTo(page, iNow);
+
+    const state = await changes(page);
+    expect(state.view.changes.some((change) => change.type === 'renamed')).toBe(true);
+    expect(state.map?.renamed).toBeGreaterThan(0);
+    await page.locator('#timelineChanges').click();
+    const panel = page.locator('#timelineChangesPanel');
+    await expect(panel).toContainText('Laoighis renamed Laois');
+    await expect(panel.locator('.timeline-changes-panel__type--renamed')).toHaveText(/Renamed/i);
+    await expect(panel.locator('.timeline-changes-panel__summary')).toContainText(/\(1 rename\)/);
+    await expect(panel.locator('.timeline-changes-panel__swatch--renamed')).toHaveCount(1);
+  });
+
   test('the timeline row still fits a 375px phone', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 760 });
     await bootApp(page);

@@ -11,7 +11,7 @@ import {
 } from '@civgraph/map/views/specimens.mjs';
 import { renderElectionSummaryFromViewModel } from '@civgraph/map/views/election-renderer.mjs';
 import { buildTrendChartModel, layoutTrendChart, renderTrendChartSvg } from '@civgraph/map/election-trend-chart.mjs';
-import { timelineChangesPanelHtml, timelineTicksHtml } from '@civgraph/map/views/timeline-view.mjs';
+import { timelineChangesPanelHtml, timelineChangesTitle, timelineTicksHtml } from '@civgraph/map/views/timeline-view.mjs';
 
 const rows = (html) => (html.match(/<tr\b/g) || []).length;
 
@@ -48,7 +48,15 @@ test('timeline: ticks with the first, last and one year a decade, and the change
   assert.match(ticks, />1933</, 'the 1930s are labelled by their first major stop');
   assert.equal(timelineTicksHtml(TIMELINE_ITEMS_SAMPLE.slice(0, 1), timelineSampleYear), '');
   const panel = timelineChangesPanelHtml(TIMELINE_CHANGES_SAMPLE);
-  assert.match(panel, /Changes, 1973 to 1985/);
+  // Only the date the changes took effect, the later edition's (Phelim, 20 Nov 2026).
+  assert.match(panel, /<h2 class="timeline-changes-panel__title">Changes, 1985<\/h2>/);
+  assert.doesNotMatch(panel, /1973 to 1985/);
+  // The zoom button draws the app's zoom-to frame (Lucide maximize), not a magnifying glass.
+  assert.match(panel, /class="timeline-changes-panel__zoom-icon"[^>]*><path d="M8 3H5a2 2 0 0 0-2 2v3"\/>/);
+  assert.doesNotMatch(panel, /<circle/);
+  // A listed rename brings its swatch into the key.
+  assert.match(panel, /timeline-changes-panel__swatch--renamed"><\/span>renamed/);
+  assert.doesNotMatch(timelineChangesPanelHtml({ ...TIMELINE_CHANGES_SAMPLE, changes: TIMELINE_CHANGES_SAMPLE.changes.filter((c) => c.type !== 'renamed') }), /swatch--renamed/);
   assert.equal((panel.match(/class="timeline-changes-panel__item"/g) || []).length, 3);
   assert.match(panel, /timeline-changes-panel__type--created">New</);
   assert.match(panel, /\(1977\)/);
@@ -56,4 +64,18 @@ test('timeline: ticks with the first, last and one year a decade, and the change
   assert.match(panel, /Catalogue note:/);
   // Going back in time, a new area reads as abolished.
   assert.match(timelineChangesPanelHtml({ ...TIMELINE_CHANGES_SAMPLE, reversed: true }), /timeline-changes-panel__type--abolished">Abolished</);
+});
+
+test('timeline: the changes heading names when the changes took effect, not the span stepped across', () => {
+  const view = { fromLabel: '25 Oct 1927', toLabel: '01 Apr 1955', reversed: false };
+  assert.equal(timelineChangesTitle({ ...view, dateLabels: ['01 Apr 1955'] }), 'Changes, 01 Apr 1955');
+  // A year where the edition has only a year.
+  assert.equal(timelineChangesTitle({ fromLabel: '1973', toLabel: '1985', reversed: false, dateLabels: ['1985'] }), 'Changes, 1985');
+  // Stepping back from 1955 to 1927 lists the same changes, which took effect in 1955.
+  assert.equal(timelineChangesTitle({ fromLabel: '01 Apr 1955', toLabel: '25 Oct 1927', reversed: true, dateLabels: ['01 Apr 1955'] }), 'Changes, 01 Apr 1955');
+  // Several steps at once: the first and last dates of change.
+  assert.equal(timelineChangesTitle({ ...view, toLabel: '01 Nov 1957', dateLabels: ['01 Apr 1955', '01 Nov 1957'] }), 'Changes, 01 Apr 1955 to 01 Nov 1957');
+  // No dates given: the later of the two editions.
+  assert.equal(timelineChangesTitle(view), 'Changes, 01 Apr 1955');
+  assert.equal(timelineChangesTitle({ fromLabel: '01 Apr 1955', toLabel: '25 Oct 1927', reversed: true }), 'Changes, 01 Apr 1955');
 });

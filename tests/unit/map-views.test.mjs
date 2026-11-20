@@ -103,7 +103,7 @@ test('the gallery draws the map components with the views renderers, from views/
     'map-results': /data-election-renderer="shared"[\s\S]*data-election-view="party"/,
     'map-trends': /<svg class="test2-election-trends__svg"[\s\S]*class="test2-election-trends__legend-item"|class="test2-election-trends__legend-item"[\s\S]*<svg class="test2-election-trends__svg"/,
     'map-timeline': /<div class="timeline-track"><input type="range" class="timeline-range"[^>]*><div class="timeline-ticks" aria-hidden="true"><span class="timeline-tick/,
-    'map-timeline-changes': /<section class="timeline-changes-panel" aria-label="Boundary changes">[\s\S]*Changes, 1973 to 1985/,
+    'map-timeline-changes': /<section class="timeline-changes-panel" aria-label="Boundary changes">[\s\S]*Changes, 1985</,
   };
   for (const s of map) {
     assert.ok(s.render, s.id);

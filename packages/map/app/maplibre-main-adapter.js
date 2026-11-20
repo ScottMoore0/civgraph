@@ -139,7 +139,7 @@ import layerTypes from '../../registries/src/browser/layer-types.mjs';
 
 /** An election's styling of a layer (applyElectionStyle). @typedef {{ fillColorExpression?: unknown, fillOpacityExpression?: unknown, fillOpacity?: unknown, lineColorExpression?: unknown, lineOpacityExpression?: unknown, lineOpacity?: unknown, lineWidth?: unknown, labelMinZoomOverride?: unknown, hideLabels?: boolean, mode?: string }} ElectionStyle */
 
-/** What the change highlight holds (getTimelineChangesState). @typedef {{ key: string | null, reversed: boolean, markers: number, areas: number, newLines: number, goneLines: number }} TimelineChangesState */
+/** What the change highlight holds (getTimelineChangesState). @typedef {{ key: string | null, reversed: boolean, markers: number, areas: number, newLines: number, goneLines: number, renamed: number }} TimelineChangesState */
 
 /** [[west, south], [east, north]]. @typedef {[[number, number], [number, number]]} LngLatPairBounds */
 
@@ -167,6 +167,7 @@ const TIMELINE_CHANGE_LAYERS = Object.freeze({
   outlineId: 'test2-timeline-changes-outline',
   newLineId: 'test2-timeline-changes-new',
   goneLineId: 'test2-timeline-changes-gone',
+  renamedId: 'test2-timeline-changes-renamed',
   markerId: 'test2-timeline-change-markers'
 });
 
@@ -1086,6 +1087,7 @@ export class Test2MapLibreMainAdapter {
    *   change areas    translucent fill in the accent colour, thin outline
    *   new lines       solid accent lines (lines in the edition now shown, not in the other)
    *   gone lines      a faint dashed ghost
+   *   renamed units   a light accent outline, no fill: the land did not change hands
    *   markers         a circle at each change's label point, never smaller than
    *                   TIMELINE_CHANGE_MARKER_MIN_PX, so a change of a few townlands is still
    *                   visible at island zoom; it fades as the areas themselves become legible
@@ -1104,7 +1106,7 @@ export class Test2MapLibreMainAdapter {
     const features = Array.isArray(geojson?.features) ? geojson.features : [];
     const shown = features.map((feature) => {
       const role = feature?.properties?.['role'];
-      const drawn = role === 'added' ? (reversed ? 'gone' : 'new') : role === 'removed' ? (reversed ? 'new' : 'gone') : 'area';
+      const drawn = role === 'added' ? (reversed ? 'gone' : 'new') : role === 'removed' ? (reversed ? 'new' : 'gone') : role === 'renamed' ? 'renamed' : 'area';
       return { ...feature, properties: { ...(feature.properties || {}), drawn } };
     });
     const points = /** @type {Array<{ id?: unknown, lng: number, lat: number }>} */ (Array.isArray(options.points) ? options.points : [])
@@ -1118,7 +1120,7 @@ export class Test2MapLibreMainAdapter {
     const data = /** @type {import('geojson').FeatureCollection} */ ({ type: 'FeatureCollection', features: shown });
     const markerData = /** @type {import('geojson').FeatureCollection} */ ({ type: 'FeatureCollection', features: points });
     const accent = TIMELINE_CHANGE_ACCENT;
-    const { sourceId, markerSourceId, fillId, outlineId, newLineId, goneLineId, markerId } = TIMELINE_CHANGE_LAYERS;
+    const { sourceId, markerSourceId, fillId, outlineId, newLineId, goneLineId, renamedId, markerId } = TIMELINE_CHANGE_LAYERS;
     if (this.map.getSource(sourceId)) /** @type {GeoJSONSource} */ (this.map.getSource(sourceId)).setData(data);
     else this.map.addSource(sourceId, { type: 'geojson', data });
     if (this.map.getSource(markerSourceId)) /** @type {GeoJSONSource} */ (this.map.getSource(markerSourceId)).setData(markerData);
@@ -1135,6 +1137,11 @@ export class Test2MapLibreMainAdapter {
     ensure({
       id: outlineId, type: 'line', source: sourceId, filter: ['==', ['get', 'drawn'], 'area'],
       paint: { 'line-color': accent, 'line-opacity': 0.7, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.6, 12, 1.4] }
+    });
+    ensure({
+      id: renamedId, type: 'line', source: sourceId, filter: ['==', ['get', 'drawn'], 'renamed'],
+      layout: { 'line-join': 'round' },
+      paint: { 'line-color': accent, 'line-opacity': 0.55, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 1.2, 12, 2.2] }
     });
     ensure({
       id: goneLineId, type: 'line', source: sourceId, filter: ['==', ['get', 'drawn'], 'gone'],
@@ -1169,7 +1176,8 @@ export class Test2MapLibreMainAdapter {
       markers: points.length,
       areas: shown.filter((feature) => feature.properties.drawn === 'area').length,
       newLines: shown.filter((feature) => feature.properties.drawn === 'new').length,
-      goneLines: shown.filter((feature) => feature.properties.drawn === 'gone').length
+      goneLines: shown.filter((feature) => feature.properties.drawn === 'gone').length,
+      renamed: shown.filter((feature) => feature.properties.drawn === 'renamed').length
     };
     return true;
   }
