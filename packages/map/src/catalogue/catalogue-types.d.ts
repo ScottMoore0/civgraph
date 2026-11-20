@@ -1,6 +1,6 @@
 /**
  * The rebuilt catalogue's data and neighbours as its modules (index.js, view-*.js) read them, so
- * the type check (packages/map/tsconfig.check.json) knows them. Declarations only: nothing here
+ * the type check (packages/map/tsconfig.project.json) knows them. Declarations only: nothing here
  * exists at run time.
  *
  * - The catalogue document (/_api/catalogue, built by scripts/build/catalogue/build-catalogue.mjs):

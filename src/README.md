@@ -23,7 +23,9 @@ change: `packages/served.json` serves each at its old `/src/` path (and `/src/ca
 `tests/unit/map-served-paths.test.mjs` pins every one. They are bundled into `app/build/` by
 esbuild from `packages/map/app/boot.js`; nothing loads them raw.
 
-The type check of these modules is `packages/map/tsconfig.check.json` (`npm run check:types:mapapp`).
+The type check of these modules is the map's package projects, `packages/map/tsconfig.project.json` and
+`tsconfig.project.views.json` (`npm run check:types:packages`). `packages/map/tsconfig.check.json`
+(`npm run check:types:mapapp`) checked them until 20 Nov 2026 (stream w20-refactor2 retired it).
 
 ## History
 

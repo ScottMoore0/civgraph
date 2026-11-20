@@ -9,9 +9,16 @@ import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import ts from 'typescript';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(path.join(ROOT, rel), 'utf8');
+/** The repository-relative files the map package project checks. */
+function mapProjectFiles() {
+  const abs = path.join(ROOT, 'packages', 'map', 'tsconfig.project.json');
+  const parsed = ts.parseJsonConfigFileContent(ts.readConfigFile(abs, ts.sys.readFile).config, ts.sys, path.dirname(abs), undefined, abs);
+  return new Set(parsed.fileNames.map((f) => path.relative(ROOT, path.resolve(f)).split(path.sep).join('/')));
+}
 const HOST = read('packages/map/src/app/map-app.d.ts');
 const APP = read('packages/map/app/app.js');
 const METHOD_DIR = 'packages/map/src/app';
@@ -65,8 +72,9 @@ test('the controller and election views name members those classes have', () => 
 });
 
 test('a method module in the type check types `this` on every method', () => {
-  const config = JSON.parse(read('packages/map/tsconfig.check.json'));
-  const checked = methodModules().filter((file) => config.include.includes(file.replace('packages/map/', '')));
+  // The map package project (npm run check:types:packages) since 20 Nov 2026; packages/map/tsconfig.check.json until then.
+  const project = mapProjectFiles();
+  const checked = methodModules().filter((file) => project.has(file));
   assert.ok(checked.length >= 3, 'legend.js, performance.js and site-chrome.js are checked');
   for (const file of checked) {
     const lines = read(file).split('\n');

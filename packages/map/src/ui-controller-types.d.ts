@@ -1,6 +1,6 @@
 /**
  * The UI controller's neighbours and records as packages/map/src/ui-controller.js reads them, so
- * the type check (packages/map/tsconfig.check.json) knows them. Declarations only: nothing here
+ * the type check (packages/map/tsconfig.project.json) knows them. Declarations only: nothing here
  * exists at run time. (Not named ui-controller.d.ts, which would stand in for the module itself.)
  *
  * - UiCallbacks: what the map app gives the controller to call (packages/map/src/app/ui-wiring.js

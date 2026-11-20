@@ -10,9 +10,16 @@ import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import ts from 'typescript';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(path.join(ROOT, rel), 'utf8');
+/** The repository-relative files the map package project checks. */
+function mapProjectFiles() {
+  const abs = path.join(ROOT, 'packages', 'map', 'tsconfig.project.json');
+  const parsed = ts.parseJsonConfigFileContent(ts.readConfigFile(abs, ts.sys.readFile).config, ts.sys, path.dirname(abs), undefined, abs);
+  return new Set(parsed.fileNames.map((f) => path.relative(ROOT, path.resolve(f)).split(path.sep).join('/')));
+}
 const HOST = read('packages/map/src/election/election-manager.d.ts');
 const APP = read('packages/map/app/app.js');
 
@@ -82,12 +89,13 @@ test('every method of the manager\'s method modules types `this` as the manager'
 });
 
 test('the manager, its method module, the NI local view and the declaration stay in the map type check', () => {
-  const { include } = JSON.parse(read('packages/map/tsconfig.check.json'));
+  // The map package project (npm run check:types:packages) since 20 Nov 2026; packages/map/tsconfig.check.json until then.
+  const checked = mapProjectFiles();
   for (const entry of [
     'src/election/election-manager.d.ts',
     'src/election/grouped-year-methods.js',
     'src/election/election-group-methods.js',
     'app/ni-local-view.js',
     'app/election-manager.js'
-  ]) assert.ok(include.includes(entry), `packages/map/tsconfig.check.json lost ${entry}`);
+  ]) assert.ok(checked.has(`packages/map/${entry}`), `packages/map/tsconfig.project.json lost ${entry}`);
 });

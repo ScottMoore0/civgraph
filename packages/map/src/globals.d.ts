@@ -1,5 +1,5 @@
 /**
- * The page globals the map app's modules read or set, so the type check (packages/map/tsconfig.check.json)
+ * The page globals the map app's modules read or set, so the type check (packages/map/tsconfig.project.json)
  * knows them. Declarations only: nothing here exists at run time. A global joins this list when a
  * module that reads it joins the check.
  */

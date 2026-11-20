@@ -2,7 +2,7 @@
  * The map app as its method modules see it: `this` in packages/map/src/app/*.js. Test2App
  * (packages/map/app/app.js) is one class written as several modules; installMethods puts each
  * module's methods on its prototype, so inside a method `this` is the app. A method module that
- * joins the type check (packages/map/tsconfig.check.json) types `this` as `MapApp & <its own
+ * joins the type check (packages/map/tsconfig.project.json) types `this` as `MapApp & <its own
  * methods class>`, per method (`@this`), and reads the rest of the app only through this interface.
  *
  * Declarations only, nothing at run time. Each member is one a checked module uses, typed by what

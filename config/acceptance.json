@@ -68,11 +68,11 @@
       "id": "P2",
       "title": "TypeScript: types at every boundary, strict, per-package projects built with tsc -b",
       "status": "met",
-      "note": "Every type-check config and package project has noUncheckedIndexedAccess since 19 Nov 2026 (w19-refactor-now: ui, ui-strict, pipeline, the map check and project); measure-zero keeps it so. Every package script file is in a strict package project since 20 Nov 2026 (w20-refactor: the last eight maps-pipeline tiles modules and the map's jquery-shim.js): packages-typecheck.test's LEFT list is empty and the test fails on any package file outside a project.",
+      "note": "Every type-check config and package project has noUncheckedIndexedAccess since 19 Nov 2026 (w19-refactor-now: ui, ui-strict, pipeline, the map check and project); measure-zero keeps it so. Every package script file is in a strict package project since 20 Nov 2026 (w20-refactor: the last eight maps-pipeline tiles modules and the map's jquery-shim.js): packages-typecheck.test's LEFT list is empty and the test fails on any package file outside a project. Every type-check config and package project has noPropertyAccessFromIndexSignature since 20 Nov 2026 (w20-refactor, then w20-refactor2: pipeline-strict, the loader project, records, intake, pipeline, ui and ui-strict); measure-zero keeps it so. The map check (packages/map/tsconfig.check.json, check:types:mapapp) retired on 20 Nov 2026 (w20-refactor2): its files are in the map and core projects, and map-typecheck.test holds them there.",
       "evidence": {
         "tests": ["unit/typecheck.test.mjs", "unit/packages-typecheck.test.mjs", "unit/map-typecheck.test.mjs"],
-        "npm": ["check:types:packages", "check:types:records", "check:types:ui", "check:types:intake", "check:types:pipeline", "check:types:mapapp", "check:types:shared", "check:types:functions", "check:types:functions-strict"],
-        "asserts": ["architecture-baseline-empty:C11", "measure-zero:configs-without:noUncheckedIndexedAccess"]
+        "npm": ["check:types:packages", "check:types:records", "check:types:ui", "check:types:intake", "check:types:pipeline", "check:types:shared", "check:types:functions", "check:types:functions-strict"],
+        "asserts": ["architecture-baseline-empty:C11", "measure-zero:configs-without:noUncheckedIndexedAccess", "measure-zero:configs-without:noPropertyAccessFromIndexSignature"]
       }
     },
     {
