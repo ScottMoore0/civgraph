@@ -60,6 +60,9 @@ test('the beyond-strict check (functions/tsconfig.strict.json) keeps its two fla
   const strict = JSON.parse(readFileSync(path.join(ROOT, 'functions', 'tsconfig.strict.json'), 'utf8'));
   assert.equal(strict.extends, './tsconfig.check.json');
   for (const flag of ['noUncheckedIndexedAccess', 'noPropertyAccessFromIndexSignature']) assert.equal(strict.compilerOptions[flag], true, flag);
+  // functions/tsconfig.check.json has both itself since 20 Nov 2026 (w20-refactor); only add flags.
+  const check = JSON.parse(readFileSync(path.join(ROOT, 'functions', 'tsconfig.check.json'), 'utf8'));
+  for (const flag of ['noUncheckedIndexedAccess', 'noPropertyAccessFromIndexSignature']) assert.equal(check.compilerOptions[flag], true, `tsconfig.check.json ${flag}`);
   for (const entry of ['**/*.js', '_lib/runtime.d.mts', '../packages/storage/src/*.js', '../packages/api/src/**/*.js', '../packages/config/src/config.js']) assert.ok(strict.include.includes(entry), entry);
   const scripts = JSON.parse(readFileSync(path.join(ROOT, 'package.json'), 'utf8')).scripts;
   assert.equal(scripts['check:types:functions-strict'], 'node scripts/lib/typecheck.mjs functions/tsconfig.strict.json');

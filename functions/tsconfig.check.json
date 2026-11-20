@@ -1,5 +1,5 @@
 {
-  "//": "Type checking of the Pages Functions by JSDoc and checkJs (REFACTOR-PLAN.md item 2). Run by `npm run check:types:functions`. Named tsconfig.check.json, not tsconfig.json, so esbuild (the Pages bundler) never reads it. Every strict-family flag is on (r2-functions; noImplicitAny since the nia-s2a/s2b review, 8 Nov 2026); noUncheckedIndexedAccess is on since rf-final (18 Nov 2026), once the map views checked clean under it; noPropertyAccessFromIndexSignature waits.",
+  "//": "Type checking of the Pages Functions by JSDoc and checkJs (REFACTOR-PLAN.md item 2). Run by `npm run check:types:functions`. Named tsconfig.check.json, not tsconfig.json, so esbuild (the Pages bundler) never reads it. Every strict-family flag is on (r2-functions; noImplicitAny since the nia-s2a/s2b review, 8 Nov 2026); noUncheckedIndexedAccess is on since rf-final (18 Nov 2026), once the map views checked clean under it; noPropertyAccessFromIndexSignature is on since 20 Nov 2026 (w20-refactor; it found nothing once the packages it reaches had it).",
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
@@ -25,6 +25,7 @@
     "noUnusedParameters": true,
     "exactOptionalPropertyTypes": true,
     "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
     "skipLibCheck": true
   },
   "include": ["**/*.js", "_lib/runtime.d.mts", "../packages/storage/src/*.js", "../packages/api/src/**/*.js", "../packages/config/src/config.js", "../packages/core/src/*.js"]
