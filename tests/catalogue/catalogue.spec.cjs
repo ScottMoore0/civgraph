@@ -1223,3 +1223,32 @@ for (const [name, viewport] of [['desktop', { width: 1280, height: 860 }], ['pho
     expect(over).toBe(0);
   });
 }
+
+test('N51 a map\'s Details page names it as the catalogue does, not as the old layer list did', async ({ page }) => {
+  // Phelim Birch's review, owner-approved 20 Nov 2026: the page said "Ireland" (the old layer list's
+  // name under its "Townlands" category) for the Townlands map.
+  const town = catalogue.series.find((s) => s.id === 'townlands-townlands');
+  const member = town.members.find((m) => m.id === 'all-ireland-townlands');
+  const shelf = catalogue.shelves.find((s) => s.id === town.shelf);
+  await open(page);
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('all-ireland-townlands'));
+  const view = page.locator('#catalogueDetailView');
+  await expect(view.locator('.catalogue-detail__name')).toHaveText(`${town.name}, ${member.label}`);
+  await expect(view.locator('.catalogue-detail__trail')).toHaveText(`Boundaries › ${shelf.name}`);
+  await expect(view.locator('.catalogue-detail__meta')).not.toContainText('Category');
+  await expect(view.locator('.catalogue-detail__badge--group')).toHaveCount(0);
+  // A map's parts go by the catalogue's names for them.
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('eds-2022'));
+  const eds = catalogue.maps['eds-2022'];
+  await expect(view.locator('.catalogue-detail__section-title', { hasText: 'Parts' })).toBeVisible();
+  for (const p of eds.parts || []) await expect(view.locator('.catalogue-detail__variant', { hasText: p.label }).first()).toBeVisible();
+  // An address naming a map draws its page before the catalogue has loaded, then again with its names.
+  const roads = catalogue.series.find((s) => s.members.some((m) => m.id === 'dfi-surface-defects-2021'));
+  const edition = roads.members.find((m) => m.id === 'dfi-surface-defects-2021');
+  // A fresh load (about:blank first: a goto that changes only the hash does not reload the page).
+  await page.goto('about:blank');
+  await page.goto('/maps/#detail=dfi-surface-defects-2021');
+  await expect(page.locator('#catalogueDetailView .catalogue-detail__name')).toHaveText(`${roads.name}, ${edition.label}`, { timeout: 45000 });
+  await expect(page.locator('#catalogueDetailView .catalogue-detail__trail')).toHaveText('Places › Transport');
+  await expect.poll(() => page.title()).toContain(`${roads.name}, ${edition.label}`);
+});

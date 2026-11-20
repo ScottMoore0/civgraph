@@ -455,6 +455,17 @@ class UIController {
         }
     }
 
+    /**
+     * A map's name as the catalogue at /maps gives it (catalogue/index.js mapLabel: "Townlands,
+     * All-island"), else its own record's ("Ireland", the old layer list's name under Townlands).
+     * The classic pane has no rebuilt catalogue, so it keeps the record's name.
+     * @param {{ id?: string, name?: string } | null | undefined} map
+     * @returns {string}
+     */
+    catalogueMapName(map) {
+        return (map?.id && this._catalogueNext?.mapLabel?.(map.id)) || map?.name || '';
+    }
+
     /** @param {string} mapId @param {boolean} [addToHistory] */
     showCatalogueDetailView(mapId, addToHistory = true) {
         // A part of a map has no page of its own: its map's page opens (data-service.js detailPageId).
@@ -490,20 +501,28 @@ class UIController {
 
         // Render detail content
         const isLoaded = this.getMapIdsFromURL().includes(map.id);
-        const color = map.style?.color || MAP_COLOURS.swatch;
+        const nextCatalogue = catalogueNextRequested();
+        // The names the catalogue at /maps gives the map (catalogue/index.js detailNames): its name,
+        // the headings its row sits under, its colour and its parts' names, not the old layer list's
+        // ("Ireland" under "Townlands": Phelim Birch's review, owner-approved 20 Nov 2026). The
+        // classic pane, a map in no row, and a page drawn before the catalogue has loaded (it is
+        // drawn again then) keep the map's own record.
+        const names = nextCatalogue ? this._catalogueNext?.detailNames?.(map.id) || null : null;
+        const title = names?.title || map.name;
+        const color = names?.colour || map.style?.color || MAP_COLOURS.swatch;
         const formattedDate = this.formatMapDate(map.date, map) || '';
 
-        // Get category name
-        const categories = dataService.getMapCategories() || [];
+        // The classic pane's category; the catalogue at /maps has no categories (names.trail).
+        const categories = nextCatalogue ? [] : dataService.getMapCategories() || [];
         const category = categories.find(c => c.id === map.category);
         const categoryName = category?.name || map.category || 'Unknown';
 
         // Build badges HTML
         let badgesHtml = '';
         const badges = [];
-        const nextCatalogue = catalogueNextRequested();
         if (map.featured && !nextCatalogue) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--featured">Featured</span>');
-        if (map.isGroup) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--group">Group</span>');
+        // "Group" is the old layer list's word: the catalogue lists the map's parts.
+        if (map.isGroup && !nextCatalogue) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--group">Group</span>');
         if (map.hidden) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--hidden">Hidden</span>');
         if (badges.length > 0) {
             badgesHtml = `<div class="catalogue-detail__badges">${badges.join('')}</div>`;
@@ -540,13 +559,13 @@ class UIController {
         if (map.isGroup && map.variants && map.variants.length > 0) {
             variantsHtml = `
                 <div class="catalogue-detail__section">
-                    <div class="catalogue-detail__section-title">Variants (${map.variants.length})</div>
+                    <div class="catalogue-detail__section-title">${names ? 'Parts' : 'Variants'} (${map.variants.length})</div>
                     <div class="catalogue-detail__variants">
                         ${map.variants.map(v => {
                 const variant = /** @type {MapRecord | undefined} */ (dataService.getMapById(v.id));
                 return variant ? `
                                 <div class="catalogue-detail__variant" data-map-id="${variant.id}">
-                                    ${this.escapeHtml(variant.name)}
+                                    ${this.escapeHtml(names?.partLabel(variant.id) || variant.name)}
                                     ${variant.provider ? `<span style="color: var(--color-text-muted); font-size: var(--text-xs);"> &middot; ${variant.provider.join(', ')}</span>` : ''}
                                 </div>
                             ` : '';
@@ -585,7 +604,7 @@ class UIController {
 
             <div class="catalogue-detail__card">
                 <div class="catalogue-detail__color" style="background-color: ${color}"></div>
-                <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${this.escapeHtml(map.name)}</h2>
+                <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${this.escapeHtml(title)}</h2>
                 ${formattedDate ? `<div class="catalogue-detail__date">${formattedDate}</div>` : ''}
             </div>
 
@@ -605,10 +624,15 @@ class UIController {
                     <span class="catalogue-detail__meta-label">Provider</span>
                     <span class="catalogue-detail__meta-value">${map.provider ? this.escapeHtml(creditLine(map.provider, derivedFromLines(map.sourceCredits))) : 'Unknown'}</span>
                 </div>
+                ${names?.trail.length ? `
+                <div class="catalogue-detail__meta-row">
+                    <span class="catalogue-detail__meta-label">Section</span>
+                    <span class="catalogue-detail__meta-value catalogue-detail__trail">${names.trail.map((t) => this.escapeHtml(t)).join(' › ')}</span>
+                </div>` : !nextCatalogue ? `
                 <div class="catalogue-detail__meta-row">
                     <span class="catalogue-detail__meta-label">Category</span>
                     <span class="catalogue-detail__meta-value">${this.escapeHtml(categoryName)}</span>
-                </div>
+                </div>` : ''}
                 ${map.slug && !nextCatalogue ? `
                 <div class="catalogue-detail__meta-row">
                     <span class="catalogue-detail__meta-label">Slug</span>
@@ -8374,7 +8398,7 @@ class UIController {
             let html = `
             <div class="feature-info__header-row">
                     <span class="feature-info__color" style="background: ${mapConfig?.style?.color || MAP_COLOURS.swatch}"></span>
-                    <h4 class="feature-info__layer-name">${this.escapeHtml(mapConfig?.name || 'Unknown Layer')}</h4>
+                    <h4 class="feature-info__layer-name">${this.escapeHtml(this.catalogueMapName(mapConfig) || 'Unknown Layer')}</h4>
                 </div>
             `;
 
@@ -8833,7 +8857,7 @@ class UIController {
             <div class="catalogue-detail__card">
                 <div class="catalogue-detail__color" style="background-color: ${esc(mapConfig?.style?.color || MAP_COLOURS.swatch)}"></div>
                 <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${esc(displayName)}</h2>
-                <div class="catalogue-detail__date">${esc(mapConfig?.name || '')}</div>
+                <div class="catalogue-detail__date">${esc(this.catalogueMapName(mapConfig))}</div>
             </div>
             <div class="catalogue-detail__feature-actions">
                 ${actionButton('feature-load-btn', 'Add to map', this.getLoadButtonIcon(false))}

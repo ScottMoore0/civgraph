@@ -414,8 +414,8 @@ export class UrlStateMethods {
       } else if (election?.displayTitle) {
         subject = election.displayTitle;
       } else if (this.currentDetailMapId) {
-        subject = this.metadataService?.getLayer?.(this.currentDetailMapId)?.name
-          || this.currentDetailMapId;
+        // The map as the catalogue names it, as its Details page heads it (messages.js mapLabel).
+        subject = this.mapLabel(this.currentDetailMapId);
       } else if (this.getPrimaryPartialFeatureURLState()?.featureName) {
         // A feature opened on its own (a feature link, a search result): "BELFAST WEST –
         // Parliamentary Constituencies 2023", not only the layer's name (QA 2026-11-11, H2).

@@ -182,3 +182,50 @@ export function providerCounts(rowsProviders) {
  * @param {string[] | undefined} chosen
  */
 export const passesProviders = (ids, chosen) => !chosen?.length || chosen.some((id) => ids.has(id));
+
+/**
+ * A map's name as the catalogue gives it, in the legend, the loaded-layers panel, messages and its
+ * Details page: its row's name, with the map's own label when the row lists several maps or the map
+ * is one of the row's council maps ("Counties, 1922"; "Townlands" for a row of one map); '' for a
+ * map the row does not list.
+ * @param {CatalogueRow | undefined} s  the map's row
+ * @param {string} id
+ * @returns {string}
+ */
+export function mapTitle(s, id) {
+  if (!s) return '';
+  const member = [...(s.members || []), ...(s.local || [])].find((m) => m.id === id);
+  if (member && (s.members.length > 1 || s.local?.some((m) => m.id === id))) return `${s.name}, ${member.label}`;
+  return s.name;
+}
+
+/** A heading /maps shows above a row. @typedef {{ name: string, flat?: boolean | undefined }} TrailHeading */
+
+/**
+ * Where a row sits in the catalogue, by the headings /maps shows above it: its section's tab
+ * ("Boundaries", "Places", "Historic"), its shelf (a section listed flat shows no shelves), and its
+ * subject when the shelf heads its rows by subject and the subject is not named as the row is.
+ * The row's own name is not in it: the map's name (mapTitle) starts with it.
+ * @param {{ section: string, flatSection?: boolean, shelf?: TrailHeading | undefined, subject?: TrailHeading | undefined, row: { name: string } }} where
+ * @returns {string[]}
+ */
+export function catalogueTrail({ section, flatSection = false, shelf, subject, row }) {
+  /** @type {string[]} */
+  const out = section ? [section] : [];
+  if (!flatSection && shelf?.name) {
+    out.push(shelf.name);
+    if (!shelf.flat && subject?.name && subject.name !== row.name && subject.name !== shelf.name) out.push(subject.name);
+  }
+  return out;
+}
+
+/**
+ * The name the catalogue gives one of a map's parts or county maps (the opened row's chips), or ''
+ * when it lists none by that id.
+ * @param {CatalogueMapRec | undefined} r  the map's record in the catalogue
+ * @param {string} partId
+ * @returns {string}
+ */
+export function partLabel(r, partId) {
+  return [...(r?.parts || []), ...(r?.counties || [])].find((p) => p.id === partId)?.label || '';
+}

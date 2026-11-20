@@ -312,7 +312,8 @@ export class UiWiringMethods {
           kind: 'feature',
           key: detailId,
           title: uiController.featureDisplayName?.(entry.primaryName) || entry.primaryName || 'Feature',
-          typeLabel: entry.mapConfig?.name || 'Feature'
+          // Its map as the catalogue names it (messages.js mapLabel), not the old layer list's name.
+          typeLabel: (entry.mapConfig?.id && this.mapLabel(entry.mapConfig.id)) || entry.mapConfig?.name || 'Feature'
         };
         this.currentDetailMapId = null;
       }

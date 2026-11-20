@@ -3,11 +3,13 @@
  * on map actions and layout (owner-approved 19 Nov 2026): the row's actions by its shape, its maps
  * as a dated list, the "N <unit> · M editions" count from the latest complete edition, the pairs
  * Compare offers and the row's citation. Checked on made-up rows and on the catalogue itself.
+ * And the names a map's Details page takes from the catalogue, not the old layer list (Phelim
+ * Birch's review, owner-approved 20 Nov 2026): its name, the headings above its row, its parts.
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { comparable, countEdition, datedList, rowActionKind, rowCitation, rowCount, rowEditions } from '@civgraph/map/catalogue/row-model.mjs';
+import { catalogueTrail, comparable, countEdition, datedList, mapTitle, partLabel, rowActionKind, rowCitation, rowCount, rowEditions } from '@civgraph/map/catalogue/row-model.mjs';
 
 /** @type {Record<string, any>} */
 const maps = {
@@ -74,4 +76,40 @@ test('on the catalogue: every row of dated editions with a count names a complet
   assert.ok(counted > 10, `only ${counted} rows counted`);
   const counties = doc.series.find((/** @type {{ id: string }} */ s) => s.id === 'counties-counties');
   assert.deepEqual(rowCount(counties, of)?.editions, counties.members.filter((/** @type {{ of?: string }} */ m) => !m.of).length);
+});
+
+test("a map's name: its row's, with its own label when the row lists several maps or it is a council map", () => {
+  const s = row({ members: [{ id: 'a', label: '1977' }, { id: 'b', label: '1922' }], local: [{ id: 'l', label: 'Fingal' }] });
+  assert.equal(mapTitle(s, 'b'), 'Counties, 1922');
+  assert.equal(mapTitle(s, 'l'), 'Counties, Fingal');
+  assert.equal(mapTitle(row({ members: [{ id: 'a', label: '1977' }] }), 'a'), 'Counties');
+  assert.equal(mapTitle(undefined, 'a'), '');
+});
+
+test('the headings above a row: its section, its shelf unless the section is flat, its subject when the shelf heads rows by it', () => {
+  const r = { name: 'CSO Electoral Divisions' };
+  assert.deepEqual(catalogueTrail({ section: 'Boundaries', shelf: { name: 'Government & Administration' }, subject: { name: 'Electoral Divisions' }, row: r }),
+    ['Boundaries', 'Government & Administration', 'Electoral Divisions']);
+  // A flat shelf lists its rows without subject headings; a subject named as its row adds nothing.
+  assert.deepEqual(catalogueTrail({ section: 'Boundaries', shelf: { name: 'Historic Geographies', flat: true }, subject: { name: 'Townlands' }, row: { name: 'Townlands' } }), ['Boundaries', 'Historic Geographies']);
+  assert.deepEqual(catalogueTrail({ section: 'Boundaries', shelf: { name: 'Water' }, subject: { name: 'Townlands' }, row: { name: 'Townlands' } }), ['Boundaries', 'Water']);
+  // A section listed flat (Historic, Statistics) shows no shelves.
+  assert.deepEqual(catalogueTrail({ section: 'Historic', flatSection: true, shelf: { name: 'Heritage & Culture' }, subject: { name: 'Printed Maps' }, row: r }), ['Historic']);
+});
+
+test("a part's name is the catalogue's; a part it does not list has none", () => {
+  const r = { parts: [{ id: 'ni', label: 'Northern Ireland' }], counties: [{ id: 'cork', label: 'Cork' }] };
+  assert.equal(partLabel(r, 'ni'), 'Northern Ireland');
+  assert.equal(partLabel(r, 'cork'), 'Cork');
+  assert.equal(partLabel(r, 'x'), '');
+  assert.equal(partLabel(undefined, 'ni'), '');
+});
+
+test('on the catalogue: the Townlands map is named as its row, not as the old layer list named it ("Ireland")', () => {
+  const doc = JSON.parse(readFileSync(new URL('../../data/catalogue/catalogue.json', import.meta.url), 'utf8'));
+  const s = doc.series.find((/** @type {{ id: string }} */ x) => x.id === 'townlands-townlands');
+  const title = mapTitle(s, 'all-ireland-townlands');
+  assert.ok(title.startsWith('Townlands'), title);
+  assert.notEqual(title, doc.maps['all-ireland-townlands'].name);
+  assert.equal(partLabel(doc.maps['all-ireland-townlands'], 'ni-townlands'), 'Northern Ireland');
 });

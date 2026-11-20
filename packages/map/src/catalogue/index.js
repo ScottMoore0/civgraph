@@ -43,7 +43,7 @@ import { CATALOGUE_TAB, followSeriesRedirect } from './route-state.mjs';
 import { defineFlagFields, setHidden } from '../state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 import { siteNumber } from '../../../core/src/format.js';
-import { comparable, passesProviders, providerCounts, rowCitation, rowProviderIds } from './row-model.mjs';
+import { catalogueTrail, comparable, mapTitle, partLabel, passesProviders, providerCounts, rowCitation, rowProviderIds } from './row-model.mjs';
 import { PROVIDERS } from './util.js';
 import { MAP_COLOURS } from '../views/colours.mjs';
 
@@ -314,8 +314,14 @@ export class CatalogueNext {
         const holders = new Map();
         for (const s of this.data.series) for (const m of s.members) for (const p of [...(this.data.maps[m.id]?.parts || []), ...(this.data.maps[m.id]?.counties || [])]) if (!holders.has(p.id)) holders.set(p.id, m.id);
         dataService.setPartHolders(holders);
+        // A Details page drawn before now (an address naming a map) is drawn again: with the names
+        // the catalogue gives the map (detailNames), and a part's under the map it is listed under.
         const asked = app()?.requestedDetailId;
-        if (asked && app()?.currentDetailMapId && dataService.detailPageId(asked) !== app()?.currentDetailMapId) this.ui.showCatalogueDetailView?.(asked, false);
+        const shown = app()?.currentDetailMapId;
+        if (shown) {
+          this.ui.showCatalogueDetailView?.(asked && dataService.detailPageId(asked) !== shown ? asked : shown, false);
+          app()?.updateURLState?.();
+        }
         this.electionByKey = new Map(this.data.elections.map((e) => [e.key, e]));
         /** @type {BooksDocument | null} */
         this.books = await books;
@@ -2143,12 +2149,37 @@ export class CatalogueNext {
    * edition as the catalogue shows them ("Counties, 1922"; "Townlands" for a row of one map), or ''
    * for a map in no row. @param {string} id */
   mapLabel(id) {
-    // A map in no series looks up undefined, which names no series.
+    // A map in no series looks up undefined, which names no series (row-model.mjs mapTitle).
+    return mapTitle(this.seriesById?.get(/** @type {string} */ (this.seriesOfMap?.get(id))), id);
+  }
+
+  /**
+   * The names a map's Details page gives it, as /maps shows them (ui-controller.js
+   * showCatalogueDetailView): its name (mapLabel), the headings its row sits under, its colour, and
+   * its parts' names. Null for a map in no row, or before the catalogue has loaded: the page then
+   * keeps the map's own record. Phelim Birch's review, owner-approved 20 Nov 2026: the Details page
+   * had the old layer list's names.
+   * @param {string} id
+   * @returns {{ title: string, trail: string[], colour: string, partLabel: (partId: string) => string } | null}
+   */
+  detailNames(id) {
     const s = this.seriesById?.get(/** @type {string} */ (this.seriesOfMap?.get(id)));
-    if (!s) return '';
-    const member = [...(s.members || []), ...(s.local || [])].find((m) => m.id === id);
-    if (member && (s.members.length > 1 || s.local?.some((m) => m.id === id))) return `${s.name}, ${member.label}`;
-    return s.name;
+    if (!s) return null;
+    const section = sectionOfKind(s.kind);
+    const shelf = this.shelfById?.get(s.shelf);
+    const r = this.rec(id);
+    return {
+      title: mapTitle(s, id),
+      trail: catalogueTrail({
+        section: /** @type {string} */ (SECTIONS.find(([sid]) => sid === section)?.[2] || ''),
+        flatSection: FLAT_SECTIONS.has(section),
+        shelf: shelf && { name: MapsView.shelfName(section, shelf), flat: shelf.flat },
+        subject: this.subjectById?.get(s.subject),
+        row: s,
+      }),
+      colour: r.color || s.color || '',
+      partLabel: (partId) => partLabel(r, partId),
+    };
   }
 
   /** @param {string} id */
