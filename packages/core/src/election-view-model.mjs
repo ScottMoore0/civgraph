@@ -99,7 +99,7 @@ export function buildElectionViewModel({
   const partySummary = bundle?.partySummary?.length ? bundle.partySummary : buildPartySummary(currentResults);
   const candidateSummary = buildCandidateSummary(currentResults);
   const localGovernment = (bundle?.bodyGroup || entry?.bodyGroup) === 'local-government';
-  const recallPetition = currentResults.some((result) => result.recallPetition);
+  const recallPetition = currentResults.some((result) => result['recallPetition']);
 
   return {
     entry,

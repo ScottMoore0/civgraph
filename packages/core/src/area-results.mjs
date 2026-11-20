@@ -301,9 +301,9 @@ export function areaResultsFirst(modes) {
  * @returns {string | null}
  */
 export function areaResultsSubtitle(modes, units, unit) {
-  const mode = (modes || []).find((m) => m?.dataKind === 'area-results');
-  const total = Number(mode?.totalConstituencies);
-  const basis = typeof mode?.countingBasis === 'string' ? mode.countingBasis : undefined;
+  const mode = (modes || []).find((m) => m?.['dataKind'] === 'area-results');
+  const total = Number(mode?.['totalConstituencies']);
+  const basis = typeof mode?.['countingBasis'] === 'string' ? mode['countingBasis'] : undefined;
   const noun = basis ? units?.[basis] : undefined;
   if (!mode || !basis || !noun || !Number.isFinite(total) || total < 1) return null;
   return countNoun(total, unit?.[basis] || noun, noun);

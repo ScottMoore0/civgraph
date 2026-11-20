@@ -368,7 +368,7 @@ export function statusKind(status) {
  * @returns {string}
  */
 export function candidateDisplayName(row = {}, fallback = '') {
-  return fixText(row.candidateName || row.name || [row.Firstname, row.Surname].filter(Boolean).join(' ') || fallback);
+  return fixText(row['candidateName'] || row['name'] || [row['Firstname'], row['Surname']].filter(Boolean).join(' ') || fallback);
 }
 
 /**
@@ -378,17 +378,17 @@ export function candidateDisplayName(row = {}, fallback = '') {
  */
 export function summarizeForumRows(rows = []) {
   return rows.map((row, index) => {
-    const party = normalizeParty(row.party);
+    const party = normalizeParty(row['party']);
     return {
-      id: /** @type {string | number} */ (row.party_id || row.id || `${party || 'list'}-${index + 1}`),
-      name: row.party ? `${fixText(row.party)} list` : `List ${index + 1}`,
+      id: /** @type {string | number} */ (row['party_id'] || row['id'] || `${party || 'list'}-${index + 1}`),
+      name: row['party'] ? `${fixText(row['party'])} list` : `List ${index + 1}`,
       party,
-      firstPrefs: parseNumber(row.votes),
-      finalVotes: parseNumber(row.votes),
-      voteShare: parseNumber(row.vote_share),
-      elected: Number(row.allocated_seats || 0) > 0,
-      seats: parseNumber(row.allocated_seats),
-      status: Number(row.allocated_seats || 0) > 0 ? 'Elected' : '',
+      firstPrefs: parseNumber(row['votes']),
+      finalVotes: parseNumber(row['votes']),
+      voteShare: parseNumber(row['vote_share']),
+      elected: Number(row['allocated_seats'] || 0) > 0,
+      seats: parseNumber(row['allocated_seats']),
+      status: Number(row['allocated_seats'] || 0) > 0 ? 'Elected' : '',
       colour: partyColour(party)
     };
   });
@@ -423,11 +423,11 @@ function withoutHarvestFields(value) {
  * @returns {string}
  */
 function sourcePersonIdFor(row) {
-  const ei = String(row?.ei_candidate_id ?? row?.eiCandidateId ?? '').trim();
+  const ei = String(row?.['ei_candidate_id'] ?? row?.['eiCandidateId'] ?? '').trim();
   if (/^\d+$/.test(ei)) return `ei:${Number(ei)}`;
   // Another source's own person id ("ie:<n>" from IrelandElection.com), carried on scraper
   // rows that ElectionsIreland has no page for (source-checked fills).
-  const existing = String(row?.sourcePersonId || row?.source_person_id || '').trim();
+  const existing = String(row?.['sourcePersonId'] || row?.['source_person_id'] || '').trim();
   return existing || '';
 }
 
@@ -442,13 +442,13 @@ function sourcePersonIdFor(row) {
 function printedLabelEntry(row = {}) {
   /** @type {PrintedLabelEntry} */
   const out = {};
-  const printed = fixText(row.Party_As_Printed || row.partyAsPrinted || '');
-  const ballot = fixText(row.Ballot_Description || row.ballotDescription || '');
+  const printed = fixText(row['Party_As_Printed'] || row['partyAsPrinted'] || '');
+  const ballot = fixText(row['Ballot_Description'] || row['ballotDescription'] || '');
   if (printed && printed !== ballot) out.partyAsPrinted = printed;
   if (ballot) out.ballotDescription = ballot;
-  if (row.Party_Inferred === true || row.partyInferred === true || String(row.Party_Inferred || '') === 'true') {
+  if (row['Party_Inferred'] === true || row['partyInferred'] === true || String(row['Party_Inferred'] || '') === 'true') {
     out.partyInferred = true;
-    const basis = fixText(row.Party_Basis || row.partyBasis || '');
+    const basis = fixText(row['Party_Basis'] || row['partyBasis'] || '');
     if (basis) out.partyBasis = basis;
   }
   return out;
@@ -477,8 +477,8 @@ export function summarizeCandidateRows(rows = []) {
   const byCandidate = new Map();
   for (const row of Array.isArray(rows) ? rows : []) {
     const name = candidateDisplayName(row);
-    const party = normalizeParty(row.Party_Name || row.Party || row.party || row.party_name);
-    const key = row.Candidate_Id || row.person_id || `${name}|${party}`;
+    const party = normalizeParty(row['Party_Name'] || row['Party'] || row['party'] || row['party_name']);
+    const key = row['Candidate_Id'] || row['person_id'] || `${name}|${party}`;
     if (!String(key || '').trim() || isNonTransferableRow(row, key, name, party)) continue;
     /** @type {ResultCandidate & { counts: CandidateCount[] }} */
     // arch-ok R6: elected and excluded are a candidate row's own fields, not status values
@@ -490,25 +490,25 @@ export function summarizeCandidateRows(rows = []) {
       finalVotes: null,
       elected: false,
       electedAt: null,
-      autoReturnedCeannComhairle: String(row.Auto_Returned_Ceann_Comhairle || '') === '1',
+      autoReturnedCeannComhairle: String(row['Auto_Returned_Ceann_Comhairle'] || '') === '1',
       excluded: false,
       excludedAt: null,
       status: '',
-      colour: resolvePartyColour(party, row.Party_Colour),
-      gender: fixText(row.Gender || row.gender || ''),
-      dailAbbreviation: fixText(row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation || ''),
-      officialCandidateId: fixText(row.Official_Candidate_Id || row.officialCandidateId || ''),
-      officialStatus: fixText(row.Official_Status || row.officialStatus || ''),
+      colour: resolvePartyColour(party, row['Party_Colour']),
+      gender: fixText(row['Gender'] || row['gender'] || ''),
+      dailAbbreviation: fixText(row['Dail_Abbreviation'] || row['Party_Abbreviation'] || row['dailAbbreviation'] || row['partyAbbreviation'] || ''),
+      officialCandidateId: fixText(row['Official_Candidate_Id'] || row['officialCandidateId'] || ''),
+      officialStatus: fixText(row['Official_Status'] || row['officialStatus'] || ''),
       // What the ballot paper said, where it differs from the party: kept apart from `party` so a
       // joke description ("Ereck Shun's All Night Party") never stands in for the party stood for.
-      ballotDescription: fixText(row.Ballot_Description || row.ballotDescription || ''),
+      ballotDescription: fixText(row['Ballot_Description'] || row['ballotDescription'] || ''),
       // A label the sources did not print for this election, inferred from the same person's
       // label at other elections (Party_Inferred), with the evidence for it (Party_Basis).
-      partyInferred: row.Party_Inferred === true || String(row.Party_Inferred || '') === 'true',
-      partyBasis: fixText(row.Party_Basis || ''),
+      partyInferred: row['Party_Inferred'] === true || String(row['Party_Inferred'] || '') === 'true',
+      partyBasis: fixText(row['Party_Basis'] || ''),
       // The label exactly as the source printed it ("HR (P)", "Rep Clubs"), where a source-checked
       // fix records it (Party_As_Printed). Printed labels are shown as printed beside the party.
-      partyAsPrinted: fixText(row.Party_As_Printed || ''),
+      partyAsPrinted: fixText(row['Party_As_Printed'] || ''),
       // The PERSON, where the source names one. `id` above is a candidacy key and on
       // older contests it is a row index -- id '1' sits on 2,260 candidacies under
       // unrelated names -- so it cannot carry identity. ElectionsIreland does name the
@@ -518,37 +518,37 @@ export function summarizeCandidateRows(rows = []) {
       sourcePersonId: sourcePersonIdFor(row),
       // The Seanad sub-panel the candidate stood on (Oireachtas or Nominating Bodies), where a
       // source gives it (Sub_Panel, scripts/lib/candidate-sub-panels.mjs).
-      subPanel: fixText(row.Sub_Panel || ''),
+      subPanel: fixText(row['Sub_Panel'] || ''),
       counts: []
     };
-    const countNo = parseNumber(row.Count_Number) || 1;
-    const firstPref = parseNumber(row.Candidate_First_Pref_Votes ?? row.first_pref ?? row.firstPreferenceVotes ?? row.votes);
-    const totalVotes = parseNumber(row.Total_Votes ?? row.final_votes ?? row.finalVote);
-    const transfers = parseNumber(row.Transfers ?? row.transfer ?? row.transfers);
-    const status = fixText(row.Status || row.status || row.outcome || '');
+    const countNo = parseNumber(row['Count_Number']) || 1;
+    const firstPref = parseNumber(row['Candidate_First_Pref_Votes'] ?? row['first_pref'] ?? row['firstPreferenceVotes'] ?? row['votes']);
+    const totalVotes = parseNumber(row['Total_Votes'] ?? row['final_votes'] ?? row['finalVote']);
+    const transfers = parseNumber(row['Transfers'] ?? row['transfer'] ?? row['transfers']);
+    const status = fixText(row['Status'] || row['status'] || row['outcome'] || '');
     if ((countNo === 1 || existing.firstPrefs === null) && firstPref !== null) existing.firstPrefs = firstPref;
     if (totalVotes !== null) existing.finalVotes = Math.max(existing.finalVotes || 0, totalVotes);
     if (!existing.status && status) existing.status = status;
-    if (!existing.gender && (row.Gender || row.gender)) existing.gender = fixText(row.Gender || row.gender || '');
-    if (!existing.dailAbbreviation && (row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation)) {
-      existing.dailAbbreviation = fixText(row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation || '');
+    if (!existing.gender && (row['Gender'] || row['gender'])) existing.gender = fixText(row['Gender'] || row['gender'] || '');
+    if (!existing.dailAbbreviation && (row['Dail_Abbreviation'] || row['Party_Abbreviation'] || row['dailAbbreviation'] || row['partyAbbreviation'])) {
+      existing.dailAbbreviation = fixText(row['Dail_Abbreviation'] || row['Party_Abbreviation'] || row['dailAbbreviation'] || row['partyAbbreviation'] || '');
     }
-    if (!existing.officialCandidateId && (row.Official_Candidate_Id || row.officialCandidateId)) {
-      existing.officialCandidateId = fixText(row.Official_Candidate_Id || row.officialCandidateId || '');
+    if (!existing.officialCandidateId && (row['Official_Candidate_Id'] || row['officialCandidateId'])) {
+      existing.officialCandidateId = fixText(row['Official_Candidate_Id'] || row['officialCandidateId'] || '');
     }
-    if (!existing.officialStatus && (row.Official_Status || row.officialStatus)) {
-      existing.officialStatus = fixText(row.Official_Status || row.officialStatus || '');
+    if (!existing.officialStatus && (row['Official_Status'] || row['officialStatus'])) {
+      existing.officialStatus = fixText(row['Official_Status'] || row['officialStatus'] || '');
     }
     if (!existing.sourcePersonId) existing.sourcePersonId = sourcePersonIdFor(row);
-    if (!existing.ballotDescription && (row.Ballot_Description || row.ballotDescription)) {
-      existing.ballotDescription = fixText(row.Ballot_Description || row.ballotDescription || '');
+    if (!existing.ballotDescription && (row['Ballot_Description'] || row['ballotDescription'])) {
+      existing.ballotDescription = fixText(row['Ballot_Description'] || row['ballotDescription'] || '');
     }
-    if (!existing.partyAsPrinted && row.Party_As_Printed) existing.partyAsPrinted = fixText(row.Party_As_Printed);
-    if (!existing.subPanel && row.Sub_Panel) existing.subPanel = fixText(row.Sub_Panel);
+    if (!existing.partyAsPrinted && row['Party_As_Printed']) existing.partyAsPrinted = fixText(row['Party_As_Printed']);
+    if (!existing.subPanel && row['Sub_Panel']) existing.subPanel = fixText(row['Sub_Panel']);
     // Many files (the NI council ones) mark Status on EVERY row of a candidate and record the stage
     // that decided it in Occurred_On_Count; the first such row is count 1, not that stage.
-    const occurred = parseNumber(row.Occurred_On_Count);
-    if (statusKind(status) === 'elected' || row.Elected === true || row.counted_as_elected === true) {
+    const occurred = parseNumber(row['Occurred_On_Count']);
+    if (statusKind(status) === 'elected' || row['Elected'] === true || row['counted_as_elected'] === true) {
       existing.elected = true;
       existing.electedAt ||= countNo;
       if (occurred) existing.decidedAt = Math.max(existing.decidedAt || 0, occurred);
@@ -616,14 +616,14 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
     const firstPref = scraperCandidateFirstPref(candidate);
     const occurredOn = scraperCandidateEventCount(candidate) || 1;
     const elected = scraperCandidateIsElected(candidate);
-    const name = fixText(candidate.name || '').trim();
+    const name = fixText(candidate['name'] || '').trim();
     const space = name.indexOf(' ');
     const firstname = space > 0 ? name.slice(0, space) : name;
     const surname = space > 0 ? name.slice(space + 1) : '';
     const party = scraperCandidateParty(candidate);
     const status = autoReturned
-      ? (candidate.status || 'Elected (auto returned)')
-      : (candidate.status || (elected ? 'Elected' : ''));
+      ? (candidate['status'] || 'Elected (auto returned)')
+      : (candidate['status'] || (elected ? 'Elected' : ''));
     const rowCountNumbers = hasSyntheticCountStages
       ? Array.from({ length: lastCount }, (_, countIndex) => countIndex + 1)
       : [1];
@@ -633,22 +633,22 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       // on it: '1' is whoever happened to be listed first, in every contest. The
       // person travels in ei_candidate_id below instead.
       Candidate_Id: String(index + 1),
-      ei_candidate_id: candidate.ei_candidate_id ?? candidate.eiCandidateId ?? '',
-      source_person_id: candidate.sourcePersonId || '',
+      ei_candidate_id: candidate['ei_candidate_id'] ?? candidate['eiCandidateId'] ?? '',
+      source_person_id: candidate['sourcePersonId'] || '',
       Candidate_First_Pref_Votes: String(firstPref),
-      Constituency_Number: String(payload.constituencyNumber || payload.officialDail?.constituencyNumber || meta.Constituency_Number || ''),
+      Constituency_Number: String(payload['constituencyNumber'] || payload.officialDail?.['constituencyNumber'] || meta['Constituency_Number'] || ''),
       Count_Number: String(countNumber),
-      Dail_Abbreviation: candidate.dailAbbreviation || candidate.partyAbbreviation || '',
+      Dail_Abbreviation: candidate['dailAbbreviation'] || candidate['partyAbbreviation'] || '',
       Firstname: firstname,
-      Gender: candidate.gender || '',
-      Official_Candidate_Id: candidate.officialCandidateId || '',
-      Official_Status: candidate.officialStatus || '',
-      Ballot_Description: candidate.ballotDescription || '',
+      Gender: candidate['gender'] || '',
+      Official_Candidate_Id: candidate['officialCandidateId'] || '',
+      Official_Status: candidate['officialStatus'] || '',
+      Ballot_Description: candidate['ballotDescription'] || '',
       // Set on a few candidates by source-checked fixes; written only where present.
-      ...(candidate.Party_As_Printed || candidate.partyAsPrinted ? { Party_As_Printed: candidate.Party_As_Printed || candidate.partyAsPrinted } : {}),
-      ...(candidate.partyInferred === true || candidate.Party_Inferred === true ? { Party_Inferred: true } : {}),
-      ...(candidate.partyBasis || candidate.Party_Basis ? { Party_Basis: candidate.partyBasis || candidate.Party_Basis } : {}),
-      Party_Abbreviation: candidate.partyAbbreviation || candidate.dailAbbreviation || '',
+      ...(candidate['Party_As_Printed'] || candidate['partyAsPrinted'] ? { Party_As_Printed: candidate['Party_As_Printed'] || candidate['partyAsPrinted'] } : {}),
+      ...(candidate['partyInferred'] === true || candidate['Party_Inferred'] === true ? { Party_Inferred: true } : {}),
+      ...(candidate['partyBasis'] || candidate['Party_Basis'] ? { Party_Basis: candidate['partyBasis'] || candidate['Party_Basis'] } : {}),
+      Party_Abbreviation: candidate['partyAbbreviation'] || candidate['dailAbbreviation'] || '',
       Surname: surname,
       Occurred_On_Count: String(occurredOn),
       Party_Colour: partyColour(party),
@@ -662,32 +662,32 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       id: index
     }));
   });
-  const validPoll = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll)
+  const validPoll = parseNumber(meta['Valid_Poll'] ?? meta['valid_poll'] ?? meta['validPoll'])
     || countGroup
       .filter((row) => Number(row.Count_Number) === 1)
       .reduce((sum, row) => sum + numberOrZero(row.Candidate_First_Pref_Votes), 0);
-  const electorate = parseNumber(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
-  const turnoutPct = parseNumber(meta.turnout_pct ?? meta.turnoutPct);
-  const explicitTotalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
+  const electorate = parseNumber(meta['Total_Electorate'] ?? meta['electorate'] ?? meta['electorate_total']);
+  const turnoutPct = parseNumber(meta['turnout_pct'] ?? meta['turnoutPct']);
+  const explicitTotalPoll = parseNumber(meta['Total_Poll'] ?? meta['total_poll'] ?? meta['totalPoll']);
   // A total poll inferred from a turnout must hold the valid poll (a turnout of the valid vote,
   // rounded, can put it a vote or two short): otherwise there is no total poll.
   const turnoutPoll = electorate !== null && turnoutPct !== null ? Math.round(electorate * turnoutPct / 100) : null;
   const totalPoll = explicitTotalPoll ?? (turnoutPoll !== null && (!validPoll || turnoutPoll >= validPoll) ? turnoutPoll : null);
-  const explicitSpoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
+  const explicitSpoiled = parseNumber(meta['Spoiled'] ?? meta['spoiled']);
   const spoiled = explicitSpoiled ?? (totalPoll !== null && validPoll
     ? Math.max(0, totalPoll - validPoll)
     : null);
-  const seatCount = parseNumber(payload.seats)
+  const seatCount = parseNumber(payload['seats'])
     || countGroup.filter((row) => statusKind(row.Status) === 'elected').length;
   return {
     Constituency: {
       __syntheticCountGroup: true,
       __syntheticCountStages: hasSyntheticCountStages,
       countInfo: {
-        Constituency_Name: payload.constituency || fallbackConstituency || '',
-        Constituency_Number: String(payload.constituencyNumber || payload.officialDail?.constituencyNumber || meta.Constituency_Number || ''),
+        Constituency_Name: payload['constituency'] || fallbackConstituency || '',
+        Constituency_Number: String(payload['constituencyNumber'] || payload.officialDail?.['constituencyNumber'] || meta['Constituency_Number'] || ''),
         Number_Of_Seats: seatCount ? String(seatCount) : '',
-        Quota: meta.Quota != null || meta.quota != null ? String(meta.Quota ?? meta.quota) : '',
+        Quota: meta['Quota'] != null || meta['quota'] != null ? String(meta['Quota'] ?? meta['quota']) : '',
         Spoiled: spoiled != null ? String(spoiled) : '',
         Total_Electorate: electorate != null ? String(electorate) : '',
         Total_Poll: totalPoll != null ? String(totalPoll) : '',
@@ -696,8 +696,8 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       countGroup
     },
     officialDail: payload.officialDail || null,
-    constituencyId: payload.constituencyId || payload.officialDail?.constituencyId || null,
-    constituencyNumber: payload.constituencyNumber || payload.officialDail?.constituencyNumber || null
+    constituencyId: payload['constituencyId'] || payload.officialDail?.['constituencyId'] || null,
+    constituencyNumber: payload['constituencyNumber'] || payload.officialDail?.['constituencyNumber'] || null
   };
 }
 
@@ -736,7 +736,7 @@ function isCeannComhairleParty(value) {
  * @returns {boolean}
  */
 export function scraperCandidateIsAutoReturned(candidate = {}) {
-  return isCeannComhairleParty(candidate.party);
+  return isCeannComhairleParty(candidate['party']);
 }
 
 /**
@@ -745,7 +745,7 @@ export function scraperCandidateIsAutoReturned(candidate = {}) {
  * @returns {string}
  */
 export function scraperCandidateAffiliatedParty(candidate = {}) {
-  const candidateName = normalizeName(fixText(candidate.name || ''));
+  const candidateName = normalizeName(fixText(candidate['name'] || ''));
   return CEANN_COMHAIRLE_AFFILIATION_BY_NAME.get(candidateName) || 'Ceann Comhairle (Speaker)';
 }
 
@@ -763,8 +763,8 @@ function positiveInteger(value) {
  * @returns {number | null}
  */
 function scraperCandidateElectedOrder(candidate = {}) {
-  if (Array.isArray(candidate.counts)) {
-    const order = positiveInteger(candidate.counts[3]);
+  if (Array.isArray(candidate['counts'])) {
+    const order = positiveInteger(candidate['counts'][3]);
     if (order !== null) return order;
   }
   return null;
@@ -776,8 +776,8 @@ function scraperCandidateElectedOrder(candidate = {}) {
  */
 function scraperCandidateEventCount(candidate = {}) {
   if (scraperCandidateIsAutoReturned(candidate)) return 1;
-  if (Array.isArray(candidate.counts)) {
-    const encodedCount = positiveInteger(candidate.counts[2]);
+  if (Array.isArray(candidate['counts'])) {
+    const encodedCount = positiveInteger(candidate['counts'][2]);
     if (encodedCount !== null) return encodedCount;
   }
   return null;
@@ -788,8 +788,8 @@ function scraperCandidateEventCount(candidate = {}) {
  * @returns {boolean}
  */
 function scraperCandidateIsElected(candidate = {}) {
-  return statusKind(candidate.status) === 'elected'
-    || candidate.counted_as_elected === true
+  return statusKind(candidate['status']) === 'elected'
+    || candidate['counted_as_elected'] === true
     || scraperCandidateElectedOrder(candidate) !== null
     || scraperCandidateIsAutoReturned(candidate);
 }
@@ -801,9 +801,9 @@ function scraperCandidateIsElected(candidate = {}) {
 function scraperCandidateFirstPref(candidate = {}) {
   if (scraperCandidateIsAutoReturned(candidate)) return 0;
   return parseNumber(
-    candidate.first_pref != null
-      ? candidate.first_pref
-      : (Array.isArray(candidate.counts) ? candidate.counts[0] : null)
+    candidate['first_pref'] != null
+      ? candidate['first_pref']
+      : (Array.isArray(candidate['counts']) ? candidate['counts'][0] : null)
   ) || 0;
 }
 
@@ -815,7 +815,7 @@ function scraperCandidateParty(candidate = {}) {
   if (scraperCandidateIsAutoReturned(candidate)) {
     return normalizeParty(scraperCandidateAffiliatedParty(candidate));
   }
-  return normalizeParty(String(candidate.party || '').replace(/\s*Lozenge\s*$/i, '').trim() || 'Independent');
+  return normalizeParty(String(candidate['party'] || '').replace(/\s*Lozenge\s*$/i, '').trim() || 'Independent');
 }
 
 /**
@@ -836,9 +836,9 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
     const raw = entry?.raw;
     if (isScraperCandidatePayload(raw)) {
       const meta = raw.meta || {};
-      let constituencyValid = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll);
+      let constituencyValid = parseNumber(meta['Valid_Poll'] ?? meta['valid_poll'] ?? meta['validPoll']);
       let inferredValid = 0;
-      let explicitSeats = parseNumber(raw.seats ?? meta.seats ?? meta.Number_Of_Seats);
+      let explicitSeats = parseNumber(raw['seats'] ?? meta['seats'] ?? meta['Number_Of_Seats']);
       let electedCount = 0;
 
       for (const candidate of raw.candidates || []) {
@@ -878,13 +878,13 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
       }
 
       if (constituencyValid === null) constituencyValid = inferredValid;
-      const electorate = parseNumber(meta.Total_Electorate ?? meta.electorate ?? meta.electorate_total);
-      const turnoutPct = parseNumber(meta.turnout_pct ?? meta.turnoutPct);
-      const explicitTotalPoll = parseNumber(meta.Total_Poll ?? meta.total_poll ?? meta.totalPoll);
+      const electorate = parseNumber(meta['Total_Electorate'] ?? meta['electorate'] ?? meta['electorate_total']);
+      const turnoutPct = parseNumber(meta['turnout_pct'] ?? meta['turnoutPct']);
+      const explicitTotalPoll = parseNumber(meta['Total_Poll'] ?? meta['total_poll'] ?? meta['totalPoll']);
       const turnoutPoll = electorate !== null && turnoutPct !== null ? Math.round(electorate * turnoutPct / 100) : null;
       const constituencyTotalPoll = explicitTotalPoll
         ?? (turnoutPoll !== null && (constituencyValid === null || turnoutPoll >= constituencyValid) ? turnoutPoll : null);
-      const explicitSpoiled = parseNumber(meta.Spoiled ?? meta.spoiled);
+      const explicitSpoiled = parseNumber(meta['Spoiled'] ?? meta['spoiled']);
       const constituencySpoiled = explicitSpoiled ?? (constituencyTotalPoll !== null && constituencyValid !== null
         ? Math.max(0, constituencyTotalPoll - constituencyValid)
         : null);
@@ -903,28 +903,28 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
 
     const validPoll = safeValidPoll(info, cg);
     totalValid += validPoll;
-    totalPoll += numberOrZero(info.Total_Poll);
-    totalElectorate += numberOrZero(info.Total_Electorate);
-    totalSpoiled += numberOrZero(info.Spoiled);
-    totalSeats += numberOrZero(info.Number_Of_Seats);
+    totalPoll += numberOrZero(info['Total_Poll']);
+    totalElectorate += numberOrZero(info['Total_Electorate']);
+    totalSpoiled += numberOrZero(info['Spoiled']);
+    totalSeats += numberOrZero(info['Number_Of_Seats']);
 
     // Before 1832 no party was printed at all (partyLabels: "none-recorded"): a blank there is
     // "No party recorded", as the contest's own tables say; elsewhere it is "No label".
-    const blankParty = (entry.raw?.partyLabels || entry.raw?.Constituency?.partyLabels) === 'none-recorded'
+    const blankParty = (entry.raw?.['partyLabels'] || entry.raw?.Constituency?.['partyLabels']) === 'none-recorded'
       ? NO_PARTY_RECORDED : NO_LABEL;
     const seenCandidates = new Set();
     for (const row of cg) {
       if (!isValidCandidateRow(row)) continue;
-      const countNum = parseInt(String(row.Count_Number), 10) || 1;
-      const candidateId = String(row.Candidate_Id || '');
-      const party = normalizeParty(row.Party_Name) || blankParty;
+      const countNum = parseInt(String(row['Count_Number']), 10) || 1;
+      const candidateId = String(row['Candidate_Id'] || '');
+      const party = normalizeParty(row['Party_Name']) || blankParty;
       if (!partyTotals.has(party)) {
         partyTotals.set(party, {
           party,
           seats: 0,
           stood: 0,
           votes: 0,
-          colour: resolvePartyColour(party, row.Party_Colour)
+          colour: resolvePartyColour(party, row['Party_Colour'])
         });
       }
       if (countNum === 1 && !seenCandidates.has(candidateId)) {
@@ -933,7 +933,7 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
         totals.stood += 1;
         // An unopposed return: a seat (counted below) and a candidate, but no votes.
         if (isUnopposedCandidate(row)) totals.unopposedSeats = (totals.unopposedSeats || 0) + 1;
-        else totals.votes += numberOrZero(row.Total_Votes);
+        else totals.votes += numberOrZero(row['Total_Votes']);
       }
     }
 
@@ -1078,26 +1078,26 @@ function extractMainLikeElected(payload = {}) {
   const cg = payload.Constituency?.countGroup || [];
   if (!cg.length) return [];
   const info = payload.Constituency?.countInfo || {};
-  const numSeats = parseNumber(info.Number_Of_Seats) || 5;
+  const numSeats = parseNumber(info['Number_Of_Seats']) || 5;
   /** @type {Array<{ name: string, party: string, colour: string, count: number }>} */
   const elected = [];
   /** @type {Set<unknown>} */
   const excluded = new Set();
   /** @type {Set<unknown>} */
   const seen = new Set();
-  const lastCount = Math.max(...cg.map((row) => parseInt(String(row.Count_Number), 10) || 0), 1);
+  const lastCount = Math.max(...cg.map((row) => parseInt(String(row['Count_Number']), 10) || 0), 1);
   /** @type {Map<unknown, { rows: SourceRow[], name: string, party: string, colour: string }>} */
   const grouped = new Map();
 
   for (const row of cg) {
-    const cid = row.Candidate_Id;
+    const cid = row['Candidate_Id'];
     if (!cid || String(cid).toLowerCase() === 'nontransferable') continue;
     if (!grouped.has(cid)) {
       grouped.set(cid, {
         rows: [],
         name: candidateDisplayName(row),
-        party: normalizeParty(row.Party_Name),
-        colour: resolvePartyColour(row.Party_Name, row.Party_Colour)
+        party: normalizeParty(row['Party_Name']),
+        colour: resolvePartyColour(row['Party_Name'], row['Party_Colour'])
       });
     }
     /** @type {{ rows: SourceRow[] }} */ (grouped.get(cid)).rows.push(row);
@@ -1107,12 +1107,12 @@ function extractMainLikeElected(payload = {}) {
     /** @type {{ counts: CountStages }} */
     const candidate = { counts: {} };
     for (const row of entry.rows) {
-      candidate.counts[parseInt(String(row.Count_Number), 10) || 1] = {
-        total: numberOrZero(row.Total_Votes),
-        transfers: numberOrZero(row.Transfers),
-        status: row.Status || ''
+      candidate.counts[parseInt(String(row['Count_Number']), 10) || 1] = {
+        total: numberOrZero(row['Total_Votes']),
+        transfers: numberOrZero(row['Transfers']),
+        status: row['Status'] || ''
       };
-      if (statusKind(row.Status) === 'excluded') excluded.add(cid);
+      if (statusKind(row['Status']) === 'excluded') excluded.add(cid);
     }
     const lifecycle = inferMainLikeCandidateLifecycle(candidate, info, lastCount);
     if (lifecycle.electedAt && !seen.has(cid)) {
@@ -1128,17 +1128,17 @@ function extractMainLikeElected(payload = {}) {
 
   if (elected.length < numSeats) {
     const finalRound = cg
-      .filter((row) => (parseInt(String(row.Count_Number), 10) || 0) === lastCount)
-      .sort((a, b) => numberOrZero(b.Total_Votes) - numberOrZero(a.Total_Votes));
+      .filter((row) => (parseInt(String(row['Count_Number']), 10) || 0) === lastCount)
+      .sort((a, b) => numberOrZero(b['Total_Votes']) - numberOrZero(a['Total_Votes']));
     for (const row of finalRound) {
-      if (!seen.has(row.Candidate_Id)
-        && !excluded.has(row.Candidate_Id)
-        && row.Candidate_Id !== 'nontransferable') {
-        seen.add(row.Candidate_Id);
+      if (!seen.has(row['Candidate_Id'])
+        && !excluded.has(row['Candidate_Id'])
+        && row['Candidate_Id'] !== 'nontransferable') {
+        seen.add(row['Candidate_Id']);
         elected.push({
           name: candidateDisplayName(row),
-          party: normalizeParty(row.Party_Name),
-          colour: resolvePartyColour(row.Party_Name, row.Party_Colour),
+          party: normalizeParty(row['Party_Name']),
+          colour: resolvePartyColour(row['Party_Name'], row['Party_Colour']),
           count: lastCount
         });
       }
@@ -1156,7 +1156,7 @@ function extractMainLikeElected(payload = {}) {
  * @returns {{ electedAt: number | null, excludedAt: number | null, terminalCount: number | null, lastCount: number }}
  */
 function inferMainLikeCandidateLifecycle(candidate, info, lastCount) {
-  const quota = parseNumber(info?.Quota);
+  const quota = parseNumber(info?.['Quota']);
   const counts = Object.keys(candidate.counts || {})
     .map(Number)
     .filter(Number.isFinite)
@@ -1195,19 +1195,19 @@ function inferMainLikeCandidateLifecycle(candidate, info, lastCount) {
  * @returns {number}
  */
 function safeValidPoll(info = {}, countGroup = []) {
-  const explicit = parseNumber(info.Valid_Poll);
+  const explicit = parseNumber(info['Valid_Poll']);
   if (explicit !== null) return explicit;
   const seen = new Set();
   let total = 0;
   for (const row of countGroup) {
-    const cid = String(row.Candidate_Id || '');
-    const countNum = parseInt(String(row.Count_Number), 10) || 1;
+    const cid = String(row['Candidate_Id'] || '');
+    const countNum = parseInt(String(row['Count_Number']), 10) || 1;
     if (countNum !== 1 || !isValidCandidateRow(row) || seen.has(cid)) continue;
     seen.add(cid);
-    total += numberOrZero(row.Total_Votes);
+    total += numberOrZero(row['Total_Votes']);
   }
   if (total > 0) return total;
-  const fallback = numberOrZero(info.Total_Poll) - numberOrZero(info.Spoiled);
+  const fallback = numberOrZero(info['Total_Poll']) - numberOrZero(info['Spoiled']);
   return Number.isFinite(fallback) && fallback > 0 ? fallback : 0;
 }
 
@@ -1231,11 +1231,11 @@ function candidateKey(name, party) {
  */
 function withCandidateRowIds(payload) {
   const cg = payload?.Constituency?.countGroup;
-  if (!Array.isArray(cg) || cg.every((row) => String(row?.Candidate_Id || '').trim())) return payload;
+  if (!Array.isArray(cg) || cg.every((row) => String(row?.['Candidate_Id'] || '').trim())) return payload;
   const countGroup = cg.map((row) => {
-    if (String(row?.Candidate_Id || '').trim()) return row;
+    if (String(row?.['Candidate_Id'] || '').trim()) return row;
     const name = candidateDisplayName(row, '');
-    return name ? { ...row, Candidate_Id: `row:${name}|${normalizeParty(row.Party_Name)}` } : row;
+    return name ? { ...row, Candidate_Id: `row:${name}|${normalizeParty(row['Party_Name'])}` } : row;
   });
   // payload is set: its countGroup is an array (above).
   return { ...payload, Constituency: { .../** @type {RawResult} */ (payload).Constituency, countGroup } };
@@ -1246,7 +1246,7 @@ function withCandidateRowIds(payload) {
  * @returns {boolean}
  */
 function isValidCandidateRow(row = {}) {
-  const cid = String(row.Candidate_Id || '').trim();
+  const cid = String(row['Candidate_Id'] || '').trim();
   const name = candidateDisplayName(row, '');
   if (!cid || cid.toLowerCase() === 'nontransferable') return false;
   if (!name || name.toLowerCase() === 'party') return false;
@@ -1268,20 +1268,20 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
     if (isScraperCandidatePayload(raw)) {
       const meta = raw.meta || {};
       const inferredValid = (raw.candidates || []).reduce((sum, candidate) => sum + scraperCandidateFirstPref(candidate), 0);
-      const constValid = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll) || inferredValid;
-      const constituency = fixText(raw.constituency || entry.constituency || '');
+      const constValid = parseNumber(meta['Valid_Poll'] ?? meta['valid_poll'] ?? meta['validPoll']) || inferredValid;
+      const constituency = fixText(raw['constituency'] || entry.constituency || '');
       totalValid += constValid;
 
       for (const [index, candidate] of (raw.candidates || []).entries()) {
-        const name = fixText(candidate.name || '').trim();
+        const name = fixText(candidate['name'] || '').trim();
         const party = scraperCandidateParty(candidate);
         const votes = scraperCandidateFirstPref(candidate);
         const autoReturned = scraperCandidateIsAutoReturned(candidate);
         const elected = scraperCandidateIsElected(candidate);
-        const excluded = statusKind(candidate.status) === 'excluded';
-        const finalCount = parseNumber(candidate.final_count);
+        const excluded = statusKind(candidate['status']) === 'excluded';
+        const finalCount = parseNumber(candidate['final_count']);
         const resolvedCount = typeof finalCount === 'number' && Number.isInteger(finalCount) && finalCount > 0 ? finalCount : null;
-        const status = autoReturned ? 'Elected (auto returned)' : (elected ? 'Elected' : (excluded ? 'Excluded' : fixText(candidate.status || '') || 'Not Elected'));
+        const status = autoReturned ? 'Elected (auto returned)' : (elected ? 'Elected' : (excluded ? 'Excluded' : fixText(candidate['status'] || '') || 'Not Elected'));
         // arch-ok R6: elected and excluded are a candidate row's own fields, not status values
         rows.push({
           id: String(index + 1),
@@ -1314,7 +1314,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
           counts: [{
             total: votes,
             transfers: 0,
-            status: fixText(candidate.status || ''),
+            status: fixText(candidate['status'] || ''),
             firstPrefs: votes,
             count: resolvedCount || 1
           }],
@@ -1330,23 +1330,23 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
     if (!cg.length) continue;
 
     const constValid = safeValidPoll(info, cg);
-    const seatCount = parseNumber(info.Number_Of_Seats) || 0;
-    const constituency = contestName(entry.constituency || info.Constituency_Name || '');
+    const seatCount = parseNumber(info['Number_Of_Seats']) || 0;
+    const constituency = contestName(entry.constituency || info['Constituency_Name'] || '');
     totalValid += constValid;
 
     /** @type {Map<string, MainLikeCandidateRow & { counts: CountStages }>} */
     const byCandidate = new Map();
-    const countNums = unique(cg.map((row) => parseInt(String(row.Count_Number), 10) || 1)).sort((a, b) => a - b);
+    const countNums = unique(cg.map((row) => parseInt(String(row['Count_Number']), 10) || 1)).sort((a, b) => a - b);
     const lastCount = countNums[countNums.length - 1] || 1;
     const totalCountCount = countNums.length || 1;
 
     for (const row of cg) {
       if (!isValidCandidateRow(row)) continue;
-      const cid = String(row.Candidate_Id || '');
-      const countNum = parseInt(String(row.Count_Number), 10) || 1;
+      const cid = String(row['Candidate_Id'] || '');
+      const countNum = parseInt(String(row['Count_Number']), 10) || 1;
       if (!byCandidate.has(cid)) {
         const name = candidateDisplayName(row);
-        const party = normalizeParty(row.Party_Name);
+        const party = normalizeParty(row['Party_Name']);
         // arch-ok R6: elected and excluded are a candidate row's own fields, not status values
         byCandidate.set(cid, {
           id: cid,
@@ -1357,7 +1357,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
           name,
           party,
           ...printedLabelEntry(row),
-          colour: resolvePartyColour(party, row.Party_Colour),
+          colour: resolvePartyColour(party, row['Party_Colour']),
           firstPrefs: 0,
           votes: 0,
           constPct: 0,
@@ -1374,7 +1374,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
         });
       }
       const candidate = /** @type {MainLikeCandidateRow & { counts: CountStages }} */ (byCandidate.get(cid)); // set above
-      const total = numberOrZero(row.Total_Votes);
+      const total = numberOrZero(row['Total_Votes']);
       if (countNum === 1) {
         candidate.firstPrefs = total;
         candidate.votes = total;
@@ -1383,8 +1383,8 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
       }
       candidate.counts[countNum] = {
         total,
-        transfers: numberOrZero(row.Transfers),
-        status: row.Status || ''
+        transfers: numberOrZero(row['Transfers']),
+        status: row['Status'] || ''
       };
       if (total > candidate.finalVotes) candidate.finalVotes = total;
     }
@@ -1483,27 +1483,27 @@ export function summarizeResult(raw, fallbackConstituency) {
   const info = source.countInfo || raw?.meta || raw?.metaData || {};
   const forumRows = Array.isArray(source.forum?.rows) ? source.forum.rows : null;
   const rows = forumRows || source.countGroup || raw?.candidates || [];
-  const constituency = contestName(source.constituency || raw?.constituency || info.Constituency_Name || fallbackConstituency);
-  const recallPetition = source.recallPetition || raw?.recallPetition || raw?.petition || null;
+  const constituency = contestName(source['constituency'] || raw?.['constituency'] || info['Constituency_Name'] || fallbackConstituency);
+  const recallPetition = source['recallPetition'] || raw?.['recallPetition'] || raw?.['petition'] || null;
   let candidates = forumRows ? summarizeForumRows(forumRows) : summarizeCandidateRows(rows);
   // Before 1832 no party was printed against a candidate. Such a contest says so
   // (partyLabels: "none-recorded") and a blank party reads "No party recorded" rather than
   // falling through to "Independent", which nobody was.
-  if ((raw?.partyLabels || source.partyLabels) === 'none-recorded') {
+  if ((raw?.['partyLabels'] || source['partyLabels']) === 'none-recorded') {
     candidates = candidates.map((candidate) => (candidate.party ? candidate : { ...candidate, party: NO_PARTY_RECORDED }));
   }
   const ranked = [...candidates].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
-  const seatsTotal = parseNumber(info.Number_Of_Seats ?? raw?.meta?.seats ?? raw?.seats);
+  const seatsTotal = parseNumber(info['Number_Of_Seats'] ?? raw?.meta?.['seats'] ?? raw?.['seats']);
   if (!forumRows) candidates = completeElectedCandidateSet(candidates, seatsTotal);
   let elected = extractElected({ candidates, seatsTotal });
   const leading = ranked[0] || null;
   const runnerUp = ranked[1] || null;
-  const validPoll = parseNumber(info.Valid_Poll ?? raw?.validPoll ?? raw?.meta?.valid_poll ?? raw?.meta?.validPoll);
-  const totalPoll = parseNumber(info.Total_Poll ?? raw?.totalPoll ?? raw?.meta?.total_poll ?? raw?.meta?.totalPoll);
-  const spoiled = parseNumber(info.Spoiled ?? raw?.spoiled ?? raw?.meta?.spoiled);
-  const electorate = parseNumber(info.Total_Electorate ?? raw?.electorate ?? raw?.meta?.electorate);
+  const validPoll = parseNumber(info['Valid_Poll'] ?? raw?.['validPoll'] ?? raw?.meta?.['valid_poll'] ?? raw?.meta?.['validPoll']);
+  const totalPoll = parseNumber(info['Total_Poll'] ?? raw?.['totalPoll'] ?? raw?.meta?.['total_poll'] ?? raw?.meta?.['totalPoll']);
+  const spoiled = parseNumber(info['Spoiled'] ?? raw?.['spoiled'] ?? raw?.meta?.['spoiled']);
+  const electorate = parseNumber(info['Total_Electorate'] ?? raw?.['electorate'] ?? raw?.meta?.['electorate']);
   const totalVotes = validPoll || candidates.reduce((sum, candidate) => sum + numberOrZero(candidate.firstPrefs), 0);
-  const turnoutPct = parseNumber(info.Turnout_Pct ?? raw?.turnoutPct ?? raw?.turnout_pct ?? raw?.meta?.turnout_pct ?? raw?.meta?.turnoutPct)
+  const turnoutPct = parseNumber(info['Turnout_Pct'] ?? raw?.['turnoutPct'] ?? raw?.['turnout_pct'] ?? raw?.meta?.['turnout_pct'] ?? raw?.meta?.['turnoutPct'])
     || (electorate && totalPoll ? round((totalPoll / electorate) * 100, 2) : null);
   const majority = leading && runnerUp ? numberOrZero(leading.firstPrefs) - numberOrZero(runnerUp.firstPrefs) : null;
   const majorityPct = majority !== null && totalVotes ? round((majority / totalVotes) * 100, 2) : null;
@@ -1512,7 +1512,7 @@ export function summarizeResult(raw, fallbackConstituency) {
   const winnerParty = topElectedParty?.key || leading?.party || null;
   const winnerName = elected.length === 1 ? /** @type {{ name: string }} */ (elected[0]).name : elected.length ? `${elected.length} elected` : leading?.name || null;
   const leadingPct = leading && totalVotes ? round((numberOrZero(leading.firstPrefs) / totalVotes) * 100, 2) : null;
-  const quota = parseNumber(info.Quota ?? raw?.meta?.quota ?? raw?.quota);
+  const quota = parseNumber(info['Quota'] ?? raw?.meta?.['quota'] ?? raw?.['quota']);
   const countNumbers = unique(candidates.flatMap((candidate) => (candidate.counts || []).map((count) => count.count))).sort((a, b) => a - b);
 
   return {
@@ -1547,8 +1547,8 @@ export function summarizeResult(raw, fallbackConstituency) {
     ...(recallPetition ? { recallPetition } : {}),
     hasCountDetail: countNumbers.length > 1 || candidates.some((candidate) => (candidate.counts || []).length > 1),
     animationPayload: withoutHarvestFields(mainPayload || raw || null),
-    constituencyId: raw?.constituencyId || raw?.officialDail?.constituencyId || null,
-    constituencyNumber: raw?.constituencyNumber || raw?.officialDail?.constituencyNumber || info.Constituency_Number || null,
+    constituencyId: raw?.['constituencyId'] || raw?.officialDail?.['constituencyId'] || null,
+    constituencyNumber: raw?.['constituencyNumber'] || raw?.officialDail?.['constituencyNumber'] || info['Constituency_Number'] || null,
     officialDail: raw?.officialDail || null,
     // A contest file whose sources name only the winners says so in its countInfo
     // (Candidates_Recorded: "winners"); the contest record and its summary row carry it.
@@ -1977,9 +1977,9 @@ function isNonTransferableRow(row = {}, key = '', name = '', party = '') {
     key,
     name,
     party,
-    row.Candidate_Id,
-    row.candidateName,
-    row.Party_Name
+    row['Candidate_Id'],
+    row['candidateName'],
+    row['Party_Name']
   ].some((value) => /non\s*transferable/.test(normalizeName(value)));
 }
 
@@ -1993,16 +1993,16 @@ function summarizeNonTransferableRows(rows = []) {
   const counts = [];
   for (const row of Array.isArray(rows) ? rows : []) {
     const name = candidateDisplayName(row);
-    const party = normalizeParty(row.Party_Name || row.party || row.party_name);
-    const key = row.Candidate_Id || row.person_id || `${name}|${party}`;
+    const party = normalizeParty(row['Party_Name'] || row['party'] || row['party_name']);
+    const key = row['Candidate_Id'] || row['person_id'] || `${name}|${party}`;
     if (!isNonTransferableRow(row, key, name, party)) continue;
-    const count = parseNumber(row.Count_Number ?? row.count);
+    const count = parseNumber(row['Count_Number'] ?? row['count']);
     if (!count) continue;
     counts.push({
       count,
-      total: parseNumber(row.Total_Votes ?? row.total),
-      transfers: parseNumber(row.Transfers ?? row.transfer ?? row.transfers),
-      status: fixText(row.Status || row.status || '')
+      total: parseNumber(row['Total_Votes'] ?? row['total']),
+      transfers: parseNumber(row['Transfers'] ?? row['transfer'] ?? row['transfers']),
+      status: fixText(row['Status'] || row['status'] || '')
     });
   }
   return counts.sort((a, b) => a.count - b.count);
@@ -2013,5 +2013,5 @@ function summarizeNonTransferableRows(rows = []) {
  * @returns {string}
  */
 function candidateCompareKey(candidate = {}) {
-  return normalizeName(candidate.name || candidate.candidateName || candidate.Candidate_Name || candidate.id || '');
+  return normalizeName(candidate.name || candidate.candidateName || candidate['Candidate_Name'] || candidate.id || '');
 }

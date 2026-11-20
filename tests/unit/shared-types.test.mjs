@@ -38,6 +38,8 @@ test('noImplicitAny and strict stay on, set here and not inherited', () => {
   assert.equal(config.compilerOptions.checkJs, true);
   assert.equal(config.compilerOptions.noEmit, true);
   assert.equal(config.extends, undefined, 'tsconfig.shared.json must not inherit its flags');
+  // noPropertyAccessFromIndexSignature since 20 Nov 2026 (stream w20-refactor); only add flags.
+  assert.equal(config.compilerOptions.noPropertyAccessFromIndexSignature, true, 'tsconfig.shared.json turned noPropertyAccessFromIndexSignature off');
 });
 
 test('the include list keeps every entry it had', () => {

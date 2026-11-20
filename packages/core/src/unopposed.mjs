@@ -23,9 +23,9 @@ const votesOf = (value) => {
  */
 export function candidateReturnWithoutPoll(candidate) {
   if (!candidate) return null;
-  const status = String(candidate.status ?? candidate.Status ?? '');
-  if (candidate.autoReturnedCeannComhairle === true || /auto[- ]?returned/i.test(status)) return 'auto-returned';
-  if (candidate.unopposed === true || candidate.unopposed === 1 || /unopposed/i.test(status)) return 'unopposed';
+  const status = String(candidate['status'] ?? candidate['Status'] ?? '');
+  if (candidate['autoReturnedCeannComhairle'] === true || /auto[- ]?returned/i.test(status)) return 'auto-returned';
+  if (candidate['unopposed'] === true || candidate['unopposed'] === 1 || /unopposed/i.test(status)) return 'unopposed';
   return null;
 }
 
@@ -63,7 +63,7 @@ export function isUncontestedResult(result) {
   const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
   if (candidates.length && candidates.every((candidate) => isUnopposedCandidate(candidate))) return true;
   return String(result?.contestStatus || '') === 'uncontested'
-    && !candidates.some((candidate) => votesOf(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes) > 0);
+    && !candidates.some((candidate) => votesOf(candidate['firstPrefs'] ?? candidate['votes'] ?? candidate['finalVotes']) > 0);
 }
 
 /**
@@ -98,7 +98,7 @@ export function contestPollStatus(result) {
   if (isUncontestedResult(result)) return 'unopposed';
   const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
   const polled = votesOf(result?.validPoll) > 0
-    || candidates.some((candidate) => votesOf(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes) > 0);
+    || candidates.some((candidate) => votesOf(candidate['firstPrefs'] ?? candidate['votes'] ?? candidate['finalVotes']) > 0);
   return polled ? 'polled' : 'not-recorded';
 }
 
