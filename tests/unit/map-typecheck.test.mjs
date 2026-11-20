@@ -96,7 +96,9 @@ test('the strict flags stay on, strictNullChecks (round 3) and noImplicitAny (8 
     // rf-final-mapflags, 18 Nov 2026
     'exactOptionalPropertyTypes',
     // w19-refactor-now, 19 Nov 2026
-    'noUncheckedIndexedAccess'];
+    'noUncheckedIndexedAccess',
+    // w20-refactor, 20 Nov 2026
+    'noPropertyAccessFromIndexSignature'];
   for (const flag of flags) assert.equal(config.compilerOptions[flag], true, `${CONFIG} turned ${flag} off`);
   // `strict: false` or a stray override would not show above; the flag must be set here, not inherited.
   assert.equal(config.extends, undefined, `${CONFIG} must not inherit its flags`);

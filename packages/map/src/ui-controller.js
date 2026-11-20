@@ -440,7 +440,7 @@ class UIController {
                 const classMemberLink = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('.class-member__name-link'));
                 if (classMemberLink) {
                     e.preventDefault();
-                    const mapId = classMemberLink.dataset.detailMapId;
+                    const mapId = classMemberLink.dataset['detailMapId'];
                     if (mapId) this.showCatalogueDetailView(mapId);
                     return;
                 }
@@ -448,7 +448,7 @@ class UIController {
                 const mapCardLink = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('.map-card__name-link'));
                 if (mapCardLink) {
                     e.preventDefault();
-                    const mapId = mapCardLink.dataset.detailMapId;
+                    const mapId = mapCardLink.dataset['detailMapId'];
                     if (mapId) this.showCatalogueDetailView(mapId);
                     return;
                 }
@@ -715,7 +715,7 @@ class UIController {
 
     _getActivePaneTabId() {
         const activeTab = /** @type {HtmlRoot} */ (document).querySelector('.pane-tab.pane-tab--active');
-        return /** @type {ViewElement | null} */ (activeTab)?.dataset?.tab || 'catalogue';
+        return /** @type {ViewElement | null} */ (activeTab)?.dataset?.['tab'] || 'catalogue';
     }
 
     /** @param {string} tabId */
@@ -1435,7 +1435,7 @@ class UIController {
                 menu.addEventListener('click', (event) => {
                     const btn = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('button[data-action]'));
                     if (!btn) return;
-                    const action = btn.dataset.action;
+                    const action = btn.dataset['action'];
                     if (action === 'sort-asc') {
                         state.sort.key = key;
                         state.sort.dir = 'asc';
@@ -1522,17 +1522,17 @@ class UIController {
                 if (link) {
                     event.preventDefault();
                     event.stopPropagation();
-                    const detailId = link.dataset.featureDetailId;
+                    const detailId = link.dataset['featureDetailId'];
                     if (detailId) this.showFeatureDetailInCatalogue(detailId);
                     return;
                 }
 
                 const row = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('.catalogue-detail__attr-tr--interactive'));
                 if (!row) return;
-                const featureIndex = Number(row.dataset.featureIndex);
-                const featureName = row.dataset.featureName || '';
-                const bbox = (row.dataset.featureBbox || '').split(',').map(Number).filter(Number.isFinite);
-                const featureId = row.dataset.featureId || '';
+                const featureIndex = Number(row.dataset['featureIndex']);
+                const featureName = row.dataset['featureName'] || '';
+                const bbox = (row.dataset['featureBbox'] || '').split(',').map(Number).filter(Number.isFinite);
+                const featureId = row.dataset['featureId'] || '';
                 const feature = state.allFeatures.find((entry) => entry.index === featureIndex)?.feature;
                 this.focusFeatureFromTable(
                     map,
@@ -1719,7 +1719,7 @@ class UIController {
         popup.addEventListener('click', (event) => {
             const item = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest?.('[data-history-index]'));
             if (!item) return;
-            const index = Number(item.dataset.historyIndex);
+            const index = Number(item.dataset['historyIndex']);
             if (!Number.isInteger(index) || index < 0 || index >= entries.length) return;
             if (nav) {
                 close();
@@ -1760,7 +1760,7 @@ class UIController {
 
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                const tabId = /** @type {HTMLElement} */ (tab).dataset.tab;
+                const tabId = /** @type {HTMLElement} */ (tab).dataset['tab'];
                 this.showTab(/** @type {string} */ (tabId));
             });
         });
@@ -1771,7 +1771,7 @@ class UIController {
             const trigger = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('[data-tab-target]'));
             if (!trigger) return;
             e.preventDefault();
-            this.showTab(/** @type {string} */ (trigger.dataset.tabTarget));
+            this.showTab(/** @type {string} */ (trigger.dataset['tabTarget']));
         });
     }
 
@@ -1782,14 +1782,14 @@ class UIController {
 
         // Update active tab
         tabs.forEach(t => {
-            const isActive = /** @type {HTMLElement} */ (t).dataset.tab === tabId;
+            const isActive = /** @type {HTMLElement} */ (t).dataset['tab'] === tabId;
             t.classList.toggle('pane-tab--active', isActive);
             t.setAttribute('aria-selected', isActive ? 'true' : 'false');
         });
 
         // Show/hide content areas using the correct CSS class
         tabContents.forEach(content => {
-            const contentTab = /** @type {HTMLElement} */ (content).dataset.tabContent;
+            const contentTab = /** @type {HTMLElement} */ (content).dataset['tabContent'];
             const isActive = contentTab === tabId;
             content.classList.toggle('pane-tab-content--hidden', !isActive);
         });
@@ -2025,7 +2025,7 @@ class UIController {
         const buttons = /** @type {HtmlRoot} */ (document).querySelectorAll('.split-toggle__btn');
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
-                const action = /** @type {HTMLElement} */ (btn).dataset.action;
+                const action = /** @type {HTMLElement} */ (btn).dataset['action'];
                 if (action) this.setSplitState(action);
             });
         });
@@ -2223,12 +2223,12 @@ class UIController {
         if (!allowedStates.find(s => s.id === this.currentStateId)) {
             this.currentStateId = allowedStates[0]?.id || 'balanced';
         }
-        /** @type {HTMLElement} */ (shell).dataset.splitState = this.currentStateId;
+        /** @type {HTMLElement} */ (shell).dataset['splitState'] = this.currentStateId;
         const buttons = /** @type {NodeListOf<ViewElement>} */ (/** @type {HtmlRoot} */ (document).querySelectorAll('.split-toggle__btn'));
         buttons.forEach(btn => {
-            const isActive = btn.dataset.action === this.currentStateId;
+            const isActive = btn.dataset['action'] === this.currentStateId;
             btn.classList.toggle('split-toggle__btn--active', isActive);
-            const stateId = btn.dataset.action;
+            const stateId = btn.dataset['action'];
             const isAllowed = allowedStates.some(s => s.id === stateId);
             btn.style.display = isAllowed ? '' : 'none';
         });
@@ -2382,7 +2382,7 @@ class UIController {
         const mapId = String(result?.mapId || map?.id || '');
         const bbox = Array.isArray(result?.bbox) && result.bbox.length === 4 ? result.bbox : null;
         const manifestMap = this._featureThumbnailManifest?.maps?.[mapId] || null;
-        const colour = manifestMap?.colour || map?.style?.fillColor || map?.style?.color || map?.color || MAP_COLOURS.layer;
+        const colour = manifestMap?.colour || map?.style?.fillColor || map?.style?.color || map?.['color'] || MAP_COLOURS.layer;
         const thumbnailId = this.featureThumbnailIdFor(mapId, featureName || result?.name || result?.id || '', bbox);
         const renderedIds = this._featureThumbnailRenderedIdsByMap?.get(mapId);
         if (renderedIds?.has(thumbnailId) && manifestMap?.renderedAssetBasePath) {
@@ -2498,7 +2498,7 @@ class UIController {
     getMapFeatureCount(map) {
         if (!map || !this._featureCountManifest?.counts) return null;
         const counts = this._featureCountManifest.counts;
-        const candidates = [map.id, map.cloneOf, map.aliasOf, map.sourceMapId].filter(Boolean).map(String);
+        const candidates = [map.id, map.cloneOf, map['aliasOf'], map['sourceMapId']].filter(Boolean).map(String);
         for (const id of candidates) {
             const value = /** @type {number} */ (counts[id]);
             if (Number.isFinite(value)) return value;
@@ -2508,7 +2508,7 @@ class UIController {
 
     /** @param {MapRecord | null | undefined} map @param {number | null} [count] */
     getMapFeatureUnitLabel(map, count = null) {
-        const unit = String(map?.featureUnit || map?.featureType || map?.unitName || '').trim();
+        const unit = String(map?.['featureUnit'] || map?.['featureType'] || map?.['unitName'] || '').trim();
         if (unit) return count === 1 ? unit.replace(/s$/i, '') : unit;
         const haystack = (String(map?.id || '') + ' ' + String(map?.name || '') + ' ' + String(map?.category || '')).toLowerCase();
         /** @type {Array<[RegExp, [string, string]]>} */
@@ -2576,7 +2576,7 @@ class UIController {
     /** @param {ParentNode} [root] */
     hydrateLazyThumbnails(root = document) {
         const images = Array.from(/** @type {NodeListOf<HTMLImageElement>} */ (root.querySelectorAll('img[data-thumbnail-src]:not([data-thumbnail-hydrated])')))
-            .filter((img) => img.dataset.thumbnailDefer !== 'hover');
+            .filter((img) => img.dataset['thumbnailDefer'] !== 'hover');
         if (images.length === 0) return;
 
         /** @param {HTMLImageElement} img */
@@ -2601,13 +2601,13 @@ class UIController {
 
     /** @param {HTMLImageElement | null | undefined} img */
     loadLazyThumbnailImage(img) {
-        if (!img || img.dataset.thumbnailHydrated === '1') return;
-        const src = img.dataset.thumbnailSrc;
+        if (!img || img.dataset['thumbnailHydrated'] === '1') return;
+        const src = img.dataset['thumbnailSrc'];
         if (!src) return;
-        const srcset = img.dataset.thumbnailSrcset;
+        const srcset = img.dataset['thumbnailSrcset'];
         if (srcset) img.srcset = srcset;
         img.src = src;
-        img.dataset.thumbnailHydrated = '1';
+        img.dataset['thumbnailHydrated'] = '1';
     }
 
     /** @param {() => void} callback @param {number} [timeout] @returns {number} */
@@ -2676,8 +2676,8 @@ class UIController {
         this.mobileCatalogue.to('deferred');
         this._flatRenderToken = Symbol('mobile-catalogue-deferred');
         flatView.innerHTML = '';
-        flatView.dataset.rendered = 'deferred';
-        flatView.dataset.mobileDeferred = 'true';
+        flatView.dataset['rendered'] = 'deferred';
+        flatView.dataset['mobileDeferred'] = 'true';
     }
 
     ensureMobileCatalogueReady() {
@@ -2685,9 +2685,9 @@ class UIController {
         if (this.currentStateId !== 'info-full') return;
         const flatView = document.getElementById('catalogueFlatView');
         if (!flatView) return;
-        if (flatView.dataset.rendered === 'true') return;
+        if (flatView.dataset['rendered'] === 'true') return;
         this.mobileCatalogue.to('released');
-        delete flatView.dataset.mobileDeferred;
+        delete flatView.dataset['mobileDeferred'];
         this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: true });
     }
 
@@ -2707,8 +2707,8 @@ class UIController {
 
     /** @param {HtmlElementRoot} container */
     bindFlatViewDelegates(container) {
-        if (!container || container.dataset.flatDelegatesBound === 'true') return;
-        container.dataset.flatDelegatesBound = 'true';
+        if (!container || container.dataset['flatDelegatesBound'] === 'true') return;
+        container.dataset['flatDelegatesBound'] = 'true';
         container.addEventListener('click', (event) => this.handleFlatViewDelegatedClick(event), { signal: this.lifecycle.signal });
         container.addEventListener('mouseenter', (event) => this.handleFlatThumbnailMouseEnter(event), { capture: true, signal: this.lifecycle.signal });
         container.addEventListener('mouseleave', (event) => this.handleFlatThumbnailMouseLeave(event), { capture: true, signal: this.lifecycle.signal });
@@ -2789,7 +2789,7 @@ class UIController {
                         provider: map.provider,
                         category: map.category,
                         group: map.group,
-                        date: map.date || map.dateRange,
+                        date: map.date || map['dateRange'],
                         keywords: map.keywords,
                         description: map.description,
                         status: map.status,
@@ -2889,7 +2889,7 @@ class UIController {
         const copyIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
         const downloadIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
 
-        if (record.type === 'map' && record.mapId && record.actionLabel !== 'Open details') {
+        if (record.type === 'map' && record.mapId && record['actionLabel'] !== 'Open details') {
             const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(record.mapId));
             const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(record.mapId) : false;
             const isVisible = this.onCheckMapVisible ? !!this.onCheckMapVisible(record.mapId) : isLoaded;
@@ -2922,8 +2922,8 @@ class UIController {
             '</div>';
         }
 
-        if (record.type === 'election' && record.electionBody && record.electionDate) {
-            return '<button type="button" class="btn btn--sm btn--primary" data-catalogue-search-action="load-election" data-election-body="' + esc(record.electionBody) + '" data-election-date="' + esc(record.electionDate) + '">Open election layer</button>';
+        if (record.type === 'election' && record['electionBody'] && record['electionDate']) {
+            return '<button type="button" class="btn btn--sm btn--primary" data-catalogue-search-action="load-election" data-election-body="' + esc(record['electionBody']) + '" data-election-date="' + esc(record['electionDate']) + '">Open election layer</button>';
         }
 
         return '';
@@ -2931,11 +2931,11 @@ class UIController {
 
     /** @param {ViewElement} button */
     getCatalogueSearchFeaturePayload(button) {
-        const bboxNums = (button.dataset.featureBbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
+        const bboxNums = (button.dataset['featureBbox'] || '').split(',').map(Number).filter(n => Number.isFinite(n));
         return {
-            mapId: /** @type {string} */ (button.dataset.mapId),
-            featureId: /** @type {string} */ (button.dataset.featureId),
-            featureName: button.dataset.featureName || button.dataset.featureId || '',
+            mapId: /** @type {string} */ (button.dataset['mapId']),
+            featureId: /** @type {string} */ (button.dataset['featureId']),
+            featureName: button.dataset['featureName'] || button.dataset['featureId'] || '',
             bbox: bboxNums.length === 4 ? bboxNums : null
         };
     }
@@ -2975,11 +2975,11 @@ class UIController {
     /** @param {HtmlRoot} [container] */
     syncDownloadButtons(container = document) {
         container.querySelectorAll?.('.download-fgb-btn[data-map-id]').forEach(btn => {
-            const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(btn.dataset.mapId));
+            const map = /** @type {MapRecord | undefined} */ (dataService.getMapById(btn.dataset['mapId']));
             const url = resolveMapDownloadUrl(map);
             if (url) {
                 setHidden(btn, false);
-                btn.dataset.downloadUrl = url;
+                btn.dataset['downloadUrl'] = url;
                 const label = 'Download data file (FlatGeobuf)';
                 btn.title = label;
                 btn.setAttribute('aria-label', label);
@@ -2994,7 +2994,7 @@ class UIController {
     /** @param {HtmlRoot} [container] */
     syncCatalogueSearchActionButtons(container = document) {
         container.querySelectorAll?.('.catalogue-search__action-strip[data-search-kind="map"]').forEach(strip => {
-            const mapId = /** @type {string} */ (strip.dataset.mapId);
+            const mapId = /** @type {string} */ (strip.dataset['mapId']);
             const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(mapId) : false;
             const isVisible = this.onCheckMapVisible ? !!this.onCheckMapVisible(mapId) : isLoaded;
             const loadBtn = /** @type {ViewElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-map-load"]'));
@@ -3011,8 +3011,8 @@ class UIController {
             }
         });
         container.querySelectorAll?.('.catalogue-search__action-strip[data-search-kind="feature"]').forEach(strip => {
-            const mapId = /** @type {string} */ (strip.dataset.mapId);
-            const featureId = /** @type {string} */ (strip.dataset.featureId);
+            const mapId = /** @type {string} */ (strip.dataset['mapId']);
+            const featureId = /** @type {string} */ (strip.dataset['featureId']);
             const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureId) : false;
             const isVisible = this.onCheckFeatureVisible ? !!this.onCheckFeatureVisible(mapId, featureId) : isLoaded;
             const loadBtn = /** @type {ViewElement | null} */ (strip.querySelector('[data-catalogue-search-action="toggle-feature-load"]'));
@@ -3068,9 +3068,9 @@ class UIController {
         let thumb = '';
         if (record.featureThumbnail?.url) thumb = '<img class="catalogue-search__thumbnail-img" src="' + esc(record.featureThumbnail.url) + '" loading="lazy" decoding="async" alt="">';
         else if (record.featureThumbnail) thumb = '<span class="catalogue-search__feature-thumb" aria-hidden="true">' + this._buildFeatureLocatorSvg(record.featureThumbnail.bbox, record.featureThumbnail.colour) + '</span>';
-        else if (record.thumbSvg) thumb = '<span class="catalogue-search__feature-thumb" aria-hidden="true">' + record.thumbSvg + '</span>';
-        else if (record.thumbId) thumb = this.renderThumbnailZone(/** @type {string} */ (record.thumbId), 'catalogue-search__thumbnail-img', '48px');
-        else if (record.colour) thumb = '<span class="catalogue-search__colour-tab" style="background:' + esc(record.colour) + '"></span>';
+        else if (record['thumbSvg']) thumb = '<span class="catalogue-search__feature-thumb" aria-hidden="true">' + record['thumbSvg'] + '</span>';
+        else if (record['thumbId']) thumb = this.renderThumbnailZone(/** @type {string} */ (record['thumbId']), 'catalogue-search__thumbnail-img', '48px');
+        else if (record['colour']) thumb = '<span class="catalogue-search__colour-tab" style="background:' + esc(record['colour']) + '"></span>';
         else thumb = '<span class="catalogue-search__fallback-thumb" aria-hidden="true"></span>';
 
         const action = this.renderCatalogueSearchActionStrip(record);
@@ -3110,7 +3110,7 @@ class UIController {
         this._applyCatalogueBookViewerChrome(false);
         container.classList.remove('catalogue-flat-view--book-viewer');
         container.classList.add('catalogue-flat-view--search');
-        container.dataset.rendered = 'search';
+        container.dataset['rendered'] = 'search';
         container.innerHTML = '<div class="catalogue-search"><div class="catalogue-search__summary">Searching...</div></div>';
 
         const mapResultIds = Array.isArray(options.mapResultIds) ? options.mapResultIds : [];
@@ -3170,45 +3170,45 @@ class UIController {
 
     /** @param {ViewButton} button */
     async handleCatalogueSearchAction(button) {
-        const action = button.dataset.catalogueSearchAction;
+        const action = button.dataset['catalogueSearchAction'];
         const searchRoot = button.closest('.catalogue-search') || document;
-        if ((action === 'load-map' || action === 'toggle-map-load') && button.dataset.mapId) {
+        if ((action === 'load-map' || action === 'toggle-map-load') && button.dataset['mapId']) {
             button.disabled = true;
             try {
-                const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(button.dataset.mapId) : false;
-                if (isLoaded) await this.onMapUnload?.(button.dataset.mapId);
-                else await this.onMapLoad?.(button.dataset.mapId);
+                const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(button.dataset['mapId']) : false;
+                if (isLoaded) await this.onMapUnload?.(button.dataset['mapId']);
+                else await this.onMapLoad?.(button.dataset['mapId']);
             } finally {
                 button.disabled = false;
                 this.syncCatalogueSearchActionButtons(searchRoot);
             }
             return;
         }
-        if (action === 'toggle-map-visibility' && button.dataset.mapId) {
-            const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(button.dataset.mapId) : false;
-            if (isLoaded) this.onHideMap?.(button.dataset.mapId);
-            else await this.onMapLoad?.(button.dataset.mapId);
+        if (action === 'toggle-map-visibility' && button.dataset['mapId']) {
+            const isLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(button.dataset['mapId']) : false;
+            if (isLoaded) this.onHideMap?.(button.dataset['mapId']);
+            else await this.onMapLoad?.(button.dataset['mapId']);
             this.syncCatalogueSearchActionButtons(searchRoot);
             return;
         }
-        if (action === 'copy-map-url' && button.dataset.mapId) {
-            this.copyMapUrl(button.dataset.mapId, button);
+        if (action === 'copy-map-url' && button.dataset['mapId']) {
+            this.copyMapUrl(button.dataset['mapId'], button);
             return;
         }
-        if (action === 'download-map' && button.dataset.mapId) {
-            this.onDownloadFgb?.(button.dataset.mapId);
+        if (action === 'download-map' && button.dataset['mapId']) {
+            this.onDownloadFgb?.(button.dataset['mapId']);
             return;
         }
-        if (action === 'load-election' && button.dataset.electionBody && button.dataset.electionDate) {
+        if (action === 'load-election' && button.dataset['electionBody'] && button.dataset['electionDate']) {
             button.disabled = true;
             try {
-                await this.onLoadElection?.(button.dataset.electionBody, button.dataset.electionDate);
+                await this.onLoadElection?.(button.dataset['electionBody'], button.dataset['electionDate']);
             } finally {
                 button.disabled = false;
             }
             return;
         }
-        if ((action === 'zoom-feature' || action === 'toggle-feature-load') && button.dataset.mapId) {
+        if ((action === 'zoom-feature' || action === 'toggle-feature-load') && button.dataset['mapId']) {
             const { mapId, featureId } = this.getCatalogueSearchFeaturePayload(button);
             const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureId) : false;
             button.disabled = true;
@@ -3221,7 +3221,7 @@ class UIController {
             }
             return;
         }
-        if (action === 'toggle-feature-visibility' && button.dataset.mapId) {
+        if (action === 'toggle-feature-visibility' && button.dataset['mapId']) {
             const { mapId, featureId } = this.getCatalogueSearchFeaturePayload(button);
             const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureId) : false;
             if (!isLoaded) await this.loadFeatureFromSearchButton(button);
@@ -3229,7 +3229,7 @@ class UIController {
             this.syncCatalogueSearchActionButtons(searchRoot);
             return;
         }
-        if (action === 'copy-feature-url' && button.dataset.mapId) {
+        if (action === 'copy-feature-url' && button.dataset['mapId']) {
             const { mapId, featureId, featureName } = this.getCatalogueSearchFeaturePayload(button);
             const shareUrl = this.buildFeatureSearchShareUrl(mapId, featureId, featureName);
             if (shareUrl) {
@@ -3242,19 +3242,19 @@ class UIController {
             }
             return;
         }
-        if (action === 'download-feature' && button.dataset.mapId) {
+        if (action === 'download-feature' && button.dataset['mapId']) {
             const result = await this.loadFeatureFromSearchButton(button, { showInfo: false });
             if (result?.feature) {
-                const detailId = this.cacheFeatureDetailEntry(/** @type {MapRecord | undefined} */ (dataService.getMapById(button.dataset.mapId)), result.feature, result.feature.featureName || button.dataset.featureName, button.dataset.featureId);
+                const detailId = this.cacheFeatureDetailEntry(/** @type {MapRecord | undefined} */ (dataService.getMapById(button.dataset['mapId'])), result.feature, result.feature.featureName || button.dataset['featureName'], button.dataset['featureId']);
                 this.downloadFeature(detailId, 'fgb');
             }
             this.syncCatalogueSearchActionButtons(searchRoot);
             return;
         }
-        if (action === 'open-feature-detail' && button.dataset.mapId) {
+        if (action === 'open-feature-detail' && button.dataset['mapId']) {
             const result = await this.loadFeatureFromSearchButton(button, { showInfo: false });
             if (result?.feature) {
-                const detailId = this.cacheFeatureDetailEntry(/** @type {MapRecord | undefined} */ (dataService.getMapById(button.dataset.mapId)), result.feature, result.feature.featureName || button.dataset.featureName, button.dataset.featureId);
+                const detailId = this.cacheFeatureDetailEntry(/** @type {MapRecord | undefined} */ (dataService.getMapById(button.dataset['mapId'])), result.feature, result.feature.featureName || button.dataset['featureName'], button.dataset['featureId']);
                 this.showFeatureDetailInCatalogue(detailId, true);
             }
             this.syncCatalogueSearchActionButtons(searchRoot);
@@ -3284,14 +3284,14 @@ class UIController {
         const bookView = target.closest?.('[data-book-view]');
         if (bookView) {
             event.preventDefault();
-            this.openCatalogueBookViewer(/** @type {string} */ (bookView.dataset.bookView), bookView.dataset.bookFormat || 'pdf');
+            this.openCatalogueBookViewer(/** @type {string} */ (bookView.dataset['bookView']), bookView.dataset['bookFormat'] || 'pdf');
             return;
         }
 
         const tabLink = target.closest?.('.catalogue-flat__toc-toplink--tab[data-tab-target]');
         if (tabLink) {
             event.preventDefault();
-            this.showTab(/** @type {string} */ (tabLink.dataset.tabTarget));
+            this.showTab(/** @type {string} */ (tabLink.dataset['tabTarget']));
             // T3-09 (#116): Tables switches PANE rather than scrolling to a flat-section
             // anchor, so it never touched the hash -- leaving whatever the previous
             // toplink set. Measured: click Books then Tables and the URL still reads
@@ -3314,7 +3314,7 @@ class UIController {
         const byElectionToggle = target.closest?.('.flat-election-by-toggle');
         if (byElectionToggle) {
             event.preventDefault();
-            const cardId = byElectionToggle.dataset.electionCardId || byElectionToggle.closest('.c1-card, .class-card, .map-card')?.dataset?.c1Id;
+            const cardId = byElectionToggle.dataset['electionCardId'] || byElectionToggle.closest('.c1-card, .class-card, .map-card')?.dataset?.['c1Id'];
             if (!cardId) return;
             if (this._showByElectionCards.has(cardId)) this._showByElectionCards.delete(cardId);
             else this._showByElectionCards.add(cardId);
@@ -3329,7 +3329,7 @@ class UIController {
             event.preventDefault();
             const card = placeholderToggle.closest('.c1-card, .class-card, .map-card');
             if (!card) return;
-            const showing = placeholderToggle.dataset.showing === 'true';
+            const showing = placeholderToggle.dataset['showing'] === 'true';
             const key = this._getCardPlaceholderKey(card);
             if (!showing && key) this._showPlaceholdersCards.add(key);
             else if (key) this._showPlaceholdersCards.delete(key);
@@ -3361,7 +3361,7 @@ class UIController {
         const findTarget = () => document.getElementById(targetId);
         let targetEl = findTarget();
         const targetMissing = !targetEl;
-        const targetDeferred = targetEl?.dataset?.catalogueDeferredTarget === '1';
+        const targetDeferred = targetEl?.dataset?.['catalogueDeferredTarget'] === '1';
         if (!targetMissing && !targetDeferred) return targetEl;
 
         if (this.singleSectionFlatCatalogue) {
@@ -3375,7 +3375,7 @@ class UIController {
             for (let attempt = 0; attempt < 12; attempt += 1) {
                 await this.waitForCatalogueFrame(1);
                 targetEl = findTarget();
-                if (targetEl && targetEl.dataset?.catalogueDeferredTarget !== '1') return targetEl;
+                if (targetEl && targetEl.dataset?.['catalogueDeferredTarget'] !== '1') return targetEl;
             }
             return findTarget();
         }
@@ -3467,7 +3467,7 @@ class UIController {
 
     /** @param {HTMLElement} activeEl */
     _markActiveToplink(activeEl) {
-        this._activeSectionTab = activeEl?.dataset?.catalogueTarget || activeEl?.dataset?.tabTarget || this._activeSectionTab;
+        this._activeSectionTab = activeEl?.dataset?.['catalogueTarget'] || activeEl?.dataset?.['tabTarget'] || this._activeSectionTab;
         const links = /** @type {HtmlRoot} */ (document).querySelectorAll('.catalogue-flat__toc-toplink');
         links.forEach((el) => {
             if (el === activeEl) el.setAttribute('aria-current', 'true');
@@ -3479,9 +3479,9 @@ class UIController {
     async handleFlatTocClick(event, link) {
         event.preventDefault();
         if (link.classList.contains('catalogue-flat__toc-toplink')) this._markActiveToplink(link);
-        const targetId = link.dataset.catalogueTarget || (link.getAttribute('href') || '').replace(/^#/, '');
+        const targetId = link.dataset['catalogueTarget'] || (link.getAttribute('href') || '').replace(/^#/, '');
         if (!targetId) return;
-        const sectionKey = link.dataset.catalogueSection || this._flatTargetToSection?.get?.(targetId) || null;
+        const sectionKey = link.dataset['catalogueSection'] || this._flatTargetToSection?.get?.(targetId) || null;
         let targetEl = await this.ensureCatalogueTargetRendered(targetId, sectionKey);
         if (!targetEl) return;
         const href = link.getAttribute('href') || '';
@@ -3533,7 +3533,7 @@ class UIController {
     /** @param {MouseEvent} event @param {ViewElement} source */
     async handleFlatElectionClick(event, source) {
         const host = source.closest('.flat-election-entry') || source;
-        if (host?.dataset?.electionPlaceholder === '1') {
+        if (host?.dataset?.['electionPlaceholder'] === '1') {
             event.preventDefault();
             event.stopPropagation();
             return;
@@ -3545,14 +3545,14 @@ class UIController {
         event.preventDefault();
         event.stopPropagation();
         const container = /** @type {HtmlRoot} */ (document.getElementById('catalogueFlatView') || document);
-        const body = source.dataset.electionBody || source.closest('.flat-election-entry')?.dataset.electionBody;
-        const date = source.dataset.electionDate || source.closest('.flat-election-entry')?.dataset.electionDate;
+        const body = source.dataset['electionBody'] || source.closest('.flat-election-entry')?.dataset['electionBody'];
+        const date = source.dataset['electionDate'] || source.closest('.flat-election-entry')?.dataset['electionDate'];
         if (!body || !date) return;
         const matchingRows = [...container.querySelectorAll('.flat-election-entry')]
-            .filter(row => row.dataset.electionBody === body && row.dataset.electionDate === date);
+            .filter(row => row.dataset['electionBody'] === body && row.dataset['electionDate'] === date);
         // Each .election-load-btn is a button.
         const matchingButtons = [.../** @type {NodeListOf<ViewButton>} */ (container.querySelectorAll('.election-load-btn'))]
-            .filter(button => button.dataset.electionBody === body && button.dataset.electionDate === date);
+            .filter(button => button.dataset['electionBody'] === body && button.dataset['electionDate'] === date);
         if (matchingRows.some(row => row.classList.contains('flat-election-entry--loading'))) return;
         const isLoadBtn = source.classList.contains('election-load-btn');
         if (isLoadBtn && this.onCheckElectionLoaded?.(body, date)) {
@@ -3568,7 +3568,7 @@ class UIController {
         matchingButtons.forEach(button => {
             button.disabled = true;
             button.setAttribute('aria-busy', 'true');
-            button.dataset.previousTitle = button.getAttribute('title') || '';
+            button.dataset['previousTitle'] = button.getAttribute('title') || '';
             button.setAttribute('title', 'Loading');
         });
         try {
@@ -3586,9 +3586,9 @@ class UIController {
             matchingButtons.forEach(button => {
                 button.disabled = false;
                 button.removeAttribute('aria-busy');
-                if (button.dataset.previousTitle !== undefined) {
-                    button.setAttribute('title', button.dataset.previousTitle);
-                    delete button.dataset.previousTitle;
+                if (button.dataset['previousTitle'] !== undefined) {
+                    button.setAttribute('title', button.dataset['previousTitle']);
+                    delete button.dataset['previousTitle'];
                 }
             });
         }
@@ -3637,7 +3637,7 @@ class UIController {
         container.classList.remove('catalogue-flat-view--search', 'catalogue-flat-view--book-viewer');
         // Made by the import above.
         await /** @type {import('./catalogue/index.js').CatalogueNext} */ (this._catalogueNext).render(container, options);
-        container.dataset.rendered = 'next';
+        container.dataset['rendered'] = 'next';
         return true;
     }
 
@@ -3667,7 +3667,7 @@ class UIController {
         };
 
         /** @type {NodeListOf<ViewElement>} */ (root.querySelectorAll('[data-map-id]')).forEach((el) => {
-            const mapId = el.dataset.mapId;
+            const mapId = el.dataset['mapId'];
             if (!mapId) return;
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
 
@@ -3682,7 +3682,7 @@ class UIController {
 
         // The load and visibility toggles are buttons.
         /** @type {NodeListOf<ViewButton>} */ (root.querySelectorAll('.load-btn[data-map-id], .c1-load-btn[data-map-id]')).forEach((btn) => {
-            const mapId = /** @type {string} */ (btn.dataset.mapId);
+            const mapId = /** @type {string} */ (btn.dataset['mapId']);
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
             // This runs part way through a load -- onMapLoad calls syncCatalogueMapState()
             // before it returns -- so without the pending check it would repaint the
@@ -3697,7 +3697,7 @@ class UIController {
         });
 
         /** @type {NodeListOf<ViewButton>} */ (root.querySelectorAll('.visibility-btn[data-map-id]')).forEach((btn) => {
-            const mapId = /** @type {string} */ (btn.dataset.mapId);
+            const mapId = /** @type {string} */ (btn.dataset['mapId']);
             const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
             const visible = isVisible(mapId, loaded);
             btn.innerHTML = this.getVisibilityButtonIcon(visible);
@@ -3729,17 +3729,17 @@ class UIController {
         // Preserve slider positions before clearing
         const savedSliderValues = new Map();
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.map-card--class')).forEach(card => {
-            const classId = card.dataset.classId;
+            const classId = card.dataset['classId'];
             const slider = /** @type {HTMLInputElement | null} */ (card.querySelector('.timeline-slider'));
             if (classId && slider) savedSliderValues.set(classId, slider.value);
         });
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.c1-card')).forEach(card => {
-            const c1Id = card.dataset.c1Id;
+            const c1Id = card.dataset['c1Id'];
             const slider = /** @type {HTMLInputElement | null} */ (card.querySelector('.timeline-slider'));
             if (c1Id && slider) savedSliderValues.set(`c1:${c1Id}`, slider.value);
         });
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.conjoined-class-group')).forEach(card => {
-            const groupId = card.dataset.groupId;
+            const groupId = card.dataset['groupId'];
             const slider = /** @type {HTMLInputElement | null} */ (card.querySelector('.timeline-slider'));
             if (groupId && slider) savedSliderValues.set(`group:${groupId}`, slider.value);
         });
@@ -3747,7 +3747,7 @@ class UIController {
         // Preserve expanded category toggle states
         const savedExpandedCategories = new Set();
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.category-more-maps--expanded')).forEach(el => {
-            if (el.dataset.categoryId) savedExpandedCategories.add(el.dataset.categoryId);
+            if (el.dataset['categoryId']) savedExpandedCategories.add(el.dataset['categoryId']);
         });
 
         container.innerHTML = '';
@@ -3838,7 +3838,7 @@ class UIController {
                 // Category section wrapper for grid layout (no subheading)
                 const categorySection = document.createElement('div');
                 categorySection.className = 'category-section';
-                categorySection.dataset.categoryId = category.id;
+                categorySection.dataset['categoryId'] = category.id;
                 container.appendChild(categorySection);
 
                 // Get C1s for this category (rendered if category has filtered maps)
@@ -3890,7 +3890,7 @@ class UIController {
                     if (conjoinedSources.length > 0) {
                         const groupCard = this.createConjoinedClassGroup(conjoinedSources, cls, options);
                         categorySection.appendChild(groupCard);
-                        const groupId = groupCard.dataset.groupId;
+                        const groupId = groupCard.dataset['groupId'];
                         const savedKey = `group:${groupId}`;
                         if (this._savedSliderValues.has(savedKey)) {
                             const slider = /** @type {HTMLInputElement | null} */ (groupCard.querySelector('.timeline-slider'));
@@ -3950,7 +3950,7 @@ class UIController {
                             // Original behavior: hide behind "Show X more maps" button
                             const moreContainer = document.createElement('div');
                             moreContainer.className = 'category-more-maps category-more-maps--collapsed';
-                            moreContainer.dataset.categoryId = category.id;
+                            moreContainer.dataset['categoryId'] = category.id;
 
                             nonFeaturedMaps.forEach(map => {
                                 const card = this.createMapCard(map, options);
@@ -4052,7 +4052,7 @@ class UIController {
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('[data-book-view]')).forEach((btn) => {
             btn.addEventListener('click', () => {
-                this.openCatalogueBookViewer(/** @type {string} */ (btn.dataset.bookView), btn.dataset.bookFormat || 'pdf');
+                this.openCatalogueBookViewer(/** @type {string} */ (btn.dataset['bookView']), btn.dataset['bookFormat'] || 'pdf');
             });
         });
 
@@ -4088,7 +4088,7 @@ class UIController {
 
         /** @type {NodeListOf<ViewElement>} */ (toggleContainer.querySelectorAll('.catalogue-view-toggle__btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const view = btn.dataset.view;
+                const view = btn.dataset['view'];
                 this.setCatalogueViewMode(view);
             });
         });
@@ -4111,13 +4111,13 @@ class UIController {
 
         // Update toggle buttons
         /** @type {NodeListOf<ViewElement>} */ (toggleContainer.querySelectorAll('.catalogue-view-toggle__btn')).forEach(btn => {
-            btn.classList.toggle('catalogue-view-toggle__btn--active', btn.dataset.view === forcedMode);
+            btn.classList.toggle('catalogue-view-toggle__btn--active', btn.dataset['view'] === forcedMode);
         });
 
         // Flat-only catalogue view.
         if (isFlat) {
             flatView.classList.remove('hidden');
-            if (!flatView.dataset.rendered) {
+            if (!flatView.dataset['rendered']) {
                 if (this.shouldDeferMobileCatalogueRender()) {
                     this.renderDeferredMobileCatalogueShell();
                 } else {
@@ -4204,7 +4204,7 @@ class UIController {
                 this._applyCatalogueBookViewerChrome(true);
                 container.classList.add('catalogue-flat-view--book-viewer');
                 container.innerHTML = this._renderCatalogueBookViewer(book, /** @type {{ bookId: string, format: string }} */ (this._catalogueBookView).format, markdownText);
-                container.dataset.rendered = 'true';
+                container.dataset['rendered'] = 'true';
                 this.hydrateLazyThumbnails(container);
 
                 container.querySelector('[data-book-view-close]')?.addEventListener('click', () => {
@@ -4214,7 +4214,7 @@ class UIController {
                 /** @type {NodeListOf<ViewButton>} */ (container.querySelectorAll('[data-book-view-format]')).forEach((btn) => {
                     btn.addEventListener('click', () => {
                         if (btn.disabled) return;
-                        this.openCatalogueBookViewer(book.id, btn.dataset.bookViewFormat || 'pdf');
+                        this.openCatalogueBookViewer(book.id, btn.dataset['bookViewFormat'] || 'pdf');
                     });
                 });
 
@@ -5867,7 +5867,7 @@ class UIController {
 
                 const card = document.createElement('div');
                 card.className = 'c1-card map-card';
-                card.dataset.c1Id = def.id;
+                card.dataset['c1Id'] = def.id;
                 card.innerHTML = `
                     <div class="c1-card__header">
                         <div class="c1-card__titleblock">
@@ -5892,9 +5892,9 @@ class UIController {
                     const anchor = document.createElement('div');
                     anchor.id = `flat-card-${def.id}`;
                     anchor.className = 'catalogue-flat__anchor catalogue-flat__anchor--deferred';
-                    anchor.dataset.catalogueDeferredTarget = '1';
-                    anchor.dataset.catalogueTargetKind = 'election-decade';
-                    anchor.dataset.catalogueTocTarget = flatTocTargetIds.has(anchor.id) ? '1' : '0';
+                    anchor.dataset['catalogueDeferredTarget'] = '1';
+                    anchor.dataset['catalogueTargetKind'] = 'election-decade';
+                    anchor.dataset['catalogueTocTarget'] = flatTocTargetIds.has(anchor.id) ? '1' : '0';
                     cardsContainer.appendChild(anchor);
                 }
             }
@@ -5932,9 +5932,9 @@ class UIController {
                 const anchor = document.createElement('div');
                 anchor.id = `flat-card-${def.id}`;
                 anchor.className = 'catalogue-flat__anchor catalogue-flat__anchor--deferred';
-                anchor.dataset.catalogueDeferredTarget = '1';
-                anchor.dataset.catalogueTargetKind = 'map-card';
-                anchor.dataset.catalogueTocTarget = flatTocTargetIds.has(anchor.id) ? '1' : '0';
+                anchor.dataset['catalogueDeferredTarget'] = '1';
+                anchor.dataset['catalogueTargetKind'] = 'map-card';
+                anchor.dataset['catalogueTocTarget'] = flatTocTargetIds.has(anchor.id) ? '1' : '0';
                 cardsContainer.appendChild(anchor);
                 continue;
             }
@@ -5959,7 +5959,7 @@ class UIController {
 
             const card = document.createElement('div');
             card.className = 'c1-card map-card';
-            card.dataset.c1Id = def.id;
+            card.dataset['c1Id'] = def.id;
             const headerMeta = [def.years, def.extent].filter(Boolean).join(' | ');
             card.innerHTML = `
                 <div class="c1-card__header">
@@ -5982,9 +5982,9 @@ class UIController {
         const shouldRenderBooksSection = shouldRenderFlatSection('books');
         if (boundedMobileCatalogue) {
             booksAnchor.classList.add('catalogue-flat__anchor--deferred');
-            booksAnchor.dataset.catalogueDeferredTarget = '1';
-            booksAnchor.dataset.catalogueTargetKind = 'books';
-            booksAnchor.dataset.catalogueTocTarget = '1';
+            booksAnchor.dataset['catalogueDeferredTarget'] = '1';
+            booksAnchor.dataset['catalogueTargetKind'] = 'books';
+            booksAnchor.dataset['catalogueTocTarget'] = '1';
             cardsContainer.appendChild(booksAnchor);
             cardsContainer.insertAdjacentHTML('beforeend', this.renderMobileCatalogueExpandControl());
         }
@@ -6042,7 +6042,7 @@ class UIController {
         if (this._flatRenderToken !== renderToken) return;
         this.hydrateLazyThumbnails(container);
         this.syncMapCatalogueState(options);
-        container.dataset.rendered = 'true';
+        container.dataset['rendered'] = 'true';
         // Re-apply the cached stats text into the TOC top-row slot now that
         // #catalogueTocStats exists. updateFilterStats may have been called
         // before this render finished and written to a then-missing element.
@@ -6059,9 +6059,9 @@ class UIController {
     _getCardPlaceholderKey(cardEl) {
         if (!cardEl) return null;
         const ds = cardEl.dataset || {};
-        if (ds.c1Id) return `c1:${ds.c1Id}`;
-        if (ds.classId) return `class:${ds.classId}`;
-        if (ds.groupId) return `group:${ds.groupId}`;
+        if (ds['c1Id']) return `c1:${ds['c1Id']}`;
+        if (ds['classId']) return `class:${ds['classId']}`;
+        if (ds['groupId']) return `group:${ds['groupId']}`;
         return null;
     }
 
@@ -6072,7 +6072,7 @@ class UIController {
         cardEl.classList.toggle('class-card--show-placeholders', !!showing);
         const toggle = cardEl.querySelector('.class-card__placeholder-toggle');
         if (!toggle) return;
-        toggle.dataset.showing = showing ? 'true' : 'false';
+        toggle.dataset['showing'] = showing ? 'true' : 'false';
         const label = toggle.querySelector('.class-card__placeholder-toggle-label');
         if (label) {
             const count = /** @type {string} */ (label.textContent).match(/\d+/)?.[0] || '';
@@ -6096,7 +6096,7 @@ class UIController {
     invalidateFlatView({ render = true } = {}) {
         const flatView = document.getElementById('catalogueFlatView');
         if (flatView) {
-            delete flatView.dataset.rendered;
+            delete flatView.dataset['rendered'];
             // If currently showing flat view, re-render immediately
             if (render && this._catalogueViewMode === 'flat') {
                 this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
@@ -6132,7 +6132,7 @@ class UIController {
     createClassCard(cls, options = {}) {
         const card = document.createElement('div');
         card.className = 'map-card map-card--class';
-        card.dataset.classId = cls.id;
+        card.dataset['classId'] = cls.id;
 
         // filter(Boolean) keeps the maps found.
         const memberMaps = /** @type {MapRecord[]} */ ((cls.maps || []).map(id => /** @type {MapRecord | undefined} */ (dataService.getMapById(id))).filter(Boolean));
@@ -6240,7 +6240,7 @@ class UIController {
                 return;
             }
 
-            const mapId = btn.dataset.mapId;
+            const mapId = btn.dataset['mapId'];
             if (!mapId) return;
             if (btn.classList.contains('load-btn')) {
                 e.stopPropagation();
@@ -6268,7 +6268,7 @@ class UIController {
         card.querySelectorAll('.class-member').forEach(memberEl => {
             memberEl.addEventListener('click', (e) => {
                 if (/** @type {Element} */ (e.target).closest('button')) return;
-                const mapId = memberEl.dataset.mapId;
+                const mapId = memberEl.dataset['mapId'];
                 if (!mapId || memberEl.classList.contains('class-member--placeholder')) return;
                 const isLoaded = memberEl.classList.contains('class-member--loaded');
                 if (isLoaded && this.onMapToggle) this.onMapToggle(mapId);
@@ -6288,7 +6288,7 @@ class UIController {
 
             // Get percentage positions from data attribute
             /** @type {number[]} */
-            const percentages = JSON.parse(timelineContainer.dataset.percentages || '[]');
+            const percentages = JSON.parse(timelineContainer.dataset['percentages'] || '[]');
 
             // Find nearest percentage position
             /** @param {number} value */
@@ -6338,7 +6338,7 @@ class UIController {
                 labelsContainer.addEventListener('click', (e) => {
                     const label = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
                     if (!label || !labelsContainer.contains(label)) return;
-                    const pct = parseFloat(/** @type {string} */ (label.dataset.pct));
+                    const pct = parseFloat(/** @type {string} */ (label.dataset['pct']));
                     if (!Number.isFinite(pct)) return;
                     slider.value = String(pct);
                     slider.dispatchEvent(new Event('change'));
@@ -6355,7 +6355,7 @@ class UIController {
     createConjoinedClassGroup(sourceClasses, targetClass, options = {}) {
         const group = document.createElement('div');
         group.className = 'conjoined-class-group map-card map-card--class';
-        group.dataset.groupId = `${sourceClasses.map(s => s.id).join('-')}-${targetClass.id}`;
+        group.dataset['groupId'] = `${sourceClasses.map(s => s.id).join('-')}-${targetClass.id}`;
 
         /** @type {ClassMapEntry[]} */
         const allMaps = [];
@@ -6448,7 +6448,7 @@ class UIController {
         group.addEventListener('click', (e) => {
             const btn = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('button'));
             if (!btn) return;
-            const mapId = btn.dataset.mapId;
+            const mapId = btn.dataset['mapId'];
             if (!mapId) return;
             if (btn.classList.contains('load-btn')) {
                 e.stopPropagation();
@@ -6467,7 +6467,7 @@ class UIController {
 
             // Get percentage positions from data attribute
             /** @type {number[]} */
-            const percentages = JSON.parse(timelineContainer.dataset.percentages || '[]');
+            const percentages = JSON.parse(timelineContainer.dataset['percentages'] || '[]');
 
             // Find nearest percentage position
             /** @param {number} value */
@@ -6517,7 +6517,7 @@ class UIController {
                 labelsContainer.addEventListener('click', (e) => {
                     const label = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
                     if (!label || !labelsContainer.contains(label)) return;
-                    const pct = parseFloat(/** @type {string} */ (label.dataset.pct));
+                    const pct = parseFloat(/** @type {string} */ (label.dataset['pct']));
                     if (!Number.isFinite(pct)) return;
                     slider.value = String(pct);
                     slider.dispatchEvent(new Event('change'));
@@ -6534,7 +6534,7 @@ class UIController {
     createC1Card(c1, options = {}) {
         const card = document.createElement('div');
         card.className = 'c1-card map-card';
-        card.dataset.c1Id = c1.id;
+        card.dataset['c1Id'] = c1.id;
 
         const c2Ids = this.getC1ClassIds(c1);
         const classes = dataService.getAllClasses() || [];
@@ -6679,7 +6679,7 @@ class UIController {
             // Variants dropdown HTML (for isGroup maps)
             const variantsHtml = hasVariants ? this.renderVariantsDropdown(map, isLoaded) : '';
 
-            const heightStyle = (!options.ignoreMemberHeight && map.style?.height) ? `height: ${map.style.height};` : '';
+            const heightStyle = (!options.ignoreMemberHeight && map.style?.['height']) ? `height: ${map.style['height']};` : '';
             return `
                 <div class="class-member ${isLoaded ? 'class-member--loaded' : ''} ${isPlaceholder ? 'class-member--placeholder' : ''} ${isIncomplete ? 'class-member--incomplete' : ''} ${hasVariants ? 'class-member--has-variants' : ''}" data-map-id="${map.id}" data-date="${map.date || ''}" style="--map-color: ${map.style?.color || MAP_COLOURS.swatch};${heightStyle}">
                 ${this.renderThumbnailZone(this.getThumbnailId(map), 'class-member__thumbnail', '28px')}
@@ -7098,7 +7098,7 @@ class UIController {
                 return;
             }
 
-            const mapId = btn.dataset.mapId;
+            const mapId = btn.dataset['mapId'];
             if (!mapId) return;
 
             // Handle variants toggle button
@@ -7138,7 +7138,7 @@ class UIController {
             const entryEl = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('.c1-grid-entry'));
             if (!entryEl || !card.contains(entryEl)) return;
             if (/** @type {Element} */ (e.target).closest('button')) return;
-            const mapId = entryEl.dataset.mapId;
+            const mapId = entryEl.dataset['mapId'];
             if (!mapId || entryEl.classList.contains('c1-grid-entry--placeholder')) return;
             const isLoaded = entryEl.classList.contains('c1-grid-entry--loaded');
             if (isLoaded && this.onMapToggle) this.onMapToggle(mapId);
@@ -7154,7 +7154,7 @@ class UIController {
 
             // Get percentage positions from data attribute
             /** @type {number[]} */
-            const percentages = JSON.parse(timelineContainer.dataset.percentages || '[]');
+            const percentages = JSON.parse(timelineContainer.dataset['percentages'] || '[]');
 
             // Find nearest percentage position
             /** @param {number} value */
@@ -7211,7 +7211,7 @@ class UIController {
                 labelsContainer.addEventListener('click', (e) => {
                     const label = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('span[data-pct]'));
                     if (!label || !labelsContainer.contains(label)) return;
-                    const pct = parseFloat(/** @type {string} */ (label.dataset.pct));
+                    const pct = parseFloat(/** @type {string} */ (label.dataset['pct']));
                     if (!Number.isFinite(pct)) return;
                     slider.value = String(pct);
                     slider.dispatchEvent(new Event('change'));
@@ -7496,7 +7496,7 @@ class UIController {
     /** @param {Partial<MapRecord>} map @returns {SourceDownload[]} */
     getSourceDownloads(map) {
         if (Array.isArray(map.sourceDownloads) && map.sourceDownloads.length) return map.sourceDownloads;
-        if (Array.isArray(map.osniDownloads) && map.osniDownloads.length) return map.osniDownloads;
+        if (Array.isArray(map['osniDownloads']) && map['osniDownloads'].length) return map['osniDownloads'];
         return [];
     }
 
@@ -7787,9 +7787,9 @@ class UIController {
             e.stopPropagation();
             // The listener is the strip's load button's.
             const btn = /** @type {ViewButton | null} */ (e.currentTarget);
-            if (btn?.dataset?.busy === '1') return;
+            if (btn?.dataset?.['busy'] === '1') return;
             if (btn) {
-                btn.dataset.busy = '1';
+                btn.dataset['busy'] = '1';
                 btn.disabled = true;
             }
             const currentlyLoaded = this.onCheckMapLoaded ? !!this.onCheckMapLoaded(map.id) : false;
@@ -7803,7 +7803,7 @@ class UIController {
                 syncState();
                 if (btn) {
                     btn.disabled = false;
-                    btn.dataset.busy = '0';
+                    btn.dataset['busy'] = '0';
                 }
             }
         });
@@ -7883,7 +7883,7 @@ class UIController {
         const isLoaded = this.isMapLoadedState(map.id, options);
         const isVisible = options.visibleIds?.includes(map.id);
         card.className = `map-card${isLoaded ? ' map-card--active' : ''}`;
-        card.dataset.mapId = map.id;
+        card.dataset['mapId'] = map.id;
 
         const color = map.style?.color || MAP_COLOURS.layer;
         const providers = (map.provider || []).join(', ');
@@ -7984,7 +7984,7 @@ class UIController {
         /** @type {NodeListOf<ViewButton>} */ (panel.querySelectorAll('.btn--variant-load')).forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const variantId = /** @type {string} */ (btn.dataset.variantId);
+                const variantId = /** @type {string} */ (btn.dataset['variantId']);
                 if (this.onMapLoad) this.onMapLoad(variantId);
                 btn.textContent = 'Loading...';
                 btn.disabled = true;
@@ -8175,7 +8175,7 @@ class UIController {
     createCategoryPill(category, isActive = false) {
         const pill = document.createElement('button');
         pill.className = `category-pill${isActive ? ' category-pill--active' : ''}`;
-        pill.dataset.categoryId = category.id;
+        pill.dataset['categoryId'] = category.id;
 
         const countBadge = category.count !== undefined ?
             `<span class="category-pill__count">${category.count}</span>` : '';
@@ -8189,7 +8189,7 @@ class UIController {
         pill.addEventListener('click', () => {
             if (this.onCategoryChange) this.onCategoryChange(category.id);
             /** @type {NodeListOf<ViewElement>} */ (/** @type {HtmlRoot} */ (document).querySelectorAll('.category-pill')).forEach(p => {
-                p.classList.toggle('category-pill--active', p.dataset.categoryId === category.id);
+                p.classList.toggle('category-pill--active', p.dataset['categoryId'] === category.id);
             });
         });
         return pill;
@@ -8274,7 +8274,7 @@ class UIController {
     createProviderPill(category, isActive = false) {
         const pill = document.createElement('button');
         pill.className = `category-pill${isActive ? ' category-pill--active' : ''}`;
-        pill.dataset.providerId = category.id;
+        pill.dataset['providerId'] = category.id;
 
         const countBadge = category.count !== undefined ?
             `<span class="category-pill__count">${category.count}</span>` : '';
@@ -8288,7 +8288,7 @@ class UIController {
         pill.addEventListener('click', () => {
             if (this.onProviderCategoryChange) this.onProviderCategoryChange(category.id, category.providers);
             /** @type {NodeListOf<ViewElement>} */ (/** @type {HtmlRoot} */ (document).querySelectorAll('#providerPills .category-pill')).forEach(p => {
-                p.classList.toggle('category-pill--active', p.dataset.providerId === category.id);
+                p.classList.toggle('category-pill--active', p.dataset['providerId'] === category.id);
             });
         });
         return pill;
@@ -8317,16 +8317,16 @@ class UIController {
     /** @param {InfoFeature} feature */
     renderTimelineTransitionFeatureInfo(feature) {
         const props = feature?.properties || {};
-        const layerName = feature.layerName || props.transitionLayerName || `${props.fromMapName || 'Earlier layer'} to ${props.toMapName || 'Later layer'}`;
-        const fromName = props.fromFeatureName || 'Earlier feature';
-        const toName = props.toFeatureName || 'Later feature';
-        const transitionType = props.transitionType || feature.transitionType || 'transfer';
+        const layerName = feature.layerName || props['transitionLayerName'] || `${props['fromMapName'] || 'Earlier layer'} to ${props['toMapName'] || 'Later layer'}`;
+        const fromName = props['fromFeatureName'] || 'Earlier feature';
+        const toName = props['toFeatureName'] || 'Later feature';
+        const transitionType = props['transitionType'] || feature.transitionType || 'transfer';
         const transitionLabel = transitionType === 'split'
             ? 'Split / non-primary successor'
             : transitionType === 'unchanged'
                 ? 'Retained overlap'
                 : 'Transferred / non-primary overlap';
-        const areaM2 = Number(props.area_m2 ?? props.areaM2 ?? props.area);
+        const areaM2 = Number(props['area_m2'] ?? props['areaM2'] ?? props['area']);
         let metrics = '';
         if (Number.isFinite(areaM2) && areaM2 > 0) {
             const areaKm2 = areaM2 / 1000000;
@@ -8369,11 +8369,11 @@ class UIController {
             </details>
             <details class="feature-info__details" open>
                 <summary class="feature-info__summary">Earlier feature: ${this.escapeHtml(fromName)}</summary>
-                <div class="feature-info__properties">${this.renderTimelineTransitionPropertyRows(/** @type {Record<string, unknown>} */ (props.fromProperties || {}), fromExcluded)}</div>
+                <div class="feature-info__properties">${this.renderTimelineTransitionPropertyRows(/** @type {Record<string, unknown>} */ (props['fromProperties'] || {}), fromExcluded)}</div>
             </details>
             <details class="feature-info__details" open>
                 <summary class="feature-info__summary">Later feature: ${this.escapeHtml(toName)}</summary>
-                <div class="feature-info__properties">${this.renderTimelineTransitionPropertyRows(/** @type {Record<string, unknown>} */ (props.toProperties || {}), toExcluded)}</div>
+                <div class="feature-info__properties">${this.renderTimelineTransitionPropertyRows(/** @type {Record<string, unknown>} */ (props['toProperties'] || {}), toExcluded)}</div>
             </details>
         `;
     }
@@ -8531,17 +8531,17 @@ class UIController {
 
         /** @type {NodeListOf<ViewElement>} */ (content.querySelectorAll('.feature-info__export-btn')).forEach((btn) => {
             btn.addEventListener('click', () => {
-                const feature = /** @type {Partial<InfoFeature>} */ (features[Number(btn.dataset.featureIndex)] || {});
-                this.onExportMapImage?.(/** @type {string} */ (btn.dataset.mapId), 'svg', {
+                const feature = /** @type {Partial<InfoFeature>} */ (features[Number(btn.dataset['featureIndex'])] || {});
+                this.onExportMapImage?.(/** @type {string} */ (btn.dataset['mapId']), 'svg', {
                     trigger: btn,
-                    selection: { properties: feature.properties || {}, name: btn.dataset.featureName || '' }
+                    selection: { properties: feature.properties || {}, name: btn.dataset['featureName'] || '' }
                 });
             });
         });
 
         /** @type {NodeListOf<ViewElement>} */ (content.querySelectorAll('.feature-info__primary-name-link')).forEach((btn) => {
             btn.addEventListener('click', () => {
-                const detailId = btn.dataset.featureDetailId;
+                const detailId = btn.dataset['featureDetailId'];
                 if (detailId) this.showFeatureDetailInCatalogue(detailId);
             });
         });
@@ -8598,8 +8598,8 @@ class UIController {
         // onto every tile fragment, so it is correct even when the polygon
         // is split across tiles, unlike area derived from clipped geometry.
         // The source's figures: numbers, or numbers written as text.
-        let area = /** @type {number | string | undefined} */ (props.Area || props.area || props.AREA || props.Shape_Area || props.SHAPE_AREA || props.Shape__Area || props.SHAPE__AREA);
-        let perimeter = /** @type {number | string | undefined} */ (props.Perimeter || props.perimeter || props.PERIMETER);
+        let area = /** @type {number | string | undefined} */ (props['Area'] || props['area'] || props['AREA'] || props['Shape_Area'] || props['SHAPE_AREA'] || props['Shape__Area'] || props['SHAPE__AREA']);
+        let perimeter = /** @type {number | string | undefined} */ (props['Perimeter'] || props['perimeter'] || props['PERIMETER']);
 
         // Derived metrics are LABELLED when the geometry they came from is a fragment.
         //
@@ -8637,12 +8637,12 @@ class UIController {
 
         // Get elevation data
         // The elevation model's figures, where the source has them.
-        const minElevM = /** @type {number | null | undefined} */ (props.minElev_m);
-        const maxElevM = /** @type {number | null | undefined} */ (props.maxElev_m);
-        const minElevFt = /** @type {number | null | undefined} */ (props.minElev_ft);
-        const maxElevFt = /** @type {number | null | undefined} */ (props.maxElev_ft);
-        let meanElevM = /** @type {number | null | undefined} */ (props.meanElev_m);
-        let meanElevFt = /** @type {number | null | undefined} */ (props.meanElev_ft);
+        const minElevM = /** @type {number | null | undefined} */ (props['minElev_m']);
+        const maxElevM = /** @type {number | null | undefined} */ (props['maxElev_m']);
+        const minElevFt = /** @type {number | null | undefined} */ (props['minElev_ft']);
+        const maxElevFt = /** @type {number | null | undefined} */ (props['maxElev_ft']);
+        let meanElevM = /** @type {number | null | undefined} */ (props['meanElev_m']);
+        let meanElevFt = /** @type {number | null | undefined} */ (props['meanElev_ft']);
         if ((meanElevM === undefined || meanElevM === null || isNaN(meanElevM)) &&
             minElevM !== undefined && minElevM !== null && !isNaN(minElevM) &&
             maxElevM !== undefined && maxElevM !== null && !isNaN(maxElevM)) {
@@ -8744,20 +8744,20 @@ class UIController {
     _bindFeatureMetricToggles(container) {
         container?.querySelectorAll('.feature-info__metric--clickable').forEach((metric) => {
             metric.addEventListener('click', () => {
-                const currentPrecision = parseInt(/** @type {string} */ (metric.dataset.precision)) || 2;
+                const currentPrecision = parseInt(/** @type {string} */ (metric.dataset['precision'])) || 2;
                 const newPrecision = currentPrecision === 2 ? 10 : 2;
-                metric.dataset.precision = String(newPrecision);
+                metric.dataset['precision'] = String(newPrecision);
                 const kmSpan = metric.querySelector('.metric-km');
                 const miSpan = metric.querySelector('.metric-mi');
-                if (metric.dataset.areaKm) {
-                    const areaKm = parseFloat(metric.dataset.areaKm);
-                    const areaMi = parseFloat(/** @type {string} */ (metric.dataset.areaMi));
+                if (metric.dataset['areaKm']) {
+                    const areaKm = parseFloat(metric.dataset['areaKm']);
+                    const areaMi = parseFloat(/** @type {string} */ (metric.dataset['areaMi']));
                     if (kmSpan) kmSpan.textContent = `${this.formatNumber(areaKm, newPrecision)} km2`;
                     if (miSpan) miSpan.textContent = `(${this.formatNumber(areaMi, newPrecision)} sq mi)`;
                 }
-                if (metric.dataset.perimKm) {
-                    const perimKm = parseFloat(metric.dataset.perimKm);
-                    const perimMi = parseFloat(/** @type {string} */ (metric.dataset.perimMi));
+                if (metric.dataset['perimKm']) {
+                    const perimKm = parseFloat(metric.dataset['perimKm']);
+                    const perimMi = parseFloat(/** @type {string} */ (metric.dataset['perimMi']));
                     if (kmSpan) kmSpan.textContent = `${this.formatNumber(perimKm, newPrecision)} km`;
                     if (miSpan) miSpan.textContent = `(${this.formatNumber(perimMi, newPrecision)} mi)`;
                 }
@@ -8947,7 +8947,7 @@ class UIController {
         /** @type {NodeListOf<ViewElement>} */ (detailView.querySelectorAll('.feature-download-alt-btn')).forEach((btn) => {
             btn.addEventListener('click', (event) => {
                 event.stopPropagation();
-                this.downloadFeature(detailId, /** @type {string} */ (btn.dataset.format));
+                this.downloadFeature(detailId, /** @type {string} */ (btn.dataset['format']));
                 if (dropdown) this.closeDownloadDropdown(dropdown);
             });
         });
@@ -9122,7 +9122,7 @@ class UIController {
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = 'cn-link catalogue-detail__show-all';
-                button.dataset.entityTableMore = tableId;
+                button.dataset['entityTableMore'] = tableId;
                 button.textContent = `Show all ${siteNumber(state.filteredRows.length)}`;
                 button.addEventListener('click', () => {
                     persist.showAll = true;
@@ -9252,7 +9252,7 @@ class UIController {
             menu.addEventListener('click', (event) => {
                 const btn = /** @type {ViewElement | null} */ (/** @type {Element} */ (event.target).closest('button[data-action]'));
                 if (!btn) return;
-                const action = btn.dataset.action;
+                const action = btn.dataset['action'];
                 if (action === 'sort-asc') {
                     state.sort.key = column.key;
                     state.sort.dir = 'asc';
@@ -9296,10 +9296,10 @@ class UIController {
         };
 
         /** @type {ViewElement[]} */ (headers).forEach((th, idx) => {
-            const leafIndex = Number(th.dataset.leafColIdx);
+            const leafIndex = Number(th.dataset['leafColIdx']);
             const column = columns[Number.isFinite(leafIndex) ? leafIndex : idx];
             if (!column) return;
-            const leafLabel = th.dataset.leafLabel || column.label;
+            const leafLabel = th.dataset['leafLabel'] || column.label;
             th.innerHTML = '';
             const wrap = document.createElement('div');
             wrap.className = 'election-th-controls';
@@ -9388,7 +9388,7 @@ class UIController {
             });
             /** @type {NodeListOf<ViewElement>} */ (host.querySelectorAll('[data-table-group]')).forEach((button) => {
                 button.addEventListener('click', () => {
-                    persist.group = button.dataset.tableGroup || '';
+                    persist.group = button.dataset['tableGroup'] || '';
                     persist.showAll = false;
                     render();
                     host.querySelector(`[data-table-group="${CSS.escape(persist.group)}"]`)?.focus();
@@ -9630,10 +9630,10 @@ class UIController {
             if (electionLink) {
                 event.preventDefault();
                 this.onElectionEntityElectionOpen?.({
-                    key: electionLink.dataset.electionKey || '',
-                    body: /** @type {string} */ (electionLink.dataset.electionBody),
-                    date: /** @type {string} */ (electionLink.dataset.electionDate),
-                    constituency: electionLink.dataset.electionConstituency || null
+                    key: electionLink.dataset['electionKey'] || '',
+                    body: /** @type {string} */ (electionLink.dataset['electionBody']),
+                    date: /** @type {string} */ (electionLink.dataset['electionDate']),
+                    constituency: electionLink.dataset['electionConstituency'] || null
                 });
                 return;
             }
@@ -9641,10 +9641,10 @@ class UIController {
             if (constituencyLink) {
                 event.preventDefault();
                 await this.onOpenElectionConstituencyFeature?.({
-                    body: /** @type {string} */ (constituencyLink.dataset.electionConstituencyBody),
-                    date: /** @type {string} */ (constituencyLink.dataset.electionConstituencyDate),
-                    constituency: /** @type {string} */ (constituencyLink.dataset.electionConstituencyName),
-                    level: constituencyLink.dataset.electionConstituencyLevel || 'dea'
+                    body: /** @type {string} */ (constituencyLink.dataset['electionConstituencyBody']),
+                    date: /** @type {string} */ (constituencyLink.dataset['electionConstituencyDate']),
+                    constituency: /** @type {string} */ (constituencyLink.dataset['electionConstituencyName']),
+                    level: constituencyLink.dataset['electionConstituencyLevel'] || 'dea'
                 });
                 return;
             }
@@ -9653,15 +9653,15 @@ class UIController {
             event.preventDefault();
             if (typeof this.onOpenElectionEntityDetail === 'function') {
                 await this.onOpenElectionEntityDetail(
-                    /** @type {string} */ (entityLink.dataset.electionEntityDetailKind),
-                    /** @type {string} */ (entityLink.dataset.electionEntityDetailKey),
-                    entityLink.dataset.entityLabel || /** @type {string} */ (entityLink.textContent).replace(/\s+/g, ' ').trim()
+                    /** @type {string} */ (entityLink.dataset['electionEntityDetailKind']),
+                    /** @type {string} */ (entityLink.dataset['electionEntityDetailKey']),
+                    entityLink.dataset['entityLabel'] || /** @type {string} */ (entityLink.textContent).replace(/\s+/g, ' ').trim()
                 );
                 return;
             }
             const nextDetailId = this.createElectionEntityDetailId(
-                /** @type {string} */ (entityLink.dataset.electionEntityDetailKind),
-                /** @type {string} */ (entityLink.dataset.electionEntityDetailKey)
+                /** @type {string} */ (entityLink.dataset['electionEntityDetailKind']),
+                /** @type {string} */ (entityLink.dataset['electionEntityDetailKey'])
             );
             this.showElectionEntityDetailInCatalogue(nextDetailId, true);
         };
@@ -9731,19 +9731,19 @@ class UIController {
         /** @type {EntityColumn} */
         const leading = { key: 'winnerParty', label: 'Leading party (votes)', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => r.renderLeadingParty(row) };
         /** @type {EntityColumn} */
-        const votes = { key: 'winnerVotes', label: 'Party votes', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) };
+        const votes = { key: 'winnerVotes', label: 'Party votes', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['winnerVotes'], render: (row) => fmt(row['winnerVotes']) };
         /** @type {EntityColumn} */
-        const share = { key: 'winnerPct', label: 'Party share', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) };
+        const share = { key: 'winnerPct', label: 'Party share', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['winnerPct'], render: (row) => pct(row['winnerPct']) };
         /** @type {EntityColumn} */
-        const valid = { key: 'validVotes', label: 'Valid poll', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) };
+        const valid = { key: 'validVotes', label: 'Valid poll', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['validVotes'], render: (row) => fmt(row['validVotes']) };
         /** @type {EntityColumn} */
-        const seats = { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.seats, render: (row) => fmt(row.seats) };
+        const seats = { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['seats'], render: (row) => fmt(row['seats']) };
         /** @type {EntityColumn} */
         const elected = { key: 'electedNames', label: 'Elected', kind: 'text', optional: true, getValue: (row) => (row.electedNames || []).map((person) => person.name).join(', ') || null, render: (row) => r.renderElectedNames(row) };
         if (kind === 'lgd') {
             return [
                 date, election,
-                { key: 'deaCount', label: 'DEAs', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.deaCount, render: (row) => fmt(row.deaCount) },
+                { key: 'deaCount', label: 'DEAs', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['deaCount'], render: (row) => fmt(row['deaCount']) },
                 { key: 'districtElectoralAreas', label: 'District Electoral Areas', kind: 'text', optional: true, getValue: (row) => (row.districtElectoralAreas || []).join(', ') || null, render: (row) => r.renderDeaList(row) },
                 leading, votes, share, valid, seats
             ];
@@ -9787,11 +9787,11 @@ class UIController {
         const candidates = (entry.candidateSummaries || []).map((row, idx) => ({ ...row, candidateRank: idx + 1 }));
         /** @type {EntityColumn[]} */
         const candidateColumns = [
-            { key: 'candidateRank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.candidateRank, render: (row) => fmt(row.candidateRank) },
+            { key: 'candidateRank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row['candidateRank'], render: (row) => fmt(row['candidateRank']) },
             { key: 'name', label: 'Candidate', kind: 'text', getValue: (row) => row.name, render: (row) => r.renderEntityLink('candidate', row.personId, row.name) },
-            { key: 'timesStood', label: 'Contests', kind: 'numeric', align: 'num', getValue: (row) => row.timesStood, render: (row) => fmt(row.timesStood) },
-            { key: 'timesElected', label: 'Won', kind: 'numeric', align: 'num', getValue: (row) => row.timesElected, render: (row) => fmt(row.timesElected) },
-            { key: 'totalFirstPrefs', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.totalFirstPrefs, render: (row) => fmt(row.totalFirstPrefs) },
+            { key: 'timesStood', label: 'Contests', kind: 'numeric', align: 'num', getValue: (row) => row['timesStood'], render: (row) => fmt(row['timesStood']) },
+            { key: 'timesElected', label: 'Won', kind: 'numeric', align: 'num', getValue: (row) => row['timesElected'], render: (row) => fmt(row['timesElected']) },
+            { key: 'totalFirstPrefs', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['totalFirstPrefs'], render: (row) => fmt(row['totalFirstPrefs']) },
             { key: 'years', label: 'Years', kind: 'text', getValue: (row) => yearRange(row.firstYear, row.lastYear) || null, render: (row) => esc(yearRange(row.firstYear, row.lastYear) || dash) },
             { key: 'byGroup', label: 'Won / stood by body', kind: 'text', getValue: (row) => (row.byGroup || []).map((g) => `${g.group} ${g.won}/${g.stood}`).join(' · ') || null, render: (row) => esc((row.byGroup || []).map((g) => `${g.group} ${g.won}/${g.stood}`).join(' · ') || dash) },
             {
@@ -9993,17 +9993,17 @@ class UIController {
                 { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => esc(formatElectionDate(row.date || '')) },
                 { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => r.renderElectionLink(row, row.electionDisplayName) },
                 { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || null, render: (row) => esc(row.electionType || dash) },
-                { key: 'rank', label: 'Rank', kind: 'ordinal', align: 'num', optional: true, getValue: (row) => row.rank, render: (row) => ord(row.rank) },
-                { key: 'stood', label: 'Stood', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.stood, render: (row) => fmt(row.stood) },
+                { key: 'rank', label: 'Rank', kind: 'ordinal', align: 'num', optional: true, getValue: (row) => row['rank'], render: (row) => ord(row['rank']) },
+                { key: 'stood', label: 'Stood', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['stood'], render: (row) => fmt(row['stood']) },
                 delta('stoodDelta', '± stood'),
-                { key: 'elected', label: 'Seats', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.elected, render: (row) => fmt(row.elected) },
+                { key: 'elected', label: 'Seats', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['elected'], render: (row) => fmt(row['elected']) },
                 delta('electedDelta', '± seats'),
-                { key: 'totalSeats', label: 'Of', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.totalSeats, render: (row) => fmt(row.totalSeats) },
-                { key: 'seatPct', label: '% seats', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.seatPct, render: (row) => pct(row.seatPct) },
-                { key: 'constituenciesContested', label: 'Constituencies', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.constituenciesContested, render: (row) => fmt(row.constituenciesContested) },
-                { key: 'firstPrefs', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.firstPrefs, render: (row) => fmt(row.firstPrefs) },
+                { key: 'totalSeats', label: 'Of', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['totalSeats'], render: (row) => fmt(row['totalSeats']) },
+                { key: 'seatPct', label: '% seats', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['seatPct'], render: (row) => pct(row['seatPct']) },
+                { key: 'constituenciesContested', label: 'Constituencies', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['constituenciesContested'], render: (row) => fmt(row['constituenciesContested']) },
+                { key: 'firstPrefs', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['firstPrefs'], render: (row) => fmt(row['firstPrefs']) },
                 delta('firstPrefsDelta', '± votes'),
-                { key: 'validVotePct', label: 'Share', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.validVotePct, render: (row) => pct(row.validVotePct) },
+                { key: 'validVotePct', label: 'Share', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['validVotePct'], render: (row) => pct(row['validVotePct']) },
                 delta('validVotePctDelta', '± share', 1, '%')
             ];
             sectionsHtml += tableSection(`Election history (${history.length})`, 'catalogue-party-history-table');
@@ -10015,9 +10015,9 @@ class UIController {
         } else if (isCandidate) {
             const appearances = entry.appearances || [];
             /** @param {EntityRow} row */
-            const contestText = (row) => (row.overallStandingNumber ? `${ord(row.overallStandingNumber)} · ${ord(row.bodyStandingNumber)} ${row.electionType || ''}`.trim() : dash);
+            const contestText = (row) => (row['overallStandingNumber'] ? `${ord(row['overallStandingNumber'])} · ${ord(row['bodyStandingNumber'])} ${row.electionType || ''}`.trim() : dash);
             /** @param {EntityRow} row */
-            const winText = (row) => (row.overallElectedNumber ? `${ord(row.overallElectedNumber)} · ${ord(row.bodyElectedNumber)} ${row.electionType || ''}`.trim() : dash);
+            const winText = (row) => (row['overallElectedNumber'] ? `${ord(row['overallElectedNumber'])} · ${ord(row['bodyElectedNumber'])} ${row.electionType || ''}`.trim() : dash);
             /** @type {EntityColumn[]} */
             const candidateHistoryColumns = [
                 { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => esc(formatElectionDate(row.date || '')) },
@@ -10035,10 +10035,10 @@ class UIController {
                     }
                 },
                 { key: 'status', label: 'Result', kind: 'text', getValue: (row) => row.status || null, render: (row) => (row.statusSource && row.statusSource !== row.status ? `<span title="${esc(`As the source puts it: ${row.statusSource}`)}">${esc(row.status)}</span>` : esc(row.status || dash)) },
-                { key: 'firstPref', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.firstPref, render: (row) => fmt(row.firstPref) },
-                { key: 'firstPrefPct', label: 'Share', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.firstPrefPct, render: (row) => pct(row.firstPrefPct) },
-                { key: 'overallStandingNumber', label: 'Contest', kind: 'ordinal', getValue: (row) => row.overallStandingNumber, render: (row) => esc(contestText(row)) },
-                { key: 'overallElectedNumber', label: 'Win', kind: 'ordinal', optional: true, getValue: (row) => row.overallElectedNumber, render: (row) => esc(winText(row)) }
+                { key: 'firstPref', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['firstPref'], render: (row) => fmt(row['firstPref']) },
+                { key: 'firstPrefPct', label: 'Share', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row['firstPrefPct'], render: (row) => pct(row['firstPrefPct']) },
+                { key: 'overallStandingNumber', label: 'Contest', kind: 'ordinal', getValue: (row) => row['overallStandingNumber'], render: (row) => esc(contestText(row)) },
+                { key: 'overallElectedNumber', label: 'Win', kind: 'ordinal', optional: true, getValue: (row) => row['overallElectedNumber'], render: (row) => esc(winText(row)) }
             ];
             sectionsHtml += tableSection(`Election history (${appearances.length})`, 'catalogue-candidate-history-table');
             tables.push({ tableId: 'catalogue-candidate-history-table', columns: candidateHistoryColumns, rows: appearances, caption: `${entry.name}: elections stood in`, rowClassNameFn: byElectionRow, groupBy: (row) => row.bodyGroup });
@@ -10267,7 +10267,7 @@ class UIController {
         // flips to true part way through a load, which had the button reading
         // "Unloading..." while it was still loading.
         if (isBusy) {
-            btn.title = this._pendingLoadToggles?.get(btn.dataset.mapId) ? 'Unloading...' : 'Loading...';
+            btn.title = this._pendingLoadToggles?.get(btn.dataset['mapId']) ? 'Unloading...' : 'Loading...';
         } else {
             btn.title = isLoaded ? 'Unload' : 'Load';
         }
@@ -10406,7 +10406,7 @@ class UIController {
     /** @param {string} mapId */
     layerLabelForAnnounce(mapId) {
         const map = dataService.getMapById?.(mapId);
-        const name = map?.name || map?.title || '';
+        const name = map?.name || map?.['title'] || '';
         return String(name || mapId).replace(/\s+/g, ' ').trim();
     }
 
@@ -10480,7 +10480,7 @@ class UIController {
         const openOpacityPanels = new Set(
             [...container.querySelectorAll('.active-layer-item__opacity-panel')]
                 .filter((panel) => panel.style.display && panel.style.display !== 'none')
-                .map((panel) => panel.dataset.mapId)
+                .map((panel) => panel.dataset['mapId'])
         );
 
         if (!loadedMaps || loadedMaps.length === 0) {
@@ -10515,7 +10515,7 @@ class UIController {
                 `).join('')
                 : '';
 
-            const isRaster = !!(map.files?.image && !map.files?.fgb);
+            const isRaster = !!(map.files?.['image'] && !map.files?.fgb);
             const layerState = mapController?.getLayerState?.(map.id) || mapController?.layerStates?.get(map.id);
             const curStrokeOp = Math.round((layerState?._strokeOpacity ?? 1) * 100);
             const curFillOp = Math.round((layerState?._fillOpacity ?? (map.style?.fillOpacity ?? 0)) * 100);
@@ -10582,29 +10582,29 @@ class UIController {
         // Add event listeners
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.visibility-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = /** @type {string} */ (btn.dataset.mapId);
+                const mapId = /** @type {string} */ (btn.dataset['mapId']);
                 if (this.onMapToggle) this.onMapToggle(mapId);
             });
         });
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.expand-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = /** @type {string} */ (btn.dataset.mapId);
+                const mapId = /** @type {string} */ (btn.dataset['mapId']);
                 if (this.onExpandToFullMap) this.onExpandToFullMap(mapId);
             });
         });
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.remove-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = /** @type {string} */ (btn.dataset.mapId);
+                const mapId = /** @type {string} */ (btn.dataset['mapId']);
                 if (this.onMapUnload) this.onMapUnload(mapId);
             });
         });
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.partial-visibility-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = /** @type {string} */ (btn.dataset.mapId);
-                const rawFeatureIndex = btn.dataset.featureIndex;
+                const mapId = /** @type {string} */ (btn.dataset['mapId']);
+                const rawFeatureIndex = btn.dataset['featureIndex'];
                 const numericFeatureIndex = Number(rawFeatureIndex);
                 const featureIndex = Number.isFinite(numericFeatureIndex) && rawFeatureIndex !== '' ? numericFeatureIndex : rawFeatureIndex;
                 if (this.onPartialFeatureToggle && featureIndex !== undefined && featureIndex !== null && featureIndex !== '') {
@@ -10615,8 +10615,8 @@ class UIController {
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.partial-unload-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = /** @type {string} */ (btn.dataset.mapId);
-                const rawFeatureIndex = btn.dataset.featureIndex;
+                const mapId = /** @type {string} */ (btn.dataset['mapId']);
+                const rawFeatureIndex = btn.dataset['featureIndex'];
                 const numericFeatureIndex = Number(rawFeatureIndex);
                 const featureIndex = Number.isFinite(numericFeatureIndex) && rawFeatureIndex !== '' ? numericFeatureIndex : rawFeatureIndex;
                 if (this.onPartialFeatureUnload && featureIndex !== undefined && featureIndex !== null && featureIndex !== '') {
@@ -10628,7 +10628,7 @@ class UIController {
         // Opacity panel toggle
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.opacity-toggle-btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const mapId = btn.dataset.mapId;
+                const mapId = btn.dataset['mapId'];
                 const panel = /** @type {ViewElement | null} */ (container.querySelector(`.active-layer-item__opacity-panel[data-map-id="${mapId}"]`));
                 if (panel) {
                     const showing = panel.style.display !== 'none';
@@ -10641,13 +10641,13 @@ class UIController {
         // A colour chosen (the picker closed: 'change', so the panel is not redrawn under an open picker).
         /** @type {NodeListOf<HTMLInputElement>} */ (container.querySelectorAll('.layer-colour-input')).forEach((input) => {
             input.addEventListener('change', () => {
-                const mapId = input.dataset.mapId;
+                const mapId = input.dataset['mapId'];
                 if (mapId && /^#[0-9a-f]{6}$/i.test(input.value)) mapController?.setLayerColour?.(mapId, input.value);
             });
         });
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.layer-colour-reset')).forEach((btn) => {
             btn.addEventListener('click', () => {
-                const mapId = btn.dataset.mapId;
+                const mapId = btn.dataset['mapId'];
                 if (mapId) mapController?.resetLayerColour?.(mapId);
             });
         });
@@ -10693,10 +10693,10 @@ class UIController {
 
         ['raster', 'stroke', 'fill'].forEach(type => {
             /** @type {NodeListOf<ViewElement & HTMLInputElement>} */ (container.querySelectorAll(`.${type}-opacity-slider`)).forEach(slider => {
-                slider.addEventListener('input', () => syncOpacity(/** @type {string} */ (slider.dataset.mapId), type, slider.value));
+                slider.addEventListener('input', () => syncOpacity(/** @type {string} */ (slider.dataset['mapId']), type, slider.value));
             });
             /** @type {NodeListOf<ViewElement & HTMLInputElement>} */ (container.querySelectorAll(`.${type}-opacity-input`)).forEach(input => {
-                input.addEventListener('change', () => syncOpacity(/** @type {string} */ (input.dataset.mapId), type, input.value));
+                input.addEventListener('change', () => syncOpacity(/** @type {string} */ (input.dataset['mapId']), type, input.value));
             });
         });
 
@@ -10742,14 +10742,14 @@ class UIController {
                 if (event.key === 'ArrowUp') container.insertBefore(row, /** @type {import("./ui-controller-types.js").ViewElement} */ (rows[target]));
                 else container.insertBefore(/** @type {import("./ui-controller-types.js").ViewElement} */ (rows[target]), row);
 
-                const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => /** @type {string} */ (r.dataset.mapId));
+                const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => /** @type {string} */ (r.dataset['mapId']));
                 if (typeof this.onReorderLayers === 'function') this.onReorderLayers(newOrder);
 
                 const name = row.querySelector('.active-layer-item__name')?.textContent?.trim() || 'Layer';
-                this.announce?.(`${name} moved to position ${newOrder.indexOf(/** @type {string} */ (row.dataset.mapId)) + 1} of ${newOrder.length}`);
+                this.announce?.(`${name} moved to position ${newOrder.indexOf(/** @type {string} */ (row.dataset['mapId'])) + 1} of ${newOrder.length}`);
 
                 // The list re-renders asynchronously; re-find this layer's handle by id.
-                const mapId = grip.dataset.mapId;
+                const mapId = grip.dataset['mapId'];
                 requestAnimationFrame(() => {
                     const again = container.querySelector(`.active-layer-item[data-map-id="${mapId}"]`);
                     (again || grip).focus();
@@ -10794,7 +10794,7 @@ class UIController {
         const startDrag = (row, e) => {
             {
 
-                const startOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset.mapId);
+                const startOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset['mapId']);
                 const startPointerId = e.pointerId;
                 const rowRect = row.getBoundingClientRect();
                 const pointerStartX = e.clientX;
@@ -10912,7 +10912,7 @@ class UIController {
                     const swallow = (click) => { click.stopPropagation(); click.preventDefault(); };
                     window.addEventListener('click', swallow, { capture: true, once: true });
                     setTimeout(() => window.removeEventListener('click', swallow, { capture: true }), 80);
-                    const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => /** @type {string} */ (r.dataset.mapId));
+                    const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => /** @type {string} */ (r.dataset['mapId']));
                     const changed = newOrder.length !== startOrder.length
                         || newOrder.some((id, i) => id !== startOrder[i]);
                     if (changed && typeof this.onReorderLayers === 'function') {
@@ -11017,10 +11017,10 @@ class UIController {
             case 'books':
                 this.tablesState.allData = (data.books || []).map(b => ({
                     id: b.id,
-                    title: b.title || b.name,
+                    title: b.title || b['name'],
                     authors: (b.authors || []).join(', '),
-                    year: b.year || '',
-                    publisher: b.publisher || ''
+                    year: b['year'] || '',
+                    publisher: b['publisher'] || ''
                 }));
                 this.tablesState.columns = ['title', 'authors', 'year', 'publisher'];
                 break;
@@ -11265,7 +11265,7 @@ class UIController {
         // Recalculate columns based on filtered data (for All Features only)
         if (this.tablesState.dataType === 'allFeatures' && this.tablesState.columnCoverage.size > 0) {
             // Get unique mapIds from filtered data
-            const filteredMapIds = new Set(this.tablesState.filteredData.map(row => row.mapId));
+            const filteredMapIds = new Set(this.tablesState.filteredData.map(row => row['mapId']));
             this.calculateSortedColumns(filteredMapIds);
         }
 
@@ -11374,7 +11374,7 @@ class UIController {
         // Pagination listeners
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.tables-pagination__btn')).forEach(btn => {
             btn.addEventListener('click', () => {
-                const action = btn.dataset.page;
+                const action = btn.dataset['page'];
                 if (action === 'prev' && this.tablesState.currentPage > 1) {
                     this.tablesState.currentPage--;
                 } else if (action === 'next' && this.tablesState.currentPage < totalPages) {
@@ -11447,25 +11447,25 @@ class UIController {
             autocomplete.addEventListener('click', (e) => {
                 const item = /** @type {ViewElement | null} */ (/** @type {Element} */ (e.target).closest('.search-autocomplete__item'));
                 if (!item) return;
-                const type = /** @type {string} */ (item.dataset.type);
+                const type = /** @type {string} */ (item.dataset['type']);
                 if (type === 'feature') {
-                    const bboxNums = (item.dataset.bbox || '').split(',').map(Number).filter(n => Number.isFinite(n));
+                    const bboxNums = (item.dataset['bbox'] || '').split(',').map(Number).filter(n => Number.isFinite(n));
                     const bbox = bboxNums.length === 4 ? bboxNums : null;
-                    const mapId = item.dataset.mapId;
-                    const featureId = /** @type {string} */ (item.dataset.featureId);
-                    const featureName = item.dataset.featureName || featureId || '';
+                    const mapId = item.dataset['mapId'];
+                    const featureId = /** @type {string} */ (item.dataset['featureId']);
+                    const featureName = item.dataset['featureName'] || featureId || '';
                     if (mapId) {
                         this.zoomToFeature(bbox, mapId, featureId, featureName);
                     }
                 } else if (type === 'address') {
-                    const lat = parseFloat(/** @type {string} */ (item.dataset.lat));
-                    const lon = parseFloat(/** @type {string} */ (item.dataset.lon));
-                    const name = item.dataset.name || '';
+                    const lat = parseFloat(/** @type {string} */ (item.dataset['lat']));
+                    const lon = parseFloat(/** @type {string} */ (item.dataset['lon']));
+                    const name = item.dataset['name'] || '';
                     if (Number.isFinite(lat) && Number.isFinite(lon)) {
                         this.handleAddressSelection(lat, lon, name);
                     }
                 } else {
-                    const id = /** @type {string} */ (item.dataset.id);
+                    const id = /** @type {string} */ (item.dataset['id']);
                     this.handleSearchSelection(type, id);
                 }
                 this.hideAutocomplete();
@@ -11856,9 +11856,9 @@ class UIController {
         // Add click handlers for address results
         /** @type {NodeListOf<ViewElement>} */ (autocomplete.querySelectorAll('.search-autocomplete__item--address')).forEach(item => {
             item.addEventListener('click', () => {
-                const lat = parseFloat(/** @type {string} */ (item.dataset.lat));
-                const lon = parseFloat(/** @type {string} */ (item.dataset.lon));
-                const name = /** @type {string} */ (item.dataset.name);
+                const lat = parseFloat(/** @type {string} */ (item.dataset['lat']));
+                const lon = parseFloat(/** @type {string} */ (item.dataset['lon']));
+                const name = /** @type {string} */ (item.dataset['name']);
                 this.handleAddressSelection(lat, lon, name);
                 this.hideAutocomplete();
             });
@@ -12039,7 +12039,7 @@ class UIController {
         /** @type {NodeListOf<ViewElement>} */ (dropdown.querySelectorAll('.explore-history-item')).forEach(item => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const idx = parseInt(/** @type {string} */ (item.dataset.idx), 10);
+                const idx = parseInt(/** @type {string} */ (item.dataset['idx']), 10);
                 this.exploreHistoryIndex = idx;
                 const { type, id } = /** @type {import("./ui-controller-types.js").ExploreHistoryEntry} */ (this.exploreHistory[idx]);
                 this.showEntityInfoWithoutHistory(type, id);
@@ -12070,7 +12070,7 @@ class UIController {
             return map ? `[map] ${map.name}` : id;
         } else if (type === 'book') {
             const book = (data.books || []).find(b => b.id === id);
-            return book ? `[book] ${book.title || book.name}` : id;
+            return book ? `[book] ${book.title || book['name']}` : id;
         }
         return id;
     }
@@ -12119,7 +12119,7 @@ class UIController {
         html += '<div class="explore-section"><h3 class="explore-section__title">Featured Maps</h3>';
         (maps || []).filter(m => m.featured).slice(0, 8).forEach(map => {
             html += `<div class="explore-item explore-item--map" data-type="map" data-id="${map.id}">
-                <span class="explore-item__color" style="background: ${map.style?.color || MAP_COLOURS.swatch}"></span>
+                <span class="explore-item__color" style="background: ${map.style?.['color'] || MAP_COLOURS.swatch}"></span>
                 <span class="explore-item__name">${this.escapeHtml(map.name)}</span>
             </div>`;
         });
@@ -12131,7 +12131,7 @@ class UIController {
             books.slice(0, 5).forEach(book => {
                 html += `<div class="explore-item explore-item--book" data-type="book" data-id="${book.id}">
                     <span class="explore-item__icon">[book]</span>
-                    <span class="explore-item__name">${this.escapeHtml(book.title || book.name)}</span>
+                    <span class="explore-item__name">${this.escapeHtml(book.title || book['name'])}</span>
                 </div>`;
             });
             html += '</div>';
@@ -12143,8 +12143,8 @@ class UIController {
         // Add click listeners
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.explore-item[data-type]')).forEach(item => {
             item.addEventListener('click', () => {
-                const type = /** @type {string} */ (item.dataset.type);
-                const id = /** @type {string} */ (item.dataset.id);
+                const type = /** @type {string} */ (item.dataset['type']);
+                const id = /** @type {string} */ (item.dataset['id']);
                 this.showEntityInfo(type, id);
             });
         });
@@ -12195,7 +12195,7 @@ class UIController {
                     <div class="explore-detail__grid">`;
                 maps.forEach(map => {
                     html += `<div class="explore-detail__item" data-type="map" data-id="${map.id}">
-                        <span class="explore-detail__color" style="background: ${map.style?.color || MAP_COLOURS.swatch}"></span>
+                        <span class="explore-detail__color" style="background: ${map.style?.['color'] || MAP_COLOURS.swatch}"></span>
                         <span class="explore-detail__item-name">${this.escapeHtml(map.name)}</span>
                         ${map.date ? `<span class="explore-detail__item-date">${this.formatMapDate(map.date, map)}</span>` : ''}
                     </div>`;
@@ -12305,8 +12305,8 @@ class UIController {
             if (book) {
                 html += `<div class="explore-detail__hero explore-detail__hero--book">
                     <span class="explore-detail__icon">[book]</span>
-                    <h2 class="explore-detail__title">${this.escapeHtml(book.title || book.name)}</h2>
-                    ${book.year ? `<p class="explore-detail__subtitle">${book.year}</p>` : ''}
+                    <h2 class="explore-detail__title">${this.escapeHtml(book.title || book['name'])}</h2>
+                    ${book['year'] ? `<p class="explore-detail__subtitle">${book['year']}</p>` : ''}
                 </div>`;
 
                 html += '<div class="explore-detail__card">';
@@ -12316,17 +12316,17 @@ class UIController {
                         <span class="explore-detail__value">${this.escapeHtml(book.authors.join(', '))}</span>
                     </div>`;
                 }
-                if (book.publisher) {
+                if (book['publisher']) {
                     html += `<div class="explore-detail__meta-row">
                         <span class="explore-detail__label">Publisher</span>
-                        <span class="explore-detail__value">${this.escapeHtml(book.publisher)}</span>
+                        <span class="explore-detail__value">${this.escapeHtml(book['publisher'])}</span>
                     </div>`;
                 }
                 html += '</div>';
 
-                if (book.description) {
+                if (book['description']) {
                     html += `<div class="explore-detail__section">
-                        <p class="explore-detail__desc">${this.escapeHtml(book.description)}</p>
+                        <p class="explore-detail__desc">${this.escapeHtml(book['description'])}</p>
                     </div>`;
                 }
             }
@@ -12338,7 +12338,7 @@ class UIController {
         // Add link listeners for all clickable items
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.explore-detail__item[data-type], .explore-detail__link[data-type]')).forEach(link => {
             link.addEventListener('click', () => {
-                this.showEntityInfo(/** @type {string} */ (link.dataset.type), /** @type {string} */ (link.dataset.id));
+                this.showEntityInfo(/** @type {string} */ (link.dataset['type']), /** @type {string} */ (link.dataset['id']));
             });
         });
         const exploreMapToggle = container.querySelector('[data-explore-map-toggle]');
@@ -12441,15 +12441,15 @@ class UIController {
         (data.maps || []).forEach(map => {
             const searchText = [map.name, map.id, ...(map.keywords || [])].join(' ').toLowerCase();
             if (searchText.includes(q)) {
-                results.push({ type: 'map', item: map, name: map.name, color: map.style?.color });
+                results.push({ type: 'map', item: map, name: map.name, color: map.style?.['color'] });
             }
         });
 
         // Search books
         (data.books || []).forEach(book => {
-            const searchText = [book.title || book.name, book.id, ...(book.keywords || [])].join(' ').toLowerCase();
+            const searchText = [book.title || book['name'], book.id, ...(book.keywords || [])].join(' ').toLowerCase();
             if (searchText.includes(q)) {
-                results.push({ type: 'book', item: book, name: book.title || book.name, icon: '[book]' });
+                results.push({ type: 'book', item: book, name: book.title || book['name'], icon: '[book]' });
             }
         });
 
@@ -12471,7 +12471,7 @@ class UIController {
 
         /** @type {NodeListOf<ViewElement>} */ (container.querySelectorAll('.explore-item[data-type]')).forEach(item => {
             item.addEventListener('click', () => {
-                this.showEntityInfo(/** @type {string} */ (item.dataset.type), /** @type {string} */ (item.dataset.id));
+                this.showEntityInfo(/** @type {string} */ (item.dataset['type']), /** @type {string} */ (item.dataset['id']));
             });
         });
     }
@@ -12536,14 +12536,14 @@ class UIController {
     renderVariantsDropdown(map, _isLoaded) {
         if (!map.variants || map.variants.length === 0) return '';
 
-        const visibleVariants = map.variants.filter(variant => !variant.hidden);
+        const visibleVariants = map.variants.filter(variant => !variant['hidden']);
         if (!visibleVariants.length) return '';
         const expandedByDefault = this.shouldExpandVariantsByDefault(map);
         let html = `<div class="variants-container ${expandedByDefault ? 'variants-container--expanded variants-container--default-expanded' : ''}" data-parent-id="${map.id}">`;
         visibleVariants.forEach(variant => {
             const variantLoaded = this.isMapLoadedState(variant.id, {});
             const description = variant.description || '';
-            const hasFgb = !!(variant.files?.fgb || variant.files?.image);
+            const hasFgb = !!(variant.files?.fgb || variant.files?.['image']);
             const variantThumb = this.renderThumbnailImage(variant.id, '', '40px');
             const variantPreview = this.renderThumbnailImage(variant.id, '', '120px', { defer: 'hover' });
             html += `<div class="variant-item ${variantLoaded ? 'variant-item--loaded' : ''}" data-map-id="${variant.id}">
@@ -12649,15 +12649,15 @@ class UIController {
         if (!place) return '';
         const addr = place.address || {};
         const parts = [];
-        if (addr.house_number && addr.road) parts.push(`${addr.house_number} ${addr.road}`);
-        else if (addr.road) parts.push(addr.road);
-        else if (addr.name) parts.push(addr.name);
-        if (addr.suburb) parts.push(addr.suburb);
-        else if (addr.neighbourhood) parts.push(addr.neighbourhood);
-        if (addr.city) parts.push(addr.city);
-        else if (addr.town) parts.push(addr.town);
-        else if (addr.village) parts.push(addr.village);
-        if (addr.county) parts.push(addr.county);
+        if (addr['house_number'] && addr['road']) parts.push(`${addr['house_number']} ${addr['road']}`);
+        else if (addr['road']) parts.push(addr['road']);
+        else if (addr['name']) parts.push(addr['name']);
+        if (addr['suburb']) parts.push(addr['suburb']);
+        else if (addr['neighbourhood']) parts.push(addr['neighbourhood']);
+        if (addr['city']) parts.push(addr['city']);
+        else if (addr['town']) parts.push(addr['town']);
+        else if (addr['village']) parts.push(addr['village']);
+        if (addr['county']) parts.push(addr['county']);
         if (parts.length > 0) return parts.join(', ');
         return place.display_name || '';
     }
@@ -12834,7 +12834,7 @@ class UIController {
             if (Array.isArray(m.variants)) {
                 for (const v of m.variants) {
                     // Variants inherit category from the parent unless overridden; a variant is a map of its own.
-                    maps.push(/** @type {MapRecord} */ ({ ...v, category: v.category || m.category }));
+                    maps.push(/** @type {MapRecord} */ ({ ...v, category: v['category'] || m.category }));
                 }
             }
         }
@@ -12864,7 +12864,7 @@ class UIController {
                         name: feature.name,
                         mapId: feature.mapId,
                         bbox: feature.bbox,
-                        centroid: feature.centroid,
+                        centroid: feature['centroid'],
                     });
                     if (candidates.length >= candidatePoolSize) break;
                 }
@@ -12948,7 +12948,7 @@ class UIController {
                         name: f.name,
                         mapId: f.mapId || m.id,
                         bbox: f.bbox,
-                        centroid: f.centroid,
+                        centroid: f['centroid'],
                     });
                 }
             }
@@ -13072,7 +13072,7 @@ class UIController {
                          data-feature-id="${result.id}"
                          data-map-id="${result.mapId}"
                          data-bbox="${result.bbox?.join(',') || ''}"
-                         data-centroid="${/** @type {number[] | undefined} */ (result.centroid)?.join(',') || ''}">
+                         data-centroid="${/** @type {number[] | undefined} */ (result['centroid'])?.join(',') || ''}">
                 <span class="search-autocomplete__icon">&#128269;</span>
                 <div class="search-autocomplete__content">
                     <span class="search-autocomplete__name">${this.highlightText(result.name, query)}</span>
@@ -13087,9 +13087,9 @@ class UIController {
         // Add click handlers
         /** @type {NodeListOf<ViewElement>} */ (autocomplete.querySelectorAll('.search-autocomplete__item--feature')).forEach(item => {
             item.addEventListener('click', () => {
-                const bboxStr = item.dataset.bbox;
-                const mapId = /** @type {string} */ (item.dataset.mapId);
-                const featureId = /** @type {string} */ (item.dataset.featureId);
+                const bboxStr = item.dataset['bbox'];
+                const mapId = /** @type {string} */ (item.dataset['mapId']);
+                const featureId = /** @type {string} */ (item.dataset['featureId']);
 
                 if (bboxStr) {
                     const bbox = bboxStr.split(',').map(Number);
@@ -13159,9 +13159,9 @@ class UIController {
             const mapFeatures = featureLoader.spatialIndexByMap.get(mapId) || [];
 
             for (const feature of mapFeatures) {
-                if (!feature.centroid) continue;
+                if (!feature['centroid']) continue;
 
-                const [lon, lat] = /** @type {[number, number]} */ (/** @type {number[]} */ (feature.centroid));
+                const [lon, lat] = /** @type {[number, number]} */ (/** @type {number[]} */ (feature['centroid']));
 
                 if (lat >= /** @type {number} */ (southWest[0]) && lat <= /** @type {number} */ (northEast[0]) &&
                     lon >= /** @type {number} */ (southWest[1]) && lon <= /** @type {number} */ (northEast[1])) {

@@ -51,7 +51,7 @@ export function toolbarHtml(c) {
     <span class="cn-tally" data-cn-tally aria-hidden="true"></span>
     <div class="cn-filters">
       <div class="cn-frow">
-        <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('scope', '', 'All')}${chip('scope', 'Northern Ireland', /** @type {string} */ (SCOPE_SHORT['Northern Ireland']))}${chip('scope', 'Republic of Ireland', /** @type {string} */ (SCOPE_SHORT['Republic of Ireland']))}${chip('scope', 'Ireland', /** @type {string} */ (SCOPE_SHORT.Ireland))}</span>
+        <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('scope', '', 'All')}${chip('scope', 'Northern Ireland', /** @type {string} */ (SCOPE_SHORT['Northern Ireland']))}${chip('scope', 'Republic of Ireland', /** @type {string} */ (SCOPE_SHORT['Republic of Ireland']))}${chip('scope', 'Ireland', /** @type {string} */ (SCOPE_SHORT['Ireland']))}</span>
       </div>
       ${providerFilterHtml(c.providerChoices())}
       ${sliderHtml('maps', c.mapBins, i, j, c.yearState('maps'))}
@@ -126,7 +126,7 @@ export function resultsHtml(c) {
   const empty = !total ? `<p class="cn-empty" role="status">${c.query ? `No maps match “${esc(c.query)}”${c.activeFilterCount('maps') ? ' with these filters' : ''}.` : 'No maps match these filters.'}
     ${c.activeFilterCount('maps') ? ' <button type="button" class="cn-link" data-cn-act="clear-filters">Clear the filters</button>' : ''}${c.otherTabHint()}</p>` : '';
   // "Westminster 2019" on the Maps tab: the election comes first, as a way across to it.
-  const elections = c.query && c.electionsFirst ? c.tabCounts().elections : 0;
+  const elections = c.query && c.electionsFirst ? c.tabCounts()['elections'] : 0;
   const toElections = elections
     ? `<p class="cn-summary cn-summary--elections"><button type="button" class="cn-btn" data-cn-tab="elections">${icon('vote')}<span>${plural(elections, 'election')} match “${esc(c.query)}”</span></button></p>`
     : '';
@@ -570,7 +570,7 @@ function addressesHtml(c) {
   return `${note}<section class="cn-block cn-block--addresses" aria-labelledby="cn-addresses-h">
     <h3 class="cn-block__head" id="cn-addresses-h">${icon('map-pin')}<span>Addresses</span><span class="cn-count">${a.results.length}</span></h3>
     <ul class="cn-addresses">${a.results.map((r, i) => `<li><button type="button" class="cn-address" data-cn-address="${i}">${icon('map-pin')}<span class="cn-address__main"><span class="cn-address__name">${esc(r.name)}</span>${r.detail ? `<span class="cn-muted">${esc(r.detail)}</span>` : ''}</span></button></li>`).join('')}</ul>
-    <p class="cn-address-credit">${ADDRESS_CREDIT[/** @type {string} */ (a.source)] || ADDRESS_CREDIT.photon}</p>
+    <p class="cn-address-credit">${ADDRESS_CREDIT[/** @type {string} */ (a.source)] || ADDRESS_CREDIT['photon']}</p>
   </section>`;
 }
 
@@ -578,7 +578,7 @@ function addressesHtml(c) {
  * link to their page, and the elections they stood in, here in the Elections tab.
  * @param {CatalogueNext} c @param {Array<{ row: PersonRow }>} results */
 function personsHtml(c, results) {
-  const limit = c.limits.persons ? results.length : 6;
+  const limit = c.limits['persons'] ? results.length : 6;
   // People were found, so the people index is loaded.
   const { parties, constituencies } = /** @type {CataloguePeopleDoc} */ (c.peopleDoc);
   return `<section class="cn-block" aria-labelledby="cn-persons-h">
@@ -618,7 +618,7 @@ function placeKind(c, record) {
 
 /** @param {CatalogueNext} c @param {PlaceGroup[]} groups */
 function placesHtml(c, groups) {
-  const all = Boolean(c.limits.places);
+  const all = Boolean(c.limits['places']);
   const limit = all ? groups.length : 5;
   const toggle = groups.length > 5
     ? `<button type="button" class="cn-link cn-block__toggle" data-cn-act="toggle-all" data-what="places" aria-expanded="${all}">${all ? 'Hide' : `Show all ${groups.length}`}</button>`
@@ -642,7 +642,7 @@ function placesHtml(c, groups) {
 
 /** @param {CatalogueNext} c @param {CatalogueSearchRecord[]} records */
 function peopleHtml(c, records) {
-  const limit = c.limits.people ? records.length : 5;
+  const limit = c.limits['people'] ? records.length : 5;
   /** @type {Record<string, string>} */
   const ic = { person: 'user', party: 'flag', source: 'file-text' };
   const kinds = [['person', 'People'], ['party', 'Parties'], ['source', 'Sources']].filter(([t]) => records.some((r) => r.type === t)).map(([, l]) => l);
@@ -671,7 +671,7 @@ function hereHtml(c) {
     if (!shelves.has(s.shelf)) shelves.set(s.shelf, []);
     /** @type {Array<{ s: CatalogueRow, members: string[] }>} */ (shelves.get(s.shelf)).push({ s, members });
   }
-  const places = hit.places.slice(0, c.limits.here ? 400 : 30);
+  const places = hit.places.slice(0, c.limits['here'] ? 400 : 30);
   return `<div class="cn-here__head"><h3>What's here</h3><button type="button" class="cn-btn" data-cn-act="close-here">${icon('x')}<span>Back to all maps</span></button></div>
     <p class="cn-summary">At ${lat.toFixed(4)}, ${lng.toFixed(4)}. A map is listed when its extent covers the point; most boundary maps cover all of their jurisdiction.</p>
     ${c.placesReady ? (places.length ? `<section class="cn-block"><h3 class="cn-block__head">${icon('map-pin')}<span>Places at this point</span><span class="cn-count">${hit.places.length}</span></h3>

@@ -109,7 +109,7 @@ const BLANK_FILTERS = { scope: '', kind: '', from: null, to: null, onMap: false,
 /** @type {ElectionFilters} */
 const BLANK_EFILTERS = { body: '', ekind: 'general', escope: '', from: null, to: null };
 
-const app = () => (typeof window !== 'undefined' ? /** @type {CatalogueApp | undefined} */ (window.__civgraphTest2?.app) : null);
+const app = () => (typeof window !== 'undefined' ? /** @type {CatalogueApp | undefined} */ (window.__civgraphTest2?.['app']) : null);
 // JSON.parse(null), nothing stored, is null, so the empty record.
 /** @returns {{ v?: number, filters?: Partial<MapFilters>, efilters?: Partial<ElectionFilters>, opened?: string[] }} */
 const readStore = () => { try { return JSON.parse(/** @type {string} */ (sessionStorage.getItem(STORE))) || {}; } catch { return {}; } };
@@ -513,12 +513,12 @@ export class CatalogueNext {
   refreshToolbar() {
     const bar = /** @type {HTMLElement | null} */ (this.viewEl.querySelector('[data-cn-toolbar]'));
     if (!bar) return;
-    const key = /** @type {FilterKey} */ (bar.dataset.cnToolbar);
+    const key = /** @type {FilterKey} */ (bar.dataset['cnToolbar']);
     // Read by each button's filter name.
     const f = /** @type {Record<string, unknown>} */ (key === 'maps' ? this.filters : this.efilters);
     /** @type {NodeListOf<DataTarget>} */ (bar.querySelectorAll('[data-cn-filter]')).forEach((b) => {
-      const g = /** @type {string} */ (b.dataset.cnFilter);
-      const on = g === 'onMap' ? Boolean(f[g]) : (f[g] || '') === (b.dataset.value || '');
+      const g = /** @type {string} */ (b.dataset['cnFilter']);
+      const on = g === 'onMap' ? Boolean(f[g]) : (f[g] || '') === (b.dataset['value'] || '');
       b.setAttribute('aria-pressed', String(on));
     });
     const { i, j, narrowed } = this.yearRange(key);
@@ -596,7 +596,7 @@ export class CatalogueNext {
     // phone puts it under the icon (styles.js).
     /** @param {string} id @param {string} ic @param {string} label @param {number} n */
     const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span class="cn-tab__label">${label}</span><span class="cn-tab__count">${siteNumber(n)}</span></button>`;
-    return /** @type {Array<[string, string, string, string]>} */ (SECTIONS).map(([id, , label, ic]) => tab(id, ic, label, /** @type {number} */ (counts[id]))).join('') + tab('elections', 'vote', 'Elections', /** @type {number} */ (counts.elections));
+    return /** @type {Array<[string, string, string, string]>} */ (SECTIONS).map(([id, , label, ic]) => tab(id, ic, label, /** @type {number} */ (counts[id]))).join('') + tab('elections', 'vote', 'Elections', /** @type {number} */ (counts['elections']));
   }
 
   /** Series per section (those a search found, while searching) and elections. */
@@ -615,7 +615,7 @@ export class CatalogueNext {
   otherTabHint() {
     if (!this.query) return '';
     const n = this.tabCounts();
-    const others = /** @type {Array<[string, string, number]>} */ ([.../** @type {Array<[string, string, string]>} */ (SECTIONS).map(([id, , label]) => [id, label.toLowerCase(), n[id]]), ['elections', 'elections', n.elections]]).filter(([id, , k]) => id !== this.openSection && k);
+    const others = /** @type {Array<[string, string, number]>} */ ([.../** @type {Array<[string, string, string]>} */ (SECTIONS).map(([id, , label]) => [id, label.toLowerCase(), n[id]]), ['elections', 'elections', n['elections']]]).filter(([id, , k]) => id !== this.openSection && k);
     if (!others.length) return '';
     return ` ${others.map(([id, label, k]) => `<button type="button" class="cn-link" data-cn-tab="${id}">${siteNumber(k)} in ${label}</button>`).join(', ')} match it.`;
   }
@@ -649,7 +649,7 @@ export class CatalogueNext {
     const imgs = /** @type {NodeListOf<HTMLImageElement>} */ (scope.querySelectorAll?.('img[data-cn-src]') || []);
     if (!imgs.length) return;
     /** @param {HTMLImageElement} img one still to load, so with its data-cn-src */
-    const load = (img) => { img.src = /** @type {string} */ (img.dataset.cnSrc); img.removeAttribute('data-cn-src'); };
+    const load = (img) => { img.src = /** @type {string} */ (img.dataset['cnSrc']); img.removeAttribute('data-cn-src'); };
     if (!('IntersectionObserver' in window)) { imgs.forEach(load); return; }
     if (!this.thumbObserver || this.thumbObserverRoot !== this.scroller) {
       this.thumbObserver?.disconnect();
@@ -1432,34 +1432,34 @@ export class CatalogueNext {
     const b = (sel) => /** @type {Element} */ (e.target).closest(sel);
     /** @type {DataTarget | null} */
     let el;
-    if ((el = b('[data-cn-address]'))) { e.preventDefault(); this.goToAddress(el.dataset.cnAddress); return; }
+    if ((el = b('[data-cn-address]'))) { e.preventDefault(); this.goToAddress(el.dataset['cnAddress']); return; }
     if ((el = b('[data-cn-tab]'))) {
       e.preventDefault();
-      if (el.dataset.cnTab !== this.openSection || this.here) this.go(/** @type {string} */ (el.dataset.cnTab));
+      if (el.dataset['cnTab'] !== this.openSection || this.here) this.go(/** @type {string} */ (el.dataset['cnTab']));
       return;
     }
-    if ((el = b('[data-cn-toggle]'))) { e.preventDefault(); this.toggleMap(/** @type {string} */ (el.dataset.cnToggle), el); return; }
-    if ((el = b('[data-cn-election-toggle]'))) { e.preventDefault(); this.toggleElection(/** @type {string} */ (el.dataset.cnElectionToggle), el); return; }
-    if ((el = b('[data-cn-expand]'))) { e.preventDefault(); this.toggleExpand(/** @type {string} */ (el.dataset.cnExpand)); return; }
-    if ((el = b('[data-cn-select]'))) { e.preventDefault(); const [sid, mid] = /** @type {[string, string]} */ (/** @type {string} */ (el.dataset.cnSelect).split('|')); this.select(sid, mid); return; }
-    if ((el = b('[data-cn-more]'))) { e.preventDefault(); this.moreChips.add(/** @type {string} */ (el.dataset.cnMore)); this.rerenderRow(/** @type {string} */ (el.dataset.cnMore), { focus: 'chips' }); return; }
-    if ((el = b('[data-cn-fewer]'))) { e.preventDefault(); this.moreChips.delete(/** @type {string} */ (el.dataset.cnFewer)); this.rerenderRow(/** @type {string} */ (el.dataset.cnFewer), { focus: 'chips' }); return; }
-    if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(/** @type {string} */ (el.dataset.cnMoreParts)); this.rerenderPanel(/** @type {string} */ (this.seriesOfMap.get(/** @type {string} */ (el.dataset.cnMoreParts).replace(/:counties$/, '')))); return; }
-    if ((el = b('[data-cn-visibility]'))) { e.preventDefault(); this.toggleVisible(/** @type {string} */ (el.dataset.cnVisibility)); return; }
-    if ((el = b('[data-cn-filter]'))) { e.preventDefault(); this.setFilter(/** @type {string} */ (el.dataset.cnFilter), el.dataset.value || ''); return; }
+    if ((el = b('[data-cn-toggle]'))) { e.preventDefault(); this.toggleMap(/** @type {string} */ (el.dataset['cnToggle']), el); return; }
+    if ((el = b('[data-cn-election-toggle]'))) { e.preventDefault(); this.toggleElection(/** @type {string} */ (el.dataset['cnElectionToggle']), el); return; }
+    if ((el = b('[data-cn-expand]'))) { e.preventDefault(); this.toggleExpand(/** @type {string} */ (el.dataset['cnExpand'])); return; }
+    if ((el = b('[data-cn-select]'))) { e.preventDefault(); const [sid, mid] = /** @type {[string, string]} */ (/** @type {string} */ (el.dataset['cnSelect']).split('|')); this.select(sid, mid); return; }
+    if ((el = b('[data-cn-more]'))) { e.preventDefault(); this.moreChips.add(/** @type {string} */ (el.dataset['cnMore'])); this.rerenderRow(/** @type {string} */ (el.dataset['cnMore']), { focus: 'chips' }); return; }
+    if ((el = b('[data-cn-fewer]'))) { e.preventDefault(); this.moreChips.delete(/** @type {string} */ (el.dataset['cnFewer'])); this.rerenderRow(/** @type {string} */ (el.dataset['cnFewer']), { focus: 'chips' }); return; }
+    if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(/** @type {string} */ (el.dataset['cnMoreParts'])); this.rerenderPanel(/** @type {string} */ (this.seriesOfMap.get(/** @type {string} */ (el.dataset['cnMoreParts']).replace(/:counties$/, '')))); return; }
+    if ((el = b('[data-cn-visibility]'))) { e.preventDefault(); this.toggleVisible(/** @type {string} */ (el.dataset['cnVisibility'])); return; }
+    if ((el = b('[data-cn-filter]'))) { e.preventDefault(); this.setFilter(/** @type {string} */ (el.dataset['cnFilter']), el.dataset['value'] || ''); return; }
     if ((el = b('[data-cn-shelf]'))) { e.preventDefault(); this.toggleShelf(el); return; }
-    if ((el = b('[data-cn-person]'))) { e.preventDefault(); this.showPersonElections(/** @type {string} */ (el.dataset.cnPerson)); return; }
+    if ((el = b('[data-cn-person]'))) { e.preventDefault(); this.showPersonElections(/** @type {string} */ (el.dataset['cnPerson'])); return; }
     // A person or party found by search opens its page here in the pane (UX review 2026-10-31, M6),
     // with the full record a link away in Browse; the name used to leave the map for Browse.
     if ((el = b('[data-cn-open-page]'))) {
       e.preventDefault();
-      const [kind, ...rest] = /** @type {[string, ...string[]]} */ (/** @type {string} */ (el.dataset.cnOpenPage).split(':'));
+      const [kind, ...rest] = /** @type {[string, ...string[]]} */ (/** @type {string} */ (el.dataset['cnOpenPage']).split(':'));
       this.ui.onOpenElectionEntityDetail?.(kind, rest.join(':'), /** @type {string} */ (el.textContent).trim());
       return;
     }
     if ((el = b('[data-cn-local]'))) {
       e.preventDefault();
-      const id = /** @type {string} */ (el.dataset.cnLocal);
+      const id = /** @type {string} */ (el.dataset['cnLocal']);
       if (this.showLocal.has(id)) this.showLocal.delete(id); else this.showLocal.add(id);
       this.rerenderRow(id);
       /** @type {HtmlScope} */ (this.root).querySelector(`[data-cn-series="${cssId(id)}"] [data-cn-local]`)?.focus({ preventScroll: true });
@@ -1467,7 +1467,7 @@ export class CatalogueNext {
     }
     if ((el = b('[data-cn-todo]'))) {
       e.preventDefault();
-      const id = /** @type {string} */ (el.dataset.cnTodo);
+      const id = /** @type {string} */ (el.dataset['cnTodo']);
       if (this.showTodo.has(id)) this.showTodo.delete(id); else this.showTodo.add(id);
       this.rerenderRow(id);
       /** @type {HtmlScope} */ (this.root).querySelector(`[data-cn-series="${cssId(id)}"] [data-cn-todo]`)?.focus({ preventScroll: true });
@@ -1475,21 +1475,21 @@ export class CatalogueNext {
     }
     if ((el = b('[data-cn-goto]'))) {
       e.preventDefault();
-      const sid = el.dataset.cnGoto;
+      const sid = el.dataset['cnGoto'];
       if (!sid) return;
       this.here = null;
       this.tab = 'maps';
       this.section = sectionOfKind(this.seriesById.get(sid)?.kind);
       this.expanded.add(sid);
       this.focusSeries = sid;
-      if (el.dataset.map) this.selected.set(sid, el.dataset.map);
+      if (el.dataset['map']) this.selected.set(sid, el.dataset['map']);
       this.revealSeries(this.seriesById.get(sid));
       this.scrollTarget = sid;
       this.draw();
       this.replaceRoute();
       return;
     }
-    if ((el = b('[data-cn-act]'))) { e.preventDefault(); this.act(/** @type {string} */ (el.dataset.cnAct), el); }
+    if ((el = b('[data-cn-act]'))) { e.preventDefault(); this.act(/** @type {string} */ (el.dataset['cnAct']), el); }
   }
 
   /** @param {KeyboardEvent} e */
@@ -1513,7 +1513,7 @@ export class CatalogueNext {
   onInput(e) {
     const r = /** @type {HTMLInputElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-range]'));
     if (!r) return;
-    const key = /** @type {FilterKey} */ (r.dataset.key);
+    const key = /** @type {FilterKey} */ (r.dataset['key']);
     const bins = key === 'maps' ? this.mapBins : this.electionBins;
     const wrap = /** @type {Element} */ (r.closest('[data-cn-slider]'));
     const [a, b] = /** @type {NodeListOf<HTMLInputElement> & [HTMLInputElement, HTMLInputElement]} */ (wrap.querySelectorAll('input[type="range"]')); // the slider's two range inputs
@@ -1537,7 +1537,7 @@ export class CatalogueNext {
   onYearTyped(e) {
     const provider = /** @type {HTMLInputElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-provider]'));
     if (provider) {
-      const id = /** @type {string} */ (provider.dataset.cnProvider);
+      const id = /** @type {string} */ (provider.dataset['cnProvider']);
       const chosen = new Set(this.filters.providers || []);
       if (provider.checked) chosen.add(id); else chosen.delete(id);
       this.filters.providers = [...chosen];
@@ -1553,10 +1553,10 @@ export class CatalogueNext {
     }
     const box = /** @type {HTMLInputElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-year]'));
     if (!box) return;
-    const key = /** @type {FilterKey} */ (box.dataset.key);
+    const key = /** @type {FilterKey} */ (box.dataset['key']);
     const f = key === 'maps' ? this.filters : this.efilters;
     const v = box.value.trim() === '' ? null : Math.round(Number(box.value));
-    /** @type {Record<string, unknown>} */ (f)[/** @type {string} */ (box.dataset.cnYear)] = Number.isFinite(v) ? v : null;
+    /** @type {Record<string, unknown>} */ (f)[/** @type {string} */ (box.dataset['cnYear'])] = Number.isFinite(v) ? v : null;
     if (f.from !== null && f.to !== null && f.from > f.to) [f.from, f.to] = [f.to, f.from];
     this.saveStore();
     const r = this.yearRange(key);
@@ -1574,7 +1574,7 @@ export class CatalogueNext {
   /** @param {string} kind @param {DataTarget} el */
   act(kind, el) {
     // The actions on a map carry it (data-map); the rest do not read it.
-    const id = /** @type {string} */ (el.dataset.map);
+    const id = /** @type {string} */ (el.dataset['map']);
     switch (kind) {
       case 'tables':
         if (this.ui.showTab) this.ui.showTab('tables');
@@ -1587,7 +1587,7 @@ export class CatalogueNext {
         break;
       }
       case 'years-reset': {
-        const f = el.dataset.key === 'maps' ? this.filters : this.efilters;
+        const f = el.dataset['key'] === 'maps' ? this.filters : this.efilters;
         f.from = null;
         f.to = null;
         this.saveStore();
@@ -1604,10 +1604,10 @@ export class CatalogueNext {
       case 'edit': this.suggestEdit(id, /** @type {HTMLElement | null} */ (el.closest('.cn')) || undefined); break;
       case 'downloads': openMenu(el, this.downloadsFor(id), { label: 'Download' }); break;
       case 'copy-link': this.copyLink(id, el); break;
-      case 'cite': this.cite(id, this.seriesById.get(/** @type {string} */ (el.dataset.series)), el); break;
-      case 'row-link': this.copyRowLink(el.dataset.series, el); break;
-      case 'row-cite': this.citeRow(el.dataset.series, el); break;
-      case 'row-compare': this.openRowCompare(el, el.dataset.series); break;
+      case 'cite': this.cite(id, this.seriesById.get(/** @type {string} */ (el.dataset['series'])), el); break;
+      case 'row-link': this.copyRowLink(el.dataset['series'], el); break;
+      case 'row-cite': this.citeRow(el.dataset['series'], el); break;
+      case 'row-compare': this.openRowCompare(el, el.dataset['series']); break;
       case 'add-parts': this.addParts(id); break;
       case 'more-text': {
         const p = el.previousElementSibling;
@@ -1615,16 +1615,16 @@ export class CatalogueNext {
         break;
       }
       case 'show-all': {
-        this.limits[/** @type {string} */ (el.dataset.what)] = true;
-        if (el.dataset.what === 'here') { this.refreshResults(); break; }
+        this.limits[/** @type {string} */ (el.dataset['what'])] = true;
+        if (el.dataset['what'] === 'here') { this.refreshResults(); break; }
         this.refreshExtras();
         break;
       }
       case 'toggle-all': {
         // Show every place, or go back to the first five; the button keeps its place and focus.
-        this.limits[/** @type {string} */ (el.dataset.what)] = !this.limits[/** @type {string} */ (el.dataset.what)];
+        this.limits[/** @type {string} */ (el.dataset['what'])] = !this.limits[/** @type {string} */ (el.dataset['what'])];
         this.refreshExtras();
-        /** @type {HtmlScope | null | undefined} */ (this.resultsEl)?.querySelector(`[data-cn-act="toggle-all"][data-what="${el.dataset.what}"]`)?.focus({ preventScroll: true });
+        /** @type {HtmlScope | null | undefined} */ (this.resultsEl)?.querySelector(`[data-cn-act="toggle-all"][data-what="${el.dataset['what']}"]`)?.focus({ preventScroll: true });
         break;
       }
       case 'pick-here': this.startPick(); break;
@@ -1693,7 +1693,7 @@ export class CatalogueNext {
 
   /** @param {HTMLElement} btn */
   toggleShelf(btn) {
-    const id = /** @type {string} */ (btn.dataset.cnShelf);
+    const id = /** @type {string} */ (btn.dataset['cnShelf']);
     const open = btn.getAttribute('aria-expanded') !== 'true';
     if (open) this.opened.add(id); else this.opened.delete(id);
     btn.setAttribute('aria-expanded', String(open));
@@ -1797,7 +1797,7 @@ export class CatalogueNext {
     el.addEventListener('click', (e) => {
       // A click in the drawer lands on an element of it.
       const go = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('[data-cn-goto-section]'));
-      if (go) { this.closeContents({ focus: false }); this.goToSection(/** @type {string} */ (go.dataset.cnGotoSection)); return; }
+      if (go) { this.closeContents({ focus: false }); this.goToSection(/** @type {string} */ (go.dataset['cnGotoSection'])); return; }
       if (/** @type {Element} */ (e.target).closest('[data-cn-drawer-close]')) this.closeContents();
     });
     // Escape closes the panel wherever focus is: it moves into the panel a frame after opening,
@@ -2029,18 +2029,18 @@ export class CatalogueNext {
    */
   bindDetailActions(strip) {
     if (!strip) return;
-    const sync = () => strip.querySelectorAll('[data-cn-toggle]').forEach((b) => b.setAttribute('aria-pressed', String(this.isLoaded(String(/** @type {HTMLElement} */ (b).dataset.cnToggle)))));
+    const sync = () => strip.querySelectorAll('[data-cn-toggle]').forEach((b) => b.setAttribute('aria-pressed', String(this.isLoaded(String(/** @type {HTMLElement} */ (b).dataset['cnToggle'])))));
     strip.addEventListener('click', async (e) => {
       const el = /** @type {DataTarget | null} */ (/** @type {Element} */ (e.target).closest('button'));
       // Suggest an edit's dialog opens inside the strip (for the catalogue's tokens): its buttons are its own.
       if (!el || el.closest('dialog')) return;
       e.preventDefault();
-      if (el.dataset.cnToggle) { await this.toggleMap(el.dataset.cnToggle, el); sync(); return; }
-      const id = /** @type {string} */ (el.dataset.map);
-      switch (el.dataset.cnAct) {
+      if (el.dataset['cnToggle']) { await this.toggleMap(el.dataset['cnToggle'], el); sync(); return; }
+      const id = /** @type {string} */ (el.dataset['map']);
+      switch (el.dataset['cnAct']) {
         case 'downloads-data': openMenu(el, this.downloadsFor(id, { images: false }), { label: 'Download' }); break;
         case 'map-image': openMenu(el, this.mapImagesFor(id), { label: 'Map image' }); break;
-        default: this.act(/** @type {string} */ (el.dataset.cnAct), el);
+        default: this.act(/** @type {string} */ (el.dataset['cnAct']), el);
       }
     });
     sync();
@@ -2316,11 +2316,11 @@ export class CatalogueNext {
     // A chip keeps its row's colour on and off the map: maps take their colours by load order,
     // which the loaded-layers panel shows (Phelim Birch, 20 Nov 2026).
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-toggle]')).forEach((btn) => {
-      const on = String(this.isLoaded(/** @type {string} */ (btn.dataset.cnToggle)));
+      const on = String(this.isLoaded(/** @type {string} */ (btn.dataset['cnToggle'])));
       if (btn.getAttribute('aria-pressed') !== on) btn.setAttribute('aria-pressed', on);
     });
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-visibility]')).forEach((btn) => {
-      const id = /** @type {string} */ (btn.dataset.cnVisibility);
+      const id = /** @type {string} */ (btn.dataset['cnVisibility']);
       const on = this.isLoaded(id);
       setHidden(btn, !on);
       if (on) {
@@ -2330,11 +2330,11 @@ export class CatalogueNext {
       }
     });
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-series]')).forEach((li) => {
-      const s = this.seriesById.get(/** @type {string} */ (li.dataset.cnSeries));
+      const s = this.seriesById.get(/** @type {string} */ (li.dataset['cnSeries']));
       li.classList.toggle('cn-row--on', Boolean(s && this.seriesOnMap(s)));
     });
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-election-toggle]')).forEach((btn) => {
-      const e = this.electionByKey.get(/** @type {string} */ (btn.dataset.cnElectionToggle));
+      const e = this.electionByKey.get(/** @type {string} */ (btn.dataset['cnElectionToggle']));
       const on = String(Boolean(e && this.electionLoaded(e)));
       if (btn.getAttribute('aria-pressed') !== on) btn.setAttribute('aria-pressed', on);
       btn.closest('.cn-erow')?.classList.toggle('cn-erow--on', on === 'true');
