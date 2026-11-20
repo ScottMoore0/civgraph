@@ -81,11 +81,11 @@ export function mountOtherSystems(root, detail, ctx) {
   const body = /** @type {HTMLElement | null} */ (root.querySelector('[data-el-systems-body]'));
   if (!box || !body) return;
   const run = OTHER_SYSTEMS.start();
-  box.dataset.state = run.state();
+  box.dataset['state'] = run.state();
   const colours = new Map((detail.partySummary || []).map((p) => [p.party, String(p.colour || '')]));
   box.addEventListener('toggle', async () => {
     if (!box.open || (run.state() !== 'idle' && run.state() !== 'failed')) return;
-    box.dataset.state = run.to('loading');
+    box.dataset['state'] = run.to('loading');
     body.innerHTML = `<p class="el-loading">${esc(SYSTEMS_TEXT.loading)}</p>`;
     try {
       const bundle = await electionBundle(detail.key);
@@ -93,11 +93,11 @@ export function mountOtherSystems(root, detail, ctx) {
       const results = /** @type {import('../lib/other-systems.js').BundleResult[]} */ (Array.isArray(bundle.results) ? bundle.results : []);
       const cmp = compareSystems(results, detail.votingSystem, colours);
       body.innerHTML = systemsHtml(cmp, isStv(detail.votingSystem));
-      box.dataset.state = run.to(cmp.applicable ? 'shown' : 'not-applicable');
+      box.dataset['state'] = run.to(cmp.applicable ? 'shown' : 'not-applicable');
     } catch (err) {
       if (ctx.stale()) return;
       body.innerHTML = `<p class="cg-notice cg-notice--danger">${esc(SYSTEMS_TEXT.failed)}</p>`;
-      box.dataset.state = run.to('failed');
+      box.dataset['state'] = run.to('failed');
       console.error(err);
     }
   }, { signal: ctx.signal });

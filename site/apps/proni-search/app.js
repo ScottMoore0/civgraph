@@ -125,9 +125,9 @@ function metaHtml(r) {
   const m = [];
   if (r.level) m.push(`<span><b>Level:</b> ${esc(r.level)}</span>`);
   if (r.dates) m.push(`<span><b>Dates:</b> ${esc(r.dates)}</span>`);
-  if (r.access) m.push(`<span><b>Access:</b> ${esc(r.access)}</span>`);
+  if (r['access']) m.push(`<span><b>Access:</b> ${esc(r['access'])}</span>`);
   if (r.fond) m.push(`<span class="ps-badge">${esc(r.fond)}</span>`);
-  if (r.digitalRecord) m.push('<span class="ps-badge ps-badge--digi">Digitised</span>');
+  if (r['digitalRecord']) m.push('<span class="ps-badge ps-badge--digi">Digitised</span>');
   return m.join('');
 }
 
@@ -229,7 +229,7 @@ function params(offset) {
   const p = queryParams();
   if (!p) return null;   // inverted date range; reportDateRangeError has said so
   p.set('sort', els.sort.value);
-  p.set('dir', String(els.dir.dataset.dir));
+  p.set('dir', String(els.dir.dataset['dir']));
   p.set('limit', String(LIMIT));
   p.set('offset', String(offset));
   return p;
@@ -388,7 +388,7 @@ async function search(reset) {
     const resp = await fetch(`${API}?${search}`);
     const data = /** @type {ProniSearchAnswer} */ (await resp.json());
     if (rid !== state.reqId) return; // stale
-    if (data.error) { els.status.textContent = 'Search error.'; state.results.to('failed'); return; }
+    if (data['error']) { els.status.textContent = 'Search error.'; state.results.to('failed'); return; }
     const batch = data.results || [];
     if (reset) els.results.innerHTML = '';
     const fresh = batch.filter((r) => !state.seen.has(r.ref));
@@ -430,7 +430,7 @@ async function toggleExpand(ref, btn) {
   const li = /** @type {HTMLElement | null} */ (btn.closest('.ps-card'));
   if (!li) return;
   const kids = /** @type {HTMLElement} */ (li.querySelector(':scope > .ps-children')); // every card's markup has it
-  const depth = Number(li.dataset.depth) || 0;
+  const depth = Number(li.dataset['depth']) || 0;
   // The card's sub-records (state-machines.js CARD_CHILDREN); the card's class holds the state
   // between clicks, and the button is disabled while `loading`, so a click never meets it.
   const children = CARD_CHILDREN.start(li.classList.contains('is-expanded') ? 'expanded' : 'collapsed');
@@ -563,8 +563,8 @@ function showHome() {
 // A record address arrives with the record already on the page: the server rendered it into
 // #viewRecord with record-view.js (packages/api/src/handlers/proni/page.js) and marked it with
 // data-ssr-ref. The first route keeps that page, and its title, instead of fetching it again.
-const ssrRef = els.viewRecord.dataset.ssrRef;
-delete els.viewRecord.dataset.ssrRef;
+const ssrRef = els.viewRecord.dataset['ssrRef'];
+delete els.viewRecord.dataset['ssrRef'];
 
 function route() {
   if (view.state() === 'search') homeScrollY = window.scrollY;
@@ -699,7 +699,7 @@ async function expandOrOpen(button) {
   const desc = card.querySelector('.ps-card__desc');
   if (!desc) { openModal(ref); return; }
 
-  if (!card.dataset.fullLoaded) {
+  if (!card.dataset['fullLoaded']) {
     description.to('loading');
     button.disabled = true;
     const previous = button.textContent;
@@ -707,7 +707,7 @@ async function expandOrOpen(button) {
     try {
       const data = /** @type {ProniNodeAnswer | null} */ (await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json());
       const full = data?.item?.description;
-      if (full) { desc.textContent = full; card.dataset.fullLoaded = '1'; }
+      if (full) { desc.textContent = full; card.dataset['fullLoaded'] = '1'; }
     } catch {
       // Leave the preview in place and fall through to the modal, which reports its own
       // failure. A silent no-op on a button press is the one outcome to avoid.
@@ -749,7 +749,7 @@ async function openModal(ref) {
     if (!it) { els.modalBody.innerHTML = '<p class="ps-empty">Record not found.</p>'; return; }
     const rows = [
       ['PRONI reference', it.ref], ['Title', it.title], ['Level', it.level], ['Dates', it.dates],
-      ['Access', it.access], ['Digital record', it.digitalRecord ? 'Digitised - held by PRONI' : ''],
+      ['Access', it.access], ['Digital record', it['digitalRecord'] ? 'Digitised - held by PRONI' : ''],
       ['Repository', 'Public Record Office of Northern Ireland'],
     ].filter(([, v]) => v).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');
     els.modalBody.innerHTML = `
@@ -768,7 +768,7 @@ function closeModal() { showModal(false); }
 
 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((L) => {
   const b = document.createElement('button');
-  b.type = 'button'; b.className = 'ps-az__btn'; b.textContent = L; b.dataset.letter = L;
+  b.type = 'button'; b.className = 'ps-az__btn'; b.textContent = L; b.dataset['letter'] = L;
   els.az.appendChild(b);
 });
 const azClear = document.createElement('button');
@@ -790,8 +790,8 @@ const debounced = () => {
 [els.from, els.to, els.sort, els.fLevel, els.fAccess].forEach((el) => el.addEventListener('change', () => search(true)));
 
 els.dir.addEventListener('click', () => {
-  const next = els.dir.dataset.dir === 'asc' ? 'desc' : 'asc';
-  els.dir.dataset.dir = next;
+  const next = els.dir.dataset['dir'] === 'asc' ? 'desc' : 'asc';
+  els.dir.dataset['dir'] = next;
   child(els.dir, '.ps-sortdir__label').textContent = next === 'asc' ? 'A–Z' : 'Z–A';
   child(els.dir, '.ps-sortdir__arrow').textContent = next === 'asc' ? '▲' : '▼';
   els.dir.title = next === 'asc' ? 'Sort ascending - click for descending' : 'Sort descending - click for ascending';
@@ -815,12 +815,12 @@ els.az.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const
   const btn = e.target.closest('[data-letter]');
   if (btn) {
     // toggle the letter; it filters alongside any active search terms
-    if (state.letter === btn.dataset.letter) {
+    if (state.letter === btn.dataset['letter']) {
       state.azScope.to('none');
       state.letter = '';
     } else {
       state.azScope.to('letter');
-      state.letter = btn.dataset.letter ?? ''; // matched by [data-letter], so always a string
+      state.letter = btn.dataset['letter'] ?? ''; // matched by [data-letter], so always a string
     }
   } else if (e.target === azClear) {
     // 'All' now MEANS all: every top-level record, grouped by letter. It used to clear
@@ -830,7 +830,7 @@ els.az.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { const
   } else return;
   azClear.classList.toggle('is-active', state.azScope.state() === 'all');
   azClear.setAttribute('aria-pressed', String(state.azScope.state() === 'all'));
-  /** @type {NodeListOf<HTMLElement>} */ (els.az.querySelectorAll('.ps-az__btn')).forEach((b) => b.classList.toggle('is-active', b.dataset.letter === state.letter));
+  /** @type {NodeListOf<HTMLElement>} */ (els.az.querySelectorAll('.ps-az__btn')).forEach((b) => b.classList.toggle('is-active', b.dataset['letter'] === state.letter));
   search(true);
 });
 

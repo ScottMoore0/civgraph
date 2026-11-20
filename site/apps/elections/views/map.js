@@ -78,7 +78,7 @@ const mapMethod = (mode) => (mode === 'swing' ? methodNote('swing', [METHOD_NOTE
 
 /** Whether the page is in the dark theme (the shell's data-theme, else the system's). */
 function darkPage() {
-  const theme = document.documentElement.dataset.theme;
+  const theme = document.documentElement.dataset['theme'];
   return theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
 }
 
@@ -261,7 +261,7 @@ export async function render(root, route, ctx) {
     multiples.to('drawing');
     button.disabled = true;
     out.setAttribute('aria-busy', 'true');
-    out.dataset.state = 'drawing';
+    out.dataset['state'] = 'drawing';
     out.innerHTML = '';
     const holder = document.createElement('div');
     holder.style.cssText = 'position:absolute;left:-9999px;width:320px;height:360px';
@@ -295,7 +295,7 @@ export async function render(root, route, ctx) {
     } finally {
       holder.remove();
       out.removeAttribute('aria-busy');
-      out.dataset.state = multiples.state();
+      out.dataset['state'] = multiples.state();
       button.disabled = multiples.state() === 'aborted';
     }
   }, listen);
@@ -324,7 +324,7 @@ export async function render(root, route, ctx) {
       outEl.addEventListener('click', (e) => {
         const b = /** @type {HTMLElement | null} */ (e.target instanceof Element ? e.target.closest('button[data-sort]') : null);
         if (!b) return;
-        const key = /** @type {import('../lib/map-state.js').SortKey} */ (b.dataset.sort);
+        const key = /** @type {import('../lib/map-state.js').SortKey} */ (b.dataset['sort']);
         sort = { key, dir: sort.key === key && sort.dir === 'asc' ? 'desc' : 'asc' };
         history.replaceState(null, '', urlOf({ sort }));
         draw();
@@ -338,11 +338,11 @@ export async function render(root, route, ctx) {
     if (ctx.stale()) return el.displayTitle;
     await idle(map, 15000, ctx.signal);
     if (ctx.stale()) return el.displayTitle;
-    status.dataset.state = statusRun.to('drawn');
+    status.dataset['state'] = statusRun.to('drawn');
     status.textContent = fill(data.matched < data.total ? VIEW_TEXT.drawnSome : VIEW_TEXT.drawn, { n: data.matched, total: data.total });
   } catch (err) {
     if (ctx.stale()) return el.displayTitle;
-    status.dataset.state = statusRun.to('failed');
+    status.dataset['state'] = statusRun.to('failed');
     status.textContent = '';
     /** @type {HTMLElement} */ (root.querySelector('#mp-map')).innerHTML = `<p class="cg-notice cg-notice--danger">${esc(fill(VIEW_TEXT.failed, { error: String(/** @type {Error} */ (err)?.message || err) }))}</p>`;
   }

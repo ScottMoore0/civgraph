@@ -22,7 +22,7 @@ const { election, contest } = embedParams(location.search);
 const slug = election || 'northern-ireland-assembly-2022-05-05';
 /** EL-14: loading, then shown or failed (box data-state). */
 const state = EMBED.start();
-box.dataset.state = state.state();
+box.dataset['state'] = state.state();
 
 /**
  * The licence footer: Civgraph's own licence, then each source's.
@@ -61,18 +61,18 @@ async function electionWidget(d) {
 async function contestWidget(d, cslug) {
   const result = await contestResult(d.key, cslug);
   const c = result.constituency || {};
-  const cites = await contestCitations(d.key, Number(c.seq)).catch(() => ({ citations: [] }));
+  const cites = await contestCitations(d.key, Number(c['seq'])).catch(() => ({ citations: [] }));
   const sheet = countSheet(/** @type {Array<Record<string, unknown>>} */ (result.candidates || []), {
-    quota: c.quota, validPoll: c.validPoll ?? c.totalVotes, seatsTotal: c.seatsTotal, contestStatus: c.contestStatus || d.contestStatus,
+    quota: c['quota'], validPoll: c['validPoll'] ?? c['totalVotes'], seatsTotal: c['seatsTotal'], contestStatus: c['contestStatus'] || d.contestStatus,
   });
   const valid = sheet.validPoll;
   const stv = isStv(d.votingSystem);
   const rows = [...sheet.rows].sort((a, b) => (b.firstPrefs ?? -1) - (a.firstPrefs ?? -1));
-  const name = String(c.name || c.constituency || '');
+  const name = String(c['name'] || c['constituency'] || '');
   const link = new URL(appUrl.contest(d.key, cslug), location.origin).toString();
   const outcome = (/** @type {import('../lib/count.js').SheetRow} */ r) => esc(r.unopposed ? WIDGET_TEXT.unopposed : r.elected ? WIDGET_TEXT.elected : WIDGET_TEXT.notElected);
   return `<h1><a href="${esc(link)}" target="_top">${esc(name)}</a></h1>
-    <p class="meta">${esc(d.title)} · ${esc(fmtDate(d.date))} · ${esc(WIDGET_TEXT.nSeats.replace('{n}', fmtInt(c.seatsTotal)))}</p>
+    <p class="meta">${esc(d.title)} · ${esc(fmtDate(d.date))} · ${esc(WIDGET_TEXT.nSeats.replace('{n}', fmtInt(c['seatsTotal'])))}</p>
     <table><thead><tr><th>${esc(WIDGET_TEXT.candidate)}</th><th class="n">${esc(stv ? WIDGET_TEXT.firstPrefs : WIDGET_TEXT.votes)}</th><th class="n">${esc(WIDGET_TEXT.share)}</th><th>${esc(WIDGET_TEXT.outcome)}</th></tr></thead>
     <tbody>${rows.map((r) => `<tr${r.elected ? ' class="el"' : ''}><td><span class="sw" style="background:${esc(partyColour(r.colour))}"></span>${esc(r.name)}<div class="p">${esc(r.party)}</div></td><td class="n">${fmtInt(r.firstPrefs)}</td><td class="n">${fmtPct(r.firstPrefs !== null && valid ? (100 * r.firstPrefs) / valid : null)}</td><td>${outcome(r)}</td></tr>`).join('')}</tbody></table>
     ${await licenceFooter(link, (cites.citations || []).map((ci) => ci.url))}`;
@@ -80,8 +80,8 @@ async function contestWidget(d, cslug) {
 
 electionDetail(slug).then((d) => (contest ? contestWidget(d, contest) : electionWidget(d))).then((html) => {
   box.innerHTML = html;
-  box.dataset.state = state.to('shown');
+  box.dataset['state'] = state.to('shown');
 }).catch((err) => {
   box.textContent = `${WIDGET_TEXT.failed} (${err?.status || err})`;
-  box.dataset.state = state.to('failed');
+  box.dataset['state'] = state.to('failed');
 });

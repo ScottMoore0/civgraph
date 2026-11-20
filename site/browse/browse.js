@@ -94,7 +94,7 @@ const ENTITY_CONFIG = {
 
 // Which layer this page is scoped to: 'source', 'data', or null for the unscoped /browse/.
 const SECTION_LAYER = (() => {
-  const v = document.documentElement.dataset.browseSection;
+  const v = document.documentElement.dataset['browseSection'];
   return v === 'source' || v === 'data' ? v : null;
 })();
 
@@ -142,35 +142,35 @@ const ELECTION_KIND_LABELS = { ...electionKindLabels, referendum: 'Referendums',
 /** @type {Record<string, ListFilter[]>} */
 const LIST_FILTERS = {
   elections: [
-    { key: 'body', label: 'Body', value: (item) => item.body },
-    { key: 'decade', label: 'Decade', value: (item) => item.decade, order: 'desc' },
+    { key: 'body', label: 'Body', value: (item) => item['body'] },
+    { key: 'decade', label: 'Decade', value: (item) => item['decade'], order: 'desc' },
     { key: 'kind', label: 'Type', value: (item) => electionKind(item), optionLabel: (value) => ELECTION_KIND_LABELS[value] || value },
     {
       key: 'results',
       label: 'Show',
-      value: (item) => (!item.entryKind || item.entryKind === 'election' ? 'elections' : 'results'),
+      value: (item) => (!item['entryKind'] || item['entryKind'] === 'election' ? 'elections' : 'results'),
       optionLabel: (value) => (value === 'elections' ? 'Elections only' : 'Constituency and overall results only'),
       allLabel: 'Elections and their results'
     }
   ],
   maps: [
-    { key: 'category', label: 'Category', value: (item) => item.category }
+    { key: 'category', label: 'Category', value: (item) => item['category'] }
   ],
   // `values` for a facet a record has several of: a party contested several bodies.
   parties: [
-    { key: 'body', label: 'Body contested', values: (item) => item.bodies || [] },
-    { key: 'decade', label: 'Active in', values: (item) => item.decades || [], order: 'desc' }
+    { key: 'body', label: 'Body contested', values: (item) => item['bodies'] || [] },
+    { key: 'decade', label: 'Active in', values: (item) => item['decades'] || [], order: 'desc' }
   ],
   // People: the options come from persons-facets.json (the list itself is paged from D1), and
   // the values below filter the whole index only when the API cannot (renderServerList).
   persons: [
-    { key: 'body', label: 'Body', values: (item) => normalizeArray(item.bodies) },
+    { key: 'body', label: 'Body', values: (item) => normalizeArray(item['bodies']) },
     { key: 'party', label: 'Party', values: (item) => personPartySlugs(item) },
     { key: 'decade', label: 'Stood in', values: (item) => personDecades(item), order: 'desc' },
     {
       key: 'elected',
       label: 'Elected',
-      value: (item) => (Number(item.totals?.elected) > 0 ? 'yes' : 'no'),
+      value: (item) => (Number(item['totals']?.elected) > 0 ? 'yes' : 'no'),
       optionLabel: (value) => (value === 'yes' ? 'Elected at least once' : 'Never elected'),
       allLabel: 'Elected or not'
     }
@@ -194,23 +194,23 @@ const byYear = (read, dir) => (a, b) => {
   return dir === 'desc' ? y - x : x - y;
 };
 /** @param {BrowseItem} a @param {BrowseItem} b */
-const byTitle = (a, b) => String(a.title || a.name || '').localeCompare(String(b.title || b.name || ''));
+const byTitle = (a, b) => String(a['title'] || a['name'] || '').localeCompare(String(b['title'] || b['name'] || ''));
 /** @type {Record<string, ListSort[]>} */
 const LIST_SORTS = {
   persons: [
     { key: '', label: 'Most often elected' },
     { key: 'name', label: 'Name (A to Z)', dir: 'asc', compare: byTitle },
-    { key: 'contests', label: 'Most contests', dir: 'desc', compare: byNumberDesc((item) => item.totals?.stood) },
-    { key: 'firstYear', label: 'Earliest first contest', dir: 'asc', compare: byYear((item) => item.firstYear, 'asc') },
-    { key: 'lastYear', label: 'Most recent contest', dir: 'desc', compare: byYear((item) => item.lastYear, 'desc') }
+    { key: 'contests', label: 'Most contests', dir: 'desc', compare: byNumberDesc((item) => item['totals']?.stood) },
+    { key: 'firstYear', label: 'Earliest first contest', dir: 'asc', compare: byYear((item) => item['firstYear'], 'asc') },
+    { key: 'lastYear', label: 'Most recent contest', dir: 'desc', compare: byYear((item) => item['lastYear'], 'desc') }
   ],
   parties: [
     { key: '', label: 'Most candidacies' },
     { key: 'name', label: 'Name (A to Z)', compare: byTitle },
-    { key: 'elections', label: 'Most elections', compare: byNumberDesc((item) => item.relatedElectionCount) },
-    { key: 'seats', label: 'Most seats won', compare: byNumberDesc((item) => item.totals?.seats) },
-    { key: 'firstYear', label: 'Earliest first election', compare: byYear((item) => item.firstYear, 'asc') },
-    { key: 'lastYear', label: 'Most recent election', compare: byYear((item) => item.lastYear, 'desc') }
+    { key: 'elections', label: 'Most elections', compare: byNumberDesc((item) => item['relatedElectionCount']) },
+    { key: 'seats', label: 'Most seats won', compare: byNumberDesc((item) => item['totals']?.seats) },
+    { key: 'firstYear', label: 'Earliest first election', compare: byYear((item) => item['firstYear'], 'asc') },
+    { key: 'lastYear', label: 'Most recent election', compare: byYear((item) => item['lastYear'], 'desc') }
   ]
 };
 // The sorts /_api/persons answered before it reported what it applied (persons-4).
@@ -230,7 +230,7 @@ function sortListItems(type, items) {
 
 /** The decades a person stood in, from their contests. @param {BrowseItem} item */
 function personDecades(item) {
-  return [...new Set(normalizeArray(item.elections).map((row) => Number(row.year || String(row.date || '').slice(0, 4)))
+  return [...new Set(normalizeArray(item['elections']).map((row) => Number(row.year || String(row.date || '').slice(0, 4)))
     .filter((year) => year > 0).map((year) => `${Math.floor(year / 10) * 10}s`))];
 }
 
@@ -238,7 +238,7 @@ function personDecades(item) {
 function personPartySlugs(item) {
   const bySpelling = state.personFacets?.partyBySpelling;
   if (!bySpelling) return [];
-  return [...new Set(normalizeArray(item.parties).map((party) => bySpelling.get(party?.name || party)).filter(Boolean))];
+  return [...new Set(normalizeArray(item['parties']).map((party) => bySpelling.get(party?.name || party)).filter(Boolean))];
 }
 
 /** The People filter options (/_api/persons?facets=1, from D1; was data/browse/persons-facets.json), loaded once. */
@@ -251,7 +251,7 @@ async function loadPersonFacets() {
   } catch { /* the list still shows, without its filters */ }
   const partyBySpelling = new Map();
   const partyNames = new Map();
-  for (const party of facets.party || []) {
+  for (const party of facets['party'] || []) {
     partyNames.set(party.value, party.names || []);
     for (const name of party.names || []) partyBySpelling.set(name, party.value);
   }
@@ -262,8 +262,8 @@ async function loadPersonFacets() {
 /** @param {BrowseItem} item */
 function electionKind(item) {
   // A kind the election-types registry lists (general, by-election, the Union's members).
-  if (item.kind && Object.hasOwn(electionKindLabels, item.kind)) return item.kind;
-  return /referendum/i.test(`${item.body || ''} ${item.title || ''}`) ? 'referendum' : 'other';
+  if (item['kind'] && Object.hasOwn(electionKindLabels, item['kind'])) return item['kind'];
+  return /referendum/i.test(`${item['body'] || ''} ${item['title'] || ''}`) ? 'referendum' : 'other';
 }
 
 const REGISTER_INTEREST_SORT_OPTIONS = [
@@ -653,7 +653,7 @@ function bindEvents() {
     const registerSort = event.target.closest('[data-register-sort]');
     if (registerSort) {
       event.preventDefault();
-      state.registerInterestControls.sortKey = registerSort.dataset.registerSort || 'date';
+      state.registerInterestControls.sortKey = registerSort.dataset['registerSort'] || 'date';
       rerenderList();
       return;
     }
@@ -661,7 +661,7 @@ function bindEvents() {
     const registerDirection = event.target.closest('[data-register-direction]');
     if (registerDirection) {
       event.preventDefault();
-      state.registerInterestControls.sortDir = registerDirection.dataset.registerDirection === 'asc' ? 'asc' : 'desc';
+      state.registerInterestControls.sortDir = registerDirection.dataset['registerDirection'] === 'asc' ? 'asc' : 'desc';
       rerenderList();
       return;
     }
@@ -708,7 +708,7 @@ function bindEvents() {
     const contributorAction = event.target.closest('[data-contributor-action]');
     if (contributorAction) {
       event.preventDefault();
-      handleContributorAction(contributorAction.dataset.contributorAction);
+      handleContributorAction(contributorAction.dataset['contributorAction']);
       return;
     }
 
@@ -724,7 +724,7 @@ function bindEvents() {
   document.addEventListener('change', (/** @type {Event} */ rawEvent) => { const event = /** @type {ElementEvent} */ (rawEvent);
     const sourceFilter = event.target.closest('[data-source-filter]');
     if (sourceFilter) {
-      const key = sourceFilter.dataset.sourceFilter;
+      const key = sourceFilter.dataset['sourceFilter'];
       // Changing a facet invalidates the accumulated pages, so renderCurrent() re-requests
       // from offset 0 rather than appending to a list built under the old filter.
       if (key && key in state.sourceFilters) state.sourceFilters[key] = sourceFilter.value || '';
@@ -741,7 +741,7 @@ function bindEvents() {
 
     const listFilter = event.target.closest('[data-list-filter]');
     if (listFilter) {
-      const key = String(listFilter.dataset.listFilter); // matched by [data-list-filter], so a string
+      const key = String(listFilter.dataset['listFilter']); // matched by [data-list-filter], so a string
       const filters = { ...(state.listFilters[state.activeType] || {}) };
       if (listFilter.value) filters[key] = listFilter.value;
       else delete filters[key];
@@ -752,7 +752,7 @@ function bindEvents() {
 
     const filter = event.target.closest('[data-register-filter]');
     if (!filter) return;
-    const key = filter.dataset.registerFilter;
+    const key = filter.dataset['registerFilter'];
     if (!key) return;
     const value = filter.value || '';
     if (value) {
@@ -1069,7 +1069,7 @@ function renderGroups() {
 
 /** @param {string} id @param {Record<string, number>} counts */
 function countForGroup(id, counts) {
-  if (id === 'features') return counts.featureGroups || counts.features || 0;
+  if (id === 'features') return counts['featureGroups'] || counts['features'] || 0;
   return counts[id] || 0;
 }
 
@@ -1183,13 +1183,13 @@ async function renderCurrent() {
  * @param {BrowseItem} item
  */
 function recordMovedFrom(type, asked, item) {
-  const current = String(item?.slug || '');
+  const current = String(item?.['slug'] || '');
   let wanted = String(asked || '');
   try { wanted = decodeURIComponent(wanted); } catch { /* keep it as written */ }
   wanted = wanted.toLowerCase();
   if (!current || !wanted || current.toLowerCase() === wanted) return false;
   if (type === 'elections' || type === 'sources') return true;
-  return normalizeArray(item.previousSlugs).some((slug) => String(slug).toLowerCase() === wanted);
+  return normalizeArray(item['previousSlugs']).some((slug) => String(slug).toLowerCase() === wanted);
 }
 
 /**
@@ -1201,7 +1201,7 @@ function recordMovedFrom(type, asked, item) {
 function adoptRecordAddress(type, item) {
   if (!recordMovedFrom(type, state.activeId, item)) return;
   const query = pathRouteParts() ? location.search : (location.hash.split('?')[1] ? `?${location.hash.split('?')[1]}` : '');
-  state.activeId = String(item.slug);
+  state.activeId = String(item['slug']);
   history.replaceState(history.state, '', addressForRoute(`#/${type}/${encodeURIComponent(state.activeId)}${query}`));
   lastRoutedAddress = currentAddress();
 }
@@ -1225,13 +1225,13 @@ function renderNotFound(config, id) {
 function setPortalHero() {
   resetDocumentHead();
   const counts = state.manifest?.counts || {};
-  const total = (counts.maps || 0)
-    + (counts.elections || 0)
-    + (counts.featureGroups || 0)
-    + (counts.parties || 0)
-    + (counts.persons || 0)
+  const total = (counts['maps'] || 0)
+    + (counts['elections'] || 0)
+    + (counts['featureGroups'] || 0)
+    + (counts['parties'] || 0)
+    + (counts['persons'] || 0)
     + (counts['register-interests'] || 0)
-    + (counts.sources || 0);
+    + (counts['sources'] || 0);
   const copy = SECTION_COPY[/** @type {'source' | 'data'} null reads undefined: the default copy below */ (SECTION_LAYER)] || {
     kicker: 'Browse',
     title: 'Civgraph data directory',
@@ -1245,23 +1245,23 @@ function setPortalHero() {
   // than everything else combined, so adding it to one "total" tells the reader nothing.
   // The source section counts it on its own tile instead.
   const stats = SECTION_LAYER === 'source'
-    ? `${renderPortalStat('Sources', counts.sources)}
-       ${renderPortalStat('PRONI records', counts.proni)}`
+    ? `${renderPortalStat('Sources', counts['sources'])}
+       ${renderPortalStat('PRONI records', counts['proni'])}`
     : SECTION_LAYER === 'data'
-      ? `${renderPortalStat('Map pages', counts.maps)}
-         ${renderPortalStat('Election pages', counts.elections)}
-         ${renderPortalStat('Feature groups', counts.featureGroups)}
-         ${renderPortalStat('Parties / labels', counts.parties)}
-         ${renderPortalStat('Persons', counts.persons)}
+      ? `${renderPortalStat('Map pages', counts['maps'])}
+         ${renderPortalStat('Election pages', counts['elections'])}
+         ${renderPortalStat('Feature groups', counts['featureGroups'])}
+         ${renderPortalStat('Parties / labels', counts['parties'])}
+         ${renderPortalStat('Persons', counts['persons'])}
          ${renderPortalStat('Register interests', counts['register-interests'])}
-         ${renderPortalStat('Total records', total - (counts.sources || 0))}`
-      : `${renderPortalStat('Map pages', counts.maps)}
-         ${renderPortalStat('Election pages', counts.elections)}
-         ${renderPortalStat('Feature groups', counts.featureGroups)}
-         ${renderPortalStat('Parties / labels', counts.parties)}
-         ${renderPortalStat('Persons', counts.persons)}
+         ${renderPortalStat('Total records', total - (counts['sources'] || 0))}`
+      : `${renderPortalStat('Map pages', counts['maps'])}
+         ${renderPortalStat('Election pages', counts['elections'])}
+         ${renderPortalStat('Feature groups', counts['featureGroups'])}
+         ${renderPortalStat('Parties / labels', counts['parties'])}
+         ${renderPortalStat('Persons', counts['persons'])}
          ${renderPortalStat('Register interests', counts['register-interests'])}
-         ${renderPortalStat('Sources', counts.sources)}
+         ${renderPortalStat('Sources', counts['sources'])}
          ${renderPortalStat('Total entries', total)}`;
   els.hero.innerHTML = `
     <p class="browse-kicker">${escapeHtml(copy.kicker)}</p>
@@ -1358,7 +1358,7 @@ async function searchSection(type, query) {
     if (type === 'proni') {
       if (query.length < 2) return { type, label, items: [], total: 0 };
       const data = await fetchProniSearch(query, SEARCH_ALL_SHOWN);
-      return { type, label, items: normalizeArray(data.results).map((r) => /** @type {BrowseItem} */ (r)), total: null };
+      return { type, label, items: normalizeArray(data['results']).map((r) => /** @type {BrowseItem} */ (r)), total: null };
     }
     if (D1_INDEXES.has(type)) {
       const page = await fetchIndexPage(type, { query, sort: '', dir: '', filters: {}, offset: 0, limit: SEARCH_ALL_SHOWN });
@@ -1398,7 +1398,7 @@ function allPortalSections() {
       id: 'maps',
       title: 'Maps',
       href: '#/maps',
-      count: counts.maps,
+      count: counts['maps'],
       summary: 'Catalogue entries, map metadata, downloads, source credits, and interactive-map links.',
       columns: [
         { heading: 'Historic geographies', links: [['Townlands', maps({ 'f.category': 'Townlands' })], ['Civil parishes', maps({ q: 'civil parishes' })], ['Baronies', maps({ q: 'baronies' })], ['Counties', maps({ 'f.category': 'Counties' })], ['Historic boundaries', maps({ 'f.category': 'Historic Boundaries' })]] },
@@ -1410,7 +1410,7 @@ function allPortalSections() {
       id: 'elections',
       title: 'Elections',
       href: '#/elections',
-      count: counts.elections,
+      count: counts['elections'],
       summary: 'Election entries by date, body, geography, result data, and links to open election layers.',
       columns: [
         { heading: 'By body', links: [['Dáil Éireann', elections({ 'f.body': 'Dáil Éireann' })], ['Westminster', elections({ 'f.body': 'House of Commons of the United Kingdom' })], ['Stormont', elections({ 'f.body': 'Parliament of Northern Ireland' })], ['NI Assembly', elections({ 'f.body': 'Northern Ireland Assembly' })], ['Referendums', elections({ 'f.kind': 'referendum' })]] },
@@ -1422,7 +1422,7 @@ function allPortalSections() {
       id: 'features',
       title: 'Features',
       href: '#/features',
-      count: counts.featureGroups,
+      count: counts['featureGroups'],
       summary: 'Boundary and geography feature groups, with feature records loaded lazily by source map.',
       columns: [
         { heading: 'Feature groups', links: [['Constituencies', portalLink('features', { q: 'constituencies' })], ['Wards', portalLink('features', { q: 'wards' })], ['Electoral divisions', portalLink('features', { q: 'electoral divisions' })], ['Civil parishes', portalLink('features', { q: 'civil parishes' })]] }
@@ -1432,7 +1432,7 @@ function allPortalSections() {
       id: 'parties',
       title: 'Parties / labels',
       href: '#/parties',
-      count: counts.parties,
+      count: counts['parties'],
       summary: 'Political parties, tickets, labels, aliases, colours, and observed election appearances.',
       columns: [
         { heading: 'Party data', links: [['Parties', '#/parties'], ['Ballot-paper labels too', portalLink('parties', { labels: '1' })], ['Independents', portalLink('parties', { q: 'independent' })]] }
@@ -1442,7 +1442,7 @@ function allPortalSections() {
       id: 'persons',
       title: 'Persons',
       href: '#/persons',
-      count: counts.persons,
+      count: counts['persons'],
       summary: 'Candidate and elected-person entries observed across the election data.',
       columns: [
         { heading: 'People', links: [['Search persons', '#/persons'], ['Party histories', '#/parties'], ['Register interests', '#/register-interests']] }
@@ -1463,7 +1463,7 @@ function allPortalSections() {
       id: 'sources',
       title: 'Books / tables / sources',
       href: '#/sources',
-      count: counts.sources,
+      count: counts['sources'],
       summary: 'Books, tables, datasets, map source files, downloads, references, and provider records.',
       columns: [
         { heading: 'Source types', links: [['Books', portalLink('sources', { 'f.category': 'Books' })], ['Tables', portalLink('sources', { 'f.category': 'Tables' })], ['Map sources', portalLink('sources', { 'f.category': 'Map sources' })], ['Election sources', portalLink('sources', { 'f.category': 'Election sources' })]] },
@@ -1474,7 +1474,7 @@ function allPortalSections() {
       id: 'proni',
       title: 'PRONI Records',
       href: '#/proni',
-      count: counts.proni || 1538177,
+      count: counts['proni'] || 1538177,
       summary: 'Archival catalogue records from the PRONI eCatalogue (Public Record Office of Northern Ireland), browsable by their original hierarchy. Open Government Licence.',
       columns: [
         { heading: 'Browse the hierarchy', links: [['All fonds', '#/proni'], ['Boards of Guardians (BG)', '#/proni/BG']] }
@@ -1613,18 +1613,18 @@ function truncateDescription(value, limit = 300) {
 /** @param {string} type @param {BrowseItem} item */
 function recordCanonicalUrl(type, item) {
   if (!PATH_ROUTE_TYPES.has(type)) return BASE_HEAD.canonical;
-  const slug = item.slug || slugify(item.id || item.key || item.title);
+  const slug = item['slug'] || slugify(item['id'] || item['key'] || item['title']);
   return `${SITE_ORIGIN}/browse/${type}/${encodeURIComponent(slug)}`;
 }
 
 /** @param {string} type @param {BrowseItem} item */
 function documentDescriptionForItem(type, item) {
   if (type === 'persons') {
-    const name = item.name || item.title;
-    const parties = joinList(normalizeArray(item.parties).slice(0, 3).map((party) => party.name));
-    const stood = Number(item.totals?.stood) || normalizeArray(item.elections).length;
-    const elected = Number(item.totals?.elected) || normalizeArray(item.elections).filter((row) => row.elected).length;
-    const places = joinList(normalizeArray(item.constituencies).slice(0, 4).map((place) => place.name));
+    const name = item['name'] || item['title'];
+    const parties = joinList(normalizeArray(item['parties']).slice(0, 3).map((party) => party.name));
+    const stood = Number(item['totals']?.stood) || normalizeArray(item['elections']).length;
+    const elected = Number(item['totals']?.elected) || normalizeArray(item['elections']).filter((row) => row.elected).length;
+    const places = joinList(normalizeArray(item['constituencies']).slice(0, 4).map((place) => place.name));
     let sentence = `${name}${parties ? ` (${parties})` : ''}`;
     if (stood) {
       sentence += ` stood in ${formatNumber(stood)} ${stood === 1 ? 'election' : 'elections'}`;
@@ -1633,22 +1633,22 @@ function documentDescriptionForItem(type, item) {
     }
     return `${sentence}. Election results, parties and sources on Civgraph.`;
   }
-  return heroDescriptionForItem(type, item) || readerSummaryText(type, item) || `${item.title} on Civgraph.`;
+  return heroDescriptionForItem(type, item) || readerSummaryText(type, item) || `${item['title']} on Civgraph.`;
 }
 
 /** @param {string} type @param {BrowseItem} item */
 function heroDescriptionForItem(type, item) {
   if (type === 'register-interests') {
     const parts = [
-      item.memberName,
-      item.electedBody,
-      formatDate(item.date),
-      item.interestCount ? `${formatNumber(item.interestCount)} grouped ${item.interestCount === 1 ? 'interest' : 'interests'}` : null,
-      item.nonNilInterestCount !== undefined ? `${formatNumber(item.nonNilInterestCount)} non-nil` : null
+      item['memberName'],
+      item['electedBody'],
+      formatDate(item['date']),
+      item['interestCount'] ? `${formatNumber(item['interestCount'])} grouped ${item['interestCount'] === 1 ? 'interest' : 'interests'}` : null,
+      item['nonNilInterestCount'] !== undefined ? `${formatNumber(item['nonNilInterestCount'])} non-nil` : null
     ].filter(Boolean);
     return parts.join(' / ');
   }
-  return item.description || item.subtitle || '';
+  return item['description'] || item['subtitle'] || '';
 }
 
 /** @param {string} type @param {BrowseItem[]} items */
@@ -1663,10 +1663,10 @@ function renderList(type, items) {
   // party table) wait behind a button, so the parties are not lost among them.
   let labelsNote = '';
   if (type === 'parties') {
-    const labels = filtered.filter((item) => item.ballotLabel).length;
+    const labels = filtered.filter((item) => item['ballotLabel']).length;
     const shown = ballotLabelsShown();
-    if (!shown) filtered = filtered.filter((item) => !item.ballotLabel);
-    else filtered = [...filtered.filter((item) => !item.ballotLabel), ...filtered.filter((item) => item.ballotLabel)];
+    if (!shown) filtered = filtered.filter((item) => !item['ballotLabel']);
+    else filtered = [...filtered.filter((item) => !item['ballotLabel']), ...filtered.filter((item) => item['ballotLabel'])];
     if (labels) {
       labelsNote = `
         <p class="browse-description browse-labels-note">
@@ -1902,9 +1902,9 @@ function registerInterestFilterOptions(key, items, facets = null) {
 
 /** @param {BrowseItem} item @param {string} key */
 function registerInterestFilterValues(item, key) {
-  if (key === 'categories') return normalizeArray(item.categories || item.category);
-  if (key === 'sourceKinds') return normalizeArray(item.sourceKinds || item.sourceKind);
-  if (key === 'constituency') return normalizeArray(item.constituencies || item.constituency);
+  if (key === 'categories') return normalizeArray(item['categories'] || item['category']);
+  if (key === 'sourceKinds') return normalizeArray(item['sourceKinds'] || item['sourceKind']);
+  if (key === 'constituency') return normalizeArray(item['constituencies'] || item['constituency']);
   return normalizeArray(item[key]);
 }
 
@@ -1918,9 +1918,9 @@ function applyRegisterInterestFilters(items) {
 function registerInterestMatchesFilter(item, key, value) {
   if (!value) return true;
   if (key === 'nilStatus') {
-    if (value === 'has-registrable') return Number(item.nonNilInterestCount || 0) > 0 || item.isNone === false;
-    if (value === 'nil-only') return item.isNone === true;
-    if (value === 'includes-nil') return item.hasNilInterests === true || item.isNone === true;
+    if (value === 'has-registrable') return Number(item['nonNilInterestCount'] || 0) > 0 || item['isNone'] === false;
+    if (value === 'nil-only') return item['isNone'] === true;
+    if (value === 'includes-nil') return item['hasNilInterests'] === true || item['isNone'] === true;
     return true;
   }
   return registerInterestFilterValues(item, key).some((itemValue) => String(itemValue) === String(value));
@@ -1935,15 +1935,15 @@ function sortRegisterInterestItems(items) {
     const compared = compareRegisterInterestValues(registerInterestSortValue(a, sortKey), registerInterestSortValue(b, sortKey), sortKey);
     return direction * compared
       || compareRegisterInterestValues(registerInterestSortValue(a, 'date'), registerInterestSortValue(b, 'date'), 'date') * -1
-      || compareRegisterInterestValues(a.memberName || '', b.memberName || '', 'memberName')
-      || compareRegisterInterestValues(a.id || '', b.id || '', 'id');
+      || compareRegisterInterestValues(a['memberName'] || '', b['memberName'] || '', 'memberName')
+      || compareRegisterInterestValues(a['id'] || '', b['id'] || '', 'id');
   });
 }
 
 /** @param {BrowseItem} item @param {string} key */
 function registerInterestSortValue(item, key) {
-  if (key === 'date') return /^\d{4}-\d{2}-\d{2}$/.test(String(item.date || '')) ? item.date : '';
-  if (key === 'constituency') return item.constituency || normalizeArray(item.constituencies)[0] || '';
+  if (key === 'date') return /^\d{4}-\d{2}-\d{2}$/.test(String(item['date'] || '')) ? item['date'] : '';
+  if (key === 'constituency') return item['constituency'] || normalizeArray(item['constituencies'])[0] || '';
   if (key === 'interestCount' || key === 'sourceCount') return Number(item[key] || 0);
   return item[key] || '';
 }
@@ -1956,9 +1956,9 @@ function compareRegisterInterestValues(left, right, key) {
 
 /** @param {string} type @param {BrowseItem} item @param {EntityConfig} config */
 function renderCard(type, item, config, level = 2) {
-  const slug = item.slug || slugify(item.id || item.key || item.title);
-  const status = cleanStatus(item.status);
-  const summary = item.description || summaryForItem(type, item);
+  const slug = item['slug'] || slugify(item['id'] || item['key'] || item['title']);
+  const status = cleanStatus(item['status']);
+  const summary = item['description'] || summaryForItem(type, item);
   const title = readerTitle(type, item);
   return `
     <article class="browse-card${type === 'persons' || type === 'parties' ? ' browse-card--compact' : ''}">
@@ -1967,7 +1967,7 @@ function renderCard(type, item, config, level = 2) {
         <h${level} class="browse-card__title"><a href="#/${type}/${encodeURIComponent(slug)}" data-browse-link>${escapeHtml(title)}</a></h${level}>
         <div class="browse-card__meta">${renderMeta(metaForItem(type, item))}</div>
       </div>
-      ${status ? `<span class="browse-card__status browse-card__status--${escapeAttr(status)}">${escapeHtml(statusLabel(item.status) || status.replace(/-/g, ' '))}</span>` : ''}
+      ${status ? `<span class="browse-card__status browse-card__status--${escapeAttr(status)}">${escapeHtml(statusLabel(item['status']) || status.replace(/-/g, ' '))}</span>` : ''}
       ${summary ? `<p class="browse-card__summary">${escapeHtml(summary)}</p>` : ''}
       ${renderInlineActions(config, item, title)}
     </article>
@@ -1977,11 +1977,11 @@ function renderCard(type, item, config, level = 2) {
 // Each button names its record for a screen reader ("Open election layer: 2024 general
 // election"), where a page of identical "Open" links said nothing (WCAG 2.4.4).
 /** @param {EntityConfig} config @param {BrowseItem} item @param {string} [title] */
-function renderInlineActions(config, item, title = item.title || item.name || '') {
+function renderInlineActions(config, item, title = item['title'] || item['name'] || '') {
   const actions = [];
   const label = config.action || 'Open in interactive map';
-  if (item.interactiveUrl) actions.push(`<a class="browse-btn browse-btn--primary" href="${escapeAttr(item.interactiveUrl)}" aria-label="${escapeAttr(`${label}: ${title}`)}">${escapeHtml(label)}</a>`);
-  if (item.downloads?.[0]?.url) actions.push(`<a class="browse-btn" href="${escapeAttr(item.downloads[0].url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(`Download or source: ${title}`)}">Download/source</a>`);
+  if (item['interactiveUrl']) actions.push(`<a class="browse-btn browse-btn--primary" href="${escapeAttr(item['interactiveUrl'])}" aria-label="${escapeAttr(`${label}: ${title}`)}">${escapeHtml(label)}</a>`);
+  if (item['downloads']?.[0]?.url) actions.push(`<a class="browse-btn" href="${escapeAttr(item['downloads'][0].url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(`Download or source: ${title}`)}">Download/source</a>`);
   return actions.length ? `<div class="browse-actions">${actions.join('')}</div>` : '';
 }
 
@@ -1992,7 +1992,7 @@ function renderInlineActions(config, item, title = item.title || item.name || ''
  * @param {BrowseItem} item
  */
 function readerTitle(type, item) {
-  const title = item.title || item.name || item.id || '';
+  const title = item['title'] || item['name'] || item['id'] || '';
   if (type === 'register-interests') {
     return String(title).replace(/ - (\d{4}-\d{2}-\d{2})$/, (_match, date) => ` – ${formatDate(date)}`).replace(/ - /g, ' – ');
   }
@@ -2024,7 +2024,7 @@ async function loadProniNode(slug) {
 /** @param {string | null} id */
 async function renderProniRoute(id) {
   const token = renderSeq;
-  const config = /** @type {EntityConfig} */ (ENTITY_CONFIG.proni);
+  const config = /** @type {EntityConfig} */ (ENTITY_CONFIG['proni']);
   state.currentDetail = null;
   if (!id) {
     setHero(config, null);
@@ -2045,7 +2045,7 @@ async function renderProniRoute(id) {
     return;
   }
   state.currentDetail = { type: 'proni', item: node.item };
-  setHero(config, { title: node.item.title || node.item.ref, description: node.item.dates || '' });
+  setHero(config, { title: node.item['title'] || node.item['ref'], description: node.item['dates'] || '' });
   els.results.innerHTML = renderProniDetailPage(node);
 }
 
@@ -2065,11 +2065,11 @@ function renderProniLanding(_config, items) {
       <ul class="proni-child-list">
         ${items.slice(0, 800).map((it) => `
           <li class="proni-child proni-child--container">
-            <a href="#/proni/${encodeURIComponent(it.slug)}" data-browse-link>
+            <a href="#/proni/${encodeURIComponent(it['slug'])}" data-browse-link>
               <span class="proni-child-icon" aria-hidden="true">&#128193;</span>
               <span class="proni-child-main">
-                <span class="proni-child-title">${escapeHtml(it.title || it.ref)}</span>
-                <span class="proni-child-meta">${escapeHtml(it.ref)}${it.level ? `<span class="proni-child-level">${escapeHtml(it.level)}</span>` : ''}</span>
+                <span class="proni-child-title">${escapeHtml(it['title'] || it['ref'])}</span>
+                <span class="proni-child-meta">${escapeHtml(it['ref'])}${it['level'] ? `<span class="proni-child-level">${escapeHtml(it['level'])}</span>` : ''}</span>
               </span>
             </a>
           </li>`).join('')}
@@ -2129,12 +2129,12 @@ async function fetchProniSearch(query, limit) {
 /** One PRONI search match, as the PRONI page lists it. @param {BrowseItem} r */
 function proniResultRow(r) {
   return `
-        <li class="proni-child proni-child--${r.hasChildren ? 'container' : 'item'}">
-          <a href="#/proni/${encodeURIComponent(String(r.slug))}" data-browse-link>
-            <span class="proni-child-icon" aria-hidden="true">${r.hasChildren ? '&#128193;' : '&#128196;'}</span>
+        <li class="proni-child proni-child--${r['hasChildren'] ? 'container' : 'item'}">
+          <a href="#/proni/${encodeURIComponent(String(r['slug']))}" data-browse-link>
+            <span class="proni-child-icon" aria-hidden="true">${r['hasChildren'] ? '&#128193;' : '&#128196;'}</span>
             <span class="proni-child-main">
-              <span class="proni-child-title">${escapeHtml(r.title)}</span>
-              <span class="proni-child-meta">${escapeHtml(r.ref)}${r.level ? `<span class="proni-child-level">${escapeHtml(r.level)}</span>` : ''}${r.dates ? `<span class="proni-child-dates">${escapeHtml(r.dates)}</span>` : ''}</span>
+              <span class="proni-child-title">${escapeHtml(r['title'])}</span>
+              <span class="proni-child-meta">${escapeHtml(r['ref'])}${r['level'] ? `<span class="proni-child-level">${escapeHtml(r['level'])}</span>` : ''}${r['dates'] ? `<span class="proni-child-dates">${escapeHtml(r['dates'])}</span>` : ''}</span>
             </span>
           </a>
         </li>`;
@@ -2142,9 +2142,9 @@ function proniResultRow(r) {
 
 /** @param {HTMLElement} box @param {BrowseItem} data */
 function renderProniSearchResults(box, data) {
-  const results = data.results || [];
+  const results = data['results'] || [];
   if (!results.length) {
-    box.innerHTML = `<div class="browse-empty">No matches for &ldquo;${escapeHtml(data.query || '')}&rdquo;.</div>`;
+    box.innerHTML = `<div class="browse-empty">No matches for &ldquo;${escapeHtml(data['query'] || '')}&rdquo;.</div>`;
     return;
   }
   // A full page means there may be more: the search returns at most PRONI_SEARCH_LIMIT.
@@ -2161,24 +2161,24 @@ function renderProniSearchResults(box, data) {
 /** @param {ProniNode} node */
 function proniBreadcrumb(node) {
   // The node API returns the full ancestor chain for any node.
-  const ancestors = (node.item.path || []).map((/** @type {BrowseItem} */ a) => ({ slug: a.slug, title: a.title || a.ref }));
+  const ancestors = (node.item['path'] || []).map((/** @type {BrowseItem} */ a) => ({ slug: a['slug'], title: a['title'] || a['ref'] }));
   const crumbs = ['<a href="#/proni" data-browse-link>PRONI Records</a>'];
   ancestors.forEach((/** @type {{ slug: Json, title: Json }} */ a) => {
     crumbs.push(`<a href="#/proni/${encodeURIComponent(a.slug)}" data-browse-link>${escapeHtml(a.title)}</a>`);
   });
-  crumbs.push(`<span aria-current="page">${escapeHtml(node.item.title || node.item.ref)}</span>`);
+  crumbs.push(`<span aria-current="page">${escapeHtml(node.item['title'] || node.item['ref'])}</span>`);
   return `<nav class="proni-breadcrumb" aria-label="Record hierarchy">${crumbs.join('<span class="proni-crumb-sep">/</span>')}</nav>`;
 }
 
 /** @param {BrowseItem} it */
 function proniMetaRows(it) {
   const rows = [
-    ['Reference', it.ref],
-    ['Level', it.level],
-    ['Dates', it.dates],
-    ['Access', it.access],
-    ['Digitised', it.digitalRecord ? 'Yes - digital image held by PRONI' : ''],
-    ['Repository', it.repository]
+    ['Reference', it['ref']],
+    ['Level', it['level']],
+    ['Dates', it['dates']],
+    ['Access', it['access']],
+    ['Digitised', it['digitalRecord'] ? 'Yes - digital image held by PRONI' : ''],
+    ['Repository', it['repository']]
   ].filter(([, v]) => v);
   return rows.map(([k, v]) => `
     <div class="proni-meta-row"><dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd></div>`).join('');
@@ -2186,17 +2186,17 @@ function proniMetaRows(it) {
 
 /** @param {BrowseItem} c */
 function proniChildRow(c) {
-  const badge = c.hasChildren ? 'container' : 'item';
-  const icon = c.hasChildren ? '&#128193;' : '&#128196;'; // folder / page
-  const dates = c.dates ? `<span class="proni-child-dates">${escapeHtml(c.dates)}</span>` : '';
-  const lvl = c.level ? `<span class="proni-child-level">${escapeHtml(c.level)}</span>` : '';
+  const badge = c['hasChildren'] ? 'container' : 'item';
+  const icon = c['hasChildren'] ? '&#128193;' : '&#128196;'; // folder / page
+  const dates = c['dates'] ? `<span class="proni-child-dates">${escapeHtml(c['dates'])}</span>` : '';
+  const lvl = c['level'] ? `<span class="proni-child-level">${escapeHtml(c['level'])}</span>` : '';
   return `
     <li class="proni-child proni-child--${badge}">
-      <a href="#/proni/${encodeURIComponent(c.slug)}" data-browse-link>
+      <a href="#/proni/${encodeURIComponent(c['slug'])}" data-browse-link>
         <span class="proni-child-icon" aria-hidden="true">${icon}</span>
         <span class="proni-child-main">
-          <span class="proni-child-title">${escapeHtml(c.title || c.ref)}</span>
-          <span class="proni-child-meta">${escapeHtml(c.ref)}${lvl}${dates}</span>
+          <span class="proni-child-title">${escapeHtml(c['title'] || c['ref'])}</span>
+          <span class="proni-child-meta">${escapeHtml(c['ref'])}${lvl}${dates}</span>
         </span>
       </a>
     </li>`;
@@ -2243,14 +2243,14 @@ function renderProniDescription(text) {
 /** @param {ProniNode} node */
 function renderProniDetailPage(node) {
   const it = node.item;
-  const children = it.children || [];
+  const children = it['children'] || [];
   const childList = children.length
     ? `<section class="proni-children">
          <h2 class="proni-section-title">Contains ${formatNumber(children.length)} ${children.length === 1 ? 'record' : 'records'}</h2>
          <ul class="proni-child-list">${children.map(proniChildRow).join('')}</ul>
        </section>`
     : '';
-  const description = renderProniDescription(it.description);
+  const description = renderProniDescription(it['description']);
   return `
     <div class="browse-detail browse-detail--reader proni-detail">
       ${proniBreadcrumb(node)}
@@ -2348,7 +2348,7 @@ async function renderDetail(type, indexItem) {
 /** @param {EntityConfig} config @param {BrowseItem} item */
 function renderDetailActions(config, item) {
   const actions = [];
-  if (item.interactiveUrl) actions.push(`<a class="browse-btn browse-btn--primary" href="${escapeAttr(item.interactiveUrl)}">${escapeHtml(config.action || 'Open in interactive map')}</a>`);
+  if (item['interactiveUrl']) actions.push(`<a class="browse-btn browse-btn--primary" href="${escapeAttr(item['interactiveUrl'])}">${escapeHtml(config.action || 'Open in interactive map')}</a>`);
   if (!actions.length) return '';
   return `<div class="browse-actions">${actions.join('')}</div>`;
 }
@@ -2357,7 +2357,7 @@ function renderDetailActions(config, item) {
 function renderContributorDetailActions(type, item) {
   if (!state.auth?.allowed) return '';
   const entityType = entityTypeForBrowseType(type);
-  const entityId = item.id || item.key || item.slug || item.title;
+  const entityId = item['id'] || item['key'] || item['slug'] || item['title'];
   if (!entityType || !entityId) return '';
   return `
     <div class="browse-actions browse-actions--contributor">
@@ -2394,8 +2394,8 @@ function renderHeaderPanel(type, item, pinnedRows = []) {
   const lede = summary && normalizeSearchQuery(summary) !== normalizeSearchQuery(heroText) ? summary : '';
   // An NI council round that holds only some of its divisions or wards says so before anything
   // else, on the election and on each of its results (data/elections/round-completeness.json).
-  const completeness = type === 'elections' && item.completenessNote
-    ? `<p class="browse-note browse-completeness-note" role="note">${escapeHtml(item.completenessNote)}</p>`
+  const completeness = type === 'elections' && item['completenessNote']
+    ? `<p class="browse-note browse-completeness-note" role="note">${escapeHtml(item['completenessNote'])}</p>`
     : '';
   return `
     <section class="browse-detail__panel browse-reader-summary">
@@ -2422,81 +2422,81 @@ function renderMoreFields(rows, label = 'More fields') {
 
 /** @param {string} type @param {BrowseItem} item */
 function readerSummaryText(type, item) {
-  if (type === 'elections') return item.description || `${formatNumber(item.totalConstituencies || 0)} constituencies/features in this election record.`;
-  if (type === 'persons') return joinList(item.parties?.slice(0, 4).map((/** @type {BrowseItem} */ party) => party.name)) || item.subtitle || '';
+  if (type === 'elections') return item['description'] || `${formatNumber(item['totalConstituencies'] || 0)} constituencies/features in this election record.`;
+  if (type === 'persons') return joinList(item['parties']?.slice(0, 4).map((/** @type {BrowseItem} */ party) => party['name'])) || item['subtitle'] || '';
   // The detail record has no relatedElectionCount, so this read 0 above a 141-row table.
-  if (type === 'parties') return `${item.title || item.canonicalName} appears in ${formatNumber(item.relatedElectionCount ?? item.relatedElections?.length ?? 0)} election summaries.`;
-  if (type === 'sources') return item.description || joinList(item.downloads?.slice(0, 2).map((/** @type {BrowseItem} */ link) => link.label)) || '';
-  return item.description || item.subtitle || '';
+  if (type === 'parties') return `${item['title'] || item['canonicalName']} appears in ${formatNumber(item['relatedElectionCount'] ?? item['relatedElections']?.length ?? 0)} election summaries.`;
+  if (type === 'sources') return item['description'] || joinList(item['downloads']?.slice(0, 2).map((/** @type {BrowseItem} */ link) => link['label'])) || '';
+  return item['description'] || item['subtitle'] || '';
 }
 
 /** @param {string} type @param {BrowseItem} item */
 function readerSummaryRows(type, item) {
   if (type === 'elections') {
-    if (item.entryKind && item.entryKind !== 'election') {
+    if (item['entryKind'] && item['entryKind'] !== 'election') {
       return [
-        ['Entry type', resultKindLabel(item.resultKind || item.entryKind)],
-        ['Election', item.parentTitle],
-        ['Date', formatDate(item.date)],
-        ['Geography', item.geography],
-        ['Result', item.resultName]
+        ['Entry type', resultKindLabel(item['resultKind'] || item['entryKind'])],
+        ['Election', item['parentTitle']],
+        ['Date', formatDate(item['date'])],
+        ['Geography', item['geography']],
+        ['Result', item['resultName']]
       ];
     }
     return [
-      ['Body', item.body],
-      ['Date', formatDate(item.date)],
-      ['Geography', item.geography],
-      ['Constituencies', item.totalConstituencies]
+      ['Body', item['body']],
+      ['Date', formatDate(item['date'])],
+      ['Geography', item['geography']],
+      ['Constituencies', item['totalConstituencies']]
     ];
   }
   if (type === 'parties') {
     return [
-      ['Name', item.title || item.canonicalName],
-      ['Short name', item.shortName],
+      ['Name', item['title'] || item['canonicalName']],
+      ['Short name', item['shortName']],
       // The years alone: the subtitle also repeats the short name and the count of elections.
-      ['Years', yearRange(item.firstYear, item.lastYear) || item.subtitle],
-      ['Spellings on ballot papers', item.observedNames?.length],
-      ['Candidacies', item.occurrenceCount]
+      ['Years', yearRange(item['firstYear'], item['lastYear']) || item['subtitle']],
+      ['Spellings on ballot papers', item['observedNames']?.length],
+      ['Candidacies', item['occurrenceCount']]
     ];
   }
   if (type === 'persons') {
     return [
-      ['Name', item.name || item.title],
-      ['Formal name', joinList(item.formalNames?.map((/** @type {BrowseItem} */ entry) => entry.name))],
-      ['Born', formatDate(item.born)],
-      ['Died', formatDate(item.died)],
-      ['Years', yearRange(item.firstYear, item.lastYear) || item.subtitle],
-      ['Parties', joinList(item.parties?.slice(0, 5).map((/** @type {BrowseItem} */ party) => party.name))],
-      ['Contests', item.totals?.stood],
-      ['Elected', item.totals?.elected]
+      ['Name', item['name'] || item['title']],
+      ['Formal name', joinList(item['formalNames']?.map((/** @type {BrowseItem} */ entry) => entry['name']))],
+      ['Born', formatDate(item['born'])],
+      ['Died', formatDate(item['died'])],
+      ['Years', yearRange(item['firstYear'], item['lastYear']) || item['subtitle']],
+      ['Parties', joinList(item['parties']?.slice(0, 5).map((/** @type {BrowseItem} */ party) => party['name']))],
+      ['Contests', item['totals']?.stood],
+      ['Elected', item['totals']?.elected]
     ];
   }
   if (type === 'offices') {
     return [
-      ['Office', item.title],
-      ['Institution', item.institution],
-      ['Jurisdiction', item.jurisdiction],
-      ['Kind', item.kind],
-      ['Party', item.party],
-      ['Existed', item.existed],
-      ['Holders recorded', item.holderCount],
-      ['Years', yearRange(item.firstYear, item.lastYear)]
+      ['Office', item['title']],
+      ['Institution', item['institution']],
+      ['Jurisdiction', item['jurisdiction']],
+      ['Kind', item['kind']],
+      ['Party', item['party']],
+      ['Existed', item['existed']],
+      ['Holders recorded', item['holderCount']],
+      ['Years', yearRange(item['firstYear'], item['lastYear'])]
     ];
   }
   if (type === 'sources') {
     return [
-      ['Type', sourceTypeLabel(item.type)],
-      ['Category', item.category],
-      ['Provider', joinList(item.provider)],
-      ['Date', formatDate(item.date)],
-      ['Licence', licenceText(item.license)],
-      ['Publication status', publicationStatusLabel(item.publicationStatus)]
+      ['Type', sourceTypeLabel(item['type'])],
+      ['Category', item['category']],
+      ['Provider', joinList(item['provider'])],
+      ['Date', formatDate(item['date'])],
+      ['Licence', licenceText(item['license'])],
+      ['Publication status', publicationStatusLabel(item['publicationStatus'])]
     ];
   }
   return [
-    ['Category', item.category],
-    ['Group', item.group],
-    ['Status', statusLabel(item.status)]
+    ['Category', item['category']],
+    ['Group', item['group']],
+    ['Status', statusLabel(item['status'])]
   ];
 }
 
@@ -2519,23 +2519,23 @@ function renderRegisterInterestDetailPage(config, item, graphPanel) {
 function renderRegisterInterestSummaryPanel(item) {
   // The member and their party link to their own records (personSlug is matched at build by
   // name and constituency); the entry used to link only to graph entity pages.
-  const member = item.personSlug
-    ? `<a href="#/persons/${encodeURIComponent(item.personSlug)}" data-browse-link>${escapeHtml(item.memberName || '')}</a>`
-    : escapeHtml(item.memberName || '');
-  const parties = normalizeArray(item.parties).map((party) => partyLinkHtml(party)).join(', ');
+  const member = item['personSlug']
+    ? `<a href="#/persons/${encodeURIComponent(item['personSlug'])}" data-browse-link>${escapeHtml(item['memberName'] || '')}</a>`
+    : escapeHtml(item['memberName'] || '');
+  const parties = normalizeArray(item['parties']).map((party) => partyLinkHtml(party)).join(', ');
   const rows = [
     ['Politician', member],
-    ['Body', escapeHtml(item.electedBody || '')],
-    ['Chamber', escapeHtml(item.chamber || '')],
-    ['Date', escapeHtml(formatDate(item.date))],
-    ['Constituency', escapeHtml(item.constituency || joinList(item.constituencies))],
+    ['Body', escapeHtml(item['electedBody'] || '')],
+    ['Chamber', escapeHtml(item['chamber'] || '')],
+    ['Date', escapeHtml(formatDate(item['date']))],
+    ['Constituency', escapeHtml(item['constituency'] || joinList(item['constituencies']))],
     ['Party', parties],
-    ['Interests', item.interestCount === undefined || item.interestCount === null ? '' : formatNumber(item.interestCount)],
-    ['Non-nil', item.nonNilInterestCount === undefined || item.nonNilInterestCount === null ? '' : formatNumber(item.nonNilInterestCount)]
+    ['Interests', item['interestCount'] === undefined || item['interestCount'] === null ? '' : formatNumber(item['interestCount'])],
+    ['Non-nil', item['nonNilInterestCount'] === undefined || item['nonNilInterestCount'] === null ? '' : formatNumber(item['nonNilInterestCount'])]
   ];
-  const lede = item.isNone
-    ? `${item.memberName || 'This member'} had a nil return for this register edition.`
-    : `${item.memberName || 'This member'} had ${formatNumber(item.interestCount || 0)} grouped ${item.interestCount === 1 ? 'interest' : 'interests'} in this ${item.electedBody || 'register'} edition.`;
+  const lede = item['isNone']
+    ? `${item['memberName'] || 'This member'} had a nil return for this register edition.`
+    : `${item['memberName'] || 'This member'} had ${formatNumber(item['interestCount'] || 0)} grouped ${item['interestCount'] === 1 ? 'interest' : 'interests'} in this ${item['electedBody'] || 'register'} edition.`;
   return `
     <section class="browse-detail__panel browse-reader-summary browse-register-summary">
       <div class="browse-detail__body">
@@ -2548,9 +2548,9 @@ function renderRegisterInterestSummaryPanel(item) {
 
 /** @param {BrowseItem} item */
 function renderRegisterInterestEntriesPanel(item) {
-  const interests = normalizeArray(item.interests);
+  const interests = normalizeArray(item['interests']);
   if (!interests.length) {
-    const text = item.interestText || item.interestSummary || item.description || '';
+    const text = item['interestText'] || item['interestSummary'] || item['description'] || '';
     if (!text) return '';
     return `
       <section class="browse-detail__panel browse-register-interests-panel">
@@ -2581,11 +2581,11 @@ function renderInterestEntry(interest, index) {
       <header class="browse-interest-entry__header">
         <div>
           <span class="browse-interest-entry__number">${formatNumber(index + 1)}</span>
-          <h3>${escapeHtml(interest.category || 'Registered interest')}</h3>
+          <h3>${escapeHtml(interest['category'] || 'Registered interest')}</h3>
         </div>
-        <span class="browse-interest-entry__status">${interest.isNone ? 'Nil' : 'Declared'}</span>
+        <span class="browse-interest-entry__status">${interest['isNone'] ? 'Nil' : 'Declared'}</span>
       </header>
-      ${renderInterestText(interest.interestText || interest.interestSummary || '')}
+      ${renderInterestText(interest['interestText'] || interest['interestSummary'] || '')}
       ${sourceSummary ? `<div class="browse-interest-entry__sources">${sourceSummary}</div>` : ''}
     </article>
   `;
@@ -2676,9 +2676,9 @@ function canonicalInterestLabel(label) {
 
 /** @param {BrowseItem} interest */
 function summarizeInterestSources(interest) {
-  const refs = normalizeArray(interest.sourceRefs);
+  const refs = normalizeArray(interest['sourceRefs']);
   const labels = [...new Set(refs.map((ref) => [ref.sourceTitle || sourceKindLabel(ref.sourceKind), formatDate(ref.date)].filter(Boolean).join(', ')).filter(Boolean))];
-  const sourceCount = interest.sourceCount || refs.length;
+  const sourceCount = interest['sourceCount'] || refs.length;
   const parts = [
     sourceCount ? `${formatNumber(sourceCount)} ${sourceCount === 1 ? 'source row' : 'source rows'}` : null,
     labels.slice(0, 2).join(' / ')
@@ -2688,7 +2688,7 @@ function summarizeInterestSources(interest) {
 
 /** @param {BrowseItem} item */
 function renderRegisterSourcePanel(item) {
-  const sourceRows = normalizeArray(item.sourceRefs);
+  const sourceRows = normalizeArray(item['sourceRefs']);
   if (!sourceRows.length) return '';
   const body = `
     <div class="browse-detail__body browse-source-provenance">
@@ -2724,48 +2724,48 @@ function renderRegisterSourcePanel(item) {
 /** @param {string} type @param {BrowseItem} item */
 function metadataRows(type, item) {
   const rows = [
-    ['Status', statusLabel(item.status)],
-    ['Keywords', joinList(item.keywords)]
+    ['Status', statusLabel(item['status'])],
+    ['Keywords', joinList(item['keywords'])]
   ];
   if (type === 'elections') {
-    if (item.entryKind && item.entryKind !== 'election') {
+    if (item['entryKind'] && item['entryKind'] !== 'election') {
       rows.push(
-        ['Parent election key', item.parentElectionKey],
-        ['Matched feature', item.matched === undefined ? '' : item.matched ? 'Yes' : 'No'],
-        ['Feature name', item.featureName],
-        ['Local body', item.localBody]
+        ['Parent election key', item['parentElectionKey']],
+        ['Matched feature', item['matched'] === undefined ? '' : item['matched'] ? 'Yes' : 'No'],
+        ['Feature name', item['featureName']],
+        ['Local body', item['localBody']]
       );
     } else {
       rows.push(
-        ['Matched constituencies/features', item.matchedCount],
-        ['Unmatched constituencies/features', item.unmatchedCount],
-        ['Result entries', item.resultEntryCount],
-        ['Result source', item.resultUrl ? 'Available' : '']
+        ['Matched constituencies/features', item['matchedCount']],
+        ['Unmatched constituencies/features', item['unmatchedCount']],
+        ['Result entries', item['resultEntryCount']],
+        ['Result source', item['resultUrl'] ? 'Available' : '']
       );
     }
   } else if (type === 'parties') {
     rows.push(
-      ['Spellings on ballot papers', joinList(item.observedNames?.slice(0, 30))]
+      ['Spellings on ballot papers', joinList(item['observedNames']?.slice(0, 30))]
     );
   } else if (type === 'persons') {
     rows.push(
-      ['Contests', item.totals?.stood],
-      ['Elected', item.totals?.elected]
+      ['Contests', item['totals']?.stood],
+      ['Elected', item['totals']?.elected]
     );
   } else if (type === 'register-interests') {
     rows.push(
-      ['Record kind', item.recordKind],
-      ['Source kind', sourceKindLabel(item.sourceKind)],
-      ['Source kinds', joinList((item.sourceKinds || []).map(sourceKindLabel))],
-      ['Extraction method', item.extractionMethod],
-      ['Extraction confidence', item.extractionConfidence],
-      ['Duplicate source rows merged', item.duplicateSourceRowCount],
-      ['Nil-only record', item.isNone === undefined ? '' : item.isNone ? 'Yes' : 'No'],
-      ['Includes nil entries', item.hasNilInterests === undefined ? '' : item.hasNilInterests ? 'Yes' : 'No'],
-      ['Earliest declaration', item.earliestDeclaration],
-      ['Latest declaration', item.latestDeclaration],
-      ['Parties', joinList(item.parties)],
-      ['Election dates', joinList(item.electionDates)]
+      ['Record kind', item['recordKind']],
+      ['Source kind', sourceKindLabel(item['sourceKind'])],
+      ['Source kinds', joinList((item['sourceKinds'] || []).map(sourceKindLabel))],
+      ['Extraction method', item['extractionMethod']],
+      ['Extraction confidence', item['extractionConfidence']],
+      ['Duplicate source rows merged', item['duplicateSourceRowCount']],
+      ['Nil-only record', item['isNone'] === undefined ? '' : item['isNone'] ? 'Yes' : 'No'],
+      ['Includes nil entries', item['hasNilInterests'] === undefined ? '' : item['hasNilInterests'] ? 'Yes' : 'No'],
+      ['Earliest declaration', item['earliestDeclaration']],
+      ['Latest declaration', item['latestDeclaration']],
+      ['Parties', joinList(item['parties'])],
+      ['Election dates', joinList(item['electionDates'])]
     );
   }
   return rows;
@@ -2776,7 +2776,7 @@ function metadataRows(type, item) {
 // statement in the body below, so nothing else lives here.
 /** @param {BrowseItem} item */
 function renderMapHeaderPanel(item) {
-  const dateLabel = item.subtitle || (item.date !== undefined && item.date !== null && item.date !== '' ? String(item.date) : '') || joinList(item.years);
+  const dateLabel = item['subtitle'] || (item['date'] !== undefined && item['date'] !== null && item['date'] !== '' ? String(item['date']) : '') || joinList(item['years']);
   return `
     <section class="browse-detail__panel browse-map-lead browse-map-header">
       <div class="browse-map-lead__preview">
@@ -2784,11 +2784,11 @@ function renderMapHeaderPanel(item) {
         ${renderMapThumbnailNote(item)}
       </div>
       <div class="browse-map-lead__content">
-        <p class="browse-kicker">${item.type === 'data-entry' ? 'Census statistic' : 'Map'}</p>
-        <h1 class="browse-title browse-map-header__title">${escapeHtml(item.title || '')}</h1>
+        <p class="browse-kicker">${item['type'] === 'data-entry' ? 'Census statistic' : 'Map'}</p>
+        <h1 class="browse-title browse-map-header__title">${escapeHtml(item['title'] || '')}</h1>
         ${dateLabel ? `<p class="browse-map-header__subtitle">${escapeHtml(String(dateLabel))}</p>` : ''}
-        ${item.approximate?.note ? `<p class="browse-map-header__approx">${escapeHtml(item.approximate.note)}</p>` : ''}
-        ${item.type === 'data-entry' ? renderStatisticSummary(item) : ''}
+        ${item['approximate']?.note ? `<p class="browse-map-header__approx">${escapeHtml(item['approximate'].note)}</p>` : ''}
+        ${item['type'] === 'data-entry' ? renderStatisticSummary(item) : ''}
       </div>
     </section>
   `;
@@ -2798,21 +2798,21 @@ function renderMapHeaderPanel(item) {
  * a map's facts come from the graph, which has none for a statistic. */
 /** @param {BrowseItem} item */
 function renderStatisticSummary(item) {
-  const refs = Array.isArray(item.references) ? item.references : [];
-  const link = (/** @type {BrowseItem} */ ref) => (ref.url
-    ? `<a href="${escapeAttr(ref.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(ref.label || ref.url)}</a>`
-    : escapeHtml(ref.label || ''));
+  const refs = Array.isArray(item['references']) ? item['references'] : [];
+  const link = (/** @type {BrowseItem} */ ref) => (ref['url']
+    ? `<a href="${escapeAttr(ref['url'])}" target="_blank" rel="noopener noreferrer">${escapeHtml(ref['label'] || ref['url'])}</a>`
+    : escapeHtml(ref['label'] || ''));
   const source = refs.filter((ref) => !/^Licence:/i.test(ref.label || '')).map(link).join('; ');
   const licence = refs.filter((ref) => /^Licence:/i.test(ref.label || '')).map((ref) => link({ ...ref, label: String(ref.label).replace(/^Licence:\s*/i, '') })).join('; ');
   return `
-    ${item.description ? `<p class="browse-map-header__description">${escapeHtml(item.description)}</p>` : ''}
+    ${item['description'] ? `<p class="browse-map-header__description">${escapeHtml(item['description'])}</p>` : ''}
     ${source ? `<p class="browse-map-header__source">Source: ${source}${licence ? `. Licence: ${licence}` : ''}</p>` : ''}
   `;
 }
 
 /** @param {BrowseItem} item */
 function renderMapThumbnailNote(item) {
-  const thumbnail = item.thumbnail || fallbackThumbnail(item);
+  const thumbnail = item['thumbnail'] || fallbackThumbnail(item);
   if (thumbnail.kind === 'asset') {
     return `
       <p class="browse-thumb-caption browse-map-thumbnail-note">
@@ -2838,10 +2838,10 @@ function renderDownloadStatementGroup(links) {
       <div class="browse-graph-group__property">Downloads &amp; files</div>
       <div class="browse-graph-group__values">
         ${links.map((link) => {
-          const label = fileName(link.url) || link.label || link.name || link.type || 'File';
+          const label = fileName(link['url']) || link['label'] || link['name'] || link['type'] || 'File';
           return `
             <div class="browse-graph-statement">
-              <div class="browse-graph-statement__value">${link.url ? `<a href="${escapeAttr(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>` : escapeHtml(label)}</div>
+              <div class="browse-graph-statement__value">${link['url'] ? `<a href="${escapeAttr(link['url'])}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>` : escapeHtml(label)}</div>
             </div>`;
         }).join('')}
       </div>
@@ -2867,12 +2867,12 @@ async function renderMapFeaturesTable(item, entityId) {
   // Preferred: sharded per-feature attribute pages on R2, fetched lazily.
   let meta = null;
   try {
-    meta = await loadJson(`${MAP_FEATURES_BASE}/${encodeURIComponent(item.id)}/meta.json`);
+    meta = await loadJson(`${MAP_FEATURES_BASE}/${encodeURIComponent(item['id'])}/meta.json`);
   } catch (error) {
     meta = null;
   }
   if (meta && meta.total) {
-    const table = await renderMapFeaturesFromShards(item.id, meta, features);
+    const table = await renderMapFeaturesFromShards(item['id'], meta, features);
     if (table) return table;
   }
 
@@ -2943,8 +2943,8 @@ async function renderMapFeaturesFromShards(mapId, meta, graphFeatures) {
     if (key && !linkBySlug[key]) linkBySlug[key] = feature.subjectId;
   }
   const nameKeys = new Set(['name', 'Name', 'NAME']);
-  const attrColumns = normalizeArray(meta.propertyKeys).filter((key) => !nameKeys.has(key));
-  const ctx = { base, attrColumns, linkBySlug, pageCount: meta.pageCount, total: meta.total, loaded: 0, nextPage: 1 };
+  const attrColumns = normalizeArray(meta['propertyKeys']).filter((key) => !nameKeys.has(key));
+  const ctx = { base, attrColumns, linkBySlug, pageCount: meta['pageCount'], total: meta['total'], loaded: 0, nextPage: 1 };
   state.featureTables[mapId] = ctx;
   const rows = normalizeArray(firstPage).map((feature) => featureRowHtml(feature, ctx)).join('');
   ctx.loaded = normalizeArray(firstPage).length;
@@ -2969,13 +2969,13 @@ async function renderMapFeaturesFromShards(mapId, meta, graphFeatures) {
 
 /** @param {BrowseItem} feature @param {FeatureTable} ctx */
 function featureRowHtml(feature, ctx) {
-  const entityId = ctx.linkBySlug[slugify(feature.name || '')];
+  const entityId = ctx.linkBySlug[slugify(feature['name'] || '')];
   const nameCell = entityId
-    ? `<a href="#/entities/${encodeURIComponent(entityId)}" data-browse-link>${escapeHtml(feature.name || '(unnamed)')}</a>`
-    : escapeHtml(feature.name || '(unnamed)');
-  const bboxCell = Array.isArray(feature.bbox) ? renderBoundingBoxCell(feature.bbox.join(',')) : '';
+    ? `<a href="#/entities/${encodeURIComponent(entityId)}" data-browse-link>${escapeHtml(feature['name'] || '(unnamed)')}</a>`
+    : escapeHtml(feature['name'] || '(unnamed)');
+  const bboxCell = Array.isArray(feature['bbox']) ? renderBoundingBoxCell(feature['bbox'].join(',')) : '';
   const attrCells = ctx.attrColumns.map((col) => {
-    const value = feature.properties ? feature.properties[col] : undefined;
+    const value = feature['properties'] ? feature['properties'][col] : undefined;
     return `<td>${value === null || value === undefined ? '' : escapeHtml(String(value))}</td>`;
   }).join('');
   return `<tr><td class="browse-feature-thumb"></td><td>${nameCell}</td><td>${bboxCell}</td>${attrCells}</tr>`;
@@ -2983,7 +2983,7 @@ function featureRowHtml(feature, ctx) {
 
 /** @param {UiElement} button */
 async function handleFeatureLoadMore(button) {
-  const mapId = button.dataset.featureMap;
+  const mapId = button.dataset['featureMap'];
   const ctx = state.featureTables[/** @type {string} the button carries data-feature-map */ (mapId)];
   if (!ctx) return;
   button.disabled = true;
@@ -3079,12 +3079,12 @@ function divisionLink(id, title) {
 
 /** @param {BrowseItem} row */
 function termLabel(row) {
-  return /^\d{4}-\d{2}-\d{2}$/.test(row.term) ? `elected ${formatDate(row.term)}` : row.term;
+  return /^\d{4}-\d{2}-\d{2}$/.test(row['term']) ? `elected ${formatDate(row['term'])}` : row['term'];
 }
 
 /** @param {BrowseItem} item */
 async function renderPersonVotesPanel(item) {
-  const personId = String(item.id || '').replace(/^person:/, '');
+  const personId = String(item['id'] || '').replace(/^person:/, '');
   if (!/^\d+$/.test(personId)) return '';
   const data = await loadVotesJson(`${VOTES_API}?person=${encodeURIComponent(personId)}`);
   if (!data?.divisions?.length) return '';
@@ -3158,7 +3158,7 @@ function rerenderVotesTable(control) {
 document.addEventListener('change', (/** @type {Event} */ rawEvent) => { const event = /** @type {ElementEvent} */ (rawEvent);
   const control = event.target.closest?.('[data-votes-filter]');
   if (!control) return;
-  const key = String(control.dataset.votesFilter); // matched by [data-votes-filter], so a string
+  const key = String(control.dataset['votesFilter']); // matched by [data-votes-filter], so a string
   votesView.filters[key] = key === 'against' ? control.checked : control.value;
   votesView.shown = VOTES_PAGE;
   rerenderVotesTable(control);
@@ -3174,7 +3174,7 @@ document.addEventListener('click', (/** @type {MouseEvent} */ rawEvent) => { con
 
 /** @param {BrowseItem} item */
 async function renderPartyVotesPanel(item) {
-  const slug = item.slug || slugify(item.id || item.title);
+  const slug = item['slug'] || slugify(item['id'] || item['title']);
   const data = await loadVotesJson(`${VOTES_API}?party=${encodeURIComponent(slug)}`);
   const terms = normalizeArray(data?.terms).filter((row) => row.divisions > 0);
   if (!terms.length) return '';
@@ -3223,7 +3223,7 @@ async function renderDivisionRoute(divisionId) {
     <p class="browse-description">${escapeHtml(bodyLabel)}, ${escapeHtml(formatDate(record.date))}${record.result ? ` · ${escapeHtml(record.result)}` : ''}</p>`;
   setDocumentHead({ title: `${title} (${formatDate(record.date)}) – Division – Civgraph`, description: `${bodyLabel} division of ${formatDate(record.date)}: ${title}.` });
   const counts = [['Ayes', record.ayes], ['Noes', record.noes], ['Abstained', record.abstain]].filter(([, n]) => n !== '' && n !== null && n !== undefined);
-  const source = index?.sources?.find((/** @type {BrowseItem} */ row) => row.body === record.body);
+  const source = index?.sources?.find((/** @type {BrowseItem} */ row) => row['body'] === record.body);
   const facts = `
     <section class="browse-detail__panel">
       <h2>Result</h2>
@@ -3256,7 +3256,7 @@ async function renderDivisionRoute(divisionId) {
 
 /** @param {BrowseItem} item */
 async function loadPartyProfile(item) {
-  const slug = item.slug || slugify(item.id || item.title);
+  const slug = item['slug'] || slugify(item['id'] || item['title']);
   const cacheKey = `party-profile:${slug}`;
   if (state.details.has(cacheKey)) return state.details.get(cacheKey);
   let profile = null;
@@ -3319,11 +3319,11 @@ function renderPartyProfilePanels(item, profile) {
 
 /** @param {BrowseItem} item @param {BrowseItem} profile */
 function partySummarySentence(item, profile) {
-  const title = escapeHtml(profile.title || item.title);
+  const title = escapeHtml(profile['title'] || item['title']);
   const parts = [];
-  if (profile.founded?.date) parts.push(`${title} was founded ${/^\d{4}(-\d{2})?$/.test(profile.founded.date) ? 'in' : 'on'} ${escapeHtml(formatDate(profile.founded.date))}${citationLinks(profile.founded.citations)}`);
-  if (profile.dissolved?.date) parts.push(`dissolved ${/^\d{4}(-\d{2})?$/.test(profile.dissolved.date) ? 'in' : 'on'} ${escapeHtml(formatDate(profile.dissolved.date))}${citationLinks(profile.dissolved.citations)}`);
-  const bodies = normalizeArray(profile.bodies);
+  if (profile['founded']?.date) parts.push(`${title} was founded ${/^\d{4}(-\d{2})?$/.test(profile['founded'].date) ? 'in' : 'on'} ${escapeHtml(formatDate(profile['founded'].date))}${citationLinks(profile['founded'].citations)}`);
+  if (profile['dissolved']?.date) parts.push(`dissolved ${/^\d{4}(-\d{2})?$/.test(profile['dissolved'].date) ? 'in' : 'on'} ${escapeHtml(formatDate(profile['dissolved'].date))}${citationLinks(profile['dissolved'].citations)}`);
+  const bodies = normalizeArray(profile['bodies']);
   const elections = bodies.reduce((total, body) => total + (body.totals?.elections || 0), 0);
   const seats = bodies.reduce((total, body) => total + (body.totals?.seats || 0), 0);
   let lead = parts.length ? `${parts.join(' and ')}.` : '';
@@ -3337,25 +3337,25 @@ function partySummarySentence(item, profile) {
 /** @param {BrowseItem} item @param {BrowseItem} profile */
 function renderPartyHistoryPanel(item, profile) {
   const relationGroups = ['predecessor', 'successor', 'related'].map((relation) => {
-    const rows = normalizeArray(profile.relations).filter((row) => row.relation === relation);
+    const rows = normalizeArray(profile['relations']).filter((row) => row.relation === relation);
     if (!rows.length) return '';
     const label = { predecessor: 'Came from', successor: 'Became', related: 'Related' }[relation];
     return `<div class="browse-party-relations__group"><span class="browse-party-relations__label">${label}</span>${rows.map((row) => `
       <span class="browse-chip">${partyRecordLink(row.slug, row.title)}${row.label ? ` <small>(${escapeHtml(row.label)})</small>` : ''}${!row.slug && row.qid ? ` <a href="https://www.wikidata.org/wiki/${escapeAttr(row.qid)}" rel="noopener" target="_blank" aria-label="${escapeAttr(row.title)} on Wikidata"><small>Wikidata</small></a>` : ''}</span>`).join('')}</div>`;
   }).join('');
   const facts = [
-    ['Founded', profile.founded?.date ? `${escapeHtml(formatDate(profile.founded.date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[profile.founded.source] || '')}</small>${citationLinks(profile.founded.citations)}${profile.founded.basis ? `<br><small>${escapeHtml(profile.founded.basis)}</small>` : ''}` : ''],
-    ['Other founding date recorded', normalizeArray(profile.otherFoundingDates).map((row) => `${escapeHtml(formatDate(row.date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[row.source] || '')}</small>${citationLinks(row.citations)}`).join('; ')],
-    ['Dissolved', profile.dissolved?.date ? `${escapeHtml(formatDate(profile.dissolved.date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[profile.dissolved.source] || '')}</small>${citationLinks(profile.dissolved.citations)}` : ''],
-    ['Status', profile.status ? escapeHtml(profile.status.charAt(0).toUpperCase() + profile.status.slice(1)) : ''],
-    ['Ideology', normalizeArray(profile.ideologies).length ? `${profile.ideologies.map((/** @type {BrowseItem} */ row) => escapeHtml(row.label)).join(', ')} <small class="browse-party-source">Wikidata</small>` : ''],
-    ['Political position', normalizeArray(profile.alignment).length ? `${profile.alignment.map((/** @type {BrowseItem} */ row) => escapeHtml(row.label)).join(', ')} <small class="browse-party-source">Wikidata</small>` : ''],
+    ['Founded', profile['founded']?.date ? `${escapeHtml(formatDate(profile['founded'].date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[profile['founded'].source] || '')}</small>${citationLinks(profile['founded'].citations)}${profile['founded'].basis ? `<br><small>${escapeHtml(profile['founded'].basis)}</small>` : ''}` : ''],
+    ['Other founding date recorded', normalizeArray(profile['otherFoundingDates']).map((row) => `${escapeHtml(formatDate(row.date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[row.source] || '')}</small>${citationLinks(row.citations)}`).join('; ')],
+    ['Dissolved', profile['dissolved']?.date ? `${escapeHtml(formatDate(profile['dissolved'].date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[profile['dissolved'].source] || '')}</small>${citationLinks(profile['dissolved'].citations)}` : ''],
+    ['Status', profile['status'] ? escapeHtml(profile['status'].charAt(0).toUpperCase() + profile['status'].slice(1)) : ''],
+    ['Ideology', normalizeArray(profile['ideologies']).length ? `${profile['ideologies'].map((/** @type {BrowseItem} */ row) => escapeHtml(row['label'])).join(', ')} <small class="browse-party-source">Wikidata</small>` : ''],
+    ['Political position', normalizeArray(profile['alignment']).length ? `${profile['alignment'].map((/** @type {BrowseItem} */ row) => escapeHtml(row['label'])).join(', ')} <small class="browse-party-source">Wikidata</small>` : ''],
     ['Elsewhere', [
-      profile.wikidata?.enwiki ? `<a href="https://en.wikipedia.org/wiki/${encodeURIComponent(profile.wikidata.enwiki.replace(/ /g, '_'))}" rel="noopener" target="_blank">Wikipedia</a>` : '',
-      profile.wikidata?.qid ? `<a href="https://www.wikidata.org/wiki/${escapeAttr(profile.wikidata.qid)}" rel="noopener" target="_blank">Wikidata ${escapeHtml(profile.wikidata.qid)}</a>` : ''
+      profile['wikidata']?.enwiki ? `<a href="https://en.wikipedia.org/wiki/${encodeURIComponent(profile['wikidata'].enwiki.replace(/ /g, '_'))}" rel="noopener" target="_blank">Wikipedia</a>` : '',
+      profile['wikidata']?.qid ? `<a href="https://www.wikidata.org/wiki/${escapeAttr(profile['wikidata'].qid)}" rel="noopener" target="_blank">Wikidata ${escapeHtml(profile['wikidata'].qid)}</a>` : ''
     ].filter(Boolean).join(' · ')]
   ].filter(([, value]) => value);
-  const timeline = normalizeArray(profile.timeline);
+  const timeline = normalizeArray(profile['timeline']);
   const timelineHtml = timeline.length ? `
     <h3>Timeline</h3>
     <ol class="browse-party-timeline">
@@ -3364,7 +3364,7 @@ function renderPartyHistoryPanel(item, profile) {
           <time datetime="${escapeAttr(event.date || '')}">${escapeHtml(formatDate(event.date))}</time>
           <div>
             <p>${event.electionKey ? escapeHtml(event.text).replace(/: (.*)\.$/, (_match, title) => `: ${electionRecordLink(event.electionKey, unescapeText(title))}.`) : escapeHtml(event.text)}${citationLinks(event.citations)}</p>
-            ${normalizeArray(event.related).length ? `<p class="browse-party-timeline__related">${event.related.map((/** @type {BrowseItem} */ row) => `${escapeHtml(row.relation)}: ${partyRecordLink(row.slug, row.title)}`).join(' · ')}</p>` : ''}
+            ${normalizeArray(event.related).length ? `<p class="browse-party-timeline__related">${event.related.map((/** @type {BrowseItem} */ row) => `${escapeHtml(row['relation'])}: ${partyRecordLink(row['slug'], row['title'])}`).join(' · ')}</p>` : ''}
             ${event.basis ? `<p class="browse-party-timeline__basis">${escapeHtml(event.basis)}</p>` : ''}
             ${event.note ? `<p class="browse-party-timeline__basis">${escapeHtml(event.note)}</p>` : ''}
           </div>
@@ -3393,7 +3393,7 @@ function unescapeText(value) {
 
 /** @param {BrowseItem} profile */
 function renderPartyLeadersPanel(profile) {
-  const leaders = normalizeArray(profile.leaders);
+  const leaders = normalizeArray(profile['leaders']);
   if (!leaders.length) return '';
   const offices = [...new Set(leaders.map((row) => row.office).filter(Boolean))];
   const rows = leaders.map((row) => [
@@ -3405,8 +3405,8 @@ function renderPartyLeadersPanel(profile) {
   const office = offices.length === 1 ? offices[0] : 'the party\'s leading office';
   return `
     <section class="browse-detail__panel">
-      <h2>${normalizeArray(profile.officers).length ? 'Leaders recorded on Wikidata' : 'Leaders'}</h2>
-      <p class="browse-panel-note browse-detail__body">Holders of ${escapeHtml(office)} as Wikidata records them (CC0, retrieved ${escapeHtml(formatDate(profile.leadersSource?.retrieved))})${profile.leadersSource?.offices?.[0]?.qid ? `: <a href="https://www.wikidata.org/wiki/${escapeAttr(profile.leadersSource.offices[0].qid)}" rel="noopener" target="_blank">${escapeHtml(profile.leadersSource.offices[0].qid)}</a>` : ''}. The list can be incomplete; a blank end date is a term still running or not recorded.</p>
+      <h2>${normalizeArray(profile['officers']).length ? 'Leaders recorded on Wikidata' : 'Leaders'}</h2>
+      <p class="browse-panel-note browse-detail__body">Holders of ${escapeHtml(office)} as Wikidata records them (CC0, retrieved ${escapeHtml(formatDate(profile['leadersSource']?.retrieved))})${profile['leadersSource']?.offices?.[0]?.qid ? `: <a href="https://www.wikidata.org/wiki/${escapeAttr(profile['leadersSource'].offices[0].qid)}" rel="noopener" target="_blank">${escapeHtml(profile['leadersSource'].offices[0].qid)}</a>` : ''}. The list can be incomplete; a blank end date is a term still running or not recorded.</p>
       <div class="browse-table-wrap" tabindex="0" role="region" aria-label="Leaders">
         <table class="browse-table">
           <thead><tr><th scope="col">Leader</th><th scope="col">From</th><th scope="col">To</th>${offices.length > 1 ? '<th scope="col">Office</th>' : ''}</tr></thead>
@@ -3419,15 +3419,15 @@ function renderPartyLeadersPanel(profile) {
 
 /** @param {BrowseItem} item @param {BrowseItem} profile */
 function renderPartyBodiesPanel(item, profile) {
-  const bodies = normalizeArray(profile.bodies);
+  const bodies = normalizeArray(profile['bodies']);
   if (!bodies.length) return '';
-  const colour = /^#[0-9a-f]{3,8}$/i.test(item.colour || '') ? item.colour : 'var(--color-primary)';
+  const colour = /^#[0-9a-f]{3,8}$/i.test(item['colour'] || '') ? item['colour'] : 'var(--color-primary)';
   return `
     <section class="browse-detail__panel browse-party-bodies">
       <h2>Seats and votes by body</h2>
       <div class="browse-detail__body">
       <p class="browse-panel-note">General elections are charted; by-elections are listed in the tables. Share is of the valid poll (first preferences under PR) in the elections Civgraph holds.</p>
-      ${bodies.map((body) => renderPartyBody(body, colour, profile.title || item.title)).join('')}
+      ${bodies.map((body) => renderPartyBody(body, colour, profile['title'] || item['title'])).join('')}
       </div>
     </section>
   `;
@@ -3435,15 +3435,15 @@ function renderPartyBodiesPanel(item, profile) {
 
 /** @param {BrowseItem} body @param {string} colour @param {string} partyTitle */
 function renderPartyBody(body, colour, partyTitle) {
-  const totals = body.totals || {};
-  const series = normalizeArray(body.series);
+  const totals = body['totals'] || {};
+  const series = normalizeArray(body['series']);
   const withShare = series.filter((point) => Number.isFinite(Number(point.share)));
   const charts = series.length >= 2 ? `
     <div class="browse-party-charts">
-      ${series.some((point) => Number(point.seats) > 0) ? renderPartyBarChart(series, colour, `Seats won by ${partyTitle}, ${body.label}`) : ''}
-      ${withShare.length >= 2 ? renderPartyLineChart(withShare, colour, `Vote share of ${partyTitle}, ${body.label}`) : ''}
+      ${series.some((point) => Number(point.seats) > 0) ? renderPartyBarChart(series, colour, `Seats won by ${partyTitle}, ${body['label']}`) : ''}
+      ${withShare.length >= 2 ? renderPartyLineChart(withShare, colour, `Vote share of ${partyTitle}, ${body['label']}`) : ''}
     </div>` : '';
-  const elections = normalizeArray(body.elections);
+  const elections = normalizeArray(body['elections']);
   const anyContests = elections.some((row) => row.contests);
   const anyShare = elections.some((row) => row.share !== undefined);
   const headers = ['Date', 'Election', ...(anyContests ? ['Contests'] : []), 'Candidates', 'Seats', 'Votes', ...(anyShare ? ['Share'] : [])];
@@ -3463,13 +3463,13 @@ function renderPartyBody(body, colour, partyTitle) {
   ].filter(Boolean).join(' · ');
   return `
     <section class="browse-party-body">
-      <h3>${escapeHtml(body.label)}</h3>
+      <h3>${escapeHtml(body['label'])}</h3>
       <p class="browse-party-body__totals">${escapeHtml(totalsText)}</p>
-      ${body.note ? `<p class="browse-panel-note">${escapeHtml(body.note)}</p>` : ''}
+      ${body['note'] ? `<p class="browse-panel-note">${escapeHtml(body['note'])}</p>` : ''}
       ${charts}
       <details class="browse-collapsible browse-party-body__table"${elections.length <= 6 ? ' open' : ''}>
         <summary><span>Elections</span><small>${escapeHtml(countText(elections.length, 'row'))}</small></summary>
-        <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(`${body.label}: elections`)}">
+        <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(`${body['label']}: elections`)}">
           <table class="browse-table browse-table--compact">
             <thead><tr>${headers.map((header) => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
             <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join('')}</tr>`).join('')}</tbody>
@@ -3486,7 +3486,7 @@ const PARTY_CHART = { width: 320, height: 150, left: 34, right: 40, top: 14, bot
 
 /** @param {BrowseItem[]} series */
 function partyChartFrame(series) {
-  const times = series.map((point) => Date.parse(`${String(point.date).slice(0, 10)}T00:00:00Z`));
+  const times = series.map((point) => Date.parse(`${String(point['date']).slice(0, 10)}T00:00:00Z`));
   const min = Math.min(...times);
   const max = Math.max(...times);
   const span = Math.max(max - min, 1);
@@ -3526,14 +3526,14 @@ function partyChartAxes(maxValue, format, frame) {
 /** @param {BrowseItem[]} series @param {string} colour @param {string} label */
 function renderPartyBarChart(series, colour, label) {
   const frame = partyChartFrame(series);
-  const maxSeats = niceMax(Math.max(...series.map((point) => Number(point.seats) || 0)));
+  const maxSeats = niceMax(Math.max(...series.map((point) => Number(point['seats']) || 0)));
   const { grid, xLabels, plotBottom, plotHeight } = partyChartAxes(maxSeats, (value) => formatNumber(Math.round(value)), frame);
   // Bars as wide as the closest pair of elections allows, less a 2px gap, within 3-14px.
   const xs = series.map((_point, index) => frame.x(index));
   const closest = xs.slice(1).reduce((gap, value, index) => Math.min(gap, value - /** @type {number} */ (xs[index])), frame.plotWidth);
   const barWidth = Math.max(3, Math.min(14, closest - 2));
   const bars = series.map((point, index) => {
-    const seats = Number(point.seats) || 0;
+    const seats = Number(point['seats']) || 0;
     const height = (seats / maxSeats) * plotHeight;
     const cx = Math.min(Math.max(/** @type {number} */ (xs[index]), PARTY_CHART.left + barWidth / 2), PARTY_CHART.width - PARTY_CHART.right - barWidth / 2);
     const x0 = cx - barWidth / 2;
@@ -3541,17 +3541,17 @@ function renderPartyBarChart(series, colour, label) {
     const path = height > 0
       ? `M${x0},${plotBottom}V${plotBottom - height + radius}Q${x0},${plotBottom - height} ${x0 + radius},${plotBottom - height}H${x0 + barWidth - radius}Q${x0 + barWidth},${plotBottom - height} ${x0 + barWidth},${plotBottom - height + radius}V${plotBottom}Z`
       : '';
-    const tip = `${formatDate(point.date)}: ${formatNumber(seats)} ${seats === 1 ? 'seat' : 'seats'}${point.candidates ? ` from ${formatNumber(point.candidates)} candidates` : ''}`;
+    const tip = `${formatDate(point['date'])}: ${formatNumber(seats)} ${seats === 1 ? 'seat' : 'seats'}${point['candidates'] ? ` from ${formatNumber(point['candidates'])} candidates` : ''}`;
     return `<g class="browse-chart__mark">
       ${path ? `<path d="${path}" fill="${escapeAttr(colour)}"></path>` : `<line x1="${x0}" x2="${x0 + barWidth}" y1="${plotBottom - 0.5}" y2="${plotBottom - 0.5}" stroke="${escapeAttr(colour)}" stroke-width="1"></line>`}
       <rect class="browse-chart__hit" x="${cx - Math.max(barWidth, 10) / 2}" y="${PARTY_CHART.top}" width="${Math.max(barWidth, 10)}" height="${plotHeight}"><title>${escapeHtml(tip)}</title></rect>
     </g>`;
   }).join('');
-  const peak = series.reduce((best, point) => ((Number(point.seats) || 0) > (Number(best.seats) || 0) ? point : best), /** @type {BrowseItem} */ (series[0]));
+  const peak = series.reduce((best, point) => ((Number(point['seats']) || 0) > (Number(best['seats']) || 0) ? point : best), /** @type {BrowseItem} */ (series[0]));
   return `
     <figure class="browse-chart">
       <figcaption>Seats won</figcaption>
-      <svg viewBox="0 0 ${PARTY_CHART.width} ${PARTY_CHART.height}" role="img" aria-label="${escapeAttr(`${label}: ${series.length} general elections, ${frame.firstYear} to ${frame.lastYear}; most seats ${formatNumber(peak.seats || 0)} (${formatDate(peak.date)}). The table below lists every figure.`)}">
+      <svg viewBox="0 0 ${PARTY_CHART.width} ${PARTY_CHART.height}" role="img" aria-label="${escapeAttr(`${label}: ${series.length} general elections, ${frame.firstYear} to ${frame.lastYear}; most seats ${formatNumber(peak['seats'] || 0)} (${formatDate(peak['date'])}). The table below lists every figure.`)}">
         ${grid}${bars}${xLabels}
       </svg>
     </figure>
@@ -3561,23 +3561,23 @@ function renderPartyBarChart(series, colour, label) {
 /** @param {BrowseItem[]} series @param {string} colour @param {string} label */
 function renderPartyLineChart(series, colour, label) {
   const frame = partyChartFrame(series);
-  const maxShare = Math.min(100, niceMax(Math.max(...series.map((point) => Number(point.share) || 0))));
+  const maxShare = Math.min(100, niceMax(Math.max(...series.map((point) => Number(point['share']) || 0))));
   const { grid, xLabels, plotBottom, plotHeight } = partyChartAxes(maxShare, (value) => `${Number(value.toFixed(1))}%`, frame);
-  const points = series.map((point, index) => ({ x: frame.x(index), y: plotBottom - ((Number(point.share) || 0) / maxShare) * plotHeight, point }));
+  const points = series.map((point, index) => ({ x: frame.x(index), y: plotBottom - ((Number(point['share']) || 0) / maxShare) * plotHeight, point }));
   const line = points.map((p, index) => `${index ? 'L' : 'M'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join('');
   const marks = points.map(({ x, y, point }) => `<g class="browse-chart__mark">
       <circle class="browse-chart__dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="${escapeAttr(colour)}"></circle>
-      <circle class="browse-chart__hit" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9"><title>${escapeHtml(`${formatDate(point.date)}: ${Number(point.share).toFixed(1)}%${point.votes ? ` (${formatNumber(point.votes)} votes)` : ''}`)}</title></circle>
+      <circle class="browse-chart__hit" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9"><title>${escapeHtml(`${formatDate(point['date'])}: ${Number(point['share']).toFixed(1)}%${point['votes'] ? ` (${formatNumber(point['votes'])} votes)` : ''}`)}</title></circle>
     </g>`).join('');
   const last = /** @type {(typeof points)[number]} */ (points[points.length - 1]);
   return `
     <figure class="browse-chart">
       <figcaption>Share of the vote</figcaption>
-      <svg viewBox="0 0 ${PARTY_CHART.width} ${PARTY_CHART.height}" role="img" aria-label="${escapeAttr(`${label}: from ${Number(/** @type {BrowseItem} */ (series[0]).share).toFixed(1)}% in ${frame.firstYear} to ${Number(last.point.share).toFixed(1)}% in ${frame.lastYear}. The table below lists every figure.`)}">
+      <svg viewBox="0 0 ${PARTY_CHART.width} ${PARTY_CHART.height}" role="img" aria-label="${escapeAttr(`${label}: from ${Number(/** @type {BrowseItem} */ (series[0])['share']).toFixed(1)}% in ${frame.firstYear} to ${Number(last.point['share']).toFixed(1)}% in ${frame.lastYear}. The table below lists every figure.`)}">
         ${grid}
         <path class="browse-chart__line" d="${line}" stroke="${escapeAttr(colour)}"></path>
         ${marks}
-        <text class="browse-chart__label" x="${(last.x + 7).toFixed(1)}" y="${(last.y + 3.5).toFixed(1)}" text-anchor="start">${escapeHtml(`${Number(last.point.share).toFixed(1)}%`)}</text>
+        <text class="browse-chart__label" x="${(last.x + 7).toFixed(1)}" y="${(last.y + 3.5).toFixed(1)}" text-anchor="start">${escapeHtml(`${Number(last.point['share']).toFixed(1)}%`)}</text>
         ${xLabels}
       </svg>
     </figure>
@@ -3586,7 +3586,7 @@ function renderPartyLineChart(series, colour, label) {
 
 /** @param {BrowseItem} profile */
 function renderPartyMembersPanel(profile) {
-  const members = normalizeArray(profile.notableMembers);
+  const members = normalizeArray(profile['notableMembers']);
   if (!members.length) return '';
   return renderTablePanel('Most-elected members', ['Member', 'Times elected', 'Contests', 'Years', 'Elected to'], members.map((row) => [
     `<a href="#/persons/${encodeURIComponent(row.slug)}" data-browse-link>${escapeHtml(row.name || row.slug)}</a>`,
@@ -3640,8 +3640,8 @@ function renderPartyMembersPanel(profile) {
  * @param {BrowseItem} profile
  */
 function renderPartySourcesPanel(profile) {
-  const sources = normalizeArray(profile.sources);
-  const eventCitations = normalizeArray(profile.timeline).flatMap((event) => normalizeArray(event.citations).map((citation) => ({ ...citation, date: event.date })));
+  const sources = normalizeArray(profile['sources']);
+  const eventCitations = normalizeArray(profile['timeline']).flatMap((event) => normalizeArray(event.citations).map((citation) => ({ ...citation, date: event.date })));
   const seen = new Set();
   const documents = eventCitations.filter((citation) => {
     const key = citation.url || citation.title;
@@ -3664,84 +3664,84 @@ function renderPartySourcesPanel(profile) {
  */
 function renderRelatedPanel(type, item) {
   if (type === 'elections') return renderElectionRelated(item);
-  if (type === 'parties') return renderSimpleTable('Linked Elections', ['Date', 'Election', 'Stood', 'Seats', 'Votes'], byDate(item.relatedElections), (row) => [
-    formatDate(row.date),
-    row.key
-      ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>`
-      : row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}">${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
+  if (type === 'parties') return renderSimpleTable('Linked Elections', ['Date', 'Election', 'Stood', 'Seats', 'Votes'], byDate(item['relatedElections']), (row) => [
+    formatDate(row['date']),
+    row['key']
+      ? `<a href="#/elections/${encodeURIComponent(electionSlug(row['key']))}" data-browse-link>${escapeHtml(row['title'])}</a>`
+      : row['interactiveUrl'] ? `<a href="${escapeAttr(row['interactiveUrl'])}">${escapeHtml(row['title'])}</a>` : escapeHtml(row['title']),
     // A 0 beside seats won is a figure the summary did not carry (unopposed returns, older
     // files with no candidate counts), not a real zero: "Stood 0, Seats 1" read as nonsense.
-    knownCount(row.stood, Number(row.seats) > 0),
-    knownCount(row.seats, false),
-    knownCount(row.votes, Number(row.seats) > 0 || Number(row.stood) > 0)
+    knownCount(row['stood'], Number(row['seats']) > 0),
+    knownCount(row['seats'], false),
+    knownCount(row['votes'], Number(row['seats']) > 0 || Number(row['stood']) > 0)
   ]);
   // The election and the constituency open their Browse pages (the constituency is that
   // contest's result); the map link sits beside them rather than being the only way on.
   if (type === 'persons') {
     // Votes and share only where the record has some: most pre-1832 contests have neither.
-    const withVotes = normalizeArray(item.elections).some((row) => Number(row.firstPrefs) > 0);
-    const withShare = normalizeArray(item.elections).some((row) => Number.isFinite(Number(row.share)) && row.share !== null && row.share !== undefined);
+    const withVotes = normalizeArray(item['elections']).some((row) => Number(row.firstPrefs) > 0);
+    const withShare = normalizeArray(item['elections']).some((row) => Number.isFinite(Number(row.share)) && row.share !== null && row.share !== undefined);
     const headers = ['Date', 'Election', 'Party', { label: 'As printed', className: 'browse-col-printed' }, 'Constituency', 'Result', ...(withVotes ? ['Votes'] : []), ...(withShare ? ['Share'] : []), 'Map'];
-    return renderPersonNotes(item) + renderSimpleTable('Contests', headers, byDate(item.elections), (row) => [
-      formatDate(row.date),
-      row.key ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
-      (row.party && row.party !== NO_LABEL ? partyLinkHtml(row.party) : noLabelHtml()) + partyInferredHtml(row),
+    return renderPersonNotes(item) + renderSimpleTable('Contests', headers, byDate(item['elections']), (row) => [
+      formatDate(row['date']),
+      row['key'] ? `<a href="#/elections/${encodeURIComponent(electionSlug(row['key']))}" data-browse-link>${escapeHtml(row['title'])}</a>` : escapeHtml(row['title']),
+      (row['party'] && row['party'] !== NO_LABEL ? partyLinkHtml(row['party']) : noLabelHtml()) + partyInferredHtml(row),
       escapeHtml(printedLabelText(row)),
-      row.key && row.constituency
-        ? `<a href="#/elections/${encodeURIComponent(contestSlug(row.key, row.constituency))}" data-browse-link>${escapeHtml(row.constituency)}</a>`
-        : escapeHtml(row.constituency || ''),
+      row['key'] && row['constituency']
+        ? `<a href="#/elections/${encodeURIComponent(contestSlug(row['key'], row['constituency']))}" data-browse-link>${escapeHtml(row['constituency'])}</a>`
+        : escapeHtml(row['constituency'] || ''),
       escapeHtml(contestOutcome(row)),
-      ...(withVotes ? [Number(row.firstPrefs) > 0 ? formatNumber(row.firstPrefs) : candidateReturnWithoutPoll(row) === 'unopposed' ? 'Unopposed' : '&ndash;'] : []),
-      ...(withShare ? [row.share !== null && row.share !== undefined && row.share !== '' ? `${Number(row.share).toFixed(1)}%` : '&ndash;'] : []),
-      row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}" aria-label="${escapeAttr(`Open ${row.title || 'election'} on the map`)}">Open map</a>` : ''
+      ...(withVotes ? [Number(row['firstPrefs']) > 0 ? formatNumber(row['firstPrefs']) : candidateReturnWithoutPoll(row) === 'unopposed' ? 'Unopposed' : '&ndash;'] : []),
+      ...(withShare ? [row['share'] !== null && row['share'] !== undefined && row['share'] !== '' ? `${Number(row['share']).toFixed(1)}%` : '&ndash;'] : []),
+      row['interactiveUrl'] ? `<a href="${escapeAttr(row['interactiveUrl'])}" aria-label="${escapeAttr(`Open ${row['title'] || 'election'} on the map`)}">Open map</a>` : ''
     ], { before: printedLabelsToggleHtml() })
     // Offices held and party affiliation over time (the facts model, each fact cited).
     + renderPersonOfficesPanel(item)
     + renderPersonHonoursPanel(item)
     + renderAffiliationTimelinePanel(item)
-    + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
-    escapeHtml(row.constituency || ''),
-    row.source ? `<a href="${escapeAttr(row.source)}" rel="noopener">${escapeHtml(row.dates || '')}</a>` : escapeHtml(row.dates || '')
+    + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item['seatsHeld'] || [], (row) => [
+    escapeHtml(row['constituency'] || ''),
+    row['source'] ? `<a href="${escapeAttr(row['source'])}" rel="noopener">${escapeHtml(row['dates'] || '')}</a>` : escapeHtml(row['dates'] || '')
   ])
     // Offices and family from a published reference work (Boylan's Dictionary of Irish
     // Biography): facts only, each with its citation. Seats the election results above
     // already show are not repeated here.
-    + renderSimpleTable('Offices held', ['Office', 'Held', 'Source'], item.officesHeld || [], (row) => [
-      escapeHtml([row.office, row.constituency].filter(Boolean).join(', ')),
+    + renderSimpleTable('Offices held', ['Office', 'Held', 'Source'], item['officesHeld'] || [], (row) => [
+      escapeHtml([row['office'], row['constituency']].filter(Boolean).join(', ')),
       escapeHtml(formatHeldYears(row)),
-      escapeHtml(row.source || '')
+      escapeHtml(row['source'] || '')
     ])
     // The formal name an official notice printed where the person is shown by a familiar one.
-    + renderSimpleTable('Names in official notices', ['Name', 'Source'], item.formalNames || [], (row) => [
-      escapeHtml(row.name || ''),
-      row.url ? `<a href="${escapeAttr(row.url)}" rel="noopener">${escapeHtml(row.source || '')}</a>` : escapeHtml(row.source || '')
+    + renderSimpleTable('Names in official notices', ['Name', 'Source'], item['formalNames'] || [], (row) => [
+      escapeHtml(row['name'] || ''),
+      row['url'] ? `<a href="${escapeAttr(row['url'])}" rel="noopener">${escapeHtml(row['source'] || '')}</a>` : escapeHtml(row['source'] || '')
     ])
-    + renderSimpleTable('Family', ['Relation', 'Person', 'Source'], item.relatives || [], (row) => [
-      escapeHtml(row.relation ? row.relation.charAt(0).toUpperCase() + row.relation.slice(1) : ''),
-      row.slug ? `<a href="#/persons/${encodeURIComponent(row.slug)}" data-browse-link>${escapeHtml(row.name || row.slug)}</a>` : escapeHtml(row.name || ''),
-      escapeHtml(row.source || '')
-    ]) + (item.historyOfParliament?.length
+    + renderSimpleTable('Family', ['Relation', 'Person', 'Source'], item['relatives'] || [], (row) => [
+      escapeHtml(row['relation'] ? row['relation'].charAt(0).toUpperCase() + row['relation'].slice(1) : ''),
+      row['slug'] ? `<a href="#/persons/${encodeURIComponent(row['slug'])}" data-browse-link>${escapeHtml(row['name'] || row['slug'])}</a>` : escapeHtml(row['name'] || ''),
+      escapeHtml(row['source'] || '')
+    ]) + (item['historyOfParliament']?.length
     // The member's biography in the History of Parliament, cited and linked; the Trust's
     // text is not reproduced. Born and died in the overview come from these pages.
-    ? renderSimpleTable('History of Parliament', ['Volume', 'Biography'], item.historyOfParliament, (row) => [
-      escapeHtml([row.title, row.edition].filter(Boolean).join(', ')),
-      `<a href="${escapeAttr(row.url)}" rel="noopener">${escapeHtml(row.heading || row.url)}</a>`
+    ? renderSimpleTable('History of Parliament', ['Volume', 'Biography'], item['historyOfParliament'], (row) => [
+      escapeHtml([row['title'], row['edition']].filter(Boolean).join(', ')),
+      `<a href="${escapeAttr(row['url'])}" rel="noopener">${escapeHtml(row['heading'] || row['url'])}</a>`
     ])
-    : '') + (item.officialProfiles?.length
+    : '') + (item['officialProfiles']?.length
     // The person's own record with the Houses of the Oireachtas, the NI Assembly, the UK
     // Parliament, Democracy Club and Wikidata: the ids that identify them across elections.
-    ? renderSimpleTable('Official records', ['Source', 'Record', 'Licence'], item.officialProfiles, (row) => [
-      escapeHtml(row.source || ''),
-      `<a href="${escapeAttr(row.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.label || row.url)}</a>`,
-      escapeHtml(row.licence || '')
+    ? renderSimpleTable('Official records', ['Source', 'Record', 'Licence'], item['officialProfiles'], (row) => [
+      escapeHtml(row['source'] || ''),
+      `<a href="${escapeAttr(row['url'])}" target="_blank" rel="noopener noreferrer">${escapeHtml(row['label'] || row['url'])}</a>`,
+      escapeHtml(row['licence'] || '')
     ])
     : '')
     // Where the dates of birth and death come from, whether or not the person has an official
     // record: a reference work's date (Boylan, Elliott & Flackes) is cited with its second sources.
-    + (item.bornSource || item.diedSource
-      ? `<p class="browse-note">${escapeHtml(item.bornSource && item.diedSource && item.bornSource !== item.diedSource
-        ? `Born: ${item.bornSource}. Died: ${item.diedSource}`
-        : `${item.bornSource && item.diedSource ? 'Born and died' : item.bornSource ? 'Born' : 'Died'}: ${item.bornSource || item.diedSource}`)}.</p>`
+    + (item['bornSource'] || item['diedSource']
+      ? `<p class="browse-note">${escapeHtml(item['bornSource'] && item['diedSource'] && item['bornSource'] !== item['diedSource']
+        ? `Born: ${item['bornSource']}. Died: ${item['diedSource']}`
+        : `${item['bornSource'] && item['diedSource'] ? 'Born and died' : item['bornSource'] ? 'Born' : 'Died'}: ${item['bornSource'] || item['diedSource']}`)}.</p>`
       : '');
   }
   if (type === 'register-interests') return renderRegisterInterestRelated(item);
@@ -3764,9 +3764,9 @@ const PERSON_NOTE_HEADINGS = Object.freeze({ identity: 'About this record', date
  * @param {BrowseItem} item
  */
 function renderPersonNotes(item) {
-  return normalizeArray(item.notes)
-    .filter((/** @type {BrowseItem} */ note) => note && note.text && PERSON_NOTE_HEADINGS[note.kind])
-    .map((/** @type {BrowseItem} */ note) => `<p class="browse-note" data-person-note="${escapeAttr(note.kind)}"><strong>${escapeHtml(PERSON_NOTE_HEADINGS[note.kind])}</strong><br><span>${escapeHtml(note.text)}</span></p>`)
+  return normalizeArray(item['notes'])
+    .filter((/** @type {BrowseItem} */ note) => note && note['text'] && PERSON_NOTE_HEADINGS[note['kind']])
+    .map((/** @type {BrowseItem} */ note) => `<p class="browse-note" data-person-note="${escapeAttr(note['kind'])}"><strong>${escapeHtml(PERSON_NOTE_HEADINGS[note['kind']])}</strong><br><span>${escapeHtml(note['text'])}</span></p>`)
     .join('');
 }
 
@@ -3796,9 +3796,9 @@ function factCitations(citations) {
  */
 function tenureHowHtml(row) {
   const parts = [];
-  const began = TENURE_BEGAN_LABELS[row.began] || row.began;
-  if (began) parts.push(row.contestKey ? `${escapeHtml(began)} (${electionRecordLink(row.contestKey, 'contest')})` : escapeHtml(began));
-  const ended = TENURE_ENDED_LABELS[row.ended] || row.ended;
+  const began = TENURE_BEGAN_LABELS[row['began']] || row['began'];
+  if (began) parts.push(row['contestKey'] ? `${escapeHtml(began)} (${electionRecordLink(row['contestKey'], 'contest')})` : escapeHtml(began));
+  const ended = TENURE_ENDED_LABELS[row['ended']] || row['ended'];
   if (ended) parts.push(escapeHtml(ended));
   return parts.join('; ');
 }
@@ -3807,7 +3807,7 @@ function tenureHowHtml(row) {
  * @param {BrowseItem} row
  */
 function heldHtml(row) {
-  return `${escapeHtml(row.held || '')}${row.note ? `<br><small class="browse-muted">${escapeHtml(row.note)}</small>` : ''}`;
+  return `${escapeHtml(row['held'] || '')}${row['note'] ? `<br><small class="browse-muted">${escapeHtml(row['note'])}</small>` : ''}`;
 }
 
 /**
@@ -3830,11 +3830,11 @@ function personRecordLink(slug, name) {
  * @param {BrowseItem} item
  */
 function renderPersonOfficesPanel(item) {
-  return renderSimpleTable('Offices', ['Office', 'Held', 'Began / ended', 'Source'], normalizeArray(item.offices), (row) => [
-    `${officeRecordLink(row.officeSlug, row.office)}${row.institution ? `<br><small class="browse-muted">${escapeHtml(row.institution)}</small>` : ''}`,
+  return renderSimpleTable('Offices', ['Office', 'Held', 'Began / ended', 'Source'], normalizeArray(item['offices']), (row) => [
+    `${officeRecordLink(row['officeSlug'], row['office'])}${row['institution'] ? `<br><small class="browse-muted">${escapeHtml(row['institution'])}</small>` : ''}`,
     heldHtml(row),
     tenureHowHtml(row),
-    factCitations(row.citations)
+    factCitations(row['citations'])
   ], { before: '<p class="browse-panel-note browse-detail__body">Offices and tenures from published sources, each cited; a date the source does not give is left out, and a date given only to the year or month is shown that way.</p>' });
 }
 
@@ -3848,11 +3848,11 @@ const HONOUR_ENDED_LABELS = { died: 'died', resigned: 'resigned', 'term-ended': 
  * @param {BrowseItem} item
  */
 function renderPersonHonoursPanel(item) {
-  return renderSimpleTable('Honours and memberships', ['Honour or seat', 'Held', 'Kind', 'Source'], normalizeArray(item.honours), (row) => [
-    `${escapeHtml(row.title || '')}${row.body ? `<br><small class="browse-muted">${escapeHtml(row.body)}</small>` : ''}`,
-    `${escapeHtml(row.held || '')}${row.ended && HONOUR_ENDED_LABELS[row.ended] ? ` <small class="browse-muted">(${escapeHtml(HONOUR_ENDED_LABELS[row.ended])})</small>` : ''}${row.note ? `<br><small class="browse-muted">${escapeHtml(row.note)}</small>` : ''}`,
-    escapeHtml(HONOUR_KIND_LABELS[row.kind] || row.kind || ''),
-    factCitations(row.citations)
+  return renderSimpleTable('Honours and memberships', ['Honour or seat', 'Held', 'Kind', 'Source'], normalizeArray(item['honours']), (row) => [
+    `${escapeHtml(row['title'] || '')}${row['body'] ? `<br><small class="browse-muted">${escapeHtml(row['body'])}</small>` : ''}`,
+    `${escapeHtml(row['held'] || '')}${row['ended'] && HONOUR_ENDED_LABELS[row['ended']] ? ` <small class="browse-muted">(${escapeHtml(HONOUR_ENDED_LABELS[row['ended']])})</small>` : ''}${row['note'] ? `<br><small class="browse-muted">${escapeHtml(row['note'])}</small>` : ''}`,
+    escapeHtml(HONOUR_KIND_LABELS[row['kind']] || row['kind'] || ''),
+    factCitations(row['citations'])
   ], { before: '<p class="browse-panel-note browse-detail__body">Peerages, honours and seats in appointed or indirectly chosen bodies, from published sources, each cited; a date the sources do not give is left out.</p>' });
 }
 
@@ -3860,11 +3860,11 @@ function renderPersonHonoursPanel(item) {
  * @param {BrowseItem} row
  */
 function affiliationEventsText(row) {
-  const start = row.start
-    ? `from ${formatDate(row.start)}${AFFILIATION_START_LABELS[row.startEvent] ? ` (${AFFILIATION_START_LABELS[row.startEvent]})` : ''}`
+  const start = row['start']
+    ? `from ${formatDate(row['start'])}${AFFILIATION_START_LABELS[row['startEvent']] ? ` (${AFFILIATION_START_LABELS[row['startEvent']]})` : ''}`
     : 'start not recorded';
-  const end = row.end
-    ? `until ${formatDate(row.end)}${AFFILIATION_END_LABELS[row.endEvent] ? ` (${AFFILIATION_END_LABELS[row.endEvent]})` : ''}`
+  const end = row['end']
+    ? `until ${formatDate(row['end'])}${AFFILIATION_END_LABELS[row['endEvent']] ? ` (${AFFILIATION_END_LABELS[row['endEvent']]})` : ''}`
     : 'no end recorded';
   return `${start}; ${end}`;
 }
@@ -3873,7 +3873,7 @@ function affiliationEventsText(row) {
  * @param {BrowseItem} item
  */
 function renderAffiliationTimelinePanel(item) {
-  const rows = normalizeArray(item.affiliationTimeline);
+  const rows = normalizeArray(item['affiliationTimeline']);
   if (!rows.length) return '';
   const list = rows.map((row) => {
     const name = row.partySlug ? partyRecordLink(row.partySlug, row.party) : escapeHtml(row.party || '');
@@ -3901,15 +3901,15 @@ function renderAffiliationTimelinePanel(item) {
  * @param {BrowseItem} item
  */
 function renderOfficeHoldersPanel(item) {
-  const names = normalizeArray(item.nameHistory);
-  const sources = normalizeArray(item.sources);
-  return renderSimpleTable('Holders', ['Holder', 'Held', 'Began / ended', 'Source'], normalizeArray(item.holders), (row) => [
-    personRecordLink(row.personSlug, row.name),
+  const names = normalizeArray(item['nameHistory']);
+  const sources = normalizeArray(item['sources']);
+  return renderSimpleTable('Holders', ['Holder', 'Held', 'Began / ended', 'Source'], normalizeArray(item['holders']), (row) => [
+    personRecordLink(row['personSlug'], row['name']),
     heldHtml(row),
     tenureHowHtml(row),
-    factCitations(row.citations)
+    factCitations(row['citations'])
   ], { before: '<p class="browse-panel-note browse-detail__body">The holders Civgraph\'s loaded sources record, each cited. The list can be incomplete; a blank end is a tenure the source leaves open.</p>' })
-    + renderSimpleTable('Other names', ['Name', 'Note'], names, (row) => [escapeHtml(row.name || ''), escapeHtml(row.note || '')])
+    + renderSimpleTable('Other names', ['Name', 'Note'], names, (row) => [escapeHtml(row['name'] || ''), escapeHtml(row['note'] || '')])
     + (sources.length ? renderCollapsiblePanel('Sources for this office', citationList(sources), countText(sources.length, 'source'), { className: 'browse-detail__panel--supporting' }) : '');
 }
 
@@ -3917,14 +3917,14 @@ function renderOfficeHoldersPanel(item) {
  * @param {BrowseItem} profile
  */
 function renderPartyOfficersPanel(profile) {
-  const rows = normalizeArray(profile.officers);
+  const rows = normalizeArray(profile['officers']);
   if (!rows.length) return '';
   return renderSimpleTable('Leaders and officers', ['Office', 'Holder', 'Held', 'Began / ended', 'Source'], rows, (row) => [
-    officeRecordLink(row.officeSlug, row.office),
-    personRecordLink(row.personSlug, row.name),
+    officeRecordLink(row['officeSlug'], row['office']),
+    personRecordLink(row['personSlug'], row['name']),
     heldHtml(row),
     tenureHowHtml(row),
-    factCitations(row.citations)
+    factCitations(row['citations'])
   ], { before: '<p class="browse-panel-note browse-detail__body">Who held the party\'s offices, from published sources, each cited. The list can be incomplete.</p>' });
 }
 
@@ -3932,7 +3932,7 @@ function renderPartyOfficersPanel(profile) {
  * @param {BrowseItem} profile
  */
 function renderPartyInternalContestsPanel(profile) {
-  const contests = normalizeArray(profile.internalContests);
+  const contests = normalizeArray(profile['internalContests']);
   if (!contests.length) return '';
   const body = contests.map((contest) => `
     <div class="browse-party-body">
@@ -3968,9 +3968,9 @@ function renderPartyInternalContestsPanel(profile) {
  * @param {BrowseItem} row
  */
 function contestOutcome(row) {
-  const status = String(row.status || '').trim();
+  const status = String(row['status'] || '').trim();
   const lower = status.toLowerCase();
-  const elected = /^elected|made quota|deemed elected/.test(lower) || (row.elected === true && !/^(not|excluded|eliminated)/.test(lower));
+  const elected = /^elected|made quota|deemed elected/.test(lower) || (row['elected'] === true && !/^(not|excluded|eliminated)/.test(lower));
   if (elected) {
     if (lower === 'made quota') return 'Elected (reached the quota)';
     if (/auto returned/.test(lower)) return 'Elected (returned unopposed)';
@@ -3979,7 +3979,7 @@ function contestOutcome(row) {
     return 'Elected';
   }
   if (/^(excluded|eliminated)/.test(lower)) return 'Not elected (excluded)';
-  return status || row.elected === false ? 'Not elected' : '';
+  return status || row['elected'] === false ? 'Not elected' : '';
 }
 
 // Variants are alternative editions/versions of the same map layer (e.g. a
@@ -3989,7 +3989,7 @@ function contestOutcome(row) {
  * @param {BrowseItem} item
  */
 function renderMapVariants(item) {
-  const variants = normalizeArray(item.variants);
+  const variants = normalizeArray(item['variants']);
   if (!variants.length) return '';
   const rows = variants.map((variant) => {
     const layerId = variant.id || variant.slug;
@@ -4022,21 +4022,21 @@ function renderMapVariants(item) {
  * @param {BrowseItem} item
  */
 function renderRegisterInterestRelated(item) {
-  const interestRows = normalizeArray(item.interests);
-  const sourceRows = normalizeArray(item.sourceRefs);
+  const interestRows = normalizeArray(item['interests']);
+  const sourceRows = normalizeArray(item['sourceRefs']);
   return `
     ${renderSimpleTable('Register Interests', ['Category', 'Interest', 'Sources', 'Nil'], interestRows, (row) => [
-      escapeHtml(row.category || ''),
-      escapeHtml(row.interestText || ''),
-      formatNumber(row.sourceCount || normalizeArray(row.sourceRefs).length),
-      row.isNone ? 'Yes' : 'No'
+      escapeHtml(row['category'] || ''),
+      escapeHtml(row['interestText'] || ''),
+      formatNumber(row['sourceCount'] || normalizeArray(row['sourceRefs']).length),
+      row['isNone'] ? 'Yes' : 'No'
     ])}
     ${renderSimpleTable('Register Sources', ['Date', 'Category', 'Kind', 'Source', 'Page'], sourceRows, (row) => [
-      formatDate(row.date || row.editionDate || row.latestDeclaration || row.earliestDeclaration),
-      escapeHtml(row.category || ''),
-      escapeHtml(sourceKindLabel(row.sourceKind || '')),
-      row.sourceUrl ? `<a href="${escapeAttr(row.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.sourceTitle || row.sourceUrl)}</a>` : escapeHtml(row.sourceTitle || ''),
-      escapeHtml([row.sourcePageStart, row.sourcePageEnd && row.sourcePageEnd !== row.sourcePageStart ? row.sourcePageEnd : null].filter(Boolean).join('-'))
+      formatDate(row['date'] || row['editionDate'] || row['latestDeclaration'] || row['earliestDeclaration']),
+      escapeHtml(row['category'] || ''),
+      escapeHtml(sourceKindLabel(row['sourceKind'] || '')),
+      row['sourceUrl'] ? `<a href="${escapeAttr(row['sourceUrl'])}" target="_blank" rel="noopener noreferrer">${escapeHtml(row['sourceTitle'] || row['sourceUrl'])}</a>` : escapeHtml(row['sourceTitle'] || ''),
+      escapeHtml([row['sourcePageStart'], row['sourcePageEnd'] && row['sourcePageEnd'] !== row['sourcePageStart'] ? row['sourcePageEnd'] : null].filter(Boolean).join('-'))
     ])}
   `;
 }
@@ -4110,21 +4110,21 @@ async function renderEntitySearchRoute() {
  * @param {BrowseItem} item
  */
 function entitySearchText(item) {
-  const typeLabels = item.typeLabels || item.types;
-  return normalizeSearchQuery([item.label, joinList(typeLabels), item.browseType, item.browseSlug, joinList(item.searchHints)].filter(Boolean).join(' '));
+  const typeLabels = item['typeLabels'] || item['types'];
+  return normalizeSearchQuery([item['label'], joinList(typeLabels), item['browseType'], item['browseSlug'], joinList(item['searchHints'])].filter(Boolean).join(' '));
 }
 
 /**
  * @param {BrowseItem} item
  */
 function renderEntitySearchCard(item) {
-  const typeLabels = item.typeLabels || item.types;
+  const typeLabels = item['typeLabels'] || item['types'];
   return `
     <article class="browse-card">
       <div class="browse-card__main">
-        <h2 class="browse-card__title"><a href="#/entities/${encodeURIComponent(item.slug || item.browseSlug)}" data-browse-link>${escapeHtml(item.label || item.entityId)}</a></h2>
-        <div class="browse-card__meta">${renderMeta([joinList(typeLabels), item.browseType])}</div>
-        ${item.description ? `<p class="browse-card__summary">${escapeHtml(item.description)}</p>` : ''}
+        <h2 class="browse-card__title"><a href="#/entities/${encodeURIComponent(item['slug'] || item['browseSlug'])}" data-browse-link>${escapeHtml(item['label'] || item['entityId'])}</a></h2>
+        <div class="browse-card__meta">${renderMeta([joinList(typeLabels), item['browseType']])}</div>
+        ${item['description'] ? `<p class="browse-card__summary">${escapeHtml(item['description'])}</p>` : ''}
       </div>
     </article>
   `;
@@ -4138,12 +4138,12 @@ function renderEntitySearchCard(item) {
  */
 function renderEntityPage(entityId, entity, statements, related) {
   const groups = groupGraphStatements(statements);
-  const browseHref = entity.browseType && entity.browseSlug ? `#/${entity.browseType}/${encodeURIComponent(entity.browseSlug)}` : '';
+  const browseHref = entity['browseType'] && entity['browseSlug'] ? `#/${entity['browseType']}/${encodeURIComponent(entity['browseSlug'])}` : '';
   // Header facts are pinned from the entity's own statements; fall back to the
   // declared types when nothing is pinnable. Browse mapping lives in the
   // identifiers panel below, so it is not repeated up here.
   const pinned = pinnedStatementRows(statements);
-  const headerFacts = pinned.length ? pinned : [['Types', joinList(entity.typeLabels || entity.typeIds)]];
+  const headerFacts = pinned.length ? pinned : [['Types', joinList(entity['typeLabels'] || entity['typeIds'])]];
   const statementBody = `
     <div class="browse-detail__body browse-graph">
       <div class="browse-graph__summary">
@@ -4157,9 +4157,9 @@ function renderEntityPage(entityId, entity, statements, related) {
     <div class="browse-detail__body">
       ${renderDefinitionRows([
         ['ID', entityId],
-        ['Browse type', entity.browseType],
-        ['Browse slug', entity.browseSlug],
-        ['Type IDs', joinList(entity.typeIds)]
+        ['Browse type', entity['browseType']],
+        ['Browse slug', entity['browseSlug']],
+        ['Type IDs', joinList(entity['typeIds'])]
       ])}
     </div>
   `;
@@ -4171,7 +4171,7 @@ function renderEntityPage(entityId, entity, statements, related) {
       <section class="browse-detail__panel browse-reader-summary browse-entity-header">
         <h2>Entity</h2>
         <div class="browse-detail__body">
-          ${entity.description ? `<p class="browse-reader-summary__lede">${escapeHtml(entity.description)}</p>` : ''}
+          ${entity['description'] ? `<p class="browse-reader-summary__lede">${escapeHtml(entity['description'])}</p>` : ''}
           ${renderDefinitionRows(headerFacts, 'browse-reader-facts')}
         </div>
       </section>
@@ -4198,9 +4198,9 @@ function relatedTableTitle(title, shown, total) {
  * @param {BrowseItem} row
  */
 function entitySubjectLinkHtml(row) {
-  const label = escapeHtml(row.subjectLabel || row.subjectId);
-  if (!row.subjectSlug || (row.subjectId && !isLinkableEntityId(row.subjectId))) return label;
-  return `<a href="#/entities/${encodeURIComponent(row.subjectSlug)}" data-browse-link>${label}</a>`;
+  const label = escapeHtml(row['subjectLabel'] || row['subjectId']);
+  if (!row['subjectSlug'] || (row['subjectId'] && !isLinkableEntityId(row['subjectId']))) return label;
+  return `<a href="#/entities/${encodeURIComponent(row['subjectSlug'])}" data-browse-link>${label}</a>`;
 }
 
 // Statements about an entity, each subject and relationship once: the House of Commons listed
@@ -4349,11 +4349,11 @@ function renderGraphStatementGroup(group) {
  * @param {BrowseItem} statement
  */
 function renderGraphStatement(statement) {
-  const qualifiers = normalizeArray(statement.qualifiers)
+  const qualifiers = normalizeArray(statement['qualifiers'])
     .filter((qualifier) => qualifier.propertyId !== 'cg:property:name')
     .slice(0, 8);
-  const references = normalizeArray(statement.references).slice(0, 4);
-  const omittedReferences = Math.max(0, Number(statement.referenceCount || 0) - references.length);
+  const references = normalizeArray(statement['references']).slice(0, 4);
+  const omittedReferences = Math.max(0, Number(statement['referenceCount'] || 0) - references.length);
   return `
     <div class="browse-graph-statement">
       <div class="browse-graph-statement__value">${graphStatementValueHtml(statement)}</div>
@@ -4376,7 +4376,7 @@ function renderGraphStatement(statement) {
  * @param {BrowseItem} statement
  */
 function graphStatementValueText(statement) {
-  const text = statement.valueLabel || statement.valueText || statement.valueId || '';
+  const text = statement['valueLabel'] || statement['valueText'] || statement['valueId'] || '';
   // Dates as everywhere else on the site ("29 Nov 2024", not "2024-11-29").
   return /^\d{4}-\d{2}(-\d{2})?$/.test(text) ? formatDate(text) : text;
 }
@@ -4409,8 +4409,8 @@ function isLinkableEntityId(id) {
 function graphStatementValueHtml(statement) {
   const value = graphStatementValueText(statement);
   if (!value) return '';
-  if (statement.valueType === 'entity' && statement.valueId && isLinkableEntityId(statement.valueId)) {
-    return `<a href="#/entities/${encodeURIComponent(statement.valueId)}" data-browse-link>${escapeHtml(value)}</a>`;
+  if (statement['valueType'] === 'entity' && statement['valueId'] && isLinkableEntityId(statement['valueId'])) {
+    return `<a href="#/entities/${encodeURIComponent(statement['valueId'])}" data-browse-link>${escapeHtml(value)}</a>`;
   }
   return escapeHtml(value);
 }
@@ -4419,7 +4419,7 @@ function graphStatementValueHtml(statement) {
  * @param {BrowseItem} reference
  */
 function graphReferenceLabel(reference) {
-  return [reference.sourceTitle || reference.sourceRecordId || reference.sourceKind || 'Source', reference.date].filter(Boolean).join(' / ');
+  return [reference['sourceTitle'] || reference['sourceRecordId'] || reference['sourceKind'] || 'Source', reference['date']].filter(Boolean).join(' / ');
 }
 
 /**
@@ -4429,7 +4429,7 @@ function graphReferenceLabel(reference) {
  * @param {BrowseItem} reference
  */
 function isCompiledInReference(reference) {
-  return reference?.sourceKind === 'generated-browse-index' || /^cg:source:civgraph-browse-/.test(String(reference?.sourceId || ''));
+  return reference?.['sourceKind'] === 'generated-browse-index' || /^cg:source:civgraph-browse-/.test(String(reference?.['sourceId'] || ''));
 }
 
 /**
@@ -4450,10 +4450,10 @@ function orderGraphReferences(references) {
 function graphReferenceHtml(reference, _index, all) {
   if (isCompiledInReference(reference)) {
     const alone = all.every((other) => isCompiledInReference(other));
-    return `<span class="browse-muted">Compiled in ${escapeHtml(reference.sourceTitle || 'Civgraph\u2019s index')}${alone ? '; original sources under Sources' : ''}</span>`;
+    return `<span class="browse-muted">Compiled in ${escapeHtml(reference['sourceTitle'] || 'Civgraph\u2019s index')}${alone ? '; original sources under Sources' : ''}</span>`;
   }
   const label = escapeHtml(graphReferenceLabel(reference));
-  const url = safeExternalUrl(reference.sourceUrl);
+  const url = safeExternalUrl(reference['sourceUrl']);
   return url ? `<span><a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${label}</a></span>` : `<span>${label}</span>`;
 }
 
@@ -4475,12 +4475,12 @@ const CITATION_KIND_LABELS = sourceKindLabels;
  * @param {BrowseItem} citation
  */
 function citationHtml(citation) {
-  const url = safeExternalUrl(citation.url) || safeExternalUrl(citation.archiveUrl);
-  const host = citation.host || (url ? url.replace(/^https?:\/\/(www\.)?/i, '').split('/')[0] : '');
-  const title = String(citation.title || '').trim() || host || 'Source';
+  const url = safeExternalUrl(citation['url']) || safeExternalUrl(citation['archiveUrl']);
+  const host = citation['host'] || (url ? url.replace(/^https?:\/\/(www\.)?/i, '').split('/')[0] : '');
+  const title = String(citation['title'] || '').trim() || host || 'Source';
   const label = url ? `<a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a>` : escapeHtml(title);
-  const publisher = citation.publisher && !title.includes(String(citation.publisher)) ? ` &ndash; ${escapeHtml(citation.publisher)}` : '';
-  const kind = Object.hasOwn(CITATION_KIND_LABELS, String(citation.kind)) ? CITATION_KIND_LABELS[String(citation.kind)] : '';
+  const publisher = citation['publisher'] && !title.includes(String(citation['publisher'])) ? ` &ndash; ${escapeHtml(citation['publisher'])}` : '';
+  const kind = Object.hasOwn(CITATION_KIND_LABELS, String(citation['kind'])) ? CITATION_KIND_LABELS[String(citation['kind'])] : '';
   return `${label}${publisher}${kind ? ` <small class="browse-muted">(${escapeHtml(kind)})</small>` : ''}`;
 }
 
@@ -4497,9 +4497,9 @@ const COMPILED_IN_NOTE = '<p class="browse-note">Compiled in Civgraph&rsquo;s el
  */
 async function renderOriginalSourcesPanel(type, item) {
   if (type === 'elections' && isContestItem(type, item)) {
-    const name = item.constituency || item.sourceResultName || item.resultName;
+    const name = item['constituency'] || item['sourceResultName'] || item['resultName'];
     if (!name) return '';
-    const data = await fetchJsonOrNull(`/_api/elections?view=citations&key=${encodeURIComponent(item.parentElectionKey)}&constituencyName=${encodeURIComponent(name)}`);
+    const data = await fetchJsonOrNull(`/_api/elections?view=citations&key=${encodeURIComponent(item['parentElectionKey'])}&constituencyName=${encodeURIComponent(name)}`);
     const citations = normalizeArray(data?.citations);
     if (!citations.length) return '';
     return `
@@ -4511,8 +4511,8 @@ async function renderOriginalSourcesPanel(type, item) {
     `;
   }
   // An election (not a grouped year of council rounds, whose councils each have their page).
-  if (type === 'elections' && (item.entryKind || 'election') === 'election' && item.key && !normalizeArray(item.councils).length) {
-    const data = await fetchJsonOrNull(`/_api/elections?view=citations&key=${encodeURIComponent(item.key)}`);
+  if (type === 'elections' && (item['entryKind'] || 'election') === 'election' && item['key'] && !normalizeArray(item['councils']).length) {
+    const data = await fetchJsonOrNull(`/_api/elections?view=citations&key=${encodeURIComponent(item['key'])}`);
     const sources = normalizeArray(data?.sources);
     if (!sources.length) return '';
     const total = Number(data?.contests) || 0;
@@ -4522,11 +4522,11 @@ async function renderOriginalSourcesPanel(type, item) {
     return renderTablePanel('Sources', ['Source', ...(many ? ['Contests'] : [])], rows, { before: intro })
       .replace(/<\/section>\s*$/, `${COMPILED_IN_NOTE}</section>`);
   }
-  if (type === 'persons' && item.id) {
-    const data = await fetchJsonOrNull(`/_api/elections?view=citations&person=${encodeURIComponent(String(item.id))}`);
+  if (type === 'persons' && item['id']) {
+    const data = await fetchJsonOrNull(`/_api/elections?view=citations&person=${encodeURIComponent(String(item['id']))}`);
     const candidacies = normalizeArray(data?.candidacies);
     if (!candidacies.length) return '';
-    const titles = new Map(normalizeArray(item.elections).map((row) => [row.key, row]));
+    const titles = new Map(normalizeArray(item['elections']).map((row) => [row.key, row]));
     const rows = [...candidacies]
       .sort((a, b) => String(titles.get(b.electionKey)?.date || b.electionKey).localeCompare(String(titles.get(a.electionKey)?.date || a.electionKey)))
       .map((row) => {
@@ -4684,7 +4684,7 @@ async function loadGraphStatementsForEntity(entityId) {
  */
 function graphBrowseKeys(type, item) {
   const keys = [];
-  for (const value of [item.slug, item.id, item.key, item.title, item.name]) {
+  for (const value of [item['slug'], item['id'], item['key'], item['title'], item['name']]) {
     if (!value) continue;
     keys.push(`${type}:${value}`);
     keys.push(`${type}:${slugify(value)}`);
@@ -4766,7 +4766,7 @@ function contestSlug(key, constituency) {
  * @param {BrowseItem} item
  */
 function isContestItem(type, item) {
-  return type === 'elections' && item.entryKind === 'election-constituency-result' && Boolean(item.parentElectionKey);
+  return type === 'elections' && item['entryKind'] === 'election-constituency-result' && Boolean(item['parentElectionKey']);
 }
 
 /**
@@ -4806,11 +4806,11 @@ async function fetchJsonOrNull(url) {
  * @param {BrowseItem} item
  */
 async function loadContestResult(item) {
-  const key = item.parentElectionKey;
-  const name = item.constituency || item.sourceResultName || item.resultName;
+  const key = item['parentElectionKey'];
+  const name = item['constituency'] || item['sourceResultName'] || item['resultName'];
   if (!key || !name) return null;
   const wanted = foldName(name);
-  const sameName = (/** @type {BrowseItem | null | undefined} */ row) => foldName(row?.name || row?.constituency) === wanted;
+  const sameName = (/** @type {BrowseItem | null | undefined} */ row) => foldName(row?.['name'] || row?.['constituency']) === wanted;
   const base = `/_api/elections?key=${encodeURIComponent(key)}`;
 
   const byName = await fetchJsonOrNull(`${base}&constituencyName=${encodeURIComponent(name)}`);
@@ -4823,8 +4823,8 @@ async function loadContestResult(item) {
     if (bySeq && Array.isArray(bySeq.candidates)) return { constituency: bySeq.constituency || row, candidates: bySeq.candidates };
   }
 
-  if (item.resultUrl) {
-    const bundle = await fetchJsonOrNull(item.resultUrl);
+  if (item['resultUrl']) {
+    const bundle = await fetchJsonOrNull(item['resultUrl']);
     const result = (bundle?.results || []).find(sameName);
     if (result) return { constituency: { ...result, votingSystem: result.votingSystem || bundle.votingSystem }, candidates: result.candidates || [] };
   }
@@ -4836,22 +4836,22 @@ async function loadContestResult(item) {
  * @param {BrowseItem} item
  */
 function contestIsStv(constituency, item) {
-  const system = foldName(constituency?.votingSystem || item.votingSystem || '');
+  const system = foldName(constituency?.['votingSystem'] || item['votingSystem'] || '');
   if (system.includes('stv')) return true;
-  const quota = Number(constituency?.quota);
-  return Number.isFinite(quota) && quota > 0 && normalizeArray(constituency?.countNumbers).some((count) => Number(count) > 1);
+  const quota = Number(constituency?.['quota']);
+  return Number.isFinite(quota) && quota > 0 && normalizeArray(constituency?.['countNumbers']).some((count) => Number(count) > 1);
 }
 
 /**
  * @param {BrowseItem} candidate
  */
 function contestPersonLink(candidate) {
-  const name = escapeHtml(candidate.name || '');
+  const name = escapeHtml(candidate['name'] || '');
   // The person's own slug (the API reads it from person_cards), so the link is the page itself,
   // not the id's 301 to it. Without one (an older answer, a static bundle) the id: the persons
   // endpoint finds a record by id as well as by slug, so it cannot miss when a candidacy's
   // spelling differs from the person's canonical name, as a slug made from that spelling could.
-  const key = personRecordKey({ personSlug: candidate.personSlug, personId: candidate.personId ?? candidate.person_id });
+  const key = personRecordKey({ personSlug: candidate['personSlug'], personId: candidate['personId'] ?? candidate['person_id'] });
   if (!key) return name;
   return `<a href="#/persons/${encodeURIComponent(key)}" data-browse-link>${name}</a>`;
 }
@@ -4863,7 +4863,7 @@ function contestPersonLink(candidate) {
  * @param {BrowseItem} item
  */
 function renderGazetteElectionPanels(item) {
-  return renderGazetteRulesPanel(item.gazetteRulesAndCosts) + renderGazettePollingPanel(item.gazettePollingDistricts);
+  return renderGazetteRulesPanel(item['gazetteRulesAndCosts']) + renderGazettePollingPanel(item['gazettePollingDistricts']);
 }
 
 /**
@@ -4904,7 +4904,7 @@ function renderGazetteRulesPanel(items) {
  */
 function renderGazettePollingPanel(table) {
   if (!table?.rows?.length) return '';
-  const hasPlace = table.rows.some((/** @type {BrowseItem} */ row) => row.place);
+  const hasPlace = table.rows.some((/** @type {BrowseItem} */ row) => row['place']);
   const areaHeader = table.areaLabel ? `Area (${String(table.areaLabel).toLowerCase()})` : 'Area';
   const headers = ['District', areaHeader, ...(hasPlace ? ['Polling place'] : [])];
   const title = 'Polling districts';
@@ -4915,7 +4915,7 @@ function renderGazettePollingPanel(table) {
       <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(table.title || title)}">
         <table class="browse-table">
           <thead><tr>${headers.map((header) => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
-          <tbody>${table.rows.map((/** @type {BrowseItem} */ row) => `<tr><td>${escapeHtml(row.district || '')}</td><td>${escapeHtml((row.area || []).join(', '))}</td>${hasPlace ? `<td>${escapeHtml(row.place || '')}</td>` : ''}</tr>`).join('')}</tbody>
+          <tbody>${table.rows.map((/** @type {BrowseItem} */ row) => `<tr><td>${escapeHtml(row['district'] || '')}</td><td>${escapeHtml((row['area'] || []).join(', '))}</td>${hasPlace ? `<td>${escapeHtml(row['place'] || '')}</td>` : ''}</tr>`).join('')}</tbody>
         </table>
       </div>
       ${table.source ? `<p class="browse-gazette-source browse-gazette-source--panel">Source: ${gazetteSourceLinks([table.source])}. Names corrected from the printed page where the scan misread them; Open Government Licence v3.0.</p>` : ''}
@@ -4932,7 +4932,7 @@ function renderGazettePollingPanel(table) {
 function contestWasUncontested(constituency, candidates) {
   const list = normalizeArray(candidates);
   if (list.length && list.every((candidate) => candidateReturnWithoutPoll(candidate) === 'unopposed')) return true;
-  return String(constituency?.contestStatus || '') === 'uncontested'
+  return String(constituency?.['contestStatus'] || '') === 'uncontested'
     && !list.some((candidate) => Number(candidate.firstPrefs ?? candidate.votes ?? 0) > 0);
 }
 
@@ -4948,7 +4948,7 @@ async function renderContestResultPanel(item) {
     return `
       <section class="browse-detail__panel">
         <h2>Result</h2>
-        <p class="browse-note">The candidates for this contest could not be loaded.${item.interactiveUrl ? ` They are on the <a href="${escapeAttr(item.interactiveUrl)}">interactive map</a>.` : ''}</p>
+        <p class="browse-note">The candidates for this contest could not be loaded.${item['interactiveUrl'] ? ` They are on the <a href="${escapeAttr(item['interactiveUrl'])}">interactive map</a>.` : ''}</p>
       </section>
     `;
   }
@@ -4957,16 +4957,16 @@ async function renderContestResultPanel(item) {
   // else counts plain votes, as the map app's tables now say.
   const stv = contestIsStv(constituency, item);
   const votesLabel = stv ? '1st pref' : 'Votes';
-  const firstPrefs = (/** @type {BrowseItem} */ candidate) => Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0;
+  const firstPrefs = (/** @type {BrowseItem} */ candidate) => Number(candidate['firstPrefs'] ?? candidate['votes'] ?? 0) || 0;
   const sorted = [...candidates].sort((a, b) => firstPrefs(b) - firstPrefs(a));
   // No poll: the candidates were returned unopposed, and 0 votes, 0.0% and a valid poll of 0
   // would read as nobody voting for them (QA H4, Falls 1946).
   const uncontested = contestWasUncontested(constituency, sorted);
   const valid = uncontested ? 0 : Number(constituency.validPoll || constituency.totalVotes) || sorted.reduce((sum, candidate) => sum + firstPrefs(candidate), 0);
   const outcome = (/** @type {BrowseItem} */ candidate) => {
-    if (candidate.elected && candidateReturnWithoutPoll(candidate) === 'unopposed') return 'Elected unopposed';
-    if (candidate.elected) return stv && candidate.electedAt ? `Elected (count ${candidate.electedAt})` : 'Elected';
-    if (stv && candidate.excluded && candidate.excludedAt) return `Excluded (count ${candidate.excludedAt})`;
+    if (candidate['elected'] && candidateReturnWithoutPoll(candidate) === 'unopposed') return 'Elected unopposed';
+    if (candidate['elected']) return stv && candidate['electedAt'] ? `Elected (count ${candidate['electedAt']})` : 'Elected';
+    if (stv && candidate['excluded'] && candidate['excludedAt']) return `Excluded (count ${candidate['excludedAt']})`;
     return 'Not elected';
   };
   const rows = sorted.map((candidate) => {
@@ -5011,7 +5011,7 @@ async function renderContestResultPanel(item) {
       ${printedLabelsToggleHtml()}
       <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr('Candidates')}">
         <table class="browse-table">
-          <caption class="visually-hidden">Candidates in ${escapeHtml(item.resultName || item.constituency || '')}, ${escapeHtml(item.parentTitle || '')}: ${formatNumber(sorted.length)} standing, ${formatNumber(elected)} elected</caption>
+          <caption class="visually-hidden">Candidates in ${escapeHtml(item['resultName'] || item['constituency'] || '')}, ${escapeHtml(item['parentTitle'] || '')}: ${formatNumber(sorted.length)} standing, ${formatNumber(elected)} elected</caption>
           <thead><tr>
             <th scope="col">Candidate</th>
             <th scope="col">Party</th>
@@ -5035,8 +5035,8 @@ async function renderContestResultPanel(item) {
  * @param {BrowseItem} item
  */
 async function renderAreaResultsPanel(item) {
-  const meta = item.areaResults || {};
-  const data = await fetchJsonOrNull(`/_api/elections?view=areas&key=${encodeURIComponent(item.key || item.id || '')}`);
+  const meta = item['areaResults'] || {};
+  const data = await fetchJsonOrNull(`/_api/elections?view=areas&key=${encodeURIComponent(item['key'] || item['id'] || '')}`);
   const areas = normalizeArray(data?.areas);
   const label = String(data?.areaLabel || meta.label || 'Area');
   const title = `Results by ${label.toLowerCase()}`;
@@ -5049,36 +5049,36 @@ async function renderAreaResultsPanel(item) {
     `;
   }
   const candidates = normalizeArray(data.candidates);
-  const byId = new Map(candidates.map((/** @type {BrowseItem} */ c) => [String(c.id), c]));
-  const swatch = (/** @type {BrowseItem} */ c) => (c?.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(c.colour)}">${escapeHtml(c.name || '')}</span>` : escapeHtml(c?.name || ''));
+  const byId = new Map(candidates.map((/** @type {BrowseItem} */ c) => [String(c['id']), c]));
+  const swatch = (/** @type {BrowseItem} */ c) => (c?.['colour'] ? `<span class="browse-badge" style="border-color:${escapeAttr(c['colour'])}">${escapeHtml(c['name'] || '')}</span>` : escapeHtml(c?.['name'] || ''));
   // Linked by the person's own slug where the answer has it, as contestPersonLink.
-  const personCell = (/** @type {BrowseItem} */ c) => (c?.personId ? `<a href="#/persons/${encodeURIComponent(personRecordKey({ personSlug: c.personSlug, personId: c.personId }))}" data-browse-link>${swatch(c)}</a>` : swatch(c));
+  const personCell = (/** @type {BrowseItem} */ c) => (c?.['personId'] ? `<a href="#/persons/${encodeURIComponent(personRecordKey({ personSlug: c['personSlug'], personId: c['personId'] }))}" data-browse-link>${swatch(c)}</a>` : swatch(c));
   const numCounts = Math.max(1, Number(data.numCounts) || 1);
   const pct = (/** @type {unknown} */ value) => (Number.isFinite(Number(value)) && value !== null ? `${Number(value).toFixed(2)}%` : '');
   const head = candidates.map((/** @type {BrowseItem} */ c) => `<th scope="col" class="browse-num">${personCell(c)}</th>`).join('');
   const rows = areas.map((/** @type {BrowseItem} */ area) => {
-    const own = new Map(normalizeArray(area.candidates).map((/** @type {BrowseItem} */ c) => [String(c.id), c]));
+    const own = new Map(normalizeArray(area['candidates']).map((/** @type {BrowseItem} */ c) => [String(c['id']), c]));
     const cells = candidates.map((/** @type {BrowseItem} */ c) => {
-      const figure = own.get(String(c.id));
-      return `<td class="browse-num">${figure && figure.firstPrefs !== null ? `${formatNumber(figure.firstPrefs)}<br><span class="browse-muted">${pct(figure.share)}</span>` : ''}</td>`;
+      const figure = own.get(String(c['id']));
+      return `<td class="browse-num">${figure && figure['firstPrefs'] !== null ? `${formatNumber(figure['firstPrefs'])}<br><span class="browse-muted">${pct(figure['share'])}</span>` : ''}</td>`;
     }).join('');
-    const where = area.matched ? '' : ' <span class="browse-muted">(not drawn on the map)</span>';
-    return `<tr${area.leadingName ? ` data-leading="${escapeAttr(area.leadingName)}"` : ''}><th scope="row">${escapeHtml(area.name || '')}${where}</th>${cells}<td class="browse-num">${area.validPoll !== null && area.validPoll !== undefined ? formatNumber(area.validPoll) : ''}</td><td class="browse-num">${pct(area.turnoutPct)}</td></tr>`;
+    const where = area['matched'] ? '' : ' <span class="browse-muted">(not drawn on the map)</span>';
+    return `<tr${area['leadingName'] ? ` data-leading="${escapeAttr(area['leadingName'])}"` : ''}><th scope="row">${escapeHtml(area['name'] || '')}${where}</th>${cells}<td class="browse-num">${area['validPoll'] !== null && area['validPoll'] !== undefined ? formatNumber(area['validPoll']) : ''}</td><td class="browse-num">${pct(area['turnoutPct'])}</td></tr>`;
   }).join('');
   const countTables = numCounts > 1 ? areas.map((/** @type {BrowseItem} */ area) => {
-    const own = normalizeArray(area.candidates);
+    const own = normalizeArray(area['candidates']);
     const countHead = Array.from({ length: numCounts }, (_, i) => `<th scope="col" class="browse-num">Count ${i + 1}</th>`).join('');
-    const candidateRows = own.map((/** @type {BrowseItem} */ c) => `<tr><th scope="row">${personCell(byId.get(String(c.id)) || { name: c.id })}</th>${normalizeArray(c.counts).map((/** @type {unknown} */ v) => `<td class="browse-num">${v === null || v === undefined ? '' : formatNumber(v)}</td>`).join('')}</tr>`).join('');
-    const nt = normalizeArray(area.nonTransferable);
+    const candidateRows = own.map((/** @type {BrowseItem} */ c) => `<tr><th scope="row">${personCell(byId.get(String(c['id'])) || { name: c['id'] })}</th>${normalizeArray(c['counts']).map((/** @type {unknown} */ v) => `<td class="browse-num">${v === null || v === undefined ? '' : formatNumber(v)}</td>`).join('')}</tr>`).join('');
+    const nt = normalizeArray(area['nonTransferable']);
     const ntRow = nt.some((/** @type {unknown} */ v) => v !== null && v !== undefined)
       ? `<tr><th scope="row">Non-transferable</th>${nt.map((/** @type {unknown} */ v) => `<td class="browse-num">${v === null || v === undefined ? '' : formatNumber(v)}</td>`).join('')}</tr>`
       : '';
-    const notes = normalizeArray(area.notes).map((/** @type {string} */ n) => `<p class="browse-note">${escapeHtml(n)}</p>`).join('');
+    const notes = normalizeArray(area['notes']).map((/** @type {string} */ n) => `<p class="browse-note">${escapeHtml(n)}</p>`).join('');
     return `
       <details class="browse-area-counts">
-        <summary>${escapeHtml(area.name || '')}: every count</summary>
+        <summary>${escapeHtml(area['name'] || '')}: every count</summary>
         ${notes}
-        <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(`${area.name}: every count`)}">
+        <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(`${area['name']}: every count`)}">
           <table class="browse-table">
             <thead><tr><th scope="col">Candidate</th>${countHead}</tr></thead>
             <tbody>${candidateRows}${ntRow}</tbody>
@@ -5086,8 +5086,8 @@ async function renderAreaResultsPanel(item) {
         </div>
       </details>`;
   }).join('') : '';
-  const sources = normalizeArray(data.references).filter((/** @type {BrowseItem} */ r) => r?.url)
-    .map((/** @type {BrowseItem} */ r) => `<a href="${escapeAttr(r.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.label || r.url)}</a>${r.note ? ` (${escapeHtml(r.note)})` : ''}`).join('; ');
+  const sources = normalizeArray(data.references).filter((/** @type {BrowseItem} */ r) => r?.['url'])
+    .map((/** @type {BrowseItem} */ r) => `<a href="${escapeAttr(r['url'])}" target="_blank" rel="noopener noreferrer">${escapeHtml(r['label'] || r['url'])}</a>${r['note'] ? ` (${escapeHtml(r['note'])})` : ''}`).join('; ');
   return `
     <section class="browse-detail__panel browse-area-results">
       <h2>${escapeHtml(title)}</h2>
@@ -5095,7 +5095,7 @@ async function renderAreaResultsPanel(item) {
       ${meta.interactiveUrl ? `<p><a href="${escapeAttr(meta.interactiveUrl)}">Open the results by ${escapeHtml(label.toLowerCase())} on the map</a></p>` : ''}
       <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(title)}">
         <table class="browse-table">
-          <caption class="visually-hidden">${escapeHtml(item.title || '')}: first preferences in each of ${formatNumber(areas.length)} areas</caption>
+          <caption class="visually-hidden">${escapeHtml(item['title'] || '')}: first preferences in each of ${formatNumber(areas.length)} areas</caption>
           <thead><tr><th scope="col">${escapeHtml(label)}</th>${head}<th scope="col" class="browse-num">Valid poll</th><th scope="col" class="browse-num">Turnout</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
@@ -5110,35 +5110,35 @@ async function renderAreaResultsPanel(item) {
  * @param {BrowseItem} item
  */
 function renderElectionRelated(item) {
-  if (item.entryKind && item.entryKind !== 'election') {
-    const parentRows = item.parentElectionKey ? [[
-      item.date ? formatDate(item.date) : '',
+  if (item['entryKind'] && item['entryKind'] !== 'election') {
+    const parentRows = item['parentElectionKey'] ? [[
+      item['date'] ? formatDate(item['date']) : '',
       // parentBrowseUrl ends in the election's key (dail-eireann__2024-11-29), which its page
       // answers with a 301 to the slug; the link names the slug (electionSlug, the server's rule).
-      item.parentBrowseUrl ? `<a href="#/elections/${encodeURIComponent(electionSlug((item.parentBrowseUrl || '').split('/').pop() || item.parentElectionKey))}" data-browse-link>${escapeHtml(item.parentTitle || item.parentElectionKey)}</a>` : escapeHtml(item.parentTitle || item.parentElectionKey),
-      item.interactiveUrl ? `<a href="${escapeAttr(item.interactiveUrl)}">Open election layer</a>` : ''
+      item['parentBrowseUrl'] ? `<a href="#/elections/${encodeURIComponent(electionSlug((item['parentBrowseUrl'] || '').split('/').pop() || item['parentElectionKey']))}" data-browse-link>${escapeHtml(item['parentTitle'] || item['parentElectionKey'])}</a>` : escapeHtml(item['parentTitle'] || item['parentElectionKey']),
+      item['interactiveUrl'] ? `<a href="${escapeAttr(item['interactiveUrl'])}">Open election layer</a>` : ''
     ]] : [];
     return renderTablePanel('Parent Election', ['Date', 'Election', 'Interactive layer'], parentRows);
   }
   // A year of pre-1973 Northern Ireland council elections: its councils, each with its own page.
-  const councilRows = (item.councils || []).map((/** @type {BrowseItem} */ council) => [
-    council.date ? formatDate(council.date) : '',
-    council.browseUrl
-      ? `<a href="#/elections/${encodeURIComponent(slugify(council.key))}" data-browse-link>${escapeHtml(council.title || council.body || council.key)}</a>`
-      : escapeHtml(council.title || council.body || council.key),
-    escapeHtml(council.subtitle || '')
+  const councilRows = (item['councils'] || []).map((/** @type {BrowseItem} */ council) => [
+    council['date'] ? formatDate(council['date']) : '',
+    council['browseUrl']
+      ? `<a href="#/elections/${encodeURIComponent(slugify(council['key']))}" data-browse-link>${escapeHtml(council['title'] || council['body'] || council['key'])}</a>`
+      : escapeHtml(council['title'] || council['body'] || council['key']),
+    escapeHtml(council['subtitle'] || '')
   ]);
-  const partyTable = renderPartySummaryTable(normalizeArray(item.partySummary));
+  const partyTable = renderPartySummaryTable(normalizeArray(item['partySummary']));
   // The overall result first, then the constituencies in order: "Overall results" used to sit
   // alphabetically between Offaly and Roscommon. A type column said "Constituency Result" on
   // every row but that one, so it is gone.
-  const entries = [...(item.resultEntries || [])].sort((a, b) =>
+  const entries = [...(item['resultEntries'] || [])].sort((a, b) =>
     (a.resultKind === 'overall' ? 0 : 1) - (b.resultKind === 'overall' ? 0 : 1));
   const constituencyRows = entries.length
     ? entries.map((entry) => [
       entry.browseUrl ? `<a href="#/elections/${encodeURIComponent((entry.browseUrl || '').split('/').pop() || entry.key)}" data-browse-link>${escapeHtml(entry.resultName || entry.title || entry.key)}</a>` : escapeHtml(entry.resultName || entry.title || entry.key)
     ])
-    : (item.constituencies || []).map((/** @type {string} */ name) => [escapeHtml(name)]);
+    : (item['constituencies'] || []).map((/** @type {string} */ name) => [escapeHtml(name)]);
   if (councilRows.length) {
     return `
       ${partyTable}
@@ -5157,7 +5157,7 @@ function renderElectionRelated(item) {
  * @param {BrowseItem} party
  */
 function partyUnopposedSeats(party) {
-  const explicit = Number(party?.unopposedSeats);
+  const explicit = Number(party?.['unopposedSeats']);
   return Number.isFinite(explicit) && explicit > 0 ? explicit : 0;
 }
 
@@ -5174,12 +5174,12 @@ function renderPartySummaryTable(partySummary) {
     const noPoll = partyHadNoPoll(party);
     const unopposed = partyUnopposedSeats(party);
     return [
-      partyLinkHtml(party.party || '', party.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(party.colour)}">${escapeHtml(party.party || '')}</span>` : escapeHtml(party.party || '')),
-      formatNumber(party.stood),
-      formatNumber(party.seats),
+      partyLinkHtml(party['party'] || '', party['colour'] ? `<span class="browse-badge" style="border-color:${escapeAttr(party['colour'])}">${escapeHtml(party['party'] || '')}</span>` : escapeHtml(party['party'] || '')),
+      formatNumber(party['stood']),
+      formatNumber(party['seats']),
       ...(anyUnopposed ? [unopposed ? formatNumber(unopposed) : ''] : []),
-      noPoll ? '&ndash;' : formatNumber(party.votes),
-      noPoll || party.share === undefined || party.share === null ? (noPoll ? '&ndash;' : '') : `${Number(party.share).toFixed(2)}%`
+      noPoll ? '&ndash;' : formatNumber(party['votes']),
+      noPoll || party['share'] === undefined || party['share'] === null ? (noPoll ? '&ndash;' : '') : `${Number(party['share']).toFixed(2)}%`
     ];
   });
   return renderTablePanel('Party Summary', headers, rows, anyUnopposed
@@ -5214,10 +5214,10 @@ function renderLinksPanel(item, options = {}) {
     if (url) seenUrls.add(url);
     rows.push([type, label, url]);
   };
-  if (item.url) pushRow('Source link', item.title || item.name || item.url, item.url);
-  if (item.sourceUrl) pushRow('Source link', item.sourceTitle || item.sourceUrl, item.sourceUrl);
-  for (const link of item.downloads || []) pushRow('Download', link.label, link.url);
-  for (const link of item.sourceFiles || []) pushRow('Source file', link.label, link.url);
+  if (item['url']) pushRow('Source link', item['title'] || item['name'] || item['url'], item['url']);
+  if (item['sourceUrl']) pushRow('Source link', item['sourceTitle'] || item['sourceUrl'], item['sourceUrl']);
+  for (const link of item['downloads'] || []) pushRow('Download', link.label, link.url);
+  for (const link of item['sourceFiles'] || []) pushRow('Source file', link.label, link.url);
   if (!rows.length) return '';
   const body = `
     <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr('Downloads and files')}">
@@ -5263,7 +5263,7 @@ function renderThumbnail(item, context = 'card') {
       ? ` srcset="${escapeAttr(smallUrl)} 60w, ${escapeAttr(url)} 120w" sizes="72px"`
       : '';
     // A card's thumbnail is decoration beside its own title link (alt=""), not the title again.
-    const alt = context === 'card' ? '' : thumbnail.alt || item.title || '';
+    const alt = context === 'card' ? '' : thumbnail.alt || item['title'] || '';
     return `
       <figure class="browse-thumb browse-thumb--${escapeAttr(context)}">
         <img src="${escapeAttr(src)}"${srcset} alt="${escapeAttr(alt)}" loading="lazy" decoding="async">
@@ -5277,20 +5277,20 @@ function renderThumbnail(item, context = 'card') {
       : '';
     return `
       <figure class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--external">
-        <img src="${escapeAttr(src)}"${srcset} alt="${escapeAttr(context === 'card' ? '' : thumbnail.alt || item.title || '')}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+        <img src="${escapeAttr(src)}"${srcset} alt="${escapeAttr(context === 'card' ? '' : thumbnail.alt || item['title'] || '')}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
       </figure>
     `;
   }
   if (thumbnail.kind === 'map-fallback') {
     return `
-      <figure class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--map-fallback" aria-label="${escapeAttr(thumbnail.alt || item.title || 'Map thumbnail')}">
+      <figure class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--map-fallback" aria-label="${escapeAttr(thumbnail.alt || item['title'] || 'Map thumbnail')}">
         ${renderMapFallbackSvg(item, thumbnail)}
       </figure>
     `;
   }
   return `
-    <div class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--placeholder browse-thumb--${escapeAttr(thumbnail.type || item.type || 'entry')}" aria-hidden="true">
-      <span>${escapeHtml(thumbnail.label || thumbnailInitials(item.title || item.name || item.id))}</span>
+    <div class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--placeholder browse-thumb--${escapeAttr(thumbnail.type || item['type'] || 'entry')}" aria-hidden="true">
+      <span>${escapeHtml(thumbnail.label || thumbnailInitials(item['title'] || item['name'] || item['id']))}</span>
     </div>
   `;
 }
@@ -5308,8 +5308,8 @@ function versionedThumbnailUrl(url) {
  * @param {BrowseItem} item
  */
 function normalizedThumbnail(item) {
-  const thumbnail = item.thumbnail || fallbackThumbnail(item);
-  if (thumbnail?.kind === 'placeholder' && (item?.type === 'map' || item?.type === 'data-entry')) {
+  const thumbnail = item['thumbnail'] || fallbackThumbnail(item);
+  if (thumbnail?.kind === 'placeholder' && (item?.['type'] === 'map' || item?.['type'] === 'data-entry')) {
     return fallbackThumbnail(item);
   }
   return thumbnail;
@@ -5319,25 +5319,25 @@ function normalizedThumbnail(item) {
  * @param {BrowseItem} item
  */
 function fallbackThumbnail(item) {
-  if (item?.type === 'register-interest') {
+  if (item?.['type'] === 'register-interest') {
     return {
       kind: 'placeholder',
       label: 'RI',
       type: 'register-interest'
     };
   }
-  if (item?.type === 'map' || item?.type === 'data-entry' || item?.category || item?.parentCard) {
+  if (item?.['type'] === 'map' || item?.['type'] === 'data-entry' || item?.['category'] || item?.['parentCard']) {
     return {
       kind: 'map-fallback',
-      label: item.category || item.parentCard || 'Map',
-      alt: `${item.title || item.name || item.id || 'Map'} preview`,
+      label: item['category'] || item['parentCard'] || 'Map',
+      alt: `${item['title'] || item['name'] || item['id'] || 'Map'} preview`,
       type: 'map'
     };
   }
   return {
     kind: 'placeholder',
-    label: thumbnailInitials(item.title || item.name || item.id || item.key || 'C'),
-    type: item.type || 'entry'
+    label: thumbnailInitials(item['title'] || item['name'] || item['id'] || item['key'] || 'C'),
+    type: item['type'] || 'entry'
   };
 }
 
@@ -5349,8 +5349,8 @@ function renderMapFallbackSvg(item, thumbnail) {
   const color = mapFallbackColor(item);
   // The preview's colours: the colours registry's browse.mapPreview (data/registries/colours.json).
   const ink = browseColours.mapPreview;
-  const label = thumbnail.label || item.category || item.parentCard || 'Map';
-  const title = item.title || item.name || item.id || 'Map';
+  const label = thumbnail['label'] || item['category'] || item['parentCard'] || 'Map';
+  const title = item['title'] || item['name'] || item['id'] || 'Map';
   return `
     <svg class="browse-map-fallback-svg" viewBox="0 0 120 120" role="img" aria-labelledby="map-fallback-${escapeAttr(slugify(title))}">
       <title id="map-fallback-${escapeAttr(slugify(title))}">${escapeHtml(title)} map preview</title>
@@ -5374,10 +5374,10 @@ function renderMapFallbackSvg(item, thumbnail) {
  * @param {BrowseItem} item
  */
 function mapFallbackColor(item) {
-  const source = item.rawMetadata?.style?.color || item.color || '';
+  const source = item['rawMetadata']?.style?.color || item['color'] || '';
   if (/^#[0-9a-f]{6}$/i.test(source)) return source;
   const palette = browseColours.mapPreviewAccents;
-  const seed = String(item.categoryId || item.category || item.parentCard || item.id || '').split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const seed = String(item['categoryId'] || item['category'] || item['parentCard'] || item['id'] || '').split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
   return palette[seed % palette.length];
 }
 
@@ -5402,8 +5402,8 @@ function renderTechnicalPanel(type, item) {
   // record, duplicating fields the curated panels already show. Keep raw JSON
   // only for signed-in contributors (who need it to debug source-map wiring);
   // regular readers get just the curated internal-ID fields.
-  const showRaw = Boolean(state.auth?.allowed) && Boolean(item.rawMetadata);
-  const rawJson = showRaw ? JSON.stringify(item.rawMetadata, null, 2) : '';
+  const showRaw = Boolean(state.auth?.allowed) && Boolean(item['rawMetadata']);
+  const rawJson = showRaw ? JSON.stringify(item['rawMetadata'], null, 2) : '';
   if (!technicalRows.length && !rawJson) return '';
   return `
     <section class="browse-detail__panel browse-detail__panel--technical">
@@ -5640,10 +5640,10 @@ function handleContributorAction(action) {
  */
 async function openEditSubmissionForm(type, item) {
   const entityType = entityTypeForBrowseType(type);
-  const entityId = item.id || item.key || item.slug || item.title;
+  const entityId = item['id'] || item['key'] || item['slug'] || item['title'];
   state.contributorForm.to('metadata-edit');
   state.editBaseline = null;
-  els.contributorModalTitle.textContent = `Propose edit: ${item.title || entityId}`;
+  els.contributorModalTitle.textContent = `Propose edit: ${item['title'] || entityId}`;
   // Guard first: replacing a dirty form for another record would silently throw
   // away someone's work. Offer the choice inline rather than with a browser
   // dialog, which blocks the page and is worse than the problem.
@@ -5709,7 +5709,7 @@ async function openEditSubmissionForm(type, item) {
     status.className = 'contributor-form__status contributor-form__status--error';
     status.textContent = /** @type {Error} */ (error).message;
   }
-  showInlineEditor(`Propose edit: ${item.title || entityId}`);
+  showInlineEditor(`Propose edit: ${item['title'] || entityId}`);
 }
 
 
@@ -5806,7 +5806,7 @@ async function loadCurrentRecord(entityType, entityId, fallbackItem) {
       const response = await fetch(`/_api/catalogue?id=${encodeURIComponent(entityId)}`, { credentials: 'same-origin' });
       if (response.ok) {
         const doc = await response.json();
-        const found = (Array.isArray(doc?.maps) ? doc.maps : []).find((/** @type {BrowseItem | null} */ m) => m?.id === entityId);
+        const found = (Array.isArray(doc?.maps) ? doc.maps : []).find((/** @type {BrowseItem | null} */ m) => m?.['id'] === entityId);
         if (found) return found;
       }
     } catch {
@@ -5943,7 +5943,7 @@ function singularise(name) {
  * @param {HTMLElement} fieldset
  */
 function renumberObjectEntries(fieldset) {
-  const singular = singularise(fieldset.dataset.objectArray || '');
+  const singular = singularise(fieldset.dataset['objectArray'] || '');
   [...fieldset.querySelectorAll('[data-object-entry]')].forEach((entry, index) => {
     const heading = entry.querySelector('.contributor-form__object-index');
     if (heading) heading.textContent = `${singular} ${index + 1}`;
@@ -5964,7 +5964,7 @@ function bindObjectArrayControls() {
     const byName = new Map((state.editFields || []).map((f) => [f.name, f]));
     const addButton = event.target.closest('[data-object-add]');
     if (addButton) {
-      const field = byName.get(addButton.dataset.objectAdd);
+      const field = byName.get(addButton.dataset['objectAdd']);
       const fieldset = addButton.closest('[data-object-array]');
       const host = fieldset?.querySelector('[data-object-entries]');
       if (!field || !host) return;
@@ -5996,7 +5996,7 @@ function readObjectArray(fieldset) {
       if (!raw) continue;
       hasValue = true;
       // matched by [data-object-attr], so a string
-      object[/** @type {string} */ (input.dataset.objectAttr)] = input.dataset.attrType === 'number' ? Number(raw) : raw;
+      object[/** @type {string} */ (input.dataset['objectAttr'])] = input.dataset['attrType'] === 'number' ? Number(raw) : raw;
     }
     // A group left entirely blank is someone who clicked Add and changed their
     // mind. Dropping it is kinder than failing the whole submission on it.
@@ -6208,7 +6208,7 @@ function collectPatch() {
   // Object arrays first: their state lives across many inputs, so they are read
   // per fieldset rather than per input.
   for (const fieldset of /** @type {NodeListOf<HTMLElement>} */ (els.contributorForm.querySelectorAll('[data-object-array]'))) {
-    const field = String(fieldset.dataset.objectArray); // matched by [data-object-array], so a string
+    const field = String(fieldset.dataset['objectArray']); // matched by [data-object-array], so a string
     const entries = readObjectArray(fieldset);
     if (JSON.stringify(entries) === String(baseline[field] ?? '[]')) continue;
     patch[field] = entries.length ? entries : null;
@@ -6218,8 +6218,8 @@ function collectPatch() {
   const seenRadioGroups = new Set();
 
   for (const input of inputs) {
-    const field = String(input.dataset.editField); // matched by [data-edit-field], so a string
-    const type = input.dataset.editType || 'string';
+    const field = String(input.dataset['editField']); // matched by [data-edit-field], so a string
+    const type = input.dataset['editType'] || 'string';
 
     // Radio groups: read the checked member once, not once per button.
     if (input.type === 'radio') {
@@ -6300,22 +6300,22 @@ async function renderFeatureGroups(data) {
   const selectedHtml = selected ? await renderFeatureGroupDetail(selected) : '';
   if (token !== renderSeq) return;
   if (selectedId && !selected) {
-    renderNotFound(/** @type {EntityConfig} */ (ENTITY_CONFIG.features), selectedId);
+    renderNotFound(/** @type {EntityConfig} */ (ENTITY_CONFIG['features']), selectedId);
     return;
   }
   // A feature group's page is titled by its map, as every other record is by itself; it kept
   // the heading "Features".
-  if (selected) setHero(/** @type {EntityConfig} */ (ENTITY_CONFIG.features), { ...selected, description: selected.category || '' });
+  if (selected) setHero(/** @type {EntityConfig} */ (ENTITY_CONFIG['features']), { ...selected, description: selected.category || '' });
   els.results.innerHTML = `
     ${selected ? selectedHtml : `
       <p class="browse-note">Each map's boundaries by name, grouped by map.</p>
       ${renderFilterSummary(items.length, data.items?.length || 0)}
-      ${renderListPage(items, (entry) => renderCard('features', entry, /** @type {EntityConfig} */ (ENTITY_CONFIG.features)))}
+      ${renderListPage(items, (entry) => renderCard('features', entry, /** @type {EntityConfig} */ (ENTITY_CONFIG['features'])))}
     `}
   `;
   if (!selected) {
     state.lastListRender = () => renderFeatureGroups(data);
-    announceList(/** @type {EntityConfig} */ (ENTITY_CONFIG.features), items.length);
+    announceList(/** @type {EntityConfig} */ (ENTITY_CONFIG['features']), items.length);
   } else {
     announce(`Loaded ${selected.title}.`);
   }
@@ -6329,42 +6329,42 @@ async function renderFeatureGroupDetail(item) {
   // otherwise); the old code asked for every group's and 404ed on maps like stormont-1929,
   // after which the features table silently vanished.
   let featureData = null;
-  if (item.spatialIndexUrl) {
+  if (item['spatialIndexUrl']) {
     try {
-      featureData = await loadJson(item.spatialIndexUrl);
-      state.loadedFeatureMap = item.id;
+      featureData = await loadJson(item['spatialIndexUrl']);
+      state.loadedFeatureMap = item['id'];
     } catch {
       featureData = null;
     }
   }
-  const allFeatures = featureData?.features || item.sampleFeatures || [];
+  const allFeatures = featureData?.features || item['sampleFeatures'] || [];
   const features = filterItems(allFeatures, state.query).slice(0, 500);
-  const mapLink = item.mapSlug ? `<a href="#/maps/${encodeURIComponent(item.mapSlug)}" data-browse-link>map's record</a>` : 'map';
-  const related = item.relatedElections || [];
+  const mapLink = item['mapSlug'] ? `<a href="#/maps/${encodeURIComponent(item['mapSlug'])}" data-browse-link>map's record</a>` : 'map';
+  const related = item['relatedElections'] || [];
   return `
     <div class="browse-detail">
       <div class="browse-actions">
         <a class="browse-btn" href="#/features" data-browse-link>Back to feature groups</a>
-        ${item.mapSlug ? `<a class="browse-btn" href="#/maps/${encodeURIComponent(item.mapSlug)}" data-browse-link>Map record</a>` : ''}
-        ${item.interactiveUrl ? `<a class="browse-btn browse-btn--primary" href="${escapeAttr(item.interactiveUrl)}">Open source map</a>` : ''}
+        ${item['mapSlug'] ? `<a class="browse-btn" href="#/maps/${encodeURIComponent(item['mapSlug'])}" data-browse-link>Map record</a>` : ''}
+        ${item['interactiveUrl'] ? `<a class="browse-btn browse-btn--primary" href="${escapeAttr(item['interactiveUrl'])}">Open source map</a>` : ''}
       </div>
       <section class="browse-detail__panel">
         <div class="browse-detail__body">
           ${renderDefinitionRows([
-            ['Features', item.featureCount || null],
-            ['Category', item.category],
-            ['Elections on this map', item.relatedElectionCount]
+            ['Features', item['featureCount'] || null],
+            ['Category', item['category']],
+            ['Elections on this map', item['relatedElectionCount']]
           ], 'browse-reader-facts')}
         </div>
       </section>
       ${related.length ? renderTablePanel(
-        item.relatedElectionCount > related.length ? `Elections on this map (${formatNumber(related.length)} of ${formatNumber(item.relatedElectionCount)})` : 'Elections on this map',
+        item['relatedElectionCount'] > related.length ? `Elections on this map (${formatNumber(related.length)} of ${formatNumber(item['relatedElectionCount'])})` : 'Elections on this map',
         ['Date', 'Election'],
         related.map((/** @type {BrowseItem} */ row) => [
-          formatDate(row.date),
-          row.key
-            ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>`
-            : row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}">${escapeHtml(row.title)}</a>` : escapeHtml(row.title)
+          formatDate(row['date']),
+          row['key']
+            ? `<a href="#/elections/${encodeURIComponent(electionSlug(row['key']))}" data-browse-link>${escapeHtml(row['title'])}</a>`
+            : row['interactiveUrl'] ? `<a href="${escapeAttr(row['interactiveUrl'])}">${escapeHtml(row['title'])}</a>` : escapeHtml(row['title'])
         ])) : ''}
       ${features.length
         ? renderTablePanel('Features', ['Name', 'Bounds'], features.map((feature) => [
@@ -6383,9 +6383,9 @@ async function renderFeatureGroupDetail(item) {
  * @param {BrowseItem} row
  */
 function formatHeldYears(row) {
-  if (row.start && row.end) return row.start === row.end ? String(row.start) : `${row.start}–${row.end}`;
-  if (row.start) return String(row.start);
-  if (row.end) return `to ${row.end}`;
+  if (row['start'] && row['end']) return row['start'] === row['end'] ? String(row['start']) : `${row['start']}–${row['end']}`;
+  if (row['start']) return String(row['start']);
+  if (row['end']) return `to ${row['end']}`;
   return '';
 }
 
@@ -6506,8 +6506,8 @@ function renderDefinitionRows(rows, className = 'browse-detail__meta') {
  */
 function renderBadges(item) {
   const badges = [];
-  if (item.placeholder) badges.push('Placeholder');
-  if (item.status) badges.push(statusLabel(item.status));
+  if (item['placeholder']) badges.push('Placeholder');
+  if (item['status']) badges.push(statusLabel(item['status']));
   if (!badges.length) return '';
   return `<div class="browse-badges">${badges.map((badge) => `<span class="browse-badge">${escapeHtml(badge)}</span>`).join('')}</div>`;
 }
@@ -6725,7 +6725,7 @@ async function renderServerList(type, { append = false } = {}) {
 function personApiFilters(personFacets) {
   /** @type {Record<string, Json>} */
   const filters = {};
-  for (const [key, value] of Object.entries(state.listFilters.persons || {})) {
+  for (const [key, value] of Object.entries(state.listFilters['persons'] || {})) {
     if (!value) continue;
     filters[key] = key === 'party' ? (personFacets?.partyNames?.get(value) || [value]) : value;
   }
@@ -6825,7 +6825,7 @@ function printedLabelsToggleHtml() {
  * @param {BrowseItem} row
  */
 function printedLabelText(row) {
-  return String(row?.ballotDescription || '').trim() || String(row?.partyAsPrinted || '').trim();
+  return String(row?.['ballotDescription'] || '').trim() || String(row?.['partyAsPrinted'] || '').trim();
 }
 
 /**
@@ -6833,8 +6833,8 @@ function printedLabelText(row) {
  * @param {BrowseItem} row
  */
 function partyInferredHtml(row) {
-  if (!row?.partyInferred) return '';
-  const basis = String(row.partyBasis || '').trim();
+  if (!row?.['partyInferred']) return '';
+  const basis = String(row['partyBasis'] || '').trim();
   return ` <small class="browse-party-printed" title="${escapeAttr(basis ? `Label inferred: ${basis}` : 'Label inferred, not printed for this election')}">inferred</small>`;
 }
 
@@ -6874,7 +6874,7 @@ async function loadElectionRecord(id) {
     /** @type {ApiV1ElectionsRecord & { item?: BrowseItem, parent?: Json }} */
     const record = await loadJson(`/_api/elections?view=record&slug=${encodeURIComponent(slug)}`);
     if (!record?.item) return null;
-    if (!record.parent) state.details.set(`elections:${record.item.slug || slug}`, { item: record.item });
+    if (!record.parent) state.details.set(`elections:${record.item['slug'] || slug}`, { item: record.item });
     return record.item;
   } catch {
     return null;
@@ -6902,7 +6902,7 @@ async function loadIndex(type, { list = false } = {}) {
   if (state.indexes.has(type)) return state.indexes.get(type);
   const data = await loadJson(config.indexApi || `${DATA_ROOT}/${config.index}`);
   if (data.indexLayout === 'sharded' && Array.isArray(data.shards)) {
-    const shardData = await Promise.all(data.shards.map((/** @type {BrowseItem} */ shard) => loadJson(shard.url)));
+    const shardData = await Promise.all(data.shards.map((/** @type {BrowseItem} */ shard) => loadJson(shard['url'])));
     data.items = shardData.flatMap((shard) => Array.isArray(shard.items) ? shard.items : []);
   }
   state.indexes.set(type, data);
@@ -6944,7 +6944,7 @@ function expandElectionList(data) {
   }
   // The rounds themselves are listed by their year's entry, which links to each of them; their
   // pages and addresses are unchanged.
-  return { ...data, items: items.filter((/** @type {BrowseItem} */ item) => !Number.isInteger(item.grp)) };
+  return { ...data, items: items.filter((/** @type {BrowseItem} */ item) => !Number.isInteger(item['grp'])) };
 }
 
 /**
@@ -6954,17 +6954,17 @@ function expandElectionList(data) {
 async function loadDetail(type, item) {
   const config = /** @type {EntityConfig} */ (ENTITY_CONFIG[type]);
   if (!config.detailDir) return { item };
-  if (type === 'elections' && item.entryKind && item.entryKind !== 'election') return { item };
-  const slug = item.slug || slugify(item.id || item.key || item.title);
+  if (type === 'elections' && item['entryKind'] && item['entryKind'] !== 'election') return { item };
+  const slug = item['slug'] || slugify(item['id'] || item['key'] || item['title']);
   const cacheKey = `${type}:${slug}`;
   if (state.details.has(cacheKey)) return state.details.get(cacheKey);
   let detail;
   try {
-    if (item.detailUrl && config.recordApi) {
+    if (item['detailUrl'] && config.recordApi) {
       // The record's detail, from D1 (was a shard file holding 200 of them).
       detail = await loadJson(`/_api/${config.recordApi}?slug=${encodeURIComponent(slug)}&view=detail`);
       detail = { ...detail, item: { ...item, ...(detail?.item || {}) } };
-    } else if (item.detailUrl) {
+    } else if (item['detailUrl']) {
       detail = await loadShardDetail(item, slug);
     } else if (config.detailApi) {
       detail = await loadJson(config.detailApi(slug));
@@ -6987,7 +6987,7 @@ async function loadDetail(type, item) {
  * @param {string} slug
  */
 async function loadShardDetail(item, slug) {
-  const shardUrl = item.detailUrl;
+  const shardUrl = item['detailUrl'];
   const shardCacheKey = `source-shard:${shardUrl}`;
   let shard = state.details.get(shardCacheKey);
   if (!shard) {
@@ -7000,8 +7000,8 @@ async function loadShardDetail(item, slug) {
       ? shard.interests
       : [];
   const match = items.find((/** @type {BrowseItem} */ candidate) => (
-    String(candidate.slug || '').toLowerCase() === String(slug || '').toLowerCase() ||
-    String(candidate.id || '').toLowerCase() === String(item.id || '').toLowerCase()
+    String(candidate['slug'] || '').toLowerCase() === String(slug || '').toLowerCase() ||
+    String(candidate['id'] || '').toLowerCase() === String(item['id'] || '').toLowerCase()
   ));
   if (!match) {
     const error = /** @type {HttpError} */ (new Error(`Source detail ${slug} was not found in ${shardUrl}`));
@@ -7049,7 +7049,7 @@ function filterItems(items, query) {
   // A record whose own title is the phrase, then one whose title contains it, before records
   // found only through an alias ("Ulster DUP" must not put the DUP above the UUP).
   const rank = (/** @type {BrowseItem} */ item) => {
-    const titles = [item.title || item.name, item.shortName].filter(Boolean).map(normalizeSearchQuery);
+    const titles = [item['title'] || item['name'], item['shortName']].filter(Boolean).map(normalizeSearchQuery);
     return titles.includes(phrase) ? 0 : titles.some((title) => title.includes(phrase)) ? 1 : 2;
   };
   return matches.map((item, index) => [rank(item), index, item]).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map(([, , item]) => item);
@@ -7060,38 +7060,38 @@ function filterItems(items, query) {
  */
 function searchableText(item) {
   return foldSearchText([
-    item.id,
-    item.key,
-    item.title,
-    item.name,
-    item.subtitle,
-    item.description,
-    item.category,
-    item.group,
-    item.provider,
-    item.body,
-    item.date,
-    item.status,
-    item.canonicalName,
-    item.observedNames,
-    item.knownAliases,
-    item.shortName,
-    item.memberName,
-    item.memberType,
-    item.electedBody,
-    item.chamber,
-    item.jurisdiction,
-    item.constituency,
-    item.constituencies,
-    item.categories,
-    item.parties,
-    item.sourceTitle,
-    item.sourceTitles,
-    item.sourceKind,
-    item.sourceKinds,
-    item.interestSummary,
-    item.interestText,
-    item.keywords
+    item['id'],
+    item['key'],
+    item['title'],
+    item['name'],
+    item['subtitle'],
+    item['description'],
+    item['category'],
+    item['group'],
+    item['provider'],
+    item['body'],
+    item['date'],
+    item['status'],
+    item['canonicalName'],
+    item['observedNames'],
+    item['knownAliases'],
+    item['shortName'],
+    item['memberName'],
+    item['memberType'],
+    item['electedBody'],
+    item['chamber'],
+    item['jurisdiction'],
+    item['constituency'],
+    item['constituencies'],
+    item['categories'],
+    item['parties'],
+    item['sourceTitle'],
+    item['sourceTitles'],
+    item['sourceKind'],
+    item['sourceKinds'],
+    item['interestSummary'],
+    item['interestText'],
+    item['keywords']
   ].flat().filter(Boolean).join(' '));
 }
 
@@ -7117,21 +7117,21 @@ function findItem(items, id) {
  * @param {BrowseItem} item
  */
 function metaForItem(type, item) {
-  if (type === 'elections') return [formatDate(item.date), item.body, String(item.subtitle || '').replace(/^1 constituencies\b/, '1 constituency'), item.geography];
-  if (type === 'features') return [item.category, item.featureCount ? countText(item.featureCount, 'feature') : null, item.relatedElectionCount ? countText(item.relatedElectionCount, 'election') : null];
+  if (type === 'elections') return [formatDate(item['date']), item['body'], String(item['subtitle'] || '').replace(/^1 constituencies\b/, '1 constituency'), item['geography']];
+  if (type === 'features') return [item['category'], item['featureCount'] ? countText(item['featureCount'], 'feature') : null, item['relatedElectionCount'] ? countText(item['relatedElectionCount'], 'election') : null];
   // The subtitle already says the years and the number of linked elections; the counts that
   // followed repeated it ("26 contests 26 contests").
-  if (type === 'parties') return [item.subtitle, item.occurrenceCount ? countText(item.occurrenceCount, 'candidacy', 'candidacies') : null];
-  if (type === 'persons') return [item.subtitle, item.totals?.elected !== undefined ? `${formatNumber(item.totals.elected)} elected` : null];
+  if (type === 'parties') return [item['subtitle'], item['occurrenceCount'] ? countText(item['occurrenceCount'], 'candidacy', 'candidacies') : null];
+  if (type === 'persons') return [item['subtitle'], item['totals']?.elected !== undefined ? `${formatNumber(item['totals'].elected)} elected` : null];
   if (type === 'register-interests') return [
-    formatDate(item.date),
-    item.electedBody || item.memberType,
-    item.constituency || joinList(item.constituencies),
-    item.interestCount ? `${formatNumber(item.interestCount)} interests` : item.category,
-    item.sourceCount ? `${formatNumber(item.sourceCount)} source rows` : null
+    formatDate(item['date']),
+    item['electedBody'] || item['memberType'],
+    item['constituency'] || joinList(item['constituencies']),
+    item['interestCount'] ? `${formatNumber(item['interestCount'])} interests` : item['category'],
+    item['sourceCount'] ? `${formatNumber(item['sourceCount'])} source rows` : null
   ];
-  if (type === 'sources') return [sourceTypeLabel(item.type), item.category, formatDate(item.date)];
-  return [item.category, item.group, item.subtitle];
+  if (type === 'sources') return [sourceTypeLabel(item['type']), item['category'], formatDate(item['date'])];
+  return [item['category'], item['group'], item['subtitle']];
 }
 
 /**
@@ -7163,12 +7163,12 @@ function countText(count, singular, plural = `${singular}s`) {
 function summaryForItem(type, item) {
   // The subtitle already gives an election's number of constituencies.
   if (type === 'elections') return '';
-  if (type === 'features') return item.spatialIndexUrl ? `The ${item.title} features, by name and extent.` : 'No feature list here; the map record has its features table.';
-  if (type === 'parties') return item.relatedElectionCount ? `In the party tables of ${countText(item.relatedElectionCount, 'election')}.` : '';
-  if (type === 'persons') return joinList(item.parties?.slice(0, 3).map((/** @type {BrowseItem} */ party) => party.name));
-  if (type === 'register-interests') return item.interestSummary || item.description || joinList(item.categories);
-  if (type === 'sources') return item.description || joinList(item.downloads?.slice(0, 2).map((/** @type {BrowseItem} */ link) => link.label));
-  return item.subtitle;
+  if (type === 'features') return item['spatialIndexUrl'] ? `The ${item['title']} features, by name and extent.` : 'No feature list here; the map record has its features table.';
+  if (type === 'parties') return item['relatedElectionCount'] ? `In the party tables of ${countText(item['relatedElectionCount'], 'election')}.` : '';
+  if (type === 'persons') return joinList(item['parties']?.slice(0, 3).map((/** @type {BrowseItem} */ party) => party['name']));
+  if (type === 'register-interests') return item['interestSummary'] || item['description'] || joinList(item['categories']);
+  if (type === 'sources') return item['description'] || joinList(item['downloads']?.slice(0, 2).map((/** @type {BrowseItem} */ link) => link['label']));
+  return item['subtitle'];
 }
 
 // The build's status words, in a reader's: "available" said nothing about what was available.

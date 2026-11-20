@@ -38,12 +38,12 @@ export async function render(root, route, ctx) {
   const cslug = /** @type {string} */ (route.contest);
   const detail = await electionDetail(eslug);
   const result = await contestResult(detail.key, cslug);
-  const cites = await contestCitations(detail.key, Number(result.constituency?.seq)).catch(() => ({ citations: [] }));
+  const cites = await contestCitations(detail.key, Number(result.constituency?.['seq'])).catch(() => ({ citations: [] }));
   const c = result.constituency || {};
   const stv = isStv(detail.votingSystem);
   const sheet = countSheet(/** @type {Array<Record<string, unknown>>} */ (result.candidates || []), {
-    quota: c.quota, validPoll: c.validPoll ?? c.totalVotes, seatsTotal: c.seatsTotal, nonTransferable: c.nonTransferable,
-    contestStatus: c.contestStatus || detail.contestStatus,
+    quota: c['quota'], validPoll: c['validPoll'] ?? c['totalVotes'], seatsTotal: c['seatsTotal'], nonTransferable: c['nonTransferable'],
+    contestStatus: c['contestStatus'] || detail.contestStatus,
   });
   const valid = sheet.validPoll;
   const share = (/** @type {number | null} */ v) => (v !== null && valid ? (100 * v) / valid : null);
@@ -51,25 +51,25 @@ export async function render(root, route, ctx) {
   // contest has no runner-up, so no majority.
   const limits = contestLimits(sheet, c);
   const votesNote = votesMissingNote(limits.votesMissing, fmtInt);
-  const majority = !stv && !limits.losersMissing ? (num(c.majority) ?? fptpMajority(sheet)) : null;
-  const turnout = num(c.turnoutPct) ?? (num(c.totalPoll) !== null && num(c.electorate) ? (100 * Number(c.totalPoll)) / Number(c.electorate) : null);
+  const majority = !stv && !limits.losersMissing ? (num(c['majority']) ?? fptpMajority(sheet)) : null;
+  const turnout = num(c['turnoutPct']) ?? (num(c['totalPoll']) !== null && num(c['electorate']) ? (100 * Number(c['totalPoll'])) / Number(c['electorate']) : null);
   // Figures this page works out, rather than reads: each says so beside it (lib/methods.js).
   const derived = {
-    turnout: turnout !== null && num(c.turnoutPct) === null,
-    majority: majority !== null && num(c.majority) === null,
-    valid: valid !== null && num(c.validPoll) === null && num(c.totalVotes) === null,
+    turnout: turnout !== null && num(c['turnoutPct']) === null,
+    majority: majority !== null && num(c['majority']) === null,
+    valid: valid !== null && num(c['validPoll']) === null && num(c['totalVotes']) === null,
   };
   const how = (/** @type {boolean} */ on, /** @type {import('../lib/methods.js').MethodId} */ id, /** @type {string} */ sentence) => (on ? methodNote(id, [sentence], 'el-muted el-method el-method--fact') : '');
-  const title = `${c.name || c.constituency} – ${detail.title}`;
+  const title = `${c['name'] || c['constituency']} – ${detail.title}`;
   // A contest whose sources name only the winners has its own note (limits), not the kind's.
   const kindNote = winnersOnly(c) ? '' : KIND_NOTE[sheet.kind];
 
   const facts = [
-    ['Seats', fmtInt(c.seatsTotal)],
+    ['Seats', fmtInt(c['seatsTotal'])],
     ['System', esc(systemName(detail.votingSystem))],
-    num(c.electorate) !== null ? ['Electorate', fmtInt(c.electorate)] : null,
-    sheet.kind !== 'unopposed' && num(c.totalPoll) !== null ? ['Total poll', fmtInt(c.totalPoll)] : null,
-    sheet.kind !== 'unopposed' && num(c.spoiled) !== null ? ['Spoiled ballots', fmtInt(c.spoiled)] : null,
+    num(c['electorate']) !== null ? ['Electorate', fmtInt(c['electorate'])] : null,
+    sheet.kind !== 'unopposed' && num(c['totalPoll']) !== null ? ['Total poll', fmtInt(c['totalPoll'])] : null,
+    sheet.kind !== 'unopposed' && num(c['spoiled']) !== null ? ['Spoiled ballots', fmtInt(c['spoiled'])] : null,
     sheet.kind !== 'unopposed' && valid !== null ? ['Valid poll', `${fmtInt(valid)}${how(derived.valid, 'shares', METHOD_NOTE.validDerived)}`] : null,
     sheet.kind !== 'unopposed' && turnout !== null ? ['Turnout', `${fmtPct(turnout)}${how(derived.turnout, 'turnout', METHOD_NOTE.turnoutDerived)}`] : null,
     stv && sheet.quota !== null ? ['Quota', fmtInt(sheet.quota)] : null,
@@ -127,9 +127,9 @@ export async function render(root, route, ctx) {
   }
 
   root.innerHTML = `
-    <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › <a href="${appUrl.body(detail.bodySlug)}">${esc(detail.body)}</a> › <a href="${appUrl.election(detail.key)}">${esc(detail.title)}</a> › ${esc(c.name || c.constituency)}</nav>
+    <nav class="el-crumbs" aria-label="Breadcrumb"><a href="/elections/">Elections</a> › <a href="${appUrl.body(detail.bodySlug)}">${esc(detail.body)}</a> › <a href="${appUrl.election(detail.key)}">${esc(detail.title)}</a> › ${esc(c['name'] || c['constituency'])}</nav>
     <header class="el-head">
-      <h1>${esc(c.name || c.constituency)}</h1>
+      <h1>${esc(c['name'] || c['constituency'])}</h1>
       <p class="el-lead"><a href="${appUrl.election(detail.key)}">${esc(detail.title)}</a> · ${esc(fmtDate(detail.date))}</p>
     </header>
     <dl class="cg-facts">${/** @type {string[][]} */ (facts).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}${checkedFact(citations)}</dl>
@@ -143,10 +143,10 @@ export async function render(root, route, ctx) {
     ${sources}`;
   // el-context: the area in the census (filled after the page draws), and the embed panel when on.
   const feature = /** @type {{ layerId?: string | null, featureName?: string | null } | null} */ (result.feature);
-  mountAreaContext(root, { layerId: feature?.layerId || detail.layerId, area: feature?.featureName || String(c.name || c.constituency || ''), date: detail.date }, ctx, { linkFor: contestLinker(detail.key, detail.resultEntries || []) });
+  mountAreaContext(root, { layerId: feature?.layerId || detail.layerId, area: feature?.featureName || String(c['name'] || c['constituency'] || ''), date: detail.date }, ctx, { linkFor: contestLinker(detail.key, detail.resultEntries || []) });
   mountEmbedOffer(root, ctx);
   // Arrows to the contests before and after this one under the same name (el-places).
-  void mountContestNav(root, { electionKey: detail.key, contestSlug: cslug, seq: Number(c.seq), name: String(c.name || c.constituency), bodySlug: detail.bodySlug, stale: ctx.stale });
+  void mountContestNav(root, { electionKey: detail.key, contestSlug: cslug, seq: Number(c['seq']), name: String(c['name'] || c['constituency']), bodySlug: detail.bodySlug, stale: ctx.stale });
   if (stvp) wireStepper(root, sheet, stvp.events, route.query, ctx);
   return title;
 }

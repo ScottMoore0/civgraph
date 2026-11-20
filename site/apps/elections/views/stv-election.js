@@ -111,10 +111,10 @@ export function closestSeatsHtml(closest) {
  */
 export function bundleSheets(results, key, slugsByName, contestStatus) {
   return results.map((r) => {
-    const name = String(r.constituency || '');
+    const name = String(r['constituency'] || '');
     const slug = slugsByName.get(name)?.shift() || null;
-    const sheet = countSheet(/** @type {Array<Record<string, unknown>>} */ (r.candidates || []), {
-      quota: r.quota, validPoll: r.validPoll ?? r.totalVotes, seatsTotal: r.seatsTotal, nonTransferable: r.nonTransferable, contestStatus: r.contestStatus || contestStatus,
+    const sheet = countSheet(/** @type {Array<Record<string, unknown>>} */ (r['candidates'] || []), {
+      quota: r['quota'], validPoll: r['validPoll'] ?? r['totalVotes'], seatsTotal: r['seatsTotal'], nonTransferable: r['nonTransferable'], contestStatus: r['contestStatus'] || contestStatus,
     });
     return { sheet, name, href: slug ? appUrl.contest(key, slug) : null };
   });

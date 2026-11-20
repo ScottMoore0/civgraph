@@ -92,9 +92,11 @@ const STRICT_SINCE_RF8 = ['site/browse/browse.js'];
 const FLAGS_SINCE_RF8 = ['strict', 'strictPropertyInitialization', 'strictBuiltinIteratorReturn'];
 // noUncheckedIndexedAccess since 19 Nov 2026 (stream w19-refactor-now).
 const FLAGS_SINCE_W19 = ['noUncheckedIndexedAccess'];
+// noPropertyAccessFromIndexSignature since 20 Nov 2026 (stream w20-refactor2); tsconfig.ui-strict.json inherits it.
+const FLAGS_SINCE_W20 = ['noPropertyAccessFromIndexSignature'];
 
 test('the strictness the UI has reached stays', () => {
-  for (const flag of [...FLAGS_SINCE_R2_UI, ...FLAGS_SINCE_RF8, ...FLAGS_SINCE_W19]) assert.equal(CONFIG.compilerOptions[flag], true, `tsconfig.ui.json ${flag} was turned off`);
+  for (const flag of [...FLAGS_SINCE_R2_UI, ...FLAGS_SINCE_RF8, ...FLAGS_SINCE_W19, ...FLAGS_SINCE_W20]) assert.equal(CONFIG.compilerOptions[flag], true, `tsconfig.ui.json ${flag} was turned off`);
   const strict = JSON.parse(readFileSync(path.join(ROOT, 'config', 'tsconfig.ui-strict.json'), 'utf8').replaceAll('"../', '"'));
   assert.equal(strict.extends, './tsconfig.ui.json');
   assert.equal(strict.compilerOptions.strict, true);

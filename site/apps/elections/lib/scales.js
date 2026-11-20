@@ -62,7 +62,7 @@ export function areaRows(summary, contests) {
   for (const it of contests.items || []) {
     if (it.entryKind && it.entryKind !== 'election-constituency-result') continue;
     const name = it.constituency || it.resultName;
-    const feat = it.featureName || it.resultMetadata?.featureName;
+    const feat = it.featureName || it.resultMetadata?.['featureName'];
     if (!name || !feat || it.matched === false) continue;
     if (!features.has(name)) features.set(name, []);
     /** @type {string[]} */ (features.get(name)).push(String(feat).toUpperCase());

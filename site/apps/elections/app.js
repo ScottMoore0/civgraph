@@ -63,7 +63,7 @@ async function render({ keepScroll = false } = {}) {
   const mine = createViewScope();
   scope = mine;
   routeRun.to('loading');
-  root.dataset.route = 'loading';
+  root.dataset['route'] = 'loading';
   const route = parseRoute(location.pathname, location.search);
   for (const a of document.querySelectorAll('.cg-tabs__bar a')) {
     if (a.getAttribute('data-tab') === TAB_OF[route.view]) a.setAttribute('aria-current', 'page');
@@ -76,7 +76,7 @@ async function render({ keepScroll = false } = {}) {
     const title = await mod.render(root, route, { signal: mine.signal, stale: mine.stale, onDispose: mine.onDispose, navigate });
     if (mine.stale()) return;
     document.title = title ? `${title} - Civgraph Elections` : 'Civgraph Elections';
-    root.dataset.route = routeRun.to('rendered');
+    root.dataset['route'] = routeRun.to('rendered');
     // Party chips link to the party's Browse page (el-places, lib/party-links.js).
     import('./lib/party-links.js').then((m) => m.linkPartyChips(root, mine.stale)).catch(() => {});
     watchScrollAreas(root, mine.signal);
@@ -88,7 +88,7 @@ async function render({ keepScroll = false } = {}) {
       ? '<h1>Not found</h1><p>There is no election or contest at this address. <a href="/elections/">All elections</a>.</p>'
       : `<h1>Something went wrong</h1><p class="cg-notice cg-notice--danger">${esc(/** @type {Error} */ (err)?.message || err)}</p>`;
     document.title = 'Civgraph Elections';
-    root.dataset.route = routeRun.to(status === 404 ? 'not-found' : 'failed');
+    root.dataset['route'] = routeRun.to(status === 404 ? 'not-found' : 'failed');
     settle(root.querySelector('h1')?.textContent || '');
     console.error(err);
   } finally {

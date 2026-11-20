@@ -437,12 +437,12 @@
     }
     var input = /** @type {HTMLInputElement} */ (el);
     if (el.tagName === 'INPUT' && /^(button|submit|reset)$/i.test(input.type) && input.value) {
-      var vm = memo && memo.value;
+      var vm = memo && memo['value'];
       var ev = vm && input.value === vm.written ? vm.english : input.value;
       var vo = inSource() ? null : translateEnglish(ev);
       input.value = vo === null ? ev : vo;
       if (!memo) { memo = {}; attrMemo.set(el, memo); }
-      memo.value = { english: ev, written: input.value };
+      memo['value'] = { english: ev, written: input.value };
     }
   }
 
@@ -683,7 +683,7 @@
     if (conf.dir === 'rtl') root.setAttribute('dir', 'rtl');
     else if (originalDir !== null) root.setAttribute('dir', originalDir);
     else root.removeAttribute('dir');
-    root.dataset.uiLang = state.lang;
+    root.dataset['uiLang'] = state.lang;
   }
 
   function syncUrl() {
@@ -745,9 +745,9 @@
     textMemoInUse = !inSource();
     var title = document.querySelector('title');
     if (title) {
-      if (!title.dataset.i18nEnglish) title.dataset.i18nEnglish = title.textContent;
-      var tt = inSource() ? null : translateEnglish(title.dataset.i18nEnglish);
-      document.title = tt || title.dataset.i18nEnglish || '';
+      if (!title.dataset['i18nEnglish']) title.dataset['i18nEnglish'] = title.textContent;
+      var tt = inSource() ? null : translateEnglish(title.dataset['i18nEnglish']);
+      document.title = tt || title.dataset['i18nEnglish'] || '';
     }
   }
 

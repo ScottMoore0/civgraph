@@ -66,7 +66,7 @@ const cache = new Map();
 function table(name) {
   if (!cache.has(name)) {
     cache.set(name, extractsIndex().then((idx) => {
-      const tables = /** @type {Record<string, unknown> | undefined} */ (idx?.tables);
+      const tables = /** @type {Record<string, unknown> | undefined} */ (idx?.['tables']);
       const file = tables?.[name];
       if (typeof file !== 'string') return null;
       return fetch(`${EXTRACTS}${file}`).then((res) => (res.ok ? res.json() : null));

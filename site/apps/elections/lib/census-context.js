@@ -67,8 +67,8 @@ export const CONTEXT_TEXT = Object.freeze([...Object.values(INDICATOR_LABELS), .
  * @param {string} id @param {number} year
  */
 export function baseOf(id, year) {
-  if (id === 'level4' && year === 2001) return /** @type {string} */ (BASES_16_74.level4);
-  if (id === 'unemployed' && year <= 2011) return /** @type {string} */ (BASES_16_74.unemployed);
+  if (id === 'level4' && year === 2001) return /** @type {string} */ (BASES_16_74['level4']);
+  if (id === 'unemployed' && year <= 2011) return /** @type {string} */ (BASES_16_74['unemployed']);
   return BASES[id] || '';
 }
 

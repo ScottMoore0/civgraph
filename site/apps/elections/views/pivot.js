@@ -71,7 +71,7 @@ export async function render(root, route, ctx) {
       <label>To <input id="pv-to" type="number" inputmode="numeric" min="1800" max="2100" size="5" value="${state.to ?? ''}"></label>
       <label>Election <select id="pv-election"><option value="">All</option></select></label>
       <label>Party <select id="pv-party" multiple size="4"></select></label>
-      <label>Outcome <select id="pv-outcome"><option value="">All</option>${OUTCOMES.map((o) => `<option${(state.filters.outcome || []).includes(o) ? ' selected' : ''}>${o}</option>`).join('')}</select></label>
+      <label>Outcome <select id="pv-outcome"><option value="">All</option>${OUTCOMES.map((o) => `<option${(state.filters['outcome'] || []).includes(o) ? ' selected' : ''}>${o}</option>`).join('')}</select></label>
     </form>
     <div class="el-controls">
       <button type="button" class="cg-button" id="pv-csv">Download table (CSV)</button>
@@ -95,7 +95,7 @@ export async function render(root, route, ctx) {
   /** EL-05: the runs of this view; only the latest may draw (lib/lifecycle.js latestRun). */
   const runs = latestRun();
   const runState = PIVOT_RUN.start();
-  const setRun = (/** @type {'running' | 'shown' | 'failed'} */ next) => { status.dataset.state = runState.to(next); };
+  const setRun = (/** @type {'running' | 'shown' | 'failed'} */ next) => { status.dataset['state'] = runState.to(next); };
 
   const renderSaved = () => {
     const views = savedViews();
@@ -112,9 +112,9 @@ export async function render(root, route, ctx) {
     const parties = /** @type {Array<{ p: string, n: number }>} */ (await queryBodies(settings.bodies, 'SELECT party AS p, COUNT(*) AS n FROM rows GROUP BY party ORDER BY n DESC LIMIT 200'));
     if (ctx.stale() || !runs.isLatest(token)) return;
     listsFor = settings.bodies.join(',');
-    const sel = settings.filters.election || [];
+    const sel = settings.filters['election'] || [];
     $('pv-election').innerHTML = `<option value="">All</option>${elections.map((e) => `<option value="${esc(e.k)}"${sel.includes(e.k) ? ' selected' : ''}>${esc(e.t)}</option>`).join('')}`;
-    const ps = settings.filters.party || [];
+    const ps = settings.filters['party'] || [];
     $('pv-party').innerHTML = parties.map((p) => `<option value="${esc(p.p)}"${ps.includes(p.p) ? ' selected' : ''}>${esc(p.p)} (${fmtInt(p.n)})</option>`).join('');
   };
 
@@ -177,11 +177,11 @@ export async function render(root, route, ctx) {
     /** @type {Record<string, string[]>} */
     const filters = {};
     const el = $('pv-election').value;
-    if (el) filters.election = [el];
+    if (el) filters['election'] = [el];
     const ps = multi('pv-party');
-    if (ps.length) filters.party = ps;
+    if (ps.length) filters['party'] = ps;
     const oc = $('pv-outcome').value;
-    if (oc) filters.outcome = [oc];
+    if (oc) filters['outcome'] = [oc];
     for (const f of Object.keys(FILTERS)) if (!['election', 'party', 'outcome'].includes(f) && state.filters[f]) filters[f] = state.filters[f];
     state = stateFromQuery(new URLSearchParams(queryFromState({
       bodies: bodiesSel.length ? bodiesSel : state.bodies, rows: $('pv-rows').value, cols: $('pv-cols').value, measure: $('pv-measure').value, from: year('pv-from'), to: year('pv-to'), filters,
@@ -198,8 +198,8 @@ export async function render(root, route, ctx) {
     // run fills the lists afresh first.
     if (state.bodies.join(',') !== bodiesBefore) {
       bodiesBefore = state.bodies.join(',');
-      delete state.filters.election;
-      delete state.filters.party;
+      delete state.filters['election'];
+      delete state.filters['party'];
       history.replaceState(null, '', `/elections/pivot/?${queryFromState(state)}`);
     }
     run();

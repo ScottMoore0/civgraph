@@ -104,20 +104,20 @@ function headingBefore(el) {
 export function labelScrollAreas(root) {
   for (const box of /** @type {NodeListOf<HTMLElement>} */ (root.querySelectorAll(SCROLL_AREAS))) {
     // A box its view already made a named region (a chart's data table) is left as it is.
-    if (!box.dataset.scrollArea && box.hasAttribute('tabindex')) continue;
+    if (!box.dataset['scrollArea'] && box.hasAttribute('tabindex')) continue;
     const overflows = box.scrollWidth > box.clientWidth + 1 || box.scrollHeight > box.clientHeight + 1;
     if (!overflows) {
-      if (box.dataset.scrollArea) { box.removeAttribute('tabindex'); box.removeAttribute('role'); box.removeAttribute('aria-label'); delete box.dataset.scrollArea; }
+      if (box.dataset['scrollArea']) { box.removeAttribute('tabindex'); box.removeAttribute('role'); box.removeAttribute('aria-label'); delete box.dataset['scrollArea']; }
       continue;
     }
-    if (box.dataset.scrollArea) continue;
+    if (box.dataset['scrollArea']) continue;
     // The nearest heading: a count stage's summary, the section's heading, or the last heading before it.
     const heading = box.closest('details')?.querySelector('summary')?.textContent || box.closest('section')?.querySelector('h2, h3')?.textContent || headingBefore(box);
     const caption = box.querySelector('caption, figcaption')?.textContent || null;
     box.setAttribute('tabindex', '0');
     box.setAttribute('role', 'region');
     box.setAttribute('aria-label', scrollAreaName({ caption, heading, diagram: !box.querySelector('table') }));
-    box.dataset.scrollArea = '1';
+    box.dataset['scrollArea'] = '1';
   }
 }
 

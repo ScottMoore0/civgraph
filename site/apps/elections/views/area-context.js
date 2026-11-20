@@ -64,17 +64,17 @@ export async function mountAreaContext(root, where, ctx, opts = {}) {
   const body = /** @type {HTMLElement | null} */ (root.querySelector('[data-el-census-body]'));
   const run = CENSUS_CONTEXT.start();
   if (!box || !body) return run.state();
-  box.dataset.state = run.state();
+  box.dataset['state'] = run.state();
   try {
     const data = /** @type {import('../lib/census-context.js').CensusData} */ (await censusAreas());
     if (ctx.stale()) return run.state();
     const c = areaContext(data, where);
     body.innerHTML = areaContextHtml(c, data, opts.linkFor);
-    box.dataset.state = run.to(c.status);
+    box.dataset['state'] = run.to(c.status);
   } catch (err) {
     if (ctx.stale()) return run.state();
     body.innerHTML = `<p class="cg-notice cg-notice--danger">${esc(AREA_TEXT.failed)}</p>`;
-    box.dataset.state = run.to('failed');
+    box.dataset['state'] = run.to('failed');
     console.error(err);
   }
   return run.state();

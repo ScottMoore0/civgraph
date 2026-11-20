@@ -145,7 +145,7 @@ export function bundleAreas(bundle) {
       name: String(r.constituency || r.matchName || r.featureName || ''),
       feature: matched && r.featureName ? String(r.featureName).toUpperCase() : null,
       seats: pos(r.seatsTotal) || 1,
-      system: String(r.votingSystem || bundle?.votingSystem || ''),
+      system: String(r['votingSystem'] || bundle?.votingSystem || ''),
       poll: contestPollStatus(/** @type {Parameters<typeof contestPollStatus>[0]} */ (r)),
       valid,
       cast: cast ?? (valid !== null && spoiltGiven !== null ? valid + spoiltGiven : null),

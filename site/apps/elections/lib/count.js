@@ -34,8 +34,8 @@ export function countSheet(candidates, contest = {}) {
   /** @type {SheetRow[]} */
   const rows = (candidates || []).map((c) => {
     /** @type {Cell[]} */
-    const cells = (Array.isArray(c.counts) ? c.counts : []).map((/** @type {Record<string, unknown>} */ k) => ({
-      count: Number(k.count), total: num(k.total), transfers: num(k.transfers), status: String(k.status || ''),
+    const cells = (Array.isArray(c['counts']) ? c['counts'] : []).map((/** @type {Record<string, unknown>} */ k) => ({
+      count: Number(k['count']), total: num(k['total']), transfers: num(k['transfers']), status: String(k['status'] || ''),
     })).filter((/** @type {Cell} */ k) => Number.isFinite(k.count)).sort((/** @type {Cell} */ a, /** @type {Cell} */ b) => a.count - b.count);
     for (const k of cells) if (k.total !== null) stageSet.add(k.count);
     // packages/core/src/unopposed.mjs (QA H4): an "Elected unopposed" or auto-returned (Ceann
@@ -45,20 +45,20 @@ export function countSheet(candidates, contest = {}) {
     const autoReturned = returned === 'auto-returned';
     const noPoll = returned !== null;
     return {
-      id: String(c.id ?? c.name),
-      name: String(c.name || ''),
-      party: String(c.party || 'No party recorded'),
-      colour: String(c.colour || ''),
-      personId: c.personId ? String(c.personId) : null,
-      personSlug: c.personSlug ? String(c.personSlug) : null,
-      firstPrefs: noPoll && !num(c.firstPrefs) ? null : num(c.firstPrefs),
-      finalVotes: num(c.finalVotes),
-      elected: c.elected === 1 || c.elected === true || noPoll,
+      id: String(c['id'] ?? c['name']),
+      name: String(c['name'] || ''),
+      party: String(c['party'] || 'No party recorded'),
+      colour: String(c['colour'] || ''),
+      personId: c['personId'] ? String(c['personId']) : null,
+      personSlug: c['personSlug'] ? String(c['personSlug']) : null,
+      firstPrefs: noPoll && !num(c['firstPrefs']) ? null : num(c['firstPrefs']),
+      finalVotes: num(c['finalVotes']),
+      elected: c['elected'] === 1 || c['elected'] === true || noPoll,
       unopposed,
       autoReturned,
-      electedAt: num(c.electedAt),
-      excludedAt: num(c.excludedAt),
-      status: String(c.status || ''),
+      electedAt: num(c['electedAt']),
+      excludedAt: num(c['excludedAt']),
+      status: String(c['status'] || ''),
       cells,
     };
   });
