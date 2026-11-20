@@ -138,7 +138,7 @@ export function compactLayer(layer) {
   // dates -- stays in the full record, where the checks that use it read it.
   if (layer.tilePackage && typeof layer.tilePackage === 'object') {
     const { serving, localPath } = /** @type {{ serving?: unknown, localPath?: unknown }} */ (layer.tilePackage);
-    compact.tilePackage = Object.fromEntries(Object.entries({ serving, localPath }).filter(([, value]) => value !== undefined));
+    compact['tilePackage'] = Object.fromEntries(Object.entries({ serving, localPath }).filter(([, value]) => value !== undefined));
   }
   return compact;
 }
@@ -160,11 +160,11 @@ export const FEATURE_ID_MODES = Object.freeze(/** @type {FeatureIdMode[]} */ (['
  */
 export function indexEntry(layer, duplicates, urls = API_URLS) {
   const entry = compactLayer(layer);
-  entry.detailUrl = urls.detail(layer.id);
+  entry['detailUrl'] = urls.detail(layer.id);
   if (duplicates) {
-    entry.duplicateFeatureIdsUrl = urls.duplicates(layer.id);
-    entry.duplicateFeatureIdCount = (duplicates.duplicateFeatureIds || []).length;
-    entry.featureIdMode = duplicates.featureIdMode;
+    entry['duplicateFeatureIdsUrl'] = urls.duplicates(layer.id);
+    entry['duplicateFeatureIdCount'] = (duplicates.duplicateFeatureIds || []).length;
+    entry['featureIdMode'] = duplicates.featureIdMode;
   }
   return entry;
 }
