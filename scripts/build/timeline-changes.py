@@ -46,7 +46,11 @@ Usage:
   python scripts/build/timeline-changes.py                 # rebuild pairs whose inputs changed
   python scripts/build/timeline-changes.py --force         # rebuild every pair
   python scripts/build/timeline-changes.py --only counties # pairs whose id contains the text
+                                                           # (several, comma-separated: any of them)
   python scripts/build/timeline-changes.py --list          # print the pairs, compute nothing
+  python scripts/build/timeline-changes.py --force --sources-from ../boundaries-website
+                                                           # in a worktree: read the (untracked)
+                                                           # source files from another checkout
 """
 from __future__ import annotations
 
@@ -67,7 +71,10 @@ ROOT = Path(__file__).resolve().parents[2]
 CATALOGUE = ROOT / 'data' / 'database' / 'maps.json'
 LAYERS = ROOT / 'render' / 'metadata' / 'maps-test.json'
 OUT_DIR = ROOT / 'data' / 'timeline-changes'
-BUILDER_VERSION = 8
+# Where the source FlatGeobufs are read from. They are not tracked, so a worktree has none; a run
+# there passes --sources-from <main checkout> (read only) and writes its output here.
+SOURCE_ROOT = Path(os.environ.get('CIVGRAPH_TIMELINE_SOURCES') or ROOT).resolve()
+BUILDER_VERSION = 9
 
 METRIC_CRS = 'EPSG:2157'       # Irish Transverse Mercator: metres, island-wide
 OPEN_RADIUS_M = 60.0           # opening removes anything narrower than 120 m
@@ -76,6 +83,8 @@ MIN_MEAN_WIDTH_M = 120.0       # 2 * area / perimeter of what survives the openi
 LINE_TOLERANCE_M = 80.0        # a line within this of the other edition's lines is "the same line"
 MIN_LINE_M = 150.0             # shortest added/removed line piece kept
 RENAME_MIN_SHARE = 0.6         # a rename needs the old and new unit to share 60% of each
+ID_RENAME_MIN_SHARE = 0.25     # ... or the same stable id and 25% of the smaller of the two
+STABLE_ID_AGREEMENT = 0.9      # an id column is stable when 90% of the units that carry on keep it
 REDRAWN_MAX_SHIFT_M = 15.0     # mean boundary shift above which two editions are "redrawn"
 SIMPLIFY_M = 15.0
 MAX_CHANGES_LISTED = 400
@@ -185,7 +194,7 @@ class Catalogue:
         for rel in candidates:
             if not rel:
                 continue
-            path = ROOT / rel
+            path = SOURCE_ROOT / rel
             if path.suffix.lower() in ('.fgb', '.geojson', '.gpkg') and path.exists():
                 return [(rel.replace('\\', '/'), label)]
         out = []
@@ -299,6 +308,179 @@ def _same_name(a, b):
     return difflib.SequenceMatcher(None, a, b).ratio() >= 0.86
 
 
+def clean_label(value):
+    """A label as shown: whitespace collapsed and trimmed (dail-2013 had "Cavan-Monaghan (4)\n")."""
+    return re.sub(r'\s+', ' ', str(value or '')).strip()
+
+
+def is_code(value):
+    """A label that is a code, not a name: 95PP030006, N00002929, 95NN22W1."""
+    text = clean_label(value)
+    return bool(text) and ' ' not in text and sum(ch.isdigit() for ch in text) >= 3 and not re.search(r'[a-z]{3}', text)
+
+
+SEATS_RE = re.compile(r'\s*\(\s*\d+\s*\)\s*$')
+PAREN_RE = re.compile(r'\(([^)]*)\)')
+# A word for the kind of unit, which one source writes and another leaves out ("Co. Antrim" /
+# "Antrim", "Omagh Rural District" / "OMAGH"). Only when one side has none: "Bangor Urban
+# District" -> "Bangor Municipal Borough" is a real change of status.
+TYPE_PHRASES = ('county borough', 'municipal borough', 'urban district', 'rural district', 'borough', 'district', 'county', 'co')
+COMPASS = {'n': 'north', 's': 'south', 'e': 'east', 'w': 'west',
+           'ne': 'north east', 'nw': 'north west', 'se': 'south east', 'sw': 'south west'}
+QUALIFIERS = ('urban', 'rural')
+
+
+def _strip_type(name):
+    for phrase in TYPE_PHRASES:
+        if name.startswith(phrase + ' '):
+            return name[len(phrase) + 1:], True
+        if name.endswith(' ' + phrase):
+            return name[:-len(phrase) - 1], True
+    return name, False
+
+
+def _expand_compass(name):
+    words, used = [], False
+    for word in name.split():
+        if word in COMPASS:
+            words.extend(COMPASS[word].split())
+            used = True
+        else:
+            words.append(word)
+    return sorted(words), used
+
+
+def _abbreviates(names):
+    """Whether an edition writes its names with compass abbreviations ("Mayo N", "Cork SE")."""
+    return any(name.rsplit(' ', 1)[-1] in COMPASS for name in names if ' ' in name)
+
+
+def _without(name, word):
+    return ' '.join(w for w in name.split() if w != word)
+
+
+def _qualifier_split(q_name, q, u_name, q_names, u_names):
+    """'X' in one edition and 'X Urban' (or Rural) in the other. A real change when the unit was
+    divided: the qualified edition also has 'X Rural' (Urban) and the other edition has no
+    qualified X at all (Buncrana -> Buncrana Rural + Buncrana Urban, 1912 to 1914). Otherwise the
+    sources only label it differently (SLIGO WEST URBAN / SLIGO WEST)."""
+    base = _without(q_name, q)
+    other = 'rural' if q == 'urban' else 'urban'
+    sibling = any(other in n.split() and _without(n, other) == base for n in q_names)
+    qualified_there = any(set(n.split()) & set(QUALIFIERS) and _without(_without(n, 'urban'), 'rural') == u_name
+                          for n in u_names)
+    return sibling and not qualified_there
+
+
+def rename_verdict(na, nb, alts_a=(), alts_b=(), names_a=frozenset(), names_b=frozenset(), same_field=False):
+    """Is old name `na` -> new name `nb` a rename? 'same' (one name), 'renamed', or the reason it
+    is only the two editions labelling one unit differently:
+
+      code              a label is a code (output areas recoded as small areas; small areas
+                        labelled by code in 2011 and by name in 2022): a code is not a name
+      seats             a seat count in brackets: "Mayo" / "Mayo (4)", "Kildare South (3)" / "(4)"
+      parenthetical     a note in brackets: "ATHLONE EAST URBAN (ST. MARY'S)", "St. MARY'S (PART)",
+                        "NORTH EAST" / "CORK No. 3 URBAN (NORTH EAST WARD)"
+      type word         a unit-type word on one side only: "Co. Antrim" / "Antrim"
+      abbreviation      "North Mayo" / "Mayo N", and "Mid Cork" / "Cork Mid" in an edition that
+                        abbreviates (word order alone is otherwise a rename: South Kerry ->
+                        Kerry South was the 1980 Act's own renaming)
+      qualifier         "SLIGO WEST URBAN" / "SLIGO WEST" (see _qualifier_split)
+      numbered part     "AGHAGALLON" / "Aghagallon_2" beside "Aghagallon_1", "GLASNEVIN" /
+                        "GLASNEVIN A" beside "GLASNEVIN B": a unit divided into numbered or
+                        lettered parts (the other part is listed as formed from it); and
+                        "CENTRAL" / "Central_Ards": a name qualified after underscores
+      other name field  the editions label from different fields, and the new unit carries the
+                        old name in another name field, or the old the new (an Irish name in one
+                        edition, the English in the next). Not when both label from one field:
+                        Edgeworthstown -> Meathas Truim (ENGLISH in both, 1950 to 1953) is a
+                        rename, though the 1950 unit's GAEILGE field already reads Meathas Troim.
+
+    `alts_*` are the units' other name fields, `names_*` every normalised name in each edition,
+    `same_field` whether both editions take the label from one field.
+    Case, spacing, accents and punctuation never count (norm_name)."""
+    if same_name(na, nb):
+        return 'same'
+    if not norm_name(na) or not norm_name(nb):
+        return 'same'
+    if is_code(na) or is_code(nb):
+        return 'code'
+    ca, cb = clean_label(na), clean_label(nb)
+    sa, sb = SEATS_RE.sub('', ca), SEATS_RE.sub('', cb)
+    if (sa != ca or sb != cb) and same_name(sa, sb):
+        return 'seats'
+    inner_a = [i for i in PAREN_RE.findall(sa) if i.strip()]
+    inner_b = [i for i in PAREN_RE.findall(sb) if i.strip()]
+    outer_a, outer_b = PAREN_RE.sub(' ', sa), PAREN_RE.sub(' ', sb)
+    if (inner_a or inner_b) and (same_name(outer_a, outer_b) or any(same_name(i, outer_b) for i in inner_a)
+                                 or any(same_name(outer_a, i) for i in inner_b)):
+        return 'parenthetical'
+    a, b = norm_name(outer_a), norm_name(outer_b)
+    ta, typed_a = _strip_type(a)
+    tb, typed_b = _strip_type(b)
+    if typed_a != typed_b and ta and tb and same_name(ta, tb):
+        return 'type word'
+    wa, abbr_a = _expand_compass(a)
+    wb, abbr_b = _expand_compass(b)
+    # The same words in another order are a rename (South Kerry -> Kerry South, 1980), unless one
+    # side abbreviates, or its edition writes every name the abbreviated way ("Cork Mid" beside
+    # "Mayo N" in the 1918 constituencies).
+    if wa == wb and (abbr_a != abbr_b or _abbreviates(names_a) or _abbreviates(names_b)):
+        return 'abbreviation'
+    qa = [w for w in a.split() if w in QUALIFIERS]
+    qb = [w for w in b.split() if w in QUALIFIERS]
+    if bool(qa) != bool(qb):
+        q_name, u_name, q_names, u_names, q = (a, b, names_a, names_b, qa[0]) if qa else (b, a, names_b, names_a, qb[0])
+        if same_name(_without(q_name, q), u_name) and not _qualifier_split(q_name, q, u_name, q_names, u_names):
+            return 'qualifier'
+    for long_name, short_name, long_names in ((a, b, names_a), (b, a, names_b)):
+        m = re.fullmatch(r'(.+) (\d+|[a-d])', long_name)
+        if m and m.group(1) == short_name and not re.search(r'\d', short_name):
+            if any(n != long_name and re.fullmatch(re.escape(m.group(1)) + r' (\d+|[a-d])', n) for n in long_names):
+                return 'numbered part'
+    # "Central_Ards", "Bloomfield_1_NorthDown": a name with a qualifier joined by underscores,
+    # which keeps apart the wards of one name in different districts (the 2011 SOAs).
+    for joined, other in ((ca, cb), (cb, ca)):
+        if '_' in joined and '_' not in other and same_name(joined.split('_')[0], other):
+            return 'numbered part'
+    if not same_field and (any(same_name(na, v) for v in alts_b) or any(same_name(nb, v) for v in alts_a)):
+        return 'other name field'
+    return 'renamed'
+
+
+# Other fields that hold the unit's own name (an Irish name beside the English). Not a parent
+# unit's (county, province, LGD) and not a former name.
+ALT_NAME_HINTS = ('name', 'english', 'gaeilge', 'irish', 'ainm', 'label', '_ga')
+NOT_ALT_NAME = ('county', 'contae', 'province', 'cuige', 'nuts', 'lgd', 'parent', 'old', 'former', 'prev', 'hist')
+# Fields that are measures, positions or row numbers, never a unit's id.
+NOT_ID = re.compile(r'area|elev|centroid|coord|^x_|^y_|_x$|_y$|perim|shape|popul|elector|member|count|acre|hect|len'
+                    r'|sqkm|sq_km|edition|date|year|^fid$|^ogc_fid$|^civ_fid$|^objectid|^esri_oid$|^id$|^gid$|^uid$', re.I)
+
+
+def is_alt_name_column(column):
+    c = column.lower()
+    return any(h in c for h in ALT_NAME_HINTS) and not any(x in c for x in NOT_ALT_NAME)
+
+
+def code_value(value):
+    """A field value as an id: whole numbers without leading zeros ('067141' and 67141 agree),
+    text trimmed and in capitals; None for an empty, missing or fractional value."""
+    if value is None or isinstance(value, bool):
+        return None
+    if hasattr(value, 'item') and not isinstance(value, (str, bytes)):   # a numpy scalar
+        value = value.item()
+    if isinstance(value, float):
+        if value != value or not value.is_integer():
+            return None
+        return str(int(value))
+    if isinstance(value, int):
+        return str(value)
+    text = str(value).strip()
+    if not text:
+        return None
+    return str(int(text)) if text.isdigit() else text.upper()
+
+
 def pick_name_field(columns, label):
     cols = [c for c in columns if c != 'geometry']
     if label and label in cols:
@@ -339,7 +521,7 @@ def load_edition(sources):
     import shapely
     frames = []
     for rel, label in sources:
-        gdf = gpd.read_file(ROOT / rel, engine='pyogrio')
+        gdf = gpd.read_file(SOURCE_ROOT / rel, engine='pyogrio')
         if gdf.crs is None:
             gdf = gdf.set_crs('EPSG:4326')
         gdf = gdf[gdf.geometry.notna()]
@@ -355,7 +537,17 @@ def load_edition(sources):
                 continue
         field = pick_name_field(gdf.columns, label)
         names = gdf[field].astype(str).where(gdf[field].notna(), '') if field else pd.Series([''] * len(gdf))
-        part = gpd.GeoDataFrame({'name': names.values, 'src': rel}, geometry=gdf.geometry.values, crs=gdf.crs)
+        # The unit's other names (to tell a rename from a change of label field) and the fields
+        # that may be a stable id (stable_id_columns decides which, if any, is).
+        others = [c for c in gdf.columns if c not in ('geometry', field)]
+        alt_cols = [c for c in others if is_alt_name_column(c)]
+        id_cols = [c for c in others if c not in alt_cols and not NOT_ID.search(c)]
+        alts = [tuple(clean_label(v) for v in row if isinstance(v, str) and v.strip())
+                for row in zip(*[gdf[c].values for c in alt_cols])] if alt_cols else [()] * len(gdf)
+        codes = [{c: v for c, v in ((c, code_value(v)) for c, v in zip(id_cols, row)) if v}
+                 for row in zip(*[gdf[c].values for c in id_cols])] if id_cols else [{}] * len(gdf)
+        part = gpd.GeoDataFrame({'name': [clean_label(n) for n in names.values], 'src': rel,
+                                 'field': field or '', 'alts': alts, 'codes': codes}, geometry=gdf.geometry.values, crs=gdf.crs)
         frames.append(part.to_crs(METRIC_CRS))
     gdf = gpd.GeoDataFrame(pd.concat(frames, ignore_index=True), crs=METRIC_CRS)
     gdf = gdf[gdf.geometry.notna() & ~gdf.geometry.is_empty].reset_index(drop=True)
@@ -370,6 +562,9 @@ def load_edition(sources):
     out = gpd.GeoDataFrame({
         'name': gdf['name'].values[rows],
         'src': gdf['src'].values[rows],
+        'field': gdf['field'].values[rows],
+        'alts': gdf['alts'].values[rows],
+        'codes': gdf['codes'].values[rows],
     }, geometry=[shapely.multipolygons(grouped[i]) if len(grouped[i]) > 1 else grouped[i][0] for i in rows], crs=METRIC_CRS)
     out = out[out.geometry.area > 1.0].reset_index(drop=True)
     out['uid'] = range(len(out))
@@ -380,14 +575,14 @@ def fingerprint(pair):
     h = hashlib.sha1(f'v{BUILDER_VERSION}|{pair["fromMapId"]}|{pair["toMapId"]}'.encode())
     for rel, label in sorted(pair['fromSources']) + [('|', '')] + sorted(pair['toSources']):
         h.update(f'{rel}|{label}'.encode())
-        p = ROOT / rel
+        p = SOURCE_ROOT / rel
         if p.exists():
             st = p.stat()
             h.update(f'{st.st_size}|{int(st.st_mtime)}'.encode())
     return h.hexdigest()[:16]
 
 
-def sources_missing_here(pair, old, exists=lambda rel: (ROOT / rel).exists()):
+def sources_missing_here(pair, old, exists=lambda rel: (SOURCE_ROOT / rel).exists()):
     """True when a pair cannot be recomputed in this checkout because the files it was built
     from are not held here, so its previous entry and file must be kept as they are.
 
@@ -490,7 +685,10 @@ def compare(pair):
     mutual = np.array([best_b.get(ia) == ib and best_a.get(ib) == ia
                        for ia, ib in zip(pieces['ia'], pieces['ib'])], dtype=bool)
     samename = np.array([same_name(na, nb) for na, nb in zip(pieces['na'], pieces['nb'])], dtype=bool)
-    pieces['keep'] = mutual | samename
+    # A unit and its successor by a stable id the editions share carry on, whatever their names.
+    id_of_a, id_of_b = id_partners(a, b, best_a, best_b, in_a, in_b)
+    by_id = np.array([id_of_a.get(ia) == ib for ia, ib in zip(pieces['ia'], pieces['ib'])], dtype=bool)
+    pieces['keep'] = mutual | samename | by_id
 
     # Does a unit carry on into the other edition (its main partner, or a same-named unit)?
     cont_a = np.zeros(len(a), dtype=bool)
@@ -552,18 +750,9 @@ def compare(pair):
             kind = 'abolished'
         changes.append({'type': kind, 'from': names_a[ia], 'to': names_b[ib], 'ia': int(ia), 'ib': int(ib), 'geom': shape})
 
-    # Renames: the same land under a different name.
-    renames = []
     pair_area = pieces.groupby(['ia', 'ib'])['area'].sum().to_dict()
-    for ia, ib in best_b.items():
-        if best_a.get(ib) != ia or same_name(names_a[ia], names_b[ib]):
-            continue
-        if not norm_name(names_a[ia]) or not norm_name(names_b[ib]):
-            continue
-        shared_area = pair_area.get((ia, ib), 0.0)
-        if shared_area >= RENAME_MIN_SHARE * area_a[ia] and shared_area >= RENAME_MIN_SHARE * area_b[ib]:
-            renames.append({'type': 'renamed', 'from': names_a[ia], 'to': names_b[ib],
-                            'ia': int(ia), 'ib': int(ib), 'geom': b.geometry.values[ib]})
+    renames, label_variants, review = find_renames(a, b, best_a, best_b, pair_area, id_of_a, id_of_b)
+    write_review(pair['id'], review)
 
     changes = merge_unit_changes(changes)
     # A unit drawn in one edition only, inside what both cover (Larne Municipal Borough is in
@@ -582,7 +771,119 @@ def compare(pair):
     lines = changed_lines(a, b, [c['geom'] for c in changes], in_a, in_b)
     return build_output(pair, changes, renames, lines, mean_shift_m,
                         compared=(int(in_a.sum()), int(in_b.sum())), compared_m2=compared_m2,
-                        uncompared=uncompared)
+                        uncompared=uncompared, label_variants=label_variants)
+
+
+def stable_id_columns(a, b, matched):
+    """The id field each edition shares with the other, if any: a field of a's and one of b's
+    (their names may differ: OSIED in the 2006 EDs is ED_ID in 2019) that agree on at least
+    STABLE_ID_AGREEMENT of the units that carry on under one name (`matched`, pairs of row
+    indexes), and are unique in each edition. None when no field is that stable: a row number
+    or a code reissued at a review fails the test."""
+    if len(matched) < 5:
+        return None
+    codes_a, codes_b = a['codes'].values, b['codes'].values
+    agree = {}
+    for ia, ib in matched:
+        ca, cb = codes_a[ia], codes_b[ib]
+        for ka, va in ca.items():
+            for kb, vb in cb.items():
+                if va == vb:
+                    agree[(ka, kb)] = agree.get((ka, kb), 0) + 1
+    for (ka, kb), n in sorted(agree.items(), key=lambda kv: -kv[1]):
+        if n < STABLE_ID_AGREEMENT * len(matched):
+            return None
+        va = [c.get(ka) for c in codes_a if c.get(ka)]
+        vb = [c.get(kb) for c in codes_b if c.get(kb)]
+        if len(set(va)) == len(va) and len(set(vb)) == len(vb):
+            return ka, kb
+    return None
+
+
+def id_partners(a, b, best_a, best_b, in_a, in_b):
+    """Each compared unit's successor by the stable id the editions share (stable_id_columns),
+    both ways: ({row in a: row in b}, {row in b: row in a}); empty when they share none."""
+    names_a, names_b = a['name'].tolist(), b['name'].tolist()
+    matched = [(ia, ib) for ia, ib in best_b.items() if best_a.get(ib) == ia and same_name(names_a[ia], names_b[ib])]
+    ids = stable_id_columns(a, b, matched)
+    id_of_a, id_of_b = {}, {}
+    if not ids:
+        return id_of_a, id_of_b
+    ka, kb = ids
+    by_code_b = {}
+    for ib, codes in enumerate(b['codes'].values):
+        if codes.get(kb) and in_b[ib]:
+            by_code_b.setdefault(codes[kb], []).append(ib)
+    for ia, codes in enumerate(a['codes'].values):
+        hits = by_code_b.get(codes.get(ka)) if in_a[ia] else None
+        if hits and len(hits) == 1:
+            id_of_a[ia] = hits[0]
+            id_of_b[hits[0]] = ia
+    return id_of_a, id_of_b
+
+
+def find_renames(a, b, best_a, best_b, pair_area, id_of_a, id_of_b):
+    """Units present in both editions under a different name. A unit is matched by its stable
+    id where the editions share one (id_partners), else by geometry: the main successor and main
+    predecessor of each other, sharing RENAME_MIN_SHARE of each. A different label that is only
+    the two sources writing one name differently (rename_verdict) is not a rename; those are
+    counted by reason. Returns (renames, {reason: count}, review): `review` lists, for
+    write_review, every label difference set aside and the main-successor pairs whose names
+    differ but which share too little land to be called a rename."""
+    names_a, names_b = a['name'].tolist(), b['name'].tolist()
+    alts_a, alts_b = a['alts'].tolist(), b['alts'].tolist()
+    field_a, field_b = [f.lower() for f in a['field'].tolist()], [f.lower() for f in b['field'].tolist()]
+    area_a, area_b = a.geometry.area.values, b.geometry.area.values
+    norm_a = frozenset(norm_name(n) for n in names_a)
+    norm_b = frozenset(norm_name(n) for n in names_b)
+    mutual = [(ia, ib) for ia, ib in best_b.items() if best_a.get(ib) == ia]
+
+    candidates = []
+    for ia, ib in mutual:
+        # Ids, where there are any, say which unit carries on: geometry does not overrule them.
+        if id_of_a.get(ia, ib) != ib or id_of_b.get(ib, ia) != ia:
+            continue
+        shared = pair_area.get((ia, ib), 0.0)
+        if shared >= RENAME_MIN_SHARE * area_a[ia] and shared >= RENAME_MIN_SHARE * area_b[ib]:
+            candidates.append((ia, ib))
+    seen = set(candidates)
+    for ia, ib in id_of_a.items():
+        if (ia, ib) not in seen and pair_area.get((ia, ib), 0.0) >= ID_RENAME_MIN_SHARE * min(area_a[ia], area_b[ib]):
+            candidates.append((ia, ib))
+
+    renames, variants = [], {}
+    review = {'variants': [], 'belowShare': []}
+    for ia, ib in candidates:
+        verdict = rename_verdict(names_a[ia], names_b[ib], alts_a[ia], alts_b[ib], norm_a, norm_b, field_a[ia] == field_b[ib])
+        if verdict == 'renamed':
+            renames.append({'type': 'renamed', 'from': names_a[ia], 'to': names_b[ib],
+                            'ia': int(ia), 'ib': int(ib), 'geom': b.geometry.values[ib],
+                            'by': 'id' if id_of_a.get(ia) == ib else 'geometry'})
+        elif verdict != 'same':
+            variants[verdict] = variants.get(verdict, 0) + 1
+            review['variants'].append([verdict, names_a[ia], names_b[ib]])
+    if REVIEW_DIR:
+        taken = set(candidates)
+        for ia, ib in mutual:
+            if (ia, ib) in taken:
+                continue
+            shared = pair_area.get((ia, ib), 0.0)
+            if rename_verdict(names_a[ia], names_b[ib], alts_a[ia], alts_b[ib], norm_a, norm_b, field_a[ia] == field_b[ib]) == 'renamed':
+                review['belowShare'].append([names_a[ia], names_b[ib], round(shared / max(area_a[ia], 1), 2),
+                                             round(shared / max(area_b[ib], 1), 2)])
+    return renames, variants, review
+
+
+# Set CIVGRAPH_TIMELINE_REVIEW=<folder> to write, per pair, the label differences set aside as not
+# renames and the near-renames (find_renames), for checking the rules by eye. Not build output.
+REVIEW_DIR = os.environ.get('CIVGRAPH_TIMELINE_REVIEW') or ''
+
+
+def write_review(pair_id, review):
+    if not REVIEW_DIR or not (review['variants'] or review['belowShare']):
+        return
+    Path(REVIEW_DIR).mkdir(parents=True, exist_ok=True)
+    (Path(REVIEW_DIR) / f'{pair_id}.json').write_text(json.dumps(review, ensure_ascii=False), encoding='utf-8')
 
 
 def orphan_units(gdf, mask, compared_m2, max_units=10, max_share=0.02, min_shared_edge=0.25):
@@ -723,7 +1024,17 @@ def feature(geom, props):
     return {'type': 'Feature', 'properties': props, 'geometry': json.loads(shapely.to_geojson(geom))}
 
 
-def build_output(pair, changes, renames, lines, mean_shift_m, compared, compared_m2=0.0, uncompared=()):
+def summary_line(count, renamed, moved_ha):
+    """'3 changes, 16 ha in all.', '2 changes (1 rename), 16 ha in all.', '1 rename.'"""
+    if renamed and renamed == count:
+        return f"{count:,} rename{'s' if count != 1 else ''}."
+    text = f"{count:,} change{'s' if count != 1 else ''}"
+    if renamed:
+        text += f" ({renamed:,} rename{'s' if renamed != 1 else ''})"
+    return text + (f", {fmt_ha(moved_ha)} in all" if moved_ha else '') + '.'
+
+
+def build_output(pair, changes, renames, lines, mean_shift_m, compared, compared_m2=0.0, uncompared=(), label_variants=None):
     import shapely
     redrawn = mean_shift_m >= REDRAWN_MAX_SHIFT_M
     all_changes = changes + renames
@@ -753,7 +1064,12 @@ def build_output(pair, changes, renames, lines, mean_shift_m, compared, compared
             'ha': round(c['ha'], 1), 'bbox': [round(v, 5) for v in g.bounds],
             'point': [round(p.x, 5), round(p.y, 5)], 'text': describe(c, c['ha'])
         })
-        if c['type'] != 'renamed' and not reorganisation:
+        if c['type'] == 'renamed':
+            # The renamed unit itself, outlined lightly: its land did not change hands.
+            # Its boundary as lines: an outline is all that is drawn, and rounding a simplified
+            # polygon can fail on an invalid one (eds-roi-1970__eds-1971).
+            features.append(feature(round_coords(shapely.boundary(g)), {'role': 'renamed', 'changeId': cid, 'type': 'renamed'}))
+        elif not reorganisation:
             features.append(feature(round_coords(g), {'role': 'area', 'changeId': cid, 'type': c['type']}))
     for role, group in (('added', w_added), ('removed', w_removed)):
         # One multi-line per role: thousands of short line features cost more than their lines.
@@ -766,7 +1082,7 @@ def build_output(pair, changes, renames, lines, mean_shift_m, compared, compared
     if count:
         kind = 'changes'
         moved = sum(i['ha'] for i in items if i['type'] != 'renamed')
-        text = f"{count:,} change{'s' if count != 1 else ''}" + (f", {fmt_ha(moved)} in all" if moved else '') + '.'
+        text = summary_line(count, len(renames), moved)
         if reorganisation:
             text += (f' A reorganisation: {changed_m2 / compared_m2:.0%} of the area changed hands, so the new '
                      'and former lines are drawn rather than every area.')
@@ -788,6 +1104,11 @@ def build_output(pair, changes, renames, lines, mean_shift_m, compared, compared
     summary = {'kind': kind, 'count': count, 'text': text, 'meanShiftM': round(mean_shift_m, 1),
                'redrawn': bool(redrawn), 'reorganisation': bool(reorganisation),
                'compared': {'from': compared[0], 'to': compared[1]}}
+    if renames:
+        summary['renamed'] = len(renames)
+    if label_variants:
+        # Different labels found not to be renames, by reason (rename_verdict).
+        summary['labelVariants'] = dict(sorted(label_variants.items()))
     if truncated:
         summary['listed'] = len(items)
     fc = {'type': 'FeatureCollection', 'id': pair['id'], 'fromMapId': pair['fromMapId'], 'toMapId': pair['toMapId'],
@@ -835,12 +1156,19 @@ def run_in_subprocess(pair_id):
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     parser.add_argument('--force', action='store_true')
-    parser.add_argument('--only', default='')
+    parser.add_argument('--only', default='', help='only pairs whose id contains this text (or any of several, comma-separated)')
     parser.add_argument('--list', action='store_true')
     parser.add_argument('--jobs', type=int, default=4)
     parser.add_argument('--one', default='', help=argparse.SUPPRESS)
+    parser.add_argument('--sources-from', default='', help='read the source files from this checkout (read only)')
     args = parser.parse_args()
+    if args.sources_from:
+        global SOURCE_ROOT
+        SOURCE_ROOT = Path(args.sources_from).resolve()
+        # The per-pair workers are processes of their own: they read it from the environment.
+        os.environ['CIVGRAPH_TIMELINE_SOURCES'] = str(SOURCE_ROOT)
 
+    only = [text for text in args.only.split(',') if text]
     catalogue = Catalogue()
     pairs = catalogue.pairs()
     if args.one:
@@ -875,9 +1203,10 @@ def main():
             continue
         reusable = (old and old.get('signature') == sig and not args.force
                     and (not old.get('path') or (ROOT / old['path']).exists()))
-        if args.only and args.only in p['id']:
+        picked = any(text in p['id'] for text in only)
+        if only and picked:
             reusable = False if args.force else reusable
-        if reusable or (args.only and args.only not in p['id'] and old):
+        if reusable or (only and not picked and old):
             entries[p['id']] = old
         else:
             todo.append(p)
@@ -938,6 +1267,9 @@ def main():
             'fromSources': sorted({s for s, _ in p['fromSources']}),
             'toSources': sorted({s for s, _ in p['toSources']}),
         }
+        for key in ('renamed', 'labelVariants'):
+            if summary.get(key):
+                entry[key] = summary[key]
         if p.get('changeNote'):
             entry['changeNote'] = p['changeNote'][:400]
         if error:
