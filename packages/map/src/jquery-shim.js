@@ -7,27 +7,40 @@
  *   .append, .empty, .remove, .data, .attr, .find, .animate, .stop,
  *   .length, .each
  */
-(function (root) {
+/**
+ * @typedef {CSSStyleDeclaration & Record<string, string>} ShimStyle  a style read and written by property name
+ * @typedef {(this: ShimEl) => void} ShimCallback
+ * @typedef {{ type: 'delay', ms: number } | { type: 'animate', props: Record<string, string | number>, durationMs: number,
+ *   startCb: ShimCallback | null, completeCb: ShimCallback | null }} ShimQueueEntry
+ * @typedef {HTMLElement & { style: ShimStyle, _shimQueueRunning?: boolean, _shimAnimQueue?: ShimQueueEntry[],
+ *   _shimAnimTarget?: Record<string, string | number> | null, _shimHandlers?: Record<string, EventListener[]> }} ShimEl
+ *   an element the shim wraps, with the state it keeps on it (a parsed HTML string can also give text nodes)
+ * @typedef {typeof globalThis & { $?: unknown, jQuery?: unknown, __evAnimationPaused?: boolean }} ShimRoot
+ */
+(/** @param {ShimRoot} root */ function (root) {
     'use strict';
 
     // ---- Private helpers ----
 
-    /** Parse an HTML string into DOM elements */
+    /** Parse an HTML string into DOM elements @param {string} htmlStr */
     function _createFromHTML(htmlStr) {
         const tpl = document.createElement('template');
         tpl.innerHTML = htmlStr.trim();
-        return Array.from(tpl.content.childNodes);
+        return /** @type {ShimEl[]} */ (Array.from(tpl.content.childNodes));
     }
 
     /** Shared WeakMap for .data() storage (avoids polluting DOM elements) */
+    /** @type {WeakMap<ShimEl, Record<string, unknown>>} */
     const _dataStore = new WeakMap();
 
+    /** @param {ShimEl} el */
     function _getData(el) {
         if (!_dataStore.has(el)) _dataStore.set(el, {});
-        return _dataStore.get(el);
+        return /** @type {Record<string, unknown>} */ (_dataStore.get(el));
     }
 
     /** Active animation timers keyed by element */
+    /** @type {WeakMap<ShimEl, { raf: number, timeout: ReturnType<typeof setTimeout> | 0 }>} */
     const _animTimers = new WeakMap();
 
     /**
@@ -39,7 +52,7 @@
      */
     const QUEUE_RUNNING_TRANSITIONS = { off: ['off', 'on'], on: ['off', 'on'] };
 
-    /** Set an element's queue flag through the table; the value must be a boolean. */
+    /** Set an element's queue flag through the table; the value must be a boolean. @param {ShimEl} el @param {boolean} running */
     function _setQueueRunning(el, running) {
         if (typeof running !== 'boolean') {
             throw new TypeError('_shimQueueRunning: expected a boolean, got ' + typeof running);
@@ -52,28 +65,32 @@
         el._shimQueueRunning = running;
     }
 
-    /** Process the next entry in an element's animation queue */
+    /** Process the next entry in an element's animation queue @param {ShimEl} el */
     function _processQueue(el) {
         if (!el._shimAnimQueue || !el._shimAnimQueue.length) {
             _setQueueRunning(el, false);
             return;
         }
         _setQueueRunning(el, true);
-        const entry = el._shimAnimQueue[0];
+        const entry = /** @type {ShimQueueEntry} */ (el._shimAnimQueue[0]);
 
         if (entry.type === 'delay') {
             const timeout = setTimeout(() => {
-                el._shimAnimQueue.shift();
+                /** @type {ShimQueueEntry[]} */ (el._shimAnimQueue).shift();
                 _processQueue(el);
             }, entry.ms);
             _animTimers.set(el, { raf: 0, timeout });
         } else if (entry.type === 'animate') {
-            el._shimAnimQueue.shift();
+            /** @type {ShimQueueEntry[]} */ (el._shimAnimQueue).shift();
             _runAnimation(el, entry.props, entry.durationMs, entry.startCb, entry.completeCb);
         }
     }
 
-    /** Execute a single animation step with requestAnimationFrame */
+    /**
+     * Execute a single animation step with requestAnimationFrame
+     * @param {ShimEl} el @param {Record<string, string | number>} props @param {number} durationMs
+     * @param {ShimCallback | null} startCb @param {ShimCallback | null} completeCb
+     */
     function _runAnimation(el, props, durationMs, startCb, completeCb) {
         // Store target for .stop(true, true)
         el._shimAnimTarget = { ...props };
@@ -82,11 +99,14 @@
         if (startCb) startCb.call(el);
 
         // Parse current values for each property
+        /** @type {Record<string, number>} */
         const startValues = {};
+        /** @type {Record<string, number>} */
         const endValues = {};
+        /** @type {Record<string, string>} */
         const units = {};
         for (const [prop, rawTarget] of Object.entries(props)) {
-            const computed = window.getComputedStyle(el)[prop] || '0';
+            const computed = /** @type {ShimStyle} */ (window.getComputedStyle(el))[prop] || '0';
             const startNum = parseFloat(computed) || 0;
             const endNum = typeof rawTarget === 'number' ? rawTarget : parseFloat(rawTarget) || 0;
             if (typeof rawTarget === 'number') {
@@ -100,7 +120,9 @@
         }
 
         let startTime = performance.now();
+        /** @type {number | null} */
         let pausedAt = null;
+        /** @param {number} now */
         const step = (now) => {
             if (root && root.__evAnimationPaused) {
                 if (pausedAt === null) {
@@ -120,8 +142,8 @@
             const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 
             for (const prop of Object.keys(props)) {
-                const val = startValues[prop] + (endValues[prop] - startValues[prop]) * eased;
-                el.style[prop] = val + units[prop];
+                const val = /** @type {number} */ (startValues[prop]) + (/** @type {number} */ (endValues[prop]) - /** @type {number} */ (startValues[prop])) * eased;
+                el.style[prop] = val + /** @type {string} */ (units[prop]);
             }
 
             if (t < 1) {
@@ -131,7 +153,7 @@
                 // Ensure exact final values
                 for (const [prop, rawTarget] of Object.entries(props)) {
                     el.style[prop] = typeof rawTarget === 'number'
-                        ? rawTarget + units[prop] : rawTarget;
+                        ? rawTarget + /** @type {string} */ (units[prop]) : rawTarget;
                 }
                 _animTimers.delete(el);
                 el._shimAnimTarget = null;
@@ -148,28 +170,32 @@
     // ---- $Set: the jQuery-like wrapper ----
 
     class $Set {
+        /** @param {ShimEl[]} [elements] */
         constructor(elements) {
             this._els = elements || [];
             this.length = this._els.length;
-            // Expose indexed access (stages2.js uses [0] occasionally)
+            // Expose indexed access (stages2.js uses [0] occasionally). A JS class cannot declare an
+            // index signature, so the write goes through unknown.
             for (let i = 0; i < this._els.length; i++) {
-                this[i] = this._els[i];
+                /** @type {Record<number, ShimEl | undefined>} */ (/** @type {unknown} */ (this))[i] = this._els[i];
             }
         }
 
         // ---- Text & HTML ----
 
+        /** @param {string} [value] */
         text(value) {
             if (value === undefined) {
-                return this._els.length ? this._els[0].textContent : '';
+                return this._els.length ? /** @type {ShimEl} */ (this._els[0]).textContent : '';
             }
             this._els.forEach(el => { el.textContent = value; });
             return this;
         }
 
+        /** @param {string} [value] */
         html(value) {
             if (value === undefined) {
-                return this._els.length ? this._els[0].innerHTML : '';
+                return this._els.length ? /** @type {ShimEl} */ (this._els[0]).innerHTML : '';
             }
             this._els.forEach(el => { el.innerHTML = value; });
             return this;
@@ -177,13 +203,14 @@
 
         // ---- CSS ----
 
+        /** @param {string | Record<string, string | number>} prop @param {string | number} [value] */
         css(prop, value) {
             if (typeof prop === 'object') {
                 // css({ top: 10, left: 20 })
                 this._els.forEach(el => {
                     for (const [k, v] of Object.entries(prop)) {
                         el.style[k] = typeof v === 'number' && k !== 'zIndex' && k !== 'opacity'
-                            ? v + 'px' : v;
+                            ? v + 'px' : /** @type {string} */ (v);
                     }
                 });
                 return this;
@@ -191,30 +218,32 @@
             if (value === undefined) {
                 // Getter
                 if (!this._els.length) return undefined;
-                return getComputedStyle(this._els[0])[prop];
+                return /** @type {ShimStyle} */ (getComputedStyle(/** @type {ShimEl} */ (this._els[0])))[/** @type {string} */ (prop)];
             }
             // Setter
             this._els.forEach(el => {
-                el.style[prop] = typeof value === 'number' && prop !== 'zIndex' && prop !== 'opacity'
-                    ? value + 'px' : value;
+                el.style[/** @type {string} */ (prop)] = typeof value === 'number' && prop !== 'zIndex' && prop !== 'opacity'
+                    ? value + 'px' : /** @type {string} */ (value);
             });
             return this;
         }
 
         // ---- Dimensions ----
 
+        /** @param {number | string} [value] */
         width(value) {
             if (value === undefined) {
-                return this._els.length ? this._els[0].offsetWidth : 0;
+                return this._els.length ? /** @type {ShimEl} */ (this._els[0]).offsetWidth : 0;
             }
             const px = typeof value === 'number' ? value + 'px' : value;
             this._els.forEach(el => { el.style.width = px; });
             return this;
         }
 
+        /** @param {number | string} [value] */
         height(value) {
             if (value === undefined) {
-                return this._els.length ? this._els[0].offsetHeight : 0;
+                return this._els.length ? /** @type {ShimEl} */ (this._els[0]).offsetHeight : 0;
             }
             const px = typeof value === 'number' ? value + 'px' : value;
             this._els.forEach(el => { el.style.height = px; });
@@ -235,22 +264,26 @@
 
         // ---- Classes ----
 
+        /** @param {string} names */
         addClass(names) {
             const classes = names.split(/\s+/).filter(Boolean);
             this._els.forEach(el => el.classList.add(...classes));
             return this;
         }
 
+        /** @param {string} names */
         removeClass(names) {
             const classes = names.split(/\s+/).filter(Boolean);
             this._els.forEach(el => el.classList.remove(...classes));
             return this;
         }
 
+        /** @param {string} name */
         hasClass(name) {
-            return this._els.length ? this._els[0].classList.contains(name) : false;
+            return this._els.length ? /** @type {ShimEl} */ (this._els[0]).classList.contains(name) : false;
         }
 
+        /** @param {string} name @param {boolean} [force] */
         toggleClass(name, force) {
             this._els.forEach(el => {
                 if (force !== undefined) {
@@ -264,16 +297,18 @@
 
         // ---- Events ----
 
+        /** @param {string} event @param {EventListener} handler */
         on(event, handler) {
             this._els.forEach(el => {
                 if (!el._shimHandlers) el._shimHandlers = {};
                 if (!el._shimHandlers[event]) el._shimHandlers[event] = [];
-                el._shimHandlers[event].push(handler);
+                /** @type {EventListener[]} */ (el._shimHandlers[event]).push(handler);
                 el.addEventListener(event, handler);
             });
             return this;
         }
 
+        /** @param {string} [eventOrNothing] */
         off(eventOrNothing) {
             this._els.forEach(el => {
                 if (!el._shimHandlers) return;
@@ -292,6 +327,7 @@
             return this;
         }
 
+        /** @param {EventListener} [handler] */
         click(handler) {
             if (handler) {
                 return this.on('click', handler);
@@ -303,6 +339,7 @@
 
         // ---- DOM Manipulation ----
 
+        /** @param {string | $Set | Node} content */
         append(content) {
             this._els.forEach(el => {
                 if (typeof content === 'string') {
@@ -326,28 +363,30 @@
             return this;
         }
 
+        /** @param {string | $Set | ShimEl} target */
         appendTo(target) {
             const targets = typeof target === 'string'
-                ? Array.from(document.querySelectorAll(target))
+                ? /** @type {ShimEl[]} */ (Array.from(document.querySelectorAll(target)))
                 : (target instanceof $Set ? target._els : [target]);
             if (targets.length) {
-                this._els.forEach(el => targets[0].appendChild(el));
+                this._els.forEach(el => /** @type {ShimEl} */ (targets[0]).appendChild(el));
             }
             return this;
         }
 
         // ---- Data ----
 
+        /** @param {string} [key] @param {unknown} [value] */
         data(key, value) {
             if (value === undefined) {
                 // Getter
                 if (!this._els.length) return undefined;
-                const store = _getData(this._els[0]);
+                const store = _getData(/** @type {ShimEl} */ (this._els[0]));
                 if (key === undefined) return store;
                 // Return stored value if present; otherwise fall back to
                 // data-* HTML attribute (matches real jQuery behaviour).
                 if (key in store) return store[key];
-                const attrVal = this._els[0].getAttribute('data-' + key);
+                const attrVal = /** @type {ShimEl} */ (this._els[0]).getAttribute('data-' + key);
                 if (attrVal !== null) {
                     // Auto-convert numeric strings (jQuery does this too)
                     const num = Number(attrVal);
@@ -358,11 +397,12 @@
             // Setter
             this._els.forEach(el => {
                 const store = _getData(el);
-                store[key] = value;
+                store[/** @type {string} */ (key)] = value;
             });
             return this;
         }
 
+        /** @param {string} key */
         removeData(key) {
             this._els.forEach(el => {
                 const store = _getData(el);
@@ -373,9 +413,10 @@
 
         // ---- Attributes ----
 
+        /** @param {string} name @param {string} [value] */
         attr(name, value) {
             if (value === undefined) {
-                return this._els.length ? this._els[0].getAttribute(name) : undefined;
+                return this._els.length ? /** @type {ShimEl} */ (this._els[0]).getAttribute(name) : undefined;
             }
             this._els.forEach(el => el.setAttribute(name, value));
             return this;
@@ -383,15 +424,19 @@
 
         // ---- Traversal ----
 
+        /** @param {string} selector */
         find(selector) {
+            /** @type {ShimEl[]} */
             const results = [];
             this._els.forEach(el => {
-                results.push(...el.querySelectorAll(selector));
+                results.push(.../** @type {NodeListOf<ShimEl>} */ (el.querySelectorAll(selector)));
             });
             return new $Set(results);
         }
 
+        /** @param {string | ((this: ShimEl, i: number, el: ShimEl) => unknown)} [selectorOrFn] */
         filter(selectorOrFn) {
+            /** @type {ShimEl[]} */
             let filtered = [];
             if (typeof selectorOrFn === 'function') {
                 filtered = this._els.filter((el, i) => !!selectorOrFn.call(el, i, el));
@@ -411,6 +456,7 @@
         // execute sequentially, .delay() inserts pauses, and object-form
         // options ({duration, start, complete}) are supported.
 
+        /** @param {boolean} [clearQueue] @param {boolean} [jumpToEnd] */
         stop(clearQueue, jumpToEnd) {
             this._els.forEach(el => {
                 // Cancel any pending animation frame/timer
@@ -439,6 +485,7 @@
             return this;
         }
 
+        /** @param {number} [ms] */
         delay(ms) {
             const delayMs = typeof ms === 'number' ? ms : 0;
             this._els.forEach(el => {
@@ -451,9 +498,14 @@
             return this;
         }
 
+        /**
+         * @param {Record<string, string | number>} props
+         * @param {number | { duration?: number, start?: ShimCallback, complete?: ShimCallback } | null} [durationOrOpts]
+         * @param {string | ShimCallback} [easingOrCallback] @param {ShimCallback} [callback]
+         */
         animate(props, durationOrOpts, easingOrCallback, callback) {
             // Parse arguments: support both positional and object forms
-            let durationMs = 400, startCb = null, completeCb = null;
+            let durationMs = 400, startCb = /** @type {ShimCallback | null} */ (null), completeCb = /** @type {ShimCallback | null} */ (null);
 
             if (durationOrOpts !== null && typeof durationOrOpts === 'object' && !Array.isArray(durationOrOpts)) {
                 // Object form: .animate(props, {duration, start, complete})
@@ -485,6 +537,7 @@
 
         // ---- Iteration ----
 
+        /** @param {(this: ShimEl, i: number, el: ShimEl) => void} fn */
         each(fn) {
             this._els.forEach((el, i) => fn.call(el, i, el));
             return this;
@@ -493,6 +546,7 @@
 
     // ---- The $ function ----
 
+    /** @param {string | Node | $Set | null} [selectorOrHtml] */
     function $(selectorOrHtml) {
         if (!selectorOrHtml) return new $Set([]);
 
@@ -503,12 +557,12 @@
 
         // CSS selector: $("#animation")
         if (typeof selectorOrHtml === 'string') {
-            return new $Set(Array.from(document.querySelectorAll(selectorOrHtml)));
+            return new $Set(/** @type {ShimEl[]} */ (Array.from(document.querySelectorAll(selectorOrHtml))));
         }
 
         // DOM element: $(element)
         if (selectorOrHtml instanceof Node) {
-            return new $Set([selectorOrHtml]);
+            return new $Set([/** @type {ShimEl} */ (selectorOrHtml)]);
         }
 
         // Already a $Set
@@ -523,9 +577,12 @@
     // stages2.js uses ONE synchronous $.ajax call to load election JSON.
     // We intercept it: if _preloadedElectionData is set, inject that instead.
 
+    /** @type {unknown} */
     let _preloadedElectionData = null;
 
+    /** @param {{ url?: string, success?: (data: unknown) => void }} opts */
     $.ajax = function (opts) {
+        /** @type {{ fail: (fn: ((xhr: { status: number, statusText: string }) => void) | undefined) => unknown, _failFn?: (xhr: XMLHttpRequest) => void }} */
         const result = {
             fail: function (fn) {
                 if (!_preloadedElectionData && fn) {
@@ -562,6 +619,7 @@
 
     // ---- Public helpers for pre-loading data ----
 
+    /** @param {unknown} data */
     $.preloadElectionData = function (data) {
         _preloadedElectionData = data;
     };

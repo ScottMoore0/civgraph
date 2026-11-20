@@ -1,5 +1,5 @@
 {
-  "//": "map: The map app (src/, app/) but its views (tsconfig.project.views.json). Left out: src/jquery-shim.js (a classic script loaded by URL, imported by nothing; 106 strict findings). One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
+  "//": "map: The map app (src/, app/) but its views (tsconfig.project.views.json). src/jquery-shim.js, a classic script loaded by URL, joined on 20 Nov 2026 (w20-refactor). One project of npm run check:types:packages (tsc -b config/tsconfig.packages.json, packages/README.md); not tsconfig.json, which esbuild would read.",
   "compilerOptions": {
     "composite": true,
     "declaration": true,
@@ -31,8 +31,7 @@
     "src/renderer/port-plan-client.generated.json"
   ],
   "exclude": [
-    "src/views/**",
-    "src/jquery-shim.js"
+    "src/views/**"
   ],
   "references": [
     { "path": "../config/tsconfig.project.json" },

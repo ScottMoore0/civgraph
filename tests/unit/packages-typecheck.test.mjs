@@ -54,13 +54,14 @@ const BASELINE = {
 const EXCLUDE = {
   'packages/registries/tsconfig.project.browser.json': ['src/browser/build.mjs'],
   'packages/ui/tsconfig.project.json': ['src/page-types.mjs', 'src/templates/proni/record-view.js'],
-  'packages/map/tsconfig.project.json': ['src/views/**', 'src/jquery-shim.js'],
+  'packages/map/tsconfig.project.json': ['src/views/**'],
 };
 
 // Package script files in no project, with their strict findings on 18 Nov 2026. Only shrinks.
-const LEFT = [
-  'packages/map/src/jquery-shim.js', // 106: a classic script loaded by URL
-];
+// Empty since 20 Nov 2026 (w20-refactor: the last eight maps-pipeline tiles modules and the
+// map's jquery-shim.js joined their projects), so every package script file is in a project.
+/** @type {string[]} */
+const LEFT = [];
 
 /** @param {string} file repository-relative */
 function readJson(file) {
