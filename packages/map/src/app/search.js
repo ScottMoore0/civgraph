@@ -102,11 +102,11 @@ export class SearchMethods {
           id: map.id,
           name: map.name,
           category: map.category,
-          group: map.group,
+          group: map['group'],
           provider: map.provider,
           description: map.description,
           date: map.date,
-          dateRange: map.dateRange,
+          dateRange: map['dateRange'],
           keywords: map.keywords
         }))
       });
@@ -159,11 +159,11 @@ export class SearchMethods {
           map.id,
           map.name,
           map.category,
-          map.group,
+          map['group'],
           map.provider,
           map.description,
           map.date,
-          map.dateRange,
+          map['dateRange'],
           ...(Array.isArray(map.keywords) ? map.keywords : [])
         ].flat().filter(Boolean).join(' '));
         const name = normalizeSearchText(map.name || '');

@@ -159,18 +159,18 @@ export function normalizeMetadata(raw, portPlan = null) {
     .map((row, index) => normalizePortPlanRow(row, categories, convertedLayers.length + index));
   const layers = [...convertedLayers, ...unconvertedLayers];
   return {
-    version: Number(raw.version || 1),
-    schemaVersion: Number(raw.schemaVersion || 2),
-    description: raw.description || '',
+    version: Number(raw['version'] || 1),
+    schemaVersion: Number(raw['schemaVersion'] || 2),
+    description: raw['description'] || '',
     // Carried through deliberately. This object is rebuilt from an explicit field list,
     // so anything not named here is DROPPED -- which is how the app silently fell back to
     // computing the count itself and displayed 893 while every other surface said 794.
-    publicMapCount: Number.isFinite(raw.publicMapCount) ? raw.publicMapCount : undefined,
+    publicMapCount: Number.isFinite(raw['publicMapCount']) ? raw['publicMapCount'] : undefined,
     categories,
-    capabilities: raw.capabilities || {},
-    readiness: raw.readiness || {},
-    timeSeriesChains: raw.timeSeriesChains || [],
-    electionCatalogues: raw.electionCatalogues || [],
+    capabilities: raw['capabilities'] || {},
+    readiness: raw['readiness'] || {},
+    timeSeriesChains: raw['timeSeriesChains'] || [],
+    electionCatalogues: raw['electionCatalogues'] || [],
     portPlanSummary: portPlan?.totals || null,
     layers
   };
@@ -215,43 +215,43 @@ function normalizeLayer(layer, categories, index) {
     name: categoryName,
     group: 'Maps'
   };
-  const references = Array.isArray(layer.references) ? layer.references : [];
-  const sourceDownloads = Array.isArray(layer.sourceDownloads) ? layer.sourceDownloads : [];
+  const references = Array.isArray(layer['references']) ? layer['references'] : [];
+  const sourceDownloads = Array.isArray(layer['sourceDownloads']) ? layer['sourceDownloads'] : [];
   const keywords = unique([
-    ...(Array.isArray(layer.keywords) ? layer.keywords : []),
+    ...(Array.isArray(layer['keywords']) ? layer['keywords'] : []),
     layer.name,
     layer.id,
     layer.sourceMapId,
     category.name,
     category.group,
-    layer.provider,
-    layer.status,
-    layer.description,
-    ...(Array.isArray(layer.sourceCredits) ? layer.sourceCredits : [])
+    layer['provider'],
+    layer['status'],
+    layer['description'],
+    ...(Array.isArray(layer['sourceCredits']) ? layer['sourceCredits'] : [])
   ]);
   return /** @type {MetadataLayer} */ ({
     ...layer,
-    isConverted: isConvertedPortStatus(layer.conversionStatus) || layer.loadable === true,
-    loadable: layer.loadable !== false && layer.sourceType !== 'unconverted',
+    isConverted: isConvertedPortStatus(layer.conversionStatus) || layer['loadable'] === true,
+    loadable: layer['loadable'] !== false && layer['sourceType'] !== 'unconverted',
     category: category.name,
     categoryId: category.id,
     group: layer.group || category.group || 'Maps',
-    renderer: layer.renderer || 'maplibre',
-    geometryType: layer.geometryType || 'polygon',
-    status: layer.status || 'pilot',
-    description: layer.description || layer.notes || '',
-    dateAdded: layer.dateAdded || null,
-    dateEffective: layer.dateEffective || null,
-    sourceCredits: Array.isArray(layer.sourceCredits) ? layer.sourceCredits : formatCredits(layer.provider),
+    renderer: layer['renderer'] || 'maplibre',
+    geometryType: layer['geometryType'] || 'polygon',
+    status: layer['status'] || 'pilot',
+    description: layer['description'] || layer['notes'] || '',
+    dateAdded: layer['dateAdded'] || null,
+    dateEffective: layer['dateEffective'] || null,
+    sourceCredits: Array.isArray(layer['sourceCredits']) ? layer['sourceCredits'] : formatCredits(layer['provider']),
     references,
     sourceDownloads,
-    variants: Array.isArray(layer.variants) ? layer.variants : [],
+    variants: Array.isArray(layer['variants']) ? layer['variants'] : [],
     order: Number.isFinite(Number(layer.order)) ? Number(layer.order) : index,
     searchText: normalizeSearchText(keywords.join(' ')),
     migration: {
       sourceMapId: layer.sourceMapId || layer.id,
       portedFromMainSite: Boolean(layer.sourceMapId),
-      unsupportedReason: layer.unsupportedReason || null
+      unsupportedReason: layer['unsupportedReason'] || null
     }
   });
 }
@@ -292,9 +292,9 @@ function normalizePortPlanRow(row, categories, index) {
     category: category.name,
     categoryId: category.id,
     group: row.group || category.group || 'Maps',
-    date: row.date,
-    dateAdded: row.dateAdded,
-    dateEffective: row.dateEffective,
+    date: row['date'],
+    dateAdded: row['dateAdded'],
+    dateEffective: row['dateEffective'],
     provider: row.provider,
     description: row.description || '',
     sourceCredits: Array.isArray(row.sourceCredits) ? row.sourceCredits : formatCredits(row.provider),
@@ -305,7 +305,7 @@ function normalizePortPlanRow(row, categories, index) {
     conversionStatus: row.conversionStatus,
     recommendedTarget: row.recommendedTarget,
     unsupportedReason: row.unsupportedReason,
-    bounds: row.bounds,
+    bounds: row['bounds'],
     style: row.style || {},
     sourceDownloads,
     references,

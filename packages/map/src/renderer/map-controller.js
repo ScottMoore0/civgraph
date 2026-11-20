@@ -757,7 +757,7 @@ export class TestMapLibreController {
       applyPendingPan();
     };
     const canActivateFallback = (/** @type {PanGestureState} */ state) => {
-      const thresholds = fallbackThresholds[state.pointerType] || /** @type {{ distance: number; elapsedMs: number; samples: number; }} */ (fallbackThresholds.default);
+      const thresholds = fallbackThresholds[state.pointerType] || /** @type {{ distance: number; elapsedMs: number; samples: number; }} */ (fallbackThresholds['default']);
       const elapsed = performance.now() - state.startedAt;
       return Math.hypot(state.latestDx, state.latestDy) >= thresholds.distance
         && state.noCameraSamples >= thresholds.samples
@@ -830,7 +830,7 @@ export class TestMapLibreController {
         return;
       }
       if (!state.fallbackActive) {
-        const thresholds = fallbackThresholds[state.pointerType] || /** @type {{ distance: number; elapsedMs: number; samples: number; }} */ (fallbackThresholds.default);
+        const thresholds = fallbackThresholds[state.pointerType] || /** @type {{ distance: number; elapsedMs: number; samples: number; }} */ (fallbackThresholds['default']);
         if (Math.hypot(dx, dy) < thresholds.distance) return;
         state.noCameraSamples += 1;
         scheduleNativeFailureCheck(state);
@@ -2450,7 +2450,7 @@ export class TestMapLibreController {
     const onContainerPointerMove = (/** @type {PointerEvent} */ event) => {
       const labelElement = /** @type {DomLabelElement | null | undefined} */ (/** @type {Element | null} */ (event.target)?.closest?.('.maplibre-dom-label')
         || document.elementFromPoint(event.clientX, event.clientY)?.closest?.('.maplibre-dom-label'));
-      if (labelElement?.dataset?.layerId !== layer.id) return;
+      if (labelElement?.dataset?.['layerId'] !== layer.id) return;
       const feature = labelElement.__civgraphFeature;
       if (feature) this.setHover(layer, feature);
     };
@@ -2519,7 +2519,7 @@ export class TestMapLibreController {
   readFeatureIdentity(layer, feature) {
     const idProperty = layer?.promoteId || 'id';
     // A promoted id property holds a string or a number, as MapLibre's own feature ids do.
-    const id = /** @type {FeatureId | null | undefined} */ (feature?.id ?? feature?.properties?.[idProperty] ?? feature?.properties?.id);
+    const id = /** @type {FeatureId | null | undefined} */ (feature?.id ?? feature?.properties?.[idProperty] ?? feature?.properties?.['id']);
     if (id !== undefined && id !== null && id !== '') {
       const duplicateIds = this.layers.get(layer.id)?.duplicateFeatureIds;
       if (duplicateIds?.has(String(id))) {
@@ -2879,8 +2879,8 @@ export class TestMapLibreController {
     const labelStyle = getLabelStyle(layer, this.layers.get(layer.id)?.color);
     const element = /** @type {DomLabelElement} */ (document.createElement('span'));
     element.className = 'map-label map-label--clickable maplibre-dom-label';
-    element.dataset.layerId = layer.id;
-    element.dataset.featureId = String(id);
+    element.dataset['layerId'] = layer.id;
+    element.dataset['featureId'] = String(id);
     element.__civgraphFeature = feature;
     element.setAttribute('role', 'button');
     element.setAttribute('tabindex', '0');
@@ -3003,8 +3003,8 @@ function isColor(value) {
  */
 function featureLabelLngLat(feature) {
   const props = feature?.properties || {};
-  const explicitLon = Number(props.label_lon ?? props.label_lng ?? props.lon ?? props.lng ?? props.longitude);
-  const explicitLat = Number(props.label_lat ?? props.lat ?? props.latitude);
+  const explicitLon = Number(props['label_lon'] ?? props['label_lng'] ?? props['lon'] ?? props['lng'] ?? props['longitude']);
+  const explicitLat = Number(props['label_lat'] ?? props['lat'] ?? props['latitude']);
   if (Number.isFinite(explicitLon) && Number.isFinite(explicitLat)) return [explicitLon, explicitLat];
   /** @type {number[][]} */
   const points = [];

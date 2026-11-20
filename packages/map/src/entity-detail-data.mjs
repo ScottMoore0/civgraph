@@ -126,16 +126,16 @@ export function addStandings(appearances = []) {
     const type = row.electionType || 'Election';
     counts.stood += 1;
     counts.typeStood.set(type, (counts.typeStood.get(type) || 0) + 1);
-    row.overallStandingNumber = counts.stood;
-    row.bodyStandingNumber = counts.typeStood.get(type);
+    row['overallStandingNumber'] = counts.stood;
+    row['bodyStandingNumber'] = counts.typeStood.get(type);
     if (row.elected) {
       counts.won += 1;
       counts.typeWon.set(type, (counts.typeWon.get(type) || 0) + 1);
-      row.overallElectedNumber = counts.won;
-      row.bodyElectedNumber = counts.typeWon.get(type);
+      row['overallElectedNumber'] = counts.won;
+      row['bodyElectedNumber'] = counts.typeWon.get(type);
     } else {
-      row.overallElectedNumber = null;
-      row.bodyElectedNumber = null;
+      row['overallElectedNumber'] = null;
+      row['bodyElectedNumber'] = null;
     }
   }
   return ordered;
@@ -200,11 +200,11 @@ export function addPartyChanges(rows = []) {
     const prev = previous.get(key);
     /** @param {string} field */
     const delta = (field) => (prev && hasNumber(row[field]) && hasNumber(prev[field]) ? Number(row[field]) - Number(prev[field]) : null);
-    row.electedDelta = delta('elected');
-    row.stoodDelta = delta('stood');
-    row.firstPrefsDelta = delta('firstPrefs');
-    row.validVotePctDelta = delta('validVotePct');
-    row.comparedWith = prev ? prev.electionDisplayName || prev.date : null;
+    row['electedDelta'] = delta('elected');
+    row['stoodDelta'] = delta('stood');
+    row['firstPrefsDelta'] = delta('firstPrefs');
+    row['validVotePctDelta'] = delta('validVotePct');
+    row['comparedWith'] = prev ? prev.electionDisplayName || prev.date : null;
     previous.set(key, row);
   }
   return rows;
@@ -238,7 +238,7 @@ export function partyHeadlineCards(rows = [], { max = 4 } = {}) {
       return {
         label: `${type} ${year}`.trim(),
         value: seats === null ? '—' : `${siteNumber(seats)} ${seats === 1 ? one : many}`,
-        subtext: hasNumber(row.validVotePct) ? `${Number(row.validVotePct).toFixed(1)}% of the vote` : '',
+        subtext: hasNumber(row['validVotePct']) ? `${Number(row['validVotePct']).toFixed(1)}% of the vote` : '',
         row,
       };
     });
@@ -267,14 +267,14 @@ export function leadingPartyOf(result = {}, { normalise = (v) => String(v || '')
   const ranked = [...totals.values()].filter((t) => t.counted).sort((a, b) => b.votes - a.votes);
   const valid = hasNumber(result.validPoll) ? Number(result.validPoll) : (hasNumber(result.totalVotes) ? Number(result.totalVotes) : null);
   const elected = (result.candidates || []).filter((c) => c.elected).map((c) => ({
-    name: c.name || c.candidate || '',
+    name: c.name || c['candidate'] || '',
     party: c.party || '',
     personId: c.personId ?? null,
   })).filter((c) => c.name);
   if (!ranked.length) {
     // No votes recorded (an unopposed return): the winner's party, and no figures.
     const party = result.winnerParty || result.leadingParty || elected[0]?.party || '';
-    return { party, colour: result.winnerColour || result.leadingColour || result.colour || null, votes: null, pct: null, valid, elected };
+    return { party, colour: result['winnerColour'] || result.leadingColour || result.colour || null, votes: null, pct: null, valid, elected };
   }
   const top = /** @type {(typeof ranked)[number]} */ (ranked[0]);
   return {

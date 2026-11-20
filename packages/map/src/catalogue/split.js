@@ -34,7 +34,7 @@ const writeSaved = (v) => { try { if (v) localStorage.setItem(KEY, JSON.stringif
  */
 export function paneContent(doc = document) {
   /** @type {'catalogue' | 'tables' | 'elections' | string} the info pane's open tab (data-tab-content) */
-  const tab = /** @type {HTMLElement | null} */ (doc.querySelector('.pane--info .pane-tab-content:not(.pane-tab-content--hidden)'))?.dataset.tabContent || 'catalogue';
+  const tab = /** @type {HTMLElement | null} */ (doc.querySelector('.pane--info .pane-tab-content:not(.pane-tab-content--hidden)'))?.dataset['tabContent'] || 'catalogue';
   if (tab === 'tables') return 'wide';
   if (doc.getElementById('catalogueFlatView')?.classList.contains('catalogue-flat-view--book-viewer')) return 'wide';
   const detail = doc.getElementById('catalogueDetailView');
@@ -148,8 +148,8 @@ export function installSplit(ui, { host, splitDrag }) {
   const observer = new MutationObserver(() => { if (!manual && !dragging) apply(); });
   const watch = () => {
     /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('body, .pane--info .pane-tab-content, #catalogueDetailView, #catalogueFlatView')).forEach((el) => {
-      if (el.dataset.cnSplitWatched) return;
-      el.dataset.cnSplitWatched = '1';
+      if (el.dataset['cnSplitWatched']) return;
+      el.dataset['cnSplitWatched'] = '1';
       observer.observe(el, { attributes: true, attributeFilter: ['class'] });
     });
   };

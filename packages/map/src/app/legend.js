@@ -71,7 +71,7 @@ export class LegendMethods {
     /** @type {HTMLElement} */ (legend.querySelector('.test2-map-legend__body')).innerHTML = legendBodyHtml({ election, statistics, layers, showLayers, approximate, electionMapId: electionMapId || null });
     legend.querySelector('[data-map-image-export]')?.addEventListener('click', (event) => {
       const button = /** @type {HTMLElement} */ (event.currentTarget);
-      this.exportMapImage(/** @type {string} */ (button.dataset.mapImageExport), 'svg', { trigger: button });
+      this.exportMapImage(/** @type {string} */ (button.dataset['mapImageExport']), 'svg', { trigger: button });
     });
     /** @type {HTMLElement} */ (legend.querySelector('.test2-map-legend__summary span')).textContent = legendSummaryText(election, statistics);
   }

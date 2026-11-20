@@ -140,7 +140,7 @@ export function buildElectionGroupEntry(group, byKey) {
  */
 export function addElectionGroups(catalogue, groups = ELECTION_GROUPS) {
   const elections = catalogue?.elections;
-  if (!Array.isArray(elections) || elections.some((entry) => entry.electionGroup)) return;
+  if (!Array.isArray(elections) || elections.some((entry) => entry['electionGroup'])) return;
   const byKey = new Map(elections.map((entry) => [entry.key, entry]));
   for (const group of groups) {
     const entry = buildElectionGroupEntry(group, byKey);

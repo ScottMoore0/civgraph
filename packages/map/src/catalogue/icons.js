@@ -70,7 +70,7 @@ const PATHS = {
 export function icon(name, cls = 'cn-icon') {
   // Alessio Coci's hand-drawn icons (custom-icons.js) are drawn on a 512px grid and filled.
   if (CUSTOM_ICONS[name]) return `<svg aria-hidden="true" class="${cls}" fill="currentColor" viewBox="0 0 512 512">${CUSTOM_ICONS[name]}</svg>`;
-  return `<svg aria-hidden="true" class="${cls}" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">${PATHS[name] || PATHS.map}</svg>`;
+  return `<svg aria-hidden="true" class="${cls}" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">${PATHS[name] || PATHS['map']}</svg>`;
 }
 
 /** Each shelf's icon and colour: the colour marks the shelf's icon and heading, nothing else. */

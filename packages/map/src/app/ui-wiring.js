@@ -202,7 +202,7 @@ export class UiWiringMethods {
     uiController.onFeatureLoad = async (mapId, featureIndex, featureName, bbox, options = {}) => {
       const mapConfig = dataService.getMapById(mapId);
       if (!mapConfig) return null;
-      const result = await this.mapController.loadSingleFeature(mapConfig, featureIndex, featureName, bbox, { isolate: options.isolate === true });
+      const result = await this.mapController.loadSingleFeature(mapConfig, featureIndex, featureName, bbox, { isolate: options['isolate'] === true });
       this.syncCatalogueMapState();
       this.updateActiveLayers();
       this.updateURLState();
@@ -243,7 +243,7 @@ export class UiWiringMethods {
       // A result with no box (the names index omits them) is still framed: the app looks the
       // feature up in the spatial and feature indexes (QA 2026-11-11, H2).
       const result = await this.mapController.loadSingleFeature(mapConfig, featureId, featureName, bbox, {
-        isolate: options.isolate !== false,
+        isolate: options['isolate'] !== false,
         // The layer's config, which may name its feature index.
         resolveBounds: (layerConfig) => this.resolveFeatureBounds(mapConfig, featureId, featureName, /** @type {{ featureIndexUrl?: string } | null} */ (layerConfig))
       });
@@ -252,7 +252,7 @@ export class UiWiringMethods {
       this.updateURLState();
       // The adapter's feature (its id, names, properties and geometry), as the feature panel and
       // pages read it: an InfoFeature is a PanelFeature, without the GeoJSON `type` it lacks.
-      if (options.showInfo !== false) {
+      if (options['showInfo'] !== false) {
         uiController.showFeatureInfo([/** @type {InfoFeature} */ ({ ...result.feature, mapId, id: featureId })], /** @type {MapRecord[]} */ (dataService.getAllMaps()));
       }
       return /** @type {Awaited<ReturnType<UiCallbacks['onLoadSingleFeature']>>} */ (/** @type {unknown} */ (result));

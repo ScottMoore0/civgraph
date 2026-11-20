@@ -101,7 +101,7 @@ function lerpHex(a, b, t) {
  * @param {unknown} t  0 to 1
  */
 export function rampSample(rampName, t) {
-  const stops = RAMPS[rampName] || /** @type {string[]} */ (RAMPS.viridis);
+  const stops = RAMPS[rampName] || /** @type {string[]} */ (RAMPS['viridis']);
   const x = Math.max(0, Math.min(1, Number(t) || 0)) * (stops.length - 1);
   const i = Math.floor(x);
   if (i >= stops.length - 1) return stops[stops.length - 1];
@@ -455,7 +455,7 @@ export function statisticFor(entry, row) {
   return {
     entryId: entry.id,
     // A table with no Geography column names its area in entry.areaNameColumn (SOA_name, ED_NAME).
-    areaName: String(row.Geography ?? (entry.areaNameColumn ? row[entry.areaNameColumn] : '') ?? '').trim(),
+    areaName: String(row['Geography'] ?? (entry.areaNameColumn ? row[entry.areaNameColumn] : '') ?? '').trim(),
     valueColumn,
     valueLabel: entry.valueLabel || columnLabel(valueColumn),
     value: Number.isFinite(value) ? value : null,
@@ -490,7 +490,7 @@ export function overlayRuntimeLayer(entry, geographyLayer) {
     // Super Data Zones are labelled by code ("N00001508") or by a zone name, which buries the
     // colours a reader came for; their names are in the details on a click.
     labelProperty: UNLABELLED_GEOGRAPHIES.has(entry.geography) ? null : geographyLayer.labelProperty,
-    duplicateFeatureIds: geographyLayer.duplicateFeatureIds
+    duplicateFeatureIds: geographyLayer['duplicateFeatureIds']
   };
 }
 

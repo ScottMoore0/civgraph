@@ -199,7 +199,7 @@ export class NiLocalGroupedView {
    * @returns {Promise<NiLocalYear>}
    */
   async fetchYear(entry) {
-    const year = Number(entry?.year || String(entry?.date || '').slice(0, 4));
+    const year = Number(entry?.['year'] || String(entry?.date || '').slice(0, 4));
     if (this.cache.has(year)) return /** @type {NiLocalYear} */ (this.cache.get(year));
     const response = await fetch(`/render/metadata/ni-local/${year}.json?v=${YEAR_FILE_VERSION}`, { cache: 'default' });
     if (!response.ok) throw new Error(`The ${year} Northern Ireland local elections could not be loaded: ${response.status}`);
@@ -870,8 +870,8 @@ export class NiLocalGroupedView {
   bindPane(pane) {
     pane.querySelector('#electionCloseBtn')?.addEventListener('click', () => this.manager.unloadElection({ label: 'Closed the election' }));
     const back = document.getElementById('electionPaneBack');
-    if (back && !back.dataset.niBound) {
-      back.dataset.niBound = '1';
+    if (back && !back.dataset['niBound']) {
+      back.dataset['niBound'] = '1';
       back.addEventListener('click', () => {
         if (this.active && this.selectedKey) this.renderPanel();
       });
@@ -880,14 +880,14 @@ export class NiLocalGroupedView {
     details?.addEventListener('toggle', () => { this.viewMenuOpen = details.open; });
     /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-ni-level]')).forEach((button) => button.addEventListener('click', () => {
       if (button.getAttribute('aria-disabled') === 'true') return;
-      this.setLevel(/** @type {string} */ (button.dataset.niLevel)).catch((error) => this.manager.onError?.(error));
+      this.setLevel(/** @type {string} */ (button.dataset['niLevel'])).catch((error) => this.manager.onError?.(error));
     }));
-    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-ni-show]')).forEach((button) => button.addEventListener('click', () => this.setShow(/** @type {string} */ (button.dataset.niShow))));
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-ni-show]')).forEach((button) => button.addEventListener('click', () => this.setShow(/** @type {string} */ (button.dataset['niShow']))));
     /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-ni-members]')).forEach((button) => button.addEventListener('click', () => {
       if (button.getAttribute('aria-disabled') === 'true') return;
-      this.setMembers(/** @type {string} */ (button.dataset.niMembers));
+      this.setMembers(/** @type {string} */ (button.dataset['niMembers']));
     }));
-    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-ni-round]')).forEach((button) => button.addEventListener('click', () => this.openRound(button.dataset.niRound)));
+    /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-ni-round]')).forEach((button) => button.addEventListener('click', () => this.openRound(button.dataset['niRound'])));
   }
 
   /**
@@ -917,7 +917,7 @@ export class NiLocalGroupedView {
   /** @param {ElectionFeature | null | undefined} feature */
   isOwnFeature(feature) {
     const info = this.levelInfo();
-    const id = String(feature?.mapId || feature?.sourceMapId || feature?.layerId || '');
+    const id = String(feature?.mapId || feature?.['sourceMapId'] || feature?.['layerId'] || '');
     return Boolean(info && id && (id === info.sourceMapId || id === info.layerId));
   }
 
@@ -945,7 +945,7 @@ export class NiLocalGroupedView {
       Seats: seats || '-',
       'Leading party (votes)': lead ? `${lead.party} (${lead.share.toFixed(1)}%)` : 'No contested poll'
     };
-    if (item.hatch) properties.Results = item.why || 'Not available or incomplete';
+    if (item.hatch) properties['Results'] = item.why || 'Not available or incomplete';
     return { ...feature, featureName: niLocalAreaName(item.l), properties };
   }
 

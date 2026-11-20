@@ -31,7 +31,7 @@ export class SiteChromeMethods {
     try { stored = localStorage.getItem(THEME_KEY); } catch { /* blocked: follow the system */ }
     let preference = preferenceOf(stored);
     const prefersDark = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
-    document.documentElement.dataset.theme = themeFor(preference, prefersDark);
+    document.documentElement.dataset['theme'] = themeFor(preference, prefersDark);
 
     // T1-06: the basemap follows the theme from the first paint, not just on
     // toggle — someone arriving with prefers-color-scheme: dark should not get one
@@ -41,10 +41,10 @@ export class SiteChromeMethods {
 
     toggles.forEach((toggle) => {
       toggle.addEventListener('click', () => {
-        const next = toggledFrom(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+        const next = toggledFrom(document.documentElement.dataset['theme'] === 'dark' ? 'dark' : 'light');
         THEME_PREFERENCE.assertTransition(preference, next);
         preference = next;
-        document.documentElement.dataset.theme = next;
+        document.documentElement.dataset['theme'] = next;
         try { localStorage.setItem(THEME_KEY, next); } catch { /* blocked: the theme still changes for this page */ }
         void this.syncBasemapToTheme();
       });

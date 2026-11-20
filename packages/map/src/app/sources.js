@@ -71,7 +71,7 @@ export class SourcePanelMethods {
       const button = /** @type {HTMLElement | null} */ (/** @type {HTMLElement} */ (event.target).closest('button[data-here]'));
       if (!button) return;
       this.featuresHereKeepOpen = true;
-      /** @type {import('./map-app').MapControllerView} */ (this.mapController).selectFeatureAtClick(entries[Number(button.dataset.here)]);
+      /** @type {import('./map-app').MapControllerView} */ (this.mapController).selectFeatureAtClick(entries[Number(button.dataset['here'])]);
     });
     // The button sits at the end of the layer-name line; the list opens beneath it.
     const headerRow = section.querySelector('.feature-info__header-row');
@@ -92,9 +92,9 @@ export class SourcePanelMethods {
     const rows = /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]'));
     rows.forEach((row) => {
       const name = /** @type {HTMLElement | null} */ (row.querySelector('.active-layer-item__name'));
-      const mapId = row.dataset.mapId;
-      if (!name || !mapId || name.dataset.opensPage) return;
-      name.dataset.opensPage = '1';
+      const mapId = row.dataset['mapId'];
+      if (!name || !mapId || name.dataset['opensPage']) return;
+      name.dataset['opensPage'] = '1';
       name.classList.add('active-layer-item__name--link');
       name.setAttribute('role', 'button');
       name.setAttribute('tabindex', '0');
@@ -144,7 +144,7 @@ export class SourcePanelMethods {
     /** @type {NodeListOf<HTMLElement>} */ (content.querySelectorAll('[data-copy-source-link]')).forEach((button) => {
       button.addEventListener('click', async () => {
         try {
-          await navigator.clipboard?.writeText(button.dataset.copySourceLink || '');
+          await navigator.clipboard?.writeText(button.dataset['copySourceLink'] || '');
           button.textContent = 'Copied';
         } catch {
           button.textContent = 'Failed';

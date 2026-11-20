@@ -594,7 +594,7 @@ export class Test2MapLibreMainAdapter {
       isGroup: true,
       _strokeOpacity: 1,
       _fillOpacity: resolveFillOpacity(config),
-      _rasterOpacity: config?.rasterOpacity ?? config?.style?.opacity ?? 0.85
+      _rasterOpacity: config?.rasterOpacity ?? config?.style?.['opacity'] ?? 0.85
     };
     state.geoJsonLayers = [{
       setStyle: (/** @type {{ opacity?: unknown, fillOpacity?: unknown }} */ style = {}) => {
@@ -1103,7 +1103,7 @@ export class Test2MapLibreMainAdapter {
     /** @type {Array<import('geojson').Feature<import('geojson').Geometry, Record<string, unknown> | null>>} */
     const features = Array.isArray(geojson?.features) ? geojson.features : [];
     const shown = features.map((feature) => {
-      const role = feature?.properties?.role;
+      const role = feature?.properties?.['role'];
       const drawn = role === 'added' ? (reversed ? 'gone' : 'new') : role === 'removed' ? (reversed ? 'new' : 'gone') : 'area';
       return { ...feature, properties: { ...(feature.properties || {}), drawn } };
     });
@@ -1181,7 +1181,7 @@ export class Test2MapLibreMainAdapter {
     const { markerId } = TIMELINE_CHANGE_LAYERS;
     this.map.on('click', markerId, (/** @type {import('maplibre-gl').MapLayerMouseEvent} */ event) => {
       if (this.map.getZoom() >= 11.5) return;
-      const id = event?.features?.[0]?.properties?.changeId;
+      const id = event?.features?.[0]?.properties?.['changeId'];
       if (id) this.options.onTimelineChangeClick?.(id);
     });
     this.map.on('mouseenter', markerId, () => {
@@ -1563,7 +1563,7 @@ export class Test2MapLibreMainAdapter {
   getPartialFeatureNames(mapId) {
     const state = this.layerStates.get(mapId);
     if (!state?.loadedIndices) return [];
-    return [...state.loadedIndices].map((id) => state.featureNames?.get(id) || state.featureProperties?.get(id)?.name || `Feature ${id}`);
+    return [...state.loadedIndices].map((id) => state.featureNames?.get(id) || state.featureProperties?.get(id)?.['name'] || `Feature ${id}`);
   }
 
   /** @param {string} mapId */
@@ -1572,7 +1572,7 @@ export class Test2MapLibreMainAdapter {
     if (!state?.loadedIndices) return [];
     return [...state.loadedIndices].map((id) => ({
       index: id,
-      name: state.featureNames?.get(id) || state.featureProperties?.get(id)?.name || `Feature ${id}`,
+      name: state.featureNames?.get(id) || state.featureProperties?.get(id)?.['name'] || `Feature ${id}`,
       visible: state.featureVisibility?.get(id) !== false && state.visible !== false
     }));
   }
@@ -1900,7 +1900,7 @@ export class Test2MapLibreMainAdapter {
     for (const key of ['color', 'fillColor', 'fillOpacity', 'weight', 'opacity', 'radius']) {
       if (mainStyle[key] !== undefined) style[key] = mainStyle[key];
     }
-    if (mainStyle.fillOpacity === undefined) delete style.fillOpacity;
+    if (mainStyle['fillOpacity'] === undefined) delete style['fillOpacity'];
     return { ...layer, style };
   }
 
@@ -2018,7 +2018,7 @@ export class Test2MapLibreMainAdapter {
     /** @type {{ name?: string, promoteId?: string, sourceLayer?: string, style?: { color?: string, fillColor?: string, [key: string]: unknown } | undefined, labelProperty?: string | null | undefined, nameProperty?: unknown, [key: string]: unknown }} */
     const layerConfig = record?.config || state?.config || {};
     const properties = repairFeatureProperties(layerConfig, { ...(feature.properties || {}) });
-    const id = feature.id ?? properties[layerConfig.promoteId || 'id'] ?? properties.id;
+    const id = feature.id ?? properties[layerConfig.promoteId || 'id'] ?? properties['id'];
     const statistic = this.censusStatisticFor(state, properties);
     // The statistic's own name for the area ("Aldergrove_1") reads better than a tile code.
     const featureName = statistic?.areaName || readFeatureName(layerConfig, properties, id);
@@ -2030,7 +2030,7 @@ export class Test2MapLibreMainAdapter {
       mapName: state?.config?.name || layerConfig.name || mainId,
       layerName: state?.config?.name || layerConfig.name || mainId,
       featureName,
-      name: properties.name || featureName,
+      name: properties['name'] || featureName,
       color: layerConfig.style?.color || layerConfig.style?.fillColor || MAP_COLOURS.layer,
       properties,
       geometry: feature.geometry || null,

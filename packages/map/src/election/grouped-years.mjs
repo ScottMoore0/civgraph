@@ -26,7 +26,7 @@ import {
  */
 export function addGroupedYears(catalogue) {
   const elections = catalogue?.elections;
-  if (!Array.isArray(elections) || elections.some((entry) => entry.niLocalGroup)) return;
+  if (!Array.isArray(elections) || elections.some((entry) => entry['niLocalGroup'])) return;
   const groups = groupNiLocalRounds(elections);
   for (const [year, rounds] of groups) {
     elections.push({
@@ -60,7 +60,7 @@ export function listedElections(elections = []) {
  */
 export function findGroupedYear(elections = [], body, date) {
   if (LOCAL_GROUP_BODIES.includes(body) && /^\d{4}$/.test(String(date || ''))) {
-    return elections.find((entry) => entry.niLocalGroup && entry.date === String(date)) || null;
+    return elections.find((entry) => entry['niLocalGroup'] && entry.date === String(date)) || null;
   }
   return null;
 }
@@ -80,8 +80,8 @@ export function groupedYearForLayerId(layerId) {
  * @param {ElectionRecord} activeEntry
  */
 export function inTimelineSeries(entry, activeEntry) {
-  return activeEntry.niLocalGroup
-    ? Boolean(entry.niLocalGroup)
+  return activeEntry['niLocalGroup']
+    ? Boolean(entry['niLocalGroup'])
     : entry.body === activeEntry.body;
 }
 

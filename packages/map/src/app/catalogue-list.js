@@ -121,7 +121,7 @@ export class CatalogueListMethods {
       const label = `${Math.floor(year / 10) * 10}s`;
       const button = /** @type {ViewElement[]} */ ([...document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-decade-btn')])
         .find((el) => /** @type {string} */ (el.textContent).trim() === label);
-      const targetId = button?.dataset?.catalogueTarget;
+      const targetId = button?.dataset?.['catalogueTarget'];
       if (!targetId) return;
       // ensureCatalogueTargetRendered returns early when the card is already open, so
       // retrying is free. Deliberately NOT handleFlatTocClick: that pushes a history
@@ -140,7 +140,7 @@ export class CatalogueListMethods {
     let listStateRestored = false;
     const focusRow = () => {
       const rows = /** @type {ViewElement[]} */ ([...document.querySelectorAll('#catalogueFlatView .flat-election-entry')]);
-      const target = rows.find((row) => row.dataset.electionBody === entry.body && row.dataset.electionDate === entry.date);
+      const target = rows.find((row) => row.dataset['electionBody'] === entry.body && row.dataset['electionDate'] === entry.date);
       if (!target) {
         if (performance.now() >= focusDeadline) return;
         if (!listStateRestored) {

@@ -132,7 +132,7 @@ export function selectedPaneStatusKind(status) {
  * @param {ElectionResult | null} [result]
  */
 export function isForumResult(result = null) {
-  return Boolean(result?.forum || result?.forumSequence || result?.allocationRounds);
+  return Boolean(result?.['forum'] || result?.['forumSequence'] || result?.['allocationRounds']);
 }
 
 /**
@@ -148,9 +148,9 @@ export function isLocalGovernmentElection({ bundle = null, entry = null } = {}) 
  * @param {ElectionResult} [result]
  */
 export function isStvResult(result = {}) {
-  const votingSystem = normalizeName(result.votingSystem || result.electionVotingSystem || result.system || '');
+  const votingSystem = normalizeName(result['votingSystem'] || result['electionVotingSystem'] || result['system'] || '');
   if (votingSystem.includes('stv')) return true;
-  const quota = finiteNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota);
+  const quota = finiteNumber(result.quota ?? result['Quota'] ?? result.countInfo?.['Quota']);
   return quota !== null && Array.isArray(result.countNumbers) && result.countNumbers.some((count) => Number(count) > 1);
 }
 
@@ -162,7 +162,7 @@ export function isStvResult(result = {}) {
 export function isPluralityResult(result = {}, { bundle = null, entry = null } = {}) {
   if (!result || isStvResult(result)) return false;
   const votingSystem = normalizeName(
-    result.votingSystem || result.electionVotingSystem || result.system
+    result['votingSystem'] || result['electionVotingSystem'] || result['system']
     || bundle?.votingSystem || entry?.votingSystem || ''
   );
   return PLURALITY_SYSTEMS.includes(votingSystem);
@@ -184,7 +184,7 @@ export function isPluralityElection(results = [], context = {}) {
  */
 export function isCouncilAggregateResult(result = null, context = {}) {
   if (!result || !isLocalGovernmentElection(context)) return false;
-  return result.aggregateType === 'council' || result.aggregateType === 'district';
+  return result['aggregateType'] === 'council' || result['aggregateType'] === 'district';
 }
 
 /**
@@ -195,13 +195,13 @@ export function isCouncilAggregateResult(result = null, context = {}) {
  */
 export function isSingleSeatFptpResult(result = {}, context = {}) {
   const { bundle = null, entry = null } = context;
-  if (!result || result.recallPetition || isCouncilAggregateResult(result, context) || isForumResult(result)) return false;
-  const contestType = normalizeName(result.contestType || bundle?.contestType || entry?.contestType || 'election');
+  if (!result || result['recallPetition'] || isCouncilAggregateResult(result, context) || isForumResult(result)) return false;
+  const contestType = normalizeName(result['contestType'] || bundle?.contestType || entry?.contestType || 'election');
   if (contestType && contestType !== 'election') return false;
   const votingSystem = normalizeName(
-    result.votingSystem
-    || result.electionVotingSystem
-    || result.system
+    result['votingSystem']
+    || result['electionVotingSystem']
+    || result['system']
     || bundle?.votingSystem
     || entry?.votingSystem
     || ''
@@ -211,10 +211,10 @@ export function isSingleSeatFptpResult(result = {}, context = {}) {
   const explicitSeats = [
     result.seatsTotal,
     result.seatsWon,
-    result.seats,
-    result.countInfo?.Number_Of_Seats,
-    result.countInfo?.numberOfSeats,
-    result.countInfo?.Seats
+    result['seats'],
+    result.countInfo?.['Number_Of_Seats'],
+    result.countInfo?.['numberOfSeats'],
+    result.countInfo?.['Seats']
   ]
     .map(finiteNumber)
     .filter(/** @returns {value is number} */ (value) => value !== null && value > 0);
@@ -226,7 +226,7 @@ export function isSingleSeatFptpResult(result = {}, context = {}) {
   if (explicitSeats.length) return Math.max(...explicitSeats) >= 1;
   const electedCount = (result.candidates || []).filter((candidate) => {
     if (candidate.elected) return true;
-    return selectedPaneStatusKind(candidate.status || candidate.Status) === 'elected';
+    return selectedPaneStatusKind(candidate.status || candidate['Status']) === 'elected';
   }).length;
   return electedCount >= 1;
 }
@@ -238,9 +238,9 @@ export function isSingleSeatFptpResult(result = {}, context = {}) {
  */
 export function isReferendumElection(result = null, { bundle = null, entry = null } = {}) {
   const values = [
-    result?.contestType,
-    result?.type,
-    result?.body,
+    result?.['contestType'],
+    result?.['type'],
+    result?.['body'],
     bundle?.contestType,
     entry?.contestType,
     bundle?.body,
@@ -261,18 +261,18 @@ export function isReferendumElection(result = null, { bundle = null, entry = nul
  */
 export function referendumStats(result = {}, rows = []) {
   const countInfo = /** @type {ResultRow} */ (result?.countInfo || {});
-  const totals = /** @type {ResultRow} */ (result?.mainLikeTotals || {});
-  const votesFromRows = rows.reduce((sum, row) => sum + numberOrZero(row.votes ?? row.firstPrefs ?? row.finalVotes ?? row.total), 0);
-  const validPoll = finiteNumber(totals.validPoll ?? result.validPoll ?? countInfo.Valid_Poll) ?? (votesFromRows || null);
-  const electorate = finiteNumber(totals.totalElectorate ?? result.electorate ?? countInfo.Total_Electorate);
-  const explicitTotalPoll = finiteNumber(totals.totalPoll ?? result.totalPoll ?? countInfo.Total_Poll);
-  const sourceTurnoutPct = finiteNumber(result.turnoutPct ?? result.turnout_pct ?? countInfo.Turnout_Pct);
+  const totals = /** @type {ResultRow} */ (result?.['mainLikeTotals'] || {});
+  const votesFromRows = rows.reduce((sum, row) => sum + numberOrZero(row['votes'] ?? row['firstPrefs'] ?? row['finalVotes'] ?? row['total']), 0);
+  const validPoll = finiteNumber(totals['validPoll'] ?? result.validPoll ?? countInfo['Valid_Poll']) ?? (votesFromRows || null);
+  const electorate = finiteNumber(totals['totalElectorate'] ?? result.electorate ?? countInfo['Total_Electorate']);
+  const explicitTotalPoll = finiteNumber(totals['totalPoll'] ?? result.totalPoll ?? countInfo['Total_Poll']);
+  const sourceTurnoutPct = finiteNumber(result.turnoutPct ?? result['turnout_pct'] ?? countInfo['Turnout_Pct']);
   const totalPoll = explicitTotalPoll && explicitTotalPoll > 0
     ? explicitTotalPoll
     : (electorate !== null && sourceTurnoutPct !== null
     ? Math.round(electorate * sourceTurnoutPct / 100)
     : null);
-  const explicitSpoiled = finiteNumber(totals.totalSpoiled ?? result.spoiled ?? countInfo.Spoiled);
+  const explicitSpoiled = finiteNumber(totals['totalSpoiled'] ?? result.spoiled ?? countInfo['Spoiled']);
   const spoiled = explicitSpoiled && explicitSpoiled > 0
     ? explicitSpoiled
     : (totalPoll !== null && validPoll !== null ? Math.max(0, totalPoll - validPoll) : explicitSpoiled);
@@ -292,16 +292,16 @@ export function referendumStats(result = {}, rows = []) {
 export function referendumOutcomeRows(sourceRows = [], validPoll = null, roi = false) {
   return sourceRows
     .map((row) => {
-      const outcome = row.party || row.name || row.candidate || row.label || '';
-      const votes = finiteNumber(row.votes ?? row.firstPrefs ?? row.finalVotes ?? row.total) ?? 0;
-      const share = finiteNumber(row.share ?? row.firstPrefPct ?? row.constPct) ?? (validPoll ? votes / validPoll * 100 : null);
+      const outcome = row['party'] || row['name'] || row['candidate'] || row['label'] || '';
+      const votes = finiteNumber(row['votes'] ?? row['firstPrefs'] ?? row['finalVotes'] ?? row['total']) ?? 0;
+      const share = finiteNumber(row['share'] ?? row['firstPrefPct'] ?? row['constPct']) ?? (validPoll ? votes / validPoll * 100 : null);
       return {
         outcome,
         votes,
         share,
-        constituencies: finiteNumber(row.seats ?? row.constituenciesWon ?? row.constituencies),
-        colour: mainPanePartyColour(outcome, row.colour, roi),
-        elected: Boolean(row.elected) || selectedPaneStatusKind(row.status || row.Status) === 'elected'
+        constituencies: finiteNumber(row['seats'] ?? row['constituenciesWon'] ?? row['constituencies']),
+        colour: mainPanePartyColour(outcome, row['colour'], roi),
+        elected: Boolean(row['elected']) || selectedPaneStatusKind(row['status'] || row['Status']) === 'elected'
       };
     })
     .filter((row) => row.outcome)
@@ -338,14 +338,14 @@ export function withPartyDeltas(rows = [], options = {}, { previousBundle = /** 
   // nothing keeps its real zero, so a gain from it still reads +N.
   const previousByParty = new Map(previousRows.map((row) => /** @type {[string, PartyRow]} */ ([normalizeName(row.party), row])));
   return rows.map((row) => {
-    const previous = previousByParty.get(normalizeName(row.party)) || null;
+    const previous = previousByParty.get(normalizeName(row['party'])) || null;
     return {
       ...row,
       previous,
       deltas: previous ? {
-        stood: numberOrZero(row.stood) - numberOrZero(previous.stood),
-        seats: numberOrZero(row.seats) - numberOrZero(previous.seats),
-        votes: numberOrZero(row.votes) - numberOrZero(previous.votes),
+        stood: numberOrZero(row['stood']) - numberOrZero(previous['stood']),
+        seats: numberOrZero(row['seats']) - numberOrZero(previous['seats']),
+        votes: numberOrZero(row['votes']) - numberOrZero(previous['votes']),
         share: row.share !== null && previous.share !== null ? row.share - previous.share : null
       } : null
     };
@@ -358,14 +358,14 @@ export function withPartyDeltas(rows = [], options = {}, { previousBundle = /** 
  * @param {ElectionContext} [context]
  */
 export function candidateDeltasEligible(result = {}, { bundle = null, entry = null } = {}) {
-  const contestType = normalizeName(result?.contestType || bundle?.contestType || entry?.contestType || 'election');
+  const contestType = normalizeName(result?.['contestType'] || bundle?.contestType || entry?.contestType || 'election');
   if (contestType && contestType !== 'election') return false;
   const haystack = normalizeName([
-    result?.body,
-    result?.title,
-    result?.type,
-    result?.contestType,
-    result?.votingSystem,
+    result?.['body'],
+    result?.['title'],
+    result?.['type'],
+    result?.['contestType'],
+    result?.['votingSystem'],
     bundle?.body,
     bundle?.type,
     bundle?.votingSystem,
@@ -386,7 +386,7 @@ export function candidateDeltasEligible(result = {}, { bundle = null, entry = nu
  * @param {ElectionResult} [result]
  */
 export function candidateDeltaAreaKey(row = {}, result = {}) {
-  return normalizeName(row.constituency || row.area || row.dea || row.district || row.localBody || result?.constituency || result?.matchName || result?.name || '');
+  return normalizeName(row['constituency'] || row['area'] || row['dea'] || row['district'] || row['localBody'] || result?.constituency || result?.matchName || result?.['name'] || '');
 }
 
 /**
@@ -395,7 +395,7 @@ export function candidateDeltaAreaKey(row = {}, result = {}) {
  * @param {ElectionResult} [result]
  */
 export function candidateDeltaLookupKey(row = {}, result = {}) {
-  const name = normalizeName(row.name || row.candidateName || row.candidate || row.Candidate_Name || row.Candidate || '');
+  const name = normalizeName(row['name'] || row['candidateName'] || row['candidate'] || row['Candidate_Name'] || row['Candidate'] || '');
   const area = candidateDeltaAreaKey(row, result);
   return [name, area].filter(Boolean).join('|');
 }
@@ -405,7 +405,7 @@ export function candidateDeltaLookupKey(row = {}, result = {}) {
  * @param {ResultRow} [row]
  */
 export function candidateFirstPrefValue(row = {}) {
-  return numberOrZero(row.firstPrefs ?? row.votes ?? row.finalVotes ?? row.total ?? row.Total_Votes);
+  return numberOrZero(row['firstPrefs'] ?? row['votes'] ?? row['finalVotes'] ?? row['total'] ?? row['Total_Votes']);
 }
 
 /**
@@ -414,7 +414,7 @@ export function candidateFirstPrefValue(row = {}) {
  * @param {ElectionResult} [result]
  */
 export function candidateFirstPrefPct(row = {}, result = {}) {
-  const explicit = row.firstPrefPct ?? row.votePct ?? row.constPct ?? row.share;
+  const explicit = row['firstPrefPct'] ?? row['votePct'] ?? row['constPct'] ?? row['share'];
   if (Number.isFinite(Number(explicit))) return Number(explicit);
   const validPoll = numberOrZero(result?.validPoll);
   if (!validPoll) return null;
@@ -691,7 +691,7 @@ export function shouldDashAfterTerminalTransfer(count, terminalCount) {
 export function terminalTransferOutDisplayRow(candidate = {}, count, counts = new Map(), result = {}, countNumbers = [], baseRow = /** @type {{ [field: string]: unknown } | null} */ (null)) {
   const numericCount = Number(count);
   if (!Number.isFinite(numericCount) || numericCount <= 1) return baseRow || null;
-  const actualTransfer = finiteNumber(baseRow?.transfers);
+  const actualTransfer = finiteNumber(baseRow?.['transfers']);
   if (actualTransfer !== null && actualTransfer < -0.01) return baseRow;
 
   const normalizedCounts = normalizedCountSequence(countNumbers.length ? countNumbers : [...counts.keys()]);
@@ -701,7 +701,7 @@ export function terminalTransferOutDisplayRow(candidate = {}, count, counts = ne
   if (!eventCount || eventCount !== previousCount) return baseRow || null;
 
   const eventRow = counts.get(eventCount);
-  const eventTotal = finiteNumber(eventRow?.total ?? eventRow?.firstPrefs);
+  const eventTotal = finiteNumber(eventRow?.['total'] ?? eventRow?.['firstPrefs']);
   if (eventTotal === null || eventTotal <= 0.01) return baseRow || null;
 
   if (candidate.excludedAt && Number(candidate.excludedAt) === eventCount) {
@@ -715,7 +715,7 @@ export function terminalTransferOutDisplayRow(candidate = {}, count, counts = ne
   }
 
   if (candidate.electedAt && Number(candidate.electedAt) === eventCount) {
-    const quota = finiteNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota ?? candidate.quota);
+    const quota = finiteNumber(result.quota ?? result['Quota'] ?? result.countInfo?.['Quota'] ?? candidate.quota);
     if (quota === null || quota <= 0 || eventTotal <= quota + 0.01) return baseRow || null;
     return {
       ...(baseRow || {}),
@@ -738,7 +738,7 @@ export function terminalTransferOutDisplayRow(candidate = {}, count, counts = ne
  * @returns {number | null}
  */
 export function terminalTransferOutCount(candidate = {}, counts = new Map(), result = {}, countNumbers = []) {
-  const quota = finiteNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota ?? candidate.quota);
+  const quota = finiteNumber(result.quota ?? result['Quota'] ?? result.countInfo?.['Quota'] ?? candidate.quota);
   const rows = normalizedCountSequence(countNumbers.length ? countNumbers : [...counts.keys()]);
   /** @type {number | null} */
   let terminalCount = null;
@@ -747,8 +747,8 @@ export function terminalTransferOutCount(candidate = {}, counts = new Map(), res
     if (terminalCount !== null || count <= 1) return;
     const row = terminalTransferOutDisplayRow(candidate, count, counts, result, rows, counts.get(count));
     if (!row) return;
-    const total = finiteNumber(row.total ?? row.firstPrefs);
-    const transfer = finiteNumber(row.transfers);
+    const total = finiteNumber(row['total'] ?? row['firstPrefs']);
+    const transfer = finiteNumber(row['transfers']);
     if (total === null || transfer === null || transfer >= -0.01) return;
 
     const wasExcludedAndRedistributed = total <= 0.01;
@@ -772,7 +772,7 @@ export function terminalTransferOutCount(candidate = {}, counts = new Map(), res
  * @param {unknown[]} [countNumbers]
  */
 export function buildStvTransferContext(result = {}, candidates = [], countNumbers = []) {
-  const explicitNonTransferable = new Map((result.nonTransferable || []).map((row) => [Number(row.count), row]));
+  const explicitNonTransferable = new Map((result.nonTransferable || []).map((row) => [Number(row['count']), row]));
   /** @type {Map<number, { count: number, total: number, transfers: number, inferred: boolean }>} */
   const nonTransferable = new Map();
   /** @type {Map<number, { positive: number, negativeAbs: number }>} */
@@ -785,21 +785,21 @@ export function buildStvTransferContext(result = {}, candidates = [], countNumbe
     let positiveRecipientTransfers = 0;
     let negativeTransferOutAbs = 0;
     for (const candidate of candidates || []) {
-      const counts = new Map((candidate.counts || []).map((entry) => [Number(entry.count), entry]));
+      const counts = new Map((candidate.counts || []).map((entry) => [Number(entry['count']), entry]));
       const row = counts.get(count);
       const displayRow = terminalTransferOutDisplayRow(candidate, count, counts, result, normalizedCountNumbers, row);
-      const transfer = finiteNumber(displayRow?.transfers);
+      const transfer = finiteNumber(displayRow?.['transfers']);
       if (transfer === null) continue;
       candidateTransferSum += transfer;
       if (transfer > 0) positiveRecipientTransfers += transfer;
       if (transfer < 0) negativeTransferOutAbs += Math.abs(transfer);
     }
-    let nonTransferableTransfer = finiteNumber(explicitRow?.transfers);
+    let nonTransferableTransfer = finiteNumber(explicitRow?.['transfers']);
     if (nonTransferableTransfer === null && count > 1) {
       const inferred = -candidateTransferSum;
       nonTransferableTransfer = inferred > 0.0001 ? inferred : 0;
     }
-    let nonTransferableTotal = finiteNumber(explicitRow?.total);
+    let nonTransferableTotal = finiteNumber(explicitRow?.['total']);
     if (nonTransferableTotal === null) {
       nonTransferableTotal = count <= 1
         ? 0

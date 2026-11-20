@@ -226,7 +226,7 @@ export class MainElectionPaneContract {
     if (this.host.isAreaResultsGeographyMode?.() && this.host.renderAreaResultsGeographyPanel) {
       return this.host.renderAreaResultsGeographyPanel();
     }
-    if (results.some((result) => result.recallPetition)) return this.host.renderRecallPetitionOverview(results);
+    if (results.some((result) => result['recallPetition'])) return this.host.renderRecallPetitionOverview(results);
     if (this.host.isLocalGovernmentElection() && this.host.activeLocalMode === 'district') {
       return this.host.renderDistrictResults(view);
     }
@@ -268,7 +268,7 @@ export class MainElectionPaneContract {
     if (view === 'trends') return this.host.renderTrendsPanel?.(result) || '<p class="election-no-data">No trend data is available.</p>';
     if (this.host.isTurnoutGeographyMode?.()) return this.host.renderTurnoutConstituencyDetail(result);
     if (this.host.isCouncilAggregateResult?.(result)) return this.host.renderCouncilAggregateResults(result, view);
-    if (result.recallPetition) return this.host.renderRecallPetitionResult(result);
+    if (result['recallPetition']) return this.host.renderRecallPetitionResult(result);
     const candidates = [...(result.candidates || [])].sort((a, b) => {
       const elected = Number(Boolean(b.elected)) - Number(Boolean(a.elected));
       if (elected) return elected;
@@ -307,7 +307,7 @@ export class MainElectionPaneContract {
 // squeezed the results table to a single row.
 /** @param {ElectionResult} [result] */
 function renderContestNotes(result = {}) {
-  const notes = Array.isArray(result.contestNotes) ? /** @type {Array<{ label?: string, text?: string }>} */ (result.contestNotes) : [];
+  const notes = Array.isArray(result['contestNotes']) ? /** @type {Array<{ label?: string, text?: string }>} */ (result['contestNotes']) : [];
   if (!notes.length) return '';
   const labels = [...new Set(notes.map((note) => note.label).filter(Boolean))].join(', ') || 'Note';
   return `<details class="election-contest-notes">

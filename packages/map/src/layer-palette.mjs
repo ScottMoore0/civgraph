@@ -75,9 +75,9 @@ export function pickSlot(held, size) {
  */
 export function withColour(layer, colour) {
   const style = { ...(layer.style || {}) };
-  const ownFill = style.fillColor && style.fillColor !== style.color;
-  style.color = colour;
-  if (!ownFill) style.fillColor = colour;
+  const ownFill = style['fillColor'] && style['fillColor'] !== style['color'];
+  style['color'] = colour;
+  if (!ownFill) style['fillColor'] = colour;
   return { ...layer, style };
 }
 

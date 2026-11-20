@@ -479,7 +479,7 @@ export class EntityBridgeMethods {
       }
       const matchingResults = (bundle?.results || []).filter((result) => {
         if (kind === 'lgd') {
-          return normalizeEntityName(result.localBody || result.localGovernmentDistrict || result.council || result.bodyLabel || '') === target;
+          return normalizeEntityName(result.localBody || result['localGovernmentDistrict'] || result['council'] || result['bodyLabel'] || '') === target;
         }
         return normalizeEntityName(result.constituency || result.matchName || result.featureName || '') === target;
       });
@@ -500,7 +500,7 @@ export class EntityBridgeMethods {
       byElections: rows.length - general.length,
       districts: [...new Set(rows.map((row) => normalizeEntityName(row.localGovernmentDistrict)).filter(Boolean))].length,
       deas: kind === 'lgd'
-        ? Math.max(0, ...rows.map((row) => Number(row.deaCount || 0)))
+        ? Math.max(0, ...rows.map((row) => Number(row['deaCount'] || 0)))
         : rows.length,
       firstYear: Number(String(rows[0]?.date || '').slice(0, 4)) || null,
       lastYear: Number(String(rows[rows.length - 1]?.date || '').slice(0, 4)) || null,
@@ -771,12 +771,12 @@ export class EntityBridgeMethods {
     const seats = knownCount(result.seatsTotal ?? result.seatsWon, true);
     return {
       electionKey: bundle.key || entry.key || '',
-      electionDisplayName: /** @type {string} */ (bundle.displayTitle || entry.displayTitle || entry.title || entry.key || ''),
+      electionDisplayName: /** @type {string} */ (bundle.displayTitle || entry.displayTitle || entry['title'] || entry.key || ''),
       electionBodyForOpen: bundle.body || entry.body || '',
       body: bundle.body || entry.body || '',
       date: bundle.date || entry.date || '',
       constituency: result.constituency || '',
-      localGovernmentDistrict: /** @type {string} */ (result.localBody || result.localGovernmentDistrict || ''),
+      localGovernmentDistrict: /** @type {string} */ (result.localBody || result['localGovernmentDistrict'] || ''),
       // The party with the most votes, summed over its candidates (H3), not the poll-topper's.
       winnerParty: /** @type {string} */ (lead.party),
       winnerColour: /** @type {string} */ (lead.colour || MAP_COLOURS.noResult),
@@ -785,7 +785,7 @@ export class EntityBridgeMethods {
       electedNames: /** @type {import('../ui-controller-types.d.ts').EntityPersonRef[]} */ (lead.elected),
       validVotes: knownCount(lead.valid, true),
       seats,
-      isByElection: /by-election|bye-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`) || entry.kind === 'by-election',
+      isByElection: /by-election|bye-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`) || entry['kind'] === 'by-election',
       areaKind: kind
     };
   }
@@ -818,7 +818,7 @@ export class EntityBridgeMethods {
     const leading = [...partyTotals.values()].sort((a, b) => b.votes - a.votes)[0] || {};
     return {
       electionKey: bundle.key || entry.key || '',
-      electionDisplayName: /** @type {string} */ (bundle.displayTitle || entry.displayTitle || entry.title || entry.key || ''),
+      electionDisplayName: /** @type {string} */ (bundle.displayTitle || entry.displayTitle || entry['title'] || entry.key || ''),
       electionBodyForOpen: bundle.body || entry.body || '',
       body: bundle.body || entry.body || '',
       date: bundle.date || entry.date || '',
@@ -830,7 +830,7 @@ export class EntityBridgeMethods {
       winnerPct: validKnown && leading.votes ? leading.votes / validVotes * 100 : null,
       validVotes: validKnown ? validVotes : null,
       seats: seats || null,
-      isByElection: /by-election|bye-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`) || entry.kind === 'by-election',
+      isByElection: /by-election|bye-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`) || entry['kind'] === 'by-election',
       localGovernmentDistrict: name
     };
   }

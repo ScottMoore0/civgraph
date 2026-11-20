@@ -195,12 +195,12 @@ export class MobileLayoutMethods {
     const target = showingCatalogue ? 'map' : 'catalogue';
     // It showed a bare ☰ beside the site menu's own ☰, so the header had two identical
     // buttons doing different things. It now shows where it goes: a map, or a list.
-    if (toggle.dataset.target !== target || !toggle.querySelector('svg')) {
+    if (toggle.dataset['target'] !== target || !toggle.querySelector('svg')) {
       toggle.innerHTML = target === 'map'
         ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>'
         : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>';
     }
-    toggle.dataset.target = target;
+    toggle.dataset['target'] = target;
   }
 
   /** @this {MobileLayoutApp} */

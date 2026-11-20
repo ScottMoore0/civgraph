@@ -201,7 +201,7 @@ export class TimelineChangeMethods {
         changes.push({ ...change, key: `${k}:${change.id}`, step: multi ? label : '', text: this.describeTimelineChange(change, reversed) });
       }
       for (const feature of Array.isArray(file?.features) ? file.features : []) {
-        const changeId = feature?.properties?.changeId;
+        const changeId = feature?.properties?.['changeId'];
         features.push(changeId ? { ...feature, properties: { ...feature.properties, changeKey: `${k}:${changeId}` } } : feature);
       }
     });
@@ -349,7 +349,7 @@ export class TimelineChangeMethods {
       ? `${siteNumber(view.count)} change${view.count === 1 ? '' : 's'}`
       : view.kind === 'redrawn' ? 'Redrawn' : 'No changes';
     button.textContent = label;
-    button.dataset.kind = view.kind;
+    button.dataset['kind'] = view.kind;
     button.title = `${view.fromLabel} to ${view.toLabel}: ${view.parts.map((part) => part.text).join(' ')}`;
     if (!document.getElementById('timelineChangesPanel')?.hidden) this.renderTimelineChangesPanel();
   }
@@ -371,7 +371,7 @@ export class TimelineChangeMethods {
     panel.addEventListener('click', (event) => {
       const zoom = /** @type {HTMLElement | null | undefined} */ (/** @type {Element} */ (event.target).closest?.('[data-change-key]'));
       if (zoom) {
-        this.zoomToTimelineChange(zoom.dataset.changeKey);
+        this.zoomToTimelineChange(zoom.dataset['changeKey']);
         return;
       }
       if (/** @type {Element} */ (event.target).closest?.('.timeline-changes-panel__close')) this.closeTimelineChangesPanel({ focusButton: true });

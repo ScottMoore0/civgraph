@@ -302,7 +302,7 @@ export class ElectionPaneMethods {
         mapController: /** @type {MapControllerView} */ (this.mapController),
         onError: (error) => this.showMapError(error)
       });
-      if (window.__civgraphTest2) window.__civgraphTest2.elections = this.elections;
+      if (window.__civgraphTest2) window.__civgraphTest2['elections'] = this.elections;
     }
     if (!this.electionLoadPromise) {
       /** @type {Promise<unknown> | null} */

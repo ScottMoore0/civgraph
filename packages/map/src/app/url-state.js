@@ -97,7 +97,7 @@ export class UrlStateMethods {
     document.addEventListener('click', (event) => {
       const anchor = /** @type {HTMLAnchorElement | null | undefined} */ (/** @type {Element} */ (event.target).closest?.('a[href^="#"]'));
       if (!anchor) return;
-      if (anchor.closest?.('#catalogueFlatView') || anchor.dataset?.catalogueTarget) return;
+      if (anchor.closest?.('#catalogueFlatView') || anchor.dataset?.['catalogueTarget']) return;
 
       const hash = anchor.getAttribute('href') || '';
       event.preventDefault();
@@ -233,7 +233,7 @@ export class UrlStateMethods {
     for (const [mapId, state] of states) {
       if (!state?.isPartial || !state.loadedIndices?.size) continue;
       const featureId = /** @type {import("../../app/maplibre-main-adapter.js").FeatureKey} */ ([...state.loadedIndices][0]);
-      const featureName = state.featureNames?.get(featureId) || state.featureProperties?.get(featureId)?.name || '';
+      const featureName = state.featureNames?.get(featureId) || state.featureProperties?.get(featureId)?.['name'] || '';
       return { mapId, featureId, featureName };
     }
     return null;

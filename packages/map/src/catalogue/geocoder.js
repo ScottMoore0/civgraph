@@ -158,9 +158,9 @@ export class AddressGeocoder {
       return (doc?.features || []).map((/** @type {{ properties?: Record<string, string | undefined>, geometry?: { coordinates?: unknown[] } }} */ feature) => {
         const p = feature.properties || {};
         const [lon, lat] = feature.geometry?.coordinates || [];
-        const street = [p.housenumber, p.street].filter(Boolean).join(' ');
-        const name = p.name || street || p.city || p.county || '';
-        const detail = [p.name && street ? street : '', p.locality, p.district, p.city !== name ? p.city : '', p.county, p.postcode]
+        const street = [p['housenumber'], p['street']].filter(Boolean).join(' ');
+        const name = p['name'] || street || p['city'] || p['county'] || '';
+        const detail = [p['name'] && street ? street : '', p['locality'], p['district'], p['city'] !== name ? p['city'] : '', p['county'], p['postcode']]
           .filter(Boolean).filter((part, i, all) => all.indexOf(part) === i).slice(0, 4).join(', ');
         return { name, detail, lat: Number(lat), lon: Number(lon), source: 'photon' };
       }).filter((/** @type {AddressResult} */ r) => {

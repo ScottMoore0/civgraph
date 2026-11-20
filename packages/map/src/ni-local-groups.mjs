@@ -122,11 +122,11 @@ export function isAldermanicContest(bodySlug, seatType = '') {
  */
 export function isNiLocalCouncilRound(entry = {}) {
   if (!entry || typeof entry !== 'object') return false;
-  if (entry.niLocalGroup) return false;
+  if (entry['niLocalGroup']) return false;
   const date = String(entry.date || '');
   if (!/^\d{4}/.test(date) || date >= NI_LOCAL_GROUP_BEFORE) return false;
   if (entry.bodyGroup === 'local-government') return false;
-  const slug = String(entry.bodySlug || '');
+  const slug = String(entry['bodySlug'] || '');
   if (!slug || slug.startsWith('ireland-')) return false;
   if (councilTier(slug) === null) return false;
   // From 1921, Northern Ireland's councils only.
@@ -203,8 +203,8 @@ export function groupNiLocalRounds(entries = []) {
  */
 export function buildNiLocalGroupEntry(year, rounds = []) {
   const dates = [...new Set(rounds.map((round) => round.date).filter(Boolean))].sort();
-  const councils = rounds.filter((round) => !isAldermanicBody(round.bodySlug));
-  const aldermanic = rounds.some((round) => isAldermanicBody(round.bodySlug));
+  const councils = rounds.filter((round) => !isAldermanicBody(round['bodySlug']));
+  const aldermanic = rounds.some((round) => isAldermanicBody(round['bodySlug']));
   return {
     key: niLocalGroupKey(year),
     body: localGroupBody(year),

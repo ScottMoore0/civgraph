@@ -112,11 +112,11 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
   dialog.innerHTML = `<form method="dialog" class="cn-edit__form">
     <h2 id="cn-edit-title">Suggest an edit: ${esc(record.name || record.id)}</h2>
     <p class="cn-muted">Your suggestion goes to the review queue. Nothing on the site changes until an administrator approves it.</p>
-    <label>Name <input type="text" name="name" value="${esc(baseline.name)}" maxlength="4000"></label>
-    <label>Description <textarea name="description" rows="5" maxlength="4000">${esc(baseline.description)}</textarea></label>
+    <label>Name <input type="text" name="name" value="${esc(baseline['name'])}" maxlength="4000"></label>
+    <label>Description <textarea name="description" rows="5" maxlength="4000">${esc(baseline['description'])}</textarea></label>
     <div class="cn-edit__pair">
-      <label>Date <input type="text" name="date" value="${esc(baseline.date)}" placeholder="YYYY or YYYY-MM-DD"></label>
-      <label>Licence <input type="text" name="licence" value="${esc(baseline.licence)}"></label>
+      <label>Date <input type="text" name="date" value="${esc(baseline['date'])}" placeholder="YYYY or YYYY-MM-DD"></label>
+      <label>Licence <input type="text" name="licence" value="${esc(baseline['licence'])}"></label>
     </div>
     <fieldset class="cn-edit__refs"><legend>References</legend>
       <div data-refs>${refs.map(refRow).join('')}</div>
@@ -164,8 +164,8 @@ export function openEditDialog(record, { onDone, host = document.body } = {}) {
       if (get('note')) r.note = get('note');
       return r;
     }).filter((r) => r.label || r.url);
-    if (JSON.stringify(nextRefs.map((r) => ({ label: r.label, url: r.url || '', note: r.note || '' }))) !== baseline.references) {
-      patch.references = nextRefs.length ? nextRefs.map((r) => ({ ...r, label: r.label || r.url })) : null;
+    if (JSON.stringify(nextRefs.map((r) => ({ label: r.label, url: r.url || '', note: r.note || '' }))) !== baseline['references']) {
+      patch['references'] = nextRefs.length ? nextRefs.map((r) => ({ ...r, label: r.label || r.url })) : null;
     }
     return { patch, summary: String(fd.get('summary') || '').trim(), sourceUrls: String(fd.get('sourceUrls') || '').split(/\s+/).filter(Boolean) };
   };

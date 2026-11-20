@@ -264,8 +264,8 @@ export class TimelineControlMethods {
     const slider = document.getElementById('timelineSlider');
     const range = document.getElementById('timelineRange');
     const label = document.getElementById('timelineLabel');
-    if (!slider || !range || !label || slider.dataset.chrome === 'ready') return;
-    slider.dataset.chrome = 'ready';
+    if (!slider || !range || !label || slider.dataset['chrome'] === 'ready') return;
+    slider.dataset['chrome'] = 'ready';
 
     const track = document.createElement('div');
     track.className = 'timeline-track';
@@ -393,16 +393,16 @@ export class TimelineControlMethods {
     const placed = [];
     const ordered = labels
       .map((label) => {
-        label.dataset.hidden = 'false';
+        label.dataset['hidden'] = 'false';
         const left = label.offsetLeft - label.offsetWidth / 2;
-        return { label, left, right: left + label.offsetWidth, priority: Number(label.dataset.priority || 1) };
+        return { label, left, right: left + label.offsetWidth, priority: Number(label.dataset['priority'] || 1) };
       })
       .sort((a, b) => b.priority - a.priority || a.left - b.left);
     const gap = 10;
     for (const item of ordered) {
       const clash = placed.some((other) => item.left < other.right + gap && item.right > other.left - gap);
       if (clash || item.left < -12 || item.right > width + 12) {
-        item.label.dataset.hidden = 'true';
+        item.label.dataset['hidden'] = 'true';
         continue;
       }
       placed.push(item);
@@ -458,7 +458,7 @@ export class TimelineControlMethods {
       if (!item || !requested) return false;
       if (requested.mapId != null) return item.mapId === requested.mapId;
       if (requested.timestamp != null) return item.timestamp === requested.timestamp;
-      if (requested.date != null) return item.date === requested.date && item.body === requested.body;
+      if (requested.date != null) return item.date === requested.date && item['body'] === requested['body'];
       return false;
     };
     const requestedIndex = this.timelineItems.findIndex((item) => sameTimelineItem(item, requestedItem));
@@ -534,8 +534,8 @@ export class TimelineControlMethods {
     const text = this.formatTimelineItemLabel(item);
     if (label) label.textContent = text;
     const sublabel = document.getElementById('timelineSublabel');
-    if (sublabel) sublabel.textContent = /** @type {string | undefined} */ (item?.sublabel) || '';
-    document.getElementById('timelineRange')?.setAttribute('aria-valuetext', [text, item?.sublabel].filter(Boolean).join(', '));
+    if (sublabel) sublabel.textContent = /** @type {string | undefined} */ (item?.['sublabel']) || '';
+    document.getElementById('timelineRange')?.setAttribute('aria-valuetext', [text, item?.['sublabel']].filter(Boolean).join(', '));
   }
 
   /** @this {TimelineControlApp} */

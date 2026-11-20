@@ -135,11 +135,11 @@ export class MessageMethods {
     setHidden(status, false);
     status.innerHTML = '';
     const shownAt = Date.now();
-    status.dataset.shownAt = String(shownAt);
+    status.dataset['shownAt'] = String(shownAt);
     // A note (not an error) clears itself after a while; an error waits to be dismissed or retried.
     if (options.kind === 'info') {
       setTimeout(() => {
-        if (status.dataset.shownAt === String(shownAt)) { setHidden(status, true); status.innerHTML = ''; }
+        if (status.dataset['shownAt'] === String(shownAt)) { setHidden(status, true); status.innerHTML = ''; }
       }, 15000);
     }
     const text = document.createElement('span');
@@ -179,7 +179,7 @@ export class MessageMethods {
   dismissStaleMapMessage(minAgeMs = 1500) {
     const status = document.getElementById('test2Status');
     if (!status || status.hidden) return;
-    const shownAt = Number(status.dataset.shownAt || 0);
+    const shownAt = Number(status.dataset['shownAt'] || 0);
     if (Date.now() - shownAt >= minAgeMs) this.hideMapError();
   }
 

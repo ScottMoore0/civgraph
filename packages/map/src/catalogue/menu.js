@@ -62,7 +62,7 @@ export function openMenu(anchor, items, { label = 'Actions' } = {}) {
     // A click inside the menu lands on an element of it.
     const target = /** @type {HTMLElement | null} */ (/** @type {Element} */ (e.target).closest('[role="menuitem"]'));
     if (!target) return;
-    const it = items[Number(target.dataset.i)];
+    const it = items[Number(target.dataset['i'])];
     if (it?.onSelect) {
       e.preventDefault();
       closeMenu();

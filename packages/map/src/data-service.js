@@ -342,7 +342,7 @@ class DataService {
             downloads: variant.downloads || (variant.files?.fgb || variant.sourceFile ? undefined : map.downloads),
             style: variant.style || map.style,
             labelProperty: variant.labelProperty || map.labelProperty,
-            priorityProperty: variant.priorityProperty || map.priorityProperty,
+            priorityProperty: variant.priorityProperty || map['priorityProperty'],
             name: variant.label || variant.id,
             variants: undefined,
             members: undefined,
@@ -386,8 +386,8 @@ class DataService {
         if (variant?.id && !this.mapClassIndex.has(variant.id)) {
           this.mapClassIndex.set(variant.id, {
             classId: map.id,
-            className: map.name || /** @type {string | undefined} */ (map.title) || map.id,
-            scope: /** @type {string | undefined} */ (map.scope) || null,
+            className: map.name || /** @type {string | undefined} */ (map['title']) || map.id,
+            scope: /** @type {string | undefined} */ (map['scope']) || null,
             parentId: map.id
           });
         }
@@ -411,11 +411,11 @@ class DataService {
   getMapDisplayTitle(mapOrId) {
     const map = typeof mapOrId === 'string' ? this.getMapById(mapOrId) : mapOrId;
     if (!map) return typeof mapOrId === 'string' ? mapOrId : '';
-    const name = String(map.name || map.title || map.label || map.id || '').trim();
+    const name = String(map.name || map['title'] || map['label'] || map.id || '').trim();
     if (!name) return '';
 
     const classInfo = this.getMapClassInfo(map.id) || (map.parentId ? this.getMapClassInfo(/** @type {string} */ (map.parentId)) : null);
-    const parentTitle = String(classInfo?.className || map.parentName || '').trim();
+    const parentTitle = String(classInfo?.className || map['parentName'] || '').trim();
     const derivedName = this.getDerivedMapNamePart(map, name, parentTitle);
     if (!parentTitle || !derivedName) return name;
     return `${parentTitle} - ${derivedName}`;
@@ -427,7 +427,7 @@ class DataService {
    * @param {unknown} [parentTitle]
    * @returns {string}
    */
-  getDerivedMapNamePart(map, name = map?.name || map?.title || '', parentTitle = '') {
+  getDerivedMapNamePart(map, name = map?.name || map?.['title'] || '', parentTitle = '') {
     const text = String(name || '').trim();
     if (!text) return '';
 
@@ -448,7 +448,7 @@ class DataService {
    * @param {unknown} [name]
    * @returns {boolean}
    */
-  isDerivedMapName(map, name = map?.name || map?.title || '') {
+  isDerivedMapName(map, name = map?.name || map?.['title'] || '') {
     const text = String(name || '').trim();
     if (!text) return false;
     if (/^\d{4}$/.test(text)) return true;
@@ -621,7 +621,7 @@ class DataService {
    * Get the default-on maps
    */
   getDefaultMaps() {
-    return this.getAllMaps().filter(m => m.defaultOn);
+    return this.getAllMaps().filter(m => m['defaultOn']);
   }
 
   /**
@@ -638,12 +638,12 @@ class DataService {
       const sourceMap = this.getMapById(/** @type {string} */ (map.cloneOf));
       if (sourceMap?.files) {
         // `files` is an object of paths here, or a tile count (then every read is undefined).
-        return /** @type {Record<string, unknown>} */ (sourceMap.files).fgb || /** @type {Record<string, unknown>} */ (sourceMap.files).geojson || Object.values(sourceMap.files)[0];
+        return /** @type {Record<string, unknown>} */ (sourceMap.files)['fgb'] || /** @type {Record<string, unknown>} */ (sourceMap.files)['geojson'] || Object.values(sourceMap.files)[0];
       }
     }
 
     if (!map.files) return null;
-    return /** @type {Record<string, unknown>} */ (map.files).fgb || /** @type {Record<string, unknown>} */ (map.files).geojson || Object.values(map.files)[0];
+    return /** @type {Record<string, unknown>} */ (map.files)['fgb'] || /** @type {Record<string, unknown>} */ (map.files)['geojson'] || Object.values(map.files)[0];
   }
 
   /**
@@ -1014,8 +1014,8 @@ class DataService {
 export function resolveMapDownloadUrl(mapConfig) {
   if (!mapConfig) return null;
   const candidates = [
-    /** @type {Record<string, unknown> | null | undefined} */ (mapConfig.downloads)?.fgb,
-    typeof mapConfig.files === 'object' && mapConfig.files ? /** @type {Record<string, unknown>} */ (mapConfig.files).fgb : null,
+    /** @type {Record<string, unknown> | null | undefined} */ (mapConfig.downloads)?.['fgb'],
+    typeof mapConfig.files === 'object' && mapConfig.files ? /** @type {Record<string, unknown>} */ (mapConfig.files)['fgb'] : null,
 
     mapConfig.sourceFile
   ];

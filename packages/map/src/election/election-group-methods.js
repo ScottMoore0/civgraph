@@ -207,7 +207,7 @@ export class ElectionGroupMethods {
   groupMemberForFeature(feature) {
     const group = this.activeGroup;
     if (!group || !feature) return null;
-    const mapId = String(feature.mapId || feature.sourceMapId || feature.layerId || '');
+    const mapId = String(feature.mapId || feature['sourceMapId'] || feature['layerId'] || '');
     const onMap = group.members.filter((member) => this.backingLayerIdsOf(member.entry, member.bundle).includes(mapId));
     for (const member of onMap) {
       const found = this.withGroupMember(member, () => this.findResultForFeature(this.resultIndex(member.bundle.results), feature));
@@ -255,7 +255,7 @@ export class ElectionGroupMethods {
   bindGroupTabs(pane) {
     /** @type {NodeListOf<HTMLElement>} */ (pane.querySelectorAll('[data-election-group-member]')).forEach((button) => {
       button.addEventListener('click', () => {
-        const key = String(button.dataset.electionGroupMember || '');
+        const key = String(button.dataset['electionGroupMember'] || '');
         if (key === this.activeEntry?.key) return;
         this.activateGroupMember(key);
         /** @type {HTMLElement | null} */ (document.querySelector(`[data-election-group-member="${CSS.escape(key)}"]`))?.focus();

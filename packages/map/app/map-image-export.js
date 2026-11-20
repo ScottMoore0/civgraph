@@ -551,7 +551,7 @@ function selectionMatcher(selection, labelProperty) {
   // field reads (an election's enriched feature names the area as its Constituency).
   const nameText = selection.name
     || featureName(props, labelProperty)
-    || (typeof props.Constituency === 'string' ? props.Constituency : '');
+    || (typeof props['Constituency'] === 'string' ? props['Constituency'] : '');
   const name = nameText ? String(nameText).trim().toLowerCase() : '';
   // Row ids (OBJECTID, FID, civ_fid) and measured floats (areas, lengths, elevations) differ
   // between a tile and its source for the same feature, so they neither confirm nor refute.

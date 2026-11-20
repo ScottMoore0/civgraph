@@ -5,16 +5,16 @@
 const DEAS_1972_REPAIRS = [
   {
     name: 'ARMAGH AREA D',
-    matches: (props) => isBlank(props.NAME) && nearly(props.Area_SqKM, 13.1719213882566)
+    matches: (props) => isBlank(props['NAME']) && nearly(props['Area_SqKM'], 13.1719213882566)
   },
   {
     name: 'DUNGANNON AREA C',
-    matches: (props) => String(props.OBJECTID ?? '').trim() === '1624'
-      && normalizeText(props.NAME) === 'DUNGANNON AREA D'
+    matches: (props) => String(props['OBJECTID'] ?? '').trim() === '1624'
+      && normalizeText(props['NAME']) === 'DUNGANNON AREA D'
   },
   {
     name: 'LIMAVADY AREA C',
-    matches: (props) => isBlank(props.NAME) && nearly(props.Area_SqKM, 8.44105398081151)
+    matches: (props) => isBlank(props['NAME']) && nearly(props['Area_SqKM'], 8.44105398081151)
   }
 ];
 
@@ -30,8 +30,8 @@ export function repairFeatureProperties(layer, properties = {}) {
   return {
     ...(properties || {}),
     NAME: repairedName,
-    name: properties?.name || repairedName,
-    label_name: properties?.label_name || repairedName
+    name: properties?.['name'] || repairedName,
+    label_name: properties?.['label_name'] || repairedName
   };
 }
 

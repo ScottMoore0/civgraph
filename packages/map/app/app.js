@@ -215,7 +215,7 @@ class Test2App {
       if (dataService.maps && Array.isArray(dataService.maps.maps)) {
         const existingIds = new Set(dataService.maps.maps.map((m) => m.id));
         for (const layer of this.metadataService.layers || []) {
-          if ((layer.sourceType === 'point-cloud' || layer.sourceType === 'raster-dem') && !existingIds.has(layer.id)) {
+          if ((layer['sourceType'] === 'point-cloud' || layer['sourceType'] === 'raster-dem') && !existingIds.has(layer.id)) {
             // A layer of the map index, read by the catalogue as a map of its own.
             dataService.maps.maps.push(/** @type {import('../../types/index.js').MapEntry} */ (/** @type {unknown} */ (layer)));
           }
@@ -326,14 +326,14 @@ class Test2App {
     this.warmElectionCatalogueWhenWanted();
     // The catalogue above is drawn now; the address's layers wait for the map's style (and
     // the address is left alone until they are back).
-    window.__civgraphTest2.restorePromise = this.whenStyleLoaded()
+    window.__civgraphTest2['restorePromise'] = this.whenStyleLoaded()
       .then(() => this.restoreURLState())
       .catch((error) => this.showMapError(error))
       .finally(() => {
         this.urlSuspend.set(false);
         this.updateURLState();
       });
-    await window.__civgraphTest2.restorePromise;
+    await window.__civgraphTest2['restorePromise'];
     this.showFirstVisitHint();
   }
 
