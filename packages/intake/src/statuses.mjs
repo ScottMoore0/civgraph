@@ -118,7 +118,7 @@ export function commandAllowed(command, status) {
 /** @typedef {'pending-review' | 'approved' | 'rejected' | 'applied'} ContributionStatus */
 
 // The table is the statuses registry's machine `contribution` (RG-04), not a copy kept here.
-const CONTRIBUTION_MACHINE = /** @type {import('@civgraph/types').StatusesRegistry['machines'][string]} the registry's checks require it */ (loadRegistry('statuses').machines.contribution);
+const CONTRIBUTION_MACHINE = /** @type {import('@civgraph/types').StatusesRegistry['machines'][string]} the registry's checks require it */ (loadRegistry('statuses').machines['contribution']);
 export const CONTRIBUTION_STATUS = defineMachine(/** @type {import('@civgraph/core/state-machine.mjs').MachineSpec<ContributionStatus>} */ (/** @type {unknown} */ ({
   name: 'contribution status',
   initial: CONTRIBUTION_MACHINE.initial,

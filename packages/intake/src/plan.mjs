@@ -220,10 +220,10 @@ export function renderReport(plan, manifest, { generatedAt = new Date().toISOStr
   out.push('');
 
   const ec = plan.expectedChecks;
-  if (ec.beforeUpload?.length || ec.afterPostUpload?.length) {
+  if (ec['beforeUpload']?.length || ec['afterPostUpload']?.length) {
     out.push('## 4. Expected check results', '');
-    out.push(...checksSection('Before the upload', ec.beforeUpload));
-    out.push(...checksSection('After the post-upload steps', ec.afterPostUpload));
+    out.push(...checksSection('Before the upload', ec['beforeUpload']));
+    out.push(...checksSection('After the post-upload steps', ec['afterPostUpload']));
   }
   if (manifest.notes?.length) {
     out.push('## Notes', '');

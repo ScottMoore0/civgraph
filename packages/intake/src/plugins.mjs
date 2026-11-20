@@ -597,8 +597,8 @@ const CLOCK_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'froze
  * @returns {Record<string, string>}
  */
 export function frozenClockEnv() {
-  const nodeOptions = [process.env.NODE_OPTIONS, `--import=${pathToFileURL(path.join(CLOCK_DIR, 'clock.mjs')).href}`].filter(Boolean).join(' ');
-  const pythonPath = [CLOCK_DIR, process.env.PYTHONPATH].filter(Boolean).join(path.delimiter);
+  const nodeOptions = [process.env['NODE_OPTIONS'], `--import=${pathToFileURL(path.join(CLOCK_DIR, 'clock.mjs')).href}`].filter(Boolean).join(' ');
+  const pythonPath = [CLOCK_DIR, process.env['PYTHONPATH']].filter(Boolean).join(path.delimiter);
   return { NODE_OPTIONS: nodeOptions, PYTHONPATH: pythonPath, INTAKE_FROZEN_CLOCK: '2026-01-01T00:00:00.000Z' };
 }
 
@@ -611,8 +611,8 @@ export function frozenClockEnv() {
  * @returns {Record<string, string>}
  */
 export function offlineEnv(base = {}) {
-  const nodeOptions = [base.NODE_OPTIONS ?? process.env.NODE_OPTIONS, `--import=${pathToFileURL(path.join(CLOCK_DIR, 'no-network.mjs')).href}`].filter(Boolean).join(' ');
-  const pythonPath = base.PYTHONPATH ?? [CLOCK_DIR, process.env.PYTHONPATH].filter(Boolean).join(path.delimiter);
+  const nodeOptions = [base['NODE_OPTIONS'] ?? process.env['NODE_OPTIONS'], `--import=${pathToFileURL(path.join(CLOCK_DIR, 'no-network.mjs')).href}`].filter(Boolean).join(' ');
+  const pythonPath = base['PYTHONPATH'] ?? [CLOCK_DIR, process.env['PYTHONPATH']].filter(Boolean).join(path.delimiter);
   return { ...base, NODE_OPTIONS: nodeOptions, PYTHONPATH: pythonPath, INTAKE_OFFLINE: '1' };
 }
 

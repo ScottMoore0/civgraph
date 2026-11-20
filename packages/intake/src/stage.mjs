@@ -166,7 +166,7 @@ function mapsJsonPatchOp(batch, op, view, out) {
         m[ed.field] = text.replace(ed.old, ed.new);
         changes.push(`edit ${ed.id}.${ed.field}`);
       } else if (ed.op === 'add-reference') {
-        const refs = /** @type {Array<{ label: string }>} */ (m.references || (m.references = []));
+        const refs = /** @type {Array<{ label: string }>} */ (m['references'] || (m['references'] = []));
         if (!refs.some((r) => r.label === ed.ref.label)) {
           refs.push(ed.ref);
           changes.push(`add reference to ${ed.id}: ${ed.ref.label.slice(0, 70)}`);

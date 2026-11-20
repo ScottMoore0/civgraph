@@ -67,7 +67,7 @@ export function parsePluginArgs(argv) {
 export async function pluginMain(argv, { log = console.log, err = console.error, stdio = 'inherit' } = {}) {
   let o;
   try { o = parsePluginArgs(argv); } catch (e) { err(`intake: ${/** @type {Error} */ (e).message}`); return 2; }
-  const repo = path.resolve(o.values.repo || DEFAULT_REPO);
+  const repo = path.resolve(o.values['repo'] || DEFAULT_REPO);
   try {
     switch (o.command) {
       case 'plugins': return await listPlugins(repo, o.flags.has('--check'), log);
@@ -191,7 +191,7 @@ async function writePluginBatch(repo, plugin, dir, dirArg, run, { log, stdio, ti
 async function fromContributionCommand(repo, o, { log, err, stdio }) {
   if (o.positional.length !== 2) { err('intake: from-contribution <submission-id> <batch-dir> [--submission <file>]'); return 2; }
   const [subId, dirArg] = /** @type {[string, string]} */ (o.positional);
-  const file = o.values.submission;
+  const file = o.values['submission'];
   /** @type {import('./contribution.mjs').Submission} */
   const submission = file ? JSON.parse(readFileSync(path.resolve(file), 'utf8')) : readQueuedSubmission(subId);
   if (submission?.id !== subId) { err(`intake: ${file || 'the queue entry'} is ${submission?.id ? `submission ${submission.id}` : 'not a submission'}, which is not submission ${subId}`); return 1; }
@@ -224,7 +224,7 @@ async function parityCommand(repo, o, { log, err, stdio }) {
   if (!plugin.steps) { err('intake: parity compares step plugins with their old command lines'); return 2; }
   const offline = o.flags.has('--offline');
   const steps = selectSteps(plugin, o.steps, { all: o.flags.has('--all'), allowNetwork: offline });
-  const scratch = path.resolve(o.values.scratch || path.join(os.tmpdir(), 'intake-parity'));
+  const scratch = path.resolve(o.values['scratch'] || path.join(os.tmpdir(), 'intake-parity'));
   mkdirSync(scratch, { recursive: true });
   if (offline) log(`offline: the network is closed to ${steps.join(', ')} (both runs)`);
   const res = await parity(plugin, {

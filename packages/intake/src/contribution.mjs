@@ -78,12 +78,12 @@ export function planContribution(submission, catalogue) {
   const refusal = contributionRefusal(submission);
   if (refusal) return { error: refusal };
   if (submission.kind !== 'retire' && submission.kind !== 'metadata-edit') return { error: `kind "${submission.kind}" is reviewed by hand, not turned into a batch -- once the work is done, close it with contributions.mjs --mark-applied ${submission.id}` };
-  const record = (catalogue.maps || []).find((m) => m.id === submission.entityId);
+  const record = (catalogue.maps || []).find((m) => m['id'] === submission.entityId);
   if (!record) return { error: `No catalogue record with id "${submission.entityId}"` };
   const id = /** @type {string} */ (submission.entityId);
   if (submission.kind === 'retire') {
-    if (record.hidden === true) return { error: 'Record is already hidden' };
-    return { edits: [{ id, op: 'set-field', field: 'hidden', value: true }], changes: [{ field: 'hidden', before: record.hidden, after: true }] };
+    if (record['hidden'] === true) return { error: 'Record is already hidden' };
+    return { edits: [{ id, op: 'set-field', field: 'hidden', value: true }], changes: [{ field: 'hidden', before: record['hidden'], after: true }] };
   }
   /** @type {ContributionEdit[]} */
   const edits = [];
