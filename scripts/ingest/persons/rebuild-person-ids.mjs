@@ -144,7 +144,7 @@ function main() {
   const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
   process.chdir(repo);
   mkdirSync('tmp', { recursive: true });
-  const logFile = process.env.LOG || 'tmp/rebuild-person-ids.log';
+  const logFile = process.env['LOG'] || 'tmp/rebuild-person-ids.log';
   const stateFile = `${logFile}.state.json`;
   if (existsSync(stateFile)) {
     try {
@@ -166,7 +166,7 @@ function main() {
     sleep: (ms) => { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); },
     record: (state) => writeFileSync(stateFile, `${JSON.stringify({ state, at: new Date().toISOString() })}\n`),
   };
-  const manifestArgs = (process.env.MANIFEST_ARGS || '').split(/\s+/).filter(Boolean);
+  const manifestArgs = (process.env['MANIFEST_ARGS'] || '').split(/\s+/).filter(Boolean);
   return rebuild({ manifestArgs }, io);
 }
 

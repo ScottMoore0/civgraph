@@ -115,8 +115,8 @@ function main() {
     summary: compactObject({
       scrapedAssemblySourceCount: inventoryRecords.length,
       sourceRecordCount: sources.length,
-      assemblyCurrentSourceUrl: START_PAGES.current,
-      assemblyArchiveSourceUrl: START_PAGES.archive,
+      assemblyCurrentSourceUrl: START_PAGES['current'],
+      assemblyArchiveSourceUrl: START_PAGES['archive'],
       mpExtractCount: MP_EXTRACTS.length
     }),
     sources
@@ -184,10 +184,10 @@ function buildSourceRecords(inventory, inventoryRecords, sourceIdByInventoryUrl)
     date: null,
     provider: ['Northern Ireland Assembly'],
     description: 'Public current and archived Northern Ireland Assembly register of interests pages, HTML editions, PDF editions, and machine-readable API payloads.',
-    url: START_PAGES.current,
+    url: START_PAGES['current'],
     references: [
-      { label: 'Current NI Assembly register page', url: START_PAGES.current },
-      { label: 'Archived NI Assembly register page', url: START_PAGES.archive }
+      { label: 'Current NI Assembly register page', url: START_PAGES['current'] },
+      { label: 'Archived NI Assembly register page', url: START_PAGES['archive'] }
     ],
     downloads: [
       { label: 'Structured NI register interest data', url: STRUCTURED_DATA_URL, type: 'json' }
@@ -200,10 +200,10 @@ function buildSourceRecords(inventory, inventoryRecords, sourceIdByInventoryUrl)
       {
         kind: 'scrape-inventory',
         sourceCount: inventoryRecords.length,
-        htmlCount: inventory.byKind?.html || 0,
-        pdfCount: inventory.byKind?.pdf || 0,
-        jsonCount: inventory.byKind?.json || 0,
-        xmlCount: inventory.byKind?.xml || 0,
+        htmlCount: inventory.byKind?.['html'] || 0,
+        pdfCount: inventory.byKind?.['pdf'] || 0,
+        jsonCount: inventory.byKind?.['json'] || 0,
+        xmlCount: inventory.byKind?.['xml'] || 0,
         downloadedBytes: inventory.downloadedBytes || null
       }
     ]
@@ -1153,8 +1153,8 @@ var cachedPythonWithPypdf = null;
 function findPythonWithPypdf() {
   if (cachedPythonWithPypdf) return cachedPythonWithPypdf;
   const candidates = uniqueCleanStrings([
-    process.env.CIVGRAPH_PYTHON,
-    process.env.PYTHON,
+    process.env['CIVGRAPH_PYTHON'],
+    process.env['PYTHON'],
     'python',
     'python3'
   ]);
@@ -1384,17 +1384,17 @@ function buildMpInterests() {
     }
     const rows = parseCsv(readFileSync(extract.path, 'utf8'));
     for (const row of rows) {
-      const memberName = cleanText(row.member_name);
-      const category = cleanText(row.category_name || 'Uncategorised');
-      const interestText = cleanText(row.free_text);
+      const memberName = cleanText(row['member_name']);
+      const category = cleanText(row['category_name'] || 'Uncategorised');
+      const interestText = cleanText(row['free_text']);
       if (!memberName || !interestText) continue;
       const key = [
-        normalizeKey(row.public_whip_id),
+        normalizeKey(row['public_whip_id']),
         normalizeKey(memberName),
         normalizeKey(category),
         normalizeKey(interestText),
-        row.earliest_declaration || '',
-        row.latest_declaration || ''
+        row['earliest_declaration'] || '',
+        row['latest_declaration'] || ''
       ].join('|');
       const existing = byKey.get(key);
       const sourceExtract = compactObject({
@@ -1414,22 +1414,22 @@ function buildMpInterests() {
         chamber: 'House of Commons of the United Kingdom',
         memberType: 'MP',
         jurisdiction: 'Northern Ireland',
-        publicWhipId: cleanText(row.public_whip_id),
+        publicWhipId: cleanText(row['public_whip_id']),
         memberName,
         category,
         interestText,
         isNone: isNoneEntry(interestText),
-        date: row.latest_declaration || row.earliest_declaration || null,
-        earliestDeclaration: row.earliest_declaration || null,
-        latestDeclaration: row.latest_declaration || null,
-        newInLatest: parseBoolean(row.new_in_latest),
-        declaredInLatest: parseBoolean(row.declared_in_latest),
-        extractedOrganisations: splitList(row.extracted_orgs),
-        extractedSum: cleanText(row.extracted_sum) || null,
-        constituencies: splitList(row.ni_constituencies),
-        electionDates: splitList(row.ni_election_dates),
-        parties: splitList(row.ni_parties),
-        filterBasis: cleanText(row.ni_filter_basis),
+        date: row['latest_declaration'] || row['earliest_declaration'] || null,
+        earliestDeclaration: row['earliest_declaration'] || null,
+        latestDeclaration: row['latest_declaration'] || null,
+        newInLatest: parseBoolean(row['new_in_latest']),
+        declaredInLatest: parseBoolean(row['declared_in_latest']),
+        extractedOrganisations: splitList(row['extracted_orgs']),
+        extractedSum: cleanText(row['extracted_sum']) || null,
+        constituencies: splitList(row['ni_constituencies']),
+        electionDates: splitList(row['ni_election_dates']),
+        parties: splitList(row['ni_parties']),
+        filterBasis: cleanText(row['ni_filter_basis']),
         provider: ['UK Parliament', 'TheyWorkForYou/Public Whip derived identifiers'],
         sourceKind: 'filtered-westminster-csv',
         sourceRecordId: `ni-register:mp:${extract.id}`,

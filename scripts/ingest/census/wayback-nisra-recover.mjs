@@ -839,11 +839,11 @@ async function main() {
       return acc;
     }, /** @type {Record<string, number>} */ ({})),
     selectedLengthBytes: rows.reduce((sum, row) => {
-      const value = Number(row.selectedLength || row.latestLength || 0);
+      const value = Number(row['selectedLength'] || row['latestLength'] || 0);
       return Number.isFinite(value) ? sum + value : sum;
     }, 0),
     downloadedBytes: rows.reduce((sum, row) => {
-      const value = Number(row.bytes || 0);
+      const value = Number(row['bytes'] || 0);
       return Number.isFinite(value) ? sum + value : sum;
     }, 0),
   };

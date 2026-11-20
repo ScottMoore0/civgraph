@@ -152,7 +152,7 @@ async function postBrowseDetail(row, snapshotHtml, metadata) {
     referer: `${BASE}BrowseSearchResults.aspx`,
     'content-type': 'application/x-www-form-urlencoded'
   };
-  if (metadata?.cookieHeader) headers.cookie = metadata.cookieHeader;
+  if (metadata?.cookieHeader) headers['cookie'] = metadata.cookieHeader;
   const response = await fetch(`${BASE}BrowseSearchResults.aspx`, { method: 'POST', body: params, headers });
   const content = await response.text();
   return { status: response.status, ok: response.ok && !isBlocked(response.status, content), content };

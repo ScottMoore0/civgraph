@@ -52,6 +52,8 @@ test('check:types:intake is strict and covers the typed ingest scripts', () => {
     assert.equal(o[flag], true, `${flag} is off`);
   }
   assert.notEqual(o.noImplicitAny, false, 'noImplicitAny is off');
+  // noPropertyAccessFromIndexSignature since 20 Nov 2026 (stream w20-refactor2); only add flags.
+  assert.equal(o.noPropertyAccessFromIndexSignature, true, 'noPropertyAccessFromIndexSignature is off');
   const missing = TYPED.filter((p) => !config.include.includes(p));
   assert.deepEqual(missing, [], 'a typed ingest script left scripts/intake/tsconfig.json');
 });

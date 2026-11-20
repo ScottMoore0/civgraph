@@ -448,7 +448,7 @@ function parseCandidateTemplate(source, index, numCounts) {
     counts,
     electedAt,
     lastCount,
-    status: electedAt ? RESULT.Elected : (lastCount && lastCount < numCounts ? RESULT.Excluded : RESULT['Not Elected'])
+    status: electedAt ? RESULT['Elected'] : (lastCount && lastCount < numCounts ? RESULT['Excluded'] : RESULT['Not Elected'])
   };
 }
 

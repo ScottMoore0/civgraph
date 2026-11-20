@@ -168,11 +168,11 @@ writeFileSync(path.join(OUT, '_seed-summary.json'), JSON.stringify(
 ));
 
 if (PHASE !== HARVEST.seed) {
-  const personIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds.GetAllMembers_JSON).map((r) => r.PersonId).filter(Boolean))];
-  const constituencyIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds.GetAllConstituencies_JSON).map((r) => r.ConstituencyId).filter(Boolean))];
-  const partyIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds.GetPartiesListCurrent_JSON).map((r) => r.OrganisationId).filter(Boolean))];
-  const departmentIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds.GetDepartmentListCurrent_JSON).map((r) => r.OrganisationId).filter(Boolean))];
-  const reportIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds.GetAllHansardReports_JSON).map((r) => r.ReportDocId).filter(Boolean))];
+  const personIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds['GetAllMembers_JSON']).map((r) => r['PersonId']).filter(Boolean))];
+  const constituencyIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds['GetAllConstituencies_JSON']).map((r) => r['ConstituencyId']).filter(Boolean))];
+  const partyIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds['GetPartiesListCurrent_JSON']).map((r) => r['OrganisationId']).filter(Boolean))];
+  const departmentIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds['GetDepartmentListCurrent_JSON']).map((r) => r['OrganisationId']).filter(Boolean))];
+  const reportIds = [...new Set(/** @type {Record<string, unknown>[]} */ (seeds['GetAllHansardReports_JSON']).map((r) => r['ReportDocId']).filter(Boolean))];
 
   console.log(`\n  ids: ${personIds.length} persons, ${constituencyIds.length} constituencies, ${partyIds.length} parties, ${departmentIds.length} departments, ${reportIds.length} hansard reports`);
 
@@ -367,11 +367,11 @@ if (PHASE === HARVEST.supplement || PHASE === HARVEST.all) {
   if (existsSync(reportsFile)) {
     const reports = records(JSON.parse(readFileSync(reportsFile, 'utf8')));
     const byId = path.join(OUT, 'hansard', 'GetHansardComponentsByReportId_JSON');
-    const missing = reports.filter((r) => !existsSync(path.join(byId, `${r.ReportDocId}.json`)));
+    const missing = reports.filter((r) => !existsSync(path.join(byId, `${r['ReportDocId']}.json`)));
     console.log(`\n  PHASE 4a — hansard components by plenary date: ${missing.length} reports unreachable by id`);
 
     const got = await pool(missing, (r) => {
-      const d = String(r.PlenaryDate).slice(0, 10);
+      const d = String(r['PlenaryDate']).slice(0, 10);
       return fetchOp('hansard', 'GetHansardComponentsByPlenaryDate_JSON', { plenaryDate: d }, d);
     });
     const n = got.reduce((a, j) => a + records(j).length, 0);
@@ -417,7 +417,7 @@ if (PHASE === HARVEST.supplement || PHASE === HARVEST.all) {
   // GetPlenaryItemsTabledDate, but "expected" is not "verified", and the check
   // below is what tells the difference.
   const personIds = [...new Set(records(JSON.parse(readFileSync(path.join(OUT, 'members', 'GetAllMembers_JSON', 'all.json'), 'utf8')))
-    .map((r) => r.PersonId).filter(Boolean).map(String))];
+    .map((r) => r['PersonId']).filter(Boolean).map(String))];
   // startDate and endDate are mandatory here and the id parameter is lowercase
   // 'personid', not 'personId' like the rest of the service. Passing personId
   // alone returns HTTP 500 "Missing parameter: startDate", which fetchOp counts

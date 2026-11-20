@@ -264,7 +264,7 @@ const TOPICS = [
   ['population', 'Population, age and sex', /populat|age|sex|resident|density|person|males|females|people|enumerat|census/i],
 ];
 const TOPIC_LABEL = Object.fromEntries(TOPICS.map(([id, label]) => [id, label]));
-TOPIC_LABEL.other = 'Other';
+TOPIC_LABEL['other'] = 'Other';
 /** @param {...unknown} texts */
 function topicOf(...texts) {
   const hay = texts.filter(Boolean).join(' ');
@@ -666,7 +666,7 @@ async function buildComparisons() {
   for (const [year, value, key] of HIST_POP) {
     const text = readFileSync(key, 'utf8');
     if (!text.includes(value.toLocaleString('en-GB'))) throw new Error(`${value} not found in ${key}`);
-    /** @type {Series} */ (ni.population).points.push({ year, value, src: { label: `GRO NI census report (text in ${key.split('/').pop()})`, url: R2 + key } });
+    /** @type {Series} */ (ni['population']).points.push({ year, value, src: { label: `GRO NI census report (text in ${key.split('/').pop()})`, url: R2 + key } });
   }
   // 1971/1981/1991 religion and population on the 26 districts.
   const cb = readCsv(`${DERIVED}/religion-common-basis-lgd.csv`);
@@ -674,10 +674,10 @@ async function buildComparisons() {
   const r81 = readCsv(`${DERIVED}/religion-1981-lgd.csv`);
   const src81 = { label: '1981 census, Table 8 (religion-1981-lgd.csv)', url: `${R2}${DERIVED}/religion-1981-lgd.csv` };
   const srcCb = { label: 'Common-basis religion series (religion-common-basis-ni.csv)', url: `${R2}${DERIVED}/religion-common-basis-ni.csv` };
-  /** @type {Series} */ (ni.population).points.push({ year: 1991, value: num(cbNi.pop_1991), src: srcCb });
-  /** @type {Series} */ (ni.catholic).points.push({ year: 1981, value: num(cbNi.raw_pct_1981), src: src81, flag: 'floor' });
-  /** @type {Series} */ (ni.catholic).points.push({ year: 1991, value: num(cbNi.raw_pct_1991), src: srcCb });
-  /** @type {Series} */ (ni.catholic_bg).points.push({ year: 1971, value: num(cbNi.cain_pct_1971), src: { label: 'CAIN retabulation of the 1971 census (religion-common-basis-ni.csv)', url: srcCb.url }, flag: 'est' });
+  /** @type {Series} */ (ni['population']).points.push({ year: 1991, value: num(cbNi['pop_1991']), src: srcCb });
+  /** @type {Series} */ (ni['catholic']).points.push({ year: 1981, value: num(cbNi['raw_pct_1981']), src: src81, flag: 'floor' });
+  /** @type {Series} */ (ni['catholic']).points.push({ year: 1991, value: num(cbNi['raw_pct_1991']), src: srcCb });
+  /** @type {Series} */ (ni['catholic_bg']).points.push({ year: 1971, value: num(cbNi['cain_pct_1971']), src: { label: 'CAIN retabulation of the 1971 census (religion-common-basis-ni.csv)', url: srcCb.url }, flag: 'est' });
   // 26-district codes: match names to the 2001 district codes (95AA..95ZZ) below.
   const r91 = readCsv(`${DERIVED}/census-1991-lgd-full.csv`);
   const src91 = { label: '1991 census district table (census-1991-lgd-full.csv)', url: `${R2}${DERIVED}/census-1991-lgd-full.csv` };
@@ -712,22 +712,22 @@ async function buildComparisons() {
   /** @param {unknown} name */
   const code26 = (name) => nameTo26.get(String(name).toLowerCase().replace(/[^a-z]/g, '').replace(/^londonderry$/, 'derry'));
   for (const r of r91) {
-    const c = code26(r.lgd); if (!c) { console.warn(`  1991 district not matched: ${r.lgd}`); continue; }
-    put26(c, /** @type {string} */ (lgdName[c]), 'population', 1991, num(r.total_pop), false);
+    const c = code26(r['lgd']); if (!c) { console.warn(`  1991 district not matched: ${r['lgd']}`); continue; }
+    put26(c, /** @type {string} */ (lgdName[c]), 'population', 1991, num(r['total_pop']), false);
     for (const [ind, col] of Object.entries(IND_1991)) put26(c, /** @type {string} */ (lgdName[c]), ind, 1991, num(r[col]), false);
   }
   for (const r of cb) {
-    const c = code26(r.area); if (!c) continue;
-    put26(c, /** @type {string} */ (lgdName[c]), 'population', 1971, num(r.pop_1971), false);
-    put26(c, /** @type {string} */ (lgdName[c]), 'population', 1981, num(r.pop_1981), false);
-    put26(c, /** @type {string} */ (lgdName[c]), 'catholic_bg', 1971, num(r.cain_pct_1971), true);
+    const c = code26(r['area']); if (!c) continue;
+    put26(c, /** @type {string} */ (lgdName[c]), 'population', 1971, num(r['pop_1971']), false);
+    put26(c, /** @type {string} */ (lgdName[c]), 'population', 1981, num(r['pop_1981']), false);
+    put26(c, /** @type {string} */ (lgdName[c]), 'catholic_bg', 1971, num(r['cain_pct_1971']), true);
   }
-  for (const r of r81) { const c = code26(r.lgd); if (c) put26(c, /** @type {string} */ (lgdName[c]), 'catholic', 1981, num(r.catholic_pct), false); }
+  for (const r of r81) { const c = code26(r['lgd']); if (c) put26(c, /** @type {string} */ (lgdName[c]), 'catholic', 1981, num(r['catholic_pct']), false); }
   // NI 1991 indicators: population-weighted district values (the district table has no NI row).
   for (const [ind, col] of Object.entries(IND_1991)) {
     if (ind === 'catholic') continue; // from the common-basis file above
     let s = 0; let w = 0;
-    for (const r of r91) { const v = num(r[col]); const p = num(r.total_pop); if (v != null && p) { s += v * p; w += p; } }
+    for (const r of r91) { const v = num(r[col]); const p = num(r['total_pop']); if (v != null && p) { s += v * p; w += p; } }
     if (w) /** @type {{ points: unknown[] }} every indicator has its series */ (ni[ind]).points.push({ year: 1991, value: round(s / w, 2), src: src91, flag: 'wtd' });
   }
 
@@ -740,11 +740,11 @@ async function buildComparisons() {
     const rows = readCsv(`${DERIVED}/${stem}-lgd.csv`);
     let N = 0; let D = 0;
     for (const r of rows) {
-      const code = /** @type {string} every row has a code */ (r.LGDCode || r.GeographyCode); const n = num(r[numCol]); const d = denCol ? num(r[denCol]) : null;
+      const code = /** @type {string} every row has a code */ (r['LGDCode'] || r['GeographyCode']); const n = num(r[numCol]); const d = denCol ? num(r[denCol]) : null;
       N += n || 0; D += d || 0;
       // a blank count is null, which multiplies as 0
       const v = ind.unit === 'count' ? n : (d ? (100 * /** @type {number} */ (n)) / d : null);
-      ((lgd11[code] ||= { name: /** @type {string} */ (r.Geography), v: {} }).v[ind.id] ||= {})[2021] = round(v, ind.unit === 'count' ? 0 : 1);
+      ((lgd11[code] ||= { name: /** @type {string} */ (r['Geography']), v: {} }).v[ind.id] ||= {})[2021] = round(v, ind.unit === 'count' ? 0 : 1);
     }
     const value = ind.unit === 'count' ? N : (100 * N) / D;
     /** @type {Series} */ (ni[ind.id]).points.push({ year: 2021, value: round(value, ind.unit === 'count' ? 0 : 2), src: { label: `${/** @type {{ provider: string; url: string; label: string; }} */ (NISRA[2021]).label}, table ${stem.slice(0, 6).toUpperCase()} (sum of the 11 districts)`, url: `${R2}${DERIVED}/${stem}-lgd.csv` }, n: ind.unit === 'pct' ? N : undefined, d: ind.unit === 'pct' ? D : undefined });
@@ -754,32 +754,32 @@ async function buildComparisons() {
   // its 2014 District Electoral Area lies in (best fit; SAs were built on the old wards).
   const deaRows = readCsv(`${DERIVED}/ms-a01-dea.csv`);
   /** @type {Map<string | undefined, string>} */
-  const deaToLgd = new Map(deaRows.map((r) => [r.Geography, `N090000${/** @type {string} */ (r.GeographyCode).slice(5, 7)}`]));
-  const saDea = new Map(readCsv(`${DERIVED}/sa2011_to_deas.csv`).map((r) => [r.SA2011, r.dea_2012]));
+  const deaToLgd = new Map(deaRows.map((r) => [r['Geography'], `N090000${/** @type {string} */ (r['GeographyCode']).slice(5, 7)}`]));
+  const saDea = new Map(readCsv(`${DERIVED}/sa2011_to_deas.csv`).map((r) => [r['SA2011'], r['dea_2012']]));
   const sa11 = readCsv(`${DERIVED}/census-2011-sa.csv`);
   /** @type {Record<string, Accumulator>} */
   const acc11 = {};
   for (const r of sa11) {
-    const lgd = deaToLgd.get(saDea.get(r.SA2011)); if (!lgd) continue;
-    const p = num(r.AllUsualResidents) || 0; const cbp = num(r.Catholic_background_pct);
+    const lgd = deaToLgd.get(saDea.get(r['SA2011'])); if (!lgd) continue;
+    const p = num(r['AllUsualResidents']) || 0; const cbp = num(r['Catholic_background_pct']);
     const a = acc11[lgd] ||= { pop: 0, cb: 0, cbw: 0 };
     a.pop += p; if (cbp != null) { a.cb += (cbp * p) / 100; a.cbw += p; }
   }
   for (const [code, a] of Object.entries(acc11)) {
     const e = lgd11[code] ||= { name: code, v: {} };
-    (e.v.population ||= {})[2011] = [Math.round(a.pop), 1];
-    (e.v.catholic_bg ||= {})[2011] = [round((100 * a.cb) / a.cbw, 1), 1];
+    (e.v['population'] ||= {})[2011] = [Math.round(a.pop), 1];
+    (e.v['catholic_bg'] ||= {})[2011] = [round((100 * a.cb) / a.cbw, 1), 1];
   }
 
   // 2021 on the 26 districts: ESTIMATED from Data Zones, each assigned whole to the 1993
   // district it lies mostly in.
-  const dzLgd93 = new Map(readCsv(`${DERIVED}/dz2021_to_lgd1993.csv`).map((r) => [r.DZ2021_cd, r.lgd1993]));
-  const dzCommunity = new Map(readCsv(`${DERIVED}/dz21-community-2021.csv`).map((r) => [r.DZ21, r]));
+  const dzLgd93 = new Map(readCsv(`${DERIVED}/dz2021_to_lgd1993.csv`).map((r) => [r['DZ2021_cd'], r['lgd1993']]));
+  const dzCommunity = new Map(readCsv(`${DERIVED}/dz21-community-2021.csv`).map((r) => [r['DZ21'], r]));
   /** @type {Record<string, Accumulator>} */
   const acc26 = {};
   for (const r of readCsv(`${DERIVED}/ms-a01-dz.csv`)) {
-    const c = code26(dzLgd93.get(r.GeographyCode)); if (!c) continue;
-    const p = num(r.AllUsualResidents) || 0; const cbp = num(dzCommunity.get(r.GeographyCode)?.catholic_bg_pct);
+    const c = code26(dzLgd93.get(r['GeographyCode'])); if (!c) continue;
+    const p = num(r['AllUsualResidents']) || 0; const cbp = num(dzCommunity.get(r['GeographyCode'])?.['catholic_bg_pct']);
     const a = acc26[c] ||= { pop: 0, cb: 0, cbw: 0 };
     a.pop += p; if (cbp != null) { a.cb += (cbp * p) / 100; a.cbw += p; }
   }
@@ -810,30 +810,30 @@ async function buildComparisons() {
 //    its method. 2021 is as published.
 // ---------------------------------------------------------------------------------------
 async function buildDzSeries() {
-  const pop21 = new Map(readCsv(`${DERIVED}/ms-a01-dz.csv`).map((r) => [/** @type {string} every row has a code */ (r.GeographyCode), [r.Geography, num(r.AllUsualResidents)]]));
-  const ts = new Map(readCsv(`${DERIVED}/dz21-catholic-timeseries.csv`).map((r) => [r.DZ2021_cd, r]));
-  const c01 = new Map(readCsv(`${DERIVED}/dz21-census-2001.csv`).map((r) => [r.DZ2021_cd, r]));
-  const c91 = new Map(readCsv(`${DERIVED}/dz21-census-1991.csv`).map((r) => [r.DZ2021_cd, r]));
-  const comm = new Map(readCsv(`${DERIVED}/dz21-community-2021.csv`).map((r) => [r.DZ21, r]));
-  const dzDea = new Map(readCsv(`${DERIVED}/dz2021_to_deas.csv`).map((r) => [r.DZ2021_cd, r.DEA2014_nm]));
+  const pop21 = new Map(readCsv(`${DERIVED}/ms-a01-dz.csv`).map((r) => [/** @type {string} every row has a code */ (r['GeographyCode']), [r['Geography'], num(r['AllUsualResidents'])]]));
+  const ts = new Map(readCsv(`${DERIVED}/dz21-catholic-timeseries.csv`).map((r) => [r['DZ2021_cd'], r]));
+  const c01 = new Map(readCsv(`${DERIVED}/dz21-census-2001.csv`).map((r) => [r['DZ2021_cd'], r]));
+  const c91 = new Map(readCsv(`${DERIVED}/dz21-census-1991.csv`).map((r) => [r['DZ2021_cd'], r]));
+  const comm = new Map(readCsv(`${DERIVED}/dz21-community-2021.csv`).map((r) => [r['DZ21'], r]));
+  const dzDea = new Map(readCsv(`${DERIVED}/dz2021_to_deas.csv`).map((r) => [r['DZ2021_cd'], r['DEA2014_nm']]));
   // 1971/1981 population apportioned from the 1972 wards by area.
   /** @type {Map<string, number[]>} */
   const p7181 = new Map();
   for (const r of readCsv(`${DERIVED}/ward1972_to_dz2021_weights.csv`)) {
-    const a = p7181.get(/** @type {string} */ (r.DZ2021_cd)) || [0, 0];
-    /** @type {number} */ (a[0]) += num(r.pop_1971_apportioned) || 0; /** @type {number} */ (a[1]) += num(r.pop_1981_apportioned) || 0;
-    p7181.set(/** @type {string} */ (r.DZ2021_cd), a);
+    const a = p7181.get(/** @type {string} */ (r['DZ2021_cd'])) || [0, 0];
+    /** @type {number} */ (a[0]) += num(r['pop_1971_apportioned']) || 0; /** @type {number} */ (a[1]) += num(r['pop_1981_apportioned']) || 0;
+    p7181.set(/** @type {string} */ (r['DZ2021_cd']), a);
   }
   // 2011 apportioned from Small Areas by the SA->DZ weights.
-  const sa11 = new Map(readCsv(`${DERIVED}/census-2011-sa.csv`).map((r) => [r.SA2011, r]));
+  const sa11 = new Map(readCsv(`${DERIVED}/census-2011-sa.csv`).map((r) => [r['SA2011'], r]));
   /** @type {Map<string, Accumulator>} */
   const e11 = new Map();
   for (const r of readCsv(`${DERIVED}/sa2011_to_dz2021_weights.csv`)) {
-    const sa = sa11.get(r.SA2011); if (!sa) continue;
-    const w = num(r.weight) || 0; const p = (num(sa.AllUsualResidents) || 0) * w; const cbp = num(sa.Catholic_background_pct);
-    const a = e11.get(/** @type {string} */ (r.DZ2021_cd)) || { pop: 0, cb: 0, cbw: 0 };
+    const sa = sa11.get(r['SA2011']); if (!sa) continue;
+    const w = num(r['weight']) || 0; const p = (num(sa['AllUsualResidents']) || 0) * w; const cbp = num(sa['Catholic_background_pct']);
+    const a = e11.get(/** @type {string} */ (r['DZ2021_cd'])) || { pop: 0, cb: 0, cbw: 0 };
     a.pop += p; if (cbp != null) { a.cb += (cbp * p) / 100; a.cbw += p; }
-    e11.set(/** @type {string} */ (r.DZ2021_cd), a);
+    e11.set(/** @type {string} */ (r['DZ2021_cd']), a);
   }
   // 2021 shares from the flexible-table builder at Data Zone level.
   /** @param {string} file @param {(c: number) => boolean} isNum @param {(c: number) => boolean} isDen */
@@ -850,7 +850,7 @@ async function buildDzSeries() {
   const soc21 = await ftbShare('HOUSEHOLD__DZ21~HH_TENURE_AGG7.csv.gz', (c) => c === 3 || c === 4, (c) => c >= 1);
   const iri21 = await ftbShare('PEOPLE__DZ21~IRISH_SKILLS_INTERMEDIATE.csv.gz', (c) => c >= 2 && c <= 4, (c) => c >= 1);
   /** @type {Map<string | undefined, string>} */
-  const deaToLgd = new Map(readCsv(`${DERIVED}/ms-a01-dea.csv`).map((r) => [r.Geography, `N090000${/** @type {string} */ (r.GeographyCode).slice(5, 7)}`]));
+  const deaToLgd = new Map(readCsv(`${DERIVED}/ms-a01-dea.csv`).map((r) => [r['Geography'], `N090000${/** @type {string} */ (r['GeographyCode']).slice(5, 7)}`]));
 
   const series = [
     { id: 'population', label: 'Usual residents', unit: 'count', years: [1971, 1981, 2001, 2011, 2021], method: { 1971: 'est-area', 1981: 'est-area', 2001: 'est-pop', 2011: 'est-pop', 2021: 'actual' } },
@@ -866,13 +866,13 @@ async function buildDzSeries() {
     const t = ts.get(dz) || {}; const a = c01.get(dz) || {}; const b = c91.get(dz) || {}; const e = e11.get(dz); const p = p7181.get(dz);
     const cm = comm.get(dz);
     rows[dz] = [
-      name, t.lgd1993 || null, deaToLgd.get(dzDea.get(dz)) || null,
-      [p ? Math.round(/** @type {number} */ (p[0])) : null, p ? Math.round(/** @type {number} */ (p[1])) : null, round(num(a.total_pop), 0), e ? Math.round(e.pop) : null, p21],
-      [round(num(t.cath_1971)), round(num(t.cath_1981)), round(num(t.cath_1991) ?? num(b.rc_pct)), round(num(a.cb_catholic_pct)), e && e.cbw ? round((100 * e.cb) / e.cbw) : null, round(num(cm?.catholic_bg_pct) ?? num(t.cath_2021))],
-      [round(num(b.no_car_pct)), round(num(a.no_car_pct)), round(car21.get(dz))],
-      [round(num(b.owner_occ_pct)), round(num(a.owner_occ_pct)), round(own21.get(dz))],
-      [round(num(b.social_rent_pct)), round(num(a.social_rent_pct)), round(soc21.get(dz))],
-      [round(num(b.irish_speak_pct)), round(num(a.irish_speak_pct)), round(iri21.get(dz))],
+      name, t['lgd1993'] || null, deaToLgd.get(dzDea.get(dz)) || null,
+      [p ? Math.round(/** @type {number} */ (p[0])) : null, p ? Math.round(/** @type {number} */ (p[1])) : null, round(num(a['total_pop']), 0), e ? Math.round(e.pop) : null, p21],
+      [round(num(t['cath_1971'])), round(num(t['cath_1981'])), round(num(t['cath_1991']) ?? num(b['rc_pct'])), round(num(a['cb_catholic_pct'])), e && e.cbw ? round((100 * e.cb) / e.cbw) : null, round(num(cm?.['catholic_bg_pct']) ?? num(t['cath_2021']))],
+      [round(num(b['no_car_pct'])), round(num(a['no_car_pct'])), round(car21.get(dz))],
+      [round(num(b['owner_occ_pct'])), round(num(a['owner_occ_pct'])), round(own21.get(dz))],
+      [round(num(b['social_rent_pct'])), round(num(a['social_rent_pct'])), round(soc21.get(dz))],
+      [round(num(b['irish_speak_pct'])), round(num(a['irish_speak_pct'])), round(iri21.get(dz))],
     ];
   }
   const out = {

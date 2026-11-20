@@ -65,7 +65,7 @@ function main() {
   if (args.includes('--json')) { console.log(JSON.stringify(r, null, 2)); }
   else {
     console.log(`Rounds by status: ${Object.entries(r.counts).map(([k, v]) => `${k} ${v}`).join(', ')} (${r.implied} with no status, read as done)`);
-    console.log(`apply ${/** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict.apply).length}, held back ${/** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['held-back']).length}, excluded by choice ${/** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['excluded-by-choice']).length}`);
+    console.log(`apply ${/** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['apply']).length}, held back ${/** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['held-back']).length}, excluded by choice ${/** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['excluded-by-choice']).length}`);
     for (const x of /** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['excluded-by-choice'])) console.log(`  excluded although ${x.status}: ${x.round} (${x.reason || 'no reason given'})`);
     for (const x of /** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['would-apply-wrongly'])) console.log(`  ERROR ${x.status} but not excluded, apply.py --write would copy it: ${x.round}`);
     for (const x of /** @type {{ round: string; status: string; reason?: string | undefined; }[]} */ (r.byVerdict['unknown-status'])) console.log(`  ERROR unknown status "${x.status}": ${x.round}`);

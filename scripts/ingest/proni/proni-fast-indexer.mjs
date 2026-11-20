@@ -363,7 +363,7 @@ class Session {
           "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         };
         const cookie = this.jar.header();
-        if (cookie) headers.cookie = cookie;
+        if (cookie) headers['cookie'] = cookie;
         if (body) headers["content-type"] = "application/x-www-form-urlencoded";
         // fetch reads an undefined body as no body
         const res = await fetch(url, /** @type {RequestInit} */ ({

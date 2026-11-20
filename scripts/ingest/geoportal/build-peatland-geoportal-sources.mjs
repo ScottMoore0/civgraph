@@ -115,9 +115,9 @@ function main() {
     },
     targets,
     sources,
-    sourceDocumentRecords: sources.filter((source) => source.category === 'Peatland Geoportal source documents'),
-    sourceContextRecords: sources.filter((source) => source.category === 'Peatland Geoportal context'),
-    candidateSourceRecords: sources.filter((source) => source.category === 'Peatland Geoportal conversion candidates'),
+    sourceDocumentRecords: sources.filter((source) => source['category'] === 'Peatland Geoportal source documents'),
+    sourceContextRecords: sources.filter((source) => source['category'] === 'Peatland Geoportal context'),
+    candidateSourceRecords: sources.filter((source) => source['category'] === 'Peatland Geoportal conversion candidates'),
     serviceDefinitionReview,
     candidateConversionReview,
     sacHabitatGroup,
@@ -137,31 +137,31 @@ function main() {
 
 /** @param {Record<string, string>} row @param {number} rowNumber */
 function normalizeRow(row, rowNumber) {
-  const title = cleanText(row.title);
+  const title = cleanText(row['title']);
   return {
     rowNumber,
-    itemId: cleanText(row.itemId),
+    itemId: cleanText(row['itemId']),
     title,
     normalizedTitle: normalizeTitle(title),
-    type: cleanText(row.type),
-    owner: cleanText(row.owner),
-    access: cleanText(row.access),
-    modified: cleanText(row.modified),
-    topicClass: cleanText(row.topicClass),
-    tags: splitList(row.tags, ';'),
-    url: cleanText(row.url),
-    serviceLayerCount: parseOptionalNumber(row.serviceLayerCount),
-    serviceTableCount: parseOptionalNumber(row.serviceTableCount),
-    geometryTypes: splitList(row.geometryTypes, ';'),
-    capabilities: splitList(row.capabilitiesOrError, ','),
-    arcgisSiblings: parseArcgisSiblings(row.arcgisSiblingSameTitle),
-    civgraphMatchScore: parseOptionalNumber(row.civgraphMatchScore),
-    civgraphMatchId: cleanText(row.civgraphMatchId),
-    civgraphMatchTitle: cleanText(row.civgraphMatchTitle),
-    civgraphMatchKind: cleanText(row.civgraphMatchKind),
-    recommendedAction: cleanText(row.recommendedAction),
-    duplicateReason: cleanText(row.duplicateReason),
-    itemPage: cleanText(row.itemPage) || (row.itemId ? `https://www.arcgis.com/home/item.html?id=${cleanText(row.itemId)}` : '')
+    type: cleanText(row['type']),
+    owner: cleanText(row['owner']),
+    access: cleanText(row['access']),
+    modified: cleanText(row['modified']),
+    topicClass: cleanText(row['topicClass']),
+    tags: splitList(row['tags'], ';'),
+    url: cleanText(row['url']),
+    serviceLayerCount: parseOptionalNumber(row['serviceLayerCount']),
+    serviceTableCount: parseOptionalNumber(row['serviceTableCount']),
+    geometryTypes: splitList(row['geometryTypes'], ';'),
+    capabilities: splitList(row['capabilitiesOrError'], ','),
+    arcgisSiblings: parseArcgisSiblings(row['arcgisSiblingSameTitle']),
+    civgraphMatchScore: parseOptionalNumber(row['civgraphMatchScore']),
+    civgraphMatchId: cleanText(row['civgraphMatchId']),
+    civgraphMatchTitle: cleanText(row['civgraphMatchTitle']),
+    civgraphMatchKind: cleanText(row['civgraphMatchKind']),
+    recommendedAction: cleanText(row['recommendedAction']),
+    duplicateReason: cleanText(row['duplicateReason']),
+    itemPage: cleanText(row['itemPage']) || (row['itemId'] ? `https://www.arcgis.com/home/item.html?id=${cleanText(row['itemId'])}` : '')
   };
 }
 
@@ -352,7 +352,7 @@ function buildExistingRecordEnrichments(rows) {
     .map((group) => ({
       ...group,
       evidence: dedupeByJson(group.evidence),
-      sourceItems: group.sourceItems.sort((a, b) => Number(a.auditRowNumber) - Number(b.auditRowNumber)),
+      sourceItems: group.sourceItems.sort((a, b) => Number(a['auditRowNumber']) - Number(b['auditRowNumber'])),
       confidence: 'safe',
       sourceItemCount: group.sourceItems.length
     }))
@@ -599,22 +599,22 @@ function buildUnresolvedAmbiguities(rows, candidateConversionReview, variantRevi
       recommendation: 'Inspect item metadata manually before creating a Browse/source record or conversion candidate.'
     });
   }
-  for (const row of candidateConversionReview.filter((entry) => entry.license.status !== 'likely-open-but-confirm')) {
+  for (const row of candidateConversionReview.filter((entry) => entry['license'].status !== 'likely-open-but-confirm')) {
     unresolved.push({
-      arcgisItemId: row.arcgisItemId,
-      title: row.title,
-      type: row.type,
+      arcgisItemId: row['arcgisItemId'],
+      title: row['title'],
+      type: row['type'],
       ambiguity: 'licence not explicit in metadata audit',
       recommendation: 'Confirm provider licence before vector conversion; source-page citation is safe.'
     });
   }
   for (const row of variantReview) {
     unresolved.push({
-      arcgisItemId: row.arcgisItemId,
-      title: row.title,
-      type: row.type,
+      arcgisItemId: row['arcgisItemId'],
+      title: row['title'],
+      type: row['type'],
       ambiguity: 'possible duplicate/variant relationship',
-      recommendation: row.recommendation
+      recommendation: row['recommendation']
     });
   }
   return dedupeByJson(unresolved).sort(sortByTitle);

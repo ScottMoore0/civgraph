@@ -334,13 +334,13 @@ function extractDetailFields(html) {
     else rawAttributes[key] = [rawAttributes[key], value];
   }
   return {
-    repository: rawAttributes.Repository || "",
+    repository: rawAttributes['Repository'] || "",
     proniReference: rawAttributes["PRONI Reference"] || "",
-    level: rawAttributes.Level || "",
-    access: rawAttributes.Access || "",
-    title: rawAttributes.Title || "",
-    dates: rawAttributes.Dates || "",
-    description: rawAttributes.Description || "",
+    level: rawAttributes['Level'] || "",
+    access: rawAttributes['Access'] || "",
+    title: rawAttributes['Title'] || "",
+    dates: rawAttributes['Dates'] || "",
+    description: rawAttributes['Description'] || "",
     // test() reads a repeated field (an array) as its comma-joined text
     digitalRecord: /^\[?\d+\s*-/.test(/** @type {string} */ (rawAttributes["Digital Record"] || "")) ? "" : (rawAttributes["Digital Record"] || ""),
     rawAttributeCount: Object.keys(rawAttributes).length,
@@ -544,7 +544,7 @@ class Session {
           accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         };
         const cookie = this.jar.header();
-        if (cookie) headers.cookie = cookie;
+        if (cookie) headers['cookie'] = cookie;
         if (body) headers["content-type"] = "application/x-www-form-urlencoded";
         let response;
         if (this.options.httpClient === "https-agent") {

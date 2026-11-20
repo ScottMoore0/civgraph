@@ -18,8 +18,8 @@ import { AGENCY_MIRROR } from '@civgraph/intake/item-status.mjs';
 const ROOT = process.cwd();
 const MAPS_PATH = join(ROOT, 'data/database/maps.json');
 const SIDECAR = join(ROOT, 'data/database/agency-ia-mirrors.json');
-const TMP = process.env.IA_TMP || 'D:/civgraph-ia-temp';
-const IA = process.env.IA_CLI || 'ia.exe';
+const TMP = process.env['IA_TMP'] || 'D:/civgraph-ia-temp';
+const IA = process.env['IA_CLI'] || 'ia.exe';
 const IA_DL = 'https://archive.org/download';
 
 const args = process.argv.slice(2);

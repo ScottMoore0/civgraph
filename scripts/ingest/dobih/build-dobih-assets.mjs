@@ -351,53 +351,53 @@ function buildSourceManifest(items) {
 
 /** @param {Record<string, string>} record */
 function normalizeDobihRecord(record) {
-  const latitude = Number(record.Latitude);
-  const longitude = Number(record.Longitude);
-  const number = clean(record.Number);
+  const latitude = Number(record['Latitude']);
+  const longitude = Number(record['Longitude']);
+  const number = clean(record['Number']);
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || !number) return null;
   const classes = classificationCodes(record);
   const properties = {
     Number: number,
-    Name: clean(record.Name),
+    Name: clean(record['Name']),
     'Parent (SMC)': clean(record['Parent (SMC)']),
     'Parent name (SMC)': clean(record['Parent name (SMC)']),
-    Section: clean(record.Section),
-    Region: clean(record.Region),
-    Area: clean(record.Area),
-    Island: clean(record.Island),
+    Section: clean(record['Section']),
+    Region: clean(record['Region']),
+    Area: clean(record['Area']),
+    Island: clean(record['Island']),
     'Topo Section': clean(record['Topo Section']),
-    County: clean(record.County),
-    Classification: clean(record.Classification),
+    County: clean(record['County']),
+    Classification: clean(record['Classification']),
     ClassificationNames: classes.map((item) => item.name).join('; '),
     'Map 1:50k': clean(record['Map 1:50k']),
     'Map 1:25k': clean(record['Map 1:25k']),
-    Metres: numberOrNull(record.Metres),
-    Feet: numberOrNull(record.Feet),
+    Metres: numberOrNull(record['Metres']),
+    Feet: numberOrNull(record['Feet']),
     'Grid ref': clean(record['Grid ref']),
     'Grid ref 10': clean(record['Grid ref 10']),
-    Drop: numberOrNull(record.Drop),
+    Drop: numberOrNull(record['Drop']),
     'Col grid ref': clean(record['Col grid ref']),
     'Col height': numberOrNull(record['Col height']),
-    Feature: clean(record.Feature),
-    Observations: clean(record.Observations),
-    Survey: clean(record.Survey),
-    Climbed: clean(record.Climbed),
-    Country: countryLabel(record.Country),
-    CountryCode: clean(record.Country),
+    Feature: clean(record['Feature']),
+    Observations: clean(record['Observations']),
+    Survey: clean(record['Survey']),
+    Climbed: clean(record['Climbed']),
+    Country: countryLabel(record['Country']),
+    CountryCode: clean(record['Country']),
     'County Top': clean(record['County Top']),
-    Revision: clean(record.Revision),
-    Comments: clean(record.Comments),
+    Revision: clean(record['Revision']),
+    Comments: clean(record['Comments']),
     Streetmap: clean(record['Streetmap/MountainViews']),
     GoogleMaps: clean(record['Google Maps']),
     HillBagging: clean(record['Hill-bagging']),
-    Xcoord: numberOrNull(record.Xcoord),
-    Ycoord: numberOrNull(record.Ycoord),
+    Xcoord: numberOrNull(record['Xcoord']),
+    Ycoord: numberOrNull(record['Ycoord']),
     Latitude: latitude,
     Longitude: longitude,
-    GridrefXY: clean(record.GridrefXY),
+    GridrefXY: clean(record['GridrefXY']),
     ParentMa: clean(record['Parent (Ma)']),
     ParentMaName: clean(record['Parent name (Ma)']),
-    MountainViewsNumber: clean(record.MVNumber),
+    MountainViewsNumber: clean(record['MVNumber']),
     ListCodes: classes.map((item) => item.code).join(','),
     HillListCount: classes.length,
     IsCountyTop: hasAnyField(record, ['CoH', 'CoU', 'CoA', 'CoL', 'CT']) ? 1 : 0
@@ -413,7 +413,7 @@ function normalizeDobihRecord(record) {
 
 /** @param {Record<string, string>} record */
 function classificationCodes(record) {
-  const explicit = clean(record.Classification).split(',').map((item) => item.trim()).filter(Boolean);
+  const explicit = clean(record['Classification']).split(',').map((item) => item.trim()).filter(Boolean);
   const fromFlags = CLASSIFICATION_NAME_ORDER
     .filter((item) => clean(record[item.code]) === '1')
     .map((item) => item.code);
@@ -727,8 +727,8 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
       numericProperties: ['Number', 'Metres', 'Feet', 'Drop', 'Col height', 'Latitude', 'Longitude', 'HillListCount'],
       categoricalProperties: ['ClassificationNames', 'Country', 'CountryCode', 'County', 'Region', 'Area', 'Island', 'Feature'],
       categoricalValues: {
-        Country: [...new Set(dataset.records.map((record) => record.properties.Country).filter(Boolean))].sort().slice(0, 40),
-        ClassificationNames: [...new Set(dataset.records.flatMap((record) => String(record.properties.ClassificationNames || '').split('; ').filter(Boolean)))].sort().slice(0, 80)
+        Country: [...new Set(dataset.records.map((record) => record.properties['Country']).filter(Boolean))].sort().slice(0, 40),
+        ClassificationNames: [...new Set(dataset.records.flatMap((record) => String(record.properties['ClassificationNames'] || '').split('; ').filter(Boolean)))].sort().slice(0, 80)
       },
       status: 'converted',
       notes: `Generated from ${relativePath(dataset.fgbPath)} from DoBIH v18.4.`,
@@ -763,7 +763,7 @@ function updateMainSitePortPlan(datasets, sourceInventory) {
   plan.rows = plan.rows || [];
   plan.rows = plan.rows.filter((/** @type {JsonRecord} */ row) => {
     const sourceMapId = String(row.sourceMapId || '');
-    const testLayerId = String(row.testLayerId || '');
+    const testLayerId = String(row['testLayerId'] || '');
     return !sourceMapId.startsWith(DATASET_ID) && !testLayerId.startsWith(DATASET_ID);
   });
 
@@ -867,14 +867,14 @@ function updateFeatureIndexes(datasets) {
       truncated: false,
       items: dataset.records.map((record) => ({
         id: record.id,
-        name: record.properties.Name || `Hill ${record.id}`,
+        name: record.properties['Name'] || `Hill ${record.id}`,
         aliases: unique([
-          record.properties.Name,
-          record.properties.ClassificationNames,
-          record.properties.County,
-          record.properties.Country,
+          record.properties['Name'],
+          record.properties['ClassificationNames'],
+          record.properties['County'],
+          record.properties['Country'],
           record.properties['Grid ref'],
-          record.properties.GridrefXY
+          record.properties['GridrefXY']
         ].filter(Boolean)),
         center: [Number(record.longitude.toFixed(6)), Number(record.latitude.toFixed(6))]
       }))

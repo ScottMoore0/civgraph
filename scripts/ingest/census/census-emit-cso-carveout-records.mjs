@@ -39,16 +39,16 @@ function parseCsv(text) {
 const lines = parseCsv(readFileSync(CSV, 'utf8'));
 const hdr = /** @type {string[]} */ (lines[0]);
 const ix = Object.fromEntries(hdr.map((h, i) => [h.trim(), i]));
-const records = lines.slice(1).filter(r => r.length >= hdr.length && r[/** @type {number} */ (ix.id)]);
+const records = lines.slice(1).filter(r => r.length >= hdr.length && r[/** @type {number} */ (ix['id'])]);
 
 const slugify = (/** @type {string} */ s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 72);
 const yearOf = (/** @type {string} */ t) => (t.match(/\b(1[89]\d\d|20\d\d)\b/) || [])[1] || '';
 
 const sources = [];
 for (const r of records) {
-  const id = /** @type {string} */ (r[/** @type {number} */ (ix.id)]), title = /** @type {string} */ (r[/** @type {number} */ (ix.title)]), licenceCol = (r[/** @type {number} */ (ix.attributionLicence)] || '').trim();
+  const id = /** @type {string} */ (r[/** @type {number} */ (ix['id'])]), title = /** @type {string} */ (r[/** @type {number} */ (ix['title'])]), licenceCol = (r[/** @type {number} */ (ix['attributionLicence'])] || '').trim();
   // ONLY the CSO-PXStat-but-NI carveout (the rows the NISRA emitter skips)
-  if (!(licenceCol === 'review-CSO-or-defer' || (r[/** @type {number} */ (ix.provider)] || '').trim() === 'CSO PXStat')) continue;
+  if (!(licenceCol === 'review-CSO-or-defer' || (r[/** @type {number} */ (ix['provider'])] || '').trim() === 'CSO PXStat')) continue;
   const codeLc = /** @type {string} */ ((id.match(/^census-\d+-(.+)$/) || [, id])[1]);
   const CODE = codeLc.toUpperCase();
   sources.push({

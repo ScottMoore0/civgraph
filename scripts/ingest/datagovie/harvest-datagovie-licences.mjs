@@ -126,13 +126,13 @@ if (ROOT) {
   }
 } else {
   const DONE = new Set(['ok', 'done', 'complete', 'completed', 'success']);
-  const manifest = parseCsv(readFileSync(/** @type {string} */ (MANIFEST), 'utf8')).filter((r) => DONE.has((r.status || '').toLowerCase()));
+  const manifest = parseCsv(readFileSync(/** @type {string} */ (MANIFEST), 'utf8')).filter((r) => DONE.has((r['status'] || '').toLowerCase()));
   for (const row of manifest) {
-    if (!row.package_name) continue;
-    if (!packages.has(row.package_name)) packages.set(row.package_name, { organisation: row.organization, resources: 0, bytes: 0 });
-    const entry = packages.get(row.package_name);
+    if (!row['package_name']) continue;
+    if (!packages.has(row['package_name'])) packages.set(row['package_name'], { organisation: row['organization'], resources: 0, bytes: 0 });
+    const entry = packages.get(row['package_name']);
     entry.resources += 1;
-    entry.bytes += Number(row.downloaded_size || 0);
+    entry.bytes += Number(row['downloaded_size'] || 0);
   }
 }
 
@@ -151,10 +151,10 @@ async function lookup(name) {
       const body = /** @type {{ result?: Record<string, string> }} */ (await response.json());
       const result = body.result || {};
       return {
-        licenceId: result.license_id || null,
-        licenceTitle: result.license_title || null,
-        licenceUrl: result.license_url || null,
-        title: result.title || null,
+        licenceId: result['license_id'] || null,
+        licenceTitle: result['license_title'] || null,
+        licenceUrl: result['license_url'] || null,
+        title: result['title'] || null,
       };
     } catch (error) {
       if (attempt === 2) return { error: /** @type {Error} */ (error).message };

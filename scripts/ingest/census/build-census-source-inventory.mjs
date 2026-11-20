@@ -7,9 +7,9 @@ import zlib from "node:zlib";
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const OUT_DIR = path.join(REPO, "data", "census", "source-inventory");
 const OUT_PATH = path.join(OUT_DIR, "census-source-archives.json");
-const DOWNLOADS_DIR = process.env.USERPROFILE
-  ? path.join(process.env.USERPROFILE, "Downloads")
-  : path.join(process.env.HOME || "", "Downloads");
+const DOWNLOADS_DIR = process.env['USERPROFILE']
+  ? path.join(process.env['USERPROFILE'], "Downloads")
+  : path.join(process.env['HOME'] || "", "Downloads");
 
 /**
  * @typedef {{ path: string, directory: boolean, extension: string, flags: number, method: number, compressedSize: number, uncompressedSize: number, localHeaderOffset: number }} ZipEntry

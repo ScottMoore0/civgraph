@@ -72,7 +72,7 @@ for (const r of removals) console.log(`REMOVED ${r.qid} (${r.name || r.personId}
 if (write) {
   const links = Object.values(doc.persons);
   /** @type {Record<string, unknown>} */
-  const counts = { ...(/** @type {Record<string, unknown>} */ (doc.counts) || {}), links: links.length, mergeLeads: doc.mergeLeads.length };
+  const counts = { ...(/** @type {Record<string, unknown>} */ (doc['counts']) || {}), links: links.length, mergeLeads: doc.mergeLeads.length };
   for (const c of ['official', 'high', 'medium']) if (`confidence:${c}` in counts) counts[`confidence:${c}`] = links.filter((l) => l.confidence === c).length;
   writeFileSync(WIKIDATA_PERSONS, `${JSON.stringify({ ...doc, counts }, null, 1)}\n`);
   console.log(`wrote ${path.relative(ROOT, WIKIDATA_PERSONS)}`);

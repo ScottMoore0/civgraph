@@ -215,7 +215,7 @@ async function postDetailFromSnapshot(row, html, limiter, metadata = null) {
     referer: `${BASE}BrowseSearchResults.aspx`,
     'content-type': 'application/x-www-form-urlencoded'
   };
-  if (metadata?.cookieHeader) headers.cookie = metadata.cookieHeader;
+  if (metadata?.cookieHeader) headers['cookie'] = metadata.cookieHeader;
   await limiter();
   const started = performance.now();
   const response = await fetch(`${BASE}BrowseSearchResults.aspx`, {

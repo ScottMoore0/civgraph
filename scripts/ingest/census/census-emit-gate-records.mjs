@@ -42,7 +42,7 @@ function parseCsv(text) {
 const lines = parseCsv(readFileSync(CSV, 'utf8'));
 const hdr = /** @type {string[]} */ (lines[0]);
 const ix = Object.fromEntries(hdr.map((h, i) => [h.trim(), i]));
-const records = lines.slice(1).filter(r => r.length >= hdr.length && r[/** @type {number} */ (ix.id)]);
+const records = lines.slice(1).filter(r => r.length >= hdr.length && r[/** @type {number} */ (ix['id'])]);
 
 const slugify = (/** @type {string} */ s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
 const yearOf = (/** @type {string} */ t) => (t.match(/\b(1[89]\d\d|20\d\d)\b/) || [])[1] || '';
@@ -51,7 +51,7 @@ const sources = [];
 let counted = 0;
 for (const r of records) {
   if (counted >= limit) break;
-  const id = r[/** @type {number} */ (ix.id)], title = /** @type {string} */ (r[/** @type {number} */ (ix.title)]), code = /** @type {string} */ (r[/** @type {number} */ (ix.sourceSlugOrId)]), conf = r[/** @type {number} */ (ix.confidence)];
+  const id = r[/** @type {number} */ (ix['id'])], title = /** @type {string} */ (r[/** @type {number} */ (ix['title'])]), code = /** @type {string} */ (r[/** @type {number} */ (ix['sourceSlugOrId'])]), conf = r[/** @type {number} */ (ix['confidence'])];
   // fix #3: date from the title year, else the cube's single CensusYear; multi-census / undated stay ''
   const titleYear = yearOf(title);
   const date = titleYear || YEARS[code] || '';

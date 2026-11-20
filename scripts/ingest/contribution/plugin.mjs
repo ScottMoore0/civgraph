@@ -22,7 +22,7 @@ export default definePlugin({
     submission: { description: 'the submission JSON (written by intake from-contribution)' },
   },
   produce(ctx) {
-    const file = ctx.inputs.submission;
+    const file = ctx.inputs['submission'];
     if (!file) throw new Error('contribution: give --input submission=<file> (intake from-contribution does)');
     const submission = JSON.parse(readFileSync(file, 'utf8'));
     const catalogue = JSON.parse(readFileSync(path.join(ctx.repo, CATALOGUE), 'utf8'));

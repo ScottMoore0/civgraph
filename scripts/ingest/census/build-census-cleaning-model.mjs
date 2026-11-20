@@ -222,20 +222,20 @@ async function extract2011Tables() {
     /** @type {Record<string, number>} */
     const dimensionCounts = {};
     for (const item of descItems) {
-      const inferred = inferDimensions(item.ColumnVariableDescription);
+      const inferred = inferDimensions(item['ColumnVariableDescription']);
       for (const dimension of inferred.dimensions) {
         dimensionCounts[dimension] = (dimensionCounts[dimension] || 0) + 1;
       }
     }
     const dataHeader = (await readCsvRows(dataFile, 1))[0] || [];
-    const topic = inferTopic(meta.DatasetTitle, meta.StatisticalPopulations, descItems[0]?.ColumnVariableDescription);
+    const topic = inferTopic(meta['DatasetTitle'], meta['StatisticalPopulations'], descItems[0]?.['ColumnVariableDescription']);
     tables.push({
       id,
       censusYear: 2011,
       sourceFamily: "nisra_2011_csv_triplet",
-      title: meta.DatasetTitle || id,
-      statisticalPopulation: meta.StatisticalPopulations || null,
-      annotations: meta.Annotations || null,
+      title: meta['DatasetTitle'] || id,
+      statisticalPopulation: meta['StatisticalPopulations'] || null,
+      annotations: meta['Annotations'] || null,
       topic,
       geographyLevel: inferGeographyLevel(metaFile),
       files: {
@@ -247,11 +247,11 @@ async function extract2011Tables() {
       variablesDescribed: descItems.length,
       dimensionCounts,
       sampleVariables: descItems.slice(0, 18).map((item) => ({
-        code: item.ColumnVariableCode,
-        unit: item.ColumnVariableMeasurementUnit,
-        statisticalUnit: item.ColumnVariableStatisticalUnit,
-        description: item.ColumnVariableDescription,
-        dimensions: inferDimensions(item.ColumnVariableDescription).parts,
+        code: item['ColumnVariableCode'],
+        unit: item['ColumnVariableMeasurementUnit'],
+        statisticalUnit: item['ColumnVariableStatisticalUnit'],
+        description: item['ColumnVariableDescription'],
+        dimensions: inferDimensions(item['ColumnVariableDescription']).parts,
       })),
       mappingConfidence: topic === "unclassified" ? "low" : "medium",
     });

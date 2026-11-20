@@ -38,16 +38,16 @@ for (const p of manifests) {
 const { manifest: gate, sources } = readApprovedPublicationGate();
 let recs = 0, added = 0;
 for (const s of sources) {
-  if (!String(s.id || '').startsWith('approved-publication:opendata-ni-')) continue;
-  if (!Array.isArray(s.downloads)) continue;
+  if (!String(s['id'] || '').startsWith('approved-publication:opendata-ni-')) continue;
+  if (!Array.isArray(s['downloads'])) continue;
   const extra = [];
-  for (const d of s.downloads) {
+  for (const d of s['downloads']) {
     const hit = bySource.get(d.url);
     if (!hit) continue;
-    if (s.downloads.some((x) => x.url === hit.iaUrl)) continue; // idempotent
+    if (s['downloads'].some((x) => x.url === hit.iaUrl)) continue; // idempotent
     extra.push({ label: `${d.label} (Internet Archive mirror)`, url: hit.iaUrl, type: d.type, source: 'Internet Archive', status: MIRROR.mirrored });
   }
-  if (extra.length) { s.downloads.push(...extra); recs += 1; added += extra.length; }
+  if (extra.length) { s['downloads'].push(...extra); recs += 1; added += extra.length; }
 }
 
 const { sources: _s, items: _i, ...meta } = gate;

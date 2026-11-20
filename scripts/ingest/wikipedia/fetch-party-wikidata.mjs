@@ -252,13 +252,13 @@ async function main() {
     for (const qid of searchHits.get(party.slug) || []) {
       const entity = candidateEntities[qid];
       if (!entity || entity.missing !== undefined) continue;
-      const description = entity.descriptions?.en?.value || '';
+      const description = entity.descriptions?.['en']?.value || '';
       // "Communist Party" in a description of a system of government is not a party.
       const isParty = claimIds(entity, 'P31').includes(POLITICAL_PARTY)
         || /\bpolitical (party|group|movement|organi[sz]ation)\b|\bparty (in|of)\b|^(former |defunct )?[\w' -]*party$/i.test(description);
       // A party of Great Britain only ("Green Party of England and Wales") is not an Irish one,
       // unless Civgraph's own name for the party says so.
-      const britainOnly = /\b(england|wales|welsh|scotland|scottish)\b/i.test(`${entity.labels?.en?.value || ''} ${description}`)
+      const britainOnly = /\b(england|wales|welsh|scotland|scottish)\b/i.test(`${entity.labels?.['en']?.value || ''} ${description}`)
         && !/\b(england|wales|welsh|scotland|scottish)\b/i.test(party.title);
       const inPlace = !britainOnly && (claimIds(entity, 'P17').some((id) => COUNTRIES.has(id)) || PLACE_WORDS.test(description));
       const nameMatch = entityNames(entity).some((name) => wanted.has(fold(name)));
@@ -267,8 +267,8 @@ async function main() {
       // a dated statement always has a year
       const inYears = (!inception || !party.lastYear || /** @type {number} */ (yearOf(inception)) <= party.lastYear + 1)
         && (!dissolved || !party.firstYear || /** @type {number} */ (yearOf(dissolved)) >= party.firstYear - 1);
-      if (ONLY) console.log(qid, entity.labels?.en?.value, { isParty, britainOnly, inPlace, nameMatch, inYears });
-      scored.push({ qid, label: entity.labels?.en?.value, description, isParty, inPlace, nameMatch, inYears });
+      if (ONLY) console.log(qid, entity.labels?.['en']?.value, { isParty, britainOnly, inPlace, nameMatch, inYears });
+      scored.push({ qid, label: entity.labels?.['en']?.value, description, isParty, inPlace, nameMatch, inYears });
     }
     const passing = scored.filter((c) => c.isParty && c.inPlace && c.nameMatch && c.inYears);
     if (typeof override === 'string') {
@@ -300,7 +300,7 @@ async function main() {
   }
   for (const [qid, slugs] of byQid) {
     if (slugs.length < 2) continue;
-    const label = fold(candidateEntities[qid]?.labels?.en?.value);
+    const label = fold(candidateEntities[qid]?.labels?.['en']?.value);
     // every matched slug is one of the parties, from the browse list
     const ranked = [...slugs].sort((a, b) => (Number(fold(/** @type {Party} */ (parties.find((p) => p.slug === b)).title) === label) - Number(fold(/** @type {Party} */ (parties.find((p) => p.slug === a)).title) === label))
       || (/** @type {number} */ (bySlugCount.get(b)) - /** @type {number} */ (bySlugCount.get(a))));
@@ -308,7 +308,7 @@ async function main() {
       if (/** @type {Match} */ (matches[slug]).matchBasis === 'owner override') continue;
       // every matched slug is one of the parties
       const party = /** @type {Party} */ (parties.find((p) => p.slug === slug));
-      uncertain.push({ slug, title: party.title, years: [party.firstYear, party.lastYear], reason: `same Wikidata item as ${ranked[0]}`, candidates: [{ qid, label: candidateEntities[qid]?.labels?.en?.value, description: candidateEntities[qid]?.descriptions?.en?.value }] });
+      uncertain.push({ slug, title: party.title, years: [party.firstYear, party.lastYear], reason: `same Wikidata item as ${ranked[0]}`, candidates: [{ qid, label: candidateEntities[qid]?.labels?.['en']?.value, description: candidateEntities[qid]?.descriptions?.['en']?.value }] });
       delete matches[slug];
     }
   }
@@ -325,7 +325,7 @@ async function main() {
   for (const [slug, match] of Object.entries(matches)) {
     const entity = matchedEntities[match.qid];
     // filter(Boolean) dropped the missing names
-    const names = [...new Set(/** @type {string[]} */ ([entity?.labels?.en?.value, entity?.sitelinks?.enwiki?.title, parties.find((p) => p.slug === slug)?.title].filter(Boolean)))];
+    const names = [...new Set(/** @type {string[]} */ ([entity?.labels?.['en']?.value, entity?.sitelinks?.['enwiki']?.title, parties.find((p) => p.slug === slug)?.title].filter(Boolean)))];
     for (const name of names) {
       for (const title of OFFICE_TITLES) {
         const label = `${title} ${name.replace(/^the /i, '')}`;
@@ -345,9 +345,9 @@ async function main() {
     const values = labelList.slice(i, i + 120).map((label) => `${JSON.stringify(label)}@en`).join(' ');
     const body = /** @type {SparqlResults} */ (await sparql(`SELECT ?pos ?l WHERE { VALUES ?l { ${values} } ?pos rdfs:label ?l . }`));
     for (const b of body.results?.bindings || []) {
-      if (!labelHits.has(/** @type {{ value: string; }} */ (b.l).value)) labelHits.set(/** @type {{ value: string; }} */ (b.l).value, new Set());
+      if (!labelHits.has(/** @type {{ value: string; }} */ (b['l']).value)) labelHits.set(/** @type {{ value: string; }} */ (b['l']).value, new Set());
       // the key was set on the line before; split always gives at least one part
-      /** @type {Set<string>} */ (labelHits.get(/** @type {{ value: string; }} */ (b.l).value)).add(/** @type {string} */ (/** @type {{ value: string; }} */ (b.pos).value.split('/').pop()));
+      /** @type {Set<string>} */ (labelHits.get(/** @type {{ value: string; }} */ (b['l']).value)).add(/** @type {string} */ (/** @type {{ value: string; }} */ (b['pos']).value.split('/').pop()));
     }
   }
   const officeEntities = await getEntities([...labelHits.values()].flatMap((set) => [...set]), 'labels|claims');
@@ -374,15 +374,15 @@ async function main() {
   const linked = /** @type {SparqlResults} */ (await sparql(`SELECT ?party ?pos WHERE { VALUES ?party { ${partyValues} } { ?pos wdt:P2389 ?party } UNION { ?party wdt:P2388 ?pos } }`));
   for (const b of linked.results?.bindings || []) {
     // the query's ?party values are the matched items, each in qidToSlug; split always gives at least one part
-    const slug = /** @type {string} */ (qidToSlug.get(/** @type {string} */ (/** @type {{ value: string; }} */ (b.party).value.split('/').pop())));
+    const slug = /** @type {string} */ (qidToSlug.get(/** @type {string} */ (/** @type {{ value: string; }} */ (b['party']).value.split('/').pop())));
     if (!officeBySlug.has(slug)) officeBySlug.set(slug, new Set());
-    /** @type {Set<string>} */ (officeBySlug.get(slug)).add(/** @type {string} */ (/** @type {{ value: string; }} */ (b.pos).value.split('/').pop()));
+    /** @type {Set<string>} */ (officeBySlug.get(slug)).add(/** @type {string} */ (/** @type {{ value: string; }} */ (b['pos']).value.split('/').pop()));
   }
   // A party chairman is not its leader where Wikidata also has a leader's office (the
   // Conservative Party has both); a chairman's office is kept only when it is the only one.
   for (const [slug, set] of officeBySlug) {
-    const chair = [...set].filter((qid) => /^chair/i.test(officeEntities[qid]?.labels?.en?.value || ''));
-    if (chair.length && chair.length < set.size) for (const qid of chair) { set.delete(qid); rejectedOffices.push({ slug, office: qid, label: officeEntities[qid]?.labels?.en?.value, reason: 'chairman beside a leader office' }); }
+    const chair = [...set].filter((qid) => /^chair/i.test(officeEntities[qid]?.labels?.['en']?.value || ''));
+    if (chair.length && chair.length < set.size) for (const qid of chair) { set.delete(qid); rejectedOffices.push({ slug, office: qid, label: officeEntities[qid]?.labels?.['en']?.value, reason: 'chairman beside a leader office' }); }
   }
   const allOffices = [...new Set([...officeBySlug.values()].flatMap((set) => [...set]))];
   /** @type {Map<string, Holder[]>} */
@@ -398,16 +398,16 @@ async function main() {
       SERVICE wikibase:label { bd:serviceParam wikibase:language "en". } }`));
     for (const b of body.results?.bindings || []) {
       // split always gives at least one part
-      const pos = /** @type {string} */ (/** @type {{ value: string; }} */ (b.pos).value.split('/').pop());
+      const pos = /** @type {string} */ (/** @type {{ value: string; }} */ (b['pos']).value.split('/').pop());
       if (!holders.has(pos)) holders.set(pos, []);
       /** @param {string | undefined} value @param {string | undefined} prec */
       const time = (value, prec) => (value ? wikidataTime({ datavalue: { value: { time: `+${value.slice(0, 10)}T00:00:00Z`.replace('++', '+'), precision: Number(prec) } } }) : null);
       // the key was set above; split always gives at least one part
       /** @type {Holder[]} */ (holders.get(pos)).push({
-        qid: /** @type {string} */ (/** @type {{ value: string; }} */ (b.person).value.split('/').pop()),
-        name: /** @type {{ value: string; }} */ (b.personLabel).value,
-        start: time(b.start?.value, b.startPrec?.value),
-        end: time(b.end?.value, b.endPrec?.value)
+        qid: /** @type {string} */ (/** @type {{ value: string; }} */ (b['person']).value.split('/').pop()),
+        name: /** @type {{ value: string; }} */ (b['personLabel']).value,
+        start: time(b['start']?.value, b['startPrec']?.value),
+        end: time(b['end']?.value, b['endPrec']?.value)
       });
     }
   }
@@ -420,7 +420,7 @@ async function main() {
   }
   const labelEntities = await getEntities([...referenced], 'labels|sitelinks');
   /** @param {string} qid */
-  const labelOf = (qid) => labelEntities[qid]?.labels?.en?.value || null;
+  const labelOf = (qid) => labelEntities[qid]?.labels?.['en']?.value || null;
 
   /** @type {Record<string, unknown>[]} */
   const droppedTerms = [];
@@ -454,9 +454,9 @@ async function main() {
     }
     leaders.sort((a, b) => String(a.start?.date || '').localeCompare(String(b.start?.date || '')));
     Object.assign(match, {
-      label: entity.labels?.en?.value,
-      description: entity.descriptions?.en?.value,
-      enwiki: entity.sitelinks?.enwiki?.title || undefined,
+      label: entity.labels?.['en']?.value,
+      description: entity.descriptions?.['en']?.value,
+      enwiki: entity.sitelinks?.['enwiki']?.title || undefined,
       inception: bestTime(entity, 'P571') || undefined,
       dissolved: bestTime(entity, 'P576') || undefined,
       ideologies: links('P1142'),

@@ -123,9 +123,9 @@ function isPresent(url) {
 function collectCandidates() {
   const urls = new Map();
   for (const row of readCsv(args.latestFailuresCsv)) {
-    if (row.status === "failed" && row.url) {
-      const url = normalizeUrl(row.url);
-      if (url) urls.set(url, { url, source: "failed-assets-csv", previousError: row.error || "" });
+    if (row['status'] === "failed" && row['url']) {
+      const url = normalizeUrl(row['url']);
+      if (url) urls.set(url, { url, source: "failed-assets-csv", previousError: row['error'] || "" });
     }
   }
   if (fs.existsSync(args.discoveredJsonl)) {
