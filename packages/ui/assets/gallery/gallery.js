@@ -83,7 +83,7 @@ function cell(tag, content) {
 async function drawTokens() {
   const container = document.getElementById('cg-gallery-tokens');
   if (!container) return;
-  const src = container.dataset.tokensSrc;
+  const src = container.dataset['tokensSrc'];
   let text;
   try {
     const res = await fetch(String(src), { cache: 'no-cache' });
@@ -128,7 +128,7 @@ async function drawTokens() {
 
 function wireSpecimens() {
   for (const button of /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('[data-gallery-open]'))) {
-    button.addEventListener('click', () => /** @type {HTMLDialogElement | null} */ (document.getElementById(String(button.dataset.galleryOpen)))?.showModal?.());
+    button.addEventListener('click', () => /** @type {HTMLDialogElement | null} */ (document.getElementById(String(button.dataset['galleryOpen'])))?.showModal?.());
   }
   for (const form of document.querySelectorAll('.cg-gallery__example form[role="search"]')) {
     form.addEventListener('submit', (event) => event.preventDefault());
@@ -149,25 +149,25 @@ async function drawIslands() {
   const frames = [];
   await Promise.all([...hosts].map(async (host) => {
     try {
-      const sheets = /** @type {string[]} */ (JSON.parse(host.dataset.stylesheets || '[]'));
+      const sheets = /** @type {string[]} */ (JSON.parse(host.dataset['stylesheets'] || '[]'));
       const template = host.querySelector('template');
       const frame = document.createElement('iframe');
       frame.className = 'cg-gallery__frame';
       frame.title = `${host.closest('section')?.querySelector('h3')?.textContent || 'App component'} (specimen)`;
       const head = sheets.map((href) => `<link rel="stylesheet" href="${href}">`).join('');
-      frame.srcdoc = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>body { margin: 0; padding: var(--space-3); background: var(--surface); }${host.dataset.frameStyle || ''}</style>${head}</head><body><div id="specimen" class="${host.dataset.frameClass || ''}">${template ? template.innerHTML : ''}</div></body></html>`;
+      frame.srcdoc = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>body { margin: 0; padding: var(--space-3); background: var(--surface); }${host.dataset['frameStyle'] || ''}</style>${head}</head><body><div id="specimen" class="${host.dataset['frameClass'] || ''}">${template ? template.innerHTML : ''}</div></body></html>`;
       const loaded = new Promise((resolve) => frame.addEventListener('load', resolve, { once: true }));
       host.append(frame);
       await loaded;
       const doc = /** @type {Document} */ (frame.contentDocument);
       // (The frame's own body rule comes first, so an app's body rule wins, as on its page.)
       // The attributes the app's own <body> has (PRONI Search: data-app="proni").
-      for (const [name, value] of Object.entries(/** @type {Record<string, string>} */ (JSON.parse(host.dataset.bodyAttributes || '{}')))) doc.body.setAttribute(name, value);
+      for (const [name, value] of Object.entries(/** @type {Record<string, string>} */ (JSON.parse(host.dataset['bodyAttributes'] || '{}')))) doc.body.setAttribute(name, value);
       themeFrame(frame);
       frames.push(frame);
-      if (host.dataset.module) {
-        const mod = await import(String(host.dataset.module));
-        mod.drawSpecimen(host.dataset.galleryIsland, /** @type {HTMLElement} */ (doc.getElementById('specimen')), JSON.parse(host.dataset.sample || '{}'));
+      if (host.dataset['module']) {
+        const mod = await import(String(host.dataset['module']));
+        mod.drawSpecimen(host.dataset['galleryIsland'], /** @type {HTMLElement} */ (doc.getElementById('specimen')), JSON.parse(host.dataset['sample'] || '{}'));
       }
       await doc.fonts.ready;
       fitFrame(frame);
@@ -175,10 +175,10 @@ async function drawIslands() {
       new ResizeObserver(() => fitFrame(frame)).observe(doc.body);
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       fitFrame(frame);
-      host.dataset.ready = 'true';
+      host.dataset['ready'] = 'true';
     } catch (error) {
-      host.dataset.ready = 'failed';
-      console.error(`gallery: ${host.dataset.galleryIsland}`, error);
+      host.dataset['ready'] = 'failed';
+      console.error(`gallery: ${host.dataset['galleryIsland']}`, error);
     }
   }));
   // The header's theme toggle sets <html data-theme>: the frames follow it.
@@ -189,8 +189,8 @@ async function drawIslands() {
 /** @param {HTMLIFrameElement} frame */
 function themeFrame(frame) {
   const html = frame.contentDocument?.documentElement;
-  const theme = document.documentElement.dataset.theme;
-  if (html && theme) html.dataset.theme = theme;
+  const theme = document.documentElement.dataset['theme'];
+  if (html && theme) html.dataset['theme'] = theme;
 }
 
 /** @param {HTMLIFrameElement} frame */
