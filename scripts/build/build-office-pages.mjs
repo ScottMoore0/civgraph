@@ -116,12 +116,12 @@ function main() {
     }));
   }
   // every item's title is its office's name, a string
-  items.sort((a, b) => /** @type {string} */ (a.title).localeCompare(/** @type {string} */ (b.title)));
+  items.sort((a, b) => /** @type {string} */ (a['title']).localeCompare(/** @type {string} */ (b['title'])));
   if (!CHECK) {
     if (existsSync(OUT_DIR)) rmSync(OUT_DIR, { recursive: true, force: true });
     mkdirSync(OUT_DIR, { recursive: true });
     writeFileSync(path.join(BROWSE, 'offices.json'), JSON.stringify({ schemaVersion: 1, total: items.length, items }));
-    for (const d of details) writeFileSync(path.join(OUT_DIR, `${d.slug}.json`), JSON.stringify({ schemaVersion: 1, item: d }));
+    for (const d of details) writeFileSync(path.join(OUT_DIR, `${d['slug']}.json`), JSON.stringify({ schemaVersion: 1, item: d }));
   }
   console.log(`${CHECK ? 'would write' : 'wrote'} ${items.length} office pages -> data/browse/offices.json, details/offices/`
     + (missingPeople ? ` (WARNING: ${missingPeople} tenure(s) name a person missing from the persons index)` : ''));

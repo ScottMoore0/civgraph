@@ -65,7 +65,7 @@ export async function runChecks(ctx, checks = CHECKS) {
   /** @type {Result[]} */
   const results = [];
   for (const check of checks) {
-    if (check.diffScoped && ctx.changedLines === null && !ctx.options.all) {
+    if (check.diffScoped && ctx.changedLines === null && !ctx.options['all']) {
       results.push({ check, findings: [], notes: [], skipped: 'no base branch to diff against (pass --all to read every line)' });
       continue;
     }
@@ -188,7 +188,7 @@ if (isMain) {
   const baseline = existsSync(baselineFile) ? JSON.parse(readFileSync(baselineFile, 'utf8')) : null;
   const today = new Date().toISOString().slice(0, 10);
   const enforce = flag('--report') ? false : flag('--enforce') || enforcing(today, config.enforceFrom);
-  const diff = flag('--all') ? { base: 'none (--all)', changed: null } : changedSince(ROOT, [process.env.ARCH_DIFF_BASE || '', 'main', 'origin/main'].filter(Boolean));
+  const diff = flag('--all') ? { base: 'none (--all)', changed: null } : changedSince(ROOT, [process.env['ARCH_DIFF_BASE'] || '', 'main', 'origin/main'].filter(Boolean));
   const checkIds = CHECKS.map((c) => c.id);
   const ctx = createContext({ root: ROOT, config: config.checks, changedLines: diff.changed, all: flag('--all'), checkIds });
   const checks = only ? CHECKS.filter((c) => only.includes(c.id)) : CHECKS;

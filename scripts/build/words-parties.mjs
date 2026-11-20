@@ -26,7 +26,7 @@ import { notAPartyLabels } from '@civgraph/core/party-names.mjs';
 
 const args = process.argv.slice(2);
 const opt = (/** @type {string} */ name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : null; };
-const META = opt('--meta') || process.env.WORDS_META;
+const META = opt('--meta') || process.env['WORDS_META'];
 const CHECK = args.includes('--check');
 const OUT = 'site/apps/words/parties.json';
 

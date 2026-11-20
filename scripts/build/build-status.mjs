@@ -315,8 +315,8 @@ const sources = sourcesConfig.sources.map((cfg) => {
 /** @type {{ groups: GroupConfig[] }} */
 const electionsConfig = readJson('data/status/elections.config.json');
 const provenance = readProvenance() ?? fail(`${path.relative(ROOT, PROVENANCE_FILE)} does not exist, so the Status page cannot be built.`);
-const provByFile = new Map(provenance.contests.map((c) => [c.file, c]));
-const provByKey = new Map(provenance.contests.map((c) => [`${c.body}|${c.date}|${c.constituency}`, c]));
+const provByFile = new Map(provenance.contests.map((c) => [c['file'], c]));
+const provByKey = new Map(provenance.contests.map((c) => [`${c['body']}|${c['date']}|${c['constituency']}`, c]));
 
 const ELECTION_DIR = ELECTION_BUNDLE_DIR;
 const SOURCE_PREFIX = 'data/elections-source/data/elections/';
@@ -339,7 +339,7 @@ for (const file of readdirSync(path.resolve(ROOT, ELECTION_DIR)).filter((f) => f
       date: e.date,
       byElection: Boolean(e.isByElection),
       full: unopposed || voted,
-      verified: prov?.status === 'verified',
+      verified: prov?.['status'] === 'verified',
     });
   }
 }

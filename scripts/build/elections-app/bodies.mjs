@@ -97,16 +97,16 @@ export function bodiesTables(db) {
     /** @type {Map<number, Array<Record<string, unknown>>>} */
     const cands = new Map();
     for (const c of /** @type {Array<Record<string, unknown>>} */ (candsOf.all(el.key))) {
-      const seq = Number(c.contest_seq);
+      const seq = Number(c['contest_seq']);
       if (!cands.has(seq)) cands.set(seq, []);
       /** @type {Array<Record<string, unknown>>} */ (cands.get(seq)).push(c);
     }
     /** The map feature each contest matched: a seat's identity across spellings of its name. */
-    const features = new Map(/** @type {Array<Record<string, unknown>>} */ (featureOf.all(el.key)).filter((f) => f.matched === 1 && f.layer_id && f.feature_id).map((f) => [Number(f.contest_seq), `${f.layer_id}#${f.feature_id}`]));
+    const features = new Map(/** @type {Array<Record<string, unknown>>} */ (featureOf.all(el.key)).filter((f) => f['matched'] === 1 && f['layer_id'] && f['feature_id']).map((f) => [Number(f['contest_seq']), `${f['layer_id']}#${f['feature_id']}`]));
     /** @type {Map<string, El>} */
     const byUnit = new Map();
     for (const row of /** @type {Array<Record<string, unknown>>} */ (contestsOf.all(el.key))) {
-      const meta = parseMeta(/** @type {string | null} */ (row.meta));
+      const meta = parseMeta(/** @type {string | null} */ (row['meta']));
       let unit = el.body_slug;
       let unitName = el.body || el.body_slug;
       let council = councilBodies.has(el.body_slug);
@@ -115,7 +115,7 @@ export function bodiesTables(db) {
         if (id) { unit = id; unitName = /** @type {RegistryCouncil} */ (councilById.get(id)).name; }
         council = true;
       } else if (el.body_slug === 'ireland-local') {
-        const printedName = irishFiles.get(String(row.source_file || ''));
+        const printedName = irishFiles.get(String(row['source_file'] || ''));
         if (printedName) {
           unit = irish.unitOf(printedName, el.date);
           unitName = councilById.get(unit)?.name || printedName;
@@ -126,31 +126,31 @@ export function bodiesTables(db) {
       }
       if (!units.has(unit)) units.set(unit, { name: unitName, body: el.body_slug, bodyName: el.body || el.body_slug, council });
       if (!byUnit.has(unit)) byUnit.set(unit, { key: el.key, body: el.body_slug, unit, council, kind: el.kind || '', date: el.date, contests: [] });
-      const list = cands.get(Number(row.seq)) || [];
+      const list = cands.get(Number(row['seq'])) || [];
       const anyVotes = list.some((c) => votesOf(/** @type {any} */ (c)) !== null);
       const unopposed = list.length > 0 && !anyVotes && (list.some((c) => isUnopposedStatus(/** @type {any} */ (c))) || el.contest_status === 'uncontested');
       /** @type {El} */ (byUnit.get(unit)).contests.push({
-        seq: Number(row.seq),
-        name: String(row.name),
-        slug: String(row.slug),
-        keys: [features.get(Number(row.seq)), String(row.slug)].filter((k) => typeof k === 'string'),
-        seats: num(row.seats_total),
-        electorate: num(row.electorate),
-        turnout: num(row.turnout_pct) || null,
-        majority: num(row.majority) || null,
-        majorityPct: num(row.majority_pct) || null,
+        seq: Number(row['seq']),
+        name: String(row['name']),
+        slug: String(row['slug']),
+        keys: [features.get(Number(row['seq'])), String(row['slug'])].filter((k) => typeof k === 'string'),
+        seats: num(row['seats_total']),
+        electorate: num(row['electorate']),
+        turnout: num(row['turnout_pct']) || null,
+        majority: num(row['majority']) || null,
+        majorityPct: num(row['majority_pct']) || null,
         validPoll: num(meta.validPoll) ?? num(meta.totalVotes),
         unopposed,
         notes: Array.isArray(meta.contestNotes) ? meta.contestNotes : [],
         cands: list.map((c) => {
-          const party = partyKey(c.party_label);
-          if (party) { see(labelsSeen, party, c.party_label); see(coloursSeen, party, c.colour); }
+          const party = partyKey(c['party_label']);
+          if (party) { see(labelsSeen, party, c['party_label']); see(coloursSeen, party, c['colour']); }
           return {
-            name: String(c.name || ''),
-            personId: c.person_id ? String(c.person_id) : null,
+            name: String(c['name'] || ''),
+            personId: c['person_id'] ? String(c['person_id']) : null,
             party,
             votes: votesOf(/** @type {any} */ (c)),
-            elected: c.elected === 1 || isUnopposedStatus(/** @type {any} */ (c)) || /^elected/i.test(String(c.status || '')),
+            elected: c['elected'] === 1 || isUnopposedStatus(/** @type {any} */ (c)) || /^elected/i.test(String(c['status'] || '')),
           };
         }),
       });

@@ -23,7 +23,7 @@ for (const staleEntry of [
   rmSync(`${BUILD_DIR}/${staleEntry}`, { force: true });
 }
 rmSync(`${BUILD_DIR}/chunks`, { recursive: true, force: true });
-const emitSourceMaps = process.env.TEST2_SOURCEMAPS === '1' || process.argv.includes('--sourcemap');
+const emitSourceMaps = process.env['TEST2_SOURCEMAPS'] === '1' || process.argv.includes('--sourcemap');
 
 // Content hash of the startup metadata index, injected as __METADATA_INDEX_VERSION__. Unused by the
 // app since data design phase 3 (the index comes from /_api/layers?view=index, versioned by its

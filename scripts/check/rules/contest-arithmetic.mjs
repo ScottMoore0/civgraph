@@ -185,7 +185,7 @@ export function checkContest(c) {
       fail('electorate-poll', `electorate ${electorate} < ${total !== null ? 'total' : 'valid'} poll ${poll}`);
     }
   }
-  const statedTurnout = c.info.Turnout_Pct ?? c.info.Percentage_Poll_Printed;
+  const statedTurnout = c.info['Turnout_Pct'] ?? c.info['Percentage_Poll_Printed'];
   const turnout = num(statedTurnout);
   if (turnout !== null && turnout > 0) {
     const tol = 0.5 * 10 ** -decimals(statedTurnout) + 0.011;
@@ -255,7 +255,7 @@ export function checkContest(c) {
       const low = winners.find((k) => k.firstPrefs === minWin);
       fail('fptp-winner', `${top?.name} (${maxLose}) not elected, ${low?.name} (${minWin}) elected`);
     }
-    const printed = num(c.info.Majority_Printed);
+    const printed = num(c.info['Majority_Printed']);
     if (printed !== null && winners.length && losers.length && Number.isFinite(maxLose)) {
       const majority = minWin - maxLose;
       if (Math.abs(majority - printed) > 0.5) fail('fptp-majority', `majority printed ${printed}, votes give ${majority}`);
@@ -500,26 +500,26 @@ export function loadContests(db) {
   /** @type {Map<string, Contest>} */
   const contests = new Map();
   const elections = new Map(db.prepare('SELECT key, body_slug, date, voting_system, contest_status, meta FROM r_elections').all()
-    .map((r) => [r.key, r]));
+    .map((r) => [r['key'], r]));
   for (const row of db.prepare('SELECT election_key, seq, name, source_file, seats_total, electorate, quota, meta FROM contests').iterate()) {
-    const e = elections.get(row.election_key);
+    const e = elections.get(row['election_key']);
     if (!e) continue;
-    const meta = JSON.parse(String(row.meta));
+    const meta = JSON.parse(String(row['meta']));
     const infoRaw = meta.countInfo || {};
-    const key = `${row.election_key}#${row.seq}`;
+    const key = `${row['election_key']}#${row['seq']}`;
     contests.set(key, {
-      electionKey: String(row.election_key),
-      seq: Number(row.seq),
-      name: String(row.name),
-      sourceFile: String(row.source_file || meta.sourceFile || ''),
-      bodySlug: String(e.body_slug),
-      group: bodyGroup(String(e.body_slug), String(e.date)),
-      date: String(e.date),
-      votingSystem: String(meta.votingSystem || e.voting_system || ''),
-      contestStatus: String(meta.contestStatus || e.contest_status || ''),
-      seats: num(row.seats_total) ?? num(infoRaw.Number_Of_Seats),
-      electorate: num(infoRaw.Total_Electorate) ?? num(row.electorate),
-      quota: num(infoRaw.Quota) ?? num(row.quota),
+      electionKey: String(row['election_key']),
+      seq: Number(row['seq']),
+      name: String(row['name']),
+      sourceFile: String(row['source_file'] || meta.sourceFile || ''),
+      bodySlug: String(e['body_slug']),
+      group: bodyGroup(String(e['body_slug']), String(e['date'])),
+      date: String(e['date']),
+      votingSystem: String(meta.votingSystem || e['voting_system'] || ''),
+      contestStatus: String(meta.contestStatus || e['contest_status'] || ''),
+      seats: num(row['seats_total']) ?? num(infoRaw.Number_Of_Seats),
+      electorate: num(infoRaw.Total_Electorate) ?? num(row['electorate']),
+      quota: num(infoRaw.Quota) ?? num(row['quota']),
       validPoll: num(infoRaw.Valid_Poll) ?? num(meta.validPoll),
       totalPoll: num(infoRaw.Total_Poll) ?? num(meta.totalPoll),
       spoiled: num(infoRaw.Spoiled) ?? num(meta.spoiled),
@@ -532,32 +532,32 @@ export function loadContests(db) {
   /** @type {Map<string, Cand>} */
   const byOrd = new Map();
   for (const row of db.prepare('SELECT election_key, contest_seq, ord, name, first_prefs, final_votes, elected, elected_at, excluded, excluded_at, status, unopposed FROM candidacies').iterate()) {
-    const c = contests.get(`${row.election_key}#${row.contest_seq}`);
+    const c = contests.get(`${row['election_key']}#${row['contest_seq']}`);
     if (!c) continue;
-    const status = String(row.status || '');
+    const status = String(row['status'] || '');
     /** @type {Cand} */
     // arch-ok R6: elected and excluded are the candidate record's own field names, not status values
     const cand = {
-      ord: Number(row.ord),
-      name: String(row.name || ''),
-      firstPrefs: num(row.first_prefs),
-      finalVotes: num(row.final_votes),
-      elected: Number(row.elected) === 1,
-      electedAt: num(row.elected_at),
-      excluded: Number(row.excluded) === 1,
-      excludedAt: num(row.excluded_at),
+      ord: Number(row['ord']),
+      name: String(row['name'] || ''),
+      firstPrefs: num(row['first_prefs']),
+      finalVotes: num(row['final_votes']),
+      elected: Number(row['elected']) === 1,
+      electedAt: num(row['elected_at']),
+      excluded: Number(row['excluded']) === 1,
+      excludedAt: num(row['excluded_at']),
       status,
-      unopposed: Number(row.unopposed) === 1 || isUnopposedStatus(status),
+      unopposed: Number(row['unopposed']) === 1 || isUnopposedStatus(status),
       autoReturned: isAutoReturned(status),
       stages: new Map(),
     };
     c.candidates.push(cand);
-    byOrd.set(`${row.election_key}#${row.contest_seq}#${row.ord}`, cand);
+    byOrd.set(`${row['election_key']}#${row['contest_seq']}#${row['ord']}`, cand);
   }
   for (const row of db.prepare('SELECT election_key, contest_seq, candidacy_ord, count_number, total_votes, transfers, status FROM r_counts').iterate()) {
-    const cand = byOrd.get(`${row.election_key}#${row.contest_seq}#${row.candidacy_ord}`);
-    if (!cand || row.count_number === null) continue;
-    cand.stages.set(Number(row.count_number), { total: num(row.total_votes), transfers: num(row.transfers), status: String(row.status || '') });
+    const cand = byOrd.get(`${row['election_key']}#${row['contest_seq']}#${row['candidacy_ord']}`);
+    if (!cand || row['count_number'] === null) continue;
+    cand.stages.set(Number(row['count_number']), { total: num(row['total_votes']), transfers: num(row['transfers']), status: String(row['status'] || '') });
   }
   return [...contests.values()];
 }

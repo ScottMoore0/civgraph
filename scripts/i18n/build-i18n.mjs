@@ -296,7 +296,7 @@ function build() {
   };
   for (const e of entries) {
     const s = (summary.bySurface[e.surface] ||= coverageRow(0, () => 0));
-    s.total = (s.total || 0) + 1;
+    s['total'] = (s['total'] || 0) + 1;
     for (const lang of LANGS) if (textOf(e, lang)) s[lang] = (s[lang] || 0) + 1;
   }
   outputs.set(`${REVIEW_DIR}/coverage.json`, stable(summary));
@@ -326,4 +326,4 @@ if (CHECK && stale.length) {
 }
 const s = summary.interfaceStrings;
 const counts = LANGS.map((lang) => `${language(LANGUAGES, lang).englishName} ${s[lang]}`).join(', ');
-console.log(`i18n: ${s.total} interface strings; ${counts}${CHECK ? ' (up to date)' : ''}.`);
+console.log(`i18n: ${s['total']} interface strings; ${counts}${CHECK ? ' (up to date)' : ''}.`);

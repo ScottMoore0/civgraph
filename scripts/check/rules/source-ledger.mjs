@@ -216,8 +216,8 @@ export function validateLedger(ledger) {
  * @returns {{ host?: string, title?: string }}
  */
 function citationKey(src) {
-  const host = normHost(src.host || (src.url ? safeHost(src.url) : ''));
-  return host ? { host } : { title: `${src.publisher ?? ''} | ${src.title ?? ''}` };
+  const host = normHost(src['host'] || (src['url'] ? safeHost(src['url']) : ''));
+  return host ? { host } : { title: `${src['publisher'] ?? ''} | ${src['title'] ?? ''}` };
 }
 /** @param {unknown} url  new URL stringifies it, and throws (giving '') when that is not an address */
 function safeHost(url) { try { return new URL(/** @type {string} */ (url)).hostname; } catch { return ''; } }
@@ -232,7 +232,7 @@ export function coveringEntry(ledger, src) {
   for (const s of ledger.sources) {
     const hosts = (s.match?.hosts ?? []).map(normHost);
     if (key.host && hostIn(key.host, hosts)) return s.id;
-    const text = `${src.publisher ?? ''} | ${src.title ?? ''}`;
+    const text = `${src['publisher'] ?? ''} | ${src['title'] ?? ''}`;
     if ((s.match?.titles ?? []).some((t) => new RegExp(t, 'i').test(text))) return s.id;
   }
   return null;
@@ -318,7 +318,7 @@ function main() {
     if (provenance) {
       const { perEntry } = tallyProvenance(ledger, provenance);
       for (const s of ledger.sources) {
-        if (s.match) s.extracted.counts.provenanceCitations = perEntry.get(s.id) ?? 0;
+        if (s.match) s.extracted.counts['provenanceCitations'] = perEntry.get(s.id) ?? 0;
       }
       writeFileSync(LEDGER, `${JSON.stringify(ledger, null, 1)}\n`);
     }

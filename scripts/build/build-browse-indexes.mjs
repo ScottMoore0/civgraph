@@ -2828,7 +2828,7 @@ function buildPersons(electionDetails, partyRecords, partyNames = {}) {
   const items = Object.values(details).map((person) => compactObject({
     ...person,
     relatedElectionCount: person.elections.length
-  })).sort((a, b) => (b.totals.elected - a.totals.elected) || (b.totals.stood - a.totals.stood) || a.title.localeCompare(b.title));
+  })).sort((a, b) => (b['totals'].elected - a['totals'].elected) || (b['totals'].stood - a['totals'].stood) || a['title'].localeCompare(b['title']));
 
   if (referendumsSkipped) {
     console.log(`- persons: skipped ${referendumsSkipped} referendum(s); their options are not people`);
@@ -2854,7 +2854,7 @@ function linkRegisterInterestsToPersons(records, persons) {
   /** @type {Map<string, PersonItem[]>} */
   const byName = new Map();
   for (const person of persons) {
-    const key = normalizeName(person.name || person.title);
+    const key = normalizeName(person['name'] || person['title']);
     if (!key) continue;
     if (!byName.has(key)) byName.set(key, []);
     /** @type {PersonItem[]} */ (byName.get(key)).push(person);   // set on the line before
@@ -2863,10 +2863,10 @@ function linkRegisterInterestsToPersons(records, persons) {
   for (const record of records) {
     const candidates = byName.get(normalizeName(record.memberName)) || [];
     const places = new Set([record.constituency, ...normalizeArray(record.constituencies)].map(normalizeName).filter(Boolean));
-    const matches = candidates.filter((person) => normalizeArray(person.constituencies)
+    const matches = candidates.filter((person) => normalizeArray(person['constituencies'])
       .some((place) => places.has(normalizeName(place?.name || place))));
     if (matches.length === 1) {
-      record.personSlug = /** @type {(typeof matches)[number]} */ (matches[0]).slug;
+      record.personSlug = /** @type {(typeof matches)[number]} */ (matches[0])['slug'];
       linked += 1;
     }
   }
@@ -3377,8 +3377,8 @@ function referenceWorkSources() {
       const matching = normalizeArray(contest.sources).filter(cites);
       if (!matching.length) continue;
       contests += 1;
-      if (matching.some((source) => source.checked)) checked += 1;
-      if (contest.body) bodies.add(contest.body);
+      if (matching.some((source) => source['checked'])) checked += 1;
+      if (contest['body']) bodies.add(contest['body']);
     }
     const electorates = work.electorateFile
       ? normalizeArray(readJson(work.electorateFile, { records: [] }).records).length
@@ -4497,7 +4497,7 @@ function preserveGeneratedAtWhenPayloadMatches(fullPath, value) {
     const current = JSON.parse(readFileSync(fullPath, 'utf8'));
     if (!isGeneratedJsonObject(current)) return value;
     if (JSON.stringify(withoutTopLevelGeneratedAt(current)) === JSON.stringify(withoutTopLevelGeneratedAt(value))) {
-      return { ...value, generatedAt: current.generatedAt };
+      return { ...value, generatedAt: current['generatedAt'] };
     }
   } catch {
     return value;
@@ -4518,7 +4518,7 @@ function isGeneratedJsonObject(value) {
  */
 function withoutTopLevelGeneratedAt(value) {
   const copy = { ...value };
-  delete copy.generatedAt;
+  delete copy['generatedAt'];
   return copy;
 }
 
@@ -4583,7 +4583,7 @@ function collectYears(value) {
     const matches = String(current).match(/\b(1[5-9]\d{2}|20\d{2})\b/g) || [];
     for (const match of matches) years.add(Number(match));
   }
-  for (const item of normalizeArray(value?.years)) {
+  for (const item of normalizeArray(value?.['years'])) {
     const year = Number(item);
     if (Number.isFinite(year)) years.add(year);
   }
@@ -4794,7 +4794,7 @@ function addListFacets(parties, partyDetails, persons, electionDetails, partyNam
     const bodies = new Set();
     const decades = new Set();
     const partySlugs = new Set();
-    for (const row of person.elections || []) {
+    for (const row of person['elections'] || []) {
       const body = bodyOf(row.key);
       const decade = decadeOf(row.year);
       if (body) bodies.add(body);
@@ -4811,8 +4811,8 @@ function addListFacets(parties, partyDetails, persons, electionDetails, partyNam
     }
     for (const body of bodies) count(personBodies, body);
     for (const decade of decades) count(personDecades, decade);
-    count(personElected, Number(person.totals?.elected) > 0 ? 'yes' : 'no');
-    for (const slug of partySlugs) personParties.get(slug).people.add(person.slug);
+    count(personElected, Number(person['totals']?.elected) > 0 ? 'yes' : 'no');
+    for (const slug of partySlugs) personParties.get(slug).people.add(person['slug']);
   }
   for (const party of parties) {
     const facts = partyFacts.get(party.slug);

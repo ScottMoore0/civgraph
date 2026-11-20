@@ -59,7 +59,7 @@ for (const path of PAGES) {
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
     await page.waitForFunction(() => {
       const g = /** @type {PageGlobals} */ (/** @type {unknown} */ (globalThis));
-      return g.civgraphI18n && g.document.documentElement.dataset.uiLang;
+      return g.civgraphI18n && g.document.documentElement.dataset['uiLang'];
     }, null, { timeout: 15000 });
     await page.waitForTimeout(4000);
     const texts = await page.evaluate(() => {

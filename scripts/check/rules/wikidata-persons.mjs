@@ -53,7 +53,7 @@ const git = (argv) => {
 };
 /** The refs whose crosswalk the working one is compared with. @returns {string[]} */
 function baseRefs() {
-  if (process.env.WIKIDATA_PERSONS_BASE_REF) return [process.env.WIKIDATA_PERSONS_BASE_REF];
+  if (process.env['WIKIDATA_PERSONS_BASE_REF']) return [process.env['WIKIDATA_PERSONS_BASE_REF']];
   const refs = [];
   const dirty = git(['diff', '--quiet', 'HEAD', '--', REL]) === null;
   if (dirty) refs.push('HEAD');

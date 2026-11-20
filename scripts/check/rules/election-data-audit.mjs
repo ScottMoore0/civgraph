@@ -213,7 +213,7 @@ const VALID_ELECTION_KINDS = new Set(electionKindIds(ELECTION_TYPES));
 const STATUSES = /** @type {import('@civgraph/types').StatusesRegistry & { machines: { contest: import('@civgraph/types').StatusesRegistry['machines'][string] } }} */ (loadRegistry('statuses'));
 /** @type {Set<string | undefined>} */
 const VALID_CONTEST_STATUSES = new Set(enumValues(STATUSES, 'contest'));
-const CONTEST_STATUS_IF_MISSING = STATUSES.machines.contest.missingMeans;
+const CONTEST_STATUS_IF_MISSING = STATUSES.machines.contest['missingMeans'];
 /** @type {Set<string | undefined>} */
 const VALID_VOTING_SYSTEMS = new Set(votingSystemIds(ELECTION_TYPES));
 
@@ -628,23 +628,23 @@ if (fs.existsSync(colourAuditPath)) {
   const colourRows = parseCsv(fs.readFileSync(colourAuditPath, 'utf8'));
   stats.colours.observations = colourRows.length;
   for (const row of colourRows) {
-    const colour = colourOutcome(row.colour_status);
+    const colour = colourOutcome(row['colour_status']);
     if (colour === 'match') stats.colours.matches += 1;
     if (colour === 'mismatch') stats.colours.mismatches += 1;
     if (colour === 'no-election-colour') stats.colours.noElectionColour += 1;
-    if (row.match_status === 'no_match') stats.colours.noWikipediaMatch += 1;
-    if (String(row.match_status || '').startsWith('ambiguous')) stats.colours.ambiguousWikipediaMatch += 1;
+    if (row['match_status'] === 'no_match') stats.colours.noWikipediaMatch += 1;
+    if (String(row['match_status'] || '').startsWith('ambiguous')) stats.colours.ambiguousWikipediaMatch += 1;
   }
   stats.colours.examples = colourRows
-    .filter((row) => row.colour_status === 'colour_mismatch' && ['name', 'manual_alias'].includes(/** @type {string} */ (row.wikipedia_match_basis)))
+    .filter((row) => row['colour_status'] === 'colour_mismatch' && ['name', 'manual_alias'].includes(/** @type {string} */ (row['wikipedia_match_basis'])))
     .slice(0, 20)
     .map((row) => ({
-      party: /** @type {string} */ (row.party_or_ticket),
-      electionColour: /** @type {string} */ (row.election_colour),
-      wikipediaName: /** @type {string} */ (row.wikipedia_match_name),
-      wikipediaColour: /** @type {string} */ (row.wikipedia_colour),
-      observations: normaliseNumber(row.observations) || 0,
-      review: partyColourReviewByParty.get(normalizeKeyText(row.party_or_ticket)) || null
+      party: /** @type {string} */ (row['party_or_ticket']),
+      electionColour: /** @type {string} */ (row['election_colour']),
+      wikipediaName: /** @type {string} */ (row['wikipedia_match_name']),
+      wikipediaColour: /** @type {string} */ (row['wikipedia_colour']),
+      observations: normaliseNumber(row['observations']) || 0,
+      review: partyColourReviewByParty.get(normalizeKeyText(row['party_or_ticket'])) || null
     }));
   for (const example of stats.colours.examples.slice(0, 10)) {
     if (example.review) {
@@ -703,8 +703,8 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |valid-poll review sidecar records|${stats.reviewSidecars.validPollRecords}|
 |candidate-row review sidecar records|${stats.reviewSidecars.candidateRowRecords}|
 |party-colour review sidecar records|${stats.reviewSidecars.partyColourRecords}|
-|blocking issues|${issueSummary.bySeverity.blocking || 0}|
-|warnings|${issueSummary.bySeverity.warning || 0}|
+|blocking issues|${issueSummary.bySeverity['blocking'] || 0}|
+|warnings|${issueSummary.bySeverity['warning'] || 0}|
 
 ## Blocking Structural Issues
 

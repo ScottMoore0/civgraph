@@ -837,8 +837,8 @@ if (existsSync(ELECTION_MANIFEST)) {
   assertDail2024Party('Fine Gael', { stood: 80, seats: 38, votes: 458134 });
   assertDail2024Party('Independent', { stood: 171, seats: 16, votes: 290748 });
   assert(!dail2024ByParty.has('Ceann Comhairle (Speaker)'), '/test2 Dail 2024 bundle must count the automatically returned Ceann Comhairle under party affiliation, not as a standalone contested party row');
-  assert(dail2024Bundle.mainLikeTotals?.validPoll === 2202453, '/test2 Dail 2024 bundle must exclude the Ceann Comhairle placeholder from the first-preference valid-poll denominator');
-  assert(dail2024Bundle.mainLikeTotals?.totalSeats === 174, '/test2 Dail 2024 bundle must include the automatically returned Ceann Comhairle seat');
+  assert(dail2024Bundle.mainLikeTotals?.['validPoll'] === 2202453, '/test2 Dail 2024 bundle must exclude the Ceann Comhairle placeholder from the first-preference valid-poll denominator');
+  assert(dail2024Bundle.mainLikeTotals?.['totalSeats'] === 174, '/test2 Dail 2024 bundle must include the automatically returned Ceann Comhairle seat');
   const family2024ReferendumEntry = (electionManifest.elections || []).find((entry) => entry.key === 'ireland-referendum__2024-03-08-the-family');
   const care2024ReferendumEntry = (electionManifest.elections || []).find((entry) => entry.key === 'ireland-referendum__2024-03-08-care');
   assert(family2024ReferendumEntry?.sourceMapId === 'dail-2017' && family2024ReferendumEntry?.matchedCount === 39 && family2024ReferendumEntry?.unmatchedCount === 0, '/test2 2024 family referendum must use the pre-2024 Dail geography, not the post-election Wicklow-Wexford geometry');
@@ -846,17 +846,17 @@ if (existsSync(ELECTION_MANIFEST)) {
   for (const referendumKey of ['ireland-referendum__2024-03-08-the-family', 'ireland-referendum__2024-03-08-care']) {
     /** @type {ElectionBundle} */
     const referendumBundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${referendumKey}.json`), 'utf8'));
-    assert(Number(referendumBundle.mainLikeTotals?.totalPoll || 0) > 0, `/test2 ${referendumKey} must derive overall referendum total poll from electorate and turnout where the source lacks total poll`);
-    assert(Number(referendumBundle.mainLikeTotals?.totalElectorate || 0) > 0, `/test2 ${referendumKey} must carry overall referendum electorate totals`);
-    assert(Number(referendumBundle.mainLikeTotals?.totalSpoiled || 0) > 0, `/test2 ${referendumKey} must derive overall referendum spoiled votes from total poll and valid votes`);
+    assert(Number(referendumBundle.mainLikeTotals?.['totalPoll'] || 0) > 0, `/test2 ${referendumKey} must derive overall referendum total poll from electorate and turnout where the source lacks total poll`);
+    assert(Number(referendumBundle.mainLikeTotals?.['totalElectorate'] || 0) > 0, `/test2 ${referendumKey} must carry overall referendum electorate totals`);
+    assert(Number(referendumBundle.mainLikeTotals?.['totalSpoiled'] || 0) > 0, `/test2 ${referendumKey} must derive overall referendum spoiled votes from total poll and valid votes`);
     const wexfordResult = (referendumBundle.results || []).find((result) => result.constituency === 'Wexford');
     const wicklowResult = (referendumBundle.results || []).find((result) => result.constituency === 'Wicklow');
     assert(wexfordResult?.featureName === 'Wexford (5)' && wicklowResult?.featureName === 'Wicklow (5)', `/test2 ${referendumKey} must match Wexford/Wicklow referendum rows to the correct pre-2024 Dail features`);
     assert(!(referendumBundle.results || []).some((result) => /Wicklow-Wexford/i.test(`${result.featureName || ''} ${result.matchName || ''}`)), `/test2 ${referendumKey} must not expose the post-2024 Wicklow-Wexford feature for March 2024 referendum results`);
     const donegalResult = (referendumBundle.results || []).find((result) => result.constituency === 'Donegal');
-    assert(Number(donegalResult?.countInfo?.Total_Electorate || 0) > 0, `/test2 ${referendumKey} Donegal must carry constituency electorate`);
-    assert(Number(donegalResult?.countInfo?.Total_Poll || 0) > 0, `/test2 ${referendumKey} Donegal must derive constituency total poll`);
-    assert(Number(donegalResult?.countInfo?.Spoiled || 0) > 0, `/test2 ${referendumKey} Donegal must derive constituency spoiled votes`);
+    assert(Number(donegalResult?.countInfo?.['Total_Electorate'] || 0) > 0, `/test2 ${referendumKey} Donegal must carry constituency electorate`);
+    assert(Number(donegalResult?.countInfo?.['Total_Poll'] || 0) > 0, `/test2 ${referendumKey} Donegal must derive constituency total poll`);
+    assert(Number(donegalResult?.countInfo?.['Spoiled'] || 0) > 0, `/test2 ${referendumKey} Donegal must derive constituency spoiled votes`);
     assert(Number(donegalResult?.turnoutPct || 0) > 0, `/test2 ${referendumKey} Donegal must carry constituency turnout`);
   }
   /** @type {ElectionBundle} */
@@ -872,7 +872,7 @@ if (existsSync(ELECTION_MANIFEST)) {
   for (const candidate of electedMidlands) {
     electedMidlandsByParty.set(candidate.party, (electedMidlandsByParty.get(candidate.party) || 0) + 1);
   }
-  assert(Number(midlandsNorthWest?.seatsTotal || midlandsNorthWest?.countInfo?.Number_Of_Seats || 0) === 5, '/test2 2024 European Midlands North West must expose five seats');
+  assert(Number(midlandsNorthWest?.seatsTotal || midlandsNorthWest?.countInfo?.['Number_Of_Seats'] || 0) === 5, '/test2 2024 European Midlands North West must expose five seats');
   assert(electedMidlandsByParty.get('Fine Gael') === 2 && electedMidlandsByParty.get('Fianna F\u00e1il') === 1 && electedMidlandsByParty.get('Independent') === 1 && electedMidlandsByParty.get('Independent Ireland') === 1, '/test2 2024 European Midlands North West elected-party counts must be Fine Gael 2, Fianna Fail 1, Independent 1, Independent Ireland 1');
   for (const filename of readdirSync(ELECTION_BUNDLE_DIR).filter((name) => /^ireland-referendum__.*\.json$/.test(name))) {
     /** @type {ElectionBundle} */
@@ -900,21 +900,21 @@ if (existsSync(ELECTION_MANIFEST)) {
   }
   const dail2024Mayo = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'mayo');
   const dail2024MayoAnimationRows = dail2024Mayo?.animationPayload?.Constituency?.countGroup || [];
-  assert(dail2024MayoAnimationRows.length > 0 && dail2024MayoAnimationRows.some((row) => Number(row.Count_Number) > 1), '/test2 Dail 2024 Mayo Wikipedia count rows must expose count-stage rows');
-  assert(dail2024MayoAnimationRows.some((row) => row.Wikipedia_Count_Row === '1') && dail2024MayoAnimationRows.some((row) => Number(row.Transfers || 0) !== 0), '/test2 Dail 2024 Mayo must use Wikipedia-derived non-zero transfer deltas');
+  assert(dail2024MayoAnimationRows.length > 0 && dail2024MayoAnimationRows.some((row) => Number(row['Count_Number']) > 1), '/test2 Dail 2024 Mayo Wikipedia count rows must expose count-stage rows');
+  assert(dail2024MayoAnimationRows.some((row) => row['Wikipedia_Count_Row'] === '1') && dail2024MayoAnimationRows.some((row) => Number(row['Transfers'] || 0) !== 0), '/test2 Dail 2024 Mayo must use Wikipedia-derived non-zero transfer deltas');
   assert(dail2024Mayo?.syntheticCountGroup !== true && dail2024Mayo?.hasCountDetail === true, '/test2 Dail 2024 Mayo must prefer verified Wikipedia count detail over synthetic scraper rows');
   const dail2024RoscommonGalway = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'roscommon galway');
   const roscommonGalwayCountRows = dail2024RoscommonGalway?.countGroup || [];
-  const roscommonGalwayMadeQuotaRows = roscommonGalwayCountRows.filter((row) => /quota/i.test(String(row.Status || '')));
+  const roscommonGalwayMadeQuotaRows = roscommonGalwayCountRows.filter((row) => /quota/i.test(String(row['Status'] || '')));
   assert(roscommonGalwayMadeQuotaRows.length >= 2, '/test2 Dail 2024 Roscommon Galway must retain the quota-status rows used by the screenshot parity guard');
-  assert(roscommonGalwayMadeQuotaRows.every((row) => mainSelectedPaneStatusKind(row.Status) === 'elected'), '/test2 selected-pane status guard must treat Dail 2024 Roscommon Galway Made Quota rows as explicit elected statuses');
-  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Independent Ireland' && Number(row.Count_Number) === 1 && Number(row.Total_Votes) === 12002), '/test2 Dail 2024 Roscommon Galway must retain main-compatible first-count Independent Ireland row data');
-  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Sinn F\u00e9in' && Number(row.Count_Number) === 1 && Number(row.Total_Votes) === 8039), '/test2 Dail 2024 Roscommon Galway must keep synthetic Sinn Fein first-preference row data');
-  assert(roscommonGalwayCountRows.some((row) => String(row.Party_Name || '') === 'Sinn F\u00e9in' && Number(row.Count_Number) > 1 && Number(row.Transfers || 0) > 0), '/test2 Dail 2024 Roscommon Galway must expose Wikipedia-derived later-stage Sinn Fein transfer data');
+  assert(roscommonGalwayMadeQuotaRows.every((row) => mainSelectedPaneStatusKind(row['Status']) === 'elected'), '/test2 selected-pane status guard must treat Dail 2024 Roscommon Galway Made Quota rows as explicit elected statuses');
+  assert(roscommonGalwayCountRows.some((row) => String(row['Party_Name'] || '') === 'Independent Ireland' && Number(row['Count_Number']) === 1 && Number(row['Total_Votes']) === 12002), '/test2 Dail 2024 Roscommon Galway must retain main-compatible first-count Independent Ireland row data');
+  assert(roscommonGalwayCountRows.some((row) => String(row['Party_Name'] || '') === 'Sinn F\u00e9in' && Number(row['Count_Number']) === 1 && Number(row['Total_Votes']) === 8039), '/test2 Dail 2024 Roscommon Galway must keep synthetic Sinn Fein first-preference row data');
+  assert(roscommonGalwayCountRows.some((row) => String(row['Party_Name'] || '') === 'Sinn F\u00e9in' && Number(row['Count_Number']) > 1 && Number(row['Transfers'] || 0) > 0), '/test2 Dail 2024 Roscommon Galway must expose Wikipedia-derived later-stage Sinn Fein transfer data');
   const dail2024CorkNorthCentral = (dail2024Bundle.results || []).find((result) => String(result.constituency || '').toLowerCase() === 'cork north central');
   const corkNorthCentralRows = dail2024CorkNorthCentral?.countGroup || [];
   assert(dail2024CorkNorthCentral?.hasCountDetail === true, '/test2 Dail 2024 Cork North-Central result must expose count stages and the Transfers tab scaffold');
-  assert(corkNorthCentralRows.length > 0 && corkNorthCentralRows.some((row) => row.Wikipedia_Count_Row === '1' && Number(row.Count_Number) > 1 && Number(row.Transfers || 0) !== 0), '/test2 Dail 2024 Cork North-Central must use Wikipedia-derived later-stage transfer rows');
+  assert(corkNorthCentralRows.length > 0 && corkNorthCentralRows.some((row) => row['Wikipedia_Count_Row'] === '1' && Number(row['Count_Number']) > 1 && Number(row['Transfers'] || 0) !== 0), '/test2 Dail 2024 Cork North-Central must use Wikipedia-derived later-stage transfer rows');
   /**
    * @param {string} name
    * @param {string} party
@@ -923,10 +923,10 @@ if (existsSync(ELECTION_MANIFEST)) {
    * @param {string} colour
    */
   const assertCorkCandidate = (name, party, votes, status, colour) => {
-    const rows = corkNorthCentralRows.filter((row) => String(row.candidateName || '') === name);
-    const firstCountRow = rows.find((row) => Number(row.Count_Number) === 1);
-    const statusRow = rows.find((row) => mainSelectedPaneStatusKind(row.Status) === status);
-    assert(firstCountRow && statusRow && String(firstCountRow.Party_Name || '') === party && Number(firstCountRow.Candidate_First_Pref_Votes) === votes && String(firstCountRow.Party_Colour || '').toLowerCase() === colour.toLowerCase(), `/test2 Dail 2024 Cork North-Central ${name} must match Wikipedia constituency first preferences/status/colour`);
+    const rows = corkNorthCentralRows.filter((row) => String(row['candidateName'] || '') === name);
+    const firstCountRow = rows.find((row) => Number(row['Count_Number']) === 1);
+    const statusRow = rows.find((row) => mainSelectedPaneStatusKind(row['Status']) === status);
+    assert(firstCountRow && statusRow && String(firstCountRow['Party_Name'] || '') === party && Number(firstCountRow['Candidate_First_Pref_Votes']) === votes && String(firstCountRow['Party_Colour'] || '').toLowerCase() === colour.toLowerCase(), `/test2 Dail 2024 Cork North-Central ${name} must match Wikipedia constituency first preferences/status/colour`);
   };
   assertCorkCandidate("P\u00e1draig O'Sullivan", 'Fianna F\u00e1il', 7708, 'elected', '#66bb66');
   assertCorkCandidate('Thomas Gould', 'Sinn F\u00e9in', 7399, 'elected', '#326760');
@@ -941,27 +941,27 @@ if (existsSync(ELECTION_MANIFEST)) {
   const dail2024ZeroWikipediaTransferResults = [];
   for (const result of dail2024Bundle.results || []) {
     const rows = Array.isArray(result.countGroup) ? result.countGroup : [];
-    const wikipediaRows = rows.filter((row) => String(row.Wikipedia_Count_Row || '') === '1');
+    const wikipediaRows = rows.filter((row) => String(row['Wikipedia_Count_Row'] || '') === '1');
     if (!wikipediaRows.length) {
       dail2024MissingWikipediaRows.push(result.constituency || 'Unknown');
-    } else if (!wikipediaRows.some((row) => Number(row.Transfers || 0) !== 0)) {
+    } else if (!wikipediaRows.some((row) => Number(row['Transfers'] || 0) !== 0)) {
       dail2024ZeroWikipediaTransferResults.push(result.constituency || 'Unknown');
     }
-    const syntheticRows = rows.filter((row) => String(row.Synthetic_Scraper_Row || '') === '1');
-    const validPoll = Number(result.countInfo?.Valid_Poll || result.validPoll || 0);
+    const syntheticRows = rows.filter((row) => String(row['Synthetic_Scraper_Row'] || '') === '1');
+    const validPoll = Number(result.countInfo?.['Valid_Poll'] || result.validPoll || 0);
     if (!validPoll) {
       dail2024BlankValidPollResults.push(result.constituency || 'Unknown');
     }
     for (const row of syntheticRows) {
-      if (Number(row.Transfers || 0) !== 0) {
-        dail2024FakeTransferRows.push(`${result.constituency || 'Unknown'}:${row.candidateName || row.Candidate || 'Unknown'}`);
+      if (Number(row['Transfers'] || 0) !== 0) {
+        dail2024FakeTransferRows.push(`${result.constituency || 'Unknown'}:${row['candidateName'] || row['Candidate'] || 'Unknown'}`);
       }
     }
     for (const row of rows) {
-      const firstPrefs = Number(row.Candidate_First_Pref_Votes || row.Total_Votes || 0);
+      const firstPrefs = Number(row['Candidate_First_Pref_Votes'] || row['Total_Votes'] || 0);
       const firstPrefPct = validPoll > 0 ? firstPrefs / validPoll * 100 : 0;
       if (firstPrefs > 0 && firstPrefPct <= 0) {
-        dail2024ZeroPercentRows.push(`${result.constituency || 'Unknown'}:${row.candidateName || row.Candidate || 'Unknown'}`);
+        dail2024ZeroPercentRows.push(`${result.constituency || 'Unknown'}:${row['candidateName'] || row['Candidate'] || 'Unknown'}`);
       }
     }
     const countNumbers = Array.isArray(result.countNumbers) ? result.countNumbers : [];
@@ -1135,7 +1135,7 @@ function assertNiElectionSeatCoverage() {
     const bundle = JSON.parse(readFileSync(path.join(ELECTION_BUNDLE_DIR, `${filename}`), 'utf8'));
     for (const result of bundle.results || []) {
       const year = Number(bundle.year || String(bundle.date || '').slice(0, 4));
-      const seatTotal = Number(result.seatsTotal || result.countInfo?.Number_Of_Seats || 0);
+      const seatTotal = Number(result.seatsTotal || result.countInfo?.['Number_Of_Seats'] || 0);
       let expected = seatTotal;
       if (bundle.body === 'Northern Ireland Assembly' && year >= 2017 && !bundle.isByElection) expected = 5;
       if (bundle.body === 'Northern Ireland Assembly' && year >= 1998 && year <= 2016 && !bundle.isByElection) expected = 6;
@@ -1206,7 +1206,7 @@ function assertStvTerminalTransferCoverage() {
     for (const result of bundle.results || []) {
       const votingSystem = String(result.votingSystem || bundle.votingSystem || '').toLowerCase();
       if (!votingSystem.startsWith('stv-')) continue;
-      const quota = finiteValidationNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota);
+      const quota = finiteValidationNumber(result.quota ?? result.Quota ?? result.countInfo?.['Quota']);
       for (const candidate of result.candidates || []) {
         const rows = (candidate.counts || [])
           .map((row) => ({ ...row, count: Number(row.count) }))
@@ -1248,7 +1248,7 @@ function assertStvSyntheticTerminalTransferCoverage() {
       if (!votingSystem.startsWith('stv-')) continue;
       const countNumbers = [...new Set((result.countNumbers || []).map(Number).filter(Number.isFinite))].sort((a, b) => a - b);
       if (countNumbers.length < 2) continue;
-      const quota = finiteValidationNumber(result.quota ?? result.Quota ?? result.countInfo?.Quota);
+      const quota = finiteValidationNumber(result.quota ?? result.Quota ?? result.countInfo?.['Quota']);
       for (const candidate of result.candidates || []) {
         const counts = new Map((candidate.counts || []).map((row) => [Number(row.count), row]));
         const excludedAt = Number(candidate.excludedAt || 0);

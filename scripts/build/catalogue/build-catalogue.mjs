@@ -517,7 +517,7 @@ for (const s of source.series) {
   if (provs.length) entry.provider = provs;
   if (derivedFrom.length) entry.derivedFrom = derivedFrom;
   if (!recs.length) entry.status = { placeholder: todoRecs.length };
-  else if (statusCounts.ready !== recs.length) entry.status = statusCounts;
+  else if (statusCounts['ready'] !== recs.length) entry.status = statusCounts;
   if (s.aliases?.length) entry.aliases = s.aliases;
   const alt = altNames(entry, { irishNames: ALT.irishNames, mapIrish: (id) => ALT.overlay[id]?.ga, oldIds: ALT.oldIds.get(s.id) || [], subjectIds: ALT.subjectIds });
   if (alt.length) entry.alt = alt;
@@ -702,7 +702,7 @@ function personCards() {
   if (existsSync(RECORDS_DB)) {
     const db = openSqliteHandle(RECORDS_DB, { readOnly: true });
     try {
-      return db.prepare('SELECT card FROM person_cards ORDER BY ord').all().map((r) => JSON.parse(/** @type {string} */ (r.card))); // the card column holds JSON text
+      return db.prepare('SELECT card FROM person_cards ORDER BY ord').all().map((r) => JSON.parse(/** @type {string} */ (r['card']))); // the card column holds JSON text
     } finally {
       db.close();
     }

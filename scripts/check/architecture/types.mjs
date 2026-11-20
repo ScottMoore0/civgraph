@@ -44,7 +44,7 @@ export const C11 = {
   title: 'no new explicit any, @ts-ignore or @ts-nocheck (a per-file ratchet)',
   /** @param {Context} ctx @returns {Finding[]} */
   run(ctx) {
-    const cfg = /** @type {{ include: string[], exclude?: string[] }} */ (ctx.config.C11);
+    const cfg = /** @type {{ include: string[], exclude?: string[] }} */ (ctx.config['C11']);
     /** @type {Finding[]} */
     const out = [];
     for (const file of ctx.select(cfg)) {

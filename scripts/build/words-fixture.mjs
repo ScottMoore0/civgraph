@@ -20,7 +20,7 @@ import { gunzipSync, gzipSync } from 'node:zlib';
 
 const args = process.argv.slice(2);
 const opt = (/** @type {string} */ name, /** @type {string | undefined} */ d) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : d; };
-const SRC = opt('--static', process.env.WORDS_STATIC_DIR);
+const SRC = opt('--static', process.env['WORDS_STATIC_DIR']);
 const FROM = Number(opt('--from', '1960'));
 const OUT = path.join('tests', 'browser', 'fixtures', 'words');
 const TERMS = { en: ['housing', 'partition', 'border', 'home rule'], ga: ['gaeilge'] };

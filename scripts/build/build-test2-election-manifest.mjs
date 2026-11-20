@@ -333,16 +333,16 @@ function applyNiLocalValidPollCorrection(electionKey, constituency, rawResult) {
   const info = rawResult?.Constituency?.countInfo;
   if (!info) return rawResult;
   const record = niLocalValidPollIndex.get(`${electionKey}::${normalizeName(constituency)}`)
-    || (info.Constituency_Name
-      ? niLocalValidPollIndex.get(`${electionKey}::${normalizeName(info.Constituency_Name)}`)
+    || (info['Constituency_Name']
+      ? niLocalValidPollIndex.get(`${electionKey}::${normalizeName(info['Constituency_Name'])}`)
       : null);
   if (!record) return rawResult;
-  info.Valid_Poll = String(record.validPoll);
-  if (record.spoilt != null) info.Spoiled = String(record.spoilt);
-  if (record.electorate != null && !parseNumber(info.Total_Electorate)) info.Total_Electorate = String(record.electorate);
-  const spoiled = parseNumber(info.Spoiled) || 0;
-  const totalPoll = parseNumber(info.Total_Poll);
-  if (totalPoll === null || totalPoll < record.validPoll) info.Total_Poll = String(record.validPoll + spoiled);
+  info['Valid_Poll'] = String(record.validPoll);
+  if (record.spoilt != null) info['Spoiled'] = String(record.spoilt);
+  if (record.electorate != null && !parseNumber(info['Total_Electorate'])) info['Total_Electorate'] = String(record.electorate);
+  const spoiled = parseNumber(info['Spoiled']) || 0;
+  const totalPoll = parseNumber(info['Total_Poll']);
+  if (totalPoll === null || totalPoll < record.validPoll) info['Total_Poll'] = String(record.validPoll + spoiled);
   return rawResult;
 }
 
@@ -355,7 +355,7 @@ const WALKER_CORRECTIONS_DIR = path.join(ROOT, 'data', 'elections', 'corrections
 // The correction record statuses (statuses registry, RG-05): the value that marks a record applied,
 // and the others a review may give (records with those are not used).
 const CORRECTIONS = /** @type {import('@civgraph/types').StatusesRegistry & { machines: { correction: import('@civgraph/types').StatusesRegistry['machines'][string] } }} */ (loadRegistry('statuses'));
-const CORRECTION_APPLIED = CORRECTIONS.machines.correction.appliedValue;
+const CORRECTION_APPLIED = CORRECTIONS.machines.correction['appliedValue'];
 const CORRECTION_STATES = new Set(statesOf(CORRECTIONS, 'correction'));
 /**
  * What each Walker (and Wikipedia, Elliott, Gallagher) overlay field holds.
@@ -492,12 +492,12 @@ function applyWalkerCorrections(resultPath, rawResult) {
   const meta = !info && rawResult.meta ? rawResult.meta : null;
   if (record.electorate) {
     const { value, onlyIfEmpty } = record.electorate;
-    const held = parseNumber(info?.Total_Electorate) || parseNumber(meta?.Total_Electorate ?? meta?.electorate);
+    const held = parseNumber(info?.['Total_Electorate']) || parseNumber(meta?.['Total_Electorate'] ?? meta?.['electorate']);
     if (!held && record.electorateSource && !rawResult.electorateSource) rawResult.electorateSource = record.electorateSource.value;
-    if (info && !(onlyIfEmpty && parseNumber(info.Total_Electorate))) info.Total_Electorate = String(value);
-    if (meta && !(onlyIfEmpty && parseNumber(meta.Total_Electorate ?? meta.electorate))) {
-      meta.electorate = value;
-      if ('Total_Electorate' in meta) meta.Total_Electorate = value;
+    if (info && !(onlyIfEmpty && parseNumber(info['Total_Electorate']))) info['Total_Electorate'] = String(value);
+    if (meta && !(onlyIfEmpty && parseNumber(meta['Total_Electorate'] ?? meta['electorate']))) {
+      meta['electorate'] = value;
+      if ('Total_Electorate' in meta) meta['Total_Electorate'] = value;
     }
   }
   if (record.cause && !(typeof rawResult.cause === 'string' && rawResult.cause.trim())) rawResult.cause = record.cause.value;
@@ -505,34 +505,34 @@ function applyWalkerCorrections(resultPath, rawResult) {
   for (const { candidate, party } of record.party?.value || []) {
     const rows = (rawResult.Constituency?.countGroup || []).filter((row) => fixCandidateName(row) === normalizeName(candidate));
     if (!rows.length) throw new Error(`walker-party-corrections: ${slash(path.relative(ROOT, resultPath))} has no candidate "${candidate}"`);
-    for (const row of rows) row.Party_Name = party;
+    for (const row of rows) row['Party_Name'] = party;
   }
   for (const { candidate, votes } of record.votes?.value || []) {
     const rows = (rawResult.Constituency?.countGroup || []).filter((row) => fixCandidateName(row) === normalizeName(candidate));
     if (!rows.length) throw new Error(`walker-1832-1880-figure-corrections: ${slash(path.relative(ROOT, resultPath))} has no candidate "${candidate}"`);
     for (const row of rows) {
-      row.Total_Votes = String(votes);
-      if ('Candidate_First_Pref_Votes' in row) row.Candidate_First_Pref_Votes = String(votes);
+      row['Total_Votes'] = String(votes);
+      if ('Candidate_First_Pref_Votes' in row) row['Candidate_First_Pref_Votes'] = String(votes);
     }
   }
   if (record.pollDateKind && rawResult.pollDate && !rawResult.pollDateKind) rawResult.pollDateKind = record.pollDateKind.value;
   if (record.seats && info) {
     // walker-seat-corrections.json gives each seat count as a number.
     const seats = /** @type {number} */ (record.seats.value);
-    info.Number_Of_Seats = String(seats);
+    info['Number_Of_Seats'] = String(seats);
     // The second member was imported as defeated. Top the poll by votes; an unopposed double
     // return carries no votes, and then every candidate returned was elected.
     // info is this Constituency's countInfo, so the Constituency is there.
     const rows = /** @type {SourceConstituency} */ (rawResult.Constituency).countGroup || [];
-    const isElected = (/** @type {SourceRow} */ row) => /^elected$/i.test(String(row.Status || '').trim());
+    const isElected = (/** @type {SourceRow} */ row) => /^elected$/i.test(String(row['Status'] || '').trim());
     if (rows.filter(isElected).length < seats) {
       // A row with no figure (null) compares as no votes.
-      const polled = rows.filter((row) => /** @type {number} */ (parseNumber(row.Total_Votes)) > 0);
+      const polled = rows.filter((row) => /** @type {number} */ (parseNumber(row['Total_Votes'])) > 0);
       // Every polled row has a figure.
       const winners = polled.length
-        ? [...polled].sort((a, b) => /** @type {number} */ (parseNumber(b.Total_Votes)) - /** @type {number} */ (parseNumber(a.Total_Votes))).slice(0, seats)
+        ? [...polled].sort((a, b) => /** @type {number} */ (parseNumber(b['Total_Votes'])) - /** @type {number} */ (parseNumber(a['Total_Votes']))).slice(0, seats)
         : (rows.length <= seats ? rows : []);
-      for (const row of winners) row.Status = 'Elected';
+      for (const row of winners) row['Status'] = 'Elected';
     }
   }
   return rawResult;
@@ -587,7 +587,7 @@ const sourceCheckedFixIndex = new Map(
 
 /** @param {SourceRow | null | undefined} row */
 function fixCandidateName(row) {
-  return normalizeName(row?.candidateName || row?.name || `${row?.Firstname || ''} ${row?.Surname || ''}`);
+  return normalizeName(row?.['candidateName'] || row?.['name'] || `${row?.['Firstname'] || ''} ${row?.['Surname'] || ''}`);
 }
 
 // `lenient` is for the copy the national totals are built from when a Wikipedia count sidecar
@@ -688,13 +688,13 @@ function applySourceCheckedFixes(resultPath, rawResult, { lenient = false } = {}
       if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no candidate "${op.name}"`);
       for (const row of matched) Object.assign(row, op.set);
     } else if (op.op === 'candidateCount') {
-      const matched = rows().filter((row) => fixCandidateName(row) === normalizeName(op.name) && String(row.Count_Number) === String(op.count));
+      const matched = rows().filter((row) => fixCandidateName(row) === normalizeName(op.name) && String(row['Count_Number']) === String(op.count));
       if (!matched.length && lenient) continue;
       if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no count ${op.count} row for "${op.name}"`);
       for (const row of matched) Object.assign(row, op.set);
     } else if (op.op === 'candidateById') {
       // Rows the source left without a usable name ("Party") are told apart by their id.
-      const matched = rows().filter((row) => String(row.Candidate_Id ?? row.candidateId ?? '') === String(op.candidateId));
+      const matched = rows().filter((row) => String(row['Candidate_Id'] ?? row['candidateId'] ?? '') === String(op.candidateId));
       if (!matched.length && lenient) continue;
       if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no candidate id "${op.candidateId}"`);
       for (const row of matched) Object.assign(row, op.set);
@@ -762,11 +762,11 @@ function applyBallotDescriptions(resultPath, rawResult) {
     .map(([name, text]) => [normalizeName(name), text]));
   for (const row of rawResult.Constituency?.countGroup || []) {
     const text = byName.get(fixCandidateName(row));
-    if (text) row.Ballot_Description = text;
+    if (text) row['Ballot_Description'] = text;
   }
   for (const candidate of rawResult.candidates || []) {
     const text = byName.get(normalizeName(candidate.name || ''));
-    if (text) candidate.ballotDescription = text;
+    if (text) candidate['ballotDescription'] = text;
   }
   return rawResult;
 }
@@ -791,19 +791,19 @@ function repairShiftedUnopposedRows(rawResult) {
   const rows = rawResult?.Constituency?.countGroup;
   if (!Array.isArray(rows)) return rawResult;
   for (const row of rows) {
-    const shifted = String(row.Total_Votes || '').trim();
+    const shifted = String(row['Total_Votes'] || '').trim();
     if (!shifted || /^[\d,.\s]+$/.test(shifted) || !/[A-Za-z]{2}/.test(shifted)) continue;
-    if (String(row.Candidate_First_Pref_Votes || '').trim() !== shifted) continue;
-    const party = String(row.candidateName || `${row.Firstname || ''} ${row.Surname || ''}`).trim();
+    if (String(row['Candidate_First_Pref_Votes'] || '').trim() !== shifted) continue;
+    const party = String(row['candidateName'] || `${row['Firstname'] || ''} ${row['Surname'] || ''}`).trim();
     const member = shifted.replace(/\s*\[[^\]]*\]/g, '').trim();   // "J. J. Shee [ n 1 ]"
     const parts = member.split(/\s+/);
-    row.Party_Name = row.Party_Name || party;
-    row.candidateName = member;
-    row.Surname = parts.pop();
-    row.Firstname = parts.join(' ');
-    row.Total_Votes = '';
-    row.Candidate_First_Pref_Votes = '';
-    row.unopposed = true;
+    row['Party_Name'] = row['Party_Name'] || party;
+    row['candidateName'] = member;
+    row['Surname'] = parts.pop();
+    row['Firstname'] = parts.join(' ');
+    row['Total_Votes'] = '';
+    row['Candidate_First_Pref_Votes'] = '';
+    row['unopposed'] = true;
   }
   return rawResult;
 }
@@ -1243,7 +1243,7 @@ async function main() {
     // own map, which its results and the records tables are keyed by.
     const geographyModes = builtModes ? areaResultsFirst(builtModes) : null;
     /** @type {{ sourceMapId?: string, layerId?: string, labelProperty?: string, stylingModes?: string[] } | null} */
-    const areaMode = /** @type {{ sourceMapId?: string, layerId?: string, labelProperty?: string, stylingModes?: string[] } | undefined} */ (geographyModes?.find((mode) => mode.dataKind === 'area-results')) || null;
+    const areaMode = /** @type {{ sourceMapId?: string, layerId?: string, labelProperty?: string, stylingModes?: string[] } | undefined} */ (geographyModes?.find((mode) => mode['dataKind'] === 'area-results')) || null;
     if (geographyModes) bundle.geographyModes = geographyModes;
     const areaResults = electionBody(ELECTION_BODIES, entry.bodySlug)?.areaResults;
     const areaSubtitle = areaResultsSubtitle(geographyModes, areaResults?.units, areaResults?.unit);
@@ -2317,12 +2317,12 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       countSourceNote: enrichedRawResult?.countSourceNote,
       dateNote: enrichedRawResult?.dateNote,
       pollDateKind: rawResult.pollDateKind || enrichedRawResult?.pollDateKind,
-      Constituency: rawResult.Constituency?.countInfo?.Total_Electorate ? rawResult.Constituency : (enrichedRawResult?.Constituency || rawResult.Constituency),
+      Constituency: rawResult.Constituency?.countInfo?.['Total_Electorate'] ? rawResult.Constituency : (enrichedRawResult?.Constituency || rawResult.Constituency),
     } : rawResult);
-    if (notes.length) result.contestNotes = notes;
+    if (notes.length) result['contestNotes'] = notes;
     // A contest file whose source printed only the members elected says so (losersNotPrinted: true);
     // the Elections app notes it on that contest (site/apps/elections/lib/limits.js).
-    if (rawResult?.losersNotPrinted === true) result.losersNotPrinted = true;
+    if (rawResult?.['losersNotPrinted'] === true) result['losersNotPrinted'] = true;
     applyLifespanEvidence(entry, result);
     attachOfficialPersonIds(key, result, constituency);
     const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
@@ -2428,7 +2428,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
 
   // An election in which every return was unopposed (a president elected unopposed, or an
   // unopposed by-election) is itself uncontested.
-  if (results.length && results.every((result) => result.contestStatus === 'uncontested')) {
+  if (results.length && results.every((result) => result['contestStatus'] === 'uncontested')) {
     electionMetadata.contestStatus = 'uncontested';
     electionMetadata.candidateRowsExpected = false;
   }
@@ -2892,11 +2892,11 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
       for await (const feature of lonLatFeatures(sourceFile)) {
         const props = feature.properties || {};
         // A layer with no labelProperty looks up 'undefined', which no feature has.
-        const name = fixText(props[/** @type {string} */ (layer.labelProperty)] || props.NAME || props.Name || props.name || props.label_name || '').normalize('NFC');
+        const name = fixText(props[/** @type {string} */ (layer.labelProperty)] || props['NAME'] || props['Name'] || props['name'] || props['label_name'] || '').normalize('NFC');
         const anchor = geometryAnchor(feature.geometry);
         if (!anchor) continue;
         items.push({
-          id: props[layer.promoteId || 'id'] ?? props.id ?? props.OBJECTID ?? null,
+          id: props[layer.promoteId || 'id'] ?? props['id'] ?? props['OBJECTID'] ?? null,
           name,
           aliases: name ? [name] : [],
           anchor,
@@ -3572,9 +3572,9 @@ function contestNotes(raw) {
     [raw.dateNote?.label || 'Date', raw.dateNote ? `${day(raw.dateNote.date)} (Walker, p. ${raw.dateNote.page})` : null],
     ['Note', raw.note && raw.note !== 'Returned unopposed.' ? raw.note : null],
     ['Electorate', raw.electorateNote
-      || (raw.electorateSource && Number(raw.Constituency?.countInfo?.Total_Electorate)
+      || (raw.electorateSource && Number(raw.Constituency?.countInfo?.['Total_Electorate'])
         // The test above read a number from this countInfo.
-        ? `${Number(/** @type {{ countInfo: SourceRow }} */ (raw.Constituency).countInfo.Total_Electorate).toLocaleString('en-GB')}: ${raw.electorateSource.replace(/,\s*(\d{4})/, ' in $1')}`
+        ? `${Number(/** @type {{ countInfo: SourceRow }} */ (raw.Constituency).countInfo['Total_Electorate']).toLocaleString('en-GB')}: ${raw.electorateSource.replace(/,\s*(\d{4})/, ' in $1')}`
         : null)],
     ['Right of election', raw.franchise],
     // What the contest's area was, where the map draws it from another layer (Belfast 1920).
@@ -3715,8 +3715,8 @@ function officialDailRecordFor(entry, rawResult, fallbackConstituency = '') {
   const candidates = [
     fallbackConstituency,
     rawResult?.constituency,
-    rawResult?.Constituency?.countInfo?.Constituency_Name,
-    rawResult?.meta?.Constituency_Name
+    rawResult?.Constituency?.countInfo?.['Constituency_Name'],
+    rawResult?.meta?.['Constituency_Name']
   ].filter(Boolean);
   const datedAliases = OFFICIAL_DAIL_NAME_ALIASES.get(entry.date) || new Map();
   for (const name of candidates) {
@@ -3761,26 +3761,26 @@ function enrichDailResultWithOfficialData(entry, rawResult, fallbackConstituency
   });
   const meta = compactObject({
     ...(rawResult.meta || {}),
-    Constituency_Number: official.constituencyNumber || rawResult.meta?.Constituency_Number,
-    Total_Electorate: official.electorate ?? rawResult.meta?.Total_Electorate,
-    Total_Poll: official.totalPoll ?? rawResult.meta?.Total_Poll,
-    Spoiled: official.spoiled ?? rawResult.meta?.Spoiled,
-    Valid_Poll: official.validPoll ?? rawResult.meta?.Valid_Poll,
-    Turnout_Pct: official.turnoutPct ?? rawResult.meta?.Turnout_Pct,
-    Number_Of_Seats: official.seats ?? rawResult.meta?.Number_Of_Seats,
-    Quota: official.quota ?? rawResult.meta?.Quota
+    Constituency_Number: official.constituencyNumber || rawResult.meta?.['Constituency_Number'],
+    Total_Electorate: official.electorate ?? rawResult.meta?.['Total_Electorate'],
+    Total_Poll: official.totalPoll ?? rawResult.meta?.['Total_Poll'],
+    Spoiled: official.spoiled ?? rawResult.meta?.['Spoiled'],
+    Valid_Poll: official.validPoll ?? rawResult.meta?.['Valid_Poll'],
+    Turnout_Pct: official.turnoutPct ?? rawResult.meta?.['Turnout_Pct'],
+    Number_Of_Seats: official.seats ?? rawResult.meta?.['Number_Of_Seats'],
+    Quota: official.quota ?? rawResult.meta?.['Quota']
   });
   return {
     ...rawResult,
     meta,
     officialDail,
-    constituencyId: official.constituencyId || rawResult.constituencyId || null,
-    constituencyNumber: official.constituencyNumber || rawResult.constituencyNumber || null,
-    electorate: official.electorate ?? rawResult.electorate ?? null,
-    totalPoll: official.totalPoll ?? rawResult.totalPoll ?? null,
-    spoiled: official.spoiled ?? rawResult.spoiled ?? null,
-    validPoll: official.validPoll ?? rawResult.validPoll ?? null,
-    turnoutPct: official.turnoutPct ?? rawResult.turnoutPct ?? null,
+    constituencyId: official.constituencyId || rawResult['constituencyId'] || null,
+    constituencyNumber: official.constituencyNumber || rawResult['constituencyNumber'] || null,
+    electorate: official.electorate ?? rawResult['electorate'] ?? null,
+    totalPoll: official.totalPoll ?? rawResult['totalPoll'] ?? null,
+    spoiled: official.spoiled ?? rawResult['spoiled'] ?? null,
+    validPoll: official.validPoll ?? rawResult['validPoll'] ?? null,
+    turnoutPct: official.turnoutPct ?? rawResult['turnoutPct'] ?? null,
     candidates: mergeOfficialDailCandidates(rawResult.candidates || [], official, entry.date)
   };
 }
@@ -3828,10 +3828,10 @@ function mergeOfficialDailCandidates(candidates, official, entryDate = null) {
     return /** @type {ScraperCandidate} */ (compactObject({
       ...candidate,
       gender: candidate.gender || officialCandidate.gender,
-      dailAbbreviation: candidate.dailAbbreviation || officialCandidate.dailAbbreviation,
-      partyAbbreviation: candidate.partyAbbreviation || officialCandidate.dailAbbreviation,
-      officialCandidateId: candidate.officialCandidateId || officialCandidate.candidateId,
-      officialStatus: candidate.officialStatus || officialCandidate.officialStatus,
+      dailAbbreviation: candidate['dailAbbreviation'] || officialCandidate.dailAbbreviation,
+      partyAbbreviation: candidate['partyAbbreviation'] || officialCandidate.dailAbbreviation,
+      officialCandidateId: candidate['officialCandidateId'] || officialCandidate.candidateId,
+      officialStatus: candidate['officialStatus'] || officialCandidate.officialStatus,
       party: candidate.party || officialCandidate.party
     }));
   });
@@ -3920,7 +3920,7 @@ function attachOfficialPersonIds(electionKeyValue, result, fallbackConstituency 
     const own = named.length > 1 || namesakes > 1 ? named.filter((l) => l.candidateId === String(candidate.id)) : named;
     const ids = [...new Set((own.length || namesakes > 1 ? own : links.filter((l) => l.candidateId === String(candidate.id) && normalizeName(l.name) === normalizeName(candidate.name)))
       .map((l) => `${l.system}:${l.id}`))].sort();
-    if (ids.length) candidate.officialPersonIds = ids;
+    if (ids.length) candidate['officialPersonIds'] = ids;
   }
   return result;
 }
@@ -4033,7 +4033,7 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
   /** @type {Map<number, string>} */
   const compatibleRosterIds = new Map();
   {
-    const claimed = new Set((rawResult?.candidates || []).map((c) => c?.ei_candidate_id).filter(Boolean));
+    const claimed = new Set((rawResult?.candidates || []).map((c) => c?.['ei_candidate_id']).filter(Boolean));
     /** @type {Array<{ index: number, name: string }>} */
     const unresolved = [];
     (sidecar?.candidates || []).forEach((candidate, index) => {
@@ -4075,30 +4075,30 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
       rows.push({
         Candidate_Id: String(candidate.id || index + 1),
         Candidate_First_Pref_Votes: String(firstPref),
-        Constituency_Number: String(rawResult?.officialDail?.constituencyNumber || rawResult?.constituencyNumber || ''),
+        Constituency_Number: String(rawResult?.officialDail?.constituencyNumber || rawResult?.['constituencyNumber'] || ''),
         Count_Number: String(countNumber),
-        Dail_Abbreviation: localCandidate?.dailAbbreviation || localCandidate?.partyAbbreviation || '',
+        Dail_Abbreviation: localCandidate?.['dailAbbreviation'] || localCandidate?.['partyAbbreviation'] || '',
         Firstname: nameParts.firstname,
         Gender: localCandidate?.gender || '',
         // Carried over from the matched local candidate, like Gender and the official
         // id above. These rows are rebuilt from the Wikipedia count sidecar, which knows
         // the votes but not who the person is; dropping this here is what left every
         // Dail election from 1923 on unable to tell two same-named candidates apart.
-        ei_candidate_id: localCandidate?.ei_candidate_id ?? localCandidate?.eiCandidateId
+        ei_candidate_id: localCandidate?.ei_candidate_id ?? localCandidate?.['eiCandidateId']
           ?? eiRoster.get(normalizeName(name)) ?? compatibleRosterIds.get(index) ?? '',
         ...(carrySourcePersonId && localCandidate?.sourcePersonId ? { source_person_id: localCandidate.sourcePersonId } : {}),
-        Official_Candidate_Id: localCandidate?.officialCandidateId || '',
-        Official_Status: localCandidate?.officialStatus || '',
-        Party_Abbreviation: localCandidate?.partyAbbreviation || localCandidate?.dailAbbreviation || '',
+        Official_Candidate_Id: localCandidate?.['officialCandidateId'] || '',
+        Official_Status: localCandidate?.['officialStatus'] || '',
+        Party_Abbreviation: localCandidate?.['partyAbbreviation'] || localCandidate?.['dailAbbreviation'] || '',
         Surname: nameParts.surname,
         Occurred_On_Count: String(occurrenceCount),
         Party_Colour: partyColour(party),
         Party_Name: party,
         // The label as printed, and an inferred label's flag and evidence, set on the imported
         // candidate by a source-checked fix: the count rows replace that candidate, so carry them.
-        ...(localCandidate?.Party_As_Printed ? { Party_As_Printed: localCandidate.Party_As_Printed } : {}),
-        ...(localCandidate?.partyInferred || localCandidate?.Party_Inferred ? { Party_Inferred: true } : {}),
-        ...(localCandidate?.partyBasis || localCandidate?.Party_Basis ? { Party_Basis: localCandidate.partyBasis || localCandidate.Party_Basis } : {}),
+        ...(localCandidate?.['Party_As_Printed'] ? { Party_As_Printed: localCandidate['Party_As_Printed'] } : {}),
+        ...(localCandidate?.['partyInferred'] || localCandidate?.['Party_Inferred'] ? { Party_Inferred: true } : {}),
+        ...(localCandidate?.['partyBasis'] || localCandidate?.['Party_Basis'] ? { Party_Basis: localCandidate['partyBasis'] || localCandidate['Party_Basis'] } : {}),
         Status: dailWikipediaCountStatus(candidate, localCandidate, countNumber, numCounts),
         Total_Votes: String(total),
         Transfers: String(transfers),
@@ -4117,31 +4117,31 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
   // held went to whoever the count left nearest (Fiona O'Loughlin, "deemed elected" for
   // Kildare South in 2024 in Sean O Fearghail's place). He is kept, as the scraper path
   // keeps him: elected on the first count with no votes, under the party he sat for.
-  const counted = new Set(countGroup.map((row) => normalizeName(row.candidateName)));
+  const counted = new Set(countGroup.map((row) => normalizeName(row['candidateName'])));
   const autoReturned = (rawResult?.candidates || []).filter((candidate) => ElectionDomain.scraperCandidateIsAutoReturned(candidate)
-    && !counted.has(normalizeName(fixText(candidate.name || '').trim())));
+    && !counted.has(normalizeName(fixText(candidate['name'] || '').trim())));
   // Numbered after the highest id the table's rows already use: those take the table's own
   // candidate ids where it has them, so a number by position could fall on one of them (1933
   // Galway: Frank Fahy's 15 was Robert Burke's, and the two became one candidate).
-  const highestId = Math.max(sidecar.candidates.length, ...countGroup.map((row) => Number(row.Candidate_Id) || 0));
+  const highestId = Math.max(sidecar.candidates.length, ...countGroup.map((row) => Number(row['Candidate_Id']) || 0));
   autoReturned.forEach((candidate, k) => {
     const position = highestId + k;
-    const name = fixText(candidate.name || '').trim();
+    const name = fixText(candidate['name'] || '').trim();
     const nameParts = candidateNameParts(name);
     const party = normalizeParty(ElectionDomain.scraperCandidateAffiliatedParty(candidate));
     countGroup.push({
       Auto_Returned_Ceann_Comhairle: '1',
       Candidate_Id: String(position + 1),
       Candidate_First_Pref_Votes: '0',
-      Constituency_Number: String(rawResult?.officialDail?.constituencyNumber || rawResult?.constituencyNumber || ''),
+      Constituency_Number: String(rawResult?.officialDail?.constituencyNumber || rawResult?.['constituencyNumber'] || ''),
       Count_Number: '1',
-      Dail_Abbreviation: candidate.dailAbbreviation || candidate.partyAbbreviation || '',
+      Dail_Abbreviation: candidate['dailAbbreviation'] || candidate['partyAbbreviation'] || '',
       Firstname: nameParts.firstname,
-      Gender: candidate.gender || '',
-      ei_candidate_id: candidate.ei_candidate_id ?? candidate.eiCandidateId ?? eiRoster.get(normalizeName(name)) ?? '',
-      Official_Candidate_Id: candidate.officialCandidateId || '',
-      Official_Status: candidate.officialStatus || '',
-      Party_Abbreviation: candidate.partyAbbreviation || candidate.dailAbbreviation || '',
+      Gender: candidate['gender'] || '',
+      ei_candidate_id: candidate['ei_candidate_id'] ?? candidate['eiCandidateId'] ?? eiRoster.get(normalizeName(name)) ?? '',
+      Official_Candidate_Id: candidate['officialCandidateId'] || '',
+      Official_Status: candidate['officialStatus'] || '',
+      Party_Abbreviation: candidate['partyAbbreviation'] || candidate['dailAbbreviation'] || '',
       Surname: nameParts.surname,
       Occurred_On_Count: '1',
       Party_Colour: partyColour(party),
@@ -4167,14 +4167,14 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
     }
     return null;
   };
-  const validPoll = parseNumber(meta.Valid_Poll ?? meta.valid_poll ?? meta.validPoll)
+  const validPoll = parseNumber(meta['Valid_Poll'] ?? meta['valid_poll'] ?? meta['validPoll'])
     || countGroup
-      .filter((row) => Number(row.Count_Number) === 1)
-      .reduce((sum, row) => sum + numberOrZero(row.Total_Votes), 0);
-  const sourceTurnoutPct = parseMetaNumber(meta.Turnout_Pct, meta.turnoutPct, meta.turnout_pct, meta.turnout);
-  const totalPoll = parseMetaNumber(meta.Total_Poll, meta.total_poll, meta.totalPoll, meta.poll, meta.total_votes);
-  const spoiled = parseMetaNumber(meta.Spoiled, meta.spoiled, meta.Spoilt, meta.spoilt, meta.invalid_votes);
-  const electorate = parseMetaNumber(meta.Total_Electorate, meta.total_electorate, meta.electorate, meta.electorate_total);
+      .filter((row) => Number(row['Count_Number']) === 1)
+      .reduce((sum, row) => sum + numberOrZero(row['Total_Votes']), 0);
+  const sourceTurnoutPct = parseMetaNumber(meta['Turnout_Pct'], meta['turnoutPct'], meta['turnout_pct'], meta['turnout']);
+  const totalPoll = parseMetaNumber(meta['Total_Poll'], meta['total_poll'], meta['totalPoll'], meta['poll'], meta['total_votes']);
+  const spoiled = parseMetaNumber(meta['Spoiled'], meta['spoiled'], meta['Spoilt'], meta['spoilt'], meta['invalid_votes']);
+  const electorate = parseMetaNumber(meta['Total_Electorate'], meta['total_electorate'], meta['electorate'], meta['electorate_total']);
   // A total poll inferred from the turnout must hold the valid poll: Gallagher's by-election
   // turnouts are of the valid vote, and electorate x a rounded turnout can fall a vote or two short.
   const turnoutPoll = electorate !== null && sourceTurnoutPct !== null ? Math.round(electorate * sourceTurnoutPct / 100) : null;
@@ -4188,21 +4188,21 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
     ? sourceTurnoutPct
     : (inferredTotalPoll !== null && electorate !== null && electorate > 0 ? inferredTotalPoll / electorate * 100 : null);
   const electedCount = sidecar.candidates.filter((candidate) => Number(candidate.electedAt || 0) > 0).length + autoReturned.length;
-  const seatCount = parseNumber(rawResult?.seats ?? meta.Number_Of_Seats ?? meta.seats) || electedCount;
+  const seatCount = parseNumber(rawResult?.['seats'] ?? meta['Number_Of_Seats'] ?? meta['seats']) || electedCount;
   return {
     ...rawResult,
-    validPoll: validPoll || rawResult?.validPoll || null,
-    totalPoll: inferredTotalPoll ?? rawResult?.totalPoll ?? null,
-    spoiled: inferredSpoiled ?? rawResult?.spoiled ?? null,
-    electorate: electorate ?? rawResult?.electorate ?? null,
-    turnoutPct: turnoutPct ?? rawResult?.turnoutPct ?? null,
+    validPoll: validPoll || rawResult?.['validPoll'] || null,
+    totalPoll: inferredTotalPoll ?? rawResult?.['totalPoll'] ?? null,
+    spoiled: inferredSpoiled ?? rawResult?.['spoiled'] ?? null,
+    electorate: electorate ?? rawResult?.['electorate'] ?? null,
+    turnoutPct: turnoutPct ?? rawResult?.['turnoutPct'] ?? null,
     Constituency: {
       __wikipediaCountGroup: true,
       countInfo: {
         Constituency_Name: rawResult?.constituency || sidecar.constituency || fallbackConstituency || '',
-        Constituency_Number: String(rawResult?.officialDail?.constituencyNumber || rawResult?.constituencyNumber || meta.Constituency_Number || ''),
+        Constituency_Number: String(rawResult?.officialDail?.constituencyNumber || rawResult?.['constituencyNumber'] || meta['Constituency_Number'] || ''),
         Number_Of_Seats: seatCount ? String(seatCount) : '',
-        Quota: meta.Quota != null || meta.quota != null ? String(meta.Quota ?? meta.quota) : '',
+        Quota: meta['Quota'] != null || meta['quota'] != null ? String(meta['Quota'] ?? meta['quota']) : '',
         Spoiled: inferredSpoiled != null ? String(inferredSpoiled) : '',
         Total_Electorate: electorate != null ? String(electorate) : '',
         Total_Poll: inferredTotalPoll != null ? String(inferredTotalPoll) : '',
@@ -4212,8 +4212,8 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
       countGroup
     },
     officialDail: rawResult?.officialDail || null,
-    constituencyId: rawResult?.constituencyId || rawResult?.officialDail?.constituencyId || null,
-    constituencyNumber: rawResult?.constituencyNumber || rawResult?.officialDail?.constituencyNumber || null,
+    constituencyId: rawResult?.['constituencyId'] || rawResult?.officialDail?.constituencyId || null,
+    constituencyNumber: rawResult?.['constituencyNumber'] || rawResult?.officialDail?.constituencyNumber || null,
     wikipediaCountSource: {
       pageTitle: sidecar.pageTitle || '',
       pageUrl: sidecar.pageUrl || '',

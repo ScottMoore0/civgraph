@@ -68,8 +68,8 @@ function validateLayer(layer) {
   /** @type {string[]} */
   const warnings = [];
   if (!layer.id) errors.push('missing id');
-  if (!layer.name) errors.push(`${layer.id || '(unknown)'}: missing name`);
-  if (layer.renderer !== 'maplibre') errors.push(`${layer.id}: renderer must be "maplibre"`);
+  if (!layer['name']) errors.push(`${layer.id || '(unknown)'}: missing name`);
+  if (layer['renderer'] !== 'maplibre') errors.push(`${layer.id}: renderer must be "maplibre"`);
   if (!SUPPORTED_SOURCE_TYPES.has(layer.sourceType)) errors.push(`${layer.id}: unsupported sourceType ${layer.sourceType}`);
   if (!NON_VECTOR_SOURCE_TYPES.has(layer.sourceType) && !layer.sourceLayer) errors.push(`${layer.id}: missing sourceLayer`);
   if (!Number.isInteger(layer.minzoom) || !Number.isInteger(layer.maxzoom) || layer.minzoom < 0 || layer.maxzoom < layer.minzoom) {
@@ -79,24 +79,24 @@ function validateLayer(layer) {
   if (!NON_VECTOR_SOURCE_TYPES.has(layer.sourceType) && layer.geometryType !== undefined && !['polygon', 'line', 'point'].includes(layer.geometryType)) {
     errors.push(`${layer.id}: geometryType must be polygon, line, or point`);
   }
-  if (layer.references !== undefined && !Array.isArray(layer.references)) {
+  if (layer['references'] !== undefined && !Array.isArray(layer['references'])) {
     errors.push(`${layer.id}: references must be an array`);
   }
-  if (layer.sourceDownloads !== undefined && !Array.isArray(layer.sourceDownloads)) {
+  if (layer['sourceDownloads'] !== undefined && !Array.isArray(layer['sourceDownloads'])) {
     errors.push(`${layer.id}: sourceDownloads must be an array`);
   }
-  if (layer.labelProperty) {
-    if (layer.labelPropertyFallbacks && !Array.isArray(layer.labelPropertyFallbacks)) {
+  if (layer['labelProperty']) {
+    if (layer['labelPropertyFallbacks'] && !Array.isArray(layer['labelPropertyFallbacks'])) {
       errors.push(`${layer.id}: labelPropertyFallbacks must be an array`);
     }
     for (const key of ['labelCanonicalProperty', 'labelRankProperty', 'labelMinZoomProperty']) {
       if (layer[key] !== undefined && typeof layer[key] !== 'string') errors.push(`${layer.id}: ${key} must be a string`);
     }
-    if (layer.labelMinZoom !== undefined && layer.labelMinZoom !== null && (!Number.isFinite(Number(layer.labelMinZoom)) || Number(layer.labelMinZoom) < 0)) {
+    if (layer['labelMinZoom'] !== undefined && layer['labelMinZoom'] !== null && (!Number.isFinite(Number(layer['labelMinZoom'])) || Number(layer['labelMinZoom']) < 0)) {
       errors.push(`${layer.id}: labelMinZoom must be a non-negative number`);
     }
-    const hasLabelMaxZoom = layer.labelMaxZoom !== undefined && layer.labelMaxZoom !== null && layer.labelMaxZoom !== '';
-    if (hasLabelMaxZoom && (!Number.isFinite(Number(layer.labelMaxZoom)) || Number(layer.labelMaxZoom) <= Number(layer.labelMinZoom ?? 0))) {
+    const hasLabelMaxZoom = layer['labelMaxZoom'] !== undefined && layer['labelMaxZoom'] !== null && layer['labelMaxZoom'] !== '';
+    if (hasLabelMaxZoom && (!Number.isFinite(Number(layer['labelMaxZoom'])) || Number(layer['labelMaxZoom']) <= Number(layer['labelMinZoom'] ?? 0))) {
       errors.push(`${layer.id}: labelMaxZoom must be greater than labelMinZoom`);
     }
     if (layer.labelStyle !== undefined) {
@@ -141,26 +141,26 @@ function validateLayer(layer) {
     }
   }
 
-  if (layer.sourceType === 'raster' && !layer.tiles && !layer.tileUrl) {
+  if (layer.sourceType === 'raster' && !layer.tiles && !layer['tileUrl']) {
     errors.push(`${layer.id}: missing raster tiles URL template`);
   }
 
   if (layer.sourceType === 'image') {
-    if (!layer.imageUrl && !layer.url) errors.push(`${layer.id}: missing imageUrl`);
+    if (!layer['imageUrl'] && !layer['url']) errors.push(`${layer.id}: missing imageUrl`);
     if (!isValidBounds(layer.bounds)) errors.push(`${layer.id}: image source requires valid bounds`);
   }
 
-  if (layer.sourceType === 'pmtiles' && !layer.tileUrl) {
+  if (layer.sourceType === 'pmtiles' && !layer['tileUrl']) {
     errors.push(`${layer.id}: missing tileUrl`);
   }
 
-  if (layer.featureIndexUrl !== undefined) {
-    if (typeof layer.featureIndexUrl !== 'string') {
+  if (layer['featureIndexUrl'] !== undefined) {
+    if (typeof layer['featureIndexUrl'] !== 'string') {
       errors.push(`${layer.id}: featureIndexUrl must be a string`);
-    } else if (!/^https?:\/\//.test(layer.featureIndexUrl)) {
-      const indexPath = resolve(ROOT, layer.featureIndexUrl.replace(/^\//, ''));
+    } else if (!/^https?:\/\//.test(layer['featureIndexUrl'])) {
+      const indexPath = resolve(ROOT, layer['featureIndexUrl'].replace(/^\//, ''));
       if (!existsSync(indexPath)) {
-        errors.push(`${layer.id}: feature index missing: ${layer.featureIndexUrl}`);
+        errors.push(`${layer.id}: feature index missing: ${layer['featureIndexUrl']}`);
       }
     }
   }
@@ -208,12 +208,12 @@ function validateMetadataContract(metadata) {
   const errors = [];
   /** @type {string[]} */
   const warnings = [];
-  if (Number(metadata.schemaVersion || 0) < 2) errors.push('metadata schemaVersion must be at least 2');
-  if (!Array.isArray(metadata.categories)) warnings.push('metadata has no categories array; catalogue grouping will be inferred');
-  if (!metadata.capabilities || typeof metadata.capabilities !== 'object') warnings.push('metadata has no capabilities object');
-  if (!metadata.readiness || typeof metadata.readiness !== 'object') warnings.push('metadata has no migration readiness object');
-  if (!Array.isArray(metadata.timeSeriesChains)) warnings.push('metadata has no timeSeriesChains array');
-  if (!Array.isArray(metadata.electionCatalogues)) warnings.push('metadata has no electionCatalogues array');
+  if (Number(metadata['schemaVersion'] || 0) < 2) errors.push('metadata schemaVersion must be at least 2');
+  if (!Array.isArray(metadata['categories'])) warnings.push('metadata has no categories array; catalogue grouping will be inferred');
+  if (!metadata['capabilities'] || typeof metadata['capabilities'] !== 'object') warnings.push('metadata has no capabilities object');
+  if (!metadata['readiness'] || typeof metadata['readiness'] !== 'object') warnings.push('metadata has no migration readiness object');
+  if (!Array.isArray(metadata['timeSeriesChains'])) warnings.push('metadata has no timeSeriesChains array');
+  if (!Array.isArray(metadata['electionCatalogues'])) warnings.push('metadata has no electionCatalogues array');
   return { errors, warnings };
 }
 
@@ -267,20 +267,20 @@ function validateAliasLayers(metadata) {
   const layers = metadata.layers || [];
   /** @type {Map<string | undefined, MetadataLayer>} */
   const byId = new Map(layers.map((layer) => [layer.id, layer]));
-  const aliases = layers.filter((layer) => layer.aliasOf || layer.cloneOf || layer.conversionStatus === 'convertedAlias');
+  const aliases = layers.filter((layer) => layer['aliasOf'] || layer['cloneOf'] || layer['conversionStatus'] === 'convertedAlias');
   for (const layer of aliases) {
-    if (layer.status !== 'converted-alias') errors.push(`${layer.id}: alias layer must have converted-alias status`);
-    if (layer.conversionStatus !== 'convertedAlias') errors.push(`${layer.id}: alias layer must have convertedAlias conversionStatus`);
-    if (!layer.aliasOf || !layer.cloneOf) errors.push(`${layer.id}: alias layer must retain aliasOf and cloneOf metadata`);
+    if (layer['status'] !== 'converted-alias') errors.push(`${layer.id}: alias layer must have converted-alias status`);
+    if (layer['conversionStatus'] !== 'convertedAlias') errors.push(`${layer.id}: alias layer must have convertedAlias conversionStatus`);
+    if (!layer['aliasOf'] || !layer['cloneOf']) errors.push(`${layer.id}: alias layer must retain aliasOf and cloneOf metadata`);
     if (!layer.aliasTargetLayerId) errors.push(`${layer.id}: alias layer missing aliasTargetLayerId`);
     const target = byId.get(layer.aliasTargetLayerId);
     if (!target) {
       errors.push(`${layer.id}: alias target layer missing: ${layer.aliasTargetLayerId}`);
       continue;
     }
-    if (target.loadable === false) errors.push(`${layer.id}: alias target layer is not loadable`);
+    if (target['loadable'] === false) errors.push(`${layer.id}: alias target layer is not loadable`);
     if (layer.sourceType !== target.sourceType) errors.push(`${layer.id}: alias sourceType differs from target ${target.id}`);
-    if (layer.tileUrl !== target.tileUrl) errors.push(`${layer.id}: alias tileUrl differs from target ${target.id}`);
+    if (layer['tileUrl'] !== target['tileUrl']) errors.push(`${layer.id}: alias tileUrl differs from target ${target.id}`);
     if (layer.tiles !== target.tiles) errors.push(`${layer.id}: alias tiles fallback differs from target ${target.id}`);
     if (layer.sourceLayer !== target.sourceLayer) errors.push(`${layer.id}: alias sourceLayer differs from target ${target.id}`);
   }

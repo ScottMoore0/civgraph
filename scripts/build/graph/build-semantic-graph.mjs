@@ -659,7 +659,7 @@ async function writeEntityAliases(sortedEntities) {
     id: entity.id,
     browseSlug: entity.browseSlug,
     // a string: the election key getContestEntity and buildPersonEntities put there
-    electionKey: /** @type {string | undefined} */ (entity.attributes?.electionKey)
+    electionKey: /** @type {string | undefined} */ (entity.attributes?.['electionKey'])
   })), { keepOf: personKeepOf(), nameKeepOf: readPersonNameRedirects() });
   await writeJson(path.join(OUTPUT_DIR, 'indexes', 'entity-aliases.json'), {
     schemaVersion: 1,
@@ -1754,7 +1754,7 @@ async function loadContestProvenance() {
   }
   for (const contest of normalizeArray(doc?.contests)) {
     // A contest's file is its path and its sources' fields are strings (election-provenance.json).
-    if (contest?.file && normalizeArray(contest.sources).length) contestSourcesByFile.set(/** @type {string} */ (contest.file), /** @type {Citation[]} */ (normalizeArray(contest.sources)));
+    if (contest?.['file'] && normalizeArray(contest.sources).length) contestSourcesByFile.set(/** @type {string} */ (contest['file']), /** @type {Citation[]} */ (normalizeArray(contest.sources)));
   }
 }
 
@@ -2171,7 +2171,7 @@ function browseReference(sourceId) {
     sourceId,
     sourceTitle: entity?.label,
     // a string: the sources this is given are addSyntheticSource's, whose attributes carry it
-    sourceKind: /** @type {string | undefined} */ (entity?.attributes?.sourceKind)
+    sourceKind: /** @type {string | undefined} */ (entity?.attributes?.['sourceKind'])
   });
 }
 
@@ -2549,7 +2549,7 @@ function buildEntitySummaryById(items, allowedEntityIds) {
       browseType: entity.browseType,
       browseSlug: entity.browseSlug,
       browseUrl: entity.browseUrl,
-      searchHints: searchHintList(entity.attributes?.searchHints, 20)
+      searchHints: searchHintList(entity.attributes?.['searchHints'], 20)
     }));
   }
   return summaries;

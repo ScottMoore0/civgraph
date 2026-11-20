@@ -242,10 +242,10 @@ function main(args) {
   const { meaningful, mode, persons } = classifyChanges(changed, { full });
 
   const wrapper = path.join(REPO_ROOT, '.claude', 'publish', 'publish.sh');
-  let votesDir = process.env.CIVGRAPH_VOTES_DIR || '';
+  let votesDir = process.env['CIVGRAPH_VOTES_DIR'] || '';
   let votesFrom = votesDir ? 'CIVGRAPH_VOTES_DIR' : '';
   if (!votesDir && existsSync(wrapper)) { votesDir = votesDirFromWrapper(readFileSync(wrapper, 'utf8')); votesFrom = votesDir ? 'the publish wrapper' : ''; }
-  const plan = planRebuild({ mode, persons, meaningful, noBrowser, votesDir, manifestArgs: process.env.MANIFEST_ARGS });
+  const plan = planRebuild({ mode, persons, meaningful, noBrowser, votesDir, manifestArgs: process.env['MANIFEST_ARGS'] });
 
   console.log(`base: ${base.commit.slice(0, 10)} (${base.from}), plus uncommitted and untracked files`);
   console.log(`changed: ${changed.length} file(s), ${meaningful.length} not build output -> ${mode}${mode === 'data' && persons ? ' (election data: person ids re-stamped with --withhold-unmappable)' : ''}`);

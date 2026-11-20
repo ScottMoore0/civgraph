@@ -41,9 +41,9 @@ export function buildVocabulary(registries) {
   for (const type of Object.keys(registries.councils?.types || {})) add(type, 'body type');
   for (const [name, machine] of Object.entries(registries.statuses?.machines || {})) {
     if (registries.statusMachines && !registries.statusMachines.includes(name)) continue;
-    for (const state of Object.keys(/** @type {Record<string, unknown>} */ (machine.transitions || {}))) add(state, 'status');
-    for (const v of /** @type {unknown[]} */ (Array.isArray(machine.values) ? machine.values : [])) add(v, 'status');
-    for (const [spelling, meaning] of Object.entries(/** @type {Record<string, unknown>} */ (machine.spellings || {}))) { add(spelling, 'status'); add(meaning, 'status'); }
+    for (const state of Object.keys(/** @type {Record<string, unknown>} */ (machine['transitions'] || {}))) add(state, 'status');
+    for (const v of /** @type {unknown[]} */ (Array.isArray(machine['values']) ? machine['values'] : [])) add(v, 'status');
+    for (const [spelling, meaning] of Object.entries(/** @type {Record<string, unknown>} */ (machine['spellings'] || {}))) { add(spelling, 'status'); add(meaning, 'status'); }
   }
   for (const type of Object.keys(registries.layerTypes?.types || {})) add(type, 'layer type');
   for (const system of Object.keys(registries.electionTypes?.votingSystems || {})) add(system, 'voting system');
@@ -54,10 +54,10 @@ export function buildVocabulary(registries) {
 
 /** @param {Context} ctx */
 function loadVocabulary(ctx) {
-  const given = /** @type {Map<string, string> | undefined} */ (ctx.options.vocabulary);
+  const given = /** @type {Map<string, string> | undefined} */ (ctx.options['vocabulary']);
   if (given) return given;
   const read = (/** @type {string} */ rel) => JSON.parse(readFileSync(path.join(ctx.root, rel), 'utf8'));
-  const cfg = /** @type {{ extraVocabulary?: Record<string, string[]>, statusMachines?: string[] }} */ (ctx.config.C4 || {});
+  const cfg = /** @type {{ extraVocabulary?: Record<string, string[]>, statusMachines?: string[] }} */ (ctx.config['C4'] || {});
   return buildVocabulary({
     parties: read('data/registries/parties.json'),
     councils: read('data/registries/councils.json'),
@@ -76,28 +76,28 @@ function loadVocabulary(ctx) {
  */
 export function literalValues(n) {
   if (n.type === 'ArrayExpression') {
-    const elements = /** @type {Array<AstNode | null>} */ (n.elements);
+    const elements = /** @type {Array<AstNode | null>} */ (n['elements']);
     const strings = elements.filter(isString).map((e) => e.value);
     if (strings.length) return { kind: 'array', values: strings };
     // A table: rows that are arrays, keyed by their first cell (new Map([[k, v], ...]), [[k, v], ...]).
-    const keys = elements.map((e) => (e && e.type === 'ArrayExpression' ? /** @type {Array<AstNode | null>} */ (e.elements)[0] : null)).filter(isString).map((e) => e.value);
+    const keys = elements.map((e) => (e && e.type === 'ArrayExpression' ? /** @type {Array<AstNode | null>} */ (e['elements'])[0] : null)).filter(isString).map((e) => e.value);
     if (keys.length) return { kind: 'table', values: keys };
     return null;
   }
   if (n.type === 'ObjectExpression') {
-    const keys = /** @type {AstNode[]} */ (n.properties).filter((p) => p.type === 'Property' && !p.computed).map((p) => {
-      const key = /** @type {AstNode} */ (p.key);
-      return key.type === 'Identifier' ? /** @type {string} */ (key.name) : isString(key) ? key.value : null;
+    const keys = /** @type {AstNode[]} */ (n['properties']).filter((p) => p.type === 'Property' && !p['computed']).map((p) => {
+      const key = /** @type {AstNode} */ (p['key']);
+      return key.type === 'Identifier' ? /** @type {string} */ (key['name']) : isString(key) ? key.value : null;
     }).filter((k) => k !== null);
     return keys.length ? { kind: 'object keys', values: /** @type {string[]} */ (keys) } : null;
   }
-  if (n.type === 'Literal' && n.regex) {
-    const pattern = /** @type {{ pattern: string }} */ (n.regex).pattern;
+  if (n.type === 'Literal' && n['regex']) {
+    const pattern = /** @type {{ pattern: string }} */ (n['regex']).pattern;
     if (!pattern.includes('|')) return null;
     return { kind: 'regex', values: pattern.replace(/\\b|[()^$?:]/g, '').split('|').map((s) => s.replace(/\\s[*+]?|\\-/g, (m) => (m === '\\-' ? '-' : ' '))) };
   }
   if (n.type === 'SwitchStatement') {
-    const tests = /** @type {AstNode[]} */ (n.cases).map((c) => /** @type {AstNode | null} */ (c.test)).filter(isString).map((t) => t.value);
+    const tests = /** @type {AstNode[]} */ (n['cases']).map((c) => /** @type {AstNode | null} */ (c['test'])).filter(isString).map((t) => t.value);
     return tests.length ? { kind: 'switch cases', values: tests } : null;
   }
   return null;
@@ -109,7 +109,7 @@ export const C4 = {
   title: 'no literal holds two or more values of one registry vocabulary',
   /** @param {Context} ctx @returns {Finding[]} */
   run(ctx) {
-    const cfg = /** @type {{ include: string[], exclude?: string[] }} */ (ctx.config.C4);
+    const cfg = /** @type {{ include: string[], exclude?: string[] }} */ (ctx.config['C4']);
     const vocab = loadVocabulary(ctx);
     /** @type {Finding[]} */
     const out = [];

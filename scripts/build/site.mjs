@@ -40,7 +40,7 @@ import { fileURLToPath } from 'node:url';
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 export const OUT_DIR = 'dist';
-export const MAX_FILES = Number(process.env.MAX_PAGES_FILES || 18500);
+export const MAX_FILES = Number(process.env['MAX_PAGES_FILES'] || 18500);
 export const MAX_FILE_BYTES = 25 * 1024 * 1024;
 
 export const ROOT_FILES = [

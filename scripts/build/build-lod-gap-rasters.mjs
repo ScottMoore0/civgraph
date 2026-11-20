@@ -77,10 +77,10 @@ async function loadFgb(path) {
 function featureKey(feature) {
     const p = feature?.properties || {};
     return (
-        p.TOWNLAND_I ??
-        p.OBJECTID ??
-        p.TownlandNa ??
-        p.ENG_NAME_VALUE ??
+        p['TOWNLAND_I'] ??
+        p['OBJECTID'] ??
+        p['TownlandNa'] ??
+        p['ENG_NAME_VALUE'] ??
         null
     );
 }

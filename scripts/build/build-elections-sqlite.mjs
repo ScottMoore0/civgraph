@@ -326,14 +326,14 @@ for (const file of files) {
   const { meta: electionMeta, parts: metaParts } = splitElectionMeta(
     residual(d, ELECTION_COLS, ['results', 'matchedCount', 'unmatchedCount', 'loadable'])
   );
-  for (const p of metaParts) insMetaPart.run(txt(d.key), p.field, p.part, p.chunk);
+  for (const p of metaParts) insMetaPart.run(txt(d['key']), p.field, p.part, p.chunk);
   if (metaParts.length) nMetaSplit += 1;
 
   insElection.run(
-    txt(d.key), txt(d.body), txt(d.bodySlug), txt(d.bodyGroup), txt(d.displayTitle),
-    txt(d.contestType), txt(d.kind), txt(d.votingSystem), txt(d.contestStatus), txt(d.date),
-    num(d.year), txt(d.sourceMapId), txt(d.layerId), txt(d.labelProperty),
-    bool(d.candidateRowsExpected), bool(d.transferDataExpected),
+    txt(d['key']), txt(d['body']), txt(d['bodySlug']), txt(d['bodyGroup']), txt(d['displayTitle']),
+    txt(d['contestType']), txt(d['kind']), txt(d['votingSystem']), txt(d['contestStatus']), txt(d['date']),
+    num(d['year']), txt(d['sourceMapId']), txt(d['layerId']), txt(d['labelProperty']),
+    bool(d['candidateRowsExpected']), bool(d['transferDataExpected']),
     // results is normalised into its own tables; the derived aggregates are recomputable.
     // entityIndex (85 KB) and mainLikeCandidateSummary (188 KB) are kept verbatim:
     // they are whole-election aggregates the client reads directly, and after the
@@ -356,10 +356,10 @@ for (const file of files) {
 
   results.forEach((r, seq) => {
     insCons.run(
-      txt(d.key), seq, txt(r.constituency), txt(r.winnerParty), txt(r.winnerName),
-      txt(r.leadingParty), txt(r.leadingName), num(r.leadingVotes), num(r.leadingPct),
-      num(r.turnoutPct), num(r.majority), num(r.majorityPct), num(r.seatsWon),
-      num(r.seatsTotal), num(r.quota), num(r.electorate), txt(r.sourceFile),
+      txt(d['key']), seq, txt(r['constituency']), txt(r['winnerParty']), txt(r['winnerName']),
+      txt(r['leadingParty']), txt(r['leadingName']), num(r['leadingVotes']), num(r['leadingPct']),
+      num(r['turnoutPct']), num(r['majority']), num(r['majorityPct']), num(r['seatsWon']),
+      num(r['seatsTotal']), num(r['quota']), num(r['electorate']), txt(r['sourceFile']),
       // featureAliases and countNumbers are small and source-derived, so they ride
       // along in meta rather than being recomputed.
       // elected is kept verbatim: its order matches no rule tried. Sorting by
@@ -372,23 +372,23 @@ for (const file of files) {
     nCons += 1;
 
     if (r.animationPayload) {
-      insAnim.run(txt(d.key), seq, JSON.stringify(r.animationPayload));
+      insAnim.run(txt(d['key']), seq, JSON.stringify(r.animationPayload));
       nAnim += 1;
     }
 
     if (r.featureId != null || r.matched != null) {
-      insFeat.run(txt(d.key), seq, txt(d.layerId), txt(r.featureId), txt(r.featureName),
-        txt(r.matchName), bool(r.matched));
+      insFeat.run(txt(d['key']), seq, txt(d['layerId']), txt(r.featureId), txt(r['featureName']),
+        txt(r['matchName']), bool(r.matched));
       nFeat += 1;
       if (r.matched) nMatched += 1;
     }
 
     for (const c of r.candidates || []) {
       insCand.run(
-        txt(d.key), seq, txt(c.id), txt(c.name), txt(c.party), txt(c.party_id),
-        txt(c.personId), num(c.firstPrefs), num(c.finalVotes), bool(c.elected),
-        num(c.electedAt), bool(c.excluded), num(c.excludedAt), txt(c.status),
-        txt(c.colour), txt(c.gender),
+        txt(d['key']), seq, txt(c['id']), txt(c['name']), txt(c['party']), txt(c['party_id']),
+        txt(c['personId']), num(c['firstPrefs']), num(c['finalVotes']), bool(c['elected']),
+        num(c['electedAt']), bool(c['excluded']), num(c['excludedAt']), txt(c['status']),
+        txt(c['colour']), txt(c['gender']),
         // counts is kept verbatim in meta. Deriving it from the counts table failed
         // twice: first on status '' being stored as NULL, then on the count at which a
         // candidate was elected, where candidate.counts carries the CANDIDATE's status
@@ -400,8 +400,8 @@ for (const file of files) {
     }
 
     for (const row of r.countGroup || []) {
-      insCount.run(txt(d.key), seq, txt(row.Candidate_Id ?? row.id), num(row.Count_Number),
-        num(row.Total_Votes), num(row.Transfers), txt(row.Status) || null, num(row.id));
+      insCount.run(txt(d['key']), seq, txt(row['Candidate_Id'] ?? row['id']), num(row['Count_Number']),
+        num(row['Total_Votes']), num(row['Transfers']), txt(row['Status']) || null, num(row['id']));
       nCounts += 1;
     }
   });

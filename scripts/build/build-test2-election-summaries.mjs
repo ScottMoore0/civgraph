@@ -67,8 +67,8 @@ function electedCount(/** @type {ElectionResult} */ result) {
  * candidates marked elected.
  */
 function partySeats(/** @type {ElectionResult} */ result) {
-  if ((numberOrNull(result.seatsTotal) || 1) <= 1) return null;
-  const elected = Array.isArray(result.elected) && result.elected.length ? /** @type {Candidate[]} */ (result.elected) : electedCandidates(result);
+  if ((numberOrNull(result['seatsTotal']) || 1) <= 1) return null;
+  const elected = Array.isArray(result['elected']) && result['elected'].length ? /** @type {Candidate[]} */ (result['elected']) : electedCandidates(result);
   return elected.length ? seatCountsByParty(elected) : null;
 }
 
@@ -83,33 +83,33 @@ function partyCount(/** @type {ElectionResult} */ result) {
 
 function summarizeResult(/** @type {ElectionResult} */ result) {
   return {
-    constituency: result.constituency || result.matchName || result.featureName || '',
-    matchName: result.matchName || null,
-    featureName: result.featureName || null,
-    localCouncil: result.localCouncil || null,
-    district: result.district || null,
-    seatsTotal: numberOrNull(result.seatsTotal),
-    seatsWon: numberOrNull(result.seatsWon),
-    validPoll: numberOrNull(result.validPoll),
-    quota: numberOrNull(result.quota),
-    winnerParty: result.winnerParty || null,
-    winnerName: result.winnerName || null,
-    leadingParty: result.leadingParty || null,
-    leadingName: result.leadingName || null,
-    leadingVotes: numberOrNull(result.leadingVotes),
-    leadingPct: numberOrNull(result.leadingPct),
-    turnoutPct: numberOrNull(result.turnoutPct),
-    majority: numberOrNull(result.majority),
+    constituency: result['constituency'] || result['matchName'] || result['featureName'] || '',
+    matchName: result['matchName'] || null,
+    featureName: result['featureName'] || null,
+    localCouncil: result['localCouncil'] || null,
+    district: result['district'] || null,
+    seatsTotal: numberOrNull(result['seatsTotal']),
+    seatsWon: numberOrNull(result['seatsWon']),
+    validPoll: numberOrNull(result['validPoll']),
+    quota: numberOrNull(result['quota']),
+    winnerParty: result['winnerParty'] || null,
+    winnerName: result['winnerName'] || null,
+    leadingParty: result['leadingParty'] || null,
+    leadingName: result['leadingName'] || null,
+    leadingVotes: numberOrNull(result['leadingVotes']),
+    leadingPct: numberOrNull(result['leadingPct']),
+    turnoutPct: numberOrNull(result['turnoutPct']),
+    majority: numberOrNull(result['majority']),
     candidateCount: Array.isArray(result.candidates) ? result.candidates.length : 0,
     electedCount: electedCount(result),
     partyCount: partyCount(result),
     hasAnimation: Boolean(result.animationPayload),
     // Only the winners are on record (packages/core/src/unopposed.mjs isWinnersOnlyRecord): the
     // row reads "votes not recorded", never "returned unopposed".
-    ...(result.candidatesRecorded ? { candidatesRecorded: result.candidatesRecorded } : {}),
+    ...(result['candidatesRecorded'] ? { candidatesRecorded: result['candidatesRecorded'] } : {}),
     seatsByParty: partySeats(result),
-    electorate: numberOrNull(result.electorate) || null,
-    totalPoll: numberOrNull(result.totalPoll) || null
+    electorate: numberOrNull(result['electorate']) || null,
+    totalPoll: numberOrNull(result['totalPoll']) || null
   };
 }
 
@@ -121,17 +121,17 @@ function summarizeBundle(entry, bundle) {
   const results = Array.isArray(bundle?.results) ? bundle.results : [];
   return {
     key: entry.key,
-    body: entry.body,
-    date: entry.date,
-    displayTitle: entry.displayTitle || bundle.displayTitle || entry.body,
-    displaySubtitle: entry.displaySubtitle || '',
-    displayProvider: entry.displayProvider || entry.body,
-    sourceMapId: entry.sourceMapId || bundle.sourceMapId || null,
-    layerId: entry.layerId || bundle.layerId || null,
+    body: entry['body'],
+    date: entry['date'],
+    displayTitle: entry['displayTitle'] || bundle['displayTitle'] || entry['body'],
+    displaySubtitle: entry['displaySubtitle'] || '',
+    displayProvider: entry['displayProvider'] || entry['body'],
+    sourceMapId: entry['sourceMapId'] || bundle['sourceMapId'] || null,
+    layerId: entry['layerId'] || bundle['layerId'] || null,
     resultCount: results.length,
-    matchedCount: numberOrNull(entry.matchedCount),
-    unmatchedCount: numberOrNull(entry.unmatchedCount),
-    totalConstituencies: numberOrNull(entry.totalConstituencies),
+    matchedCount: numberOrNull(entry['matchedCount']),
+    unmatchedCount: numberOrNull(entry['unmatchedCount']),
+    totalConstituencies: numberOrNull(entry['totalConstituencies']),
     hasAnyAnimation: results.some((/** @type {ElectionResult | null} */ result) => result?.animationPayload),
     results: results.map(summarizeResult)
   };

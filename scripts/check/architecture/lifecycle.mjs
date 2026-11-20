@@ -16,11 +16,11 @@ const ROOT_PARAM = /^(root|container)$|(Root|Container)$/;
 
 /** @param {AstNode} node @returns {string | null} */
 const sourceText = (node) => {
-  if (node.type === 'Identifier') return /** @type {string} */ (node.name);
+  if (node.type === 'Identifier') return /** @type {string} */ (node['name']);
   if (node.type === 'ThisExpression') return 'this';
-  if (node.type === 'MemberExpression' && !node.computed) {
+  if (node.type === 'MemberExpression' && !node['computed']) {
     /** @type {string | null} */
-    const obj = sourceText(/** @type {AstNode} */ (node.object));
+    const obj = sourceText(/** @type {AstNode} */ (node['object']));
     return obj === null ? null : `${obj}.${nameOf(node)}`;
   }
   return null;
@@ -38,11 +38,11 @@ function longLived(target, ancestors) {
   if (GLOBAL_TARGETS.has(head)) return text;
   if (target.type === 'Identifier' && ROOT_PARAM.test(text)) {
     for (const fn of ancestors.filter(isFunction)) {
-      const params = /** @type {AstNode[]} */ (fn.params);
+      const params = /** @type {AstNode[]} */ (fn['params']);
       const names = params.flatMap((p) => {
-        if (p.type === 'Identifier') return [p.name];
-        if (p.type === 'AssignmentPattern') return [nameOf(/** @type {AstNode} */ (p.left))];
-        if (p.type === 'ObjectPattern') return /** @type {AstNode[]} */ (p.properties).map((q) => nameOf(/** @type {AstNode} */ (q.value)));
+        if (p.type === 'Identifier') return [p['name']];
+        if (p.type === 'AssignmentPattern') return [nameOf(/** @type {AstNode} */ (p['left']))];
+        if (p.type === 'ObjectPattern') return /** @type {AstNode[]} */ (p['properties']).map((q) => nameOf(/** @type {AstNode} */ (q['value'])));
         return [];
       });
       if (names.includes(text)) return text;
@@ -53,11 +53,11 @@ function longLived(target, ancestors) {
 
 /** @param {AstNode} node an options object literal */
 const objectRemovable = (node) =>
-  /** @type {AstNode[]} */ (node.properties).some((p) => {
+  /** @type {AstNode[]} */ (node['properties']).some((p) => {
     if (p.type === 'SpreadElement') return true;
-    const key = nameOf(/** @type {AstNode} */ (p.key));
-    const value = /** @type {AstNode} */ (p.value);
-    return key === 'signal' || (key === 'once' && value.type === 'Literal' && value.value === true);
+    const key = nameOf(/** @type {AstNode} */ (p['key']));
+    const value = /** @type {AstNode} */ (p['value']);
+    return key === 'signal' || (key === 'once' && value.type === 'Literal' && value['value'] === true);
   });
 
 /** @param {AstNode | undefined} options @param {Set<string>} declared variables declared as a removable options object */
@@ -74,7 +74,7 @@ export const C7 = {
   title: 'listeners on long-lived targets pass { signal } or are removed',
   /** @param {Context} ctx @returns {Finding[]} */
   run(ctx) {
-    const cfg = /** @type {{ include: string[], exclude?: string[] }} */ (ctx.config.C7);
+    const cfg = /** @type {{ include: string[], exclude?: string[] }} */ (ctx.config['C7']);
     /** @type {Finding[]} */
     const out = [];
     for (const file of ctx.select(cfg)) {
@@ -82,9 +82,9 @@ export const C7 = {
       /** @type {Set<string>} */
       const declared = new Set();
       walk(ast, (n) => {
-        const init = /** @type {AstNode | null} */ (n.init);
-        const id = /** @type {AstNode} */ (n.id);
-        if (n.type === 'VariableDeclarator' && id.type === 'Identifier' && init?.type === 'ObjectExpression' && objectRemovable(init)) declared.add(/** @type {string} */ (id.name));
+        const init = /** @type {AstNode | null} */ (n['init']);
+        const id = /** @type {AstNode} */ (n['id']);
+        if (n.type === 'VariableDeclarator' && id.type === 'Identifier' && init?.type === 'ObjectExpression' && objectRemovable(init)) declared.add(/** @type {string} */ (id['name']));
       });
       /** @type {Set<string>} */
       const removed = new Set();
@@ -92,12 +92,12 @@ export const C7 = {
       const added = [];
       walk(ast, (n, ancestors) => {
         if (n.type !== 'CallExpression') return;
-        const callee = /** @type {AstNode} */ (n.callee);
+        const callee = /** @type {AstNode} */ (n['callee']);
         const method = nameOf(callee);
         if (callee.type !== 'MemberExpression' || (method !== 'addEventListener' && method !== 'removeEventListener')) return;
-        const args = /** @type {AstNode[]} */ (n.arguments);
+        const args = /** @type {AstNode[]} */ (n['arguments']);
         const type = isString(args[0]) ? args[0].value : '*';
-        const object = /** @type {AstNode} */ (callee.object);
+        const object = /** @type {AstNode} */ (callee['object']);
         if (method === 'removeEventListener') {
           removed.add(`${sourceText(object)} ${type}`);
           return;

@@ -51,8 +51,8 @@ for (const [i, entry] of allowlist.prefixes.entries()) {
 
   // "unlisted": true keeps a prefix out of the public data index (listedPrefixes); it must say why.
   if ('unlisted' in entry) {
-    if (typeof entry.unlisted !== 'boolean') failures.push(`${where}: 'unlisted' must be true or false.`);
-    else if (entry.unlisted && (typeof entry.unlistedReason !== 'string' || entry.unlistedReason.trim().length < 10)) {
+    if (typeof entry['unlisted'] !== 'boolean') failures.push(`${where}: 'unlisted' must be true or false.`);
+    else if (entry['unlisted'] && (typeof entry['unlistedReason'] !== 'string' || entry['unlistedReason'].trim().length < 10)) {
       failures.push(`${where}: an unlisted prefix needs an 'unlistedReason' sentence.`);
     }
   }
@@ -76,6 +76,6 @@ if (failures.length) {
   process.exit(1);
 }
 
-const unverified = allowlist.prefixes.filter((e) => String(e.rights || '').startsWith('unverified')).length;
+const unverified = allowlist.prefixes.filter((e) => String(e['rights'] || '').startsWith('unverified')).length;
 console.log(`PASS: R2 publication allowlist valid (${allowlist.prefixes.length} prefixes).`);
 if (unverified) console.log(`  NOTE: ${unverified} prefix(es) have rights marked 'unverified' and need review.`);

@@ -17,9 +17,9 @@ import { isFunction, lineOf, walk } from './lib.mjs';
  * @param {AstNode} n
  */
 function definedFunction(n) {
-  if (n.type === 'FunctionDeclaration' && n.id) return { name: /** @type {string} */ (/** @type {AstNode} */ (n.id).name), arity: /** @type {unknown[]} */ (n.params).length };
-  if (n.type === 'VariableDeclarator' && n.init && isFunction(/** @type {AstNode} */ (n.init)) && /** @type {AstNode} */ (n.id).type === 'Identifier') {
-    return { name: /** @type {string} */ (/** @type {AstNode} */ (n.id).name), arity: /** @type {unknown[]} */ (/** @type {AstNode} */ (n.init).params).length };
+  if (n.type === 'FunctionDeclaration' && n['id']) return { name: /** @type {string} */ (/** @type {AstNode} */ (n['id'])['name']), arity: /** @type {unknown[]} */ (n['params']).length };
+  if (n.type === 'VariableDeclarator' && n['init'] && isFunction(/** @type {AstNode} */ (n['init'])) && /** @type {AstNode} */ (n['id']).type === 'Identifier') {
+    return { name: /** @type {string} */ (/** @type {AstNode} */ (n['id'])['name']), arity: /** @type {unknown[]} */ (/** @type {AstNode} */ (n['init'])['params']).length };
   }
   return null;
 }
@@ -31,13 +31,13 @@ function definedFunction(n) {
  * @param {Set<string>} imported
  */
 function adapter(n, imported) {
-  const fn = /** @type {AstNode} */ (n.type === 'FunctionDeclaration' ? n : n.init);
-  const body = /** @type {AstNode} */ (fn.body);
-  if (body.type === 'BlockStatement' && /** @type {AstNode[]} */ (body.body).length !== 1) return false;
+  const fn = /** @type {AstNode} */ (n.type === 'FunctionDeclaration' ? n : n['init']);
+  const body = /** @type {AstNode} */ (fn['body']);
+  if (body.type === 'BlockStatement' && /** @type {AstNode[]} */ (body['body']).length !== 1) return false;
   let calls = false;
   walk(body, (m) => {
-    const callee = /** @type {AstNode} */ (m.callee);
-    if (m.type === 'CallExpression' && callee.type === 'Identifier' && imported.has(/** @type {string} */ (callee.name))) calls = true;
+    const callee = /** @type {AstNode} */ (m['callee']);
+    if (m.type === 'CallExpression' && callee.type === 'Identifier' && imported.has(/** @type {string} */ (callee['name']))) calls = true;
   });
   return calls;
 }
@@ -48,14 +48,14 @@ export const C3 = {
   title: 'a copy of a package function is marked copy-of: <path> and has a parity test',
   /** @param {Context} ctx @returns {Finding[]} */
   run(ctx) {
-    const cfg = /** @type {{ include: string[], exclude?: string[], packages: string[], tests: string[] }} */ (ctx.config.C3);
+    const cfg = /** @type {{ include: string[], exclude?: string[], packages: string[], tests: string[] }} */ (ctx.config['C3']);
     /** @type {Map<string, { file: string, arity: number }>} */
     const exported = new Map();
     for (const file of ctx.select({ include: cfg.packages })) {
       walk(ctx.parse(file).ast, (n) => {
-        if (n.type !== 'ExportNamedDeclaration' || !n.declaration) return;
-        const d = /** @type {AstNode} */ (n.declaration);
-        const defs = d.type === 'VariableDeclaration' ? /** @type {AstNode[]} */ (d.declarations).map(definedFunction) : [definedFunction(d)];
+        if (n.type !== 'ExportNamedDeclaration' || !n['declaration']) return;
+        const d = /** @type {AstNode} */ (n['declaration']);
+        const defs = d.type === 'VariableDeclaration' ? /** @type {AstNode[]} */ (d['declarations']).map(definedFunction) : [definedFunction(d)];
         for (const def of defs) if (def && !exported.has(def.name)) exported.set(def.name, { file, arity: def.arity });
       });
     }
@@ -70,7 +70,7 @@ export const C3 = {
       const imported = new Set();
       walk(ast, (n) => {
         if (n.type !== 'ImportDeclaration') return;
-        for (const sp of /** @type {AstNode[]} */ (n.specifiers)) imported.add(/** @type {string} */ (/** @type {AstNode} */ (sp.local).name));
+        for (const sp of /** @type {AstNode[]} */ (n['specifiers'])) imported.add(/** @type {string} */ (/** @type {AstNode} */ (sp['local'])['name']));
       });
       walk(ast, (n) => {
         const def = definedFunction(n);

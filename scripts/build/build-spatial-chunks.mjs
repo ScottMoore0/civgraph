@@ -138,10 +138,10 @@ function computeUniversalAttributes(feature) {
     // Area (geodesic, m² → km²)
     try {
         const areaM2 = turfArea(feature);
-        p.Area_sqkm = Math.round(areaM2 / 1e6 * 1000) / 1000; // 3 decimals
+        p['Area_sqkm'] = Math.round(areaM2 / 1e6 * 1000) / 1000; // 3 decimals
     } catch {
-        if (p.Area_SqKM != null) p.Area_sqkm = p.Area_SqKM;
-        else p.Area_sqkm = null;
+        if (p['Area_SqKM'] != null) p['Area_sqkm'] = p['Area_SqKM'];
+        else p['Area_sqkm'] = null;
     }
 
     // Perimeter (geodesic, km)
@@ -160,24 +160,24 @@ function computeUniversalAttributes(feature) {
                 const line = { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: ring } };
                 totalLen += turfLength(line, { units: 'kilometers' });
             }
-            p.Perimeter_km = Math.round(totalLen * 1000) / 1000;
+            p['Perimeter_km'] = Math.round(totalLen * 1000) / 1000;
         } else {
-            p.Perimeter_km = null;
+            p['Perimeter_km'] = null;
         }
     } catch {
-        p.Perimeter_km = null;
+        p['Perimeter_km'] = null;
     }
 
     // Elevation — use injected lookup data, then existing NI properties, then null
     const elev = feature._elev;
-    p.minElev_m = elev?.minElev_m ?? p.minElev_m ?? null;
-    p.maxElev_m = elev?.maxElev_m ?? p.maxElev_m ?? null;
-    p.minElev_ft = elev?.minElev_ft ?? p.minElev_ft ?? null;
-    p.maxElev_ft = elev?.maxElev_ft ?? p.maxElev_ft ?? null;
+    p['minElev_m'] = elev?.minElev_m ?? p['minElev_m'] ?? null;
+    p['maxElev_m'] = elev?.maxElev_m ?? p['maxElev_m'] ?? null;
+    p['minElev_ft'] = elev?.minElev_ft ?? p['minElev_ft'] ?? null;
+    p['maxElev_ft'] = elev?.maxElev_ft ?? p['maxElev_ft'] ?? null;
     delete feature._elev; // Clean up temp field
 
     // Remove legacy inconsistent keys
-    delete p.Area_SqKM;
+    delete p['Area_SqKM'];
 
     feature.properties = p;
 }

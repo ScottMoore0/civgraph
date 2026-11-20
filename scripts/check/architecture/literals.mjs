@@ -26,7 +26,7 @@ export const C5 = {
   title: 'no origin, User-Agent or records path spelled out outside config',
   /** @param {Context} ctx @returns {Finding[]} */
   run(ctx) {
-    const cfg = /** @type {{ include: string[], exclude?: string[] }} */ (ctx.config.C5);
+    const cfg = /** @type {{ include: string[], exclude?: string[] }} */ (ctx.config['C5']);
     /** @type {Finding[]} */
     const out = [];
     for (const file of ctx.select(cfg)) {
@@ -86,7 +86,7 @@ export const C8 = {
   title: 'colour literals only in the token files (stylesheets) and the registry palette parts (JS)',
   /** @param {Context} ctx @returns {Finding[]} */
   run(ctx) {
-    const cfg = /** @type {{ css: { include: string[], exclude?: string[] }, js: { include: string[], exclude?: string[] } }} */ (ctx.config.C8);
+    const cfg = /** @type {{ css: { include: string[], exclude?: string[] }, js: { include: string[], exclude?: string[] } }} */ (ctx.config['C8']);
     /** @type {Finding[]} */
     const out = [];
     for (const file of ctx.select({ ...cfg.css, ext: /\.css$/ })) {
@@ -98,7 +98,7 @@ export const C8 = {
         /** @type {string | null} */
         let value = null;
         if (isString(n)) value = n.value;
-        else if (n.type === 'TemplateElement') value = /** @type {{ cooked: string | null }} */ (n.value).cooked;
+        else if (n.type === 'TemplateElement') value = /** @type {{ cooked: string | null }} */ (n['value']).cooked;
         if (value && value.length < 400 && isColour(value)) {
           const shown = (value.match(HEX) || value.match(/\b(?:rgba?|hsla?)\([^)]*\)?/i) || [value])[0];
           out.push({ file, line: lineOf(n), message: `colour literal ${shown}: use a token (var(--...)); a colour drawn on canvas, MapLibre or SVG belongs in data/registries/colours.json (or the parties palettes)` });
@@ -121,14 +121,14 @@ export const C10 = {
   title: 'no hard-coded locale or month-name array outside the shared formatter',
   /** @param {Context} ctx @returns {Finding[]} */
   run(ctx) {
-    const cfg = /** @type {{ include: string[], exclude?: string[] }} */ (ctx.config.C10);
+    const cfg = /** @type {{ include: string[], exclude?: string[] }} */ (ctx.config['C10']);
     /** @type {Finding[]} */
     const out = [];
     for (const file of ctx.select(cfg)) {
       walk(ctx.parse(file).ast, (n) => {
         if (isString(n) && LOCALE.test(n.value)) out.push({ file, line: lineOf(n), message: `hard-coded locale '${n.value}': format through packages/core/src/format.js (civgraphI18n picks the language)` });
         if (n.type === 'ArrayExpression') {
-          const months = /** @type {Array<AstNode | null>} */ (n.elements).filter(isString).filter((e) => MONTHS.has(e.value.toLowerCase().replace(/\.$/, '')));
+          const months = /** @type {Array<AstNode | null>} */ (n['elements']).filter(isString).filter((e) => MONTHS.has(e.value.toLowerCase().replace(/\.$/, '')));
           if (months.length >= 3) out.push({ file, line: lineOf(n), message: `array of ${months.length} month names: use the shared formatter's dates` });
         }
       });

@@ -83,15 +83,15 @@ export function findLifespanProblems(db, { exceptions = [] } = {}) {
   const people = new Map();
   for (const row of db.prepare('SELECT id, card FROM person_cards ORDER BY ord, slug').iterate()) {
     let card;
-    try { card = JSON.parse(String(row.card)); } catch { continue; }
+    try { card = JSON.parse(String(row['card'])); } catch { continue; }
     const born = String(card.born || '');
     const died = String(card.died || '');
     if (!born && !died) continue;
-    people.set(String(row.id), { name: String(card.title || card.name || row.id), born, died, offices: Array.isArray(card.officesHeld) ? card.officesHeld : [] });
+    people.set(String(row['id']), { name: String(card.title || card.name || row['id']), born, died, offices: Array.isArray(card.officesHeld) ? card.officesHeld : [] });
   }
   /** @type {Map<string, string>} the names of people with no dates, for the review lines */
   const names = new Map();
-  for (const row of db.prepare('SELECT person_id AS id, display_name AS name FROM persons ORDER BY ord, person_id').iterate()) names.set(String(row.id), String(row.name || ''));
+  for (const row of db.prepare('SELECT person_id AS id, display_name AS name FROM persons ORDER BY ord, person_id').iterate()) names.set(String(row['id']), String(row['name'] || ''));
   const skip = new Set(exceptions.map((e) => `${e.personId}|${e.kind}|${e.date || ''}`));
   /** @type {ReturnType<typeof findLifespanProblems>} */
   const out = [];
@@ -108,16 +108,16 @@ export function findLifespanProblems(db, { exceptions = [] } = {}) {
   /** @type {Map<string, Map<string, string>>} person -> election body -> first date returned */
   const firstReturned = new Map();
   for (const row of candidacies.iterate()) {
-    const personId = String(row.personId);
-    if (Number(row.elected) === 1) {
+    const personId = String(row['personId']);
+    if (Number(row['elected']) === 1) {
       if (!firstReturned.has(personId)) firstReturned.set(personId, new Map());
       const bodies = /** @type {Map<string, string>} */ (firstReturned.get(personId));
-      if (!bodies.has(String(row.body))) bodies.set(String(row.body), String(row.date));
+      if (!bodies.has(String(row['body']))) bodies.set(String(row['body']), String(row['date']));
     }
     const p = people.get(personId);
     if (!p) continue;
-    if (isAfter(String(row.date), p.died)) add('after-death', personId, String(row.date), 'candidacy', `${row.electionKey}: ${row.contest}`);
-    else if (isBefore18(String(row.date), p.born)) add('before-18', personId, String(row.date), 'candidacy', `${row.electionKey}: ${row.contest}`);
+    if (isAfter(String(row['date']), p.died)) add('after-death', personId, String(row['date']), 'candidacy', `${row['electionKey']}: ${row['contest']}`);
+    else if (isBefore18(String(row['date']), p.born)) add('before-18', personId, String(row['date']), 'candidacy', `${row['electionKey']}: ${row['contest']}`);
   }
 
   // Votes in divisions.
@@ -126,18 +126,18 @@ export function findLifespanProblems(db, { exceptions = [] } = {}) {
   /** @type {Map<string, { personId: string, body: string, first: string, last: string, n: number }>} */
   const early = new Map();
   for (const row of votes.iterate()) {
-    const personId = String(row.personId);
-    const date = String(row.date);
+    const personId = String(row['personId']);
+    const date = String(row['date']);
     let printed = '';
-    try { printed = String(JSON.parse(String(row.entry))[0] || ''); } catch { /* keep blank */ }
+    try { printed = String(JSON.parse(String(row['entry']))[0] || ''); } catch { /* keep blank */ }
     const p = people.get(personId);
-    if (p && isAfter(date, p.died)) add('after-death', personId, date, 'vote', `${row.divisionId} (${row.vote}), printed "${printed}"`);
-    else if (p && isBefore18(date, p.born)) add('before-18', personId, date, 'vote', `${row.divisionId} (${row.vote}), printed "${printed}"`);
-    const electionBody = VOTING_BODY_ELECTIONS[/** @type {keyof typeof VOTING_BODY_ELECTIONS} */ (String(row.body))];
+    if (p && isAfter(date, p.died)) add('after-death', personId, date, 'vote', `${row['divisionId']} (${row['vote']}), printed "${printed}"`);
+    else if (p && isBefore18(date, p.born)) add('before-18', personId, date, 'vote', `${row['divisionId']} (${row['vote']}), printed "${printed}"`);
+    const electionBody = VOTING_BODY_ELECTIONS[/** @type {keyof typeof VOTING_BODY_ELECTIONS} */ (String(row['body']))];
     const first = electionBody ? firstReturned.get(personId)?.get(electionBody) : undefined;
     if (electionBody && first && date < first) {
-      const k = `${personId}|${row.body}`;
-      const seen = early.get(k) || { personId, body: String(row.body), first: date, last: date, n: 0 };
+      const k = `${personId}|${row['body']}`;
+      const seen = early.get(k) || { personId, body: String(row['body']), first: date, last: date, n: 0 };
       seen.last = date;
       seen.n += 1;
       early.set(k, seen);

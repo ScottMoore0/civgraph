@@ -130,7 +130,7 @@ export function walk(node, fn, ancestors = []) {
 export const lineOf = (node) => node.loc?.start.line ?? 0;
 
 /** @param {AstNode | null | undefined} node @returns {node is AstNode & { value: string }} */
-export const isString = (node) => Boolean(node && node.type === 'Literal' && typeof node.value === 'string');
+export const isString = (node) => Boolean(node && node.type === 'Literal' && typeof node['value'] === 'string');
 
 /** @param {AstNode} node */
 export const isFunction = (node) => node.type === 'FunctionDeclaration' || node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression';
@@ -142,10 +142,10 @@ export const isFunction = (node) => node.type === 'FunctionDeclaration' || node.
  */
 export function nameOf(node) {
   if (!node) return null;
-  if (node.type === 'Identifier') return /** @type {string} */ (node.name);
+  if (node.type === 'Identifier') return /** @type {string} */ (node['name']);
   if (node.type === 'MemberExpression') {
-    const prop = /** @type {AstNode} */ (node.property);
-    if (prop.type === 'Identifier' && !node.computed) return /** @type {string} */ (prop.name);
+    const prop = /** @type {AstNode} */ (node['property']);
+    if (prop.type === 'Identifier' && !node['computed']) return /** @type {string} */ (prop['name']);
     if (isString(prop)) return prop.value;
   }
   return null;

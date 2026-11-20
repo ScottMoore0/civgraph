@@ -45,14 +45,14 @@ let dataOverlays = [];
 try {
   const de = JSON.parse(readFileSync('data/database/data-entries.json', 'utf8')).dataEntries || [];
   dataOverlays = de.map((/** @type {Record<string, unknown>} */ e) => ({
-    id: e.id,
-    name: e.name,
-    geography: e.geography,
-    valueColumn: e.valueColumn,
-    joinKey: e.joinKey,
+    id: e['id'],
+    name: e['name'],
+    geography: e['geography'],
+    valueColumn: e['valueColumn'],
+    joinKey: e['joinKey'],
     // The tables are on the data host, as the map app reads them (cdnUrl); civgraph.net answers 404 (site QA 12 Nov).
-    csv: e.csv ? `${SITE.dataOrigin}/${e.csv}` : undefined,
-    source: e.source || undefined,
+    csv: e['csv'] ? `${SITE.dataOrigin}/${e['csv']}` : undefined,
+    source: e['source'] || undefined,
   }));
 } catch { /* none */ }
 

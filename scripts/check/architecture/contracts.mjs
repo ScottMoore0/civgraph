@@ -53,8 +53,8 @@ export function parseApiUrl(text, routes) {
 export function requestProblems(contract, params, modifiers) {
   const problems = [];
   const whenKeys = new Set(contract.variants.flatMap((v) => Object.keys(v.when)));
-  const view = params.view;
-  if (view !== undefined && view !== '*' && !contract.variants.some((v) => v.when.view === view)) problems.push(`view=${view} has no v1 variant`);
+  const view = params['view'];
+  if (view !== undefined && view !== '*' && !contract.variants.some((v) => v.when['view'] === view)) problems.push(`view=${view} has no v1 variant`);
   for (const key of Object.keys(params)) {
     if (key === 'view' || whenKeys.has(key) || modifiers.includes(key)) continue;
     problems.push(`parameter ${key} is in no variant's when (and not a listed modifier)`);
@@ -74,7 +74,7 @@ function chosenVariant(contract, params) {
     if (want === '*') return got !== undefined && got !== '';
     if (want === '') return got === undefined || got === '';
     return got === want || got === '*';
-  }) && (params.view === undefined || v.when.view === params.view || params.view === '*'));
+  }) && (params['view'] === undefined || v.when['view'] === params['view'] || params['view'] === '*'));
 }
 
 /** @param {Contract['variants'][number] | undefined} variant */
@@ -89,8 +89,8 @@ export const C9 = {
   title: 'every API answer a page reads has a v1 contract variant',
   /** @param {Context} ctx @returns {Promise<Finding[]>} */
   async run(ctx) {
-    const cfg = /** @type {{ include: string[], exclude?: string[], clientCalls: string[], ignoreRoutes: Record<string, string>, modifiers: Record<string, string[]> }} */ (ctx.config.C9);
-    const contracts = /** @type {Record<string, Contract>} */ (ctx.options.contracts || (await import('@civgraph/api/v1/contracts/v1.js')).CONTRACTS);
+    const cfg = /** @type {{ include: string[], exclude?: string[], clientCalls: string[], ignoreRoutes: Record<string, string>, modifiers: Record<string, string[]> }} */ (ctx.config['C9']);
+    const contracts = /** @type {Record<string, Contract>} */ (ctx.options['contracts'] || (await import('@civgraph/api/v1/contracts/v1.js')).CONTRACTS);
     const routes = Object.keys(contracts);
     const ignored = Object.keys(cfg.ignoreRoutes || {}).filter((k) => k !== '//');
     const modifiersOf = (/** @type {string} */ route) => [...(cfg.modifiers['*'] || []), ...(cfg.modifiers[route] || [])];
@@ -107,18 +107,18 @@ export const C9 = {
       walk(ast, (n) => {
         if (isString(n) && API_URL.test(n.value)) urls.push({ line: lineOf(n), text: n.value });
         if (n.type === 'TemplateLiteral') {
-          const text = /** @type {AstNode[]} */ (n.quasis).map((q) => /** @type {{ cooked: string }} */ (q.value).cooked).join(HOLE);
+          const text = /** @type {AstNode[]} */ (n['quasis']).map((q) => /** @type {{ cooked: string }} */ (q['value']).cooked).join(HOLE);
           if (API_URL.test(text)) urls.push({ line: lineOf(n), text });
         }
-        if (n.type === 'CallExpression' && cfg.clientCalls.includes(nameOf(/** @type {AstNode} */ (n.callee)) || '')) {
-          const arg = /** @type {AstNode[]} */ (n.arguments)[0];
+        if (n.type === 'CallExpression' && cfg.clientCalls.includes(nameOf(/** @type {AstNode} */ (n['callee'])) || '')) {
+          const arg = /** @type {AstNode[]} */ (n['arguments'])[0];
           if (arg && arg.type === 'ObjectExpression') {
             /** @type {Record<string, string>} */
             const params = {};
-            for (const p of /** @type {AstNode[]} */ (arg.properties)) {
+            for (const p of /** @type {AstNode[]} */ (arg['properties'])) {
               if (p.type !== 'Property') continue;
-              const key = nameOf(/** @type {AstNode} */ (p.key));
-              const value = /** @type {AstNode} */ (p.value);
+              const key = nameOf(/** @type {AstNode} */ (p['key']));
+              const value = /** @type {AstNode} */ (p['value']);
               if (key) params[key] = isString(value) ? value.value : '*';
             }
             clientCalls.push({ line: lineOf(n), params });

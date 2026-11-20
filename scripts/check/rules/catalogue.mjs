@@ -331,7 +331,7 @@ try {
   fail(`the built catalogue is stale: run node scripts/build/catalogue/build-catalogue.mjs (${String(/** @type {ExecError} */ (err).stderr || /** @type {ExecError} */ (err).stdout || /** @type {ExecError} */ (err).message).trim().split('\n').pop()})`);
 }
 
-const placeholdersInSeries = source.series.flatMap((s) => s.members.filter((m) => mapById.get(m)?.placeholder));
+const placeholdersInSeries = source.series.flatMap((s) => s.members.filter((m) => mapById.get(m)?.['placeholder']));
 const toBeAdded = source.subjects.reduce((n, s) => n + (s.toBeAdded?.length || 0), 0) + source.series.reduce((n, s) => n + (s.toBeAdded?.length || 0), 0);
 console.log(`catalogue: ${source.shelves.length} shelves, ${source.subjects.length} subjects, ${source.series.length} series; `
   + `${placed.size - toBeAdded} maps in series, ${toBeAdded} listed as to be added, ${placeholdersInSeries.length} placeholders inside series (shown as "to be added").`);

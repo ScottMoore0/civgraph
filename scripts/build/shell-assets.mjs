@@ -107,7 +107,7 @@ function serviceWorkerPolicyHash(/** @type {string} */ filePath) {
  * it used, so a local build cannot be mistaken for a deployed one.
  */
 function writeDeployStamp() {
-  const fromPages = process.env.CF_PAGES_COMMIT_SHA || '';
+  const fromPages = process.env['CF_PAGES_COMMIT_SHA'] || '';
   let commit = fromPages;
   if (!commit) {
     try {
@@ -119,7 +119,7 @@ function writeDeployStamp() {
   const stamp = {
     commit,
     builtBy: fromPages ? 'pages' : 'local',
-    branch: process.env.CF_PAGES_BRANCH || null
+    branch: process.env['CF_PAGES_BRANCH'] || null
   };
   writeTextIfChanged('build/deploy-stamp.json', `${JSON.stringify(stamp, null, 2)}
 `);

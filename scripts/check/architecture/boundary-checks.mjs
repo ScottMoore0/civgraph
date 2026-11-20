@@ -19,7 +19,7 @@
  * @returns {Promise<{ edges: () => Array<{ file: string, target: string, ok: boolean, from: string, to: string | null }>, trackedScripts: () => string[], unownedFiles: (files: string[]) => { missing: string[], stale: string[] }, emptyUnitPaths: (tracked: string[]) => string[], baseline: string[] }>}
  */
 async function boundaries(ctx) {
-  const given = ctx.options.boundaries;
+  const given = ctx.options['boundaries'];
   if (given) return /** @type {Awaited<ReturnType<typeof boundaries>>} */ (given);
   const mod = await import('../boundaries.mjs');
   const { readFileSync } = await import('node:fs');

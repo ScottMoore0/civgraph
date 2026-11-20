@@ -103,14 +103,14 @@ export function referenceProblems(refs) {
     const at = `reference ${i + 1}`;
     if (!r || typeof r !== 'object' || Array.isArray(r)) { out.push(`${at} is not an object`); return; }
     for (const k of Object.keys(r)) if (!KEYS.includes(k)) out.push(`${at} has the key "${k}" (only label, url, note)`);
-    if (typeof r.label !== 'string' || !r.label.trim()) out.push(`${at} has no label`);
-    else if (r.label !== squash(r.label)) out.push(`${at}'s label has stray spaces`);
-    if (r.url !== undefined && !(typeof r.url === 'string' && /^https?:\/\/\S+$/.test(r.url))) out.push(`${at}'s url is not an http(s) address without spaces`);
-    if (r.note !== undefined && !(typeof r.note === 'string' && r.note.trim())) out.push(`${at}'s note is empty`);
-    else if (typeof r.note === 'string' && r.note !== r.note.trim()) out.push(`${at}'s note has stray spaces`);
-    if (typeof r.label === 'string' && r.label.trim() && canonicalLabel(r.label, r.url) !== r.label) out.push(`${at}'s label "${r.label}" should read "${canonicalLabel(r.label, r.url)}"`);
-    const key = `${squash(r.label || '').toLowerCase()}|${r.url || ''}`;
-    if (seen.has(key)) out.push(`${at} repeats an earlier reference (${r.label})`);
+    if (typeof r['label'] !== 'string' || !r['label'].trim()) out.push(`${at} has no label`);
+    else if (r['label'] !== squash(r['label'])) out.push(`${at}'s label has stray spaces`);
+    if (r['url'] !== undefined && !(typeof r['url'] === 'string' && /^https?:\/\/\S+$/.test(r['url']))) out.push(`${at}'s url is not an http(s) address without spaces`);
+    if (r['note'] !== undefined && !(typeof r['note'] === 'string' && r['note'].trim())) out.push(`${at}'s note is empty`);
+    else if (typeof r['note'] === 'string' && r['note'] !== r['note'].trim()) out.push(`${at}'s note has stray spaces`);
+    if (typeof r['label'] === 'string' && r['label'].trim() && canonicalLabel(r['label'], r['url']) !== r['label']) out.push(`${at}'s label "${r['label']}" should read "${canonicalLabel(r['label'], r['url'])}"`);
+    const key = `${squash(r['label'] || '').toLowerCase()}|${r['url'] || ''}`;
+    if (seen.has(key)) out.push(`${at} repeats an earlier reference (${r['label']})`);
     seen.add(key);
   });
   return out;
@@ -164,9 +164,9 @@ export function normaliseReferences(refs, { sourceNotes } = {}) {
 // ---- the three files
 /** @type {{ rel: string, list: (d: Record<string, ReferencingRecord[] | undefined>) => ReferencingRecord[] | undefined, write: (d: unknown, raw: string) => string }[]} */
 const FILES = [
-  { rel: 'data/database/maps.json', list: (d) => d.maps, write: (d) => `${JSON.stringify(d, null, 2)}\n` },
-  { rel: 'render/metadata/maps-test.json', list: (d) => d.layers, write: (d) => `${JSON.stringify(d, null, 2)}\n` },
-  { rel: 'data/database/data-entries.json', list: (d) => d.dataEntries, write: (d, raw) => JSON.stringify(d) + (raw.endsWith('\n') ? '\n' : '') },
+  { rel: 'data/database/maps.json', list: (d) => d['maps'], write: (d) => `${JSON.stringify(d, null, 2)}\n` },
+  { rel: 'render/metadata/maps-test.json', list: (d) => d['layers'], write: (d) => `${JSON.stringify(d, null, 2)}\n` },
+  { rel: 'data/database/data-entries.json', list: (d) => d['dataEntries'], write: (d, raw) => JSON.stringify(d) + (raw.endsWith('\n') ? '\n' : '') },
 ];
 
 /**

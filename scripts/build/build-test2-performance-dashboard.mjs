@@ -13,15 +13,15 @@ const ROOT = resolve(process.cwd());
 const OUT_PATH = resolve(ROOT, sourceOf('app/build/performance-dashboard.json'));
 const VALIDATE = process.argv.includes('--validate');
 const BUDGETS = {
-  entryJsBytes: Number(process.env.TEST2_BUDGET_ENTRY_JS || 80 * 1024),
-  entryCssBytes: Number(process.env.TEST2_BUDGET_ENTRY_CSS || 160 * 1024),
+  entryJsBytes: Number(process.env['TEST2_BUDGET_ENTRY_JS'] || 80 * 1024),
+  entryCssBytes: Number(process.env['TEST2_BUDGET_ENTRY_CSS'] || 160 * 1024),
   // Raised to accommodate the lazy-loaded deck.gl point-cloud chunks (~1.6 MB).
   // These are code-split behind a dynamic import() and only fetched when a user
   // opens a point-cloud layer, so they do NOT affect initial/cold load (guarded
   // separately by measure-test2-cold-load.mjs initialJsBytes). This sum is the
   // "download everything" ceiling and still catches accidental bloat.
-  chunkJsBytes: Number(process.env.TEST2_BUDGET_CHUNK_JS || 3800 * 1024),
-  largestLazyChunkBytes: Number(process.env.TEST2_BUDGET_LARGEST_LAZY_CHUNK || 1200 * 1024),
+  chunkJsBytes: Number(process.env['TEST2_BUDGET_CHUNK_JS'] || 3800 * 1024),
+  largestLazyChunkBytes: Number(process.env['TEST2_BUDGET_LARGEST_LAZY_CHUNK'] || 1200 * 1024),
   // Raised from 3500 KB: Track B published ~97 additional vector layers, which
   // legitimately grew the startup index past the old ceiling. Raised again from
   // 4000 KB on 2026-08-11 -- the index is 4.15 MB and had been reporting FAIL
@@ -34,7 +34,7 @@ const BUDGETS = {
   // out of the compact index into the lazy detail sidecars, or moving the
   // catalogue behind a query API so the client stops loading all 1,138 layers
   // to draw one.
-  metadataIndexBytes: Number(process.env.TEST2_BUDGET_METADATA_INDEX || 4800 * 1024),
+  metadataIndexBytes: Number(process.env['TEST2_BUDGET_METADATA_INDEX'] || 4800 * 1024),
   sourceMapCount: 0
 };
 

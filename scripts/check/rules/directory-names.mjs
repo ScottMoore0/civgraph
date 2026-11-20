@@ -167,12 +167,12 @@ for (const kind of ['RUNTIME', 'CONFIG', 'BUILD', 'TEST', 'DOC']) {
 }
 
 console.log('\n  RUNTIME references — these 404 in production if missed:');
-for (const file of [...(filesByKind.RUNTIME || [])].sort()) {
+for (const file of [...(filesByKind['RUNTIME'] || [])].sort()) {
   const n = findings.filter((f) => f.file === file && f.kind === 'RUNTIME').length;
   console.log(`     ${String(n).padStart(3)}  ${file}`);
 }
 console.log('\n  CONFIG references — these fail SILENTLY if missed:');
-for (const file of [...(filesByKind.CONFIG || [])].sort()) {
+for (const file of [...(filesByKind['CONFIG'] || [])].sort()) {
   const n = findings.filter((f) => f.file === file && f.kind === 'CONFIG').length;
   console.log(`     ${String(n).padStart(3)}  ${file}`);
 }

@@ -44,11 +44,11 @@ import { crawlHeaders } from '@civgraph/config/node';
  */
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i > 0 ? /** @type {string} */ (process.argv[i + 1]) : fallback; };
 // Same cache as build-place-name-crosswalk.mjs: CIVGRAPH_I18N_CACHE, --cache, or tmp/i18n-cache.
-const CACHE = arg('--cache', process.env.CIVGRAPH_I18N_CACHE || path.join('tmp', 'i18n-cache'));
+const CACHE = arg('--cache', process.env['CIVGRAPH_I18N_CACHE'] || path.join('tmp', 'i18n-cache'));
 const LIMIT = Number(arg('--limit', 0)) || Infinity;
 const DRY = process.argv.includes('--dry-run');
 const REFRESH = process.argv.includes('--refresh');
-const KEY = process.env.LOGAINM_API_KEY || '';
+const KEY = process.env['LOGAINM_API_KEY'] || '';
 const API = 'https://www.logainm.ie/api/v1.0/';
 const DELAY_MS = 1100;
 

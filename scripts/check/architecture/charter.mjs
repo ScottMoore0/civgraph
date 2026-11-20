@@ -50,13 +50,13 @@ export const C13 = {
   title: 'the charter: present, R1-R15 each with what checks it, and pointed to by CLAUDE.md and AGENTS.md',
   /** @param {Context} ctx @returns {Finding[]} */
   run(ctx) {
-    const cfg = /** @type {{ path: string, pointers: string[], ruleCount: number }} */ (ctx.config.C13);
+    const cfg = /** @type {{ path: string, pointers: string[], ruleCount: number }} */ (ctx.config['C13']);
     const text = ctx.read(cfg.path);
     /** @type {Finding[]} */
     const out = [];
     if (!text) return [{ file: cfg.path, line: 0, message: 'the charter is missing' }];
     const scripts = JSON.parse(ctx.read('package.json') || '{}').scripts || {};
-    const checkIds = /** @type {string[]} */ (ctx.options.checkIds || []);
+    const checkIds = /** @type {string[]} */ (ctx.options['checkIds'] || []);
     for (const [line, message] of charterProblems(text, { scripts, checkIds, ruleCount: cfg.ruleCount })) out.push({ file: cfg.path, line, message });
     for (const pointer of cfg.pointers) {
       if (!ctx.read(pointer).includes(cfg.path)) out.push({ file: pointer, line: 0, message: `does not point to ${cfg.path} (the 3-line "Architecture rules" pointer)` });

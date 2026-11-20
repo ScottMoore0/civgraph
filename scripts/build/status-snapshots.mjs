@@ -71,9 +71,9 @@ const ONLY = (argVal('--only') || '').split(',').map((s) => s.trim()).filter(Boo
 const wanted = (part) => !ONLY.length || ONLY.includes(part);
 
 const dirs = {
-  gazette: argVal('--gazette') || process.env.STATUS_GAZETTE_DIR,
-  proni: argVal('--proni') || process.env.STATUS_PRONI_DIR,
-  odniMirror: argVal('--odni-mirror') || process.env.STATUS_ODNI_MIRROR_DIR,
+  gazette: argVal('--gazette') || process.env['STATUS_GAZETTE_DIR'],
+  proni: argVal('--proni') || process.env['STATUS_PRONI_DIR'],
+  odniMirror: argVal('--odni-mirror') || process.env['STATUS_ODNI_MIRROR_DIR'],
 };
 
 const today = new Date().toISOString().slice(0, 10);
@@ -127,7 +127,7 @@ async function gazette() {
   const pagesIndexed = /** @type {CountRow} */ (conn.prepare('SELECT COUNT(*) AS n FROM pages').get()).n;
   conn.close();
   const by = Object.fromEntries(rows.map((r) => [r.status, r]));
-  const fetched = by.ok?.n || 0;
+  const fetched = by['ok']?.n || 0;
   const tried = rows.reduce((s, r) => s + r.n, 0);
   let parsed = null;
   let lastParsed = null;
@@ -147,9 +147,9 @@ async function gazette() {
     takenAt: today,
     issuesTried: tried,
     issuesFetched: fetched,
-    issuesNotOnline: by.empty?.n || 0,
-    lastIssueFetched: by.ok?.last ?? null,
-    lastIssueDate: by.ok?.lastDate ?? null,
+    issuesNotOnline: by['empty']?.n || 0,
+    lastIssueFetched: by['ok']?.last ?? null,
+    lastIssueDate: by['ok']?.lastDate ?? null,
     pagesIndexed,
     issuesParsed: parsed,
     lastIssueParsed: lastParsed,
@@ -242,7 +242,7 @@ function census() {
     row.tables = tablesByYear[year] || 0;
     row.explorer = explorerYears.has(Number(year));
   }
-  sources.census = { takenAt: today, ni, pre1921: pre };
+  sources['census'] = { takenAt: today, ni, pre1921: pre };
   log(`census: NI ${Object.values(ni).filter((r) => r.held).length}/7 years held; pre-1921 ${Object.values(pre).filter((r) => r.files).length}/10 years with files`);
 }
 
@@ -284,10 +284,10 @@ async function opendatani() {
       for (const d of readdirSync(p)) if (statSync(path.join(p, d)).isDirectory()) mirrored += 1;
     }
   } else {
-    mirrored = previous.sources?.opendatani?.datasetsMirrored ?? null;
+    mirrored = previous.sources?.['opendatani']?.datasetsMirrored ?? null;
     log('opendatani: no --odni-mirror folder given; kept the previous mirrored count');
   }
-  sources.opendatani = {
+  sources['opendatani'] = {
     takenAt: today,
     datasetsListed: listed,
     datasetsMirrored: mirrored,
@@ -334,7 +334,7 @@ async function legislation() {
     }
   }
   if (!found.size) return log('legislation: the search returned nothing; kept the previous snapshot');
-  sources.legislation = {
+  sources['legislation'] = {
     takenAt: today,
     method: 'legislation.gov.uk title search (nia, apni, nisi, nisr, nisro; uksi naming Northern Ireland), filtered to titles naming boundaries, electoral areas, constituencies, wards, elections or town extensions',
     items: [...found].map(([id, title]) => ({ id, title })).sort((a, b) => a.id.localeCompare(b.id)),
@@ -360,7 +360,7 @@ async function proni() {
     dated = /** @type {CountRow} */ (d.prepare('SELECT COUNT(*) AS n FROM ext WHERE ext_start_year IS NOT NULL').get()).n;
     d.close();
   }
-  sources.proni = { takenAt: today, recordsCollected: collected, recordsWithDate: dated };
+  sources['proni'] = { takenAt: today, recordsCollected: collected, recordsWithDate: dated };
   log(`proni: ${collected} records collected, ${dated ?? '?'} with a date read`);
 }
 

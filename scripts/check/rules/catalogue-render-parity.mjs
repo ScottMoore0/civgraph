@@ -228,8 +228,8 @@ for (const entry of catalogue) {
   // tagged 1970, which is what cloning a template layer and not revising the
   // keywords looks like.
   const years = (/** @type {unknown} */ v) => (Array.isArray(v) ? v : []).map(String).filter((k) => /^(1[89]|20)\d{2}$/.test(k));
-  const catYears = years(entry.keywords);
-  const renYears = years(layer.keywords);
+  const catYears = years(entry['keywords']);
+  const renYears = years(layer['keywords']);
   const wrongYears = renYears.filter((y) => !catYears.includes(y));
   if (catYears.length && renYears.length && catYears.some((y) => !renYears.includes(y)) && wrongYears.length) {
     findings.push({

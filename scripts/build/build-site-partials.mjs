@@ -114,8 +114,8 @@ const SHELL_REGIONS = {
   'site:head': () => toHtmlString(head({ version: versionOf })),
   // skip-also="#id:Label" adds a second skip link (Browse: to the results; PRONI: to the search).
   'site:header': (attrs) => toHtmlString(header({
-    active: /** @type {string} */ (attrs.active),
-    layout: attrs.layout || 'page',
+    active: /** @type {string} */ (attrs['active']),
+    layout: attrs['layout'] || 'page',
     skipLink: attrs['skip-link'] !== 'page',
     skipAlso: attrs['skip-also'] ? [{ href: /** @type {string} */ (attrs['skip-also'].split(':')[0]), label: attrs['skip-also'].split(':').slice(1).join(':') }] : [],
   })),
@@ -167,15 +167,15 @@ function render(name, attrs, page) {
   for (const key of Object.keys(attrs)) {
     if (!allowed.has(key)) throw new Error(`${page}: <!-- ${name} --> does not take ${key}="..."`);
   }
-  if (name === 'site:header' && !NAV_KEYS.has(/** @type {string} */ (attrs.active))) {
+  if (name === 'site:header' && !NAV_KEYS.has(/** @type {string} */ (attrs['active']))) {
     throw new Error(`${page}: <!-- site:header --> needs active="${[...NAV_KEYS].join('|')}"`);
   }
   if (SHELL_REGIONS[name]) return SHELL_REGIONS[name](attrs).replace(/\r\n/g, '\n').trimEnd();
   let html = readFileSync(/** @type {string} */ (PARTIAL_FILES[name]), 'utf8').replace(/\r\n/g, '\n').trimEnd();
   html = html
-    .replace(/\{\{active:([a-z]+)\}\}/g, (_, key) => (key === attrs.active ? ' app-header__link--active' : ''))
-    .replace(/\{\{current:([a-z]+)\}\}/g, (_, key) => (key === attrs.active ? ' aria-current="page"' : ''))
-    .replace(/\{\{layout\}\}/g, attrs.layout || 'page')
+    .replace(/\{\{active:([a-z]+)\}\}/g, (_, key) => (key === attrs['active'] ? ' app-header__link--active' : ''))
+    .replace(/\{\{current:([a-z]+)\}\}/g, (_, key) => (key === attrs['active'] ? ' aria-current="page"' : ''))
+    .replace(/\{\{layout\}\}/g, attrs['layout'] || 'page')
     .replace(/\{\{version:([^}]+)\}\}/g, (_, path) => versionOf(path));
   const leftover = html.match(/\{\{[^}]*\}\}/);
   if (leftover) throw new Error(`${PARTIAL_FILES[name]}: unknown placeholder ${leftover[0]}`);

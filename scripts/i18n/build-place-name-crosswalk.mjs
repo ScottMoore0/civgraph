@@ -25,7 +25,7 @@ import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 const arg = (/** @type {string} */ name, /** @type {string} */ fallback) => { const i = process.argv.indexOf(name); return i > 0 ? /** @type {string} */ (process.argv[i + 1]) : fallback; };
 // Large cache: outside the repository. Set CIVGRAPH_I18N_CACHE (the owner's machine keeps it on a
 // data drive) or pass --cache; the default is the gitignored tmp/ folder.
-const CACHE = arg('--cache', process.env.CIVGRAPH_I18N_CACHE || path.join('tmp', 'i18n-cache'));
+const CACHE = arg('--cache', process.env['CIVGRAPH_I18N_CACHE'] || path.join('tmp', 'i18n-cache'));
 const SAMPLE_PER_KIND = 25;
 
 /** @typedef {import('@civgraph/types').LayerEntry & { sourceFile?: string }} IndexLayer  a maps-test-index.json layer */
@@ -79,7 +79,7 @@ for (const layer of index) {
     if (!irish || !english) continue;
     withIrish += 1;
     const id = p[layer.promoteId || 'id'] ?? feature.id ?? '';
-    const logainm = p.LOGAINM_ID ?? p.LOGAINM_RE ?? p['logainm:ref'] ?? '';
+    const logainm = p['LOGAINM_ID'] ?? p['LOGAINM_RE'] ?? p['logainm:ref'] ?? '';
     const row = [layer.id, id, english, irish, logainm, field].map((v) => String(v).replace(/[\t\n]/g, ' '));
     out.write(`${row.join('\t')}\n`);
     (sample[kind] ||= []);
