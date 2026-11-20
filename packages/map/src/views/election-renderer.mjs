@@ -186,26 +186,26 @@ export class SharedElectionRenderer {
     }
     if (result.recallPetition) return this.renderRecallPetitionResult(result);
     const candidates = [...(result.candidates || [])].sort((a, b) =>
-      Number(Boolean(b.elected)) - Number(Boolean(a.elected))
-      || Number(b.finalVotes ?? b.firstPrefs ?? b.votes ?? 0) - Number(a.finalVotes ?? a.firstPrefs ?? a.votes ?? 0)
+      Number(Boolean(b['elected'])) - Number(Boolean(a['elected']))
+      || Number(b['finalVotes'] ?? b['firstPrefs'] ?? b['votes'] ?? 0) - Number(a['finalVotes'] ?? a['firstPrefs'] ?? a['votes'] ?? 0)
     );
     const areaLabel = this.host.activeBundle?.areaLabel || (this.host.isLocalGovernmentElection() ? 'DEA' : 'Constituency');
     return `
-      <section class="test2-election-panel shared-election-renderer" data-election-renderer="shared" aria-label="${escapeHtml(result.constituency)} results">
+      <section class="test2-election-panel shared-election-renderer" data-election-renderer="shared" aria-label="${escapeHtml(result['constituency'])} results">
         ${this.renderViewTabs([
           ['party', 'By Party'],
           ['counts', 'By Count'],
           ['animation', 'Transfers']
         ], view)}
         <dl class="test2-election-panel__stats">
-          <div><dt>${areaLabel}</dt><dd>${escapeHtml(result.constituency || '')}</dd></div>
-          ${this.host.isLocalGovernmentElection() && result.localBody ? `<div><dt>Council</dt><dd>${escapeHtml(result.localBody)}</dd></div>` : ''}
-          ${result.seatsTotal ? `<div><dt>Seats</dt><dd>${formatNumber(result.seatsTotal)}</dd></div>` : ''}
-          ${result.validPoll ? `<div><dt>Valid poll</dt><dd>${formatNumber(result.validPoll)}</dd></div>` : ''}
-          ${result.turnoutPct ? `<div><dt>Turnout</dt><dd>${formatPercent(result.turnoutPct)}</dd></div>` : ''}
-          ${result.quota ? `<div><dt>Quota</dt><dd>${formatNumber(result.quota)}</dd></div>` : ''}
-          ${result.previous ? `<div><dt>Previous winner</dt><dd>${escapeHtml(result.previous.winnerParty || result.previous.leadingParty || '')}</dd></div>` : ''}
-          ${result.deltas?.turnoutPct !== null && result.deltas?.turnoutPct !== undefined ? `<div><dt>Turnout change</dt><dd>${formatSignedPercent(result.deltas.turnoutPct)}</dd></div>` : ''}
+          <div><dt>${areaLabel}</dt><dd>${escapeHtml(result['constituency'] || '')}</dd></div>
+          ${this.host.isLocalGovernmentElection() && result['localBody'] ? `<div><dt>Council</dt><dd>${escapeHtml(result['localBody'])}</dd></div>` : ''}
+          ${result['seatsTotal'] ? `<div><dt>Seats</dt><dd>${formatNumber(result['seatsTotal'])}</dd></div>` : ''}
+          ${result['validPoll'] ? `<div><dt>Valid poll</dt><dd>${formatNumber(result['validPoll'])}</dd></div>` : ''}
+          ${result['turnoutPct'] ? `<div><dt>Turnout</dt><dd>${formatPercent(result['turnoutPct'])}</dd></div>` : ''}
+          ${result['quota'] ? `<div><dt>Quota</dt><dd>${formatNumber(result['quota'])}</dd></div>` : ''}
+          ${result.previous ? `<div><dt>Previous winner</dt><dd>${escapeHtml(result.previous['winnerParty'] || result.previous['leadingParty'] || '')}</dd></div>` : ''}
+          ${result.deltas?.['turnoutPct'] !== null && result.deltas?.['turnoutPct'] !== undefined ? `<div><dt>Turnout change</dt><dd>${formatSignedPercent(result.deltas['turnoutPct'])}</dd></div>` : ''}
         </dl>
         ${view === 'counts' ? this.renderCountTable(result, candidates)
           : view === 'animation' ? this.renderAnimationNotice(result)
@@ -285,8 +285,8 @@ export class SharedElectionRenderer {
           <thead><tr><th>Party</th><th>Stood</th><th>Seats</th><th>Votes</th><th>Share</th><th>Change</th></tr></thead>
           <tbody>${rows.map((row) => `
             <tr>
-              <td class="election-party-cell" style="--party-colour:${escapeHtml(row.colour)}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}">${partyLabelHtml(row.party, escapeHtml)}</button></td>
-              <td>${formatNumber(row.stood)}</td><td>${formatNumber(row.seats)}</td><td>${formatNumber(row.votes)}</td><td>${formatPercent(row.share)}</td><td>${formatDeltaPair(row.deltas?.seats, row.deltas?.votes)}</td>
+              <td class="election-party-cell" style="--party-colour:${escapeHtml(row['colour'])}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row['party']))}">${partyLabelHtml(row['party'], escapeHtml)}</button></td>
+              <td>${formatNumber(row['stood'])}</td><td>${formatNumber(row['seats'])}</td><td>${formatNumber(row['votes'])}</td><td>${formatPercent(row['share'])}</td><td>${formatDeltaPair(row.deltas?.['seats'], row.deltas?.['votes'])}</td>
             </tr>`).join('')}</tbody>
         </table>
       </div>` : '';
@@ -299,10 +299,10 @@ export class SharedElectionRenderer {
         <table class="test2-election-table catalogue-detail__entity-table election-party-table">
           <thead><tr><th>Candidate</th><th>Party</th><th>First prefs</th><th>Change</th><th>Final votes</th><th>Status</th></tr></thead>
           <tbody>${candidates.map((candidate) => `
-            <tr class="${candidate.elected ? 'test2-election-table__elected' : ''}">
-              <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="candidate" data-election-entity-key="${escapeHtml(candidate.id || `${candidate.name}|${candidate.party}`)}">${escapeHtml(candidate.name || candidate.candidate || '')}</button></td>
-              <td class="election-party-cell" style="--party-colour:${escapeHtml(partyColour(candidate.party) || candidate.colour || MAP_COLOURS.partyGrey)}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(candidate.party))}">${partyLabelHtml(candidate.party || '', escapeHtml)}</button></td>
-              <td>${formatNumber(candidate.firstPrefs ?? candidate.votes ?? '')}</td><td>${candidate.deltas ? formatSigned(candidate.deltas.firstPrefs) : ''}</td><td>${formatNumber(candidate.finalVotes ?? candidate.firstPrefs ?? candidate.votes ?? '')}</td><td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}</td>
+            <tr class="${candidate['elected'] ? 'test2-election-table__elected' : ''}">
+              <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="candidate" data-election-entity-key="${escapeHtml(candidate['id'] || `${candidate['name']}|${candidate['party']}`)}">${escapeHtml(candidate['name'] || candidate['candidate'] || '')}</button></td>
+              <td class="election-party-cell" style="--party-colour:${escapeHtml(partyColour(candidate['party']) || candidate['colour'] || MAP_COLOURS.partyGrey)}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(candidate['party']))}">${partyLabelHtml(candidate['party'] || '', escapeHtml)}</button></td>
+              <td>${formatNumber(candidate['firstPrefs'] ?? candidate['votes'] ?? '')}</td><td>${candidate.deltas ? formatSigned(candidate.deltas['firstPrefs']) : ''}</td><td>${formatNumber(candidate['finalVotes'] ?? candidate['firstPrefs'] ?? candidate['votes'] ?? '')}</td><td>${candidate['elected'] ? 'Elected' : escapeHtml(candidate['status'] || '')}</td>
             </tr>`).join('')}</tbody>
         </table>
       </div>`;
@@ -315,10 +315,10 @@ export class SharedElectionRenderer {
         <table class="test2-election-table catalogue-detail__entity-table election-count-table">
           <thead><tr><th>Candidate</th><th>Party</th><th>Constituency/DEA</th><th>First prefs</th><th>%</th><th>Change</th><th>Status</th></tr></thead>
           <tbody>${candidates.map((candidate) => `
-            <tr class="${candidate.elected ? 'test2-election-table__elected' : ''}">
-              <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="candidate" data-election-entity-key="${escapeHtml(candidate.id || `${candidate.name}|${candidate.party}`)}">${escapeHtml(candidate.name || '')}</button></td>
-              <td class="election-party-cell" style="--party-colour:${escapeHtml(candidate.colour || partyColour(candidate.party))}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(candidate.party))}">${partyLabelHtml(candidate.party || '', escapeHtml)}</button></td>
-              <td>${escapeHtml(candidate.constituency || '')}</td><td>${formatNumber(candidate.firstPrefs)}</td><td>${formatPercent(candidate.firstPrefPct)}</td><td>${candidate.deltas ? formatSigned(candidate.deltas.firstPrefs) : ''}</td><td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}</td>
+            <tr class="${candidate['elected'] ? 'test2-election-table__elected' : ''}">
+              <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="candidate" data-election-entity-key="${escapeHtml(candidate['id'] || `${candidate['name']}|${candidate['party']}`)}">${escapeHtml(candidate['name'] || '')}</button></td>
+              <td class="election-party-cell" style="--party-colour:${escapeHtml(candidate['colour'] || partyColour(candidate['party']))}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(candidate['party']))}">${partyLabelHtml(candidate['party'] || '', escapeHtml)}</button></td>
+              <td>${escapeHtml(candidate['constituency'] || '')}</td><td>${formatNumber(candidate['firstPrefs'])}</td><td>${formatPercent(candidate['firstPrefPct'])}</td><td>${candidate.deltas ? formatSigned(candidate.deltas['firstPrefs']) : ''}</td><td>${candidate['elected'] ? 'Elected' : escapeHtml(candidate['status'] || '')}</td>
             </tr>`).join('')}</tbody>
         </table>
       </div>`;
@@ -332,8 +332,8 @@ export class SharedElectionRenderer {
           <thead><tr><th>Constituency/DEA</th><th>Winner/lead</th><th>Party</th><th>Seats</th><th>Change</th><th>Turnout</th><th>Majority</th></tr></thead>
           <tbody>${results.map((result) => `
             <tr>
-              <td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(result.matchName || result.constituency || ''))}">${escapeHtml(result.constituency || result.matchName || '')}</button></td>
-              <td>${escapeHtml(result.winnerName || result.leadingName || '')}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(partyColour(result.winnerParty || result.leadingParty))}">${partyLabelHtml(result.winnerParty || result.leadingParty || '', escapeHtml)}</td><td>${formatNumber(result.seatsWon ?? result.seatsTotal ?? '')}</td><td>${result.deltas ? formatSigned(result.deltas.seatsWon) : ''}</td><td>${formatPercent(result.turnoutPct)}</td><td>${formatNumber(result.majority)}</td>
+              <td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(result['matchName'] || result['constituency'] || ''))}">${escapeHtml(result['constituency'] || result['matchName'] || '')}</button></td>
+              <td>${escapeHtml(result['winnerName'] || result['leadingName'] || '')}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(partyColour(result['winnerParty'] || result['leadingParty']))}">${partyLabelHtml(result['winnerParty'] || result['leadingParty'] || '', escapeHtml)}</td><td>${formatNumber(result['seatsWon'] ?? result['seatsTotal'] ?? '')}</td><td>${result.deltas ? formatSigned(result.deltas['seatsWon']) : ''}</td><td>${formatPercent(result['turnoutPct'])}</td><td>${formatNumber(result['majority'])}</td>
             </tr>`).join('')}</tbody>
         </table>
       </div>`;
@@ -363,7 +363,7 @@ export class SharedElectionRenderer {
         <table class="test2-election-table catalogue-detail__entity-table election-party-table">
           <thead><tr><th>Council</th><th>DEAs</th><th>Leading party</th><th>Seats</th><th>Seat change</th><th>Valid</th><th>Vote change</th><th>Turnout</th><th>Turnout change</th></tr></thead>
           <tbody>${rows.map((row) => `
-            <tr><td>${escapeHtml(row.council)}</td><td>${formatNumber(row.deas)}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(row.colour)}">${partyLabelHtml(row.leadingParty || '', escapeHtml)}</td><td>${formatNumber(row.seats)}</td><td>${row.deltas ? formatSigned(row.deltas.seats) : ''}</td><td>${formatNumber(row.validPoll)}</td><td>${row.deltas ? formatSigned(row.deltas.validPoll) : ''}</td><td>${formatPercent(row.turnoutPct)}</td><td>${row.deltas?.turnoutPct !== null && row.deltas?.turnoutPct !== undefined ? formatSignedPercent(row.deltas.turnoutPct) : ''}</td></tr>
+            <tr><td>${escapeHtml(row['council'])}</td><td>${formatNumber(row['deas'])}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(row['colour'])}">${partyLabelHtml(row['leadingParty'] || '', escapeHtml)}</td><td>${formatNumber(row['seats'])}</td><td>${row.deltas ? formatSigned(row.deltas['seats']) : ''}</td><td>${formatNumber(row['validPoll'])}</td><td>${row.deltas ? formatSigned(row.deltas['validPoll']) : ''}</td><td>${formatPercent(row['turnoutPct'])}</td><td>${row.deltas?.['turnoutPct'] !== null && row.deltas?.['turnoutPct'] !== undefined ? formatSignedPercent(row.deltas['turnoutPct']) : ''}</td></tr>
           `).join('')}</tbody>
         </table>
       </div>`;
@@ -376,7 +376,7 @@ export class SharedElectionRenderer {
         <table class="test2-election-table catalogue-detail__entity-table election-party-table">
           <thead><tr><th>Party</th><th>Candidates</th><th>Seats</th><th>Seat change</th><th>First prefs</th><th>Vote share</th><th>Vote change</th></tr></thead>
           <tbody>${rows.map((row) => `
-            <tr><td class="election-party-cell" style="--party-colour:${escapeHtml(row.colour)}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}">${partyLabelHtml(row.party, escapeHtml)}</button></td><td>${formatNumber(row.stood)}</td><td>${formatNumber(row.seats)}</td><td>${row.deltas ? formatSigned(row.deltas.seats) : ''}</td><td>${formatNumber(row.votes)}</td><td>${formatPercent(row.share)}</td><td>${row.deltas ? `${formatSigned(row.deltas.votes)}${row.deltas.share !== null ? ` (${formatSignedPercent(row.deltas.share)})` : ''}` : ''}</td></tr>
+            <tr><td class="election-party-cell" style="--party-colour:${escapeHtml(row['colour'])}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row['party']))}">${partyLabelHtml(row['party'], escapeHtml)}</button></td><td>${formatNumber(row['stood'])}</td><td>${formatNumber(row['seats'])}</td><td>${row.deltas ? formatSigned(row.deltas['seats']) : ''}</td><td>${formatNumber(row['votes'])}</td><td>${formatPercent(row['share'])}</td><td>${row.deltas ? `${formatSigned(row.deltas['votes'])}${row.deltas['share'] !== null ? ` (${formatSignedPercent(row.deltas['share'])})` : ''}` : ''}</td></tr>
           `).join('')}</tbody>
         </table>
       </div>`;
@@ -389,10 +389,10 @@ export class SharedElectionRenderer {
         <div class="test2-election-panel__summary"><dl class="test2-election-panel__stats"><div><dt>Petitions</dt><dd>${formatNumber(results.length)}</dd></div><div><dt>Triggered</dt><dd>${formatNumber(results.filter((result) => recallTriggered(result)).length)}</dd></div><div><dt>Not triggered</dt><dd>${formatNumber(results.filter((result) => result.recallPetition && !recallTriggered(result)).length)}</dd></div></dl></div>
         <div class="test2-election-table-wrap"><table class="test2-election-table catalogue-detail__entity-table election-party-table"><thead><tr><th>Constituency</th><th>Signed</th><th>Threshold</th><th>Shortfall/Surplus</th><th>Outcome</th></tr></thead><tbody>${results.map((result) => {
           const petition = /** @type {RecallPetition} */ (result.recallPetition || {});
-          const signed = petition.signed ?? petition.signatures ?? result.leadingVotes ?? null;
-          const threshold = petition.threshold ?? petition.required ?? null;
+          const signed = petition['signed'] ?? petition['signatures'] ?? result['leadingVotes'] ?? null;
+          const threshold = petition['threshold'] ?? petition['required'] ?? null;
           const shortfall = Number.isFinite(Number(signed)) && Number.isFinite(Number(threshold)) ? Number(signed) - Number(threshold) : null;
-          return `<tr><td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(result.matchName || result.constituency || ''))}">${escapeHtml(result.constituency || '')}</button></td><td>${formatNumber(signed)}</td><td>${formatNumber(threshold)}</td><td>${shortfall === null ? '' : formatSigned(shortfall)}</td><td>${escapeHtml(petition.outcome || (recallTriggered(result) ? 'By-election triggered' : 'Petition not successful'))}</td></tr>`;
+          return `<tr><td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(result['matchName'] || result['constituency'] || ''))}">${escapeHtml(result['constituency'] || '')}</button></td><td>${formatNumber(signed)}</td><td>${formatNumber(threshold)}</td><td>${shortfall === null ? '' : formatSigned(shortfall)}</td><td>${escapeHtml(petition['outcome'] || (recallTriggered(result) ? 'By-election triggered' : 'Petition not successful'))}</td></tr>`;
         }).join('')}</tbody></table></div>
       </section>`;
   }
@@ -423,18 +423,18 @@ export class SharedElectionRenderer {
    */
   renderCountCandidateRow(candidate, countNumbers, result) {
     const counts = new Map((candidate.counts || []).map((count) => [Number(count.count), count]));
-    return `<tr class="${candidate.elected ? 'test2-election-table__elected' : ''}"><td>${escapeHtml(candidate.name || '')}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(candidate.colour || partyColour(candidate.party))}">${partyLabelHtml(candidate.party || '', escapeHtml)}</td>${countNumbers.map((count) => {
+    return `<tr class="${candidate['elected'] ? 'test2-election-table__elected' : ''}"><td>${escapeHtml(candidate['name'] || '')}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(candidate['colour'] || partyColour(candidate['party']))}">${partyLabelHtml(candidate['party'] || '', escapeHtml)}</td>${countNumbers.map((count) => {
       const row = counts.get(Number(count));
       if (!row) return '<td></td>';
       const value = row.total ?? row.firstPrefs;
       const transfer = Number(row.transfers);
       const detail = this.host.countDetailedView ? [
-        result.validPoll && Number.isFinite(Number(value)) ? `<small>${formatPercent(Number(value) / Number(result.validPoll) * 100)} of valid poll</small>` : '',
+        result['validPoll'] && Number.isFinite(Number(value)) ? `<small>${formatPercent(Number(value) / Number(result['validPoll']) * 100)} of valid poll</small>` : '',
         Number.isFinite(transfer) && transfer ? `<small>${formatSigned(transfer)} transfer</small>` : '',
         row.status ? `<small>${escapeHtml(row.status)}</small>` : ''
       ].filter(Boolean).join('') : '';
       return `<td><span>${formatNumber(value)}${!this.host.countDetailedView && transfer ? ` (${formatSigned(transfer)})` : ''}</span>${detail ? `<div class="test2-election-count-detail">${detail}</div>` : ''}</td>`;
-    }).join('')}<td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}${candidate.previous ? `<div class="test2-election-count-detail">Previous: ${escapeHtml(candidate.previous.status || '')}</div>` : ''}</td></tr>`;
+    }).join('')}<td>${candidate['elected'] ? 'Elected' : escapeHtml(candidate['status'] || '')}${candidate.previous ? `<div class="test2-election-count-detail">Previous: ${escapeHtml(candidate.previous['status'] || '')}</div>` : ''}</td></tr>`;
   }
 
   /**
@@ -452,18 +452,18 @@ export class SharedElectionRenderer {
   /** @param {RenderResult} result */
   renderRecallPetitionResult(result) {
     const petition = /** @type {RecallPetition} */ (result.recallPetition || {});
-    const signed = petition.signed ?? petition.signatures ?? result.leadingVotes ?? null;
-    const threshold = petition.threshold ?? petition.required ?? null;
-    const electorate = petition.electorate ?? result.electorate ?? null;
-    const triggered = petition.triggered ?? (Number.isFinite(Number(signed)) && Number.isFinite(Number(threshold)) ? Number(signed) >= Number(threshold) : null);
+    const signed = petition['signed'] ?? petition['signatures'] ?? result['leadingVotes'] ?? null;
+    const threshold = petition['threshold'] ?? petition['required'] ?? null;
+    const electorate = petition['electorate'] ?? result['electorate'] ?? null;
+    const triggered = petition['triggered'] ?? (Number.isFinite(Number(signed)) && Number.isFinite(Number(threshold)) ? Number(signed) >= Number(threshold) : null);
     const shortfall = Number.isFinite(Number(signed)) && Number.isFinite(Number(threshold)) ? Number(threshold) - Number(signed) : null;
-    return `<section class="test2-election-panel shared-election-renderer" data-election-renderer="shared" aria-label="${escapeHtml(result.constituency)} recall petition result"><dl class="test2-election-panel__stats"><div><dt>Constituency</dt><dd>${escapeHtml(result.constituency || '')}</dd></div>${electorate ? `<div><dt>Electorate</dt><dd>${formatNumber(electorate)}</dd></div>` : ''}${threshold ? `<div><dt>Threshold</dt><dd>${formatNumber(threshold)}</dd></div>` : ''}${signed ? `<div><dt>Signed</dt><dd>${formatNumber(signed)}</dd></div>` : ''}${shortfall !== null ? `<div><dt>${shortfall <= 0 ? 'Above threshold' : 'Shortfall'}</dt><dd>${formatNumber(Math.abs(shortfall))}</dd></div>` : ''}${triggered !== null ? `<div><dt>By-election triggered</dt><dd>${triggered ? 'Yes' : 'No'}</dd></div>` : ''}${petition.incumbent ? `<div><dt>Incumbent</dt><dd>${escapeHtml(petition.incumbent)}</dd></div>` : ''}${petition.incumbentParty ? `<div><dt>Incumbent party</dt><dd>${escapeHtml(petition.incumbentParty)}</dd></div>` : ''}</dl></section>`;
+    return `<section class="test2-election-panel shared-election-renderer" data-election-renderer="shared" aria-label="${escapeHtml(result['constituency'])} recall petition result"><dl class="test2-election-panel__stats"><div><dt>Constituency</dt><dd>${escapeHtml(result['constituency'] || '')}</dd></div>${electorate ? `<div><dt>Electorate</dt><dd>${formatNumber(electorate)}</dd></div>` : ''}${threshold ? `<div><dt>Threshold</dt><dd>${formatNumber(threshold)}</dd></div>` : ''}${signed ? `<div><dt>Signed</dt><dd>${formatNumber(signed)}</dd></div>` : ''}${shortfall !== null ? `<div><dt>${shortfall <= 0 ? 'Above threshold' : 'Shortfall'}</dt><dd>${formatNumber(Math.abs(shortfall))}</dd></div>` : ''}${triggered !== null ? `<div><dt>By-election triggered</dt><dd>${triggered ? 'Yes' : 'No'}</dd></div>` : ''}${petition['incumbent'] ? `<div><dt>Incumbent</dt><dd>${escapeHtml(petition['incumbent'])}</dd></div>` : ''}${petition['incumbentParty'] ? `<div><dt>Incumbent party</dt><dd>${escapeHtml(petition['incumbentParty'])}</dd></div>` : ''}</dl></section>`;
   }
 
   /** @param {RenderResult} result */
   renderAnimationNotice(result) {
-    if (result.hasCountDetail && result.animationPayload) {
-      const key = normalizeName(result.matchName || result.constituency || '');
+    if (result['hasCountDetail'] && result['animationPayload']) {
+      const key = normalizeName(result['matchName'] || result['constituency'] || '');
       return `<div class="test2-election-animation-ready"><div class="election-animation-actions"><button type="button" class="btn btn-primary" data-election-animation="${escapeHtml(key)}">Run transfer animation</button></div><div id="test2ElectionAnimationStatus" class="election-no-data" aria-live="polite"></div><div id="electionAnimationContainer" class="election-animation-container" style="display:none;"><div id="menuBar"><div id="controls"><a href="#" id="again" title="Restart"><i class="fa fa-backward"></i></a><a href="#" id="pause-replay" class="fa fa-pause" title="Play/Pause"></a><a href="#" id="step" title="Step"><i class="fa fa-forward"></i></a></div><div id="stageNumbers"></div><div id="quota"></div><div style="clear:both;"></div><div style="float:right; font-size:14px; color:#888;">Seats: <span id="seats-span"></span></div></div><div id="animation"></div><div id="count_matrix"></div><div id="transfers"></div><div id="transfers_constituency"></div></div></div>`;
     }
     return '<p class="election-no-data">No transfer animation data is available for this entry.</p>';
@@ -471,12 +471,12 @@ export class SharedElectionRenderer {
 
   /** @param {{ [field: string]: unknown, constituencies?: unknown[], candidates?: TableRow[] }} entity  a party of the election's entity index */
   renderPartyEntity(entity) {
-    return `<section class="election-entity-page shared-election-renderer" data-election-renderer="shared"><div class="election-entity-page__hero"><span class="election-party-dot election-party-dot--hero" style="background:${escapeHtml(entity.colour || partyColour(entity.name))}"></span><div><div class="election-entity-page__eyebrow">Party Information</div><h3 class="election-entity-page__title">${escapeHtml(entity.name || '')}</h3><p class="election-entity-page__subtitle">${escapeHtml(this.host.activeBundle.displayTitle || this.host.activeBundle.body)} - ${escapeHtml(this.host.activeBundle.date)}</p></div></div><div class="election-entity-metrics"><div class="election-entity-metric"><span class="election-entity-metric__label">Candidates stood</span><strong>${formatNumber(entity.stood)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Candidates elected</span><strong>${formatNumber(entity.elected)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">First prefs</span><strong>${formatNumber(entity.firstPrefs)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Final votes</span><strong>${formatNumber(entity.finalVotes)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Constituencies/DEAs</span><strong>${formatNumber(entity.constituencies?.length || 0)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Share</span><strong>${formatPercent(entity.shareOfTotal)}</strong></div></div>${this.renderCandidateSummaryTable((entity.candidates || []).map((candidate) => ({ ...candidate, party: entity.name, colour: entity.colour, firstPrefs: candidate.firstPref })))}</section>`;
+    return `<section class="election-entity-page shared-election-renderer" data-election-renderer="shared"><div class="election-entity-page__hero"><span class="election-party-dot election-party-dot--hero" style="background:${escapeHtml(entity['colour'] || partyColour(entity['name']))}"></span><div><div class="election-entity-page__eyebrow">Party Information</div><h3 class="election-entity-page__title">${escapeHtml(entity['name'] || '')}</h3><p class="election-entity-page__subtitle">${escapeHtml(this.host.activeBundle.displayTitle || this.host.activeBundle.body)} - ${escapeHtml(this.host.activeBundle.date)}</p></div></div><div class="election-entity-metrics"><div class="election-entity-metric"><span class="election-entity-metric__label">Candidates stood</span><strong>${formatNumber(entity['stood'])}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Candidates elected</span><strong>${formatNumber(entity['elected'])}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">First prefs</span><strong>${formatNumber(entity['firstPrefs'])}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Final votes</span><strong>${formatNumber(entity['finalVotes'])}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Constituencies/DEAs</span><strong>${formatNumber(entity.constituencies?.length || 0)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Share</span><strong>${formatPercent(entity['shareOfTotal'])}</strong></div></div>${this.renderCandidateSummaryTable((entity.candidates || []).map((candidate) => ({ ...candidate, party: entity['name'], colour: entity['colour'], firstPrefs: candidate['firstPref'] })))}</section>`;
   }
 
   /** @param {{ [field: string]: unknown, constituencies?: unknown[], appearances?: TableRow[] }} entity  a candidate of the election's entity index */
   renderCandidateEntity(entity) {
-    return `<section class="election-entity-page shared-election-renderer" data-election-renderer="shared"><div class="election-entity-page__hero"><span class="election-party-dot election-party-dot--hero" style="background:${escapeHtml(entity.colour || partyColour(entity.party))}"></span><div><div class="election-entity-page__eyebrow">Candidate Information</div><h3 class="election-entity-page__title">${escapeHtml(entity.name || '')}</h3><p class="election-entity-page__subtitle">${escapeHtml(entity.party || '')}</p></div></div><div class="election-entity-metrics"><div class="election-entity-metric"><span class="election-entity-metric__label">Appearances</span><strong>${formatNumber(entity.appearances?.length || 0)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Elected</span><strong>${formatNumber(entity.electedCount)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">First prefs</span><strong>${formatNumber(entity.firstPrefs)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Final votes</span><strong>${formatNumber(entity.finalVotes)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Constituencies/DEAs</span><strong>${formatNumber(entity.constituencies?.length || 0)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Share</span><strong>${formatPercent(entity.shareOfTotal)}</strong></div></div><div class="test2-election-table-wrap"><table class="test2-election-table catalogue-detail__entity-table election-party-table"><thead><tr><th>Constituency/DEA</th><th>First prefs</th><th>Final votes</th><th>Status</th></tr></thead><tbody>${(entity.appearances || []).map((row) => `<tr><td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(row.constituency || ''))}">${escapeHtml(row.constituency)}</button></td><td>${formatNumber(row.firstPref)}</td><td>${formatNumber(row.finalVotes)}</td><td>${escapeHtml(row.status || '')}</td></tr>`).join('')}</tbody></table></div></section>`;
+    return `<section class="election-entity-page shared-election-renderer" data-election-renderer="shared"><div class="election-entity-page__hero"><span class="election-party-dot election-party-dot--hero" style="background:${escapeHtml(entity['colour'] || partyColour(entity['party']))}"></span><div><div class="election-entity-page__eyebrow">Candidate Information</div><h3 class="election-entity-page__title">${escapeHtml(entity['name'] || '')}</h3><p class="election-entity-page__subtitle">${escapeHtml(entity['party'] || '')}</p></div></div><div class="election-entity-metrics"><div class="election-entity-metric"><span class="election-entity-metric__label">Appearances</span><strong>${formatNumber(entity.appearances?.length || 0)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Elected</span><strong>${formatNumber(entity['electedCount'])}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">First prefs</span><strong>${formatNumber(entity['firstPrefs'])}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Final votes</span><strong>${formatNumber(entity['finalVotes'])}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Constituencies/DEAs</span><strong>${formatNumber(entity.constituencies?.length || 0)}</strong></div><div class="election-entity-metric"><span class="election-entity-metric__label">Share</span><strong>${formatPercent(entity['shareOfTotal'])}</strong></div></div><div class="test2-election-table-wrap"><table class="test2-election-table catalogue-detail__entity-table election-party-table"><thead><tr><th>Constituency/DEA</th><th>First prefs</th><th>Final votes</th><th>Status</th></tr></thead><tbody>${(entity.appearances || []).map((row) => `<tr><td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(row['constituency'] || ''))}">${escapeHtml(row['constituency'])}</button></td><td>${formatNumber(row['firstPref'])}</td><td>${formatNumber(row['finalVotes'])}</td><td>${escapeHtml(row['status'] || '')}</td></tr>`).join('')}</tbody></table></div></section>`;
   }
 
   /**
@@ -606,8 +606,8 @@ function inferCountEvents(candidates = [], countNumbers = []) {
       const row = (candidate.counts || []).find((item) => Number(item.count) === Number(count));
       const status = normalizeName(row?.status || '');
       if (/not elected/.test(status)) continue;
-      if (/elected|quota/.test(status) && Number(candidate.electedAt) === Number(count)) elected.push(candidate.name);
-      if (/excluded|eliminated/.test(status) && Number(candidate.excludedAt) === Number(count)) excluded.push(candidate.name);
+      if (/elected|quota/.test(status) && Number(candidate['electedAt']) === Number(count)) elected.push(candidate['name']);
+      if (/excluded|eliminated/.test(status) && Number(candidate['excludedAt']) === Number(count)) excluded.push(candidate['name']);
     }
     const labels = [];
     if (elected.length) labels.push(`${elected.length === 1 ? elected[0] : `${elected.length} candidates`} elected`);
@@ -620,8 +620,8 @@ function inferCountEvents(candidates = [], countNumbers = []) {
 /** @param {RenderResult} [result] */
 function recallTriggered(result = {}) {
   const petition = /** @type {RecallPetition} */ (result.recallPetition || {});
-  if (typeof petition.triggered === 'boolean') return petition.triggered;
-  const signed = Number(petition.signed ?? petition.signatures ?? result.leadingVotes);
-  const threshold = Number(petition.threshold ?? petition.required);
+  if (typeof petition['triggered'] === 'boolean') return petition['triggered'];
+  const signed = Number(petition['signed'] ?? petition['signatures'] ?? result['leadingVotes']);
+  const threshold = Number(petition['threshold'] ?? petition['required']);
   return Number.isFinite(signed) && Number.isFinite(threshold) ? signed >= threshold : false;
 }

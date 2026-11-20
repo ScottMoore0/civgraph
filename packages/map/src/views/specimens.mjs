@@ -9,7 +9,7 @@ import { CENSUS_RAMPS, MAP_COLOURS } from './colours.mjs';
 
 /** A party's colour in the map's Republic of Ireland palette (the registry's mapRoi part): each entry is [name, colour]. */
 const roi = (/** @type {string} */ party) => /** @type {string} */ ((partyPalettes.mapRoi.find(([name]) => name === party) || [party, MAP_COLOURS.partyGrey])[1]);
-const ramp = CENSUS_RAMPS.viridis || [];
+const ramp = CENSUS_RAMPS['viridis'] || [];
 
 /**
  * The legend (packages/map/src/views/legend-view.mjs legendBodyHtml): an election's winners with 15
