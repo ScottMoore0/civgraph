@@ -1924,6 +1924,17 @@ export class TestMapLibreController {
     }
     const approxLineId = approximateSegmentIds(layerId).lineId;
     if (this.map.getLayer(approxLineId)) this.map.setPaintProperty(approxLineId, 'line-color', color);
+    // The labels follow the line (labels.js getLabelStyle).
+    for (const labelId of record.labelLayerIds || []) {
+      if (this.map.getLayer(labelId)) {
+        this.map.setPaintProperty(labelId, 'text-color', /** @type {import('maplibre-gl').ExpressionSpecification} */ (buildLabelColorExpression(record.config, color)));
+      }
+    }
+    const labelColour = getLabelStyle(record.config, color).color;
+    for (const marker of record.domLabelMarkers?.values?.() || []) {
+      const text = marker.getElement()?.querySelector('div');
+      if (text) text.style.color = labelColour;
+    }
     this.notifyChange();
   }
 
@@ -2865,7 +2876,7 @@ export class TestMapLibreController {
    * @returns {import('maplibre-gl').Marker}
    */
   createDomLabelMarker(layer, feature, id, label) {
-    const labelStyle = getLabelStyle(layer);
+    const labelStyle = getLabelStyle(layer, this.layers.get(layer.id)?.color);
     const element = /** @type {DomLabelElement} */ (document.createElement('span'));
     element.className = 'map-label map-label--clickable maplibre-dom-label';
     element.dataset.layerId = layer.id;

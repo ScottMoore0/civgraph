@@ -65,16 +65,24 @@ export function getLabelMaxZoom(layer) {
   return Number.isFinite(value) ? value : undefined;
 }
 
-/** @param {RendererLayer} layer */
-export function getLabelStyle(layer) {
+/**
+ * A layer's label style. The text is drawn in the layer's line colour (owner, 20 Nov 2026: a
+ * label reads as the same colour as its outlines), whatever colour the metadata's labelStyle or
+ * labelTextColor names, since the load-order palette and a visitor's colour change only the
+ * line. legibleLabelColour darkens it only as far as its halo needs.
+ * @param {RendererLayer} layer
+ * @param {string | null} [lineColour]  the colour the line is drawn in now (the map controller's
+ *   record colour, after a palette or visitor change), when it may differ from layer.style.color
+ */
+export function getLabelStyle(layer, lineColour) {
   /** @type {LabelStyleInput} */
   const style = layer.labelStyle || {};
-  const baseColor = resolveLabelColor(layer, style.color || layer.labelTextColor || 'layer');
+  const haloColor = resolveLabelColor(layer, style.haloColor || MAP_COLOURS.labelHaloDefault);
   return {
-    color: baseColor,
+    color: legibleLabelColour(lineColour || layerLineColour(layer), haloColor),
     hoverColor: resolveLabelColor(layer, style.hoverColor || MAP_COLOURS.labelHover),
     selectedColor: resolveLabelColor(layer, style.selectedColor || MAP_COLOURS.labelSelected),
-    haloColor: resolveLabelColor(layer, style.haloColor || MAP_COLOURS.labelHaloDefault),
+    haloColor,
     haloWidth: clamp(style.haloWidth ?? 1.4, 0, 4),
     haloBlur: clamp(style.haloBlur ?? 0, 0, 2),
     fontSize: clamp(style.fontSize ?? 12, 6, 32),
@@ -94,9 +102,93 @@ export function resolveLabelColor(layer, value) {
   return MAP_COLOURS.layer;
 }
 
-/** @param {RendererLayer} layer */
-export function buildLabelColorExpression(layer) {
-  const style = getLabelStyle(layer);
+/**
+ * The colour a layer's line (or point) is drawn in when it is added, as the map controller
+ * paints it.
+ * @param {RendererLayer} layer
+ * @returns {string}
+ */
+export function layerLineColour(layer) {
+  return layer.style?.color || MAP_COLOURS.layerLine;
+}
+
+/** The least contrast a label keeps against its halo: WCAG's figure for large or bold text. */
+export const LABEL_MIN_CONTRAST = 3;
+
+/**
+ * A colour as [r, g, b] (0 to 255), from #rgb or #rrggbb; null for anything else.
+ * @param {unknown} colour
+ * @returns {[number, number, number] | null}
+ */
+export function parseHexColour(colour) {
+  const match = typeof colour === 'string' ? /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(colour.trim()) : null;
+  if (!match) return null;
+  const hex = /** @type {string} */ (match[1]);
+  const full = hex.length === 3 ? hex.replace(/./g, (c) => c + c) : hex;
+  return [parseInt(full.slice(0, 2), 16), parseInt(full.slice(2, 4), 16), parseInt(full.slice(4, 6), 16)];
+}
+
+/**
+ * A colour's WCAG relative luminance (0 black to 1 white).
+ * @param {[number, number, number]} rgb
+ */
+export function relativeLuminance(rgb) {
+  const [r, g, b] = rgb.map((v) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * /** @type {number} */ (r) + 0.7152 * /** @type {number} */ (g) + 0.0722 * /** @type {number} */ (b);
+}
+
+/**
+ * The WCAG contrast ratio of two colours (1 to 21).
+ * @param {[number, number, number]} a
+ * @param {[number, number, number]} b
+ */
+export function contrastRatio(a, b) {
+  const la = relativeLuminance(a);
+  const lb = relativeLuminance(b);
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+
+/**
+ * A label colour of the same hue as `colour` that keeps LABEL_MIN_CONTRAST against its halo:
+ * the colour itself when it already does; otherwise the least darkening that does (each channel
+ * scaled by one factor, so hue and saturation hold), or the least lightening for a dark halo.
+ * A colour or halo that is not #rgb/#rrggbb is returned unchanged.
+ * @param {string} colour
+ * @param {string} halo
+ * @returns {string}
+ */
+export function legibleLabelColour(colour, halo) {
+  const rgb = parseHexColour(colour);
+  const haloRgb = parseHexColour(halo);
+  if (!rgb || !haloRgb || contrastRatio(rgb, haloRgb) >= LABEL_MIN_CONTRAST) return colour;
+  const darken = relativeLuminance(haloRgb) >= relativeLuminance(rgb);
+  /** @param {number} t  0 the colour, 1 black (darkening) or white (lightening) */
+  const shade = (t) => /** @type {[number, number, number]} */ (rgb.map((v) => Math.round(darken ? v * (1 - t) : v + (255 - v) * t)));
+  for (let step = 1; step <= 20; step += 1) {
+    const next = shade(step / 20);
+    if (contrastRatio(next, haloRgb) >= LABEL_MIN_CONTRAST) return toHexColour(next);
+  }
+  return toHexColour(shade(1));
+}
+
+/**
+ * @param {[number, number, number]} rgb
+ * @returns {string}
+ */
+function toHexColour(rgb) {
+  return `#${rgb.map((v) => v.toString(16).padStart(2, '0')).join('')}`;
+}
+
+/**
+ * The text colour of a layer's labels: the hover and selected colours, else its line colour.
+ * @param {RendererLayer} layer
+ * @param {string | null} [lineColour]  as getLabelStyle
+ */
+export function buildLabelColorExpression(layer, lineColour) {
+  const style = getLabelStyle(layer, lineColour);
   return [
     'case',
     ['boolean', ['feature-state', 'selected'], false],
