@@ -31,8 +31,11 @@ import { setHidden } from '../state-helpers.mjs';
 /** @typedef {import('./index.js').LngLat} LngLat */
 /** The editions a search matched or a point is in (a row's hit). @typedef {{ members?: string[] } | null | undefined} RowHit */
 const FALLBACK = MAP_COLOURS.catalogueFallback;
-/** @param {CatalogueNext} c @param {CatalogueRow} s @param {string} id */
-const colourOf = (c, s, id) => c.rec(id).color || s.color || FALLBACK;
+/** Every chip, dot and Add button in a row takes the row's (category's) colour: a map's own colour
+ * no longer says anything, as maps take their colours on the map by load order, which the
+ * loaded-layers panel shows (Phelim Birch, owner-approved 20 Nov 2026).
+ * @param {CatalogueRow} s */
+const rowColour = (s) => s.color || FALLBACK;
 
 /** Where (one of all, NI, ROI, Ireland) and kind (boundaries or data, or neither for both) share a
  * row; the years slider sits below. "What's here?" and "On the map" are built but not shown yet. */
@@ -221,7 +224,9 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   const by = s.kind === 'Statistics' && single ? /\bby ([^,)]+)\)?\s*$/.exec(c.rec(/** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0]).id).name || '')?.[1] : '';
   const who = single ? c.mapSummary(/** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0]).id, { date: false, short: true }) : creditLine((s.provider || []).map(shortProvider), s.derivedFrom || []);
   const second = [by ? `by ${by}` : '', who, ...tally].filter(Boolean);
-  const credit = second.length ? `<span class="cn-row__credit">${second.map((t, k) => `<span class="cn-row__item">${esc(t)}${k < second.length - 1 ? '<span class="cn-row__dot" aria-hidden="true"> ·</span>' : ''}</span>`).join(' ')}</span>` : '';
+  // The line wraps word by word (Phelim Birch, 20 Nov 2026); a no-break space keeps each dot on
+  // the line of the fact before it.
+  const credit = second.length ? `<span class="cn-row__credit">${second.map((t, k) => `<span class="cn-row__item">${esc(t)}${k < second.length - 1 ? '<span class="cn-row__dot" aria-hidden="true">&nbsp;·</span>' : ''}</span>`).join(' ')}</span>` : '';
   const text = `<span class="cn-row__text"><span class="cn-row__name">${esc(s.name)}</span><span class="cn-row__meta">${meta.join('<span class="cn-row__dot" aria-hidden="true">·</span>')}</span>${credit}</span>`;
   // A series with nothing to draw yet is a heading and its list of maps to come: nothing to open.
   const tip = single ? c.mapSummary(/** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0]).id) : '';
@@ -229,14 +234,18 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
     ? `<button type="button" class="cn-row__title" data-cn-expand="${esc(s.id)}" aria-expanded="${open}" aria-controls="cn-panel-${esc(s.id)}"${tip ? ` title="${esc(tip)}"` : ''}>${text}${icon('chevron-down', 'cn-icon cn-row__chev')}</button>`
     : `<div class="cn-row__title cn-row__title--static">${text}</div>`;
   const localHits = localHitsOf(c, s, hit);
-  const chips = !single || todo.length || localHits.length;
+  // An opened row of several maps lists them by date, each with its chip and tools (panelHtml), so
+  // its strip of chips gives way to that list; a closed row keeps the strip for quick adding
+  // (Phelim Birch, 20 Nov 2026). The maps to be added and a search's council maps stay on it.
+  const listed = open && actsOn === 'row';
+  const chips = (!single && !listed) || todo.length || localHits.length;
   const ends = actsOn === 'row' ? rowActionsHtml(c, s) : single ? mapActionsHtml(c, s, /** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0])) : '';
   return `<li class="cn-row${open ? ' cn-row--open' : ''}${drawable ? '' : ' cn-row--todo'}" data-cn-series="${esc(s.id)}" style="--c:${s.color || FALLBACK}">
     <span class="cn-row__stripe" aria-hidden="true"></span>
     <span class="cn-row__thumb">${s.thumb ? c.thumb(s.thumb) : `<span class="cn-thumb-none" aria-hidden="true">${icon('map')}</span>`}</span>
     ${title}
     ${ends ? `<span class="cn-row__end" role="group" aria-label="${esc(s.name)}: actions">${ends}</span>` : ''}
-    ${chips ? `<div class="cn-chips" role="group" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${chipsHtml(c, s, single ? [] : editions, hit)}</div>` : ''}
+    ${chips ? `<div class="cn-chips" role="group" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${chipsHtml(c, s, single || listed ? [] : editions, hit)}</div>` : ''}
     ${open ? `<div class="cn-panel" id="cn-panel-${esc(s.id)}" data-cn-panel="${esc(s.id)}">${panelHtml(c, s)}</div>` : ''}
   </li>`;
 }
@@ -259,7 +268,7 @@ function rowActionsHtml(c, s) {
  */
 function mapActionsHtml(c, s, m) {
   if (c.rec(m.id).status === 'placeholder') return '';
-  return `${addButtonHtml(c, s, m)}${mapToolsHtml(c, m.id, s.name)}`;
+  return `${addButtonHtml(s, m)}${mapToolsHtml(c, m.id, s.name)}`;
 }
 
 /**
@@ -274,9 +283,9 @@ export function mapToolsHtml(c, id, label, { small = false, details = true } = {
   return `${c.boundsOf(id) ? `<button type="button" class="${cls}" data-cn-act="zoom" data-map="${esc(id)}" aria-label="Zoom to ${esc(label)}" title="Zoom to">${icon('maximize')}</button>` : ''}${c.downloadsFor(id).length ? `<button type="button" class="${cls}" data-cn-act="downloads" data-map="${esc(id)}" aria-haspopup="menu" aria-expanded="false" aria-label="Download ${esc(label)}" title="Download">${icon('download')}</button>` : ''}${details && c.full(id) ? `<button type="button" class="${cls}" data-cn-act="details" data-map="${esc(id)}" aria-label="Details of ${esc(label)}" title="Details">${icon('info')}</button>` : ''}`;
 }
 
-/** @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} m */
-function addButtonHtml(c, s, m) {
-  const col = colourOf(c, s, m.id);
+/** @param {CatalogueRow} s @param {CatalogueRowMember} m */
+function addButtonHtml(s, m) {
+  const col = rowColour(s);
   const name = s.members.length > 1 ? `${s.name}, ${m.label}` : s.name;
   return `<button type="button" class="cn-add" data-cn-toggle="${esc(m.id)}" data-series="${esc(s.id)}" aria-pressed="false" aria-label="${esc(name)}: on the map" style="--c:${col};--on:${inkOn(col)}">${icon('plus', 'cn-icon cn-when-off')}${icon('check', 'cn-icon cn-when-on')}<span class="cn-when-off">Add</span><span class="cn-when-on">On map</span></button>`;
 }
@@ -336,7 +345,7 @@ function todoChipHtml(c, m) {
  */
 export function chipHtml(c, s, m, { hit = false, out = false, label = m.label, versions: countVersions = true } = {}) {
   const r = c.rec(m.id);
-  const col = colourOf(c, s, m.id);
+  const col = rowColour(s);
   const versions = countVersions ? s.members.filter((x) => x.of === m.id).length : 0;
   const tip = [[c.mapSummary(m.id), r.status === 'incomplete' ? 'incomplete' : ''].filter(Boolean).join(' · '), r.note].filter(Boolean).join('\n');
   if (r.status === 'placeholder') {
@@ -367,7 +376,7 @@ export function aboutHtml(about, { heading = '' } = {}) {
 export function panelHtml(c, s) {
   const sel = c.selectedMember(s);
   const list = datedList(s, (id) => c.rec(id));
-  if (list.length > 1) return `${aboutHtml(s.about)}${datedListHtml(c, s, list, sel)}`;
+  if (list.length > 1) return `${aboutHtml(s.about)}${datedListHtml(c, s, list, sel, c.rowHit?.(s))}`;
   // A single map with no facts, versions, parts or council maps draws no empty block (its grid gap
   // left a band of empty space under the description: Phelim Birch, 19 Nov 2026).
   const edition = editionHtml(c, s, sel).trim();
@@ -375,14 +384,14 @@ export function panelHtml(c, s) {
 }
 
 /**
- * What the chosen map of a row holds: its facts, its versions, its parts and council maps.
+ * What the chosen map of a row holds: its own description, its facts, its versions, its parts and
+ * council maps.
  * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel
  */
 function editionHtml(c, s, sel) {
   const r = c.rec(sel.id);
-  // Descriptions are hidden until people write standard ones (Phelim Birch's review, 2026-10-06);
-  // the text stays in the data.
-  return `${factsHtml(c, sel, r)}
+  return `${mapDescriptionHtml(c, sel.id)}
+      ${factsHtml(c, sel, r)}
       ${r.status === 'placeholder' ? '<p class="cn-muted">Listed so you know it is coming: it cannot be drawn yet.</p>' : ''}
       ${versionsHtml(c, s, sel)}
       ${partsHtml(c, s, sel, r)}
@@ -390,22 +399,35 @@ function editionHtml(c, s, sel) {
 }
 
 /**
- * A row's maps, one line each: the map's date, its chip (on and off the map), its tools, and a
- * button that opens its facts, versions and parts beneath it.
- * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} list @param {CatalogueRowMember} sel
+ * A map's own description where it has one (index.js mapDescription: as its Details page shows
+ * it), under the row's: not only on its Details page (Phelim Birch, 20 Nov 2026). The text is the
+ * record's, unchanged; a map with none shows nothing.
+ * @param {CatalogueNext} c @param {string} id
  */
-function datedListHtml(c, s, list, sel) {
+function mapDescriptionHtml(c, id) {
+  const text = c.mapDescription?.(id) || '';
+  return text ? `<div class="cn-mapdesc">${text.split(/\n\s*\n/).map((p) => `<p>${esc(p)}</p>`).join('')}</div>` : '';
+}
+
+/**
+ * A row's maps, one line each: the map's date, its chip (on and off the map), its tools, and a
+ * button that opens its description, facts, versions and parts beneath it. A chip a search matched
+ * is marked, as on the closed row's strip.
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} list @param {CatalogueRowMember} sel @param {RowHit} [hit]
+ */
+function datedListHtml(c, s, list, sel, hit) {
   const chosen = sel.of || sel.id;
+  const hits = new Set((c.query || c.here) ? hit?.members || [] : []);
   return `<ul class="cn-dlist" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${list.map((m) => {
     const r = c.rec(m.id);
     const when = r.date ? mapDate(r) : '';
     const open = m.id === chosen;
     const label = `${s.name}, ${m.label}`;
     const todo = r.status === 'placeholder';
-    return `<li class="cn-dlist__item${open ? ' cn-dlist__item--open' : ''}" style="--c:${colourOf(c, s, m.id)}">
+    return `<li class="cn-dlist__item${open ? ' cn-dlist__item--open' : ''}" style="--c:${rowColour(s)}">
       <span class="cn-dlist__line">
         <span class="cn-dlist__when">${when && when !== m.label ? esc(when) : ''}</span>
-        <span class="cn-dlist__chip">${chipHtml(c, s, m, { versions: false })}</span>
+        <span class="cn-dlist__chip">${chipHtml(c, s, m, { versions: false, hit: hits.has(m.id) })}</span>
         <span class="cn-dlist__acts">${todo ? '<span class="cn-badge cn-badge--todo">To be added</span>' : mapToolsHtml(c, m.id, label, { small: true })}<button type="button" class="cn-iconbtn cn-iconbtn--sm cn-dlist__more" data-cn-select="${esc(s.id)}|${esc(m.id)}" aria-expanded="${open}" aria-label="${esc(m.label)}: facts, versions and parts" title="Facts, versions and parts">${icon('chevron-down')}</button></span>
       </span>
       ${open ? `<div class="cn-ed">${editionHtml(c, s, sel)}</div>` : ''}
@@ -474,7 +496,7 @@ function countiesHtml(c, s, sel, r) {
   if (!r.counties?.length) return '';
   const key = `${sel.id}:counties`;
   const shown = c.moreParts.has(key) ? r.counties : r.counties.slice(0, 12);
-  const col = colourOf(c, s, sel.id);
+  const col = rowColour(s);
   return `<div class="cn-sub"><span class="cn-label">By county · ${r.counties.length}</span>
     <div class="cn-chips">${shown.map((p) => itemHtml(c, `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${s.name}: County ${p.label}`)}" title="${esc(`County ${p.label}`)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`, p.id, `County ${p.label}`, { part: true })).join('')}
     ${r.counties.length > shown.length ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more-parts="${esc(key)}">+${r.counties.length - shown.length} more</button>` : ''}</div></div>`;
@@ -501,7 +523,7 @@ function partsGroupHtml(c, s, sel, r) {
   if (!r.parts?.length) return '';
   const all = c.moreParts.has(sel.id);
   const shown = all ? r.parts : r.parts.slice(0, 12);
-  const col = colourOf(c, s, sel.id);
+  const col = rowColour(s);
   return `<div class="cn-sub"><span class="cn-label">Parts · ${r.parts.length}</span>
     <div class="cn-chips">${shown.map((p) => itemHtml(c, `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${r.name || sel.label}: ${p.label}`)}" title="${esc(p.label)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`, p.id, p.label, { part: true })).join('')}
     ${r.parts.length > shown.length ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more-parts="${esc(sel.id)}">+${r.parts.length - shown.length} more</button>` : ''}</div>

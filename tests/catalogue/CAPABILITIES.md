@@ -18,7 +18,7 @@ Run: `npm run test:catalogue` (unit tests, then the browser tests against the te
 | C07 | Variants of a map behind a ▼ button | Other versions of an edition (e.g. 1993 at 1:50k and large scale) and parts (county sheets, LiDAR tiles) as chips in the opened row | kept |
 | C08 | A map's details page (style, keywords, references, attributes) | Details opens the same page | kept |
 | C09 | Provider and feature count on each map | On each chip's tooltip and on single-map rows (the opened row leaves out title, authors and geometry, at the user's request) | kept |
-| C10 | The colour each layer is drawn in, as a stripe | Each chip's dot, and its fill while on the map; the row's stripe | kept |
+| C10 | The colour each layer is drawn in, as a stripe | Every chip, dot and Add button in a row takes the row's colour, on the map or off; the colour each map is drawn in (by load order) shows in the loaded-layers panel (Phelim Birch, 20 Nov 2026) | replaced |
 | C11 | Thumbnail preview on hover | Same preview, same code | kept |
 | C12 | "Show N to be added" on each card | "Show N to be added" on each series that has them; the maps join its chips in date order. Cards with nothing drawable yet (e.g. Assembly Areas) are rows of their own | kept |
 | C13 | Category chips at the top, jumping to a section | A contents button left of the search box: a panel from the right lists every shelf and subject (decades on Elections, categories on Books), marks where you are, and jumps there | replaced: one list for every section, always in reach |

@@ -43,7 +43,7 @@ import { CATALOGUE_TAB, followSeriesRedirect } from './route-state.mjs';
 import { defineFlagFields, setHidden } from '../state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 import { siteNumber } from '../../../core/src/format.js';
-import { catalogueTrail, comparable, mapTitle, partLabel, passesProviders, providerCounts, rowCitation, rowProviderIds } from './row-model.mjs';
+import { catalogueTrail, comparable, detailHolders, mapTitle, ownDescription, partLabel, passesProviders, providerCounts, rowCitation, rowMapCount, rowProviderIds } from './row-model.mjs';
 import { PROVIDERS } from './util.js';
 import { MAP_COLOURS } from '../views/colours.mjs';
 
@@ -308,12 +308,10 @@ export class CatalogueNext {
         this.seriesOfMap = new Map();
         for (const s of this.data.series) for (const m of [...s.members, ...(s.local || [])]) this.seriesOfMap.set(m.id, s.id);
         for (const s of this.data.series) for (const m of s.members) for (const p of [...(this.data.maps[m.id]?.parts || []), ...(this.data.maps[m.id]?.counties || [])]) if (!this.seriesOfMap.has(p.id)) this.seriesOfMap.set(p.id, s.id);
-        // Parts have no pages of their own: Details for one opens the map it is listed under
-        // (data-service.js detailPageId), and so does an address naming one that opened before now.
-        /** @type {Map<string, string>} */
-        const holders = new Map();
-        for (const s of this.data.series) for (const m of s.members) for (const p of [...(this.data.maps[m.id]?.parts || []), ...(this.data.maps[m.id]?.counties || [])]) if (!holders.has(p.id)) holders.set(p.id, m.id);
-        dataService.setPartHolders(holders);
+        // Parts, and maps in no row that the catalogue links to one of its maps, have no pages of
+        // their own: Details for one opens that map (row-model.mjs detailHolders, data-service.js
+        // detailPageId), and so does an address naming one that opened before now.
+        dataService.setPartHolders(detailHolders(this.data));
         // A Details page drawn before now (an address naming a map) is drawn again: with the names
         // the catalogue gives the map (detailNames), and a part's under the map it is listed under.
         const asked = app()?.requestedDetailId;
@@ -789,6 +787,12 @@ export class CatalogueNext {
       return;
     }
     openEditDialog(record, { host: host || this.root || document.body });
+  }
+
+  /** A map's own description (row-model.mjs ownDescription), shown in its row and on its Details
+   * page; '' when it has none. @param {string} id */
+  mapDescription(id) {
+    return ownDescription(this.full(id));
   }
 
   /** The description of the row a map is in, for its Details page ('' when it has none). */
@@ -2175,7 +2179,7 @@ export class CatalogueNext {
         flatSection: FLAT_SECTIONS.has(section),
         shelf: shelf && { name: MapsView.shelfName(section, shelf), flat: shelf.flat },
         subject: this.subjectById?.get(s.subject),
-        row: s,
+        row: { name: s.name, maps: rowMapCount(s) },
       }),
       colour: r.color || s.color || '',
       partLabel: (partId) => partLabel(r, partId),
@@ -2309,22 +2313,11 @@ export class CatalogueNext {
   /** Reflect what is on the map: called after every load, unload and visibility change. */
   syncState() {
     if (!this.root || !this.data) return;
-    const mc = app()?.mapController;
+    // A chip keeps its row's colour on and off the map: maps take their colours by load order,
+    // which the loaded-layers panel shows (Phelim Birch, 20 Nov 2026).
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-toggle]')).forEach((btn) => {
       const on = String(this.isLoaded(/** @type {string} */ (btn.dataset.cnToggle)));
       if (btn.getAttribute('aria-pressed') !== on) btn.setAttribute('aria-pressed', on);
-      // A chip on the map fills with the colour the map is drawn in (its load-order colour, or the
-      // reader's own), and goes back to the map's own colour when it comes off.
-      const live = on === 'true' ? mc?.getLayerColour?.(/** @type {string} */ (btn.dataset.cnToggle)) : '';
-      if (live) {
-        if (btn.dataset.ownColour === undefined) btn.dataset.ownColour = btn.style.getPropertyValue('--c');
-        btn.style.setProperty('--c', live);
-        btn.style.setProperty('--on', inkOn(live));
-      } else if (btn.dataset.ownColour !== undefined) {
-        const own = btn.dataset.ownColour;
-        delete btn.dataset.ownColour;
-        if (own) { btn.style.setProperty('--c', own); btn.style.setProperty('--on', inkOn(own)); }
-      }
     });
     /** @type {NodeListOf<DataTarget>} */ (this.root.querySelectorAll('[data-cn-visibility]')).forEach((btn) => {
       const id = /** @type {string} */ (btn.dataset.cnVisibility);

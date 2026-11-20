@@ -199,14 +199,27 @@ export function mapTitle(s, id) {
   return s.name;
 }
 
+/**
+ * How many maps a row holds: its maps and versions, and its council maps (not the maps still to
+ * be added, nor a map's parts).
+ * @param {CatalogueRow} s
+ * @returns {number}
+ */
+export function rowMapCount(s) {
+  return s.members.length + (s.local?.length || 0);
+}
+
 /** A heading /maps shows above a row. @typedef {{ name: string, flat?: boolean | undefined }} TrailHeading */
 
 /**
  * Where a row sits in the catalogue, by the headings /maps shows above it: its section's tab
- * ("Boundaries", "Places", "Historic"), its shelf (a section listed flat shows no shelves), and its
- * subject when the shelf heads its rows by subject and the subject is not named as the row is.
- * The row's own name is not in it: the map's name (mapTitle) starts with it.
- * @param {{ section: string, flatSection?: boolean, shelf?: TrailHeading | undefined, subject?: TrailHeading | undefined, row: { name: string } }} where
+ * ("Boundaries", "Places", "Historic"), its shelf (a section listed flat shows no shelves), its
+ * subject when the shelf heads its rows by subject and the subject is not named as the row is, and
+ * the row's own name when the row holds more than one map ("Boundaries › Historic Geographies ›
+ * Townlands": Phelim Birch, 20 Nov 2026). A row of one map is named by the map's own name
+ * (mapTitle), so the line does not repeat it.
+ * @param {{ section: string, flatSection?: boolean, shelf?: TrailHeading | undefined, subject?: TrailHeading | undefined, row: { name: string, maps?: number } }} where
+ *   row.maps: how many maps the row holds (rowMapCount)
  * @returns {string[]}
  */
 export function catalogueTrail({ section, flatSection = false, shelf, subject, row }) {
@@ -216,6 +229,7 @@ export function catalogueTrail({ section, flatSection = false, shelf, subject, r
     out.push(shelf.name);
     if (!shelf.flat && subject?.name && subject.name !== row.name && subject.name !== shelf.name) out.push(subject.name);
   }
+  if ((row.maps || 0) > 1 && row.name && out[out.length - 1] !== row.name) out.push(row.name);
   return out;
 }
 
@@ -228,4 +242,45 @@ export function catalogueTrail({ section, flatSection = false, shelf, subject, r
  */
 export function partLabel(r, partId) {
   return [...(r?.parts || []), ...(r?.counties || [])].find((p) => p.id === partId)?.label || '';
+}
+
+/** The catalogue document as detailHolders reads it. @typedef {Pick<import('./catalogue-types.d.ts').CatalogueDoc, 'series' | 'maps' | 'mapLinks'>} HolderDoc */
+
+/**
+ * The map whose Details page opens for a map that has no page of its own in the catalogue
+ * (data-service.js detailPageId): a part or county map opens the map the catalogue lists it under
+ * (Phelim Birch's review, owner-approved 20 Nov 2026); a map in no row that the catalogue links to
+ * one of its maps (mapLinks: Townlands 1844, whose county maps Townlands lists) opens that map. A
+ * map a row lists keeps its own page.
+ * @param {HolderDoc} doc
+ * @returns {Map<string, string>}  map id -> the id whose page opens
+ */
+export function detailHolders(doc) {
+  /** @type {Set<string>} */
+  const inRow = new Set();
+  for (const s of doc.series) for (const m of [...s.members, ...(s.local || [])]) inRow.add(m.id);
+  /** @type {Map<string, string>} */
+  const holders = new Map();
+  for (const s of doc.series) {
+    for (const m of s.members) {
+      const r = doc.maps[m.id];
+      for (const p of [...(r?.parts || []), ...(r?.counties || [])]) if (!inRow.has(p.id) && !holders.has(p.id)) holders.set(p.id, m.id);
+    }
+  }
+  for (const [id, link] of Object.entries(doc.mapLinks || {})) {
+    if (link.map && link.map !== id && inRow.has(link.map) && !inRow.has(id) && !holders.has(id)) holders.set(id, link.map);
+  }
+  return holders;
+}
+
+/**
+ * A map's own description, where the catalogue shows one: a census statistic's says what it
+ * measures and over which areas. Other maps are described by their row (descriptions.json); their
+ * records' own texts are not shown in the catalogue. The text is the record's, unchanged; '' when
+ * it has none. Shown on the map's Details page and in its row (Phelim Birch, 20 Nov 2026).
+ * @param {{ isDataEntry?: boolean, description?: string | null } | null | undefined} record  the map as the map app reads it (dataService.getMapById)
+ * @returns {string}
+ */
+export function ownDescription(record) {
+  return record?.isDataEntry && typeof record.description === 'string' ? record.description.trim() : '';
 }

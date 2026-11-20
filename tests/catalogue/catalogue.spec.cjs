@@ -211,13 +211,14 @@ test('C09 provider and feature count are shown', async ({ page }) => {
   await row(page, LGD).locator('[data-cn-expand]').click();
   // The opened row leaves out the title, authors and geometry (user, 2026-10-05).
   await expect(row(page, LGD).locator('.cn-facts')).not.toContainText('Local Government Boundary Commission');
-  await expect(row(page, LGD).locator(`.cn-chips [data-cn-toggle="${LGD_NEWEST}"]`)).toHaveAttribute('title', /Local Government Boundary Commission/);
+  // The opened row lists its maps by date (its strip of chips gives way to the list: N54).
+  await expect(row(page, LGD).locator(`.cn-dlist [data-cn-toggle="${LGD_NEWEST}"]`)).toHaveAttribute('title', /Local Government Boundary Commission/);
   await expect(row(page, 'census-census-grid').locator('.cn-row__credit')).toContainText(/\d,\d{3} /);
 });
 
-test('C10 each map shows the colour it is drawn in', async ({ page }) => {
+test('C10 each chip takes the colour of its row (the loaded-layers panel shows the colour a map is drawn in: N56)', async ({ page }) => {
   await open(page);
-  const colour = catalogue.maps[LGD_NEWEST].color;
+  const colour = lgd.color;
   expect(colour).toMatch(/^#[0-9a-f]{6}$/);
   await expect(row(page, LGD).locator(`.cn-chips [data-cn-toggle="${LGD_NEWEST}"]`)).toHaveAttribute('style', new RegExp(`--c:${colour}`));
 });
@@ -1234,7 +1235,8 @@ test('N51 a map\'s Details page names it as the catalogue does, not as the old l
   await page.evaluate(() => window.uiController.showCatalogueDetailView('all-ireland-townlands'));
   const view = page.locator('#catalogueDetailView');
   await expect(view.locator('.catalogue-detail__name')).toHaveText(`${town.name}, ${member.label}`);
-  await expect(view.locator('.catalogue-detail__trail')).toHaveText(`Boundaries › ${shelf.name}`);
+  // The row holds several maps, so the line ends with its name (N52).
+  await expect(view.locator('.catalogue-detail__trail')).toHaveText(`Boundaries › ${shelf.name} › ${town.name}`);
   await expect(view.locator('.catalogue-detail__meta')).not.toContainText('Category');
   await expect(view.locator('.catalogue-detail__badge--group')).toHaveCount(0);
   // A map's parts go by the catalogue's names for them.
@@ -1249,6 +1251,148 @@ test('N51 a map\'s Details page names it as the catalogue does, not as the old l
   await page.goto('about:blank');
   await page.goto('/maps/#detail=dfi-surface-defects-2021');
   await expect(page.locator('#catalogueDetailView .catalogue-detail__name')).toHaveText(`${roads.name}, ${edition.label}`, { timeout: 45000 });
-  await expect(page.locator('#catalogueDetailView .catalogue-detail__trail')).toHaveText('Places › Transport');
+  await expect(page.locator('#catalogueDetailView .catalogue-detail__trail')).toHaveText(`Places › Transport › ${roads.name}`);
   await expect.poll(() => page.title()).toContain(`${roads.name}, ${edition.label}`);
+});
+
+/* ------------------------------------------------------------------ Phelim Birch's notes, 20 Nov 2026 (w20-ui2) */
+
+const mapsIn = (s) => s.members.length + (s.local?.length || 0);
+
+test('N52 the Details page\'s Section line ends with the row\'s name when the row holds several maps, and only then', async ({ page }) => {
+  const counties = catalogue.series.find((s) => s.id === 'counties-counties');
+  const shelf = catalogue.shelves.find((s) => s.id === counties.shelf);
+  const single = catalogue.series.find((s) => s.id === 'census-statistics-median-age');
+  expect(mapsIn(counties)).toBeGreaterThan(1);
+  expect(mapsIn(single)).toBe(1);
+  await open(page);
+  const trail = page.locator('#catalogueDetailView .catalogue-detail__trail');
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('counties-ireland-1922'));
+  await expect(trail).toHaveText(`Boundaries › ${shelf.name} › ${counties.name}`);
+  // A row of one map: its name is the page's heading, not repeated on the line.
+  await page.evaluate((id) => window.uiController.showCatalogueDetailView(id), single.members[0].id);
+  await expect(page.locator('#catalogueDetailView .catalogue-detail__name')).toHaveText(single.name);
+  await expect(trail).toHaveText('Statistics');
+});
+
+test('N53 a row\'s second line wraps word by word, each dot kept with the fact before it', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.addInitScript((ids) => {
+    const KEY = 'civgraph.catalogueNext.v2';
+    if (!sessionStorage.getItem(KEY)) sessionStorage.setItem(KEY, JSON.stringify({ opened: ids }));
+  }, SHELF_IDS);
+  await page.goto('/maps/');
+  await page.getByRole('button', { name: 'Open the catalogue' }).click({ timeout: 45000 });
+  const town = row(page, 'townlands-townlands');
+  await town.scrollIntoViewIfNeeded();
+  const facts = await town.locator('.cn-row__credit .cn-row__item').evaluateAll((items) => items.map((el) => ({
+    display: getComputedStyle(el).display,
+    text: el.textContent,
+    lines: el.getClientRects().length,
+  })));
+  expect(facts.length).toBeGreaterThan(1);
+  for (const f of facts) expect(f.display).toBe('inline');
+  // Every fact but the last ends with its dot, joined by a no-break space.
+  for (const f of facts.slice(0, -1)) expect(f.text.endsWith(' ·')).toBe(true);
+  // At 375px the facts fill each line: one breaks across two lines rather than moving whole.
+  expect(facts.some((f) => f.lines > 1)).toBe(true);
+});
+
+test('N54 an opened row of several maps shows its dated list, not the strip of chips; a closed row keeps the strip', async ({ page }) => {
+  await open(page);
+  const counties = catalogue.series.find((s) => s.id === 'counties-counties');
+  const r = row(page, counties.id);
+  const strip = r.locator(':scope > .cn-chips .cn-chip[data-cn-toggle]');
+  await expect(strip.first()).toBeVisible();
+  await r.locator('[data-cn-expand]').click();
+  await expect(r.locator('.cn-dlist__item')).toHaveCount(counties.members.filter((m) => !m.of).length);
+  await expect(strip).toHaveCount(0);
+  // Each line: its chip and its own tools.
+  for (const m of counties.members.filter((x) => !x.of)) {
+    const line = r.locator('.cn-dlist__line', { has: page.locator(`[data-cn-toggle="${m.id}"]`) });
+    await expect(line.locator('[data-cn-act="zoom"]')).toHaveCount(1);
+  }
+  // A chip in the list adds its map.
+  await r.locator(`.cn-dlist [data-cn-toggle="${counties.members[1].id}"]`).click();
+  await expect.poll(() => loaded(page)).toContain(counties.members[1].id);
+  await r.locator('[data-cn-expand]').click();
+  await expect(strip.first()).toBeVisible();
+  // The switch for maps still to be added stays on an opened row.
+  const withTodo = catalogue.series.find((s) => s.id === 'electoral-divisions-district-electoral-divisions');
+  const t = row(page, withTodo.id);
+  await t.scrollIntoViewIfNeeded();
+  await t.locator('[data-cn-expand]').click();
+  await expect(t.locator(':scope > .cn-chips [data-cn-todo]')).toBeVisible();
+  await expect(t.locator(':scope > .cn-chips .cn-chip[data-cn-toggle]')).toHaveCount(0);
+});
+
+test('N55 a map\'s own description shows in its row, as on its Details page; a map with none shows nothing', async ({ page }) => {
+  await open(page);
+  await pane(page).locator('[data-cn-tab="statistics"]').click();
+  const description = (id) => page.evaluate((x) => window.uiController._catalogueNext.mapDescription(x), id);
+  // A row of one map: under the row's description, when the row is opened.
+  const single = catalogue.series.find((s) => s.id === 'census-statistics-median-age');
+  const one = row(page, single.id);
+  await one.scrollIntoViewIfNeeded();
+  await expect(one.locator('.cn-mapdesc')).toHaveCount(0);
+  await one.locator('[data-cn-expand]').click();
+  const text = await description(single.members[0].id);
+  expect(text.length).toBeGreaterThan(0);
+  await expect(one.locator('.cn-panel .cn-mapdesc')).toHaveText(text);
+  // A row of several: the description of the map whose line is opened, and only that one.
+  const several = catalogue.series.find((s) => s.id === 'census-statistics-usual-resident-population');
+  const r = row(page, several.id);
+  await r.scrollIntoViewIfNeeded();
+  await r.locator('[data-cn-expand]').click();
+  await expect(r.locator('.cn-mapdesc')).toHaveCount(1);
+  const other = several.members[1];
+  await pick(r, other.label).click();
+  await expect(r.locator('.cn-dlist__item--open .cn-mapdesc')).toHaveText(await description(other.id));
+  await expect(r.locator('.cn-mapdesc')).toHaveCount(1);
+  // The Details page shows the same text.
+  await page.evaluate((id) => window.uiController.showCatalogueDetailView(id), other.id);
+  await expect(page.locator('#catalogueDetailView .catalogue-detail__description')).toHaveText(await description(other.id));
+  // A map with no description of its own: no block, no placeholder.
+  expect(await description('counties-ireland')).toBe('');
+  await page.goto('about:blank');
+  await open(page);
+  const counties = row(page, 'counties-counties');
+  await counties.scrollIntoViewIfNeeded();
+  await counties.locator('[data-cn-expand]').click();
+  await expect(counties.locator('.cn-dlist')).toBeVisible();
+  await expect(counties.locator('.cn-mapdesc')).toHaveCount(0);
+});
+
+test('N56 every chip, dot and Add button in a row takes the row\'s colour, on the map or off; the loaded-layers panel keeps the map\'s', async ({ page }) => {
+  await open(page);
+  const town = catalogue.series.find((s) => s.id === 'townlands-townlands');
+  const r = row(page, town.id);
+  await r.scrollIntoViewIfNeeded();
+  await r.locator('[data-cn-expand]').click();
+  const colours = () => r.locator('.cn-chip[data-cn-toggle], .cn-add').evaluateAll((els) => [...new Set(els.map((el) => el.style.getPropertyValue('--c').toLowerCase()))]);
+  expect(await colours()).toEqual([town.color.toLowerCase()]);
+  // Versions and council maps have colours of their own; their chips still take the row's.
+  expect(catalogue.maps['osni-open-data-50k-boundaries-townlands'].color.toLowerCase()).not.toBe(town.color.toLowerCase());
+  const local = town.local[0].id;
+  await r.locator(`[data-cn-toggle="${local}"]`).first().click();
+  await expect.poll(() => loaded(page)).toContain(local);
+  const live = await page.evaluate((id) => window.mapController.getLayerColour(id), local);
+  expect(live).toBeTruthy();
+  expect(await colours()).toEqual([town.color.toLowerCase()]);
+});
+
+test('N57 an old address naming Townlands 1844 (in no row) opens the Townlands page; a map in no row names its parts as the catalogue does', async ({ page }) => {
+  await page.goto('/maps/#detail=ni-townlands-1844');
+  await expect(page.locator('#catalogueDetailView')).toBeVisible({ timeout: 45000 });
+  await expect.poll(() => page.evaluate(() => window.__civgraphTest2.app.currentDetailMapId), { timeout: 45000 }).toBe('all-ireland-townlands');
+  await expect.poll(() => page.evaluate(() => new URLSearchParams(location.hash.slice(1)).get('detail'))).toBe('all-ireland-townlands');
+  await expect(page.locator('#catalogueDetailView .catalogue-detail__name')).toHaveText('Townlands, All-island');
+  // eds-roi-1921-06-28 is in no row: its parts go by the labels its map gives them, under "Parts".
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('eds-roi-1921-06-28'));
+  const view = page.locator('#catalogueDetailView');
+  await expect(view.locator('.catalogue-detail__section-title', { hasText: 'Parts (4)' })).toBeVisible();
+  await expect(view.locator('.catalogue-detail__section-title', { hasText: 'Variants' })).toHaveCount(0);
+  for (const label of ['Connacht', 'Leinster', 'Munster', 'Ulster (outside Northern Ireland)']) {
+    await expect(view.locator('.catalogue-detail__variant', { hasText: label })).toHaveCount(1);
+  }
 });

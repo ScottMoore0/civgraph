@@ -14,6 +14,7 @@ import { formatElectionDate, shortBodyName, renderElectionConstituencyFeatureLin
 import { cdnUrl } from './cdn-url.js';
 import { catalogueNextRequested, initialCatalogueRoute } from './catalogue/flag.js';
 import { installSplit } from './catalogue/split.js';
+import { ownDescription } from './catalogue/row-model.mjs';
 import { CATALOGUE_HISTORY_ENTRY, CATALOGUE_VIEW, ENTITY_PLACEHOLDER, MOBILE_CATALOGUE, SPLIT_ALLOWED, SPLIT_LAYOUT } from './ui-state-machines.mjs';
 import { createFlag, createState, setHidden } from './state-helpers.mjs';
 import { partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
@@ -531,10 +532,12 @@ class UIController {
         // Build description HTML
         // The rebuilt catalogue shows the description of the map's row (Phelim Birch's descriptions
         // document); the old per-map descriptions stay hidden until rewritten.
-        // A census statistic's own description says what it measures and over which areas;
-        // its row's describes only the shelf it sits on.
-        const descriptionHtml = map.isDataEntry && map.description
-            ? `<div class="catalogue-detail__description">${this.escapeHtml(map.description)}</div>`
+        // A map's own description where the catalogue shows one (a census statistic's says what it
+        // measures and over which areas: catalogue/row-model.mjs ownDescription), the same text its
+        // row shows when opened.
+        const ownText = ownDescription(map);
+        const descriptionHtml = ownText
+            ? `<div class="catalogue-detail__description">${this.escapeHtml(ownText)}</div>`
             : nextCatalogue
             ? (this._catalogueNext?.rowAboutHtml?.(map.id) ? `<div class="catalogue-detail__description">${this._catalogueNext.rowAboutHtml(map.id)}</div>` : '')
             : (map.description ? `<div class="catalogue-detail__description">${this.escapeHtml(map.description)}</div>` : '');
@@ -555,17 +558,20 @@ class UIController {
         const filePath = map.files?.fgb || map.files?.geojson || null;
 
         // Build variants HTML
+        // In /maps a map's variants are its "Parts", each by the catalogue's name for it, else (a
+        // map the catalogue does not list, such as eds-roi-1921-06-28) by the label its map gives
+        // it ("Connacht"), as the catalogue names other maps' parts; never the part record's own name.
         let variantsHtml = '';
         if (map.isGroup && map.variants && map.variants.length > 0) {
             variantsHtml = `
                 <div class="catalogue-detail__section">
-                    <div class="catalogue-detail__section-title">${names ? 'Parts' : 'Variants'} (${map.variants.length})</div>
+                    <div class="catalogue-detail__section-title">${nextCatalogue ? 'Parts' : 'Variants'} (${map.variants.length})</div>
                     <div class="catalogue-detail__variants">
                         ${map.variants.map(v => {
                 const variant = /** @type {MapRecord | undefined} */ (dataService.getMapById(v.id));
                 return variant ? `
                                 <div class="catalogue-detail__variant" data-map-id="${variant.id}">
-                                    ${this.escapeHtml(names?.partLabel(variant.id) || variant.name)}
+                                    ${this.escapeHtml(names?.partLabel(variant.id) || (nextCatalogue && v.label) || variant.name)}
                                     ${variant.provider ? `<span style="color: var(--color-text-muted); font-size: var(--text-xs);"> &middot; ${variant.provider.join(', ')}</span>` : ''}
                                 </div>
                             ` : '';

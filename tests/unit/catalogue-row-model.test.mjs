@@ -9,7 +9,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { catalogueTrail, comparable, countEdition, datedList, mapTitle, partLabel, rowActionKind, rowCitation, rowCount, rowEditions } from '@civgraph/map/catalogue/row-model.mjs';
+import { catalogueTrail, comparable, countEdition, datedList, detailHolders, mapTitle, ownDescription, partLabel, rowActionKind, rowCitation, rowCount, rowEditions, rowMapCount } from '@civgraph/map/catalogue/row-model.mjs';
 
 /** @type {Record<string, any>} */
 const maps = {
@@ -95,6 +95,47 @@ test('the headings above a row: its section, its shelf unless the section is fla
   assert.deepEqual(catalogueTrail({ section: 'Boundaries', shelf: { name: 'Water' }, subject: { name: 'Townlands' }, row: { name: 'Townlands' } }), ['Boundaries', 'Water']);
   // A section listed flat (Historic, Statistics) shows no shelves.
   assert.deepEqual(catalogueTrail({ section: 'Historic', flatSection: true, shelf: { name: 'Heritage & Culture' }, subject: { name: 'Printed Maps' }, row: r }), ['Historic']);
+});
+
+test('the headings end with the row\'s name when the row holds more than one map, never twice, never for a row of one', () => {
+  // Phelim Birch, 20 Nov 2026: "Boundaries › Historic Geographies › Townlands".
+  const flat = { name: 'Historic Geographies', flat: true };
+  assert.deepEqual(catalogueTrail({ section: 'Boundaries', shelf: flat, subject: { name: 'Townlands' }, row: { name: 'Townlands', maps: 6 } }), ['Boundaries', 'Historic Geographies', 'Townlands']);
+  assert.deepEqual(catalogueTrail({ section: 'Boundaries', shelf: flat, row: { name: 'Polities', maps: 1 } }), ['Boundaries', 'Historic Geographies']);
+  // A subject heading named as the row comes once; a flat section gets the row's name after its tab.
+  assert.deepEqual(catalogueTrail({ section: 'Boundaries', shelf: { name: 'Government & Administration' }, subject: { name: 'Counties' }, row: { name: 'Counties', maps: 6 } }), ['Boundaries', 'Government & Administration', 'Counties']);
+  assert.deepEqual(catalogueTrail({ section: 'Statistics', flatSection: true, shelf: { name: 'Census' }, row: { name: 'Median age', maps: 1 } }), ['Statistics']);
+  assert.deepEqual(catalogueTrail({ section: 'Statistics', flatSection: true, shelf: { name: 'Census' }, row: { name: 'Population density', maps: 4 } }), ['Statistics', 'Population density']);
+  // Maps, versions and council maps count; maps to be added and parts do not.
+  assert.equal(rowMapCount(/** @type {any} */ ({ members: [{ id: 'a' }, { id: 'v', of: 'a' }], local: [{ id: 'l' }], todo: [{ id: 't' }] })), 3);
+  assert.equal(rowMapCount(/** @type {any} */ ({ members: [{ id: 'a' }] })), 1);
+});
+
+test('a page of its own: a part opens the map its row lists it under, a map in no row the map the catalogue links it to', () => {
+  const doc = /** @type {any} */ ({
+    series: [{ id: 'town', members: [{ id: 'all' }, { id: 'osni', of: 'all' }], local: [{ id: 'dlr' }] }, { id: 'eds', members: [{ id: 'eds-2022' }, { id: 'conn' }] }],
+    maps: { all: { parts: [{ id: 'ni' }], counties: [{ id: 'cork' }] }, 'eds-2022': { parts: [{ id: 'conn' }, { id: 'lein' }] } },
+    mapLinks: { 'townlands-1844': { series: 'town', map: 'all' }, later: { series: 'town', todo: true }, results: { route: 'elections/irish-local' }, gone: { series: 'x', map: 'nowhere' } },
+  });
+  const h = detailHolders(doc);
+  assert.equal(h.get('ni'), 'all');
+  assert.equal(h.get('cork'), 'all');
+  assert.equal(h.get('lein'), 'eds-2022');
+  assert.equal(h.get('townlands-1844'), 'all');
+  // A map a row lists keeps its own page, as does one the catalogue links to no map.
+  for (const id of ['conn', 'all', 'osni', 'dlr', 'later', 'results', 'gone']) assert.equal(h.has(id), false, id);
+});
+
+test('on the catalogue: Townlands 1844, in no row, opens the Townlands page', () => {
+  const doc = JSON.parse(readFileSync(new URL('../../data/catalogue/catalogue.json', import.meta.url), 'utf8'));
+  assert.equal(detailHolders(doc).get('ni-townlands-1844'), 'all-ireland-townlands');
+});
+
+test("a map's own description: a census statistic's, as its record has it; none for other maps", () => {
+  assert.equal(ownDescription({ isDataEntry: true, description: ' Usual resident population by DEA. ' }), 'Usual resident population by DEA.');
+  assert.equal(ownDescription({ description: 'A record text the catalogue does not show.' }), '');
+  assert.equal(ownDescription({ isDataEntry: true }), '');
+  assert.equal(ownDescription(null), '');
 });
 
 test("a part's name is the catalogue's; a part it does not list has none", () => {

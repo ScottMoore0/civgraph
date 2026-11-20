@@ -168,9 +168,9 @@ export const CATALOGUE_CSS = `
 .cn-row__credit { flex-basis: 100%; color: var(--cn-muted); font-size: 12px; line-height: 1.3; }
 .cn-row__meta { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; color: var(--cn-muted); font-size: 12.5px; line-height: 1.3; }
 .cn-row__dot { color: var(--cn-muted); }
-/* Each fact ("100 Municipal Districts", "5 Health and Social Care Trusts") moves to the next line whole
-   rather than breaking inside; one too long for a line still wraps within itself. */
-.cn-row__item { display: inline-block; }
+/* The facts ("TÉ, OSNI, Matthews · 61,334 Townlands · 4 council maps") wrap word by word, as a
+   sentence does (Phelim Birch, 20 Nov 2026): a fact no longer drops to the next line whole. */
+.cn-row__item { display: inline; }
 .cn-row__chev { color: var(--cn-muted); transition: transform .15s ease; }
 .cn-row__title--static { cursor: default; }
 .cn-row__title--static:hover { background: none; }
@@ -221,6 +221,10 @@ export const CATALOGUE_CSS = `
 .cn-about .cn-label { display: block; margin-bottom: 4px; }
 .cn-about__links { font-size: 12.5px; color: var(--cn-muted); }
 .cn-about__links a { color: var(--cn-link); }
+/* A map's own description, at the head of its facts in the opened row (view-maps.js mapDescriptionHtml). */
+.cn-mapdesc { font-size: 13px; line-height: 1.5; color: var(--cn-text); max-width: 68ch; }
+.cn-mapdesc p { margin: 0 0 6px; }
+.cn-mapdesc p:last-child { margin-bottom: 0; }
 .cn-erow__about { grid-column: 1 / -1; margin: 2px 0 2px; font-size: 13px; }
 .cn-erow__about > summary { cursor: pointer; color: var(--cn-link); font-size: 12.5px; width: max-content; }
 .cn-erow__about[open] > summary { margin-bottom: 6px; }
