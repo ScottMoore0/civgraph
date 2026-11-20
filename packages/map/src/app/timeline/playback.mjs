@@ -1,6 +1,7 @@
 // @ts-check
 /**
- * The timeline's Play button as an explicit state machine (refactor plan section 11, full weight).
+ * The timeline's Play button as an explicit state machine (refactor plan section 11, full weight; state-machine
+ * catalogue MA-01).
  *
  * It was three booleans on app.timelineAnimation (`playing`, `paused`, `atEnd`) written in pairs
  * and triples from five places (start, advance, pause, stop, hideTimeline). Only four of their
