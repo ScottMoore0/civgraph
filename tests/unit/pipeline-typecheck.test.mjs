@@ -166,6 +166,8 @@ test('tsconfig.pipeline-playwright.json keeps the pipeline options under full st
   assert.equal(o.strict, true);
   assert.equal(o.noImplicitAny, true);
   assert.ok(o.lib.includes('dom'), 'the page callbacks need the DOM types');
+  // noPropertyAccessFromIndexSignature since 20 Nov 2026 (stream w20-refactor); only add flags.
+  assert.equal(o.noPropertyAccessFromIndexSignature, true, 'tsconfig.pipeline-playwright.json turned noPropertyAccessFromIndexSignature off');
   for (const [key, value] of Object.entries(config.compilerOptions)) {
     if (key !== 'lib') assert.deepEqual(o[key], value, `${key} as in tsconfig.pipeline.json`);
   }

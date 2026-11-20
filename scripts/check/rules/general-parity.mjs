@@ -70,10 +70,10 @@ export const PARITY_STATUSES = Object.freeze(['pass', 'fail', 'warn', 'reported-
  * @typedef {{ id: string, sourceMapId?: string, aliasOf?: string, aliasTargetLayerId?: string }} TestLayer
  */
 
-const PORT = Number(process.env.TEST2_PARITY_PORT || 5055);
+const PORT = Number(process.env['TEST2_PARITY_PORT'] || 5055);
 const BASE = `http://127.0.0.1:${PORT}`;
 const MATRIX_PATH = 'docs/test2-general-parity-matrix.json';
-const REPORT_PATH = process.env.TEST2_PARITY_REPORT || 'site/app/build/test2-general-parity-report.json';
+const REPORT_PATH = process.env['TEST2_PARITY_REPORT'] || 'site/app/build/test2-general-parity-report.json';
 const REQUIRED_CLASSIFICATIONS = new Set(['must-match-main', 'maplibre-specific-equivalent']);
 
 if (!existsSync(MATRIX_PATH)) {
