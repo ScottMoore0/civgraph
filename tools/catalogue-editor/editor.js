@@ -121,24 +121,24 @@
   }
 
   // ------------------------------------------------------------------ fields
-  const tocTarget = (/** @type {HTMLElement} */ el) => /** @type {HTMLElement | null | undefined} */ (el.closest('tr')?.querySelector('a.catalogue-flat__toc-link'))?.dataset.catalogueTarget || '';
-  const cardId = (/** @type {HTMLElement} */ el) => up(el, '.c1-card')?.dataset.c1Id || '';
+  const tocTarget = (/** @type {HTMLElement} */ el) => /** @type {HTMLElement | null | undefined} */ (el.closest('tr')?.querySelector('a.catalogue-flat__toc-link'))?.dataset['catalogueTarget'] || '';
+  const cardId = (/** @type {HTMLElement} */ el) => up(el, '.c1-card')?.dataset['c1Id'] || '';
   const memberKey = (/** @type {HTMLElement} */ el) => {
     const m = up(el, '.class-member');
-    return m ? `${cardId(m)}|${m.dataset.mapId || ''}` : '';
+    return m ? `${cardId(m)}|${m.dataset['mapId'] || ''}` : '';
   };
-  const orig = (/** @type {HTMLElement} */ el) => (el.dataset.ceOrig !== undefined ? el.dataset.ceOrig : (el.dataset.ceOrig = text(el)));
+  const orig = (/** @type {HTMLElement} */ el) => (el.dataset['ceOrig'] !== undefined ? el.dataset['ceOrig'] : (el.dataset['ceOrig'] = text(el)));
   // An election or variant field outside its row has no row: its key() throws, and bindFields
   // skips the field.
   /** @type {{ kind: string, sel: string, key: (el: HTMLElement) => string }[]} */
   const FIELDS = [
     { kind: 'contents heading', sel: '.catalogue-flat__toc-heading', key: (el) => `toc-heading|${orig(el)}` },
-    { kind: 'contents subheading', sel: '.catalogue-flat__toc-subheading', key: (el) => `toc-sub|${el.dataset.catalogueTarget || el.dataset.ceNew}` },
+    { kind: 'contents subheading', sel: '.catalogue-flat__toc-subheading', key: (el) => `toc-sub|${el.dataset['catalogueTarget'] || el.dataset['ceNew']}` },
     { kind: 'contents item: name', sel: 'a.catalogue-flat__toc-link .catalogue-flat__toc-name', key: (el) => `toc-item|${tocTarget(el)}|name` },
     { kind: 'contents item: years', sel: '.ce-when', key: (el) => `toc-item|${tocTarget(el)}|years` },
     { kind: 'contents item: scope', sel: '.catalogue-flat__toc-scope', key: (el) => `toc-item|${tocTarget(el)}|scope` },
     { kind: 'contents item: extent', sel: '.ce-extent', key: (el) => `toc-item|${tocTarget(el)}|extent` },
-    { kind: 'decade button', sel: '.catalogue-flat__toc-decade-btn', key: (el) => `toc-decade|${el.dataset.catalogueTarget}` },
+    { kind: 'decade button', sel: '.catalogue-flat__toc-decade-btn', key: (el) => `toc-decade|${el.dataset['catalogueTarget']}` },
     { kind: 'card title', sel: '.c1-card__title', key: (el) => `card|${cardId(el)}|title` },
     { kind: 'card subtitle', sel: '.c1-card__subtitle', key: (el) => `card|${cardId(el)}|subtitle` },
     { kind: 'card section header', sel: '.c1-card__section-header', key: (el) => `card-section|${cardId(el)}|${orig(el)}` },
@@ -148,11 +148,11 @@
     { kind: 'entry details', sel: '.class-member[data-map-id] .class-member__change-note', key: (el) => `entry|${memberKey(el)}|details` },
     { kind: 'entry description', sel: '.class-member[data-map-id] .class-member__desc', key: (el) => `entry|${memberKey(el)}|description` },
     { kind: 'election name', sel: '.flat-election-entry .flat-election-body', key: (el) => {
-      const r = /** @type {HTMLElement} */ (up(el, '.flat-election-entry')); return `election|${r.dataset.electionBody}|${r.dataset.electionDate}|name`; } },
+      const r = /** @type {HTMLElement} */ (up(el, '.flat-election-entry')); return `election|${r.dataset['electionBody']}|${r.dataset['electionDate']}|name`; } },
     { kind: 'election details', sel: '.flat-election-entry .class-member__desc', key: (el) => {
-      const r = /** @type {HTMLElement} */ (up(el, '.flat-election-entry')); return `election|${r.dataset.electionBody}|${r.dataset.electionDate}|details`; } },
-    { kind: 'variant name', sel: '.variant-item .variant-item__name', key: (el) => `variant|${/** @type {HTMLElement} */ (up(el, '.variant-item')).dataset.mapId}|name` },
-    { kind: 'variant description', sel: '.variant-item .variant-item__description', key: (el) => `variant|${/** @type {HTMLElement} */ (up(el, '.variant-item')).dataset.mapId}|description` },
+      const r = /** @type {HTMLElement} */ (up(el, '.flat-election-entry')); return `election|${r.dataset['electionBody']}|${r.dataset['electionDate']}|details`; } },
+    { kind: 'variant name', sel: '.variant-item .variant-item__name', key: (el) => `variant|${/** @type {HTMLElement} */ (up(el, '.variant-item')).dataset['mapId']}|name` },
+    { kind: 'variant description', sel: '.variant-item .variant-item__description', key: (el) => `variant|${/** @type {HTMLElement} */ (up(el, '.variant-item')).dataset['mapId']}|description` },
   ];
 
   /** @param {ParentNode} root */
@@ -181,13 +181,13 @@
   function bindFields(root) {
     for (const f of FIELDS) {
       all(root, f.sel).forEach((el) => {
-        if (el.dataset.ceKey) return;
+        if (el.dataset['ceKey']) return;
         orig(el);
         let key;
         try { key = f.key(el); } catch { return; }
         if (!key || /\|\|/.test(key) || key.endsWith('|')) return;
-        el.dataset.ceKey = key;
-        el.dataset.ceKind = f.kind;
+        el.dataset['ceKey'] = key;
+        el.dataset['ceKind'] = f.kind;
         el.classList.add('ce-field');
         setEditable(el);
         const e = edits().text[key];
@@ -216,10 +216,10 @@
     }
     if (tr.classList.contains('catalogue-flat__toc-subheading-row')) {
       const a = one(tr, '.catalogue-flat__toc-subheading');
-      return a ? `s|${a.dataset.catalogueTarget || a.dataset.ceNew}` : null;
+      return a ? `s|${a.dataset['catalogueTarget'] || a.dataset['ceNew']}` : null;
     }
     const link = one(tr, 'a.catalogue-flat__toc-link');
-    return link ? `i|${link.dataset.catalogueTarget}` : null;
+    return link ? `i|${link.dataset['catalogueTarget']}` : null;
   }
   const INDENT = 'catalogue-flat__toc-row--indented';
 
@@ -238,8 +238,8 @@
     [...body.rows].forEach((tr) => {
       const key = rowKey(tr);
       if (!key) return;
-      tr.dataset.ceRow = key;
-      if (tr.dataset.ceOrigIndent === undefined) tr.dataset.ceOrigIndent = tr.classList.contains(INDENT) ? '1' : '0';
+      tr.dataset['ceRow'] = key;
+      if (tr.dataset['ceOrigIndent'] === undefined) tr.dataset['ceOrigIndent'] = tr.classList.contains(INDENT) ? '1' : '0';
       const first = tr.cells[0];
       if (first && !one(first, '.ce-handle') && !key.startsWith('h|')) {
         const tools = document.createElement('span');
@@ -266,10 +266,10 @@
 
   /** @param {HTMLTableElement | HTMLTableSectionElement} body */
   function applyTocOrder(body) {
-    const want = edits().order.toc;
+    const want = edits().order['toc'];
     if (!want || !want.length) return;
     const rows = [...body.rows];
-    const byKey = new Map(rows.filter((r) => r.dataset.ceRow).map((r) => [r.dataset.ceRow, r]));
+    const byKey = new Map(rows.filter((r) => r.dataset['ceRow']).map((r) => [r.dataset['ceRow'], r]));
     const result = want.map((k) => byKey.get(k)).filter((r) => r !== undefined);
     const inResult = new Set(result);
     rows.forEach((r, i) => {
@@ -290,12 +290,12 @@
     const table = tocTable();
     if (!table) return;
     const body = table.tBodies[0] || table;
-    edits().order.toc = [...body.rows].map((r) => r.dataset.ceRow).filter(/** @param {string | undefined} key @returns {key is string} */ (key) => Boolean(key));
+    edits().order['toc'] = [...body.rows].map((r) => r.dataset['ceRow']).filter(/** @param {string | undefined} key @returns {key is string} */ (key) => Boolean(key));
     [...body.rows].forEach((tr) => {
-      const key = tr.dataset.ceRow;
+      const key = tr.dataset['ceRow'];
       if (!key || !key.startsWith('i|')) return;
       const now = tr.classList.contains(INDENT);
-      if ((tr.dataset.ceOrigIndent === '1') === now) delete edits().toc.indent[key];
+      if ((tr.dataset['ceOrigIndent'] === '1') === now) delete edits().toc.indent[key];
       else edits().toc.indent[key] = now;
     });
   }
@@ -314,7 +314,7 @@
       const k = attrKey(m);
       m.classList.toggle('ce-attr-changed', Boolean(edits().attrs[k]));
       const a = edits().attrs[k]?.fields;
-      m.dataset.ceProposed = a ? describeAttrs(a) : '';
+      m.dataset['ceProposed'] = a ? describeAttrs(a) : '';
     });
     // Orders within each list of entries.
     for (const [k, ids] of Object.entries(edits().order)) {
@@ -323,7 +323,7 @@
       if (list) reorderEntries(list, ids);
     }
   }
-  const attrKey = (/** @type {HTMLElement} */ m) => (m.classList.contains('variant-item') ? `variant|${m.dataset.mapId}` : `entry|${cardId(m)}|${m.dataset.mapId}`);
+  const attrKey = (/** @type {HTMLElement} */ m) => (m.classList.contains('variant-item') ? `variant|${m.dataset['mapId']}` : `entry|${cardId(m)}|${m.dataset['mapId']}`);
   /** @param {HTMLElement} list */
   function listKey(list) {
     const sec = up(list, '.c1-card__section');
@@ -343,10 +343,10 @@
    * @param {HTMLElement} list @returns {{ id: string, nodes: HTMLElement[] }[]}
    */
   function entryUnits(list) {
-    return /** @type {HTMLElement[]} */ ([...list.children]).filter((c) => c.classList.contains('class-member') && c.dataset.mapId).map((m) => {
+    return /** @type {HTMLElement[]} */ ([...list.children]).filter((c) => c.classList.contains('class-member') && c.dataset['mapId']).map((m) => {
       const next = /** @type {HTMLElement | null} */ (m.nextElementSibling);
       // Only entries with a map id were kept.
-      return { id: /** @type {string} */ (m.dataset.mapId), nodes: next && next.classList.contains('variants-container') ? [m, next] : [m] };
+      return { id: /** @type {string} */ (m.dataset['mapId']), nodes: next && next.classList.contains('variants-container') ? [m, next] : [m] };
     });
   }
   /** @param {HTMLElement} list @param {string[]} ids */
@@ -398,7 +398,7 @@
         ['provider', '.class-member__provider', 'Provider / feature count'], ['details', '.class-member__change-note, .class-member__desc', 'Details']]);
     const pop = document.createElement('div');
     pop.className = 'ce-ui ce-pop';
-    pop.innerHTML = `<div class="ce-pop__title">${esc(text(nameEl) || m.dataset.mapId)}<span class="ce-pop__id">${esc(m.dataset.mapId)}</span></div>
+    pop.innerHTML = `<div class="ce-pop__title">${esc(text(nameEl) || m.dataset['mapId'])}<span class="ce-pop__id">${esc(m.dataset['mapId'])}</span></div>
       ${texts.map(([n, sel, label]) => { const el = field(sel); return el ? `<label>${label}<input data-f="${n}" data-sel="${esc(sel)}" value="${esc(text(el))}"></label>` : ''; }).join('')}
       <label>Badges <input data-f="badges" value="${esc(val('badges'))}" placeholder="e.g. To Be Added"></label>
       <label class="ce-check"><input type="checkbox" data-f="shown" ${val('shown') ? 'checked' : ''}> Shown by default</label>
@@ -410,7 +410,7 @@
     own(pop, '.ce-save').onclick = () => {
       // Text fields are the same edits as typing in place.
       /** @type {NodeListOf<HTMLInputElement>} */ (pop.querySelectorAll('input[data-sel]')).forEach((inp) => {
-        const el = field(/** @type {string} */ (inp.dataset.sel));
+        const el = field(/** @type {string} */ (inp.dataset['sel']));
         if (el && inp.value.trim() !== text(el)) { el.textContent = inp.value.trim(); commitText(el); }
       });
       /** @type {AttrFields} */
@@ -425,11 +425,11 @@
       if (dl !== cur.download) fields.download = dl;
       if (comment) fields.comment = comment;
       if (Object.keys(fields).length) {
-        edits().attrs[k] = { key: k, kind: isVar ? 'variant' : 'entry', id: m.dataset.mapId, card: cardId(m), label: text(nameEl), fields, original: cur, updatedAt: now() };
+        edits().attrs[k] = { key: k, kind: isVar ? 'variant' : 'entry', id: m.dataset['mapId'], card: cardId(m), label: text(nameEl), fields, original: cur, updatedAt: now() };
       } else delete edits().attrs[k];
       log('attributes', { key: k, fields });
       m.classList.toggle('ce-attr-changed', Boolean(edits().attrs[k]));
-      m.dataset.ceProposed = edits().attrs[k] ? describeAttrs(fields) : '';
+      m.dataset['ceProposed'] = edits().attrs[k] ? describeAttrs(fields) : '';
       save('edits');
       closePopovers();
     };
@@ -438,15 +438,15 @@
   // ------------------------------------------------------------------ text commits
   /** @param {HTMLElement} el */
   function commitText(el) {
-    const key = /** @type {string} */ (el.dataset.ceKey);
+    const key = /** @type {string} */ (el.dataset['ceKey']);
     const value = text(el);
-    const original = el.dataset.ceOrig;
+    const original = el.dataset['ceOrig'];
     if (value === original) {
       if (edits().text[key]) log('revert', { key });
       delete edits().text[key];
       el.classList.remove('ce-changed');
     } else {
-      edits().text[key] = { key, kind: el.dataset.ceKind, original, value, page: PAGE, updatedAt: now() };
+      edits().text[key] = { key, kind: el.dataset['ceKind'], original, value, page: PAGE, updatedAt: now() };
       el.classList.add('ce-changed');
       log('edit', { key, original, value });
     }
@@ -510,11 +510,11 @@
     if (t.classList.contains('ce-indent') && tr) {
       tr.classList.toggle(INDENT);
       snapshotToc();
-      log('indent', { row: tr.dataset.ceRow, indented: tr.classList.contains(INDENT) });
+      log('indent', { row: tr.dataset['ceRow'], indented: tr.classList.contains(INDENT) });
       save('edits');
     } else if (t.classList.contains('ce-remove') && tr) {
       // Only keyed rows have the remove button (decorateToc).
-      const key = /** @type {string} */ (tr.dataset.ceRow);
+      const key = /** @type {string} */ (tr.dataset['ceRow']);
       const added = edits().toc.added.find((a) => `s|${a.id}` === key);
       if (added) {
         edits().toc.added = edits().toc.added.filter((a) => a !== added);
@@ -597,7 +597,7 @@
       if (dragged.type === 'row') {
         before ? over.before(dragged.el) : over.after(dragged.el);
         snapshotToc();
-        log('move row', { row: dragged.el.dataset.ceRow, to: before ? `before ${over.dataset.ceRow}` : `after ${over.dataset.ceRow}` });
+        log('move row', { row: dragged.el.dataset['ceRow'], to: before ? `before ${over.dataset['ceRow']}` : `after ${over.dataset['ceRow']}` });
       } else {
         // An entry drag always has its list (dragstart).
         const list = /** @type {HTMLElement} */ (dragged.list);
@@ -635,10 +635,10 @@
   function anchorFor(target, x, y) {
     for (let el = target; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
       const cands = [];
-      if (el.dataset?.c1Id) cands.push(`[data-c1-id="${cssq(el.dataset.c1Id)}"]`);
-      if (el.dataset?.mapId) cands.push(`${el.classList.contains('variant-item') ? '.variant-item' : el.classList.contains('class-member') ? '.class-member' : ''}[data-map-id="${cssq(el.dataset.mapId)}"]`);
-      if (el.dataset?.catalogueTarget) cands.push(`${el.tagName.toLowerCase()}[data-catalogue-target="${cssq(el.dataset.catalogueTarget)}"]`);
-      if (el.dataset?.ceKey) cands.push(`[data-ce-key="${cssq(el.dataset.ceKey)}"]`);
+      if (el.dataset?.['c1Id']) cands.push(`[data-c1-id="${cssq(el.dataset['c1Id'])}"]`);
+      if (el.dataset?.['mapId']) cands.push(`${el.classList.contains('variant-item') ? '.variant-item' : el.classList.contains('class-member') ? '.class-member' : ''}[data-map-id="${cssq(el.dataset['mapId'])}"]`);
+      if (el.dataset?.['catalogueTarget']) cands.push(`${el.tagName.toLowerCase()}[data-catalogue-target="${cssq(el.dataset['catalogueTarget'])}"]`);
+      if (el.dataset?.['ceKey']) cands.push(`[data-ce-key="${cssq(el.dataset['ceKey'])}"]`);
       if (el.id && !/^ce-/.test(el.id)) cands.push(`#${cssq(el.id)}`);
       for (const sel of cands) {
         try {
@@ -681,7 +681,7 @@
         pin = document.createElement('button');
         pin.type = 'button';
         pin.className = 'ce-pin';
-        pin.dataset.note = n.id;
+        pin.dataset['note'] = n.id;
         pin.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openNote(n.id); });
         pinsLayer.appendChild(pin);
       }
@@ -694,7 +694,7 @@
       pin.style.left = `${pos.x}px`;
       pin.style.top = `${pos.y}px`;
     });
-    all(pinsLayer, '.ce-pin').forEach((p) => { if (!seen.has(p.dataset.note)) p.remove(); });
+    all(pinsLayer, '.ce-pin').forEach((p) => { if (!seen.has(p.dataset['note'])) p.remove(); });
   }
 
   document.addEventListener('contextmenu', (e) => {
@@ -781,7 +781,7 @@
   function changeCount() {
     const e = edits();
     return Object.keys(e.text).length + Object.keys(e.attrs).length + Object.keys(e.toc.indent).length
-      + e.toc.removed.length + e.toc.added.length + (e.order.toc ? 1 : 0) + Object.keys(e.order).filter((k) => k.startsWith('entries|')).length;
+      + e.toc.removed.length + e.toc.added.length + (e.order['toc'] ? 1 : 0) + Object.keys(e.order).filter((k) => k.startsWith('entries|')).length;
   }
   function refreshCounts() {
     if (!S.edits) return;
@@ -803,7 +803,7 @@
     for (const [k, v] of Object.entries(e.toc.indent)) rows.push(`<tr><td>contents row</td><td>${esc(rowLabel(k))}</td><td>${v ? 'indented under the subheading' : 'not indented'}</td><td></td></tr>`);
     for (const k of e.toc.removed) rows.push(`<tr><td>contents row</td><td>${esc(rowLabel(k))}</td><td>marked for removal</td><td></td></tr>`);
     for (const a of e.toc.added) rows.push(`<tr><td>contents subheading added</td><td></td><td>${esc((e.text[`toc-sub|${a.id}`] || {}).value || a.text)}</td><td></td></tr>`);
-    if (e.order.toc) rows.push(`<tr><td>contents order</td><td colspan="2">rearranged (${e.order.toc.length} rows recorded)</td><td><button type="button" class="ce-btn" data-revert-order="toc">Revert</button></td></tr>`);
+    if (e.order['toc']) rows.push(`<tr><td>contents order</td><td colspan="2">rearranged (${e.order['toc'].length} rows recorded)</td><td><button type="button" class="ce-btn" data-revert-order="toc">Revert</button></td></tr>`);
     for (const k of Object.keys(e.order).filter((x) => x.startsWith('entries|'))) rows.push(`<tr><td>entry order</td><td colspan="2">${esc(k.replace(/^entries\|/, ''))}</td><td><button type="button" class="ce-btn" data-revert-order="${esc(k)}">Revert</button></td></tr>`);
     const notes = S.notes.filter((n) => !n.draft);
     const pop = document.createElement('div');
@@ -816,17 +816,17 @@
     own(pop, '.ce-close').onclick = closePopovers;
     pop.addEventListener('click', (ev) => {
       const b = /** @type {HTMLElement} */ (ev.target);
-      if (b.dataset.revertText) {
-        const t = /** @type {TextEdit} the button is shown for an edited text */ (e.text[b.dataset.revertText]);
-        delete e.text[b.dataset.revertText];
-        all(document, `[data-ce-key="${cssq(b.dataset.revertText)}"]`).forEach((el) => { el.textContent = t.original ?? null; el.classList.remove('ce-changed'); });
-        log('revert', { key: b.dataset.revertText });
-      } else if (b.dataset.revertAttr) {
-        delete e.attrs[b.dataset.revertAttr];
-        log('revert attributes', { key: b.dataset.revertAttr });
-      } else if (b.dataset.revertOrder) {
-        delete e.order[b.dataset.revertOrder];
-        log('revert order', { key: b.dataset.revertOrder });
+      if (b.dataset['revertText']) {
+        const t = /** @type {TextEdit} the button is shown for an edited text */ (e.text[b.dataset['revertText']]);
+        delete e.text[b.dataset['revertText']];
+        all(document, `[data-ce-key="${cssq(b.dataset['revertText'])}"]`).forEach((el) => { el.textContent = t.original ?? null; el.classList.remove('ce-changed'); });
+        log('revert', { key: b.dataset['revertText'] });
+      } else if (b.dataset['revertAttr']) {
+        delete e.attrs[b.dataset['revertAttr']];
+        log('revert attributes', { key: b.dataset['revertAttr'] });
+      } else if (b.dataset['revertOrder']) {
+        delete e.order[b.dataset['revertOrder']];
+        log('revert order', { key: b.dataset['revertOrder'] });
         status('Order reverted: reload the page to see the original order');
       } else return;
       save('edits');
