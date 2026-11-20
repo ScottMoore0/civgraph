@@ -54,7 +54,7 @@ const itemsOf = (data, field) => /** @type {JsonObject[]} */ (Array.isArray(data
  * @param {string} field
  * @param {string} at
  */
-const repeatedIds = (data, field, at) => repeated(itemsOf(data, field).map((item) => item.id)).map((id) => `${at}: id ${id} is listed twice`);
+const repeatedIds = (data, field, at) => repeated(itemsOf(data, field).map((item) => item['id'])).map((id) => `${at}: id ${id} is listed twice`);
 
 /**
  * The provider registry's own rules: unique ids, names and aliases; a parent that is a provider;
@@ -63,16 +63,16 @@ const repeatedIds = (data, field, at) => repeated(itemsOf(data, field).map((item
  */
 export function checkProviders(data) {
   const providers = itemsOf(data, 'providers');
-  const jurisdictions = /** @type {JsonObject} */ (data.jurisdictions);
-  const ids = new Set(providers.map((p) => p.id));
+  const jurisdictions = /** @type {JsonObject} */ (data['jurisdictions']);
+  const ids = new Set(providers.map((p) => p['id']));
   /** @type {string[]} */
   const errors = repeatedIds(data, 'providers', 'providers');
-  const spellings = providers.flatMap((p) => [p.name, .../** @type {unknown[]} */ (p.aliases || [])]);
+  const spellings = providers.flatMap((p) => [p['name'], .../** @type {unknown[]} */ (p['aliases'] || [])]);
   for (const name of repeated(spellings)) errors.push(`providers: ${name} is a name or alias of two providers`);
   for (const p of providers) {
-    if (p.parent !== undefined && !ids.has(p.parent)) errors.push(`providers: ${p.id}'s parent ${p.parent} is not a provider`);
-    if (p.parent === p.id) errors.push(`providers: ${p.id} is its own parent`);
-    if (!Object.hasOwn(jurisdictions, String(p.jurisdiction))) errors.push(`providers: ${p.id}'s jurisdiction ${p.jurisdiction} is not declared`);
+    if (p['parent'] !== undefined && !ids.has(p['parent'])) errors.push(`providers: ${p['id']}'s parent ${p['parent']} is not a provider`);
+    if (p['parent'] === p['id']) errors.push(`providers: ${p['id']} is its own parent`);
+    if (!Object.hasOwn(jurisdictions, String(p['jurisdiction']))) errors.push(`providers: ${p['id']}'s jurisdiction ${p['jurisdiction']} is not declared`);
   }
   return errors;
 }
@@ -83,16 +83,16 @@ export function checkProviders(data) {
  * @param {JsonObject} data
  */
 function checkRawSourceDocuments(data) {
-  const chips = new Set(/** @type {unknown[]} */ ((/** @type {JsonObject} */ (data.conventions)).statusChips || []));
+  const chips = new Set(/** @type {unknown[]} */ ((/** @type {JsonObject} */ (data['conventions']))['statusChips'] || []));
   /** @type {string[]} */
   const errors = repeatedIds(data, 'sources', 'raw-source-documents');
   for (const source of itemsOf(data, 'sources')) {
-    const own = /** @type {unknown[]} */ (source.statusChips);
-    for (const chip of own) if (!chips.has(chip)) errors.push(`raw-source-documents: ${source.id} has status chip ${chip}, not one of conventions.statusChips`);
-    if (!own.includes('Source only')) errors.push(`raw-source-documents: ${source.id} needs the Source only status chip`);
-    if ((/** @type {JsonObject} */ (source.iaMirror)).mirrorStatus === 'mirrored') {
-      if (!(/** @type {JsonObject} */ (source.viewport)).internetArchiveUrl) errors.push(`raw-source-documents: mirrored ${source.id} has no viewport.internetArchiveUrl`);
-      if (!own.includes('Mirror available')) errors.push(`raw-source-documents: mirrored ${source.id} needs the Mirror available status chip`);
+    const own = /** @type {unknown[]} */ (source['statusChips']);
+    for (const chip of own) if (!chips.has(chip)) errors.push(`raw-source-documents: ${source['id']} has status chip ${chip}, not one of conventions.statusChips`);
+    if (!own.includes('Source only')) errors.push(`raw-source-documents: ${source['id']} needs the Source only status chip`);
+    if ((/** @type {JsonObject} */ (source['iaMirror']))['mirrorStatus'] === 'mirrored') {
+      if (!(/** @type {JsonObject} */ (source['viewport']))['internetArchiveUrl']) errors.push(`raw-source-documents: mirrored ${source['id']} has no viewport.internetArchiveUrl`);
+      if (!own.includes('Mirror available')) errors.push(`raw-source-documents: mirrored ${source['id']} needs the Mirror available status chip`);
     }
   }
   return errors;
@@ -108,14 +108,14 @@ function checkApprovedPublicationIndex(data, file, root) {
   const shards = itemsOf(data, 'shards');
   /** @type {string[]} */
   const errors = [];
-  if (data.shardCount !== shards.length) errors.push(`${file}: shardCount ${data.shardCount} but ${shards.length} shards are listed`);
+  if (data['shardCount'] !== shards.length) errors.push(`${file}: shardCount ${data['shardCount']} but ${shards.length} shards are listed`);
   const onDisk = readdirSync(path.join(root, APPROVED_SHARDS)).filter((f) => f.endsWith('.json')).map((f) => `${APPROVED_SHARDS}/${f}`).sort();
-  const listed = shards.map((s) => String(s.url)).sort();
+  const listed = shards.map((s) => String(s['url'])).sort();
   if (JSON.stringify(onDisk) !== JSON.stringify(listed)) errors.push(`${file}: the shards listed are not the files in ${APPROVED_SHARDS}`);
   for (const shard of shards) {
-    if (!onDisk.includes(String(shard.url))) continue;
-    const items = itemsOf(/** @type {JsonObject} */ (readJson(root, String(shard.url))), 'items');
-    if (items.length !== shard.count) errors.push(`${file}: ${shard.url} holds ${items.length} sources, the index says ${shard.count}`);
+    if (!onDisk.includes(String(shard['url']))) continue;
+    const items = itemsOf(/** @type {JsonObject} */ (readJson(root, String(shard['url']))), 'items');
+    if (items.length !== shard['count']) errors.push(`${file}: ${shard['url']} holds ${items.length} sources, the index says ${shard['count']}`);
   }
   return errors;
 }
