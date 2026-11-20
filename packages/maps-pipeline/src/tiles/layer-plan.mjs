@@ -172,7 +172,12 @@ function collectSourceFiles(map) {
   return files;
 }
 
-/** @param {MainMap} map @param {SourceFile[]} sourceFiles */
+/**
+ * A row's conversion status: derived from the catalogue entry, never moved between (R7: a derived kind).
+ * @typedef {'converted' | 'convertedAlias' | 'convertedComposite' | 'needsVectorTileConversion' | 'needsRasterStrategy'
+ *   | 'needsMapLibreSourceMapping' | 'metadataOnly'} ConversionStatus
+ */
+/** @param {MainMap} map @param {SourceFile[]} sourceFiles @returns {ConversionStatus} */
 function classifyConversionStatus(map, sourceFiles) {
   if (map.isGroup && !sourceFiles.length) return 'metadataOnly';
   if (sourceFiles.some((entry) => /\.(png|jpe?g|webp|tif|tiff)$/i.test(entry.file))) return 'needsRasterStrategy';

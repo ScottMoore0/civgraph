@@ -80,6 +80,7 @@ function parseArgs(argv) {
       case "all-letters": out.allLetters = true; break;
       case "branch-path": out.branchPath = take(); break;
       case "manifest": out.manifest = take(); break;
+      // arch-ok R7: CLI flag parsing (--x / --no-x options), not state
       case "snapshots": out.snapshots = true; break;
       case "no-snapshots": out.snapshots = false; break;
       case "stop-on-blocked": out.stopOnBlocked = true; break;

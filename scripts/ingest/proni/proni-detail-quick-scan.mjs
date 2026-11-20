@@ -140,6 +140,7 @@ function parseArgs(argv) {
       case "error-burst-threshold": out.errorBurstThreshold = Number(take()); break;
       case "timeout-ms": out.timeoutMs = Number(take()); break;
       case "backoff-ms": out.backoffMs = Number(take()); break;
+      // arch-ok R7: CLI flag parsing (--x / --no-x options), not state
       case "stop-on-blocked": out.stopOnBlocked = true; break;
       case "no-stop-on-blocked": out.stopOnBlocked = false; break;
       case "adaptive": out.adaptive = true; break;

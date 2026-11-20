@@ -203,6 +203,7 @@ const download = (id) => (API_KEY ? downloadViaApi(id) : downloadViaPublic(id));
  *
  * Magic bytes, not the filename. The keyless path's characteristic failure is an
  * HTML page saved as an archive, and only the leading bytes can tell.
+ * @typedef {'zip' | 'json/geojson' | 'pdf' | 'binary'} PayloadKind  derived from the magic bytes (R7: a derived kind)
  */
 function inspectPayload(buffer, type) {
   const head = buffer.subarray(0, 5).toString('latin1');
@@ -212,6 +213,7 @@ function inspectPayload(buffer, type) {
   }
   if (!buffer.length) return { ok: false, reason: 'empty response' };
   if (buffer.length > MAX_BYTES) return { ok: false, reason: `exceeds ${MAX_BYTES} bytes` };
+  /** @type {PayloadKind} */
   const kind = head.startsWith('PK') ? 'zip'
     : head.startsWith('{') || head.startsWith('[') ? 'json/geojson'
       : head.startsWith('%PDF') ? 'pdf'

@@ -190,6 +190,7 @@ export async function copyPairs(pairs, { store, apply = false, log = console.log
   return results;
 }
 
+/** A key pair's outcome, derived from the two HEADs (R7: a derived outcome, not a machine). @typedef {'ok' | 'old-missing' | 'new-missing' | 'differ' | 'error'} PairStatus */
 /**
  * Read-only comparison of every pair.
  * @param {KeyPair[]} pairs
@@ -199,6 +200,7 @@ export async function verifyPairs(pairs, { store }) {
   const results = [];
   for (const { from, to } of pairs) {
     const [a, b] = [await head(store, from), await head(store, to)];
+    /** @type {PairStatus} */
     let status = 'ok';
     if (!a) status = 'old-missing';
     else if (!b) status = 'new-missing';
