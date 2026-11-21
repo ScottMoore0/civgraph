@@ -30,7 +30,7 @@ import {
 } from '@civgraph/map/ni-local-groups.mjs';
 import { leadingParty, niLocalAreaName, voteShareOpacity } from '@civgraph/map/app/ni-local-view.js';
 import { ELECTION_MANIFEST } from '@civgraph/loader/paths.mjs';
-import { nameKeys } from '../../scripts/build/build-ni-local-grouped.mjs';
+import { drawableLayerFeatures, nameKeys } from '../../scripts/build/build-ni-local-grouped.mjs';
 
 const ROOT = process.cwd();
 const read = (rel) => JSON.parse(fs.readFileSync(path.resolve(ROOT, rel), 'utf8'));
@@ -240,8 +240,11 @@ test('levels are offered only with results or hatching, on the edition the rules
         assert.ok(preNI ? level.sourceMapId.startsWith('eds-ulster-') : level.sourceMapId.startsWith('ded-'), `${year} DED edition ${level.sourceMapId}`);
       }
       if (id === 'counties' && level.sourceMapId) {
-        assert.equal(level.sourceMapId, preNI ? 'administrative-counties-1899' : 'counties-county-boroughs-1915', `${year} counties edition`);
+        // Before 1921 the island's 1899 counties are still to be added, so no year draws on them.
+        assert.ok(!preNI, `${year} counties: no edition before 1921`);
+        assert.equal(level.sourceMapId, 'counties-county-boroughs-1915', `${year} counties edition`);
       }
+      if (id === 'towns') assert.equal(level.sourceMapId, undefined, `${year} towns: the editions are still to be added`);
       assert.equal(file.title, year < 1921 ? `${year} Irish local elections (urban and rural districts)` : `${year} Northern Ireland local elections`);
       assert.equal(file.key, year < 1921 ? `ireland-local__${year}` : `ni-local__${year}`);
     }
@@ -309,4 +312,17 @@ test('Clogher Rural District\'s Aughentaine is placed on the DED map (the bounda
     });
   }
   assert.ok(rounds >= 19, `${rounds} Aughentaine contests`);
+});
+
+test('levels draw only on editions the map app can draw', () => {
+  const layer = { labelProperty: 'name', features: [] };
+  const maps = new Map([
+    ['a', { id: 'a' }],
+    ['b', { id: 'b', placeholder: true }],
+    ['c', { id: 'c' }],
+    ['d', { id: 'd', hidden: true }]
+  ]);
+  const render = new Map([['a', { id: 'a-vector', sourceMapId: 'a' }], ['b', { id: 'b-vector', sourceMapId: 'b' }], ['d', { id: 'd-vector', sourceMapId: 'd' }]]);
+  // b is still to be added, c has no render layer; d is hidden from the catalogue but drawable (a version of another map).
+  assert.deepEqual(Object.keys(drawableLayerFeatures({ a: layer, b: layer, c: layer, d: layer }, maps, render)), ['a', 'd']);
 });

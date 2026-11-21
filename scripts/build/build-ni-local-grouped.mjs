@@ -65,7 +65,7 @@ import { statusMachines } from '@civgraph/registries/status-machines.mjs';
 /** A boundary layer's features. @typedef {{ labelProperty?: string, keyProps?: unknown, features: LayerFeature[] }} Layer */
 /** A feature with the key a contest is matched on. @typedef {LayerFeature & { matchKey: string }} GroupedFeature */
 /** A feature and its index in the layer. @typedef {{ feature: GroupedFeature, fi: number }} FeatureRef */
-/** A maps.json record, as far as the build reads it. @typedef {{ id: string, date?: string, name?: string }} MapEntry */
+/** A maps.json record, as far as the build reads it. @typedef {{ id: string, date?: string, name?: string, placeholder?: boolean }} MapEntry */
 /** A startup-index layer, as far as the build reads it. @typedef {{ id: string, sourceMapId: string, name?: string }} RenderLayer */
 /**
  * A candidate in a round's bundle, as far as the build reads it.
@@ -300,6 +300,19 @@ function featureKeys(label, stem = '') {
 }
 
 /**
+ * The boundary layers a level may draw on: those the map app can draw. An edition whose map is still
+ * to be added (a placeholder) or has no render layer is left out, so no year draws on it.
+ * @param {Record<string, Layer>} layerFeatures
+ * @param {Map<string, MapEntry>} mapsById
+ * @param {Map<string, RenderLayer>} renderBySource
+ * @returns {Record<string, Layer>}
+ */
+export function drawableLayerFeatures(layerFeatures, mapsById, renderBySource) {
+  return Object.fromEntries(Object.entries(layerFeatures)
+    .filter(([id]) => renderBySource.has(id) && !mapsById.get(id)?.placeholder));
+}
+
+/**
  * @param {string} level
  * @param {string} date
  * @param {Map<string, MapEntry>} mapsById
@@ -431,7 +444,7 @@ function main() {
     ? readJson('data/elections/round-completeness.json').rounds || {}
     : {};
   /** @type {Record<string, Layer>} */
-  const layerFeatures = readJson('data/elections/ni-local/layer-features.json').layers;
+  const allLayerFeatures = readJson('data/elections/ni-local/layer-features.json').layers;
   const mapsRaw = readJson('data/database/maps.json');
   /** @type {MapEntry[]} */
   const mapsList = Array.isArray(mapsRaw) ? mapsRaw : (mapsRaw.maps || Object.values(mapsRaw));
@@ -439,6 +452,7 @@ function main() {
   /** @type {{ layers?: RenderLayer[] }} */
   const renderIndex = readJson('render/metadata/maps-test-index.json');
   const renderBySource = new Map((renderIndex.layers || []).map((layer) => [layer.sourceMapId, layer]));
+  const layerFeatures = drawableLayerFeatures(allLayerFeatures, mapsById, renderBySource);
 
   const authorities = status.authorities || {};
   /** @param {string} slug */
