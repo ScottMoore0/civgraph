@@ -244,14 +244,16 @@ export function partLabel(r, partId) {
   return [...(r?.parts || []), ...(r?.counties || [])].find((p) => p.id === partId)?.label || '';
 }
 
-/** The catalogue document as detailHolders reads it. @typedef {Pick<import('./catalogue-types.d.ts').CatalogueDoc, 'series' | 'maps' | 'mapLinks'>} HolderDoc */
+/** The catalogue document as detailHolders reads it. @typedef {Pick<import('./catalogue-types.d.ts').CatalogueDoc, 'series' | 'maps' | 'mapLinks' | 'ownDetails'>} HolderDoc */
 
 /**
  * The map whose Details page opens for a map that has no page of its own in the catalogue
  * (data-service.js detailPageId): a part or county map opens the map the catalogue lists it under
  * (Phelim Birch's review, owner-approved 20 Nov 2026); a map in no row that the catalogue links to
- * one of its maps (mapLinks: Townlands 1844, whose county maps Townlands lists) opens that map. A
- * map a row lists keeps its own page.
+ * one of its maps (mapLinks: Townlands 1844, whose county maps Townlands lists) opens that map,
+ * when it is another copy, version or part of that map. One that shows another subject on that
+ * map's areas (ownDetails: the referendums counted by Westminster constituency, which link to the
+ * constituency map) keeps its own page (owner, 21 Nov 2026). A map a row lists keeps its own page.
  * @param {HolderDoc} doc
  * @returns {Map<string, string>}  map id -> the id whose page opens
  */
@@ -267,8 +269,9 @@ export function detailHolders(doc) {
       for (const p of [...(r?.parts || []), ...(r?.counties || [])]) if (!inRow.has(p.id) && !holders.has(p.id)) holders.set(p.id, m.id);
     }
   }
+  const own = new Set(doc.ownDetails || []);
   for (const [id, link] of Object.entries(doc.mapLinks || {})) {
-    if (link.map && link.map !== id && inRow.has(link.map) && !inRow.has(id) && !holders.has(id)) holders.set(id, link.map);
+    if (link.map && link.map !== id && inRow.has(link.map) && !inRow.has(id) && !own.has(id) && !holders.has(id)) holders.set(id, link.map);
   }
   return holders;
 }

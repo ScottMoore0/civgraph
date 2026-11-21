@@ -10,6 +10,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { catalogueTrail, comparable, countEdition, datedList, detailHolders, mapTitle, ownDescription, partLabel, rowActionKind, rowCitation, rowCount, rowEditions, rowMapCount } from '@civgraph/map/catalogue/row-model.mjs';
+import { otherSubject } from '../../scripts/build/catalogue/records.mjs';
 
 /** @type {Record<string, any>} */
 const maps = {
@@ -115,7 +116,8 @@ test('a page of its own: a part opens the map its row lists it under, a map in n
   const doc = /** @type {any} */ ({
     series: [{ id: 'town', members: [{ id: 'all' }, { id: 'osni', of: 'all' }], local: [{ id: 'dlr' }] }, { id: 'eds', members: [{ id: 'eds-2022' }, { id: 'conn' }] }],
     maps: { all: { parts: [{ id: 'ni' }], counties: [{ id: 'cork' }] }, 'eds-2022': { parts: [{ id: 'conn' }, { id: 'lein' }] } },
-    mapLinks: { 'townlands-1844': { series: 'town', map: 'all' }, later: { series: 'town', todo: true }, results: { route: 'elections/irish-local' }, gone: { series: 'x', map: 'nowhere' } },
+    mapLinks: { 'townlands-1844': { series: 'town', map: 'all' }, later: { series: 'town', todo: true }, results: { route: 'elections/irish-local' }, gone: { series: 'x', map: 'nowhere' }, poll: { series: 'eds', map: 'eds-2022' } },
+    ownDetails: ['poll'],
   });
   const h = detailHolders(doc);
   assert.equal(h.get('ni'), 'all');
@@ -123,12 +125,46 @@ test('a page of its own: a part opens the map its row lists it under, a map in n
   assert.equal(h.get('lein'), 'eds-2022');
   assert.equal(h.get('townlands-1844'), 'all');
   // A map a row lists keeps its own page, as does one the catalogue links to no map.
-  for (const id of ['conn', 'all', 'osni', 'dlr', 'later', 'results', 'gone']) assert.equal(h.has(id), false, id);
+  // A map a row lists keeps its own page, as does one the catalogue links to no map, and one whose
+  // link opens a map on another subject (ownDetails).
+  for (const id of ['conn', 'all', 'osni', 'dlr', 'later', 'results', 'gone', 'poll']) assert.equal(h.has(id), false, id);
+});
+
+test("a copy of another map's areas shows another subject when its category differs (records.mjs otherSubject)", () => {
+  assert.equal(otherSubject({ category: 'referendums' }, { category: 'parliamentary' }), true);
+  assert.equal(otherSubject({ category: 'counties' }, { category: 'counties' }), false);
+  assert.equal(otherSubject({}, { category: 'counties' }), false);
+  assert.equal(otherSubject(undefined, undefined), false);
 });
 
 test('on the catalogue: Townlands 1844, in no row, opens the Townlands page', () => {
   const doc = JSON.parse(readFileSync(new URL('../../data/catalogue/catalogue.json', import.meta.url), 'utf8'));
   assert.equal(detailHolders(doc).get('ni-townlands-1844'), 'all-ireland-townlands');
+});
+
+test('on the catalogue: a hidden copy, version or part opens the map it links to; a referendum keeps its own page', () => {
+  // Owner, 21 Nov 2026 ("limit the redirect"): the five referendums link to the constituency or
+  // Northern Ireland map whose areas they were counted in, but are another subject.
+  /** @type {import('@civgraph/map/catalogue/catalogue-types.d.ts').CatalogueDoc} */
+  const doc = JSON.parse(readFileSync(new URL('../../data/catalogue/catalogue.json', import.meta.url), 'utf8'));
+  const h = detailHolders(doc);
+  const dropped = ['av-turnout-2011', 'belfast-agreement-1998', 'border-poll-1973', 'common-market-1975', 'eu-referendum-2016'];
+  assert.deepEqual(doc.ownDetails, dropped);
+  for (const id of dropped) {
+    assert.ok(doc.mapLinks?.[id]?.map, `${id} still links to a map (#layers=)`);
+    assert.equal(h.has(id), false, id);
+  }
+  /** @type {[string, string][]} */
+  const kept = [
+    ['civil-parishes', 'civil-parishes-by-province'], ['provinces', 'provinces-1955'], ['hsct-2007', 'ni-health-trust-boundaries'],
+    ['pc-1884', 'pc-1885-ireland'], ['pc-1918-26-counties', 'pc-1918-ireland'], ['townland-boundaries', 'all-ireland-townlands'],
+    ['hed-listed-buildings', 'ni-listed-buildings'], ['ni-250k-geology', 'gsni-bedrock-geology-lines-250k'],
+  ];
+  for (const [id, to] of kept) assert.equal(h.get(id), to, id);
+  // Every map in no row that a link sends elsewhere: 20 followed, the 5 referendums not.
+  const linked = Object.entries(doc.mapLinks || {}).filter(([id, l]) => l.map && l.map !== id && !doc.series.some((s) => [...s.members, ...(s.local || [])].some((m) => m.id === id)));
+  assert.equal(linked.length, 25);
+  assert.equal(linked.filter(([id]) => h.has(id)).length, 20);
 });
 
 test("a map's own description: a census statistic's, as its record has it; none for other maps", () => {

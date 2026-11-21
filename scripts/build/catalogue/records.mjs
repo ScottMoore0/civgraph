@@ -68,3 +68,17 @@ export function loadRecords(root = process.cwd()) {
 export function placeable(/** @type {Map<string, CatalogueRecord>} */ records) {
   return [...records.values()].filter((r) => !r.partOf && !r.hidden);
 }
+
+/**
+ * Whether a map that copies another map's areas (its record's `parentId`, `cloneOf` or `aliasOf`)
+ * shows another subject on them: its category differs from that map's (a referendum counted by
+ * Westminster constituency, `cloneOf: "pc-2008"`, category "referendums" against "parliamentary").
+ * A copy in the same category is the same map (Provinces 2019 is the 1955 map). Unknown either
+ * way counts as the same map.
+ * @param {Record<string, unknown> | undefined} own  the copying map's record
+ * @param {Record<string, unknown> | undefined} of  the record of the map it copies
+ * @returns {boolean}
+ */
+export function otherSubject(own, of) {
+  return Boolean(own?.['category'] && of?.['category'] && own['category'] !== of['category']);
+}

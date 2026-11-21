@@ -27,7 +27,7 @@ import { compareElectionsNewestFirst } from '../../lib/election-names.mjs';
 import { loadRegistry } from '@civgraph/registries/index.mjs';
 import { electionBody, jurisdictionLabel } from '@civgraph/registries/election-bodies.mjs';
 import path from 'node:path';
-import { loadRecords } from './records.mjs';
+import { loadRecords, otherSubject } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '@civgraph/core/date-format.mjs';
 import { cutNote } from '@civgraph/core/text-cut.mjs';
 import { combinedDerivedFromLines, derivedFromLines } from '@civgraph/core/credits.mjs';
@@ -769,6 +769,12 @@ const peopleDoc = (() => {
 // the catalogue view in `route`: Roscommon's local results go to the Irish local elections).
 /** @type {Record<string, MapLink>} */
 const mapLinks = {};
+// The hidden maps whose link opens a map on another subject: a copy of that map's areas in
+// another category (records.mjs otherSubject: the referendums counted by Westminster constituency
+// open the constituency map). A link to one still opens that row; its Details page stays its own
+// (row-model.mjs detailHolders; owner, 21 Nov 2026).
+/** @type {string[]} */
+const ownDetails = [];
 /** @type {Map<string, MapLink>} */
 const rowOfMap = new Map();
 for (const s of seriesOut) for (const m of [...s.members, ...(s.local || [])]) rowOfMap.set(m.id, { series: s.id, map: m.id });
@@ -781,7 +787,11 @@ const holderOf = (/** @type {string} */ id) => {
     if (pid !== id && ((m.variants || []).some((v) => v.id === id) || (partsOf.get(pid) || []).some((p) => p.id === id)) && rowOfMap.has(pid)) return rowOfMap.get(pid);
   }
   const own = mapById.get(id);
-  for (const k of [own?.parentId, own?.cloneOf, own?.aliasOf]) if (k && rowOfMap.has(k)) return rowOfMap.get(k);
+  for (const k of [own?.parentId, own?.cloneOf, own?.aliasOf]) {
+    if (!k || !rowOfMap.has(k)) continue;
+    if (otherSubject(own, mapById.get(String(k)))) ownDetails.push(id);
+    return rowOfMap.get(k);
+  }
   for (const s of source.series) for (const [main, from] of Object.entries(s.countiesFrom || {})) if (from === id && rowOfMap.has(main)) return rowOfMap.get(main);
   return null;
 };
@@ -804,6 +814,7 @@ const catalogue = {
   contestIndex,
   redirects,
   mapLinks,
+  ownDetails: ownDetails.filter((id) => mapLinks[id]?.map).sort(),
   // A merged row's old id -> the row it went into, so old series/<id> links keep working
   // (the pane follows chains; check:catalogue fails on a loop or a redirect to no row).
   seriesRedirects: source.seriesRedirects || {},

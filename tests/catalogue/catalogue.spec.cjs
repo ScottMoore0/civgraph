@@ -1396,3 +1396,28 @@ test('N57 an old address naming Townlands 1844 (in no row) opens the Townlands p
     await expect(view.locator('.catalogue-detail__variant', { hasText: label })).toHaveCount(1);
   }
 });
+
+test('N58 a hidden copy or version of a map opens that map\'s Details page; a referendum counted by constituency keeps its own', async ({ page }) => {
+  // Owner, 21 Nov 2026 ("limit the redirect"): the referendums link to the constituency map
+  // (mapLinks, for #layers=), but are another subject (ownDetails).
+  expect(catalogue.ownDetails).toContain('eu-referendum-2016');
+  expect(catalogue.mapLinks['eu-referendum-2016'].map).toBe('pc-2008');
+  const detail = () => page.evaluate(() => window.__civgraphTest2.app.currentDetailMapId);
+  const hashDetail = () => page.evaluate(() => new URLSearchParams(location.hash.slice(1)).get('detail'));
+  // Kept: Provinces 2019 is the 1955 map.
+  await page.goto('/maps/#detail=provinces');
+  await expect(page.locator('#catalogueDetailView')).toBeVisible({ timeout: 45000 });
+  await expect.poll(detail, { timeout: 45000 }).toBe('provinces-1955');
+  await expect.poll(hashDetail).toBe('provinces-1955');
+  // Dropped: the EU referendum opens its own page and keeps its address, as before 20 Nov.
+  await page.goto('about:blank');
+  await page.goto('/maps/#detail=eu-referendum-2016');
+  await expect(page.locator('#catalogueDetailView')).toBeVisible({ timeout: 45000 });
+  await expect.poll(detail, { timeout: 45000 }).toBe('eu-referendum-2016');
+  // Still its own once the catalogue has loaded and the holders are set.
+  await expect.poll(() => page.evaluate(() => Boolean(window.uiController._catalogueNext?.data)), { timeout: 45000 }).toBe(true);
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('eu-referendum-2016'));
+  await expect.poll(detail).toBe('eu-referendum-2016');
+  await expect.poll(hashDetail).toBe('eu-referendum-2016');
+  await expect(page.locator('#catalogueDetailView .catalogue-detail__name')).toContainText('Referendum');
+});

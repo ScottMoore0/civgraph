@@ -117,6 +117,8 @@ export interface CatalogueDoc extends Catalogue {
   elections: CatalogueRowElection[];
   redirects?: Record<string, string>;
   mapLinks?: Record<string, CatalogueMapLink>;
+  /** Hidden maps whose link opens a map on another subject; their Details page is their own (row-model.mjs detailHolders). */
+  ownDetails?: string[];
   /** A merged row's old id -> the row it went into (catalogue.source.json seriesRedirects). */
   seriesRedirects?: Record<string, string>;
 }
