@@ -146,8 +146,16 @@ const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
 const { records: mapById, parts: partsOf } = loadRecords(ROOT);
 /** @type {{ id: string, sourceMapId?: string, bounds?: unknown, geometryType?: string }[]} */
 const layerIndex = read('render/metadata/maps-test-index.json').layers || [];
+// A thumbnail is used only for a map that can be shown: not for one to be added (placeholder), nor
+// for a hidden one the map app has no layer for. Their images stay in the folder for their return.
+const thumbLayerIds = new Set(layerIndex.flatMap((l) => [l.id, l.sourceMapId]).filter(Boolean));
 /** @type {Set<string>} */
-const thumbs = new Set(read('site/assets/thumbnails/manifest.json'));
+const thumbs = new Set(
+  /** @type {string[]} */ (read('site/assets/thumbnails/manifest.json')).filter((id) => {
+    const record = /** @type {{ placeholder?: boolean, hidden?: boolean } | undefined} */ (mapById.get(id));
+    return !record || !(record.placeholder || (record.hidden && !thumbLayerIds.has(id)));
+  }),
+);
 /** @type {{ features?: { name?: unknown, mapId?: string, bbox?: unknown }[] }} */
 const spatial = read('data/database/spatial-index.json');
 // A party's own ballots (bodyType "party-internal": leadership and nomination contests) have no
