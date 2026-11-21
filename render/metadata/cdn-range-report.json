@@ -1,20 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T16:39:39.318Z",
+  "generatedAt": "2026-11-21T15:20:53.233Z",
   "rangeRequest": "bytes=0-15",
   "origin": "https://civgraph.net",
   "totals": {
-    "assets": 963,
-    "ok": 963,
+    "assets": 965,
+    "ok": 965,
     "failed": 0
   },
   "scopedRun": {
     "ids": [
-      "plu-1849-09-29-vector",
-      "plu-1840-12-31-vector",
-      "plu-1839-12-31-vector"
+      "plu-1871-vector",
+      "plu-1881-vector"
     ],
-    "checked": 3
+    "checked": 2
   },
   "results": [
     {
@@ -12646,6 +12645,34 @@
       "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
       "cacheStatus": "DYNAMIC",
       "checkedAt": "2026-11-19T16:39:39.156Z"
+    },
+    {
+      "layerId": "plu-1881-vector",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1881-vector.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/6002154",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC",
+      "checkedAt": "2026-11-21T15:20:52.804Z"
+    },
+    {
+      "layerId": "plu-1871-vector",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1871-vector.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/6033802",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC",
+      "checkedAt": "2026-11-21T15:20:53.009Z"
     }
   ]
 }
