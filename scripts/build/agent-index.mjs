@@ -29,6 +29,7 @@ for (const h of catalogueSource.hidden || []) if (h.id && h.to && mapIds.has(h.t
 const statuses = agentMapStatuses(doc.maps || [], copyOf);
 const byId = new Map((doc.maps || []).map((/** @type {{ id: string }} */ m) => [m.id, m]));
 
+/** @type {Array<{ id: string, status: string, geometry: unknown, [field: string]: unknown }>} */
 const maps = [];
 for (const m of doc.maps || []) {
   const st = statuses.get(m.id) || { status: 'to-be-added', geometryFrom: null };
