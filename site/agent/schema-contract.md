@@ -51,3 +51,18 @@ generated on demand rather than baked into hundreds of millions of static rows.
 `time`, `statistic`, `unit`, `dataset` — plus the existing `geography`, `file`,
 `url`. This is what makes census, NIMDM and portal cubes consistently queryable
 without rewriting the bulk data.
+
+## The maps index: `status`
+
+[`/agent/maps-index.json`](https://civgraph.net/agent/maps-index.json) lists
+every map, each with a `status` in the catalogue's own states:
+
+| `status` | Meaning | `geometry` |
+|---|---|---|
+| `ready` | Shown on the site. | A link to the file. |
+| `partial` | Shown on the site and marked incomplete: some areas are not in the file. | A link to the file the site shows. |
+| `to-be-added` | Listed in the catalogue, not yet shown. | `null`. The entry keeps its metadata. |
+
+`sameAs` names the map an entry is a copy of; such an entry takes that map's
+`status` and `geometry`. `partOf` names the map an entry is shown as part of.
+`statusCounts` totals the three states.

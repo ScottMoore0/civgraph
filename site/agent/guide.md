@@ -14,7 +14,7 @@ are static, unauthenticated HTTPS, and machine-readable.
 ## Data model
 
 - **Catalogue:** [`/agent/maps-index.json`](https://civgraph.net/agent/maps-index.json)
-  — one entry per map layer: `id`, `name`, `category`, `categoryGroup`,
+  — one entry per map layer: `id`, `name`, `status`, `category`, `categoryGroup`,
   `provider`, `date`, `labelProperty` (the feature-name field), `bounds`, and
   `geometry` (a link to the geometry file). Prefer this over the full
   [`/data/database/maps.json`](https://civgraph.net/data/database/maps.json).
@@ -22,6 +22,13 @@ are static, unauthenticated HTTPS, and machine-readable.
   Readable by GeoPandas/pyogrio, GDAL/OGR, and the flatgeobuf JS/Python libs.
   `.fgb` supports HTTP range requests, so large layers can be read
   bbox-filtered.
+- `status` is the map's state in the catalogue: `ready` (shown on the site),
+  `partial` (shown, and marked incomplete: some areas are not in the file) or
+  `to-be-added` (listed, not yet shown). A `to-be-added` entry keeps its
+  metadata and has `geometry: null`. An entry with `sameAs` is a copy of the
+  map it names, and its `status` and `geometry` are that map's; an entry with
+  `partOf` is shown on the site as part of the map it names. `statusCounts`
+  totals the three states.
 - `labelProperty` tells you which attribute holds the human-readable feature
   name (e.g. `LGDNAME`, `FinalR_DEA`, `ENGLISH`). Field names vary by layer —
   inspect the file's schema if unsure.
@@ -45,9 +52,11 @@ targets and their `geometry.url`:
 - "District Electoral Areas 2012" → `id: deas-2012`
 - "Local Government Districts 2012" → `id: lgd-2012`
 
-Read each entry's `geometry.url`. If `geometry` is `null`, that layer is served
-as chunked FlatGeobuf (very large); 686 of ~1,014 layers have a single
-fetchable `.fgb`, which covers the usual correspondence tasks.
+Read each entry's `geometry.url`. If `geometry` is `null`, the map is
+`to-be-added`, or it is served as chunked FlatGeobuf (very large, see
+`geometry.chunkIndex` where given). About 690 of ~1,130 entries have a single
+fetchable `.fgb`, which covers the usual correspondence tasks. Use maps whose
+`status` is `ready` or `partial`.
 
 ## Recipe: feature correspondence (spatial join)
 
