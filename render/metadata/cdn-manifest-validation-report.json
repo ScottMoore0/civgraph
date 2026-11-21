@@ -1,22 +1,18 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T22:06:54.436Z",
+  "generatedAt": "2026-11-21T15:38:58.793Z",
   "totals": {
-    "warnings": 0,
-    "errors": 5,
+    "warnings": 1,
+    "errors": 0,
     "notes": 3
   },
   "notes": [
     "221 duplicate local PMTiles archive path(s) are superseded by explicit clone aliases and are intentionally excluded from the CDN manifest.",
-    "851 PMTiles layer(s) retain local directory fallbacks for development only; production fallback is disabled by runtime guard.",
+    "853 PMTiles layer(s) retain local directory fallbacks for development only; production fallback is disabled by runtime guard.",
     "roi-counties-2011 quarantine has been superseded by the resolved PMTiles/CDN layer built from the valid FlatGeobuf source."
   ],
-  "warnings": [],
-  "errors": [
-    "plu-1881-vector: PMTiles layer missing from CDN manifest",
-    "plu-1871-vector: PMTiles layer missing from CDN manifest",
-    "CDN range report verified 954/956 active PMTiles layers",
-    "render/pmtiles/generated/plu-1871-vector.pmtiles: local PMTiles archive is not represented in CDN manifest",
-    "render/pmtiles/generated/plu-1881-vector.pmtiles: local PMTiles archive is not represented in CDN manifest"
-  ]
+  "warnings": [
+    "CDN range report is older than CDN upload manifest; rerun npm run verify:test:pmtiles-cdn after manifest changes"
+  ],
+  "errors": []
 }
