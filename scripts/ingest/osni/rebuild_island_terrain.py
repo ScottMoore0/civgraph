@@ -95,10 +95,20 @@ def fetch(kind, z, x, y):
 
 def glo_tile(z, x, y):
     """GLO-30 resampled into the tile, with a one-pixel margin for the hillshade."""
-    b = merc_bounds(z, x, y, pad=1)
+    return glo_resample(G['src'], merc_bounds(z, x, y, pad=1))
+
+
+def glo_resample(src, b):
+    """GLO-30 (src, a geographic raster) resampled bilinearly onto the EPSG:3857 box b, (SIZE+2)^2 pixels.
+
+    The read window is rounded to whole source pixels before the read, so the transform handed to
+    reproject is the one of the pixels actually read. Until 21 Nov 2026 the window stayed fractional:
+    read() sampled whole source pixels across it (nearest neighbour), while window_transform() kept the
+    fractional origin, so each tile's GLO-30 came out shifted by up to half a cell (about 15 m),
+    differently per tile, and filled tiles stepped against each other at their edges (w21-dem-round)."""
     w, s, e, n = transform_bounds('EPSG:3857', 'EPSG:4326', *b)
-    src = G['src']
     win = window_from_bounds(w - 0.01, s - 0.01, e + 0.01, n + 0.01, src.transform)
+    win = win.round_offsets().round_lengths()
     data = src.read(1, window=win, boundless=True, fill_value=0).astype(np.float32)
     out = np.zeros((SIZE + 2, SIZE + 2), np.float32)
     reproject(data, out, src_transform=src.window_transform(win), src_crs=src.crs,

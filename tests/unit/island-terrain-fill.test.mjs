@@ -164,3 +164,60 @@ print(json.dumps({'wide': wide, 'zero': zero, 'agree': agree}))
   assert.equal(out.zero.rows_taken, out.zero.trench_px);
   assert.equal(out.agree, false); // where July and GLO-30 agree, the band alone rewrites nothing
 });
+
+// Found 20 Nov 2026 (w20-terrain-tone), fixed 21 Nov 2026 (w21-dem-round): glo_tile read a fractional
+// window but handed reproject that fractional window's transform, so each filled tile's GLO-30 was
+// shifted by up to half a cell (about 15 m), differently per tile, and two filled z16 neighbours
+// stepped against each other along their shared edge (2-3 m in places).
+test('glo_resample: two z16 neighbours meet exactly, and the surface sits where it belongs', (t) => {
+  const out = py(t, `
+import math, numpy as np
+try:
+    import rasterio
+    from rasterio.io import MemoryFile
+    from rasterio.transform import from_origin
+except ImportError:
+    print(json.dumps(None)); raise SystemExit
+import rebuild_island_terrain as rit
+R = 6378137.0
+def lonlat(mx, my):
+    return math.degrees(mx / R), math.degrees(2 * math.atan(math.exp(my / R)) - math.pi / 2)
+# a GLO-30-like grid above 50 N (1.5" by 1"), whose pixel edges fall at odd fractions of the tiles
+dx, dy = 1.5 / 3600, 1 / 3600
+west, north = -6.0123457, 54.6234567
+lon0, lat0 = -5.97, 54.58
+cols, rows = 300, 240
+lon = west + (np.arange(cols) + 0.5) * dx
+lat = north - (np.arange(rows) + 0.5) * dy
+surface = lambda lo, la: 50 + 1000 * (lo - lon0) + 1500 * (la - lat0)     # linear: bilinear is exact
+data = surface(lon[None, :], lat[:, None]).astype(np.float32)
+z, x, y = 16, 31684, 20858            # Belfast; inside the grid with its neighbours
+res = {}
+with MemoryFile() as mem:
+    with mem.open(driver='GTiff', width=cols, height=rows, count=1, dtype='float32', crs='EPSG:4326',
+                  transform=from_origin(west, north, dx, dy)) as ds:
+        ds.write(data, 1)
+    with mem.open() as src:
+        A = rit.glo_resample(src, rit.merc_bounds(z, x, y, pad=1))
+        E = rit.glo_resample(src, rit.merc_bounds(z, x + 1, y, pad=1))
+        S = rit.glo_resample(src, rit.merc_bounds(z, x, y + 1, pad=1))
+        b = rit.merc_bounds(z, x, y, pad=1); px = (b[2] - b[0]) / (rit.SIZE + 2)
+        err = 0.0
+        for i in range(0, rit.SIZE + 2, 17):
+            for j in range(0, rit.SIZE + 2, 17):
+                lo, la = lonlat(b[0] + (j + 0.5) * px, b[3] - (i + 0.5) * px)
+                err = max(err, abs(float(A[i, j]) - surface(lo, la)))
+res['east'] = float(max(np.abs(A[1:-1, -2] - E[1:-1, 0]).max(), np.abs(A[1:-1, -1] - E[1:-1, 1]).max()))
+res['south'] = float(max(np.abs(A[-2, 1:-1] - S[0, 1:-1]).max(), np.abs(A[-1, 1:-1] - S[1, 1:-1]).max()))
+res['register'] = err
+res['relief'] = float(A.max() - A.min())
+print(json.dumps(res))
+`);
+  if (!out) return t.skip('no rasterio');
+  assert.ok(out.relief > 5, 'the test surface has relief across the tile');
+  // the edge column of one tile and the margin column of its neighbour are the same ground
+  assert.ok(out.east < 1e-3, `east edge steps by ${out.east} m`);
+  assert.ok(out.south < 1e-3, `south edge steps by ${out.south} m`);
+  // half a cell of shift would be 0.3 m on this slope
+  assert.ok(out.register < 0.02, `the resample is ${out.register} m off the surface`);
+});
