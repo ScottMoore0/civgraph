@@ -23,6 +23,7 @@
  * that exists. With --check it builds in memory and fails if the files on disk differ.
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { thumbnailShown } from '@civgraph/core/thumbnail-shown.mjs';
 import { compareElectionsNewestFirst } from '../../lib/election-names.mjs';
 import { loadRegistry } from '@civgraph/registries/index.mjs';
 import { electionBody, jurisdictionLabel } from '@civgraph/registries/election-bodies.mjs';
@@ -146,15 +147,13 @@ const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
 const { records: mapById, parts: partsOf } = loadRecords(ROOT);
 /** @type {{ id: string, sourceMapId?: string, bounds?: unknown, geometryType?: string }[]} */
 const layerIndex = read('render/metadata/maps-test-index.json').layers || [];
-// A thumbnail is used only for a map that can be shown: not for one to be added (placeholder), nor
-// for a hidden one the map app has no layer for. Their images stay in the folder for their return.
+// A thumbnail is used only for a map that can be shown (packages/core/src/thumbnail-shown.mjs). The
+// manifest already leaves the others out; records the catalogue adds (parts, data entries) are checked here.
 const thumbLayerIds = new Set(layerIndex.flatMap((l) => [l.id, l.sourceMapId]).filter(Boolean));
 /** @type {Set<string>} */
 const thumbs = new Set(
-  /** @type {string[]} */ (read('site/assets/thumbnails/manifest.json')).filter((id) => {
-    const record = /** @type {{ placeholder?: boolean, hidden?: boolean } | undefined} */ (mapById.get(id));
-    return !record || !(record.placeholder || (record.hidden && !thumbLayerIds.has(id)));
-  }),
+  /** @type {string[]} */ (read('site/assets/thumbnails/manifest.json')).filter((id) =>
+    thumbnailShown(/** @type {{ placeholder?: boolean, hidden?: boolean } | undefined} */ (mapById.get(id)), thumbLayerIds.has(id))),
 );
 /** @type {{ features?: { name?: unknown, mapId?: string, bbox?: unknown }[] }} */
 const spatial = read('data/database/spatial-index.json');

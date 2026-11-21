@@ -23,6 +23,7 @@ import {
   unlinkSync,
   writeFileSync
 } from 'node:fs';
+import { thumbnailMapId, thumbnailShown } from '@civgraph/core/thumbnail-shown.mjs';
 
 // maps/index.html is the map app since the landing page took the root. It was left off
 // this list, so its inlined critical CSS froze -- and kept header rules that have since
@@ -184,10 +185,21 @@ function buildThumbnailManifest() {
     }
   }
 
+  // Only the thumbnails of maps the site can show (packages/core/src/thumbnail-shown.mjs): a map to be
+  // added, or hidden with no render layer, has none, so no card shows its image. The files stay.
+  /** @type {Map<string, { placeholder?: boolean, hidden?: boolean }>} */
+  const records = new Map();
+  for (const m of JSON.parse(readFileSync('data/database/maps.json', 'utf8')).maps || []) records.set(String(m.id), m);
+  /** @type {Set<string>} */
+  const layerIds = new Set();
+  for (const l of JSON.parse(readFileSync('render/metadata/maps-test-index.json', 'utf8')).layers || []) {
+    for (const k of [l.id, l.sourceMapId]) if (k) layerIds.add(String(k));
+  }
   const ids = readdirSync(thumbnailDir)
     .filter((name) => name.toLowerCase().endsWith('.webp'))
     .map((name) => name.replace(/\.webp$/i, ''))
-    .filter((id) => !excludedTransparent.has(id.replace(/-60$/, '')))
+    .filter((id) => !excludedTransparent.has(thumbnailMapId(id)))
+    .filter((id) => thumbnailShown(records.get(thumbnailMapId(id)), layerIds.has(thumbnailMapId(id))))
     .sort();
 
   writeTextIfChanged(`${thumbnailDir}/manifest.json`, JSON.stringify(ids));
