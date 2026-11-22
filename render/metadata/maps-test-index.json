@@ -341,6 +341,54 @@
           "name": "District Electoral Divisions 3 May 1921"
         },
         {
+          "id": "ded-1922-10-31-alias",
+          "mapId": "ded-1922-10-31",
+          "date": "1922-10-31",
+          "name": "District Electoral Divisions 31 Oct 1922"
+        },
+        {
+          "id": "ded-1922-11-06-alias",
+          "mapId": "ded-1922-11-06",
+          "date": "1922-11-06",
+          "name": "District Electoral Divisions 6 Nov 1922"
+        },
+        {
+          "id": "ded-1922-11-09-alias",
+          "mapId": "ded-1922-11-09",
+          "date": "1922-11-09",
+          "name": "District Electoral Divisions 9 Nov 1922"
+        },
+        {
+          "id": "ded-1922-11-11-alias",
+          "mapId": "ded-1922-11-11",
+          "date": "1922-11-11",
+          "name": "District Electoral Divisions 11 Nov 1922"
+        },
+        {
+          "id": "ded-1922-11-13-alias",
+          "mapId": "ded-1922-11-13",
+          "date": "1922-11-13",
+          "name": "District Electoral Divisions 13 Nov 1922"
+        },
+        {
+          "id": "ded-1924-04-01-vector",
+          "mapId": "ded-1924-04-01",
+          "date": "1924-04-01",
+          "name": "District Electoral Divisions 1 Apr 1924"
+        },
+        {
+          "id": "ded-1924-06-01-alias",
+          "mapId": "ded-1924-06-01",
+          "date": "1924-06-01",
+          "name": "District Electoral Divisions 1 Jun 1924"
+        },
+        {
+          "id": "ded-1924-06-20-vector",
+          "mapId": "ded-1924-06-20",
+          "date": "1924-06-20",
+          "name": "District Electoral Divisions 20 Jun 1924"
+        },
+        {
           "id": "ded-1925-04-01-vector",
           "mapId": "ded-1925-04-01",
           "date": "1925-04-01",
@@ -699,6 +747,18 @@
           "mapId": "county-ed-1922-11-13",
           "date": "1922-11-13",
           "name": "County Electoral Divisions 13 Nov 1922"
+        },
+        {
+          "id": "county-ed-1924-04-01-vector",
+          "mapId": "county-ed-1924-04-01",
+          "date": "1924-04-01",
+          "name": "County Electoral Divisions 1 Apr 1924"
+        },
+        {
+          "id": "county-ed-1924-06-01-alias",
+          "mapId": "county-ed-1924-06-01",
+          "date": "1924-06-01",
+          "name": "County Electoral Divisions 1 Jun 1924"
         },
         {
           "id": "county-ed-1924-06-20-vector",
@@ -120118,6 +120178,651 @@
       "detailUrl": "/render/metadata/layer-details-test2/ded-1921-05-03-vector.json"
     },
     {
+      "id": "ded-1922-10-31-alias",
+      "sourceMapId": "ded-1922-10-31",
+      "name": "District Electoral Divisions 31 Oct 1922",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1922-10-31",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland District Electoral Divisions as they stood on 31 Oct 1922.",
+      "notes": "District Electoral Divisions 31 Oct 1922 reuses the converted geometry from District Electoral Divisions 3 May 1921.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted-alias",
+      "conversionStatus": "convertedAlias",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "ded_1921_05_03",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector.pmtiles",
+      "tiles": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "serving": "cdn",
+        "localPath": "render/pmtiles/generated/ded-1921-05-03-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/ded-1921-05-03/metadata.json",
+      "style": {
+        "color": "#D2691E",
+        "fillColor": "#D2691E",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#D2691E",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "OBJECTID",
+      "idProperty": "OBJECTID",
+      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
+      "sourceDatasetLayer": "1921 NI",
+      "numericProperties": [
+        "OBJECTID",
+        "AREA_SQ_KM",
+        "PERIM_KM",
+        "CENTROID_X",
+        "CENTROID_Y",
+        "CO_ID",
+        "Shape_Leng"
+      ],
+      "categoricalProperties": [
+        "ED_NAME",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_COUNTY",
+        "minElev_m",
+        "maxElev_m",
+        "minElev_ft",
+        "maxElev_ft",
+        "ED_NAME_G"
+      ],
+      "popupProperties": [
+        "ED_NAME",
+        "OBJECTID",
+        "ED_ID",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_I_NAME",
+        "CSO_COUNTY",
+        "LAU2_ID"
+      ],
+      "aliasOf": "ded-1921-05-03",
+      "aliasTargetLayerId": "ded-1921-05-03-vector",
+      "cloneOf": "ded-1921-05-03",
+      "generatedFrom": {
+        "pipeline": "promote-test-clone-alias",
+        "sourceMapId": "ded-1922-10-31",
+        "cloneOf": "ded-1921-05-03",
+        "aliasOf": "ded-1921-05-03",
+        "targetLayerId": "ded-1921-05-03-vector"
+      },
+      "keywords": [
+        "ded",
+        "electoral",
+        "divisions",
+        "1921",
+        "northern ireland",
+        "partition",
+        "District Electoral Divisions 3 May 1921",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/ded-1922-10-31-alias.json"
+    },
+    {
+      "id": "ded-1922-11-06-alias",
+      "sourceMapId": "ded-1922-11-06",
+      "name": "District Electoral Divisions 6 Nov 1922",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1922-11-06",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland District Electoral Divisions as they stood on 6 Nov 1922.",
+      "notes": "District Electoral Divisions 6 Nov 1922 reuses the converted geometry from District Electoral Divisions 3 May 1921.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted-alias",
+      "conversionStatus": "convertedAlias",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "ded_1921_05_03",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector.pmtiles",
+      "tiles": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "serving": "cdn",
+        "localPath": "render/pmtiles/generated/ded-1921-05-03-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/ded-1921-05-03/metadata.json",
+      "style": {
+        "color": "#D2691E",
+        "fillColor": "#D2691E",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#D2691E",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "OBJECTID",
+      "idProperty": "OBJECTID",
+      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
+      "sourceDatasetLayer": "1921 NI",
+      "numericProperties": [
+        "OBJECTID",
+        "AREA_SQ_KM",
+        "PERIM_KM",
+        "CENTROID_X",
+        "CENTROID_Y",
+        "CO_ID",
+        "Shape_Leng"
+      ],
+      "categoricalProperties": [
+        "ED_NAME",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_COUNTY",
+        "minElev_m",
+        "maxElev_m",
+        "minElev_ft",
+        "maxElev_ft",
+        "ED_NAME_G"
+      ],
+      "popupProperties": [
+        "ED_NAME",
+        "OBJECTID",
+        "ED_ID",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_I_NAME",
+        "CSO_COUNTY",
+        "LAU2_ID"
+      ],
+      "aliasOf": "ded-1921-05-03",
+      "aliasTargetLayerId": "ded-1921-05-03-vector",
+      "cloneOf": "ded-1921-05-03",
+      "generatedFrom": {
+        "pipeline": "promote-test-clone-alias",
+        "sourceMapId": "ded-1922-11-06",
+        "cloneOf": "ded-1921-05-03",
+        "aliasOf": "ded-1921-05-03",
+        "targetLayerId": "ded-1921-05-03-vector"
+      },
+      "keywords": [
+        "ded",
+        "electoral",
+        "divisions",
+        "1921",
+        "northern ireland",
+        "partition",
+        "District Electoral Divisions 3 May 1921",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/ded-1922-11-06-alias.json"
+    },
+    {
+      "id": "ded-1922-11-09-alias",
+      "sourceMapId": "ded-1922-11-09",
+      "name": "District Electoral Divisions 9 Nov 1922",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1922-11-09",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland District Electoral Divisions as they stood on 9 Nov 1922.",
+      "notes": "District Electoral Divisions 9 Nov 1922 reuses the converted geometry from District Electoral Divisions 3 May 1921.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted-alias",
+      "conversionStatus": "convertedAlias",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "ded_1921_05_03",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector.pmtiles",
+      "tiles": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "serving": "cdn",
+        "localPath": "render/pmtiles/generated/ded-1921-05-03-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/ded-1921-05-03/metadata.json",
+      "style": {
+        "color": "#D2691E",
+        "fillColor": "#D2691E",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#D2691E",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "OBJECTID",
+      "idProperty": "OBJECTID",
+      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
+      "sourceDatasetLayer": "1921 NI",
+      "numericProperties": [
+        "OBJECTID",
+        "AREA_SQ_KM",
+        "PERIM_KM",
+        "CENTROID_X",
+        "CENTROID_Y",
+        "CO_ID",
+        "Shape_Leng"
+      ],
+      "categoricalProperties": [
+        "ED_NAME",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_COUNTY",
+        "minElev_m",
+        "maxElev_m",
+        "minElev_ft",
+        "maxElev_ft",
+        "ED_NAME_G"
+      ],
+      "popupProperties": [
+        "ED_NAME",
+        "OBJECTID",
+        "ED_ID",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_I_NAME",
+        "CSO_COUNTY",
+        "LAU2_ID"
+      ],
+      "aliasOf": "ded-1921-05-03",
+      "aliasTargetLayerId": "ded-1921-05-03-vector",
+      "cloneOf": "ded-1921-05-03",
+      "generatedFrom": {
+        "pipeline": "promote-test-clone-alias",
+        "sourceMapId": "ded-1922-11-09",
+        "cloneOf": "ded-1921-05-03",
+        "aliasOf": "ded-1921-05-03",
+        "targetLayerId": "ded-1921-05-03-vector"
+      },
+      "keywords": [
+        "ded",
+        "electoral",
+        "divisions",
+        "1921",
+        "northern ireland",
+        "partition",
+        "District Electoral Divisions 3 May 1921",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/ded-1922-11-09-alias.json"
+    },
+    {
+      "id": "ded-1922-11-11-alias",
+      "sourceMapId": "ded-1922-11-11",
+      "name": "District Electoral Divisions 11 Nov 1922",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1922-11-11",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland District Electoral Divisions as they stood on 11 Nov 1922.",
+      "notes": "District Electoral Divisions 11 Nov 1922 reuses the converted geometry from District Electoral Divisions 3 May 1921.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted-alias",
+      "conversionStatus": "convertedAlias",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "ded_1921_05_03",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector.pmtiles",
+      "tiles": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "serving": "cdn",
+        "localPath": "render/pmtiles/generated/ded-1921-05-03-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/ded-1921-05-03/metadata.json",
+      "style": {
+        "color": "#D2691E",
+        "fillColor": "#D2691E",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#D2691E",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "OBJECTID",
+      "idProperty": "OBJECTID",
+      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
+      "sourceDatasetLayer": "1921 NI",
+      "numericProperties": [
+        "OBJECTID",
+        "AREA_SQ_KM",
+        "PERIM_KM",
+        "CENTROID_X",
+        "CENTROID_Y",
+        "CO_ID",
+        "Shape_Leng"
+      ],
+      "categoricalProperties": [
+        "ED_NAME",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_COUNTY",
+        "minElev_m",
+        "maxElev_m",
+        "minElev_ft",
+        "maxElev_ft",
+        "ED_NAME_G"
+      ],
+      "popupProperties": [
+        "ED_NAME",
+        "OBJECTID",
+        "ED_ID",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_I_NAME",
+        "CSO_COUNTY",
+        "LAU2_ID"
+      ],
+      "aliasOf": "ded-1921-05-03",
+      "aliasTargetLayerId": "ded-1921-05-03-vector",
+      "cloneOf": "ded-1921-05-03",
+      "generatedFrom": {
+        "pipeline": "promote-test-clone-alias",
+        "sourceMapId": "ded-1922-11-11",
+        "cloneOf": "ded-1921-05-03",
+        "aliasOf": "ded-1921-05-03",
+        "targetLayerId": "ded-1921-05-03-vector"
+      },
+      "keywords": [
+        "ded",
+        "electoral",
+        "divisions",
+        "1921",
+        "northern ireland",
+        "partition",
+        "District Electoral Divisions 3 May 1921",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/ded-1922-11-11-alias.json"
+    },
+    {
+      "id": "ded-1922-11-13-alias",
+      "sourceMapId": "ded-1922-11-13",
+      "name": "District Electoral Divisions 13 Nov 1922",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1922-11-13",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland District Electoral Divisions as they stood on 13 Nov 1922.",
+      "notes": "District Electoral Divisions 13 Nov 1922 reuses the converted geometry from District Electoral Divisions 3 May 1921.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted-alias",
+      "conversionStatus": "convertedAlias",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "ded_1921_05_03",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector.pmtiles",
+      "tiles": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "serving": "cdn",
+        "localPath": "render/pmtiles/generated/ded-1921-05-03-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/ded-1921-05-03/metadata.json",
+      "style": {
+        "color": "#D2691E",
+        "fillColor": "#D2691E",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#D2691E",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "OBJECTID",
+      "idProperty": "OBJECTID",
+      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
+      "sourceDatasetLayer": "1921 NI",
+      "numericProperties": [
+        "OBJECTID",
+        "AREA_SQ_KM",
+        "PERIM_KM",
+        "CENTROID_X",
+        "CENTROID_Y",
+        "CO_ID",
+        "Shape_Leng"
+      ],
+      "categoricalProperties": [
+        "ED_NAME",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_COUNTY",
+        "minElev_m",
+        "maxElev_m",
+        "minElev_ft",
+        "maxElev_ft",
+        "ED_NAME_G"
+      ],
+      "popupProperties": [
+        "ED_NAME",
+        "OBJECTID",
+        "ED_ID",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_I_NAME",
+        "CSO_COUNTY",
+        "LAU2_ID"
+      ],
+      "aliasOf": "ded-1921-05-03",
+      "aliasTargetLayerId": "ded-1921-05-03-vector",
+      "cloneOf": "ded-1921-05-03",
+      "generatedFrom": {
+        "pipeline": "promote-test-clone-alias",
+        "sourceMapId": "ded-1922-11-13",
+        "cloneOf": "ded-1921-05-03",
+        "aliasOf": "ded-1921-05-03",
+        "targetLayerId": "ded-1921-05-03-vector"
+      },
+      "keywords": [
+        "ded",
+        "electoral",
+        "divisions",
+        "1921",
+        "northern ireland",
+        "partition",
+        "District Electoral Divisions 3 May 1921",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/ded-1922-11-13-alias.json"
+    },
+    {
       "id": "county-ed-1911-vector",
       "sourceMapId": "county-ed-1911",
       "name": "County Electoral Divisions 1911",
@@ -134371,6 +135076,363 @@
       "featureIdMode": "unique"
     },
     {
+      "id": "ded-1924-06-20-vector",
+      "sourceMapId": "ded-1924-06-20",
+      "name": "District Electoral Divisions 20 Jun 1924",
+      "category": "Electoral Areas",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews"
+      ],
+      "date": "1924-06-20",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland District Electoral Divisions as they stood on 20 Jun 1924.",
+      "notes": "Generated from render/source-cache/vector-intake/ded-1924-06-20.fgb.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "ded_1924_06_20",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1924-06-20-vector.pmtiles",
+      "tiles": "/render/tiles/generated/ded-1924-06-20/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/ded-1924-06-20/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "serving": "cdn",
+        "localPath": "render/pmtiles/generated/ded-1924-06-20-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/ded-1924-06-20/metadata.json",
+      "style": {
+        "color": "#D2691E",
+        "fillColor": "#D2691E",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#D2691E",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "civ_fid",
+      "idProperty": "civ_fid",
+      "sourceFile": "render/source-cache/vector-intake/ded-1924-06-20.fgb",
+      "sourceDatasetLayer": "NI_DEDs_1924-06-20_partial",
+      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1924-06-20-vector.json",
+      "numericProperties": [
+        "civ_fid",
+        "AREA_HA",
+        "AREA_ACRES"
+      ],
+      "categoricalProperties": [
+        "ED_NAME",
+        "COUNTY",
+        "PROVINCE",
+        "CSO_ID",
+        "AdministrativeArea",
+        "CED",
+        "edition"
+      ],
+      "popupProperties": [
+        "ED_NAME",
+        "civ_fid",
+        "COUNTY",
+        "PROVINCE",
+        "CSO_ID",
+        "AdministrativeArea",
+        "CED",
+        "AREA_HA",
+        "AREA_ACRES",
+        "edition"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/ded-1924-06-20.fgb",
+        "bytes": 9132365,
+        "files": 759,
+        "pbfFiles": 758,
+        "maxTileBytes": 173773
+      },
+      "keywords": [
+        "ded",
+        "electoral",
+        "divisions",
+        "incomplete",
+        "District Electoral Divisions 20 Jun 1924",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/ded-1924-06-20-vector.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/ded-1924-06-20-vector.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "ded-1924-04-01-vector",
+      "sourceMapId": "ded-1924-04-01",
+      "name": "District Electoral Divisions 1 Apr 1924",
+      "category": "Electoral Areas",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews"
+      ],
+      "date": "1924-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland District Electoral Divisions as they stood on 1 Apr 1924.",
+      "notes": "Generated from render/source-cache/vector-intake/ded-1924-04-01.fgb.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "ded_1924_04_01",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1924-04-01-vector.pmtiles",
+      "tiles": "/render/tiles/generated/ded-1924-04-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/ded-1924-04-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "serving": "cdn",
+        "localPath": "render/pmtiles/generated/ded-1924-04-01-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/ded-1924-04-01/metadata.json",
+      "style": {
+        "color": "#D2691E",
+        "fillColor": "#D2691E",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#D2691E",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "civ_fid",
+      "idProperty": "civ_fid",
+      "sourceFile": "render/source-cache/vector-intake/ded-1924-04-01.fgb",
+      "sourceDatasetLayer": "NI_DEDs_1924-04-01_partial",
+      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1924-04-01-vector.json",
+      "numericProperties": [
+        "civ_fid",
+        "AREA_HA",
+        "AREA_ACRES"
+      ],
+      "categoricalProperties": [
+        "ED_NAME",
+        "COUNTY",
+        "PROVINCE",
+        "CSO_ID",
+        "AdministrativeArea",
+        "CED",
+        "edition"
+      ],
+      "popupProperties": [
+        "ED_NAME",
+        "civ_fid",
+        "COUNTY",
+        "PROVINCE",
+        "CSO_ID",
+        "AdministrativeArea",
+        "CED",
+        "AREA_HA",
+        "AREA_ACRES",
+        "edition"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/ded-1924-04-01.fgb",
+        "bytes": 9132365,
+        "files": 759,
+        "pbfFiles": 758,
+        "maxTileBytes": 173773
+      },
+      "keywords": [
+        "ded",
+        "electoral",
+        "divisions",
+        "incomplete",
+        "District Electoral Divisions 1 Apr 1924",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/ded-1924-04-01-vector.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/ded-1924-04-01-vector.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "ded-1924-06-01-alias",
+      "sourceMapId": "ded-1924-06-01",
+      "name": "District Electoral Divisions 1 Jun 1924",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews"
+      ],
+      "date": "1924-06-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland District Electoral Divisions as they stood on 1 Jun 1924.",
+      "notes": "District Electoral Divisions 1 Jun 1924 reuses the converted geometry from District Electoral Divisions 1 Apr 1924.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted-alias",
+      "conversionStatus": "convertedAlias",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "ded_1924_04_01",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1924-04-01-vector.pmtiles",
+      "tiles": "/render/tiles/generated/ded-1924-04-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/ded-1924-04-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/ded-1924-04-01-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/ded-1924-04-01/metadata.json",
+      "style": {
+        "color": "#D2691E",
+        "fillColor": "#D2691E",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#D2691E",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "civ_fid",
+      "idProperty": "civ_fid",
+      "sourceFile": "render/source-cache/vector-intake/ded-1924-04-01.fgb",
+      "sourceDatasetLayer": "NI_DEDs_1924-04-01_partial",
+      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1924-04-01-vector.json",
+      "numericProperties": [
+        "civ_fid",
+        "AREA_HA",
+        "AREA_ACRES"
+      ],
+      "categoricalProperties": [
+        "ED_NAME",
+        "COUNTY",
+        "PROVINCE",
+        "CSO_ID",
+        "AdministrativeArea",
+        "CED",
+        "edition"
+      ],
+      "popupProperties": [
+        "ED_NAME",
+        "civ_fid",
+        "COUNTY",
+        "PROVINCE",
+        "CSO_ID",
+        "AdministrativeArea",
+        "CED",
+        "AREA_HA",
+        "AREA_ACRES",
+        "edition"
+      ],
+      "aliasOf": "ded-1924-04-01",
+      "aliasTargetLayerId": "ded-1924-04-01-vector",
+      "cloneOf": "ded-1924-04-01",
+      "generatedFrom": {
+        "pipeline": "promote-test-clone-alias",
+        "sourceMapId": "ded-1924-06-01",
+        "cloneOf": "ded-1924-04-01",
+        "aliasOf": "ded-1924-04-01",
+        "targetLayerId": "ded-1924-04-01-vector"
+      },
+      "keywords": [
+        "ded",
+        "electoral",
+        "divisions",
+        "incomplete",
+        "District Electoral Divisions 1 Apr 1924",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/ded-1924-06-01-alias.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/ded-1924-06-01-alias.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
       "id": "ded-1930-11-25-vector",
       "sourceMapId": "ded-1930-11-25",
       "name": "District Electoral Divisions 25 Nov 1930",
@@ -137488,6 +138550,239 @@
       ],
       "detailUrl": "/render/metadata/layer-details-test2/county-ed-1930-11-25-vector.json",
       "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/county-ed-1930-11-25-vector.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "county-ed-1924-04-01-vector",
+      "sourceMapId": "county-ed-1924-04-01",
+      "name": "County Electoral Divisions 1 Apr 1924",
+      "category": "Electoral Areas",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews"
+      ],
+      "date": "1924-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland County Electoral Divisions as they stood on 1 Apr 1924: the divisions that elected county councillors.",
+      "notes": "Generated from render/source-cache/vector-intake/county-ed-1924-04-01.fgb.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "county_ed_1924_04_01",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/county-ed-1924-04-01-vector.pmtiles",
+      "tiles": "/render/tiles/generated/county-ed-1924-04-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/county-ed-1924-04-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "serving": "cdn",
+        "localPath": "render/pmtiles/generated/county-ed-1924-04-01-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/county-ed-1924-04-01/metadata.json",
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": "#00A9E6",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "CED",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#00A9E6",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "civ_fid",
+      "idProperty": "civ_fid",
+      "sourceFile": "render/source-cache/vector-intake/county-ed-1924-04-01.fgb",
+      "sourceDatasetLayer": "NI_County_Electoral_Divisions_1924-04-01_partial",
+      "featureIndexUrl": "/render/metadata/feature-indexes/county-ed-1924-04-01-vector.json",
+      "numericProperties": [
+        "civ_fid",
+        "DED_COUNT",
+        "AREA_ACRES"
+      ],
+      "categoricalProperties": [
+        "CED",
+        "COUNTY",
+        "DEDS",
+        "edition"
+      ],
+      "popupProperties": [
+        "CED",
+        "civ_fid",
+        "COUNTY",
+        "DED_COUNT",
+        "DEDS",
+        "AREA_ACRES",
+        "edition"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/county-ed-1924-04-01.fgb",
+        "bytes": 4847902,
+        "files": 759,
+        "pbfFiles": 758,
+        "maxTileBytes": 87251
+      },
+      "keywords": [
+        "county",
+        "ed",
+        "electoral",
+        "divisions",
+        "1924",
+        "northern ireland",
+        "incomplete",
+        "County Electoral Divisions 1 Apr 1924",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/county-ed-1924-04-01-vector.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/county-ed-1924-04-01-vector.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "county-ed-1924-06-01-alias",
+      "sourceMapId": "county-ed-1924-06-01",
+      "name": "County Electoral Divisions 1 Jun 1924",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews"
+      ],
+      "date": "1924-06-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland County Electoral Divisions as they stood on 1 Jun 1924: the divisions that elected county councillors.",
+      "notes": "County Electoral Divisions 1 Jun 1924 reuses the converted geometry from County Electoral Divisions 1 Apr 1924.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted-alias",
+      "conversionStatus": "convertedAlias",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "county_ed_1924_04_01",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/county-ed-1924-04-01-vector.pmtiles",
+      "tiles": "/render/tiles/generated/county-ed-1924-04-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/county-ed-1924-04-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/county-ed-1924-04-01-vector.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/county-ed-1924-04-01/metadata.json",
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": "#00A9E6",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "CED",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#00A9E6",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "civ_fid",
+      "idProperty": "civ_fid",
+      "sourceFile": "render/source-cache/vector-intake/county-ed-1924-04-01.fgb",
+      "sourceDatasetLayer": "NI_County_Electoral_Divisions_1924-04-01_partial",
+      "featureIndexUrl": "/render/metadata/feature-indexes/county-ed-1924-04-01-vector.json",
+      "numericProperties": [
+        "civ_fid",
+        "DED_COUNT",
+        "AREA_ACRES"
+      ],
+      "categoricalProperties": [
+        "CED",
+        "COUNTY",
+        "DEDS",
+        "edition"
+      ],
+      "popupProperties": [
+        "CED",
+        "civ_fid",
+        "COUNTY",
+        "DED_COUNT",
+        "DEDS",
+        "AREA_ACRES",
+        "edition"
+      ],
+      "aliasOf": "county-ed-1924-04-01",
+      "aliasTargetLayerId": "county-ed-1924-04-01-vector",
+      "cloneOf": "county-ed-1924-04-01",
+      "generatedFrom": {
+        "pipeline": "promote-test-clone-alias",
+        "sourceMapId": "county-ed-1924-06-01",
+        "cloneOf": "county-ed-1924-04-01",
+        "aliasOf": "county-ed-1924-04-01",
+        "targetLayerId": "county-ed-1924-04-01-vector"
+      },
+      "keywords": [
+        "county",
+        "ed",
+        "electoral",
+        "divisions",
+        "1924",
+        "northern ireland",
+        "incomplete",
+        "County Electoral Divisions 1 Apr 1924",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/county-ed-1924-06-01-alias.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/county-ed-1924-06-01-alias.json",
       "duplicateFeatureIdCount": 0,
       "featureIdMode": "unique"
     },
@@ -142887,8 +144182,8 @@
       "featureIdMode": "unique"
     }
   ],
-  "publicMapCount": 913,
+  "publicMapCount": 922,
   "generatedFrom": "render/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 1333
+  "detailLayerCount": 1343
 }
