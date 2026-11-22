@@ -2,7 +2,9 @@
 // file and draws a /test layer that joins its tile pieces on civ_fid; the pre-1930 DED editions say they
 // are the 1930 map unchanged; and the editions after 1 Apr 1930 are partial (16 Nov 2026): Paddy
 // Matthews's 1930 DEDs, and the 1923 county electoral divisions joined from them, with every division a
-// later change altered left out of the file, served under new _partial names.
+// later change altered left out of the file, served under new _partial names. The 1924 editions before the
+// changes the 1930 map draws (Bangor 20 Jun 1924, Whitehead 24 Jun 1925) are partial the same way; the 1922
+// DED editions are the 3 May 1921 map unchanged (the 1922 ward orders moved no DED line).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -17,7 +19,7 @@ const drawn = editions.filter((m) => !m.placeholder);
 const fileOf = (m) => String(m.files?.fgb || '').split('?')[0].split('/').pop();
 
 test('every drawn edition has a file, a label property and a /test layer', () => {
-  assert.ok(drawn.length >= 80, `drawn editions: ${drawn.length}`);
+  assert.ok(drawn.length >= 90, `drawn editions: ${drawn.length}`);
   for (const m of drawn) {
     assert.match(m.files?.fgb || '', /^https:\/\/data\.civgraph\.net\/data\/maps\/electoral-divisions\/.+\.fgb(\?v=[0-9a-f-]+)?$/, m.id);
     assert.ok(m.labelProperty, `${m.id} labelProperty`);
@@ -54,9 +56,11 @@ test('the 1925-29 DED editions say they are the 1930 map unchanged', () => {
   }
 });
 
-test('the editions after 1 Apr 1930 are partial, under new names, credited to Paddy Matthews', () => {
-  const partial = drawn.filter((m) => m.date > '1930-04-01' || m.id === 'ded-1925-04-01');
-  assert.ok(partial.length >= 75, `partial editions: ${partial.length}`);
+test('the editions after 1 Apr 1930 and the 1924 editions before the Bangor and Whitehead changes are partial, under new names, credited to Paddy Matthews', () => {
+  const early = ['ded-1924-04-01', 'ded-1924-06-01', 'ded-1924-06-20', 'ded-1925-04-01', 'county-ed-1924-04-01', 'county-ed-1924-06-01'];
+  const partial = drawn.filter((m) => m.date > '1930-04-01' || early.includes(m.id));
+  assert.ok(partial.length >= 85, `partial editions: ${partial.length}`);
+  for (const id of early) assert.ok(partial.some((m) => m.id === id), `${id} drawn`);
   for (const m of partial) {
     assert.match(fileOf(m), /_partial\.fgb$/, m.id);
     assert.equal(m.incomplete, true, `${m.id} incomplete`);
@@ -66,4 +70,24 @@ test('the editions after 1 Apr 1930 are partial, under new names, credited to Pa
   }
   // The 1921-22 county electoral divisions are the 1898 divisions, drawn from a source map.
   assert.equal(byId.get('county-ed-1921-05-03').approximateSegments, undefined);
+});
+
+test('the 1922 DED editions are the 3 May 1921 map unchanged, credited as it is', () => {
+  const ded1922 = drawn.filter((m) => m.id.startsWith('ded-1922-'));
+  assert.equal(ded1922.length, 5);
+  for (const m of ded1922) {
+    assert.equal(m.cloneOf, 'ded-1921-05-03', m.id);
+    assert.deepEqual(m.provider, byId.get('ded-1921-05-03').provider, `${m.id} provider`);
+    assert.equal(m.incomplete, undefined, `${m.id} incomplete`);
+    assert.match(m.changeNote, /No DED changed/, m.id);
+  }
+});
+
+test('the county electoral divisions from 1 Apr 1924 are drawn and have a /test layer', () => {
+  const ced = editions.filter((m) => m.id.startsWith('county-ed-') && m.date >= '1924-04-01');
+  assert.ok(ced.length >= 51, `county editions from 1924: ${ced.length}`);
+  for (const m of ced) {
+    assert.notEqual(m.placeholder, true, `${m.id} placeholder`);
+    assert.ok(layerBySource.has(m.id), `${m.id} has a /test layer`);
+  }
 });
