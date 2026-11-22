@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-19T21:45:50.244Z",
+  "generatedAt": "2026-11-22T17:33:42.974Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,19 +12,19 @@
   "outputDirectory": "render/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 2,
-    "converted": 2,
+    "candidates": 3,
+    "converted": 3,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 2,
+    "metadataPreferred": 3,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "plu-1881-vector",
-      "sourceMapId": "plu-1881",
-      "name": "Poor Law Unions 3 Apr 1881",
-      "sourceType": "mvt",
+      "layerId": "ded-1924-06-20-vector",
+      "sourceMapId": "ded-1924-06-20",
+      "name": "District Electoral Divisions 20 Jun 1924",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -33,15 +33,15 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/plu-1881-vector.pmtiles",
-      "bytes": 6002154,
+      "output": "render/pmtiles/generated/ded-1924-06-20-vector.pmtiles",
+      "bytes": 5280211,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "plu-1871-vector",
-      "sourceMapId": "plu-1871",
-      "name": "Poor Law Unions 2 Apr 1871",
-      "sourceType": "mvt",
+      "layerId": "ded-1924-04-01-vector",
+      "sourceMapId": "ded-1924-04-01",
+      "name": "District Electoral Divisions 1 Apr 1924",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -50,8 +50,25 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/plu-1871-vector.pmtiles",
-      "bytes": 6033802,
+      "output": "render/pmtiles/generated/ded-1924-04-01-vector.pmtiles",
+      "bytes": 5247718,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "county-ed-1924-04-01-vector",
+      "sourceMapId": "county-ed-1924-04-01",
+      "name": "County Electoral Divisions 1 Apr 1924",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/county-ed-1924-04-01-vector.pmtiles",
+      "bytes": 2652724,
       "exceedsGithubBudget": false
     }
   ],

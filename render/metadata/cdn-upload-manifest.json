@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-21T15:21:28.724Z",
+  "generatedAt": "2026-11-22T17:33:56.566Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -7435,7 +7435,8 @@
       "targetKey": "data/maps/test/pmtiles/generated/local-authorities-1915-vector.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/local-authorities-1915-vector.pmtiles",
       "bytes": 2409893,
-      "exists": true
+      "exists": false,
+      "remoteVerified": true
     },
     {
       "layerId": "local-authorities-1920-06-19-vector",
@@ -7444,7 +7445,8 @@
       "targetKey": "data/maps/test/pmtiles/generated/local-authorities-1920-06-19-vector.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/local-authorities-1920-06-19-vector.pmtiles",
       "bytes": 2421621,
-      "exists": true
+      "exists": false,
+      "remoteVerified": true
     },
     {
       "layerId": "local-authorities-1920-06-25-vector",
@@ -7453,7 +7455,8 @@
       "targetKey": "data/maps/test/pmtiles/generated/local-authorities-1920-06-25-vector.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/local-authorities-1920-06-25-vector.pmtiles",
       "bytes": 2425679,
-      "exists": true
+      "exists": false,
+      "remoteVerified": true
     },
     {
       "layerId": "local-authorities-1920-10-04-vector",
@@ -7462,7 +7465,8 @@
       "targetKey": "data/maps/test/pmtiles/generated/local-authorities-1920-10-04-vector.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/local-authorities-1920-10-04-vector.pmtiles",
       "bytes": 2424535,
-      "exists": true
+      "exists": false,
+      "remoteVerified": true
     },
     {
       "layerId": "local-authorities-1921-vector",
@@ -8983,7 +8987,9 @@
       "targetKey": "data/maps/test/pmtiles/generated/plu-1881-vector.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1881-vector.pmtiles",
       "bytes": 6002154,
-      "exists": true
+      "exists": false,
+      "remoteVerified": true,
+      "remoteVerifiedAt": "2026-11-21T15:20:52.804Z"
     },
     {
       "layerId": "plu-1871-vector",
@@ -8992,6 +8998,35 @@
       "targetKey": "data/maps/test/pmtiles/generated/plu-1871-vector.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1871-vector.pmtiles",
       "bytes": 6033802,
+      "exists": false,
+      "remoteVerified": true,
+      "remoteVerifiedAt": "2026-11-21T15:20:53.009Z"
+    },
+    {
+      "layerId": "ded-1924-06-20-vector",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/ded-1924-06-20-vector.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/ded-1924-06-20-vector.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1924-06-20-vector.pmtiles",
+      "bytes": 5280211,
+      "exists": true
+    },
+    {
+      "layerId": "ded-1924-04-01-vector",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/ded-1924-04-01-vector.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/ded-1924-04-01-vector.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1924-04-01-vector.pmtiles",
+      "bytes": 5247718,
+      "exists": true
+    },
+    {
+      "layerId": "county-ed-1924-04-01-vector",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/county-ed-1924-04-01-vector.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1924-04-01-vector.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/county-ed-1924-04-01-vector.pmtiles",
+      "bytes": 2652724,
       "exists": true
     }
   ],
@@ -9409,10 +9444,6 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/roi-lea-2014-vector-test.pmtiles --file render/pmtiles/generated/roi-lea-2014-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/roi-lea-2019-vector-test.pmtiles --file render/pmtiles/generated/roi-lea-2019-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/roi-legal-towns-and-cities-vector-test.pmtiles --file render/pmtiles/generated/roi-legal-towns-and-cities-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/local-authorities-1915-vector-test.pmtiles --file render/pmtiles/generated/local-authorities-1915-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles --file render/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/local-authorities-1920-06-25-vector-test.pmtiles --file render/pmtiles/generated/local-authorities-1920-06-25-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/local-authorities-1920-10-04-vector-test.pmtiles --file render/pmtiles/generated/local-authorities-1920-10-04-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/local-authorities-1921-vector-test.pmtiles --file render/pmtiles/generated/local-authorities-1921-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/local-authorities-1927-vector-test.pmtiles --file render/pmtiles/generated/local-authorities-1927-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/local-authorities-1930-vector-test.pmtiles --file render/pmtiles/generated/local-authorities-1930-vector-test.pmtiles --remote --content-type application/octet-stream",
@@ -9543,47 +9574,12 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/admin-areas-1969-04-02-vector.pmtiles --file render/pmtiles/generated/admin-areas-1969-04-02-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/admin-areas-1939-05-23-vector.pmtiles --file render/pmtiles/generated/admin-areas-1939-05-23-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1924-06-20-vector-test.pmtiles --file render/pmtiles/generated/county-ed-1924-06-20-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1911-vector-test.pmtiles --file render/pmtiles/generated/plu-1911-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1901-vector-test.pmtiles --file render/pmtiles/generated/plu-1901-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1921-vector.pmtiles --file render/pmtiles/generated/plu-1921-vector.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-parts-1911-vector-test.pmtiles --file render/pmtiles/generated/plu-parts-1911-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-parts-1901-vector-test.pmtiles --file render/pmtiles/generated/plu-parts-1901-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-parts-1921-vector.pmtiles --file render/pmtiles/generated/plu-parts-1921-vector.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-ni-1924-04-01-vector-test.pmtiles --file render/pmtiles/generated/plu-ni-1924-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-ni-1921-04-01-vector-test.pmtiles --file render/pmtiles/generated/plu-ni-1921-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/rural-urban-districts-1911-vector-test.pmtiles --file render/pmtiles/generated/rural-urban-districts-1911-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/rural-urban-districts-1901-vector-test.pmtiles --file render/pmtiles/generated/rural-urban-districts-1901-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/administrative-counties-1899-vector-test.pmtiles --file render/pmtiles/generated/administrative-counties-1899-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-roi-1956-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-roi-1956-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/superintendent-registrars-districts-roi-1956-vector-test.pmtiles --file render/pmtiles/generated/superintendent-registrars-districts-roi-1956-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-roi-1951-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-roi-1951-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/superintendent-registrars-districts-roi-1951-vector-test.pmtiles --file render/pmtiles/generated/superintendent-registrars-districts-roi-1951-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-roi-1946-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-roi-1946-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/superintendent-registrars-districts-roi-1946-vector-test.pmtiles --file render/pmtiles/generated/superintendent-registrars-districts-roi-1946-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-roi-1936-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-roi-1936-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/superintendent-registrars-districts-roi-1936-vector-test.pmtiles --file render/pmtiles/generated/superintendent-registrars-districts-roi-1936-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-roi-1926-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-roi-1926-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/superintendent-registrars-districts-roi-1926-vector-test.pmtiles --file render/pmtiles/generated/superintendent-registrars-districts-roi-1926-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1851-vector.pmtiles --file render/pmtiles/generated/plu-1851-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1849-09-29-vector.pmtiles --file render/pmtiles/generated/plu-1849-09-29-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1840-12-31-vector.pmtiles --file render/pmtiles/generated/plu-1840-12-31-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1839-12-31-vector.pmtiles --file render/pmtiles/generated/plu-1839-12-31-vector.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1885-09-30-vector-test.pmtiles --file render/pmtiles/generated/plu-1885-09-30-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1886-09-30-vector-test.pmtiles --file render/pmtiles/generated/plu-1886-09-30-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1891-vector-test.pmtiles --file render/pmtiles/generated/plu-1891-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles --file render/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1939-04-01-vector.pmtiles --file render/pmtiles/generated/ded-1939-04-01-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/pobal-hp-2022-ed-vector-test.pmtiles --file render/pmtiles/generated/pobal-hp-2022-ed-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/pobal-hp-2006-ed-vector-test.pmtiles --file render/pmtiles/generated/pobal-hp-2006-ed-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-ni-1929-01-01-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-ni-1929-01-01-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-ni-1924-04-01-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-ni-1924-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-ni-1921-04-01-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-ni-1921-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1921-05-03-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1921-05-03-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1925-04-01-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1925-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1927-04-01-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1927-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1934-08-01-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1934-08-01-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1937-04-01-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1937-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1959-05-29-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1959-05-29-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1969-04-02-vector.pmtiles --file render/pmtiles/generated/ded-1969-04-02-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1969-04-01-vector.pmtiles --file render/pmtiles/generated/ded-1969-04-01-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1967-04-01-vector.pmtiles --file render/pmtiles/generated/ded-1967-04-01-vector.pmtiles --remote --content-type application/octet-stream",
@@ -9611,6 +9607,8 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1938-04-01-vector.pmtiles --file render/pmtiles/generated/ded-1938-04-01-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1937-04-01-vector.pmtiles --file render/pmtiles/generated/ded-1937-04-01-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1925-04-01-vector.pmtiles --file render/pmtiles/generated/ded-1925-04-01-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1924-06-20-vector.pmtiles --file render/pmtiles/generated/ded-1924-06-20-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1924-04-01-vector.pmtiles --file render/pmtiles/generated/ded-1924-04-01-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1930-11-25-vector.pmtiles --file render/pmtiles/generated/ded-1930-11-25-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1935-06-26-vector.pmtiles --file render/pmtiles/generated/ded-1935-06-26-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1946-04-01-vector.pmtiles --file render/pmtiles/generated/ded-1946-04-01-vector.pmtiles --remote --content-type application/octet-stream",
@@ -9636,6 +9634,7 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1938-04-01-vector.pmtiles --file render/pmtiles/generated/county-ed-1938-04-01-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1937-04-01-vector.pmtiles --file render/pmtiles/generated/county-ed-1937-04-01-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1930-11-25-vector.pmtiles --file render/pmtiles/generated/county-ed-1930-11-25-vector.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1924-04-01-vector.pmtiles --file render/pmtiles/generated/county-ed-1924-04-01-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1935-06-26-vector.pmtiles --file render/pmtiles/generated/county-ed-1935-06-26-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1946-04-01-vector.pmtiles --file render/pmtiles/generated/county-ed-1946-04-01-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1947-04-01-vector.pmtiles --file render/pmtiles/generated/county-ed-1947-04-01-vector.pmtiles --remote --content-type application/octet-stream",
@@ -9647,7 +9646,6 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles --file render/pmtiles/generated/nuts-2-2003-2013-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles --file render/pmtiles/generated/nuts-3-2016-2021-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles --file render/pmtiles/generated/nuts-3-2003-2013-vector.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-roi-1921-04-01-vector.pmtiles --file render/pmtiles/generated/plu-roi-1921-04-01-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/itl-1-2021-2025-vector.pmtiles --file render/pmtiles/generated/itl-1-2021-2025-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/itl-2-2021-2025-vector.pmtiles --file render/pmtiles/generated/itl-2-2021-2025-vector.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/itl-3-2021-2025-vector.pmtiles --file render/pmtiles/generated/itl-3-2021-2025-vector.pmtiles --remote --content-type application/octet-stream"
