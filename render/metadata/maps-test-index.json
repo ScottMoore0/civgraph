@@ -19806,44 +19806,33 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1930-04-01.fgb",
-      "sourceDatasetLayer": "01 Apr 1930 NI DEDs",
+      "sourceDatasetLayer": "NI_DEDs_1930-04-01_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1930-04-01-vector.json",
       "numericProperties": [
-        "OBJECTID",
-        "AREA_SQ_KM",
-        "PERIM_KM",
-        "CENTROID_X",
-        "CENTROID_Y",
-        "CO_ID",
-        "Shape_Leng",
-        "Shape.area",
-        "minElev_m",
-        "maxElev_m",
-        "minElev_ft",
-        "maxElev_ft",
-        "meanElev_m",
-        "meanElev_ft"
+        "civ_fid",
+        "AREA_HA",
+        "AREA_ACRES"
       ],
       "categoricalProperties": [
         "ED_NAME",
-        "PROVINCE",
         "COUNTY",
+        "PROVINCE",
         "CSO_ID",
-        "CSO_P_NAME",
-        "CSO_COUNTY",
-        "AdministrativeArea"
+        "AdministrativeArea",
+        "CED",
+        "edition"
       ],
       "popupProperties": [
         "ED_NAME",
-        "OBJECTID",
-        "ED_ID",
-        "PROVINCE",
+        "civ_fid",
         "COUNTY",
+        "PROVINCE",
         "CSO_ID",
-        "CSO_P_NAME",
-        "CSO_I_NAME",
-        "CSO_COUNTY",
-        "LAU2_ID"
+        "AdministrativeArea",
+        "CED",
+        "AREA_HA",
+        "AREA_ACRES",
+        "edition"
       ],
       "generatedFrom": {
         "pipeline": "build-test-vector-batch",
@@ -19861,7 +19850,8 @@
         "Electoral Areas",
         "Elections and Government",
         "maplibre",
-        "vector tiles"
+        "vector tiles",
+        "incomplete"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/ded-1930-04-01-vector.json",
       "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/ded-1930-04-01-vector.json",
@@ -131303,7 +131293,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1939-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1939-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1939-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1939-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -131833,7 +131823,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1969-04-02.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1969-04-02_partial",
+      "sourceDatasetLayer": "NI_DEDs_1969-04-02_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1969-04-02-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -131951,7 +131941,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1969-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1969-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1969-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1969-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -132069,7 +132059,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1967-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1967-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1967-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1967-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -132187,7 +132177,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1966-07-04.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1966-07-04_partial",
+      "sourceDatasetLayer": "NI_DEDs_1966-07-04_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1966-07-04-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -132305,7 +132295,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1964-06-02.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1964-06-02_partial",
+      "sourceDatasetLayer": "NI_DEDs_1964-06-02_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1964-06-02-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -132423,7 +132413,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1964-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1964-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1964-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1964-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -132541,7 +132531,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1963-09-13.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1963-09-13_partial",
+      "sourceDatasetLayer": "NI_DEDs_1963-09-13_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1963-09-13-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -132659,7 +132649,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1962-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1962-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1962-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1962-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -132899,7 +132889,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1962-01-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1962-01-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1962-01-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1962-01-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -133017,7 +133007,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1958-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1958-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1958-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1958-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -133135,7 +133125,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1957-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1957-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1957-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1957-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -133253,7 +133243,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1956-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1956-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1956-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1956-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -133371,7 +133361,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1954-08-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1954-08-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1954-08-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1954-08-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -133489,7 +133479,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1950-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1950-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1950-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1950-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -133607,7 +133597,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1949-07-07.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1949-07-07_partial",
+      "sourceDatasetLayer": "NI_DEDs_1949-07-07_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1949-07-07-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -133725,7 +133715,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1949-07-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1949-07-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1949-07-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1949-07-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -133843,7 +133833,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1949-05-30.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1949-05-30_partial",
+      "sourceDatasetLayer": "NI_DEDs_1949-05-30_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1949-05-30-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -133961,7 +133951,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1949-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1949-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1949-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1949-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -134079,7 +134069,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1947-10-02.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1947-10-02_partial",
+      "sourceDatasetLayer": "NI_DEDs_1947-10-02_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1947-10-02-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -134197,7 +134187,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1946-06-11.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1946-06-11_partial",
+      "sourceDatasetLayer": "NI_DEDs_1946-06-11_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1946-06-11-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -134315,7 +134305,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1945-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1945-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1945-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1945-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -134433,7 +134423,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1939-05-23.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1939-05-23_partial",
+      "sourceDatasetLayer": "NI_DEDs_1939-05-23_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1939-05-23-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -134551,7 +134541,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1938-05-23.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1938-05-23_partial",
+      "sourceDatasetLayer": "NI_DEDs_1938-05-23_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1938-05-23-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -134669,7 +134659,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1938-05-15.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1938-05-15_partial",
+      "sourceDatasetLayer": "NI_DEDs_1938-05-15_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1938-05-15-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -134787,7 +134777,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1938-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1938-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1938-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1938-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -134905,7 +134895,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1937-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1937-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1937-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1937-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -135023,7 +135013,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1925-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1925-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1925-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1925-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -135498,7 +135488,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1930-11-25.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1930-11-25_partial",
+      "sourceDatasetLayer": "NI_DEDs_1930-11-25_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1930-11-25-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -135616,7 +135606,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1935-06-26.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1935-06-26_partial",
+      "sourceDatasetLayer": "NI_DEDs_1935-06-26_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1935-06-26-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -135734,7 +135724,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1946-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1946-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1946-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1946-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -135852,7 +135842,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1947-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1947-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1947-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1947-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -135970,7 +135960,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1948-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1948-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1948-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1948-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -136088,7 +136078,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1955-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1955-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1955-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1955-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -136206,7 +136196,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1965-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1965-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1965-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1965-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -136324,7 +136314,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1968-04-01.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1968-04-01_partial",
+      "sourceDatasetLayer": "NI_DEDs_1968-04-01_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1968-04-01-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -136442,7 +136432,7 @@
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
       "sourceFile": "render/source-cache/vector-intake/ded-1933-04-24.fgb",
-      "sourceDatasetLayer": "NI_DEDs_1933-04-24_partial",
+      "sourceDatasetLayer": "NI_DEDs_1933-04-24_v2_partial",
       "featureIndexUrl": "/render/metadata/feature-indexes/ded-1933-04-24-vector.json",
       "numericProperties": [
         "civ_fid",
@@ -139970,7 +139960,7 @@
       "dateAdded": null,
       "dateEffective": null,
       "description": "Northern Ireland District Electoral Divisions as they stood on 23 Jan 1929.",
-      "notes": "District Electoral Divisions 23 Jan 1929 reuses the converted geometry from District Electoral Divisions 1 Apr 1930.",
+      "notes": "District Electoral Divisions 23 Jan 1929 reuses the converted geometry from District Electoral Divisions 24 Jun 1925.",
       "sourceType": "pmtiles",
       "geometryType": "polygon",
       "renderer": "maplibre",
@@ -140023,9 +140013,9 @@
       },
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
-      "sourceFile": "render/source-cache/vector-intake/ded-1930-04-01.fgb",
+      "sourceFile": "render/source-cache/vector-intake/ded-1925-06-24.fgb",
       "sourceDatasetLayer": "01 Apr 1930 NI DEDs",
-      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1930-04-01-vector.json",
+      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1925-06-24-alias.json",
       "numericProperties": [
         "OBJECTID",
         "AREA_SQ_KM",
@@ -140063,15 +140053,15 @@
         "CSO_COUNTY",
         "LAU2_ID"
       ],
-      "aliasOf": "ded-1930-04-01",
-      "aliasTargetLayerId": "ded-1930-04-01-vector",
-      "cloneOf": "ded-1930-04-01",
+      "aliasOf": "ded-1925-06-24",
+      "aliasTargetLayerId": "ded-1925-06-24-alias",
+      "cloneOf": "ded-1925-06-24",
       "generatedFrom": {
         "pipeline": "promote-test-clone-alias",
         "sourceMapId": "ded-1929-01-23",
-        "cloneOf": "ded-1930-04-01",
-        "aliasOf": "ded-1930-04-01",
-        "targetLayerId": "ded-1930-04-01-vector"
+        "cloneOf": "ded-1925-06-24",
+        "aliasOf": "ded-1925-06-24",
+        "targetLayerId": "ded-1925-06-24-alias"
       },
       "keywords": [
         "ded",
@@ -140084,7 +140074,7 @@
         "vector tiles",
         "District Electoral Divisions 23 Jan 1929",
         "ded-1929-01-23",
-        "ded-1930-04-01",
+        "ded-1925-06-24",
         "clone alias"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/ded-1929-01-23-alias.json",
@@ -140106,7 +140096,7 @@
       "dateAdded": null,
       "dateEffective": null,
       "description": "Northern Ireland District Electoral Divisions as they stood on 1 Jan 1929.",
-      "notes": "District Electoral Divisions 1 Jan 1929 reuses the converted geometry from District Electoral Divisions 1 Apr 1930.",
+      "notes": "District Electoral Divisions 1 Jan 1929 reuses the converted geometry from District Electoral Divisions 24 Jun 1925.",
       "sourceType": "pmtiles",
       "geometryType": "polygon",
       "renderer": "maplibre",
@@ -140159,9 +140149,9 @@
       },
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
-      "sourceFile": "render/source-cache/vector-intake/ded-1930-04-01.fgb",
+      "sourceFile": "render/source-cache/vector-intake/ded-1925-06-24.fgb",
       "sourceDatasetLayer": "01 Apr 1930 NI DEDs",
-      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1930-04-01-vector.json",
+      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1925-06-24-alias.json",
       "numericProperties": [
         "OBJECTID",
         "AREA_SQ_KM",
@@ -140199,15 +140189,15 @@
         "CSO_COUNTY",
         "LAU2_ID"
       ],
-      "aliasOf": "ded-1930-04-01",
-      "aliasTargetLayerId": "ded-1930-04-01-vector",
-      "cloneOf": "ded-1930-04-01",
+      "aliasOf": "ded-1925-06-24",
+      "aliasTargetLayerId": "ded-1925-06-24-alias",
+      "cloneOf": "ded-1925-06-24",
       "generatedFrom": {
         "pipeline": "promote-test-clone-alias",
         "sourceMapId": "ded-1929-01-01",
-        "cloneOf": "ded-1930-04-01",
-        "aliasOf": "ded-1930-04-01",
-        "targetLayerId": "ded-1930-04-01-vector"
+        "cloneOf": "ded-1925-06-24",
+        "aliasOf": "ded-1925-06-24",
+        "targetLayerId": "ded-1925-06-24-alias"
       },
       "keywords": [
         "ded",
@@ -140220,7 +140210,7 @@
         "vector tiles",
         "District Electoral Divisions 1 Jan 1929",
         "ded-1929-01-01",
-        "ded-1930-04-01",
+        "ded-1925-06-24",
         "clone alias"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/ded-1929-01-01-alias.json",
@@ -140242,7 +140232,7 @@
       "dateAdded": null,
       "dateEffective": null,
       "description": "Northern Ireland District Electoral Divisions as they stood on 17 Apr 1928.",
-      "notes": "District Electoral Divisions 17 Apr 1928 reuses the converted geometry from District Electoral Divisions 1 Apr 1930.",
+      "notes": "District Electoral Divisions 17 Apr 1928 reuses the converted geometry from District Electoral Divisions 24 Jun 1925.",
       "sourceType": "pmtiles",
       "geometryType": "polygon",
       "renderer": "maplibre",
@@ -140295,9 +140285,9 @@
       },
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
-      "sourceFile": "render/source-cache/vector-intake/ded-1930-04-01.fgb",
+      "sourceFile": "render/source-cache/vector-intake/ded-1925-06-24.fgb",
       "sourceDatasetLayer": "01 Apr 1930 NI DEDs",
-      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1930-04-01-vector.json",
+      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1925-06-24-alias.json",
       "numericProperties": [
         "OBJECTID",
         "AREA_SQ_KM",
@@ -140335,15 +140325,15 @@
         "CSO_COUNTY",
         "LAU2_ID"
       ],
-      "aliasOf": "ded-1930-04-01",
-      "aliasTargetLayerId": "ded-1930-04-01-vector",
-      "cloneOf": "ded-1930-04-01",
+      "aliasOf": "ded-1925-06-24",
+      "aliasTargetLayerId": "ded-1925-06-24-alias",
+      "cloneOf": "ded-1925-06-24",
       "generatedFrom": {
         "pipeline": "promote-test-clone-alias",
         "sourceMapId": "ded-1928-04-17",
-        "cloneOf": "ded-1930-04-01",
-        "aliasOf": "ded-1930-04-01",
-        "targetLayerId": "ded-1930-04-01-vector"
+        "cloneOf": "ded-1925-06-24",
+        "aliasOf": "ded-1925-06-24",
+        "targetLayerId": "ded-1925-06-24-alias"
       },
       "keywords": [
         "ded",
@@ -140356,7 +140346,7 @@
         "vector tiles",
         "District Electoral Divisions 17 Apr 1928",
         "ded-1928-04-17",
-        "ded-1930-04-01",
+        "ded-1925-06-24",
         "clone alias"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/ded-1928-04-17-alias.json",
@@ -140378,7 +140368,7 @@
       "dateAdded": null,
       "dateEffective": null,
       "description": "Northern Ireland District Electoral Divisions as they stood on 23 Jan 1928.",
-      "notes": "District Electoral Divisions 23 Jan 1928 reuses the converted geometry from District Electoral Divisions 1 Apr 1930.",
+      "notes": "District Electoral Divisions 23 Jan 1928 reuses the converted geometry from District Electoral Divisions 24 Jun 1925.",
       "sourceType": "pmtiles",
       "geometryType": "polygon",
       "renderer": "maplibre",
@@ -140431,9 +140421,9 @@
       },
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
-      "sourceFile": "render/source-cache/vector-intake/ded-1930-04-01.fgb",
+      "sourceFile": "render/source-cache/vector-intake/ded-1925-06-24.fgb",
       "sourceDatasetLayer": "01 Apr 1930 NI DEDs",
-      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1930-04-01-vector.json",
+      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1925-06-24-alias.json",
       "numericProperties": [
         "OBJECTID",
         "AREA_SQ_KM",
@@ -140471,15 +140461,15 @@
         "CSO_COUNTY",
         "LAU2_ID"
       ],
-      "aliasOf": "ded-1930-04-01",
-      "aliasTargetLayerId": "ded-1930-04-01-vector",
-      "cloneOf": "ded-1930-04-01",
+      "aliasOf": "ded-1925-06-24",
+      "aliasTargetLayerId": "ded-1925-06-24-alias",
+      "cloneOf": "ded-1925-06-24",
       "generatedFrom": {
         "pipeline": "promote-test-clone-alias",
         "sourceMapId": "ded-1928-01-23",
-        "cloneOf": "ded-1930-04-01",
-        "aliasOf": "ded-1930-04-01",
-        "targetLayerId": "ded-1930-04-01-vector"
+        "cloneOf": "ded-1925-06-24",
+        "aliasOf": "ded-1925-06-24",
+        "targetLayerId": "ded-1925-06-24-alias"
       },
       "keywords": [
         "ded",
@@ -140492,7 +140482,7 @@
         "vector tiles",
         "District Electoral Divisions 23 Jan 1928",
         "ded-1928-01-23",
-        "ded-1930-04-01",
+        "ded-1925-06-24",
         "clone alias"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/ded-1928-01-23-alias.json",
@@ -140514,7 +140504,7 @@
       "dateAdded": null,
       "dateEffective": null,
       "description": "Northern Ireland District Electoral Divisions as they stood on 1 Apr 1927.",
-      "notes": "District Electoral Divisions 1 Apr 1927 reuses the converted geometry from District Electoral Divisions 1 Apr 1930.",
+      "notes": "District Electoral Divisions 1 Apr 1927 reuses the converted geometry from District Electoral Divisions 24 Jun 1925.",
       "sourceType": "pmtiles",
       "geometryType": "polygon",
       "renderer": "maplibre",
@@ -140567,9 +140557,9 @@
       },
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
-      "sourceFile": "render/source-cache/vector-intake/ded-1930-04-01.fgb",
+      "sourceFile": "render/source-cache/vector-intake/ded-1925-06-24.fgb",
       "sourceDatasetLayer": "01 Apr 1930 NI DEDs",
-      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1930-04-01-vector.json",
+      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1925-06-24-alias.json",
       "numericProperties": [
         "OBJECTID",
         "AREA_SQ_KM",
@@ -140607,15 +140597,15 @@
         "CSO_COUNTY",
         "LAU2_ID"
       ],
-      "aliasOf": "ded-1930-04-01",
-      "aliasTargetLayerId": "ded-1930-04-01-vector",
-      "cloneOf": "ded-1930-04-01",
+      "aliasOf": "ded-1925-06-24",
+      "aliasTargetLayerId": "ded-1925-06-24-alias",
+      "cloneOf": "ded-1925-06-24",
       "generatedFrom": {
         "pipeline": "promote-test-clone-alias",
         "sourceMapId": "ded-1927-04-01",
-        "cloneOf": "ded-1930-04-01",
-        "aliasOf": "ded-1930-04-01",
-        "targetLayerId": "ded-1930-04-01-vector"
+        "cloneOf": "ded-1925-06-24",
+        "aliasOf": "ded-1925-06-24",
+        "targetLayerId": "ded-1925-06-24-alias"
       },
       "keywords": [
         "ded",
@@ -140628,7 +140618,7 @@
         "vector tiles",
         "District Electoral Divisions 1 Apr 1927",
         "ded-1927-04-01",
-        "ded-1930-04-01",
+        "ded-1925-06-24",
         "clone alias"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/ded-1927-04-01-alias.json",
@@ -140641,7 +140631,6 @@
       "sourceMapId": "ded-1925-06-24",
       "name": "District Electoral Divisions 24 Jun 1925",
       "category": "Electoral Areas",
-      "categoryId": "wards",
       "group": "Elections and Government",
       "provider": [
         "Paddy Matthews"
@@ -140650,12 +140639,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "description": "Northern Ireland District Electoral Divisions as they stood on 24 Jun 1925.",
-      "notes": "District Electoral Divisions 24 Jun 1925 reuses the converted geometry from District Electoral Divisions 1 Apr 1930.",
+      "notes": "Generated from render/source-cache/vector-intake/ded-1925-06-24.fgb.",
       "sourceType": "pmtiles",
       "geometryType": "polygon",
       "renderer": "maplibre",
-      "status": "converted-alias",
-      "conversionStatus": "convertedAlias",
+      "status": "converted",
       "bounds": [
         [
           54.0227248,
@@ -140703,9 +140691,9 @@
       },
       "promoteId": "civ_fid",
       "idProperty": "civ_fid",
-      "sourceFile": "render/source-cache/vector-intake/ded-1930-04-01.fgb",
+      "sourceFile": "render/source-cache/vector-intake/ded-1925-06-24.fgb",
       "sourceDatasetLayer": "01 Apr 1930 NI DEDs",
-      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1930-04-01-vector.json",
+      "featureIndexUrl": "/render/metadata/feature-indexes/ded-1925-06-24-alias.json",
       "numericProperties": [
         "OBJECTID",
         "AREA_SQ_KM",
@@ -140743,29 +140731,23 @@
         "CSO_COUNTY",
         "LAU2_ID"
       ],
-      "aliasOf": "ded-1930-04-01",
-      "aliasTargetLayerId": "ded-1930-04-01-vector",
-      "cloneOf": "ded-1930-04-01",
       "generatedFrom": {
-        "pipeline": "promote-test-clone-alias",
-        "sourceMapId": "ded-1925-06-24",
-        "cloneOf": "ded-1930-04-01",
-        "aliasOf": "ded-1930-04-01",
-        "targetLayerId": "ded-1930-04-01-vector"
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/ded-1925-06-24.fgb",
+        "bytes": 9506011,
+        "files": 759,
+        "pbfFiles": 758,
+        "maxTileBytes": 191276
       },
       "keywords": [
         "ded",
         "electoral",
         "divisions",
-        "District Electoral Divisions 1 Apr 1930",
+        "District Electoral Divisions 24 Jun 1925",
         "Electoral Areas",
         "Elections and Government",
         "maplibre",
-        "vector tiles",
-        "District Electoral Divisions 24 Jun 1925",
-        "ded-1925-06-24",
-        "ded-1930-04-01",
-        "clone alias"
+        "vector tiles"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/ded-1925-06-24-alias.json",
       "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/ded-1925-06-24-alias.json",
