@@ -4,13 +4,13 @@
   "testMetadata": "render/metadata/maps-test.json",
   "totals": {
     "total": 1416,
-    "converted": 1397,
-    "convertedDirect": 1139,
+    "converted": 1407,
+    "convertedDirect": 1142,
     "convertedComposite": 37,
-    "convertedAlias": 221,
+    "convertedAlias": 228,
     "needsVectorTileConversion": 0,
     "needsRasterStrategy": 0,
-    "metadataOnly": 19,
+    "metadataOnly": 9,
     "needsMapLibreSourceMapping": 0
   },
   "rows": [
@@ -33407,29 +33407,56 @@
       "date": "1924-06-20",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": "Northern Ireland District Electoral Divisions as they stood on 20 Jun 1924.",
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "ded-1924-06-20-vector",
       "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#D2691E",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1924-06-20_partial.fgb"
+        }
+      ],
       "references": [
         {
           "label": "Belfast Gazette issue 157 (Newtownards Union: Bangor urban district electoral divisions)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/157/page/849"
+        },
+        {
+          "label": "District Electoral Divisions 1 Apr 1930 (ded-1930-04-01)",
+          "url": null
         }
       ],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "ded-1924-06-01",
-      "cloneOf": null,
+      "cloneOf": "ded-1924-04-01",
       "parentId": null,
       "name": "District Electoral Divisions 1 Jun 1924",
       "category": "Electoral Areas",
@@ -33438,16 +33465,39 @@
       "date": "1924-06-01",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": "Northern Ireland District Electoral Divisions as they stood on 1 Jun 1924.",
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "ded-1924-06-01-alias",
+      "aliasTargetLayerId": "ded-1924-04-01-vector",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#D2691E",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1924-04-01_partial.fgb"
+        }
+      ],
       "references": [
         {
           "label": "Belfast Gazette issue 153 (Urban County District of Bangor: confirmation (with modifications) of Down County Council order of 25 Jan 1924)",
@@ -33456,11 +33506,15 @@
         {
           "label": "Census of Population of Northern Ireland 1926: County of Down",
           "url": null
+        },
+        {
+          "label": "District Electoral Divisions 1 Apr 1930 (ded-1930-04-01)",
+          "url": null
         }
       ],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "ded-1924-04-01",
@@ -33473,16 +33527,39 @@
       "date": "1924-04-01",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": "Northern Ireland District Electoral Divisions as they stood on 1 Apr 1924.",
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "ded-1924-04-01-vector",
       "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#D2691E",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1924-04-01_partial.fgb"
+        }
+      ],
       "references": [
         {
           "label": "Belfast Gazette issue 101 (Rural District of Castlereagh (district electoral divisions))",
@@ -33663,15 +33740,19 @@
         {
           "label": "Belfast Gazette issue 110 (Enniskillen Rural District (district electoral divisions))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/110/page/387"
+        },
+        {
+          "label": "District Electoral Divisions 1 Apr 1930 (ded-1930-04-01)",
+          "url": null
         }
       ],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "ded-1922-11-13",
-      "cloneOf": null,
+      "cloneOf": "ded-1921-05-03",
       "parentId": null,
       "name": "District Electoral Divisions 13 Nov 1922",
       "category": "Electoral Areas",
@@ -33680,16 +33761,41 @@
       "date": "1922-11-13",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
       "description": "Northern Ireland District Electoral Divisions as they stood on 13 Nov 1922.",
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "ded-1922-11-13-alias",
+      "aliasTargetLayerId": "ded-1921-05-03-vector",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#D2691E",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1921.fgb"
+        }
+      ],
       "references": [
         {
           "label": "Belfast Gazette issue 72 (Urban District of Newry (wards))",
@@ -33698,15 +33804,19 @@
         {
           "label": "Census of Population of Northern Ireland 1926: County of Down",
           "url": null
+        },
+        {
+          "label": "District Electoral Divisions 3 May 1921 (ded-1921-05-03)",
+          "url": null
         }
       ],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "ded-1922-11-11",
-      "cloneOf": null,
+      "cloneOf": "ded-1921-05-03",
       "parentId": null,
       "name": "District Electoral Divisions 11 Nov 1922",
       "category": "Electoral Areas",
@@ -33715,29 +33825,58 @@
       "date": "1922-11-11",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
       "description": "Northern Ireland District Electoral Divisions as they stood on 11 Nov 1922.",
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "ded-1922-11-11-alias",
+      "aliasTargetLayerId": "ded-1921-05-03-vector",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#D2691E",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1921.fgb"
+        }
+      ],
       "references": [
         {
           "label": "Belfast Gazette issue 72 (Urban District of Dungannon (wards))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/72/page/647"
+        },
+        {
+          "label": "District Electoral Divisions 3 May 1921 (ded-1921-05-03)",
+          "url": null
         }
       ],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "ded-1922-11-09",
-      "cloneOf": null,
+      "cloneOf": "ded-1921-05-03",
       "parentId": null,
       "name": "District Electoral Divisions 9 Nov 1922",
       "category": "Electoral Areas",
@@ -33746,16 +33885,41 @@
       "date": "1922-11-09",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
       "description": "Northern Ireland District Electoral Divisions as they stood on 9 Nov 1922.",
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "ded-1922-11-09-alias",
+      "aliasTargetLayerId": "ded-1921-05-03-vector",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#D2691E",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1921.fgb"
+        }
+      ],
       "references": [
         {
           "label": "Belfast Gazette issue 71 (Urban District of Lisburn (wards))",
@@ -33768,15 +33932,19 @@
         {
           "label": "Belfast Gazette issue 72 (Newcastle Urban District (wards))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/72/page/656"
+        },
+        {
+          "label": "District Electoral Divisions 3 May 1921 (ded-1921-05-03)",
+          "url": null
         }
       ],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "ded-1922-11-06",
-      "cloneOf": null,
+      "cloneOf": "ded-1921-05-03",
       "parentId": null,
       "name": "District Electoral Divisions 6 Nov 1922",
       "category": "Electoral Areas",
@@ -33785,16 +33953,41 @@
       "date": "1922-11-06",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
       "description": "Northern Ireland District Electoral Divisions as they stood on 6 Nov 1922.",
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "ded-1922-11-06-alias",
+      "aliasTargetLayerId": "ded-1921-05-03-vector",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#D2691E",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1921.fgb"
+        }
+      ],
       "references": [
         {
           "label": "Belfast Gazette issue 71 (Urban District of Ballycastle (wards))",
@@ -33823,15 +34016,19 @@
         {
           "label": "Belfast Gazette issue 72 (Newtownards Urban District (wards))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/72/page/656"
+        },
+        {
+          "label": "District Electoral Divisions 3 May 1921 (ded-1921-05-03)",
+          "url": null
         }
       ],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "ded-1922-10-31",
-      "cloneOf": null,
+      "cloneOf": "ded-1921-05-03",
       "parentId": null,
       "name": "District Electoral Divisions 31 Oct 1922",
       "category": "Electoral Areas",
@@ -33840,16 +34037,41 @@
       "date": "1922-10-31",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
       "description": "Northern Ireland District Electoral Divisions as they stood on 31 Oct 1922.",
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "ded-1922-10-31-alias",
+      "aliasTargetLayerId": "ded-1921-05-03-vector",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#D2691E",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1921.fgb"
+        }
+      ],
       "references": [
         {
           "label": "Belfast Gazette issue 71 (Urban District of Portadown (wards))",
@@ -33858,11 +34080,15 @@
         {
           "label": "Belfast Gazette issue 71 (Strabane Urban District (wards))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/71/page/640"
+        },
+        {
+          "label": "District Electoral Divisions 3 May 1921 (ded-1921-05-03)",
+          "url": null
         }
       ],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "ded-1921-05-03",
@@ -36982,7 +37208,7 @@
     },
     {
       "sourceMapId": "county-ed-1924-06-01",
-      "cloneOf": null,
+      "cloneOf": "county-ed-1924-04-01",
       "parentId": null,
       "name": "County Electoral Divisions 1 Jun 1924",
       "category": "Electoral Areas",
@@ -36991,20 +37217,43 @@
       "date": "1924-06-01",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": "Northern Ireland County Electoral Divisions as they stood on 1 Jun 1924: the divisions that elected county councillors.",
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "county-ed-1924-06-01-alias",
+      "aliasTargetLayerId": "county-ed-1924-04-01-vector",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-04-01_partial.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1924-04-01",
@@ -37017,16 +37266,39 @@
       "date": "1924-04-01",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": "Northern Ireland County Electoral Divisions as they stood on 1 Apr 1924: the divisions that elected county councillors.",
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "county-ed-1924-04-01-vector",
       "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-04-01_partial.fgb"
+        }
+      ],
       "references": [
         {
           "label": "Belfast Gazette issue 128 (Administrative County of Antrim (county electoral divisions))",
@@ -37067,7 +37339,7 @@
       ],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1922-11-13",
