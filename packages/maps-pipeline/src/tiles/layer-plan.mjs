@@ -26,7 +26,7 @@ const MANUAL_ALIAS_TARGETS = new Map([
  * @typedef {{ id: string, name?: string, label?: string, cloneOf?: string, parentId?: string, parentName?: string | undefined,
  *   category?: string, group?: string, date?: string, dateAdded?: string, dateEffective?: string,
  *   provider?: string | string[], description?: string, note?: string, style?: Style, references?: unknown,
- *   sourceDownloads?: unknown, osniDownloads?: unknown, variants?: MainMap[], placeholder?: boolean,
+ *   sourceDownloads?: unknown, osniDownloads?: unknown, variants?: MainMap[], placeholder?: boolean, hidden?: boolean,
  *   compositeSources?: string[], files?: Record<string, unknown>, downloads?: Record<string, unknown>,
  *   tileUrl?: string, isGroup?: boolean, bounds?: unknown }} MainMap
  */
@@ -180,6 +180,8 @@ function collectSourceFiles(map) {
 /** @param {MainMap} map @param {SourceFile[]} sourceFiles @returns {ConversionStatus} */
 function classifyConversionStatus(map, sourceFiles) {
   if (map.isGroup && !sourceFiles.length) return 'metadataOnly';
+  // A map the site does not draw (to be added, or hidden with its layer withheld) waits for no tiles.
+  if (map.placeholder || map.hidden) return 'metadataOnly';
   if (sourceFiles.some((entry) => /\.(png|jpe?g|webp|tif|tiff)$/i.test(entry.file))) return 'needsRasterStrategy';
   if (sourceFiles.some((entry) => /\.(fgb|geojson|json|shp|gpkg)$/i.test(entry.file))) return 'needsVectorTileConversion';
   if (map.tileUrl || sourceFiles.some((entry) => isTileTemplate(entry.file) || /\/tiles?\//i.test(entry.file))) return 'needsMapLibreSourceMapping';
