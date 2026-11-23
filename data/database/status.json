@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T22:49:38.811Z",
+  "generatedAt": "2026-11-23T14:12:22.896Z",
   "description": "Progress of Civgraph's sources, elections and maps, as shown on /pages/status.html. Each total states its basis. Built by scripts/build/build-status.mjs; generatedAt is when a figure last changed.",
   "figures": {
     "sources": [
@@ -2409,10 +2409,10 @@
         "id": "elections-and-representation",
         "name": "Elections & Representation",
         "totals": {
-          "known": 220,
+          "known": 221,
           "complete": 130,
           "partial": 88,
-          "notDrawn": 2,
+          "notDrawn": 3,
           "versions": 15
         },
         "series": [
@@ -2582,6 +2582,21 @@
             "versions": 3
           },
           {
+            "id": "electoral-divisions-local-electoral-areas",
+            "name": "Local Electoral Areas",
+            "scope": "Republic of Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1998,
+              2019
+            ],
+            "known": 4,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 1,
+            "versions": 3
+          },
+          {
             "id": "elections-and-voting-polling-districts",
             "name": "Polling Districts",
             "scope": "Republic of Ireland",
@@ -2595,21 +2610,6 @@
             "partial": 0,
             "notDrawn": 0,
             "versions": 0
-          },
-          {
-            "id": "electoral-divisions-local-electoral-areas",
-            "name": "Local Electoral Areas",
-            "scope": "Republic of Ireland",
-            "shelf": "elections-and-representation",
-            "years": [
-              2008,
-              2019
-            ],
-            "known": 3,
-            "complete": 3,
-            "partial": 0,
-            "notDrawn": 0,
-            "versions": 3
           },
           {
             "id": "elections-and-voting-av-referendum-counting-areas",

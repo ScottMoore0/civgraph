@@ -1,5 +1,5 @@
-// Phelim Birch's Irish boundary deliveries: LODs for the 25 May 2026 delivery and his per-year
-// ED build-spec notes.
+// Phelim Birch's Irish boundary deliveries: LODs for the 25 May 2026 delivery, his per-year
+// ED build-spec notes and his Local Electoral Areas spreadsheet.
 import { definePlugin } from '@civgraph/intake/plugins.mjs';
 
 const LOD_TARGETS = [
@@ -19,7 +19,10 @@ export default definePlugin({
   kinds: ['maps'],
   personalData: { contains: false, handling: 'none' },
   sources: [{ id: 'phelim-birch-deliveries', title: "Phelim Birch's Irish administrative boundary files and ED build-spec notes", rights: 'owner-permission', note: 'Delivered to the owner for publication on Civgraph.' }],
-  inputs: { notesDir: { description: "the folder of Phelim's per-year ED notes from a delivery's media" } },
+  inputs: {
+    notesDir: { description: "the folder of Phelim's per-year ED notes from a delivery's media" },
+    leaSheet: { description: "Phelim's Local Electoral Areas spreadsheet, exported as .xlsx" },
+  },
   steps: {
     'lods-20260525': {
       title: 'Write the -lod0 and -lod1 FGBs of the 25 May 2026 delivery\'s eight layers',
@@ -30,6 +33,11 @@ export default definePlugin({
     'ed-notes': {
       title: 'Parse the ED build-spec notes into data/intake/2026-07-26-ed-composition-specs.json',
       argv: ['node', 'scripts/ingest/idb-phelim/parse-phelim-ed-notes.mjs', '{input:notesDir}'],
+    },
+    'lea-sheet': {
+      title: 'Transcribe the Local Electoral Areas spreadsheet into data/intake/2026-11-23-phelim-lea-sheet.json',
+      argv: ['node', 'scripts/ingest/idb-phelim/import-lea-sheet.mjs', '{input:leaSheet}'],
+      outputs: ['data/intake/2026-11-23-phelim-lea-sheet.json'],
     },
   },
 });
