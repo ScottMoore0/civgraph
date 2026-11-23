@@ -83,6 +83,8 @@ export const COMPACT_LAYER_FIELDS = [
   'sourceFile',
   'sourceDatasetLayer',
   'featureIndexUrl',
+  // one label point per area (packages/maps-pipeline/src/tiles/label-points.mjs, packages/map/src/renderer/label-text.mjs)
+  'labelPointsUrl',
   'numericProperties',
   'categoricalProperties',
   'popupProperties',

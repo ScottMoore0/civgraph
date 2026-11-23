@@ -46,6 +46,26 @@ export function featureCentreColumns(epsg) {
 }
 
 /**
+ * The SQLite-dialect columns (ogr2ogr -dialect SQLite, aggregated with GROUP BY the feature id)
+ * giving each area one label point and its area: ST_PointOnSurface of the area's pieces joined,
+ * which lies inside the area by construction (a centroid can fall outside a concave or
+ * many-part shape), as lon/lat; and the geodesic area in square metres. A source with no EPSG
+ * code (SRID 0) cannot be transformed or measured: its point is returned as stored and its area
+ * is 0 (the label-point check then refuses the file if the points are not lon/lat).
+ * @param {number | null | undefined} epsg
+ * @returns {string[]}
+ */
+export function labelPointColumns(epsg) {
+  const known = Number.isInteger(epsg) && Number(epsg) > 0;
+  const lonLat = known && epsg !== 4326 ? 'ST_Transform(ST_MakeValid(geometry), 4326)' : 'ST_MakeValid(geometry)';
+  const point = `ST_PointOnSurface(ST_Union(${lonLat}))`;
+  return [
+    `${known ? `SUM(ST_Area(${lonLat}, 1))` : '0'} AS area_m2`,
+    `${point} AS geometry`
+  ];
+}
+
+/**
  * True when the text holds U+FFFD, the replacement character.
  * @param {unknown} value
  * @returns {boolean}

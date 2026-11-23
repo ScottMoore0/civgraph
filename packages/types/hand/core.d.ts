@@ -309,6 +309,8 @@ export interface LayerEntry extends LayersLayerAnswer {
   labelMaxZoom?: number | null;
   labelStyle?: { [key: string]: unknown };
   featureIndexUrl?: string;
+  /** The layer's label-point file on the data origin (packages/maps-pipeline/src/tiles/label-points.mjs). */
+  labelPointsUrl?: string;
   popupProperties?: string[];
   numericProperties?: string[];
   categoricalProperties?: string[];
