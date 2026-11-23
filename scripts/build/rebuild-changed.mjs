@@ -17,7 +17,8 @@
  *   code   only other code (site pages, Functions, docs, tests): npm run build and the checks.
  *
  * The data chain, in dependency order (each step's `after` says what it reads):
- *   persons:rebuild (election data changed and not already re-stamped from these files),
+ *   the map mirror check (verify-map-mirror.mjs: the local data/maps/ files the builds read
+ *   against R2; network and credentials, SKIPPED without them), persons:rebuild (election data changed and not already re-stamped from these files),
  *   timeline changes, the NI council rounds, records:build (skipped when tmp/records was built from
  *   exactly these inputs), the graph-id and person-address ledgers, the catalogue and its check,
  *   npm run build, records:build again (only when the steps before changed its inputs: the ledgers,
@@ -151,6 +152,9 @@ export function planRebuild({ mode, persons, meaningful, noBrowser = false, vote
     if (catalogueCode) add({ id: 'catalogue-tests', cmd: 'npm', args: ['run', '-s', 'test:catalogue'], after: 'the build' });
   } else if (mode === 'data') {
     const votes = votesDir ? { CIVGRAPH_VOTES_DIR: votesDir } : undefined;
+    // The one network step: the local map mirror against R2, before anything reads it. It skips
+    // with a SKIPPED notice (exit 0) without credentials, the network or a local mirror.
+    add({ id: 'map-mirror', cmd: 'node', args: ['scripts/publish/verify-map-mirror.mjs', '--limit', '25'], after: 'nothing: the builders below read data/maps/, so a stale local copy fails here first' });
     if (persons) {
       add({
         id: 'persons', cmd: 'bash', args: ['scripts/ingest/persons/rebuild-person-ids.sh'], gate: 'persons-stale',
@@ -287,7 +291,7 @@ function main(args) {
       mkdirSync(path.dirname(PERSONS_STAMP), { recursive: true });
       writeFileSync(PERSONS_STAMP, `${JSON.stringify({ hash: personsInputsHash(), at: new Date().toISOString() }, null, 2)}\n`);
     }
-    const summary = output.filter((line) => /CHECKS OK|passed|failed|OK\b|PASS/.test(line)).slice(-1)[0] || '';
+    const summary = output.filter((line) => /CHECKS OK|passed|failed|OK\b|PASS|SKIPPED/.test(line)).slice(-1)[0] || '';
     console.log(`ok   ${seconds.padStart(4)}s  ${step.id}${summary ? `  -- ${summary.trim().slice(0, 100)}` : ''}`);
   }
   console.log(`\nREBUILD OK (${mode}) in ${((Date.now() - started) / 1000).toFixed(0)}s  [${timings.join(' ')}]`);

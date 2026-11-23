@@ -36,7 +36,7 @@ test('every plan that re-stamps person ids passes --withhold-unmappable', () => 
         const args = String(steps[0].env?.MANIFEST_ARGS || '').split(/\s+/);
         assert.ok(args.includes(WITHHOLD), `${paths.join()} with MANIFEST_ARGS=${manifestArgs}: ${steps[0].env?.MANIFEST_ARGS}`);
         assert.equal(args.filter((a) => a === WITHHOLD).length, 1);
-        assert.equal(plan[0], steps[0], 'the re-stamp runs first');
+        assert.equal(plan.filter((s) => s.id !== 'map-mirror')[0], steps[0], 'the re-stamp runs first of the builders (after the read-only mirror check)');
       }
     }
   }
@@ -82,7 +82,7 @@ test('the data chain runs each step after what it reads', () => {
   const ids = plan.map((s) => s.id);
   const at = (/** @type {string} */ id) => { const i = ids.indexOf(id); assert.ok(i >= 0, id); return i; };
   assert.deepEqual(ids, [
-    'persons', 'timeline-changes', 'ni-local', 'records', 'graph-ids', 'person-addresses', 'catalogue', 'catalogue-check',
+    'map-mirror', 'persons', 'timeline-changes', 'ni-local', 'records', 'graph-ids', 'person-addresses', 'catalogue', 'catalogue-check',
     'build', 'records-again', 'local-artefacts', 'stats-home', 'stats-about', 'elections-app', 'records-check', 'check-fast', 'catalogue-tests',
   ]);
   for (const reader of ['graph-ids', 'person-addresses', 'catalogue', 'local-artefacts', 'elections-app']) assert.ok(at('records') < at(reader), reader);
@@ -95,7 +95,10 @@ test('the data chain runs each step after what it reads', () => {
     assert.equal(s.gate, 'records-stale');
     assert.equal(s.env?.CIVGRAPH_VOTES_DIR, 'C:\\votes');
   }
-  assert.equal(plan[0].gate, 'persons-stale');
+  assert.equal(plan.find((s) => s.id === 'persons')?.gate, 'persons-stale');
+  // The local map mirror is checked against R2 before any builder reads it, and only in a data rebuild.
+  assert.equal(ids[0], 'map-mirror');
+  assert.ok(!planFor(['site/pages/contact.html']).plan.some((s) => s.id === 'map-mirror'));
 });
 
 test('the votes directory is read from the publish wrapper', () => {

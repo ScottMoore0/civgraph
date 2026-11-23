@@ -11,7 +11,7 @@
 | 1. Fast local | `npm run check:fast` | no | after a change, by you; `npm run rebuild` runs it (or the app subset) for what changed |
 | 2. Full local | `npm run check:full`, and `npm run check:clean` | see note | before you hand a branch over |
 | 3. CI | `.github/workflows/ci.yml` (`npm run check:ci`, `npm run test:browser:maps`) | no | every push to main and every pull request |
-| 4. Opt-in remote | `npm run verify`, `npm run verify:public` | yes, bounded | by hand, after a publish; never by default, never in CI |
+| 4. Opt-in remote | `npm run verify`, `npm run verify:public` | yes, bounded | by hand, after a publish; never in CI; the one default run is `verify:map-mirror`, first in a data `npm run rebuild` (read-only, skips without credentials) |
 
 **1. Fast local.** `check:fast` (`scripts/check/run.mjs`) runs every step of `npm run check`
 in parallel and prints only the failures. It is offline: nothing in it reads a remote
@@ -96,9 +96,20 @@ whose inputs fell outside a filter never ran (the `docs/**` gap, closed 2026-09-
 
 **4. Opt-in remote.** Run these by hand after a publish.
 - `verify` needs wrangler signed in. It runs `verify:proxies`, `verify:map-tokens`,
-  `verify:deploy`, `verify:source-cache`, `verify:records` and `check:r2-parity`. `verify:records` is bounded: a few bounded statements per wrangler call (at most 8), 50 keys
+  `verify:deploy`, `verify:source-cache`, `verify:records`, `check:r2-parity` and `verify:map-mirror`. `verify:records` is bounded: a few bounded statements per wrangler call (at most 8), 50 keys
   sampled per table, no table scanned. Since data phase 3 it covers the maps, layers and
   catalogue tables too, which is what `verify:catalogue-d1` did for the old catalogue database.
+- `verify:map-mirror` (`scripts/publish/verify-map-mirror.mjs`, the comparison in
+  `scripts/publish/map-mirror-parity.mjs`, tested by `tests/unit/map-mirror-parity.test.mjs`) compares
+  the local map mirror, `data/maps/`, with R2: size, then the MD5 against the S3 ETag (a multipart
+  ETag is recomputed at 8 MiB parts, then every whole-MiB part size from 5 to 128 MiB). It only
+  lists the bucket (one delimited listing per folder) and caches hashes in
+  `tmp/map-mirror/digests.json`, so a run takes seconds. A stale file the builds read (geometry the
+  catalogue or the layer metadata names) fails it; stale images, downloads, chunk parts and
+  unreferenced local files are listed only. Without credentials, the network or a local mirror it
+  prints SKIPPED and exits 0 (`--strict`: 2). `npm run rebuild` runs it first in a data rebuild, so a
+  stale mirror stops the builders that read it (the timeline changes of 21 Nov 2026 were built from
+  twelve stale files). `--root <checkout>` reads another checkout's mirror (a worktree has none).
 - `verify:public` needs no credentials. It runs the CDN byte-range check
   (`verify:test:pmtiles-cdn`), `verify:proxies`, `verify:deploy` and `verify:browser`
   (production-parity specs with `--retries 2`, `scripts/publish/verify-browser.mjs`).
