@@ -34,6 +34,20 @@ export const SHARE_IMAGE = Object.freeze({
   alt: 'Civgraph, the civic record of Ireland: the name and logo beside a map of Ireland with its county boundaries.',
 });
 
+/**
+ * The Elections app's share image (share image variant C, the results map; owner, 23 Nov 2026):
+ * the same card, titled for the app, beside its results map of the 2024 Dáil general election.
+ * Rebuilt by scripts/build/og-preview.mjs --card elections; ?v= as for SHARE_IMAGE.
+ */
+export const ELECTIONS_SHARE_IMAGE_VERSION = '3ce9a05978d7';
+export const ELECTIONS_SHARE_IMAGE = Object.freeze({
+  url: `${SITE.origin}/assets/images/og-elections.png?v=${ELECTIONS_SHARE_IMAGE_VERSION}`,
+  width: 1200,
+  height: 630,
+  type: 'image/png',
+  alt: 'Civgraph Elections: election results, count by count, beside a map of each Dáil constituency coloured by the party that won most of its seats in the 2024 general election, striped where parties tied.',
+});
+
 const escapeAttr = (/** @type {unknown} */ value) => String(value ?? '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')

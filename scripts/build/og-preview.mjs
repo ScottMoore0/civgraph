@@ -15,13 +15,22 @@
  * (logo, name, the strapline) on the header's gradient, beside the map of Ireland drawn by the
  * site itself with a layer loaded. Nothing on it can go out of date but the map's look.
  *
+ * THE ELECTIONS CARD (--card elections)
+ *
+ * The Elections app has its own card, og-elections.png (share image variant C, "the results map",
+ * of the EL4 mock-ups of 13 Nov 2026; chosen by the owner 23 Nov 2026): the same layout, titled
+ * for the app, beside the app's own results map (/elections/map/, winning party by constituency)
+ * of one finished election, the 2024 Dáil general election unless --election names another. A
+ * past election's result does not change, so the card still carries nothing that goes stale.
+ *
  * 1200x630 is the Open Graph standard; X accepts the same for summary_large_image.
  *
  * Usage:
  *   node scripts/build/og-preview.mjs                     # map captured from the live /maps/
  *   node scripts/build/og-preview.mjs --map map.png       # compose around a map image already made
  *   node scripts/build/og-preview.mjs [--url https://civgraph.net/maps/] [--layer counties-ireland]
- *   node scripts/build/og-preview.mjs --check             # verify the committed file only
+ *   node scripts/build/og-preview.mjs --card elections [--election dail-eireann__2024-11-29] [--url <the app's /elections/map/>]
+ *   node scripts/build/og-preview.mjs --check             # verify the committed files only (both cards)
  */
 import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
@@ -46,7 +55,30 @@ const argVal = (name, fallback) => {
   return i >= 0 && args[i + 1] ? /** @type {string} */ (args[i + 1]) : fallback;
 };
 
-const OUT = path.resolve('site/assets/images/og-preview.png');
+/**
+ * The cards: the file each is written to and the words beside its map. No figures that go stale.
+ * @typedef {{ out: string, title: string, text: string, url: string, mapCredit: string }} Card
+ * @type {Record<'site' | 'elections', Card>}
+ */
+const CARDS = {
+  site: {
+    out: 'site/assets/images/og-preview.png',
+    title: 'The civic record of Ireland',
+    text: 'Elections, censuses, boundaries and archives, linked together and published openly.',
+    url: 'civgraph.net',
+    mapCredit: 'Map data © OpenStreetMap contributors'
+  },
+  elections: {
+    out: 'site/assets/images/og-elections.png',
+    title: 'Election results, count by count',
+    text: 'Ireland and Northern Ireland: seats, votes, full STV counts and transfers, and maps of the results, each figure with its source.',
+    url: 'civgraph.net/elections',
+    mapCredit: ''
+  }
+};
+const CARD_NAME = /** @type {'site' | 'elections'} */ (args.includes('--card') && args[args.indexOf('--card') + 1] === 'elections' ? 'elections' : 'site');
+const CARD = CARDS[CARD_NAME];
+const OUT = path.resolve(CARD.out);
 const WIDTH = 1200;
 const HEIGHT = 630;
 const MAX_BYTES = 1_000_000; // og:image should stay small enough to fetch eagerly
@@ -63,29 +95,39 @@ function pngSize(file) {
 }
 
 if (args.includes('--check')) {
-  if (!existsSync(OUT)) {
-    console.error(`FAIL: ${path.relative(process.cwd(), OUT)} is missing, but every page declares og:image.`);
-    console.error('Rebuild it with: node scripts/build/og-preview.mjs');
-    process.exit(1);
+  let failed = false;
+  for (const [name, card] of Object.entries(CARDS)) {
+    const file = path.resolve(card.out);
+    if (!existsSync(file)) {
+      console.error(`FAIL: ${card.out} is missing, but pages declare it as og:image.`);
+      console.error(`Rebuild it with: node scripts/build/og-preview.mjs${name === 'site' ? '' : ` --card ${name}`}`);
+      failed = true;
+      continue;
+    }
+    const bytes = statSync(file).size;
+    const size = pngSize(file);
+    console.log(`OG preview (${name}): ${card.out}, ${size ? `${size.width}x${size.height}, ` : ''}${(bytes / 1024).toFixed(0)} KB`);
+    if (bytes > MAX_BYTES) {
+      console.error(`FAIL: ${bytes} bytes exceeds the ${MAX_BYTES}-byte budget.`);
+      failed = true;
+    }
+    // The pages declare og:image:width 1200 and og:image:height 630; the file must be that size.
+    if (!size || size.width !== WIDTH || size.height !== HEIGHT) {
+      console.error(`FAIL: ${card.out} must be ${WIDTH}x${HEIGHT}, as og:image:width and og:image:height declare.`);
+      failed = true;
+    }
   }
-  const bytes = statSync(OUT).size;
-  const size = pngSize(OUT);
-  console.log(`OG preview: ${path.relative(process.cwd(), OUT)}, ${size ? `${size.width}x${size.height}, ` : ''}${(bytes / 1024).toFixed(0)} KB`);
-  if (bytes > MAX_BYTES) {
-    console.error(`FAIL: ${bytes} bytes exceeds the ${MAX_BYTES}-byte budget.`);
-    process.exit(1);
-  }
-  // The pages declare og:image:width 1200 and og:image:height 630; the file must be that size.
-  if (!size || size.width !== WIDTH || size.height !== HEIGHT) {
-    console.error(`FAIL: the image must be ${WIDTH}x${HEIGHT}, as og:image:width and og:image:height declare.`);
-    process.exit(1);
-  }
-  console.log('PASS: the declared og:image exists, is 1200x630 and is within budget.');
+  if (failed) process.exit(1);
+  console.log('PASS: the declared og:images exist, are 1200x630 and are within budget.');
   process.exit(0);
 }
 
+// The election on the Elections card: a finished one, so its map never changes.
+const ELECTION = argVal('--election', 'dail-eireann__2024-11-29');
 // /maps/, not /: the interactive map moved there when the landing page took the root.
-const URL_ = argVal('--url', `${SITE.origin}/maps/`);
+const URL_ = argVal('--url', CARD_NAME === 'elections'
+  ? `${SITE.origin}/elections/map/?e=${encodeURIComponent(ELECTION)}&mode=winner`
+  : `${SITE.origin}/maps/`);
 // A counties layer, deliberately. The first attempt used eds-roi-1941, whose ~4,000
 // electoral divisions render as overlapping labels -- visual noise at the thumbnail size
 // a social card is actually viewed at. Counties are recognisable and readable when small.
@@ -149,6 +191,33 @@ async function captureMap() {
   return shot;
 }
 
+/** The Elections app's results map (its #mp-map element), winning party by constituency: a PNG buffer. */
+async function captureResultsMap() {
+  const page = await browser.newPage({ viewport: { width: 900, height: 1500 }, deviceScaleFactor: 1, colorScheme: 'light' });
+  await page.goto(URL_, { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('#mp-map canvas', { timeout: 90000 });
+  // The map draws once its bundle and tiles are in; there is no hook, so wait for the canvas to settle.
+  await page.waitForTimeout(12000);
+  const box = await page.evaluate(() => {
+    // Only the map: the page around it, the sticky header and the attribution box go (the card
+    // names no base map, as none is drawn). visibility, not display, so nothing reflows.
+    const style = document.createElement('style');
+    style.textContent = 'body * { visibility: hidden !important; } #mp-map, #mp-map * { visibility: visible !important; } '
+      + '#mp-map .maplibregl-control-container, #mp-map .maplibregl-control-container * { visibility: hidden !important; } '
+      + '#mp-map { border-color: transparent !important; }';
+    document.head.appendChild(style);
+    const el = document.getElementById('mp-map');
+    if (!el) return null;
+    el.scrollIntoView({ block: 'start' });
+    const r = el.getBoundingClientRect();
+    return { x: r.x, y: r.y, width: r.width, height: r.height };
+  });
+  await page.waitForTimeout(1500);
+  const shot = await page.screenshot({ type: 'png', ...(box ? { clip: box } : {}) });
+  await page.close();
+  return shot;
+}
+
 /** @param {string} file a font under site/assets/fonts */
 const FONT = (file) => `data:font/woff2;base64,${readFileSync(path.resolve('site/assets/fonts', file)).toString('base64')}`;
 const LOGO = readFileSync(path.resolve('site/assets/images/civgraph-logo-icon.svg'), 'utf8');
@@ -181,20 +250,22 @@ p { font-size: 25px; line-height: 1.4; margin: 22px 0 0; color: rgba(255,255,255
 .map { flex: 1; margin: 34px 34px 34px 0; border-radius: 22px; overflow: hidden; position: relative;
   box-shadow: 0 18px 48px rgba(0,0,0,.35); background: #aad3df; }
 .map img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.map--results { background: #fff; }
+.map--results img { object-fit: contain; padding: 14px; box-sizing: border-box; }
 .credit { position: absolute; right: 10px; bottom: 8px; font-size: 13px; color: #333; background: rgba(255,255,255,.8); padding: 2px 7px; border-radius: 6px; }
 </style></head><body>
 <div class="text">
   <div class="brand">${LOGO.replace(/aria-hidden="true"/, 'aria-hidden="true" preserveAspectRatio="xMidYMid meet"')}<span>Civgraph</span></div>
-  <h1>The civic record of Ireland</h1>
-  <p>Elections, censuses, boundaries and archives, linked together and published openly.</p>
-  <div class="url">civgraph.net</div>
+  <h1>${CARD.title}</h1>
+  <p>${CARD.text}</p>
+  <div class="url">${CARD.url}</div>
 </div>
-<div class="map"><img src="${mapDataUrl}" alt=""><span class="credit">Map data © OpenStreetMap contributors</span></div>
+<div class="map${CARD_NAME === 'elections' ? ' map--results' : ''}"><img src="${mapDataUrl}" alt="">${CARD.mapCredit ? `<span class="credit">${CARD.mapCredit}</span>` : ''}</div>
 </body></html>`;
 }
 
 try {
-  const map = MAP_IMAGE ? readFileSync(path.resolve(MAP_IMAGE)) : await captureMap();
+  const map = MAP_IMAGE ? readFileSync(path.resolve(MAP_IMAGE)) : await (CARD_NAME === 'elections' ? captureResultsMap() : captureMap());
   const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: 1 });
   await page.setContent(cardHtml(`data:image/png;base64,${map.toString('base64')}`), { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
@@ -206,7 +277,7 @@ try {
   console.log(`Wrote ${path.relative(process.cwd(), OUT)} (${WIDTH}x${HEIGHT}, ${(bytes / 1024).toFixed(0)} KB)`);
   // The pages name the image with this as ?v=, so link-preview caches fetch the new one.
   const version = createHash('sha256').update(png).digest('hex').slice(0, 12);
-  console.log(`  set SHARE_IMAGE_VERSION = '${version}' in packages/ui/src/templates/share.js and re-stamp the page heads`);
+  console.log(`  set ${CARD_NAME === 'elections' ? 'ELECTIONS_SHARE_IMAGE_VERSION' : 'SHARE_IMAGE_VERSION'} = '${version}' in packages/ui/src/templates/share.js and re-stamp the page heads`);
   if (bytes > MAX_BYTES) console.warn(`  warning: ${bytes} bytes exceeds the ${MAX_BYTES}-byte budget`);
 } finally {
   await browser.close();

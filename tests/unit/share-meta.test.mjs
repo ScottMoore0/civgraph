@@ -18,7 +18,7 @@ import { readFileSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readShareTags, SHARE_IMAGE, shareTagList, withShareTags } from '@civgraph/ui/templates/share.js';
+import { ELECTIONS_SHARE_IMAGE, readShareTags, SHARE_IMAGE, shareTagList, withShareTags } from '@civgraph/ui/templates/share.js';
 import { page } from '@civgraph/ui/templates/shell.js';
 import { proniRecordHead, proniRefFromPath, serveShell } from '../../functions/_proni-shell.js';
 
@@ -26,7 +26,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const read = (rel) => readFileSync(path.join(ROOT, rel), 'utf8');
 
 /** What every shareable page must carry; [] when it does. */
-function shareProblems(html, { url, type = 'website' } = {}) {
+function shareProblems(html, { url, type = 'website', image = SHARE_IMAGE } = {}) {
   const tags = readShareTags(html);
   const problems = [];
   const need = (ok, what) => { if (!ok) problems.push(what); };
@@ -40,11 +40,12 @@ function shareProblems(html, { url, type = 'website' } = {}) {
   need(tags['og:site_name'] === 'Civgraph', 'og:site_name');
   need(tags['og:title'] && tags['og:title'] === tags['twitter:title'], 'og:title = twitter:title');
   need(tags['og:description'] && tags['og:description'] === tags['twitter:description'], 'og:description = twitter:description');
-  need(tags['og:image'] === SHARE_IMAGE.url, `og:image (${tags['og:image']})`);
+  need(tags['og:image'] === image.url, `og:image (${tags['og:image']})`);
   need(tags['og:image:width'] === '1200' && tags['og:image:height'] === '630', 'og:image:width/height 1200x630');
   need(tags['og:image:alt'], 'og:image:alt');
   need(tags['twitter:card'] === 'summary_large_image', `twitter:card (${tags['twitter:card']})`);
-  need(tags['twitter:image'] === SHARE_IMAGE.url, 'twitter:image');
+  need(tags['twitter:image'] === image.url, 'twitter:image');
+  need(tags['og:image:alt'] === image.alt, 'og:image:alt is the image\'s own');
   const head = html.split(/<\/head>/i)[0];
   for (const key of ['og:url', 'og:title', 'og:image', 'twitter:card']) {
     const count = (head.match(new RegExp(`(?:property|name)="${key}"`, 'g')) || []).length;
@@ -69,9 +70,9 @@ const STATIC_PAGES = [
   ['site/maps/index.html', 'https://civgraph.net/maps/'],
 ];
 
-for (const [file, url] of STATIC_PAGES) {
+for (const [file, url, image] of STATIC_PAGES) {
   test(`${file} carries the whole share set`, () => {
-    assert.deepEqual(shareProblems(read(file), { url }), []);
+    assert.deepEqual(shareProblems(read(file), { url, image }), []);
   });
 }
 
@@ -86,6 +87,18 @@ test('the share image is a 1200x630 PNG, as og:image:width and og:image:height s
   const hash = createHash('sha256').update(buf).digest('hex').slice(0, 12);
   assert.equal(SHARE_IMAGE.url, `https://civgraph.net/assets/images/og-preview.png?v=${hash}`,
     `og-preview.png changed: set SHARE_IMAGE_VERSION = '${hash}' in packages/ui/src/templates/share.js and re-stamp the page heads`);
+});
+
+test('the Elections app\'s share image (variant C, the results map) is a 1200x630 PNG, its URL carrying its hash', () => {
+  const buf = readFileSync(path.join(ROOT, 'site/assets/images/og-elections.png'));
+  assert.equal(buf.toString('ascii', 1, 4), 'PNG');
+  assert.equal(buf.readUInt32BE(16), ELECTIONS_SHARE_IMAGE.width);
+  assert.equal(buf.readUInt32BE(20), ELECTIONS_SHARE_IMAGE.height);
+  assert.ok(buf.length < 1_000_000, 'small enough for a crawler to fetch eagerly');
+  const hash = createHash('sha256').update(buf).digest('hex').slice(0, 12);
+  assert.equal(ELECTIONS_SHARE_IMAGE.url, `https://civgraph.net/assets/images/og-elections.png?v=${hash}`,
+    `og-elections.png changed: set ELECTIONS_SHARE_IMAGE_VERSION = '${hash}' in packages/ui/src/templates/share.js`);
+  assert.ok(ELECTIONS_SHARE_IMAGE.alt.length > 40, 'alt text');
 });
 
 test('withShareTags replaces every earlier share tag and the canonical, and escapes', () => {
