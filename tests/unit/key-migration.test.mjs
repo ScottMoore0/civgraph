@@ -39,4 +39,7 @@ test('a pair must be the rename: legacy (or already current) name to a current n
   assert.equal(pairShapeProblem({ from: 'data/maps/test/pmtiles/generated/x-vector.pmtiles', to: NEW }), null);
   assert.match(pairShapeProblem({ from: OLD, to: 'data/maps/pmtiles/x-vector-test.pmtiles' }), /not named by a renamed/);
   assert.match(pairShapeProblem({ from: 'data/maps/test/pmtiles/generated/x.pmtiles', to: NEW }), /either side/);
+  // A rebuild uploaded under a dated name keeps it.
+  assert.equal(pairShapeProblem({ from: 'data/maps/test/pmtiles/generated/x-vector-2026-11-23.pmtiles', to: 'data/maps/pmtiles/x-vector-2026-11-23.pmtiles' }), null);
+  assert.match(pairShapeProblem({ from: 'data/maps/test/pmtiles/generated/x-2026-11-23.pmtiles', to: 'data/maps/pmtiles/x-vector.pmtiles' }), /either side/);
 });

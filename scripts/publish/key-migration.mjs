@@ -78,7 +78,9 @@ export function stateFromVerify(status) {
  * @param {{ from: string, to: string }} pair
  */
 export function pairShapeProblem({ from, to }) {
-  const stem = (/** @type {string} */ key) => key.slice(key.lastIndexOf('/') + 1).replace(/\.pmtiles$/, '');
+  // A rebuild uploaded under a dated name beside its old key (x-vector-2026-11-23.pmtiles) is
+  // named by the same id.
+  const stem = (/** @type {string} */ key) => key.slice(key.lastIndexOf('/') + 1).replace(/\.pmtiles$/, '').replace(/-\d{4}-\d{2}-\d{2}$/, '');
   if (layerIdForm(stem(to)) !== 'current') return `${to} is not named by a renamed (-vector, -raster, -alias) id`;
   if (layerIdForm(stem(from)) === 'other') return `${from} is not named by a layer id on either side of the rename`;
   return null;

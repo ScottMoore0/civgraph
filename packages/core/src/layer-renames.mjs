@@ -78,9 +78,11 @@ export function renamePmtilesKey(keyOrUrl) {
   if (name.includes('/') || !name.endsWith('.pmtiles')) return null;
   const stem = name.slice(0, -'.pmtiles'.length);
   // An archive uploaded after the layer-id rename already carries the new id
-  // (e.g. eds-ulster-1912-vector.pmtiles); it still moves to the new prefix.
+  // (e.g. eds-ulster-1912-vector.pmtiles); it still moves to the new prefix. So does a
+  // rebuild uploaded under a dated name beside its old key (eds-leinster-1910-vector-2026-11-23
+  // .pmtiles), which keeps its name.
   const renamed = renameLayerId(stem);
-  if (renamed === stem && !/-(vector|raster|alias)$/.test(stem)) return null;
+  if (renamed === stem && !/-(vector|raster|alias)(-\d{4}-\d{2}-\d{2})?$/.test(stem)) return null;
   return { from: key, to: `${NEW_PMTILES_PREFIX}${renamed}.pmtiles` };
 }
 
