@@ -9,10 +9,20 @@
  *
  * The default base map is now a chain, tried in order (DEFAULT_BASEMAP_CHAIN):
  *
- *   1. OpenFreeMap, Liberty style (vector). https://openfreemap.org/ : "no registration, no
- *      user database, no API keys", no limits on map views or requests, commercial use allowed;
- *      the OpenFreeMap, OpenMapTiles and OpenStreetMap credits must be shown.
- *   2. OpenStreetMap's own raster tiles, as the last resort only, with the credit always shown.
+ *   1. OpenFreeMap, Positron style (vector): grey land, muted roads and small grey labels, so
+ *      every boundary colour and label on top reads (styling plan OT22, decision 4: approved by
+ *      Phelim Birch 21 Nov and the owner 23 Nov 2026; until then Liberty was the default, whose
+ *      orange roads read as boundaries). https://openfreemap.org/ : "no registration, no user
+ *      database, no API keys", no limits on map views or requests, commercial use allowed; the
+ *      OpenFreeMap, OpenMapTiles and OpenStreetMap credits must be shown.
+ *   2. OpenFreeMap, Liberty style, the same provider's detailed street map.
+ *   3. OpenStreetMap's own raster tiles, muted, as the last resort only, with the credit always
+ *      shown (muted so a failover does not jump from a quiet map to a loud one).
+ *
+ * In the dark theme the chain is DARK_BASEMAP_CHAIN: OpenFreeMap Dark (the same provider), then
+ * Positron, then OpenStreetMap's tiles inverted. A provider's `tone` says whether it is dark, so
+ * the map's labels take dark halos on it (BasemapManager.tone). Liberty stays a choice in Map
+ * Settings (CHOOSABLE_STYLE_BASE_MAPS) for readers who navigate by roads.
  *
  * Providers considered and left out (terms checked 11 Nov 2026, see LANDING notes):
  *   - CARTO basemaps: an API key in every tile URL since 2026 (keyless requests are served with
@@ -40,8 +50,9 @@ export const BASEMAP_SESSION_KEY = 'civgraph.basemapFailedProviders';
 
 const OSM_COPYRIGHT = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
 
-/** @typedef {{ id: string, kind: 'style', label: string, styleUrl: string, attribution: string, glyphFonts: string[], terms: string }} StyleProvider */
-/** @typedef {{ id: string, kind: 'raster', label: string, tiles: string[], attribution: string, maxzoom?: number, terms?: string }} RasterProvider */
+/** Whether a base map is light or dark: labels on a dark one take dark halos. @typedef {'light' | 'dark'} BasemapTone */
+/** @typedef {{ id: string, kind: 'style', label: string, styleUrl: string, attribution: string, glyphFonts: string[], terms: string, tone?: BasemapTone }} StyleProvider */
+/** @typedef {{ id: string, kind: 'raster', label: string, tiles: string[], attribution: string, maxzoom?: number, terms?: string, paint?: Readonly<Record<string, number>>, tone?: BasemapTone }} RasterProvider */
 /** @typedef {StyleProvider | RasterProvider} BasemapProvider */
 /** @typedef {import('maplibre-gl').SourceSpecification} SourceSpecification */
 /** @typedef {import('maplibre-gl').LayerSpecification} LayerSpecification */
@@ -82,8 +93,66 @@ export const OSM_STANDARD_TILES = Object.freeze({
   terms: 'https://operations.osmfoundation.org/policies/tiles/'
 });
 
+/** OpenFreeMap's Positron style: the default base map. @type {StyleProvider} */
+export const OPENFREEMAP_POSITRON = Object.freeze({
+  ...OPENFREEMAP_LIBERTY,
+  id: 'openfreemap-positron',
+  styleUrl: 'https://tiles.openfreemap.org/styles/positron'
+});
+
+/** OpenFreeMap's Dark style: the dark theme's base map. @type {StyleProvider} */
+export const OPENFREEMAP_DARK = Object.freeze({
+  ...OPENFREEMAP_LIBERTY,
+  id: 'openfreemap-dark',
+  styleUrl: 'https://tiles.openfreemap.org/styles/dark',
+  tone: /** @type {BasemapTone} */ ('dark')
+});
+
+/** OpenStreetMap's tiles, muted (the styling plan's paint): the light chain's last resort. @type {RasterProvider} */
+export const OSM_MUTED_TILES = Object.freeze({
+  ...OSM_STANDARD_TILES,
+  paint: Object.freeze({ 'raster-saturation': -0.6, 'raster-contrast': -0.1, 'raster-brightness-min': 0.08 })
+});
+
+/** OpenStreetMap's tiles, inverted to a dark grey: the dark chain's last resort. @type {RasterProvider} */
+export const OSM_DARK_TILES = Object.freeze({
+  ...OSM_STANDARD_TILES,
+  paint: Object.freeze({ 'raster-saturation': -1, 'raster-brightness-min': 1, 'raster-brightness-max': 0.12 }),
+  tone: /** @type {BasemapTone} */ ('dark')
+});
+
 /** The default base map, in the order tried. */
-export const DEFAULT_BASEMAP_CHAIN = Object.freeze([OPENFREEMAP_LIBERTY, OSM_STANDARD_TILES]);
+export const DEFAULT_BASEMAP_CHAIN = Object.freeze([OPENFREEMAP_POSITRON, OPENFREEMAP_LIBERTY, OSM_MUTED_TILES]);
+
+/** The default base map in the dark theme, in the order tried. */
+export const DARK_BASEMAP_CHAIN = Object.freeze([OPENFREEMAP_DARK, OPENFREEMAP_POSITRON, OSM_DARK_TILES]);
+
+/**
+ * The default chain for the page's theme.
+ * @param {unknown} theme  'dark', or anything else for light
+ * @returns {readonly BasemapProvider[]}
+ */
+export function defaultChainFor(theme) {
+  return theme === 'dark' ? DARK_BASEMAP_CHAIN : DEFAULT_BASEMAP_CHAIN;
+}
+
+/**
+ * A provider's tone: dark for OpenFreeMap Dark and the inverted tiles, light otherwise.
+ * @param {{ tone?: BasemapTone } | null | undefined} provider
+ * @returns {BasemapTone}
+ */
+export function basemapTone(provider) {
+  return provider?.tone === 'dark' ? 'dark' : 'light';
+}
+
+/**
+ * The vector base maps a reader can choose in Map Settings instead of the default, by id: Liberty,
+ * the default until 23 Nov 2026, for its street detail.
+ * @type {Readonly<Record<string, StyleProvider>>}
+ */
+export const CHOOSABLE_STYLE_BASE_MAPS = Object.freeze({
+  [OPENFREEMAP_LIBERTY.id]: OPENFREEMAP_LIBERTY
+});
 
 /**
  * The id of the default base map (the chain above) in Map Settings, addresses (#base=) and
@@ -129,7 +198,9 @@ export const CHOOSABLE_BASE_MAPS = Object.freeze({
  */
 export function resolveBaseMapId(id) {
   const value = typeof id === 'string' ? id.trim() : '';
-  return value && Object.prototype.hasOwnProperty.call(CHOOSABLE_BASE_MAPS, value) ? value : DEFAULT_BASE_MAP_ID;
+  const known = Object.prototype.hasOwnProperty.call(CHOOSABLE_BASE_MAPS, value)
+    || Object.prototype.hasOwnProperty.call(CHOOSABLE_STYLE_BASE_MAPS, value);
+  return value && known ? value : DEFAULT_BASE_MAP_ID;
 }
 
 /** Errors on a provider's tiles, with none loaded, before it is given up. */
@@ -309,21 +380,21 @@ export class BasemapManager {
    * @param {import('maplibre-gl').Map} map a MapLibre map
    * @param {{ chain?: BasemapProvider[], storage?: Storage | null, fetchImpl?: typeof fetch,
    *   document?: Document | null, setTimeoutImpl?: typeof setTimeout, clearTimeoutImpl?: typeof clearTimeout,
-   *   onChange?: (provider: BasemapProvider, reason: string) => void }} [options]
+   *   onChange?: (provider: BasemapProvider, reason: string) => void, theme?: 'light' | 'dark' }} [options]
+   *   theme: the page's theme, which picks the default chain (DARK_BASEMAP_CHAIN in the dark theme)
    */
   constructor(map, options = {}) {
     this.map = map;
+    this.fixedChain = Boolean(options.chain);
     /** @type {readonly BasemapProvider[]} */
-    this.chain = options.chain || preferredChain(DEFAULT_BASEMAP_CHAIN, {
-      search: typeof location !== 'undefined' ? location.search : '',
-      storage: safeLocalStorage()
-    });
+    this.chain = options.chain || themeChain(options.theme);
     this.fetchImpl = options.fetchImpl || ((...args) => fetch(...args));
     this.document = options.document === undefined ? (typeof document !== 'undefined' ? document : null) : options.document;
     this.setTimeoutImpl = options.setTimeoutImpl || ((fn, ms) => setTimeout(fn, ms));
     this.clearTimeoutImpl = options.clearTimeoutImpl || ((id) => clearTimeout(id));
     this.onChange = options.onChange || null;
-    this.failover = createBasemapFailover(this.chain, { storage: options.storage === undefined ? safeSessionStorage() : options.storage });
+    this.failoverStorage = options.storage === undefined ? safeSessionStorage() : options.storage;
+    this.failover = createBasemapFailover(this.chain, { storage: this.failoverStorage });
     /** @type {'chain' | 'fixed' | null} */
     this.mode = null; // 'chain' or 'fixed'
     /** @type {BasemapProvider | null} */
@@ -352,6 +423,36 @@ export class BasemapManager {
     if (this.mode === 'chain' && this.active === provider) return Promise.resolve(provider);
     this.mode = 'chain';
     return this.apply(provider, 'default');
+  }
+
+  /**
+   * The default base map for a theme (DARK_BASEMAP_CHAIN in the dark theme), from its first
+   * provider not failed this session. A chain given to the constructor is kept whatever the theme.
+   * @param {'light' | 'dark'} theme
+   * @returns {Promise<BasemapProvider | null>}
+   */
+  useThemeDefault(theme) {
+    const chain = this.fixedChain ? this.chain : themeChain(theme);
+    if (chain[0] !== this.chain[0] || chain.length !== this.chain.length) {
+      this.chain = chain;
+      this.failover = createBasemapFailover(chain, { storage: this.failoverStorage });
+    }
+    return this.useDefault();
+  }
+
+  /**
+   * One vector base map the reader chose (CHOOSABLE_STYLE_BASE_MAPS); no failover.
+   * @param {StyleProvider} provider
+   * @returns {Promise<BasemapProvider | null>}
+   */
+  useStyle(provider) {
+    this.mode = 'fixed';
+    return this.apply(provider, 'chosen');
+  }
+
+  /** The tone of the base map drawn now: dark halos for labels on a dark one. @returns {BasemapTone} */
+  get tone() {
+    return basemapTone(this.active);
   }
 
   /**
@@ -404,6 +505,10 @@ export class BasemapManager {
       this.addRaster(provider);
       if (this.mode === 'chain') this.armTimer(generation);
     }
+    // Which base map is drawn, and its tone, for the stylesheet (dark label halos on a dark map).
+    const container = this.map.getContainer?.();
+    container?.setAttribute('data-basemap', provider.id);
+    container?.setAttribute('data-basemap-tone', basemapTone(provider));
     this.onChange?.(provider, reason);
     return provider;
   }
@@ -465,7 +570,7 @@ export class BasemapManager {
       attribution: provider.attribution,
       ...(provider.maxzoom ? { maxzoom: provider.maxzoom } : {})
     });
-    map.addLayer({ id, type: 'raster', source: id }, this.firstAppLayerId());
+    map.addLayer({ id, type: 'raster', source: id, ...(provider.paint ? { paint: { ...provider.paint } } : {}) }, this.firstAppLayerId());
   }
 
   /** Takes every base map layer and source off the map (and the base map's glyphs and sprite). */
@@ -536,6 +641,18 @@ export class BasemapManager {
     this.map.off?.('error', this.onError);
     this.map.off?.('sourcedata', this.onData);
   }
+}
+
+/**
+ * The default chain for a theme, from the provider an address or a test names (preferredChain).
+ * @param {unknown} theme
+ * @returns {readonly BasemapProvider[]}
+ */
+function themeChain(theme) {
+  return preferredChain(defaultChainFor(theme), {
+    search: typeof location !== 'undefined' ? location.search : '',
+    storage: safeLocalStorage()
+  });
 }
 
 function safeLocalStorage() {

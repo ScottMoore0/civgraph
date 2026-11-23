@@ -7,7 +7,7 @@
 
 import uiController from '../ui-controller.js';
 import { readStored, writeStored } from '../storage-keys.mjs';
-import { resolveBaseMapId } from '../renderer/basemap.mjs';
+import { DEFAULT_BASE_MAP_ID, resolveBaseMapId } from '../renderer/basemap.mjs';
 
 /**
  * The app as these methods see it: the controls' own state is set on first use.
@@ -232,33 +232,33 @@ export class MapControlMethods {
   }
 
   /**
-   * Keep the basemap on OpenStreetMap.
+   * The default base map follows the theme: OpenFreeMap Positron in the light theme, OpenFreeMap
+   * Dark in the dark one (styling plan OT22, decision 4, approved 21 and 23 Nov 2026;
+   * packages/map/src/renderer/basemap.mjs DARK_BASEMAP_CHAIN). A base map the reader chose (Map
+   * Settings, or an address naming one) is never changed by the theme.
    *
-   * T1-06 originally made this follow the theme, switching to `cartodb-dark` in dark
-   * mode so a white landmass did not sit beside a black panel. That is no longer
-   * possible: CARTO's basemaps now require an API key, and rather than failing they
-   * serve tiles with "API KEY REQUIRED — carto.com/basemaps/apikey" printed across
-   * every one. Measured 2026-08-26: those requests return HTTP 200, so nothing in the
-   * app could detect it -- the map simply rendered the watermark, and looked broken to
-   * every visitor in dark mode.
+   * History: T1-06 first made this follow the theme with CARTO's dark tiles; from 26 Aug 2026
+   * dark mode kept the light map, because CARTO began printing "API KEY REQUIRED" across every
+   * keyless tile at HTTP 200. OpenFreeMap Dark has the same terms as the light styles (no key, no
+   * limits), so the dark map is back, without a key.
    *
-   * OSM has no dark variant, so dark mode now keeps the standard basemap. That gives up
-   * T1-06's benefit and it is the right trade: a light basemap is a cosmetic mismatch,
-   * a watermarked one is a broken map. Restoring a dark basemap means either a keyed
-   * provider or a self-hosted style, which is a deliberate choice rather than a default.
-   *
-   * Kept as a method (rather than deleted) because callers and tests use its return
-   * value, and because this is where a future dark basemap would be reinstated.
+   * Returns the base map id when it acted, null when the reader's choice stands.
    * @this {MapControlApp}
    */
   async syncBasemapToTheme() {
     if (this.userPickedBasemap) return null;
-    const wanted = 'osm-standard';
-    if (this.baseMapId === wanted) return null;
-    await this.applyBaseMap(wanted);
+    const wanted = DEFAULT_BASE_MAP_ID;
+    this.baseMapId = wanted;
+    const theme = document.documentElement.dataset['theme'] === 'dark' ? 'dark' : 'light';
+    const map = this.mapController?.map;
+    if (map) await this.whenStyleLoaded();
+    // The reader may have chosen a base map while the style loaded: that choice stands.
+    if (this.userPickedBasemap) return null;
     // Keep the Map Settings control honest about what is actually displayed.
     const select = /** @type {HTMLSelectElement | null} */ (document.getElementById('baseMapSelect'));
     if (select) select.value = wanted;
+    // A choice made while this draws wins there too (BasemapManager draws the latest request).
+    if (map) await /** @type {import('./map-app').MapControllerView} */ (this.mapController).useThemeBaseMap?.(theme);
     return wanted;
   }
 }

@@ -102,7 +102,7 @@ declare global {
     /** The UI controller, for the onclick handlers of markup it writes (packages/map/src/ui-controller.js). */
     uiController?: unknown;
     /** The interface-language runtime (site/assets/i18n/i18n.js, preview only), when it has loaded. */
-    civgraphI18n?: { placeNameField?: (layer: unknown) => string | null };
+    civgraphI18n?: { placeNameField?: (layer: unknown) => string | null, irishNameField?: (layer: unknown) => string | null };
     /** The site-head bootstrap's language-control loader (packages/map/src/catalogue/lang-reveal.js). */
     civgraphLangReveal?: () => void;
   }

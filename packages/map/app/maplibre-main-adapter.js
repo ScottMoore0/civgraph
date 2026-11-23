@@ -5,7 +5,7 @@ import { boundsToMapLibre } from '../src/renderer/utils.js';
 import { waitForMapSettle } from './settle.js';
 import { compositeChildIds } from '../src/map-relations.mjs';
 import { cdnUrl } from '../src/cdn-url.js';
-import { CHOOSABLE_BASE_MAPS, resolveBaseMapId } from '../src/renderer/basemap.mjs';
+import { CHOOSABLE_BASE_MAPS, CHOOSABLE_STYLE_BASE_MAPS, resolveBaseMapId } from '../src/renderer/basemap.mjs';
 import { overlayConfig } from '../src/renderer/overlays.mjs';
 import {
   classCounts,
@@ -150,9 +150,10 @@ import { MAP_COLOURS } from '../src/views/colours.mjs';
 import { LOAD_ORDER_PALETTE, PaletteSlots, takesLoadOrderColour, withColour } from '../src/layer-palette.mjs';
 
 // The base maps (packages/map/src/renderer/basemap.mjs): 'osm-standard' is the default street map,
-// not one tile server but the provider chain there (OpenFreeMap, then OpenStreetMap's own tiles as
-// the last resort); CHOOSABLE_BASE_MAPS are the raster ones a reader can pick instead, each
-// credited to its own provider. The Esri, CARTO and Stamen base maps were removed on 11 Nov 2026.
+// not one tile server but the provider chain there (OpenFreeMap Positron, or OpenFreeMap Dark in
+// the dark theme, then OpenStreetMap's own tiles as the last resort); CHOOSABLE_STYLE_BASE_MAPS
+// (OpenFreeMap Liberty) and CHOOSABLE_BASE_MAPS (rasters) are the ones a reader can pick instead,
+// each credited to its own provider. The Esri, CARTO and Stamen base maps were removed on 11 Nov 2026.
 
 // The timeline's change highlight (setTimelineChanges). Magenta reads against the blues,
 // greens and browns the boundary layers use and against the OSM base map.
@@ -1013,12 +1014,29 @@ export class Test2MapLibreMainAdapter {
     const basemap = this.renderer?.basemap;
     if (!this.map || !basemap) return;
     const chosen = resolveBaseMapId(id);
-    const provider = CHOOSABLE_BASE_MAPS[chosen];
-    if (!provider) {
-      basemap.useDefault();
+    const style = CHOOSABLE_STYLE_BASE_MAPS[chosen];
+    if (style) {
+      void basemap.useStyle(style);
       return;
     }
-    basemap.useRaster({ id: chosen, label: chosen, tiles: provider.tiles, attribution: provider.attribution });
+    const provider = CHOOSABLE_BASE_MAPS[chosen];
+    if (!provider) {
+      void basemap.useThemeDefault(pageTheme());
+      return;
+    }
+    void basemap.useRaster({ id: chosen, label: chosen, tiles: provider.tiles, attribution: provider.attribution });
+  }
+
+  /**
+   * The default base map for the page's theme (OpenFreeMap Dark in the dark theme), when the
+   * reader has not chosen one (controls.js syncBasemapToTheme).
+   * @param {'light' | 'dark'} theme
+   * @returns {Promise<unknown>}
+   */
+  useThemeBaseMap(theme) {
+    const basemap = this.renderer?.basemap;
+    if (!this.map || !basemap) return Promise.resolve(null);
+    return basemap.useThemeDefault(theme);
   }
 
   toggleOverlay() {
@@ -2274,3 +2292,7 @@ function escapeHtml(value) {
   })[ch]));
 }
 
+/** The page's theme: the site sets data-theme on <html>. @returns {'light' | 'dark'} */
+function pageTheme() {
+  return typeof document !== 'undefined' && document.documentElement.dataset['theme'] === 'dark' ? 'dark' : 'light';
+}

@@ -42,6 +42,8 @@
  *   formatDate(date, opts?)    Intl date in the current locale
  *   placeNameField(layer)      the tile property holding the Irish name of a layer's features,
  *                              when Irish is on and the layer has one (map labels, details)
+ *   irishNameField(layer)      that property whatever the interface language (the map's
+ *                              Irish second line under an English label)
  *   hide()                     back to English, remove the control, clear the flag (the
  *                              control's own Hide action); disablePreview() is the same
  *   show()                     rebuild the control after hide() on the same page
@@ -770,7 +772,15 @@
   /** @param {LayerLike | null | undefined} layer @returns {string | null} */
   function placeNameField(layer) {
     var conf = current();
-    if (!conf || !conf.placeNameFields || !layer) return null;
+    if (!conf || !conf.placeNameFields) return null;
+    return irishNameField(layer);
+  }
+
+  // The same property whatever the interface language: the map's bilingual labels draw it as a
+  // second line under the English name (packages/map/src/renderer/labels.js irishSecondLineField).
+  /** @param {LayerLike | null | undefined} layer @returns {string | null} */
+  function irishNameField(layer) {
+    if (!layer) return null;
     var ids = [layer.id, layer.layerId, layer.sourceMapId, layer.mapId];
     for (var k = 0; k < ids.length; k++) {
       var id = ids[k];
@@ -819,6 +829,7 @@
     formatDate: formatDate,
     formatShortDate: formatShortDate,
     placeNameField: placeNameField,
+    irishNameField: irishNameField,
     show: show,
     hide: hide,
     disablePreview: hide,

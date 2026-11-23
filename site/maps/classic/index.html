@@ -73,7 +73,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=8294c75a8ea1" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=c31f4f738091" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -104,7 +104,7 @@
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=82eda2cf4c50',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
+<script>(function(){var K='civgraph.langPreview',S='/assets/i18n/i18n.js?v=ee8f308dd46f',on=false;function load(){var i=window.civgraphI18n;if(i){if(i.show)i.show();return;}if(document.querySelector('script[data-i18n-runtime]'))return;var s=document.createElement('script');s.src=S;s.setAttribute('data-i18n-runtime','');document.head.appendChild(s);}window.civgraphLangReveal=function(){try{localStorage.setItem(K,'1');}catch(e){}load();};try{if(/[?&]lang-preview=0(?:&|$)/.test(location.search)){localStorage.removeItem(K);localStorage.removeItem('civgraph.lang');}on=localStorage.getItem(K)==='1';}catch(e){}if(on)load();})();</script>
 <link rel="stylesheet" href="/assets/ui/tokens.css?v=715de51f3b57">
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
 <link rel="stylesheet" href="/assets/ui/base.css?v=3afe8b0c1381">
@@ -128,7 +128,7 @@
        onload), and arriving it moved the catalogue, the map controls and the map itself: most
        of the page's layout shift, 0.27 on a desktop (QA 2026-11-11, M16). -->
     <link rel="stylesheet" href="/build/main.css?v=f2f842d36cb5">
-  <link rel="stylesheet" href="/app/build/app.bundle.css?v=66099e55e221">
+  <link rel="stylesheet" href="/app/build/app.bundle.css?v=cfe6e13129d8">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=80c11b5dd47d" media="print" onload="this.media='all'">
@@ -531,6 +531,9 @@
                 <optgroup label="Dark & Modern">
                 </optgroup>
                 <optgroup label="Other Street Maps">
+                  <!-- OpenFreeMap Liberty, the default until 23 Nov 2026 (styling plan OT22): the default is
+                       now the quieter Positron, or OpenFreeMap Dark in the dark theme. -->
+                  <option value="openfreemap-liberty">Detailed street map (OpenFreeMap Liberty)</option>
                   <option value="osm-humanitarian">OpenStreetMap Humanitarian</option>
                 </optgroup>
                 <optgroup label="Terrain & Topographic">
@@ -737,7 +740,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=8294c75a8ea1"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=c31f4f738091"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

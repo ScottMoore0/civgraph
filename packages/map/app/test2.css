@@ -697,6 +697,32 @@ body.test2-election-pane-resizing * {
     1px 1px 0 var(--raw-ffffff);
 }
 
+/* A label with the Irish name on a second, smaller italic line (OT22 decision 1;
+   packages/map/src/renderer/labels.js getLabelLines). */
+.maplibre-dom-label.map-label--two-line {
+  flex-direction: column;
+}
+
+.maplibre-dom-label .map-label__ga {
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+/* On a dark base map (OpenFreeMap Dark in the dark theme; basemap.mjs sets data-basemap-tone),
+   labels take dark halos: white ones read as boxes there. The label colours are lightened against
+   the dark halo in labels.js getLabelStyle. */
+[data-basemap-tone="dark"] .maplibre-dom-label div,
+[data-basemap-tone="dark"] .maplibre-dom-label.map-label--hover div,
+[data-basemap-tone="dark"] .maplibre-dom-label.map-label--selected div,
+[data-basemap-tone="dark"] .maplibre-dom-label:hover div {
+  text-shadow:
+    -1px -1px 0 var(--raw-111111),
+    1px -1px 0 var(--raw-111111),
+    -1px 1px 0 var(--raw-111111),
+    1px 1px 0 var(--raw-111111);
+}
+
 @media (max-width: 768px), (pointer: coarse) {
   #map .maplibregl-canvas-container,
   #map .maplibregl-canvas {

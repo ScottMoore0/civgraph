@@ -1,7 +1,8 @@
 const { test, expect } = require('@playwright/test');
 
 // The base map provider chain (packages/map/src/renderer/basemap.mjs; QA 2026-11-11, H8): OpenFreeMap
-// first, OpenStreetMap's own tiles only as the last resort, and the credits always shown in full.
+// first (Positron since the styling change OT22, 23 Nov 2026; OpenFreeMap Dark in the dark theme),
+// OpenStreetMap's own tiles only as the last resort, and the credits always shown in full.
 // The providers' hosts are answered here, so the spec needs no network and never loads their tiles.
 
 const OFM = 'tiles.openfreemap.org';
@@ -50,9 +51,9 @@ test('the default base map comes from OpenFreeMap, with its credit shown in full
   let osmRequests = 0;
   await page.route((url) => url.hostname === OSM, (route) => { osmRequests += 1; return route.fulfill({ contentType: 'image/png', body: PNG_1X1 }); });
   await openMap(page);
-  await expect.poll(async () => (await basemapState(page)).firstLayer).toBe('basemap-openfreemap-liberty-background');
+  await expect.poll(async () => (await basemapState(page)).firstLayer).toBe('basemap-openfreemap-positron-background');
   const state = await basemapState(page);
-  expect(state.active).toBe('openfreemap-liberty');
+  expect(state.active).toBe('openfreemap-positron');
   expect(state.compact, 'the credit is never folded behind (i)').toBe(false);
   expect(state.creditVisible).toBe(true);
   expect(state.credit).toContain('OpenFreeMap stand-in credit');
@@ -70,7 +71,42 @@ test('when OpenFreeMap fails the map falls back to OpenStreetMap tiles, credited
   expect(state.compact).toBe(false);
   expect(state.creditVisible).toBe(true);
   // The rest of the session starts on the fallback rather than retrying the dead provider.
-  expect(await page.evaluate(() => sessionStorage.getItem('civgraph.basemapFailedProviders'))).toContain('openfreemap-liberty');
+  expect(await page.evaluate(() => sessionStorage.getItem('civgraph.basemapFailedProviders'))).toContain('openfreemap-positron');
+});
+
+/** A stand-in for every OpenFreeMap style: a background and one raster source. */
+async function standInStyles(page) {
+  await page.route((url) => url.hostname === OFM, (route) => (route.request().url().endsWith('.png')
+    ? route.fulfill({ contentType: 'image/png', body: PNG_1X1 })
+    : route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        version: 8,
+        sources: { shade: { type: 'raster', tiles: [`https://${OFM}/shade/{z}/{x}/{y}.png`], tileSize: 256, attribution: 'OpenFreeMap stand-in credit' } },
+        layers: [{ id: 'background', type: 'background', paint: { 'background-color': '#f2efe9' } }, { id: 'shade', type: 'raster', source: 'shade' }]
+      })
+    })));
+}
+
+test('in the dark theme the default base map is OpenFreeMap Dark, and labels take dark halos', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await standInStyles(page);
+  await openMap(page);
+  await expect.poll(async () => (await basemapState(page)).active).toBe('openfreemap-dark');
+  await expect.poll(() => page.evaluate(() => document.getElementById('map')?.getAttribute('data-basemap-tone'))).toBe('dark');
+  // Back to the light theme: Positron, light tone.
+  await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; document.dispatchEvent(new CustomEvent('civgraph:themechange')); });
+  await expect.poll(async () => (await basemapState(page)).active).toBe('openfreemap-positron');
+  await expect.poll(() => page.evaluate(() => document.getElementById('map')?.getAttribute('data-basemap-tone'))).toBe('light');
+});
+
+test('Liberty, the detailed street map, can be chosen in Map Settings', async ({ page }) => {
+  await standInStyles(page);
+  await openMap(page);
+  await expect.poll(async () => (await basemapState(page)).active).toBe('openfreemap-positron');
+  await page.locator('#baseMapSelect').selectOption('openfreemap-liberty', { force: true });
+  await expect.poll(async () => (await basemapState(page)).active).toBe('openfreemap-liberty');
+  expect((await basemapState(page)).firstLayer).toBe('basemap-openfreemap-liberty-background');
 });
 
 test('the credit does not run under the Map Settings button on a phone', async ({ page }) => {

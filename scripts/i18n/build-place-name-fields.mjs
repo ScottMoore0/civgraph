@@ -45,7 +45,8 @@ const PAIRS = {
   park_name: ['irish_name'],
   SUB_DIST: ['SUB_IRISH'],
   English_Na: ['Irish_Name'],
-  Townland: ['Townland_Irish']
+  Townland: ['Townland_Irish'],
+  District_Electoral_Division: ['DED_Irish']
 };
 
 /**

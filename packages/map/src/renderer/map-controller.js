@@ -1,5 +1,6 @@
 import maplibregl from 'maplibre-gl';
-import { PMTiles, Protocol } from 'pmtiles';
+import { FetchSource, PMTiles, Protocol } from 'pmtiles';
+import { SITE } from '../../../config/src/config.js';
 import { createPointCloudLayer } from './point-cloud-layer.js';
 import { createStreamingPointCloudLayer } from './point-cloud-stream-layer.js';
 import {
@@ -16,10 +17,12 @@ import {
   buildLabelTextExpression,
   buildLabelTextSizeExpression,
   getFeatureLabel,
+  getLabelLines,
   getLabelMaxZoom,
   getLabelMinZoom,
   getLabelStyle
 } from './labels.js';
+import { indexLabelPoints, labelCollisionBox, resolveLabelPointsUrl } from './label-text.mjs';
 import { repairFeatureProperties } from './feature-property-repairs.js';
 import { boundsToMapLibre, clamp } from './utils.js';
 import { approximateSegmentIds, approximateSegmentLabel, resolveApproximateSegmentsUrl } from './approximate-segments.js';
@@ -108,6 +111,7 @@ import { MAP_COLOURS } from '../views/colours.mjs';
  *   duplicateFeatureIds?: unknown[],
  *   duplicateFeatureIdsUrl?: string,
  *   featureIndexUrl?: string,
+ *   labelPointsUrl?: string,
  *   popupProperties?: string[],
  *   test2LabelMinZoomOverride?: unknown,
  *   fallbackFromPmtiles?: boolean,
@@ -405,6 +409,14 @@ export class TestMapLibreController {
     this.duplicateFeatureIdCache = new Map();
     /** @type {Map<string, PMTiles>} */
     this.pmtilesArchiveCache = new Map();
+    /**
+     * Label-point files by address (label-text.mjs): the points once loaded, null for a file that
+     * could not be read (its layer keeps today's anchors), absent while loading or not asked for.
+     * @type {Map<string, Map<string, import('./label-text.mjs').LabelPoint> | null>}
+     */
+    this.labelPoints = new Map();
+    /** @type {Set<string>} */
+    this.labelPointsLoading = new Set();
     this.runtimeProfile = resolveRuntimeProfile();
     // Install-once guards (latches) and two-state toggles (flags), as accessors over the shared
     // typed-state helper (MA-L): reads and writes are unchanged, a non-boolean write throws, and
@@ -493,8 +505,13 @@ export class TestMapLibreController {
     // an (i) button, which the OpenStreetMap tile policy forbids ("beneath UI, behind toggles")
     // and OpenFreeMap's terms do not allow either: both require the credit to be visible.
     this.map.addControl(new maplibregl.AttributionControl({ compact: false }));
+    /** The tone of the base map drawn now: labels take dark halos on a dark one. @type {'light' | 'dark'} */
+    this.basemapTone = 'light';
     /** @type {BasemapManager} */
-    this.basemap = new BasemapManager(this.map);
+    this.basemap = new BasemapManager(this.map, {
+      theme: typeof document !== 'undefined' && document.documentElement.dataset['theme'] === 'dark' ? 'dark' : 'light',
+      onChange: () => this.syncLabelsToBasemapTone()
+    });
     this.whenStyleReady(() => /** @type {BasemapManager} */ (this.basemap).useDefault());
 
     this.recordMetric({
@@ -2261,7 +2278,7 @@ export class TestMapLibreController {
     return /** @type {import('maplibre-gl').SourceSpecification} */ (/** @type {unknown} */ (renderer.source(layer, {
       openPmtilesArchive: (tileUrl) => {
         if (!this.pmtilesArchiveCache.has(tileUrl)) {
-          this.pmtilesArchiveCache.set(tileUrl, new PMTiles(tileUrl));
+          this.pmtilesArchiveCache.set(tileUrl, new PMTiles(devProxiedSource(tileUrl)));
         }
         // Set just above when absent.
         this.protocol.add(/** @type {PMTiles} */ (this.pmtilesArchiveCache.get(tileUrl)));
@@ -2798,6 +2815,15 @@ export class TestMapLibreController {
     }
     const features = this.map.queryRenderedFeatures({ layers: queryLayers });
     const labelLimit = getDomLabelLimit(layer);
+    // The Irish second line (labels.js getLabelLines) shows from one zoom above the label zoom.
+    const showSecondLine = this.map.getZoom() >= labelMinZoom + 1;
+    // A label-point file puts each label on its area's point, larger areas first (OT22 decision 3).
+    const labelPoints = this.labelPointsFor(layer);
+    const viewBounds = labelPoints ? this.map.getBounds() : null;
+    if (labelPoints) {
+      const area = (/** @type {FeatureLike} */ feature) => labelPoints.get(rawFeatureId(layer, feature))?.area || 0;
+      features.sort((a, b) => area(b) - area(a));
+    }
     /** @type {Set<string>} */
     const nextKeys = new Set();
     /** @type {LabelBox[]} */
@@ -2818,21 +2844,26 @@ export class TestMapLibreController {
         const otherLngLat = otherMarker.getLngLat?.();
         const otherLabel = otherEl.querySelector('div')?.textContent;
         if (!otherLngLat || !otherLabel) continue;
-        labelBoxes.push(labelCollisionBox(this.map.project(otherLngLat), otherLabel));
+        const otherSecondary = otherEl.querySelector('.map-label__ga')?.textContent || '';
+        labelBoxes.push(labelCollisionBox(this.map.project(otherLngLat), otherLabel, otherSecondary));
       }
     }
     for (const feature of features) {
       if (nextKeys.size >= labelLimit) break;
       const id = this.readFeatureId(layer, feature);
       if (id === null) continue;
-      const label = getFeatureLabel(layer, feature.properties);
+      const lines = getLabelLines(layer, feature.properties);
+      const label = lines.primary;
       if (!label) continue;
-      const lngLat = featureLabelLngLat(feature);
-      if (!lngLat) continue;
+      const secondary = showSecondLine ? lines.secondary : '';
       const key = String(id);
       if (nextKeys.has(key)) continue;
+      const labelPoint = labelPoints?.get(rawFeatureId(layer, feature));
+      if (labelPoint && viewBounds && !viewBounds.contains(labelPoint.lngLat)) continue;
+      const lngLat = labelPoint ? labelPoint.lngLat : featureLabelLngLat(feature);
+      if (!lngLat) continue;
       const point = this.map.project(lngLat);
-      const box = labelCollisionBox(point, label);
+      const box = labelCollisionBox(point, label, secondary);
       if (labelBoxes.some((existing) => boxesOverlap(existing, box))) continue;
       labelBoxes.push(box);
       nextKeys.add(key);
@@ -2845,6 +2876,7 @@ export class TestMapLibreController {
       element.__civgraphFeature = feature;
       const textElement = element.querySelector('div');
       if (textElement && textElement.textContent !== label) textElement.textContent = label;
+      setSecondaryLine(element, secondary);
       const isSelected = this.selected?.layerId === layerId && String(/** @type {FeatureSelection} */ (this.selected).id) === key;
       if (element.classList.contains('map-label--selected') !== isSelected) {
         element.classList.toggle('map-label--selected', isSelected);
@@ -2876,7 +2908,7 @@ export class TestMapLibreController {
    * @returns {import('maplibre-gl').Marker}
    */
   createDomLabelMarker(layer, feature, id, label) {
-    const labelStyle = getLabelStyle(layer, this.layers.get(layer.id)?.color);
+    const labelStyle = getLabelStyle(layer, this.layers.get(layer.id)?.color, { darkBase: this.basemapTone === 'dark' });
     const element = /** @type {DomLabelElement} */ (document.createElement('span'));
     element.className = 'map-label map-label--clickable maplibre-dom-label';
     element.dataset['layerId'] = layer.id;
@@ -2906,6 +2938,46 @@ export class TestMapLibreController {
     element.addEventListener('mouseleave', () => this.clearHover());
     element.addEventListener('pointerleave', () => this.clearHover());
     return new maplibregl.Marker({ element, anchor: 'center' });
+  }
+
+  /**
+   * A layer's label points (label-text.mjs), when its labelPointsUrl file has loaded; null before,
+   * and for a layer without one or whose file could not be read (its labels keep today's anchors).
+   * The first call starts the load, and the layer's labels are placed again when it arrives.
+   * @param {ControllerLayer} layer
+   * @returns {Map<string, import('./label-text.mjs').LabelPoint> | null}
+   */
+  labelPointsFor(layer) {
+    const url = resolveLabelPointsUrl(layer);
+    if (!url) return null;
+    if (this.labelPoints.has(url)) return this.labelPoints.get(url) || null;
+    if (!this.labelPointsLoading.has(url)) {
+      this.labelPointsLoading.add(url);
+      const layerId = layer.id;
+      void fetch(url, { cache: 'default' })
+        .then((response) => (response.ok ? response.json() : null))
+        .then((doc) => (doc ? indexLabelPoints(doc) : null))
+        .catch(() => null)
+        .then((points) => {
+          this.labelPointsLoading.delete(url);
+          this.labelPoints.set(url, points);
+          // The layer may have gone meanwhile: scheduleDomLabelRefresh then does nothing.
+          if (points && layerId) this.scheduleDomLabelRefresh(layerId);
+        });
+    }
+    return null;
+  }
+
+  /**
+   * The base map changed: when its tone did too (OpenFreeMap Dark in the dark theme), every label
+   * is made again, with dark halos and colours lightened against them, or back to light ones.
+   */
+  syncLabelsToBasemapTone() {
+    const tone = this.basemap?.tone || 'light';
+    if (tone === this.basemapTone) return;
+    this.basemapTone = tone;
+    for (const layerId of this.layers.keys()) this.clearDomLabels(layerId);
+    this.scheduleAllDomLabelRefresh();
   }
 
   /** @param {string} layerId */
@@ -3026,20 +3098,57 @@ function featureLabelLngLat(feature) {
 }
 
 /**
- * @param {ScreenPoint} point
- * @param {unknown} label
- * @returns {LabelBox}
+ * An archive on the data origin, fetched through the dev server's /_r/ proxy on localhost (the
+ * bucket's CORS rules admit only the site's own origins, so without this the local server showed
+ * no vector layer at all), keyed by its real URL so the pmtiles:// sources still find it.
+ * Elsewhere the URL itself.
+ * @param {string} tileUrl
+ * @returns {string | import('pmtiles').Source}
  */
-function labelCollisionBox(point, label) {
-  const width = Math.min(Math.max(String(label).length * 7.5, 34), 150);
-  const height = Math.max(16, Math.ceil(String(label).length / 18) * 15);
-  const padding = 4;
-  return {
-    left: point.x - width / 2 - padding,
-    right: point.x + width / 2 + padding,
-    top: point.y - height / 2 - padding,
-    bottom: point.y + height / 2 + padding
-  };
+function devProxiedSource(tileUrl) {
+  const origin = `${SITE.dataOrigin}/`;
+  if (typeof location === 'undefined' || location.hostname !== 'localhost' || !tileUrl.startsWith(origin)) return tileUrl;
+  const source = new FetchSource(`/_r/${tileUrl.slice(origin.length)}`);
+  return { getKey: () => tileUrl, getBytes: (offset, length, signal, etag) => source.getBytes(offset, length, signal, etag) };
+}
+
+/**
+ * The raw id a label-point file keys a feature by: its promoteId value (MapLibre's feature id).
+ * @param {ControllerLayer} layer
+ * @param {FeatureLike} feature
+ * @returns {string}
+ */
+function rawFeatureId(layer, feature) {
+  const raw = feature?.id ?? feature?.properties?.[layer?.promoteId || 'id'];
+  return raw === undefined || raw === null ? '' : String(raw);
+}
+
+/**
+ * A label's Irish second line (labels.js getLabelLines), added, changed or removed. It is drawn
+ * smaller and in italic (test2.css .map-label__ga), in the label's own colour.
+ * @param {HTMLElement} element
+ * @param {string} secondary
+ */
+function setSecondaryLine(element, secondary) {
+  let line = /** @type {HTMLElement | null} */ (element.querySelector('.map-label__ga'));
+  if (!secondary) {
+    line?.remove();
+    element.classList.remove('map-label--two-line');
+    return;
+  }
+  if (!line) {
+    const first = /** @type {HTMLElement | null} */ (element.querySelector('div'));
+    line = document.createElement('div');
+    line.className = 'map-label__ga';
+    line.lang = 'ga';
+    if (first) {
+      line.style.color = first.style.color;
+      line.style.fontSize = `${Math.max(9, Math.round(parseFloat(first.style.fontSize || '12') * 0.85))}px`;
+    }
+    element.appendChild(line);
+    element.classList.add('map-label--two-line');
+  }
+  if (line.textContent !== secondary) line.textContent = secondary;
 }
 
 /**

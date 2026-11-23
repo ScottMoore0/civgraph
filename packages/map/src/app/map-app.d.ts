@@ -120,6 +120,7 @@ export interface MapControllerView extends Pick<MainAdapter,
   | 'resolveLayer'
   | 'selectFeatureAtClick'
   | 'setBaseMap'
+  | 'useThemeBaseMap'
   | 'setEditionRole'
   | 'setElectionHatch'
   | 'setFillTransparency'

@@ -6,6 +6,7 @@ import {
 } from './feature-property-repairs.js';
 import { clamp, unique } from './utils.js';
 import { MAP_COLOURS } from '../views/colours.mjs';
+import { bilingualLines, titleCaseCaps } from './label-text.mjs';
 
 /**
  * How a label's text is cleaned: strip a trailing bracket, or map whole values to others.
@@ -73,11 +74,13 @@ export function getLabelMaxZoom(layer) {
  * @param {RendererLayer} layer
  * @param {string | null} [lineColour]  the colour the line is drawn in now (the map controller's
  *   record colour, after a palette or visitor change), when it may differ from layer.style.color
+ * @param {{ darkBase?: boolean }} [options]  darkBase: the base map is dark (OpenFreeMap Dark in
+ *   the dark theme), so the halo is dark and the label colour is lightened against it
  */
-export function getLabelStyle(layer, lineColour) {
+export function getLabelStyle(layer, lineColour, { darkBase = false } = {}) {
   /** @type {LabelStyleInput} */
   const style = layer.labelStyle || {};
-  const haloColor = resolveLabelColor(layer, style.haloColor || MAP_COLOURS.labelHaloDefault);
+  const haloColor = darkBase ? MAP_COLOURS.labelHaloDark : resolveLabelColor(layer, style.haloColor || MAP_COLOURS.labelHaloDefault);
   return {
     color: legibleLabelColour(lineColour || layerLineColour(layer), haloColor),
     hoverColor: resolveLabelColor(layer, style.hoverColor || MAP_COLOURS.labelHover),
@@ -216,6 +219,37 @@ export function buildLabelFontStack(labelStyle) {
 export function irishNameProperty(layer) {
   const i18n = typeof globalThis !== 'undefined' ? /** @type {{ civgraphI18n?: { placeNameField?: (layer: RendererLayer) => string | null } }} */ (globalThis).civgraphI18n : null;
   return i18n && typeof i18n.placeNameField === 'function' ? i18n.placeNameField(layer) : null;
+}
+
+/**
+ * The tile property whose Irish name goes on a second line under an English label (OT22
+ * decision 1). Irish place names are shown only to a reader who has turned the language control
+ * on (typing "language toggle" in the Maps search box loads assets/i18n/i18n.js, which this asks):
+ * without it, null and labels are English alone. With the interface in Irish, null too: the Irish
+ * name is then the label itself (irishNameProperty), alone, as before.
+ * @param {RendererLayer} layer
+ * @returns {string | null}
+ */
+export function irishSecondLineField(layer) {
+  const i18n = typeof globalThis !== 'undefined' ? /** @type {{ civgraphI18n?: { irishNameField?: (layer: RendererLayer) => string | null } }} */ (globalThis).civgraphI18n : null;
+  if (!i18n || typeof i18n.irishNameField !== 'function' || irishNameProperty(layer)) return null;
+  return i18n.irishNameField(layer);
+}
+
+/**
+ * What a feature's map label says: its name in title case when the data has it in capitals (the
+ * data, the details pane and search keep the official form), and the Irish name for a second line
+ * where irishSecondLineField gives one ('' otherwise).
+ * @param {RendererLayer} layer
+ * @param {Record<string, unknown> | null | undefined} props
+ * @returns {import('./label-text.mjs').LabelLines}
+ */
+export function getLabelLines(layer, props) {
+  const primary = getFeatureLabel(layer, props);
+  const irishField = irishSecondLineField(layer);
+  if (!irishField) return { primary: titleCaseCaps(primary), secondary: '' };
+  const irish = cleanLabelValue(repairFeatureProperties(layer, props || {})?.[irishField], layer.labelCleanup);
+  return bilingualLines(primary, irish);
 }
 
 /** @param {RendererLayer} layer */

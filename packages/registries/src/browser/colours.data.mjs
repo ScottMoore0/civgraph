@@ -44,6 +44,7 @@ export default {
   "labelHover": "#ff7a1a",
   "labelSelected": "#ff7a1a",
   "labelHaloDefault": "#ffffff",
+  "labelHaloDark": "#111111",
   "approximateGap": "#ffffff",
   "interactionFill": "#FDBA74",
   "interactionStroke": "#FF7A1A",

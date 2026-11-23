@@ -8,9 +8,9 @@
  * not need this -- <img> is not CORS-restricted -- but fetch() of a manifest is,
  * and keeping both on one code path avoids a class of works-in-prod-only bug.
  *
- * mapController._rewriteForDevProxy does the same rewrite for tile and FGB URLs.
- * It predates this module and is left alone deliberately: it sits on the hot path
- * for every tile request and is not worth disturbing for tidiness.
+ * map-controller.js devProxiedSource does the same for PMTiles archives, and the FGB worker for FGB URLs.
+ * They predate this module and are left alone deliberately: they sit on the hot path
+ * for every tile request and are not worth disturbing for tidiness.
  */
 
 import { SITE } from '../../config/src/config.js';

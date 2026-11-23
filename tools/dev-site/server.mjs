@@ -187,6 +187,15 @@ createServer(async (req, res) => {
       res.writeHead(local.status, headers);
       return res.end(buf);
     }
+    // Label-point files (packages/maps-pipeline/src/tiles/label-points.mjs) are built into the
+    // local map mirror before they are uploaded: a local copy answers first, so the map can be
+    // looked at here with them before the data origin has them.
+    if (method === 'GET' && p.startsWith('/_r/data/maps/labels/')) {
+      const mirrored = path.join(ROOT, p.slice(4));
+      if (path.resolve(mirrored).startsWith(path.join(ROOT, 'data', 'maps', 'labels')) && existsSync(mirrored)) {
+        return send(res, 200, readFileSync(mirrored, 'utf8'), 'application/geo+json');
+      }
+    }
     if (p.startsWith('/_r/') || p.startsWith('/_api/') || p.startsWith('/api/')) {
       const upstream = p.startsWith('/_r/')
         ? `${SITE.dataOrigin}/${p.slice(4)}${url.search}`

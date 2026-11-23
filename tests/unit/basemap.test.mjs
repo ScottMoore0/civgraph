@@ -11,10 +11,18 @@ import {
   CHOOSABLE_BASE_MAPS,
   DEFAULT_BASE_MAP_ID,
   DEFAULT_BASEMAP_CHAIN,
+  DARK_BASEMAP_CHAIN,
+  CHOOSABLE_STYLE_BASE_MAPS,
+  basemapTone,
+  defaultChainFor,
   ERRORS_AFTER_TILES,
   ERRORS_BEFORE_ANY_TILE,
   FIRST_TILE_TIMEOUT_MS,
   OPENFREEMAP_LIBERTY,
+  OPENFREEMAP_POSITRON,
+  OPENFREEMAP_DARK,
+  OSM_MUTED_TILES,
+  OSM_DARK_TILES,
   OSM_STANDARD_TILES,
   createBasemapFailover,
   glyphUrlForAvailableFont,
@@ -37,8 +45,12 @@ function memoryStorage(initial = {}) {
 function fakeMap(appLayers = []) {
   const style = { version: 8, sources: {}, layers: appLayers.map((id) => ({ id, type: 'fill', source: 'app' })), glyphs: undefined, sprite: undefined };
   const handlers = new Map();
+  const attributes = new Map();
+  const container = { setAttribute: (name, value) => attributes.set(name, String(value)), getAttribute: (name) => attributes.get(name) ?? null };
   return {
     style,
+    container,
+    getContainer: () => container,
     getStyle: () => style,
     getSource: (id) => style.sources[id],
     getLayer: (id) => style.layers.find((layer) => layer.id === id),
@@ -114,17 +126,46 @@ function manager(map, options = {}) {
   };
 }
 
-test('the default chain is OpenFreeMap first and OpenStreetMap tiles last', () => {
-  assert.deepEqual(DEFAULT_BASEMAP_CHAIN.map((provider) => provider.id), ['openfreemap-liberty', 'osm-tiles']);
-  assert.equal(OPENFREEMAP_LIBERTY.kind, 'style');
-  assert.match(OPENFREEMAP_LIBERTY.styleUrl, /^https:\/\/tiles\.openfreemap\.org\/styles\//);
+test('the default chain is OpenFreeMap Positron, then Liberty, and muted OpenStreetMap tiles last (OT22)', () => {
+  assert.deepEqual(DEFAULT_BASEMAP_CHAIN.map((provider) => provider.id), ['openfreemap-positron', 'openfreemap-liberty', 'osm-tiles']);
+  for (const provider of [OPENFREEMAP_POSITRON, OPENFREEMAP_LIBERTY, OPENFREEMAP_DARK]) {
+    assert.equal(provider.kind, 'style');
+    assert.match(provider.styleUrl, /^https:\/\/tiles\.openfreemap\.org\/styles\//);
+  }
+  assert.match(OPENFREEMAP_POSITRON.styleUrl, /\/positron$/);
+  assert.match(OPENFREEMAP_DARK.styleUrl, /\/dark$/);
   assert.equal(OSM_STANDARD_TILES.tiles[0], 'https://tile.openstreetmap.org/{z}/{x}/{y}.png');
+  assert.equal(OSM_MUTED_TILES.tiles[0], OSM_STANDARD_TILES.tiles[0]);
+  assert.ok(OSM_MUTED_TILES.paint['raster-saturation'] < 0, 'the fallback is muted');
+});
+
+test('the dark theme has its own chain: OpenFreeMap Dark, then Positron, then inverted tiles', () => {
+  assert.deepEqual(DARK_BASEMAP_CHAIN.map((provider) => provider.id), ['openfreemap-dark', 'openfreemap-positron', 'osm-tiles']);
+  assert.equal(defaultChainFor('dark'), DARK_BASEMAP_CHAIN);
+  assert.equal(defaultChainFor('light'), DEFAULT_BASEMAP_CHAIN);
+  assert.equal(defaultChainFor(undefined), DEFAULT_BASEMAP_CHAIN);
+  assert.equal(basemapTone(OPENFREEMAP_DARK), 'dark');
+  assert.equal(basemapTone(OSM_DARK_TILES), 'dark');
+  assert.equal(basemapTone(OPENFREEMAP_POSITRON), 'light');
+  assert.equal(basemapTone(OSM_MUTED_TILES), 'light');
+  assert.equal(basemapTone(null), 'light');
+});
+
+test('Liberty is a choice in Map Settings; ids resolve to the default otherwise', () => {
+  assert.equal(CHOOSABLE_STYLE_BASE_MAPS['openfreemap-liberty'], OPENFREEMAP_LIBERTY);
+  assert.equal(resolveBaseMapId('openfreemap-liberty'), 'openfreemap-liberty');
+  assert.equal(resolveBaseMapId('opentopomap'), 'opentopomap');
+  assert.equal(resolveBaseMapId('openfreemap-positron'), 'osm-standard', 'the default is not a separate choice');
+  assert.equal(resolveBaseMapId('cartodb-dark'), 'osm-standard');
 });
 
 test('every provider carries the credit its terms require', () => {
   assert.match(OPENFREEMAP_LIBERTY.attribution, /OpenFreeMap/);
   assert.match(OPENFREEMAP_LIBERTY.attribution, /OpenMapTiles/);
   assert.match(OPENFREEMAP_LIBERTY.attribution, /openstreetmap\.org\/copyright/);
+  assert.equal(OPENFREEMAP_POSITRON.attribution, OPENFREEMAP_LIBERTY.attribution);
+  assert.equal(OPENFREEMAP_DARK.attribution, OPENFREEMAP_LIBERTY.attribution);
+  assert.equal(OSM_MUTED_TILES.attribution, OSM_STANDARD_TILES.attribution);
   assert.match(OSM_STANDARD_TILES.attribution, /openstreetmap\.org\/copyright/);
   assert.match(OSM_STANDARD_TILES.attribution, /OpenStreetMap<\/a> contributors/);
 });
@@ -165,13 +206,13 @@ test('glyph requests for stacks the server lacks are asked by weight', () => {
 test('failover gives up a provider after repeated errors with no tile, and remembers it for the session', () => {
   const storage = memoryStorage();
   const failover = createBasemapFailover(DEFAULT_BASEMAP_CHAIN, { storage });
-  assert.equal(failover.current().id, 'openfreemap-liberty');
+  assert.equal(failover.current().id, 'openfreemap-positron');
   for (let i = 1; i < ERRORS_BEFORE_ANY_TILE; i += 1) assert.equal(failover.recordError(), false);
   assert.equal(failover.recordError(), true);
-  assert.equal(failover.fail().id, 'osm-tiles');
-  assert.deepEqual(JSON.parse(storage.getItem(BASEMAP_SESSION_KEY)), ['openfreemap-liberty']);
-  // The next page in the same session starts on the fallback.
-  assert.equal(createBasemapFailover(DEFAULT_BASEMAP_CHAIN, { storage }).current().id, 'osm-tiles');
+  assert.equal(failover.fail().id, 'openfreemap-liberty');
+  assert.deepEqual(JSON.parse(storage.getItem(BASEMAP_SESSION_KEY)), ['openfreemap-positron']);
+  // The next page in the same session starts on the next provider.
+  assert.equal(createBasemapFailover(DEFAULT_BASEMAP_CHAIN, { storage }).current().id, 'openfreemap-liberty');
 });
 
 test('failover tolerates scattered errors once tiles are loading', () => {
@@ -188,12 +229,12 @@ test('failover tolerates scattered errors once tiles are loading', () => {
 });
 
 test('the last provider is never given up, and unknown or broken session values are ignored', () => {
-  const storage = memoryStorage({ [BASEMAP_SESSION_KEY]: JSON.stringify(['openfreemap-liberty', 'osm-tiles', 'gone']) });
+  const storage = memoryStorage({ [BASEMAP_SESSION_KEY]: JSON.stringify(['openfreemap-positron', 'openfreemap-liberty', 'osm-tiles', 'gone']) });
   const failover = createBasemapFailover(DEFAULT_BASEMAP_CHAIN, { storage });
   assert.equal(failover.current().id, 'osm-tiles');
   assert.equal(failover.fail(), null);
-  assert.equal(createBasemapFailover(DEFAULT_BASEMAP_CHAIN, { storage: memoryStorage({ [BASEMAP_SESSION_KEY]: '{bad' }) }).current().id, 'openfreemap-liberty');
-  assert.equal(createBasemapFailover(DEFAULT_BASEMAP_CHAIN, { storage: null }).current().id, 'openfreemap-liberty');
+  assert.equal(createBasemapFailover(DEFAULT_BASEMAP_CHAIN, { storage: memoryStorage({ [BASEMAP_SESSION_KEY]: '{bad' }) }).current().id, 'openfreemap-positron');
+  assert.equal(createBasemapFailover(DEFAULT_BASEMAP_CHAIN, { storage: null }).current().id, 'openfreemap-positron');
 });
 
 test('the default base map is drawn from the provider style, below the app layers already on the map', async () => {
@@ -203,12 +244,15 @@ test('the default base map is drawn from the provider style, below the app layer
   await basemap.useDefault();
   const ids = map.style.layers.map((layer) => layer.id);
   assert.deepEqual(ids.slice(-2), ['pc-2023-fill', 'pc-2023-line'], 'the app layers stay on top');
-  assert.equal(ids[0], 'basemap-openfreemap-liberty-background');
+  assert.equal(ids[0], 'basemap-openfreemap-positron-background');
   assert.equal(ids.length, 6);
   assert.equal(map.style.glyphs, LIBERTY_STYLE.glyphs);
   assert.equal(map.style.sprite, LIBERTY_STYLE.sprite);
-  assert.match(map.style.sources['basemap-openfreemap-liberty-openmaptiles'].attribution, /OpenFreeMap/);
-  assert.deepEqual(changes, ['openfreemap-liberty:default']);
+  assert.match(map.style.sources['basemap-openfreemap-positron-openmaptiles'].attribution, /OpenFreeMap/);
+  assert.deepEqual(changes, ['openfreemap-positron:default']);
+  assert.equal(map.container.getAttribute('data-basemap'), 'openfreemap-positron');
+  assert.equal(map.container.getAttribute('data-basemap-tone'), 'light');
+  assert.equal(basemap.tone, 'light');
   // Asked again, nothing is redrawn.
   await basemap.useDefault();
   assert.equal(changes.length, 1);
@@ -216,7 +260,7 @@ test('the default base map is drawn from the provider style, below the app layer
   assert.equal(basemap.transformRequest('https://x/y.pbf', 'Tile'), undefined);
 });
 
-test('a style that does not load falls straight back to OpenStreetMap tiles', async () => {
+test('styles that do not load fall back to OpenStreetMap tiles, muted', async () => {
   const map = fakeMap(['app-layer']);
   const fetchImpl = async () => ({ ok: false, status: 503, json: async () => ({}) });
   const storage = memoryStorage();
@@ -228,8 +272,9 @@ test('a style that does not load falls straight back to OpenStreetMap tiles', as
   assert.deepEqual(map.style.layers.map((layer) => layer.id), ['basemap-raster', 'app-layer']);
   assert.equal(map.style.sources['basemap-raster'].tiles[0], OSM_STANDARD_TILES.tiles[0]);
   assert.match(map.style.sources['basemap-raster'].attribution, /OpenStreetMap/);
+  assert.deepEqual(map.style.layers[0].paint, { ...OSM_MUTED_TILES.paint });
   assert.equal(map.style.glyphs, undefined, 'no glyph server for a raster base map');
-  assert.deepEqual(JSON.parse(storage.getItem(BASEMAP_SESSION_KEY)), ['openfreemap-liberty']);
+  assert.deepEqual(JSON.parse(storage.getItem(BASEMAP_SESSION_KEY)), ['openfreemap-positron', 'openfreemap-liberty']);
 });
 
 test('tile errors on the base map switch provider and take every base map layer and source off', async () => {
@@ -238,6 +283,9 @@ test('tile errors on the base map switch provider and take every base map layer 
   await basemap.useDefault();
   // Errors on the app's own sources are none of the base map's business.
   for (let i = 0; i < 10; i += 1) map.fire('error', { sourceId: 'app' });
+  assert.equal(basemap.active.id, 'openfreemap-positron');
+  for (let i = 0; i < ERRORS_BEFORE_ANY_TILE; i += 1) map.fire('error', { sourceId: 'basemap-openfreemap-positron-openmaptiles', tile: {} });
+  await new Promise((resolve) => setImmediate(resolve));
   assert.equal(basemap.active.id, 'openfreemap-liberty');
   for (let i = 0; i < ERRORS_BEFORE_ANY_TILE; i += 1) map.fire('error', { sourceId: 'basemap-openfreemap-liberty-openmaptiles', tile: {} });
   await new Promise((resolve) => setImmediate(resolve));
@@ -255,12 +303,12 @@ test('a provider with no tile in time is given up, but not while the page is hid
   const { basemap } = manager(map, { document: doc, timers });
   await basemap.useDefault();
   timers.fire();
-  assert.equal(basemap.active.id, 'openfreemap-liberty', 'hidden: the wait starts again');
+  assert.equal(basemap.active.id, 'openfreemap-positron', 'hidden: the wait starts again');
   assert.equal(timers.size, 1);
   doc.hidden = false;
   timers.fire();
   await new Promise((resolve) => setImmediate(resolve));
-  assert.equal(basemap.active.id, 'osm-tiles');
+  assert.equal(basemap.active.id, 'openfreemap-liberty');
   assert.ok(FIRST_TILE_TIMEOUT_MS >= 5000);
 });
 
@@ -269,9 +317,9 @@ test('a provider whose tiles arrive keeps its place when the timer fires', async
   const timers = manualTimers();
   const { basemap } = manager(map, { timers });
   await basemap.useDefault();
-  map.fire('sourcedata', { sourceId: 'basemap-openfreemap-liberty-openmaptiles', tile: {} });
+  map.fire('sourcedata', { sourceId: 'basemap-openfreemap-positron-openmaptiles', tile: {} });
   timers.fire();
-  assert.equal(basemap.active.id, 'openfreemap-liberty');
+  assert.equal(basemap.active.id, 'openfreemap-positron');
 });
 
 test('a base map the reader chose is drawn as it is, with no failover, and the default comes back on request', async () => {
@@ -283,8 +331,39 @@ test('a base map the reader chose is drawn as it is, with no failover, and the d
   for (let i = 0; i < 50; i += 1) map.fire('error', { sourceId: 'basemap-raster', tile: {} });
   assert.equal(basemap.active.id, 'usgs-topo');
   await basemap.useDefault();
-  assert.equal(basemap.active.id, 'openfreemap-liberty');
+  assert.equal(basemap.active.id, 'openfreemap-positron');
   assert.equal(map.style.layers.at(-1).id, 'app-layer');
+  // Liberty, chosen in Map Settings, is drawn from its style with no failover.
+  await basemap.useStyle(OPENFREEMAP_LIBERTY);
+  assert.equal(basemap.active.id, 'openfreemap-liberty');
+  assert.equal(map.style.layers[0].id, 'basemap-openfreemap-liberty-background');
+  for (let i = 0; i < 50; i += 1) map.fire('error', { sourceId: 'basemap-openfreemap-liberty-openmaptiles', tile: {} });
+  assert.equal(basemap.active.id, 'openfreemap-liberty');
+});
+
+test('the theme picks the chain: OpenFreeMap Dark in the dark theme, with a dark tone', async () => {
+  const map = fakeMap(['app-layer']);
+  const tones = [];
+  const { basemap } = manager(map, { onChange: () => tones.push(basemap.tone) });
+  await basemap.useThemeDefault('dark');
+  assert.equal(basemap.active.id, 'openfreemap-dark');
+  assert.equal(basemap.tone, 'dark');
+  assert.equal(map.container.getAttribute('data-basemap-tone'), 'dark');
+  assert.equal(map.style.layers[0].id, 'basemap-openfreemap-dark-background');
+  await basemap.useThemeDefault('light');
+  assert.equal(basemap.active.id, 'openfreemap-positron');
+  assert.deepEqual(tones, ['dark', 'light']);
+  assert.equal(map.style.layers.filter((layer) => layer.id.startsWith('basemap-openfreemap-dark')).length, 0, 'the dark map is taken off');
+});
+
+test('a chain given to the manager is kept whatever the theme', async () => {
+  const map = fakeMap();
+  const timers = manualTimers();
+  const basemap = new BasemapManager(map, { chain: [OSM_STANDARD_TILES], storage: memoryStorage(), document: { hidden: false },
+    setTimeoutImpl: timers.setTimeoutImpl, clearTimeoutImpl: timers.clearTimeoutImpl });
+  await basemap.useThemeDefault('dark');
+  assert.equal(basemap.active.id, 'osm-tiles');
+  assert.equal(basemap.tone, 'light');
 });
 
 test('a choice made while the default style is still loading wins', async () => {
@@ -315,8 +394,9 @@ test('a named provider starts the chain (?basemap= first, then localStorage civg
   assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { search: '?basemap=osm-tiles' })), ['osm-tiles']);
   assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { storage: memoryStorage({ 'civgraph.basemap': 'osm-tiles' }) })), ['osm-tiles']);
   assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { search: '?basemap=openfreemap-liberty', storage: memoryStorage({ 'civgraph.basemap': 'osm-tiles' }) })), ['openfreemap-liberty', 'osm-tiles']);
-  assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { search: '?basemap=nonsense' })), ['openfreemap-liberty', 'osm-tiles']);
-  assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, {})), ['openfreemap-liberty', 'osm-tiles']);
+  assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, { search: '?basemap=nonsense' })), ['openfreemap-positron', 'openfreemap-liberty', 'osm-tiles']);
+  assert.deepEqual(ids(preferredChain(DEFAULT_BASEMAP_CHAIN, {})), ['openfreemap-positron', 'openfreemap-liberty', 'osm-tiles']);
+  assert.deepEqual(ids(preferredChain(DARK_BASEMAP_CHAIN, { search: '?basemap=osm-tiles' })), ['osm-tiles']);
 });
 
 // The Esri base maps were removed on 11 Nov 2026 (Esri's raw tile services need an ArcGIS licence).
@@ -324,7 +404,7 @@ const ESRI_IDS = ['esri-satellite', 'esri-world-topo', 'esri-natgeo', 'esri-ocea
 
 test('no Esri base map is choosable, and none is credited or fetched from an Esri host', () => {
   for (const id of ESRI_IDS) assert.equal(Object.hasOwn(CHOOSABLE_BASE_MAPS, id), false, id);
-  const everything = JSON.stringify({ CHOOSABLE_BASE_MAPS, DEFAULT_BASEMAP_CHAIN });
+  const everything = JSON.stringify({ CHOOSABLE_BASE_MAPS, CHOOSABLE_STYLE_BASE_MAPS, DEFAULT_BASEMAP_CHAIN, DARK_BASEMAP_CHAIN });
   assert.doesNotMatch(everything, /arcgisonline|esri/i);
 });
 
