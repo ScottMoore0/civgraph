@@ -11,6 +11,7 @@ import { legacyLayerId, renameLayerId, renamePmtilesKey } from '@civgraph/core/l
 import { copyPairs, copySource, MAX_SINGLE_COPY_BYTES, planManifest, validateManifest, verifyPairs } from '../../scripts/publish/r2-copy-keys.mjs';
 import { s3BlobStore } from '@civgraph/storage/s3.mjs';
 
+const LEGACY_DIR = 'data/maps/test/pmtiles/generated/';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 test('layer ids lose their -test suffix, and the rule reverses', () => {
@@ -24,11 +25,11 @@ test('layer ids lose their -test suffix, and the rule reverses', () => {
 });
 
 test('PMTiles keys and CDN URLs map to the new prefix; anything else is not covered', () => {
-  assert.deepEqual(renamePmtilesKey('https://data.civgraph.net/data/maps/test/pmtiles/generated/wards-1984-vector-test.pmtiles'),
-    { from: 'data/maps/test/pmtiles/generated/wards-1984-vector-test.pmtiles', to: 'data/maps/pmtiles/wards-1984-vector.pmtiles' });
-  assert.deepEqual(renamePmtilesKey('data/maps/test/pmtiles/generated/eds-leinster-1910-vector-2026-11-23.pmtiles'),
-    { from: 'data/maps/test/pmtiles/generated/eds-leinster-1910-vector-2026-11-23.pmtiles', to: 'data/maps/pmtiles/eds-leinster-1910-vector-2026-11-23.pmtiles' });
-  assert.equal(renamePmtilesKey('data/maps/test/pmtiles/generated/x-2026-11-23.pmtiles'), null);
+  assert.deepEqual(renamePmtilesKey(`https://data.civgraph.net/${LEGACY_DIR}wards-1984-vector-test.pmtiles`),
+    { from: `${LEGACY_DIR}wards-1984-vector-test.pmtiles`, to: 'data/maps/pmtiles/wards-1984-vector.pmtiles' });
+  assert.deepEqual(renamePmtilesKey(`${LEGACY_DIR}eds-leinster-1910-vector-2026-11-23.pmtiles`),
+    { from: `${LEGACY_DIR}eds-leinster-1910-vector-2026-11-23.pmtiles`, to: 'data/maps/pmtiles/eds-leinster-1910-vector-2026-11-23.pmtiles' });
+  assert.equal(renamePmtilesKey(`${LEGACY_DIR}x-2026-11-23.pmtiles`), null);
   assert.equal(renamePmtilesKey('/render/pmtiles/generated/wards-1984-vector-test.pmtiles'), null);
   assert.equal(renamePmtilesKey('data/maps/test/pmtiles/generated/sub/x-vector-test.pmtiles'), null);
   assert.equal(renamePmtilesKey('data/maps/test/pmtiles/generated/x.pmtiles'), null);

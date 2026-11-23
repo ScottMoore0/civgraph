@@ -5,7 +5,8 @@ import {
   checkKeyTransition, keyMigration, pairShapeProblem, stateAfterCopy, stateFromVerify,
 } from '../../scripts/publish/key-migration.mjs';
 
-const OLD = 'data/maps/test/pmtiles/generated/x-vector-test.pmtiles';
+const OLD_DIR = 'data/maps/test/pmtiles/generated/';
+const OLD = `${OLD_DIR}x-vector-test.pmtiles`;
 const NEW = 'data/maps/pmtiles/x-vector.pmtiles';
 
 test('the walk from old key to retired old key is the only way through', () => {
@@ -36,10 +37,10 @@ test("r2-copy-keys's statuses map onto the states", () => {
 test('a pair must be the rename: legacy (or already current) name to a current name', () => {
   assert.equal(pairShapeProblem({ from: OLD, to: NEW }), null);
   // An archive uploaded after the id rename, at the old prefix.
-  assert.equal(pairShapeProblem({ from: 'data/maps/test/pmtiles/generated/x-vector.pmtiles', to: NEW }), null);
+  assert.equal(pairShapeProblem({ from: `${OLD_DIR}x-vector.pmtiles`, to: NEW }), null);
   assert.match(pairShapeProblem({ from: OLD, to: 'data/maps/pmtiles/x-vector-test.pmtiles' }), /not named by a renamed/);
-  assert.match(pairShapeProblem({ from: 'data/maps/test/pmtiles/generated/x.pmtiles', to: NEW }), /either side/);
+  assert.match(pairShapeProblem({ from: `${OLD_DIR}x.pmtiles`, to: NEW }), /either side/);
   // A rebuild uploaded under a dated name keeps it.
-  assert.equal(pairShapeProblem({ from: 'data/maps/test/pmtiles/generated/x-vector-2026-11-23.pmtiles', to: 'data/maps/pmtiles/x-vector-2026-11-23.pmtiles' }), null);
-  assert.match(pairShapeProblem({ from: 'data/maps/test/pmtiles/generated/x-2026-11-23.pmtiles', to: 'data/maps/pmtiles/x-vector.pmtiles' }), /either side/);
+  assert.equal(pairShapeProblem({ from: `${OLD_DIR}x-vector-2026-11-23.pmtiles`, to: 'data/maps/pmtiles/x-vector-2026-11-23.pmtiles' }), null);
+  assert.match(pairShapeProblem({ from: `${OLD_DIR}x-2026-11-23.pmtiles`, to: 'data/maps/pmtiles/x-vector.pmtiles' }), /either side/);
 });
