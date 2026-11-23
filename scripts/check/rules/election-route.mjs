@@ -209,7 +209,7 @@ function assertCatalogueMetadata() {
   for (const hiddenId of ['eds-roi-1921-06-28']) {
     assert(!publicBrowseMapIds.has(hiddenId), `Public Browse maps index must not expose hidden map ${hiddenId}`);
   }
-  assert(!uiControllerSource.includes("'eds-roi-1921-06-28'"), 'Flat catalogue must not hard-code the hidden duplicate 28 June 1921 ED/Ward record');
+  assert(!uiControllerSource.includes("'eds-roi-1921-06-28'"), 'Flat catalogue must not hard-code the hidden ED record eds-roi-1921-06-28 (a copy of the 1 Oct 1921 map, eds-1926)');
   assert(uiControllerSource.includes("id: 'flat-provinces', name: 'Provinces', years: '1899-1955'"), 'Flat catalogue Provinces card must reflect the visible 1899-1955 records, not hidden Provinces 2019');
   assert(uiControllerSource.includes('shouldExpandVariantsByDefault(map)') && uiControllerSource.includes("'eds-1983'"), 'Flat catalogue must expand 1971/1977/1980/1983 ED/Ward province child variants by default');
 

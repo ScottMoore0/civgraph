@@ -49,6 +49,10 @@ five classes with orphans. Each was judged individually rather than bulk-added â
 Members are ordered descending by date, matching the existing convention. No date
 collides with an existing member.
 
+Update, 23 Nov 2026: `eds-roi-1921-06-28` left the class again. It draws the same four files as
+`eds-1926` (1 Oct 1921), and Phelim Birch confirmed there was no June 1921 edition; the record is
+re-dated 1 Oct 1921, stays hidden, and the catalogue's `hidden` list points it at `eds-1926`.
+
 ### Left out on purpose (4)
 
 | Class | Not added | Why |

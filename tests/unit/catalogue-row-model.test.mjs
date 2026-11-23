@@ -159,12 +159,13 @@ test('on the catalogue: a hidden copy, version or part opens the map it links to
     ['civil-parishes', 'civil-parishes-by-province'], ['provinces', 'provinces-1955'], ['hsct-2007', 'ni-health-trust-boundaries'],
     ['pc-1884', 'pc-1885-ireland'], ['pc-1918-26-counties', 'pc-1918-ireland'], ['townland-boundaries', 'all-ireland-townlands'],
     ['hed-listed-buildings', 'ni-listed-buildings'], ['ni-250k-geology', 'gsni-bedrock-geology-lines-250k'],
+    ['eds-roi-1921-06-28', 'eds-1926'],
   ];
   for (const [id, to] of kept) assert.equal(h.get(id), to, id);
-  // Every map in no row that a link sends elsewhere: 20 followed, the 5 referendums not.
+  // Every map in no row that a link sends elsewhere: 21 followed, the 5 referendums not.
   const linked = Object.entries(doc.mapLinks || {}).filter(([id, l]) => l.map && l.map !== id && !doc.series.some((s) => [...s.members, ...(s.local || [])].some((m) => m.id === id)));
-  assert.equal(linked.length, 25);
-  assert.equal(linked.filter(([id]) => h.has(id)).length, 20);
+  assert.equal(linked.length, 26);
+  assert.equal(linked.filter(([id]) => h.has(id)).length, 21);
 });
 
 test("a map's own description: a census statistic's, as its record has it; none for other maps", () => {
