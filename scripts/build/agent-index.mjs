@@ -7,15 +7,16 @@
  * (WebGL/MapLibre) UI. Regenerate whenever maps.json changes.
  *
  * Every map in maps.json is listed, with its `status` in the catalogue's own states (ready, partial,
- * to-be-added; packages/core/src/agent-map-status.mjs). A map to be added keeps its metadata and has no
- * geometry link; a hidden copy or part points at the map it belongs to (`sameAs`, `partOf`).
+ * to-be-added, retired; packages/core/src/agent-map-status.mjs). A map to be added or retired keeps its
+ * metadata and has no geometry link; a retired map names the map to use instead when its record does
+ * (`replacedBy`); a hidden copy or part points at the map it belongs to (`sameAs`, `partOf`).
  *
  * Usage: node scripts/build/agent-index.mjs
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { SITE } from '@civgraph/config/node';
 import { derivedFromLines } from '@civgraph/core/credits.mjs';
-import { agentMapStatuses } from '@civgraph/core/agent-map-status.mjs';
+import { AGENT_MAP_STATUSES, agentMapStatuses } from '@civgraph/core/agent-map-status.mjs';
 
 const doc = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
 const catGroup = new Map((doc.categories || []).map((/** @type {{ id: string, group?: string }} */ c) => [c.id, c.group || '']));
@@ -46,6 +47,7 @@ for (const m of doc.maps || []) {
     status: st.status,
     sameAs: st.sameAs,
     partOf: st.partOf,
+    replacedBy: st.replacedBy,
     category: m.category,
     categoryGroup: catGroup.get(m.category) || undefined,
     provider: Array.isArray(m.provider) ? m.provider : (m.provider ? [m.provider] : undefined),
@@ -80,10 +82,10 @@ const out = {
   // No JSON Schema is published for this index: the agent guide describes it (a 404 address stood here until 24 Nov 2026).
   $schema: `${SITE.origin}/agent/guide.md (informal)`,
   generatedFrom: 'data/database/maps.json + data/database/data-entries.json',
-  about: 'Civgraph catalogue for AI agents. `maps` lists every map with its `status` (ready, partial or to-be-added, as in the catalogue) and links each map the site shows to a FlatGeobuf (.fgb, EPSG:4326) geometry on https://data.civgraph.net; a map to be added has no geometry link. `dataOverlays` links statistical tables (census, NIMDM deprivation, …) as CSVs joined to a map layer by `joinKey`. Fetch the CSV(s) and/or geometry and compute directly — see https://civgraph.net/agent/guide.md.',
+  about: 'Civgraph catalogue for AI agents. `maps` lists every map with its `status` (ready, partial, to-be-added or retired, as in the catalogue) and links each map the site shows to a FlatGeobuf (.fgb, EPSG:4326) geometry on https://data.civgraph.net; a map to be added or retired has no geometry link, and a retired map names the map to use instead in `replacedBy` when there is one. `dataOverlays` links statistical tables (census, NIMDM deprivation, …) as CSVs joined to a map layer by `joinKey`. Fetch the CSV(s) and/or geometry and compute directly — see https://civgraph.net/agent/guide.md.',
   count: maps.length,
   withGeometry: maps.filter((m) => m.geometry).length,
-  statusCounts: Object.fromEntries(['ready', 'partial', 'to-be-added'].map((k) => [k, maps.filter((m) => m.status === k).length])),
+  statusCounts: Object.fromEntries(AGENT_MAP_STATUSES.map((k) => [k, maps.filter((m) => m.status === k).length])),
   dataOverlayCount: dataOverlays.length,
   maps,
   dataOverlays,

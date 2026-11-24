@@ -190,6 +190,10 @@ export interface MapEntry {
   featured?: boolean;
   hidden?: boolean;
   hiddenReason?: string;
+  /** A hidden map that is not coming back (the agent index's `retired`). */
+  retired?: boolean;
+  /** A retired map: the map to use instead. */
+  replacedBy?: string;
   placeholder?: boolean;
   incomplete?: boolean;
   isGroup?: boolean;
