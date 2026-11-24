@@ -3,7 +3,7 @@ import {
   buildPartySummary
 } from '../../core/src/election-domain.mjs';
 import { escapeHtml } from '../../core/src/html.js';
-import { citationLinks } from '../../core/src/link-health.mjs';
+import { citationLinkOrder } from '../../core/src/link-health.mjs';
 
 /** @typedef {import('../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 /** @typedef {import('../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
@@ -198,7 +198,7 @@ export class MainElectionPaneContract {
     // and which edition -- "Walker (ed.), 1978, General election, 1918 (pp. 187-196)".
     const printed = !source.url;
     // A link the link review found dead: its archived copy is cited, the original struck through after it.
-    const at = citationLinks(source);
+    const at = citationLinkOrder(source);
     const cited = printed ? `<cite>${escapeHtml(label)}</cite>`
       : at.main ? `${link(at.main, label)}${at.mainIsArchive ? ' (archived copy)' : ''}` : escapeHtml(label);
     const dead = at.deadOriginal ? ` <s>${link(at.deadOriginal, 'Original link, no longer available')}</s>.` : '';

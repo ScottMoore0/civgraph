@@ -5,8 +5,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  citationLinks, deadLinkStatus, isOwnMirror, verifiedArticleUrl, wikipediaReferenceUrl, withLinkHealth,
-} from '../../packages/core/src/link-health.mjs';
+  citationLinkOrder, deadLinkStatus, isOwnMirror, verifiedArticleUrl, wikipediaReferenceUrl, withLinkHealth,
+} from '@civgraph/core/link-health.mjs';
 import { deadLinks, linkKey, mirrorIndex } from '../../scripts/build/build-dead-links.mjs';
 
 const ORIGIN = 'https://data.civgraph.net';
@@ -72,12 +72,12 @@ test('a dead citation link carries its archived copy: own mirror first, then the
 });
 
 test('which address a citation shows first', () => {
-  assert.deepEqual(citationLinks({ url: 'https://a', archiveUrl: 'https://arch' }), { main: 'https://a', mainIsArchive: false, archive: 'https://arch', deadOriginal: null });
-  assert.deepEqual(citationLinks({ url: 'https://a', archiveUrl: 'https://arch', urlDead: 1 }), { main: 'https://arch', mainIsArchive: true, archive: null, deadOriginal: 'https://a' });
-  assert.deepEqual(citationLinks({ url: 'https://a', archiveUrl: null, urlDead: true }), { main: null, mainIsArchive: false, archive: null, deadOriginal: 'https://a' });
-  assert.deepEqual(citationLinks({ url: null, archiveUrl: 'https://arch' }), { main: 'https://arch', mainIsArchive: true, archive: null, deadOriginal: null });
-  assert.deepEqual(citationLinks({ url: 'https://a', archiveUrl: 'https://a' }), { main: 'https://a', mainIsArchive: false, archive: null, deadOriginal: null });
-  assert.deepEqual(citationLinks({}), { main: null, mainIsArchive: false, archive: null, deadOriginal: null });
+  assert.deepEqual(citationLinkOrder({ url: 'https://a', archiveUrl: 'https://arch' }), { main: 'https://a', mainIsArchive: false, archive: 'https://arch', deadOriginal: null });
+  assert.deepEqual(citationLinkOrder({ url: 'https://a', archiveUrl: 'https://arch', urlDead: 1 }), { main: 'https://arch', mainIsArchive: true, archive: null, deadOriginal: 'https://a' });
+  assert.deepEqual(citationLinkOrder({ url: 'https://a', archiveUrl: null, urlDead: true }), { main: null, mainIsArchive: false, archive: null, deadOriginal: 'https://a' });
+  assert.deepEqual(citationLinkOrder({ url: null, archiveUrl: 'https://arch' }), { main: 'https://arch', mainIsArchive: true, archive: null, deadOriginal: null });
+  assert.deepEqual(citationLinkOrder({ url: 'https://a', archiveUrl: 'https://a' }), { main: 'https://a', mainIsArchive: false, archive: null, deadOriginal: null });
+  assert.deepEqual(citationLinkOrder({}), { main: null, mainIsArchive: false, archive: null, deadOriginal: null });
 });
 
 test('the dead-link list: severity, moves, links fixed at source, own addresses, mirror matching', () => {

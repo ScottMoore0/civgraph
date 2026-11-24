@@ -1632,13 +1632,13 @@ function resolvedElectionArticle(key) {
  * @returns {import('@civgraph/core/link-health.mjs').VerifiedArticles}
  */
 function verifiedWikipediaArticles() {
-  if (!VERIFIED_ARTICLES.all) {
-    try { VERIFIED_ARTICLES.all = JSON.parse(readFileSync(path.join(ROOT, 'data/elections/wikipedia-verified-articles.json'), 'utf8')).articles || {}; } catch { VERIFIED_ARTICLES.all = {}; }
+  // Cached on the function (main() runs before a module-level const below it would exist).
+  const cache = /** @type {{ all?: import('@civgraph/core/link-health.mjs').VerifiedArticles }} */ (verifiedWikipediaArticles);
+  if (!cache.all) {
+    try { cache.all = JSON.parse(readFileSync(path.join(ROOT, 'data/elections/wikipedia-verified-articles.json'), 'utf8')).articles || {}; } catch { cache.all = {}; }
   }
-  return /** @type {import('@civgraph/core/link-health.mjs').VerifiedArticles} */ (VERIFIED_ARTICLES.all);
+  return /** @type {import('@civgraph/core/link-health.mjs').VerifiedArticles} */ (cache.all);
 }
-/** @type {{ all?: import('@civgraph/core/link-health.mjs').VerifiedArticles }} */
-const VERIFIED_ARTICLES = {};
 
 /**
  * The Wikipedia article for an election: the resolved one, else a title derived from the

@@ -8,7 +8,7 @@
  * Input is a link review's broken-link table (CSV: severity, outcome, url, wayback_snapshot, ...).
  * Kept: severity high or medium whose outcome is not a move (a moved link still answers). Left out:
  * links fixed where they are made (derived Wikipedia titles, NI Assembly member pages,
- * ElectionsIreland pages), and Civgraph's own addresses (fixed or uploaded, never archived).
+ * the ElectionsIreland pages removed or repointed), and Civgraph's own addresses (fixed or uploaded, never archived).
  *
  * A mirror is matched through its manifest (an array of { key, sourceUrl, alsoAt? }) and used only
  * when its key is in the list of published keys, so the list never points at an object that is not
@@ -31,7 +31,8 @@ const OUT = path.join(REPO_ROOT, 'data', 'database', 'dead-links.json');
 const FIXED_AT_SOURCE = [
   /^https:\/\/en\.wikipedia\.org\/wiki\//,                 // derived titles: only verified articles are linked
   /^https:\/\/aims\.niassembly\.gov\.uk\/mlas\/details\.aspx/i, // member pages: the template carries the working query
-  /^https?:\/\/(www\.)?electionsireland\.org\//i,          // removed or repointed in the contest files
+  // the 1974, 1979 and 1985 local pages (removed from the contest files) and Galway cons 120 (repointed to 734)
+  /^https?:\/\/(www\.)?electionsireland\.org\/result\.cfm\?election=(?:(?:1974|1979|1985)L&|[^&]*&cons=120$)/i,
 ];
 
 /**
@@ -111,6 +112,7 @@ function main() {
     console.error('usage: node scripts/build/build-dead-links.mjs --review <broken.csv> [--mirror <prefix> <manifest.json> <keys.txt>]... [--checked YYYY-MM-DD] [--check]');
     process.exit(2);
   }
+  /** @type {ReturnType<typeof mirrorIndex>[]} */
   const mirrors = [];
   args.forEach((a, i) => {
     if (a !== '--mirror') return;
@@ -122,7 +124,7 @@ function main() {
   const values = Object.values(links);
   const doc = {
     schemaVersion: 1,
-    about: 'Outside links found dead in the site\'s link review, each with the copy to show instead: Civgraph\'s own mirror (data origin) where it holds one, else an Internet Archive capture, else null. Read by scripts/build/build-election-provenance.mjs (packages/core/src/link-health.mjs): a citation of a dead link keeps its address, marked urlDead, and shows its archived copy first. Built by scripts/build/build-dead-links.mjs from the review\'s broken-link table (high and medium severity, not moved); links fixed where they are made (derived Wikipedia titles, NI Assembly member pages, ElectionsIreland pages) and Civgraph\'s own addresses are left out.',
+    about: 'Outside links found dead in the site\'s link review, each with the copy to show instead: Civgraph\'s own mirror (data origin) where it holds one, else an Internet Archive capture, else null. Read by scripts/build/build-election-provenance.mjs (packages/core/src/link-health.mjs): a citation of a dead link keeps its address, marked urlDead, and shows its archived copy first. Built by scripts/build/build-dead-links.mjs from the review\'s broken-link table (high and medium severity, not moved); links fixed where they are made (derived Wikipedia titles, NI Assembly member pages, the ElectionsIreland pages removed or repointed) and Civgraph\'s own addresses are left out.',
     checked: at('--checked') || new Date().toISOString().slice(0, 10),
     counts: {
       links: values.length,

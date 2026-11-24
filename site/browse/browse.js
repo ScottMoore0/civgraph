@@ -6,7 +6,7 @@ import {
 import { escapeHtml } from '../pkg/core/src/html.js';
 import { foldSearchText, personRecordKey, siteNumber, slugify } from '../pkg/core/src/format.js';
 import { candidateReturnWithoutPoll, partyHadNoPoll } from '../pkg/core/src/unopposed.mjs';
-import { citationLinks as citationLinkOrder } from '../pkg/core/src/link-health.mjs';
+import { citationLinkOrder } from '../pkg/core/src/link-health.mjs';
 import { SITE } from '../pkg/config/src/config.js';
 import { electionKindLabels } from '../pkg/registries/src/browser/election-type-names.mjs';
 import { sourceKindLabels } from '../pkg/registries/src/browser/source-kind-labels.mjs';
@@ -4479,7 +4479,7 @@ const CITATION_KIND_LABELS = sourceKindLabels;
  */
 function citationHtml(citation) {
   // A link the link review found dead (urlDead) shows its archived copy first and the original
-  // struck through; a working one keeps its archived copy after it (link-health.mjs citationLinks).
+  // struck through; a working one keeps its archived copy after it (link-health.mjs citationLinkOrder).
   const at = citationLinkOrder({ url: safeExternalUrl(citation['url']), archiveUrl: safeExternalUrl(citation['archiveUrl']), urlDead: citation['urlDead'] });
   const url = at.main || at.deadOriginal || '';
   const host = citation['host'] || (url ? url.replace(/^https?:\/\/(www\.)?/i, '').split('/')[0] : '');

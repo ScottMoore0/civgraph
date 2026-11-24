@@ -101,7 +101,7 @@ export function withLinkHealth(citation, deadLinks, dataOrigin) {
  * @param {{ url?: string | null, archiveUrl?: string | null, urlDead?: unknown }} citation
  * @returns {{ main: string | null, mainIsArchive: boolean, archive: string | null, deadOriginal: string | null }}
  */
-export function citationLinks(citation) {
+export function citationLinkOrder(citation) {
   const url = citation.url || null;
   const archive = citation.archiveUrl || null;
   if (url && citation.urlDead) return { main: archive, mainIsArchive: Boolean(archive), archive: null, deadOriginal: url };

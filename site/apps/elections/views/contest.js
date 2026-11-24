@@ -21,7 +21,7 @@ import { mountContestNav } from './contest-nav.js';
 import { STV_VIEW_TEXT, stvParts, wireStepper } from './stv-contest.js';
 import { quotaFraction } from '../lib/stv.js';
 import { SOURCE_WORDS, sourceWords } from '../lib/source-words.js';
-import { citationLinks } from '../../../pkg/core/src/link-health.mjs';
+import { citationLinkOrder } from '../../../pkg/core/src/link-health.mjs';
 import { referendumContestHtml } from './referendum.js';
 
 /** @type {Record<string, string>} */
@@ -169,11 +169,11 @@ function outcome(r, order = true) {
 }
 
 /** One citation: title (linked), publisher, kind and what it covers, and how it was checked (lib/source-words.js). */
-/** A citation whose link the link review found dead (urlDead) shows its archived copy first and the original struck through (citationLinks). */
+/** A citation whose link the link review found dead (urlDead) shows its archived copy first and the original struck through (citationLinkOrder). */
 /** @param {{ url?: string | null, title?: string | null, host?: string | null, archiveUrl?: string | null, urlDead?: number | boolean | null, publisher?: string | null, kind?: string | null, scope?: string | null, basis?: string | null, check?: string | null, checked?: boolean, accessed?: string | null }} ci */
 export function citation(ci) {
   const w = sourceWords(ci);
-  const at = citationLinks(ci);
+  const at = citationLinkOrder(ci);
   const link = (at.main ? `<a href="${esc(at.main)}" rel="noopener">${esc(w.title)}</a>` : esc(w.title))
     + (at.mainIsArchive ? ` (${esc(SOURCE_WORDS.archivedCopy)})` : '');
   const archive = (at.archive ? ` (<a href="${esc(at.archive)}" rel="noopener">${esc(SOURCE_WORDS.archivedCopy)}</a>)` : '')
