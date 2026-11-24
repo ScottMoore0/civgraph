@@ -3,15 +3,18 @@
  * provider registry) and what it was derived from. A layer built for Civgraph from other people's
  * maps (a Poor Law Union map grouped from Phelim Birch's and Paddy Matthews's DED maps) credits its
  * builder as provider and carries "Derived from ..." in `sourceCredits`, so the makers of the maps
- * underneath stay in view without being credited as its makers (owner-approved, 17 Nov 2026).
+ * underneath stay in view without being credited as its makers (owner-approved, 17 Nov 2026). A layer
+ * joined from whole areas of another Civgraph map says "Assembled from ..." instead (the European
+ * Parliament constituencies, from Counties of Ireland; owner-approved, 24 Nov 2026); both are
+ * derived-from lines here.
  * Every place that shows a map's credit (the catalogue rows and citation, the map's Sources panel,
  * the image export, the agent maps index) reads it through here. Pure.
  */
 
-const DERIVED = /^derived from\s/i;
+const DERIVED = /^(?:derived|assembled) from\s/i;
 
 /**
- * The "Derived from ..." lines of a record's source credits, trimmed, each once.
+ * The "Derived from ..." (or "Assembled from ...") lines of a record's source credits, trimmed, each once.
  * @param {unknown} sourceCredits  maps.json / render-layer `sourceCredits`
  * @returns {string[]}
  */

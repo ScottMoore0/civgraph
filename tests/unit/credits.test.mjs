@@ -14,6 +14,8 @@ test('the derived-from lines are picked out of the source credits, trimmed, each
   assert.deepEqual(derivedFromLines(undefined), []);
   assert.deepEqual(derivedFromLines('Derived from a string, not a list'), []);
   assert.deepEqual(derivedFromLines(['Derived fromage']), []);
+  const EP = 'Assembled from Counties of Ireland by Tailte Éireann and OSNI';
+  assert.deepEqual(derivedFromLines(['Tailte Éireann', 'OSNI', EP, 'Assembled']), [EP]);
   assert.deepEqual(mergedDerivedFromLines(['Scott Moore', PLU], undefined, [PLU]), [PLU]);
 });
 
@@ -26,6 +28,8 @@ test('the credit line is the providers, then what the layer was derived from', (
   assert.equal(creditLine([], [PLU, 'Derived from OSNI townlands']), `${PLU}; derived from OSNI townlands`);
   assert.equal(creditLine(['Moore'], ['Derived from X'], { separator: ' / ' }), 'Moore; derived from X');
   assert.equal(creditLine([], []), '');
+  assert.equal(creditLine(['Tailte Éireann'], ['Assembled from Counties of Ireland by Tailte Éireann']),
+    'Tailte Éireann; assembled from Counties of Ireland by Tailte Éireann');
 });
 
 test('a row says the derived-from lines of its maps once', () => {
@@ -61,4 +65,5 @@ test('every map that credits its builder only and names its sources says what it
     assert.deepEqual(agentById.get(m.id)?.derivedFrom, lines, `${m.id} agent index derivedFrom`);
   }
   assert.match(catalogue.maps['plu-roi-1921-04-01'].derivedFrom[0], /^Derived from .*Phelim Birch and Paddy Matthews$/);
+  assert.deepEqual(catalogue.maps['mep-2024'].derivedFrom, ['Assembled from Counties of Ireland by Tailte Éireann']);
 });
