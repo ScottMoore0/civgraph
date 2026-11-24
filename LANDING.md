@@ -33,10 +33,11 @@ Nothing is published: no catalogue rows, layers, explorer entries, R2 or D1 chan
 
 - census unit tests: 21 pass.
 - `npm run check:architecture`: clean against the baseline.
-- `npm run check:fast`: 85 of 86 pass. `check:app-shell-cache` fails on `site/sw.js` VERSION
-  against `site/app/build/app.bundle.js`: the worktree copies main's `site/app/build` (main's working
-  tree has an uncommitted `site/sw.js` / build), and this branch touches nothing under `site/`.
-  It is not from this branch.
+- `npm run check:fast`: CHECKS OK, 86 steps (after rebasing on main c5a28a61e2; before that rebase
+  check:app-shell-cache failed on main's own stale token, not on this branch, which touches nothing
+  under `site/`).
+- `npm run check:local-paths`, `check:doc-status`, `test:intake`: pass (no machine paths; the doc
+  declares its status; the plugin accounts for every file).
 
 ## Architecture rules
 - Rules touched: R1 (scripts under scripts/ingest/census/, the census plugin's unit; Python, outside
