@@ -45,8 +45,7 @@ townland. The Lennon Wylie directories were not needed for any decision in this 
 - Batch 13 (e19dc16f9b; pairs 95/938 Mullan): Glenariff man -> 136764, Loughmacrory/Carrickmore man -> 143958, kept apart; Armagh rows
   1902-14 left. 8 stamps moved; 0 retired; 0 new.
 
-Totals: 82 stamps moved, 12 ids retired (each answering), 15 new ids (`bna-split
-ew-person-ids-part3.csv`).
+Totals: 82 stamps moved, 12 ids retired (each answering), 15 new ids (`bna-split\new-person-ids-part3.csv`).
 
 ## Checks (each batch)
 
