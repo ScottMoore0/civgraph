@@ -139,8 +139,17 @@ const ALT = {
 };
 // What a row or an election is, in a few sentences with their links (Phelim Birch's
 // descriptions document): shown when it is opened, on a map's Details page and on Browse.
-/** @type {{ rows?: Record<string, unknown>, elections?: Record<string, unknown> }} */
+/** @type {{ rows?: Record<string, unknown>, elections?: Record<string, unknown>, author?: unknown }} */
 const descriptions = read('data/catalogue/descriptions.json');
+/** Who wrote the descriptions (descriptions.json `author`), '' when it names nobody. */
+const descriptionAuthor = typeof descriptions.author === 'string' ? descriptions.author.trim() : '';
+/**
+ * A description with its author, credited under it wherever it is shown: "Description: Phelim
+ * Birch" (citations review P07, owner-approved 24 Nov 2026).
+ * @param {unknown} about
+ * @returns {unknown}
+ */
+const describedBy = (about) => (descriptionAuthor && about && typeof about === 'object' ? { ...about, by: descriptionAuthor } : about);
 // Maps kept out of the pane on purpose, each with its reason; their parts may be placed instead.
 const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
 /** @type {{ records: Map<string, MapRecord>, parts: Map<string, PartLink[]> }} */
@@ -529,7 +538,7 @@ for (const s of source.series) {
   const alt = altNames(entry, { irishNames: ALT.irishNames, mapIrish: (id) => ALT.overlay[id]?.ga, oldIds: ALT.oldIds.get(s.id) || [], subjectIds: ALT.subjectIds });
   if (alt.length) entry.alt = alt;
   if (s.description) entry.description = s.description;
-  if (descriptions.rows?.[s.id]) entry.about = descriptions.rows[s.id];
+  if (descriptions.rows?.[s.id]) entry.about = describedBy(descriptions.rows[s.id]);
   seriesOut.push(entry);
 }
 for (const sub of source.subjects) for (const id of sub.toBeAdded || []) addMap(id);
@@ -582,7 +591,7 @@ const electionsOut = [...elections.filter((e) => !isNiLocalCouncilRound(e)).map(
   if (e.bodyGroup) rec.bodyGroup = e.bodyGroup;
   if (e.placeholder || e.loadable === false) rec.mapless = true;
   if (e.displaySubtitle) rec.subtitle = e.displaySubtitle;
-  if (descriptions.elections?.[e.key]) rec.about = descriptions.elections[e.key];
+  if (descriptions.elections?.[e.key]) rec.about = describedBy(descriptions.elections[e.key]);
   // Where it was held: Westminster elections before 1922 were all-Ireland ones.
   // The 1918 general election, filed as the first Dail's, was an all-island Westminster election.
   // A body data/registries/election-bodies.json describes says where its elections were held

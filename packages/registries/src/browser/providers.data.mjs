@@ -235,14 +235,6 @@ export default {
    ]
   ],
   [
-   "historic-maps",
-   "Historic Maps",
-   "Historic Maps",
-   [
-    "Historic Maps"
-   ]
-  ],
-  [
    "iho",
    "International Hydrographic Organization",
    "IHO",
@@ -297,6 +289,70 @@ export default {
    "Monaghan County Council",
    [
     "Monaghan County Council"
+   ]
+  ],
+  [
+   "roscommon",
+   "Roscommon County Council",
+   "Roscommon County Council",
+   [
+    "Roscommon County Council"
+   ]
+  ],
+  [
+   "wicklow",
+   "Wicklow County Council",
+   "Wicklow County Council",
+   [
+    "Wicklow County Council"
+   ]
+  ],
+  [
+   "westmeath",
+   "Westmeath County Council",
+   "Westmeath County Council",
+   [
+    "Westmeath County Council"
+   ]
+  ],
+  [
+   "galway-city",
+   "Galway City Council",
+   "Galway City Council",
+   [
+    "Galway City Council"
+   ]
+  ],
+  [
+   "galway-county",
+   "Galway County Council",
+   "Galway County Council",
+   [
+    "Galway County Council"
+   ]
+  ],
+  [
+   "nta",
+   "National Transport Authority",
+   "National Transport Authority",
+   [
+    "National Transport Authority"
+   ]
+  ],
+  [
+   "heritage-council",
+   "Heritage Council",
+   "Heritage Council",
+   [
+    "Heritage Council"
+   ]
+  ],
+  [
+   "nms",
+   "National Monuments Service",
+   "National Monuments Service",
+   [
+    "National Monuments Service"
    ]
   ],
   [
@@ -369,14 +425,6 @@ export default {
    "OPW",
    [
     "Office of Public Works"
-   ]
-  ],
-  [
-   "open-data-ni",
-   "Open Data NI",
-   "Open Data NI",
-   [
-    "Open Data NI"
    ]
   ],
   [
@@ -497,14 +545,6 @@ export default {
    "XrysD",
    [
     "XrysD"
-   ]
-  ],
-  [
-   "data-gov-ie",
-   "data.gov.ie",
-   "data.gov.ie",
-   [
-    "data.gov.ie"
    ]
   ]
  ]

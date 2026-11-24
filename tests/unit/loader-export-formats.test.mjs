@@ -51,6 +51,11 @@ test('export formats: each writer writes the files it lists, and skips a source 
     assert.equal(gunzipSync(readFileSync(path.join(out, 'civgraph-records-v1.sqlite.gz'))).toString(), 'a database');
     assert.deepEqual(readFileSync(path.join(out, 'civgraph-records-latest.sqlite.gz')), readFileSync(path.join(out, 'civgraph-records-v1.sqlite.gz')));
     assert.equal(gunzipSync(readFileSync(path.join(out, 'civgraph-rdf.ndjson.gz'))).toString(), 'a b c .\n');
+    // The shard archive carries its licence and credit as LICENCE.txt (citations review S15).
+    const tar = gunzipSync(readFileSync(path.join(out, 'civgraph-graph-shards.tar.gz'))).toString('latin1');
+    assert.match(tar, /LICENCE\.txt/);
+    assert.match(tar, /Creative Commons Attribution 4\.0 licence/);
+    assert.match(tar, /statement-shards/);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

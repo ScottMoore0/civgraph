@@ -52,7 +52,10 @@ async function inspectSvg(page, svg) {
       viewBox: root.getAttribute('viewBox'),
       title: root.querySelector(':scope > title')?.textContent || '',
       desc: root.querySelector(':scope > desc')?.textContent || '',
-      licence: root.querySelector('metadata')?.innerHTML.includes('creativecommons.org/licenses/by-sa/4.0') || false,
+      // The image's licence follows the maps shown (licence-rights.mjs imageLicence): a map with no
+      // recorded licence leaves it unclaimed, with the Licence page named instead.
+      bySa: root.querySelector('metadata')?.innerHTML.includes('creativecommons.org/licenses/by-sa/4.0') || false,
+      licencePage: root.querySelector('metadata')?.innerHTML.includes('civgraph.net/pages/licence') || false,
       groupFill: painted(features),
       featureCount: features.querySelectorAll('path').length,
       allHaveTitles: [...features.querySelectorAll('path')].every((p) => p.querySelector('title')?.textContent),
@@ -132,8 +135,10 @@ test.describe('Download SVG: a Wikipedia-style locator map of the view', () => {
     // Neighbouring land: the rest of the island and Great Britain are in frame, drawn grey.
     expect(info.landFill).toBe('#dcdcdc');
     expect(info.landIds).toEqual(expect.arrayContaining(['LandIreland', 'LandGreatBritain']));
-    expect(info.licence).toBe(true);
-    expect(info.desc).toContain('Civgraph (civgraph.net), CC BY-SA 4.0');
+    // pc-2023 records no licence: no CC BY-SA stamp, the Licence page named instead.
+    expect(info.bySa).toBe(false);
+    expect(info.licencePage).toBe(true);
+    expect(info.desc).toContain('Civgraph (civgraph.net). For the licence of each map shown see');
     expect(info.desc).toContain('OSNI');
     expect(info.externalRefs).toEqual([]);
     // The loughs are cut out of land, outline and features with an even-odd clip, and their

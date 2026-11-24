@@ -32,6 +32,8 @@ export interface CatalogueOrder {
 export interface CatalogueAbout {
   text?: string[];
   links?: Array<{ url: string; label: string }>;
+  /** who wrote it (descriptions.json `author`), credited under it */
+  by?: string;
 }
 
 /** A map of the catalogue as its row draws it (the document's `maps`, by id). */

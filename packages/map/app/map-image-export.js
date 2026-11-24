@@ -33,6 +33,7 @@ import { compositeChildIds } from '../src/map-relations.mjs';
 import { SITE } from '../../config/src/config.js';
 import { siteNumber } from '../../core/src/format.js';
 import { creditLine, mergedDerivedFromLines } from '../../core/src/credits.mjs';
+import { imageLicence, LICENCE_PAGE_URL } from '../../core/src/licence-rights.mjs';
 import { EXPORT_COLOURS } from '../src/views/colours.mjs';
 import { createState } from '../src/state-helpers.mjs';
 import { CONTEXT_OUTLINE_LOAD } from '../src/app/export-context-state.mjs';
@@ -55,7 +56,6 @@ export const MAX_FEATURES = 6000;
 const TARGET_WIDTH = 800;
 const CONTEXT_LAND_URL = '/assets/map/context-land.json';
 const CONTEXT_LOUGHS_URL = '/assets/map/context-loughs.json';
-const LICENCE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';
 
 /** A point: [x, y] on the page, or [lon, lat]. @typedef {[number, number]} Pt */
 /** A frame of the export: the bounds drawn, the page size, and lon/lat to page. @typedef {{ bounds: number[], width: number, height: number, project: (lon: number, lat: number) => Pt }} Frame */
@@ -650,6 +650,10 @@ function currentSelection(app, mapIds) {
 /** @param {ExportApp} app @param {string[]} mapIds */
 async function describeSources(app, mapIds) {
   const credits = [];
+  /** The recorded licence of each map shown, '' where none is: the image's licence follows them. @type {string[]} */
+  const licences = [];
+  /** Who made each map shown, for the image's dc:contributor. @type {string[]} */
+  const contributors = [];
   /** @type {Array<{ label: string, url: string }>} */
   const references = [];
   for (const id of mapIds) {
@@ -664,12 +668,14 @@ async function describeSources(app, mapIds) {
     const name = config.name || detailed.name || id;
     const credit = creditLine(provider.map(String), mergedDerivedFromLines(config.sourceCredits, detailed.sourceCredits));
     credits.push(`${name}: ${credit || 'source as recorded on Civgraph'}${licence ? ` (${licence})` : ''}`);
+    licences.push(String(licence));
+    if (credit && !contributors.includes(credit)) contributors.push(credit);
     for (const ref of [...(config.references || []), ...(detailed.references || [])]) {
       const url = /** @type {string | undefined} */ (ref?.url || ref?.file);
       if (url && /^https?:/i.test(url) && !references.some((r) => r.url === url)) references.push({ label: ref.label || url, url });
     }
   }
-  return { credits, references: references.slice(0, 3) };
+  return { credits, references: references.slice(0, 3), licence: imageLicence(licences), contributors };
 }
 
 /* ------------------------------------------------------------------ main */
@@ -860,7 +866,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
     meta.references.length ? `Source data: ${meta.references.map((r) => `${r.label} <${r.url}>`).join('; ')}.` : '',
     `Neighbouring land: ${land.credits.join('; ')}.`,
     cutD ? `Loughs, cut out and left unfilled: ${/** @type {LoughOutlines} */ (loughs).credits.join('; ')}.` : '',
-    'Map: Civgraph (civgraph.net), CC BY-SA 4.0.',
+    meta.licence ? `Map: Civgraph (civgraph.net), ${meta.licence.name}.` : `Map: Civgraph (civgraph.net). For the licence of each map shown see ${LICENCE_PAGE_URL}; credit the sources above.`,
     `Generated ${today} from ${pageUrl}; Web Mercator, view bounds ${bounds.map((v) => v.toFixed(4)).join(', ')} (W, S, E, N).`
   ].filter(Boolean);
 
@@ -916,8 +922,12 @@ export async function buildMapSvg(app, mapId, options = {}) {
     + `<dc:title>${xmlEscape(titleText)}</dc:title><dc:date>${today}</dc:date>`
     + `<dc:creator><cc:Agent><dc:title>Civgraph (civgraph.net)</dc:title></cc:Agent></dc:creator>`
     + `<dc:source>${xmlEscape(pageUrl)}</dc:source>`
+    + meta.contributors.map((c) => `<dc:contributor><cc:Agent><dc:title>${xmlEscape(c)}</dc:title></cc:Agent></dc:contributor>`).join('')
     + `<dc:description>${xmlEscape(descLines.join(' '))}</dc:description>`
-    + `<cc:license rdf:resource="${LICENCE_URL}"/></cc:Work></rdf:RDF></metadata>`;
+    // The licence of the maps shown (core/licence-rights.mjs imageLicence; citations review S26), or,
+    // where it cannot be worked out, no licence claimed and the Licence page named instead.
+    + (meta.licence ? `<cc:license rdf:resource="${meta.licence.url}"/>` : `<dc:rights>${xmlEscape(`See ${LICENCE_PAGE_URL} for the licence of each map shown, and credit the sources named here.`)}</dc:rights>`)
+    + '</cc:Work></rdf:RDF></metadata>';
 
   const svg = [
     '<?xml version="1.0" encoding="UTF-8" standalone="no"?>',

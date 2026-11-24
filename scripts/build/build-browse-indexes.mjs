@@ -137,7 +137,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * @typedef {import('@civgraph/core/election-view-model.mjs').ElectionRecord} NiElectionRecord
  * @typedef {import('../lib/election-names.mjs').ElectionNameScope} ElectionNameScope
  * Lookups read once and kept on the function that reads them (its own property).
- * @typedef {{ all?: Record<string, ElectionAbout> }} AboutCache
+ * @typedef {{ all?: Record<string, ElectionAbout>, author?: string }} AboutCache
  * @typedef {{ all?: Record<string, ElectionArticle> }} ArticleCache
  * @typedef {{ registry?: import('@civgraph/registries/election-bodies.mjs').ElectionBodiesRegistry }} RegistryCache
  * @typedef {{ labels?: Map<string, string> }} LabelsCache
@@ -905,7 +905,12 @@ function escapeRegExp(value) {
  */
 function electionAboutFor(key) {
   if (!/** @type {AboutCache} */ (electionAboutFor).all) {
-    try { /** @type {AboutCache} */ (electionAboutFor).all = JSON.parse(readFileSync(path.join(ROOT, 'data/catalogue/descriptions.json'), 'utf8')).elections || {}; } catch { /** @type {AboutCache} */ (electionAboutFor).all = {}; }
+    try {
+      const doc = JSON.parse(readFileSync(path.join(ROOT, 'data/catalogue/descriptions.json'), 'utf8'));
+      /** @type {AboutCache} */ (electionAboutFor).all = doc.elections || {};
+      // Who wrote them, credited under the description (citations review P07, 24 Nov 2026).
+      /** @type {AboutCache} */ (electionAboutFor).author = typeof doc.author === 'string' ? doc.author.trim() : '';
+    } catch { /** @type {AboutCache} */ (electionAboutFor).all = {}; }
   }
   // set just above
   return /** @type {Record<string, ElectionAbout>} */ (/** @type {AboutCache} */ (electionAboutFor).all)[key];
@@ -968,6 +973,7 @@ function buildElections(manifest, thumbnailIds) {
       decade,
       subtitle: cleanText(entry.displaySubtitle || ''),
       description: about ? about.text.join(' ') : undefined,
+      descriptionBy: about ? /** @type {AboutCache} */ (electionAboutFor).author || undefined : undefined,
       provider: cleanText(entry.displayProvider || entry.body || ''),
       category: 'Elections',
       geography: electionGeographyLabel(entry),

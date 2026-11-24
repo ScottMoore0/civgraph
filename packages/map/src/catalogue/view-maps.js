@@ -355,14 +355,16 @@ export function chipHtml(c, s, m, { hit = false, out = false, label = m.label, v
 }
 
 /**
- * What a row or an election is (data/catalogue/descriptions.json): its paragraphs, then its links.
+ * What a row or an election is (data/catalogue/descriptions.json): its paragraphs, then its links,
+ * then who wrote it ("Description: Phelim Birch").
  * @param {CatalogueAbout | undefined} about
  * @param {{ heading?: string }} [options]
  */
 export function aboutHtml(about, { heading = '' } = {}) {
   if (!about?.text?.length) return '';
   const links = (about.links || []).map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`);
-  return `<div class="cn-about">${heading ? `<span class="cn-label">${esc(heading)}</span>` : ''}${about.text.map((p) => `<p>${esc(p)}</p>`).join('')}${links.length ? `<p class="cn-about__links">${links.join('<span aria-hidden="true"> · </span>')}</p>` : ''}</div>`;
+  const by = about.by ? `<p class="cn-about__by">Description: ${esc(about.by)}</p>` : '';
+  return `<div class="cn-about">${heading ? `<span class="cn-label">${esc(heading)}</span>` : ''}${about.text.map((p) => `<p>${esc(p)}</p>`).join('')}${links.length ? `<p class="cn-about__links">${links.join('<span aria-hidden="true"> · </span>')}</p>` : ''}${by}</div>`;
 }
 
 /**

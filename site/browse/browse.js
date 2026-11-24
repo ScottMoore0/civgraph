@@ -1530,6 +1530,7 @@ function setHero(config, item) {
     <p class="browse-kicker">${escapeHtml(item ? config.singular : sectionName())}</p>
     <h1 class="browse-title">${escapeHtml(title)}</h1>
     ${description ? `<p class="browse-description">${escapeHtml(description)}</p>` : ''}
+    ${description && item?.['descriptionBy'] ? `<p class="browse-description-by">Description: ${escapeHtml(String(item['descriptionBy']))}</p>` : ''}
   `;
   if (item) {
     setDocumentHead({

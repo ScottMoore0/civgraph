@@ -52,7 +52,8 @@ import { ingestMaps } from './ingest-maps.mjs';
 import { ingestProvenance } from './ingest-provenance.mjs';
 import { ingestRegistries } from './ingest-registries.mjs';
 import { ingestVotes } from './ingest-votes.mjs';
-import { buildVar } from '@civgraph/config/node';
+import { buildVar, SITE } from '@civgraph/config/node';
+import { downloadLicence } from './download-licence.mjs';
 import { RECORDS_DB, recordPaths, REPO_ROOT, rel } from './paths.mjs';
 import { HASHED_TABLES } from '@civgraph/schema';
 import { stabiliseOrder } from './stable-order.mjs';
@@ -204,6 +205,8 @@ function mainMapsOnly() {
     ins.run('version', version);
     ins.run('git_commit', run('git', ['rev-parse', 'HEAD'], { env: process.env }).trim());
     ins.run('table_checksums', JSON.stringify(checksums));
+    // The licence and credit travel inside the downloaded database (citations review S15).
+    for (const [key, value] of Object.entries(downloadLicence(SITE.origin))) ins.run(key, value);
   });
   db.close();
   for (const suffix of ['', '-journal']) rmSync(out + suffix, { force: true });
@@ -308,6 +311,8 @@ function main() {
     ins.run('ord_seed', seedVersion);
     ins.run('table_checksums', JSON.stringify(checksums));
     ins.run('unstamped_candidacies', String(result.facts.unstampedCandidacies));
+    // The licence and credit travel inside the downloaded database (citations review S15).
+    for (const [key, value] of Object.entries(downloadLicence(SITE.origin))) ins.run(key, value);
   });
   db.close();
   clearBuiltManifest(BUILD_ENV);

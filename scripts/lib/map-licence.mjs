@@ -16,7 +16,11 @@
  * The Licence page's sections are the source ledger's rights values (build-licence-page.mjs
  * RIGHTS), with ids "rights-<value in lower case>".
  */
+import { licenceRights } from '@civgraph/core/licence-rights.mjs';
 import { RIGHTS } from '../build/build-licence-page.mjs';
+
+// Which licence a text names is the core package's (also read by the map image export).
+export { licenceRights };
 
 /** The Licence page. */
 export const LICENCE_PAGE = '/pages/licence';
@@ -42,20 +46,6 @@ const NAMES = new Map([
   ['odbl 1.0', 'Open Database Licence (ODbL)'],
 ]);
 
-/**
- * The licences a text names, as source-ledger rights values, each found by its usual spellings.
- * Order matters only for reading: CC BY-SA is tested before CC BY so that it is not also CC BY.
- * @type {[string, RegExp][]}
- */
-const RIGHTS_PATTERNS = [
-  ['CC-BY-SA', /\bcc by sa\b|attribution share alike/],
-  ['CC-BY-4.0', /\bcc by\b(?! (sa|nc|nd)\b)|creative commons attribution\b(?! (share|non))/],
-  ['OGL-3.0', /\bogl\b|open government licen[cs]e/],
-  ['OPL-3.0', /open parliament licen[cs]e/],
-  ['CC0', /\bcc0\b|\bcc zero\b/],
-  ['ODbL', /\bodbl\b|open database licen[cs]e/],
-];
-
 /** @param {string} text */
 function fold(text) {
   return text.toLowerCase().replace(/[\s-]+/g, ' ').trim();
@@ -64,18 +54,6 @@ function fold(text) {
 /** @param {unknown} value @returns {string} */
 function clean(value) {
   return typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : '';
-}
-
-/**
- * The source-ledger rights value of the one licence a text names, or null when it names none or
- * more than one ("OGL and CC BY 4.0").
- * @param {string} text
- * @returns {string | null}
- */
-export function licenceRights(text) {
-  const folded = fold(text);
-  const found = RIGHTS_PATTERNS.filter(([, pattern]) => pattern.test(folded)).map(([rights]) => rights);
-  return found.length === 1 ? /** @type {string} */ (found[0]) : null;
 }
 
 /**
