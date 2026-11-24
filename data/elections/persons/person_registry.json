@@ -2,7 +2,7 @@
  "schemaVersion": 2,
  "description": "Stable identifiers for people appearing as candidates in the current election data. The id is independent of name spelling, so a correction changes displayName and adds an alias, never the id.",
  "idPolicy": "Ids are permanent. PersonIDs 1-100011 are the curated block carried forward from scripts/ingest/persons/person_registry.json; 100012+ are derived. A new id is never one issued before, even one merged away at once: idHighWater is the highest issued (person_id_issued.py).",
- "idHighWater": 168271,
+ "idHighWater": 168388,
  "supersedes": "scripts/ingest/persons/person_registry.json (2,388 curated persons; its source workbook is no longer present and apply_person_ids.py targets an _aggregates.json layout that no longer exists)",
  "evidence": {
   "rowIndexIdsDiscarded": [
@@ -58,7 +58,7 @@
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
   "crossSystemMerges": 1057,
-  "sameNameLeftSplit": 2936
+  "sameNameLeftSplit": 2938
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -9943,7 +9943,7 @@
    "eraReason": "split by its official person id (democracyclub:2137): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168211
+    168328
    ]
   },
   {
@@ -12342,7 +12342,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168257
+    168374
    ]
   },
   {
@@ -25227,7 +25227,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168259
+    168376
    ]
   },
   {
@@ -43164,7 +43164,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168260
+    168377
    ]
   },
   {
@@ -60487,7 +60487,7 @@
    "provisional": false,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168227
+    168344
    ]
   },
   {
@@ -62435,10 +62435,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168166,
-    168185,
-    168230,
-    168231
+    168283,
+    168302,
+    168347,
+    168348
    ]
   },
   {
@@ -62750,10 +62750,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168195,
-    168196,
-    168213,
-    168265
+    168312,
+    168313,
+    168330,
+    168382
    ]
   },
   {
@@ -63451,10 +63451,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168172,
-    168173,
-    168239,
-    168240
+    168289,
+    168290,
+    168356,
+    168357
    ]
   },
   {
@@ -63491,10 +63491,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168174,
-    168190,
-    168202,
-    168241
+    168291,
+    168307,
+    168319,
+    168358
    ]
   },
   {
@@ -63968,8 +63968,8 @@
    "eraReason": "split by its official person id (democracyclub:68911): the source id it shares is held by another person with another official id",
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168179,
-    168258
+    168296,
+    168375
    ]
   },
   {
@@ -64130,11 +64130,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168180,
-    168197,
-    168267,
-    168268,
-    168269
+    168297,
+    168314,
+    168384,
+    168385,
+    168386
    ]
   },
   {
@@ -64928,10 +64928,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168157,
-    168164,
-    168222,
-    168223
+    168274,
+    168281,
+    168339,
+    168340
    ]
   },
   {
@@ -65848,12 +65848,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168194,
-    168212,
-    168261,
-    168262,
-    168263,
-    168264
+    168311,
+    168329,
+    168378,
+    168379,
+    168380,
+    168381
    ]
   },
   {
@@ -70282,9 +70282,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168158,
-    168159,
-    168187
+    168275,
+    168276,
+    168304
    ]
   },
   {
@@ -70322,11 +70322,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168169,
-    168188,
-    168189,
-    168201,
-    168236
+    168286,
+    168305,
+    168306,
+    168318,
+    168353
    ]
   },
   {
@@ -70363,10 +70363,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168155,
-    168160,
-    168248,
-    168249
+    168272,
+    168277,
+    168365,
+    168366
    ]
   },
   {
@@ -72520,11 +72520,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168156,
-    168214,
-    168215,
-    168216,
-    168270
+    168273,
+    168331,
+    168332,
+    168333,
+    168387
    ]
   },
   {
@@ -75721,12 +75721,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168161,
-    168191,
-    168207,
-    168208,
-    168250,
-    168251
+    168278,
+    168308,
+    168324,
+    168325,
+    168367,
+    168368
    ]
   },
   {
@@ -75764,11 +75764,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168162,
-    168177,
-    168192,
-    168252,
-    168253
+    168279,
+    168294,
+    168309,
+    168369,
+    168370
    ]
   },
   {
@@ -75808,13 +75808,13 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168178,
-    168193,
-    168209,
-    168210,
-    168254,
-    168255,
-    168256
+    168295,
+    168310,
+    168326,
+    168327,
+    168371,
+    168372,
+    168373
    ]
   },
   {
@@ -83745,12 +83745,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168165,
-    168182,
-    168183,
-    168184,
-    168225,
-    168226
+    168282,
+    168299,
+    168300,
+    168301,
+    168342,
+    168343
    ]
   },
   {
@@ -83916,11 +83916,11 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168167,
-    168168,
-    168186,
-    168234,
-    168235
+    168284,
+    168285,
+    168303,
+    168351,
+    168352
    ]
   },
   {
@@ -83956,9 +83956,9 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168170,
-    168237,
-    168238
+    168287,
+    168354,
+    168355
    ]
   },
   {
@@ -83997,12 +83997,12 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168175,
-    168176,
-    168204,
-    168205,
-    168206,
-    168247
+    168292,
+    168293,
+    168321,
+    168322,
+    168323,
+    168364
    ]
   },
   {
@@ -121592,10 +121592,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168218,
-    168219,
-    168220,
-    168221
+    168335,
+    168336,
+    168337,
+    168338
    ]
   },
   {
@@ -121630,8 +121630,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168199,
-    168224
+    168316,
+    168341
    ]
   },
   {
@@ -126924,10 +126924,10 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168243,
-    168244,
-    168245,
-    168246
+    168360,
+    168361,
+    168362,
+    168363
    ]
   },
   {
@@ -147256,7 +147256,7 @@
    "provenance": "keyed on the source's own candidate id (ei:3485)",
    "provisional": true,
    "mergedFrom": [
-    168181
+    168298
    ]
   },
   {
@@ -167275,7 +167275,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168229
+    168346
    ]
   },
   {
@@ -170850,7 +170850,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168228
+    168345
    ]
   },
   {
@@ -207639,8 +207639,8 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168232,
-    168233
+    168349,
+    168350
    ]
   },
   {
@@ -207674,7 +207674,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168242
+    168359
    ]
   },
   {
@@ -270340,7 +270340,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168266
+    168383
    ]
   },
   {
@@ -328462,7 +328462,7 @@
    "provenance": "keyed on the source's own candidate id (ie:6276)",
    "provisional": true,
    "mergedFrom": [
-    168198
+    168315
    ]
   },
   {
@@ -363300,7 +363300,7 @@
    "provisional": true,
    "nameVariants": true,
    "mergedFrom": [
-    168163
+    168280
    ]
   },
   {
@@ -511779,7 +511779,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:Edmund Haviland-Burke)",
    "provisional": true,
    "mergedFrom": [
-    168171
+    168288
    ]
   },
   {
@@ -513132,7 +513132,7 @@
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168217
+    168334
    ]
   },
   {
@@ -515295,7 +515295,7 @@
    "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
    "mergedFrom": [
-    168200
+    168317
    ]
   },
   {
@@ -563452,7 +563452,7 @@
    "provenance": "keyed on the source's own candidate id (wikipedia:John Henry North)",
    "provisional": true,
    "mergedFrom": [
-    168203
+    168320
    ]
   },
   {
@@ -578050,7 +578050,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    168271
+    168388
    ]
   },
   {
@@ -713688,29 +713688,38 @@
    "personId": 135502,
    "displayName": "Thomas Neill",
    "aliases": [
-    "Thomas Neill"
+    "Thomas Neill",
+    "T. Neill"
    ],
    "matchKeys": [
+    "t neill",
     "thomas neill"
    ],
    "sourceIds": [
+    "T. Neill|",
+    "T. Neill|UUP",
     "Thomas Neill|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 1905,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1936,
    "lastYear": 1955,
    "bodies": [
-    "dungannon-urban-district-council",
-    "tandragee-urban-district-council"
+    "dungannon-urban-district-council"
    ],
-   "parties": [],
+   "parties": [
+    "UUP"
+   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    137524,
+    137525
+   ]
   },
   {
    "id": "p135504",
@@ -721069,24 +721078,30 @@
    "personId": 135801,
    "displayName": "Fred McKinney",
    "aliases": [
+    "Fredk. J. McKinney",
+    "F. J. McKinney",
     "Fred McKinney",
     "F. McKinney"
    ],
    "matchKeys": [
+    "f j mckinney",
     "f mckinney",
-    "fred mckinney"
+    "fred mckinney",
+    "fredk j mckinney"
    ],
    "sourceIds": [
+    "F. J. McKinney|Independent",
     "F. McKinney|",
     "F. McKinney|Independent",
-    "Fred McKinney|"
+    "Fred McKinney|",
+    "Fredk. J. McKinney|Independent"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 6,
+   "contests": 6,
    "firstYear": 1952,
-   "lastYear": 1964,
+   "lastYear": 1967,
    "bodies": [
     "tandragee-urban-district-council"
    ],
@@ -721096,7 +721111,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "nameVariants": true
+   "nameVariants": true,
+   "mergedFrom": [
+    136554,
+    136610
+   ]
   },
   {
    "id": "p135803",
@@ -722090,12 +722109,15 @@
   {
    "id": "p135843",
    "personId": 135843,
-   "displayName": "J. Jackson",
+   "displayName": "John Jackson, jun.",
    "aliases": [
+    "John Jackson, jun.",
+    "John Jackson",
     "J. Jackson"
    ],
    "matchKeys": [
-    "j jackson"
+    "j jackson",
+    "john jackson"
    ],
    "sourceIds": [
     "J. Jackson|"
@@ -722104,16 +722126,16 @@
    "officialPersonIds": [],
    "candidacies": 3,
    "contests": 3,
-   "firstYear": 1930,
+   "firstYear": 1936,
    "lastYear": 1949,
    "bodies": [
-    "east-down-rural-district-council",
     "lurgan-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -723217,9 +723239,11 @@
    "personId": 135882,
    "displayName": "James Quinn",
    "aliases": [
-    "James Quinn"
+    "James Quinn",
+    "J. Quinn"
    ],
    "matchKeys": [
+    "j quinn",
     "james quinn"
    ],
    "sourceIds": [
@@ -723227,12 +723251,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
+   "candidacies": 7,
    "contests": 7,
-   "firstYear": 1899,
-   "lastYear": 1946,
+   "firstYear": 1926,
+   "lastYear": 1949,
    "bodies": [
-    "armagh-rural-district-council",
     "dungannon-urban-district-council"
    ],
    "parties": [
@@ -723241,6 +723264,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -739295,35 +739319,6 @@
    "nameVariants": true
   },
   {
-   "id": "p136554",
-   "personId": 136554,
-   "displayName": "F. J. McKinney",
-   "aliases": [
-    "F. J. McKinney"
-   ],
-   "matchKeys": [
-    "f j mckinney"
-   ],
-   "sourceIds": [
-    "F. J. McKinney|Independent"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1961,
-   "lastYear": 1961,
-   "bodies": [
-    "tandragee-urban-district-council"
-   ],
-   "parties": [
-    "Independent"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
    "id": "p136555",
    "personId": 136555,
    "displayName": "F. J. Morris",
@@ -740571,35 +740566,6 @@
     "portadown-borough-council"
    ],
    "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p136610",
-   "personId": 136610,
-   "displayName": "Fredk. J. McKinney",
-   "aliases": [
-    "Fredk. J. McKinney"
-   ],
-   "matchKeys": [
-    "fredk j mckinney"
-   ],
-   "sourceIds": [
-    "Fredk. J. McKinney|Independent"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1967,
-   "lastYear": 1967,
-   "bodies": [
-    "tandragee-urban-district-council"
-   ],
-   "parties": [
-    "Independent"
-   ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
@@ -745982,25 +745948,26 @@
   {
    "id": "p136844",
    "personId": 136844,
-   "displayName": "J. Quinn",
+   "displayName": "James Quinn",
    "aliases": [
+    "James Quinn",
     "J. Quinn"
    ],
    "matchKeys": [
-    "j quinn"
+    "j quinn",
+    "james quinn"
    ],
    "sourceIds": [
     "J. Quinn|Nationalist Party"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
+   "candidacies": 3,
    "contests": 2,
-   "firstYear": 1905,
-   "lastYear": 1949,
+   "firstYear": 1899,
+   "lastYear": 1905,
    "bodies": [
-    "armagh-rural-district-council",
-    "dungannon-urban-district-council"
+    "armagh-rural-district-council"
    ],
    "parties": [
     "Nationalist Party"
@@ -746008,6 +745975,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -750876,9 +750844,11 @@
    "personId": 137043,
    "displayName": "John Jackson",
    "aliases": [
-    "John Jackson"
+    "John Jackson",
+    "J. Jackson"
    ],
    "matchKeys": [
+    "j jackson",
     "john jackson"
    ],
    "sourceIds": [
@@ -750888,16 +750858,17 @@
    "officialPersonIds": [],
    "candidacies": 2,
    "contests": 2,
-   "firstYear": 1933,
-   "lastYear": 1939,
+   "firstYear": 1930,
+   "lastYear": 1933,
    "bodies": [
-    "east-down-rural-district-council",
-    "lurgan-rural-district-council"
+    "east-down-rural-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p137045",
@@ -762292,66 +762263,6 @@
    "provisional": true
   },
   {
-   "id": "p137524",
-   "personId": 137524,
-   "displayName": "T. Neill",
-   "aliases": [
-    "T. Neill"
-   ],
-   "matchKeys": [
-    "t neill"
-   ],
-   "sourceIds": [
-    "T. Neill|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1923,
-   "lastYear": 1952,
-   "bodies": [
-    "dungannon-urban-district-council",
-    "tandragee-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p137525",
-   "personId": 137525,
-   "displayName": "T. Neill",
-   "aliases": [
-    "T. Neill"
-   ],
-   "matchKeys": [
-    "t neill"
-   ],
-   "sourceIds": [
-    "T. Neill|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1908,
-   "lastYear": 1949,
-   "bodies": [
-    "dungannon-urban-district-council",
-    "tandragee-urban-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p137526",
    "personId": 137526,
    "displayName": "T. Newell",
@@ -768634,9 +768545,11 @@
    "personId": 137939,
    "displayName": "Thomas Neill",
    "aliases": [
-    "Thomas Neill"
+    "Thomas Neill",
+    "T. Neill"
    ],
    "matchKeys": [
+    "t neill",
     "thomas neill"
    ],
    "sourceIds": [
@@ -768644,12 +768557,11 @@
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1911,
-   "lastYear": 1939,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1905,
+   "lastYear": 1923,
    "bodies": [
-    "dungannon-urban-district-council",
     "tandragee-urban-district-council"
    ],
    "parties": [
@@ -768658,6 +768570,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -794934,22 +794847,27 @@
   {
    "id": "p139424",
    "personId": 139424,
-   "displayName": "J. Walker",
+   "displayName": "John Walker",
    "aliases": [
+    "James Walker",
+    "John Walker",
     "J. Walker"
    ],
    "matchKeys": [
-    "j walker"
+    "j walker",
+    "james walker"
    ],
    "sourceIds": [
-    "J. Walker|UUP"
+    "J. Walker|",
+    "J. Walker|UUP",
+    "James Walker|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1926,
-   "lastYear": 1949,
+   "lastYear": 1952,
    "bodies": [
     "dungannon-urban-district-council",
     "londonderry-county-borough-council"
@@ -794960,7 +794878,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    141349,
+    141488
+   ]
   },
   {
    "id": "p139425",
@@ -801679,10 +801601,12 @@
    "personId": 139681,
    "displayName": "W. J. Workman",
    "aliases": [
+    "William J. Workman",
     "W. J. Workman"
    ],
    "matchKeys": [
-    "w j workman"
+    "w j workman",
+    "william j workman"
    ],
    "sourceIds": [
     "W. J. Workman|"
@@ -801692,17 +801616,18 @@
    "candidacies": 3,
    "contests": 3,
    "firstYear": 1946,
-   "lastYear": 1964,
+   "lastYear": 1967,
    "bodies": [
-    "ballyclare-urban-district-council",
-    "larne-borough-council"
+    "ballyclare-urban-district-council"
    ],
    "parties": [
     "Progressive"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "nameVariants": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p139682",
@@ -841075,34 +841000,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p141349",
-   "personId": 141349,
-   "displayName": "J. Walker",
-   "aliases": [
-    "J. Walker"
-   ],
-   "matchKeys": [
-    "j walker"
-   ],
-   "sourceIds": [
-    "J. Walker|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
-   "lastYear": 1952,
-   "bodies": [
-    "dungannon-urban-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p141352",
    "personId": 141352,
    "displayName": "J. Wilkinson",
@@ -844047,33 +843944,6 @@
    "lastYear": 1946,
    "bodies": [
     "gilford-town-commissioners"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
-  },
-  {
-   "id": "p141488",
-   "personId": 141488,
-   "displayName": "James Walker",
-   "aliases": [
-    "James Walker"
-   ],
-   "matchKeys": [
-    "james walker"
-   ],
-   "sourceIds": [
-    "James Walker|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1946,
-   "lastYear": 1946,
-   "bodies": [
-    "dungannon-urban-district-council"
    ],
    "parties": [],
    "keyedBy": "id",
@@ -874977,9 +874847,11 @@
    "personId": 142849,
    "displayName": "William J. Workman",
    "aliases": [
-    "William J. Workman"
+    "William J. Workman",
+    "W. J. Workman"
    ],
    "matchKeys": [
+    "w j workman",
     "william j workman"
    ],
    "sourceIds": [
@@ -874989,16 +874861,16 @@
    "officialPersonIds": [],
    "candidacies": 2,
    "contests": 2,
-   "firstYear": 1964,
-   "lastYear": 1967,
+   "firstYear": 1961,
+   "lastYear": 1964,
    "bodies": [
-    "ballyclare-urban-district-council",
     "larne-borough-council"
    ],
    "parties": [],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
+   "nameVariants": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
@@ -935819,22 +935691,25 @@
   {
    "id": "p145918",
    "personId": 145918,
-   "displayName": "J. C. Patterson",
+   "displayName": "Joseph C. Patterson",
    "aliases": [
+    "Joseph C. Patterson",
     "J. C. Patterson"
    ],
    "matchKeys": [
-    "j c patterson"
+    "j c patterson",
+    "joseph c patterson"
    ],
    "sourceIds": [
-    "J. C. Patterson|UUP"
+    "J. C. Patterson|UUP",
+    "Joseph C. Patterson|"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1946,
-   "lastYear": 1946,
+   "lastYear": 1949,
    "bodies": [
     "omagh-rural-district-council"
    ],
@@ -935843,7 +935718,10 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    148187
+   ]
   },
   {
    "id": "p145919",
@@ -952050,8 +951928,9 @@
   {
    "id": "p146634",
    "personId": 146634,
-   "displayName": "P. McGrath",
+   "displayName": "Paul McGrath",
    "aliases": [
+    "Paul McGrath",
     "P. McGrath"
    ],
    "matchKeys": [
@@ -964748,21 +964627,25 @@
   {
    "id": "p147240",
    "personId": 147240,
-   "displayName": "W. Chambers",
+   "displayName": "William L. Chambers",
    "aliases": [
+    "William G. Chambers",
+    "William L. Chambers",
     "W. Chambers"
    ],
    "matchKeys": [
-    "w chambers"
+    "w chambers",
+    "william g chambers"
    ],
    "sourceIds": [
-    "W. Chambers|UUP"
+    "W. Chambers|UUP",
+    "William G. Chambers|UUP"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1955,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1952,
    "lastYear": 1955,
    "bodies": [
     "east-down-rural-district-council"
@@ -964772,7 +964655,10 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "mergedFrom": [
+    147391
+   ]
   },
   {
    "id": "p147242",
@@ -968242,35 +968128,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "nameVariants": true
-  },
-  {
-   "id": "p147391",
-   "personId": 147391,
-   "displayName": "William G. Chambers",
-   "aliases": [
-    "William G. Chambers"
-   ],
-   "matchKeys": [
-    "william g chambers"
-   ],
-   "sourceIds": [
-    "William G. Chambers|UUP"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1952,
-   "lastYear": 1952,
-   "bodies": [
-    "east-down-rural-district-council"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p147392",
@@ -981958,33 +981815,6 @@
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
-   "id": "p148187",
-   "personId": 148187,
-   "displayName": "Joseph C. Patterson",
-   "aliases": [
-    "Joseph C. Patterson"
-   ],
-   "matchKeys": [
-    "joseph c patterson"
-   ],
-   "sourceIds": [
-    "Joseph C. Patterson|"
-   ],
-   "sourcePersonIds": [],
-   "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
-   "lastYear": 1949,
-   "bodies": [
-    "omagh-rural-district-council"
-   ],
-   "parties": [],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
   },
   {
    "id": "p148188",
@@ -1110535,9 +1110365,9 @@
   }
  ],
  "corrections": {
-  "mergedIds": 117,
+  "mergedIds": 125,
   "classes": {
-   "WIKIPEDIA-BIOGRAPHY": 7,
+   "WIKIPEDIA-BIOGRAPHY": 15,
    "IE-EI-CROSSWALK": 3,
    "FORUM-DUPLICATE": 113,
    "LGR-2014": 2,
