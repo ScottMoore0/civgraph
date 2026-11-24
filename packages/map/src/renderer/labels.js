@@ -244,10 +244,10 @@ export function setIrishNameFields(table) {
 function irishNameFieldFromTable(layer) {
   if (!irishNameFields || !layer) return null;
   const l = /** @type {Record<string, unknown>} */ (/** @type {unknown} */ (layer));
-  for (const id of [l.id, l.layerId, l.sourceMapId, l.mapId]) {
+  for (const id of [l['id'], l['layerId'], l['sourceMapId'], l['mapId']]) {
     if (typeof id === 'string' && id && irishNameFields.layers[id]) return irishNameFields.layers[id];
   }
-  const props = /** @type {unknown[]} */ ([]).concat(l.categoricalProperties || [], l.popupProperties || []);
+  const props = /** @type {unknown[]} */ ([]).concat(l['categoricalProperties'] || [], l['popupProperties'] || []);
   for (const hint of irishNameFields.hints) {
     if (props.includes(hint)) return hint;
   }
