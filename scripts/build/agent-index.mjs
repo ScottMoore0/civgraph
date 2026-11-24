@@ -77,7 +77,8 @@ try {
 } catch { /* none */ }
 
 const out = {
-  $schema: `${SITE.origin}/agent/maps-index.schema (informal)`,
+  // No JSON Schema is published for this index: the agent guide describes it (a 404 address stood here until 24 Nov 2026).
+  $schema: `${SITE.origin}/agent/guide.md (informal)`,
   generatedFrom: 'data/database/maps.json + data/database/data-entries.json',
   about: 'Civgraph catalogue for AI agents. `maps` lists every map with its `status` (ready, partial or to-be-added, as in the catalogue) and links each map the site shows to a FlatGeobuf (.fgb, EPSG:4326) geometry on https://data.civgraph.net; a map to be added has no geometry link. `dataOverlays` links statistical tables (census, NIMDM deprivation, …) as CSVs joined to a map layer by `joinKey`. Fetch the CSV(s) and/or geometry and compute directly — see https://civgraph.net/agent/guide.md.',
   count: maps.length,

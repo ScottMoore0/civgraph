@@ -3,6 +3,7 @@ import {
   buildPartySummary
 } from '../../core/src/election-domain.mjs';
 import { escapeHtml } from '../../core/src/html.js';
+import { citationLinks } from '../../core/src/link-health.mjs';
 
 /** @typedef {import('../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 /** @typedef {import('../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
@@ -28,7 +29,8 @@ import { escapeHtml } from '../../core/src/html.js';
  *     locator?: string,
  *     scope?: string,
  *     checked?: boolean,
- *     archiveUrl?: string
+ *     archiveUrl?: string,
+ *     urlDead?: boolean
  *   },
  *   status?: string,
  *   relatedWikipedia?: string,
@@ -195,7 +197,11 @@ export class MainElectionPaneContract {
     // A printed volume has no URL; what identifies it is where in it the contest is tabulated,
     // and which edition -- "Walker (ed.), 1978, General election, 1918 (pp. 187-196)".
     const printed = !source.url;
-    const cited = printed ? `<cite>${escapeHtml(label)}</cite>` : link(source.url, label);
+    // A link the link review found dead: its archived copy is cited, the original struck through after it.
+    const at = citationLinks(source);
+    const cited = printed ? `<cite>${escapeHtml(label)}</cite>`
+      : at.main ? `${link(at.main, label)}${at.mainIsArchive ? ' (archived copy)' : ''}` : escapeHtml(label);
+    const dead = at.deadOriginal ? ` <s>${link(at.deadOriginal, 'Original link, no longer available')}</s>.` : '';
     const publisher = printed
       ? [source.edition, source.locator].filter(Boolean).map((s) => `, ${escapeHtml(s)}`).join('')
       : source.title && source.publisher ? ` (${escapeHtml(source.publisher)})` : '';
@@ -209,13 +215,13 @@ export class MainElectionPaneContract {
       : printed
       ? `Also recorded in ${cited}${publisher}. Not yet checked against these figures.`
       : `Cited by Wikipedia: ${cited}${publisher}. Not checked against these figures.`;
-    const archived = source.archiveUrl ? ` ${link(source.archiveUrl, 'Archived copy')}.` : '';
+    const archived = at.archive ? ` ${link(at.archive, 'Archived copy')}.` : '';
     const related = entry.relatedWikipedia ? ` ${link(entry.relatedWikipedia, 'Related Wikipedia article')}.` : '';
     // A figure a printed volume supplied, or disputes: the reader should know that this
     // electorate came from somewhere else, or that another source gives a different one.
     const figures = (entry.figureNotes || [])
       .map((n) => `<br><cite>${escapeHtml(n.title || '')}</cite>: ${escapeHtml(n.text || '')}.`).join('');
-    return `<div class="test2-election-source-note" role="note">${body}${archived}${related}${figures}</div>`;
+    return `<div class="test2-election-source-note" role="note">${body}${archived}${dead}${related}${figures}</div>`;
   }
 
   renderOverallResults(view = 'party') {

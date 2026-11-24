@@ -59,9 +59,12 @@ const CAND_COLS =
  * image") were added for the Elections app's per-figure sources (11 Nov 2026); accessed (the
  * day Civgraph fetched the source and compared it figure by figure, held on the web-check
  * citations of data/elections/web-checked-sources.json) for its "data checked" dates (14 Nov 2026).
+ * urlDead (1 when the link review found the url dead, data/database/dead-links.json; the
+ * archiveUrl then shows first) was added on 24 Nov 2026.
  */
 const CITE_COLS = 'ci.title, ci.publisher, ci.url, ci.archive_url AS archiveUrl, ci.host, ci.kind, ci.basis, ci.checked, '
-  + "ci.scope, ci.match, json_extract(ci.citation, '$.check') AS checkNote, json_extract(ci.citation, '$.accessed') AS accessed";
+  + "ci.scope, ci.match, json_extract(ci.citation, '$.check') AS checkNote, json_extract(ci.citation, '$.accessed') AS accessed, "
+  + "json_extract(ci.citation, '$.urlDead') AS urlDead";
 /** The join from a contest (alias k) to its citations (alias ci): by the contest file's path. */
 const CITES_CONTEST = "ci.subject_type = 'contest' AND ci.subject_key = "
   + "(CASE WHEN k.source_file LIKE 'data/elections-source/data/elections/%' THEN substr(k.source_file, 38) ELSE k.source_file END)";
@@ -109,8 +112,10 @@ export const ELECTIONS_API = Object.freeze({
   // path relative to data/elections-source/data/elections/.
   /** [key, seq] -> one contest's citations, in their order */
   contestCitations: `SELECT ${CITE_COLS} FROM contests k JOIN citations ci ON ${CITES_CONTEST} WHERE k.election_key = ?1 AND k.seq = ?2 ORDER BY ci.ord`,
-  /** [key] -> an election's distinct sources, with how many of its contests cite each */
-  electionCitations: `SELECT ci.title, ci.publisher, ci.url, ci.host, ci.kind, COUNT(DISTINCT k.seq) AS contests FROM contests k JOIN citations ci ON ${CITES_CONTEST} `
+  /** [key] -> an election's distinct sources, with how many of its contests cite each (and, for a dead link, its archived copy) */
+  electionCitations: `SELECT ci.title, ci.publisher, ci.url, ci.host, ci.kind, COUNT(DISTINCT k.seq) AS contests, `
+    + "MAX(ci.archive_url) AS archiveUrl, MAX(json_extract(ci.citation, '$.urlDead')) AS urlDead "
+    + `FROM contests k JOIN citations ci ON ${CITES_CONTEST} `
     + 'WHERE k.election_key = ?1 GROUP BY ci.title, ci.publisher, ci.url, ci.host, ci.kind ORDER BY contests DESC, ci.title, ci.url LIMIT 40',
   /** [key] -> { n } how many contests the election has */
   electionContestCount: 'SELECT COUNT(*) AS n FROM contests WHERE election_key = ?1',

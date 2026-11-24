@@ -8,6 +8,7 @@ import { mapRights } from '../lib/map-licence.mjs';
 import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '@civgraph/core/election-domain.mjs';
 // A person's slug ("naomi-long-51102"): the one rule the pages' person links use too.
 import { personSlug } from '@civgraph/core/format.js';
+import { wikipediaReferenceUrl } from '@civgraph/core/link-health.mjs';
 import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '@civgraph/map/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from '../lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from '../lib/person-name-artefacts.mjs';
@@ -1611,7 +1612,8 @@ function extractSourceUrls(value, urls = new Set()) {
 
 // The Wikipedia article for each election, resolved against Wikipedia rather than guessed
 // (data/elections/wikipedia-election-articles.json): 783 of the 1,025 guesses below named pages
-// that do not exist (audit 2026-10-13). The guesses stay as the fallback for elections it lacks.
+// that do not exist (audit 2026-10-13). For elections it lacks, a derived title is linked only
+// when Wikipedia confirmed the article exists (wikipediaElectionReferenceUrl below).
 /**
  * @param {string | undefined} key
  * @returns {ElectionArticle | null | undefined}
@@ -1625,6 +1627,24 @@ function resolvedElectionArticle(key) {
 }
 
 /**
+ * Wikipedia articles whose derived titles were confirmed to exist
+ * (data/elections/wikipedia-verified-articles.json, the link review of 24 Nov 2026).
+ * @returns {import('@civgraph/core/link-health.mjs').VerifiedArticles}
+ */
+function verifiedWikipediaArticles() {
+  if (!VERIFIED_ARTICLES.all) {
+    try { VERIFIED_ARTICLES.all = JSON.parse(readFileSync(path.join(ROOT, 'data/elections/wikipedia-verified-articles.json'), 'utf8')).articles || {}; } catch { VERIFIED_ARTICLES.all = {}; }
+  }
+  return /** @type {import('@civgraph/core/link-health.mjs').VerifiedArticles} */ (VERIFIED_ARTICLES.all);
+}
+/** @type {{ all?: import('@civgraph/core/link-health.mjs').VerifiedArticles }} */
+const VERIFIED_ARTICLES = {};
+
+/**
+ * The Wikipedia article for an election: the resolved one, else a title derived from the
+ * election's name, linked only when that article was confirmed to exist (a guessed title named
+ * a missing page 1,586 times in the link review of 24 Nov 2026). A referendum's own first source,
+ * which is not a Wikipedia address, is kept as it is.
  * @param {ElectionLike | undefined} election
  * @param {ElectionLike | undefined} detail
  * @returns {string | null}
@@ -1632,6 +1652,16 @@ function resolvedElectionArticle(key) {
 function wikipediaElectionReferenceUrl(election, detail) {
   const resolved = resolvedElectionArticle(election?.key || detail?.key);
   if (resolved?.url) return resolved.url;
+  return wikipediaReferenceUrl(null, derivedElectionReferenceUrl(election, detail), verifiedWikipediaArticles());
+}
+
+/**
+ * The Wikipedia address derived from an election's body, year and title: a guess until checked.
+ * @param {ElectionLike | undefined} election
+ * @param {ElectionLike | undefined} detail
+ * @returns {string | null}
+ */
+function derivedElectionReferenceUrl(election, detail) {
   const bodySlug = election?.bodySlug || detail?.bodySlug;
   const body = cleanText(election?.body || detail?.body || '');
   const date = cleanText(election?.date || detail?.date || '');
@@ -1670,10 +1700,21 @@ function wikipediaElectionReferenceUrl(election, detail) {
 }
 
 /**
+ * The Wikipedia article for a contest's constituency, from its name: linked only when the
+ * article was confirmed to exist (wikipedia-verified-articles.json).
+ * @param {{ bodySlug?: string } | undefined} election
+ * @param {ContestResult | null | undefined} result
+ * @returns {string | null}
+ */
+function wikipediaConstituencyReferenceUrl(election, result) {
+  return wikipediaReferenceUrl(null, derivedConstituencyReferenceUrl(election, result), verifiedWikipediaArticles());
+}
+
+/**
  * @param {{ bodySlug?: string } | undefined} election
  * @param {ContestResult | null | undefined} result
  */
-function wikipediaConstituencyReferenceUrl(election, result) {
+function derivedConstituencyReferenceUrl(election, result) {
   const name = cleanText(result?.constituency || result?.featureName || result?.matchName);
   if (!name) return null;
   const bodySlug = election?.bodySlug;

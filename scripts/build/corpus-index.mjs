@@ -71,6 +71,11 @@ const CORPORA = [
     // itself emits, so a stale entry here reopened the same four-line diff every rebuild.
     store: 'both', access: 'public', r2Prefix: 'data/datagovie/',
     measured: { files: 30241, gigabytes: 144.54, packages: 20700, measuredAt: '2026-09-03' },
+    // The items that exist on the Internet Archive. ccby-005, -007, -008, -011, -012 and -014 to
+    // -017 were listed here by hand but do not exist (link review, 24 Nov 2026), so the generator
+    // now emits the list itself.
+    iaIdentifiers: ['civgraph-datagovie-ccby-004', 'civgraph-datagovie-ccby-006', 'civgraph-datagovie-ccby-013',
+      'civgraph-datagovie-ccbysa-001', 'civgraph-datagovie-cc0-001'],
     note: 'Licence is per package; see data/database/datagovie-licence-summary.json before reusing '
       + 'files from a given package. IA is the permanent home: every file with a recognised open '
       + 'licence that IA will accept is there, one item per licence class '

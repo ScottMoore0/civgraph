@@ -131,6 +131,8 @@ const CITATION = obj({
   basis: strOrNull, checked: numOrNull, scope: strOrNull, match: strOrNull, checkNote: strOrNull,
   // The day Civgraph fetched the source and compared it figure by figure (YYYY-MM-DD), where held.
   accessed: strOrNull,
+  // 1 when the link review found url dead (data/database/dead-links.json): show archiveUrl first.
+  urlDead: numOrNull,
 });
 
 const PRONI_CHILD = obj({ ref: str, slug: str, title: str, level: str, dates: str, hasChildren: bool });
@@ -175,7 +177,7 @@ export const CONTRACTS = Object.freeze({
       v('citations-contest-by-name', { view: 'citations', constituencyName: '*' }, 'One contest\'s original sources, the contest found by its name',
         obj({ key: strOrNull, seq: num, constituency: str, citations: arr(CITATION) }, ['key', 'citations'])),
       v('citations', { view: 'citations' }, 'An election\'s distinct original sources, with how many of its contests cite each (key null: no such election)',
-        obj({ key: strOrNull, contests: num, sources: arr(obj({ title: strOrNull, publisher: strOrNull, url: strOrNull, host: strOrNull, kind: strOrNull, contests: num })) }, ['key'])),
+        obj({ key: strOrNull, contests: num, sources: arr(obj({ title: strOrNull, publisher: strOrNull, url: strOrNull, host: strOrNull, kind: strOrNull, contests: num, archiveUrl: strOrNull, urlDead: numOrNull })) }, ['key'])),
       v('area-index', { view: 'area-index' }, 'Every place contests were held: a contest slug within a body, with its name, how many contests and their first and last years',
         obj({ schemaVersion: num, areas: arr(AREA_ROW) })),
       v('area-history', { view: 'area-history' }, 'Every contest held under one contest slug (slug=), any body, oldest first: its election, boundary map and candidates. A slug is a name, not a fixed area: bodies and redrawn boundaries can share one',

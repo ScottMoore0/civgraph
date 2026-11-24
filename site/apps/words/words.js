@@ -652,7 +652,7 @@ import { siteNumber } from '../../pkg/core/src/format.js';
     /** The member's page elsewhere: [url, site]. @type {[string, string] | null} */
     var ext = null;
     if (/^oireachtas:/.test(key)) ext = ['https://www.oireachtas.ie/en/members/member/' + encodeURIComponent(key.slice(11)) + '/', 'Oireachtas'];
-    else if (/^niassembly:\d+$/.test(key)) ext = ['https://aims.niassembly.gov.uk/mlas/details.aspx?per=' + key.slice(11), 'NI Assembly'];
+    else if (/^niassembly:\d+$/.test(key)) ext = ['https://aims.niassembly.gov.uk/mlas/details.aspx?per=' + key.slice(11) + '&sel=1&ind=0&prv=0', 'NI Assembly'];
     else if (/^ukparliament:\d+$/.test(key)) ext = ['https://members.parliament.uk/member/' + key.slice(13) + '/contact', 'UK Parliament'];
     if (!ext) return document.createTextNode(row[1]);
     return el('span', {}, [el('a', { href: ext[0], rel: 'noopener', text: row[1] }), el('span', { class: 'tag', text: ext[1] })]);

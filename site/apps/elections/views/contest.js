@@ -20,7 +20,8 @@ import { personAppUrl } from '../lib/place-urls.js';
 import { mountContestNav } from './contest-nav.js';
 import { STV_VIEW_TEXT, stvParts, wireStepper } from './stv-contest.js';
 import { quotaFraction } from '../lib/stv.js';
-import { sourceWords } from '../lib/source-words.js';
+import { SOURCE_WORDS, sourceWords } from '../lib/source-words.js';
+import { citationLinks } from '../../../pkg/core/src/link-health.mjs';
 import { referendumContestHtml } from './referendum.js';
 
 /** @type {Record<string, string>} */
@@ -168,11 +169,15 @@ function outcome(r, order = true) {
 }
 
 /** One citation: title (linked), publisher, kind and what it covers, and how it was checked (lib/source-words.js). */
-/** @param {{ url?: string | null, title?: string | null, host?: string | null, archiveUrl?: string | null, publisher?: string | null, kind?: string | null, scope?: string | null, basis?: string | null, check?: string | null, checked?: boolean, accessed?: string | null }} ci */
+/** A citation whose link the link review found dead (urlDead) shows its archived copy first and the original struck through (citationLinks). */
+/** @param {{ url?: string | null, title?: string | null, host?: string | null, archiveUrl?: string | null, urlDead?: number | boolean | null, publisher?: string | null, kind?: string | null, scope?: string | null, basis?: string | null, check?: string | null, checked?: boolean, accessed?: string | null }} ci */
 export function citation(ci) {
   const w = sourceWords(ci);
-  const link = ci.url ? `<a href="${esc(ci.url)}" rel="noopener">${esc(w.title)}</a>` : esc(w.title);
-  const archive = ci.archiveUrl ? ` (<a href="${esc(ci.archiveUrl)}" rel="noopener">archived copy</a>)` : '';
+  const at = citationLinks(ci);
+  const link = (at.main ? `<a href="${esc(at.main)}" rel="noopener">${esc(w.title)}</a>` : esc(w.title))
+    + (at.mainIsArchive ? ` (${esc(SOURCE_WORDS.archivedCopy)})` : '');
+  const archive = (at.archive ? ` (<a href="${esc(at.archive)}" rel="noopener">${esc(SOURCE_WORDS.archivedCopy)}</a>)` : '')
+    + (at.deadOriginal ? ` <span class="el-muted" data-link="dead"><s><a href="${esc(at.deadOriginal)}" rel="noopener">${esc(SOURCE_WORDS.deadOriginal)}</a></s></span>` : '');
   const bits = [
     ci.publisher && !w.title.includes(String(ci.publisher)) ? esc(ci.publisher) : '',
     w.kind ? esc(w.kind) : '',
