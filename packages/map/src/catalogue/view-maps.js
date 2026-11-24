@@ -12,7 +12,7 @@ import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
 import { MAP_COLOURS } from '../views/colours.mjs';
 import { creditLine } from '../../../core/src/credits.mjs';
-import { rowActionKind, rowCount, datedList, comparable, rowEditions } from './row-model.mjs';
+import { rowActionKind, rowCount, datedList, comparable, rowEditions, foldList } from './row-model.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 import { setHidden } from '../state-helpers.mjs';
 
@@ -237,8 +237,15 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   // An opened row of several maps lists them by date, each with its chip and tools (panelHtml), so
   // its strip of chips gives way to that list; a closed row keeps the strip for quick adding
   // (Phelim Birch, 20 Nov 2026). The maps to be added and a search's council maps stay on it.
-  const listed = open && actsOn === 'row';
+  // Mock-up w23-map-lists (row-model.mjs ListStyle): 'a' lists them by date open or closed; 'b'
+  // keeps the strip open or closed; 'current' is the live site's.
+  const style = c.listStyle || 'current';
+  const listed = actsOn === 'row' && (style === 'a' || (style === 'current' && open));
   const chips = (!single && !listed) || todo.length || localHits.length;
+  // ?lists=a: the dated list sits under the row without a box, open or closed, so it does not move
+  // when the row opens; only the description above it is boxed.
+  const closedList = !open && listed;
+  const bare = listed && style === 'a';
   const ends = actsOn === 'row' ? rowActionsHtml(c, s) : single ? mapActionsHtml(c, s, /** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0])) : '';
   return `<li class="cn-row${open ? ' cn-row--open' : ''}${drawable ? '' : ' cn-row--todo'}" data-cn-series="${esc(s.id)}" style="--c:${s.color || FALLBACK}">
     <span class="cn-row__stripe" aria-hidden="true"></span>
@@ -246,7 +253,7 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
     ${title}
     ${ends ? `<span class="cn-row__end" role="group" aria-label="${esc(s.name)}: actions">${ends}</span>` : ''}
     ${chips ? `<div class="cn-chips" role="group" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${chipsHtml(c, s, single || listed ? [] : editions, hit)}</div>` : ''}
-    ${open ? `<div class="cn-panel" id="cn-panel-${esc(s.id)}" data-cn-panel="${esc(s.id)}">${panelHtml(c, s)}</div>` : ''}
+    ${open || closedList ? `<div class="cn-panel${bare ? ' cn-panel--list' : ''}" id="cn-panel-${esc(s.id)}" data-cn-panel="${esc(s.id)}">${panelHtml(c, s)}</div>` : ''}
   </li>`;
 }
 
@@ -376,6 +383,14 @@ export function aboutHtml(about, { heading = '' } = {}) {
 export function panelHtml(c, s) {
   const sel = c.selectedMember(s);
   const list = datedList(s, (id) => c.rec(id));
+  const style = c.listStyle || 'current';
+  const open = c.expanded.has(s.id);
+  // ?lists=a: the same dated list open or closed; the open row adds what it is above it, and the
+  // chosen map's facts in it.
+  if (list.length > 1 && style === 'a') return `${open ? aboutHtml(s.about) : ''}${datedListHtml(c, s, list, open ? sel : null, c.rowHit?.(s), { fold: true })}`;
+  // ?lists=b: the strip stays above; the open row adds what it is, then the chosen map's facts and
+  // tools, chosen from a menu.
+  if (list.length > 1 && style === 'b') return `${aboutHtml(s.about)}${pickedEditionHtml(c, s, list, sel)}`;
   if (list.length > 1) return `${aboutHtml(s.about)}${datedListHtml(c, s, list, sel, c.rowHit?.(s))}`;
   // A single map with no facts, versions, parts or council maps draws no empty block (its grid gap
   // left a band of empty space under the description: Phelim Birch, 19 Nov 2026).
@@ -413,12 +428,18 @@ function mapDescriptionHtml(c, id) {
  * A row's maps, one line each: the map's date, its chip (on and off the map), its tools, and a
  * button that opens its description, facts, versions and parts beneath it. A chip a search matched
  * is marked, as on the closed row's strip.
- * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} list @param {CatalogueRowMember} sel @param {RowHit} [hit]
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} list @param {CatalogueRowMember | null} sel  null: no line opened (a closed row) @param {RowHit} [hit] @param {{ fold?: boolean }} [options]
  */
-function datedListHtml(c, s, list, sel, hit) {
-  const chosen = sel.of || sel.id;
+function datedListHtml(c, s, list, sel, hit, { fold = false } = {}) {
+  const chosen = sel ? sel.of || sel.id : null;
   const hits = new Set((c.query || c.here) ? hit?.members || [] : []);
-  return `<ul class="cn-dlist" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${list.map((m) => {
+  // ?lists=a folds a long list after five lines, open or closed alike ("Show all 26").
+  const { shown, hidden } = fold ? foldList(list, { all: c.moreChips.has(s.id), keep: list.findIndex((m) => m.id === chosen) }) : { shown: list, hidden: 0 };
+  const unfolded = fold && c.moreChips.has(s.id) && list.length > 6;
+  const toggle = hidden
+    ? `<button type="button" class="cn-link cn-dlist__fold" data-cn-more="${esc(s.id)}" aria-expanded="false">Show all ${list.length}</button>`
+    : unfolded ? `<button type="button" class="cn-link cn-dlist__fold" data-cn-fewer="${esc(s.id)}" aria-expanded="true">Show fewer</button>` : '';
+  return `<ul class="cn-dlist" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${shown.map((m) => {
     const r = c.rec(m.id);
     const when = r.date ? mapDate(r) : '';
     const open = m.id === chosen;
@@ -430,9 +451,29 @@ function datedListHtml(c, s, list, sel, hit) {
         <span class="cn-dlist__chip">${chipHtml(c, s, m, { versions: false, hit: hits.has(m.id) })}</span>
         <span class="cn-dlist__acts">${todo ? '<span class="cn-badge cn-badge--todo">To be added</span>' : mapToolsHtml(c, m.id, label, { small: true })}<button type="button" class="cn-iconbtn cn-iconbtn--sm cn-dlist__more" data-cn-select="${esc(s.id)}|${esc(m.id)}" aria-expanded="${open}" aria-label="${esc(m.label)}: facts, versions and parts" title="Facts, versions and parts">${icon('chevron-down')}</button></span>
       </span>
-      ${open ? `<div class="cn-ed">${editionHtml(c, s, sel)}</div>` : ''}
+      ${open && sel ? `<div class="cn-ed">${editionHtml(c, s, sel)}</div>` : ''}
     </li>`;
-  }).join('')}</ul>`;
+  }).join('')}</ul>${toggle}`;
+}
+
+/**
+ * ?lists=b: the opened row's chosen map, picked from a menu of the row's maps by date, with its
+ * date, its Zoom, Download and Details, then its facts, versions and parts.
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} list @param {CatalogueRowMember} sel
+ */
+function pickedEditionHtml(c, s, list, sel) {
+  const chosen = sel.of || sel.id;
+  const r = c.rec(chosen);
+  const label = `${s.name}, ${list.find((m) => m.id === chosen)?.label || sel.label}`;
+  const options = list.map((m) => {
+    const rm = c.rec(m.id);
+    const when = rm.date ? mapDate(rm) : '';
+    return `<option value="${esc(m.id)}"${m.id === chosen ? ' selected' : ''}>${esc(when && when !== m.label ? `${m.label} (${when})` : m.label)}</option>`;
+  }).join('');
+  return `<div class="cn-pickrow"><label class="cn-pickrow__label"><span class="cn-label">Details for</span>
+      <select class="cn-pickrow__select" data-cn-pick-edition="${esc(s.id)}">${options}</select></label>
+      <span class="cn-dlist__acts">${r.status === 'placeholder' ? '<span class="cn-badge cn-badge--todo">To be added</span>' : mapToolsHtml(c, chosen, label, { small: true })}</span></div>
+    <div class="cn-ed">${editionHtml(c, s, sel)}</div>`;
 }
 
 /** @param {CatalogueNext} _c @param {CatalogueRowMember} _sel @param {CatalogueMapRec} r */

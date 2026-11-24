@@ -325,6 +325,13 @@ export const CATALOGUE_CSS = `
 .cn-dlist__more .cn-icon { transition: transform .15s ease; }
 .cn-dlist__more[aria-expanded="true"] .cn-icon { transform: rotate(180deg); }
 .cn-dlist__item > .cn-ed { padding-left: 2px; }
+/* Mock-up w23-map-lists: a closed row's dated list (?lists=a) has no box; the opened row's menu (?lists=b) */
+.cn-panel--list { margin-top: 6px; padding: 0; border: 0; background: none; gap: 4px; }
+.cn-dlist__fold { justify-self: start; font-size: 13px; }
+.cn-panel--list > .cn-about { margin-bottom: 6px; padding: 12px; border: 1px solid var(--cn-line); border-radius: 10px; background: var(--cn-raised); }
+.cn-pickrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.cn-pickrow__label { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+.cn-pickrow__select { min-width: 0; max-width: 100%; font: inherit; font-size: 13px; padding: 4px 8px; border: 1px solid var(--cn-line); border-radius: 8px; background: var(--cn-surface); color: inherit; }
 /* The Details page's actions: the catalogue's buttons, outside the catalogue's own root. */
 .cn.cn-detail-actions { margin: 10px 0 12px; padding: 0; }
 

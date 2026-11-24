@@ -43,7 +43,7 @@ import { CATALOGUE_TAB, followSeriesRedirect } from './route-state.mjs';
 import { defineFlagFields, setHidden } from '../state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 import { siteNumber } from '../../../core/src/format.js';
-import { catalogueTrail, comparable, detailHolders, mapTitle, ownDescription, partLabel, passesProviders, providerCounts, rowCitation, rowMapCount, rowProviderIds } from './row-model.mjs';
+import { catalogueTrail, comparable, detailHolders, listStyleOf, mapTitle, ownDescription, partLabel, passesProviders, providerCounts, rowCitation, rowMapCount, rowProviderIds } from './row-model.mjs';
 import { PROVIDERS } from './util.js';
 import { MAP_COLOURS } from '../views/colours.mjs';
 
@@ -215,6 +215,8 @@ export class CatalogueNext {
     this.expanded = new Set();
     /** @type {Map<string, string>} each row's chosen edition */
     this.selected = new Map();
+    /** @type {import('./row-model.mjs').ListStyle} how a row of several maps lists them (?lists=a|b; mock-up w23-map-lists) */
+    this.listStyle = listStyleOf(typeof location === 'undefined' ? '' : location.search);
     /** @type {string | null} */
     this.focusSeries = null;
     /** @type {Set<string>} */
@@ -1535,6 +1537,9 @@ export class CatalogueNext {
   /** A year typed into a box: applied when the box is left or Enter is pressed, not per key. */
   /** @param {Event} e */
   onYearTyped(e) {
+    // The opened row's "Details for" menu (?lists=b) chooses the map whose facts and tools show.
+    const pick = /** @type {HTMLSelectElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-pick-edition]'));
+    if (pick) { this.select(/** @type {string} */ (pick.dataset['cnPickEdition']), pick.value); return; }
     const provider = /** @type {HTMLInputElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-provider]'));
     if (provider) {
       const id = /** @type {string} */ (provider.dataset['cnProvider']);
@@ -1655,6 +1660,13 @@ export class CatalogueNext {
   select(sid, mid) {
     this.selected.set(sid, mid);
     this.focusSeries = sid;
+    // A closed row's dated list (?lists=a) opens the row at the map chosen.
+    if (!this.expanded.has(sid)) {
+      this.expanded.add(sid);
+      this.rerenderRow(sid);
+      this.replaceRoute();
+      return;
+    }
     this.rerenderPanel(sid, `[data-cn-select="${cssId(`${sid}|${mid}`)}"]`);
     this.replaceRoute();
   }

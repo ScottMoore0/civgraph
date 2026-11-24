@@ -287,3 +287,37 @@ export function detailHolders(doc) {
 export function ownDescription(record) {
   return record?.isDataEntry && typeof record.description === 'string' ? record.description.trim() : '';
 }
+
+/**
+ * How a row of several maps lists them (mock-up w23-map-lists, for the owner and Phelim Birch to
+ * choose between; the live site's unless the address asks for a mock-up):
+ *   - 'a': the dated list (date, chip, Zoom, Download, Details, facts) under the row whether it is
+ *     open or closed; opening the row adds its description above the list;
+ *   - 'b': the strip of chips under the row whether it is open or closed; opening the row adds its
+ *     description and the chosen map's facts and tools, picked from a menu;
+ *   - 'current': as on the live site (the strip on a closed row, the dated list on an opened one).
+ * @typedef {'a' | 'b' | 'current'} ListStyle
+ */
+
+/**
+ * The list style an address asks for with ?lists=a|b; 'current' when it names none or another.
+ * @param {string | null | undefined} search  a location.search string, with or without its '?'
+ * @returns {ListStyle}
+ */
+export function listStyleOf(search) {
+  const v = new URLSearchParams(String(search || '')).get('lists');
+  return v === 'a' || v === 'b' ? v : 'current';
+}
+
+/**
+ * The lines a dated list shows: the first `fold`, or all when unfolded, when the opened line lies
+ * beyond the fold, or when folding would hide one line only.
+ * @template T
+ * @param {T[]} list
+ * @param {{ all?: boolean, fold?: number, keep?: number }} [options]  keep: the index of a line that must show
+ * @returns {{ shown: T[], hidden: number }}
+ */
+export function foldList(list, { all = false, fold = 5, keep = -1 } = {}) {
+  if (all || list.length <= fold + 1 || keep >= fold) return { shown: list, hidden: 0 };
+  return { shown: list.slice(0, fold), hidden: list.length - fold };
+}

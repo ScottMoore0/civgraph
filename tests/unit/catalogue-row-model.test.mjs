@@ -9,7 +9,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { catalogueTrail, comparable, countEdition, datedList, detailHolders, mapTitle, ownDescription, partLabel, rowActionKind, rowCitation, rowCount, rowEditions, rowMapCount } from '@civgraph/map/catalogue/row-model.mjs';
+import { catalogueTrail, comparable, countEdition, datedList, detailHolders, foldList, listStyleOf, mapTitle, ownDescription, partLabel, rowActionKind, rowCitation, rowCount, rowEditions, rowMapCount } from '@civgraph/map/catalogue/row-model.mjs';
 import { otherSubject } from '../../scripts/build/catalogue/records.mjs';
 
 /** @type {Record<string, any>} */
@@ -190,4 +190,22 @@ test('on the catalogue: the Townlands map is named as its row, not as the old la
   assert.ok(title.startsWith('Townlands'), title);
   assert.notEqual(title, doc.maps['all-ireland-townlands'].name);
   assert.equal(partLabel(doc.maps['all-ireland-townlands'], 'ni-townlands'), 'Northern Ireland');
+});
+
+test('listStyleOf: ?lists=a and ?lists=b are honoured; anything else is the live site list', () => {
+  assert.equal(listStyleOf(''), 'current');
+  assert.equal(listStyleOf(null), 'current');
+  assert.equal(listStyleOf('?lists=a'), 'a');
+  assert.equal(listStyleOf('lists=b&x=1'), 'b');
+  assert.equal(listStyleOf('?lists=zzz'), 'current');
+});
+
+test('foldList: first five lines, all when unfolded, when one line would hide, or when the open line is past the fold', () => {
+  const ten = [...Array(10).keys()];
+  assert.deepEqual(foldList(ten), { shown: [0, 1, 2, 3, 4], hidden: 5 });
+  assert.deepEqual(foldList(ten, { all: true }), { shown: ten, hidden: 0 });
+  assert.deepEqual(foldList(ten, { keep: 7 }), { shown: ten, hidden: 0 });
+  assert.deepEqual(foldList(ten, { keep: 2 }), { shown: [0, 1, 2, 3, 4], hidden: 5 });
+  assert.deepEqual(foldList([1, 2, 3, 4, 5, 6]), { shown: [1, 2, 3, 4, 5, 6], hidden: 0 });
+  assert.deepEqual(foldList([1, 2, 3]), { shown: [1, 2, 3], hidden: 0 });
 });
