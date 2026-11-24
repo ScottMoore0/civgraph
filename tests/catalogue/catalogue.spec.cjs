@@ -971,7 +971,9 @@ test('N27 an open election gets more of the screen: a narrower catalogue, shorte
 
 test('N27 the language control: typing the phrase shows it, nothing else does, and an ordinary visit loads none of it', async ({ page }) => {
   const i18n = [];
-  page.on('request', (r) => { if (r.url().includes('/assets/i18n/')) i18n.push(r.url()); });
+  // The map itself loads place-name-fields.json for the Irish second line on labels, shown to every
+  // reader (owner, 24 Nov 2026); the language control's own files must still stay unloaded.
+  page.on('request', (r) => { if (r.url().includes('/assets/i18n/') && !r.url().includes('/assets/i18n/place-name-fields.json')) i18n.push(r.url()); });
   const flag = () => page.evaluate(() => localStorage.getItem('civgraph.langPreview'));
   await open(page);
   await expect(page.locator('[data-lang-switch]')).toHaveCount(0);
