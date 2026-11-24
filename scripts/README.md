@@ -22,9 +22,9 @@ Since the script reorganisation (November 2026) the folders say what a script do
 | `dev/` | local servers (the Playwright test server included); the worktree tools (`worktree/`: `worktree:new`, `worktree:remove`, `worktree:own`) and the landing queue (`land.mjs`: `npm run land`) |
 | `lib/` | shared modules |
 
-The files left at the top level are one-month shims from the first move (wave 1, 6
-November 2026): each runs the publish-layer script or tool it names, so older notes
-and commands keep working. Script-style tests moved to `tests/`, and archived scripts
+No script is left at the top level: the one-month shims kept at the old paths after the
+first move (wave 1, 6 November 2026) were removed on 24 November 2026, so call each
+script at its folder path. Script-style tests moved to `tests/`, and archived scripts
 are listed in `docs/ARCHIVE.md`.
 
 ## The npm entries, by prefix

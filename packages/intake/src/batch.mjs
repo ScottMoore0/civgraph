@@ -129,7 +129,7 @@ export function resolveFgbPairs(batch, op) {
 
 /**
  * The [{local, rel}] list an r2-tree op sends. `files` are repo-relative and must sit under the
- * prefix; `manifest` is an upload-tree-r2 manifest already on disk; `dir` is listed now if it exists.
+ * prefix; `manifest` is a manifest for r2-upload-manifest already on disk; `dir` is listed now if it exists.
  */
 /**
  * @param {Batch} batch
@@ -342,7 +342,7 @@ export function validateBatch(batch, { checkPublicationGate = true } = {}) {
         if (op.pairsFile && !existsSync(batchPath(batch, op.pairsFile))) { errors.push(`${op.id}: pairsFile ${op.pairsFile} does not exist`); break; }
         const pairs = resolveFgbPairs(batch, op);
         for (const p of pairs) {
-          if (!p.key.endsWith('.fgb')) errors.push(`${op.id}: ${p.key} is not a .fgb key (upload-fgb-r2 sends only .fgb)`);
+          if (!p.key.endsWith('.fgb')) errors.push(`${op.id}: ${p.key} is not a .fgb key (r2-upload-files sends only .fgb)`);
           if (!existsSync(repoPath(batch, p.file)) && !copyTargets.has(p.file)) errors.push(`${op.id}: ${p.file} is neither in the repository nor copied in by this batch`);
         }
         break;

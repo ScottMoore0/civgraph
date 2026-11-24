@@ -27,7 +27,7 @@ test('upload --dry-run uses each script\'s own dry form and lists only real step
   assert.deepEqual(argv[0], ['node', ENV, 'scripts/publish/r2-upload-files.mjs', 'data/maps/health/New_Layer.fgb=data/maps/health/New_Layer.fgb', '--dry-run']);
   assert.equal(argv[1][2], 'scripts/publish/r2-upload-manifest.mjs');
   assert.deepEqual(argv[1].slice(-4), ['--prefix', 'data/maps/health/', '--force', '--dry']);
-  // the generated manifest is the [{local, rel}] form upload-tree-r2 reads
+  // the generated manifest is the [{local, rel}] form r2-upload-manifest reads
   const manifest = JSON.parse(readFileSync(argv[1][4], 'utf8'));
   assert.deepEqual(manifest.map((e) => e.rel), ['Lookup.csv']);
   assert.ok(path.isAbsolute(manifest[0].local));

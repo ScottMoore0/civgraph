@@ -1,4 +1,4 @@
-// The rebuilt catalogue in the browser, against the local test site (tools/test-site/), which
+// The rebuilt catalogue in the browser, against the local test site (tools/dev-site/), which
 // switches it on. C01-C23 are the capability checklist (CAPABILITIES.md): every capability of the
 // current pane, kept or deliberately replaced. N01-N07 cover what is new.
 const { test, expect } = require('@playwright/test');

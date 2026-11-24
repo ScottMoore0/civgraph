@@ -881,7 +881,7 @@
 - [x] Inspect dirty-file categories and representative diffs
   - Completed: `git status` reports 1,778 modified paths, but `git diff --name-only -- data/browse test/metadata` reports 538 real content diffs. The rest are line-ending/status noise in generated test metadata.
 - [x] Trace generator/source ownership for each category
-  - Completed: `scripts/build/build-browse-indexes.mjs` owns the Browse election/source JSON changes; `scripts/build/build-test2-metadata-shards.mjs` owns the test metadata shard files; `scripts/validate-test2-pmtiles-cdn.mjs` owns the CDN validation report.
+  - Completed: `scripts/build/build-browse-indexes.mjs` owns the Browse election/source JSON changes; `scripts/build/build-test2-metadata-shards.mjs` owns the test metadata shard files; `scripts/publish/verify-pmtiles-cdn-urls.mjs` owns the CDN validation report.
 - [x] Recommend a safe resolution path
   - Completed: commit the regenerated Browse election metadata after a deterministic rebuild and validation; restore the timestamp-only CDN validation report and the line-ending-only test metadata shard noise; add an EOL guardrail separately if the line-ending churn recurs.
 
@@ -1668,7 +1668,7 @@
 - [x] Add `/test2` service worker and cache diagnostics
   - Done: added `/test2/sw.js`, registered it from `/test2`, exposed cache/storage status through message passing, skipped PMTiles/full bundles from SW caching, and added quota-aware runtime eviction.
 - [x] Add PMTiles/CDN validation and monitoring
-  - Done: added `scripts/validate-test2-pmtiles-cdn.mjs`, wired it into `check:test2`, added optional network byte-range monitoring via `npm run monitor:test2:cdn`, and generated `test/metadata/test2-cdn-validation-report.json`.
+  - Done: added `scripts/publish/verify-pmtiles-cdn-urls.mjs`, wired it into `check:test2`, added optional network byte-range monitoring via `npm run monitor:test2:cdn`, and generated `test/metadata/test2-cdn-validation-report.json`.
 - [x] Tune MapLibre mobile/runtime settings
   - Done: added runtime device profiling, worker/tile-cache/fade/pixel-ratio tuning, PMTiles archive reuse, and runtime-profile metrics in the shared MapLibre controller used by `/test2`.
 - [x] Workerize election overlay collision calculations
@@ -6303,7 +6303,7 @@ Add election entries to /test2
 - [x] Add line-ending guardrails
   - Completed: added `.gitattributes` LF normalization for generated metadata/report JSON and the `/test2` election audit markdown report so Windows rebuilds do not produce CRLF-only dirty-tree churn.
 - [x] Verify and commit
-  - Verification evidence: `node --check` passed for `scripts/lib/stable-generated-json.mjs`, `scripts/build/build-test2-election-manifest.mjs`, `scripts/build/build-test2-election-summaries.mjs`, `scripts/build/build-test2-metadata-shards.mjs`, `scripts/check/rules/election-data-audit.mjs`, `scripts/validate-test2-pmtiles-cdn.mjs`, and `scripts/build/build-test2-performance-dashboard.mjs`.
+  - Verification evidence: `node --check` passed for `scripts/lib/stable-generated-json.mjs`, `scripts/build/build-test2-election-manifest.mjs`, `scripts/build/build-test2-election-summaries.mjs`, `scripts/build/build-test2-metadata-shards.mjs`, `scripts/check/rules/election-data-audit.mjs`, `scripts/publish/verify-pmtiles-cdn-urls.mjs`, and `scripts/build/build-test2-performance-dashboard.mjs`.
   - Verification evidence: `npm run build:test2:elections`, `npm run build:test2`, and `npm run check:test2` passed, and `git status --porcelain=v1` stayed limited to the intended source/task files after the generators reran. `build:test2` reported `Test2 layer details: 0 changed, 0 stale removed` and `Test2 duplicate-id sidecars: 0 changed, 0 stale removed`.
   - Recurring issue: generated metadata/audit reports repeatedly dirtied the working tree after verification.
     - Symptom: hundreds of tracked `/test` metadata files appeared modified, while true diffs were mostly generated timestamps.
@@ -7566,7 +7566,7 @@ Review:
   - Task: prove the existing peatland/D-drive source publication state and deploy file budget remain clean after the validator fix.
   - Verification plan: run peatland, medium-priority publication, root route promotion, and Pages file-budget validators.
   - Completed: re-ran the non-browser publication, file-budget, route-promotion, PMTiles CDN metadata, raw-source, external-source, election-audit, performance-dashboard, and full `npm run check` guardrails.
-  - Verification evidence: `npm run check` passed end-to-end; `node scripts\validate-test2-pmtiles-cdn.mjs` passed metadata validation with 666 PMTiles layers and 2 warnings for Irish hill-domain PMTiles not directly represented in the CDN upload manifest; `node scripts\check\rules\election-data-audit.mjs --fail-on-blocking` reported 0 blocking issues and 331 non-blocking warnings.
+  - Verification evidence: `npm run check` passed end-to-end; `node scripts\publish\verify-pmtiles-cdn-urls.mjs` passed metadata validation with 666 PMTiles layers and 2 warnings for Irish hill-domain PMTiles not directly represented in the CDN upload manifest; `node scripts\check\rules\election-data-audit.mjs --fail-on-blocking` reported 0 blocking issues and 331 non-blocking warnings.
 - [x] Browser-smoke the visible route flows.
   - Task: verify the mobile catalogue/map toggle remains reachable, Civil Parishes can load, and visible catalogue/source records are reachable through the app route.
   - Verification plan: use the app's existing browser smoke tooling or a local dev server plus Playwright/browser checks.
@@ -7612,9 +7612,9 @@ Review:
   - Completed: uploaded both PMTiles archives to `boundaries-data` under `data/maps/test/pmtiles/generated/`, then ran full CDN range verification across the regenerated PMTiles manifest.
   - Verification evidence: `npm run deploy:test:pmtiles -- --ids irish-hill-summit-domains-vector-test,irish-hill-prominence-domains-vector-test` reported 2/2 uploaded, 0 failed, 71,913,405 bytes; `npm run verify:test:pmtiles-cdn` verified 573/573 PMTiles assets. The two target URLs returned HTTP 206 with 16-byte range bodies and `Accept-Ranges: bytes`.
 - [x] Rerun CDN validation.
-  - Task: rerun `validate-test2-pmtiles-cdn` and record whether warnings are cleared.
+  - Task: rerun `verify-pmtiles-cdn-urls` and record whether warnings are cleared.
   - Completed: added `byteRangeVerifiedAt` for the two uploaded layers in `test/metadata/maps-test.json` and reran the PMTiles/CDN validators.
-  - Verification evidence: `node scripts\validate-test2-pmtiles-cdn.mjs` passed with 666 PMTiles layers, 573 unique URLs, 0 errors, and 0 warnings; `node scripts\check\rules\cdn-manifest.mjs` passed with 0 errors and 0 warnings; `npm run check:test2` passed, including PMTiles metadata coverage `666/666 PMTiles layers use CDN URLs`.
+  - Verification evidence: `node scripts\publish\verify-pmtiles-cdn-urls.mjs` passed with 666 PMTiles layers, 573 unique URLs, 0 errors, and 0 warnings; `node scripts\check\rules\cdn-manifest.mjs` passed with 0 errors and 0 warnings; `npm run check:test2` passed, including PMTiles metadata coverage `666/666 PMTiles layers use CDN URLs`.
 - [x] Record review findings.
   - Task: summarize code/data changes, upload status, verification evidence, and any remaining blockers.
   - Completed: findings recorded here and summarized for handoff. The election audit still reports 331 non-blocking warnings; those are unchanged from the earlier classification and are separate from the CDN manifest/upload fix.
@@ -7773,7 +7773,7 @@ Review:
 - [x] Implement PDF row extraction.
   - Task: extend the NI register generator so PDF editions produce structured MLA member/category rows, deduplicated per source document.
   - Verification plan: regenerate structured shards and compare counts for `historical-pdf-register` rows against the 38 PDF source records.
-  - Completed: added `scripts/extract-pdf-text.py`, integrated PDF parsing into `scripts/ingest/ni-assembly-opendata/build-ni-register-interests.mjs`, regenerated structured shards, and added inferred empty-category rows where PDFs omit text under a numbered category.
+  - Completed: added `tools/extract-pdf-text.py`, integrated PDF parsing into `scripts/ingest/ni-assembly-opendata/build-ni-register-interests.mjs`, regenerated structured shards, and added inferred empty-category rows where PDFs omit text under a numbered category.
   - Verification evidence: builder produced 39,297 `historical-pdf-register` rows across all 38 PDF source documents; total structured interest rows are now 73,657.
 - [x] Extend validation.
   - Task: update the NI register validator so PDF source records must have structured row coverage, and so source-only PDF publication cannot pass.

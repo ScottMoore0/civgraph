@@ -7,7 +7,7 @@
 # (Open Government Licence), one zip per basin, each holding 1 km ESRI ASCII grids in the
 # Irish Grid (EPSG:29903) under DTM_1m/. The DTM (bare earth) is mosaicked, hillshaded from
 # several directions, reprojected to Web Mercator and tiled by rasterio_xyz_tiler.py into
-# {z}/{x}/{y}.png, which upload-tile-pyramid-s3.mjs puts on R2 under
+# {z}/{x}/{y}.png, which r2-upload-tree.mjs puts on R2 under
 # data/maps/physical/<layer id>/. Tiles wholly outside the surveyed area are not written.
 #
 # Stonyford 2014 (osni-lidar-stonyford-2014): stonyford_16_06_2014.zip, zooms 8-16.

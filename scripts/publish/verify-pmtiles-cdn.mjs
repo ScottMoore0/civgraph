@@ -5,7 +5,7 @@
  * SCOPED RUNS MERGE. `--ids` restricts what is fetched; it must not restrict what the
  * report describes. Until 2026-08-20 it did both: a five-layer run wrote a report
  * containing five rows and the other 814 verification results were gone. The report is
- * an input to write-test-cdn-upload-manifest.mjs, which reads it to learn which
+ * an input to r2-manifest.mjs, which reads it to learn which
  * archives exist remotely, so the truncation propagated -- 8 layers silently lost
  * their `remoteVerified` flag on the next manifest write.
  */

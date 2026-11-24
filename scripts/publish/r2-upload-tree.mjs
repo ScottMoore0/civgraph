@@ -47,7 +47,7 @@ const CONCURRENCY = parseInt(opts.concurrency || '32', 10);
 const R2 = r2CredentialsOrExit();
 const BUCKET = R2.bucket;
 
-// Kept identical to scripts/set-r2-cache-control.mjs. If you change one, change
+// Kept identical to scripts/publish/r2-cache-control.mjs. If you change one, change
 // both -- objects uploaded after a divergence would quietly differ from the ones
 // backfilled before it, and nothing downstream would notice.
 const CACHE_CONTROL = 'public, max-age=3600, stale-while-revalidate=86400';

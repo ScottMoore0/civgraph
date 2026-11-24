@@ -8,8 +8,8 @@
  *
  *   2026-07-31  promote-test-converted-layers --ids <19 layers> rewrote maps-test.json
  *               from its own report and deleted 15 unrelated working layers.
- *   2026-08-19  verify-test-pmtiles-cdn --ids <5 layers> replaced all 819 rows of
- *               cdn-range-report.json with 5. write-test-cdn-upload-manifest then read
+ *   2026-08-19  verify-pmtiles-cdn --ids <5 layers> replaced all 819 rows of
+ *               cdn-range-report.json with 5. r2-manifest then read
  *               that truncated report and cleared remoteVerified for 330 layers whose
  *               archives were fine. Measured, not estimated: 331 -> 1.
  *
@@ -95,7 +95,7 @@ console.log('writeArtefactJson (the July half, still enforced):');
 }
 
 // A flag a script does not implement must abort it. The August over-run happened
-// because switch-test-pmtiles-to-cdn.mjs accepted --ids and discarded it.
+// because switch-pmtiles-to-cdn.mjs accepted --ids and discarded it.
 console.log('assertKnownFlags:');
 {
   const probe = join(dir, 'probe.mjs');
