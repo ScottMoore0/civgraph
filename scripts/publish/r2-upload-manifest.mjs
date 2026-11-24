@@ -76,7 +76,7 @@ const STREAM_THRESHOLD = 128 * 1024 * 1024;
 const CONTENT_TYPES = {
   '.xml': 'application/xml', '.pdf': 'application/pdf', '.json': 'application/json',
   '.txt': 'text/plain; charset=utf-8', '.html': 'text/html; charset=utf-8',
-  '.csv': 'text/csv; charset=utf-8'
+  '.csv': 'text/csv; charset=utf-8', '.geojson': 'application/geo+json'
 };
 
 /**

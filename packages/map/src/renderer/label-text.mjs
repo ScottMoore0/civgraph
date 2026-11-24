@@ -7,7 +7,7 @@
  *     pane, search and downloads keep the official form.
  *   - Bilingual labels: the English name first, the Irish name on a second, smaller italic line,
  *     for a layer whose data carries one (assets/i18n/place-name-fields.json). The map shows it
- *     only where Irish place names are shown at all (labels.js irishLabelLinesShown).
+ *     for every reader (labels.js irishSecondLineField; owner, 24 Nov 2026).
  *   - Label points: a layer's label-point file (labelPointsUrl, built by
  *     packages/maps-pipeline/src/tiles/label-points.mjs) gives each area one point inside it, and
  *     its area, so a label sits inside its area and larger areas are placed first.

@@ -9,7 +9,7 @@ import {
   resolveLabelPointsUrl,
   titleCaseCaps
 } from '@civgraph/map/renderer/label-text.mjs';
-import { getFeatureLabel, getLabelLines, getLabelStyle, irishSecondLineField } from '@civgraph/map/renderer/labels.js';
+import { getFeatureLabel, getLabelLines, getLabelStyle, irishSecondLineField, setIrishNameFields } from '@civgraph/map/renderer/labels.js';
 import { boundaryLevelOf } from '@civgraph/maps-pipeline/boundary-levels.mjs';
 import { labelPointColumns } from '@civgraph/maps-pipeline/label-data.mjs';
 import { SITE } from '@civgraph/config';
@@ -132,4 +132,23 @@ test('label-point SQL: point on surface of the joined pieces, in lon/lat, with a
   assert.match(area, /^SUM\(ST_Area\(ST_Transform\(ST_MakeValid\(geometry\), 4326\), 1\)\) AS area_m2$/);
   assert.match(labelPointColumns(4326)[1], /ST_Union\(ST_MakeValid\(geometry\)\)/);
   assert.equal(labelPointColumns(null)[0], '0 AS area_m2', 'an SRID-0 source cannot be measured');
+});
+
+test('map labels: the Irish second line for every reader once the map has loaded place-name-fields.json', () => {
+  const layer = { id: 'test-townlands-vector', labelProperty: 'ENG_NAME_VALUE' };
+  const props = { ENG_NAME_VALUE: 'BALLYBOUGH', GLE_NAME_VALUE: 'AN BAILE BOCHT' };
+  const saved = globalThis.civgraphI18n;
+  try {
+    delete globalThis.civgraphI18n;
+    setIrishNameFields({ layers: { 'test-townlands-vector': 'GLE_NAME_VALUE' }, hints: [] });
+    assert.equal(irishSecondLineField(layer), 'GLE_NAME_VALUE');
+    assert.deepEqual(getLabelLines(layer, props), { primary: 'Ballybough', secondary: 'An Baile Bocht' });
+    // A layer the table does not list, but whose popup names a hinted property.
+    setIrishNameFields({ layers: {}, hints: ['ED_GAEILGE'] });
+    assert.equal(irishSecondLineField({ id: 'x', labelProperty: 'ED_ENGLISH', popupProperties: ['ED_GAEILGE'] }), 'ED_GAEILGE');
+    assert.equal(irishSecondLineField({ id: 'y', labelProperty: 'NAME' }), null, 'no Irish property: English alone');
+  } finally {
+    setIrishNameFields(null);
+    if (saved === undefined) delete globalThis.civgraphI18n; else globalThis.civgraphI18n = saved;
+  }
 });

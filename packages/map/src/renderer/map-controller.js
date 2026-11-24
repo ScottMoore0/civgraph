@@ -20,7 +20,8 @@ import {
   getLabelLines,
   getLabelMaxZoom,
   getLabelMinZoom,
-  getLabelStyle
+  getLabelStyle,
+  setIrishNameFields
 } from './labels.js';
 import { indexLabelPoints, labelCollisionBox, resolveLabelPointsUrl } from './label-text.mjs';
 import { repairFeatureProperties } from './feature-property-repairs.js';
@@ -428,6 +429,14 @@ export class TestMapLibreController {
     // Interface language (preview only: assets/i18n/i18n.js): relabel when it changes or loads.
     if (typeof document !== 'undefined') {
       document.addEventListener('civgraph:langchange', () => this.applyLabelLanguage(), { signal: this.lifecycle.signal });
+      // The Irish second line shows for every reader (owner, 24 Nov 2026): load the per-layer Irish
+      // name properties once, then relabel what is already drawn.
+      if (typeof fetch === 'function') {
+        fetch('/assets/i18n/place-name-fields.json', { signal: this.lifecycle.signal })
+          .then((r) => (r.ok ? r.json() : null))
+          .then((table) => { if (table) { setIrishNameFields(table); this.applyLabelLanguage(); } })
+          .catch(() => { /* labels stay English alone */ });
+      }
     }
     this.mobileGestureGuardTargetCount = 0;
     /** @type {ResizeObserver | null} */

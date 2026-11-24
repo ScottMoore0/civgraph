@@ -222,18 +222,51 @@ export function irishNameProperty(layer) {
 }
 
 /**
+ * The per-layer Irish name properties (assets/i18n/place-name-fields.json), loaded by the map at
+ * start (setIrishNameFields) so the Irish second line shows for every reader (owner, 24 Nov 2026,
+ * as Phelim Birch asked), not only after the language control is loaded.
+ * @type {{ layers: Record<string, string>, hints: string[] } | null}
+ */
+let irishNameFields = null;
+
+/**
+ * @param {{ layers?: Record<string, string>, hints?: string[] } | null | undefined} table
+ */
+export function setIrishNameFields(table) {
+  irishNameFields = table ? { layers: table.layers || {}, hints: Array.isArray(table.hints) ? table.hints : [] } : null;
+}
+
+/**
+ * The same lookup as assets/i18n/i18n.js irishNameField, over the table the map loaded.
+ * @param {RendererLayer} layer
+ * @returns {string | null}
+ */
+function irishNameFieldFromTable(layer) {
+  if (!irishNameFields || !layer) return null;
+  const l = /** @type {Record<string, unknown>} */ (/** @type {unknown} */ (layer));
+  for (const id of [l.id, l.layerId, l.sourceMapId, l.mapId]) {
+    if (typeof id === 'string' && id && irishNameFields.layers[id]) return irishNameFields.layers[id];
+  }
+  const props = /** @type {unknown[]} */ ([]).concat(l.categoricalProperties || [], l.popupProperties || []);
+  for (const hint of irishNameFields.hints) {
+    if (props.includes(hint)) return hint;
+  }
+  return null;
+}
+
+/**
  * The tile property whose Irish name goes on a second line under an English label (OT22
- * decision 1). Irish place names are shown only to a reader who has turned the language control
- * on (typing "language toggle" in the Maps search box loads assets/i18n/i18n.js, which this asks):
- * without it, null and labels are English alone. With the interface in Irish, null too: the Irish
+ * decision 1). Shown to every reader (owner, 24 Nov 2026): the language control's lookup when it
+ * is loaded, else the table the map loaded at start. With the interface in Irish, null: the Irish
  * name is then the label itself (irishNameProperty), alone, as before.
  * @param {RendererLayer} layer
  * @returns {string | null}
  */
 export function irishSecondLineField(layer) {
+  if (irishNameProperty(layer)) return null;
   const i18n = typeof globalThis !== 'undefined' ? /** @type {{ civgraphI18n?: { irishNameField?: (layer: RendererLayer) => string | null } }} */ (globalThis).civgraphI18n : null;
-  if (!i18n || typeof i18n.irishNameField !== 'function' || irishNameProperty(layer)) return null;
-  return i18n.irishNameField(layer);
+  if (i18n && typeof i18n.irishNameField === 'function') return i18n.irishNameField(layer);
+  return irishNameFieldFromTable(layer);
 }
 
 /**
