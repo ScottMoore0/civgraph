@@ -59,6 +59,11 @@ export default definePlugin({
     'opendatani-ia-mirror': { title: 'Mirror Open Data NI files to the Internet Archive (uploads)', argv: ['node', 'scripts/ingest/census/mirror-opendatani-to-ia.mjs'], network: true },
     'wayback-nisra': { title: 'Recover lost NISRA files from the Wayback Machine', argv: ['node', 'scripts/ingest/census/wayback-nisra-recover.mjs'], network: true },
   },
-  research: ['probe-nisra-throttle.mjs'],
-  data: ['explorer/'],
+  // The historic censuses 1926-2011 on 2021 Data Zones (docs/census-historic-ni-data-zones.md):
+  // research scripts whose outputs stay outside the repository; run by hand with --out.
+  research: ['probe-nisra-throttle.mjs', 'hist_census_1926.py', 'hist_census_ocr.py', 'hist_census_parse.py',
+    'hist_census_religion.py', 'hist_census_crosswalk.py', 'hist_census_1971.py', 'hist_census_1981_towns.py',
+    'hist_census_1991_2011.py', 'hist_census_series.py', 'hist_census_stock_series.py', 'hist_census_stock_test.py'],
+  helpers: ['hist_census_lib.py', 'hist_census_paths.py'],
+  data: ['explorer/', 'hist-census-pages.json'],
 });
