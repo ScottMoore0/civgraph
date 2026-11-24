@@ -17,7 +17,7 @@
  *   node scripts/build/build-site-partials.mjs   (pages: noindex and banner out, footer links in)
  *   node scripts/build/build-sitemap.mjs         (sitemap)
  * build-site-partials --check refuses a live page that still has an OWNER TODO note
- * (class="owner-note"), and tests/unit/info-pages.test.mjs a live page that links a draft one.
+ * (class="owner-note"), and the info-pages unit test a live page that links a draft one.
  *
  * The Privacy page's "last updated" date is the day it goes live (owner decision PG9). Until
  * then it is a placeholder, <time data-placeholder="last-updated-at-go-live">; the first

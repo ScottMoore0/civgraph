@@ -59,6 +59,6 @@ the results. The extract is private ancillary data, read in place; these runs wr
 
 ## Tests
 
-`tests/unit/hist-census-1926-61.test.mjs`, `hist-census-1971-81-stock.test.mjs` and
+the unit tests `hist-census-1926-61.test.mjs`, `hist-census-1971-81-stock.test.mjs` and
 `hist-census-1991-2011-stock.test.mjs` test the pure steps in `hist_census_lib.py` and the parsers
 on synthetic fixtures (they skip without Python).

@@ -4,7 +4,7 @@ w23-census-1926-61): reading printed numbers, naming areas, checking a table aga
 printed totals, apportioning counts to 2021 Data Zones and building stable areas.
 
 Nothing here reads or writes files: the drivers (hist_census_*.py) do that. The unit tests are
-tests/unit/hist-census-1926-61.test.mjs.
+in hist-census-1926-61.test.mjs.
 """
 from __future__ import annotations
 
