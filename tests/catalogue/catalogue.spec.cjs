@@ -1337,22 +1337,36 @@ test('N55 a map\'s own description shows in its row, as on its Details page; a m
   await open(page);
   await pane(page).locator('[data-cn-tab="statistics"]').click();
   const description = (id) => page.evaluate((x) => window.uiController._catalogueNext.mapDescription(x), id);
-  // A row of one map: under the row's description, when the row is opened.
-  const single = catalogue.series.find((s) => s.id === 'census-statistics-median-age');
-  const one = row(page, single.id);
-  await one.scrollIntoViewIfNeeded();
-  await expect(one.locator('.cn-mapdesc')).toHaveCount(0);
-  await one.locator('[data-cn-expand]').click();
-  const text = await description(single.members[0].id);
-  expect(text.length).toBeGreaterThan(0);
-  await expect(one.locator('.cn-panel .cn-mapdesc')).toHaveText(text);
+  // A row of one map: under the row's description, when the row is opened. The first one-map census row
+  // whose map still has a description of its own (the AI-written ones were blanked, owner 24 Nov 2026).
+  let single = null;
+  for (const s of catalogue.series.filter((x) => /^census-statistics-/.test(x.id) && x.members.length === 1)) {
+    if ((await description(s.members[0].id)).length) { single = s; break; }
+  }
+  if (single) {
+    const one = row(page, single.id);
+    await one.scrollIntoViewIfNeeded();
+    await expect(one.locator('.cn-mapdesc')).toHaveCount(0);
+    await one.locator('[data-cn-expand]').click();
+    const text = await description(single.members[0].id);
+    expect(text.length).toBeGreaterThan(0);
+    await expect(one.locator('.cn-panel .cn-mapdesc')).toHaveText(text);
+  }
   // A row of several: the description of the map whose line is opened, and only that one.
-  const several = catalogue.series.find((s) => s.id === 'census-statistics-usual-resident-population');
+  let several = null;
+  let other = null;
+  for (const s of catalogue.series.filter((x) => /^census-statistics-/.test(x.id) && x.members.length > 1)) {
+    if (!(await description(s.members[0].id)).length) continue;
+    for (const m of s.members.slice(1)) {
+      if ((await description(m.id)).length) { several = s; other = m; break; }
+    }
+    if (several) break;
+  }
+  expect(several).not.toBeNull();
   const r = row(page, several.id);
   await r.scrollIntoViewIfNeeded();
   await r.locator('[data-cn-expand]').click();
   await expect(r.locator('.cn-mapdesc')).toHaveCount(1);
-  const other = several.members[1];
   await pick(r, other.label).click();
   await expect(r.locator('.cn-dlist__item--open .cn-mapdesc')).toHaveText(await description(other.id));
   await expect(r.locator('.cn-mapdesc')).toHaveCount(1);
