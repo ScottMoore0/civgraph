@@ -61,7 +61,7 @@
     "status": "partial",
     "what": "ROI local (1974-2024), European, presidential, referendum and Dáil official results imported as contests",
     "counts": {
-     "provenanceCitations": 2300
+     "provenanceCitations": 2306
     },
     "targets": [
      "data/elections-source/data/elections/",
@@ -341,7 +341,7 @@
     "status": "partial",
     "what": "Member ids used in person records",
     "counts": {
-     "provenanceCitations": 4
+     "provenanceCitations": 184
     },
     "targets": [
      "D1 civgraph-records"
@@ -520,7 +520,7 @@
   },
   {
    "id": "iris-oifigiuil",
-   "name": "Iris Oifigiúil (Irish state gazette, 1922-)",
+   "name": "Iris Oifigiúil (Irish state gazette), 1922-1975",
    "category": "gazettes",
    "publisher": "Government of Ireland",
    "url": "https://www.irisoifigiuil.ie",
@@ -729,31 +729,60 @@
    "lastChecked": "2026-11-09"
   },
   {
-   "id": "ni-census-reports-1926-1981",
-   "name": "Northern Ireland census reports, 1926-1981",
+   "id": "ni-census-reports-1926-1966",
+   "name": "Northern Ireland census reports, 1926-1966",
    "category": "census-statistics",
    "publisher": "General Register Office (NI)",
    "url": null,
    "rights": "crown-copyright-expired",
-   "rightsNote": "Crown copyright of 50 years for 1926-1966 reports has expired; NISRA releases the rest under OGL.",
+   "rightsNote": "Crown copyright runs 50 years from publication, so the 1926-1966 reports are out of copyright.",
    "access": "open",
    "mirrored": {
     "status": "partial",
     "where": [
      "local"
     ],
-    "approxSize": "county and general reports 1926-1981",
+    "approxSize": "county and general reports 1926-1966",
     "asOf": "2026-11-09"
    },
    "extracted": {
     "status": "partial",
-    "what": "Reports converted to markdown (1926, 1937, 1951, 1961, 1966, 1971, 1981)",
+    "what": "Reports converted to markdown (1926, 1937, 1951, 1961, 1966)",
     "counts": {},
     "targets": [
      "data/census/"
     ]
    },
-   "remaining": "Scans not on IA; tables not extracted to data. 1971 and 1981 reports are newer than the 50-year term and are held under OGL instead.",
+   "remaining": "Scans not on IA; tables not extracted to data.",
+   "nextStep": "Upload the scans to IA and extract the district population tables.",
+   "lastChecked": "2026-11-09"
+  },
+  {
+   "id": "ni-census-reports-1971-1981",
+   "name": "Northern Ireland census reports, 1971 and 1981",
+   "category": "census-statistics",
+   "publisher": "General Register Office (NI)",
+   "url": null,
+   "rights": "OGL-3.0",
+   "rightsNote": "Crown copyright, reused under the Open Government Licence v3.0.",
+   "access": "open",
+   "mirrored": {
+    "status": "partial",
+    "where": [
+     "local"
+    ],
+    "approxSize": "county and general reports 1971 and 1981",
+    "asOf": "2026-11-09"
+   },
+   "extracted": {
+    "status": "partial",
+    "what": "Reports converted to markdown (1971, 1981)",
+    "counts": {},
+    "targets": [
+     "data/census/"
+    ]
+   },
+   "remaining": "Scans not on IA; tables not extracted to data.",
    "nextStep": "Upload the scans to IA and extract the district population tables.",
    "lastChecked": "2026-11-09"
   },
@@ -1282,7 +1311,7 @@
     "status": "partial",
     "what": "Constituency boxes 1832-1922, cited sources harvested and compared",
     "counts": {
-     "provenanceCitations": 3057
+     "provenanceCitations": 3088
     },
     "targets": [
      "data/elections/",

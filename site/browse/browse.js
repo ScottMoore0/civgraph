@@ -13,6 +13,7 @@ import { browseColours } from '../pkg/registries/src/browser/colour-palettes.mjs
 import { SHORT_MONTHS } from '../pkg/core/src/date-format.mjs';
 import { PAGE_TYPE_IDS } from '../pkg/ui/src/page-types.mjs';
 import { SEARCH_ALL_SHOWN, searchAllAnnouncement, summariseSearchAll } from './search-all.js';
+import { renderMapLicenceBlock } from './map-licence.js';
 
 /**
  * An element of the page reached by a delegated listener or a selector: any HTML element, with
@@ -2326,6 +2327,7 @@ async function renderDetail(type, indexItem) {
       ${isMap ? renderMapHeaderPanel(item) : ''}
       ${renderDetailActions(config, item)}
       ${renderContributorDetailActions(type, item)}
+      ${isMap && item['type'] === 'map' ? renderMapLicenceBlock(item) : ''}
       ${isMap ? '' : renderHeaderPanel(type, item, pinnedRows)}
       ${partyProfile ? renderPartyProfilePanels(item, partyProfile) : ''}
       ${contestPanel}

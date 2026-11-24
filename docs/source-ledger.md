@@ -4,13 +4,13 @@
 
 Published with the site, so it lists only sources whose content Civgraph may make public: open licences (OGL, OPL, Creative Commons, CC0, ODbL, Irish PSI open terms), Crown or state copyright that has expired, the public domain, and Civgraph's own or contributed work. Sources held or consulted under any other terms are tracked privately and are not listed here.
 
-48 sources. Mirrored: complete 25, partial 15, none 8. Extracted: partial 24, complete 9, not-started 8, reference-only 7.
+49 sources. Mirrored: complete 25, partial 16, none 8. Extracted: partial 25, complete 9, not-started 8, reference-only 7.
 
 ## elections
 
 | Source | Rights | Mirrored | Extracted | Remaining |
 |---|---|---|---|---|
-| [Irish election result books and open data (Department of Housing)](https://opendata.housing.gov.ie) | PSI-open | partial (local, official Dáil results archive and local, European, presidential and referendum result books (held locally, not mirrored whole)) | partial (provenanceCitations 2,300) | Verification of the remaining ROI local rounds against the result books; the 1974, 1979 and 1985 local rounds are held back. |
+| [Irish election result books and open data (Department of Housing)](https://opendata.housing.gov.ie) | PSI-open | partial (local, official Dáil results archive and local, European, presidential and referendum result books (held locally, not mirrored whole)) | partial (provenanceCitations 2,306) | Verification of the remaining ROI local rounds against the result books; the 1974, 1979 and 1985 local rounds are held back. |
 | [Oireachtas Library catalogue: printed election result books](https://opac.oireachtas.ie) | PSI-open | none | reference-only (provenanceCitations 207) | Result books are cited, not mirrored. |
 | [Electoral Office for Northern Ireland result sheets (incl. archived 1973-2005 sheets)](https://www.eoni.org.uk) | OGL-3.0 | partial (r2, local, 414 objects, 0.18 GB on R2 (data/sources/eoni-result-sheets/): the 2022 Assembly, 2023 council and 2024 Westminster sheets on eoni.org.uk and 330 earlier sheets and booklets (1973-2021) from Internet Archive captures, with a manifest; a further set recovered from the Internet Archive on 11 Nov 2026 is held locally, awaiting upload) | partial (provenanceCitations 2,006) | 61 figures where the sheets and Civgraph disagree await a decision; Assembly 1998 and 2003, Forum 1996 and European 1979-1999 are rotated scans not yet compared; of the sheets recovered on 11 Nov 2026, 58 of the 2011 council sheets (most of them scans), 19 scanned 2019 council sheets (Derry City and Strabane, Lisburn and Castlereagh, Newry, Mourne and Down) and 7 of the 2007 Assembly slides still need checking by eye, and the by-election results are not yet compared. For Westminster 2010-2019 EONI published results pages, not sheets. |
 | [Electoral Commission (UK) results and reports](https://www.electoralcommission.org.uk) | OGL-3.0 | partial (r2, 31 objects, 0.02 GB on R2 (data/sources/uk-electoral-commission/): NI results spreadsheets for Westminster, Assembly, European, local and the 2011 and 2016 referendums, with a manifest) | partial (provenanceCitations 87) | The Commission's web pages answer automated requests with a browser challenge, so files were taken from direct links or archive captures; 27 figures where its spreadsheets and Civgraph disagree await a decision. |
@@ -24,7 +24,7 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 | Source | Rights | Mirrored | Extracted | Remaining |
 |---|---|---|---|---|
 | [Oireachtas debates, full text](https://www.oireachtas.ie) | PSI-open | complete (r2, 52.31 GB, 50,824 objects on R2 (data/sources/oireachtas-fulltext/)) | partial | Debates are not yet linked to contests, offices or places. |
-| [Oireachtas open data API (members, constituencies, parties, votes, legislation)](https://api.oireachtas.ie) | PSI-open | complete (local, about 5 GB) | partial (provenanceCitations 4) | Structured data beyond member ids (votes, questions, legislation) is not integrated; not on R2 or IA. |
+| [Oireachtas open data API (members, constituencies, parties, votes, legislation)](https://api.oireachtas.ie) | PSI-open | complete (local, about 5 GB) | partial (provenanceCitations 184) | Structured data beyond member ids (votes, questions, legislation) is not integrated; not on R2 or IA. |
 | [Northern Ireland Assembly open data (members, Hansard, questions, register of interests)](https://data.niassembly.gov.uk) | OGL-3.0 | complete (local, about 4.5 GB XML) | partial (provenanceCitations 0) | Hansard, plenary and questions are not integrated; harvest is local only. |
 | [Parliament of Northern Ireland Hansard, 1921-1945](https://archive.org/details/civgraph-ni-hansard-1921-1945) | crown-copyright-expired | complete (r2, internet-archive, 0.38 GB, 79 objects on R2 (data/books/)) | complete | Volumes after 1945 are not held; per-item provenance for the scans is still to be recorded. |
 | [Words in parliament: word and phrase counts (Civgraph-derived)](https://civgraph.net/apps/words/) | own-work | complete (r2, 0.42 GB (15,051 objects under data/parliament/words/)) | complete (objects 15,051, provenanceCitations 0) | Rebuild when new debates are added; the counts cover the debates held at the 3 Nov 2026 build. |
@@ -36,7 +36,7 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 | [The Gazette (Belfast and London editions): election and boundary notices](https://www.thegazette.co.uk) | OGL-3.0 | partial (local, every Belfast Gazette issue 1921-2026 read through its text layer (held locally, cited by issue and page)) | partial (provenanceCitations 860) | The Gazette prints no council election returns, nominations or results, so it cannot fill council gaps: council members appear only when a later notice styles them Councillor or Alderman, which corroborates a membership but names no election. |
 | [Belfast Gazette volumes, 1921-c.1969 (HathiTrust scans)](https://catalog.hathitrust.org) | crown-copyright-expired | partial (local, 65 issue PDFs, about 73 MB, with text) | partial (boundaryOrders 190, citedOnMaps 152) | 7 changes not yet drawn have no printed description (Larne 1930, 1948 and 1956, Newtownards 1938, 1950 and 1968, Coleraine 1962) and need the deposited maps or the Acts; 3 are described only in part. |
 | [London Gazette: Irish notices before 1922](https://www.thegazette.co.uk/London) | OGL-3.0 | none | not-started | Not held: pre-1922 Irish election writs, returns, boundary and Poor Law union orders. |
-| [Iris Oifigiúil (Irish state gazette, 1922-)](https://www.irisoifigiuil.ie) | copyright-expired | none | not-started | Not held: Dáil and local election notices, boundary and county orders since 1922. |
+| [Iris Oifigiúil (Irish state gazette), 1922-1975](https://www.irisoifigiuil.ie) | copyright-expired | none | not-started | Not held: Dáil and local election notices, boundary and county orders since 1922. |
 
 ## census-statistics
 
@@ -48,7 +48,8 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 | [NISRA data portal tables (cleaned)](https://data.nisra.gov.uk) | OGL-3.0 | complete (r2, 0.05 GB, 1,115 objects on R2 (data/nisra-portal/)) | complete | None known. |
 | [NISRA pages recovered from the Wayback Machine](https://web.archive.org) | OGL-3.0 | partial (local, about 14 GB, 24,889 files) | not-started | Local only; not on R2 or IA. |
 | [NI Multiple Deprivation Measure](https://www.nisra.gov.uk) | OGL-3.0 | complete (r2, 0.01 GB, 6 objects on R2 (data/deprivation/)) | complete | None known. |
-| Northern Ireland census reports, 1926-1981 | crown-copyright-expired | partial (local, county and general reports 1926-1981) | partial | Scans not on IA; tables not extracted to data. 1971 and 1981 reports are newer than the 50-year term and are held under OGL instead. |
+| Northern Ireland census reports, 1926-1966 | crown-copyright-expired | partial (local, county and general reports 1926-1966) | partial | Scans not on IA; tables not extracted to data. |
+| Northern Ireland census reports, 1971 and 1981 | OGL-3.0 | partial (local, county and general reports 1971 and 1981) | partial | Scans not on IA; tables not extracted to data. |
 | [Northern Ireland census 2001, 2011 and 2021 outputs (incl. flexible table builder)](https://www.nisra.gov.uk/statistics/census) | OGL-3.0 | complete (r2, local, 59.67 GB, 165,219 objects on R2 (data/census/)) | partial | Not all tables are joined to the DZ/SA/OA layers. |
 
 ## boundaries-maps
@@ -102,7 +103,7 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 | Source | Rights | Mirrored | Extracted | Remaining |
 |---|---|---|---|---|
 | Thom's Irish Almanac and Official Directory (pre-1926 editions) | public-domain | none | not-started | Not held: lists of MPs, poor law unions, town commissioners and officials by year. |
-| [Wikipedia (constituency, election and person articles)](https://en.wikipedia.org) | CC-BY-SA | partial (local, about 6,800 cached pages) | partial (provenanceCitations 3,057) | Cited sources are being replaced by primary sources where possible. |
+| [Wikipedia (constituency, election and person articles)](https://en.wikipedia.org) | CC-BY-SA | partial (local, about 6,800 cached pages) | partial (provenanceCitations 3,088) | Cited sources are being replaced by primary sources where possible. |
 | [Wikidata](https://www.wikidata.org) | CC0 | none | partial (provenanceCitations 0) | Wikidata records few Irish councillors and has dated offices for only part of the Stormont parliament, so most council members and some Stormont MPs have no item to link. |
 | [UK and Northern Ireland legislation (legislation.gov.uk; NI public general statutes)](https://www.legislation.gov.uk) | OGL-3.0 | partial (r2, 13 statute PDFs (data/books/legislation/)) | partial (provenanceCitations 222) | Most local boundary orders of 1921-1972 were never printed in the annual volumes and are not on legislation.gov.uk; they are known from the Belfast Gazette. |
 | [Irish Statute Book](https://www.irishstatutebook.ie) | PSI-open | none | reference-only (provenanceCitations 0) | Not mirrored. |

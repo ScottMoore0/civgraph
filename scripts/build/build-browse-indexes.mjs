@@ -4,6 +4,7 @@ import path from 'node:path';
 import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
 import { normalizeFiles, normalizeLinks } from '../lib/browse-links.mjs';
 import { sourceAvailabilityDisplay } from '../lib/source-availability.mjs';
+import { mapRights } from '../lib/map-licence.mjs';
 import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '@civgraph/core/election-domain.mjs';
 // A person's slug ("naomi-long-51102"): the one rule the pages' person links use too.
 import { personSlug } from '@civgraph/core/format.js';
@@ -60,6 +61,8 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  *   references?: RawReferences, sourceReferences?: RawReferences, sources?: RawReferences,
  *   downloads?: unknown, sourceDownload?: unknown, sourceDownloads?: unknown, download?: unknown,
  *   provider?: unknown, providers?: unknown, credits?: unknown, credit?: unknown, sourceCredit?: unknown, keywords?: unknown,
+ *   licence?: unknown, license?: unknown, licenceUrl?: unknown, licenseUrl?: unknown, licenceNote?: unknown, licenseNote?: unknown,
+ *   attribution?: unknown, sourceCredits?: unknown,
  *   approximateSegments?: { count?: number, totalKm?: number, note?: string }
  * }} RawMap
  * @typedef {{ id: string, name?: string, scope?: string, maps?: string[] }} RawMapClass
@@ -644,6 +647,9 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
     const downloads = normalizeLinks([map.downloads || map.sourceDownload || map.sourceDownloads || map.download || files, ...iaLinks]);
     const rawTitle = cleanText(map.name || map.title || map.id);
     const title = mapDisplayTitle(map, mapClassInfoById.get(map.id), rawTitle);
+    // The licence, the attribution it asks for and the sources' credits, shown in the map
+    // page's "Licence and sources" block (scripts/lib/map-licence.mjs; citations review, 24 Nov 2026).
+    const rights = mapRights(map);
     return compactObject({
       id: map.id,
       slug: map.slug || slugify(map.id || title),
@@ -660,6 +666,10 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       years: collectYears(map),
       provider: normalizeArray(map.provider || map.providers),
       credits: normalizeArray(map.credits || map.credit || map.sourceCredit),
+      licence: rights.licence,
+      licenceNote: rights.licenceNote,
+      attribution: rights.attribution,
+      sourceCredits: rights.sourceCredits,
       keywords: normalizeArray(map.keywords),
       status: map.placeholder ? 'not yet converted' : 'available',
       featured: Boolean(map.featured),

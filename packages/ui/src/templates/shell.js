@@ -181,7 +181,7 @@ export function footer() {
     '<a href="/browse/">Browse</a>',
     '<a href="/pages/about">About</a>',
     '<a href="/pages/api">API</a>',
-    // Downloads, How to cite, Licence and Privacy: only once INFO_PAGES_LIVE (info-pages.js).
+    // The information pages the owner has made public (each page's `live` flag, info-pages.js).
     ...footerLinks(),
     `<a href="${SUBMIT_MAP_HREF}">Submit a map</a>`,
     '</nav>',
