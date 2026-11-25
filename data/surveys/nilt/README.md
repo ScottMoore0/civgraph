@@ -1,6 +1,6 @@
 # NILT microdata (Northern Ireland Life and Times survey)
 
-Raw SPSS `.sav` waves as published by ARK (https://www.ark.ac.uk/nilt/),
+Raw SPSS `.sav` waves as published by ARK (https://www.ark.ac.uk/ARK/nilt/),
 1998–2025, one file per survey year (`<year>_<original>.sav`). Public
 teaching datasets; no access restrictions.
 

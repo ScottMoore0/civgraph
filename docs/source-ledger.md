@@ -11,7 +11,7 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 | Source | Rights | Mirrored | Extracted | Remaining |
 |---|---|---|---|---|
 | [Irish election result books and open data (Department of Housing)](https://opendata.housing.gov.ie) | PSI-open | partial (local, official Dáil results archive and local, European, presidential and referendum result books (held locally, not mirrored whole)) | partial (provenanceCitations 2,306) | Verification of the remaining ROI local rounds against the result books; the 1974, 1979 and 1985 local rounds are held back. |
-| [Oireachtas Library catalogue: printed election result books](https://opac.oireachtas.ie) | PSI-open | none | reference-only (provenanceCitations 207) | Result books are cited, not mirrored. |
+| [Oireachtas Library catalogue: printed election result books](https://web.archive.org/web/20231202064548/https://opac.oireachtas.ie/) | PSI-open | none | reference-only (provenanceCitations 207) | Result books are cited, not mirrored. |
 | [Electoral Office for Northern Ireland result sheets (incl. archived 1973-2005 sheets)](https://www.eoni.org.uk) | OGL-3.0 | partial (r2, local, 414 objects, 0.18 GB on R2 (data/sources/eoni-result-sheets/): the 2022 Assembly, 2023 council and 2024 Westminster sheets on eoni.org.uk and 330 earlier sheets and booklets (1973-2021) from Internet Archive captures, with a manifest; a further set recovered from the Internet Archive on 11 Nov 2026 is held locally, awaiting upload) | partial (provenanceCitations 2,006) | 61 figures where the sheets and Civgraph disagree await a decision; Assembly 1998 and 2003, Forum 1996 and European 1979-1999 are rotated scans not yet compared; of the sheets recovered on 11 Nov 2026, 58 of the 2011 council sheets (most of them scans), 19 scanned 2019 council sheets (Derry City and Strabane, Lisburn and Castlereagh, Newry, Mourne and Down) and 7 of the 2007 Assembly slides still need checking by eye, and the by-election results are not yet compared. For Westminster 2010-2019 EONI published results pages, not sheets. |
 | [Electoral Commission (UK) results and reports](https://www.electoralcommission.org.uk) | OGL-3.0 | partial (r2, 31 objects, 0.02 GB on R2 (data/sources/uk-electoral-commission/): NI results spreadsheets for Westminster, Assembly, European, local and the 2011 and 2016 referendums, with a manifest) | partial (provenanceCitations 87) | The Commission's web pages answer automated requests with a browser challenge, so files were taken from direct links or archive captures; 27 figures where its spreadsheets and Civgraph disagree await a decision. |
 | [House of Commons Library election statistics and constituency results](https://commonslibrary.parliament.uk) | OPL-3.0 | partial (local, general-election results by constituency 2015-2024 (spreadsheets); the 1918-2023 statistics PDF is cited live) | reference-only (provenanceCitations 381) | The UK Election Statistics 1918-2023 briefing is not held locally. |
@@ -50,7 +50,7 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 | [NI Multiple Deprivation Measure](https://www.nisra.gov.uk) | OGL-3.0 | complete (r2, 0.01 GB, 6 objects on R2 (data/deprivation/)) | complete | None known. |
 | Northern Ireland census reports, 1926-1966 | crown-copyright-expired | partial (local, county and general reports 1926-1966) | partial | Scans not on IA; tables not extracted to data. |
 | Northern Ireland census reports, 1971 and 1981 | OGL-3.0 | partial (local, county and general reports 1971 and 1981) | partial | Scans not on IA; tables not extracted to data. |
-| [Northern Ireland census 2001, 2011 and 2021 outputs (incl. flexible table builder)](https://www.nisra.gov.uk/statistics/census) | OGL-3.0 | complete (r2, local, 59.67 GB, 165,219 objects on R2 (data/census/)) | partial | Not all tables are joined to the DZ/SA/OA layers. |
+| [Northern Ireland census 2001, 2011 and 2021 outputs (incl. flexible table builder)](https://www.nisra.gov.uk/statistics/people-and-communities/census) | OGL-3.0 | complete (r2, local, 59.67 GB, 165,219 objects on R2 (data/census/)) | partial | Not all tables are joined to the DZ/SA/OA layers. |
 
 ## boundaries-maps
 
@@ -65,7 +65,7 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 
 | Source | Rights | Mirrored | Extracted | Remaining |
 |---|---|---|---|---|
-| [PRONI eCatalogue records](https://apps.proni.gov.uk/eCatalogueNav) | OGL-3.0 | complete (local, d1, about 11 GB scrape; D1 proni-catalogue about 1.3 GB) | complete (records 1,538,177, provenanceCitations 0) | Document images cannot be captured (the image endpoint blocks automated access); extracted dates still need overrides review. |
+| [PRONI eCatalogue records](https://apps.proni.gov.uk/eCatNI_IE/) | OGL-3.0 | complete (local, d1, about 11 GB scrape; D1 proni-catalogue about 1.3 GB) | complete (records 1,538,177, provenanceCitations 0) | Document images cannot be captured (the image endpoint blocks automated access); extracted dates still need overrides review. |
 
 ## open-data
 
@@ -78,12 +78,12 @@ Published with the site, so it lists only sources whose content Civgraph may mak
 
 | Source | Rights | Mirrored | Extracted | Remaining |
 |---|---|---|---|---|
-| [Tellus airborne geophysics](https://www.bgs.ac.uk/gsni/tellus) | OGL-3.0 | complete (local, about 4.9 GB grids) | complete | Source grids local only. |
+| [Tellus airborne geophysics](https://web.archive.org/web/20240919104542/https://www2.bgs.ac.uk/gsni/tellus/) | OGL-3.0 | complete (local, about 4.9 GB grids) | complete | Source grids local only. |
 | [OpenDataNI lidar point clouds (3D Tiles)](https://www.opendatani.gov.uk) | OGL-3.0 | complete (r2, 32.95 GB, 393,355 objects on R2 (data/pointclouds/)) | partial | North Coast 2022 clouds lack source colour; the A6 survey is raw drone photography needing an orthomosaic. |
 | [Tailte Éireann National Land Cover 2018](https://www.tailte.ie) | CC-BY-4.0 | complete (r2, 48.48 GB, 1 objects on R2 (data/sources/tailte-national-land-cover-2018/)) | not-started | Held as one archive; not tiled. |
 | [Copernicus GLO-30 digital elevation model](https://dataspace.copernicus.eu) | open-other | partial (local, Ireland tiles) | complete | None known. |
 | [OS Code-Point Open (GB postcodes)](https://osdatahub.os.uk) | OGL-3.0 | complete (local) | not-started | Unused so far. |
-| [Database of British and Irish Hills (v18.4)](https://www.hills-database.co.uk) | CC-BY-4.0 | complete (internet-archive, the v18.4 download files and survey reports) | complete (provenanceCitations 0) | None known. |
+| [Database of British and Irish Hills (v18.4)](https://www.hill-bagging.co.uk/dobih/) | CC-BY-4.0 | complete (internet-archive, the v18.4 download files and survey reports) | complete (provenanceCitations 0) | None known. |
 
 ## books-catalogues
 

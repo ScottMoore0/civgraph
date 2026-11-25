@@ -10,13 +10,18 @@
  * links fixed where they are made (derived Wikipedia titles, NI Assembly member pages,
  * the ElectionsIreland pages removed or repointed), and Civgraph's own addresses (fixed or uploaded, never archived).
  *
+ * A triage table (CSV: url, decision, target) settles links one by one and overrides the rules
+ * above: `rewrite` (the address was fixed where it is made) and `keep` (it works) leave a link
+ * out; `archive` lists it with its target copy, and `gone` lists it with none, whatever its
+ * severity or outcome in the review (a move to an unrelated page is dead too).
+ *
  * A mirror is matched through its manifest (an array of { key, sourceUrl, alsoAt? }) and used only
  * when its key is in the list of published keys, so the list never points at an object that is not
  * on the data origin.
  *
  *   node scripts/build/build-dead-links.mjs --review <broken.csv>
  *     [--mirror <prefix> <manifest.json> <published-keys.txt>]...   e.g. data/sources/eoni-result-sheets/
- *     [--checked YYYY-MM-DD] [--check]
+ *     [--triage <triage.csv>] [--checked YYYY-MM-DD] [--check]
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -79,27 +84,57 @@ export function mirrorIndex(prefix, manifest, published) {
   return { byKey, byGuid };
 }
 
+/** An Internet Archive capture address, or null. @param {unknown} url */
+const capture = (url) => (/^https:\/\/web\.archive\.org\/web\/\d+/.test(String(url || '')) ? String(url) : null);
+
 /**
- * The dead-link list from the review's rows.
+ * One link's decision from a triage table.
+ * @typedef {{ decision: 'rewrite' | 'keep' | 'archive' | 'gone', target: string | null }} TriageDecision
+ */
+
+/**
+ * A triage table's rows by url (rows with any other decision are ignored).
+ * @param {Record<string, string>[]} rows
+ * @returns {Map<string, TriageDecision>}
+ */
+export function triageIndex(rows) {
+  /** @type {Map<string, TriageDecision>} */
+  const out = new Map();
+  for (const row of rows) {
+    const url = String(row['url'] || '').trim();
+    const decision = String(row['decision'] || '').trim();
+    if (!url || !['rewrite', 'keep', 'archive', 'gone'].includes(decision)) continue;
+    out.set(url, { decision: /** @type {TriageDecision['decision']} */ (decision), target: String(row['target'] || '').trim() || null });
+  }
+  return out;
+}
+
+/**
+ * The dead-link list from the review's rows, settled by the triage table where it names a link.
  * @param {Record<string, string>[]} rows
  * @param {{ byKey: Map<string, string>, byGuid: Map<string, string> }[]} mirrors
+ * @param {Map<string, TriageDecision>} [triage]
  * @returns {Record<string, string | null>}
  */
-export function deadLinks(rows, mirrors) {
+export function deadLinks(rows, mirrors, triage = new Map()) {
   /** @type {Record<string, string | null>} */
   const out = {};
   for (const row of rows) {
     const url = String(row['url'] || '').trim();
     if (!/^https?:\/\//i.test(url)) continue;
-    if (!['high', 'medium'].includes(String(row['severity']))) continue;
-    if (/moved/i.test(String(row['outcome']))) continue;
+    const settled = triage.get(url);
+    if (settled && (settled.decision === 'rewrite' || settled.decision === 'keep')) continue;
+    if (!settled) {
+      if (!['high', 'medium'].includes(String(row['severity']))) continue;
+      if (/moved/i.test(String(row['outcome']))) continue;
+    }
     if (FIXED_AT_SOURCE.some((re) => re.test(url))) continue;
     const host = (() => { try { return new URL(url).host; } catch { return ''; } })();
     if (host === new URL(SITE.dataOrigin).host || host === 'civgraph.net' || host.endsWith('.civgraph.net')) continue;
     const guid = /\/get(?:media|attachment)\/([0-9a-f-]{36})/i.exec(url)?.[1]?.toLowerCase();
     const mirror = mirrors.map((m) => m.byKey.get(linkKey(url)) || (guid ? m.byGuid.get(guid) : undefined)).find(Boolean);
-    const wayback = String(row['wayback_snapshot'] || '');
-    out[url] = mirror || (/^https:\/\/web\.archive\.org\/web\/\d+/.test(wayback) ? wayback : null);
+    const archived = settled ? (settled.decision === 'archive' ? capture(settled.target) : null) : capture(row['wayback_snapshot']);
+    out[url] = mirror || archived;
   }
   return Object.fromEntries(Object.entries(out).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)));
 }
@@ -109,7 +144,7 @@ function main() {
   const at = (/** @type {string} */ flag) => { const i = args.indexOf(flag); return i >= 0 ? args[i + 1] : undefined; };
   const review = at('--review');
   if (!review) {
-    console.error('usage: node scripts/build/build-dead-links.mjs --review <broken.csv> [--mirror <prefix> <manifest.json> <keys.txt>]... [--checked YYYY-MM-DD] [--check]');
+    console.error('usage: node scripts/build/build-dead-links.mjs --review <broken.csv> [--mirror <prefix> <manifest.json> <keys.txt>]... [--triage <triage.csv>] [--checked YYYY-MM-DD] [--check]');
     process.exit(2);
   }
   /** @type {ReturnType<typeof mirrorIndex>[]} */
@@ -120,11 +155,13 @@ function main() {
     const published = new Set(readFileSync(keys, 'utf8').split(/\r?\n/).map((s) => s.trim()).filter(Boolean));
     mirrors.push(mirrorIndex(prefix, JSON.parse(readFileSync(manifest, 'utf8')), published));
   });
-  const links = deadLinks(parseCsv(readFileSync(review, 'utf8')), mirrors);
+  const triageFile = at('--triage');
+  const triage = triageFile ? triageIndex(parseCsv(readFileSync(triageFile, 'utf8'))) : new Map();
+  const links = deadLinks(parseCsv(readFileSync(review, 'utf8')), mirrors, triage);
   const values = Object.values(links);
   const doc = {
     schemaVersion: 1,
-    about: 'Outside links found dead in the site\'s link review, each with the copy to show instead: Civgraph\'s own mirror (data origin) where it holds one, else an Internet Archive capture, else null. Read by scripts/build/build-election-provenance.mjs (packages/core/src/link-health.mjs): a citation of a dead link keeps its address, marked urlDead, and shows its archived copy first. Built by scripts/build/build-dead-links.mjs from the review\'s broken-link table (high and medium severity, not moved); links fixed where they are made (derived Wikipedia titles, NI Assembly member pages, the ElectionsIreland pages removed or repointed) and Civgraph\'s own addresses are left out.',
+    about: 'Outside links found dead in the site\'s link review, each with the copy to show instead: Civgraph\'s own mirror (data origin) where it holds one, else an Internet Archive capture, else null. Read by scripts/build/build-election-provenance.mjs (packages/core/src/link-health.mjs): a citation of a dead link keeps its address, marked urlDead, and shows its archived copy first. Built by scripts/build/build-dead-links.mjs from the review\'s broken-link table (high and medium severity, not moved) and its triage table (each link settled as fixed where it is made, working, archived or gone); links fixed where they are made (derived Wikipedia titles, NI Assembly member pages, the ElectionsIreland pages removed or repointed) and Civgraph\'s own addresses are left out.',
     checked: at('--checked') || new Date().toISOString().slice(0, 10),
     counts: {
       links: values.length,

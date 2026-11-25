@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs';
 import {
   citationLinkOrder, deadLinkStatus, isOwnMirror, verifiedArticleUrl, wikipediaReferenceUrl, withLinkHealth,
 } from '@civgraph/core/link-health.mjs';
-import { deadLinks, linkKey, mirrorIndex } from '../../scripts/build/build-dead-links.mjs';
+import { deadLinks, linkKey, mirrorIndex, triageIndex } from '../../scripts/build/build-dead-links.mjs';
 
 const ORIGIN = 'https://data.civgraph.net';
 const WIKI = 'https://en.wikipedia.org/wiki/';
@@ -114,4 +114,32 @@ test('the dead-link list: severity, moves, links fixed at source, own addresses,
     'https://www.eoni.org.uk/getattachment/Elections/x/result_sheet_-_ballymoney': `${ORIGIN}/${prefix}2011-local/result_sheet_-_ballymoney.pdf`,
   });
   assert.equal(linkKey('HTTPS://www.Example.org/A%20B.pdf/'), 'example.org/a b');
+});
+
+test('the triage table settles links one by one, over severity and outcome', () => {
+  const rows = [
+    { severity: 'high', outcome: 'broken', url: 'http://example.org/fixed', wayback_snapshot: 'https://web.archive.org/web/1/fixed' },
+    { severity: 'recheck', outcome: 'timeout', url: 'http://example.org/works', wayback_snapshot: '' },
+    { severity: 'low', outcome: 'redirect-moved', url: 'http://example.org/moved-to-home', wayback_snapshot: '' },
+    { severity: 'low', outcome: 'broken', url: 'http://example.org/low-dead', wayback_snapshot: 'https://web.archive.org/web/2/low' },
+    { severity: 'high', outcome: 'broken', url: 'http://example.org/gone', wayback_snapshot: 'https://web.archive.org/web/3/gone' },
+    { severity: 'high', outcome: 'broken', url: 'http://example.org/untriaged', wayback_snapshot: 'https://web.archive.org/web/4/u' },
+  ];
+  const triage = triageIndex([
+    { url: 'http://example.org/fixed', decision: 'rewrite', target: 'https://example.org/new' },
+    { url: 'http://example.org/works', decision: 'keep', target: '' },
+    { url: 'http://example.org/moved-to-home', decision: 'archive', target: 'https://web.archive.org/web/5/moved' },
+    { url: 'http://example.org/low-dead', decision: 'archive', target: 'https://web.archive.org/web/2/low' },
+    { url: 'http://example.org/gone', decision: 'gone', target: '' },
+    { url: 'http://example.org/odd', decision: 'maybe', target: '' },
+    // a target that is not an Internet Archive capture is never listed as the copy
+    { url: 'http://example.org/untriaged-not', decision: 'archive', target: 'https://example.org/elsewhere' },
+  ]);
+  assert.equal(triage.size, 6);
+  assert.deepEqual(deadLinks(rows, [], triage), {
+    'http://example.org/gone': null,
+    'http://example.org/low-dead': 'https://web.archive.org/web/2/low',
+    'http://example.org/moved-to-home': 'https://web.archive.org/web/5/moved',
+    'http://example.org/untriaged': 'https://web.archive.org/web/4/u',
+  });
 });
