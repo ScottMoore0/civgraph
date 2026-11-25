@@ -78,6 +78,7 @@ function ctOf(name) {
     if (name.endsWith('.jpg') || name.endsWith('.jpeg')) return 'image/jpeg';
     if (name.endsWith('.pdf')) return 'application/pdf';
     if (name.endsWith('.json')) return 'application/json';
+    if (name.endsWith('.txt')) return 'text/plain; charset=utf-8';
     return 'application/octet-stream';
 }
 
