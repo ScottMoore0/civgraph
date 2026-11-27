@@ -5227,7 +5227,11 @@ function renderLinksPanel(item, options = {}) {
     if (url) seenUrls.add(url);
     rows.push([type, label, url]);
   };
-  if (item['url']) pushRow('Source link', item['title'] || item['name'] || item['url'], item['url']);
+  // A source gone from its publisher links its archived copy, then its original address, no
+  // longer available (scripts/lib/source-availability.mjs sourceAvailabilityLinks).
+  const original = safeExternalUrl(item['originalUrl']);
+  if (item['url']) pushRow('Source link', `${item['title'] || item['name'] || item['url']}${original ? ` (${CITATION_LINK_WORDS.archivedCopy})` : ''}`, item['url']);
+  if (original) pushRow('Source link', CITATION_LINK_WORDS.deadOriginal, original);
   if (item['sourceUrl']) pushRow('Source link', item['sourceTitle'] || item['sourceUrl'], item['sourceUrl']);
   for (const link of item['downloads'] || []) pushRow('Download', link.label, link.url);
   for (const link of item['sourceFiles'] || []) pushRow('Source file', link.label, link.url);

@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
 import { normalizeFiles, normalizeLinks } from '../lib/browse-links.mjs';
-import { sourceAvailabilityDisplay } from '../lib/source-availability.mjs';
+import { sourceAvailabilityDisplay, sourceAvailabilityLinks } from '../lib/source-availability.mjs';
 import { mapRights } from '../lib/map-licence.mjs';
 import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '@civgraph/core/election-domain.mjs';
 // A person's slug ("naomi-long-51102"): the one rule the pages' person links use too.
@@ -38,7 +38,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  */
 /**
  * A reference as Browse writes it (addReference, normalizeReferences).
- * @typedef {{ label?: string, url?: string | null | undefined, source?: string | undefined, role?: string, scope?: string, note?: string, accessed?: string, type?: string }} Reference
+ * @typedef {{ label?: string, url?: string | null | undefined, originalUrl?: string | null, source?: string | undefined, role?: string, scope?: string, note?: string, accessed?: string, type?: string }} Reference
  * A reference as the source files give it: a string (a label or a url) or an object.
  * @typedef {{ label?: string, title?: string, name?: string, url?: string | null | undefined, href?: string, note?: string, notes?: string, accessed?: string, accessedDate?: string, source?: string | undefined, role?: string, scope?: string, type?: string }} RawReference
  * @typedef {string | RawReference | null | undefined} RawReferenceItem
@@ -194,7 +194,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * }} RawExternalSource
  * @typedef {{
  *   id?: string, slug?: string, key?: string, type?: string, title?: string, subtitle?: string, category?: string, date?: unknown,
- *   provider?: unknown[], description?: string | undefined, url?: string, thumbnail?: Thumbnail | null, references?: Reference[],
+ *   provider?: unknown[], description?: string | undefined, url?: string, originalUrl?: string | null, thumbnail?: Thumbnail | null, references?: Reference[],
  *   downloads?: import('../lib/browse-links.mjs').BrowseLink[],
  *   keywords?: unknown[], sourceItems?: SourceItem[], status?: string, statusChips?: unknown[], sourceHierarchy?: unknown[],
  *   viewport?: Viewport | null, shortCitation?: string, fullCitation?: string, relatedRecords?: unknown[], duplicateCount?: number,
@@ -3235,7 +3235,11 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
     const id = entry.id || `external:${slugify(entry.title || entry.url || '')}`;
     const title = cleanText(entry.title || entry.name || id);
     const slug = entry.slug || slugify(id);
-    const references = normalizeReferences(entry.references || entry.sourceReferences || entry.source || entry.url);
+    // A source gone from its publisher links its archived copy, and keeps its original address
+    // as originalUrl (scripts/lib/source-availability.mjs); a reference to that address does too.
+    const links = sourceAvailabilityLinks(entry.url, entry.availability);
+    const references = normalizeReferences(entry.references || entry.sourceReferences || entry.source || entry.url)
+      .map((ref) => (links.originalUrl && ref.url === links.originalUrl ? { ...ref, url: links.url, originalUrl: links.originalUrl } : ref));
     const downloads = normalizeLinks([entry.downloads, entry.links, entry.downloadUrl].filter(Boolean));
     const availability = sourceAvailabilityDisplay(entry.availability);
     const statusChips = [...normalizeArray(entry.statusChips), ...(availability ? [availability.chip] : [])];
@@ -3249,7 +3253,8 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
       date: entry.date || entry.year || null,
       provider: normalizeArray(entry.provider || entry.providers || entry.source),
       description: cleanText(entry.description || ''),
-      url: entry.url || references.find((ref) => ref.url)?.url || null,
+      url: links.url || references.find((ref) => ref.url)?.url || null,
+      originalUrl: links.originalUrl,
       thumbnail: normalizeExternalThumbnail(entry.thumbnail, title),
       references,
       downloads,
