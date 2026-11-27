@@ -16,6 +16,14 @@ import { escapeHtml } from '../../../core/src/html.js';
 import { partyLabelHtml } from '../../../core/src/party-names.mjs';
 import { MAP_COLOURS, NUMERIC_SCALE } from './colours.mjs';
 
+/**
+ * The transfer animation is adapted from ElectionsNI's stages.css (ODI Belfast at NICVA), whose
+ * code is CC BY-SA 4.0: the credit stands under the animation (citations review S07, 24 Nov 2026).
+ */
+const STV_ANIMATION_CREDIT = '<p class="election-animation-credit">Animation adapted from '
+  + '<a href="https://github.com/NICVA/electionsni" target="_blank" rel="noopener">ElectionsNI</a> (ODI Belfast at NICVA), '
+  + '<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>';
+
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionResult} ElectionResult */
 /** @typedef {import('../../../core/src/election-view-model.mjs').ElectionRecord} ElectionRecord */
 
@@ -464,7 +472,7 @@ export class SharedElectionRenderer {
   renderAnimationNotice(result) {
     if (result['hasCountDetail'] && result['animationPayload']) {
       const key = normalizeName(result['matchName'] || result['constituency'] || '');
-      return `<div class="test2-election-animation-ready"><div class="election-animation-actions"><button type="button" class="btn btn-primary" data-election-animation="${escapeHtml(key)}">Run transfer animation</button></div><div id="test2ElectionAnimationStatus" class="election-no-data" aria-live="polite"></div><div id="electionAnimationContainer" class="election-animation-container" style="display:none;"><div id="menuBar"><div id="controls"><a href="#" id="again" title="Restart"><i class="fa fa-backward"></i></a><a href="#" id="pause-replay" class="fa fa-pause" title="Play/Pause"></a><a href="#" id="step" title="Step"><i class="fa fa-forward"></i></a></div><div id="stageNumbers"></div><div id="quota"></div><div style="clear:both;"></div><div style="float:right; font-size:14px; color:#888;">Seats: <span id="seats-span"></span></div></div><div id="animation"></div><div id="count_matrix"></div><div id="transfers"></div><div id="transfers_constituency"></div></div></div>`;
+      return `<div class="test2-election-animation-ready"><div class="election-animation-actions"><button type="button" class="btn btn-primary" data-election-animation="${escapeHtml(key)}">Run transfer animation</button></div><div id="test2ElectionAnimationStatus" class="election-no-data" aria-live="polite"></div><div id="electionAnimationContainer" class="election-animation-container" style="display:none;"><div id="menuBar"><div id="controls"><a href="#" id="again" title="Restart"><i class="fa fa-backward"></i></a><a href="#" id="pause-replay" class="fa fa-pause" title="Play/Pause"></a><a href="#" id="step" title="Step"><i class="fa fa-forward"></i></a></div><div id="stageNumbers"></div><div id="quota"></div><div style="clear:both;"></div><div style="float:right; font-size:14px; color:#888;">Seats: <span id="seats-span"></span></div></div><div id="animation"></div><div id="count_matrix"></div><div id="transfers"></div><div id="transfers_constituency"></div></div>${STV_ANIMATION_CREDIT}</div>`;
     }
     return '<p class="election-no-data">No transfer animation data is available for this entry.</p>';
   }

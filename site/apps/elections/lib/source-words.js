@@ -18,6 +18,8 @@ export const SOURCE_WORDS = Object.freeze({
   partlyChecked: 'partly checked',
   notChecked: 'not checked',
   untitled: 'Untitled source',
+  archivedCopy: 'archived copy',
+  deadOriginal: 'original link, no longer available',
 });
 
 /** Scope code -> words; a code not listed is not shown. @type {Readonly<Record<string, string>>} */

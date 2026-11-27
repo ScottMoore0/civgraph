@@ -34,6 +34,7 @@ const SERVED = [
   'pkg/core/src/election-domain.mjs',
   'pkg/core/src/format.js',
   'pkg/core/src/html.js',
+  'pkg/core/src/link-health.mjs',
   'pkg/core/src/unopposed.mjs',
   'pkg/map/src/views/election-trend-chart.mjs',
   'pkg/registries/src/browser/body-groups.mjs',

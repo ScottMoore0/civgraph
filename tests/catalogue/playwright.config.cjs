@@ -1,4 +1,4 @@
-// Browser tests for the rebuilt catalogue, against the local test site (tools/test-site/), which
+// Browser tests for the rebuilt catalogue, against the local test site (tools/dev-site/), which
 // switches the rebuilt catalogue on. npx playwright test --config tests/catalogue/playwright.config.cjs
 const { defineConfig } = require('@playwright/test');
 

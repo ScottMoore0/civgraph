@@ -45,6 +45,8 @@ import {
 } from '@civgraph/loader/election-provenance.mjs';
 import { loadRegistry } from '@civgraph/registries/index.mjs';
 import { unregisteredSourceKinds } from '@civgraph/registries/source-kinds.mjs';
+import { withLinkHealth } from '@civgraph/core/link-health.mjs';
+import { SITE } from '@civgraph/config/config.js';
 
 const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
 const REVIEW = path.join('data', 'review-inputs', 'wikipedia-cited-sources', 'contest-sources.json');
@@ -63,6 +65,9 @@ const WEB_CHECKED = path.join('data', 'elections', 'web-checked-sources.json');
 // every contest of the election as contests[].legislation, with the instruments themselves once
 // under the top-level legislation map. Not a source of the figures, so it never changes a status.
 const LEGISLATION = path.join('data', 'elections', 'legislation-citations.json');
+// Links the link review found dead, each with the copy to show instead (scripts/build/build-dead-links.mjs):
+// a citation of one is marked urlDead and carries that copy as its archiveUrl.
+const DEAD_LINKS = path.join('data', 'database', 'dead-links.json');
 const OUT = PROVENANCE_FILE;
 // Per-election shards for the browser. The whole document is 25 MB, far too much to fetch, so the app
 // loads only the election it is showing, keyed by the constituency name it already has.
@@ -74,7 +79,7 @@ const CHECK = process.argv.includes('--check');
  * @typedef {{ title: string | null | undefined, publisher: string | null | undefined, url: string | null, archiveUrl: string | null, host: string | null,
  *   kind: string | null, origin: string, basis: string | null, scope: string | null, checked: boolean, check: string | null,
  *   match: string | null, document: { url: string, archiveUrl: string | null, label: string | null } | null,
- *   supplies?: string[], locator?: string | null, edition?: string | null, accessed?: string }} Source
+ *   supplies?: string[], locator?: string | null, edition?: string | null, accessed?: string, urlDead?: true }} Source
  */
 /** A printed source recorded in a contest file. @typedef {{ title?: string, publisher?: string, kind?: string, check?: string }} PrintedSource */
 /** A contest file, the fields read. @typedef {{ constituency?: unknown, Constituency?: unknown, source_url?: unknown, source?: PrintedSource }} ContestFile */
@@ -584,6 +589,8 @@ function legislationLayer() {
 
 function build() {
   const disk = contestsOnDisk();
+  /** @type {import('@civgraph/core/link-health.mjs').DeadLinks} */
+  const deadLinks = existsSync(DEAD_LINKS) ? readJson(DEAD_LINKS).links ?? {} : {};
   const legislation = legislationLayer();
   const webChecked = webCheckLayer();
   const [wiki, stats] = wikipediaLayer();
@@ -655,7 +662,7 @@ function build() {
       constituency: c.constituency,
       status,
       relatedWikipedia: extra?.relatedWikipedia ?? article?.url ?? null,
-      sources,
+      sources: sources.map((s) => withLinkHealth(s, deadLinks, SITE.dataOrigin)),
       ...(legislation.byElection.has(`${c.body}__${c.date}`) ? { legislation: legislation.byElection.get(`${c.body}__${c.date}`) } : {}),
     };
   });
@@ -738,6 +745,8 @@ function buildShards(provenance) {
         publisher: best.publisher,
         url: best.url,
         archiveUrl: best.archiveUrl,
+        // Only on a dead link: the map shows its archived copy first.
+        ...(best.urlDead ? { urlDead: true } : {}),
         host: best.host,
         scope: best.scope,
         checked: best.checked,

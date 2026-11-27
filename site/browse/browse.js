@@ -6,6 +6,7 @@ import {
 import { escapeHtml } from '../pkg/core/src/html.js';
 import { foldSearchText, personRecordKey, siteNumber, slugify } from '../pkg/core/src/format.js';
 import { candidateReturnWithoutPoll, partyHadNoPoll } from '../pkg/core/src/unopposed.mjs';
+import { citationLinkOrder } from '../pkg/core/src/link-health.mjs';
 import { SITE } from '../pkg/config/src/config.js';
 import { electionKindLabels } from '../pkg/registries/src/browser/election-type-names.mjs';
 import { sourceKindLabels } from '../pkg/registries/src/browser/source-kind-labels.mjs';
@@ -13,6 +14,7 @@ import { browseColours } from '../pkg/registries/src/browser/colour-palettes.mjs
 import { SHORT_MONTHS } from '../pkg/core/src/date-format.mjs';
 import { PAGE_TYPE_IDS } from '../pkg/ui/src/page-types.mjs';
 import { SEARCH_ALL_SHOWN, searchAllAnnouncement, summariseSearchAll } from './search-all.js';
+import { renderMapLicenceBlock } from './map-licence.js';
 
 /**
  * An element of the page reached by a delegated listener or a selector: any HTML element, with
@@ -1528,6 +1530,7 @@ function setHero(config, item) {
     <p class="browse-kicker">${escapeHtml(item ? config.singular : sectionName())}</p>
     <h1 class="browse-title">${escapeHtml(title)}</h1>
     ${description ? `<p class="browse-description">${escapeHtml(description)}</p>` : ''}
+    ${description && item?.['descriptionBy'] ? `<p class="browse-description-by">Description: ${escapeHtml(String(item['descriptionBy']))}</p>` : ''}
   `;
   if (item) {
     setDocumentHead({
@@ -2326,6 +2329,7 @@ async function renderDetail(type, indexItem) {
       ${isMap ? renderMapHeaderPanel(item) : ''}
       ${renderDetailActions(config, item)}
       ${renderContributorDetailActions(type, item)}
+      ${isMap && item['type'] === 'map' ? renderMapLicenceBlock(item) : ''}
       ${isMap ? '' : renderHeaderPanel(type, item, pinnedRows)}
       ${partyProfile ? renderPartyProfilePanels(item, partyProfile) : ''}
       ${contestPanel}
@@ -4475,14 +4479,23 @@ const CITATION_KIND_LABELS = sourceKindLabels;
  * @param {BrowseItem} citation
  */
 function citationHtml(citation) {
-  const url = safeExternalUrl(citation['url']) || safeExternalUrl(citation['archiveUrl']);
+  // A link the link review found dead (urlDead) shows its archived copy first and the original
+  // struck through; a working one keeps its archived copy after it (link-health.mjs citationLinkOrder).
+  const at = citationLinkOrder({ url: safeExternalUrl(citation['url']), archiveUrl: safeExternalUrl(citation['archiveUrl']), urlDead: citation['urlDead'] });
+  const url = at.main || at.deadOriginal || '';
   const host = citation['host'] || (url ? url.replace(/^https?:\/\/(www\.)?/i, '').split('/')[0] : '');
   const title = String(citation['title'] || '').trim() || host || 'Source';
-  const label = url ? `<a href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(title)}</a>` : escapeHtml(title);
+  const link = (/** @type {string} */ href, /** @type {string} */ text) => `<a href="${escapeAttr(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(text)}</a>`;
+  const label = (at.main ? link(at.main, title) : escapeHtml(title)) + (at.mainIsArchive ? ` <small class="browse-muted">(${escapeHtml(CITATION_LINK_WORDS.archivedCopy)})</small>` : '');
+  const after = (at.archive ? ` <small class="browse-muted">(${link(at.archive, CITATION_LINK_WORDS.archivedCopy)})</small>` : '')
+    + (at.deadOriginal ? ` <small class="browse-muted" data-link="dead"><s>${link(at.deadOriginal, CITATION_LINK_WORDS.deadOriginal)}</s></small>` : '');
   const publisher = citation['publisher'] && !title.includes(String(citation['publisher'])) ? ` &ndash; ${escapeHtml(citation['publisher'])}` : '';
   const kind = Object.hasOwn(CITATION_KIND_LABELS, String(citation['kind'])) ? CITATION_KIND_LABELS[String(citation['kind'])] : '';
-  return `${label}${publisher}${kind ? ` <small class="browse-muted">(${escapeHtml(kind)})</small>` : ''}`;
+  return `${label}${after}${publisher}${kind ? ` <small class="browse-muted">(${escapeHtml(kind)})</small>` : ''}`;
 }
+
+/** The words around a citation's archived copy and dead original (data/i18n/strings/browse.txt). */
+const CITATION_LINK_WORDS = Object.freeze({ archivedCopy: 'archived copy', deadOriginal: 'original link, no longer available' });
 
 /** The line under every Sources panel: Civgraph compiled the record, the sources above hold it. */
 const COMPILED_IN_NOTE = '<p class="browse-note">Compiled in Civgraph&rsquo;s election records from the sources above. Each contest page lists the sources for that contest.</p>';
@@ -5214,7 +5227,11 @@ function renderLinksPanel(item, options = {}) {
     if (url) seenUrls.add(url);
     rows.push([type, label, url]);
   };
-  if (item['url']) pushRow('Source link', item['title'] || item['name'] || item['url'], item['url']);
+  // A source gone from its publisher links its archived copy, then its original address, no
+  // longer available (scripts/lib/source-availability.mjs sourceAvailabilityLinks).
+  const original = safeExternalUrl(item['originalUrl']);
+  if (item['url']) pushRow('Source link', `${item['title'] || item['name'] || item['url']}${original ? ` (${CITATION_LINK_WORDS.archivedCopy})` : ''}`, item['url']);
+  if (original) pushRow('Source link', CITATION_LINK_WORDS.deadOriginal, original);
   if (item['sourceUrl']) pushRow('Source link', item['sourceTitle'] || item['sourceUrl'], item['sourceUrl']);
   for (const link of item['downloads'] || []) pushRow('Download', link.label, link.url);
   for (const link of item['sourceFiles'] || []) pushRow('Source file', link.label, link.url);

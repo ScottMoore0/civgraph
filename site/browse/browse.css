@@ -241,6 +241,13 @@ a:hover {
   margin: 0;
 }
 
+/* Who wrote the description (data/catalogue/descriptions.json author). */
+.browse-description-by {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin: var(--space-1) 0 0;
+}
+
 .browse-portal-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
@@ -900,6 +907,11 @@ a:hover {
 
 .browse-register-summary .browse-reader-facts {
   grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+}
+
+/* A map's "Licence and sources" block (map-licence.js): the facts sit inside the panel, under its heading. */
+.browse-map-licence .browse-reader-facts {
+  margin: var(--space-3) var(--space-4);
 }
 
 .browse-gazette-panel .browse-note {

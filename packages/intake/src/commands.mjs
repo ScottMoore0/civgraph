@@ -3,11 +3,11 @@
  * Nothing here talks to R2 itself: each step is one `node scripts/<existing>.mjs ...` command,
  * built the way the hand-written upload.ps1 files of past batches built them.
  *
- *   upload       FGBs (upload-fgb-r2), files per sub-prefix (upload-tree-r2, then --verify-only),
- *                Cache-Control (set-r2-cache-control), PMTiles (write-test-cdn-upload-manifest,
- *                upload-test-pmtiles-r2, verify-test-pmtiles-cdn), cache tokens
+ *   upload       FGBs (r2-upload-files), files per sub-prefix (r2-upload-manifest, then --verify-only),
+ *                Cache-Control (r2-cache-control), PMTiles (r2-manifest,
+ *                r2-upload-pmtiles, verify-pmtiles-cdn), cache tokens
  *                (stamp-map-cache-tokens --write, --check)
- *   post-upload  switch-test-pmtiles-to-cdn, regen-thumbnails + thumbnail sync, listed commands
+ *   post-upload  switch-pmtiles-to-cdn, regen-thumbnails + thumbnail sync, listed commands
  *
  * Credentials: a step that reads R2 is run as `node --env-file=.env.local ...`, so the keys go
  * from the repository's gitignored .env.local straight into that process and are never printed,
@@ -59,7 +59,7 @@ function step(op, label, argv, { credentials = false, realOnly = false } = {}) {
 }
 
 /**
- * Write the [{local, rel}] manifest upload-tree-r2 takes, for an op that lists its files inline.
+ * Write the [{local, rel}] manifest r2-upload-manifest takes, for an op that lists its files inline.
  * `tmpDir` is injectable so tests (and a plan) need not touch the batch folder.
  * @param {Batch} batch
  * @param {import('./batch.mjs').OperationOf<'r2-tree'>} op
@@ -85,7 +85,7 @@ const defaultTmpDir = () => (sharedTmp ||= mkdtempSync(path.join(os.tmpdir(), 'c
  * @param {object} [options]
  * @param {boolean} [options.dryRun]        build each script's own dry-run form
  * @param {() => string} [options.tmpDir]   where inline file lists' manifests are written
- * @param {boolean} [options.writeManifests] write upload-tree-r2 manifests for inline file lists
+ * @param {boolean} [options.writeManifests] write manifests for r2-upload-manifest from inline file lists
  *                                           (false for plan/report, which show `<tmp>/...`)
  * @returns {Step[]}
  */
@@ -199,7 +199,7 @@ function defaultSpawn(argv, { cwd }) {
 
 /**
  * Run steps in order. In a dry run, realOnly steps are listed and skipped, and a failing step is
- * reported and passed over (upload-tree-r2 --dry exits 1 when it has files to send); in a real
+ * reported and passed over (r2-upload-manifest --dry exits 1 when it has files to send); in a real
  * run the first failure stops everything.
  * @param {Step[]} steps
  * @param {{ cwd: string, dryRun?: boolean, spawn?: Spawn, log?: (line: string) => void }} options

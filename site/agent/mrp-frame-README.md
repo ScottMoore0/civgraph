@@ -2,20 +2,20 @@
 
 Inputs for building a multilevel-regression-and-poststratification (MRP) frame
 at NI Small-Area (SA2011) level. All files are static CSVs under
-`https://civgraph.net/data/census/derived/`.
+`https://data.civgraph.net/data/census/derived/`.
 
 ## Published joint margins (from NISRA 2011 Local Characteristics, Small Area)
 
-- [`joint-2011-age-religion-sa.csv`](https://civgraph.net/data/census/derived/joint-2011-age-religion-sa.csv)
+- [`joint-2011-age-religion-sa.csv`](https://data.civgraph.net/data/census/derived/joint-2011-age-religion-sa.csv)
   — tidy: `SA2011, age_band {0-24,25-44,45+}, religion_brought_up_in {Catholic, Protestant and Other Christian, Other religions and none}, count`. (NISRA LC2110.)
-- [`joint-2011-sex-religion-sa.csv`](https://civgraph.net/data/census/derived/joint-2011-sex-religion-sa.csv)
+- [`joint-2011-sex-religion-sa.csv`](https://data.civgraph.net/data/census/derived/joint-2011-sex-religion-sa.csv)
   — tidy: `SA2011, sex {Male,Female}, religion_brought_up_in{…}, count`. (NISRA LC2112.)
 
 ## Marginals (already on the site as data-entry overlays)
 
 - Sex, age band, median age, Catholic community background, NS-SeC 1–3 (ABC1 proxy):
-  [`census-2011-sa.csv`](https://civgraph.net/data/census/derived/census-2011-sa.csv).
-- Deprivation (NIMDM 2017 rank/decile): [`nimdm-2017-sa.csv`](https://civgraph.net/data/census/derived/nimdm-2017-sa.csv).
+  [`census-2011-sa.csv`](https://data.civgraph.net/data/census/derived/census-2011-sa.csv).
+- Deprivation (NIMDM 2017 rank/decile): [`nimdm-2017-sa.csv`](https://data.civgraph.net/data/census/derived/nimdm-2017-sa.csv).
 
 ## Building the full age × sex × religion × NS-SeC frame
 

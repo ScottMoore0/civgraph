@@ -213,6 +213,7 @@ export interface ElectionsCitationsPersonAnswer {
       match: string | null;
       checkNote: string | null;
       accessed: string | null;
+      urlDead: number | null;
       [key: string]: unknown;
     }>;
     [key: string]: unknown;
@@ -237,6 +238,7 @@ export interface ElectionsCitationsContestAnswer {
     match: string | null;
     checkNote: string | null;
     accessed: string | null;
+    urlDead: number | null;
     [key: string]: unknown;
   }>;
   [key: string]: unknown;
@@ -260,6 +262,7 @@ export interface ElectionsCitationsContestByNameAnswer {
     match: string | null;
     checkNote: string | null;
     accessed: string | null;
+    urlDead: number | null;
     [key: string]: unknown;
   }>;
   [key: string]: unknown;
@@ -276,6 +279,8 @@ export interface ElectionsCitationsAnswer {
     host: string | null;
     kind: string | null;
     contests: number;
+    archiveUrl: string | null;
+    urlDead: number | null;
     [key: string]: unknown;
   }>;
   [key: string]: unknown;

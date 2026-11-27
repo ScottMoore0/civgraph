@@ -2174,7 +2174,7 @@
    "references": [
     {
      "label": "data.gov.ie — Local Electoral Areas - National Statutory Boundaries - 2019",
-     "url": "https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191",
+     "url": "https://web.archive.org/web/20250623200047/https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191",
      "note": ""
     }
    ],
@@ -2266,7 +2266,7 @@
    "references": [
     {
      "label": "data.gov.ie — Municipal Districts - National Statutory Boundaries - 2019",
-     "url": "https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-20191",
+     "url": "https://web.archive.org/web/20250623200047/https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-20191",
      "note": ""
     }
    ],
@@ -2376,7 +2376,6 @@
     "Tailte Éireann"
    ],
    "files": {
-    "geojson": "https://archive.org/download/civgraph-local-authorities-2024-geojson/LocalAuthorities_NationalStatutoryBoundaries_Ungeneralised_2024_-2978313920612481790.geojson",
     "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_2024.fgb"
    },
    "style": {
@@ -5852,7 +5851,20 @@
     "pre-reform"
    ],
    "hiddenReason": "Duplicate of admin-areas-1966-07-04, which is already a member of the ni-admin-areas (Administrative Areas) class and is the visible record. Both point at the SAME file, https://data.civgraph.net/data/maps/local-government/LGDs_04-07-1966.fgb, with the same date and the same labelProperty. Kept hidden as an archived record rather than deleted, so existing links keep resolving. Deliberately NOT added to the class: that would put two entries on 1966-07-04 drawing one file. Attribution settled 2026-08-23: XrysD is correct, and admin-areas-1966-07-04 was corrected from OSNI to match.",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "XrysD"
+   ],
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+   "attribution": "Administrative map of Northern Ireland 1967 by XrysD, CC BY-SA 4.0, from Wikimedia Commons: https://commons.wikimedia.org/wiki/File:NorthernIreland1967AdminMap.png",
+   "references": [
+    {
+     "label": "XrysD, Administrative map of Northern Ireland 1967 (Wikimedia Commons, 8 Sep 2018)",
+     "url": "https://commons.wikimedia.org/wiki/File:NorthernIreland1967AdminMap.png",
+     "note": "Own work by XrysD, licensed under Creative Commons Attribution-Share Alike 4.0 (CC BY-SA 4.0)."
+    }
+   ]
   },
   {
    "id": "pc-2023",
@@ -6752,12 +6764,12 @@
     },
     {
      "label": "2023 — KML download",
-     "url": "https://opendata.arcgis.com/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0.kml",
+     "url": "https://hub.arcgis.com/api/download/v1/items/a37ad6a3a6ff47e4a5a0ff313b418448/kml?redirect=true&layers=0",
      "note": ""
     },
     {
      "label": "2023 — Shapefile (ZIP) download",
-     "url": "https://opendata.arcgis.com/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0.zip",
+     "url": "https://hub.arcgis.com/api/v3/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1",
      "note": ""
     }
    ],
@@ -6768,11 +6780,11 @@
     },
     {
      "label": "KML",
-     "file": "https://opendata.arcgis.com/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0.kml"
+     "file": "https://hub.arcgis.com/api/download/v1/items/a37ad6a3a6ff47e4a5a0ff313b418448/kml?redirect=true&layers=0"
     },
     {
      "label": "Shapefile (ZIP)",
-     "file": "https://opendata.arcgis.com/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0.zip"
+     "file": "https://hub.arcgis.com/api/v3/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
     }
    ],
    "subject": "constituencies"
@@ -6820,7 +6832,7 @@
     },
     {
      "label": "2017 — Shapefile (ZIP) download",
-     "url": "https://opendata.arcgis.com/datasets/71386da0ab094e4dbe4f9be7de7d64f6_1.zip",
+     "url": "https://hub.arcgis.com/api/v3/datasets/71386da0ab094e4dbe4f9be7de7d64f6_1/downloads/data?format=shp&spatialRefId=2157&where=1%3D1",
      "note": ""
     }
    ],
@@ -6835,7 +6847,7 @@
     },
     {
      "label": "Shapefile (ZIP)",
-     "file": "https://opendata.arcgis.com/datasets/71386da0ab094e4dbe4f9be7de7d64f6_1.zip"
+     "file": "https://hub.arcgis.com/api/v3/datasets/71386da0ab094e4dbe4f9be7de7d64f6_1/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
     }
    ],
    "subject": "constituencies"
@@ -6883,7 +6895,7 @@
     },
     {
      "label": "2013 — Shapefile (ZIP) download",
-     "url": "https://opendata.arcgis.com/datasets/dc928340da0844b287f8ea2672238d45_0.zip",
+     "url": "https://hub.arcgis.com/api/v3/datasets/dc928340da0844b287f8ea2672238d45_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1",
      "note": ""
     }
    ],
@@ -6898,7 +6910,7 @@
     },
     {
      "label": "Shapefile (ZIP)",
-     "file": "https://opendata.arcgis.com/datasets/dc928340da0844b287f8ea2672238d45_0.zip"
+     "file": "https://hub.arcgis.com/api/v3/datasets/dc928340da0844b287f8ea2672238d45_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
     }
    ],
    "subject": "constituencies"
@@ -6977,7 +6989,7 @@
     },
     {
      "label": "Provinces of Ireland — Shapefile (ZIP) download",
-     "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip",
+     "url": "https://hub.arcgis.com/api/v3/datasets/559bc3300384413aa0fe93f0772cb7f1_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1",
      "note": ""
     }
    ],
@@ -6992,7 +7004,7 @@
     },
     {
      "label": "Shapefile (ZIP)",
-     "file": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
+     "file": "https://hub.arcgis.com/api/v3/datasets/559bc3300384413aa0fe93f0772cb7f1_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
     }
    ],
    "cloneOf": "provinces-1955",
@@ -7255,7 +7267,7 @@
       },
       {
        "label": "Counties of Northern Ireland — WMS download",
-       "url": "https://services.spatialni.gov.uk/opendata/services/OSNIVector/OSNIOpenData_Boundaries_50K/MapServer/WMSServer?request=GetCapabilities&service=WMS",
+       "url": "https://web.archive.org/web/20250413075607/https://services.spatialni.gov.uk/opendata/services/OSNIVector/OSNIOpenData_Boundaries_50K/MapServer/WMSServer?request=GetCapabilities&service=WMS",
        "note": ""
       }
      ],
@@ -7442,62 +7454,50 @@
    "references": [
     {
      "label": "1991 DCC Draft Development Plan — Map 23 Part 1 (Fingal Library & Archives)",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1991%20DCC%20Draft%20Dev%20Plan%20-%20Map%2023%20Part%201.jpg",
      "note": ""
     },
     {
      "label": "1991 DCC Draft Development Plan — Map 23 Part 2 (Fingal Library & Archives)",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1991%20DCC%20Draft%20Dev%20Plan%20-%20Map%2023%20Part%202.jpg",
      "note": ""
     },
     {
      "label": "1991 DCC Draft Development Plan — Map 25 Part 1 (Fingal Library & Archives)",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1991%20DCC%20Draft%20Dev%20Plan%20-%20Map%2025%20Part%201.jpg",
      "note": ""
     },
     {
      "label": "1991 DCC Draft Development Plan — Map 25 Part 2 (Fingal Library & Archives)",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1991%20DCC%20Draft%20Dev%20Plan%20-%20Map%2025%20part%202.jpg",
      "note": ""
     },
     {
      "label": "1993 DCC Adopted Development Plan — Map 23 Part 1 (Fingal Library & Archives)",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1993%20DCC%20Dev%20Plan%20-%20Map%2023%20Part%201.jpg",
      "note": ""
     },
     {
      "label": "1993 DCC Adopted Development Plan — Map 23 Part 2 (Fingal Library & Archives)",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1993%20DCC%20Dev%20Plan%20-%20Map%2023%20Part%202.jpg",
      "note": ""
     },
     {
      "label": "1993 DCC Adopted Development Plan — Map 25 Part 1 (Fingal Library & Archives)",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1993%20DCC%20Dev%20Plan%20-%20Map%2025%20Part%201.jpg",
      "note": ""
     },
     {
      "label": "1993 DCC Adopted Development Plan — Map 25 Part 2 (Fingal Library & Archives)",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1993%20DCC%20Dev%20Plan%20-%20Map%2025%20Part%202.jpg",
      "note": ""
     },
     {
      "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Map 11",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Map%20No.%2011.pdf",
      "note": ""
     },
     {
      "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Map 12",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Map%20No.%2012.pdf",
      "note": ""
     },
     {
      "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Page 66",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Page%2066.pdf",
      "note": ""
     },
     {
      "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Page 67",
-     "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Page%2067.pdf",
      "note": ""
     }
    ],
@@ -8055,7 +8055,10 @@
      }
     }
    ],
-   "subject": "census"
+   "subject": "census",
+   "licence": "CC BY 4.0",
+   "licenceNote": "The Northern Ireland region is OSNI data, under the Open Government Licence v3.0.",
+   "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0."
   },
   {
    "id": "nuts-2-roi",
@@ -8090,7 +8093,9 @@
     "census 2011"
    ],
    "labelProperty": "NUTS2NAME",
-   "subject": "census"
+   "subject": "census",
+   "licence": "CC BY 4.0",
+   "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "nuts-3",
@@ -8522,7 +8527,9 @@
    ],
    "isGroup": true,
    "hidden": true,
-   "subject": "electoral-divisions"
+   "subject": "electoral-divisions",
+   "licenceNote": "The OpenStreetMap data is © OpenStreetMap contributors, available under the Open Database Licence (ODbL): https://www.openstreetmap.org/copyright.",
+   "attribution": "© OpenStreetMap contributors, ODbL. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "eds-roi-1936",
@@ -9749,6 +9756,7 @@
    "featured": true,
    "provider": [
     "Tailte Éireann",
+    "OSNI",
     "OSM"
    ],
    "style": {
@@ -9873,7 +9881,9 @@
    "chunkOverviewMaxZoom": 13,
    "chunkInitialBuffer": 0.1,
    "chunkLoadConcurrency": 1,
-   "subject": "civil-parishes"
+   "subject": "civil-parishes",
+   "licenceNote": "The OpenStreetMap data is © OpenStreetMap contributors, available under the Open Database Licence (ODbL): https://www.openstreetmap.org/copyright.",
+   "attribution": "© OpenStreetMap contributors, ODbL. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "mep-1979",
@@ -9900,7 +9910,16 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 1979,
-   "subject": "constituencies"
+   "subject": "constituencies",
+   "licence": "CC-BY-4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+   "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map into the constituencies the statutes and Constituency Commission reports give: county boundaries from Tailte Éireann (CC BY 4.0) and, for Northern Ireland, OSNI, Land & Property Services (Open Government Licence v3.0).",
+   "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+   "sourceCredits": [
+    "Tailte Éireann",
+    "OSNI",
+    "Assembled from Counties of Ireland by Tailte Éireann and OSNI"
+   ]
   },
   {
    "id": "mep-2004",
@@ -9927,7 +9946,16 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 2004,
-   "subject": "constituencies"
+   "subject": "constituencies",
+   "licence": "CC-BY-4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+   "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map into the constituencies the statutes and Constituency Commission reports give: county boundaries from Tailte Éireann (CC BY 4.0) and, for Northern Ireland, OSNI, Land & Property Services (Open Government Licence v3.0).",
+   "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+   "sourceCredits": [
+    "Tailte Éireann",
+    "OSNI",
+    "Assembled from Counties of Ireland by Tailte Éireann and OSNI"
+   ]
   },
   {
    "id": "mep-2009",
@@ -9964,7 +9992,16 @@
     }
    },
    "date": 2009,
-   "subject": "constituencies"
+   "subject": "constituencies",
+   "licence": "CC-BY-4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+   "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map into the constituencies the statutes and Constituency Commission reports give: county boundaries from Tailte Éireann (CC BY 4.0) and, for Northern Ireland, OSNI, Land & Property Services (Open Government Licence v3.0).",
+   "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+   "sourceCredits": [
+    "Tailte Éireann",
+    "OSNI",
+    "Assembled from Counties of Ireland by Tailte Éireann and OSNI"
+   ]
   },
   {
    "id": "mep-2014",
@@ -9991,7 +10028,16 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 2014,
-   "subject": "constituencies"
+   "subject": "constituencies",
+   "licence": "CC-BY-4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+   "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map into the constituencies the statutes and Constituency Commission reports give: county boundaries from Tailte Éireann (CC BY 4.0) and, for Northern Ireland, OSNI, Land & Property Services (Open Government Licence v3.0).",
+   "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+   "sourceCredits": [
+    "Tailte Éireann",
+    "OSNI",
+    "Assembled from Counties of Ireland by Tailte Éireann and OSNI"
+   ]
   },
   {
    "id": "mep-2019",
@@ -10019,7 +10065,16 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 2019,
-   "subject": "constituencies"
+   "subject": "constituencies",
+   "licence": "CC-BY-4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+   "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map into the constituencies the statutes and Constituency Commission reports give: county boundaries from Tailte Éireann (CC BY 4.0) and, for Northern Ireland, OSNI, Land & Property Services (Open Government Licence v3.0).",
+   "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+   "sourceCredits": [
+    "Tailte Éireann",
+    "OSNI",
+    "Assembled from Counties of Ireland by Tailte Éireann and OSNI"
+   ]
   },
   {
    "id": "mep-2024",
@@ -10028,8 +10083,7 @@
    "category": "european",
    "featured": true,
    "provider": [
-    "Tailte Éireann",
-    "OSNI"
+    "Tailte Éireann"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2024MEPConstituencies.fgb"
@@ -10047,7 +10101,15 @@
    ],
    "labelProperty": "ENGLISH",
    "date": 2024,
-   "subject": "constituencies"
+   "subject": "constituencies",
+   "licence": "CC-BY-4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+   "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map (Tailte Éireann county boundaries, CC BY 4.0) into the constituencies of the 2023 review.",
+   "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+   "sourceCredits": [
+    "Tailte Éireann",
+    "Assembled from Counties of Ireland by Tailte Éireann"
+   ]
   },
   {
    "id": "dail-1995",
@@ -10496,7 +10558,7 @@
    "references": [
     {
      "label": "Grid Square | Northern Ireland Statistics and Research Agency (www.nisra.gov.uk)",
-     "url": "https://www.nisra.gov.uk/statistics/census-2021-results/grid-square#toc-0",
+     "url": "https://www.nisra.gov.uk/statistics/specialist-products/census-2021-grid-square#toc-0",
      "note": ""
     }
    ],
@@ -10571,7 +10633,20 @@
    ],
    "labelProperty": "FullName",
    "date": "1966-07-04",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "XrysD"
+   ],
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+   "attribution": "Administrative map of Northern Ireland 1967 by XrysD, CC BY-SA 4.0, from Wikimedia Commons: https://commons.wikimedia.org/wiki/File:NorthernIreland1967AdminMap.png",
+   "references": [
+    {
+     "label": "XrysD, Administrative map of Northern Ireland 1967 (Wikimedia Commons, 8 Sep 2018)",
+     "url": "https://commons.wikimedia.org/wiki/File:NorthernIreland1967AdminMap.png",
+     "note": "Own work by XrysD, licensed under Creative Commons Attribution-Share Alike 4.0 (CC BY-SA 4.0)."
+    }
+   ]
   },
   {
    "id": "wards-2001",
@@ -10793,7 +10868,7 @@
    "date": "1969-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -10810,7 +10885,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "changeNote": "Portion of Strabane RD transferred to Strabane UD",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1968-04-01",
@@ -10820,7 +10899,7 @@
    "date": "1968-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -10837,7 +10916,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1965-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1967-04-01",
@@ -10847,7 +10930,7 @@
    "date": "1967-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -10864,7 +10947,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1965-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1965-04-01",
@@ -10874,7 +10961,7 @@
    "date": "1965-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -10891,7 +10978,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "changeNote": "Ballyclare UD boundary expanded",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1964-06-02",
@@ -10901,7 +10992,7 @@
    "date": "1964-06-02",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -10918,7 +11009,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1964-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1964-04-01",
@@ -10928,7 +11023,7 @@
    "date": "1964-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -10945,7 +11040,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "changeNote": "Portion of Omagh RD transferred to Omagh UD",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1963-09-13",
@@ -10955,7 +11054,7 @@
    "date": "1963-09-13",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -10972,7 +11071,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1963-04-01",
@@ -10982,7 +11085,7 @@
    "date": "1963-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -10999,7 +11102,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1962-04-01",
@@ -11009,7 +11116,7 @@
    "date": "1962-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11026,7 +11133,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1958-04-01",
@@ -11036,7 +11147,7 @@
    "date": "1958-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11053,7 +11164,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1957-04-01",
@@ -11063,7 +11178,7 @@
    "date": "1957-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11080,7 +11195,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1956-04-01",
@@ -11090,7 +11209,7 @@
    "date": "1956-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11107,7 +11226,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1955-04-01",
@@ -11117,7 +11240,7 @@
    "date": "1955-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11134,7 +11257,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1954-04-01",
@@ -11171,7 +11298,7 @@
    "date": "1950-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11188,7 +11315,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1949-07-07",
@@ -11198,7 +11329,7 @@
    "date": "1949-07-07",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11215,7 +11346,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1949-07-01",
@@ -11225,7 +11360,7 @@
    "date": "1949-07-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11242,7 +11377,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1949-05-30",
@@ -11252,7 +11391,7 @@
    "date": "1949-05-30",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11269,7 +11408,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1949-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1949-04-01",
@@ -11279,7 +11422,7 @@
    "date": "1949-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11295,7 +11438,11 @@
     "weight": 2
    },
    "labelProperty": "AdministrativeArea",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1948-04-01",
@@ -11305,7 +11452,7 @@
    "date": "1948-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11322,7 +11469,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1937-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1947-10-02",
@@ -11332,7 +11483,7 @@
    "date": "1947-10-02",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11349,7 +11500,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1937-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1947-04-01",
@@ -11359,7 +11514,7 @@
    "date": "1947-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11376,7 +11531,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1937-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1946-06-11",
@@ -11386,7 +11545,7 @@
    "date": "1946-06-11",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11403,7 +11562,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1937-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1946-04-01",
@@ -11413,7 +11576,7 @@
    "date": "1946-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11430,7 +11593,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1937-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1945-04-01",
@@ -11440,7 +11607,7 @@
    "date": "1945-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11457,7 +11624,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1937-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1939-05-23",
@@ -11467,7 +11638,7 @@
    "date": "1939-05-23",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11484,7 +11655,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1937-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1938-05-23",
@@ -11494,7 +11669,7 @@
    "date": "1938-05-23",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11511,7 +11686,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1937-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1938-05-16",
@@ -11548,7 +11727,7 @@
    "date": "1938-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11565,7 +11744,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1937-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1937-04-01",
@@ -11575,7 +11758,7 @@
    "date": "1937-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11592,7 +11775,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "changeNote": "Kilkeel UD created from portion of Kilkeel RD",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1936-04-01",
@@ -11602,7 +11789,7 @@
    "date": "1936-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11618,7 +11805,11 @@
     "weight": 2
    },
    "labelProperty": "AdministrativeArea",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1935-06-26",
@@ -11628,7 +11819,7 @@
    "date": "1935-06-26",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11646,7 +11837,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1935-06-25",
@@ -11656,7 +11851,7 @@
    "date": "1935-06-25",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11673,7 +11868,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1934-08-01",
@@ -11683,7 +11882,7 @@
    "date": "1934-08-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11700,7 +11899,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1933-04-24",
@@ -11710,7 +11913,7 @@
    "date": "1933-04-24",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11727,7 +11930,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1930-11-25",
@@ -11737,7 +11944,7 @@
    "date": "1930-11-25",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11754,7 +11961,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1930-04-01",
@@ -11764,7 +11975,7 @@
    "date": "1930-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11779,7 +11990,11 @@
     "weight": 2
    },
    "labelProperty": "AdministrativeArea",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1929-01-23",
@@ -11789,7 +12004,7 @@
    "date": "1929-01-23",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11806,7 +12021,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1929-01-01",
@@ -11816,7 +12035,7 @@
    "date": "1929-01-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11833,7 +12052,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1928-04-17",
@@ -11843,7 +12066,7 @@
    "date": "1928-04-17",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11860,7 +12083,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1928-01-23",
@@ -11870,7 +12097,7 @@
    "date": "1928-01-23",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11887,7 +12114,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1927-04-01",
@@ -11897,7 +12128,7 @@
    "date": "1927-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11914,7 +12145,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1925-06-24",
@@ -11924,7 +12159,7 @@
    "date": "1925-06-24",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11941,7 +12176,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1925-04-01",
@@ -11951,7 +12190,7 @@
    "date": "1925-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11968,7 +12207,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1924-06-20",
@@ -11978,7 +12221,7 @@
    "date": "1924-06-20",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -11995,7 +12238,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1924-06-01",
@@ -12005,7 +12252,7 @@
    "date": "1924-06-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -12022,7 +12269,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1924-04-01",
@@ -12032,7 +12283,7 @@
    "date": "1924-04-01",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -12049,7 +12300,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1922-11-13",
@@ -12059,7 +12314,7 @@
    "date": "1922-11-13",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -12076,7 +12331,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1922-11-11",
@@ -12086,7 +12345,7 @@
    "date": "1922-11-11",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -12103,7 +12362,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1922-11-09",
@@ -12113,7 +12376,7 @@
    "date": "1922-11-09",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -12130,7 +12393,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1922-11-06",
@@ -12140,7 +12407,7 @@
    "date": "1922-11-06",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -12157,7 +12424,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1922-10-31",
@@ -12167,7 +12438,7 @@
    "date": "1922-10-31",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -12184,7 +12455,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "admin-areas-1921-05-03",
@@ -12194,7 +12469,7 @@
    "date": "1921-05-03",
    "featured": true,
    "provider": [
-    "OSNI"
+    "Scott Moore"
    ],
    "keywords": [
     "admin",
@@ -12211,7 +12486,11 @@
    },
    "labelProperty": "AdministrativeArea",
    "cloneOf": "admin-areas-1936-04-01",
-   "subject": "local-government"
+   "subject": "local-government",
+   "sourceCredits": [
+    "Scott Moore",
+    "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+   ]
   },
   {
    "id": "ded-1969-04-01",
@@ -14211,7 +14490,8 @@
    "slug": "historic-bullaun-stones",
    "category": "historic",
    "provider": [
-    "Historic Maps"
+    "Department for Communities - Historic Environment Division",
+    "National Monuments Service"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/historic-sites/Bullaun_Stones.fgb",
@@ -14229,12 +14509,24 @@
    ],
    "references": [
     {
-     "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+     "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+     "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+     "note": "Northern Ireland. Open Government Licence v3.0."
+    },
+    {
+     "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+     "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+     "note": "Republic of Ireland. CC BY 4.0."
+    },
+    {
+     "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
      "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-     "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+     "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
     }
    ],
-   "subject": "archaeology-and-monuments"
+   "subject": "archaeology-and-monuments",
+   "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+   "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "historic-crannog",
@@ -14242,7 +14534,8 @@
    "slug": "historic-crannog",
    "category": "historic",
    "provider": [
-    "Historic Maps"
+    "Department for Communities - Historic Environment Division",
+    "National Monuments Service"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/historic-sites/Crannog.fgb",
@@ -14259,12 +14552,24 @@
    ],
    "references": [
     {
-     "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+     "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+     "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+     "note": "Northern Ireland. Open Government Licence v3.0."
+    },
+    {
+     "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+     "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+     "note": "Republic of Ireland. CC BY 4.0."
+    },
+    {
+     "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
      "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-     "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+     "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
     }
    ],
-   "subject": "archaeology-and-monuments"
+   "subject": "archaeology-and-monuments",
+   "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+   "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "historic-ringfort-cashel",
@@ -14272,7 +14577,8 @@
    "slug": "historic-ringfort-cashel",
    "category": "historic",
    "provider": [
-    "Historic Maps"
+    "Department for Communities - Historic Environment Division",
+    "National Monuments Service"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/historic-sites/Ringfort_Cashel.fgb",
@@ -14290,12 +14596,24 @@
    ],
    "references": [
     {
-     "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+     "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+     "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+     "note": "Northern Ireland. Open Government Licence v3.0."
+    },
+    {
+     "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+     "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+     "note": "Republic of Ireland. CC BY 4.0."
+    },
+    {
+     "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
      "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-     "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+     "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
     }
    ],
-   "subject": "archaeology-and-monuments"
+   "subject": "archaeology-and-monuments",
+   "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+   "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "historic-ringfort-rath",
@@ -14303,7 +14621,8 @@
    "slug": "historic-ringfort-rath",
    "category": "historic",
    "provider": [
-    "Historic Maps"
+    "Department for Communities - Historic Environment Division",
+    "National Monuments Service"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/historic-sites/Ringfort_Rath.fgb",
@@ -14321,12 +14640,24 @@
    ],
    "references": [
     {
-     "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+     "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+     "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+     "note": "Northern Ireland. Open Government Licence v3.0."
+    },
+    {
+     "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+     "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+     "note": "Republic of Ireland. CC BY 4.0."
+    },
+    {
+     "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
      "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-     "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+     "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
     }
    ],
-   "subject": "archaeology-and-monuments"
+   "subject": "archaeology-and-monuments",
+   "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+   "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "historic-ringfort-unclassified",
@@ -14334,7 +14665,8 @@
    "slug": "historic-ringfort-unclassified",
    "category": "historic",
    "provider": [
-    "Historic Maps"
+    "Department for Communities - Historic Environment Division",
+    "National Monuments Service"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/historic-sites/Ringfort_Unclassified.fgb",
@@ -14352,12 +14684,24 @@
    ],
    "references": [
     {
-     "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+     "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+     "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+     "note": "Northern Ireland. Open Government Licence v3.0."
+    },
+    {
+     "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+     "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+     "note": "Republic of Ireland. CC BY 4.0."
+    },
+    {
+     "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
      "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-     "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+     "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
     }
    ],
-   "subject": "archaeology-and-monuments"
+   "subject": "archaeology-and-monuments",
+   "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+   "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "historic-rock-scribing",
@@ -14365,7 +14709,8 @@
    "slug": "historic-rock-scribing",
    "category": "historic",
    "provider": [
-    "Historic Maps"
+    "Department for Communities - Historic Environment Division",
+    "National Monuments Service"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/historic-sites/Rock_Scribing.fgb",
@@ -14383,12 +14728,24 @@
    ],
    "references": [
     {
-     "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+     "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+     "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+     "note": "Northern Ireland. Open Government Licence v3.0."
+    },
+    {
+     "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+     "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+     "note": "Republic of Ireland. CC BY 4.0."
+    },
+    {
+     "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
      "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-     "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+     "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
     }
    ],
-   "subject": "built-heritage-and-protected-structures"
+   "subject": "built-heritage-and-protected-structures",
+   "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+   "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "historic-standing-stones",
@@ -14396,7 +14753,8 @@
    "slug": "historic-standing-stones",
    "category": "historic",
    "provider": [
-    "Historic Maps"
+    "Department for Communities - Historic Environment Division",
+    "National Monuments Service"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/historic-sites/Standing_Stones.fgb",
@@ -14414,12 +14772,24 @@
    ],
    "references": [
     {
-     "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+     "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+     "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+     "note": "Northern Ireland. Open Government Licence v3.0."
+    },
+    {
+     "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+     "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+     "note": "Republic of Ireland. CC BY 4.0."
+    },
+    {
+     "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
      "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-     "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+     "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
     }
    ],
-   "subject": "archaeology-and-monuments"
+   "subject": "archaeology-and-monuments",
+   "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+   "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "historic-wedge-tomb",
@@ -14427,7 +14797,8 @@
    "slug": "historic-wedge-tomb",
    "category": "historic",
    "provider": [
-    "Historic Maps"
+    "Department for Communities - Historic Environment Division",
+    "National Monuments Service"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/historic-sites/Wedge_Tomb.fgb",
@@ -14445,12 +14816,24 @@
    ],
    "references": [
     {
-     "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+     "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+     "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+     "note": "Northern Ireland. Open Government Licence v3.0."
+    },
+    {
+     "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+     "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+     "note": "Republic of Ireland. CC BY 4.0."
+    },
+    {
+     "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
      "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-     "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+     "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
     }
    ],
-   "subject": "built-heritage-and-protected-structures"
+   "subject": "built-heritage-and-protected-structures",
+   "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+   "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "railways-network",
@@ -14656,7 +15039,7 @@
    "references": [
     {
      "label": "Census 2011 Boundary Files - CSO - Central Statistics Office (www.cso.ie)",
-     "url": "https://www.cso.ie/en/census/census2011boundaryfiles/",
+     "url": "https://www.cso.ie/en/census/census2011reports/census2011boundaryfiles/",
      "note": ""
     },
     {
@@ -14698,7 +15081,7 @@
    "references": [
     {
      "label": "Census 2011 Boundary Files - CSO - Central Statistics Office (www.cso.ie)",
-     "url": "https://www.cso.ie/en/census/census2011boundaryfiles/",
+     "url": "https://www.cso.ie/en/census/census2011reports/census2011boundaryfiles/",
      "note": ""
     },
     {
@@ -18447,7 +18830,9 @@
      ]
     }
    ],
-   "subject": "civil-parishes"
+   "subject": "civil-parishes",
+   "licenceNote": "The OpenStreetMap data is © OpenStreetMap contributors, available under the Open Database Licence (ODbL): https://www.openstreetmap.org/copyright.",
+   "attribution": "© OpenStreetMap contributors, ODbL. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
   },
   {
    "id": "gsni-bedrock-geology-polygons-250k",
@@ -18471,7 +18856,7 @@
    "references": [
     {
      "label": "GSNI 250K Geology — Open Data NI",
-     "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9",
+     "url": "https://admin.opendatani.gov.uk/dataset/gsni-250k-geology",
      "note": ""
     }
    ],
@@ -18588,7 +18973,7 @@
    "references": [
     {
      "label": "GSNI 250K Geology — Open Data NI",
-     "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9",
+     "url": "https://admin.opendatani.gov.uk/dataset/gsni-250k-geology",
      "note": ""
     }
    ],
@@ -18631,7 +19016,7 @@
    "references": [
     {
      "label": "GSNI 250K Geology — Open Data NI",
-     "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9",
+     "url": "https://admin.opendatani.gov.uk/dataset/gsni-250k-geology",
      "note": ""
     }
    ],
@@ -18740,7 +19125,7 @@
     },
     {
      "label": "PDF versions of NI Mineral Maps (British Geological Survey)",
-     "url": "https://www.bgs.ac.uk/mineralsuk/planning/resource.html#NI",
+     "url": "https://web.archive.org/web/20240715215253/https://www2.bgs.ac.uk/mineralsUK/planning/resource.html#NI",
      "note": "External BGS index page listing PDF mineral resource maps for Northern Ireland."
     }
    ],
@@ -22465,7 +22850,7 @@
    "references": [
     {
      "label": "Open Data NI — Heath Habitat Network",
-     "url": "https://admin.opendatani.gov.uk/dataset/11cae57f-ed15-4a0d-82b4-86871060a6f3",
+     "url": "https://admin.opendatani.gov.uk/dataset/heath-habitat-network",
      "note": ""
     }
    ],
@@ -22657,7 +23042,7 @@
    "references": [
     {
      "label": "Open Data NI — Coastal Sand Dune Habitat Network",
-     "url": "https://admin.opendatani.gov.uk/dataset/10a948a6-05d5-498b-853a-430086da439a",
+     "url": "https://admin.opendatani.gov.uk/dataset/coastal-sand-dune-habitat-network",
      "note": ""
     }
    ],
@@ -22705,7 +23090,7 @@
    "references": [
     {
      "label": "Open Data NI — Coastal Saltmarsh Habitat Network",
-     "url": "https://admin.opendatani.gov.uk/dataset/05953343-682e-4ae7-87c3-801a092f0587",
+     "url": "https://admin.opendatani.gov.uk/dataset/coastal-saltmarsh-habitat-network",
      "note": ""
     }
    ],
@@ -22801,7 +23186,7 @@
    "references": [
     {
      "label": "Open Data NI — Ancient Semi-Natural Woodland Habitat Network",
-     "url": "https://admin.opendatani.gov.uk/dataset/0602c59a-2e65-40e7-88cf-4335afed4e09",
+     "url": "https://admin.opendatani.gov.uk/dataset/ancient-semi-natural-woodland-habitat-network",
      "note": ""
     }
    ],
@@ -22897,7 +23282,7 @@
    "references": [
     {
      "label": "Open Data NI — Limestone Pavement Habitat Network",
-     "url": "https://admin.opendatani.gov.uk/dataset/371e68d4-530a-4d1c-b867-44a3ef320411",
+     "url": "https://admin.opendatani.gov.uk/dataset/limestone-pavement-habitat-network",
      "note": ""
     }
    ],
@@ -22945,7 +23330,7 @@
    "references": [
     {
      "label": "Open Data NI — Maritime Cliff and Slope Habitat Network",
-     "url": "https://admin.opendatani.gov.uk/dataset/2b89ad59-e650-4eca-b974-19dda42a8572",
+     "url": "https://admin.opendatani.gov.uk/dataset/maritime-cliff-and-slope-habitat-network",
      "note": ""
     }
    ],
@@ -22993,7 +23378,7 @@
    "references": [
     {
      "label": "Open Data NI — Pond Habitat Network",
-     "url": "https://admin.opendatani.gov.uk/dataset/4773a29d-b525-4e50-acae-b4ffa4047279",
+     "url": "https://admin.opendatani.gov.uk/dataset/pond-habitat-network",
      "note": ""
     }
    ],
@@ -23041,7 +23426,7 @@
    "references": [
     {
      "label": "Open Data NI — Reedbed Habitat Network",
-     "url": "https://admin.opendatani.gov.uk/dataset/2aad7ca5-4619-4519-ab64-4ecfff858e72",
+     "url": "https://admin.opendatani.gov.uk/dataset/reedbed-habitat-network",
      "note": ""
     }
    ],
@@ -23137,7 +23522,7 @@
    "references": [
     {
      "label": "Open Data NI — Traditional Orchard Habitat Network",
-     "url": "https://admin.opendatani.gov.uk/dataset/c4f05bd7-5dd5-4504-b6d7-23940957c3cd",
+     "url": "https://admin.opendatani.gov.uk/dataset/traditional-orchard-habitat-network",
      "note": ""
     }
    ],
@@ -23329,7 +23714,7 @@
    "references": [
     {
      "label": "Open Data NI — Woodland Habitat Networks (grouped) Habitat Network",
-     "url": "https://admin.opendatani.gov.uk/dataset/8cc0d885-994c-432c-af8e-44ff55b4761d",
+     "url": "https://admin.opendatani.gov.uk/dataset/woodland-habitat-networks-grouped",
      "note": ""
     }
    ],
@@ -36589,7 +36974,7 @@
     },
     {
      "label": "Copernicus Digital Elevation Model",
-     "url": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+     "url": "https://web.archive.org/web/20241001175952/https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
      "note": "DEM source used for the prominence-domain model."
     },
     {
@@ -36685,7 +37070,7 @@
     },
     {
      "label": "Copernicus Digital Elevation Model",
-     "url": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+     "url": "https://web.archive.org/web/20241001175952/https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
      "note": "DEM source used for the prominence-domain model."
     },
     {
@@ -38618,7 +39003,7 @@
    "slug": "bedrock-geology-11000000-ireland-roini-itm",
    "category": "geology",
    "provider": [
-    "data.gov.ie"
+    "Geological Survey Ireland"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-geology-11000000-ireland-roini-itm.fgb"
@@ -38661,7 +39046,7 @@
    "slug": "wicklow-county-council-tree-preservation-orders",
    "category": "trees",
    "provider": [
-    "data.gov.ie"
+    "Wicklow County Council"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders.fgb"
@@ -38708,7 +39093,7 @@
    "slug": "wicklow-county-council-tree-preservation-orders-bray",
    "category": "trees",
    "provider": [
-    "data.gov.ie"
+    "Wicklow County Council"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders-bray.fgb"
@@ -38755,7 +39140,7 @@
    "slug": "community-scale-coastal-flood-extents-high-end-future-scenario",
    "category": "flood",
    "provider": [
-    "data.gov.ie"
+    "Office of Public Works"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/flood/community-scale-coastal-flood-extents-high-end-future-scenario.fgb"
@@ -38802,7 +39187,7 @@
    "slug": "community-scale-coastal-flood-extents-mid-range-future-scenario",
    "category": "flood",
    "provider": [
-    "data.gov.ie"
+    "Office of Public Works"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/flood/community-scale-coastal-flood-extents-mid-range-future-scenario.fgb"
@@ -38849,7 +39234,7 @@
    "slug": "accessible-parking-spaces-sdcc3",
    "category": "parking",
    "provider": [
-    "data.gov.ie"
+    "South Dublin County Council"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/parking/accessible-parking-spaces-sdcc3.fgb"
@@ -38894,7 +39279,7 @@
    "slug": "community-scale-flood-model-nodes-current-scenario",
    "category": "flood",
    "provider": [
-    "data.gov.ie"
+    "Office of Public Works"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/flood/community-scale-flood-model-nodes-current-scenario.fgb"
@@ -38942,7 +39327,7 @@
    "slug": "river-and-lake-monitoring-points-2024",
    "category": "water",
    "provider": [
-    "Open Data NI"
+    "DAERA"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water/river-and-lake-monitoring-points-2024.fgb"
@@ -38988,7 +39373,7 @@
    "slug": "water-framework-directive-2nd-cycle-interim-status1",
    "category": "water",
    "provider": [
-    "Open Data NI"
+    "DAERA"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/water/water-framework-directive-2nd-cycle-interim-status1.fgb"
@@ -39034,7 +39419,7 @@
    "slug": "bedrock-boreholes-150000-ireland-roi-itm-unverified",
    "category": "geology",
    "provider": [
-    "data.gov.ie"
+    "Geological Survey Ireland"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-boreholes-150000-ireland-roi-itm-unverified.fgb"
@@ -39079,7 +39464,7 @@
    "slug": "cycle-network-survey",
    "category": "cycle",
    "provider": [
-    "data.gov.ie"
+    "National Transport Authority"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/cycle/cycle-network-survey.fgb"
@@ -39124,7 +39509,7 @@
    "slug": "co-wicklow-polling-stations",
    "category": "polling",
    "provider": [
-    "data.gov.ie"
+    "Wicklow County Council"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/polling/co-wicklow-polling-stations.fgb"
@@ -39167,7 +39552,7 @@
    "slug": "co-wicklow-protected-structures",
    "category": "heritage",
    "provider": [
-    "data.gov.ie"
+    "Wicklow County Council"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/heritage/co-wicklow-protected-structures.fgb"
@@ -39211,7 +39596,7 @@
    "slug": "landscape-character-types",
    "category": "landscape",
    "provider": [
-    "data.gov.ie"
+    "Monaghan County Council"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/landscape/landscape-character-types.fgb"
@@ -39254,7 +39639,7 @@
    "slug": "museums-collections-archives",
    "category": "museums",
    "provider": [
-    "data.gov.ie"
+    "Heritage Council"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/museums/museums-collections-archives.fgb"
@@ -39298,7 +39683,7 @@
    "slug": "wicklow-fire-stations",
    "category": "fire-stations",
    "provider": [
-    "data.gov.ie"
+    "Wicklow County Council"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/fire-stations/wicklow-fire-stations.fgb"
@@ -39341,7 +39726,7 @@
    "slug": "greater-dublin-area-cycle-infrastructure-nta",
    "category": "cycle",
    "provider": [
-    "data.gov.ie"
+    "National Transport Authority"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/cycle/greater-dublin-area-cycle-infrastructure-nta.fgb"
@@ -39386,7 +39771,7 @@
    "slug": "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks",
    "category": "parks",
    "provider": [
-    "data.gov.ie"
+    "Dublin City Council"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/parks/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks.fgb"
@@ -39431,7 +39816,7 @@
    "slug": "use-zoning-objectives1",
    "category": "planning",
    "provider": [
-    "data.gov.ie"
+    "South Dublin County Council"
    ],
    "files": {
     "fgb": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
@@ -39516,7 +39901,7 @@
    "slug": "oda-map-00101-dail-constituencies-2013-sdcc",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "South Dublin County Council"
    ],
    "dateAdded": null,
    "license": "CC0 1.0",
@@ -39545,7 +39930,7 @@
    "slug": "oda-map-00093-boundaries",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39574,7 +39959,7 @@
    "slug": "oda-map-00115-planning-application-boundaries-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39603,7 +39988,7 @@
    "slug": "oda-map-00118-planning-exemptions-local-authorities",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Department of Housing, Local Government and Heritage"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39632,7 +40017,7 @@
    "slug": "oda-map-00119-planning-exemptions-settlements",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Department of Housing, Local Government and Heritage"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39661,7 +40046,7 @@
    "slug": "oda-map-00120-polling-stations-for-general-election-2024-fcc",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Fingal County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39690,7 +40075,7 @@
    "slug": "oda-map-00121-polling-stations-presidential-election-2025-fcc",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Fingal County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39719,7 +40104,7 @@
    "slug": "oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39748,7 +40133,7 @@
    "slug": "oda-map-00140-electoral-areas-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39777,7 +40162,7 @@
    "slug": "oda-map-00150-co-wicklow-polling-districts",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Wicklow County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39807,7 +40192,7 @@
    "slug": "oda-map-00152-galway-county-council-polling-stations",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Galway County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39836,7 +40221,7 @@
    "slug": "oda-map-00153-local-election-areas",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Galway County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39865,7 +40250,7 @@
    "slug": "oda-map-00154-local-election-results-2014-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39894,7 +40279,7 @@
    "slug": "oda-map-00155-local-election-results-2019-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39923,7 +40308,7 @@
    "slug": "oda-map-00156-polling-districts-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39952,7 +40337,7 @@
    "slug": "oda-map-00157-polling-districts-2019-sdcc",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "South Dublin County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -39981,7 +40366,7 @@
    "slug": "oda-map-00158-polling-station-locations-2024-sdcc",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "South Dublin County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40011,7 +40396,7 @@
    "slug": "oda-map-00159-polling-stations-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40040,7 +40425,7 @@
    "slug": "oda-map-00205-4dublin-pipeline-all",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Department of Housing, Local Government and Heritage"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40069,7 +40454,7 @@
    "slug": "oda-map-00221-eia-location-point",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Department of Housing, Local Government and Heritage"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40098,7 +40483,7 @@
    "slug": "oda-map-00224-gzt-current-plan",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Department of Housing, Local Government and Heritage"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40127,7 +40512,7 @@
    "slug": "oda-map-00300-planning-application-points-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40156,7 +40541,7 @@
    "slug": "oda-map-00302-planning-register",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "South Dublin County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40185,7 +40570,7 @@
    "slug": "oda-map-00303-westmeath-planning-applications",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Westmeath County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40214,7 +40599,7 @@
    "slug": "oda-map-00330-cityboundary",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Galway City Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40243,7 +40628,7 @@
    "slug": "oda-map-00343-galway-city-electoral-divisions",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Galway City Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40272,7 +40657,7 @@
    "slug": "oda-map-00358-galway-city-polling-districts-opendata",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Galway City Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40301,7 +40686,7 @@
    "slug": "oda-map-00370-angling-stands-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40330,7 +40715,7 @@
    "slug": "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40359,7 +40744,7 @@
    "slug": "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40388,7 +40773,7 @@
    "slug": "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40417,7 +40802,7 @@
    "slug": "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40446,7 +40831,7 @@
    "slug": "oda-map-00387-arts-facilities-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40475,7 +40860,7 @@
    "slug": "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40504,7 +40889,7 @@
    "slug": "oda-map-00398-ballaghaderreen-lap-2012-2018-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40533,7 +40918,7 @@
    "slug": "oda-map-00399-ballaghaderreen-lap-2017-2023-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40562,7 +40947,7 @@
    "slug": "oda-map-00415-bicycle-warning-signs-fcc",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Fingal County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40591,7 +40976,7 @@
    "slug": "oda-map-00421-boyle-lap-2012-2018-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40620,7 +41005,7 @@
    "slug": "oda-map-00422-boyle-lap-2015-2021-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40649,7 +41034,7 @@
    "slug": "oda-map-00438-car-parking-locations-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40678,7 +41063,7 @@
    "slug": "oda-map-00439-castlerea-lap-2012-2018-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40707,7 +41092,7 @@
    "slug": "oda-map-00440-castlerea-lap-2016-2022-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40736,7 +41121,7 @@
    "slug": "oda-map-00451-certificate-of-registration-locations-sdcc",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "South Dublin County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40765,7 +41150,7 @@
    "slug": "oda-map-00454-civic-amenity-sites-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40794,7 +41179,7 @@
    "slug": "oda-map-00469-cootehall-lap-2009-2015-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40823,7 +41208,7 @@
    "slug": "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40852,7 +41237,7 @@
    "slug": "oda-map-00472-cortober-lap-2014-2020-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40881,7 +41266,7 @@
    "slug": "oda-map-00475-county-council-offices-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40910,7 +41295,7 @@
    "slug": "oda-map-00497-cycleways-sdcc",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "South Dublin County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40939,7 +41324,7 @@
    "slug": "oda-map-00553-elphin-lap-2014-2020-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40968,7 +41353,7 @@
    "slug": "oda-map-00571-fossit-3-town",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -40997,7 +41382,7 @@
    "slug": "oda-map-00583-geological-sites-audit-2012-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41026,7 +41411,7 @@
    "slug": "oda-map-00589-hedgerows",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41055,7 +41440,7 @@
    "slug": "oda-map-00591-hodson-bay-lap-2014-2020-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41084,7 +41469,7 @@
    "slug": "oda-map-00610-land-use-zoning-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41113,7 +41498,7 @@
    "slug": "oda-map-00612-landscape-character-areas-roscommon-cdp-2014-2020-expired",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41142,7 +41527,7 @@
    "slug": "oda-map-00613-landscape-character-areas-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41171,7 +41556,7 @@
    "slug": "oda-map-00615-landscape-character-types-roscommon-cdp-2014-2020-expired",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41200,7 +41585,7 @@
    "slug": "oda-map-00620-libraries-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41229,7 +41614,7 @@
    "slug": "oda-map-00625-locations",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41258,7 +41643,7 @@
    "slug": "oda-map-00627-lough-key-lap-2015-2021-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41287,7 +41672,7 @@
    "slug": "oda-map-00634-monksland-bellanamullia-lap-2010-2016-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41316,7 +41701,7 @@
    "slug": "oda-map-00635-monksland-bellanamullia-lap-2016-2022-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41345,7 +41730,7 @@
    "slug": "oda-map-00639-municipal-district",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Westmeath County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41374,7 +41759,7 @@
    "slug": "oda-map-00647-operational-areas-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41403,7 +41788,7 @@
    "slug": "oda-map-00649-other-community-facilities",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41432,7 +41817,7 @@
    "slug": "oda-map-00661-playgrounds-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41461,7 +41846,7 @@
    "slug": "oda-map-00687-public-moorings-and-piers-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41490,7 +41875,7 @@
    "slug": "oda-map-00689-public-slipways-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41519,7 +41904,7 @@
    "slug": "oda-map-00694-record-of-protected-structures-roscommon-cdp-2014-2020-expired",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41548,7 +41933,7 @@
    "slug": "oda-map-00695-record-of-protected-structures-roscommon-cdp-2022-2028",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41577,7 +41962,7 @@
    "slug": "oda-map-00698-recycle-bring-banks-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41606,7 +41991,7 @@
    "slug": "oda-map-00704-roosky-lap-2009-2015-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41635,7 +42020,7 @@
    "slug": "oda-map-00705-roscommon-community-parks",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41664,7 +42049,7 @@
    "slug": "oda-map-00707-roscommon-lap-2008-2014-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41693,7 +42078,7 @@
    "slug": "oda-map-00708-roscommon-lap-2014-2020-expired-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41722,7 +42107,7 @@
    "slug": "oda-map-00709-roscommon-public-parks",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41751,7 +42136,7 @@
    "slug": "oda-map-00732-scenic-routes-roscommon-cdp-2014-2020",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41780,7 +42165,7 @@
    "slug": "oda-map-00733-scenic-routes-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41809,7 +42194,7 @@
    "slug": "oda-map-00734-scenic-views-roscommon-cdp-2014-2020",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41838,7 +42223,7 @@
    "slug": "oda-map-00735-scenic-views-roscommon-cdp-2022-2028",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41867,7 +42252,7 @@
    "slug": "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41896,7 +42281,7 @@
    "slug": "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41925,7 +42310,7 @@
    "slug": "oda-map-00755-sports-facilities-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41954,7 +42339,7 @@
    "slug": "oda-map-00786-thatch-building-survey-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -41983,7 +42368,7 @@
    "slug": "oda-map-00791-tourism-attractions-roscommon",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -42012,7 +42397,7 @@
    "slug": "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -42041,7 +42426,7 @@
    "slug": "oda-map-00808-treelines",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -42070,7 +42455,7 @@
    "slug": "oda-map-00822-water-district-areas-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -42099,7 +42484,7 @@
    "slug": "oda-map-00829-westmeath-county-council-libraries",
    "category": "Points of Interest",
    "provider": [
-    "data.gov.ie"
+    "Westmeath County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -42128,7 +42513,7 @@
    "slug": "oda-map-00859-wildlife-corridors",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -42157,7 +42542,7 @@
    "slug": "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -42186,7 +42571,7 @@
    "slug": "oda-map-00862-winter-service-plan-routes-roscommon",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Roscommon County Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -42215,15 +42600,14 @@
    "slug": "oda-map-00913-covid-19-hse-daily-booster-vaccination-figures",
    "category": "Points of Interest",
    "provider": [
-    "Tailte Éireann",
-    "data.gov.ie"
+    "Tailte Éireann"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
    "licence": "CC BY 4.0",
    "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
    "files": {
-    "source": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures"
+    "source": "https://web.archive.org/web/20251113123509/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures"
    },
    "keywords": [
     "open-data",
@@ -42233,7 +42617,7 @@
    "references": [
     {
      "label": "Tailte/OSI/data.gov.ie — COVID-19 HSE Daily Booster Vaccination Figures",
-     "url": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
+     "url": "https://web.archive.org/web/20251113123509/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
      "note": "CC BY 4.0"
     }
    ],
@@ -42245,15 +42629,14 @@
    "slug": "oda-map-00914-covid-19-hse-daily-vaccination-figures",
    "category": "Points of Interest",
    "provider": [
-    "Tailte Éireann",
-    "data.gov.ie"
+    "Tailte Éireann"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
    "licence": "CC BY 4.0",
    "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
    "files": {
-    "source": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures"
+    "source": "https://web.archive.org/web/20251116192831/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures"
    },
    "keywords": [
     "open-data",
@@ -42263,7 +42646,7 @@
    "references": [
     {
      "label": "Tailte/OSI/data.gov.ie — COVID-19 HSE Daily Vaccination Figures",
-     "url": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
+     "url": "https://web.archive.org/web/20251116192831/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
      "note": "CC BY 4.0"
     }
    ],
@@ -42275,7 +42658,7 @@
    "slug": "oda-map-01042-architectural-conservation-areas",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Cork City Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",
@@ -42304,7 +42687,7 @@
    "slug": "oda-map-01068-cork-city-zoning-development-plan-2022-2028",
    "category": "Boundaries",
    "provider": [
-    "data.gov.ie"
+    "Cork City Council"
    ],
    "dateAdded": null,
    "license": "CC BY 4.0",

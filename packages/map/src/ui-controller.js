@@ -15,6 +15,7 @@ import { cdnUrl } from './cdn-url.js';
 import { catalogueNextRequested, initialCatalogueRoute } from './catalogue/flag.js';
 import { installSplit } from './catalogue/split.js';
 import { ownDescription } from './catalogue/row-model.mjs';
+import { labelFieldsForDetails } from './renderer/labels.js';
 import { CATALOGUE_HISTORY_ENTRY, CATALOGUE_VIEW, ENTITY_PLACEHOLDER, MOBILE_CATALOGUE, SPLIT_ALLOWED, SPLIT_LAYOUT } from './ui-state-machines.mjs';
 import { createFlag, createState, setHidden } from './state-helpers.mjs';
 import { partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
@@ -245,6 +246,8 @@ class UIController {
         this.catalogueHistory = [];
         this.catalogueHistoryIndex = -1;
         this.catalogueView = 'list'; // 'list' or 'detail'
+        /** The map whose row the catalogue returns to when a Details page closes. @type {string | null} */
+        this._returnMapId = null;
         /** @type {MapListOptions} */
         this._lastMapListOptions = {};
         /** @type {Set<string>} */
@@ -481,6 +484,8 @@ class UIController {
         if (addToHistory) {
             this._pushCatalogueHistoryEntry({ type: 'detail', mapId });
         }
+        // Back to the catalogue returns to this map's row (showCatalogueListView).
+        this._returnMapId = map.id;
 
         this._rememberDetailViewState();
         this._currentDetailViewKey = null;
@@ -556,6 +561,8 @@ class UIController {
         // file's address, its style or its keywords (Phelim Birch's notes, 19 Nov 2026); Download
         // gives the files.
         const filePath = map.files?.fgb || map.files?.geojson || null;
+        // The English label field and the Irish one where the labels carry an Irish line.
+        const labelFields = labelFieldsForDetails(/** @type {import('./renderer/labels.js').RendererLayer} */ (/** @type {unknown} */ (map)));
 
         // Build variants HTML
         // In /maps a map's variants are its "Parts", each by the catalogue's name for it, else (a
@@ -644,10 +651,10 @@ class UIController {
                     <span class="catalogue-detail__meta-label">Slug</span>
                     <span class="catalogue-detail__meta-value catalogue-detail__meta-value--mono">${this.escapeHtml(map.slug)}</span>
                 </div>` : ''}
-                ${map.labelProperty ? `
+                ${labelFields.english || labelFields.irish ? `
                 <div class="catalogue-detail__meta-row">
                     <span class="catalogue-detail__meta-label">Label Property</span>
-                    <span class="catalogue-detail__meta-value catalogue-detail__meta-value--mono">${this.escapeHtml(map.labelProperty)}</span>
+                    <span class="catalogue-detail__meta-value catalogue-detail__meta-value--mono">${[labelFields.english && `${this.escapeHtml(labelFields.english)}${labelFields.irish ? ' (English)' : ''}`, labelFields.irish && `${this.escapeHtml(labelFields.irish)} (Irish)`].filter(Boolean).join(', ')}</span>
                 </div>` : ''}
                 ${map.priorityProperty ? `
                 <div class="catalogue-detail__meta-row">
@@ -1555,6 +1562,9 @@ class UIController {
     showCatalogueListView(addToHistory = false) {
         this._rememberDetailViewState();
         this._currentDetailViewKey = null;
+        // Leaving a Details page: the list opens at its map's row, not at the top (Phelim Birch, 27 Nov 2026).
+        const returnMapId = this.catalogueView === 'detail' ? this._returnMapId : null;
+        this._returnMapId = null;
         this.catalogueView = 'list';
         this._catalogueBookView = null;
 
@@ -1574,7 +1584,12 @@ class UIController {
         // Show list, hide detail
         listView.classList.remove('hidden');
         detailView.classList.add('hidden');
-        this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
+        const rendered = this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
+        if (returnMapId) {
+            rendered.then(() => {
+                if (this.catalogueView === 'list' && catalogueNextRequested()) this._catalogueNext?.returnToMap?.(returnMapId);
+            });
+        }
         this.updateCatalogueNavButtons();
     }
 
@@ -8796,6 +8811,8 @@ class UIController {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry) return;
         const { feature, mapConfig, primaryName } = entry;
+        // Back to the catalogue returns to the feature's map's row (showCatalogueListView).
+        this._returnMapId = mapConfig?.id || null;
         const activeTabId = this._getActivePaneTabId();
 
         if (addToHistory) {
@@ -8861,7 +8878,7 @@ class UIController {
         detailView.setAttribute('aria-busy', 'false');
         detailView.innerHTML = `
             <div class="catalogue-detail__card">
-                <div class="catalogue-detail__color" style="background-color: ${esc(mapConfig?.style?.color || MAP_COLOURS.swatch)}"></div>
+                <div class="catalogue-detail__color" style="background-color: ${esc((mapConfig?.id && this._catalogueNext?.detailNames?.(mapConfig.id)?.colour) || mapConfig?.style?.color || MAP_COLOURS.swatch)}"></div>
                 <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${esc(displayName)}</h2>
                 <div class="catalogue-detail__date">${esc(this.catalogueMapName(mapConfig))}</div>
             </div>

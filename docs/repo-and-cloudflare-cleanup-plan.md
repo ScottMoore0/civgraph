@@ -111,7 +111,7 @@ production actually reads, and a request that looked healthy from outside.
 
 - **`validate-asset-references.mjs`** — every `src`/`href`/`loadClassicScript()`
   path must exist after build. Negative-tested against the FlatGeobuf bug.
-- **`validate-r2-serving-parity.mjs`** — everything referenced under an
+- **`verify-r2-parity.mjs`** — everything referenced under an
   R2-served prefix must exist in the bucket. Served prefixes are discovered from
   `functions/`, not hardcoded. Found 36 gaps where a manual git-tracked
   comparison found 18, because 29 of them exist nowhere at all. Parity is now
@@ -184,7 +184,7 @@ larger barrier than any directory name.
 ### Repo structure
 
 - **`data/` is 5.02 GB of the repo.** The R2 proxy pattern is proven and
-  `upload-tree-r2.mjs` is verified on 50,824 files. Three groups:
+  `r2-upload-manifest.mjs` is verified on 50,824 files. Three groups:
   - never deployed, no proxy needed — `census` (330 MB), `books` (365 MB),
     `timeline-transitions` (153 MB). Safest, ~848 MB.
   - needs a proxy Function first — `graph` (2 GB), `timeline-transition-overlays`

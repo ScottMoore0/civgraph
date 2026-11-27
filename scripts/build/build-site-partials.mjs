@@ -50,7 +50,7 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { toHtmlString } from '@civgraph/core/html.js';
 import { footer, head, header, supportModal } from '@civgraph/ui/templates/shell.js';
-import { INFO_PAGES, INFO_PAGES_LIVE, draftBanner, draftHead, fillLastUpdated, hasLastUpdatedPlaceholder } from '@civgraph/ui/templates/info-pages.js';
+import { INFO_PAGES, draftBanner, draftHead, fillLastUpdated, hasLastUpdatedPlaceholder, isLiveInfoPage } from '@civgraph/ui/templates/info-pages.js';
 import { sourceOf } from './site.mjs';
 
 const CHECK = process.argv.includes('--check');
@@ -64,7 +64,7 @@ const SITE_PAGE = ['site:head', 'site:header', 'site:support-modal', 'site:foote
 // three copies of the shell to keep in step -- the failure this mechanism exists to prevent.
 const BROWSE_PAGE = [...SITE_PAGE, 'site:browse-shell'];
 // The information pages (Privacy, Licence, How to cite, Downloads) also carry the draft regions:
-// a noindex line in the head and a banner in the body while INFO_PAGES_LIVE is false
+// a noindex line in the head and a banner in the body while the page's `live` flag is false
 // (packages/ui/src/templates/info-pages.js), both empty once it is true.
 const INFO_PAGE = [...SITE_PAGE, 'site:draft-head', 'site:draft-banner'];
 const PAGES = new Map([
@@ -82,7 +82,8 @@ const PAGES = new Map([
   ['site/pages/status.html', SITE_PAGE],
   ['site/pages/api.html', SITE_PAGE],
   // Information pages drafted 11 Nov 2026 (launch stream `pages`): Privacy, Licence, How to cite
-  // and Downloads. Unlinked and noindex until INFO_PAGES_LIVE (info-pages.js) is set.
+  // and Downloads. Each is unlinked and noindex until its `live` flag (info-pages.js) is set;
+  // Licence and How to cite went live on 24 Nov 2026.
   ...INFO_PAGES.map((p) => /** @type {[string, string[]]} */ ([p.file, INFO_PAGE])),
   // The accessibility statement (13 Nov 2026): a draft for the owner, noindex and unlinked until he publishes it.
   ['site/pages/accessibility.html', SITE_PAGE],
@@ -109,7 +110,7 @@ const NOT_PUBLIC = /^(archive|analysis|docs|tests|tools|scripts|data|node_module
 // The site chrome (head, header, support dialog, footer) comes from packages/ui/src/templates/shell.js,
 // the one source the server-rendered pages use too (frontend-plan.md F1): a header change is one
 // edit for both. The page-specific regions below are still partial files.
-/** @type {Record<string, (attrs: Record<string, string>) => string>} */
+/** @type {Record<string, (attrs: Record<string, string>, page: string) => string>} */
 const SHELL_REGIONS = {
   'site:head': () => toHtmlString(head({ version: versionOf })),
   // skip-also="#id:Label" adds a second skip link (Browse: to the results; PRONI: to the search).
@@ -121,8 +122,8 @@ const SHELL_REGIONS = {
   })),
   'site:support-modal': () => toHtmlString(supportModal()),
   'site:footer': () => toHtmlString(footer()),
-  'site:draft-head': () => draftHead(),
-  'site:draft-banner': () => draftBanner(),
+  'site:draft-head': (_attrs, page) => draftHead(isLiveInfoPage(page)),
+  'site:draft-banner': (_attrs, page) => draftBanner(isLiveInfoPage(page)),
 };
 
 /** @type {Record<string, string>} */
@@ -170,7 +171,7 @@ function render(name, attrs, page) {
   if (name === 'site:header' && !NAV_KEYS.has(/** @type {string} */ (attrs['active']))) {
     throw new Error(`${page}: <!-- site:header --> needs active="${[...NAV_KEYS].join('|')}"`);
   }
-  if (SHELL_REGIONS[name]) return SHELL_REGIONS[name](attrs).replace(/\r\n/g, '\n').trimEnd();
+  if (SHELL_REGIONS[name]) return SHELL_REGIONS[name](attrs, page).replace(/\r\n/g, '\n').trimEnd();
   let html = readFileSync(/** @type {string} */ (PARTIAL_FILES[name]), 'utf8').replace(/\r\n/g, '\n').trimEnd();
   html = html
     .replace(/\{\{active:([a-z]+)\}\}/g, (_, key) => (key === attrs['active'] ? ' app-header__link--active' : ''))
@@ -212,8 +213,8 @@ for (const [page, expected] of PAGES) {
     problems.push(/** @type {Error} */ (error).message);
     continue;
   }
-  // Going live dates the pages: the go-live placeholder becomes today's date, once (PG9).
-  if (INFO_PAGES_LIVE && !CHECK && hasLastUpdatedPlaceholder(next)) next = fillLastUpdated(next, new Date().toISOString().slice(0, 10));
+  // Going live dates a page: the go-live placeholder becomes today's date, once (PG9).
+  if (isLiveInfoPage(page) && !CHECK && hasLastUpdatedPlaceholder(next)) next = fillLastUpdated(next, new Date().toISOString().slice(0, 10));
   if (next === source) continue;
   if (CHECK) stale.push(page);
   else {
@@ -251,14 +252,14 @@ if (CHECK) {
   }
 }
 
-// The information pages go live only when every OWNER TODO on them has been settled.
-if (INFO_PAGES_LIVE) {
-  for (const { file } of INFO_PAGES) {
+// An information page goes live only when every OWNER TODO on it has been settled.
+for (const { file, live } of INFO_PAGES) {
+  if (live) {
     if (existsSync(file) && readFileSync(file, 'utf8').includes('class="owner-note"')) {
-      problems.push(`${file}: INFO_PAGES_LIVE is set but the page still has OWNER TODO notes (class="owner-note"); settle and remove them first`);
+      problems.push(`${file}: the page is live but still has OWNER TODO notes (class="owner-note"); settle and remove them first`);
     }
     if (existsSync(file) && hasLastUpdatedPlaceholder(readFileSync(file, 'utf8'))) {
-      problems.push(`${file}: INFO_PAGES_LIVE is set but the "last updated" date is still the go-live placeholder; run node scripts/build/build-site-partials.mjs`);
+      problems.push(`${file}: the page is live but its "last updated" date is still the go-live placeholder; run node scripts/build/build-site-partials.mjs`);
     }
   }
 }

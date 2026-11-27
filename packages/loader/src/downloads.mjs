@@ -6,7 +6,8 @@
  *     civgraph-records-<version>.sqlite.gz and civgraph-records-latest.sqlite.gz
  *     the graph exports (civgraph.jsonld, civgraph-rdf.ndjson, civgraph-provenance.json), gzipped
  *     civgraph-graph-shards.tar.gz, the graph's shard files
- *   manifest.json: version, sizes, SHA-256, licence note
+ *   manifest.json: version, sizes, SHA-256, licence note, and the licence and attribution statements
+ *   (download-licence.mjs), which the database's dataset table and the archive's LICENCE.txt also carry
  *
  * It uploads nothing. Publishing them is a separate, approved step through the S3 path, which
  * keeps every snapshot version and never overwrites one (packages/loader/src/downloads-guard.mjs):
@@ -20,6 +21,7 @@ import { openSqliteHandle } from '@civgraph/storage/node';
 import { SITE } from '@civgraph/config/node';
 import { RECORDS_DB, recordPaths, REPO_ROOT } from './paths.mjs';
 import { EXPORT_FORMATS, ExportFailed } from './export-formats.mjs';
+import { downloadLicence } from './download-licence.mjs';
 
 const BUILD = path.join(REPO_ROOT, 'tmp', 'records');
 const DB = RECORDS_DB;
@@ -57,6 +59,8 @@ const manifest = {
   version,
   // The Licence page (owner decision PG17, 13 Nov 2026), from the next approved upload.
   licence: `See ${SITE.origin}/pages/licence for the licence of Civgraph's own data and of each source; the records cite theirs.`,
+  // The same statements the database's dataset table and the archive's LICENCE.txt carry (S15).
+  terms: downloadLicence(SITE.origin),
   files: /** @type {{ name: string, bytes: number, sha256: string }[]} */ ([]),
 };
 for (const f of files) {

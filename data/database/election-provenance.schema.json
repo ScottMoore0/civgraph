@@ -160,6 +160,10 @@
      ],
      "description": "Wayback or other archived copy, where the live page has gone."
     },
+    "urlDead": {
+     "type": "boolean",
+     "description": "True when the link review found url dead (data/database/dead-links.json): archiveUrl, where there is one, is shown first. Absent when the link works."
+    },
     "host": {
      "type": [
       "string",

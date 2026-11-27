@@ -180,7 +180,7 @@
       }
     },
     "op-r2-fgb": {
-      "description": "FlatGeobufs to R2 through scripts/upload-fgb-r2.mjs. file is repo-relative; key is the R2 key.",
+      "description": "FlatGeobufs to R2 through scripts/publish/r2-upload-files.mjs. file is repo-relative; key is the R2 key.",
       "type": "object",
       "required": ["id", "type"],
       "additionalProperties": false,
@@ -196,7 +196,7 @@
       }
     },
     "op-r2-tree": {
-      "description": "Files to one R2 sub-prefix through scripts/upload-tree-r2.mjs. Listing is limited to that prefix.",
+      "description": "Files to one R2 sub-prefix through scripts/publish/r2-upload-manifest.mjs. Listing is limited to that prefix.",
       "type": "object",
       "required": ["id", "type", "prefix"],
       "additionalProperties": false,
@@ -211,7 +211,7 @@
       }
     },
     "op-r2-cache-control": {
-      "description": "Cache-Control on objects under each sub-prefix through scripts/set-r2-cache-control.mjs.",
+      "description": "Cache-Control on objects under each sub-prefix through scripts/publish/r2-cache-control.mjs.",
       "type": "object",
       "required": ["id", "type", "prefixes"],
       "additionalProperties": false,
@@ -245,7 +245,7 @@
       }
     },
     "op-switch-to-cdn": {
-      "description": "Post-upload: point the layers at their verified CDN copies through scripts/switch-test-pmtiles-to-cdn.mjs.",
+      "description": "Post-upload: point the layers at their verified CDN copies through scripts/publish/switch-pmtiles-to-cdn.mjs.",
       "type": "object",
       "required": ["id", "type"],
       "additionalProperties": false,

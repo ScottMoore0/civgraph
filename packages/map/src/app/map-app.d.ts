@@ -42,6 +42,9 @@ export interface TimelineChange {
   ha?: number;
   point?: unknown;
   bbox?: unknown;
+  /** A merger's or division's units, each name on its own ('merged', 'divided'). */
+  fromNames?: string[];
+  toNames?: string[];
   [key: string]: unknown;
 }
 

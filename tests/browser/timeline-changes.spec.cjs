@@ -115,7 +115,7 @@ test.describe('boundary changes on the timeline', () => {
     await button.click();
     const panel = page.locator('#timelineChangesPanel');
     await expect(panel).toBeVisible();
-    await expect(panel).toContainText(/Portstewart Urban formed from Portstewart/i);
+    await expect(panel).toContainText(/Portstewart divided into Portstewart Rural and Portstewart Urban/i);
     const zoomButtons = panel.locator('[data-change-key]');
     expect(await zoomButtons.count()).toBeGreaterThan(0);
 

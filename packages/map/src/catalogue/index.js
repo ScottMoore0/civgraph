@@ -43,7 +43,7 @@ import { CATALOGUE_TAB, followSeriesRedirect } from './route-state.mjs';
 import { defineFlagFields, setHidden } from '../state-helpers.mjs';
 import { forgetTypedPhrase, isLanguagePhrase, languageOptionsShown, revealLanguageOptions, typedLanguagePhrase } from './lang-reveal.js';
 import { siteNumber } from '../../../core/src/format.js';
-import { catalogueTrail, comparable, detailHolders, listStyleOf, mapTitle, ownDescription, partLabel, passesProviders, providerCounts, rowCitation, rowMapCount, rowProviderIds } from './row-model.mjs';
+import { catalogueTrail, comparable, detailHolders, mapTitle, ownDescription, partLabel, passesProviders, providerCounts, rowCitation, rowMapCount, rowProviderIds } from './row-model.mjs';
 import { PROVIDERS } from './util.js';
 import { MAP_COLOURS } from '../views/colours.mjs';
 
@@ -215,8 +215,8 @@ export class CatalogueNext {
     this.expanded = new Set();
     /** @type {Map<string, string>} each row's chosen edition */
     this.selected = new Map();
-    /** @type {import('./row-model.mjs').ListStyle} how a row of several maps lists them (?lists=a|b; mock-up w23-map-lists) */
-    this.listStyle = listStyleOf(typeof location === 'undefined' ? '' : location.search);
+    /** @type {Set<string>} rows whose list of maps has its open map closed (none opened beneath it) */
+    this.closedMaps = new Set();
     /** @type {string | null} */
     this.focusSeries = null;
     /** @type {Set<string>} */
@@ -1301,7 +1301,7 @@ export class CatalogueNext {
       this.focusSeries = a;
       // A map still to be added is shown in its row's list of maps to come.
       if (b && /** @type {CatalogueRow} */ (this.seriesById.get(a)).todo?.some((t) => t.id === b)) this.showTodo.add(a);
-      else if (b) this.selected.set(a, b);
+      else if (b) { this.selected.set(a, b); this.closedMaps.delete(a); }
       this.revealSeries(this.seriesById.get(a));
       this.scrollTarget = a;
     } else if (view === 'subject' && this.subjectById.has(a)) {
@@ -1344,6 +1344,27 @@ export class CatalogueNext {
       this.filters = { ...BLANK_FILTERS };
       this.saveStore();
     }
+  }
+
+  /**
+   * Back from a map's Details page: the list at that map's row, its shelf opened and the row
+   * expanded, not the top of the catalogue (Phelim Birch, 27 Nov 2026). False for a map in no row
+   * or while a search is shown (the results stay as they were).
+   * @param {string} id
+   */
+  returnToMap(id) {
+    const sid = this.seriesOfMap?.get(id);
+    const s = sid ? this.seriesById?.get(sid) : undefined;
+    if (!sid || !s || this.query || !this.root) return false;
+    this.here = null;
+    this.tab = 'maps';
+    this.section = sectionOfKind(s.kind);
+    this.expanded.add(sid);
+    this.focusSeries = sid;
+    this.revealSeries(s);
+    this.scrollTarget = sid;
+    this.draw();
+    return true;
   }
 
   /** @param {string} route */
@@ -1484,7 +1505,7 @@ export class CatalogueNext {
       this.section = sectionOfKind(this.seriesById.get(sid)?.kind);
       this.expanded.add(sid);
       this.focusSeries = sid;
-      if (el.dataset['map']) this.selected.set(sid, el.dataset['map']);
+      if (el.dataset['map']) { this.selected.set(sid, el.dataset['map']); this.closedMaps.delete(sid); }
       this.revealSeries(this.seriesById.get(sid));
       this.scrollTarget = sid;
       this.draw();
@@ -1537,9 +1558,6 @@ export class CatalogueNext {
   /** A year typed into a box: applied when the box is left or Enter is pressed, not per key. */
   /** @param {Event} e */
   onYearTyped(e) {
-    // The opened row's "Details for" menu (?lists=b) chooses the map whose facts and tools show.
-    const pick = /** @type {HTMLSelectElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-pick-edition]'));
-    if (pick) { this.select(/** @type {string} */ (pick.dataset['cnPickEdition']), pick.value); return; }
     const provider = /** @type {HTMLInputElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-provider]'));
     if (provider) {
       const id = /** @type {string} */ (provider.dataset['cnProvider']);
@@ -1658,15 +1676,16 @@ export class CatalogueNext {
 
   /** @param {string} sid @param {string} mid */
   select(sid, mid) {
-    this.selected.set(sid, mid);
-    this.focusSeries = sid;
-    // A closed row's dated list (?lists=a) opens the row at the map chosen.
-    if (!this.expanded.has(sid)) {
-      this.expanded.add(sid);
-      this.rerenderRow(sid);
-      this.replaceRoute();
-      return;
+    // The open map's button closes it again; before, only opening another closed it (Phelim
+    // Birch, 26 Nov 2026).
+    const s = this.seriesById?.get(sid);
+    const sel = s && !this.closedMaps.has(sid) ? this.selectedMember(s) : null;
+    if (sel && (sel.of || sel.id) === mid) this.closedMaps.add(sid);
+    else {
+      this.closedMaps.delete(sid);
+      this.selected.set(sid, mid);
     }
+    this.focusSeries = sid;
     this.rerenderPanel(sid, `[data-cn-select="${cssId(`${sid}|${mid}`)}"]`);
     this.replaceRoute();
   }
@@ -2191,9 +2210,11 @@ export class CatalogueNext {
         flatSection: FLAT_SECTIONS.has(section),
         shelf: shelf && { name: MapsView.shelfName(section, shelf), flat: shelf.flat },
         subject: this.subjectById?.get(s.subject),
-        row: { name: s.name, maps: rowMapCount(s) },
+        row: { name: s.name, maps: rowMapCount(s), title: mapTitle(s, id) },
       }),
-      colour: r.color || s.color || '',
+      // The row's colour, as the catalogue draws every map in the row: a map's own older colour
+      // (Administrative Counties 1921 and 1927 kept their purple) showed only here (Phelim Birch, 27 Nov 2026).
+      colour: s.color || r.color || '',
       partLabel: (partId) => partLabel(r, partId),
     };
   }

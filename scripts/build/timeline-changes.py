@@ -74,7 +74,7 @@ OUT_DIR = ROOT / 'data' / 'timeline-changes'
 # Where the source FlatGeobufs are read from. They are not tracked, so a worktree has none; a run
 # there passes --sources-from <main checkout> (read only) and writes its output here.
 SOURCE_ROOT = Path(os.environ.get('CIVGRAPH_TIMELINE_SOURCES') or ROOT).resolve()
-BUILDER_VERSION = 9
+BUILDER_VERSION = 10
 
 METRIC_CRS = 'EPSG:2157'       # Irish Transverse Mercator: metres, island-wide
 OPEN_RADIUS_M = 60.0           # opening removes anything narrower than 120 m
@@ -92,7 +92,11 @@ REORGANISATION_SHARE = 0.5     # changes covering half the compared area: draw l
 
 DISTINGUISHING_WORDS = {
     'north', 'south', 'east', 'west', 'central', 'mid', 'upper', 'lower', 'urban', 'rural', 'inner',
-    'outer', 'great', 'little', 'new', 'old', 'i', 'ii', 'iii', 'iv', 'v', 'a', 'b', 'c', 'd'
+    'outer', 'great', 'little', 'new', 'old', 'i', 'ii', 'iii', 'iv', 'v', 'a', 'b', 'c', 'd',
+    # A city and the county around it are different bodies, however alike their names ("Cork
+    # County Council" / "Cork City Council" are 86% alike: the 2019 Cork City extension went
+    # unreported. Phelim Birch, 26 Nov 2026).
+    'city', 'county', 'borough', 'town'
 }
 NAME_FIELD_HINTS = (
     'name', 'english', 'county', 'ded_name', 'ed_english', 'ward', 'ward_name', 'lgd', 'lgd_name',
@@ -754,6 +758,11 @@ def compare(pair):
     renames, label_variants, review = find_renames(a, b, best_a, best_b, pair_area, id_of_a, id_of_b)
     write_review(pair['id'], review)
 
+    # The redrawing estimate below takes out the land the changes cover piece by piece, as the
+    # disagreeing area counts it: a merger's union is smaller where a source layer repeats a unit
+    # (Coleraine and Moyle twice in the 1993 LGDs), which would read as redrawing.
+    piece_area = sum(c['geom'].area for c in changes)
+    changes, renames = merge_and_divide(changes, renames, pair_area, area_a, area_b, names_a, names_b)
     changes = merge_unit_changes(changes)
     # A unit drawn in one edition only, inside what both cover (Larne Municipal Borough is in
     # the 1956 NI admin areas and missing from the 1950 layer the 1955 edition reuses).
@@ -767,7 +776,8 @@ def compare(pair):
     # The rest drawn in one edition only are said to be, not passed over in silence.
     uncompared = ([names_b[i] for i in np.where(~in_b)[0] if i not in orphans_b]
                   + [names_a[i] for i in np.where(~in_a)[0] if i not in orphans_a])
-    mean_shift_m = max(0.0, disagreeing - sum(c['geom'].area for c in changes)) / line_len
+    orphan_area = sum(c['geom'].area for c in changes if c['type'] in ('appeared', 'disappeared'))
+    mean_shift_m = max(0.0, disagreeing - piece_area - orphan_area) / line_len
     lines = changed_lines(a, b, [c['geom'] for c in changes], in_a, in_b)
     return build_output(pair, changes, renames, lines, mean_shift_m,
                         compared=(int(in_a.sum()), int(in_b.sum())), compared_m2=compared_m2,
@@ -927,6 +937,66 @@ def self_overlaps(gdf, mask):
     return shapely.union_all(polys) if len(polys) else shapely.GeometryCollection()
 
 
+MERGE_MIN_SHARE = 0.5           # a unit merged into another gave it at least half its land
+
+
+def merge_and_divide(changes, renames, pair_area, area_a, area_b, names_a, names_b):
+    """Mergers and divisions as one change each (Phelim Birch, 26 Nov 2026: "it doesn't appear to
+    understand merges"). Two or more units that each gave most of their land to one new unit,
+    whose name is none of theirs, merged to form it: 'North Tipperary and South Tipperary County
+    Councils' -> 'Tipperary County Council' is one merger, not 'North Tipperary abolished' with
+    South Tipperary passed over as carrying on. Likewise one unit most of whose land went to
+    two or more units with new names was divided among them. A unit absorbed by one that keeps
+    its own name stays 'abolished, joined to'. Only a group with at least one abolished (or
+    created) piece the area tests kept becomes a merger (or division), so nothing too small to
+    list on its own is added. Returns (changes, renames) with the group's parts replaced."""
+    import shapely
+    used, used_renames, out = set(), set(), []
+
+    def group_of(key_of, partner_area):
+        groups = {}
+        for (ia, ib), shared in pair_area.items():
+            k, other = key_of(ia, ib)
+            if shared >= MERGE_MIN_SHARE * partner_area(ia, ib):
+                groups.setdefault(k, set()).add(other)
+        return groups
+
+    # Mergers: per new unit, the old units that gave it most of their land.
+    for ib, olds in group_of(lambda ia, ib: (ib, ia), lambda ia, ib: area_a[ia]).items():
+        # Parts of one unit drawn apart are not a merger: two names at least.
+        if len({names_a[ia] for ia in olds}) < 2 or any(same_name(names_a[ia], names_b[ib]) for ia in olds):
+            continue
+        parts = [k for k, c in enumerate(changes) if k not in used and c['type'] == 'abolished'
+                 and c['ib'] == ib and c['ia'] in olds]
+        if not parts:
+            continue
+        olds = sorted(olds, key=lambda ia: -area_a[ia])
+        used.update(parts)
+        used_renames.update(k for k, r in enumerate(renames) if r['ib'] == ib and r['ia'] in olds)
+        # A unit drawn in several parts is named once.
+        from_names = list(dict.fromkeys(names_a[ia] for ia in olds))
+        out.append({'type': 'merged', 'from': ', '.join(from_names), 'to': names_b[ib],
+                    'fromNames': from_names, 'toNames': [names_b[ib]],
+                    'geom': shapely.union_all([changes[k]['geom'] for k in parts])})
+    # Divisions: per old unit, the new units most of whose land came from it.
+    for ia, news in group_of(lambda ia, ib: (ia, ib), lambda ia, ib: area_b[ib]).items():
+        if len({names_b[ib] for ib in news}) < 2 or any(same_name(names_a[ia], names_b[ib]) for ib in news):
+            continue
+        parts = [k for k, c in enumerate(changes) if k not in used and c['type'] == 'created'
+                 and c['ia'] == ia and c['ib'] in news]
+        if not parts:
+            continue
+        news = sorted(news, key=lambda ib: -area_b[ib])
+        used.update(parts)
+        used_renames.update(k for k, r in enumerate(renames) if r['ia'] == ia and r['ib'] in news)
+        to_names = list(dict.fromkeys(names_b[ib] for ib in news))
+        out.append({'type': 'divided', 'from': names_a[ia], 'to': ', '.join(to_names),
+                    'fromNames': [names_a[ia]], 'toNames': to_names,
+                    'geom': shapely.union_all([changes[k]['geom'] for k in parts])})
+    rest = [c for k, c in enumerate(changes) if k not in used]
+    return rest + out, [r for k, r in enumerate(renames) if k not in used_renames]
+
+
 def merge_unit_changes(changes):
     """A unit created from three old ones is one change ('X created from A, B, C'), likewise an
     abolished one divided among its neighbours."""
@@ -999,11 +1069,25 @@ def changed_lines(a, b, areas, in_a, in_b):
     return {'added': pieces_of(added), 'removed': pieces_of(removed)}
 
 
-TYPE_ORDER = {'created': 0, 'appeared': 0, 'abolished': 1, 'disappeared': 1, 'reorganised': 2, 'transfer': 3, 'renamed': 4}
+TYPE_ORDER = {'merged': 0, 'divided': 0, 'created': 0, 'appeared': 0, 'abolished': 1, 'disappeared': 1, 'reorganised': 2, 'transfer': 3, 'renamed': 4}
+
+
+def name_list(names):
+    """'A', 'A and B', 'A, B and C'; with a comma before the last 'and' when a name has its own
+    ('Newry and Mourne, and Down')."""
+    names = list(dict.fromkeys(n for n in names if n))
+    if len(names) < 2:
+        return names[0] if names else ''
+    last = ', and ' if any(re.search(r'\band\b', n, re.I) for n in names) else ' and '
+    return ', '.join(names[:-1]) + last + names[-1]
 
 
 def describe(c, ha):
     t = c['type']
+    if t == 'merged':
+        return f"{name_list(c['fromNames'])} merged to form {c['to']}"
+    if t == 'divided':
+        return f"{c['from']} divided into {name_list(c['toNames'])}"
     if t == 'created':
         return f"{c['to']} formed from {c['from']}"
     if t == 'abolished':
@@ -1062,7 +1146,8 @@ def build_output(pair, changes, renames, lines, mean_shift_m, compared, compared
         items.append({
             'id': cid, 'type': c['type'], 'from': c['from'] or None, 'to': c['to'] or None,
             'ha': round(c['ha'], 1), 'bbox': [round(v, 5) for v in g.bounds],
-            'point': [round(p.x, 5), round(p.y, 5)], 'text': describe(c, c['ha'])
+            'point': [round(p.x, 5), round(p.y, 5)], 'text': describe(c, c['ha']),
+            **({'fromNames': c['fromNames'], 'toNames': c['toNames']} if c.get('fromNames') else {})
         })
         if c['type'] == 'renamed':
             # The renamed unit itself, outlined lightly: its land did not change hands.

@@ -103,9 +103,9 @@ export function allowDeletionsFlag(argv = process.argv) {
  * This is the other half. `--ids` runs describe the rows they touched and nothing else,
  * so their output must be merged into the artefact rather than substituted for it.
  *
- * WHY BOTH HALVES ARE NEEDED. On 2026-08-19 a five-layer `verify-test-pmtiles-cdn
+ * WHY BOTH HALVES ARE NEEDED. On 2026-08-19 a five-layer `verify-pmtiles-cdn
  * --ids` run replaced all 819 rows of cdn-range-report.json with 5. The next
- * write-test-cdn-upload-manifest run read that truncated report, could no longer see
+ * r2-manifest run read that truncated report, could no longer see
  * that 814 archives had been verified remotely, and dropped their `remoteVerified`
  * flags. One scoped run, two corrupted artefacts, no error from either tool. The
  * absence of a merge path is why the July rule did not cover this.
@@ -169,7 +169,7 @@ export function mergeArtefactRecords(path, fresh, opts = {}) {
 /**
  * Exit non-zero on a flag this script does not implement.
  *
- * The third tool in the 2026-08-19 incident, switch-test-pmtiles-to-cdn.mjs, had no
+ * The third tool in the 2026-08-19 incident, switch-pmtiles-to-cdn.mjs, had no
  * `--ids` support at all. Passed one, it did not error -- it ignored the flag and
  * restamped all 809 layers, while its operator believed five were in scope. An
  * unimplemented flag that is silently discarded is worse than an unknown one, because

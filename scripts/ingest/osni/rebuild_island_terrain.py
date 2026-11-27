@@ -27,7 +27,7 @@ Stage base does zooms 5-12 across the layer's bounds and records the zoom-12 til
 needed filling; stage deep does their descendants at 13-15, and at 16 those that exist.
 Existing tiles are read from data.civgraph.net (the R2 key lists, existing-dem.txt and
 existing-hs.txt in the work dir, say which exist). Output: <work>/out/{dem,hs}/{z}/{x}/{y}.png,
-uploaded with upload-tile-pyramid-s3.mjs to data/maps/physical/ireland-terrain-3d/.
+uploaded with r2-upload-tree.mjs to data/maps/physical/ireland-terrain-3d/.
 """
 import argparse
 import io

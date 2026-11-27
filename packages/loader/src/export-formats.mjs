@@ -9,10 +9,13 @@
  * name; tests/unit/loader-export-formats.test.mjs holds them together.
  */
 import { spawnSync } from 'node:child_process';
-import { copyFileSync, createReadStream, createWriteStream, existsSync } from 'node:fs';
+import { copyFileSync, createReadStream, createWriteStream, existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { createGzip } from 'node:zlib';
+import { SITE } from '@civgraph/config/node';
+import { licenceText } from './download-licence.mjs';
 
 /**
  * What a format's writer reads and where it writes.
@@ -97,8 +100,15 @@ export const EXPORT_FORMATS = Object.freeze([
       // On Windows use the system's bsdtar: Git Bash's GNU tar reads "C:\..." as a remote host.
       const winTar = process.platform === 'win32' ? path.join(process.env['SystemRoot'] || 'C:\\Windows', 'System32', 'tar.exe') : '';
       const tarBin = winTar && existsSync(winTar) ? winTar : 'tar';
-      const tar = spawnSync(tarBin, ['-czf', archive, '-C', graphDir, ...shardDirs], { stdio: 'inherit' });
-      if (tar.status !== 0) throw new ExportFailed('tar failed: the graph shard archive was not written');
+      // LICENCE.txt at the archive's root: its licence and credit travel with it (citations review S15).
+      const notes = mkdtempSync(path.join(os.tmpdir(), 'civgraph-licence-'));
+      try {
+        writeFileSync(path.join(notes, 'LICENCE.txt'), licenceText(SITE.origin, "the semantic graph's shard files"));
+        const tar = spawnSync(tarBin, ['-czf', archive, '-C', notes, 'LICENCE.txt', '-C', graphDir, ...shardDirs], { stdio: 'inherit' });
+        if (tar.status !== 0) throw new ExportFailed('tar failed: the graph shard archive was not written');
+      } finally {
+        rmSync(notes, { recursive: true, force: true });
+      }
       return [path.basename(archive)];
     }
   }

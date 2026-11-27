@@ -343,7 +343,7 @@ function buildVectorLayer(converted, row, map) {
   // 'mvt' is: an mvt layer serves from /render/tiles/generated/..., a path excluded from the
   // Pages deploy, and promotion leaves its tileUrl empty. That is the state
   // tailte-hvd-cadastral-parcels-leasehold has been sitting in, and where the 224 MB
-  // tailte-hvd-water-points archive would have landed. switch-test-pmtiles-to-cdn.mjs
+  // tailte-hvd-water-points archive would have landed. switch-pmtiles-to-cdn.mjs
   // keys off the CDN manifest rather than the file size and handles either happily.
   const sourceType = pmtiles ? 'pmtiles' : 'mvt';
   /** @type {Rec} */

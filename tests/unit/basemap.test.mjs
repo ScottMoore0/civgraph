@@ -139,9 +139,9 @@ test('the default chain is OpenFreeMap Positron, then Liberty, and muted OpenStr
   assert.ok(OSM_MUTED_TILES.paint['raster-saturation'] < 0, 'the fallback is muted');
 });
 
-test('the dark theme has its own chain: OpenFreeMap Dark, then Positron, then inverted tiles', () => {
+test('the default chain is light in the dark theme too (owner, 27 Nov 2026); the dark chain stays defined', () => {
   assert.deepEqual(DARK_BASEMAP_CHAIN.map((provider) => provider.id), ['openfreemap-dark', 'openfreemap-positron', 'osm-tiles']);
-  assert.equal(defaultChainFor('dark'), DARK_BASEMAP_CHAIN);
+  assert.equal(defaultChainFor('dark'), DEFAULT_BASEMAP_CHAIN, 'a dark base map is never the default');
   assert.equal(defaultChainFor('light'), DEFAULT_BASEMAP_CHAIN);
   assert.equal(defaultChainFor(undefined), DEFAULT_BASEMAP_CHAIN);
   assert.equal(basemapTone(OPENFREEMAP_DARK), 'dark');
@@ -151,8 +151,10 @@ test('the dark theme has its own chain: OpenFreeMap Dark, then Positron, then in
   assert.equal(basemapTone(null), 'light');
 });
 
-test('Liberty is a choice in Map Settings; ids resolve to the default otherwise', () => {
+test('Liberty and the dark map are choices in Map Settings; ids resolve to the default otherwise', () => {
   assert.equal(CHOOSABLE_STYLE_BASE_MAPS['openfreemap-liberty'], OPENFREEMAP_LIBERTY);
+  assert.equal(CHOOSABLE_STYLE_BASE_MAPS['openfreemap-dark'], OPENFREEMAP_DARK);
+  assert.equal(resolveBaseMapId('openfreemap-dark'), 'openfreemap-dark');
   assert.equal(resolveBaseMapId('openfreemap-liberty'), 'openfreemap-liberty');
   assert.equal(resolveBaseMapId('opentopomap'), 'opentopomap');
   assert.equal(resolveBaseMapId('openfreemap-positron'), 'osm-standard', 'the default is not a separate choice');
@@ -341,18 +343,22 @@ test('a base map the reader chose is drawn as it is, with no failover, and the d
   assert.equal(basemap.active.id, 'openfreemap-liberty');
 });
 
-test('the theme picks the chain: OpenFreeMap Dark in the dark theme, with a dark tone', async () => {
+test('the dark theme keeps the light default; OpenFreeMap Dark is drawn only when chosen, with a dark tone', async () => {
   const map = fakeMap(['app-layer']);
   const tones = [];
   const { basemap } = manager(map, { onChange: () => tones.push(basemap.tone) });
   await basemap.useThemeDefault('dark');
+  assert.equal(basemap.active.id, 'openfreemap-positron', 'a dark base map is never the default (owner, 27 Nov 2026)');
+  assert.equal(basemap.tone, 'light');
+  assert.equal(map.container.getAttribute('data-basemap-tone'), 'light');
+  await basemap.useStyle(OPENFREEMAP_DARK);
   assert.equal(basemap.active.id, 'openfreemap-dark');
   assert.equal(basemap.tone, 'dark');
   assert.equal(map.container.getAttribute('data-basemap-tone'), 'dark');
   assert.equal(map.style.layers[0].id, 'basemap-openfreemap-dark-background');
   await basemap.useThemeDefault('light');
   assert.equal(basemap.active.id, 'openfreemap-positron');
-  assert.deepEqual(tones, ['dark', 'light']);
+  assert.deepEqual(tones, ['light', 'dark', 'light']);
   assert.equal(map.style.layers.filter((layer) => layer.id.startsWith('basemap-openfreemap-dark')).length, 0, 'the dark map is taken off');
 });
 

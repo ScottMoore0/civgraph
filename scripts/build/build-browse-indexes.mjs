@@ -3,10 +3,12 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from '../lib/approved-publication-index.mjs';
 import { normalizeFiles, normalizeLinks } from '../lib/browse-links.mjs';
-import { sourceAvailabilityDisplay } from '../lib/source-availability.mjs';
+import { sourceAvailabilityDisplay, sourceAvailabilityLinks } from '../lib/source-availability.mjs';
+import { mapRights } from '../lib/map-licence.mjs';
 import { partyColour, NO_LABEL, NO_PARTY_RECORDED } from '@civgraph/core/election-domain.mjs';
 // A person's slug ("naomi-long-51102"): the one rule the pages' person links use too.
 import { personSlug } from '@civgraph/core/format.js';
+import { wikipediaReferenceUrl } from '@civgraph/core/link-health.mjs';
 import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '@civgraph/map/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from '../lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from '../lib/person-name-artefacts.mjs';
@@ -36,7 +38,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  */
 /**
  * A reference as Browse writes it (addReference, normalizeReferences).
- * @typedef {{ label?: string, url?: string | null | undefined, source?: string | undefined, role?: string, scope?: string, note?: string, accessed?: string, type?: string }} Reference
+ * @typedef {{ label?: string, url?: string | null | undefined, originalUrl?: string | null, source?: string | undefined, role?: string, scope?: string, note?: string, accessed?: string, type?: string }} Reference
  * A reference as the source files give it: a string (a label or a url) or an object.
  * @typedef {{ label?: string, title?: string, name?: string, url?: string | null | undefined, href?: string, note?: string, notes?: string, accessed?: string, accessedDate?: string, source?: string | undefined, role?: string, scope?: string, type?: string }} RawReference
  * @typedef {string | RawReference | null | undefined} RawReferenceItem
@@ -60,6 +62,8 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  *   references?: RawReferences, sourceReferences?: RawReferences, sources?: RawReferences,
  *   downloads?: unknown, sourceDownload?: unknown, sourceDownloads?: unknown, download?: unknown,
  *   provider?: unknown, providers?: unknown, credits?: unknown, credit?: unknown, sourceCredit?: unknown, keywords?: unknown,
+ *   licence?: unknown, license?: unknown, licenceUrl?: unknown, licenseUrl?: unknown, licenceNote?: unknown, licenseNote?: unknown,
+ *   attribution?: unknown, sourceCredits?: unknown,
  *   approximateSegments?: { count?: number, totalKm?: number, note?: string }
  * }} RawMap
  * @typedef {{ id: string, name?: string, scope?: string, maps?: string[] }} RawMapClass
@@ -133,7 +137,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * @typedef {import('@civgraph/core/election-view-model.mjs').ElectionRecord} NiElectionRecord
  * @typedef {import('../lib/election-names.mjs').ElectionNameScope} ElectionNameScope
  * Lookups read once and kept on the function that reads them (its own property).
- * @typedef {{ all?: Record<string, ElectionAbout> }} AboutCache
+ * @typedef {{ all?: Record<string, ElectionAbout>, author?: string }} AboutCache
  * @typedef {{ all?: Record<string, ElectionArticle> }} ArticleCache
  * @typedef {{ registry?: import('@civgraph/registries/election-bodies.mjs').ElectionBodiesRegistry }} RegistryCache
  * @typedef {{ labels?: Map<string, string> }} LabelsCache
@@ -190,7 +194,7 @@ import { buildNiLocalGroupEntry, groupNiLocalRounds, isIrelandLocalYear, isNiLoc
  * }} RawExternalSource
  * @typedef {{
  *   id?: string, slug?: string, key?: string, type?: string, title?: string, subtitle?: string, category?: string, date?: unknown,
- *   provider?: unknown[], description?: string | undefined, url?: string, thumbnail?: Thumbnail | null, references?: Reference[],
+ *   provider?: unknown[], description?: string | undefined, url?: string, originalUrl?: string | null, thumbnail?: Thumbnail | null, references?: Reference[],
  *   downloads?: import('../lib/browse-links.mjs').BrowseLink[],
  *   keywords?: unknown[], sourceItems?: SourceItem[], status?: string, statusChips?: unknown[], sourceHierarchy?: unknown[],
  *   viewport?: Viewport | null, shortCitation?: string, fullCitation?: string, relatedRecords?: unknown[], duplicateCount?: number,
@@ -644,6 +648,9 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
     const downloads = normalizeLinks([map.downloads || map.sourceDownload || map.sourceDownloads || map.download || files, ...iaLinks]);
     const rawTitle = cleanText(map.name || map.title || map.id);
     const title = mapDisplayTitle(map, mapClassInfoById.get(map.id), rawTitle);
+    // The licence, the attribution it asks for and the sources' credits, shown in the map
+    // page's "Licence and sources" block (scripts/lib/map-licence.mjs; citations review, 24 Nov 2026).
+    const rights = mapRights(map);
     return compactObject({
       id: map.id,
       slug: map.slug || slugify(map.id || title),
@@ -660,6 +667,10 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       years: collectYears(map),
       provider: normalizeArray(map.provider || map.providers),
       credits: normalizeArray(map.credits || map.credit || map.sourceCredit),
+      licence: rights.licence,
+      licenceNote: rights.licenceNote,
+      attribution: rights.attribution,
+      sourceCredits: rights.sourceCredits,
       keywords: normalizeArray(map.keywords),
       status: map.placeholder ? 'not yet converted' : 'available',
       featured: Boolean(map.featured),
@@ -894,7 +905,12 @@ function escapeRegExp(value) {
  */
 function electionAboutFor(key) {
   if (!/** @type {AboutCache} */ (electionAboutFor).all) {
-    try { /** @type {AboutCache} */ (electionAboutFor).all = JSON.parse(readFileSync(path.join(ROOT, 'data/catalogue/descriptions.json'), 'utf8')).elections || {}; } catch { /** @type {AboutCache} */ (electionAboutFor).all = {}; }
+    try {
+      const doc = JSON.parse(readFileSync(path.join(ROOT, 'data/catalogue/descriptions.json'), 'utf8'));
+      /** @type {AboutCache} */ (electionAboutFor).all = doc.elections || {};
+      // Who wrote them, credited under the description (citations review P07, 24 Nov 2026).
+      /** @type {AboutCache} */ (electionAboutFor).author = typeof doc.author === 'string' ? doc.author.trim() : '';
+    } catch { /** @type {AboutCache} */ (electionAboutFor).all = {}; }
   }
   // set just above
   return /** @type {Record<string, ElectionAbout>} */ (/** @type {AboutCache} */ (electionAboutFor).all)[key];
@@ -957,6 +973,7 @@ function buildElections(manifest, thumbnailIds) {
       decade,
       subtitle: cleanText(entry.displaySubtitle || ''),
       description: about ? about.text.join(' ') : undefined,
+      descriptionBy: about ? /** @type {AboutCache} */ (electionAboutFor).author || undefined : undefined,
       provider: cleanText(entry.displayProvider || entry.body || ''),
       category: 'Elections',
       geography: electionGeographyLabel(entry),
@@ -1601,7 +1618,8 @@ function extractSourceUrls(value, urls = new Set()) {
 
 // The Wikipedia article for each election, resolved against Wikipedia rather than guessed
 // (data/elections/wikipedia-election-articles.json): 783 of the 1,025 guesses below named pages
-// that do not exist (audit 2026-10-13). The guesses stay as the fallback for elections it lacks.
+// that do not exist (audit 2026-10-13). For elections it lacks, a derived title is linked only
+// when Wikipedia confirmed the article exists (wikipediaElectionReferenceUrl below).
 /**
  * @param {string | undefined} key
  * @returns {ElectionArticle | null | undefined}
@@ -1615,6 +1633,24 @@ function resolvedElectionArticle(key) {
 }
 
 /**
+ * Wikipedia articles whose derived titles were confirmed to exist
+ * (data/elections/wikipedia-verified-articles.json, the link review of 24 Nov 2026).
+ * @returns {import('@civgraph/core/link-health.mjs').VerifiedArticles}
+ */
+function verifiedWikipediaArticles() {
+  // Cached on the function (main() runs before a module-level const below it would exist).
+  const cache = /** @type {{ all?: import('@civgraph/core/link-health.mjs').VerifiedArticles }} */ (verifiedWikipediaArticles);
+  if (!cache.all) {
+    try { cache.all = JSON.parse(readFileSync(path.join(ROOT, 'data/elections/wikipedia-verified-articles.json'), 'utf8')).articles || {}; } catch { cache.all = {}; }
+  }
+  return /** @type {import('@civgraph/core/link-health.mjs').VerifiedArticles} */ (cache.all);
+}
+
+/**
+ * The Wikipedia article for an election: the resolved one, else a title derived from the
+ * election's name, linked only when that article was confirmed to exist (a guessed title named
+ * a missing page 1,586 times in the link review of 24 Nov 2026). A referendum's own first source,
+ * which is not a Wikipedia address, is kept as it is.
  * @param {ElectionLike | undefined} election
  * @param {ElectionLike | undefined} detail
  * @returns {string | null}
@@ -1622,6 +1658,16 @@ function resolvedElectionArticle(key) {
 function wikipediaElectionReferenceUrl(election, detail) {
   const resolved = resolvedElectionArticle(election?.key || detail?.key);
   if (resolved?.url) return resolved.url;
+  return wikipediaReferenceUrl(null, derivedElectionReferenceUrl(election, detail), verifiedWikipediaArticles());
+}
+
+/**
+ * The Wikipedia address derived from an election's body, year and title: a guess until checked.
+ * @param {ElectionLike | undefined} election
+ * @param {ElectionLike | undefined} detail
+ * @returns {string | null}
+ */
+function derivedElectionReferenceUrl(election, detail) {
   const bodySlug = election?.bodySlug || detail?.bodySlug;
   const body = cleanText(election?.body || detail?.body || '');
   const date = cleanText(election?.date || detail?.date || '');
@@ -1660,10 +1706,21 @@ function wikipediaElectionReferenceUrl(election, detail) {
 }
 
 /**
+ * The Wikipedia article for a contest's constituency, from its name: linked only when the
+ * article was confirmed to exist (wikipedia-verified-articles.json).
+ * @param {{ bodySlug?: string } | undefined} election
+ * @param {ContestResult | null | undefined} result
+ * @returns {string | null}
+ */
+function wikipediaConstituencyReferenceUrl(election, result) {
+  return wikipediaReferenceUrl(null, derivedConstituencyReferenceUrl(election, result), verifiedWikipediaArticles());
+}
+
+/**
  * @param {{ bodySlug?: string } | undefined} election
  * @param {ContestResult | null | undefined} result
  */
-function wikipediaConstituencyReferenceUrl(election, result) {
+function derivedConstituencyReferenceUrl(election, result) {
   const name = cleanText(result?.constituency || result?.featureName || result?.matchName);
   if (!name) return null;
   const bodySlug = election?.bodySlug;
@@ -3178,7 +3235,11 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
     const id = entry.id || `external:${slugify(entry.title || entry.url || '')}`;
     const title = cleanText(entry.title || entry.name || id);
     const slug = entry.slug || slugify(id);
-    const references = normalizeReferences(entry.references || entry.sourceReferences || entry.source || entry.url);
+    // A source gone from its publisher links its archived copy, and keeps its original address
+    // as originalUrl (scripts/lib/source-availability.mjs); a reference to that address does too.
+    const links = sourceAvailabilityLinks(entry.url, entry.availability);
+    const references = normalizeReferences(entry.references || entry.sourceReferences || entry.source || entry.url)
+      .map((ref) => (links.originalUrl && ref.url === links.originalUrl ? { ...ref, url: links.url, originalUrl: links.originalUrl } : ref));
     const downloads = normalizeLinks([entry.downloads, entry.links, entry.downloadUrl].filter(Boolean));
     const availability = sourceAvailabilityDisplay(entry.availability);
     const statusChips = [...normalizeArray(entry.statusChips), ...(availability ? [availability.chip] : [])];
@@ -3192,7 +3253,8 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
       date: entry.date || entry.year || null,
       provider: normalizeArray(entry.provider || entry.providers || entry.source),
       description: cleanText(entry.description || ''),
-      url: entry.url || references.find((ref) => ref.url)?.url || null,
+      url: links.url || references.find((ref) => ref.url)?.url || null,
+      originalUrl: links.originalUrl,
       thumbnail: normalizeExternalThumbnail(entry.thumbnail, title),
       references,
       downloads,

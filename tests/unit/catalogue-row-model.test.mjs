@@ -106,6 +106,11 @@ test('the headings end with the row\'s name when the row holds more than one map
   // A subject heading named as the row comes once; a flat section gets the row's name after its tab.
   assert.deepEqual(catalogueTrail({ section: 'Boundaries', shelf: { name: 'Government & Administration' }, subject: { name: 'Counties' }, row: { name: 'Counties', maps: 6 } }), ['Boundaries', 'Government & Administration', 'Counties']);
   assert.deepEqual(catalogueTrail({ section: 'Statistics', flatSection: true, shelf: { name: 'Census' }, row: { name: 'Median age', maps: 1 } }), ['Statistics']);
+  // A row of one main map and its council maps: the main map's line does not end with its own
+  // name; a council map's ends with the map it copies (Phelim Birch, 26 Nov 2026).
+  const md = { section: 'Boundaries', shelf: { name: 'Government & Administration' }, subject: { name: 'Current' } };
+  assert.deepEqual(catalogueTrail({ ...md, row: { name: 'Municipal Districts', maps: 3, title: 'Municipal Districts' } }), ['Boundaries', 'Government & Administration', 'Current']);
+  assert.deepEqual(catalogueTrail({ ...md, row: { name: 'Municipal Districts', maps: 3, title: 'Municipal Districts, Westmeath (2019)' } }), ['Boundaries', 'Government & Administration', 'Current', 'Municipal Districts']);
   assert.deepEqual(catalogueTrail({ section: 'Statistics', flatSection: true, shelf: { name: 'Census' }, row: { name: 'Population density', maps: 4 } }), ['Statistics', 'Population density']);
   // Maps, versions and council maps count; maps to be added and parts do not.
   assert.equal(rowMapCount(/** @type {any} */ ({ members: [{ id: 'a' }, { id: 'v', of: 'a' }], local: [{ id: 'l' }], todo: [{ id: 't' }] })), 3);

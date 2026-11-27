@@ -26,7 +26,7 @@ reveals the control).
 To try it locally:
 
 ```
-node tools/test-site/server.mjs --port 4177
+node tools/dev-site/server.mjs --port 4177
 # open http://127.0.0.1:4177/maps/ and type the phrase into the search box
 ```
 

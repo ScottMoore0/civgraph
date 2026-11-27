@@ -62,7 +62,9 @@ every map, each with a `status` in the catalogue's own states:
 | `ready` | Shown on the site. | A link to the file. |
 | `partial` | Shown on the site and marked incomplete: some areas are not in the file. | A link to the file the site shows. |
 | `to-be-added` | Listed in the catalogue, not yet shown. | `null`. The entry keeps its metadata. |
+| `retired` | No longer shown, and not coming back. | `null`. The entry keeps its metadata; `replacedBy` names the map to use instead, when there is one. |
 
 `sameAs` names the map an entry is a copy of; such an entry takes that map's
 `status` and `geometry`. `partOf` names the map an entry is shown as part of.
-`statusCounts` totals the three states.
+`replacedBy` (on `retired` entries only) names the map that replaces it.
+`statusCounts` totals the four states.

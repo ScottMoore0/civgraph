@@ -2,6 +2,10 @@
  * CivGraph's own icons for elections and map shelves, drawn on a 512px grid in currentColor.
  * Generated from the new icon set's thicker SVGs (coordinates rounded to one decimal); icon() in
  * icons.js draws these instead of a Lucide path when the name is listed here.
+ *
+ * The icons are Alessio Coci's drawings, licensed under Creative Commons Attribution-ShareAlike 4.0
+ * (CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/; the owner, 27 Nov 2026), not
+ * under the code's MIT licence. Credit: "Icons by Alessio Coci, CC BY-SA 4.0" (NOTICE).
  */
 /** Icon name -> its paths on the 512px grid. @type {Record<string, string>} */
 export const CUSTOM_ICONS = {

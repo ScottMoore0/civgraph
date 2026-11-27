@@ -136,7 +136,7 @@ export function compactLayer(layer) {
     if (layer[field] !== undefined) compact[field] = layer[field];
   }
   // The startup index needs only how a package is served (the app) and where it lives locally
-  // (validate-test2-pmtiles-cdn). Its build record -- source hash, byte counts, verification
+  // (verify-pmtiles-cdn-urls). Its build record -- source hash, byte counts, verification
   // dates -- stays in the full record, where the checks that use it read it.
   if (layer.tilePackage && typeof layer.tilePackage === 'object') {
     const { serving, localPath } = /** @type {{ serving?: unknown, localPath?: unknown }} */ (layer.tilePackage);

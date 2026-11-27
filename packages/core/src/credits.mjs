@@ -3,15 +3,18 @@
  * provider registry) and what it was derived from. A layer built for Civgraph from other people's
  * maps (a Poor Law Union map grouped from Phelim Birch's and Paddy Matthews's DED maps) credits its
  * builder as provider and carries "Derived from ..." in `sourceCredits`, so the makers of the maps
- * underneath stay in view without being credited as its makers (owner-approved, 17 Nov 2026).
+ * underneath stay in view without being credited as its makers (owner-approved, 17 Nov 2026). A layer
+ * joined from whole areas of another Civgraph map says "Assembled from ..." instead (the European
+ * Parliament constituencies, from Counties of Ireland; owner-approved, 24 Nov 2026); both are
+ * derived-from lines here.
  * Every place that shows a map's credit (the catalogue rows and citation, the map's Sources panel,
  * the image export, the agent maps index) reads it through here. Pure.
  */
 
-const DERIVED = /^derived from\s/i;
+const DERIVED = /^(?:derived|assembled) from\s/i;
 
 /**
- * The "Derived from ..." lines of a record's source credits, trimmed, each once.
+ * The "Derived from ..." (or "Assembled from ...") lines of a record's source credits, trimmed, each once.
  * @param {unknown} sourceCredits  maps.json / render-layer `sourceCredits`
  * @returns {string[]}
  */
@@ -91,4 +94,60 @@ export function creditLine(providers, derived, { separator = ', ' } = {}) {
   const names = [...new Set(providers.map((p) => String(p || '').trim()).filter(Boolean))].join(separator);
   const lines = derived.map((line, i) => (names || i > 0 ? line.replace(DERIVED, (m) => m.toLowerCase()) : line));
   return [names, ...lines].filter(Boolean).join('; ');
+}
+
+/** One maker's share of a row: its providers, what its maps were derived from, and, when it made one map of several, that map's label. @typedef {{ provider: string[], derivedFrom: string[], label?: string }} RowCreditGroup */
+
+/**
+ * A row's maps grouped by who made them, so a derived-from line stays with the maps it belongs to:
+ * the Administrative Areas row is Scott Moore's editions derived from Paddy Matthews's DED maps
+ * plus XrysD's own 1966 edition, not "Scott Moore, XrysD; derived from Paddy Matthews' ..."
+ * (owner-approved wording, 27 Nov 2026). Only a row that mixes maps with and without a
+ * derived-from line is grouped; in any other row every maker shares the row's line as before.
+ * Maps with the same providers and the same derived-from lines form one group, in the row's
+ * order; a group's lines are said once (combinedDerivedFromLines). A group of one map, in a row
+ * of several, carries that map's label. No mix, or one group: [].
+ * @param {readonly { provider?: readonly string[] | undefined, derivedFrom?: readonly string[] | undefined, label?: string | undefined }[]} maps  the row's maps, in its order
+ * @returns {RowCreditGroup[]}
+ */
+export function rowCreditGroups(maps) {
+  /** @type {{ key: string, provider: string[], lines: string[], labels: (string | undefined)[] }[]} */
+  const groups = [];
+  const derived = maps.map((m) => derivedFromLines(m.derivedFrom || []).length > 0);
+  if (derived.every(Boolean) || !derived.some(Boolean)) return [];
+  for (const m of maps) {
+    const provider = [...new Set((m.provider || []).map((p) => String(p || '').trim()).filter(Boolean))];
+    const lines = derivedFromLines(m.derivedFrom || []);
+    const key = JSON.stringify([provider, lines]);
+    const group = groups.find((g) => g.key === key);
+    if (group) group.labels.push(m.label);
+    else groups.push({ key, provider, lines, labels: [m.label] });
+  }
+  if (groups.length < 2) return [];
+  return groups.map((g) => {
+    /** @type {RowCreditGroup} */
+    const out = { provider: g.provider, derivedFrom: combinedDerivedFromLines(g.lines) };
+    const only = g.labels.length === 1 ? g.labels[0] : '';
+    if (only) out.label = only;
+    return out;
+  });
+}
+
+/**
+ * A row's credit line: each maker's group (rowCreditGroups) as creditLine says it, the groups
+ * joined with " · " and a one-map group followed by its map's label in brackets. A row whose maps
+ * share one maker (no `credits`) is its providers and derived-from lines, as before.
+ * @param {{ provider?: readonly string[] | undefined, derivedFrom?: readonly string[] | undefined, credits?: readonly RowCreditGroup[] | undefined }} row
+ * @param {{ name?: (provider: string) => string | null | undefined }} [options]  how a provider is shown (full or short name)
+ * @returns {string}
+ */
+export function rowCreditLine(row, { name = (p) => p } = {}) {
+  const groups = row.credits?.length ? row.credits : [{ provider: [...(row.provider || [])], derivedFrom: [...(row.derivedFrom || [])] }];
+  return groups
+    .map((g) => {
+      const line = creditLine(g.provider.map(name), g.derivedFrom);
+      return line && g.label ? `${line} (${g.label})` : line;
+    })
+    .filter(Boolean)
+    .join(' · ');
 }

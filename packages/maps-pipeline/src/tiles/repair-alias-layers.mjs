@@ -38,7 +38,9 @@ const CHECK_ONLY = process.argv.includes('--check');
 // Copied from the target, because an alias is a pointer to it. status and
 // conversionStatus are set to the alias constants instead: an alias is not itself a
 // conversion, and validate-test-app.mjs distinguishes the two.
-const FROM_TARGET = ['tileUrl', 'tiles', 'sourceLayer', 'sourceType'];
+// tilePackage too (link review, 25 Nov 2026): 109 aliases still named their
+// target's archive by its retired -vector-test key, five of which are no longer on the data origin.
+const FROM_TARGET = ['tileUrl', 'tiles', 'tilePackage', 'sourceLayer', 'sourceType'];
 
 let totalChanged = 0;
 

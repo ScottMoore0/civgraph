@@ -14,6 +14,7 @@ import { BROWSE_DIR as RECORD_BROWSE_DIR, GRAPH_DIR, PROVENANCE_FILE, localPathF
 import { readProvenance } from '@civgraph/loader/election-provenance.mjs';
 import { notAPartyLabels } from '@civgraph/core/party-names.mjs';
 import { idBase } from '@civgraph/core/graph-iri.js';
+import { citationLinkOrder } from '@civgraph/core/link-health.mjs';
 import { SITE } from '@civgraph/config/node';
 
 // Summary labels that are the absence of a party, not one: "No party recorded" (before 1832),
@@ -248,7 +249,7 @@ const JSONLD_CONTEXT = {
  * @typedef {{ key?: string | undefined, name?: string | undefined, title?: string, resultName?: string, resultKind?: string, browseUrl?: string, createdFrom?: string }} ContestInput  a contest of an election (contestInputsForElection)
  * @typedef {{ party?: string, name?: string, label?: string, stood?: number, seats?: number, votes?: number, share?: number }} PartySummaryRow
  * @typedef {{ title?: string, edition?: string, volume?: string, url?: string }} HopPage  a History of Parliament biography page
- * @typedef {{ title?: string, host?: string, url?: string | null, kind?: string }} Citation  an original source of a contest's result (election-provenance.json)
+ * @typedef {{ title?: string, host?: string, url?: string | null, archiveUrl?: string | null, urlDead?: boolean, kind?: string }} Citation  an original source of a contest's result (election-provenance.json; urlDead and archiveUrl from the link review, packages/core/src/link-health.mjs)
  */
 
 /**
@@ -1784,7 +1785,9 @@ function originalSourceReferences(files) {
     .map(({ citation, title }) => compactObject({
       sourceTitle: title,
       sourceKind: citation.kind || 'election-result-source',
-      sourceUrl: citation.url || undefined
+      // A dead original links its archived copy (Civgraph's mirror or an Internet Archive
+      // capture) and, with none, no address at all: the pages' rule (citationLinkOrder).
+      sourceUrl: citationLinkOrder(citation).main || undefined
     }));
 }
 

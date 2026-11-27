@@ -103,7 +103,7 @@ newline, so `maps.json` is not reformatted.
 **upload** needs exactly one of `--dry-run` or `--yes`. `--dry-run` runs each script's own
 dry form (`--dry-run`, `--dry`, no `--apply`): these list R2 but write nothing, and steps
 with no dry form (the CDN check, the token stamp, the manifest refresh) are listed and
-skipped. A failing step in a dry run is reported and passed over, as upload-tree-r2 exits 1
+skipped. A failing step in a dry run is reported and passed over, as r2-upload-manifest exits 1
 when it has files to send; in a real run the first failure stops everything. Every step that
 needs R2 runs as `node --env-file=.env.local ...`, so the keys go from the gitignored
 `.env.local` into that process only; the tool refuses to start without it. Listings are

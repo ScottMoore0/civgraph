@@ -137,7 +137,7 @@ test("the catalogue split's document listeners and observer go with dispose()", 
   });
 });
 
-test("the map app's theme listener (site chrome) goes with the app's lifecycle signal", async () => {
+test("the map app does not follow theme changes: the base map stays light (owner, 27 Nov 2026)", async () => {
   const document = fakeDocument();
   document.querySelector = (selector) => (selector === '.app-header[data-site-chrome]' ? {} : null);
   await withGlobals({ document }, async () => {
@@ -145,12 +145,8 @@ test("the map app's theme listener (site chrome) goes with the app's lifecycle s
     let synced = 0;
     const app = { lifecycle: new AbortController(), syncBasemapToTheme: async () => { synced += 1; } };
     SiteChromeMethods.prototype.setupThemeToggle.call(app);
-    assert.equal(document.count, 1);
+    assert.equal(document.count, 0, 'no theme listener');
     document.dispatchEvent(new Event('civgraph:themechange'));
-    assert.equal(synced, 2, 'once at setup, once for the event');
-    app.lifecycle.abort();
-    assert.equal(document.count, 0);
-    document.dispatchEvent(new Event('civgraph:themechange'));
-    assert.equal(synced, 2, 'nothing after dispose');
+    assert.equal(synced, 1, 'once at setup, not for a theme change');
   });
 });

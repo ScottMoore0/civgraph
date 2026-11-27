@@ -12,7 +12,7 @@
  *     from its latest complete one when the latest is incomplete.
  */
 
-import { creditLine } from '../../../core/src/credits.mjs';
+import { rowCreditLine } from '../../../core/src/credits.mjs';
 
 /** @typedef {import('./catalogue-types.d.ts').CatalogueRow} CatalogueRow */
 /** @typedef {import('./catalogue-types.d.ts').CatalogueRowMember} CatalogueRowMember */
@@ -124,7 +124,7 @@ export function comparable(s, rec) {
  * @returns {string}
  */
 export function rowCitation(s, url, accessed) {
-  const who = creditLine(s.provider || [], s.derivedFrom || []) || 'Civgraph';
+  const who = rowCreditLine(s) || 'Civgraph';
   const years = s.years ? (s.years[0] === s.years[1] ? String(s.years[0]) : `${s.years[0]}–${s.years[1]}`) : '';
   return `${who}. ${s.name}${years && !s.name.includes(years) ? ` (${years})` : ''} [map series]. Civgraph, ${url} (accessed ${accessed}).`;
 }
@@ -217,9 +217,12 @@ export function rowMapCount(s) {
  * subject when the shelf heads its rows by subject and the subject is not named as the row is, and
  * the row's own name when the row holds more than one map ("Boundaries › Historic Geographies ›
  * Townlands": Phelim Birch, 20 Nov 2026). A row of one map is named by the map's own name
- * (mapTitle), so the line does not repeat it.
- * @param {{ section: string, flatSection?: boolean, shelf?: TrailHeading | undefined, subject?: TrailHeading | undefined, row: { name: string, maps?: number } }} where
- *   row.maps: how many maps the row holds (rowMapCount)
+ * (mapTitle), so the line does not repeat it; nor does it for the row's one main map when its
+ * council maps make the row more than one ("Municipal Districts" ends "› Current", while its
+ * council map "Municipal Districts, Westmeath (2019)" ends "› Municipal Districts", the map it is
+ * a copy of: Phelim Birch, 26 Nov 2026).
+ * @param {{ section: string, flatSection?: boolean, shelf?: TrailHeading | undefined, subject?: TrailHeading | undefined, row: { name: string, maps?: number, title?: string } }} where
+ *   row.maps: how many maps the row holds (rowMapCount); row.title: the page's title (mapTitle)
  * @returns {string[]}
  */
 export function catalogueTrail({ section, flatSection = false, shelf, subject, row }) {
@@ -229,7 +232,7 @@ export function catalogueTrail({ section, flatSection = false, shelf, subject, r
     out.push(shelf.name);
     if (!shelf.flat && subject?.name && subject.name !== row.name && subject.name !== shelf.name) out.push(subject.name);
   }
-  if ((row.maps || 0) > 1 && row.name && out[out.length - 1] !== row.name) out.push(row.name);
+  if ((row.maps || 0) > 1 && row.name && out[out.length - 1] !== row.name && row.title !== row.name) out.push(row.name);
   return out;
 }
 

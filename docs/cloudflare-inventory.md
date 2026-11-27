@@ -165,7 +165,7 @@ enforces a tracked allowlist at `data/database/r2-publication-allowlist.json`
 closed.
 
 The gate governs PREFIXES, not individual files, so an approved prefix
-authorises everything on disk beneath it. `upload-tile-pyramid-s3.mjs`
+authorises everything on disk beneath it. `r2-upload-tree.mjs`
 therefore takes `--tracked-only`, which filters to `git ls-files`: without it,
 publishing `data/timeline-transitions` would have pushed 133 gitignored QA
 sidecars (5.4 GB) into a public bucket alongside the 6 intended files.

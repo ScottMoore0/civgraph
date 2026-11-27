@@ -2632,7 +2632,7 @@
       "references": [
         {
           "label": "data.gov.ie — Local Electoral Areas - National Statutory Boundaries - 2019",
-          "url": "https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191"
+          "url": "https://web.archive.org/web/20250623200047/https://data.gov.ie/dataset/local-electoral-areas-national-statutory-boundaries-20191"
         },
         {
           "label": "Local Electoral Area Boundary Committee No. 1 Report 2018 (chair Geraldine Tallon, 13 June 2018)",
@@ -3055,7 +3055,7 @@
       "references": [
         {
           "label": "data.gov.ie — Municipal Districts - National Statutory Boundaries - 2019",
-          "url": "https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-20191"
+          "url": "https://web.archive.org/web/20250623200047/https://data.gov.ie/dataset/municipal-districts-national-statutory-boundaries-20191"
         },
         {
           "label": "Local Electoral Area Boundary Committee No. 1 Report 2018 (chair Geraldine Tallon, 13 June 2018)",
@@ -3165,7 +3165,6 @@
         "Tailte Éireann"
       ],
       "files": {
-        "geojson": "https://archive.org/download/civgraph-local-authorities-2024-geojson/LocalAuthorities_NationalStatutoryBoundaries_Ungeneralised_2024_-2978313920612481790.geojson",
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_2024.fgb"
       },
       "style": {
@@ -4280,6 +4279,8 @@
       "slug": "settlements-2015-craigavon",
       "category": "settlements",
       "hidden": true,
+      "retired": true,
+      "replacedBy": "settlements-2015",
       "provider": [
         "NISRA",
         "ABC Council"
@@ -7336,6 +7337,11 @@
       "hiddenReason": "Duplicate of admin-areas-1966-07-04, which is already a member of the ni-admin-areas (Administrative Areas) class and is the visible record. Both point at the SAME file, https://data.civgraph.net/data/maps/local-government/LGDs_04-07-1966.fgb, with the same date and the same labelProperty. Kept hidden as an archived record rather than deleted, so existing links keep resolving. Deliberately NOT added to the class: that would put two entries on 1966-07-04 drawing one file. Attribution settled 2026-08-23: XrysD is correct, and admin-areas-1966-07-04 was corrected from OSNI to match.",
       "references": [
         {
+          "label": "XrysD, Administrative map of Northern Ireland 1967 (Wikimedia Commons, 8 Sep 2018)",
+          "url": "https://commons.wikimedia.org/wiki/File:NorthernIreland1967AdminMap.png",
+          "note": "Own work by XrysD, licensed under Creative Commons Attribution-Share Alike 4.0 (CC BY-SA 4.0)."
+        },
+        {
           "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
           "note": "21 May 1965, pages 176-177. Ballyclare UD extended (Six Mile Water sewage works, from Antrim RD) from 1 Apr 1965; the source layer omitted it and Ballyclare UD / Antrim RD were corrected to the OSNI 1965 line."
@@ -7345,7 +7351,13 @@
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
       ],
-      "changeNote": "Lurgan, Armagh UD, Armagh RD, Bangor, Larne, Newtownabbey, Antrim RD, Larne RD, Lisburn RD, Lurgan RD and North Down RD are not in this edition's file."
+      "changeNote": "Lurgan, Armagh UD, Armagh RD, Bangor, Larne, Newtownabbey, Antrim RD, Larne RD, Lisburn RD, Lurgan RD and North Down RD are not in this edition's file.",
+      "sourceCredits": [
+        "XrysD"
+      ],
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "attribution": "Administrative map of Northern Ireland 1967 by XrysD, CC BY-SA 4.0, from Wikimedia Commons: https://commons.wikimedia.org/wiki/File:NorthernIreland1967AdminMap.png"
     },
     {
       "id": "pc-2023",
@@ -8532,11 +8544,11 @@
         },
         {
           "label": "2023 — KML download",
-          "url": "https://opendata.arcgis.com/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0.kml"
+          "url": "https://hub.arcgis.com/api/download/v1/items/a37ad6a3a6ff47e4a5a0ff313b418448/kml?redirect=true&layers=0"
         },
         {
           "label": "2023 — Shapefile (ZIP) download",
-          "url": "https://opendata.arcgis.com/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0.zip"
+          "url": "https://hub.arcgis.com/api/v3/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
         },
         {
           "label": "An Coimisiún Toghcháin, Constituency Review Report 2023: Dáil and European Parliament Constituencies",
@@ -8556,11 +8568,11 @@
         },
         {
           "label": "KML",
-          "file": "https://opendata.arcgis.com/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0.kml"
+          "file": "https://hub.arcgis.com/api/download/v1/items/a37ad6a3a6ff47e4a5a0ff313b418448/kml?redirect=true&layers=0"
         },
         {
           "label": "Shapefile (ZIP)",
-          "file": "https://opendata.arcgis.com/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0.zip"
+          "file": "https://hub.arcgis.com/api/v3/datasets/a37ad6a3a6ff47e4a5a0ff313b418448_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
         }
       ]
     },
@@ -8604,7 +8616,7 @@
         },
         {
           "label": "2017 — Shapefile (ZIP) download",
-          "url": "https://opendata.arcgis.com/datasets/71386da0ab094e4dbe4f9be7de7d64f6_1.zip"
+          "url": "https://hub.arcgis.com/api/v3/datasets/71386da0ab094e4dbe4f9be7de7d64f6_1/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
         },
         {
           "label": "Constituency Commission Report 2017: Dáil and European Parliament Constituencies",
@@ -8628,7 +8640,7 @@
         },
         {
           "label": "Shapefile (ZIP)",
-          "file": "https://opendata.arcgis.com/datasets/71386da0ab094e4dbe4f9be7de7d64f6_1.zip"
+          "file": "https://hub.arcgis.com/api/v3/datasets/71386da0ab094e4dbe4f9be7de7d64f6_1/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
         }
       ]
     },
@@ -8672,7 +8684,7 @@
         },
         {
           "label": "2013 — Shapefile (ZIP) download",
-          "url": "https://opendata.arcgis.com/datasets/dc928340da0844b287f8ea2672238d45_0.zip"
+          "url": "https://hub.arcgis.com/api/v3/datasets/dc928340da0844b287f8ea2672238d45_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
         },
         {
           "label": "Constituency Commission Report 2012: Dáil and European Parliament Constituencies",
@@ -8696,7 +8708,7 @@
         },
         {
           "label": "Shapefile (ZIP)",
-          "file": "https://opendata.arcgis.com/datasets/dc928340da0844b287f8ea2672238d45_0.zip"
+          "file": "https://hub.arcgis.com/api/v3/datasets/dc928340da0844b287f8ea2672238d45_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
         }
       ]
     },
@@ -8743,6 +8755,8 @@
         "Tailte Éireann",
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Provinces.fgb"
       },
@@ -8777,7 +8791,7 @@
         },
         {
           "label": "Provinces of Ireland — Shapefile (ZIP) download",
-          "url": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
+          "url": "https://hub.arcgis.com/api/v3/datasets/559bc3300384413aa0fe93f0772cb7f1_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
         }
       ],
       "sourceDownloads": [
@@ -8791,7 +8805,7 @@
         },
         {
           "label": "Shapefile (ZIP)",
-          "file": "https://opendata.arcgis.com/datasets/559bc3300384413aa0fe93f0772cb7f1_0.zip"
+          "file": "https://hub.arcgis.com/api/v3/datasets/559bc3300384413aa0fe93f0772cb7f1_0/downloads/data?format=shp&spatialRefId=2157&where=1%3D1"
         }
       ],
       "cloneOf": "provinces-1955",
@@ -8806,6 +8820,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Provinces_1899.fgb"
       },
@@ -9041,7 +9057,7 @@
             },
             {
               "label": "Counties of Northern Ireland — WMS download",
-              "url": "https://services.spatialni.gov.uk/opendata/services/OSNIVector/OSNIOpenData_Boundaries_50K/MapServer/WMSServer?request=GetCapabilities&service=WMS",
+              "url": "https://web.archive.org/web/20250413075607/https://services.spatialni.gov.uk/opendata/services/OSNIVector/OSNIOpenData_Boundaries_50K/MapServer/WMSServer?request=GetCapabilities&service=WMS",
               "note": ""
             }
           ],
@@ -9121,6 +9137,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1922.fgb"
       },
@@ -9150,6 +9168,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1927.fgb"
       },
@@ -9242,6 +9262,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/Dublin_Electoral_Counties_1985.fgb"
       },
@@ -9258,52 +9280,40 @@
       ],
       "references": [
         {
-          "label": "1991 DCC Draft Development Plan — Map 23 Part 1 (Fingal Library & Archives)",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1991%20DCC%20Draft%20Dev%20Plan%20-%20Map%2023%20Part%201.jpg"
+          "label": "1991 DCC Draft Development Plan — Map 23 Part 1 (Fingal Library & Archives)"
         },
         {
-          "label": "1991 DCC Draft Development Plan — Map 23 Part 2 (Fingal Library & Archives)",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1991%20DCC%20Draft%20Dev%20Plan%20-%20Map%2023%20Part%202.jpg"
+          "label": "1991 DCC Draft Development Plan — Map 23 Part 2 (Fingal Library & Archives)"
         },
         {
-          "label": "1991 DCC Draft Development Plan — Map 25 Part 1 (Fingal Library & Archives)",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1991%20DCC%20Draft%20Dev%20Plan%20-%20Map%2025%20Part%201.jpg"
+          "label": "1991 DCC Draft Development Plan — Map 25 Part 1 (Fingal Library & Archives)"
         },
         {
-          "label": "1991 DCC Draft Development Plan — Map 25 Part 2 (Fingal Library & Archives)",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1991%20DCC%20Draft%20Dev%20Plan%20-%20Map%2025%20part%202.jpg"
+          "label": "1991 DCC Draft Development Plan — Map 25 Part 2 (Fingal Library & Archives)"
         },
         {
-          "label": "1993 DCC Adopted Development Plan — Map 23 Part 1 (Fingal Library & Archives)",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1993%20DCC%20Dev%20Plan%20-%20Map%2023%20Part%201.jpg"
+          "label": "1993 DCC Adopted Development Plan — Map 23 Part 1 (Fingal Library & Archives)"
         },
         {
-          "label": "1993 DCC Adopted Development Plan — Map 23 Part 2 (Fingal Library & Archives)",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1993%20DCC%20Dev%20Plan%20-%20Map%2023%20Part%202.jpg"
+          "label": "1993 DCC Adopted Development Plan — Map 23 Part 2 (Fingal Library & Archives)"
         },
         {
-          "label": "1993 DCC Adopted Development Plan — Map 25 Part 1 (Fingal Library & Archives)",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1993%20DCC%20Dev%20Plan%20-%20Map%2025%20Part%201.jpg"
+          "label": "1993 DCC Adopted Development Plan — Map 25 Part 1 (Fingal Library & Archives)"
         },
         {
-          "label": "1993 DCC Adopted Development Plan — Map 25 Part 2 (Fingal Library & Archives)",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/1993%20DCC%20Dev%20Plan%20-%20Map%2025%20Part%202.jpg"
+          "label": "1993 DCC Adopted Development Plan — Map 25 Part 2 (Fingal Library & Archives)"
         },
         {
-          "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Map 11",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Map%20No.%2011.pdf"
+          "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Map 11"
         },
         {
-          "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Map 12",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Map%20No.%2012.pdf"
+          "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Map 12"
         },
         {
-          "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Page 66",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Page%2066.pdf"
+          "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Page 66"
         },
         {
-          "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Page 67",
-          "url": "https://data.civgraph.net/data/documents/dublin-electoral-history/Page%2067.pdf"
+          "label": "Local Government in Dublin: A New Beginning — Reorganisation Report (July 1992) — Page 67"
         }
       ]
     },
@@ -9825,8 +9835,63 @@
           "description": "NUTS 2 regions in the Republic of Ireland (2011)",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/census-areas/ROI_NUTS2.fgb"
-          }
+          },
+          "references": [
+            {
+              "label": "cso.ie — Census 2011 Boundary Files - CSO - Central Statistics Office",
+              "url": "https://www.cso.ie/en/census/census2011reports/census2011boundaryfiles/",
+              "note": "The Republic of Ireland's two NUTS 2 regions (Border, Midland and Western; Southern and Eastern) and their Census 2011 counts are the CSO's NUTS2 boundary file (Census2011_NUTS2_generalised20m). The CSO: \"These files are licensed under Creative Commons Attribution 4.0.\""
+            },
+            {
+              "label": "NUTS2 (BMW + SE) — NUTS2_(BMW___SE).zip download",
+              "url": "https://www.cso.ie/en/media/csoie/census/census2011boundaryfiles/NUTS2_(BMW___SE).zip"
+            },
+            {
+              "label": "Regulation (EC) No 1059/2003 on the establishment of a common classification of territorial units for statistics (NUTS), Annex I",
+              "url": "https://eur-lex.europa.eu/eli/reg/2003/1059/oj",
+              "note": "The NUTS codes and names: IE01, IE02 and UKN0, unchanged from NUTS 2003 to NUTS 2013."
+            },
+            {
+              "label": "Eurostat — NUTS: history",
+              "url": "https://ec.europa.eu/eurostat/web/nuts/history",
+              "note": "The NUTS versions, when each applied, and what changed."
+            }
+          ]
         }
+      ],
+      "licence": "CC BY 4.0",
+      "licenceNote": "The Northern Ireland region is OSNI data, under the Open Government Licence v3.0.",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "references": [
+        {
+          "label": "cso.ie — Census 2011 Boundary Files - CSO - Central Statistics Office",
+          "url": "https://www.cso.ie/en/census/census2011reports/census2011boundaryfiles/",
+          "note": "The Republic of Ireland's two NUTS 2 regions (Border, Midland and Western; Southern and Eastern) and their Census 2011 counts are the CSO's NUTS2 boundary file (Census2011_NUTS2_generalised20m). The CSO: \"These files are licensed under Creative Commons Attribution 4.0.\""
+        },
+        {
+          "label": "NUTS2 (BMW + SE) — NUTS2_(BMW___SE).zip download",
+          "url": "https://www.cso.ie/en/media/csoie/census/census2011boundaryfiles/NUTS2_(BMW___SE).zip"
+        },
+        {
+          "label": "Regulation (EC) No 1059/2003 on the establishment of a common classification of territorial units for statistics (NUTS), Annex I",
+          "url": "https://eur-lex.europa.eu/eli/reg/2003/1059/oj",
+          "note": "The NUTS codes and names: IE01, IE02 and UKN0, unchanged from NUTS 2003 to NUTS 2013."
+        },
+        {
+          "label": "Eurostat — NUTS: history",
+          "url": "https://ec.europa.eu/eurostat/web/nuts/history",
+          "note": "The NUTS versions, when each applied, and what changed."
+        },
+        {
+          "label": "Open Data NI — OSNI Open Data Largescale Boundaries NI Outline (Land & Property Services)",
+          "url": "https://www.opendatani.gov.uk/@land-property-services/osni-open-data-largescale-boundaries-ni-outline",
+          "note": "The Northern Ireland region (UKN0) is this outline, vertex for vertex. Open Government Licence v3.0."
+        }
+      ],
+      "sourceCredits": [
+        "CSO",
+        "OSNI",
+        "Assembled from the CSO's Census 2011 NUTS 2 regions and OSNI's Largescale Boundaries NI Outline"
       ]
     },
     {
@@ -9861,7 +9926,30 @@
         "republic of ireland",
         "census 2011"
       ],
-      "labelProperty": "NUTS2NAME"
+      "labelProperty": "NUTS2NAME",
+      "licence": "CC BY 4.0",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "references": [
+        {
+          "label": "cso.ie — Census 2011 Boundary Files - CSO - Central Statistics Office",
+          "url": "https://www.cso.ie/en/census/census2011reports/census2011boundaryfiles/",
+          "note": "The Republic of Ireland's two NUTS 2 regions (Border, Midland and Western; Southern and Eastern) and their Census 2011 counts are the CSO's NUTS2 boundary file (Census2011_NUTS2_generalised20m). The CSO: \"These files are licensed under Creative Commons Attribution 4.0.\""
+        },
+        {
+          "label": "NUTS2 (BMW + SE) — NUTS2_(BMW___SE).zip download",
+          "url": "https://www.cso.ie/en/media/csoie/census/census2011boundaryfiles/NUTS2_(BMW___SE).zip"
+        },
+        {
+          "label": "Regulation (EC) No 1059/2003 on the establishment of a common classification of territorial units for statistics (NUTS), Annex I",
+          "url": "https://eur-lex.europa.eu/eli/reg/2003/1059/oj",
+          "note": "The NUTS codes and names: IE01, IE02 and UKN0, unchanged from NUTS 2003 to NUTS 2013."
+        },
+        {
+          "label": "Eurostat — NUTS: history",
+          "url": "https://ec.europa.eu/eurostat/web/nuts/history",
+          "note": "The NUTS versions, when each applied, and what changed."
+        }
+      ]
     },
     {
       "id": "nuts-3",
@@ -9889,6 +9977,8 @@
       ],
       "date": 2003,
       "hidden": true,
+      "retired": true,
+      "replacedBy": "nuts-3-2003-2013",
       "hiddenReason": "Retired 2026-11-13 (owner, UP1): this is Eurostat GISCO's NUTS 2003 data, licensed for non-commercial use only. nuts-3-2003-2013 (NUTS 3 Regions 2003–2013), built from Civgraph's own open council maps, covers the same regions for the whole island. Kept hidden as an archived record rather than deleted, so existing links keep resolving; its file stays on R2."
     },
     {
@@ -9978,6 +10068,12 @@
           "url": "https://data.civgraph.net/data/maps/census-areas/NUTS2_Ireland_2016-2021.fgb",
           "type": "FlatGeobuf"
         }
+      ],
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "sourceCredits": [
+        "Tailte Éireann",
+        "OSNI",
+        "Derived from the council boundaries of Tailte Éireann and the district boundaries of OSNI, with Eurostat's NUTS codes and names"
       ]
     },
     {
@@ -10063,6 +10159,12 @@
           "url": "https://data.civgraph.net/data/maps/census-areas/NUTS2_Ireland_2003-2013.fgb",
           "type": "FlatGeobuf"
         }
+      ],
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "sourceCredits": [
+        "CSO",
+        "OSNI",
+        "Derived from the council boundaries of the CSO and the district boundaries of OSNI, with Eurostat's NUTS codes and names"
       ]
     },
     {
@@ -10151,6 +10253,12 @@
           "url": "https://data.civgraph.net/data/maps/census-areas/NUTS3_Ireland_2016-2021.fgb",
           "type": "FlatGeobuf"
         }
+      ],
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "sourceCredits": [
+        "Tailte Éireann",
+        "OSNI",
+        "Derived from the council boundaries of Tailte Éireann and the district boundaries of OSNI, with Eurostat's NUTS codes and names"
       ]
     },
     {
@@ -10234,6 +10342,12 @@
           "url": "https://data.civgraph.net/data/maps/census-areas/NUTS3_Ireland_2003-2013.fgb",
           "type": "FlatGeobuf"
         }
+      ],
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "sourceCredits": [
+        "CSO",
+        "OSNI",
+        "Derived from the council boundaries of the CSO and the district boundaries of OSNI, with Eurostat's NUTS codes and names"
       ]
     },
     {
@@ -12591,7 +12705,9 @@
       ],
       "isGroup": true,
       "hidden": true,
-      "hiddenReason": "The same map as eds-1926 (Electoral Divisions 1 Oct 1921): the same four FlatGeobufs. There was no June 1921 edition; the second 1921 edition is that of 1 Oct 1921, the date from which the Local Government Board order of 13 Dec 1921 dividing Monkstown (Co. Cork) took effect (Dublin Gazette, 6 Jan 1922). Kept hidden so links to it resolve; not in the eds-historic class, so the timeline steps from 3 May 1921 to 1 Oct 1921."
+      "hiddenReason": "The same map as eds-1926 (Electoral Divisions 1 Oct 1921): the same four FlatGeobufs. There was no June 1921 edition; the second 1921 edition is that of 1 Oct 1921, the date from which the Local Government Board order of 13 Dec 1921 dividing Monkstown (Co. Cork) took effect (Dublin Gazette, 6 Jan 1922). Kept hidden so links to it resolve; not in the eds-historic class, so the timeline steps from 3 May 1921 to 1 Oct 1921.",
+      "attribution": "© OpenStreetMap contributors, ODbL. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "licenceNote": "The OpenStreetMap data is © OpenStreetMap contributors, available under the Open Database Licence (ODbL): https://www.openstreetmap.org/copyright."
     },
     {
       "id": "eds-roi-1936",
@@ -13722,6 +13838,8 @@
         "placeholder"
       ],
       "hidden": true,
+      "retired": true,
+      "replacedBy": "eds-1971",
       "hiddenReason": "Superseded by eds-1971, which serves this same 1971-04-15 vintage with four working province variants. This record is an empty placeholder: no files, no variants, no provider, so it can never render. Decision closed 2026-08-23 -- NOT merged and NOT deleted: it is kept hidden as an archived record, like the other 117 hidden entries, so existing links to /browse/maps/eds-roi-1971-04-15 keep resolving. Deliberately excluded from the eds-historic class; adding it would put two entries on one date, one of which draws nothing."
     },
     {
@@ -13816,6 +13934,7 @@
       "featured": true,
       "provider": [
         "Tailte Éireann",
+        "OSNI",
         "OSM"
       ],
       "style": {
@@ -13938,7 +14057,9 @@
       "mobileMaxLODLevel": 1,
       "chunkOverviewMaxZoom": 13,
       "chunkInitialBuffer": 0.1,
-      "chunkLoadConcurrency": 1
+      "chunkLoadConcurrency": 1,
+      "attribution": "© OpenStreetMap contributors, ODbL. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "licenceNote": "The OpenStreetMap data is © OpenStreetMap contributors, available under the Open Database Licence (ODbL): https://www.openstreetmap.org/copyright."
     },
     {
       "id": "mep-1979",
@@ -13964,7 +14085,28 @@
         "EU"
       ],
       "labelProperty": "ENGLISH",
-      "date": 1979
+      "date": 1979,
+      "references": [
+        {
+          "label": "European Assembly Elections Act, 1977 (No. 30 of 1977), Second Schedule",
+          "url": "https://www.irishstatutebook.ie/eli/1977/act/30/schedule/2/enacted/en/html",
+          "note": "Section 12 and the Second Schedule: the four constituencies (Dublin, Leinster, Munster, Connacht-Ulster) for Ireland's 15 seats, each named by the administrative counties and county boroughs it contains; enacted 9 Dec 1977."
+        },
+        {
+          "label": "European Assembly Elections Act 1978 (c. 10)",
+          "url": "https://www.legislation.gov.uk/ukpga/1978/10/enacted",
+          "note": "Schedule 1, paragraph 1: Northern Ireland a single Assembly constituency comprising the whole of Northern Ireland, with three representatives, elected by the single transferable vote (section 3). Original version as enacted."
+        }
+      ],
+      "licence": "CC-BY-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map into the constituencies the statutes and Constituency Commission reports give: county boundaries from Tailte Éireann (CC BY 4.0) and, for Northern Ireland, OSNI, Land & Property Services (Open Government Licence v3.0).",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "sourceCredits": [
+        "Tailte Éireann",
+        "OSNI",
+        "Assembled from Counties of Ireland by Tailte Éireann and OSNI"
+      ]
     },
     {
       "id": "mep-2004",
@@ -13997,6 +14139,15 @@
           "url": "https://www.electoralcommission.ie/app/uploads/2025/04/euro.pdf",
           "note": "Recommended the four constituencies (Dublin, East, North-West, South) for Ireland's 13 seats used at the June 2004 European Parliament election; published 7 Oct 2003. Copy held by Civgraph: https://data.civgraph.net/data/sources/ie-boundary-committee-reports/2003-european/euro.pdf"
         }
+      ],
+      "licence": "CC-BY-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map into the constituencies the statutes and Constituency Commission reports give: county boundaries from Tailte Éireann (CC BY 4.0) and, for Northern Ireland, OSNI, Land & Property Services (Open Government Licence v3.0).",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "sourceCredits": [
+        "Tailte Éireann",
+        "OSNI",
+        "Assembled from Counties of Ireland by Tailte Éireann and OSNI"
       ]
     },
     {
@@ -14040,6 +14191,15 @@
           "url": "https://www.electoralcommission.ie/app/uploads/2025/04/con2007.pdf",
           "note": "Its European Parliament chapter recommended the constituencies for Ireland's 12 seats used at the June 2009 European Parliament election; dated October 2007. Copy held by Civgraph: https://data.civgraph.net/data/sources/ie-boundary-committee-reports/2007-constituency/con2007.pdf"
         }
+      ],
+      "licence": "CC-BY-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map into the constituencies the statutes and Constituency Commission reports give: county boundaries from Tailte Éireann (CC BY 4.0) and, for Northern Ireland, OSNI, Land & Property Services (Open Government Licence v3.0).",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "sourceCredits": [
+        "Tailte Éireann",
+        "OSNI",
+        "Assembled from Counties of Ireland by Tailte Éireann and OSNI"
       ]
     },
     {
@@ -14073,6 +14233,15 @@
           "url": "https://www.electoralcommission.ie/app/uploads/2025/04/Report_on_European_Parliament_Constituencies_2013.pdf",
           "note": "Recommended the three constituencies (Dublin, Midlands-North-West, South) for Ireland's 11 seats used at the May 2014 European Parliament election; signed 24 Sep 2013. Copy held by Civgraph: https://data.civgraph.net/data/sources/ie-boundary-committee-reports/2013-european/Report_on_European_Parliament_Constituencies_2013.pdf"
         }
+      ],
+      "licence": "CC-BY-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map into the constituencies the statutes and Constituency Commission reports give: county boundaries from Tailte Éireann (CC BY 4.0) and, for Northern Ireland, OSNI, Land & Property Services (Open Government Licence v3.0).",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "sourceCredits": [
+        "Tailte Éireann",
+        "OSNI",
+        "Assembled from Counties of Ireland by Tailte Éireann and OSNI"
       ]
     },
     {
@@ -14107,6 +14276,15 @@
           "url": "https://www.electoralcommission.ie/app/uploads/2025/04/Report-on-European-Parliament-Constituencies-2018.pdf",
           "note": "Recommended the constituencies for Ireland's 13 seats used at the May 2019 European Parliament election; presented to the Ceann Comhairle on 24 Sep 2018. Copy held by Civgraph: https://data.civgraph.net/data/sources/ie-boundary-committee-reports/2018-european/Report-on-European-Parliament-Constituencies-2018.pdf"
         }
+      ],
+      "licence": "CC-BY-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map into the constituencies the statutes and Constituency Commission reports give: county boundaries from Tailte Éireann (CC BY 4.0) and, for Northern Ireland, OSNI, Land & Property Services (Open Government Licence v3.0).",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Contains public sector information licensed under the Open Government Licence v3.0.",
+      "sourceCredits": [
+        "Tailte Éireann",
+        "OSNI",
+        "Assembled from Counties of Ireland by Tailte Éireann and OSNI"
       ]
     },
     {
@@ -14116,8 +14294,7 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "Tailte Éireann",
-        "OSNI"
+        "Tailte Éireann"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/2024MEPConstituencies.fgb"
@@ -14146,6 +14323,14 @@
           "url": "https://www.electoralcommission.ie/app/uploads/2023/11/EU_Constituency_Review_Report_EN.pdf",
           "note": "Re-examined the constituencies after European Council Decision (EU) 2023/2061 gave Ireland a 14th seat and recommended the arrangement used at the June 2024 European Parliament election; published November 2023. Copy held by Civgraph: https://data.civgraph.net/data/sources/ie-boundary-committee-reports/2023-european/EU_Constituency_Review_Report_EN.pdf"
         }
+      ],
+      "licence": "CC-BY-4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "licenceNote": "Built for Civgraph by joining whole counties of its Counties of Ireland map (Tailte Éireann county boundaries, CC BY 4.0) into the constituencies of the 2023 review.",
+      "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "sourceCredits": [
+        "Tailte Éireann",
+        "Assembled from Counties of Ireland by Tailte Éireann"
       ]
     },
     {
@@ -14157,6 +14342,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/1995_Dail.fgb"
       },
@@ -14195,6 +14382,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/1998_Dail.fgb"
       },
@@ -14222,6 +14411,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/2007_Dail.fgb"
       },
@@ -14257,6 +14448,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/1990_Dail.fgb"
       },
@@ -14285,6 +14478,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/1983_Dail.fgb"
       },
@@ -14314,6 +14509,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/1980_Dail.fgb"
       },
@@ -14343,6 +14540,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/1974_Dail.fgb"
       },
@@ -14371,6 +14570,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/1969_Dail.fgb"
       },
@@ -14399,6 +14600,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/1961_Dail.fgb"
       },
@@ -14427,6 +14630,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/1959_Dail.fgb"
       },
@@ -14471,6 +14676,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parliamentary/1947_Dail.fgb"
       },
@@ -14634,7 +14841,7 @@
       "references": [
         {
           "label": "nisra.gov.uk — Grid Square | Northern Ireland Statistics and Research Agency",
-          "url": "https://www.nisra.gov.uk/statistics/census-2021-results/grid-square#toc-0"
+          "url": "https://www.nisra.gov.uk/statistics/specialist-products/census-2021-grid-square#toc-0"
         }
       ],
       "bounds": [
@@ -14710,6 +14917,11 @@
       "date": "1966-07-04",
       "references": [
         {
+          "label": "XrysD, Administrative map of Northern Ireland 1967 (Wikimedia Commons, 8 Sep 2018)",
+          "url": "https://commons.wikimedia.org/wiki/File:NorthernIreland1967AdminMap.png",
+          "note": "Own work by XrysD, licensed under Creative Commons Attribution-Share Alike 4.0 (CC BY-SA 4.0)."
+        },
+        {
           "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
           "note": "21 May 1965, pages 176-177. Ballyclare UD extended (Six Mile Water sewage works, from Antrim RD) from 1 Apr 1965; the source layer omitted it and Ballyclare UD / Antrim RD were corrected to the OSNI 1965 line."
@@ -14743,7 +14955,13 @@
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
       ],
-      "changeNote": "Kilkeel RD renamed South Down RD on 4 Jul 1966, the date of this edition (Census 1966). Lurgan, Armagh UD, Armagh RD, Bangor, Larne, Newtownabbey, Antrim RD, Larne RD, Lisburn RD, Lurgan RD and North Down RD are not in this edition's file."
+      "changeNote": "Kilkeel RD renamed South Down RD on 4 Jul 1966, the date of this edition (Census 1966). Lurgan, Armagh UD, Armagh RD, Bangor, Larne, Newtownabbey, Antrim RD, Larne RD, Lisburn RD, Lurgan RD and North Down RD are not in this edition's file.",
+      "sourceCredits": [
+        "XrysD"
+      ],
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "attribution": "Administrative map of Northern Ireland 1967 by XrysD, CC BY-SA 4.0, from Wikimedia Commons: https://commons.wikimedia.org/wiki/File:NorthernIreland1967AdminMap.png"
     },
     {
       "id": "wards-2001",
@@ -15019,7 +15237,7 @@
       "date": "1969-04-02",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15045,6 +15263,10 @@
           "label": "Map of the Borough of Bangor as extended by the Bangor Borough (Extension) Order (Northern Ireland) 1966 (PRONI VAL/8/283)",
           "note": "Certified copy (Town Clerk, 5 Jan 1967; Valuation Office stamp 6 Jan 1967) on OSNI six-inch Co. Down sheets 1 and 2, revision of 1939."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -15055,7 +15277,7 @@
       "date": "1969-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15087,6 +15309,10 @@
           "label": "Map of the Borough of Bangor as extended by the Bangor Borough (Extension) Order (Northern Ireland) 1966 (PRONI VAL/8/283)",
           "note": "Certified copy (Town Clerk, 5 Jan 1967; Valuation Office stamp 6 Jan 1967) on OSNI six-inch Co. Down sheets 1 and 2, revision of 1939."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -15097,7 +15323,7 @@
       "date": "1968-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15143,7 +15369,11 @@
           "note": "Certified copy (Town Clerk, 5 Jan 1967; Valuation Office stamp 6 Jan 1967) on OSNI six-inch Co. Down sheets 1 and 2, revision of 1939."
         }
       ],
-      "changeNote": "Part of Antrim RD (population 52) transferred to Newtownabbey UD, and part of North Down RD (population 448) to Newtownards MB, 1 Apr 1968 (Census 1971). Neither town is in this edition's file. Armagh UD, Armagh RD, Keady, Bangor and Larne are not in this edition's file."
+      "changeNote": "Part of Antrim RD (population 52) transferred to Newtownabbey UD, and part of North Down RD (population 448) to Newtownards MB, 1 Apr 1968 (Census 1971). Neither town is in this edition's file. Armagh UD, Armagh RD, Keady, Bangor and Larne are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1967-04-01",
@@ -15153,7 +15383,7 @@
       "date": "1967-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15204,7 +15434,11 @@
           "note": "Certified copy (Town Clerk, 5 Jan 1967; Valuation Office stamp 6 Jan 1967) on OSNI six-inch Co. Down sheets 1 and 2, revision of 1939."
         }
       ],
-      "changeNote": "Bangor borough extended (1966 Order, 1966 Act); 1971 Census: 2,067.64 hectares (5,109 acres). Also 1 Apr 1967 (Census 1971): part of Lurgan RD to Lurgan MB, then Lurgan RD abolished and re-designated Craigavon UD; part of East Down RD to Downpatrick UD. Down County Council made the Downpatrick order on 16 Jun 1966 and the Ministry of Development confirmed it on 6 Sep 1966; it came into operation on 1 Apr 1967, and from its confirmation for the register of electors, the valuation lists and the rates for 1967-68 (Belfast Gazette, issue 2382, 16 Sep 1966, p. 330). Downpatrick, Lurgan, Craigavon, Armagh UD, Armagh RD, Keady, Bangor, Larne and Newtownabbey are not in this edition's file."
+      "changeNote": "Bangor borough extended (1966 Order, 1966 Act); 1971 Census: 2,067.64 hectares (5,109 acres). Also 1 Apr 1967 (Census 1971): part of Lurgan RD to Lurgan MB, then Lurgan RD abolished and re-designated Craigavon UD; part of East Down RD to Downpatrick UD. Down County Council made the Downpatrick order on 16 Jun 1966 and the Ministry of Development confirmed it on 6 Sep 1966; it came into operation on 1 Apr 1967, and from its confirmation for the register of electors, the valuation lists and the rates for 1967-68 (Belfast Gazette, issue 2382, 16 Sep 1966, p. 330). Downpatrick, Lurgan, Craigavon, Armagh UD, Armagh RD, Keady, Bangor, Larne and Newtownabbey are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1965-04-01",
@@ -15214,7 +15448,7 @@
       "date": "1965-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15251,6 +15485,10 @@
           "label": "Bangor Borough Council, Proposed Boundary Extension, Map No. 2 (1965) (PRONI VAL/8/283)",
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -15261,7 +15499,7 @@
       "date": "1964-06-02",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15288,6 +15526,10 @@
           "label": "Bangor Borough Council, Proposed Boundary Extension, Map No. 2 (1965) (PRONI VAL/8/283)",
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -15298,7 +15540,7 @@
       "date": "1964-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15335,6 +15577,10 @@
           "label": "Bangor Borough Council, Proposed Boundary Extension, Map No. 2 (1965) (PRONI VAL/8/283)",
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -15345,7 +15591,7 @@
       "date": "1963-09-13",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15383,7 +15629,11 @@
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
       ],
-      "changeNote": "No district line changed on this date; Lisburn RD's Ballygomartin and Malone DEDs were replaced by seven new DEDs and County Antrim's Ballygomartin and Dunmurry CEDs were altered (13 Sep 1963; Census 1966). Lurgan, Armagh UD, Armagh RD, Keady, Bangor, Larne and Newtownabbey are not in this edition's file."
+      "changeNote": "No district line changed on this date; Lisburn RD's Ballygomartin and Malone DEDs were replaced by seven new DEDs and County Antrim's Ballygomartin and Dunmurry CEDs were altered (13 Sep 1963; Census 1966). Lurgan, Armagh UD, Armagh RD, Keady, Bangor, Larne and Newtownabbey are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1963-04-01",
@@ -15393,7 +15643,7 @@
       "date": "1963-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15435,7 +15685,11 @@
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
       ],
-      "changeNote": "Part of Cookstown RD (population 184 in 1961) transferred to Cookstown UD (1 Apr 1963; Census 1966). Cookstown is not in this edition's file. Tyrone County Council made the Cookstown order on 10 Dec 1962 and the Ministry of Health and Local Government confirmed it on 28 Feb 1963, to take effect on 1 Apr 1963 (Belfast Gazette, issue 2179, 15 Mar 1963, p. 93). Lurgan, Armagh UD, Armagh RD, Keady, Bangor, Larne and Newtownabbey are not in this edition's file."
+      "changeNote": "Part of Cookstown RD (population 184 in 1961) transferred to Cookstown UD (1 Apr 1963; Census 1966). Cookstown is not in this edition's file. Tyrone County Council made the Cookstown order on 10 Dec 1962 and the Ministry of Health and Local Government confirmed it on 28 Feb 1963, to take effect on 1 Apr 1963 (Belfast Gazette, issue 2179, 15 Mar 1963, p. 93). Lurgan, Armagh UD, Armagh RD, Keady, Bangor, Larne and Newtownabbey are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1962-04-01",
@@ -15445,7 +15699,7 @@
       "date": "1962-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15491,7 +15745,11 @@
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
       ],
-      "changeNote": "Bangor borough extended (1962 Act). 1966 Census: Bangor MB 2,664 acres 2 roods 37 perches. Also 1 Apr 1962 (Census 1966): Coleraine MB extended into Coleraine RD, and Antrim ceased to be a Towns Improvement Act town, its functions passing to Antrim RD. Coleraine's extension took effect from 1 Apr 1962, as the draft order (Mid-Ulster Mail, 25 Nov 1961, p. 3) and the Ministry (Belfast News-Letter, 26 Feb 1962, p. 7) gave it, though the Act confirming it received Royal Assent only on 20 Dec 1962 (Belfast Gazette, issue 2166, p. 493); the registrars' districts were altered separately from 1 Nov 1963. Coleraine, Lurgan, Armagh UD, Armagh RD, Keady, Bangor, Larne and Newtownabbey are not in this edition's file."
+      "changeNote": "Bangor borough extended (1962 Act). 1966 Census: Bangor MB 2,664 acres 2 roods 37 perches. Also 1 Apr 1962 (Census 1966): Coleraine MB extended into Coleraine RD, and Antrim ceased to be a Towns Improvement Act town, its functions passing to Antrim RD. Coleraine's extension took effect from 1 Apr 1962, as the draft order (Mid-Ulster Mail, 25 Nov 1961, p. 3) and the Ministry (Belfast News-Letter, 26 Feb 1962, p. 7) gave it, though the Act confirming it received Royal Assent only on 20 Dec 1962 (Belfast Gazette, issue 2166, p. 493); the registrars' districts were altered separately from 1 Nov 1963. Coleraine, Lurgan, Armagh UD, Armagh RD, Keady, Bangor, Larne and Newtownabbey are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1962-01-01",
@@ -15501,7 +15759,7 @@
       "date": "1962-01-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15557,7 +15815,11 @@
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
       ],
-      "cloneOf": "admin-areas-1958-04-01"
+      "cloneOf": "admin-areas-1958-04-01",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1958-04-01",
@@ -15567,7 +15829,7 @@
       "date": "1958-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15633,7 +15895,11 @@
           "note": "23 Nov 1956, pages 311-312. Notice of the bill forming Newtownabbey Urban District and abolishing Belfast Rural District, listing the whole and divided townlands (Ballybought and Ballyhenry divided with Antrim Rural District; Ballyhowne, Jordanstown and Monkstown with Larne Rural District)."
         }
       ],
-      "changeNote": "Belfast RD abolished; Newtownabbey UD formed from part of it. The rest went to Antrim, Lisburn and Larne RDs, which are not in this edition's file. Belfast County Borough was extended at Sydenham into Belfast Lough by S.R.&O. 1957 No. 189 under the Boundary Survey (Ireland) Act 1854 (with No. 188 for County Down), made 29 Aug 1957, in force 1 Mar 1958 (Belfast Gazette issue 1889, 6 Sep 1957, pp. 243-244), and further by the order of 9 Feb 1959, in force 1 Apr 1959 (Belfast Gazette issue 1965, 20 Feb 1959, p. 66; issue 1979, 29 May 1959, p. 185; issue 2070, 24 Feb 1961, p. 58). The two orders together added about 1,470 acres by the census: the reclaimed land at Sydenham and the lough out to a straight line from the Antrim shore south of Greencastle to the Kinnegar shore at Holywood, in place of the line from the Antrim shore to the Inner Lighthouse and on to Tillysburn. How the area was divided between the two orders is not known. Census of Population 1961, County Borough of Belfast: 18,052 acres including 2,237 acres of tidal water, the land 458 acres more than in 1951, in Victoria Ward, from reclamation; 1951: 15,357 acres of land and 1,223 acres of tidal water. Lurgan, Armagh UD, Armagh RD, Keady, Bangor, Larne and Newtownabbey are not in this edition's file."
+      "changeNote": "Belfast RD abolished; Newtownabbey UD formed from part of it. The rest went to Antrim, Lisburn and Larne RDs, which are not in this edition's file. Belfast County Borough was extended at Sydenham into Belfast Lough by S.R.&O. 1957 No. 189 under the Boundary Survey (Ireland) Act 1854 (with No. 188 for County Down), made 29 Aug 1957, in force 1 Mar 1958 (Belfast Gazette issue 1889, 6 Sep 1957, pp. 243-244), and further by the order of 9 Feb 1959, in force 1 Apr 1959 (Belfast Gazette issue 1965, 20 Feb 1959, p. 66; issue 1979, 29 May 1959, p. 185; issue 2070, 24 Feb 1961, p. 58). The two orders together added about 1,470 acres by the census: the reclaimed land at Sydenham and the lough out to a straight line from the Antrim shore south of Greencastle to the Kinnegar shore at Holywood, in place of the line from the Antrim shore to the Inner Lighthouse and on to Tillysburn. How the area was divided between the two orders is not known. Census of Population 1961, County Borough of Belfast: 18,052 acres including 2,237 acres of tidal water, the land 458 acres more than in 1951, in Victoria Ward, from reclamation; 1951: 15,357 acres of land and 1,223 acres of tidal water. Lurgan, Armagh UD, Armagh RD, Keady, Bangor, Larne and Newtownabbey are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1957-04-01",
@@ -15643,7 +15909,7 @@
       "date": "1957-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15670,7 +15936,11 @@
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
       ],
-      "changeNote": "Lurgan borough extended into Lurgan RD by the Lurgan Borough (Extension) Order (Northern Ireland) 1956, in force 1 Apr 1957 (Census of Population 1961); certified copies of the Order's map are at PRONI (LA/52/8/JA/4; OS/31/2/2, 1:2,500). Lurgan, Armagh UD, Armagh RD, Keady, Bangor and Larne are not in this edition's file."
+      "changeNote": "Lurgan borough extended into Lurgan RD by the Lurgan Borough (Extension) Order (Northern Ireland) 1956, in force 1 Apr 1957 (Census of Population 1961); certified copies of the Order's map are at PRONI (LA/52/8/JA/4; OS/31/2/2, 1:2,500). Lurgan, Armagh UD, Armagh RD, Keady, Bangor and Larne are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1956-04-01",
@@ -15680,7 +15950,7 @@
       "date": "1956-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15722,6 +15992,10 @@
           "label": "Bangor Borough Council, Proposed Boundary Extension, Map No. 2 (1965) (PRONI VAL/8/283)",
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -15732,7 +16006,7 @@
       "date": "1955-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15779,7 +16053,11 @@
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
       ],
-      "changeNote": "Part of Lisburn RD (population 1,206 in 1951) transferred to Lisburn UD (1 Apr 1955; Census 1961). Lisburn is not in this edition's file. Antrim County Council made the order on 27 Jul 1954 and the Ministry of Health and Local Government confirmed it with modifications on 3 Dec 1954; it took effect for the Representation of the People Acts from 16 Feb 1955, for the Election and Franchise Acts from 15 Feb 1955 and for all other purposes from 1 Apr 1955 (Belfast Gazette, issue 1746, 10 Dec 1954, pp. 317-318). Lurgan, Armagh UD, Armagh RD, Keady and Bangor are not in this edition's file."
+      "changeNote": "Part of Lisburn RD (population 1,206 in 1951) transferred to Lisburn UD (1 Apr 1955; Census 1961). Lisburn is not in this edition's file. Antrim County Council made the order on 27 Jul 1954 and the Ministry of Health and Local Government confirmed it with modifications on 3 Dec 1954; it took effect for the Representation of the People Acts from 16 Feb 1955, for the Election and Franchise Acts from 15 Feb 1955 and for all other purposes from 1 Apr 1955 (Belfast Gazette, issue 1746, 10 Dec 1954, pp. 317-318). Lurgan, Armagh UD, Armagh RD, Keady and Bangor are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1954-08-01",
@@ -15789,7 +16067,7 @@
       "date": "1954-08-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15821,6 +16099,10 @@
           "label": "Bangor Borough Council, Proposed Boundary Extension, Map No. 2 (1965) (PRONI VAL/8/283)",
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -15831,7 +16113,7 @@
       "date": "1950-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15867,7 +16149,11 @@
           "note": "Existing boundary shown as the inner edge of the dark green line."
         }
       ],
-      "changeNote": "Bangor borough extended (1950 Act). 1951 Census: Bangor MB 2,392 acres 1 rood 16 perches. Newtownards borough also extended into Newtownards RD the same day (1950 Act; Census 1951). Newtownards, Lurgan, Armagh UD, Armagh RD, Keady and Bangor are not in this edition's file."
+      "changeNote": "Bangor borough extended (1950 Act). 1951 Census: Bangor MB 2,392 acres 1 rood 16 perches. Newtownards borough also extended into Newtownards RD the same day (1950 Act; Census 1951). Newtownards, Lurgan, Armagh UD, Armagh RD, Keady and Bangor are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1949-07-07",
@@ -15877,7 +16163,7 @@
       "date": "1949-07-07",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15899,6 +16185,10 @@
           "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
           "note": "Changes in administrative areas since 1937, Co. Armagh item (8) (7 Jul 1949)."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -15909,7 +16199,7 @@
       "date": "1949-07-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15932,6 +16222,10 @@
           "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
           "note": "Changes in administrative areas since 1937, Co. Antrim item (3) (1 Jul 1949)."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -15942,7 +16236,7 @@
       "date": "1949-05-30",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -15965,6 +16259,10 @@
           "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
           "note": "Changes in administrative areas since 1937, Co. Fermanagh item (17) (30 May 1949)."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -15975,7 +16273,7 @@
       "date": "1949-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16017,7 +16315,11 @@
           "note": "8 Oct 1948, page 245. In force: 1 Apr 1949. District boundary altered: Rural District of Dungannon; places named: Dungannon Rural District, Dungannon Urban District, Caledon, Coalisland, County Tyrone; by Ministry of Health and Local Government; in force 1 April 1949; under Local Government Act (Northern Ireland), 1934."
         }
       ],
-      "changeNote": "Dungannon UD extended into Dungannon RD (population 1,023 in 1937), 1 Apr 1949 (Census 1951). Lurgan, Armagh UD, Armagh RD and Keady are not in this edition's file."
+      "changeNote": "Dungannon UD extended into Dungannon RD (population 1,023 in 1937), 1 Apr 1949 (Census 1951). Lurgan, Armagh UD, Armagh RD and Keady are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1948-04-01",
@@ -16027,7 +16329,7 @@
       "date": "1948-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16074,7 +16376,11 @@
           "note": "4 Feb 1948, page 33. In force: 1 Apr 1948. District boundary altered: Rural District of Armagh'; places named: Armagh Rural District, Keady Urban District, Markethill, Richhill, County Armagh; by Ministry of Health and Local Government; in force 1 April 1948; under Local Government Act (Northern Ireland), 1934."
         }
       ],
-      "changeNote": "Larne borough extended into Larne RD (population 22 in 1937) and Keady UD extended into Armagh RD (an uninhabited area), 1 Apr 1948 (Census 1951). Larne is not in this edition's file. Larne's 1948 addition was the station and quay land at Curran Point, the last 5.8 acres of Curran and Drumaliss (Census 1951). Armagh County Council made the Keady order on 2 Dec 1947 and the Ministry of Health and Local Government confirmed it on 10 Jan 1948, to take effect on 1 Apr 1948 (Belfast Gazette, issue 1386, 16 Jan 1948, p. 15). Lurgan, Armagh UD, Armagh RD and Keady are not in this edition's file."
+      "changeNote": "Larne borough extended into Larne RD (population 22 in 1937) and Keady UD extended into Armagh RD (an uninhabited area), 1 Apr 1948 (Census 1951). Larne is not in this edition's file. Larne's 1948 addition was the station and quay land at Curran Point, the last 5.8 acres of Curran and Drumaliss (Census 1951). Armagh County Council made the Keady order on 2 Dec 1947 and the Ministry of Health and Local Government confirmed it on 10 Jan 1948, to take effect on 1 Apr 1948 (Belfast Gazette, issue 1386, 16 Jan 1948, p. 15). Lurgan, Armagh UD, Armagh RD and Keady are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1947-10-02",
@@ -16084,7 +16390,7 @@
       "date": "1947-10-02",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16107,6 +16413,10 @@
           "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
           "note": "Changes in administrative areas since 1937, Co. Armagh item (9) (2 Oct 1947)."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16117,7 +16427,7 @@
       "date": "1947-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16185,7 +16495,11 @@
           "note": "30 May 1947, page 137. Made 1 Apr 1947. District boundary altered: Rural District of Cookstown; places named: Cookstown Rural District, Cookstown Urban District, County Tyrone; by Ministry of Health and Local Government; made 1 April 1947; under Local Government Act (Northern Ireland), 1934."
         }
       ],
-      "changeNote": "Portadown UD extended into Lurgan RD (population 2,363 in 1937), Enniskillen UD extended (second stage) and Cookstown UD extended into Cookstown RD (population 389 in 1937), 1 Apr 1947 (Census 1951). None of the three is in this edition's file. Fermanagh County Council made the Enniskillen order on 19 Jul 1946 and the Ministry of Health and Local Government confirmed it with modifications on 16 Jan 1947, to take effect on 1 Apr 1947 (Belfast Gazette, issue 1335, 24 Jan 1947, p. 17; printed again in issue 1336, 31 Jan 1947, p. 28). Lurgan, Armagh UD and Armagh RD are not in this edition's file."
+      "changeNote": "Portadown UD extended into Lurgan RD (population 2,363 in 1937), Enniskillen UD extended (second stage) and Cookstown UD extended into Cookstown RD (population 389 in 1937), 1 Apr 1947 (Census 1951). None of the three is in this edition's file. Fermanagh County Council made the Enniskillen order on 19 Jul 1946 and the Ministry of Health and Local Government confirmed it with modifications on 16 Jan 1947, to take effect on 1 Apr 1947 (Belfast Gazette, issue 1335, 24 Jan 1947, p. 17; printed again in issue 1336, 31 Jan 1947, p. 28). Lurgan, Armagh UD and Armagh RD are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1946-06-11",
@@ -16195,7 +16509,7 @@
       "date": "1946-06-11",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16233,6 +16547,10 @@
           "url": "https://www.thegazette.co.uk/Belfast/issue/1310/page/192",
           "note": "1 Aug 1946, page 192. In force: 11 Jun 1946. District boundary altered: Whereas; places named: Armagh Urban District, Armagh Rural District, Markethill, County Armagh; by Ministry of Health and Local Government; in force 11 June 1946; under Local Government Act (Northern Ireland), 1934."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16243,7 +16561,7 @@
       "date": "1946-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16291,7 +16609,11 @@
           "note": "19 Feb 1946, page 51. In force: 1 Apr 1946. District boundary altered: Rural District of Larne; places named: Larne Rural District, Carrickfergus Urban District, Glenarm, County Antrim; by Ministry of Home Affairs / Ministry of Health and Local Government; in force 1 April 1946; under Local Government Act (Northern Ireland), 1934."
         }
       ],
-      "changeNote": "Carrickfergus UD extended into Larne RD (population 1,613 in 1937) and Holywood UD into Castlereagh RD (population 404 in 1937), 1 Apr 1946 (Census 1951). Neither town is in this edition's file. Lurgan, Armagh UD and Armagh RD are not in this edition's file."
+      "changeNote": "Carrickfergus UD extended into Larne RD (population 1,613 in 1937) and Holywood UD into Castlereagh RD (population 404 in 1937), 1 Apr 1946 (Census 1951). Neither town is in this edition's file. Lurgan, Armagh UD and Armagh RD are not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1945-04-01",
@@ -16301,7 +16623,7 @@
       "date": "1945-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16339,6 +16661,10 @@
           "url": "https://www.thegazette.co.uk/Belfast/issue/1239/page/69",
           "note": "23 Mar 1945, page 69. Made 13 Feb 1945. In force: 1 Apr 1945. District boundary altered: Local Government Acts (Northern; places named: Armagh Urban District, County Armagh; by Ministry of Health and Local Government / Armagh County Council; made 13 February 1945; in force 1 April 1945."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16349,7 +16675,7 @@
       "date": "1939-05-23",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16371,6 +16697,10 @@
           "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
           "note": "Changes in administrative areas since 1937, Co. Antrim items (1)-(2) (23 May 1939)."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16381,7 +16711,7 @@
       "date": "1939-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16405,6 +16735,10 @@
           "url": "https://www.thegazette.co.uk/Belfast/issue/884/page/191",
           "note": "Lurgan RD DED order of 1 Jun 1938; the rural district's outer line is unchanged."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16415,7 +16749,7 @@
       "date": "1938-05-23",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16438,6 +16772,10 @@
           "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
           "note": "Changes in administrative areas since 1937, Co. Down item (12): Newtownards UD made a municipal borough (23 May 1938)."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16448,7 +16786,7 @@
       "date": "1938-05-15",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16476,6 +16814,10 @@
           "url": "https://www.thegazette.co.uk/Belfast/issue/808/page/473",
           "note": "18 Dec 1936, pages 473-474. Ministry of Home Affairs order of 11 Dec 1936: the five wards of 1896 replaced by three (North, South and Waterside), described in the First Schedule, from the election of 15 May 1938."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16486,7 +16828,7 @@
       "date": "1938-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16514,7 +16856,11 @@
           "note": "Lurgan RD DED order of 1 Jun 1938: lists the townlands left partly outside the extended urban district; Derry is not among them, so it is wholly urban."
         }
       ],
-      "changeNote": "Lurgan UD extended into Lurgan RD (1937 order as modified on confirmation). 1951 Census: Lurgan 1,488 acres 0 roods 22 perches. Armagh County Council made the order on 21 Sep 1937 and the Ministry of Home Affairs confirmed it with modifications on 31 Dec 1937; it took effect for the Representation of the People Acts from 1 Jan 1938 and for all other purposes from 1 Apr 1938 (Belfast Gazette, issue 864, 14 Jan 1938, p. 18). Lurgan is not in this edition's file."
+      "changeNote": "Lurgan UD extended into Lurgan RD (1937 order as modified on confirmation). 1951 Census: Lurgan 1,488 acres 0 roods 22 perches. Armagh County Council made the order on 21 Sep 1937 and the Ministry of Home Affairs confirmed it with modifications on 31 Dec 1937; it took effect for the Representation of the People Acts from 1 Jan 1938 and for all other purposes from 1 Apr 1938 (Belfast Gazette, issue 864, 14 Jan 1938, p. 18). Lurgan is not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1937-04-01",
@@ -16524,7 +16870,7 @@
       "date": "1937-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16552,6 +16898,10 @@
           "url": "https://www.thegazette.co.uk/Belfast/issue/803/page/415",
           "note": "13 Nov 1936, pages 415-416. Ministry certificate that no petition was presented and the Kilkeel Urban District Order, 1936 has taken effect."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16562,7 +16912,7 @@
       "date": "1936-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16578,7 +16928,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "changeNote": "No district line changed on this date; the 1937 Census records only a dispensary change in Newry Union (1 Apr 1936)."
+      "changeNote": "No district line changed on this date; the 1937 Census records only a dispensary change in Newry Union (1 Apr 1936).",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1935-06-26",
@@ -16588,7 +16942,7 @@
       "date": "1935-06-26",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16605,7 +16959,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1936-04-01"
+      "cloneOf": "admin-areas-1936-04-01",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1935-06-25",
@@ -16615,7 +16973,7 @@
       "date": "1935-06-25",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16631,7 +16989,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1936-04-01"
+      "cloneOf": "admin-areas-1936-04-01",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1934-08-01",
@@ -16641,7 +17003,7 @@
       "date": "1934-08-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16664,6 +17026,10 @@
           "url": "https://www.thegazette.co.uk/Belfast/issue/677/page/205",
           "note": "15 Jun 1934, page 205. Made 13 Jun 1934. In force: 1 Aug 1934. 1854 Act adopted for Kilkeel within boundaries approved by order of 16 Apr 1934 (electors met 14 May 1934); 9 commissioners; in force from 1 Aug 1934."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16674,7 +17040,7 @@
       "date": "1933-04-24",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16690,7 +17056,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1936-04-01"
+      "cloneOf": "admin-areas-1936-04-01",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1930-11-25",
@@ -16700,7 +17070,7 @@
       "date": "1930-11-25",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16732,6 +17102,10 @@
           "url": "https://www.thegazette.co.uk/Belfast/issue/492/page/1437",
           "note": "Royal Assent 25 Nov 1930 to the Larne Urban District Council Act (NI) 1930; also cite the bill notice, Belfast Gazette, issue 438, 15 November 1929, pp. 1353-1354."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16742,7 +17116,7 @@
       "date": "1930-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16800,6 +17174,10 @@
           "label": "Census of Population of Northern Ireland 1961: County Borough of Belfast",
           "note": "Area 18,052 acres including 2,237 acres of tidal water; the land 458 acres more than in 1951, all in Victoria Ward, from the reclamation of land from Belfast Lough. 1951: 15,357 acres of land and 1,223 acres of tidal water."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16810,7 +17188,7 @@
       "date": "1929-01-23",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16833,6 +17211,10 @@
           "label": "Census of Population of Northern Ireland 1937: Preliminary Report",
           "note": "Changes in administrative areas since 1926, p. vi, item (c): Coleraine UD made a municipal borough (23 Jan 1929)."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16843,7 +17225,7 @@
       "date": "1929-01-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16860,7 +17242,11 @@
       },
       "labelProperty": "AdministrativeArea",
       "cloneOf": "admin-areas-1928-01-23",
-      "changeNote": "No district line changed on this date; the 1937 Census records only a dispensary change (Londonderry Dispensary Districts Nos. 2 and 3 created, 1 Jan 1929)."
+      "changeNote": "No district line changed on this date; the 1937 Census records only a dispensary change (Londonderry Dispensary Districts Nos. 2 and 3 created, 1 Jan 1929).",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1928-04-17",
@@ -16870,7 +17256,7 @@
       "date": "1928-04-17",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16886,7 +17272,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1928-01-23"
+      "cloneOf": "admin-areas-1928-01-23",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1928-01-23",
@@ -16896,7 +17286,7 @@
       "date": "1928-01-23",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16918,6 +17308,10 @@
           "label": "Census of Population of Northern Ireland 1937: Preliminary Report",
           "note": "Changes in administrative areas since 1926, p. vi, item (b): Bangor UD made a municipal borough (23 Jan 1928)."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -16928,7 +17322,7 @@
       "date": "1927-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16961,7 +17355,11 @@
           "note": "Ministry certificate that the Whitehead Urban District Order, 1926 has taken effect (from 1 Apr 1927)."
         }
       ],
-      "changeNote": "Whitehead, a Towns Improvement Act town in Larne RD, made an urban district (1 Apr 1927; Census 1937). Whitehead UD is not in this edition's file."
+      "changeNote": "Whitehead, a Towns Improvement Act town in Larne RD, made an urban district (1 Apr 1927; Census 1937). Whitehead UD is not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1925-06-24",
@@ -16971,7 +17369,7 @@
       "date": "1925-06-24",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -16987,7 +17385,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1924-06-01"
+      "cloneOf": "admin-areas-1924-06-01",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1925-04-01",
@@ -16997,7 +17399,7 @@
       "date": "1925-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -17035,7 +17437,11 @@
           "note": "Ministry certificate (21 Oct 1924) that no petition was received and the Downpatrick Urban District Order, 1924 has taken effect (UD from 1 Apr 1925)."
         }
       ],
-      "changeNote": "Downpatrick, a Towns Improvement Act town in Downpatrick RD, created an urban district (1 Apr 1925; Census 1926). Downpatrick UD is not in this edition's file."
+      "changeNote": "Downpatrick, a Towns Improvement Act town in Downpatrick RD, created an urban district (1 Apr 1925; Census 1926). Downpatrick UD is not in this edition's file.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1924-06-20",
@@ -17045,7 +17451,7 @@
       "date": "1924-06-20",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -17061,7 +17467,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1924-06-01"
+      "cloneOf": "admin-areas-1924-06-01",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1924-06-01",
@@ -17071,7 +17481,7 @@
       "date": "1924-06-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -17098,7 +17508,11 @@
           "note": "Changes since 1911, p. xviii, item (s): portion of Newtownards RD transferred to Bangor UD (1 Jun 1924). Confirms the day the Gazette reference infers."
         }
       ],
-      "changeNote": "Bangor UD extended into Newtownards RD (1 Jun 1924; Census 1926). Down County Council made the order on 25 Jan 1924 and the Ministry of Home Affairs confirmed it with modifications on 29 May 1924; it took effect for rating from 1 Apr 1925 and for all other purposes from 1 Jun 1924 (Belfast Gazette, issue 153, 30 May 1924, p. 815)."
+      "changeNote": "Bangor UD extended into Newtownards RD (1 Jun 1924; Census 1926). Down County Council made the order on 25 Jan 1924 and the Ministry of Home Affairs confirmed it with modifications on 29 May 1924; it took effect for rating from 1 Apr 1925 and for all other purposes from 1 Jun 1924 (Belfast Gazette, issue 153, 30 May 1924, p. 815).",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1924-04-01",
@@ -17108,7 +17522,7 @@
       "date": "1924-04-01",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -17135,6 +17549,10 @@
           "label": "Census of Population of Northern Ireland 1926: County of Down",
           "note": "Part I, p. vii, item (d), and table notes: Portaferry, Quintin and part of Ardkeen DEDs (Portaferry Dispensary District) transferred from Downpatrick RD on 1 Apr 1924."
         }
+      ],
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
       ]
     },
     {
@@ -17145,7 +17563,7 @@
       "date": "1922-11-13",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -17161,7 +17579,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1921-05-03"
+      "cloneOf": "admin-areas-1921-05-03",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1922-11-11",
@@ -17171,7 +17593,7 @@
       "date": "1922-11-11",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -17187,7 +17609,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1921-05-03"
+      "cloneOf": "admin-areas-1921-05-03",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1922-11-09",
@@ -17197,7 +17623,7 @@
       "date": "1922-11-09",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -17213,7 +17639,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1921-05-03"
+      "cloneOf": "admin-areas-1921-05-03",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1922-11-06",
@@ -17223,7 +17653,7 @@
       "date": "1922-11-06",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -17239,7 +17669,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1921-05-03"
+      "cloneOf": "admin-areas-1921-05-03",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1922-10-31",
@@ -17249,7 +17683,7 @@
       "date": "1922-10-31",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -17265,7 +17699,11 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "cloneOf": "admin-areas-1921-05-03"
+      "cloneOf": "admin-areas-1921-05-03",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "admin-areas-1921-05-03",
@@ -17275,7 +17713,7 @@
       "date": "1921-05-03",
       "featured": true,
       "provider": [
-        "OSNI"
+        "Scott Moore"
       ],
       "keywords": [
         "admin",
@@ -17290,7 +17728,11 @@
         "color": "#8B4513",
         "weight": 2
       },
-      "labelProperty": "AdministrativeArea"
+      "labelProperty": "AdministrativeArea",
+      "sourceCredits": [
+        "Scott Moore",
+        "Derived from Paddy Matthews' district electoral division maps; assembled by Scott Moore from DEDs, with boundary changes from Scott Moore's research"
+      ]
     },
     {
       "id": "ded-1969-04-02",
@@ -22951,7 +23393,8 @@
       "slug": "historic-bullaun-stones",
       "category": "historic",
       "provider": [
-        "Historic Maps"
+        "Department for Communities - Historic Environment Division",
+        "National Monuments Service"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/historic-sites/Bullaun_Stones.fgb",
@@ -22969,11 +23412,23 @@
       ],
       "references": [
         {
-          "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+          "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+          "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+          "note": "Northern Ireland. Open Government Licence v3.0."
+        },
+        {
+          "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+          "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+          "note": "Republic of Ireland. CC BY 4.0."
+        },
+        {
+          "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
           "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-          "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+          "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
         }
-      ]
+      ],
+      "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
     },
     {
       "id": "historic-crannog",
@@ -22981,7 +23436,8 @@
       "slug": "historic-crannog",
       "category": "historic",
       "provider": [
-        "Historic Maps"
+        "Department for Communities - Historic Environment Division",
+        "National Monuments Service"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/historic-sites/Crannog.fgb",
@@ -22998,11 +23454,23 @@
       ],
       "references": [
         {
-          "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+          "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+          "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+          "note": "Northern Ireland. Open Government Licence v3.0."
+        },
+        {
+          "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+          "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+          "note": "Republic of Ireland. CC BY 4.0."
+        },
+        {
+          "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
           "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-          "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+          "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
         }
-      ]
+      ],
+      "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
     },
     {
       "id": "historic-ringfort-cashel",
@@ -23010,7 +23478,8 @@
       "slug": "historic-ringfort-cashel",
       "category": "historic",
       "provider": [
-        "Historic Maps"
+        "Department for Communities - Historic Environment Division",
+        "National Monuments Service"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/historic-sites/Ringfort_Cashel.fgb",
@@ -23028,11 +23497,23 @@
       ],
       "references": [
         {
-          "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+          "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+          "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+          "note": "Northern Ireland. Open Government Licence v3.0."
+        },
+        {
+          "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+          "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+          "note": "Republic of Ireland. CC BY 4.0."
+        },
+        {
+          "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
           "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-          "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+          "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
         }
-      ]
+      ],
+      "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
     },
     {
       "id": "historic-ringfort-rath",
@@ -23040,7 +23521,8 @@
       "slug": "historic-ringfort-rath",
       "category": "historic",
       "provider": [
-        "Historic Maps"
+        "Department for Communities - Historic Environment Division",
+        "National Monuments Service"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/historic-sites/Ringfort_Rath.fgb",
@@ -23058,11 +23540,23 @@
       ],
       "references": [
         {
-          "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+          "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+          "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+          "note": "Northern Ireland. Open Government Licence v3.0."
+        },
+        {
+          "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+          "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+          "note": "Republic of Ireland. CC BY 4.0."
+        },
+        {
+          "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
           "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-          "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+          "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
         }
-      ]
+      ],
+      "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
     },
     {
       "id": "historic-ringfort-unclassified",
@@ -23070,7 +23564,8 @@
       "slug": "historic-ringfort-unclassified",
       "category": "historic",
       "provider": [
-        "Historic Maps"
+        "Department for Communities - Historic Environment Division",
+        "National Monuments Service"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/historic-sites/Ringfort_Unclassified.fgb",
@@ -23088,11 +23583,23 @@
       ],
       "references": [
         {
-          "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+          "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+          "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+          "note": "Northern Ireland. Open Government Licence v3.0."
+        },
+        {
+          "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+          "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+          "note": "Republic of Ireland. CC BY 4.0."
+        },
+        {
+          "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
           "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-          "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+          "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
         }
-      ]
+      ],
+      "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
     },
     {
       "id": "historic-rock-scribing",
@@ -23100,7 +23607,8 @@
       "slug": "historic-rock-scribing",
       "category": "historic",
       "provider": [
-        "Historic Maps"
+        "Department for Communities - Historic Environment Division",
+        "National Monuments Service"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/historic-sites/Rock_Scribing.fgb",
@@ -23118,11 +23626,23 @@
       ],
       "references": [
         {
-          "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+          "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+          "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+          "note": "Northern Ireland. Open Government Licence v3.0."
+        },
+        {
+          "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+          "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+          "note": "Republic of Ireland. CC BY 4.0."
+        },
+        {
+          "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
           "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-          "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+          "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
         }
-      ]
+      ],
+      "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
     },
     {
       "id": "historic-standing-stones",
@@ -23130,7 +23650,8 @@
       "slug": "historic-standing-stones",
       "category": "historic",
       "provider": [
-        "Historic Maps"
+        "Department for Communities - Historic Environment Division",
+        "National Monuments Service"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/historic-sites/Standing_Stones.fgb",
@@ -23148,11 +23669,23 @@
       ],
       "references": [
         {
-          "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+          "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+          "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+          "note": "Northern Ireland. Open Government Licence v3.0."
+        },
+        {
+          "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+          "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+          "note": "Republic of Ireland. CC BY 4.0."
+        },
+        {
+          "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
           "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-          "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+          "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
         }
-      ]
+      ],
+      "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
     },
     {
       "id": "historic-wedge-tomb",
@@ -23160,7 +23693,8 @@
       "slug": "historic-wedge-tomb",
       "category": "historic",
       "provider": [
-        "Historic Maps"
+        "Department for Communities - Historic Environment Division",
+        "National Monuments Service"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/historic-sites/Wedge_Tomb.fgb",
@@ -23178,11 +23712,23 @@
       ],
       "references": [
         {
-          "label": "Internet Archive mirror — Ireland Archaeological Monuments (all-Ireland, CC-BY 4.0)",
+          "label": "Northern Ireland Sites and Monuments Record (Department for Communities, Historic Environment Division) - OpenDataNI",
+          "url": "https://www.opendatani.gov.uk/dataset/northern-ireland-sites-and-monuments-record",
+          "note": "Northern Ireland. Open Government Licence v3.0."
+        },
+        {
+          "label": "data.gov.ie — National Monuments Service - Archaeological Survey of Ireland",
+          "url": "https://data.gov.ie/dataset/national-monuments-service-archaeological-survey-of-ireland",
+          "note": "Republic of Ireland. CC BY 4.0."
+        },
+        {
+          "label": "Internet Archive mirror - Ireland Archaeological Monuments (all-Ireland)",
           "url": "https://archive.org/details/ireland-archaeological-monuments-geojson",
-          "note": "Combined GeoJSON dataset compiled from DfC Historic Environment Record (NI, OGL-NI) and National Monuments Service SMR (Ireland, CC-BY 4.0)."
+          "note": "Combined GeoJSON dataset compiled from the DfC Historic Environment Record (Northern Ireland, Open Government Licence v3.0) and the National Monuments Service SMR (Republic of Ireland, CC BY 4.0)."
         }
-      ]
+      ],
+      "licenceNote": "Northern Ireland: Department for Communities Historic Environment Record, Open Government Licence v3.0. Republic of Ireland: National Monuments Service Sites and Monuments Record, CC BY 4.0.",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence."
     },
     {
       "id": "railways-network",
@@ -23371,7 +23917,7 @@
       "references": [
         {
           "label": "cso.ie — Census 2011 Boundary Files - CSO - Central Statistics Office",
-          "url": "https://www.cso.ie/en/census/census2011boundaryfiles/"
+          "url": "https://www.cso.ie/en/census/census2011reports/census2011boundaryfiles/"
         },
         {
           "label": "Catholic Parishes (Dublin) — Parishes.zip",
@@ -23410,7 +23956,7 @@
       "references": [
         {
           "label": "cso.ie — Census 2011 Boundary Files - CSO - Central Statistics Office",
-          "url": "https://www.cso.ie/en/census/census2011boundaryfiles/"
+          "url": "https://www.cso.ie/en/census/census2011reports/census2011boundaryfiles/"
         },
         {
           "label": "Catholic Dioceses — Diocese.zip",
@@ -24091,6 +24637,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "style": {
         "color": "#1B5E20",
         "weight": 2
@@ -24218,6 +24766,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "style": {
         "color": "#1B5E20",
         "weight": 2
@@ -24346,6 +24896,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "style": {
         "color": "#1B5E20",
         "weight": 2
@@ -24704,6 +25256,8 @@
       "slug": "eds-leinster-1911",
       "category": "electoral-divisions",
       "hidden": true,
+      "retired": true,
+      "replacedBy": "eds-1911",
       "featured": false,
       "provider": [
         "Paddy Matthews"
@@ -24900,6 +25454,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
       },
@@ -25020,6 +25576,8 @@
         "Tailte Éireann",
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
       },
@@ -25046,6 +25604,8 @@
         "Tailte Éireann",
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Leinster_1997.fgb"
       },
@@ -25072,6 +25632,8 @@
         "Tailte Éireann",
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_2019.fgb"
       },
@@ -25098,6 +25660,8 @@
         "Tailte Éireann",
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
       },
@@ -25123,6 +25687,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
       },
@@ -25148,6 +25714,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Leinster_1997.fgb"
       },
@@ -25169,10 +25737,14 @@
       "slug": "eds-munster-1997",
       "category": "electoral-divisions",
       "hidden": true,
+      "retired": true,
+      "replacedBy": "eds-1997",
       "featured": false,
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
       },
@@ -25198,6 +25770,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
       },
@@ -25223,6 +25797,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
       },
@@ -25248,6 +25824,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1994.fgb"
       },
@@ -25269,10 +25847,14 @@
       "slug": "eds-munster-1994",
       "category": "electoral-divisions",
       "hidden": true,
+      "retired": true,
+      "replacedBy": "eds-1994",
       "featured": false,
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
       },
@@ -25298,6 +25880,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
       },
@@ -25323,6 +25907,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Connacht_1986.fgb"
       },
@@ -25348,6 +25934,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
       },
@@ -25915,6 +26503,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1977.fgb"
       },
@@ -25968,6 +26558,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1971.fgb"
       },
@@ -26110,6 +26702,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1971.fgb"
       },
@@ -26135,6 +26729,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1980.fgb"
       },
@@ -26160,6 +26756,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Leinster_1986.fgb"
       },
@@ -26181,10 +26779,14 @@
       "slug": "eds-munster-1986",
       "category": "electoral-divisions",
       "hidden": true,
+      "retired": true,
+      "replacedBy": "eds-1986",
       "featured": false,
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/EDs_Munster_pre_2019.fgb"
       },
@@ -26210,6 +26812,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
       },
@@ -28425,7 +29029,9 @@
             }
           ]
         }
-      ]
+      ],
+      "attribution": "© OpenStreetMap contributors, ODbL. Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
+      "licenceNote": "The OpenStreetMap data is © OpenStreetMap contributors, available under the Open Database Licence (ODbL): https://www.openstreetmap.org/copyright."
     },
     {
       "id": "gsni-bedrock-geology-polygons-250k",
@@ -28449,7 +29055,7 @@
       "references": [
         {
           "label": "GSNI 250K Geology — Open Data NI",
-          "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9"
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-250k-geology"
         }
       ],
       "sourceDownloads": [
@@ -28564,7 +29170,7 @@
       "references": [
         {
           "label": "GSNI 250K Geology — Open Data NI",
-          "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9"
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-250k-geology"
         }
       ],
       "sourceDownloads": [
@@ -28605,7 +29211,7 @@
       "references": [
         {
           "label": "GSNI 250K Geology — Open Data NI",
-          "url": "https://admin.opendatani.gov.uk/dataset/7c00c1f5-6cd3-405d-b79e-61c19c4990b9"
+          "url": "https://admin.opendatani.gov.uk/dataset/gsni-250k-geology"
         }
       ],
       "sourceDownloads": [
@@ -28711,7 +29317,7 @@
         },
         {
           "label": "PDF versions of NI Mineral Maps (British Geological Survey)",
-          "url": "https://www.bgs.ac.uk/mineralsuk/planning/resource.html#NI",
+          "url": "https://web.archive.org/web/20240715215253/https://www2.bgs.ac.uk/mineralsUK/planning/resource.html#NI",
           "note": "External BGS index page listing PDF mineral resource maps for Northern Ireland."
         }
       ],
@@ -32286,7 +32892,7 @@
       "references": [
         {
           "label": "Open Data NI — Heath Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/11cae57f-ed15-4a0d-82b4-86871060a6f3"
+          "url": "https://admin.opendatani.gov.uk/dataset/heath-habitat-network"
         }
       ]
     },
@@ -32470,7 +33076,7 @@
       "references": [
         {
           "label": "Open Data NI — Coastal Sand Dune Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/10a948a6-05d5-498b-853a-430086da439a"
+          "url": "https://admin.opendatani.gov.uk/dataset/coastal-sand-dune-habitat-network"
         }
       ]
     },
@@ -32516,7 +33122,7 @@
       "references": [
         {
           "label": "Open Data NI — Coastal Saltmarsh Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/05953343-682e-4ae7-87c3-801a092f0587"
+          "url": "https://admin.opendatani.gov.uk/dataset/coastal-saltmarsh-habitat-network"
         }
       ]
     },
@@ -32608,7 +33214,7 @@
       "references": [
         {
           "label": "Open Data NI — Ancient Semi-Natural Woodland Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/0602c59a-2e65-40e7-88cf-4335afed4e09"
+          "url": "https://admin.opendatani.gov.uk/dataset/ancient-semi-natural-woodland-habitat-network"
         }
       ]
     },
@@ -32700,7 +33306,7 @@
       "references": [
         {
           "label": "Open Data NI — Limestone Pavement Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/371e68d4-530a-4d1c-b867-44a3ef320411"
+          "url": "https://admin.opendatani.gov.uk/dataset/limestone-pavement-habitat-network"
         }
       ]
     },
@@ -32746,7 +33352,7 @@
       "references": [
         {
           "label": "Open Data NI — Maritime Cliff and Slope Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/2b89ad59-e650-4eca-b974-19dda42a8572"
+          "url": "https://admin.opendatani.gov.uk/dataset/maritime-cliff-and-slope-habitat-network"
         }
       ]
     },
@@ -32792,7 +33398,7 @@
       "references": [
         {
           "label": "Open Data NI — Pond Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/4773a29d-b525-4e50-acae-b4ffa4047279"
+          "url": "https://admin.opendatani.gov.uk/dataset/pond-habitat-network"
         }
       ]
     },
@@ -32838,7 +33444,7 @@
       "references": [
         {
           "label": "Open Data NI — Reedbed Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/2aad7ca5-4619-4519-ab64-4ecfff858e72"
+          "url": "https://admin.opendatani.gov.uk/dataset/reedbed-habitat-network"
         }
       ]
     },
@@ -32930,7 +33536,7 @@
       "references": [
         {
           "label": "Open Data NI — Traditional Orchard Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/c4f05bd7-5dd5-4504-b6d7-23940957c3cd"
+          "url": "https://admin.opendatani.gov.uk/dataset/traditional-orchard-habitat-network"
         }
       ]
     },
@@ -33114,7 +33720,7 @@
       "references": [
         {
           "label": "Open Data NI — Woodland Habitat Networks (grouped) Habitat Network",
-          "url": "https://admin.opendatani.gov.uk/dataset/8cc0d885-994c-432c-af8e-44ff55b4761d"
+          "url": "https://admin.opendatani.gov.uk/dataset/woodland-habitat-networks-grouped"
         }
       ]
     },
@@ -33536,7 +34142,8 @@
         "transport",
         "border crossings 2018"
       ],
-      "hidden": true
+      "hidden": true,
+      "retired": true
     },
     {
       "id": "roads-pedestrian-crossings",
@@ -33559,7 +34166,9 @@
         "transport",
         "pedestrian crossings"
       ],
-      "hidden": true
+      "hidden": true,
+      "retired": true,
+      "replacedBy": "dfi-pedestrian-crossings"
     },
     {
       "id": "rivers-coastal-flood-2018",
@@ -33648,7 +34257,9 @@
         "historic",
         "scheduled historic monument areas"
       ],
-      "hidden": true
+      "hidden": true,
+      "retired": true,
+      "replacedBy": "ni-scheduled-monument-areas"
     },
     {
       "id": "hed-defence-heritage",
@@ -36652,7 +37263,8 @@
         }
       ],
       "labelProperty": "id",
-      "hidden": true
+      "hidden": true,
+      "retired": true
     },
     {
       "id": "dcc-local-authority-offices",
@@ -41583,6 +42195,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1965.fgb"
       },
@@ -41611,6 +42225,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1966-v2.fgb"
       },
@@ -41639,6 +42255,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1977.fgb"
       },
@@ -41667,6 +42285,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1980.fgb"
       },
@@ -41695,6 +42315,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1985.fgb"
       },
@@ -41723,6 +42345,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1986.fgb"
       },
@@ -41751,6 +42375,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1994.fgb"
       },
@@ -41779,6 +42405,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_2002.fgb"
       },
@@ -41842,6 +42470,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1953.fgb"
       },
@@ -41870,6 +42500,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1955.fgb"
       },
@@ -41898,6 +42530,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1957.fgb"
       },
@@ -41928,6 +42562,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral%20Divisions%201986-2019/Wards_DEDs_Munster_1983.fgb"
       },
@@ -41951,6 +42587,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1930.fgb"
       },
@@ -41979,6 +42617,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1931.fgb"
       },
@@ -42007,6 +42647,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1941.fgb"
       },
@@ -42035,6 +42677,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1942.fgb"
       },
@@ -42063,6 +42707,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1944.fgb"
       },
@@ -42091,6 +42737,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1950.fgb"
       },
@@ -42119,6 +42767,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1915_2026-11-21.fgb"
       },
@@ -42145,6 +42795,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1955_2026-11-21.fgb"
       },
@@ -42171,6 +42823,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_Ireland_1957.fgb"
       },
@@ -45946,7 +46600,7 @@
         },
         {
           "label": "Copernicus Digital Elevation Model",
-          "url": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+          "url": "https://web.archive.org/web/20241001175952/https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
           "note": "DEM source used for the prominence-domain model."
         },
         {
@@ -46041,7 +46695,7 @@
         },
         {
           "label": "Copernicus Digital Elevation Model",
-          "url": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+          "url": "https://web.archive.org/web/20241001175952/https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
           "note": "DEM source used for the prominence-domain model."
         },
         {
@@ -46105,7 +46759,9 @@
         }
       ],
       "labelProperty": "TEXTSTRING",
-      "hidden": true
+      "hidden": true,
+      "retired": true,
+      "replacedBy": "osni-open-data-50k-transport-text-labelling"
     },
     {
       "id": "osni-transport-points",
@@ -46140,7 +46796,8 @@
         }
       ],
       "labelProperty": "TEMA",
-      "hidden": true
+      "hidden": true,
+      "retired": true
     },
     {
       "id": "ni-priority-habitats-peatland",
@@ -47894,7 +48551,8 @@
           "note": "OGL v3.0"
         }
       ],
-      "hidden": true
+      "hidden": true,
+      "retired": true
     },
     {
       "id": "bedrock-geology-11000000-ireland-roini-itm",
@@ -47902,7 +48560,7 @@
       "slug": "bedrock-geology-11000000-ireland-roini-itm",
       "category": "geology",
       "provider": [
-        "data.gov.ie"
+        "Geological Survey Ireland"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-geology-11000000-ireland-roini-itm.fgb"
@@ -47944,7 +48602,7 @@
       "slug": "wicklow-county-council-tree-preservation-orders",
       "category": "trees",
       "provider": [
-        "data.gov.ie"
+        "Wicklow County Council"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders.fgb"
@@ -47990,7 +48648,7 @@
       "slug": "wicklow-county-council-tree-preservation-orders-bray",
       "category": "trees",
       "provider": [
-        "data.gov.ie"
+        "Wicklow County Council"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/trees/wicklow-county-council-tree-preservation-orders-bray.fgb"
@@ -48036,7 +48694,7 @@
       "slug": "community-scale-coastal-flood-extents-high-end-future-scenario",
       "category": "flood",
       "provider": [
-        "data.gov.ie"
+        "Office of Public Works"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/flood/community-scale-coastal-flood-extents-high-end-future-scenario.fgb"
@@ -48082,7 +48740,7 @@
       "slug": "community-scale-coastal-flood-extents-mid-range-future-scenario",
       "category": "flood",
       "provider": [
-        "data.gov.ie"
+        "Office of Public Works"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/flood/community-scale-coastal-flood-extents-mid-range-future-scenario.fgb"
@@ -48128,7 +48786,7 @@
       "slug": "accessible-parking-spaces-sdcc3",
       "category": "parking",
       "provider": [
-        "data.gov.ie"
+        "South Dublin County Council"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parking/accessible-parking-spaces-sdcc3.fgb"
@@ -48172,7 +48830,7 @@
       "slug": "community-scale-flood-model-nodes-current-scenario",
       "category": "flood",
       "provider": [
-        "data.gov.ie"
+        "Office of Public Works"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/flood/community-scale-flood-model-nodes-current-scenario.fgb"
@@ -48219,7 +48877,7 @@
       "slug": "river-and-lake-monitoring-points-2024",
       "category": "water",
       "provider": [
-        "Open Data NI"
+        "DAERA"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/water/river-and-lake-monitoring-points-2024.fgb"
@@ -48264,7 +48922,7 @@
       "slug": "water-framework-directive-2nd-cycle-interim-status1",
       "category": "water",
       "provider": [
-        "Open Data NI"
+        "DAERA"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/water/water-framework-directive-2nd-cycle-interim-status1.fgb"
@@ -48309,7 +48967,7 @@
       "slug": "bedrock-boreholes-150000-ireland-roi-itm-unverified",
       "category": "geology",
       "provider": [
-        "data.gov.ie"
+        "Geological Survey Ireland"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/geology/bedrock-boreholes-150000-ireland-roi-itm-unverified.fgb"
@@ -48353,7 +49011,7 @@
       "slug": "cycle-network-survey",
       "category": "cycle",
       "provider": [
-        "data.gov.ie"
+        "National Transport Authority"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/cycle/cycle-network-survey.fgb"
@@ -48397,7 +49055,7 @@
       "slug": "co-wicklow-polling-stations",
       "category": "polling",
       "provider": [
-        "data.gov.ie"
+        "Wicklow County Council"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/polling/co-wicklow-polling-stations.fgb"
@@ -48439,7 +49097,7 @@
       "slug": "co-wicklow-protected-structures",
       "category": "heritage",
       "provider": [
-        "data.gov.ie"
+        "Wicklow County Council"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/heritage/co-wicklow-protected-structures.fgb"
@@ -48482,7 +49140,7 @@
       "slug": "landscape-character-types",
       "category": "landscape",
       "provider": [
-        "data.gov.ie"
+        "Monaghan County Council"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/landscape/landscape-character-types.fgb"
@@ -48524,7 +49182,7 @@
       "slug": "museums-collections-archives",
       "category": "museums",
       "provider": [
-        "data.gov.ie"
+        "Heritage Council"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/museums/museums-collections-archives.fgb"
@@ -48567,7 +49225,7 @@
       "slug": "wicklow-fire-stations",
       "category": "fire-stations",
       "provider": [
-        "data.gov.ie"
+        "Wicklow County Council"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/fire-stations/wicklow-fire-stations.fgb"
@@ -48609,7 +49267,7 @@
       "slug": "greater-dublin-area-cycle-infrastructure-nta",
       "category": "cycle",
       "provider": [
-        "data.gov.ie"
+        "National Transport Authority"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/cycle/greater-dublin-area-cycle-infrastructure-nta.fgb"
@@ -48653,7 +49311,7 @@
       "slug": "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks",
       "category": "parks",
       "provider": [
-        "data.gov.ie"
+        "Dublin City Council"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/parks/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks.fgb"
@@ -48697,7 +49355,7 @@
       "slug": "use-zoning-objectives1",
       "category": "planning",
       "provider": [
-        "data.gov.ie"
+        "South Dublin County Council"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/planning/use-zoning-objectives1.fgb"
@@ -48780,7 +49438,7 @@
       "slug": "oda-map-00101-dail-constituencies-2013-sdcc",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "South Dublin County Council"
       ],
       "dateAdded": null,
       "license": "CC0 1.0",
@@ -48813,7 +49471,7 @@
       "slug": "oda-map-00093-boundaries",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -48844,7 +49502,7 @@
       "dateKind": "as-at",
       "dateNote": "downloaded 8 Jul 2026, with applications received up to 17 Jun 2026",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -48872,7 +49530,7 @@
       "slug": "oda-map-00118-planning-exemptions-local-authorities",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Department of Housing, Local Government and Heritage"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -48893,7 +49551,8 @@
           "note": "CC BY 4.0"
         }
       ],
-      "hidden": true
+      "hidden": true,
+      "retired": true
     },
     {
       "id": "oda-map-00119-planning-exemptions-settlements",
@@ -48901,7 +49560,7 @@
       "slug": "oda-map-00119-planning-exemptions-settlements",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Department of Housing, Local Government and Heritage"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -48922,7 +49581,8 @@
           "note": "CC BY 4.0"
         }
       ],
-      "hidden": true
+      "hidden": true,
+      "retired": true
     },
     {
       "id": "oda-map-00120-polling-stations-for-general-election-2024-fcc",
@@ -48930,7 +49590,7 @@
       "slug": "oda-map-00120-polling-stations-for-general-election-2024-fcc",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Fingal County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -48958,7 +49618,7 @@
       "slug": "oda-map-00121-polling-stations-presidential-election-2025-fcc",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Fingal County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -48986,7 +49646,7 @@
       "slug": "oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49014,7 +49674,7 @@
       "slug": "oda-map-00140-electoral-areas-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49052,7 +49712,7 @@
       "slug": "oda-map-00150-co-wicklow-polling-districts",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Wicklow County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49081,7 +49741,7 @@
       "slug": "oda-map-00152-galway-county-council-polling-stations",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Galway County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49109,7 +49769,7 @@
       "slug": "oda-map-00153-local-election-areas",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Galway County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49142,7 +49802,7 @@
       "slug": "oda-map-00154-local-election-results-2014-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49170,7 +49830,7 @@
       "slug": "oda-map-00155-local-election-results-2019-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49198,7 +49858,7 @@
       "slug": "oda-map-00156-polling-districts-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49226,7 +49886,7 @@
       "slug": "oda-map-00157-polling-districts-2019-sdcc",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "South Dublin County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49254,7 +49914,7 @@
       "slug": "oda-map-00158-polling-station-locations-2024-sdcc",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "South Dublin County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49283,7 +49943,7 @@
       "slug": "oda-map-00159-polling-stations-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49311,7 +49971,7 @@
       "slug": "oda-map-00205-4dublin-pipeline-all",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Department of Housing, Local Government and Heritage"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49342,7 +50002,7 @@
       "dateKind": "as-at",
       "dateNote": "downloaded 8 Jul 2026 (Department of Housing open data, linked from data.gov.ie)",
       "provider": [
-        "data.gov.ie"
+        "Department of Housing, Local Government and Heritage"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49370,7 +50030,7 @@
       "slug": "oda-map-00224-gzt-current-plan",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Department of Housing, Local Government and Heritage"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49401,7 +50061,7 @@
       "dateKind": "as-at",
       "dateNote": "downloaded 8 Jul 2026 (Roscommon County Council open data, linked from data.gov.ie)",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49432,7 +50092,7 @@
       "dateKind": "as-at",
       "dateNote": "downloaded 8 Jul 2026 (South Dublin County Council open data, linked from data.gov.ie)",
       "provider": [
-        "data.gov.ie"
+        "South Dublin County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49463,7 +50123,7 @@
       "dateKind": "as-at",
       "dateNote": "downloaded 8 Jul 2026 (Westmeath County Council open data, linked from data.gov.ie)",
       "provider": [
-        "data.gov.ie"
+        "Westmeath County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49491,7 +50151,7 @@
       "slug": "oda-map-00330-cityboundary",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Galway City Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49519,7 +50179,7 @@
       "slug": "oda-map-00343-galway-city-electoral-divisions",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Galway City Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49547,7 +50207,7 @@
       "slug": "oda-map-00358-galway-city-polling-districts-opendata",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Galway City Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49575,7 +50235,7 @@
       "slug": "oda-map-00370-angling-stands-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49603,7 +50263,7 @@
       "slug": "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49631,7 +50291,7 @@
       "slug": "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49659,7 +50319,7 @@
       "slug": "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49687,7 +50347,7 @@
       "slug": "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49715,7 +50375,7 @@
       "slug": "oda-map-00387-arts-facilities-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49743,7 +50403,7 @@
       "slug": "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49771,7 +50431,7 @@
       "slug": "oda-map-00398-ballaghaderreen-lap-2012-2018-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49799,7 +50459,7 @@
       "slug": "oda-map-00399-ballaghaderreen-lap-2017-2023-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49827,7 +50487,7 @@
       "slug": "oda-map-00415-bicycle-warning-signs-fcc",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Fingal County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49855,7 +50515,7 @@
       "slug": "oda-map-00421-boyle-lap-2012-2018-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49883,7 +50543,7 @@
       "slug": "oda-map-00422-boyle-lap-2015-2021-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49911,7 +50571,7 @@
       "slug": "oda-map-00438-car-parking-locations-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49939,7 +50599,7 @@
       "slug": "oda-map-00439-castlerea-lap-2012-2018-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49967,7 +50627,7 @@
       "slug": "oda-map-00440-castlerea-lap-2016-2022-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -49995,7 +50655,7 @@
       "slug": "oda-map-00451-certificate-of-registration-locations-sdcc",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "South Dublin County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50016,7 +50676,8 @@
           "note": "CC BY 4.0"
         }
       ],
-      "hidden": true
+      "hidden": true,
+      "retired": true
     },
     {
       "id": "oda-map-00454-civic-amenity-sites-roscommon",
@@ -50024,7 +50685,7 @@
       "slug": "oda-map-00454-civic-amenity-sites-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50052,7 +50713,7 @@
       "slug": "oda-map-00469-cootehall-lap-2009-2015-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50080,7 +50741,7 @@
       "slug": "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50108,7 +50769,7 @@
       "slug": "oda-map-00472-cortober-lap-2014-2020-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50136,7 +50797,7 @@
       "slug": "oda-map-00475-county-council-offices-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50164,7 +50825,7 @@
       "slug": "oda-map-00497-cycleways-sdcc",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "South Dublin County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50192,7 +50853,7 @@
       "slug": "oda-map-00553-elphin-lap-2014-2020-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50220,7 +50881,7 @@
       "slug": "oda-map-00571-fossit-3-town",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50248,7 +50909,7 @@
       "slug": "oda-map-00583-geological-sites-audit-2012-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50276,7 +50937,7 @@
       "slug": "oda-map-00589-hedgerows",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50304,7 +50965,7 @@
       "slug": "oda-map-00591-hodson-bay-lap-2014-2020-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50332,7 +50993,7 @@
       "slug": "oda-map-00610-land-use-zoning-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50360,7 +51021,7 @@
       "slug": "oda-map-00612-landscape-character-areas-roscommon-cdp-2014-2020-expired",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50388,7 +51049,7 @@
       "slug": "oda-map-00613-landscape-character-areas-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50416,7 +51077,7 @@
       "slug": "oda-map-00615-landscape-character-types-roscommon-cdp-2014-2020-expired",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50444,7 +51105,7 @@
       "slug": "oda-map-00620-libraries-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50472,7 +51133,7 @@
       "slug": "oda-map-00625-locations",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50500,7 +51161,7 @@
       "slug": "oda-map-00627-lough-key-lap-2015-2021-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50528,7 +51189,7 @@
       "slug": "oda-map-00634-monksland-bellanamullia-lap-2010-2016-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50556,7 +51217,7 @@
       "slug": "oda-map-00635-monksland-bellanamullia-lap-2016-2022-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50584,7 +51245,7 @@
       "slug": "oda-map-00639-municipal-district",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Westmeath County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50622,7 +51283,7 @@
       "slug": "oda-map-00647-operational-areas-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50650,7 +51311,7 @@
       "slug": "oda-map-00649-other-community-facilities",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50678,7 +51339,7 @@
       "slug": "oda-map-00661-playgrounds-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50706,7 +51367,7 @@
       "slug": "oda-map-00687-public-moorings-and-piers-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50734,7 +51395,7 @@
       "slug": "oda-map-00689-public-slipways-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50762,7 +51423,7 @@
       "slug": "oda-map-00694-record-of-protected-structures-roscommon-cdp-2014-2020-expired",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50790,7 +51451,7 @@
       "slug": "oda-map-00695-record-of-protected-structures-roscommon-cdp-2022-2028",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50818,7 +51479,7 @@
       "slug": "oda-map-00698-recycle-bring-banks-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50846,7 +51507,7 @@
       "slug": "oda-map-00704-roosky-lap-2009-2015-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50874,7 +51535,7 @@
       "slug": "oda-map-00705-roscommon-community-parks",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50902,7 +51563,7 @@
       "slug": "oda-map-00707-roscommon-lap-2008-2014-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50930,7 +51591,7 @@
       "slug": "oda-map-00708-roscommon-lap-2014-2020-expired-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50958,7 +51619,7 @@
       "slug": "oda-map-00709-roscommon-public-parks",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -50986,7 +51647,7 @@
       "slug": "oda-map-00732-scenic-routes-roscommon-cdp-2014-2020",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51014,7 +51675,7 @@
       "slug": "oda-map-00733-scenic-routes-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51042,7 +51703,7 @@
       "slug": "oda-map-00734-scenic-views-roscommon-cdp-2014-2020",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51070,7 +51731,7 @@
       "slug": "oda-map-00735-scenic-views-roscommon-cdp-2022-2028",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51098,7 +51759,7 @@
       "slug": "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51126,7 +51787,7 @@
       "slug": "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51154,7 +51815,7 @@
       "slug": "oda-map-00755-sports-facilities-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51182,7 +51843,7 @@
       "slug": "oda-map-00786-thatch-building-survey-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51210,7 +51871,7 @@
       "slug": "oda-map-00791-tourism-attractions-roscommon",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51238,7 +51899,7 @@
       "slug": "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51266,7 +51927,7 @@
       "slug": "oda-map-00808-treelines",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51294,7 +51955,7 @@
       "slug": "oda-map-00822-water-district-areas-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51322,7 +51983,7 @@
       "slug": "oda-map-00829-westmeath-county-council-libraries",
       "category": "Points of Interest",
       "provider": [
-        "data.gov.ie"
+        "Westmeath County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51350,7 +52011,7 @@
       "slug": "oda-map-00859-wildlife-corridors",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51378,7 +52039,7 @@
       "slug": "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51406,7 +52067,7 @@
       "slug": "oda-map-00862-winter-service-plan-routes-roscommon",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Roscommon County Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51434,15 +52095,14 @@
       "slug": "oda-map-00913-covid-19-hse-daily-booster-vaccination-figures",
       "category": "Points of Interest",
       "provider": [
-        "Tailte Éireann",
-        "data.gov.ie"
+        "Tailte Éireann"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
       "licence": "CC BY 4.0",
       "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
       "files": {
-        "source": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures"
+        "source": "https://web.archive.org/web/20251113123509/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures"
       },
       "keywords": [
         "open-data",
@@ -51452,7 +52112,7 @@
       "references": [
         {
           "label": "Tailte/OSI/data.gov.ie — COVID-19 HSE Daily Booster Vaccination Figures",
-          "url": "https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
+          "url": "https://web.archive.org/web/20251113123509/https://data.gov.ie/dataset/covid-19-hse-daily-booster-vaccination-figures",
           "note": "CC BY 4.0"
         }
       ]
@@ -51463,15 +52123,14 @@
       "slug": "oda-map-00914-covid-19-hse-daily-vaccination-figures",
       "category": "Points of Interest",
       "provider": [
-        "Tailte Éireann",
-        "data.gov.ie"
+        "Tailte Éireann"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
       "licence": "CC BY 4.0",
       "attribution": "Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.",
       "files": {
-        "source": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures"
+        "source": "https://web.archive.org/web/20251116192831/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures"
       },
       "keywords": [
         "open-data",
@@ -51481,7 +52140,7 @@
       "references": [
         {
           "label": "Tailte/OSI/data.gov.ie — COVID-19 HSE Daily Vaccination Figures",
-          "url": "https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
+          "url": "https://web.archive.org/web/20251116192831/https://data.gov.ie/dataset/covid-19-hse-daily-vaccination-figures",
           "note": "CC BY 4.0"
         }
       ]
@@ -51492,7 +52151,7 @@
       "slug": "oda-map-01042-architectural-conservation-areas",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Cork City Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -51520,7 +52179,7 @@
       "slug": "oda-map-01068-cork-city-zoning-development-plan-2022-2028",
       "category": "Boundaries",
       "provider": [
-        "data.gov.ie"
+        "Cork City Council"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -55386,6 +56045,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1915_2026-08-16.fgb?v=abc360d66f4dec0a2405b311920e7e72"
       },
@@ -55417,6 +56078,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-06-19_2026-08-16.fgb?v=777e5687834655f391e9e7c391b5c574"
       },
@@ -55448,6 +56111,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-06-25_2026-08-16.fgb?v=a6d41694167bd1473db1743c54d51f99"
       },
@@ -55479,6 +56144,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-10-04_2026-08-16.fgb?v=d06bac802dab8c945b413c9928a92b04"
       },
@@ -56949,7 +57616,7 @@
         },
         {
           "label": "Cavan County Archives, Cootehill Rural District Council minute books, RDC1/7 (11 Feb 1916 - 23 Mar 1917), and Cootehill Board of Guardians minute books, BG68 (to 30 Mar 1917)",
-          "url": "https://www.cavanlibrary.ie/cavan-history/archives-department/collections/the-rural-district-councils/rural-district-councils.pdf",
+          "url": "https://www.cavanlibrary.ie/media/sizn1e1j/rural-district-councils.pdf",
           "note": "The archive's description of the minutes of 9 Feb 1917: the Local Government Board intended to dissolve Cootehill Poor Law Union and add it to Cavan Poor Law Union, and to amalgamate Cootehill No. 1 Rural District with Cavan Rural District. Both series end in March 1917."
         },
         {
@@ -56963,7 +57630,7 @@
         },
         {
           "label": "Poor Relief (Ireland) Act 1838 (1 & 2 Vict. c. 56), s. 16",
-          "url": "https://www.irishstatutebook.ie/1838/en/act/pub/0056/sec0016.html",
+          "url": "https://www.irishstatutebook.ie/eli/1838/act/56/section/16/enacted/en/html",
           "note": "The Poor Law Commissioners' (later the Local Government Board's) power to dissolve a union and add its townlands to another by sealed order. Every union change of 1916-1921 was made by such an order."
         }
       ],
@@ -57424,12 +58091,12 @@
         },
         {
           "label": "Local Government (Temporary Provisions) Act 1923 (No. 9 of 1923), s. 7",
-          "url": "https://www.irishstatutebook.ie/1923/en/act/pub/0009/sec0007.html",
+          "url": "https://www.irishstatutebook.ie/eli/1923/act/9/section/7/enacted/en/html",
           "note": "County schemes abolishing the boards of guardians and passing the relief of the poor to county boards of health and public assistance."
         },
         {
           "label": "Adaptation (Vaccination (Ireland) Acts) Order 1925 (S.R. & O. No. 948 of 1925), recital",
-          "url": "https://www.irishstatutebook.ie/1925/en/si/0948.html",
+          "url": "https://www.irishstatutebook.ie/eli/1925/sro/948/made/en/print",
           "note": "By 13 Feb 1925 every board of guardians in the Free State had been abolished except those of Balrothery, the Dublin Union and Rathdown (read through search extracts; the page could not be fetched)."
         },
         {
@@ -59384,7 +60051,8 @@
           "type": "CSV"
         }
       ],
-      "hidden": true
+      "hidden": true,
+      "retired": true
     },
     {
       "id": "local-authorities-1921",
@@ -59395,6 +60063,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1921.fgb"
       },
@@ -59422,6 +60092,8 @@
       "provider": [
         "Phelim Birch"
       ],
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1927.fgb"
       },
@@ -59520,7 +60192,8 @@
           "type": "CSV"
         }
       ],
-      "hidden": true
+      "hidden": true,
+      "retired": true
     },
     {
       "id": "pobal-hp-2006-ed",
@@ -59597,7 +60270,8 @@
           "type": "CSV"
         }
       ],
-      "hidden": true
+      "hidden": true,
+      "retired": true
     }
   ]
 }

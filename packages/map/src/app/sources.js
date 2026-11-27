@@ -98,7 +98,7 @@ export class SourcePanelMethods {
       name.classList.add('active-layer-item__name--link');
       name.setAttribute('role', 'button');
       name.setAttribute('tabindex', '0');
-      name.title = "Open this map's page";
+      name.title = 'Details'; // Phelim Birch, 27 Nov 2026
       const open = () => {
         // Reveal the catalogue pane if the app is in map-only mode.
         if (uiController.currentStateId === 'map-full') uiController.setSplitState('info-full');

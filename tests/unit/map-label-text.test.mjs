@@ -9,7 +9,7 @@ import {
   resolveLabelPointsUrl,
   titleCaseCaps
 } from '@civgraph/map/renderer/label-text.mjs';
-import { getFeatureLabel, getLabelLines, getLabelStyle, irishSecondLineField, setIrishNameFields } from '@civgraph/map/renderer/labels.js';
+import { getFeatureLabel, getLabelLines, getLabelStyle, irishSecondLineField, labelFieldsForDetails, setIrishNameFields } from '@civgraph/map/renderer/labels.js';
 import { boundaryLevelOf } from '@civgraph/maps-pipeline/boundary-levels.mjs';
 import { labelPointColumns } from '@civgraph/maps-pipeline/label-data.mjs';
 import { SITE } from '@civgraph/config';
@@ -147,6 +147,20 @@ test('map labels: the Irish second line for every reader once the map has loaded
     setIrishNameFields({ layers: {}, hints: ['ED_GAEILGE'] });
     assert.equal(irishSecondLineField({ id: 'x', labelProperty: 'ED_ENGLISH', popupProperties: ['ED_GAEILGE'] }), 'ED_GAEILGE');
     assert.equal(irishSecondLineField({ id: 'y', labelProperty: 'NAME' }), null, 'no Irish property: English alone');
+  } finally {
+    setIrishNameFields(null);
+    if (saved === undefined) delete globalThis.civgraphI18n; else globalThis.civgraphI18n = saved;
+  }
+});
+
+test('Details page label fields: the English field and the Irish one the labels carry', () => {
+  const saved = globalThis.civgraphI18n;
+  delete globalThis.civgraphI18n;
+  try {
+    setIrishNameFields({ layers: { 'local-authorities-2024': 'GLE_NAME_VALUE' }, hints: ['GAEILGE'] });
+    assert.deepEqual(labelFieldsForDetails({ id: 'local-authorities-2024', labelProperty: 'ENG_NAME_VALUE' }), { english: 'ENG_NAME_VALUE', irish: 'GLE_NAME_VALUE' });
+    assert.deepEqual(labelFieldsForDetails({ id: 'md', labelProperty: 'ENGLISH', popupProperties: ['ENGLISH', 'GAEILGE'] }), { english: 'ENGLISH', irish: 'GAEILGE' });
+    assert.deepEqual(labelFieldsForDetails({ id: 'stormont-1969', labelProperty: 'NAME' }), { english: 'NAME', irish: '' });
   } finally {
     setIrishNameFields(null);
     if (saved === undefined) delete globalThis.civgraphI18n; else globalThis.civgraphI18n = saved;

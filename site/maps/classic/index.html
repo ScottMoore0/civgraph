@@ -73,7 +73,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=1611796e7f3c" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=6b45eed787d1" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -109,7 +109,7 @@
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
 <link rel="stylesheet" href="/assets/ui/base.css?v=3afe8b0c1381">
 <link rel="stylesheet" href="/assets/site/site-chrome.css?v=d305c1a0d14b">
-<script defer src="/assets/site/site-chrome.js?v=aa6cbb81bd4d"></script>
+<script defer src="/assets/site/site-chrome.js?v=55992f98f38b"></script>
 <!-- /site:head -->
 <!-- The shell's tokens ask for dark form controls in dark mode (color-scheme: dark). The map app
      has never had that, and some of its catalogue buttons take the browser's default colours, so
@@ -127,14 +127,14 @@
        and is fetched alongside it. It was loaded after the first paint (media=print, then
        onload), and arriving it moved the catalogue, the map controls and the map itself: most
        of the page's layout shift, 0.27 on a desktop (QA 2026-11-11, M16). -->
-    <link rel="stylesheet" href="/build/main.css?v=f2f842d36cb5">
-  <link rel="stylesheet" href="/app/build/app.bundle.css?v=cfe6e13129d8">
+    <link rel="stylesheet" href="/build/main.css?v=1af81aa6da3f">
+  <link rel="stylesheet" href="/app/build/app.bundle.css?v=45634e545c0f">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
-  <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=80c11b5dd47d" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=653592d18790" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=3d510df5c6bd" media="print" onload="this.media='all'">
   <noscript>
-    <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=80c11b5dd47d">
+    <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=653592d18790">
     <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=3d510df5c6bd">
   </noscript>
 
@@ -529,10 +529,12 @@
                        tile services need an ArcGIS licence. -->
                   <option value="osm-standard" selected>Street map (OpenStreetMap data)</option>
                 <optgroup label="Dark & Modern">
+                  <!-- A choice only: the default stays light in the dark theme too (owner, 27 Nov 2026). -->
+                  <option value="openfreemap-dark">Dark map (OpenFreeMap Dark)</option>
                 </optgroup>
                 <optgroup label="Other Street Maps">
                   <!-- OpenFreeMap Liberty, the default until 23 Nov 2026 (styling plan OT22): the default is
-                       now the quieter Positron, or OpenFreeMap Dark in the dark theme. -->
+                       now the quieter Positron, in the light and the dark theme alike (owner, 27 Nov 2026). -->
                   <option value="openfreemap-liberty">Detailed street map (OpenFreeMap Liberty)</option>
                   <option value="osm-humanitarian">OpenStreetMap Humanitarian</option>
                 </optgroup>
@@ -740,7 +742,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=1611796e7f3c"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=6b45eed787d1"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

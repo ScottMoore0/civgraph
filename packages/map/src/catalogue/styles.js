@@ -221,6 +221,7 @@ export const CATALOGUE_CSS = `
 .cn-about .cn-label { display: block; margin-bottom: 4px; }
 .cn-about__links { font-size: 12.5px; color: var(--cn-muted); }
 .cn-about__links a { color: var(--cn-link); }
+.cn-about__by { font-size: 12.5px; color: var(--cn-muted); }
 /* A map's own description, at the head of its facts in the opened row (view-maps.js mapDescriptionHtml). */
 .cn-mapdesc { font-size: 13px; line-height: 1.5; color: var(--cn-text); max-width: 68ch; }
 .cn-mapdesc p { margin: 0 0 6px; }

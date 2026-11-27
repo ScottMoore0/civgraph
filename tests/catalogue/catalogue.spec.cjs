@@ -1,4 +1,4 @@
-// The rebuilt catalogue in the browser, against the local test site (tools/test-site/), which
+// The rebuilt catalogue in the browser, against the local test site (tools/dev-site/), which
 // switches it on. C01-C23 are the capability checklist (CAPABILITIES.md): every capability of the
 // current pane, kept or deliberately replaced. N01-N07 cover what is new.
 const { test, expect } = require('@playwright/test');
@@ -20,6 +20,11 @@ const row = (page, id) => pane(page).locator(`[data-cn-series="${id}"]`);
 const menuItem = (page, text) => page.locator('.cn-menu [role="menuitem"]', { hasText: text });
 // An edition in an opened row's dated list: the button that opens its facts, versions and parts.
 const pick = (r, label) => r.locator(`.cn-dlist__more[aria-label="${label}: facts, versions and parts"]`);
+/** Open a map in a row's list: the open one's button closes it (N59), so click only when it is closed. */
+const openPick = async (r, label) => {
+  if ((await pick(r, label).getAttribute('aria-expanded')) !== 'true') await pick(r, label).click();
+  await expect(pick(r, label)).toHaveAttribute('aria-expanded', 'true');
+};
 const route = (page) => page.evaluate(() => new URLSearchParams(location.hash.slice(1)).get('cat'));
 const loaded = (page) => page.evaluate(() => window.__civgraphTest2.app.getLoadedLayerIds());
 
@@ -468,7 +473,7 @@ test('N17 council maps follow their edition; hovers name the unit; parts downloa
   // The 2019 ED council maps show with the 2019 edition only.
   const ed = row(page, 'electoral-divisions-electoral-divisions');
   await ed.locator('[data-cn-expand]').click();
-  await pick(ed, '2019').click();
+  await openPick(ed, '2019');
   await expect(ed.locator('.cn-sub', { hasText: 'Council maps' })).toContainText('Fingal (2019)');
   await pick(ed, '1997').click();
   await expect(ed.locator('.cn-sub', { hasText: 'Council maps' })).toHaveCount(0);
@@ -971,7 +976,9 @@ test('N27 an open election gets more of the screen: a narrower catalogue, shorte
 
 test('N27 the language control: typing the phrase shows it, nothing else does, and an ordinary visit loads none of it', async ({ page }) => {
   const i18n = [];
-  page.on('request', (r) => { if (r.url().includes('/assets/i18n/')) i18n.push(r.url()); });
+  // The map itself loads place-name-fields.json for the Irish second line on labels, shown to every
+  // reader (owner, 24 Nov 2026); the language control's own files must still stay unloaded.
+  page.on('request', (r) => { if (r.url().includes('/assets/i18n/') && !r.url().includes('/assets/i18n/place-name-fields.json')) i18n.push(r.url()); });
   const flag = () => page.evaluate(() => localStorage.getItem('civgraph.langPreview'));
   await open(page);
   await expect(page.locator('[data-lang-switch]')).toHaveCount(0);
@@ -1335,22 +1342,36 @@ test('N55 a map\'s own description shows in its row, as on its Details page; a m
   await open(page);
   await pane(page).locator('[data-cn-tab="statistics"]').click();
   const description = (id) => page.evaluate((x) => window.uiController._catalogueNext.mapDescription(x), id);
-  // A row of one map: under the row's description, when the row is opened.
-  const single = catalogue.series.find((s) => s.id === 'census-statistics-median-age');
-  const one = row(page, single.id);
-  await one.scrollIntoViewIfNeeded();
-  await expect(one.locator('.cn-mapdesc')).toHaveCount(0);
-  await one.locator('[data-cn-expand]').click();
-  const text = await description(single.members[0].id);
-  expect(text.length).toBeGreaterThan(0);
-  await expect(one.locator('.cn-panel .cn-mapdesc')).toHaveText(text);
+  // A row of one map: under the row's description, when the row is opened. The first one-map census row
+  // whose map still has a description of its own (the AI-written ones were blanked, owner 24 Nov 2026).
+  let single = null;
+  for (const s of catalogue.series.filter((x) => /^census-statistics-/.test(x.id) && x.members.length === 1)) {
+    if ((await description(s.members[0].id)).length) { single = s; break; }
+  }
+  if (single) {
+    const one = row(page, single.id);
+    await one.scrollIntoViewIfNeeded();
+    await expect(one.locator('.cn-mapdesc')).toHaveCount(0);
+    await one.locator('[data-cn-expand]').click();
+    const text = await description(single.members[0].id);
+    expect(text.length).toBeGreaterThan(0);
+    await expect(one.locator('.cn-panel .cn-mapdesc')).toHaveText(text);
+  }
   // A row of several: the description of the map whose line is opened, and only that one.
-  const several = catalogue.series.find((s) => s.id === 'census-statistics-usual-resident-population');
+  let several = null;
+  let other = null;
+  for (const s of catalogue.series.filter((x) => /^census-statistics-/.test(x.id) && x.members.length > 1)) {
+    if (!(await description(s.members[0].id)).length) continue;
+    for (const m of s.members.slice(1)) {
+      if ((await description(m.id)).length) { several = s; other = m; break; }
+    }
+    if (several) break;
+  }
+  expect(several).not.toBeNull();
   const r = row(page, several.id);
   await r.scrollIntoViewIfNeeded();
   await r.locator('[data-cn-expand]').click();
   await expect(r.locator('.cn-mapdesc')).toHaveCount(1);
-  const other = several.members[1];
   await pick(r, other.label).click();
   await expect(r.locator('.cn-dlist__item--open .cn-mapdesc')).toHaveText(await description(other.id));
   await expect(r.locator('.cn-mapdesc')).toHaveCount(1);
@@ -1425,4 +1446,72 @@ test('N58 a hidden copy or version of a map opens that map\'s Details page; a re
   await expect.poll(detail).toBe('eu-referendum-2016');
   await expect.poll(hashDetail).toBe('eu-referendum-2016');
   await expect(page.locator('#catalogueDetailView .catalogue-detail__name')).toContainText('Referendum');
+});
+
+/* ------------------------------------------------------------------ Phelim Birch's review, 26 Nov 2026 */
+
+test('N59 the open map\'s button closes it again; another map\'s opens that one', async ({ page }) => {
+  await open(page);
+  await row(page, LGD).locator('[data-cn-expand]').click();
+  const r = row(page, LGD);
+  await pick(r, '1985').click();
+  await expect(pick(r, '1985')).toHaveAttribute('aria-expanded', 'true');
+  await pick(r, '1985').click();
+  await expect(pick(r, '1985')).toHaveAttribute('aria-expanded', 'false');
+  await expect(r.locator('.cn-dlist__item--open')).toHaveCount(0);
+  await pick(r, '1985').click();
+  await expect(r.locator('.cn-dlist__item--open')).toContainText('1985');
+});
+
+test('N60 the Details page: a one-map row\'s main map does not end its Section line with its own name; its council map does', async ({ page }) => {
+  await open(page);
+  const trail = page.locator('#catalogueDetailView .catalogue-detail__trail');
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('roi-municipal-districts-2019'));
+  await expect(page.locator('#catalogueDetailView .catalogue-detail__name')).toHaveText('Municipal Districts');
+  await expect(trail).not.toContainText('Municipal Districts');
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('oda-map-00639-municipal-district'));
+  await expect(trail).toHaveText(/› Municipal Districts$/);
+  // The label and its value do not run together.
+  const gap = await page.locator('#catalogueDetailView .catalogue-detail__meta-row').first().evaluate((el) => getComputedStyle(el).columnGap);
+  expect(parseFloat(gap)).toBeGreaterThan(0);
+});
+
+test("N61 the Details page's colour is the row's, as the catalogue shows it, not a map's older own colour", async ({ page }) => {
+  const s = catalogue.series.find((x) => x.members.some((m) => m.id === 'local-authorities-1927'));
+  expect(catalogue.maps['local-authorities-1927'].color.toLowerCase()).not.toBe(s.color.toLowerCase());
+  await open(page);
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('local-authorities-1927'));
+  const swatch = page.locator('#catalogueDetailView .catalogue-detail__color');
+  const hex = (c) => '#' + c.match(/\d+/g).slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0')).join('');
+  await expect.poll(async () => hex(await swatch.evaluate((el) => getComputedStyle(el).backgroundColor))).toBe(s.color.toLowerCase());
+});
+
+test('N62 leaving a Details page returns to its map\'s row, not the top of the catalogue', async ({ page }) => {
+  await open(page);
+  // The last row drawn, well down the list: its first map's page opened as the layer list opens it.
+  const last = await pane(page).locator('[data-cn-series]').last().getAttribute('data-cn-series');
+  const s = catalogue.series.find((x) => x.id === last);
+  expect(s?.members?.length).toBeGreaterThan(0);
+  await page.evaluate(() => { const p = document.querySelector('.pane__content[data-tab-content="catalogue"]'); if (p) p.scrollTop = 0; });
+  await page.evaluate((id) => window.uiController.showCatalogueDetailView(id), s.members[0].id);
+  await expect(page.locator('#catalogueDetailView')).toBeVisible();
+  await page.locator('#catalogueBackLink').click();
+  await expect(row(page, last)).toBeInViewport();
+  await expect(row(page, last).locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
+});
+
+test('N63 adding a map leaves the view where it was (each layer has its own Zoom button)', async ({ page }) => {
+  await open(page);
+  const view = () => page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const c = map.getCenter();
+    return [Number(c.lng.toFixed(4)), Number(c.lat.toFixed(4)), Number(map.getZoom().toFixed(2))];
+  });
+  const before = await view();
+  const chip = row(page, LGD).locator(`.cn-chips [data-cn-toggle="${LGD_NEWEST}"]`);
+  await chip.scrollIntoViewIfNeeded();
+  await chip.click();
+  await expect.poll(() => loaded(page)).toContain(LGD_NEWEST);
+  await page.waitForTimeout(600);
+  expect(await view()).toEqual(before);
 });

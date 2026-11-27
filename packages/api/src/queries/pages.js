@@ -4,7 +4,7 @@
  * CARDS.bySlug/byAlias (cards.js), shared with the Browse index.
  */
 import { T } from './tables.js';
-import { PERSON_SLUG_COL } from './elections.js';
+import { OWN_CITATION, PERSON_SLUG_COL } from './elections.js';
 
 export const ELECTION_PAGES = Object.freeze({
   /** [slug] -> { card }: a grouped local-election year's Browse card */
@@ -26,8 +26,8 @@ export const ELECTION_PAGES = Object.freeze({
   contest: 'SELECT seq, name, slug, seats_total AS seatsTotal, electorate, quota, turnout_pct AS turnoutPct, source_file AS sourceFile, meta FROM contests WHERE election_key = ?1 AND seq = ?2',
   /** [key, seq] -> the contest page's candidates */
   candidates: `SELECT ord, name, person_id AS personId, ${PERSON_SLUG_COL}, party_label AS party, party_as_printed AS partyAsPrinted, colour, first_prefs AS firstPrefs, final_votes AS finalVotes, elected, status FROM candidacies WHERE election_key = ?1 AND contest_seq = ?2 ORDER BY first_prefs DESC, ord`,
-  /** [sourceFile] -> { title, publisher, url, host, kind }: a contest's citations */
-  citations: "SELECT title, publisher, url, host, kind FROM citations WHERE subject_type = 'contest' AND subject_key = ?1 ORDER BY ord",
+  /** [sourceFile] -> { title, publisher, url, host, kind }: a contest's own citations (elections.js OWN_CITATION) */
+  citations: "SELECT title, publisher, url, host, kind FROM citations ci WHERE subject_type = 'contest' AND subject_key = ?1 AND " + OWN_CITATION + ' ORDER BY ord',
   /** [key] -> the election page's contest list */
   contests: 'SELECT seq, name, slug, seats_total AS seatsTotal, winner_party AS winnerParty, winner_name AS winnerName FROM contests WHERE election_key = ?1 ORDER BY seq',
 });

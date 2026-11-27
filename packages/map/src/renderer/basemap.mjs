@@ -19,10 +19,11 @@
  *   3. OpenStreetMap's own raster tiles, muted, as the last resort only, with the credit always
  *      shown (muted so a failover does not jump from a quiet map to a loud one).
  *
- * In the dark theme the chain is DARK_BASEMAP_CHAIN: OpenFreeMap Dark (the same provider), then
- * Positron, then OpenStreetMap's tiles inverted. A provider's `tone` says whether it is dark, so
- * the map's labels take dark halos on it (BasemapManager.tone). Liberty stays a choice in Map
- * Settings (CHOOSABLE_STYLE_BASE_MAPS) for readers who navigate by roads.
+ * The default is light in the dark theme too: a dark base map is never the default (owner, 27 Nov
+ * 2026, reversing the dark default of the styling plan OT22, decision 4). OpenFreeMap Dark is a
+ * choice in Map Settings (CHOOSABLE_STYLE_BASE_MAPS), as is Liberty for readers who navigate by
+ * roads. A provider's `tone` says whether it is dark, so the map's labels take dark halos on it
+ * (BasemapManager.tone). DARK_BASEMAP_CHAIN is kept for a chain a test names, not as a default.
  *
  * Providers considered and left out (terms checked 11 Nov 2026, see LANDING notes):
  *   - CARTO basemaps: an API key in every tile URL since 2026 (keyless requests are served with
@@ -100,7 +101,7 @@ export const OPENFREEMAP_POSITRON = Object.freeze({
   styleUrl: 'https://tiles.openfreemap.org/styles/positron'
 });
 
-/** OpenFreeMap's Dark style: the dark theme's base map. @type {StyleProvider} */
+/** OpenFreeMap's Dark style: a choice in Map Settings, never the default (owner, 27 Nov 2026). @type {StyleProvider} */
 export const OPENFREEMAP_DARK = Object.freeze({
   ...OPENFREEMAP_LIBERTY,
   id: 'openfreemap-dark',
@@ -124,16 +125,17 @@ export const OSM_DARK_TILES = Object.freeze({
 /** The default base map, in the order tried. */
 export const DEFAULT_BASEMAP_CHAIN = Object.freeze([OPENFREEMAP_POSITRON, OPENFREEMAP_LIBERTY, OSM_MUTED_TILES]);
 
-/** The default base map in the dark theme, in the order tried. */
+/** A dark chain, in the order tried: no longer the dark theme's default (owner, 27 Nov 2026). */
 export const DARK_BASEMAP_CHAIN = Object.freeze([OPENFREEMAP_DARK, OPENFREEMAP_POSITRON, OSM_DARK_TILES]);
 
 /**
- * The default chain for the page's theme.
- * @param {unknown} theme  'dark', or anything else for light
+ * The default chain, whatever the page's theme: a dark base map is never the default, even in the
+ * dark theme (owner, 27 Nov 2026). The theme is still passed by callers and ignored here.
+ * @param {unknown} _theme
  * @returns {readonly BasemapProvider[]}
  */
-export function defaultChainFor(theme) {
-  return theme === 'dark' ? DARK_BASEMAP_CHAIN : DEFAULT_BASEMAP_CHAIN;
+export function defaultChainFor(_theme) {
+  return DEFAULT_BASEMAP_CHAIN;
 }
 
 /**
@@ -151,7 +153,9 @@ export function basemapTone(provider) {
  * @type {Readonly<Record<string, StyleProvider>>}
  */
 export const CHOOSABLE_STYLE_BASE_MAPS = Object.freeze({
-  [OPENFREEMAP_LIBERTY.id]: OPENFREEMAP_LIBERTY
+  [OPENFREEMAP_LIBERTY.id]: OPENFREEMAP_LIBERTY,
+  // The dark map, for readers who want it: a choice only, never the default (owner, 27 Nov 2026).
+  [OPENFREEMAP_DARK.id]: OPENFREEMAP_DARK
 });
 
 /**

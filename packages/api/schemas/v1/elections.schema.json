@@ -952,6 +952,12 @@
                         "string",
                         "null"
                       ]
+                    },
+                    "urlDead": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
                     }
                   },
                   "required": [
@@ -966,7 +972,8 @@
                     "scope",
                     "match",
                     "checkNote",
-                    "accessed"
+                    "accessed",
+                    "urlDead"
                   ]
                 }
               }
@@ -1074,6 +1081,12 @@
                   "string",
                   "null"
                 ]
+              },
+              "urlDead": {
+                "type": [
+                  "number",
+                  "null"
+                ]
               }
             },
             "required": [
@@ -1088,7 +1101,8 @@
               "scope",
               "match",
               "checkNote",
-              "accessed"
+              "accessed",
+              "urlDead"
             ]
           }
         }
@@ -1190,6 +1204,12 @@
                   "string",
                   "null"
                 ]
+              },
+              "urlDead": {
+                "type": [
+                  "number",
+                  "null"
+                ]
               }
             },
             "required": [
@@ -1204,7 +1224,8 @@
               "scope",
               "match",
               "checkNote",
-              "accessed"
+              "accessed",
+              "urlDead"
             ]
           }
         }
@@ -1264,6 +1285,18 @@
               },
               "contests": {
                 "type": "number"
+              },
+              "archiveUrl": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "urlDead": {
+                "type": [
+                  "number",
+                  "null"
+                ]
               }
             },
             "required": [
@@ -1272,7 +1305,9 @@
               "url",
               "host",
               "kind",
-              "contests"
+              "contests",
+              "archiveUrl",
+              "urlDead"
             ]
           }
         }

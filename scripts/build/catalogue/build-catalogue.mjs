@@ -31,7 +31,7 @@ import path from 'node:path';
 import { loadRecords, otherSubject } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '@civgraph/core/date-format.mjs';
 import { cutNote } from '@civgraph/core/text-cut.mjs';
-import { combinedDerivedFromLines, derivedFromLines } from '@civgraph/core/credits.mjs';
+import { combinedDerivedFromLines, derivedFromLines, rowCreditGroups } from '@civgraph/core/credits.mjs';
 import { openSqliteHandle } from '@civgraph/storage/node';
 import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '@civgraph/loader/paths.mjs';
 import { altNames, catalogueIrishNames, oldIdsByRow } from './alt-names.mjs';
@@ -86,7 +86,8 @@ import { ELECTION_GROUPS, catalogueGroupRow } from '@civgraph/map/election-group
  * @typedef {{
  *   id: string, slug: string, name: string, subject: string, shelf: string | undefined, scope: string, arrangement: string,
  *   kind: string, members: Member[], todo?: Labelled[], local?: (Labelled & { of?: string })[], years?: number[],
- *   thumb?: string, color?: string, provider?: string[], derivedFrom?: string[], status?: Record<string, number>, aliases?: string[], alt?: string[],
+ *   thumb?: string, color?: string, provider?: string[], derivedFrom?: string[], credits?: import('@civgraph/core/credits.mjs').RowCreditGroup[],
+ *   status?: Record<string, number>, aliases?: string[], alt?: string[],
  *   description?: string, about?: unknown
  * }} SeriesOut
  */
@@ -139,8 +140,17 @@ const ALT = {
 };
 // What a row or an election is, in a few sentences with their links (Phelim Birch's
 // descriptions document): shown when it is opened, on a map's Details page and on Browse.
-/** @type {{ rows?: Record<string, unknown>, elections?: Record<string, unknown> }} */
+/** @type {{ rows?: Record<string, unknown>, elections?: Record<string, unknown>, author?: unknown }} */
 const descriptions = read('data/catalogue/descriptions.json');
+/** Who wrote the descriptions (descriptions.json `author`), '' when it names nobody. */
+const descriptionAuthor = typeof descriptions.author === 'string' ? descriptions.author.trim() : '';
+/**
+ * A description with its author, credited under it wherever it is shown: "Description: Phelim
+ * Birch" (citations review P07, owner-approved 24 Nov 2026).
+ * @param {unknown} about
+ * @returns {unknown}
+ */
+const describedBy = (about) => (descriptionAuthor && about && typeof about === 'object' ? { ...about, by: descriptionAuthor } : about);
 // Maps kept out of the pane on purpose, each with its reason; their parts may be placed instead.
 const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
 /** @type {{ records: Map<string, MapRecord>, parts: Map<string, PartLink[]> }} */
@@ -523,13 +533,20 @@ for (const s of source.series) {
   if (c) entry.color = c;
   if (provs.length) entry.provider = provs;
   if (derivedFrom.length) entry.derivedFrom = derivedFrom;
+  // A row whose maps have different makers credits each maker with its own maps' derived-from
+  // lines, in the row's order; a one-map group names its edition (packages/core/src/credits.mjs).
+  const credits = rowCreditGroups(members.map((m) => {
+    const rec = /** @type {MapOut} */ (out.maps[m.id]);
+    return { provider: rec.provider, derivedFrom: rec.derivedFrom, label: s.arrangement === 'editions' && !m.of ? `${m.label} edition` : '' };
+  }));
+  if (credits.length) entry.credits = credits;
   if (!recs.length) entry.status = { placeholder: todoRecs.length };
   else if (statusCounts['ready'] !== recs.length) entry.status = statusCounts;
   if (s.aliases?.length) entry.aliases = s.aliases;
   const alt = altNames(entry, { irishNames: ALT.irishNames, mapIrish: (id) => ALT.overlay[id]?.ga, oldIds: ALT.oldIds.get(s.id) || [], subjectIds: ALT.subjectIds });
   if (alt.length) entry.alt = alt;
   if (s.description) entry.description = s.description;
-  if (descriptions.rows?.[s.id]) entry.about = descriptions.rows[s.id];
+  if (descriptions.rows?.[s.id]) entry.about = describedBy(descriptions.rows[s.id]);
   seriesOut.push(entry);
 }
 for (const sub of source.subjects) for (const id of sub.toBeAdded || []) addMap(id);
@@ -582,7 +599,7 @@ const electionsOut = [...elections.filter((e) => !isNiLocalCouncilRound(e)).map(
   if (e.bodyGroup) rec.bodyGroup = e.bodyGroup;
   if (e.placeholder || e.loadable === false) rec.mapless = true;
   if (e.displaySubtitle) rec.subtitle = e.displaySubtitle;
-  if (descriptions.elections?.[e.key]) rec.about = descriptions.elections[e.key];
+  if (descriptions.elections?.[e.key]) rec.about = describedBy(descriptions.elections[e.key]);
   // Where it was held: Westminster elections before 1922 were all-Ireland ones.
   // The 1918 general election, filed as the first Dail's, was an all-island Westminster election.
   // A body data/registries/election-bodies.json describes says where its elections were held

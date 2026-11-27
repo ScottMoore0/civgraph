@@ -55,7 +55,7 @@ compatibility redirect.
 | `pages-deploy-watch.yml` | today | a deploy that fails after CI passes |
 | `validate-directory-name-references.mjs` | today | the reference surface, classified by blast radius |
 | `validate-asset-references.mjs` | earlier | every `src`/`href` path exists post-build |
-| `validate-r2-serving-parity.mjs` | earlier | every referenced R2 object exists |
+| `verify-r2-parity.mjs` | earlier | every referenced R2 object exists |
 
 The first is the one that would have caught the `js/` breakage on the first
 push. **Let it prove itself over a few commits before starting this.**

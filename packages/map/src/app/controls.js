@@ -232,10 +232,11 @@ export class MapControlMethods {
   }
 
   /**
-   * The default base map follows the theme: OpenFreeMap Positron in the light theme, OpenFreeMap
-   * Dark in the dark one (styling plan OT22, decision 4, approved 21 and 23 Nov 2026;
-   * packages/map/src/renderer/basemap.mjs DARK_BASEMAP_CHAIN). A base map the reader chose (Map
-   * Settings, or an address naming one) is never changed by the theme.
+   * Shows the default base map (OpenFreeMap Positron) when the reader has not chosen one. It is the
+   * same in the light and the dark theme: a dark base map is never the default (owner, 27 Nov 2026,
+   * reversing the styling plan OT22, decision 4), so a theme change no longer calls this
+   * (site-chrome.js). A base map the reader chose (Map Settings, or an address naming one) stands.
+   * OpenFreeMap Dark is a choice in Map Settings.
    *
    * History: T1-06 first made this follow the theme with CARTO's dark tiles; from 26 Aug 2026
    * dark mode kept the light map, because CARTO began printing "API KEY REQUIRED" across every
@@ -249,7 +250,8 @@ export class MapControlMethods {
     if (this.userPickedBasemap) return null;
     const wanted = DEFAULT_BASE_MAP_ID;
     this.baseMapId = wanted;
-    const theme = document.documentElement.dataset['theme'] === 'dark' ? 'dark' : 'light';
+    // Light in either theme (basemap.mjs defaultChainFor).
+    const theme = 'light';
     const map = this.mapController?.map;
     if (map) await this.whenStyleLoaded();
     // The reader may have chosen a base map while the style loaded: that choice stands.

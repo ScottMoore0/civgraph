@@ -38,7 +38,7 @@ import { pathToFileURL } from 'node:url';
 import { BROWSE_DIR, localPathForUrl } from '@civgraph/loader/paths.mjs';
 import { SITE as SITE_CONFIG } from '@civgraph/config/node';
 import { PAGE_TYPE_IDS } from '@civgraph/ui/page-types.mjs';
-import { INFO_PAGES, INFO_PAGES_LIVE } from '@civgraph/ui/templates/info-pages.js';
+import { livePages } from '@civgraph/ui/templates/info-pages.js';
 
 const SITE = SITE_CONFIG.origin;
 const OUT_DIR = 'sitemaps';
@@ -71,8 +71,8 @@ export const TOP_LEVEL_PAGES = [
   '/pages/census-explorer',
   '/pages/status',
   '/pages/api',
-  // Privacy, Licence, How to cite and Downloads, once the owner sets INFO_PAGES_LIVE.
-  ...(INFO_PAGES_LIVE ? INFO_PAGES.map((p) => p.path) : []),
+  // The information pages the owner has made public (Licence and How to cite since 24 Nov 2026).
+  ...livePages().map((p) => p.path),
 ];
 
 // Browse types with a path-style page (the page-types registry, packages/ui/src/page-types.mjs),

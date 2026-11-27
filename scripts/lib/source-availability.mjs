@@ -30,3 +30,24 @@ export function sourceAvailabilityDisplay(availability) {
     status: seen ? `${REMOVED_FROM_SOURCE_CHIP} (found missing on ${seen})` : REMOVED_FROM_SOURCE_CHIP,
   };
 }
+
+/**
+ * @typedef {{ url: string | null, originalUrl: string | null }} AvailabilityLinks
+ */
+
+/**
+ * Which address a source record links. A record removed from its source with an archived copy
+ * (availability.archiveUrl: Civgraph's mirror, else an Internet Archive capture) links the copy,
+ * and its original address is kept as originalUrl, shown as no longer available (owner, 27 Nov
+ * 2026). Any other record links its own url.
+ * @param {string | null | undefined} url  the record's url
+ * @param {unknown} availability  the record's availability field
+ * @returns {AvailabilityLinks}
+ */
+export function sourceAvailabilityLinks(url, availability) {
+  const own = typeof url === 'string' && url ? url : null;
+  if (!sourceAvailabilityDisplay(availability)) return { url: own, originalUrl: null };
+  const archive = /** @type {{ archiveUrl?: unknown }} */ (availability).archiveUrl;
+  if (typeof archive !== 'string' || !/^https?:\/\//.test(archive) || archive === own) return { url: own, originalUrl: null };
+  return { url: archive, originalUrl: own };
+}

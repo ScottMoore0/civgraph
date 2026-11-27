@@ -8,7 +8,6 @@
 <link rel="canonical" href="https://civgraph.net/pages/cite">
 <meta name="description" content="How to cite Civgraph, a record page, a PRONI record, a map or map feature, a dataset snapshot or the API, and the original sources behind them.">
 <!-- site:draft-head -->
-<meta name="robots" content="noindex">
 <!-- /site:draft-head -->
 <link href="/assets/pages/img/19df3a5428cb.png" rel="icon"/>
 <!-- site:head -->
@@ -20,7 +19,7 @@
 <link rel="stylesheet" href="/assets/ui/tokens-legacy.css?v=17646fa133f3">
 <link rel="stylesheet" href="/assets/ui/base.css?v=3afe8b0c1381">
 <link rel="stylesheet" href="/assets/site/site-chrome.css?v=d305c1a0d14b">
-<script defer src="/assets/site/site-chrome.js?v=aa6cbb81bd4d"></script>
+<script defer src="/assets/site/site-chrome.js?v=55992f98f38b"></script>
 <!-- /site:head -->
 <link rel="stylesheet" href="/assets/pages/css/shared.css">
 <link rel="stylesheet" href="/assets/pages/css/about.css?v=47fd44933677">
@@ -84,7 +83,6 @@
 <main id="main-content">
 <div class="wrap wrap--wide">
 <!-- site:draft-banner -->
-<p class="draft-banner"><strong>Draft, not yet published.</strong> This page is not linked from the site and is hidden from search engines until the owner approves it.</p>
 <!-- /site:draft-banner -->
 <nav class="info-toc" aria-label="On this page"><a href="#original">The original source</a><a href="#addresses">Addresses to cite</a><a href="#site">The site</a><a href="#record">A record page</a><a href="#proni">A PRONI record</a><a href="#map">A map or map feature</a><a href="#dataset">A dataset snapshot</a><a href="#api">The API</a></nav>
 
@@ -178,7 +176,7 @@ ER  - </pre>
 
 <section id="dataset">
 <h2>A dataset snapshot</h2>
-<p>For work that others should be able to repeat, cite the <a href="/pages/downloads">bulk download</a> you used, by its version. Downloads are published as versioned snapshots: each records database has a version in its file name, and its SHA-256 checksum is in the <a href="https://data.civgraph.net/data/downloads/manifest.json">downloads manifest</a>. Cite the versioned name, not <code>civgraph-records-latest</code>, which moves to each new snapshot.</p>
+<p>For work that others should be able to repeat, cite the bulk download you used, by its version. Downloads are published as versioned snapshots: each records database has a version in its file name, and its SHA-256 checksum is in the <a href="https://data.civgraph.net/data/downloads/manifest.json">downloads manifest</a>. Cite the versioned name, not <code>civgraph-records-latest</code>, which moves to each new snapshot.</p>
 <h3>Plain text</h3>
 <p class="cite-block">Civgraph contributors (2026). Civgraph records database, version e97ec87cc8acb0f0 [dataset]. https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0.sqlite.gz. SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214.</p>
 <h3>BibTeX (biblatex)</h3>
@@ -202,12 +200,12 @@ UR  - https://data.civgraph.net/data/downloads/civgraph-records-e97ec87cc8acb0f0
 Y2  - 2026-11-11
 N1  - SHA-256 19bb27034016f1b43eb5bb13846d2a038580887d8fca02777978094be5a59214
 ER  - </pre>
-<p>The version above was current on 9 November 2026. The <a href="/pages/downloads">Downloads</a> page shows the current one.</p>
+<p>The version above was current on 9 November 2026. The <a href="https://data.civgraph.net/data/downloads/manifest.json">downloads manifest</a> names the current one.</p>
 </section>
 
 <section id="api">
 <h2>The API</h2>
-<p>If you used the <a href="/pages/downloads#api">API</a>, cite the request address and the date you made it. For repeatable work, cite the dataset snapshot as well, since the API always answers from the newest records.</p>
+<p>If you used the <a href="/pages/api">API</a>, cite the request address and the date you made it. For repeatable work, cite the dataset snapshot as well, since the API always answers from the newest records.</p>
 <p class="cite-block">Civgraph contributors (2026). Civgraph API v1, /api/v1/persons?slug=[person] [data set]. https://civgraph.net/api/v1/persons?slug=[person] (accessed 11 November 2026).</p>
 </section>
 </div>
@@ -225,13 +223,15 @@ ER  - </pre>
 <a href="/browse/">Browse</a>
 <a href="/pages/about">About</a>
 <a href="/pages/api">API</a>
+<a href="/pages/cite">How to cite</a>
+<a href="/pages/licence">Licence</a>
 <a href="mailto:scott@civgraph.net?subject=Civgraph%20map%20submission&body=What%20the%20map%20shows%20%28the%20area%2C%20the%20subject%2C%20and%20the%20year%20or%20period%20it%20covers%29%3A%0A%0A%0AWhere%20it%20came%20from%20%28who%20made%20it%2C%20and%20where%20you%20got%20it%29%3A%0A%0A%0AWhat%20form%20it%20is%20in%20%28a%20scan%2C%20a%20PDF%2C%20a%20shapefile%2C%20GeoJSON%2C%20or%20something%20else%29%3A%0A%0A%0AWhether%20it%20can%20be%20republished%2C%20and%20under%20what%20licence%2C%20if%20you%20know%3A%0A%0A%0AYour%20name%2C%20if%20you%20would%20like%20the%20contribution%20credited%3A%0A%0A">Submit a map</a>
 </nav>
 </div>
 <div class="ftr__rule"></div>
 <div class="ftr__bottom">
 <p class="ftr__tagline">All the data on Ireland’s history, geography, politics and demographics.</p>
-<div class="ftr__meta">© Civgraph</div>
+<div class="ftr__meta">© Civgraph contributors · <a href="/pages/licence">Licence</a></div>
 </div>
 </div>
 </footer>

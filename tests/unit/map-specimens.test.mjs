@@ -62,8 +62,11 @@ test('timeline: ticks with the first, last and one year a decade, and the change
   assert.match(panel, /\(1977\)/);
   assert.match(panel, /and 1 more step: step one edition at a time/);
   assert.match(panel, /Catalogue note:/);
-  // Going back in time, a new area reads as abolished.
-  assert.match(timelineChangesPanelHtml({ ...TIMELINE_CHANGES_SAMPLE, reversed: true }), /timeline-changes-panel__type--abolished">Abolished</);
+  // Going back in time, a change still reads as what happened at its date (Phelim Birch, 26 Nov 2026).
+  const back = timelineChangesPanelHtml({ ...TIMELINE_CHANGES_SAMPLE, reversed: true });
+  assert.match(back, /timeline-changes-panel__type--created">New</);
+  assert.doesNotMatch(back, /type--abolished/);
+  assert.match(timelineChangesPanelHtml({ ...TIMELINE_CHANGES_SAMPLE, changes: [{ type: 'merged', text: 'A and B merged to form C', key: '0:c1' }] }), /timeline-changes-panel__type--merged">Merged</);
 });
 
 test('timeline: the changes heading names when the changes took effect, not the span stepped across', () => {

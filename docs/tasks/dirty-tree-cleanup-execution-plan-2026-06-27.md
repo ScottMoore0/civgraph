@@ -216,7 +216,7 @@ Verification:
 npm run check:test2
 npm run check:test
 node scripts/check/rules/cdn-manifest.mjs
-node scripts/validate-test2-pmtiles-cdn.mjs
+node scripts/publish/verify-pmtiles-cdn-urls.mjs
 node scripts/validate-pages-file-budget.mjs
 git diff --cached --stat
 git diff --cached

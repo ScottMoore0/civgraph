@@ -70,7 +70,7 @@ let storeOpening = null;
 // out empty, empty means unscoped, and this began uploading all 817 archives; 252 went
 // to R2 before it was stopped. The operator had asked for 41.
 //
-// This is the same fail-open that switch-test-pmtiles-to-cdn.mjs was fixed for two days
+// This is the same fail-open that switch-pmtiles-to-cdn.mjs was fixed for two days
 // earlier -- the fix was applied there and not here, because the bug was recorded as
 // "that tool ignores --ids" rather than as a shape that any scoped tool can have. It is
 // the shape that matters: an explicit narrowing that silently widens is the most

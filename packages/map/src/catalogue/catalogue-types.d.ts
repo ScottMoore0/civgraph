@@ -32,6 +32,8 @@ export interface CatalogueOrder {
 export interface CatalogueAbout {
   text?: string[];
   links?: Array<{ url: string; label: string }>;
+  /** who wrote it (descriptions.json `author`), credited under it */
+  by?: string;
 }
 
 /** A map of the catalogue as its row draws it (the document's `maps`, by id). */
@@ -63,6 +65,8 @@ export interface CatalogueRow extends CatalogueSeries {
   kind: string;
   /** The derived-from lines of the row's maps, each once. */
   derivedFrom?: string[];
+  /** A row whose maps have different makers: each maker's group, in the row's order (rowCreditLine). */
+  credits?: import('../../../core/src/credits.mjs').RowCreditGroup[];
   members: CatalogueRowMember[];
   local?: CatalogueRowMember[];
   todo?: CatalogueRowMember[];
