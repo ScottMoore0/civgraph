@@ -60,7 +60,7 @@ python -E -X utf8 scripts/records/qub/build-qub-db.py --records tmp/qub/qub-full
 node scripts/dev/qub-server.mjs --db tmp/qub/qub-catalogue.sqlite --port 8796      # http://localhost:8796/qub
 ```
 
-The built database is at D:	vgraph-intakequb-appppqub-catalogue.sqlite (copy) and in this worktree's
+The built database is at D:\civgraph-intake\qub-app\app\qub-catalogue.sqlite (copy) and in this worktree's
 tmp/qub/ (gitignored, with the parsed harvest qub-full.sqlite and labels.sqlite: D: was too full and too slow to
 work on). Screenshots: D:\civgraph-intake\qub-app\screenshots\.
 
