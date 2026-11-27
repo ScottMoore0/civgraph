@@ -6,6 +6,19 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..', '..');
+
+// The base map: since 27 Nov 2026 the default is OpenStreetMap's own tiles (tile.openstreetmap.org,
+// then tile.openstreetmap.de; packages/map/src/renderer/basemap.mjs). These tests are about the
+// catalogue, not the base map (tests/browser/basemap.spec.cjs tests that), so a blank tile stands in
+// for both servers: the OSMF's tile policy asks for no heavy automated use, and a slow tile server
+// kept the map from settling within open()'s wait. The service worker fetches tiles itself, out of
+// the routes' reach, so it is blocked.
+const BLANK_TILE = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
+test.use({ serviceWorkers: 'block' });
+test.beforeEach(async ({ page }) => {
+  await page.route((url) => url.hostname === 'tile.openstreetmap.org' || url.hostname === 'tile.openstreetmap.de',
+    (route) => route.fulfill({ contentType: 'image/png', body: BLANK_TILE }));
+});
 const catalogue = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/catalogue/catalogue.json'), 'utf8'));
 const books = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/database/books.json'), 'utf8')).books || [];
 const LGD = 'local-government-local-government-districts';
