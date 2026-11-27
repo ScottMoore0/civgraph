@@ -73,7 +73,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=44c6bad6e304" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=4135f95de95c" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -128,7 +128,7 @@
        onload), and arriving it moved the catalogue, the map controls and the map itself: most
        of the page's layout shift, 0.27 on a desktop (QA 2026-11-11, M16). -->
     <link rel="stylesheet" href="/build/main.css?v=1af81aa6da3f">
-  <link rel="stylesheet" href="/app/build/app.bundle.css?v=fb0f26faa807">
+  <link rel="stylesheet" href="/app/build/app.bundle.css?v=45634e545c0f">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=653592d18790" media="print" onload="this.media='all'">
@@ -740,7 +740,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=44c6bad6e304"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=4135f95de95c"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

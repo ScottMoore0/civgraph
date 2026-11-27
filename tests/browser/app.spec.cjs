@@ -2486,18 +2486,28 @@ test('restores and persists detail, source, hidden layer, and panel URL state', 
   await expect(page.locator('#activeLayersList')).toContainText('Civil Parishes');
   // The layer's name opens its page (the old "i" button).
   await expect(page.locator('#activeLayersList .active-layer-item__name--link').first()).toBeVisible();
-  // A long name is cut short inside its box, clear of the buttons, its whole name on hover
-  // (Phelim Birch, 26 Nov 2026: "Municipal Districts, Roscommon" ran under them).
+  // A long name wraps inside its box, clear of the buttons, shown whole (Phelim Birch, 26 Nov 2026:
+  // "Municipal Districts, Roscommon" ran under them; 27 Nov: "always shown fully and not cut off").
+  // Its hover text is "Details".
   const fit = await page.locator('#activeLayersList .active-layer-item__name--link').first().evaluate((name) => {
     name.textContent = 'Municipal Districts, Roscommon (operational areas) and a much longer name besides';
     const box = /** @type {HTMLElement} */ (name.parentElement).getBoundingClientRect();
     const actions = /** @type {HTMLElement} */ (name.closest('.active-layer-item')?.querySelector('.active-layer-item__actions')).getBoundingClientRect();
     const r = name.getBoundingClientRect();
-    return { inBox: r.left >= box.left - 0.5 && r.right <= box.right + 0.5, clear: r.right <= actions.left + 0.5, title: name.title };
+    const lineHeight = parseFloat(getComputedStyle(name).lineHeight) || 16;
+    return {
+      inBox: r.left >= box.left - 0.5 && r.right <= box.right + 0.5,
+      clear: r.right <= actions.left + 0.5,
+      whole: name.scrollWidth <= name.clientWidth + 1 && getComputedStyle(name).textOverflow !== 'ellipsis',
+      wrapped: r.height > lineHeight * 1.5,
+      title: name.title,
+    };
   });
   expect(fit.inBox).toBe(true);
   expect(fit.clear).toBe(true);
-  expect(fit.title).toMatch(/: open this map's page$/);
+  expect(fit.whole).toBe(true);
+  expect(fit.wrapped).toBe(true);
+  expect(fit.title).toBe('Details');
   await expect(page.locator('#mapControlPanel')).toHaveClass(/map-control-panel--expanded/);
   await expect(page.locator('#baseMapSelect')).toHaveValue('opentopomap');
 

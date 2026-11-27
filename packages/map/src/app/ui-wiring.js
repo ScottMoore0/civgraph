@@ -103,7 +103,9 @@ export class UiWiringMethods {
       const navMark = this.navIndex;
       this.beginNavigation(`Added ${this.mapLabel(mapId)}`);
       try {
-        await this.loadMap(mapId);
+        // The map is drawn where the reader is looking: each layer's Zoom button goes to it
+        // (Phelim Birch, 27 Nov 2026: "Loading a map shouldn't automatically zoom to it").
+        await this.loadMap(mapId, { fit: false });
       } catch (error) {
         this.navigationPush.clear();
         this.undoNavigationSince(navMark);
@@ -184,7 +186,7 @@ export class UiWiringMethods {
     uiController.onCheckMapSettled = (mapId) => this.settleOutcomes?.get(mapId) || 'unknown';
     uiController.onCheckMapVisible = (mapId) => this.isMapVisible(mapId);
     uiController.onReorderLayers = (ids) => this.setActiveLayerOrder(ids);
-    uiController.onExpandToFullMap = async (mapId) => this.loadMap(mapId);
+    uiController.onExpandToFullMap = async (mapId) => this.loadMap(mapId, { fit: false });
     uiController.onPartialFeatureToggle = (mapId, featureIndex) => {
       this.mapController.togglePartialFeature(mapId, featureIndex);
       this.syncCatalogueMapState();

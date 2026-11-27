@@ -246,6 +246,8 @@ class UIController {
         this.catalogueHistory = [];
         this.catalogueHistoryIndex = -1;
         this.catalogueView = 'list'; // 'list' or 'detail'
+        /** The map whose row the catalogue returns to when a Details page closes. @type {string | null} */
+        this._returnMapId = null;
         /** @type {MapListOptions} */
         this._lastMapListOptions = {};
         /** @type {Set<string>} */
@@ -482,6 +484,8 @@ class UIController {
         if (addToHistory) {
             this._pushCatalogueHistoryEntry({ type: 'detail', mapId });
         }
+        // Back to the catalogue returns to this map's row (showCatalogueListView).
+        this._returnMapId = map.id;
 
         this._rememberDetailViewState();
         this._currentDetailViewKey = null;
@@ -1558,6 +1562,9 @@ class UIController {
     showCatalogueListView(addToHistory = false) {
         this._rememberDetailViewState();
         this._currentDetailViewKey = null;
+        // Leaving a Details page: the list opens at its map's row, not at the top (Phelim Birch, 27 Nov 2026).
+        const returnMapId = this.catalogueView === 'detail' ? this._returnMapId : null;
+        this._returnMapId = null;
         this.catalogueView = 'list';
         this._catalogueBookView = null;
 
@@ -1577,7 +1584,12 @@ class UIController {
         // Show list, hide detail
         listView.classList.remove('hidden');
         detailView.classList.add('hidden');
-        this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
+        const rendered = this.requestFlatViewRender(this._lastMapListOptions || {}, { defer: this.isMobile });
+        if (returnMapId) {
+            rendered.then(() => {
+                if (this.catalogueView === 'list' && catalogueNextRequested()) this._catalogueNext?.returnToMap?.(returnMapId);
+            });
+        }
         this.updateCatalogueNavButtons();
     }
 
@@ -8799,6 +8811,8 @@ class UIController {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry) return;
         const { feature, mapConfig, primaryName } = entry;
+        // Back to the catalogue returns to the feature's map's row (showCatalogueListView).
+        this._returnMapId = mapConfig?.id || null;
         const activeTabId = this._getActivePaneTabId();
 
         if (addToHistory) {

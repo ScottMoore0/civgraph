@@ -1485,3 +1485,33 @@ test("N61 the Details page's colour is the row's, as the catalogue shows it, not
   const hex = (c) => '#' + c.match(/\d+/g).slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0')).join('');
   await expect.poll(async () => hex(await swatch.evaluate((el) => getComputedStyle(el).backgroundColor))).toBe(s.color.toLowerCase());
 });
+
+test('N62 leaving a Details page returns to its map\'s row, not the top of the catalogue', async ({ page }) => {
+  await open(page);
+  // The last row drawn, well down the list: its first map's page opened as the layer list opens it.
+  const last = await pane(page).locator('[data-cn-series]').last().getAttribute('data-cn-series');
+  const s = catalogue.series.find((x) => x.id === last);
+  expect(s?.members?.length).toBeGreaterThan(0);
+  await page.evaluate(() => { const p = document.querySelector('.pane__content[data-tab-content="catalogue"]'); if (p) p.scrollTop = 0; });
+  await page.evaluate((id) => window.uiController.showCatalogueDetailView(id), s.members[0].id);
+  await expect(page.locator('#catalogueDetailView')).toBeVisible();
+  await page.locator('#catalogueBackLink').click();
+  await expect(row(page, last)).toBeInViewport();
+  await expect(row(page, last).locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
+});
+
+test('N63 adding a map leaves the view where it was (each layer has its own Zoom button)', async ({ page }) => {
+  await open(page);
+  const view = () => page.evaluate(() => {
+    const map = window.__civgraphTest2.mapController.map;
+    const c = map.getCenter();
+    return [Number(c.lng.toFixed(4)), Number(c.lat.toFixed(4)), Number(map.getZoom().toFixed(2))];
+  });
+  const before = await view();
+  const chip = row(page, LGD).locator(`.cn-chips [data-cn-toggle="${LGD_NEWEST}"]`);
+  await chip.scrollIntoViewIfNeeded();
+  await chip.click();
+  await expect.poll(() => loaded(page)).toContain(LGD_NEWEST);
+  await page.waitForTimeout(600);
+  expect(await view()).toEqual(before);
+});

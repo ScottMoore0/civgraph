@@ -3678,13 +3678,13 @@ body.test2-election-collapsed .election-pane__peek {
   min-width: 0;
 }
 
+/* The whole name, wrapped onto more lines when long, never cut short (Phelim Birch, 27 Nov 2026). */
 #activeLayers .active-layer-item__name {
   flex: 0 1 auto;
   min-width: 0;
   max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 #activeLayers .active-layer-item__meta {

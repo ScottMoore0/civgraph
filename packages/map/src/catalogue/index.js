@@ -1346,6 +1346,27 @@ export class CatalogueNext {
     }
   }
 
+  /**
+   * Back from a map's Details page: the list at that map's row, its shelf opened and the row
+   * expanded, not the top of the catalogue (Phelim Birch, 27 Nov 2026). False for a map in no row
+   * or while a search is shown (the results stay as they were).
+   * @param {string} id
+   */
+  returnToMap(id) {
+    const sid = this.seriesOfMap?.get(id);
+    const s = sid ? this.seriesById?.get(sid) : undefined;
+    if (!sid || !s || this.query || !this.root) return false;
+    this.here = null;
+    this.tab = 'maps';
+    this.section = sectionOfKind(s.kind);
+    this.expanded.add(sid);
+    this.focusSeries = sid;
+    this.revealSeries(s);
+    this.scrollTarget = sid;
+    this.draw();
+    return true;
+  }
+
   /** @param {string} route */
   go(route) {
     app()?.updateURLState?.();
