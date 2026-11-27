@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:qub:search",
+  "title": "/api/v1/qub/search",
+  "description": "QUB Library catalogue search, by default within Civgraph scope. The answer of /_api/qub/search, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/qub/search",
+    "parameters": [
+      "q",
+      "scope",
+      "tag",
+      "from",
+      "to",
+      "sort",
+      "dir",
+      "limit",
+      "offset"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "results",
+      "when": {},
+      "summary": "A page of QUB catalogue matches (one more than limit), with the capped total on the first page"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/results"
+    }
+  ],
+  "$defs": {
+    "results": {
+      "description": "A page of QUB catalogue matches (one more than limit), with the capped total on the first page",
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "mmsId": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "author": {
+                "type": "string"
+              },
+              "imprint": {
+                "type": "string"
+              },
+              "year": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "format": {
+                "type": "string"
+              },
+              "inScope": {
+                "type": "boolean"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "url": {
+                "type": "string"
+              },
+              "qubUrl": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "mmsId",
+              "title",
+              "author",
+              "imprint",
+              "year",
+              "format",
+              "inScope",
+              "tags",
+              "url",
+              "qubUrl"
+            ]
+          }
+        },
+        "count": {
+          "type": "integer"
+        },
+        "total": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "totalCapped": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "query",
+        "scope",
+        "tags",
+        "results",
+        "count"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

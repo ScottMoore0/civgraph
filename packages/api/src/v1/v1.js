@@ -27,6 +27,9 @@ import * as proniCount from '../handlers/proni/count.js';
 import * as proniExport from '../handlers/proni/export.js';
 import * as proniNode from '../handlers/proni/node.js';
 import * as proniSearch from '../handlers/proni/search.js';
+import * as qubExport from '../handlers/qub/export.js';
+import * as qubRecord from '../handlers/qub/record.js';
+import * as qubSearch from '../handlers/qub/search.js';
 import * as registerInterests from '../handlers/register-interests/index.js';
 import * as search from '../handlers/search.js';
 import * as sources from '../handlers/sources/index.js';
@@ -96,6 +99,12 @@ export const ROUTES = Object.freeze({
     ['q', 'fields', 'letter', 'from', 'to', 'top', 'level', 'access']),
   'proni/export': route(proniExport, '/_api/proni/export', 'PRONI eCatalogue: matches as CSV',
     ['q', 'fields', 'letter', 'from', 'to', 'top', 'level', 'access']),
+  // The Independent QUB Catalogue (27 Nov 2026): answers 503 until the owner approves a QUB_DB binding.
+  'qub/search': route(qubSearch, '/_api/qub/search', 'QUB Library catalogue search, by default within Civgraph scope',
+    ['q', 'scope', 'tag', 'from', 'to', 'sort', 'dir', 'limit', 'offset']),
+  'qub/record': route(qubRecord, '/_api/qub/record', 'QUB Library catalogue: one record with its QUB link, or the figures', ['id']),
+  'qub/export': route(qubExport, '/_api/qub/export', 'QUB Library catalogue: matches as CSV (at most 50,000 rows)',
+    ['q', 'scope', 'tag', 'from', 'to']),
 });
 
 /**

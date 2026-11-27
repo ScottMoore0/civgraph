@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:qub:export",
+  "title": "/api/v1/qub/export",
+  "description": "QUB Library catalogue: matches as CSV (at most 50,000 rows). The answer of /_api/qub/export, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/qub/export",
+    "parameters": [
+      "q",
+      "scope",
+      "tag",
+      "from",
+      "to"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "csv",
+      "when": {},
+      "summary": "The matches as CSV (at most 50,000 rows), streamed",
+      "contentType": "text/csv"
+    }
+  ],
+  "type": "string",
+  "$defs": {}
+}

@@ -32,7 +32,7 @@ Election, people, party, source, register-of-interests, parliamentary-vote, grap
 - [API index](https://civgraph.net/api/v1/): every route, with its parameters and the `/_api` path it aliases.
 - [OpenAPI 3.1 description](https://civgraph.net/api/v1/openapi.json): each route's answer variants, the contract each answer is validated against.
 - [About the API](https://civgraph.net/pages/api): what it holds, its stability promise and fair use.
-- Routes: `/api/v1/elections`, `/persons`, `/parties`, `/sources`, `/register-interests`, `/votes`, `/graph`, `/stats`, `/catalogue`, `/layers`, `/search`, `/spatial`, `/data-index`, and the PRONI eCatalogue under `/api/v1/proni/` (`node`, `search`, `count`, and `export`, which answers CSV).
+- Routes: `/api/v1/elections`, `/persons`, `/parties`, `/sources`, `/register-interests`, `/votes`, `/graph`, `/stats`, `/catalogue`, `/layers`, `/search`, `/spatial`, `/data-index`, the PRONI eCatalogue under `/api/v1/proni/` (`node`, `search`, `count`, and `export`, which answers CSV), and the QUB Library catalogue under `/api/v1/qub/` (`search`, `record`, `export`; not yet live: they answer 503 until it is published).
 - v1 changes only by addition: fields and routes may be added, never removed or changed in meaning; an incompatible change would be a new version, with v1 kept. The older `/_api/*` paths are aliases of the same answers.
 - Answers are cached for a few minutes. Please keep request rates modest, and use the bulk downloads on data.civgraph.net for whole datasets rather than paging through the API.
 

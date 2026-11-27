@@ -30,7 +30,7 @@ const opt = (/** @type {string} */ name, /** @type {string} */ fallback) => {
   return i >= 0 && args[i + 1] ? String(args[i + 1]) : fallback;
 };
 const PORT = Number(opt('--port', '8796'));
-const DB_FILE = opt('--db', process.env.QUB_DB_FILE || '');
+const DB_FILE = opt('--db', process.env['QUB_DB_FILE'] || '');
 const ROOT = process.cwd();
 if (!DB_FILE || !existsSync(DB_FILE)) {
   console.error('qub-server: give the catalogue database with --db <file> (scripts/records/qub/build-qub-db.py builds it)');

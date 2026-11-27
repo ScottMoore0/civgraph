@@ -3,9 +3,9 @@
 // markup and its state machines (site/apps/qub-catalogue/).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildFilters, buildMatch, isMmsId, qubRecordUrl, readParams, tagList } from '../../packages/api/src/handlers/qub/_query.js';
-import { mmsIdFromPath, recordHead } from '../../packages/api/src/handlers/qub/page.js';
-import { readDetail, sharedSource } from '../../packages/api/src/handlers/qub/record.js';
+import { buildFilters, buildMatch, isMmsId, qubRecordUrl, readParams, tagList } from '@civgraph/api/handlers/qub/_query.js';
+import { mmsIdFromPath, recordHead } from '@civgraph/api/handlers/qub/page.js';
+import { readDetail, sharedSource } from '@civgraph/api/handlers/qub/record.js';
 import { parseRoute, searchQuery, recordPath } from '../../site/apps/qub-catalogue/url-state.js';
 import { recordHtml, resultCard, summaryLine } from '../../site/apps/qub-catalogue/views.js';
 import { RESULTS, VIEW } from '../../site/apps/qub-catalogue/state-machines.js';

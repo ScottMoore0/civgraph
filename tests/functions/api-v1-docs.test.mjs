@@ -42,7 +42,8 @@ test('llms.txt lists exactly the v1 routes', () => {
   assert.ok(routesLine, 'a "- Routes:" line');
   const top = [...routesLine.matchAll(/`\/(?:api\/v1\/)?([a-z-]+)`/g)].map((m) => /** @type {string} */ (m[1]));
   const proni = (/under `\/api\/v1\/proni\/` \(([^)]*)\)/.exec(routesLine)?.[1] ?? '').match(/`([a-z]+)`/g)?.map((s) => `proni/${s.slice(1, -1)}`) ?? [];
-  assert.deepEqual([...top, ...proni].sort(), Object.keys(ROUTES).sort());
+  const qub = (/under `\/api\/v1\/qub\/` \(([^)]*)\)/.exec(routesLine)?.[1] ?? '').match(/`([a-z]+)`/g)?.map((s) => `qub/${s.slice(1, -1)}`) ?? [];
+  assert.deepEqual([...top, ...proni, ...qub].sort(), Object.keys(ROUTES).sort());
 });
 
 test('/api/v1/ and /api/v1/openapi.json answer JSON, as the page and llms.txt say', async () => {
