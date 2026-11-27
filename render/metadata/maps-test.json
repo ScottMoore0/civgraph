@@ -145671,7 +145671,6 @@
       "tiles": "/render/tiles/generated/mep-2009/{z}/{x}/{y}.pbf",
       "metadataUrl": "/render/tiles/generated/mep-2009/metadata.json",
       "sourceLayer": "mep_2009",
-      "promoteId": "GUID",
       "minzoom": 0,
       "maxzoom": 12,
       "bounds": [
@@ -145715,8 +145714,7 @@
       ],
       "labelProperty": "ENGLISH",
       "labelPropertyFallbacks": [
-        "GAEILGE",
-        "COUNTY"
+        "GAEILGE"
       ],
       "labelMinZoom": 0,
       "labelMaxZoom": null,
@@ -145734,25 +145732,17 @@
       },
       "sourceFile": "render/source-cache/vector-intake/mep-2009.fgb",
       "sourceDatasetLayer": "mep-2009",
-      "idProperty": "GUID",
       "popupProperties": [
         "ENGLISH",
-        "GUID",
         "GAEILGE",
-        "CONTAE",
-        "COUNTY",
-        "PROVINCE",
-        "CENTROID_X",
-        "CENTROID_Y",
-        "AREA",
-        "CC_ID"
+        "minElev_m",
+        "maxElev_m",
+        "minElev_ft",
+        "maxElev_ft",
+        "meanElev_m",
+        "meanElev_ft"
       ],
       "numericProperties": [
-        "CENTROID_X",
-        "CENTROID_Y",
-        "AREA",
-        "CC_ID",
-        "ESRI_OID",
         "minElev_m",
         "maxElev_m",
         "minElev_ft",
@@ -145761,11 +145751,7 @@
         "meanElev_ft"
       ],
       "categoricalProperties": [
-        "ENGLISH",
-        "CONTAE",
-        "COUNTY",
-        "PROVINCE",
-        "GUID"
+        "ENGLISH"
       ],
       "categoricalValues": {
         "ENGLISH": [
@@ -145774,29 +145760,6 @@
           "NORTH-WEST",
           "NORTHERN IRELAND",
           "SOUTH"
-        ],
-        "CONTAE": [
-          "Baile Átha Cliath",
-          "Ceatharlach",
-          "Dún na nGall",
-          "Port Láirge"
-        ],
-        "COUNTY": [
-          "CARLOW",
-          "DONEGAL",
-          "DUBLIN",
-          "WATERFORD"
-        ],
-        "PROVINCE": [
-          "Leinster",
-          "Munster",
-          "Ulster"
-        ],
-        "GUID": [
-          "2ae19629-1433-13a3-e055-000000000001",
-          "2ae19629-1492-13a3-e055-000000000001",
-          "2ae19629-149a-13a3-e055-000000000001",
-          "2ae19629-14a4-13a3-e055-000000000001"
         ]
       },
       "status": "converted",
@@ -145815,16 +145778,20 @@
         "preferred": true,
         "localPath": "render/pmtiles/generated/mep-2009-vector-test.pmtiles",
         "url": "/render/pmtiles/generated/mep-2009-vector-test.pmtiles",
-        "bytes": 4198736,
+        "bytes": 3887696,
         "maxGithubBytes": 99614720,
-        "generatedAt": "2026-05-29T23:46:15.302Z",
+        "generatedAt": "2026-11-27T14:48:46.000Z",
         "fallback": "/render/tiles/generated/mep-2009/{z}/{x}/{y}.pbf",
         "serving": "cdn",
         "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/mep-2009-vector-test.pmtiles",
         "r2Key": "data/maps/test/pmtiles/generated/mep-2009-vector-test.pmtiles",
         "localUrl": "/render/pmtiles/generated/mep-2009-vector-test.pmtiles",
-        "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+        "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z",
+        "sourceSha256": "f5426df65db3c8f50b8c75c90f57b32afdaf9f6498fa044f8ea4ad7f66a35e4a"
       },
+      "promoteId": "ENGLISH",
+      "idProperty": "ENGLISH",
+      "featureIndexUrl": "/render/metadata/feature-indexes/mep-2009-vector.json",
       "labelPointsUrl": "https://data.civgraph.net/data/maps/labels/mep-2009-vector.labels.geojson"
     },
     {

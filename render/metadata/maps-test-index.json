@@ -67764,8 +67764,7 @@
       },
       "labelProperty": "ENGLISH",
       "labelPropertyFallbacks": [
-        "GAEILGE",
-        "COUNTY"
+        "GAEILGE"
       ],
       "labelMinZoom": 0,
       "labelMaxZoom": null,
@@ -67781,17 +67780,13 @@
         "maxWidth": 14,
         "lineHeight": 1.25
       },
-      "promoteId": "GUID",
-      "idProperty": "GUID",
+      "promoteId": "ENGLISH",
+      "idProperty": "ENGLISH",
       "sourceFile": "render/source-cache/vector-intake/mep-2009.fgb",
       "sourceDatasetLayer": "mep-2009",
+      "featureIndexUrl": "/render/metadata/feature-indexes/mep-2009-vector.json",
       "labelPointsUrl": "https://data.civgraph.net/data/maps/labels/mep-2009-vector.labels.geojson",
       "numericProperties": [
-        "CENTROID_X",
-        "CENTROID_Y",
-        "AREA",
-        "CC_ID",
-        "ESRI_OID",
         "minElev_m",
         "maxElev_m",
         "minElev_ft",
@@ -67800,23 +67795,17 @@
         "meanElev_ft"
       ],
       "categoricalProperties": [
-        "ENGLISH",
-        "CONTAE",
-        "COUNTY",
-        "PROVINCE",
-        "GUID"
+        "ENGLISH"
       ],
       "popupProperties": [
         "ENGLISH",
-        "GUID",
         "GAEILGE",
-        "CONTAE",
-        "COUNTY",
-        "PROVINCE",
-        "CENTROID_X",
-        "CENTROID_Y",
-        "AREA",
-        "CC_ID"
+        "minElev_m",
+        "maxElev_m",
+        "minElev_ft",
+        "maxElev_ft",
+        "meanElev_m",
+        "meanElev_ft"
       ],
       "generatedFrom": {
         "pipeline": "build-test-vector-batch",
@@ -67837,7 +67826,10 @@
         "maplibre",
         "vector tiles"
       ],
-      "detailUrl": "/render/metadata/layer-details-test2/mep-2009-vector.json"
+      "detailUrl": "/render/metadata/layer-details-test2/mep-2009-vector.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/mep-2009-vector.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
     },
     {
       "id": "mep-2014-vector",
