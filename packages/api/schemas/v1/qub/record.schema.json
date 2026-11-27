@@ -1,0 +1,342 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:civgraph:api:v1:qub:record",
+  "title": "/api/v1/qub/record",
+  "description": "QUB Library catalogue: one record with its QUB link, or the figures. The answer of /_api/qub/record, which stays as an alias.",
+  "x-civgraph-route": {
+    "legacy": "/_api/qub/record",
+    "parameters": [
+      "id"
+    ]
+  },
+  "x-civgraph-variants": [
+    {
+      "name": "record",
+      "when": {
+        "id": "*"
+      },
+      "summary": "One QUB catalogue record, its Civgraph scope label, its QUB catalogue link and the credit"
+    },
+    {
+      "name": "stats",
+      "when": {},
+      "summary": "The catalogue figures and the scope topics"
+    }
+  ],
+  "anyOf": [
+    {
+      "$ref": "#/$defs/record"
+    },
+    {
+      "$ref": "#/$defs/stats"
+    }
+  ],
+  "$defs": {
+    "record": {
+      "description": "One QUB catalogue record, its Civgraph scope label, its QUB catalogue link and the credit",
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "object",
+          "properties": {
+            "mmsId": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "author": {
+              "type": "string"
+            },
+            "imprint": {
+              "type": "string"
+            },
+            "year": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "dateText": {
+              "type": "string"
+            },
+            "format": {
+              "type": "string"
+            },
+            "language": {
+              "type": "string"
+            },
+            "shelfMark": {
+              "type": "string"
+            },
+            "subjects": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "inScope": {
+              "type": "boolean"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "scopeReason": {
+              "type": "string"
+            },
+            "scopeMethod": {
+              "type": "string"
+            },
+            "responsibility": {
+              "type": "string"
+            },
+            "uniformTitle": {
+              "type": "string"
+            },
+            "variantTitles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "edition": {
+              "type": "string"
+            },
+            "extent": {
+              "type": "string"
+            },
+            "series": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "notes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "contents": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "contributors": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "role"
+                ]
+              }
+            },
+            "isbn": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "issn": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "oclc": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "catalogingSource": {
+              "type": "string"
+            },
+            "lcClass": {
+              "type": "string"
+            },
+            "dewey": {
+              "type": "string"
+            },
+            "govDocNumber": {
+              "type": "string"
+            },
+            "places": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "holdings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "library": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "callNumber": {
+                    "type": "string"
+                  },
+                  "availability": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "library",
+                  "location",
+                  "callNumber",
+                  "availability"
+                ]
+              }
+            },
+            "online": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "label",
+                  "url"
+                ]
+              }
+            }
+          },
+          "required": [
+            "mmsId",
+            "title",
+            "author",
+            "imprint",
+            "year",
+            "dateText",
+            "format",
+            "language",
+            "shelfMark",
+            "subjects",
+            "inScope",
+            "tags",
+            "scopeReason",
+            "scopeMethod",
+            "responsibility",
+            "uniformTitle",
+            "variantTitles",
+            "edition",
+            "extent",
+            "series",
+            "notes",
+            "contents",
+            "summary",
+            "contributors",
+            "isbn",
+            "issn",
+            "oclc",
+            "catalogingSource",
+            "lcClass",
+            "dewey",
+            "govDocNumber",
+            "places",
+            "holdings",
+            "online"
+          ]
+        },
+        "qubUrl": {
+          "type": "string"
+        },
+        "credit": {
+          "type": "string"
+        },
+        "sharedSource": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "item",
+        "qubUrl",
+        "credit",
+        "sharedSource"
+      ]
+    },
+    "stats": {
+      "description": "The catalogue figures and the scope topics",
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer"
+        },
+        "inScope": {
+          "type": "integer"
+        },
+        "outOfScope": {
+          "type": "integer"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tag": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "tag",
+              "name",
+              "count"
+            ]
+          }
+        },
+        "credit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "total",
+        "inScope",
+        "outOfScope",
+        "tags",
+        "credit"
+      ]
+    },
+    "error": {
+      "description": "The JSON error answer (4xx, 5xx)",
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    }
+  }
+}

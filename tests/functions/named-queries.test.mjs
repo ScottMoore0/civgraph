@@ -51,6 +51,11 @@ const BUILDER_SAMPLES = {
   'proni.PRONI.countYearsOnly': [[['ext.ext_end_year >= ?', 'ext.ext_start_year <= ?']]],
   'proni.PRONI.searchFiltered': [[160, ["p.parent = ''"], 'p.ref ASC']],
   'proni.PRONI.ancestors': [[1], [3]],
+  'qub.QUB.searchMatched': [[[], 'bm25(qub_fts, 10.0, 4.0, 3.0, 1.0, 0.0)', 'ASC'], [['q.year >= ?', 'q.year <= ?'], 'coalesce(q.year, -1)', 'DESC']],
+  'qub.QUB.searchFiltered': [[['q.year >= ?'], 'q.year ASC, q.mms_id']],
+  'qub.QUB.countMatched': [[[]], [['q.year <= ?']]],
+  'qub.QUB.countFiltered': [[['q.year >= ?']]],
+  'qub.QUB.exportPage': [[true, []], [false, ['q.year >= ?']], [false, []]],
   'cards.SHARDS.page': [['person_cards'], ['sources'], ['register_entries']],
   'maps.MAPS.headParts': [['catalogue_parts'], ['layer_parts']],
   'maps.MAPS.headOrds': [['catalogue_parts'], ['layer_parts']],
@@ -72,6 +77,12 @@ const DATABASES = {
            CREATE VIRTUAL TABLE proni_fts USING fts5(ref, title, dates, content='proni', content_rowid='rowid', prefix='2 3', tokenize='unicode61 remove_diacritics 2');
            CREATE TABLE ext (ref TEXT PRIMARY KEY, ext_start_date TEXT, ext_end_date TEXT, ext_start_year INTEGER, ext_end_year INTEGER,
              ext_circa INTEGER, ext_estimated INTEGER, ext_bound TEXT, ext_undated INTEGER, ext_display TEXT);`,
+  // The Independent QUB Catalogue (QUB_DB, local only) as scripts/records/qub/build-qub-db.py builds it.
+  qub: `CREATE TABLE qub (mms_id TEXT NOT NULL, title TEXT, author TEXT, imprint TEXT, year INTEGER, date_text TEXT, format TEXT,
+             language TEXT, shelf TEXT, subjects TEXT, notes TEXT, facets TEXT, scope INTEGER NOT NULL, tags TEXT, scope_reason TEXT,
+             scope_method TEXT, detail TEXT);
+           CREATE TABLE qub_stats (key TEXT PRIMARY KEY, n INTEGER NOT NULL);
+           CREATE VIRTUAL TABLE qub_fts USING fts5(title, author, subjects, notes, facets, content='qub', content_rowid='rowid', prefix='2 3', tokenize='unicode61 remove_diacritics 2');`,
 };
 
 /** Builders that return a clause, not a statement: prepared inside this statement. */
@@ -198,6 +209,15 @@ test('every PRONI query prepares on the PRONI schema', async () => {
   try {
     db.exec(DATABASES.proni);
     await prepareAll('proni', db);
+  } finally { db.close(); }
+});
+
+test('every QUB catalogue query prepares on the QUB schema', async () => {
+  const { DatabaseSync } = await import('node:sqlite');
+  const db = new DatabaseSync(':memory:');
+  try {
+    db.exec(DATABASES.qub);
+    await prepareAll('qub', db);
   } finally { db.close(); }
 });
 

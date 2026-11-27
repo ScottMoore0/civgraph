@@ -755,6 +755,12 @@
                             "string",
                             "null"
                           ]
+                        },
+                        "urlDead": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
                         }
                       },
                       "required": [
@@ -769,7 +775,8 @@
                         "scope",
                         "match",
                         "checkNote",
-                        "accessed"
+                        "accessed",
+                        "urlDead"
                       ]
                     }
                   }
@@ -882,6 +889,12 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "urlDead": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
                   }
                 },
                 "required": [
@@ -896,7 +909,8 @@
                   "scope",
                   "match",
                   "checkNote",
-                  "accessed"
+                  "accessed",
+                  "urlDead"
                 ]
               }
             }
@@ -1003,6 +1017,12 @@
                       "string",
                       "null"
                     ]
+                  },
+                  "urlDead": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
                   }
                 },
                 "required": [
@@ -1017,7 +1037,8 @@
                   "scope",
                   "match",
                   "checkNote",
-                  "accessed"
+                  "accessed",
+                  "urlDead"
                 ]
               }
             }
@@ -1081,6 +1102,18 @@
                   },
                   "contests": {
                     "type": "number"
+                  },
+                  "archiveUrl": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "urlDead": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
                   }
                 },
                 "required": [
@@ -1089,7 +1122,9 @@
                   "url",
                   "host",
                   "kind",
-                  "contests"
+                  "contests",
+                  "archiveUrl",
+                  "urlDead"
                 ]
               }
             }
@@ -4530,6 +4565,440 @@
     }
   },
   "proni/export": {
+    "errors": null,
+    "variants": {
+      "csv": {
+        "when": {},
+        "contentType": "text/csv"
+      }
+    }
+  },
+  "qub/search": {
+    "errors": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    },
+    "variants": {
+      "results": {
+        "when": {},
+        "schema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "results": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "mmsId": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "author": {
+                    "type": "string"
+                  },
+                  "imprint": {
+                    "type": "string"
+                  },
+                  "year": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "format": {
+                    "type": "string"
+                  },
+                  "inScope": {
+                    "type": "boolean"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "qubUrl": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "mmsId",
+                  "title",
+                  "author",
+                  "imprint",
+                  "year",
+                  "format",
+                  "inScope",
+                  "tags",
+                  "url",
+                  "qubUrl"
+                ]
+              }
+            },
+            "count": {
+              "type": "integer"
+            },
+            "total": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "totalCapped": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "query",
+            "scope",
+            "tags",
+            "results",
+            "count"
+          ]
+        }
+      }
+    }
+  },
+  "qub/record": {
+    "errors": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ]
+    },
+    "variants": {
+      "record": {
+        "when": {
+          "id": "*"
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "item": {
+              "type": "object",
+              "properties": {
+                "mmsId": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "author": {
+                  "type": "string"
+                },
+                "imprint": {
+                  "type": "string"
+                },
+                "year": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "dateText": {
+                  "type": "string"
+                },
+                "format": {
+                  "type": "string"
+                },
+                "language": {
+                  "type": "string"
+                },
+                "shelfMark": {
+                  "type": "string"
+                },
+                "subjects": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "inScope": {
+                  "type": "boolean"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "scopeReason": {
+                  "type": "string"
+                },
+                "scopeMethod": {
+                  "type": "string"
+                },
+                "responsibility": {
+                  "type": "string"
+                },
+                "uniformTitle": {
+                  "type": "string"
+                },
+                "variantTitles": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "edition": {
+                  "type": "string"
+                },
+                "extent": {
+                  "type": "string"
+                },
+                "series": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "notes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "contents": {
+                  "type": "string"
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "contributors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "role": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "role"
+                    ]
+                  }
+                },
+                "isbn": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "issn": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "oclc": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "catalogingSource": {
+                  "type": "string"
+                },
+                "lcClass": {
+                  "type": "string"
+                },
+                "dewey": {
+                  "type": "string"
+                },
+                "govDocNumber": {
+                  "type": "string"
+                },
+                "places": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "holdings": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "library": {
+                        "type": "string"
+                      },
+                      "location": {
+                        "type": "string"
+                      },
+                      "callNumber": {
+                        "type": "string"
+                      },
+                      "availability": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "library",
+                      "location",
+                      "callNumber",
+                      "availability"
+                    ]
+                  }
+                },
+                "online": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "label": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "label",
+                      "url"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "mmsId",
+                "title",
+                "author",
+                "imprint",
+                "year",
+                "dateText",
+                "format",
+                "language",
+                "shelfMark",
+                "subjects",
+                "inScope",
+                "tags",
+                "scopeReason",
+                "scopeMethod",
+                "responsibility",
+                "uniformTitle",
+                "variantTitles",
+                "edition",
+                "extent",
+                "series",
+                "notes",
+                "contents",
+                "summary",
+                "contributors",
+                "isbn",
+                "issn",
+                "oclc",
+                "catalogingSource",
+                "lcClass",
+                "dewey",
+                "govDocNumber",
+                "places",
+                "holdings",
+                "online"
+              ]
+            },
+            "qubUrl": {
+              "type": "string"
+            },
+            "credit": {
+              "type": "string"
+            },
+            "sharedSource": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "item",
+            "qubUrl",
+            "credit",
+            "sharedSource"
+          ]
+        }
+      },
+      "stats": {
+        "when": {},
+        "schema": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer"
+            },
+            "inScope": {
+              "type": "integer"
+            },
+            "outOfScope": {
+              "type": "integer"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "tag": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "count": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "tag",
+                  "name",
+                  "count"
+                ]
+              }
+            },
+            "credit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "total",
+            "inScope",
+            "outOfScope",
+            "tags",
+            "credit"
+          ]
+        }
+      }
+    }
+  },
+  "qub/export": {
     "errors": null,
     "variants": {
       "csv": {

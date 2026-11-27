@@ -78,6 +78,8 @@ const PAGES = new Map([
   ['site/apps/words/index.html', SITE_PAGE],
   // The Elections app (11 Nov 2026): not public yet (noindex, unlinked, not in a sitemap).
   ['site/apps/elections/index.html', SITE_PAGE],
+  // The Independent QUB Catalogue (27 Nov 2026): local only, noindex, unlinked, not in a sitemap (LANDING/qub-app).
+  ['site/apps/qub-catalogue/index.html', SITE_PAGE],
   ['site/pages/census-explorer.html', SITE_PAGE],
   ['site/pages/status.html', SITE_PAGE],
   ['site/pages/api.html', SITE_PAGE],
