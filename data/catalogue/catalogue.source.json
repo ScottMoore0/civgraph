@@ -1597,7 +1597,6 @@
     "glpr-2021-03",
     "glpr-2021-08",
     "glpr-2021-09",
-    "glpr-2022-04",
     "glpr-2023-04"
    ],
    "kind": "Boundary"
@@ -1779,7 +1778,10 @@
    ],
    "kind": "Places",
    "labels": {
-    "eoni-polling-stations": "EONI"
+    "eoni-polling-stations": "EONI polling places"
+   },
+   "notes": {
+    "eoni-polling-stations": "607 polling places (buildings). A polling place can hold more than one polling station; its TotalBoxes field gives the number of ballot boxes."
    }
   },
   {
@@ -2453,7 +2455,10 @@
     "niea-landfill-sites-2016": "Authorised Landfill Sites (2016)",
     "niea-landfill-sites-2017": "Authorised Landfill Sites (2017)"
    },
-   "unitFromLabel": true
+   "unitFromLabel": true,
+   "notes": {
+    "niea-waste-sites-2021": "32,519 rows, one for each authorisation and type of waste (EWC code): 3,092 authorisations at 2,869 locations, made up of 764 waste management licences (WML), 2,216 exemptions (WMEX) and 112 PPC permits (WPPC), including expired, surrendered, revoked and superseded ones (Status field). Extracted by NIEA on 1 Feb 2021."
+   }
   },
   {
    "id": "geophysics-and-geochemical-survey-tellus-electromagnetic",
@@ -2523,6 +2528,9 @@
    ],
    "labels": {
     "ni-listed-buildings": "Northern Ireland"
+   },
+   "notes": {
+    "ni-listed-buildings": "HED's Historic Buildings Record at 31 Mar 2026: 15,810 entries, not all of them listed. 9,192 are listed buildings (grade A 224, B+ 678, B 1,017, B1 3,434, B2 3,839); 6,610 are Record Only (6,125) or D1 Record Only (485) and are not listed; 8 are de-listed. Each entry's grade is in its CurrentGra field."
    }
   },
   {
@@ -3351,7 +3359,7 @@
     "cycle-network-survey": "GDA Cycle Network Survey",
     "greater-dublin-area-cycle-infrastructure-nta": "Greater Dublin Area Cycle Infrastructure",
     "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025": "Dublin Metropolitan Area Existing Protected Cycle Infrastructure",
-    "belfast-cycle-network": "Belfast Cycle Network",
+    "belfast-cycle-network": "Draft Belfast Bicycle Network (2017)",
     "oda-map-00415-bicycle-warning-signs-fcc": "Bicycle Warning Signs (Fingal)"
    },
    "kind": "Places",
@@ -3589,7 +3597,10 @@
    ],
    "kind": "Places",
    "labels": {
-    "ni-historic-landuse": "Historic Land Use"
+    "ni-historic-landuse": "Historical Land Use"
+   },
+   "notes": {
+    "ni-historic-landuse": "NIEA's Historical Land Use Dataset: 14,591 sites with a past industrial use, first compiled in 1997 from historic maps (1834 to 1960) and council records, and since added to from other NIEA and HED records (the DBID field names each record's source database)."
    }
   },
   {
@@ -4058,7 +4069,7 @@
     "ni-livestock-bovine": "Bovine Holdings",
     "ni-livestock-ovine": "Ovine Holdings",
     "ni-livestock-porcine": "Porcine Holdings",
-    "ni-livestock-poultry": "Poultry Holdings",
+    "ni-livestock-poultry": "Poultry Holdings (non-commercial, 2018)",
     "ni-livestock-caprine": "Caprine Holdings"
    },
    "kind": "Places",
@@ -4948,6 +4959,11 @@
    "id": "eds-roi-1921-06-28",
    "why": "Phelim Birch, 21 Nov 2026: there was no June 1921 edition. This record draws the same four files as eds-1926, the 1 Oct 1921 edition.",
    "to": "eds-1926"
+  },
+  {
+   "id": "glpr-2022-04",
+   "why": "Not a March/April 2022 snapshot (27 Nov 2026): the same 5,211 parcels as the April 2023 release on OpenDataNI (its GeoJSON, feature for feature), as is glpr-2023-04, which is kept. The March 2022 release is glpr-2021-09.",
+   "to": "glpr-2023-04"
   }
  ],
  "signedOff": [
