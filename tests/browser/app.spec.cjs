@@ -2872,7 +2872,11 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
   expect(labelState.nativeLabelOpacity).toBe(0);
 
   const firstLabel = page.locator('.maplibre-dom-label:not([hidden])').first();
-  const firstLabelText = await firstLabel.textContent();
+  // The label's English line (its first div). Since the OT22 styling (23-24 Nov 2026) a label can
+  // carry the Irish name as a second line (.map-label__ga), so the marker's whole text is both
+  // names run together ("KilnamanaghCill na Manach"); the details pane leads with the English name.
+  const firstLabelText = await firstLabel.evaluate((label) => label.querySelector('div')?.textContent || '');
+  expect(firstLabelText.trim()).not.toBe('');
   await firstLabel.hover();
   await expect(firstLabel).toHaveClass(/map-label--hover/);
   // The hover colour is a CSS TRANSITION, so the class landing does not mean the colour

@@ -40,7 +40,14 @@ const approxState = (page, testId) => page.evaluate((lid) => {
 
 test('an edition with approximate stretches draws them dotted and names them in the legend', async ({ page }) => {
   await boot(page);
-  const testId = await open(page, 'stormont-1969');
+  // Whichever edition's metadata carries approximateSegments. Stormont 1969 did until it became a
+  // partial edition (16 Nov 2026, 9fcd06eb07: only lines taken whole from the sources, so no
+  // approximate stretches); since then the one such edition is lgd-1991-provisional.
+  await page.waitForFunction(() => window.__civgraphTest2.metadataService?.layers?.length);
+  const mapId = await page.evaluate(() => window.__civgraphTest2.metadataService.layers
+    .find((layer) => layer.approximateSegments?.url)?.sourceMapId || null);
+  expect(mapId, 'no edition in the render metadata has approximateSegments').toBeTruthy();
+  const testId = await open(page, mapId);
   await expect.poll(() => approxState(page, testId).then((s) => s.line && s.gap && s.hasSource), { timeout: 30000 }).toBe(true);
   const state = await approxState(page, testId);
   expect(state.dash).toBeTruthy();
