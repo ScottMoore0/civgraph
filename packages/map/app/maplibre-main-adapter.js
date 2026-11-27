@@ -150,9 +150,10 @@ import { MAP_COLOURS } from '../src/views/colours.mjs';
 import { LOAD_ORDER_PALETTE, PaletteSlots, takesLoadOrderColour, withColour } from '../src/layer-palette.mjs';
 
 // The base maps (packages/map/src/renderer/basemap.mjs): 'osm-standard' is the default street map,
-// not one tile server but the provider chain there (OpenFreeMap Positron, in the dark theme too
-// since 27 Nov 2026, then OpenStreetMap's own tiles as the last resort); CHOOSABLE_STYLE_BASE_MAPS
-// (OpenFreeMap Liberty and Dark) and CHOOSABLE_BASE_MAPS (rasters) are the ones a reader can pick instead,
+// not one tile server but the provider chain there (since 27 Nov 2026, in the dark theme too:
+// OpenStreetMap's own tiles, then OpenStreetMap Germany's, OpenFreeMap Bright and OpenFreeMap Positron
+// as fallbacks); CHOOSABLE_STYLE_BASE_MAPS (OpenFreeMap Liberty, Positron and Dark) and
+// CHOOSABLE_BASE_MAPS (rasters) are the ones a reader can pick instead,
 // each credited to its own provider. The Esri, CARTO and Stamen base maps were removed on 11 Nov 2026.
 
 // The timeline's change highlight (setTimelineChanges). Magenta reads against the blues,

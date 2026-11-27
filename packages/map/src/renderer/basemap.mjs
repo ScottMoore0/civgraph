@@ -7,7 +7,15 @@
  * access "at any point", and forbids hiding the credit "behind toggles" -- which the folded
  * (i) credit did (QA 2026-11-11, H8). A launch spike is exactly when that block would land.
  *
- * The default base map is now a chain, tried in order (DEFAULT_BASEMAP_CHAIN):
+ * Since 27 Nov 2026 (owner) the default chain starts with OpenStreetMap's own standard tiles,
+ * served by the OSMF from tile.openstreetmap.org (never from Civgraph's servers), for the OSM
+ * map's look; the others are fallbacks, tried in order when a provider fails or is blocked
+ * (DEFAULT_BASEMAP_CHAIN): OpenStreetMap's standard tiles; OpenStreetMap Germany's tiles
+ * (FOSSGIS, tile.openstreetmap.de), the closest look; OpenFreeMap Bright (vector, OSM Bright,
+ * no usage limits); OpenFreeMap Positron. The risks of the OSMF tile policy set out below were
+ * put to the owner, who chose this order with them in mind. The credit is always shown in full.
+ *
+ * Before 27 Nov the chain was (kept as history):
  *
  *   1. OpenFreeMap, Positron style (vector): grey land, muted roads and small grey labels, so
  *      every boundary colour and label on top reads (styling plan OT22, decision 4: approved by
@@ -94,11 +102,18 @@ export const OSM_STANDARD_TILES = Object.freeze({
   terms: 'https://operations.osmfoundation.org/policies/tiles/'
 });
 
-/** OpenFreeMap's Positron style: the default base map. @type {StyleProvider} */
+/** OpenFreeMap's Positron style: the last fallback since 27 Nov 2026 (the default before). @type {StyleProvider} */
 export const OPENFREEMAP_POSITRON = Object.freeze({
   ...OPENFREEMAP_LIBERTY,
   id: 'openfreemap-positron',
   styleUrl: 'https://tiles.openfreemap.org/styles/positron'
+});
+
+/** OpenFreeMap's Bright style (OSM Bright): the vector fallback closest to the OSM map's look (owner, 27 Nov 2026). @type {StyleProvider} */
+export const OPENFREEMAP_BRIGHT = Object.freeze({
+  ...OPENFREEMAP_LIBERTY,
+  id: 'openfreemap-bright',
+  styleUrl: 'https://tiles.openfreemap.org/styles/bright'
 });
 
 /** OpenFreeMap's Dark style: a choice in Map Settings, never the default (owner, 27 Nov 2026). @type {StyleProvider} */
@@ -109,7 +124,24 @@ export const OPENFREEMAP_DARK = Object.freeze({
   tone: /** @type {BasemapTone} */ ('dark')
 });
 
-/** OpenStreetMap's tiles, muted (the styling plan's paint): the light chain's last resort. @type {RasterProvider} */
+/**
+ * OpenStreetMap Germany's tiles (FOSSGIS e.V., tile.openstreetmap.de): the standard OSM style in
+ * German conventions, the first fallback (owner, 27 Nov 2026). FOSSGIS's terms
+ * (https://fossgis.de/arbeitsgruppen/osm-server/nutzungsbedingungen) do not generally allow
+ * high-traffic sites; it is asked only when OpenStreetMap's own tiles fail.
+ * @type {RasterProvider}
+ */
+export const OSM_DE_TILES = Object.freeze({
+  id: 'osm-de-tiles',
+  kind: 'raster',
+  label: 'OpenStreetMap Deutschland',
+  tiles: ['https://tile.openstreetmap.de/{z}/{x}/{y}.png'],
+  attribution: `${OSM_COPYRIGHT}, tiles by <a href="https://www.openstreetmap.de/" target="_blank" rel="noopener">OpenStreetMap Deutschland</a> (FOSSGIS e.V.)`,
+  maxzoom: 18,
+  terms: 'https://fossgis.de/arbeitsgruppen/osm-server/nutzungsbedingungen'
+});
+
+/** OpenStreetMap's tiles, muted (the styling plan's paint): the light chain's last resort until 27 Nov 2026. @type {RasterProvider} */
 export const OSM_MUTED_TILES = Object.freeze({
   ...OSM_STANDARD_TILES,
   paint: Object.freeze({ 'raster-saturation': -0.6, 'raster-contrast': -0.1, 'raster-brightness-min': 0.08 })
@@ -122,8 +154,8 @@ export const OSM_DARK_TILES = Object.freeze({
   tone: /** @type {BasemapTone} */ ('dark')
 });
 
-/** The default base map, in the order tried. */
-export const DEFAULT_BASEMAP_CHAIN = Object.freeze([OPENFREEMAP_POSITRON, OPENFREEMAP_LIBERTY, OSM_MUTED_TILES]);
+/** The default base map, in the order tried (owner, 27 Nov 2026): OpenStreetMap's own tiles first. */
+export const DEFAULT_BASEMAP_CHAIN = Object.freeze([OSM_STANDARD_TILES, OSM_DE_TILES, OPENFREEMAP_BRIGHT, OPENFREEMAP_POSITRON]);
 
 /** A dark chain, in the order tried: no longer the dark theme's default (owner, 27 Nov 2026). */
 export const DARK_BASEMAP_CHAIN = Object.freeze([OPENFREEMAP_DARK, OPENFREEMAP_POSITRON, OSM_DARK_TILES]);
@@ -149,11 +181,14 @@ export function basemapTone(provider) {
 
 /**
  * The vector base maps a reader can choose in Map Settings instead of the default, by id: Liberty,
- * the default until 23 Nov 2026, for its street detail.
+ * the default until 23 Nov 2026, for its street detail; Positron, the default from 23 to 27 Nov
+ * 2026, for a quiet grey background under the boundaries.
  * @type {Readonly<Record<string, StyleProvider>>}
  */
 export const CHOOSABLE_STYLE_BASE_MAPS = Object.freeze({
   [OPENFREEMAP_LIBERTY.id]: OPENFREEMAP_LIBERTY,
+  // The plain background, for readers who want it: only the last fallback of the default since 27 Nov 2026.
+  [OPENFREEMAP_POSITRON.id]: OPENFREEMAP_POSITRON,
   // The dark map, for readers who want it: a choice only, never the default (owner, 27 Nov 2026).
   [OPENFREEMAP_DARK.id]: OPENFREEMAP_DARK
 });
@@ -222,8 +257,9 @@ export const BASEMAP_PREFERENCE_KEY = 'civgraph.basemap';
 /**
  * The chain from the provider named by ?basemap=<id> or localStorage civgraph.basemap, when it
  * is one of the chain's: the providers before it are skipped (for this page, not the session).
- * The browser suite names osm-tiles: drawn by software GL in a headless browser, the vector base
- * map costs seconds a test, and the suite tests the app, not the base map (basemap.spec.cjs does).
+ * The browser suite names osm-tiles: drawn by software GL in a headless browser, a vector base map
+ * costs seconds a test, and the suite tests the app, not the base map (basemap.spec.cjs does).
+ * Since 27 Nov 2026 osm-tiles is the first of the default chain, so naming it skips nothing.
  * @param {readonly BasemapProvider[]} chain
  * @param {{ search?: string, storage?: { getItem(key: string): string | null } | null }} [where]
  * @returns {readonly BasemapProvider[]}
@@ -385,7 +421,7 @@ export class BasemapManager {
    * @param {{ chain?: BasemapProvider[], storage?: Storage | null, fetchImpl?: typeof fetch,
    *   document?: Document | null, setTimeoutImpl?: typeof setTimeout, clearTimeoutImpl?: typeof clearTimeout,
    *   onChange?: (provider: BasemapProvider, reason: string) => void, theme?: 'light' | 'dark' }} [options]
-   *   theme: the page's theme, which picks the default chain (DARK_BASEMAP_CHAIN in the dark theme)
+   *   theme: the page's theme, passed to defaultChainFor (which gives the light default whatever the theme)
    */
   constructor(map, options = {}) {
     this.map = map;
@@ -430,8 +466,9 @@ export class BasemapManager {
   }
 
   /**
-   * The default base map for a theme (DARK_BASEMAP_CHAIN in the dark theme), from its first
-   * provider not failed this session. A chain given to the constructor is kept whatever the theme.
+   * The default base map for a theme (defaultChainFor: the same light chain in either theme since
+   * 27 Nov 2026), from its first provider not failed this session. A chain given to the constructor
+   * is kept whatever the theme.
    * @param {'light' | 'dark'} theme
    * @returns {Promise<BasemapProvider | null>}
    */

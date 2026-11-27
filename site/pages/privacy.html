@@ -155,8 +155,9 @@
 <div class="table-scroll">
 <table class="info-table">
 <tr><th>Service</th><th>When</th><th>What it sees</th></tr>
-<tr><td>OpenFreeMap (<code>tiles.openfreemap.org</code>)</td><td>The background map on /maps/, by default</td><td>Which map tiles you load, so roughly which area you are looking at</td></tr>
-<tr><td>OpenStreetMap Foundation (<code>tile.openstreetmap.org</code>)</td><td>Only if OpenFreeMap fails to load, as a last resort</td><td>As above</td></tr>
+<tr><td>OpenStreetMap Foundation (<code>tile.openstreetmap.org</code>)</td><td>The background map on /maps/, by default</td><td>Which map tiles you load, so roughly which area you are looking at</td></tr>
+<tr><td>FOSSGIS e.V., for OpenStreetMap Germany (<code>tile.openstreetmap.de</code>)</td><td>Only if OpenStreetMap's own map fails to load</td><td>As above</td></tr>
+<tr><td>OpenFreeMap (<code>tiles.openfreemap.org</code>)</td><td>Only if both of those fail to load, or if you choose one of its maps (detailed street map, quiet grey map or dark map) in the map settings</td><td>As above</td></tr>
 <tr><td>CARTO, Esri, OpenTopoMap, OpenStreetMap France, the US Geological Survey or Stamen</td><td>Only if you choose that background map in the map settings (CARTO also serves the optional place-label overlay)</td><td>As above</td></tr>
 <tr><td>Esri (<code>tiles.arcgis.com</code>)</td><td>Only if you turn on the MERIT river or river basin overlay</td><td>As above</td></tr>
 <tr><td>Photon (<code>photon.komoot.io</code>), Nominatim (<code>nominatim.openstreetmap.org</code>) and postcodes.io (<code>api.postcodes.io</code>)</td><td>When you search for a place in the map catalogue</td><td>The place name or postcode you type</td></tr>

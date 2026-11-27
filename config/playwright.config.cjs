@@ -24,9 +24,10 @@ module.exports = defineConfig({
     // Only for this origin, so specs pointed at production (PARITY_BASE_URL) use the API.
     storageState: {
       cookies: [],
-      // civgraph.basemap = osm-tiles: the raster base map, as before 11 Nov 2026. The default vector
-      // base map (packages/map/src/renderer/basemap.mjs) is drawn by software GL here and costs
-      // seconds a test; tests/browser/basemap.spec.cjs tests it on its own.
+      // civgraph.basemap = osm-tiles: OpenStreetMap's raster tiles. Since 27 Nov 2026 they are the
+      // default chain's first provider anyway (packages/map/src/renderer/basemap.mjs); the name is
+      // kept so the suite never starts on a vector base map, which software GL draws here at a cost
+      // of seconds a test. tests/browser/basemap.spec.cjs tests the chain on its own.
       origins: [{ origin: 'http://127.0.0.1:5050', localStorage: [{ name: 'civgraph.electionsApi', value: '0' }, { name: 'civgraph.basemap', value: 'osm-tiles' }] }],
     },
     browserName: 'chromium',

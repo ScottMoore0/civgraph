@@ -60,8 +60,7 @@
   <!-- Preconnect to the default base map's host (OpenFreeMap: style, tiles, fonts and sprites
        all come from it; packages/map/src/renderer/basemap.mjs). OpenStreetMap's own tile server
        is only the last-resort fallback, so it gets a DNS hint and no more. -->
-  <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
-  <link rel="dns-prefetch" href="https://tile.openstreetmap.org">
+  <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin>
   <link rel="preconnect" href="https://data.civgraph.net" crossorigin>
   <!-- archive.org is the target of many sourceDownload links; warming the
        resolver here means clicks on those links don't pay DNS latency. -->
@@ -531,8 +530,8 @@
                   <option value="openfreemap-dark">Dark map (OpenFreeMap Dark)</option>
                 </optgroup>
                 <optgroup label="Other Street Maps">
-                  <!-- OpenFreeMap Liberty, the default until 23 Nov 2026 (styling plan OT22): the default is
-                       now the quieter Positron, in the light and the dark theme alike (owner, 27 Nov 2026). -->
+                  <!-- OpenFreeMap Liberty, the default until 23 Nov 2026 (styling plan OT22). Since 27 Nov 2026
+                       (owner) the default is OpenStreetMap's own map, in the light and the dark theme alike. -->
                   <option value="openfreemap-liberty">Detailed street map (OpenFreeMap Liberty)</option>
                   <option value="osm-humanitarian">OpenStreetMap Humanitarian</option>
                 </optgroup>
@@ -541,6 +540,8 @@
                   <option value="usgs-topo">USGS US Topo</option>
                 </optgroup>
                 <optgroup label="Minimal">
+                  <!-- OpenFreeMap Positron, the default from 23 to 27 Nov 2026: the plain grey background. -->
+                  <option value="openfreemap-positron">Quiet grey map (OpenFreeMap Positron)</option>
                 </optgroup>
               </select>
             </div>

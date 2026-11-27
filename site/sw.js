@@ -244,7 +244,8 @@ function isRuntimeJson(url) {
 }
 
 function isTileUrl(url) {
-  return url.hostname.endsWith('.tile.openstreetmap.org') || url.hostname === 'tile.openstreetmap.org';
+  return url.hostname.endsWith('.tile.openstreetmap.org') || url.hostname === 'tile.openstreetmap.org'
+    || url.hostname === 'tile.openstreetmap.de';
 }
 
 async function cacheFirstWithCap(request, cacheName, maxEntries) {
