@@ -147,7 +147,8 @@ export class TimelineControlMethods {
       // performs one swap instead of ten.
       const run = timelineChain.then(async () => {
         if (token !== timelineRequestToken) return;   // superseded while queued
-        // The edition on the map before this step: the changes are drawn from it to the new one.
+        // The edition on the map before this step: a step to another edition lists that edition's
+        // own changes, since the one directly before it, whichever way the slider moved.
         const shownIndex = this.getShownTimelineIndex(timelineItems);
         this.beginTimelineApply();
         try {
@@ -161,8 +162,8 @@ export class TimelineControlMethods {
         this.setTimelineRangeIndex(safeIndex);
         this.timelineAnimation.currentIndex = safeIndex;
         this.updateTimelineAnimationButtons();
-        if (shownIndex >= 0 && shownIndex !== safeIndex) {
-          await this.showTimelineStepChanges(shownIndex, safeIndex, timelineItems).catch(() => null);
+        if (shownIndex !== safeIndex) {
+          await this.showTimelineChangesFor(safeIndex, timelineItems).catch(() => null);
         }
       });
       // The chain must not break on a rejection, or every later request is dropped.
@@ -181,13 +182,20 @@ export class TimelineControlMethods {
         getItems: () => this.getTimelineAnimationItems(),
         getIndex: () => this.getTimelineRangeIndex(),
         setIndex: (/** @type {unknown} */ index) => applyIndex(index),
+        // The "Changes since" menu's choice, as its change event makes it.
+        setChangesSince: (/** @type {string} */ mapId) => this.setTimelineChangesSince(mapId),
         isApplying: () => this.timelineApplying,
         currentIndex: () => this.timelineAnimation.currentIndex,
         // What the change highlight shows: the list (view) and what is drawn on the map.
         getChanges: () => {
           const view = this.timelineChangeView;
           return {
-            view: view ? { kind: view.kind, count: view.count, reversed: view.reversed, drawn: view.drawn, fromMapId: view.fromMapId, toMapId: view.toMapId, changes: view.changes.map((c) => ({ key: c.key, type: c.type, text: c.text })) } : null,
+            view: view ? {
+              kind: view.kind, count: view.count, drawn: view.drawn, fromMapId: view.fromMapId, toMapId: view.toMapId,
+              steps: view.parts.length, skipped: view.skipped, summary: view.summary || '',
+              since: view.since ? { selected: view.since.selected, options: view.since.options.map((o) => o.mapId) } : null,
+              changes: view.changes.map((c) => ({ key: c.key, type: c.type, text: c.text, group: c.group }))
+            } : null,
             map: this.mapController?.getTimelineChangesState?.() || null,
             highlight: this.getTimelineHighlightEnabled()
           };

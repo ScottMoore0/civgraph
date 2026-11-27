@@ -1,15 +1,19 @@
 /**
  * Boundary changes between consecutive editions on the timeline (scripts/build/timeline-changes.py): the
- * change index, the remembered "Highlight changes" switch, the changes panel and the map markers, and
- * the older/newer edition roles of two editions of one series.
+ * change index, the remembered "Highlight changes" switch, the changes panel with its "Changes since"
+ * menu (which pair or pairs: since.mjs), the map markers, and the older/newer edition roles of two
+ * editions of one series.
  *
  * Methods of the map app (Test2App, packages/map/app/app.js), installed on its prototype by installMethods: `this` is the app.
  */
 
 import dataService from '../../data-service.js';
 import { formatHectares, timelineChangeName } from './dates.mjs';
-import { timelineChangesPanelHtml } from '../../views/timeline-view.mjs';
+import { TIMELINE_FIRST_EDITION_TEXT, timelineChangesPanelHtml } from '../../views/timeline-view.mjs';
 import { setHidden } from '../../state-helpers.mjs';
+import {
+  limitTimelineSinceSteps, movedHectares, resolveTimelineSinceIndex, timelineChangeKind, timelineSinceOptions, timelineSinceSteps, timelineSinceSummary,
+} from './since.mjs';
 import { siteNumber } from '../../../../core/src/format.js';
 
 // Boundary changes between consecutive editions (scripts/build/timeline-changes.py). They
@@ -18,10 +22,20 @@ const TIMELINE_CHANGES_BASE_PATH = '/data/timeline-changes';
 
 const TIMELINE_HIGHLIGHT_STORAGE_KEY = 'civgraph:timelineHighlightChanges';
 
-// A jump across more editions than this lists the first steps and says how many more.
-const TIMELINE_CHANGES_MAX_STEPS = 12;
+// "Changes since" an edition far back lists the latest steps that have changes, up to this many
+// change files fetched, and says how many earlier steps it left out.
+const TIMELINE_CHANGES_MAX_FILES = 20;
 
 const TIMELINE_CHANGES_MAX_MARKERS = 200;
+
+/** The changes button's label for each kind of comparison (since.mjs timelineChangeKind). @type {Record<import('./since.mjs').TimelineChangeKind, (count: number) => string>} */
+const TIMELINE_CHANGES_BUTTON_LABEL = {
+  changes: (count) => (count === 1 ? '1 change' : `${siteNumber(count)} changes`),
+  redrawn: () => 'Redrawn',
+  none: () => 'No changes',
+  unavailable: () => 'Not compared',
+  first: () => 'First edition'
+};
 
 /** @typedef {import('../map-app').MapApp & TimelineChangeMethods} TimelineChangeApp */
 /** @typedef {import('../map-app').TimelineItem} TimelineItem */
@@ -79,7 +93,10 @@ export class TimelineChangeMethods {
   }
 
   /**
-   * The index of the timeline stop whose edition is on the map now, or -1.
+   * The index of the timeline stop whose edition is on the map now, or -1. With two editions of the
+   * series on together it is the later one, where the slider stands (getCurrentTimelineTimestamp
+   * takes the latest date of the layers loaded): the first one found was the earlier, so the panel
+   * described an edition the slider was not on.
    * (A default parameter is checked against the class, not the typed this: there it reaches the app's
    * other methods through a cast, as the app is what installMethods makes `this`.)
    * @this {TimelineChangeApp}
@@ -87,13 +104,36 @@ export class TimelineChangeMethods {
    * @returns {number}
    */
   getShownTimelineIndex(items = /** @type {TimelineChangeApp} */ (/** @type {unknown} */ (this)).getTimelineAnimationItems()) {
-    return (Array.isArray(items) ? items : [])
-      .findIndex((item) => item?.mapId && this.isMapLoaded(item.mapId) && this.isMapVisible(item.mapId));
+    const list = Array.isArray(items) ? items : [];
+    for (let i = list.length - 1; i >= 0; i -= 1) {
+      const mapId = list[i]?.mapId;
+      if (mapId && this.isMapLoaded(mapId) && this.isMapVisible(mapId)) return i;
+    }
+    return -1;
   }
 
   /**
-   * The consecutive pairs between two stops, in the order they are stepped through: forward
-   * from 1927 to 1957 is 1927-1955 then 1955-1957; backward is the same pairs, latest first.
+   * The earliest other edition of the series on the map with the one at stop `shown`, or null. Two
+   * editions on together (the older drawn grey and dashed, updateEditionRoles) were how two editions
+   * were compared before the "Changes since" menu, and a shared address keeps both in its layers=
+   * list: the panel lists the later one's changes since the earlier.
+   * @this {TimelineChangeApp}
+   * @param {TimelineItem[]} items
+   * @param {number} shown
+   * @returns {string | null}
+   */
+  getLoadedEarlierEdition(items, shown) {
+    const shownMapId = items[shown]?.mapId;
+    for (let i = 0; i < shown; i += 1) {
+      const mapId = items[i]?.mapId;
+      if (mapId && mapId !== shownMapId && this.isMapLoaded(mapId) && this.isMapVisible(mapId)) return mapId;
+    }
+    return null;
+  }
+
+  /**
+   * The consecutive pairs from stop `fromIndex` to stop `toIndex`, oldest first (since.mjs
+   * timelineSinceSteps), each with its items and its entry in the change index.
    * @this {TimelineChangeApp}
    * @param {number} fromIndex
    * @param {number} toIndex
@@ -101,17 +141,15 @@ export class TimelineChangeMethods {
    * @returns {TimelineChangeStep[]}
    */
   getTimelineChangeSteps(fromIndex, toIndex, items = /** @type {TimelineChangeApp} */ (/** @type {unknown} */ (this)).getTimelineAnimationItems()) {
-    /** @type {TimelineChangeStep[]} */
-    const steps = [];
-    if (!Number.isInteger(fromIndex) || !Number.isInteger(toIndex) || fromIndex === toIndex) return steps;
-    for (let i = Math.min(fromIndex, toIndex); i < Math.max(fromIndex, toIndex); i += 1) {
-      const fromMapId = items[i]?.mapId;
-      const toMapId = items[i + 1]?.mapId;
-      if (!fromMapId || !toMapId || fromMapId === toMapId) continue;
-      const id = `${fromMapId}__${toMapId}`;
-      steps.push({ id, fromMapId, toMapId, fromItem: /** @type {import("../map-app.js").TimelineItem} */ (items[i]), toItem: /** @type {import("../map-app.js").TimelineItem} */ (items[i + 1]), entry: this.timelineChangeIndex?.[id] || null });
-    }
-    return toIndex < fromIndex ? steps.reverse() : steps;
+    return timelineSinceSteps(items, fromIndex, toIndex).map((step) => ({
+      id: step.id,
+      fromMapId: step.fromMapId,
+      toMapId: step.toMapId,
+      // timelineSinceSteps pairs only stops that hold a map, so both items exist.
+      fromItem: /** @type {TimelineItem} */ (items[step.fromIndex]),
+      toItem: /** @type {TimelineItem} */ (items[step.toIndex]),
+      entry: this.timelineChangeIndex?.[step.id] || null
+    }));
   }
 
   /**
@@ -134,41 +172,45 @@ export class TimelineChangeMethods {
   }
 
   /**
-   * After every timeline step (drag, previous/next, latest, Play): what changed between the
-   * edition that was shown (fromIndex) and the one now shown (toIndex). Stepping backwards
-   * shows the same pairs reversed. It is drawn unless the reader has switched highlighting
-   * off, and stays until the next step. `draw: false` only describes it, for the button.
+   * The changes of the edition at stop `selectedIndex` since an earlier edition of the series:
+   * `options.sinceMapId`'s (the "Changes since" menu), else the edition directly before it. Called
+   * after every timeline step (drag, previous/next, latest, Play), whichever way the slider moved,
+   * and for a map opened some other way (syncTimelineChangesToShownEdition). The first edition
+   * gets the "nothing earlier to compare" view. It is drawn unless the reader has switched
+   * highlighting off, and stays until the next step; `draw: false` only describes it, for the button.
    * @this {TimelineChangeApp}
-   * @param {number} fromIndex
-   * @param {number} toIndex
+   * @param {number} selectedIndex
    * @param {TimelineItem[]} [items]
-   * @param {{ draw?: boolean }} [options]
+   * @param {{ draw?: boolean, sinceMapId?: string | null }} [options]
    * @returns {Promise<TimelineChangeState | null>}
    */
-  async showTimelineStepChanges(fromIndex, toIndex, items = /** @type {TimelineChangeApp} */ (/** @type {unknown} */ (this)).getTimelineAnimationItems(), options = {}) {
+  async showTimelineChangesFor(selectedIndex, items = /** @type {TimelineChangeApp} */ (/** @type {unknown} */ (this)).getTimelineAnimationItems(), options = {}) {
     const token = (this.timelineChangeToken = (this.timelineChangeToken || 0) + 1);
-    const steps = this.getTimelineChangeSteps(fromIndex, toIndex, items);
-    if (!steps.length) {
+    const toItem = items[selectedIndex];
+    if (!toItem?.mapId) {
       this.setTimelineChangeView(null);
       return null;
     }
-    const used = steps.slice(0, TIMELINE_CHANGES_MAX_STEPS);
+    const fromIndex = resolveTimelineSinceIndex(items, selectedIndex, options.sinceMapId);
+    const sinceOptions = timelineSinceOptions(items, selectedIndex, (item) => this.formatTimelineItemLabel(/** @type {TimelineItem} */ (item)));
+    const { listed, skipped } = limitTimelineSinceSteps(this.getTimelineChangeSteps(fromIndex, selectedIndex, items), TIMELINE_CHANGES_MAX_FILES, (step) => Boolean(step.entry?.path));
     // While a step's own changes load, a layer change elsewhere must not replace them with the
     // undrawn description syncTimelineChangesToShownEdition gives a newly opened map.
     if (options.draw !== false) this.timelineChangeStepPending = token;
     /** @type {Array<TimelineChangeFile | null>} */
     let files;
     try {
-      files = await Promise.all(used.map((step) => this.fetchTimelineChangePair(step.entry?.path)));
+      files = await Promise.all(listed.map((step) => this.fetchTimelineChangePair(step.entry?.path)));
     } finally {
       if (this.timelineChangeStepPending === token) this.timelineChangeStepPending = 0;
     }
     if (token !== this.timelineChangeToken) return null;
-    const view = this.buildTimelineChangeView(used, files, {
-      reversed: toIndex < fromIndex,
-      fromItem: items[fromIndex],
-      toItem: items[toIndex],
-      skipped: steps.length - used.length
+    const fromItem = fromIndex >= 0 ? items[fromIndex] : undefined;
+    const view = this.buildTimelineChangeView(listed, files, {
+      fromItem,
+      toItem,
+      skipped,
+      since: { options: sinceOptions.map(({ mapId, label, preceding }) => ({ mapId, label, preceding })), selected: String(fromItem?.mapId || '') }
     });
     view.drawn = options.draw !== false;
     this.setTimelineChangeView(view);
@@ -176,13 +218,27 @@ export class TimelineChangeMethods {
   }
 
   /**
+   * The "Changes since" menu chose an earlier edition: list and draw every change since it. The
+   * choice holds until another edition is selected, which goes back to the preceding edition.
    * @this {TimelineChangeApp}
-   * @param {TimelineChangeStep[]} steps
+   * @param {string} sinceMapId
+   * @returns {Promise<TimelineChangeState | null>}
+   */
+  async setTimelineChangesSince(sinceMapId) {
+    const items = this.getTimelineAnimationItems();
+    const shown = this.getShownTimelineIndex(items);
+    if (shown < 0) return null;
+    return this.showTimelineChangesFor(shown, items, { sinceMapId });
+  }
+
+  /**
+   * @this {TimelineChangeApp}
+   * @param {TimelineChangeStep[]} steps oldest first
    * @param {Array<TimelineChangeFile | null>} files
-   * @param {{ reversed: boolean, fromItem: TimelineItem | undefined, toItem: TimelineItem | undefined, skipped?: number }} options
+   * @param {{ fromItem: TimelineItem | undefined, toItem: TimelineItem | undefined, skipped?: number, since?: NonNullable<TimelineChangeState['since']> }} options
    * @returns {TimelineChangeState}
    */
-  buildTimelineChangeView(steps, files, { reversed, fromItem, toItem, skipped = 0 }) {
+  buildTimelineChangeView(steps, files, { fromItem, toItem, skipped = 0, since }) {
     const multi = steps.length > 1;
     /** @type {TimelineChangeState['changes']} */
     const changes = [];
@@ -194,11 +250,11 @@ export class TimelineChangeMethods {
       const file = files[k];
       const entry = step.entry || null;
       // A step is named by the later edition's date, when its changes took effect (Phelim,
-      // 20 Nov 2026); step.toItem is the later edition whichever way the slider moved.
+      // 20 Nov 2026).
       const label = this.formatTimelineItemLabel(step.toItem);
       parts.push({ label, kind: entry?.kind || 'unknown', count: Number(entry?.count) || 0, text: entry?.text || 'No change data for this step.' });
       for (const change of Array.isArray(file?.changes) ? file.changes : []) {
-        changes.push({ ...change, key: `${k}:${change.id}`, step: multi ? label : '', text: this.describeTimelineChange(change) });
+        changes.push({ ...change, key: `${k}:${change.id}`, step: multi ? label : '', group: k, text: this.describeTimelineChange(change) });
       }
       for (const feature of Array.isArray(file?.features) ? file.features : []) {
         const changeId = feature?.properties?.['changeId'];
@@ -206,33 +262,28 @@ export class TimelineChangeMethods {
       }
     });
     const count = parts.reduce((sum, part) => sum + part.count, 0);
-    const kinds = new Set(parts.map((part) => part.kind));
-    /** @type {'changes' | 'none' | 'redrawn' | 'unknown'} what the pair's change files say, all parts together (derived, not state) */
-    const kind = kinds.has('changes') ? 'changes'
-      : kinds.size === 1 && kinds.has('none') ? 'none'
-        : kinds.has('redrawn') ? 'redrawn'
-          : kinds.has('none') ? 'none' : 'unknown';
-    const toMapId = toItem?.mapId || null;
-    const dateLabels = parts.map((part) => part.label);
-    return {
-      key: steps.map((step) => step.id).join('|') + (reversed ? '|reversed' : ''),
-      reversed,
-      kind,
+    const fromLabel = this.formatTimelineItemLabel(fromItem);
+    /** @type {TimelineChangeState} */
+    const view = {
+      key: steps.map((step) => step.id).join('|') || `first:${toItem?.mapId || ''}`,
+      kind: timelineChangeKind(parts.map((part) => part.kind)),
       count,
       parts,
       changes,
       features,
       skipped,
-      fromLabel: this.formatTimelineItemLabel(fromItem),
+      fromLabel,
       toLabel: this.formatTimelineItemLabel(toItem),
-      // Earliest first: stepping back lists the latest step first.
-      dateLabels: reversed ? dateLabels.reverse() : dateLabels,
+      dateLabels: parts.map((part) => part.label),
       fromMapId: fromItem?.mapId || null,
-      toMapId,
-      // The note on the step's later edition, whichever way the slider moved.
+      toMapId: toItem?.mapId || null,
+      // The note on the step's later edition.
       note: !multi && steps[0]?.toMapId ? String(dataService.getMapById(steps[0].toMapId)?.changeNote || '') : '',
       drawn: true
     };
+    if (since) view.since = since;
+    if (multi) view.summary = timelineSinceSummary({ sinceLabel: fromLabel, steps: steps.length, count, hectares: movedHectares(changes) });
+    return view;
   }
 
   /**
@@ -312,7 +363,6 @@ export class TimelineChangeMethods {
     }
     this.mapController?.setTimelineChanges?.({ features: view.features }, {
       key: view.key,
-      reversed: view.reversed,
       // A marker per change shows a small one at island zoom; past a few hundred (a ward review)
       // they would only blanket the map, and the new lines say it better.
       points: view.changes.length > TIMELINE_CHANGES_MAX_MARKERS ? [] : view.changes
@@ -324,8 +374,9 @@ export class TimelineChangeMethods {
 
   /**
    * Keep the changes button about the edition on the map. A map opened from the catalogue,
-   * or an edition changed some other way, is described against the edition before it, but
-   * not drawn until the reader steps or opens the list.
+   * or an edition changed some other way, is described against the edition before it (the
+   * first edition says it has nothing earlier), but not drawn until the reader steps or opens
+   * the list. A "Changes since" choice for the edition shown is kept.
    * @this {TimelineChangeApp}
    */
   syncTimelineChangesToShownEdition() {
@@ -337,12 +388,13 @@ export class TimelineChangeMethods {
       else this.renderTimelineChangesControl();
       return;
     }
-    if ((view && view.toMapId === /** @type {import("../map-app.js").TimelineItem} */ (items[shown]).mapId) || this.timelineChangeStepPending) {
+    const sinceMapId = this.getLoadedEarlierEdition(items, shown);
+    const current = view && view.toMapId === items[shown]?.mapId && (!sinceMapId || view.since?.selected === sinceMapId);
+    if (current || this.timelineChangeStepPending) {
       this.renderTimelineChangesControl();
       return;
     }
-    if (shown > 0) this.showTimelineStepChanges(shown - 1, shown, items, { draw: false }).catch(() => {});
-    else this.setTimelineChangeView(null);
+    this.showTimelineChangesFor(shown, items, { draw: false, sinceMapId }).catch(() => {});
   }
 
   /** @this {TimelineChangeApp} */
@@ -356,18 +408,18 @@ export class TimelineChangeMethods {
     setHidden(group, !boundaryTimeline);
     const toggle = document.getElementById('timelineHighlight');
     toggle?.setAttribute('aria-checked', this.getTimelineHighlightEnabled() ? 'true' : 'false');
-    const known = view && view.kind !== 'unknown';
-    setHidden(button, !known);
-    if (!known) {
+    // Every edition of a boundary series has a state to show, the first one included: a hidden
+    // button read as "no changes" (Phelim Birch, 27 Nov 2026).
+    setHidden(button, !view);
+    if (!view) {
       this.closeTimelineChangesPanel();
       return;
     }
-    const label = view.kind === 'changes'
-      ? `${siteNumber(view.count)} change${view.count === 1 ? '' : 's'}`
-      : view.kind === 'redrawn' ? 'Redrawn' : 'No changes';
-    button.textContent = label;
+    button.textContent = TIMELINE_CHANGES_BUTTON_LABEL[view.kind](view.count);
     button.dataset['kind'] = view.kind;
-    button.title = `${view.fromLabel} to ${view.toLabel}: ${view.parts.map((part) => part.text).join(' ')}`;
+    button.title = view.kind === 'first'
+      ? `${view.toLabel}: ${TIMELINE_FIRST_EDITION_TEXT}`
+      : `${view.fromLabel} to ${view.toLabel}: ${view.parts.map((part) => part.text).join(' ')}`;
     if (!document.getElementById('timelineChangesPanel')?.hidden) this.renderTimelineChangesPanel();
   }
 
@@ -392,6 +444,11 @@ export class TimelineChangeMethods {
         return;
       }
       if (/** @type {Element} */ (event.target).closest?.('.timeline-changes-panel__close')) this.closeTimelineChangesPanel({ focusButton: true });
+    });
+    panel.addEventListener('change', (event) => {
+      const select = /** @type {HTMLSelectElement} */ (event.target);
+      if (select.id !== 'timelineChangesSince') return;
+      this.setTimelineChangesSince(select.value).catch(() => {});
     });
     panel.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') this.closeTimelineChangesPanel({ focusButton: true });
@@ -438,7 +495,10 @@ export class TimelineChangeMethods {
     const panel = this.ensureTimelineChangesPanel();
     const view = this.timelineChangeView;
     if (!panel || !view) return;
+    // The menu is written afresh with the list: a reader working it by keyboard keeps their place.
+    const menuFocused = document.activeElement?.id === 'timelineChangesSince';
     panel.innerHTML = timelineChangesPanelHtml(view);
+    if (menuFocused) /** @type {HTMLElement | null} */ (panel.querySelector('#timelineChangesSince'))?.focus({ preventScroll: true });
   }
 
   /**

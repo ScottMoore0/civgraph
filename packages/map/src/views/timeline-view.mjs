@@ -5,6 +5,7 @@
  * (changes.js renderTimelineChangesPanel). The methods write what these return into the page.
  */
 import { escapeHtml } from '../../../core/src/html.js';
+import { siteNumber } from '../../../core/src/format.js';
 import { ZOOM_ICON_PATHS, strokeIconSvg } from './icons.mjs';
 
 /** A stop on the timeline: an edition or an election; `minor` ones (by-elections) are drawn thinner. */
@@ -12,22 +13,27 @@ import { ZOOM_ICON_PATHS, strokeIconSvg } from './icons.mjs';
 
 /**
  * One change in the list: its kind ('merged', 'divided', 'created', 'abolished', 'renamed', 'transfer', 'reorganised',
- * 'appeared', 'disappeared'), its sentence, the step it belongs to when several were taken at once,
- * and the key the zoom button names.
- * @typedef {{ type?: string, text: string, step?: string, key: string }} TimelineChangeItem
+ * 'appeared', 'disappeared'), its sentence, the step it belongs to (`group`, an index into the
+ * view's parts, when several steps are listed) and the key the zoom button names.
+ * @typedef {{ type?: string, text: string, step?: string, group?: number, key: string }} TimelineChangeItem
  */
+/** An entry of the "Changes since" menu: an earlier edition of the series. @typedef {{ mapId: string, label: string, preceding: boolean }} TimelineSinceOption */
 /**
- * The changes between two shown editions (changes.js buildTimelineChangeView).
+ * The changes of the edition selected on the timeline since an earlier edition (changes.js
+ * buildTimelineChangeView): by default the one directly before it; the "Changes since" menu picks
+ * another (Phelim Birch, 27 Nov 2026).
  * @typedef {object} TimelineChangeView
- * @property {{ label: string, text: string }[]} parts one summary per step taken
+ * @property {string} [kind] 'first' for a series' first edition, which has nothing to compare with
+ * @property {{ label: string, text: string }[]} parts one summary per step, oldest first
  * @property {TimelineChangeItem[]} changes
- * @property {boolean} reversed going back in time (the changes still read as they happened)
- * @property {number} skipped steps too many to list
- * @property {string} fromLabel the edition shown before (the button's tooltip says "since" it)
- * @property {string} toLabel the edition shown now
+ * @property {number} skipped earlier steps too many to list
+ * @property {string} fromLabel the edition compared with (the button's tooltip says "since" it)
+ * @property {string} toLabel the edition selected
  * @property {string[]} [dateLabels] when the listed changes took effect, earliest first: the later
  *   edition's date (or year) of each step. The heading names only these (Phelim, 20 Nov 2026):
  *   most changes happened at that date, and the map descriptions explain the exceptions.
+ * @property {string} [summary] the line over several steps ("Changes since 01 Apr 1985: 3 steps, ...")
+ * @property {{ options: TimelineSinceOption[], selected: string }} [since] the "Changes since" menu
  * @property {string} [note] the catalogue's note on the pair
  */
 
@@ -79,40 +85,75 @@ const TYPE_LABEL = { merged: 'Merged', divided: 'Divided', created: 'New', aboli
 
 /**
  * The changes panel's heading: "Changes, 01 Apr 1955", the date of the later edition, where the
- * changes took effect; "Changes, 01 Apr 1955 to 01 Nov 1957" for several steps at once. Without
- * dates (an older caller) the later of the two editions shown.
- * @param {Pick<TimelineChangeView, 'dateLabels' | 'fromLabel' | 'toLabel' | 'reversed'>} view
+ * changes took effect; "Changes, 01 Apr 1955 to 01 Nov 1957" for several steps at once; "First
+ * edition" for a series' first. Without dates (an older caller) the edition selected.
+ * @param {Pick<TimelineChangeView, 'dateLabels' | 'toLabel' | 'kind'>} view
  * @returns {string}
  */
 export function timelineChangesTitle(view) {
+  if (view.kind === 'first') return 'First edition';
   const dates = (view.dateLabels || []).filter(Boolean);
   if (dates.length > 1 && dates[0] !== dates[dates.length - 1]) return `Changes, ${dates[0]} to ${dates[dates.length - 1]}`;
-  return `Changes, ${dates[0] || (view.reversed ? view.fromLabel : view.toLabel)}`;
+  return `Changes, ${dates[0] || view.toLabel}`;
+}
+
+/** The text of the first edition's panel. */
+export const TIMELINE_FIRST_EDITION_TEXT = 'The first edition of this series: there is nothing earlier to compare it with.';
+
+/**
+ * The "Changes since" menu: the series' earlier editions, newest first, the preceding one marked.
+ * A native select, so it is labelled, reached by Tab and worked by the keyboard everywhere.
+ * @param {TimelineChangeView['since']} since
+ * @returns {string}
+ */
+export function timelineSinceMenuHtml(since) {
+  if (!since?.options.length) return '';
+  const esc = (/** @type {unknown} */ value) => escapeHtml(String(value ?? ''));
+  const options = since.options.map((option) => `<option value="${esc(option.mapId)}"${option.mapId === since.selected ? ' selected' : ''}>${esc(option.preceding ? `${option.label} (previous edition)` : option.label)}</option>`).join('');
+  return `<label class="timeline-changes-panel__since">
+          <span class="timeline-changes-panel__since-label">Changes since</span>
+          <select id="timelineChangesSince" class="timeline-changes-panel__since-select" title="List every change since an earlier edition">${options}</select>
+        </label>`;
 }
 
 /**
- * The changes panel's content: the heading and close button, a summary per step, the steps
- * skipped, the swatch key, the list of changes with a zoom button each, and the catalogue's note.
+ * The changes panel's content: the heading with the "Changes since" menu and the close button; then
+ * for one step its summary, the swatch key and the list of changes with a zoom button each; for
+ * several, the line over them, the steps left out, the key and each step under its date, oldest
+ * first; and the catalogue's note.
  * @param {TimelineChangeView} view
  * @returns {string}
  */
 export function timelineChangesPanelHtml(view) {
   const esc = (/** @type {unknown} */ value) => escapeHtml(String(value ?? ''));
-  const summaries = view.parts.map((part) => `<p class="timeline-changes-panel__summary">${view.parts.length > 1 ? `<strong>${esc(part.label)}:</strong> ` : ''}${esc(part.text)}</p>`).join('');
-  const list = view.changes.length
-    ? `<ol class="timeline-changes-panel__list">${view.changes.map((change) => {
-      // A change is named for what happened at its date, whichever way the slider moved.
+  const menu = timelineSinceMenuHtml(view.since);
+  const header = `
+      <header class="timeline-changes-panel__header${menu ? ' timeline-changes-panel__header--menu' : ''}">
+        <h2 class="timeline-changes-panel__title">${esc(timelineChangesTitle(view))}</h2>
+        <div class="timeline-changes-panel__controls">
+          ${menu}
+          <button type="button" class="timeline-changes-panel__close" aria-label="Close the list of changes">&times;</button>
+        </div>
+      </header>`;
+  if (view.kind === 'first') return `${header}<p class="timeline-changes-panel__summary">${esc(TIMELINE_FIRST_EDITION_TEXT)}</p>`;
+  const multi = view.parts.length > 1;
+  /** @param {TimelineChangeItem[]} changes */
+  const listHtml = (changes) => (changes.length
+    ? `<ol class="timeline-changes-panel__list">${changes.map((change) => {
+      // A change is named for what happened at its date.
       const type = change.type;
       return `<li class="timeline-changes-panel__item">
           <span class="timeline-changes-panel__type timeline-changes-panel__type--${esc(type)}">${esc(TYPE_LABEL[type || ''] || 'Change')}</span>
-          <span class="timeline-changes-panel__text">${esc(change.text)}${change.step ? ` <span class="timeline-changes-panel__step">(${esc(change.step)})</span>` : ''}</span>
+          <span class="timeline-changes-panel__text">${esc(change.text)}${!multi && change.step ? ` <span class="timeline-changes-panel__step">(${esc(change.step)})</span>` : ''}</span>
           <button type="button" class="timeline-changes-panel__zoom" data-change-key="${esc(change.key)}" aria-label="Zoom to: ${esc(change.text)}" title="Zoom to this change">
             ${strokeIconSvg(ZOOM_ICON_PATHS, 'timeline-changes-panel__zoom-icon')}
           </button>
         </li>`;
     }).join('')}</ol>`
+    : '');
+  const more = view.skipped > 0
+    ? `<p class="timeline-changes-panel__summary timeline-changes-panel__skipped">${esc(view.skipped === 1 ? '1 earlier step is not listed: choose a later edition to see it.' : `${siteNumber(view.skipped)} earlier steps are not listed: choose a later edition to see them.`)}</p>`
     : '';
-  const more = view.skipped > 0 ? `<p class="timeline-changes-panel__summary">and ${view.skipped} more step${view.skipped === 1 ? '' : 's'}: step one edition at a time to see them.</p>` : '';
   // A rename is outlined, not filled: its land did not change hands. Its swatch shows when one is listed.
   const renamed = view.changes.some((change) => change.type === 'renamed')
     ? ` <span class="timeline-changes-panel__swatch timeline-changes-panel__swatch--renamed"></span>renamed`
@@ -121,10 +162,16 @@ export function timelineChangesPanelHtml(view) {
     ? `<p class="timeline-changes-panel__key" aria-hidden="true"><span class="timeline-changes-panel__swatch timeline-changes-panel__swatch--area"></span>changed area <span class="timeline-changes-panel__swatch timeline-changes-panel__swatch--new"></span>new line <span class="timeline-changes-panel__swatch timeline-changes-panel__swatch--gone"></span>line gone${renamed}</p>`
     : '';
   const note = view.note ? `<p class="timeline-changes-panel__note"><strong>Catalogue note:</strong> ${esc(view.note)}</p>` : '';
-  return `
-      <header class="timeline-changes-panel__header">
-        <h2 class="timeline-changes-panel__title">${esc(timelineChangesTitle(view))}</h2>
-        <button type="button" class="timeline-changes-panel__close" aria-label="Close the list of changes">&times;</button>
-      </header>
-      ${summaries}${more}${key}${list}${note}`;
+  if (!multi) {
+    const summaries = view.parts.map((part) => `<p class="timeline-changes-panel__summary">${esc(part.text)}</p>`).join('');
+    return `${header}${summaries}${more}${key}${listHtml(view.changes)}${note}`;
+  }
+  // Several steps: each under the date it took effect, oldest first, with its own summary.
+  const groups = view.parts.map((part, g) => `<section class="timeline-changes-panel__group" aria-label="${esc(part.label)}">
+        <h3 class="timeline-changes-panel__group-title">${esc(part.label)}</h3>
+        <p class="timeline-changes-panel__summary">${esc(part.text)}</p>
+        ${listHtml(view.changes.filter((change) => change.group === g))}
+      </section>`).join('');
+  const summary = view.summary ? `<p class="timeline-changes-panel__overall">${esc(view.summary)}</p>` : '';
+  return `${header}${summary}${more}${key}${groups}${note}`;
 }

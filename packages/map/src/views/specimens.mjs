@@ -135,7 +135,8 @@ export const TIMELINE_ITEMS_SAMPLE = ['1921-05-24', '1925-04-03', '1929-05-22', 
 export const timelineSampleYear = (item) => Number(String(item?.date ?? '').slice(0, 4)) || NaN;
 /** @type {import('./timeline-view.mjs').TimelineChangeView} */
 export const TIMELINE_CHANGES_SAMPLE = {
-  fromLabel: '1973', toLabel: '1985', dateLabels: ['1985'], reversed: false, skipped: 1,
+  fromLabel: '1977', toLabel: '1985', dateLabels: ['1985'], skipped: 1,
+  since: { selected: 'wards-1977', options: [{ mapId: 'wards-1977', label: '1977', preceding: true }, { mapId: 'wards-1973', label: '1973', preceding: false }] },
   parts: [{ label: '1985', text: '3 changes (1 rename), 120 ha in all.' }],
   changes: [
     { type: 'created', text: 'Carnmoney formed from Newtownabbey', key: 'a:1' },

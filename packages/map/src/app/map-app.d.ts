@@ -54,13 +54,13 @@ export interface TimelineChangeFile {
   features?: Array<{ properties?: Record<string, unknown> | null; [key: string]: unknown }>;
 }
 
-/** The changes between the edition shown before and the one shown now (changes.js buildTimelineChangeView). */
+/** The changes of the edition selected since an earlier one (changes.js buildTimelineChangeView). */
 export interface TimelineChangeState extends TimelineChangeView {
   key: string;
-  kind: 'changes' | 'none' | 'redrawn' | 'unknown';
+  kind: import('./timeline/since.mjs').TimelineChangeKind;
   count: number;
   parts: Array<{ label: string; kind: string; count: number; text: string }>;
-  changes: Array<TimelineChange & { key: string; step: string; text: string }>;
+  changes: Array<TimelineChange & { key: string; step: string; group: number; text: string }>;
   features: Array<{ properties?: Record<string, unknown> | null; [key: string]: unknown }>;
   fromMapId: string | null;
   toMapId: string | null;
@@ -331,7 +331,9 @@ export interface MapApp {
   /** timeline/changes.js */
   setTimelineChangeView(view: TimelineChangeState | null): void;
   /** timeline/changes.js */
-  showTimelineStepChanges(fromIndex: number, toIndex: number, items?: TimelineItem[], options?: { draw?: boolean }): Promise<TimelineChangeState | null>;
+  showTimelineChangesFor(selectedIndex: number, items?: TimelineItem[], options?: { draw?: boolean; sinceMapId?: string | null }): Promise<TimelineChangeState | null>;
+  /** timeline/changes.js */
+  setTimelineChangesSince(sinceMapId: string): Promise<TimelineChangeState | null>;
   /** timeline/animation.js */
   getTimelineAnimationItems(): TimelineItem[];
   /** timeline/controls.js */

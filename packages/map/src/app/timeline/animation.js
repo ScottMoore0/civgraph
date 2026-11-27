@@ -299,7 +299,7 @@ export class TimelineAnimationMethods {
     if (!this.isTimelineRunCurrent(runId)) return;
     this.setTimelineRangeIndex(safeTo);
     this.timelineAnimation.currentIndex = safeTo;
-    const view = from !== safeTo ? await this.showTimelineStepChanges(from, safeTo, timelineItems).catch(() => null) : null;
+    const view = from !== safeTo ? await this.showTimelineChangesFor(safeTo, timelineItems).catch(() => null) : null;
     if (!this.isTimelineRunCurrent(runId)) return;
     const visible = Boolean(view?.changes?.length) && this.getTimelineHighlightEnabled();
     await this.waitTimelineDelay(visible ? TIMELINE_ANIMATION_DELAYS.hold : TIMELINE_ANIMATION_DELAYS.holdQuiet);
