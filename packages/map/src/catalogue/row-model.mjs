@@ -12,7 +12,7 @@
  *     from its latest complete one when the latest is incomplete.
  */
 
-import { creditLine } from '../../../core/src/credits.mjs';
+import { rowCreditLine } from '../../../core/src/credits.mjs';
 
 /** @typedef {import('./catalogue-types.d.ts').CatalogueRow} CatalogueRow */
 /** @typedef {import('./catalogue-types.d.ts').CatalogueRowMember} CatalogueRowMember */
@@ -124,7 +124,7 @@ export function comparable(s, rec) {
  * @returns {string}
  */
 export function rowCitation(s, url, accessed) {
-  const who = creditLine(s.provider || [], s.derivedFrom || []) || 'Civgraph';
+  const who = rowCreditLine(s) || 'Civgraph';
   const years = s.years ? (s.years[0] === s.years[1] ? String(s.years[0]) : `${s.years[0]}–${s.years[1]}`) : '';
   return `${who}. ${s.name}${years && !s.name.includes(years) ? ` (${years})` : ''} [map series]. Civgraph, ${url} (accessed ${accessed}).`;
 }

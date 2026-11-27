@@ -65,6 +65,8 @@ export interface CatalogueRow extends CatalogueSeries {
   kind: string;
   /** The derived-from lines of the row's maps, each once. */
   derivedFrom?: string[];
+  /** A row whose maps have different makers: each maker's group, in the row's order (rowCreditLine). */
+  credits?: import('../../../core/src/credits.mjs').RowCreditGroup[];
   members: CatalogueRowMember[];
   local?: CatalogueRowMember[];
   todo?: CatalogueRowMember[];

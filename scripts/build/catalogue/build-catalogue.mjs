@@ -31,7 +31,7 @@ import path from 'node:path';
 import { loadRecords, otherSubject } from './records.mjs';
 import { formatDatesInText, formatDisplayDate } from '@civgraph/core/date-format.mjs';
 import { cutNote } from '@civgraph/core/text-cut.mjs';
-import { combinedDerivedFromLines, derivedFromLines } from '@civgraph/core/credits.mjs';
+import { combinedDerivedFromLines, derivedFromLines, rowCreditGroups } from '@civgraph/core/credits.mjs';
 import { openSqliteHandle } from '@civgraph/storage/node';
 import { BROWSE_DIR, ELECTION_MANIFEST, RECORDS_DB } from '@civgraph/loader/paths.mjs';
 import { altNames, catalogueIrishNames, oldIdsByRow } from './alt-names.mjs';
@@ -86,7 +86,8 @@ import { ELECTION_GROUPS, catalogueGroupRow } from '@civgraph/map/election-group
  * @typedef {{
  *   id: string, slug: string, name: string, subject: string, shelf: string | undefined, scope: string, arrangement: string,
  *   kind: string, members: Member[], todo?: Labelled[], local?: (Labelled & { of?: string })[], years?: number[],
- *   thumb?: string, color?: string, provider?: string[], derivedFrom?: string[], status?: Record<string, number>, aliases?: string[], alt?: string[],
+ *   thumb?: string, color?: string, provider?: string[], derivedFrom?: string[], credits?: import('@civgraph/core/credits.mjs').RowCreditGroup[],
+ *   status?: Record<string, number>, aliases?: string[], alt?: string[],
  *   description?: string, about?: unknown
  * }} SeriesOut
  */
@@ -532,6 +533,13 @@ for (const s of source.series) {
   if (c) entry.color = c;
   if (provs.length) entry.provider = provs;
   if (derivedFrom.length) entry.derivedFrom = derivedFrom;
+  // A row whose maps have different makers credits each maker with its own maps' derived-from
+  // lines, in the row's order; a one-map group names its edition (packages/core/src/credits.mjs).
+  const credits = rowCreditGroups(members.map((m) => {
+    const rec = /** @type {MapOut} */ (out.maps[m.id]);
+    return { provider: rec.provider, derivedFrom: rec.derivedFrom, label: s.arrangement === 'editions' && !m.of ? `${m.label} edition` : '' };
+  }));
+  if (credits.length) entry.credits = credits;
   if (!recs.length) entry.status = { placeholder: todoRecs.length };
   else if (statusCounts['ready'] !== recs.length) entry.status = statusCounts;
   if (s.aliases?.length) entry.aliases = s.aliases;

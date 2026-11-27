@@ -11,7 +11,7 @@ import { SECTIONS, unitWord } from './index.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
 import { MAP_COLOURS } from '../views/colours.mjs';
-import { creditLine } from '../../../core/src/credits.mjs';
+import { rowCreditLine } from '../../../core/src/credits.mjs';
 import { rowActionKind, rowCount, datedList, comparable, rowEditions } from './row-model.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 import { setHidden } from '../state-helpers.mjs';
@@ -222,7 +222,7 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   else if (s.status?.incomplete) meta.push('<span class="cn-badge cn-badge--warn">Incomplete</span>');
   // A row of census figures says which areas they are counted by ("by Ward 2014").
   const by = s.kind === 'Statistics' && single ? /\bby ([^,)]+)\)?\s*$/.exec(c.rec(/** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0]).id).name || '')?.[1] : '';
-  const who = single ? c.mapSummary(/** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0]).id, { date: false, short: true }) : creditLine((s.provider || []).map(shortProvider), s.derivedFrom || []);
+  const who = single ? c.mapSummary(/** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0]).id, { date: false, short: true }) : rowCreditLine(s, { name: shortProvider });
   const second = [by ? `by ${by}` : '', who, ...tally].filter(Boolean);
   // The line wraps word by word (Phelim Birch, 20 Nov 2026); a no-break space keeps each dot on
   // the line of the fact before it.
