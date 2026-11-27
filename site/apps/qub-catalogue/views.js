@@ -7,6 +7,7 @@
 import { escapeHtml as esc } from '../../pkg/core/src/html.js';
 import { siteNumber } from '../../pkg/core/src/format.js';
 import { recordPath } from './url-state.js';
+import { LINKS } from './config.js';
 
 /** @typedef {import('./api.js').ResultRow} ResultRow */
 /** @typedef {import('./api.js').RecordAnswer} RecordAnswer */
@@ -63,9 +64,16 @@ export function summaryLine(total, capped, scope) {
  * @param {StatsAnswer} s
  */
 export function statsHtml(s) {
-  return `<p class="qc-stats">${siteNumber(s.total)} records in the QUB Library catalogue snapshot (harvested November 2026);
-    <strong>${siteNumber(s.inScope)}</strong> within Civgraph scope.</p>`;
+  return `<p class="qc-stats"><strong>${siteNumber(s.inScope)}</strong> records within Civgraph scope, of the
+    ${siteNumber(s.total)} in the QUB Library catalogue snapshot (harvested November 2026).</p>`;
 }
+
+/** The links every page carries: the whole catalogue on the Internet Archive, and QUB Library's own catalogue. */
+export const catalogueLinks = () => `<p class="qc-links"><a href="${esc(LINKS.archive)}" target="_blank" rel="noopener">Full QUB catalogue records (all 1.67 million) on the Internet Archive ↗</a>
+  <a href="${esc(LINKS.qub)}" target="_blank" rel="noopener">QUB Library’s own catalogue ↗</a></p>`;
+
+/** QUB's Primo permalink for an MMS ID (the same address as the server's qubRecordUrl). @param {string} id */
+export const qubRecordLink = (id) => `https://qub.primo.exlibrisgroup.com/discovery/fulldisplay?docid=alma${encodeURIComponent(id)}&context=L&vid=44QSUB_INST%3AQUB&lang=en`;
 
 /**
  * The topic checkboxes.
@@ -134,10 +142,14 @@ export function recordHtml(a) {
       <p>${esc(a.credit)}</p>
       ${a.sharedSource ? '<p>This record derives at least in part from a shared cataloguing source (such as OCLC WorldCat).</p>' : ''}
       <p><a href="${esc(a.qubUrl)}" target="_blank" rel="noopener">The record in QUB Library’s catalogue</a> is the authoritative version.</p>
+      ${catalogueLinks()}
     </footer>
   </article>`;
 }
 
-/** The record page for an id the catalogue does not hold. @param {string} id */
+/** The record page for an id this app does not hold (outside Civgraph scope, or not a QUB record). @param {string} id */
 export const recordMissing = (id) => `<article class="qc-record"><p class="qc-back"><a href="/qub" data-back>← Back to search</a></p>
-  <h1 class="qc-record__title">Record not found</h1><p>The QUB catalogue snapshot holds no record ${esc(id)}.</p></article>`;
+  <h1 class="qc-record__title">Not in this app</h1>
+  <p>Record ${esc(id)} is not among the records within Civgraph scope. If it is a QUB record, it is in the full
+    catalogue file, and <a href="${esc(qubRecordLink(id))}" target="_blank" rel="noopener">in QUB Library’s catalogue ↗</a>.</p>
+  ${catalogueLinks()}</article>`;

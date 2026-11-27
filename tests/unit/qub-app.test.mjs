@@ -7,7 +7,7 @@ import { buildFilters, buildMatch, isMmsId, qubRecordUrl, readParams, tagList } 
 import { mmsIdFromPath, recordHead } from '@civgraph/api/handlers/qub/page.js';
 import { readDetail, sharedSource } from '@civgraph/api/handlers/qub/record.js';
 import { parseRoute, searchQuery, recordPath } from '../../site/apps/qub-catalogue/url-state.js';
-import { recordHtml, resultCard, summaryLine } from '../../site/apps/qub-catalogue/views.js';
+import { catalogueLinks, qubRecordLink, recordHtml, recordMissing, resultCard, summaryLine } from '../../site/apps/qub-catalogue/views.js';
 import { RESULTS, VIEW } from '../../site/apps/qub-catalogue/state-machines.js';
 
 test('readParams: scope defaults to in; tags, sort and limits are clamped', () => {
@@ -94,6 +94,13 @@ test('views: a result card and the record page link to QUB and escape text', () 
   assert.match(page, /Credit text/);
   assert.match(page, /shared cataloguing source/);
   assert.match(page, /Outside of Civgraph scope/);
+  assert.match(page, /archive\.org\/details\/civgraph-qub-library-catalogue-csv/);
+  // a record this app does not hold (outside Civgraph scope) points to QUB and to the full catalogue file
+  const missing = recordMissing('991003809249708046');
+  assert.match(missing, /Not in this app/);
+  assert.ok(missing.includes(qubRecordLink('991003809249708046').replace(/&/g, '&amp;')));
+  assert.match(catalogueLinks(), /Full QUB catalogue records \(all 1\.67 million\) on the Internet Archive/);
+  assert.equal(qubRecordLink('991003809249708046'), qubRecordUrl('991003809249708046'));
   assert.equal(summaryLine(0, false, 'in'), 'No records match.');
   assert.equal(summaryLine(null, false, 'in'), '');
 });

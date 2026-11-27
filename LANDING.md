@@ -1,16 +1,21 @@
 # w24-qub-app: the Independent QUB Catalogue (local only) and its Civgraph scope labels
 
-Branch w24-qub-app from main 9d5d924e9e. Owner-approved 27 Nov 2026. **Not pushed, published, deployed or
-uploaded; no Cloudflare resource was created; QUB was not contacted.**
+Branch w24-qub-app from main 9d5d924e9e. Owner-approved 27 Nov 2026; owner decisions on the first report, 27 Nov
+2026: B is civic subjects only, four interpretations confirmed, the live database holds only the in-scope records, the
+whole catalogue goes to the Internet Archive. **Not pushed, published or deployed; no Cloudflare resource was created;
+QUB was not contacted.**
 
 ## What it is
 
 An app at `/qub` and `/qub/<mms_id>`, modelled on the Independent PRONI Search, over the QUB Library catalogue
 harvest (private intake, E:\civgraph-qub-catalogue; working copy D:\civgraph-intake\qub-app\):
 
-- search (FTS5 over title, author, subjects, notes/series/contents) with the filters **Within Civgraph scope**
-  (default on; "All records" and "Outside of Civgraph scope" also offered) and the topic tags A–H (a record must
-  have every tag ticked), a year range, and sort by relevance, year or title;
+- the **23,672 records within Civgraph scope** only (owner, 27 Nov 2026). Every page carries the links "Full QUB
+  catalogue records (all 1.67 million) on the Internet Archive" (https://archive.org/details/civgraph-qub-library-catalogue-csv)
+  and "QUB Library's own catalogue"; an MMS ID outside scope gets a "Not in this app" page with its QUB link;
+- search (FTS5 over title, author, subjects, notes/series/contents) with the topic tags A–H (a record must have
+  every tag ticked), a year range, and sort by relevance, year or title (records with no year last). The API keeps
+  its `scope` parameter (default `in`) for compatibility; the page no longer offers "All records" or "Outside";
 - record pages with the main fields (title, responsibility, author and other names, uniform and variant titles,
   edition, imprint, date, extent, format, language, series, notes, contents, summary, subjects, ISBN/ISSN,
   government document number, LC and Dewey class, shelf mark, QUB holdings, online links), the Civgraph scope
@@ -39,7 +44,10 @@ site/_routes.json includes `/qub` and `/qub/*` (check:routes-manifest requires e
 - functions/qub.js, functions/qub/[[path]].js, functions/_api/qub/{search,record,export}.js: route entry points.
 - site/apps/qub-catalogue/: index.html, app.css, app.js (wiring only), api.js (the one data door), config.js,
   url-state.js (pure URL state), views.js (pure markup), state-machines.js (RESULTS, VIEW).
-- scripts/records/qub/build-qub-db.py: builds the app database from the parsed harvest and the scope labels.
+- scripts/records/qub/build-qub-db.py: builds the app database (in-scope records; `--all` for every record) from the
+  parsed harvest and the scope labels. External-content FTS5, as PRONI's.
+- scripts/records/qub/build-qub-d1-sql.py: writes that database as SQL files plus load.ps1 for `wrangler d1 execute`.
+- scripts/records/qub/export-qub-csv.py: the whole catalogue as one gzipped CSV, for the Internet Archive item.
 - scripts/dev/qub-server.mjs: the local server (static site + the real handlers over a local SQLite file).
 - API v1: routes and contracts `qub/search`, `qub/record` (variants record, stats), `qub/export`; schema documents,
   openapi.json and the contract baseline regenerated; site/llms.txt's route line names them as "not yet live"
@@ -56,35 +64,38 @@ site/_routes.json includes `/qub` and `/qub/*` (check:routes-manifest requires e
 
 ```
 python -E -X utf8 scripts/records/qub/build-qub-db.py --records tmp/qub/qub-full.sqlite --labels tmp/qub/labels.sqlite ^
-  --out tmp/qub/qub-catalogue.sqlite                              # 4 min; 1.67 GB
+  --out tmp/qub/qub-catalogue.sqlite                              # 2.5 min; 46 MB, 23,672 records
 node scripts/dev/qub-server.mjs --db tmp/qub/qub-catalogue.sqlite --port 8796      # http://localhost:8796/qub
 ```
 
-The built database is at D:\civgraph-intake\qub-app\app\qub-catalogue.sqlite (copy) and in this worktree's
-tmp/qub/ (gitignored, with the parsed harvest qub-full.sqlite and labels.sqlite: D: was too full and too slow to
-work on). Screenshots: D:\civgraph-intake\qub-app\screenshots\.
+Copies on D: (small): D:\civgraph-intake\qub-app\app\qub-catalogue-in-scope.sqlite and app\d1-sql\. The parsed
+harvest (qub-full.sqlite, 4.1 GB), labels.sqlite and the IA files are in this worktree's gitignored tmp/qub/ (D: is
+too full). Screenshots: D:\civgraph-intake\qub-app\screenshots\.
 
 ## Scope labels (private, D:\civgraph-intake\qub-app\scope\)
 
-SCOPE.md (the definition and the working interpretations for the owner), SUMMARY.md (counts, accuracy, the rule
-iterations), labels.sqlite (mms_id, label, tags, reason, method, rule_band), rules.sqlite, review\ (the batches the
-Claude subagents judged). Scripts in D:\civgraph-intake\qub-app\scripts\. 30,500 of 1,673,714 records within scope.
-```
+SCOPE.md (the definition, the owner-confirmed interpretations and the B decision), SUMMARY.md (counts, accuracy, the
+rule iterations), labels.sqlite, rules.sqlite, review\ (the batches the Claude subagents judged). Scripts in
+D:\civgraph-intake\qub-app\scripts\. **23,672 of 1,673,714 records within scope**; precision 87.2%, recall 76.0% on the
+500-record check sample, which was used to tune the rules (optimistic; the untuned first version measured 73.8% / 78.9%).
 
-## What deployment would need (owner approval first; nothing here was created)
+## What deployment needs (owner approval first; nothing here was created)
 
-1. A D1 database, e.g. `qub-catalogue` (separate from civgraph-records, as PRONI's is: FTS5 tables block D1 export).
-   Size about 1.7 GB (the local file is 1.67 GB): 1,673,714 rows in `qub`, a contentless FTS5 `qub_fts`, `qub_stats`.
-   Under D1's 10 GB limit. Load: `sqlite3 qub-catalogue.sqlite .dump`, split into files under D1's import limits,
-   `wrangler d1 execute qub-catalogue --remote --file <part>`; check first that D1 accepts the contentless FTS5 table
-   (`content=''`) and `optimize`; if not, rebuild with an external-content table (as PRONI's) at about +0.6 GB.
-   Alternative: publish only the 30,500 in-scope records (about 60 MB) and keep the "All records" option local.
-2. wrangler.toml: `[[d1_databases]] binding = "QUB_DB"` for production (and preview if wanted); packages/config
-   QUB_DB `environments` set to match (config:check compares them).
-3. Optional, as PRONI: read replication and a KV cache tier; not needed for a first release.
-4. Publish: the usual approved publish run. Then /qub and /qub/<mms_id> serve, /_api/qub/* and /api/v1/qub/* answer.
-5. Before going public: the owner's decisions on SCOPE.md's interpretations (above all the B "government
-   publications" rule), the site navigation entry and sitemap (the page is noindex now), and a browser spec.
+1. A D1 database `qub-catalogue` (separate from civgraph-records, as PRONI's is). About 50 MB: 23,672 rows in `qub`,
+   `qub_stats` (the whole catalogue's figures), and an external-content FTS5 `qub_fts` (the same kind as PRONI's,
+   which D1 already runs).
+2. Load it: `python -E -X utf8 scripts/records/qub/build-qub-d1-sql.py --db tmp/qub/qub-catalogue.sqlite --out tmp/qub/d1`
+   writes 10 SQL files (25 MB; every statement under 90 KB, under D1's 100 KB limit) and load.ps1:
+   `npx wrangler d1 create qub-catalogue`, then `npx wrangler d1 execute qub-catalogue --remote --file <each file in
+   order>` (schema, 7 data files, stats, FTS rebuild), then the count check (expect 23672). The files load cleanly
+   into a local SQLite (checked: 23,672 rows, FTS answers).
+3. wrangler.toml: `[[d1_databases]] binding = "QUB_DB"`, `database_name = "qub-catalogue"`, `database_id = <from step 2>`
+   for production (and preview if wanted); packages/config QUB_DB `environments` set to match (config:check compares).
+4. The Internet Archive item civgraph-qub-library-catalogue-csv must exist before the page goes live (every page
+   links to it).
+5. Optional, as PRONI: read replication and a KV cache tier; not needed at this size.
+6. Publish: the usual approved publish run. Then /qub and /qub/<mms_id> serve, /_api/qub/* and /api/v1/qub/* answer.
+7. Before going public: the site navigation entry and sitemap (the page is noindex now), R10 keys, a browser spec.
    Rights: QUB's reuse policy (not-for-profit, link back to each record) is met by the QUB link on every card,
    page and CSV row and the credit on every page; no commercial use.
 
@@ -116,5 +127,6 @@ Claude subagents judged). Scripts in D:\civgraph-intake\qub-app\scripts\. 30,500
 - `node scripts/check/run.mjs`: CHECKS OK, 76 steps (10 skipped in this worktree for want of main's generated
   artefacts: approved-publication, peatland-geoportal, ni-register-interests, election-source-enrichments,
   provenance, site-figures, status, public-map-count, test:elections-unit, check:test2).
-- New tests: tests/unit/qub-app.test.mjs (8), tests/functions/qub-api.test.mjs (9), named-queries "every QUB
-  catalogue query prepares on the QUB schema".
+- New tests: tests/unit/qub-app.test.mjs (8, including the Internet Archive and QUB links on every page and the
+  "Not in this app" page), tests/functions/qub-api.test.mjs (9), named-queries "every QUB catalogue query prepares on
+  the QUB schema".

@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="/assets/site/site-chrome.css?v=d305c1a0d14b">
 <script defer src="/assets/site/site-chrome.js?v=55992f98f38b"></script>
 <!-- /site:head -->
-  <link rel="stylesheet" href="/apps/qub-catalogue/app.css?v=86b6adcec8f1">
+  <link rel="stylesheet" href="/apps/qub-catalogue/app.css?v=a9765882587c">
 </head>
 <body data-app="qub">
 <!-- site:header active="apps" skip-also="#q:Skip to search" -->
@@ -79,7 +79,10 @@
         <h1>Independent QUB Catalogue</h1>
         <p>Search the catalogue of Queen’s University Belfast Library for the civic history of Ireland: law, parliaments,
           elections, local government, places and maps, population, political history and reference works.</p>
-        <p class="qc-draft">Local preview, not published. Every record links back to its record in QUB Library’s catalogue.</p>
+        <p class="qc-draft">Local preview, not published. This app holds the records within Civgraph scope; every record
+          links back to its record in QUB Library’s catalogue.</p>
+        <p class="qc-links"><a href="https://archive.org/details/civgraph-qub-library-catalogue-csv" target="_blank" rel="noopener">Full QUB catalogue records (all 1.67 million) on the Internet Archive ↗</a>
+          <a href="https://qublibsearch.qub.ac.uk/" target="_blank" rel="noopener">QUB Library’s own catalogue ↗</a></p>
         <div id="stats" class="qc-stats"></div>
       </header>
       <form id="searchForm" class="qc-form" role="search">
@@ -89,13 +92,6 @@
           <button type="submit">Search</button>
         </div>
         <div class="qc-controls">
-          <label for="scope">Scope
-            <select id="scope" name="scope">
-              <option value="in">Within Civgraph scope</option>
-              <option value="all">All records</option>
-              <option value="out">Outside of Civgraph scope</option>
-            </select>
-          </label>
           <label for="from">From <input type="number" id="from" name="from" min="1" max="2100" inputmode="numeric" placeholder="year"></label>
           <label for="to">To <input type="number" id="to" name="to" min="1" max="2100" inputmode="numeric" placeholder="year"></label>
           <label for="sort">Sort
@@ -126,7 +122,10 @@
         <p>Catalogue records from Queen’s University Belfast Library, reused under QUB’s metadata reuse policy:
           reuse for not-for-profit purposes, with a link back to each record in QUB’s catalogue. Some records derive from
           shared cataloguing sources such as OCLC WorldCat. Civgraph is independent of Queen’s University Belfast;
-          this app is not a QUB service. “Within Civgraph scope” is Civgraph’s own label, made by rules and review.</p>
+          this app is not a QUB service. “Within Civgraph scope” is Civgraph’s own label, made by rules and review; the
+          records outside it are in the full catalogue file on the Internet Archive.</p>
+        <p class="qc-links"><a href="https://archive.org/details/civgraph-qub-library-catalogue-csv" target="_blank" rel="noopener">Full QUB catalogue records (all 1.67 million) on the Internet Archive ↗</a>
+          <a href="https://qublibsearch.qub.ac.uk/" target="_blank" rel="noopener">QUB Library’s own catalogue ↗</a></p>
       </section>
     </div>
     <div id="viewRecord" hidden></div>
@@ -201,7 +200,7 @@
 </div>
 </div>
 <!-- /site:support-modal -->
-  <script type="importmap">{"imports":{"/apps/qub-catalogue/api.js":"/apps/qub-catalogue/api.js?v=84186ac2f17b","/apps/qub-catalogue/config.js":"/apps/qub-catalogue/config.js?v=c7dc6b02d891","/apps/qub-catalogue/state-machines.js":"/apps/qub-catalogue/state-machines.js?v=31707dcd5718","/apps/qub-catalogue/url-state.js":"/apps/qub-catalogue/url-state.js?v=b85db9e84ed4","/apps/qub-catalogue/views.js":"/apps/qub-catalogue/views.js?v=0a27817553f4","/assets/ui/state/machine.js":"/assets/ui/state/machine.js?v=0aa7e114e335","/pkg/core/src/html.js":"/pkg/core/src/html.js?v=530f0ca2b066","/pkg/core/src/format.js":"/pkg/core/src/format.js?v=14d807aced55"}}</script>
-  <script type="module" src="/apps/qub-catalogue/app.js?v=002a70995681"></script>
+  <script type="importmap">{"imports":{"/apps/qub-catalogue/api.js":"/apps/qub-catalogue/api.js?v=84186ac2f17b","/apps/qub-catalogue/config.js":"/apps/qub-catalogue/config.js?v=fc4a2db88a3e","/apps/qub-catalogue/state-machines.js":"/apps/qub-catalogue/state-machines.js?v=31707dcd5718","/apps/qub-catalogue/url-state.js":"/apps/qub-catalogue/url-state.js?v=b85db9e84ed4","/apps/qub-catalogue/views.js":"/apps/qub-catalogue/views.js?v=9964a5200c28","/assets/ui/state/machine.js":"/assets/ui/state/machine.js?v=0aa7e114e335","/pkg/core/src/html.js":"/pkg/core/src/html.js?v=530f0ca2b066","/pkg/core/src/format.js":"/pkg/core/src/format.js?v=14d807aced55"}}</script>
+  <script type="module" src="/apps/qub-catalogue/app.js?v=138957cf352d"></script>
 </body>
 </html>

@@ -1,9 +1,10 @@
 /**
  * Named queries: the Independent QUB Catalogue (binding QUB_DB, a local SQLite file until the
- * owner approves a D1 database; LANDING/qub-app). Built by scripts/records/qub/build-qub-db.py:
+ * owner approves a D1 database; LANDING.md). It holds the records within Civgraph's scope only;
+ * the whole catalogue is on the Internet Archive. Built by scripts/records/qub/build-qub-db.py:
  *
  *   qub      one row per catalogue record (mms_id, the display columns, scope, tags, detail JSON)
- *   qub_fts  contentless FTS5 (rowid = qub.rowid) over title, author, subjects, notes and facets
+ *   qub_fts  FTS5 over title, author, subjects, notes and facets (external content: qub)
  *
  * `facets` holds the filter tokens ('scopein'/'scopeout', 'taga'..'tagh'), so the scope and
  * topic filters are part of the full-text match and need no scan of the table. The match text

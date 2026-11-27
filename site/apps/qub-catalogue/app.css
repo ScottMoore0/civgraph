@@ -22,6 +22,8 @@
 .qc-scope--in { border-color: var(--positive); color: var(--positive); }
 .qc-scope--out { color: var(--text-muted); }
 .qc-stats { color: var(--text-muted); }
+.qc-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); margin: var(--space-2) 0; }
+.qc-links a { color: var(--link); }
 .qc-summary { font-weight: 600; margin: var(--space-3) 0; display: flex; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
 .qc-results { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); }
 .qc-result { padding: var(--space-3) var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--surface-raised); }

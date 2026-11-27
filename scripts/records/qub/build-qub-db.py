@@ -1,18 +1,22 @@
 """Build the Independent QUB Catalogue's database (the QUB_DB schema; packages/api/src/queries/qub.js).
 
-    python -E -X utf8 scripts/records/qub/build-qub-db.py --records <qub-full.sqlite> --labels <labels.sqlite> --out <qub-catalogue.sqlite>
+    python -E -X utf8 scripts/records/qub/build-qub-db.py --records <qub-full.sqlite> --labels <labels.sqlite> --out <qub-catalogue.sqlite> [--all]
+
+By default the database holds only the records within Civgraph's scope (owner, 27 Nov 2026: the live app holds the
+in-scope records; the whole catalogue is on the Internet Archive, scripts/records/qub/export-qub-csv.py). --all keeps
+every record (out-of-scope ones with their identifying fields only).
 
 Inputs are PRIVATE intake (the QUB harvest parsed by the intake's parse_full.py, and the Civgraph scope labels);
 the output is a local SQLite file the local server reads (scripts/dev/qub-server.mjs). It is D1-compatible (plain
-tables and a contentless FTS5 table), so a SQL dump of it loads into a D1 database once the owner approves one
-(LANDING.md). Nothing here touches the network.
+tables and an external-content FTS5 index, as PRONI's), and scripts/records/qub/build-qub-d1-sql.py writes it out as
+SQL files for `wrangler d1 execute` once the owner approves a D1 database (LANDING.md). Nothing here touches the network.
 
 Tables:
   qub        one row per record: display columns, scope (1 within Civgraph scope / 0 outside), tags ('ABG'),
              the scope reason and method, and the detail JSON the record page reads
-  qub_fts    contentless FTS5 (rowid = qub.rowid) over title, author, subjects, notes (series, notes, summary,
+  qub_fts    FTS5 with external content (qub) over title, author, subjects, notes (series, notes, summary,
              contents, other names, uniform title) and facets ('scopein'/'scopeout', 'taga'..'tagh')
-  qub_stats  the catalogue figures: all, in, out, tag:A..tag:H (in scope)
+  qub_stats  the whole catalogue's figures: all, in, out, tag:A..tag:H (in scope), whatever this file holds
 """
 import argparse, json, os, sqlite3, sys, time
 
@@ -30,19 +34,20 @@ LANGS = {"eng": "English", "gle": "Irish", "fre": "French", "ger": "German", "la
 
 SCHEMA = """
 CREATE TABLE qub (mms_id TEXT NOT NULL, title TEXT, author TEXT, imprint TEXT, year INTEGER, date_text TEXT, format TEXT,
-  language TEXT, shelf TEXT, subjects TEXT, scope INTEGER NOT NULL, tags TEXT, scope_reason TEXT, scope_method TEXT, detail TEXT);
+  language TEXT, shelf TEXT, subjects TEXT, notes TEXT, facets TEXT, scope INTEGER NOT NULL, tags TEXT, scope_reason TEXT,
+  scope_method TEXT, detail TEXT);
 CREATE TABLE qub_stats (key TEXT PRIMARY KEY, n INTEGER NOT NULL);
-CREATE VIRTUAL TABLE qub_fts USING fts5(title, author, subjects, notes, facets, content='',
-  prefix='3', tokenize='unicode61 remove_diacritics 2');
 """
 INDEXES = """
 CREATE UNIQUE INDEX qub_mms ON qub(mms_id);
 CREATE INDEX qub_year ON qub(year, mms_id);
 CREATE INDEX qub_title ON qub(title);
-INSERT INTO qub_fts(qub_fts) VALUES('optimize');
+CREATE VIRTUAL TABLE qub_fts USING fts5(title, author, subjects, notes, facets, content='qub', content_rowid='rowid',
+  prefix='2 3', tokenize='unicode61 remove_diacritics 2');
+INSERT INTO qub_fts(qub_fts) VALUES('rebuild');
 """
-INSERT = "INSERT INTO qub (rowid, mms_id, title, author, imprint, year, date_text, format, language, shelf, subjects, scope, tags, scope_reason, scope_method, detail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-INSERT_FTS = "INSERT INTO qub_fts (rowid, title, author, subjects, notes, facets) VALUES (?,?,?,?,?,?)"
+INSERT = ("INSERT INTO qub (rowid, mms_id, title, author, imprint, year, date_text, format, language, shelf, subjects, notes, "
+          "facets, scope, tags, scope_reason, scope_method, detail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)")
 
 
 def fmt(rec_type, bib_level, n_online):
@@ -87,6 +92,7 @@ def main():
     ap.add_argument("--records", required=True)
     ap.add_argument("--labels", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--all", action="store_true", help="keep every record, not only those within scope")
     a = ap.parse_args()
     if os.path.exists(a.out):
         os.remove(a.out)
@@ -99,7 +105,7 @@ def main():
     labels = {m: (l, t or "", r or "", meth or "") for m, l, t, r, meth in lab.execute("SELECT mms_id, label, tags, reason, method FROM labels")}
     t0 = time.time()
     n = 0
-    rows, fts = [], []
+    rows = []
     stats = {"all": 0, "in": 0, "out": 0}
     q = ("SELECT mms_id, title, author, imprint, pub_year, date_imprint, rec_type, bib_level, language, shelf_mark, subjects, "
          "series, notes, summary, contents, other_names, n_online, detail FROM rec ORDER BY mms_id")
@@ -118,24 +124,21 @@ def main():
             y = int(year) if year is not None else None
         except (TypeError, ValueError):
             y = None
-        n += 1
-        rows.append((n, mms, title, author, imprint, y, (date_imp or "").strip(" .") or None, fmt(rtype, blevel, n_online),
-                     LANGS.get(lang or "", lang or None), shelf, subjects, scope, tags, cut(reason, 300), method,
-                     json.dumps(trim(d, scope), ensure_ascii=False, separators=(",", ":"))))
-        fts.append((n, title, author, subjects, searchable or None, facets))
         stats["all"] += 1
         stats["in" if scope else "out"] += 1
         if scope:
             for t in tags:
                 stats[f"tag:{t}"] = stats.get(f"tag:{t}", 0) + 1
+        if not scope and not a.all:
+            continue
+        n += 1
+        rows.append((n, mms, title, author, imprint, y, (date_imp or "").strip(" .") or None, fmt(rtype, blevel, n_online),
+                     LANGS.get(lang or "", lang or None), shelf, subjects, searchable or None, facets, scope, tags,
+                     cut(reason, 300), method, json.dumps(trim(d, scope), ensure_ascii=False, separators=(",", ":"))))
         if len(rows) >= 20000:
             out.executemany(INSERT, rows)
-            out.executemany(INSERT_FTS, fts)
-            rows, fts = [], []
-            if n % 200000 == 0:
-                print(f"{n} rows {time.time() - t0:.0f}s", flush=True)
+            rows = []
     out.executemany(INSERT, rows)
-    out.executemany(INSERT_FTS, fts)
     out.executemany("INSERT INTO qub_stats VALUES (?, ?)", sorted(stats.items()))
     out.commit()
     print("indexing", flush=True)

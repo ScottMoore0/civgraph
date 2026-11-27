@@ -17,7 +17,7 @@ import { EXPORT_CAP, PAGE_SIZE } from './config.js';
 const $ = (/** @type {string} */ id) => /** @type {HTMLElement} */ (document.getElementById(id));
 const el = {
   viewSearch: $('viewSearch'), viewRecord: $('viewRecord'), form: /** @type {HTMLFormElement} */ ($('searchForm')),
-  q: /** @type {HTMLInputElement} */ ($('q')), scope: /** @type {HTMLSelectElement} */ ($('scope')),
+  q: /** @type {HTMLInputElement} */ ($('q')),
   from: /** @type {HTMLInputElement} */ ($('from')), to: /** @type {HTMLInputElement} */ ($('to')),
   sort: /** @type {HTMLSelectElement} */ ($('sort')), dir: /** @type {HTMLSelectElement} */ ($('dir')),
   tags: $('tagFilters'), stats: $('stats'), summary: $('summary'), results: $('results'), more: /** @type {HTMLButtonElement} */ ($('moreBtn')),
@@ -38,7 +38,7 @@ let current = parseRoute(location.pathname, location.search).search;
 function formState() {
   const tags = [...el.tags.querySelectorAll('input[name="tag"]:checked')].map((i) => /** @type {HTMLInputElement} */ (i).value).sort();
   return {
-    q: el.q.value.trim(), scope: /** @type {SearchState['scope']} */ (el.scope.value), tags,
+    q: el.q.value.trim(), scope: 'in', tags,
     from: el.from.value.trim(), to: el.to.value.trim(),
     sort: /** @type {SearchState['sort']} */ (el.sort.value), dir: el.dir.value === 'desc' ? 'desc' : 'asc',
   };
@@ -46,7 +46,7 @@ function formState() {
 
 /** Put a search state into the form. @param {SearchState} s */
 function fillForm(s) {
-  el.q.value = s.q; el.scope.value = s.scope; el.from.value = s.from; el.to.value = s.to;
+  el.q.value = s.q; el.from.value = s.from; el.to.value = s.to;
   el.sort.value = s.sort; el.dir.value = s.dir;
   for (const i of el.tags.querySelectorAll('input[name="tag"]')) {
     const box = /** @type {HTMLInputElement} */ (i);

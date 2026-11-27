@@ -79,9 +79,10 @@ const DATABASES = {
              ext_circa INTEGER, ext_estimated INTEGER, ext_bound TEXT, ext_undated INTEGER, ext_display TEXT);`,
   // The Independent QUB Catalogue (QUB_DB, local only) as scripts/records/qub/build-qub-db.py builds it.
   qub: `CREATE TABLE qub (mms_id TEXT NOT NULL, title TEXT, author TEXT, imprint TEXT, year INTEGER, date_text TEXT, format TEXT,
-             language TEXT, shelf TEXT, subjects TEXT, scope INTEGER NOT NULL, tags TEXT, scope_reason TEXT, scope_method TEXT, detail TEXT);
+             language TEXT, shelf TEXT, subjects TEXT, notes TEXT, facets TEXT, scope INTEGER NOT NULL, tags TEXT, scope_reason TEXT,
+             scope_method TEXT, detail TEXT);
            CREATE TABLE qub_stats (key TEXT PRIMARY KEY, n INTEGER NOT NULL);
-           CREATE VIRTUAL TABLE qub_fts USING fts5(title, author, subjects, notes, facets, content='', prefix='3', tokenize='unicode61 remove_diacritics 2');`,
+           CREATE VIRTUAL TABLE qub_fts USING fts5(title, author, subjects, notes, facets, content='qub', content_rowid='rowid', prefix='2 3', tokenize='unicode61 remove_diacritics 2');`,
 };
 
 /** Builders that return a clause, not a statement: prepared inside this statement. */

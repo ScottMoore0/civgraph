@@ -9,14 +9,14 @@ const TAGS = ['C', 'BG', '', 'E', '', 'F'];
 export function catalogue() {
   const db = new DatabaseSync(':memory:');
   db.exec(`CREATE TABLE qub (mms_id TEXT NOT NULL, title TEXT, author TEXT, imprint TEXT, year INTEGER, date_text TEXT, format TEXT,
-             language TEXT, shelf TEXT, subjects TEXT, scope INTEGER NOT NULL, tags TEXT, scope_reason TEXT, scope_method TEXT, detail TEXT);
+             language TEXT, shelf TEXT, subjects TEXT, notes TEXT, facets TEXT, scope INTEGER NOT NULL, tags TEXT, scope_reason TEXT,
+             scope_method TEXT, detail TEXT);
            CREATE TABLE qub_stats (key TEXT PRIMARY KEY, n INTEGER NOT NULL);
            CREATE UNIQUE INDEX qub_mms ON qub(mms_id);
            CREATE INDEX qub_year ON qub(year, mms_id);
-           CREATE VIRTUAL TABLE qub_fts USING fts5(title, author, subjects, notes, facets, content='',
+           CREATE VIRTUAL TABLE qub_fts USING fts5(title, author, subjects, notes, facets, content='qub', content_rowid='rowid',
              prefix='2 3', tokenize='unicode61 remove_diacritics 2');`);
-  const add = db.prepare('INSERT INTO qub (rowid, mms_id, title, author, imprint, year, date_text, format, language, shelf, subjects, scope, tags, scope_reason, scope_method, detail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
-  const addFts = db.prepare('INSERT INTO qub_fts (rowid, title, author, subjects, notes, facets) VALUES (?,?,?,?,?,?)');
+  const add = db.prepare('INSERT INTO qub (rowid, mms_id, title, author, imprint, year, date_text, format, language, shelf, subjects, notes, facets, scope, tags, scope_reason, scope_method, detail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
   /** @type {Record<string, number>} */
   const stats = { all: 0, in: 0, out: 0 };
   for (let i = 0; i < 60; i += 1) {
@@ -30,14 +30,14 @@ export function catalogue() {
     const title = `${['Belfast elections', 'Home rule debates', 'Collected poems', 'Townlands of Down', 'Organic chemistry', 'Census of Ireland'][k]} ${i}`;
     const facets = `${scope ? 'scopein' : 'scopeout'} ${tags.split('').map((t) => `tag${t.toLowerCase()}`).join(' ')}`.trim();
     add.run(i + 1, mms, title, `Author ${i % 4}`, `Belfast : Press, ${1850 + i}`, 1850 + i, `${1850 + i}.`, 'Book', 'English', `SH ${i}`,
-      SUBJECTS[k] ?? '', scope, tags, scope ? 'Irish subject; civic topic' : 'no Irish signal', 'rules', detail);
-    addFts.run(i + 1, title, `Author ${i % 4}`, SUBJECTS[k] ?? '', 'Irish series', facets);
+      SUBJECTS[k] ?? '', 'Irish series', facets, scope, tags, scope ? 'Irish subject; civic topic' : 'no Irish signal', 'rules', detail);
     stats.all += 1;
     stats[scope ? 'in' : 'out'] = (stats[scope ? 'in' : 'out'] ?? 0) + 1;
     for (const t of tags) stats[`tag:${t}`] = (stats[`tag:${t}`] ?? 0) + 1;
   }
   const st = db.prepare('INSERT INTO qub_stats VALUES (?, ?)');
   for (const [key, n] of Object.entries(stats)) st.run(key, n);
+  db.exec("INSERT INTO qub_fts(qub_fts) VALUES('rebuild')");
   return db;
 }
 
