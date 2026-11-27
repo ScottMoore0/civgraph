@@ -1729,7 +1729,9 @@ export class CatalogueNext {
     if (!panel || !s) { this.rerenderRow(sid); return; }
     panel.innerHTML = MapsView.panelHtml(this, s);
     this.afterDraw(panel);
-    if (focusSel) /** @type {HTMLElement | null} */ (panel.querySelector(focusSel))?.focus({ preventScroll: true });
+    // A list of selectors ("a, b"): the first that matches takes the focus, in the order given.
+    const target = focusSel ? focusSel.split(', ').map((sel) => panel.querySelector(sel)).find(Boolean) : null;
+    /** @type {HTMLElement | null | undefined} */ (target)?.focus({ preventScroll: true });
   }
 
   /** @param {HTMLElement} btn */

@@ -239,6 +239,7 @@ export const CATALOGUE_CSS = `
 /* A part, county map or council map with its own small buttons. */
 .cn-item { display: inline-flex; align-items: center; gap: 2px; max-width: 100%; min-width: 0; }
 .cn-item > .cn-iconbtn { flex: none; }
+.cn-item > .cn-chip { min-width: 0; } /* a long name shortens (ellipsis on the strip, wraps in the panel), its tools stay in view */
 /* Inside the opened row a long name ("Cork, Dublin and Galway cities and islands (Paddy Matthews)")
    wraps onto more lines, its buttons staying beside it, rather than running off the pane's edge
    (Phelim Birch's review, 20 Nov 2026). The collapsed row's chips stay one line each (fitChips). */

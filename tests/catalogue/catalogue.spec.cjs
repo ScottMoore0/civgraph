@@ -1359,46 +1359,37 @@ test('N55 a map\'s own description shows in its row, as on its Details page; a m
   await open(page);
   await pane(page).locator('[data-cn-tab="statistics"]').click();
   const description = (id) => page.evaluate((x) => window.uiController._catalogueNext.mapDescription(x), id);
-  // A row of one map: under the row's description, when the row is opened. The first one-map census row
-  // whose map still has a description of its own (the AI-written ones were blanked, owner 24 Nov 2026).
-  let single = null;
-  for (const s of catalogue.series.filter((x) => /^census-statistics-/.test(x.id) && x.members.length === 1)) {
-    if ((await description(s.members[0].id)).length) { single = s; break; }
-  }
-  if (single) {
-    const one = row(page, single.id);
-    await one.scrollIntoViewIfNeeded();
-    await expect(one.locator('.cn-mapdesc')).toHaveCount(0);
-    await one.locator('[data-cn-expand]').click();
-    const text = await description(single.members[0].id);
-    expect(text.length).toBeGreaterThan(0);
-    await expect(one.locator('.cn-panel .cn-mapdesc')).toHaveText(text);
-  }
-  // A row of several: the description of the map whose line is opened, and only that one.
-  let several = null;
-  let other = null;
-  for (const s of catalogue.series.filter((x) => /^census-statistics-/.test(x.id) && x.members.length > 1)) {
-    if (!(await description(s.members[0].id)).length) continue;
-    for (const m of s.members.slice(1)) {
-      if ((await description(m.id)).length) { several = s; other = m; break; }
-    }
-    if (several) break;
-  }
-  expect(several).not.toBeNull();
+  // The census statistics' own texts were AI-written and are gone (the 16 longer ones on 24 Nov, the
+  // 69 template ones on 27 Nov 2026, owner-approved): none is left to show.
+  const census = catalogue.series.filter((x) => /^census-statistics-/.test(x.id));
+  expect(census.length).toBeGreaterThan(0);
+  for (const s of census.slice(0, 20)) expect(await description(s.members[0].id)).toBe('');
+  const one = row(page, census.find((x) => x.members.length === 1).id);
+  await one.scrollIntoViewIfNeeded();
+  await one.locator('[data-cn-expand]').click();
+  await expect(one.locator('.cn-mapdesc')).toHaveCount(0);
+  // The mechanism, with a description given to two maps of a row: the chosen map's shows under
+  // "Details for", and only that one; choosing the other shows its own.
+  const several = census.find((x) => x.members.filter((m) => !m.of).length > 1) || catalogue.series.find((x) => x.id === 'counties-counties');
+  const [a, b] = several.members.filter((m) => !m.of);
+  await page.evaluate(([ida, idb]) => {
+    const c = window.uiController._catalogueNext;
+    const texts = { [ida]: 'First test description.', [idb]: 'Second test description.' };
+    c.mapDescription = (id) => texts[id] || '';
+  }, [a.id, b.id]);
+  if (!several.id.startsWith('census-statistics-')) await pane(page).locator('[data-cn-tab="boundaries"]').click();
   const r = row(page, several.id);
   await r.scrollIntoViewIfNeeded();
   await r.locator('[data-cn-expand]').click();
+  await openPick(r, a.label);
+  await expect(r.locator('.cn-panel .cn-mapdesc')).toHaveText('First test description.');
+  await openPick(r, b.label);
+  await expect(r.locator('.cn-panel .cn-mapdesc')).toHaveText('Second test description.');
   await expect(r.locator('.cn-mapdesc')).toHaveCount(1);
-  await openPick(r, other.label);
-  await expect(r.locator('.cn-panel .cn-mapdesc')).toHaveText(await description(other.id));
-  await expect(r.locator('.cn-mapdesc')).toHaveCount(1);
-  // The Details page shows the same text.
-  await page.evaluate((id) => window.uiController.showCatalogueDetailView(id), other.id);
-  await expect(page.locator('#catalogueDetailView .catalogue-detail__description')).toHaveText(await description(other.id));
   // A map with no description of its own: no block, no placeholder.
-  expect(await description('counties-ireland')).toBe('');
   await page.goto('about:blank');
   await open(page);
+  expect(await description('counties-ireland')).toBe('');
   const counties = row(page, 'counties-counties');
   await counties.scrollIntoViewIfNeeded();
   await counties.locator('[data-cn-expand]').click();
