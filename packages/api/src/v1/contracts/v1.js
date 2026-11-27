@@ -137,7 +137,7 @@ const CITATION = obj({
 
 const PRONI_CHILD = obj({ ref: str, slug: str, title: str, level: str, dates: str, hasChildren: bool });
 const PRONI_ROW = obj({ ref: str, slug: str, title: str, level: str, dates: str, parent: str, hasChildren: bool, fond: str, description: str, descTruncated: bool, exact: bool, url: str });
-// The Independent QUB Catalogue (27 Nov 2026, local only until the owner approves; LANDING/qub-app).
+// The Independent QUB Catalogue (27 Nov 2026; QUB_DB bound in production, owner approval of 27 Nov 2026).
 const QUB_ROW = obj({ mmsId: str, title: str, author: str, imprint: str, year: either('integer', 'null'), format: str, inScope: bool, tags: arr(str), url: str, qubUrl: str });
 const QUB_ITEM = obj({
   mmsId: str, title: str, author: str, imprint: str, year: either('integer', 'null'), dateText: str, format: str, language: str, shelfMark: str,

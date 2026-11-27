@@ -10,7 +10,7 @@
  *   node scripts/dev/qub-server.mjs --db <qub-catalogue.sqlite> [--port 8796]
  *   (or QUB_DB_FILE=<path>)                                    prints "ready <port>" once listening
  *
- * The app is local only until the owner approves its deployment (LANDING/qub-app).
+ * Runs the app locally over a SQLite copy of the qub-catalogue database (bound in production since 27 Nov 2026).
  */
 import http from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';

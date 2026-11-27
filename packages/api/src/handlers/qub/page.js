@@ -3,8 +3,8 @@
  * index.html), with a record's own <title> and description on its page, and 404 for an id the
  * catalogue does not hold (the app still loads and says so).
  *
- * The app is LOCAL ONLY until the owner approves its deployment (LANDING/qub-app): without a
- * QUB_DB binding every /qub address answers 404, so landing this code publishes nothing.
+ * QUB_DB is bound in production (owner approval of 27 Nov 2026). Where it is not bound (the
+ * preview, a local run without --db) every /qub address answers 404.
  */
 import { binding } from '@civgraph/config';
 import { fromD1 } from '@civgraph/storage/d1.js';

@@ -99,7 +99,7 @@ export const ROUTES = Object.freeze({
     ['q', 'fields', 'letter', 'from', 'to', 'top', 'level', 'access']),
   'proni/export': route(proniExport, '/_api/proni/export', 'PRONI eCatalogue: matches as CSV',
     ['q', 'fields', 'letter', 'from', 'to', 'top', 'level', 'access']),
-  // The Independent QUB Catalogue (27 Nov 2026): answers 503 until the owner approves a QUB_DB binding.
+  // The Independent QUB Catalogue (27 Nov 2026): answers 503 where QUB_DB is not bound (bound in production since 27 Nov 2026).
   'qub/search': route(qubSearch, '/_api/qub/search', 'QUB Library catalogue search, by default within Civgraph scope',
     ['q', 'scope', 'tag', 'from', 'to', 'sort', 'dir', 'limit', 'offset']),
   'qub/record': route(qubRecord, '/_api/qub/record', 'QUB Library catalogue: one record with its QUB link, or the figures', ['id']),

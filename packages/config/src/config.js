@@ -56,8 +56,8 @@ export const BINDINGS = /* @__PURE__ */ Object.freeze({
     purpose: 'the PRONI eCatalogue with its FTS5 index (kept separate: FTS5 blocks D1 export)',
   }),
   QUB_DB: /* @__PURE__ */ Object.freeze({
-    kind: 'd1', name: 'qub-catalogue', environments: [], optional: true,
-    purpose: 'the Independent QUB Catalogue with its FTS5 index; NOT bound: local only until the owner approves (LANDING/qub-app)',
+    kind: 'd1', name: 'qub-catalogue', environments: ['production'], optional: true,
+    purpose: 'the Independent QUB Catalogue (records within Civgraph scope) with its FTS5 index; bound in production (owner, 27 Nov 2026)',
   }),
   PRONI_KV: /* @__PURE__ */ Object.freeze({ kind: 'kv', environments: ['production', 'preview'], purpose: 'PRONI app cache' }),
   SPATIAL_INDEX: /* @__PURE__ */ Object.freeze({ kind: 'kv', environments: ['production'], purpose: 'names and spatial chunks for /_api/search and /_api/spatial' }),
