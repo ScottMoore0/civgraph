@@ -11,7 +11,7 @@ import { ZOOM_ICON_PATHS, strokeIconSvg } from './icons.mjs';
 /** @typedef {{ minor?: boolean, date?: unknown, timestamp?: unknown, label?: unknown }} TimelineTickItem */
 
 /**
- * One change in the list: its kind ('created', 'abolished', 'renamed', 'transfer', 'reorganised',
+ * One change in the list: its kind ('merged', 'divided', 'created', 'abolished', 'renamed', 'transfer', 'reorganised',
  * 'appeared', 'disappeared'), its sentence, the step it belongs to when several were taken at once,
  * and the key the zoom button names.
  * @typedef {{ type?: string, text: string, step?: string, key: string }} TimelineChangeItem
@@ -21,7 +21,7 @@ import { ZOOM_ICON_PATHS, strokeIconSvg } from './icons.mjs';
  * @typedef {object} TimelineChangeView
  * @property {{ label: string, text: string }[]} parts one summary per step taken
  * @property {TimelineChangeItem[]} changes
- * @property {boolean} reversed going back in time: each change reads the other way
+ * @property {boolean} reversed going back in time (the changes still read as they happened)
  * @property {number} skipped steps too many to list
  * @property {string} fromLabel the edition shown before (the button's tooltip says "since" it)
  * @property {string} toLabel the edition shown now
@@ -75,9 +75,7 @@ export function timelineTicksHtml(items, yearOf) {
 }
 
 /** @type {Record<string, string>} */
-const TYPE_LABEL = { created: 'New', abolished: 'Abolished', renamed: 'Renamed', transfer: 'Transfer', reorganised: 'Transfer', appeared: 'Added', disappeared: 'Gone' };
-/** @type {Record<string, string>} */
-const REVERSED_TYPE = { created: 'abolished', abolished: 'created', appeared: 'disappeared', disappeared: 'appeared' };
+const TYPE_LABEL = { merged: 'Merged', divided: 'Divided', created: 'New', abolished: 'Abolished', renamed: 'Renamed', transfer: 'Transfer', reorganised: 'Transfer', appeared: 'Added', disappeared: 'Gone' };
 
 /**
  * The changes panel's heading: "Changes, 01 Apr 1955", the date of the later edition, where the
@@ -103,7 +101,8 @@ export function timelineChangesPanelHtml(view) {
   const summaries = view.parts.map((part) => `<p class="timeline-changes-panel__summary">${view.parts.length > 1 ? `<strong>${esc(part.label)}:</strong> ` : ''}${esc(part.text)}</p>`).join('');
   const list = view.changes.length
     ? `<ol class="timeline-changes-panel__list">${view.changes.map((change) => {
-      const type = view.reversed ? (REVERSED_TYPE[change.type || ''] || change.type) : change.type;
+      // A change is named for what happened at its date, whichever way the slider moved.
+      const type = change.type;
       return `<li class="timeline-changes-panel__item">
           <span class="timeline-changes-panel__type timeline-changes-panel__type--${esc(type)}">${esc(TYPE_LABEL[type || ''] || 'Change')}</span>
           <span class="timeline-changes-panel__text">${esc(change.text)}${change.step ? ` <span class="timeline-changes-panel__step">(${esc(change.step)})</span>` : ''}</span>

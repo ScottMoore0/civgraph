@@ -20,6 +20,11 @@ const row = (page, id) => pane(page).locator(`[data-cn-series="${id}"]`);
 const menuItem = (page, text) => page.locator('.cn-menu [role="menuitem"]', { hasText: text });
 // An edition in an opened row's dated list: the button that opens its facts, versions and parts.
 const pick = (r, label) => r.locator(`.cn-dlist__more[aria-label="${label}: facts, versions and parts"]`);
+/** Open a map in a row's list: the open one's button closes it (N59), so click only when it is closed. */
+const openPick = async (r, label) => {
+  if ((await pick(r, label).getAttribute('aria-expanded')) !== 'true') await pick(r, label).click();
+  await expect(pick(r, label)).toHaveAttribute('aria-expanded', 'true');
+};
 const route = (page) => page.evaluate(() => new URLSearchParams(location.hash.slice(1)).get('cat'));
 const loaded = (page) => page.evaluate(() => window.__civgraphTest2.app.getLoadedLayerIds());
 
@@ -468,7 +473,7 @@ test('N17 council maps follow their edition; hovers name the unit; parts downloa
   // The 2019 ED council maps show with the 2019 edition only.
   const ed = row(page, 'electoral-divisions-electoral-divisions');
   await ed.locator('[data-cn-expand]').click();
-  await pick(ed, '2019').click();
+  await openPick(ed, '2019');
   await expect(ed.locator('.cn-sub', { hasText: 'Council maps' })).toContainText('Fingal (2019)');
   await pick(ed, '1997').click();
   await expect(ed.locator('.cn-sub', { hasText: 'Council maps' })).toHaveCount(0);
@@ -1441,4 +1446,32 @@ test('N58 a hidden copy or version of a map opens that map\'s Details page; a re
   await expect.poll(detail).toBe('eu-referendum-2016');
   await expect.poll(hashDetail).toBe('eu-referendum-2016');
   await expect(page.locator('#catalogueDetailView .catalogue-detail__name')).toContainText('Referendum');
+});
+
+/* ------------------------------------------------------------------ Phelim Birch's review, 26 Nov 2026 */
+
+test('N59 the open map\'s button closes it again; another map\'s opens that one', async ({ page }) => {
+  await open(page);
+  await row(page, LGD).locator('[data-cn-expand]').click();
+  const r = row(page, LGD);
+  await pick(r, '1985').click();
+  await expect(pick(r, '1985')).toHaveAttribute('aria-expanded', 'true');
+  await pick(r, '1985').click();
+  await expect(pick(r, '1985')).toHaveAttribute('aria-expanded', 'false');
+  await expect(r.locator('.cn-dlist__item--open')).toHaveCount(0);
+  await pick(r, '1985').click();
+  await expect(r.locator('.cn-dlist__item--open')).toContainText('1985');
+});
+
+test('N60 the Details page: a one-map row\'s main map does not end its Section line with its own name; its council map does', async ({ page }) => {
+  await open(page);
+  const trail = page.locator('#catalogueDetailView .catalogue-detail__trail');
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('roi-municipal-districts-2019'));
+  await expect(page.locator('#catalogueDetailView .catalogue-detail__name')).toHaveText('Municipal Districts');
+  await expect(trail).not.toContainText('Municipal Districts');
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('oda-map-00639-municipal-district'));
+  await expect(trail).toHaveText(/› Municipal Districts$/);
+  // The label and its value do not run together.
+  const gap = await page.locator('#catalogueDetailView .catalogue-detail__meta-row').first().evaluate((el) => getComputedStyle(el).columnGap);
+  expect(parseFloat(gap)).toBeGreaterThan(0);
 });

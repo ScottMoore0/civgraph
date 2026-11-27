@@ -1111,8 +1111,9 @@ export class Test2MapLibreMainAdapter {
    *                   visible at island zoom; it fades as the areas themselves become legible
    *
    * `geojson` holds the pair files' features; `options.reversed` is set when stepping
-   * backwards, which swaps which lines are new and which are gone. `options.points` is the
-   * change list's label points ({ id, lng, lat }).
+   * backwards. A line new at the step is drawn as new either way: the key and the list say what
+   * happened at that date, not what the slider undid (Phelim Birch, 26 Nov 2026). `options.points`
+   * is the change list's label points ({ id, lng, lat }).
    * @param {{ features?: unknown } | null | undefined} geojson
    * @param {{ reversed?: boolean, points?: unknown, key?: string }} [options]
    * @returns {boolean}
@@ -1124,7 +1125,7 @@ export class Test2MapLibreMainAdapter {
     const features = Array.isArray(geojson?.features) ? geojson.features : [];
     const shown = features.map((feature) => {
       const role = feature?.properties?.['role'];
-      const drawn = role === 'added' ? (reversed ? 'gone' : 'new') : role === 'removed' ? (reversed ? 'new' : 'gone') : role === 'renamed' ? 'renamed' : 'area';
+      const drawn = role === 'added' ? 'new' : role === 'removed' ? 'gone' : role === 'renamed' ? 'renamed' : 'area';
       return { ...feature, properties: { ...(feature.properties || {}), drawn } };
     });
     const points = /** @type {Array<{ id?: unknown, lng: number, lat: number }>} */ (Array.isArray(options.points) ? options.points : [])

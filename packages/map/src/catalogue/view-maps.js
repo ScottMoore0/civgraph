@@ -418,7 +418,8 @@ function mapDescriptionHtml(c, id) {
  * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} list @param {CatalogueRowMember} sel @param {RowHit} [hit]
  */
 function datedListHtml(c, s, list, sel, hit) {
-  const chosen = sel.of || sel.id;
+  // None open when the reader closed the open one (CatalogueNext.select).
+  const chosen = c.closedMaps?.has(s.id) ? null : sel.of || sel.id;
   const hits = new Set((c.query || c.here) ? hit?.members || [] : []);
   return `<ul class="cn-dlist" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${list.map((m) => {
     const r = c.rec(m.id);

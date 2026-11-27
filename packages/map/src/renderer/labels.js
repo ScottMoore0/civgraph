@@ -285,6 +285,19 @@ export function getLabelLines(layer, props) {
   return bilingualLines(primary, irish);
 }
 
+/**
+ * The label properties a map's Details page lists: the English label field and, where the map's
+ * labels carry an Irish line, the Irish one (Phelim Birch, 26 Nov 2026: the Irish label properties
+ * were missing from Label Property). Empty strings where there is none.
+ * @param {RendererLayer} layer
+ * @returns {{ english: string, irish: string }}
+ */
+export function labelFieldsForDetails(layer) {
+  const english = typeof layer?.labelProperty === 'string' ? layer.labelProperty : '';
+  const irish = (layer && (irishNameProperty(layer) || irishSecondLineField(layer))) || '';
+  return { english, irish: irish === english ? '' : irish };
+}
+
 /** @param {RendererLayer} layer */
 export function getLabelProperties(layer) {
   const irish = irishNameProperty(layer);

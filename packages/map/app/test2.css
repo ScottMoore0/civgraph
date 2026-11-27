@@ -3669,7 +3669,10 @@ body.test2-election-collapsed .election-pane__peek {
 #activeLayers .active-layer-item__info {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  /* main.css stacks the info as a column: baseline alignment there let the name keep its whole
+     width (and shifted it beside a Hidden badge), so a long name ran under the buttons (Phelim
+     Birch, 26 Nov 2026). Aligned to the start, it is held to the box and cut short. */
+  align-items: flex-start;
   column-gap: 6px;
   flex: 1 1 0;
   min-width: 0;
@@ -3678,6 +3681,7 @@ body.test2-election-collapsed .election-pane__peek {
 #activeLayers .active-layer-item__name {
   flex: 0 1 auto;
   min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -4431,4 +4435,20 @@ body.test2-election-collapsed .election-pane__peek {
     min-height: 32px;
     padding: 4px 9px;
   }
+}
+
+/* Details page facts: a gap between the label and its value ("SECTIONBoundaries" ran together:
+   Phelim Birch, 26 Nov 2026); a long value (the Section path) wraps beside its label. */
+#catalogueDetailView .catalogue-detail__meta-row {
+  gap: var(--space-4);
+  align-items: baseline;
+}
+
+#catalogueDetailView .catalogue-detail__meta-label {
+  flex: none;
+}
+
+#catalogueDetailView .catalogue-detail__meta-value {
+  min-width: 0;
+  text-align: right;
 }

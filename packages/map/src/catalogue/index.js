@@ -215,6 +215,8 @@ export class CatalogueNext {
     this.expanded = new Set();
     /** @type {Map<string, string>} each row's chosen edition */
     this.selected = new Map();
+    /** @type {Set<string>} rows whose list of maps has its open map closed (none opened beneath it) */
+    this.closedMaps = new Set();
     /** @type {string | null} */
     this.focusSeries = null;
     /** @type {Set<string>} */
@@ -1299,7 +1301,7 @@ export class CatalogueNext {
       this.focusSeries = a;
       // A map still to be added is shown in its row's list of maps to come.
       if (b && /** @type {CatalogueRow} */ (this.seriesById.get(a)).todo?.some((t) => t.id === b)) this.showTodo.add(a);
-      else if (b) this.selected.set(a, b);
+      else if (b) { this.selected.set(a, b); this.closedMaps.delete(a); }
       this.revealSeries(this.seriesById.get(a));
       this.scrollTarget = a;
     } else if (view === 'subject' && this.subjectById.has(a)) {
@@ -1482,7 +1484,7 @@ export class CatalogueNext {
       this.section = sectionOfKind(this.seriesById.get(sid)?.kind);
       this.expanded.add(sid);
       this.focusSeries = sid;
-      if (el.dataset['map']) this.selected.set(sid, el.dataset['map']);
+      if (el.dataset['map']) { this.selected.set(sid, el.dataset['map']); this.closedMaps.delete(sid); }
       this.revealSeries(this.seriesById.get(sid));
       this.scrollTarget = sid;
       this.draw();
@@ -1653,7 +1655,15 @@ export class CatalogueNext {
 
   /** @param {string} sid @param {string} mid */
   select(sid, mid) {
-    this.selected.set(sid, mid);
+    // The open map's button closes it again; before, only opening another closed it (Phelim
+    // Birch, 26 Nov 2026).
+    const s = this.seriesById?.get(sid);
+    const sel = s && !this.closedMaps.has(sid) ? this.selectedMember(s) : null;
+    if (sel && (sel.of || sel.id) === mid) this.closedMaps.add(sid);
+    else {
+      this.closedMaps.delete(sid);
+      this.selected.set(sid, mid);
+    }
     this.focusSeries = sid;
     this.rerenderPanel(sid, `[data-cn-select="${cssId(`${sid}|${mid}`)}"]`);
     this.replaceRoute();
@@ -2179,7 +2189,7 @@ export class CatalogueNext {
         flatSection: FLAT_SECTIONS.has(section),
         shelf: shelf && { name: MapsView.shelfName(section, shelf), flat: shelf.flat },
         subject: this.subjectById?.get(s.subject),
-        row: { name: s.name, maps: rowMapCount(s) },
+        row: { name: s.name, maps: rowMapCount(s), title: mapTitle(s, id) },
       }),
       colour: r.color || s.color || '',
       partLabel: (partId) => partLabel(r, partId),

@@ -198,7 +198,7 @@ export class TimelineChangeMethods {
       const label = this.formatTimelineItemLabel(step.toItem);
       parts.push({ label, kind: entry?.kind || 'unknown', count: Number(entry?.count) || 0, text: entry?.text || 'No change data for this step.' });
       for (const change of Array.isArray(file?.changes) ? file.changes : []) {
-        changes.push({ ...change, key: `${k}:${change.id}`, step: multi ? label : '', text: this.describeTimelineChange(change, reversed) });
+        changes.push({ ...change, key: `${k}:${change.id}`, step: multi ? label : '', text: this.describeTimelineChange(change) });
       }
       for (const feature of Array.isArray(file?.features) ? file.features : []) {
         const changeId = feature?.properties?.['changeId'];
@@ -229,7 +229,8 @@ export class TimelineChangeMethods {
       dateLabels: reversed ? dateLabels.reverse() : dateLabels,
       fromMapId: fromItem?.mapId || null,
       toMapId,
-      note: !reversed && !multi && toMapId ? String(dataService.getMapById(toMapId)?.changeNote || '') : '',
+      // The note on the step's later edition, whichever way the slider moved.
+      note: !multi && steps[0]?.toMapId ? String(dataService.getMapById(steps[0].toMapId)?.changeNote || '') : '',
       drawn: true
     };
   }
@@ -252,29 +253,42 @@ export class TimelineChangeMethods {
   }
 
   /**
+   * What happened at the step, in the order it happened, whichever way the slider moved: going
+   * back past the 2014 step still reads "North Tipperary and South Tipperary County Councils
+   * merged to form Tipperary County Council", not the merger undone (Phelim Birch, 26 Nov 2026).
    * @this {TimelineChangeApp}
    * @param {TimelineChange | null | undefined} change
-   * @param {boolean} [reversed]
    * @returns {string}
    */
-  describeTimelineChange(change, reversed = false) {
+  describeTimelineChange(change) {
     const from = this.timelineChangeName(change?.from);
     const to = this.timelineChangeName(change?.to);
     const ha = this.formatHectares(change?.ha);
+    /** @param {unknown} names @param {string} fallback */
+    const list = (names, fallback) => {
+      const all = [...new Set((Array.isArray(names) ? names : []).map((name) => this.timelineChangeName(name)).filter(Boolean))];
+      // A comma before the last 'and' when a name has its own: "Newry and Mourne, and Down".
+      const last = all.some((name) => /\band\b/i.test(name)) ? ', and ' : ' and ';
+      return all.length > 1 ? `${all.slice(0, -1).join(', ')}${last}${all[all.length - 1]}` : all[0] || fallback;
+    };
     switch (change?.type) {
+      case 'merged':
+        return `${list(change.fromNames, from)} merged to form ${to}`;
+      case 'divided':
+        return `${from} divided into ${list(change.toNames, to)}`;
       case 'created':
-        return reversed ? `${to} merged back into ${from}` : `${to} formed from ${from}`;
+        return `${to} formed from ${from}`;
       case 'abolished':
-        return reversed ? `${from} re-formed from ${to}` : `${from} abolished, joined to ${to}`;
+        return `${from} abolished, joined to ${to}`;
       case 'renamed':
-        return reversed ? `${to} renamed back to ${from}` : `${from} renamed ${to}`;
+        return `${from} renamed ${to}`;
       // Drawn in one edition only (a gap in the other's source layer).
       case 'appeared':
-        return reversed ? `${to} not drawn in this edition` : `${to} first drawn in this edition`;
+        return `${to} first drawn in this edition`;
       case 'disappeared':
-        return reversed ? `${from} drawn again in this edition` : `${from} no longer drawn`;
+        return `${from} no longer drawn`;
       default:
-        return reversed ? `${ha} from ${to} back to ${from}` : `${ha} from ${from} to ${to}`;
+        return `${ha} from ${from} to ${to}`;
     }
   }
 

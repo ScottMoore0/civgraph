@@ -15,6 +15,7 @@ import { cdnUrl } from './cdn-url.js';
 import { catalogueNextRequested, initialCatalogueRoute } from './catalogue/flag.js';
 import { installSplit } from './catalogue/split.js';
 import { ownDescription } from './catalogue/row-model.mjs';
+import { labelFieldsForDetails } from './renderer/labels.js';
 import { CATALOGUE_HISTORY_ENTRY, CATALOGUE_VIEW, ENTITY_PLACEHOLDER, MOBILE_CATALOGUE, SPLIT_ALLOWED, SPLIT_LAYOUT } from './ui-state-machines.mjs';
 import { createFlag, createState, setHidden } from './state-helpers.mjs';
 import { partyFullName, partyLabelHtml } from '../../core/src/party-names.mjs';
@@ -556,6 +557,8 @@ class UIController {
         // file's address, its style or its keywords (Phelim Birch's notes, 19 Nov 2026); Download
         // gives the files.
         const filePath = map.files?.fgb || map.files?.geojson || null;
+        // The English label field and the Irish one where the labels carry an Irish line.
+        const labelFields = labelFieldsForDetails(/** @type {import('./renderer/labels.js').RendererLayer} */ (/** @type {unknown} */ (map)));
 
         // Build variants HTML
         // In /maps a map's variants are its "Parts", each by the catalogue's name for it, else (a
@@ -644,10 +647,10 @@ class UIController {
                     <span class="catalogue-detail__meta-label">Slug</span>
                     <span class="catalogue-detail__meta-value catalogue-detail__meta-value--mono">${this.escapeHtml(map.slug)}</span>
                 </div>` : ''}
-                ${map.labelProperty ? `
+                ${labelFields.english || labelFields.irish ? `
                 <div class="catalogue-detail__meta-row">
                     <span class="catalogue-detail__meta-label">Label Property</span>
-                    <span class="catalogue-detail__meta-value catalogue-detail__meta-value--mono">${this.escapeHtml(map.labelProperty)}</span>
+                    <span class="catalogue-detail__meta-value catalogue-detail__meta-value--mono">${[labelFields.english && `${this.escapeHtml(labelFields.english)}${labelFields.irish ? ' (English)' : ''}`, labelFields.irish && `${this.escapeHtml(labelFields.irish)} (Irish)`].filter(Boolean).join(', ')}</span>
                 </div>` : ''}
                 ${map.priorityProperty ? `
                 <div class="catalogue-detail__meta-row">
