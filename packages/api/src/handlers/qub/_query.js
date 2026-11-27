@@ -1,6 +1,6 @@
 /**
  * The Independent QUB Catalogue's shared request logic (search, export, record, stats): pure,
- * so tests/unit/qub-query.test.mjs runs it without a database.
+ * so the unit test qub-query.test.mjs runs it without a database.
  *
  *   q      free text: "phrase", -exclude, field:value (title, author, subject, notes)
  *   scope  'in' (default: Within Civgraph scope) | 'out' | 'all'

@@ -1,6 +1,6 @@
 /**
  * The Independent QUB Catalogue's markup: pure string functions (no DOM, no fetch), so
- * tests/unit/qub-app.test.mjs checks them and app.js only puts them on the page (rule R12).
+ * the unit test qub-app.test.mjs checks them and app.js only puts them on the page (rule R12).
  * Every record row and record page links to the record in QUB's catalogue: the condition of
  * QUB's metadata reuse policy.
  */

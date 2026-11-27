@@ -1,6 +1,6 @@
 /**
  * The Independent QUB Catalogue app's state machines (architecture rule R7), over the shared
- * helper (assets/ui/state/machine.js). app.js runs them; tests/unit/qub-app.test.mjs walks every
+ * helper (assets/ui/state/machine.js). app.js runs them; the unit test qub-app.test.mjs walks every
  * forbidden move.
  */
 import { defineMachine } from '../../assets/ui/state/machine.js';
