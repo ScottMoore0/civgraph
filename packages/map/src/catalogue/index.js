@@ -1464,7 +1464,14 @@ export class CatalogueNext {
     if ((el = b('[data-cn-toggle]'))) { e.preventDefault(); this.toggleMap(/** @type {string} */ (el.dataset['cnToggle']), el); return; }
     if ((el = b('[data-cn-election-toggle]'))) { e.preventDefault(); this.toggleElection(/** @type {string} */ (el.dataset['cnElectionToggle']), el); return; }
     if ((el = b('[data-cn-expand]'))) { e.preventDefault(); this.toggleExpand(/** @type {string} */ (el.dataset['cnExpand'])); return; }
-    if ((el = b('[data-cn-select]'))) { e.preventDefault(); const [sid, mid] = /** @type {[string, string]} */ (/** @type {string} */ (el.dataset['cnSelect']).split('|')); this.select(sid, mid); return; }
+    if ((el = b('[data-cn-select]'))) {
+      e.preventDefault();
+      const [sid, mid] = /** @type {[string, string]} */ (/** @type {string} */ (el.dataset['cnSelect']).split('|'));
+      // The previous and next buttons keep the focus on themselves, to step on (pickerHtml).
+      const dir = el.dataset['cnStep'];
+      this.select(sid, mid, dir ? `[data-cn-step="${dir}"]:not(:disabled), [data-cn-pick-edition]` : undefined);
+      return;
+    }
     if ((el = b('[data-cn-more]'))) { e.preventDefault(); this.moreChips.add(/** @type {string} */ (el.dataset['cnMore'])); this.rerenderRow(/** @type {string} */ (el.dataset['cnMore']), { focus: 'chips' }); return; }
     if ((el = b('[data-cn-fewer]'))) { e.preventDefault(); this.moreChips.delete(/** @type {string} */ (el.dataset['cnFewer'])); this.rerenderRow(/** @type {string} */ (el.dataset['cnFewer']), { focus: 'chips' }); return; }
     if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(/** @type {string} */ (el.dataset['cnMoreParts'])); this.rerenderPanel(/** @type {string} */ (this.seriesOfMap.get(/** @type {string} */ (el.dataset['cnMoreParts']).replace(/:counties$/, '')))); return; }
@@ -1520,7 +1527,7 @@ export class CatalogueNext {
     // Arrow keys move along a row's chips; Tab moves on to the next control.
     const chip = /** @type {HTMLButtonElement | null} */ (/** @type {Element} */ (e.target).closest?.('.cn-chips .cn-chip'));
     if (chip && ['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) {
-      const list = [.../** @type {NodeListOf<HTMLButtonElement>} */ (/** @type {Element} */ (chip.closest('.cn-chips')).querySelectorAll('button.cn-chip'))].filter((x) => !x.hidden);
+      const list = [.../** @type {NodeListOf<HTMLButtonElement>} */ (/** @type {Element} */ (chip.closest('.cn-chips')).querySelectorAll('button.cn-chip'))].filter((x) => !x.closest('[hidden]'));
       const i = list.indexOf(chip);
       const next = e.key === 'Home' ? list[0] : e.key === 'End' ? list[list.length - 1] : list[(i + (e.key === 'ArrowRight' ? 1 : -1) + list.length) % list.length];
       if (next) {
@@ -1558,6 +1565,9 @@ export class CatalogueNext {
   /** A year typed into a box: applied when the box is left or Enter is pressed, not per key. */
   /** @param {Event} e */
   onYearTyped(e) {
+    // An opened row's "Details for" menu chooses the map whose details show (view-maps.js pickerHtml).
+    const pick = /** @type {HTMLSelectElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-pick-edition]'));
+    if (pick) { this.select(/** @type {string} */ (pick.dataset['cnPickEdition']), pick.value, '[data-cn-pick-edition]'); return; }
     const provider = /** @type {HTMLInputElement | null} */ (/** @type {Element} */ (e.target).closest?.('[data-cn-provider]'));
     if (provider) {
       const id = /** @type {string} */ (provider.dataset['cnProvider']);
@@ -1674,8 +1684,8 @@ export class CatalogueNext {
     this.replaceRoute();
   }
 
-  /** @param {string} sid @param {string} mid */
-  select(sid, mid) {
+  /** @param {string} sid @param {string} mid @param {string} [focusSel]  what takes the focus after (default: the map's own button) */
+  select(sid, mid, focusSel) {
     // The open map's button closes it again; before, only opening another closed it (Phelim
     // Birch, 26 Nov 2026).
     const s = this.seriesById?.get(sid);
@@ -1686,7 +1696,7 @@ export class CatalogueNext {
       this.selected.set(sid, mid);
     }
     this.focusSeries = sid;
-    this.rerenderPanel(sid, `[data-cn-select="${cssId(`${sid}|${mid}`)}"]`);
+    this.rerenderPanel(sid, focusSel || `[data-cn-select="${cssId(`${sid}|${mid}`)}"]`);
     this.replaceRoute();
   }
 
@@ -1719,7 +1729,9 @@ export class CatalogueNext {
     if (!panel || !s) { this.rerenderRow(sid); return; }
     panel.innerHTML = MapsView.panelHtml(this, s);
     this.afterDraw(panel);
-    if (focusSel) /** @type {HTMLElement | null} */ (panel.querySelector(focusSel))?.focus({ preventScroll: true });
+    // A list of selectors ("a, b"): the first that matches takes the focus, in the order given.
+    const target = focusSel ? focusSel.split(', ').map((sel) => panel.querySelector(sel)).find(Boolean) : null;
+    /** @type {HTMLElement | null | undefined} */ (target)?.focus({ preventScroll: true });
   }
 
   /** @param {HTMLElement} btn */

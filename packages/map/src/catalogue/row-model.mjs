@@ -290,3 +290,41 @@ export function detailHolders(doc) {
 export function ownDescription(record) {
   return record?.isDataEntry && typeof record.description === 'string' ? record.description.trim() : '';
 }
+
+/**
+ * A row's strip of chips, in order: its editions as the catalogue lists them, those in the chosen
+ * years first when the years are narrowed; with the maps still to be added asked for, those join
+ * them (in date order for a row of editions); otherwise a search's matches come first. The strip
+ * shows the same maps whether the row is open or closed, and the opened row's "Details for" menu
+ * and its previous and next buttons follow its order (Phelim Birch, 25 Nov 2026).
+ * @template {{ id: string }} T
+ * @param {T[]} editions  the row's editions (rowEditions)
+ * @param {T[]} todo  the row's maps still to be added
+ * @param {{ inYears?: ((id: string) => boolean) | null, hits?: Set<string> | null, showTodo?: boolean, dateOf?: ((id: string) => unknown) | null }} [options]
+ *   inYears: set when the years are narrowed; dateOf: set for a row of editions (the sort key)
+ * @returns {Array<{ m: T, todo: boolean }>}
+ */
+export function stripItems(editions, todo, { inYears = null, hits = null, showTodo = false, dateOf = null } = {}) {
+  const ordered = inYears ? [...editions.filter((m) => inYears(m.id)), ...editions.filter((m) => !inYears(m.id))] : [...editions];
+  let items = ordered.map((m) => ({ m, todo: false }));
+  if (showTodo) {
+    items = [...items, ...todo.map((m) => ({ m, todo: true }))];
+    if (dateOf) items.sort((a, b) => String(dateOf(b.m.id)).localeCompare(String(dateOf(a.m.id))));
+  }
+  if (hits?.size && !showTodo) items = [...items.filter((x) => hits.has(x.m.id)), ...items.filter((x) => !hits.has(x.m.id))];
+  return items;
+}
+
+/**
+ * The maps either side of one in a list (the strip's order): null at either end, both null when
+ * the map is not in the list.
+ * @template {{ id: string }} T
+ * @param {T[]} list
+ * @param {string} id
+ * @returns {{ prev: T | null, next: T | null }}
+ */
+export function neighbours(list, id) {
+  const i = list.findIndex((m) => m.id === id);
+  if (i < 0) return { prev: null, next: null };
+  return { prev: list[i - 1] || null, next: list[i + 1] || null };
+}
