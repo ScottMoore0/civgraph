@@ -54,7 +54,8 @@
     "owner-shortlist-2026-11-13": "Candidate spellings the owner settled from the 12 Nov 2026 shortlist of people and names (approved 13 Nov 2026): the spelling of the person's own official listing where the import misspelt it.",
     "independent-alliance-seanad-2016-2026-11-14": "Seanad general election of 2016 (filed under 25 April 2016): the two candidates of the Independent Alliance, a grouping of independents that was not a registered party, are shown as Independent, as the grouping's D\u00e1il candidates of 2016 are, each contest's note naming the member of the grouping (the label itself is set by a rule in data/elections/party-label-interpretations.json; owner's decision, 14 November 2026).",
     "seanad-2025-handbook-2026-11-14": "Seanad 2025 contests checked against the Houses of the Oireachtas result sheets (the Seanad Returning Officer's counts, published in the 2025 election handbook): the stages where IrelandElection.com's count does not add up.",
-    "seanad-2020-industrial-commercial-2026-11-15": "Seanad 2020 Industrial and Commercial Panel: the count as IrelandElection.com and Wikipedia print it, with one stage placed as the official count sheet of the Houses of the Oireachtas has it (Count 15 \"Elimination of Noone\", Count 16 \"Elimination of Griffin\")."
+    "seanad-2020-industrial-commercial-2026-11-15": "Seanad 2020 Industrial and Commercial Panel: the count as IrelandElection.com and Wikipedia print it, with one stage placed as the official count sheet of the Houses of the Oireachtas has it (Count 15 \"Elimination of Noone\", Count 16 \"Elimination of Griffin\").",
+    "w24-bna-joins-2026-11-27": "BNA probable joins of 25 Nov 2026 (owner approval of 27 Nov 2026): two party labels read from newspaper reports found while checking the joins of William Morrison (Limavady Urban) and Alexander McGowan (Londonderry North Ward)."
   },
   "records": [
     {
@@ -352839,6 +352840,50 @@
               "source_person_id": "ie:825"
             }
           ]
+        }
+      ]
+    },
+    {
+      "batch": "w24-bna-joins-2026-11-27",
+      "sourceFile": "data/elections-source/data/elections/limavady-urban-district-council/1961-05-17/limavady.json",
+      "source": {
+        "title": "Londonderry Standard, 12 May 1961, p. 3 (\"Limavady Urban Council: one member not seeking re-election\")",
+        "publisher": "Londonderry Standard (via the British Newspaper Archive)",
+        "url": null,
+        "accessed": "2026-11-25"
+      },
+      "category": "party",
+      "reason": "The file had no party label for William Morrison. The Londonderry Standard names the new nominees, William Morrison and Alexander Semple, as standing as Independents; Morrison was elected as an Independent in 1964.",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "William Morrison",
+          "set": {
+            "Party_Name": "Independent",
+            "Party_Colour": "#DCDCDC"
+          }
+        }
+      ]
+    },
+    {
+      "batch": "w24-bna-joins-2026-11-27",
+      "sourceFile": "data/elections-source/data/elections/londonderry-county-borough-council/1955-05-18/north.json",
+      "source": {
+        "title": "Londonderry Sentinel, 5 May 1955, p. 2",
+        "publisher": "Londonderry Sentinel (via the British Newspaper Archive)",
+        "url": null,
+        "accessed": "2026-11-25"
+      },
+      "category": "party",
+      "reason": "The file had no party label for Alexander McGowan. The Londonderry Sentinel lists him among the North Ward Unionist candidates.",
+      "operations": [
+        {
+          "op": "candidate",
+          "name": "Alexander McGowan",
+          "set": {
+            "Party_Name": "UUP",
+            "Party_Colour": "#48A5EE"
+          }
         }
       ]
     }
