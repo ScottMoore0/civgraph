@@ -59,6 +59,8 @@ const HTML_FILES = [
   // The Elections app's import map (stamped by hand until 13 Nov 2026, when a changed format.js
   // left its entry stale while the other pages were re-stamped).
   'site/apps/elections/index.html',
+  // The Independent QUB Catalogue's app modules and import map (27 Nov 2026, local only).
+  'site/apps/qub-catalogue/index.html',
 ];
 const CHECK = process.argv.includes('--check');
 

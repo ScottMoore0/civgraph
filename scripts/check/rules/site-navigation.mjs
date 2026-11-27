@@ -48,6 +48,7 @@ const PAGES = [
   'site/apps/index.html',
   'site/apps/words/index.html',
   'site/apps/elections/index.html',
+  'site/apps/qub-catalogue/index.html',
   'site/pages/about.html',
   'site/pages/census-explorer.html',
   'site/pages/status.html',

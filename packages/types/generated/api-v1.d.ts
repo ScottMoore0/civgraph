@@ -1362,6 +1362,122 @@ export type ProniExportCsvAnswer = unknown;
 /** /api/v1/proni/export: its JSON error answers (4xx and 5xx). */
 export type ProniExportErrorAnswer = unknown;
 
+/** GET /api/v1/qub/search (): A page of QUB catalogue matches (one more than limit), with the capped total on the first page */
+export interface QubSearchResultsAnswer {
+  query: string;
+  scope: string;
+  tags: string[];
+  results: Array<{
+    mmsId: string;
+    title: string;
+    author: string;
+    imprint: string;
+    year: number | null;
+    format: string;
+    inScope: boolean;
+    tags: string[];
+    url: string;
+    qubUrl: string;
+    [key: string]: unknown;
+  }>;
+  count: number;
+  total?: number | null;
+  totalCapped?: boolean;
+  [key: string]: unknown;
+}
+
+/** /api/v1/qub/search: its JSON error answers (4xx and 5xx). */
+export interface QubSearchErrorAnswer {
+  error: string;
+  [key: string]: unknown;
+}
+
+/** GET /api/v1/qub/record (id=<given>): One QUB catalogue record, its Civgraph scope label, its QUB catalogue link and the credit */
+export interface QubRecordRecordAnswer {
+  item: {
+    mmsId: string;
+    title: string;
+    author: string;
+    imprint: string;
+    year: number | null;
+    dateText: string;
+    format: string;
+    language: string;
+    shelfMark: string;
+    subjects: string[];
+    inScope: boolean;
+    tags: string[];
+    scopeReason: string;
+    scopeMethod: string;
+    responsibility: string;
+    uniformTitle: string;
+    variantTitles: string[];
+    edition: string;
+    extent: string;
+    series: string[];
+    notes: string[];
+    contents: string;
+    summary: string;
+    contributors: {
+      name: string;
+      role: string;
+      [key: string]: unknown;
+    }[];
+    isbn: string[];
+    issn: string[];
+    oclc: string[];
+    catalogingSource: string;
+    lcClass: string;
+    dewey: string;
+    govDocNumber: string;
+    places: string[];
+    holdings: {
+      library: string;
+      location: string;
+      callNumber: string;
+      availability: string;
+      [key: string]: unknown;
+    }[];
+    online: {
+      label: string;
+      url: string;
+      [key: string]: unknown;
+    }[];
+    [key: string]: unknown;
+  };
+  qubUrl: string;
+  credit: string;
+  sharedSource: boolean;
+  [key: string]: unknown;
+}
+
+/** GET /api/v1/qub/record (): The catalogue figures and the scope topics */
+export interface QubRecordStatsAnswer {
+  total: number;
+  inScope: number;
+  outOfScope: number;
+  tags: {
+    tag: string;
+    name: string;
+    count: number;
+    [key: string]: unknown;
+  }[];
+  credit: string;
+  [key: string]: unknown;
+}
+
+/** /api/v1/qub/record: its JSON error answers (4xx and 5xx). */
+export interface QubRecordErrorAnswer {
+  error: string;
+  [key: string]: unknown;
+}
+
+/** GET /api/v1/qub/export (): The matches as CSV (at most 50,000 rows), streamed */
+export type QubExportCsvAnswer = unknown;
+
+/** /api/v1/qub/export: its JSON error answers (4xx and 5xx). */
+export type QubExportErrorAnswer = unknown;
+
 /** Every v1 route: its variants by name, and its error answer. */
 export interface V1Routes {
   elections: {
@@ -1519,6 +1635,25 @@ export interface V1Routes {
       csv: ProniExportCsvAnswer;
     };
     error: ProniExportErrorAnswer;
+  };
+  "qub/search": {
+    variants: {
+      results: QubSearchResultsAnswer;
+    };
+    error: QubSearchErrorAnswer;
+  };
+  "qub/record": {
+    variants: {
+      record: QubRecordRecordAnswer;
+      stats: QubRecordStatsAnswer;
+    };
+    error: QubRecordErrorAnswer;
+  };
+  "qub/export": {
+    variants: {
+      csv: QubExportCsvAnswer;
+    };
+    error: QubExportErrorAnswer;
   };
 }
 

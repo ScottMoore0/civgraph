@@ -137,6 +137,16 @@ const CITATION = obj({
 
 const PRONI_CHILD = obj({ ref: str, slug: str, title: str, level: str, dates: str, hasChildren: bool });
 const PRONI_ROW = obj({ ref: str, slug: str, title: str, level: str, dates: str, parent: str, hasChildren: bool, fond: str, description: str, descTruncated: bool, exact: bool, url: str });
+// The Independent QUB Catalogue (27 Nov 2026, local only until the owner approves; LANDING/qub-app).
+const QUB_ROW = obj({ mmsId: str, title: str, author: str, imprint: str, year: either('integer', 'null'), format: str, inScope: bool, tags: arr(str), url: str, qubUrl: str });
+const QUB_ITEM = obj({
+  mmsId: str, title: str, author: str, imprint: str, year: either('integer', 'null'), dateText: str, format: str, language: str, shelfMark: str,
+  subjects: arr(str), inScope: bool, tags: arr(str), scopeReason: str, scopeMethod: str, responsibility: str, uniformTitle: str,
+  variantTitles: arr(str), edition: str, extent: str, series: arr(str), notes: arr(str), contents: str, summary: str,
+  contributors: arr(obj({ name: str, role: str })), isbn: arr(str), issn: arr(str), oclc: arr(str), catalogingSource: str,
+  lcClass: str, dewey: str, govDocNumber: str, places: arr(str),
+  holdings: arr(obj({ library: str, location: str, callNumber: str, availability: str })), online: arr(obj({ label: str, url: str })),
+});
 
 /**
  * @typedef {object} Variant
@@ -329,6 +339,23 @@ export const CONTRACTS = Object.freeze({
   'proni/export': {
     errors: null,
     variants: [{ name: 'csv', when: {}, summary: 'Every match as CSV, streamed', contentType: 'text/csv' }],
+  },
+  'qub/search': {
+    errors: ERROR,
+    variants: [v('results', {}, 'A page of QUB catalogue matches (one more than limit), with the capped total on the first page', obj({
+      query: str, scope: str, tags: arr(str), results: arr(QUB_ROW), count: int, total: either('integer', 'null'), totalCapped: bool,
+    }, ['query', 'scope', 'tags', 'results', 'count']))],
+  },
+  'qub/record': {
+    errors: ERROR,
+    variants: [
+      v('record', { id: '*' }, 'One QUB catalogue record, its Civgraph scope label, its QUB catalogue link and the credit', obj({ item: QUB_ITEM, qubUrl: str, credit: str, sharedSource: bool })),
+      v('stats', {}, 'The catalogue figures and the scope topics', obj({ total: int, inScope: int, outOfScope: int, tags: arr(obj({ tag: str, name: str, count: int })), credit: str })),
+    ],
+  },
+  'qub/export': {
+    errors: null,
+    variants: [{ name: 'csv', when: {}, summary: 'The matches as CSV (at most 50,000 rows), streamed', contentType: 'text/csv' }],
   },
 });
 
