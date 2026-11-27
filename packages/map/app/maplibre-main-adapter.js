@@ -150,9 +150,9 @@ import { MAP_COLOURS } from '../src/views/colours.mjs';
 import { LOAD_ORDER_PALETTE, PaletteSlots, takesLoadOrderColour, withColour } from '../src/layer-palette.mjs';
 
 // The base maps (packages/map/src/renderer/basemap.mjs): 'osm-standard' is the default street map,
-// not one tile server but the provider chain there (OpenFreeMap Positron, or OpenFreeMap Dark in
-// the dark theme, then OpenStreetMap's own tiles as the last resort); CHOOSABLE_STYLE_BASE_MAPS
-// (OpenFreeMap Liberty) and CHOOSABLE_BASE_MAPS (rasters) are the ones a reader can pick instead,
+// not one tile server but the provider chain there (OpenFreeMap Positron, in the dark theme too
+// since 27 Nov 2026, then OpenStreetMap's own tiles as the last resort); CHOOSABLE_STYLE_BASE_MAPS
+// (OpenFreeMap Liberty and Dark) and CHOOSABLE_BASE_MAPS (rasters) are the ones a reader can pick instead,
 // each credited to its own provider. The Esri, CARTO and Stamen base maps were removed on 11 Nov 2026.
 
 // The timeline's change highlight (setTimelineChanges). Magenta reads against the blues,
@@ -1028,8 +1028,8 @@ export class Test2MapLibreMainAdapter {
   }
 
   /**
-   * The default base map for the page's theme (OpenFreeMap Dark in the dark theme), when the
-   * reader has not chosen one (controls.js syncBasemapToTheme).
+   * The default base map (light in either theme, owner 27 Nov 2026), when the reader has not
+   * chosen one (controls.js syncBasemapToTheme).
    * @param {'light' | 'dark'} theme
    * @returns {Promise<unknown>}
    */

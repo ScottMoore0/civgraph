@@ -5,7 +5,7 @@
  * Every page that carries the shared header loads this one script, so the theme toggle,
  * the collapsed mobile navigation and the popup behave identically everywhere. The map
  * app (app/src/app.js) does not bind its own handlers when the shared header is present;
- * it listens for `civgraph:themechange` to keep the basemap in step instead.
+ * its base map does not follow the theme (light in both: owner, 27 Nov 2026).
  */
 (function () {
   'use strict';

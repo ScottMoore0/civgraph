@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 // The base map provider chain (packages/map/src/renderer/basemap.mjs; QA 2026-11-11, H8): OpenFreeMap
-// first (Positron since the styling change OT22, 23 Nov 2026; OpenFreeMap Dark in the dark theme),
+// first (Positron since the styling change OT22, 23 Nov 2026, in the dark theme too since 27 Nov),
 // OpenStreetMap's own tiles only as the last resort, and the credits always shown in full.
 // The providers' hosts are answered here, so the spec needs no network and never loads their tiles.
 
@@ -88,16 +88,23 @@ async function standInStyles(page) {
     })));
 }
 
-test('in the dark theme the default base map is OpenFreeMap Dark, and labels take dark halos', async ({ page }) => {
+test('in the dark theme the default base map stays light; the dark map is a choice in Map Settings', async ({ page }) => {
+  // Owner, 27 Nov 2026: a dark base map is never the default, even in the dark theme.
   await page.emulateMedia({ colorScheme: 'dark' });
   await standInStyles(page);
   await openMap(page);
-  await expect.poll(async () => (await basemapState(page)).active).toBe('openfreemap-dark');
-  await expect.poll(() => page.evaluate(() => document.getElementById('map')?.getAttribute('data-basemap-tone'))).toBe('dark');
-  // Back to the light theme: Positron, light tone.
-  await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; document.dispatchEvent(new CustomEvent('civgraph:themechange')); });
+  const tone = () => page.evaluate(() => document.getElementById('map')?.getAttribute('data-basemap-tone'));
   await expect.poll(async () => (await basemapState(page)).active).toBe('openfreemap-positron');
-  await expect.poll(() => page.evaluate(() => document.getElementById('map')?.getAttribute('data-basemap-tone'))).toBe('light');
+  await expect.poll(tone).toBe('light');
+  // A theme change leaves the base map as it is.
+  await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; document.dispatchEvent(new CustomEvent('civgraph:themechange')); });
+  await page.evaluate(() => { document.documentElement.dataset.theme = 'dark'; document.dispatchEvent(new CustomEvent('civgraph:themechange')); });
+  await page.waitForTimeout(300);
+  expect((await basemapState(page)).active).toBe('openfreemap-positron');
+  // Chosen in Map Settings: OpenFreeMap Dark, and labels take dark halos.
+  await page.locator('#baseMapSelect').selectOption('openfreemap-dark', { force: true });
+  await expect.poll(async () => (await basemapState(page)).active).toBe('openfreemap-dark');
+  await expect.poll(tone).toBe('dark');
 });
 
 test('Liberty, the detailed street map, can be chosen in Map Settings', async ({ page }) => {

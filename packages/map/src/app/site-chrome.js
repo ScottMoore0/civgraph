@@ -19,9 +19,10 @@ export class SiteChromeMethods {
     // The shared site header (packages/ui/src/templates/shell.js) brings its own toggle, wired by
     // assets/site/site-chrome.js. The map only follows the theme, so binding a second click
     // handler here would flip it twice.
+    // The base map does not follow the theme: the default is light in both (owner, 27 Nov 2026),
+    // so a theme change leaves the map as it is.
     if (document.querySelector('.app-header[data-site-chrome]')) {
       void this.syncBasemapToTheme();
-      document.addEventListener('civgraph:themechange', () => void this.syncBasemapToTheme(), { signal: this.lifecycle.signal });
       return;
     }
     const toggles = [document.getElementById('themeToggle'), document.getElementById('themeToggleMobile')].filter((el) => el !== null);
@@ -33,10 +34,8 @@ export class SiteChromeMethods {
     const prefersDark = Boolean(window.matchMedia?.('(prefers-color-scheme: dark)').matches);
     document.documentElement.dataset['theme'] = themeFor(preference, prefersDark);
 
-    // T1-06: the basemap follows the theme from the first paint, not just on
-    // toggle — someone arriving with prefers-color-scheme: dark should not get one
-    // frame of white landmass. Fire-and-forget: applyBaseMap already handles the
-    // map not being ready, and nothing here should block setup.
+    // The default base map, light in either theme (owner, 27 Nov 2026). Fire-and-forget:
+    // applyBaseMap already handles the map not being ready, and nothing here should block setup.
     void this.syncBasemapToTheme();
 
     toggles.forEach((toggle) => {
@@ -46,7 +45,6 @@ export class SiteChromeMethods {
         preference = next;
         document.documentElement.dataset['theme'] = next;
         try { localStorage.setItem(THEME_KEY, next); } catch { /* blocked: the theme still changes for this page */ }
-        void this.syncBasemapToTheme();
       });
     });
   }
