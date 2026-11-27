@@ -2,7 +2,7 @@
 // Phelim Birch, 27 Nov 2026): the selected edition since the one directly before it, whichever way
 // the slider moved, and the "Changes since" menu of earlier editions.
 //
-//   node --test tests/unit/timeline-since.test.mjs
+//   node --test timeline-since.test.mjs (run from the unit-test folder)
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
