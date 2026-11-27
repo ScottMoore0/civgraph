@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-25T15:14:08.757Z
+Generated: 2026-11-27T13:55:40.879Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
