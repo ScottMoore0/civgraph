@@ -8864,7 +8864,7 @@ class UIController {
         detailView.setAttribute('aria-busy', 'false');
         detailView.innerHTML = `
             <div class="catalogue-detail__card">
-                <div class="catalogue-detail__color" style="background-color: ${esc(mapConfig?.style?.color || MAP_COLOURS.swatch)}"></div>
+                <div class="catalogue-detail__color" style="background-color: ${esc((mapConfig?.id && this._catalogueNext?.detailNames?.(mapConfig.id)?.colour) || mapConfig?.style?.color || MAP_COLOURS.swatch)}"></div>
                 <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${esc(displayName)}</h2>
                 <div class="catalogue-detail__date">${esc(this.catalogueMapName(mapConfig))}</div>
             </div>

@@ -1475,3 +1475,13 @@ test('N60 the Details page: a one-map row\'s main map does not end its Section l
   const gap = await page.locator('#catalogueDetailView .catalogue-detail__meta-row').first().evaluate((el) => getComputedStyle(el).columnGap);
   expect(parseFloat(gap)).toBeGreaterThan(0);
 });
+
+test("N61 the Details page's colour is the row's, as the catalogue shows it, not a map's older own colour", async ({ page }) => {
+  const s = catalogue.series.find((x) => x.members.some((m) => m.id === 'local-authorities-1927'));
+  expect(catalogue.maps['local-authorities-1927'].color.toLowerCase()).not.toBe(s.color.toLowerCase());
+  await open(page);
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('local-authorities-1927'));
+  const swatch = page.locator('#catalogueDetailView .catalogue-detail__color');
+  const hex = (c) => '#' + c.match(/\d+/g).slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0')).join('');
+  await expect.poll(async () => hex(await swatch.evaluate((el) => getComputedStyle(el).backgroundColor))).toBe(s.color.toLowerCase());
+});

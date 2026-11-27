@@ -2191,7 +2191,9 @@ export class CatalogueNext {
         subject: this.subjectById?.get(s.subject),
         row: { name: s.name, maps: rowMapCount(s), title: mapTitle(s, id) },
       }),
-      colour: r.color || s.color || '',
+      // The row's colour, as the catalogue draws every map in the row: a map's own older colour
+      // (Administrative Counties 1921 and 1927 kept their purple) showed only here (Phelim Birch, 27 Nov 2026).
+      colour: s.color || r.color || '',
       partLabel: (partId) => partLabel(r, partId),
     };
   }
