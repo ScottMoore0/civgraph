@@ -313,26 +313,16 @@ export const CATALOGUE_CSS = `
 .cn-prov__item--none { color: var(--cn-muted); }
 .cn-prov__panel > .cn-link { justify-self: start; }
 
-/* A row's maps as a dated list (Phelim Birch's notes, 19 Nov 2026: the slider under the map is the
-   timeline): the date, the map's chip, its tools, and the button that opens its facts beneath it. */
-.cn-dlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; }
-.cn-dlist__item { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 4px 0 4px 10px; border-left: 3px solid var(--c, var(--cn-line)); }
-.cn-dlist__item--open { padding-bottom: 10px; }
-.cn-dlist__line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-width: 0; }
-.cn-dlist__when { min-width: 0; font-size: 12.5px; color: var(--cn-muted); font-variant-numeric: tabular-nums; }
-.cn-dlist__when:empty { display: none; }
-.cn-dlist__chip { min-width: 0; max-width: 100%; display: inline-flex; }
-.cn-dlist__acts { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; }
-.cn-dlist__more .cn-icon { transition: transform .15s ease; }
-.cn-dlist__more[aria-expanded="true"] .cn-icon { transform: rotate(180deg); }
-.cn-dlist__item > .cn-ed { padding-left: 2px; }
-/* Mock-up w23-map-lists: a closed row's dated list (?lists=a) has no box; the opened row's menu (?lists=b) */
-.cn-panel--list { margin-top: 6px; padding: 0; border: 0; background: none; gap: 4px; }
-.cn-dlist__fold { justify-self: start; font-size: 13px; }
-.cn-panel--list > .cn-about { margin-bottom: 6px; padding: 12px; border: 1px solid var(--cn-line); border-radius: 10px; background: var(--cn-raised); }
-.cn-pickrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
-.cn-pickrow__label { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
-.cn-pickrow__select { min-width: 0; max-width: 100%; font: inherit; font-size: 13px; padding: 4px 8px; border: 1px solid var(--cn-line); border-radius: 8px; background: var(--cn-surface); color: inherit; }
+/* An opened row of several maps (Phelim Birch, 25 Nov 2026: the strip of chips open or closed):
+   "Details for" names the chosen map, with buttons to the maps beside it on the strip, its tools, and
+   the button that opens its facts, versions and parts beneath. */
+.cn-picker { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-width: 0; }
+.cn-picker__label { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; min-width: 0; max-width: 100%; }
+.cn-picker__select { min-width: 0; max-width: 100%; font: inherit; font-size: 13px; padding: 4px 8px; border: 1px solid var(--cn-line); border-radius: 8px; background: var(--cn-surface); color: inherit; }
+.cn-picker__acts { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; }
+.cn-picker .cn-iconbtn:disabled { opacity: .4; cursor: default; background: none; }
+.cn-picker__more .cn-icon { transition: transform .15s ease; }
+.cn-picker__more[aria-expanded="true"] .cn-icon { transform: rotate(180deg); }
 /* The Details page's actions: the catalogue's buttons, outside the catalogue's own root. */
 .cn.cn-detail-actions { margin: 10px 0 12px; padding: 0; }
 

@@ -18,12 +18,23 @@ const mapsOf = (kind) => ofKind(kind).reduce((n, s) => n + s.members.length + (s
 const pane = (page) => page.locator('#catalogueFlatView [data-cn-root]');
 const row = (page, id) => pane(page).locator(`[data-cn-series="${id}"]`);
 const menuItem = (page, text) => page.locator('.cn-menu [role="menuitem"]', { hasText: text });
-// An edition in an opened row's dated list: the button that opens its facts, versions and parts.
-const pick = (r, label) => r.locator(`.cn-dlist__more[aria-label="${label}: facts, versions and parts"]`);
-/** Open a map in a row's list: the open one's button closes it (N59), so click only when it is closed. */
+// An opened row of several maps: its "Details for" menu, and the button that opens or closes the
+// chosen map's facts, versions and parts (Phelim Birch, 25 Nov 2026: the strip of chips, open or closed).
+const picker = (r) => r.locator('.cn-panel [data-cn-pick-edition]');
+const pickMore = (r) => r.locator('.cn-panel .cn-picker__more');
+const chosenLabel = (r) => picker(r).evaluate((el) => /** @type {HTMLSelectElement} */ (el).selectedOptions[0]?.textContent || '');
+/** The map chosen in an opened row, its facts open. */
+const expectPicked = async (r, label) => {
+  await expect(pickMore(r)).toHaveAttribute('aria-label', `${label}: facts, versions and parts`);
+  await expect(pickMore(r)).toHaveAttribute('aria-expanded', 'true');
+  expect(await chosenLabel(r)).toBe(label);
+};
+/** Choose a map in an opened row and open its facts: the open one's button closes it (N59), so click only when it is closed. */
 const openPick = async (r, label) => {
-  if ((await pick(r, label).getAttribute('aria-expanded')) !== 'true') await pick(r, label).click();
-  await expect(pick(r, label)).toHaveAttribute('aria-expanded', 'true');
+  if ((await chosenLabel(r)) !== label) await picker(r).selectOption({ label });
+  await expect(pickMore(r)).toHaveAttribute('aria-label', `${label}: facts, versions and parts`);
+  if ((await pickMore(r).getAttribute('aria-expanded')) !== 'true') await pickMore(r).click();
+  await expectPicked(r, label);
 };
 const route = (page) => page.evaluate(() => new URLSearchParams(location.hash.slice(1)).get('cat'));
 const loaded = (page) => page.evaluate(() => window.__civgraphTest2.app.getLoadedLayerIds());
@@ -143,17 +154,17 @@ test('C05 C06 FlatGeobuf, the provider\'s files and the original GeoJSON are off
   await r.locator('.cn-row__end [data-cn-act="downloads"]').click();
   for (const label of found.labels) await expect(menuItem(page, label).first()).toBeVisible();
   await page.keyboard.press('Escape');
-  // A row of several: each edition in the opened row has its own.
+  // A row of several: each map on its strip has its own, open or closed (Phelim Birch, 25 Nov 2026).
   await page.evaluate((id) => { location.hash = `cat=series/${id}`; }, LGD);
   await expect(row(page, LGD).locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true', { timeout: 20000 });
-  await row(page, LGD).locator(`.cn-dlist [data-cn-act="downloads"][data-map="${LGD_NEWEST}"]`).click();
+  await row(page, LGD).locator(`:scope > .cn-chips [data-cn-act="downloads"][data-map="${LGD_NEWEST}"]`).click();
   await expect(menuItem(page, 'FlatGeobuf')).toBeVisible();
 });
 
 test('C07 other versions of an edition and a map\'s parts are reachable', async ({ page }) => {
   await open(page);
   await row(page, LGD).locator('[data-cn-expand]').click();
-  await pick(row(page, LGD), '1993').click();
+  await openPick(row(page, LGD), '1993');
   const versions = row(page, LGD).locator('.cn-sub', { hasText: 'Versions' });
   await expect(versions).toContainText('OSNI 1:50,000');
   // Each version has its own chip, Zoom, Download and Details.
@@ -216,8 +227,8 @@ test('C09 provider and feature count are shown', async ({ page }) => {
   await row(page, LGD).locator('[data-cn-expand]').click();
   // The opened row leaves out the title, authors and geometry (user, 2026-10-05).
   await expect(row(page, LGD).locator('.cn-facts')).not.toContainText('Local Government Boundary Commission');
-  // The opened row lists its maps by date (its strip of chips gives way to the list: N54).
-  await expect(row(page, LGD).locator(`.cn-dlist [data-cn-toggle="${LGD_NEWEST}"]`)).toHaveAttribute('title', /Local Government Boundary Commission/);
+  // The opened row keeps its strip of chips (N54); a chip's hover names the provider.
+  await expect(row(page, LGD).locator(`:scope > .cn-chips [data-cn-toggle="${LGD_NEWEST}"]`)).toHaveAttribute('title', /Local Government Boundary Commission/);
   await expect(row(page, 'census-census-grid').locator('.cn-row__credit')).toContainText(/\d,\d{3} /);
 });
 
@@ -475,7 +486,7 @@ test('N17 council maps follow their edition; hovers name the unit; parts downloa
   await ed.locator('[data-cn-expand]').click();
   await openPick(ed, '2019');
   await expect(ed.locator('.cn-sub', { hasText: 'Council maps' })).toContainText('Fingal (2019)');
-  await pick(ed, '1997').click();
+  await openPick(ed, '1997');
   await expect(ed.locator('.cn-sub', { hasText: 'Council maps' })).toHaveCount(0);
   // Parts have their own download.
   const town = row(page, 'townlands-townlands');
@@ -521,7 +532,7 @@ test('N19 a link that opens one map (Browse) opens its row at that map', async (
   const ed = row(page, 'electoral-divisions-electoral-divisions');
   await expect(ed.locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
   await expect(ed).toBeVisible();
-  await expect(pick(ed, '1983')).toHaveAttribute('aria-expanded', 'true');
+  await expectPicked(ed, '1983');
 });
 
 test('N20 placeholders, transport order, constituency hovers and dates', async ({ page }) => {
@@ -632,22 +643,22 @@ test('N05 What\'s here? (button hidden for now) still answers by address', async
   await expect(pane(page).locator('[data-cn-filter="onMap"]')).toHaveCount(0);
 });
 
-test('N06 opening a row lists its editions by date, newest first; choosing one opens its facts', async ({ page }) => {
+test('N06 opening a row keeps its strip of chips; "Details for" chooses a map, by its name on the strip, and opens its facts', async ({ page }) => {
   await open(page);
   await row(page, LGD).locator('[data-cn-expand]').click();
-  const items = row(page, LGD).locator('.cn-dlist__item');
-  await expect(items).toHaveCount(lgd.members.filter((m) => !m.of).length);
+  const r = row(page, LGD);
   // No timeline in the row: the slider under the map is the timeline (Phelim Birch's notes, 19 Nov 2026).
-  await expect(row(page, LGD).locator('.cn-tl, .cn-tick')).toHaveCount(0);
-  const years = await items.locator('.cn-chip__label').allTextContents();
-  expect(years.map((y) => Number(y.slice(0, 4)))).toEqual([...years.map((y) => Number(y.slice(0, 4)))].sort((a, b) => b - a));
-  // Each edition has its chip and tools.
-  await expect(items.first().locator('[data-cn-toggle]')).toHaveCount(1);
-  await expect(items.first().locator('[data-cn-act="details"]')).toHaveCount(1);
-  await pick(row(page, LGD), '1985').click();
-  await expect(pick(row(page, LGD), '1985')).toHaveAttribute('aria-expanded', 'true');
-  await expect(row(page, LGD).locator('.cn-dlist__item--open')).toContainText('1985');
-  await expect(row(page, LGD).locator('.cn-ed__title')).toHaveCount(0);
+  await expect(r.locator('.cn-tl, .cn-tick')).toHaveCount(0);
+  // The menu lists the strip's maps in the strip's order, by the chips' own names (Phelim Birch, 25 Nov 2026).
+  const stripLabels = await r.locator(':scope > .cn-chips .cn-chip[data-cn-toggle] .cn-chip__label').allTextContents();
+  const options = await picker(r).locator('option').allTextContents();
+  expect(options).toEqual(stripLabels);
+  expect(options).toEqual(lgd.members.filter((m) => !m.of).map((m) => m.label));
+  // The chosen map has its Zoom, Download and Details beside the menu.
+  await expect(r.locator('.cn-picker [data-cn-act="details"]')).toHaveCount(1);
+  await openPick(r, '1985');
+  await expect(r.locator('.cn-panel .cn-facts')).toContainText('1985');
+  await expect(r.locator('.cn-ed__title')).toHaveCount(0);
   await expect.poll(() => route(page)).toMatch(new RegExp(`^series/${LGD}/`));
 });
 
@@ -875,7 +886,7 @@ test('N22 a copied map link opens its row, even one that named only the section'
   await open(page, 'layers=eds-2019&lng=-8.05000&lat=53.50197&zoom=5.86&cat=boundaries', { shelves: 'closed' });
   const ed = row(page, 'electoral-divisions-electoral-divisions');
   await expect(ed.locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
-  await expect(pick(ed, '2019')).toHaveAttribute('aria-expanded', 'true');
+  await expectPicked(ed, '2019');
   await expect(ed).toBeInViewport();
   // The row's title starts below the sticky section tabs, not under them.
   const [tabsBottom, titleTop] = await page.evaluate(() => [document.querySelector('[data-cn-tabs]').getBoundingClientRect().bottom, document.querySelector('[data-cn-series="electoral-divisions-electoral-divisions"] .cn-row__name').getBoundingClientRect().top]);
@@ -1165,7 +1176,7 @@ test('N47 "+N" (other versions) marks the collapsed row only, not the opened row
   const versions = lgd.members.filter((x) => x.of === base.id).length;
   await expect(row(page, LGD).locator(`:scope > .cn-chips [data-cn-toggle="${base.id}"] .cn-chip__more`)).toHaveText(`+${versions}`);
   await row(page, LGD).locator('[data-cn-expand]').click();
-  await pick(row(page, LGD), base.label).click();
+  await openPick(row(page, LGD), base.label);
   await expect(row(page, LGD).locator('.cn-sub', { hasText: 'Versions' })).toBeVisible();
   await expect(row(page, LGD).locator('.cn-panel .cn-chip__more')).toHaveCount(0);
 });
@@ -1310,32 +1321,38 @@ test('N53 a row\'s second line wraps word by word, each dot kept with the fact b
   expect(facts.some((f) => f.lines > 1)).toBe(true);
 });
 
-test('N54 an opened row of several maps shows its dated list, not the strip of chips; a closed row keeps the strip', async ({ page }) => {
+test('N54 a row of several maps keeps one strip of chips, open or closed, each map with its Zoom and Download', async ({ page }) => {
+  // Phelim Birch chose the strip (25 Nov 2026, Option B), in place of the opened row's dated list.
   await open(page);
   const counties = catalogue.series.find((s) => s.id === 'counties-counties');
   const r = row(page, counties.id);
   const strip = r.locator(':scope > .cn-chips .cn-chip[data-cn-toggle]');
   await expect(strip.first()).toBeVisible();
+  const closed = await strip.evaluateAll((els) => els.map((el) => el.getAttribute('data-cn-toggle')));
+  // Each map on the strip: its chip, then its own Zoom and Download, as a map's parts have; no Details.
+  const first = r.locator(':scope > .cn-chips > .cn-item').first();
+  await expect(first.locator('.cn-chip[data-cn-toggle]')).toHaveCount(1);
+  await expect(first.locator('[data-cn-act="zoom"]')).toHaveCount(1);
+  await expect(first.locator('[data-cn-act="downloads"]')).toHaveCount(1);
+  await expect(r.locator(':scope > .cn-chips [data-cn-act="details"]')).toHaveCount(0);
   await r.locator('[data-cn-expand]').click();
-  await expect(r.locator('.cn-dlist__item')).toHaveCount(counties.members.filter((m) => !m.of).length);
-  await expect(strip).toHaveCount(0);
-  // Each line: its chip and its own tools.
-  for (const m of counties.members.filter((x) => !x.of)) {
-    const line = r.locator('.cn-dlist__line', { has: page.locator(`[data-cn-toggle="${m.id}"]`) });
-    await expect(line.locator('[data-cn-act="zoom"]')).toHaveCount(1);
-  }
-  // A chip in the list adds its map.
-  await r.locator(`.cn-dlist [data-cn-toggle="${counties.members[1].id}"]`).click();
-  await expect.poll(() => loaded(page)).toContain(counties.members[1].id);
+  // The same strip, the same maps, in the same order, once the row is open; no dated list.
+  await expect(r.locator('.cn-dlist, .cn-dlist__item')).toHaveCount(0);
+  expect(await strip.evaluateAll((els) => els.map((el) => el.getAttribute('data-cn-toggle')))).toEqual(closed);
+  await expect(r.locator('.cn-panel .cn-picker')).toBeVisible();
+  // A chip on the opened row's strip adds its map; its Zoom is there too.
+  await r.locator(`:scope > .cn-chips [data-cn-toggle="${closed[1]}"]`).click();
+  await expect.poll(() => loaded(page)).toContain(closed[1]);
+  await expect(r.locator(`:scope > .cn-chips [data-cn-act="zoom"][data-map="${closed[1]}"]`)).toHaveCount(1);
   await r.locator('[data-cn-expand]').click();
   await expect(strip.first()).toBeVisible();
-  // The switch for maps still to be added stays on an opened row.
+  // The switch for maps still to be added stays on an opened row, with the strip.
   const withTodo = catalogue.series.find((s) => s.id === 'electoral-divisions-district-electoral-divisions');
   const t = row(page, withTodo.id);
   await t.scrollIntoViewIfNeeded();
   await t.locator('[data-cn-expand]').click();
   await expect(t.locator(':scope > .cn-chips [data-cn-todo]')).toBeVisible();
-  await expect(t.locator(':scope > .cn-chips .cn-chip[data-cn-toggle]')).toHaveCount(0);
+  await expect(t.locator(':scope > .cn-chips .cn-chip[data-cn-toggle]').first()).toBeVisible();
 });
 
 test('N55 a map\'s own description shows in its row, as on its Details page; a map with none shows nothing', async ({ page }) => {
@@ -1372,8 +1389,8 @@ test('N55 a map\'s own description shows in its row, as on its Details page; a m
   await r.scrollIntoViewIfNeeded();
   await r.locator('[data-cn-expand]').click();
   await expect(r.locator('.cn-mapdesc')).toHaveCount(1);
-  await pick(r, other.label).click();
-  await expect(r.locator('.cn-dlist__item--open .cn-mapdesc')).toHaveText(await description(other.id));
+  await openPick(r, other.label);
+  await expect(r.locator('.cn-panel .cn-mapdesc')).toHaveText(await description(other.id));
   await expect(r.locator('.cn-mapdesc')).toHaveCount(1);
   // The Details page shows the same text.
   await page.evaluate((id) => window.uiController.showCatalogueDetailView(id), other.id);
@@ -1385,7 +1402,7 @@ test('N55 a map\'s own description shows in its row, as on its Details page; a m
   const counties = row(page, 'counties-counties');
   await counties.scrollIntoViewIfNeeded();
   await counties.locator('[data-cn-expand]').click();
-  await expect(counties.locator('.cn-dlist')).toBeVisible();
+  await expect(counties.locator('.cn-picker')).toBeVisible();
   await expect(counties.locator('.cn-mapdesc')).toHaveCount(0);
 });
 
@@ -1454,13 +1471,18 @@ test('N59 the open map\'s button closes it again; another map\'s opens that one'
   await open(page);
   await row(page, LGD).locator('[data-cn-expand]').click();
   const r = row(page, LGD);
-  await pick(r, '1985').click();
-  await expect(pick(r, '1985')).toHaveAttribute('aria-expanded', 'true');
-  await pick(r, '1985').click();
-  await expect(pick(r, '1985')).toHaveAttribute('aria-expanded', 'false');
-  await expect(r.locator('.cn-dlist__item--open')).toHaveCount(0);
-  await pick(r, '1985').click();
-  await expect(r.locator('.cn-dlist__item--open')).toContainText('1985');
+  await openPick(r, '1985');
+  await pickMore(r).click();
+  await expect(pickMore(r)).toHaveAttribute('aria-expanded', 'false');
+  await expect(r.locator('.cn-panel .cn-ed')).toHaveCount(0);
+  await pickMore(r).click();
+  await expect(pickMore(r)).toHaveAttribute('aria-expanded', 'true');
+  await expect(r.locator('.cn-panel .cn-facts')).toContainText('1985');
+  // Closed, then another map chosen: that one opens.
+  await pickMore(r).click();
+  await picker(r).selectOption({ label: '1993' });
+  await expectPicked(r, '1993');
+  await expect(r.locator('.cn-panel .cn-ed')).toHaveCount(1);
 });
 
 test('N60 the Details page: a one-map row\'s main map does not end its Section line with its own name; its council map does', async ({ page }) => {
@@ -1514,4 +1536,58 @@ test('N63 adding a map leaves the view where it was (each layer has its own Zoom
   await expect.poll(() => loaded(page)).toContain(LGD_NEWEST);
   await page.waitForTimeout(600);
   expect(await view()).toEqual(before);
+});
+
+/* ------------------------------------------------------------------ Phelim Birch's reply, 25 Nov 2026 (Option B) */
+
+test('N64 the opened row\'s previous and next buttons step to the maps either side on the strip', async ({ page }) => {
+  await open(page);
+  const r = row(page, LGD);
+  await r.locator('[data-cn-expand]').click();
+  const labels = await picker(r).locator('option').allTextContents();
+  expect(labels.length).toBeGreaterThan(2);
+  const prev = r.locator('.cn-picker [data-cn-step="prev"]');
+  const next = r.locator('.cn-picker [data-cn-step="next"]');
+  await openPick(r, labels[0]);
+  // The first map has nothing before it.
+  await expect(prev).toBeDisabled();
+  await expect(next).toHaveAttribute('aria-label', `Next map: ${labels[1]}`);
+  await next.click();
+  await expectPicked(r, labels[1]);
+  // The focus stays on the button, so the reader can step on.
+  await expect(r.locator('.cn-picker [data-cn-step="next"]')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expectPicked(r, labels[2]);
+  await prev.click();
+  await expectPicked(r, labels[1]);
+  // The last map has nothing after it.
+  await openPick(r, labels[labels.length - 1]);
+  await expect(next).toBeDisabled();
+  await expect(prev).toHaveAttribute('aria-label', `Previous map: ${labels[labels.length - 2]}`);
+  // Stepping does not add a map to the map.
+  expect(await loaded(page)).not.toContain(lgd.members.find((m) => m.label === labels[1]).id);
+});
+
+test('N65 "Show N to be added" sits to the right of "+N more", on the strip\'s one line', async ({ page }) => {
+  await open(page);
+  const s = catalogue.series.find((x) => x.todo?.length && x.members.filter((m) => !m.of).length > 6);
+  expect(s).toBeTruthy();
+  const r = row(page, s.id);
+  await r.scrollIntoViewIfNeeded();
+  const more = r.locator(':scope > .cn-chips > [data-cn-more]');
+  const todo = r.locator(':scope > .cn-chips > [data-cn-todo]');
+  await expect(todo).toBeVisible();
+  const order = await r.locator(':scope > .cn-chips').evaluate((box) => {
+    const kids = [...box.children];
+    const m = box.querySelector(':scope > [data-cn-more]');
+    const t = box.querySelector(':scope > [data-cn-todo]');
+    return { more: kids.indexOf(m), todo: kids.indexOf(t), last: kids.length - 1 };
+  });
+  expect(order.todo).toBe(order.last);
+  expect(order.more).toBe(order.todo - 1);
+  if (await more.isVisible()) {
+    const [m, t] = [await more.boundingBox(), await todo.boundingBox()];
+    expect(t.x).toBeGreaterThan(m.x);
+    expect(Math.abs(t.y - m.y)).toBeLessThan(4);
+  }
 });

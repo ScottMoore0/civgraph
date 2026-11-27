@@ -12,7 +12,7 @@ import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
 import { MAP_COLOURS } from '../views/colours.mjs';
 import { rowCreditLine } from '../../../core/src/credits.mjs';
-import { rowActionKind, rowCount, datedList, comparable, rowEditions } from './row-model.mjs';
+import { rowActionKind, rowCount, comparable, rowEditions, stripItems, neighbours } from './row-model.mjs';
 import { siteNumber } from '../../../core/src/format.js';
 import { setHidden } from '../state-helpers.mjs';
 
@@ -234,18 +234,18 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
     ? `<button type="button" class="cn-row__title" data-cn-expand="${esc(s.id)}" aria-expanded="${open}" aria-controls="cn-panel-${esc(s.id)}"${tip ? ` title="${esc(tip)}"` : ''}>${text}${icon('chevron-down', 'cn-icon cn-row__chev')}</button>`
     : `<div class="cn-row__title cn-row__title--static">${text}</div>`;
   const localHits = localHitsOf(c, s, hit);
-  // An opened row of several maps lists them by date, each with its chip and tools (panelHtml), so
-  // its strip of chips gives way to that list; a closed row keeps the strip for quick adding
-  // (Phelim Birch, 20 Nov 2026). The maps to be added and a search's council maps stay on it.
-  const listed = open && actsOn === 'row';
-  const chips = (!single && !listed) || todo.length || localHits.length;
+  // A row of several maps lists them as one strip of chips, each with its Zoom and Download, whether
+  // the row is open or closed; the opened row adds the chosen map's details under it (panelHtml).
+  // Phelim Birch chose this of the two formats (25 Nov 2026), in place of the dated list the opened
+  // row had from 20 Nov. The maps to be added and a search's council maps are on it too.
+  const chips = !single || todo.length || localHits.length;
   const ends = actsOn === 'row' ? rowActionsHtml(c, s) : single ? mapActionsHtml(c, s, /** @type {import("./catalogue-types.js").CatalogueRowMember} */ (s.members[0])) : '';
   return `<li class="cn-row${open ? ' cn-row--open' : ''}${drawable ? '' : ' cn-row--todo'}" data-cn-series="${esc(s.id)}" style="--c:${s.color || FALLBACK}">
     <span class="cn-row__stripe" aria-hidden="true"></span>
     <span class="cn-row__thumb">${s.thumb ? c.thumb(s.thumb) : `<span class="cn-thumb-none" aria-hidden="true">${icon('map')}</span>`}</span>
     ${title}
     ${ends ? `<span class="cn-row__end" role="group" aria-label="${esc(s.name)}: actions">${ends}</span>` : ''}
-    ${chips ? `<div class="cn-chips" role="group" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${chipsHtml(c, s, single || listed ? [] : editions, hit)}</div>` : ''}
+    ${chips ? `<div class="cn-chips" role="group" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${chipsHtml(c, s, single ? [] : editions, hit)}</div>` : ''}
     ${open ? `<div class="cn-panel" id="cn-panel-${esc(s.id)}" data-cn-panel="${esc(s.id)}">${panelHtml(c, s)}</div>` : ''}
   </li>`;
 }
@@ -298,35 +298,50 @@ function localHitsOf(c, s, hit) {
   return (c.query || c.here) ? (s.local || []).filter((m) => hits.has(m.id)) : [];
 }
 
-/** The editions as chips; the maps still to be added join them, in date order, when asked for.
- * With years chosen, the maps in those years come first (Counties before 1930: 1927, 1922, 1915).
+/**
+ * The row's strip in its order (row-model.mjs stripItems): the editions, those in the chosen years
+ * first, the maps still to be added when asked for, a search's matches first.
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} editions @param {RowHit} hit
+ */
+function stripOf(c, s, editions, hit) {
+  return stripItems(editions, s.todo || [], {
+    inYears: c.yearRange('maps').narrowed ? (id) => c.editionInYears(id) : null,
+    hits: new Set(hit?.members || []),
+    showTodo: c.showTodo.has(s.id),
+    dateOf: s.arrangement === 'editions' ? (id) => c.rec(id).date : null,
+  });
+}
+
+/**
+ * The editions as chips, each with its own Zoom and Download to its right, as a map's parts have in
+ * its details (Phelim Birch, 25 Nov 2026); Details are opened from the row. The maps still to be
+ * added join them, in date order, when asked for. With years chosen, the maps in those years come
+ * first (Counties before 1930: 1927, 1922, 1915).
  * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} editions @param {RowHit} hit */
 function chipsHtml(c, s, editions, hit) {
   const hits = new Set(hit?.members || []);
-  if (c.yearRange('maps').narrowed) editions = [...editions.filter((m) => c.editionInYears(m.id)), ...editions.filter((m) => !c.editionInYears(m.id))];
   const todo = s.todo || [];
   const showTodo = c.showTodo.has(s.id);
-  let items = editions.map((m) => ({ m, todo: false }));
-  if (showTodo) {
-    items = [...items, ...todo.map((m) => ({ m, todo: true }))];
-    if (s.arrangement === 'editions') items.sort((a, b) => String(c.rec(b.m.id).date).localeCompare(String(c.rec(a.m.id).date)));
-  }
   // The chips a search matched come first. Every chip is drawn; the controller then keeps the
   // row to one line by measuring it (fitChips), hiding the chips that would wrap behind
   // "+N more", which turns into "Hide" once the full set is showing.
-  if (hits.size && !showTodo) items = [...items.filter((x) => hits.has(x.m.id)), ...items.filter((x) => !hits.has(x.m.id))];
+  const items = stripOf(c, s, editions, hit);
   const expandedChips = c.moreChips.has(s.id);
   const dimByPeriod = Boolean(c.searchPeriod && hits.size);
   /** @param {CatalogueRowMember} m */
-  const chip = (m) => chipHtml(c, s, m, { hit: hits.has(m.id) && (c.query || c.here), out: !c.editionInYears(m.id) || (dimByPeriod && !hits.has(m.id)) });
+  const chip = (m) => {
+    const html = chipHtml(c, s, m, { hit: hits.has(m.id) && (c.query || c.here), out: !c.editionInYears(m.id) || (dimByPeriod && !hits.has(m.id)) });
+    return c.rec(m.id).status === 'placeholder' ? html : itemHtml(c, html, m.id, `${s.name}, ${m.label}`, { part: true });
+  };
   return items.map(({ m, todo: isTodo }) => (isTodo ? todoChipHtml(c, m) : chip(m))).join('')
     + localHitsOf(c, s, hit).map(chip).join('')
-    + (todo.length ? `<button type="button" class="cn-chip cn-chip--todo-toggle" data-cn-todo="${esc(s.id)}" aria-pressed="${showTodo}">${icon(showTodo ? 'x' : 'plus')}${showTodo ? 'Hide' : 'Show'} ${todo.length} to be added</button>` : '')
     // With the maps to be added showing, every chip shows: nothing to fold away.
     + (showTodo ? ''
       : expandedChips
         ? `<button type="button" class="cn-chip cn-chip--more" data-cn-fewer="${esc(s.id)}" aria-expanded="true" aria-label="Hide the extra maps of ${esc(s.name)}">Hide</button>`
-        : `<button type="button" class="cn-chip cn-chip--more" data-cn-more="${esc(s.id)}" aria-expanded="false" hidden>+0 more</button>`);
+        : `<button type="button" class="cn-chip cn-chip--more" data-cn-more="${esc(s.id)}" aria-expanded="false" hidden>+0 more</button>`)
+    // "Show N to be added" always sits to the right of "+N more" (Phelim Birch, 25 Nov 2026).
+    + (todo.length ? `<button type="button" class="cn-chip cn-chip--todo-toggle" data-cn-todo="${esc(s.id)}" aria-pressed="${showTodo}">${icon(showTodo ? 'x' : 'plus')}${showTodo ? 'Hide' : 'Show'} ${todo.length} to be added</button>` : '');
 }
 
 /** @param {CatalogueNext} c @param {CatalogueRowMember} m */
@@ -368,17 +383,16 @@ export function aboutHtml(about, { heading = '' } = {}) {
 }
 
 /**
- * The opened row: what it is; for a row of several maps, its maps as a dated list (newest first),
- * each with its chip and tools, the chosen one opened for its facts, versions and parts; for a row
- * of one map, that map's facts, versions and parts. The map's timeline is the slider under the map
+ * The opened row: what it is; for a row of several maps, the map chosen from its strip ("Details
+ * for", pickerHtml) with its facts, versions and parts; for a row of one map, that map's facts,
+ * versions and parts. The map's timeline is the slider under the map
  * (Phelim Birch's notes, 19 Nov 2026: no second timeline in the row).
  * @param {CatalogueNext} c
  * @param {CatalogueRow} s
  */
 export function panelHtml(c, s) {
   const sel = c.selectedMember(s);
-  const list = datedList(s, (id) => c.rec(id));
-  if (list.length > 1) return `${aboutHtml(s.about)}${datedListHtml(c, s, list, sel, c.rowHit?.(s))}`;
+  if (rowEditions(s).length > 1) return `${aboutHtml(s.about)}${pickerHtml(c, s, sel)}`;
   // A single map with no facts, versions, parts or council maps draws no empty block (its grid gap
   // left a band of empty space under the description: Phelim Birch, 19 Nov 2026).
   const edition = editionHtml(c, s, sel).trim();
@@ -412,30 +426,34 @@ function mapDescriptionHtml(c, id) {
 }
 
 /**
- * A row's maps, one line each: the map's date, its chip (on and off the map), its tools, and a
- * button that opens its description, facts, versions and parts beneath it. A chip a search matched
- * is marked, as on the closed row's strip.
- * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember[]} list @param {CatalogueRowMember} sel @param {RowHit} [hit]
+ * An opened row of several maps: "Details for" and a menu of its maps by their names on the strip,
+ * between buttons to the maps either side of the chosen one on the strip; the chosen map's Zoom,
+ * Download and Details; and a button that opens or closes its description, facts, versions and
+ * parts beneath (closed when the reader closed it: CatalogueNext.select). Phelim Birch, 25 Nov 2026.
+ * @param {CatalogueNext} c @param {CatalogueRow} s @param {CatalogueRowMember} sel
  */
-function datedListHtml(c, s, list, sel, hit) {
-  // None open when the reader closed the open one (CatalogueNext.select).
-  const chosen = c.closedMaps?.has(s.id) ? null : sel.of || sel.id;
-  const hits = new Set((c.query || c.here) ? hit?.members || [] : []);
-  return `<ul class="cn-dlist" aria-label="${esc(s.name)}: ${s.arrangement === 'editions' ? 'editions' : 'maps'}">${list.map((m) => {
-    const r = c.rec(m.id);
-    const when = r.date ? mapDate(r) : '';
-    const open = m.id === chosen;
-    const label = `${s.name}, ${m.label}`;
-    const todo = r.status === 'placeholder';
-    return `<li class="cn-dlist__item${open ? ' cn-dlist__item--open' : ''}" style="--c:${rowColour(s)}">
-      <span class="cn-dlist__line">
-        <span class="cn-dlist__when">${when && when !== m.label ? esc(when) : ''}</span>
-        <span class="cn-dlist__chip">${chipHtml(c, s, m, { versions: false, hit: hits.has(m.id) })}</span>
-        <span class="cn-dlist__acts">${todo ? '<span class="cn-badge cn-badge--todo">To be added</span>' : mapToolsHtml(c, m.id, label, { small: true })}<button type="button" class="cn-iconbtn cn-iconbtn--sm cn-dlist__more" data-cn-select="${esc(s.id)}|${esc(m.id)}" aria-expanded="${open}" aria-label="${esc(m.label)}: facts, versions and parts" title="Facts, versions and parts">${icon('chevron-down')}</button></span>
-      </span>
-      ${open ? `<div class="cn-ed">${editionHtml(c, s, sel)}</div>` : ''}
-    </li>`;
-  }).join('')}</ul>`;
+function pickerHtml(c, s, sel) {
+  const list = stripOf(c, s, rowEditions(s), c.rowHit?.(s)).filter((x) => !x.todo).map((x) => x.m);
+  const chosen = sel.of || sel.id;
+  const current = list.find((m) => m.id === chosen) || sel;
+  const open = !c.closedMaps?.has(s.id);
+  const { prev, next } = neighbours(list, chosen);
+  const label = `${s.name}, ${current.label}`;
+  /** @param {CatalogueRowMember | null} m @param {'prev' | 'next'} dir */
+  const step = (m, dir) => {
+    const word = dir === 'prev' ? 'Previous map' : 'Next map';
+    const glyph = icon(dir === 'prev' ? 'chevron-left' : 'chevron-right');
+    return m
+      ? `<button type="button" class="cn-iconbtn cn-iconbtn--sm" data-cn-step="${dir}" data-cn-select="${esc(s.id)}|${esc(m.id)}" aria-label="${word}: ${esc(m.label)}" title="${word}: ${esc(m.label)}">${glyph}</button>`
+      : `<button type="button" class="cn-iconbtn cn-iconbtn--sm" data-cn-step="${dir}" disabled aria-label="${word}" title="${word}">${glyph}</button>`;
+  };
+  const options = list.map((m) => `<option value="${esc(m.id)}"${m.id === chosen ? ' selected' : ''}>${esc(m.label)}</option>`).join('');
+  const tools = c.rec(chosen).status === 'placeholder' ? '<span class="cn-badge cn-badge--todo">To be added</span>' : mapToolsHtml(c, chosen, label, { small: true });
+  return `<div class="cn-picker">
+      <span class="cn-picker__label"><label class="cn-label" for="cn-pick-${esc(s.id)}">Details for</label>${step(prev, 'prev')}<select class="cn-picker__select" id="cn-pick-${esc(s.id)}" data-cn-pick-edition="${esc(s.id)}">${options}</select>${step(next, 'next')}</span>
+      <span class="cn-picker__acts">${tools}<button type="button" class="cn-iconbtn cn-iconbtn--sm cn-picker__more" data-cn-select="${esc(s.id)}|${esc(chosen)}" aria-expanded="${open}" aria-label="${esc(current.label)}: facts, versions and parts" title="Facts, versions and parts">${icon('chevron-down')}</button></span>
+    </div>
+    ${open ? `<div class="cn-ed">${editionHtml(c, s, sel)}</div>` : ''}`;
 }
 
 /** @param {CatalogueNext} _c @param {CatalogueRowMember} _sel @param {CatalogueMapRec} r */

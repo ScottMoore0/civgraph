@@ -9,7 +9,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { catalogueTrail, comparable, countEdition, datedList, detailHolders, foldList, listStyleOf, mapTitle, ownDescription, partLabel, rowActionKind, rowCitation, rowCount, rowEditions, rowMapCount } from '@civgraph/map/catalogue/row-model.mjs';
+import { catalogueTrail, comparable, countEdition, datedList, detailHolders, mapTitle, neighbours, ownDescription, partLabel, rowActionKind, rowCitation, rowCount, rowEditions, rowMapCount, stripItems } from '@civgraph/map/catalogue/row-model.mjs';
 import { otherSubject } from '../../scripts/build/catalogue/records.mjs';
 
 /** @type {Record<string, any>} */
@@ -197,20 +197,26 @@ test('on the catalogue: the Townlands map is named as its row, not as the old la
   assert.equal(partLabel(doc.maps['all-ireland-townlands'], 'ni-townlands'), 'Northern Ireland');
 });
 
-test('listStyleOf: ?lists=a and ?lists=b are honoured; anything else is the live site list', () => {
-  assert.equal(listStyleOf(''), 'current');
-  assert.equal(listStyleOf(null), 'current');
-  assert.equal(listStyleOf('?lists=a'), 'a');
-  assert.equal(listStyleOf('lists=b&x=1'), 'b');
-  assert.equal(listStyleOf('?lists=zzz'), 'current');
+test('stripItems: the editions in order; the chosen years first; a search\'s matches first; the maps to be added join them by date', () => {
+  const ed = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+  const ids = (items) => items.map((x) => (x.todo ? `todo:${x.m.id}` : x.m.id));
+  assert.deepEqual(ids(stripItems(ed, [])), ['a', 'b', 'c']);
+  assert.deepEqual(ids(stripItems(ed, [], { inYears: (id) => id === 'c' })), ['c', 'a', 'b']);
+  assert.deepEqual(ids(stripItems(ed, [], { hits: new Set(['b']) })), ['b', 'a', 'c']);
+  // Years first, then a search's matches before them.
+  assert.deepEqual(ids(stripItems(ed, [], { inYears: (id) => id === 'c', hits: new Set(['b']) })), ['b', 'c', 'a']);
+  // The maps to be added only when asked for; by date for a row of editions; matches not moved then.
+  const dates = { a: '2019', b: '2009', c: '1999', t: '2014' };
+  assert.deepEqual(ids(stripItems(ed, [{ id: 't' }])), ['a', 'b', 'c']);
+  assert.deepEqual(ids(stripItems(ed, [{ id: 't' }], { showTodo: true, dateOf: (id) => dates[id], hits: new Set(['c']) })), ['a', 'todo:t', 'b', 'c']);
+  assert.deepEqual(ids(stripItems(ed, [{ id: 't' }], { showTodo: true })), ['a', 'b', 'c', 'todo:t']);
 });
 
-test('foldList: first five lines, all when unfolded, when one line would hide, or when the open line is past the fold', () => {
-  const ten = [...Array(10).keys()];
-  assert.deepEqual(foldList(ten), { shown: [0, 1, 2, 3, 4], hidden: 5 });
-  assert.deepEqual(foldList(ten, { all: true }), { shown: ten, hidden: 0 });
-  assert.deepEqual(foldList(ten, { keep: 7 }), { shown: ten, hidden: 0 });
-  assert.deepEqual(foldList(ten, { keep: 2 }), { shown: [0, 1, 2, 3, 4], hidden: 5 });
-  assert.deepEqual(foldList([1, 2, 3, 4, 5, 6]), { shown: [1, 2, 3, 4, 5, 6], hidden: 0 });
-  assert.deepEqual(foldList([1, 2, 3]), { shown: [1, 2, 3], hidden: 0 });
+test('neighbours: the maps either side on the strip; none past either end or for a map not listed', () => {
+  const list = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+  assert.deepEqual(neighbours(list, 'b'), { prev: { id: 'a' }, next: { id: 'c' } });
+  assert.deepEqual(neighbours(list, 'a'), { prev: null, next: { id: 'b' } });
+  assert.deepEqual(neighbours(list, 'c'), { prev: { id: 'b' }, next: null });
+  assert.deepEqual(neighbours(list, 'z'), { prev: null, next: null });
+  assert.deepEqual(neighbours([{ id: 'a' }], 'a'), { prev: null, next: null });
 });
