@@ -123,11 +123,14 @@ test.describe('Civgraph Elections', () => {
   // blanket disclaimer. Newcastle UDC 1967: polled, nine candidates for nine seats (the paper
   // named only the elected); Warrenpoint West Ward 1967: four candidates without a vote figure.
   test('data limits: a contest without its losers says so on the contest and in the election list', async ({ page }) => {
-    await page.goto('/elections/newcastle-urban-district-council-1967-05-17/newcastle/');
+    // Newcastle 1946: the News-Letter printed only the nine elected (21 candidates for nine seats).
+    // Until 19 Nov 2026 this was Newcastle 1967, whose two defeated candidates were then found in
+    // the Belfast Telegraph (94646fc35e), so that contest no longer lacks its losers.
+    await page.goto('/elections/newcastle-urban-district-council-1946-09-18/newcastle/');
     await expect(page.locator('#el-view [data-limit="losers"]')).toContainText('losing candidates');
     await expect(page.locator('dl.cg-facts')).not.toContainText('Majority');
     await shot(page, '11-contest-losers-missing');
-    await page.goto('/elections/newcastle-urban-district-council-1967-05-17/');
+    await page.goto('/elections/newcastle-urban-district-council-1946-09-18/');
     await expect(page.locator('table.el-contests [data-limit="losers"]')).toHaveCount(1);
     await expect(page.locator('[data-limit="election-losers"]')).toContainText('in 1 contest,');
     await page.goto('/elections/warrenpoint-urban-district-council-1967-05-17/west-ward/');
