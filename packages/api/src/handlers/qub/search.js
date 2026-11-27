@@ -47,14 +47,14 @@ export function searchPlan(p) {
   if (!match && !where.length) return null;
   const cap = LIMITS.countCap + 1;
   if (match) {
-    const key = sortKey(p.sort);
+    const key = sortKey(p.sort, p.dir);
     const dir = p.sort === 'relevance' ? 'ASC' : p.dir;
     return {
       page: { sql: QUB.searchMatched(where, key, dir), params: [match, ...binds, p.limit + 1, p.offset] },
       count: p.offset ? null : { sql: QUB.countMatched(where), params: [match, ...binds, cap] },
     };
   }
-  const order = `${p.sort === 'title' ? 'q.title' : 'q.year'} ${p.dir}, q.mms_id`;
+  const order = `${p.sort === 'title' ? 'q.title' : sortKey('year', p.dir)} ${p.dir}, q.mms_id`;
   return {
     page: { sql: QUB.searchFiltered(where, order), params: [...binds, p.limit + 1, p.offset] },
     count: p.offset ? null : { sql: QUB.countFiltered(where), params: [...binds, cap] },

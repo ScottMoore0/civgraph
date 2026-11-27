@@ -141,8 +141,12 @@ export function buildFilters({ from, to }) {
   return { where, binds };
 }
 
-/** The sort key column for a sort. @param {QubSort} sort */
-export const sortKey = (sort) => (sort === 'year' ? 'q.year' : sort === 'title' ? 'q.title' : 'bm25(qub_fts, 10.0, 4.0, 3.0, 1.0, 0.0)');
+/**
+ * The sort key for a sort; records with no year sort last either way.
+ * @param {QubSort} sort @param {'ASC' | 'DESC'} [dir]
+ */
+export const sortKey = (sort, dir = 'ASC') => (sort === 'year' ? `coalesce(q.year, ${dir === 'DESC' ? -1 : 9999})`
+  : sort === 'title' ? 'q.title' : 'bm25(qub_fts, 10.0, 4.0, 3.0, 1.0, 0.0)');
 
 /** The tag letters of a stored tag string ('ABG' -> ['A','B','G']). @param {unknown} tags */
 export const tagList = (tags) => String(tags || '').split('').filter((t) => Object.hasOwn(QUB_TAGS, t));

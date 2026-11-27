@@ -51,7 +51,7 @@ const BUILDER_SAMPLES = {
   'proni.PRONI.countYearsOnly': [[['ext.ext_end_year >= ?', 'ext.ext_start_year <= ?']]],
   'proni.PRONI.searchFiltered': [[160, ["p.parent = ''"], 'p.ref ASC']],
   'proni.PRONI.ancestors': [[1], [3]],
-  'qub.QUB.searchMatched': [[[], 'bm25(qub_fts, 10.0, 4.0, 3.0, 1.0, 0.0)', 'ASC'], [['q.year >= ?', 'q.year <= ?'], 'q.year', 'DESC']],
+  'qub.QUB.searchMatched': [[[], 'bm25(qub_fts, 10.0, 4.0, 3.0, 1.0, 0.0)', 'ASC'], [['q.year >= ?', 'q.year <= ?'], 'coalesce(q.year, -1)', 'DESC']],
   'qub.QUB.searchFiltered': [[['q.year >= ?'], 'q.year ASC, q.mms_id']],
   'qub.QUB.countMatched': [[[]], [['q.year <= ?']]],
   'qub.QUB.countFiltered': [[['q.year >= ?']]],
