@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Mirror data.gov.ie + Tailte Éireann resources (already filtered for
-LIDAR/point clouds/orthophoto via the resolver) to D:\\datagovie.
+LIDAR/point clouds/orthophoto via the resolver) to E:\\from-D\\datagovie.
 
 Reads data/external/datagovie-resources-resolved.json and applies a
 TIGHTER selection step that:
@@ -18,7 +18,7 @@ Concurrency: 6 workers (resources span many publisher hosts; politely)
 Resumable via HTTP Range; manifest CSV + line log.
 
 Usage:
-  python scripts/ingest/datagovie/mirror_datagovie.py [--target D:\\datagovie] [--workers 6] [--dry-run] [--max-size-gb 5]
+  python scripts/ingest/datagovie/mirror_datagovie.py [--target E:\\from-D\\datagovie] [--workers 6] [--dry-run] [--max-size-gb 5]
 """
 import argparse
 import csv
@@ -201,7 +201,7 @@ def download(url: str, dest: Path, expected_size: int) -> tuple[str, int, str]:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--target", default=r"D:\datagovie")
+    ap.add_argument("--target", default=r"E:\from-D\datagovie")
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--max-size-gb", type=float, default=5.0)
