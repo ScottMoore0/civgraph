@@ -2052,7 +2052,10 @@ export class CatalogueNext {
     const full = this.full(id);
     const name = this.labelOf(id);
     const sid = this.seriesOfMap?.get(id) || '';
-    const col = r.color || this.seriesById?.get(sid)?.color || MAP_COLOURS.catalogueFallback;
+    // The row's colour first, as the catalogue's own buttons use it: a map's own older colour showed
+    // only on this Add/Remove button (Phelim Birch, 28 Nov 2026: "the old colours are still used for
+    // the Remove from map button"). The map's own colour only for a map in no row.
+    const col = this.seriesById?.get(sid)?.color || r.color || MAP_COLOURS.catalogueFallback;
     const btn = (/** @type {string} */ act, /** @type {string} */ ic, /** @type {string} */ text, menu = false) => `<button type="button" class="cn-btn" data-cn-act="${act}" data-map="${esc(id)}"${act === 'cite' ? ` data-series="${esc(sid)}"` : ''}${menu ? ' aria-haspopup="menu" aria-expanded="false"' : ''}>${icon(ic)}<span>${text}</span>${menu ? icon('chevron-down') : ''}</button>`;
     return `<div class="cn cn-detail-actions" data-cn-detail-actions="${esc(id)}" role="group" aria-label="${esc(name)}: actions"><div class="cn-actions">
       ${r.status === 'placeholder' ? '' : `<button type="button" class="cn-btn cn-btn--primary" data-cn-toggle="${esc(id)}" data-series="${esc(sid)}" aria-pressed="${this.isLoaded(id)}" style="--c:${col};--on:${inkOn(col)}">${icon('plus', 'cn-icon cn-when-off')}${icon('x', 'cn-icon cn-when-on')}<span class="cn-when-off">Add to map</span><span class="cn-when-on">Remove from map</span></button>`}

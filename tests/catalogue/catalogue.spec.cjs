@@ -1510,6 +1510,10 @@ test("N61 the Details page's colour is the row's, as the catalogue shows it, not
   const swatch = page.locator('#catalogueDetailView .catalogue-detail__color');
   const hex = (c) => '#' + c.match(/\d+/g).slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0')).join('');
   await expect.poll(async () => hex(await swatch.evaluate((el) => getComputedStyle(el).backgroundColor))).toBe(s.color.toLowerCase());
+  // Its Add/Remove from map button too (Phelim Birch, 28 Nov 2026).
+  const toggle = page.locator('#catalogueDetailView [data-cn-detail-actions] [data-cn-toggle]');
+  await expect(toggle).toHaveCount(1);
+  expect((await toggle.evaluate((el) => el.style.getPropertyValue('--c'))).trim().toLowerCase()).toBe(s.color.toLowerCase());
 });
 
 test('N62 leaving a Details page returns to its map\'s row, not the top of the catalogue', async ({ page }) => {
